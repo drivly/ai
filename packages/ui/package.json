@@ -4,9 +4,9 @@
   "type": "module",
   "private": true,
   "exports": {
-    "./button": "./src/button.tsx",
-    "./card": "./src/card.tsx",
-    "./code": "./src/code.tsx"
+    "./button": "./components/button.tsx",
+    "./card": "./components/card.tsx",
+    "./code": "./components/code.tsx"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
