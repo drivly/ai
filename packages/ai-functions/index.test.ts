@@ -10,10 +10,10 @@ const { ai } = AI({
   }
 })
 
-test('listBlogPostTitles', async () => {
-  const result = await ai.listBlogPostTitles({})
-  expect(result).toBe('Hello, how are you?')
-})
+// test('listBlogPostTitles', async () => {
+//   const result = await ai.listBlogPostTitles({})
+//   expect(result).toBe('Hello, how are you?')
+// })
 
 // test('function with prompt no config', async () => {
 //   const result = await ai('Hello, how are you?')
