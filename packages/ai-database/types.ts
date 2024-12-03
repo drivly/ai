@@ -37,7 +37,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   globals: {};
   globalsSelect: {};
@@ -73,7 +73,6 @@ export interface UserAuthOperations {
  * via the `definition` "databases".
  */
 export interface Database {
-  id: number;
   name?: string | null;
   data?:
     | {
@@ -96,7 +95,6 @@ export interface Database {
  * via the `definition` "collections".
  */
 export interface Collection {
-  id: number;
   name?: string | null;
   database?: (number | null) | Database;
   resources?: {
@@ -111,7 +109,6 @@ export interface Collection {
  * via the `definition` "resources".
  */
 export interface Resource {
-  id: number;
   name?: string | null;
   collection?: (number | null) | Collection;
   data?:
@@ -131,7 +128,6 @@ export interface Resource {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -148,7 +144,6 @@ export interface User {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
   document?:
     | ({
         relationTo: 'databases';
@@ -179,7 +174,6 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
   user: {
     relationTo: 'users';
     value: number | User;
@@ -202,7 +196,6 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
