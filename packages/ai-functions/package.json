@@ -13,12 +13,14 @@
     "build": "tsc",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit",
-    "generate:types": "payload generate:types"
+    "generate:types": "payload generate:types",
+    "test": "vitest"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "vitest": "^2.1.8"
   },
   "peerDependencies": {
     "@ai-sdk/openai": "^1.0.6",
