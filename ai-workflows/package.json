@@ -1,5 +1,5 @@
 {
-  "name": "ai-database",
+  "name": "ai-workflows",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -12,11 +12,11 @@
     "generate:types": "payload generate:types"
   },
   "devDependencies": {
-    "@payloadcms/db-vercel-postgres": "^3.2.2",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "cross-env": "^7.0.3",
-    "payload": "^3.2.2",
     "typescript": "5.5.4"
+  },
+  "dependencies": {
+    "ai-functions": "workspace:*"
   }
 }
