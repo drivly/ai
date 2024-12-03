@@ -93,7 +93,7 @@ export const extractConfig = (schema: AISchema) => {
 }
 
 export const AI = (init: AIConfig & AIFunctionSchemas) => {
-  let { system, model, ...functions } = init
+  let { system, model, seed, temperature, topK, topP, ...functions } = init
   return { 
     ai: new Proxy(functions, {
       get: (target, prop: string | symbol) => {
@@ -116,6 +116,23 @@ export const AI = (init: AIConfig & AIFunctionSchemas) => {
             }
           }
         }
+      },
+      apply: (target, thisArg, args) => {
+        if (typeof args[0] === 'string') {
+          return generateText({
+            prompt: args[0],
+            model: model ? (model.startsWith('claude') ? anthropic(model) : openai(model)) : openai('gpt-4o'),
+          })
+        } else if (Array.isArray(args[0])) {
+          // this is a tagged template literal string function
+          const prompt = args[0].reduce((acc, str, i) => acc + str + (args[i] || ''), '')
+          return generateText({
+            prompt,
+            model: model ? (model.startsWith('claude') ? anthropic(model) : openai(model)) : openai('gpt-4o'),
+          })
+        } else {
+          return generateObjectFromSchema('ai', args[0], args[0], extractConfig(args[0]))
+        }
       }
     })
   }
@@ -123,31 +140,31 @@ export const AI = (init: AIConfig & AIFunctionSchemas) => {
 
 
 
-export function ai(strings: TemplateStringsArray | string, ...values: any[]): AIPromiseWithConfig {
-  // Create the base promise
-  const basePromise = new Promise<string>((resolve) => {
-    const prompt = typeof strings === 'string' 
-      ? strings 
-      : strings.reduce((acc, str, i) => acc + str + (values[i] || ''), '');
-    resolve(prompt);
-  });
+// export function ai(strings: TemplateStringsArray | string, ...values: any[]): AIPromiseWithConfig {
+//   // Create the base promise
+//   const basePromise = new Promise<string>((resolve) => {
+//     const prompt = typeof strings === 'string' 
+//       ? strings 
+//       : strings.reduce((acc, str, i) => acc + str + (values[i] || ''), '');
+//     resolve(prompt);
+//   });
 
-  // Create a callable function that returns a new promise
-  const callable = ((config?: AIConfig) => {
-    if (config) {
-      return basePromise.then(prompt => prompt);
-    }
-    return basePromise;
-  }) as AIPromiseWithConfig;
+//   // Create a callable function that returns a new promise
+//   const callable = ((config?: AIConfig) => {
+//     if (config) {
+//       return basePromise.then(prompt => prompt);
+//     }
+//     return basePromise;
+//   }) as AIPromiseWithConfig;
 
-  // Copy over Promise methods to make it "thenable"
-  Object.setPrototypeOf(callable, Promise.prototype);
+//   // Copy over Promise methods to make it "thenable"
+//   Object.setPrototypeOf(callable, Promise.prototype);
   
-  // Copy the promise methods from basePromise to our callable function
-  const methods = ['then', 'catch', 'finally'] as const;
-  methods.forEach(method => {
-    (callable as any)[method] = basePromise[method].bind(basePromise);
-  });
+//   // Copy the promise methods from basePromise to our callable function
+//   const methods = ['then', 'catch', 'finally'] as const;
+//   methods.forEach(method => {
+//     (callable as any)[method] = basePromise[method].bind(basePromise);
+//   });
 
-  return callable;
-}
+//   return callable;
+// }
