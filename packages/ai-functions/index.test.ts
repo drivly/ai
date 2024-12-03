@@ -6,6 +6,11 @@ test('function with prompt no config', async () => {
   expect(result).toBe('Hello, how are you?')
 })
 
+test('function with prompt and config', async () => {
+  const result = await ai('Hello, how are you?', { model: 'gpt-4o' })
+  expect(result).toBe('Hello, how are you?')
+})
+
 test('tagged template literal', async () => {
   const result = await ai`Hello, how are you?`
   expect(result).toBe('Hello, how are you?')
