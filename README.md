@@ -1,2 +1,2 @@
-# package
-AI Primitives Packages Monorepo
+# AI Primitives
+

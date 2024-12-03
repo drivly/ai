@@ -158,6 +158,40 @@ importers:
         specifier: 5.5.4
         version: 5.5.4
 
+  site:
+    dependencies:
+      '@repo/ui':
+        specifier: workspace:*
+        version: link:../packages/ui
+      next:
+        specifier: 15.0.3
+        version: 15.0.3(react-dom@19.0.0-rc-66855b96-20241106)(react@19.0.0-rc-66855b96-20241106)
+      react:
+        specifier: 19.0.0-rc-66855b96-20241106
+        version: 19.0.0-rc-66855b96-20241106
+      react-dom:
+        specifier: 19.0.0-rc-66855b96-20241106
+        version: 19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106)
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../packages/eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../packages/typescript-config
+      '@types/node':
+        specifier: ^20
+        version: 20.17.9
+      '@types/react':
+        specifier: 18.3.1
+        version: 18.3.1
+      '@types/react-dom':
+        specifier: 18.3.0
+        version: 18.3.0
+      typescript:
+        specifier: 5.5.4
+        version: 5.5.4
+
 packages:
 
   /@babel/runtime-corejs3@7.26.0:
