@@ -19,6 +19,8 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/node": "^20",
+    "json-schema-to-ts": "^3.1.1",
     "typescript": "5.5.4",
     "vitest": "^2.1.8"
   },
