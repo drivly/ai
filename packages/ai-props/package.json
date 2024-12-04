@@ -12,6 +12,7 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/js-yaml": "^4.0.9",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "typescript": "5.5.4"
@@ -23,6 +24,7 @@
   "dependencies": {
     "@ai-sdk/openai": "^1.0.6",
     "ai": "^4.0.11",
+    "js-yaml": "^4.1.0",
     "zod": "^3.23.8"
   }
 }
