@@ -7,7 +7,7 @@ const { ai } = AI({
     title: 'SEO-friendly title for a blog post',
     summary: 'SEO-optimized description of a blog post',
     tags: 'blog | seo | marketing',
-  }
+  },
 })
 
 // test('listBlogPostTitles', async () => {

@@ -16,7 +16,7 @@ type AIConfig = {
 }
 
 type WithUnderscore<T> = {
-  [K in keyof T as `_${string & K}`]: T[K];
+  [K in keyof T as `_${string & K}`]: T[K]
 }
 
 type AISchema = {
@@ -25,22 +25,21 @@ type AISchema = {
 
 type AIFunctionSchemas = Record<string, string | [string] | AISchema | [AISchema]>
 
-type AIObjectGenerator =  (schema: AISchema, config?: AIConfig) => Promise<any>
+type AIObjectGenerator = (schema: AISchema, config?: AIConfig) => Promise<any>
 type AITaggedTemplate = (strings: TemplateStringsArray, ...values: any[]) => Promise<string>
 type AIPromiseWithConfig = Promise<string> & ((config: AIConfig) => Promise<string>)
 type AITaggedTemplateWithConfig = (strings: TemplateStringsArray, ...values: any[]) => AIPromiseWithConfig
 type AIFunction = AIObjectGenerator | AITaggedTemplate | AITaggedTemplateWithConfig
 
 export const generateZodSchema = <T extends AISchema>(schema: T): z.ZodObject<any> => {
-
   const zodSchema: Record<string, any> = {}
-  
+
   Object.entries(schema).forEach(([key, value]) => {
     if (key.startsWith('_')) return
-    
+
     if (typeof value === 'string') {
       if (value.includes(' | ')) {
-        const enumValues = value.split(' | ') as [string, ...string[]];
+        const enumValues = value.split(' | ') as [string, ...string[]]
         zodSchema[key] = z.enum(enumValues)
       } else {
         zodSchema[key] = z.string().describe(value)
@@ -62,12 +61,12 @@ export const generateZodSchema = <T extends AISchema>(schema: T): z.ZodObject<an
         ? z.ZodEnum<[string, ...string[]]>
         : z.ZodString
       : T[K] extends [string]
-      ? z.ZodArray<z.ZodString>
-      : T[K] extends [AISchema]
-      ? z.ZodArray<ReturnType<typeof generateZodSchema<T[K][0]>>>
-      : T[K] extends AISchema
-      ? ReturnType<typeof generateZodSchema<T[K]>>
-      : never
+        ? z.ZodArray<z.ZodString>
+        : T[K] extends [AISchema]
+          ? z.ZodArray<ReturnType<typeof generateZodSchema<T[K][0]>>>
+          : T[K] extends AISchema
+            ? ReturnType<typeof generateZodSchema<T[K]>>
+            : never
   }>
 }
 
@@ -78,7 +77,7 @@ export const generateObjectFromSchema = (fn: string, args: any, schema: AISchema
     prompt: `${fn}(${JSON.stringify(args)})`,
     model: config?.model ? (config.model.startsWith('claude') ? anthropic(config.model) : openai(config.model)) : openai('gpt-4o'),
     schema: generateZodSchema(schema),
-  }).then(result => result.object)
+  }).then((result) => result.object)
 }
 
 export const extractConfig = (schema: AISchema) => {
@@ -94,17 +93,17 @@ export const extractConfig = (schema: AISchema) => {
 
 export const AI = (init: AIConfig & AIFunctionSchemas) => {
   let { system, model, seed, temperature, topK, topP, ...functions } = init
-  return { 
+  return {
     ai: new Proxy(functions, {
       get: (target, prop: string | symbol) => {
-        if (typeof prop === 'string' ) {
+        if (typeof prop === 'string') {
           if (prop in target) {
             const schema = target[prop] as AISchema
             return async (args: any) => generateObjectFromSchema(prop, args, schema, extractConfig(target[prop as keyof typeof target] as AISchema))
           } else {
             // support use case where schema here is a string, which then is simply a prompt in a generateText call
             return (input: string | AISchema, config?: AIConfig) => {
-              if (typeof(input) === 'string') {
+              if (typeof input === 'string') {
                 return generateText({
                   ...config,
                   prompt: input,
@@ -133,18 +132,16 @@ export const AI = (init: AIConfig & AIFunctionSchemas) => {
         } else {
           return generateObjectFromSchema('ai', args[0], args[0], extractConfig(args[0]))
         }
-      }
-    })
+      },
+    }),
   }
 }
-
-
 
 // export function ai(strings: TemplateStringsArray | string, ...values: any[]): AIPromiseWithConfig {
 //   // Create the base promise
 //   const basePromise = new Promise<string>((resolve) => {
-//     const prompt = typeof strings === 'string' 
-//       ? strings 
+//     const prompt = typeof strings === 'string'
+//       ? strings
 //       : strings.reduce((acc, str, i) => acc + str + (values[i] || ''), '');
 //     resolve(prompt);
 //   });
@@ -159,7 +156,7 @@ export const AI = (init: AIConfig & AIFunctionSchemas) => {
 
 //   // Copy over Promise methods to make it "thenable"
 //   Object.setPrototypeOf(callable, Promise.prototype);
-  
+
 //   // Copy the promise methods from basePromise to our callable function
 //   const methods = ['then', 'catch', 'finally'] as const;
 //   methods.forEach(method => {
