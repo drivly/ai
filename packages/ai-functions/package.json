@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
+  "bin": {
+    "ai-functions": "bin.js"
+  },
   "exports": {
     ".": {
       "types": "./index.ts",
@@ -17,9 +20,11 @@
     "test": "vitest"
   },
   "devDependencies": {
+    "@mdx-js/esbuild": "^3.1.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@types/node": "^20",
+    "esbuild": "^0.24.0",
     "json-schema-to-ts": "^3.1.1",
     "typescript": "5.5.4",
     "vitest": "^2.1.8"
