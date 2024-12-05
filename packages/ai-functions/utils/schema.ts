@@ -46,7 +46,10 @@ export const generateSchema = (propDescriptions: Record<string, string | Record<
   const properties: Record<string, JSONSchema> = {}
   const required: string[] = Object.keys(propDescriptions)
 
-  for (const [key, description] of Object.entries(propDescriptions)) {
+  for (let [key, description] of Object.entries(propDescriptions)) {
+    // TODO: if key ends with '?' then it is nullable
+    // const nullable = key.endsWith('?')
+    // if (nullable) key = key.slice(0, -1)
     if (typeof description === 'string') {
       // Handle the string description
       properties[key] = parseStringDescription(description)
