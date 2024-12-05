@@ -37,6 +37,8 @@
     "zod": "^3.23.8"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.0.2"
+    "@ai-sdk/anthropic": "^1.0.2",
+    "fast-glob": "^3.3.2",
+    "remark-mdx-frontmatter": "^5.0.0"
   }
 }
