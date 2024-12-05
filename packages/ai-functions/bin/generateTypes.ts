@@ -1,5 +1,7 @@
 import fs from 'fs'
 import { compile } from 'json-schema-to-typescript'
+import { loadMDX } from '../utils/load.js'
+import { generateSchema } from '../utils/schema.js'
 
 // import type { SanitizedConfig } from '../config/types.js'
 
@@ -20,6 +22,8 @@ export async function generateTypes(
     // logger.info('Compiling TS types for Collections and Globals...')
   }
 
+  const mdx = await loadMDX()
+  // const jsonSchema = generateSchema(mdx)
   const jsonSchema = {} //configToJSONSchema(config, config.db.defaultIDType)
 
   const declare = `declare module 'ai-functions' {\n  export interface GeneratedTypes extends Config {}\n}`

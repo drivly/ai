@@ -39,6 +39,7 @@
   "dependencies": {
     "@ai-sdk/anthropic": "^1.0.2",
     "fast-glob": "^3.3.2",
+    "next-mdx-remote": "^5.0.0",
     "remark-mdx-frontmatter": "^5.0.0"
   }
 }
