@@ -14,9 +14,17 @@ export async function generateTypes() {
   )
 
   let typeContent = `// Auto-generated types for MDX files\n\n`
-  typeContent += `import type { MDXDocument } from 'db.mdx'\n\n`
+  // typeContent += `import type { MDXDocument } from 'db.mdx'\n\n`
+  typeContent += `export interface MDXDocument {\n`
+  typeContent += `  content: string\n`
+  typeContent += `  data: Record<string, any> | any[]\n`
+  typeContent += `  code?: string\n`
+  typeContent += `  module?: Record<string, any>\n`
+  typeContent += `  javascript?: any\n`
+  typeContent += `  markdown?: any\n`
+  typeContent += `}\n`
+
   typeContent += `export interface MDX {\n`
-  typeContent += `  mdx: {\n`
 
   // Create a tree structure
   const tree: any = {}
@@ -33,7 +41,7 @@ export async function generateTypes() {
   })
 
   // Helper to generate nested interfaces
-  function generateInterface(obj: any, indent: number = 4): string {
+  function generateInterface(obj: any, indent: number = 2): string {
     let result = ''
     const spaces = ' '.repeat(indent)
     
@@ -51,7 +59,6 @@ export async function generateTypes() {
   }
 
   typeContent += generateInterface(tree)
-  typeContent += `  }\n`
   typeContent += `}\n`
   typeContent += `declare module 'db.mdx' {\n`
   typeContent += `  export interface MDXDocuments extends MDX {}\n`
