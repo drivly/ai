@@ -22,4 +22,4 @@ export const evalMDX = async (glob: string = '**/*.mdx') => {
   return docs
 }
 
-export const mdx = await evalMDX()
+export const mdx: MDXDocuments = await evalMDX()
