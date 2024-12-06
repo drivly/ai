@@ -8,3 +8,5 @@ export * from './lib/httpImport'
 export * from './lib/jsx'
 export * from './lib/mdx'
 export * from './lib/file'
+
+// export type { MDXTree } from './mdx' 

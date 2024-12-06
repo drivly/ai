@@ -2,6 +2,7 @@ import fs from 'fs/promises'
 import fg from 'fast-glob'
 import { load, MDXDocument } from './mdx'
 import { camelCase, set } from 'lodash-es'
+// import type { MDXTree } from '../mdx'
 
 export const evalMDX = async (glob: string = '**/*.mdx') => {
   const files = await fg(glob)

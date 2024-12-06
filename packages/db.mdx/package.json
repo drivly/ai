@@ -1,6 +1,6 @@
 {
   "name": "db.mdx",
-  "version": "0.0.12",
+  "version": "0.0.15",
   "author": "Nathan Clevenger",
   "license": "MIT",
   "repository": "https://github.com/ai-primitives/core",
@@ -10,11 +10,15 @@
     "db.mdx": "./bin/index.js"
   },
   "exports": {
-    ".": "./dist/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
   },
   "scripts": {
-    "build": "tsc",
-    "test": "vitest"
+    "build": "rm -rf dist && tsc",
+    "test": "vitest",
+    "types": "db.mdx"
   },
   "devDependencies": {
     "@mdx-js/esbuild": "^3.1.0",

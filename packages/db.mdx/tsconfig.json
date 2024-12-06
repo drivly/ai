@@ -13,5 +13,6 @@
     "isolatedModules": true,
     "skipLibCheck": true
   },
-  "include": ["**/*.ts", "**/*.tsx", "bin/index.js"]
+  "include": ["**/*.ts", "**/*.tsx", "bin/index.js"],
+  "exclude": ["dist", "node_modules"]
 }
