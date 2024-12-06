@@ -16,5 +16,9 @@
     "@repo/typescript-config": "workspace:*",
     "payload": "^3.2.2",
     "typescript": "5.5.4"
+  },
+  "dependencies": {
+    "@mdx-js/esbuild": "^3.1.0",
+    "esbuild": "^0.24.0"
   }
 }

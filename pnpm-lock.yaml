@@ -19,6 +19,13 @@ importers:
         version: 5.5.4
 
   packages/ai-database:
+    dependencies:
+      '@mdx-js/esbuild':
+        specifier: ^3.1.0
+        version: 3.1.0(acorn@8.14.0)(esbuild@0.24.0)
+      esbuild:
+        specifier: ^0.24.0
+        version: 0.24.0
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
