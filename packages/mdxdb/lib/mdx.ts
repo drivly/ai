@@ -9,6 +9,7 @@ export type MDXDocument = {
   markdown: any // TODO: type for Markdown AST
   schema: any // JSON Schema type
   types: string // TODO: types.d.ts file
+  Component: React.ComponentType
 }
 
 export const load = async (mdx: string): Promise<MDXDocument> => {
