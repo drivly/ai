@@ -5,7 +5,8 @@ import { camelCase } from 'lodash-es'
 export async function generateTypes() {
   const files = await fg('**/*.mdx', { 
     cwd: process.cwd(),
-    absolute: true 
+    absolute: true,
+    ignore: ['**/node_modules/**']
   })
   
   const relativePaths = files.map(file => 
