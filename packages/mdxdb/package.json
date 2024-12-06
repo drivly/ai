@@ -12,7 +12,8 @@
     ".": "./dist/index.js"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "vitest"
   },
   "devDependencies": {
     "@mdx-js/esbuild": "^3.1.0",
@@ -29,7 +30,8 @@
     "react-dom": "^19.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.0.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2.1.8"
   },
   "dependencies": {
     "chokidar": "^4.0.1",

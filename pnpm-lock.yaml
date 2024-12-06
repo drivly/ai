@@ -211,6 +211,9 @@ importers:
       typescript:
         specifier: ^5
         version: 5.5.4
+      vitest:
+        specifier: ^2.1.8
+        version: 2.1.8(@types/node@20.17.9)
 
   sites/docs:
     dependencies:

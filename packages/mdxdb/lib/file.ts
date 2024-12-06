@@ -3,12 +3,60 @@ import fg from 'fast-glob'
 import chokidar from 'chokidar'
 import { load, dump, MDXDocument } from './mdx'
 
-export const db = new Proxy({} as Record<string, any>, {
-  get: (target, prop) => {
-    if (prop in target && typeof prop === 'string') {
-      return target[prop]
+// The db type: keys are collection names (e.g. 'blog'), values are always Promise<MDXDocument[]>
+type DB = {
+  [collection: string]: Promise<MDXDocument[]>;
+};
+
+export const db = new Proxy<DB>({} as DB, {
+  get: (target, prop: string | symbol): Promise<MDXDocument[]> => {
+    // If prop isn't a string, return an empty array promise.
+    if (typeof prop !== 'string') {
+      return Promise.resolve([])
     }
-    return undefined
+    
+    const pattern = `./${prop}/*.mdx`
+    return (async () => {
+      const files = await fg(pattern)
+      const results: MDXDocument[] = []
+      for (const file of files) {
+        const content = await fs.readFile(file, 'utf8')
+        const data = await load(content)
+        results.push(data)
+      }
+      return results
+    })()
+  },
+
+  set: (target, prop: string | symbol, value: MDXDocument[], receiver: any): boolean => {
+    if (typeof prop !== 'string') {
+      return false
+    }
+    if (!Array.isArray(value)) {
+      throw new Error(`db.${String(prop)} must be set to an array of MDXDocument.`)
+    }
+
+    const dir = `./${prop}`
+    // Start async operations but don't await them
+    ;(async () => {
+      await fs.mkdir(dir, { recursive: true })
+      
+      for (let i = 0; i < value.length; i++) {
+        const content = await dump(value[i])
+        const filename = `${dir}/entry-${i}.mdx`
+        await fs.writeFile(filename, content, 'utf8')
+      }
+
+      const existingFiles = await fg(`${dir}/*.mdx`)
+      if (existingFiles.length > value.length) {
+        const filesToRemove = existingFiles.slice(value.length)
+        for (const file of filesToRemove) {
+          await fs.rm(file)
+        }
+      }
+    })()
+
+    return true
   }
 })
 
@@ -21,7 +69,7 @@ export const readAll = async (pattern: string): Promise<string[]> => {
 }
 
 export const write = async (path: string, content: string): Promise<void> => {
-  return fs.writeFile(path, content)
+  return fs.writeFile(path, content, 'utf8')
 }
 
 export const exists = async (path: string): Promise<boolean> => {
@@ -41,6 +89,5 @@ export const watch = async (
   watcher.on('change', (path) => callback('change', path))
   watcher.on('unlink', (path) => callback('unlink', path))
 
-  // Return cleanup function
   return () => watcher.close()
 }
