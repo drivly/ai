@@ -1,5 +1,10 @@
 # mdxdb
 
+## ToDo
+
+- [ ] File-based `list`
+- [ ] File-based `get`
+- [ ] File-based `set`
 
 ## Config
 

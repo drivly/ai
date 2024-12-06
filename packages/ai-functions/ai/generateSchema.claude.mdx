@@ -1,11 +1,10 @@
 ---
-model: gpt-4o
+model: claude-3-5-sonnet-20241029
 system: You are an expert at data modeling and schema design.
 output:
-  outputProperties:
+  output:
     - name: the camelCaseKey name of the property
       description: a detailed but concise description of the property
       type?: string | number | boolean | object | array | null
       required?: true | false
 ---
-

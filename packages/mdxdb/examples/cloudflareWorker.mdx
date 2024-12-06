@@ -1,0 +1,13 @@
+---
+name: hello-world
+route: { route: '*/*', zoneName: 'example.com' }
+---
+
+# Hello, World!
+
+This is a simple Cloudflare Worker that returns a JSON response.
+
+export default {
+  fetch: request => Response.json({ hello: 'world' })
+}
+

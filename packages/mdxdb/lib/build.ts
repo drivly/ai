@@ -1,12 +1,27 @@
 import mdx from '@mdx-js/esbuild'
 import esbuild from 'esbuild'
+import remarkFrontmatter from 'remark-frontmatter'
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
+import fg from 'fast-glob'
+import { httpImport } from './httpImport'
 
-// TODO: add support for frontmatter
 
-await esbuild.build({
-  // Replace `index.js` with your entry point that imports MDX files:
-  entryPoints: ['index.js'],
-  format: 'esm',
-  outfile: 'output.js',
-  plugins: [mdx({/* jsxImportSource: …, otherOptions… */})]
-})
+export const build = async (glob: string) => {
+  const entryPoints = await fg(glob)
+  await esbuild.build({
+    entryPoints,
+    format: 'esm',
+    bundle: true,
+    outfile: '.mdxdb/index.js',
+    plugins: [
+      httpImport,
+      mdx({
+        remarkPlugins: [
+          remarkFrontmatter,
+          remarkMdxFrontmatter
+        ]
+      })
+    ]
+  })
+  // TODO: generate types
+}

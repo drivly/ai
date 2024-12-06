@@ -1,6 +1,16 @@
 import fs from 'fs/promises'
 import fg from 'fast-glob'
 import chokidar from 'chokidar'
+import { load, dump, MDXDocument } from './mdx'
+
+export const db = new Proxy({} as Record<string, any>, {
+  get: (target, prop) => {
+    if (prop in target && typeof prop === 'string') {
+      return target[prop]
+    }
+    return undefined
+  }
+})
 
 export const read = async (path: string): Promise<string> => {
   return fs.readFile(path, 'utf8')
