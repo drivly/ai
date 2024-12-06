@@ -1,6 +1,7 @@
 export * from './lib/build'
 export * from './lib/db'
 export * from './lib/dev'
+export * from './lib/eval'
 export * from './lib/file'
 export * from './lib/httpImport'
 export * from './lib/jsx'

@@ -2,8 +2,8 @@ import { compile, evaluate } from '@mdx-js/mdx'
 import matter from 'gray-matter'
 import type { GrayMatterFile } from 'gray-matter'
 import { MDXModule } from 'mdx/types'
-// import React from 'react'
-// import { jsx } from 'react/jsx-runtime'
+import React from 'react'
+import { jsx, jsxs } from 'react/jsx-runtime'
 
 export type MDXDocument = {
   content: string
@@ -23,15 +23,17 @@ export const load = async (mdx: string): Promise<MDXDocument> => {
   //   outputFormat: 'program' // 'function-body',
   // }).then((vfile) => vfile.toString())
 
-  // const module = await evaluate(content, {
-  //   jsx,
-  //   Fragment: React.Fragment,
-  // })
+  const module = await evaluate(content, {
+    jsx,
+    jsxs,
+    Fragment: React.Fragment,
+  })
+
   return {
-    content,
     data,
+    content,
     // code,
-    // module,
+    module,
     // exports,
     // javascript: {},
     // markdown: {},

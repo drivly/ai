@@ -7,7 +7,4 @@ route: { route: '*/*', zoneName: 'example.com' }
 
 This is a simple Cloudflare Worker that returns a JSON response.
 
-export default {
-  fetch: request => Response.json({ hello: 'world' })
-}
-
+export const fetch = request => Response.json({ hello: 'world' })
