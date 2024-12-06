@@ -21,6 +21,7 @@ export async function generateTypes() {
   const tree: any = {}
   
   relativePaths.forEach(file => {
+    console.log(file)
     const parts = file.replace(/\.mdx$/, '').split('/')
     let current = tree
     

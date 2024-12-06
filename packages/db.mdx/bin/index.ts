@@ -1,3 +1,0 @@
-import { generateTypes } from '..'
-
-generateTypes()
