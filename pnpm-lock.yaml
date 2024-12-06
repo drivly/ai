@@ -51,6 +51,9 @@ importers:
       ai:
         specifier: ^4.0.11
         version: 4.0.11(react@19.0.0)(zod@3.23.8)
+      db.mdx:
+        specifier: workspace:*
+        version: link:../db.mdx
       esbuild-plugin-http:
         specifier: ^0.2.0
         version: 0.2.0
@@ -154,7 +157,7 @@ importers:
         specifier: 5.5.4
         version: 5.5.4
 
-  packages/mdxdb:
+  packages/db.mdx:
     dependencies:
       chokidar:
         specifier: ^4.0.1
