@@ -4,9 +4,13 @@ import { load, MDXDocument } from './mdx'
 import { camelCase, set } from 'lodash-es'
 // import type { MDXTree } from '../mdx'
 
+export interface MDXDocuments {
+  [key: string]: any
+}
+
 export const evalMDX = async (glob: string = '**/*.mdx') => {
   const files = await fg(glob)
-  const docs: any = {}
+  const docs: MDXDocuments = {}
   for (const file of files) {
     const contents = await fs.readFile(file, 'utf-8')
     const doc = await load(contents)
@@ -15,7 +19,7 @@ export const evalMDX = async (glob: string = '**/*.mdx') => {
     console.log(file, path)
     set(docs, path, doc)
   }
-  return { mdx: docs }
+  return docs
 }
 
-export const { mdx } = await evalMDX()
+export const mdx = await evalMDX()
