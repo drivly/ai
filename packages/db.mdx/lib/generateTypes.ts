@@ -3,7 +3,15 @@ import fs from 'fs/promises'
 import { camelCase } from 'lodash-es'
 
 export async function generateTypes() {
-  const files = await fg('**/*.mdx')
+  const files = await fg('**/*.mdx', { 
+    cwd: process.cwd(),
+    absolute: true 
+  })
+  
+  const relativePaths = files.map(file => 
+    file.replace(process.cwd() + '/', '')
+  )
+
   let typeContent = `// Auto-generated types for MDX files\n\n`
   typeContent += `import type { MDXDocument } from 'mdxdb'\n\n`
   typeContent += `declare module 'mdxdb' {\n`
@@ -12,7 +20,7 @@ export async function generateTypes() {
   // Create a tree structure
   const tree: any = {}
   
-  files.forEach(file => {
+  relativePaths.forEach(file => {
     const parts = file.replace(/\.mdx$/, '').split('/')
     let current = tree
     
