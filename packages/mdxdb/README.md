@@ -1,6 +1,6 @@
 # mdxdb
 
-A simple database 
+A simple database
 
 ## Input
 
@@ -18,7 +18,7 @@ export const myFunction = (a: number, b: number) => a * b
 - idea 2
 - idea 3
 
-<Counter/>
+<Counter />
 ```
 
 ## Output

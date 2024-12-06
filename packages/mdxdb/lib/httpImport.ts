@@ -13,14 +13,14 @@ export const httpImport: Plugin = {
     }))
 
     // Intercept import paths inside downloaded files and resolve them
-    // against the original URL. All of these files will be in the 
+    // against the original URL. All of these files will be in the
     // "http-url" namespace, ensuring recursive URL resolution.
     build.onResolve({ filter: /.*/, namespace: 'http-url' }, (args: OnResolveArgs) => ({
       path: new URL(args.path, args.importer).toString(),
       namespace: 'http-url',
     }))
 
-    // When a URL is loaded, fetch the content from the internet. 
+    // When a URL is loaded, fetch the content from the internet.
     // Using fetch simplifies handling and redirections.
     build.onLoad({ filter: /.*/, namespace: 'http-url' }, async (args: OnLoadArgs) => {
       console.log(`Downloading: ${args.path}`)

@@ -5,7 +5,6 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import fg from 'fast-glob'
 import { httpImport } from './httpImport'
 
-
 export const build = async (glob: string) => {
   const entryPoints = await fg(glob)
   await esbuild.build({
@@ -16,12 +15,9 @@ export const build = async (glob: string) => {
     plugins: [
       httpImport,
       mdx({
-        remarkPlugins: [
-          remarkFrontmatter,
-          remarkMdxFrontmatter
-        ]
-      })
-    ]
+        remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
+      }),
+    ],
   })
   // TODO: generate types
 }
