@@ -1,10 +1,10 @@
 {
-  "name": "mdxdb",
+  "name": "db.mdx",
   "version": "0.0.1",
   "author": "Nathan Clevenger",
   "license": "MIT",
   "repository": "https://github.com/ai-primitives/core",
-  "homepage": "https://github.com/ai-primitives/core/tree/main/packages/mdxdb",
+  "homepage": "https://github.com/ai-primitives/core/tree/main/packages/db.mdx",
   "bin": {
     "mdxdb": "./dist/bin/index.js"
   },
