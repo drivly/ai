@@ -23,6 +23,12 @@ export const db = new Proxy<DB>({} as DB, {
 
         return {
           list: async (options?: ListOptions) => {
+            // Check if directory exists first
+            const dirExists = await exists(basePattern)
+            if (!dirExists) {
+              return []
+            }
+
             let files = await fg(`${basePattern}/*.mdx`)
 
             // Apply pagination to files array before reading contents

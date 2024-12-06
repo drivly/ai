@@ -1,4 +1,4 @@
-import matter, { read, stringify } from 'gray-matter'
+import matter from 'gray-matter'
 import type { GrayMatterFile } from 'gray-matter'
 
 export type MDXDocument = {
@@ -12,7 +12,7 @@ export type MDXDocument = {
 }
 
 export const load = async (mdx: string): Promise<MDXDocument> => {
-  const { data, content } = read(mdx)
+  const { data, content } = matter(mdx)
   return {
     content,
     data,
@@ -24,5 +24,5 @@ export const load = async (mdx: string): Promise<MDXDocument> => {
 
 export const dump = async (document: Partial<MDXDocument>): Promise<string> => {
   const { content = '', data = {} } = document
-  return stringify(content, data)
+  return matter.stringify(content, data)
 }

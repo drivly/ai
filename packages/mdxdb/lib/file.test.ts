@@ -3,7 +3,8 @@ import { db } from './file'
 
 describe('file-based db', () => {
   it('should return an empty array if no files are found', async () => {
-    expect(await db.invalid.list()).toEqual([])
+    const docs = await db.invalid.list()
+    expect(docs).toEqual([])
   })
 
   it('should load and parse existing MDX files', async () => {

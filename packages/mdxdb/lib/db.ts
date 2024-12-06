@@ -1,14 +1,16 @@
 import { MDXDocument } from './mdx'
 
+export type DBMethods = {
+  list: (options?: ListOptions) => Promise<MDXDocument[]>
+  get: (id: string) => Promise<MDXDocument>
+  set: (id: string, document: MDXDocument) => Promise<void>
+  delete: (id: string) => Promise<void>
+}
+
 export type DB = {
-  [collection: string]:
-    | DB
-    | {
-        list: (options?: ListOptions) => Promise<MDXDocument[]>
-        get: (id: string) => Promise<MDXDocument>
-        set: (id: string, document: MDXDocument) => Promise<void>
-        delete: (id: string) => Promise<void>
-      }
+  [collection: string]: DBMethods & {
+    [subcollection: string]: DBMethods
+  }
 }
 
 export type ListOptions = {
