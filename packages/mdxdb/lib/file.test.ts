@@ -22,5 +22,9 @@ describe('file-based db', () => {
     expect(output.data).toEqual(input.data)
   })
 
-  it('should remove extra files if fewer docs are set', async () => {})
+  it('should be able to delete a document', async () => {
+    await db.examples.delete('test')
+    const doc = await db.examples.get('test')
+    expect(doc).toBeUndefined()
+  })
 })

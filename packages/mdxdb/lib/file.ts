@@ -23,9 +23,8 @@ export const db = new Proxy<DB>({} as DB, {
           : `${prop}.${nestedProp}`.replace(/\./g, '/')
         const basePattern = `./${fullPath}`
 
-        // Single set of operations that works for both cases
-        return {
-          list: async (options?: ListOptions) => {
+        if (nestedProp === 'list') {
+          return async (options?: ListOptions) => {
             const dirExists = await exists(basePattern)
             if (!dirExists) {
               return []
@@ -47,21 +46,40 @@ export const db = new Proxy<DB>({} as DB, {
                 return load(content)
               })
             )
-          },
-          get: async (id: string) => {
+          }
+        }
+
+        if (nestedProp === 'get') {
+          return async (id: string) => {
             const file = `${basePattern}/${id}.mdx`
-            const content = await fs.readFile(file, 'utf8')
-            return load(content)
-          },
-          set: async (id: string, document: MDXDocument) => {
+            try {
+              const content = await fs.readFile(file, 'utf8')
+              return load(content)
+            } catch (error) {
+              return undefined
+            }
+          }
+        }
+
+        if (nestedProp === 'set') {
+          return async (id: string, document: MDXDocument) => {
             await fs.mkdir(basePattern, { recursive: true })
             const content = await dump(document)
             await fs.writeFile(`${basePattern}/${id}.mdx`, content, 'utf8')
-          },
-          delete: async (id: string) => {
+          }
+        }
+
+        if (nestedProp === 'delete') {
+          return async (id: string) => {
             await fs.rm(`${basePattern}/${id}.mdx`)
-          },
-        }[nestedProp]
+          }
+        }
+
+        return new Proxy({} as any, {
+          get: (__, finalProp) => {
+            return db[fullPath][finalProp as string]
+          }
+        })
       },
     })
   },

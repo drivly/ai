@@ -2,9 +2,10 @@
 
 ## ToDo
 
-- [ ] File-based `list`
-- [ ] File-based `get`
-- [ ] File-based `set`
+- [x] File-based `list`
+- [x] File-based `get`
+- [x] File-based `set`
+- [x] File-based `delete`
 
 ## Config
 
