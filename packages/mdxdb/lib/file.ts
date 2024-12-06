@@ -3,19 +3,22 @@ import fg from 'fast-glob'
 import chokidar from 'chokidar'
 import { load, dump, MDXDocument } from './mdx'
 
-// The db type: keys are collection names (e.g. 'blog'), values are always Promise<MDXDocument[]>
+type DBPromise = Promise<MDXDocument[]> & DB
+
 type DB = {
-  [collection: string]: Promise<MDXDocument[]>;
-};
+  [collection: string]: DBPromise
+}
 
 export const db = new Proxy<DB>({} as DB, {
   get: (target, prop: string | symbol): Promise<MDXDocument[]> => {
-    // If prop isn't a string, return an empty array promise.
     if (typeof prop !== 'string') {
       return Promise.resolve([])
     }
     
-    const pattern = `./${prop}/*.mdx`
+    // Convert nested property path to directory path
+    const path = prop.replace(/\./g, '/')
+    const pattern = `./${path}/*.mdx`
+
     return (async () => {
       const files = await fg(pattern)
       const results: MDXDocument[] = []
@@ -36,7 +39,10 @@ export const db = new Proxy<DB>({} as DB, {
       throw new Error(`db.${String(prop)} must be set to an array of MDXDocument.`)
     }
 
-    const dir = `./${prop}`
+    // Convert nested property path to directory path
+    const path = prop.replace(/\./g, '/')
+    const dir = `./${path}`
+
     // Start async operations but don't await them
     ;(async () => {
       await fs.mkdir(dir, { recursive: true })
