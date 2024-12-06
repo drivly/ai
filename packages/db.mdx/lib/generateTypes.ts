@@ -15,8 +15,8 @@ export async function generateTypes() {
 
   let typeContent = `// Auto-generated types for MDX files\n\n`
   typeContent += `import type { MDXDocument } from 'db.mdx'\n\n`
-  typeContent += `declare module 'db.mdx' {\n`
-  typeContent += `  export const mdx: {\n`
+  typeContent += `declare global {\n`
+  typeContent += `  interface MDXContent {\n`
 
   // Create a tree structure
   const tree: any = {}
@@ -52,7 +52,9 @@ export async function generateTypes() {
 
   typeContent += generateInterface(tree)
   typeContent += `  }\n`
+  typeContent += `  const mdx: MDXContent\n`
   typeContent += `}\n`
+  typeContent += `export {}`
 
   await fs.writeFile('mdx.d.ts', typeContent)
 }

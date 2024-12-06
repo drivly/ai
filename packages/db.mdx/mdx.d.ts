@@ -1,8 +1,8 @@
 // Auto-generated types for MDX files
 
-import type { MDXDocument } from 'mdxdb'
+import type { MDXDocument } from 'db.mdx'
 
-declare module 'mdxdb' {
+declare module 'db.mdx' {
   export const mdx: {
     examples: {
       aiAgent: MDXDocument
