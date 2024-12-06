@@ -12,7 +12,7 @@ await esbuild.build({
   plugins: [
     mdx({
       // TODO: fix this, as the frontmatter is not being parsed
-      remarkPlugins: [[remarkMdxFrontmatter, { type: 'yaml', marker: '-' }]]
-    })
-  ]
+      remarkPlugins: [[remarkMdxFrontmatter, { type: 'yaml', marker: '-' }]],
+    }),
+  ],
 })

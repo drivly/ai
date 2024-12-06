@@ -3,7 +3,7 @@ import { AI } from 'ai-props'
 import { headers } from 'next/headers'
 import { z } from 'zod'
 
-export const Item = ({ activity, description }: { activity?: string, description?: string }) => (
+export const Item = ({ activity, description }: { activity?: string; description?: string }) => (
   <div>
     <h2>{activity}</h2>
     <p>{description}</p>

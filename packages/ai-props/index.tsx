@@ -11,14 +11,14 @@ type AISchema<T = Record<string, any>> = {
 
 // Add this type helper to infer schema shape
 type InferSchemaType<T extends AISchema> = {
-  [K in keyof T]: T[K] extends string 
-    ? string 
-    : T[K] extends [infer U] 
-      ? U extends AISchema 
-        ? InferSchemaType<U>[] 
+  [K in keyof T]: T[K] extends string
+    ? string
+    : T[K] extends [infer U]
+      ? U extends AISchema
+        ? InferSchemaType<U>[]
         : string[]
-      : T[K] extends AISchema 
-        ? InferSchemaType<T[K]> 
+      : T[K] extends AISchema
+        ? InferSchemaType<T[K]>
         : never
 }
 
@@ -30,7 +30,7 @@ export type AIProps<TSchema extends AISchema> = {
   model?: Parameters<typeof openai>[0]
 } & Partial<Omit<Parameters<typeof generateObject>[number], 'model' | 'schema'>>
 
-export const AI = async <TSchema extends AISchema>({ children, args, list, model = 'gpt-4o',  ...config }: AIProps<TSchema>) => {
+export const AI = async <TSchema extends AISchema>({ children, args, list, model = 'gpt-4o', ...config }: AIProps<TSchema>) => {
   if (list) {
     config.prompt = config.prompt ? `${config.prompt}\n\nList ${list}` : 'List ' + list
     config.mode = 'json'
@@ -39,16 +39,12 @@ export const AI = async <TSchema extends AISchema>({ children, args, list, model
     config.mode = 'json'
   }
   const schema = generateZodSchema(config.schema)
-  const response = await generateObject({ ...config, schema, output: list ? 'array' : 'object', model: openai(model, { structuredOutputs: true}) } as any)
+  const response = await generateObject({ ...config, schema, output: list ? 'array' : 'object', model: openai(model, { structuredOutputs: true }) } as any)
   console.log(response)
   if (list && Array.isArray(response.object)) {
-    return response.object.map((item, i) => 
-      React.cloneElement(children, { ...item, key: i } as Partial<InferSchemaType<TSchema>>)
-    )
+    return response.object.map((item, i) => React.cloneElement(children, { ...item, key: i } as Partial<InferSchemaType<TSchema>>))
   }
-  return React.isValidElement(children) 
-    ? React.cloneElement(children, response.object as Partial<InferSchemaType<TSchema>>)
-    : children
+  return React.isValidElement(children) ? React.cloneElement(children, response.object as Partial<InferSchemaType<TSchema>>) : children
 }
 
 export const generateZodSchema = (schema: AISchema): z.ZodObject<any> => {

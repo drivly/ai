@@ -1,8 +1,8 @@
-import { createScorer, evalite } from 'evalite';
+import { createScorer, evalite } from 'evalite'
 
 const containsParis = createScorer<string, string>('Contains Paris', ({ output }) => {
   return output.includes('Paris') ? 1 : 0
-});
+})
 
 evalite('My Eval', {
   data: async () => {

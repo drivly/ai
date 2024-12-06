@@ -11,7 +11,7 @@ export async function loadMDX() {
     const compiled = await compileMDX({
       source: mdx,
       components: {},
-      options: { parseFrontmatter: true }
+      options: { parseFrontmatter: true },
     })
     data[file.replace('.mdx', '')] = compiled
     const schema = generateSchema(compiled.frontmatter.output as any)

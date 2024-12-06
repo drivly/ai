@@ -6,9 +6,11 @@ await esbuild.build({
   entryPoints: ['index.js'],
   format: 'esm',
   outfile: '.ai/index.js',
-  plugins: [mdx({/* jsxImportSource: …, otherOptions… */})]
+  plugins: [
+    mdx({
+      /* jsxImportSource: …, otherOptions… */
+    }),
+  ],
 })
 
-
 // create .ai/database.d.ts from {db,data,database}/**/*.{mdx,yml,yaml}
-

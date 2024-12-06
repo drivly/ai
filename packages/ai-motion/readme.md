@@ -1,6 +1,6 @@
 # ai-motion
 
-```mdx
+````mdx
 ---
 title: AI Motion
 voice: Nova
@@ -14,7 +14,8 @@ fps: 60
 >
   ```bash
   npx create-ai-motion
-  ```
+````
+
 </Intro>
 
 <Video
@@ -22,5 +23,6 @@ fps: 60
   prompt='Zooming into the pixels inside Markdown code on a computer screen that once blown up, transforming into a realistic view of a SpaceX rocket launch.'
 />
 
+```
 
 ```
