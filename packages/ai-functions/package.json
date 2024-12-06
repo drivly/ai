@@ -23,12 +23,21 @@
     "@mdx-js/esbuild": "^3.1.0",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@testing-library/react": "^16.1.0",
+    "@types/jsdom": "^21.1.7",
+    "@types/mdx": "^2.0.13",
     "@types/node": "^20",
+    "@types/react": "^19.0.1",
     "autoevals": "^0.0.108",
     "esbuild": "^0.24.0",
     "evalite": "^0.1.3",
+    "jsdom": "^25.0.1",
     "json-schema-to-ts": "^3.1.1",
+    "react": "link:@types/testing-library/react",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx-frontmatter": "^5.0.0",
     "typescript": "5.5.4",
+    "vite": "^6.0.3",
     "vitest": "^2.1.8"
   },
   "peerDependencies": {
@@ -38,10 +47,11 @@
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^1.0.2",
+    "@mdx-js/react": "^3.1.0",
+    "@mdx-js/rollup": "^3.1.0",
     "db.mdx": "workspace:*",
     "esbuild-plugin-http": "^0.2.0",
     "fast-glob": "^3.3.2",
-    "next-mdx-remote": "^5.0.0",
-    "remark-mdx-frontmatter": "^5.0.0"
+    "next-mdx-remote": "^5.0.0"
   }
 }
