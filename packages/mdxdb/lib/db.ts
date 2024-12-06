@@ -3,7 +3,7 @@ import { MDXDocument } from './mdx'
 export type DBMethods = {
   list: (options?: ListOptions) => Promise<MDXDocument[]>
   get: (id: string) => Promise<MDXDocument>
-  set: (id: string, document: MDXDocument) => Promise<void>
+  set: (id: string, document: Partial<MDXDocument>) => Promise<void>
   delete: (id: string) => Promise<void>
 }
 

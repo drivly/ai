@@ -14,55 +14,54 @@ export const db = new Proxy<DB>({} as DB, {
     return new Proxy({} as DB[string], {
       get: (_, nestedProp: string | symbol) => {
         if (typeof nestedProp !== 'string') {
-          return undefined as unknown as DB[string]
+          return undefined
         }
 
-        // Combine the path parts
-        const fullPath = `${prop}.${nestedProp}`.replace(/\./g, '/')
+        // Determine the base pattern based on whether it's nested or not
+        const fullPath = ['list', 'get', 'set', 'delete'].includes(nestedProp)
+          ? prop
+          : `${prop}.${nestedProp}`.replace(/\./g, '/')
         const basePattern = `./${fullPath}`
 
+        // Single set of operations that works for both cases
         return {
           list: async (options?: ListOptions) => {
-            // Check if directory exists first
             const dirExists = await exists(basePattern)
             if (!dirExists) {
               return []
             }
-
             let files = await fg(`${basePattern}/*.mdx`)
-
-            // Apply pagination to files array before reading contents
-            if (options?.skip || options?.take) {
-              const start = options.skip || 0
-              const end = options.take ? start + options.take : undefined
-              files = files.slice(start, end)
+            
+            // Apply skip and take pagination if options are provided
+            if (options?.skip) {
+              files = files.slice(options.skip)
+            }
+            if (options?.take) {
+              files = files.slice(0, options.take)
             }
 
-            const results: MDXDocument[] = []
-            for (const file of files) {
-              const content = await fs.readFile(file, 'utf8')
-              const data = await load(content)
-              results.push(data)
-            }
-            return results
+            // Map the files to their contents
+            return Promise.all(
+              files.map(async (file) => {
+                const content = await fs.readFile(file, 'utf8')
+                return load(content)
+              })
+            )
           },
-
           get: async (id: string) => {
             const file = `${basePattern}/${id}.mdx`
             const content = await fs.readFile(file, 'utf8')
             return load(content)
           },
-
           set: async (id: string, document: MDXDocument) => {
             await fs.mkdir(basePattern, { recursive: true })
             const content = await dump(document)
             await fs.writeFile(`${basePattern}/${id}.mdx`, content, 'utf8')
           },
-
           delete: async (id: string) => {
             await fs.rm(`${basePattern}/${id}.mdx`)
           },
-        }
+        }[nestedProp]
       },
     })
   },

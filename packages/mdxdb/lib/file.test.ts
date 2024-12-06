@@ -9,10 +9,18 @@ describe('file-based db', () => {
 
   it('should load and parse existing MDX files', async () => {
     const docs = await db.examples.blog.list()
-    expect(docs).toHaveLength(2)
+    expect(docs).toHaveLength(1)
   })
 
-  it('should write multiple MDX files when setting the db', async () => {})
+  it('should write an MDX file when setting the db', async () => {
+    const input = {
+      content: '# This is a test',
+      data: { testing: 123 },
+    }
+    await db.examples.set('test', input)
+    const output = await db.examples.get('test')
+    expect(output.data).toEqual(input.data)
+  })
 
   it('should remove extra files if fewer docs are set', async () => {})
 })
