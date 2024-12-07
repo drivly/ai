@@ -8,7 +8,7 @@ export default defineConfig({
     mdx({
       remarkPlugins: [
         remarkFrontmatter, // Parses YAML frontmatter
-        [remarkMdxFrontmatter, { name: 'data' }], // Converts frontmatter to export statements
+        [remarkMdxFrontmatter, { name: 'meta' }], // Converts frontmatter to export statements
       ],
     }),
   ],

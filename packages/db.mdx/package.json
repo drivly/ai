@@ -34,9 +34,13 @@
     "postcss": "^8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "rehype-parse": "^9.0.1",
+    "rehype-remark": "^10.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-mdx-frontmatter": "^5.0.0",
+    "remark-stringify": "^11.0.0",
     "typescript": "^5",
+    "unified": "^11.0.5",
     "vitest": "^2.1.8"
   },
   "dependencies": {

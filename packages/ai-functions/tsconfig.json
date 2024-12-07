@@ -8,6 +8,6 @@
     "esModuleInterop": true,
     "typeRoots": ["./global.d.ts", "node_modules/@types"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.mdx", "global.d.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.mdx", "global.d.ts", "ai/hello.test.js"],
   "exclude": ["node_modules", "dist"]
 }
