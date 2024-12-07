@@ -7,12 +7,10 @@ test('imports frontmatter as meta', async () => {
 })
 
 test('renders MDX content', async () => {
-  const markdown = await render(Hello({ name: 'MDX' }))
+  const markdown = await render(Hello({ type: 'customer table', context: 'SaaS application', format: 'clickhouse SQL' }))
   console.log(markdown)
   expect(markdown).toMatchInlineSnapshot(`
-    "Hello MDX! You are an expert at data modeling and schema design.
-
-    Let's have some fun with MDX!
+    "hello type: customer table context: SaaS application format: clickhouse SQL !
     "
   `)
 })

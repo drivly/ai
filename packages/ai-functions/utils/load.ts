@@ -30,6 +30,8 @@ export const formatImport = (module: Record<string, any>) => {
     // Extract filename without extension and remove 'ai.' prefix if present
     const name = (fileName.match(/([^/]+?)\.mdx$/)?.[1] || fileName).replace(/^ai\./, '')
     const fn = module[fileName]
+    fn.test = true
+    console.log(name, fn)
 
     const description = fn.description ?? fn.meta?.description
 

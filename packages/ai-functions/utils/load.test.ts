@@ -7,8 +7,9 @@ describe('ai', () => {
     expect(ai).toHaveProperty('hello')
   })
 
-  it('should generate text if output is a string', () => {
-    const fn = ai.hello
-    expect(fn).toBeDefined()
+  it('should generate text if output is a string', async () => {
+    const result = await ai.hello({ name: 'World' })
+    console.log(result)
+    expect(result.length).toBeGreaterThan(20)
   })
-})
+}, 15000)
