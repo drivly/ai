@@ -7,11 +7,8 @@ import { ReactElement } from 'react'
 
 export const renderMarkdown = async (component: ReactElement): Promise<string> => {
   const html = renderToStaticMarkup(component)
-  
-  const processor = unified()
-    .use(rehypeParse)
-    .use(rehypeRemark)
-    .use(remarkStringify)
-    
+
+  const processor = unified().use(rehypeParse).use(rehypeRemark).use(remarkStringify)
+
   return String(await processor.process(html))
-} 
+}

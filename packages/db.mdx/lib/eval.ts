@@ -14,7 +14,12 @@ export const evalMDX = async (glob: string = '**/*.mdx') => {
   for (const file of files) {
     const contents = await fs.readFile(file, 'utf-8')
     const doc = await load(contents)
-    const path = file.replaceAll('/', '.').replace(/\.mdx$/, '').split('.').map(camelCase).join('.')
+    const path = file
+      .replaceAll('/', '.')
+      .replace(/\.mdx$/, '')
+      .split('.')
+      .map(camelCase)
+      .join('.')
 
     console.log(file, path)
     set(docs, path, doc)

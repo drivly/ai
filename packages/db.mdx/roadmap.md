@@ -6,7 +6,7 @@
 - [x] File-based `get`
 - [x] File-based `set`
 - [x] File-based `delete`
-- [ ] Import **/*.mdx files
+- [ ] Import \*_/_.mdx files
 - [ ] Export globbed files as MDXDocument[]
 - [ ] Use mdx.evaluate() to get exports
 - [ ] Use mdx.compile() to get code

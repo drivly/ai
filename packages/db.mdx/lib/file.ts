@@ -4,7 +4,6 @@ import chokidar from 'chokidar'
 import { load, dump, MDXDocument } from './mdx'
 import { DB, ListOptions } from './db'
 
-
 export const db = new Proxy<DB>({} as DB, {
   get: (target, prop: string | symbol): DB[string] => {
     if (typeof prop !== 'string') {
@@ -18,9 +17,7 @@ export const db = new Proxy<DB>({} as DB, {
         }
 
         // Determine the base pattern based on whether it's nested or not
-        const fullPath = ['list', 'get', 'set', 'delete'].includes(nestedProp)
-          ? prop
-          : `${prop}.${nestedProp}`.replace(/\./g, '/')
+        const fullPath = ['list', 'get', 'set', 'delete'].includes(nestedProp) ? prop : `${prop}.${nestedProp}`.replace(/\./g, '/')
         const basePattern = `./${fullPath}`
 
         if (nestedProp === 'list') {
@@ -30,7 +27,7 @@ export const db = new Proxy<DB>({} as DB, {
               return []
             }
             let files = await fg(`${basePattern}/*.mdx`)
-            
+
             // Apply skip and take pagination if options are provided
             if (options?.skip) {
               files = files.slice(options.skip)
@@ -44,7 +41,7 @@ export const db = new Proxy<DB>({} as DB, {
               files.map(async (file) => {
                 const content = await fs.readFile(file, 'utf8')
                 return load(content)
-              })
+              }),
             )
           }
         }
@@ -78,7 +75,7 @@ export const db = new Proxy<DB>({} as DB, {
         return new Proxy({} as any, {
           get: (__, finalProp) => {
             return db[fullPath][finalProp as string]
-          }
+          },
         })
       },
     })

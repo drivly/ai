@@ -20,7 +20,6 @@ const getModel = (model: string) => {
 }
 
 export const formatImport = (module: Record<string, any>) => {
-  
   const aiFunctions: Record<string, any> = {}
   const schemas: Record<string, any> = {}
 
@@ -53,28 +52,40 @@ export const formatImport = (module: Record<string, any>) => {
       console.log(event)
     }
 
-
-    if ((typeof output === 'string' && !output.includes('|'))) {
-      // If output is a string but not an enum, use text generation
-      aiFunctions[name] = (props: any) => render(jsx(props)).then(prompt => generateText({ model, system, prompt, seed, temperature, maxTokens }))
+    if (!output || (typeof output === 'string' && !output.includes('|') && output !== 'object')) {
+      // If output undefined or is a string but not an enum or object, use text generation
+      aiFunctions[name] = (props: any) =>
+        render(jsx(props))
+          .then((prompt) => generateText({ model, system, prompt, seed, temperature, maxTokens }))
+          .then((output) => (metadata ? output : output.text))
 
     } else if (typeof output === 'string' && output.includes('|')) {
       // If output is a string and includes '|', use object generation with enum
       const values = output.split('|').map((v) => v.trim())
-      aiFunctions[name] = (props: any) => render(jsx(props)).then(prompt => generateObject({ model, system, prompt, seed, temperature, maxTokens, output: 'enum', enum: values }))
-      
-    } else if (!output) {
-      // If output is not defined, use object generation without schema
-      aiFunctions[name] = (props: any) => render(jsx(props)).then(prompt => generateObject({ model, system, prompt, seed, temperature, maxTokens, output: 'no-schema' }))
+      aiFunctions[name] = (props: any) =>
+        render(jsx(props))
+          .then((prompt) => generateObject({ model, system, prompt, seed, temperature, maxTokens, output: 'enum', enum: values }))
+          .then((output) => (metadata ? output : output.object))
+
+    } else if (output === 'object') {
+      // If output is object, use object generation without schema
+      aiFunctions[name] = (props: any) =>
+        render(jsx(props))
+          .then((prompt) => generateObject({ model, system, prompt, seed, temperature, maxTokens, output: 'no-schema' }))
+          .then((output) => (metadata ? output : output.object))
 
     } else {
       // If output is an object, use object generation with schema
-      // @ts-ignore TODO: figure out why the schemaName and schema are not typed correctly
-      aiFunctions[name] = (props: any) => render(jsx(props)).then(prompt => generateObject({ model, system, prompt, seed, temperature, maxTokens, schemaName: name, schema }))
+      aiFunctions[name] = (props: any) =>
+        render(jsx(props))
+          // @ts-ignore TODO: figure out why the schemaName and schema are not typed correctly
+          .then((prompt) => generateObject({ model, system, prompt, seed, temperature, maxTokens, schemaName: name, schema }))
+          .then((output) => (metadata ? output : output.object))
+
     }
   }
 
-  return { aiFunctions, schemas }
+  return aiFunctions
 }
 
 export const ai = formatImport(import.meta.glob(['../ai/**/*.mdx', '../**/ai.*.mdx'], { eager: true }))

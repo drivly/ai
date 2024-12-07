@@ -10,4 +10,4 @@ export * from './lib/mdx'
 export * from './lib/file'
 export * from './lib/renderMarkdown'
 
-// export type { MDXTree } from './mdx' 
+// export type { MDXTree } from './mdx'

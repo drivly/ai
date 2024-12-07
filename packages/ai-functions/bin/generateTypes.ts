@@ -22,7 +22,6 @@ export async function generateTypes(
     // logger.info('Compiling TS types for Collections and Globals...')
   }
 
-
   // const mdx = await loadMDX()
   // const jsonSchema = generateSchema(mdx)
   const mdx = ai
