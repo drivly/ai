@@ -1,0 +1,10 @@
+{
+  "name": "workers.mdx",
+  "version": "0.0.1",
+  "type": "module",
+  "devDependencies": {
+    "commander": "^12.1.0",
+    "miniflare": "^3.20241205.0",
+    "wrangler": "^3.93.0"
+  }
+}
