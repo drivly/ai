@@ -60,7 +60,6 @@ export const formatImport = (module: Record<string, any>) => {
         render(jsx(props))
           .then((prompt) => generateText({ model, system, prompt, seed, temperature, maxTokens }))
           .then((output) => (metadata ? output : output.text))
-
     } else if (typeof output === 'string' && output.includes('|')) {
       // If output is a string and includes '|', use object generation with enum
       const values = output.split('|').map((v) => v.trim())
@@ -68,14 +67,12 @@ export const formatImport = (module: Record<string, any>) => {
         render(jsx(props))
           .then((prompt) => generateObject({ model, system, prompt, seed, temperature, maxTokens, output: 'enum', enum: values }))
           .then((output) => (metadata ? output : output.object))
-
     } else if (output === 'object') {
       // If output is object, use object generation without schema
       aiFunctions[name] = (props: any) =>
         render(jsx(props))
           .then((prompt) => generateObject({ model, system, prompt, seed, temperature, maxTokens, output: 'no-schema' }))
           .then((output) => (metadata ? output : output.object))
-
     } else {
       // If output is an object, use object generation with schema
       aiFunctions[name] = (props: any) =>
@@ -83,7 +80,6 @@ export const formatImport = (module: Record<string, any>) => {
           // @ts-ignore TODO: figure out why the schemaName and schema are not typed correctly
           .then((prompt) => generateObject({ model, system, prompt, seed, temperature, maxTokens, schemaName: name, schema }))
           .then((output) => (metadata ? output : output.object))
-
     }
   }
 

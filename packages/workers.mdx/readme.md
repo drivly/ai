@@ -12,7 +12,9 @@ zone: example.com
 
 # Hello from {props.cf.city}, {props.cf.country}
 
-export default new Hono().get('/api', (c) => c.json({ hello: 'hono' }))
+export default new Hono().get('/api', (c) => c.json({ hello: 'hono' })
+
+)
 ```
 
 ```bash
