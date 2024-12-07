@@ -26,13 +26,15 @@ fps: 60
 <Code 
   voiceover='Markdown and MDX are easy to write and read, and can include a combination of structured data, unstructured content, executable code, and UI components.'
 >
----
-title: AI Motion
----
-<Intro
-  title='AI Motion'
-  voiceover='Hello world!'
-/>
+  ```mdx
+  ---
+  title: AI Motion
+  ---
+  <Intro
+    title='AI Motion'
+    voiceover='Hello world!'
+  />
+  ```
 </Code>
 
 <Browser 
