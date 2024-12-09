@@ -16,6 +16,7 @@
 
 ## Utilities
 
+- [ ] [evals.do](./packages/payload.do) - MDX-based AI Evaluation and Testing platform
 - [ ] [ai-props](./packages/ai-props) - use AI object generation to wrap any React component, transforming any input into consistent strongly-typed props
 - [ ] [db.mdx](./packages/db.mdx) - leverage MDX to unify structured data, unstructured content, and code execution into a local or remote files
 - [ ] [mdx.do](./packages/mdx.do) - MDX-as-a-service with API, CLI, and editor UI to create and manage structured data, unstructured content, and code
@@ -24,4 +25,3 @@
 - [ ] [workers.do](./packages/workers.do) - MDX-based Platform with API, CLI, and UI to develop and deploy APIs/Apps on Cloudflare Workers for Platforms
 - [ ] [payload.mdx](./packages/payload.mdx) - Rapidly create Payload applications using MDX for configuration, code, and custom UI components
 - [ ] [payload.do](./packages/payload.do) - MDX-based Platform with API, CLI, and UI to develop and deploy headless CMSs and web apps with Payload
-- [ ] [evals.do](./packages/payload.do) - MDX-based AI Evaluation and Testing platform
