@@ -24,3 +24,4 @@
 - [ ] [workers.do](./packages/workers.do) - MDX-based Platform with API, CLI, and UI to develop and deploy APIs/Apps on Cloudflare Workers for Platforms
 - [ ] [payload.mdx](./packages/payload.mdx) - Rapidly create Payload applications using MDX for configuration, code, and custom UI components
 - [ ] [payload.do](./packages/payload.do) - MDX-based Platform with API, CLI, and UI to develop and deploy headless CMSs and web apps with Payload
+- [ ] [evals.do](./packages/payload.do) - MDX-based AI Evaluation and Testing platform
