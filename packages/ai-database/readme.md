@@ -37,6 +37,16 @@ import { AIDatabaseConfig } from 'ai-database'
 export const config: AIDatabaseConfig = {}
 ```
 
+## Usage
+
+```typescript
+import { db } from 'ai-database'
+
+db`https://schema.org.ai`
+
+```
+
+
 ## Types
 
 ```typescript
