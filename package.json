@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "workspaces": [
+    "api/*",
+    "docs",
+    "data",
+    "sdk/*",
+    "web/*",
+    "pkgs/*"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 180,
+    "semi": false,
+    "jsxSingleQuote": true,
+    "jsxBracketSameLine": true
+  }
+}
