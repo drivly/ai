@@ -1,0 +1,54 @@
+{
+  "name": "deploy-worker",
+  "version": "0.1.0",
+  "description": "A TypeScript package for validating, testing, bundling, and deploying Cloudflare Workers",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://mdx.org.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ai-primitives/ai.git",
+    "directory": "pkgs/deploy-worker"
+  },
+  "bugs": {
+    "url": "https://github.com/ai-primitives/ai/issues"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest run",
+    "prepublishOnly": "pnpm build",
+    "semantic-release": "semantic-release"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "typescript",
+    "esbuild",
+    "vitest"
+  ],
+  "author": "AI Primitives",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "esbuild": "^0.19.5",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/eslint": "^8.44.2",
+    "eslint": "^8.53.0",
+    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/parser": "^6.9.1",
+    "tsup": "^7.2.0",
+    "semantic-release": "^21.0.0",
+    "prettier": "^2.8.8",
+    "vitest": "^0.34.6"
+  }
+}
