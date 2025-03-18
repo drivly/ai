@@ -54,6 +54,34 @@ To format your code:
 pnpm format
 ```
 
+### Naming Conventions
+
+Consistent naming helps make our codebase more readable and maintainable:
+
+#### Files and Directories
+- Use kebab-case for file names: `user-profile.tsx`, `api-client.ts`
+- Use descriptive names that reflect the file's purpose
+- For component files, use PascalCase if they export a single React component: `Button.tsx`
+- Test files should match the name of the file they test with `.test` or `.spec` suffix: `user-profile.test.tsx`
+
+#### Variables and Functions
+- Use camelCase for variables and function names: `userData`, `fetchUserProfile()`
+- Use descriptive names that indicate purpose
+- Boolean variables should use prefixes like `is`, `has`, or `should`: `isLoading`, `hasPermission`
+
+#### Constants
+- Use UPPER_SNAKE_CASE for constants: `API_URL`, `MAX_RETRY_COUNT`
+- Place shared constants in dedicated files/modules
+
+#### Components
+- Use PascalCase for React components and their filenames: `UserProfile`
+- Use camelCase for component instances: `<UserProfile userName="John" />`
+
+#### Interfaces and Types
+- Use PascalCase for interfaces, types, and classes: `UserData`, `ApiResponse`
+- Prefix interfaces with `I` only when necessary to distinguish from a class: `IUserService` vs `UserService`
+- Use descriptive names that reflect the data structure
+
 ### Testing
 
 Before submitting a pull request, make sure to test your changes thoroughly.
@@ -71,11 +99,62 @@ Before submitting a pull request, make sure to test your changes thoroughly.
 
 ## Commit Messages
 
-Write clear, concise commit messages that explain the changes you've made. Follow these guidelines:
-- Use the present tense ("Add feature" not "Added feature")
-- Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
-- Limit the first line to 72 characters or less
-- Reference issues and pull requests after the first line
+We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification for commit messages. This leads to more readable messages that are easy to follow when looking through the project history and helps with automated versioning and changelog generation.
+
+Each commit message should be structured as follows:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code (white-space, formatting, etc)
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `build`: Changes that affect the build system or external dependencies
+- `ci`: Changes to our CI configuration files and scripts
+- `chore`: Other changes that don't modify src or test files
+- `revert`: Reverts a previous commit
+
+### Examples
+
+```
+feat(auth): implement JWT authentication
+
+- Add token generation and validation
+- Create login and registration endpoints
+- Set up middleware for protected routes
+
+Closes #123
+```
+
+```
+fix(api): prevent race condition in user data fetch
+
+Resolves an issue where concurrent requests could lead to data corruption.
+
+Fixes #456
+```
+
+```
+docs(readme): update installation instructions
+```
+
+For breaking changes, add `BREAKING CHANGE:` in the footer followed by a description:
+
+```
+feat(api): change authentication API endpoints
+
+BREAKING CHANGE: Authentication endpoints now use /auth prefix instead of /user
+```
 
 ## Additional Resources
 
