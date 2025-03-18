@@ -7,6 +7,7 @@ $type: Workflows
 We need to enrich the customer's contact details with lookup from external data sources, do deep research on the company and personal background,
 and schedule a highly personalized sequence of emails to optimize onboarding and activation.
 
+
 export const onUserSignup = async ({ ai, api, db, event }) => {
 
 const { name, email, company } = event
@@ -32,6 +33,9 @@ const { url } = await db.customer.create({ name, email, company, summary, enrich
 await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
 
 }
+
+
+
 
 # Customer Success
 
