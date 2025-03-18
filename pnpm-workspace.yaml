@@ -1,0 +1,8 @@
+packages:
+  - 'api/*'
+  - 'docs'
+  - 'data'
+  - 'dash'
+  - 'sdk/*'
+  - 'web/*'
+  - 'pkgs/*'
