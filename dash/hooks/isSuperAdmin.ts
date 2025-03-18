@@ -1,5 +1,5 @@
 import { Access } from 'payload'
-import type { User } from '@/payload-types'
+import type { User } from '@/payload.types'
 
 export function isSuperAdmin(user: unknown) {
   return (user as User)?.email?.endsWith('@driv.ly') ?? false
