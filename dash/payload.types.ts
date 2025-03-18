@@ -70,6 +70,7 @@ export interface Config {
     functions: Function;
     workflows: Workflow;
     agents: Agent;
+    modules: Module;
     packages: Package;
     deployments: Deployment;
     nouns: Noun;
@@ -101,6 +102,7 @@ export interface Config {
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
     agents: AgentsSelect<false> | AgentsSelect<true>;
+    modules: ModulesSelect<false> | ModulesSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
@@ -187,9 +189,21 @@ export interface AppAuthOperations {
  */
 export interface Function {
   id: string;
+  tenant?: (string | null) | Tenant;
   name?: string | null;
   type?: ('code' | 'object' | 'schema' | 'markdown' | 'list' | 'array') | null;
   code?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenants".
+ */
+export interface Tenant {
+  id: string;
+  name?: string | null;
+  domain?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -199,6 +213,7 @@ export interface Function {
  */
 export interface Workflow {
   id: string;
+  tenant?: (string | null) | Tenant;
   name?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -208,6 +223,17 @@ export interface Workflow {
  * via the `definition` "agents".
  */
 export interface Agent {
+  id: string;
+  tenant?: (string | null) | Tenant;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "modules".
+ */
+export interface Module {
   id: string;
   name?: string | null;
   updatedAt: string;
@@ -385,17 +411,6 @@ export interface Error {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tenants".
- */
-export interface Tenant {
-  id: string;
-  name?: string | null;
-  domain?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -481,6 +496,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'agents';
         value: string | Agent;
+      } | null)
+    | ({
+        relationTo: 'modules';
+        value: string | Module;
       } | null)
     | ({
         relationTo: 'packages';
@@ -627,6 +646,7 @@ export interface PayloadMigration {
  * via the `definition` "functions_select".
  */
 export interface FunctionsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   type?: T;
   code?: T;
@@ -638,6 +658,7 @@ export interface FunctionsSelect<T extends boolean = true> {
  * via the `definition` "workflows_select".
  */
 export interface WorkflowsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -647,6 +668,16 @@ export interface WorkflowsSelect<T extends boolean = true> {
  * via the `definition` "agents_select".
  */
 export interface AgentsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "modules_select".
+ */
+export interface ModulesSelect<T extends boolean = true> {
   name?: T;
   updatedAt?: T;
   createdAt?: T;

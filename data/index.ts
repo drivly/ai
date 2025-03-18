@@ -3,6 +3,7 @@ import { Users } from './admin/Users'
 import { Apps } from './admin/Apps'
 import { Integrations } from './admin/Integrations'
 import { Functions } from './ai/Functions'
+import { Modules } from './code/Modules'
 import { Packages } from './code/Packages'
 import { Deployments } from './code/Deployments'
 import { Workflows } from './ai/Workflows'
@@ -20,7 +21,7 @@ import { EvalsRuns } from './evals/EvalsRuns'
 import { EvalsResults } from './evals/EvalsResults'
 import { Events } from './observability/Events'
 import { Errors } from './observability/Errors'
-import { Benchmarks } from './observability/Benchmarks'
+import { Benchmarks } from './evals/Benchmarks'
 import { Experiments } from './evals/Experiments'
 import { Prompts } from './evals/Prompts'
 
@@ -28,6 +29,7 @@ export const collections = [
   Functions,
   Workflows,
   Agents,
+  Modules,
   Packages,
   Deployments,
   Nouns,

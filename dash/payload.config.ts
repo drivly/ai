@@ -37,6 +37,10 @@ export default buildConfig({
     // storage-adapter-placeholder
     multiTenantPlugin<Config>({
       collections: {
+        functions: {},
+        workflows: {},
+        agents: {},
+
         // pages: {},
         // navigation: {
         //   isGlobal: true,
