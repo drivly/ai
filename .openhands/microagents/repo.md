@@ -39,6 +39,7 @@ This repository contains a collection of AI primitives for building enterprise-g
 - Use pnpm as the package manager
 - Run `pnpm install` to install dependencies
 - The project uses a workspace structure defined in package.json
+- Always be careful with pnpm-lock.yaml conflicts and regenerate the lockfile if needed using `pnpm install --lockfile-only`
 
 ## Key Primitives
 - **Functions.do**: Strongly-typed composable building blocks
