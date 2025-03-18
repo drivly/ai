@@ -1,8 +1,9 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "format": "prettier --write .",
-    "test": "jest"
+    "test": "vitest run"
   },
   "workspaces": [
     "api/*",
@@ -23,6 +24,6 @@
     "jsxBracketSameLine": true
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "vitest": "^3.0.9"
   }
 }
