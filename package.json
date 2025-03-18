@@ -19,6 +19,7 @@
     "printWidth": 180,
     "semi": false,
     "jsxSingleQuote": true,
-    "jsxBracketSameLine": true
+    "jsxBracketSameLine": true,
+    "ignoreFiles": ["**/pnpm-lock.yaml", "**/payload.types.ts"]
   }
 }
