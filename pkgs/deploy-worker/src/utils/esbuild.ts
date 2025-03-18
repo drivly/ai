@@ -28,8 +28,13 @@ export async function bundleCode(
       ...config,
     })
 
+    if (!result.outputFiles || result.outputFiles.length === 0) {
+      throw new Error('ESBuild did not produce any output files')
+    }
+    
     return result.outputFiles[0].text
-  } catch (error) {
-    throw new Error(`ESBuild error: ${error.message}`)
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    throw new Error(`ESBuild error: ${errorMessage}`)
   }
 }
