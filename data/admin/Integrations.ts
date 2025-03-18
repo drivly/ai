@@ -1,12 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
-export const Code: CollectionConfig = {
-  slug: 'code',
+export const Integrations: CollectionConfig = {
+  slug: 'integrations',
   admin: {
-    group: 'Functions',
+    group: 'Admin',
     useAsTitle: 'name',
   },
-  labels: { plural: 'Code', singular: 'Code' },
   versions: true,
   fields: [{ name: 'name', type: 'text' }],
 }

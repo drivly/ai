@@ -8,7 +8,8 @@ export const Apps: CollectionConfig = {
   },
   auth: { useAPIKey: true },
   fields: [
-    // Email added by default
-    // Add more fields as needed
+    { name: 'name', type: 'text' },
+    { name: 'description', type: 'text' },
+    { name: 'url', type: 'text' },
   ],
 }

@@ -63,28 +63,34 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    apps: AppAuthOperations;
   };
   blocks: {};
   collections: {
     functions: Function;
     workflows: Workflow;
     agents: Agent;
-    code: Code;
+    packages: Package;
     deployments: Deployment;
     nouns: Noun;
     verbs: Verb;
     triggers: Trigger;
     actions: Action;
     schemas: Schema;
+    benchmarks: Benchmark;
     evals: Eval;
+    experiments: Experiment;
     datasets: Dataset;
     models: Model;
+    prompts: Prompt;
     'eval-runs': EvalRun;
     'eval-results': EvalResult;
     events: Event;
     errors: Error;
     tenants: Tenant;
     users: User;
+    apps: App;
+    integrations: Integration;
     webhooks: Webhook;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -95,22 +101,27 @@ export interface Config {
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
     agents: AgentsSelect<false> | AgentsSelect<true>;
-    code: CodeSelect<false> | CodeSelect<true>;
+    packages: PackagesSelect<false> | PackagesSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     actions: ActionsSelect<false> | ActionsSelect<true>;
     schemas: SchemasSelect<false> | SchemasSelect<true>;
+    benchmarks: BenchmarksSelect<false> | BenchmarksSelect<true>;
     evals: EvalsSelect<false> | EvalsSelect<true>;
+    experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
     datasets: DatasetsSelect<false> | DatasetsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
+    prompts: PromptsSelect<false> | PromptsSelect<true>;
     'eval-runs': EvalRunsSelect<false> | EvalRunsSelect<true>;
     'eval-results': EvalResultsSelect<false> | EvalResultsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     errors: ErrorsSelect<false> | ErrorsSelect<true>;
     tenants: TenantsSelect<false> | TenantsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    apps: AppsSelect<false> | AppsSelect<true>;
+    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -122,15 +133,37 @@ export interface Config {
   globals: {};
   globalsSelect: {};
   locale: null;
-  user: User & {
-    collection: 'users';
-  };
+  user:
+    | (User & {
+        collection: 'users';
+      })
+    | (App & {
+        collection: 'apps';
+      });
   jobs: {
     tasks: unknown;
     workflows: unknown;
   };
 }
 export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+export interface AppAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -155,6 +188,8 @@ export interface UserAuthOperations {
 export interface Function {
   id: string;
   name?: string | null;
+  type?: ('code' | 'object' | 'schema' | 'markdown' | 'list' | 'array') | null;
+  code?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -180,9 +215,9 @@ export interface Agent {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "code".
+ * via the `definition` "packages".
  */
-export interface Code {
+export interface Package {
   id: string;
   name?: string | null;
   updatedAt: string;
@@ -250,9 +285,29 @@ export interface Schema {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "benchmarks".
+ */
+export interface Benchmark {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "evals".
  */
 export interface Eval {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiments".
+ */
+export interface Experiment {
   id: string;
   name?: string | null;
   updatedAt: string;
@@ -273,6 +328,16 @@ export interface Dataset {
  * via the `definition` "models".
  */
 export interface Model {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prompts".
+ */
+export interface Prompt {
   id: string;
   name?: string | null;
   updatedAt: string;
@@ -357,6 +422,39 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apps".
+ */
+export interface App {
+  id: string;
+  name?: string | null;
+  description?: string | null;
+  url?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrations".
+ */
+export interface Integration {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "webhooks".
  */
 export interface Webhook {
@@ -385,8 +483,8 @@ export interface PayloadLockedDocument {
         value: string | Agent;
       } | null)
     | ({
-        relationTo: 'code';
-        value: string | Code;
+        relationTo: 'packages';
+        value: string | Package;
       } | null)
     | ({
         relationTo: 'deployments';
@@ -413,8 +511,16 @@ export interface PayloadLockedDocument {
         value: string | Schema;
       } | null)
     | ({
+        relationTo: 'benchmarks';
+        value: string | Benchmark;
+      } | null)
+    | ({
         relationTo: 'evals';
         value: string | Eval;
+      } | null)
+    | ({
+        relationTo: 'experiments';
+        value: string | Experiment;
       } | null)
     | ({
         relationTo: 'datasets';
@@ -423,6 +529,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'models';
         value: string | Model;
+      } | null)
+    | ({
+        relationTo: 'prompts';
+        value: string | Prompt;
       } | null)
     | ({
         relationTo: 'eval-runs';
@@ -449,14 +559,27 @@ export interface PayloadLockedDocument {
         value: string | User;
       } | null)
     | ({
+        relationTo: 'apps';
+        value: string | App;
+      } | null)
+    | ({
+        relationTo: 'integrations';
+        value: string | Integration;
+      } | null)
+    | ({
         relationTo: 'webhooks';
         value: string | Webhook;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'apps';
+        value: string | App;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -466,10 +589,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: string;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'apps';
+        value: string | App;
+      };
   key?: string | null;
   value?:
     | {
@@ -500,6 +628,8 @@ export interface PayloadMigration {
  */
 export interface FunctionsSelect<T extends boolean = true> {
   name?: T;
+  type?: T;
+  code?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -523,9 +653,9 @@ export interface AgentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "code_select".
+ * via the `definition` "packages_select".
  */
-export interface CodeSelect<T extends boolean = true> {
+export interface PackagesSelect<T extends boolean = true> {
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -586,9 +716,27 @@ export interface SchemasSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "benchmarks_select".
+ */
+export interface BenchmarksSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "evals_select".
  */
 export interface EvalsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiments_select".
+ */
+export interface ExperimentsSelect<T extends boolean = true> {
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -607,6 +755,15 @@ export interface DatasetsSelect<T extends boolean = true> {
  * via the `definition` "models_select".
  */
 export interface ModelsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prompts_select".
+ */
+export interface PromptsSelect<T extends boolean = true> {
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -680,6 +837,36 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apps_select".
+ */
+export interface AppsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  url?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrations_select".
+ */
+export interface IntegrationsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

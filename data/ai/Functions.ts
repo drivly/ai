@@ -7,5 +7,9 @@ export const Functions: CollectionConfig = {
     useAsTitle: 'name',
   },
   versions: true,
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [
+    { name: 'name', type: 'text' },
+    { name: 'type', type: 'select', options: ['code', 'object', 'schema', 'markdown', 'list', 'array'] },
+    { name: 'code', type: 'code', admin: { language: 'typescript' } },
+  ],
 }

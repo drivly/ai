@@ -1,7 +1,9 @@
 import { Tenants } from './admin/Tenants'
 import { Users } from './admin/Users'
+import { Apps } from './admin/Apps'
+import { Integrations } from './admin/Integrations'
 import { Functions } from './ai/Functions'
-import { Code } from './code/Code'
+import { Packages } from './code/Packages'
 import { Deployments } from './code/Deployments'
 import { Workflows } from './ai/Workflows'
 import { Agents } from './ai/Agents'
@@ -18,26 +20,34 @@ import { EvalsRuns } from './evals/EvalsRuns'
 import { EvalsResults } from './evals/EvalsResults'
 import { Events } from './observability/Events'
 import { Errors } from './observability/Errors'
+import { Benchmarks } from './observability/Benchmarks'
+import { Experiments } from './evals/Experiments'
+import { Prompts } from './evals/Prompts'
 
 export const collections = [
   Functions,
   Workflows,
   Agents,
-  Code,
+  Packages,
   Deployments,
   Nouns,
   Verbs,
   Triggers,
   Actions,
   Schemas,
+  Benchmarks,
   Evals,
+  Experiments,
   Datasets,
   Models,
+  Prompts,
   EvalsRuns,
   EvalsResults,
   Events,
   Errors,
   Tenants,
   Users,
+  Apps,
+  Integrations,
   Webhooks,
 ]
