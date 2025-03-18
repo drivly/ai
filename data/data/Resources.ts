@@ -7,5 +7,9 @@ export const Resources: CollectionConfig = {
     useAsTitle: 'name',
   },
   versions: true,
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [
+    { name: 'name', type: 'text' },
+    { name: 'content', type: 'code', admin: { language: 'markdown' } },
+    { name: 'data', type: 'json' },
+  ],
 }

@@ -1,12 +1,12 @@
 import type { CollectionConfig } from 'payload'
 
-export const Users: CollectionConfig = {
-  slug: 'users',
+export const Apps: CollectionConfig = {
+  slug: 'apps',
   admin: {
     group: 'Admin',
-    useAsTitle: 'email',
+    useAsTitle: 'name',
   },
-  auth: { tokenExpiration: 60 * 60 * 24 * 30, useAPIKey: true },
+  auth: { useAPIKey: true },
   fields: [
     // Email added by default
     // Add more fields as needed
