@@ -1,5 +1,8 @@
 {
   "private": true,
+  "scripts": {
+    "format": "prettier --write ."
+  },
   "workspaces": [
     "api/*",
     "docs",

@@ -1,10 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
-export const Evals: CollectionConfig = {
-  slug: 'evals',
+export const Workflows: CollectionConfig = {
+  slug: 'workflows',
   admin: {
-    group: 'Evals',
+    group: 'Workflows',
     useAsTitle: 'name',
   },
+  versions: true,
   fields: [{ name: 'name', type: 'text' }],
 }

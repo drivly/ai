@@ -6,7 +6,5 @@ export const Functions: CollectionConfig = {
     group: 'Functions',
     useAsTitle: 'name',
   },
-  fields: [
-    { name: 'name', type: 'text' },
-  ],
+  fields: [{ name: 'name', type: 'text' }],
 }
