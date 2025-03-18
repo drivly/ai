@@ -3,6 +3,7 @@ packages:
   - 'docs'
   - 'data'
   - 'dash'
+  - 'pkgs/*'
   - 'sdk/*'
   - 'web/*'
-  - 'pkgs/*'
+  - 'workflows'

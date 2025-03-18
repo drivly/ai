@@ -7,7 +7,8 @@
     "dash",
     "sdk/*",
     "web/*",
-    "pkgs/*"
+    "pkgs/*",
+    "workflows"
   ],
   "prettier": {
     "singleQuote": true,

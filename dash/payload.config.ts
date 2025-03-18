@@ -5,33 +5,44 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
-import sharp from 'sharp'
+// import sharp from 'sharp'
+import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
+import { Config } from './payload.types'
 
-import { Users } from './collections/Users'
-import { Media } from './collections/Media'
+import { collections } from '@ai-primitives/data'
+
+import { isSuperAdmin } from './hooks/isSuperAdmin'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
-    user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
-    outputFile: path.resolve(dirname, 'payload-types.ts'),
+    outputFile: path.resolve(dirname, 'payload.types.ts'),
   },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
-  sharp,
+  // sharp,
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
+    multiTenantPlugin<Config>({
+      collections: {
+        // pages: {},
+        // navigation: {
+        //   isGlobal: true,
+        // }
+      },
+      userHasAccessToAllTenants: isSuperAdmin,
+    }),
   ],
 })

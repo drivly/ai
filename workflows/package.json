@@ -1,0 +1,7 @@
+{
+  "name": "@ai-primitives/workflows",
+  "type": "module",
+  "devDependencies": {
+    "functions.do": "latest"
+  }
+}
