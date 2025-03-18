@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "jest"
   },
   "workspaces": [
     "api/*",
@@ -20,5 +21,8 @@
     "semi": false,
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
