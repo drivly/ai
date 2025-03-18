@@ -1,6 +1,7 @@
 import { AI } from 'functions.do'
 
 export const ai = AI({
+  
   // Basic idea generation
   generateIdeas: {
     concept: 'What is the core business idea?',
