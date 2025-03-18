@@ -3,10 +3,14 @@ import { Users } from './admin/Users'
 import { Functions } from './functions/Functions'
 import { Workflows } from './workflows/Workflows'
 import { Datasets } from './data/Datasets'
+import { Models } from './ai/Models'
+import { Nouns } from './data/Nouns'
+import { Verbs } from './data/Verbs'
+import { Schemas } from './data/Schemas'
 import { Webhooks } from './admin/Webhooks'
 import { Evals } from './evals/Evals'
 import { EvalsRuns } from './evals/EvalsRuns'
 import { EvalsResults } from './evals/EvalsResults'
 import { Events } from './observability/Events'
 
-export const collections = [Functions, Users, Tenants, Workflows, Datasets, Webhooks, Evals, EvalsRuns, EvalsResults, Events]
+export const collections = [Functions, Models, Workflows, Datasets, Nouns, Verbs, Schemas, Evals, EvalsRuns, EvalsResults, Events, Users, Tenants, Webhooks]
