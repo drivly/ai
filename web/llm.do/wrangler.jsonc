@@ -7,6 +7,10 @@
   "name": "llm-do",
   "main": "src/index.ts",
   "compatibility_date": "2025-03-17",
+  "route": {
+    "pattern": "llm.do/*",
+    "zone_name": "llm.do"
+  },
   "observability": {
     "enabled": true
   }
