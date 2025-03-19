@@ -20,6 +20,10 @@ Simple primitives to rapidly build enterprise-grade AI functions, workflows, & a
     "Workflows - Reliably Execute Business Processes": "https://workflows.do",
     "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do"
   },
+  "things": {
+    "Nouns - People, Places, Things, and Ideas": "https://nouns.do",
+    "Verbs - The Actions Performed to and by Nouns": "https://verbs.do"
+  },
   "events": {
     "Triggers - Initiate workflows based on events": "https://triggers.do",
     "Searches - Query and retrieve data": "https://searches.do",
