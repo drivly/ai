@@ -6,7 +6,10 @@ export const Apps: CollectionConfig = {
     group: 'Admin',
     useAsTitle: 'name',
   },
-  auth: { useAPIKey: true },
+  auth: {
+    useAPIKey: true,
+    disableLocalStrategy: true, 
+  },
   fields: [
     { name: 'name', type: 'text' },
     { name: 'description', type: 'text' },
