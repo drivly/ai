@@ -7,10 +7,7 @@ import * as ts from 'typescript'
  * @param options TypeScript options
  * @returns Array of errors if any
  */
-export async function validateTypeScript(
-  code: string,
-  options: TypeScriptOptions = {}
-): Promise<string[]> {
+export async function validateTypeScript(code: string, options: TypeScriptOptions = {}): Promise<string[]> {
   const { checkTypes = true, compilerOptions = {} } = options
 
   if (!checkTypes) {
@@ -46,31 +43,17 @@ export async function validateTypeScript(
   }
 
   // Create program
-  const program = ts.createProgram(
-    Object.keys(fileSystem),
-    defaultCompilerOptions,
-    compilerHost
-  )
+  const program = ts.createProgram(Object.keys(fileSystem), defaultCompilerOptions, compilerHost)
 
   // Get diagnostics
-  const diagnostics = [
-    ...program.getSyntacticDiagnostics(),
-    ...program.getSemanticDiagnostics(),
-  ]
+  const diagnostics = [...program.getSyntacticDiagnostics(), ...program.getSemanticDiagnostics()]
 
   // Convert diagnostics to error messages
   return diagnostics.map((diagnostic) => {
-    const message = ts.flattenDiagnosticMessageText(
-      diagnostic.messageText,
-      '\n'
-    )
+    const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')
     if (diagnostic.file && diagnostic.start !== undefined) {
-      const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(
-        diagnostic.start
-      )
-      return `${diagnostic.file.fileName} (${line + 1},${
-        character + 1
-      }): ${message}`
+      const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start)
+      return `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`
     }
     return message
   })

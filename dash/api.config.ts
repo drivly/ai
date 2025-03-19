@@ -1,42 +1,39 @@
-import { NextRequest, NextResponse } from 'next/server';
-import punycode from 'punycode';
-import configPromise from 'payload.config';
-import { BasePayload, CollectionSlug, getPayload, SanitizedPermissions } from 'payload';
+import { NextRequest, NextResponse } from 'next/server'
+import punycode from 'punycode'
+import configPromise from 'payload.config'
+import { BasePayload, CollectionSlug, getPayload, SanitizedPermissions } from 'payload'
 
 // Types for our enhanced db operations
-type CollectionQuery = Record<string, any>;
-type CollectionData = Record<string, any>;
+type CollectionQuery = Record<string, any>
+type CollectionData = Record<string, any>
 
 interface PayloadDBCollection {
-  find: (query?: CollectionQuery) => Promise<any>;
-  findOne: (query?: CollectionQuery) => Promise<any>;  // Returns first item or null
-  get: (id: string, query?: CollectionQuery) => Promise<any>;  // Alias for findById
-  create: (data: CollectionData, query?: CollectionQuery) => Promise<any>;
-  update: (id: string, data: CollectionData, query?: CollectionQuery) => Promise<any>;
-  upsert: (id: string, data: CollectionData, query?: CollectionQuery) => Promise<any>;
-  set: (id: string, data: CollectionData, query?: CollectionQuery) => Promise<any>;  // Alias for update
-  delete: (id: string, query?: CollectionQuery) => Promise<any>;
+  find: (query?: CollectionQuery) => Promise<any>
+  findOne: (query?: CollectionQuery) => Promise<any> // Returns first item or null
+  get: (id: string, query?: CollectionQuery) => Promise<any> // Alias for findById
+  create: (data: CollectionData, query?: CollectionQuery) => Promise<any>
+  update: (id: string, data: CollectionData, query?: CollectionQuery) => Promise<any>
+  upsert: (id: string, data: CollectionData, query?: CollectionQuery) => Promise<any>
+  set: (id: string, data: CollectionData, query?: CollectionQuery) => Promise<any> // Alias for update
+  delete: (id: string, query?: CollectionQuery) => Promise<any>
 }
 
 // Define the DB type as a collection of collections
-type PayloadDB = Record<CollectionSlug, PayloadDBCollection>;
+type PayloadDB = Record<CollectionSlug, PayloadDBCollection>
 
 type ApiContext = {
-  params: Record<string, string | string[]>;
-  url: URL;
-  path: string;
-  domain: string;
-  origin: string;
-  user: any;  // Payload user object type
-  permissions: SanitizedPermissions;  // Payload permissions object type
-  payload: BasePayload;  // Payload instance
-  db: PayloadDB;  // Enhanced database access
-};
+  params: Record<string, string | string[]>
+  url: URL
+  path: string
+  domain: string
+  origin: string
+  user: any // Payload user object type
+  permissions: SanitizedPermissions // Payload permissions object type
+  payload: BasePayload // Payload instance
+  db: PayloadDB // Enhanced database access
+}
 
-type ApiHandler<T = any> = (
-  req: NextRequest,
-  ctx: ApiContext
-) => Promise<T> | T;
+type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T
 
 export const API = <T = any>(handler: ApiHandler<T>) => {
   return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
@@ -48,7 +45,7 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       })
 
       // Get auth info
-      const { user, permissions } = await payload.auth(req);
+      const { user, permissions } = await payload.auth(req)
       // const authPromise = payload.auth(req)
 
       const params = await context.params
@@ -60,79 +57,93 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       const origin = url.protocol + '//' + domain
 
       // Create a db proxy object for more concise collection operations
-      const db = new Proxy({}, {
-        get: (target, collectionName) => {
-          // Ensure prop is a string (collection name)
-          const collection = String(collectionName);
-          
-          // Return a proxy for the collection operations
-          return new Proxy({}, {
-            get: (_, method) => {
-              const methodName = String(method);
-              
-              // Map common methods to payload collection operations
-              switch (methodName) {
-                case 'find':
-                  return (query: CollectionQuery = {}) => payload.find({
-                    collection: collection as any, // Cast to any to bypass CollectionSlug type restriction
-                    ...query
-                  });
-                
-                case 'findOne':
-                  return (query: CollectionQuery = {}) => payload.find({
-                    collection: collection as any,
-                    limit: 1,
-                    ...query
-                  }).then(result => result.docs?.[0] || null);
-                
-                case 'get':
-                case 'findById':
-                case 'findByID':
-                  return (id: string, query: CollectionQuery = {}) => payload.findByID({
-                    collection: collection as any,
-                    id,
-                    ...query
-                  });
-                
-                case 'create':
-                  return (data: CollectionData, query: CollectionQuery = {}) => payload.create({
-                    collection: collection as any,
-                    data,
-                    ...query
-                  });
-                
-                case 'update':
-                  return (id: string, data: CollectionData, query: CollectionQuery = {}) => payload.update({
-                    collection: collection as any,
-                    id,
-                    data,
-                    ...query
-                  });
+      const db = new Proxy(
+        {},
+        {
+          get: (target, collectionName) => {
+            // Ensure prop is a string (collection name)
+            const collection = String(collectionName)
 
-                case 'upsert':
-                case 'set':
-                  return (id: string, data: CollectionData, query: CollectionQuery = {}) => payload.db.upsert({
-                    collection: collection as any,
-                    where: { id: { equals: id } },
-                    data,
-                    ...query
-                  });
-                
-                case 'delete':
-                  return (id: string, query: CollectionQuery = {}) => payload.delete({
-                    collection: collection as any,
-                    id,
-                    ...query
-                  });
-                
-                default:
-                  throw new Error(`Method ${methodName} not implemented for collection ${collection}`);
-              }
-            }
-          });
-        }
-      }) as PayloadDB;
+            // Return a proxy for the collection operations
+            return new Proxy(
+              {},
+              {
+                get: (_, method) => {
+                  const methodName = String(method)
 
+                  // Map common methods to payload collection operations
+                  switch (methodName) {
+                    case 'find':
+                      return (query: CollectionQuery = {}) =>
+                        payload.find({
+                          collection: collection as any, // Cast to any to bypass CollectionSlug type restriction
+                          ...query,
+                        })
+
+                    case 'findOne':
+                      return (query: CollectionQuery = {}) =>
+                        payload
+                          .find({
+                            collection: collection as any,
+                            limit: 1,
+                            ...query,
+                          })
+                          .then((result) => result.docs?.[0] || null)
+
+                    case 'get':
+                    case 'findById':
+                    case 'findByID':
+                      return (id: string, query: CollectionQuery = {}) =>
+                        payload.findByID({
+                          collection: collection as any,
+                          id,
+                          ...query,
+                        })
+
+                    case 'create':
+                      return (data: CollectionData, query: CollectionQuery = {}) =>
+                        payload.create({
+                          collection: collection as any,
+                          data,
+                          ...query,
+                        })
+
+                    case 'update':
+                      return (id: string, data: CollectionData, query: CollectionQuery = {}) =>
+                        payload.update({
+                          collection: collection as any,
+                          id,
+                          data,
+                          ...query,
+                        })
+
+                    case 'upsert':
+                    case 'set':
+                      return (id: string, data: CollectionData, query: CollectionQuery = {}) =>
+                        payload.db.upsert({
+                          collection: collection as any,
+                          where: { id: { equals: id } },
+                          data,
+                          ...query,
+                        })
+
+                    case 'delete':
+                      return (id: string, query: CollectionQuery = {}) =>
+                        payload.delete({
+                          collection: collection as any,
+                          id,
+                          ...query,
+                        })
+
+                    default:
+                      throw new Error(`Method ${methodName} not implemented for collection ${collection}`)
+                  }
+                },
+              },
+            )
+          },
+        },
+      ) as PayloadDB
 
       // Prepare enhanced context
       const ctx: ApiContext = {
@@ -145,23 +156,26 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
         permissions,
         payload,
         db,
-      };
+      }
 
       // Call the handler with enhanced context
-      const result = await handler(req, ctx);
+      const result = await handler(req, ctx)
 
       // Convert result to JSON response
-      return NextResponse.json({ api: { url: origin + '/api', home: origin, from: 'https://driv.ly' }, ...result, user });
+      return NextResponse.json({ api: { url: origin + '/api', home: origin, from: 'https://driv.ly' }, ...result, user })
     } catch (error) {
-      console.error('API Error:', error);
-      
+      console.error('API Error:', error)
+
       // Return error as JSON with proper status code
-      const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500;
-      return NextResponse.json({ 
-        error: true, 
-        message: error instanceof Error ? error.message : 'Internal Server Error',
-        ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined })
-      }, { status });
+      const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
+      return NextResponse.json(
+        {
+          error: true,
+          message: error instanceof Error ? error.message : 'Internal Server Error',
+          ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+        },
+        { status },
+      )
     }
-  };
-};
+  }
+}

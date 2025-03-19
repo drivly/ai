@@ -28,6 +28,7 @@ By participating in this project, you agree to abide by our Code of Conduct. Ple
 ### Project Structure
 
 This is a monorepo managed with pnpm workspaces. The main directories include:
+
 - `api/`: API implementations
 - `dash/`: Dashboard application
 - `data/`: Data processing utilities
@@ -42,6 +43,7 @@ This is a monorepo managed with pnpm workspaces. The main directories include:
 We use Prettier to maintain consistent code formatting. The configuration is defined in `package.json`.
 
 Key formatting rules:
+
 - Single quotes
 - No semicolons
 - Trailing commas
@@ -50,6 +52,7 @@ Key formatting rules:
 - JSX brackets on the same line
 
 To format your code:
+
 ```bash
 pnpm format
 ```
@@ -59,25 +62,30 @@ pnpm format
 Consistent naming helps make our codebase more readable and maintainable:
 
 #### Files and Directories
+
 - Use kebab-case for file names: `user-profile.tsx`, `api-client.ts`
 - Use descriptive names that reflect the file's purpose
 - For component files, use PascalCase if they export a single React component: `Button.tsx`
 - Test files should match the name of the file they test with `.test` or `.spec` suffix: `user-profile.test.tsx`
 
 #### Variables and Functions
+
 - Use camelCase for variables and function names: `userData`, `fetchUserProfile()`
 - Use descriptive names that indicate purpose
 - Boolean variables should use prefixes like `is`, `has`, or `should`: `isLoading`, `hasPermission`
 
 #### Constants
+
 - Use UPPER_SNAKE_CASE for constants: `API_URL`, `MAX_RETRY_COUNT`
 - Place shared constants in dedicated files/modules
 
 #### Components
+
 - Use PascalCase for React components and their filenames: `UserProfile`
 - Use camelCase for component instances: `<UserProfile userName="John" />`
 
 #### Interfaces and Types
+
 - Use PascalCase for interfaces, types, and classes: `UserData`, `ApiResponse`
 - Prefix interfaces with `I` only when necessary to distinguish from a class: `IUserService` vs `UserService`
 - Use descriptive names that reflect the data structure
@@ -112,6 +120,7 @@ Each commit message should be structured as follows:
 ```
 
 ### Types
+
 - `feat`: A new feature
 - `fix`: A bug fix
 - `docs`: Documentation only changes

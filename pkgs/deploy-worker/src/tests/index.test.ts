@@ -48,33 +48,29 @@ describe('deployWorker', () => {
 
   it('should successfully deploy a worker', async () => {
     const result = await deployWorker(mockWorker)
-    
+
     expect(result).toEqual({
       success: true,
       deploymentUrl: 'https://example.workers.dev',
     })
-    
+
     expect(typescript.validateTypeScript).toHaveBeenCalledWith(mockWorker.code, undefined)
     expect(eslint.validateESLint).toHaveBeenCalledWith(mockWorker.code, undefined)
     expect(vitest.runTests).toHaveBeenCalledWith(mockWorker.code, mockWorker.tests, undefined)
     expect(esbuild.bundleCode).toHaveBeenCalledWith(mockWorker.code, undefined)
-    expect(cloudflare.deployToCloudflare).toHaveBeenCalledWith(
-      'bundled code',
-      mockWorker.metadata,
-      undefined
-    )
+    expect(cloudflare.deployToCloudflare).toHaveBeenCalledWith('bundled code', mockWorker.metadata, undefined)
   })
 
   it('should return TypeScript errors', async () => {
     vi.mocked(typescript.validateTypeScript).mockResolvedValue(['TypeScript error'])
-    
+
     const result = await deployWorker(mockWorker)
-    
+
     expect(result).toEqual({
       success: false,
       errors: ['TypeScript error'],
     })
-    
+
     expect(eslint.validateESLint).not.toHaveBeenCalled()
     expect(vitest.runTests).not.toHaveBeenCalled()
     expect(esbuild.bundleCode).not.toHaveBeenCalled()
@@ -83,14 +79,14 @@ describe('deployWorker', () => {
 
   it('should return ESLint errors', async () => {
     vi.mocked(eslint.validateESLint).mockResolvedValue(['ESLint error'])
-    
+
     const result = await deployWorker(mockWorker)
-    
+
     expect(result).toEqual({
       success: false,
       errors: ['ESLint error'],
     })
-    
+
     expect(vitest.runTests).not.toHaveBeenCalled()
     expect(esbuild.bundleCode).not.toHaveBeenCalled()
     expect(cloudflare.deployToCloudflare).not.toHaveBeenCalled()
@@ -98,36 +94,36 @@ describe('deployWorker', () => {
 
   it('should return test errors', async () => {
     vi.mocked(vitest.runTests).mockResolvedValue(['Test error'])
-    
+
     const result = await deployWorker(mockWorker)
-    
+
     expect(result).toEqual({
       success: false,
       errors: ['Test error'],
     })
-    
+
     expect(esbuild.bundleCode).not.toHaveBeenCalled()
     expect(cloudflare.deployToCloudflare).not.toHaveBeenCalled()
   })
 
   it('should handle bundling errors', async () => {
     vi.mocked(esbuild.bundleCode).mockRejectedValue(new Error('Bundling error'))
-    
+
     const result = await deployWorker(mockWorker)
-    
+
     expect(result).toEqual({
       success: false,
       errors: ['Bundling error'],
     })
-    
+
     expect(cloudflare.deployToCloudflare).not.toHaveBeenCalled()
   })
 
   it('should handle deployment errors', async () => {
     vi.mocked(cloudflare.deployToCloudflare).mockRejectedValue(new Error('Deployment error'))
-    
+
     const result = await deployWorker(mockWorker)
-    
+
     expect(result).toEqual({
       success: false,
       errors: ['Deployment error'],

@@ -11,10 +11,7 @@ import { randomUUID } from 'crypto'
  * @param options ESLint options
  * @returns Array of errors if any
  */
-export async function validateESLint(
-  code: string,
-  options: ESLintOptions = {}
-): Promise<string[]> {
+export async function validateESLint(code: string, options: ESLintOptions = {}): Promise<string[]> {
   const { runLint = true } = options
 
   if (!runLint) {
@@ -24,15 +21,17 @@ export async function validateESLint(
   // Create a temporary directory for ESLint
   const tempDir = path.join(tmpdir(), `eslint-${randomUUID()}`)
   fs.mkdirSync(tempDir, { recursive: true })
-  
+
   try {
     // Write the code to a temporary file
     const filePath = path.join(tempDir, 'worker.ts')
     fs.writeFileSync(filePath, code)
-    
+
     // Create a basic ESLint config file
     const eslintConfigPath = path.join(tempDir, '.eslintrc.js')
-    fs.writeFileSync(eslintConfigPath, `
+    fs.writeFileSync(
+      eslintConfigPath,
+      `
       module.exports = {
         root: true,
         parser: '@typescript-eslint/parser',
@@ -54,8 +53,9 @@ export async function validateESLint(
           '@typescript-eslint/explicit-module-boundary-types': 'off',
         },
       };
-    `)
-    
+    `,
+    )
+
     try {
       // Run ESLint as a child process
       const output = execSync(`npx eslint ${filePath} --format json`, {
@@ -63,28 +63,18 @@ export async function validateESLint(
         encoding: 'utf-8',
         stdio: ['ignore', 'pipe', 'pipe'],
       })
-      
+
       // Parse the JSON output
       const results = JSON.parse(output)
-      
-      return results.flatMap((result: any) =>
-        result.messages.map(
-          (message: any) =>
-            `${result.filePath} (${message.line},${message.column}): ${message.message}`
-        )
-      )
+
+      return results.flatMap((result: any) => result.messages.map((message: any) => `${result.filePath} (${message.line},${message.column}): ${message.message}`))
     } catch (execError) {
       if (execError instanceof Error && 'stdout' in execError && typeof execError.stdout === 'string') {
         try {
           // Try to parse the JSON output even if the command failed
           const results = JSON.parse(execError.stdout)
-          
-          return results.flatMap((result: any) =>
-            result.messages.map(
-              (message: any) =>
-                `${result.filePath} (${message.line},${message.column}): ${message.message}`
-            )
-          )
+
+          return results.flatMap((result: any) => result.messages.map((message: any) => `${result.filePath} (${message.line},${message.column}): ${message.message}`))
         } catch (parseError) {
           return [`ESLint error: ${execError.message}`]
         }

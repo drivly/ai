@@ -1,8 +1,4 @@
-import {
-  Worker,
-  DeployResult,
-  DeployWorkerOptions,
-} from './types'
+import { Worker, DeployResult, DeployWorkerOptions } from './types'
 import { validateTypeScript } from './utils/typescript'
 import { validateESLint } from './utils/eslint'
 import { runTests } from './utils/vitest'
@@ -15,16 +11,10 @@ import { deployToCloudflare } from './utils/cloudflare'
  * @param options Options for the deployment process
  * @returns Result of the deployment process
  */
-export async function deployWorker(
-  worker: Worker,
-  options: DeployWorkerOptions = {}
-): Promise<DeployResult> {
+export async function deployWorker(worker: Worker, options: DeployWorkerOptions = {}): Promise<DeployResult> {
   try {
     // Validate TypeScript code
-    const typeScriptErrors = await validateTypeScript(
-      worker.code,
-      options.typescript
-    )
+    const typeScriptErrors = await validateTypeScript(worker.code, options.typescript)
     if (typeScriptErrors.length > 0) {
       return {
         success: false,
@@ -33,10 +23,7 @@ export async function deployWorker(
     }
 
     // Validate ESLint
-    const eslintErrors = await validateESLint(
-      worker.code,
-      options.eslint
-    )
+    const eslintErrors = await validateESLint(worker.code, options.eslint)
     if (eslintErrors.length > 0) {
       return {
         success: false,
@@ -45,11 +32,7 @@ export async function deployWorker(
     }
 
     // Run tests
-    const testErrors = await runTests(
-      worker.code,
-      worker.tests,
-      options.vitest
-    )
+    const testErrors = await runTests(worker.code, worker.tests, options.vitest)
     if (testErrors.length > 0) {
       return {
         success: false,
@@ -58,17 +41,10 @@ export async function deployWorker(
     }
 
     // Bundle code
-    const bundledCode = await bundleCode(
-      worker.code,
-      options.esbuild
-    )
+    const bundledCode = await bundleCode(worker.code, options.esbuild)
 
     // Deploy to Cloudflare
-    const deploymentUrl = await deployToCloudflare(
-      bundledCode,
-      worker.metadata,
-      options.cloudflare
-    )
+    const deploymentUrl = await deployToCloudflare(bundledCode, worker.metadata, options.cloudflare)
 
     return {
       success: true,

@@ -1,7 +1,6 @@
 import { AI } from 'functions.do'
 
 export const ai = AI({
-  
   // Basic idea generation
   generateIdeas: {
     concept: 'What is the core business idea?',
@@ -18,9 +17,9 @@ export const ai = AI({
     competitiveAdvantage: 'Potential competitive advantages of these ideas',
     revenueModels: ['Potential revenue models for these ideas'],
     keyMetrics: ['Key metrics to track success of these ideas'],
-    nextSteps: ['Recommended next steps to validate these ideas']
+    nextSteps: ['Recommended next steps to validate these ideas'],
   },
-  
+
   // Startup idea validation
   validateIdea: {
     concept: 'What is the startup idea to validate?',
@@ -29,7 +28,7 @@ export const ai = AI({
     problemStatement: 'What problem does this idea solve?',
     problemSeverity: 'How severe is this problem for the target market?',
     problemFrequency: 'How frequently does this problem occur?',
-    willingnessToPay: 'Assessment of target market\'s willingness to pay',
+    willingnessToPay: "Assessment of target market's willingness to pay",
     existingSolutions: ['List of existing solutions in the market'],
     differentiators: ['What makes this idea different from existing solutions'],
     validationMethods: ['Methods to validate this idea'],
@@ -44,15 +43,15 @@ export const ai = AI({
       operationalRisks: ['Potential operational risks'],
       financialRisks: ['Potential financial risks'],
       regulatoryRisks: ['Potential regulatory risks'],
-      competitiveRisks: ['Potential competitive risks']
+      competitiveRisks: ['Potential competitive risks'],
     },
     validationScore: 'Score from 1-10 on how promising this idea is',
     validationRationale: 'Explanation of the validation score',
     recommendations: ['Recommendations for proceeding with this idea'],
     timelineEstimate: 'Estimated timeline for validation process',
-    budgetEstimate: 'Estimated budget for validation process'
+    budgetEstimate: 'Estimated budget for validation process',
   },
-  
+
   // Problem-solution fit analysis
   problemSolutionFit: {
     problem: 'What problem are you trying to solve?',
@@ -77,9 +76,9 @@ export const ai = AI({
     customerFeedbackPlan: 'Plan for gathering customer feedback',
     iterationStrategy: 'Strategy for iterating on the solution based on feedback',
     nextSteps: ['Recommended next steps to improve fit'],
-    timelineEstimate: 'Estimated timeline for achieving strong problem-solution fit'
+    timelineEstimate: 'Estimated timeline for achieving strong problem-solution fit',
   },
-  
+
   // Competitive landscape analysis
   competitiveLandscape: {
     industry: 'What industry is the startup in?',
@@ -87,29 +86,33 @@ export const ai = AI({
     industryTrends: ['Key trends shaping the industry'],
     marketSize: 'Estimated total market size and growth rate',
     marketSegmentation: ['Key market segments and their characteristics'],
-    directCompetitors: [{
-      name: 'Competitor name',
-      description: 'Brief description of the competitor',
-      founded: 'Year founded',
-      funding: 'Funding status and amount if known',
-      marketShare: 'Estimated market share',
-      targetCustomers: 'Who they target',
-      valueProposition: 'Their core value proposition',
-      productOffering: 'Overview of their product/service offering',
-      pricing: 'Pricing strategy and model',
-      strengths: ['Key strengths'],
-      weaknesses: ['Key weaknesses'],
-      recentDevelopments: ['Recent developments or pivots'],
-      growthStrategy: 'Their apparent growth strategy',
-      customerSentiment: 'Assessment of customer sentiment'
-    }],
-    indirectCompetitors: [{
-      name: 'Competitor name',
-      description: 'Brief description of the competitor',
-      relevance: 'How they compete indirectly',
-      threat: 'Level of threat they pose',
-      potentialResponse: 'How they might respond to your entry'
-    }],
+    directCompetitors: [
+      {
+        name: 'Competitor name',
+        description: 'Brief description of the competitor',
+        founded: 'Year founded',
+        funding: 'Funding status and amount if known',
+        marketShare: 'Estimated market share',
+        targetCustomers: 'Who they target',
+        valueProposition: 'Their core value proposition',
+        productOffering: 'Overview of their product/service offering',
+        pricing: 'Pricing strategy and model',
+        strengths: ['Key strengths'],
+        weaknesses: ['Key weaknesses'],
+        recentDevelopments: ['Recent developments or pivots'],
+        growthStrategy: 'Their apparent growth strategy',
+        customerSentiment: 'Assessment of customer sentiment',
+      },
+    ],
+    indirectCompetitors: [
+      {
+        name: 'Competitor name',
+        description: 'Brief description of the competitor',
+        relevance: 'How they compete indirectly',
+        threat: 'Level of threat they pose',
+        potentialResponse: 'How they might respond to your entry',
+      },
+    ],
     competitiveIntensity: 'Assessment of overall competitive intensity',
     barrierToEntry: 'Assessment of barriers to entry in this market',
     supplierPower: 'Assessment of supplier power in this market',
@@ -122,9 +125,9 @@ export const ai = AI({
     marketEntryStrategy: 'Recommended strategy for entering the market',
     defensibilityAssessment: 'Assessment of how defensible your position would be',
     competitiveResponsePrediction: 'Prediction of how competitors might respond',
-    winningStrategy: 'Recommended strategy to win in this competitive landscape'
+    winningStrategy: 'Recommended strategy to win in this competitive landscape',
   },
-  
+
   // Business model canvas
   businessModelCanvas: {
     valueProposition: 'What unique value do you provide to customers?',
@@ -133,7 +136,7 @@ export const ai = AI({
     customerSegmentPrioritization: 'Prioritization of customer segments',
     earlyAdopters: 'Description of likely early adopters',
     channels: ['How do you reach your customers?'],
-    channelEffectiveness: 'Assessment of each channel\'s effectiveness',
+    channelEffectiveness: "Assessment of each channel's effectiveness",
     channelEconomics: 'Economics of each channel (cost, conversion rate)',
     customerRelationships: ['What type of relationship do you establish?'],
     relationshipCosts: 'Costs associated with maintaining these relationships',
@@ -164,9 +167,9 @@ export const ai = AI({
     businessModelRisks: ['Risks associated with this business model'],
     recommendations: ['Recommendations for improving the business model'],
     businessModelInnovation: ['Potential areas for business model innovation'],
-    implementationRoadmap: 'Roadmap for implementing this business model'
+    implementationRoadmap: 'Roadmap for implementing this business model',
   },
-  
+
   // Startup naming
   generateStartupName: {
     concept: 'What is the core concept of the startup?',
@@ -180,16 +183,18 @@ export const ai = AI({
     avoidWords: ['Words or concepts to avoid'],
     nameOptions: ['Generated name options'],
     nameRationale: ['Explanation for each name option'],
-    nameScoring: [{
-      name: 'Name option',
-      memorability: 'Score for memorability (1-10)',
-      uniqueness: 'Score for uniqueness (1-10)',
-      relevance: 'Score for relevance to concept (1-10)',
-      pronunciation: 'Score for ease of pronunciation (1-10)',
-      spelling: 'Score for ease of spelling (1-10)',
-      brandability: 'Score for brandability (1-10)',
-      totalScore: 'Total score (out of 60)'
-    }],
+    nameScoring: [
+      {
+        name: 'Name option',
+        memorability: 'Score for memorability (1-10)',
+        uniqueness: 'Score for uniqueness (1-10)',
+        relevance: 'Score for relevance to concept (1-10)',
+        pronunciation: 'Score for ease of pronunciation (1-10)',
+        spelling: 'Score for ease of spelling (1-10)',
+        brandability: 'Score for brandability (1-10)',
+        totalScore: 'Total score (out of 60)',
+      },
+    ],
     domainAvailability: ['Assessment of domain availability for each name'],
     socialMediaAvailability: ['Assessment of social media handle availability'],
     trademarkConsiderations: ['Trademark considerations for each name'],
@@ -198,9 +203,9 @@ export const ai = AI({
     logoCompatibility: ['How well each name might work with a logo'],
     marketingCompatibility: ['How well each name works in marketing contexts'],
     recommendations: ['Recommended names with reasoning'],
-    nextSteps: ['Next steps for finalizing the name selection']
+    nextSteps: ['Next steps for finalizing the name selection'],
   },
-  
+
   // Market sizing and opportunity analysis
   marketOpportunityAnalysis: {
     industry: 'What industry is the startup targeting?',
@@ -212,15 +217,17 @@ export const ai = AI({
     marketDrivers: ['Key factors driving market growth'],
     marketConstraints: ['Key factors constraining market growth'],
     marketTrends: ['Significant trends shaping the market'],
-    customerSegmentation: [{
-      segment: 'Customer segment name',
-      size: 'Estimated segment size',
-      characteristics: ['Key characteristics of this segment'],
-      needs: ['Primary needs of this segment'],
-      willingnessToPay: 'Willingness to pay assessment',
-      acquisitionChannels: ['Effective channels to reach this segment'],
-      growthPotential: 'Growth potential of this segment'
-    }],
+    customerSegmentation: [
+      {
+        segment: 'Customer segment name',
+        size: 'Estimated segment size',
+        characteristics: ['Key characteristics of this segment'],
+        needs: ['Primary needs of this segment'],
+        willingnessToPay: 'Willingness to pay assessment',
+        acquisitionChannels: ['Effective channels to reach this segment'],
+        growthPotential: 'Growth potential of this segment',
+      },
+    ],
     competitiveDynamics: 'Analysis of competitive dynamics in the market',
     marketConcentration: 'Assessment of market concentration',
     entryBarriers: ['Barriers to entry in this market'],
@@ -234,75 +241,87 @@ export const ai = AI({
     successFactors: ['Critical success factors for this market'],
     opportunityScore: 'Overall opportunity score (1-10)',
     opportunityRationale: 'Explanation of opportunity score',
-    recommendations: ['Strategic recommendations for pursuing this opportunity']
+    recommendations: ['Strategic recommendations for pursuing this opportunity'],
   },
-  
+
   // Startup pitch deck creation
   createPitchDeck: {
     startupName: 'Name of the startup',
     tagline: 'Catchy tagline for the startup',
-    slides: [{
-      title: 'Cover Slide',
-      content: 'Company name, tagline, and logo',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }, {
-      title: 'Problem',
-      content: 'Clear articulation of the problem being solved',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }, {
-      title: 'Solution',
-      content: 'Your solution to the problem',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }, {
-      title: 'Product',
-      content: 'Product description and demonstration',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }, {
-      title: 'Market Opportunity',
-      content: 'Market size and opportunity',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }, {
-      title: 'Business Model',
-      content: 'How you make money',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }, {
-      title: 'Traction',
-      content: 'Progress and milestones achieved',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }, {
-      title: 'Competition',
-      content: 'Competitive landscape and your advantage',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }, {
-      title: 'Team',
-      content: 'Key team members and their expertise',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }, {
-      title: 'Financials',
-      content: 'Key financial projections and metrics',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }, {
-      title: 'Ask',
-      content: 'What you\'re asking for (investment, partnership, etc.)',
-      designRecommendations: ['Design recommendations for this slide'],
-      keyMessage: 'The key message this slide should convey'
-    }],
+    slides: [
+      {
+        title: 'Cover Slide',
+        content: 'Company name, tagline, and logo',
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+      {
+        title: 'Problem',
+        content: 'Clear articulation of the problem being solved',
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+      {
+        title: 'Solution',
+        content: 'Your solution to the problem',
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+      {
+        title: 'Product',
+        content: 'Product description and demonstration',
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+      {
+        title: 'Market Opportunity',
+        content: 'Market size and opportunity',
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+      {
+        title: 'Business Model',
+        content: 'How you make money',
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+      {
+        title: 'Traction',
+        content: 'Progress and milestones achieved',
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+      {
+        title: 'Competition',
+        content: 'Competitive landscape and your advantage',
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+      {
+        title: 'Team',
+        content: 'Key team members and their expertise',
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+      {
+        title: 'Financials',
+        content: 'Key financial projections and metrics',
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+      {
+        title: 'Ask',
+        content: "What you're asking for (investment, partnership, etc.)",
+        designRecommendations: ['Design recommendations for this slide'],
+        keyMessage: 'The key message this slide should convey',
+      },
+    ],
     overallDesignRecommendations: ['Overall design recommendations for the pitch deck'],
     presentationTips: ['Tips for effectively presenting the pitch deck'],
     commonQuestions: ['Common questions investors might ask'],
-    recommendedResponses: ['Recommended responses to common questions']
+    recommendedResponses: ['Recommended responses to common questions'],
   },
-  
+
   // Startup financial projections
   createFinancialProjections: {
     startupName: 'Name of the startup',
@@ -313,18 +332,18 @@ export const ai = AI({
       pricingAssumptions: ['Assumptions about pricing'],
       customerAcquisition: ['Assumptions about customer acquisition'],
       customerRetention: ['Assumptions about customer retention'],
-      growthAssumptions: ['Assumptions about revenue growth']
+      growthAssumptions: ['Assumptions about revenue growth'],
     },
     costStructure: {
       fixedCosts: ['Fixed costs and their assumptions'],
       variableCosts: ['Variable costs and their assumptions'],
       cogAssumptions: ['Assumptions about cost of goods sold'],
-      opexAssumptions: ['Assumptions about operating expenses']
+      opexAssumptions: ['Assumptions about operating expenses'],
     },
     capitalRequirements: {
       initialInvestment: 'Required initial investment',
       additionalRounds: ['Projected additional funding rounds'],
-      useOfFunds: ['How funds will be used']
+      useOfFunds: ['How funds will be used'],
     },
     financialStatements: {
       incomeStatement: {
@@ -333,45 +352,45 @@ export const ai = AI({
         grossProfit: ['Projected gross profit by period'],
         operatingExpenses: ['Projected operating expenses by period'],
         ebitda: ['Projected EBITDA by period'],
-        netIncome: ['Projected net income by period']
+        netIncome: ['Projected net income by period'],
       },
       cashFlow: {
         operatingCashFlow: ['Projected operating cash flow by period'],
         investingCashFlow: ['Projected investing cash flow by period'],
         financingCashFlow: ['Projected financing cash flow by period'],
         netCashFlow: ['Projected net cash flow by period'],
-        endingCashBalance: ['Projected ending cash balance by period']
+        endingCashBalance: ['Projected ending cash balance by period'],
       },
       balanceSheet: {
         assets: ['Projected assets by period'],
         liabilities: ['Projected liabilities by period'],
-        equity: ['Projected equity by period']
-      }
+        equity: ['Projected equity by period'],
+      },
     },
     keyMetrics: {
       unitEconomics: ['Unit economics metrics and projections'],
       customerMetrics: ['Customer-related metrics and projections'],
       financialRatios: ['Key financial ratios and projections'],
-      breakEvenAnalysis: 'Break-even analysis and projection'
+      breakEvenAnalysis: 'Break-even analysis and projection',
     },
     sensitivityAnalysis: {
       bestCase: 'Best case scenario projections',
       baseCase: 'Base case scenario projections',
       worstCase: 'Worst case scenario projections',
-      keyVariables: ['Key variables that most impact projections']
+      keyVariables: ['Key variables that most impact projections'],
     },
     valuationEstimate: {
       methodologies: ['Valuation methodologies used'],
       estimatedValuation: 'Estimated valuation range',
-      valuationRationale: 'Rationale for the valuation estimate'
+      valuationRationale: 'Rationale for the valuation estimate',
     },
     investmentReturns: {
       roi: 'Projected return on investment',
       irr: 'Projected internal rate of return',
-      exitScenarios: ['Potential exit scenarios and returns']
+      exitScenarios: ['Potential exit scenarios and returns'],
     },
     assumptions: ['All key assumptions underlying the projections'],
     risks: ['Key risks that could affect financial performance'],
-    recommendations: ['Financial recommendations for the startup']
-  }
+    recommendations: ['Financial recommendations for the startup'],
+  },
 })

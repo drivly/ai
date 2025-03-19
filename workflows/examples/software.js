@@ -1,7 +1,6 @@
 import { AI } from 'functions.do'
 
 export const ai = AI({
-  
   categorizeSoftware: {
     productName: 'name of the software product',
     provider: 'name of the software company/provider',
@@ -16,7 +15,7 @@ export const ai = AI({
     apiExists: 'required | usually | sometimes | rarely | never',
     apiUsed: 'required | usually | sometimes | rarely | never',
   },
-  
+
   jobsToBeDone: {
     productName: 'name of the product or service',
     functionalJob: 'the practical task the customer wants to accomplish',
@@ -28,9 +27,9 @@ export const ai = AI({
     hiringCriteria: ['list of criteria customers use to evaluate solutions'],
     jobStatement: 'When I [context], I want to [motivation], so I can [desired outcome]',
     keyInsights: ['list of key insights about the jobs to be done'],
-    recommendations: ['list of recommendations based on the analysis']
+    recommendations: ['list of recommendations based on the analysis'],
   },
-  
+
   leanCanvas: {
     productName: 'name of the product or service',
     problem: ['top 3 problems the product solves'],
@@ -42,9 +41,9 @@ export const ai = AI({
     channels: ['path to customers'],
     costStructure: ['list of operational costs'],
     revenueStreams: ['list of revenue sources'],
-    recommendations: ['list of recommendations based on the analysis']
+    recommendations: ['list of recommendations based on the analysis'],
   },
-  
+
   fourForces: {
     productName: 'name of the product or service',
     pushOfTheSituation: ['factors that push customers to change'],
@@ -55,9 +54,9 @@ export const ai = AI({
     marketReadiness: 'assessment of how ready the market is for this solution',
     adoptionBarriers: ['list of key barriers to adoption'],
     accelerationStrategies: ['list of strategies to accelerate adoption'],
-    recommendations: ['list of recommendations based on the analysis']
+    recommendations: ['list of recommendations based on the analysis'],
   },
-  
+
   sevenPowers: {
     productName: 'name of the product or service',
     scaleBenefits: 'assessment of scale economies advantage',
@@ -70,9 +69,9 @@ export const ai = AI({
     dominantPower: 'which power appears to be strongest',
     powerGaps: ['list of areas where power could be strengthened'],
     competitiveAdvantage: 'overall assessment of competitive advantage',
-    recommendations: ['list of recommendations based on the analysis']
+    recommendations: ['list of recommendations based on the analysis'],
   },
-  
+
   storyBrand: {
     productName: 'name of the product or service',
     hero: 'description of the customer as the hero',
@@ -83,7 +82,6 @@ export const ai = AI({
     success: 'description of what success looks like for the hero',
     failure: `description of what failure looks like if the hero doesn't act`,
     messagingExamples: ['examples of clear messaging using this framework'],
-    recommendations: ['list of recommendations for improving brand messaging']
+    recommendations: ['list of recommendations for improving brand messaging'],
   },
-
 })

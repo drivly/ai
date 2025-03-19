@@ -6,12 +6,12 @@ export type Worker = {
    * TypeScript code for the worker
    */
   code: string
-  
+
   /**
    * Unit tests to run in Vitest
    */
   tests: string
-  
+
   /**
    * Cloudflare Worker metadata object
    */
@@ -27,30 +27,22 @@ export type WorkerMetadata = {
    * The main module of the worker
    */
   main_module: string
-  
+
   /**
    * The compatibility date for the worker
    */
   compatibility_date: string
-  
+
   /**
    * Optional compatibility flags
    */
   compatibility_flags?: string[]
-  
+
   /**
    * Optional bindings for the worker
    */
   bindings?: Array<
-    | PlainTextBinding
-    | SecretTextBinding
-    | KVNamespaceBinding
-    | DONamespaceBinding
-    | WasmModuleBinding
-    | ServiceBinding
-    | R2BucketBinding
-    | AnalyticsEngineBinding
-    | QueueBinding
+    PlainTextBinding | SecretTextBinding | KVNamespaceBinding | DONamespaceBinding | WasmModuleBinding | ServiceBinding | R2BucketBinding | AnalyticsEngineBinding | QueueBinding
   >
 }
 
@@ -145,12 +137,12 @@ export type DeployResult = {
    * Whether the deployment was successful
    */
   success: boolean
-  
+
   /**
    * Errors encountered during the deployment process
    */
   errors?: string[]
-  
+
   /**
    * URL of the deployed worker if successful
    */
@@ -165,7 +157,7 @@ export type TypeScriptOptions = {
    * Whether to check types
    */
   checkTypes?: boolean
-  
+
   /**
    * TypeScript compiler options
    */
@@ -180,7 +172,7 @@ export type ESLintOptions = {
    * Whether to run ESLint
    */
   runLint?: boolean
-  
+
   /**
    * ESLint configuration
    */
@@ -195,7 +187,7 @@ export type VitestOptions = {
    * Whether to run tests
    */
   runTests?: boolean
-  
+
   /**
    * Vitest configuration
    */
@@ -220,12 +212,12 @@ export type CloudflareOptions = {
    * Cloudflare account ID
    */
   accountId?: string
-  
+
   /**
    * Cloudflare API token
    */
   apiToken?: string
-  
+
   /**
    * Cloudflare Workers for Platforms namespace ID
    */
@@ -240,22 +232,22 @@ export type DeployWorkerOptions = {
    * TypeScript options
    */
   typescript?: TypeScriptOptions
-  
+
   /**
    * ESLint options
    */
   eslint?: ESLintOptions
-  
+
   /**
    * Vitest options
    */
   vitest?: VitestOptions
-  
+
   /**
    * ESBuild options
    */
   esbuild?: ESBuildOptions
-  
+
   /**
    * Cloudflare options
    */

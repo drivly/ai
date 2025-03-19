@@ -7,10 +7,7 @@ import * as esbuild from 'esbuild'
  * @param options ESBuild options
  * @returns Bundled code
  */
-export async function bundleCode(
-  code: string,
-  options: ESBuildOptions = {}
-): Promise<string> {
+export async function bundleCode(code: string, options: ESBuildOptions = {}): Promise<string> {
   const { config = {} } = options
 
   try {
@@ -31,7 +28,7 @@ export async function bundleCode(
     if (!result.outputFiles || result.outputFiles.length === 0) {
       throw new Error('ESBuild did not produce any output files')
     }
-    
+
     return result.outputFiles[0].text
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error)

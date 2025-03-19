@@ -14,7 +14,7 @@ npm install deploy-worker
 ## Usage
 
 ```typescript
-import { deployWorker } from '@ai-primitives/deploy-worker';
+import { deployWorker } from '@ai-primitives/deploy-worker'
 
 const worker = {
   code: `
@@ -42,15 +42,15 @@ const worker = {
       {
         type: 'plain_text',
         name: 'GREETING',
-        text: 'Hello World!'
-      }
-    ]
-  }
-};
+        text: 'Hello World!',
+      },
+    ],
+  },
+}
 
 // Deploy the worker
-const result = await deployWorker(worker);
-console.log(result);
+const result = await deployWorker(worker)
+console.log(result)
 ```
 
 ## API
@@ -69,6 +69,7 @@ Validates, tests, bundles, and deploys a Cloudflare Worker.
 #### Returns
 
 A Promise that resolves to a DeployResult object containing:
+
 - `success`: Boolean indicating if the deployment was successful
 - `errors`: Array of errors if any
 - `deploymentUrl`: URL of the deployed worker if successful
@@ -76,6 +77,7 @@ A Promise that resolves to a DeployResult object containing:
 ## Environment Variables
 
 The following environment variables are required:
+
 - `CF_ACCOUNT_ID`: Cloudflare account ID
 - `CF_API_TOKEN`: Cloudflare API token
 - `CF_NAMESPACE_ID`: Cloudflare Workers for Platforms namespace ID

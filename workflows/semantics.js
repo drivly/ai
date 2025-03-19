@@ -1,7 +1,6 @@
 import { AI } from 'functions.do'
 
 export const ai = AI({
-
   conjugateVerbs: {
     action: 'active tense like Create',
     act: 'third person singular present tense like Creates',
@@ -27,5 +26,4 @@ export const ai = AI({
     activity: 'gerund like Using',
     event: 'past tense like Used',
   },
-
 })

@@ -12,11 +12,7 @@ import { execSync } from 'child_process'
  * @param options Vitest options
  * @returns Array of errors if any
  */
-export async function runTests(
-  code: string,
-  tests: string,
-  options: VitestOptions = {}
-): Promise<string[]> {
+export async function runTests(code: string, tests: string, options: VitestOptions = {}): Promise<string[]> {
   const { runTests = true, config = {} } = options
 
   if (!runTests) {
@@ -40,7 +36,7 @@ export async function runTests(
         dependencies: {
           vitest: '^0.34.6',
         },
-      })
+      }),
     )
 
     // Create a vitest.config.js file
@@ -57,7 +53,7 @@ export async function runTests(
           ...${JSON.stringify(config)}
         }
       })
-      `
+      `,
     )
 
     try {
@@ -73,15 +69,11 @@ export async function runTests(
         const output = error.stdout.toString()
         try {
           const result = JSON.parse(output)
-          const errors = result.testResults
-            .flatMap((testResult: any) =>
-              testResult.assertionResults
-                .filter((assertion: any) => assertion.status === 'failed')
-                .map(
-                  (assertion: any) =>
-                    `${assertion.fullName}: ${assertion.failureMessages.join('\n')}`
-                )
-            )
+          const errors = result.testResults.flatMap((testResult: any) =>
+            testResult.assertionResults
+              .filter((assertion: any) => assertion.status === 'failed')
+              .map((assertion: any) => `${assertion.fullName}: ${assertion.failureMessages.join('\n')}`),
+          )
           return errors
         } catch (parseError) {
           return [`Failed to parse test results: ${output}`]

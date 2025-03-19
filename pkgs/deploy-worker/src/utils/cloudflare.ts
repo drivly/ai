@@ -7,16 +7,8 @@ import { CloudflareOptions, WorkerMetadata } from '../types'
  * @param options Cloudflare options
  * @returns Deployment URL
  */
-export async function deployToCloudflare(
-  code: string,
-  metadata: WorkerMetadata,
-  options: CloudflareOptions = {}
-): Promise<string> {
-  const {
-    accountId = process.env.CF_ACCOUNT_ID,
-    apiToken = process.env.CF_API_TOKEN,
-    namespaceId = process.env.CF_NAMESPACE_ID,
-  } = options
+export async function deployToCloudflare(code: string, metadata: WorkerMetadata, options: CloudflareOptions = {}): Promise<string> {
+  const { accountId = process.env.CF_ACCOUNT_ID, apiToken = process.env.CF_API_TOKEN, namespaceId = process.env.CF_NAMESPACE_ID } = options
 
   if (!accountId) {
     throw new Error('Cloudflare account ID is required')
@@ -47,22 +39,17 @@ export async function deployToCloudflare(
   formData.append('metadata', metadataBlob, 'metadata.json')
 
   // Deploy the worker
-  const response = await fetch(
-    `https://api.cloudflare.com/client/v4/accounts/${accountId}/workers/dispatch/namespaces/${namespaceId}/scripts/${scriptName}`,
-    {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
-      },
-      body: formData,
-    }
-  )
+  const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${accountId}/workers/dispatch/namespaces/${namespaceId}/scripts/${scriptName}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${apiToken}`,
+    },
+    body: formData,
+  })
 
   if (!response.ok) {
     const error = await response.json()
-    throw new Error(
-      `Cloudflare API error: ${error.errors?.[0]?.message || response.statusText}`
-    )
+    throw new Error(`Cloudflare API error: ${error.errors?.[0]?.message || response.statusText}`)
   }
 
   const result = await response.json()

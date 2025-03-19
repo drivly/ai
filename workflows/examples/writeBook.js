@@ -1,69 +1,85 @@
 import { AI } from 'functions.do'
 
 export const ai = AI({
-
   writeBook: async ({ ai, db, api, args }) => {
-
     // Step 1: Create book proposal with provided args
     const proposal = await ai.createBookProposal(args)
-    
+
     // Step 2: Generate table of contents based on proposal
     const toc = await ai.createTableOfContents({ proposal })
-    
+
     // Step 3: Create detailed outlines for each chapter
-    const chapterOutlines = await Promise.all(toc.chapters.map(async (chapter, idx) => {
-      return ai.createChapterOutline({
-        bookTitle: proposal.title,
-        chapterNumber: (idx + 1).toString(),
-        chapterTitle: chapter.title
-      })
-    }))
-    
-    // Step 4: Write all sections for each chapter
-    const completedChapters = await Promise.all(chapterOutlines.map(async (outline, idx) => {
-      const chapterNumber = idx + 1
-      
-      // Write each section in parallel for efficiency
-      const sections = await Promise.all(outline.sections.map(async (section) => {
-        return ai.writeSection({
+    const chapterOutlines = await Promise.all(
+      toc.chapters.map(async (chapter, idx) => {
+        return ai.createChapterOutline({
           bookTitle: proposal.title,
-          chapterNumber: chapterNumber.toString(),
-          chapterTitle: outline.chapterTitle,
-          sectionTitle: section.title
+          chapterNumber: (idx + 1).toString(),
+          chapterTitle: chapter.title,
         })
-      }))
-      
-      return {
-        chapterNumber,
-        chapterTitle: outline.chapterTitle,
-        sections
-      }
-    }))
-    
+      }),
+    )
+
+    // Step 4: Write all sections for each chapter
+    const completedChapters = await Promise.all(
+      chapterOutlines.map(async (outline, idx) => {
+        const chapterNumber = idx + 1
+
+        // Write each section in parallel for efficiency
+        const sections = await Promise.all(
+          outline.sections.map(async (section) => {
+            return ai.writeSection({
+              bookTitle: proposal.title,
+              chapterNumber: chapterNumber.toString(),
+              chapterTitle: outline.chapterTitle,
+              sectionTitle: section.title,
+            })
+          }),
+        )
+
+        return {
+          chapterNumber,
+          chapterTitle: outline.chapterTitle,
+          sections,
+        }
+      }),
+    )
+
     // Step 5: Review each chapter for quality and consistency
-    const chapterReviews = await Promise.all(completedChapters.map(async (chapter) => {
-      return ai.reviewChapter({
-        bookTitle: proposal.title,
-        chapterNumber: chapter.chapterNumber.toString(),
-        chapterTitle: chapter.chapterTitle
-      })
-    }))
-    
+    const chapterReviews = await Promise.all(
+      completedChapters.map(async (chapter) => {
+        return ai.reviewChapter({
+          bookTitle: proposal.title,
+          chapterNumber: chapter.chapterNumber.toString(),
+          chapterTitle: chapter.chapterTitle,
+        })
+      }),
+    )
+
     // Step 6: Perform comprehensive book review
     const bookReview = await ai.reviewBook({ bookTitle: proposal.title })
-    
+
     // Step 7: Edit book based on review feedback
     const bookEdits = await ai.editBook({ bookTitle: proposal.title })
-    
+
     // Step 8: Prepare final materials for publication
     const book = await ai.prepareForPublication({ bookTitle: proposal.title })
 
     // Step 9: Save book to database
-    const { url } = await db.books.create({ title: proposal.title, summary: proposal.summary, toc, chapterOutlines, completedChapters, chapterReviews, bookReview, bookEdits, publicationPrep })
+    const { url } = await db.books.create({
+      title: proposal.title,
+      summary: proposal.summary,
+      toc,
+      chapterOutlines,
+      completedChapters,
+      chapterReviews,
+      bookReview,
+      bookEdits,
+      publicationPrep,
+    })
     await api.slack.awaitApproval({ channel: '#books', content: { title: proposal.title, message: 'Book ready for review 🚀', url } })
 
     // Step 10: Return complete book package with all components
-    const publishedBook = await api.amazon.kindle.publish({ book})
+    const publishedBook = await api.amazon.kindle.publish({ book })
     await api.slack.postMessage({ channel: '#books', content: { title: proposal.title, message: 'Book published 🎉', url: publishedBook.url } })
 
     return {
@@ -74,10 +90,10 @@ export const ai = AI({
       chapterReviews,
       bookReview,
       bookEdits,
-      publicationPrep
+      publicationPrep,
     }
   },
-  
+
   // Book Proposal - Initial concept and outline
   createBookProposal: {
     title: 'proposed title of the book',
@@ -92,28 +108,32 @@ export const ai = AI({
     coverDescription: 'visual description of the layout and image of the book cover',
     estimatedWordCount: 'approximate word count for the entire book',
     estimatedTimeToComplete: 'timeline for completing the manuscript',
-    summary: 'one paragraph summary of the book concept'
+    summary: 'one paragraph summary of the book concept',
   },
-  
+
   // Table of Contents - Structure of the book
   createTableOfContents: {
     bookTitle: 'title of the book',
     introduction: 'brief description of the introduction',
-    chapters: [{
-      title: 'chapter title',
-      summary: 'brief summary of the chapter content',
-      sections: [{
-        title: 'section title',
-        summary: 'brief description of the section content'
-      }],
-      estimatedPages: 'estimated number of pages for this chapter'
-    }],
+    chapters: [
+      {
+        title: 'chapter title',
+        summary: 'brief summary of the chapter content',
+        sections: [
+          {
+            title: 'section title',
+            summary: 'brief description of the section content',
+          },
+        ],
+        estimatedPages: 'estimated number of pages for this chapter',
+      },
+    ],
     conclusion: 'brief description of the conclusion',
     appendices: ['list of potential appendices if applicable'],
     bibliography: 'description of reference sources if applicable',
-    estimatedTotalPages: 'estimated total page count for the book'
+    estimatedTotalPages: 'estimated total page count for the book',
   },
-  
+
   // Chapter Outline - Detailed plan for a specific chapter
   createChapterOutline: {
     bookTitle: 'title of the book',
@@ -121,19 +141,21 @@ export const ai = AI({
     chapterTitle: 'title of the chapter',
     openingHook: 'engaging opening to capture reader interest',
     keyPoints: ['main points to be covered in the chapter'],
-    sections: [{
-      title: 'section title',
-      content: 'detailed description of section content',
-      keyIdeas: ['key ideas to be conveyed in this section'],
-      examples: ['examples or case studies to include'],
-      transitions: 'how this section connects to the next'
-    }],
+    sections: [
+      {
+        title: 'section title',
+        content: 'detailed description of section content',
+        keyIdeas: ['key ideas to be conveyed in this section'],
+        examples: ['examples or case studies to include'],
+        transitions: 'how this section connects to the next',
+      },
+    ],
     conclusion: 'how the chapter will wrap up',
     exercises: ['potential exercises or reflection questions for readers'],
     references: ['key references or citations for this chapter'],
-    visualElements: ['diagrams, charts, or illustrations to include']
+    visualElements: ['diagrams, charts, or illustrations to include'],
   },
-  
+
   // Section Writing - Content for a specific section
   writeSection: {
     bookTitle: 'title of the book',
@@ -145,9 +167,9 @@ export const ai = AI({
     citations: ['citations or references used in this section'],
     images: ['descriptions of images or diagrams to include'],
     pullQuotes: ['text that could be highlighted as pull quotes'],
-    wordCount: 'word count for this section'
+    wordCount: 'word count for this section',
   },
-  
+
   // Chapter Review - Evaluation of a completed chapter
   reviewChapter: {
     bookTitle: 'title of the book',
@@ -162,9 +184,9 @@ export const ai = AI({
     suggestedRevisions: ['specific suggestions for revision'],
     consistencyCheck: 'assessment of consistency with other chapters',
     overallRating: 'rating on a scale of 1-10',
-    nextStepsRecommendation: 'recommended next steps for improvement'
+    nextStepsRecommendation: 'recommended next steps for improvement',
   },
-  
+
   // Book Review - Comprehensive review of the entire manuscript
   reviewBook: {
     bookTitle: 'title of the book',
@@ -181,9 +203,9 @@ export const ai = AI({
     titleFeedback: 'assessment of title effectiveness',
     coverSuggestions: 'suggestions for cover design elements',
     marketingAngles: ['potential marketing angles to emphasize'],
-    finalRecommendations: ['prioritized list of final recommendations']
+    finalRecommendations: ['prioritized list of final recommendations'],
   },
-  
+
   // Book Editing - Specific edits for improving the manuscript
   editBook: {
     bookTitle: 'title of the book',
@@ -199,9 +221,9 @@ export const ai = AI({
     toneRefinements: 'adjustments to maintain consistent tone',
     dialogueImprovements: 'ways to improve any dialogue',
     descriptionEnhancements: 'ways to enhance descriptive passages',
-    transitionImprovements: 'ways to improve transitions between sections'
+    transitionImprovements: 'ways to improve transitions between sections',
   },
-  
+
   // Book Publication Preparation - Final steps before publication
   prepareForPublication: {
     bookTitle: 'title of the book',
@@ -218,8 +240,6 @@ export const ai = AI({
     launchStrategy: 'recommended approach for book launch',
     pricingRecommendation: 'suggested pricing strategy',
     formatRecommendations: ['recommended formats (hardcover, ebook, etc.)'],
-    distributionChannels: ['recommended distribution channels']
+    distributionChannels: ['recommended distribution channels'],
   },
-
-
 })
