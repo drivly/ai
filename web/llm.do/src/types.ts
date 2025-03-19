@@ -77,19 +77,7 @@ export const ChatCompletionRequest = z.object({
         z.object({
           role: z.literal('assistant'),
           audio: z.object({ id: z.string() }).optional(),
-          content: z
-            .string()
-            .or(
-              z.array(
-                z
-                  .string()
-                  .or(
-                    z
-                      .object({ text: z.string(), type: z.literal('text') })
-                      .or(z.object({ refusal: z.string(), type: z.literal('refusal') })),
-                  ),
-              ),
-            ),
+          content: z.string().or(z.array(z.string().or(z.object({ text: z.string(), type: z.literal('text') }).or(z.object({ refusal: z.string(), type: z.literal('refusal') }))))),
           name: z.string().optional(),
         }),
       )
@@ -108,7 +96,7 @@ export const ChatCompletionRequest = z.object({
         }),
       ),
   ),
-  model: Str({ example: 'gpt-4o' }).optional(),
+  model: Str({ example: 'gpt-4o' }).optional(), // Optional for OpenRouter
   audio: z
     .object({
       format: z.string(),
