@@ -1,5 +1,5 @@
 import { OpenAPIRoute } from 'chanfana'
-import { AuthHeader, Model } from '../types'
+import { AuthHeader, ModelListResponse } from '../types'
 import { fetchFromProvider } from 'providers/openRouter'
 
 export class ModelList extends OpenAPIRoute {
@@ -14,7 +14,7 @@ export class ModelList extends OpenAPIRoute {
         description: 'Returns a list of models',
         content: {
           'application/json': {
-            schema: Model,
+            schema: ModelListResponse,
           },
         },
       },
