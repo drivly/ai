@@ -1,6 +1,10 @@
 import { Str } from 'chanfana'
 import { z } from 'zod'
 
+export const AuthHeader = z.object({
+  Authorization: z.string(),
+})
+
 const LogProb = z.object({
   bytes: z.array(z.number()).optional(),
   logprob: z.number(),
@@ -277,4 +281,11 @@ export const ChatCompletionResponse = z.object({
       cached_tokens: z.number(),
     }),
   }),
+})
+
+export const Model = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  provider: z.string(),
 })
