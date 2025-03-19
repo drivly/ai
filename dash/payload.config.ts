@@ -40,9 +40,9 @@ export default buildConfig({
       // tenantsArrayField: {},
       // tenantField: {},
       collections: {
-        // functions: {},
-        // workflows: {},
-        // agents: {},
+        functions: {},
+        workflows: {},
+        agents: {},
       },
       userHasAccessToAllTenants: isSuperAdmin,
     }),
