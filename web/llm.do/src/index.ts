@@ -22,9 +22,7 @@ app.all('/api/v1/*', async (c) => {
   return await fetchFromProvider({ body, headers: { Authorization: c.req.header('Authorization') } }, c.req.method, c.req.path.replace('/api/v1', ''))
 })
 
-app.all('*', (c) => {
-  return c.json({ error: 'Not found' }, 404)
-})
+app.all('*', (c) => c.json({ error: 'Not found' }, 404))
 
 // Export the Hono app
 export default app
