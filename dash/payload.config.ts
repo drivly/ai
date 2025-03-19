@@ -44,7 +44,7 @@ export default buildConfig({
         // workflows: {},
         // agents: {},
       },
-      // userHasAccessToAllTenants: isSuperAdmin,
+      userHasAccessToAllTenants: isSuperAdmin,
     }),
   ],
 })
