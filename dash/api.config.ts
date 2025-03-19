@@ -49,6 +49,7 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
 
       // Get auth info
       const { user, permissions } = await payload.auth(req);
+      // const authPromise = payload.auth(req)
 
       const params = await context.params
 
@@ -150,7 +151,7 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       const result = await handler(req, ctx);
 
       // Convert result to JSON response
-      return NextResponse.json({ api: { home: origin, from: 'https://driv.ly' }, ...result, user });
+      return NextResponse.json({ api: { url: origin + '/api', home: origin, from: 'https://driv.ly' }, ...result, user });
     } catch (error) {
       console.error('API Error:', error);
       
