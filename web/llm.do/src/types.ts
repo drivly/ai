@@ -108,7 +108,7 @@ export const ChatCompletionRequest = z.object({
         }),
       ),
   ),
-  model: Str({ example: 'gpt-4o' }),
+  model: Str({ example: 'gpt-4o' }).optional(),
   audio: z
     .object({
       format: z.string(),
