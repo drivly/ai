@@ -35,9 +35,6 @@ export class ChatCompletionCreate extends OpenAPIRoute {
     // TODO: Integrate model router
 
     // Pass request to OpenRouter
-    const response = await fetchFromProvider(request, 'POST', '/chat/completions')
-
-    // return the completion
-    return response.json()
+    return await fetchFromProvider(request, 'POST', '/chat/completions')
   }
 }
