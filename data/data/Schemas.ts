@@ -7,5 +7,9 @@ export const Schemas: CollectionConfig = {
     useAsTitle: 'name',
   },
   versions: true,
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [
+    { name: 'name', type: 'text' },
+    { name: 'type', type: 'code', admin: { language: 'typescript' } },
+    { name: 'json', type: 'json' },
+  ],
 }

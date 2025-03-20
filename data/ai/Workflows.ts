@@ -7,5 +7,13 @@ export const Workflows: CollectionConfig = {
     useAsTitle: 'name',
   },
   versions: true,
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [
+    { name: 'name', type: 'text' },
+    { name: 'type', type: 'code', admin: { language: 'typescript' } },
+    { name: 'code', type: 'code', admin: { language: 'typescript' } },
+    { name: 'functions', type: 'relationship', relationTo: 'functions' },
+    { name: 'module', type: 'relationship', relationTo: 'modules' },
+    { name: 'package', type: 'relationship', relationTo: 'packages' },
+    { name: 'deployment', type: 'relationship', relationTo: 'deployments' },
+  ],
 }

@@ -24,6 +24,7 @@ import { Errors } from './observability/Errors'
 import { Benchmarks } from './evals/Benchmarks'
 import { Experiments } from './evals/Experiments'
 import { Prompts } from './evals/Prompts'
+import { Resources } from './data/Resources'
 
 export const collections = [
   Functions,
@@ -34,10 +35,11 @@ export const collections = [
   Deployments,
   Nouns,
   Verbs,
-  Triggers,
-  Actions,
+  Resources,
+  // Triggers,
+  // Actions,
   Schemas,
-  Benchmarks,
+  // Benchmarks,
   Evals,
   Experiments,
   Datasets,
