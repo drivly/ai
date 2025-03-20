@@ -36,13 +36,13 @@ export default buildConfig({
     payloadCloudPlugin(),
     // storage-adapter-placeholder
     multiTenantPlugin<Config>({
-      // tenantSelectorLabel: 'Project',
+      tenantSelectorLabel: 'Project',
       // tenantsArrayField: {},
       // tenantField: {},
       collections: {
-        functions: {},
-        workflows: {},
-        agents: {},
+        // functions: {},
+        // workflows: {},
+        // agents: {},
       },
       userHasAccessToAllTenants: isSuperAdmin,
     }),
