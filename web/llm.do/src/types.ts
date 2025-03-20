@@ -55,26 +55,31 @@ const MessageContent = z.string().or(
   ),
 )
 
+const Name = z
+  .string()
+  .regex(/^[a-zA-Z0-9_]+$/)
+  .optional()
+
 export const ChatCompletionRequest = z.object({
   messages: z.array(
     z
       .object({
         content: MessageContent,
         role: z.literal('developer'),
-        name: z.string().regex(/^[a-zA-Z0-9_]+$/).optional(),
+        name: Name,
       })
       .or(
         z.object({
           content: MessageContent,
           role: z.literal('system'),
-          name: z.string().optional(),
+          name: Name,
         }),
       )
       .or(
         z.object({
           content: MessageContent,
           role: z.literal('user'),
-          name: z.string().optional(),
+          name: Name,
         }),
       )
       .or(
@@ -82,7 +87,7 @@ export const ChatCompletionRequest = z.object({
           role: z.literal('assistant'),
           audio: z.object({ id: z.string() }).optional(),
           content: z.string().or(z.array(z.string().or(z.object({ text: z.string(), type: z.literal('text') }).or(z.object({ refusal: z.string(), type: z.literal('refusal') }))))),
-          name: z.string().optional(),
+          name: Name,
         }),
       )
       .or(
@@ -151,7 +156,17 @@ export const ChatCompletionRequest = z.object({
   response_format: z
     .object({ type: z.literal('text') })
     .or(z.object({ type: z.literal('json_object') }))
-    .or(z.object({ type: z.literal('json_schema'), json_schema: z.object({ name: z.string(), schema: z.record(z.any()) }) }))
+    .or(
+      z.object({
+        type: z.literal('json_schema'),
+        json_schema: z.object({
+          name: z.string(),
+          description: z.string().optional(),
+          schema: z.record(z.any()).optional(),
+          strict: z.boolean().optional(),
+        }),
+      }),
+    )
     .optional(),
   seed: z.number().optional(),
   service_tier: z.enum(['default', 'auto']).optional(),
