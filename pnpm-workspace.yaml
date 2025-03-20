@@ -1,9 +1,9 @@
 packages:
   - 'api/*'
-  - 'docs'
-  - 'data'
   - 'dash'
-  - 'pkgs/*'
+  - 'docs'
+  - 'database'
+  - 'packages/*'
   - 'sdk/*'
-  - 'web/*'
+  - 'websites/*'
   - 'workflows'
