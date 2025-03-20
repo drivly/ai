@@ -1,11 +1,11 @@
 import { OpenAPIRoute } from 'chanfana'
-import { AuthHeader, ModelListResponse } from '../types'
 import { fetchFromProvider } from 'providers/openRouter'
+import { AuthHeader, ModelListResponse } from '../types'
 
 export class ModelList extends OpenAPIRoute {
   schema = {
-    tags: ['models'],
-    summary: 'List Models',
+    tags: ['Models'],
+    summary: 'List models',
     request: {
       headers: AuthHeader,
     },

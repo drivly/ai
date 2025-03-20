@@ -4,7 +4,7 @@ import { AuthHeader, ChatCompletionRequest, ChatCompletionResponse } from '../ty
 
 export class ChatCompletionCreate extends OpenAPIRoute {
   schema = {
-    tags: ['chat'],
+    tags: ['Chat'],
     summary: 'Create a chat completion',
     request: {
       headers: AuthHeader,
