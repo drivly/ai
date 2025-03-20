@@ -18,7 +18,8 @@
 		"@types/node": "22.13.10",
 		"@types/service-worker-mock": "^2.0.4",
 		"typescript": "^5.8.2",
-		"wrangler": "^4.2.0"
+		"wrangler": "^4.2.0",
+		"@ai-primitives/ai-models": "workspace:*"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [

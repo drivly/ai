@@ -1,6 +1,7 @@
 import { OpenAPIRoute } from 'chanfana'
 import { fetchFromProvider } from 'providers/openRouter'
 import { AuthHeader, ChatCompletionRequest, ChatCompletionResponse } from '../types'
+import { parse } from '@ai-primitives/ai-models'
 
 export class ChatCompletionCreate extends OpenAPIRoute {
   schema = {
@@ -32,7 +33,8 @@ export class ChatCompletionCreate extends OpenAPIRoute {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
 
-    // TODO: Integrate model router
+    // Model router
+    request.body.model = parse(request.body.model || '').model
 
     // Pass request to OpenRouter
     return await fetchFromProvider(request, 'POST', '/chat/completions')
