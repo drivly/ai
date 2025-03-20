@@ -1,4 +1,6 @@
 {
+  "name": "@drivly/ai-models",
+  "version": "0.0.1",
   "scripts": {
     "dev": "dotenvx run -- npx tsx watch src/demo.ts",
     "build:models": "npx tsx build/build-models.ts",
