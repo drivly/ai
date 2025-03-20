@@ -61,7 +61,7 @@ export const ChatCompletionRequest = z.object({
       .object({
         content: MessageContent,
         role: z.literal('developer'),
-        name: z.string().optional(),
+        name: z.string().regex(/^[a-zA-Z0-9_]+$/).optional(),
       })
       .or(
         z.object({
@@ -118,7 +118,7 @@ export const ChatCompletionRequest = z.object({
       z.object({
         name: z.string(),
         description: z.string(),
-        parameters: z.any().optional(),
+        parameters: z.record(z.any()).optional(),
       }),
     )
     .optional(),
@@ -149,8 +149,9 @@ export const ChatCompletionRequest = z.object({
   presence_penalty: z.number().optional(),
   reasoning_effort: z.string().optional(),
   response_format: z
-    .object({ type: z.literal('json_object') })
-    .or(z.object({ type: z.literal('json_schema'), json_schema: z.any() }))
+    .object({ type: z.literal('text') })
+    .or(z.object({ type: z.literal('json_object') }))
+    .or(z.object({ type: z.literal('json_schema'), json_schema: z.object({ name: z.string(), schema: z.record(z.any()) }) }))
     .optional(),
   seed: z.number().optional(),
   service_tier: z.enum(['default', 'auto']).optional(),
@@ -180,7 +181,7 @@ export const ChatCompletionRequest = z.object({
         function: z.object({
           name: z.string(),
           description: z.string().optional(),
-          parameters: z.any().optional(),
+          parameters: z.record(z.any()).optional(),
           strict: z.boolean().optional(),
         }),
         type: z.string(),
