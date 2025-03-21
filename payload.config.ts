@@ -9,9 +9,9 @@ import { fileURLToPath } from 'url'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { Config } from './payload.types'
 
-import { collections } from '@ai-primitives/data'
+import { collections } from '@/data'
 
-import { isSuperAdmin } from '@ai-primitives/data/access/isSuperAdmin'
+import { isSuperAdmin } from './lib/hooks/isSuperAdmin'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)

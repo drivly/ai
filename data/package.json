@@ -2,6 +2,6 @@
   "name": "@ai-primitives/data",
   "type": "module",
   "devDependencies": {
-    "payload": "^3.28.1"
+    "payload": "^3.29.0"
   }
 }
