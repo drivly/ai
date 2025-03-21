@@ -20,12 +20,5 @@
 		"@types/service-worker-mock": "^2.0.4",
 		"typescript": "^5.8.2",
 		"wrangler": "^4.3.0"
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild",
-			"sharp",
-			"workerd"
-		]
 	}
 }
