@@ -1,6 +1,6 @@
-import { Tenants } from './admin/Tenants'
+import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
-import { Apps } from './admin/Apps'
+import { APIKeys } from './admin/APIKeys'
 import { Integrations } from './admin/Integrations'
 import { Functions } from './ai/Functions'
 import { Modules } from './code/Modules'
@@ -9,7 +9,7 @@ import { Deployments } from './code/Deployments'
 import { Workflows } from './ai/Workflows'
 import { Agents } from './ai/Agents'
 import { Datasets } from './evals/Datasets'
-import { Models } from './evals/Models'
+import { Models } from './experiments/Models'
 import { Nouns } from './data/Nouns'
 import { Verbs } from './data/Verbs'
 import { Triggers } from './events/Triggers'
@@ -21,12 +21,14 @@ import { EvalsRuns } from './evals/EvalsRuns'
 import { EvalsResults } from './evals/EvalsResults'
 import { Events } from './observability/Events'
 import { Errors } from './observability/Errors'
-import { Benchmarks } from './evals/Benchmarks'
-import { Experiments } from './evals/Experiments'
-import { Prompts } from './evals/Prompts'
+import { Benchmarks } from './observability/Benchmarks'
+import { Experiments } from './experiments/Experiments'
+import { Prompts } from './experiments/Prompts'
+import { Settings } from './experiments/Settings'
 import { Things } from './data/Things'
 import { Generations } from './observability/Generations'
 import { Searches } from './events/Searches'
+import { Traces } from './observability/Traces'
 
 export const collections = [
   Functions,
@@ -38,24 +40,26 @@ export const collections = [
   Triggers,
   Searches,
   Actions,
+  Experiments,
+  Models,
+  Prompts,
+  Settings,
   Types,
   Modules,
   Packages,
   Deployments,
-  // Benchmarks,
   Evals,
-  Generations,
-  Experiments,
-  Datasets,
-  Models,
-  Prompts,
   EvalsRuns,
   EvalsResults,
+  Datasets,
   Events,
   Errors,
-  Tenants,
+  Generations,
+  Traces,
+  Benchmarks,
+  Projects,
   Users,
-  Apps,
   Integrations,
   Webhooks,
+  APIKeys,
 ]

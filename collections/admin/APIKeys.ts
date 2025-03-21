@@ -1,7 +1,8 @@
 import type { CollectionConfig } from 'payload'
 
-export const Apps: CollectionConfig = {
-  slug: 'apps',
+export const APIKeys: CollectionConfig = {
+  slug: 'apikeys',
+  labels: { singular: 'API Key', plural: 'API Keys' },
   admin: {
     group: 'Admin',
     useAsTitle: 'name',

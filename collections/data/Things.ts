@@ -10,6 +10,7 @@ export const Things: CollectionConfig = {
   fields: [
     { type: 'row', fields: [
       { name: 'name', type: 'text' },
+      { name: 'type', type: 'relationship', relationTo: 'nouns' },
       // { name: 'generatedBy', type: 'relationship', relationTo: 'functions', admin: { readOnly: true } },
     ]},
     // { name: 'content', type: 'code', admin: { language: 'mdx', editorOptions: { padding: { top: 20, bottom: 20 } } } },

@@ -64,7 +64,7 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
-    apps: AppAuthOperations;
+    apikeys: ApikeyAuthOperations;
   };
   blocks: {};
   collections: {
@@ -77,25 +77,28 @@ export interface Config {
     triggers: Trigger;
     searches: Search;
     actions: Action;
+    experiments: Experiment;
+    models: Model;
+    prompts: Prompt;
+    settings: Setting;
     types: Type;
     modules: Module;
     packages: Package;
     deployments: Deployment;
     evals: Eval;
-    generations: Generation;
-    experiments: Experiment;
-    datasets: Dataset;
-    models: Model;
-    prompts: Prompt;
     'eval-runs': EvalRun;
     'eval-results': EvalResult;
+    datasets: Dataset;
     events: Event;
     errors: Error;
-    tenants: Tenant;
+    generations: Generation;
+    traces: Trace;
+    benchmarks: Benchmark;
+    projects: Project;
     users: User;
-    apps: App;
     integrations: Integration;
     webhooks: Webhook;
+    apikeys: Apikey;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -119,25 +122,28 @@ export interface Config {
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
     actions: ActionsSelect<false> | ActionsSelect<true>;
+    experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
+    models: ModelsSelect<false> | ModelsSelect<true>;
+    prompts: PromptsSelect<false> | PromptsSelect<true>;
+    settings: SettingsSelect<false> | SettingsSelect<true>;
     types: TypesSelect<false> | TypesSelect<true>;
     modules: ModulesSelect<false> | ModulesSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
     evals: EvalsSelect<false> | EvalsSelect<true>;
-    generations: GenerationsSelect<false> | GenerationsSelect<true>;
-    experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
-    datasets: DatasetsSelect<false> | DatasetsSelect<true>;
-    models: ModelsSelect<false> | ModelsSelect<true>;
-    prompts: PromptsSelect<false> | PromptsSelect<true>;
     'eval-runs': EvalRunsSelect<false> | EvalRunsSelect<true>;
     'eval-results': EvalResultsSelect<false> | EvalResultsSelect<true>;
+    datasets: DatasetsSelect<false> | DatasetsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     errors: ErrorsSelect<false> | ErrorsSelect<true>;
-    tenants: TenantsSelect<false> | TenantsSelect<true>;
+    generations: GenerationsSelect<false> | GenerationsSelect<true>;
+    traces: TracesSelect<false> | TracesSelect<true>;
+    benchmarks: BenchmarksSelect<false> | BenchmarksSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    apps: AppsSelect<false> | AppsSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
+    apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -152,8 +158,8 @@ export interface Config {
     | (User & {
         collection: 'users';
       })
-    | (App & {
-        collection: 'apps';
+    | (Apikey & {
+        collection: 'apikeys';
       });
   jobs: {
     tasks: unknown;
@@ -178,7 +184,7 @@ export interface UserAuthOperations {
     password: string;
   };
 }
-export interface AppAuthOperations {
+export interface ApikeyAuthOperations {
   forgotPassword: {
     email: string;
     password: string;
@@ -300,7 +306,54 @@ export interface Noun {
  */
 export interface Verb {
   id: string;
-  name?: string | null;
+  /**
+   * Active tense like Create
+   */
+  action?: string | null;
+  /**
+   * Third person singular present tense like Creates
+   */
+  act?: string | null;
+  /**
+   * Gerund like Creating
+   */
+  activity?: string | null;
+  /**
+   * Past tense like Created
+   */
+  event?: string | null;
+  /**
+   * Subject like Creator
+   */
+  subject?: string | null;
+  /**
+   * Object like Creation
+   */
+  object?: string | null;
+  /**
+   * Opposite like Destroy
+   */
+  inverse?: string | null;
+  /**
+   * Third person singular present tense like Destroys
+   */
+  inverseAct?: string | null;
+  /**
+   * Gerund like Destroying
+   */
+  inverseActivity?: string | null;
+  /**
+   * Past tense like Destroyed
+   */
+  inverseEvent?: string | null;
+  /**
+   * Subject like Destroyer
+   */
+  inverseSubject?: string | null;
+  /**
+   * Object like Destruction
+   */
+  inverseObject?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -311,6 +364,7 @@ export interface Verb {
 export interface Thing {
   id: string;
   name?: string | null;
+  type?: (string | null) | Noun;
   data?:
     | {
         [k: string]: unknown;
@@ -340,7 +394,7 @@ export interface Thing {
 export interface Action {
   id: string;
   subject?: (string | null) | Thing;
-  verb?: (string | null) | Function;
+  verb?: (string | null) | Verb;
   object?: (string | null) | Thing;
   generation?: {
     docs?: (string | Generation)[];
@@ -412,6 +466,45 @@ export interface Search {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiments".
+ */
+export interface Experiment {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models".
+ */
+export interface Model {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings".
+ */
+export interface Setting {
+  id: string;
+  name?: string | null;
+  settings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "types".
  */
 export interface Type {
@@ -452,36 +545,6 @@ export interface Eval {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "experiments".
- */
-export interface Experiment {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "datasets".
- */
-export interface Dataset {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "models".
- */
-export interface Model {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "eval-runs".
  */
 export interface EvalRun {
@@ -495,6 +558,16 @@ export interface EvalRun {
  * via the `definition` "eval-results".
  */
 export interface EvalResult {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "datasets".
+ */
+export interface Dataset {
   id: string;
   name?: string | null;
   updatedAt: string;
@@ -522,9 +595,29 @@ export interface Error {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tenants".
+ * via the `definition` "traces".
  */
-export interface Tenant {
+export interface Trace {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "benchmarks".
+ */
+export interface Benchmark {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
   id: string;
   name?: string | null;
   domain?: string | null;
@@ -553,21 +646,6 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "apps".
- */
-export interface App {
-  id: string;
-  name?: string | null;
-  description?: string | null;
-  url?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrations".
  */
 export interface Integration {
@@ -585,6 +663,21 @@ export interface Webhook {
   name?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apikeys".
+ */
+export interface Apikey {
+  id: string;
+  name?: string | null;
+  description?: string | null;
+  url?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -630,6 +723,22 @@ export interface PayloadLockedDocument {
         value: string | Action;
       } | null)
     | ({
+        relationTo: 'experiments';
+        value: string | Experiment;
+      } | null)
+    | ({
+        relationTo: 'models';
+        value: string | Model;
+      } | null)
+    | ({
+        relationTo: 'prompts';
+        value: string | Prompt;
+      } | null)
+    | ({
+        relationTo: 'settings';
+        value: string | Setting;
+      } | null)
+    | ({
         relationTo: 'types';
         value: string | Type;
       } | null)
@@ -650,32 +759,16 @@ export interface PayloadLockedDocument {
         value: string | Eval;
       } | null)
     | ({
-        relationTo: 'generations';
-        value: string | Generation;
-      } | null)
-    | ({
-        relationTo: 'experiments';
-        value: string | Experiment;
-      } | null)
-    | ({
-        relationTo: 'datasets';
-        value: string | Dataset;
-      } | null)
-    | ({
-        relationTo: 'models';
-        value: string | Model;
-      } | null)
-    | ({
-        relationTo: 'prompts';
-        value: string | Prompt;
-      } | null)
-    | ({
         relationTo: 'eval-runs';
         value: string | EvalRun;
       } | null)
     | ({
         relationTo: 'eval-results';
         value: string | EvalResult;
+      } | null)
+    | ({
+        relationTo: 'datasets';
+        value: string | Dataset;
       } | null)
     | ({
         relationTo: 'events';
@@ -686,16 +779,24 @@ export interface PayloadLockedDocument {
         value: string | Error;
       } | null)
     | ({
-        relationTo: 'tenants';
-        value: string | Tenant;
+        relationTo: 'generations';
+        value: string | Generation;
+      } | null)
+    | ({
+        relationTo: 'traces';
+        value: string | Trace;
+      } | null)
+    | ({
+        relationTo: 'benchmarks';
+        value: string | Benchmark;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: string | Project;
       } | null)
     | ({
         relationTo: 'users';
         value: string | User;
-      } | null)
-    | ({
-        relationTo: 'apps';
-        value: string | App;
       } | null)
     | ({
         relationTo: 'integrations';
@@ -704,6 +805,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'webhooks';
         value: string | Webhook;
+      } | null)
+    | ({
+        relationTo: 'apikeys';
+        value: string | Apikey;
       } | null);
   globalSlug?: string | null;
   user:
@@ -712,8 +817,8 @@ export interface PayloadLockedDocument {
         value: string | User;
       }
     | {
-        relationTo: 'apps';
-        value: string | App;
+        relationTo: 'apikeys';
+        value: string | Apikey;
       };
   updatedAt: string;
   createdAt: string;
@@ -730,8 +835,8 @@ export interface PayloadPreference {
         value: string | User;
       }
     | {
-        relationTo: 'apps';
-        value: string | App;
+        relationTo: 'apikeys';
+        value: string | Apikey;
       };
   key?: string | null;
   value?:
@@ -808,7 +913,18 @@ export interface NounsSelect<T extends boolean = true> {
  * via the `definition` "verbs_select".
  */
 export interface VerbsSelect<T extends boolean = true> {
-  name?: T;
+  action?: T;
+  act?: T;
+  activity?: T;
+  event?: T;
+  subject?: T;
+  object?: T;
+  inverse?: T;
+  inverseAct?: T;
+  inverseActivity?: T;
+  inverseEvent?: T;
+  inverseSubject?: T;
+  inverseObject?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -818,6 +934,7 @@ export interface VerbsSelect<T extends boolean = true> {
  */
 export interface ThingsSelect<T extends boolean = true> {
   name?: T;
+  type?: T;
   data?: T;
   subjectOf?: T;
   objectOf?: T;
@@ -851,6 +968,43 @@ export interface ActionsSelect<T extends boolean = true> {
   verb?: T;
   object?: T;
   generation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiments_select".
+ */
+export interface ExperimentsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models_select".
+ */
+export interface ModelsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prompts_select".
+ */
+export interface PromptsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings_select".
+ */
+export interface SettingsSelect<T extends boolean = true> {
+  name?: T;
+  settings?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -905,57 +1059,6 @@ export interface EvalsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generations_select".
- */
-export interface GenerationsSelect<T extends boolean = true> {
-  action?: T;
-  settings?: T;
-  request?: T;
-  response?: T;
-  error?: T;
-  status?: T;
-  duration?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "experiments_select".
- */
-export interface ExperimentsSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "datasets_select".
- */
-export interface DatasetsSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "models_select".
- */
-export interface ModelsSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prompts_select".
- */
-export interface PromptsSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "eval-runs_select".
  */
 export interface EvalRunsSelect<T extends boolean = true> {
@@ -968,6 +1071,15 @@ export interface EvalRunsSelect<T extends boolean = true> {
  * via the `definition` "eval-results_select".
  */
 export interface EvalResultsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "datasets_select".
+ */
+export interface DatasetsSelect<T extends boolean = true> {
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -992,9 +1104,42 @@ export interface ErrorsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tenants_select".
+ * via the `definition` "generations_select".
  */
-export interface TenantsSelect<T extends boolean = true> {
+export interface GenerationsSelect<T extends boolean = true> {
+  action?: T;
+  settings?: T;
+  request?: T;
+  response?: T;
+  error?: T;
+  status?: T;
+  duration?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "traces_select".
+ */
+export interface TracesSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "benchmarks_select".
+ */
+export interface BenchmarksSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
   name?: T;
   domain?: T;
   updatedAt?: T;
@@ -1020,20 +1165,6 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "apps_select".
- */
-export interface AppsSelect<T extends boolean = true> {
-  name?: T;
-  description?: T;
-  url?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  enableAPIKey?: T;
-  apiKey?: T;
-  apiKeyIndex?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrations_select".
  */
 export interface IntegrationsSelect<T extends boolean = true> {
@@ -1049,6 +1180,20 @@ export interface WebhooksSelect<T extends boolean = true> {
   name?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apikeys_select".
+ */
+export interface ApikeysSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  url?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

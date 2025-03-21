@@ -1,9 +1,9 @@
 import type { CollectionConfig } from 'payload'
 
-export const Prompts: CollectionConfig = {
-  slug: 'prompts',
+export const Experiments: CollectionConfig = {
+  slug: 'experiments',
   admin: {
-    group: 'Evals',
+    group: 'Experiments',
     useAsTitle: 'name',
   },
   fields: [{ name: 'name', type: 'text' }],

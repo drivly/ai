@@ -1,9 +1,9 @@
 import type { CollectionConfig } from 'payload'
 
-export const Models: CollectionConfig = {
-  slug: 'models',
+export const Benchmarks: CollectionConfig = {
+  slug: 'benchmarks',
   admin: {
-    group: 'Evals',
+    group: 'Observability',
     useAsTitle: 'name',
   },
   access: { create: () => false, update: () => false, delete: () => false },
