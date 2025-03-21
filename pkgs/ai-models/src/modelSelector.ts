@@ -30,7 +30,7 @@ function getModelMetadata(modelIdentifier: string): { modelDetails: Model | null
  * Convert model string to language model instance
  * Returns null if model is not supported
  */
-function getModelInstance(modelIdentifier: string):  Model | null {
+function getModelInstance(modelIdentifier: string): Model | null {
   const { modelDetails, parsed } = getModelMetadata(modelIdentifier)
 
   if (!modelDetails) {
@@ -94,7 +94,7 @@ export function getModel(modelInput: string | string[], config?: ModelConfig): M
       resolved.push({
         slug: model.openRouterSlug ?? '',
         model,
-        parsed
+        parsed,
       })
     }
   }

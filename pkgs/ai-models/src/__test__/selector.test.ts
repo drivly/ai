@@ -24,9 +24,11 @@ describe('selector', () => {
   })
 
   it('should return the same model when seed is provided', () => {
-    const models = Array(10).fill(0).map((_, i) => getModel('drivly/frontier(seed:123)')) 
+    const models = Array(10)
+      .fill(0)
+      .map((_, i) => getModel('drivly/frontier(seed:123)'))
 
-    // Ensure all models are the same 
+    // Ensure all models are the same
     expect(models.every((m) => m?.slug === models[0]?.slug)).toBe(true)
-  }) 
+  })
 })

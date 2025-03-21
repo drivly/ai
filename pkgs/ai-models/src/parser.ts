@@ -44,27 +44,28 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
 
   // Process capabilities
   if (capabilitiesPart) {
-    const capabilities = capabilitiesPart.split(',').map(c => c.trim()).filter(c => c) as Capability[];
-    result.capabilities = capabilities;
+    const capabilities = capabilitiesPart
+      .split(',')
+      .map((c) => c.trim())
+      .filter((c) => c) as Capability[]
+    result.capabilities = capabilities
   }
-      
+
   // Process system config if present
   if (systemConfigPart) {
-    const systemConfig: Record<string, string | number> = {};
+    const systemConfig: Record<string, string | number> = {}
 
-    
-
-    systemConfigPart.split(',').forEach(pair => {
-      const [key, value] = pair.split(':').map(part => part.trim());
+    systemConfigPart.split(',').forEach((pair) => {
+      const [key, value] = pair.split(':').map((part) => part.trim())
       if (key && value !== undefined) {
         // Try to convert numeric values
-        const numValue = Number(value);
-        systemConfig[key] = !isNaN(numValue) ? numValue : value;
+        const numValue = Number(value)
+        systemConfig[key] = !isNaN(numValue) ? numValue : value
       }
-    });
-    
+    })
+
     if (Object.keys(systemConfig).length > 0) {
-      result.systemConfig = systemConfig;
+      result.systemConfig = systemConfig
     }
   }
 
@@ -122,9 +123,9 @@ export function formatModelIdentifier(parsed: ParsedModelIdentifier, includeAtSi
   if (parsed.systemConfig && Object.keys(parsed.systemConfig).length > 0) {
     const configStr = Object.entries(parsed.systemConfig)
       .map(([key, value]) => `${key}:${value}`)
-      .join(',');
-    
-    result += `(${configStr})`;
+      .join(',')
+
+    result += `(${configStr})`
   }
 
   return result

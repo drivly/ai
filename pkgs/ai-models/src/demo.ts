@@ -1,4 +1,3 @@
-
 import { getModel } from './modelSelector'
 import { parse } from './parser'
 

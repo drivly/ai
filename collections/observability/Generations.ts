@@ -15,7 +15,7 @@ export const Generations: CollectionConfig = {
     { name: 'error', type: 'json' },
     { name: 'status', type: 'select', options: ['success', 'error'] },
     { name: 'duration', type: 'number' },
-    
+
     // { name: 'function', type: 'relationship', relationTo: 'functions' },
     // { name: 'input', type: 'relationship', relationTo: 'resources' },
     // { name: 'output', type: 'relationship', relationTo: 'resources' },

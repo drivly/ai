@@ -8,8 +8,6 @@ import config from 'payload.config'
 // import './styles.css'
 
 export default async function HomePage() {
-
-
   return (
     <div className='home'>
       <h1>Functions.do</h1>

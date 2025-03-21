@@ -24,6 +24,6 @@ export const Functions: CollectionConfig<CollectionSlug> = {
     // { name: 'schema', type: 'code', admin: { language: 'yaml', condition: (data) => data?.type === 'Object', editorOptions: { padding: { top: 20, bottom: 20 } } } },
     // { name: 'schema', type: 'relationship', relationTo: 'schemas', admin: { condition: (data) => ['Object', 'ObjectArray'].includes(data?.type) } },
 
-    { name: 'prompt', type: 'relationship', relationTo: 'prompts', admin: { condition: (data) => data?.type !== 'Code' } }
+    { name: 'prompt', type: 'relationship', relationTo: 'prompts', admin: { condition: (data) => data?.type !== 'Code' } },
   ],
 }

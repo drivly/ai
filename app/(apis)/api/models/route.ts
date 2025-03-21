@@ -10,11 +10,11 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
   if (model) {
     return {
-      resolvedModel: getModel(model)
+      resolvedModel: getModel(model),
     }
   }
 
   return {
-    models: []
+    models: [],
   }
 })
