@@ -18,7 +18,7 @@
     "test": "dotenvx run -- vitest"
   },
   "type": "module",
-  "packageManager": "pnpm@9.15.9",
+  "packageManager": "pnpm@10.6.5",
   "devDependencies": {
     "typescript": "^5.8.2",
     "@types/node": "^22.13.10",
