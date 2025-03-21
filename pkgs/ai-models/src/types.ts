@@ -17,11 +17,10 @@ export interface ParsedModelIdentifier {
   model: string
   capabilities: Capability[]
   thinkingLevel?: ThinkingLevel
+  systemConfig?: Record<string, string | number>
 }
 
 export interface ModelConfig {
-  preferredProviders?: Provider[]
+  seed?: number
   requiredCapabilities?: Capability[]
-  fallbackModels?: string[]
-  prioritizeBy?: 'performance' | 'cost' | 'latency' | 'quality'
 }

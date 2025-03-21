@@ -5,6 +5,7 @@ import { ParsedModelIdentifier, ThinkingLevel, Capability, Provider } from './ty
  * Supports both formats:
  * - @{provider}/{author}/{model}:{capabilities}
  * - {author}/{model}:{capabilities}
+ * - {model}:{capabilities}({systemConfig}) - E.g: gpt-4o:reasoning(seed:123,temperature:0.5,maxTokens:1000,topP:1)
  *
  * @param modelIdentifier The model identifier string
  * @returns ParsedModelIdentifier object with components
@@ -22,26 +23,49 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
     identifier = identifier.substring(1)
   }
 
-  // Split by colon to separate model and capabilities
-  const [modelPart, capabilitiesPart] = identifier.split(':')
+  // First, remove the system config if present
+  const systemConfigRegex = /^(.*?)(?:\((.+)\))?$/
+  const match = identifier.match(systemConfigRegex)
 
-  // Handle capabilities if present
+  let modelPart = ''
+  let capabilitiesPart = ''
+  let systemConfigPart = ''
+
+  if (match) {
+    modelPart = match[1].split(':')[0]
+    capabilitiesPart = match[1].split(':')[1]
+    systemConfigPart = match[2]
+  } else {
+    // Split by colon to separate model and capabilities
+    const split = identifier.split(':')
+    modelPart = split[0]
+    capabilitiesPart = split[1]
+  }
+
+  // Process capabilities
   if (capabilitiesPart) {
-    const capabilities = capabilitiesPart.split(',').map((c) => c.trim()) as Capability[]
-    result.capabilities = capabilities
+    const capabilities = capabilitiesPart.split(',').map(c => c.trim()).filter(c => c) as Capability[];
+    result.capabilities = capabilities;
+  }
+      
+  // Process system config if present
+  if (systemConfigPart) {
+    const systemConfig: Record<string, string | number> = {};
 
-    // Check for reasoning level
-    const reasoningCapability = capabilities.find((c) => c === 'reasoning' || c === 'reasoning-low' || c === 'reasoning-medium' || c === 'reasoning-high')
+    
 
-    // if (reasoningCapability) {
-    //   if (reasoningCapability === 'reasoning') {
-    //     result.reasoningLevel = undefined; // Default level
-    //   } else {
-    //     // Extract the level part after the dash
-    //     const level = reasoningCapability.split('-')[1] as ThinkingLevel;
-    //     result.reasoningLevel = level;
-    //   }
-    // }
+    systemConfigPart.split(',').forEach(pair => {
+      const [key, value] = pair.split(':').map(part => part.trim());
+      if (key && value !== undefined) {
+        // Try to convert numeric values
+        const numValue = Number(value);
+        systemConfig[key] = !isNaN(numValue) ? numValue : value;
+      }
+    });
+    
+    if (Object.keys(systemConfig).length > 0) {
+      result.systemConfig = systemConfig;
+    }
   }
 
   // Parse the model part (provider/author/model or author/model)
@@ -92,6 +116,15 @@ export function formatModelIdentifier(parsed: ParsedModelIdentifier, includeAtSi
   // Add capabilities if any
   if (parsed.capabilities.length > 0) {
     result += ':' + parsed.capabilities.join(',')
+  }
+
+  // Add system config if any
+  if (parsed.systemConfig && Object.keys(parsed.systemConfig).length > 0) {
+    const configStr = Object.entries(parsed.systemConfig)
+      .map(([key, value]) => `${key}:${value}`)
+      .join(',');
+    
+    result += `(${configStr})`;
   }
 
   return result

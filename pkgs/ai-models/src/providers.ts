@@ -1,7 +1,4 @@
 import { Capability, LanguageModel, Provider, ThinkingLevel } from './types'
-import { createOpenAI } from '@ai-sdk/openai'
-import { createAnthropic } from '@ai-sdk/anthropic'
-import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { generateObject } from 'ai'
 import rawModels from './models'
 import camelCase from 'camelcase'
@@ -12,6 +9,7 @@ export type Model = {
   author: string
   parentModel?: string
   modelIdentifier?: string
+  openRouterSlug?: string
   provider: Provider
   capabilities?: Capability[]
   capabilityRouting?: {
@@ -28,49 +26,49 @@ export type Model = {
   childrenModels?: Model['name'][]
 }
 
-export function getModelOrGateway(provider: Provider, model: string, useGateway: boolean): LanguageModel {
-  let baseURL = useGateway ? `https://gateway.ai.cloudflare.com/v1/${process.env.CLOUDFLARE_USER_ID}/ai-experiments/${provider}` : undefined
+// export function getModelOrGateway(provider: Provider, model: string, useGateway: boolean): LanguageModel {
+//   let baseURL = useGateway ? `https://gateway.ai.cloudflare.com/v1/${process.env.CLOUDFLARE_USER_ID}/ai-experiments/${provider}` : undefined
 
-  // Cloudflare's gateway has a bug where it doesnt route the model correctly.
-  if (provider == 'google' && useGateway) {
-    baseURL += '/v1beta'
-  }
+//   // Cloudflare's gateway has a bug where it doesnt route the model correctly.
+//   if (provider == 'google' && useGateway) {
+//     baseURL += '/v1beta'
+//   }
 
-  // We need to do this as unknown as LanguageModel because the SDKs all have
-  // different types, which dont match the LanguageModel type.
-  // however, they fundimentally have the same shape. So this is to keep TS from complaining.
+//   // We need to do this as unknown as LanguageModel because the SDKs all have
+//   // different types, which dont match the LanguageModel type.
+//   // however, they fundimentally have the same shape. So this is to keep TS from complaining.
 
-  let providerInstance: LanguageModel | null = null
+//   let providerInstance: LanguageModel | null = null
 
-  switch (provider) {
-    case 'openai':
-      providerInstance = createOpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-        baseURL,
-      }) as unknown as LanguageModel
-      break
-    case 'anthropic':
-      providerInstance = createAnthropic({
-        apiKey: process.env.ANTHROPIC_API_KEY,
-      }) as unknown as LanguageModel
-      break
-    case 'google':
-      providerInstance = createGoogleGenerativeAI({
-        apiKey: process.env.GOOGLE_API_KEY,
-        baseURL,
-      }) as unknown as LanguageModel
-      break
-    default:
-      throw new Error(`Provider ${provider} not supported`)
-  }
+//   switch (provider) {
+//     case 'openai':
+//       providerInstance = createOpenAI({
+//         apiKey: process.env.OPENAI_API_KEY,
+//         baseURL,
+//       }) as unknown as LanguageModel
+//       break
+//     case 'anthropic':
+//       providerInstance = createAnthropic({
+//         apiKey: process.env.ANTHROPIC_API_KEY,
+//       }) as unknown as LanguageModel
+//       break
+//     case 'google':
+//       providerInstance = createGoogleGenerativeAI({
+//         apiKey: process.env.GOOGLE_API_KEY,
+//         baseURL,
+//       }) as unknown as LanguageModel
+//       break
+//     default:
+//       throw new Error(`Provider ${provider} not supported`)
+//   }
 
-  if (!providerInstance) {
-    throw new Error(`Provider ${provider} not supported`)
-  }
+//   if (!providerInstance) {
+//     throw new Error(`Provider ${provider} not supported`)
+//   }
 
-  // @ts-expect-error - TS weirdness.
-  return providerInstance(model) as LanguageModel
-}
+//   // @ts-expect-error - TS weirdness.
+//   return providerInstance(model) as LanguageModel
+// }
 
 const providerRewrites = {
   'Google AI Studio': 'google',
@@ -84,6 +82,7 @@ let models: Model[] = rawModels.models.map((x) => {
     author: x.author,
     provider: camelCase(provider ?? 'unknown') as Provider,
     capabilities: x.endpoint?.supportedParameters.map((p) => camelCase(p) as Capability),
+    openRouterSlug: x.permaslug,
     modelIdentifier: x.permaslug.replace(x.author + '/', ''), // Fixes cases where the modelId was google/google/google-gemini-2.0-flash-001
   }
 
