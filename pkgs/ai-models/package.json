@@ -10,13 +10,8 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.1.17",
-    "@ai-sdk/google": "^1.1.25",
-    "@ai-sdk/openai": "^1.2.5",
     "@types/node": "^22.13.10",
-    "ai": "^4.1.61",
     "camelcase": "^8.0.0",
-    "vitest": "^3.0.9",
-    "zod": "^3.24.2"
+    "vitest": "^3.0.9"
   }
 }
