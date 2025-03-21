@@ -3,6 +3,10 @@ import punycode from 'punycode'
 import configPromise from 'payload.config'
 import { BasePayload, CollectionSlug, getPayload, SanitizedPermissions } from 'payload'
 
+export const apis = {
+  
+}
+
 // Types for our enhanced db operations
 type CollectionQuery = Record<string, any>
 type CollectionData = Record<string, any>

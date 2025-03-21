@@ -364,6 +364,8 @@ export interface Verb {
 export interface Thing {
   id: string;
   name?: string | null;
+  sqid?: string | null;
+  hash?: string | null;
   type?: (string | null) | Noun;
   data?:
     | {
@@ -934,6 +936,8 @@ export interface VerbsSelect<T extends boolean = true> {
  */
 export interface ThingsSelect<T extends boolean = true> {
   name?: T;
+  sqid?: T;
+  hash?: T;
   type?: T;
   data?: T;
   subjectOf?: T;
