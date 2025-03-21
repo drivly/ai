@@ -77,8 +77,11 @@ export interface Config {
     nouns: Noun;
     verbs: Verb;
     resources: Resource;
+    triggers: Trigger;
+    actions: Action;
     schemas: Schema;
     evals: Eval;
+    generations: Generation;
     experiments: Experiment;
     datasets: Dataset;
     models: Model;
@@ -96,7 +99,15 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    resources: {
+      subjectOf: 'actions';
+      objectOf: 'actions';
+    };
+    actions: {
+      generation: 'generations';
+    };
+  };
   collectionsSelect: {
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
@@ -107,8 +118,11 @@ export interface Config {
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    triggers: TriggersSelect<false> | TriggersSelect<true>;
+    actions: ActionsSelect<false> | ActionsSelect<true>;
     schemas: SchemasSelect<false> | SchemasSelect<true>;
     evals: EvalsSelect<false> | EvalsSelect<true>;
+    generations: GenerationsSelect<false> | GenerationsSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
     datasets: DatasetsSelect<false> | DatasetsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
@@ -188,7 +202,6 @@ export interface Function {
   id: string;
   name?: string | null;
   type?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code') | null;
-  code?: string | null;
   schema?:
     | {
         [k: string]: unknown;
@@ -198,6 +211,18 @@ export interface Function {
     | number
     | boolean
     | null;
+  code?: string | null;
+  prompt?: (string | null) | Prompt;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prompts".
+ */
+export interface Prompt {
+  id: string;
+  name?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -284,7 +309,6 @@ export interface Verb {
 export interface Resource {
   id: string;
   name?: string | null;
-  content?: string | null;
   data?:
     | {
         [k: string]: unknown;
@@ -294,6 +318,83 @@ export interface Resource {
     | number
     | boolean
     | null;
+  subjectOf?: {
+    docs?: (string | Action)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  objectOf?: {
+    docs?: (string | Action)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions".
+ */
+export interface Action {
+  id: string;
+  subject?: (string | null) | Resource;
+  verb?: (string | null) | Function;
+  object?: (string | null) | Resource;
+  generation?: {
+    docs?: (string | Generation)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generations".
+ */
+export interface Generation {
+  id: string;
+  action?: (string | null) | Action;
+  settings?: (string | null) | Resource;
+  request?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  response?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  error?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  status?: ('success' | 'error') | null;
+  duration?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "triggers".
+ */
+export interface Trigger {
+  id: string;
+  name?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -352,16 +453,6 @@ export interface Dataset {
  * via the `definition` "models".
  */
 export interface Model {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prompts".
- */
-export interface Prompt {
   id: string;
   name?: string | null;
   updatedAt: string;
@@ -517,12 +608,24 @@ export interface PayloadLockedDocument {
         value: string | Resource;
       } | null)
     | ({
+        relationTo: 'triggers';
+        value: string | Trigger;
+      } | null)
+    | ({
+        relationTo: 'actions';
+        value: string | Action;
+      } | null)
+    | ({
         relationTo: 'schemas';
         value: string | Schema;
       } | null)
     | ({
         relationTo: 'evals';
         value: string | Eval;
+      } | null)
+    | ({
+        relationTo: 'generations';
+        value: string | Generation;
       } | null)
     | ({
         relationTo: 'experiments';
@@ -635,8 +738,9 @@ export interface PayloadMigration {
 export interface FunctionsSelect<T extends boolean = true> {
   name?: T;
   type?: T;
-  code?: T;
   schema?: T;
+  code?: T;
+  prompt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -715,8 +819,30 @@ export interface VerbsSelect<T extends boolean = true> {
  */
 export interface ResourcesSelect<T extends boolean = true> {
   name?: T;
-  content?: T;
   data?: T;
+  subjectOf?: T;
+  objectOf?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "triggers_select".
+ */
+export interface TriggersSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions_select".
+ */
+export interface ActionsSelect<T extends boolean = true> {
+  subject?: T;
+  verb?: T;
+  object?: T;
+  generation?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -737,6 +863,21 @@ export interface SchemasSelect<T extends boolean = true> {
  */
 export interface EvalsSelect<T extends boolean = true> {
   name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generations_select".
+ */
+export interface GenerationsSelect<T extends boolean = true> {
+  action?: T;
+  settings?: T;
+  request?: T;
+  response?: T;
+  error?: T;
+  status?: T;
+  duration?: T;
   updatedAt?: T;
   createdAt?: T;
 }

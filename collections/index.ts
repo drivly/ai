@@ -25,6 +25,7 @@ import { Benchmarks } from './evals/Benchmarks'
 import { Experiments } from './evals/Experiments'
 import { Prompts } from './evals/Prompts'
 import { Resources } from './data/Resources'
+import { Generations } from './observability/Generations'
 
 export const collections = [
   Functions,
@@ -36,11 +37,12 @@ export const collections = [
   Nouns,
   Verbs,
   Resources,
-  // Triggers,
-  // Actions,
+  Triggers,
+  Actions,
   Schemas,
   // Benchmarks,
   Evals,
+  Generations,
   Experiments,
   Datasets,
   Models,
