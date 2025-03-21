@@ -1,4 +1,4 @@
-import { API } from '@/api.config'
+import { API } from 'clickable-links'
 import { getModel } from '@/pkgs/ai-models/src'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
