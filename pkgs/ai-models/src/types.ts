@@ -1,5 +1,3 @@
-export type { LanguageModel } from 'ai'
-
 // Types for @drivly/ai-utils
 
 // All of our providers

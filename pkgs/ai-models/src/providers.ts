@@ -1,5 +1,4 @@
-import { Capability, LanguageModel, Provider, ThinkingLevel } from './types'
-import { generateObject } from 'ai'
+import { Capability, Provider, ThinkingLevel } from './types'
 import rawModels from './models'
 import camelCase from 'camelcase'
 
@@ -14,12 +13,6 @@ export type Model = {
   capabilities?: Capability[]
   capabilityRouting?: {
     [key in Capability]?: string
-  }
-  callbacks?: {
-    /**
-     * Return an object to deep-merge into the generateObject args.
-     */
-    [key in Capability]?: (generateArgs: Parameters<typeof generateObject>[0]) => Partial<Parameters<typeof generateObject>[0]>
   }
   defaults?: Capability[]
   childPriority?: 'first' | 'random'
