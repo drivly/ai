@@ -8,7 +8,7 @@ export const Apps: CollectionConfig = {
   },
   auth: {
     useAPIKey: true,
-    disableLocalStrategy: true, 
+    disableLocalStrategy: true,
   },
   fields: [
     { name: 'name', type: 'text' },
