@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { Config } from './payload.types'
 
-import { collections } from '@/data'
+import { collections } from '@/collections'
 
 import { isSuperAdmin } from './lib/hooks/isSuperAdmin'
 
