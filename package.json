@@ -19,6 +19,7 @@
     "@payloadcms/payload-cloud": "^3.28.1",
     "@payloadcms/plugin-multi-tenant": "^3.28.1",
     "@payloadcms/richtext-lexical": "^3.28.1",
+    "ai": "^4.2.0",
     "cross-env": "^7.0.3",
     "graphql": "^16.8.1",
     "next": "15.2.2",

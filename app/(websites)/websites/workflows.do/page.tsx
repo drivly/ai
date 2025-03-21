@@ -5,7 +5,7 @@ import React from 'react'
 import { fileURLToPath } from 'url'
 
 import config from 'payload.config'
-import './styles.css'
+// import './styles.css'
 
 export default async function HomePage() {
 
