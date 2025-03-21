@@ -11,7 +11,7 @@ import { Config } from './payload.types'
 
 import { collections } from '@ai-primitives/data'
 
-import { isSuperAdmin } from '@ai-primitives/data/access/isSuperAdmin'
+import { isSuperAdmin } from './access/isSuperAdmin'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
