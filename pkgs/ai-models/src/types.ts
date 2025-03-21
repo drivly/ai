@@ -1,29 +1,10 @@
-export type { LanguageModel } from 'ai'
-
 // Types for @drivly/ai-utils
 
 // All of our providers
-export type Provider = 
-  | 'drivly'
-  | 'openai'
-  | 'anthropic'
-  | 'google'
-  | 'openrouter'
-  | 'cloudflare'
-  | 'google-vertex'
-  | 'google-ai-studio'
+export type Provider = 'drivly' | 'openai' | 'anthropic' | 'google' | 'openrouter' | 'cloudflare' | 'google-vertex' | 'google-ai-studio'
 
 // A way for models to declare what they can do
-export type Capability = 
-  | 'code'
-  | 'online'
-  | 'reasoning'
-  | 'reasoning-low'
-  | 'reasoning-medium'
-  | 'reasoning-high'
-  | 'tools'
-  | 'structuredOutput'
-  | 'responseFormat'
+export type Capability = 'code' | 'online' | 'reasoning' | 'reasoning-low' | 'reasoning-medium' | 'reasoning-high' | 'tools' | 'structuredOutput' | 'responseFormat'
 
 export type ThinkingLevel = 'low' | 'medium' | 'high'
 
@@ -34,11 +15,10 @@ export interface ParsedModelIdentifier {
   model: string
   capabilities: Capability[]
   thinkingLevel?: ThinkingLevel
+  systemConfig?: Record<string, string | number>
 }
 
 export interface ModelConfig {
-  preferredProviders?: Provider[]
+  seed?: number
   requiredCapabilities?: Capability[]
-  fallbackModels?: string[]
-  prioritizeBy?: 'performance' | 'cost' | 'latency' | 'quality'
 }
