@@ -34,7 +34,8 @@ export class ChatCompletionCreate extends OpenAPIRoute {
     const request = await this.getValidatedData<typeof this.schema>()
 
     // Model router
-    request.body.model = parse(request.body.model || '').model
+    const { model, author, provider, capabilities } = parse(request.body.model || '')
+    request.body.model = (provider && author ? `${provider}/${author}/${model}` : `${author ? author + '/' : ''}${model}`) + (capabilities ? `:${capabilities.join(',')}` : '')
 
     // Pass request to OpenRouter
     return await fetchFromProvider(request, 'POST', '/chat/completions')
