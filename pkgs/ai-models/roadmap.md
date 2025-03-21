@@ -1,6 +1,6 @@
-# AI-Utils Roadmap
+# `ai-models` Roadmap
 
-This roadmap outlines the planned features and considerations for the AI-Utils library, which provides utilities for working with AI SDKs, functions, workflows, observability, and evaluations.
+This roadmap outlines the planned features and considerations for the `ai-models` package, which provides utilities for working with AI SDKs, functions, workflows, observability, and evaluations.
 
 ## Model Identification & Syntax
 

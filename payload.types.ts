@@ -54,6 +54,7 @@ export type SupportedTimezones =
   | 'Asia/Singapore'
   | 'Asia/Tokyo'
   | 'Asia/Seoul'
+  | 'Australia/Brisbane'
   | 'Australia/Sydney'
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
@@ -427,12 +428,6 @@ export interface Tenant {
  */
 export interface User {
   id: string;
-  tenants?:
-    | {
-        tenant: string | Tenant;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -839,12 +834,6 @@ export interface TenantsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  tenants?:
-    | T
-    | {
-        tenant?: T;
-        id?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;
