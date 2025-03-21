@@ -161,6 +161,12 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       // Call the handler with enhanced context
       const result = await handler(req, ctx)
 
+
+      // Do not return APIKey in response
+      if (user?.apiKey) {
+        delete user.apiKey
+      }
+
       // Convert result to JSON response
       return NextResponse.json({ api: { url: origin + '/api', home: origin, from: 'https://driv.ly' }, ...result, user })
     } catch (error) {
