@@ -48,13 +48,16 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       const auth = await payload.auth(req)
       const { permissions } = auth
       // const authPromise = payload.auth(req)
-      const user = auth.user?.collection === 'users' ? { 
-        // name: auth.user.,
-        email: auth.user.email
-      } : {
-        app: auth.user?.name,
-        appId: auth.user?.id,
-      }
+      const user =
+        auth.user?.collection === 'users'
+          ? {
+              // name: auth.user.,
+              email: auth.user.email,
+            }
+          : {
+              app: auth.user?.name,
+              appId: auth.user?.id,
+            }
 
       const params = await context.params
 
@@ -62,7 +65,7 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       const url = new URL(req.url)
       const path = url.pathname
       const domain = punycode.toUnicode(url.hostname)
-      const origin = url.protocol + '//' + domain
+      const origin = url.protocol + '//' + domain + (url.port ? ':' + url.port : '')
 
       // Create a db proxy object for more concise collection operations
       const db = new Proxy(
@@ -169,12 +172,28 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       // Call the handler with enhanced context
       const result = await handler(req, ctx)
 
-
       // Do not return APIKey in response
 
-
       // Convert result to JSON response
-      return NextResponse.json({ api: { url: origin + '/api', home: origin, from: 'https://driv.ly' }, ...result, user }, { headers: { 'content-type': 'application/json; charset=utf-8' }})
+      return NextResponse.json(
+        {
+          api: {
+            name: domain,
+            description: 'Economically valuable work delivered through simple APIs',
+            url: req.url,
+            home: origin,
+            login: origin + '/login',
+            signup: origin + '/signup',
+            admin: origin + '/admin',
+            docs: origin + '/docs',
+            with: 'https://apis.do',
+            from: 'https://agi.do',
+          },
+          ...result,
+          user,
+        },
+        { headers: { 'content-type': 'application/json; charset=utf-8' } },
+      )
     } catch (error) {
       console.error('API Error:', error)
 

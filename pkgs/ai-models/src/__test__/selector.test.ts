@@ -18,10 +18,7 @@ describe('selector', () => {
   })
 
   it('should fallback to another model that supports the capabilities', () => {
-    const model = getModel([
-      'google/google/gemini-2.0-flash-001:reasoning',
-      'anthropic/claude-3-7-sonnet-20250219:reasoning'
-    ])
+    const model = getModel(['google/google/gemini-2.0-flash-001:reasoning', 'anthropic/claude-3-7-sonnet-20250219:reasoning'])
 
     expect(model).toBeDefined()
     expect(model.modelId).toBe('claude-3-7-sonnet-20250219')

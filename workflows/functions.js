@@ -1,13 +1,10 @@
 import { AI } from 'workflows.do'
 
 export default AI({
-  
   createFunction: async (args, { ai, api, db }) => {
-
     const functionDefinition = await ai.defineFunction(args)
 
     return functionDefinition
-
   },
 
   defineFunction: {
@@ -31,5 +28,4 @@ export default AI({
     observations: 'Think carefully about what is the ideal type ',
     returnType: 'Object | List | Array | Code | Markdown',
   },
-
 })

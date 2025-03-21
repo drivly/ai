@@ -187,51 +187,9 @@ export interface AppAuthOperations {
 export interface Function {
   id: string;
   name?: string | null;
-  type?:
-    | (
-        | 'code (T => T)'
-        | 'object (Record<string, any>)'
-        | 'schema (T)'
-        | 'markdown (string)'
-        | 'list (string[])'
-        | 'array (T[])'
-      )
-    | null;
+  type?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code') | null;
   code?: string | null;
-  input?: (string | null) | Noun;
-  output?: (string | null) | Noun;
-  inputSchema?: (string | null) | Schema;
-  outputSchema?: (string | null) | Schema;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "nouns".
- */
-export interface Noun {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "schemas".
- */
-export interface Schema {
-  id: string;
-  name?: string | null;
-  type?: string | null;
-  json?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  schema?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -293,6 +251,16 @@ export interface Agent {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nouns".
+ */
+export interface Noun {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "verbs".
  */
 export interface Verb {
@@ -310,6 +278,26 @@ export interface Resource {
   name?: string | null;
   content?: string | null;
   data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "schemas".
+ */
+export interface Schema {
+  id: string;
+  name?: string | null;
+  type?: string | null;
+  json?:
     | {
         [k: string]: unknown;
       }
@@ -640,10 +628,7 @@ export interface FunctionsSelect<T extends boolean = true> {
   name?: T;
   type?: T;
   code?: T;
-  input?: T;
-  output?: T;
-  inputSchema?: T;
-  outputSchema?: T;
+  schema?: T;
   updatedAt?: T;
   createdAt?: T;
 }

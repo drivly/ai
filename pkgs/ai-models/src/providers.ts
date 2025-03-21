@@ -46,18 +46,18 @@ export function getModelOrGateway(provider: Provider, model: string, useGateway:
     case 'openai':
       providerInstance = createOpenAI({
         apiKey: process.env.OPENAI_API_KEY,
-        baseURL
+        baseURL,
       }) as unknown as LanguageModel
       break
     case 'anthropic':
       providerInstance = createAnthropic({
-        apiKey: process.env.ANTHROPIC_API_KEY
+        apiKey: process.env.ANTHROPIC_API_KEY,
       }) as unknown as LanguageModel
       break
     case 'google':
       providerInstance = createGoogleGenerativeAI({
         apiKey: process.env.GOOGLE_API_KEY,
-        baseURL
+        baseURL,
       }) as unknown as LanguageModel
       break
     default:
@@ -76,29 +76,28 @@ const providerRewrites = {
   'Google AI Studio': 'google',
 }
 
-let models: Model[] = rawModels.models.map(x => {
+let models: Model[] = rawModels.models.map((x) => {
   const provider = providerRewrites[x.endpoint?.providerName as keyof typeof providerRewrites] ?? x.endpoint?.providerName
 
   const model: Model = {
     name: x.name,
     author: x.author,
     provider: camelCase(provider ?? 'unknown') as Provider,
-    capabilities: x.endpoint?.supportedParameters.map(p => camelCase(p) as Capability),
+    capabilities: x.endpoint?.supportedParameters.map((p) => camelCase(p) as Capability),
     modelIdentifier: x.permaslug.replace(x.author + '/', ''), // Fixes cases where the modelId was google/google/google-gemini-2.0-flash-001
   }
 
   return model
 })
 
-models = models
-  .map(x => {
-    if (x.name.includes('Flash Thinking')) {
-      // We need to manually add the reasoning capability
-      x.capabilities = [...x.capabilities ?? [], 'reasoning']
-    }
+models = models.map((x) => {
+  if (x.name.includes('Flash Thinking')) {
+    // We need to manually add the reasoning capability
+    x.capabilities = [...(x.capabilities ?? []), 'reasoning']
+  }
 
-    return x
-  })
+  return x
+})
 
 // Virtual model to get any model that supports these capabilities
 models.push({
@@ -106,17 +105,12 @@ models.push({
   name: 'frontier',
   author: 'drivly',
   provider: 'drivly',
-  capabilities: [ 'reasoning', 'code', 'online' ],
+  capabilities: ['reasoning', 'code', 'online'],
   modelIdentifier: 'frontier',
   // Array of children models that will be checked for compatibility
   // in order. First most compatible will be used.
-  childrenModels: [
-    'google/gemini-2.0-flash-001',
-    'google/gemini-2.0-flash-thinking-exp-01-21',
-    'anthropic/claude-3-7-sonnet-20250219',
-    'openai/gpt-4o',
-  ],
-  childPriority: 'random'
+  childrenModels: ['google/gemini-2.0-flash-001', 'google/gemini-2.0-flash-thinking-exp-01-21', 'anthropic/claude-3-7-sonnet-20250219', 'openai/gpt-4o'],
+  childPriority: 'random',
 })
 
 export { models }

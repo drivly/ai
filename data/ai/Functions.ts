@@ -1,19 +1,26 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, CollectionSlug } from 'payload'
 
-export const Functions: CollectionConfig = {
+export const Functions: CollectionConfig<CollectionSlug> = {
   slug: 'functions',
   admin: {
     group: 'AI',
     useAsTitle: 'name',
   },
-  versions: true,
+  // versions: true,
   fields: [
-    { name: 'name', type: 'text' },
-    { name: 'type', type: 'select', options: ['code (T => T)', 'object (Record<string, any>)', 'schema (T)', 'markdown (string)', 'list (string[])', 'array (T[])'] },
-    { name: 'code', type: 'code', admin: { language: 'typescript', editorOptions: { padding: { top: 20, bottom: 20 }} } },
-    { name: 'input', type: 'relationship', relationTo: 'nouns' },
-    { name: 'output', type: 'relationship', relationTo: 'nouns' },
-    { name: 'inputSchema', type: 'relationship', relationTo: 'schemas' },
-    { name: 'outputSchema', type: 'relationship', relationTo: 'schemas' },
+    {
+      type: 'row',
+      fields: [
+        { name: 'name', type: 'text' },
+        // { name: 'type', type: 'select', options: ['code (T => T)', 'object (Record<string, any>)', 'schema (T)', 'markdown (string)', 'list (string[])', 'array (T[])'] },
+        { name: 'type', type: 'select', options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code'] },
+        // { name: 'noun', type: 'relationship', relationTo: 'nouns' },
+        // { name: 'verb', type: 'relationship', relationTo: 'verbs' },
+      ],
+    },
+    { name: 'code', type: 'code', admin: { language: 'typescript', condition: (data) => data?.type === 'Code', editorOptions: { padding: { top: 20, bottom: 20 } } } },
+    { name: 'schema', type: 'code', admin: { language: 'yaml', condition: (data) => data?.type === 'Object', editorOptions: { padding: { top: 20, bottom: 20 } } } },
+    // { name: 'schema', type: 'json', admin: { condition: (data) => ['Object', 'ObjectArray'].includes(data?.type), editorOptions: { padding: { top: 20, bottom: 20 }} } },
+    // { name: 'schema', type: 'relationship', relationTo: 'schemas', admin: { condition: (data) => ['Object', 'ObjectArray'].includes(data?.type) } },
   ],
 }

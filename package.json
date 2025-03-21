@@ -1,5 +1,6 @@
 {
-  "private": true,  "type": "module",
+  "private": true,
+  "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
