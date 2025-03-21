@@ -90,16 +90,16 @@ importers:
   pkgs/ai-models:
     dependencies:
       '@ai-sdk/anthropic':
-        specifier: ^1.1.19
+        specifier: ^1.1.17
         version: 1.1.19(zod@3.24.2)
       '@ai-sdk/google':
-        specifier: ^1.1.27
+        specifier: ^1.1.25
         version: 1.1.27(zod@3.24.2)
       '@ai-sdk/openai':
-        specifier: ^1.2.7
+        specifier: ^1.2.5
         version: 1.2.7(zod@3.24.2)
       ai:
-        specifier: ^4.1.66
+        specifier: ^4.1.61
         version: 4.1.66(react@19.0.0)(zod@3.24.2)
       camelcase:
         specifier: ^8.0.0
