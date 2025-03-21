@@ -75,10 +75,8 @@ export interface Config {
     deployments: Deployment;
     nouns: Noun;
     verbs: Verb;
-    triggers: Trigger;
-    actions: Action;
+    resources: Resource;
     schemas: Schema;
-    benchmarks: Benchmark;
     evals: Eval;
     experiments: Experiment;
     datasets: Dataset;
@@ -107,10 +105,8 @@ export interface Config {
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
-    triggers: TriggersSelect<false> | TriggersSelect<true>;
-    actions: ActionsSelect<false> | ActionsSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
     schemas: SchemasSelect<false> | SchemasSelect<true>;
-    benchmarks: BenchmarksSelect<false> | BenchmarksSelect<true>;
     evals: EvalsSelect<false> | EvalsSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
     datasets: DatasetsSelect<false> | DatasetsSelect<true>;
@@ -189,21 +185,52 @@ export interface AppAuthOperations {
  */
 export interface Function {
   id: string;
-  tenant?: (string | null) | Tenant;
   name?: string | null;
-  type?: ('code' | 'object' | 'schema' | 'markdown' | 'list' | 'array') | null;
+  type?:
+    | (
+        | 'code (T => T)'
+        | 'object (Record<string, any>)'
+        | 'schema (T)'
+        | 'markdown (string)'
+        | 'list (string[])'
+        | 'array (T[])'
+      )
+    | null;
   code?: string | null;
+  input?: (string | null) | Noun;
+  output?: (string | null) | Noun;
+  inputSchema?: (string | null) | Schema;
+  outputSchema?: (string | null) | Schema;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tenants".
+ * via the `definition` "nouns".
  */
-export interface Tenant {
+export interface Noun {
   id: string;
   name?: string | null;
-  domain?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "schemas".
+ */
+export interface Schema {
+  id: string;
+  name?: string | null;
+  type?: string | null;
+  json?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -213,19 +240,13 @@ export interface Tenant {
  */
 export interface Workflow {
   id: string;
-  tenant?: (string | null) | Tenant;
   name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "agents".
- */
-export interface Agent {
-  id: string;
-  tenant?: (string | null) | Tenant;
-  name?: string | null;
+  type?: string | null;
+  code?: string | null;
+  functions?: (string | null) | Function;
+  module?: (string | null) | Module;
+  package?: (string | null) | Package;
+  deployment?: (string | null) | Deployment;
   updatedAt: string;
   createdAt: string;
 }
@@ -261,9 +282,9 @@ export interface Deployment {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "nouns".
+ * via the `definition` "agents".
  */
-export interface Noun {
+export interface Agent {
   id: string;
   name?: string | null;
   updatedAt: string;
@@ -281,41 +302,21 @@ export interface Verb {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "triggers".
+ * via the `definition` "resources".
  */
-export interface Trigger {
+export interface Resource {
   id: string;
   name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions".
- */
-export interface Action {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "schemas".
- */
-export interface Schema {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "benchmarks".
- */
-export interface Benchmark {
-  id: string;
-  name?: string | null;
+  content?: string | null;
+  data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -411,6 +412,17 @@ export interface Error {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tenants".
+ */
+export interface Tenant {
+  id: string;
+  name?: string | null;
+  domain?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -449,14 +461,6 @@ export interface App {
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -518,20 +522,12 @@ export interface PayloadLockedDocument {
         value: string | Verb;
       } | null)
     | ({
-        relationTo: 'triggers';
-        value: string | Trigger;
-      } | null)
-    | ({
-        relationTo: 'actions';
-        value: string | Action;
+        relationTo: 'resources';
+        value: string | Resource;
       } | null)
     | ({
         relationTo: 'schemas';
         value: string | Schema;
-      } | null)
-    | ({
-        relationTo: 'benchmarks';
-        value: string | Benchmark;
       } | null)
     | ({
         relationTo: 'evals';
@@ -646,10 +642,13 @@ export interface PayloadMigration {
  * via the `definition` "functions_select".
  */
 export interface FunctionsSelect<T extends boolean = true> {
-  tenant?: T;
   name?: T;
   type?: T;
   code?: T;
+  input?: T;
+  output?: T;
+  inputSchema?: T;
+  outputSchema?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -658,8 +657,13 @@ export interface FunctionsSelect<T extends boolean = true> {
  * via the `definition` "workflows_select".
  */
 export interface WorkflowsSelect<T extends boolean = true> {
-  tenant?: T;
   name?: T;
+  type?: T;
+  code?: T;
+  functions?: T;
+  module?: T;
+  package?: T;
+  deployment?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -668,7 +672,6 @@ export interface WorkflowsSelect<T extends boolean = true> {
  * via the `definition` "agents_select".
  */
 export interface AgentsSelect<T extends boolean = true> {
-  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -720,19 +723,12 @@ export interface VerbsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "triggers_select".
+ * via the `definition` "resources_select".
  */
-export interface TriggersSelect<T extends boolean = true> {
+export interface ResourcesSelect<T extends boolean = true> {
   name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions_select".
- */
-export interface ActionsSelect<T extends boolean = true> {
-  name?: T;
+  content?: T;
+  data?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -742,15 +738,8 @@ export interface ActionsSelect<T extends boolean = true> {
  */
 export interface SchemasSelect<T extends boolean = true> {
   name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "benchmarks_select".
- */
-export interface BenchmarksSelect<T extends boolean = true> {
-  name?: T;
+  type?: T;
+  json?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -882,13 +871,6 @@ export interface AppsSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

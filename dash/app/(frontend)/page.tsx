@@ -23,7 +23,7 @@ export default async function HomePage() {
           <Image alt='Payload Logo' height={65} src='https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg' width={65} />
         </picture>
         {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
+        {user && <h1>Welcome back, {user.collection === 'users' ? user.email : user.name}</h1>}
         <div className='links'>
           <a className='admin' href={payloadConfig.routes.admin} rel='noopener noreferrer' target='_blank'>
             Go to admin panel
