@@ -15,7 +15,8 @@
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
     "prepublishOnly": "pnpm clean && pnpm build",
-    "test": "dotenvx run -- vitest"
+    "test": "dotenvx run -- vitest",
+    "typecheck": "tsc --noEmit"
   },
   "type": "module",
   "packageManager": "pnpm@9.15.9",

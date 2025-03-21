@@ -35,7 +35,7 @@ export async function validateTypeScript(code: string, options: TypeScriptOption
 
   // Override getSourceFile to use our virtual file system
   compilerHost.getSourceFile = (fileName, languageVersion) => {
-    const sourceText = fileSystem[fileName]
+    const sourceText = fileSystem[fileName as keyof typeof fileSystem]
     if (sourceText !== undefined) {
       return ts.createSourceFile(fileName, sourceText, languageVersion)
     }

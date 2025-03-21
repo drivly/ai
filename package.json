@@ -1,7 +1,14 @@
 {
   "private": true,
   "scripts": {
-    "format": "prettier --write ."
+    "build": "turbo build",
+    "clean": "turbo clean",
+    "dev": "turbo dev --no-cache  --concurrency 16 --continue",
+    "lint": "turbo lint",
+    "prettier-check": "prettier --check \"**/*.{js,ts,tsx,md,mdx}\"",
+    "prettier-fix": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
+    "test": "turbo test",
+    "typecheck": "turbo typecheck"
   },
   "workspaces": [
     "api/*",
@@ -20,5 +27,10 @@
     "semi": false,
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
-  }
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4"
+  },
+  "packageManager": "pnpm@9.15.4"
 }
