@@ -12,19 +12,19 @@ importers:
         specifier: workspace:*
         version: link:data
       '@payloadcms/db-mongodb':
-        specifier: ^3.29.0
+        specifier: ^3.28.1
         version: 3.29.0(@aws-sdk/credential-providers@3.772.0)(payload@3.29.0(graphql@16.10.0)(typescript@5.7.3))
       '@payloadcms/next':
-        specifier: ^3.29.0
+        specifier: ^3.28.1
         version: 3.29.0(@types/react@19.0.10)(graphql@16.10.0)(monaco-editor@0.52.2)(next@15.2.2(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4))(payload@3.29.0(graphql@16.10.0)(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
       '@payloadcms/payload-cloud':
-        specifier: ^3.29.0
+        specifier: ^3.28.1
         version: 3.29.0(payload@3.29.0(graphql@16.10.0)(typescript@5.7.3))
       '@payloadcms/plugin-multi-tenant':
-        specifier: ^3.29.0
+        specifier: ^3.28.1
         version: 3.29.0(@payloadcms/ui@3.29.0(@types/react@19.0.10)(monaco-editor@0.52.2)(next@15.2.2(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4))(payload@3.29.0(graphql@16.10.0)(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3))(next@15.2.2(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4))(payload@3.29.0(graphql@16.10.0)(typescript@5.7.3))
       '@payloadcms/richtext-lexical':
-        specifier: ^3.29.0
+        specifier: ^3.28.1
         version: 3.29.0(@faceless-ui/modal@3.0.0-beta.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@payloadcms/next@3.29.0(@types/react@19.0.10)(graphql@16.10.0)(monaco-editor@0.52.2)(next@15.2.2(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4))(payload@3.29.0(graphql@16.10.0)(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3))(@types/react@19.0.10)(monaco-editor@0.52.2)(next@15.2.2(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4))(payload@3.29.0(graphql@16.10.0)(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)(yjs@13.6.24)
       cross-env:
         specifier: ^7.0.3
@@ -36,7 +36,7 @@ importers:
         specifier: 15.2.2
         version: 15.2.2(@opentelemetry/api@1.9.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4)
       payload:
-        specifier: ^3.29.0
+        specifier: ^3.28.1
         version: 3.29.0(graphql@16.10.0)(typescript@5.7.3)
       react:
         specifier: 19.0.0
@@ -143,7 +143,7 @@ importers:
   data:
     devDependencies:
       payload:
-        specifier: ^3.29.0
+        specifier: ^3.28.1
         version: 3.29.0(graphql@16.10.0)(typescript@5.8.2)
 
   docs:
