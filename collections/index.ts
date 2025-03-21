@@ -12,9 +12,9 @@ import { Datasets } from './evals/Datasets'
 import { Models } from './evals/Models'
 import { Nouns } from './data/Nouns'
 import { Verbs } from './data/Verbs'
-import { Triggers } from './data/Triggers'
-import { Actions } from './data/Actions'
-import { Schemas } from './data/Schemas'
+import { Triggers } from './events/Triggers'
+import { Actions } from './events/Actions'
+import { Types } from './code/Types'
 import { Webhooks } from './admin/Webhooks'
 import { Evals } from './evals/Evals'
 import { EvalsRuns } from './evals/EvalsRuns'
@@ -24,22 +24,24 @@ import { Errors } from './observability/Errors'
 import { Benchmarks } from './evals/Benchmarks'
 import { Experiments } from './evals/Experiments'
 import { Prompts } from './evals/Prompts'
-import { Resources } from './data/Resources'
+import { Things } from './data/Things'
 import { Generations } from './observability/Generations'
+import { Searches } from './events/Searches'
 
 export const collections = [
   Functions,
   Workflows,
   Agents,
+  Nouns,
+  Verbs,
+  Things,
+  Triggers,
+  Searches,
+  Actions,
+  Types,
   Modules,
   Packages,
   Deployments,
-  Nouns,
-  Verbs,
-  Resources,
-  Triggers,
-  Actions,
-  Schemas,
   // Benchmarks,
   Evals,
   Generations,

@@ -3,15 +3,15 @@ import type { CollectionConfig } from 'payload'
 export const Actions: CollectionConfig = {
   slug: 'actions',
   admin: {
-    group: 'Data',
+    group: 'Events',
     useAsTitle: 'verb',
     // useAsTitle: 'function',
   },
   versions: true,
   fields: [
-    { name: 'subject', type: 'relationship', relationTo: 'resources' },
+    { name: 'subject', type: 'relationship', relationTo: 'things' },
     { name: 'verb', type: 'relationship', relationTo: 'functions' },
-    { name: 'object', type: 'relationship', relationTo: 'resources' },
+    { name: 'object', type: 'relationship', relationTo: 'things' },
     // { name: 'input', type: 'relationship', relationTo: 'resources' },
     // { name: 'function', type: 'relationship', relationTo: 'functions' },
     // { name: 'output', type: 'relationship', relationTo: 'resources' },

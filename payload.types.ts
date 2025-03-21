@@ -71,15 +71,16 @@ export interface Config {
     functions: Function;
     workflows: Workflow;
     agents: Agent;
+    nouns: Noun;
+    verbs: Verb;
+    things: Thing;
+    triggers: Trigger;
+    searches: Search;
+    actions: Action;
+    types: Type;
     modules: Module;
     packages: Package;
     deployments: Deployment;
-    nouns: Noun;
-    verbs: Verb;
-    resources: Resource;
-    triggers: Trigger;
-    actions: Action;
-    schemas: Schema;
     evals: Eval;
     generations: Generation;
     experiments: Experiment;
@@ -100,7 +101,7 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
-    resources: {
+    things: {
       subjectOf: 'actions';
       objectOf: 'actions';
     };
@@ -112,15 +113,16 @@ export interface Config {
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
     agents: AgentsSelect<false> | AgentsSelect<true>;
+    nouns: NounsSelect<false> | NounsSelect<true>;
+    verbs: VerbsSelect<false> | VerbsSelect<true>;
+    things: ThingsSelect<false> | ThingsSelect<true>;
+    triggers: TriggersSelect<false> | TriggersSelect<true>;
+    searches: SearchesSelect<false> | SearchesSelect<true>;
+    actions: ActionsSelect<false> | ActionsSelect<true>;
+    types: TypesSelect<false> | TypesSelect<true>;
     modules: ModulesSelect<false> | ModulesSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
-    nouns: NounsSelect<false> | NounsSelect<true>;
-    verbs: VerbsSelect<false> | VerbsSelect<true>;
-    resources: ResourcesSelect<false> | ResourcesSelect<true>;
-    triggers: TriggersSelect<false> | TriggersSelect<true>;
-    actions: ActionsSelect<false> | ActionsSelect<true>;
-    schemas: SchemasSelect<false> | SchemasSelect<true>;
     evals: EvalsSelect<false> | EvalsSelect<true>;
     generations: GenerationsSelect<false> | GenerationsSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
@@ -304,9 +306,9 @@ export interface Verb {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resources".
+ * via the `definition` "things".
  */
-export interface Resource {
+export interface Thing {
   id: string;
   name?: string | null;
   data?:
@@ -337,9 +339,9 @@ export interface Resource {
  */
 export interface Action {
   id: string;
-  subject?: (string | null) | Resource;
+  subject?: (string | null) | Thing;
   verb?: (string | null) | Function;
-  object?: (string | null) | Resource;
+  object?: (string | null) | Thing;
   generation?: {
     docs?: (string | Generation)[];
     hasNextPage?: boolean;
@@ -355,7 +357,7 @@ export interface Action {
 export interface Generation {
   id: string;
   action?: (string | null) | Action;
-  settings?: (string | null) | Resource;
+  settings?: (string | null) | Thing;
   request?:
     | {
         [k: string]: unknown;
@@ -400,13 +402,33 @@ export interface Trigger {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "schemas".
+ * via the `definition` "searches".
  */
-export interface Schema {
+export interface Search {
   id: string;
   name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "types".
+ */
+export interface Type {
+  id: string;
+  name?: string | null;
+  hash?: string | null;
   type?: string | null;
   json?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  schema?:
     | {
         [k: string]: unknown;
       }
@@ -584,6 +606,34 @@ export interface PayloadLockedDocument {
         value: string | Agent;
       } | null)
     | ({
+        relationTo: 'nouns';
+        value: string | Noun;
+      } | null)
+    | ({
+        relationTo: 'verbs';
+        value: string | Verb;
+      } | null)
+    | ({
+        relationTo: 'things';
+        value: string | Thing;
+      } | null)
+    | ({
+        relationTo: 'triggers';
+        value: string | Trigger;
+      } | null)
+    | ({
+        relationTo: 'searches';
+        value: string | Search;
+      } | null)
+    | ({
+        relationTo: 'actions';
+        value: string | Action;
+      } | null)
+    | ({
+        relationTo: 'types';
+        value: string | Type;
+      } | null)
+    | ({
         relationTo: 'modules';
         value: string | Module;
       } | null)
@@ -594,30 +644,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'deployments';
         value: string | Deployment;
-      } | null)
-    | ({
-        relationTo: 'nouns';
-        value: string | Noun;
-      } | null)
-    | ({
-        relationTo: 'verbs';
-        value: string | Verb;
-      } | null)
-    | ({
-        relationTo: 'resources';
-        value: string | Resource;
-      } | null)
-    | ({
-        relationTo: 'triggers';
-        value: string | Trigger;
-      } | null)
-    | ({
-        relationTo: 'actions';
-        value: string | Action;
-      } | null)
-    | ({
-        relationTo: 'schemas';
-        value: string | Schema;
       } | null)
     | ({
         relationTo: 'evals';
@@ -770,6 +796,79 @@ export interface AgentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nouns_select".
+ */
+export interface NounsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "verbs_select".
+ */
+export interface VerbsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "things_select".
+ */
+export interface ThingsSelect<T extends boolean = true> {
+  name?: T;
+  data?: T;
+  subjectOf?: T;
+  objectOf?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "triggers_select".
+ */
+export interface TriggersSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "searches_select".
+ */
+export interface SearchesSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions_select".
+ */
+export interface ActionsSelect<T extends boolean = true> {
+  subject?: T;
+  verb?: T;
+  object?: T;
+  generation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "types_select".
+ */
+export interface TypesSelect<T extends boolean = true> {
+  name?: T;
+  hash?: T;
+  type?: T;
+  json?: T;
+  schema?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "modules_select".
  */
 export interface ModulesSelect<T extends boolean = true> {
@@ -792,68 +891,6 @@ export interface PackagesSelect<T extends boolean = true> {
  */
 export interface DeploymentsSelect<T extends boolean = true> {
   name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "nouns_select".
- */
-export interface NounsSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "verbs_select".
- */
-export interface VerbsSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resources_select".
- */
-export interface ResourcesSelect<T extends boolean = true> {
-  name?: T;
-  data?: T;
-  subjectOf?: T;
-  objectOf?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "triggers_select".
- */
-export interface TriggersSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions_select".
- */
-export interface ActionsSelect<T extends boolean = true> {
-  subject?: T;
-  verb?: T;
-  object?: T;
-  generation?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "schemas_select".
- */
-export interface SchemasSelect<T extends boolean = true> {
-  name?: T;
-  type?: T;
-  json?: T;
   updatedAt?: T;
   createdAt?: T;
 }
