@@ -5,12 +5,10 @@ export const aliases = {
 }
 
 export const websites = {
-  'functions.do': {
-    title: 'Functions',
-    description: 'Typesafe Results without Complexity',
-    headline: 'Functions',
-    subhead: 'Typesafe Results without Complexity',
-  },
+  'functions.do': '',
   'workflows.do': 'workflows',
+  'agents.do': 'agents',
   'llm.do': 'llm',
+  'dotdo.co': '.do | Economically Valuable Work'
 }
+
