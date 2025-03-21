@@ -4,11 +4,11 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
   // Using the new db interface for more concise syntax
   // const functions = await db.functions.find()
 
-  return domain === 'apis.do' ? {
+  return domain !== 'localhost' ? {
     "featured": {
-      "Functions - Typesafe Results without Complexity": "https://functions.do",
-      "Workflows - Reliably Execute Business Processes": "https://workflows.do",
-      "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do"
+      "入 Functions - Typesafe Results without Complexity": "https://functions.do",
+      "巛 Workflows - Reliably Execute Business Processes": "https://workflows.do",
+      "回 Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do"
     },
     "things": {
       "Nouns - People, Places, Things, and Ideas": "https://nouns.do",
@@ -29,9 +29,9 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
     }
   } : {
     featured: {
-      'Functions - Typesafe Results without Complexity': origin + '/functions',
-      'Workflows - Reliably Execute Business Processes': origin + '/workflows',
-      'Agents - Deploy & Manage Autonomous Digital Workers': origin + '/agents',
+      '入 Functions - Typesafe Results without Complexity': origin + '/functions',
+      '巛 Workflows - Reliably Execute Business Processes': origin + '/workflows',
+      '回 Agents - Deploy & Manage Autonomous Digital Workers': origin + '/agents',
     },
     events: {
       'Triggers - Initiate workflows based on events': origin + '/triggers',

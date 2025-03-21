@@ -45,8 +45,16 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       })
 
       // Get auth info
-      const { user, permissions } = await payload.auth(req)
+      const auth = await payload.auth(req)
+      const { permissions } = auth
       // const authPromise = payload.auth(req)
+      const user = auth.user?.collection === 'users' ? { 
+        // name: auth.user.,
+        email: auth.user.email
+      } : {
+        app: auth.user?.name,
+        appId: auth.user?.id,
+      }
 
       const params = await context.params
 
@@ -163,9 +171,7 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
 
 
       // Do not return APIKey in response
-      if (user?.apiKey) {
-        delete user.apiKey
-      }
+
 
       // Convert result to JSON response
       return NextResponse.json({ api: { url: origin + '/api', home: origin, from: 'https://driv.ly' }, ...result, user })
