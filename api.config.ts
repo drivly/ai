@@ -174,7 +174,7 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
 
 
       // Convert result to JSON response
-      return NextResponse.json({ api: { url: origin + '/api', home: origin, from: 'https://driv.ly' }, ...result, user })
+      return NextResponse.json({ api: { url: origin + '/api', home: origin, from: 'https://driv.ly' }, ...result, user }, { headers: { 'content-type': 'application/json; charset=utf-8' }})
     } catch (error) {
       console.error('API Error:', error)
 
