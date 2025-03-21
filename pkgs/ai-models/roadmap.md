@@ -1,6 +1,6 @@
-# AI-Utils Roadmap
+# `ai-models` Roadmap
 
-This roadmap outlines the planned features and considerations for the AI-Utils library, which provides utilities for working with AI SDKs, functions, workflows, observability, and evaluations.
+This roadmap outlines the planned features and considerations for the `ai-models` package, which provides utilities for working with AI SDKs, functions, workflows, observability, and evaluations.
 
 ## Model Identification & Syntax
 
@@ -51,4 +51,4 @@ This roadmap outlines the planned features and considerations for the AI-Utils l
 - [ ] Phase 1: Core model identification and routing
 - [ ] Phase 2: Structured output and basic capabilities
 - [ ] Phase 3: Advanced features and tools integration
-- [ ] Phase 4: Comprehensive evaluation and experimentation framework 
+- [ ] Phase 4: Comprehensive evaluation and experimentation framework
