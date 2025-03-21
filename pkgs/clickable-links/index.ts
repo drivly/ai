@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import punycode from 'punycode'
-import configPromise from 'payload.config'
+import configPromise from '@payload-config'
 import { BasePayload, CollectionSlug, getPayload, SanitizedPermissions } from 'payload'
 
 // Types for our enhanced db operations

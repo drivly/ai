@@ -29,11 +29,9 @@ export const Things: CollectionConfig = {
   hooks: {
     beforeOperation: [
       async (args) => {
-
         if (args.operation === 'create') {
           // TODO: generate sqid and hash
         }
-
 
         if (args.operation === 'update') {
           // const { name, type } = args.data
@@ -41,8 +39,7 @@ export const Things: CollectionConfig = {
           // const hash = murmurhash([name, type])
           // return { sqid, hash }
         }
-        
-      }
-    ]
-  }
+      },
+    ],
+  },
 }
