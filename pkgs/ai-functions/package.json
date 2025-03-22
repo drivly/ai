@@ -1,51 +1,77 @@
 {
-  "name": "@drivly/ai-functions",
-  "version": "0.1.0",
-  "description": "AI functions using Vercel AI SDK",
+  "name": "ai-functions",
+  "version": "0.3.0",
+  "description": "A powerful TypeScript library for building AI-powered applications with template literals and structured outputs",
+  "type": "module",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "ai-functions": "bin/cli.js"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm && tsc --declaration --emitDeclarationOnly --outDir dist",
-    "dev": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs --watch",
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm && tsc --declaration --emitDeclarationOnly --outDir dist",
+    "dev": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm --watch",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "eslint .",
-    "format": "prettier --write ."
+    "lint": "eslint src",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\" \"*.{md,mdx}\"",
+    "prepublishOnly": "pnpm run build",
+    "semantic-release": "semantic-release"
   },
   "keywords": [
     "ai",
+    "openai",
+    "template-literals",
+    "typescript",
+    "structured-output",
     "functions",
     "vercel",
-    "openai"
+    "cli"
   ],
   "author": "Drivly",
   "license": "MIT",
+  "homepage": "https://github.com/drivly/ai#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/drivly/ai.git"
+    "url": "git+https://github.com/drivly/ai.git"
   },
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
-  "homepage": "https://mdx.org.ai",
+  "devDependencies": {
+    "@ai-sdk/provider": "^1.0.2",
+    "@ai-sdk/provider-utils": "^2.0.4",
+    "@ai-sdk/ui-utils": "^1.0.5",
+    "@eslint/js": "^9.17.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@semantic-release/commit-analyzer": "^13.0.0",
+    "@semantic-release/github": "^11.0.1",
+    "@semantic-release/npm": "^12.0.1",
+    "@semantic-release/release-notes-generator": "^14.0.1",
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "dotenv": "^16.4.7",
+    "esbuild": "^0.19.12",
+    "eslint": "^9.17.0",
+    "execa": "^9.5.2",
+    "prettier": "^3.4.2",
+    "semantic-release": "^24.2.0",
+    "typescript": "^5.7.2",
+    "undici": "^7.2.0",
+    "vitest": "^2.1.8",
+    "web-streams-polyfill": "^4.0.0"
+  },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.0",
     "@ai-sdk/openai-compatible": "^0.2.0",
-    "ai": "^2.2.37",
-    "zod": "^3.22.4"
-  },
-  "devDependencies": {
-    "esbuild": "^0.19.12",
-    "execa": "^9.5.2",
-    "tsup": "^6.7.0",
-    "typescript": "^5.0.4",
-    "vitest": "^0.34.1"
-  },
-  "peerDependencies": {
-    "typescript": ">=5.0.0"
-  },
-  "engines": {
-    "node": ">=18"
+    "ai": "^4.0.20",
+    "p-queue": "^8.0.1",
+    "zod": "^3.24.1"
   }
 }

@@ -1,6 +1,7 @@
 packages:
   - 'api/*'
   - 'docs'
+  - 'collections'
   - 'data'
   - 'dash'
   - 'pkgs/*'

@@ -1,0 +1,33 @@
+{
+  "name": "@ai-primitives/ai-models",
+  "version": "0.2.0",
+  "description": "AI model abstractions",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "dotenvx run -- npx tsx watch src/demo.ts",
+    "build": "rm -rf dist && tsc",
+    "generate:models": "npx tsx build/build-models.ts",
+    "clean": "rm -rf dist",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "pnpm clean && pnpm build",
+    "test": "dotenvx run -- vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "packageManager": "pnpm@10.6.5",
+  "devDependencies": {
+    "typescript": "^5.8.2",
+    "@types/node": "^22.13.10",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "@types/node": "^22.13.10",
+    "camelcase": "^8.0.0",
+    "vitest": "^3.0.9"
+  }
+}
