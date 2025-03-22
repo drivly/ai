@@ -21,6 +21,10 @@
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
+    "@ai-sdk/anthropic": "^1.2.0",
+    "@ai-sdk/google": "^1.2.1",
+    "@ai-sdk/openai": "^1.0.10",
+    "@drivly/ai-providers": "workspace:*",
     "@payloadcms/db-mongodb": "^3.28.1",
     "@payloadcms/next": "^3.28.1",
     "@payloadcms/payload-cloud": "^3.28.1",
