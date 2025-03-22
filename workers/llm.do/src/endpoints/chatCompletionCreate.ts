@@ -1,7 +1,8 @@
 import { OpenAPIRoute } from 'chanfana'
 import { fetchFromProvider } from 'providers/openRouter'
 import { AuthHeader, ChatCompletionRequest, ChatCompletionResponse } from '../types'
-import { parse } from '@ai-primitives/ai-models'
+import { models } from '@drivly/ai-providers'
+import { parse } from '@drivly/ai-models'
 
 export class ChatCompletionCreate extends OpenAPIRoute {
   schema = {
@@ -33,8 +34,12 @@ export class ChatCompletionCreate extends OpenAPIRoute {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
 
-    // Model router
-    const { model, author, provider, capabilities } = parse(request.body.model || '')
+    // Get the appropriate model using the ai-providers package
+    const modelId = request.body.model || 'gpt-3.5-turbo'
+    const model = models(modelId)
+    
+    // Parse model information for routing
+    const { author, provider, capabilities } = parse(modelId)
     request.body.model = (provider && author ? `${provider}/${author}/${model}` : `${author ? author + '/' : ''}${model}`) + (capabilities ? `:${capabilities.join(',')}` : '')
 
     // Pass request to OpenRouter
