@@ -1,5 +1,5 @@
 {
-  "name": "@drivly/ai-models",
+  "name": "ai-models",
   "version": "0.2.0",
   "description": "AI model abstractions",
   "main": "./dist/index.js",

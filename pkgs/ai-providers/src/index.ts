@@ -15,7 +15,7 @@ const router = new ProviderRouter();
  * 
  * @example
  * ```ts
- * import { models } from '@drivly/ai-providers';
+ * import { models } from 'ai-providers';
  * import { generateText } from 'ai';
  * 
  * const model = models('gpt-4.5-preview');

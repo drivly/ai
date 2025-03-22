@@ -1,7 +1,7 @@
 import { OpenAPIRoute } from 'chanfana'
 import { fetchFromProvider } from 'providers/openRouter'
 import { AuthHeader, ChatCompletionRequest, ChatCompletionResponse } from '../types'
-import { models } from '@drivly/ai-providers'
+import { models } from 'ai-providers'
 import { generateText } from 'ai'
 
 export class ChatCompletionCreate extends OpenAPIRoute {

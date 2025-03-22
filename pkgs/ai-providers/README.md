@@ -1,7 +1,7 @@
-# @drivly/ai-providers
+# ai-providers
 
-[![npm version](https://img.shields.io/npm/v/@drivly/ai-providers.svg)](https://www.npmjs.com/package/@drivly/ai-providers)
-[![license](https://img.shields.io/npm/l/@drivly/ai-providers.svg)](https://github.com/drivly/ai/blob/main/pkgs/ai-providers/LICENSE)
+[![npm version](https://img.shields.io/npm/v/ai-providers.svg)](https://www.npmjs.com/package/ai-providers)
+[![license](https://img.shields.io/npm/l/ai-providers.svg)](https://github.com/drivly/ai/blob/main/pkgs/ai-providers/LICENSE)
 
 Provider router for AI models including OpenAI, Anthropic, and Google. Compatible with Vercel AI SDK.
 
@@ -15,7 +15,7 @@ Provider router for AI models including OpenAI, Anthropic, and Google. Compatibl
 ## Usage
 
 ```ts
-import { models } from '@drivly/ai-providers';
+import { models } from 'ai-providers';
 import { generateText } from 'ai';
 
 // Get a model and use with Vercel AI SDK

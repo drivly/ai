@@ -9,8 +9,8 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@drivly/ai-models": "workspace:*",
-    "@drivly/ai-providers": "workspace:*",
+    "ai-models": "workspace:*",
+    "ai-providers": "workspace:*",
     "ai": "^2.2.37",
     "chanfana": "^2.7.2",
     "hono": "^4.7.5",

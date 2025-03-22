@@ -1,4 +1,4 @@
-# @drivly/ai-models
+# ai-models
 
 Capability and priority-based model selection for AI SDKs.
 
@@ -13,17 +13,17 @@ Capability and priority-based model selection for AI SDKs.
 ## Installation
 
 ```bash
-npm install @drivly/ai-models
+npm install ai-models
 # or
-pnpm add @drivly/ai-models
+pnpm add ai-models
 # or
-yarn add @drivly/ai-models
+yarn add ai-models
 ```
 
 ## Usage
 
 ```ts
-import { getModel, parse } from '@drivly/ai-models'
+import { getModel, parse } from 'ai-models'
 
 // Select a model by name
 const model = getModel('gpt-4o')

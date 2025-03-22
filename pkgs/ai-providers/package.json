@@ -1,5 +1,5 @@
 {
-  "name": "@drivly/ai-providers",
+  "name": "ai-providers",
   "version": "0.2.0",
   "description": "Provider router for AI models including OpenAI, Anthropic, and Google",
   "main": "./dist/index.js",
