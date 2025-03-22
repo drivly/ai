@@ -8,7 +8,7 @@ import React from 'react'
 
 import { importMap } from './admin/importMap.js'
 import './custom.scss'
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from '@vercel/analytics/react'
 // import { SpeedInsights } from "@vercel/speed-insights/next"
 
 type Args = {

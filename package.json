@@ -17,7 +17,8 @@
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "lint:turbo": "turbo lint",
     "test:turbo": "turbo test",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "format": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\""
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",

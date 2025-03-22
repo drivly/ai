@@ -38,19 +38,18 @@ console.log(storyBrand)
 //     villain: 'Legacy infrastructure constraints and technical debt'
 //   },
 //   guide: 'AWS positions itself as an experienced guide with unparalleled expertise in cloud solutions',
-//   plan: ['Start with a free tier to explore services', 
-//          'Consult with AWS solutions architects', 
-//          'Implement scalable infrastructure based on business needs', 
+//   plan: ['Start with a free tier to explore services',
+//          'Consult with AWS solutions architects',
+//          'Implement scalable infrastructure based on business needs',
 //          'Optimize costs with pay-as-you-go model'],
 //   callToAction: 'Sign up for AWS Free Tier today',
 //   success: 'Businesses innovate faster, reduce costs, and scale globally without infrastructure limitations',
 //   failure: 'Companies struggle with outdated infrastructure, higher costs, and inability to compete in the digital economy',
-//   messagingExamples: ['Build on the broadest and deepest cloud platform', 
-//                       'Innovate faster with the right tools for every workload', 
+//   messagingExamples: ['Build on the broadest and deepest cloud platform',
+//                       'Innovate faster with the right tools for every workload',
 //                       'Pay only for what you use with no upfront costs']
 // }
 ```
-
 
 ```typescript
 import { ai } from 'functions.do'

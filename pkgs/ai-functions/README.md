@@ -33,7 +33,9 @@ const text = await ai`Write a short story about a robot`
 const items = await list`List 5 programming languages`
 
 // Generate markdown content
-const markdown = await markdown`Create a README for a TypeScript library`
+const markdown = await markdown`
+Create a README for a TypeScript library
+`
 ```
 
 ### Dynamic Function Calls
@@ -44,14 +46,14 @@ import { ai } from '@drivly/ai-functions'
 // Call any function name with parameters
 const categories = await ai.categorizeProduct({
   name: 'Product name',
-  description: 'Product description'
+  description: 'Product description',
 })
 
 // Parameters are used to generate a schema for validation
 const blogPost = await ai.writeBlogPost({
   title: 'Blog post title',
   keywords: 'comma, separated, keywords',
-  tone: 'professional'
+  tone: 'professional',
 })
 ```
 
@@ -65,13 +67,13 @@ import { z } from 'zod'
 const schema = z.object({
   title: z.string(),
   content: z.string(),
-  tags: z.array(z.string())
+  tags: z.array(z.string()),
 })
 
 // Generate content with schema validation
 const post = await ai`Write a blog post about AI`({
   schema,
-  temperature: 0.7
+  temperature: 0.7,
 })
 ```
 
@@ -84,7 +86,7 @@ import { ai } from '@drivly/ai-functions'
 const text = await ai`Write a poem about the ocean`({
   model: 'gpt-4o',
   temperature: 0.9,
-  maxTokens: 500
+  maxTokens: 500,
 })
 ```
 

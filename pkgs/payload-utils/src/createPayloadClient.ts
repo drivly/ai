@@ -1,4 +1,4 @@
-import { CollectionData, CollectionQuery, PayloadDB } from './types';
+import { CollectionData, CollectionQuery, PayloadDB } from './types'
 
 /**
  * Creates a proxy object for more concise collection operations
@@ -11,14 +11,14 @@ export const createPayloadClient = (payload: any): PayloadDB => {
     {
       get: (target, collectionName) => {
         // Ensure prop is a string (collection name)
-        const collection = String(collectionName);
+        const collection = String(collectionName)
 
         // Return a proxy for the collection operations
         return new Proxy(
           {},
           {
             get: (_, method) => {
-              const methodName = String(method);
+              const methodName = String(method)
 
               // Map common methods to payload collection operations
               switch (methodName) {
@@ -27,7 +27,7 @@ export const createPayloadClient = (payload: any): PayloadDB => {
                     payload.find({
                       collection,
                       ...query,
-                    });
+                    })
 
                 case 'findOne':
                   return (query: CollectionQuery = {}) =>
@@ -37,7 +37,7 @@ export const createPayloadClient = (payload: any): PayloadDB => {
                         limit: 1,
                         ...query,
                       })
-                      .then((result: any) => result.docs?.[0] || null);
+                      .then((result: any) => result.docs?.[0] || null)
 
                 case 'get':
                 case 'findById':
@@ -47,7 +47,7 @@ export const createPayloadClient = (payload: any): PayloadDB => {
                       collection,
                       id,
                       ...query,
-                    });
+                    })
 
                 case 'create':
                   return (data: CollectionData, query: CollectionQuery = {}) =>
@@ -55,7 +55,7 @@ export const createPayloadClient = (payload: any): PayloadDB => {
                       collection,
                       data,
                       ...query,
-                    });
+                    })
 
                 case 'update':
                   return (id: string, data: CollectionData, query: CollectionQuery = {}) =>
@@ -64,7 +64,7 @@ export const createPayloadClient = (payload: any): PayloadDB => {
                       id,
                       data,
                       ...query,
-                    });
+                    })
 
                 case 'upsert':
                 case 'set':
@@ -74,7 +74,7 @@ export const createPayloadClient = (payload: any): PayloadDB => {
                       where: { id: { equals: id } },
                       data,
                       ...query,
-                    });
+                    })
 
                 case 'delete':
                   return (id: string, query: CollectionQuery = {}) =>
@@ -82,15 +82,15 @@ export const createPayloadClient = (payload: any): PayloadDB => {
                       collection,
                       id,
                       ...query,
-                    });
+                    })
 
                 default:
-                  throw new Error(`Method ${methodName} not implemented for collection ${collection}`);
+                  throw new Error(`Method ${methodName} not implemented for collection ${collection}`)
               }
             },
           },
-        );
+        )
       },
     },
-  ) as PayloadDB;
-};
+  ) as PayloadDB
+}

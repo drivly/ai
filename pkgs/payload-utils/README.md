@@ -17,41 +17,41 @@ yarn add @ai-primitives/payload-utils
 ### NextJS
 
 ```typescript
-import { API } from '@ai-primitives/payload-utils';
-import { getPayload } from 'payload';
-import configPromise from 'payload.config';
+import { API } from '@ai-primitives/payload-utils'
+import { getPayload } from 'payload'
+import configPromise from 'payload.config'
 
 export const handler = API(getPayload, configPromise, async (req, ctx) => {
   // Access the enhanced context
-  const { db, user, params } = ctx;
+  const { db, user, params } = ctx
 
   // Use the db proxy for easy collection access
-  const items = await db.items.find({ limit: 10 });
+  const items = await db.items.find({ limit: 10 })
 
-  return { items };
-});
+  return { items }
+})
 ```
 
 ### Cloudflare Workers
 
 ```typescript
-import { createCloudflareApiHandler } from '@ai-primitives/payload-utils';
-import { getPayload } from 'payload';
-import configPromise from 'payload.config';
+import { createCloudflareApiHandler } from '@ai-primitives/payload-utils'
+import { getPayload } from 'payload'
+import configPromise from 'payload.config'
 
 const handler = createCloudflareApiHandler(getPayload, configPromise, async (req, ctx) => {
   // Access the enhanced context
-  const { db, user, params } = ctx;
+  const { db, user, params } = ctx
 
   // Use the db proxy for easy collection access
-  const items = await db.items.find({ limit: 10 });
+  const items = await db.items.find({ limit: 10 })
 
-  return { items };
-});
+  return { items }
+})
 
 export default {
   fetch: (request) => handler(request, {}),
-};
+}
 ```
 
 ## Features

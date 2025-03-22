@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { ApiHandler } from '../types';
-import { createApiHandler } from '../createApiHandler';
+import { NextRequest, NextResponse } from 'next/server'
+import { ApiHandler } from '../types'
+import { createApiHandler } from '../createApiHandler'
 
 /**
  * Creates an API handler compatible with NextJS
@@ -9,17 +9,13 @@ import { createApiHandler } from '../createApiHandler';
  * @param handler - The API handler function
  * @returns NextJS-compatible handler
  */
-export const createNextApiHandler = <T = any>(
-  getPayload: (options: any) => Promise<any>,
-  configPromise: any,
-  handler: ApiHandler<T>
-) => {
-  const apiHandler = createApiHandler(getPayload, configPromise, handler);
-  
+export const createNextApiHandler = <T = any>(getPayload: (options: any) => Promise<any>, configPromise: any, handler: ApiHandler<T>) => {
+  const apiHandler = createApiHandler(getPayload, configPromise, handler)
+
   return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
-    const params = await context.params;
-    const result = await apiHandler(req, params);
-    
+    const params = await context.params
+    const result = await apiHandler(req, params)
+
     return NextResponse.json(
       {
         api: {
@@ -37,7 +33,7 @@ export const createNextApiHandler = <T = any>(
         ...result,
         user: {},
       },
-      { headers: { 'content-type': 'application/json; charset=utf-8' } }
-    );
-  };
-};
+      { headers: { 'content-type': 'application/json; charset=utf-8' } },
+    )
+  }
+}
