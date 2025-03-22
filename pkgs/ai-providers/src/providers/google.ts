@@ -1,38 +1,30 @@
-import { Provider, ProviderRequestOptions, ProviderResponse } from '../types';
+import { Provider } from '../types';
+import { google, createGoogleGenerativeAI } from '@ai-sdk/google';
 
 export class GoogleProvider implements Provider {
   id = 'google';
   name = 'Google AI';
   
-  async generateText(options: ProviderRequestOptions): Promise<ProviderResponse> {
-    const { model, prompt, apiKey } = options;
+  // Get a model instance compatible with Vercel AI SDK
+  getModel(modelId: string, apiKey?: string) {
+    // Use the default provider or create a custom one with API key
+    if (apiKey) {
+      const customProvider = createGoogleGenerativeAI({
+        apiKey: apiKey,
+      });
+      return customProvider(modelId);
+    }
     
-    // This would be a real implementation using the Google AI API
-    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/' + model + ':generateContent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': apiKey as string,
-      },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-      }),
-    }).then(res => res.json());
-    
-    return {
-      text: response.candidates[0].content.parts[0].text,
-      model,
-      // Google doesn't provide usage info in the same format
-      usage: {
-        promptTokens: 0,
-        completionTokens: 0,
-        totalTokens: 0,
-      },
-    };
+    // Use the default provider
+    return google(modelId);
   }
   
   supportsModel(model: string): boolean {
-    const googleModels = ['gemini-pro', 'gemini-ultra', 'palm'];
+    const googleModels = [
+      'gemini-pro', 'gemini-ultra', 
+      'gemini-1.5-pro', 'gemini-1.5-flash',
+      'gemini-1.5-pro-latest', 'gemini-1.5-flash-latest'
+    ];
     return googleModels.some(m => model.includes(m));
   }
 }

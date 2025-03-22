@@ -3,29 +3,34 @@
 [![npm version](https://img.shields.io/npm/v/@drivly/ai-providers.svg)](https://www.npmjs.com/package/@drivly/ai-providers)
 [![license](https://img.shields.io/npm/l/@drivly/ai-providers.svg)](https://github.com/drivly/ai/blob/main/pkgs/ai-providers/LICENSE)
 
-Provider router for AI models including OpenAI, Anthropic, and Google.
+Provider router for AI models including OpenAI, Anthropic, and Google. Compatible with Vercel AI SDK.
 
 ## Features
 
 - Route requests to appropriate providers based on model name
 - Support for OpenAI, Anthropic, and Google
 - Fallback to OpenAI-compatible proxies (LLM.do, OpenRouter)
-- Works with `@drivly/ai-models` for capability-based selection
+- Fully compatible with Vercel AI SDK
 
 ## Usage
 
 ```ts
 import { models } from '@drivly/ai-providers';
+import { generateText } from 'ai';
 
-// Direct usage
-const result = await models.generateText({
-  model: 'gpt-4.5-preview',
-  prompt: 'Write a blog post about the future of work',
+// Get a model and use with Vercel AI SDK
+const model = models('gpt-4.5-preview');
+const result = await generateText({ 
+  model, 
+  prompt: 'Write a blog post about the future of work'
 });
 
-// Get model instance
-const model = models.get('gpt-4.5-preview');
-const result = await model.generateText('Write a blog post about the future of work');
+// Use with different providers
+const claudeModel = models('claude-3-opus');
+const claudeResult = await generateText({
+  model: claudeModel,
+  prompt: 'Write a blog post about the future of work'
+});
 ```
 
 ## Provider Support
@@ -39,4 +44,4 @@ The package includes support for the following providers:
 
 ## Dependencies
 
-This package depends on `@drivly/ai-models` and requires Node.js 18 or higher.
+This package requires the Vercel AI SDK (`ai`) and the provider packages (`@ai-sdk/openai`, `@ai-sdk/anthropic`, `@ai-sdk/google`). It requires Node.js 18 or higher.

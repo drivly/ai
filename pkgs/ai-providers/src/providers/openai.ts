@@ -1,34 +1,22 @@
-import { Provider, ProviderRequestOptions, ProviderResponse } from '../types';
+import { Provider } from '../types';
+import { openai, createOpenAI } from '@ai-sdk/openai';
 
 export class OpenAIProvider implements Provider {
   id = 'openai';
   name = 'OpenAI';
   
-  async generateText(options: ProviderRequestOptions): Promise<ProviderResponse> {
-    const { model, prompt, apiKey } = options;
+  // Get a model instance compatible with Vercel AI SDK
+  getModel(modelId: string, apiKey?: string) {
+    // Use the default provider or create a custom one with API key
+    if (apiKey) {
+      const customProvider = createOpenAI({
+        apiKey: apiKey,
+      });
+      return customProvider(modelId);
+    }
     
-    // This would be a real implementation using the OpenAI API
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    }).then(res => res.json());
-    
-    return {
-      text: response.choices[0].message.content,
-      model,
-      usage: {
-        promptTokens: response.usage.prompt_tokens,
-        completionTokens: response.usage.completion_tokens,
-        totalTokens: response.usage.total_tokens,
-      },
-    };
+    // Use the default provider
+    return openai(modelId);
   }
   
   supportsModel(model: string): boolean {

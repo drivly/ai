@@ -1,37 +1,22 @@
-import { Provider, ProviderRequestOptions, ProviderResponse } from '../types';
+import { Provider } from '../types';
+import { anthropic, createAnthropic } from '@ai-sdk/anthropic';
 
 export class AnthropicProvider implements Provider {
   id = 'anthropic';
   name = 'Anthropic';
   
-  async generateText(options: ProviderRequestOptions): Promise<ProviderResponse> {
-    const { model, prompt, apiKey } = options;
+  // Get a model instance compatible with Vercel AI SDK
+  getModel(modelId: string, apiKey?: string) {
+    // Use the default provider or create a custom one with API key
+    if (apiKey) {
+      const customProvider = createAnthropic({
+        apiKey: apiKey,
+      });
+      return customProvider(modelId);
+    }
     
-    // This would be a real implementation using the Anthropic API
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey as string,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model,
-        messages: [{ role: 'user', content: prompt }],
-        max_tokens: 1024,
-      }),
-    }).then(res => res.json());
-    
-    return {
-      text: response.content[0].text,
-      model,
-      // Anthropic doesn't provide usage info in the same format
-      usage: {
-        promptTokens: 0,
-        completionTokens: 0,
-        totalTokens: 0,
-      },
-    };
+    // Use the default provider
+    return anthropic(modelId);
   }
   
   supportsModel(model: string): boolean {

@@ -1,24 +1,8 @@
-export interface ProviderRequestOptions {
-  model: string;
-  prompt: string;
-  apiKey?: string;
-  [key: string]: any;
-}
-
-export interface ProviderResponse {
-  text: string;
-  model: string;
-  usage?: {
-    promptTokens: number;
-    completionTokens: number;
-    totalTokens: number;
-  };
-  [key: string]: any;
-}
+import { LanguageModelV1 } from 'ai';
 
 export interface Provider {
   id: string;
   name: string;
-  generateText(options: ProviderRequestOptions): Promise<ProviderResponse>;
+  getModel(modelId: string, apiKey?: string): LanguageModelV1;
   supportsModel(model: string): boolean;
 }

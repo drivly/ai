@@ -1,4 +1,5 @@
 import { ProviderRouter } from './providerRouter';
+import { generateText as aiGenerateText } from 'ai';
 export * from './types';
 export * from './providers/openai';
 export * from './providers/anthropic';
@@ -9,31 +10,14 @@ export * from './providerRouter';
 // Create singleton instance for easy import
 const router = new ProviderRouter();
 
-export const models = {
-  /**
-   * Get a model instance that routes to the appropriate provider
-   */
-  get: (modelId: string) => {
-    const provider = router.getProviderForModel(modelId);
-    return {
-      generateText: (prompt: string, options: any = {}) => {
-        return router.generateText({
-          model: modelId,
-          prompt,
-          ...options,
-        });
-      },
-    };
-  },
+/**
+ * Get a model instance that routes to the appropriate provider
+ * Compatible with Vercel AI SDK
+ */
+export const models = (modelId: string) => {
+  const provider = router.getProviderForModel(modelId);
+  const model = provider.getModel(modelId);
   
-  /**
-   * Generate text with a model
-   */
-  generateText: async (options: { 
-    model: string; 
-    prompt: string; 
-    [key: string]: any 
-  }) => {
-    return router.generateText(options);
-  },
+  // Return the model directly for use with Vercel AI SDK
+  return model;
 };
