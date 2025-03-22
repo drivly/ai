@@ -18,135 +18,167 @@
    - Risks: [Potential issues]
    - Quality Standards: [Requirements to meet]
 
-## Implementation Plan
-1. [Specific step 1]
-   - Detailed implementation content
-   - Expected challenges and countermeasures
-2. [Specific step 2]
-   ...
-Comprehensive Implementation and Verification
-Execute file operations and related processes in optimized complete sequences
-Continuously verify against quality standards throughout implementation
-Address issues promptly with integrated solutions
-Execute processes only within the scope of instructions, without adding extra features or operations
-Continuous Feedback
-Regularly report implementation progress
-Confirm at critical decision points
-Promptly report issues with proposed solutions
-Technology Stack and Constraints
-Core Technologies
-TypeScript: ^5.7.3
-Node.js: ^18.20.2 || >=20.9.0
-Package Manager: pnpm ^9 || ^10
-Frontend
-Next.js: ^15.2.2
-React: ^19.0.0
-React DOM: ^19.0.0
-Backend
-Payload CMS: ^3.28.1
-MongoDB (via @payloadcms/db-mongodb): latest
-Cloudflare Workers (for APIs)
-Hono: ^4.7.4
-Zod: ^3.24.2
-Development Tools
-ESLint: ^9.16.0
-Prettier: ^3.4.2
-TypeScript: ^5.7.3
-Wrangler: ^4.2.0
-Quality Management Protocol
-1. Code Quality
-Strict TypeScript type checking
-Full compliance with ESLint rules
-Consistent code formatting using Prettier
-Follow Conventional Commits specification
-Adhere to the project's naming conventions
-2. Performance
-Prevention of unnecessary re-rendering in React components
-Efficient data fetching
-Bundle size optimization
-Optimize Cloudflare Workers for edge performance
-3. Security
-Strict input validation using Zod
-Appropriate error handling
-Secure management of sensitive information
-Follow best practices for API security
-4. UI/UX
-Responsive design
-Accessibility compliance
-Consistent design system
-Clear and intuitive user interfaces
-Project Structure Convention
-CopyInsert
+   ## Implementation Plan
+   1. [Specific step 1]
+      - Detailed implementation content
+      - Expected challenges and countermeasures
+   2. [Specific step 2]
+      ...
+   ```
+
+3. **Comprehensive Implementation and Verification**
+   - Execute file operations and related processes in optimized complete sequences
+   - Continuously verify against quality standards throughout implementation
+   - Address issues promptly with integrated solutions
+   - Execute processes only within the scope of instructions, without adding extra features or operations
+
+4. **Continuous Feedback**
+   - Regularly report implementation progress
+   - Confirm at critical decision points
+   - Promptly report issues with proposed solutions
+
+## Technology Stack and Constraints
+
+### Core Technologies
+- TypeScript: ^5.7.3
+- Node.js: ^18.20.2 || >=20.9.0
+- Package Manager: pnpm ^9 || ^10
+
+### Frontend
+- Next.js: ^15.2.2
+- React: ^19.0.0
+- React DOM: ^19.0.0
+
+### Backend
+- Payload CMS: ^3.28.1
+- MongoDB (via @payloadcms/db-mongodb): latest
+- Cloudflare Workers (for APIs)
+- Hono: ^4.7.4
+- Zod: ^3.24.2
+
+### Development Tools
+- ESLint: ^9.16.0
+- Prettier: ^3.4.2
+- TypeScript: ^5.7.3
+- Wrangler: ^4.2.0
+## Quality Management Protocol
+
+### 1. Code Quality
+- Strict TypeScript type checking
+- Full compliance with ESLint rules
+- Consistent code formatting using Prettier
+- Follow Conventional Commits specification
+- Adhere to the project's naming conventions
+
+### 2. Performance
+- Prevention of unnecessary re-rendering in React components
+- Efficient data fetching
+- Bundle size optimization
+- Optimize Cloudflare Workers for edge performance
+
+### 3. Security
+- Strict input validation using Zod
+- Appropriate error handling
+- Secure management of sensitive information
+- Follow best practices for API security
+
+### 4. UI/UX
+- Responsive design
+- Accessibility compliance
+- Consistent design system
+- Clear and intuitive user interfaces
+## Project Structure Convention
+
+```
 ai/
-├── apis/                 # API implementations (Cloudflare Workers)
-│   └── llm.do/           # LLM routing API
-├── backend/              # Backend services (Payload CMS)
-├── database/             # Database utilities
-├── docs/                 # Documentation
-├── packages/             # Shared packages
+├── api/                  # API implementations for various services
+├── app/                  # Next.js application components and routes
+├── collections/          # Payload CMS collections
+├── components/           # Shared UI components
+├── content/              # Content files and resources
+├── examples/             # Example implementations and usage
+├── lib/                  # Shared library code and utilities
+├── pkgs/                 # Shared packages and libraries
 ├── sdks/                 # Software Development Kits
 ├── tests/                # Test suites
-├── websites/             # Web applications
+├── websites/             # Web applications and interfaces
+├── workers/              # Cloudflare Workers implementations
 └── workflows/            # Workflow definitions
-Important Constraints
-Monorepo Structure
-Respect the monorepo architecture using pnpm workspaces
-Place new code in the appropriate directory based on its purpose
-Follow the naming conventions outlined in CONTRIBUTING.md
-Code Style
-Single quotes
-No semicolons
-Trailing commas
-180 character line width
-JSX uses single quotes
-JSX brackets on the same line
-Naming Conventions
-Use kebab-case for file names
-Use camelCase for variables and function names
-Use PascalCase for React components and their filenames
-Use UPPER_SNAKE_CASE for constants
-Implementation Process
-1. Initial Analysis Phase
-markdown
-CopyInsert
+```
+
+## Important Constraints
+
+### Monorepo Structure
+- Respect the monorepo architecture using pnpm workspaces
+- Place new code in the appropriate directory based on its purpose
+- Follow the naming conventions outlined in CONTRIBUTING.md
+
+### Code Style
+- Single quotes
+- No semicolons
+- Trailing commas
+- 180 character line width
+- JSX uses single quotes
+- JSX brackets on the same line
+
+### Naming Conventions
+- Use kebab-case for file names
+- Use camelCase for variables and function names
+- Use PascalCase for React components and their filenames
+- Use UPPER_SNAKE_CASE for constants
+## Implementation Process
+
+### 1. Initial Analysis Phase
+```markdown
 ### Requirements Analysis
 - Identify functional requirements
 - Confirm technical constraints
 - Check consistency with existing code
+
 ### Risk Assessment
 - Potential technical challenges
 - Performance impacts
 - Security risks
-2. Implementation Phase
-Integrated implementation approach
-Continuous verification
-Maintenance of code quality
-Follow the project's established patterns
-3. Verification Phase
-Unit testing
-Integration testing
-Performance testing
-Ensure compatibility with the rest of the system
-4. Final Confirmation
-Consistency with requirements
-Code quality
-Documentation completeness
-Adherence to project standards
-Error Handling Protocol
-Problem Identification
-Error message analysis
-Impact scope identification
-Root cause isolation
-Solution Development
-Evaluation of multiple approaches
-Risk assessment
-Optimal solution selection
-Implementation and Verification
-Solution implementation
-Verification through testing
-Side effect confirmation
-Documentation
-Record of problem and solution
-Preventive measure proposals
-Sharing of learning points
+```
+
+### 2. Implementation Phase
+- Integrated implementation approach
+- Continuous verification
+- Maintenance of code quality
+- Follow the project's established patterns
+
+### 3. Verification Phase
+- Unit testing
+- Integration testing
+- Performance testing
+- Ensure compatibility with the rest of the system
+
+### 4. Final Confirmation
+- Consistency with requirements
+- Code quality
+- Documentation completeness
+- Adherence to project standards
+
+## Error Handling Protocol
+
+### Problem Identification
+- Error message analysis
+- Impact scope identification
+- Root cause isolation
+
+### Solution Development
+- Evaluation of multiple approaches
+- Risk assessment
+- Optimal solution selection
+
+### Implementation and Verification
+- Solution implementation
+- Verification through testing
+- Side effect confirmation
+
+### Documentation
+- Record of problem and solution
+- Preventive measure proposals
+- Sharing of learning points
+
 I will follow these instructions to deliver high-quality implementations. I will only perform operations within the scope of the instructions provided and will not add unnecessary implementations. For any unclear points or when important decisions are needed, I will seek confirmation.

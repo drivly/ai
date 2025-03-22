@@ -15,13 +15,17 @@ This repository contains a collection of AI primitives for building enterprise-g
 ## Directory Structure
 
 - `/api/`: API implementations for various services (agents.do, functions.do, workflows.do, etc.)
-- `/dash/`: Dashboard application
-- `/data/`: Data management and storage
-- `/docs/`: Documentation
+- `/app/`: Next.js application components and routes
+- `/collections/`: Payload CMS collections
+- `/components/`: Shared UI components
+- `/content/`: Content files and resources
+- `/examples/`: Example implementations and usage
+- `/lib/`: Shared library code and utilities
 - `/pkgs/`: Shared packages and libraries
 - `/sdks/`: Software Development Kits
 - `/tests/`: Test files (unit, integration, E2E)
-- `/web/`: Web applications and interfaces
+- `/websites/`: Web applications and interfaces
+- `/workers/`: Cloudflare Workers implementations
 - `/workflows/`: Workflow definitions and implementations
 
 ## Development Guidelines
