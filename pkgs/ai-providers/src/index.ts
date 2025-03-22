@@ -1,5 +1,4 @@
 import { ProviderRouter } from './providerRouter';
-import { generateText as aiGenerateText } from 'ai';
 export * from './types';
 export * from './providers/openai';
 export * from './providers/anthropic';
@@ -13,6 +12,15 @@ const router = new ProviderRouter();
 /**
  * Get a model instance that routes to the appropriate provider
  * Compatible with Vercel AI SDK
+ * 
+ * @example
+ * ```ts
+ * import { models } from '@drivly/ai-providers';
+ * import { generateText } from 'ai';
+ * 
+ * const model = models('gpt-4.5-preview');
+ * const result = await generateText({ model, prompt: 'Write a blog post about the future of work' });
+ * ```
  */
 export const models = (modelId: string) => {
   const provider = router.getProviderForModel(modelId);
