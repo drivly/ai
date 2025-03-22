@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
+    "ai-providers": "workspace:*",
     "@payloadcms/db-mongodb": "^3.28.1",
     "@payloadcms/next": "^3.28.1",
     "@payloadcms/payload-cloud": "^3.28.1",
