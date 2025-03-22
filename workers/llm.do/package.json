@@ -9,7 +9,9 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "@ai-primitives/ai-models": "workspace:*",
+    "ai-models": "workspace:*",
+    "ai-providers": "workspace:*",
+    "ai": "^2.2.37",
     "chanfana": "^2.7.2",
     "hono": "^4.7.5",
     "zod": "^3.24.2"
