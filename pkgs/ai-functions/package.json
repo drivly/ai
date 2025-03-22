@@ -6,7 +6,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm",
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm && tsc --declaration --emitDeclarationOnly --outDir dist",
     "dev": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs --watch",
     "test": "vitest run",
     "test:watch": "vitest",
