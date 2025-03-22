@@ -1,10 +1,13 @@
+import { anthropic } from '@ai-sdk/anthropic';
+
 export class AnthropicProvider {
   id = 'anthropic';
   name = 'Anthropic';
   
   // Get a model instance compatible with Vercel AI SDK
   getModel(modelId: string, apiKey?: string) {
-    return { id: modelId, provider: this.id };
+    // Create a provider instance with the specified model
+    return anthropic(modelId);
   }
   
   supportsModel(model: string): boolean {

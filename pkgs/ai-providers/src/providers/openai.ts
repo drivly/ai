@@ -1,10 +1,13 @@
+import { openai } from '@ai-sdk/openai';
+
 export class OpenAIProvider {
   id = 'openai';
   name = 'OpenAI';
   
   // Get a model instance compatible with Vercel AI SDK
   getModel(modelId: string, apiKey?: string) {
-    return { id: modelId, provider: this.id };
+    // Create a provider instance with the specified model
+    return openai(modelId);
   }
   
   supportsModel(model: string): boolean {

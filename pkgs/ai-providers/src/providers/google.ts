@@ -1,10 +1,13 @@
+import { google } from '@ai-sdk/google';
+
 export class GoogleProvider {
   id = 'google';
   name = 'Google AI';
   
   // Get a model instance compatible with Vercel AI SDK
   getModel(modelId: string, apiKey?: string) {
-    return { id: modelId, provider: this.id };
+    // Create a provider instance with the specified model
+    return google(modelId);
   }
   
   supportsModel(model: string): boolean {
