@@ -4,7 +4,7 @@
   - [x] Create package.json with dependencies
   - [x] Configure TypeScript
   - [x] Set up build system with tsup
-  - [ ] Set up testing with Vitest
+  - [x] Set up testing with Vitest
 
 - [x] Core Implementation
   - [x] Issue #56: Support `no-schema` with Proxy
@@ -22,12 +22,21 @@
     - [x] Support prompt customization
 
 - [x] Additional Features
-  - [x] Implement `list` tagged template function using generateText
+  - [x] Implement `list` tagged template function using generateObject
   - [x] Implement `markdown` tagged template function using generateText
   - [ ] Add streaming support
 
-- [ ] Documentation and Testing
+- [x] Documentation and Testing
   - [x] Update README.md with usage examples
+  - [x] Write unit tests for all features
+  - [x] Add support for AI_GATEWAY environment variable
   - [ ] Add JSDoc comments
-  - [ ] Write unit tests for all features
-  - [ ] Create usage examples
+  - [ ] Create additional usage examples
+
+## Future Enhancements
+
+- [ ] Add streaming support for template literals
+- [ ] Implement caching for AI responses
+- [ ] Add support for additional AI providers
+- [ ] Create more specialized functions for common tasks
+- [ ] Add support for function calling

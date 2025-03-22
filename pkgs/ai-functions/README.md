@@ -4,12 +4,14 @@ AI Functions is a TypeScript library that provides a simple way to use AI models
 
 ## Features
 
-- **Dynamic AI Functions**: Use any function name with the `ai` proxy
+- **Dynamic AI Functions**: Use any function name with the `ai` proxy (Issue #56)
 - **Template Literals**: Generate content using template literals
-- **Schema Support**: Validate AI responses with Zod schemas
+- **No-Schema Support**: Generate unstructured text responses without schema validation (Issue #56)
+- **Schema Support**: Validate AI responses with Zod schemas and descriptions (Issue #57)
 - **List Generation**: Generate lists of items with the `list` function
 - **Markdown Generation**: Generate markdown content with the `markdown` function
-- **Model Configuration**: Override model, temperature, and other settings
+- **Model Configuration**: Override model, temperature, and other settings (Issue #58)
+- **Environment Awareness**: Automatically uses AI_GATEWAY environment variable when available
 
 ## Installation
 

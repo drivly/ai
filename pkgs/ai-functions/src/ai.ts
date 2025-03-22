@@ -95,35 +95,43 @@ const aiHandler = {
       const [template, ...expressions] = args
       const prompt = String.raw({ raw: template }, ...expressions)
       
-      // Check if there's a config object passed: ai`prompt`({ model: 'model-name' })
-      const config = args[1] || {}
-      const modelName = config.model || defaultConfig.model
-      
-      const model = getAIProvider(modelName)
-      
-      // Use no-schema mode when no schema is provided
-      if (config.schema) {
-        // Generate object with schema
-        const result = await generateObject({
-          model,
-          prompt,
-          schema: config.schema,
-          temperature: config.temperature,
-          maxTokens: config.maxTokens,
-          ...config
-        })
-        return result.object
-      } else {
-        // Generate text without schema
-        const result = await generateText({
-          model,
-          prompt,
-          temperature: config.temperature,
-          maxTokens: config.maxTokens,
-          ...config
-        })
-        return result.text
+      // Create a function that can be called with config: ai`prompt`({ model: 'model-name' })
+      const templateResult = async (config: any = {}) => {
+        const modelName = config.model || defaultConfig.model
+        const model = getAIProvider(modelName)
+        
+        // Use no-schema mode when no schema is provided
+        if (config.schema) {
+          // Generate object with schema
+          const result = await generateObject({
+            model,
+            prompt,
+            schema: config.schema,
+            temperature: config.temperature,
+            maxTokens: config.maxTokens,
+            ...config
+          })
+          return result.object
+        } else {
+          // Generate text without schema
+          const result = await generateText({
+            model,
+            prompt,
+            temperature: config.temperature,
+            maxTokens: config.maxTokens,
+            ...config
+          })
+          return result.text
+        }
       }
+      
+      // If no config is passed, execute immediately
+      if (args.length === 1) {
+        return templateResult()
+      }
+      
+      // Return the function for later execution with config
+      return templateResult
     }
     
     // TODO: Handle other usage patterns
@@ -193,27 +201,35 @@ export const list = new Proxy(function() {}, {
       const [template, ...expressions] = args
       const prompt = String.raw({ raw: template }, ...expressions)
       
-      // Check if there's a config object passed: list`prompt`({ model: 'model-name' })
-      const config = args[1] || {}
-      const modelName = config.model || defaultConfig.model
+      // Create a function that can be called with config: list`prompt`({ model: 'model-name' })
+      const templateResult = async (config: any = {}) => {
+        const modelName = config.model || defaultConfig.model
+        const model = getAIProvider(modelName)
+        
+        // Create a schema for an array of strings
+        const schema = z.array(z.string())
+        
+        // Generate object with array schema
+        const result = await generateObject({
+          model,
+          prompt,
+          schema,
+          output: 'array',
+          temperature: config.temperature,
+          maxTokens: config.maxTokens,
+          ...config
+        })
+        
+        return result.object
+      }
       
-      const model = getAIProvider(modelName)
+      // If no config is passed, execute immediately
+      if (args.length === 1) {
+        return templateResult()
+      }
       
-      // Create a schema for an array of strings
-      const schema = z.array(z.string())
-      
-      // Generate object with array schema
-      const result = await generateObject({
-        model,
-        prompt,
-        schema,
-        output: 'array',
-        temperature: config.temperature,
-        maxTokens: config.maxTokens,
-        ...config
-      })
-      
-      return result.object
+      // Return the function for later execution with config
+      return templateResult
     }
     
     throw new Error('list function must be used as a template literal tag')
@@ -228,22 +244,30 @@ export const markdown = new Proxy(function() {}, {
       const [template, ...expressions] = args
       const prompt = String.raw({ raw: template }, ...expressions)
       
-      // Check if there's a config object passed: markdown`prompt`({ model: 'model-name' })
-      const config = args[1] || {}
-      const modelName = config.model || defaultConfig.model
+      // Create a function that can be called with config: markdown`prompt`({ model: 'model-name' })
+      const templateResult = async (config: any = {}) => {
+        const modelName = config.model || defaultConfig.model
+        const model = getAIProvider(modelName)
+        
+        // Generate markdown text
+        const result = await generateText({
+          model,
+          prompt: `Generate markdown content for: ${prompt}`,
+          temperature: config.temperature,
+          maxTokens: config.maxTokens,
+          ...config
+        })
+        
+        return result.text
+      }
       
-      const model = getAIProvider(modelName)
+      // If no config is passed, execute immediately
+      if (args.length === 1) {
+        return templateResult()
+      }
       
-      // Generate markdown text
-      const result = await generateText({
-        model,
-        prompt: `Generate markdown content for: ${prompt}`,
-        temperature: config.temperature,
-        maxTokens: config.maxTokens,
-        ...config
-      })
-      
-      return result.text
+      // Return the function for later execution with config
+      return templateResult
     }
     
     throw new Error('markdown function must be used as a template literal tag')
