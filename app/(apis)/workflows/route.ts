@@ -1,4 +1,4 @@
-import { API } from 'clickable-links'
+import { API } from 'clickable-apis'
 
 export const GET = API(async (request, { db, user, url }) => {
   // Using the new db interface for more concise syntax

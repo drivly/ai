@@ -29,9 +29,9 @@ importers:
       ai:
         specifier: ^4.2.0
         version: 4.2.0(react@19.0.0)(zod@3.24.2)
-      clickable-links:
+      clickable-apis:
         specifier: workspace:*
-        version: link:pkgs/clickable-links
+        version: link:pkgs/clickable-apis
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -120,8 +120,6 @@ importers:
         version: 5.8.2
 
   pkgs/clickable-apis: {}
-
-  pkgs/clickable-links: {}
 
   pkgs/deploy-worker:
     dependencies:
