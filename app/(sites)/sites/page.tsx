@@ -1,5 +1,5 @@
-import type { Website } from '@/website.config'
-import { websiteKeys } from '@/website.config'
+import type { Website } from '@/site.config'
+import { websiteKeys } from '@/site.config'
 import { notFound } from 'next/navigation'
 // import { MDXRemote } from 'next-mdx-remote'
 import Markdown from 'react-markdown'

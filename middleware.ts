@@ -7,7 +7,7 @@ const siteDomains = ['functions.do', 'workflows.do', 'llm.do', 'llms.do']
 export function middleware(request: NextRequest) {
   const { hostname } = request.nextUrl
   if (siteDomains.includes(hostname)) {
-    return NextResponse.rewrite(new URL(`/websites/${hostname}`, request.url))
+    return NextResponse.rewrite(new URL(`/sites/${hostname}`, request.url))
     // return NextResponse.rewrite(new URL(`/${hostname}`, request.url))
   }
 }
