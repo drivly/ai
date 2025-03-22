@@ -92,17 +92,13 @@
 ```
 ai/
 ├── api/                  # API implementations for various services
-├── app/                  # Next.js application components and routes
-├── collections/          # Payload CMS collections
-├── components/           # Shared UI components
-├── content/              # Content files and resources
-├── examples/             # Example implementations and usage
-├── lib/                  # Shared library code and utilities
+├── dash/                 # Dashboard application
+├── data/                 # Data management and storage
+├── docs/                 # Documentation
 ├── pkgs/                 # Shared packages and libraries
 ├── sdks/                 # Software Development Kits
 ├── tests/                # Test suites
-├── websites/             # Web applications and interfaces
-├── workers/              # Cloudflare Workers implementations
+├── web/                  # Web applications and interfaces
 └── workflows/            # Workflow definitions
 ```
 
