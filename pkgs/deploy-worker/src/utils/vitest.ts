@@ -34,7 +34,7 @@ export async function runTests(code: string, tests: string, options: VitestOptio
       JSON.stringify({
         type: 'module',
         dependencies: {
-          vitest: '^0.34.6',
+          vitest: '^3.0.9',
         },
       }),
     )

@@ -11,11 +11,11 @@
   "homepage": "https://mdx.org.ai",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ai-primitives/ai.git",
+    "url": "https://github.com/drivly/ai.git",
     "directory": "pkgs/deploy-worker"
   },
   "bugs": {
-    "url": "https://github.com/ai-primitives/ai/issues"
+    "url": "https://github.com/drivly/ai/issues"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts",
@@ -38,18 +38,18 @@
     "node": ">=18"
   },
   "dependencies": {
-    "esbuild": "^0.19.5",
-    "typescript": "^5.3.3"
+    "esbuild": "^0.25.1",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
-    "@types/node": "^18.0.0",
-    "@types/eslint": "^8.44.2",
-    "eslint": "^8.53.0",
-    "@typescript-eslint/eslint-plugin": "^6.9.1",
-    "@typescript-eslint/parser": "^6.9.1",
-    "tsup": "^7.2.0",
-    "semantic-release": "^21.0.0",
-    "prettier": "^2.8.8",
-    "vitest": "^0.34.6"
+    "@types/node": "^22.13.11",
+    "@types/eslint": "^9.6.1",
+    "eslint": "^9.23.0",
+    "@typescript-eslint/eslint-plugin": "^8.27.0",
+    "@typescript-eslint/parser": "^8.27.0",
+    "tsup": "^8.4.0",
+    "semantic-release": "^24.2.3",
+    "prettier": "^3.5.3",
+    "vitest": "^3.0.9"
   }
 }
