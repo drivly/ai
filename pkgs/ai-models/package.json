@@ -1,0 +1,15 @@
+{
+  "name": "ai-models",
+  "version": "0.1.0",
+  "description": "Capability and priority-based model selection for AI SDKs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

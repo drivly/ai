@@ -1,0 +1,17 @@
+{
+  "name": "ai-providers",
+  "version": "0.1.0",
+  "description": "Provider router for AI models including OpenAI, Anthropic, and Google",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "ai-models": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
