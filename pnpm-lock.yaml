@@ -103,7 +103,7 @@ importers:
         version: 3.24.2
     devDependencies:
       esbuild:
-        specifier: ^0.19.5
+        specifier: ^0.19.12
         version: 0.19.12
       execa:
         specifier: ^9.5.2
