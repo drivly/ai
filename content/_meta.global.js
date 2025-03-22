@@ -2,8 +2,10 @@ import { title } from "process";
 
 export default {
   docs: {
-    ideas: {
-      title: '✨ Ideas'
+    items: {
+      agents: {
+        title: '✨ Ideas'
+      }
     }
   },
   fruits: {
