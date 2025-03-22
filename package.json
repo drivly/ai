@@ -1,24 +1,87 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
-    "format": "prettier --write ."
+    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
+    "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+    "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "prettier-check": "prettier --check \"**/*.{js,ts,tsx,md,mdx}\"",
+    "prettier-fix": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
+    "build:turbo": "turbo build",
+    "clean:turbo": "turbo clean",
+    "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
+    "lint:turbo": "turbo lint",
+    "test:turbo": "turbo test",
+    "typecheck": "turbo typecheck"
+  },
+  "dependencies": {
+    "@ai-primitives/data": "workspace:*",
+    "@payloadcms/db-mongodb": "^3.28.1",
+    "@payloadcms/next": "^3.28.1",
+    "@payloadcms/payload-cloud": "^3.28.1",
+    "@payloadcms/plugin-multi-tenant": "^3.28.1",
+    "@payloadcms/richtext-lexical": "^3.28.1",
+    "@vercel/analytics": "^1.5.0",
+    "ai": "^4.2.0",
+    "clickable-apis": "workspace:*",
+    "cross-env": "^7.0.3",
+    "graphql": "^16.8.1",
+    "murmurhash": "^2.0.1",
+    "next": "15.2.3",
+    "nextra": "^4.2.17",
+    "nextra-theme-docs": "^4.2.17",
+    "payload": "^3.28.1",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "sharp": "0.32.6",
+    "sqids": "^0.3.0",
+    "velite": "^0.2.2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@types/node": "^22.5.4",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
+    "eslint": "^9.16.0",
+    "eslint-config-next": "15.2.2",
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4",
+    "typescript": "5.7.3"
+  },
+  "engines": {
+    "node": "^18.20.2 || >=20.9.0",
+    "pnpm": "^9 || ^10"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
   },
   "workspaces": [
     "api/*",
+    "collections",
     "docs",
     "data",
     "dash",
     "sdk/*",
     "web/*",
     "pkgs/*",
+    "workers/*",
     "workflows"
   ],
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all",
     "printWidth": 180,
+    "tabWidth": 2,
     "semi": false,
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
-  }
+  },
+  "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531"
 }

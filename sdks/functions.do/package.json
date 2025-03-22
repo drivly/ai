@@ -1,0 +1,35 @@
+{
+  "name": "functions.do",
+  "version": "0.0.5",
+  "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
+  "keywords": [
+    "functions",
+    "serverless",
+    "api",
+    "endpoints",
+    "cloud-functions",
+    "ai",
+    "functions",
+    "object generation"
+  ],
+  "homepage": "https://functions.do",
+  "type": "module",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ai-primitives/functions.do.git"
+  },
+  "author": "Nathan Clevenger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ai-primitives/functions.do/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.8"
+  }
+}

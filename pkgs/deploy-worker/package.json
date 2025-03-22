@@ -22,7 +22,8 @@
     "lint": "eslint src --ext .ts",
     "test": "vitest run",
     "prepublishOnly": "pnpm build",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "cloudflare",
