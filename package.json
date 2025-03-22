@@ -27,6 +27,7 @@
     "@payloadcms/plugin-multi-tenant": "^3.28.1",
     "@payloadcms/richtext-lexical": "^3.28.1",
     "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "ai": "^4.2.0",
     "ai-providers": "workspace:*",
     "clickable-apis": "workspace:*",
