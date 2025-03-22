@@ -1,0 +1,44 @@
+{
+  "name": "@drivly/ai-functions",
+  "version": "0.1.0",
+  "description": "AI functions using Vercel AI SDK",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "keywords": [
+    "ai",
+    "functions",
+    "vercel",
+    "openai"
+  ],
+  "author": "Drivly",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "homepage": "https://mdx.org.ai",
+  "dependencies": {
+    "@ai-sdk/openai": "^1.0.0",
+    "@ai-sdk/openai-compatible": "^1.0.0",
+    "ai": "^2.2.37",
+    "zod": "^3.22.4"
+  },
+  "peerDependencies": {
+    "typescript": ">=5.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
