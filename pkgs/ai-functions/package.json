@@ -6,8 +6,8 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm",
+    "dev": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs --watch",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
@@ -36,7 +36,9 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "tsup": "^7.2.0",
+    "esbuild": "^0.19.5",
+    "execa": "^9.5.2",
+    "tsup": "^6.7.0",
     "typescript": "^5.0.4",
     "vitest": "^0.34.1"
   },
