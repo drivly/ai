@@ -15,6 +15,7 @@ const navbar = (
   <Navbar
     logo={<b>Workflows.do</b>}
     chatLink='https://discord.gg/a87bSRvJkx'
+    projectLink='https://github.com/drivly/ai'
     // ... Your additional navbar options
   />
 )
