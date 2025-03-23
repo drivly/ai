@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
