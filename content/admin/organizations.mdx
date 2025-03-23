@@ -1,0 +1,357 @@
+# Organizations
+
+Manage organizations and their resources in your AI applications.
+
+## Overview
+
+The Organizations collection provides a way to manage organizations and their resources in your AI applications. Organizations can:
+
+- Group users and teams
+- Own and manage resources
+- Have different subscription plans
+- Configure global settings
+
+## Key Features
+
+- **Organization Management**: Create, update, and delete organizations
+- **Membership**: Manage organization members and roles
+- **Resources**: Manage organization resources
+- **Settings**: Configure organization settings
+
+## Organization Structure
+
+An organization consists of the following information:
+
+```typescript
+// Example organization
+{
+  id: 'org-123',
+  name: 'Acme Corporation',
+  domain: 'acme.com',
+  plan: 'enterprise',
+  status: 'active',
+  createdAt: '2023-01-01T00:00:00Z',
+  updatedAt: '2023-06-15T10:30:00Z',
+  owners: ['user-123'],
+  members: [
+    {
+      userId: 'user-123',
+      role: 'owner',
+      joinedAt: '2023-01-01T00:00:00Z'
+    },
+    {
+      userId: 'user-456',
+      role: 'admin',
+      joinedAt: '2023-01-02T09:15:00Z'
+    },
+    {
+      userId: 'user-789',
+      role: 'member',
+      joinedAt: '2023-01-03T14:30:00Z'
+    }
+  ],
+  teams: ['team-456', 'team-789'],
+  settings: {
+    sso: {
+      enabled: true,
+      provider: 'okta',
+      config: {
+        // SSO configuration
+      }
+    },
+    security: {
+      mfa: {
+        enabled: true,
+        required: true
+      },
+      passwordPolicy: {
+        minLength: 12,
+        requireUppercase: true,
+        requireLowercase: true,
+        requireNumbers: true,
+        requireSymbols: true,
+        expiryDays: 90
+      }
+    },
+    branding: {
+      logo: 'https://example.com/logos/acme.png',
+      colors: {
+        primary: '#1a73e8',
+        secondary: '#f1f3f4'
+      }
+    }
+  },
+  limits: {
+    users: 100,
+    teams: 20,
+    functions: 500,
+    workflows: 200,
+    agents: 50
+  },
+  metadata: {
+    industry: 'Technology',
+    size: 'Enterprise',
+    region: 'North America'
+  }
+}
+```
+
+## Organization Management
+
+Manage organizations using the Admin.do API:
+
+```typescript
+// Create a new organization
+const newOrg = await admin.organizations.create({
+  name: 'Beta Inc.',
+  domain: 'beta.com',
+  plan: 'business'
+})
+
+// Get an organization by ID
+const org = await admin.organizations.get('org-123')
+
+// Get an organization by domain
+const orgByDomain = await admin.organizations.getByDomain('acme.com')
+
+// Update an organization
+const updatedOrg = await admin.organizations.update('org-123', {
+  name: 'Acme Inc.',
+  plan: 'enterprise'
+})
+
+// Delete an organization
+await admin.organizations.delete('org-123')
+```
+
+## Organization Membership
+
+Manage organization membership using the Admin.do API:
+
+```typescript
+// Add a member to an organization
+await admin.organizations.addMember('org-123', {
+  userId: 'user-101',
+  role: 'member'
+})
+
+// Get organization members
+const members = await admin.organizations.getMembers('org-123')
+
+// Update a member's role
+await admin.organizations.updateMember('org-123', 'user-101', {
+  role: 'admin'
+})
+
+// Remove a member from an organization
+await admin.organizations.removeMember('org-123', 'user-101')
+
+// Get organization roles
+const orgRoles = await admin.organizations.getRoles()
+
+// Create a custom organization role
+const customRole = await admin.organizations.createRole({
+  name: 'developer',
+  description: 'Developer role',
+  permissions: [
+    'functions:read',
+    'functions:create',
+    'workflows:read',
+    'workflows:create'
+  ]
+})
+
+// Invite a user to an organization
+const invitation = await admin.organizations.invite('org-123', {
+  email: 'jane.smith@example.com',
+  role: 'member',
+  message: 'Join our organization!'
+})
+
+// Get pending invitations
+const pendingInvitations = await admin.organizations.getPendingInvitations('org-123')
+
+// Cancel an invitation
+await admin.organizations.cancelInvitation('org-123', 'invitation-123')
+```
+
+## Organization Teams
+
+Manage organization teams using the Admin.do API:
+
+```typescript
+// Create a team in an organization
+const newTeam = await admin.organizations.createTeam('org-123', {
+  name: 'Marketing',
+  description: 'Marketing team'
+})
+
+// Get organization teams
+const teams = await admin.organizations.getTeams('org-123')
+
+// Get team hierarchy
+const teamHierarchy = await admin.organizations.getTeamHierarchy('org-123')
+```
+
+## Organization Resources
+
+Manage organization resources using the Admin.do API:
+
+```typescript
+// Get organization resources
+const resources = await admin.organizations.getResources('org-123', {
+  types: ['function', 'workflow', 'agent'],
+  limit: 100,
+  offset: 0
+})
+
+// Get resource usage
+const resourceUsage = await admin.organizations.getResourceUsage('org-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents']
+})
+
+// Get resource limits
+const resourceLimits = await admin.organizations.getResourceLimits('org-123')
+
+// Update resource limits
+const updatedLimits = await admin.organizations.updateResourceLimits('org-123', {
+  functions: 1000,
+  workflows: 500,
+  agents: 100
+})
+```
+
+## Organization Settings
+
+Manage organization settings using the Admin.do API:
+
+```typescript
+// Get organization settings
+const settings = await admin.organizations.getSettings('org-123')
+
+// Update organization settings
+const updatedSettings = await admin.organizations.updateSettings('org-123', {
+  sso: {
+    enabled: true,
+    provider: 'okta',
+    config: {
+      // SSO configuration
+    }
+  },
+  security: {
+    mfa: {
+      enabled: true,
+      required: true
+    },
+    passwordPolicy: {
+      minLength: 12,
+      requireUppercase: true,
+      requireLowercase: true,
+      requireNumbers: true,
+      requireSymbols: true,
+      expiryDays: 90
+    }
+  }
+})
+
+// Configure SSO
+await admin.organizations.configureSso('org-123', {
+  provider: 'okta',
+  config: {
+    // SSO configuration
+  }
+})
+
+// Configure MFA
+await admin.organizations.configureMfa('org-123', {
+  enabled: true,
+  required: true,
+  methods: ['app', 'sms']
+})
+
+// Configure password policy
+await admin.organizations.configurePasswordPolicy('org-123', {
+  minLength: 12,
+  requireUppercase: true,
+  requireLowercase: true,
+  requireNumbers: true,
+  requireSymbols: true,
+  expiryDays: 90
+})
+
+// Configure branding
+await admin.organizations.configureBranding('org-123', {
+  logo: 'https://example.com/logos/acme.png',
+  colors: {
+    primary: '#1a73e8',
+    secondary: '#f1f3f4'
+  }
+})
+```
+
+## Organization Activity
+
+Track organization activity using the Admin.do API:
+
+```typescript
+// Get organization activity
+const activity = await admin.organizations.getActivity('org-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  limit: 100,
+  offset: 0
+})
+
+// Get organization audit logs
+const auditLogs = await admin.organizations.getAuditLogs('org-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  types: ['user', 'team', 'resource'],
+  limit: 100,
+  offset: 0
+})
+```
+
+## Organization Search and Filtering
+
+Search and filter organizations using the Admin.do API:
+
+```typescript
+// Search organizations
+const searchResults = await admin.organizations.search({
+  query: 'acme',
+  filters: {
+    plan: 'enterprise',
+    status: 'active'
+  },
+  limit: 10,
+  offset: 0,
+  sort: {
+    field: 'name',
+    order: 'asc'
+  }
+})
+
+// Get organizations by domain
+const orgsByDomain = await admin.organizations.getByDomainPattern('*.com')
+
+// Get organizations by plan
+const orgsByPlan = await admin.organizations.getByPlan('enterprise')
+
+// Get organizations by user
+const userOrgs = await admin.organizations.getByUser('user-123')
+```
+
+## Next Steps
+
+- [Create and manage organizations](/admin/organizations/manage)
+- [Configure organization settings](/admin/organizations/settings)
+- [Set up SSO and security](/admin/organizations/security)

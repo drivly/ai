@@ -1,0 +1,274 @@
+# Teams
+
+Organize users into teams for collaboration and access control.
+
+## Overview
+
+The Teams collection provides a way to organize users into teams for collaboration and access control in your AI applications. Teams can:
+
+- Group users with similar roles or responsibilities
+- Share resources and permissions
+- Collaborate on projects
+- Have hierarchical structures
+
+## Key Features
+
+- **Team Management**: Create, update, and delete teams
+- **Membership**: Manage team members and roles
+- **Permissions**: Control team access to resources
+- **Hierarchy**: Organize teams in hierarchical structures
+
+## Team Structure
+
+A team consists of the following information:
+
+```typescript
+// Example team
+{
+  id: 'team-456',
+  name: 'AI Development',
+  description: 'Team responsible for AI development',
+  organization: 'org-123',
+  parentTeam: null,
+  createdAt: '2023-01-15T10:30:00Z',
+  updatedAt: '2023-06-20T14:45:00Z',
+  members: [
+    {
+      userId: 'user-123',
+      role: 'team_lead',
+      joinedAt: '2023-01-15T10:30:00Z'
+    },
+    {
+      userId: 'user-456',
+      role: 'developer',
+      joinedAt: '2023-01-16T09:15:00Z'
+    },
+    {
+      userId: 'user-789',
+      role: 'developer',
+      joinedAt: '2023-02-01T11:45:00Z'
+    }
+  ],
+  settings: {
+    visibility: 'organization',
+    joinPolicy: 'approval',
+    resourceSharing: 'all_members'
+  },
+  metadata: {
+    department: 'Engineering',
+    costCenter: 'ENG-123',
+    slack: '#ai-development'
+  }
+}
+```
+
+## Team Management
+
+Manage teams using the Admin.do API:
+
+```typescript
+// Create a new team
+const newTeam = await admin.teams.create({
+  name: 'Data Science',
+  description: 'Team responsible for data science',
+  organization: 'org-123'
+})
+
+// Get a team by ID
+const team = await admin.teams.get('team-456')
+
+// Update a team
+const updatedTeam = await admin.teams.update('team-456', {
+  name: 'AI & ML Development',
+  description: 'Team responsible for AI and ML development'
+})
+
+// Delete a team
+await admin.teams.delete('team-456')
+
+// Create a sub-team
+const subTeam = await admin.teams.create({
+  name: 'NLP Research',
+  description: 'Team focused on NLP research',
+  organization: 'org-123',
+  parentTeam: 'team-456'
+})
+
+// Get sub-teams
+const subTeams = await admin.teams.getSubTeams('team-456')
+
+// Get parent team
+const parentTeam = await admin.teams.getParentTeam('team-789')
+
+// Get team hierarchy
+const teamHierarchy = await admin.teams.getHierarchy('team-456')
+```
+
+## Team Membership
+
+Manage team membership using the Admin.do API:
+
+```typescript
+// Add a member to a team
+await admin.teams.addMember('team-456', {
+  userId: 'user-101',
+  role: 'developer'
+})
+
+// Get team members
+const members = await admin.teams.getMembers('team-456')
+
+// Update a team member's role
+await admin.teams.updateMember('team-456', 'user-101', {
+  role: 'senior_developer'
+})
+
+// Remove a member from a team
+await admin.teams.removeMember('team-456', 'user-101')
+
+// Get a user's teams
+const userTeams = await admin.teams.getUserTeams('user-123')
+
+// Check if a user is a member of a team
+const isMember = await admin.teams.isMember('team-456', 'user-123')
+
+// Get team roles
+const teamRoles = await admin.teams.getRoles()
+
+// Create a custom team role
+const customRole = await admin.teams.createRole({
+  name: 'ml_engineer',
+  description: 'Machine Learning Engineer',
+  permissions: [
+    'models:read',
+    'models:train',
+    'data:read'
+  ]
+})
+```
+
+## Team Permissions
+
+Manage team permissions using the Admin.do API:
+
+```typescript
+// Get team permissions
+const permissions = await admin.teams.getPermissions('team-456')
+
+// Grant a permission to a team
+await admin.teams.grantPermission('team-456', 'functions:create')
+
+// Revoke a permission from a team
+await admin.teams.revokePermission('team-456', 'functions:create')
+
+// Check if a team has a permission
+const hasPermission = await admin.teams.hasPermission('team-456', 'functions:create')
+
+// Get resources shared with a team
+const sharedResources = await admin.teams.getSharedResources('team-456')
+
+// Share a resource with a team
+await admin.teams.shareResource('team-456', {
+  type: 'function',
+  id: 'function-123',
+  permissions: ['read', 'execute']
+})
+
+// Update resource sharing
+await admin.teams.updateResourceSharing('team-456', 'function-123', {
+  permissions: ['read', 'execute', 'update']
+})
+
+// Unshare a resource
+await admin.teams.unshareResource('team-456', {
+  type: 'function',
+  id: 'function-123'
+})
+```
+
+## Team Settings
+
+Manage team settings using the Admin.do API:
+
+```typescript
+// Get team settings
+const settings = await admin.teams.getSettings('team-456')
+
+// Update team settings
+const updatedSettings = await admin.teams.updateSettings('team-456', {
+  visibility: 'organization',
+  joinPolicy: 'approval',
+  resourceSharing: 'all_members'
+})
+
+// Get team metadata
+const metadata = await admin.teams.getMetadata('team-456')
+
+// Update team metadata
+const updatedMetadata = await admin.teams.updateMetadata('team-456', {
+  department: 'AI Research',
+  costCenter: 'AIR-456',
+  slack: '#ai-research'
+})
+```
+
+## Team Activity
+
+Track team activity using the Admin.do API:
+
+```typescript
+// Get team activity
+const activity = await admin.teams.getActivity('team-456', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  limit: 100,
+  offset: 0
+})
+
+// Get team resource usage
+const resourceUsage = await admin.teams.getResourceUsage('team-456', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents']
+})
+```
+
+## Team Search and Filtering
+
+Search and filter teams using the Admin.do API:
+
+```typescript
+// Search teams
+const searchResults = await admin.teams.search({
+  query: 'development',
+  filters: {
+    organization: 'org-123',
+    parentTeam: null
+  },
+  limit: 10,
+  offset: 0,
+  sort: {
+    field: 'name',
+    order: 'asc'
+  }
+})
+
+// Get teams by organization
+const orgTeams = await admin.teams.getByOrganization('org-123')
+
+// Get teams by member
+const memberTeams = await admin.teams.getByMember('user-123')
+
+// Get teams by permission
+const permissionTeams = await admin.teams.getByPermission('functions:create')
+```
+
+## Next Steps
+
+- [Create and manage teams](/admin/teams/manage)
+- [Set up team roles and permissions](/admin/teams/roles)
+- [Organize teams in hierarchies](/admin/teams/hierarchy)

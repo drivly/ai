@@ -1,0 +1,370 @@
+# Integrations
+
+Connect your AI applications with external services and systems.
+
+## Overview
+
+Integrations provide a way to connect your AI applications with external services and systems. Integrations can:
+
+- Connect to external APIs and services
+- Import and export data
+- Trigger workflows based on external events
+- Extend the functionality of your AI applications
+
+## Key Features
+
+- **API Connections**: Connect to external APIs and services
+- **Data Import/Export**: Import and export data from external systems
+- **Event Triggers**: Trigger workflows based on external events
+- **Authentication**: Securely authenticate with external services
+
+## Available Integrations
+
+Admin.do provides integrations with popular services and platforms:
+
+### AI Services
+
+- **OpenAI**: Access OpenAI's models and APIs
+- **Anthropic**: Access Anthropic's models and APIs
+- **Google AI**: Access Google's AI models and APIs
+- **Hugging Face**: Access Hugging Face's models and APIs
+- **Cohere**: Access Cohere's models and APIs
+
+### Cloud Providers
+
+- **AWS**: Connect to AWS services
+- **Google Cloud**: Connect to Google Cloud services
+- **Azure**: Connect to Azure services
+
+### Databases
+
+- **MongoDB**: Connect to MongoDB databases
+- **PostgreSQL**: Connect to PostgreSQL databases
+- **MySQL**: Connect to MySQL databases
+- **Redis**: Connect to Redis databases
+- **Elasticsearch**: Connect to Elasticsearch clusters
+
+### Communication
+
+- **Slack**: Connect to Slack workspaces
+- **Discord**: Connect to Discord servers
+- **Microsoft Teams**: Connect to Microsoft Teams
+- **Twilio**: Connect to Twilio for SMS and voice
+
+### Productivity
+
+- **GitHub**: Connect to GitHub repositories
+- **GitLab**: Connect to GitLab repositories
+- **Jira**: Connect to Jira projects
+- **Asana**: Connect to Asana projects
+- **Trello**: Connect to Trello boards
+- **Notion**: Connect to Notion workspaces
+
+### Marketing
+
+- **HubSpot**: Connect to HubSpot
+- **Salesforce**: Connect to Salesforce
+- **Mailchimp**: Connect to Mailchimp
+- **Intercom**: Connect to Intercom
+
+### Analytics
+
+- **Google Analytics**: Connect to Google Analytics
+- **Mixpanel**: Connect to Mixpanel
+- **Amplitude**: Connect to Amplitude
+- **Segment**: Connect to Segment
+
+## Setting Up Integrations
+
+Set up integrations using the Admin.do API:
+
+```typescript
+// List available integrations
+const integrations = await admin.integrations.list({
+  category: 'ai',
+  limit: 10,
+  offset: 0
+})
+
+// Get integration details
+const integration = await admin.integrations.get('openai')
+
+// Create an integration instance
+const instance = await admin.integrations.create({
+  integration: 'openai',
+  name: 'My OpenAI Integration',
+  organization: 'org-123',
+  config: {
+    apiKey: 'sk-...',
+    organization: 'org-...',
+    defaultModel: 'gpt-4'
+  }
+})
+
+// Get all integration instances
+const instances = await admin.integrations.listInstances({
+  organization: 'org-123',
+  integration: 'openai',
+  limit: 10,
+  offset: 0
+})
+
+// Get integration instance details
+const instance = await admin.integrations.getInstance('inst-123')
+
+// Update an integration instance
+const updatedInstance = await admin.integrations.updateInstance('inst-123', {
+  name: 'My Updated OpenAI Integration',
+  config: {
+    defaultModel: 'gpt-4-turbo'
+  }
+})
+
+// Delete an integration instance
+await admin.integrations.deleteInstance('inst-123')
+
+// Test an integration instance
+const testResult = await admin.integrations.testInstance('inst-123')
+```
+
+## Using Integrations
+
+Use integrations in your AI applications:
+
+```typescript
+// Use an integration in a function
+const function = await functions.create({
+  name: 'getOpenAICompletion',
+  description: 'Get a completion from OpenAI',
+  integration: 'inst-123',
+  input: {
+    prompt: {
+      type: 'string',
+      description: 'The prompt to send to OpenAI'
+    },
+    model: {
+      type: 'string',
+      description: 'The model to use',
+      default: 'gpt-4'
+    },
+    maxTokens: {
+      type: 'number',
+      description: 'The maximum number of tokens to generate',
+      default: 100
+    }
+  },
+  output: {
+    completion: {
+      type: 'string',
+      description: 'The generated completion'
+    }
+  },
+  code: `
+    const { prompt, model, maxTokens } = input;
+    const { openai } = integration;
+    
+    const response = await openai.completions.create({
+      model,
+      prompt,
+      max_tokens: maxTokens
+    });
+    
+    return {
+      completion: response.choices[0].text
+    };
+  `
+})
+
+// Use an integration in a workflow
+const workflow = await workflows.create({
+  name: 'slackNotification',
+  description: 'Send a notification to Slack',
+  integration: 'inst-456',
+  input: {
+    message: {
+      type: 'string',
+      description: 'The message to send to Slack'
+    },
+    channel: {
+      type: 'string',
+      description: 'The Slack channel to send the message to',
+      default: '#general'
+    }
+  },
+  output: {
+    success: {
+      type: 'boolean',
+      description: 'Whether the message was sent successfully'
+    },
+    messageId: {
+      type: 'string',
+      description: 'The ID of the sent message'
+    }
+  },
+  steps: [
+    {
+      id: 'sendMessage',
+      name: 'Send Message to Slack',
+      action: 'slack.sendMessage',
+      input: {
+        message: '{{input.message}}',
+        channel: '{{input.channel}}'
+      }
+    }
+  ],
+  output: {
+    success: '{{steps.sendMessage.success}}',
+    messageId: '{{steps.sendMessage.messageId}}'
+  }
+})
+```
+
+## Integration Permissions
+
+Manage integration permissions using the Admin.do API:
+
+```typescript
+// Get integration permissions
+const permissions = await admin.integrations.getPermissions('inst-123')
+
+// Update integration permissions
+const updatedPermissions = await admin.integrations.updatePermissions('inst-123', {
+  projects: ['proj-123', 'proj-456'],
+  users: ['user-123', 'user-456'],
+  teams: ['team-123', 'team-456']
+})
+
+// Grant access to a project
+await admin.integrations.grantAccess('inst-123', {
+  project: 'proj-789'
+})
+
+// Revoke access from a project
+await admin.integrations.revokeAccess('inst-123', {
+  project: 'proj-789'
+})
+```
+
+## Integration Logs
+
+View integration logs using the Admin.do API:
+
+```typescript
+// Get integration logs
+const logs = await admin.integrations.getLogs('inst-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  level: 'error',
+  limit: 10,
+  offset: 0
+})
+
+// Get a specific log entry
+const log = await admin.integrations.getLog('inst-123', 'log-123')
+```
+
+## Custom Integrations
+
+Create custom integrations using the Admin.do API:
+
+```typescript
+// Create a custom integration
+const customIntegration = await admin.integrations.createCustom({
+  name: 'My Custom Integration',
+  description: 'A custom integration for my API',
+  organization: 'org-123',
+  baseUrl: 'https://api.example.com',
+  authentication: {
+    type: 'apiKey',
+    header: 'X-API-Key'
+  },
+  endpoints: [
+    {
+      name: 'getUser',
+      method: 'GET',
+      path: '/users/{userId}',
+      parameters: [
+        {
+          name: 'userId',
+          type: 'string',
+          required: true,
+          description: 'The ID of the user to get'
+        }
+      ],
+      response: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string'
+          },
+          name: {
+            type: 'string'
+          },
+          email: {
+            type: 'string'
+          }
+        }
+      }
+    },
+    {
+      name: 'createUser',
+      method: 'POST',
+      path: '/users',
+      body: {
+        type: 'object',
+        properties: {
+          name: {
+            type: 'string',
+            required: true
+          },
+          email: {
+            type: 'string',
+            required: true
+          }
+        }
+      },
+      response: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'string'
+          },
+          name: {
+            type: 'string'
+          },
+          email: {
+            type: 'string'
+          }
+        }
+      }
+    }
+  ]
+})
+
+// Get all custom integrations
+const customIntegrations = await admin.integrations.listCustom({
+  organization: 'org-123',
+  limit: 10,
+  offset: 0
+})
+
+// Get a specific custom integration
+const customIntegration = await admin.integrations.getCustom('cint-123')
+
+// Update a custom integration
+const updatedCustomIntegration = await admin.integrations.updateCustom('cint-123', {
+  name: 'My Updated Custom Integration',
+  description: 'An updated custom integration for my API'
+})
+
+// Delete a custom integration
+await admin.integrations.deleteCustom('cint-123')
+```
+
+## Next Steps
+
+- [Set up your first integration](/admin/integrations/setup)
+- [Use integrations in functions](/admin/integrations/functions)
+- [Use integrations in workflows](/admin/integrations/workflows)

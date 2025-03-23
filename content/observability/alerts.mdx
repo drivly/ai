@@ -1,0 +1,411 @@
+# Alerts
+
+Alerts notify you when important events or conditions occur in your AI applications.
+
+## Overview
+
+The Alerts collection provides a way to define, manage, and respond to alerts from your AI applications. Alerts can:
+
+- Notify you of important events or conditions
+- Help you respond quickly to issues
+- Automate responses to common problems
+- Ensure system reliability and performance
+
+## Key Features
+
+- **Conditions**: Define conditions that trigger alerts
+- **Notifications**: Send notifications through various channels
+- **Automation**: Automate responses to alerts
+- **Escalation**: Escalate alerts to different teams or individuals
+
+## Alert Types
+
+Observability.do supports various alert types:
+
+### Metric Alerts
+
+Trigger based on metric values:
+
+```typescript
+// Example metric alert
+{
+  name: 'high_error_rate',
+  description: 'Alert when error rate is too high',
+  type: 'metric',
+  condition: {
+    metric: 'error_rate',
+    operator: '>',
+    threshold: 5,
+    for: '5m',
+    filters: {
+      service: 'user-service'
+    }
+  },
+  severity: 'critical',
+  notifications: [
+    {
+      channel: 'slack',
+      target: '#alerts-critical'
+    },
+    {
+      channel: 'email',
+      target: 'oncall@example.com'
+    }
+  ],
+  runbook: 'https://example.com/runbooks/high-error-rate'
+}
+```
+
+### Log Alerts
+
+Trigger based on log patterns:
+
+```typescript
+// Example log alert
+{
+  name: 'authentication_failures',
+  description: 'Alert on multiple authentication failures',
+  type: 'log',
+  condition: {
+    query: 'level:error AND message:"Authentication failed"',
+    threshold: 10,
+    for: '5m',
+    groupBy: ['context.ipAddress']
+  },
+  severity: 'warning',
+  notifications: [
+    {
+      channel: 'slack',
+      target: '#alerts-security'
+    }
+  ],
+  runbook: 'https://example.com/runbooks/authentication-failures'
+}
+```
+
+### Trace Alerts
+
+Trigger based on trace patterns:
+
+```typescript
+// Example trace alert
+{
+  name: 'slow_requests',
+  description: 'Alert on slow requests',
+  type: 'trace',
+  condition: {
+    query: 'name:process-user-request',
+    metric: 'duration',
+    operator: '>',
+    threshold: 1000,
+    for: '5m'
+  },
+  severity: 'warning',
+  notifications: [
+    {
+      channel: 'slack',
+      target: '#alerts-performance'
+    }
+  ],
+  runbook: 'https://example.com/runbooks/slow-requests'
+}
+```
+
+### Composite Alerts
+
+Trigger based on multiple conditions:
+
+```typescript
+// Example composite alert
+{
+  name: 'service_degradation',
+  description: 'Alert on service degradation',
+  type: 'composite',
+  conditions: [
+    {
+      name: 'high_error_rate',
+      type: 'metric',
+      condition: {
+        metric: 'error_rate',
+        operator: '>',
+        threshold: 5,
+        for: '5m',
+        filters: {
+          service: 'user-service'
+        }
+      }
+    },
+    {
+      name: 'high_latency',
+      type: 'metric',
+      condition: {
+        metric: 'request_duration_seconds',
+        aggregation: 'p95',
+        operator: '>',
+        threshold: 1,
+        for: '5m',
+        filters: {
+          service: 'user-service'
+        }
+      }
+    }
+  ],
+  operator: 'OR',
+  severity: 'critical',
+  notifications: [
+    {
+      channel: 'slack',
+      target: '#alerts-critical'
+    },
+    {
+      channel: 'pagerduty',
+      target: 'service-team'
+    }
+  ],
+  runbook: 'https://example.com/runbooks/service-degradation'
+}
+```
+
+## Alert Severity Levels
+
+Observability.do supports standard alert severity levels:
+
+- **info**: Informational alerts that don't require immediate action
+- **warning**: Warning alerts that might require attention
+- **error**: Error alerts that require attention
+- **critical**: Critical alerts that require immediate attention
+
+## Defining Alerts
+
+Define alerts using the Observability.do API:
+
+```typescript
+// Create a metric alert
+await observability.alerts.create({
+  name: 'high_cpu_usage',
+  description: 'Alert when CPU usage is too high',
+  type: 'metric',
+  condition: {
+    metric: 'cpu_usage_percent',
+    operator: '>',
+    threshold: 80,
+    for: '5m',
+    filters: {
+      service: 'user-service'
+    }
+  },
+  severity: 'warning',
+  notifications: [
+    {
+      channel: 'slack',
+      target: '#alerts'
+    }
+  ],
+  runbook: 'https://example.com/runbooks/high-cpu-usage'
+})
+
+// Create a log alert
+await observability.alerts.create({
+  name: 'database_errors',
+  description: 'Alert on database errors',
+  type: 'log',
+  condition: {
+    query: 'level:error AND message:"Database connection failed"',
+    threshold: 5,
+    for: '5m'
+  },
+  severity: 'error',
+  notifications: [
+    {
+      channel: 'slack',
+      target: '#alerts'
+    }
+  ],
+  runbook: 'https://example.com/runbooks/database-errors'
+})
+```
+
+## Notification Channels
+
+Observability.do supports various notification channels:
+
+### Slack
+
+Send notifications to Slack channels:
+
+```typescript
+// Example Slack notification
+{
+  channel: 'slack',
+  target: '#alerts',
+  template: '🚨 *{{alert.name}}*: {{alert.description}}\n*Severity*: {{alert.severity}}\n*Details*: {{alert.details}}'
+}
+```
+
+### Email
+
+Send notifications via email:
+
+```typescript
+// Example email notification
+{
+  channel: 'email',
+  target: 'oncall@example.com',
+  subject: '[{{alert.severity}}] {{alert.name}}',
+  template: 'Alert: {{alert.name}}\nSeverity: {{alert.severity}}\nDescription: {{alert.description}}\nDetails: {{alert.details}}\nRunbook: {{alert.runbook}}'
+}
+```
+
+### Webhook
+
+Send notifications to webhooks:
+
+```typescript
+// Example webhook notification
+{
+  channel: 'webhook',
+  target: 'https://example.com/webhook',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer {{secrets.WEBHOOK_TOKEN}}'
+  },
+  template: {
+    alert: '{{alert}}',
+    timestamp: '{{timestamp}}'
+  }
+}
+```
+
+### PagerDuty
+
+Send notifications to PagerDuty:
+
+```typescript
+// Example PagerDuty notification
+{
+  channel: 'pagerduty',
+  target: 'service-team',
+  details: {
+    severity: '{{alert.severity}}',
+    summary: '{{alert.name}}: {{alert.description}}',
+    source: '{{alert.service}}',
+    component: '{{alert.component}}',
+    group: '{{alert.group}}',
+    class: '{{alert.class}}'
+  }
+}
+```
+
+## Alert Management
+
+Manage your alerts through the dashboard or API:
+
+```typescript
+// Update an alert
+await observability.alerts.update('high_cpu_usage', {
+  threshold: 90,
+  notifications: [
+    {
+      channel: 'slack',
+      target: '#alerts-performance'
+    },
+    {
+      channel: 'email',
+      target: 'oncall@example.com'
+    }
+  ]
+})
+
+// Enable or disable an alert
+await observability.alerts.setEnabled('high_cpu_usage', true)
+
+// Delete an alert
+await observability.alerts.delete('high_cpu_usage')
+
+// Test an alert
+const testResult = await observability.alerts.test('high_cpu_usage')
+```
+
+## Alert Incidents
+
+Manage alert incidents through the dashboard or API:
+
+```typescript
+// Get active incidents
+const activeIncidents = await observability.alerts.getActiveIncidents()
+
+// Get incident details
+const incident = await observability.alerts.getIncident('incident-123')
+
+// Acknowledge an incident
+await observability.alerts.acknowledgeIncident('incident-123', {
+  user: 'john.doe',
+  comment: 'Investigating the issue'
+})
+
+// Resolve an incident
+await observability.alerts.resolveIncident('incident-123', {
+  user: 'john.doe',
+  comment: 'Issue resolved',
+  resolution: 'Restarted the service'
+})
+
+// Add a comment to an incident
+await observability.alerts.addIncidentComment('incident-123', {
+  user: 'john.doe',
+  comment: 'Found the root cause: database connection pool exhausted'
+})
+```
+
+## Alert Automation
+
+Automate responses to alerts:
+
+```typescript
+// Create an alert automation
+await observability.alerts.createAutomation({
+  name: 'restart-service',
+  description: 'Automatically restart a service when it becomes unresponsive',
+  triggers: [
+    {
+      alert: 'service_unresponsive',
+      condition: 'FIRING'
+    }
+  ],
+  actions: [
+    {
+      type: 'function',
+      function: 'restartService',
+      input: {
+        service: '{{alert.labels.service}}',
+        instance: '{{alert.labels.instance}}'
+      }
+    },
+    {
+      type: 'notification',
+      channel: 'slack',
+      target: '#alerts-automation',
+      message: 'Automatically restarted service {{alert.labels.service}} on instance {{alert.labels.instance}}'
+    }
+  ],
+  cooldown: '1h'
+})
+
+// Enable or disable an automation
+await observability.alerts.setAutomationEnabled('restart-service', true)
+
+// Test an automation
+const testResult = await observability.alerts.testAutomation('restart-service', {
+  alert: 'service_unresponsive',
+  labels: {
+    service: 'user-service',
+    instance: 'server-1'
+  }
+})
+```
+
+## Next Steps
+
+- [Configure alerts for your application](/observability/alerts/configure)
+- [Learn about alert notifications](/observability/alerts/notifications)
+- [Explore alert automation options](/observability/alerts/automation)
