@@ -7,5 +7,11 @@ export const Events: CollectionConfig = {
     useAsTitle: 'name',
   },
   access: { create: () => false, update: () => false, delete: () => false },
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [
+    { name: 'name', type: 'text' },
+    { name: 'action', type: 'relationship', relationTo: 'actions' },
+    { name: 'generation', type: 'relationship', relationTo: 'generations' },
+    { name: 'request', type: 'json' },
+    { name: 'meta', type: 'json' },
+  ],
 }

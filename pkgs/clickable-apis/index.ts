@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import punycode from 'punycode'
 import configPromise from '@payload-config'
-import { BasePayload, CollectionSlug, getPayload, SanitizedPermissions } from 'payload'
+import { BasePayload, CollectionSlug, getPayload, PayloadRequest, SanitizedPermissions } from 'payload'
 
 // Types for our enhanced db operations
 type CollectionQuery = Record<string, any>
@@ -31,6 +31,7 @@ type ApiContext = {
   permissions: SanitizedPermissions // Payload permissions object type
   payload: BasePayload // Payload instance
   db: PayloadDB // Enhanced database access
+  req?: PayloadRequest
 }
 
 type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T

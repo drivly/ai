@@ -99,11 +99,18 @@ export interface Config {
     integrations: Integration;
     webhooks: Webhook;
     apikeys: Apikey;
+    'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
+    nouns: {
+      things: 'things';
+    };
+    verbs: {
+      actions: 'actions';
+    };
     things: {
       subjectOf: 'actions';
       objectOf: 'actions';
@@ -144,6 +151,7 @@ export interface Config {
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
+    'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -162,7 +170,13 @@ export interface Config {
         collection: 'apikeys';
       });
   jobs: {
-    tasks: unknown;
+    tasks: {
+      executeFunction: TaskExecuteFunction;
+      inline: {
+        input: unknown;
+        output: unknown;
+      };
+    };
     workflows: unknown;
   };
 }
@@ -209,7 +223,7 @@ export interface ApikeyAuthOperations {
 export interface Function {
   id: string;
   name?: string | null;
-  type?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code') | null;
+  type: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code';
   schema?:
     | {
         [k: string]: unknown;
@@ -297,6 +311,69 @@ export interface Agent {
 export interface Noun {
   id: string;
   name?: string | null;
+  things?: {
+    docs?: (string | Thing)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "things".
+ */
+export interface Thing {
+  id: string;
+  name?: string | null;
+  sqid?: string | null;
+  hash?: string | null;
+  type?: (string | null) | Noun;
+  data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  subjectOf?: {
+    docs?: (string | Action)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  objectOf?: {
+    docs?: (string | Action)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions".
+ */
+export interface Action {
+  id: string;
+  subject?: (string | null) | Thing;
+  verb?:
+    | ({
+        relationTo: 'verbs';
+        value: string | Verb;
+      } | null)
+    | ({
+        relationTo: 'functions';
+        value: string | Function;
+      } | null);
+  object?: (string | null) | Thing;
+  hash?: string | null;
+  generation?: {
+    docs?: (string | Generation)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -354,52 +431,8 @@ export interface Verb {
    * Object like Destruction
    */
   inverseObject?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things".
- */
-export interface Thing {
-  id: string;
-  name?: string | null;
-  sqid?: string | null;
-  hash?: string | null;
-  type?: (string | null) | Noun;
-  data?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  subjectOf?: {
+  actions?: {
     docs?: (string | Action)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  objectOf?: {
-    docs?: (string | Action)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions".
- */
-export interface Action {
-  id: string;
-  subject?: (string | null) | Thing;
-  verb?: (string | null) | Verb;
-  object?: (string | null) | Thing;
-  generation?: {
-    docs?: (string | Generation)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -582,6 +615,26 @@ export interface Dataset {
 export interface Event {
   id: string;
   name?: string | null;
+  action?: (string | null) | Action;
+  generation?: (string | null) | Generation;
+  request?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  meta?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -680,6 +733,102 @@ export interface Apikey {
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs".
+ */
+export interface PayloadJob {
+  id: string;
+  /**
+   * Input data provided to the job
+   */
+  input?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  taskStatus?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  completedAt?: string | null;
+  totalTried?: number | null;
+  /**
+   * If hasError is true this job will not be retried
+   */
+  hasError?: boolean | null;
+  /**
+   * If hasError is true, this is the error that caused it
+   */
+  error?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Task execution log
+   */
+  log?:
+    | {
+        executedAt: string;
+        completedAt: string;
+        taskSlug: 'inline' | 'executeFunction';
+        taskID: string;
+        input?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        output?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        state: 'failed' | 'succeeded';
+        error?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        parent?: {
+          taskSlug?: ('inline' | 'executeFunction') | null;
+          taskID?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  taskSlug?: ('inline' | 'executeFunction') | null;
+  queue?: string | null;
+  waitUntil?: string | null;
+  processing?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -811,6 +960,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'apikeys';
         value: string | Apikey;
+      } | null)
+    | ({
+        relationTo: 'payload-jobs';
+        value: string | PayloadJob;
       } | null);
   globalSlug?: string | null;
   user:
@@ -907,6 +1060,7 @@ export interface AgentsSelect<T extends boolean = true> {
  */
 export interface NounsSelect<T extends boolean = true> {
   name?: T;
+  things?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -927,6 +1081,7 @@ export interface VerbsSelect<T extends boolean = true> {
   inverseEvent?: T;
   inverseSubject?: T;
   inverseObject?: T;
+  actions?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -971,6 +1126,7 @@ export interface ActionsSelect<T extends boolean = true> {
   subject?: T;
   verb?: T;
   object?: T;
+  hash?: T;
   generation?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1094,6 +1250,10 @@ export interface DatasetsSelect<T extends boolean = true> {
  */
 export interface EventsSelect<T extends boolean = true> {
   name?: T;
+  action?: T;
+  generation?: T;
+  request?: T;
+  meta?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1201,6 +1361,43 @@ export interface ApikeysSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs_select".
+ */
+export interface PayloadJobsSelect<T extends boolean = true> {
+  input?: T;
+  taskStatus?: T;
+  completedAt?: T;
+  totalTried?: T;
+  hasError?: T;
+  error?: T;
+  log?:
+    | T
+    | {
+        executedAt?: T;
+        completedAt?: T;
+        taskSlug?: T;
+        taskID?: T;
+        input?: T;
+        output?: T;
+        state?: T;
+        error?: T;
+        parent?:
+          | T
+          | {
+              taskSlug?: T;
+              taskID?: T;
+            };
+        id?: T;
+      };
+  taskSlug?: T;
+  queue?: T;
+  waitUntil?: T;
+  processing?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -1230,6 +1427,57 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskExecuteFunction".
+ */
+export interface TaskExecuteFunction {
+  input: {
+    functionName: string;
+    args:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    project?: string | null;
+    schema?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    settings?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    timeout?: number | null;
+    seeds?: number | null;
+    callback?: string | null;
+  };
+  output: {
+    output?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

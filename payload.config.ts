@@ -10,6 +10,7 @@ import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { Config } from './payload.types'
 
 import { collections } from '@/collections'
+import { tasks } from '@/tasks'
 
 import { isSuperAdmin } from './lib/hooks/isSuperAdmin'
 
@@ -31,6 +32,10 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
+  jobs: {
+    addParentToTaskLog: true,
+    tasks,
+  },
   // sharp,
   plugins: [
     payloadCloudPlugin(),
