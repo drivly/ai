@@ -1,8 +1,7 @@
 import { Capability, getModel } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
 import { fetchFromProvider } from 'providers/openRouter'
-import { z } from 'zod'
-import { AuthHeader, ChatCompletionRequest, ChatCompletionResponse } from '../types'
+import { AuthHeader, type ChatCompletionRequest, ChatCompletionRequestSchema, ChatCompletionResponseSchema } from '../types'
 
 export class ChatCompletionCreate extends OpenAPIRoute {
   schema = {
@@ -13,7 +12,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
       body: {
         content: {
           'application/json': {
-            schema: ChatCompletionRequest,
+            schema: ChatCompletionRequestSchema,
           },
         },
       },
@@ -23,7 +22,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
         description: 'Returns the chat completion',
         content: {
           'application/json': {
-            schema: ChatCompletionResponse,
+            schema: ChatCompletionResponseSchema,
           },
         },
       },
@@ -49,9 +48,12 @@ export class ChatCompletionCreate extends OpenAPIRoute {
   }
 }
 
-function getRequiredCapabilities(body: z.infer<typeof ChatCompletionRequest>) {
-  const requiredCapabilities: Capability[] = [] //['code']
-
+function getRequiredCapabilities(body: ChatCompletionRequest) {
+  const requiredCapabilities: Capability[] = []
+  // TODO: Add code capability
+  // if (body.???) {
+  //   requiredCapabilities.push('code')
+  // }
   if (body.web_search_options) {
     requiredCapabilities.push('online')
   }
