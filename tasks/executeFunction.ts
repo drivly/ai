@@ -63,7 +63,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${process.env.AI_GATEWAY_TOKEN || process.env.OPEN_ROUTER_API_KEY}`,
       'HTTP-Referer': 'https://functions.do', // TODO: Figure out the proper logic to set/override the app
-      'X-Title': 'Reliable Structured Outputs Without Complexity', // TODO: Figure out a dynamic place for the app title
+      'X-Title': 'Functions.do - Reliable Structured Outputs Without Complexity', // TODO: Figure out a dynamic place for the app title
     },
     body: JSON.stringify(request),
   })
