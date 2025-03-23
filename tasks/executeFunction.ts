@@ -81,7 +81,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   let object: any
 
   try {
-    object = JSON.parse(text)
+    object = JSON.parse(text.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, ''))
   } catch (error) { }
 
   console.log(generation, text, object)
