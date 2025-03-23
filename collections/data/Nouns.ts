@@ -7,5 +7,8 @@ export const Nouns: CollectionConfig = {
     useAsTitle: 'name',
   },
   versions: true,
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [
+    { name: 'name', type: 'text' },
+    { name: 'things', type: 'join', collection: 'things', on: 'type' },
+  ],
 }
