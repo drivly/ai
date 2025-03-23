@@ -1,0 +1,96 @@
+{
+  "name": "payload-vscode",
+  "displayName": "Payload CMS",
+  "version": "0.1.0",
+  "description": "VSCode extension for Payload CMS integration",
+  "publisher": "drivly",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "payload-vscode.refreshCollections",
+        "title": "Refresh Collections",
+        "category": "Payload CMS"
+      },
+      {
+        "command": "payload-vscode.viewDocument",
+        "title": "View Document",
+        "category": "Payload CMS"
+      },
+      {
+        "command": "payload-vscode.searchCollection",
+        "title": "Search Collection",
+        "category": "Payload CMS"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "payloadCollections",
+          "name": "Payload Collections"
+        }
+      ]
+    },
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "payload-vscode.viewDocument",
+          "when": "view == payloadCollections && viewItem == document"
+        },
+        {
+          "command": "payload-vscode.searchCollection",
+          "when": "view == payloadCollections && viewItem == collection"
+        },
+        {
+          "command": "payload-vscode.refreshCollections",
+          "when": "view == payloadCollections"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "test": "vitest run",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "dependencies": {
+    "yaml": "^2.7.0",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@typescript-eslint/parser": "^8.18.0",
+    "esbuild": "^0.19.12",
+    "eslint": "^9.17.0",
+    "typescript": "^5.8.2",
+    "vitest": "^2.1.8",
+    "@vscode/vsce": "^2.15.0"
+  },
+  "peerDependencies": {
+    "payload": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git"
+  },
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "homepage": "https://github.com/drivly/ai"
+}
