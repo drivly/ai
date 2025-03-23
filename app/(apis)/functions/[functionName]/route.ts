@@ -10,7 +10,7 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   const { seed = '1', temperature, model, ...args } = Object.fromEntries(request.nextUrl.searchParams)
   const settings = {
     seed: parseInt(seed),
-    temperature: parseFloat(temperature),
+    temperature: temperature ? parseFloat(temperature) : undefined,
     model,
   }
   
