@@ -104,9 +104,6 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
   waitUntil(
     (async () => {
-      // TODO: Save Action
-      // TODO: Save Generation
-      // TODO: Save Event
       const startSave = Date.now()
       const objectHash = hash(object)
       const objectResult = await payload.create({
