@@ -7,9 +7,10 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   // If we need a specific function by ID, we could use:
   // const specificFunction = await db.functions.get('function-id')
   const { functionName } = params as { functionName: string }
-  const { seed = '1', model, ...args } = Object.fromEntries(request.nextUrl.searchParams)
+  const { seed = '1', temperature, model, ...args } = Object.fromEntries(request.nextUrl.searchParams)
   const settings = {
     seed: parseInt(seed),
+    temperature: parseFloat(temperature),
     model,
   }
   
