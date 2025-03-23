@@ -10,9 +10,9 @@
   ],
   "scripts": {
     "dev": "dotenvx run -- npx tsx watch src/demo.ts",
-    "build": "rm -rf dist && tsc",
+    "build": "rimraf dist && tsc",
     "generate:models": "npx tsx build/build-models.ts",
-    "clean": "rm -rf dist",
+    "clean": "rimraf dist",
     "lint": "tsc --noEmit",
     "prepublishOnly": "pnpm clean && pnpm build",
     "test": "dotenvx run -- vitest",
@@ -21,8 +21,9 @@
   "type": "module",
   "packageManager": "pnpm@10.6.5",
   "devDependencies": {
-    "typescript": "^5.8.2",
     "@types/node": "^22.13.10",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.2",
     "vitest": "^3.0.9"
   },
   "dependencies": {
