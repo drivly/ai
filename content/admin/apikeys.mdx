@@ -1,0 +1,313 @@
+# API Keys
+
+Create and manage API keys for secure access to your AI applications.
+
+## Overview
+
+API Keys provide a way to securely access your AI applications. API Keys can:
+
+- Authenticate API requests
+- Control access to resources
+- Track usage and costs
+- Manage permissions and scopes
+
+## Key Features
+
+- **Authentication**: Securely authenticate API requests
+- **Access Control**: Control access to resources
+- **Usage Tracking**: Track API usage and costs
+- **Permissions Management**: Manage permissions and scopes
+
+## Creating API Keys
+
+Create API keys using the Admin.do API:
+
+```typescript
+// Create an API key
+const apiKey = await admin.apiKeys.create({
+  name: 'My API Key',
+  description: 'An API key for my application',
+  organization: 'org-123',
+  expiresAt: '2024-12-31T23:59:59Z',
+  scopes: ['functions:read', 'functions:write', 'workflows:read', 'workflows:execute'],
+  projects: ['proj-123', 'proj-456'],
+  restrictions: {
+    ipAddresses: ['192.168.1.1/24', '10.0.0.1/16'],
+    referrers: ['example.com', '*.example.org']
+  }
+})
+
+// The API key is only returned once
+console.log(`API Key: ${apiKey.key}`)
+```
+
+## Managing API Keys
+
+Manage API keys using the Admin.do API:
+
+```typescript
+// Get all API keys
+const apiKeys = await admin.apiKeys.list({
+  organization: 'org-123',
+  limit: 10,
+  offset: 0
+})
+
+// Get a specific API key
+const apiKey = await admin.apiKeys.get('key-123')
+
+// Update an API key
+const updatedApiKey = await admin.apiKeys.update('key-123', {
+  name: 'My Updated API Key',
+  description: 'An updated API key for my application',
+  expiresAt: '2025-12-31T23:59:59Z',
+  scopes: ['functions:read', 'functions:write', 'workflows:read', 'workflows:execute', 'agents:read'],
+  projects: ['proj-123', 'proj-456', 'proj-789'],
+  restrictions: {
+    ipAddresses: ['192.168.1.1/24', '10.0.0.1/16', '172.16.0.1/16'],
+    referrers: ['example.com', '*.example.org', '*.example.net']
+  }
+})
+
+// Delete an API key
+await admin.apiKeys.delete('key-123')
+
+// Revoke an API key
+await admin.apiKeys.revoke('key-123', {
+  reason: 'Security concern'
+})
+```
+
+## API Key Scopes
+
+API keys can have various scopes to control access to resources:
+
+### Function Scopes
+
+- `functions:read`: Read functions
+- `functions:write`: Create, update, and delete functions
+- `functions:execute`: Execute functions
+
+### Workflow Scopes
+
+- `workflows:read`: Read workflows
+- `workflows:write`: Create, update, and delete workflows
+- `workflows:execute`: Execute workflows
+
+### Agent Scopes
+
+- `agents:read`: Read agents
+- `agents:write`: Create, update, and delete agents
+- `agents:execute`: Execute agents
+
+### Data Scopes
+
+- `data:read`: Read data
+- `data:write`: Create, update, and delete data
+
+### Event Scopes
+
+- `events:read`: Read events
+- `events:write`: Create, update, and delete events
+- `events:trigger`: Trigger events
+
+### Admin Scopes
+
+- `admin:read`: Read admin resources
+- `admin:write`: Create, update, and delete admin resources
+- `admin:users`: Manage users
+- `admin:organizations`: Manage organizations
+- `admin:projects`: Manage projects
+- `admin:billing`: Manage billing
+
+## API Key Usage
+
+Track API key usage using the Admin.do API:
+
+```typescript
+// Get API key usage
+const usage = await admin.apiKeys.getUsage('key-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents'],
+  groupBy: 'day'
+})
+
+// Get usage by resource
+const functionUsage = await admin.apiKeys.getResourceUsage('key-123', 'functions', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  groupBy: 'day'
+})
+
+// Get usage by project
+const projectUsage = await admin.apiKeys.getProjectUsage('key-123', 'proj-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents']
+})
+```
+
+## API Key Logs
+
+View API key logs using the Admin.do API:
+
+```typescript
+// Get API key logs
+const logs = await admin.apiKeys.getLogs('key-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  status: 'success',
+  limit: 10,
+  offset: 0
+})
+
+// Get a specific log entry
+const log = await admin.apiKeys.getLog('key-123', 'log-123')
+```
+
+## API Key Restrictions
+
+Restrict API key usage using the Admin.do API:
+
+```typescript
+// Update API key restrictions
+const updatedApiKey = await admin.apiKeys.updateRestrictions('key-123', {
+  ipAddresses: ['192.168.1.1/24', '10.0.0.1/16', '172.16.0.1/16'],
+  referrers: ['example.com', '*.example.org', '*.example.net'],
+  rateLimit: {
+    requests: 1000,
+    period: 'minute'
+  },
+  timeRestrictions: {
+    daysOfWeek: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+    hoursOfDay: [9, 10, 11, 12, 13, 14, 15, 16, 17],
+    timezone: 'America/New_York'
+  }
+})
+```
+
+## API Key Rotation
+
+Rotate API keys using the Admin.do API:
+
+```typescript
+// Rotate an API key
+const newApiKey = await admin.apiKeys.rotate('key-123', {
+  expiresAt: '2025-12-31T23:59:59Z'
+})
+
+// The new API key is only returned once
+console.log(`New API Key: ${newApiKey.key}`)
+```
+
+## Using API Keys
+
+Use API keys to authenticate API requests:
+
+```typescript
+// Node.js example
+const axios = require('axios')
+
+const apiKey = 'your-api-key'
+const baseUrl = 'https://api.admin.do'
+
+// Create a function
+const createFunction = async () => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/functions`,
+      {
+        name: 'My Function',
+        description: 'A function for my application',
+        input: {
+          name: {
+            type: 'string',
+            description: 'The name to greet'
+          }
+        },
+        output: {
+          greeting: {
+            type: 'string',
+            description: 'The greeting message'
+          }
+        },
+        code: `
+          const { name } = input;
+          return {
+            greeting: \`Hello, \${name}!\`
+          };
+        `
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    
+    console.log('Function created:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error creating function:', error.response?.data || error.message)
+    throw error
+  }
+}
+
+// Execute a function
+const executeFunction = async (functionId, input) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/functions/${functionId}/execute`,
+      input,
+      {
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+    
+    console.log('Function executed:', response.data)
+    return response.data
+  } catch (error) {
+    console.error('Error executing function:', error.response?.data || error.message)
+    throw error
+  }
+}
+
+// Usage
+const main = async () => {
+  const func = await createFunction()
+  const result = await executeFunction(func.id, { name: 'John' })
+  console.log(result.output.greeting) // "Hello, John!"
+}
+
+main()
+```
+
+## API Key Best Practices
+
+- **Never share API keys**: Keep your API keys secure and never share them publicly
+- **Use environment variables**: Store API keys in environment variables, not in code
+- **Set appropriate scopes**: Only grant the permissions that are needed
+- **Rotate keys regularly**: Rotate API keys periodically to enhance security
+- **Monitor usage**: Regularly monitor API key usage for suspicious activity
+- **Set expiration dates**: Set expiration dates for API keys to limit their lifetime
+- **Use IP restrictions**: Restrict API key usage to specific IP addresses
+- **Implement rate limiting**: Set rate limits to prevent abuse
+
+## Next Steps
+
+- [Create your first API key](/admin/apikeys/create)
+- [Secure your API keys](/admin/apikeys/security)
+- [Monitor API key usage](/admin/apikeys/monitoring)
