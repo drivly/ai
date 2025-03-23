@@ -152,7 +152,7 @@ export const ChatCompletionRequest = z.object({
     })
     .optional(),
   presence_penalty: z.number().optional(),
-  reasoning_effort: z.string().optional(),
+  reasoning_effort: z.enum(['low', 'medium', 'high']).optional(),
   response_format: z
     .object({ type: z.literal('text') })
     .or(z.object({ type: z.literal('json_object') }))
