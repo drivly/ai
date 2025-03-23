@@ -108,7 +108,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       const objectHash = hash(object)
       const objectResult = await payload.create({
         collection: 'things',
-        data: { hash: objectHash, data: object },
+        data: { name: prompt, hash: objectHash, data: object },
       })
       const actionHash = hash({ functionName, args, settings })
       const actionResult = await payload.create({
