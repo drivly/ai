@@ -358,15 +358,8 @@ export interface Thing {
 export interface Action {
   id: string;
   subject?: (string | null) | Thing;
-  verb?:
-    | ({
-        relationTo: 'verbs';
-        value: string | Verb;
-      } | null)
-    | ({
-        relationTo: 'functions';
-        value: string | Function;
-      } | null);
+  verb?: (string | null) | Verb;
+  function?: (string | null) | Function;
   object?: (string | null) | Thing;
   hash?: string | null;
   generation?: {
@@ -1125,6 +1118,7 @@ export interface SearchesSelect<T extends boolean = true> {
 export interface ActionsSelect<T extends boolean = true> {
   subject?: T;
   verb?: T;
+  function?: T;
   object?: T;
   hash?: T;
   generation?: T;

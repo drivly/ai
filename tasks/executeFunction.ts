@@ -113,7 +113,8 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       const actionHash = hash({ functionName, args, settings })
       const actionResult = await payload.create({
         collection: 'actions',
-        data: { hash: actionHash, subject: argsDoc?.id, verb: { relationTo: 'functions', value: functionDoc?.id }, object: objectResult?.id },
+        // data: { hash: actionHash, subject: argsDoc?.id, verb: { relationTo: 'functions', value: functionDoc?.id }, object: objectResult?.id },
+        data: { hash: actionHash, subject: argsDoc?.id, function: functionDoc?.id, object: objectResult?.id },
       })
       const generationResult = await payload.create({
         collection: 'generations',
