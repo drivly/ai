@@ -13,18 +13,17 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
     temperature: temperature ? parseFloat(temperature) : undefined,
     model,
     system,
-    prompt
+    prompt,
   }
-  
+
   const start = Date.now()
   const results = await executeFunction({ input: { functionName, args, settings }, payload })
   const latency = Date.now() - start
   const output = results?.output
   const keys = Object.keys(output || {})
-  const type = keys.length === 1 ? keys[0]: undefined
+  const type = keys.length === 1 ? keys[0] : undefined
   const data = type ? output[type] : output
   return { functionName, args, type, data, reasoning: results?.reasoning?.split('\n'), settings, latency }
-
 
   // const job = await payload.jobs.queue({
   //   task: 'executeFunction',

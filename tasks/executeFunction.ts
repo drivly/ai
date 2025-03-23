@@ -20,7 +20,20 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
   // Lookup function, schema (type), args (thing), and result (action/object)
   // TODO: would these hash lookups be better as upserts?
-  let [{ docs: [functionDoc] }, { docs: [schemaDoc] }, { docs: [argsDoc] }, { docs: [actionDoc] }] = await Promise.all([
+  let [
+    {
+      docs: [functionDoc],
+    },
+    {
+      docs: [schemaDoc],
+    },
+    {
+      docs: [argsDoc],
+    },
+    {
+      docs: [actionDoc],
+    },
+  ] = await Promise.all([
     payload.find({ collection: 'functions', where: { name: { equals: functionName } }, depth: 0 }),
     schemaHash ? payload.find({ collection: 'types', where: { hash: { equals: schemaHash } }, depth: 0 }) : { docs: [] },
     argsHash ? payload.find({ collection: 'things', where: { hash: { equals: argsHash } }, depth: 0 }) : { docs: [] },
@@ -53,7 +66,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       { role: 'user', content: prompt }, // TODO: Merge with prompt settings/config
     ],
     response_format: { type: 'json_object' },
-    ...settings
+    ...settings,
   }
 
   const url = process.env.AI_GATEWAY_URL ? process.env.AI_GATEWAY_URL + '/v1/chat/completions' : 'https://openrouter.ai/api/v1/chat/completions'
@@ -61,7 +74,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.AI_GATEWAY_TOKEN || process.env.OPEN_ROUTER_API_KEY}`,
+      Authorization: `Bearer ${process.env.AI_GATEWAY_TOKEN || process.env.OPEN_ROUTER_API_KEY}`,
       'HTTP-Referer': 'https://functions.do', // TODO: Figure out the proper logic to set/override the app
       'X-Title': 'Functions.do - Reliable Structured Outputs Without Complexity', // TODO: Figure out a dynamic place for the app title
     },
@@ -75,33 +88,42 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   if (!functionDoc && created[0]) functionDoc = created[0]
   if (!argsDoc && created[1]) argsDoc = created[1]
 
-
   const text = generation?.choices?.[0]?.message?.content || ''
   const reasoning = generation?.choices?.[0]?.message?.reasoning || undefined
   let object: any
 
   try {
     object = JSON.parse(text.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, ''))
-  } catch (error) { }
+  } catch (error) {}
 
   console.log(generation, text, object)
-
 
   const totalLatency = Date.now() - start
   const latency = { hashLatency, lookupLatency, generationLatency, totalLatency }
   console.log(latency)
 
-  waitUntil((async () => {
-    // TODO: Save Action
-    // TODO: Save Generation
-    // TODO: Save Event
-    const startSave = Date.now()
-    const actionResult = await payload.create({ collection: 'actions', data: { hash: actionHash, subject: argsDoc?.id, verb: { relationTo: 'functions', value: functionDoc?.id }, object: schemaDoc?.id } })
-    const generationResult = await payload.create({ collection: 'generations', data: { action: actionResult?.id, settings: argsDoc?.id, request, response: generation, status: 'success', duration: generationLatency } })
-    const eventResult = await payload.create({ collection: 'events', data: { name: prompt, action: actionResult?.id, request: { headers, seeds, callback }, meta: { type: 'object', latency } } })
-    const saveLatency = Date.now() - (startSave)
-    console.log({ saveLatency })
-  })())
+  waitUntil(
+    (async () => {
+      // TODO: Save Action
+      // TODO: Save Generation
+      // TODO: Save Event
+      const startSave = Date.now()
+      const actionResult = await payload.create({
+        collection: 'actions',
+        data: { hash: actionHash, subject: argsDoc?.id, verb: { relationTo: 'functions', value: functionDoc?.id }, object: schemaDoc?.id },
+      })
+      const generationResult = await payload.create({
+        collection: 'generations',
+        data: { action: actionResult?.id, settings: argsDoc?.id, request, response: generation, status: 'success', duration: generationLatency },
+      })
+      const eventResult = await payload.create({
+        collection: 'events',
+        data: { name: prompt, action: actionResult?.id, request: { headers, seeds, callback }, meta: { type: 'object', latency } },
+      })
+      const saveLatency = Date.now() - startSave
+      console.log({ saveLatency })
+    })(),
+  )
 
   return { output: object, reasoning }
 }
@@ -197,7 +219,6 @@ export const executeFunctionTask = {
   //   if (!functionDoc && created[0]) functionDoc = created[0]
   //   if (!argsDoc && created[1]) argsDoc = created[1]
 
-
   //   const text = generation?.choices?.[0]?.message?.content || ''
   //   let object: any
 
@@ -206,7 +227,6 @@ export const executeFunctionTask = {
   //   } catch (error) { }
 
   //   console.log(generation, text, object)
-
 
   //   const totalLatency = Date.now() - start
   //   const latency = { hashLatency, lookupLatency, generationLatency, totalLatency }
@@ -225,7 +245,6 @@ export const executeFunctionTask = {
   //   // })())
 
   //   return { output: object }
-    
 
   //   // if (functionDoc) {
   //   //   switch (functionDoc.type) {ob
@@ -243,7 +262,6 @@ export const executeFunctionTask = {
   //   // } else {
 
   //   // }
-
 
   //   // return { output: 'success' }
   // },
