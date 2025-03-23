@@ -5,7 +5,7 @@ import hash from 'object-hash'
 // export const executeFunction: TaskHandler<'executeFunction'> = async ({ input, req }) => {
 // TODO: Fix the typing and response ... temporary hack to get results in the functions API
 export const executeFunction = async ({ input, req, payload }: any) => {
-  const headers = Object.fromEntries(req?.headers)
+  const headers = req?.headers ? Object.fromEntries(req?.headers) : undefined
   // const { payload } = req
   if (!payload) payload = req?.payload
   const { functionName, args, schema, timeout, seeds, callback } = input
