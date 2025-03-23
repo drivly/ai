@@ -1,4 +1,8 @@
 export default {
+  index: {
+    title: 'Home',
+    type: 'page',
+  },
   ai: {
     title: 'AI',
     type: 'menu',
