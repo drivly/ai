@@ -15,7 +15,7 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   }
   
   const start = Date.now()
-  const results = await executeFunction({ input: { functionName, args, settings }, payload, req: request })
+  const results = await executeFunction({ input: { functionName, args, settings }, payload })
   const latency = Date.now() - start
   return { functionName, data: results?.output, settings, latency }
 
