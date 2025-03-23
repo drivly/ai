@@ -108,9 +108,15 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       // TODO: Save Generation
       // TODO: Save Event
       const startSave = Date.now()
+      const objectHash = hash(object)
+      const objectResult = await payload.create({
+        collection: 'things',
+        data: { hash: objectHash, data: object },
+      })
+      const actionHash = hash({ functionName, args, settings })
       const actionResult = await payload.create({
         collection: 'actions',
-        data: { hash: actionHash, subject: argsDoc?.id, verb: { relationTo: 'functions', value: functionDoc?.id }, object: schemaDoc?.id },
+        data: { hash: actionHash, subject: argsDoc?.id, verb: { relationTo: 'functions', value: functionDoc?.id }, object: objectResult?.id },
       })
       const generationResult = await payload.create({
         collection: 'generations',
