@@ -1477,6 +1477,7 @@ export interface TaskExecuteFunction {
       | number
       | boolean
       | null;
+    reasoning?: string | null;
   };
 }
 /**

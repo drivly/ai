@@ -77,6 +77,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
 
   const text = generation?.choices?.[0]?.message?.content || ''
+  const reasoning = generation?.choices?.[0]?.message?.reasoning || undefined
   let object: any
 
   try {
@@ -102,7 +103,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     console.log({ saveLatency })
   })())
 
-  return { output: object }
+  return { output: object, reasoning }
 }
 
 export const executeFunctionTask = {
@@ -114,12 +115,15 @@ export const executeFunctionTask = {
     { name: 'args', type: 'json', required: true },
     { name: 'project', type: 'text' },
     { name: 'schema', type: 'json' },
-    { name: 'settings', type: 'json' }, // TODO: Define the correct 
+    { name: 'settings', type: 'json' }, // TODO: Define the correct type here
     { name: 'timeout', type: 'number' },
     { name: 'seeds', type: 'number' },
     { name: 'callback', type: 'text' },
   ],
-  outputSchema: [{ name: 'output', type: 'json' }],
+  outputSchema: [
+    { name: 'output', type: 'json' },
+    { name: 'reasoning', type: 'text' },
+  ],
   handler: executeFunction,
   // onFail: async (ctx) => {}
   // onSuccess: async (ctx) => {}
