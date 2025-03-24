@@ -119,6 +119,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   } catch (error) {
     return {
       error: 'Model not found or has incompatible capabilities',
+      // @ts-expect-error - Error is not typed
       errorMessage: error.message,
     }
   }

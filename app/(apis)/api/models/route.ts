@@ -32,7 +32,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   const provider = qs.get('provider')
   const author = qs.get('author')
 
-  const generateFacet = (param: string, filter: string | undefined) => {
+  const generateFacet = (param: string, filter: string | null) => {
     const allValues = models
       .map((model) => model[param as keyof typeof model])
       .filter((value) => !filter || value === filter)
