@@ -21,10 +21,11 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "@payload-config": ["payload.config.ts"]
+      "@payload-config": ["payload.config.ts"],
+      "@/.velite/*": [".velite/*"]
     },
     "target": "ES2022"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "mdx-components.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "mdx-components.ts", ".velite/**/*.ts"],
   "exclude": ["node_modules", "workers", "pkgs", "websites"]
 }
