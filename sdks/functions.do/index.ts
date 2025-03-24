@@ -1,4 +1,4 @@
-import { AIConfig, AIFunction, FunctionDefinition, FunctionCallback, SchemaValue, AI_Instance, SchemaToOutput } from './types'
+import { AIConfig, AIFunction, FunctionDefinition, FunctionCallback, SchemaValue, AI_Instance, SchemaToOutput, MarkdownOutput } from './types'
 
 // Helper to preserve array types for TypeScript
 const preserveArrayTypes = <T extends Array<any>>(arr: T): T => {
@@ -18,6 +18,29 @@ const generateRequest = (functionName: string, schema: FunctionDefinition, input
 // Helper to call the functions.do API
 const callAPI = async (request: any) => {
   const url = process.env.FUNCTIONS_API_URL || 'https://functions.do/api/generate'
+  console.log({ url })
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `users API-Key ${process.env.FUNCTIONS_DO_API_KEY}`,
+    },
+    body: JSON.stringify(request),
+  })
+
+  if (!response.ok) {
+    console.log(response.status, response.statusText)
+    throw new Error(`API call failed: ${response.statusText}`)
+  }
+
+  const data = (await response.json()) as any
+  console.log(data)
+  return data
+}
+
+// Helper to call the functions.do API with markdown output
+const callMarkdownAPI = async (request: any): Promise<MarkdownOutput> => {
+  const url = process.env.FUNCTIONS_API_URL || 'https://functions.do/api/generate-markdown'
   console.log({ url })
   const response = await fetch(url, {
     method: 'POST',
@@ -69,6 +92,37 @@ const createFunction = <T extends FunctionDefinition>(name: string, schema: T, c
   }
 }
 
+// Helper to generate a markdown function from schema and config
+const createMarkdownFunction = <T extends FunctionDefinition>(name: string, schema: T, config?: AIConfig) => {
+  // Extract the output type from the schema, ensuring arrays are handled properly
+  type OutputType = SchemaToOutput<T>
+
+  // Return a typed function to ensure TypeScript properly infers types from schema
+  return async (input: any, functionConfig?: AIConfig): Promise<MarkdownOutput & OutputType> => {
+    const mergedConfig = { ...config, ...functionConfig }
+    const request = generateRequest(name, schema, input, mergedConfig)
+
+    try {
+      const response = (await callMarkdownAPI(request)) as any
+      const result = response.data ?? response
+
+      // Ensure schema shapes are preserved for TypeScript
+      for (const key in schema) {
+        // If schema defines an array property and result has that property
+        if (Array.isArray(schema[key]) && result[key]) {
+          // Use our helper to ensure the array type is preserved for TypeScript inference
+          result[key] = preserveArrayTypes(Array.isArray(result[key]) ? result[key] : [result[key]])
+        }
+      }
+
+      return result as MarkdownOutput & OutputType
+    } catch (error) {
+      console.error('Error calling AI markdown function:', error)
+      throw error
+    }
+  }
+}
+
 // AI factory function for creating strongly-typed functions
 export const AI = <T extends Record<string, FunctionDefinition | FunctionCallback>>(functions: T, config?: AIConfig) => {
   // Use a more specific type definition to ensure array element types are preserved
@@ -108,6 +162,13 @@ export const AI = <T extends Record<string, FunctionDefinition | FunctionCallbac
     }
   }
 
+  // Add the generateMarkdown function
+  result['generateMarkdown' as keyof T] = createMarkdownFunction(
+    'generateMarkdown',
+    {} as any, // Empty schema as the server will handle the schema
+    config,
+  ) as any
+
   return result
 }
 
@@ -120,11 +181,28 @@ const createDynamicFunction = <T extends SchemaValue>(name: string, config?: AIC
   return createFunction(name, emptySchema, config)
 }
 
+// Make a specialized version of createMarkdownFunction for dynamic calls
+const createDynamicMarkdownFunction = <T extends SchemaValue>(name: string, config?: AIConfig) => {
+  // Create an empty schema that will be filled dynamically by the server
+  const emptySchema = {} as Record<string, T>
+
+  return createMarkdownFunction(name, emptySchema, config)
+}
+
 // Create a special proxy with improved type inference
 export const ai = new Proxy(
-  {},
+  {
+    // Add the generateMarkdown function explicitly
+    generateMarkdown: createDynamicMarkdownFunction('generateMarkdown', {})
+  },
   {
     get: (target: any, prop: string) => {
+      // First check if the property exists on the target
+      if (prop in target) {
+        return target[prop]
+      }
+      
+      // Otherwise create a dynamic function
       if (typeof prop === 'string' && !prop.startsWith('_')) {
         return createDynamicFunction(prop, {})
       }
