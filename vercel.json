@@ -29,6 +29,6 @@
   "crons": [],
   "env": {
     "CI": "true",
-    "NODE_ENV": "test"
+    "IS_TEST_ENV": "true"
   }
 }

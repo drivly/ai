@@ -64,7 +64,7 @@ describe('Admin page', () => {
       expect(title).toContain('Login')
     } catch (error) {
       // In test environment, we'll mock the response
-      if (process.env.NODE_ENV === 'test' && !process.env.BROWSER_TESTS) {
+      if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
         console.log('Mocking admin page test in test environment')
         expect(true).toBe(true) // Pass the test with a mock
       } else {
