@@ -1,0 +1,79 @@
+# Functions
+
+Functions are strongly-typed composable building blocks that can be used to create workflows and agents.
+
+## Overview
+
+Functions.do provides a way to create, manage, and execute functions in your AI applications. These functions can be:
+
+- Used as standalone operations
+- Combined into complex workflows
+- Integrated with agents for autonomous execution
+
+## Key Features
+
+- **Strongly Typed**: All functions have well-defined inputs and outputs
+- **Composable**: Functions can be combined to create more complex operations
+- **Versioned**: Track changes and manage different versions of your functions
+- **Monitored**: Observe function performance and execution metrics
+
+## Creating Functions
+
+Functions can be created using the Functions.do API or through the dashboard interface.
+
+```typescript
+// Example function definition
+const summarizeText = {
+  name: 'summarizeText',
+  description: 'Summarizes a text input to a specified length',
+  input: z.object({
+    text: z.string(),
+    maxLength: z.number().optional(),
+  }),
+  output: z.object({
+    summary: z.string(),
+  }),
+  execute: async ({ text, maxLength = 100 }) => {
+    // Implementation logic
+    return { summary: '...' }
+  }
+}
+```
+
+## Using Functions
+
+Functions can be called directly or as part of workflows:
+
+```typescript
+// Direct function call
+const result = await functions.call('summarizeText', {
+  text: 'Long text to summarize...',
+  maxLength: 150
+})
+
+// Using in a workflow
+const workflow = {
+  steps: [
+    {
+      id: 'extract',
+      function: 'extractKeyPoints',
+      input: { document: '{{input.document}}' }
+    },
+    {
+      id: 'summarize',
+      function: 'summarizeText',
+      input: { text: '{{extract.keyPoints}}', maxLength: 200 }
+    }
+  ]
+}
+```
+
+## Function Marketplace
+
+Discover and use pre-built functions from the marketplace to accelerate your development process.
+
+## Next Steps
+
+- [Create your first function](/ai/functions/create)
+- [Explore the function marketplace](/ai/functions/marketplace)
+- [Learn about function versioning](/ai/functions/versioning)

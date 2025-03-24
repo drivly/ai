@@ -1,0 +1,344 @@
+# Webhooks
+
+Configure and manage webhooks to receive real-time notifications about events in your AI applications.
+
+## Overview
+
+Webhooks provide a way to receive real-time notifications about events in your AI applications. Webhooks can:
+
+- Notify external systems about events
+- Trigger external workflows
+- Enable real-time integrations
+- Provide event-driven architecture
+
+## Key Features
+
+- **Event Notifications**: Receive notifications about events in your AI applications
+- **Customizable Payloads**: Configure the payload format for webhook notifications
+- **Retry Mechanisms**: Automatically retry failed webhook deliveries
+- **Security**: Secure webhook endpoints with signatures and authentication
+
+## Webhook Events
+
+Admin.do supports webhooks for various events:
+
+### Function Events
+
+- `function.created`: A function was created
+- `function.updated`: A function was updated
+- `function.deleted`: A function was deleted
+- `function.executed`: A function was executed
+- `function.failed`: A function execution failed
+
+### Workflow Events
+
+- `workflow.created`: A workflow was created
+- `workflow.updated`: A workflow was updated
+- `workflow.deleted`: A workflow was deleted
+- `workflow.started`: A workflow was started
+- `workflow.completed`: A workflow was completed
+- `workflow.failed`: A workflow execution failed
+
+### Agent Events
+
+- `agent.created`: An agent was created
+- `agent.updated`: An agent was updated
+- `agent.deleted`: An agent was deleted
+- `agent.started`: An agent was started
+- `agent.completed`: An agent completed a task
+- `agent.failed`: An agent failed a task
+
+### Data Events
+
+- `data.created`: A data object was created
+- `data.updated`: A data object was updated
+- `data.deleted`: A data object was deleted
+
+### User Events
+
+- `user.created`: A user was created
+- `user.updated`: A user was updated
+- `user.deleted`: A user was deleted
+- `user.login`: A user logged in
+- `user.logout`: A user logged out
+
+### Organization Events
+
+- `organization.created`: An organization was created
+- `organization.updated`: An organization was updated
+- `organization.deleted`: An organization was deleted
+
+### Project Events
+
+- `project.created`: A project was created
+- `project.updated`: A project was updated
+- `project.deleted`: A project was deleted
+
+### Integration Events
+
+- `integration.created`: An integration was created
+- `integration.updated`: An integration was updated
+- `integration.deleted`: An integration was deleted
+- `integration.connected`: An integration was connected
+- `integration.disconnected`: An integration was disconnected
+
+### Billing Events
+
+- `billing.subscription.created`: A subscription was created
+- `billing.subscription.updated`: A subscription was updated
+- `billing.subscription.deleted`: A subscription was deleted
+- `billing.invoice.created`: An invoice was created
+- `billing.invoice.paid`: An invoice was paid
+- `billing.invoice.failed`: An invoice payment failed
+
+## Creating Webhooks
+
+Create webhooks using the Admin.do API:
+
+```typescript
+// Create a webhook
+const webhook = await admin.webhooks.create({
+  name: 'My Webhook',
+  description: 'A webhook for my application',
+  organization: 'org-123',
+  url: 'https://example.com/webhook',
+  events: ['function.executed', 'workflow.completed', 'agent.completed'],
+  secret: 'my-webhook-secret',
+  enabled: true
+})
+```
+
+## Managing Webhooks
+
+Manage webhooks using the Admin.do API:
+
+```typescript
+// Get all webhooks
+const webhooks = await admin.webhooks.list({
+  organization: 'org-123',
+  limit: 10,
+  offset: 0
+})
+
+// Get a specific webhook
+const webhook = await admin.webhooks.get('wh-123')
+
+// Update a webhook
+const updatedWebhook = await admin.webhooks.update('wh-123', {
+  name: 'My Updated Webhook',
+  description: 'An updated webhook for my application',
+  url: 'https://example.com/updated-webhook',
+  events: ['function.executed', 'workflow.completed', 'agent.completed', 'data.created'],
+  enabled: true
+})
+
+// Delete a webhook
+await admin.webhooks.delete('wh-123')
+
+// Enable a webhook
+await admin.webhooks.enable('wh-123')
+
+// Disable a webhook
+await admin.webhooks.disable('wh-123')
+
+// Rotate webhook secret
+const newSecret = await admin.webhooks.rotateSecret('wh-123')
+```
+
+## Webhook Deliveries
+
+View webhook deliveries using the Admin.do API:
+
+```typescript
+// Get webhook deliveries
+const deliveries = await admin.webhooks.getDeliveries('wh-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  status: 'success',
+  limit: 10,
+  offset: 0
+})
+
+// Get a specific delivery
+const delivery = await admin.webhooks.getDelivery('wh-123', 'del-123')
+
+// Retry a delivery
+await admin.webhooks.retryDelivery('wh-123', 'del-123')
+```
+
+## Webhook Payload
+
+Webhook payloads include information about the event and the resource that triggered the event:
+
+```json
+{
+  "id": "evt-123",
+  "type": "function.executed",
+  "created": "2023-06-15T12:34:56Z",
+  "organization": "org-123",
+  "project": "proj-123",
+  "data": {
+    "id": "func-123",
+    "name": "My Function",
+    "execution": {
+      "id": "exec-123",
+      "status": "success",
+      "startTime": "2023-06-15T12:34:50Z",
+      "endTime": "2023-06-15T12:34:56Z",
+      "input": {
+        "name": "John"
+      },
+      "output": {
+        "greeting": "Hello, John!"
+      }
+    }
+  }
+}
+```
+
+## Webhook Security
+
+Secure your webhook endpoints by verifying the webhook signature:
+
+```typescript
+// Node.js example
+const crypto = require('crypto')
+const express = require('express')
+const app = express()
+
+app.use(express.json())
+
+app.post('/webhook', (req, res) => {
+  const signature = req.headers['x-admin-signature']
+  const timestamp = req.headers['x-admin-timestamp']
+  const webhookSecret = 'my-webhook-secret'
+  
+  // Create the signature
+  const payload = timestamp + '.' + JSON.stringify(req.body)
+  const expectedSignature = crypto
+    .createHmac('sha256', webhookSecret)
+    .update(payload)
+    .digest('hex')
+  
+  // Verify the signature
+  if (signature !== expectedSignature) {
+    return res.status(401).send('Invalid signature')
+  }
+  
+  // Verify the timestamp is recent (within 5 minutes)
+  const timestampDate = new Date(parseInt(timestamp))
+  const now = new Date()
+  const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000)
+  
+  if (timestampDate < fiveMinutesAgo) {
+    return res.status(401).send('Timestamp too old')
+  }
+  
+  // Process the webhook
+  const event = req.body
+  console.log(`Received event: ${event.type}`)
+  
+  // Handle the event based on its type
+  switch (event.type) {
+    case 'function.executed':
+      // Handle function execution
+      break
+    case 'workflow.completed':
+      // Handle workflow completion
+      break
+    case 'agent.completed':
+      // Handle agent completion
+      break
+    default:
+      // Handle unknown event type
+      break
+  }
+  
+  // Acknowledge receipt of the webhook
+  res.status(200).send('Webhook received')
+})
+
+app.listen(3000, () => {
+  console.log('Webhook server listening on port 3000')
+})
+```
+
+## Webhook Testing
+
+Test webhooks using the Admin.do API:
+
+```typescript
+// Test a webhook
+const testResult = await admin.webhooks.test('wh-123', {
+  event: 'function.executed',
+  data: {
+    id: 'func-123',
+    name: 'My Function',
+    execution: {
+      id: 'exec-123',
+      status: 'success',
+      startTime: '2023-06-15T12:34:50Z',
+      endTime: '2023-06-15T12:34:56Z',
+      input: {
+        name: 'John'
+      },
+      output: {
+        greeting: 'Hello, John!'
+      }
+    }
+  }
+})
+```
+
+## Webhook Filters
+
+Filter webhook events using the Admin.do API:
+
+```typescript
+// Create a webhook with filters
+const webhook = await admin.webhooks.create({
+  name: 'My Filtered Webhook',
+  description: 'A webhook with filters',
+  organization: 'org-123',
+  url: 'https://example.com/webhook',
+  events: ['function.executed'],
+  filters: {
+    'function.executed': {
+      function: {
+        id: ['func-123', 'func-456'],
+        name: {
+          startsWith: 'My'
+        }
+      },
+      execution: {
+        status: ['success']
+      }
+    }
+  },
+  secret: 'my-webhook-secret',
+  enabled: true
+})
+
+// Update webhook filters
+const updatedWebhook = await admin.webhooks.updateFilters('wh-123', {
+  'function.executed': {
+    function: {
+      id: ['func-123', 'func-456', 'func-789'],
+      name: {
+        startsWith: 'My'
+      }
+    },
+    execution: {
+      status: ['success', 'error']
+    }
+  }
+})
+```
+
+## Next Steps
+
+- [Set up your first webhook](/admin/webhooks/setup)
+- [Secure your webhook endpoints](/admin/webhooks/security)
+- [Handle webhook events](/admin/webhooks/events)

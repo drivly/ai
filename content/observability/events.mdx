@@ -1,0 +1,143 @@
+# Events
+
+Events are a critical part of the observability stack, providing a record of all activities and state changes within the system. They serve as the foundation for monitoring, debugging, and analyzing system behavior.
+
+## Overview
+
+The Events collection captures all significant occurrences within the platform, including:
+
+- User actions
+- System operations
+- State transitions
+- Integration events
+- Scheduled tasks
+- Error conditions
+
+Each event is timestamped and contains contextual information about what happened, where it happened, and relevant metadata.
+
+## Event Structure
+
+Events follow a consistent structure:
+
+```typescript
+interface Event {
+  id: string;
+  timestamp: Date;
+  type: string;
+  source: string;
+  subject?: string;
+  data: Record<string, any>;
+  metadata?: Record<string, any>;
+}
+```
+
+- **id**: Unique identifier for the event
+- **timestamp**: When the event occurred
+- **type**: Classification of the event (e.g., "user.login", "workflow.completed")
+- **source**: The component or service that generated the event
+- **subject**: Optional identifier for the entity the event relates to
+- **data**: Event-specific information
+- **metadata**: Additional contextual information
+
+## Event Types
+
+Events are categorized into several types:
+
+### System Events
+
+System events record platform operations, deployments, and infrastructure changes.
+
+### User Events
+
+User events track interactions with the platform, including authentication, resource creation, and configuration changes.
+
+### Resource Events
+
+Resource events document the lifecycle of resources within the system, such as creation, modification, and deletion.
+
+### Integration Events
+
+Integration events capture interactions with external systems and services.
+
+## Working with Events
+
+### Querying Events
+
+Events can be queried using various filters:
+
+```typescript
+// Example: Query events by type and time range
+const loginEvents = await Events.find({
+  type: 'user.login',
+  timestamp: {
+    $gte: new Date('2023-01-01'),
+    $lte: new Date('2023-01-31')
+  }
+});
+```
+
+### Event Subscriptions
+
+You can subscribe to specific event types to receive notifications:
+
+```typescript
+// Example: Subscribe to workflow completion events
+Events.subscribe('workflow.completed', (event) => {
+  console.log(`Workflow ${event.subject} completed`);
+});
+```
+
+## Best Practices
+
+1. **Consistent Naming**: Use a hierarchical naming convention for event types (e.g., "category.action")
+2. **Relevant Data**: Include all relevant information in the event data, but avoid excessive detail
+3. **Correlation**: Use correlation IDs to link related events across services
+4. **Retention Policy**: Implement appropriate retention policies based on event importance
+
+## Integration with Other Observability Tools
+
+Events integrate with other observability components:
+
+- **Logs**: Events often generate corresponding log entries
+- **Metrics**: Event counts and timing can be aggregated into metrics
+- **Traces**: Events can be linked to distributed traces
+- **Alerts**: Event patterns can trigger alerts
+
+## API Reference
+
+### List Events
+
+```typescript
+GET /api/events
+```
+
+Query parameters:
+- `type`: Filter by event type
+- `source`: Filter by event source
+- `from`: Start timestamp
+- `to`: End timestamp
+- `limit`: Maximum number of events to return
+
+### Get Event by ID
+
+```typescript
+GET /api/events/:id
+```
+
+### Create Custom Event
+
+```typescript
+POST /api/events
+```
+
+Request body:
+```json
+{
+  "type": "custom.event",
+  "source": "my-application",
+  "subject": "resource-123",
+  "data": {
+    "key": "value"
+  }
+}
+```

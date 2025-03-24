@@ -1,0 +1,239 @@
+# Generations
+
+The Generations collection tracks and manages AI-generated content across the platform. It provides a comprehensive record of all text, code, image, and other content produced by AI models, enabling analysis, evaluation, and improvement of generation quality.
+
+## Overview
+
+Generations are recorded for various purposes:
+
+- Quality assessment and improvement
+- Usage tracking and billing
+- Compliance and audit requirements
+- Training data collection
+- Performance analysis
+
+## Generation Structure
+
+Each generation record contains detailed information about the content produced:
+
+```typescript
+interface Generation {
+  id: string;
+  timestamp: Date;
+  model: {
+    id: string;
+    name: string;
+    version?: string;
+    provider?: string;
+  };
+  input: {
+    type: 'text' | 'image' | 'audio' | 'multimodal';
+    content: string | Record<string, any>;
+    tokens?: number;
+  };
+  output: {
+    type: 'text' | 'image' | 'audio' | 'code' | 'json' | 'other';
+    content: string | Record<string, any>;
+    tokens?: number;
+    alternatives?: Array<{
+      content: string | Record<string, any>;
+      tokens?: number;
+      score?: number;
+    }>;
+  };
+  parameters: {
+    temperature?: number;
+    topP?: number;
+    maxTokens?: number;
+    stopSequences?: string[];
+    presencePenalty?: number;
+    frequencyPenalty?: number;
+    [key: string]: any;
+  };
+  usage: {
+    promptTokens: number;
+    completionTokens: number;
+    totalTokens: number;
+    cost?: number;
+    currency?: string;
+  };
+  metadata: {
+    requestId?: string;
+    userId?: string;
+    sessionId?: string;
+    functionId?: string;
+    workflowId?: string;
+    agentId?: string;
+    tags?: string[];
+    [key: string]: any;
+  };
+  performance: {
+    latency: number;
+    timeToFirstToken?: number;
+    tokensPerSecond?: number;
+  };
+  feedback?: {
+    rating?: number;
+    thumbs?: 'up' | 'down';
+    comment?: string;
+    categories?: string[];
+    timestamp?: Date;
+    userId?: string;
+  };
+}
+```
+
+## Generation Types
+
+Generations are categorized by output type:
+
+### Text Generations
+
+Standard text completions and chat responses.
+
+### Code Generations
+
+Source code in various programming languages.
+
+### Image Generations
+
+AI-generated images and visual content.
+
+### Structured Data
+
+JSON, XML, or other structured data formats.
+
+## Working with Generations
+
+### Querying Generations
+
+Generations can be queried using various filters:
+
+```typescript
+// Example: Find all generations from a specific model with high ratings
+const highQualityGenerations = await Generations.find({
+  'model.id': 'gpt-4',
+  'feedback.rating': { $gte: 4 },
+  timestamp: {
+    $gte: new Date('2023-01-01'),
+    $lte: new Date('2023-01-31')
+  }
+});
+```
+
+### Analyzing Generation Patterns
+
+Analyze patterns and trends in generations:
+
+```typescript
+// Example: Analyze token usage by model
+const tokenUsageByModel = await Generations.aggregate([
+  { 
+    $group: { 
+      _id: '$model.id', 
+      totalTokens: { $sum: '$usage.totalTokens' },
+      averageTokens: { $avg: '$usage.totalTokens' },
+      count: { $sum: 1 }
+    } 
+  },
+  { $sort: { totalTokens: -1 } }
+]);
+```
+
+### Providing Feedback
+
+Record user feedback on generations:
+
+```typescript
+// Example: Add feedback to a generation
+await Generations.updateOne(
+  { id: 'generation-123' },
+  { 
+    $set: { 
+      feedback: {
+        rating: 5,
+        thumbs: 'up',
+        comment: 'Excellent response, very helpful',
+        timestamp: new Date(),
+        userId: 'user-456'
+      }
+    } 
+  }
+);
+```
+
+## Best Practices
+
+1. **Privacy Considerations**: Implement appropriate data retention and anonymization policies
+2. **Comprehensive Metadata**: Include relevant context with each generation
+3. **Feedback Collection**: Systematically collect user feedback to improve quality
+4. **Cost Tracking**: Monitor token usage and associated costs
+5. **Performance Analysis**: Track generation latency and throughput
+
+## Integration with Other Observability Tools
+
+Generations integrate with other observability components:
+
+- **Logs**: Generation requests and responses can be linked to log entries
+- **Traces**: Generations can be part of distributed traces for request context
+- **Metrics**: Generation volumes, latencies, and token usage are tracked as metrics
+- **Evals**: Generations can be evaluated for quality and correctness
+
+## API Reference
+
+### List Generations
+
+```typescript
+GET /api/generations
+```
+
+Query parameters:
+- `model.id`: Filter by model ID
+- `output.type`: Filter by output type
+- `metadata.userId`: Filter by user ID
+- `from`: Start timestamp
+- `to`: End timestamp
+- `limit`: Maximum number of generations to return
+
+### Get Generation by ID
+
+```typescript
+GET /api/generations/:id
+```
+
+### Add Feedback to Generation
+
+```typescript
+POST /api/generations/:id/feedback
+```
+
+Request body:
+```json
+{
+  "rating": 4,
+  "thumbs": "up",
+  "comment": "Very helpful response",
+  "categories": ["accurate", "helpful"]
+}
+```
+
+### Export Generations
+
+```typescript
+POST /api/generations/export
+```
+
+Request body:
+```json
+{
+  "format": "jsonl",
+  "filters": {
+    "model.id": "gpt-4",
+    "timestamp": {
+      "gte": "2023-01-01T00:00:00Z",
+      "lte": "2023-01-31T23:59:59Z"
+    }
+  },
+  "fields": ["input", "output", "feedback"]
+}
+```

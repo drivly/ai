@@ -1,0 +1,329 @@
+# Traces
+
+Traces provide detailed records of request flows through your AI applications.
+
+## Overview
+
+The Traces collection provides a way to collect, store, and analyze distributed traces from your AI applications. Traces can:
+
+- Track requests as they flow through your application
+- Identify performance bottlenecks and latency issues
+- Understand dependencies between services
+- Diagnose issues in distributed systems
+
+## Key Features
+
+- **Distributed Tracing**: Track requests across multiple services
+- **Visualization**: Visualize request flows and timelines
+- **Performance Analysis**: Identify bottlenecks and latency issues
+- **Correlation**: Correlate traces with logs and metrics
+
+## Trace Structure
+
+A trace consists of spans that represent operations within a request:
+
+```typescript
+// Example trace
+{
+  traceId: 'trace-123',
+  name: 'process-user-request',
+  startTime: '2023-06-30T12:34:56.789Z',
+  endTime: '2023-06-30T12:34:57.123Z',
+  duration: 334, // milliseconds
+  service: 'api-gateway',
+  environment: 'production',
+  status: 'success',
+  attributes: {
+    requestId: 'req-456',
+    userId: 'user-123',
+    endpoint: '/api/users/profile'
+  },
+  spans: [
+    {
+      spanId: 'span-1',
+      parentSpanId: null,
+      name: 'handle-http-request',
+      startTime: '2023-06-30T12:34:56.789Z',
+      endTime: '2023-06-30T12:34:57.123Z',
+      duration: 334,
+      service: 'api-gateway',
+      status: 'success',
+      attributes: {
+        http: {
+          method: 'GET',
+          url: '/api/users/profile',
+          statusCode: 200
+        }
+      }
+    },
+    {
+      spanId: 'span-2',
+      parentSpanId: 'span-1',
+      name: 'authenticate-user',
+      startTime: '2023-06-30T12:34:56.800Z',
+      endTime: '2023-06-30T12:34:56.850Z',
+      duration: 50,
+      service: 'auth-service',
+      status: 'success',
+      attributes: {
+        userId: 'user-123',
+        authMethod: 'jwt'
+      }
+    },
+    {
+      spanId: 'span-3',
+      parentSpanId: 'span-1',
+      name: 'get-user-profile',
+      startTime: '2023-06-30T12:34:56.860Z',
+      endTime: '2023-06-30T12:34:57.000Z',
+      duration: 140,
+      service: 'user-service',
+      status: 'success',
+      attributes: {
+        userId: 'user-123',
+        dataSource: 'user-db'
+      }
+    },
+    {
+      spanId: 'span-4',
+      parentSpanId: 'span-3',
+      name: 'query-database',
+      startTime: '2023-06-30T12:34:56.870Z',
+      endTime: '2023-06-30T12:34:56.950Z',
+      duration: 80,
+      service: 'user-service',
+      status: 'success',
+      attributes: {
+        db: {
+          system: 'postgresql',
+          operation: 'select',
+          table: 'users'
+        }
+      }
+    },
+    {
+      spanId: 'span-5',
+      parentSpanId: 'span-1',
+      name: 'format-response',
+      startTime: '2023-06-30T12:34:57.010Z',
+      endTime: '2023-06-30T12:34:57.050Z',
+      duration: 40,
+      service: 'api-gateway',
+      status: 'success',
+      attributes: {
+        format: 'json'
+      }
+    }
+  ]
+}
+```
+
+## Tracing in Code
+
+Add tracing to your code using the Observability.do API:
+
+```typescript
+// Import the tracer
+import { tracer } from '@drivly/observability'
+
+// Configure the tracer
+tracer.configure({
+  service: 'user-service',
+  environment: 'production'
+})
+
+// Create a trace
+const result = await tracer.trace(
+  'process-user-request',
+  async (span) => {
+    // Add attributes to the span
+    span.setAttribute('userId', 'user-123')
+    span.setAttribute('requestId', 'req-456')
+
+    // Create a child span
+    const profileData = await span.traceChild(
+      'get-user-profile',
+      async (childSpan) => {
+        childSpan.setAttribute('dataSource', 'user-db')
+
+        // Create another child span
+        const dbResult = await childSpan.traceChild(
+          'query-database',
+          async (dbSpan) => {
+            dbSpan.setAttribute('db.system', 'postgresql')
+            dbSpan.setAttribute('db.operation', 'select')
+            dbSpan.setAttribute('db.table', 'users')
+
+            // Database query implementation...
+            return { id: 'user-123', name: 'John Doe' }
+          }
+        )
+
+        // Process the database result...
+        return {
+          user: dbResult,
+          preferences: { theme: 'dark' }
+        }
+      }
+    )
+
+    // Process the profile data...
+    return {
+      success: true,
+      data: profileData
+    }
+  },
+  {
+    attributes: {
+      endpoint: '/api/users/profile'
+    }
+  }
+)
+
+// Trace a function
+function processUserRequest(userId) {
+  // Function implementation...
+}
+
+const tracedFunction = tracer.traceFunction(processUserRequest, {
+  name: 'process-user-request',
+  attributes: (userId) => ({
+    userId
+  })
+})
+
+const result = await tracedFunction('user-123')
+
+// Trace HTTP requests
+app.use(tracer.middleware.http())
+
+// Trace database queries
+const db = tracer.wrapDatabase(database, {
+  system: 'postgresql',
+  instance: 'users-db'
+})
+```
+
+## Querying Traces
+
+Query traces using the Observability.do API:
+
+```typescript
+// Search traces
+const traces = await observability.traces.search({
+  query: 'service:user-service AND status:error',
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  limit: 100,
+  offset: 0,
+  sort: {
+    field: 'startTime',
+    order: 'desc'
+  }
+})
+
+// Get a specific trace
+const trace = await observability.traces.getById('trace-123')
+
+// Get traces for a specific request
+const requestTraces = await observability.traces.search({
+  query: 'attributes.requestId:req-456',
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  }
+})
+
+// Analyze trace patterns
+const latencyPatterns = await observability.traces.analyze({
+  query: 'name:process-user-request',
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  groupBy: ['service'],
+  metrics: ['count', 'avgDuration', 'p95Duration', 'p99Duration']
+})
+```
+
+## Trace Visualization
+
+Visualize traces using the Observability.do dashboard:
+
+```typescript
+// Generate a trace timeline
+const timeline = await observability.traces.generateTimeline('trace-123')
+
+// Generate a service dependency graph
+const dependencyGraph = await observability.traces.generateDependencyGraph({
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  }
+})
+
+// Generate a flame graph
+const flameGraph = await observability.traces.generateFlameGraph('trace-123')
+```
+
+## Trace Management
+
+Manage your traces through the dashboard or API:
+
+```typescript
+// Configure trace sampling
+await observability.traces.configureSampling({
+  default: {
+    rate: 0.1 // Sample 10% of traces
+  },
+  rules: [
+    {
+      name: 'errors',
+      condition: 'status:error',
+      rate: 1.0 // Sample 100% of error traces
+    },
+    {
+      name: 'slow-requests',
+      condition: 'duration:>1000',
+      rate: 0.5 // Sample 50% of slow traces
+    }
+  ]
+})
+
+// Configure trace retention
+await observability.traces.configureRetention({
+  default: {
+    duration: '7d'
+  },
+  rules: [
+    {
+      name: 'errors',
+      condition: 'status:error',
+      duration: '30d'
+    }
+  ]
+})
+
+// Export traces
+const exportResult = await observability.traces.export({
+  query: 'service:user-service AND status:error',
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  format: 'json',
+  destination: {
+    type: 's3',
+    bucket: 'traces-backup',
+    prefix: 'exports/2023-06'
+  }
+})
+```
+
+## Next Steps
+
+- [Configure tracing for your application](/observability/traces/configure)
+- [Learn about trace analysis](/observability/traces/analysis)
+- [Explore trace visualization options](/observability/traces/visualization)
