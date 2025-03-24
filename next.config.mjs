@@ -2,7 +2,7 @@ import nextra from 'nextra'
 import { withPayload } from '@payloadcms/next/withPayload'
 
 const withNextra = nextra({
-  contentDirBasePath: '/content',
+  contentDirBasePath: '/docs',
   // ... Other Nextra config options
 })
 
