@@ -1,6 +1,23 @@
 import { TaskConfig, TaskHandler } from 'payload'
 
-export const generateObject = async ({ input, req, payload }: any) => {
+// Define the input and output types for the generateObject task
+type GenerateObjectInput = {
+  functionName: string
+  args: any
+  settings?: any
+}
+
+type GenerateObjectOutput = {
+  object: any
+  reasoning?: string
+  generation: any
+  text: string
+  generationLatency: number
+  request: any
+}
+
+// Implement the task handler with proper return type
+export const generateObject: TaskHandler<{ input: GenerateObjectInput; output: GenerateObjectOutput }> = async ({ input, req }) => {
   const { functionName, args, settings } = input
   const start = Date.now()
 
@@ -42,16 +59,21 @@ export const generateObject = async ({ input, req, payload }: any) => {
     object = { error: 'Failed to parse JSON response' }
   }
 
+  // Return with the expected TaskHandlerResult structure
   return {
-    object,
-    reasoning,
-    generation,
-    text,
-    generationLatency,
-    request
+    output: {
+      object,
+      reasoning,
+      generation,
+      text,
+      generationLatency,
+      request
+    },
+    state: 'succeeded'
   }
 }
 
+// Define the task configuration
 export const generateObjectTask = {
   retries: 3,
   slug: 'generateObject',
@@ -70,4 +92,4 @@ export const generateObjectTask = {
     { name: 'request', type: 'json' },
   ],
   handler: generateObject,
-} as TaskConfig<'generateObject'>
+} as TaskConfig<{ input: GenerateObjectInput; output: GenerateObjectOutput }>
