@@ -109,7 +109,10 @@ export function getModel(modelInput: string | string[], config?: ModelConfig): M
   }
 
   if (modelDetails?.childPriority === 'first') {
-    return resolved[0]
+    return {
+      ...resolved[0],
+      parsed
+    }
   }
 
   if (modelDetails?.childPriority === 'random') {
@@ -123,4 +126,31 @@ export function getModel(modelInput: string | string[], config?: ModelConfig): M
   }
 
   return resolved[0]
+}
+
+// Reconstruct a model string from a parsed model identifier
+export function reconstructModelString(parsed: ParsedModelIdentifier): string {
+  let string = ''
+
+  if (parsed.provider) {
+    string += `${parsed.provider}/`
+  }
+
+  if (parsed.author) {
+    string += `${parsed.author}/`
+  }
+
+  string += parsed.model
+
+  if (parsed.capabilities.length > 0) {
+    string += `:${parsed.capabilities.join(',')}`
+  }
+
+  // System config
+  if (parsed.systemConfig) {
+    string += `(${Object.entries(parsed.systemConfig).map(([key, value]) => `${key}:${value}`).join(',')})`
+  }
+
+  return string
+
 }
