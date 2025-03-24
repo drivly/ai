@@ -66,7 +66,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     argsDoc ? undefined : payload.create({ collection: 'things', data: { hash: argsHash, data: args } }),
   ])
 
-  // Generate the object using the extracted function
+  // Generate the object using the extracted utility function
   const prompt = `${functionName}(${JSON.stringify(args)})`
   const { 
     object, 
@@ -77,8 +77,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     request 
   } = await generateObject({ 
     input: { functionName, args, settings }, 
-    req, 
-    payload 
+    req 
   });
 
   const created = await createPromise

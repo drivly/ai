@@ -1,6 +1,4 @@
-import { TaskConfig, TaskHandler } from 'payload'
-
-// Define the input and output types for the generateObject task
+// Define the input and output types for the generateObject utility function
 type GenerateObjectInput = {
   functionName: string
   args: any
@@ -16,8 +14,17 @@ type GenerateObjectOutput = {
   request: any
 }
 
-// Implement the task handler with proper return type
-export const generateObject: TaskHandler<{ input: GenerateObjectInput; output: GenerateObjectOutput }> = async ({ input, req }) => {
+/**
+ * Utility function to generate an object using AI
+ * This is not a Payload task, but a utility function used by executeFunction
+ */
+export const generateObject = async ({ 
+  input, 
+  req 
+}: { 
+  input: GenerateObjectInput
+  req: any 
+}): Promise<GenerateObjectOutput> => {
   const { functionName, args, settings } = input
   const start = Date.now()
 
@@ -59,37 +66,13 @@ export const generateObject: TaskHandler<{ input: GenerateObjectInput; output: G
     object = { error: 'Failed to parse JSON response' }
   }
 
-  // Return with the expected TaskHandlerResult structure
+  // Return the output directly
   return {
-    output: {
-      object,
-      reasoning,
-      generation,
-      text,
-      generationLatency,
-      request
-    },
-    state: 'succeeded'
+    object,
+    reasoning,
+    generation,
+    text,
+    generationLatency,
+    request
   }
 }
-
-// Define the task configuration
-export const generateObjectTask = {
-  retries: 3,
-  slug: 'generateObject',
-  label: 'Generate Object',
-  inputSchema: [
-    { name: 'functionName', type: 'text', required: true },
-    { name: 'args', type: 'json', required: true },
-    { name: 'settings', type: 'json' },
-  ],
-  outputSchema: [
-    { name: 'object', type: 'json' },
-    { name: 'reasoning', type: 'text' },
-    { name: 'generation', type: 'json' },
-    { name: 'text', type: 'text' },
-    { name: 'generationLatency', type: 'number' },
-    { name: 'request', type: 'json' },
-  ],
-  handler: generateObject,
-} as TaskConfig<{ input: GenerateObjectInput; output: GenerateObjectOutput }>
