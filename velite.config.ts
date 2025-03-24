@@ -12,7 +12,11 @@ export default defineConfig({
     pages: {
       name: 'Page',
       pattern: '**/*.mdx',
-      schema: s.mdx()
+      schema: s.object({
+        title: s.string().optional(),
+        description: s.string().optional(),
+        content: s.mdx()
+      })
     }
   }
 })
