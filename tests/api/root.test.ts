@@ -49,7 +49,11 @@ describe('Root API endpoint', () => {
       const data = await response.json()
       expect(data).toBeDefined()
     } catch (error) {
-      console.log('API test failed with error:', error.message)
+      if (error instanceof Error || (error && typeof error.message === 'string')) {
+        console.log('API test failed with error:', error.message)
+      } else {
+        console.log('API test failed with an unknown error')
+      }
       // In any environment, if we can't connect, we'll use a mock
       console.log('Falling back to mock API response')
       expect(true).toBe(true) // Pass the test with a mock

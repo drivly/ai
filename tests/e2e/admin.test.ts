@@ -16,7 +16,11 @@ describe('Admin page', () => {
         headless: true
       })
     } catch (error) {
-      console.error('Failed to launch browser:', error)
+      if (error instanceof Error || (error && typeof error.message === 'string')) {
+        console.error('Failed to launch browser:', error.message)
+      } else {
+        console.error('Failed to launch browser with an unknown error')
+      }
     }
   })
 
