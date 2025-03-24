@@ -61,7 +61,9 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   temperatureValues.forEach(temp => {
     const tempParams = new URLSearchParams(request.nextUrl.searchParams)
     tempParams.set('temperature', temp.toString())
-    links.temperature![temp.toString()] = `${baseUrl}?${tempParams.toString()}`
+    // Use a type assertion to tell TypeScript that temp.toString() is a valid key
+    const key = temp.toString() as '0' | '0.2' | '0.4' | '0.6' | '0.8' | '1'
+    links.temperature![key] = `${baseUrl}?${tempParams.toString()}`
   })
   
   return { functionName, args, links, type, data, reasoning: results?.reasoning?.split('\n'), settings, latency }
