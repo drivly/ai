@@ -1,39 +1,42 @@
 export default {
-  index: {
-    title: 'Home',
-    type: 'page',
-    display: 'hidden',
-  },
   ai: {
     title: 'AI',
-    type: 'folder',
+    type: 'menu',
+    items: {}
   },
   data: {
     title: 'Data',
-    type: 'folder',
+    type: 'menu',
+    items: {}
   },
   events: {
     title: 'Events',
-    type: 'folder',
+    type: 'menu',
+    items: {}
   },
   experiments: {
     title: 'Experiments',
-    type: 'folder',
+    type: 'menu',
+    items: {}
   },
   code: {
     title: 'Code',
-    type: 'folder',
+    type: 'menu',
+    items: {}
   },
   evals: {
     title: 'Evals',
-    type: 'folder',
+    type: 'menu',
+    items: {}
   },
   observability: {
     title: 'Observability',
-    type: 'folder',
+    type: 'menu',
+    items: {}
   },
   admin: {
     title: 'Admin',
-    type: 'folder',
+    type: 'menu',
+    items: {}
   },
 }

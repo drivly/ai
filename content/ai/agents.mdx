@@ -1,0 +1,78 @@
+# Agents
+
+Agents are autonomous digital workers that can perform tasks, make decisions, and interact with other systems.
+
+## Overview
+
+Agents.do provides a platform for creating, managing, and deploying autonomous agents that can:
+
+- Execute complex tasks with minimal human intervention
+- Make decisions based on predefined rules or AI models
+- Interact with external systems and APIs
+- Collaborate with other agents to solve problems
+
+## Key Features
+
+- **Autonomous Operation**: Agents can work independently to achieve goals
+- **Decision Making**: Built-in decision-making capabilities using rules or AI
+- **System Integration**: Connect to external systems and APIs
+- **Collaboration**: Agents can work together in teams
+
+## Creating Agents
+
+Agents can be created using the Agents.do API or through the dashboard interface.
+
+```typescript
+// Example agent definition
+const customerSupportAgent = {
+  name: 'customerSupportAgent',
+  description: 'Handles customer support inquiries and routes them to the appropriate department',
+  capabilities: [
+    'respondToBasicQuestions',
+    'classifyInquiries',
+    'routeToHumanAgent',
+    'searchKnowledgeBase'
+  ],
+  knowledgeSources: [
+    { type: 'vector-db', id: 'support-documentation' },
+    { type: 'api', id: 'ticket-system' }
+  ],
+  decisionModel: {
+    type: 'llm',
+    model: 'gpt-4',
+    promptTemplate: 'supportAgentPrompt'
+  },
+  workflows: [
+    { id: 'initialResponse', trigger: 'newInquiry' },
+    { id: 'escalationProcess', trigger: 'complexInquiry' }
+  ]
+}
+```
+
+## Agent Execution
+
+Agents can be deployed and managed through the Agents.do platform:
+
+```typescript
+// Deploy an agent
+const deployedAgent = await agents.deploy('customerSupportAgent', {
+  environment: 'production',
+  replicas: 3
+})
+
+// Interact with an agent
+const response = await agents.interact('customerSupportAgent', {
+  message: 'I need help with my recent order',
+  context: { orderId: '12345', customer: { id: '789', tier: 'premium' } }
+})
+```
+
+## Agent Marketplace
+
+Discover and use pre-built agents from the marketplace to accelerate your development process.
+
+## Next Steps
+
+- [Create your first agent](/ai/agents/create)
+- [Explore agent templates](/ai/agents/templates)
+- [Learn about agent monitoring](/ai/agents/monitoring)

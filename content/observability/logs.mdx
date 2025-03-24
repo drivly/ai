@@ -1,0 +1,264 @@
+# Logs
+
+Logs provide detailed records of events and activities in your AI applications.
+
+## Overview
+
+The Logs collection provides a way to collect, store, and analyze logs from your AI applications. Logs can:
+
+- Record detailed information about events and activities
+- Help diagnose issues and troubleshoot problems
+- Provide insights into application behavior
+- Support audit and compliance requirements
+
+## Key Features
+
+- **Collection**: Collect logs from various sources
+- **Storage**: Store logs securely and efficiently
+- **Search**: Search and filter logs
+- **Analysis**: Analyze logs for patterns and insights
+
+## Log Types
+
+Observability.do supports various log types:
+
+### Application Logs
+
+Record application events and activities:
+
+```typescript
+// Example application log
+{
+  timestamp: '2023-06-30T12:34:56.789Z',
+  level: 'info',
+  service: 'user-service',
+  environment: 'production',
+  message: 'User login successful',
+  context: {
+    userId: 'user-123',
+    loginMethod: 'email',
+    ipAddress: '192.168.1.1'
+  }
+}
+```
+
+### Model Logs
+
+Record model interactions and outputs:
+
+```typescript
+// Example model log
+{
+  timestamp: '2023-06-30T12:35:10.123Z',
+  level: 'info',
+  service: 'content-generation',
+  environment: 'production',
+  message: 'Model generated content',
+  context: {
+    modelId: 'gpt-4',
+    promptTokens: 150,
+    completionTokens: 250,
+    totalTokens: 400,
+    latency: 1250,
+    requestId: 'req-456'
+  }
+}
+```
+
+### System Logs
+
+Record system events and activities:
+
+```typescript
+// Example system log
+{
+  timestamp: '2023-06-30T12:36:20.456Z',
+  level: 'warn',
+  service: 'api-gateway',
+  environment: 'production',
+  message: 'High CPU usage detected',
+  context: {
+    cpuUsage: 85,
+    memoryUsage: 70,
+    diskUsage: 60,
+    instanceId: 'i-789'
+  }
+}
+```
+
+### Audit Logs
+
+Record security and compliance events:
+
+```typescript
+// Example audit log
+{
+  timestamp: '2023-06-30T12:37:30.789Z',
+  level: 'info',
+  service: 'auth-service',
+  environment: 'production',
+  message: 'User permission changed',
+  context: {
+    userId: 'user-123',
+    adminId: 'admin-456',
+    permission: 'data-access',
+    action: 'grant',
+    reason: 'Project assignment'
+  }
+}
+```
+
+## Logging Levels
+
+Observability.do supports standard logging levels:
+
+- **trace**: Detailed information, typically useful only for diagnosing problems
+- **debug**: Information useful for debugging
+- **info**: General information about system operation
+- **warn**: Warning events that might cause problems
+- **error**: Error events that might still allow the application to continue running
+- **fatal**: Severe error events that will likely lead the application to abort
+
+## Logging in Code
+
+Add logging to your code using the Observability.do API:
+
+```typescript
+// Import the logger
+import { logger } from '@drivly/observability'
+
+// Configure the logger
+logger.configure({
+  service: 'user-service',
+  environment: 'production',
+  defaultContext: {
+    version: '1.2.0'
+  }
+})
+
+// Log at different levels
+logger.trace('Detailed trace information', { detail: 'value' })
+logger.debug('Debug information', { debugKey: 'value' })
+logger.info('User login successful', { userId: 'user-123' })
+logger.warn('Rate limit approaching', { currentRate: 95, limit: 100 })
+logger.error('Failed to process request', { requestId: 'req-456', error: 'Database connection failed' })
+logger.fatal('Service is shutting down', { reason: 'Out of memory' })
+
+// Log with additional context
+logger.info('User profile updated', {
+  userId: 'user-123',
+  fields: ['name', 'email'],
+  source: 'api'
+})
+
+// Create a child logger with additional context
+const userLogger = logger.child({ userId: 'user-123' })
+userLogger.info('User login successful') // Automatically includes userId
+
+// Log function execution
+const result = await logger.withLogging(
+  async () => {
+    // Function implementation...
+    return { success: true }
+  },
+  {
+    message: 'Processing user request',
+    level: 'info',
+    context: { requestId: 'req-456' },
+    logResult: true
+  }
+)
+```
+
+## Querying Logs
+
+Query logs using the Observability.do API:
+
+```typescript
+// Search logs
+const logs = await observability.logs.search({
+  query: 'level:error AND service:user-service',
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  limit: 100,
+  offset: 0,
+  sort: {
+    field: 'timestamp',
+    order: 'desc'
+  }
+})
+
+// Get logs for a specific request
+const requestLogs = await observability.logs.getByRequestId('req-456')
+
+// Get logs for a specific user
+const userLogs = await observability.logs.search({
+  query: 'context.userId:user-123',
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  }
+})
+
+// Analyze log patterns
+const errorPatterns = await observability.logs.analyze({
+  query: 'level:error',
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  groupBy: ['service', 'context.error'],
+  metrics: ['count']
+})
+```
+
+## Log Management
+
+Manage your logs through the dashboard or API:
+
+```typescript
+// Configure log retention
+await observability.logs.configureRetention({
+  default: {
+    duration: '30d'
+  },
+  levels: {
+    error: {
+      duration: '90d'
+    },
+    fatal: {
+      duration: '365d'
+    }
+  }
+})
+
+// Export logs
+const exportResult = await observability.logs.export({
+  query: 'level:error AND service:user-service',
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  format: 'json',
+  destination: {
+    type: 's3',
+    bucket: 'logs-backup',
+    prefix: 'exports/2023-06'
+  }
+})
+
+// Create a log view
+await observability.logs.createView({
+  name: 'error-logs',
+  query: 'level:error',
+  description: 'View of all error logs'
+})
+```
+
+## Next Steps
+
+- [Configure logging for your application](/observability/logs/configure)
+- [Learn about log analysis](/observability/logs/analysis)
+- [Explore log integration options](/observability/logs/integrations)

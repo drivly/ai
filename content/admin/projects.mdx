@@ -1,0 +1,249 @@
+# Projects
+
+Organize and manage your AI resources with Projects.
+
+## Overview
+
+Projects provide a way to organize and manage your AI resources. Projects can:
+
+- Group related resources together
+- Control access to resources
+- Track usage and costs
+- Manage settings and configurations
+
+## Key Features
+
+- **Resource Organization**: Group related resources together
+- **Access Control**: Control who can access and modify resources
+- **Usage Tracking**: Track resource usage and costs
+- **Settings Management**: Manage settings and configurations
+
+## Project Structure
+
+Projects are organized hierarchically:
+
+```
+Organization
+└── Project
+    ├── Functions
+    ├── Workflows
+    ├── Agents
+    ├── Data
+    ├── Events
+    └── Experiments
+```
+
+## Creating a Project
+
+Create a new project using the Admin.do API:
+
+```typescript
+// Create a new project
+const project = await admin.projects.create({
+  name: 'My Project',
+  description: 'A project for my AI resources',
+  organization: 'org-123',
+  settings: {
+    defaultModel: 'gpt-4',
+    defaultLanguage: 'en',
+    defaultRegion: 'us-west-1'
+  }
+})
+```
+
+## Managing Projects
+
+Manage projects using the Admin.do API:
+
+```typescript
+// Get all projects
+const projects = await admin.projects.list({
+  organization: 'org-123',
+  limit: 10,
+  offset: 0
+})
+
+// Get a specific project
+const project = await admin.projects.get('proj-123')
+
+// Update a project
+const updatedProject = await admin.projects.update('proj-123', {
+  name: 'My Updated Project',
+  description: 'An updated project for my AI resources'
+})
+
+// Delete a project
+await admin.projects.delete('proj-123')
+```
+
+## Project Resources
+
+Manage project resources using the Admin.do API:
+
+```typescript
+// Get all resources in a project
+const resources = await admin.projects.getResources('proj-123', {
+  type: 'function',
+  limit: 10,
+  offset: 0
+})
+
+// Add a resource to a project
+await admin.projects.addResource('proj-123', {
+  type: 'function',
+  id: 'func-123'
+})
+
+// Remove a resource from a project
+await admin.projects.removeResource('proj-123', {
+  type: 'function',
+  id: 'func-123'
+})
+
+// Move a resource to another project
+await admin.projects.moveResource('proj-123', 'proj-456', {
+  type: 'function',
+  id: 'func-123'
+})
+```
+
+## Project Members
+
+Manage project members using the Admin.do API:
+
+```typescript
+// Get all members of a project
+const members = await admin.projects.getMembers('proj-123', {
+  limit: 10,
+  offset: 0
+})
+
+// Add a member to a project
+await admin.projects.addMember('proj-123', {
+  user: 'user-123',
+  role: 'editor'
+})
+
+// Update a member's role
+await admin.projects.updateMember('proj-123', 'user-123', {
+  role: 'admin'
+})
+
+// Remove a member from a project
+await admin.projects.removeMember('proj-123', 'user-123')
+```
+
+## Project Settings
+
+Manage project settings using the Admin.do API:
+
+```typescript
+// Get project settings
+const settings = await admin.projects.getSettings('proj-123')
+
+// Update project settings
+const updatedSettings = await admin.projects.updateSettings('proj-123', {
+  defaultModel: 'gpt-4-turbo',
+  defaultLanguage: 'en',
+  defaultRegion: 'us-west-1',
+  allowExternalIntegrations: true,
+  maxConcurrentFunctions: 10,
+  maxConcurrentWorkflows: 5,
+  maxConcurrentAgents: 2
+})
+```
+
+## Project Usage
+
+Track project usage using the Admin.do API:
+
+```typescript
+// Get project usage
+const usage = await admin.projects.getUsage('proj-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents'],
+  groupBy: 'day'
+})
+
+// Get usage by resource
+const functionUsage = await admin.projects.getResourceUsage('proj-123', 'functions', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  groupBy: 'day'
+})
+
+// Get usage by user
+const userUsage = await admin.projects.getUserUsage('proj-123', 'user-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents']
+})
+```
+
+## Project Templates
+
+Create and use project templates:
+
+```typescript
+// Create a project template
+const template = await admin.projects.createTemplate({
+  name: 'My Template',
+  description: 'A template for my AI projects',
+  organization: 'org-123',
+  settings: {
+    defaultModel: 'gpt-4',
+    defaultLanguage: 'en',
+    defaultRegion: 'us-west-1'
+  },
+  resources: [
+    {
+      type: 'function',
+      id: 'func-123'
+    },
+    {
+      type: 'workflow',
+      id: 'wf-123'
+    }
+  ]
+})
+
+// Get all templates
+const templates = await admin.projects.listTemplates({
+  organization: 'org-123',
+  limit: 10,
+  offset: 0
+})
+
+// Get a specific template
+const template = await admin.projects.getTemplate('tmpl-123')
+
+// Update a template
+const updatedTemplate = await admin.projects.updateTemplate('tmpl-123', {
+  name: 'My Updated Template',
+  description: 'An updated template for my AI projects'
+})
+
+// Delete a template
+await admin.projects.deleteTemplate('tmpl-123')
+
+// Create a project from a template
+const project = await admin.projects.createFromTemplate({
+  name: 'My Project',
+  description: 'A project created from a template',
+  organization: 'org-123',
+  template: 'tmpl-123'
+})
+```
+
+## Next Steps
+
+- [Create your first project](/admin/projects/create)
+- [Manage project resources](/admin/projects/resources)
+- [Configure project settings](/admin/projects/settings)

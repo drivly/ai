@@ -1,0 +1,91 @@
+# Nouns
+
+Nouns represent entities or objects in your data model that can be manipulated by functions, workflows, and agents.
+
+## Overview
+
+The Nouns collection provides a way to define, manage, and interact with the core entities in your AI applications. Nouns can be:
+
+- Used as inputs and outputs for functions
+- Referenced in workflows
+- Manipulated by agents
+- Stored and retrieved from databases
+
+## Key Features
+
+- **Strongly Typed**: All nouns have well-defined properties and relationships
+- **Versioned**: Track changes and manage different versions of your nouns
+- **Searchable**: Easily find and retrieve nouns based on properties
+- **Extensible**: Add custom properties and methods to nouns
+
+## Defining Nouns
+
+Nouns can be defined using the Data.do API or through the dashboard interface.
+
+```typescript
+// Example noun definition
+const Customer = {
+  name: 'Customer',
+  description: 'Represents a customer in the system',
+  properties: {
+    id: { type: 'string', required: true },
+    name: { type: 'string', required: true },
+    email: { type: 'string', format: 'email', required: true },
+    subscriptionTier: { 
+      type: 'enum', 
+      values: ['free', 'basic', 'premium', 'enterprise'],
+      default: 'free'
+    },
+    createdAt: { type: 'datetime', required: true },
+    lastActive: { type: 'datetime' },
+    preferences: { type: 'object' }
+  },
+  relationships: {
+    orders: { type: 'hasMany', target: 'Order' },
+    supportTickets: { type: 'hasMany', target: 'SupportTicket' }
+  }
+}
+```
+
+## Using Nouns
+
+Nouns can be used throughout your AI applications:
+
+```typescript
+// Create a new noun instance
+const newCustomer = await nouns.create('Customer', {
+  name: 'Jane Doe',
+  email: 'jane@example.com',
+  subscriptionTier: 'premium',
+  preferences: { theme: 'dark', notifications: true }
+})
+
+// Query nouns
+const premiumCustomers = await nouns.find('Customer', {
+  where: { subscriptionTier: 'premium' },
+  include: ['orders']
+})
+
+// Use in functions
+const customerAnalysisFunction = {
+  name: 'analyzeCustomerActivity',
+  input: z.object({
+    customer: Customer.schema
+  }),
+  output: z.object({
+    activityScore: z.number(),
+    recommendations: z.array(z.string())
+  }),
+  // Function implementation...
+}
+```
+
+## Noun Templates
+
+Discover and use pre-built noun templates from the marketplace to accelerate your development process.
+
+## Next Steps
+
+- [Create your first noun](/data/nouns/create)
+- [Explore noun templates](/data/nouns/templates)
+- [Learn about noun relationships](/data/nouns/relationships)

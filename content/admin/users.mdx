@@ -1,0 +1,268 @@
+# Users
+
+Manage user accounts and permissions in your AI applications.
+
+## Overview
+
+The Users collection provides a way to manage user accounts, permissions, and authentication in your AI applications. Users can:
+
+- Access your applications and services
+- Have different roles and permissions
+- Belong to teams and organizations
+- Authenticate using various methods
+
+## Key Features
+
+- **User Management**: Create, update, and delete user accounts
+- **Authentication**: Authenticate users using various methods
+- **Authorization**: Control user access to resources
+- **Profiles**: Manage user profiles and preferences
+
+## User Structure
+
+A user account consists of the following information:
+
+```typescript
+// Example user
+{
+  id: 'user-123',
+  email: 'john.doe@example.com',
+  name: 'John Doe',
+  status: 'active',
+  roles: ['developer', 'admin'],
+  teams: ['team-456', 'team-789'],
+  organization: 'org-123',
+  createdAt: '2023-01-15T10:30:00Z',
+  updatedAt: '2023-06-20T14:45:00Z',
+  lastLoginAt: '2023-06-30T09:15:00Z',
+  profile: {
+    avatar: 'https://example.com/avatars/john-doe.jpg',
+    bio: 'Software developer with a passion for AI',
+    location: 'San Francisco, CA',
+    timezone: 'America/Los_Angeles',
+    language: 'en-US',
+    social: {
+      github: 'johndoe',
+      twitter: 'johndoe',
+      linkedin: 'john-doe'
+    }
+  },
+  preferences: {
+    theme: 'dark',
+    notifications: {
+      email: true,
+      slack: true,
+      inApp: true
+    }
+  }
+}
+```
+
+## User Management
+
+Manage users using the Admin.do API:
+
+```typescript
+// Create a new user
+const newUser = await admin.users.create({
+  email: 'jane.smith@example.com',
+  name: 'Jane Smith',
+  roles: ['developer'],
+  teams: ['team-456'],
+  organization: 'org-123'
+})
+
+// Get a user by ID
+const user = await admin.users.get('user-123')
+
+// Get a user by email
+const userByEmail = await admin.users.getByEmail('john.doe@example.com')
+
+// Update a user
+const updatedUser = await admin.users.update('user-123', {
+  name: 'John D. Doe',
+  roles: ['developer', 'admin'],
+  teams: ['team-456', 'team-789']
+})
+
+// Delete a user
+await admin.users.delete('user-123')
+
+// Restore a deleted user
+await admin.users.restore('user-123')
+```
+
+## User Authentication
+
+Authenticate users using the Admin.do API:
+
+```typescript
+// Authenticate a user with email and password
+const authResult = await admin.users.authenticate({
+  method: 'password',
+  email: 'john.doe@example.com',
+  password: 'secure-password'
+})
+
+// Authenticate a user with OAuth
+const oauthResult = await admin.users.authenticate({
+  method: 'oauth',
+  provider: 'google',
+  code: 'oauth-code'
+})
+
+// Authenticate a user with API key
+const apiKeyResult = await admin.users.authenticate({
+  method: 'apiKey',
+  key: 'api-key'
+})
+
+// Generate a password reset token
+const resetToken = await admin.users.generatePasswordResetToken('john.doe@example.com')
+
+// Reset a password
+await admin.users.resetPassword({
+  token: 'reset-token',
+  password: 'new-secure-password'
+})
+
+// Change a password
+await admin.users.changePassword({
+  userId: 'user-123',
+  currentPassword: 'current-password',
+  newPassword: 'new-secure-password'
+})
+```
+
+## User Authorization
+
+Manage user roles and permissions using the Admin.do API:
+
+```typescript
+// Get user roles
+const roles = await admin.users.getRoles('user-123')
+
+// Add a role to a user
+await admin.users.addRole('user-123', 'admin')
+
+// Remove a role from a user
+await admin.users.removeRole('user-123', 'admin')
+
+// Check if a user has a role
+const hasRole = await admin.users.hasRole('user-123', 'admin')
+
+// Get user permissions
+const permissions = await admin.users.getPermissions('user-123')
+
+// Check if a user has a permission
+const hasPermission = await admin.users.hasPermission('user-123', 'functions:create')
+
+// Grant a permission to a user
+await admin.users.grantPermission('user-123', 'functions:create')
+
+// Revoke a permission from a user
+await admin.users.revokePermission('user-123', 'functions:create')
+```
+
+## User Profiles
+
+Manage user profiles using the Admin.do API:
+
+```typescript
+// Get a user profile
+const profile = await admin.users.getProfile('user-123')
+
+// Update a user profile
+const updatedProfile = await admin.users.updateProfile('user-123', {
+  bio: 'Senior software developer with a passion for AI',
+  location: 'New York, NY',
+  timezone: 'America/New_York'
+})
+
+// Upload a user avatar
+await admin.users.uploadAvatar('user-123', avatarFile)
+
+// Get user preferences
+const preferences = await admin.users.getPreferences('user-123')
+
+// Update user preferences
+const updatedPreferences = await admin.users.updatePreferences('user-123', {
+  theme: 'light',
+  notifications: {
+    email: true,
+    slack: false,
+    inApp: true
+  }
+})
+```
+
+## User Activity
+
+Track user activity using the Admin.do API:
+
+```typescript
+// Get user activity
+const activity = await admin.users.getActivity('user-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  limit: 100,
+  offset: 0
+})
+
+// Get user sessions
+const sessions = await admin.users.getSessions('user-123')
+
+// Terminate a user session
+await admin.users.terminateSession('user-123', 'session-456')
+
+// Terminate all user sessions
+await admin.users.terminateAllSessions('user-123')
+
+// Get user login history
+const loginHistory = await admin.users.getLoginHistory('user-123', {
+  timeRange: {
+    start: '2023-01-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  }
+})
+```
+
+## User Search and Filtering
+
+Search and filter users using the Admin.do API:
+
+```typescript
+// Search users
+const searchResults = await admin.users.search({
+  query: 'john',
+  filters: {
+    roles: ['admin'],
+    teams: ['team-456'],
+    organization: 'org-123',
+    status: 'active'
+  },
+  limit: 10,
+  offset: 0,
+  sort: {
+    field: 'name',
+    order: 'asc'
+  }
+})
+
+// Get users by role
+const adminUsers = await admin.users.getByRole('admin')
+
+// Get users by team
+const teamUsers = await admin.users.getByTeam('team-456')
+
+// Get users by organization
+const orgUsers = await admin.users.getByOrganization('org-123')
+```
+
+## Next Steps
+
+- [Create and manage users](/admin/users/manage)
+- [Configure authentication methods](/admin/users/authentication)
+- [Set up roles and permissions](/admin/users/authorization)

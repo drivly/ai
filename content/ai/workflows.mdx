@@ -1,0 +1,86 @@
+# Workflows
+
+Workflows are declarative state machines that orchestrate the execution of functions in a specific order.
+
+## Overview
+
+Workflows.do provides a powerful way to create, manage, and execute complex workflows in your AI applications. Workflows allow you to:
+
+- Define multi-step processes with conditional logic
+- Orchestrate function execution in a specific order
+- Handle errors and retries automatically
+- Track workflow execution and state
+
+## Key Features
+
+- **Declarative**: Define workflows using a simple, declarative syntax
+- **State Management**: Automatically manage state between workflow steps
+- **Error Handling**: Built-in error handling and retry mechanisms
+- **Observability**: Monitor workflow execution and performance
+
+## Creating Workflows
+
+Workflows can be created using the Workflows.do API or through the dashboard interface.
+
+```typescript
+// Example workflow definition
+const documentProcessingWorkflow = {
+  name: 'documentProcessingWorkflow',
+  description: 'Processes a document through extraction, analysis, and summarization',
+  input: z.object({
+    documentUrl: z.string().url(),
+    outputFormat: z.enum(['text', 'html', 'markdown']).optional(),
+  }),
+  output: z.object({
+    summary: z.string(),
+    keyInsights: z.array(z.string()),
+    sentiment: z.enum(['positive', 'neutral', 'negative']),
+  }),
+  steps: [
+    {
+      id: 'extract',
+      function: 'extractTextFromDocument',
+      input: { url: '{{input.documentUrl}}' }
+    },
+    {
+      id: 'analyze',
+      function: 'analyzeText',
+      input: { text: '{{extract.text}}' }
+    },
+    {
+      id: 'summarize',
+      function: 'summarizeText',
+      input: { 
+        text: '{{extract.text}}', 
+        keyPoints: '{{analyze.keyPoints}}',
+        format: '{{input.outputFormat}}'
+      }
+    }
+  ]
+}
+```
+
+## Workflow Execution
+
+Workflows can be executed through the API or triggered by events:
+
+```typescript
+// Execute a workflow
+const result = await workflows.execute('documentProcessingWorkflow', {
+  documentUrl: 'https://example.com/document.pdf',
+  outputFormat: 'markdown'
+})
+
+// Check workflow status
+const status = await workflows.getStatus(workflowExecutionId)
+```
+
+## Workflow Templates
+
+Discover and use pre-built workflow templates from the marketplace to accelerate your development process.
+
+## Next Steps
+
+- [Create your first workflow](/ai/workflows/create)
+- [Explore workflow templates](/ai/workflows/templates)
+- [Learn about workflow monitoring](/ai/workflows/monitoring)
