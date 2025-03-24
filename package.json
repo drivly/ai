@@ -10,6 +10,8 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "build:content": "velite",
+    "dev:content": "velite --watch",
     "prettier-check": "prettier --check \"**/*.{js,ts,tsx,md,mdx}\"",
     "prettier-fix": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
     "test": "vitest run",
