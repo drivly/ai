@@ -15,6 +15,8 @@ const generateRequest = (functionName: string, schema: FunctionDefinition, input
   }
 }
 
+
+
 // Helper to call the functions.do API
 const callAPI = async (request: any) => {
   const url = process.env.FUNCTIONS_API_URL || 'https://functions.do/api/generate'
@@ -132,3 +134,14 @@ export const ai = new Proxy(
     },
   },
 ) as AI_Instance
+
+// Helper to generate code using the generateText function with a specific system message
+export const generateCode = async (input: any, config?: AIConfig) => {
+  const systemMessage = 'Only respond with Typescript functions, starting with a defined type decorated with JSDoc, followed by a Vitest unit test (assuming `describe`, `expect`, and `it` are already imported into scope), and finally providing a well-documented implementation of the function.'
+  
+  // Use the dynamic ai instance to call generateText with our custom system message
+  return ai.generateText(input, { 
+    ...config,
+    system: systemMessage 
+  })
+}
