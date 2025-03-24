@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'
 import { fileURLToPath } from 'url'
-import { getPayloadClient } from '../lib/payload'
+import { getPayloadClient } from '../lib/getPayload'
 import * as inflection from 'inflection'
 
 const SCHEMA_ORG_URL = 'https://schema.org/version/latest/schemaorg-current-https.jsonld'
