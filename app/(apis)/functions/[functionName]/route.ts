@@ -23,7 +23,27 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   const keys = Object.keys(output || {})
   const type = keys.length === 1 ? keys[0] : undefined
   const data = type ? output[type] : output
-  return { functionName, args, type, data, reasoning: results?.reasoning?.split('\n'), settings, latency }
+  
+  // Create links object with next and prev seed values
+  const currentSeed = parseInt(seed)
+  const baseUrl = request.nextUrl.origin + request.nextUrl.pathname
+  
+  // Create a copy of the current search params
+  const nextParams = new URLSearchParams(request.nextUrl.searchParams)
+  nextParams.set('seed', (currentSeed + 1).toString())
+  
+  const links: { next: string; prev?: string } = {
+    next: `${baseUrl}?${nextParams.toString()}`,
+  }
+  
+  // Only include prev link if seed is greater than 1
+  if (currentSeed > 1) {
+    const prevParams = new URLSearchParams(request.nextUrl.searchParams)
+    prevParams.set('seed', (currentSeed - 1).toString())
+    links.prev = `${baseUrl}?${prevParams.toString()}`
+  }
+  
+  return { functionName, args, links, type, data, reasoning: results?.reasoning?.split('\n'), settings, latency }
 
   // const job = await payload.jobs.queue({
   //   task: 'executeFunction',
