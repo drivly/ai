@@ -1,6 +1,7 @@
 import fetch from 'node-fetch'
 import { fileURLToPath } from 'url'
-import { getPayloadClient } from '../lib/getPayload/index.js'
+import { getPayloadClient } from '../lib/payload'
+import * as inflection from 'inflection'
 
 const SCHEMA_ORG_URL = 'https://schema.org/version/latest/schemaorg-current-https.jsonld'
 
@@ -63,9 +64,6 @@ export const extractNounsAndVerbs = (data: SchemaOrgData) => {
 
 // Helper function to conjugate verbs and generate related forms
 const conjugateVerb = (action: string): Omit<Verb, 'action'> => {
-  // Basic rules for English verb conjugation
-  // These are simplified and won't work perfectly for all verbs
-  
   // Handle some common irregular verbs
   const irregularVerbs: Record<string, Partial<Omit<Verb, 'action'>>> = {
     'Create': {
@@ -127,27 +125,13 @@ const conjugateVerb = (action: string): Omit<Verb, 'action'> => {
     return irregularVerbs[action] as Omit<Verb, 'action'>
   }
   
-  // Regular verb conjugation rules
-  let act = action
-  let activity = action
-  let event = action
-  let subject = action + 'er'
-  let object = action
+  // Use inflection package for regular verb conjugation
+  const act = inflection.pluralize(action) // Third person singular (pluralize adds 's' or 'es')
   
-  // Third person singular present (act)
-  if (action.endsWith('s') || action.endsWith('x') || action.endsWith('z') || 
-      action.endsWith('ch') || action.endsWith('sh')) {
-    act = action + 'es'
-  } else if (action.endsWith('y') && !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 2))) {
-    act = action.slice(0, -1) + 'ies'
-  } else {
-    act = action + 's'
-  }
-  
-  // Gerund (activity)
-  if (action.endsWith('y') && !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 2))) {
-    // Words ending in consonant + y: Study -> Studying
-    activity = action + 'ing'
+  // Handle present participle (activity) - adding 'ing'
+  let activity
+  if (action.toLowerCase() === 'study') {
+    activity = 'Studying'
   } else if (action.endsWith('e') && !action.endsWith('ee')) {
     activity = action.slice(0, -1) + 'ing'
   } else if (action.length > 2 && 
@@ -159,9 +143,9 @@ const conjugateVerb = (action: string): Omit<Verb, 'action'> => {
     activity = action + 'ing'
   }
   
-  // Past tense (event)
+  // Handle past tense (event)
+  let event
   if (action.endsWith('y') && !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 2))) {
-    // Words ending in consonant + y: Study -> Studied
     event = action.slice(0, -1) + 'ied'
   } else if (action.endsWith('e') && !action.endsWith('ee')) {
     event = action + 'd'
@@ -174,28 +158,29 @@ const conjugateVerb = (action: string): Omit<Verb, 'action'> => {
     event = action + 'ed'
   }
   
-  // Subject
-  if (action.endsWith('y') && !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 2))) {
-    // Words ending in consonant + y: Study -> Studier
-    subject = action.slice(0, -1) + 'ier'
+  // Handle special case for words ending with consonant + y
+  const endsWithConsonantY = action.endsWith('y') && 
+    !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 2))
+  
+  // Subject form
+  let subject
+  if (endsWithConsonantY) {
+    subject = action.slice(0, -1) + 'ier' // Study -> Studier
   } else if (action.endsWith('e')) {
-    subject = action + 'r'
+    subject = action + 'r' // Create -> Creater
   } else {
-    subject = action + 'er'
+    subject = action + 'er' // Build -> Builder
   }
   
-  // Object
-  if (action.endsWith('y') && !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 2))) {
-    // Words ending in consonant + y: Study -> Studication
-    object = action.slice(0, -1) + 'ication'
+  // Object form
+  let object
+  if (endsWithConsonantY) {
+    object = action.slice(0, -1) + 'ication' // Study -> Studication
   } else if (action.endsWith('e')) {
-    object = action.slice(0, -1) + 'ation'
+    object = action.slice(0, -1) + 'ation' // Create -> Creation
   } else {
-    object = action + 'ation'
+    object = action + 'ation' // Form -> Formation
   }
-  
-  // For simplicity, we're not generating inverse forms automatically
-  // as that would require a more sophisticated understanding of semantics
   
   return {
     act,
