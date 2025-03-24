@@ -12,6 +12,9 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "prettier-check": "prettier --check \"**/*.{js,ts,tsx,md,mdx}\"",
     "prettier-fix": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts",
     "build:turbo": "turbo build",
     "clean:turbo": "turbo clean",
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
@@ -63,9 +66,11 @@
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.16.0",
     "eslint-config-next": "15.2.2",
+    "playwright": "^1.51.1",
     "prettier": "^3.5.3",
     "turbo": "^2.4.4",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "vitest": "^3.0.9"
   },
   "engines": {
     "node": "^18.20.2 || >=20.9.0",
