@@ -27,9 +27,14 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "vitest"
+    "test": "vitest index.test.ts"
   },
   "devDependencies": {
+    "jsdom": "^26.0.0",
     "vitest": "^3.0.8"
+  },
+  "dependencies": {
+    "ts-morph": "^25.0.1",
+    "typescript": "^5.8.2"
   }
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ai, AI } from './index'
+import { ai, AI, generateCode } from './index'
 
 describe('functions.do', () => {
   describe('AI factory', () => {
@@ -176,5 +176,69 @@ describe('functions.do', () => {
       expect(asyncCallbackExecuted).toBe(true)
       expect(result).toEqual({ success: true, data: { test: 'async' } })
     })
+  })
+
+  describe('generateCode function', () => {
+    it('should parse markdown code blocks', async () => {
+      // Mock the ai.generateText function to return markdown
+      const originalGenerateText = ai.generateText
+      // @ts-ignore - Mocking the function for testing
+      ai.generateText = async () => {
+        return '```typescript\nfunction add(a: number, b: number): number {\n  return a + b;\n}\n```'
+      }
+
+      try {
+        // Import the functions we need to test directly from the module
+        const { parseCodeFromResponse, parseTypeScriptAST } = await import('./index')
+        
+        // Call the functions directly to test them
+        const mockResponse = '```typescript\nfunction add(a: number, b: number): number {\n  return a + b;\n}\n```'
+        const codeString = parseCodeFromResponse(mockResponse)
+        const parsedCode = parseTypeScriptAST(codeString)
+        
+        // Check that the code was extracted correctly
+        expect(codeString).toBe('function add(a: number, b: number): number {\n  return a + b;\n}')
+        
+        // Check that the AST was parsed correctly
+        expect(parsedCode.functions.length).toBe(1)
+        expect(parsedCode.functions[0].getName()).toBe('add')
+        expect(parsedCode.hasErrors).toBe(false)
+      } finally {
+        // Restore the original function
+        ai.generateText = originalGenerateText
+      }
+    }, 90000)
+
+    it('should handle pure TypeScript responses', async () => {
+      // Import the functions we need to test directly from the module
+      const { parseCodeFromResponse, parseTypeScriptAST } = await import('./index')
+      
+      // Test with pure TypeScript
+      const mockResponse = 'function multiply(a: number, b: number): number {\n  return a * b;\n}'
+      const codeString = parseCodeFromResponse(mockResponse)
+      const parsedCode = parseTypeScriptAST(codeString)
+      
+      // Check that the code was extracted correctly
+      expect(codeString).toBe('function multiply(a: number, b: number): number {\n  return a * b;\n}')
+      
+      // Check that the AST was parsed correctly
+      expect(parsedCode.functions.length).toBe(1)
+      expect(parsedCode.functions[0].getName()).toBe('multiply')
+      expect(parsedCode.hasErrors).toBe(false)
+    }, 90000)
+
+    it('should detect syntax errors in the generated code', async () => {
+      // Import the functions we need to test directly from the module
+      const { parseCodeFromResponse, parseTypeScriptAST } = await import('./index')
+      
+      // Test with code that has syntax errors
+      const mockResponse = 'function broken(a: number, b: number): number {\n  return a + b;\n  const x: string = 123; // Type error\n}'
+      const codeString = parseCodeFromResponse(mockResponse)
+      const parsedCode = parseTypeScriptAST(codeString)
+      
+      // Check that the AST parser detected errors
+      expect(parsedCode.hasErrors).toBe(true)
+      expect(parsedCode.diagnostics.length).toBeGreaterThan(0)
+    }, 90000)
   })
 })

@@ -135,13 +135,72 @@ export const ai = new Proxy(
   },
 ) as AI_Instance
 
+import { Project, Node, SyntaxKind } from 'ts-morph'
+
+// Helper to parse TypeScript code from markdown or plain text
+export const parseCodeFromResponse = (text: string): string => {
+  // Check if the response is in markdown format with code blocks
+  const markdownCodeBlockRegex = /```(?:ts|typescript)\s*([\s\S]*?)```/g
+  const matches = [...text.matchAll(markdownCodeBlockRegex)]
+  
+  if (matches.length > 0) {
+    // Extract code from the first TypeScript code block
+    return matches[0][1].trim()
+  }
+  
+  // If no markdown code blocks found, assume it's pure TypeScript
+  return text.trim()
+}
+
+// Helper to parse and validate TypeScript code using AST
+export const parseTypeScriptAST = (code: string) => {
+  const project = new Project({ useInMemoryFileSystem: true })
+  const sourceFile = project.createSourceFile('temp.ts', code)
+  
+  // Extract functions, types, and tests
+  const functions = sourceFile.getFunctions()
+  const interfaces = sourceFile.getInterfaces()
+  const types = sourceFile.getTypeAliases()
+  const classes = sourceFile.getClasses()
+  
+  // Basic validation
+  const diagnostics = sourceFile.getPreEmitDiagnostics()
+  const hasErrors = diagnostics.length > 0
+  
+  return {
+    code,
+    sourceFile,
+    functions,
+    interfaces,
+    types,
+    classes,
+    diagnostics,
+    hasErrors
+  }
+}
+
 // Helper to generate code using the generateText function with a specific system message
 export const generateCode = async (input: any, config?: AIConfig) => {
   const systemMessage = 'Only respond with Typescript functions, starting with a defined type decorated with JSDoc, followed by a Vitest unit test (assuming `describe`, `expect`, and `it` are already imported into scope), and finally providing a well-documented implementation of the function.'
   
   // Use the dynamic ai instance to call generateText with our custom system message
-  return ai.generateText(input, { 
+  const response = await ai.generateText(input, { 
     ...config,
     system: systemMessage 
   })
+  
+  // Parse the response text to extract code
+  const codeString = typeof response === 'string' 
+    ? parseCodeFromResponse(response)
+    : parseCodeFromResponse(JSON.stringify(response))
+  
+  // Parse and validate the TypeScript code
+  const parsedCode = parseTypeScriptAST(codeString)
+  
+  // Return both the original response and the parsed code
+  return {
+    raw: response,
+    code: codeString,
+    parsed: parsedCode
+  }
 }
