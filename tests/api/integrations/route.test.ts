@@ -32,7 +32,7 @@ describe('Integrations API', () => {
 
       // Verify fetch was called with the correct URL and headers
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://backend.composio.dev/api/v1/integrations',
+        'https://backend.composio.dev/api/v1/apps',
         {
           headers: {
             'x-api-key': 'test-api-key',
@@ -77,7 +77,7 @@ describe('Integrations API', () => {
 
       // Verify fetch was called with the correct URL, method, headers, and body
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://backend.composio.dev/api/v1/integrations',
+        'https://backend.composio.dev/api/v1/apps',
         {
           method: 'POST',
           headers: {
@@ -109,7 +109,7 @@ describe('Integrations API', () => {
 
       // Verify fetch was called with the correct URL, method, headers, and body
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://backend.composio.dev/api/v1/integrations',
+        'https://backend.composio.dev/api/v1/apps',
         {
           method: 'PUT',
           headers: {
@@ -135,7 +135,7 @@ describe('Integrations API', () => {
 
       // Verify fetch was called with the correct URL, method, and headers
       expect(global.fetch).toHaveBeenCalledWith(
-        'https://backend.composio.dev/api/v1/integrations',
+        'https://backend.composio.dev/api/v1/apps',
         {
           method: 'DELETE',
           headers: {
