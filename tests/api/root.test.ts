@@ -13,7 +13,7 @@ describe('Root API endpoint', () => {
     }
     
     // In test environment without a running server, use the mock from setup.ts
-    if (process.env.NODE_ENV === 'test' && !process.env.API_URL) {
+    if (process.env.IS_TEST_ENV === 'true' && !process.env.API_URL) {
       console.log('Using mock API response in test environment')
       
       // Create a mock response that matches what we expect from the API

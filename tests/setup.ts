@@ -2,11 +2,13 @@ import '@testing-library/jest-dom'
 import { beforeAll, afterAll, vi } from 'vitest'
 
 // Set up global test environment
-process.env.NODE_ENV = 'test'
+// Note: We don't set NODE_ENV directly as it's read-only
+// Instead, we check its value and use it accordingly
 
 // Mock environment variables for testing
 process.env.API_URL = process.env.API_URL || 'http://localhost:3000'
 process.env.BASE_URL = process.env.BASE_URL || 'http://localhost:3000'
+process.env.IS_TEST_ENV = 'true'
 
 // Mock fetch for API tests when needed
 if (!globalThis.fetch) {
