@@ -1,5 +1,7 @@
-import { getPayloadClient } from '../lib/getPayload'
-import fetch from 'node-fetch'
+import dotenv from 'dotenv'
+dotenv.config({ path: '.env.local' })
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
 // Function to fetch Schema.org JSONLD
 export async function fetchSchemaOrgData() {
@@ -59,11 +61,7 @@ export async function seedDatabase() {
     console.log('Starting database seed process...')
     
     // Initialize Payload
-    const payload = await getPayloadClient({
-      initOptions: {
-        local: true,
-      },
-    })
+    const payload = await getPayload({ config })
     
     // Fetch Schema.org data
     const schemaOrgData = await fetchSchemaOrgData()
@@ -121,9 +119,7 @@ export async function seedDatabase() {
     }
     
     console.log('Database seeding completed successfully!')
-    
-    // Close the Payload client
-    await payload.disconnect()
+
     
   } catch (error) {
     console.error('Error seeding database:', error)
@@ -131,6 +127,10 @@ export async function seedDatabase() {
 }
 
 // Run the seed function if this script is executed directly
-if (import.meta.url === import.meta.main) {
+import { fileURLToPath } from 'url'
+const currentFile = fileURLToPath(import.meta.url)
+const isMainModule = process.argv[1] === currentFile
+
+if (isMainModule) {
   seedDatabase()
 }
