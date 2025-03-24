@@ -48,9 +48,11 @@ describe('Root API endpoint', () => {
       
       const data = await response.json()
       expect(data).toBeDefined()
-    } catch (error) {
-      if (error instanceof Error || (error && typeof error.message === 'string')) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         console.log('API test failed with error:', error.message)
+      } else if (error && typeof error === 'object' && 'message' in error && typeof (error as { message: unknown }).message === 'string') {
+        console.log('API test failed with error:', (error as { message: string }).message)
       } else {
         console.log('API test failed with an unknown error')
       }

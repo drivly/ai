@@ -15,9 +15,11 @@ describe('Admin page', () => {
       browser = await chromium.launch({
         headless: true
       })
-    } catch (error) {
-      if (error instanceof Error || (error && typeof error.message === 'string')) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
         console.error('Failed to launch browser:', error.message)
+      } else if (error && typeof error === 'object' && 'message' in error && typeof (error as { message: unknown }).message === 'string') {
+        console.error('Failed to launch browser:', (error as { message: string }).message)
       } else {
         console.error('Failed to launch browser with an unknown error')
       }
