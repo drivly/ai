@@ -20,8 +20,10 @@
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "lint:turbo": "turbo lint",
     "test:turbo": "turbo test",
+    "test:seed": "vitest run tests/seed.test.ts",
     "typecheck": "turbo typecheck",
-    "format": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\""
+    "format": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
+    "seed": "tsx scripts/seed.ts"
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
@@ -47,6 +49,7 @@
     "next-mdx-remote": "^5.0.0",
     "nextra": "^4.2.17",
     "nextra-theme-docs": "^4.2.17",
+    "node-fetch": "^3.3.2",
     "object-hash": "^3.0.0",
     "payload": "^3.28.1",
     "react": "19.0.0",
@@ -54,6 +57,7 @@
     "react-markdown": "^10.1.0",
     "sharp": "0.32.6",
     "sqids": "^0.3.0",
+    "tsx": "^4.19.3",
     "velite": "^0.2.2"
   },
   "devDependencies": {
