@@ -1,6 +1,7 @@
-import { DocsThemeConfig } from 'nextra-theme-docs'
+import type { NextraThemeLayoutProps } from 'nextra'
+import type { ReactNode } from 'react'
 
-const themeConfig: DocsThemeConfig = {
+const themeConfig = {
   logo: <span>Workflows.do</span>,
   project: {
     link: 'https://github.com/drivly/ai',
