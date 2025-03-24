@@ -90,6 +90,7 @@ This repository contains a collection of AI primitives for building enterprise-g
 
 ## Pull Request Guidelines
 
+- Ensure `pnpm build` passes
 - Ensure all tests pass
 - Follow the existing code style
 - Include appropriate documentation
