@@ -619,6 +619,15 @@ export interface Event {
     | number
     | boolean
     | null;
+  data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   meta?:
     | {
         [k: string]: unknown;
@@ -1247,6 +1256,7 @@ export interface EventsSelect<T extends boolean = true> {
   action?: T;
   generation?: T;
   request?: T;
+  data?: T;
   meta?: T;
   updatedAt?: T;
   createdAt?: T;

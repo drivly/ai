@@ -12,6 +12,7 @@ export const Events: CollectionConfig = {
     { name: 'action', type: 'relationship', relationTo: 'actions' },
     { name: 'generation', type: 'relationship', relationTo: 'generations' },
     { name: 'request', type: 'json' },
+    { name: 'data', type: 'json' },
     { name: 'meta', type: 'json' },
   ],
 }
