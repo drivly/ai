@@ -32,8 +32,9 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   const nextParams = new URLSearchParams(request.nextUrl.searchParams)
   nextParams.set('seed', (currentSeed + 1).toString())
   
-  const links: { next: string; prev?: string; temperature?: Record<string, string> } = {
+  const links: { next: string; prev?: string; temperature: Record<string, string> } = {
     next: `${baseUrl}?${nextParams.toString()}`,
+    temperature: {}
   }
   
   // Only include prev link if seed is greater than 1
@@ -45,7 +46,6 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   
   // Add temperature links with values 0, 0.2, 0.4, 0.6, 0.8, and 1.0
   const temperatureValues = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
-  links.temperature = {}
   
   temperatureValues.forEach(temp => {
     const tempParams = new URLSearchParams(request.nextUrl.searchParams)
