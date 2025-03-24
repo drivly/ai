@@ -5,7 +5,7 @@ import { executeFunction } from './executeFunction'
  * Execute a text function that returns markdown-formatted text
  * This is a wrapper around executeFunction that sets the type to 'Text'
  */
-export const executeTextFunction = async ({ input, req, payload }: any) => {
+export const executeTextFunction = async ({ input, req }: any) => {
   // Set the type to 'Text' to use the generateText utility
   const textInput = {
     ...input,
@@ -13,12 +13,19 @@ export const executeTextFunction = async ({ input, req, payload }: any) => {
   }
   
   // Call the executeFunction with the modified input
-  return executeFunction({ input: textInput, req, payload })
+  const result = await executeFunction({ input: textInput, req, payload: req.payload })
+  
+  // Return the result in the expected TaskHandlerResult format
+  return {
+    output: result.output,
+    state: 'succeeded'
+  }
 }
 
+// Define the task configuration
 export const executeTextFunctionTask = {
   retries: 3,
-  slug: 'executeTextFunction',
+  slug: 'executeFunction', // Use the same slug as executeFunction
   label: 'Execute Text Function',
   inputSchema: [
     { name: 'functionName', type: 'text', required: true },
@@ -35,4 +42,4 @@ export const executeTextFunctionTask = {
     { name: 'reasoning', type: 'text' },
   ],
   handler: executeTextFunction,
-} as TaskConfig<'executeTextFunction'>
+} as TaskConfig<'executeFunction'>
