@@ -1,5 +1,6 @@
 // Test setup file
 import '@testing-library/jest-dom'
+import { beforeAll, afterAll } from 'vitest'
 
 // Note: We don't set NODE_ENV directly as it's read-only in some environments
 process.env.IS_TEST_ENV = 'true'
