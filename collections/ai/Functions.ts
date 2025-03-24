@@ -1,6 +1,6 @@
-import type { CollectionConfig, CollectionSlug } from 'payload'
+import type { CollectionConfig } from 'payload'
 
-export const Functions: CollectionConfig<CollectionSlug> = {
+export const Functions: CollectionConfig = {
   slug: 'functions',
   admin: {
     group: 'AI',

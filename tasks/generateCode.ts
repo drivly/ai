@@ -1,3 +1,4 @@
+import { TaskConfig } from 'payload'
 import { Project } from 'ts-morph'
 
 // Helper to parse TypeScript code from markdown or plain text
@@ -70,3 +71,20 @@ export const generateCode = async (input: any, config?: any) => {
     parsed: parsedCode
   }
 }
+
+// Define the task configuration
+export const generateCodeTask = {
+  retries: 3,
+  slug: 'generateCode',
+  label: 'Generate Code',
+  inputSchema: [
+    { name: 'prompt', type: 'text', required: true },
+    { name: 'settings', type: 'json' },
+  ],
+  outputSchema: [
+    { name: 'raw', type: 'json' },
+    { name: 'code', type: 'text' },
+    { name: 'parsed', type: 'json' },
+  ],
+  handler: generateCode,
+} as unknown as TaskConfig
