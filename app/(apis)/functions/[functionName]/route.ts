@@ -32,7 +32,18 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   const nextParams = new URLSearchParams(request.nextUrl.searchParams)
   nextParams.set('seed', (currentSeed + 1).toString())
   
-  const links: { next: string; prev?: string } = {
+  const links: { 
+    next: string; 
+    prev?: string;
+    temperature?: {
+      '0': string;
+      '0.2': string;
+      '0.4': string;
+      '0.6': string;
+      '0.8': string;
+      '1': string;
+    }
+  } = {
     next: `${baseUrl}?${nextParams.toString()}`,
   }
   
@@ -42,6 +53,16 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
     prevParams.set('seed', (currentSeed - 1).toString())
     links.prev = `${baseUrl}?${prevParams.toString()}`
   }
+  
+  // Add temperature links
+  const temperatureValues = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+  links.temperature = {} as any
+  
+  temperatureValues.forEach(temp => {
+    const tempParams = new URLSearchParams(request.nextUrl.searchParams)
+    tempParams.set('temperature', temp.toString())
+    links.temperature![temp.toString()] = `${baseUrl}?${tempParams.toString()}`
+  })
   
   return { functionName, args, links, type, data, reasoning: results?.reasoning?.split('\n'), settings, latency }
 
