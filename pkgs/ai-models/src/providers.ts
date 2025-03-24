@@ -101,8 +101,8 @@ models.push({
   modelIdentifier: 'frontier',
   // Array of children models that will be checked for compatibility
   // in order. First most compatible will be used.
-  childrenModels: ['google/gemini-2.0-flash-001', 'google/gemini-2.0-flash-thinking-exp-01-21', 'anthropic/claude-3-7-sonnet-20250219', 'openai/gpt-4o'],
-  childPriority: 'random',
+  childrenModels: ['google/gemini-2.0-flash-001', 'anthropic/claude-3-7-sonnet-20250219', 'openai/gpt-4o'],
+  childPriority: 'first',
 })
 
 export { models }
