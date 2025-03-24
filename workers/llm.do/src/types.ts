@@ -60,7 +60,7 @@ const Name = z
   .regex(/^[a-zA-Z0-9_]+$/)
   .optional()
 
-export const ChatCompletionRequest = z.object({
+export const ChatCompletionRequestSchema = z.object({
   messages: z.array(
     z
       .object({
@@ -152,7 +152,7 @@ export const ChatCompletionRequest = z.object({
     })
     .optional(),
   presence_penalty: z.number().optional(),
-  reasoning_effort: z.string().optional(),
+  reasoning_effort: z.enum(['low', 'medium', 'high']).optional(),
   response_format: z
     .object({ type: z.literal('text') })
     .or(z.object({ type: z.literal('json_object') }))
@@ -225,7 +225,9 @@ export const ChatCompletionRequest = z.object({
     .optional(),
 })
 
-export const ChatCompletionResponse = z.object({
+export type ChatCompletionRequest = z.infer<typeof ChatCompletionRequestSchema>
+
+export const ChatCompletionResponseSchema = z.object({
   choices: z.array(
     z.object({
       finish_reason: z.string(),
@@ -299,7 +301,7 @@ export const ChatCompletionResponse = z.object({
   }),
 })
 
-export const ModelListResponse = z.object({
+export const ModelListResponseSchema = z.object({
   data: z.array(
     z.object({
       id: z.string(),

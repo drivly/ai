@@ -7,9 +7,9 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
   return domain !== 'localhost'
     ? {
         ai: {
-          '入 Functions - Typesafe Results without Complexity': 'https://functions.do',
-          '巛 Workflows - Reliably Execute Business Processes': 'https://workflows.do',
-          '回 Agents - Deploy & Manage Autonomous Digital Workers': 'https://agents.do',
+          '入 Functions - Typesafe Results without Complexity': 'https://functions.do/api',
+          '巛 Workflows - Reliably Execute Business Processes': 'https://workflows.do/api',
+          '回 Agents - Deploy & Manage Autonomous Digital Workers': 'https://agents.do/api',
         },
         things: {
           'Nouns - People, Places, Things, and Ideas': 'https://nouns.do',

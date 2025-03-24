@@ -1,0 +1,452 @@
+# Billing
+
+Manage billing, subscriptions, and usage for your AI applications.
+
+## Overview
+
+The Billing collection provides a way to manage billing, subscriptions, and usage for your AI applications. Billing can:
+
+- Track usage and costs
+- Manage subscriptions and plans
+- Process payments
+- Generate invoices and reports
+
+## Key Features
+
+- **Subscription Management**: Manage subscription plans and features
+- **Usage Tracking**: Track resource usage and costs
+- **Payment Processing**: Process payments and manage payment methods
+- **Invoicing**: Generate and manage invoices
+
+## Subscription Plans
+
+Admin.do supports various subscription plans:
+
+```typescript
+// Example subscription plans
+const subscriptionPlans = [
+  {
+    id: 'free',
+    name: 'Free',
+    description: 'Basic features for individuals',
+    price: 0,
+    billingCycle: 'monthly',
+    features: [
+      {
+        name: 'functions',
+        limit: 10,
+        description: 'Up to 10 functions'
+      },
+      {
+        name: 'workflows',
+        limit: 5,
+        description: 'Up to 5 workflows'
+      },
+      {
+        name: 'agents',
+        limit: 1,
+        description: 'Up to 1 agent'
+      },
+      {
+        name: 'storage',
+        limit: 1,
+        unit: 'GB',
+        description: '1 GB storage'
+      }
+    ]
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    description: 'Advanced features for professionals',
+    price: 49,
+    currency: 'USD',
+    billingCycle: 'monthly',
+    features: [
+      {
+        name: 'functions',
+        limit: 100,
+        description: 'Up to 100 functions'
+      },
+      {
+        name: 'workflows',
+        limit: 50,
+        description: 'Up to 50 workflows'
+      },
+      {
+        name: 'agents',
+        limit: 10,
+        description: 'Up to 10 agents'
+      },
+      {
+        name: 'storage',
+        limit: 10,
+        unit: 'GB',
+        description: '10 GB storage'
+      },
+      {
+        name: 'support',
+        description: 'Email support'
+      }
+    ]
+  },
+  {
+    id: 'business',
+    name: 'Business',
+    description: 'Enterprise-grade features for teams',
+    price: 199,
+    currency: 'USD',
+    billingCycle: 'monthly',
+    features: [
+      {
+        name: 'functions',
+        limit: 500,
+        description: 'Up to 500 functions'
+      },
+      {
+        name: 'workflows',
+        limit: 200,
+        description: 'Up to 200 workflows'
+      },
+      {
+        name: 'agents',
+        limit: 50,
+        description: 'Up to 50 agents'
+      },
+      {
+        name: 'storage',
+        limit: 100,
+        unit: 'GB',
+        description: '100 GB storage'
+      },
+      {
+        name: 'support',
+        description: 'Priority support'
+      },
+      {
+        name: 'sso',
+        description: 'Single Sign-On'
+      }
+    ]
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    description: 'Custom solutions for large organizations',
+    price: null,
+    billingCycle: 'custom',
+    features: [
+      {
+        name: 'functions',
+        limit: null,
+        description: 'Unlimited functions'
+      },
+      {
+        name: 'workflows',
+        limit: null,
+        description: 'Unlimited workflows'
+      },
+      {
+        name: 'agents',
+        limit: null,
+        description: 'Unlimited agents'
+      },
+      {
+        name: 'storage',
+        limit: null,
+        description: 'Unlimited storage'
+      },
+      {
+        name: 'support',
+        description: 'Dedicated support'
+      },
+      {
+        name: 'sso',
+        description: 'Single Sign-On'
+      },
+      {
+        name: 'sla',
+        description: 'Custom SLA'
+      }
+    ]
+  }
+]
+```
+
+## Subscription Management
+
+Manage subscriptions using the Admin.do API:
+
+```typescript
+// Get available subscription plans
+const plans = await admin.billing.getPlans()
+
+// Get a specific plan
+const plan = await admin.billing.getPlan('business')
+
+// Get organization subscription
+const subscription = await admin.billing.getSubscription('org-123')
+
+// Subscribe to a plan
+const newSubscription = await admin.billing.subscribe('org-123', {
+  plan: 'business',
+  billingCycle: 'monthly',
+  paymentMethod: 'pm-123'
+})
+
+// Change subscription plan
+const updatedSubscription = await admin.billing.changeSubscription('org-123', {
+  plan: 'enterprise',
+  billingCycle: 'annual'
+})
+
+// Cancel subscription
+await admin.billing.cancelSubscription('org-123', {
+  reason: 'Switching to another service',
+  endOfBillingPeriod: true
+})
+
+// Reactivate subscription
+await admin.billing.reactivateSubscription('org-123')
+```
+
+## Payment Methods
+
+Manage payment methods using the Admin.do API:
+
+```typescript
+// Get payment methods
+const paymentMethods = await admin.billing.getPaymentMethods('org-123')
+
+// Add a payment method
+const newPaymentMethod = await admin.billing.addPaymentMethod('org-123', {
+  type: 'card',
+  card: {
+    number: '4242424242424242',
+    expMonth: 12,
+    expYear: 2025,
+    cvc: '123'
+  },
+  billingDetails: {
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    address: {
+      line1: '123 Main St',
+      city: 'San Francisco',
+      state: 'CA',
+      postalCode: '94111',
+      country: 'US'
+    }
+  }
+})
+
+// Update a payment method
+const updatedPaymentMethod = await admin.billing.updatePaymentMethod('org-123', 'pm-123', {
+  billingDetails: {
+    name: 'John D. Doe'
+  }
+})
+
+// Delete a payment method
+await admin.billing.deletePaymentMethod('org-123', 'pm-123')
+
+// Set default payment method
+await admin.billing.setDefaultPaymentMethod('org-123', 'pm-456')
+```
+
+## Usage Tracking
+
+Track usage using the Admin.do API:
+
+```typescript
+// Get organization usage
+const usage = await admin.billing.getUsage('org-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents', 'storage']
+})
+
+// Get usage by resource
+const functionUsage = await admin.billing.getResourceUsage('org-123', 'functions', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  groupBy: 'day'
+})
+
+// Get usage by team
+const teamUsage = await admin.billing.getTeamUsage('org-123', 'team-456', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents']
+})
+
+// Get usage by user
+const userUsage = await admin.billing.getUserUsage('org-123', 'user-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents']
+})
+
+// Get current usage limits
+const usageLimits = await admin.billing.getUsageLimits('org-123')
+
+// Set usage alerts
+await admin.billing.setUsageAlerts('org-123', {
+  functions: {
+    threshold: 80,
+    notificationChannels: ['email', 'slack']
+  },
+  workflows: {
+    threshold: 80,
+    notificationChannels: ['email', 'slack']
+  },
+  agents: {
+    threshold: 80,
+    notificationChannels: ['email', 'slack']
+  }
+})
+```
+
+## Invoices
+
+Manage invoices using the Admin.do API:
+
+```typescript
+// Get invoices
+const invoices = await admin.billing.getInvoices('org-123', {
+  timeRange: {
+    start: '2023-01-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  status: 'paid',
+  limit: 10,
+  offset: 0
+})
+
+// Get a specific invoice
+const invoice = await admin.billing.getInvoice('org-123', 'inv-123')
+
+// Download an invoice
+const invoicePdf = await admin.billing.downloadInvoice('org-123', 'inv-123', {
+  format: 'pdf'
+})
+
+// Get upcoming invoice
+const upcomingInvoice = await admin.billing.getUpcomingInvoice('org-123')
+
+// Pay an invoice
+await admin.billing.payInvoice('org-123', 'inv-123', {
+  paymentMethod: 'pm-123'
+})
+```
+
+## Billing Settings
+
+Manage billing settings using the Admin.do API:
+
+```typescript
+// Get billing settings
+const billingSettings = await admin.billing.getSettings('org-123')
+
+// Update billing settings
+const updatedBillingSettings = await admin.billing.updateSettings('org-123', {
+  billingEmail: 'billing@example.com',
+  billingAddress: {
+    line1: '123 Main St',
+    city: 'San Francisco',
+    state: 'CA',
+    postalCode: '94111',
+    country: 'US'
+  },
+  taxId: {
+    type: 'us_ein',
+    value: '12-3456789'
+  },
+  invoiceSettings: {
+    footer: 'Thank you for your business!',
+    autoCharge: true
+  }
+})
+
+// Get tax rates
+const taxRates = await admin.billing.getTaxRates('org-123')
+
+// Update tax settings
+await admin.billing.updateTaxSettings('org-123', {
+  taxId: {
+    type: 'us_ein',
+    value: '12-3456789'
+  },
+  taxExempt: false
+})
+```
+
+## Reports
+
+Generate billing reports using the Admin.do API:
+
+```typescript
+// Generate a usage report
+const usageReport = await admin.billing.generateUsageReport('org-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents', 'storage'],
+  groupBy: ['day', 'resource'],
+  format: 'csv'
+})
+
+// Generate a cost report
+const costReport = await admin.billing.generateCostReport('org-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents', 'storage'],
+  groupBy: ['day', 'resource'],
+  format: 'csv'
+})
+
+// Generate a team usage report
+const teamUsageReport = await admin.billing.generateTeamUsageReport('org-123', {
+  timeRange: {
+    start: '2023-06-01T00:00:00Z',
+    end: '2023-06-30T23:59:59Z'
+  },
+  resources: ['functions', 'workflows', 'agents'],
+  groupBy: ['team', 'resource'],
+  format: 'csv'
+})
+
+// Schedule a recurring report
+await admin.billing.scheduleReport('org-123', {
+  name: 'Monthly Usage Report',
+  type: 'usage',
+  schedule: {
+    frequency: 'monthly',
+    day: 1,
+    time: '00:00:00Z'
+  },
+  parameters: {
+    resources: ['functions', 'workflows', 'agents', 'storage'],
+    groupBy: ['day', 'resource'],
+    format: 'csv'
+  },
+  recipients: ['billing@example.com', 'finance@example.com']
+})
+```
+
+## Next Steps
+
+- [Set up billing for your organization](/admin/billing/setup)
+- [Manage subscription plans](/admin/billing/subscriptions)
+- [Track usage and costs](/admin/billing/usage)

@@ -1,5 +1,6 @@
 import { openai } from '@ai-sdk/openai'
-import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
+import { createOpenAI } from '@ai-sdk/openai'
+// import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
 import { z } from 'zod'
 import type { AIFunctionOptions, AIFunctionConfig } from './types'
 
@@ -11,10 +12,10 @@ const defaultConfig: AIFunctionConfig = {
 // Create AI model provider with support for AI_GATEWAY environment variable
 const getAIProvider = (modelName: string) => {
   if (typeof process !== 'undefined' && process.env?.AI_GATEWAY) {
-    return createOpenAICompatible({
+    return createOpenAI({
       apiKey: process.env.OPENAI_API_KEY || 'dummy-key',
       baseURL: process.env.AI_GATEWAY,
-      name: 'openai-compatible',
+      // name: 'openai-compatible',
     }).languageModel(modelName)
   }
   return openai.languageModel(modelName)

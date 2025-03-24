@@ -15,24 +15,40 @@ This repository contains a collection of AI primitives for building enterprise-g
 ## Directory Structure
 
 - `/api/`: API implementations for various services (agents.do, functions.do, workflows.do, etc.)
-- `/dash/`: Dashboard application
-- `/data/`: Data management and storage
-- `/docs/`: Documentation
+- `/app/`: Application code
+- `/collections/`: Collection definitions
+- `/components/`: Reusable UI components
+- `/content/`: Content files and assets
+- `/examples/`: Example implementations
+- `/lib/`: Library code and utilities
 - `/pkgs/`: Shared packages and libraries
 - `/sdks/`: Software Development Kits
+- `/tasks/`: Task definitions
 - `/tests/`: Test files (unit, integration, E2E)
-- `/web/`: Web applications and interfaces
+- `/websites/`: Website implementations
+- `/workers/`: Cloudflare Workers implementations
 - `/workflows/`: Workflow definitions and implementations
 
 ## Development Guidelines
 
 - Use TypeScript for new code
 - Follow the existing code style (Prettier configuration in package.json)
-- Single quotes for strings
-- No semicolons
-- JSX single quotes
-- JSX bracket same line
-- 180 character print width
+- Code style:
+  - Single quotes for strings
+  - No semicolons
+  - 2 spaces for indentation
+  - Trailing commas
+  - 180 character print width
+  - JSX single quotes
+  - JSX bracket same line
+- Naming conventions:
+  - Use kebab-case for file names
+  - Use camelCase for variables and function names (boolean variables use `is/has/should` prefix)
+  - Use PascalCase for React components and their filenames
+  - Use PascalCase for types and interfaces with meaningful names
+  - Use UPPER_SNAKE_CASE for constants
+- Commits follow conventional format: `type(scope): message`
+- Error handling: Use try/catch with meaningful error messages
 
 ## Testing Requirements
 
@@ -46,6 +62,17 @@ This repository contains a collection of AI primitives for building enterprise-g
 - Use pnpm as the package manager
 - Run `pnpm install` to install dependencies
 - The project uses a workspace structure defined in package.json
+
+## Common Commands
+
+- Build: `pnpm build` or `pnpm build:turbo`
+- Dev: `pnpm dev` or `pnpm dev:turbo`
+- Clean: `pnpm clean:turbo`
+- Test: `pnpm test:turbo` (all tests) or `pnpm test -- -t "test pattern"` (in package directory)
+- Test watch mode: `pnpm test:watch`
+- Typecheck: `pnpm typecheck`
+- Lint: `pnpm lint` or `pnpm lint:turbo`
+- Format: `pnpm format` or `pnpm prettier-fix`
 
 ## Key Primitives
 

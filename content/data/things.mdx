@@ -1,0 +1,90 @@
+# Things
+
+Things represent generic objects or entities that can be used across your AI applications.
+
+## Overview
+
+The Things collection provides a flexible way to define and manage objects that don't fit into the more structured Nouns category. Things can be:
+
+- Used for temporary or ad-hoc data structures
+- Shared between different components of your application
+- Stored in databases or passed between services
+- Extended with custom properties and behaviors
+
+## Key Features
+
+- **Flexible Schema**: Things can have dynamic or partial schemas
+- **Extensible**: Easily add new properties or behaviors
+- **Interoperable**: Things can be converted to and from other data formats
+- **Searchable**: Find things based on properties or content
+
+## Defining Things
+
+Things can be defined using the Data.do API or through the dashboard interface.
+
+```typescript
+// Example thing definition
+const UserPreference = {
+  name: 'UserPreference',
+  description: 'Represents user preferences for the application',
+  schema: {
+    type: 'object',
+    properties: {
+      userId: { type: 'string' },
+      theme: { type: 'string', enum: ['light', 'dark', 'system'] },
+      notifications: { type: 'boolean' },
+      language: { type: 'string' },
+      customSettings: { 
+        type: 'object',
+        additionalProperties: true
+      }
+    },
+    required: ['userId'],
+    additionalProperties: true
+  },
+  indexes: [
+    { fields: ['userId'], unique: true }
+  ]
+}
+```
+
+## Using Things
+
+Things can be used throughout your AI applications:
+
+```typescript
+// Create a new thing
+const preference = await things.create('UserPreference', {
+  userId: 'user-123',
+  theme: 'dark',
+  notifications: true,
+  language: 'en-US',
+  customSettings: {
+    fontSize: 14,
+    compactView: true
+  }
+})
+
+// Query things
+const darkThemeUsers = await things.find('UserPreference', {
+  where: { theme: 'dark' }
+})
+
+// Update a thing
+await things.update('UserPreference', 'pref-456', {
+  notifications: false,
+  customSettings: {
+    fontSize: 16
+  }
+})
+```
+
+## Thing Templates
+
+Discover and use pre-built thing templates from the marketplace to accelerate your development process.
+
+## Next Steps
+
+- [Create your first thing](/data/things/create)
+- [Explore thing templates](/data/things/templates)
+- [Learn about thing schemas](/data/things/schemas)

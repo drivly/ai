@@ -26,9 +26,9 @@ import { Experiments } from './experiments/Experiments'
 import { Prompts } from './experiments/Prompts'
 import { Settings } from './experiments/Settings'
 import { Things } from './data/Things'
+import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
 import { Searches } from './events/Searches'
-import { Traces } from './observability/Traces'
 
 export const collections = [
   Functions,

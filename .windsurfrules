@@ -61,6 +61,16 @@
 - Prettier: ^3.4.2
 - TypeScript: ^5.7.3
 - Wrangler: ^4.2.0
+
+### Common Commands
+- Build: `pnpm build` or `pnpm build:turbo`
+- Dev: `pnpm dev` or `pnpm dev:turbo`
+- Clean: `pnpm clean:turbo`
+- Test: `pnpm test:turbo` (all tests) or `pnpm test -- -t "test pattern"` (in package directory)
+- Test watch mode: `pnpm test:watch`
+- Typecheck: `pnpm typecheck`
+- Lint: `pnpm lint` or `pnpm lint:turbo`
+- Format: `pnpm format` or `pnpm prettier-fix`
 ## Quality Management Protocol
 
 ### 1. Code Quality
@@ -92,13 +102,18 @@
 ```
 ai/
 ├── api/                  # API implementations for various services
-├── dash/                 # Dashboard application
-├── data/                 # Data management and storage
-├── docs/                 # Documentation
+├── app/                  # Application code
+├── collections/          # Collection definitions
+├── components/           # Reusable UI components
+├── content/              # Content files and assets
+├── examples/             # Example implementations
+├── lib/                  # Library code and utilities
 ├── pkgs/                 # Shared packages and libraries
 ├── sdks/                 # Software Development Kits
+├── tasks/                # Task definitions
 ├── tests/                # Test suites
-├── web/                  # Web applications and interfaces
+├── websites/             # Website implementations
+├── workers/              # Cloudflare Workers implementations
 └── workflows/            # Workflow definitions
 ```
 
@@ -112,6 +127,7 @@ ai/
 ### Code Style
 - Single quotes
 - No semicolons
+- 2 spaces for indentation
 - Trailing commas
 - 180 character line width
 - JSX uses single quotes
@@ -119,8 +135,9 @@ ai/
 
 ### Naming Conventions
 - Use kebab-case for file names
-- Use camelCase for variables and function names
+- Use camelCase for variables and function names (boolean variables use `is/has/should` prefix)
 - Use PascalCase for React components and their filenames
+- Use PascalCase for types and interfaces with meaningful names
 - Use UPPER_SNAKE_CASE for constants
 ## Implementation Process
 

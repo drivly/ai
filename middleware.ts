@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 const siteDomains = ['functions.do', 'workflows.do', 'llm.do', 'llms.do']
+const sitePaths = ['login', 'logout', 'signin', 'signout', 'privacy', 'terms', 'pricing']
+const sitePrefixes = ['blog', 'docs']
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
