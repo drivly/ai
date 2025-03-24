@@ -94,3 +94,4 @@ This repository contains a collection of AI primitives for building enterprise-g
 - Follow the existing code style
 - Include appropriate documentation
 - Reference related issues
+- All commits and PRs must follow conventional commit format
