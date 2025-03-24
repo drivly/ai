@@ -125,49 +125,58 @@ const conjugateVerb = (action: string): Omit<Verb, 'action'> => {
     return irregularVerbs[action] as Omit<Verb, 'action'>
   }
   
-  // Use inflection package for regular verb conjugation
-  const act = inflection.pluralize(action) // Third person singular (pluralize adds 's' or 'es')
+  // Helper function to check if a character is a vowel
+  const isVowel = (char: string): boolean => {
+    return ['a', 'e', 'i', 'o', 'u'].includes(char.toLowerCase());
+  };
+
+  // Handle special case for words ending with consonant + y
+  const endsWithConsonantY = action.endsWith('y') && 
+    !isVowel(action.charAt(action.length - 2))
+    
+  // Use inflection package for regular verb conjugation, but handle special cases
+  let act
+  if (endsWithConsonantY) {
+    act = action.slice(0, -1) + 'ies' // Study -> Studies
+  } else {
+    act = inflection.pluralize(action) // Third person singular (pluralize adds 's' or 'es')
+  }
   
   // Handle present participle (activity) - adding 'ing'
   let activity
-  if (action.toLowerCase() === 'study') {
-    activity = 'Studying'
-  } else if (action.endsWith('e') && !action.endsWith('ee')) {
-    activity = action.slice(0, -1) + 'ing'
+  if (action.endsWith('e') && !action.endsWith('ee')) {
+    activity = action.slice(0, -1) + 'ing' // Create -> Creating
   } else if (action.length > 2 && 
-             !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 2)) && 
-             ['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 3)) &&
-             !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 1))) {
-    activity = action + action.charAt(action.length - 1) + 'ing'
+             !isVowel(action.charAt(action.length - 2)) && 
+             isVowel(action.charAt(action.length - 3)) &&
+             !isVowel(action.charAt(action.length - 1)) &&
+             !action.endsWith('y')) { // Added check to exclude words ending with 'y'
+    activity = action + action.charAt(action.length - 1) + 'ing' // Run -> Running
   } else {
-    activity = action + 'ing'
+    activity = action + 'ing' // Study -> Studying, Play -> Playing
   }
   
   // Handle past tense (event)
   let event
-  if (action.endsWith('y') && !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 2))) {
-    event = action.slice(0, -1) + 'ied'
+  if (endsWithConsonantY) {
+    event = action.slice(0, -1) + 'ied' // Study -> Studied
   } else if (action.endsWith('e') && !action.endsWith('ee')) {
-    event = action + 'd'
+    event = action + 'd' // Create -> Created
   } else if (action.length > 2 && 
-             !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 2)) && 
-             ['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 3)) &&
-             !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 1))) {
-    event = action + action.charAt(action.length - 1) + 'ed'
+             !isVowel(action.charAt(action.length - 2)) && 
+             isVowel(action.charAt(action.length - 3)) &&
+             !isVowel(action.charAt(action.length - 1))) {
+    event = action + action.charAt(action.length - 1) + 'ed' // Run -> Runned
   } else {
-    event = action + 'ed'
+    event = action + 'ed' // Play -> Played
   }
-  
-  // Handle special case for words ending with consonant + y
-  const endsWithConsonantY = action.endsWith('y') && 
-    !['a', 'e', 'i', 'o', 'u'].includes(action.charAt(action.length - 2))
   
   // Subject form
   let subject
   if (endsWithConsonantY) {
     subject = action.slice(0, -1) + 'ier' // Study -> Studier
   } else if (action.endsWith('e')) {
-    subject = action + 'r' // Create -> Creater
+    subject = action + 'r' // Create -> Creator
   } else {
     subject = action + 'er' // Build -> Builder
   }
