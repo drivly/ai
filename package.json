@@ -36,6 +36,7 @@
     "ai-workflows": "^1.1.0",
     "clickable-apis": "workspace:*",
     "cross-env": "^7.0.3",
+    "date-fns": "^2.30.0",
     "dedent": "^1.5.3",
     "graphql": "^16.8.1",
     "murmurhash": "^2.0.1",
