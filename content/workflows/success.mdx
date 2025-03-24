@@ -1,0 +1,195 @@
+---
+$type: Workflows
+---
+
+# Initial Signup & Enrichment
+
+We need to enrich the customer's contact details with lookup from external data sources, do deep research on the company and personal background,
+and schedule a highly personalized sequence of emails to optimize onboarding and activation.
+
+export const onUserSignup = async ({ ai, api, db, event }) => {
+
+const { name, email, company } = event
+
+// Enrich content details with lookup from external data sources
+const enrichedContact = await api.apollo.search({ name, email, company })
+const socialProfiles = await api.peopleDataLabs.findSocialProfiles({ name, email, company })
+const githubProfile = socialProfiles.github ? await api.github.profile({ name, email, company, profile: socialProfiles.github }) : undefined
+
+// Using the enriched contact details, do deep research on the company and personal background
+const companyProfile = await ai.researchCompany({ company })
+const personalProfile = await ai.researchPersonalBackground({ name, email, enrichedContact })
+const socialActivity = await ai.researchSocialActivity({ name, email, enrichedContact, socialProfiles })
+const githubActivity = githubProfile ? await ai.summarizeGithubActivity({ name, email, enrichedContact, githubProfile }) : undefined
+
+// Schedule a highly personalized sequence of emails to optimize onboarding and activation
+const emailSequence = await ai.personalizeEmailSequence({ name, email, company, personalProfile, socialActivity, companyProfile, githubActivity })
+await api.scheduleEmails({ emailSequence })
+
+// Summarize everything, save to the database, and post to Slack
+const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, enrichedContact, socialProfiles, githubProfile, companyProfile, personalProfile, socialActivity, githubActivity, emailSequence })
+const { url } = await db.users.create({ name, email, company, summary, enrichedContact, socialProfiles, githubProfile, companyProfile, personalProfile, socialActivity, githubActivity, emailSequence })
+await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
+
+}
+
+# Customer Success
+
+## 📝 Initial Signup & Enrichment
+
+- [x] Connect after initial signup
+- [ ] Verify enriched data accuracy (manual/automated verification step)
+
+## 📬 Email Sequence Handling
+
+- [ ] Handle customer responses to email sequences
+  - Positive response → escalate to onboarding specialist
+  - Neutral/no response → initiate automatic follow-ups
+  - Negative response → escalate to Customer Success for intervention
+- [ ] Automatically pause sequence upon customer reply
+
+## 🚨 Error & Issue Detection
+
+- [ ] Proactively reach out if email delivery errors occur
+- [ ] Slack alert Customer Success team upon error detection
+- [ ] Trigger escalation workflow if persistent issues remain unresolved
+
+## 📈 Engagement & Usage-Based Triggers
+
+- [ ] Monitor significant usage or key milestones
+- [ ] Automatic outreach to high-engagement/high-potential accounts
+- [ ] Initiate proactive demos or check-in calls based on engagement data
+
+## 💳 Subscription & Commercial Changes
+
+- [ ] Replace onboarding emails upon customer upgrade to paid
+- [ ] Initiate onboarding check-in after trial → paid conversion
+- [ ] Proactive intervention upon subscription downgrade or cancellation
+
+## 🔄 Retention & Re-engagement
+
+- [ ] Automate inactivity detection & re-engagement campaigns
+- [ ] Conduct regular retention reviews internally & externally
+- [ ] Schedule quarterly or annual account reviews proactively
+
+## 📊 Reporting & Analytics
+
+- [ ] Implement internal dashboards summarizing activation, engagement, and retention metrics
+- [ ] Share automated Slack updates on key customer successes and risks
+- [ ] Regularly analyze successful vs unsuccessful onboarding scenarios
+
+## ✨ Additional Recommended Workflows
+
+- [ ] **Feedback Collection**
+  - Trigger automated surveys (NPS, CSAT) post-onboarding or major account milestones
+- [ ] **Milestone Recognition**
+  - Recognize customer success milestones publicly (Slack, emails)
+- [ ] **Referral & Advocacy**
+  - Identify advocates → trigger referral or testimonial collection workflows
+- [ ] **Churn Prediction & Mitigation**
+  - Automatically flag accounts at risk of churn → proactive outreach and escalation
+
+## Implementations
+
+// TODO: Update/Clean the below AI-generated flows to be more consistent with the intent of the workflow API
+
+export const verifyEnrichedData = async ({ ai, api, db, event }) => {
+  const { email } = event;
+
+const customer = await db.customer.find({ email });
+const verified = await ai.assessDataAccuracy({ customer });
+
+await db.customer.update({ email, enrichedDataVerified: verified });
+
+if (!verified) {
+await api.slack.postMessage({
+channel: '#customer-success',
+content: `Manual verification recommended for enrichment accuracy on account: ${email}`,
+});
+}
+};
+
+export const handleEmailResponse = async ({ ai, api, db, event }) => {
+  const { email, replyContent } = event;
+
+const sentiment = await ai.analyzeSentiment({ content: replyContent });
+const intent = await ai.detectCustomerIntent({ content: replyContent });
+
+await db.emailSequences.pause({ email });
+
+if (sentiment === 'positive' || intent === 'interest') {
+await api.notify.specialist({ email, replyContent, type: 'onboarding' });
+} else if (sentiment === 'negative' || intent === 'complaint') {
+await api.notify.customerSuccess({ email, replyContent, issueType: 'negativeResponse' });
+} else {
+const followUpContent = await ai.generateFollowUpEmail({ email, replyContent });
+await db.emailSequences.scheduleFollowUp({ email, content: followUpContent });
+}
+};
+
+export const onEmailError = async ({ ai, api, db, event }) => {
+  const { email, errorDetails } = event;
+
+const personalizedMessage = await ai.generateEmailIssueMessage({ email, errorDetails });
+
+await api.slack.postMessage({
+channel: '#customer-success',
+content: personalizedMessage,
+});
+
+await api.customer.outreach({ email, reason: 'emailDeliveryIssue', message: personalizedMessage });
+};
+
+export const onSubscriptionChange = async ({ ai, api, db, event }) => {
+  const { email, previousStatus, currentStatus } = event;
+
+if (currentStatus === 'paid') {
+const onboardingContent = await ai.createPaidUserOnboardingEmails({ email });
+await db.emailSequences.replaceOnboarding({ email, content: onboardingContent });
+await api.scheduleOnboardingCheckin({ email });
+} else if (['downgraded', 'cancelled'].includes(currentStatus)) {
+const retentionMessage = await ai.generateRetentionOutreach({ email, previousStatus, currentStatus });
+await api.notify.customerSuccess({ email, issueType: currentStatus });
+await api.customer.outreach({ email, reason: currentStatus, message: retentionMessage });
+}
+};
+
+export const monitorEngagement = async ({ ai, api, db }) => {
+  const accounts = await db.customer.getHighEngagementAccounts();
+
+for (const account of accounts) {
+const outreachMessage = await ai.generateProactiveOutreachMessage({ account });
+await api.customer.proactiveOutreach({ email: account.email, message: outreachMessage });
+await api.slack.postMessage({
+channel: '#customer-success',
+content: `Proactive outreach for high-engagement account initiated: ${account.email}`,
+});
+}
+};
+
+export const detectInactivity = async ({ ai, api, db }) => {
+  const inactiveAccounts = await db.customer.getInactiveAccounts();
+
+for (const account of inactiveAccounts) {
+const reengagementMessage = await ai.generateReengagementContent({ account });
+await api.customer.reengagementCampaign({ email: account.email, message: reengagementMessage });
+await api.slack.postMessage({
+channel: '#customer-success',
+content: `Re-engagement campaign started for inactive account: ${account.email}`,
+});
+}
+};
+
+export const churnPredictionAndMitigation = async ({ ai, api, db }) => {
+  const accountsAtRisk = await ai.identifyChurnRiskAccounts();
+
+for (const account of accountsAtRisk) {
+const mitigationMessage = await ai.createChurnMitigationContent({ account });
+await db.customer.flagAtRisk({ email: account.email });
+await api.customer.outreach({ email: account.email, reason: 'churnRisk', message: mitigationMessage });
+await api.slack.postMessage({
+channel: '#customer-success',
+content: `Churn risk mitigation outreach executed for account: ${account.email}`,
+});
+}
+};
