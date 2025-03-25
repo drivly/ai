@@ -57,11 +57,15 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-markdown": "^10.1.0",
+    "remark": "^15.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-stringify": "^11.0.0",
     "sharp": "0.32.6",
     "sqids": "^0.3.0",
     "svix": "^1.62.0",
     "ts-morph": "^25.0.1",
     "tsx": "^4.19.3",
+    "unified": "^11.0.5",
     "velite": "^0.2.2"
   },
   "devDependencies": {
@@ -74,6 +78,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.16.0",
     "eslint-config-next": "15.2.2",
+    "jsdom": "^26.0.0",
     "playwright": "^1.51.1",
     "prettier": "^3.5.3",
     "turbo": "^2.4.4",
