@@ -57,3 +57,11 @@ export const APIUserSchema = z.object({
   userAgent: z.string().optional(),
   serviceLatency: z.number().optional(),
 })
+
+export const FlexibleAPILinksSchema = z.object({
+  home: z.string().describe('Home page'),
+  self: z.string().describe('Current page'),
+  next: z.string().optional().describe('Next page'),
+  prev: z.string().optional().describe('Previous page'),
+  last: z.string().optional().describe('Last page'),
+})

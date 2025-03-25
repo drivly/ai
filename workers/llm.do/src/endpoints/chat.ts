@@ -1,7 +1,7 @@
 import { OpenAPIRoute } from 'chanfana'
 import { z } from 'zod'
 import app from '../index'
-import { APIDefinitionSchema, APIUserSchema } from '../types/api'
+import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from '../types/api'
 import { ChatCompletionResponseSchema } from '../types/chat'
 import { Context } from 'hono'
 
@@ -34,7 +34,7 @@ export class Chat extends OpenAPIRoute {
           'application/json': {
             schema: z.object({
               api: APIDefinitionSchema,
-              links: z.record(z.string()),
+              links: FlexibleAPILinksSchema,
               data: ChatCompletionResponseSchema,
               user: APIUserSchema,
             }),
