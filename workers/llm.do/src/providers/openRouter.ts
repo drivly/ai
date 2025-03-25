@@ -11,16 +11,12 @@ export async function fetchFromProvider(
   method: string,
   path: string,
 ) {
-  return await fetch(
-    // TODO: Get account and gateway ids from env
-    `https://gateway.ai.cloudflare.com/v1/${env.ACCOUNT_ID}/${env.GATEWAY_ID}/openrouter/v1${path}`,
-    {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: apiKey || '',
-      },
-      body: JSON.stringify(body),
+  return await fetch(`https://gateway.ai.cloudflare.com/v1/${env.ACCOUNT_ID}/${env.GATEWAY_ID}/openrouter/v1${path}`, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: apiKey || '',
     },
-  )
+    body: JSON.stringify(body),
+  })
 }
