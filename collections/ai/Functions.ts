@@ -25,5 +25,6 @@ export const Functions: CollectionConfig = {
     // { name: 'schema', type: 'relationship', relationTo: 'schemas', admin: { condition: (data) => ['Object', 'ObjectArray'].includes(data?.type) } },
 
     { name: 'prompt', type: 'relationship', relationTo: 'prompts', admin: { condition: (data) => data?.type !== 'Code' } },
+    { name: 'actions', type: 'join', collection: 'actions', on: 'function' },
   ],
 }
