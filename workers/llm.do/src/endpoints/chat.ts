@@ -139,8 +139,8 @@ function example({
   if (prompt.trim()) params.set('prompt', prompt.trim())
   if (system) params.set('system', system)
   if (model) params.set('model', model)
-  if (seed) params.set('seed', seed.toString())
-  if (temperature) params.set('temperature', temperature.toString())
+  if (seed !== undefined) params.set('seed', seed.toString())
+  if (temperature !== undefined) params.set('temperature', temperature.toString())
   if (Authorization) params.set('Authorization', Authorization)
   return `https://llm.do/chat?${params.toString()}`
 }
