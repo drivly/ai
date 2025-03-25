@@ -4,6 +4,7 @@ import hash from 'object-hash'
 import { generateObject } from './generateObject'
 import { generateText } from './generateText'
 import { generateMarkdown } from './generateMarkdown'
+import { generateCode } from './generateCode'
 
 // export const executeFunction: TaskHandler<'executeFunction'> = async ({ input, req }) => {
 // TODO: Fix the typing and response ... temporary hack to get results in the functions API
@@ -17,6 +18,8 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
   // Determine if this is a text-based function (Markdown, Text, TextArray, etc.)
   const isTextFunction = type === 'Text' || type === 'Markdown' || type === 'TextArray' || (settings?.type && ['Text', 'Markdown', 'TextArray'].includes(settings.type))
+  // Determine if this is a code-based function
+  const isCodeFunction = type === 'Code' || (settings?.type && settings.type === 'Code')
 
   // Hash args & schema
   const actionHash = hash({ functionName, args, schema, settings })
@@ -75,7 +78,18 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const prompt = `${functionName}(${JSON.stringify(args)})`
   let object, text, reasoning, generation, generationLatency, request
 
-  if (isTextFunction) {
+  if (isCodeFunction && functionDoc?.code) {
+    // Use generateCode for code-based functions
+    const result = await generateCode({
+      input: { prompt: functionDoc.code, settings },
+    })
+
+    object = result.parsed || result.raw
+    reasoning = `Code execution complete. Result: ${typeof object === 'object' ? JSON.stringify(object) : object}`
+    text = result.code
+    generationLatency = Date.now() - start
+    request = { prompt: functionDoc.code, settings }
+  } else if (isTextFunction) {
     if (type === 'TextArray') {
       // For TextArray, use generateMarkdown with ordered list prompt
       const textArraySettings = {
@@ -128,7 +142,6 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       request = result.request
       object = { text }
     }
-
   } else {
     // Use generateObject for object-based functions
     const result = await generateObject({
