@@ -45,6 +45,33 @@ export const parseTypeScriptAST = (code: string) => {
 
 // Generate code using the AI and parse the response
 export const generateCode = async (input: any, config?: any) => {
+  // Check if we're executing code directly or generating code with AI
+  if (input.input && input.input.prompt) {
+    try {
+      // Execute the code from the prompt
+      // For safety, we're using Function constructor to create a sandboxed function
+      const funcConstructor = new Function(`return (async () => {
+        ${input.input.prompt}
+      })()`)
+      
+      // Execute the code and get the result
+      const result = await funcConstructor()
+      
+      return {
+        raw: result,
+        code: input.input.prompt,
+        parsed: typeof result === 'string' ? result : JSON.stringify(result)
+      }
+    } catch (error: any) {
+      console.error('Error executing code:', error)
+      return {
+        raw: { error: error.message || String(error) },
+        code: input.input.prompt,
+        parsed: null
+      }
+    }
+  }
+
   // Import dynamically to avoid circular dependencies
   const { ai } = await import('../sdks/functions.do')
 

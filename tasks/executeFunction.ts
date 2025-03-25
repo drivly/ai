@@ -4,6 +4,8 @@ import hash from 'object-hash'
 import { generateObject } from './generateObject'
 import { generateText } from './generateText'
 import { validateWithSchema } from './schemaUtils'
+import { generateMarkdown } from './generateMarkdown'
+import { generateCode } from './generateCode'
 
 // export const executeFunction: TaskHandler<'executeFunction'> = async ({ input, req }) => {
 // TODO: Fix the typing and response ... temporary hack to get results in the functions API
@@ -15,8 +17,10 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const { settings } = input as any
   const start = Date.now()
 
-  // Determine if this is a text-based function (Markdown, Text, etc.)
-  const isTextFunction = type === 'Text' || type === 'Markdown' || (settings?.type && ['Text', 'Markdown'].includes(settings.type))
+  // Determine if this is a text-based function (Markdown, Text, TextArray, etc.)
+  const isTextFunction = type === 'Text' || type === 'Markdown' || type === 'TextArray' || (settings?.type && ['Text', 'Markdown', 'TextArray'].includes(settings.type))
+  // Determine if this is a code-based function
+  const isCodeFunction = type === 'Code' || (settings?.type && settings.type === 'Code')
 
   // Hash args & schema
   const actionHash = hash({ functionName, args, schema, settings })
@@ -75,19 +79,70 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const prompt = `${functionName}(${JSON.stringify(args)})`
   let object, text, reasoning, generation, generationLatency, request
 
-  if (isTextFunction) {
-    // Use generateText for text-based functions
-    const result = await generateText({
-      input: { functionName, args, settings },
-      req,
+  if (isCodeFunction && functionDoc?.code) {
+    // Use generateCode for code-based functions
+    const result = await generateCode({
+      input: { prompt: functionDoc.code, settings },
     })
 
-    text = result.text
-    reasoning = result.reasoning
-    generation = result.generation
-    generationLatency = result.generationLatency
-    request = result.request
-    object = { text }
+    object = result.parsed || result.raw
+    reasoning = `Code execution complete. Result: ${typeof object === 'object' ? JSON.stringify(object) : object}`
+    text = result.code
+    generationLatency = Date.now() - start
+    request = { prompt: functionDoc.code, settings }
+  } else if (isTextFunction) {
+    if (type === 'TextArray') {
+      // For TextArray, use generateMarkdown with ordered list prompt
+      const textArraySettings = {
+        ...settings,
+        systemPrompt: `${settings?.systemPrompt || ''}\n\nRespond only with a numbered markdown ordered list. Each item should be on a separate line.`
+      }
+      
+      const result = await generateMarkdown({
+        input: { functionName, args, settings: textArraySettings },
+        req,
+      })
+
+      // Parse the markdown ordered list into a string array
+      const markdownText = result.markdown
+      const lines = markdownText.split('\n')
+      const listItems = lines
+        .filter(line => /^\s*\d+\.\s+.+/.test(line))
+        .map(line => line.replace(/^\s*\d+\.\s+/, '').trim())
+      
+      text = markdownText
+      reasoning = result.reasoning
+      generation = result.generation
+      generationLatency = result.generationLatency
+      request = result.request
+      object = { data: listItems }
+    } else if (type === 'Markdown' || settings?.type === 'Markdown') {
+      // Use generateMarkdown for markdown-based functions
+      const result = await generateMarkdown({
+        input: { functionName, args, settings },
+        req,
+      })
+      
+      text = result.markdown
+      reasoning = result.reasoning
+      generation = result.generation
+      generationLatency = result.generationLatency
+      request = result.request
+      object = { text, mdast: result.mdast }
+    } else {
+      // Use generateText for text-based functions
+      const result = await generateText({
+        input: { functionName, args, settings },
+        req,
+      })
+    
+      text = result.text
+      reasoning = result.reasoning
+      generation = result.generation
+      generationLatency = result.generationLatency
+      request = result.request
+      object = { text }
+    }
   } else {
     // Use generateObject for object-based functions
     const result = await generateObject({
