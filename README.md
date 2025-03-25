@@ -1,86 +1,63 @@
-# AI Primitives
+# workflows.do / Business-as-Code 
 
-Simple primitives to rapidly build enterprise-grade AI functions, workflows, & agents.
+In the same way the cloud era was defined by the rise of Infrastructure-as-Code (IaC), we believe the AI era will be defined by the rise of Business-as-Code (Bac).  While currently used mostly as chatbots, today's large language models are effectively superhuman at many tasks, with reinforcement learning and test time compute capable providing an accelerating trajectory of progress. Math and Coding are widely viewed
+as areas for upcoming expontial improvement, as they can be objectively evaluated and improved.  Business though, especially business processes
+that are executed as code, can absolutely have deterministic results, as KPIs and metrics can be objectively measured and improved over time
+through iterative experimentation.
 
-```json
-{
-  "api": {
-    "name": "APIs.do",
-    "description": "Economically valuable work delivered through simple APIs",
-    "url": "https://apis.do",
-    "login": "https://apis.do/login",
-    "signup": "https://apis.do/signup",
-    "docs": "https://apis.do/docs",
-    "repo": "https://github.com/drivly/ai",
-    "from": "https://driv.ly",
-    "with": "https://agi.do"
-  },
-  "ai": {
-    "Functions - Typesafe Results without Complexity": "https://functions.do",
-    "Workflows - Reliably Execute Business Processes": "https://workflows.do",
-    "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do"
-  },
-  "things": {
-    "Nouns - People, Places, Things, and Ideas": "https://nouns.do",
-    "Verbs - The Actions Performed to and by Nouns": "https://verbs.do"
-  },
-  "events": {
-    "Triggers - Initiate workflows based on events": "https://triggers.do",
-    "Searches - Query and retrieve data": "https://searches.do",
-    "Actions - Perform tasks within workflows": "https://actions.do"
-  },
-  "core": {
-    "LLM - Dynamically use the best model for your use case": "https://llm.do",
-    "Evals - Evaluate Functions, Workflows, and Agents": "https://evals.do",
-    "Analytics - Economically Validate Workflows": "https://analytics.do",
-    "Experiments - Economically Validate Workflows": "https://experiments.do",
-    "Database - Hybrid (Search + CRUD)": "https://database.do",
-    "Integrations - Connect External APIs and Systems": "https://integrations.do"
-  },
-  "user": {
-    "authenticated": false,
-    "plan": "Free",
-    "browser": "Safari",
-    "os": "macOS",
-    "ip": "216.84.167.21",
-    "isp": "Lumen",
-    "flag": "🇺🇸",
-    "zipcode": "55437",
-    "city": "Bloomington",
-    "metro": "Minneapolis-St. Paul",
-    "region": "Minnesota",
-    "country": "United States",
-    "continent": "North America",
-    "requestId": "922b15355d4d2b4b-ORD",
-    "localTime": "3/19/2025, 1:58:42 AM",
-    "timezone": "America/Chicago",
-    "edgeLocation": "Chicago",
-    "edgeDistanceMiles": 343,
-    "latencyMilliseconds": 31,
-    "recentInteractions": 0,
-    "serviceLatency": 0
-  }
-}
-```
+## functions.do / Inputs to Reliable Outputs
 
-| Primitive                         | Type                | Description                                                                             |
-| --------------------------------- | ------------------- | --------------------------------------------------------------------------------------- |
-| [Functions.do](./functions)       | Top-Level           | Strongly-typed composable building blocks for code, APIs, and AI outputs                |
-| [Workflows.do](./workflows)       | Top-Level           | Declarative state machines and workflows for durable execution                          |
-| [Agents.do](./agents)             | Top-Level           | Autonomous digital workers leveraging Functions and Workflows                           |
-| [Triggers.do](./triggers)         | Event Loop          | Initiate workflows based on detected events or conditions                               |
-| [Searches.do](./searches)         | Event Loop          | Query and retrieve data for decision-making within workflows                            |
-| [Actions.do](./actions)           | Event Loop          | Perform tasks and operations within workflows                                           |
-| [LLM.do](./llm)                   | Foundational        | Intelligent AI gateway routing requests to optimal models                               |
-| [Evals.do](./evals)               | Foundational        | Evaluate and iterate Functions, Workflows, and Agents                                   |
-| [Integrations.do](./integrations) | Foundational        | Connect external APIs and systems to Functions, Workflows, and Agents                   |
-| [Database.do](./database)         | Foundational        | Persistent data storage with structured, unstructured, and semantic search capabilities |
-| [APIs.do](https://apis.do)        | Unified API Gateway | Centralized API management, access control, and analytics                               |
 
----
+### code.functions.do / Classical Computation
 
-## Functions
 
-```ts
+### ai.functions.do / Intelligent Structured Outputs
 
-```
+
+## agents.do / Autonomous Digital Workers
+
+
+## integrations.do / Connect Your Apps
+
+
+## triggers.do / Start Business Processes
+
+
+## searches.do / Provide Context & Understanding
+
+
+## actions.do / Impact the External World
+
+
+## nouns.do / Entities in your Business
+
+
+## verbs.do / Represent Potential Actions
+
+
+## things.do / Physical and Virtual Objects
+
+
+## actions.do / Subject-Verb-Object
+
+
+## database.do / AI-enriched Data
+
+
+## events.do / Track Business Events
+
+
+## experiments.do / Iterate & Improve
+
+
+## benchmarks.do / Compare Models
+
+
+## evals.do / Measure & Improve
+
+
+## traces.do / Operational Visibility
+
+
+## llm.do / Tool-enabled Proxy
+
