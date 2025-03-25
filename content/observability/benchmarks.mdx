@@ -18,52 +18,52 @@ Each benchmark record contains detailed information about the test and its resul
 
 ```typescript
 interface Benchmark {
-  id: string;
-  name: string;
-  description?: string;
-  type: 'model' | 'function' | 'workflow' | 'system' | 'integration';
+  id: string
+  name: string
+  description?: string
+  type: 'model' | 'function' | 'workflow' | 'system' | 'integration'
   target: {
-    id: string;
-    type: string;
-    version?: string;
-  };
-  parameters: Record<string, any>;
+    id: string
+    type: string
+    version?: string
+  }
+  parameters: Record<string, any>
   metrics: {
     latency?: {
-      p50: number;
-      p90: number;
-      p95: number;
-      p99: number;
-      min: number;
-      max: number;
-      mean: number;
-    };
-    throughput?: number;
-    errorRate?: number;
+      p50: number
+      p90: number
+      p95: number
+      p99: number
+      min: number
+      max: number
+      mean: number
+    }
+    throughput?: number
+    errorRate?: number
     resourceUsage?: {
-      cpu?: number;
-      memory?: number;
-      gpu?: number;
-      network?: number;
-      storage?: number;
-    };
-    customMetrics?: Record<string, number>;
-  };
+      cpu?: number
+      memory?: number
+      gpu?: number
+      network?: number
+      storage?: number
+    }
+    customMetrics?: Record<string, number>
+  }
   environment: {
-    hardware?: string;
-    os?: string;
-    runtime?: string;
-    dependencies?: Record<string, string>;
-  };
-  timestamp: Date;
-  duration: number;
-  status: 'completed' | 'failed' | 'aborted';
+    hardware?: string
+    os?: string
+    runtime?: string
+    dependencies?: Record<string, string>
+  }
+  timestamp: Date
+  duration: number
+  status: 'completed' | 'failed' | 'aborted'
   baseline?: {
-    id: string;
-    metrics: Record<string, number>;
-    comparison: Record<string, number>;
-  };
-  metadata?: Record<string, any>;
+    id: string
+    metrics: Record<string, number>
+    comparison: Record<string, number>
+  }
+  metadata?: Record<string, any>
 }
 ```
 
@@ -74,6 +74,7 @@ Benchmarks are categorized into several types:
 ### Model Benchmarks
 
 Evaluate AI model performance:
+
 - Accuracy
 - Inference latency
 - Token throughput
@@ -82,6 +83,7 @@ Evaluate AI model performance:
 ### Function Benchmarks
 
 Measure function performance:
+
 - Execution time
 - Resource utilization
 - Scalability
@@ -90,6 +92,7 @@ Measure function performance:
 ### Workflow Benchmarks
 
 Assess workflow efficiency:
+
 - End-to-end latency
 - Step timing
 - Success rates
@@ -98,6 +101,7 @@ Assess workflow efficiency:
 ### System Benchmarks
 
 Evaluate overall system performance:
+
 - API response times
 - Concurrent request handling
 - Database operations
@@ -115,14 +119,14 @@ const result = await Benchmarks.run({
   type: 'function',
   target: {
     id: 'function-123',
-    type: 'text-classification'
+    type: 'text-classification',
   },
   parameters: {
     iterations: 1000,
     concurrency: 10,
-    inputSize: 'medium'
-  }
-});
+    inputSize: 'medium',
+  },
+})
 ```
 
 ### Comparing Benchmarks
@@ -134,8 +138,8 @@ Compare performance across different versions or implementations:
 const comparison = await Benchmarks.compare({
   baseline: 'benchmark-123',
   current: 'benchmark-456',
-  metrics: ['latency.p95', 'throughput', 'errorRate']
-});
+  metrics: ['latency.p95', 'throughput', 'errorRate'],
+})
 ```
 
 ### Tracking Performance Over Time
@@ -147,15 +151,15 @@ Monitor performance trends:
 const history = await Benchmarks.getHistory({
   target: {
     id: 'model-789',
-    type: 'model'
+    type: 'model',
   },
   metric: 'latency.p95',
   timeRange: {
     start: new Date('2023-01-01'),
-    end: new Date('2023-12-31')
+    end: new Date('2023-12-31'),
   },
-  interval: 'month'
-});
+  interval: 'month',
+})
 ```
 
 ## Best Practices
@@ -180,10 +184,11 @@ Benchmarks integrate with other observability components:
 ### List Benchmarks
 
 ```typescript
-GET /api/benchmarks
+GET / api / benchmarks
 ```
 
 Query parameters:
+
 - `type`: Filter by benchmark type
 - `target.id`: Filter by target ID
 - `from`: Start timestamp
@@ -199,10 +204,11 @@ GET /api/benchmarks/:id
 ### Run Benchmark
 
 ```typescript
-POST /api/benchmarks/run
+POST / api / benchmarks / run
 ```
 
 Request body:
+
 ```json
 {
   "type": "function",
@@ -220,10 +226,11 @@ Request body:
 ### Compare Benchmarks
 
 ```typescript
-POST /api/benchmarks/compare
+POST / api / benchmarks / compare
 ```
 
 Request body:
+
 ```json
 {
   "baseline": "benchmark-123",

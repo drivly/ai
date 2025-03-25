@@ -193,7 +193,7 @@ const createDynamicMarkdownFunction = <T extends SchemaValue>(name: string, conf
 export const ai = new Proxy(
   {
     // Add the generateMarkdown function explicitly
-    generateMarkdown: createDynamicMarkdownFunction('generateMarkdown', {})
+    generateMarkdown: createDynamicMarkdownFunction('generateMarkdown', {}),
   },
   {
     get: (target: any, prop: string) => {
@@ -201,7 +201,7 @@ export const ai = new Proxy(
       if (prop in target) {
         return target[prop]
       }
-      
+
       // Otherwise create a dynamic function
       if (typeof prop === 'string' && !prop.startsWith('_')) {
         return createDynamicFunction(prop, {})

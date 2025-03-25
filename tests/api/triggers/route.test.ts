@@ -31,14 +31,11 @@ describe('Triggers API', () => {
       await GET({} as Request, { url: 'https://example.com/api/triggers' } as any)
 
       // Verify fetch was called with the correct URL and headers
-      expect(global.fetch).toHaveBeenCalledWith(
-        'https://backend.composio.dev/api/v1/triggers',
-        {
-          headers: {
-            'x-api-key': 'test-api-key',
-          },
-        }
-      )
+      expect(global.fetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/triggers', {
+        headers: {
+          'x-api-key': 'test-api-key',
+        },
+      })
     })
 
     it('should return a 500 response if API key is not configured', async () => {

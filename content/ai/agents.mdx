@@ -27,25 +27,20 @@ Agents can be created using the Agents.do API or through the dashboard interface
 const customerSupportAgent = {
   name: 'customerSupportAgent',
   description: 'Handles customer support inquiries and routes them to the appropriate department',
-  capabilities: [
-    'respondToBasicQuestions',
-    'classifyInquiries',
-    'routeToHumanAgent',
-    'searchKnowledgeBase'
-  ],
+  capabilities: ['respondToBasicQuestions', 'classifyInquiries', 'routeToHumanAgent', 'searchKnowledgeBase'],
   knowledgeSources: [
     { type: 'vector-db', id: 'support-documentation' },
-    { type: 'api', id: 'ticket-system' }
+    { type: 'api', id: 'ticket-system' },
   ],
   decisionModel: {
     type: 'llm',
     model: 'gpt-4',
-    promptTemplate: 'supportAgentPrompt'
+    promptTemplate: 'supportAgentPrompt',
   },
   workflows: [
     { id: 'initialResponse', trigger: 'newInquiry' },
-    { id: 'escalationProcess', trigger: 'complexInquiry' }
-  ]
+    { id: 'escalationProcess', trigger: 'complexInquiry' },
+  ],
 }
 ```
 
@@ -57,13 +52,13 @@ Agents can be deployed and managed through the Agents.do platform:
 // Deploy an agent
 const deployedAgent = await agents.deploy('customerSupportAgent', {
   environment: 'production',
-  replicas: 3
+  replicas: 3,
 })
 
 // Interact with an agent
 const response = await agents.interact('customerSupportAgent', {
   message: 'I need help with my recent order',
-  context: { orderId: '12345', customer: { id: '789', tier: 'premium' } }
+  context: { orderId: '12345', customer: { id: '789', tier: 'premium' } },
 })
 ```
 

@@ -34,17 +34,15 @@ const UserPreference = {
       theme: { type: 'string', enum: ['light', 'dark', 'system'] },
       notifications: { type: 'boolean' },
       language: { type: 'string' },
-      customSettings: { 
+      customSettings: {
         type: 'object',
-        additionalProperties: true
-      }
+        additionalProperties: true,
+      },
     },
     required: ['userId'],
-    additionalProperties: true
+    additionalProperties: true,
   },
-  indexes: [
-    { fields: ['userId'], unique: true }
-  ]
+  indexes: [{ fields: ['userId'], unique: true }],
 }
 ```
 
@@ -61,21 +59,21 @@ const preference = await things.create('UserPreference', {
   language: 'en-US',
   customSettings: {
     fontSize: 14,
-    compactView: true
-  }
+    compactView: true,
+  },
 })
 
 // Query things
 const darkThemeUsers = await things.find('UserPreference', {
-  where: { theme: 'dark' }
+  where: { theme: 'dark' },
 })
 
 // Update a thing
 await things.update('UserPreference', 'pref-456', {
   notifications: false,
   customSettings: {
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 })
 ```
 

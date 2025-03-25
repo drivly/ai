@@ -41,7 +41,7 @@ describe('Functions API with temperature links', () => {
     expect(data.links.temperature['0.6']).toBeDefined()
     expect(data.links.temperature['0.8']).toBeDefined()
     expect(data.links.temperature['1.0']).toBeDefined()
-    
+
     expect(data.links.temperature['0']).toContain('temperature=0')
     expect(data.links.temperature['0.2']).toContain('temperature=0.2')
     expect(data.links.temperature['0.4']).toContain('temperature=0.4')
@@ -74,7 +74,7 @@ describe('Functions API with temperature links', () => {
     const data = await response.json()
 
     // Check that all temperature links preserve the seed and model parameters
-    Object.values(data.links.temperature).forEach(link => {
+    Object.values(data.links.temperature).forEach((link) => {
       expect(link).toContain('seed=3')
       expect(link).toContain('model=gpt-4')
     })

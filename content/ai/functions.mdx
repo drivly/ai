@@ -36,7 +36,7 @@ const summarizeText = {
   execute: async ({ text, maxLength = 100 }) => {
     // Implementation logic
     return { summary: '...' }
-  }
+  },
 }
 ```
 
@@ -48,7 +48,7 @@ Functions can be called directly or as part of workflows:
 // Direct function call
 const result = await functions.call('summarizeText', {
   text: 'Long text to summarize...',
-  maxLength: 150
+  maxLength: 150,
 })
 
 // Using in a workflow
@@ -57,14 +57,14 @@ const workflow = {
     {
       id: 'extract',
       function: 'extractKeyPoints',
-      input: { document: '{{input.document}}' }
+      input: { document: '{{input.document}}' },
     },
     {
       id: 'summarize',
       function: 'summarizeText',
-      input: { text: '{{extract.keyPoints}}', maxLength: 200 }
-    }
-  ]
+      input: { text: '{{extract.keyPoints}}', maxLength: 200 },
+    },
+  ],
 }
 ```
 

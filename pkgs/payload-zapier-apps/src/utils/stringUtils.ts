@@ -4,9 +4,7 @@
  * @returns The camelCase string
  */
 export function camelCase(str: string): string {
-  return str
-    .replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
-    .replace(/^([A-Z])/, (m) => m.toLowerCase());
+  return str.replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : '')).replace(/^([A-Z])/, (m) => m.toLowerCase())
 }
 
 /**
@@ -15,9 +13,7 @@ export function camelCase(str: string): string {
  * @returns The PascalCase string
  */
 export function pascalCase(str: string): string {
-  return str
-    .replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
-    .replace(/^(.)/, (m) => m.toUpperCase());
+  return str.replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : '')).replace(/^(.)/, (m) => m.toUpperCase())
 }
 
 /**
@@ -29,7 +25,7 @@ export function kebabCase(str: string): string {
   return str
     .replace(/([a-z])([A-Z])/g, '$1-$2')
     .replace(/[\s_]+/g, '-')
-    .toLowerCase();
+    .toLowerCase()
 }
 
 /**
@@ -41,7 +37,7 @@ export function titleCase(str: string): string {
   return str
     .replace(/[-_\s]+(.)?/g, (_, c) => (c ? ' ' + c.toUpperCase() : ' '))
     .trim()
-    .replace(/^(.)/, (m) => m.toUpperCase());
+    .replace(/^(.)/, (m) => m.toUpperCase())
 }
 
 /**
@@ -53,5 +49,5 @@ export function sentenceCase(str: string): string {
   return str
     .replace(/[-_\s]+(.)?/g, (_, c) => (c ? ' ' + c.toLowerCase() : ' '))
     .trim()
-    .replace(/^(.)/, (m) => m.toUpperCase());
+    .replace(/^(.)/, (m) => m.toUpperCase())
 }

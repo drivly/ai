@@ -24,28 +24,25 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
 
   // Get the raw body
   const rawBody = await request.text()
-  
+
   try {
     // Create a new Webhook instance with the secret
     const wh = new Webhook(secret)
-    
+
     // Verify the webhook payload
-    const payload = wh.verify(
-      rawBody,
-      {
-        'webhook-id': webhookId,
-        'webhook-timestamp': webhookTimestamp,
-        'webhook-signature': webhookSignature
-      }
-    )
-    
+    const payload = wh.verify(rawBody, {
+      'webhook-id': webhookId,
+      'webhook-timestamp': webhookTimestamp,
+      'webhook-signature': webhookSignature,
+    })
+
     // Parse the verified payload
     const data = JSON.parse(rawBody)
-    
+
     // Store the event in the database
     const payloadInstance = await getPayload({ config })
     const results = await payloadInstance.create({ collection: 'events', data: { data } })
-    
+
     console.log('Webhook verified and processed:', results, data)
     return { results, data }
   } catch (err) {

@@ -132,8 +132,8 @@ logger.configure({
   service: 'user-service',
   environment: 'production',
   defaultContext: {
-    version: '1.2.0'
-  }
+    version: '1.2.0',
+  },
 })
 
 // Log at different levels
@@ -148,7 +148,7 @@ logger.fatal('Service is shutting down', { reason: 'Out of memory' })
 logger.info('User profile updated', {
   userId: 'user-123',
   fields: ['name', 'email'],
-  source: 'api'
+  source: 'api',
 })
 
 // Create a child logger with additional context
@@ -165,8 +165,8 @@ const result = await logger.withLogging(
     message: 'Processing user request',
     level: 'info',
     context: { requestId: 'req-456' },
-    logResult: true
-  }
+    logResult: true,
+  },
 )
 ```
 
@@ -180,14 +180,14 @@ const logs = await observability.logs.search({
   query: 'level:error AND service:user-service',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   limit: 100,
   offset: 0,
   sort: {
     field: 'timestamp',
-    order: 'desc'
-  }
+    order: 'desc',
+  },
 })
 
 // Get logs for a specific request
@@ -198,8 +198,8 @@ const userLogs = await observability.logs.search({
   query: 'context.userId:user-123',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
-  }
+    end: '2023-06-30T23:59:59Z',
+  },
 })
 
 // Analyze log patterns
@@ -207,10 +207,10 @@ const errorPatterns = await observability.logs.analyze({
   query: 'level:error',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   groupBy: ['service', 'context.error'],
-  metrics: ['count']
+  metrics: ['count'],
 })
 ```
 
@@ -222,16 +222,16 @@ Manage your logs through the dashboard or API:
 // Configure log retention
 await observability.logs.configureRetention({
   default: {
-    duration: '30d'
+    duration: '30d',
   },
   levels: {
     error: {
-      duration: '90d'
+      duration: '90d',
     },
     fatal: {
-      duration: '365d'
-    }
-  }
+      duration: '365d',
+    },
+  },
 })
 
 // Export logs
@@ -239,21 +239,21 @@ const exportResult = await observability.logs.export({
   query: 'level:error AND service:user-service',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   format: 'json',
   destination: {
     type: 's3',
     bucket: 'logs-backup',
-    prefix: 'exports/2023-06'
-  }
+    prefix: 'exports/2023-06',
+  },
 })
 
 // Create a log view
 await observability.logs.createView({
   name: 'error-logs',
   query: 'level:error',
-  description: 'View of all error logs'
+  description: 'View of all error logs',
 })
 ```
 

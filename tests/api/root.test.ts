@@ -11,11 +11,11 @@ describe('Root API endpoint', () => {
       expect(true).toBe(true) // Pass the test when skipped
       return
     }
-    
+
     // In test environment without a running server, use the mock from setup.ts
     if (process.env.IS_TEST_ENV === 'true' && !process.env.API_URL) {
       console.log('Using mock API response in test environment')
-      
+
       // Create a mock response that matches what we expect from the API
       const mockResponse = {
         status: 200,
@@ -23,29 +23,30 @@ describe('Root API endpoint', () => {
         headers: new Headers({
           'content-type': 'application/json',
         }),
-        json: () => Promise.resolve({ 
-          success: true, 
-          message: 'API is working',
-          version: '1.0.0'
-        }),
+        json: () =>
+          Promise.resolve({
+            success: true,
+            message: 'API is working',
+            version: '1.0.0',
+          }),
       }
-      
+
       // Verify the mock response meets our expectations
       expect(mockResponse.status).toBe(200)
       expect(mockResponse.headers.get('content-type')).toContain('application/json')
-      
+
       const data = await mockResponse.json()
       expect(data).toBeDefined()
       expect(data.success).toBe(true)
       return
     }
-    
+
     // Only try to make a real API call if we're not in CI and not in test mode
     try {
       const response = await fetch(`${API_URL}/`)
       expect(response.status).toBe(200)
       expect(response.headers.get('content-type')).toContain('application/json')
-      
+
       const data = await response.json()
       expect(data).toBeDefined()
     } catch (error: unknown) {

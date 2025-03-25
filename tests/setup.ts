@@ -21,14 +21,15 @@ if (!globalThis.fetch) {
         headers: new Headers({
           'content-type': 'application/json',
         }),
-        json: () => Promise.resolve({ 
-          success: true, 
-          message: 'API is working',
-          version: '1.0.0'
-        }),
+        json: () =>
+          Promise.resolve({
+            success: true,
+            message: 'API is working',
+            version: '1.0.0',
+          }),
       })
     }
-    
+
     // Default response for other endpoints
     return Promise.resolve({
       status: 404,

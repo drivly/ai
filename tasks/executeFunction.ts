@@ -16,7 +16,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
   // Determine if this is a text-based function (Markdown, Text, etc.)
   const isTextFunction = type === 'Text' || type === 'Markdown' || (settings?.type && ['Text', 'Markdown'].includes(settings.type))
-  
+
   // Hash args & schema
   const actionHash = hash({ functionName, args, schema, settings })
   const argsHash = hash(args)
@@ -50,56 +50,56 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   if (actionDoc?.object) {
     // If action & output object exists, log event and return action output/object
     waitUntil(payload.create({ collection: 'events', data: { action: actionDoc.id, request: { headers, seeds, callback }, meta: { type: isTextFunction ? 'text' : 'object' } } }))
-    
+
     // Extract the data from the object
-    const objectData = actionDoc.object.data || { result: 'test data' };
-    
+    const objectData = actionDoc.object.data || { result: 'test data' }
+
     // Log the object data for debugging
-    console.log('Test result:', JSON.stringify(objectData));
-    
+    console.log('Test result:', JSON.stringify(objectData))
+
     // Return the cached result with the expected structure
-    return { 
-      output: objectData, 
-      reasoning: actionDoc.reasoning || 'cached reasoning'
+    return {
+      output: objectData,
+      reasoning: actionDoc.reasoning || 'cached reasoning',
     }
   }
 
   // Create any missing resources
   const createPromise = Promise.all([
-    functionDoc ? undefined : payload.create({ collection: 'functions', data: { name: functionName, type: isTextFunction ? (type || 'Text') : 'Object' } }),
+    functionDoc ? undefined : payload.create({ collection: 'functions', data: { name: functionName, type: isTextFunction ? type || 'Text' : 'Object' } }),
     argsDoc ? undefined : payload.create({ collection: 'things', data: { hash: argsHash, data: args } }),
   ])
 
   // Generate the response based on function type
   const prompt = `${functionName}(${JSON.stringify(args)})`
-  let object, text, reasoning, generation, generationLatency, request;
-  
+  let object, text, reasoning, generation, generationLatency, request
+
   if (isTextFunction) {
     // Use generateText for text-based functions
-    const result = await generateText({ 
-      input: { functionName, args, settings }, 
-      req 
-    });
-    
-    text = result.text;
-    reasoning = result.reasoning;
-    generation = result.generation;
-    generationLatency = result.generationLatency;
-    request = result.request;
-    object = { text };
+    const result = await generateText({
+      input: { functionName, args, settings },
+      req,
+    })
+
+    text = result.text
+    reasoning = result.reasoning
+    generation = result.generation
+    generationLatency = result.generationLatency
+    request = result.request
+    object = { text }
   } else {
     // Use generateObject for object-based functions
-    const result = await generateObject({ 
-      input: { functionName, args, settings }, 
-      req 
-    });
-    
-    object = result.object;
-    reasoning = result.reasoning;
-    generation = result.generation;
-    text = result.text;
-    generationLatency = result.generationLatency;
-    request = result.request;
+    const result = await generateObject({
+      input: { functionName, args, settings },
+      req,
+    })
+
+    object = result.object
+    reasoning = result.reasoning
+    generation = result.generation
+    text = result.text
+    generationLatency = result.generationLatency
+    request = result.request
   }
 
   const created = await createPromise
@@ -124,12 +124,12 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       const actionHash = hash({ functionName, args, settings })
       const actionResult = await payload.create({
         collection: 'actions',
-        data: { 
-          hash: actionHash, 
-          subject: argsDoc?.id, 
-          function: functionDoc?.id, 
+        data: {
+          hash: actionHash,
+          subject: argsDoc?.id,
+          function: functionDoc?.id,
           object: objectResult?.id,
-          reasoning: reasoning
+          reasoning: reasoning,
         },
       })
       const generationResult = await payload.create({

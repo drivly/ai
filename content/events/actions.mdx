@@ -31,20 +31,24 @@ const SendEmailAction = {
     to: z.string().email(),
     subject: z.string(),
     body: z.string(),
-    attachments: z.array(z.object({
-      name: z.string(),
-      content: z.string(),
-      contentType: z.string()
-    })).optional(),
+    attachments: z
+      .array(
+        z.object({
+          name: z.string(),
+          content: z.string(),
+          contentType: z.string(),
+        }),
+      )
+      .optional(),
     cc: z.array(z.string().email()).optional(),
     bcc: z.array(z.string().email()).optional(),
     template: z.string().optional(),
-    templateData: z.record(z.any()).optional()
+    templateData: z.record(z.any()).optional(),
   }),
   output: z.object({
     success: z.boolean(),
     messageId: z.string().optional(),
-    error: z.string().optional()
+    error: z.string().optional(),
   }),
   execute: async (input) => {
     // Implementation logic
@@ -52,15 +56,15 @@ const SendEmailAction = {
   },
   rateLimit: {
     limit: 100,
-    period: '1m'
+    period: '1m',
   },
   retry: {
     maxAttempts: 3,
     backoff: {
       type: 'exponential',
-      initialDelay: 1000
-    }
-  }
+      initialDelay: 1000,
+    },
+  },
 }
 ```
 
@@ -78,7 +82,7 @@ const SendSlackMessageAction = {
   input: z.object({
     channel: z.string(),
     message: z.string(),
-    blocks: z.array(z.any()).optional()
+    blocks: z.array(z.any()).optional(),
   }),
   // Implementation...
 }
@@ -95,9 +99,11 @@ const UpdateDatabaseAction = {
     collection: z.string(),
     id: z.string(),
     data: z.record(z.any()),
-    options: z.object({
-      upsert: z.boolean().optional()
-    }).optional()
+    options: z
+      .object({
+        upsert: z.boolean().optional(),
+      })
+      .optional(),
   }),
   // Implementation...
 }
@@ -115,7 +121,7 @@ const CallExternalAPIAction = {
     method: z.enum(['GET', 'POST', 'PUT', 'DELETE']),
     headers: z.record(z.string()).optional(),
     body: z.any().optional(),
-    timeout: z.number().optional()
+    timeout: z.number().optional(),
   }),
   // Implementation...
 }
@@ -134,8 +140,8 @@ const result = await actions.execute('SendEmailAction', {
   template: 'welcome-email',
   templateData: {
     userName: 'John Doe',
-    activationLink: 'https://example.com/activate/abc123'
-  }
+    activationLink: 'https://example.com/activate/abc123',
+  },
 })
 
 // Use in workflows
@@ -144,22 +150,22 @@ const userOnboardingWorkflow = {
     {
       id: 'createAccount',
       function: 'createUserAccount',
-      input: { userData: '{{input.userData}}' }
+      input: { userData: '{{input.userData}}' },
     },
     {
       id: 'sendWelcome',
       action: 'SendEmailAction',
-      input: { 
+      input: {
         to: '{{input.userData.email}}',
         subject: 'Welcome to our platform',
         template: 'welcome-email',
         templateData: {
           userName: '{{input.userData.name}}',
-          activationLink: '{{createAccount.activationLink}}'
-        }
-      }
-    }
-  ]
+          activationLink: '{{createAccount.activationLink}}',
+        },
+      },
+    },
+  ],
 }
 ```
 

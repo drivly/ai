@@ -33,9 +33,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   const author = qs.get('author')
 
   const generateFacet = (param: string, filter: string | null) => {
-    const allValues = models
-      .map((model) => model[param as keyof typeof model])
-      .filter((value) => !filter || value === filter)
+    const allValues = models.map((model) => model[param as keyof typeof model]).filter((value) => !filter || value === filter)
 
     // Now count and sort by count
     const counts = allValues.reduce((acc: Record<string, number>, value: unknown) => {
@@ -50,12 +48,9 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     }, {})
 
     // Sort by count
-    const sorted = Object.entries(counts)
-      .sort((a, b) => b[1] - a[1])
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1])
 
-    return sorted
-      .map(([value, count]) => ({ [`${value} (${count})`]: modifyQueryString(param, value) }))
-      .reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {})
+    return sorted.map(([value, count]) => ({ [`${value} (${count})`]: modifyQueryString(param, value) })).reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {})
   }
 
   return {
@@ -69,12 +64,9 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
           return capabilities.some((capability) => model.capabilities?.includes(capability as Capability))
         }
 
-        return (
-          (!provider || model.provider === provider) &&
-          (!author || model.author === author)
-        )
+        return (!provider || model.provider === provider) && (!author || model.author === author)
       })
-      .map(model => {
+      .map((model) => {
         return {
           url: `${originOrApiRoute}/${model.openRouterSlug}`,
           name: model.name,
@@ -83,6 +75,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
           capabilities: model.capabilities,
           defaults: model.defaults,
         }
-      }).splice(0, 10),
+      })
+      .splice(0, 10),
   }
 })

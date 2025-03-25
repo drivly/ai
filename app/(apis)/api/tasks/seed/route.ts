@@ -1,5 +1,4 @@
-import { seedDatabase } from "@/scripts/seed"
-
+import { seedDatabase } from '@/scripts/seed'
 
 export const GET = async () => {
   seedDatabase()

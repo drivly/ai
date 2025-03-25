@@ -40,12 +40,12 @@ async function main() {
 
     // Get collections
     const collections = await getCollections()
-    
+
     if (!collections || collections.length === 0) {
       console.error('No collections found')
       return
     }
-    
+
     console.log(`Found ${collections.length} collections`)
 
     // Generate Zapier apps for each collection
@@ -53,7 +53,7 @@ async function main() {
       const collectionSlug = collection.slug
       const collectionName = pascalCase(collectionSlug)
       const collectionDir = path.resolve(outputDir, collectionSlug)
-      
+
       // Create collection directory
       if (!fs.existsSync(collectionDir)) {
         fs.mkdirSync(collectionDir, { recursive: true })
@@ -104,21 +104,18 @@ async function main() {
         scripts: {
           test: 'jest --testTimeout 10000',
           build: 'tsc',
-          deploy: 'zapier push'
+          deploy: 'zapier push',
         },
         dependencies: {
-          'zapier-platform-core': '^15.5.1'
+          'zapier-platform-core': '^15.5.1',
         },
         devDependencies: {
-          jest: '^29.7.0'
+          jest: '^29.7.0',
         },
-        private: true
+        private: true,
       }
 
-      fs.writeFileSync(
-        path.resolve(collectionDir, 'package.json'),
-        JSON.stringify(packageJson, null, 2)
-      )
+      fs.writeFileSync(path.resolve(collectionDir, 'package.json'), JSON.stringify(packageJson, null, 2))
 
       // Generate .gitignore
       const gitignore = `
@@ -146,13 +143,10 @@ node_modules/
       // Generate .zapierapprc
       const zapierAppRc = {
         id: `ai-primitives-${collectionSlug}`,
-        key: `ai-primitives-${collectionSlug}`
+        key: `ai-primitives-${collectionSlug}`,
       }
 
-      fs.writeFileSync(
-        path.resolve(collectionDir, '.zapierapprc'),
-        JSON.stringify(zapierAppRc, null, 2)
-      )
+      fs.writeFileSync(path.resolve(collectionDir, '.zapierapprc'), JSON.stringify(zapierAppRc, null, 2))
 
       console.log(`Generated Zapier app for ${collectionName}`)
     }

@@ -18,13 +18,7 @@ type GenerateObjectOutput = {
  * Utility function to generate an object using AI
  * This is not a Payload task, but a utility function used by executeFunction
  */
-export const generateObject = async ({ 
-  input, 
-  req 
-}: { 
-  input: GenerateObjectInput
-  req: any 
-}): Promise<GenerateObjectOutput> => {
+export const generateObject = async ({ input, req }: { input: GenerateObjectInput; req: any }): Promise<GenerateObjectOutput> => {
   const { functionName, args, settings } = input
   const start = Date.now()
 
@@ -73,6 +67,6 @@ export const generateObject = async ({
     generation,
     text,
     generationLatency,
-    request
+    request,
   }
 }

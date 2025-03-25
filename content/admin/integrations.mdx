@@ -83,7 +83,7 @@ Set up integrations using the Admin.do API:
 const integrations = await admin.integrations.list({
   category: 'ai',
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get integration details
@@ -97,8 +97,8 @@ const instance = await admin.integrations.create({
   config: {
     apiKey: 'sk-...',
     organization: 'org-...',
-    defaultModel: 'gpt-4'
-  }
+    defaultModel: 'gpt-4',
+  },
 })
 
 // Get all integration instances
@@ -106,7 +106,7 @@ const instances = await admin.integrations.listInstances({
   organization: 'org-123',
   integration: 'openai',
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get integration instance details
@@ -116,8 +116,8 @@ const instance = await admin.integrations.getInstance('inst-123')
 const updatedInstance = await admin.integrations.updateInstance('inst-123', {
   name: 'My Updated OpenAI Integration',
   config: {
-    defaultModel: 'gpt-4-turbo'
-  }
+    defaultModel: 'gpt-4-turbo',
+  },
 })
 
 // Delete an integration instance
@@ -162,13 +162,13 @@ const function = await functions.create({
   code: `
     const { prompt, model, maxTokens } = input;
     const { openai } = integration;
-    
+
     const response = await openai.completions.create({
       model,
       prompt,
       max_tokens: maxTokens
     });
-    
+
     return {
       completion: response.choices[0].text
     };
@@ -231,17 +231,17 @@ const permissions = await admin.integrations.getPermissions('inst-123')
 const updatedPermissions = await admin.integrations.updatePermissions('inst-123', {
   projects: ['proj-123', 'proj-456'],
   users: ['user-123', 'user-456'],
-  teams: ['team-123', 'team-456']
+  teams: ['team-123', 'team-456'],
 })
 
 // Grant access to a project
 await admin.integrations.grantAccess('inst-123', {
-  project: 'proj-789'
+  project: 'proj-789',
 })
 
 // Revoke access from a project
 await admin.integrations.revokeAccess('inst-123', {
-  project: 'proj-789'
+  project: 'proj-789',
 })
 ```
 
@@ -254,11 +254,11 @@ View integration logs using the Admin.do API:
 const logs = await admin.integrations.getLogs('inst-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   level: 'error',
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific log entry
@@ -278,7 +278,7 @@ const customIntegration = await admin.integrations.createCustom({
   baseUrl: 'https://api.example.com',
   authentication: {
     type: 'apiKey',
-    header: 'X-API-Key'
+    header: 'X-API-Key',
   },
   endpoints: [
     {
@@ -290,23 +290,23 @@ const customIntegration = await admin.integrations.createCustom({
           name: 'userId',
           type: 'string',
           required: true,
-          description: 'The ID of the user to get'
-        }
+          description: 'The ID of the user to get',
+        },
       ],
       response: {
         type: 'object',
         properties: {
           id: {
-            type: 'string'
+            type: 'string',
           },
           name: {
-            type: 'string'
+            type: 'string',
           },
           email: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     },
     {
       name: 'createUser',
@@ -317,37 +317,37 @@ const customIntegration = await admin.integrations.createCustom({
         properties: {
           name: {
             type: 'string',
-            required: true
+            required: true,
           },
           email: {
             type: 'string',
-            required: true
-          }
-        }
+            required: true,
+          },
+        },
       },
       response: {
         type: 'object',
         properties: {
           id: {
-            type: 'string'
+            type: 'string',
           },
           name: {
-            type: 'string'
+            type: 'string',
           },
           email: {
-            type: 'string'
-          }
-        }
-      }
-    }
-  ]
+            type: 'string',
+          },
+        },
+      },
+    },
+  ],
 })
 
 // Get all custom integrations
 const customIntegrations = await admin.integrations.listCustom({
   organization: 'org-123',
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific custom integration
@@ -356,7 +356,7 @@ const customIntegration = await admin.integrations.getCustom('cint-123')
 // Update a custom integration
 const updatedCustomIntegration = await admin.integrations.updateCustom('cint-123', {
   name: 'My Updated Custom Integration',
-  description: 'An updated custom integration for my API'
+  description: 'An updated custom integration for my API',
 })
 
 // Delete a custom integration

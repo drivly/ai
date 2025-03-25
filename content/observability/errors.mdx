@@ -18,36 +18,36 @@ Each error record contains detailed information about what went wrong:
 
 ```typescript
 interface Error {
-  id: string;
-  timestamp: Date;
-  type: string;
-  message: string;
-  stack?: string;
+  id: string
+  timestamp: Date
+  type: string
+  message: string
+  stack?: string
   source: {
-    service: string;
-    file?: string;
-    function?: string;
-    line?: number;
-    column?: number;
-  };
+    service: string
+    file?: string
+    function?: string
+    line?: number
+    column?: number
+  }
   context: {
-    user?: string;
+    user?: string
     request?: {
-      method?: string;
-      url?: string;
-      headers?: Record<string, string>;
-      body?: any;
-    };
-    environment: string;
-    version?: string;
-  };
-  metadata?: Record<string, any>;
-  count: number;
-  firstSeen: Date;
-  lastSeen: Date;
-  status: 'open' | 'acknowledged' | 'resolved' | 'ignored';
-  priority?: 'low' | 'medium' | 'high' | 'critical';
-  assignee?: string;
+      method?: string
+      url?: string
+      headers?: Record<string, string>
+      body?: any
+    }
+    environment: string
+    version?: string
+  }
+  metadata?: Record<string, any>
+  count: number
+  firstSeen: Date
+  lastSeen: Date
+  status: 'open' | 'acknowledged' | 'resolved' | 'ignored'
+  priority?: 'low' | 'medium' | 'high' | 'critical'
+  assignee?: string
 }
 ```
 
@@ -58,6 +58,7 @@ Errors are categorized into several types:
 ### Runtime Errors
 
 Errors that occur during application execution, including:
+
 - Uncaught exceptions
 - Promise rejections
 - Timeouts
@@ -66,6 +67,7 @@ Errors that occur during application execution, including:
 ### API Errors
 
 Errors related to API interactions:
+
 - Invalid requests
 - Authentication failures
 - Rate limiting
@@ -74,6 +76,7 @@ Errors related to API interactions:
 ### Validation Errors
 
 Errors resulting from invalid data:
+
 - Schema validation failures
 - Constraint violations
 - Type mismatches
@@ -81,6 +84,7 @@ Errors resulting from invalid data:
 ### System Errors
 
 Errors at the infrastructure level:
+
 - Resource exhaustion
 - Configuration issues
 - Dependency failures
@@ -96,8 +100,8 @@ Errors can be queried using various filters:
 const criticalErrors = await Errors.find({
   priority: 'critical',
   'context.environment': 'production',
-  status: 'open'
-});
+  status: 'open',
+})
 ```
 
 ### Error Grouping
@@ -106,11 +110,7 @@ Similar errors are automatically grouped to reduce noise and help focus on uniqu
 
 ```typescript
 // Example: Get error groups with count > 10
-const frequentErrorGroups = await Errors.aggregate([
-  { $group: { _id: '$type', count: { $sum: '$count' } } },
-  { $match: { count: { $gt: 10 } } },
-  { $sort: { count: -1 } }
-]);
+const frequentErrorGroups = await Errors.aggregate([{ $group: { _id: '$type', count: { $sum: '$count' } } }, { $match: { count: { $gt: 10 } } }, { $sort: { count: -1 } }])
 ```
 
 ### Error Resolution
@@ -121,15 +121,15 @@ Track and update the status of errors:
 // Example: Mark an error as resolved
 await Errors.updateOne(
   { id: 'error-123' },
-  { 
-    $set: { 
+  {
+    $set: {
       status: 'resolved',
       resolvedAt: new Date(),
       resolvedBy: 'user-456',
-      resolution: 'Fixed in PR #789'
-    } 
-  }
-);
+      resolution: 'Fixed in PR #789',
+    },
+  },
+)
 ```
 
 ## Best Practices
@@ -154,10 +154,11 @@ Errors integrate with other observability components:
 ### List Errors
 
 ```typescript
-GET /api/errors
+GET / api / errors
 ```
 
 Query parameters:
+
 - `type`: Filter by error type
 - `status`: Filter by status
 - `priority`: Filter by priority
@@ -178,6 +179,7 @@ PATCH /api/errors/:id
 ```
 
 Request body:
+
 ```json
 {
   "status": "acknowledged",

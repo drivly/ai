@@ -21,20 +21,20 @@ export async function fetchSchemaOrgData() {
 export function extractNounsAndVerbs(data: any) {
   const nouns: Set<string> = new Set()
   const verbs: { action: string; type: string }[] = []
-  
+
   // Extract @graph from the JSONLD
   const graph = data['@graph']
-  
+
   if (!graph) {
     console.error('No @graph found in Schema.org data')
     return { nouns: [], verbs }
   }
-  
+
   // Process each item in the graph
   graph.forEach((item: any) => {
     if (item['@type'] === 'rdfs:Class') {
       const typeName = item['@id'].replace('schema:', '')
-      
+
       // If it ends with "Action", it's a verb
       if (typeName.endsWith('Action')) {
         // Extract the verb action from the type name (remove 'Action' suffix)
@@ -43,14 +43,14 @@ export function extractNounsAndVerbs(data: any) {
         if (action && action.length > 0) {
           verbs.push({ action, type: typeName })
         }
-      } 
+      }
       // Otherwise it's a noun - we capture all class types as nouns, not just Thing subclasses
       else if (typeName && typeName.length > 0) {
         nouns.add(typeName)
       }
     }
   })
-  
+
   return { nouns: Array.from(nouns), verbs }
 }
 
@@ -58,23 +58,23 @@ export function extractNounsAndVerbs(data: any) {
 export async function seedDatabase() {
   try {
     console.log('Starting database seed process...')
-    
+
     // Initialize Payload
     const payload = await getPayload({ config })
-    
+
     // Fetch Schema.org data
     const schemaOrgData = await fetchSchemaOrgData()
-    
+
     // Extract Nouns and Verbs
     const { nouns, verbs } = extractNounsAndVerbs(schemaOrgData)
-    
+
     console.log(`Found ${nouns.length} nouns and ${verbs.length} verbs`)
-    
+
     // Seed Nouns
     console.log('Seeding Nouns...')
     let nounsCreated = 0
     let nounsSkipped = 0
-    
+
     for (const noun of nouns) {
       try {
         // Check if noun already exists
@@ -82,13 +82,13 @@ export async function seedDatabase() {
           collection: 'nouns',
           where: { name: { equals: noun } },
         })
-        
+
         if (exists.docs.length > 0) {
           console.log(`Noun already exists: ${noun}`)
           nounsSkipped++
           continue
         }
-        
+
         // Create if it doesn't exist
         await payload.create({
           collection: 'nouns',
@@ -102,14 +102,14 @@ export async function seedDatabase() {
         console.error(`Error processing noun ${noun}:`, error)
       }
     }
-    
+
     console.log(`Nouns: ${nounsCreated} created, ${nounsSkipped} skipped`)
-    
+
     // Seed Verbs
     console.log('Seeding Verbs...')
     let verbsCreated = 0
     let verbsSkipped = 0
-    
+
     for (const verb of verbs) {
       try {
         // Skip verbs with empty action
@@ -118,29 +118,29 @@ export async function seedDatabase() {
           verbsSkipped++
           continue
         }
-        
+
         // Check if verb already exists
         const exists = await payload.find({
           collection: 'verbs',
           where: { action: { equals: verb.action } },
         })
-        
+
         if (exists.docs.length > 0) {
           console.log(`Verb already exists: ${verb.action}`)
           verbsSkipped++
           continue
         }
-        
+
         // Basic verb form
         const action = verb.action
-        
+
         // Generate other verb forms (simplified)
         const act = `${action}s`
         const activity = `${action}ing`
         const event = `${action}ed`
         const subject = `${action}er`
         const object = `${action}ion`
-        
+
         await payload.create({
           collection: 'verbs',
           data: {
@@ -158,12 +158,10 @@ export async function seedDatabase() {
         console.error(`Error creating verb ${verb.action}:`, error)
       }
     }
-    
-    console.log(`Verbs: ${verbsCreated} created, ${verbsSkipped} skipped`)
-    
-    console.log('Database seeding completed successfully!')
 
-    
+    console.log(`Verbs: ${verbsCreated} created, ${verbsSkipped} skipped`)
+
+    console.log('Database seeding completed successfully!')
   } catch (error) {
     console.error('Error seeding database:', error)
   }

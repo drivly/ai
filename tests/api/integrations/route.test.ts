@@ -31,14 +31,11 @@ describe('Integrations API', () => {
       await GET({} as Request, { url: 'https://example.com/api/integrations' } as any)
 
       // Verify fetch was called with the correct URL and headers
-      expect(global.fetch).toHaveBeenCalledWith(
-        'https://backend.composio.dev/api/v1/apps',
-        {
-          headers: {
-            'x-api-key': 'test-api-key',
-          },
-        }
-      )
+      expect(global.fetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {
+        headers: {
+          'x-api-key': 'test-api-key',
+        },
+      })
     })
 
     it('should return a 500 response if API key is not configured', async () => {
@@ -76,17 +73,14 @@ describe('Integrations API', () => {
       await POST(request, { url: 'https://example.com/api/integrations' } as any)
 
       // Verify fetch was called with the correct URL, method, headers, and body
-      expect(global.fetch).toHaveBeenCalledWith(
-        'https://backend.composio.dev/api/v1/apps',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': 'test-api-key',
-          },
-          body: JSON.stringify(requestBody),
-        }
-      )
+      expect(global.fetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'test-api-key',
+        },
+        body: JSON.stringify(requestBody),
+      })
     })
   })
 
@@ -108,17 +102,14 @@ describe('Integrations API', () => {
       await PUT(request, { url: 'https://example.com/api/integrations' } as any)
 
       // Verify fetch was called with the correct URL, method, headers, and body
-      expect(global.fetch).toHaveBeenCalledWith(
-        'https://backend.composio.dev/api/v1/apps',
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': 'test-api-key',
-          },
-          body: JSON.stringify(requestBody),
-        }
-      )
+      expect(global.fetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'test-api-key',
+        },
+        body: JSON.stringify(requestBody),
+      })
     })
   })
 
@@ -134,15 +125,12 @@ describe('Integrations API', () => {
       await DELETE({} as Request, { url: 'https://example.com/api/integrations' } as any)
 
       // Verify fetch was called with the correct URL, method, and headers
-      expect(global.fetch).toHaveBeenCalledWith(
-        'https://backend.composio.dev/api/v1/apps',
-        {
-          method: 'DELETE',
-          headers: {
-            'x-api-key': 'test-api-key',
-          },
-        }
-      )
+      expect(global.fetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {
+        method: 'DELETE',
+        headers: {
+          'x-api-key': 'test-api-key',
+        },
+      })
     })
   })
 })

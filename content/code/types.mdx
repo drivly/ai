@@ -32,16 +32,18 @@ const CustomerType = {
     name: z.string().min(1).max(100),
     email: z.string().email(),
     phone: z.string().optional(),
-    address: z.object({
-      street: z.string(),
-      city: z.string(),
-      state: z.string(),
-      zipCode: z.string(),
-      country: z.string()
-    }).optional(),
+    address: z
+      .object({
+        street: z.string(),
+        city: z.string(),
+        state: z.string(),
+        zipCode: z.string(),
+        country: z.string(),
+      })
+      .optional(),
     subscriptionTier: z.enum(['free', 'basic', 'premium', 'enterprise']),
     createdAt: z.date(),
-    updatedAt: z.date()
+    updatedAt: z.date(),
   }),
   examples: [
     {
@@ -50,9 +52,9 @@ const CustomerType = {
       email: 'jane@example.com',
       subscriptionTier: 'premium',
       createdAt: '2023-01-15T10:30:00Z',
-      updatedAt: '2023-06-20T14:45:00Z'
-    }
-  ]
+      updatedAt: '2023-06-20T14:45:00Z',
+    },
+  ],
 }
 ```
 
@@ -69,14 +71,14 @@ const EmailType = {
   name: 'Email',
   description: 'An email address',
   schema: z.string().email(),
-  examples: ['user@example.com']
+  examples: ['user@example.com'],
 }
 
 const PositiveNumberType = {
   name: 'PositiveNumber',
   description: 'A positive number',
   schema: z.number().positive(),
-  examples: [1, 42, 3.14]
+  examples: [1, 42, 3.14],
 }
 ```
 
@@ -93,7 +95,7 @@ const AddressType = {
     city: z.string(),
     state: z.string(),
     zipCode: z.string(),
-    country: z.string()
+    country: z.string(),
   }),
   examples: [
     {
@@ -101,9 +103,9 @@ const AddressType = {
       city: 'San Francisco',
       state: 'CA',
       zipCode: '94105',
-      country: 'USA'
-    }
-  ]
+      country: 'USA',
+    },
+  ],
 }
 ```
 
@@ -121,17 +123,17 @@ const PaymentMethodType = {
       cardNumber: z.string(),
       expiryMonth: z.number(),
       expiryYear: z.number(),
-      cvv: z.string()
+      cvv: z.string(),
     }),
     z.object({
       type: z.literal('bankAccount'),
       accountNumber: z.string(),
-      routingNumber: z.string()
+      routingNumber: z.string(),
     }),
     z.object({
       type: z.literal('paypal'),
-      email: z.string().email()
-    })
+      email: z.string().email(),
+    }),
   ]),
   examples: [
     {
@@ -139,9 +141,9 @@ const PaymentMethodType = {
       cardNumber: '**** **** **** 1234',
       expiryMonth: 12,
       expiryYear: 2025,
-      cvv: '***'
-    }
-  ]
+      cvv: '***',
+    },
+  ],
 }
 ```
 
@@ -166,7 +168,7 @@ const createCustomerFunction = {
   output: z.object({
     success: z.boolean(),
     customerId: z.string().uuid(),
-    error: z.string().optional()
+    error: z.string().optional(),
   }),
   // Function implementation...
 }
@@ -182,14 +184,14 @@ await types.create({
   name: 'Product',
   schema: z.object({
     // Type definition...
-  })
+  }),
 })
 
 // Update a type
 await types.update('Product', {
   schema: z.object({
     // Updated type definition...
-  })
+  }),
 })
 
 // Create a new version
@@ -197,7 +199,7 @@ await types.createVersion('Product', {
   schema: z.object({
     // New version definition...
   }),
-  changes: 'Added new fields for product variants'
+  changes: 'Added new fields for product variants',
 })
 ```
 

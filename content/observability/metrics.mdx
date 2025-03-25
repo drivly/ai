@@ -100,36 +100,36 @@ const systemMetrics = [
     description: 'CPU usage percentage',
     type: 'gauge',
     unit: 'percent',
-    labels: ['service', 'instance']
+    labels: ['service', 'instance'],
   },
   {
     name: 'memory_usage_bytes',
     description: 'Memory usage in bytes',
     type: 'gauge',
     unit: 'bytes',
-    labels: ['service', 'instance']
+    labels: ['service', 'instance'],
   },
   {
     name: 'disk_usage_bytes',
     description: 'Disk usage in bytes',
     type: 'gauge',
     unit: 'bytes',
-    labels: ['service', 'instance', 'device']
+    labels: ['service', 'instance', 'device'],
   },
   {
     name: 'network_received_bytes',
     description: 'Network bytes received',
     type: 'counter',
     unit: 'bytes',
-    labels: ['service', 'instance', 'interface']
+    labels: ['service', 'instance', 'interface'],
   },
   {
     name: 'network_sent_bytes',
     description: 'Network bytes sent',
     type: 'counter',
     unit: 'bytes',
-    labels: ['service', 'instance', 'interface']
-  }
+    labels: ['service', 'instance', 'interface'],
+  },
 ]
 ```
 
@@ -145,7 +145,7 @@ const applicationMetrics = [
     description: 'Total number of HTTP requests',
     type: 'counter',
     unit: 'requests',
-    labels: ['service', 'endpoint', 'method', 'status_code']
+    labels: ['service', 'endpoint', 'method', 'status_code'],
   },
   {
     name: 'http_request_duration_seconds',
@@ -153,22 +153,22 @@ const applicationMetrics = [
     type: 'histogram',
     unit: 'seconds',
     labels: ['service', 'endpoint', 'method'],
-    buckets: [0.01, 0.05, 0.1, 0.5, 1, 5, 10]
+    buckets: [0.01, 0.05, 0.1, 0.5, 1, 5, 10],
   },
   {
     name: 'active_users',
     description: 'Number of active users',
     type: 'gauge',
     unit: 'users',
-    labels: ['service']
+    labels: ['service'],
   },
   {
     name: 'error_rate',
     description: 'Rate of errors',
     type: 'gauge',
     unit: 'errors/second',
-    labels: ['service', 'endpoint']
-  }
+    labels: ['service', 'endpoint'],
+  },
 ]
 ```
 
@@ -184,29 +184,29 @@ const businessMetrics = [
     description: 'Conversion rate',
     type: 'gauge',
     unit: 'percent',
-    labels: ['funnel', 'step']
+    labels: ['funnel', 'step'],
   },
   {
     name: 'revenue',
     description: 'Revenue',
     type: 'counter',
     unit: 'USD',
-    labels: ['product', 'region']
+    labels: ['product', 'region'],
   },
   {
     name: 'active_subscriptions',
     description: 'Number of active subscriptions',
     type: 'gauge',
     unit: 'subscriptions',
-    labels: ['plan', 'region']
+    labels: ['plan', 'region'],
   },
   {
     name: 'customer_satisfaction',
     description: 'Customer satisfaction score',
     type: 'gauge',
     unit: 'score',
-    labels: ['product', 'region']
-  }
+    labels: ['product', 'region'],
+  },
 ]
 ```
 
@@ -223,29 +223,29 @@ const aiMetrics = [
     type: 'histogram',
     unit: 'seconds',
     labels: ['model', 'version', 'endpoint'],
-    buckets: [0.01, 0.05, 0.1, 0.5, 1, 5, 10]
+    buckets: [0.01, 0.05, 0.1, 0.5, 1, 5, 10],
   },
   {
     name: 'model_token_usage',
     description: 'Number of tokens used',
     type: 'counter',
     unit: 'tokens',
-    labels: ['model', 'type']
+    labels: ['model', 'type'],
   },
   {
     name: 'model_accuracy',
     description: 'Model accuracy',
     type: 'gauge',
     unit: 'percent',
-    labels: ['model', 'version', 'dataset']
+    labels: ['model', 'version', 'dataset'],
   },
   {
     name: 'model_calls_total',
     description: 'Total number of model calls',
     type: 'counter',
     unit: 'calls',
-    labels: ['model', 'version', 'endpoint']
-  }
+    labels: ['model', 'version', 'endpoint'],
+  },
 ]
 ```
 
@@ -260,7 +260,7 @@ import { metrics } from '@drivly/observability'
 // Configure the metrics client
 metrics.configure({
   service: 'user-service',
-  environment: 'production'
+  environment: 'production',
 })
 
 // Increment a counter
@@ -268,31 +268,31 @@ metrics.counter('api_requests_total').inc({
   labels: {
     endpoint: '/api/users',
     method: 'GET',
-    status_code: '200'
-  }
+    status_code: '200',
+  },
 })
 
 // Set a gauge value
 metrics.gauge('memory_usage').set(1024 * 1024 * 100, {
   labels: {
-    instance: 'server-1'
-  }
+    instance: 'server-1',
+  },
 })
 
 // Record a histogram value
 metrics.histogram('request_duration_seconds').observe(0.25, {
   labels: {
     endpoint: '/api/users',
-    method: 'GET'
-  }
+    method: 'GET',
+  },
 })
 
 // Use a timer
 const timer = metrics.histogram('request_duration_seconds').startTimer({
   labels: {
     endpoint: '/api/users',
-    method: 'GET'
-  }
+    method: 'GET',
+  },
 })
 // ... perform the operation
 timer.end()
@@ -306,9 +306,9 @@ const result = await metrics.withTimer(
   {
     metric: 'function_duration_seconds',
     labels: {
-      function: 'processUserRequest'
-    }
-  }
+      function: 'processUserRequest',
+    },
+  },
 )
 
 // Use middleware for HTTP requests
@@ -329,46 +329,49 @@ const data = await observability.metrics.query({
   aggregation: 'avg',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   step: '1h',
   filters: {
     service: 'user-service',
-    endpoint: '/api/users'
-  }
+    endpoint: '/api/users',
+  },
 })
 
 // Query multiple metrics
-const multiData = await observability.metrics.queryBatch([
+const multiData = await observability.metrics.queryBatch(
+  [
+    {
+      name: 'http_request_duration_seconds',
+      aggregation: 'avg',
+      filters: {
+        service: 'user-service',
+      },
+    },
+    {
+      name: 'error_rate',
+      filters: {
+        service: 'user-service',
+      },
+    },
+  ],
   {
-    name: 'http_request_duration_seconds',
-    aggregation: 'avg',
-    filters: {
-      service: 'user-service'
-    }
+    timeRange: {
+      start: '2023-06-01T00:00:00Z',
+      end: '2023-06-30T23:59:59Z',
+    },
+    step: '1h',
   },
-  {
-    name: 'error_rate',
-    filters: {
-      service: 'user-service'
-    }
-  }
-], {
-  timeRange: {
-    start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
-  },
-  step: '1h'
-})
+)
 
 // Calculate derived metrics
 const derivedData = await observability.metrics.calculate({
   expression: 'http_requests_total{status_code="500"} / http_requests_total * 100',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
-  step: '1h'
+  step: '1h',
 })
 ```
 
@@ -387,14 +390,14 @@ const chart = await observability.metrics.createChart({
       name: 'http_request_duration_seconds',
       aggregation: 'avg',
       filters: {
-        service: 'user-service'
+        service: 'user-service',
       },
-      groupBy: ['endpoint']
-    }
+      groupBy: ['endpoint'],
+    },
   ],
   timeRange: {
-    relative: '7d'
-  }
+    relative: '7d',
+  },
 })
 
 // Create a dashboard
@@ -404,17 +407,17 @@ const dashboard = await observability.metrics.createDashboard({
   charts: [
     {
       id: 'request-duration',
-      position: { x: 0, y: 0, w: 6, h: 4 }
+      position: { x: 0, y: 0, w: 6, h: 4 },
     },
     {
       id: 'error-rate',
-      position: { x: 6, y: 0, w: 6, h: 4 }
+      position: { x: 6, y: 0, w: 6, h: 4 },
     },
     {
       id: 'active-users',
-      position: { x: 0, y: 4, w: 12, h: 4 }
-    }
-  ]
+      position: { x: 0, y: 4, w: 12, h: 4 },
+    },
+  ],
 })
 ```
 
@@ -429,13 +432,13 @@ await observability.metrics.register({
   description: 'A new metric',
   type: 'counter',
   unit: 'count',
-  labels: ['service', 'endpoint']
+  labels: ['service', 'endpoint'],
 })
 
 // Update a metric
 await observability.metrics.update('new_metric', {
   description: 'Updated description',
-  labels: ['service', 'endpoint', 'method']
+  labels: ['service', 'endpoint', 'method'],
 })
 
 // Configure metric retention
@@ -446,21 +449,21 @@ await observability.metrics.configureRetention({
       raw: '24h',
       '1m': '7d',
       '5m': '30d',
-      '1h': '90d'
-    }
+      '1h': '90d',
+    },
   },
   metrics: {
-    'http_requests_total': {
+    http_requests_total: {
       duration: '365d',
       resolution: {
         raw: '24h',
         '1m': '7d',
         '5m': '30d',
         '1h': '90d',
-        '1d': '365d'
-      }
-    }
-  }
+        '1d': '365d',
+      },
+    },
+  },
 })
 ```
 

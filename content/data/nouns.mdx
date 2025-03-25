@@ -31,19 +31,19 @@ const Customer = {
     id: { type: 'string', required: true },
     name: { type: 'string', required: true },
     email: { type: 'string', format: 'email', required: true },
-    subscriptionTier: { 
-      type: 'enum', 
+    subscriptionTier: {
+      type: 'enum',
       values: ['free', 'basic', 'premium', 'enterprise'],
-      default: 'free'
+      default: 'free',
     },
     createdAt: { type: 'datetime', required: true },
     lastActive: { type: 'datetime' },
-    preferences: { type: 'object' }
+    preferences: { type: 'object' },
   },
   relationships: {
     orders: { type: 'hasMany', target: 'Order' },
-    supportTickets: { type: 'hasMany', target: 'SupportTicket' }
-  }
+    supportTickets: { type: 'hasMany', target: 'SupportTicket' },
+  },
 }
 ```
 
@@ -57,24 +57,24 @@ const newCustomer = await nouns.create('Customer', {
   name: 'Jane Doe',
   email: 'jane@example.com',
   subscriptionTier: 'premium',
-  preferences: { theme: 'dark', notifications: true }
+  preferences: { theme: 'dark', notifications: true },
 })
 
 // Query nouns
 const premiumCustomers = await nouns.find('Customer', {
   where: { subscriptionTier: 'premium' },
-  include: ['orders']
+  include: ['orders'],
 })
 
 // Use in functions
 const customerAnalysisFunction = {
   name: 'analyzeCustomerActivity',
   input: z.object({
-    customer: Customer.schema
+    customer: Customer.schema,
   }),
   output: z.object({
     activityScore: z.number(),
-    recommendations: z.array(z.string())
+    recommendations: z.array(z.string()),
   }),
   // Function implementation...
 }

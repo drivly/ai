@@ -30,13 +30,13 @@ const run = await evals.runs.create({
   eval: 'eval-123', // Reference to the evaluation configuration
   target: {
     type: 'function',
-    id: 'func-123'
+    id: 'func-123',
   },
   dataset: 'ds-123',
   parameters: {
     batchSize: 32,
-    maxExamples: 1000
-  }
+    maxExamples: 1000,
+  },
 })
 ```
 
@@ -48,7 +48,7 @@ Manage evaluation runs using the Evals.do API:
 // Get all evaluation runs
 const runs = await evals.runs.list({
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific evaluation run
@@ -57,7 +57,7 @@ const run = await evals.runs.get('run-123')
 // Update an evaluation run
 const updatedRun = await evals.runs.update('run-123', {
   name: 'Updated Text Classification Evaluation',
-  description: 'Updated evaluation of text classification models'
+  description: 'Updated evaluation of text classification models',
 })
 
 // Delete an evaluation run
@@ -99,7 +99,7 @@ const progress = await evals.runs.getProgress('run-123')
 // Get evaluation run logs
 const logs = await evals.runs.getLogs('run-123', {
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 ```
 
@@ -117,7 +117,7 @@ const metrics = await evals.runs.getMetrics('run-123')
 // Get evaluation run examples
 const examples = await evals.runs.getExamples('run-123', {
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific example result
@@ -134,13 +134,13 @@ const comparison = await evals.runs.compare(['run-123', 'run-456'])
 
 // Compare evaluation run metrics
 const metricComparison = await evals.runs.compareMetrics(['run-123', 'run-456'], {
-  metrics: ['accuracy', 'f1_score', 'precision', 'recall']
+  metrics: ['accuracy', 'f1_score', 'precision', 'recall'],
 })
 
 // Compare evaluation run examples
 const exampleComparison = await evals.runs.compareExamples(['run-123', 'run-456'], {
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 ```
 
@@ -156,14 +156,14 @@ const config = await evals.runs.createConfig({
   parameters: {
     batchSize: 32,
     maxExamples: 1000,
-    metrics: ['accuracy', 'f1_score', 'precision', 'recall']
-  }
+    metrics: ['accuracy', 'f1_score', 'precision', 'recall'],
+  },
 })
 
 // Get all evaluation run configurations
 const configs = await evals.runs.listConfigs({
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific evaluation run configuration
@@ -176,8 +176,8 @@ const updatedConfig = await evals.runs.updateConfig('config-123', {
   parameters: {
     batchSize: 64,
     maxExamples: 2000,
-    metrics: ['accuracy', 'f1_score', 'precision', 'recall', 'roc_auc']
-  }
+    metrics: ['accuracy', 'f1_score', 'precision', 'recall', 'roc_auc'],
+  },
 })
 
 // Delete an evaluation run configuration
@@ -188,9 +188,9 @@ const run = await evals.runs.createFromConfig({
   config: 'config-123',
   target: {
     type: 'function',
-    id: 'func-123'
+    id: 'func-123',
   },
-  dataset: 'ds-123'
+  dataset: 'ds-123',
 })
 ```
 
@@ -206,21 +206,21 @@ const schedule = await evals.runs.schedule({
   eval: 'eval-123',
   target: {
     type: 'function',
-    id: 'func-123'
+    id: 'func-123',
   },
   dataset: 'ds-123',
   schedule: {
     frequency: 'daily',
     time: '00:00:00Z',
     startDate: '2023-07-01',
-    endDate: '2023-12-31'
-  }
+    endDate: '2023-12-31',
+  },
 })
 
 // Get all scheduled evaluation runs
 const schedules = await evals.runs.listSchedules({
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific scheduled evaluation run
@@ -233,8 +233,8 @@ const updatedSchedule = await evals.runs.updateSchedule('sched-123', {
   schedule: {
     frequency: 'weekly',
     dayOfWeek: 'monday',
-    time: '00:00:00Z'
-  }
+    time: '00:00:00Z',
+  },
 })
 
 // Delete a scheduled evaluation run
@@ -256,16 +256,16 @@ Configure evaluation run notifications using the Evals.do API:
 await evals.runs.configureNotifications('run-123', {
   onStart: {
     email: ['user1@example.com', 'user2@example.com'],
-    slack: ['#evaluations']
+    slack: ['#evaluations'],
   },
   onComplete: {
     email: ['user1@example.com', 'user2@example.com', 'user3@example.com'],
-    slack: ['#evaluations', '#results']
+    slack: ['#evaluations', '#results'],
   },
   onError: {
     email: ['user1@example.com', 'admin@example.com'],
-    slack: ['#evaluations', '#alerts']
-  }
+    slack: ['#evaluations', '#alerts'],
+  },
 })
 
 // Get evaluation run notification configuration
@@ -275,8 +275,8 @@ const notifications = await evals.runs.getNotifications('run-123')
 await evals.runs.updateNotifications('run-123', {
   onComplete: {
     email: ['user1@example.com', 'user2@example.com', 'user4@example.com'],
-    slack: ['#evaluations', '#results']
-  }
+    slack: ['#evaluations', '#results'],
+  },
 })
 
 // Delete evaluation run notification configuration
@@ -293,13 +293,13 @@ const exportUrl = await evals.runs.export('run-123', {
   format: 'json',
   includeExamples: true,
   includeMetrics: true,
-  includeLogs: false
+  includeLogs: false,
 })
 
 // Export evaluation run comparison
 const comparisonExportUrl = await evals.runs.exportComparison(['run-123', 'run-456'], {
   format: 'csv',
-  metrics: ['accuracy', 'f1_score', 'precision', 'recall']
+  metrics: ['accuracy', 'f1_score', 'precision', 'recall'],
 })
 
 // Generate an evaluation run report
@@ -308,7 +308,7 @@ const reportUrl = await evals.runs.generateReport('run-123', {
   includeExamples: true,
   includeMetrics: true,
   includeLogs: false,
-  includeCharts: true
+  includeCharts: true,
 })
 
 // Generate an evaluation run comparison report
@@ -316,7 +316,7 @@ const comparisonReportUrl = await evals.runs.generateComparisonReport(['run-123'
   format: 'pdf',
   metrics: ['accuracy', 'f1_score', 'precision', 'recall'],
   includeExamples: true,
-  includeCharts: true
+  includeCharts: true,
 })
 ```
 
@@ -328,19 +328,19 @@ Share evaluation runs using the Evals.do API:
 // Share an evaluation run with a user
 await evals.runs.share('run-123', {
   user: 'user-123',
-  permission: 'read'
+  permission: 'read',
 })
 
 // Share an evaluation run with a team
 await evals.runs.share('run-123', {
   team: 'team-123',
-  permission: 'write'
+  permission: 'write',
 })
 
 // Share an evaluation run with an organization
 await evals.runs.share('run-123', {
   organization: 'org-123',
-  permission: 'admin'
+  permission: 'admin',
 })
 
 // Get evaluation run permissions
@@ -349,12 +349,12 @@ const permissions = await evals.runs.getPermissions('run-123')
 // Update evaluation run permissions
 await evals.runs.updatePermissions('run-123', {
   user: 'user-123',
-  permission: 'write'
+  permission: 'write',
 })
 
 // Remove evaluation run permissions
 await evals.runs.removePermissions('run-123', {
-  user: 'user-123'
+  user: 'user-123',
 })
 ```
 
