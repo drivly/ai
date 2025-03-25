@@ -15,20 +15,22 @@ export function middleware(request: NextRequest) {
   const { hostname, pathname, search } = request.nextUrl
   const apiName = hostname.replace('.do', '')
 
-  console.log({ apiName, hostname, pathname, search })
 
   // TODO: should we use something like `itty-router` here?
 
   if (sitePaths.includes(pathname) && siteDomains.includes(hostname)) {
+    console.log('Rewriting to site', { hostname, pathname, search })
     return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
   }
 
   // TODO: Is this the correct logic for docs?
   if (sitePrefixes.some(prefix => pathname.startsWith(prefix)) && siteDomains.includes(hostname)) {
+    console.log('Rewriting to site w/ prefix', { hostname, pathname, search })
     return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
   }
 
   if (pathname === '/' && siteDomains.includes(hostname)) {
+    console.log('Rewriting to landing page', { hostname, pathname, search })
     return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
     // return NextResponse.rewrite(new URL(`/${hostname}`, request.url))
   }
@@ -36,8 +38,11 @@ export function middleware(request: NextRequest) {
   // TODO: we need to ensure that all of the apis are at the root by default
   // I think this is preferred as it is what we want for localhost and API gateways like apis.do
   if (apis[apiName]) {
+    console.log('Rewriting to API', { apiName, hostname, pathname, search })
     return NextResponse.rewrite(new URL(`/${apiName}${pathname}${search}`, request.url))
   }
+
+  console.log('no rewrite', { apiName, hostname, pathname, search })
 
 }
 
