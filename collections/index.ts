@@ -21,7 +21,7 @@ import { EvalsRuns } from './evals/EvalsRuns'
 import { EvalsResults } from './evals/EvalsResults'
 import { Events } from './observability/Events'
 import { Errors } from './observability/Errors'
-import { Benchmarks } from './observability/Benchmarks'
+import { Benchmarks } from './evals/Benchmarks'
 import { Experiments } from './experiments/Experiments'
 import { Prompts } from './experiments/Prompts'
 import { Settings } from './experiments/Settings'
@@ -48,6 +48,7 @@ export const collections = [
   Modules,
   Packages,
   Deployments,
+  Benchmarks,
   Evals,
   EvalsRuns,
   EvalsResults,
@@ -56,7 +57,6 @@ export const collections = [
   Errors,
   Generations,
   Traces,
-  Benchmarks,
   Projects,
   Users,
   Integrations,

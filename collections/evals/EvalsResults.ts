@@ -5,6 +5,7 @@ export const EvalsResults: CollectionConfig = {
   admin: {
     group: 'Evals',
     useAsTitle: 'name',
+    hidden: true,
   },
   fields: [{ name: 'name', type: 'text' }],
 }
