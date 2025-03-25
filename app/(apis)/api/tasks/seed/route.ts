@@ -28,16 +28,16 @@ export const GET = API(async (req, { db, user, payload, params }) => {
     return { updateOne: { filter: { key: app.key }, update: { $set: app }, upsert: true } }
   }))
   console.log('Integrations seeded')
-  const categoriesResults = await payload.db.connection.collection('categories').bulkWrite(categories.map((category: any) => {
+  const categoriesResults = await payload.db.connection.collection('integration-categories').bulkWrite(categories.map((category: any) => {
     return { updateOne: { filter: { category }, update: { $set: { category } }, upsert: true } }
   }))
   console.log('Categories seeded')
-  const triggersResults = await payload.db.connection.collection('triggers').bulkWrite(triggers.map((trigger: any) => {
-    return { updateOne: { filter: { key: trigger.key }, update: { $set: trigger }, upsert: true } }
+  const triggersResults = await payload.db.connection.collection('integration-triggers').bulkWrite(triggers.map((trigger: any) => {
+    return { updateOne: { filter: { appKey: trigger.appKey }, update: { $set: trigger }, upsert: true } }
   }))
   console.log('Triggers seeded')
-  const actionsResults = await payload.db.connection.collection('actions').bulkWrite(actions.map((action: any) => {
-    return { updateOne: { filter: { key: action.key }, update: { $set: action }, upsert: true } }
+  const actionsResults = await payload.db.connection.collection('integration-actions').bulkWrite(actions.map((action: any) => {
+    return { updateOne: { filter: { appKey: action.appKey }, update: { $set: action }, upsert: true } }
   }))
   console.log('Actions seeded')
 
