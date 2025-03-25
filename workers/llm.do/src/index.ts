@@ -14,7 +14,8 @@ const openapi = fromHono(app, {
 })
 
 // Register OpenAPI endpoints
-openapi.get('/chat', Chat)
+openapi.get('/chat/:model?', Chat)
+openapi.get('/chat/:provider/:model', Chat)
 openapi.get('/api/v1/models', ModelList)
 openapi.post('/api/v1/chat/completions', ChatCompletionCreate)
 

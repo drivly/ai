@@ -44,12 +44,13 @@ export class Chat extends OpenAPIRoute {
     },
   }
 
-  async handle({ req: { path } }: Context) {
+  async handle(c: Context) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
+    const { model: providerModel, provider } = c.req.param()
 
     // Translate the query to the completion endpoint
-    const { prompt = ' ', system, model, seed, temperature } = request.query
+    const { prompt = ' ', system, model = (provider ? provider + '/' + providerModel : providerModel) || 'drivly/frontier', seed, temperature } = request.query
 
     const messages = []
     if (system) {
@@ -110,7 +111,7 @@ export class Chat extends OpenAPIRoute {
           'Talk like a pirate': getLink({ prompt, system: 'Talk like a pirate', model, seed, temperature, Authorization }),
         },
       },
-      links: generateLinks({ path, prompt, system, model, seed, temperature, Authorization }),
+      links: generateLinks({ prompt, system, model, seed, temperature, Authorization }),
       data,
       user: { authenticated: false },
     }
@@ -118,7 +119,6 @@ export class Chat extends OpenAPIRoute {
 }
 
 function generateLinks({
-  path,
   prompt,
   system,
   model,
@@ -126,7 +126,6 @@ function generateLinks({
   temperature,
   Authorization,
 }: {
-  path: string
   prompt: string
   system: string | undefined
   model: string | undefined
@@ -136,20 +135,20 @@ function generateLinks({
 }) {
   const links: Record<string, string> = {
     home: 'https://llm.do',
-    self: 'https://llm.do' + path,
+    self: getLink({ prompt, system, model, seed, temperature, Authorization }),
   }
   if (seed !== undefined) {
     links.next = getLink({ prompt, system, model, seed: seed + 1, temperature, Authorization })
     links.prev = getLink({ prompt, system, model, seed: seed - 1, temperature, Authorization })
   }
 
-  if (prompt.trim()) {
+  if (prompt.trim() && (system || model || seed !== undefined || temperature !== undefined)) {
     links['Remove prompt'] = getLink({ prompt: '', system, model, seed, temperature, Authorization })
   }
-  if (system) {
+  if (system && (prompt.trim() || model || seed !== undefined || temperature !== undefined)) {
     links['Remove system'] = getLink({ prompt, system: '', model, seed, temperature, Authorization })
   }
-  if (model) {
+  if (model && (prompt.trim() || system || seed !== undefined || temperature !== undefined)) {
     links['Remove model'] = getLink({ prompt, system, model: '', seed, temperature, Authorization })
   }
   if (seed !== undefined) {
@@ -157,7 +156,7 @@ function generateLinks({
   } else {
     links['Add seed'] = getLink({ prompt, system, model, seed: 0, temperature, Authorization })
   }
-  if (temperature !== undefined) {
+  if (temperature !== undefined && (prompt.trim() || system || model || seed !== undefined)) {
     links['Remove temperature'] = getLink({ prompt, system, model, seed, temperature: undefined, Authorization })
   }
   return links
@@ -178,6 +177,7 @@ function getLink({
   temperature: number | undefined
   Authorization: string | undefined
 }) {
+  let path
   const params = new URLSearchParams()
   if (prompt.trim()) {
     params.set('prompt', prompt.trim())
@@ -186,7 +186,9 @@ function getLink({
     params.set('system', system)
   }
   if (model) {
-    params.set('model', model)
+    path = '/chat/' + model
+  } else {
+    path = '/chat'
   }
   if (seed !== undefined) {
     params.set('seed', seed.toString())
@@ -197,5 +199,5 @@ function getLink({
   if (Authorization) {
     params.set('Authorization', Authorization)
   }
-  return `https://llm.do/chat?${params.toString()}`
+  return `https://llm.do${path}${params.size ? '?' + params.toString() : ''}`
 }
