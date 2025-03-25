@@ -85,6 +85,7 @@ export interface Config {
     modules: Module;
     packages: Package;
     deployments: Deployment;
+    benchmarks: Benchmark;
     evals: Eval;
     'eval-runs': EvalRun;
     'eval-results': EvalResult;
@@ -93,7 +94,6 @@ export interface Config {
     errors: Error;
     generations: Generation;
     traces: Trace;
-    benchmarks: Benchmark;
     projects: Project;
     users: User;
     integrations: Integration;
@@ -105,6 +105,9 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
+    functions: {
+      actions: 'actions';
+    };
     nouns: {
       things: 'things';
     };
@@ -137,6 +140,7 @@ export interface Config {
     modules: ModulesSelect<false> | ModulesSelect<true>;
     packages: PackagesSelect<false> | PackagesSelect<true>;
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
+    benchmarks: BenchmarksSelect<false> | BenchmarksSelect<true>;
     evals: EvalsSelect<false> | EvalsSelect<true>;
     'eval-runs': EvalRunsSelect<false> | EvalRunsSelect<true>;
     'eval-results': EvalResultsSelect<false> | EvalResultsSelect<true>;
@@ -145,7 +149,6 @@ export interface Config {
     errors: ErrorsSelect<false> | ErrorsSelect<true>;
     generations: GenerationsSelect<false> | GenerationsSelect<true>;
     traces: TracesSelect<false> | TracesSelect<true>;
-    benchmarks: BenchmarksSelect<false> | BenchmarksSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
@@ -172,6 +175,7 @@ export interface Config {
   jobs: {
     tasks: {
       executeFunction: TaskExecuteFunction;
+      generateCode: TaskGenerateCode;
       inline: {
         input: unknown;
         output: unknown;
@@ -235,6 +239,11 @@ export interface Function {
     | null;
   code?: string | null;
   prompt?: (string | null) | Prompt;
+  actions?: {
+    docs?: (string | Action)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -250,69 +259,17 @@ export interface Prompt {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "workflows".
+ * via the `definition` "actions".
  */
-export interface Workflow {
+export interface Action {
   id: string;
-  name?: string | null;
-  type?: string | null;
-  code?: string | null;
-  functions?: (string | null) | Function;
-  module?: (string | null) | Module;
-  package?: (string | null) | Package;
-  deployment?: (string | null) | Deployment;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "modules".
- */
-export interface Module {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "packages".
- */
-export interface Package {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "deployments".
- */
-export interface Deployment {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "agents".
- */
-export interface Agent {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "nouns".
- */
-export interface Noun {
-  id: string;
-  name?: string | null;
-  things?: {
-    docs?: (string | Thing)[];
+  subject?: (string | null) | Thing;
+  verb?: (string | null) | Verb;
+  function?: (string | null) | Function;
+  object?: (string | null) | Thing;
+  hash?: string | null;
+  generation?: {
+    docs?: (string | Generation)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -329,6 +286,7 @@ export interface Thing {
   sqid?: string | null;
   hash?: string | null;
   type?: (string | null) | Noun;
+  yaml?: string | null;
   data?:
     | {
         [k: string]: unknown;
@@ -353,17 +311,13 @@ export interface Thing {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions".
+ * via the `definition` "nouns".
  */
-export interface Action {
+export interface Noun {
   id: string;
-  subject?: (string | null) | Thing;
-  verb?: (string | null) | Verb;
-  function?: (string | null) | Function;
-  object?: (string | null) | Thing;
-  hash?: string | null;
-  generation?: {
-    docs?: (string | Generation)[];
+  name?: string | null;
+  things?: {
+    docs?: (string | Thing)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -474,6 +428,62 @@ export interface Generation {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workflows".
+ */
+export interface Workflow {
+  id: string;
+  name?: string | null;
+  type?: string | null;
+  code?: string | null;
+  functions?: (string | null) | Function;
+  module?: (string | null) | Module;
+  package?: (string | null) | Package;
+  deployment?: (string | null) | Deployment;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "modules".
+ */
+export interface Module {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "packages".
+ */
+export interface Package {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "deployments".
+ */
+export interface Deployment {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "agents".
+ */
+export interface Agent {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "triggers".
  */
 export interface Trigger {
@@ -558,6 +568,16 @@ export interface Type {
     | number
     | boolean
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "benchmarks".
+ */
+export interface Benchmark {
+  id: string;
+  name?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -655,16 +675,6 @@ export interface Error {
  * via the `definition` "traces".
  */
 export interface Trace {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "benchmarks".
- */
-export interface Benchmark {
   id: string;
   name?: string | null;
   updatedAt: string;
@@ -788,7 +798,7 @@ export interface PayloadJob {
     | {
         executedAt: string;
         completedAt: string;
-        taskSlug: 'inline' | 'executeFunction';
+        taskSlug: 'inline' | 'executeFunction' | 'generateCode';
         taskID: string;
         input?:
           | {
@@ -819,13 +829,13 @@ export interface PayloadJob {
           | boolean
           | null;
         parent?: {
-          taskSlug?: ('inline' | 'executeFunction') | null;
+          taskSlug?: ('inline' | 'executeFunction' | 'generateCode') | null;
           taskID?: string | null;
         };
         id?: string | null;
       }[]
     | null;
-  taskSlug?: ('inline' | 'executeFunction') | null;
+  taskSlug?: ('inline' | 'executeFunction' | 'generateCode') | null;
   queue?: string | null;
   waitUntil?: string | null;
   processing?: boolean | null;
@@ -908,6 +918,10 @@ export interface PayloadLockedDocument {
         value: string | Deployment;
       } | null)
     | ({
+        relationTo: 'benchmarks';
+        value: string | Benchmark;
+      } | null)
+    | ({
         relationTo: 'evals';
         value: string | Eval;
       } | null)
@@ -938,10 +952,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'traces';
         value: string | Trace;
-      } | null)
-    | ({
-        relationTo: 'benchmarks';
-        value: string | Benchmark;
       } | null)
     | ({
         relationTo: 'projects';
@@ -1029,6 +1039,7 @@ export interface FunctionsSelect<T extends boolean = true> {
   schema?: T;
   code?: T;
   prompt?: T;
+  actions?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1096,6 +1107,7 @@ export interface ThingsSelect<T extends boolean = true> {
   sqid?: T;
   hash?: T;
   type?: T;
+  yaml?: T;
   data?: T;
   subjectOf?: T;
   objectOf?: T;
@@ -1213,6 +1225,15 @@ export interface DeploymentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "benchmarks_select".
+ */
+export interface BenchmarksSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "evals_select".
  */
 export interface EvalsSelect<T extends boolean = true> {
@@ -1290,15 +1311,6 @@ export interface GenerationsSelect<T extends boolean = true> {
  * via the `definition` "traces_select".
  */
 export interface TracesSelect<T extends boolean = true> {
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "benchmarks_select".
- */
-export interface BenchmarksSelect<T extends boolean = true> {
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1482,6 +1494,45 @@ export interface TaskExecuteFunction {
       | boolean
       | null;
     reasoning?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateCode".
+ */
+export interface TaskGenerateCode {
+  input: {
+    prompt: string;
+    settings?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    raw?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    code?: string | null;
+    parsed?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
 }
 /**
