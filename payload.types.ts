@@ -97,6 +97,10 @@ export interface Config {
     projects: Project;
     users: User;
     integrations: Integration;
+    'integration-categories': IntegrationCategory;
+    'integration-triggers': IntegrationTrigger;
+    'integration-actions': IntegrationAction;
+    tags: Tag;
     webhooks: Webhook;
     apikeys: Apikey;
     'payload-jobs': PayloadJob;
@@ -152,6 +156,10 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
+    'integration-categories': IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
+    'integration-triggers': IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
+    'integration-actions': IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
@@ -723,6 +731,45 @@ export interface Integration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-categories".
+ */
+export interface IntegrationCategory {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-triggers".
+ */
+export interface IntegrationTrigger {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-actions".
+ */
+export interface IntegrationAction {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "webhooks".
  */
 export interface Webhook {
@@ -964,6 +1011,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'integrations';
         value: string | Integration;
+      } | null)
+    | ({
+        relationTo: 'integration-categories';
+        value: string | IntegrationCategory;
+      } | null)
+    | ({
+        relationTo: 'integration-triggers';
+        value: string | IntegrationTrigger;
+      } | null)
+    | ({
+        relationTo: 'integration-actions';
+        value: string | IntegrationAction;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: string | Tag;
       } | null)
     | ({
         relationTo: 'webhooks';
@@ -1348,7 +1411,44 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "integrations_select".
  */
 export interface IntegrationsSelect<T extends boolean = true> {
+  id?: T;
   name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-categories_select".
+ */
+export interface IntegrationCategoriesSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-triggers_select".
+ */
+export interface IntegrationTriggersSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-actions_select".
+ */
+export interface IntegrationActionsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  id?: T;
   updatedAt?: T;
   createdAt?: T;
 }
