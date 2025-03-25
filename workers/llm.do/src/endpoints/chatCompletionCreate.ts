@@ -1,11 +1,12 @@
 import { Capability, getModel } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
 import { fetchFromProvider } from 'providers/openRouter'
-import { AuthHeader, type ChatCompletionRequest, ChatCompletionRequestSchema, ChatCompletionResponseSchema } from '../types'
+import { AuthHeader, type ChatCompletionRequest, ChatCompletionRequestSchema, ChatCompletionResponseSchema } from '../types/chat'
+import { Context } from 'hono'
 
 export class ChatCompletionCreate extends OpenAPIRoute {
   schema = {
-    tags: ['Chat'],
+    tags: ['Completions'],
     summary: 'Create a chat completion',
     request: {
       headers: AuthHeader,
@@ -29,7 +30,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
     },
   }
 
-  async handle(_args: any[]) {
+  async handle(_args: Context) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
 
