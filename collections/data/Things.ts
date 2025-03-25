@@ -6,7 +6,7 @@ export const Things: CollectionConfig = {
   slug: 'things',
   admin: {
     group: 'Data',
-    useAsTitle: 'name',
+    useAsTitle: 'data',
   },
   versions: true,
   fields: [
