@@ -36,6 +36,10 @@ type ApiContext = {
 
 type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T
 
+// Create a global request context 
+let _currentRequest: NextRequest | null = null
+let _currentContext: ApiContext | null = null
+
 export const API = <T = any>(handler: ApiHandler<T>) => {
   return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
     try {
@@ -167,8 +171,16 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
         db,
       }
 
+      // Set current request and context for helper functions
+      _currentRequest = req
+      _currentContext = ctx
+
       // Call the handler with enhanced context
       const result = await handler(req, ctx)
+
+      // Clear current request and context
+      _currentRequest = null
+      _currentContext = null
 
       // Convert result to JSON response
       return NextResponse.json(
@@ -194,6 +206,10 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
     } catch (error) {
       console.error('API Error:', error)
 
+      // Clear current request and context in case of error
+      _currentRequest = null
+      _currentContext = null
+
       // Return error as JSON with proper status code
       const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
       return NextResponse.json(
@@ -206,4 +222,33 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       )
     }
   }
+}
+
+/**
+ * Modifies a query string parameter in a URL
+ * @param urlString Optional URL string. If not provided, uses the current request URL
+ * @param param Parameter name to set
+ * @param value Parameter value to set
+ * @returns New URL string with the modified query parameter
+ */
+export const modifyQueryString = (param?: string, value?: string | number) => {
+  if (!param) {
+    throw new Error('Parameter name is required')
+  }
+  
+  if (value === undefined) {
+    throw new Error('Parameter value is required')
+  }
+
+  if (!_currentRequest) {
+    throw new Error('No URL provided and no current request available')
+  }
+
+  // Parse the URL
+  const url = new URL(_currentRequest.url)
+  
+  // Modify the query parameter
+  url.searchParams.set(param, value.toString())
+  
+  return url.toString()
 }
