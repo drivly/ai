@@ -1,0 +1,76 @@
+# Database
+
+Database.do provides persistent storage with structured, unstructured, and semantic search capabilities for your AI applications.
+
+## Overview
+
+The Database collection provides a way to store, retrieve, and query data in your business applications. Database.do can:
+
+- Store structured data with schema validation
+- Handle unstructured data like documents and media
+- Perform semantic searches using vector embeddings
+- Manage relationships between different data types
+- Scale to handle enterprise data volumes
+
+## Key Features
+
+- **Structured Storage**: Store data with schema validation and type safety
+- **Unstructured Storage**: Store documents, images, and other media
+- **Semantic Search**: Find data based on meaning, not just keywords
+- **Relationships**: Define and query relationships between data
+- **Scalability**: Handle growing data volumes with consistent performance
+
+## Using Database
+
+Database.do can be used throughout your AI applications:
+
+```typescript
+// Store structured data
+const customer = await database.create('customers', {
+  name: 'Acme Corporation',
+  industry: 'Manufacturing',
+  size: 'enterprise',
+  contacts: [
+    { name: 'John Smith', role: 'CTO', email: 'john@example.com' },
+    { name: 'Jane Doe', role: 'CEO', email: 'jane@example.com' },
+  ],
+  metadata: {
+    createdAt: new Date(),
+    source: 'manual',
+  },
+})
+
+// Query data with filters
+const enterpriseCustomers = await database.find('customers', {
+  where: { 
+    size: 'enterprise',
+    industry: { $in: ['Manufacturing', 'Healthcare', 'Finance'] },
+  },
+  sort: { name: 1 },
+  limit: 100,
+})
+
+// Semantic search
+const similarCustomers = await database.semanticSearch('customers', {
+  query: 'Companies interested in AI automation',
+  fields: ['notes', 'interests'],
+  limit: 10,
+})
+
+// Update data
+await database.update('customers', customer.id, {
+  status: 'active',
+  lastContactedAt: new Date(),
+})
+```
+
+## Database Templates
+
+Discover and use pre-built database templates from the marketplace to accelerate your development process.
+
+## Next Steps
+
+- [Create your first database collection](/data/database/create)
+- [Explore database templates](/data/database/templates)
+- [Learn about semantic search](/data/database/semantic-search)
+- [Implement database-driven business applications](/data/database/business-applications)
