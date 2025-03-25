@@ -44,7 +44,7 @@ export class Chat extends OpenAPIRoute {
     },
   }
 
-  async handle(c: Context) {
+  async handle(c: Context<{ Bindings: Cloudflare.Env }>) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
     const { model: providerModel, provider } = c.req.param()

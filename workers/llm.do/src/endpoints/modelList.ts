@@ -22,7 +22,7 @@ export class ModelList extends OpenAPIRoute {
     },
   }
 
-  async handle(_c: Context) {
+  async handle(_c: Context<{ Bindings: Cloudflare.Env }>) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
 

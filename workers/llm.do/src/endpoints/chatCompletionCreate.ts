@@ -1,6 +1,5 @@
 import { Capability, getModel } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
-import { env } from 'cloudflare:workers'
 import { OpenAIToolSet } from 'composio-core'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
@@ -32,7 +31,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
     },
   }
 
-  async handle(c: Context) {
+  async handle(c: Context<{ Bindings: Cloudflare.Env }>) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
 
@@ -51,7 +50,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
       request.body.stream = false
 
       const composioToolset = new OpenAIToolSet({
-        apiKey: env.COMPOSIO_API_KEY,
+        apiKey: c.env.COMPOSIO_API_KEY,
       })
 
       const tools = await composioToolset.getTools({ actions })

@@ -6,7 +6,7 @@ import { Hono } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
 
 // Start a Hono app
-const app = new Hono()
+const app = new Hono<{ Bindings: Cloudflare.Env }>()
 
 // Setup OpenAPI registry
 const openapi = fromHono(app, {
