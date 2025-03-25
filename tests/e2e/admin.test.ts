@@ -10,10 +10,10 @@ describe('Admin page', () => {
     if (process.env.CI && !process.env.BROWSER_TESTS) {
       return
     }
-    
+
     try {
       browser = await chromium.launch({
-        headless: true
+        headless: true,
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -51,20 +51,20 @@ describe('Admin page', () => {
       expect(true).toBe(true) // Pass the test when skipped
       return
     }
-    
+
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       await page.goto(`${baseUrl}/admin`)
-      
+
       // Check for login form elements
       const emailInput = await page.locator('input[type="email"]')
       const passwordInput = await page.locator('input[type="password"]')
       const loginButton = await page.locator('button[type="submit"]')
-      
+
       expect(await emailInput.count()).toBe(1)
       expect(await passwordInput.count()).toBe(1)
       expect(await loginButton.count()).toBe(1)
-      
+
       // Check for login page title
       const title = await page.title()
       expect(title).toContain('Login')

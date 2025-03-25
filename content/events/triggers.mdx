@@ -30,11 +30,11 @@ const NewOrderTrigger = {
   source: {
     type: 'database',
     collection: 'orders',
-    operation: 'create'
+    operation: 'create',
   },
   condition: {
     type: 'expression',
-    expression: 'order.status === "new" && order.total > 100'
+    expression: 'order.status === "new" && order.total > 100',
   },
   action: {
     type: 'workflow',
@@ -42,13 +42,13 @@ const NewOrderTrigger = {
     input: {
       orderId: '{{event.id}}',
       customer: '{{event.customerId}}',
-      priority: 'high'
-    }
+      priority: 'high',
+    },
   },
   cooldown: {
     period: '5m',
-    groupBy: ['customerId']
-  }
+    groupBy: ['customerId'],
+  },
 }
 ```
 
@@ -65,12 +65,12 @@ const UserSignupTrigger = {
   name: 'UserSignupTrigger',
   source: {
     type: 'event',
-    event: 'user.signup'
+    event: 'user.signup',
   },
   action: {
     type: 'workflow',
-    workflow: 'UserOnboarding'
-  }
+    workflow: 'UserOnboarding',
+  },
 }
 ```
 
@@ -83,12 +83,12 @@ const DailyReportTrigger = {
   name: 'DailyReportTrigger',
   source: {
     type: 'schedule',
-    cron: '0 8 * * *' // Every day at 8:00 AM
+    cron: '0 8 * * *', // Every day at 8:00 AM
   },
   action: {
     type: 'workflow',
-    workflow: 'GenerateDailyReport'
-  }
+    workflow: 'GenerateDailyReport',
+  },
 }
 ```
 
@@ -106,13 +106,13 @@ const PaymentWebhookTrigger = {
     auth: {
       type: 'signature',
       header: 'X-Signature',
-      secret: '{{secrets.PAYMENT_WEBHOOK_SECRET}}'
-    }
+      secret: '{{secrets.PAYMENT_WEBHOOK_SECRET}}',
+    },
   },
   action: {
     type: 'workflow',
-    workflow: 'ProcessPayment'
-  }
+    workflow: 'ProcessPayment',
+  },
 }
 ```
 

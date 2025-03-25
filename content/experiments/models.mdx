@@ -37,20 +37,20 @@ const GPT4Model = {
       id: 'gpt-4-0613',
       isDefault: false,
       contextWindow: 8192,
-      maxOutputTokens: 4096
+      maxOutputTokens: 4096,
     },
     {
       id: 'gpt-4-1106-preview',
       isDefault: true,
       contextWindow: 128000,
-      maxOutputTokens: 4096
-    }
+      maxOutputTokens: 4096,
+    },
   ],
   pricing: {
     inputTokens: 0.00003,
     outputTokens: 0.00006,
-    unit: 'USD'
-  }
+    unit: 'USD',
+  },
 }
 ```
 
@@ -68,13 +68,13 @@ const EmbeddingModel = {
     {
       id: 'text-embedding-ada-002',
       isDefault: true,
-      dimensions: 1536
-    }
+      dimensions: 1536,
+    },
   ],
   pricing: {
     inputTokens: 0.0000001,
-    unit: 'USD'
-  }
+    unit: 'USD',
+  },
 }
 ```
 
@@ -93,12 +93,12 @@ const TranslationModel = {
     { code: 'es', name: 'Spanish' },
     { code: 'fr', name: 'French' },
     { code: 'de', name: 'German' },
-    { code: 'ja', name: 'Japanese' }
+    { code: 'ja', name: 'Japanese' },
   ],
   pricing: {
     characters: 0.00002,
-    unit: 'USD'
-  }
+    unit: 'USD',
+  },
 }
 ```
 
@@ -111,19 +111,19 @@ Models can be used throughout your AI applications:
 const completion = await models.generate('gpt-4', {
   prompt: 'Write a short story about a robot learning to paint.',
   temperature: 0.7,
-  maxTokens: 500
+  maxTokens: 500,
 })
 
 // Create embeddings
 const embedding = await models.embed('text-embedding-ada-002', {
-  text: 'This is a sample text to embed.'
+  text: 'This is a sample text to embed.',
 })
 
 // Translate text
 const translation = await models.translate('translation-model', {
   text: 'Hello, how are you?',
   sourceLanguage: 'en',
-  targetLanguage: 'es'
+  targetLanguage: 'es',
 })
 
 // Use in workflows
@@ -132,21 +132,21 @@ const contentGenerationWorkflow = {
     {
       id: 'generateDraft',
       model: 'gpt-4',
-      input: { 
+      input: {
         prompt: 'Write a blog post about {{input.topic}}',
-        temperature: 0.7
-      }
+        temperature: 0.7,
+      },
     },
     {
       id: 'translate',
       model: 'translation-model',
-      input: { 
+      input: {
         text: '{{generateDraft.text}}',
         sourceLanguage: 'en',
-        targetLanguage: '{{input.targetLanguage}}'
-      }
-    }
-  ]
+        targetLanguage: '{{input.targetLanguage}}',
+      },
+    },
+  ],
 }
 ```
 
@@ -166,17 +166,17 @@ await models.register({
 // Update model settings
 await models.update('custom-model', {
   rateLimit: {
-    requestsPerMinute: 100
-  }
+    requestsPerMinute: 100,
+  },
 })
 
 // Get model usage statistics
 const usage = await models.getUsage('gpt-4', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
-  groupBy: 'day'
+  groupBy: 'day',
 })
 ```
 

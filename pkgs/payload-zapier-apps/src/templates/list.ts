@@ -8,11 +8,11 @@ import { camelCase, pascalCase, titleCase, sentenceCase } from '../utils/stringU
  */
 function generateInputFields(fields: ZapierField[]): string {
   return fields
-    .filter(field => typeof field === 'object' && 'name' in field && field.name && field.type)
-    .map(field => {
+    .filter((field) => typeof field === 'object' && 'name' in field && field.name && field.type)
+    .map((field) => {
       const fieldName = field.name as string
       const fieldType = field.type as string
-      
+
       if (['text', 'email', 'number', 'date', 'textarea', 'code'].includes(fieldType)) {
         return `    {
       key: '${fieldName}',
@@ -45,11 +45,11 @@ function generateInputFields(fields: ZapierField[]): string {
  */
 function generateOutputFields(fields: ZapierField[]): string {
   return fields
-    .filter(field => typeof field === 'object' && 'name' in field && field.name && field.type)
-    .map(field => {
+    .filter((field) => typeof field === 'object' && 'name' in field && field.name && field.type)
+    .map((field) => {
       const fieldName = field.name as string
       const fieldType = field.type as string
-      
+
       if (['text', 'email', 'number', 'date', 'checkbox', 'textarea', 'code', 'relationship', 'array'].includes(fieldType)) {
         return `    {
       key: '${fieldName}',
@@ -74,14 +74,10 @@ export function generateListTemplate(collection: ZapierCollectionConfig): string
   const collectionSentence = sentenceCase(collection.slug)
 
   // Generate input fields based on collection fields
-  const inputFields = collection.fields
-    ? generateInputFields(collection.fields)
-    : ''
+  const inputFields = collection.fields ? generateInputFields(collection.fields) : ''
 
   // Generate output fields based on collection fields
-  const outputFields = collection.fields
-    ? generateOutputFields(collection.fields)
-    : ''
+  const outputFields = collection.fields ? generateOutputFields(collection.fields) : ''
 
   return `// List ${collectionTitle} search for Zapier
 const perform = async (z, bundle) => {
@@ -107,17 +103,19 @@ const buildWhereClause = (inputData) => {
   const where = {};
   
   // Add filters for each field if provided
-  ${collection.fields
-    ? collection.fields
-        .filter(field => typeof field === 'object' && 'name' in field && field.name && field.type)
-        .map(field => {
-          const fieldName = field.name as string
-          return `  if (inputData.${fieldName}) {
+  ${
+    collection.fields
+      ? collection.fields
+          .filter((field) => typeof field === 'object' && 'name' in field && field.name && field.type)
+          .map((field) => {
+            const fieldName = field.name as string
+            return `  if (inputData.${fieldName}) {
     where.${fieldName} = { equals: inputData.${fieldName} };
   }`
-        })
-        .join('\n  ')
-    : '  // No fields to filter by'}
+          })
+          .join('\n  ')
+      : '  // No fields to filter by'
+  }
   
   return where;
 };

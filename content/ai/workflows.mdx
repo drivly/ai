@@ -40,23 +40,23 @@ const documentProcessingWorkflow = {
     {
       id: 'extract',
       function: 'extractTextFromDocument',
-      input: { url: '{{input.documentUrl}}' }
+      input: { url: '{{input.documentUrl}}' },
     },
     {
       id: 'analyze',
       function: 'analyzeText',
-      input: { text: '{{extract.text}}' }
+      input: { text: '{{extract.text}}' },
     },
     {
       id: 'summarize',
       function: 'summarizeText',
-      input: { 
-        text: '{{extract.text}}', 
+      input: {
+        text: '{{extract.text}}',
         keyPoints: '{{analyze.keyPoints}}',
-        format: '{{input.outputFormat}}'
-      }
-    }
-  ]
+        format: '{{input.outputFormat}}',
+      },
+    },
+  ],
 }
 ```
 
@@ -68,7 +68,7 @@ Workflows can be executed through the API or triggered by events:
 // Execute a workflow
 const result = await workflows.execute('documentProcessingWorkflow', {
   documentUrl: 'https://example.com/document.pdf',
-  outputFormat: 'markdown'
+  outputFormat: 'markdown',
 })
 
 // Check workflow status

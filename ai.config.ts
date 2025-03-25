@@ -3,7 +3,6 @@
 import { AI } from '@/lib/ai'
 
 export const ai = AI({
-
   // createFunction: async (args, { ai, api, db }) => {
   //   const functionDefinition = await ai.defineFunction(args)
 
@@ -57,5 +56,4 @@ export const ai = AI({
     activity: 'gerund like Using',
     event: 'past tense like Used',
   },
-
 })

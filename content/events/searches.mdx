@@ -29,36 +29,36 @@ const ProductSearch = {
   description: 'Search for products based on various criteria',
   sources: [
     { type: 'database', collection: 'products' },
-    { type: 'vector-db', index: 'product-descriptions' }
+    { type: 'vector-db', index: 'product-descriptions' },
   ],
   parameters: {
     query: { type: 'string', required: true },
     category: { type: 'string', required: false },
-    priceRange: { 
-      type: 'object', 
+    priceRange: {
+      type: 'object',
       properties: {
         min: { type: 'number' },
-        max: { type: 'number' }
+        max: { type: 'number' },
       },
-      required: false
+      required: false,
     },
-    inStock: { type: 'boolean', default: true }
+    inStock: { type: 'boolean', default: true },
   },
   filters: [
     { field: 'category', operator: 'eq', value: '{{params.category}}', when: '{{!!params.category}}' },
     { field: 'price', operator: 'gte', value: '{{params.priceRange.min}}', when: '{{!!params.priceRange?.min}}' },
     { field: 'price', operator: 'lte', value: '{{params.priceRange.max}}', when: '{{!!params.priceRange?.max}}' },
-    { field: 'stockQuantity', operator: 'gt', value: 0, when: '{{params.inStock}}' }
+    { field: 'stockQuantity', operator: 'gt', value: 0, when: '{{params.inStock}}' },
   ],
   ranking: [
     { type: 'semantic', field: 'description', query: '{{params.query}}', weight: 0.7 },
     { type: 'exact', field: 'name', query: '{{params.query}}', weight: 0.3 },
-    { type: 'field', field: 'popularity', order: 'desc', weight: 0.1 }
+    { type: 'field', field: 'popularity', order: 'desc', weight: 0.1 },
   ],
   pagination: {
     defaultLimit: 20,
-    maxLimit: 100
-  }
+    maxLimit: 100,
+  },
 }
 ```
 
@@ -73,9 +73,9 @@ const results = await searches.execute('ProductSearch', {
   category: 'electronics',
   priceRange: {
     min: 50,
-    max: 200
+    max: 200,
   },
-  inStock: true
+  inStock: true,
 })
 
 // Use in workflows
@@ -84,28 +84,28 @@ const productRecommendationWorkflow = {
     {
       id: 'userPreferences',
       function: 'getUserPreferences',
-      input: { userId: '{{input.userId}}' }
+      input: { userId: '{{input.userId}}' },
     },
     {
       id: 'findProducts',
       search: 'ProductSearch',
-      input: { 
+      input: {
         query: '{{userPreferences.interests}}',
         category: '{{userPreferences.favoriteCategory}}',
         priceRange: {
-          max: '{{userPreferences.maxBudget}}'
-        }
-      }
+          max: '{{userPreferences.maxBudget}}',
+        },
+      },
     },
     {
       id: 'rankRecommendations',
       function: 'rankProductsForUser',
-      input: { 
+      input: {
         products: '{{findProducts.results}}',
-        userHistory: '{{userPreferences.purchaseHistory}}'
-      }
-    }
-  ]
+        userHistory: '{{userPreferences.purchaseHistory}}',
+      },
+    },
+  ],
 }
 ```
 

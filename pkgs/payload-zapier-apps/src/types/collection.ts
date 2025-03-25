@@ -6,19 +6,19 @@ export interface ZapierCollectionConfig {
   /**
    * The slug of the collection
    */
-  slug: string;
-  
+  slug: string
+
   /**
    * The fields of the collection
    */
-  fields?: ZapierField[];
-  
+  fields?: ZapierField[]
+
   /**
    * Admin configuration
    */
   admin?: {
-    useAsTitle?: string;
-  };
+    useAsTitle?: string
+  }
 }
 
 /**
@@ -28,25 +28,25 @@ export interface ZapierField {
   /**
    * The name of the field
    */
-  name?: string;
-  
+  name?: string
+
   /**
    * The type of the field
    */
-  type?: string;
-  
+  type?: string
+
   /**
    * Whether the field is required
    */
-  required?: boolean;
-  
+  required?: boolean
+
   /**
    * For relationship fields, the collection to relate to
    */
-  relationTo?: string | string[];
-  
+  relationTo?: string | string[]
+
   /**
    * For array fields, the fields within the array
    */
-  fields?: ZapierField[];
+  fields?: ZapierField[]
 }

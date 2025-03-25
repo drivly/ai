@@ -7,5 +7,8 @@ export const Integrations: CollectionConfig = {
     useAsTitle: 'name',
   },
   versions: true,
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [
+    { name: 'id', type: 'text' },
+    { name: 'name', type: 'text' },
+  ],
 }

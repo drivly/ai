@@ -96,7 +96,7 @@ describe('Functions API with seed links', () => {
     expect(data.links.next).toContain('seed=4')
     expect(data.links.next).toContain('temperature=0.7')
     expect(data.links.next).toContain('model=gpt-4')
-    
+
     expect(data.links.prev).toContain('seed=2')
     expect(data.links.prev).toContain('temperature=0.7')
     expect(data.links.prev).toContain('model=gpt-4')

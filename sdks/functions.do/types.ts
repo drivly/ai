@@ -8,6 +8,12 @@ export interface AIConfig {
   schema?: Record<string, any>
 }
 
+// Markdown output type
+export interface MarkdownOutput {
+  markdown: string
+  mdast: any
+}
+
 // Generic AI function type
 export type AIFunction<TInput = any, TOutput = any> = {
   (input: TInput, config?: AIConfig): Promise<TOutput>

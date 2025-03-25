@@ -38,17 +38,17 @@ const ModelSettings = {
     frequencyPenalty: 0.0,
     presencePenalty: 0.0,
     stopSequences: [],
-    timeout: 30000
+    timeout: 30000,
   },
   environments: {
     development: {
       defaultModel: 'gpt-3.5-turbo',
-      maxTokens: 500
+      maxTokens: 500,
     },
     production: {
-      timeout: 60000
-    }
-  }
+      timeout: 60000,
+    },
+  },
 }
 ```
 
@@ -62,26 +62,24 @@ const ExperimentSettings = {
   description: 'Default settings for experiments',
   values: {
     defaultDuration: {
-      days: 14
+      days: 14,
     },
     minSampleSize: 100,
     significanceLevel: 0.05,
     defaultMetrics: ['accuracy', 'latency', 'cost'],
     autoStop: {
       enabled: true,
-      conditions: [
-        { metric: 'error_rate', threshold: 0.1, operator: 'gt' }
-      ]
-    }
+      conditions: [{ metric: 'error_rate', threshold: 0.1, operator: 'gt' }],
+    },
   },
   environments: {
     development: {
       minSampleSize: 10,
       autoStop: {
-        enabled: false
-      }
-    }
-  }
+        enabled: false,
+      },
+    },
+  },
 }
 ```
 
@@ -98,11 +96,11 @@ const PromptSettings = {
     defaultFormat: 'markdown',
     variableDelimiters: {
       start: '{{',
-      end: '}}'
+      end: '}}',
     },
     defaultSystemPrompt: 'You are a helpful AI assistant...',
-    templateEngine: 'handlebars'
-  }
+    templateEngine: 'handlebars',
+  },
 }
 ```
 
@@ -118,7 +116,7 @@ const modelSettings = await settings.get('model-settings')
 const completion = await models.generate(modelSettings.defaultModel, {
   prompt: 'Write a short story about a robot learning to paint.',
   temperature: modelSettings.temperature,
-  maxTokens: modelSettings.maxTokens
+  maxTokens: modelSettings.maxTokens,
 })
 
 // Get settings for a specific environment
@@ -127,7 +125,7 @@ const prodSettings = await settings.get('experiment-settings', 'production')
 // Override specific settings
 const customSettings = await settings.override('model-settings', {
   temperature: 0.9,
-  maxTokens: 2000
+  maxTokens: 2000,
 })
 ```
 
@@ -141,14 +139,14 @@ await settings.create({
   name: 'custom-settings',
   values: {
     // Setting values...
-  }
+  },
 })
 
 // Update settings
 await settings.update('custom-settings', {
   values: {
     // Updated values...
-  }
+  },
 })
 
 // Create environment-specific settings

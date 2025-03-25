@@ -6,7 +6,7 @@ export default defineConfig({
     data: '.velite',
     name: 'content',
     format: 'esm',
-    clean: true
+    clean: true,
   },
   collections: {
     pages: {
@@ -15,8 +15,8 @@ export default defineConfig({
       schema: s.object({
         title: s.string().optional(),
         description: s.string().optional(),
-        content: s.mdx()
-      })
-    }
-  }
+        content: s.mdx(),
+      }),
+    },
+  },
 })

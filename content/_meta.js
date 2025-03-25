@@ -2,41 +2,41 @@ export default {
   ai: {
     title: 'AI',
     type: 'menu',
-    items: {}
+    items: {},
   },
   data: {
     title: 'Data',
     type: 'menu',
-    items: {}
+    items: {},
   },
   events: {
     title: 'Events',
     type: 'menu',
-    items: {}
+    items: {},
   },
   experiments: {
     title: 'Experiments',
     type: 'menu',
-    items: {}
+    items: {},
   },
   code: {
     title: 'Code',
     type: 'menu',
-    items: {}
+    items: {},
   },
   evals: {
     title: 'Evals',
     type: 'menu',
-    items: {}
+    items: {},
   },
   observability: {
     title: 'Observability',
     type: 'menu',
-    items: {}
+    items: {},
   },
   admin: {
     title: 'Admin',
     type: 'menu',
-    items: {}
+    items: {},
   },
 }

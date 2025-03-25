@@ -49,39 +49,39 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     }
 
     const generateLinks = (param: string, options: any[]) => {
-      return options.map((option) => {
-        const modifiedParsedObject = structuredClone({
-          ...model?.parsed as ParsedModelIdentifier,
+      return options
+        .map((option) => {
+          const modifiedParsedObject = structuredClone({
+            ...(model?.parsed as ParsedModelIdentifier),
+          })
+
+          if (param === 'capabilities') {
+            // If the option already exists, remove it, else add it.
+            if (modifiedParsedObject.capabilities.includes(option)) {
+              modifiedParsedObject.capabilities = modifiedParsedObject.capabilities.filter((capability) => capability !== option)
+            } else {
+              modifiedParsedObject.capabilities.push(option)
+            }
+          }
+
+          // If the param is seed, temperature, or maxTokens, we need to add it to the systemConfig
+          if (param === 'seed' || param === 'temperature' || param === 'maxTokens') {
+            modifiedParsedObject.systemConfig = {
+              ...(model?.parsed as ParsedModelIdentifier).systemConfig,
+              [param]: option,
+            }
+          }
+
+          return {
+            [option]: `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`.replace('(', '%28').replace(')', '%29'),
+          }
         })
-
-        if (param === 'capabilities') {
-          // If the option already exists, remove it, else add it.
-          if (modifiedParsedObject.capabilities.includes(option)) {
-            modifiedParsedObject.capabilities = modifiedParsedObject.capabilities.filter((capability) => capability !== option)
-          } else {
-            modifiedParsedObject.capabilities.push(option)
-          }
-        }
-
-        // If the param is seed, temperature, or maxTokens, we need to add it to the systemConfig
-        if (param === 'seed' || param === 'temperature' || param === 'maxTokens') {
-          modifiedParsedObject.systemConfig = {
-            ...(model?.parsed as ParsedModelIdentifier).systemConfig,
-            [param]: option,
-          }
-        }
-
-        return {
-          [option]: `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`
-            .replace('(', '%28')
-            .replace(')', '%29')
-        }
-      }).reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {})
+        .reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {})
     }
 
     const applyPreset = (preset: Record<string, any>) => {
       const modifiedParsedObject = {
-        ...model?.parsed as ParsedModelIdentifier,
+        ...(model?.parsed as ParsedModelIdentifier),
       }
 
       modifiedParsedObject.systemConfig = {
@@ -89,23 +89,18 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         ...preset,
       }
 
-      return `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`
-        .replace('(', '%28')
-        .replace(')', '%29')
+      return `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`.replace('(', '%28').replace(')', '%29')
     }
 
-    const capabilities = [
-      'reasoning',
-      'tools',
-      'code',
-      'online'
-    ]
+    const capabilities = ['reasoning', 'tools', 'code', 'online']
 
     return {
       links: {
         toLLM: `${origin}/api/llm/${reconstructModelString(model?.parsed as ParsedModelIdentifier)}`,
         seed: generateLinks('seed', [
-          1, 2, 3,
+          1,
+          2,
+          3,
           // Bounded random (from 10-100) with at least 5 iterations
           ...Array.from({ length: 5 }, () => Math.floor(Math.random() * 90) + 10),
         ]),

@@ -1,6 +1,7 @@
 import { OpenAPIRoute } from 'chanfana'
 import { fetchFromProvider } from 'providers/openRouter'
-import { AuthHeader, ModelListResponseSchema } from '../types'
+import { AuthHeader, ModelListResponseSchema } from '../types/chat'
+import { Context } from 'hono'
 
 export class ModelList extends OpenAPIRoute {
   schema = {
@@ -21,7 +22,7 @@ export class ModelList extends OpenAPIRoute {
     },
   }
 
-  async handle(_args: any[]) {
+  async handle(_args: Context) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
 

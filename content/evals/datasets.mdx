@@ -38,43 +38,43 @@ const textDataset = {
     input: {
       text: {
         type: 'string',
-        description: 'The text to classify'
-      }
+        description: 'The text to classify',
+      },
     },
     output: {
       category: {
         type: 'string',
         description: 'The category of the text',
-        enum: ['positive', 'negative', 'neutral']
-      }
-    }
+        enum: ['positive', 'negative', 'neutral'],
+      },
+    },
   },
   examples: [
     {
       input: {
-        text: 'I love this product!'
+        text: 'I love this product!',
       },
       output: {
-        category: 'positive'
-      }
+        category: 'positive',
+      },
     },
     {
       input: {
-        text: 'This product is terrible.'
+        text: 'This product is terrible.',
       },
       output: {
-        category: 'negative'
-      }
+        category: 'negative',
+      },
     },
     {
       input: {
-        text: 'The product works as expected.'
+        text: 'The product works as expected.',
       },
       output: {
-        category: 'neutral'
-      }
-    }
-  ]
+        category: 'neutral',
+      },
+    },
+  ],
 }
 ```
 
@@ -94,43 +94,43 @@ const imageDataset = {
       image: {
         type: 'string',
         format: 'uri',
-        description: 'The image to classify'
-      }
+        description: 'The image to classify',
+      },
     },
     output: {
       category: {
         type: 'string',
         description: 'The category of the image',
-        enum: ['cat', 'dog', 'other']
-      }
-    }
+        enum: ['cat', 'dog', 'other'],
+      },
+    },
   },
   examples: [
     {
       input: {
-        image: 'https://example.com/images/cat1.jpg'
+        image: 'https://example.com/images/cat1.jpg',
       },
       output: {
-        category: 'cat'
-      }
+        category: 'cat',
+      },
     },
     {
       input: {
-        image: 'https://example.com/images/dog1.jpg'
+        image: 'https://example.com/images/dog1.jpg',
       },
       output: {
-        category: 'dog'
-      }
+        category: 'dog',
+      },
     },
     {
       input: {
-        image: 'https://example.com/images/bird1.jpg'
+        image: 'https://example.com/images/bird1.jpg',
       },
       output: {
-        category: 'other'
-      }
-    }
-  ]
+        category: 'other',
+      },
+    },
+  ],
 }
 ```
 
@@ -152,42 +152,42 @@ const structuredDataset = {
         properties: {
           age: {
             type: 'number',
-            description: 'The age of the customer'
+            description: 'The age of the customer',
           },
           tenure: {
             type: 'number',
-            description: 'The number of months the customer has been with the company'
+            description: 'The number of months the customer has been with the company',
           },
           monthlyCharges: {
             type: 'number',
-            description: 'The monthly charges for the customer'
+            description: 'The monthly charges for the customer',
           },
           totalCharges: {
             type: 'number',
-            description: 'The total charges for the customer'
+            description: 'The total charges for the customer',
           },
           gender: {
             type: 'string',
             description: 'The gender of the customer',
-            enum: ['male', 'female']
+            enum: ['male', 'female'],
           },
           hasPhoneService: {
             type: 'boolean',
-            description: 'Whether the customer has phone service'
+            description: 'Whether the customer has phone service',
           },
           hasInternetService: {
             type: 'boolean',
-            description: 'Whether the customer has internet service'
-          }
-        }
-      }
+            description: 'Whether the customer has internet service',
+          },
+        },
+      },
     },
     output: {
       churn: {
         type: 'boolean',
-        description: 'Whether the customer churned'
-      }
-    }
+        description: 'Whether the customer churned',
+      },
+    },
   },
   examples: [
     {
@@ -199,12 +199,12 @@ const structuredDataset = {
           totalCharges: 1572.0,
           gender: 'male',
           hasPhoneService: true,
-          hasInternetService: true
-        }
+          hasInternetService: true,
+        },
       },
       output: {
-        churn: false
-      }
+        churn: false,
+      },
     },
     {
       input: {
@@ -215,14 +215,14 @@ const structuredDataset = {
           totalCharges: 225.0,
           gender: 'female',
           hasPhoneService: true,
-          hasInternetService: true
-        }
+          hasInternetService: true,
+        },
       },
       output: {
-        churn: true
-      }
-    }
-  ]
+        churn: true,
+      },
+    },
+  ],
 }
 ```
 
@@ -247,27 +247,27 @@ const conversationDataset = {
             role: {
               type: 'string',
               description: 'The role of the speaker',
-              enum: ['user', 'assistant']
+              enum: ['user', 'assistant'],
             },
             content: {
               type: 'string',
-              description: 'The content of the message'
-            }
-          }
-        }
-      }
+              description: 'The content of the message',
+            },
+          },
+        },
+      },
     },
     output: {
       response: {
         type: 'string',
-        description: 'The assistant response'
+        description: 'The assistant response',
       },
       category: {
         type: 'string',
         description: 'The category of the conversation',
-        enum: ['billing', 'technical', 'account', 'general']
-      }
-    }
+        enum: ['billing', 'technical', 'account', 'general'],
+      },
+    },
   },
   examples: [
     {
@@ -275,24 +275,24 @@ const conversationDataset = {
         conversation: [
           {
             role: 'user',
-            content: 'I can\'t log in to my account.'
+            content: "I can't log in to my account.",
           },
           {
             role: 'assistant',
-            content: 'I\'m sorry to hear that. Can you tell me what error message you\'re seeing?'
+            content: "I'm sorry to hear that. Can you tell me what error message you're seeing?",
           },
           {
             role: 'user',
-            content: 'It says "Invalid username or password".'
-          }
-        ]
+            content: 'It says "Invalid username or password".',
+          },
+        ],
       },
       output: {
-        response: 'Thank you for providing that information. Let\'s try to reset your password. Can you confirm the email address associated with your account?',
-        category: 'account'
-      }
-    }
-  ]
+        response: "Thank you for providing that information. Let's try to reset your password. Can you confirm the email address associated with your account?",
+        category: 'account',
+      },
+    },
+  ],
 }
 ```
 
@@ -310,45 +310,45 @@ const dataset = await evals.datasets.create({
     input: {
       text: {
         type: 'string',
-        description: 'The text to classify'
-      }
+        description: 'The text to classify',
+      },
     },
     output: {
       category: {
         type: 'string',
         description: 'The category of the text',
-        enum: ['positive', 'negative', 'neutral']
-      }
-    }
-  }
+        enum: ['positive', 'negative', 'neutral'],
+      },
+    },
+  },
 })
 
 // Add examples to the dataset
 await evals.datasets.addExamples(dataset.id, [
   {
     input: {
-      text: 'I love this product!'
+      text: 'I love this product!',
     },
     output: {
-      category: 'positive'
-    }
+      category: 'positive',
+    },
   },
   {
     input: {
-      text: 'This product is terrible.'
+      text: 'This product is terrible.',
     },
     output: {
-      category: 'negative'
-    }
+      category: 'negative',
+    },
   },
   {
     input: {
-      text: 'The product works as expected.'
+      text: 'The product works as expected.',
     },
     output: {
-      category: 'neutral'
-    }
-  }
+      category: 'neutral',
+    },
+  },
 ])
 ```
 
@@ -360,7 +360,7 @@ Manage datasets using the Evals.do API:
 // Get all datasets
 const datasets = await evals.datasets.list({
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific dataset
@@ -369,7 +369,7 @@ const dataset = await evals.datasets.get('ds-123')
 // Update a dataset
 const updatedDataset = await evals.datasets.update('ds-123', {
   name: 'Updated Text Classification Dataset',
-  description: 'An updated dataset for text classification'
+  description: 'An updated dataset for text classification',
 })
 
 // Delete a dataset
@@ -378,7 +378,7 @@ await evals.datasets.delete('ds-123')
 // Get dataset examples
 const examples = await evals.datasets.getExamples('ds-123', {
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific example
@@ -387,11 +387,11 @@ const example = await evals.datasets.getExample('ds-123', 'ex-123')
 // Update an example
 const updatedExample = await evals.datasets.updateExample('ds-123', 'ex-123', {
   input: {
-    text: 'I absolutely love this product!'
+    text: 'I absolutely love this product!',
   },
   output: {
-    category: 'positive'
-  }
+    category: 'positive',
+  },
 })
 
 // Delete an example
@@ -406,7 +406,7 @@ Manage dataset versions using the Evals.do API:
 // Create a new version of a dataset
 const newVersion = await evals.datasets.createVersion('ds-123', {
   name: 'v2',
-  description: 'Version 2 of the dataset'
+  description: 'Version 2 of the dataset',
 })
 
 // Get all versions of a dataset
@@ -417,7 +417,7 @@ const version = await evals.datasets.getVersion('ds-123', 'v2')
 
 // Update a version of a dataset
 const updatedVersion = await evals.datasets.updateVersion('ds-123', 'v2', {
-  description: 'Updated version 2 of the dataset'
+  description: 'Updated version 2 of the dataset',
 })
 
 // Delete a version of a dataset
@@ -426,7 +426,7 @@ await evals.datasets.deleteVersion('ds-123', 'v2')
 // Get examples for a specific version of a dataset
 const examples = await evals.datasets.getVersionExamples('ds-123', 'v2', {
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 ```
 
@@ -440,7 +440,7 @@ const splits = await evals.datasets.createSplits('ds-123', {
   train: 0.7,
   validation: 0.15,
   test: 0.15,
-  seed: 42
+  seed: 42,
 })
 
 // Get dataset splits
@@ -449,7 +449,7 @@ const splits = await evals.datasets.getSplits('ds-123')
 // Get examples for a specific split
 const trainExamples = await evals.datasets.getSplitExamples('ds-123', 'train', {
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Update dataset splits
@@ -457,7 +457,7 @@ const updatedSplits = await evals.datasets.updateSplits('ds-123', {
   train: 0.8,
   validation: 0.1,
   test: 0.1,
-  seed: 42
+  seed: 42,
 })
 
 // Delete dataset splits
@@ -474,7 +474,7 @@ const importedDataset = await evals.datasets.import({
   name: 'Imported Dataset',
   description: 'A dataset imported from a file',
   file: '/path/to/dataset.json',
-  format: 'json'
+  format: 'json',
 })
 
 // Import a dataset from a URL
@@ -482,18 +482,18 @@ const importedDataset = await evals.datasets.importFromUrl({
   name: 'Imported Dataset',
   description: 'A dataset imported from a URL',
   url: 'https://example.com/dataset.json',
-  format: 'json'
+  format: 'json',
 })
 
 // Export a dataset to a file
 await evals.datasets.export('ds-123', {
   format: 'json',
-  path: '/path/to/export.json'
+  path: '/path/to/export.json',
 })
 
 // Export a dataset to a URL
 const exportUrl = await evals.datasets.exportToUrl('ds-123', {
-  format: 'json'
+  format: 'json',
 })
 ```
 
@@ -507,8 +507,8 @@ const filteredDataset = await evals.datasets.filter('ds-123', {
   name: 'Filtered Dataset',
   description: 'A filtered version of the dataset',
   filter: {
-    'output.category': 'positive'
-  }
+    'output.category': 'positive',
+  },
 })
 
 // Sample a dataset
@@ -516,14 +516,14 @@ const sampledDataset = await evals.datasets.sample('ds-123', {
   name: 'Sampled Dataset',
   description: 'A sampled version of the dataset',
   size: 100,
-  seed: 42
+  seed: 42,
 })
 
 // Merge datasets
 const mergedDataset = await evals.datasets.merge({
   name: 'Merged Dataset',
   description: 'A merged dataset',
-  datasets: ['ds-123', 'ds-456']
+  datasets: ['ds-123', 'ds-456'],
 })
 
 // Transform a dataset
@@ -534,13 +534,13 @@ const transformedDataset = await evals.datasets.transform('ds-123', {
     {
       type: 'map',
       field: 'input.text',
-      function: 'text => text.toLowerCase()'
+      function: 'text => text.toLowerCase()',
     },
     {
       type: 'filter',
-      function: 'example => example.output.category !== "neutral"'
-    }
-  ]
+      function: 'example => example.output.category !== "neutral"',
+    },
+  ],
 })
 ```
 
@@ -570,19 +570,19 @@ Share datasets using the Evals.do API:
 // Share a dataset with a user
 await evals.datasets.share('ds-123', {
   user: 'user-123',
-  permission: 'read'
+  permission: 'read',
 })
 
 // Share a dataset with a team
 await evals.datasets.share('ds-123', {
   team: 'team-123',
-  permission: 'write'
+  permission: 'write',
 })
 
 // Share a dataset with an organization
 await evals.datasets.share('ds-123', {
   organization: 'org-123',
-  permission: 'admin'
+  permission: 'admin',
 })
 
 // Get dataset permissions
@@ -591,12 +591,12 @@ const permissions = await evals.datasets.getPermissions('ds-123')
 // Update dataset permissions
 await evals.datasets.updatePermissions('ds-123', {
   user: 'user-123',
-  permission: 'write'
+  permission: 'write',
 })
 
 // Remove dataset permissions
 await evals.datasets.removePermissions('ds-123', {
-  user: 'user-123'
+  user: 'user-123',
 })
 ```
 

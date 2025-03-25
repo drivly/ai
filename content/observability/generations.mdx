@@ -18,68 +18,68 @@ Each generation record contains detailed information about the content produced:
 
 ```typescript
 interface Generation {
-  id: string;
-  timestamp: Date;
+  id: string
+  timestamp: Date
   model: {
-    id: string;
-    name: string;
-    version?: string;
-    provider?: string;
-  };
+    id: string
+    name: string
+    version?: string
+    provider?: string
+  }
   input: {
-    type: 'text' | 'image' | 'audio' | 'multimodal';
-    content: string | Record<string, any>;
-    tokens?: number;
-  };
+    type: 'text' | 'image' | 'audio' | 'multimodal'
+    content: string | Record<string, any>
+    tokens?: number
+  }
   output: {
-    type: 'text' | 'image' | 'audio' | 'code' | 'json' | 'other';
-    content: string | Record<string, any>;
-    tokens?: number;
+    type: 'text' | 'image' | 'audio' | 'code' | 'json' | 'other'
+    content: string | Record<string, any>
+    tokens?: number
     alternatives?: Array<{
-      content: string | Record<string, any>;
-      tokens?: number;
-      score?: number;
-    }>;
-  };
+      content: string | Record<string, any>
+      tokens?: number
+      score?: number
+    }>
+  }
   parameters: {
-    temperature?: number;
-    topP?: number;
-    maxTokens?: number;
-    stopSequences?: string[];
-    presencePenalty?: number;
-    frequencyPenalty?: number;
-    [key: string]: any;
-  };
+    temperature?: number
+    topP?: number
+    maxTokens?: number
+    stopSequences?: string[]
+    presencePenalty?: number
+    frequencyPenalty?: number
+    [key: string]: any
+  }
   usage: {
-    promptTokens: number;
-    completionTokens: number;
-    totalTokens: number;
-    cost?: number;
-    currency?: string;
-  };
+    promptTokens: number
+    completionTokens: number
+    totalTokens: number
+    cost?: number
+    currency?: string
+  }
   metadata: {
-    requestId?: string;
-    userId?: string;
-    sessionId?: string;
-    functionId?: string;
-    workflowId?: string;
-    agentId?: string;
-    tags?: string[];
-    [key: string]: any;
-  };
+    requestId?: string
+    userId?: string
+    sessionId?: string
+    functionId?: string
+    workflowId?: string
+    agentId?: string
+    tags?: string[]
+    [key: string]: any
+  }
   performance: {
-    latency: number;
-    timeToFirstToken?: number;
-    tokensPerSecond?: number;
-  };
+    latency: number
+    timeToFirstToken?: number
+    tokensPerSecond?: number
+  }
   feedback?: {
-    rating?: number;
-    thumbs?: 'up' | 'down';
-    comment?: string;
-    categories?: string[];
-    timestamp?: Date;
-    userId?: string;
-  };
+    rating?: number
+    thumbs?: 'up' | 'down'
+    comment?: string
+    categories?: string[]
+    timestamp?: Date
+    userId?: string
+  }
 }
 ```
 
@@ -116,9 +116,9 @@ const highQualityGenerations = await Generations.find({
   'feedback.rating': { $gte: 4 },
   timestamp: {
     $gte: new Date('2023-01-01'),
-    $lte: new Date('2023-01-31')
-  }
-});
+    $lte: new Date('2023-01-31'),
+  },
+})
 ```
 
 ### Analyzing Generation Patterns
@@ -128,16 +128,16 @@ Analyze patterns and trends in generations:
 ```typescript
 // Example: Analyze token usage by model
 const tokenUsageByModel = await Generations.aggregate([
-  { 
-    $group: { 
-      _id: '$model.id', 
+  {
+    $group: {
+      _id: '$model.id',
       totalTokens: { $sum: '$usage.totalTokens' },
       averageTokens: { $avg: '$usage.totalTokens' },
-      count: { $sum: 1 }
-    } 
+      count: { $sum: 1 },
+    },
   },
-  { $sort: { totalTokens: -1 } }
-]);
+  { $sort: { totalTokens: -1 } },
+])
 ```
 
 ### Providing Feedback
@@ -148,18 +148,18 @@ Record user feedback on generations:
 // Example: Add feedback to a generation
 await Generations.updateOne(
   { id: 'generation-123' },
-  { 
-    $set: { 
+  {
+    $set: {
       feedback: {
         rating: 5,
         thumbs: 'up',
         comment: 'Excellent response, very helpful',
         timestamp: new Date(),
-        userId: 'user-456'
-      }
-    } 
-  }
-);
+        userId: 'user-456',
+      },
+    },
+  },
+)
 ```
 
 ## Best Practices
@@ -184,10 +184,11 @@ Generations integrate with other observability components:
 ### List Generations
 
 ```typescript
-GET /api/generations
+GET / api / generations
 ```
 
 Query parameters:
+
 - `model.id`: Filter by model ID
 - `output.type`: Filter by output type
 - `metadata.userId`: Filter by user ID
@@ -208,6 +209,7 @@ POST /api/generations/:id/feedback
 ```
 
 Request body:
+
 ```json
 {
   "rating": 4,
@@ -224,6 +226,7 @@ POST /api/generations/export
 ```
 
 Request body:
+
 ```json
 {
   "format": "jsonl",

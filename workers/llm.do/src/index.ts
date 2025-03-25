@@ -1,4 +1,5 @@
 import { fromHono } from 'chanfana'
+import { Chat } from 'endpoints/chat'
 import { ChatCompletionCreate } from 'endpoints/chatCompletionCreate'
 import { ModelList } from 'endpoints/modelList'
 import { Hono } from 'hono'
@@ -13,6 +14,7 @@ const openapi = fromHono(app, {
 })
 
 // Register OpenAPI endpoints
+openapi.get('/chat', Chat)
 openapi.get('/api/v1/models', ModelList)
 openapi.post('/api/v1/chat/completions', ChatCompletionCreate)
 

@@ -9,8 +9,8 @@ import { fileURLToPath } from 'url'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { Config } from './payload.types'
 
-import { collections } from '@/collections'
-import { tasks } from '@/tasks'
+import { collections } from './collections'
+import { tasks } from './tasks'
 
 import { isSuperAdmin } from './lib/hooks/isSuperAdmin'
 
@@ -23,7 +23,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections,
+  collections: collections as any,
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -45,9 +45,9 @@ export default buildConfig({
     //   // tenantsArrayField: {},
     //   // tenantField: {},
     //   collections: {
-    //     // functions: {},
-    //     // workflows: {},
-    //     // agents: {},
+    //     functions: {},
+    //     workflows: {},
+    //     agents: {},
     //   },
     //   userHasAccessToAllTenants: isSuperAdmin,
     // }),

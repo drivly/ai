@@ -2,6 +2,7 @@ import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
 import { Integrations } from './admin/Integrations'
+import { Tags } from './admin/Tag'
 import { Functions } from './ai/Functions'
 import { Modules } from './code/Modules'
 import { Packages } from './code/Packages'
@@ -21,7 +22,7 @@ import { EvalsRuns } from './evals/EvalsRuns'
 import { EvalsResults } from './evals/EvalsResults'
 import { Events } from './observability/Events'
 import { Errors } from './observability/Errors'
-import { Benchmarks } from './observability/Benchmarks'
+import { Benchmarks } from './evals/Benchmarks'
 import { Experiments } from './experiments/Experiments'
 import { Prompts } from './experiments/Prompts'
 import { Settings } from './experiments/Settings'
@@ -29,6 +30,9 @@ import { Things } from './data/Things'
 import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
 import { Searches } from './events/Searches'
+import { IntegrationTriggers } from './admin/IntegrationTriggers'
+import { IntegrationActions } from './admin/IntegrationActions'
+import { IntegrationCategories } from './admin/IntegrationCategories'
 
 export const collections = [
   Functions,
@@ -48,6 +52,7 @@ export const collections = [
   Modules,
   Packages,
   Deployments,
+  Benchmarks,
   Evals,
   EvalsRuns,
   EvalsResults,
@@ -56,10 +61,13 @@ export const collections = [
   Errors,
   Generations,
   Traces,
-  Benchmarks,
   Projects,
   Users,
   Integrations,
+  IntegrationCategories,
+  IntegrationTriggers,
+  IntegrationActions,
+  Tags,
   Webhooks,
   APIKeys,
 ]

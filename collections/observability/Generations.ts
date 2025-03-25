@@ -10,9 +10,9 @@ export const Generations: CollectionConfig = {
   fields: [
     { name: 'action', type: 'relationship', relationTo: 'actions' },
     { name: 'settings', type: 'relationship', relationTo: 'things' },
-    { name: 'request', type: 'json' },
-    { name: 'response', type: 'json' },
-    { name: 'error', type: 'json' },
+    { name: 'request', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
+    { name: 'response', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
+    { name: 'error', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
     { name: 'status', type: 'select', options: ['success', 'error'] },
     { name: 'duration', type: 'number' },
 

@@ -7,13 +7,13 @@ export const GET = API(async (request, { db, user, url }) => {
     return new Response('Composio API key not configured', { status: 500 })
   }
 
-  // Pull the available triggers from Composio
-  const response = await fetch('https://backend.composio.dev/api/v1/triggers', {
+  // Pull the available actions from Composio
+  const response = await fetch('https://backend.composio.dev/api/v2/actions/list/all', {
     headers: {
       'x-api-key': apiKey,
     },
   })
 
   const data = await response.json()
-  return { triggers: data.triggers || data }
+  return { actions: data.actions || data }
 })

@@ -9,16 +9,16 @@ export const executeTextFunction = async ({ input, req }: any) => {
   // Set the type to 'Text' to use the generateText utility
   const textInput = {
     ...input,
-    type: 'Text'
+    type: 'Text',
   }
-  
+
   // Call the executeFunction with the modified input
   const result = await executeFunction({ input: textInput, req, payload: req.payload })
-  
+
   // Return the result in the expected TaskHandlerResult format
   return {
     output: result.output,
-    state: 'succeeded'
+    state: 'succeeded',
   }
 }
 

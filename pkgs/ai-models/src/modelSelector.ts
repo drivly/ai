@@ -112,7 +112,7 @@ export function getModel(modelInput: string | string[], config?: ModelConfig): M
   if (modelDetails?.childPriority === 'first') {
     return {
       ...resolved[0],
-      parsed
+      parsed,
     }
   }
 
@@ -149,9 +149,10 @@ export function reconstructModelString(parsed: ParsedModelIdentifier): string {
 
   // System config
   if (parsed.systemConfig) {
-    string += `(${Object.entries(parsed.systemConfig).map(([key, value]) => `${key}:${value}`).join(',')})`
+    string += `(${Object.entries(parsed.systemConfig)
+      .map(([key, value]) => `${key}:${value}`)
+      .join(',')})`
   }
 
   return string
-
 }

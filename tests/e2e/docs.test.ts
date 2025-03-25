@@ -10,10 +10,10 @@ describe('Documentation page', () => {
     if (process.env.CI && !process.env.BROWSER_TESTS) {
       return
     }
-    
+
     try {
       browser = await chromium.launch({
-        headless: true
+        headless: true,
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -51,23 +51,23 @@ describe('Documentation page', () => {
       expect(true).toBe(true) // Pass the test when skipped
       return
     }
-    
+
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       await page.goto(`${baseUrl}/docs`)
-      
+
       // Check for documentation page elements
       const title = await page.title()
       expect(title).toContain('Documentation')
-      
+
       // Check for navigation elements
       const navigation = await page.locator('nav')
       expect(await navigation.count()).toBeGreaterThan(0)
-      
+
       // Check for content
       const content = await page.locator('main')
       expect(await content.count()).toBe(1)
-      
+
       // Check for heading
       const heading = await page.locator('h1')
       expect(await heading.count()).toBeGreaterThan(0)

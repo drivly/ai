@@ -1,6 +1,6 @@
 import { API } from 'clickable-apis'
 
-export const GET = API(async (request, { db, user, url }) => {
+export const GET = API(async (request, { db, user, url, params: { integration } }) => {
   // Check if API key is configured
   const apiKey = process.env.COMPOSIO_API_KEY
   if (!apiKey) {
@@ -8,12 +8,18 @@ export const GET = API(async (request, { db, user, url }) => {
   }
 
   // Pull the available apps from Composio
-  const response = await fetch('https://backend.composio.dev/api/v1/apps', {
+  const response = await fetch(`https://backend.composio.dev/api/v1/apps/${integration}`, {
     headers: {
       'x-api-key': apiKey,
     },
   })
 
+  const links = {
+    home: url.origin,
+    back: url.toString().replace(`/${integration}`, ''),
+    self: url.toString(),
+  }
+
   const data = await response.json()
-  return { integrations: data.apps || data }
+  return { links, integration: data }
 })

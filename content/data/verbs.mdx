@@ -30,23 +30,25 @@ const ProcessOrder = {
   subjects: ['Order'],
   input: z.object({
     orderId: z.string(),
-    processingOptions: z.object({
-      priority: z.enum(['standard', 'express', 'rush']).optional(),
-      notifyCustomer: z.boolean().default(true)
-    }).optional()
+    processingOptions: z
+      .object({
+        priority: z.enum(['standard', 'express', 'rush']).optional(),
+        notifyCustomer: z.boolean().default(true),
+      })
+      .optional(),
   }),
   output: z.object({
     success: z.boolean(),
     processingTime: z.number(),
     trackingNumber: z.string().optional(),
-    notes: z.string().optional()
+    notes: z.string().optional(),
   }),
   sideEffects: [
     { type: 'update', subject: 'Order', field: 'status' },
     { type: 'create', subject: 'Shipment' },
-    { type: 'notify', subject: 'Customer' }
+    { type: 'notify', subject: 'Customer' },
   ],
-  permissions: ['order:process', 'shipment:create']
+  permissions: ['order:process', 'shipment:create'],
 }
 ```
 
@@ -60,8 +62,8 @@ const result = await verbs.execute('ProcessOrder', {
   orderId: 'order-123',
   processingOptions: {
     priority: 'express',
-    notifyCustomer: true
-  }
+    notifyCustomer: true,
+  },
 })
 
 // Use in workflows
@@ -70,28 +72,28 @@ const orderFulfillmentWorkflow = {
     {
       id: 'validate',
       verb: 'ValidateOrder',
-      input: { orderId: '{{input.orderId}}' }
+      input: { orderId: '{{input.orderId}}' },
     },
     {
       id: 'process',
       verb: 'ProcessOrder',
-      input: { 
+      input: {
         orderId: '{{input.orderId}}',
         processingOptions: {
-          priority: '{{input.priority}}'
-        }
+          priority: '{{input.priority}}',
+        },
       },
-      condition: '{{validate.isValid}}'
+      condition: '{{validate.isValid}}',
     },
     {
       id: 'ship',
       verb: 'ShipOrder',
-      input: { 
+      input: {
         orderId: '{{input.orderId}}',
-        trackingInfo: '{{process.trackingNumber}}'
-      }
-    }
-  ]
+        trackingInfo: '{{process.trackingNumber}}',
+      },
+    },
+  ],
 }
 ```
 

@@ -17,13 +17,7 @@ type GenerateTextOutput = {
  * Utility function to generate text using AI
  * This is not a Payload task, but a utility function used by executeFunction
  */
-export const generateText = async ({ 
-  input, 
-  req 
-}: { 
-  input: GenerateTextInput
-  req: any 
-}): Promise<GenerateTextOutput> => {
+export const generateText = async ({ input, req }: { input: GenerateTextInput; req: any }): Promise<GenerateTextOutput> => {
   const { functionName, args, settings } = input
   const start = Date.now()
 
@@ -62,6 +56,6 @@ export const generateText = async ({
     reasoning,
     generation,
     generationLatency,
-    request
+    request,
   }
 }

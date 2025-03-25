@@ -9,12 +9,12 @@ import { pascalCase, titleCase, sentenceCase } from '../utils/stringUtils'
  */
 function generateInputFields(fields: ZapierField[], collectionSentence: string): string {
   return fields
-    .filter(field => typeof field === 'object' && 'name' in field && field.name && field.type)
-    .map(field => {
+    .filter((field) => typeof field === 'object' && 'name' in field && field.name && field.type)
+    .map((field) => {
       const fieldName = field.name as string
       const fieldType = field.type as string
       const required = 'required' in field && field.required === true
-      
+
       if (['text', 'email', 'number', 'date', 'checkbox', 'textarea', 'code'].includes(fieldType)) {
         return `    {
       key: '${fieldName}',
@@ -56,11 +56,11 @@ function generateInputFields(fields: ZapierField[], collectionSentence: string):
  */
 function generateOutputFields(fields: ZapierField[]): string {
   return fields
-    .filter(field => typeof field === 'object' && 'name' in field && field.name && field.type)
-    .map(field => {
+    .filter((field) => typeof field === 'object' && 'name' in field && field.name && field.type)
+    .map((field) => {
       const fieldName = field.name as string
       const fieldType = field.type as string
-      
+
       if (['text', 'email', 'number', 'date', 'checkbox', 'textarea', 'code', 'relationship', 'array'].includes(fieldType)) {
         return `    {
       key: '${fieldName}',
@@ -84,14 +84,10 @@ export function generateCreateTemplate(collection: ZapierCollectionConfig): stri
   const collectionSentence = sentenceCase(collection.slug)
 
   // Generate input fields based on collection fields
-  const inputFields = collection.fields
-    ? generateInputFields(collection.fields, collectionSentence)
-    : ''
+  const inputFields = collection.fields ? generateInputFields(collection.fields, collectionSentence) : ''
 
   // Generate output fields based on collection fields
-  const outputFields = collection.fields
-    ? generateOutputFields(collection.fields)
-    : ''
+  const outputFields = collection.fields ? generateOutputFields(collection.fields) : ''
 
   return `// Create ${collectionTitle} for Zapier
 const perform = async (z, bundle) => {

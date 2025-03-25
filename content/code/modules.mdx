@@ -30,7 +30,7 @@ const EmailModule = {
   version: '1.2.0',
   dependencies: [
     { name: 'nodemailer', version: '^6.9.0' },
-    { name: 'email-templates', version: '^10.0.1' }
+    { name: 'email-templates', version: '^10.0.1' },
   ],
   types: [
     {
@@ -39,8 +39,8 @@ const EmailModule = {
         name: z.string(),
         subject: z.string(),
         html: z.string(),
-        text: z.string().optional()
-      })
+        text: z.string().optional(),
+      }),
     },
     {
       name: 'EmailOptions',
@@ -53,55 +53,55 @@ const EmailModule = {
         templateData: z.record(z.any()).optional(),
         html: z.string().optional(),
         text: z.string().optional(),
-        attachments: z.array(z.any()).optional()
-      })
-    }
+        attachments: z.array(z.any()).optional(),
+      }),
+    },
   ],
   functions: [
     {
       name: 'sendEmail',
       description: 'Send an email',
       input: z.object({
-        options: z.ref('EmailOptions')
+        options: z.ref('EmailOptions'),
       }),
       output: z.object({
         success: z.boolean(),
         messageId: z.string().optional(),
-        error: z.string().optional()
+        error: z.string().optional(),
       }),
       implementation: async (input) => {
         // Implementation code...
-      }
+      },
     },
     {
       name: 'createTemplate',
       description: 'Create an email template',
       input: z.object({
-        template: z.ref('EmailTemplate')
+        template: z.ref('EmailTemplate'),
       }),
       output: z.object({
         success: z.boolean(),
         templateId: z.string().optional(),
-        error: z.string().optional()
+        error: z.string().optional(),
       }),
       implementation: async (input) => {
         // Implementation code...
-      }
-    }
+      },
+    },
   ],
   configuration: {
     required: [
       { name: 'SMTP_HOST', type: 'string' },
       { name: 'SMTP_PORT', type: 'number' },
       { name: 'SMTP_USER', type: 'string' },
-      { name: 'SMTP_PASSWORD', type: 'string', secret: true }
+      { name: 'SMTP_PASSWORD', type: 'string', secret: true },
     ],
     optional: [
       { name: 'DEFAULT_FROM', type: 'string' },
-      { name: 'TEMPLATE_DIR', type: 'string' }
-    ]
+      { name: 'TEMPLATE_DIR', type: 'string' },
+    ],
   },
-  exports: ['sendEmail', 'createTemplate', 'EmailTemplate', 'EmailOptions']
+  exports: ['sendEmail', 'createTemplate', 'EmailTemplate', 'EmailOptions'],
 }
 ```
 
@@ -123,16 +123,18 @@ const StringUtilsModule = {
       description: 'Convert a string to a URL-friendly slug',
       input: z.object({
         text: z.string(),
-        options: z.object({
-          lowercase: z.boolean().default(true),
-          separator: z.string().default('-')
-        }).optional()
+        options: z
+          .object({
+            lowercase: z.boolean().default(true),
+            separator: z.string().default('-'),
+          })
+          .optional(),
       }),
       output: z.string(),
       // Implementation...
     },
     // Other string utility functions...
-  ]
+  ],
 }
 ```
 
@@ -144,9 +146,7 @@ Connect with external services:
 const StripeModule = {
   name: 'stripe-integration',
   description: 'Integration with Stripe payment processing',
-  dependencies: [
-    { name: 'stripe', version: '^11.1.0' }
-  ],
+  dependencies: [{ name: 'stripe', version: '^11.1.0' }],
   functions: [
     {
       name: 'createCustomer',
@@ -155,13 +155,11 @@ const StripeModule = {
     {
       name: 'createPaymentIntent',
       // Function definition...
-    }
+    },
   ],
   configuration: {
-    required: [
-      { name: 'STRIPE_API_KEY', type: 'string', secret: true }
-    ]
-  }
+    required: [{ name: 'STRIPE_API_KEY', type: 'string', secret: true }],
+  },
 }
 ```
 
@@ -181,7 +179,7 @@ const InventoryModule = {
     {
       name: 'InventoryAdjustment',
       // Type definition...
-    }
+    },
   ],
   functions: [
     {
@@ -191,8 +189,8 @@ const InventoryModule = {
     {
       name: 'checkAvailability',
       // Function definition...
-    }
-  ]
+    },
+  ],
 }
 ```
 
@@ -212,9 +210,9 @@ const result = await emailModule.sendEmail({
     template: 'welcome-email',
     templateData: {
       userName: 'John Doe',
-      activationLink: 'https://example.com/activate/abc123'
-    }
-  }
+      activationLink: 'https://example.com/activate/abc123',
+    },
+  },
 })
 
 // Use in workflows
@@ -223,25 +221,25 @@ const userOnboardingWorkflow = {
     {
       id: 'createAccount',
       function: 'createUserAccount',
-      input: { userData: '{{input.userData}}' }
+      input: { userData: '{{input.userData}}' },
     },
     {
       id: 'sendWelcome',
       module: 'email-module',
       function: 'sendEmail',
-      input: { 
+      input: {
         options: {
           to: '{{input.userData.email}}',
           subject: 'Welcome to our platform',
           template: 'welcome-email',
           templateData: {
             userName: '{{input.userData.name}}',
-            activationLink: '{{createAccount.activationLink}}'
-          }
-        }
-      }
-    }
-  ]
+            activationLink: '{{createAccount.activationLink}}',
+          },
+        },
+      },
+    },
+  ],
 }
 ```
 
@@ -264,7 +262,7 @@ await modules.update('notification-module', {
 // Create a new version
 await modules.createVersion('notification-module', {
   version: '1.1.0',
-  changes: 'Added support for push notifications'
+  changes: 'Added support for push notifications',
 })
 ```
 
