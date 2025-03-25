@@ -6,7 +6,7 @@ export const AuthHeader = z.object({
 })
 
 const LogProb = z.object({
-  bytes: z.array(z.number()).optional(),
+  bytes: z.array(z.number()).nullable(),
   logprob: z.number(),
   token: z.string(),
 })
@@ -28,7 +28,7 @@ const MessageContent = z.string().or(
         z.object({
           image_url: z.object({
             url: z.string(),
-            detail: z.string().optional(),
+            detail: z.string().nullable(),
           }),
           type: z.string(),
         }),
@@ -45,9 +45,9 @@ const MessageContent = z.string().or(
       .or(
         z.object({
           file: z.object({
-            file_data: z.string().optional(),
-            file_id: z.string().optional(),
-            filename: z.string().optional(),
+            file_data: z.string().nullable(),
+            file_id: z.string().nullable(),
+            filename: z.string().nullable(),
           }),
           type: z.literal('file'),
         }),
@@ -198,7 +198,7 @@ export const ChatCompletionRequestSchema = z.object({
             name: z.string(),
             description: z.string().optional(),
             parameters: z.record(z.any()).optional(),
-            strict: z.boolean().optional(),
+            strict: z.boolean().optional().nullable(),
           }),
           type: z.literal('function'),
         })
@@ -236,22 +236,22 @@ export type ChatCompletionRequest = z.infer<typeof ChatCompletionRequestSchema>
 export const ChatCompletionResponseSchema = z.object({
   choices: z.array(
     z.object({
-      finish_reason: z.string(),
+      finish_reason: z.enum(['length', 'function_call', 'stop', 'tool_calls', 'content_filter']),
       index: z.number(),
       logprobs: z
         .object({
-          content: LogProbs.optional(),
-          refusal: LogProbs.optional(),
+          content: LogProbs.nullable(),
+          refusal: LogProbs.nullable(),
         })
-        .optional(),
+        .nullable(),
       message: z.object({
-        content: z.string().optional(),
-        refusal: z.string().optional(),
-        role: z.string(),
+        content: z.string().nullable(),
+        refusal: z.string().nullable(),
+        role: z.literal('assistant'),
         annotations: z
           .array(
             z.object({
-              type: z.string(),
+              type: z.literal('url_citation'),
               url_citation: z.object({
                 end_index: z.number(),
                 start_index: z.number(),
@@ -268,7 +268,7 @@ export const ChatCompletionResponseSchema = z.object({
             id: z.string(),
             transcript: z.string(),
           })
-          .optional(),
+          .nullable(),
         tool_calls: z
           .array(
             z.object({
@@ -277,7 +277,7 @@ export const ChatCompletionResponseSchema = z.object({
                 name: z.string(),
               }),
               id: z.string(),
-              type: z.string(),
+              type: z.literal('function'),
             }),
           )
           .optional(),
@@ -288,7 +288,7 @@ export const ChatCompletionResponseSchema = z.object({
   id: z.string(),
   model: z.string(),
   object: z.literal('chat.completion'),
-  service_tier: z.string().optional(),
+  service_tier: z.enum(['default', 'scale']).nullable().optional(),
   system_fingerprint: z.string(),
   usage: z.object({
     completion_tokens: z.number(),
@@ -306,6 +306,8 @@ export const ChatCompletionResponseSchema = z.object({
     }),
   }),
 })
+
+export type ChatCompletionResponse = z.infer<typeof ChatCompletionResponseSchema>
 
 export const ModelListResponseSchema = z.object({
   data: z.array(
