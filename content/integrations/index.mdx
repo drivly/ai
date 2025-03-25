@@ -1,0 +1,89 @@
+# Integrations
+
+Connect external systems and APIs to your AI applications, enabling seamless data flow and process automation across your business ecosystem.
+
+## Overview
+
+Integrations.do provides a way to connect your AI applications with external systems, APIs, and services. Integrations can:
+
+- Connect to enterprise systems like CRM, ERP, and marketing platforms
+- Synchronize data between systems in real-time
+- Trigger workflows based on external events
+- Execute actions in external systems
+- Provide unified access to distributed business data
+
+## Key Features
+
+- **Pre-built Connectors**: Ready-to-use integrations for popular business systems
+- **Custom Connectors**: Build your own integrations for proprietary systems
+- **Data Mapping**: Transform data between different formats and schemas
+- **Authentication**: Secure connection with OAuth, API keys, and other methods
+- **Monitoring**: Track integration performance and data flow
+
+## Integration Types
+
+### API Integrations
+
+Connect to external systems using REST, GraphQL, or SOAP APIs:
+
+```typescript
+const salesforceIntegration = {
+  name: 'salesforceIntegration',
+  type: 'api',
+  description: 'Connects to Salesforce CRM',
+  authentication: {
+    type: 'oauth2',
+    clientId: '{{secrets.SALESFORCE_CLIENT_ID}}',
+    clientSecret: '{{secrets.SALESFORCE_CLIENT_SECRET}}',
+    scopes: ['api', 'refresh_token'],
+  },
+  endpoints: [
+    {
+      name: 'getAccounts',
+      method: 'GET',
+      path: '/services/data/v56.0/sobjects/Account',
+      parameters: {
+        fields: { type: 'string', description: 'Comma-separated list of fields' },
+        where: { type: 'string', description: 'SOQL WHERE clause' },
+      },
+      transform: (response) => response.records,
+    },
+    // Additional endpoints...
+  ],
+}
+```
+
+### Webhook Integrations
+
+Receive data from external systems via webhooks:
+
+```typescript
+const stripeWebhook = {
+  name: 'stripeWebhook',
+  type: 'webhook',
+  description: 'Receives payment events from Stripe',
+  endpoint: '/webhooks/stripe',
+  authentication: {
+    type: 'signature',
+    header: 'Stripe-Signature',
+    secret: '{{secrets.STRIPE_WEBHOOK_SECRET}}',
+  },
+  events: [
+    {
+      type: 'payment_intent.succeeded',
+      handler: 'processSuccessfulPayment',
+    },
+    {
+      type: 'payment_intent.failed',
+      handler: 'processFailedPayment',
+    },
+  ],
+}
+```
+
+## Next Steps
+
+- [Create your first integration](/integrations/create)
+- [Explore integration templates](/integrations/templates)
+- [Learn about data mapping](/integrations/data-mapping)
+- [Implement integration-driven business processes](/integrations/business-processes)

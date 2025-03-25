@@ -1,0 +1,89 @@
+# LLM.do
+
+LLM.do provides enterprise-grade large language model access with enhanced security, reliability, and business integration capabilities.
+
+## Overview
+
+The LLM.do platform offers a secure, reliable way to integrate large language models into your business applications. LLM.do provides:
+
+- Managed access to leading language models
+- Enterprise-grade security and compliance
+- Consistent API across multiple model providers
+- Performance optimization for business use cases
+- Cost management and usage analytics
+
+## Key Features
+
+- **Multi-Model Access**: Unified API for accessing models from OpenAI, Anthropic, Google, and other providers
+- **Enterprise Security**: SOC 2, HIPAA, and GDPR compliant with robust data protection
+- **Reliability**: High availability with automatic failover between providers
+- **Performance Optimization**: Intelligent routing and caching for improved response times
+- **Cost Management**: Usage tracking, budgeting, and optimization recommendations
+
+## Using LLM.do
+
+Integrate LLM.do into your business applications:
+
+```typescript
+import { llm } from '@drivly/llm'
+
+// Simple completion
+const response = await llm.complete({
+  prompt: 'Summarize the quarterly financial report in three bullet points:',
+  model: 'gpt-4',
+  temperature: 0.3,
+  maxTokens: 200,
+})
+
+// Chat completion
+const chatResponse = await llm.chat({
+  messages: [
+    { role: 'system', content: 'You are a helpful financial analyst assistant.' },
+    { role: 'user', content: 'What are the key metrics I should include in my quarterly report?' },
+  ],
+  model: 'claude-3-opus',
+  temperature: 0.2,
+})
+
+// Function calling
+const functionResponse = await llm.chat({
+  messages: [
+    { role: 'system', content: 'You are a helpful assistant.' },
+    { role: 'user', content: 'Schedule a meeting with the finance team for next Tuesday at 2pm.' },
+  ],
+  model: 'gpt-4',
+  functions: [
+    {
+      name: 'scheduleEvent',
+      description: 'Schedule a calendar event',
+      parameters: {
+        type: 'object',
+        properties: {
+          title: { type: 'string', description: 'Title of the event' },
+          attendees: { type: 'array', items: { type: 'string' }, description: 'Email addresses of attendees' },
+          startTime: { type: 'string', format: 'date-time', description: 'Start time of the event' },
+          duration: { type: 'integer', description: 'Duration in minutes' },
+        },
+        required: ['title', 'startTime', 'duration'],
+      },
+    },
+  ],
+})
+```
+
+## Business Applications
+
+LLM.do enables organizations to:
+
+- Enhance customer service with AI-powered support
+- Automate document processing and analysis
+- Generate business insights from unstructured data
+- Create personalized content at scale
+- Develop intelligent business applications
+
+## Next Steps
+
+- [Get started with LLM.do](/websites/llm.do/getting-started)
+- [Explore model capabilities](/websites/llm.do/models)
+- [Learn about enterprise features](/websites/llm.do/enterprise)
+- [Implement LLM-powered business applications](/websites/llm.do/applications)
