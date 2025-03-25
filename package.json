@@ -38,7 +38,7 @@
     "@vercel/functions": "^2.0.0",
     "@vercel/speed-insights": "^1.2.0",
     "ai": "^4.2.0",
-    "ai-functions": "workspace:*",
+    "ai-functions": "^0.3.0",
     "ai-providers": "workspace:*",
     "ai-workflows": "^1.1.0",
     "clickable-apis": "workspace:*",
