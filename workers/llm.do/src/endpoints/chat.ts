@@ -8,7 +8,7 @@ import { Context } from 'hono'
 export class Chat extends OpenAPIRoute {
   schema = {
     tags: ['Chat'],
-    summary: 'Get chat information',
+    summary: 'Send a message to the chatbot',
     request: {
       query: z.object({
         prompt: z.string().describe('The user prompt').optional(),
