@@ -15,8 +15,8 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const { settings } = input as any
   const start = Date.now()
 
-  // Determine if this is a text-based function (Markdown, Text, etc.)
-  const isTextFunction = type === 'Text' || type === 'Markdown' || (settings?.type && ['Text', 'Markdown'].includes(settings.type))
+  // Determine if this is a text-based function (Markdown, Text, TextArray, etc.)
+  const isTextFunction = type === 'Text' || type === 'Markdown' || type === 'TextArray' || (settings?.type && ['Text', 'Markdown', 'TextArray'].includes(settings.type))
 
   // Hash args & schema
   const actionHash = hash({ functionName, args, schema, settings })
@@ -76,7 +76,32 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   let object, text, reasoning, generation, generationLatency, request
 
   if (isTextFunction) {
-    if (type === 'Markdown' || settings?.type === 'Markdown') {
+    if (type === 'TextArray') {
+      // For TextArray, use generateMarkdown with ordered list prompt
+      const textArraySettings = {
+        ...settings,
+        systemPrompt: `${settings?.systemPrompt || ''}\n\nRespond only with a numbered markdown ordered list. Each item should be on a separate line.`
+      }
+      
+      const result = await generateMarkdown({
+        input: { functionName, args, settings: textArraySettings },
+        req,
+      })
+
+      // Parse the markdown ordered list into a string array
+      const markdownText = result.markdown
+      const lines = markdownText.split('\n')
+      const listItems = lines
+        .filter(line => /^\s*\d+\.\s+.+/.test(line))
+        .map(line => line.replace(/^\s*\d+\.\s+/, '').trim())
+      
+      text = markdownText
+      reasoning = result.reasoning
+      generation = result.generation
+      generationLatency = result.generationLatency
+      request = result.request
+      object = { data: listItems }
+    } else if (type === 'Markdown' || settings?.type === 'Markdown') {
       // Use generateMarkdown for markdown-based functions
       const result = await generateMarkdown({
         input: { functionName, args, settings },
@@ -103,6 +128,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       request = result.request
       object = { text }
     }
+
   } else {
     // Use generateObject for object-based functions
     const result = await generateObject({
