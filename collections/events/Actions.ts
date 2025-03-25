@@ -31,12 +31,12 @@ export const Actions: CollectionConfig = {
             const job = await payload.jobs.queue({
               task: 'executeFunction',
               input: {
-                functionName: doc.verb?.functionName,
+                functionName: doc.function?.functionName,
                 args: doc.subject?.data,
-                schema: doc.verb?.schema,
+                schema: doc.function?.schema,
                 // timeout: doc.verb?.timeout,
                 // seeds: doc.verb?.seeds,
-                callback: doc.verb?.callback,
+                // callback: doc.verb?.callback,
                 // type: 'Object'
                 // type: doc.verb?.type,
               },
