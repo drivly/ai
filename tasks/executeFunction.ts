@@ -195,8 +195,11 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         data: { name: prompt, hash: objectHash, data: object },
       })
       const actionHash = hash({ functionName, args, settings })
-      const actionResult = await payload.create({
+      
+      // Use upsert to avoid duplicates with the same hash
+      const actionResult = await payload.db.upsert({
         collection: 'actions',
+        where: { hash: { equals: actionHash } },
         data: {
           hash: actionHash,
           subject: argsDoc?.id,
