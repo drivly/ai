@@ -1,19 +1,17 @@
 import { API } from 'clickable-apis'
 
 export const GET = API(async (request, { db, user, url }) => {
-  // Check if API key is configured
-  const apiKey = process.env.COMPOSIO_API_KEY
-  if (!apiKey) {
-    return new Response('Composio API key not configured', { status: 500 })
-  }
 
   // Pull the available apps from Composio
   const response = await fetch('https://backend.composio.dev/api/v1/apps', {
-    headers: {
-      'x-api-key': apiKey,
-    },
+    headers: { 'x-api-key': process.env.COMPOSIO_API_KEY! },
   })
 
   const data = await response.json()
-  return { integrations: data.apps || data }
+
+  const integrations: Record<string, string> = {}
+  const { origin, pathname } = url
+  data.items?.map((app: any) => integrations[app.name] = `${origin}${pathname}/${app.key}`)
+
+  return { integrations }
 })

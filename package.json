@@ -42,6 +42,7 @@
     "ai-providers": "workspace:*",
     "ai-workflows": "^1.1.0",
     "clickable-apis": "workspace:*",
+    "composio-core": "^0.5.31",
     "cross-env": "^7.0.3",
     "date-fns": "^3.6.0",
     "dedent": "^1.5.3",
