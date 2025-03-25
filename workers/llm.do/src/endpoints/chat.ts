@@ -13,8 +13,9 @@ export class Chat extends OpenAPIRoute {
       query: z.object({
         prompt: z.string().describe('The user prompt').optional(),
         system: z.string().optional().describe('Optional system message'),
-        temperature: z.number().min(0).max(2).optional().describe('Controls randomness: 0 = deterministic, 2 = maximum creativity'),
         model: z.string().optional().describe('Model to use for the chat'),
+        seed: z.number().optional().describe('Seed for the chat'),
+        temperature: z.number().min(0).max(2).optional().describe('Controls randomness: 0 = deterministic, 2 = maximum creativity'),
         Authorization: z.string().describe('Bearer token alias').optional(),
         authorization: z.string().describe('Bearer token alias').optional(),
         apikey: z.string().describe('Bearer token alias').optional(),
@@ -48,7 +49,7 @@ export class Chat extends OpenAPIRoute {
     const request = await this.getValidatedData<typeof this.schema>()
 
     // Translate the query to the completion endpoint
-    const { prompt = ' ', system, temperature, model } = request.query
+    const { prompt = ' ', system, model, seed, temperature } = request.query
 
     const messages = []
     if (system) {
@@ -83,6 +84,7 @@ export class Chat extends OpenAPIRoute {
         body: JSON.stringify({
           model,
           messages: messages.length ? messages : undefined,
+          seed,
           temperature,
         }),
       })
@@ -103,9 +105,9 @@ export class Chat extends OpenAPIRoute {
           models: '/models',
         },
         examples: {
-          'Hello World': example('Hello, World!', system, model, temperature, Authorization),
-          'What is the meaning of life?': example('What is the meaning of life?', system, model, temperature, Authorization),
-          'Talk like a pirate': example(prompt, 'Talk like a pirate', model, temperature, Authorization),
+          'Hello World': example({ prompt: 'Hello, World!', system, model, seed, temperature, Authorization }),
+          'What is the meaning of life?': example({ prompt: 'What is the meaning of life?', system, model, seed, temperature, Authorization }),
+          'Talk like a pirate': example({ prompt, system: 'Talk like a pirate', model, seed, temperature, Authorization }),
         },
       },
       links: {
@@ -118,11 +120,26 @@ export class Chat extends OpenAPIRoute {
   }
 }
 
-function example(prompt: string, system: string | undefined, model: string | undefined, temperature: number | undefined, Authorization: string | undefined) {
+function example({
+  prompt,
+  system,
+  model,
+  seed,
+  temperature,
+  Authorization,
+}: {
+  prompt: string
+  system: string | undefined
+  model: string | undefined
+  seed: number | undefined
+  temperature: number | undefined
+  Authorization: string | undefined
+}) {
   const params = new URLSearchParams()
   if (prompt.trim()) params.set('prompt', prompt.trim())
   if (system) params.set('system', system)
   if (model) params.set('model', model)
+  if (seed) params.set('seed', seed.toString())
   if (temperature) params.set('temperature', temperature.toString())
   if (Authorization) params.set('Authorization', Authorization)
   return `https://llm.do/chat?${params.toString()}`
