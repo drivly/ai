@@ -33,6 +33,7 @@ export const Things: CollectionConfig = {
       async (args) => {
         if (args.operation === 'create') {
           // TODO: generate sqid and hash
+          
         }
 
         if (args.operation === 'update') {
@@ -46,7 +47,7 @@ export const Things: CollectionConfig = {
     afterRead: [
       async (args) => {
         const { doc } = args
-        doc.yaml = yaml.stringify(doc.data, { flow: true })
+        doc.yaml = yaml.stringify(doc.data)
         return doc
       },
     ],
