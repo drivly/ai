@@ -32,9 +32,9 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   const nextParams = new URLSearchParams(request.nextUrl.searchParams)
   nextParams.set('seed', (currentSeed + 1).toString())
 
-  const links: { next: string; prev?: string; temperature: Record<string, string> } = {
+  const links: Record<string, string> = {
     next: `${baseUrl}?${nextParams.toString()}`,
-    temperature: {},
+    // temperature: {},
   }
 
   // Only include prev link if seed is greater than 1
@@ -43,15 +43,19 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
     prevParams.set('seed', (currentSeed - 1).toString())
     links.prev = `${baseUrl}?${prevParams.toString()}`
   }
+  
+  const modelUrl = new URL(url)
+  modelUrl.pathname = modelUrl.pathname + '/models'
+  links.models = modelUrl.toString()
 
-  // Add temperature links with values 0, 0.2, 0.4, 0.6, 0.8, and 1.0
-  const temperatureValues = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
+  // // Add temperature links with values 0, 0.2, 0.4, 0.6, 0.8, and 1.0
+  // const temperatureValues = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
 
-  temperatureValues.forEach((temp) => {
-    const tempParams = new URLSearchParams(request.nextUrl.searchParams)
-    tempParams.set('temperature', temp.toString())
-    links.temperature[temp.toString()] = `${baseUrl}?${tempParams.toString()}`
-  })
+  // temperatureValues.forEach((temp) => {
+  //   const tempParams = new URLSearchParams(request.nextUrl.searchParams)
+  //   tempParams.set('temperature', temp.toString())
+  //   links.temperature[temp.toString()] = `${baseUrl}?${tempParams.toString()}`
+  // })
 
   return { functionName, args, links, type, data, reasoning: results?.reasoning?.split('\n'), settings, latency }
 
