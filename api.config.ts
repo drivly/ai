@@ -14,7 +14,7 @@ export const apis: Record<string, string> = {
   analytics: '',
   experiments: '',
   integrations: '',
-  models: '',
+  models: ' ',
 }
 
 export const related: Record<string, string[]> = {
