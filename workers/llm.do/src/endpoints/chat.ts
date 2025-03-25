@@ -88,7 +88,6 @@ export class Chat extends OpenAPIRoute {
 
     const data = await response.json()
 
-    // Return response
     return {
       api: {
         name: 'llm.do',
@@ -96,6 +95,11 @@ export class Chat extends OpenAPIRoute {
         endpoints: {
           chat: '/chat',
           models: '/models',
+        },
+        examples: {
+          'Hello World': example('Hello, World!', system, model, temperature, Authorization),
+          'What is the meaning of life?': example('What is the meaning of life?', system, model, temperature, Authorization),
+          'Talk like a pirate': example(prompt, 'Talk like a pirate', model, temperature, Authorization),
         },
       },
       links: {
@@ -106,4 +110,14 @@ export class Chat extends OpenAPIRoute {
       user: { authenticated: false },
     }
   }
+}
+
+function example(prompt: string, system: string | undefined, model: string | undefined, temperature: number | undefined, Authorization: string | undefined) {
+  const params = new URLSearchParams()
+  params.set('prompt', prompt)
+  if (system) params.set('system', system)
+  if (model) params.set('model', model)
+  if (temperature) params.set('temperature', temperature.toString())
+  if (Authorization) params.set('Authorization', Authorization)
+  return `https://llm.do/chat?${params.toString()}`
 }
