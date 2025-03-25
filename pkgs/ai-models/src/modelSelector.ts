@@ -83,6 +83,7 @@ export function getModel(modelInput: string | string[], config?: ModelConfig): M
   // Try each model until we find a working one
   for (const modelString of modelOptions) {
     const model = getModelInstance(modelString)
+
     if (model) {
       // Verify required capabilities
       if (modelConfig?.requiredCapabilities) {

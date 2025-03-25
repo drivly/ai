@@ -24,6 +24,7 @@ const PRESETS = {
     topP: 1,
   },
 }
+
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
   // Using the new db interface for more concise syntax
   // const functions = await db.functions.find()
@@ -102,6 +103,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
     return {
       links: {
+        toLLM: `${origin}/api/llm/${reconstructModelString(model?.parsed as ParsedModelIdentifier)}`,
         seed: generateLinks('seed', [
           1, 2, 3,
           // Bounded random (from 10-100) with at least 5 iterations
