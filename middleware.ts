@@ -15,6 +15,8 @@ export function middleware(request: NextRequest) {
   const { hostname, pathname, search } = request.nextUrl
   const apiName = hostname.replace('.do', '')
 
+  console.log({ apiName, hostname, pathname, search })
+
   // TODO: should we use something like `itty-router` here?
 
   if (sitePaths.includes(pathname) && siteDomains.includes(hostname)) {
