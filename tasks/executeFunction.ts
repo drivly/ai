@@ -3,6 +3,7 @@ import { waitUntil } from '@vercel/functions'
 import hash from 'object-hash'
 import { generateObject } from './generateObject'
 import { generateText } from './generateText'
+import { validateWithSchema } from './schemaUtils'
 import { generateMarkdown } from './generateMarkdown'
 import { generateCode } from './generateCode'
 
@@ -145,7 +146,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   } else {
     // Use generateObject for object-based functions
     const result = await generateObject({
-      input: { functionName, args, settings },
+      input: { functionName, args, schema, settings },
       req,
     })
 
@@ -155,6 +156,23 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     text = result.text
     generationLatency = result.generationLatency
     request = result.request
+    
+    // Validate the object against the schema if provided
+    if (schema && object) {
+      try {
+        object = validateWithSchema(schema, object);
+      } catch (error) {
+        console.error('Schema validation error:', error);
+        // Keep the original object but add validation error information
+        object = {
+          ...object,
+          _validation_error: {
+            message: 'Failed to validate against schema',
+            details: error instanceof Error ? error.message : String(error)
+          }
+        };
+      }
+    }
   }
 
   const created = await createPromise

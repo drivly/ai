@@ -128,6 +128,12 @@ importers:
       yaml:
         specifier: ^2.2.2
         version: 2.7.0
+      zod:
+        specifier: ^3.24.1
+        version: 3.24.2
+      zod-to-json-schema:
+        specifier: ^3.24.5
+        version: 3.24.5(zod@3.24.2)
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.2.0
