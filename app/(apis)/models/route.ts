@@ -32,8 +32,16 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   const provider = qs.get('provider')
   const author = qs.get('author')
 
+  const validModels = models.filter((model) => {
+    if (provider && model.provider !== provider) return false
+    if (author && model.author !== author) return false
+    return true
+  })
+
   const generateFacet = (param: string, filter: string | null) => {
-    const allValues = models.map((model) => model[param as keyof typeof model]).filter((value) => !filter || value === filter)
+    const allValues = validModels
+      .map((model) => model[param as keyof typeof model])
+      .filter((value) => !filter || value === filter)
 
     // Now count and sort by count
     const counts = allValues.reduce((acc: Record<string, number>, value: unknown) => {

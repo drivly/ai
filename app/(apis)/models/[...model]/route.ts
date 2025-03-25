@@ -92,13 +92,14 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       return `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`
     }
 
+    const modelNameTemp = reconstructModelString(model?.parsed as ParsedModelIdentifier) 
     const capabilities = ['reasoning', 'tools', 'code', 'online']
 
     const isGateway = !origin.includes('models.do')
     
     return {
       links: {
-        toFunctions: `${ isGateway ? `${origin}/functions` : `functions.do` }?model=${reconstructModelString(model?.parsed as ParsedModelIdentifier)}`,
+        toFunctions: `${ isGateway ? `${origin}/functions` : `functions.do` }?model=${modelNameTemp.includes('/') ? modelNameTemp.split('/')[1] : modelNameTemp}`,
         seed: generateLinks('seed', [
           1,
           2,

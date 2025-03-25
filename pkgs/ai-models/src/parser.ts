@@ -1,5 +1,11 @@
 import { ParsedModelIdentifier, ThinkingLevel, Capability, capabilities, Provider } from './types'
 
+const ALIASES = {
+  '4o': 'gpt-4o',
+  'sonnet': 'claude-3.7-sonnet',
+  'r1': 'deepseek-r1'
+}
+
 /**
  * Parse a model identification string into its components
  * Supports both formats:
@@ -19,6 +25,11 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
 
   // Remove @ if present
   let identifier = modelIdentifier
+
+  if (Object.keys(ALIASES).includes(modelIdentifier)) {
+    identifier = ALIASES[modelIdentifier as keyof typeof ALIASES]
+  }
+
   if (identifier.startsWith('@')) {
     identifier = identifier.substring(1)
   }
