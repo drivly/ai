@@ -3,6 +3,7 @@ import { waitUntil } from '@vercel/functions'
 import hash from 'object-hash'
 import { generateObject } from './generateObject'
 import { generateText } from './generateText'
+import { generateMarkdown } from './generateMarkdown'
 
 // export const executeFunction: TaskHandler<'executeFunction'> = async ({ input, req }) => {
 // TODO: Fix the typing and response ... temporary hack to get results in the functions API
@@ -75,18 +76,33 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   let object, text, reasoning, generation, generationLatency, request
 
   if (isTextFunction) {
-    // Use generateText for text-based functions
-    const result = await generateText({
-      input: { functionName, args, settings },
-      req,
-    })
-
-    text = result.text
-    reasoning = result.reasoning
-    generation = result.generation
-    generationLatency = result.generationLatency
-    request = result.request
-    object = { text }
+    if (type === 'Markdown' || settings?.type === 'Markdown') {
+      // Use generateMarkdown for markdown-based functions
+      const result = await generateMarkdown({
+        input: { functionName, args, settings },
+        req,
+      })
+      
+      text = result.markdown
+      reasoning = result.reasoning
+      generation = result.generation
+      generationLatency = result.generationLatency
+      request = result.request
+      object = { text, mdast: result.mdast }
+    } else {
+      // Use generateText for text-based functions
+      const result = await generateText({
+        input: { functionName, args, settings },
+        req,
+      })
+    
+      text = result.text
+      reasoning = result.reasoning
+      generation = result.generation
+      generationLatency = result.generationLatency
+      request = result.request
+      object = { text }
+    }
   } else {
     // Use generateObject for object-based functions
     const result = await generateObject({
