@@ -22,7 +22,7 @@ export class ModelList extends OpenAPIRoute {
     },
   }
 
-  async handle(_args: Context) {
+  async handle(_c: Context) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
 

@@ -1,8 +1,14 @@
 import { Capability, getModel } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
+import { env } from 'cloudflare:workers'
+import { OpenAIToolSet } from 'composio-core'
+import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
 import { AuthHeader, type ChatCompletionRequest, ChatCompletionRequestSchema, ChatCompletionResponseSchema } from '../types/chat'
-import { Context } from 'hono'
+
+const composioToolset = new OpenAIToolSet({
+  apiKey: env.COMPOSIO_API_KEY,
+})
 
 export class ChatCompletionCreate extends OpenAPIRoute {
   schema = {
@@ -30,7 +36,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
     },
   }
 
-  async handle(_args: Context) {
+  async handle(c: Context) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
 
@@ -44,6 +50,14 @@ export class ChatCompletionCreate extends OpenAPIRoute {
       console.error(error)
     }
 
+    if (request.body.tools?.find((t) => typeof t === 'string')) {
+      request.body.stream = false
+      const response = await fetchFromProvider(request, 'POST', '/chat/completions')
+      const json = await response.json()
+      const composioResponse = await composioToolset.handleToolCall(json as any)
+      return c.json(composioResponse)
+    }
+
     // Pass request to OpenRouter
     return fetchFromProvider(request, 'POST', '/chat/completions')
   }
@@ -55,13 +69,13 @@ function getRequiredCapabilities(body: ChatCompletionRequest) {
   // if (body.???) {
   //   requiredCapabilities.push('code')
   // }
-  if (body.web_search_options) {
+  if (body.tools?.find((t) => typeof t !== 'string' && t.type.startsWith('web_search'))) {
     requiredCapabilities.push('online')
   }
   if (body.reasoning_effort) {
     requiredCapabilities.push('reasoning', `reasoning-${body.reasoning_effort}`)
   }
-  if (body.tools?.length) {
+  if (body.tools?.find((t) => typeof t === 'string' || t.type === 'function')) {
     requiredCapabilities.push('tools')
   }
   if (body.response_format?.type === 'json_schema') {

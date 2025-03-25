@@ -192,37 +192,43 @@ export const ChatCompletionRequestSchema = z.object({
     .optional(),
   tools: z
     .array(
-      z.object({
-        function: z.object({
-          name: z.string(),
-          description: z.string().optional(),
-          parameters: z.record(z.any()).optional(),
-          strict: z.boolean().optional(),
-        }),
-        type: z.string(),
-      }),
+      z
+        .object({
+          function: z.object({
+            name: z.string(),
+            description: z.string().optional(),
+            parameters: z.record(z.any()).optional(),
+            strict: z.boolean().optional(),
+          }),
+          type: z.literal('function'),
+        })
+        .or(
+          z.object({
+            display_height: z.number(),
+            display_width: z.number(),
+            environment: z.string(),
+            type: z.literal('computer_use_preview'),
+          }),
+        )
+        .or(
+          z.object({
+            type: z.enum(['web_search_preview', 'web_search_preview_2025_03_11']),
+            search_context_size: z.enum(['low', 'medium', 'high']).optional(),
+            user_location: z.object({
+              type: z.literal('approximate'),
+              city: z.string().optional(),
+              country: z.string().optional(),
+              region: z.string().optional(),
+              timezone: z.string().optional(),
+            }),
+          }),
+        )
+        .or(z.string()),
     )
     .optional(),
   top_logprobs: z.number().min(0).max(20).optional(),
   top_p: z.number().optional(),
   user: z.string().optional(),
-  web_search_options: z
-    .object({
-      search_context_size: z.enum(['low', 'medium', 'high']).optional(),
-      user_location: z
-        .object({
-          approximate: z.object({
-            city: z.string().optional(),
-            country: z.string().optional(),
-            region: z.string().optional(),
-            timezone: z.string().optional(),
-          }),
-          type: z.literal('approximate'),
-        })
-        .or(z.null())
-        .optional(),
-    })
-    .optional(),
 })
 
 export type ChatCompletionRequest = z.infer<typeof ChatCompletionRequestSchema>
