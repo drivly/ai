@@ -73,7 +73,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
           }
 
           return {
-            [option]: `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`.replace('(', '%28').replace(')', '%29'),
+            [option]: `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`,
           }
         })
         .reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {})
@@ -89,14 +89,16 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         ...preset,
       }
 
-      return `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`.replace('(', '%28').replace(')', '%29')
+      return `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`
     }
 
     const capabilities = ['reasoning', 'tools', 'code', 'online']
 
+    const isGateway = !origin.includes('models.do')
+    
     return {
       links: {
-        toLLM: `${origin}/api/llm/${reconstructModelString(model?.parsed as ParsedModelIdentifier)}`,
+        toFunctions: `${ isGateway ? `${origin}/functions` : `functions.do` }?model=${reconstructModelString(model?.parsed as ParsedModelIdentifier)}`,
         seed: generateLinks('seed', [
           1,
           2,

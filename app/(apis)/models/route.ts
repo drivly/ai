@@ -6,7 +6,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   // Using the new db interface for more concise syntax
   // const functions = await db.functions.find()
 
-  const originOrApiRoute = origin.includes('localhost') ? `${origin}/api/models` : origin
+  const originOrApiRoute = origin.includes('localhost') ? `${origin}/models` : origin
 
   const modifyQueryString = (param: string, value: string | number) => {
     const qs = new URLSearchParams(request.url.split('?')[1])
@@ -75,7 +75,11 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
           capabilities: model.capabilities,
           defaults: model.defaults,
         }
-      })
-      .splice(0, 10),
+      }).reduce((acc, curr) => {
+        return {
+          ...acc,
+          [curr.name]: curr,
+        }
+      }, {}),
   }
 })
