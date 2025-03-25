@@ -1,5 +1,5 @@
 export const apis: Record<string, string> = {
-  functions: '',
+  functions: 'Reliable Structured Output',
   workflows: '',
   database: '',
   agents: '',
