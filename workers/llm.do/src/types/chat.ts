@@ -200,7 +200,7 @@ export const ChatCompletionRequestSchema = z.object({
             parameters: z.record(z.any()).optional(),
             strict: z.boolean().optional().nullable(),
           }),
-          type: z.literal('function'),
+          type: z.literal('function').or(z.union([z.string(), z.object({})])),
         })
         .or(
           z.object({
