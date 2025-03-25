@@ -1,12 +1,13 @@
 // import murmurhash from 'murmurhash'
 import type { CollectionConfig } from 'payload'
 // import sqids from 'sqids'
+import yaml from 'yaml'
 
 export const Things: CollectionConfig = {
   slug: 'things',
   admin: {
     group: 'Data',
-    useAsTitle: 'data',
+    useAsTitle: 'yaml',
   },
   versions: true,
   fields: [
@@ -39,6 +40,13 @@ export const Things: CollectionConfig = {
           // const hash = murmurhash([name, type])
           // return { sqid, hash }
         }
+      },
+    ],
+    afterRead: [
+      async (args) => {
+        const { doc } = args
+        doc.yaml = yaml.stringify(doc.data, { flow: true })
+        return doc
       },
     ],
   },
