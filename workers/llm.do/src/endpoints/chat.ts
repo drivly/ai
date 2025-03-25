@@ -102,7 +102,7 @@ export class Chat extends OpenAPIRoute {
         url: 'https://llm.do',
         endpoints: {
           chat: '/chat',
-          models: '/models',
+          models: '/api/v1/models',
         },
         examples: {
           'Hello World': getLink({ prompt: 'Hello, World!', system, model, seed, temperature, Authorization }),

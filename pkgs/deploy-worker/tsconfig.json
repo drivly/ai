@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "node",

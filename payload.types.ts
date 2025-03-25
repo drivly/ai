@@ -497,6 +497,24 @@ export interface Agent {
 export interface Trigger {
   id: string;
   name?: string | null;
+  payload?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  config?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -735,7 +753,7 @@ export interface Integration {
  */
 export interface IntegrationCategory {
   id: string;
-  name?: string | null;
+  category?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -745,7 +763,26 @@ export interface IntegrationCategory {
  */
 export interface IntegrationTrigger {
   id: string;
-  name?: string | null;
+  display_name?: string | null;
+  description?: string | null;
+  payload?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  config?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -755,7 +792,26 @@ export interface IntegrationTrigger {
  */
 export interface IntegrationAction {
   id: string;
-  name?: string | null;
+  displayName?: string | null;
+  description?: string | null;
+  parameters?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  response?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1183,6 +1239,8 @@ export interface ThingsSelect<T extends boolean = true> {
  */
 export interface TriggersSelect<T extends boolean = true> {
   name?: T;
+  payload?: T;
+  config?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1421,7 +1479,7 @@ export interface IntegrationsSelect<T extends boolean = true> {
  * via the `definition` "integration-categories_select".
  */
 export interface IntegrationCategoriesSelect<T extends boolean = true> {
-  name?: T;
+  category?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1430,7 +1488,10 @@ export interface IntegrationCategoriesSelect<T extends boolean = true> {
  * via the `definition` "integration-triggers_select".
  */
 export interface IntegrationTriggersSelect<T extends boolean = true> {
-  name?: T;
+  display_name?: T;
+  description?: T;
+  payload?: T;
+  config?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1439,7 +1500,10 @@ export interface IntegrationTriggersSelect<T extends boolean = true> {
  * via the `definition` "integration-actions_select".
  */
 export interface IntegrationActionsSelect<T extends boolean = true> {
-  name?: T;
+  displayName?: T;
+  description?: T;
+  parameters?: T;
+  response?: T;
   updatedAt?: T;
   createdAt?: T;
 }

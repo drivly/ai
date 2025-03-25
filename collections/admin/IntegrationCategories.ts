@@ -4,9 +4,9 @@ export const IntegrationCategories: CollectionConfig = {
   slug: 'integration-categories',
   admin: {
     group: 'Admin',
-    useAsTitle: 'name',
+    useAsTitle: 'category',
     hidden: true,
   },
   versions: true,
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [{ name: 'category', type: 'text' }],
 }
