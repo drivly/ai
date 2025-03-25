@@ -8,7 +8,5 @@ export const Tags: CollectionConfig = {
     hidden: true,
   },
   versions: true,
-  fields: [
-    { name: 'id', type: 'text' },
-  ],
+  fields: [{ name: 'id', type: 'text' }],
 }

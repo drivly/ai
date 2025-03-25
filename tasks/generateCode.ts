@@ -59,21 +59,21 @@ export const generateCode = async (input: any, config?: any): Promise<CodeResult
       const funcConstructor = new Function(`return (async () => {
         ${input.input.prompt}
       })()`)
-      
+
       // Execute the code and get the result
       const result = await funcConstructor()
-      
+
       return {
         raw: result,
         code: input.input.prompt,
-        parsed: typeof result === 'string' ? result : JSON.stringify(result)
+        parsed: typeof result === 'string' ? result : JSON.stringify(result),
       }
     } catch (error: any) {
       console.error('Error executing code:', error)
       return {
         raw: { error: error.message || String(error) },
         code: input.input.prompt,
-        parsed: null
+        parsed: null,
       }
     }
   }

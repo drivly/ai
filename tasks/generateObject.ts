@@ -1,4 +1,4 @@
-import { schemaToJsonSchema } from './schemaUtils';
+import { schemaToJsonSchema } from './schemaUtils'
 
 // Define the input and output types for the generateObject utility function
 type GenerateObjectInput = {
@@ -27,19 +27,19 @@ export const generateObject = async ({ input, req }: { input: GenerateObjectInpu
 
   // Generate the object
   const prompt = `${functionName}(${JSON.stringify(args)})`
-  
+
   // Process schema if provided
-  let jsonSchema;
-  let systemMessage = 'Respond ONLY with JSON.';
-  
+  let jsonSchema
+  let systemMessage = 'Respond ONLY with JSON.'
+
   if (schema) {
     // Convert the schema to JSON Schema format
-    jsonSchema = schemaToJsonSchema(schema);
-    
+    jsonSchema = schemaToJsonSchema(schema)
+
     // Enhance system message with schema information
-    systemMessage = `Respond ONLY with JSON that conforms to the following schema: ${JSON.stringify(jsonSchema)}`;
+    systemMessage = `Respond ONLY with JSON that conforms to the following schema: ${JSON.stringify(jsonSchema)}`
   }
-  
+
   const request = {
     model: settings?.model || 'google/gemini-2.0-flash-001',
     messages: [

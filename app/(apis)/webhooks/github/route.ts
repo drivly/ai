@@ -4,7 +4,6 @@ import config from '@payload-config'
 import { Webhook } from 'svix'
 
 export const POST = API(async (request, { db, user, origin, url, domain }) => {
-
   // Get the raw body
   const rawBody = await request.text()
 

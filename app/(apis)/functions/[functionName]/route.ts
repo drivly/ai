@@ -43,7 +43,7 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
     prevParams.set('seed', (currentSeed - 1).toString())
     links.prev = `${baseUrl}?${prevParams.toString()}`
   }
-  
+
   const modelUrl = new URL(url)
   modelUrl.pathname = modelUrl.pathname + '/models'
   links.models = modelUrl.toString()

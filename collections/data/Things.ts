@@ -33,7 +33,6 @@ export const Things: CollectionConfig = {
       async (args) => {
         if (args.operation === 'create') {
           // TODO: generate sqid and hash
-          
         }
 
         if (args.operation === 'update') {

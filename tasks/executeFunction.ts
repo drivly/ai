@@ -95,9 +95,9 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       // For TextArray, use generateMarkdown with ordered list prompt
       const textArraySettings = {
         ...settings,
-        systemPrompt: `${settings?.systemPrompt || ''}\n\nRespond only with a numbered markdown ordered list. Each item should be on a separate line.`
+        systemPrompt: `${settings?.systemPrompt || ''}\n\nRespond only with a numbered markdown ordered list. Each item should be on a separate line.`,
       }
-      
+
       const result = await generateMarkdown({
         input: { functionName, args, settings: textArraySettings },
         req,
@@ -106,10 +106,8 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       // Parse the markdown ordered list into a string array
       const markdownText = result.markdown
       const lines = markdownText.split('\n')
-      const listItems = lines
-        .filter(line => /^\s*\d+\.\s+.+/.test(line))
-        .map(line => line.replace(/^\s*\d+\.\s+/, '').trim())
-      
+      const listItems = lines.filter((line) => /^\s*\d+\.\s+.+/.test(line)).map((line) => line.replace(/^\s*\d+\.\s+/, '').trim())
+
       text = markdownText
       reasoning = result.reasoning
       generation = result.generation
@@ -122,7 +120,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         input: { functionName, args, settings },
         req,
       })
-      
+
       text = result.markdown
       reasoning = result.reasoning
       generation = result.generation
@@ -135,7 +133,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         input: { functionName, args, settings },
         req,
       })
-    
+
       text = result.text
       reasoning = result.reasoning
       generation = result.generation
@@ -156,21 +154,21 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     text = result.text
     generationLatency = result.generationLatency
     request = result.request
-    
+
     // Validate the object against the schema if provided
     if (schema && object) {
       try {
-        object = validateWithSchema(schema, object);
+        object = validateWithSchema(schema, object)
       } catch (error) {
-        console.error('Schema validation error:', error);
+        console.error('Schema validation error:', error)
         // Keep the original object but add validation error information
         object = {
           ...object,
           _validation_error: {
             message: 'Failed to validate against schema',
-            details: error instanceof Error ? error.message : String(error)
-          }
-        };
+            details: error instanceof Error ? error.message : String(error),
+          },
+        }
       }
     }
   }
@@ -195,7 +193,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         data: { name: prompt, hash: objectHash, data: object },
       })
       const actionHash = hash({ functionName, args, settings })
-      
+
       // Use upsert to avoid duplicates with the same hash
       const actionResult = await payload.db.upsert({
         collection: 'actions',

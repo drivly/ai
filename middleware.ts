@@ -9,12 +9,10 @@ const sitePaths = ['/login', '/logout', '/signin', '/signout', '/privacy', '/ter
 // what path prefixes will always go to website content for all domains
 const sitePrefixes = ['/blog', '/docs']
 
-
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
   const { hostname, pathname, search } = request.nextUrl
   const apiName = hostname.replace('.do', '')
-
 
   // TODO: should we use something like `itty-router` here?
 
@@ -24,7 +22,7 @@ export function middleware(request: NextRequest) {
   }
 
   // TODO: Is this the correct logic for docs?
-  if (sitePrefixes.some(prefix => pathname.startsWith(prefix)) && siteDomains.includes(hostname)) {
+  if (sitePrefixes.some((prefix) => pathname.startsWith(prefix)) && siteDomains.includes(hostname)) {
     console.log('Rewriting to site w/ prefix', { hostname, pathname, search })
     return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
   }
@@ -44,7 +42,6 @@ export function middleware(request: NextRequest) {
   }
 
   console.log('no rewrite', { apiName, hostname, pathname, search })
-
 }
 
 // TODO: do we need/want middleware for everything?  Should we set up an exclude filter?

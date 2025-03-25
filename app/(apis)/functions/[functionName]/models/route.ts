@@ -10,11 +10,10 @@ let models: Record<string, any>
 let dataCount: number
 
 export const GET = API(async (request, { db, user, payload, params, req }) => {
-  
   if (!models) {
     models = {}
     const url = 'https://openrouter.ai/api/frontend/models/find?supported_parameters=response_format'
-    const { data } = await fetch(url).then(res => res.json())
+    const { data } = await fetch(url).then((res) => res.json())
     // data.models.forEach((model: any) => models[model.slug?.split('/').pop().replace(':free', '')] = model.slug)
     data.models.forEach((model: any) => {
       const url = new URL(request.url)

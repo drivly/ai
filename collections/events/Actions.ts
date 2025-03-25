@@ -24,7 +24,11 @@ export const Actions: CollectionConfig = {
   hooks: {
     afterChange: [
       async (ctx) => {
-        const { doc, operation, req: { payload } } = ctx
+        const {
+          doc,
+          operation,
+          req: { payload },
+        } = ctx
         if (operation === 'create') {
           console.log('Queueing function execution', doc)
           if (!doc.object) {
@@ -45,7 +49,7 @@ export const Actions: CollectionConfig = {
             waitUntil(payload.jobs.runByID({ id: job.id }))
           }
         }
-      }
-    ]
-  }
+      },
+    ],
+  },
 }
