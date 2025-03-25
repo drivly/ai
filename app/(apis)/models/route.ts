@@ -15,7 +15,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   }
 
   const generateLinks = (param: string, options: any[]) => {
-    return options.map((option) => modifyQueryString(param, option))
+    return options?.map((option) => modifyQueryString(param, option)) ?? []
   }
 
   const qs = new URLSearchParams(request.url.split('?')[1])
