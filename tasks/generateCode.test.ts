@@ -81,8 +81,12 @@ describe('generateCode task', () => {
 
       // Check the parsed code
       expect(result.code).toBe('function add(a: number, b: number): number {\n  return a + b;\n}')
-      expect(result.parsed.functions.length).toBe(1)
-      expect(result.parsed.functions[0].getName()).toBe('add')
+      // Add type check to make sure parsed is not a string
+      expect(typeof result.parsed !== 'string').toBe(true)
+      // Type assertion to tell TypeScript we know the object structure
+      const parsedObj = result.parsed as { functions: any[] }
+      expect(parsedObj.functions.length).toBe(1)
+      expect(parsedObj.functions[0].getName()).toBe('add')
     })
   })
 })

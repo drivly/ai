@@ -43,8 +43,14 @@ export const parseTypeScriptAST = (code: string) => {
   }
 }
 
+// Define return types for clarity
+type ParsedAST = ReturnType<typeof parseTypeScriptAST>
+type CodeExecutionResult = { raw: any; code: string; parsed: string | null }
+type CodeGenerationResult = { raw: any; code: string; parsed: ParsedAST }
+type CodeResult = CodeExecutionResult | CodeGenerationResult
+
 // Generate code using the AI and parse the response
-export const generateCode = async (input: any, config?: any) => {
+export const generateCode = async (input: any, config?: any): Promise<CodeResult> => {
   // Check if we're executing code directly or generating code with AI
   if (input.input && input.input.prompt) {
     try {
