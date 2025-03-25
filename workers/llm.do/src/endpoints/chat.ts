@@ -72,21 +72,27 @@ export class Chat extends OpenAPIRoute {
       request.query['x-api-key'] ||
       request.query['x-apikey']
 
+    let data
+
     if (Authorization) {
       headers.Authorization = Authorization.startsWith('Bearer ') ? Authorization : 'Bearer ' + Authorization
+
+      const response = await app.request('/api/v1/chat/completions', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          model,
+          messages: messages.length ? messages : undefined,
+          temperature,
+        }),
+      })
+
+      data = await response.json()
+    } else {
+      data = {
+        error: 'Please provide an API key.',
+      }
     }
-
-    const response = await app.request('/api/v1/chat/completions', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        model,
-        messages: messages.length ? messages : undefined,
-        temperature,
-      }),
-    })
-
-    const data = await response.json()
 
     return {
       api: {
@@ -114,7 +120,7 @@ export class Chat extends OpenAPIRoute {
 
 function example(prompt: string, system: string | undefined, model: string | undefined, temperature: number | undefined, Authorization: string | undefined) {
   const params = new URLSearchParams()
-  params.set('prompt', prompt)
+  if (prompt.trim()) params.set('prompt', prompt.trim())
   if (system) params.set('system', system)
   if (model) params.set('model', model)
   if (temperature) params.set('temperature', temperature.toString())
