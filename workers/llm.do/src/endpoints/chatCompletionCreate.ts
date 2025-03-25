@@ -1,14 +1,10 @@
 import { Capability, getModel } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
 import { env } from 'cloudflare:workers'
-import { CloudflareToolSet } from 'composio-core'
+import { OpenAIToolSet } from 'composio-core'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
 import { AuthHeader, type ChatCompletionRequest, ChatCompletionRequestSchema, ChatCompletionResponse, ChatCompletionResponseSchema } from '../types/chat'
-
-const composioToolset = new CloudflareToolSet({
-  apiKey: env.COMPOSIO_API_KEY,
-})
 
 export class ChatCompletionCreate extends OpenAPIRoute {
   schema = {
@@ -53,6 +49,11 @@ export class ChatCompletionCreate extends OpenAPIRoute {
     const actions = request.body.tools?.filter((t) => typeof t === 'string')
     if (actions?.length) {
       request.body.stream = false
+
+      const composioToolset = new OpenAIToolSet({
+        apiKey: env.COMPOSIO_API_KEY,
+      })
+
       const tools = await composioToolset.getTools({ actions })
       request.body.tools = request.body.tools?.map((t) => {
         if (typeof t === 'string') {
@@ -63,10 +64,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
       const response = await fetchFromProvider(request, 'POST', '/chat/completions')
       const json: ChatCompletionResponse = await response.json()
       if (json.choices.find((c) => c.message.tool_calls?.find((t) => actions.includes(t.function.name)))) {
-        const composioResponse = await composioToolset.handleToolCall({
-          response: json.choices[0].message.content || '',
-          tool_calls: json.choices[0].message.tool_calls?.map((t) => t.function),
-        })
+        const composioResponse = await composioToolset.handleToolCall(json)
         return c.json(composioResponse)
       }
       return c.json(json)
