@@ -22,6 +22,7 @@ export const Things: CollectionConfig = {
       ],
     },
     // { name: 'content', type: 'code', admin: { language: 'mdx', editorOptions: { padding: { top: 20, bottom: 20 } } } },
+    { name: 'yaml', type: 'code', admin: { language: 'yaml', editorOptions: { padding: { top: 20, bottom: 20 } } } },
     { name: 'data', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
     // { name: 'generated', type:
     { name: 'subjectOf', type: 'join', collection: 'actions', on: 'subject' },
