@@ -1,4 +1,4 @@
-export const apis = {
+export const apis: Record<string, string> = {
   functions: '',
   workflows: '',
   database: '',
@@ -17,7 +17,7 @@ export const apis = {
   models: '',
 }
 
-export const related = {
+export const related: Record<string, string[]> = {
   functions: ['nouns', 'verbs', 'things'],
   workflows: ['triggers', 'searches', 'actions'],
   database: ['evals', 'analytics', 'experiments'],
@@ -25,7 +25,7 @@ export const related = {
   llm: ['evals', 'analytics', 'experiments'],
 }
 
-export const symbols = {
+export const symbols: Record<string, string> = {
   入: 'functions',
   巛: 'workflows',
   彡: 'database',
