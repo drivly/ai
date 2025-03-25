@@ -47,7 +47,7 @@ export const Things: CollectionConfig = {
     afterRead: [
       async (args) => {
         const { doc } = args
-        doc.yaml = yaml.stringify(doc.data)
+        doc.yaml = yaml.stringify(doc.data, { singleQuote: true })
         return doc
       },
     ],
