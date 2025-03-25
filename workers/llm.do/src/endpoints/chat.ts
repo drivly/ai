@@ -105,22 +105,65 @@ export class Chat extends OpenAPIRoute {
           models: '/models',
         },
         examples: {
-          'Hello World': example({ prompt: 'Hello, World!', system, model, seed, temperature, Authorization }),
-          'What is the meaning of life?': example({ prompt: 'What is the meaning of life?', system, model, seed, temperature, Authorization }),
-          'Talk like a pirate': example({ prompt, system: 'Talk like a pirate', model, seed, temperature, Authorization }),
+          'Hello World': getLink({ prompt: 'Hello, World!', system, model, seed, temperature, Authorization }),
+          'What is the meaning of life?': getLink({ prompt: 'What is the meaning of life?', system, model, seed, temperature, Authorization }),
+          'Talk like a pirate': getLink({ prompt, system: 'Talk like a pirate', model, seed, temperature, Authorization }),
         },
       },
-      links: {
-        home: 'https://llm.do',
-        self: 'https://llm.do' + path,
-      },
+      links: generateLinks({ path, prompt, system, model, seed, temperature, Authorization }),
       data,
       user: { authenticated: false },
     }
   }
 }
 
-function example({
+function generateLinks({
+  path,
+  prompt,
+  system,
+  model,
+  seed,
+  temperature,
+  Authorization,
+}: {
+  path: string
+  prompt: string
+  system: string | undefined
+  model: string | undefined
+  seed: number | undefined
+  temperature: number | undefined
+  Authorization: string | undefined
+}) {
+  const links: Record<string, string> = {
+    home: 'https://llm.do',
+    self: 'https://llm.do' + path,
+  }
+  if (seed !== undefined) {
+    links.next = getLink({ prompt, system, model, seed: seed + 1, temperature, Authorization })
+    links.prev = getLink({ prompt, system, model, seed: seed - 1, temperature, Authorization })
+  }
+
+  if (prompt.trim()) {
+    links['Remove prompt'] = getLink({ prompt: '', system, model, seed, temperature, Authorization })
+  }
+  if (system) {
+    links['Remove system'] = getLink({ prompt, system: '', model, seed, temperature, Authorization })
+  }
+  if (model) {
+    links['Remove model'] = getLink({ prompt, system, model: '', seed, temperature, Authorization })
+  }
+  if (seed !== undefined) {
+    links['Remove seed'] = getLink({ prompt, system, model, seed: undefined, temperature, Authorization })
+  } else {
+    links['Add seed'] = getLink({ prompt, system, model, seed: 0, temperature, Authorization })
+  }
+  if (temperature !== undefined) {
+    links['Remove temperature'] = getLink({ prompt, system, model, seed, temperature: undefined, Authorization })
+  }
+  return links
+}
+
+function getLink({
   prompt,
   system,
   model,
@@ -136,11 +179,23 @@ function example({
   Authorization: string | undefined
 }) {
   const params = new URLSearchParams()
-  if (prompt.trim()) params.set('prompt', prompt.trim())
-  if (system) params.set('system', system)
-  if (model) params.set('model', model)
-  if (seed !== undefined) params.set('seed', seed.toString())
-  if (temperature !== undefined) params.set('temperature', temperature.toString())
-  if (Authorization) params.set('Authorization', Authorization)
+  if (prompt.trim()) {
+    params.set('prompt', prompt.trim())
+  }
+  if (system) {
+    params.set('system', system)
+  }
+  if (model) {
+    params.set('model', model)
+  }
+  if (seed !== undefined) {
+    params.set('seed', seed.toString())
+  }
+  if (temperature !== undefined) {
+    params.set('temperature', temperature.toString())
+  }
+  if (Authorization) {
+    params.set('Authorization', Authorization)
+  }
   return `https://llm.do/chat?${params.toString()}`
 }
