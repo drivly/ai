@@ -4,7 +4,9 @@
 import { AI } from 'workflows.do'
 
 export default AI({
+
   onUserSignup: async ({ ai, api, db, event }) => {
+
     const { name, email, company } = event
 
     // Enrich content details with lookup from external data sources
@@ -27,6 +29,7 @@ export default AI({
     const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, ...details })
     const { url } = await db.users.create({ name, email, company, summary, ...details })
     await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
+
   },
 })
 ```
