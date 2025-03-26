@@ -35,62 +35,62 @@ export default AI({
 ```
 
 
-## [functions.do](https://functions.do) Inputs to Structured Outputs
+## [Functions.do](https://functions.do) Inputs to Structured Outputs
 
 
 
-## [agents.do](https://agents.do) Autonomous Digital Workers
+## [Agents.do](https://agents.do) Autonomous Digital Workers
 
 
 
-## [integrations.do](https://integrations.do) Connect Your Apps
+## [Integrations.do](https://integrations.do) Connect Your Apps
 
 
 
-## [triggers.do](https://triggers.do) Start Business Processes
+## [Triggers.do](https://triggers.do) Start Business Processes
 
 
 
-## [searches.do](https://searches.do) Provide Context & Understanding
+## [Searches.do](https://searches.do) Provide Context & Understanding
 
 
 
-## [actions.do](https://actions.do) Impact the External World
+## [Actions.do](https://actions.do) Impact the External World
 
 
-## [nouns.do](https://nouns.do) Entities in Your Business
+## [Nouns.do](https://nouns.do) Entities in Your Business
 
 
-## [verbs.do](https://verbs.do) Represent Potential Actions
+## [Verbs.do](https://verbs.do) Represent Potential Actions
 
 
-## [things.do](https://things.do) Physical and Virtual Objects
+## [Things.do](https://things.do) Physical and Virtual Objects
 
 
-## [actions.do](https://actions.do) Subject-Verb-Object
+## [Actions.do](https://actions.do) Subject-Verb-Object
 
 
-## [database.do](https://database.do) AI-enriched Data
+## [Database.do](https://database.do) AI-enriched Data
 
 
-## [events.do](https://events.do) Track Business Events
+## [Events.do](https://events.do) Track Business Events
 
 
-## [experiments.do](https://experiments.do) Iterate & Improve
+## [Experiments.do](https://experiments.do) Iterate & Improve
 
 
-## [benchmarks.do](https://benchmarks.do) Compare Models
+## [Benchmarks.do](https://benchmarks.do) Compare Models
 
 
-## [evals.do](https://evals.do) Measure & Improve
+## [Evals.do](https://evals.do) Measure & Improve
 
 
-## [traces.do](https://traces.do) Operational Visibility
+## [Traces.do](https://traces.do) Operational Visibility
 
 
-## [llm.do](https://llm.do) Tool-enabled Proxy
+## [LLM.do](https://llm.do) Tool-enabled Proxy
 
 
 
-## [analytics.do](https://analytics.do) Insightful Business Intelligence
+## [Analytics.do](https://analytics.do) Insightful Business Intelligence
 
