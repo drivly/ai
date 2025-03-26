@@ -1,0 +1,53 @@
+{
+  "name": "payload-agent",
+  "version": "0.1.0",
+  "description": "Payload agent for AI integration",
+  "main": "dist/plugin.js",
+  "module": "dist/plugin.js",
+  "types": "dist/plugin.d.ts",
+  "type": "module",
+  "exports": {
+    "./plugin": {
+      "import": "./dist/plugin.js",
+      "types": "./dist/plugin.d.ts"
+    },
+    "./api": {
+      "import": "./dist/api.js",
+      "types": "./dist/api.d.ts"
+    },
+    "./chat-bot-server": {
+      "import": "./dist/chat-bot-server.js",
+      "types": "./dist/chat-bot-server.d.ts"
+    },
+    "./chat-bot-client": {
+      "import": "./dist/chat-bot-client.js",
+      "types": "./dist/chat-bot-client.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-sdk/openai": "^1.3.0",
+    "@ai-sdk/react": "^1.2.0",
+    "@drivly/ui": "workspace:*",
+    "ai": "^2.2.37"
+  },
+  "peerDependencies": {
+    "next": "^14.0.0",
+    "payload": "^2.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "esbuild-plugin-css-module": "^0.0.1",
+    "esbuild-plugin-react18": "^0.0.1",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}
