@@ -4,9 +4,9 @@ import { cn } from '@drivly/ui/lib'
 import { MessageSquare } from 'lucide-react'
 import { Fragment } from 'react'
 import { Wrapper } from '../../lib'
-import type { PayloadAgentAuthResult } from '../../types/auth'
 import type { ClientContainerProps } from '../../types/chat'
 import * as Container from './chat-container'
+import React from 'react'
 
 const ClientContainer: React.FC<ClientContainerProps> = ({
   aiAvatar,

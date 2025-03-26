@@ -17,6 +17,18 @@ export default defineConfig({
   bundle: true,
   dts: true,
   sourcemap: true,
-  external: ['react', 'react-dom', 'payload', 'next', 'next/server', 'next/headers', 'server-only', '@drivly/ui', 'ai', '@ai-sdk/openai', 'lucide-react'],
+  external: [
+    'react',
+    'react-dom',
+    'payload',
+    'next',
+    'next/server',
+    'next/headers',
+    // Add these:
+    'use-sync-external-store',
+    'use-sync-external-store/shim',
+    'swr',
+    'zustand',
+  ],
   plugins: [react18Plugin(), cssModulePlugin()],
 })

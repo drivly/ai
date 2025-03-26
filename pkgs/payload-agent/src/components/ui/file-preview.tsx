@@ -1,6 +1,7 @@
 import { cn } from '@drivly/ui/lib'
 import { AnimatePresence, motion } from 'motion/react'
 import { Attachment } from './attachment'
+import React from 'react'
 
 export interface AttachmentFile {
   id: string

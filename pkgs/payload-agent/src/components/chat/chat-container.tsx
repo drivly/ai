@@ -18,6 +18,7 @@ import { useModal, useModalConfig, useModalUser } from '../store/modal-store'
 import { DefaultMessage } from '../ui'
 import { ChatInput } from './chat-input'
 import { ChatMessage } from './chat-message'
+import React from 'react'
 
 export interface RootProps extends React.ComponentProps<'div'> {
   aiAvatar?: string | null

@@ -1,6 +1,3 @@
 export default {
-  index: {
-    title: 'Functions.do',
-    type: 'page'
-  }
+  index: 'Functions.do',
 }

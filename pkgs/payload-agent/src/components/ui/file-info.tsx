@@ -1,5 +1,6 @@
 import { formatFileSize } from '@drivly/ui/lib'
 import { cva, type VariantProps } from 'class-variance-authority'
+import React from 'react'
 
 const fileVariants = cva('font-geist grid gap-[4px] leading-none font-medium [&_p]:overflow-hidden [&_p]:text-ellipsis', {
   variants: {

@@ -1,4 +1,5 @@
 import type { ElementType } from 'react'
+import React from 'react'
 
 /**
  * Wrapper component that renders a specified component and props.

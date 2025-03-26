@@ -3,6 +3,7 @@
 import { useChat } from '@ai-sdk/react'
 import { createRequiredContext } from '@drivly/ui/hooks'
 import type { UIMessage } from 'ai'
+import React from 'react'
 
 /** Type representing all values returned by Vercel's useChat hook */
 type ChatContextValue = ReturnType<typeof useChat>

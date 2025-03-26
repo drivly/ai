@@ -7,6 +7,7 @@ import { Fragment } from 'react'
 import { useChatMessages } from '../store/context'
 import { useModalConfig, useModalUser } from '../store/modal-store'
 import { Attachment, ThinkingIndicator } from '../ui'
+import React from 'react'
 
 // import { CollectionList } from './tool-ui/collection-list'
 // import type { ChatTools } from '@/app/api/chat/tools'

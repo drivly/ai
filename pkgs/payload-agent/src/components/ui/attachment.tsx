@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { FileInfo } from './file-info'
 import { Thumbnail } from './thumbnail'
+import React from 'react'
 
 export interface AttachmentProps {
   id: string

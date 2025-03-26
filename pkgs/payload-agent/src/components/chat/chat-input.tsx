@@ -6,6 +6,7 @@ import { ChatSuggestions } from './chat-suggestions'
 import { useChatInput, useChatMessages, useChatStatus } from '../store/context'
 import { FilePreview } from '../ui'
 import { useChatInputMethods } from '../../hooks'
+import React from 'react'
 
 export function ChatInput() {
   const { input, handleInputChange, append } = useChatInput()

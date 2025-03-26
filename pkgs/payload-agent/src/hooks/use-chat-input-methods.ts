@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useChatInput, useChatStatus } from '../components/store/context'
 import type { AttachmentFile } from '../components/ui/file-preview'
 import { generateImageThumbnail, handleFileSelection } from '../lib/file-handlers'
+import React from 'react'
 
 export const useChatInputMethods = () => {
   const { input, handleSubmit } = useChatInput()

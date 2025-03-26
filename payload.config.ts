@@ -8,11 +8,12 @@ import { fileURLToPath } from 'url'
 // import sharp from 'sharp'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { Config } from './payload.types'
-
+import { CollectionConfig } from 'payload'
 import { collections } from '@/collections'
 import { tasks } from '@/tasks'
 
 import { isSuperAdmin } from './lib/hooks/isSuperAdmin'
+import { resendAdapter } from '@payloadcms/email-resend'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -23,8 +24,13 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections,
+  collections: collections as CollectionConfig[],
   editor: lexicalEditor(),
+  email: resendAdapter({
+    defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || '',
+    defaultFromName: process.env.DEFAULT_FROM_NAME || '',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload.types.ts'),

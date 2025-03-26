@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react'
 import { useModal } from '../components/store/modal-store'
+import React from 'react'
 
 export const useCommand = () => {
   const { isOpen, open } = useModal()

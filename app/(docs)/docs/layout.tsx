@@ -4,6 +4,7 @@ import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { PageMapItem } from 'nextra'
 
 export const metadata = {
   // Define your metadata here
@@ -22,29 +23,27 @@ const navbar = (
 const footer = <Footer>MIT {new Date().getFullYear()} © Workflows.do</Footer>
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const pageMap = await getPageMap()
+  const docsPageMap = pageMap.filter((page: PageMapItem) => 'name' in page && page.name === 'docs')[0]
+
+  if (!docsPageMap || !('children' in docsPageMap)) {
+    throw new Error('Setup your docs in the content directory')
+  }
+
   return (
-    <html
-      // Not required, but good for SEO
-      lang='en'
-      // Required to be set
-      dir='ltr'
-      // Suggested by `next-themes` package https://github.com/pacocoursey/next-themes#with-app
-      suppressHydrationWarning
-    >
-      <Head
-      // ... Your additional head options
-      >
-        {/* Your additional tags should be passed as `children` of `<Head>` element */}
+    <html lang='en' dir='ltr' suppressHydrationWarning>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
       <body>
         <Layout
           banner={banner}
           navbar={navbar}
-          pageMap={await getPageMap()}
+          pageMap={docsPageMap.children}
           docsRepositoryBase='https://github.com/drivly/ai/tree/main'
           footer={footer}
-          // ... Your additional layout options
-        >
+          sidebar={{ defaultMenuCollapseLevel: 1 }}
+          themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}>
           {children}
         </Layout>
         <Analytics />

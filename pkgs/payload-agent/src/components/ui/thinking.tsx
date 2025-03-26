@@ -1,5 +1,6 @@
 import { cn } from '@drivly/ui/lib'
 import { Bot } from 'lucide-react'
+import React from 'react'
 
 // 1. Morphing Dots - dots that change size and opacity
 function ThinkingDotsAnimation() {

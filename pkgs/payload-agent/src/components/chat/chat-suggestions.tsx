@@ -1,5 +1,6 @@
 import { motion } from 'motion/react'
 import { useModalConfig } from '../store/modal-store'
+import React from 'react'
 
 interface ChatSuggestionsProps {
   append: ({ role, content }: { role: 'user'; content: string }) => void

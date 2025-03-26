@@ -1,6 +1,7 @@
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import type { PayloadAgentAuthResult } from '../types/auth'
+import React from 'react'
 
 export interface UseAuthUserOptions {
   initialAuthResult?: PayloadAgentAuthResult
