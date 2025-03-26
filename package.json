@@ -122,5 +122,5 @@
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
   },
-  "packageManager": "pnpm@10.6.5"
+  "packageManager": "pnpm@10.7.0"
 }
