@@ -1,7 +1,7 @@
 # [Workflows.do](https://workflows.do) Business-as-Code
 
 ```typescript
-import { AI } from 'ai-workflows'
+import { AI } from 'workflows.do'
 
 export default AI({
   onUserSignup: async ({ ai, api, db, event }) => {
