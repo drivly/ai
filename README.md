@@ -37,6 +37,7 @@ export default AI({
 
 ## [Functions.do](https://functions.do) Inputs to Structured Outputs
 
+<a href='https://functions.do'>
 ```typescript
 import { AI } from 'functions.do'
 
@@ -58,6 +59,7 @@ export default AI({
 
 })
 ```
+</a>
 
 
 
