@@ -58,12 +58,60 @@ const ai = AI({
 
 })
 
-const leanCanvas = await ai.leanCanvas({ idea: 'Agentic Workflow Platform', icp: 'Alpha Devs & Empowered CTOs' })
+const businessModel = await ai.leanCanvas({ 
+  idea: 'Agentic Workflow Platform', 
+  icp: 'Alpha Devs & Empowered CTOs',
+})
 
-console.log(leanCanvas)
-//
-//
-//
+console.log(businessModel)
+{
+  productName: 'Agentic Workflow Platform',
+  problem: [
+    'Developers spend significant time managing workflows rather than focusing on core coding tasks',
+    'Difficulty integrating and automating diverse developer tools and platforms',
+    'Lack of flexible, intelligent automation tools tailored specifically for advanced developer needs'
+  ],
+  solution: [
+    'Unified platform enabling seamless integration and automation of developer workflows',
+    'Agentic AI assistants automate routine development tasks, reducing manual overhead',
+    'Highly customizable workflows allowing advanced developers and CTOs to rapidly adapt their processes'
+  ],
+  uniqueValueProposition: 'Empower alpha developers and CTOs to achieve peak productivity with intelligent, agent-driven workflow automation.',
+  unfairAdvantage: 'Proprietary agentic AI technology optimized for complex software development processes, difficult to replicate without deep technical expertise.',
+  customerSegments: [
+    'Alpha developers seeking advanced workflow automation tools',
+    'Empowered CTOs looking to streamline development processes',
+    'High-performing development teams in technology-forward organizations'
+  ],
+  keyMetrics: [
+    'Number of automated tasks executed per user',
+    'Developer time saved per week',
+    'Customer retention rate',
+    'User adoption rate among target customer segments'
+  ],
+  channels: [
+    'Direct outreach and sales to CTOs',
+    'Developer communities and forums',
+    'Tech industry events and conferences',
+    'Strategic partnerships with developer tool platforms'
+  ],
+  costStructure: [
+    'AI development and infrastructure costs',
+    'Platform maintenance and cloud hosting',
+    'Marketing and direct sales expenses',
+    'Research and development'
+  ],
+  revenueStreams: [
+    'Monthly subscription fees based on team size',
+    'Premium feature upgrades',
+    'Enterprise-level customization and integration services'
+  ],
+  recommendations: [
+    'Establish early strategic partnerships with leading developer tools to accelerate adoption',
+    'Implement feedback loops with alpha devs and CTOs to rapidly iterate and refine the agentic AI workflows',
+    'Prioritize transparent pricing and clear ROI demonstrations to convert skeptical advanced developer audiences'
+  ]
+}
 ```
 
 
@@ -84,9 +132,9 @@ console.log(leanCanvas)
     "from": "https://agi.do"
   },
   "ai": {
-    "入 Functions - Typesafe Results without Complexity": "https://functions.do/api",
-    "巛 Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
-    "回 Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
+    "Functions - Typesafe Results without Complexity": "https://functions.do/api",
+    "Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
+    "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
   },
   "things": {
     "Nouns - People, Places, Things, and Ideas": "https://nouns.do",
