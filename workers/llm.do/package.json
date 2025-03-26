@@ -20,6 +20,6 @@
     "@types/node": "22.13.13",
     "@types/service-worker-mock": "^2.0.4",
     "typescript": "^5.8.2",
-    "wrangler": "^4.4.0"
+    "wrangler": "^4.4.1"
   }
 }
