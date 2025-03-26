@@ -1,47 +1,52 @@
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
-import { z } from 'zod'
+import { type AnyZodObject, z } from 'zod'
 import app from '../index'
 import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from '../types/api'
 import { ChatCompletionResponseSchema } from '../types/chat'
 
 export class Chat extends OpenAPIRoute {
-  schema = {
-    tags: ['Chat'],
-    summary: 'Send a message to the chatbot',
-    request: {
-      query: z.object({
-        prompt: z.string().describe('The user prompt').optional(),
-        system: z.string().optional().describe('Optional system message'),
-        model: z.string().optional().describe('Model to use for the chat'),
-        seed: z.number().optional().describe('Seed for the chat'),
-        temperature: z.number().min(0).max(2).optional().describe('Controls randomness: 0 = deterministic, 2 = maximum creativity'),
-        Authorization: z.string().describe('Bearer token alias').optional(),
-        authorization: z.string().describe('Bearer token alias').optional(),
-        apikey: z.string().describe('Bearer token alias').optional(),
-        apiKey: z.string().describe('Bearer token alias').optional(),
-        key: z.string().describe('Bearer token alias').optional(),
-        token: z.string().describe('Bearer token alias').optional(),
-        'api-key': z.string().describe('Bearer token alias').optional(),
-        'x-api-key': z.string().describe('Bearer token alias').optional(),
-        'x-apikey': z.string().describe('Bearer token alias').optional(),
-      }),
-    },
-    responses: {
-      '200': {
-        description: 'Returns chat information',
-        content: {
-          'application/json': {
-            schema: z.object({
-              api: APIDefinitionSchema,
-              links: FlexibleAPILinksSchema,
-              data: ChatCompletionResponseSchema,
-              user: APIUserSchema,
-            }),
+  schema = this.createSchema()
+
+  public createSchema(params?: AnyZodObject) {
+    return {
+      tags: ['Chat'],
+      summary: 'Send a message to the chatbot',
+      request: {
+        params,
+        query: z.object({
+          prompt: z.string().describe('The user prompt').optional(),
+          system: z.string().optional().describe('Optional system message'),
+          model: z.string().optional().describe('Model to use for the chat'),
+          seed: z.number().optional().describe('Seed for the chat'),
+          temperature: z.number().min(0).max(2).optional().describe('Controls randomness: 0 = deterministic, 2 = maximum creativity'),
+          Authorization: z.string().describe('Bearer token alias').optional(),
+          authorization: z.string().describe('Bearer token alias').optional(),
+          apikey: z.string().describe('Bearer token alias').optional(),
+          apiKey: z.string().describe('Bearer token alias').optional(),
+          key: z.string().describe('Bearer token alias').optional(),
+          token: z.string().describe('Bearer token alias').optional(),
+          'api-key': z.string().describe('Bearer token alias').optional(),
+          'x-api-key': z.string().describe('Bearer token alias').optional(),
+          'x-apikey': z.string().describe('Bearer token alias').optional(),
+        }),
+      },
+      responses: {
+        '200': {
+          description: 'Returns chat information',
+          content: {
+            'application/json': {
+              schema: z.object({
+                api: APIDefinitionSchema,
+                links: FlexibleAPILinksSchema,
+                data: ChatCompletionResponseSchema,
+                user: APIUserSchema,
+              }),
+            },
           },
         },
       },
-    },
+    }
   }
 
   async handle(c: Context<{ Bindings: Cloudflare.Env }>) {
@@ -118,7 +123,15 @@ export class Chat extends OpenAPIRoute {
   }
 }
 
-function generateLinks({
+export class ChatModel extends Chat {
+  schema = this.createSchema(z.object({ model: z.string() }))
+}
+
+export class ChatProviderModel extends Chat {
+  schema = this.createSchema(z.object({ provider: z.string(), model: z.string() }))
+}
+
+export function generateLinks({
   prompt,
   system,
   model,
@@ -162,7 +175,7 @@ function generateLinks({
   return links
 }
 
-function getLink({
+export function getLink({
   prompt,
   system,
   model,
