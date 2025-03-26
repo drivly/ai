@@ -67,6 +67,51 @@ console.log(leanCanvas)
 ```
 
 
+## [APIs.do](https://apis.do) Clickable Developer Experiences
+
+```json
+{
+  "api": {
+    "name": "apis.do",
+    "description": "Economically valuable work delivered through simple APIs",
+    "home": "https://apis.do",
+    "login": "https://apis.do/login",
+    "signup": "https://apis.do/signup",
+    "admin": "https://apis.do/admin",
+    "docs": "https://apis.do/docs",
+    "repo": "https://github.com/drivly/ai",
+    "with": "https://apis.do",
+    "from": "https://agi.do"
+  },
+  "ai": {
+    "入 Functions - Typesafe Results without Complexity": "https://functions.do/api",
+    "巛 Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
+    "回 Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
+  },
+  "things": {
+    "Nouns - People, Places, Things, and Ideas": "https://nouns.do",
+    "Verbs - The Actions Performed to and by Nouns": "https://verbs.do"
+  },
+  "events": {
+    "Triggers - Initiate workflows based on events": "https://triggers.do",
+    "Searches - Query and retrieve data": "https://searches.do",
+    "Actions - Perform tasks within workflows": "https://actions.do"
+  },
+  "core": {
+    "LLM - Intelligent AI Gateway": "https://llm.do",
+    "Evals - Evaluate Functions, Workflows, and Agents": "https://evals.do",
+    "Analytics - Economically Validate Workflows": "https://analytics.do",
+    "Experiments - Economically Validate Workflows": "https://experiments.do",
+    "Database - AI Native Data Access (Search + CRUD)": "https://database.do",
+    "Integrations - Connect External APIs and Systems": "https://integrations.do"
+  },
+  "user": {
+    "email": "me@agi.do"
+  }
+}
+```
+
+
 
 ## [Agents.do](https://agents.do) Autonomous Digital Workers
 
@@ -123,3 +168,5 @@ console.log(leanCanvas)
 
 ## [Analytics.do](https://analytics.do) Insightful Business Intelligence
 
+
+## [AGI.do](https://agi.do) Economically Valuable Work
