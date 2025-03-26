@@ -18,6 +18,7 @@ export class Chat extends OpenAPIRoute {
           prompt: z.string().describe('The user prompt').optional(),
           system: z.string().optional().describe('Optional system message'),
           model: z.string().optional().describe('Model to use for the chat'),
+          models: z.string().optional().describe('Comma-separated list of models to use for the chat'),
           seed: z.number().optional().describe('Seed for the chat'),
           temperature: z.number().min(0).max(2).optional().describe('Controls randomness: 0 = deterministic, 2 = maximum creativity'),
           tools: z.string().optional().describe('Comma-separated list of tools to use for the chat (or "all" for all tools)'),
@@ -48,7 +49,7 @@ export class Chat extends OpenAPIRoute {
     const { model: providerModel, provider } = c.req.param()
 
     // Translate the query to the completion endpoint
-    const { prompt = ' ', system, model = provider ? provider + '/' + providerModel : providerModel, seed, temperature, tools } = request.query
+    const { prompt = ' ', system, model = provider ? provider + '/' + providerModel : providerModel, models, seed, temperature, tools } = request.query
 
     const messages = []
     if (system) {
@@ -74,6 +75,7 @@ export class Chat extends OpenAPIRoute {
         headers,
         body: JSON.stringify({
           model,
+          models,
           messages: messages.length ? messages : undefined,
           seed,
           temperature,

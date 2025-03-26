@@ -105,7 +105,8 @@ export const ChatCompletionRequestSchema = z.object({
         }),
       ),
   ),
-  model: Str({ example: 'gpt-4o' }).optional(), // Optional for OpenRouter
+  model: Str({ example: 'gpt-4o' }).optional(),
+  models: z.array(Str({ example: 'gpt-4o' })).optional(),
   audio: z
     .object({
       format: z.string(),
