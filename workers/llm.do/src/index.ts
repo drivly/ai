@@ -17,8 +17,8 @@ const openapi = fromHono(app, {
 openapi.get('/chat', Chat)
 openapi.get('/chat/:model', ChatModel)
 openapi.get('/chat/:provider/:model', ChatProviderModel)
-openapi.get('/api/v1/models', ModelList)
 openapi.post('/api/v1/chat/completions', ChatCompletionCreate)
+openapi.get('/api/v1/models', ModelList)
 
 // Fallbacks
 app.all('/api/v1/*', async (c) => {
