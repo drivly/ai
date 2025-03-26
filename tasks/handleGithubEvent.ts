@@ -7,9 +7,11 @@ export const handleGithubEvent = {
   slug: 'handleGithubEvent',
   label: 'Handle Github Event',
   inputSchema: [{ name: 'payload', type: 'json', required: true }],
-  handler: async ({ job, tasks, req: { payload } }) => {
+  handler: async ({ job, tasks, req }: any) => {
     // TODO: Figure out the correct type for Github Webhooks
     const event = job.input.payload as any
+    const { payload } = req
+    
     if (event.action === 'labeled') {
       console.log('Label added:', event.label?.name)
       if (event.label?.name === 'research') {
@@ -21,7 +23,9 @@ export const handleGithubEvent = {
       }
     }
 
-    // TODO: save event to database
+    const results = await payload.create({ collection: 'events', data: { data: event } })
+    console.log('Event saved to database:', results)
+    
   },
 } as WorkflowConfig<'handleGithubEvent'>
 

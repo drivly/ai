@@ -15,11 +15,8 @@ export const POST = API(async (request, { db, user, origin, url, domain, payload
     console.log({ job })
     waitUntil(payload.jobs.runByID({ id: job.id }))
 
-    // Store the event in the database
-    const results = await payload.create({ collection: 'events', data: { data } })
-
-    console.log('Webhook verified and processed:', results, data)
-    return { results, data }
+    console.log('Webhook verified and processed:', data)
+    return { success: true, data }
   } catch (err) {
     console.error(err)
     return new Response('Webhook processing failed', { status: 401 })
