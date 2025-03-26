@@ -64,48 +64,48 @@ const brand = await ai.storyBrand({
 })
 
 console.log(brand)
-{
-  storyBrand: {
-    hero: {
-      identity: 'Alpha developers and empowered CTOs',
-      desire: 'To effortlessly build and deploy intelligent, scalable, agent-driven workflows'
-    },
-    problem: {
-      external: 'Current workflow solutions lack flexibility, autonomy, and speed.',
-      internal: 'Frustrated by bottlenecks, repetitive tasks, and slow development cycles.',
-      philosophical: 'Innovative developers and CTOs deserve tools designed to empower, not constrain.',
-      villain: 'Leaky abstractions',
-    },
-    guide: {
-      empathy: 'We understand the frustration of wasting your team\'s talent on mundane tasks.',
-      authority: 'Workflows.do is trusted by leading tech teams to automate millions of critical tasks with ease.'
-    },
-    plan: {
-      step1: 'Design workflows easily with our intuitive, agentic builder.',
-      step2: 'Deploy seamlessly to a scalable, fully-managed runtime.',
-      step3: 'Monitor and optimize workflows with powerful observability tools.'
-    },
-    callToAction: {
-      direct: 'Request Early Access',
-      transitional: 'Learn More'
-    },
-    failure: [
-      'Remain stuck with inefficient manual workflows.',
-      'Lose competitive advantage due to slower innovation.',
-      'Experience burnout and high turnover of talented developers.'
-    ],
-    success: [
-      'Launch sophisticated workflows quickly, without friction.',
-      'Free your team from repetitive tasks to focus on high-value innovation.',
-      'Accelerate your organization\'s growth and competitive edge.'
-    ],
-    transformation: {
-      from: 'Overwhelmed by rigid, manual processes slowing innovation',
-      to: 'Empowered to rapidly deploy autonomous workflows that drive innovation and growth'
-    },
-    oneLiner: 'Workflows.do empowers alpha devs and visionary CTOs to effortlessly create autonomous workflows, unlocking next-level productivity and innovation.'
-  }
-}
+// {
+//   storyBrand: {
+//     hero: {
+//       identity: 'Alpha developers and empowered CTOs',
+//       desire: 'To effortlessly build and deploy intelligent, scalable, agent-driven workflows'
+//     },
+//     problem: {
+//       external: 'Current workflow solutions lack flexibility, autonomy, and speed.',
+//       internal: 'Frustrated by bottlenecks, repetitive tasks, and slow development cycles.',
+//       philosophical: 'Innovative developers and CTOs deserve tools designed to empower, not constrain.',
+//       villain: 'Leaky abstractions',
+//     },
+//     guide: {
+//       empathy: 'We understand the frustration of wasting your team\'s talent on mundane tasks.',
+//       authority: 'Workflows.do is trusted by leading tech teams to automate millions of critical tasks with ease.'
+//     },
+//     plan: {
+//       step1: 'Design workflows easily with our intuitive, agentic builder.',
+//       step2: 'Deploy seamlessly to a scalable, fully-managed runtime.',
+//       step3: 'Monitor and optimize workflows with powerful observability tools.'
+//     },
+//     callToAction: {
+//       direct: 'Request Early Access',
+//       transitional: 'Learn More'
+//     },
+//     failure: [
+//       'Remain stuck with inefficient manual workflows.',
+//       'Lose competitive advantage due to slower innovation.',
+//       'Experience burnout and high turnover of talented developers.'
+//     ],
+//     success: [
+//       'Launch sophisticated workflows quickly, without friction.',
+//       'Free your team from repetitive tasks to focus on high-value innovation.',
+//       'Accelerate your organization\'s growth and competitive edge.'
+//     ],
+//     transformation: {
+//       from: 'Overwhelmed by rigid, manual processes slowing innovation',
+//       to: 'Empowered to rapidly deploy autonomous workflows that drive innovation and growth'
+//     },
+//     oneLiner: 'Workflows.do empowers alpha devs and visionary CTOs to effortlessly create autonomous workflows, unlocking next-level productivity and innovation.'
+//   }
+// }
 ```
 
 
