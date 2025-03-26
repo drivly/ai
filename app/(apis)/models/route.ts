@@ -55,6 +55,19 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     return options?.map((option) => modifyQueryString(param, option)) ?? []
   }
 
+  // Custom groupBy implementation
+  // Cannot bump to ES2024 because it breaks imports so we need to use a polyfill
+  function groupByKey<T, K extends keyof any>(array: T[], getKey: (item: T) => K) {
+    return array.reduce((result, item) => {
+      const key = getKey(item);
+      if (!result[key]) {
+        result[key] = [];
+      }
+      result[key].push(item);
+      return result;
+    }, {} as Record<K, T[]>);
+  }
+
   const qs = new URLSearchParams(request.url.split('?')[1])
   const model = qs.get('model')
   const groupBy = qs.get('groupBy') ?? 'author'
@@ -174,14 +187,15 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     }, {}) as Record<string, unknown>
 
   if (groupBy) {
-
     // Modify the modelsObject to group by the given param
-    modelsObject = Object.groupBy(Object.values(modelsObject), (model) => model[groupBy as keyof typeof model])
+    modelsObject = groupByKey(Object.values(modelsObject) as any[], 
+      (model) => model[groupBy as keyof typeof model] as any)
     
     // Strip the object down to just the URL now that we've done the grouping
     modelsObject = Object.fromEntries(Object.entries(modelsObject)
       .map(([key, value]) => [
         key,
+        // @ts-expect-error - Ignore 
         value.reduce((acc, curr) => {
           return {
             ...acc,
