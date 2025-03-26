@@ -57,7 +57,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
         apiKey: env.COMPOSIO_API_KEY,
       })
 
-      const tools = await composioToolset.getTools({ actions })
+      const tools = await composioToolset.getTools({ actions: actions.length === 1 && actions[0] === 'all' ? undefined : actions })
       request.body.tools = request.body.tools?.map((t) => {
         if (typeof t === 'string') {
           return tools.shift() || t
@@ -66,7 +66,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
       })
       const response = await fetchFromProvider(request, 'POST', '/chat/completions')
       const json: ChatCompletionResponse = await response.json()
-      if (json.choices.find((c) => c.message.tool_calls?.find((t) => actions.includes(t.function.name)))) {
+      if (json.choices.find((c) => c.message.tool_calls?.find((c) => tools.find((t) => t.function.name === c.function.name)))) {
         const composioResponse = await composioToolset.handleToolCall(json)
         return c.json(composioResponse)
       }
