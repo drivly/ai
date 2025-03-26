@@ -126,9 +126,9 @@ console.log(brand)
     "from": "https://agi.do"
   },
   "ai": {
-    "入 Functions - Typesafe Results without Complexity": "https://functions.do/api",
-    "巛 Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
-    "回 Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
+    "Functions - Typesafe Results without Complexity": "https://functions.do/api",
+    "Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
+    "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
   },
   "things": {
     "Nouns - People, Places, Things, and Ideas": "https://nouns.do",
