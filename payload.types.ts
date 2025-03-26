@@ -189,7 +189,9 @@ export interface Config {
         output: unknown;
       };
     };
-    workflows: unknown;
+    workflows: {
+      handleGithubEvent: WorkflowHandleGithubEvent;
+    };
   };
 }
 export interface UserAuthOperations {
@@ -938,6 +940,7 @@ export interface PayloadJob {
         id?: string | null;
       }[]
     | null;
+  workflowSlug?: 'handleGithubEvent' | null;
   taskSlug?: ('inline' | 'executeFunction' | 'generateCode') | null;
   queue?: string | null;
   waitUntil?: string | null;
@@ -1569,6 +1572,7 @@ export interface PayloadJobsSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  workflowSlug?: T;
   taskSlug?: T;
   queue?: T;
   waitUntil?: T;
@@ -1689,6 +1693,23 @@ export interface TaskGenerateCode {
       | null;
     code?: string | null;
     parsed?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WorkflowHandleGithubEvent".
+ */
+export interface WorkflowHandleGithubEvent {
+  input: {
+    payload:
       | {
           [k: string]: unknown;
         }
