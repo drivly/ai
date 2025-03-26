@@ -6,7 +6,6 @@ export const handleGithubEvent = {
   slug: 'handleGithubEvent',
   label: 'Handle Github Event',
   inputSchema: [{ name: 'payload', type: 'json', required: true }],
-  outputSchema: [{ name: 'results', type: 'json' }],
   handler: async ({ job, tasks, req }: any) => {
     // TODO: Figure out the correct type for Github Webhooks
     const event = job.input.payload as any
@@ -26,6 +25,5 @@ export const handleGithubEvent = {
     const results = await payload.create({ collection: 'events', data: { data: event } })
     console.log('Event saved to database:', results)
     
-    return { results }
   },
-}
+} as WorkflowConfig<'handleGithubEvent'>
