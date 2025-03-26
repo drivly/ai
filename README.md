@@ -37,11 +37,10 @@ export default AI({
 
 ## [Functions.do](https://functions.do) Inputs to Structured Outputs
 
-<a href="https://functions.do">
 ```typescript
 import { AI } from 'functions.do'
 
-export default AI({
+const ai = AI({
 
   leanCanvas: {
     productName: 'name of the product or service',
@@ -58,8 +57,14 @@ export default AI({
   }
 
 })
+
+const leanCanvas = await ai.leanCanvas({ idea: 'Agentic Workflow Platform', icp: 'Alpha Devs & Empowered CTOs' })
+
+console.log(leanCanvas)
+//
+//
+//
 ```
-</a>
 
 
 
