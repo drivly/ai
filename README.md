@@ -87,7 +87,7 @@ console.log(brand)
     },
     callToAction: {
       direct: 'Request Early Access',
-      transitional: 'Explore a Demo'
+      transitional: 'Learn More'
     },
     failure: [
       'Remain stuck with inefficient manual workflows.',
