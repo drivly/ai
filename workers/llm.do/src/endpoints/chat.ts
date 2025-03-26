@@ -1,9 +1,9 @@
 import { OpenAPIRoute } from 'chanfana'
+import { Context } from 'hono'
 import { z } from 'zod'
 import app from '../index'
 import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from '../types/api'
 import { ChatCompletionResponseSchema } from '../types/chat'
-import { Context } from 'hono'
 
 export class Chat extends OpenAPIRoute {
   schema = {
