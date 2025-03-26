@@ -1,5 +1,6 @@
 # [Workflows.do](https://workflows.do) Business-as-Code
-<details>
+
+
 ```typescript
 import { AI } from 'workflows.do'
 
@@ -107,6 +108,9 @@ console.log(brand)
 //   }
 // }
 ```
+
+<details>
+## Hello from the inside
 </details>
 
 ## [APIs.do](https://apis.do) Clickable Developer Experiences
