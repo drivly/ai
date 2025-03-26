@@ -44,7 +44,7 @@ const customerOnboardingWorkflow = {
     {
       id: 'accountSetup',
       function: 'setupCustomerAccount',
-      input: { 
+      input: {
         customerId: '{{input.customerId}}',
         plan: '{{input.plan}}',
       },
@@ -52,7 +52,7 @@ const customerOnboardingWorkflow = {
     {
       id: 'welcomeEmail',
       function: 'sendPersonalizedEmail',
-      input: { 
+      input: {
         to: '{{accountSetup.customerEmail}}',
         template: 'welcome',
         variables: {
@@ -65,7 +65,7 @@ const customerOnboardingWorkflow = {
     {
       id: 'resourceAllocation',
       function: 'allocateResources',
-      input: { 
+      input: {
         customerId: '{{input.customerId}}',
         plan: '{{input.plan}}',
         companySize: '{{input.companySize}}',
@@ -87,11 +87,7 @@ const customerOnboardingWorkflow = {
       input: {
         customerEmail: '{{accountSetup.customerEmail}}',
         accountManagerEmail: '{{assignAccountManager.email}}',
-        suggestedTopics: [
-          'Implementation timeline',
-          'Success metrics',
-          'Training needs',
-        ],
+        suggestedTopics: ['Implementation timeline', 'Success metrics', 'Training needs'],
       },
       condition: '{{!!assignAccountManager}}',
     },
@@ -115,7 +111,7 @@ const customerOnboardingWorkflow = {
       },
     },
     fallbackSteps: {
-      'scheduleKickoff': 'sendSchedulingLink',
+      scheduleKickoff: 'sendSchedulingLink',
     },
   },
   metrics: [

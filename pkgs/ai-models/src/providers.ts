@@ -68,7 +68,6 @@ const providerRewrites = {
 }
 
 let models: Model[] = rawModels.models.map((x) => {
-
   const provider = providerRewrites[x.endpoint?.providerName as keyof typeof providerRewrites] ?? x.endpoint?.providerName
 
   const model: Model = {
