@@ -20,15 +20,8 @@ export class Chat extends OpenAPIRoute {
           model: z.string().optional().describe('Model to use for the chat'),
           seed: z.number().optional().describe('Seed for the chat'),
           temperature: z.number().min(0).max(2).optional().describe('Controls randomness: 0 = deterministic, 2 = maximum creativity'),
+          tools: z.string().optional().describe('Comma separated list of tools to use for the chat'),
           Authorization: z.string().describe('Bearer token alias').optional(),
-          authorization: z.string().describe('Bearer token alias').optional(),
-          apikey: z.string().describe('Bearer token alias').optional(),
-          apiKey: z.string().describe('Bearer token alias').optional(),
-          key: z.string().describe('Bearer token alias').optional(),
-          token: z.string().describe('Bearer token alias').optional(),
-          'api-key': z.string().describe('Bearer token alias').optional(),
-          'x-api-key': z.string().describe('Bearer token alias').optional(),
-          'x-apikey': z.string().describe('Bearer token alias').optional(),
         }),
       },
       responses: {
@@ -55,7 +48,7 @@ export class Chat extends OpenAPIRoute {
     const { model: providerModel, provider } = c.req.param()
 
     // Translate the query to the completion endpoint
-    const { prompt = ' ', system, model = (provider ? provider + '/' + providerModel : providerModel) || 'drivly/frontier', seed, temperature } = request.query
+    const { prompt = ' ', system, model = provider ? provider + '/' + providerModel : providerModel, seed, temperature, tools } = request.query
 
     const messages = []
     if (system) {
@@ -67,22 +60,14 @@ export class Chat extends OpenAPIRoute {
       'Content-Type': 'application/json',
     }
 
-    const Authorization =
-      (request.headers as any)?.Authorization ||
-      request.query.Authorization ||
-      request.query.authorization ||
-      request.query.apikey ||
-      request.query.apiKey ||
-      request.query.key ||
-      request.query.token ||
-      request.query['api-key'] ||
-      request.query['x-api-key'] ||
-      request.query['x-apikey']
+    const Authorization = (request.headers as any)?.Authorization || request.query.Authorization
 
     let data
 
     if (Authorization) {
-      headers.Authorization = Authorization.startsWith('Bearer ') ? Authorization : 'Bearer ' + Authorization
+      if (!Authorization.startsWith('Bearer ')) {
+        headers.Authorization = 'Bearer ' + Authorization
+      }
 
       const response = await app.request('/api/v1/chat/completions', {
         method: 'POST',
@@ -92,6 +77,7 @@ export class Chat extends OpenAPIRoute {
           messages: messages.length ? messages : undefined,
           seed,
           temperature,
+          tools: tools?.length ? tools.split(',') : undefined,
         }),
       })
 
@@ -137,40 +123,42 @@ export function generateLinks({
   model,
   seed,
   temperature,
+  tools,
   Authorization,
 }: {
   prompt: string
-  system: string | undefined
-  model: string | undefined
-  seed: number | undefined
-  temperature: number | undefined
-  Authorization: string | undefined
+  system?: string
+  model?: string
+  seed?: number
+  temperature?: number
+  tools?: string[]
+  Authorization?: string
 }) {
   const links: Record<string, string> = {
     home: 'https://llm.do',
-    self: getLink({ prompt, system, model, seed, temperature, Authorization }),
+    self: getLink({ prompt, system, model, seed, temperature, tools, Authorization }),
   }
   if (seed !== undefined) {
-    links.next = getLink({ prompt, system, model, seed: seed + 1, temperature, Authorization })
-    links.prev = getLink({ prompt, system, model, seed: seed - 1, temperature, Authorization })
+    links.next = getLink({ prompt, system, model, seed: seed + 1, temperature, tools, Authorization })
+    links.prev = getLink({ prompt, system, model, seed: seed - 1, temperature, tools, Authorization })
   }
 
   if (prompt.trim() && (system || model || seed !== undefined || temperature !== undefined)) {
-    links['Remove prompt'] = getLink({ prompt: '', system, model, seed, temperature, Authorization })
+    links['Remove prompt'] = getLink({ prompt: '', system, model, seed, temperature, tools, Authorization })
   }
   if (system && (prompt.trim() || model || seed !== undefined || temperature !== undefined)) {
-    links['Remove system'] = getLink({ prompt, system: '', model, seed, temperature, Authorization })
+    links['Remove system'] = getLink({ prompt, system: '', model, seed, temperature, tools, Authorization })
   }
   if (model && (prompt.trim() || system || seed !== undefined || temperature !== undefined)) {
-    links['Remove model'] = getLink({ prompt, system, model: '', seed, temperature, Authorization })
+    links['Remove model'] = getLink({ prompt, system, model: '', seed, temperature, tools, Authorization })
   }
   if (seed !== undefined) {
-    links['Remove seed'] = getLink({ prompt, system, model, seed: undefined, temperature, Authorization })
+    links['Remove seed'] = getLink({ prompt, system, model, seed: undefined, temperature, tools, Authorization })
   } else {
-    links['Add seed'] = getLink({ prompt, system, model, seed: 0, temperature, Authorization })
+    links['Add seed'] = getLink({ prompt, system, model, seed: 0, temperature, tools, Authorization })
   }
   if (temperature !== undefined && (prompt.trim() || system || model || seed !== undefined)) {
-    links['Remove temperature'] = getLink({ prompt, system, model, seed, temperature: undefined, Authorization })
+    links['Remove temperature'] = getLink({ prompt, system, model, seed, temperature: undefined, tools, Authorization })
   }
   return links
 }
@@ -181,14 +169,16 @@ export function getLink({
   model,
   seed,
   temperature,
+  tools,
   Authorization,
 }: {
   prompt: string
-  system: string | undefined
-  model: string | undefined
-  seed: number | undefined
-  temperature: number | undefined
-  Authorization: string | undefined
+  system?: string
+  model?: string
+  seed?: number
+  temperature?: number
+  tools?: string[]
+  Authorization?: string
 }) {
   let path
   const params = new URLSearchParams()
@@ -208,6 +198,9 @@ export function getLink({
   }
   if (temperature !== undefined) {
     params.set('temperature', temperature.toString())
+  }
+  if (tools?.length) {
+    params.set('tools', tools.join(','))
   }
   if (Authorization) {
     params.set('Authorization', Authorization)

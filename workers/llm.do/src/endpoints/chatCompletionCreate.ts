@@ -34,15 +34,18 @@ export class ChatCompletionCreate extends OpenAPIRoute {
   async handle(c: Context<{ Bindings: Cloudflare.Env }>) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
+    const fallbackModel = 'drivly/frontier'
 
     // Model router
     try {
-      request.body.model = getModel(request.body.model || '', {
-        requiredCapabilities: getRequiredCapabilities(request.body),
-        seed: request.body.seed,
-      })?.slug
+      request.body.model =
+        getModel(request.body.model || '', {
+          requiredCapabilities: getRequiredCapabilities(request.body),
+          seed: request.body.seed,
+        })?.slug || fallbackModel
     } catch (error) {
       console.error(error)
+      request.body.model = fallbackModel
     }
 
     const actions = request.body.tools?.filter((t) => typeof t === 'string')
