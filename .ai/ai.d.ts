@@ -1,3 +1,1 @@
-export type ai = {
-  
-}
+export type ai = {}
