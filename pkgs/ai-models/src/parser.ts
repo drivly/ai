@@ -2,8 +2,8 @@ import { ParsedModelIdentifier, ThinkingLevel, Capability, capabilities, Provide
 
 const ALIASES = {
   '4o': 'gpt-4o',
-  'sonnet': 'claude-3.7-sonnet',
-  'r1': 'deepseek-r1'
+  sonnet: 'claude-3.7-sonnet',
+  r1: 'deepseek-r1',
 }
 
 /**

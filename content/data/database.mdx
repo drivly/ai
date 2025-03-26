@@ -42,7 +42,7 @@ const customer = await database.create('customers', {
 
 // Query data with filters
 const enterpriseCustomers = await database.find('customers', {
-  where: { 
+  where: {
     size: 'enterprise',
     industry: { $in: ['Manufacturing', 'Healthcare', 'Finance'] },
   },
