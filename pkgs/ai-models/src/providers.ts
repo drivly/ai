@@ -1,6 +1,7 @@
 import { Capability, Provider, ThinkingLevel } from './types'
 import rawModels from './models'
 import camelCase from 'camelcase'
+import { ALIASES } from './parser'
 
 export type Model = {
   isComposite?: boolean
@@ -17,6 +18,7 @@ export type Model = {
   defaults?: Capability[]
   childPriority?: 'first' | 'random'
   childrenModels?: Model['name'][]
+  alias?: string
 }
 
 // export function getModelOrGateway(provider: Provider, model: string, useGateway: boolean): LanguageModel {
@@ -78,10 +80,16 @@ let models: Model[] = rawModels.models.map((x) => {
     capabilities: x.endpoint?.supportedParameters.map((p) => camelCase(p) as Capability),
     openRouterSlug: x.slug,
     modelIdentifier: x.slug.replace(x.author + '/', ''), // Fixes cases where the modelId was google/google/google-gemini-2.0-flash-001
+    alias: '',
+  }
+
+  // Do a reverse lookup for an alias, where the value is the model slug
+  if (Object.values(ALIASES).includes(model.modelIdentifier || '')) {
+    model.alias = Object.keys(ALIASES).find((key) => ALIASES[key as keyof typeof ALIASES] === model.modelIdentifier)
   }
 
   if (model.modelIdentifier?.includes('gemini')) {
-    console.log(model)
+    //console.log(model)
   }
 
   return model

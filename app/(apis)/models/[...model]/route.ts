@@ -73,7 +73,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
           }
 
           return {
-            [option]: `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`,
+            [option]: `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}`.replaceAll('(', '%28').replaceAll(')', '%29'),
           }
         })
         .reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {})

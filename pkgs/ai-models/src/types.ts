@@ -29,6 +29,7 @@ export interface ParsedModelIdentifier {
   capabilities: Capability[]
   thinkingLevel?: ThinkingLevel
   systemConfig?: Record<string, string | number>
+  alias?: string
 }
 
 export interface ModelConfig {
