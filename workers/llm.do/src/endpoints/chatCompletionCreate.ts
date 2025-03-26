@@ -1,5 +1,6 @@
 import { Capability, getModel } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
+import { env } from 'cloudflare:workers'
 import { OpenAIToolSet } from 'composio-core'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
@@ -53,7 +54,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
       request.body.stream = false
 
       const composioToolset = new OpenAIToolSet({
-        apiKey: c.env.COMPOSIO_API_KEY,
+        apiKey: env.COMPOSIO_API_KEY,
       })
 
       const tools = await composioToolset.getTools({ actions })
