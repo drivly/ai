@@ -70,8 +70,22 @@ async function createDevinSession(event: any) {
       body: JSON.stringify({ prompt })
     })
 
-    const result = await response.json()
-    console.log('Devin session created:', result)
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error(`Devin API error (${response.status}):`, errorText)
+      return { error: `API error: ${response.status}`, message: errorText }
+    }
+
+    let result
+    try {
+      const text = await response.text()
+      result = JSON.parse(text)
+      console.log('Devin session created:', result)
+    } catch (parseError) {
+      console.error('Failed to parse Devin API response:', parseError)
+      result = { error: 'Invalid JSON response', rawResponse: await response.text() }
+    }
+    
     return result
   } catch (error) {
     console.error('Error creating Devin session:', error)
