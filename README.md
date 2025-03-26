@@ -58,59 +58,53 @@ const ai = AI({
 
 })
 
-const businessModel = await ai.leanCanvas({ 
+const brand = await ai.storyBrand({ 
   idea: 'Agentic Workflow Platform', 
   icp: 'Alpha Devs & Empowered CTOs',
 })
 
-console.log(businessModel)
+console.log(brand)
 {
-  productName: 'Agentic Workflow Platform',
-  problem: [
-    'Developers spend significant time managing workflows rather than focusing on core coding tasks',
-    'Difficulty integrating and automating diverse developer tools and platforms',
-    'Lack of flexible, intelligent automation tools tailored specifically for advanced developer needs'
-  ],
-  solution: [
-    'Unified platform enabling seamless integration and automation of developer workflows',
-    'Agentic AI assistants automate routine development tasks, reducing manual overhead',
-    'Highly customizable workflows allowing advanced developers and CTOs to rapidly adapt their processes'
-  ],
-  uniqueValueProposition: 'Empower alpha developers and CTOs to achieve peak productivity with intelligent, agent-driven workflow automation.',
-  unfairAdvantage: 'Proprietary agentic AI technology optimized for complex software development processes, difficult to replicate without deep technical expertise.',
-  customerSegments: [
-    'Alpha developers seeking advanced workflow automation tools',
-    'Empowered CTOs looking to streamline development processes',
-    'High-performing development teams in technology-forward organizations'
-  ],
-  keyMetrics: [
-    'Number of automated tasks executed per user',
-    'Developer time saved per week',
-    'Customer retention rate',
-    'User adoption rate among target customer segments'
-  ],
-  channels: [
-    'Direct outreach and sales to CTOs',
-    'Developer communities and forums',
-    'Tech industry events and conferences',
-    'Strategic partnerships with developer tool platforms'
-  ],
-  costStructure: [
-    'AI development and infrastructure costs',
-    'Platform maintenance and cloud hosting',
-    'Marketing and direct sales expenses',
-    'Research and development'
-  ],
-  revenueStreams: [
-    'Monthly subscription fees based on team size',
-    'Premium feature upgrades',
-    'Enterprise-level customization and integration services'
-  ],
-  recommendations: [
-    'Establish early strategic partnerships with leading developer tools to accelerate adoption',
-    'Implement feedback loops with alpha devs and CTOs to rapidly iterate and refine the agentic AI workflows',
-    'Prioritize transparent pricing and clear ROI demonstrations to convert skeptical advanced developer audiences'
-  ]
+  storyBrand: {
+    hero: {
+      identity: 'Alpha developers and empowered CTOs',
+      desire: 'To effortlessly build and deploy intelligent, scalable, agent-driven workflows'
+    },
+    problem: {
+      external: 'Current workflow solutions lack flexibility, autonomy, and speed.',
+      internal: 'Frustrated by bottlenecks, repetitive tasks, and slow development cycles.',
+      philosophical: 'Innovative developers and CTOs deserve tools designed to empower, not constrain.',
+      villain: 'Leaky abstractions',
+    },
+    guide: {
+      empathy: 'We understand the frustration of wasting your team\'s talent on mundane tasks.',
+      authority: 'Workflows.do is trusted by leading tech teams to automate millions of critical tasks with ease.'
+    },
+    plan: {
+      step1: 'Design workflows easily with our intuitive, agentic builder.',
+      step2: 'Deploy seamlessly to a scalable, fully-managed runtime.',
+      step3: 'Monitor and optimize workflows with powerful observability tools.'
+    },
+    callToAction: {
+      direct: 'Request Early Access',
+      transitional: 'Explore a Demo'
+    },
+    failure: [
+      'Remain stuck with inefficient manual workflows.',
+      'Lose competitive advantage due to slower innovation.',
+      'Experience burnout and high turnover of talented developers.'
+    ],
+    success: [
+      'Launch sophisticated workflows quickly, without friction.',
+      'Free your team from repetitive tasks to focus on high-value innovation.',
+      'Accelerate your organization\'s growth and competitive edge.'
+    ],
+    transformation: {
+      from: 'Overwhelmed by rigid, manual processes slowing innovation',
+      to: 'Empowered to rapidly deploy autonomous workflows that drive innovation and growth'
+    },
+    oneLiner: 'Workflows.do empowers alpha devs and visionary CTOs to effortlessly create autonomous workflows, unlocking next-level productivity and innovation.'
+  }
 }
 ```
 
@@ -132,9 +126,9 @@ console.log(businessModel)
     "from": "https://agi.do"
   },
   "ai": {
-    "Functions - Typesafe Results without Complexity": "https://functions.do/api",
-    "Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
-    "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
+    "入 Functions - Typesafe Results without Complexity": "https://functions.do/api",
+    "巛 Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
+    "回 Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
   },
   "things": {
     "Nouns - People, Places, Things, and Ideas": "https://nouns.do",
