@@ -2,7 +2,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm build:content && cross-env NODE_OPTIONS=--no-deprecation next build",
+    "build": "turbo run build && pnpm build:next",
+    "build:next": "pnpm build:content && cross-env NODE_OPTIONS=--no-deprecation next build",
     "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
@@ -17,7 +18,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "vitest run --config vitest.e2e.config.ts",
-    "build:turbo": "turbo build",
     "clean:turbo": "turbo clean",
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "lint:turbo": "turbo lint",
