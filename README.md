@@ -192,6 +192,30 @@ console.log(brand)
 
 ## [Database.do](https://database.do) AI-enriched Data
 
+```typescript
+import { DB } from 'database.do'
+
+const db = DB({
+  posts: {
+    title: 'text',
+    content: 'richtext',
+    status: 'Draft | Published | Archived', // Select field with predefined options
+    contentType: 'Text | Markdown | Code | Object | Schema', // Another select field example
+    tags: 'tags[]',
+    author: 'authors'
+  },
+  tags: {
+    name: 'text',
+    posts: '<-posts.tags'  // Join field to posts (reverse relation)
+  },
+  authors: {
+    name: 'text',
+    email: 'email',
+    role: 'Admin | Editor | Writer', // Select field with predefined options
+    posts: '<-posts.author'  // Join field to posts (reverse relation)
+  }
+})
+```
 
 ## [Events.do](https://events.do) Track Business Events
 
