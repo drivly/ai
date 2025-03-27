@@ -15,18 +15,18 @@ export function toChatCompletionRequest(request: ResponseRequest): ChatCompletio
     ]
   } else {
     const messages: ChatCompletionRequest['messages'] = []
-    
+
     for (const message of request.input) {
       if ('role' in message && message.role) {
         const convertedMessage: any = {
           role: message.role,
           content: typeof message.content === 'string' ? message.content : JSON.stringify(message.content),
         }
-        
+
         if ('name' in message && message.name) {
           convertedMessage.name = message.name
         }
-        
+
         messages.push(convertedMessage)
       } else {
         messages.push({
@@ -35,7 +35,7 @@ export function toChatCompletionRequest(request: ResponseRequest): ChatCompletio
         })
       }
     }
-    
+
     completionRequest.messages = messages
   }
 
@@ -44,7 +44,7 @@ export function toChatCompletionRequest(request: ResponseRequest): ChatCompletio
   if (request.metadata) completionRequest.metadata = request.metadata
   if (request.parallel_tool_calls) completionRequest.parallel_tool_calls = request.parallel_tool_calls
   if (request.temperature) completionRequest.temperature = request.temperature
-  
+
   if (request.tool_choice) {
     if (typeof request.tool_choice === 'string') {
       if (request.tool_choice === 'auto' || request.tool_choice === 'none') {
@@ -55,14 +55,14 @@ export function toChatCompletionRequest(request: ResponseRequest): ChatCompletio
     } else if (request.tool_choice.type === 'function') {
       completionRequest.tool_choice = {
         type: 'function',
-        function: { name: request.tool_choice.name }
+        function: { name: request.tool_choice.name },
       }
     }
   }
-  
+
   if (request.tools) {
     const convertedTools: ChatCompletionRequest['tools'] = []
-    
+
     for (const tool of request.tools) {
       if (tool.type === 'function') {
         convertedTools.push({
@@ -71,27 +71,27 @@ export function toChatCompletionRequest(request: ResponseRequest): ChatCompletio
             name: tool.name,
             description: tool.description,
             parameters: tool.parameters || {},
-            strict: tool.strict || null
-          }
+            strict: tool.strict || null,
+          },
         })
       }
     }
-    
+
     if (convertedTools.length > 0) {
       completionRequest.tools = convertedTools
     }
   }
-  
+
   if (request.top_p) completionRequest.top_p = request.top_p
   if (request.user) completionRequest.user = request.user
   if (request.stream) completionRequest.stream = request.stream
-  
+
   return completionRequest
 }
 
 export function toResponse(response: ChatCompletionResponse): Response {
   const choice = response.choices[0]
-  
+
   const result: Response = {
     created_at: response.created,
     error: null,
@@ -125,20 +125,22 @@ export function toResponse(response: ChatCompletionResponse): Response {
     },
     user: null,
   }
-  
+
   if (choice && choice.message) {
-    result.output = [{
-      content: {
-        text: choice.message.content || '',
-        type: 'output_text',
-        annotations: [],
+    result.output = [
+      {
+        content: {
+          text: choice.message.content || '',
+          type: 'output_text',
+          annotations: [],
+        },
+        id: response.id,
+        role: 'assistant',
+        status: 'completed',
+        type: 'message',
       },
-      id: response.id,
-      role: 'assistant',
-      status: 'completed',
-      type: 'message',
-    }]
+    ]
   }
-  
+
   return result
 }
