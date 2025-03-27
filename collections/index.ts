@@ -33,40 +33,50 @@ import { Searches } from './events/Searches'
 import { IntegrationTriggers } from './admin/IntegrationTriggers'
 import { IntegrationActions } from './admin/IntegrationActions'
 import { IntegrationCategories } from './admin/IntegrationCategories'
+import { Connections } from './admin/Connections'
 
 export const collections = [
   Functions,
   Workflows,
   Agents,
+  
   Nouns,
   Verbs,
   Things,
+  
+  Integrations,
+  IntegrationCategories,
+  IntegrationTriggers,
+  IntegrationActions,
+  Connections,
+  
   Triggers,
   Searches,
   Actions,
+  
   Experiments,
   Models,
   Prompts,
   Settings,
+  
   Types,
   Modules,
   Packages,
   Deployments,
+  
   Benchmarks,
   Evals,
   EvalsRuns,
   EvalsResults,
   Datasets,
+  
   Events,
   Errors,
   Generations,
   Traces,
+  
   Projects,
   Users,
-  Integrations,
-  IntegrationCategories,
-  IntegrationTriggers,
-  IntegrationActions,
   Tags,
   Webhooks,
   APIKeys,

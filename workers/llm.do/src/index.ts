@@ -4,6 +4,8 @@ import { ChatCompletionCreate } from 'endpoints/chatCompletionCreate'
 import { ModelList } from 'endpoints/modelList'
 import { Hono } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
+import { ResponseCreate } from 'endpoints/responseCreate'
+import { ResponseGet } from 'endpoints/responseGet'
 
 // Start a Hono app
 const app = new Hono<{ Bindings: Cloudflare.Env }>()
@@ -19,6 +21,8 @@ openapi.get('/chat/:model', ChatModel)
 openapi.get('/chat/:provider/:model', ChatProviderModel)
 openapi.post('/api/v1/chat/completions', ChatCompletionCreate)
 openapi.get('/api/v1/models', ModelList)
+openapi.post('/api/v1/responses', ResponseCreate)
+openapi.get('/api/v1/responses/:response_id', ResponseGet)
 
 // Fallbacks
 app.all('/api/v1/*', async (c) => {
