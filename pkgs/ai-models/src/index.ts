@@ -1,4 +1,4 @@
-export { getModel, reconstructModelString } from './modelSelector'
+export { getModel, getModels, reconstructModelString } from './modelSelector'
 export { parse } from './parser'
 export * from './types'
 export * from './models'

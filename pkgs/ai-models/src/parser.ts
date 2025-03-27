@@ -4,7 +4,9 @@ export const ALIASES = {
   '4o': 'gpt-4o',
   'sonnet': 'claude-3.7-sonnet',
   'r1': 'deepseek-r1',
-  'gemini': 'gemini-2.0-flash-001'
+  'gemini': 'gemini-2.0-flash-001',
+  'gemma-3': 'gemma-3-27b-it',
+  'gemini-2.5-pro': 'gemini-2.5-pro-exp-03-25:free' 
 }
 
 /**
@@ -114,11 +116,17 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
     }
   }
 
+  // If a model has a compatibility of "free", this means its a free model
+  // and we should edit the model to append the `:free` back to it
+  if (result.capabilities.includes('free')) {
+    result.model = `${result.model}:free`
+    result.capabilities = result.capabilities.filter((c) => c !== 'free')
+  }
+
   // Do a reverse lookup of the alias
   if (Object.values(ALIASES).includes(result.model)) {
     result.alias = Object.keys(ALIASES).find((key) => ALIASES[key as keyof typeof ALIASES] === result.model)
   }
-
 
   console.log('result', result)
   

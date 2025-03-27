@@ -772,41 +772,42 @@ export interface Dataset {
   createdAt: string;
 }
 /**
+ * Records of all significant occurrences within the platform
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
 export interface Event {
   id: string;
-  name?: string | null;
+  timestamp: string;
+  type: string;
+  source: string;
+  subject?: (string | null) | Thing;
+  data:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   action?: (string | null) | Action;
-  generation?: (string | null) | Generation;
-  request?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  data?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  meta?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  trigger?: (string | null) | Trigger;
+  search?: (string | null) | Search;
+  function?: (string | null) | Function;
+  workflow?: (string | null) | Workflow;
+  agent?: (string | null) | Agent;
+  generations?: (string | Generation)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1481,12 +1482,19 @@ export interface DatasetsSelect<T extends boolean = true> {
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
-  name?: T;
-  action?: T;
-  generation?: T;
-  request?: T;
+  timestamp?: T;
+  type?: T;
+  source?: T;
+  subject?: T;
   data?: T;
-  meta?: T;
+  metadata?: T;
+  action?: T;
+  trigger?: T;
+  search?: T;
+  function?: T;
+  workflow?: T;
+  agent?: T;
+  generations?: T;
   updatedAt?: T;
   createdAt?: T;
 }

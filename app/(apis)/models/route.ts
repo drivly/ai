@@ -206,18 +206,20 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     )
   }
 
-  return {
+  const llmDoUrl = origin.includes('localhost') ? 'http://localhost:8787' : 'https://llm.do'
+
+  return {  
     links: {
-      toLLM: `https://llm.do/chat?model=${ model || groupModels.join(',') }`,
+      toLLM: `${llmDoUrl}/chat/arena?Authorization=connor-demo-key&model=${ model || groupModels.join(',') }`,
       groupPresets: {
         custom: modifyQueryString('models', groupModels.join(',')),
         frontier: modifyQueryString('models', 'claude-3.7-sonnet,o3-mini,gemini'),
         frontierReasoning: modifyQueryString('models', 'claude-3.7-sonnet:reasoning,gemini-2.0-flash-thinking-exp:free,r1:reasoning,sonar-deep-research:reasoning'),
         cheapReasoning: modifyQueryString('models', 'qwq-32b:reasoning,deepseek-r1-distill-llama-70b:reasoning'),
         coding: modifyQueryString('models', 'claude-3.7-sonnet,o3-mini,deepseek-v3'),
-        roleplay: modifyQueryString('models', 'mythomax-l2-13b,wizardlm-2-7b,claude-3.7-sonnet,mistral-nemo'),
-        cheapAndFast: modifyQueryString('models', 'gemini,gpt-4o-mini,mistral-nemo'),
-        wideRange: modifyQueryString('models', 'claude-3.7-sonnet,gemini,gpt-4o-mini,mistral-nemo,qwq-32b'),
+        roleplay: modifyQueryString('models', 'mythomax-l2-13b,wizardlm-2-7b,claude-3.7-sonnet,ministral-8b'),
+        cheapAndFast: modifyQueryString('models', 'gemini,gemma-3,gpt-4o-mini,ministral-8b'),
+        wideRange: modifyQueryString('models', 'claude-3.7-sonnet,gemini,gpt-4o-mini,ministral-8b,qwq-32b'),
       },
       // The current active group
       editModels: groupModels.map((model) => {
