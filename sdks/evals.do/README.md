@@ -156,9 +156,10 @@ const sentimentBenchmark = createBenchmark({
   evaluation: sentimentEval,
   
   configurations: [
-    { name: 'GPT-4', options: { model: 'gpt-4', temperature: 0.2 } },
-    { name: 'Claude 3', options: { model: 'claude-3', temperature: 0.2 } },
-    { name: 'Mistral', options: { model: 'mistral-large', temperature: 0.2 } }
+    { name: 'GPT-4o', options: { model: 'gpt-4o', temperature: 0.2 } },
+    { name: 'Claude 3.5 Sonnet', options: { model: 'claude-3-5-sonnet', temperature: 0.2 } },
+    { name: 'Mistral Large 2', options: { model: 'mistral-large-2', temperature: 0.2 } },
+    { name: 'Gemini 1.5 Pro', options: { model: 'gemini-1.5-pro', temperature: 0.2 } }
   ]
 })
 
