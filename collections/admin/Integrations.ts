@@ -2,8 +2,12 @@ import type { CollectionConfig } from 'payload'
 
 export const Integrations: CollectionConfig = {
   slug: 'integrations',
+  labels: {
+    singular: 'Integration',
+    plural: 'Integrations',
+  },
   admin: {
-    group: 'Admin',
+    group: 'Integrations',
     useAsTitle: 'name',
   },
   versions: true,

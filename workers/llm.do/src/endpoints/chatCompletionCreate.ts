@@ -1,8 +1,10 @@
 import { Capability, getModel } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
-import { fetchFromProvider } from 'providers/openRouter'
-import { AuthHeader, type ChatCompletionRequest, ChatCompletionRequestSchema, ChatCompletionResponseSchema } from '../types/chat'
+import { env } from 'cloudflare:workers'
+import { OpenAIToolSet } from 'composio-core'
 import { Context } from 'hono'
+import { fetchFromProvider } from 'providers/openRouter'
+import { AuthHeader, type ChatCompletionRequest, ChatCompletionRequestSchema, ChatCompletionResponse, ChatCompletionResponseSchema } from '../types/chat'
 
 export class ChatCompletionCreate extends OpenAPIRoute {
   schema = {
@@ -30,18 +32,60 @@ export class ChatCompletionCreate extends OpenAPIRoute {
     },
   }
 
-  async handle(_args: Context) {
+  async handle(c: Context<{ Bindings: Cloudflare.Env }>) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
+    const fallbackModel = 'drivly/frontier'
 
     // Model router
     try {
-      request.body.model = getModel(request.body.model || '', {
-        requiredCapabilities: getRequiredCapabilities(request.body),
-        seed: request.body.seed,
-      })?.slug
+      if (request.body.models?.length) {
+        if (request.body.model && !request.body.models.includes(request.body.model)) {
+          request.body.models.push(request.body.model)
+          delete request.body.model
+        }
+        request.body.models = request.body.models
+          .map(
+            (m) =>
+              getModel(m, {
+                requiredCapabilities: getRequiredCapabilities(request.body),
+                seed: request.body.seed,
+              })?.slug,
+          )
+          .filter((m) => m !== undefined)
+        if (!request.body.models.length) {
+          delete request.body.models
+          request.body.model = fallbackModel
+        }
+      } else {
+        request.body.model =
+          getModel(request.body.model || '', {
+            requiredCapabilities: getRequiredCapabilities(request.body),
+            seed: request.body.seed,
+          })?.slug || fallbackModel
+      }
     } catch (error) {
       console.error(error)
+      request.body.model = fallbackModel
+    }
+
+    const actions = request.body.tools?.filter((t) => typeof t === 'string')
+    if (actions?.length) {
+      request.body.stream = false
+
+      const composioToolset = new OpenAIToolSet({
+        apiKey: env.COMPOSIO_API_KEY,
+      })
+
+      const tools = await composioToolset.getTools({ actions: actions.length === 1 && actions[0] === 'all' ? undefined : actions })
+      request.body.tools = (request.body.tools?.filter((t) => typeof t !== 'string') || []).concat(tools)
+      const response = await fetchFromProvider(request, 'POST', '/chat/completions')
+      const json: ChatCompletionResponse = await response.json()
+      if (json.choices?.find((c) => c.message.tool_calls?.find((c) => tools.find((t) => t.function.name === c.function.name)))) {
+        const composioResponse = await composioToolset.handleToolCall(json)
+        return c.json(composioResponse)
+      }
+      return c.json(json)
     }
 
     // Pass request to OpenRouter
@@ -55,13 +99,13 @@ function getRequiredCapabilities(body: ChatCompletionRequest) {
   // if (body.???) {
   //   requiredCapabilities.push('code')
   // }
-  if (body.web_search_options) {
+  if (body.tools?.find((t) => typeof t !== 'string' && typeof t.type === 'string' && t.type.startsWith('web_search'))) {
     requiredCapabilities.push('online')
   }
   if (body.reasoning_effort) {
     requiredCapabilities.push('reasoning', `reasoning-${body.reasoning_effort}`)
   }
-  if (body.tools?.length) {
+  if (body.tools?.find((t) => typeof t === 'string' || t.type === 'function')) {
     requiredCapabilities.push('tools')
   }
   if (body.response_format?.type === 'json_schema') {

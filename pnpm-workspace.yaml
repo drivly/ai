@@ -6,6 +6,7 @@ packages:
   - 'dash'
   - 'pkgs/*'
   - 'sdk/*'
+  - 'sdks/*'
   - 'web/*'
   - 'workflows'
   - 'workers/*'

@@ -100,7 +100,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       return `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}?${qs.toString()}`
     }
 
-    const modelNameTemp = reconstructModelString(model?.parsed as ParsedModelIdentifier) 
+    const modelNameTemp = reconstructModelString(model?.parsed as ParsedModelIdentifier)
     const capabilities = ['reasoning', 'tools', 'code', 'online']
 
     const isGateway = !origin.includes('models.do')

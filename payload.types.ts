@@ -74,6 +74,11 @@ export interface Config {
     nouns: Noun;
     verbs: Verb;
     things: Thing;
+    integrations: Integration;
+    'integration-categories': IntegrationCategory;
+    'integration-triggers': IntegrationTrigger;
+    'integration-actions': IntegrationAction;
+    connections: Connection;
     triggers: Trigger;
     searches: Search;
     actions: Action;
@@ -96,10 +101,6 @@ export interface Config {
     traces: Trace;
     projects: Project;
     users: User;
-    integrations: Integration;
-    'integration-categories': IntegrationCategory;
-    'integration-triggers': IntegrationTrigger;
-    'integration-actions': IntegrationAction;
     tags: Tag;
     webhooks: Webhook;
     apikeys: Apikey;
@@ -133,6 +134,11 @@ export interface Config {
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     things: ThingsSelect<false> | ThingsSelect<true>;
+    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
+    'integration-categories': IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
+    'integration-triggers': IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
+    'integration-actions': IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
+    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
     actions: ActionsSelect<false> | ActionsSelect<true>;
@@ -155,10 +161,6 @@ export interface Config {
     traces: TracesSelect<false> | TracesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
-    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
-    'integration-categories': IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
-    'integration-triggers': IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
-    'integration-actions': IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
@@ -189,7 +191,9 @@ export interface Config {
         output: unknown;
       };
     };
-    workflows: unknown;
+    workflows: {
+      handleGithubEvent: WorkflowHandleGithubEvent;
+    };
   };
 }
 export interface UserAuthOperations {
@@ -492,6 +496,126 @@ export interface Agent {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrations".
+ */
+export interface Integration {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-categories".
+ */
+export interface IntegrationCategory {
+  id: string;
+  category?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-triggers".
+ */
+export interface IntegrationTrigger {
+  id: string;
+  display_name?: string | null;
+  description?: string | null;
+  payload?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  config?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-actions".
+ */
+export interface IntegrationAction {
+  id: string;
+  displayName?: string | null;
+  description?: string | null;
+  parameters?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  response?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "connections".
+ */
+export interface Connection {
+  id: string;
+  name?: string | null;
+  user: string | User;
+  integration: string | Integration;
+  status?: ('active' | 'inactive' | 'pending') | null;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "triggers".
  */
 export interface Trigger {
@@ -719,104 +843,6 @@ export interface Project {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: string;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integrations".
- */
-export interface Integration {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-categories".
- */
-export interface IntegrationCategory {
-  id: string;
-  category?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-triggers".
- */
-export interface IntegrationTrigger {
-  id: string;
-  display_name?: string | null;
-  description?: string | null;
-  payload?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  config?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-actions".
- */
-export interface IntegrationAction {
-  id: string;
-  displayName?: string | null;
-  description?: string | null;
-  parameters?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  response?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags".
  */
 export interface Tag {
@@ -938,6 +964,7 @@ export interface PayloadJob {
         id?: string | null;
       }[]
     | null;
+  workflowSlug?: 'handleGithubEvent' | null;
   taskSlug?: ('inline' | 'executeFunction' | 'generateCode') | null;
   queue?: string | null;
   waitUntil?: string | null;
@@ -975,6 +1002,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'things';
         value: string | Thing;
+      } | null)
+    | ({
+        relationTo: 'integrations';
+        value: string | Integration;
+      } | null)
+    | ({
+        relationTo: 'integration-categories';
+        value: string | IntegrationCategory;
+      } | null)
+    | ({
+        relationTo: 'integration-triggers';
+        value: string | IntegrationTrigger;
+      } | null)
+    | ({
+        relationTo: 'integration-actions';
+        value: string | IntegrationAction;
+      } | null)
+    | ({
+        relationTo: 'connections';
+        value: string | Connection;
       } | null)
     | ({
         relationTo: 'triggers';
@@ -1063,22 +1110,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: string | User;
-      } | null)
-    | ({
-        relationTo: 'integrations';
-        value: string | Integration;
-      } | null)
-    | ({
-        relationTo: 'integration-categories';
-        value: string | IntegrationCategory;
-      } | null)
-    | ({
-        relationTo: 'integration-triggers';
-        value: string | IntegrationTrigger;
-      } | null)
-    | ({
-        relationTo: 'integration-actions';
-        value: string | IntegrationAction;
       } | null)
     | ({
         relationTo: 'tags';
@@ -1230,6 +1261,62 @@ export interface ThingsSelect<T extends boolean = true> {
   data?: T;
   subjectOf?: T;
   objectOf?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrations_select".
+ */
+export interface IntegrationsSelect<T extends boolean = true> {
+  id?: T;
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-categories_select".
+ */
+export interface IntegrationCategoriesSelect<T extends boolean = true> {
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-triggers_select".
+ */
+export interface IntegrationTriggersSelect<T extends boolean = true> {
+  display_name?: T;
+  description?: T;
+  payload?: T;
+  config?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integration-actions_select".
+ */
+export interface IntegrationActionsSelect<T extends boolean = true> {
+  displayName?: T;
+  description?: T;
+  parameters?: T;
+  response?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "connections_select".
+ */
+export interface ConnectionsSelect<T extends boolean = true> {
+  name?: T;
+  user?: T;
+  integration?: T;
+  status?: T;
+  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1466,49 +1553,6 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integrations_select".
- */
-export interface IntegrationsSelect<T extends boolean = true> {
-  id?: T;
-  name?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-categories_select".
- */
-export interface IntegrationCategoriesSelect<T extends boolean = true> {
-  category?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-triggers_select".
- */
-export interface IntegrationTriggersSelect<T extends boolean = true> {
-  display_name?: T;
-  description?: T;
-  payload?: T;
-  config?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-actions_select".
- */
-export interface IntegrationActionsSelect<T extends boolean = true> {
-  displayName?: T;
-  description?: T;
-  parameters?: T;
-  response?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tags_select".
  */
 export interface TagsSelect<T extends boolean = true> {
@@ -1569,6 +1613,7 @@ export interface PayloadJobsSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  workflowSlug?: T;
   taskSlug?: T;
   queue?: T;
   waitUntil?: T;
@@ -1689,6 +1734,23 @@ export interface TaskGenerateCode {
       | null;
     code?: string | null;
     parsed?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WorkflowHandleGithubEvent".
+ */
+export interface WorkflowHandleGithubEvent {
+  input: {
+    payload:
       | {
           [k: string]: unknown;
         }

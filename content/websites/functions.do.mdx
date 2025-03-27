@@ -26,9 +26,9 @@ export async function extractEntities(document) {
     schema: {
       people: 'string[]',
       locations: 'string[]',
-      organizations: 'string[]'
+      organizations: 'string[]',
     },
-    prompt: `Extract entities from this document: ${document}`
+    prompt: `Extract entities from this document: ${document}`,
   })
 }
 ```
@@ -36,6 +36,7 @@ export async function extractEntities(document) {
 ## Business Value
 
 Functions.do enables organizations to:
+
 - Standardize business logic across applications
 - Ensure consistent outputs for critical processes
 - Combine classical computation with AI capabilities

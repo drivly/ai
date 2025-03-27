@@ -122,9 +122,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   })
 
   const generateFacet = (param: string, filter: string | null) => {
-    const allValues = validModels
-      .map((model) => model[param as keyof typeof model])
-      .filter((value) => !filter || value === filter)
+    const allValues = validModels.map((model) => model[param as keyof typeof model]).filter((value) => !filter || value === filter)
 
     // Now count and sort by count
     const counts = allValues.reduce((acc: Record<string, number>, value: unknown) => {

@@ -28,13 +28,7 @@ Agents can be created using the Agents.do API or through the dashboard interface
 const salesDevelopmentAgent = {
   name: 'salesDevelopmentAgent',
   description: 'Autonomously qualifies leads, conducts initial outreach, and schedules meetings with sales representatives',
-  capabilities: [
-    'leadQualification', 
-    'personalization', 
-    'outreachSequencing', 
-    'meetingScheduling', 
-    'crm-integration'
-  ],
+  capabilities: ['leadQualification', 'personalization', 'outreachSequencing', 'meetingScheduling', 'crm-integration'],
   knowledgeSources: [
     { type: 'vector-db', id: 'company-knowledge-base' },
     { type: 'api', id: 'crm-system' },
@@ -86,7 +80,7 @@ const deployedAgent = await agents.deploy('salesDevelopmentAgent', {
 // Interact with a business agent
 const response = await agents.interact('salesDevelopmentAgent', {
   action: 'qualifyLead',
-  data: { 
+  data: {
     company: 'Acme Corporation',
     contactName: 'Jane Smith',
     contactTitle: 'VP of Operations',
@@ -95,7 +89,7 @@ const response = await agents.interact('salesDevelopmentAgent', {
     annualRevenue: '$50M',
     recentEvents: ['Expanded to European market', 'Launched new product line'],
   },
-  businessContext: { 
+  businessContext: {
     salesTarget: 'Enterprise SaaS solution',
     currentQuarterFocus: 'Manufacturing sector expansion',
     successMetrics: ['Implementation timeline', 'ROI within 6 months'],

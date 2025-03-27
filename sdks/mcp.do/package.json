@@ -1,0 +1,35 @@
+{
+  "name": "mcp.do",
+  "version": "0.0.1",
+  "description": "Model Context Protocol for standardized AI model interactions",
+  "keywords": [
+    "mcp",
+    "ai",
+    "model-context-protocol",
+    "standardization",
+    "interoperability",
+    "context-window",
+    "prompt-engineering"
+  ],
+  "homepage": "https://mcp.do",
+  "type": "module",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/mcp.do"
+  },
+  "author": "Nathan Clevenger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.8"
+  }
+}

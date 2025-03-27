@@ -36,7 +36,7 @@ type ApiContext = {
 
 type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T
 
-// Create a global request context 
+// Create a global request context
 let _currentRequest: NextRequest | null = null
 let _currentContext: ApiContext | null = null
 
@@ -235,7 +235,7 @@ export const modifyQueryString = (param?: string, value?: string | number) => {
   if (!param) {
     throw new Error('Parameter name is required')
   }
-  
+
   if (value === undefined) {
     throw new Error('Parameter value is required')
   }
@@ -246,9 +246,9 @@ export const modifyQueryString = (param?: string, value?: string | number) => {
 
   // Parse the URL
   const url = new URL(_currentRequest.url)
-  
+
   // Modify the query parameter
   url.searchParams.set(param, value.toString())
-  
+
   return url.toString()
 }

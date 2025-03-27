@@ -29,11 +29,13 @@ const calculateTotal = {
   name: 'calculateTotal',
   description: 'Calculates the total price of items with tax',
   input: z.object({
-    items: z.array(z.object({
-      name: z.string(),
-      price: z.number(),
-      quantity: z.number().default(1),
-    })),
+    items: z.array(
+      z.object({
+        name: z.string(),
+        price: z.number(),
+        quantity: z.number().default(1),
+      }),
+    ),
     taxRate: z.number().default(0.0875),
   }),
   output: z.object({
@@ -42,19 +44,19 @@ const calculateTotal = {
     total: z.number(),
   }),
   execute: ({ items, taxRate }) => {
-    const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const tax = subtotal * taxRate;
-    const total = subtotal + tax;
-    return { subtotal, tax, total };
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const tax = subtotal * taxRate
+    const total = subtotal + tax
+    return { subtotal, tax, total }
   },
-};
+}
 ```
 
 ### AI Functions (Intelligent Structured Outputs)
 
 Use advanced AI models to deliver intelligent, structured results. These functions manage reasoning tasks, data enrichment, and decision-making processes, ensuring outcomes are contextually relevant and dynamic.
 
-```javascript
+````javascript
 // Example AI function
 const generateSummary = {
   name: 'generateSummary',
@@ -133,7 +135,7 @@ const researchCompany = {
     });
   },
 }
-```
+````
 
 ## Using Functions
 
@@ -157,7 +159,7 @@ const customerResearchWorkflow = {
     {
       id: 'research',
       function: 'researchCompany',
-      input: { 
+      input: {
         companyName: '{{identifyProspect.companyName}}',
         depth: 'detailed',
       },
@@ -165,7 +167,7 @@ const customerResearchWorkflow = {
     {
       id: 'generateInsights',
       function: 'generateBusinessInsights',
-      input: { 
+      input: {
         companyData: '{{research}}',
         salesContext: '{{input.salesContext}}',
       },

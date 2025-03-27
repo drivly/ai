@@ -1,4 +1,6 @@
 import { AIConfig, AIFunction, FunctionDefinition, FunctionCallback, SchemaValue, AI_Instance, SchemaToOutput, MarkdownOutput } from './types'
+export type { FunctionResponse, FunctionDefinition as ClientFunctionDefinition, AIConfig as ClientAIConfig } from './src/index'
+export { default as FunctionsClient } from './src/index'
 
 // Helper to preserve array types for TypeScript
 const preserveArrayTypes = <T extends Array<any>>(arr: T): T => {
