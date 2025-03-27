@@ -5,7 +5,7 @@ import { AuthHeader, ModelListResponseSchema } from '../types/chat'
 
 export class ModelList extends OpenAPIRoute {
   schema = {
-    tags: ['Model'],
+    tags: ['Models'],
     summary: 'List models',
     request: {
       headers: AuthHeader,
