@@ -1,8 +1,8 @@
 import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
-import { Integrations } from './admin/Integrations'
 import { Tags } from './admin/Tag'
+import { Webhooks } from './admin/Webhooks'
 import { Functions } from './ai/Functions'
 import { Modules } from './code/Modules'
 import { Packages } from './code/Packages'
@@ -16,7 +16,6 @@ import { Verbs } from './data/Verbs'
 import { Triggers } from './events/Triggers'
 import { Actions } from './events/Actions'
 import { Types } from './code/Types'
-import { Webhooks } from './admin/Webhooks'
 import { Evals } from './evals/Evals'
 import { EvalsRuns } from './evals/EvalsRuns'
 import { EvalsResults } from './evals/EvalsResults'
@@ -30,9 +29,11 @@ import { Things } from './data/Things'
 import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
 import { Searches } from './events/Searches'
-import { IntegrationTriggers } from './admin/IntegrationTriggers'
-import { IntegrationActions } from './admin/IntegrationActions'
-import { IntegrationCategories } from './admin/IntegrationCategories'
+import { Integrations } from './integrations/Integrations'
+import { IntegrationTriggers } from './integrations/Triggers'
+import { IntegrationActions } from './integrations/Actions'
+import { IntegrationCategories } from './integrations/Categories'
+import { Connections } from './integrations/Connections'
 
 export const collections = [
   Functions,
@@ -41,6 +42,11 @@ export const collections = [
   Nouns,
   Verbs,
   Things,
+  Integrations,
+  IntegrationCategories,
+  IntegrationTriggers,
+  IntegrationActions,
+  Connections,
   Triggers,
   Searches,
   Actions,
@@ -63,10 +69,6 @@ export const collections = [
   Traces,
   Projects,
   Users,
-  Integrations,
-  IntegrationCategories,
-  IntegrationTriggers,
-  IntegrationActions,
   Tags,
   Webhooks,
   APIKeys,
