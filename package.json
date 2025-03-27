@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "turbo build",
+    "build": "turbo run build && pnpm build:next",
     "build:next": "pnpm build:content && cross-env NODE_OPTIONS=--no-deprecation next build",
     "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
