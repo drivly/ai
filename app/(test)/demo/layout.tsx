@@ -3,9 +3,6 @@ import { Inter as FontSans, IBM_Plex_Sans, Montserrat, Geist as FontGeist } from
 import { cn } from '@/lib/utils'
 import '@drivly/ui/globals.css'
 import { ChatBot } from '@drivly/payload-agent/chat-bot'
-// import '../../../pkgs/ui/src/globals.css'
-// or
-// import ChatBot from '../../../pkgs/payload-agent/src/chat-bot'
 
 const fontSans = FontSans({
   subsets: ['latin'],
