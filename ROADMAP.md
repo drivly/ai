@@ -1,6 +1,6 @@
 # AI Primitives Roadmap
 
-This roadmap outlines the planned features and development priorities for the AI Primitives platform, which provides composable building blocks for building enterprise-grade AI applications.
+This roadmap outlines the planned features and development priorities for the AI Primitives platform, which provides composable building blocks for building enterprise-grade AI applications. For a detailed list of all open issues organized hierarchically, please refer to the [BACKLOG.md](./BACKLOG.md) file.
 
 ## Core Primitives
 
@@ -25,6 +25,7 @@ This roadmap outlines the planned features and development priorities for the AI
 ### Agents.do - Autonomous Digital Workers
 - [ ] Agents.do MVP (Epic Issue #221)
 - [ ] Deep research from GitHub issues (Issue #180)
+- [ ] Prevent duplicate agents being created (Issue #255)
 
 ## Event System
 
@@ -37,6 +38,7 @@ This roadmap outlines the planned features and development priorities for the AI
 
 ### Searches.do - Provide Context & Understanding
 - [ ] Define search capabilities and integration points
+- [ ] **GAP**: No specific issues assigned to this component
 
 ### Actions.do - Impact the External World
 - [ ] Configure action collection (Issue #114)
@@ -52,6 +54,7 @@ This roadmap outlines the planned features and development priorities for the AI
 - [ ] Integrated tool use (Issue #207)
 - [ ] Clickable experience with GET (Issue #198)
 - [ ] AI providers package implementation (Issues #67-70)
+- [ ] Come up with new package name for `ai-models` (Issue #179)
 
 ### Database.do - AI-enriched Data
 - [ ] Add email provider (Issue #133)
@@ -60,6 +63,7 @@ This roadmap outlines the planned features and development priorities for the AI
 ### Evals.do - Measure & Improve
 - [ ] Define evaluation framework for AI functions
 - [ ] Implement comparison tools between models
+- [ ] **GAP**: No specific issues assigned to this component
 
 ### Integrations.do - Connect Your Apps
 - [ ] Create GitHub app with `.ai` folder repo access (Issue #226)
@@ -125,26 +129,69 @@ This roadmap outlines the planned features and development priorities for the AI
 
 ## Phased Implementation
 
-### Phase 1: Core Foundation
+### Phase 1: Core Foundation (Soft Launch - Due April 7, 2025)
 - Functions.do structured outputs
 - LLM.do router
 - APIs.do clickable experience
 - Basic documentation
+- **Priority Focus Areas:**
+  - Complete Functions.do core features
+  - Implement basic LLM.do functionality
+  - Establish clickable API foundations
+  - Create initial documentation structure
 
-### Phase 2: Event System
+### Phase 2: Event System (Public Launch - Due May 5, 2025)
 - Triggers.do implementation
 - Actions.do implementation
 - Searches.do implementation
 - Workflows.do integration
+- **Priority Focus Areas:**
+  - Develop the Searches.do component (currently no assigned issues)
+  - Complete the integration between Workflows and the Event System
+  - Implement the initial version of the Agents.do MVP
 
 ### Phase 3: Advanced Features
 - Agents.do MVP
 - Integrations expansion
 - SDK improvements
 - Full documentation
+- **Priority Focus Areas:**
+  - Develop the Evals.do component (currently no assigned issues)
+  - Expand integrations capabilities
+  - Implement comprehensive analytics and monitoring
 
 ### Phase 4: Scaling & Optimization
 - Analytics integration
 - Performance improvements
 - Extended model support
 - Enterprise features
+
+## Identified Gaps
+
+The following areas have been identified as gaps in the current collection of issues:
+
+1. **Searches.do Component:** No specific issues are currently assigned to this critical component of the Event System. New issues should be created to define and implement search capabilities.
+
+2. **Evals.do Component:** While mentioned in the architecture, no specific implementation issues exist for this evaluation framework.
+
+3. **Testing Infrastructure:** Limited issues related to comprehensive testing of components, especially for AI functions, workflows, and agents.
+
+4. **Documentation Coverage:** While there are issues for initial documentation, more specific issues for comprehensive documentation of each component would be beneficial.
+
+5. **Deployment & DevOps:** Limited issues related to deployment processes, CI/CD, and operational concerns.
+
+6. **Performance Monitoring:** Few issues specifically addressing performance benchmarking and optimization.
+
+7. **Security & Compliance:** No specific issues addressing security concerns, authentication mechanisms (beyond OAuth), or compliance requirements.
+
+8. **Error Handling:** Limited focus on standardized error handling and recovery mechanisms across components.
+
+## Next Steps
+
+Based on the identified gaps, the following areas should be prioritized for the next batch of issues:
+
+1. Create specific issues for implementing the Searches.do component
+2. Develop the Evals.do evaluation framework with concrete implementation tasks
+3. Establish comprehensive testing strategies for all components
+4. Expand documentation coverage with component-specific documentation tasks
+5. Define security and compliance requirements and implementation tasks
