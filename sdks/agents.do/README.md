@@ -364,9 +364,9 @@ const learningConfig = AgentLearning({
 
 ### Core Functions
 
-- `createAgent(config)`: Create a new agent
-- `AgentSystem(config)`: Create a system of collaborating agents
+- `createAgent(config)`: Primary function to create a new agent
 - `defineAgent(config)`: Alternative way to define an agent's configuration
+- `AgentSystem(config)`: Create a system of collaborating agents
 - `defineTool(config)`: Create a tool for agent use
 - `defineMemory(config)`: Configure an agent's memory system
 - `AgentSupervisor(config)`: Create a supervisor to monitor agents
