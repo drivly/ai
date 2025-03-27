@@ -1,0 +1,37 @@
+{
+  "name": "models.do",
+  "version": "0.0.1",
+  "description": "Search, filter, and compare Large Language Models based on capabilities and attributes",
+  "keywords": [
+    "models",
+    "llm",
+    "ai",
+    "model-selection",
+    "capabilities",
+    "comparison"
+  ],
+  "homepage": "https://models.do",
+  "type": "module",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/models.do"
+  },
+  "author": "Nathan Clevenger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^3.0.8"
+  },
+  "dependencies": {
+    "apis.do": "*"
+  }
+}
