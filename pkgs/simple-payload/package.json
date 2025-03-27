@@ -1,0 +1,26 @@
+{
+  "name": "simple-payload",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {},
+  "peerDependencies": {
+    "payload": "^3.0.0"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --no-splitting",
+    "dev": "tsup src/index.ts --format esm --watch --dts",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "vitest run"
+  }
+}

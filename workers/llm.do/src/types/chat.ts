@@ -680,6 +680,8 @@ export const ResponseRequestSchema = z.object({
   user: z.string().optional(),
 })
 
+export type ResponseRequest = z.infer<typeof ResponseRequestSchema>
+
 export const ResponseSchema = z.object({
   created_at: z.number(),
   error: z
@@ -727,3 +729,5 @@ export const ResponseSchema = z.object({
   }),
   user: z.string().nullable(),
 })
+
+export type Response = z.infer<typeof ResponseSchema>

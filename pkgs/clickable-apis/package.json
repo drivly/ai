@@ -1,5 +1,8 @@
 {
   "name": "clickable-apis",
   "version": "0.1.0",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "simple-payload": "workspace:*"
+  }
 }
