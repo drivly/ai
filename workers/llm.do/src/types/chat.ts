@@ -342,3 +342,57 @@ export const ModelListResponseSchema = z.object({
     }),
   ),
 })
+
+export const ResponseRequestSchema = z.object({
+  model: Str({ example: 'gpt-4o' }),
+  prompt_messages: z.array(
+    z.object({
+      role: z.enum(['user', 'assistant']),
+      content: z.string(),
+    })
+  ),
+  max_tokens: z.number().optional(),
+  temperature: z.number().optional(),
+  top_p: z.number().optional(),
+  seed: z.number().optional(),
+  stream: z.boolean().optional(),
+  n: z.number().optional(),
+  stop: z.string().or(z.array(z.string())).optional(),
+  file_paths: z.array(z.string()).optional(),
+  image_paths: z.array(z.string()).optional(),
+  response_format: z
+    .object({ type: z.literal('text') })
+    .or(z.object({ type: z.literal('json_object') }))
+    .optional(),
+  user: z.string().optional(),
+})
+
+export type ResponseRequest = z.infer<typeof ResponseRequestSchema>
+
+export const ResponseSchema = z.object({
+  id: z.string(),
+  model: z.string(),
+  created_at: z.number(),
+  response_id: z.string(),
+  eta: z.number().optional(),
+  content: z.array(
+    z.object({
+      text: z.string(),
+      type: z.literal('text'),
+    })
+  ).or(z.string()),
+  choices: z.array(
+    z.object({
+      index: z.number(),
+      finish_reason: z.enum(['stop', 'length', 'content_filter']),
+    })
+  ).optional(),
+  usage: z.object({
+    prompt_tokens: z.number(),
+    completion_tokens: z.number(),
+    total_tokens: z.number(),
+  }).optional(),
+  object: z.literal('response'),
+})
+
+export type Response = z.infer<typeof ResponseSchema>
