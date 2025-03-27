@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import punycode from 'punycode'
 import configPromise from '@payload-config'
-import { PayloadDB, PayloadDBCollection, createNodePayloadClient, createEdgePayloadClient } from '../simple-payload'
+import { PayloadDB, PayloadDBCollection, createNodePayloadClient, createEdgePayloadClient } from 'simple-payload'
 
 let getPayload: ((options: any) => Promise<any>) | undefined
 try {

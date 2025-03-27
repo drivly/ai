@@ -18,7 +18,7 @@
     "payload": "^3.0.0"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts",
+    "build": "tsup src/index.ts --format esm --dts --no-splitting",
     "dev": "tsup src/index.ts --format esm --watch --dts",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "vitest run"
