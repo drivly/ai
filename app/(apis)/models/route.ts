@@ -49,6 +49,8 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     })
 
     return `${originOrApiRoute}?${qs.toString()}`
+      .replaceAll('%3A', ':')
+      .replaceAll('%2C', ',')
   }
 
   const generateLinks = (param: string, options: any[]) => {
@@ -208,17 +210,35 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
   return {
     links: {
-      createGroup: `${originOrApiRoute}?${qs.toString()}&models=`,
       toLLM: `https://llm.do/chat?model=${ model || groupModels.join(',') }`,
+      groupPresets: {
+        custom: modifyQueryString('models', groupModels.join(',')),
+        frontier: modifyQueryString('models', 'claude-3.7-sonnet,o3-mini,gemini'),
+        frontierReasoning: modifyQueryString('models', 'claude-3.7-sonnet:reasoning,gemini-2.0-flash-thinking-exp:free,r1:reasoning,sonar-deep-research:reasoning'),
+        cheapReasoning: modifyQueryString('models', 'qwq-32b:reasoning,deepseek-r1-distill-llama-70b:reasoning'),
+        coding: modifyQueryString('models', 'claude-3.7-sonnet,o3-mini,deepseek-v3'),
+        roleplay: modifyQueryString('models', 'mythomax-l2-13b,wizardlm-2-7b,claude-3.7-sonnet,mistral-nemo'),
+        cheapAndFast: modifyQueryString('models', 'gemini,gpt-4o-mini,mistral-nemo'),
+        wideRange: modifyQueryString('models', 'claude-3.7-sonnet,gemini,gpt-4o-mini,mistral-nemo,qwq-32b'),
+      },
+      // The current active group
+      editModels: groupModels.map((model) => {
+        return [model, `${originOrApiRoute}/${model}?${qs.toString()}`]
+      }).reduce((acc, [model, url]) => {
+        return {
+          ...acc,
+          [model]: url,
+        }
+      }, {}),
       groupBy: {
         providers: modifyQueryString('groupBy', groupBy === 'provider' ? '' : 'provider'),
         authors: modifyQueryString('groupBy', groupBy === 'author' ? '' : 'author'),
       },
-      providers: generateFacet('provider', provider),
-      authors: generateFacet('author', author),
       capabilities: {
         tools: modifyQueryString('capabilities', 'tools', 'array'),
-        structuredOutputs: modifyQueryString('capabilities', 'structuredOutputs', 'array')
+        structuredOutputs: modifyQueryString('capabilities', 'structuredOutputs', 'array'),
+        reasoning: modifyQueryString('capabilities', 'reasoning', 'array'),
+        vision: modifyQueryString('capabilities', 'vision', 'array'),
       },
       outputType: {
         // ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code']
@@ -228,7 +248,9 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         'TextArray': modifyQueryString('outputType', 'TextArray', 'array'),
         Markdown: modifyQueryString('outputType', 'Markdown'),
         Code: modifyQueryString('outputType', 'Code'),
-      }
+      },
+      providers: generateFacet('provider', provider),
+      authors: generateFacet('author', author),
     },
     models: modelsObject
   }
