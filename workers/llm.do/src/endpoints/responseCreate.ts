@@ -5,7 +5,7 @@ import { AuthHeader, ResponseRequestSchema, ResponseSchema } from '../types/chat
 
 export class ResponseCreate extends OpenAPIRoute {
   schema = {
-    tags: ['Response'],
+    tags: ['Responses'],
     summary: 'Create a response',
     request: {
       headers: AuthHeader,
