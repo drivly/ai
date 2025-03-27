@@ -2,6 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 export const IntegrationCategories: CollectionConfig = {
   slug: 'integration-categories',
+  labels: {
+    singular: 'Category',
+    plural: 'Categories',
+  },
   admin: {
     group: 'Integrations',
     useAsTitle: 'category',

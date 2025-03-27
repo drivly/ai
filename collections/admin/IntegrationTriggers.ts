@@ -2,6 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 export const IntegrationTriggers: CollectionConfig = {
   slug: 'integration-triggers',
+  labels: {
+    singular: 'Trigger',
+    plural: 'Triggers',
+  },
   admin: {
     group: 'Integrations',
     useAsTitle: 'display_name',
