@@ -2,6 +2,8 @@
  * Workflows.do SDK
  * A framework for building, deploying, and managing enterprise-grade AI workflows
  */
+export { WorkflowsClient } from './client'
+export { default } from './client'
 
 export interface AIConfig {
   [key: string]: (context: WorkflowContext) => Promise<any>
