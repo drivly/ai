@@ -3,9 +3,9 @@ import type { CollectionConfig } from 'payload'
 export const IntegrationActions: CollectionConfig = {
   slug: 'integration-actions',
   admin: {
-    group: 'Admin',
+    group: 'Integrations',
     useAsTitle: 'displayName',
-    hidden: true,
+    hidden: false,
   },
   versions: true,
   fields: [

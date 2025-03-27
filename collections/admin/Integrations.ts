@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Integrations: CollectionConfig = {
   slug: 'integrations',
   admin: {
-    group: 'Admin',
+    group: 'Integrations',
     useAsTitle: 'name',
   },
   versions: true,
