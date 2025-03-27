@@ -1,25 +1,24 @@
 {
-  "name": "functions.do",
-  "version": "0.0.5",
-  "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
+  "name": "llm.do",
+  "version": "0.0.1",
+  "description": "Intelligent AI Gateway for routing requests to optimal language models",
   "keywords": [
-    "functions",
-    "serverless",
-    "api",
-    "endpoints",
-    "cloud-functions",
+    "llm",
     "ai",
-    "functions",
-    "object generation"
+    "language-model",
+    "gateway",
+    "router",
+    "model-selection",
+    "multi-model"
   ],
-  "homepage": "https://functions.do",
+  "homepage": "https://llm.do",
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/functions.do"
+    "directory": "sdks/llm.do"
   },
   "author": "Nathan Clevenger",
   "license": "MIT",

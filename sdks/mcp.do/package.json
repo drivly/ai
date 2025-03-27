@@ -1,25 +1,24 @@
 {
-  "name": "functions.do",
-  "version": "0.0.5",
-  "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
+  "name": "mcp.do",
+  "version": "0.0.1",
+  "description": "Model Context Protocol for standardized AI model interactions",
   "keywords": [
-    "functions",
-    "serverless",
-    "api",
-    "endpoints",
-    "cloud-functions",
+    "mcp",
     "ai",
-    "functions",
-    "object generation"
+    "model-context-protocol",
+    "standardization",
+    "interoperability",
+    "context-window",
+    "prompt-engineering"
   ],
-  "homepage": "https://functions.do",
+  "homepage": "https://mcp.do",
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/functions.do"
+    "directory": "sdks/mcp.do"
   },
   "author": "Nathan Clevenger",
   "license": "MIT",

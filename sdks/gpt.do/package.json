@@ -1,25 +1,24 @@
 {
-  "name": "functions.do",
-  "version": "0.0.5",
-  "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
+  "name": "gpt.do",
+  "version": "0.0.1",
+  "description": "Simplified interface for GPT models with enhanced capabilities",
   "keywords": [
-    "functions",
-    "serverless",
-    "api",
-    "endpoints",
-    "cloud-functions",
+    "gpt",
     "ai",
-    "functions",
-    "object generation"
+    "language-model",
+    "openai",
+    "chat",
+    "completion",
+    "generation"
   ],
-  "homepage": "https://functions.do",
+  "homepage": "https://gpt.do",
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/functions.do"
+    "directory": "sdks/gpt.do"
   },
   "author": "Nathan Clevenger",
   "license": "MIT",

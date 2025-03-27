@@ -1,25 +1,24 @@
 {
-  "name": "functions.do",
-  "version": "0.0.5",
-  "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
+  "name": "evals.do",
+  "version": "0.0.1",
+  "description": "Evaluation tools for AI components, functions, workflows, and agents",
   "keywords": [
-    "functions",
-    "serverless",
-    "api",
-    "endpoints",
-    "cloud-functions",
+    "evaluation",
     "ai",
-    "functions",
-    "object generation"
+    "testing",
+    "benchmarking",
+    "metrics",
+    "quality",
+    "performance"
   ],
-  "homepage": "https://functions.do",
+  "homepage": "https://evals.do",
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/functions.do"
+    "directory": "sdks/evals.do"
   },
   "author": "Nathan Clevenger",
   "license": "MIT",

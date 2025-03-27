@@ -1,25 +1,25 @@
 {
-  "name": "functions.do",
-  "version": "0.0.5",
-  "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
+  "name": "apis.do",
+  "version": "0.0.1",
+  "description": "Unified API Gateway for all domains and services in the .do ecosystem",
   "keywords": [
-    "functions",
-    "serverless",
     "api",
-    "endpoints",
-    "cloud-functions",
-    "ai",
-    "functions",
-    "object generation"
+    "gateway",
+    "clickable",
+    "developer",
+    "experience",
+    "rest",
+    "json",
+    "http"
   ],
-  "homepage": "https://functions.do",
+  "homepage": "https://apis.do",
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/functions.do"
+    "directory": "sdks/apis.do"
   },
   "author": "Nathan Clevenger",
   "license": "MIT",
