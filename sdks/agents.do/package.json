@@ -1,25 +1,24 @@
 {
-  "name": "functions.do",
-  "version": "0.0.5",
-  "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
+  "name": "agents.do",
+  "version": "0.0.1",
+  "description": "A framework and platform for building, deploying, and managing autonomous AI agents",
   "keywords": [
-    "functions",
-    "serverless",
-    "api",
-    "endpoints",
-    "cloud-functions",
+    "agents",
     "ai",
-    "functions",
-    "object generation"
+    "autonomous",
+    "digital-workers",
+    "llm",
+    "intelligence",
+    "automation"
   ],
-  "homepage": "https://functions.do",
+  "homepage": "https://agents.do",
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/functions.do"
+    "directory": "sdks/agents.do"
   },
   "author": "Nathan Clevenger",
   "license": "MIT",

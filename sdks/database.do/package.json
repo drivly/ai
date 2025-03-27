@@ -1,25 +1,25 @@
 {
-  "name": "functions.do",
-  "version": "0.0.5",
-  "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
+  "name": "database.do",
+  "version": "0.0.1",
+  "description": "AI-Native Data Access SDK for seamless database operations",
   "keywords": [
-    "functions",
-    "serverless",
-    "api",
-    "endpoints",
-    "cloud-functions",
+    "database",
     "ai",
-    "functions",
-    "object generation"
+    "data",
+    "schema",
+    "orm",
+    "mongodb",
+    "postgresql",
+    "sqlite"
   ],
-  "homepage": "https://functions.do",
+  "homepage": "https://database.do",
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/functions.do"
+    "directory": "sdks/database.do"
   },
   "author": "Nathan Clevenger",
   "license": "MIT",
