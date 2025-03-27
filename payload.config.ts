@@ -9,8 +9,8 @@ import { fileURLToPath } from 'url'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { Config } from './payload.types'
 import { CollectionConfig } from 'payload'
-import { collections } from '@/collections'
-import { tasks } from '@/tasks'
+import { collections } from './collections'
+import { tasks, workflows } from './tasks'
 
 import { isSuperAdmin } from './lib/hooks/isSuperAdmin'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -41,6 +41,7 @@ export default buildConfig({
   jobs: {
     addParentToTaskLog: true,
     tasks,
+    workflows,
   },
   // sharp,
   plugins: [
@@ -51,9 +52,9 @@ export default buildConfig({
     //   // tenantsArrayField: {},
     //   // tenantField: {},
     //   collections: {
-    //     // functions: {},
-    //     // workflows: {},
-    //     // agents: {},
+    //     functions: {},
+    //     workflows: {},
+    //     agents: {},
     //   },
     //   userHasAccessToAllTenants: isSuperAdmin,
     // }),

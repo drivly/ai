@@ -1,12 +1,13 @@
 // import murmurhash from 'murmurhash'
 import type { CollectionConfig } from 'payload'
 // import sqids from 'sqids'
+import yaml from 'yaml'
 
 export const Things: CollectionConfig = {
   slug: 'things',
   admin: {
     group: 'Data',
-    useAsTitle: 'name',
+    useAsTitle: 'yaml',
   },
   versions: true,
   fields: [
@@ -21,6 +22,7 @@ export const Things: CollectionConfig = {
       ],
     },
     // { name: 'content', type: 'code', admin: { language: 'mdx', editorOptions: { padding: { top: 20, bottom: 20 } } } },
+    { name: 'yaml', type: 'code', admin: { language: 'yaml', editorOptions: { padding: { top: 20, bottom: 20 } } } },
     { name: 'data', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
     // { name: 'generated', type:
     { name: 'subjectOf', type: 'join', collection: 'actions', on: 'subject' },
@@ -39,6 +41,13 @@ export const Things: CollectionConfig = {
           // const hash = murmurhash([name, type])
           // return { sqid, hash }
         }
+      },
+    ],
+    afterRead: [
+      async (args) => {
+        const { doc } = args
+        doc.yaml = yaml.stringify(doc.data, { singleQuote: true, lineWidth: 0 })
+        return doc
       },
     ],
   },

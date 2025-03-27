@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { getModel } from '../modelSelector'
+import { getModel } from '../src/modelSelector'
 
 describe('selector', () => {
   it('should return a model', () => {
@@ -9,17 +9,11 @@ describe('selector', () => {
 
   it('should fail to find a model', () => {
     // Expect an error to be thrown
-    expect(() => getModel('google/google/gemini-2.0-flash-001:reasoning')).toThrow()
+    expect(() => getModel('google/gemini-2.0-flash-001:reasoning')).toThrow()
   })
 
   it('should return a model with capabilities', () => {
-    const model = getModel('claude-3-7-sonnet-20250219:reasoning')
-    expect(model).toBeDefined()
-  })
-
-  it('should fallback to another model that supports the capabilities', () => {
-    const model = getModel(['google/google/gemini-2.0-flash-001:reasoning', 'anthropic/claude-3-7-sonnet-20250219:reasoning'])
-
+    const model = getModel('anthropic/claude-3.7-sonnet')
     expect(model).toBeDefined()
   })
 
@@ -30,5 +24,17 @@ describe('selector', () => {
 
     // Ensure all models are the same
     expect(models.every((m) => m?.slug === models[0]?.slug)).toBe(true)
+  })
+
+  it('should return a Claude 3.7 Sonnet model with a custom slug', () => {
+    const model = getModel('anthropic/claude-3.7-sonnet:thinking')
+    expect(model).toBeDefined()
+    expect(model?.slug).toBe('anthropic/claude-3.7-sonnet:thinking')
+  })
+
+  it('should return a Claude 3.7 Sonnet model with reasoning capabilities', () => {
+    const model = getModel('anthropic/claude-3.7-sonnet:reasoning')
+    expect(model).toBeDefined()
+    expect(model?.slug).toBe('anthropic/claude-3.7-sonnet:thinking')
   })
 })

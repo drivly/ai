@@ -1,6 +1,6 @@
 # Benchmarks
 
-Benchmarks provide standardized evaluations of your AI applications against established criteria.
+Benchmarks provide standardized evaluation frameworks to measure AI performance against industry standards and business requirements.
 
 ## Overview
 
@@ -36,22 +36,22 @@ const TextSummarizationBenchmark = {
       metrics: [
         {
           name: 'rouge_1',
-          weight: 0.25
+          weight: 0.25,
         },
         {
           name: 'rouge_2',
-          weight: 0.25
+          weight: 0.25,
         },
         {
           name: 'rouge_l',
-          weight: 0.25
+          weight: 0.25,
         },
         {
           name: 'human_rating',
-          weight: 0.25
-        }
+          weight: 0.25,
+        },
       ],
-      samples: 100
+      samples: 100,
     },
     {
       name: 'scientific_summarization',
@@ -60,31 +60,31 @@ const TextSummarizationBenchmark = {
       metrics: [
         {
           name: 'rouge_1',
-          weight: 0.2
+          weight: 0.2,
         },
         {
           name: 'rouge_2',
-          weight: 0.2
+          weight: 0.2,
         },
         {
           name: 'rouge_l',
-          weight: 0.2
+          weight: 0.2,
         },
         {
           name: 'factual_accuracy',
-          weight: 0.2
+          weight: 0.2,
         },
         {
           name: 'human_rating',
-          weight: 0.2
-        }
+          weight: 0.2,
+        },
       ],
-      samples: 50
-    }
+      samples: 50,
+    },
   ],
   weights: {
     news_summarization: 0.6,
-    scientific_summarization: 0.4
+    scientific_summarization: 0.4,
   },
   baselines: [
     {
@@ -94,16 +94,16 @@ const TextSummarizationBenchmark = {
           rouge_1: 0.42,
           rouge_2: 0.21,
           rouge_l: 0.38,
-          human_rating: 4.2
+          human_rating: 4.2,
         },
         scientific_summarization: {
           rouge_1: 0.38,
           rouge_2: 0.18,
           rouge_l: 0.35,
           factual_accuracy: 0.85,
-          human_rating: 3.9
-        }
-      }
+          human_rating: 3.9,
+        },
+      },
     },
     {
       name: 'gpt-4',
@@ -112,18 +112,18 @@ const TextSummarizationBenchmark = {
           rouge_1: 0.45,
           rouge_2: 0.24,
           rouge_l: 0.41,
-          human_rating: 4.5
+          human_rating: 4.5,
         },
         scientific_summarization: {
           rouge_1: 0.42,
           rouge_2: 0.22,
           rouge_l: 0.39,
           factual_accuracy: 0.92,
-          human_rating: 4.3
-        }
-      }
-    }
-  ]
+          human_rating: 4.3,
+        },
+      },
+    },
+  ],
 }
 ```
 
@@ -194,13 +194,13 @@ Benchmarks can be run using the Evals.do API:
 const benchmarkResult = await benchmarks.run('text_summarization_benchmark', {
   model: 'custom-gpt-4-fine-tune',
   tasks: ['news_summarization', 'scientific_summarization'],
-  samples: 100
+  samples: 100,
 })
 
 // Run a benchmark on multiple models
 const comparisonResult = await benchmarks.runComparison('text_summarization_benchmark', {
   models: ['custom-gpt-4-fine-tune', 'gpt-4', 'gpt-3.5-turbo'],
-  tasks: ['news_summarization', 'scientific_summarization']
+  tasks: ['news_summarization', 'scientific_summarization'],
 })
 
 // Run a benchmark with custom parameters
@@ -209,13 +209,13 @@ const customBenchmarkResult = await benchmarks.run('text_summarization_benchmark
   tasks: {
     news_summarization: {
       samples: 200,
-      metrics: ['rouge_1', 'rouge_2', 'rouge_l', 'human_rating']
+      metrics: ['rouge_1', 'rouge_2', 'rouge_l', 'human_rating'],
     },
     scientific_summarization: {
       samples: 100,
-      metrics: ['rouge_1', 'rouge_2', 'rouge_l', 'factual_accuracy', 'human_rating']
-    }
-  }
+      metrics: ['rouge_1', 'rouge_2', 'rouge_l', 'factual_accuracy', 'human_rating'],
+    },
+  },
 })
 ```
 
@@ -229,8 +229,8 @@ const results = await benchmarks.getResults('text_summarization_benchmark', {
   model: 'custom-gpt-4-fine-tune',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
-  }
+    end: '2023-06-30T23:59:59Z',
+  },
 })
 
 // Get benchmark trends
@@ -238,15 +238,15 @@ const trends = await benchmarks.getTrends('text_summarization_benchmark', {
   model: 'custom-gpt-4-fine-tune',
   timeRange: {
     start: '2023-01-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
-  groupBy: 'month'
+  groupBy: 'month',
 })
 
 // Compare benchmark results
 const comparison = await benchmarks.compareResults('text_summarization_benchmark', {
   models: ['custom-gpt-4-fine-tune', 'gpt-4', 'gpt-3.5-turbo'],
-  tasks: ['news_summarization', 'scientific_summarization']
+  tasks: ['news_summarization', 'scientific_summarization'],
 })
 ```
 
@@ -269,7 +269,7 @@ await benchmarks.update('new_benchmark', {
 // Create a new version
 await benchmarks.createVersion('new_benchmark', {
   version: '1.1.0',
-  changes: 'Added new tasks and metrics'
+  changes: 'Added new tasks and metrics',
 })
 ```
 

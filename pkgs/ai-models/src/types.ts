@@ -3,8 +3,11 @@
 // All of our providers
 export type Provider = 'drivly' | 'openai' | 'anthropic' | 'google' | 'openrouter' | 'cloudflare' | 'google-vertex' | 'google-ai-studio'
 
+// All of the capabilities that we support as an enum
+export const capabilities = ['code', 'online', 'reasoning', 'reasoning-low', 'reasoning-medium', 'reasoning-high', 'tools', 'structuredOutput', 'responseFormat'] as const
+
 // A way for models to declare what they can do
-export type Capability = 'code' | 'online' | 'reasoning' | 'reasoning-low' | 'reasoning-medium' | 'reasoning-high' | 'tools' | 'structuredOutput' | 'responseFormat'
+export type Capability = (typeof capabilities)[number]
 
 export type ThinkingLevel = 'low' | 'medium' | 'high'
 

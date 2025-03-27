@@ -1,6 +1,8 @@
 import camelCase from 'camelcase'
 import fs from 'node:fs'
 import path from 'node:path'
+import { overwrites } from './overwrites'
+import { flatten, unflatten } from 'flat'
 
 const URL = 'https://openrouter.ai/api/frontend/models/find?order=top-weekly'
 
@@ -28,11 +30,21 @@ async function main() {
     const response = await fetch(URL).then((res) => res.json())
 
     const models = camelCaseDeep(response.data)
-    const modelsData = { models }
+    const modelsData = models.models.map((model) => {
+      if (model.slug in overwrites) {
+        console.log(`Overwriting model ${model.slug} with custom data`, overwrites[model.slug])
+        const tempModel: Record<string, unknown> = flatten(model)
+        const tempOverwrites: Record<string, unknown> = flatten(overwrites[model.slug])
+        const mergedModel = { ...tempModel, ...tempOverwrites }
+        return unflatten(mergedModel)
+      }
+
+      return model
+    })
 
     // Write to models.json in src directory
-    const outputPath = path.resolve('./src/models.json')
-    fs.writeFileSync(outputPath, JSON.stringify(modelsData, null, 2))
+    const outputPath = path.resolve('./src/models.ts')
+    fs.writeFileSync(outputPath, `export default ${JSON.stringify({ models: modelsData }, null, 2)}`)
 
     console.log(`Models data written to ${outputPath}`)
   } catch (error) {

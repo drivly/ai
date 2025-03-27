@@ -1,0 +1,44 @@
+# Functions.do
+
+Functions transform inputs into reliable outputs through classical and AI-powered computation.
+
+## code.functions.do / Classical Computation
+
+Leverage traditional computation methods to deliver precise, deterministic outcomes. These functions manage logical workflows, validation routines, and algorithmic tasks.
+
+```javascript
+export function calculateTotal(items) {
+  return items.reduce((sum, item) => sum + item.price, 0)
+}
+```
+
+## ai.functions.do / Intelligent Structured Outputs
+
+Use advanced AI models to deliver intelligent, structured results. These functions manage reasoning tasks, data enrichment, and decision-making processes, ensuring outcomes are contextually relevant and dynamic.
+
+```javascript
+export async function generateSummary(text) {
+  return await ai`Summarize the following text in 3 sentences: ${text}`
+}
+
+export async function extractEntities(document) {
+  return await ai.extract({
+    schema: {
+      people: 'string[]',
+      locations: 'string[]',
+      organizations: 'string[]',
+    },
+    prompt: `Extract entities from this document: ${document}`,
+  })
+}
+```
+
+## Business Value
+
+Functions.do enables organizations to:
+
+- Standardize business logic across applications
+- Ensure consistent outputs for critical processes
+- Combine classical computation with AI capabilities
+- Create reusable building blocks for complex workflows
+- Measure and optimize function performance against business KPIs

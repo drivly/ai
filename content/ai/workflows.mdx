@@ -1,10 +1,10 @@
 # Workflows
 
-Workflows are declarative state machines that orchestrate the execution of functions in a specific order.
+Workflows are declarative state machines that orchestrate the execution of functions to achieve reliable business processes. They provide a structured way to automate complex operations while maintaining visibility and control.
 
 ## Overview
 
-Workflows.do provides a powerful way to create, manage, and execute complex workflows in your AI applications. Workflows allow you to:
+Workflows.do provides a powerful way to create, manage, and execute business-critical workflows in your AI applications. Workflows allow you to:
 
 - Define multi-step processes with conditional logic
 - Orchestrate function execution in a specific order
@@ -13,74 +13,156 @@ Workflows.do provides a powerful way to create, manage, and execute complex work
 
 ## Key Features
 
-- **Declarative**: Define workflows using a simple, declarative syntax
+- **Declarative**: Define business processes using a simple, declarative syntax
 - **State Management**: Automatically manage state between workflow steps
-- **Error Handling**: Built-in error handling and retry mechanisms
-- **Observability**: Monitor workflow execution and performance
+- **Error Handling**: Built-in error handling and retry mechanisms for reliable execution
+- **Observability**: Monitor workflow execution, performance, and business KPIs
+- **Auditability**: Track every step of business processes for compliance and optimization
 
-## Creating Workflows
+## Creating Business Workflows
 
-Workflows can be created using the Workflows.do API or through the dashboard interface.
+Workflows can be created using the Workflows.do API or through the dashboard interface to automate critical business processes.
 
 ```typescript
-// Example workflow definition
-const documentProcessingWorkflow = {
-  name: 'documentProcessingWorkflow',
-  description: 'Processes a document through extraction, analysis, and summarization',
+// Example business workflow definition
+const customerOnboardingWorkflow = {
+  name: 'customerOnboardingWorkflow',
+  description: 'Automates the customer onboarding process from signup to successful first use',
   input: z.object({
-    documentUrl: z.string().url(),
-    outputFormat: z.enum(['text', 'html', 'markdown']).optional(),
+    customerId: z.string(),
+    plan: z.enum(['starter', 'professional', 'enterprise']),
+    industry: z.string(),
+    companySize: z.enum(['small', 'medium', 'large', 'enterprise']),
   }),
   output: z.object({
-    summary: z.string(),
-    keyInsights: z.array(z.string()),
-    sentiment: z.enum(['positive', 'neutral', 'negative']),
+    onboardingStatus: z.enum(['completed', 'in_progress', 'needs_assistance']),
+    nextSteps: z.array(z.string()),
+    estimatedTimeToValue: z.number(),
+    accountManager: z.string().optional(),
   }),
   steps: [
     {
-      id: 'extract',
-      function: 'extractTextFromDocument',
-      input: { url: '{{input.documentUrl}}' }
+      id: 'accountSetup',
+      function: 'setupCustomerAccount',
+      input: {
+        customerId: '{{input.customerId}}',
+        plan: '{{input.plan}}',
+      },
     },
     {
-      id: 'analyze',
-      function: 'analyzeText',
-      input: { text: '{{extract.text}}' }
+      id: 'welcomeEmail',
+      function: 'sendPersonalizedEmail',
+      input: {
+        to: '{{accountSetup.customerEmail}}',
+        template: 'welcome',
+        variables: {
+          companyName: '{{accountSetup.companyName}}',
+          industry: '{{input.industry}}',
+          accountUrl: '{{accountSetup.accountUrl}}',
+        },
+      },
     },
     {
-      id: 'summarize',
-      function: 'summarizeText',
-      input: { 
-        text: '{{extract.text}}', 
-        keyPoints: '{{analyze.keyPoints}}',
-        format: '{{input.outputFormat}}'
-      }
-    }
-  ]
+      id: 'resourceAllocation',
+      function: 'allocateResources',
+      input: {
+        customerId: '{{input.customerId}}',
+        plan: '{{input.plan}}',
+        companySize: '{{input.companySize}}',
+      },
+    },
+    {
+      id: 'assignAccountManager',
+      function: 'assignAccountManager',
+      input: {
+        customerId: '{{input.customerId}}',
+        industry: '{{input.industry}}',
+        plan: '{{input.plan}}',
+      },
+      condition: '{{input.plan === "enterprise" || input.companySize === "enterprise"}}',
+    },
+    {
+      id: 'scheduleKickoff',
+      function: 'scheduleKickoffCall',
+      input: {
+        customerEmail: '{{accountSetup.customerEmail}}',
+        accountManagerEmail: '{{assignAccountManager.email}}',
+        suggestedTopics: ['Implementation timeline', 'Success metrics', 'Training needs'],
+      },
+      condition: '{{!!assignAccountManager}}',
+    },
+    {
+      id: 'createSuccessPlan',
+      function: 'generateCustomerSuccessPlan',
+      input: {
+        customerId: '{{input.customerId}}',
+        industry: '{{input.industry}}',
+        companySize: '{{input.companySize}}',
+        plan: '{{input.plan}}',
+      },
+    },
+  ],
+  errorHandling: {
+    retryStrategy: {
+      maxAttempts: 3,
+      backoff: {
+        initialDelay: 1000,
+        multiplier: 2,
+      },
+    },
+    fallbackSteps: {
+      scheduleKickoff: 'sendSchedulingLink',
+    },
+  },
+  metrics: [
+    { name: 'timeToFirstLogin', description: 'Time from signup to first login' },
+    { name: 'onboardingCompletionRate', description: 'Percentage of customers completing onboarding' },
+    { name: 'timeToValue', description: 'Time from signup to first value realization' },
+  ],
 }
 ```
 
-## Workflow Execution
+## Business Workflow Execution
 
-Workflows can be executed through the API or triggered by events:
+Workflows can be executed through the API, triggered by events, or scheduled for recurring business processes:
 
 ```typescript
-// Execute a workflow
-const result = await workflows.execute('documentProcessingWorkflow', {
-  documentUrl: 'https://example.com/document.pdf',
-  outputFormat: 'markdown'
+// Execute a business workflow
+const result = await workflows.execute('customerOnboardingWorkflow', {
+  customerId: 'cust_12345',
+  plan: 'professional',
+  industry: 'healthcare',
+  companySize: 'medium',
 })
 
-// Check workflow status
-const status = await workflows.getStatus(workflowExecutionId)
+// Check workflow status with detailed metrics
+const status = await workflows.getStatus(workflowExecutionId, {
+  includeMetrics: true,
+  includeAuditTrail: true,
+})
+
+// Schedule recurring workflow execution
+const scheduledWorkflow = await workflows.schedule('quarterlyBusinessReview', {
+  cronExpression: '0 0 1 1,4,7,10 *', // First day of each quarter
+  input: {
+    customerSegment: 'enterprise',
+    includeMetrics: ['revenue', 'usage', 'satisfaction'],
+    generateRecommendations: true,
+  },
+  notifications: {
+    onStart: ['account-managers@example.com'],
+    onComplete: ['customer-success@example.com', 'sales-leadership@example.com'],
+  },
+})
 ```
 
-## Workflow Templates
+## Business Workflow Templates
 
-Discover and use pre-built workflow templates from the marketplace to accelerate your development process.
+Discover and implement pre-built business workflow templates from the marketplace to accelerate your digital transformation and automate critical business processes with measurable ROI.
 
 ## Next Steps
 
-- [Create your first workflow](/ai/workflows/create)
-- [Explore workflow templates](/ai/workflows/templates)
-- [Learn about workflow monitoring](/ai/workflows/monitoring)
+- [Create your first business workflow](/ai/workflows/create)
+- [Explore industry-specific workflow templates](/ai/workflows/templates)
+- [Learn about workflow analytics and KPIs](/ai/workflows/analytics)
+- [Implement workflow-driven business processes](/ai/workflows/business-processes)

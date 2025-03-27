@@ -88,10 +88,42 @@ This repository contains a collection of AI primitives for building enterprise-g
 - **Database.do**: Persistent data storage
 - **APIs.do**: Unified API Gateway
 
+## Commit Guidelines
+
+- All commits must follow conventional commit format
+- Use the following commit types:
+  - `feat`: New feature
+  - `fix`: Bug fix
+  - `docs`: Documentation
+  - `style`: Code style
+  - `refactor`: Code refactoring
+  - `test`: Add tests
+  - `chore`: Build process
+  - `revert`: Revert changes
+- Use the following commit scopes:
+  - `api`: API changes
+  - `app`: Application changes
+  - `collections`: Collection changes
+  - `components`: Component changes
+  - `content`: Content changes
+  - `examples`: Example changes
+  - `lib`: Library changes
+  - `pkgs`: Package changes
+  - `sdks`: SDK changes
+  - `tasks`: Task changes
+  - `tests`: Test changes
+  - `websites`: Website changes
+  - `workers`: Worker changes
+  - `workflows`: Workflow changes
+- Use the following commit message format: `type(scope): message`
+- Include a description of the changes
+- Reference related issues with `closes #<issue_number>`
+
 ## Pull Request Guidelines
 
+- Ensure `pnpm build` passes
 - Ensure all tests pass
 - Follow the existing code style
 - Include appropriate documentation
 - Reference related issues
-- All commits and PRs must follow conventional commit format
+- Only make a single PR per issue

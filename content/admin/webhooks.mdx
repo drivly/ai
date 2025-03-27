@@ -104,7 +104,7 @@ const webhook = await admin.webhooks.create({
   url: 'https://example.com/webhook',
   events: ['function.executed', 'workflow.completed', 'agent.completed'],
   secret: 'my-webhook-secret',
-  enabled: true
+  enabled: true,
 })
 ```
 
@@ -117,7 +117,7 @@ Manage webhooks using the Admin.do API:
 const webhooks = await admin.webhooks.list({
   organization: 'org-123',
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific webhook
@@ -129,7 +129,7 @@ const updatedWebhook = await admin.webhooks.update('wh-123', {
   description: 'An updated webhook for my application',
   url: 'https://example.com/updated-webhook',
   events: ['function.executed', 'workflow.completed', 'agent.completed', 'data.created'],
-  enabled: true
+  enabled: true,
 })
 
 // Delete a webhook
@@ -154,11 +154,11 @@ View webhook deliveries using the Admin.do API:
 const deliveries = await admin.webhooks.getDeliveries('wh-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   status: 'success',
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific delivery
@@ -214,32 +214,29 @@ app.post('/webhook', (req, res) => {
   const signature = req.headers['x-admin-signature']
   const timestamp = req.headers['x-admin-timestamp']
   const webhookSecret = 'my-webhook-secret'
-  
+
   // Create the signature
   const payload = timestamp + '.' + JSON.stringify(req.body)
-  const expectedSignature = crypto
-    .createHmac('sha256', webhookSecret)
-    .update(payload)
-    .digest('hex')
-  
+  const expectedSignature = crypto.createHmac('sha256', webhookSecret).update(payload).digest('hex')
+
   // Verify the signature
   if (signature !== expectedSignature) {
     return res.status(401).send('Invalid signature')
   }
-  
+
   // Verify the timestamp is recent (within 5 minutes)
   const timestampDate = new Date(parseInt(timestamp))
   const now = new Date()
   const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000)
-  
+
   if (timestampDate < fiveMinutesAgo) {
     return res.status(401).send('Timestamp too old')
   }
-  
+
   // Process the webhook
   const event = req.body
   console.log(`Received event: ${event.type}`)
-  
+
   // Handle the event based on its type
   switch (event.type) {
     case 'function.executed':
@@ -255,7 +252,7 @@ app.post('/webhook', (req, res) => {
       // Handle unknown event type
       break
   }
-  
+
   // Acknowledge receipt of the webhook
   res.status(200).send('Webhook received')
 })
@@ -282,13 +279,13 @@ const testResult = await admin.webhooks.test('wh-123', {
       startTime: '2023-06-15T12:34:50Z',
       endTime: '2023-06-15T12:34:56Z',
       input: {
-        name: 'John'
+        name: 'John',
       },
       output: {
-        greeting: 'Hello, John!'
-      }
-    }
-  }
+        greeting: 'Hello, John!',
+      },
+    },
+  },
 })
 ```
 
@@ -309,16 +306,16 @@ const webhook = await admin.webhooks.create({
       function: {
         id: ['func-123', 'func-456'],
         name: {
-          startsWith: 'My'
-        }
+          startsWith: 'My',
+        },
       },
       execution: {
-        status: ['success']
-      }
-    }
+        status: ['success'],
+      },
+    },
   },
   secret: 'my-webhook-secret',
-  enabled: true
+  enabled: true,
 })
 
 // Update webhook filters
@@ -327,13 +324,13 @@ const updatedWebhook = await admin.webhooks.updateFilters('wh-123', {
     function: {
       id: ['func-123', 'func-456', 'func-789'],
       name: {
-        startsWith: 'My'
-      }
+        startsWith: 'My',
+      },
     },
     execution: {
-      status: ['success', 'error']
-    }
-  }
+      status: ['success', 'error'],
+    },
+  },
 })
 ```
 

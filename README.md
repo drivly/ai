@@ -1,24 +1,138 @@
-# AI Primitives
+# [Workflows.do](https://workflows.do) Business-as-Code
 
-Simple primitives to rapidly build enterprise-grade AI functions, workflows, & agents.
+
+```typescript
+import { AI } from 'workflows.do'
+
+export default AI({
+
+  onUserSignup: async ({ ai, api, db, event }) => {
+
+    const { name, email, company } = event
+
+    // Enrich content details with lookup from external data sources
+    const enrichedContact = await api.apollo.search({ name, email, company })
+    const socialProfiles = await api.peopleDataLabs.findSocialProfiles({ name, email, company })
+    const githubProfile = socialProfiles.github ? await api.github.profile({ name, email, company, profile: socialProfiles.github }) : undefined
+
+    // Using the enriched contact details, do deep research on the company and personal background
+    const companyProfile = await ai.researchCompany({ company })
+    const personalProfile = await ai.researchPersonalBackground({ name, email, enrichedContact })
+    const socialActivity = await ai.researchSocialActivity({ name, email, enrichedContact, socialProfiles })
+    const githubActivity = githubProfile ? await ai.summarizeGithubActivity({ name, email, enrichedContact, githubProfile }) : undefined
+
+    // Schedule a highly personalized sequence of emails to optimize onboarding and activation
+    const emailSequence = await ai.personalizeEmailSequence({ name, email, company, personalProfile, socialActivity, companyProfile, githubActivity })
+    await api.scheduleEmails({ emailSequence })
+
+    // Summarize everything, save to the database, and post to Slack
+    const details = { enrichedContact, socialProfiles, githubProfile, companyProfile, personalProfile, socialActivity, githubActivity, emailSequence }
+    const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, ...details })
+    const { url } = await db.users.create({ name, email, company, summary, ...details })
+    await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
+
+  },
+})
+```
+
+
+## [Functions.do](https://functions.do) Inputs to Structured Outputs
+
+```typescript
+import { AI } from 'functions.do'
+
+const ai = AI({
+
+  leanCanvas: {
+    productName: 'name of the product or service',
+    problem: ['top 3 problems the product solves'],
+    solution: ['top 3 solutions the product offers'],
+    uniqueValueProposition: 'clear message that states the benefit of your product',
+    unfairAdvantage: 'something that cannot be easily copied or bought',
+    customerSegments: ['list of target customer segments'],
+    keyMetrics: ['list of key numbers that tell you how your business is doing'],
+    channels: ['path to customers'],
+    costStructure: ['list of operational costs'],
+    revenueStreams: ['list of revenue sources'],
+    recommendations: ['list of recommendations based on the analysis'],
+  }
+
+})
+
+const brand = await ai.storyBrand({ 
+  idea: 'Agentic Workflow Platform', 
+  icp: 'Alpha Devs & Empowered CTOs',
+})
+
+console.log(brand)
+// {
+//   storyBrand: {
+//     hero: {
+//       identity: 'Alpha developers and empowered CTOs',
+//       desire: 'To effortlessly build and deploy intelligent, scalable, agent-driven workflows'
+//     },
+//     problem: {
+//       external: 'Current workflow solutions lack flexibility, autonomy, and speed.',
+//       internal: 'Frustrated by bottlenecks, repetitive tasks, and slow development cycles.',
+//       philosophical: 'Innovative developers and CTOs deserve tools designed to empower, not constrain.',
+//       villain: 'Leaky abstractions',
+//     },
+//     guide: {
+//       empathy: 'We understand the frustration of wasting your team\'s talent on mundane tasks.',
+//       authority: 'Workflows.do is trusted by leading tech teams to automate millions of critical tasks with ease.'
+//     },
+//     plan: {
+//       step1: 'Design workflows easily with our intuitive, agentic builder.',
+//       step2: 'Deploy seamlessly to a scalable, fully-managed runtime.',
+//       step3: 'Monitor and optimize workflows with powerful observability tools.'
+//     },
+//     callToAction: {
+//       direct: 'Request Early Access',
+//       transitional: 'Learn More'
+//     },
+//     failure: [
+//       'Remain stuck with inefficient manual workflows.',
+//       'Lose competitive advantage due to slower innovation.',
+//       'Experience burnout and high turnover of talented developers.'
+//     ],
+//     success: [
+//       'Launch sophisticated workflows quickly, without friction.',
+//       'Free your team from repetitive tasks to focus on high-value innovation.',
+//       'Accelerate your organization\'s growth and competitive edge.'
+//     ],
+//     transformation: {
+//       from: 'Overwhelmed by rigid, manual processes slowing innovation',
+//       to: 'Empowered to rapidly deploy autonomous workflows that drive innovation and growth'
+//     },
+//     oneLiner: 'Workflows.do empowers alpha devs and visionary CTOs to effortlessly create autonomous workflows, unlocking next-level productivity and innovation.'
+//   }
+// }
+```
+
+<details>
+## Hello from the inside
+</details>
+
+## [APIs.do](https://apis.do) Clickable Developer Experiences
 
 ```json
 {
   "api": {
-    "name": "APIs.do",
+    "name": "apis.do",
     "description": "Economically valuable work delivered through simple APIs",
-    "url": "https://apis.do",
+    "home": "https://apis.do",
     "login": "https://apis.do/login",
     "signup": "https://apis.do/signup",
+    "admin": "https://apis.do/admin",
     "docs": "https://apis.do/docs",
     "repo": "https://github.com/drivly/ai",
-    "from": "https://driv.ly",
-    "with": "https://agi.do"
+    "with": "https://apis.do",
+    "from": "https://agi.do"
   },
   "ai": {
-    "Functions - Typesafe Results without Complexity": "https://functions.do",
-    "Workflows - Reliably Execute Business Processes": "https://workflows.do",
-    "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do"
+    "Functions - Typesafe Results without Complexity": "https://functions.do/api",
+    "Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
+    "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
   },
   "things": {
     "Nouns - People, Places, Things, and Ideas": "https://nouns.do",
@@ -30,57 +144,75 @@ Simple primitives to rapidly build enterprise-grade AI functions, workflows, & a
     "Actions - Perform tasks within workflows": "https://actions.do"
   },
   "core": {
-    "LLM - Dynamically use the best model for your use case": "https://llm.do",
+    "LLM - Intelligent AI Gateway": "https://llm.do",
     "Evals - Evaluate Functions, Workflows, and Agents": "https://evals.do",
     "Analytics - Economically Validate Workflows": "https://analytics.do",
     "Experiments - Economically Validate Workflows": "https://experiments.do",
-    "Database - Hybrid (Search + CRUD)": "https://database.do",
+    "Database - AI Native Data Access (Search + CRUD)": "https://database.do",
     "Integrations - Connect External APIs and Systems": "https://integrations.do"
   },
   "user": {
-    "authenticated": false,
-    "plan": "Free",
-    "browser": "Safari",
-    "os": "macOS",
-    "ip": "216.84.167.21",
-    "isp": "Lumen",
-    "flag": "🇺🇸",
-    "zipcode": "55437",
-    "city": "Bloomington",
-    "metro": "Minneapolis-St. Paul",
-    "region": "Minnesota",
-    "country": "United States",
-    "continent": "North America",
-    "requestId": "922b15355d4d2b4b-ORD",
-    "localTime": "3/19/2025, 1:58:42 AM",
-    "timezone": "America/Chicago",
-    "edgeLocation": "Chicago",
-    "edgeDistanceMiles": 343,
-    "latencyMilliseconds": 31,
-    "recentInteractions": 0,
-    "serviceLatency": 0
+    "email": "me@agi.do"
   }
 }
 ```
 
-| Primitive                         | Type                | Description                                                                             |
-| --------------------------------- | ------------------- | --------------------------------------------------------------------------------------- |
-| [Functions.do](./functions)       | Top-Level           | Strongly-typed composable building blocks for code, APIs, and AI outputs                |
-| [Workflows.do](./workflows)       | Top-Level           | Declarative state machines and workflows for durable execution                          |
-| [Agents.do](./agents)             | Top-Level           | Autonomous digital workers leveraging Functions and Workflows                           |
-| [Triggers.do](./triggers)         | Event Loop          | Initiate workflows based on detected events or conditions                               |
-| [Searches.do](./searches)         | Event Loop          | Query and retrieve data for decision-making within workflows                            |
-| [Actions.do](./actions)           | Event Loop          | Perform tasks and operations within workflows                                           |
-| [LLM.do](./llm)                   | Foundational        | Intelligent AI gateway routing requests to optimal models                               |
-| [Evals.do](./evals)               | Foundational        | Evaluate and iterate Functions, Workflows, and Agents                                   |
-| [Integrations.do](./integrations) | Foundational        | Connect external APIs and systems to Functions, Workflows, and Agents                   |
-| [Database.do](./database)         | Foundational        | Persistent data storage with structured, unstructured, and semantic search capabilities |
-| [APIs.do](https://apis.do)        | Unified API Gateway | Centralized API management, access control, and analytics                               |
 
----
 
-## Functions
+## [Agents.do](https://agents.do) Autonomous Digital Workers
 
-```ts
 
-```
+
+## [Integrations.do](https://integrations.do) Connect Your Apps
+
+
+
+## [Triggers.do](https://triggers.do) Start Business Processes
+
+
+
+## [Searches.do](https://searches.do) Provide Context & Understanding
+
+
+
+## [Actions.do](https://actions.do) Impact the External World
+
+
+## [Nouns.do](https://nouns.do) Entities in Your Business
+
+
+## [Verbs.do](https://verbs.do) Represent Potential Actions
+
+
+## [Things.do](https://things.do) Physical and Virtual Objects
+
+
+## [Actions.do](https://actions.do) Subject-Verb-Object
+
+
+## [Database.do](https://database.do) AI-enriched Data
+
+
+## [Events.do](https://events.do) Track Business Events
+
+
+## [Experiments.do](https://experiments.do) Iterate & Improve
+
+
+## [Benchmarks.do](https://benchmarks.do) Compare Models
+
+
+## [Evals.do](https://evals.do) Measure & Improve
+
+
+## [Traces.do](https://traces.do) Operational Visibility
+
+
+## [LLM.do](https://llm.do) Tool-enabled Proxy
+
+
+
+## [Analytics.do](https://analytics.do) Insightful Business Intelligence
+
+
+## [AGI.do](https://agi.do) Economically Valuable Work

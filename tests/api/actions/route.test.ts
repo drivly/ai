@@ -12,7 +12,7 @@ global.fetch = vi.fn()
 vi.stubEnv('COMPOSIO_API_KEY', 'test-api-key')
 
 // Import after mocks are set up
-import { GET } from '../../../app/(apis)/api/actions/route'
+import { GET } from '../../../app/(apis)/actions/route'
 
 describe('Actions API', () => {
   beforeEach(() => {
@@ -31,14 +31,11 @@ describe('Actions API', () => {
       await GET({} as Request, { url: 'https://example.com/api/actions' } as any)
 
       // Verify fetch was called with the correct URL and headers
-      expect(global.fetch).toHaveBeenCalledWith(
-        'https://backend.composio.dev/api/v2/actions/list/all',
-        {
-          headers: {
-            'x-api-key': 'test-api-key',
-          },
-        }
-      )
+      expect(global.fetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v2/actions/list/all', {
+        headers: {
+          'x-api-key': 'test-api-key',
+        },
+      })
     })
 
     it('should return a 500 response if API key is not configured', async () => {

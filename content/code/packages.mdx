@@ -34,39 +34,35 @@ const AIUtilitiesPackage = {
   keywords: ['ai', 'utilities', 'functions'],
   dependencies: [
     { name: 'openai', version: '^4.0.0' },
-    { name: 'zod', version: '^3.21.4' }
+    { name: 'zod', version: '^3.21.4' },
   ],
   devDependencies: [
     { name: 'typescript', version: '^5.0.0' },
-    { name: 'jest', version: '^29.5.0' }
+    { name: 'jest', version: '^29.5.0' },
   ],
   modules: [
     { name: 'text-processing', version: '1.2.0' },
     { name: 'embedding-utils', version: '0.9.0' },
-    { name: 'prompt-templates', version: '1.1.0' }
+    { name: 'prompt-templates', version: '1.1.0' },
   ],
   exports: {
     '.': './dist/index.js',
     './text': './dist/text-processing/index.js',
     './embeddings': './dist/embedding-utils/index.js',
-    './prompts': './dist/prompt-templates/index.js'
+    './prompts': './dist/prompt-templates/index.js',
   },
   types: {
     '.': './dist/index.d.ts',
     './text': './dist/text-processing/index.d.ts',
     './embeddings': './dist/embedding-utils/index.d.ts',
-    './prompts': './dist/prompt-templates/index.d.ts'
+    './prompts': './dist/prompt-templates/index.d.ts',
   },
-  files: [
-    'dist',
-    'README.md',
-    'LICENSE'
-  ],
+  files: ['dist', 'README.md', 'LICENSE'],
   scripts: {
     build: 'tsc',
     test: 'jest',
-    lint: 'eslint src'
-  }
+    lint: 'eslint src',
+  },
 }
 ```
 
@@ -119,7 +115,7 @@ Packages can be built and published using the Code.do API or through the dashboa
 const buildResult = await packages.build('@drivly/ai-utilities', {
   target: 'node16',
   minify: true,
-  sourceMaps: true
+  sourceMaps: true,
 })
 
 // Run tests
@@ -128,13 +124,13 @@ const testResult = await packages.test('@drivly/ai-utilities')
 // Generate documentation
 const docs = await packages.generateDocs('@drivly/ai-utilities', {
   format: 'markdown',
-  outputDir: './docs'
+  outputDir: './docs',
 })
 
 // Publish a package
 const publishResult = await packages.publish('@drivly/ai-utilities', {
   registry: 'npm',
-  access: 'public'
+  access: 'public',
 })
 ```
 
@@ -161,16 +157,16 @@ const textAnalysisWorkflow = {
       package: '@drivly/ai-utilities',
       module: 'text-processing',
       function: 'processText',
-      input: { text: '{{input.text}}' }
+      input: { text: '{{input.text}}' },
     },
     {
       id: 'createEmbedding',
       package: '@drivly/ai-utilities',
       module: 'embedding-utils',
       function: 'createEmbedding',
-      input: { text: '{{processText.result}}' }
-    }
-  ]
+      input: { text: '{{processText.result}}' },
+    },
+  ],
 }
 ```
 
@@ -193,7 +189,7 @@ await packages.update('@drivly/new-package', {
 // Create a new version
 await packages.createVersion('@drivly/new-package', {
   version: '1.1.0',
-  changes: 'Added new features and fixed bugs'
+  changes: 'Added new features and fixed bugs',
 })
 ```
 

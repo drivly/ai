@@ -191,17 +191,17 @@ await observability.alerts.create({
     threshold: 80,
     for: '5m',
     filters: {
-      service: 'user-service'
-    }
+      service: 'user-service',
+    },
   },
   severity: 'warning',
   notifications: [
     {
       channel: 'slack',
-      target: '#alerts'
-    }
+      target: '#alerts',
+    },
   ],
-  runbook: 'https://example.com/runbooks/high-cpu-usage'
+  runbook: 'https://example.com/runbooks/high-cpu-usage',
 })
 
 // Create a log alert
@@ -212,16 +212,16 @@ await observability.alerts.create({
   condition: {
     query: 'level:error AND message:"Database connection failed"',
     threshold: 5,
-    for: '5m'
+    for: '5m',
   },
   severity: 'error',
   notifications: [
     {
       channel: 'slack',
-      target: '#alerts'
-    }
+      target: '#alerts',
+    },
   ],
-  runbook: 'https://example.com/runbooks/database-errors'
+  runbook: 'https://example.com/runbooks/database-errors',
 })
 ```
 
@@ -307,13 +307,13 @@ await observability.alerts.update('high_cpu_usage', {
   notifications: [
     {
       channel: 'slack',
-      target: '#alerts-performance'
+      target: '#alerts-performance',
     },
     {
       channel: 'email',
-      target: 'oncall@example.com'
-    }
-  ]
+      target: 'oncall@example.com',
+    },
+  ],
 })
 
 // Enable or disable an alert
@@ -340,20 +340,20 @@ const incident = await observability.alerts.getIncident('incident-123')
 // Acknowledge an incident
 await observability.alerts.acknowledgeIncident('incident-123', {
   user: 'john.doe',
-  comment: 'Investigating the issue'
+  comment: 'Investigating the issue',
 })
 
 // Resolve an incident
 await observability.alerts.resolveIncident('incident-123', {
   user: 'john.doe',
   comment: 'Issue resolved',
-  resolution: 'Restarted the service'
+  resolution: 'Restarted the service',
 })
 
 // Add a comment to an incident
 await observability.alerts.addIncidentComment('incident-123', {
   user: 'john.doe',
-  comment: 'Found the root cause: database connection pool exhausted'
+  comment: 'Found the root cause: database connection pool exhausted',
 })
 ```
 
@@ -369,8 +369,8 @@ await observability.alerts.createAutomation({
   triggers: [
     {
       alert: 'service_unresponsive',
-      condition: 'FIRING'
-    }
+      condition: 'FIRING',
+    },
   ],
   actions: [
     {
@@ -378,17 +378,17 @@ await observability.alerts.createAutomation({
       function: 'restartService',
       input: {
         service: '{{alert.labels.service}}',
-        instance: '{{alert.labels.instance}}'
-      }
+        instance: '{{alert.labels.instance}}',
+      },
     },
     {
       type: 'notification',
       channel: 'slack',
       target: '#alerts-automation',
-      message: 'Automatically restarted service {{alert.labels.service}} on instance {{alert.labels.instance}}'
-    }
+      message: 'Automatically restarted service {{alert.labels.service}} on instance {{alert.labels.instance}}',
+    },
   ],
-  cooldown: '1h'
+  cooldown: '1h',
 })
 
 // Enable or disable an automation
@@ -399,8 +399,8 @@ const testResult = await observability.alerts.testAutomation('restart-service', 
   alert: 'service_unresponsive',
   labels: {
     service: 'user-service',
-    instance: 'server-1'
-  }
+    instance: 'server-1',
+  },
 })
 ```
 

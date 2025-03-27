@@ -1,10 +1,10 @@
 # Functions
 
-Functions are strongly-typed composable building blocks that can be used to create workflows and agents.
+Functions represent the core building blocks for AI primitives, transforming inputs into reliable, structured outputs. They are the foundation of the Business-as-Code approach, enabling deterministic outcomes and measurable KPIs.
 
 ## Overview
 
-Functions.do provides a way to create, manage, and execute functions in your AI applications. These functions can be:
+Functions.do provides a way to create, manage, and execute functions that transform inputs into reliable outputs. Functions can be either traditional code functions or AI-powered functions:
 
 - Used as standalone operations
 - Combined into complex workflows
@@ -17,15 +17,50 @@ Functions.do provides a way to create, manage, and execute functions in your AI 
 - **Versioned**: Track changes and manage different versions of your functions
 - **Monitored**: Observe function performance and execution metrics
 
-## Creating Functions
+## Function Types
 
-Functions can be created using the Functions.do API or through the dashboard interface.
+### Code Functions (Classical Computation)
 
-```typescript
-// Example function definition
-const summarizeText = {
-  name: 'summarizeText',
-  description: 'Summarizes a text input to a specified length',
+Leverage traditional computation methods to deliver precise, deterministic outcomes. These functions manage logical workflows, validation routines, and algorithmic tasks.
+
+```javascript
+// Example code function
+const calculateTotal = {
+  name: 'calculateTotal',
+  description: 'Calculates the total price of items with tax',
+  input: z.object({
+    items: z.array(
+      z.object({
+        name: z.string(),
+        price: z.number(),
+        quantity: z.number().default(1),
+      }),
+    ),
+    taxRate: z.number().default(0.0875),
+  }),
+  output: z.object({
+    subtotal: z.number(),
+    tax: z.number(),
+    total: z.number(),
+  }),
+  execute: ({ items, taxRate }) => {
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const tax = subtotal * taxRate
+    const total = subtotal + tax
+    return { subtotal, tax, total }
+  },
+}
+```
+
+### AI Functions (Intelligent Structured Outputs)
+
+Use advanced AI models to deliver intelligent, structured results. These functions manage reasoning tasks, data enrichment, and decision-making processes, ensuring outcomes are contextually relevant and dynamic.
+
+````javascript
+// Example AI function
+const generateSummary = {
+  name: 'generateSummary',
+  description: 'Summarizes a text input using AI',
   input: z.object({
     text: z.string(),
     maxLength: z.number().optional(),
@@ -34,46 +69,120 @@ const summarizeText = {
     summary: z.string(),
   }),
   execute: async ({ text, maxLength = 100 }) => {
-    // Implementation logic
-    return { summary: '...' }
-  }
+    // Implementation using AI models
+    const summary = await ai`Summarize the following text in ${maxLength} words: ${text}`;
+    return { summary };
+  },
+};
+
+// Example structured AI extraction
+const extractEntities = {
+  name: 'extractEntities',
+  description: 'Extracts named entities from text',
+  input: z.object({
+    document: z.string(),
+  }),
+  output: z.object({
+    people: z.array(z.string()),
+    locations: z.array(z.string()),
+    organizations: z.array(z.string()),
+  }),
+  execute: async ({ document }) => {
+    return await ai.extract({
+      schema: {
+        people: 'string[]',
+        locations: 'string[]',
+        organizations: 'string[]'
+      },
+      prompt: `Extract entities from this document: ${document}`
+    });
+  },
+};
+
+## Creating Functions
+
+Functions can be created using the Functions.do API or through the dashboard interface.
+
+```typescript
+// Example business function definition
+const researchCompany = {
+  name: 'researchCompany',
+  description: 'Researches a company and extracts key business information',
+  input: z.object({
+    companyName: z.string(),
+    depth: z.enum(['basic', 'detailed', 'comprehensive']).default('detailed'),
+  }),
+  output: z.object({
+    industry: z.string(),
+    size: z.string(),
+    fundingStage: z.string(),
+    competitors: z.array(z.string()),
+    recentNews: z.array(z.string()),
+    keyMetrics: z.record(z.string()),
+  }),
+  execute: async ({ companyName, depth }) => {
+    // Implementation logic using AI for research
+    return await ai.extract({
+      schema: {
+        industry: 'string',
+        size: 'string',
+        fundingStage: 'string',
+        competitors: 'string[]',
+        recentNews: 'string[]',
+        keyMetrics: 'Record<string, string>',
+      },
+      prompt: `Research the company ${companyName} at ${depth} depth and extract key business information`
+    });
+  },
 }
-```
+````
 
 ## Using Functions
 
-Functions can be called directly or as part of workflows:
+Functions can be called directly or as part of business workflows:
 
 ```typescript
-// Direct function call
-const result = await functions.call('summarizeText', {
-  text: 'Long text to summarize...',
-  maxLength: 150
+// Direct function call for business intelligence
+const result = await functions.call('researchCompany', {
+  companyName: 'Acme Corporation',
+  depth: 'comprehensive',
 })
 
-// Using in a workflow
-const workflow = {
+// Using in a customer research workflow
+const customerResearchWorkflow = {
   steps: [
     {
-      id: 'extract',
-      function: 'extractKeyPoints',
-      input: { document: '{{input.document}}' }
+      id: 'identifyProspect',
+      function: 'identifyCompanyFromWebsite',
+      input: { website: '{{input.website}}' },
     },
     {
-      id: 'summarize',
-      function: 'summarizeText',
-      input: { text: '{{extract.keyPoints}}', maxLength: 200 }
-    }
-  ]
+      id: 'research',
+      function: 'researchCompany',
+      input: {
+        companyName: '{{identifyProspect.companyName}}',
+        depth: 'detailed',
+      },
+    },
+    {
+      id: 'generateInsights',
+      function: 'generateBusinessInsights',
+      input: {
+        companyData: '{{research}}',
+        salesContext: '{{input.salesContext}}',
+      },
+    },
+  ],
 }
 ```
 
 ## Function Marketplace
 
-Discover and use pre-built functions from the marketplace to accelerate your development process.
+Discover and use pre-built business and AI functions from the marketplace to accelerate your development process and deliver measurable business outcomes.
 
 ## Next Steps
 
 - [Create your first function](/ai/functions/create)
 - [Explore the function marketplace](/ai/functions/marketplace)
 - [Learn about function versioning](/ai/functions/versioning)
+- [Implement business-critical functions](/ai/functions/business-critical)

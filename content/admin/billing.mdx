@@ -35,25 +35,25 @@ const subscriptionPlans = [
       {
         name: 'functions',
         limit: 10,
-        description: 'Up to 10 functions'
+        description: 'Up to 10 functions',
       },
       {
         name: 'workflows',
         limit: 5,
-        description: 'Up to 5 workflows'
+        description: 'Up to 5 workflows',
       },
       {
         name: 'agents',
         limit: 1,
-        description: 'Up to 1 agent'
+        description: 'Up to 1 agent',
       },
       {
         name: 'storage',
         limit: 1,
         unit: 'GB',
-        description: '1 GB storage'
-      }
-    ]
+        description: '1 GB storage',
+      },
+    ],
   },
   {
     id: 'pro',
@@ -66,29 +66,29 @@ const subscriptionPlans = [
       {
         name: 'functions',
         limit: 100,
-        description: 'Up to 100 functions'
+        description: 'Up to 100 functions',
       },
       {
         name: 'workflows',
         limit: 50,
-        description: 'Up to 50 workflows'
+        description: 'Up to 50 workflows',
       },
       {
         name: 'agents',
         limit: 10,
-        description: 'Up to 10 agents'
+        description: 'Up to 10 agents',
       },
       {
         name: 'storage',
         limit: 10,
         unit: 'GB',
-        description: '10 GB storage'
+        description: '10 GB storage',
       },
       {
         name: 'support',
-        description: 'Email support'
-      }
-    ]
+        description: 'Email support',
+      },
+    ],
   },
   {
     id: 'business',
@@ -101,33 +101,33 @@ const subscriptionPlans = [
       {
         name: 'functions',
         limit: 500,
-        description: 'Up to 500 functions'
+        description: 'Up to 500 functions',
       },
       {
         name: 'workflows',
         limit: 200,
-        description: 'Up to 200 workflows'
+        description: 'Up to 200 workflows',
       },
       {
         name: 'agents',
         limit: 50,
-        description: 'Up to 50 agents'
+        description: 'Up to 50 agents',
       },
       {
         name: 'storage',
         limit: 100,
         unit: 'GB',
-        description: '100 GB storage'
+        description: '100 GB storage',
       },
       {
         name: 'support',
-        description: 'Priority support'
+        description: 'Priority support',
       },
       {
         name: 'sso',
-        description: 'Single Sign-On'
-      }
-    ]
+        description: 'Single Sign-On',
+      },
+    ],
   },
   {
     id: 'enterprise',
@@ -139,37 +139,37 @@ const subscriptionPlans = [
       {
         name: 'functions',
         limit: null,
-        description: 'Unlimited functions'
+        description: 'Unlimited functions',
       },
       {
         name: 'workflows',
         limit: null,
-        description: 'Unlimited workflows'
+        description: 'Unlimited workflows',
       },
       {
         name: 'agents',
         limit: null,
-        description: 'Unlimited agents'
+        description: 'Unlimited agents',
       },
       {
         name: 'storage',
         limit: null,
-        description: 'Unlimited storage'
+        description: 'Unlimited storage',
       },
       {
         name: 'support',
-        description: 'Dedicated support'
+        description: 'Dedicated support',
       },
       {
         name: 'sso',
-        description: 'Single Sign-On'
+        description: 'Single Sign-On',
       },
       {
         name: 'sla',
-        description: 'Custom SLA'
-      }
-    ]
-  }
+        description: 'Custom SLA',
+      },
+    ],
+  },
 ]
 ```
 
@@ -191,19 +191,19 @@ const subscription = await admin.billing.getSubscription('org-123')
 const newSubscription = await admin.billing.subscribe('org-123', {
   plan: 'business',
   billingCycle: 'monthly',
-  paymentMethod: 'pm-123'
+  paymentMethod: 'pm-123',
 })
 
 // Change subscription plan
 const updatedSubscription = await admin.billing.changeSubscription('org-123', {
   plan: 'enterprise',
-  billingCycle: 'annual'
+  billingCycle: 'annual',
 })
 
 // Cancel subscription
 await admin.billing.cancelSubscription('org-123', {
   reason: 'Switching to another service',
-  endOfBillingPeriod: true
+  endOfBillingPeriod: true,
 })
 
 // Reactivate subscription
@@ -225,7 +225,7 @@ const newPaymentMethod = await admin.billing.addPaymentMethod('org-123', {
     number: '4242424242424242',
     expMonth: 12,
     expYear: 2025,
-    cvc: '123'
+    cvc: '123',
   },
   billingDetails: {
     name: 'John Doe',
@@ -235,16 +235,16 @@ const newPaymentMethod = await admin.billing.addPaymentMethod('org-123', {
       city: 'San Francisco',
       state: 'CA',
       postalCode: '94111',
-      country: 'US'
-    }
-  }
+      country: 'US',
+    },
+  },
 })
 
 // Update a payment method
 const updatedPaymentMethod = await admin.billing.updatePaymentMethod('org-123', 'pm-123', {
   billingDetails: {
-    name: 'John D. Doe'
-  }
+    name: 'John D. Doe',
+  },
 })
 
 // Delete a payment method
@@ -263,36 +263,36 @@ Track usage using the Admin.do API:
 const usage = await admin.billing.getUsage('org-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
-  resources: ['functions', 'workflows', 'agents', 'storage']
+  resources: ['functions', 'workflows', 'agents', 'storage'],
 })
 
 // Get usage by resource
 const functionUsage = await admin.billing.getResourceUsage('org-123', 'functions', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
-  groupBy: 'day'
+  groupBy: 'day',
 })
 
 // Get usage by team
 const teamUsage = await admin.billing.getTeamUsage('org-123', 'team-456', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
-  resources: ['functions', 'workflows', 'agents']
+  resources: ['functions', 'workflows', 'agents'],
 })
 
 // Get usage by user
 const userUsage = await admin.billing.getUserUsage('org-123', 'user-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
-  resources: ['functions', 'workflows', 'agents']
+  resources: ['functions', 'workflows', 'agents'],
 })
 
 // Get current usage limits
@@ -302,16 +302,16 @@ const usageLimits = await admin.billing.getUsageLimits('org-123')
 await admin.billing.setUsageAlerts('org-123', {
   functions: {
     threshold: 80,
-    notificationChannels: ['email', 'slack']
+    notificationChannels: ['email', 'slack'],
   },
   workflows: {
     threshold: 80,
-    notificationChannels: ['email', 'slack']
+    notificationChannels: ['email', 'slack'],
   },
   agents: {
     threshold: 80,
-    notificationChannels: ['email', 'slack']
-  }
+    notificationChannels: ['email', 'slack'],
+  },
 })
 ```
 
@@ -324,11 +324,11 @@ Manage invoices using the Admin.do API:
 const invoices = await admin.billing.getInvoices('org-123', {
   timeRange: {
     start: '2023-01-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   status: 'paid',
   limit: 10,
-  offset: 0
+  offset: 0,
 })
 
 // Get a specific invoice
@@ -336,7 +336,7 @@ const invoice = await admin.billing.getInvoice('org-123', 'inv-123')
 
 // Download an invoice
 const invoicePdf = await admin.billing.downloadInvoice('org-123', 'inv-123', {
-  format: 'pdf'
+  format: 'pdf',
 })
 
 // Get upcoming invoice
@@ -344,7 +344,7 @@ const upcomingInvoice = await admin.billing.getUpcomingInvoice('org-123')
 
 // Pay an invoice
 await admin.billing.payInvoice('org-123', 'inv-123', {
-  paymentMethod: 'pm-123'
+  paymentMethod: 'pm-123',
 })
 ```
 
@@ -364,16 +364,16 @@ const updatedBillingSettings = await admin.billing.updateSettings('org-123', {
     city: 'San Francisco',
     state: 'CA',
     postalCode: '94111',
-    country: 'US'
+    country: 'US',
   },
   taxId: {
     type: 'us_ein',
-    value: '12-3456789'
+    value: '12-3456789',
   },
   invoiceSettings: {
     footer: 'Thank you for your business!',
-    autoCharge: true
-  }
+    autoCharge: true,
+  },
 })
 
 // Get tax rates
@@ -383,9 +383,9 @@ const taxRates = await admin.billing.getTaxRates('org-123')
 await admin.billing.updateTaxSettings('org-123', {
   taxId: {
     type: 'us_ein',
-    value: '12-3456789'
+    value: '12-3456789',
   },
-  taxExempt: false
+  taxExempt: false,
 })
 ```
 
@@ -398,33 +398,33 @@ Generate billing reports using the Admin.do API:
 const usageReport = await admin.billing.generateUsageReport('org-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   resources: ['functions', 'workflows', 'agents', 'storage'],
   groupBy: ['day', 'resource'],
-  format: 'csv'
+  format: 'csv',
 })
 
 // Generate a cost report
 const costReport = await admin.billing.generateCostReport('org-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   resources: ['functions', 'workflows', 'agents', 'storage'],
   groupBy: ['day', 'resource'],
-  format: 'csv'
+  format: 'csv',
 })
 
 // Generate a team usage report
 const teamUsageReport = await admin.billing.generateTeamUsageReport('org-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   resources: ['functions', 'workflows', 'agents'],
   groupBy: ['team', 'resource'],
-  format: 'csv'
+  format: 'csv',
 })
 
 // Schedule a recurring report
@@ -434,14 +434,14 @@ await admin.billing.scheduleReport('org-123', {
   schedule: {
     frequency: 'monthly',
     day: 1,
-    time: '00:00:00Z'
+    time: '00:00:00Z',
   },
   parameters: {
     resources: ['functions', 'workflows', 'agents', 'storage'],
     groupBy: ['day', 'resource'],
-    format: 'csv'
+    format: 'csv',
   },
-  recipients: ['billing@example.com', 'finance@example.com']
+  recipients: ['billing@example.com', 'finance@example.com'],
 })
 ```
 

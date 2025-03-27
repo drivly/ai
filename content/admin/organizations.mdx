@@ -105,7 +105,7 @@ Manage organizations using the Admin.do API:
 const newOrg = await admin.organizations.create({
   name: 'Beta Inc.',
   domain: 'beta.com',
-  plan: 'business'
+  plan: 'business',
 })
 
 // Get an organization by ID
@@ -117,7 +117,7 @@ const orgByDomain = await admin.organizations.getByDomain('acme.com')
 // Update an organization
 const updatedOrg = await admin.organizations.update('org-123', {
   name: 'Acme Inc.',
-  plan: 'enterprise'
+  plan: 'enterprise',
 })
 
 // Delete an organization
@@ -132,7 +132,7 @@ Manage organization membership using the Admin.do API:
 // Add a member to an organization
 await admin.organizations.addMember('org-123', {
   userId: 'user-101',
-  role: 'member'
+  role: 'member',
 })
 
 // Get organization members
@@ -140,7 +140,7 @@ const members = await admin.organizations.getMembers('org-123')
 
 // Update a member's role
 await admin.organizations.updateMember('org-123', 'user-101', {
-  role: 'admin'
+  role: 'admin',
 })
 
 // Remove a member from an organization
@@ -153,19 +153,14 @@ const orgRoles = await admin.organizations.getRoles()
 const customRole = await admin.organizations.createRole({
   name: 'developer',
   description: 'Developer role',
-  permissions: [
-    'functions:read',
-    'functions:create',
-    'workflows:read',
-    'workflows:create'
-  ]
+  permissions: ['functions:read', 'functions:create', 'workflows:read', 'workflows:create'],
 })
 
 // Invite a user to an organization
 const invitation = await admin.organizations.invite('org-123', {
   email: 'jane.smith@example.com',
   role: 'member',
-  message: 'Join our organization!'
+  message: 'Join our organization!',
 })
 
 // Get pending invitations
@@ -183,7 +178,7 @@ Manage organization teams using the Admin.do API:
 // Create a team in an organization
 const newTeam = await admin.organizations.createTeam('org-123', {
   name: 'Marketing',
-  description: 'Marketing team'
+  description: 'Marketing team',
 })
 
 // Get organization teams
@@ -202,16 +197,16 @@ Manage organization resources using the Admin.do API:
 const resources = await admin.organizations.getResources('org-123', {
   types: ['function', 'workflow', 'agent'],
   limit: 100,
-  offset: 0
+  offset: 0,
 })
 
 // Get resource usage
 const resourceUsage = await admin.organizations.getResourceUsage('org-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
-  resources: ['functions', 'workflows', 'agents']
+  resources: ['functions', 'workflows', 'agents'],
 })
 
 // Get resource limits
@@ -221,7 +216,7 @@ const resourceLimits = await admin.organizations.getResourceLimits('org-123')
 const updatedLimits = await admin.organizations.updateResourceLimits('org-123', {
   functions: 1000,
   workflows: 500,
-  agents: 100
+  agents: 100,
 })
 ```
 
@@ -240,12 +235,12 @@ const updatedSettings = await admin.organizations.updateSettings('org-123', {
     provider: 'okta',
     config: {
       // SSO configuration
-    }
+    },
   },
   security: {
     mfa: {
       enabled: true,
-      required: true
+      required: true,
     },
     passwordPolicy: {
       minLength: 12,
@@ -253,9 +248,9 @@ const updatedSettings = await admin.organizations.updateSettings('org-123', {
       requireLowercase: true,
       requireNumbers: true,
       requireSymbols: true,
-      expiryDays: 90
-    }
-  }
+      expiryDays: 90,
+    },
+  },
 })
 
 // Configure SSO
@@ -263,14 +258,14 @@ await admin.organizations.configureSso('org-123', {
   provider: 'okta',
   config: {
     // SSO configuration
-  }
+  },
 })
 
 // Configure MFA
 await admin.organizations.configureMfa('org-123', {
   enabled: true,
   required: true,
-  methods: ['app', 'sms']
+  methods: ['app', 'sms'],
 })
 
 // Configure password policy
@@ -280,7 +275,7 @@ await admin.organizations.configurePasswordPolicy('org-123', {
   requireLowercase: true,
   requireNumbers: true,
   requireSymbols: true,
-  expiryDays: 90
+  expiryDays: 90,
 })
 
 // Configure branding
@@ -288,8 +283,8 @@ await admin.organizations.configureBranding('org-123', {
   logo: 'https://example.com/logos/acme.png',
   colors: {
     primary: '#1a73e8',
-    secondary: '#f1f3f4'
-  }
+    secondary: '#f1f3f4',
+  },
 })
 ```
 
@@ -302,21 +297,21 @@ Track organization activity using the Admin.do API:
 const activity = await admin.organizations.getActivity('org-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   limit: 100,
-  offset: 0
+  offset: 0,
 })
 
 // Get organization audit logs
 const auditLogs = await admin.organizations.getAuditLogs('org-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   types: ['user', 'team', 'resource'],
   limit: 100,
-  offset: 0
+  offset: 0,
 })
 ```
 
@@ -330,14 +325,14 @@ const searchResults = await admin.organizations.search({
   query: 'acme',
   filters: {
     plan: 'enterprise',
-    status: 'active'
+    status: 'active',
   },
   limit: 10,
   offset: 0,
   sort: {
     field: 'name',
-    order: 'asc'
-  }
+    order: 'asc',
+  },
 })
 
 // Get organizations by domain

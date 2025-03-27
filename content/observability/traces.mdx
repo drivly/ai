@@ -1,6 +1,6 @@
 # Traces
 
-Traces provide detailed records of request flows through your AI applications.
+Traces provide detailed visibility into the execution of AI workflows, enabling debugging, optimization, and compliance monitoring for business processes.
 
 ## Overview
 
@@ -129,7 +129,7 @@ import { tracer } from '@drivly/observability'
 // Configure the tracer
 tracer.configure({
   service: 'user-service',
-  environment: 'production'
+  environment: 'production',
 })
 
 // Create a trace
@@ -141,43 +141,37 @@ const result = await tracer.trace(
     span.setAttribute('requestId', 'req-456')
 
     // Create a child span
-    const profileData = await span.traceChild(
-      'get-user-profile',
-      async (childSpan) => {
-        childSpan.setAttribute('dataSource', 'user-db')
+    const profileData = await span.traceChild('get-user-profile', async (childSpan) => {
+      childSpan.setAttribute('dataSource', 'user-db')
 
-        // Create another child span
-        const dbResult = await childSpan.traceChild(
-          'query-database',
-          async (dbSpan) => {
-            dbSpan.setAttribute('db.system', 'postgresql')
-            dbSpan.setAttribute('db.operation', 'select')
-            dbSpan.setAttribute('db.table', 'users')
+      // Create another child span
+      const dbResult = await childSpan.traceChild('query-database', async (dbSpan) => {
+        dbSpan.setAttribute('db.system', 'postgresql')
+        dbSpan.setAttribute('db.operation', 'select')
+        dbSpan.setAttribute('db.table', 'users')
 
-            // Database query implementation...
-            return { id: 'user-123', name: 'John Doe' }
-          }
-        )
+        // Database query implementation...
+        return { id: 'user-123', name: 'John Doe' }
+      })
 
-        // Process the database result...
-        return {
-          user: dbResult,
-          preferences: { theme: 'dark' }
-        }
+      // Process the database result...
+      return {
+        user: dbResult,
+        preferences: { theme: 'dark' },
       }
-    )
+    })
 
     // Process the profile data...
     return {
       success: true,
-      data: profileData
+      data: profileData,
     }
   },
   {
     attributes: {
-      endpoint: '/api/users/profile'
-    }
-  }
+      endpoint: '/api/users/profile',
+    },
+  },
 )
 
 // Trace a function
@@ -188,8 +182,8 @@ function processUserRequest(userId) {
 const tracedFunction = tracer.traceFunction(processUserRequest, {
   name: 'process-user-request',
   attributes: (userId) => ({
-    userId
-  })
+    userId,
+  }),
 })
 
 const result = await tracedFunction('user-123')
@@ -200,7 +194,7 @@ app.use(tracer.middleware.http())
 // Trace database queries
 const db = tracer.wrapDatabase(database, {
   system: 'postgresql',
-  instance: 'users-db'
+  instance: 'users-db',
 })
 ```
 
@@ -214,14 +208,14 @@ const traces = await observability.traces.search({
   query: 'service:user-service AND status:error',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   limit: 100,
   offset: 0,
   sort: {
     field: 'startTime',
-    order: 'desc'
-  }
+    order: 'desc',
+  },
 })
 
 // Get a specific trace
@@ -232,8 +226,8 @@ const requestTraces = await observability.traces.search({
   query: 'attributes.requestId:req-456',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
-  }
+    end: '2023-06-30T23:59:59Z',
+  },
 })
 
 // Analyze trace patterns
@@ -241,10 +235,10 @@ const latencyPatterns = await observability.traces.analyze({
   query: 'name:process-user-request',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   groupBy: ['service'],
-  metrics: ['count', 'avgDuration', 'p95Duration', 'p99Duration']
+  metrics: ['count', 'avgDuration', 'p95Duration', 'p99Duration'],
 })
 ```
 
@@ -260,8 +254,8 @@ const timeline = await observability.traces.generateTimeline('trace-123')
 const dependencyGraph = await observability.traces.generateDependencyGraph({
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
-  }
+    end: '2023-06-30T23:59:59Z',
+  },
 })
 
 // Generate a flame graph
@@ -276,34 +270,34 @@ Manage your traces through the dashboard or API:
 // Configure trace sampling
 await observability.traces.configureSampling({
   default: {
-    rate: 0.1 // Sample 10% of traces
+    rate: 0.1, // Sample 10% of traces
   },
   rules: [
     {
       name: 'errors',
       condition: 'status:error',
-      rate: 1.0 // Sample 100% of error traces
+      rate: 1.0, // Sample 100% of error traces
     },
     {
       name: 'slow-requests',
       condition: 'duration:>1000',
-      rate: 0.5 // Sample 50% of slow traces
-    }
-  ]
+      rate: 0.5, // Sample 50% of slow traces
+    },
+  ],
 })
 
 // Configure trace retention
 await observability.traces.configureRetention({
   default: {
-    duration: '7d'
+    duration: '7d',
   },
   rules: [
     {
       name: 'errors',
       condition: 'status:error',
-      duration: '30d'
-    }
-  ]
+      duration: '30d',
+    },
+  ],
 })
 
 // Export traces
@@ -311,14 +305,14 @@ const exportResult = await observability.traces.export({
   query: 'service:user-service AND status:error',
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   format: 'json',
   destination: {
     type: 's3',
     bucket: 'traces-backup',
-    prefix: 'exports/2023-06'
-  }
+    prefix: 'exports/2023-06',
+  },
 })
 ```
 

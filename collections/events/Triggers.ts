@@ -7,5 +7,9 @@ export const Triggers: CollectionConfig = {
     useAsTitle: 'name',
   },
   versions: true,
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [
+    { name: 'name', type: 'text' },
+    { name: 'payload', type: 'json' },
+    { name: 'config', type: 'json' },
+  ],
 }

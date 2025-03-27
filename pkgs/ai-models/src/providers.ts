@@ -75,8 +75,12 @@ let models: Model[] = rawModels.models.map((x) => {
     author: x.author,
     provider: camelCase(provider ?? 'unknown') as Provider,
     capabilities: x.endpoint?.supportedParameters.map((p) => camelCase(p) as Capability),
-    openRouterSlug: x.permaslug,
-    modelIdentifier: x.permaslug.replace(x.author + '/', ''), // Fixes cases where the modelId was google/google/google-gemini-2.0-flash-001
+    openRouterSlug: x.slug,
+    modelIdentifier: x.slug.replace(x.author + '/', ''), // Fixes cases where the modelId was google/google/google-gemini-2.0-flash-001
+  }
+
+  if (model.modelIdentifier?.includes('gemini')) {
+    console.log(model)
   }
 
   return model
@@ -101,8 +105,8 @@ models.push({
   modelIdentifier: 'frontier',
   // Array of children models that will be checked for compatibility
   // in order. First most compatible will be used.
-  childrenModels: ['google/gemini-2.0-flash-001', 'google/gemini-2.0-flash-thinking-exp-01-21', 'anthropic/claude-3-7-sonnet-20250219', 'openai/gpt-4o'],
-  childPriority: 'random',
+  childrenModels: ['google/gemini-2.0-flash-001', 'anthropic/claude-3.7-sonnet:thinking', 'openai/gpt-o1'],
+  childPriority: 'first',
 })
 
 export { models }

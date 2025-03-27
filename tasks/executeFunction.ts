@@ -2,6 +2,10 @@ import { TaskConfig, TaskHandler } from 'payload'
 import { waitUntil } from '@vercel/functions'
 import hash from 'object-hash'
 import { generateObject } from './generateObject'
+import { generateText } from './generateText'
+import { validateWithSchema } from './schemaUtils'
+import { generateMarkdown } from './generateMarkdown'
+import { generateCode } from './generateCode'
 
 // export const executeFunction: TaskHandler<'executeFunction'> = async ({ input, req }) => {
 // TODO: Fix the typing and response ... temporary hack to get results in the functions API
@@ -9,9 +13,14 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const headers = req?.headers ? Object.fromEntries(req?.headers) : undefined
   // const { payload } = req
   if (!payload) payload = req?.payload
-  const { functionName, args, schema, timeout, seeds, callback } = input
+  const { functionName, args, schema, timeout, seeds, callback, type } = input
   const { settings } = input as any
   const start = Date.now()
+
+  // Determine if this is a text-based function (Markdown, Text, TextArray, etc.)
+  const isTextFunction = type === 'Text' || type === 'Markdown' || type === 'TextArray' || (settings?.type && ['Text', 'Markdown', 'TextArray'].includes(settings.type))
+  // Determine if this is a code-based function
+  const isCodeFunction = type === 'Code' || (settings?.type && settings.type === 'Code')
 
   // Hash args & schema
   const actionHash = hash({ functionName, args, schema, settings })
@@ -45,40 +54,124 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   // If we have a cached result, return it immediately without calling generateObject
   if (actionDoc?.object) {
     // If action & output object exists, log event and return action output/object
-    waitUntil(payload.create({ collection: 'events', data: { action: actionDoc.id, request: { headers, seeds, callback }, meta: { type: 'object' } } }))
-    
+    waitUntil(payload.create({ collection: 'events', data: { action: actionDoc.id, request: { headers, seeds, callback }, meta: { type: isTextFunction ? 'text' : 'object' } } }))
+
     // Extract the data from the object
-    const objectData = actionDoc.object.data || { result: 'test data' };
-    
+    const objectData = actionDoc.object.data || { result: 'test data' }
+
     // Log the object data for debugging
-    console.log('Test result:', JSON.stringify(objectData));
-    
+    console.log('Test result:', JSON.stringify(objectData))
+
     // Return the cached result with the expected structure
-    return { 
-      output: objectData, 
-      reasoning: actionDoc.reasoning || 'cached reasoning'
+    return {
+      output: objectData,
+      reasoning: actionDoc.reasoning || 'cached reasoning',
     }
   }
 
   // Create any missing resources
   const createPromise = Promise.all([
-    functionDoc ? undefined : payload.create({ collection: 'functions', data: { name: functionName, type: 'Object' } }), // TODO: Figure out how to handle other types
+    functionDoc ? undefined : payload.create({ collection: 'functions', data: { name: functionName, type: isTextFunction ? type || 'Text' : 'Object' } }),
     argsDoc ? undefined : payload.create({ collection: 'things', data: { hash: argsHash, data: args } }),
   ])
 
-  // Generate the object using the extracted utility function
+  // Generate the response based on function type
   const prompt = `${functionName}(${JSON.stringify(args)})`
-  const { 
-    object, 
-    reasoning, 
-    generation, 
-    text, 
-    generationLatency,
-    request 
-  } = await generateObject({ 
-    input: { functionName, args, settings }, 
-    req 
-  });
+  let object, text, reasoning, generation, generationLatency, request
+
+  if (isCodeFunction && functionDoc?.code) {
+    // Use generateCode for code-based functions
+    const result = await generateCode({
+      input: { prompt: functionDoc.code, settings },
+    })
+
+    object = result.parsed || result.raw
+    reasoning = `Code execution complete. Result: ${typeof object === 'object' ? JSON.stringify(object) : object}`
+    text = result.code
+    generationLatency = Date.now() - start
+    request = { prompt: functionDoc.code, settings }
+  } else if (isTextFunction) {
+    if (type === 'TextArray') {
+      // For TextArray, use generateMarkdown with ordered list prompt
+      const textArraySettings = {
+        ...settings,
+        systemPrompt: `${settings?.systemPrompt || ''}\n\nRespond only with a numbered markdown ordered list. Each item should be on a separate line.`,
+      }
+
+      const result = await generateMarkdown({
+        input: { functionName, args, settings: textArraySettings },
+        req,
+      })
+
+      // Parse the markdown ordered list into a string array
+      const markdownText = result.markdown
+      const lines = markdownText.split('\n')
+      const listItems = lines.filter((line) => /^\s*\d+\.\s+.+/.test(line)).map((line) => line.replace(/^\s*\d+\.\s+/, '').trim())
+
+      text = markdownText
+      reasoning = result.reasoning
+      generation = result.generation
+      generationLatency = result.generationLatency
+      request = result.request
+      object = { data: listItems }
+    } else if (type === 'Markdown' || settings?.type === 'Markdown') {
+      // Use generateMarkdown for markdown-based functions
+      const result = await generateMarkdown({
+        input: { functionName, args, settings },
+        req,
+      })
+
+      text = result.markdown
+      reasoning = result.reasoning
+      generation = result.generation
+      generationLatency = result.generationLatency
+      request = result.request
+      object = { text, mdast: result.mdast }
+    } else {
+      // Use generateText for text-based functions
+      const result = await generateText({
+        input: { functionName, args, settings },
+        req,
+      })
+
+      text = result.text
+      reasoning = result.reasoning
+      generation = result.generation
+      generationLatency = result.generationLatency
+      request = result.request
+      object = { text }
+    }
+  } else {
+    // Use generateObject for object-based functions
+    const result = await generateObject({
+      input: { functionName, args, schema, settings },
+      req,
+    })
+
+    object = result.object
+    reasoning = result.reasoning
+    generation = result.generation
+    text = result.text
+    generationLatency = result.generationLatency
+    request = result.request
+
+    // Validate the object against the schema if provided
+    if (schema && object) {
+      try {
+        object = validateWithSchema(schema, object)
+      } catch (error) {
+        console.error('Schema validation error:', error)
+        // Keep the original object but add validation error information
+        object = {
+          ...object,
+          _validation_error: {
+            message: 'Failed to validate against schema',
+            details: error instanceof Error ? error.message : String(error),
+          },
+        }
+      }
+    }
+  }
 
   const created = await createPromise
   if (!functionDoc && created[0]) functionDoc = created[0]
@@ -100,14 +193,17 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         data: { name: prompt, hash: objectHash, data: object },
       })
       const actionHash = hash({ functionName, args, settings })
-      const actionResult = await payload.create({
+
+      // Use upsert to avoid duplicates with the same hash
+      const actionResult = await payload.db.upsert({
         collection: 'actions',
-        data: { 
-          hash: actionHash, 
-          subject: argsDoc?.id, 
-          function: functionDoc?.id, 
+        where: { hash: { equals: actionHash } },
+        data: {
+          hash: actionHash,
+          subject: argsDoc?.id,
+          function: functionDoc?.id,
           object: objectResult?.id,
-          reasoning: reasoning
+          reasoning: reasoning,
         },
       })
       const generationResult = await payload.create({
@@ -116,7 +212,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       })
       const eventResult = await payload.create({
         collection: 'events',
-        data: { name: prompt, action: actionResult?.id, request: { headers, seeds, callback }, meta: { type: 'object', latency } },
+        data: { name: prompt, action: actionResult?.id, request: { headers, seeds, callback }, meta: { type: isTextFunction ? 'text' : 'object', latency } },
       })
       const saveLatency = Date.now() - startSave
       console.log({ saveLatency })

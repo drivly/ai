@@ -10,6 +10,6 @@ export function useMDXComponents(components?: MDXComponents) {
   return {
     ...themeComponents,
     ...components,
-    // Hero
+    Hero,
   }
 }

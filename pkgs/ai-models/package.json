@@ -15,7 +15,7 @@
     "clean": "rimraf dist",
     "lint": "tsc --noEmit",
     "prepublishOnly": "pnpm clean && pnpm build",
-    "test": "dotenvx run -- vitest",
+    "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "type": "module",
@@ -29,6 +29,7 @@
   "dependencies": {
     "@types/node": "^22.13.10",
     "camelcase": "^8.0.0",
+    "flat": "^6.0.1",
     "vitest": "^3.0.9"
   }
 }

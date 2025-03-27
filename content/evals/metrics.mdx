@@ -36,12 +36,12 @@ const ResponseTimeMetric = {
     { type: 'p99', window: '1m' },
     { type: 'avg', window: '1h' },
     { type: 'p95', window: '1h' },
-    { type: 'p99', window: '1h' }
+    { type: 'p99', window: '1h' },
   ],
   thresholds: [
     { level: 'warning', value: 1000, aggregation: 'avg', window: '1m' },
-    { level: 'critical', value: 2000, aggregation: 'avg', window: '1m' }
-  ]
+    { level: 'critical', value: 2000, aggregation: 'avg', window: '1m' },
+  ],
 }
 ```
 
@@ -142,8 +142,8 @@ await metrics.record('response_time', 150, {
   labels: {
     model: 'gpt-4',
     function: 'generateResponse',
-    environment: 'production'
-  }
+    environment: 'production',
+  },
 })
 
 // Record multiple metric values
@@ -154,8 +154,8 @@ await metrics.recordBatch([
     labels: {
       model: 'gpt-4',
       function: 'generateResponse',
-      environment: 'production'
-    }
+      environment: 'production',
+    },
   },
   {
     name: 'token_usage',
@@ -163,8 +163,8 @@ await metrics.recordBatch([
     labels: {
       model: 'gpt-4',
       function: 'generateResponse',
-      type: 'prompt'
-    }
+      type: 'prompt',
+    },
   },
   {
     name: 'token_usage',
@@ -172,9 +172,9 @@ await metrics.recordBatch([
     labels: {
       model: 'gpt-4',
       function: 'generateResponse',
-      type: 'completion'
-    }
-  }
+      type: 'completion',
+    },
+  },
 ])
 
 // Use metric middleware
@@ -182,8 +182,8 @@ const functionWithMetrics = metrics.withMetrics(generateResponse, {
   metrics: ['response_time', 'token_usage', 'api_call_cost'],
   labels: {
     function: 'generateResponse',
-    model: 'gpt-4'
-  }
+    model: 'gpt-4',
+  },
 })
 ```
 
@@ -196,15 +196,15 @@ Query metrics using the Evals.do API:
 const responseTimeData = await metrics.query('response_time', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   aggregation: 'avg',
   window: '1h',
   filters: {
     model: 'gpt-4',
-    environment: 'production'
+    environment: 'production',
   },
-  groupBy: ['function']
+  groupBy: ['function'],
 })
 
 // Compare metrics
@@ -213,20 +213,20 @@ const comparisonData = await metrics.compare('response_time', {
     {
       start: '2023-05-01T00:00:00Z',
       end: '2023-05-31T23:59:59Z',
-      label: 'May'
+      label: 'May',
     },
     {
       start: '2023-06-01T00:00:00Z',
       end: '2023-06-30T23:59:59Z',
-      label: 'June'
-    }
+      label: 'June',
+    },
   ],
   aggregation: 'avg',
   window: '1d',
   filters: {
     model: 'gpt-4',
-    environment: 'production'
-  }
+    environment: 'production',
+  },
 })
 ```
 

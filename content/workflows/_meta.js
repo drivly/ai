@@ -1,3 +1,3 @@
 export default {
-  'success': 'Success Workflow'
+  success: 'Success Workflow',
 }

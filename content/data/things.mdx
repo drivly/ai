@@ -1,10 +1,10 @@
 # Things
 
-Things represent generic objects or entities that can be used across your AI applications.
+Things efficiently track, manage, and orchestrate physical and virtual objects in workflows, ensuring visibility, traceability, and operational coherence.
 
 ## Overview
 
-The Things collection provides a flexible way to define and manage objects that don't fit into the more structured Nouns category. Things can be:
+The Things collection provides a flexible way to define and manage business objects that don't fit into the more structured Nouns category. Things can be:
 
 - Used for temporary or ad-hoc data structures
 - Shared between different components of your application
@@ -13,10 +13,11 @@ The Things collection provides a flexible way to define and manage objects that 
 
 ## Key Features
 
-- **Flexible Schema**: Things can have dynamic or partial schemas
-- **Extensible**: Easily add new properties or behaviors
-- **Interoperable**: Things can be converted to and from other data formats
-- **Searchable**: Find things based on properties or content
+- **Business Objects**: Track and manage physical and virtual business assets
+- **Flexible Schema**: Things can have dynamic or partial schemas to adapt to business needs
+- **Extensible**: Easily add new properties or behaviors as business requirements evolve
+- **Interoperable**: Things can be converted to and from other business data formats
+- **Traceable**: Maintain visibility and audit trails for business objects
 
 ## Defining Things
 
@@ -34,17 +35,15 @@ const UserPreference = {
       theme: { type: 'string', enum: ['light', 'dark', 'system'] },
       notifications: { type: 'boolean' },
       language: { type: 'string' },
-      customSettings: { 
+      customSettings: {
         type: 'object',
-        additionalProperties: true
-      }
+        additionalProperties: true,
+      },
     },
     required: ['userId'],
-    additionalProperties: true
+    additionalProperties: true,
   },
-  indexes: [
-    { fields: ['userId'], unique: true }
-  ]
+  indexes: [{ fields: ['userId'], unique: true }],
 }
 ```
 
@@ -61,21 +60,21 @@ const preference = await things.create('UserPreference', {
   language: 'en-US',
   customSettings: {
     fontSize: 14,
-    compactView: true
-  }
+    compactView: true,
+  },
 })
 
 // Query things
 const darkThemeUsers = await things.find('UserPreference', {
-  where: { theme: 'dark' }
+  where: { theme: 'dark' },
 })
 
 // Update a thing
 await things.update('UserPreference', 'pref-456', {
   notifications: false,
   customSettings: {
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 })
 ```
 
@@ -85,6 +84,7 @@ Discover and use pre-built thing templates from the marketplace to accelerate yo
 
 ## Next Steps
 
-- [Create your first thing](/data/things/create)
-- [Explore thing templates](/data/things/templates)
-- [Learn about thing schemas](/data/things/schemas)
+- [Create your first business object](/data/things/create)
+- [Explore industry-specific object templates](/data/things/templates)
+- [Learn about object schemas](/data/things/schemas)
+- [Implement object-driven business processes](/data/things/business-processes)

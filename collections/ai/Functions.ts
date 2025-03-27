@@ -1,6 +1,6 @@
-import type { CollectionConfig, CollectionSlug } from 'payload'
+import type { CollectionConfig } from 'payload'
 
-export const Functions: CollectionConfig<CollectionSlug> = {
+export const Functions: CollectionConfig = {
   slug: 'functions',
   admin: {
     group: 'AI',
@@ -25,5 +25,6 @@ export const Functions: CollectionConfig<CollectionSlug> = {
     // { name: 'schema', type: 'relationship', relationTo: 'schemas', admin: { condition: (data) => ['Object', 'ObjectArray'].includes(data?.type) } },
 
     { name: 'prompt', type: 'relationship', relationTo: 'prompts', admin: { condition: (data) => data?.type !== 'Code' } },
+    { name: 'actions', type: 'join', collection: 'actions', on: 'function' },
   ],
 }

@@ -35,8 +35,8 @@ const SummarizationExperiment = {
         model: 'gpt-3.5-turbo',
         prompt: 'summarize-v1',
         temperature: 0.7,
-        maxTokens: 150
-      }
+        maxTokens: 150,
+      },
     },
     {
       id: 'new-model',
@@ -45,8 +45,8 @@ const SummarizationExperiment = {
         model: 'gpt-4',
         prompt: 'summarize-v1',
         temperature: 0.7,
-        maxTokens: 150
-      }
+        maxTokens: 150,
+      },
     },
     {
       id: 'new-prompt',
@@ -55,8 +55,8 @@ const SummarizationExperiment = {
         model: 'gpt-3.5-turbo',
         prompt: 'summarize-v2',
         temperature: 0.7,
-        maxTokens: 150
-      }
+        maxTokens: 150,
+      },
     },
     {
       id: 'combined',
@@ -65,54 +65,54 @@ const SummarizationExperiment = {
         model: 'gpt-4',
         prompt: 'summarize-v2',
         temperature: 0.7,
-        maxTokens: 150
-      }
-    }
+        maxTokens: 150,
+      },
+    },
   ],
   metrics: [
     {
       name: 'rouge-1',
       description: 'ROUGE-1 score against reference summaries',
-      higherIsBetter: true
+      higherIsBetter: true,
     },
     {
       name: 'rouge-l',
       description: 'ROUGE-L score against reference summaries',
-      higherIsBetter: true
+      higherIsBetter: true,
     },
     {
       name: 'human-rating',
       description: 'Human-rated quality score (1-5)',
-      higherIsBetter: true
+      higherIsBetter: true,
     },
     {
       name: 'latency',
       description: 'Response time in milliseconds',
-      higherIsBetter: false
+      higherIsBetter: false,
     },
     {
       name: 'cost',
       description: 'Cost per request in USD',
-      higherIsBetter: false
-    }
+      higherIsBetter: false,
+    },
   ],
   dataset: {
     id: 'summarization-test-set',
-    size: 100
+    size: 100,
   },
   trafficAllocation: {
     type: 'percentage',
     values: {
-      'baseline': 40,
+      baseline: 40,
       'new-model': 20,
       'new-prompt': 20,
-      'combined': 20
-    }
+      combined: 20,
+    },
   },
   duration: {
     startDate: '2023-06-01T00:00:00Z',
-    endDate: '2023-06-15T23:59:59Z'
-  }
+    endDate: '2023-06-15T23:59:59Z',
+  },
 }
 ```
 
@@ -127,7 +127,7 @@ await experiments.start('SummarizationExperiment')
 // Get a variant for a specific request
 const variant = await experiments.getVariant('SummarizationExperiment', {
   userId: 'user-123',
-  sessionId: 'session-456'
+  sessionId: 'session-456',
 })
 
 // Use the variant in your application
@@ -137,16 +137,16 @@ const summary = await llm.generate({
   temperature: variant.config.temperature,
   maxTokens: variant.config.maxTokens,
   input: {
-    text: articleText
-  }
+    text: articleText,
+  },
 })
 
 // Record metrics for the variant
 await experiments.recordMetrics('SummarizationExperiment', variant.id, {
   'rouge-1': 0.78,
   'rouge-l': 0.65,
-  'latency': 450,
-  'cost': 0.02
+  latency: 450,
+  cost: 0.02,
 })
 ```
 
@@ -159,10 +159,7 @@ Experiment results can be analyzed through the dashboard or API:
 const results = await experiments.getResults('SummarizationExperiment')
 
 // Compare variants
-const comparison = await experiments.compareVariants('SummarizationExperiment', [
-  'baseline',
-  'combined'
-])
+const comparison = await experiments.compareVariants('SummarizationExperiment', ['baseline', 'combined'])
 
 // Get recommendations
 const recommendations = await experiments.getRecommendations('SummarizationExperiment')

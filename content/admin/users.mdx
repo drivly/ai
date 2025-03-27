@@ -69,7 +69,7 @@ const newUser = await admin.users.create({
   name: 'Jane Smith',
   roles: ['developer'],
   teams: ['team-456'],
-  organization: 'org-123'
+  organization: 'org-123',
 })
 
 // Get a user by ID
@@ -82,7 +82,7 @@ const userByEmail = await admin.users.getByEmail('john.doe@example.com')
 const updatedUser = await admin.users.update('user-123', {
   name: 'John D. Doe',
   roles: ['developer', 'admin'],
-  teams: ['team-456', 'team-789']
+  teams: ['team-456', 'team-789'],
 })
 
 // Delete a user
@@ -101,20 +101,20 @@ Authenticate users using the Admin.do API:
 const authResult = await admin.users.authenticate({
   method: 'password',
   email: 'john.doe@example.com',
-  password: 'secure-password'
+  password: 'secure-password',
 })
 
 // Authenticate a user with OAuth
 const oauthResult = await admin.users.authenticate({
   method: 'oauth',
   provider: 'google',
-  code: 'oauth-code'
+  code: 'oauth-code',
 })
 
 // Authenticate a user with API key
 const apiKeyResult = await admin.users.authenticate({
   method: 'apiKey',
-  key: 'api-key'
+  key: 'api-key',
 })
 
 // Generate a password reset token
@@ -123,14 +123,14 @@ const resetToken = await admin.users.generatePasswordResetToken('john.doe@exampl
 // Reset a password
 await admin.users.resetPassword({
   token: 'reset-token',
-  password: 'new-secure-password'
+  password: 'new-secure-password',
 })
 
 // Change a password
 await admin.users.changePassword({
   userId: 'user-123',
   currentPassword: 'current-password',
-  newPassword: 'new-secure-password'
+  newPassword: 'new-secure-password',
 })
 ```
 
@@ -176,7 +176,7 @@ const profile = await admin.users.getProfile('user-123')
 const updatedProfile = await admin.users.updateProfile('user-123', {
   bio: 'Senior software developer with a passion for AI',
   location: 'New York, NY',
-  timezone: 'America/New_York'
+  timezone: 'America/New_York',
 })
 
 // Upload a user avatar
@@ -191,8 +191,8 @@ const updatedPreferences = await admin.users.updatePreferences('user-123', {
   notifications: {
     email: true,
     slack: false,
-    inApp: true
-  }
+    inApp: true,
+  },
 })
 ```
 
@@ -205,10 +205,10 @@ Track user activity using the Admin.do API:
 const activity = await admin.users.getActivity('user-123', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
   limit: 100,
-  offset: 0
+  offset: 0,
 })
 
 // Get user sessions
@@ -224,8 +224,8 @@ await admin.users.terminateAllSessions('user-123')
 const loginHistory = await admin.users.getLoginHistory('user-123', {
   timeRange: {
     start: '2023-01-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
-  }
+    end: '2023-06-30T23:59:59Z',
+  },
 })
 ```
 
@@ -241,14 +241,14 @@ const searchResults = await admin.users.search({
     roles: ['admin'],
     teams: ['team-456'],
     organization: 'org-123',
-    status: 'active'
+    status: 'active',
   },
   limit: 10,
   offset: 0,
   sort: {
     field: 'name',
-    order: 'asc'
-  }
+    order: 'asc',
+  },
 })
 
 // Get users by role

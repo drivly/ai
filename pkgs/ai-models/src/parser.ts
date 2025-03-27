@@ -1,4 +1,10 @@
-import { ParsedModelIdentifier, ThinkingLevel, Capability, Provider } from './types'
+import { ParsedModelIdentifier, ThinkingLevel, Capability, capabilities, Provider } from './types'
+
+const ALIASES = {
+  '4o': 'gpt-4o',
+  sonnet: 'claude-3.7-sonnet',
+  r1: 'deepseek-r1',
+}
 
 /**
  * Parse a model identification string into its components
@@ -19,6 +25,11 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
 
   // Remove @ if present
   let identifier = modelIdentifier
+
+  if (Object.keys(ALIASES).includes(modelIdentifier)) {
+    identifier = ALIASES[modelIdentifier as keyof typeof ALIASES]
+  }
+
   if (identifier.startsWith('@')) {
     identifier = identifier.substring(1)
   }
@@ -81,6 +92,24 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
   } else {
     // Just model name
     result.model = modelPart as string
+  }
+
+  // Fix Claude specific problems.
+
+  if (result.model.startsWith('claude-3.7-sonnet')) {
+    console.log('Claude model detected', result.model)
+
+    // @ts-expect-error - Not one of our capabilities, but one that Claude declares.
+    // so we need to basically overwrite it to our format, while keeping
+    // the openrouter slug the same.
+    if (result.capabilities.includes('thinking')) {
+      result.capabilities = ['reasoning']
+      result.model = 'claude-3.7-sonnet:thinking'
+    }
+
+    if (result.capabilities.includes('reasoning') && !result.model.includes('thinking')) {
+      result.model = 'claude-3.7-sonnet:thinking'
+    }
   }
 
   return result

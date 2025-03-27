@@ -36,26 +36,26 @@ const ResponseGenerationTest = {
         prompt: 'What is the capital of France?',
         options: {
           temperature: 0.0,
-          maxTokens: 100
-        }
+          maxTokens: 100,
+        },
       },
       assertions: [
         {
           type: 'contains',
           value: 'Paris',
-          message: 'Response should mention Paris'
+          message: 'Response should mention Paris',
         },
         {
           type: 'not_contains',
           value: 'London',
-          message: 'Response should not mention London'
+          message: 'Response should not mention London',
         },
         {
           type: 'max_tokens',
           value: 50,
-          message: 'Response should be concise'
-        }
-      ]
+          message: 'Response should be concise',
+        },
+      ],
     },
     {
       id: 'complex_question',
@@ -63,29 +63,29 @@ const ResponseGenerationTest = {
         prompt: 'Explain the process of photosynthesis.',
         options: {
           temperature: 0.0,
-          maxTokens: 300
-        }
+          maxTokens: 300,
+        },
       },
       assertions: [
         {
           type: 'contains_all',
           value: ['chlorophyll', 'sunlight', 'carbon dioxide', 'oxygen'],
-          message: 'Response should mention key photosynthesis concepts'
+          message: 'Response should mention key photosynthesis concepts',
         },
         {
           type: 'min_tokens',
           value: 100,
-          message: 'Response should be detailed enough'
-        }
-      ]
-    }
+          message: 'Response should be detailed enough',
+        },
+      ],
+    },
   ],
   setup: async () => {
     // Setup code...
   },
   teardown: async () => {
     // Teardown code...
-  }
+  },
 }
 ```
 
@@ -110,12 +110,12 @@ const TextProcessingTest = {
         {
           type: 'equals',
           value: '',
-          message: 'Empty text should return empty result'
-        }
-      ]
+          message: 'Empty text should return empty result',
+        },
+      ],
     },
     // More test cases...
-  ]
+  ],
 }
 ```
 
@@ -134,27 +134,27 @@ const WorkflowIntegrationTest = {
       input: {
         topic: 'Artificial Intelligence',
         length: 'medium',
-        style: 'informative'
+        style: 'informative',
       },
       assertions: [
         {
           type: 'workflow_success',
-          message: 'Workflow should complete successfully'
+          message: 'Workflow should complete successfully',
         },
         {
           type: 'step_success',
           value: 'generate_outline',
-          message: 'Outline generation step should succeed'
+          message: 'Outline generation step should succeed',
         },
         {
           type: 'output_contains',
           path: 'article',
           value: 'Artificial Intelligence',
-          message: 'Article should mention the topic'
-        }
-      ]
-    }
-  ]
+          message: 'Article should mention the topic',
+        },
+      ],
+    },
+  ],
 }
 ```
 
@@ -176,40 +176,40 @@ const UserOnboardingTest = {
           input: {
             email: 'test@example.com',
             password: 'Test123!',
-            name: 'Test User'
+            name: 'Test User',
           },
           assertions: [
             {
               type: 'success',
-              message: 'Account creation should succeed'
-            }
-          ]
+              message: 'Account creation should succeed',
+            },
+          ],
         },
         {
           action: 'verifyEmail',
           assertions: [
             {
               type: 'success',
-              message: 'Email verification should succeed'
-            }
-          ]
+              message: 'Email verification should succeed',
+            },
+          ],
         },
         {
           action: 'completeProfile',
           input: {
             bio: 'Test bio',
-            interests: ['AI', 'Technology']
+            interests: ['AI', 'Technology'],
           },
           assertions: [
             {
               type: 'success',
-              message: 'Profile completion should succeed'
-            }
-          ]
-        }
-      ]
-    }
-  ]
+              message: 'Profile completion should succeed',
+            },
+          ],
+        },
+      ],
+    },
+  ],
 }
 ```
 
@@ -227,8 +227,8 @@ const APIPerformanceTest = {
     prompt: 'Generate a short story about a robot.',
     options: {
       temperature: 0.7,
-      maxTokens: 500
-    }
+      maxTokens: 500,
+    },
   },
   scenarios: [
     {
@@ -240,14 +240,14 @@ const APIPerformanceTest = {
         {
           type: 'p95_response_time',
           value: 1000,
-          message: 'P95 response time should be under 1000ms'
+          message: 'P95 response time should be under 1000ms',
         },
         {
           type: 'error_rate',
           value: 0.01,
-          message: 'Error rate should be under 1%'
-        }
-      ]
+          message: 'Error rate should be under 1%',
+        },
+      ],
     },
     {
       name: 'heavy_load',
@@ -258,16 +258,16 @@ const APIPerformanceTest = {
         {
           type: 'p95_response_time',
           value: 2000,
-          message: 'P95 response time should be under 2000ms'
+          message: 'P95 response time should be under 2000ms',
         },
         {
           type: 'error_rate',
           value: 0.05,
-          message: 'Error rate should be under 5%'
-        }
-      ]
-    }
-  ]
+          message: 'Error rate should be under 5%',
+        },
+      ],
+    },
+  ],
 }
 ```
 
@@ -280,23 +280,20 @@ Tests can be run using the Evals.do API:
 const testResult = await tests.run('response_generation_test')
 
 // Run multiple tests
-const testResults = await tests.runBatch([
-  'response_generation_test',
-  'text_processing_test'
-])
+const testResults = await tests.runBatch(['response_generation_test', 'text_processing_test'])
 
 // Run tests with specific options
 const testResultWithOptions = await tests.run('response_generation_test', {
   cases: ['simple_question'],
   environment: 'staging',
-  timeout: 30000
+  timeout: 30000,
 })
 
 // Run tests in CI/CD pipeline
 const ciTestResults = await tests.runForCI({
   tests: ['response_generation_test', 'workflow_integration_test'],
   environment: 'ci',
-  reportFormat: 'junit'
+  reportFormat: 'junit',
 })
 ```
 
@@ -309,29 +306,29 @@ Analyze test results using the Evals.do API:
 const results = await tests.getResults('response_generation_test', {
   timeRange: {
     start: '2023-06-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
-  }
+    end: '2023-06-30T23:59:59Z',
+  },
 })
 
 // Get test trends
 const trends = await tests.getTrends('response_generation_test', {
   timeRange: {
     start: '2023-01-01T00:00:00Z',
-    end: '2023-06-30T23:59:59Z'
+    end: '2023-06-30T23:59:59Z',
   },
-  groupBy: 'week'
+  groupBy: 'week',
 })
 
 // Compare test results
 const comparison = await tests.compareResults('response_generation_test', {
   baseline: {
     runId: 'run_123',
-    label: 'Before changes'
+    label: 'Before changes',
   },
   current: {
     runId: 'run_456',
-    label: 'After changes'
-  }
+    label: 'After changes',
+  },
 })
 ```
 

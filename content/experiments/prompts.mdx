@@ -46,41 +46,41 @@ const SummarizationPrompt = {
       name: 'article',
       type: 'string',
       description: 'The article text to summarize',
-      required: true
+      required: true,
     },
     {
       name: 'length',
       type: 'enum',
       values: ['one', 'two', 'three'],
       default: 'one',
-      description: 'The number of paragraphs in the summary'
+      description: 'The number of paragraphs in the summary',
     },
     {
       name: 'style',
       type: 'enum',
       values: ['academic', 'journalistic', 'conversational'],
       default: 'journalistic',
-      description: 'The writing style for the summary'
+      description: 'The writing style for the summary',
     },
     {
       name: 'focus',
       type: 'string',
       description: 'Specific aspects to focus on in the summary',
-      required: false
-    }
+      required: false,
+    },
   ],
   versions: [
     {
       id: 'v1',
       isDefault: false,
-      createdAt: '2023-05-15T10:30:00Z'
+      createdAt: '2023-05-15T10:30:00Z',
     },
     {
       id: 'v2',
       isDefault: true,
       createdAt: '2023-06-20T14:45:00Z',
-      changes: 'Improved instructions for better focus on key points'
-    }
+      changes: 'Improved instructions for better focus on key points',
+    },
   ],
   tags: ['summarization', 'content-generation'],
   examples: [
@@ -88,11 +88,11 @@ const SummarizationPrompt = {
       input: {
         article: 'Example article text...',
         length: 'one',
-        style: 'journalistic'
+        style: 'journalistic',
       },
-      expectedOutput: 'Example summary text...'
-    }
-  ]
+      expectedOutput: 'Example summary text...',
+    },
+  ],
 }
 ```
 
@@ -109,14 +109,14 @@ const renderedPrompt = await prompts.render('summarize-article', {
   article: articleText,
   length: 'two',
   style: 'academic',
-  focus: 'technological implications'
+  focus: 'technological implications',
 })
 
 // Use with a model
 const summary = await models.generate('gpt-4', {
   prompt: renderedPrompt,
   temperature: 0.5,
-  maxTokens: 300
+  maxTokens: 300,
 })
 
 // Use in workflows
@@ -125,20 +125,20 @@ const contentProcessingWorkflow = {
     {
       id: 'extractKeyPoints',
       function: 'extractKeyPoints',
-      input: { text: '{{input.article}}' }
+      input: { text: '{{input.article}}' },
     },
     {
       id: 'summarize',
       prompt: 'summarize-article',
       model: 'gpt-4',
-      input: { 
+      input: {
         article: '{{input.article}}',
         length: '{{input.summaryLength}}',
         style: '{{input.style}}',
-        focus: '{{extractKeyPoints.mainThemes}}'
-      }
-    }
-  ]
+        focus: '{{extractKeyPoints.mainThemes}}',
+      },
+    },
+  ],
 }
 ```
 
@@ -156,22 +156,22 @@ await prompts.create({
 
 // Update a prompt
 await prompts.update('product-description', {
-  template: 'Create an engaging and persuasive product description for {{product}}...'
+  template: 'Create an engaging and persuasive product description for {{product}}...',
 })
 
 // Create a new version
 await prompts.createVersion('product-description', {
   template: 'Updated template...',
-  changes: 'Improved persuasive language'
+  changes: 'Improved persuasive language',
 })
 
 // Test a prompt
 const testResult = await prompts.test('product-description', {
   input: {
-    product: 'Wireless Headphones'
+    product: 'Wireless Headphones',
   },
   model: 'gpt-4',
-  evaluations: ['relevance', 'persuasiveness']
+  evaluations: ['relevance', 'persuasiveness'],
 })
 ```
 
