@@ -2,9 +2,12 @@
 
 This roadmap outlines the planned features and development priorities for the AI Primitives platform, which provides composable building blocks for building enterprise-grade AI applications.
 
+> **Note:** This roadmap is aligned with the [BACKLOG.md](./BACKLOG.md) file, which contains a comprehensive list of all open issues organized by category.
+
 ## Core Primitives
 
 ### Functions.do - Inputs to Structured Outputs
+- [ ] Functions.do MVP (Issue #5)
 - [ ] Support structured outputs via various methods
 - [ ] Support saved schemas (Issue #122)
 - [ ] Support saved prompts (Issue #123)
@@ -16,15 +19,21 @@ This roadmap outlines the planned features and development priorities for the AI
 - [ ] Set type on args (thing as subject) (Issue #135)
 - [ ] Link to generation for full request/response (Issue #136)
 - [ ] Add `self` to the top of `links` (Issue #194)
+- [ ] Create `ai` magic function Proxy wrapper (Issue #35)
+- [ ] AI functions package integration (Issues #55-66)
 
 ### Workflows.do - Business-as-Code
+- [ ] Workflows.do MVP (Issue #6)
 - [ ] Figure out proper Task/Workflow handling (Issue #125)
 - [ ] Revisit executeFunction design for upserts (Issue #126)
-- [ ] AI functions package integration (Issues #55-66)
+- [ ] Payload Kanban View (Issue #38)
 
 ### Agents.do - Autonomous Digital Workers
 - [ ] Agents.do MVP (Epic Issue #221)
 - [ ] Deep research from GitHub issues (Issue #180)
+- [ ] Create OpenHands Micro Agent (Issue #9)
+- [ ] Prevent duplicate agents being created (Issue #255)
+- [ ] Optimize AI Agent Contribution Activity (Issue #162)
 
 ## Event System
 
@@ -44,18 +53,24 @@ This roadmap outlines the planned features and development priorities for the AI
 - [ ] Ingest integration actions (Issue #115)
 - [ ] Expose clickable API of actions (Issue #116)
 - [ ] Update events collection with props, relationships, and joins (Issue #223)
+- [ ] Support intelligent modification of request based on capabilities (Issue #16)
 
 ## Foundation Components
 
 ### LLM.do - Intelligent AI Gateway
+- [ ] LLM.do MVP (Issue #4)
 - [ ] Router with Model Name Selection Syntax
 - [ ] Integrated tool use (Issue #207)
 - [ ] Clickable experience with GET (Issue #198)
 - [ ] AI providers package implementation (Issues #67-70)
+- [ ] Create llm.do landing page (Issue #15)
+- [ ] Create llm.do documentation (Issue #17)
+- [ ] Integrate `getModel` into llm.do for proxied chat completions (Issue #45)
 
 ### Database.do - AI-enriched Data
-- [ ] Add email provider (Issue #133)
 - [ ] Extract simple `db` interface from `clickable-apis` (Issue #217)
+- [ ] Extract `db` and `payload` deps (Issue #218)
+- [ ] Payload VSCode extension to view/edit Payload collections (Issue #146)
 
 ### Evals.do - Measure & Improve
 - [ ] Define evaluation framework for AI functions
@@ -68,6 +83,7 @@ This roadmap outlines the planned features and development priorities for the AI
 ## API Experience
 
 ### APIs.do - Clickable Developer Experiences
+- [ ] Create `clickable-apis` convenience API wrapper (Issue #28)
 - [ ] Define api header object shape (Issue #106)
 - [ ] Define `user` header object shape (Issue #107)
 - [ ] Figure out root/home API shape (Issue #108)
@@ -79,7 +95,7 @@ This roadmap outlines the planned features and development priorities for the AI
 - [ ] Ensure `https://functions.do/api` is equal to `/functions` (Issue #222)
 - [ ] Implement `api` header object (Issue #219)
 - [ ] Implement `user` footer object (Issue #220)
-- [ ] Extract `db` and `payload` deps (Issue #218)
+- [ ] Evaluate Better Auth vs AuthJS (Issue #37)
 
 ## SDK Development
 
@@ -96,6 +112,8 @@ This roadmap outlines the planned features and development priorities for the AI
 - [ ] Ensure domain routing logic (Issue #203)
 - [ ] Fix search box error (Issue #187)
 - [ ] Update docs layout (Issue #84)
+- [ ] Initial Docs (Issue #82)
+- [ ] Add Cline rules memory bank (Issue #54)
 
 ### Website
 - [ ] Initial website (Issue #81)
@@ -122,20 +140,21 @@ This roadmap outlines the planned features and development priorities for the AI
 - [ ] Integrate Sentry for server and client crash reporting (Issue #93)
 - [ ] Integrate Google Analytics (Issue #94)
 - [ ] Add support for llms.txt on each domain (Issue #95)
+- [ ] Integrate Analytics (Issue #87)
 
-## Phased Implementation
+## Development Priorities
 
-### Phase 1: Core Foundation
-- Functions.do structured outputs
-- LLM.do router
+### Phase 1: Core Foundation (Current Focus)
+- Functions.do structured outputs and MVP
+- LLM.do router and MVP
 - APIs.do clickable experience
-- Basic documentation
+- Basic documentation structure
 
 ### Phase 2: Event System
 - Triggers.do implementation
 - Actions.do implementation
 - Searches.do implementation
-- Workflows.do integration
+- Workflows.do integration and MVP
 
 ### Phase 3: Advanced Features
 - Agents.do MVP
@@ -148,3 +167,16 @@ This roadmap outlines the planned features and development priorities for the AI
 - Performance improvements
 - Extended model support
 - Enterprise features
+
+## Key Gaps and Focus Areas
+
+Based on the current backlog analysis, the following areas need additional focus:
+
+1. **Testing Infrastructure** - Limited issues related to testing frameworks and practices
+2. **Searches.do Implementation** - Minimal issues defined for this core primitive
+3. **Evals.do Development** - Few concrete issues for evaluation frameworks
+4. **Performance Optimization** - Limited focus on performance metrics and improvements
+5. **Security Implementation** - Few issues addressing security concerns
+6. **Enterprise Features** - Limited definition of enterprise-specific requirements
+
+These gaps should be addressed in future planning sessions to ensure comprehensive development coverage.
