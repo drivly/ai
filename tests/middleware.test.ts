@@ -1,6 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { middleware } from '../middleware'
 import { NextRequest, NextResponse } from 'next/server'
+import { websites } from '../site.config'
+import { apis } from '../api.config'
 
 // Mock NextResponse
 vi.mock('next/server', async () => {
@@ -13,93 +15,172 @@ vi.mock('next/server', async () => {
   }
 })
 
+// Helper function to create a mock request
+const createMockRequest = (url: string) => {
+  const urlObj = new URL(url)
+  return {
+    nextUrl: {
+      hostname: urlObj.hostname,
+      pathname: urlObj.pathname,
+      search: urlObj.search,
+    },
+    url,
+  } as unknown as NextRequest
+}
+
+// Helper function to test middleware routing
+const testMiddlewareRouting = (inputUrl: string, expectedPathname: string, expectedSearch: string = '') => {
+  const request = createMockRequest(inputUrl)
+  const result = middleware(request)
+  
+  expect(NextResponse.rewrite).toHaveBeenCalledWith(
+    expect.objectContaining({
+      pathname: expectedPathname,
+      search: expectedSearch,
+    })
+  )
+  
+  expect(result).toEqual({
+    url: expect.objectContaining({
+      pathname: expectedPathname,
+      search: expectedSearch,
+    }),
+    rewrite: true,
+  })
+}
+
 describe('middleware', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  it('should rewrite /api to the API root for valid API domains', () => {
-    // Create a mock request for functions.do/api
-    const request = {
-      nextUrl: {
-        hostname: 'functions.do',
-        pathname: '/api',
-        search: '?param=value',
-      },
-      url: 'https://functions.do/api?param=value',
-    } as unknown as NextRequest
-
-    const result = middleware(request)
-    
-    // Verify that NextResponse.rewrite was called with the correct URL
-    expect(NextResponse.rewrite).toHaveBeenCalledWith(
-      expect.objectContaining({
-        pathname: '/functions',
-        search: '?param=value',
+  // Test /api path routing for all domains in site.config.ts
+  describe('API root path routing', () => {
+    Object.keys(websites).forEach(domain => {
+      if (domain === 'dotdo.co') return // Skip non-API domains
+      
+      const apiName = domain.replace('.do', '')
+      
+      it(`should route https://${domain}/api to /${apiName}`, () => {
+        testMiddlewareRouting(
+          `https://${domain}/api`,
+          `/${apiName}`
+        )
       })
-    )
-    expect(result).toEqual({
-      url: expect.objectContaining({
-        pathname: '/functions',
-        search: '?param=value',
-      }),
-      rewrite: true,
+      
+      it(`should route https://${domain}/api?param=value to /${apiName}?param=value`, () => {
+        testMiddlewareRouting(
+          `https://${domain}/api?param=value`,
+          `/${apiName}`,
+          '?param=value'
+        )
+      })
     })
   })
 
-  it('should handle normal API paths correctly', () => {
-    // Create a mock request for functions.do/some/path
-    const request = {
-      nextUrl: {
-        hostname: 'functions.do',
-        pathname: '/some/path',
-        search: '?param=value',
-      },
-      url: 'https://functions.do/some/path?param=value',
-    } as unknown as NextRequest
-
-    const result = middleware(request)
-    
-    // Verify that NextResponse.rewrite was called with the correct URL
-    expect(NextResponse.rewrite).toHaveBeenCalledWith(
-      expect.objectContaining({
-        pathname: '/functions/some/path',
-        search: '?param=value',
+  // Test normal API path routing for all domains in site.config.ts
+  describe('Normal API path routing', () => {
+    Object.keys(websites).forEach(domain => {
+      if (domain === 'dotdo.co') return // Skip non-API domains
+      
+      const apiName = domain.replace('.do', '')
+      
+      it(`should route https://${domain}/some/path to /${apiName}/some/path`, () => {
+        testMiddlewareRouting(
+          `https://${domain}/some/path`,
+          `/${apiName}/some/path`
+        )
       })
-    )
-    expect(result).toEqual({
-      url: expect.objectContaining({
-        pathname: '/functions/some/path',
-        search: '?param=value',
-      }),
-      rewrite: true,
+      
+      it(`should route https://${domain}/some/path?param=value to /${apiName}/some/path?param=value`, () => {
+        testMiddlewareRouting(
+          `https://${domain}/some/path?param=value`,
+          `/${apiName}/some/path`,
+          '?param=value'
+        )
+      })
+      
+      // Test with complex paths
+      it(`should route https://${domain}/nested/path/with/segments to /${apiName}/nested/path/with/segments`, () => {
+        testMiddlewareRouting(
+          `https://${domain}/nested/path/with/segments`,
+          `/${apiName}/nested/path/with/segments`
+        )
+      })
+      
+      // Test with query parameters
+      it(`should route https://${domain}/path?multiple=params&another=value to /${apiName}/path?multiple=params&another=value`, () => {
+        testMiddlewareRouting(
+          `https://${domain}/path?multiple=params&another=value`,
+          `/${apiName}/path`,
+          '?multiple=params&another=value'
+        )
+      })
     })
   })
 
-  it('should handle site domains correctly', () => {
-    // Create a mock request for functions.do/
-    const request = {
-      nextUrl: {
-        hostname: 'functions.do',
-        pathname: '/',
-        search: '',
-      },
-      url: 'https://functions.do/',
-    } as unknown as NextRequest
-
-    const result = middleware(request)
-    
-    // Verify that NextResponse.rewrite was called with the correct URL
-    expect(NextResponse.rewrite).toHaveBeenCalledWith(
-      expect.objectContaining({
-        pathname: '/sites/functions.do/',
+  // Test site domain routing
+  describe('Site domain routing', () => {
+    Object.keys(websites).forEach(domain => {
+      it(`should route https://${domain}/ to /sites/${domain}/`, () => {
+        testMiddlewareRouting(
+          `https://${domain}/`,
+          `/sites/${domain}/`
+        )
       })
-    )
-    expect(result).toEqual({
-      url: expect.objectContaining({
-        pathname: '/sites/functions.do/',
-      }),
-      rewrite: true,
+      
+      // Test with site paths
+      it(`should route https://${domain}/about to /sites/${domain}/about`, () => {
+        testMiddlewareRouting(
+          `https://${domain}/about`,
+          `/sites/${domain}/about`
+        )
+      })
+      
+      // Test with query parameters
+      it(`should route https://${domain}/contact?ref=homepage to /sites/${domain}/contact?ref=homepage`, () => {
+        testMiddlewareRouting(
+          `https://${domain}/contact?ref=homepage`,
+          `/sites/${domain}/contact`,
+          '?ref=homepage'
+        )
+      })
+    })
+  })
+
+  // Test edge cases and special scenarios
+  describe('Edge cases and special scenarios', () => {
+    // Test domain aliases
+    it('should handle domain aliases correctly', () => {
+      testMiddlewareRouting(
+        'https://databases.do/api',
+        '/database'
+      )
+    })
+    
+    // Test trailing slashes
+    it('should handle trailing slashes correctly', () => {
+      testMiddlewareRouting(
+        'https://functions.do/api/',
+        '/functions'
+      )
+    })
+    
+    // Test URL encoded characters
+    it('should handle URL encoded characters correctly', () => {
+      testMiddlewareRouting(
+        'https://functions.do/path%20with%20spaces',
+        '/functions/path%20with%20spaces'
+      )
+    })
+    
+    // Test special characters in query parameters
+    it('should handle special characters in query parameters correctly', () => {
+      testMiddlewareRouting(
+        'https://functions.do/api?q=search+term&filter=value%20with%20spaces',
+        '/functions',
+        '?q=search+term&filter=value%20with%20spaces'
+      )
     })
   })
 })
