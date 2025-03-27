@@ -33,10 +33,10 @@ pnpm add agents.do
 ## Quick Start
 
 ```typescript
-import { Agent } from 'agents.do'
+import { createAgent } from 'agents.do'
 
 // Define a customer support agent
-const supportAgent = Agent({
+const supportAgent = createAgent({
   name: 'SupportAssistant',
   description: 'Handles customer support inquiries and resolves common issues',
   
@@ -364,9 +364,9 @@ const learningConfig = AgentLearning({
 
 ### Core Functions
 
-- `Agent(config)`: Create a new agent
+- `createAgent(config)`: Create a new agent
 - `AgentSystem(config)`: Create a system of collaborating agents
-- `defineAgent(config)`: Define an agent's configuration
+- `defineAgent(config)`: Alternative way to define an agent's configuration
 - `defineTool(config)`: Create a tool for agent use
 - `defineMemory(config)`: Configure an agent's memory system
 - `AgentSupervisor(config)`: Create a supervisor to monitor agents
