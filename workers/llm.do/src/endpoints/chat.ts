@@ -75,7 +75,7 @@ export class Chat extends OpenAPIRoute {
         headers,
         body: JSON.stringify({
           model,
-          models,
+          models: models?.length ? models.split(',') : undefined,
           messages: messages.length ? messages : undefined,
           seed,
           temperature,
