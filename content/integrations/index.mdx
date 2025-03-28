@@ -1,89 +1,58 @@
 # Integrations
 
-Connect external systems and APIs to your AI applications, enabling seamless data flow and process automation across your business ecosystem.
+Connect your AI applications with external systems, APIs, and services, enabling seamless data flow and process automation.
 
 ## Overview
 
-Integrations.do provides a way to connect your AI applications with external systems, APIs, and services. Integrations can:
+Integrations provides a unified way to connect your AI applications with external systems and services. They can:
 
 - Connect to enterprise systems like CRM, ERP, and marketing platforms
 - Synchronize data between systems in real-time
-- Trigger workflows based on external events
 - Execute actions in external systems
 - Provide unified access to distributed business data
+- Serve as tools for Agents and AI Functions
 
-## Key Features
+## Features
 
 - **Pre-built Connectors**: Ready-to-use integrations for popular business systems
 - **Custom Connectors**: Build your own integrations for proprietary systems
-- **Data Mapping**: Transform data between different formats and schemas
-- **Authentication**: Secure connection with OAuth, API keys, and other methods
-- **Monitoring**: Track integration performance and data flow
+- **Authentication Management**: Secure connections with OAuth, API keys, and other methods
+- **Managed Access Control**: Fine-grained permissions for integration access
 
-## Integration Types
-
-### API Integrations
-
-Connect to external systems using REST, GraphQL, or SOAP APIs:
+## Usage
 
 ```typescript
-const salesforceIntegration = {
-  name: 'salesforceIntegration',
-  type: 'api',
-  description: 'Connects to Salesforce CRM',
-  authentication: {
+import { defineIntegration } from 'integrations.do'
+
+// Define a Salesforce integration
+const salesforce = defineIntegration({
+  name: 'salesforce',
+  description: 'Connect to Salesforce CRM',
+  
+  // Authentication configuration
+  auth: {
     type: 'oauth2',
-    clientId: '{{secrets.SALESFORCE_CLIENT_ID}}',
-    clientSecret: '{{secrets.SALESFORCE_CLIENT_SECRET}}',
-    scopes: ['api', 'refresh_token'],
+    scopes: ['api', 'refresh_token']
   },
-  endpoints: [
-    {
-      name: 'getAccounts',
-      method: 'GET',
-      path: '/services/data/v56.0/sobjects/Account',
-      parameters: {
-        fields: { type: 'string', description: 'Comma-separated list of fields' },
-        where: { type: 'string', description: 'SOQL WHERE clause' },
+  
+  // Define available operations
+  operations: {
+    getAccounts: {
+      description: 'Retrieve accounts matching criteria',
+      input: {
+        filters: { type: 'object', optional: true }
       },
-      transform: (response) => response.records,
+      output: { type: 'array', items: 'Account' }
     },
-    // Additional endpoints...
-  ],
-}
+    createContact: {
+      description: 'Create a new contact',
+      input: {
+        firstName: { type: 'string' },
+        lastName: { type: 'string' },
+        email: { type: 'string', format: 'email' }
+      },
+      output: { type: 'object', properties: { id: 'string' } }
+    }
+  }
+})
 ```
-
-### Webhook Integrations
-
-Receive data from external systems via webhooks:
-
-```typescript
-const stripeWebhook = {
-  name: 'stripeWebhook',
-  type: 'webhook',
-  description: 'Receives payment events from Stripe',
-  endpoint: '/webhooks/stripe',
-  authentication: {
-    type: 'signature',
-    header: 'Stripe-Signature',
-    secret: '{{secrets.STRIPE_WEBHOOK_SECRET}}',
-  },
-  events: [
-    {
-      type: 'payment_intent.succeeded',
-      handler: 'processSuccessfulPayment',
-    },
-    {
-      type: 'payment_intent.failed',
-      handler: 'processFailedPayment',
-    },
-  ],
-}
-```
-
-## Next Steps
-
-- [Create your first integration](/integrations/create)
-- [Explore integration templates](/integrations/templates)
-- [Learn about data mapping](/integrations/data-mapping)
-- [Implement integration-driven business processes](/integrations/business-processes)

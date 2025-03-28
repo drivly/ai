@@ -1,0 +1,47 @@
+# Actions
+
+Execute operations that impact external systems from your AI applications, creating real-world effects from your workflows.
+
+## Overview
+
+Actions provide a framework for defining and executing operations that interact with external systems. They enable you to:
+
+- Create standardized interfaces for external operations
+- Execute operations with proper validation and error handling
+- Compose complex workflows from simple actions
+- Track and audit action execution
+- Can be used as tools by Agents for interacting with external systems
+
+## Features
+
+- **Input Validation**: Ensure actions receive valid parameters
+- **Error Handling**: Gracefully manage and report failures
+- **Retry Logic**: Automatically retry failed actions with backoff
+- **Audit Logging**: Track who executed what actions and when
+- **Rate Limiting**: Prevent overloading external systems
+
+## Usage
+
+```typescript
+import { defineAction } from 'actions.do'
+
+// Define an email action
+const sendEmail = defineAction({
+  name: 'sendEmail',
+  description: 'Sends an email to a recipient',
+  
+  // Define the input parameters
+  input: {
+    to: { type: 'string', format: 'email', required: true },
+    subject: { type: 'string', required: true },
+    body: { type: 'string', required: true },
+    attachments: { type: 'array', items: 'Attachment', optional: true }
+  },
+  
+  // Define the output schema
+  output: {
+    messageId: { type: 'string' },
+    status: { type: 'string', enum: ['sent', 'queued', 'failed'] }
+  }
+})
+```

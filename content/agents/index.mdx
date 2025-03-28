@@ -1,3 +1,39 @@
-# Agents.do
+# Agents
 
-TBD
+Create, deploy, and manage autonomous digital workers that perform complex tasks with minimal human intervention.
+
+## Overview
+
+Agents provide a framework for building autonomous AI systems that can perform tasks, make decisions, and interact with users and other systems. These digital workers can handle routine operations, adapt to changing conditions, and collaborate with humans.
+
+## Features
+
+- **Specialized Capabilities**: Create agents for specific business functions
+- **Autonomous Decision Making**: Agents can make decisions within defined parameters
+- **Knowledge Integration**: Incorporate domain knowledge and business rules
+- **Continuous Learning**: Improve performance through feedback and experience
+- **Multi-agent Collaboration**: Coordinate teams of specialized agents
+- **Tool Usage**: Agents can use Functions, Workflows, and Integrations as tools
+
+## Usage
+
+```typescript
+import { Agent } from 'agents.do'
+
+// Create a customer support agent
+export const supportAgent = new Agent({
+  name: "customer-support",
+  instructions: "You are a helpful customer support specialist. " +
+                "You assist customers with product questions and technical issues.",
+  model: "openai/gpt-4.5",
+})
+
+// Use the agent to handle a customer inquiry
+const response = await supportAgent.handle({
+  customerId: "cus_12345",
+  message: "I'm having trouble connecting my device to WiFi",
+  context: {
+    recentPurchases: [{ id: "prod_789", name: "Smart Hub" }]
+  }
+})
+```

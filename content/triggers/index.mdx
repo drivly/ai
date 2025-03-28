@@ -1,0 +1,51 @@
+# Triggers
+
+Initiate workflows based on events from various sources, automating your business processes with event-driven architecture.
+
+## Overview
+
+Triggers provide a framework for initiating workflows based on various events. They enable you to:
+
+- React to real-time events from internal or external systems
+- Automate business processes based on specific conditions
+- Connect event producers with appropriate handlers
+- Transform event data before processing
+
+## Features
+
+- **Multiple Trigger Types**: Webhooks, schedules, database changes, and more
+- **Event Filtering**: Process only relevant events based on conditions
+- **Data Transformation**: Shape event data before passing to workflows
+- **Reliable Delivery**: Ensure events are processed even during outages
+- **Debugging Tools**: Trace and replay events for troubleshooting
+
+## Usage
+
+```typescript
+import { defineTrigger } from 'triggers.do'
+
+// Define a webhook trigger for new orders
+const newOrderTrigger = defineTrigger({
+  name: 'newOrder',
+  type: 'webhook',
+  description: 'Triggers when a new order is created',
+  
+  // Define the endpoint configuration
+  endpoint: {
+    path: '/webhooks/new-order',
+    method: 'POST',
+    auth: { type: 'api-key', headerName: 'X-API-Key' }
+  },
+  
+  // Define the payload schema
+  schema: {
+    orderId: { type: 'string', required: true },
+    customerId: { type: 'string', required: true },
+    items: { type: 'array' },
+    totalAmount: { type: 'number', required: true }
+  },
+  
+  // Connect to the target workflow
+  target: 'processNewOrder'
+})
+```
