@@ -6,6 +6,9 @@
     "build:next": "pnpm build:content && cross-env NODE_OPTIONS=--no-deprecation next build",
     "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+    "changeset": "changeset",
+    "version": "changeset version && pnpm install --lockfile-only",
+    "release": "pnpm build && changeset publish",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
@@ -74,6 +77,7 @@
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.28.1",
     "@eslint/eslintrc": "^3.2.0",
     "@octokit/webhooks": "^13.7.5",
     "@testing-library/jest-dom": "^6.6.3",
