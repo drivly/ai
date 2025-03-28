@@ -109,10 +109,6 @@ console.log(brand)
 // }
 ```
 
-<details>
-## Hello from the inside
-</details>
-
 ## [APIs.do](https://apis.do) Clickable Developer Experiences
 
 ```json
