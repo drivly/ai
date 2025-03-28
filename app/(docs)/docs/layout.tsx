@@ -19,21 +19,21 @@ export const metadata = {
 }
 
 const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Banner>
-const headersList = headers()
-const host = headersList.get('host') || 'apis.do'
-const logoText = getDomainLogo(host)
-
-const navbar = (
-  <Navbar
-    logo={<b>{logoText}</b>}
-    chatLink='https://discord.gg/a87bSRvJkx'
-    projectLink='https://github.com/drivly/ai'
-    // ... Your additional navbar options
-  />
-)
-const footer = <Footer>MIT {new Date().getFullYear()} © {logoText}</Footer>
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const headersList = headers()
+  const host = headersList.get('host') || 'apis.do'
+  const logoText = getDomainLogo(host)
+  
+  const navbar = (
+    <Navbar
+      logo={<b>{logoText}</b>}
+      chatLink='https://discord.gg/a87bSRvJkx'
+      projectLink='https://github.com/drivly/ai'
+    />
+  )
+  const footer = <Footer>MIT {new Date().getFullYear()} © {logoText}</Footer>
+  
   return (
     <html
       // Not required, but good for SEO
