@@ -1,135 +1,51 @@
-# Triggers.do
+# Triggers
 
-## Start Business Processes
+Initiate workflows based on events from various sources, automating your business processes with event-driven architecture.
 
-Triggers.do provides a powerful mechanism for initiating workflows based on events from various sources. It enables you to create event-driven architectures that respond automatically to changes in your business environment.
+## Overview
+
+Triggers provide a framework for initiating workflows based on various events. They enable you to:
+
+- React to real-time events from internal or external systems
+- Automate business processes based on specific conditions
+- Connect event producers with appropriate handlers
+- Transform event data before processing
 
 ## Features
 
-- **Event-Driven Architecture**: Automatically start workflows in response to events
-- **Multiple Trigger Types**: Support for webhooks, schedules, database changes, and more
-- **Conditional Execution**: Define conditions for when triggers should fire
-- **Payload Transformation**: Transform event data before passing it to workflows
-- **Retry Mechanisms**: Handle failures with configurable retry policies
-- **Observability**: Monitor trigger executions and troubleshoot issues
-- **Security**: Secure webhook endpoints with authentication and validation
+- **Multiple Trigger Types**: Webhooks, schedules, database changes, and more
+- **Event Filtering**: Process only relevant events based on conditions
+- **Data Transformation**: Shape event data before passing to workflows
+- **Reliable Delivery**: Ensure events are processed even during outages
+- **Debugging Tools**: Trace and replay events for troubleshooting
 
 ## Usage
 
 ```typescript
 import { defineTrigger } from 'triggers.do'
 
-// Define a webhook trigger
+// Define a webhook trigger for new orders
 const newOrderTrigger = defineTrigger({
-  name: 'newOrderWebhook',
+  name: 'newOrder',
   type: 'webhook',
-  description: 'Triggers when a new order is created in the e-commerce system',
+  description: 'Triggers when a new order is created',
   
   // Define the endpoint configuration
   endpoint: {
     path: '/webhooks/new-order',
     method: 'POST',
-    authentication: {
-      type: 'hmac',
-      secret: '{{secrets.WEBHOOK_SECRET}}',
-      headerName: 'X-Webhook-Signature'
-    }
+    auth: { type: 'api-key', headerName: 'X-API-Key' }
   },
   
-  // Transform the webhook payload
-  transform: (payload) => {
-    return {
-      orderId: payload.id,
-      customerEmail: payload.customer.email,
-      items: payload.line_items.map(item => ({
-        productId: item.product_id,
-        quantity: item.quantity,
-        price: item.price
-      })),
-      totalAmount: payload.total_price,
-      currency: payload.currency,
-      timestamp: new Date().toISOString()
-    }
+  // Define the payload schema
+  schema: {
+    orderId: { type: 'string', required: true },
+    customerId: { type: 'string', required: true },
+    items: { type: 'array' },
+    totalAmount: { type: 'number', required: true }
   },
   
-  // Define conditions for when this trigger should fire
-  conditions: [
-    {
-      field: 'payload.total_price',
-      operator: 'greaterThan',
-      value: 0
-    },
-    {
-      field: 'payload.status',
-      operator: 'equals',
-      value: 'paid'
-    }
-  ],
-  
-  // Define the workflow to trigger
-  workflow: 'processNewOrder',
-  
-  // Configure retry policy
-  retry: {
-    maxAttempts: 3,
-    backoff: 'exponential',
-    initialDelay: 1000 // ms
-  }
-})
-
-// Export the trigger
-export default newOrderTrigger
-```
-
-## Trigger Types
-
-### Webhook Triggers
-
-Receive events from external systems via HTTP webhooks:
-
-```typescript
-const githubIssueTrigger = defineTrigger({
-  name: 'githubIssue',
-  type: 'webhook',
-  endpoint: {
-    path: '/webhooks/github',
-    method: 'POST',
-    authentication: {
-      type: 'signature',
-      secret: '{{secrets.GITHUB_WEBHOOK_SECRET}}',
-      headerName: 'X-Hub-Signature-256'
-    }
-  },
-  workflow: 'processGithubIssue'
-})
-```
-
-### Schedule Triggers
-
-Execute workflows on a time-based schedule:
-
-```typescript
-const dailyReportTrigger = defineTrigger({
-  name: 'dailyReport',
-  type: 'schedule',
-  schedule: {
-    cron: '0 8 * * 1-5', // 8:00 AM Monday-Friday
-    timezone: 'America/New_York'
-  },
-  workflow: 'generateDailyReport'
-})
-```
-
-### Database Triggers
-
-Respond to changes in your database:
-
-```typescript
-const userCreatedTrigger = defineTrigger({
-  name: 'userCreated',
-  type: 'database',
-  collection: 'users',
-  operation: 'create',
-  workflow: 'onboardNewUser'
+  // Connect to the target workflow
+  target: 'processNewOrder'
 })
 ```

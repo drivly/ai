@@ -1,196 +1,47 @@
-# Actions.do
+# Actions
 
-## Impact the External World
+Execute operations that impact external systems from your AI applications, creating real-world effects from your workflows.
 
-Actions.do provides a powerful framework for defining and executing operations that impact external systems. It enables your AI applications to interact with the world beyond your application boundaries.
+## Overview
+
+Actions provide a framework for defining and executing operations that interact with external systems. They enable you to:
+
+- Create standardized interfaces for external operations
+- Execute operations with proper validation and error handling
+- Compose complex workflows from simple actions
+- Track and audit action execution
+- Can be used as tools by Agents for interacting with external systems
 
 ## Features
 
-- **Declarative Action Definitions**: Define actions with a simple, declarative syntax
-- **Multiple Action Types**: Support for HTTP requests, database operations, messaging, and more
-- **Input Validation**: Validate action inputs before execution
-- **Error Handling**: Robust error handling with retry capabilities
-- **Observability**: Monitor action executions and troubleshoot issues
-- **Security**: Secure action execution with authentication and authorization
-- **Idempotency**: Ensure actions can be safely retried without side effects
+- **Input Validation**: Ensure actions receive valid parameters
+- **Error Handling**: Gracefully manage and report failures
+- **Retry Logic**: Automatically retry failed actions with backoff
+- **Audit Logging**: Track who executed what actions and when
+- **Rate Limiting**: Prevent overloading external systems
 
 ## Usage
 
 ```typescript
 import { defineAction } from 'actions.do'
 
-// Define an action to send an email
-const sendEmailAction = defineAction({
+// Define an email action
+const sendEmail = defineAction({
   name: 'sendEmail',
-  description: 'Sends an email using the email service',
+  description: 'Sends an email to a recipient',
   
-  // Define the input schema
+  // Define the input parameters
   input: {
-    to: {
-      type: 'string',
-      format: 'email',
-      required: true,
-      description: 'Recipient email address'
-    },
-    subject: {
-      type: 'string',
-      required: true,
-      description: 'Email subject line'
-    },
-    body: {
-      type: 'string',
-      required: true,
-      description: 'Email body content'
-    },
-    attachments: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          filename: { type: 'string' },
-          content: { type: 'string', format: 'base64' },
-          contentType: { type: 'string' }
-        }
-      },
-      required: false,
-      description: 'Optional file attachments'
-    }
+    to: { type: 'string', format: 'email', required: true },
+    subject: { type: 'string', required: true },
+    body: { type: 'string', required: true },
+    attachments: { type: 'array', items: 'Attachment', optional: true }
   },
   
-  // Define the action handler
-  handler: async ({ to, subject, body, attachments }, context) => {
-    try {
-      // Implementation details for sending an email
-      const result = await context.services.email.send({
-        to,
-        from: 'noreply@example.com',
-        subject,
-        body,
-        attachments: attachments || []
-      })
-      
-      // Return the result
-      return {
-        success: true,
-        messageId: result.messageId,
-        timestamp: new Date().toISOString()
-      }
-    } catch (error) {
-      // Handle errors
-      context.logger.error('Failed to send email', { error, to, subject })
-      throw new Error(`Failed to send email: ${error.message}`)
-    }
-  },
-  
-  // Define retry policy
-  retry: {
-    maxAttempts: 3,
-    backoff: 'exponential',
-    initialDelay: 1000 // ms
+  // Define the output schema
+  output: {
+    messageId: { type: 'string' },
+    status: { type: 'string', enum: ['sent', 'queued', 'failed'] }
   }
-})
-
-// Use the action in a workflow
-import { AI } from 'workflows.do'
-
-export default AI({
-  onNewUserSignup: async ({ api, event }) => {
-    const { name, email } = event
-    
-    // Send a welcome email
-    const emailResult = await api.actions.sendEmail({
-      to: email,
-      subject: `Welcome to Our Platform, ${name}!`,
-      body: `
-        <h1>Welcome, ${name}!</h1>
-        <p>Thank you for signing up. We're excited to have you on board.</p>
-        <p>Here are some resources to help you get started:</p>
-        <ul>
-          <li><a href="https://example.com/getting-started">Getting Started Guide</a></li>
-          <li><a href="https://example.com/faq">Frequently Asked Questions</a></li>
-        </ul>
-      `
-    })
-    
-    return {
-      success: true,
-      emailSent: emailResult.success,
-      messageId: emailResult.messageId
-    }
-  }
-})
-```
-
-## Action Types
-
-### HTTP Actions
-
-Make HTTP requests to external APIs:
-
-```typescript
-const createZendeskTicket = defineAction({
-  name: 'createZendeskTicket',
-  type: 'http',
-  request: {
-    method: 'POST',
-    url: 'https://{{subdomain}}.zendesk.com/api/v2/tickets.json',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic {{auth}}'
-    },
-    body: {
-      ticket: {
-        subject: '{{subject}}',
-        comment: {
-          body: '{{description}}'
-        },
-        priority: '{{priority}}',
-        tags: '{{tags}}'
-      }
-    }
-  },
-  // Additional configuration...
-})
-```
-
-### Database Actions
-
-Perform operations on your database:
-
-```typescript
-const updateUserStatus = defineAction({
-  name: 'updateUserStatus',
-  type: 'database',
-  operation: {
-    collection: 'users',
-    method: 'update',
-    query: { id: '{{userId}}' },
-    update: {
-      status: '{{status}}',
-      updatedAt: '{{timestamp}}'
-    }
-  },
-  // Additional configuration...
-})
-```
-
-### Message Queue Actions
-
-Send messages to queues and topics:
-
-```typescript
-const publishEvent = defineAction({
-  name: 'publishEvent',
-  type: 'message',
-  destination: {
-    type: 'topic',
-    name: '{{topicName}}'
-  },
-  message: {
-    eventType: '{{eventType}}',
-    payload: '{{payload}}',
-    timestamp: '{{timestamp}}'
-  },
-  // Additional configuration...
 })
 ```
