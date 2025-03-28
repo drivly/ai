@@ -21,24 +21,11 @@ export class Cookies extends OpenAPIRoute {
       },
       responses: {
         '200': {
-          description: 'Returns chat information',
+          description: 'Authorization header set successfully',
           content: {
             'application/json': {
               schema: z.object({
-                api: APIDefinitionSchema,
-                links: FlexibleAPILinksSchema,
-                data: ChatCompletionResponseSchema,
-                user: APIUserSchema,
-              }),
-            },
-          },
-        },
-        '400': {
-          description: 'Bad Request',
-          content: {
-            'application/json': {
-              schema: z.object({
-                error: z.string(),
+                message: z.string(),
               }),
             },
           },

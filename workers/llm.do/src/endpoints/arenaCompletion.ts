@@ -3,9 +3,10 @@ import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
 import { APIDefinitionSchema, FlexibleAPILinksSchema, APIUserSchema } from 'types/api'
-import { ChatCompletionResponseSchema } from '../types/chat'
+import { ArenaCompletionRequestSchema } from '../types/chat'
 import { AnyZodObject, z } from 'zod'
 import { parseCookies } from './cookies'
+
 const PROMPTS = [
   'How many R\'s are in Strawberry?',
   'Generate a business plan for selling water to a fish'
@@ -17,7 +18,7 @@ export class ArenaCompletion extends OpenAPIRoute {
   public createSchema(params?: AnyZodObject) {
     return {
       tags: ['Chat'],
-      summary: 'Send a message to the chatbot',
+      summary: 'Compare multiple models at once',
       request: {
         params,
         query: z.object({
@@ -25,8 +26,6 @@ export class ArenaCompletion extends OpenAPIRoute {
           system: z.string().optional().describe('Optional system message'),
           model: z.string().optional().describe('Model to use for the chat'),
           models: z.string().optional().describe('Comma-separated list of models to use for the chat'),
-          seed: z.number().optional().describe('Seed for the chat'),
-          temperature: z.number().min(0).max(2).optional().describe('Controls randomness: 0 = deterministic, 2 = maximum creativity'),
           tools: z.string().optional().describe('Comma-separated list of tools to use for the chat (or "all" for all tools)'),
           Authorization: z.string().describe('Bearer token alias').optional(),
         }),
@@ -39,7 +38,7 @@ export class ArenaCompletion extends OpenAPIRoute {
               schema: z.object({
                 api: APIDefinitionSchema,
                 links: FlexibleAPILinksSchema,
-                data: ChatCompletionResponseSchema,
+                data:  ArenaCompletionRequestSchema,
                 user: APIUserSchema,
               }),
             },
