@@ -11,15 +11,15 @@
   "dependencies": {
     "ai-models": "workspace:*",
     "ai-providers": "workspace:*",
-    "chanfana": "^2.7.2",
+    "chanfana": "^2.8.0",
     "composio-core": "^0.5.31",
     "hono": "^4.7.5",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@types/node": "22.13.13",
+    "@types/node": "22.13.14",
     "@types/service-worker-mock": "^2.0.4",
     "typescript": "^5.8.2",
-    "wrangler": "^4.5.0"
+    "wrangler": "^4.6.0"
   }
 }
