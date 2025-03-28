@@ -1,23 +1,34 @@
 import { Str } from 'chanfana'
-import { effect, z } from 'zod'
+import { z } from 'zod'
 
 export const AuthHeader = z.object({
   Authorization: z.string(),
 })
 
-const LogProb = z.object({
+export const LogProbSchema = z.object({
   bytes: z.array(z.number()).nullable(),
   logprob: z.number(),
   token: z.string(),
 })
 
-const LogProbs = z.array(
-  LogProb.extend({
-    top_logprobs: z.array(LogProb),
+export const LogProbsSchema = z.array(
+  LogProbSchema.extend({
+    top_logprobs: z.array(LogProbSchema),
   }),
 )
 
-const MessageContent = z.string().or(
+export const ReasoningEffortSchema = z.enum(['low', 'medium', 'high'])
+export const GenerateSummarySchema = z.enum(['concise', 'detailed'])
+export const ServiceTierSchema = z.enum(['default', 'auto', 'scale'])
+export const TruncationSchema = z.enum(['auto', 'disabled'])
+
+export const SafetyCheckSchema = z.object({
+  code: z.string(),
+  id: z.string(),
+  message: z.string(),
+})
+
+export const MessageContentSchema = z.string().or(
   z.array(
     z
       .object({
@@ -55,12 +66,12 @@ const MessageContent = z.string().or(
   ),
 )
 
-const Name = z
+export const NameSchema = z
   .string()
   .regex(/^[a-zA-Z0-9_]+$/)
   .optional()
 
-const LocationSchema = z.object({
+export const LocationSchema = z.object({
   type: z.literal('approximate'),
   city: z.string().optional(),
   country: z.string().optional(),
@@ -72,22 +83,22 @@ export const ChatCompletionRequestSchema = z.object({
   messages: z.array(
     z
       .object({
-        content: MessageContent,
+        content: MessageContentSchema,
         role: z.literal('developer'),
-        name: Name,
+        name: NameSchema,
       })
       .or(
         z.object({
-          content: MessageContent,
+          content: MessageContentSchema,
           role: z.literal('system'),
-          name: Name,
+          name: NameSchema,
         }),
       )
       .or(
         z.object({
-          content: MessageContent,
+          content: MessageContentSchema,
           role: z.literal('user'),
-          name: Name,
+          name: NameSchema,
         }),
       )
       .or(
@@ -95,12 +106,12 @@ export const ChatCompletionRequestSchema = z.object({
           role: z.literal('assistant'),
           audio: z.object({ id: z.string() }).optional(),
           content: z.string().or(z.array(z.string().or(z.object({ text: z.string(), type: z.literal('text') }).or(z.object({ refusal: z.string(), type: z.literal('refusal') }))))),
-          name: Name,
+          name: NameSchema,
         }),
       )
       .or(
         z.object({
-          content: MessageContent,
+          content: MessageContentSchema,
           role: z.literal('tool'),
           tool_call_id: z.string(),
         }),
@@ -161,7 +172,7 @@ export const ChatCompletionRequestSchema = z.object({
     })
     .optional(),
   presence_penalty: z.number().optional(),
-  reasoning_effort: z.enum(['low', 'medium', 'high']).optional(),
+  reasoning_effort: ReasoningEffortSchema.optional(),
   response_format: z
     .object({ type: z.literal('text') })
     .or(z.object({ type: z.literal('json_object') }))
@@ -178,7 +189,7 @@ export const ChatCompletionRequestSchema = z.object({
     )
     .optional(),
   seed: z.number().optional(),
-  service_tier: z.enum(['default', 'auto']).optional(),
+  service_tier: ServiceTierSchema.optional(),
   stop: z.string().or(z.array(z.string())).optional(),
   store: z.boolean().optional(),
   stream: z.boolean().optional(),
@@ -236,7 +247,7 @@ export const ChatCompletionRequestSchema = z.object({
 
 export type ChatCompletionRequest = z.infer<typeof ChatCompletionRequestSchema>
 
-const CitationSchema = z.object({
+export const CitationSchema = z.object({
   end_index: z.number(),
   start_index: z.number(),
   title: z.string(),
@@ -250,8 +261,8 @@ export const ChatCompletionResponseSchema = z.object({
       index: z.number(),
       logprobs: z
         .object({
-          content: LogProbs.nullable(),
-          refusal: LogProbs.nullable(),
+          content: LogProbsSchema.nullable(),
+          refusal: LogProbsSchema.nullable(),
         })
         .nullable(),
       message: z.object({
@@ -293,7 +304,7 @@ export const ChatCompletionResponseSchema = z.object({
   id: z.string(),
   model: z.string(),
   object: z.literal('chat.completion'),
-  service_tier: z.enum(['default', 'scale']).nullable().optional(),
+  service_tier: ServiceTierSchema.nullable().optional(),
   system_fingerprint: z.string(),
   usage: z.object({
     completion_tokens: z.number(),
@@ -361,7 +372,7 @@ export const CompoundFilterSchema = BaseCompoundFilterSchema.extend({
   filters: z.array(ComparisonFilterSchema.or(BaseCompoundFilterSchema)),
 })
 
-const InputSchema = z.array(
+export const InputSchema = z.array(
   z
     .object({
       text: z.string(),
@@ -385,9 +396,9 @@ const InputSchema = z.array(
     ),
 )
 
-const StatusSchema = z.enum(['in_progress', 'completed', 'incomplete'])
+export const StatusSchema = z.enum(['in_progress', 'completed', 'incomplete'])
 
-const TextSchema = z.object({
+export const TextSchema = z.object({
   format: z
     .object({ type: z.literal('text') })
     .or(
@@ -402,7 +413,7 @@ const TextSchema = z.object({
     .or(z.object({ type: z.literal('json_object') })),
 })
 
-const ToolChoiceSchema = z
+export const ToolChoiceSchema = z
   .enum(['none', 'auto', 'required'])
   .or(z.object({ type: z.enum(['file_search', 'web_search_preview', 'computer_use_preview']) }))
   .or(z.object({ name: z.string(), type: z.literal('function') }))
@@ -536,13 +547,7 @@ const ComputerUseSchema = z.object({
     ),
   call_id: z.string(),
   id: z.string(),
-  pending_safety_checks: z.array(
-    z.object({
-      code: z.string(),
-      id: z.string(),
-      message: z.string(),
-    }),
-  ),
+  pending_safety_checks: z.array(SafetyCheckSchema),
   status: StatusSchema,
   type: z.literal('computer_call'),
 })
@@ -588,15 +593,7 @@ export const ResponseRequestSchema = z.object({
                   image_url: z.string().optional(),
                 }),
                 type: z.literal('computer_call_output'),
-                acknowledged_safety_checks: z
-                  .array(
-                    z.object({
-                      code: z.string(),
-                      id: z.string(),
-                      message: z.string(),
-                    }),
-                  )
-                  .optional(),
+                acknowledged_safety_checks: z.array(SafetyCheckSchema).optional(),
                 id: z.string(),
                 status: StatusSchema.optional(),
               }),
@@ -627,8 +624,8 @@ export const ResponseRequestSchema = z.object({
   previous_response_id: z.string().optional(),
   reasoning: z
     .object({
-      effort: z.enum(['low', 'medium', 'high']).optional(),
-      generate_summary: z.enum(['concise', 'detailed']).optional(),
+      effort: ReasoningEffortSchema.optional(),
+      generate_summary: GenerateSummarySchema.optional(),
     })
     .optional(),
   store: z.boolean().optional(),
@@ -678,7 +675,7 @@ export const ResponseRequestSchema = z.object({
     )
     .optional(),
   top_p: z.number().optional(),
-  truncation: z.enum(['auto', 'disabled']).optional(),
+  truncation: TruncationSchema.optional(),
   user: z.string().optional(),
 })
 
@@ -708,8 +705,8 @@ export const ResponseSchema = z.object({
   previous_response_id: z.string().nullable(),
   reasoning: z
     .object({
-      effort: z.enum(['low', 'medium', 'high']).nullable(),
-      generate_summary: z.enum(['concise', 'detailed']).nullable(),
+      effort: ReasoningEffortSchema.nullable(),
+      generate_summary: GenerateSummarySchema.nullable(),
     })
     .nullable(),
   status: StatusSchema,
@@ -717,7 +714,7 @@ export const ResponseSchema = z.object({
   text: TextSchema,
   tool_choice: ToolChoiceSchema,
   top_p: z.number().nullable(),
-  truncation: z.enum(['auto', 'disabled']).nullable(),
+  truncation: TruncationSchema.nullable(),
   usage: z.object({
     input_tokens: z.number(),
     input_tokens_details: z.object({
