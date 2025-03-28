@@ -2,9 +2,9 @@ import { getModels } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
-import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from 'types/api'
+import { APIDefinitionSchema, FlexibleAPILinksSchema } from 'types/api'
 import { z } from 'zod'
-import { ArenaCompletionRequestSchema } from '../types/arena'
+import { ArenaCompletionSchema } from '../types/arena'
 import { parseCookies } from './cookies'
 
 const PROMPTS = ["How many R's are in Strawberry?", 'Generate a business plan for selling water to a fish']
@@ -20,7 +20,7 @@ export class ArenaCompletion extends OpenAPIRoute {
         model: z.string().optional().describe('Model to use for the chat'),
         models: z.string().optional().describe('Comma-separated list of models to use for the chat'),
         tools: z.string().optional().describe('Comma-separated list of tools to use for the chat (or "all" for all tools)'),
-        Authorization: z.string().describe('Bearer token alias').optional(),
+        Authorization: z.string().describe('Bearer token').optional(),
       }),
     },
     responses: {
@@ -31,8 +31,8 @@ export class ArenaCompletion extends OpenAPIRoute {
             schema: z.object({
               api: APIDefinitionSchema,
               links: FlexibleAPILinksSchema,
-              data: ArenaCompletionRequestSchema,
-              user: APIUserSchema,
+              prompt: z.string(),
+              arena: ArenaCompletionSchema,
             }),
           },
         },
