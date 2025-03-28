@@ -1,7 +1,8 @@
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
-import { AuthHeader, ModelListResponseSchema } from '../types/chat'
+import { ModelListResponseSchema } from 'types/models'
+import { AuthHeader } from 'types/shared'
 
 export class ModelList extends OpenAPIRoute {
   schema = {

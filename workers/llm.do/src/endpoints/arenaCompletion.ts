@@ -29,7 +29,7 @@ export class ArenaCompletion extends OpenAPIRoute {
       },
       responses: {
         '200': {
-          description: 'Returns chat information',
+          description: 'Returns arena completions',
           content: {
             'application/json': {
               schema: z.object({

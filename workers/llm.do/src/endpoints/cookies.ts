@@ -1,9 +1,5 @@
-import { getModels } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
-import { fetchFromProvider } from 'providers/openRouter'
-import { APIDefinitionSchema, FlexibleAPILinksSchema, APIUserSchema } from 'types/api'
-import { ChatCompletionResponseSchema } from '../types/chat'
 import { AnyZodObject, z } from 'zod'
 
 export class Cookies extends OpenAPIRoute {
@@ -11,7 +7,7 @@ export class Cookies extends OpenAPIRoute {
 
   public createSchema(params?: AnyZodObject) {
     return {
-      tags: [],
+      tags: ['Authentication'],
       summary: 'Retrieve, and set cookies for llm.do',
       request: {
         params,
@@ -52,7 +48,7 @@ export class Cookies extends OpenAPIRoute {
     }
 
     const response = c.json({
-      message: 'Cookies have been set, you can now close this tab'
+      message: 'Cookies have been set, you can now close this tab',
     })
 
     response.headers.set('Set-Cookie', `Authorization=Bearer ${Authorization}`)
@@ -64,7 +60,7 @@ export class Cookies extends OpenAPIRoute {
 export function parseCookies(cookies: string) {
   const cookieArray = cookies.split(';')
   const cookieObject: Record<string, string> = {}
-  cookieArray.forEach(cookie => {
+  cookieArray.forEach((cookie) => {
     const [key, value] = cookie.split('=')
     cookieObject[key.trim()] = value.trim()
   })
