@@ -2,57 +2,52 @@ import { getModels } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
-import { APIDefinitionSchema, FlexibleAPILinksSchema, APIUserSchema } from 'types/api'
+import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from 'types/api'
+import { z } from 'zod'
 import { ArenaCompletionRequestSchema } from '../types/arena'
-import { AnyZodObject, z } from 'zod'
 import { parseCookies } from './cookies'
 
 const PROMPTS = ["How many R's are in Strawberry?", 'Generate a business plan for selling water to a fish']
 
 export class ArenaCompletion extends OpenAPIRoute {
-  schema = this.createSchema()
-
-  public createSchema(params?: AnyZodObject) {
-    return {
-      tags: ['Chat'],
-      summary: 'Compare multiple models at once',
-      request: {
-        params,
-        query: z.object({
-          prompt: z.string().describe('The user prompt').optional(),
-          system: z.string().optional().describe('Optional system message'),
-          model: z.string().optional().describe('Model to use for the chat'),
-          models: z.string().optional().describe('Comma-separated list of models to use for the chat'),
-          tools: z.string().optional().describe('Comma-separated list of tools to use for the chat (or "all" for all tools)'),
-          Authorization: z.string().describe('Bearer token alias').optional(),
-        }),
-      },
-      responses: {
-        '200': {
-          description: 'Returns arena completions',
-          content: {
-            'application/json': {
-              schema: z.object({
-                api: APIDefinitionSchema,
-                links: FlexibleAPILinksSchema,
-                data: ArenaCompletionRequestSchema,
-                user: APIUserSchema,
-              }),
-            },
-          },
-        },
-        '400': {
-          description: 'Bad Request',
-          content: {
-            'application/json': {
-              schema: z.object({
-                error: z.string(),
-              }),
-            },
+  schema = {
+    tags: ['Chat'],
+    summary: 'Compare multiple models at once',
+    request: {
+      query: z.object({
+        prompt: z.string().describe('The user prompt').optional(),
+        system: z.string().optional().describe('Optional system message'),
+        model: z.string().optional().describe('Model to use for the chat'),
+        models: z.string().optional().describe('Comma-separated list of models to use for the chat'),
+        tools: z.string().optional().describe('Comma-separated list of tools to use for the chat (or "all" for all tools)'),
+        Authorization: z.string().describe('Bearer token alias').optional(),
+      }),
+    },
+    responses: {
+      '200': {
+        description: 'Returns arena completions',
+        content: {
+          'application/json': {
+            schema: z.object({
+              api: APIDefinitionSchema,
+              links: FlexibleAPILinksSchema,
+              data: ArenaCompletionRequestSchema,
+              user: APIUserSchema,
+            }),
           },
         },
       },
-    }
+      '400': {
+        description: 'Bad Request',
+        content: {
+          'application/json': {
+            schema: z.object({
+              error: z.string(),
+            }),
+          },
+        },
+      },
+    },
   }
 
   async handle(c: Context<{ Bindings: Cloudflare.Env }>) {

@@ -1,47 +1,32 @@
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
-import { AnyZodObject, z } from 'zod'
+import { z } from 'zod'
 
 export class Cookies extends OpenAPIRoute {
-  schema = this.createSchema()
-
-  public createSchema(params?: AnyZodObject) {
-    return {
-      tags: ['Authentication'],
-      summary: 'Retrieve, and set cookies for llm.do',
-      request: {
-        params,
-        query: z.object({
-          Authorization: z.string().describe('Bearer token alias').optional(),
-        }),
-      },
-      responses: {
-        '200': {
-          description: 'Authorization header set successfully',
-          content: {
-            'application/json': {
-              schema: z.object({
-                message: z.string(),
-              }),
-            },
+  schema = {
+    tags: ['Authentication'],
+    summary: 'Retrieve, and set cookies for llm.do',
+    request: {
+      query: z.object({
+        Authorization: z.string().describe('Bearer token').optional(),
+      }),
+    },
+    responses: {
+      '200': {
+        description: 'Authorization header set successfully',
+        content: {
+          'application/json': {
+            schema: z.object({
+              message: z.string(),
+            }),
           },
         },
       },
-    }
+    },
   }
 
   async handle(c: Context<{ Bindings: Cloudflare.Env }>) {
-    const url = new URL(c.req.url)
-    let origin = url.origin
-    if (c.env.ENV === 'development') {
-      origin = 'http://localhost:8787'
-    }
-
-    const originOrApiRoute = `${origin}${url.pathname}`
-
     const { Authorization } = c.req.query()
-
-    const cookies = c.req.header('Cookie')
 
     if (!Authorization) {
       return c.json({ error: 'No Authorization query parameter provided' }, 400)

@@ -22,7 +22,7 @@ export class Chat extends OpenAPIRoute {
           seed: z.number().optional().describe('Seed for the chat'),
           temperature: z.number().min(0).max(2).optional().describe('Controls randomness: 0 = deterministic, 2 = maximum creativity'),
           tools: z.string().optional().describe('Comma-separated list of tools to use for the chat (or "all" for all tools)'),
-          Authorization: z.string().describe('Bearer token alias').optional(),
+          Authorization: z.string().describe('Bearer token').optional(),
         }),
       },
       responses: {
