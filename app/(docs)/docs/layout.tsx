@@ -21,7 +21,7 @@ export const metadata = {
 const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Banner>
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const headersList = headers()
+  const headersList = await headers()
   const host = headersList.get('host') || 'apis.do'
   const logoText = getDomainLogo(host)
   
