@@ -100,6 +100,39 @@ const ai = AI({
 const results = await ai.createLeanCanvas({ domain: 'aws.amazon.com' })
 ```
 
+### Function Types
+
+functions.do now supports multiple function types for different use cases:
+
+1. **Generation Functions** - AI-powered functions that generate output based on input and prompts
+   - Format options: Object, ObjectArray, Text, TextArray, Markdown, Code
+   - Requires a schema for Object and ObjectArray formats
+   - Example: Content generation, data transformations, creative tasks
+
+2. **Code Functions** - Functions that execute predefined code
+   - Does not require a schema
+   - Example: Custom data processing, calculations, specialized transformations
+
+3. **Human Functions** - Tasks assigned to specific human users or roles
+   - Can include a role description or assigned user
+   - Example: Manual review tasks, approval processes, expert input
+
+4. **Agent Functions** - Functions that delegate to autonomous agents
+   - Linked to an agent in the Agents collection
+   - Example: Persistent tasks, continuous monitoring, complex workflows
+
+When creating a function via the SDK, you can specify the type and related properties:
+
+```typescript
+const myFunction = await functionsClient.create({
+  name: 'analyzeData',
+  type: 'Generation',
+  format: 'Object',
+  schema: { /* your schema here */ },
+  prompt: 'Analyze the following data and extract key insights'
+})
+```
+
 Finally, you can also define the return type and override system settings for a specific function like:
 
 ```typescript

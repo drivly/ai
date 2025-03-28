@@ -1,0 +1,159 @@
+# LLM.do
+
+## Intelligent AI Gateway
+
+LLM.do provides a powerful gateway for routing AI requests to the optimal language models based on capabilities, cost, and performance requirements. It enables you to leverage the best AI models for each specific task without being locked into a single provider.
+
+## Features
+
+- **Model Selection**: Automatically choose the best model for each task
+- **Multi-Provider Support**: Access models from OpenAI, Anthropic, Google, and more
+- **Capability Matching**: Route requests based on model capabilities
+- **Cost Optimization**: Balance performance and cost requirements
+- **Fallback Mechanisms**: Handle model unavailability with graceful fallbacks
+- **Observability**: Monitor model performance and usage
+- **Caching**: Optimize response times and reduce costs with intelligent caching
+
+## Usage
+
+```typescript
+import { LLM } from 'llm.do'
+
+// Create an LLM instance with default configuration
+const llm = LLM()
+
+// Generate text with automatic model selection
+const response = await llm.generate({
+  prompt: 'Explain quantum computing in simple terms',
+  maxTokens: 200
+})
+
+console.log(response)
+// "Quantum computing uses the principles of quantum mechanics to process information..."
+
+// Generate text with specific capabilities
+const codeResponse = await llm.generate({
+  prompt: 'Write a function that calculates the Fibonacci sequence',
+  capabilities: ['code', 'reasoning'],
+  maxTokens: 300
+})
+
+console.log(codeResponse)
+// "```javascript\nfunction fibonacci(n) {\n  if (n <= 1) return n;\n  ..."
+
+// Generate text with a specific model
+const specificModelResponse = await llm.generate({
+  prompt: 'Summarize the key points of the last earnings call',
+  model: 'openai/gpt-4',
+  maxTokens: 500
+})
+
+console.log(specificModelResponse)
+// "The key points from the last earnings call were..."
+```
+
+## Advanced Configuration
+
+```typescript
+// Create an LLM instance with advanced configuration
+const advancedLlm = LLM({
+  defaultModel: 'anthropic/claude-3-opus',
+  fallbackModels: ['openai/gpt-4', 'google/gemini-pro'],
+  defaultParameters: {
+    temperature: 0.7,
+    topP: 0.9,
+    maxTokens: 1000
+  },
+  capabilities: {
+    required: ['reasoning'],
+    preferred: ['finance', 'analysis']
+  },
+  costStrategy: 'balanced', // 'lowest', 'balanced', or 'performance'
+  caching: {
+    enabled: true,
+    ttl: 3600 // seconds
+  },
+  retryStrategy: {
+    maxAttempts: 3,
+    initialDelay: 1000, // ms
+    backoff: 'exponential'
+  }
+})
+
+// Use the advanced LLM instance
+const financialAnalysis = await advancedLlm.generate({
+  prompt: 'Analyze the financial performance of AAPL in Q2 2023',
+  context: {
+    revenueData: { ... },
+    earningsReport: '...',
+    marketConditions: '...'
+  }
+})
+```
+
+## Model Capabilities
+
+LLM.do supports routing based on various model capabilities:
+
+```typescript
+// Generate text with specific capabilities
+const response = await llm.generate({
+  prompt: 'Create a marketing campaign for a new smartphone',
+  capabilities: {
+    required: ['creativity', 'marketing'],
+    preferred: ['image-understanding']
+  }
+})
+```
+
+Available capabilities include:
+
+- **reasoning**: Complex logical reasoning and problem-solving
+- **code**: Code generation and understanding
+- **math**: Mathematical calculations and derivations
+- **creativity**: Creative content generation
+- **summarization**: Concise summarization of long content
+- **extraction**: Information extraction from text
+- **classification**: Categorization of content
+- **translation**: Language translation
+- **conversation**: Multi-turn dialogue capabilities
+- **domain-specific**: Specialized knowledge in areas like finance, medicine, law, etc.
+
+## Composite Models
+
+LLM.do allows you to create composite models that combine multiple models for optimal results:
+
+```typescript
+// Define a composite model
+const compositeModel = llm.defineCompositeModel({
+  name: 'financial-analyst',
+  description: 'A model optimized for financial analysis',
+  
+  // Define the routing logic
+  router: async (input) => {
+    // Extract the task type from the input
+    const taskType = await llm.classify({
+      text: input.prompt,
+      categories: ['data-analysis', 'market-prediction', 'report-generation', 'general']
+    })
+    
+    // Route to different models based on the task
+    switch (taskType) {
+      case 'data-analysis':
+        return 'openai/gpt-4'
+      case 'market-prediction':
+        return 'anthropic/claude-3-opus'
+      case 'report-generation':
+        return 'google/gemini-pro'
+      default:
+        return 'openai/gpt-3.5-turbo'
+    }
+  }
+})
+
+// Use the composite model
+const analysis = await llm.generate({
+  prompt: 'Analyze the impact of rising interest rates on tech stocks',
+  model: 'financial-analyst'
+})
+```

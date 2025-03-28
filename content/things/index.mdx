@@ -1,0 +1,274 @@
+# Things.do
+
+## Physical and Virtual Objects
+
+Things.do provides a powerful framework for modeling and managing both physical and virtual objects in your business domain. It enables you to create a structured representation of the tangible and intangible assets that your business interacts with.
+
+## Features
+
+- **Universal Object Modeling**: Define any type of object in your business domain
+- **Property Management**: Define the properties and attributes of each object
+- **Object Relationships**: Establish connections between different objects
+- **State Tracking**: Monitor and manage object state changes over time
+- **Digital Twins**: Create digital representations of physical objects
+- **Extensibility**: Extend object definitions with custom properties and behaviors
+- **Type Safety**: Full TypeScript support for reliable development
+
+## Usage
+
+```typescript
+import { defineThing } from 'things.do'
+
+// Define a Product thing
+const Product = defineThing({
+  name: 'Product',
+  description: 'A physical or digital item that can be purchased',
+  
+  // Define the properties of a Product
+  properties: {
+    name: {
+      type: 'string',
+      required: true,
+      description: 'Name of the product'
+    },
+    description: {
+      type: 'string',
+      required: true,
+      description: 'Detailed description of the product'
+    },
+    sku: {
+      type: 'string',
+      required: true,
+      unique: true,
+      description: 'Stock keeping unit - unique identifier'
+    },
+    price: {
+      type: 'number',
+      required: true,
+      minimum: 0,
+      description: 'Current price of the product'
+    },
+    currency: {
+      type: 'string',
+      default: 'USD',
+      description: 'Currency of the price'
+    },
+    category: {
+      type: 'string',
+      required: true,
+      description: 'Product category'
+    },
+    tags: {
+      type: 'array',
+      items: {
+        type: 'string'
+      },
+      default: [],
+      description: 'Tags for categorization and search'
+    },
+    images: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          url: { type: 'string' },
+          alt: { type: 'string' },
+          isPrimary: { type: 'boolean', default: false }
+        }
+      },
+      default: [],
+      description: 'Product images'
+    },
+    inventory: {
+      type: 'object',
+      properties: {
+        quantity: { type: 'number', default: 0 },
+        isInStock: { type: 'boolean', default: false },
+        lowStockThreshold: { type: 'number', default: 10 }
+      },
+      description: 'Inventory information'
+    },
+    dimensions: {
+      type: 'object',
+      properties: {
+        length: { type: 'number' },
+        width: { type: 'number' },
+        height: { type: 'number' },
+        weight: { type: 'number' },
+        unit: { type: 'string', default: 'cm' }
+      },
+      required: false,
+      description: 'Physical dimensions (for physical products)'
+    },
+    isDigital: {
+      type: 'boolean',
+      default: false,
+      description: 'Whether this is a digital product'
+    },
+    createdAt: {
+      type: 'string',
+      format: 'date-time',
+      default: () => new Date().toISOString(),
+      description: 'When the product was created'
+    },
+    updatedAt: {
+      type: 'string',
+      format: 'date-time',
+      default: () => new Date().toISOString(),
+      description: 'When the product was last updated'
+    }
+  },
+  
+  // Define relationships to other things
+  relationships: {
+    manufacturer: {
+      type: 'belongsTo',
+      target: 'Manufacturer',
+      description: 'Company that manufactures this product'
+    },
+    reviews: {
+      type: 'hasMany',
+      target: 'Review',
+      foreignKey: 'productId',
+      description: 'Customer reviews for this product'
+    },
+    relatedProducts: {
+      type: 'hasMany',
+      target: 'Product',
+      description: 'Products that are related to this one'
+    }
+  },
+  
+  // Define methods that can be performed on this thing
+  methods: {
+    updateInventory: {
+      description: 'Update the inventory quantity',
+      parameters: {
+        quantity: {
+          type: 'number',
+          description: 'New inventory quantity'
+        }
+      },
+      handler: async (product, { quantity }) => {
+        product.inventory.quantity = quantity
+        product.inventory.isInStock = quantity > 0
+        product.updatedAt = new Date().toISOString()
+        return product
+      }
+    },
+    applyDiscount: {
+      description: 'Apply a percentage discount to the product price',
+      parameters: {
+        percentage: {
+          type: 'number',
+          minimum: 0,
+          maximum: 100,
+          description: 'Discount percentage'
+        }
+      },
+      handler: async (product, { percentage }) => {
+        const discountFactor = 1 - (percentage / 100)
+        product.price = Math.round((product.price * discountFactor) * 100) / 100
+        product.updatedAt = new Date().toISOString()
+        return product
+      }
+    }
+  }
+})
+
+// Use the Product thing in a workflow
+import { AI } from 'workflows.do'
+
+export default AI({
+  onInventoryUpdate: async ({ db, event }) => {
+    const { productSku, newQuantity } = event
+    
+    // Find the product by SKU
+    const product = await db.Product.findOne({ sku: productSku })
+    
+    // Update the inventory
+    const updatedProduct = await product.updateInventory({ quantity: newQuantity })
+    
+    // Check if we need to reorder
+    const needsReorder = newQuantity <= updatedProduct.inventory.lowStockThreshold
+    
+    return {
+      productId: updatedProduct.id,
+      sku: updatedProduct.sku,
+      newQuantity,
+      isInStock: updatedProduct.inventory.isInStock,
+      needsReorder
+    }
+  }
+})
+```
+
+## Thing Categories
+
+Things.do supports various categories of things for different types of objects:
+
+### Physical Things
+
+```typescript
+const Device = defineThing({
+  name: 'Device',
+  category: 'physical',
+  properties: {
+    serialNumber: { type: 'string', required: true, unique: true },
+    model: { type: 'string', required: true },
+    manufacturer: { type: 'string', required: true },
+    purchaseDate: { type: 'string', format: 'date' },
+    warrantyExpiration: { type: 'string', format: 'date' },
+    location: {
+      type: 'object',
+      properties: {
+        latitude: { type: 'number' },
+        longitude: { type: 'number' },
+        address: { type: 'string' }
+      }
+    }
+  },
+  // Additional configuration...
+})
+```
+
+### Digital Things
+
+```typescript
+const DigitalAsset = defineThing({
+  name: 'DigitalAsset',
+  category: 'digital',
+  properties: {
+    fileType: { type: 'string', required: true },
+    fileSize: { type: 'number', required: true },
+    url: { type: 'string', required: true },
+    checksum: { type: 'string', required: true },
+    accessControl: {
+      type: 'object',
+      properties: {
+        isPublic: { type: 'boolean', default: false },
+        allowedUsers: { type: 'array', items: { type: 'string' } }
+      }
+    }
+  },
+  // Additional configuration...
+})
+```
+
+### Conceptual Things
+
+```typescript
+const Idea = defineThing({
+  name: 'Idea',
+  category: 'conceptual',
+  properties: {
+    title: { type: 'string', required: true },
+    description: { type: 'string', required: true },
+    status: { type: 'string', enum: ['draft', 'proposed', 'approved', 'implemented'] },
+    creator: { type: 'string', required: true },
+    createdAt: { type: 'string', format: 'date-time' },
+    tags: { type: 'array', items: { type: 'string' } }
+  },
+  // Additional configuration...
+})
+```

@@ -1,3 +1,75 @@
 # Functions.do
 
-TBD
+AI is transforming businesses but integrating LLMs into existing systems presents challenges due to the clash between AI's non-deterministic nature and traditional software's deterministic characteristics.
+
+Key challenges include:
+
+- **Reliability**: AI's unpredictable outputs complicate testing and maintenance
+- **Accuracy**: Models can hallucinate or produce incorrect information
+- **Model Selection**: Balancing capabilities, speed, and cost across rapidly evolving models
+- **Prompt Engineering**: More art than science, difficult to standardize
+- **Configuration**: Complex parameter interactions require careful tuning
+
+## The Solution
+
+functions.do creates a clean separation between AI capabilities and application code through strongly-typed interfaces that hide model complexities, enabling:
+
+- Rapid prototyping of AI applications
+- Continuous improvement without disrupting application code
+- Comprehensive evaluation and optimization strategies
+
+## Usage
+
+You can use it by simply calling any function name with any arguments on the `ai` object like:
+
+```typescript
+import { ai } from 'functions.do'
+
+const storyBrand = await ai.storyBrand({ guide: 'aws.amazon.com' })
+
+console.log(storyBrand)
+// {
+//   productName: 'AWS',
+//   hero: 'Businesses looking to innovate and scale their operations efficiently',
+//   problem: {
+//     external: 'Managing complex IT infrastructure is costly and time-consuming',
+//     internal: 'Fear of falling behind competitors technologically',
+//     philosophical: 'Believing innovation should be accessible to all businesses',
+//     villain: 'Legacy infrastructure constraints and technical debt'
+//   },
+//   guide: 'AWS positions itself as an experienced guide with unparalleled expertise in cloud solutions',
+//   plan: ['Start with a free tier to explore services',
+//          'Consult with AWS solutions architects',
+//          'Implement scalable infrastructure based on business needs',
+//          'Optimize costs with pay-as-you-go model'],
+//   callToAction: 'Sign up for AWS Free Tier today',
+//   success: 'Businesses innovate faster, reduce costs, and scale globally without infrastructure limitations',
+//   failure: 'Companies struggle with outdated infrastructure, higher costs, and inability to compete in the digital economy',
+//   messagingExamples: ['Build on the broadest and deepest cloud platform',
+//                       'Innovate faster with the right tools for every workload',
+//                       'Pay only for what you use with no upfront costs']
+// }
+```
+
+Alternatively, you can define the return type of the function during initialization to get strongly-typed responses:
+
+```typescript
+import { AI } from 'functions.do'
+
+const ai = AI({
+  createLeanCanvas: {
+    problems: ['top 3 problems the business solves'],
+    customerSegments: ['target customers and users for the product'],
+    uniqueValueProposition: 'clear and compelling message that states why you are different and worth buying',
+    solutions: ['outline of the solutions to the identified problems'],
+    unfairAdvantage: 'something that cannot be easily copied or bought',
+    revenueStreams: ['revenue model, lifetime value, revenue, gross margin'],
+    costStructure: ['customer acquisition costs', 'distribution costs', 'hosting', 'people', 'etc.'],
+    keyMetrics: ['key activities you measure (acquisition, retention, referrals, etc.)'],
+    channels: ['path to customers (inbound, outbound, viral, etc.)'],
+    earlyAdopters: 'characteristics of the ideal early adopter',
+  },
+})
+
+const results = await ai.createLeanCanvas({ domain: 'aws.amazon.com' })
+```
