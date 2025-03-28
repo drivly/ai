@@ -77,6 +77,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   // We want this to be true even if the value is an empty string
   const groupCreationMode = typeof qs.get('models') === 'string'
   const groupModels = qs.get('models')?.split(',').filter(Boolean) ?? []
+  const sortBy = qs.get('sort') ?? 'default'
 
   if (model) {
     return {
@@ -111,7 +112,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     }
   }
 
-  const validModels = models.filter((model) => {
+  let validModels = models.filter((model) => {
     if (provider && model.provider !== provider) return false
     if (author && model.author !== author) return false
     if (capabilities.length > 0) {
@@ -120,6 +121,15 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
     return true
   })
+
+  // Sort the models
+  if (sortBy === 'default') {
+    validModels = validModels
+  } else if (sortBy === 'priceLowToHigh') {
+    validModels = validModels.sort((a, b) => parseFloat(a.rawModel?.endpoint?.pricing.completion ?? '0') - parseFloat(b.rawModel?.endpoint?.pricing.completion ?? '0'))
+  } else if (sortBy === 'priceHighToLow') {
+    validModels = validModels.sort((a, b) => parseFloat(b.rawModel?.endpoint?.pricing.completion ?? '0') - parseFloat(a.rawModel?.endpoint?.pricing.completion ?? '0'))
+  }
 
   const generateFacet = (param: string, filter: string | null) => {
     const allValues = validModels.map((model) => model[param as keyof typeof model]).filter((value) => !filter || value === filter)
@@ -186,7 +196,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       }
     }, {}) as Record<string, unknown>
 
-  if (groupBy) {
+  if (groupBy && sortBy == 'default') {
     // Modify the modelsObject to group by the given param
     modelsObject = groupByKey(Object.values(modelsObject) as any[], 
       (model) => model[groupBy as keyof typeof model] as any)
@@ -204,13 +214,21 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         }, {})
       ])
     )
+  } else {
+    // Just strip the object down to just the URL now that we've done the grouping
+    modelsObject = Object.fromEntries(Object.entries(modelsObject)
+      .map(([key, value]) => [
+        key,
+        (value as { url: string }).url,
+      ])
+    )
   }
 
   const llmDoUrl = origin.includes('localhost') ? 'http://localhost:8787' : 'https://llm.do'
 
-  return {  
+  return {
     links: {
-      toLLM: `${llmDoUrl}/chat/arena?Authorization=connor-demo-key&model=${ model || groupModels.join(',') }`,
+      toLLM: `${llmDoUrl}/chat/arena?model=${ model || groupModels.join(',') }`,
       groupPresets: {
         custom: modifyQueryString('models', groupModels.join(',')),
         frontier: modifyQueryString('models', 'claude-3.7-sonnet,o3-mini,gemini'),

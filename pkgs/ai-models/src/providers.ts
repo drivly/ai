@@ -19,6 +19,7 @@ export type Model = {
   childPriority?: 'first' | 'random'
   childrenModels?: Model['name'][]
   alias?: string
+  rawModel?: typeof rawModels.models[number]
 }
 
 // export function getModelOrGateway(provider: Provider, model: string, useGateway: boolean): LanguageModel {
@@ -80,6 +81,7 @@ let models: Model[] = rawModels.models.map((x) => {
     openRouterSlug: x.slug,
     modelIdentifier: x.slug.replace(x.author + '/', ''), // Fixes cases where the modelId was google/google/google-gemini-2.0-flash-001
     alias: '',
+    rawModel: x,
   }
 
   // Do a reverse lookup for an alias, where the value is the model slug

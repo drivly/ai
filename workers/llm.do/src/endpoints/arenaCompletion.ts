@@ -136,7 +136,7 @@ export class ArenaCompletion extends OpenAPIRoute {
       if (system) {
         messages.push({ role: 'system', content: system })
       }
-      messages.push({ role: 'user', content: prompt })
+      messages.push({ role: 'user', content: prompt + '\n\nOnly respond with at most 4 paragraphs.' })
 
       // Determine which models to use
       const combinedModels = model || models || ''
