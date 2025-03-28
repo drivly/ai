@@ -8,20 +8,20 @@ Based on the main README.md header items, the following sections need documentat
 - [x] Workflows.do - Created in content/workflows/index.mdx
 - [x] APIs.do - Created in content/apis/index.mdx
 - [x] Database.do - Created in content/database/index.mdx
+- [x] Triggers.do - Created in content/triggers/index.mdx
+- [x] Searches.do - Created in content/searches/index.mdx
+- [x] Actions.do - Created in content/actions/index.mdx
+- [x] Nouns.do - Created in content/nouns/index.mdx
+- [x] Verbs.do - Created in content/verbs/index.mdx
+- [x] Things.do - Created in content/things/index.mdx
+- [x] Events.do - Already existed in content/events/index.mdx
+- [x] Experiments.do - Already existed in content/experiments/index.mdx
+- [x] Benchmarks.do - Created in content/benchmarks/index.mdx
+- [x] Evals.do - Already existed in content/evals/index.mdx
+- [x] Traces.do - Created in content/traces/index.mdx
+- [x] LLM.do - Created in content/llm/index.mdx
+- [x] Analytics.do - Created in content/analytics/index.mdx
 
 ## Need to Create
 - [ ] Integrations.do - Create in content/integrations/index.mdx
-- [ ] Triggers.do - Create in content/triggers/index.mdx
-- [ ] Searches.do - Create in content/searches/index.mdx
-- [ ] Actions.do - Create in content/actions/index.mdx
-- [ ] Nouns.do - Create in content/nouns/index.mdx
-- [ ] Verbs.do - Create in content/verbs/index.mdx
-- [ ] Things.do - Create in content/things/index.mdx
-- [ ] Events.do - Create in content/events/index.mdx
-- [ ] Experiments.do - Create in content/experiments/index.mdx
-- [ ] Benchmarks.do - Create in content/benchmarks/index.mdx
-- [ ] Evals.do - Create in content/evals/index.mdx
-- [ ] Traces.do - Create in content/traces/index.mdx
-- [ ] LLM.do - Create in content/llm/index.mdx
-- [ ] Analytics.do - Create in content/analytics/index.mdx
 - [ ] AGI.do - Create in content/agi/index.mdx
