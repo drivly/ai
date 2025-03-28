@@ -1,4 +1,5 @@
-import type { ChatCompletionRequest, ChatCompletionResponse, Response, ResponseRequest } from './chat'
+import type { ChatCompletionRequest, ChatCompletionResponse } from './chat'
+import type { Response, ResponseRequest } from './responses'
 
 export function toChatCompletionRequest(request: ResponseRequest): ChatCompletionRequest {
   const completionRequest: ChatCompletionRequest = {

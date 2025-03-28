@@ -1,7 +1,10 @@
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
-import { AuthHeader, ResponseSchema } from '../types/chat'
+import { ResponseSchema } from 'types/responses'
+import { AuthHeader } from 'types/shared'
+import { toResponse } from 'types/translate'
+import type { ChatCompletionResponse } from '../types/chat'
 
 export class ResponseGet extends OpenAPIRoute {
   schema = {
@@ -22,11 +25,14 @@ export class ResponseGet extends OpenAPIRoute {
     },
   }
 
-  async handle(_c: Context<{ Bindings: Cloudflare.Env }>) {
+  async handle(c: Context<{ Bindings: Cloudflare.Env }>) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
 
     // Pass request to OpenRouter
-    return await fetchFromProvider(request, 'GET', '/responses')
+    const response = await fetchFromProvider(request, 'GET', '/chat/completions/' + c.req.param('id'))
+    const json: ChatCompletionResponse = await response.json()
+
+    return c.json(toResponse(json))
   }
 }

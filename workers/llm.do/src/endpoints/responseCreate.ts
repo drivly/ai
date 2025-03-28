@@ -1,8 +1,10 @@
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
+import { ResponseRequestSchema, ResponseSchema } from 'types/responses'
+import { AuthHeader } from 'types/shared'
 import { toChatCompletionRequest, toResponse } from 'types/translate'
-import { AuthHeader, type ChatCompletionResponse, ResponseRequestSchema, ResponseSchema } from '../types/chat'
+import type { ChatCompletionResponse } from '../types/chat'
 
 export class ResponseCreate extends OpenAPIRoute {
   schema = {

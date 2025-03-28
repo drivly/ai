@@ -4,7 +4,8 @@ import { env } from 'cloudflare:workers'
 import { OpenAIToolSet } from 'composio-core'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
-import { AuthHeader, type ChatCompletionRequest, ChatCompletionRequestSchema, ChatCompletionResponse, ChatCompletionResponseSchema } from '../types/chat'
+import { AuthHeader } from 'types/shared'
+import { type ChatCompletionRequest, ChatCompletionRequestSchema, ChatCompletionResponse, ChatCompletionResponseSchema } from '../types/chat'
 
 export class ChatCompletionCreate extends OpenAPIRoute {
   schema = {
