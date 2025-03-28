@@ -12,72 +12,72 @@ export const Functions: CollectionConfig = {
       type: 'row',
       fields: [
         { name: 'name', type: 'text' },
-        { 
-          name: 'type', 
-          type: 'select', 
-          options: ['Generation', 'Code', 'Human', 'Agent'], 
-          defaultValue: 'Generation', 
-          required: true 
+        {
+          name: 'type',
+          type: 'select',
+          options: ['Generation', 'Code', 'Human', 'Agent'],
+          defaultValue: 'Generation',
+          required: true,
         },
       ],
     },
-    { 
-      name: 'format', 
-      type: 'select', 
-      options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code'], 
-      defaultValue: 'Object', 
+    {
+      name: 'format',
+      type: 'select',
+      options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code'],
+      defaultValue: 'Object',
       required: true,
-      admin: { 
-        condition: (data) => data?.type === 'Generation' 
-      } 
+      admin: {
+        condition: (data) => data?.type === 'Generation',
+      },
     },
-    { 
-      name: 'schema', 
-      type: 'json', 
-      admin: { 
-        condition: (data) => data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format) || ['Human', 'Agent'].includes(data?.type), 
-        editorOptions: { padding: { top: 20, bottom: 20 } } 
-      } 
+    {
+      name: 'schema',
+      type: 'json',
+      admin: {
+        condition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format)) || ['Human', 'Agent'].includes(data?.type),
+        editorOptions: { padding: { top: 20, bottom: 20 } },
+      },
     },
-    { 
-      name: 'code', 
-      type: 'code', 
-      admin: { 
-        language: 'typescript', 
-        condition: (data) => data?.type === 'Code', 
-        editorOptions: { padding: { top: 20, bottom: 20 } } 
-      } 
+    {
+      name: 'code',
+      type: 'code',
+      admin: {
+        language: 'typescript',
+        condition: (data) => data?.type === 'Code',
+        editorOptions: { padding: { top: 20, bottom: 20 } },
+      },
     },
-    { 
-      name: 'prompt', 
-      type: 'relationship', 
-      relationTo: 'prompts', 
-      admin: { 
-        condition: (data) => data?.type !== 'Code' 
-      } 
+    {
+      name: 'prompt',
+      type: 'relationship',
+      relationTo: 'prompts',
+      admin: {
+        condition: (data) => data?.type !== 'Code',
+      },
     },
-    { 
-      name: 'role', 
+    {
+      name: 'role',
       type: 'text',
-      admin: { 
-        condition: (data) => data?.type === 'Human' 
-      } 
+      admin: {
+        condition: (data) => data?.type === 'Human',
+      },
     },
-    { 
-      name: 'user', 
+    {
+      name: 'user',
       type: 'relationship',
       relationTo: 'users',
-      admin: { 
-        condition: (data) => data?.type === 'Human' 
-      } 
+      admin: {
+        condition: (data) => data?.type === 'Human',
+      },
     },
-    { 
-      name: 'agent', 
+    {
+      name: 'agent',
       type: 'relationship',
       relationTo: 'agents',
-      admin: { 
-        condition: (data) => data?.type === 'Agent' 
-      } 
+      admin: {
+        condition: (data) => data?.type === 'Agent',
+      },
     },
     { name: 'actions', type: 'join', collection: 'actions', on: 'function' },
   ],

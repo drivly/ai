@@ -37,7 +37,7 @@ import { GPT } from 'gpt.do'
 
 // Initialize with default settings
 const gpt = GPT({
-  defaultModel: 'gpt-4'
+  defaultModel: 'gpt-4',
 })
 
 // Simple completion
@@ -47,14 +47,14 @@ console.log(completion)
 // Chat interaction
 const chatResponse = await gpt.chat([
   { role: 'system', content: 'You are a helpful assistant specialized in physics.' },
-  { role: 'user', content: 'How does quantum entanglement work?' }
+  { role: 'user', content: 'How does quantum entanglement work?' },
 ])
 console.log(chatResponse)
 
 // Streaming response
 const stream = await gpt.streamChat([
   { role: 'system', content: 'You are a storyteller.' },
-  { role: 'user', content: 'Tell me a short story about a robot learning to paint.' }
+  { role: 'user', content: 'Tell me a short story about a robot learning to paint.' },
 ])
 
 for await (const chunk of stream) {
@@ -71,12 +71,12 @@ GPT.do supports various GPT models with intelligent model selection:
 ```typescript
 // Specify model explicitly
 const response = await gpt.complete('Summarize this article', {
-  model: 'gpt-4-turbo'
+  model: 'gpt-4-turbo',
 })
 
 // Automatic model selection based on task
 const complexResponse = await gpt.complete('Analyze this research paper in detail', {
-  modelSelection: 'automatic'
+  modelSelection: 'automatic',
 })
 ```
 
@@ -87,7 +87,7 @@ Efficiently manage conversation context:
 ```typescript
 // Create a conversation manager
 const conversation = gpt.createConversation({
-  system: 'You are a helpful coding assistant specializing in JavaScript.'
+  system: 'You are a helpful coding assistant specializing in JavaScript.',
 })
 
 // Add messages and get responses
@@ -118,7 +118,7 @@ Summary length: {{length}}
 const summary = await summaryTemplate.complete({
   documentType: 'research paper',
   content: 'Long research paper text...',
-  length: '3 paragraphs'
+  length: '3 paragraphs',
 })
 ```
 

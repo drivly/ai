@@ -45,21 +45,21 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
   return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
     try {
       const isEdgeRuntime = typeof process === 'undefined' || process.env.NEXT_RUNTIME === 'edge'
-      
+
       let payload: any
       let db: PayloadDB
       let permissions: any = {}
       let user: any = {}
-      
+
       if (isEdgeRuntime) {
         const apiUrl = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
         const apiKey = process.env.PAYLOAD_API_KEY
-        
-        db = createEdgePayloadClient({ 
+
+        db = createEdgePayloadClient({
           apiUrl,
-          apiKey
+          apiKey,
         })
-        
+
         payload = {
           auth: async () => ({ permissions: {}, user: null }),
         }
@@ -67,22 +67,23 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
         if (!getPayload) {
           throw new Error('Payload is not available in this environment')
         }
-        
+
         payload = await getPayload({
           config: configPromise,
         })
-        
+
         const auth = await payload.auth(req)
         permissions = auth.permissions
-        user = auth.user?.collection === 'users'
-          ? {
-              email: auth.user.email,
-            }
-          : {
-              app: auth.user?.name,
-              appId: auth.user?.id,
-            }
-            
+        user =
+          auth.user?.collection === 'users'
+            ? {
+                email: auth.user.email,
+              }
+            : {
+                app: auth.user?.name,
+                appId: auth.user?.id,
+              }
+
         db = createNodePayloadClient(payload)
       }
 

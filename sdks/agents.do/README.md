@@ -39,7 +39,7 @@ import { createAgent } from 'agents.do'
 const supportAgent = createAgent({
   name: 'SupportAssistant',
   description: 'Handles customer support inquiries and resolves common issues',
-  
+
   // Define the agent's capabilities
   capabilities: {
     answerProductQuestions: async ({ query, productId }) => {
@@ -47,77 +47,77 @@ const supportAgent = createAgent({
       const productInfo = await api.products.get(productId)
       return ai.generateProductAnswer({ query, productInfo })
     },
-    
+
     troubleshootIssue: async ({ description, customerInfo }) => {
       // Analyze the issue and provide troubleshooting steps
-      const solution = await ai.troubleshoot({ 
+      const solution = await ai.troubleshoot({
         issueDescription: description,
         productInfo: await api.products.getByCustomer(customerInfo.id),
-        knowledgeBase: 'support-articles'
+        knowledgeBase: 'support-articles',
       })
       return solution
     },
-    
+
     escalateToHuman: async ({ ticketId, reason }) => {
       // Create an escalation ticket for human support
       await api.zendesk.createEscalation({
         ticketId,
         reason,
-        priority: reason.includes('urgent') ? 'high' : 'medium'
+        priority: reason.includes('urgent') ? 'high' : 'medium',
       })
       return { status: 'escalated', estimatedResponse: '1 business day' }
-    }
+    },
   },
-  
+
   // Define how the agent should handle different types of events
   handlers: {
     onNewSupportRequest: async ({ agent, event }) => {
       const { customerId, query } = event
-      
+
       // Get customer information
       const customerInfo = await api.customers.get(customerId)
-      
+
       // Analyze the query to determine intent
-      const intent = await ai.classifyIntent({ 
-        query, 
-        categories: ['product-question', 'technical-issue', 'billing-inquiry', 'other']
+      const intent = await ai.classifyIntent({
+        query,
+        categories: ['product-question', 'technical-issue', 'billing-inquiry', 'other'],
       })
-      
+
       // Handle the request based on intent
       switch (intent) {
         case 'product-question':
-          return agent.capabilities.answerProductQuestions({ 
-            query, 
-            productId: customerInfo.recentProducts[0] 
+          return agent.capabilities.answerProductQuestions({
+            query,
+            productId: customerInfo.recentProducts[0],
           })
-          
+
         case 'technical-issue':
-          return agent.capabilities.troubleshootIssue({ 
-            description: query, 
-            customerInfo 
+          return agent.capabilities.troubleshootIssue({
+            description: query,
+            customerInfo,
           })
-          
+
         case 'billing-inquiry':
           // Billing inquiries are always handled by humans
-          return agent.capabilities.escalateToHuman({ 
-            ticketId: event.ticketId, 
-            reason: 'Billing inquiry requires human verification' 
+          return agent.capabilities.escalateToHuman({
+            ticketId: event.ticketId,
+            reason: 'Billing inquiry requires human verification',
           })
-          
+
         default:
           // Try to handle with general knowledge or escalate
           const canHandle = await ai.canHandleQuery({ query })
           if (canHandle) {
             return ai.generateResponse({ query })
           } else {
-            return agent.capabilities.escalateToHuman({ 
-              ticketId: event.ticketId, 
-              reason: 'Query outside of agent capabilities' 
+            return agent.capabilities.escalateToHuman({
+              ticketId: event.ticketId,
+              reason: 'Query outside of agent capabilities',
             })
           }
       }
-    }
-  }
+    },
+  },
 })
 
 // Deploy the agent
@@ -136,26 +136,21 @@ import { defineAgent } from 'agents.do'
 const researchAgent = defineAgent({
   name: 'MarketResearcher',
   description: 'Conducts market research and competitive analysis',
-  
+
   // Define the agent's memory configuration
   memory: {
     type: 'vectorstore',
-    collections: ['market-data', 'competitor-analysis', 'industry-trends']
+    collections: ['market-data', 'competitor-analysis', 'industry-trends'],
   },
-  
+
   // Define the tools the agent can use
-  tools: [
-    'web-search',
-    'data-analysis',
-    'document-retrieval',
-    'report-generation'
-  ],
-  
+  tools: ['web-search', 'data-analysis', 'document-retrieval', 'report-generation'],
+
   // Define the agent's capabilities
   capabilities: {
     // Implementation of agent capabilities
     // ...
-  }
+  },
 })
 ```
 
@@ -169,40 +164,40 @@ import { AgentSystem } from 'agents.do'
 const customerSuccessSystem = AgentSystem({
   name: 'CustomerSuccessTeam',
   description: 'A team of agents that work together to ensure customer success',
-  
+
   agents: {
     onboardingSpecialist: {
       // Agent that specializes in customer onboarding
       // ...
     },
-    
+
     productExpert: {
       // Agent that provides detailed product knowledge
       // ...
     },
-    
+
     accountManager: {
       // Agent that manages ongoing customer relationships
       // ...
     },
-    
+
     supportSpecialist: {
       // Agent that handles technical support issues
       // ...
-    }
+    },
   },
-  
+
   workflows: {
     newCustomerOnboarding: {
       // Define how agents collaborate during customer onboarding
       // ...
     },
-    
+
     quarterlyReview: {
       // Define how agents collaborate for quarterly business reviews
       // ...
-    }
-  }
+    },
+  },
 })
 ```
 
@@ -215,19 +210,19 @@ import { defineMemory } from 'agents.do'
 
 const customerSupportMemory = defineMemory({
   type: 'hybrid',
-  
+
   // Short-term memory for the current conversation
   shortTerm: {
     type: 'conversation',
-    maxTokens: 4000
+    maxTokens: 4000,
   },
-  
+
   // Long-term memory for persistent knowledge
   longTerm: {
     type: 'vectorstore',
-    collections: ['customer-interactions', 'resolved-issues']
+    collections: ['customer-interactions', 'resolved-issues'],
   },
-  
+
   // Define how information moves between memory types
   retention: {
     strategy: 'importance-based',
@@ -235,8 +230,8 @@ const customerSupportMemory = defineMemory({
       // Logic to determine memory importance
       // ...
       return importanceScore
-    }
-  }
+    },
+  },
 })
 ```
 
@@ -250,7 +245,7 @@ import { defineTool } from 'agents.do'
 const salesforceTool = defineTool({
   name: 'salesforce',
   description: 'Interact with Salesforce CRM',
-  
+
   // Define the actions available through this tool
   actions: {
     createLead: async ({ name, email, company, source }) => {
@@ -258,19 +253,19 @@ const salesforceTool = defineTool({
       // ...
       return { leadId, status: 'created' }
     },
-    
+
     updateOpportunity: async ({ opportunityId, status, amount }) => {
       // Implementation for updating an opportunity
       // ...
       return { success: true, opportunityId }
     },
-    
+
     queryContacts: async ({ filters }) => {
       // Implementation for querying contacts
       // ...
       return contacts
-    }
-  }
+    },
+  },
 })
 ```
 
@@ -285,44 +280,41 @@ import { AgentSupervisor } from 'agents.do'
 
 const supervisor = AgentSupervisor({
   agents: [customerSupportAgent, salesAgent, marketingAgent],
-  
+
   // Define monitoring rules
   monitoring: {
     // Log all agent actions
     logging: {
       level: 'info',
-      destinations: ['console', 'cloudwatch']
+      destinations: ['console', 'cloudwatch'],
     },
-    
+
     // Set up alerts for specific conditions
     alerts: [
       {
         condition: (action) => action.type === 'external-api-call' && action.cost > 10,
         handler: async (action, agent) => {
           await notifyAdmin(`High-cost action by ${agent.name}: $${action.cost}`)
-        }
-      }
-    ]
+        },
+      },
+    ],
   },
-  
+
   // Define intervention policies
   interventions: {
     // Automatically pause agent if it makes too many API calls
     rateLimiting: {
       maxApiCalls: 100,
       timeWindow: '1h',
-      action: 'pause-agent'
+      action: 'pause-agent',
     },
-    
+
     // Require human approval for high-risk actions
     approvals: {
-      conditions: [
-        (action) => action.risk === 'high',
-        (action) => action.type === 'financial-transaction' && action.amount > 1000
-      ],
-      approvalProcess: 'human-in-the-loop'
-    }
-  }
+      conditions: [(action) => action.risk === 'high', (action) => action.type === 'financial-transaction' && action.amount > 1000],
+      approvalProcess: 'human-in-the-loop',
+    },
+  },
 })
 ```
 
@@ -335,28 +327,28 @@ import { AgentLearning } from 'agents.do'
 
 const learningConfig = AgentLearning({
   agent: customerSupportAgent,
-  
+
   // Define learning sources
   sources: {
     // Learn from human feedback
     feedback: {
       collectFrom: ['customer-ratings', 'support-team-reviews'],
-      processStrategy: 'reinforcement-learning'
+      processStrategy: 'reinforcement-learning',
     },
-    
+
     // Learn from successful interactions
     examples: {
       collectFrom: 'successful-resolutions',
       selectionCriteria: (interaction) => interaction.customerSatisfaction > 4.5,
-      maxExamples: 1000
-    }
+      maxExamples: 1000,
+    },
   },
-  
+
   // Define how often to update the agent
   schedule: {
     frequency: 'weekly',
-    evaluationMetrics: ['accuracy', 'customer-satisfaction', 'resolution-time']
-  }
+    evaluationMetrics: ['accuracy', 'customer-satisfaction', 'resolution-time'],
+  },
 })
 ```
 

@@ -43,27 +43,27 @@ export interface ChatCompletionResponse {
 export class LLMClient {
   private api: ApiClient
 
-  constructor(options: { apiKey?: string, baseUrl?: string } = {}) {
+  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
     this.api = new ApiClient({
       baseUrl: options.baseUrl || 'https://llm.do',
       headers: {
         'Content-Type': 'application/json',
-        ...(options.apiKey ? { 'Authorization': `Bearer ${options.apiKey}` } : {})
-      }
+        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
+      },
     })
   }
 
   async complete(prompt: string, options: CompletionOptions = {}): Promise<CompletionResponse> {
     return this.api.post('/api/llm/completions', {
       prompt,
-      ...options
+      ...options,
     })
   }
 
   async chat(messages: ChatMessage[], options: CompletionOptions = {}): Promise<ChatCompletionResponse> {
     return this.api.post('/api/llm/chat', {
       messages,
-      ...options
+      ...options,
     })
   }
 
@@ -72,18 +72,18 @@ export class LLMClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(options.apiKey ? { 'Authorization': `Bearer ${options.apiKey}` } : {})
+        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
       },
       body: JSON.stringify({
         prompt,
-        ...options
-      })
+        ...options,
+      }),
     })
-    
+
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`)
     }
-    
+
     return response.body as ReadableStream<any>
   }
 
@@ -92,18 +92,18 @@ export class LLMClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(options.apiKey ? { 'Authorization': `Bearer ${options.apiKey}` } : {})
+        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
       },
       body: JSON.stringify({
         messages,
-        ...options
-      })
+        ...options,
+      }),
     })
-    
+
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`)
     }
-    
+
     return response.body as ReadableStream<any>
   }
 }

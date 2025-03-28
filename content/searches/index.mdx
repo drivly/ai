@@ -23,7 +23,7 @@ import { defineSearch } from 'searches.do'
 const knowledgeBaseSearch = defineSearch({
   name: 'knowledgeBaseSearch',
   description: 'Search across knowledge base articles',
-  
+
   // Define the data sources to search
   sources: [
     {
@@ -34,8 +34,8 @@ const knowledgeBaseSearch = defineSearch({
       weights: {
         title: 2.0,
         content: 1.0,
-        tags: 1.5
-      }
+        tags: 1.5,
+      },
     },
     {
       name: 'faqs',
@@ -44,17 +44,17 @@ const knowledgeBaseSearch = defineSearch({
       fields: ['question', 'answer'],
       weights: {
         question: 2.0,
-        answer: 1.0
-      }
-    }
+        answer: 1.0,
+      },
+    },
   ],
-  
+
   // Define search parameters
   parameters: {
     query: {
       type: 'string',
       required: true,
-      description: 'The search query'
+      description: 'The search query',
     },
     filters: {
       type: 'object',
@@ -63,53 +63,51 @@ const knowledgeBaseSearch = defineSearch({
       properties: {
         category: {
           type: 'string',
-          description: 'Filter by category'
+          description: 'Filter by category',
         },
         tags: {
           type: 'array',
           items: {
-            type: 'string'
+            type: 'string',
           },
-          description: 'Filter by tags'
+          description: 'Filter by tags',
         },
         createdAfter: {
           type: 'string',
           format: 'date',
-          description: 'Filter by creation date'
-        }
-      }
+          description: 'Filter by creation date',
+        },
+      },
     },
     limit: {
       type: 'number',
       required: false,
       default: 10,
-      description: 'Maximum number of results to return'
+      description: 'Maximum number of results to return',
     },
     offset: {
       type: 'number',
       required: false,
       default: 0,
-      description: 'Number of results to skip'
-    }
+      description: 'Number of results to skip',
+    },
   },
-  
+
   // Transform the search results
   transform: (results) => {
     return {
-      items: results.map(item => ({
+      items: results.map((item) => ({
         id: item.id,
         title: item.title || item.question,
         content: item.content || item.answer,
         type: item._source === 'articles' ? 'article' : 'faq',
-        url: item._source === 'articles' 
-          ? `/knowledge-base/${item.id}` 
-          : `/faqs/${item.id}`,
-        relevanceScore: item._score
+        url: item._source === 'articles' ? `/knowledge-base/${item.id}` : `/faqs/${item.id}`,
+        relevanceScore: item._score,
       })),
       totalCount: results.totalCount,
-      facets: results.facets
+      facets: results.facets,
     }
-  }
+  },
 })
 
 // Use the search in a workflow
@@ -118,31 +116,31 @@ import { AI } from 'workflows.do'
 export default AI({
   onCustomerSupport: async ({ ai, api, event }) => {
     const { query } = event
-    
+
     // Search for relevant knowledge base articles
     const searchResults = await api.searches.knowledgeBaseSearch({
       query,
       filters: {
-        category: 'customer-support'
+        category: 'customer-support',
       },
-      limit: 5
+      limit: 5,
     })
-    
+
     // Generate a response based on the search results
     const response = await ai.generateSupportResponse({
       query,
-      relevantArticles: searchResults.items
+      relevantArticles: searchResults.items,
     })
-    
+
     return {
       answer: response.answer,
       sources: response.sources,
-      suggestedArticles: searchResults.items.map(item => ({
+      suggestedArticles: searchResults.items.map((item) => ({
         title: item.title,
-        url: item.url
-      }))
+        url: item.url,
+      })),
     }
-  }
+  },
 })
 ```
 
@@ -160,8 +158,8 @@ const productSearch = defineSearch({
       name: 'products',
       type: 'database',
       collection: 'products',
-      fields: ['name', 'description', 'categories', 'tags']
-    }
+      fields: ['name', 'description', 'categories', 'tags'],
+    },
   ],
   // Additional configuration...
 })
@@ -180,8 +178,8 @@ const similarDocumentSearch = defineSearch({
       type: 'vector',
       collection: 'documents',
       embeddingField: 'embedding',
-      contentFields: ['title', 'content']
-    }
+      contentFields: ['title', 'content'],
+    },
   ],
   // Additional configuration...
 })
@@ -202,11 +200,11 @@ const githubIssueSearch = defineSearch({
       parameters: {
         q: '{{query}} repo:{{repo}}',
         sort: 'updated',
-        order: 'desc'
+        order: 'desc',
       },
       authentication: {
         type: 'bearer',
-        token: '{{secrets.GITHUB_TOKEN}}'
+        token: '{{secrets.GITHUB_TOKEN}}',
       },
       resultPath: 'items',
       mapping: {
@@ -215,9 +213,9 @@ const githubIssueSearch = defineSearch({
         content: 'body',
         url: 'html_url',
         createdAt: 'created_at',
-        updatedAt: 'updated_at'
-      }
-    }
+        updatedAt: 'updated_at',
+      },
+    },
   ],
   // Additional configuration...
 })

@@ -16,7 +16,7 @@ LLM.do provides a powerful gateway for routing AI requests to the optimal langua
 
 ## Usage
 
-```typescript
+````typescript
 import { LLM } from 'llm.do'
 
 // Create an LLM instance with default configuration
@@ -25,7 +25,7 @@ const llm = LLM()
 // Generate text with automatic model selection
 const response = await llm.generate({
   prompt: 'Explain quantum computing in simple terms',
-  maxTokens: 200
+  maxTokens: 200,
 })
 
 console.log(response)
@@ -35,7 +35,7 @@ console.log(response)
 const codeResponse = await llm.generate({
   prompt: 'Write a function that calculates the Fibonacci sequence',
   capabilities: ['code', 'reasoning'],
-  maxTokens: 300
+  maxTokens: 300,
 })
 
 console.log(codeResponse)
@@ -45,12 +45,12 @@ console.log(codeResponse)
 const specificModelResponse = await llm.generate({
   prompt: 'Summarize the key points of the last earnings call',
   model: 'openai/gpt-4',
-  maxTokens: 500
+  maxTokens: 500,
 })
 
 console.log(specificModelResponse)
 // "The key points from the last earnings call were..."
-```
+````
 
 ## Advanced Configuration
 
@@ -101,8 +101,8 @@ const response = await llm.generate({
   prompt: 'Create a marketing campaign for a new smartphone',
   capabilities: {
     required: ['creativity', 'marketing'],
-    preferred: ['image-understanding']
-  }
+    preferred: ['image-understanding'],
+  },
 })
 ```
 
@@ -128,15 +128,15 @@ LLM.do allows you to create composite models that combine multiple models for op
 const compositeModel = llm.defineCompositeModel({
   name: 'financial-analyst',
   description: 'A model optimized for financial analysis',
-  
+
   // Define the routing logic
   router: async (input) => {
     // Extract the task type from the input
     const taskType = await llm.classify({
       text: input.prompt,
-      categories: ['data-analysis', 'market-prediction', 'report-generation', 'general']
+      categories: ['data-analysis', 'market-prediction', 'report-generation', 'general'],
     })
-    
+
     // Route to different models based on the task
     switch (taskType) {
       case 'data-analysis':
@@ -148,12 +148,12 @@ const compositeModel = llm.defineCompositeModel({
       default:
         return 'openai/gpt-3.5-turbo'
     }
-  }
+  },
 })
 
 // Use the composite model
 const analysis = await llm.generate({
   prompt: 'Analyze the impact of rising interest rates on tech stocks',
-  model: 'financial-analyst'
+  model: 'financial-analyst',
 })
 ```

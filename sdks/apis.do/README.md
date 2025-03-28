@@ -119,7 +119,7 @@ const listActiveUsers = async () => {
     where: { status: 'active' },
     limit: 10,
     page: 1,
-    sort: '-createdAt'
+    sort: '-createdAt',
   })
   console.log(activeUsers.data)
   console.log(`Total: ${activeUsers.meta?.total}`)
@@ -183,33 +183,33 @@ const api = new ApiClient({ apiKey: process.env.APIS_DO_KEY })
 async function generateBusinessDashboard(companyId: string) {
   // Fetch company data
   const company = await api.getById('companies', companyId)
-  
+
   // Get recent sales data
   const salesData = await api.list('sales', {
     where: { companyId, date: { $gte: '2023-01-01' } },
     sort: '-date',
-    limit: 100
+    limit: 100,
   })
-  
+
   // Use Functions.do to analyze sales trends
   const salesAnalysis = await api.post('/api/functions/analyzeSalesTrends', {
     sales: salesData.data,
-    timeframe: 'quarterly'
+    timeframe: 'quarterly',
   })
-  
+
   // Use Agents.do to generate recommendations
   const recommendations = await api.post('/api/agents/businessAdvisor/ask', {
     question: 'What are the top 3 actions this company should take based on recent sales data?',
-    context: { company, salesData: salesData.data, analysis: salesAnalysis }
+    context: { company, salesData: salesData.data, analysis: salesAnalysis },
   })
-  
+
   // Store the dashboard data
   return api.create('dashboards', {
     companyId,
     generatedAt: new Date().toISOString(),
     salesData: salesData.data,
     analysis: salesAnalysis,
-    recommendations: recommendations.suggestions
+    recommendations: recommendations.suggestions,
   })
 }
 ```
@@ -228,36 +228,36 @@ const api = new ApiClient({
 
 ### Core Methods
 
-| Method | Description |
-|--------|-------------|
-| `get<T>(path: string, params?: QueryParams): Promise<T>` | Make a GET request |
-| `post<T>(path: string, data: any): Promise<T>` | Make a POST request |
-| `put<T>(path: string, data: any): Promise<T>` | Make a PUT request |
-| `patch<T>(path: string, data: any): Promise<T>` | Make a PATCH request |
-| `delete<T>(path: string): Promise<T>` | Make a DELETE request |
+| Method                                                   | Description           |
+| -------------------------------------------------------- | --------------------- |
+| `get<T>(path: string, params?: QueryParams): Promise<T>` | Make a GET request    |
+| `post<T>(path: string, data: any): Promise<T>`           | Make a POST request   |
+| `put<T>(path: string, data: any): Promise<T>`            | Make a PUT request    |
+| `patch<T>(path: string, data: any): Promise<T>`          | Make a PATCH request  |
+| `delete<T>(path: string): Promise<T>`                    | Make a DELETE request |
 
 ### Collection Methods
 
-| Method | Description |
-|--------|-------------|
-| `list<T>(collection: string, params?: QueryParams): Promise<ListResponse<T>>` | List items in a collection |
-| `getById<T>(collection: string, id: string): Promise<T>` | Get an item by ID |
-| `create<T>(collection: string, data: Partial<T>): Promise<T>` | Create a new item |
-| `update<T>(collection: string, id: string, data: Partial<T>): Promise<T>` | Update an item |
-| `replace<T>(collection: string, id: string, data: T): Promise<T>` | Replace an item |
-| `remove<T>(collection: string, id: string): Promise<T>` | Delete an item |
+| Method                                                                                         | Description                |
+| ---------------------------------------------------------------------------------------------- | -------------------------- |
+| `list<T>(collection: string, params?: QueryParams): Promise<ListResponse<T>>`                  | List items in a collection |
+| `getById<T>(collection: string, id: string): Promise<T>`                                       | Get an item by ID          |
+| `create<T>(collection: string, data: Partial<T>): Promise<T>`                                  | Create a new item          |
+| `update<T>(collection: string, id: string, data: Partial<T>): Promise<T>`                      | Update an item             |
+| `replace<T>(collection: string, id: string, data: T): Promise<T>`                              | Replace an item            |
+| `remove<T>(collection: string, id: string): Promise<T>`                                        | Delete an item             |
 | `search<T>(collection: string, query: string, params?: QueryParams): Promise<ListResponse<T>>` | Search within a collection |
 
 ### Query Parameters
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `limit` | `number` | Maximum number of items to return |
-| `page` | `number` | Page number for pagination |
-| `sort` | `string \| string[]` | Sort fields (prefix with `-` for descending) |
-| `where` | `Record<string, any>` | Filter conditions |
-| `select` | `string \| string[]` | Fields to include in the response |
-| `populate` | `string \| string[]` | Relations to populate |
+| Parameter  | Type                  | Description                                  |
+| ---------- | --------------------- | -------------------------------------------- |
+| `limit`    | `number`              | Maximum number of items to return            |
+| `page`     | `number`              | Page number for pagination                   |
+| `sort`     | `string \| string[]`  | Sort fields (prefix with `-` for descending) |
+| `where`    | `Record<string, any>` | Filter conditions                            |
+| `select`   | `string \| string[]`  | Fields to include in the response            |
+| `populate` | `string \| string[]`  | Relations to populate                        |
 
 ## ❌ Error Handling
 
@@ -284,21 +284,21 @@ APIs.do supports multiple authentication methods:
 ```typescript
 // API Key Authentication (recommended)
 const api = new ApiClient({
-  apiKey: 'your-api-key'
+  apiKey: 'your-api-key',
 })
 
 // Custom Header Authentication
 const api = new ApiClient({
   headers: {
-    'X-Custom-Auth': 'custom-token'
-  }
+    'X-Custom-Auth': 'custom-token',
+  },
 })
 
 // OAuth Token
 const api = new ApiClient({
   headers: {
-    'Authorization': `Bearer ${oauthToken}`
-  }
+    Authorization: `Bearer ${oauthToken}`,
+  },
 })
 ```
 
@@ -319,20 +319,20 @@ interface User {
 
 // Now you get full type safety
 const users = await api.list<User>('users')
-users.data.forEach(user => console.log(user.name))
+users.data.forEach((user) => console.log(user.name))
 
 // Create with type checking
 const newUser = await api.create<User>('users', {
   name: 'John Doe',
   email: 'john@example.com',
-  role: 'user'
+  role: 'user',
 })
 
 // TypeScript will catch errors like this:
 const invalidUser = await api.create<User>('users', {
   name: 'Jane Doe',
   email: 'jane@example.com',
-  role: 'superadmin' // Error: Type '"superadmin"' is not assignable to type '"admin" | "user"'
+  role: 'superadmin', // Error: Type '"superadmin"' is not assignable to type '"admin" | "user"'
 })
 ```
 
@@ -343,22 +343,20 @@ APIs.do works seamlessly in browser environments:
 ```html
 <script type="module">
   import { ApiClient } from 'https://cdn.jsdelivr.net/npm/apis.do/dist/index.js'
-  
+
   const api = new ApiClient({
-    apiKey: 'your-api-key'
+    apiKey: 'your-api-key',
   })
-  
+
   async function loadData() {
     try {
       const data = await api.list('products')
-      document.getElementById('products').innerHTML = data.data
-        .map(product => `<li>${product.name} - $${product.price}</li>`)
-        .join('')
+      document.getElementById('products').innerHTML = data.data.map((product) => `<li>${product.name} - $${product.price}</li>`).join('')
     } catch (error) {
       console.error('Failed to load products:', error)
     }
   }
-  
+
   loadData()
 </script>
 ```

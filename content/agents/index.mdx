@@ -22,18 +22,17 @@ import { Agent } from 'agents.do'
 
 // Create a customer support agent
 export const supportAgent = new Agent({
-  name: "customer-support",
-  instructions: "You are a helpful customer support specialist. " +
-                "You assist customers with product questions and technical issues.",
-  model: "openai/gpt-4.5",
+  name: 'customer-support',
+  instructions: 'You are a helpful customer support specialist. ' + 'You assist customers with product questions and technical issues.',
+  model: 'openai/gpt-4.5',
 })
 
 // Use the agent to handle a customer inquiry
 const response = await supportAgent.handle({
-  customerId: "cus_12345",
+  customerId: 'cus_12345',
   message: "I'm having trouble connecting my device to WiFi",
   context: {
-    recentPurchases: [{ id: "prod_789", name: "Smart Hub" }]
-  }
+    recentPurchases: [{ id: 'prod_789', name: 'Smart Hub' }],
+  },
 })
 ```

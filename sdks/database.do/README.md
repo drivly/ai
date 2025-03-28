@@ -49,18 +49,18 @@ const db = DB({
     status: 'Draft | Published | Archived', // Select field with predefined options
     contentType: 'Text | Markdown | Code | Object | Schema', // Another select field example
     tags: 'tags[]',
-    author: 'authors'
+    author: 'authors',
   },
   tags: {
     name: 'text',
-    posts: '<-posts.tags'  // Join field to posts (reverse relation)
+    posts: '<-posts.tags', // Join field to posts (reverse relation)
   },
   authors: {
     name: 'text',
     email: 'email',
     role: 'Admin | Editor | Writer', // Select field with predefined options
-    posts: '<-posts.author'  // Join field to posts (reverse relation)
-  }
+    posts: '<-posts.author', // Join field to posts (reverse relation)
+  },
 })
 
 // Create a new post
@@ -70,18 +70,18 @@ const post = await db.posts.create({
   status: 'Published',
   contentType: 'Markdown',
   tags: ['database', 'tutorial'],
-  author: 'author123'
+  author: 'author123',
 })
 
 // Query posts with filtering
 const publishedPosts = await db.posts.find({
   status: 'Published',
-  author: 'author123'
+  author: 'author123',
 })
 
 // Update a post
 await db.posts.update(post.id, {
-  title: 'Updated Title'
+  title: 'Updated Title',
 })
 
 // Delete a post
@@ -102,29 +102,29 @@ const db = DB({
     price: 'number',
     category: 'categories',
     tags: 'tags[]',
-    isAvailable: 'boolean'
+    isAvailable: 'boolean',
   },
   categories: {
     name: 'text',
     description: 'text',
-    products: '<-products.category'
+    products: '<-products.category',
   },
   tags: {
     name: 'text',
-    products: '<-products.tags'
+    products: '<-products.tags',
   },
   orders: {
     customer: 'customers',
     products: 'products[]',
     status: 'Pending | Processing | Shipped | Delivered | Cancelled',
     orderDate: 'date',
-    totalAmount: 'number'
+    totalAmount: 'number',
   },
   customers: {
     name: 'text',
     email: 'email',
-    orders: '<-orders.customer'
-  }
+    orders: '<-orders.customer',
+  },
 })
 ```
 
@@ -132,26 +132,23 @@ const db = DB({
 
 ```typescript
 // Find products with pagination and sorting
-const products = await db.products.find({
-  price: { gt: 100 },
-  isAvailable: true,
-  category: 'electronics'
-}, {
-  limit: 10,
-  page: 1,
-  sort: { price: 'desc' }
-})
+const products = await db.products.find(
+  {
+    price: { gt: 100 },
+    isAvailable: true,
+    category: 'electronics',
+  },
+  {
+    limit: 10,
+    page: 1,
+    sort: { price: 'desc' },
+  },
+)
 
 // Find with complex filters
 const results = await db.posts.find({
-  $or: [
-    { status: 'Published' },
-    { author: 'author123' }
-  ],
-  $and: [
-    { createdAt: { gt: new Date('2023-01-01') } },
-    { tags: { contains: 'featured' } }
-  ]
+  $or: [{ status: 'Published' }, { author: 'author123' }],
+  $and: [{ createdAt: { gt: new Date('2023-01-01') } }, { tags: { contains: 'featured' } }],
 })
 ```
 
@@ -159,14 +156,20 @@ const results = await db.posts.find({
 
 ```typescript
 // Get posts with author and tags populated
-const posts = await db.posts.find({}, {
-  populate: ['author', 'tags']
-})
+const posts = await db.posts.find(
+  {},
+  {
+    populate: ['author', 'tags'],
+  },
+)
 
 // Get a single post with all relations populated
-const post = await db.posts.findOne({ id: 'post123' }, {
-  populate: true // Populate all relations
-})
+const post = await db.posts.findOne(
+  { id: 'post123' },
+  {
+    populate: true, // Populate all relations
+  },
+)
 ```
 
 ## API Reference
@@ -192,6 +195,7 @@ The schema is an object where each key represents a collection and its value def
 ```
 
 Field types can be:
+
 - Primitive types: `'text'`, `'richtext'`, `'number'`, `'boolean'`, `'date'`, `'email'`
 - Enum types: `'Option1 | Option2 | Option3'`
 - Relation types: `'collectionName'` (single relation) or `'collectionName[]'` (multiple relations)

@@ -27,20 +27,20 @@ export interface FunctionResponse<T = any> {
 export class FunctionsClient {
   private api: ApiClient
 
-  constructor(options: { apiKey?: string, baseUrl?: string } = {}) {
+  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
     this.api = new ApiClient({
       baseUrl: options.baseUrl || 'https://functions.do',
       headers: {
         'Content-Type': 'application/json',
-        ...(options.apiKey ? { 'Authorization': `Bearer ${options.apiKey}` } : {})
-      }
+        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
+      },
     })
   }
 
   async run<T = any>(functionName: string, input: any, config?: AIConfig): Promise<FunctionResponse<T>> {
     return this.api.post(`/api/functions/${functionName}`, {
       input,
-      config
+      config,
     })
   }
 
@@ -59,7 +59,7 @@ export class FunctionsClient {
     return this.api.post('/api/functions', functionDefinition)
   }
 
-  async list(params?: { limit?: number, page?: number }): Promise<any> {
+  async list(params?: { limit?: number; page?: number }): Promise<any> {
     return this.api.list('functions', params)
   }
 

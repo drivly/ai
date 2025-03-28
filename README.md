@@ -1,13 +1,10 @@
 # [Workflows.do](https://workflows.do) Business-as-Code
 
-
 ```typescript
 import { AI } from 'workflows.do'
 
 export default AI({
-
   onUserSignup: async ({ ai, api, db, event }) => {
-
     const { name, email, company } = event
 
     // Enrich content details with lookup from external data sources
@@ -30,11 +27,9 @@ export default AI({
     const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, ...details })
     const { url } = await db.users.create({ name, email, company, summary, ...details })
     await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
-
   },
 })
 ```
-
 
 ## [Functions.do](https://functions.do) Inputs to Structured Outputs
 
@@ -42,7 +37,6 @@ export default AI({
 import { AI } from 'functions.do'
 
 const ai = AI({
-
   leanCanvas: {
     productName: 'name of the product or service',
     problem: ['top 3 problems the product solves'],
@@ -55,12 +49,11 @@ const ai = AI({
     costStructure: ['list of operational costs'],
     revenueStreams: ['list of revenue sources'],
     recommendations: ['list of recommendations based on the analysis'],
-  }
-
+  },
 })
 
-const brand = await ai.storyBrand({ 
-  idea: 'Agentic Workflow Platform', 
+const brand = await ai.storyBrand({
+  idea: 'Agentic Workflow Platform',
   icp: 'Alpha Devs & Empowered CTOs',
 })
 
@@ -153,8 +146,6 @@ console.log(brand)
 }
 ```
 
-
-
 ## [Agents.do](https://agents.do) Autonomous Digital Workers
 
 Agents.do provides a powerful framework for creating, deploying, and managing autonomous digital workers that can perform complex tasks with minimal human intervention. These agents can handle routine operations, make decisions based on predefined criteria, and adapt to changing conditions.
@@ -166,26 +157,26 @@ import { Agent } from 'agents.do'
 const customerSupportAgent = Agent({
   name: 'CustomerSupportAgent',
   description: 'Handles customer inquiries and resolves common issues',
-  
+
   // Define the agent's capabilities
   capabilities: {
     answerProductQuestions: true,
     handleReturns: true,
-    escalateToHuman: true
+    escalateToHuman: true,
   },
-  
+
   // Define the agent's knowledge base
   knowledgeBase: {
     productCatalog: true,
     faqDatabase: true,
-    returnPolicies: true
+    returnPolicies: true,
   },
-  
+
   // Define the agent's behavior
   behavior: async ({ input, context, tools }) => {
     // Analyze the customer inquiry
     const intent = await tools.classifyIntent(input)
-    
+
     // Handle different types of inquiries
     switch (intent) {
       case 'product-question':
@@ -197,7 +188,7 @@ const customerSupportAgent = Agent({
       default:
         return await tools.generateGenericResponse(input)
     }
-  }
+  },
 })
 
 // Deploy the agent
@@ -220,52 +211,52 @@ const newOrderTrigger = defineTrigger({
   name: 'NewOrderWebhook',
   type: 'webhook',
   description: 'Triggers when a new order is created in the e-commerce system',
-  
+
   // Define the endpoint configuration
   endpoint: {
     path: '/webhooks/new-order',
     method: 'POST',
     auth: {
       type: 'api-key',
-      headerName: 'X-API-Key'
-    }
+      headerName: 'X-API-Key',
+    },
   },
-  
+
   // Define the payload schema
   schema: {
     type: 'object',
     properties: {
       orderId: { type: 'string', required: true },
       customerId: { type: 'string', required: true },
-      items: { 
-        type: 'array', 
+      items: {
+        type: 'array',
         items: {
           type: 'object',
           properties: {
             productId: { type: 'string' },
             quantity: { type: 'number' },
-            price: { type: 'number' }
-          }
-        }
+            price: { type: 'number' },
+          },
+        },
       },
       totalAmount: { type: 'number', required: true },
-      shippingAddress: { type: 'object', required: true }
-    }
+      shippingAddress: { type: 'object', required: true },
+    },
   },
-  
+
   // Transform the payload before passing to the workflow
   transform: async (payload) => {
     return {
       order: payload,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     }
   },
-  
+
   // Define the target workflow
   target: {
     workflow: 'processNewOrder',
-    version: 'latest'
-  }
+    version: 'latest',
+  },
 })
 ```
 
@@ -280,13 +271,13 @@ import { defineSearch } from 'searches.do'
 const knowledgeBaseSearch = defineSearch({
   name: 'KnowledgeBaseSearch',
   description: 'Searches the company knowledge base for relevant articles',
-  
+
   // Define the search parameters
   parameters: {
     query: {
       type: 'string',
       required: true,
-      description: 'The search query'
+      description: 'The search query',
     },
     filters: {
       type: 'object',
@@ -297,43 +288,43 @@ const knowledgeBaseSearch = defineSearch({
           type: 'object',
           properties: {
             start: { type: 'string', format: 'date' },
-            end: { type: 'string', format: 'date' }
-          }
-        }
+            end: { type: 'string', format: 'date' },
+          },
+        },
       },
       required: false,
-      description: 'Optional filters to narrow search results'
+      description: 'Optional filters to narrow search results',
     },
     limit: {
       type: 'number',
       default: 10,
-      description: 'Maximum number of results to return'
-    }
+      description: 'Maximum number of results to return',
+    },
   },
-  
+
   // Define the search implementation
   implementation: async ({ query, filters, limit }) => {
     // Perform vector search on the knowledge base
     const results = await db.knowledgeBase.search({
       query,
       filters,
-      limit
+      limit,
     })
-    
+
     // Format and return the results
     return {
-      items: results.map(item => ({
+      items: results.map((item) => ({
         id: item.id,
         title: item.title,
         excerpt: item.excerpt,
         url: item.url,
         category: item.category,
         tags: item.tags,
-        relevanceScore: item.score
+        relevanceScore: item.score,
       })),
-      totalCount: results.totalCount
+      totalCount: results.totalCount,
     }
-  }
+  },
 })
 ```
 
@@ -348,36 +339,36 @@ import { defineAction } from 'actions.do'
 const sendEmailAction = defineAction({
   name: 'SendEmail',
   description: 'Sends an email to a specified recipient',
-  
+
   // Define the input parameters
   input: {
     to: {
       type: 'string',
       format: 'email',
       required: true,
-      description: 'Recipient email address'
+      description: 'Recipient email address',
     },
     subject: {
       type: 'string',
       required: true,
-      description: 'Email subject line'
+      description: 'Email subject line',
     },
     body: {
       type: 'string',
       required: true,
-      description: 'Email body content (supports HTML)'
+      description: 'Email body content (supports HTML)',
     },
     cc: {
       type: 'array',
       items: { type: 'string', format: 'email' },
       required: false,
-      description: 'CC recipients'
+      description: 'CC recipients',
     },
     bcc: {
       type: 'array',
       items: { type: 'string', format: 'email' },
       required: false,
-      description: 'BCC recipients'
+      description: 'BCC recipients',
     },
     attachments: {
       type: 'array',
@@ -386,32 +377,32 @@ const sendEmailAction = defineAction({
         properties: {
           filename: { type: 'string' },
           content: { type: 'string', format: 'base64' },
-          contentType: { type: 'string' }
-        }
+          contentType: { type: 'string' },
+        },
       },
       required: false,
-      description: 'File attachments'
-    }
+      description: 'File attachments',
+    },
   },
-  
+
   // Define the output schema
   output: {
     messageId: {
       type: 'string',
-      description: 'Unique identifier for the sent email'
+      description: 'Unique identifier for the sent email',
     },
     status: {
       type: 'string',
       enum: ['sent', 'queued', 'failed'],
-      description: 'Status of the email delivery'
+      description: 'Status of the email delivery',
     },
     timestamp: {
       type: 'string',
       format: 'date-time',
-      description: 'When the email was sent'
-    }
+      description: 'When the email was sent',
+    },
   },
-  
+
   // Define the action implementation
   implementation: async (input, context) => {
     // Send the email using the configured email provider
@@ -421,16 +412,16 @@ const sendEmailAction = defineAction({
       body: input.body,
       cc: input.cc,
       bcc: input.bcc,
-      attachments: input.attachments
+      attachments: input.attachments,
     })
-    
+
     // Return the result
     return {
       messageId: result.messageId,
       status: result.status,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     }
-  }
+  },
 })
 ```
 
@@ -445,44 +436,44 @@ import { defineNoun } from 'nouns.do'
 const Customer = defineNoun({
   name: 'Customer',
   description: 'A person or organization that purchases products or services',
-  
+
   // Define the properties of a Customer
   properties: {
     name: {
       type: 'string',
       required: true,
-      description: 'Full name of the customer'
+      description: 'Full name of the customer',
     },
     email: {
       type: 'string',
       format: 'email',
       required: true,
       unique: true,
-      description: 'Primary email address'
+      description: 'Primary email address',
     },
     type: {
       type: 'string',
       enum: ['individual', 'business'],
       default: 'individual',
-      description: 'Type of customer'
+      description: 'Type of customer',
     },
     status: {
       type: 'string',
       enum: ['active', 'inactive', 'pending'],
       default: 'pending',
-      description: 'Current status of the customer'
-    }
+      description: 'Current status of the customer',
+    },
   },
-  
+
   // Define relationships to other entities
   relationships: {
     orders: {
       type: 'hasMany',
       target: 'Order',
       foreignKey: 'customerId',
-      description: 'Orders placed by this customer'
-    }
-  }
+      description: 'Orders placed by this customer',
+    },
+  },
 })
 ```
 
@@ -497,38 +488,38 @@ import { defineVerb } from 'verbs.do'
 const Purchase = defineVerb({
   name: 'Purchase',
   description: 'Represents the action of buying a product or service',
-  
+
   // Define the subject and object of this verb
   subject: {
     type: 'Customer',
-    description: 'The customer making the purchase'
+    description: 'The customer making the purchase',
   },
   object: {
     type: 'Product',
-    description: 'The product being purchased'
+    description: 'The product being purchased',
   },
-  
+
   // Define additional parameters for this verb
   parameters: {
     quantity: {
       type: 'number',
       required: true,
       minimum: 1,
-      description: 'Number of items to purchase'
+      description: 'Number of items to purchase',
     },
     paymentMethod: {
       type: 'string',
       enum: ['credit_card', 'paypal', 'bank_transfer'],
       required: true,
-      description: 'Method of payment'
-    }
+      description: 'Method of payment',
+    },
   },
-  
+
   // Define the result of this verb
   result: {
     type: 'Order',
-    description: 'The order created from this purchase'
-  }
+    description: 'The order created from this purchase',
+  },
 })
 ```
 
@@ -543,34 +534,33 @@ import { defineThing } from 'things.do'
 const Product = defineThing({
   name: 'Product',
   description: 'A physical or digital item that can be purchased',
-  
+
   // Define the properties of a Product
   properties: {
     name: {
       type: 'string',
       required: true,
-      description: 'Name of the product'
+      description: 'Name of the product',
     },
     description: {
       type: 'string',
       required: true,
-      description: 'Detailed description of the product'
+      description: 'Detailed description of the product',
     },
     price: {
       type: 'number',
       required: true,
       minimum: 0,
-      description: 'Current price of the product'
+      description: 'Current price of the product',
     },
     isDigital: {
       type: 'boolean',
       default: false,
-      description: 'Whether this is a digital product'
-    }
-  }
+      description: 'Whether this is a digital product',
+    },
+  },
 })
 ```
-
 
 ## [Database.do](https://database.do) AI-enriched Data
 
@@ -584,18 +574,18 @@ const db = DB({
     status: 'Draft | Published | Archived', // Select field with predefined options
     contentType: 'Text | Markdown | Code | Object | Schema', // Another select field example
     tags: 'tags[]',
-    author: 'authors'
+    author: 'authors',
   },
   tags: {
     name: 'text',
-    posts: '<-posts.tags'  // Join field to posts (reverse relation)
+    posts: '<-posts.tags', // Join field to posts (reverse relation)
   },
   authors: {
     name: 'text',
     email: 'email',
     role: 'Admin | Editor | Writer', // Select field with predefined options
-    posts: '<-posts.author'  // Join field to posts (reverse relation)
-  }
+    posts: '<-posts.author', // Join field to posts (reverse relation)
+  },
 })
 ```
 
@@ -610,38 +600,38 @@ import { trackEvent, defineEventType } from 'events.do'
 const UserSignupEvent = defineEventType({
   name: 'UserSignup',
   description: 'Triggered when a new user signs up',
-  
+
   // Define the event schema
   schema: {
     userId: {
       type: 'string',
       required: true,
-      description: 'Unique identifier for the user'
+      description: 'Unique identifier for the user',
     },
     email: {
       type: 'string',
       format: 'email',
       required: true,
-      description: 'User email address'
+      description: 'User email address',
     },
     source: {
       type: 'string',
       enum: ['website', 'mobile_app', 'partner_referral', 'other'],
       required: true,
-      description: 'Source of the signup'
+      description: 'Source of the signup',
     },
     plan: {
       type: 'string',
       enum: ['free', 'basic', 'premium', 'enterprise'],
       required: true,
-      description: 'Selected subscription plan'
+      description: 'Selected subscription plan',
     },
     metadata: {
       type: 'object',
       required: false,
-      description: 'Additional information about the signup'
-    }
-  }
+      description: 'Additional information about the signup',
+    },
+  },
 })
 
 // Track a user signup event
@@ -656,9 +646,9 @@ await trackEvent({
       referrer: 'google',
       campaign: 'spring_promo',
       device: 'mobile',
-      browser: 'chrome'
-    }
-  }
+      browser: 'chrome',
+    },
+  },
 })
 ```
 
@@ -673,64 +663,64 @@ import { defineExperiment, runExperiment } from 'experiments.do'
 const recommendationExperiment = defineExperiment({
   name: 'ProductRecommendationAlgorithms',
   description: 'Compare different algorithms for product recommendations',
-  
+
   // Define the variants to test
   variants: [
     {
       name: 'collaborative-filtering',
       description: 'Collaborative filtering based on user behavior',
-      weight: 0.33 // 33% of traffic
+      weight: 0.33, // 33% of traffic
     },
     {
       name: 'content-based',
       description: 'Content-based filtering using product attributes',
-      weight: 0.33 // 33% of traffic
+      weight: 0.33, // 33% of traffic
     },
     {
       name: 'hybrid-approach',
       description: 'Hybrid approach combining collaborative and content-based',
-      weight: 0.34 // 34% of traffic
-    }
+      weight: 0.34, // 34% of traffic
+    },
   ],
-  
+
   // Define the metrics to track
   metrics: [
     {
       name: 'click_through_rate',
       description: 'Percentage of users who click on recommendations',
-      goal: 'maximize'
+      goal: 'maximize',
     },
     {
       name: 'conversion_rate',
       description: 'Percentage of users who purchase recommended products',
       goal: 'maximize',
-      primary: true // This is the primary metric for determining success
+      primary: true, // This is the primary metric for determining success
     },
     {
       name: 'average_order_value',
       description: 'Average value of orders with recommended products',
-      goal: 'maximize'
+      goal: 'maximize',
     },
     {
       name: 'recommendation_latency',
       description: 'Time to generate recommendations in milliseconds',
-      goal: 'minimize'
-    }
+      goal: 'minimize',
+    },
   ],
-  
+
   // Define the audience for the experiment
   audience: {
     filters: [
       { field: 'user.visits', operator: 'greaterThan', value: 3 },
-      { field: 'user.lastVisit', operator: 'withinLast', value: '30d' }
-    ]
+      { field: 'user.lastVisit', operator: 'withinLast', value: '30d' },
+    ],
   },
-  
+
   // Define the duration of the experiment
   duration: {
     startDate: '2023-06-01T00:00:00Z',
-    endDate: '2023-06-30T23:59:59Z'
-  }
+    endDate: '2023-06-30T23:59:59Z',
+  },
 })
 
 // Run the experiment for a specific user
@@ -739,8 +729,8 @@ const { variant, experimentId } = await runExperiment({
   user: {
     id: 'usr_123456789',
     visits: 10,
-    lastVisit: '2023-05-29T14:23:45Z'
-  }
+    lastVisit: '2023-05-29T14:23:45Z',
+  },
 })
 
 // Generate recommendations based on the assigned variant
@@ -765,9 +755,9 @@ await trackExperimentMetric({
   metrics: {
     click_through_rate: 0.15,
     conversion_rate: 0.08,
-    average_order_value: 85.50,
-    recommendation_latency: 120
-  }
+    average_order_value: 85.5,
+    recommendation_latency: 120,
+  },
 })
 ```
 
@@ -782,7 +772,7 @@ import { defineBenchmark, runBenchmark } from 'benchmarks.do'
 const TextSummarizationBenchmark = defineBenchmark({
   name: 'TextSummarizationBenchmark',
   description: 'Evaluates model performance on text summarization tasks',
-  
+
   // Define the models to benchmark
   models: [
     {
@@ -791,8 +781,8 @@ const TextSummarizationBenchmark = defineBenchmark({
       version: '2023-03-15',
       parameters: {
         temperature: 0.0,
-        max_tokens: 150
-      }
+        max_tokens: 150,
+      },
     },
     {
       name: 'claude-3-opus',
@@ -800,8 +790,8 @@ const TextSummarizationBenchmark = defineBenchmark({
       version: '2023-01-01',
       parameters: {
         temperature: 0.0,
-        max_tokens: 150
-      }
+        max_tokens: 150,
+      },
     },
     {
       name: 'gemini-pro',
@@ -809,41 +799,41 @@ const TextSummarizationBenchmark = defineBenchmark({
       version: '2023-12-01',
       parameters: {
         temperature: 0.0,
-        max_output_tokens: 150
-      }
-    }
+        max_output_tokens: 150,
+      },
+    },
   ],
-  
+
   // Define the metrics to evaluate
   metrics: [
     {
       name: 'rouge-1',
       description: 'ROUGE-1 score (unigram overlap)',
       implementation: 'rouge',
-      parameters: { type: '1' }
+      parameters: { type: '1' },
     },
     {
       name: 'rouge-2',
       description: 'ROUGE-2 score (bigram overlap)',
       implementation: 'rouge',
-      parameters: { type: '2' }
+      parameters: { type: '2' },
     },
     {
       name: 'bertscore',
       description: 'BERTScore (semantic similarity)',
-      implementation: 'bertscore'
+      implementation: 'bertscore',
     },
     {
       name: 'latency',
       description: 'Response time in milliseconds',
-      implementation: 'timer'
+      implementation: 'timer',
     },
     {
       name: 'cost',
       description: 'Estimated cost in USD',
-      implementation: 'cost-calculator'
-    }
-  ]
+      implementation: 'cost-calculator',
+    },
+  ],
 })
 
 // Run the benchmark
@@ -861,7 +851,7 @@ import { defineEval, runEval } from 'evals.do'
 const CustomerSupportEval = defineEval({
   name: 'CustomerSupportResponseQuality',
   description: 'Evaluates the quality of AI-generated customer support responses',
-  
+
   // Define the dimensions to evaluate
   dimensions: [
     {
@@ -872,19 +862,19 @@ const CustomerSupportEval = defineEval({
         { score: 1, description: 'Contains significant factual errors' },
         { score: 2, description: 'Contains minor factual errors' },
         { score: 3, description: 'Mostly accurate with some omissions' },
-        { score: 4, description: 'Completely accurate and comprehensive' }
-      ]
+        { score: 4, description: 'Completely accurate and comprehensive' },
+      ],
     },
     {
       name: 'helpfulness',
-      description: 'How well the response addresses the customer\'s issue',
+      description: "How well the response addresses the customer's issue",
       weight: 0.3,
       rubric: [
-        { score: 1, description: 'Does not address the customer\'s issue' },
+        { score: 1, description: "Does not address the customer's issue" },
         { score: 2, description: 'Partially addresses the issue' },
         { score: 3, description: 'Addresses the main issue but lacks detail' },
-        { score: 4, description: 'Fully addresses the issue with clear steps' }
-      ]
+        { score: 4, description: 'Fully addresses the issue with clear steps' },
+      ],
     },
     {
       name: 'tone',
@@ -894,8 +884,8 @@ const CustomerSupportEval = defineEval({
         { score: 1, description: 'Inappropriate or unprofessional tone' },
         { score: 2, description: 'Neutral but impersonal tone' },
         { score: 3, description: 'Professional and somewhat empathetic' },
-        { score: 4, description: 'Professional, empathetic, and engaging' }
-      ]
+        { score: 4, description: 'Professional, empathetic, and engaging' },
+      ],
     },
     {
       name: 'clarity',
@@ -905,20 +895,20 @@ const CustomerSupportEval = defineEval({
         { score: 1, description: 'Confusing and difficult to understand' },
         { score: 2, description: 'Somewhat clear but with jargon or complexity' },
         { score: 3, description: 'Clear but could be more concise' },
-        { score: 4, description: 'Crystal clear and easy to understand' }
-      ]
-    }
+        { score: 4, description: 'Crystal clear and easy to understand' },
+      ],
+    },
   ],
-  
+
   // Define the evaluation method
   evaluationMethod: 'human', // Options: 'human', 'ai', 'hybrid'
-  
+
   // Define the dataset to evaluate
   dataset: {
     name: 'customer_support_samples',
     size: 100,
-    source: 'production_logs'
-  }
+    source: 'production_logs',
+  },
 })
 
 // Run the evaluation on a specific response
@@ -926,8 +916,9 @@ const evalResult = await runEval({
   evalName: 'CustomerSupportResponseQuality',
   input: {
     customerQuery: 'How do I reset my password?',
-    generatedResponse: 'To reset your password, please follow these steps:\n1. Go to the login page\n2. Click on "Forgot Password"\n3. Enter your email address\n4. Check your email for a reset link\n5. Click the link and enter a new password\n\nIf you don\'t receive the email within a few minutes, please check your spam folder or contact our support team for further assistance.'
-  }
+    generatedResponse:
+      'To reset your password, please follow these steps:\n1. Go to the login page\n2. Click on "Forgot Password"\n3. Enter your email address\n4. Check your email for a reset link\n5. Click the link and enter a new password\n\nIf you don\'t receive the email within a few minutes, please check your spam folder or contact our support team for further assistance.',
+  },
 })
 
 console.log('Evaluation Result:', evalResult)
@@ -965,46 +956,46 @@ export default AI({
       input: event,
       metadata: {
         customerId: event.customerId,
-        category: event.category
-      }
+        category: event.category,
+      },
     })
-    
+
     try {
       // Add an event to the trace
       addTraceEvent({
         traceId: trace.id,
         name: 'ClassifyQuery',
         category: 'processing',
-        metadata: { query: event.query }
+        metadata: { query: event.query },
       })
-      
+
       // Classify the customer query
       const classification = await ai.classifyQuery({
         query: event.query,
-        categories: ['product-question', 'technical-issue', 'billing-inquiry', 'other']
+        categories: ['product-question', 'technical-issue', 'billing-inquiry', 'other'],
       })
-      
+
       // Add the classification result to the trace
       addTraceEvent({
         traceId: trace.id,
         name: 'QueryClassified',
         category: 'result',
-        metadata: { classification }
+        metadata: { classification },
       })
-      
+
       // Generate a response based on the classification
       const response = await ai.generateSupportResponse({
         query: event.query,
-        classification
+        classification,
       })
-      
+
       // End the trace successfully
       endTrace({
         traceId: trace.id,
         status: 'success',
-        output: response
+        output: response,
       })
-      
+
       return response
     } catch (error) {
       // End the trace with an error
@@ -1013,13 +1004,13 @@ export default AI({
         status: 'error',
         error: {
           message: error.message,
-          stack: error.stack
-        }
+          stack: error.stack,
+        },
       })
-      
+
       throw error
     }
-  }
+  },
 })
 ```
 
@@ -1027,7 +1018,7 @@ export default AI({
 
 LLM.do provides a powerful gateway for routing AI requests to the optimal language models based on capabilities, cost, and performance requirements. It enables you to leverage the best AI models for each specific task without being locked into a single provider.
 
-```typescript
+````typescript
 import { LLM } from 'llm.do'
 
 // Create an LLM instance with default configuration
@@ -1036,7 +1027,7 @@ const llm = LLM()
 // Generate text with automatic model selection
 const response = await llm.generate({
   prompt: 'Explain quantum computing in simple terms',
-  maxTokens: 200
+  maxTokens: 200,
 })
 
 console.log(response)
@@ -1046,12 +1037,12 @@ console.log(response)
 const codeResponse = await llm.generate({
   prompt: 'Write a function that calculates the Fibonacci sequence',
   capabilities: ['code', 'reasoning'],
-  maxTokens: 300
+  maxTokens: 300,
 })
 
 console.log(codeResponse)
 // "```javascript\nfunction fibonacci(n) {\n  if (n <= 1) return n;\n  ..."
-```
+````
 
 ## [Analytics.do](https://analytics.do) Measure Business Impact
 
@@ -1067,37 +1058,37 @@ await trackMetric({
   metadata: {
     userId: 'usr_123456789',
     productId: 'prod_987654321',
-    revenue: 99.99
-  }
+    revenue: 99.99,
+  },
 })
 
 // Create a sales performance dashboard
 const salesDashboard = await createDashboard({
   name: 'Sales Performance Dashboard',
   description: 'Overview of AI-driven sales performance metrics',
-  
+
   // Define the widgets
   widgets: [
     {
       type: 'kpi',
       name: 'Total Recommendations',
       metric: 'recommendations_generated',
-      aggregation: 'count'
+      aggregation: 'count',
     },
     {
       type: 'kpi',
       name: 'Recommendation Clicks',
       metric: 'recommendation_click',
-      aggregation: 'count'
+      aggregation: 'count',
     },
     {
       type: 'timeSeries',
       name: 'Daily Conversions',
       metrics: ['recommendation_click', 'recommendation_purchase'],
       aggregation: 'count',
-      groupBy: 'day'
-    }
-  ]
+      groupBy: 'day',
+    },
+  ],
 })
 ```
 
@@ -1111,18 +1102,8 @@ import { AGI } from 'agi.do'
 // Create an AGI instance for a specific business domain
 const businessAGI = AGI({
   domain: 'business-operations',
-  capabilities: [
-    'market-analysis',
-    'financial-forecasting',
-    'process-optimization',
-    'decision-support'
-  ],
-  integrations: [
-    'salesforce',
-    'hubspot',
-    'quickbooks',
-    'slack'
-  ]
+  capabilities: ['market-analysis', 'financial-forecasting', 'process-optimization', 'decision-support'],
+  integrations: ['salesforce', 'hubspot', 'quickbooks', 'slack'],
 })
 
 // Use the AGI to analyze market trends
@@ -1131,7 +1112,7 @@ const marketAnalysis = await businessAGI.analyzeMarket({
   segment: 'enterprise',
   timeframe: 'next-quarter',
   competitors: ['competitor-a', 'competitor-b', 'competitor-c'],
-  metrics: ['growth-rate', 'market-share', 'customer-acquisition-cost']
+  metrics: ['growth-rate', 'market-share', 'customer-acquisition-cost'],
 })
 
 // Use the AGI to optimize business processes
@@ -1143,16 +1124,15 @@ const processOptimization = await businessAGI.optimizeProcess({
     { name: 'proposal-creation', duration: '3d' },
     { name: 'contract-negotiation', duration: '7d' },
     { name: 'account-setup', duration: '2d' },
-    { name: 'training', duration: '5d' }
+    { name: 'training', duration: '5d' },
   ],
   constraints: [
     { type: 'resource', value: 'sales-team-capacity' },
-    { type: 'quality', value: 'customer-satisfaction' }
+    { type: 'quality', value: 'customer-satisfaction' },
   ],
-  optimizationGoal: 'reduce-time-to-value'
+  optimizationGoal: 'reduce-time-to-value',
 })
 ```
-
 
 ## Versioning Strategy
 

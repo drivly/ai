@@ -36,13 +36,13 @@ export function middleware(request: NextRequest) {
   // TODO: we need to ensure that all of the apis are at the root by default
   // I think this is preferred as it is what we want for localhost and API gateways like apis.do
   console.log({ apiName, apis, name: apis[apiName] })
-  
+
   // Special handler for /api path to route to the domain (minus .do) API path
   if (pathname === '/api' && apis[apiName]) {
     console.log('Rewriting /api to API root', { apiName, hostname, pathname, search })
     return NextResponse.rewrite(new URL(`/${apiName}${search}`, request.url))
   }
-  
+
   if (apis[apiName]) {
     console.log('Rewriting to API', { apiName, hostname, pathname, search })
     return NextResponse.rewrite(new URL(`/${apiName}${pathname}${search}`, request.url))

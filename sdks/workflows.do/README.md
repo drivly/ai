@@ -41,24 +41,31 @@ export default AI({
 
     // Enrich contact details with lookup from external data sources
     const enrichedContact = await api.apollo.search({ name, email, company })
-    
+
     // Using the enriched contact details, do deep research on the company
     const companyProfile = await ai.researchCompany({ company })
-    
+
     // Schedule a personalized email sequence
-    const emailSequence = await ai.personalizeEmailSequence({ 
-      name, email, company, companyProfile 
+    const emailSequence = await ai.personalizeEmailSequence({
+      name,
+      email,
+      company,
+      companyProfile,
     })
     await api.scheduleEmails({ emailSequence })
-    
+
     // Save to database and notify team
-    const summary = await ai.summarizeContent({ 
-      length: '3 sentences', name, email, company, companyProfile 
+    const summary = await ai.summarizeContent({
+      length: '3 sentences',
+      name,
+      email,
+      company,
+      companyProfile,
     })
     await db.users.create({ name, email, company, summary, companyProfile })
-    await api.slack.postMessage({ 
-      channel: '#signups', 
-      content: { name, email, company, summary } 
+    await api.slack.postMessage({
+      channel: '#signups',
+      content: { name, email, company, summary },
     })
   },
 })
@@ -76,40 +83,40 @@ import { defineWorkflow } from 'workflows.do'
 const onboardingWorkflow = defineWorkflow({
   name: 'Customer Onboarding',
   description: 'Process for onboarding new customers',
-  
+
   // Define the workflow steps
   steps: {
     collectInformation: {
       action: 'collectCustomerInfo',
-      next: 'validateInformation'
+      next: 'validateInformation',
     },
     validateInformation: {
       action: 'validateCustomerInfo',
       next: {
         valid: 'setupAccount',
-        invalid: 'requestCorrections'
-      }
+        invalid: 'requestCorrections',
+      },
     },
     requestCorrections: {
       action: 'sendCorrectionRequest',
-      next: 'collectInformation'
+      next: 'collectInformation',
     },
     setupAccount: {
       action: 'createCustomerAccount',
-      next: 'sendWelcomeEmail'
+      next: 'sendWelcomeEmail',
     },
     sendWelcomeEmail: {
       action: 'sendWelcomeEmail',
-      next: 'complete'
+      next: 'complete',
     },
     complete: {
       type: 'terminal',
-      result: 'Customer successfully onboarded'
-    }
+      result: 'Customer successfully onboarded',
+    },
   },
-  
+
   // Define the triggers that can start this workflow
-  triggers: ['newCustomerSignup', 'manualOnboarding']
+  triggers: ['newCustomerSignup', 'manualOnboarding'],
 })
 ```
 
@@ -123,37 +130,37 @@ import { AI } from 'workflows.do'
 export const analyzeCustomerFeedback = AI({
   onFeedbackReceived: async ({ ai, api, db, event }) => {
     const { customerId, feedback } = event
-    
+
     // Use AI to analyze sentiment and extract key points
-    const analysis = await ai.analyzeFeedback({ 
+    const analysis = await ai.analyzeFeedback({
       feedback,
       extractTopics: true,
-      determineSentiment: true
+      determineSentiment: true,
     })
-    
+
     // Route feedback based on sentiment
     if (analysis.sentiment === 'negative' && analysis.urgency === 'high') {
-      await api.zendesk.createUrgentTicket({ 
-        customerId, 
-        feedback, 
-        analysis 
+      await api.zendesk.createUrgentTicket({
+        customerId,
+        feedback,
+        analysis,
       })
       await api.slack.notifyTeam({
         channel: '#customer-escalations',
-        message: `Urgent negative feedback from customer ${customerId}`
+        message: `Urgent negative feedback from customer ${customerId}`,
       })
     }
-    
+
     // Store analysis for reporting
     await db.feedbackAnalytics.create({
       customerId,
       feedback,
       analysis,
-      timestamp: new Date()
+      timestamp: new Date(),
     })
-    
+
     return { status: 'processed', analysis }
-  }
+  },
 })
 ```
 
@@ -167,7 +174,7 @@ import { defineIntegration } from 'workflows.do'
 // Define a Salesforce integration
 const salesforceIntegration = defineIntegration({
   name: 'salesforce',
-  
+
   // Define the actions available through this integration
   actions: {
     createLead: async ({ name, email, company, source }) => {
@@ -175,16 +182,16 @@ const salesforceIntegration = defineIntegration({
       // ...
       return { leadId, status: 'created' }
     },
-    
+
     updateOpportunity: async ({ opportunityId, status, amount }) => {
       // Implementation details for updating an opportunity
       // ...
       return { success: true, opportunityId }
-    }
+    },
   },
-  
+
   // Define the events this integration can emit
-  events: ['leadCreated', 'opportunityUpdated', 'dealClosed']
+  events: ['leadCreated', 'opportunityUpdated', 'dealClosed'],
 })
 ```
 
@@ -199,14 +206,14 @@ import { defineWorkflow } from 'workflows.do'
 
 const paymentProcessingWorkflow = defineWorkflow({
   name: 'Process Payment',
-  
+
   steps: {
     validatePaymentDetails: {
       action: 'validatePayment',
       next: 'processPayment',
-      onError: 'handleValidationError'
+      onError: 'handleValidationError',
     },
-    
+
     processPayment: {
       action: 'chargeCustomer',
       next: 'sendReceipt',
@@ -214,29 +221,29 @@ const paymentProcessingWorkflow = defineWorkflow({
       retry: {
         maxAttempts: 3,
         backoff: 'exponential',
-        initialDelay: 1000 // ms
-      }
+        initialDelay: 1000, // ms
+      },
     },
-    
+
     handleValidationError: {
       action: 'notifyCustomerOfInvalidDetails',
-      next: 'complete'
+      next: 'complete',
     },
-    
+
     handlePaymentError: {
       action: 'processPaymentFailure',
-      next: 'complete'
+      next: 'complete',
     },
-    
+
     sendReceipt: {
       action: 'emailReceipt',
-      next: 'complete'
+      next: 'complete',
     },
-    
+
     complete: {
-      type: 'terminal'
-    }
-  }
+      type: 'terminal',
+    },
+  },
 })
 ```
 
@@ -249,48 +256,48 @@ import { defineWorkflow } from 'workflows.do'
 
 const orderFulfillmentWorkflow = defineWorkflow({
   name: 'Order Fulfillment',
-  
+
   steps: {
     receiveOrder: {
       action: 'validateOrder',
-      next: 'parallel'
+      next: 'parallel',
     },
-    
+
     parallel: {
       type: 'parallel',
       branches: {
         payment: 'processPayment',
         inventory: 'checkInventory',
-        notification: 'notifyTeam'
+        notification: 'notifyTeam',
       },
       next: 'shipOrder',
-      joinCondition: 'all' // Wait for all branches to complete
+      joinCondition: 'all', // Wait for all branches to complete
     },
-    
+
     processPayment: {
       action: 'chargeCustomer',
-      next: 'complete'
+      next: 'complete',
     },
-    
+
     checkInventory: {
       action: 'reserveInventory',
-      next: 'complete'
+      next: 'complete',
     },
-    
+
     notifyTeam: {
       action: 'sendOrderNotification',
-      next: 'complete'
+      next: 'complete',
     },
-    
+
     shipOrder: {
       action: 'createShippingLabel',
-      next: 'complete'
+      next: 'complete',
     },
-    
+
     complete: {
-      type: 'terminal'
-    }
-  }
+      type: 'terminal',
+    },
+  },
 })
 ```
 

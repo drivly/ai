@@ -31,12 +31,12 @@ const productRecommendationTest = defineExperiment({
   variants: [
     { id: 'control', description: 'Current algorithm' },
     { id: 'collaborative', description: 'Collaborative filtering' },
-    { id: 'content_based', description: 'Content-based filtering' }
+    { id: 'content_based', description: 'Content-based filtering' },
   ],
   metrics: {
     primary: 'conversion_rate',
-    secondary: ['revenue_per_user', 'click_through_rate']
-  }
+    secondary: ['revenue_per_user', 'click_through_rate'],
+  },
 })
 
 // Track metrics for business KPIs
@@ -48,8 +48,8 @@ await trackMetric({
     productId,
     revenue,
     experimentId: 'product_recommendation_algorithm',
-    variant: 'collaborative'
-  }
+    variant: 'collaborative',
+  },
 })
 
 // Update KPI dashboard aligned with business OKRs
@@ -58,7 +58,7 @@ await analytics.updateKpiDashboard({
   value: revenue,
   dimensions: {
     experiment: 'product_recommendation_algorithm',
-    variant: 'collaborative'
-  }
+    variant: 'collaborative',
+  },
 })
 ```

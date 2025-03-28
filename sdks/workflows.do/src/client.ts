@@ -14,8 +14,8 @@ export class WorkflowsClient {
       baseUrl: options.baseUrl || 'https://workflows.do',
       headers: {
         'Content-Type': 'application/json',
-        ...(options.apiKey ? { 'Authorization': `Bearer ${options.apiKey}` } : {})
-      }
+        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
+      },
     })
   }
 
@@ -27,7 +27,7 @@ export class WorkflowsClient {
     return this.api.post('/api/workflows', workflow)
   }
 
-  async list(params?: { limit?: number, page?: number }): Promise<any> {
+  async list(params?: { limit?: number; page?: number }): Promise<any> {
     return this.api.list('workflows', params)
   }
 
@@ -43,7 +43,7 @@ export class WorkflowsClient {
     return this.api.remove('workflows', workflowId)
   }
 
-  async getExecutions(workflowId: string, params?: { limit?: number, page?: number }): Promise<any> {
+  async getExecutions(workflowId: string, params?: { limit?: number; page?: number }): Promise<any> {
     return this.api.get(`/api/workflows/${workflowId}/executions`, params)
   }
 

@@ -23,48 +23,48 @@ import { defineThing } from 'things.do'
 const Product = defineThing({
   name: 'Product',
   description: 'A physical or digital item that can be purchased',
-  
+
   // Define the properties of a Product
   properties: {
     name: {
       type: 'string',
       required: true,
-      description: 'Name of the product'
+      description: 'Name of the product',
     },
     description: {
       type: 'string',
       required: true,
-      description: 'Detailed description of the product'
+      description: 'Detailed description of the product',
     },
     sku: {
       type: 'string',
       required: true,
       unique: true,
-      description: 'Stock keeping unit - unique identifier'
+      description: 'Stock keeping unit - unique identifier',
     },
     price: {
       type: 'number',
       required: true,
       minimum: 0,
-      description: 'Current price of the product'
+      description: 'Current price of the product',
     },
     currency: {
       type: 'string',
       default: 'USD',
-      description: 'Currency of the price'
+      description: 'Currency of the price',
     },
     category: {
       type: 'string',
       required: true,
-      description: 'Product category'
+      description: 'Product category',
     },
     tags: {
       type: 'array',
       items: {
-        type: 'string'
+        type: 'string',
       },
       default: [],
-      description: 'Tags for categorization and search'
+      description: 'Tags for categorization and search',
     },
     images: {
       type: 'array',
@@ -73,20 +73,20 @@ const Product = defineThing({
         properties: {
           url: { type: 'string' },
           alt: { type: 'string' },
-          isPrimary: { type: 'boolean', default: false }
-        }
+          isPrimary: { type: 'boolean', default: false },
+        },
       },
       default: [],
-      description: 'Product images'
+      description: 'Product images',
     },
     inventory: {
       type: 'object',
       properties: {
         quantity: { type: 'number', default: 0 },
         isInStock: { type: 'boolean', default: false },
-        lowStockThreshold: { type: 'number', default: 10 }
+        lowStockThreshold: { type: 'number', default: 10 },
       },
-      description: 'Inventory information'
+      description: 'Inventory information',
     },
     dimensions: {
       type: 'object',
@@ -95,50 +95,50 @@ const Product = defineThing({
         width: { type: 'number' },
         height: { type: 'number' },
         weight: { type: 'number' },
-        unit: { type: 'string', default: 'cm' }
+        unit: { type: 'string', default: 'cm' },
       },
       required: false,
-      description: 'Physical dimensions (for physical products)'
+      description: 'Physical dimensions (for physical products)',
     },
     isDigital: {
       type: 'boolean',
       default: false,
-      description: 'Whether this is a digital product'
+      description: 'Whether this is a digital product',
     },
     createdAt: {
       type: 'string',
       format: 'date-time',
       default: () => new Date().toISOString(),
-      description: 'When the product was created'
+      description: 'When the product was created',
     },
     updatedAt: {
       type: 'string',
       format: 'date-time',
       default: () => new Date().toISOString(),
-      description: 'When the product was last updated'
-    }
+      description: 'When the product was last updated',
+    },
   },
-  
+
   // Define relationships to other things
   relationships: {
     manufacturer: {
       type: 'belongsTo',
       target: 'Manufacturer',
-      description: 'Company that manufactures this product'
+      description: 'Company that manufactures this product',
     },
     reviews: {
       type: 'hasMany',
       target: 'Review',
       foreignKey: 'productId',
-      description: 'Customer reviews for this product'
+      description: 'Customer reviews for this product',
     },
     relatedProducts: {
       type: 'hasMany',
       target: 'Product',
-      description: 'Products that are related to this one'
-    }
+      description: 'Products that are related to this one',
+    },
   },
-  
+
   // Define methods that can be performed on this thing
   methods: {
     updateInventory: {
@@ -146,15 +146,15 @@ const Product = defineThing({
       parameters: {
         quantity: {
           type: 'number',
-          description: 'New inventory quantity'
-        }
+          description: 'New inventory quantity',
+        },
       },
       handler: async (product, { quantity }) => {
         product.inventory.quantity = quantity
         product.inventory.isInStock = quantity > 0
         product.updatedAt = new Date().toISOString()
         return product
-      }
+      },
     },
     applyDiscount: {
       description: 'Apply a percentage discount to the product price',
@@ -163,17 +163,17 @@ const Product = defineThing({
           type: 'number',
           minimum: 0,
           maximum: 100,
-          description: 'Discount percentage'
-        }
+          description: 'Discount percentage',
+        },
       },
       handler: async (product, { percentage }) => {
-        const discountFactor = 1 - (percentage / 100)
-        product.price = Math.round((product.price * discountFactor) * 100) / 100
+        const discountFactor = 1 - percentage / 100
+        product.price = Math.round(product.price * discountFactor * 100) / 100
         product.updatedAt = new Date().toISOString()
         return product
-      }
-    }
-  }
+      },
+    },
+  },
 })
 
 // Use the Product thing in a workflow
@@ -182,24 +182,24 @@ import { AI } from 'workflows.do'
 export default AI({
   onInventoryUpdate: async ({ db, event }) => {
     const { productSku, newQuantity } = event
-    
+
     // Find the product by SKU
     const product = await db.Product.findOne({ sku: productSku })
-    
+
     // Update the inventory
     const updatedProduct = await product.updateInventory({ quantity: newQuantity })
-    
+
     // Check if we need to reorder
     const needsReorder = newQuantity <= updatedProduct.inventory.lowStockThreshold
-    
+
     return {
       productId: updatedProduct.id,
       sku: updatedProduct.sku,
       newQuantity,
       isInStock: updatedProduct.inventory.isInStock,
-      needsReorder
+      needsReorder,
     }
-  }
+  },
 })
 ```
 
@@ -224,9 +224,9 @@ const Device = defineThing({
       properties: {
         latitude: { type: 'number' },
         longitude: { type: 'number' },
-        address: { type: 'string' }
-      }
-    }
+        address: { type: 'string' },
+      },
+    },
   },
   // Additional configuration...
 })
@@ -247,9 +247,9 @@ const DigitalAsset = defineThing({
       type: 'object',
       properties: {
         isPublic: { type: 'boolean', default: false },
-        allowedUsers: { type: 'array', items: { type: 'string' } }
-      }
-    }
+        allowedUsers: { type: 'array', items: { type: 'string' } },
+      },
+    },
   },
   // Additional configuration...
 })
@@ -267,7 +267,7 @@ const Idea = defineThing({
     status: { type: 'string', enum: ['draft', 'proposed', 'approved', 'implemented'] },
     creator: { type: 'string', required: true },
     createdAt: { type: 'string', format: 'date-time' },
-    tags: { type: 'array', items: { type: 'string' } }
+    tags: { type: 'array', items: { type: 'string' } },
   },
   // Additional configuration...
 })

@@ -29,19 +29,19 @@ import { defineAction } from 'actions.do'
 const sendEmail = defineAction({
   name: 'sendEmail',
   description: 'Sends an email to a recipient',
-  
+
   // Define the input parameters
   input: {
     to: { type: 'string', format: 'email', required: true },
     subject: { type: 'string', required: true },
     body: { type: 'string', required: true },
-    attachments: { type: 'array', items: 'Attachment', optional: true }
+    attachments: { type: 'array', items: 'Attachment', optional: true },
   },
-  
+
   // Define the output schema
   output: {
     messageId: { type: 'string' },
-    status: { type: 'string', enum: ['sent', 'queued', 'failed'] }
-  }
+    status: { type: 'string', enum: ['sent', 'queued', 'failed'] },
+  },
 })
 ```

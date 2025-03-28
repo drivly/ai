@@ -88,15 +88,15 @@ const categoryMap: CategoryMap = {
     title: 'Documentation & Website',
     issues: [],
   },
-  'docs': {
+  docs: {
     title: 'Docs',
     issues: [],
   },
-  'website': {
+  website: {
     title: 'Website',
     issues: [],
   },
-  'infrastructure': {
+  infrastructure: {
     title: 'Infrastructure',
     issues: [],
   },
@@ -108,11 +108,11 @@ const categoryMap: CategoryMap = {
     title: 'Analytics & Monitoring',
     issues: [],
   },
-  'miscellaneous': {
+  miscellaneous: {
     title: 'Miscellaneous',
     issues: [],
   },
-  'milestones': {
+  milestones: {
     title: 'Milestones',
     issues: [],
   },
@@ -130,25 +130,25 @@ const labelToCategoryMap: { [key: string]: string } = {
   'evals.do': 'evals-do',
   'integrations.do': 'integrations-do',
   'apis.do': 'apis-do',
-  'sdk': 'sdk-development',
-  'docs': 'docs',
-  'website': 'website',
-  'infrastructure': 'infrastructure',
+  sdk: 'sdk-development',
+  docs: 'docs',
+  website: 'website',
+  infrastructure: 'infrastructure',
   'domain-routing': 'domain-routing',
-  'analytics': 'analytics-monitoring',
-  'monitoring': 'analytics-monitoring',
-  'epic': 'miscellaneous', // Epics will be distributed based on other labels
+  analytics: 'analytics-monitoring',
+  monitoring: 'analytics-monitoring',
+  epic: 'miscellaneous', // Epics will be distributed based on other labels
 }
 
 function fetchGitHubIssues(): GitHubIssue[] {
   try {
     const openIssuesJson = execSync('gh issue list -R drivly/ai --state open --json number,title,state,labels,url,createdAt --limit 1000').toString()
     const openIssues = JSON.parse(openIssuesJson)
-    
+
     const closedIssuesJson = execSync('gh issue list -R drivly/ai --state closed --json number,title,state,labels,url,createdAt --limit 1000').toString()
     const closedIssues = JSON.parse(closedIssuesJson)
-    
-    return [...openIssues, ...closedIssues].map(issue => ({
+
+    return [...openIssues, ...closedIssues].map((issue) => ({
       number: issue.number,
       title: issue.title,
       state: issue.state,
@@ -163,13 +163,13 @@ function fetchGitHubIssues(): GitHubIssue[] {
 }
 
 function categorizeIssues(issues: GitHubIssue[]): void {
-  Object.keys(categoryMap).forEach(key => {
+  Object.keys(categoryMap).forEach((key) => {
     categoryMap[key].issues = []
   })
 
-  issues.forEach(issue => {
+  issues.forEach((issue) => {
     let categorized = false
-    
+
     for (const label of issue.labels) {
       const category = labelToCategoryMap[label.toLowerCase()]
       if (category) {
@@ -178,10 +178,10 @@ function categorizeIssues(issues: GitHubIssue[]): void {
         break
       }
     }
-    
+
     if (!categorized) {
       const title = issue.title.toLowerCase()
-      
+
       if (title.includes('function') || title.includes('functions.do')) {
         categoryMap['functions-do'].issues.push(issue)
       } else if (title.includes('workflow') || title.includes('workflows.do')) {
@@ -222,25 +222,25 @@ function categorizeIssues(issues: GitHubIssue[]): void {
     'foundation-components': ['llm-do', 'database-do', 'evals-do', 'integrations-do'],
     'api-experience': ['apis-do'],
     'documentation-website': ['docs', 'website'],
-    'infrastructure': ['domain-routing', 'analytics-monitoring'],
+    infrastructure: ['domain-routing', 'analytics-monitoring'],
   }
 
   Object.entries(parentChildMap).forEach(([parent, children]) => {
     const uniqueIssues = new Set<number>()
-    children.forEach(child => {
-      categoryMap[child].issues.forEach(issue => {
+    children.forEach((child) => {
+      categoryMap[child].issues.forEach((issue) => {
         uniqueIssues.add(issue.number)
       })
     })
-    
-    const allIssues = issues.filter(issue => uniqueIssues.has(issue.number))
+
+    const allIssues = issues.filter((issue) => uniqueIssues.has(issue.number))
     categoryMap[parent].issues = allIssues
   })
 }
 
 function generateMarkdown(): string {
   let markdown = '# AI Primitives Platform Backlog\n\n'
-  markdown += 'This document organizes all open issues in the drivly/ai repository into a hierarchical structure, aligning with the platform\'s architecture and roadmap.\n\n'
+  markdown += "This document organizes all open issues in the drivly/ai repository into a hierarchical structure, aligning with the platform's architecture and roadmap.\n\n"
 
   const topLevelCategories = [
     'core-primitives',
@@ -254,46 +254,46 @@ function generateMarkdown(): string {
     'milestones',
   ]
 
-  topLevelCategories.forEach(categoryKey => {
+  topLevelCategories.forEach((categoryKey) => {
     const category = categoryMap[categoryKey]
-    
+
     if (category.issues.length === 0 && !hasChildIssues(categoryKey)) {
       return
     }
-    
+
     markdown += `## ${category.title}\n\n`
-    
+
     if (category.description) {
       markdown += `${category.description}\n\n`
     }
-    
+
     const childCategories = getChildCategories(categoryKey)
     if (childCategories.length > 0) {
-      childCategories.forEach(childKey => {
+      childCategories.forEach((childKey) => {
         const childCategory = categoryMap[childKey]
-        
+
         if (childCategory.issues.length === 0) {
           return
         }
-        
+
         markdown += `### ${childCategory.title}\n`
-        
+
         if (childCategory.issues.length === 0) {
           markdown += '- *No specific issues assigned*\n\n'
         } else {
           const sortedIssues = [...childCategory.issues].sort((a, b) => b.number - a.number)
-          
-          const epicIssues = sortedIssues.filter(issue => issue.labels.includes('epic'))
-          const regularIssues = sortedIssues.filter(issue => !issue.labels.includes('epic'))
-          
-          epicIssues.forEach(issue => {
+
+          const epicIssues = sortedIssues.filter((issue) => issue.labels.includes('epic'))
+          const regularIssues = sortedIssues.filter((issue) => !issue.labels.includes('epic'))
+
+          epicIssues.forEach((issue) => {
             markdown += `- [#${issue.number}](${issue.url}) - ${issue.title} (Epic)\n`
           })
-          
-          regularIssues.forEach(issue => {
+
+          regularIssues.forEach((issue) => {
             markdown += `- [#${issue.number}](${issue.url}) - ${issue.title}\n`
           })
-          
+
           markdown += '\n'
         }
       })
@@ -302,18 +302,18 @@ function generateMarkdown(): string {
         markdown += '- *No specific issues assigned*\n\n'
       } else {
         const sortedIssues = [...category.issues].sort((a, b) => b.number - a.number)
-        
-        const epicIssues = sortedIssues.filter(issue => issue.labels.includes('epic'))
-        const regularIssues = sortedIssues.filter(issue => !issue.labels.includes('epic'))
-        
-        epicIssues.forEach(issue => {
+
+        const epicIssues = sortedIssues.filter((issue) => issue.labels.includes('epic'))
+        const regularIssues = sortedIssues.filter((issue) => !issue.labels.includes('epic'))
+
+        epicIssues.forEach((issue) => {
           markdown += `- [#${issue.number}](${issue.url}) - ${issue.title} (Epic)\n`
         })
-        
-        regularIssues.forEach(issue => {
+
+        regularIssues.forEach((issue) => {
           markdown += `- [#${issue.number}](${issue.url}) - ${issue.title}\n`
         })
-        
+
         markdown += '\n'
       }
     }
@@ -324,7 +324,7 @@ function generateMarkdown(): string {
 
 function hasChildIssues(categoryKey: string): boolean {
   const childCategories = getChildCategories(categoryKey)
-  return childCategories.some(childKey => categoryMap[childKey].issues.length > 0)
+  return childCategories.some((childKey) => categoryMap[childKey].issues.length > 0)
 }
 
 function getChildCategories(parentKey: string): string[] {
@@ -350,16 +350,16 @@ function main() {
   console.log('Fetching GitHub issues...')
   const issues = fetchGitHubIssues()
   console.log(`Fetched ${issues.length} issues`)
-  
+
   console.log('Categorizing issues...')
   categorizeIssues(issues)
-  
+
   console.log('Generating markdown...')
   const markdown = generateMarkdown()
-  
+
   console.log('Writing to BACKLOG.md...')
   fs.writeFileSync(path.join(process.cwd(), 'BACKLOG.md'), markdown)
-  
+
   console.log('BACKLOG.md has been updated successfully!')
 }
 

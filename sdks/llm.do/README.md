@@ -38,13 +38,13 @@ import { LLM } from 'llm.do'
 // Initialize with default settings
 const llm = LLM({
   providers: ['openai', 'anthropic', 'mistral'],
-  defaultProvider: 'openai'
+  defaultProvider: 'openai',
 })
 
 // Simple completion with automatic model selection
 const completion = await llm.complete({
   prompt: 'Explain quantum computing in simple terms',
-  maxTokens: 200
+  maxTokens: 200,
 })
 console.log(completion)
 
@@ -52,9 +52,9 @@ console.log(completion)
 const chatResponse = await llm.chat({
   messages: [
     { role: 'system', content: 'You are a helpful assistant specialized in physics.' },
-    { role: 'user', content: 'How does quantum entanglement work?' }
+    { role: 'user', content: 'How does quantum entanglement work?' },
   ],
-  model: 'claude-3-opus'
+  model: 'claude-3-opus',
 })
 console.log(chatResponse)
 
@@ -62,9 +62,9 @@ console.log(chatResponse)
 const stream = await llm.streamChat({
   messages: [
     { role: 'system', content: 'You are a storyteller.' },
-    { role: 'user', content: 'Tell me a short story about a robot learning to paint.' }
+    { role: 'user', content: 'Tell me a short story about a robot learning to paint.' },
   ],
-  model: 'gpt-4'
+  model: 'gpt-4',
 })
 
 for await (const chunk of stream) {
@@ -85,14 +85,14 @@ const response = await llm.complete({
   selectionCriteria: {
     priority: 'quality', // 'quality', 'speed', or 'cost'
     minModelCapability: 'high', // 'basic', 'medium', 'high', or 'specialized'
-    maxCostPerToken: 0.01
-  }
+    maxCostPerToken: 0.01,
+  },
 })
 
 // Specific model selection
 const specificResponse = await llm.complete({
   prompt: 'Summarize this article',
-  model: 'gpt-4-turbo'
+  model: 'gpt-4-turbo',
 })
 ```
 
@@ -106,24 +106,24 @@ const multiProviderLLM = LLM({
   providers: {
     openai: {
       apiKey: process.env.OPENAI_API_KEY,
-      models: ['gpt-4', 'gpt-3.5-turbo']
+      models: ['gpt-4', 'gpt-3.5-turbo'],
     },
     anthropic: {
       apiKey: process.env.ANTHROPIC_API_KEY,
-      models: ['claude-3-opus', 'claude-3-sonnet']
+      models: ['claude-3-opus', 'claude-3-sonnet'],
     },
     mistral: {
       apiKey: process.env.MISTRAL_API_KEY,
-      models: ['mistral-large', 'mistral-medium']
-    }
+      models: ['mistral-large', 'mistral-medium'],
+    },
   },
-  defaultProvider: 'openai'
+  defaultProvider: 'openai',
 })
 
 // Use a specific provider
 const claudeResponse = await multiProviderLLM.complete({
   prompt: 'Explain the theory of relativity',
-  provider: 'anthropic'
+  provider: 'anthropic',
 })
 ```
 
@@ -137,14 +137,14 @@ const budgetLLM = LLM({
   budgetLimits: {
     dailyMaxCost: 10.0, // USD
     monthlyMaxCost: 100.0,
-    costAlertThreshold: 0.8 // Alert at 80% of budget
-  }
+    costAlertThreshold: 0.8, // Alert at 80% of budget
+  },
 })
 
 // Get cost estimates before running
 const estimate = await budgetLLM.estimateCost({
   prompt: 'Write a detailed analysis of climate change impacts',
-  maxTokens: 1000
+  maxTokens: 1000,
 })
 console.log(`Estimated cost: $${estimate.cost}`)
 

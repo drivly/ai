@@ -28,31 +28,31 @@ import { defineIntegration } from 'integrations.do'
 const salesforce = defineIntegration({
   name: 'salesforce',
   description: 'Connect to Salesforce CRM',
-  
+
   // Authentication configuration
   auth: {
     type: 'oauth2',
-    scopes: ['api', 'refresh_token']
+    scopes: ['api', 'refresh_token'],
   },
-  
+
   // Define available operations
   operations: {
     getAccounts: {
       description: 'Retrieve accounts matching criteria',
       input: {
-        filters: { type: 'object', optional: true }
+        filters: { type: 'object', optional: true },
       },
-      output: { type: 'array', items: 'Account' }
+      output: { type: 'array', items: 'Account' },
     },
     createContact: {
       description: 'Create a new contact',
       input: {
         firstName: { type: 'string' },
         lastName: { type: 'string' },
-        email: { type: 'string', format: 'email' }
+        email: { type: 'string', format: 'email' },
       },
-      output: { type: 'object', properties: { id: 'string' } }
-    }
-  }
+      output: { type: 'object', properties: { id: 'string' } },
+    },
+  },
 })
 ```

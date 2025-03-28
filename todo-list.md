@@ -3,6 +3,7 @@
 Based on the main README.md header items, the following sections need documentation:
 
 ## All Documentation Completed ✅
+
 - [x] Functions.do - Updated in content/functions/index.mdx
 - [x] Agents.do - Updated in content/agents/index.mdx
 - [x] Workflows.do - Created in content/workflows/index.mdx

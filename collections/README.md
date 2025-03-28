@@ -5,6 +5,7 @@ This directory contains the Payload CMS collection definitions that form the fou
 ## Collection Groups
 
 ### AI
+
 Collections related to AI functions, workflows, and agents - the core building blocks of the platform.
 
 - **Functions**: Strongly-typed composable building blocks that perform specific tasks. Functions can be of various types including Object, ObjectArray, Text, TextArray, Markdown, and Code. Functions serve as the atomic units of computation in the platform.
@@ -12,6 +13,7 @@ Collections related to AI functions, workflows, and agents - the core building b
 - **Agents**: Autonomous digital workers that combine functions and workflows to perform complex tasks independently. Agents can make decisions, execute workflows, and interact with external systems.
 
 ### Data
+
 Collections that define the core data model of the platform, following a subject-verb-object paradigm.
 
 - **Nouns**: Categories or types of Things, representing entities in your business domain. Nouns provide a taxonomy for classifying Things.
@@ -19,6 +21,7 @@ Collections that define the core data model of the platform, following a subject
 - **Things**: Physical and virtual objects in the system with properties like name, sqid, hash, type, and data. Things can be the subject or object of Actions. They represent the actual instances of Nouns in the system.
 
 ### Admin
+
 Collections for managing users, projects, integrations, and system configuration.
 
 - **Integrations**: Connections to external systems and services. Integrations enable the platform to interact with third-party services and APIs.
@@ -33,6 +36,7 @@ Collections for managing users, projects, integrations, and system configuration
 - **APIKeys**: Authentication keys for accessing the platform's APIs. APIKeys enable secure programmatic access to the platform.
 
 ### Events
+
 Collections that handle event-driven operations in the platform.
 
 - **Triggers**: Define conditions that initiate workflows based on events. Triggers are the entry points for event-driven processing.
@@ -40,6 +44,7 @@ Collections that handle event-driven operations in the platform.
 - **Actions**: Represent operations performed on Things using the Subject-Verb-Object paradigm. Actions link a subject, verb, and object to record what happened in the system.
 
 ### Experiments
+
 Collections for testing and iterating on AI components.
 
 - **Experiments**: Controlled tests for measuring outcomes of different AI configurations. Experiments enable systematic testing and optimization.
@@ -48,6 +53,7 @@ Collections for testing and iterating on AI components.
 - **Settings**: Configuration settings for experiments. Settings control the parameters and environment for experiments.
 
 ### Code
+
 Collections for managing code-related resources.
 
 - **Types**: Type definitions used across the platform. Types provide structure and validation for data.
@@ -56,6 +62,7 @@ Collections for managing code-related resources.
 - **Deployments**: Deployment configurations and history. Deployments track where and how packages are deployed.
 
 ### Evals
+
 Collections for evaluating and benchmarking AI components.
 
 - **Benchmarks**: Performance benchmarks for comparing models. Benchmarks provide standardized tests for model comparison.
@@ -65,6 +72,7 @@ Collections for evaluating and benchmarking AI components.
 - **Datasets**: Data used for training and evaluating models. Datasets provide the ground truth for evaluations.
 
 ### Observability
+
 Collections that provide monitoring and visibility into the platform's operations.
 
 - **Events**: Track business events throughout the system. Events provide a record of significant occurrences.
@@ -80,17 +88,17 @@ graph TD
     Functions --> Workflows
     Functions --> Agents
     Workflows --> Agents
-    
+
     %% Data Group
     Nouns --> Things
     Things --> Actions
     Verbs --> Actions
-    
+
     %% Events Group
     Triggers --> Workflows
     Searches --> Workflows
     Actions --> Generations
-    
+
     %% Admin Group
     IntegrationCategories --> Integrations
     Integrations --> IntegrationTriggers
@@ -103,28 +111,28 @@ graph TD
     Projects --> Workflows
     Projects --> Agents
     APIKeys --> Users
-    
+
     %% Experiments Group
     Models --> Experiments
     Prompts --> Functions
     Settings --> Experiments
-    
+
     %% Code Group
     Types --> Functions
     Modules --> Workflows
     Packages --> Deployments
-    
+
     %% Evals Group
     Benchmarks --> Models
     Datasets --> Evals
     Evals --> EvalsRuns
     EvalsRuns --> EvalsResults
-    
+
     %% Observability Group
     Events --> Traces
     Errors --> Traces
     Generations --> Traces
-    
+
     %% Cross-Group Relationships
     Functions --> Actions
     Things --> Generations
@@ -143,7 +151,7 @@ sequenceDiagram
     participant Thing as Things
     participant Generation as Generations
     participant Trace as Traces
-    
+
     External->>Trigger: Event occurs
     Trigger->>Workflow: Initiate workflow
     Workflow->>Function: Execute function
@@ -151,7 +159,7 @@ sequenceDiagram
     Action->>Thing: Modify thing
     Action->>Generation: Record state change
     Workflow->>Trace: Log execution path
-    
+
     Note over External,Trace: Event-driven processing flow
 ```
 
@@ -165,12 +173,12 @@ graph TD
     Workflows[Workflows<br>Orchestration of functions]
     Agents[Agents<br>Autonomous workers]
     Prompts[Prompts<br>LLM interaction templates]
-    
+
     Functions -->|composed into| Workflows
     Workflows -->|executed by| Agents
     Functions -->|used by| Agents
     Prompts -->|configure| Functions
-    
+
     classDef ai fill:#f9d5e5,stroke:#333,stroke-width:1px
     class Functions,Workflows,Agents,Prompts ai
 ```
@@ -183,12 +191,12 @@ graph TD
     Verbs[Verbs<br>Action types]
     Things[Things<br>Domain objects]
     Actions[Actions<br>Operations on Things]
-    
+
     Nouns -->|categorize| Things
     Verbs -->|define| Actions
     Things -->|subject of| Actions
     Things -->|object of| Actions
-    
+
     classDef data fill:#d5f9e5,stroke:#333,stroke-width:1px
     class Nouns,Verbs,Things,Actions data
 ```
@@ -205,7 +213,7 @@ graph TD
     Projects[Projects<br>Resource organization]
     Users[Users<br>Human actors]
     APIKeys[APIKeys<br>API authentication]
-    
+
     IntegrationCategories -->|organize| Integrations
     Integrations -->|define| IntegrationTriggers
     Integrations -->|define| IntegrationActions
@@ -215,7 +223,7 @@ graph TD
     Projects -->|contain| Workflows
     Projects -->|contain| Agents
     APIKeys -->|authenticate| Users
-    
+
     classDef admin fill:#e5d5f9,stroke:#333,stroke-width:1px
     class IntegrationCategories,Integrations,IntegrationTriggers,IntegrationActions,Connections,Projects,Users,APIKeys admin
 ```

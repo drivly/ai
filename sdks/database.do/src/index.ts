@@ -12,13 +12,13 @@ export interface QueryOptions {
 export class DatabaseClient {
   private api: ApiClient
 
-  constructor(options: { apiKey?: string, baseUrl?: string } = {}) {
+  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
     this.api = new ApiClient({
       baseUrl: options.baseUrl || 'https://database.do',
       headers: {
         'Content-Type': 'application/json',
-        ...(options.apiKey ? { 'Authorization': `Bearer ${options.apiKey}` } : {})
-      }
+        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
+      },
     })
   }
 
