@@ -1,3 +1,109 @@
 # Agents.do
 
-TBD
+## Autonomous Digital Workers for Your Business
+
+Agents.do is a powerful SDK for building, deploying, and managing autonomous AI agents that can perform complex tasks and workflows on behalf of your business. It provides a simple, declarative way to define agent capabilities, behaviors, and integrations with external systems.
+
+## Features
+
+- **Autonomous Execution**: Create agents that can work independently to accomplish tasks
+- **Multi-Agent Collaboration**: Enable agents to work together to solve complex problems
+- **Tool Integration**: Connect agents to external tools, APIs, and data sources
+- **Memory & Context Management**: Maintain state and context across agent interactions
+- **Observability & Control**: Monitor agent activities and intervene when necessary
+- **Type-Safe Development**: Full TypeScript support for reliable development experience
+- **Scalable Infrastructure**: Run agents on a fully-managed, scalable cloud platform
+
+## Quick Start
+
+```typescript
+import { createAgent } from 'agents.do'
+
+// Define a customer support agent
+const supportAgent = createAgent({
+  name: 'SupportAssistant',
+  description: 'Handles customer support inquiries and resolves common issues',
+  
+  // Define the agent's capabilities
+  capabilities: {
+    answerProductQuestions: async ({ query, productId }) => {
+      // Retrieve product information and answer questions
+      const productInfo = await api.products.get(productId)
+      return ai.generateProductAnswer({ query, productInfo })
+    },
+    
+    troubleshootIssue: async ({ description, customerInfo }) => {
+      // Analyze the issue and provide troubleshooting steps
+      const solution = await ai.troubleshoot({ 
+        issueDescription: description,
+        productInfo: await api.products.getByCustomer(customerInfo.id),
+        knowledgeBase: 'support-articles'
+      })
+      return solution
+    },
+    
+    escalateToHuman: async ({ ticketId, reason }) => {
+      // Create an escalation ticket for human support
+      await api.zendesk.createEscalation({
+        ticketId,
+        reason,
+        priority: reason.includes('urgent') ? 'high' : 'medium'
+      })
+      return { status: 'escalated', estimatedResponse: '1 business day' }
+    }
+  },
+  
+  // Define how the agent should handle different types of events
+  handlers: {
+    onNewSupportRequest: async ({ agent, event }) => {
+      const { customerId, query } = event
+      
+      // Get customer information
+      const customerInfo = await api.customers.get(customerId)
+      
+      // Analyze the query to determine intent
+      const intent = await ai.classifyIntent({ 
+        query, 
+        categories: ['product-question', 'technical-issue', 'billing-inquiry', 'other']
+      })
+      
+      // Handle the request based on intent
+      switch (intent) {
+        case 'product-question':
+          return agent.capabilities.answerProductQuestions({ 
+            query, 
+            productId: customerInfo.recentProducts[0] 
+          })
+          
+        case 'technical-issue':
+          return agent.capabilities.troubleshootIssue({ 
+            description: query, 
+            customerInfo 
+          })
+          
+        case 'billing-inquiry':
+          // Billing inquiries are always handled by humans
+          return agent.capabilities.escalateToHuman({ 
+            ticketId: event.ticketId, 
+            reason: 'Billing inquiry requires human verification' 
+          })
+          
+        default:
+          // Try to handle with general knowledge or escalate
+          const canHandle = await ai.canHandleQuery({ query })
+          if (canHandle) {
+            return ai.generateResponse({ query })
+          } else {
+            return agent.capabilities.escalateToHuman({ 
+              ticketId: event.ticketId, 
+              reason: 'Query outside of agent capabilities' 
+            })
+          }
+      }
+    }
+  }
+})
+
+// Deploy the agent
+await supportAgent.deploy()
+```

@@ -1,0 +1,88 @@
+# APIs.do
+
+## Clickable Developer Experiences
+
+APIs.do provides a unified gateway for accessing all services in the AI Primitives platform. It enables developers to create, deploy, and manage APIs with a simple, declarative syntax.
+
+## Features
+
+- **Unified API Gateway**: Access all services through a single, consistent interface
+- **Clickable Links**: Create interactive API endpoints that can be accessed via URLs
+- **Type Safety**: Full TypeScript support for reliable development
+- **Authentication & Authorization**: Built-in security features
+- **Rate Limiting**: Protect your APIs from abuse
+- **Observability**: Monitor API usage and performance
+- **Documentation**: Automatically generate API documentation
+
+## Usage
+
+```typescript
+import { API } from 'apis.do'
+
+// Define an API endpoint
+export default API(async (request, context) => {
+  // Extract parameters from the request
+  const { name } = request.query
+  
+  // Process the request
+  const greeting = `Hello, ${name || 'World'}!`
+  
+  // Return a response
+  return {
+    api: {
+      name: 'greeting-api',
+      description: 'A simple greeting API',
+      url: 'https://apis.do/greeting',
+      version: '1.0.0'
+    },
+    greeting,
+    timestamp: new Date().toISOString()
+  }
+})
+```
+
+## API Structure
+
+APIs.do follows a consistent structure for all API responses:
+
+```json
+{
+  "api": {
+    "name": "apis.do",
+    "description": "Economically valuable work delivered through simple APIs",
+    "home": "https://apis.do",
+    "login": "https://apis.do/login",
+    "signup": "https://apis.do/signup",
+    "admin": "https://apis.do/admin",
+    "docs": "https://apis.do/docs",
+    "repo": "https://github.com/drivly/ai",
+    "with": "https://apis.do",
+    "from": "https://agi.do"
+  },
+  "ai": {
+    "Functions - Typesafe Results without Complexity": "https://functions.do/api",
+    "Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
+    "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
+  },
+  "things": {
+    "Nouns - People, Places, Things, and Ideas": "https://nouns.do",
+    "Verbs - The Actions Performed to and by Nouns": "https://verbs.do"
+  },
+  "events": {
+    "Triggers - Initiate workflows based on events": "https://triggers.do",
+    "Searches - Query and retrieve data": "https://searches.do",
+    "Actions - Perform tasks within workflows": "https://actions.do"
+  },
+  "core": {
+    "LLM - Intelligent AI Gateway": "https://llm.do",
+    "Evals - Evaluate Functions, Workflows, and Agents": "https://evals.do",
+    "Analytics - Economically Validate Workflows": "https://analytics.do",
+    "Experiments - Economically Validate Workflows": "https://experiments.do",
+    "Database - AI Native Data Access (Search + CRUD)": "https://database.do",
+    "Integrations - Connect External APIs and Systems": "https://integrations.do"
+  },
+  "user": {
+    "email": "me@agi.do"
+  }
+}
+```

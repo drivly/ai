@@ -1,0 +1,96 @@
+# Database.do
+
+## AI-Native Data Access
+
+Database.do is a powerful SDK that simplifies database operations with an intuitive, declarative API. It provides a seamless interface for creating database schemas, managing relationships, and performing CRUD operations with built-in AI capabilities.
+
+## Features
+
+- **Simple, Declarative API** - Define your schema with a clean, intuitive syntax
+- **Automatic Relationships** - Easily define and manage relationships between collections
+- **AI-Native** - Built with AI-first principles for intelligent data operations
+- **Multiple Database Support** - Works with MongoDB, PostgreSQL, and SQLite
+- **Admin UI Included** - Automatic admin interface for managing your data
+- **REST API** - Full List + CRUD operations available through a REST API
+- **Type Safety** - Full TypeScript support with inferred types from your schema
+- **Advanced Querying** - Powerful filtering, sorting, and pagination capabilities
+- **Authentication & Authorization** - Built-in security features
+
+## Usage
+
+```typescript
+import { DB } from 'database.do'
+
+// Define your database schema
+const db = DB({
+  posts: {
+    title: 'text',
+    content: 'richtext',
+    status: 'Draft | Published | Archived', // Select field with predefined options
+    contentType: 'Text | Markdown | Code | Object | Schema', // Another select field example
+    tags: 'tags[]',
+    author: 'authors'
+  },
+  tags: {
+    name: 'text',
+    posts: '<-posts.tags'  // Join field to posts (reverse relation)
+  },
+  authors: {
+    name: 'text',
+    email: 'email',
+    role: 'Admin | Editor | Writer', // Select field with predefined options
+    posts: '<-posts.author'  // Join field to posts (reverse relation)
+  }
+})
+
+// Create a new post
+const post = await db.posts.create({
+  title: 'Getting Started with database.do',
+  content: 'This is a sample post created with database.do SDK',
+  status: 'Published',
+  contentType: 'Markdown',
+  tags: ['database', 'tutorial'],
+  author: 'author123'
+})
+
+// Query posts with filtering
+const publishedPosts = await db.posts.find({
+  status: 'Published',
+  author: 'author123'
+})
+
+// Update a post
+await db.posts.update(post.id, {
+  title: 'Updated Title'
+})
+
+// Delete a post
+await db.posts.delete(post.id)
+```
+
+## Advanced Querying
+
+```typescript
+// Find products with pagination and sorting
+const products = await db.products.find({
+  price: { gt: 100 },
+  isAvailable: true,
+  category: 'electronics'
+}, {
+  limit: 10,
+  page: 1,
+  sort: { price: 'desc' }
+})
+
+// Find with complex filters
+const results = await db.posts.find({
+  $or: [
+    { status: 'Published' },
+    { author: 'author123' }
+  ],
+  $and: [
+    { createdAt: { gt: new Date('2023-01-01') } },
+    { tags: { contains: 'featured' } }
+  ]
+})
+```
