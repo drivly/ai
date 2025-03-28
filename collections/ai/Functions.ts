@@ -12,19 +12,73 @@ export const Functions: CollectionConfig = {
       type: 'row',
       fields: [
         { name: 'name', type: 'text' },
-        // { name: 'type', type: 'select', options: ['code (T => T)', 'object (Record<string, any>)', 'schema (T)', 'markdown (string)', 'list (string[])', 'array (T[])'] },
-        { name: 'type', type: 'select', options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code'], defaultValue: 'Object', required: true },
-        // { name: 'subject', type: 'join', collection: 'nouns', on: 'function' },
-        // { name: 'verb', type: 'join', collection: 'verbs', on: 'verb' },
-        // { name: 'object', type: 'join', collection: 'nouns', on: 'object' },
+        { 
+          name: 'type', 
+          type: 'select', 
+          options: ['Generation', 'Code', 'Human', 'Agent'], 
+          defaultValue: 'Generation', 
+          required: true 
+        },
       ],
     },
-    { name: 'schema', type: 'json', admin: { condition: (data) => ['Object', 'ObjectArray'].includes(data?.type), editorOptions: { padding: { top: 20, bottom: 20 } } } },
-    { name: 'code', type: 'code', admin: { language: 'typescript', condition: (data) => data?.type === 'Code', editorOptions: { padding: { top: 20, bottom: 20 } } } },
-    // { name: 'schema', type: 'code', admin: { language: 'yaml', condition: (data) => data?.type === 'Object', editorOptions: { padding: { top: 20, bottom: 20 } } } },
-    // { name: 'schema', type: 'relationship', relationTo: 'schemas', admin: { condition: (data) => ['Object', 'ObjectArray'].includes(data?.type) } },
-
-    { name: 'prompt', type: 'relationship', relationTo: 'prompts', admin: { condition: (data) => data?.type !== 'Code' } },
+    { 
+      name: 'format', 
+      type: 'select', 
+      options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code'], 
+      defaultValue: 'Object', 
+      required: true,
+      admin: { 
+        condition: (data) => data?.type === 'Generation' 
+      } 
+    },
+    { 
+      name: 'schema', 
+      type: 'json', 
+      admin: { 
+        condition: (data) => data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format) || ['Human', 'Agent'].includes(data?.type), 
+        editorOptions: { padding: { top: 20, bottom: 20 } } 
+      } 
+    },
+    { 
+      name: 'code', 
+      type: 'code', 
+      admin: { 
+        language: 'typescript', 
+        condition: (data) => data?.type === 'Code', 
+        editorOptions: { padding: { top: 20, bottom: 20 } } 
+      } 
+    },
+    { 
+      name: 'prompt', 
+      type: 'relationship', 
+      relationTo: 'prompts', 
+      admin: { 
+        condition: (data) => data?.type !== 'Code' 
+      } 
+    },
+    { 
+      name: 'role', 
+      type: 'text',
+      admin: { 
+        condition: (data) => data?.type === 'Human' 
+      } 
+    },
+    { 
+      name: 'user', 
+      type: 'relationship',
+      relationTo: 'users',
+      admin: { 
+        condition: (data) => data?.type === 'Human' 
+      } 
+    },
+    { 
+      name: 'agent', 
+      type: 'relationship',
+      relationTo: 'agents',
+      admin: { 
+        condition: (data) => data?.type === 'Agent' 
+      } 
+    },
     { name: 'actions', type: 'join', collection: 'actions', on: 'function' },
   ],
 }

@@ -1,6 +1,13 @@
 import { ApiClient } from './api-client'
 
 export interface FunctionDefinition {
+  type?: 'Generation' | 'Code' | 'Human' | 'Agent'
+  format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code'
+  schema?: any
+  prompt?: string
+  code?: string
+  role?: string
+  agent?: string
   [key: string]: any
 }
 
@@ -40,9 +47,14 @@ export class FunctionsClient {
   async create(functionDefinition: {
     name: string
     description?: string
-    schema: FunctionDefinition
+    type?: 'Generation' | 'Code' | 'Human' | 'Agent'
+    format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code'
+    schema?: any
     prompt?: string
     code?: string
+    role?: string
+    user?: string
+    agent?: string
   }): Promise<any> {
     return this.api.post('/api/functions', functionDefinition)
   }
