@@ -407,214 +407,216 @@ const ToolChoiceSchema = z
   .or(z.object({ type: z.enum(['file_search', 'web_search_preview', 'computer_use_preview']) }))
   .or(z.object({ name: z.string(), type: z.literal('function') }))
 
-const MessagesSchema = z.array(
-  z
+const AssistantSchema = z.object({
+  content: z.array(
+    z
+      .object({
+        annotations: z.array(
+          z
+            .object({
+              file_id: z.string(),
+              index: z.number(),
+              type: z.literal('file_citation'),
+            })
+            .or(CitationSchema.extend({ type: z.literal('url_citation') }))
+            .or(
+              z.object({
+                file_id: z.string(),
+                index: z.number(),
+                type: z.literal('file_path'),
+              }),
+            ),
+        ),
+        text: z.string(),
+        type: z.literal('output_text'),
+      })
+      .or(
+        z.object({
+          refusal: z.string(),
+          type: z.literal('refusal'),
+        }),
+      ),
+  ),
+  id: z.string(),
+  role: z.literal('assistant'),
+  status: StatusSchema,
+  type: z.literal('message'),
+})
+
+const FileToolSchema = z.object({
+  id: z.string(),
+  queries: z.array(z.string()),
+  status: StatusSchema,
+  type: z.literal('file_search_call'),
+  results: z
+    .array(
+      z.object({
+        attributes: z.record(z.string()),
+        file_id: z.string().optional(),
+        filename: z.string().optional(),
+        score: z.number().optional(),
+        text: z.string().optional(),
+      }),
+    )
+    .optional(),
+})
+
+const WebSearchSchema = z.object({
+  id: z.string(),
+  status: z.string(),
+  type: z.literal('web_search_call'),
+})
+
+const FunctionToolSchema = z.object({
+  arguments: z.string(),
+  call_id: z.string(),
+  name: z.string(),
+  type: z.literal('function_call'),
+  id: z.string().optional(),
+  status: StatusSchema.optional(),
+})
+
+const ComputerUseSchema = z.object({
+  action: z
     .object({
-      content: z.string().or(z.array(z.string().or(InputSchema))),
-      role: z.enum(['user', 'assistant', 'system', 'developer']),
-      type: z.literal('message').optional(),
+      button: z.enum(['left', 'right', 'wheel', 'back', 'forward']),
+      type: z.literal('click'),
+      x: z.number(),
+      y: z.number(),
     })
     .or(
+      z.object({
+        type: z.literal('double_click'),
+        x: z.number(),
+        y: z.number(),
+      }),
+    )
+    .or(
+      z.object({
+        type: z.literal('drag'),
+      }),
+    )
+    .or(
+      z.object({
+        keys: z.array(z.string()),
+        type: z.literal('keypress'),
+      }),
+    )
+    .or(
+      z.object({
+        type: z.literal('move'),
+        x: z.number(),
+        y: z.number(),
+      }),
+    )
+    .or(
+      z.object({
+        type: z.literal('screenshot'),
+      }),
+    )
+    .or(
+      z.object({
+        scroll_x: z.number(),
+        scroll_y: z.number(),
+        type: z.literal('scroll'),
+        x: z.number(),
+        y: z.number(),
+      }),
+    )
+    .or(
+      z.object({
+        text: z.string(),
+        type: z.literal('type'),
+      }),
+    )
+    .or(
+      z.object({
+        type: z.literal('wait'),
+      }),
+    ),
+  call_id: z.string(),
+  id: z.string(),
+  pending_safety_checks: z.array(
+    z.object({
+      code: z.string(),
+      id: z.string(),
+      message: z.string(),
+    }),
+  ),
+  status: StatusSchema,
+  type: z.literal('computer_call'),
+})
+
+const ReasoningSchema = z.object({
+  id: z.string(),
+  summary: z.array(
+    z.object({
+      text: z.string(),
+      type: z.literal('summary_text'),
+    }),
+  ),
+  type: z.literal('reasoning'),
+  status: StatusSchema.optional(),
+})
+
+export const ResponseRequestSchema = z.object({
+  input: z.string().or(
+    z.array(
       z
         .object({
-          content: InputSchema,
-          role: z.enum(['user', 'system', 'developer']),
-          status: StatusSchema.optional(),
+          content: z.string().or(z.array(z.string().or(InputSchema))),
+          role: z.enum(['user', 'assistant', 'system', 'developer']),
           type: z.literal('message').optional(),
         })
         .or(
-          z.object({
-            content: z
-              .object({
-                annotations: z.array(
-                  z
-                    .object({
-                      file_id: z.string(),
-                      index: z.number(),
-                      type: z.literal('file_citation'),
-                    })
-                    .or(CitationSchema.extend({ type: z.literal('url_citation') }))
-                    .or(
-                      z.object({
-                        file_id: z.string(),
-                        index: z.number(),
-                        type: z.literal('file_path'),
-                      }),
-                    ),
-                ),
-                text: z.string(),
-                type: z.literal('output_text'),
-              })
-              .or(
-                z.object({
-                  refusal: z.string(),
-                  type: z.literal('refusal'),
-                }),
-              ),
-            id: z.string(),
-            role: z.literal('assistant'),
-            status: StatusSchema,
-            type: z.literal('message'),
-          }),
-        )
-        .or(
-          z.object({
-            id: z.string(),
-            queries: z.array(z.string()),
-            status: StatusSchema,
-            type: z.literal('file_search_call'),
-            results: z
-              .array(
-                z.object({
-                  attributes: z.record(z.string()),
+          z
+            .object({
+              content: InputSchema,
+              role: z.enum(['user', 'system', 'developer']),
+              status: StatusSchema.optional(),
+              type: z.literal('message').optional(),
+            })
+            .or(AssistantSchema)
+            .or(FileToolSchema)
+            .or(ComputerUseSchema)
+            .or(
+              z.object({
+                call_id: z.string(),
+                output: z.object({
+                  type: z.literal('computer_screenshot'),
                   file_id: z.string().optional(),
-                  filename: z.string().optional(),
-                  score: z.number().optional(),
-                  text: z.string().optional(),
+                  image_url: z.string().optional(),
                 }),
-              )
-              .optional(),
-          }),
-        )
-        .or(
-          z.object({
-            action: z
-              .object({
-                button: z.enum(['left', 'right', 'wheel', 'back', 'forward']),
-                type: z.literal('click'),
-                x: z.number(),
-                y: z.number(),
-              })
-              .or(
-                z.object({
-                  type: z.literal('double_click'),
-                  x: z.number(),
-                  y: z.number(),
-                }),
-              )
-              .or(
-                z.object({
-                  type: z.literal('drag'),
-                }),
-              )
-              .or(
-                z.object({
-                  keys: z.array(z.string()),
-                  type: z.literal('keypress'),
-                }),
-              )
-              .or(
-                z.object({
-                  type: z.literal('move'),
-                  x: z.number(),
-                  y: z.number(),
-                }),
-              )
-              .or(
-                z.object({
-                  type: z.literal('screenshot'),
-                }),
-              )
-              .or(
-                z.object({
-                  scroll_x: z.number(),
-                  scroll_y: z.number(),
-                  type: z.literal('scroll'),
-                  x: z.number(),
-                  y: z.number(),
-                }),
-              )
-              .or(
-                z.object({
-                  text: z.string(),
-                  type: z.literal('type'),
-                }),
-              )
-              .or(
-                z.object({
-                  type: z.literal('wait'),
-                }),
-              ),
-            call_id: z.string(),
-            id: z.string(),
-            pending_safety_checks: z.array(
-              z.object({
-                code: z.string(),
+                type: z.literal('computer_call_output'),
+                acknowledged_safety_checks: z
+                  .array(
+                    z.object({
+                      code: z.string(),
+                      id: z.string(),
+                      message: z.string(),
+                    }),
+                  )
+                  .optional(),
                 id: z.string(),
-                message: z.string(),
+                status: StatusSchema.optional(),
               }),
-            ),
-            status: StatusSchema,
-            type: z.literal('computer_call'),
-          }),
-        )
-        .or(
-          z.object({
-            call_id: z.string(),
-            output: z.object({
-              type: z.literal('computer_screenshot'),
-              file_id: z.string().optional(),
-              image_url: z.string().optional(),
-            }),
-            type: z.literal('computer_call_output'),
-            acknowledged_safety_checks: z
-              .array(
-                z.object({
-                  code: z.string(),
-                  id: z.string(),
-                  message: z.string(),
-                }),
-              )
-              .optional(),
-            id: z.string(),
-            status: StatusSchema.optional(),
-          }),
-        )
-        .or(
-          z.object({
-            id: z.string(),
-            status: z.string(),
-            type: z.literal('web_search_call'),
-          }),
-        )
-        .or(
-          z.object({
-            arguments: z.string(),
-            call_id: z.string(),
-            name: z.string(),
-            type: z.literal('function_call'),
-            id: z.string().optional(),
-            status: StatusSchema.optional(),
-          }),
-        )
-        .or(
-          z.object({
-            call_id: z.string(),
-            output: z.string(),
-            type: z.literal('function_call_output'),
-            id: z.string().optional(),
-            status: StatusSchema.optional(),
-          }),
-        )
-        .or(
-          z.object({
-            id: z.string(),
-            summary: z.array(
+            )
+            .or(WebSearchSchema)
+            .or(FunctionToolSchema)
+            .or(
               z.object({
-                text: z.string(),
-                type: z.literal('summary_text'),
+                call_id: z.string(),
+                output: z.string(),
+                type: z.literal('function_call_output'),
+                id: z.string().optional(),
+                status: StatusSchema.optional(),
               }),
-            ),
-            type: z.literal('reasoning'),
-            status: StatusSchema.optional(),
-          }),
-        ),
-    )
-    .or(z.object({ id: z.string(), type: z.literal('item_reference') })),
-)
-
-export const ResponseRequestSchema = z.object({
-  input: z.string().or(MessagesSchema),
+            )
+            .or(ReasoningSchema),
+        )
+        .or(z.object({ id: z.string(), type: z.literal('item_reference') })),
+    ),
+  ),
   model: Str({ example: 'gpt-4o' }).optional(),
   models: z.array(Str({ example: 'gpt-4o' })).optional(),
   include: z.array(z.enum(['file_search_call.results', 'message.input_image.image_url', 'computer_call_output.output.image_url'])).optional(),
@@ -701,7 +703,7 @@ export const ResponseSchema = z.object({
   metadata: z.record(z.string()),
   model: Str({ example: 'gpt-4o' }),
   object: z.literal('response'),
-  output: MessagesSchema,
+  output: z.array(AssistantSchema.or(FileToolSchema).or(FunctionToolSchema).or(WebSearchSchema).or(ComputerUseSchema).or(ReasoningSchema)),
   parallel_tool_calls: z.boolean(),
   previous_response_id: z.string().nullable(),
   reasoning: z
