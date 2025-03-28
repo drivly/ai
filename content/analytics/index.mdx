@@ -1,0 +1,273 @@
+# Analytics.do
+
+## Measure Business Impact
+
+Analytics.do provides a powerful framework for measuring and analyzing the business impact of your AI applications. It enables you to track key metrics, visualize performance trends, and make data-driven decisions about your AI investments.
+
+## Features
+
+- **Business Metrics**: Track key performance indicators (KPIs) for your AI applications
+- **ROI Analysis**: Measure the return on investment of your AI initiatives
+- **Usage Tracking**: Monitor how your AI functions, workflows, and agents are being used
+- **Performance Dashboards**: Visualize metrics through intuitive dashboards
+- **Custom Reports**: Create tailored reports for different stakeholders
+- **Anomaly Detection**: Identify unusual patterns or issues automatically
+- **Trend Analysis**: Track performance changes over time
+
+## Usage
+
+```typescript
+import { trackMetric, createDashboard } from 'analytics.do'
+
+// Use analytics in a workflow
+import { AI } from 'workflows.do'
+
+export default AI({
+  onProductRecommendation: async ({ ai, api, db, event }) => {
+    const { customerId, productId } = event
+    
+    // Get customer and product information
+    const customer = await db.customers.findById(customerId)
+    const product = await db.products.findById(productId)
+    
+    // Start tracking the recommendation event
+    const trackingId = await trackMetric({
+      name: 'product_recommendation',
+      category: 'sales',
+      metadata: {
+        customerId,
+        productId,
+        customerSegment: customer.segment,
+        productCategory: product.category
+      }
+    })
+    
+    // Generate personalized recommendations
+    const recommendations = await ai.recommendProducts({
+      customer,
+      viewedProduct: product,
+      maxRecommendations: 5
+    })
+    
+    // Track the recommendations generated
+    await trackMetric({
+      name: 'recommendations_generated',
+      category: 'ai_performance',
+      value: recommendations.length,
+      parentId: trackingId,
+      metadata: {
+        recommendedProductIds: recommendations.map(rec => rec.id)
+      }
+    })
+    
+    // Send recommendations to the customer
+    const emailResult = await api.email.send({
+      to: customer.email,
+      template: 'product_recommendations',
+      data: {
+        customerName: customer.name,
+        viewedProduct: product,
+        recommendations
+      }
+    })
+    
+    // Track the email sent
+    await trackMetric({
+      name: 'recommendation_email_sent',
+      category: 'engagement',
+      value: 1,
+      parentId: trackingId,
+      metadata: {
+        emailId: emailResult.id,
+        sentAt: new Date().toISOString()
+      }
+    })
+    
+    // Set up tracking for future events
+    await api.analytics.setupConversionTracking({
+      trackingId,
+      conversionEvents: [
+        {
+          name: 'recommendation_click',
+          source: 'email',
+          expiration: '7d'
+        },
+        {
+          name: 'recommendation_purchase',
+          source: 'any',
+          expiration: '30d'
+        }
+      ]
+    })
+    
+    return {
+      recommendations,
+      emailSent: true,
+      trackingId
+    }
+  }
+})
+```
+
+## Dashboards
+
+Analytics.do allows you to create custom dashboards to visualize your metrics:
+
+```typescript
+// Create a sales performance dashboard
+const salesDashboard = await createDashboard({
+  name: 'Sales Performance Dashboard',
+  description: 'Overview of AI-driven sales performance metrics',
+  
+  // Define the time range
+  timeRange: {
+    default: 'last30Days',
+    options: ['today', 'last7Days', 'last30Days', 'lastQuarter', 'custom']
+  },
+  
+  // Define the filters
+  filters: [
+    {
+      name: 'productCategory',
+      type: 'select',
+      options: 'dynamic', // Will be populated from the data
+      default: 'all'
+    },
+    {
+      name: 'customerSegment',
+      type: 'select',
+      options: ['premium', 'standard', 'new'],
+      default: 'all'
+    }
+  ],
+  
+  // Define the widgets
+  widgets: [
+    {
+      type: 'kpi',
+      name: 'Total Recommendations',
+      metric: 'recommendations_generated',
+      aggregation: 'count'
+    },
+    {
+      type: 'kpi',
+      name: 'Recommendation Clicks',
+      metric: 'recommendation_click',
+      aggregation: 'count'
+    },
+    {
+      type: 'kpi',
+      name: 'Recommendation Purchases',
+      metric: 'recommendation_purchase',
+      aggregation: 'count'
+    },
+    {
+      type: 'kpi',
+      name: 'Conversion Rate',
+      formula: 'recommendation_purchase.count / recommendations_generated.count * 100',
+      format: 'percentage'
+    },
+    {
+      type: 'timeSeries',
+      name: 'Daily Recommendations',
+      metric: 'recommendations_generated',
+      aggregation: 'count',
+      groupBy: 'day'
+    },
+    {
+      type: 'timeSeries',
+      name: 'Daily Conversions',
+      metrics: ['recommendation_click', 'recommendation_purchase'],
+      aggregation: 'count',
+      groupBy: 'day'
+    },
+    {
+      type: 'barChart',
+      name: 'Conversions by Product Category',
+      metric: 'recommendation_purchase',
+      aggregation: 'count',
+      groupBy: 'metadata.productCategory'
+    },
+    {
+      type: 'pieChart',
+      name: 'Recommendations by Customer Segment',
+      metric: 'recommendations_generated',
+      aggregation: 'count',
+      groupBy: 'metadata.customerSegment'
+    }
+  ]
+})
+```
+
+## ROI Analysis
+
+Analytics.do provides tools for measuring the return on investment of your AI applications:
+
+```typescript
+import { calculateROI } from 'analytics.do'
+
+// Calculate ROI for an AI workflow
+const roiAnalysis = await calculateROI({
+  workflow: 'productRecommendations',
+  timeRange: {
+    start: '2023-01-01',
+    end: '2023-12-31'
+  },
+  
+  // Define the costs
+  costs: [
+    {
+      name: 'AI Model Usage',
+      type: 'variable',
+      metric: 'ai_model_tokens',
+      unitCost: 0.002, // Cost per 1000 tokens
+      units: 1000
+    },
+    {
+      name: 'Development',
+      type: 'fixed',
+      amount: 50000
+    },
+    {
+      name: 'Infrastructure',
+      type: 'fixed',
+      amount: 1000,
+      frequency: 'monthly'
+    }
+  ],
+  
+  // Define the benefits
+  benefits: [
+    {
+      name: 'Incremental Revenue',
+      type: 'variable',
+      metric: 'recommendation_purchase',
+      valueFormula: 'metadata.orderValue',
+      attributionModel: 'last-click'
+    },
+    {
+      name: 'Customer Retention',
+      type: 'estimated',
+      amount: 75000,
+      frequency: 'quarterly',
+      confidence: 0.8
+    }
+  ],
+  
+  // Define the ROI calculation method
+  calculationMethod: 'npv',
+  discountRate: 0.1
+})
+
+console.log('ROI Analysis:', roiAnalysis)
+// {
+//   roi: 3.5, // 350% ROI
+//   netBenefit: 175000,
+//   totalCosts: 50000,
+//   totalBenefits: 225000,
+//   paybackPeriod: '4 months',
+//   breakEvenPoint: '2023-05-01',
+//   npv: 150000,
+//   irr: 0.25
+// }
+```

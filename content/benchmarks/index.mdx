@@ -1,0 +1,254 @@
+# Benchmarks.do
+
+## Compare Models
+
+Benchmarks.do provides a powerful framework for evaluating and comparing AI models across various dimensions. It enables you to make informed decisions about which models to use for different tasks based on objective performance metrics.
+
+## Features
+
+- **Standardized Evaluation**: Compare models using consistent benchmarks
+- **Performance Metrics**: Measure accuracy, speed, cost, and other key metrics
+- **Task-Specific Benchmarks**: Evaluate models on domain-specific tasks
+- **Automated Testing**: Run benchmarks automatically on new models
+- **Visualization**: View benchmark results through intuitive dashboards
+- **Historical Tracking**: Monitor model performance over time
+- **Custom Benchmarks**: Create your own benchmarks for specific use cases
+
+## Usage
+
+```typescript
+import { defineBenchmark } from 'benchmarks.do'
+
+// Define a benchmark for text summarization
+const TextSummarizationBenchmark = defineBenchmark({
+  name: 'TextSummarizationBenchmark',
+  description: 'Evaluates model performance on text summarization tasks',
+  
+  // Define the task
+  task: 'summarization',
+  
+  // Define the dataset
+  dataset: {
+    name: 'CNN/DailyMail',
+    description: 'News articles with human-written summaries',
+    source: 'huggingface',
+    split: 'test',
+    sampleSize: 100
+  },
+  
+  // Define the models to benchmark
+  models: [
+    {
+      name: 'gpt-4',
+      provider: 'openai',
+      version: '2023-03-15',
+      parameters: {
+        temperature: 0.0,
+        max_tokens: 150
+      }
+    },
+    {
+      name: 'claude-3-opus',
+      provider: 'anthropic',
+      version: '2023-01-01',
+      parameters: {
+        temperature: 0.0,
+        max_tokens: 150
+      }
+    },
+    {
+      name: 'gemini-pro',
+      provider: 'google',
+      version: '2023-12-01',
+      parameters: {
+        temperature: 0.0,
+        max_output_tokens: 150
+      }
+    }
+  ],
+  
+  // Define the prompt template
+  promptTemplate: `
+    Summarize the following text in a concise way that captures the main points:
+    
+    {{text}}
+    
+    Summary:
+  `,
+  
+  // Define the metrics
+  metrics: [
+    {
+      name: 'rouge-1',
+      description: 'ROUGE-1 score (unigram overlap)',
+      implementation: 'rouge',
+      parameters: { type: '1' }
+    },
+    {
+      name: 'rouge-2',
+      description: 'ROUGE-2 score (bigram overlap)',
+      implementation: 'rouge',
+      parameters: { type: '2' }
+    },
+    {
+      name: 'rouge-l',
+      description: 'ROUGE-L score (longest common subsequence)',
+      implementation: 'rouge',
+      parameters: { type: 'l' }
+    },
+    {
+      name: 'bertscore',
+      description: 'BERTScore (semantic similarity)',
+      implementation: 'bertscore'
+    },
+    {
+      name: 'latency',
+      description: 'Response time in milliseconds',
+      implementation: 'timer'
+    },
+    {
+      name: 'cost',
+      description: 'Estimated cost in USD',
+      implementation: 'cost-calculator'
+    }
+  ],
+  
+  // Define the evaluation function
+  evaluate: async ({ model, dataset, promptTemplate, metrics }) => {
+    const results = []
+    
+    for (const sample of dataset) {
+      const prompt = promptTemplate.replace('{{text}}', sample.text)
+      
+      // Measure latency
+      const startTime = Date.now()
+      
+      // Generate summary with the model
+      const response = await model.generate({ prompt })
+      
+      // Calculate latency
+      const latency = Date.now() - startTime
+      
+      // Calculate metrics
+      const metricResults = {}
+      for (const metric of metrics) {
+        if (metric.name === 'latency') {
+          metricResults[metric.name] = latency
+        } else if (metric.name === 'cost') {
+          metricResults[metric.name] = calculateCost(model, prompt, response)
+        } else {
+          metricResults[metric.name] = await calculateMetric(
+            metric, 
+            response, 
+            sample.summary
+          )
+        }
+      }
+      
+      results.push({
+        sampleId: sample.id,
+        input: sample.text,
+        reference: sample.summary,
+        output: response,
+        metrics: metricResults
+      })
+    }
+    
+    return results
+  }
+})
+
+// Run the benchmark
+import { runBenchmark } from 'benchmarks.do'
+
+async function evaluateModels() {
+  const results = await runBenchmark('TextSummarizationBenchmark')
+  
+  console.log('Benchmark Results:', results)
+  
+  // Analyze the results
+  const analysis = analyzeResults(results)
+  
+  console.log('Model Comparison:')
+  for (const model of analysis.models) {
+    console.log(`${model.name}:`)
+    for (const metric of Object.keys(model.metrics)) {
+      console.log(`  ${metric}: ${model.metrics[metric].toFixed(4)}`)
+    }
+  }
+  
+  console.log('Best Model by Metric:')
+  for (const metric of Object.keys(analysis.bestByMetric)) {
+    console.log(`  ${metric}: ${analysis.bestByMetric[metric]}`)
+  }
+  
+  return analysis
+}
+```
+
+## Benchmark Types
+
+Benchmarks.do supports various types of benchmarks for different AI tasks:
+
+### Natural Language Processing Benchmarks
+
+```typescript
+const SentimentAnalysisBenchmark = defineBenchmark({
+  name: 'SentimentAnalysisBenchmark',
+  task: 'sentiment-analysis',
+  dataset: {
+    name: 'SST-2',
+    description: 'Stanford Sentiment Treebank (binary classification)',
+    source: 'huggingface',
+    split: 'validation'
+  },
+  metrics: [
+    { name: 'accuracy', implementation: 'classification-accuracy' },
+    { name: 'f1', implementation: 'f1-score' },
+    { name: 'latency', implementation: 'timer' }
+  ],
+  // Additional configuration...
+})
+```
+
+### Code Generation Benchmarks
+
+```typescript
+const CodeGenerationBenchmark = defineBenchmark({
+  name: 'CodeGenerationBenchmark',
+  task: 'code-generation',
+  dataset: {
+    name: 'HumanEval',
+    description: 'Hand-written programming problems',
+    source: 'custom',
+    split: 'all'
+  },
+  metrics: [
+    { name: 'pass@1', implementation: 'functional-correctness' },
+    { name: 'pass@10', implementation: 'functional-correctness-sampling' },
+    { name: 'latency', implementation: 'timer' }
+  ],
+  // Additional configuration...
+})
+```
+
+### Reasoning Benchmarks
+
+```typescript
+const ReasoningBenchmark = defineBenchmark({
+  name: 'ReasoningBenchmark',
+  task: 'reasoning',
+  dataset: {
+    name: 'GSM8K',
+    description: 'Grade School Math problems',
+    source: 'huggingface',
+    split: 'test'
+  },
+  metrics: [
+    { name: 'accuracy', implementation: 'exact-match' },
+    { name: 'partial-credit', implementation: 'step-by-step-evaluation' },
+    { name: 'latency', implementation: 'timer' }
+  ],
+  // Additional configuration...
+})
+```

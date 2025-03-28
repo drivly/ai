@@ -1,0 +1,224 @@
+# Traces.do
+
+## Debug & Understand
+
+Traces.do provides a powerful framework for capturing, visualizing, and analyzing the execution of your AI applications. It enables you to understand how your functions, workflows, and agents operate, making it easier to debug issues and optimize performance.
+
+## Features
+
+- **Execution Tracing**: Capture detailed information about AI execution
+- **Visualization**: View execution flows through intuitive diagrams
+- **Filtering & Search**: Find specific events and patterns in traces
+- **Performance Analysis**: Identify bottlenecks and optimization opportunities
+- **Error Tracking**: Pinpoint where and why errors occur
+- **Debugging Tools**: Interactive tools for troubleshooting issues
+- **Audit Trails**: Maintain records of AI decision-making processes
+
+## Usage
+
+```typescript
+import { startTrace, endTrace, addTraceEvent } from 'traces.do'
+
+// Use tracing in a workflow
+import { AI } from 'workflows.do'
+
+export default AI({
+  onCustomerSupport: async ({ ai, api, db, event }) => {
+    // Start a new trace
+    const trace = startTrace({
+      name: 'CustomerSupportWorkflow',
+      input: event,
+      metadata: {
+        customerId: event.customerId,
+        category: event.category
+      }
+    })
+    
+    try {
+      // Add an event to the trace
+      addTraceEvent({
+        traceId: trace.id,
+        name: 'ClassifyQuery',
+        category: 'processing',
+        metadata: { query: event.query }
+      })
+      
+      // Classify the customer query
+      const classification = await ai.classifyQuery({
+        query: event.query,
+        categories: ['product-question', 'technical-issue', 'billing-inquiry', 'other']
+      })
+      
+      // Add the classification result to the trace
+      addTraceEvent({
+        traceId: trace.id,
+        name: 'QueryClassified',
+        category: 'result',
+        metadata: { classification }
+      })
+      
+      // Search for relevant knowledge base articles
+      addTraceEvent({
+        traceId: trace.id,
+        name: 'SearchKnowledgeBase',
+        category: 'processing',
+        metadata: { query: event.query, classification }
+      })
+      
+      const searchResults = await api.searches.knowledgeBaseSearch({
+        query: event.query,
+        filters: {
+          category: classification
+        },
+        limit: 5
+      })
+      
+      // Add the search results to the trace
+      addTraceEvent({
+        traceId: trace.id,
+        name: 'KnowledgeBaseSearched',
+        category: 'result',
+        metadata: { 
+          resultCount: searchResults.items.length,
+          topResult: searchResults.items[0]?.title
+        }
+      })
+      
+      // Generate a response based on the search results
+      addTraceEvent({
+        traceId: trace.id,
+        name: 'GenerateResponse',
+        category: 'processing',
+        metadata: { 
+          query: event.query,
+          classification,
+          articleCount: searchResults.items.length
+        }
+      })
+      
+      const response = await ai.generateSupportResponse({
+        query: event.query,
+        classification,
+        relevantArticles: searchResults.items
+      })
+      
+      // Add the generated response to the trace
+      addTraceEvent({
+        traceId: trace.id,
+        name: 'ResponseGenerated',
+        category: 'result',
+        metadata: { responseLength: response.answer.length }
+      })
+      
+      // Save the interaction to the database
+      await db.supportInteractions.create({
+        customerId: event.customerId,
+        query: event.query,
+        classification,
+        response: response.answer,
+        articles: searchResults.items.map(item => item.id),
+        timestamp: new Date().toISOString()
+      })
+      
+      // End the trace successfully
+      endTrace({
+        traceId: trace.id,
+        status: 'success',
+        output: {
+          answer: response.answer,
+          sources: response.sources,
+          suggestedArticles: searchResults.items.map(item => ({
+            title: item.title,
+            url: item.url
+          }))
+        }
+      })
+      
+      return {
+        answer: response.answer,
+        sources: response.sources,
+        suggestedArticles: searchResults.items.map(item => ({
+          title: item.title,
+          url: item.url
+        }))
+      }
+    } catch (error) {
+      // End the trace with an error
+      endTrace({
+        traceId: trace.id,
+        status: 'error',
+        error: {
+          message: error.message,
+          stack: error.stack
+        }
+      })
+      
+      throw error
+    }
+  }
+})
+```
+
+## Trace Visualization
+
+Traces.do provides multiple ways to visualize execution flows:
+
+### Timeline View
+
+```typescript
+import { getTraceTimeline } from 'traces.do'
+
+async function viewTraceTimeline(traceId) {
+  const timeline = await getTraceTimeline(traceId)
+  
+  console.log(`Trace: ${timeline.name}`)
+  console.log(`Duration: ${timeline.duration}ms`)
+  console.log(`Status: ${timeline.status}`)
+  
+  console.log('\nEvents:')
+  for (const event of timeline.events) {
+    console.log(`[${event.timestamp}] ${event.name} (${event.category})`)
+    console.log(`  Duration: ${event.duration}ms`)
+    if (event.metadata) {
+      console.log(`  Metadata: ${JSON.stringify(event.metadata, null, 2)}`)
+    }
+  }
+}
+```
+
+### Dependency Graph
+
+```typescript
+import { getTraceDependencyGraph } from 'traces.do'
+
+async function viewTraceDependencyGraph(traceId) {
+  const graph = await getTraceDependencyGraph(traceId)
+  
+  // Render the graph using a visualization library
+  renderGraph(graph)
+}
+```
+
+### Performance Analysis
+
+```typescript
+import { analyzeTracePerformance } from 'traces.do'
+
+async function analyzePerformance(traceId) {
+  const analysis = await analyzeTracePerformance(traceId)
+  
+  console.log('Performance Analysis:')
+  console.log(`Total Duration: ${analysis.totalDuration}ms`)
+  
+  console.log('\nHotspots:')
+  for (const hotspot of analysis.hotspots) {
+    console.log(`${hotspot.name}: ${hotspot.duration}ms (${hotspot.percentage}%)`)
+  }
+  
+  console.log('\nOptimization Opportunities:')
+  for (const opportunity of analysis.optimizationOpportunities) {
+    console.log(`- ${opportunity.description}`)
+    console.log(`  Potential Savings: ${opportunity.potentialSavings}ms`)
+  }
+}
+```
