@@ -148,7 +148,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
           "Set to 0.6": generateLinks('temperature', [0.6]),
           "Set to 0.8": generateLinks('temperature', [0.8]),
           "Set to 1": generateLinks('temperature', [1]),
-          "Set to 1.2": generateLinks('temperature', [1]),
+          "Set to 1.2": generateLinks('temperature', [1.2]),
           "Set to 2": generateLinks('temperature', [2]),
         },
         topP: {
