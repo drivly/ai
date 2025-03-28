@@ -247,6 +247,13 @@ export const ChatCompletionRequestSchema = z.object({
 
 export type ChatCompletionRequest = z.infer<typeof ChatCompletionRequestSchema>
 
+export const ArenaCompletionRequestSchema = z.object({
+  arena: z.record(z.string(), z.array(z.string())),
+  user: z.string().optional(),
+})
+
+export type ArenaCompletionRequest = z.infer<typeof ArenaCompletionRequestSchema>
+
 export const CitationSchema = z.object({
   end_index: z.number(),
   start_index: z.number(),

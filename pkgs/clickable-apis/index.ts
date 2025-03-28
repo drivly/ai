@@ -1,17 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import punycode from 'punycode'
-import configPromise from '@payload-config'
-import { PayloadDB, PayloadDBCollection, createNodePayloadClient, createEdgePayloadClient } from 'simple-payload'
-
-let getPayload: ((options: any) => Promise<any>) | undefined
-try {
-  if (typeof window === 'undefined') {
-    const payload = require('payload')
-    getPayload = payload.getPayload
-  }
-} catch (error) {
-  console.warn('Payload not available in this environment')
-}
+import { PayloadDB, createNodePayloadClient, createEdgePayloadClient } from 'simple-payload'
 
 type CollectionSlug = string
 type BasePayload = any
@@ -64,26 +53,27 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
           auth: async () => ({ permissions: {}, user: null }),
         }
       } else {
-        if (!getPayload) {
-          throw new Error('Payload is not available in this environment')
-        }
+        // For server-side, use the node client
+        const apiUrl = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
+        const apiKey = process.env.PAYLOAD_API_KEY
         
-        payload = await getPayload({
-          config: configPromise,
+        db = createNodePayloadClient({ 
+          apiUrl,
+          apiKey
         })
         
-        const auth = await payload.auth(req)
-        permissions = auth.permissions
-        user = auth.user?.collection === 'users'
-          ? {
-              email: auth.user.email,
-            }
-          : {
-              app: auth.user?.name,
-              appId: auth.user?.id,
-            }
-            
-        db = createNodePayloadClient(payload)
+        // Get auth info from the API
+        const authResponse = await fetch(`${apiUrl}/api/users/me`, {
+          headers: {
+            'Authorization': `JWT ${apiKey}`,
+          }
+        })
+        
+        if (authResponse.ok) {
+          const authData = await authResponse.json()
+          permissions = authData.permissions || {}
+          user = authData.user || {}
+        }
       }
 
       const params = await context.params
@@ -123,7 +113,6 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
           api: {
             name: domain,
             description: 'Economically valuable work delivered through simple APIs',
-            // url: req.url,
             home: origin,
             login: origin + '/login',
             signup: origin + '/signup',

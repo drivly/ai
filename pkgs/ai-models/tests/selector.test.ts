@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { getModel } from '../src/modelSelector'
+import { getModel, getModels } from '../src/modelSelector'
 
 describe('selector', () => {
   it('should return a model', () => {
@@ -36,5 +36,12 @@ describe('selector', () => {
     const model = getModel('anthropic/claude-3.7-sonnet:reasoning')
     expect(model).toBeDefined()
     expect(model?.slug).toBe('anthropic/claude-3.7-sonnet:thinking')
+  })
+
+  it('should return multiple models', () => {
+    const models = getModels('anthropic/claude-3.7-sonnet:reasoning,r1')
+    expect(models.length).toBe(2)
+    expect(models[0]?.slug).toBe('anthropic/claude-3.7-sonnet:thinking')
+    expect(models[1]?.slug).toBe('deepseek/deepseek-r1')
   })
 })

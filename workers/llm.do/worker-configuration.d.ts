@@ -5,6 +5,7 @@ declare namespace Cloudflare {
 		ACCOUNT_ID: string;
 		GATEWAY_ID: string;
 		COMPOSIO_API_KEY: string;
+        ENV: 'production' | 'development';
 	}
 }
 interface Env extends Cloudflare.Env {}
