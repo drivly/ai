@@ -5,7 +5,7 @@ import { fetchFromProvider } from 'providers/openRouter'
 import { APIDefinitionSchema, FlexibleAPILinksSchema, APIUserSchema } from 'types/api'
 import { ChatCompletionResponseSchema } from '../types/chat'
 import { AnyZodObject, z } from 'zod'
-
+import { parseCookies } from './cookies'
 const PROMPTS = [
   'How many R\'s are in Strawberry?',
   'Generate a business plan for selling water to a fish'
@@ -120,9 +120,11 @@ export class ArenaCompletion extends OpenAPIRoute {
       // If prompt is not provided, use a random prompt from the PROMPTS array
       const { prompt = PROMPTS[Math.floor(Math.random() * PROMPTS.length)], system, model, models } = request.query
       let authorization = (request.headers as any)?.Authorization || request.query.Authorization
-      
-      if (authorization == 'connor-demo-key') {
-        authorization = c.env.OPENROUTER_API_KEY
+
+      const cookies = parseCookies(c.req.header('Cookie') || '')
+
+      if (cookies.Authorization) {
+        authorization = cookies.Authorization
       }
 
       if (!authorization) {
@@ -161,6 +163,8 @@ export class ArenaCompletion extends OpenAPIRoute {
             prompt,
             system,
             maxTokens: 250,
+            seed: m.parsed.systemConfig?.seed || undefined,
+            temperature: m.parsed.systemConfig?.temperature || undefined,
           },
         }
 
