@@ -9,27 +9,35 @@ export interface AIConfig {
   [key: string]: (context: WorkflowContext) => Promise<any>
 }
 
-export interface WorkflowContext {
+export interface WorkflowContext<
+  AI = any,
+  API = any,
+  DB = any,
+  Event = any
+> {
   /**
    * AI capabilities for intelligent processing
+   * Uses Proxy under the hood to dynamically handle any method call
    */
-  ai: AICapabilities
+  ai: AICapabilities<AI>
   
   /**
    * API integrations for external services
+   * Uses Proxy under the hood to dynamically handle any property access
    */
-  api: APIIntegrations
+  api: APIIntegrations<API>
   
   /**
    * Database operations for data persistence
+   * Uses Proxy under the hood to dynamically handle any property access
    */
-  db: DatabaseOperations
+  db: DatabaseOperations<DB>
   
   /**
    * Event data that triggered the workflow
    * This can vary based on the event type
    */
-  event: {
+  event: Event & {
     /**
      * Generic event properties
      */
@@ -50,139 +58,70 @@ export interface WorkflowContext {
   }
 }
 
-export interface AICapabilities {
+export interface AICapabilities<T = any> {
   /**
    * Generic AI function call with any parameters
+   * Uses Proxy under the hood to dynamically handle any method call
    */
-  [key: string]: (params: any) => Promise<any>
+  [key: string]: (params: any) => Promise<T>
   
   /**
-   * Research a company and return detailed information
+   * Example: Research a company and return detailed information
    */
-  researchCompany: (params: { company: string }) => Promise<any>
+  researchCompany: (params: { company: string }) => Promise<T>
   
   /**
-   * Research personal background based on contact information
-   */
-  researchPersonalBackground: (params: { 
-    name: string, 
-    email: string, 
-    enrichedContact?: any 
-  }) => Promise<any>
-  
-  /**
-   * Research social activity based on contact information and profiles
-   */
-  researchSocialActivity: (params: { 
-    name: string, 
-    email: string, 
-    enrichedContact?: any,
-    socialProfiles?: any 
-  }) => Promise<any>
-  
-  /**
-   * Summarize GitHub activity based on profile information
-   */
-  summarizeGithubActivity: (params: { 
-    name: string, 
-    email: string, 
-    enrichedContact?: any,
-    githubProfile: any 
-  }) => Promise<any>
-  
-  /**
-   * Personalize an email sequence based on user information
-   */
-  personalizeEmailSequence: (params: { 
-    name: string, 
-    email: string, 
-    company: string,
-    personalProfile?: any,
-    socialActivity?: any,
-    companyProfile?: any,
-    githubActivity?: any 
-  }) => Promise<any>
-  
-  /**
-   * Summarize content with a specified length
+   * Example: Summarize content with a specified length
    */
   summarizeContent: (params: { 
     length: string,
     [key: string]: any 
-  }) => Promise<string>
+  }) => Promise<T>
   
   /**
-   * Define a function based on provided arguments
+   * Example: Define a function based on provided arguments
    */
-  defineFunction: (params: any) => Promise<any>
+  defineFunction: (params: any) => Promise<T>
 }
 
-export interface APIIntegrations {
+export interface APIIntegrations<T = any> {
   /**
    * Generic API integration
+   * Uses Proxy under the hood to dynamically handle any property access
    */
   [key: string]: any
   
   /**
-   * Apollo API for searching contact information
+   * Example: Apollo API for searching contact information
    */
   apollo: {
     search: (params: { 
       name?: string, 
       email?: string, 
       company?: string 
-    }) => Promise<any>
+    }) => Promise<T>
   }
   
   /**
-   * People Data Labs API for finding social profiles
-   */
-  peopleDataLabs: {
-    findSocialProfiles: (params: { 
-      name?: string, 
-      email?: string, 
-      company?: string 
-    }) => Promise<any>
-  }
-  
-  /**
-   * GitHub API for accessing profile information
-   */
-  github: {
-    profile: (params: { 
-      name?: string, 
-      email?: string, 
-      company?: string,
-      profile: string 
-    }) => Promise<any>
-  }
-  
-  /**
-   * Email scheduling API
-   */
-  scheduleEmails: (params: { 
-    emailSequence: any 
-  }) => Promise<any>
-  
-  /**
-   * Slack API for posting messages
+   * Example: Slack API for posting messages
    */
   slack: {
     postMessage: (params: { 
       channel: string, 
       content: any 
-    }) => Promise<any>
+    }) => Promise<T>
   }
 }
 
-export interface DatabaseOperations {
+export interface DatabaseOperations<T = any> {
   /**
    * Generic database collection operations
+   * Uses Proxy under the hood to dynamically handle any property access
    */
   [key: string]: any
   
   /**
-   * Users collection operations
+   * Example: Users collection operations
    */
   users: {
     /**
@@ -191,30 +130,29 @@ export interface DatabaseOperations {
     create: (params: { 
       name: string, 
       email: string, 
-      company: string, 
-      summary?: string,
+      company?: string, 
       [key: string]: any 
-    }) => Promise<{ url: string }>
+    }) => Promise<T>
     
     /**
      * Find a user by ID
      */
-    findById: (id: string) => Promise<any>
+    findById: (id: string) => Promise<T>
     
     /**
      * Find users by query
      */
-    find: (query: any) => Promise<any[]>
+    find: (query: any) => Promise<T[]>
     
     /**
      * Update a user record
      */
-    update: (id: string, data: any) => Promise<any>
+    update: (id: string, data: any) => Promise<T>
     
     /**
      * Delete a user record
      */
-    delete: (id: string) => Promise<any>
+    delete: (id: string) => Promise<T>
   }
 }
 
