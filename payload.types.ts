@@ -239,7 +239,8 @@ export interface ApikeyAuthOperations {
 export interface Function {
   id: string;
   name?: string | null;
-  type: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code';
+  type: 'Generation' | 'Code' | 'Human' | 'Agent';
+  format?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code') | null;
   schema?:
     | {
         [k: string]: unknown;
@@ -251,6 +252,9 @@ export interface Function {
     | null;
   code?: string | null;
   prompt?: (string | null) | Prompt;
+  role?: string | null;
+  user?: (string | null) | User;
+  agent?: (string | null) | Agent;
   actions?: {
     docs?: (string | Action)[];
     hasNextPage?: boolean;
@@ -264,6 +268,36 @@ export interface Function {
  * via the `definition` "prompts".
  */
 export interface Prompt {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "agents".
+ */
+export interface Agent {
   id: string;
   name?: string | null;
   updatedAt: string;
@@ -486,16 +520,6 @@ export interface Deployment {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "agents".
- */
-export interface Agent {
-  id: string;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrations".
  */
 export interface Integration {
@@ -593,26 +617,6 @@ export interface Connection {
     | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: string;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -772,41 +776,42 @@ export interface Dataset {
   createdAt: string;
 }
 /**
+ * Records of all significant occurrences within the platform
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "events".
  */
 export interface Event {
   id: string;
-  name?: string | null;
+  timestamp: string;
+  type: string;
+  source: string;
+  subject?: (string | null) | Thing;
+  data:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   action?: (string | null) | Action;
-  generation?: (string | null) | Generation;
-  request?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  data?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  meta?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  trigger?: (string | null) | Trigger;
+  search?: (string | null) | Search;
+  function?: (string | null) | Function;
+  workflow?: (string | null) | Workflow;
+  agent?: (string | null) | Agent;
+  generations?: (string | Generation)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1186,9 +1191,13 @@ export interface PayloadMigration {
 export interface FunctionsSelect<T extends boolean = true> {
   name?: T;
   type?: T;
+  format?: T;
   schema?: T;
   code?: T;
   prompt?: T;
+  role?: T;
+  user?: T;
+  agent?: T;
   actions?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1481,12 +1490,19 @@ export interface DatasetsSelect<T extends boolean = true> {
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
-  name?: T;
-  action?: T;
-  generation?: T;
-  request?: T;
+  timestamp?: T;
+  type?: T;
+  source?: T;
+  subject?: T;
   data?: T;
-  meta?: T;
+  metadata?: T;
+  action?: T;
+  trigger?: T;
+  search?: T;
+  function?: T;
+  workflow?: T;
+  agent?: T;
+  generations?: T;
   updatedAt?: T;
   createdAt?: T;
 }
