@@ -6,7 +6,11 @@ export { WorkflowsClient } from './client'
 export { default } from './client'
 
 export interface AIConfig {
-  [key: string]: (context: WorkflowContext) => Promise<any>
+  /**
+   * AI function definition with args/event as first parameter and context as second
+   * This allows for better separation of input data and execution context
+   */
+  [key: string]: (args: any, context: WorkflowContext) => Promise<any>
 }
 
 export interface WorkflowContext<
