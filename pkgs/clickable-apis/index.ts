@@ -61,7 +61,7 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
         }
       } else {
         try {
-          const payloadModule = await import('../../payload.config.js');
+          const payloadModule = await import('@payload-config');
           payload = payloadModule.default;
           
           db = createNodePayloadClient(payload);

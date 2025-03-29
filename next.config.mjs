@@ -24,6 +24,11 @@ const nextConfig = {
       })
     }
     
+    // Add alias for payload config
+    config.resolve = config.resolve || {}
+    config.resolve.alias = config.resolve.alias || {}
+    config.resolve.alias['@payload-config'] = require('path').resolve('./payload.config.js')
+    
     return config
   }
 }
