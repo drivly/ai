@@ -40,7 +40,8 @@ export function middleware(request: NextRequest) {
   // Special handler for /api path to route to the domain (minus .do) API path
   if (pathname === '/api' && apis[apiName]) {
     console.log('Rewriting /api to API root', { apiName, hostname, pathname, search })
-    return NextResponse.rewrite(new URL(`/${apiName}${search}`, request.url))
+    const url = new URL(request.url)
+    return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${search}`))
   }
 
   if (apis[apiName]) {
