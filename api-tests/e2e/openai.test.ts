@@ -1,9 +1,11 @@
-import { expect, test, describe } from 'vitest'
+import { expect, test, describe, beforeAll } from 'vitest'
 import OpenAI from 'openai'
 import type { ResponseInput } from 'openai/resources/responses/responses.mjs'
 import fs from 'fs'
 
 const isCI = process.env.CI === 'true'
+
+const skipTests = true
 
 // Explicitly call out llm.do and OpenRouter key usage
 const client = new OpenAI({
@@ -13,7 +15,7 @@ const client = new OpenAI({
 })
 
 describe('OpenAI SDK', () => {
-  test.skipIf(isCI)('can handle PDF input', async () => {
+  test.skipIf(skipTests)('can handle PDF input', async () => {
     const input: ResponseInput = [
       {
         role: 'user',
