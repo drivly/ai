@@ -1,5 +1,4 @@
 import { API } from '@/api.config'
-import { NextRequest } from 'next/server'
 import { Capability, getModel, ParsedModelIdentifier, reconstructModelString, models, parse } from '@/pkgs/ai-models'
 import { createOpenAI } from '@ai-sdk/openai'
 import { generateText } from 'ai'
@@ -24,7 +23,7 @@ const PRESETS = {
   },
 }
 
-export const GET = API(async (request: NextRequest, { db, user, origin, url, domain, params }) => {
+export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
   // Using the new db interface for more concise syntax
   // const functions = await db.functions.find()
 

@@ -1,4 +1,5 @@
-import { createAPI, modifyQueryString as clickableModifyQueryString } from '@/pkgs/clickable-apis'
+import { createAPI, modifyQueryString as clickableModifyQueryString, ApiContext } from 'clickable-apis'
+import { NextRequest } from 'next/server'
 export const apis: Record<string, string> = {
   functions: 'Reliable Structured Output',
   workflows: '',
@@ -39,7 +40,7 @@ export const symbols: Record<string, string> = {
   // 口: '',
 }
 
-export const API = <T = any>(handler: any) => 
+export const API = <T = any>(handler: (req: NextRequest, ctx: ApiContext) => Promise<T> | T) => 
   createAPI()(handler)
 
 export const modifyQueryString = clickableModifyQueryString

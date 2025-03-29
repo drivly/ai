@@ -1,7 +1,6 @@
 import { API } from '@/api.config'
-import { NextRequest } from 'next/server'
 
-export const GET = API(async (request: NextRequest, { db, user, url }) => {
+export const GET = API(async (request, { db, user, url }) => {
   if (!process.env.COMPOSIO_API_KEY) {
     return new Response(JSON.stringify({ error: 'API key not configured' }), { status: 500 })
   }
@@ -20,7 +19,7 @@ export const GET = API(async (request: NextRequest, { db, user, url }) => {
   return { integrations }
 })
 
-export const POST = API(async (request: NextRequest, { db, user, url }) => {
+export const POST = API(async (request, { db, user, url }) => {
   if (!process.env.COMPOSIO_API_KEY) {
     return new Response(JSON.stringify({ error: 'API key not configured' }), { status: 500 })
   }
@@ -40,7 +39,7 @@ export const POST = API(async (request: NextRequest, { db, user, url }) => {
   return Response.json(data)
 })
 
-export const PUT = API(async (request: NextRequest, { db, user, url }) => {
+export const PUT = API(async (request, { db, user, url }) => {
   if (!process.env.COMPOSIO_API_KEY) {
     return new Response(JSON.stringify({ error: 'API key not configured' }), { status: 500 })
   }
@@ -60,7 +59,7 @@ export const PUT = API(async (request: NextRequest, { db, user, url }) => {
   return Response.json(data)
 })
 
-export const DELETE = API(async (request: NextRequest, { db, user, url }) => {
+export const DELETE = API(async (request, { db, user, url }) => {
   if (!process.env.COMPOSIO_API_KEY) {
     return new Response(JSON.stringify({ error: 'API key not configured' }), { status: 500 })
   }

@@ -2,9 +2,8 @@ import { API } from '@/api.config'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Webhook } from 'svix'
-import { NextRequest } from 'next/server'
 
-export const POST = API(async (request: NextRequest, { db, user, origin, url, domain }) => {
+export const POST = API(async (request, { db, user, origin, url, domain }) => {
   // Get the webhook secret from environment variables
   const secret = process.env.COMPOSIO_WEBHOOK_SECRET
   if (!secret) {

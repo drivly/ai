@@ -1,7 +1,5 @@
 import { API } from '@/api.config'
-import { NextRequest } from 'next/server'
-
-export const GET = API(async (request: NextRequest, { db, user, origin, url, domain }) => {
+export const GET = API(async (request, { db, user, origin, url, domain }) => {
   // Using the new db interface for more concise syntax
   // const functions = await db.functions.find()
 
