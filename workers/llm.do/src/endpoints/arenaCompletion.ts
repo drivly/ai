@@ -111,16 +111,15 @@ export class ArenaCompletion extends OpenAPIRoute {
 
       // If prompt is not provided, use a random prompt from the PROMPTS array
       const { prompt = PROMPTS[Math.floor(Math.random() * PROMPTS.length)], system, model, models } = request.query
-      let authorization = (request.headers as any)?.Authorization || request.query.Authorization
-
-      const cookies = parseCookies(c.req.header('Cookie') || '')
-
-      if (cookies.Authorization) {
-        authorization = cookies.Authorization
-      }
-
+      let authorization = c.req.header('Authorization') || request.query.Authorization
       if (!authorization) {
-        return c.json({ error: 'Authorization is required' }, 401)
+        const cookies = parseCookies(c.req.header('Cookie') || '')
+
+        if (cookies.Authorization) {
+          authorization = cookies.Authorization
+        } else {
+          return c.json({ error: 'Authorization is required' }, 401)
+        }
       }
 
       // Create messages array for the chat request

@@ -64,7 +64,7 @@ export class Chat extends OpenAPIRoute {
       'Content-Type': 'application/json',
     }
 
-    const Authorization = (request.headers as any)?.Authorization || request.query.Authorization
+    const Authorization = c.req.header('Authorization') || request.query.Authorization
 
     let data
 
