@@ -1,6 +1,5 @@
 packages:
   - 'api/*'
-  - 'api-tests'
   - 'docs'
   - 'collections'
   - 'data'

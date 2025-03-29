@@ -130,13 +130,11 @@ export function toResponse(response: ChatCompletionResponse): Response {
   if (choice && choice.message) {
     result.output = [
       {
-        content: [
-          {
-            text: choice.message.content || '',
-            type: 'output_text',
-            annotations: [],
-          },
-        ],
+        content: {
+          text: choice.message.content || '',
+          type: 'output_text',
+          annotations: [],
+        },
         id: response.id,
         role: 'assistant',
         status: 'completed',
