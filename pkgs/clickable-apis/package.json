@@ -2,8 +2,8 @@
   "name": "clickable-apis",
   "version": "0.1.0",
   "type": "module",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "simple-payload": "workspace:*"
-  }
+  },
+  "devDependencies": {}
 }
