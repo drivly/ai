@@ -3,19 +3,18 @@ import OpenAI from 'openai'
 import type { ResponseInput } from 'openai/resources/responses/responses.mjs'
 import fs from 'fs'
 
-// Explicitly call out llm.do and OpenRouter key usage
-const client = new OpenAI({
-  apiKey: process.env.OPENRROUTER_API_KEY,
-  // baseURL: 'https://llm.do/api/v1',
-  baseURL: 'http://127.0.0.1:8787/api/v1',
-})
-
 describe('OpenAI SDK', () => {
   test('can handle PDF input', async () => {
-    if (process.env.CI) {
-      console.log('Skipping OpenAI SDK test in CI environment')
+    if (!process.env.OPENRROUTER_API_KEY || process.env.CI) {
+      console.log('Skipping OpenAI SDK test due to missing API key or CI environment')
       return expect(true).toBe(true)
     }
+    
+    const client = new OpenAI({
+      apiKey: process.env.OPENRROUTER_API_KEY,
+      // baseURL: 'https://llm.do/api/v1',
+      baseURL: 'http://127.0.0.1:8787/api/v1',
+    })
     const input: ResponseInput = [
       {
         role: 'user',
