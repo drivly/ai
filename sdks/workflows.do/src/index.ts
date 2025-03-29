@@ -7,10 +7,16 @@ export { default } from './client'
 
 export interface AIConfig {
   /**
-   * AI function definition with args/event as first parameter and context as second
-   * This allows for better separation of input data and execution context
+   * AI function definition with a single parameter containing both args and context properties
+   * This matches the usage pattern in examples like writeBook.js
    */
-  [key: string]: (args: any, context: WorkflowContext) => Promise<any>
+  [key: string]: (params: { 
+    args: any, 
+    ai: AICapabilities<any>, 
+    api: APIIntegrations<any>, 
+    db: DatabaseOperations<any>,
+    event?: any 
+  }) => Promise<any>
 }
 
 export interface WorkflowContext<
