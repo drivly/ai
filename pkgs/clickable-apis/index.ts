@@ -1,17 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import punycode from 'punycode'
 import { PayloadDB, createNodePayloadClient, createEdgePayloadClient } from 'simple-payload'
-import path from 'path'
-import { fileURLToPath } from 'url'
-
-type CollectionSlug = string
-type BasePayload = any
-type PayloadRequest = any
-type SanitizedPermissions = any
-
-// Types for our enhanced db operations
-type CollectionQuery = Record<string, any>
-type CollectionData = Record<string, any>
 
 type ApiContext = {
   params: Record<string, string | string[]>
@@ -20,19 +9,36 @@ type ApiContext = {
   domain: string
   origin: string
   user: any // Payload user object type
-  permissions: SanitizedPermissions // Payload permissions object type
-  payload: BasePayload // Payload instance
+  permissions: any // Payload permissions object type
+  payload: any // Payload instance
   db: PayloadDB // Enhanced database access
-  req?: PayloadRequest
+  req?: any
 }
 
 type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T
 
-// Create a global request context
 let _currentRequest: NextRequest | null = null
 let _currentContext: ApiContext | null = null
 
-export const API = <T = any>(handler: ApiHandler<T>) => {
+export type PayloadClientResult = {
+  payload: any
+  db: PayloadDB
+}
+
+export type PayloadClientFn = () => Promise<PayloadClientResult>
+
+/**
+ * Creates an API handler with enhanced context
+ * @param handler - Function to handle the API request
+ * @param options - Optional configuration options
+ * @returns Next.js API handler function
+ */
+export const API = <T = any>(
+  handler: ApiHandler<T>, 
+  options?: { 
+    getPayloadClient?: PayloadClientFn 
+  }
+) => {
   return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
     try {
       const isEdgeRuntime = typeof process === 'undefined' || process.env.NEXT_RUNTIME === 'edge'
@@ -61,45 +67,52 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
         }
       } else {
         try {
-          const payloadModule = await import('../../payload.config.js');
-          payload = payloadModule.default;
-          
-          db = createNodePayloadClient(payload);
-          
-          const authResult = await payload.auth.me();
-          permissions = authResult?.permissions || {};
-          user = authResult?.user || {};
+          if (options?.getPayloadClient) {
+            const result = await options.getPayloadClient()
+            payload = result.payload
+            db = result.db
+            
+            try {
+              const authResult = await payload.auth.me()
+              permissions = authResult?.permissions || {}
+              user = authResult?.user || {}
+            } catch (authError) {
+              console.error('Error fetching auth info:', authError)
+            }
+          } else {
+            throw new Error('getPayloadClient function not provided')
+          }
         } catch (error) {
-          console.error('Error importing payload config:', error);
-          console.warn('Falling back to API approach for payload client');
+          console.error('Error initializing payload:', error)
+          console.warn('Falling back to API approach for payload client')
           
           const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL 
             ? `https://${process.env.VERCEL_URL}` 
-            : 'http://localhost:3000');
+            : 'http://localhost:3000')
           if (!process.env.PAYLOAD_API_URL) {
-            console.warn(`PAYLOAD_API_URL not set, falling back to ${apiUrl}`);
+            console.warn(`PAYLOAD_API_URL not set, falling back to ${apiUrl}`)
           }
-          const apiKey = process.env.PAYLOAD_API_KEY;
+          const apiKey = process.env.PAYLOAD_API_KEY
           
           db = createNodePayloadClient({
             apiUrl,
             apiKey,
-          });
+          })
           
           try {
             const authResponse = await fetch(`${apiUrl}/api/users/me`, {
               headers: {
                 Authorization: `JWT ${apiKey}`,
               },
-            });
+            })
             
             if (authResponse.ok) {
-              const authData = await authResponse.json();
-              permissions = authData.permissions || {};
-              user = authData.user || {};
+              const authData = await authResponse.json()
+              permissions = authData.permissions || {}
+              user = authData.user || {}
             }
           } catch (authError) {
-            console.error('Error fetching auth info:', authError);
+            console.error('Error fetching auth info:', authError)
           }
         }
       }
@@ -111,7 +124,6 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       const domain = punycode.toUnicode(url.hostname)
       const origin = url.protocol + '//' + domain + (url.port ? ':' + url.port : '')
 
-      // Prepare enhanced context
       const ctx: ApiContext = {
         params,
         url,
@@ -124,18 +136,14 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
         db,
       }
 
-      // Set current request and context for helper functions
       _currentRequest = req
       _currentContext = ctx
 
-      // Call the handler with enhanced context
       const result = await handler(req, ctx)
 
-      // Clear current request and context
       _currentRequest = null
       _currentContext = null
 
-      // Convert result to JSON response
       return NextResponse.json(
         {
           api: {
@@ -158,11 +166,9 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
     } catch (error) {
       console.error('API Error:', error)
 
-      // Clear current request and context in case of error
       _currentRequest = null
       _currentContext = null
 
-      // Return error as JSON with proper status code
       const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
       return NextResponse.json(
         {
@@ -196,10 +202,8 @@ export const modifyQueryString = (param?: string, value?: string | number) => {
     throw new Error('No URL provided and no current request available')
   }
 
-  // Parse the URL
   const url = new URL(_currentRequest.url)
 
-  // Modify the query parameter
   url.searchParams.set(param, value.toString())
 
   return url.toString()

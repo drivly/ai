@@ -1,5 +1,5 @@
 import { waitUntil } from '@vercel/functions'
-import { API } from 'clickable-apis'
+import { API } from '@/api.config'
 import { Webhook } from 'svix'
 
 export const POST = API(async (request, { db, user, origin, url, domain, payload }) => {
