@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { apis } from './api.config'
 
 // what domains have websites / landing pages ... otherwise base path / is the API
-const siteDomains = ['functions.do', 'workflows.do', 'llm.do', 'llms.do']
+const siteDomains = ['functions.do', 'workflows.do', 'llm.do', 'llms.do', 'localhost']
 // what pathnames will always go to website content for all domains
 const sitePaths = ['/login', '/logout', '/signin', '/signout', '/privacy', '/terms', '/pricing', '/models']
 // what path prefixes will always go to website content for all domains

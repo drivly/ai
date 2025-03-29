@@ -87,6 +87,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@octokit/webhooks": "^13.7.5",
     "@shadcn/ui": "^0.0.4",
+    "@tailwindcss/postcss": "^4.0.17",
     "@testing-library/jest-dom": "^6.6.3",
     "@types/node": "^22.5.4",
     "@types/object-hash": "^3.0.6",

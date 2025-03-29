@@ -1,36 +1,24 @@
-import type { Website } from '@/site.config'
-import { websiteKeys } from '@/site.config'
-import { notFound } from 'next/navigation'
-// import { MDXRemote } from 'next-mdx-remote'
-import Markdown from 'react-markdown'
-import dedent from 'dedent'
-import './styles.css'
+import DotdoSection from "@/components/landing/dotdo-section"
+import HeroSection from "@/components/landing/hero-section"
+import Particles from "@/components/magicui/particles"
+import '@/app/(sites)/sites/styles.css'
+import '@/app/(sites)/globals.css'
 
-// need to be able to render the specific website from the slug and throw not found if the slug is not found
-export default async function HomePage({ params }: { params: Promise<{ domain: string }> }) {
-  const { domain } = await params
-
-  const site = domain as Website
-
-  if (site && !websiteKeys.includes(site)) {
-    return notFound()
-  }
-
+export default function Page() {
   return (
-    <div className='home'>
-      <h1>{domain}</h1>
-      <Markdown>
-        {dedent`
-          # AGI.do | Delivering economically valuable work through Business-as-Code
-
-          ## [Functions.do](https://functions.do) typesafe outputs without complexity
-
-          ## [Workflows.do](https://workflows.do) reliable business processes
-
-          ## [Agents.do](https://agents.do) autonomous digital workers
-
-        `}
-      </Markdown>
-    </div>
+    <>
+      <div className="hero-glow-container">
+        <HeroSection />
+      </div>
+      <DotdoSection />
+      <Particles
+        className="absolute inset-0 -z-10"
+        quantity={50}
+        ease={70}
+        size={0.05}
+        staticity={40}
+        color={"#ffffff"}
+      />
+    </>
   )
 }
