@@ -10,7 +10,7 @@ const withNextra = nextra({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
-  transpilePackages: ['simple-payload', 'clickable-apis', 'ai-models'],
+  transpilePackages: ['simple-payload', 'clickable-apis', 'ai-models', 'payload'],
   webpack: (config, { isServer }) => {
     // Handle node: imports
     if (!isServer) {
