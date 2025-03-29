@@ -1,6 +1,5 @@
 import { API } from 'clickable-apis'
-import { Capability, getModel, Provider, reconstructModelString } from '@/pkgs/ai-models/src'
-import { models } from '@/pkgs/ai-models/src/providers'
+import { Capability, getModel, Provider, reconstructModelString, models } from '@/pkgs/ai-models'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
   // Using the new db interface for more concise syntax
