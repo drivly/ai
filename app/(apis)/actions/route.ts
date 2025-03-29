@@ -1,6 +1,7 @@
 import { API } from '@/api.config'
+import { NextRequest } from 'next/server'
 
-export const GET = API(async (request, { db, user, url }) => {
+export const GET = API(async (request: NextRequest, { db, user, url }) => {
   // Check if API key is configured
   const apiKey = process.env.COMPOSIO_API_KEY
   if (!apiKey) {

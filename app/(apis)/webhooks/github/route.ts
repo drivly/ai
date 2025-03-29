@@ -1,8 +1,9 @@
 import { waitUntil } from '@vercel/functions'
 import { API } from '@/api.config'
 import { Webhook } from 'svix'
+import { NextRequest } from 'next/server'
 
-export const POST = API(async (request, { db, user, origin, url, domain, payload }) => {
+export const POST = API(async (request: NextRequest, { db, user, origin, url, domain, payload }) => {
   // Get the raw body
   const rawBody = await request.text()
 

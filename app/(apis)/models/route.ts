@@ -1,7 +1,8 @@
 import { API } from '@/api.config'
 import { Capability, getModel, Provider, reconstructModelString, models } from '@/pkgs/ai-models'
+import { NextRequest } from 'next/server'
 
-export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
+export const GET = API(async (request: NextRequest, { db, user, origin, url, domain, params }) => {
   // Using the new db interface for more concise syntax
   // const functions = await db.functions.find()
 
