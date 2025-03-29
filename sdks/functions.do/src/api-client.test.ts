@@ -11,7 +11,7 @@ describe('ApiClient', () => {
     vi.resetAllMocks()
     
     apiClient = new ApiClient({
-      baseUrl: 'https://test-api.com',
+      baseUrl: 'https://apis.do',
       apiKey: 'test-api-key'
     })
     
@@ -69,7 +69,7 @@ describe('ApiClient', () => {
       await apiClient.get('/test')
       
       expect(mockFetch).toHaveBeenCalledTimes(1)
-      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/test', {
+      expect(mockFetch).toHaveBeenCalledWith('https://apis.do/test', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ describe('ApiClient', () => {
       await apiClient.post('/test', data)
       
       expect(mockFetch).toHaveBeenCalledTimes(1)
-      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/test', {
+      expect(mockFetch).toHaveBeenCalledWith('https://apis.do/test', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ describe('ApiClient', () => {
       await apiClient.put('/test', data)
       
       expect(mockFetch).toHaveBeenCalledTimes(1)
-      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/test', {
+      expect(mockFetch).toHaveBeenCalledWith('https://apis.do/test', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ describe('ApiClient', () => {
       await apiClient.patch('/test', data)
       
       expect(mockFetch).toHaveBeenCalledTimes(1)
-      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/test', {
+      expect(mockFetch).toHaveBeenCalledWith('https://apis.do/test', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ describe('ApiClient', () => {
       await apiClient.delete('/test')
       
       expect(mockFetch).toHaveBeenCalledTimes(1)
-      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/test', {
+      expect(mockFetch).toHaveBeenCalledWith('https://apis.do/test', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ describe('ApiClient', () => {
       const result = await apiClient.list('functions', { limit: 10, page: 1 })
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/functions?limit=10&page=1',
+        'https://apis.do/functions?limit=10&page=1',
         expect.any(Object)
       )
       expect(result).toEqual(mockListResponse)
@@ -193,7 +193,7 @@ describe('ApiClient', () => {
       await apiClient.getById('functions', '123')
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/functions/123',
+        'https://apis.do/functions/123',
         expect.any(Object)
       )
     })
@@ -203,7 +203,7 @@ describe('ApiClient', () => {
       await apiClient.create('functions', data)
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/functions',
+        'https://apis.do/functions',
         {
           method: 'POST',
           headers: expect.any(Object),
@@ -217,7 +217,7 @@ describe('ApiClient', () => {
       await apiClient.update('functions', '123', data)
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/functions/123',
+        'https://apis.do/functions/123',
         {
           method: 'PATCH',
           headers: expect.any(Object),
@@ -231,7 +231,7 @@ describe('ApiClient', () => {
       await apiClient.replace('functions', '123', data)
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/functions/123',
+        'https://apis.do/functions/123',
         {
           method: 'PUT',
           headers: expect.any(Object),
@@ -244,7 +244,7 @@ describe('ApiClient', () => {
       await apiClient.remove('functions', '123')
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/functions/123',
+        'https://apis.do/functions/123',
         {
           method: 'DELETE',
           headers: expect.any(Object)
@@ -256,7 +256,7 @@ describe('ApiClient', () => {
       await apiClient.search('functions', 'test query', { limit: 10 })
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/functions/search?limit=10&q=test+query',
+        'https://apis.do/functions/search?limit=10&q=test+query',
         expect.any(Object)
       )
     })
@@ -267,7 +267,7 @@ describe('ApiClient', () => {
       })
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/test?where=%7B%22name%22%3A%7B%22equals%22%3A%22Test%22%7D%7D',
+        'https://apis.do/test?where=%7B%22name%22%3A%7B%22equals%22%3A%22Test%22%7D%7D',
         expect.any(Object)
       )
     })
