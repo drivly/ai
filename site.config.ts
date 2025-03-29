@@ -1,4 +1,4 @@
-import { objectKeys } from './lib/utils'
+import { objectKeys } from './lib/objectKeys'
 
 export const aliases = {
   'databases.do': 'database.do',

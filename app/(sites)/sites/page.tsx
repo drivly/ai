@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import Markdown from 'react-markdown'
 import dedent from 'dedent'
 import './styles.css'
+import '../globals.css'
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
 export default async function HomePage({ params }: { params: Promise<{ domain: string }> }) {
