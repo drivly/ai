@@ -1,6 +1,6 @@
-import { Capability, ParsedModelIdentifier, ModelConfig } from './types'
 import { parse } from './parser'
 import { models, type Model } from './providers'
+import { type Capability, ModelConfig, ParsedModelIdentifier, capabilities } from './types'
 
 /**
  * Check if model supports all required capabilities
@@ -158,67 +158,6 @@ export function reconstructModelString(parsed: ParsedModelIdentifier): string {
 }
 
 export function getModels(modelInput: string, config?: ModelConfig): ModelResult[] {
-  // Split on commas
-  // but we need to be careful to not split on commas within parentheses, or at the end of a colon.
   // gemini:reasoning,code(seed:1,temperature:0.5),r1 -> ['gemini:reasoning,code(seed:1,temperature:0.5)', 'r1']
-
-  const models = []
-
-  // Parse model string while handling parentheses
-  let result = []
-  let current = ''
-  let parenDepth = 0
-  
-  for (let i = 0; i < modelInput.length; i++) {
-    const char = modelInput[i]
-    
-    if (char === '(' && !parenDepth) {
-      parenDepth++
-      current += char
-    } else if (char === ')' && parenDepth) {
-      parenDepth--
-      current += char
-    } else if (char === ',' && !parenDepth) {
-      // End of current model identifier
-      if (current.trim()) {
-        result.push(current.trim())
-      }
-      current = ''
-    } else {
-      current += char
-    }
-  }
-  
-  // Add the last model if there is one
-  if (current.trim()) {
-    result.push(current.trim())
-  }
-
-  if (!result.length) {
-    return []
-  }
-
-  // Our strategy to rejoin the models together is to loop through all of the results
-  // and check if each of them match a model using parse. if the dont, then join it to the previous in the array
-  // and check again.
-
-  const fixedResult: string[] = []
-
-  result.map((modelString) => {
-    try {
-      const parsedModel = getModel(modelString)
-      fixedResult.push(modelString)
-    } catch (e) {
-      fixedResult[fixedResult.length - 1] = `${fixedResult[fixedResult.length - 1]},${modelString}`
-    }
-  })
-
-  for (const modelString of fixedResult) {
-    const model = getModel(modelString, config)
-    if (model) {
-      models.push(model)
-    }
-  }
-
-  return models
+  return (modelInput.match(new RegExp(`(\\w+)(?:[:,](?${capabilities.join('|')})(?:\([^\)]+\))?)*`, 'g')) || []).map((x) => getModel(x, config)).filter((x) => x !== null)
 }
