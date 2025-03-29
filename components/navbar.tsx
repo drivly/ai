@@ -1,6 +1,5 @@
 import * as React from "react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 
 interface NavbarProps {
   className?: string;
@@ -8,21 +7,62 @@ interface NavbarProps {
 
 export function Navbar({ className }: NavbarProps) {
   return (
-    <header className={cn("sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur", className)}>
-      <div className="container flex h-14 items-center">
-        <div className="mr-4 flex">
-          <Link href="/" className="flex items-center space-x-2 hover:opacity-80">
-            <span className="font-bold">LLM.do</span>
+    <header style={{
+      position: "sticky",
+      top: 0,
+      zIndex: 50,
+      width: "100%",
+      borderBottom: "1px solid hsl(var(--border))",
+      backgroundColor: "hsla(var(--background), 0.95)",
+      backdropFilter: "blur(4px)"
+    }}>
+      <div style={{
+        maxWidth: "1400px",
+        margin: "0 auto",
+        padding: "0 2rem",
+        display: "flex",
+        height: "3.5rem",
+        alignItems: "center"
+      }}>
+        <div style={{ marginRight: "1rem", display: "flex" }}>
+          <Link href="/" style={{ 
+            display: "flex", 
+            alignItems: "center", 
+            gap: "0.5rem",
+            transition: "opacity 0.2s"
+          }}>
+            <span style={{ fontWeight: "bold" }}>LLM.do</span>
           </Link>
         </div>
-        <nav className="flex flex-1 items-center justify-end space-x-4">
-          <Link href="https://functions.do" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+        <nav style={{ 
+          display: "flex", 
+          flex: 1, 
+          alignItems: "center", 
+          justifyContent: "flex-end", 
+          gap: "1rem" 
+        }}>
+          <Link href="https://functions.do" style={{ 
+            fontSize: "0.875rem", 
+            fontWeight: "500", 
+            color: "hsl(var(--muted-foreground))",
+            transition: "color 0.2s"
+          }}>
             Functions
           </Link>
-          <Link href="https://workflows.do" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+          <Link href="https://workflows.do" style={{ 
+            fontSize: "0.875rem", 
+            fontWeight: "500", 
+            color: "hsl(var(--muted-foreground))",
+            transition: "color 0.2s"
+          }}>
             Workflows
           </Link>
-          <Link href="https://agents.do" className="text-sm font-medium text-muted-foreground hover:text-foreground">
+          <Link href="https://agents.do" style={{ 
+            fontSize: "0.875rem", 
+            fontWeight: "500", 
+            color: "hsl(var(--muted-foreground))",
+            transition: "color 0.2s"
+          }}>
             Agents
           </Link>
         </nav>

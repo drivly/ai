@@ -1,4 +1,5 @@
 import type React from "react"
+import '@/app/(sites)/globals.css'
 import '@/app/(sites)/sites/styles.css'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
@@ -27,10 +28,17 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-background font-sans antialiased flex flex-col", fontSans.variable)}>
+      <body style={{
+        minHeight: "100vh",
+        backgroundColor: "hsl(var(--background))",
+        color: "hsl(var(--foreground))",
+        fontFamily: "var(--font-sans)",
+        display: "flex",
+        flexDirection: "column"
+      }}>
         <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main style={{ flex: 1 }}>{children}</main>
           <Footer />
           <Toaster />
           <Analytics />

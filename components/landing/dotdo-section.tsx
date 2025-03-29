@@ -1,5 +1,4 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 interface DotdoSectionProps {
@@ -26,18 +25,56 @@ export default function DotdoSection({ className }: DotdoSectionProps) {
   ];
 
   return (
-    <section className={cn("container px-4 py-16 md:py-24", className)}>
-      <div className="grid gap-8 md:grid-cols-3">
+    <section style={{
+      maxWidth: "1400px",
+      margin: "0 auto",
+      padding: "4rem 1rem"
+    }}>
+      <div style={{
+        display: "grid",
+        gap: "2rem",
+        gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))"
+      }}>
         {services.map((service) => (
-          <div key={service.title} className="rounded-lg border bg-card p-6 shadow-sm">
-            <h3 className="mb-2 text-xl font-bold">{service.title}</h3>
-            <p className="mb-4 text-muted-foreground">{service.description}</p>
+          <div 
+            key={service.title} 
+            style={{
+              borderRadius: "0.5rem",
+              border: "1px solid hsl(var(--border))",
+              backgroundColor: "hsl(var(--card))",
+              padding: "1.5rem",
+              boxShadow: "0 1px 2px 0 rgba(0, 0, 0, 0.05)"
+            }}
+          >
+            <h3 style={{
+              marginBottom: "0.5rem",
+              fontSize: "1.25rem",
+              fontWeight: "bold"
+            }}>
+              {service.title}
+            </h3>
+            <p style={{
+              marginBottom: "1rem",
+              color: "hsl(var(--muted-foreground))"
+            }}>
+              {service.description}
+            </p>
             <Link
               href={service.href}
-              className="inline-flex items-center text-sm font-medium text-primary hover:underline"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                fontSize: "0.875rem",
+                fontWeight: "500",
+                color: "hsl(var(--primary))"
+              }}
             >
               Learn more
-              <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg style={{
+                marginLeft: "0.25rem",
+                height: "1rem",
+                width: "1rem"
+              }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>

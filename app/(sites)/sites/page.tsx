@@ -1,8 +1,8 @@
 import DotdoSection from "@/components/landing/dotdo-section"
 import HeroSection from "@/components/landing/hero-section"
 import Particles from "@/components/magicui/particles"
-import '@/app/(sites)/sites/styles.css'
 import '@/app/(sites)/globals.css'
+import '@/app/(sites)/sites/styles.css'
 
 export default function Page() {
   return (
