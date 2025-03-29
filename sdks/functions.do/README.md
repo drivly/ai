@@ -10,7 +10,7 @@ Key challenges include:
 - **Prompt Engineering**: More art than science, difficult to standardize
 - **Configuration**: Complex parameter interactions require careful tuning
 
-### The Solution
+## The Solution
 
 functions.do creates a clean separation between AI capabilities and application code through strongly-typed interfaces that hide model complexities, enabling:
 
@@ -18,9 +18,104 @@ functions.do creates a clean separation between AI capabilities and application 
 - Continuous improvement without disrupting application code
 - Comprehensive evaluation and optimization strategies
 
-### Usage
+## Installation
 
-You can use it by simply calling any function name with any arguments on the `ai` object like:
+```bash
+npm install functions.do
+# or
+yarn add functions.do
+# or
+pnpm add functions.do
+```
+
+## API Overview
+
+The functions.do SDK exports two main components:
+
+- `ai`: A flexible proxy for invoking AI functions with various patterns
+- `AI`: A function for defining schemas and creating custom AI functions
+
+## Usage Examples
+
+### Using the `ai` Proxy
+
+The `ai` export is a versatile proxy that supports multiple invocation patterns:
+
+#### Tagged Template Literals
+
+```typescript
+import { ai } from 'functions.do'
+
+// Basic usage
+const result = await ai`Summarize this article: ${articleText}`
+
+// With configuration
+const configuredResult = await ai({ model: 'grok-3' })`Translate this to French: ${text}`
+```
+
+#### Function Invocation
+
+```typescript
+import { ai } from 'functions.do'
+
+// Simple function call without schema
+const storyBrand = await ai.storyBrand({ company: 'Vercel' })
+
+// Function call with schema (structured output)
+const leanCanvas = await ai.leanCanvas({ company: 'Cloudflare' }, {
+  productName: 'name of the product or service',
+  problem: ['top 3 problems the product solves'],
+  solution: ['top 3 solutions the product offers'],
+  uniqueValueProposition: 'clear message that states the benefit of your product',
+  unfairAdvantage: 'something that cannot be easily copied or bought',
+  customerSegments: ['list of target customer segments'],
+  keyMetrics: ['list of key numbers that tell you how your business is doing'],
+  channels: ['path to customers'],
+  costStructure: ['list of operational costs'],
+  revenueStreams: ['list of revenue sources'],
+  recommendations: ['list of recommendations based on the analysis'],
+})
+
+// Function call with schema and AI configuration
+const blogTitles = await ai.listBlogPostTitles(
+  { topic: 'the future of work post-API' },
+  ['list SEO-optimized titles'],
+  { model: 'gpt-4.5' }
+)
+```
+
+### Using the `AI` Function
+
+The `AI` function allows you to define custom AI functions with specific schemas:
+
+```typescript
+import { AI } from 'functions.do'
+
+// Define a custom AI function with book proposal schema
+export const ai = AI({
+  // Book Proposal - Initial concept and outline
+  createBookProposal: {
+    _model: 'claude-3.7-sonnet', // config props are pre-pended with `_`
+    title: 'proposed title of the book',
+    subtitle: 'proposed subtitle of the book',
+    author: 'name of the author',
+    targetAudience: ['primary audience segments for the book'],
+    marketAnalysis: 'analysis of the current market for this type of book',
+    competitiveBooks: ['list of similar books in the market'],
+    uniqueSellingPoints: ['what makes this book different and valuable'],
+    keyTakeaways: ['main insights readers will gain'],
+    marketingPotential: 'assessment of marketing opportunities',
+    coverDescription: 'visual description of the layout and image of the book cover',
+    estimatedWordCount: 'approximate word count for the entire book',
+    estimatedTimeToComplete: 'timeline for completing the manuscript',
+    summary: 'one paragraph summary of the book concept',
+  }
+})
+```
+
+## Real-World Examples
+
+### StoryBrand Framework
 
 ```typescript
 import { ai } from 'functions.do'
@@ -51,6 +146,8 @@ console.log(storyBrand)
 // }
 ```
 
+### Blog Post Title Generation
+
 ```typescript
 import { ai } from 'functions.do'
 
@@ -77,7 +174,7 @@ console.log(results)
 // }
 ```
 
-Alternatively, you can define the return type of the function during initialization to get strongly-typed responses:
+### Custom Schema Definition
 
 ```typescript
 import { AI } from 'functions.do'
@@ -100,29 +197,53 @@ const ai = AI({
 const results = await ai.createLeanCanvas({ domain: 'aws.amazon.com' })
 ```
 
-### Function Types
+## Advanced Configuration
 
-functions.do now supports multiple function types for different use cases:
+You can override system settings for specific function calls:
+
+```typescript
+import { ai } from 'functions.do'
+
+const landingPage = await ai.generateLandingPage(
+  {
+    brand: 'Functions.do',
+    idea: 'AI-powered Functions-as-a-Service',
+  },
+  {
+    headline: 'attention-grabbing headline that clearly states value proposition',
+    subheadline: 'supporting statement that adds clarity to the headline',
+    productDescription: 'concise explanation of what the product does and its benefits',
+    keyFeatures: ['list of main features or benefits'],
+    socialProof: ['testimonials, user counts, or other trust indicators'],
+    callToAction: 'primary button text and action',
+  },
+  {
+    model: 'anthropic/claude-3.7-sonnet:thinking',
+    system: 'You are an expert at generating highly-converting marketing copy for startup landing pages',
+    temperature: 1.0,
+    seed: 1741452228,
+  }
+)
+```
+
+## Function Types
+
+functions.do supports multiple function types for different use cases:
 
 1. **Generation Functions** - AI-powered functions that generate output based on input and prompts
-
    - Format options: Object, ObjectArray, Text, TextArray, Markdown, Code
-   - Requires a schema for Object and ObjectArray formats
    - Example: Content generation, data transformations, creative tasks
 
 2. **Code Functions** - Functions that execute predefined code
-
-   - Does not require a schema
    - Example: Custom data processing, calculations, specialized transformations
 
 3. **Human Functions** - Tasks assigned to specific human users or roles
-
-   - Can include a role description or assigned user
    - Example: Manual review tasks, approval processes, expert input
 
 4. **Agent Functions** - Functions that delegate to autonomous agents
-   - Linked to an agent in the Agents collection
    - Example: Persistent tasks, continuous monitoring, complex workflows
+
+## Creating Functions Programmatically
 
 When creating a function via the SDK, you can specify the type and related properties:
 
@@ -136,42 +257,4 @@ const myFunction = await functionsClient.create({
   },
   prompt: 'Analyze the following data and extract key insights',
 })
-```
-
-Finally, you can also define the return type and override system settings for a specific function like:
-
-```typescript
-import { ai } from 'functions.do'
-
-const results = await ai.generateLandingPage(
-  {
-    brand: 'Functions.do',
-    idea: 'AI-powered Functions-as-a-Service',
-  },
-  {
-    model: 'anthropic/claude-3.7-sonnet:thinking',
-    system: 'You an expert at generating highly-converting marketing copy for startup landing pages',
-    temperature: 1.0,
-    seed: 1741452228,
-    schema: {
-      headline: 'attention-grabbing headline that clearly states value proposition',
-      subheadline: 'supporting statement that adds clarity to the headline',
-      productDescription: 'concise explanation of what the product does and its benefits',
-      keyFeatures: ['list of main features or benefits'],
-      socialProof: ['testimonials, user counts, or other trust indicators'],
-      captureForm: 'description of email capture form and call to action',
-      incentive: 'what users get for joining the waitlist (early access, discount, etc.)',
-      visualElements: 'description of images, videos, or other visual elements',
-      faq: [
-        {
-          question: 'frequently asked question related to an objection',
-          answer: 'clear answer to the question that overcomes the objection',
-        },
-      ],
-      launchDate: 'expected product launch date or timeline',
-      callToAction: 'primary button text and action',
-      secondaryAction: 'secondary button text and action',
-    },
-  },
-)
 ```
