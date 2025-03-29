@@ -1,5 +1,4 @@
 import { describe, it, expect, vi } from 'vitest'
-import fetch from 'node-fetch'
 
 const API_URL = process.env.API_URL || 'http://localhost:3000'
 

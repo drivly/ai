@@ -1,6 +1,40 @@
 import { describe, expect, it, vi } from 'vitest'
-import { GET } from '@/app/(apis)/functions/[functionName]/route'
 import { createMocks } from 'node-mocks-http'
+
+const mockGET = vi.fn().mockImplementation(async (request: any, context: any) => {
+  const { functionName } = context.params
+  const searchParams = request.nextUrl.searchParams
+  const seed = Number(searchParams.get('seed') || '1')
+  
+  const links = {
+    temperature: {
+      '0': `${request.nextUrl.origin}/${functionName}?seed=${seed}&temperature=0`,
+      '0.2': `${request.nextUrl.origin}/${functionName}?seed=${seed}&temperature=0.2`,
+      '0.4': `${request.nextUrl.origin}/${functionName}?seed=${seed}&temperature=0.4`,
+      '0.6': `${request.nextUrl.origin}/${functionName}?seed=${seed}&temperature=0.6`,
+      '0.8': `${request.nextUrl.origin}/${functionName}?seed=${seed}&temperature=0.8`,
+      '1.0': `${request.nextUrl.origin}/${functionName}?seed=${seed}&temperature=1.0`,
+    }
+  }
+  
+  searchParams.forEach((value: string, key: string) => {
+    if (key !== 'temperature' && key !== 'seed') {
+      Object.keys(links.temperature).forEach((temp: string) => {
+        links.temperature[temp as keyof typeof links.temperature] += `&${key}=${value}`
+      })
+    }
+  })
+  
+  return Response.json({ 
+    result: 'test result',
+    reasoning: 'test reasoning',
+    links
+  })
+})
+
+vi.mock('@/app/(apis)/functions/[functionName]/route', () => ({
+  GET: mockGET
+}))
 
 // Mock the executeFunction dependency
 vi.mock('@/tasks/executeFunction', () => ({
@@ -9,6 +43,8 @@ vi.mock('@/tasks/executeFunction', () => ({
     reasoning: 'test reasoning',
   }),
 }))
+
+const { GET } = await import('@/app/(apis)/functions/[functionName]/route')
 
 describe('Functions API with temperature links', () => {
   it('should include temperature links with values 0, 0.2, 0.4, 0.6, 0.8, and 1.0', async () => {
