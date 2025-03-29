@@ -2,11 +2,11 @@ import { ParsedModelIdentifier, ThinkingLevel, Capability, capabilities, Provide
 
 export const ALIASES = {
   '4o': 'gpt-4o',
-  'sonnet': 'claude-3.7-sonnet',
-  'r1': 'deepseek-r1',
-  'gemini': 'gemini-2.0-flash-001',
+  sonnet: 'claude-3.7-sonnet',
+  r1: 'deepseek-r1',
+  gemini: 'gemini-2.0-flash-001',
   'gemma-3': 'gemma-3-27b-it',
-  'gemini-2.5-pro': 'gemini-2.5-pro-exp-03-25:free' 
+  'gemini-2.5-pro': 'gemini-2.5-pro-exp-03-25:free',
 }
 
 /**
@@ -129,7 +129,7 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
   }
 
   console.log('result', result)
-  
+
   return result
 }
 

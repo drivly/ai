@@ -19,7 +19,7 @@ export type Model = {
   childPriority?: 'first' | 'random'
   childrenModels?: Model['name'][]
   alias?: string
-  rawModel?: typeof rawModels.models[number]
+  rawModel?: (typeof rawModels.models)[number]
 }
 
 // export function getModelOrGateway(provider: Provider, model: string, useGateway: boolean): LanguageModel {

@@ -15,14 +15,14 @@ export const Events: CollectionConfig = {
     { name: 'subject', type: 'relationship', relationTo: 'things' },
     { name: 'data', type: 'json', required: true },
     { name: 'metadata', type: 'json' },
-    
+
     { name: 'action', type: 'relationship', relationTo: 'actions' },
     { name: 'trigger', type: 'relationship', relationTo: 'triggers' },
     { name: 'search', type: 'relationship', relationTo: 'searches' },
     { name: 'function', type: 'relationship', relationTo: 'functions' },
     { name: 'workflow', type: 'relationship', relationTo: 'workflows' },
     { name: 'agent', type: 'relationship', relationTo: 'agents' },
-    
+
     { name: 'generations', type: 'relationship', relationTo: 'generations', hasMany: true },
   ],
   hooks: {

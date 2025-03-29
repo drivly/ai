@@ -34,21 +34,21 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
   return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
     try {
       const isEdgeRuntime = typeof process === 'undefined' || process.env.NEXT_RUNTIME === 'edge'
-      
+
       let payload: any
       let db: PayloadDB
       let permissions: any = {}
       let user: any = {}
-      
+
       if (isEdgeRuntime) {
         const apiUrl = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
         const apiKey = process.env.PAYLOAD_API_KEY
-        
-        db = createEdgePayloadClient({ 
+
+        db = createEdgePayloadClient({
           apiUrl,
-          apiKey
+          apiKey,
         })
-        
+
         payload = {
           auth: async () => ({ permissions: {}, user: null }),
         }
@@ -56,19 +56,19 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
         // For server-side, use the node client
         const apiUrl = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
         const apiKey = process.env.PAYLOAD_API_KEY
-        
-        db = createNodePayloadClient({ 
+
+        db = createNodePayloadClient({
           apiUrl,
-          apiKey
+          apiKey,
         })
-        
+
         // Get auth info from the API
         const authResponse = await fetch(`${apiUrl}/api/users/me`, {
           headers: {
-            'Authorization': `JWT ${apiKey}`,
-          }
+            Authorization: `JWT ${apiKey}`,
+          },
         })
-        
+
         if (authResponse.ok) {
           const authData = await authResponse.json()
           permissions = authData.permissions || {}

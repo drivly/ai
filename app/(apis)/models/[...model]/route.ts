@@ -104,7 +104,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     const capabilities = ['reasoning', 'tools', 'code', 'online']
 
     const isGateway = !origin.includes('models.do')
-    
+
     const seed = Number(model?.parsed.systemConfig?.seed) || 0
     const temperature = model?.parsed.systemConfig?.temperature || 0.5
     const topP = model?.parsed.systemConfig?.topP || 1
@@ -118,8 +118,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     if (qs.has('models')) {
       let groupModels = qs.get('models')?.split(',')
       if (groupModels) {
-        groupModels = groupModels
-          .filter((model) => model.split('/')[0].split(':')[0].split('(')[0] !== modelNameWithoutSettings)
+        groupModels = groupModels.filter((model) => model.split('/')[0].split(':')[0].split('(')[0] !== modelNameWithoutSettings)
 
         groupModels.push(modelNameTemp)
 
@@ -142,23 +141,23 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         },
         temperature: {
           current: temperature,
-          "Set to 0": generateLinks('temperature', [0]),
-          "Set to 0.2": generateLinks('temperature', [0.2]),
-          "Set to 0.4": generateLinks('temperature', [0.4]),
-          "Set to 0.6": generateLinks('temperature', [0.6]),
-          "Set to 0.8": generateLinks('temperature', [0.8]),
-          "Set to 1": generateLinks('temperature', [1]),
-          "Set to 1.2": generateLinks('temperature', [1.2]),
-          "Set to 2": generateLinks('temperature', [2]),
+          'Set to 0': generateLinks('temperature', [0]),
+          'Set to 0.2': generateLinks('temperature', [0.2]),
+          'Set to 0.4': generateLinks('temperature', [0.4]),
+          'Set to 0.6': generateLinks('temperature', [0.6]),
+          'Set to 0.8': generateLinks('temperature', [0.8]),
+          'Set to 1': generateLinks('temperature', [1]),
+          'Set to 1.2': generateLinks('temperature', [1.2]),
+          'Set to 2': generateLinks('temperature', [2]),
         },
         topP: {
           current: topP,
-          "Set to 0": generateLinks('topP', [0]),
-          "Set to 0.2": generateLinks('topP', [0.2]),
-          "Set to 0.4": generateLinks('topP', [0.4]),
-          "Set to 0.6": generateLinks('topP', [0.6]),
-          "Set to 0.8": generateLinks('topP', [0.8]),
-          "Set to 1": generateLinks('topP', [1]),
+          'Set to 0': generateLinks('topP', [0]),
+          'Set to 0.2': generateLinks('topP', [0.2]),
+          'Set to 0.4': generateLinks('topP', [0.4]),
+          'Set to 0.6': generateLinks('topP', [0.6]),
+          'Set to 0.8': generateLinks('topP', [0.8]),
+          'Set to 1': generateLinks('topP', [1]),
         },
         capabilities: allSupportedCapabilities
           ?.map((capability) => {
@@ -168,7 +167,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
             }
           })
           .filter(Boolean)
-          .reduce<Record<string, any>>((acc, curr) => ({ ...acc, ...curr }), {})
+          .reduce<Record<string, any>>((acc, curr) => ({ ...acc, ...curr }), {}),
       },
       model,
     }

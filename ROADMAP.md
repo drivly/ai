@@ -5,6 +5,7 @@ This roadmap outlines the planned features and development priorities for the AI
 ## Core Primitives
 
 ### Functions.do - Inputs to Structured Outputs
+
 - [ ] Support structured outputs via various methods
 - [ ] Support saved schemas (Issue #122)
 - [ ] Support saved prompts (Issue #123)
@@ -18,11 +19,13 @@ This roadmap outlines the planned features and development priorities for the AI
 - [ ] Add `self` to the top of `links` (Issue #194)
 
 ### Workflows.do - Business-as-Code
+
 - [ ] Figure out proper Task/Workflow handling (Issue #125)
 - [ ] Revisit executeFunction design for upserts (Issue #126)
 - [ ] AI functions package integration (Issues #55-66)
 
 ### Agents.do - Autonomous Digital Workers
+
 - [ ] Agents.do MVP (Epic Issue #221)
 - [ ] Deep research from GitHub issues (Issue #180)
 - [ ] Prevent duplicate agents being created (Issue #255)
@@ -30,6 +33,7 @@ This roadmap outlines the planned features and development priorities for the AI
 ## Event System
 
 ### Triggers.do - Start Business Processes
+
 - [ ] Configure action collection (Issue #118)
 - [ ] Expose possible triggers (Issue #117)
 - [ ] Ingest integration triggers (Issue #119)
@@ -37,10 +41,12 @@ This roadmap outlines the planned features and development priorities for the AI
 - [ ] Test Composio triggers (Issue #171)
 
 ### Searches.do - Provide Context & Understanding
+
 - [ ] Define search capabilities and integration points
 - [ ] **GAP**: No specific issues assigned to this component
 
 ### Actions.do - Impact the External World
+
 - [ ] Configure action collection (Issue #114)
 - [ ] Expose possible actions (Issue #113)
 - [ ] Ingest integration actions (Issue #115)
@@ -50,6 +56,7 @@ This roadmap outlines the planned features and development priorities for the AI
 ## Foundation Components
 
 ### LLM.do - Intelligent AI Gateway
+
 - [ ] Router with Model Name Selection Syntax
 - [ ] Integrated tool use (Issue #207)
 - [ ] Clickable experience with GET (Issue #198)
@@ -57,21 +64,25 @@ This roadmap outlines the planned features and development priorities for the AI
 - [ ] Come up with new package name for `ai-models` (Issue #179)
 
 ### Database.do - AI-enriched Data
+
 - [ ] Add email provider (Issue #133)
 - [ ] Extract simple `db` interface from `clickable-apis` (Issue #217)
 
 ### Evals.do - Measure & Improve
+
 - [ ] Define evaluation framework for AI functions
 - [ ] Implement comparison tools between models
 - [ ] **GAP**: No specific issues assigned to this component
 
 ### Integrations.do - Connect Your Apps
+
 - [ ] Create GitHub app with `.ai` folder repo access (Issue #226)
 - [ ] Create GitHub app for issues (Issue #111)
 
 ## API Experience
 
 ### APIs.do - Clickable Developer Experiences
+
 - [ ] Define api header object shape (Issue #106)
 - [ ] Define `user` header object shape (Issue #107)
 - [ ] Figure out root/home API shape (Issue #108)
@@ -88,6 +99,7 @@ This roadmap outlines the planned features and development priorities for the AI
 ## SDK Development
 
 ### SDK General
+
 - [ ] Generate types and sync config with backend API (Epic Issue #225)
 - [ ] Create base typegen CLI for all .do SDKs (Issue #227)
 - [ ] Create sync logic to track/sync local `.ai/*` file changes (Issue #228)
@@ -95,6 +107,7 @@ This roadmap outlines the planned features and development priorities for the AI
 ## Documentation & Website
 
 ### Docs
+
 - [ ] Create initial structure for docs (Issue #142)
 - [ ] JSON viewer plugins/config (Issue #110)
 - [ ] Ensure domain routing logic (Issue #203)
@@ -102,6 +115,7 @@ This roadmap outlines the planned features and development priorities for the AI
 - [ ] Update docs layout (Issue #84)
 
 ### Website
+
 - [ ] Initial website (Issue #81)
 - [ ] LandingPage Component (Issue #83)
 - [ ] BlogLayout Component (Issue #85)
@@ -118,10 +132,12 @@ This roadmap outlines the planned features and development priorities for the AI
 ## Infrastructure
 
 ### Domain Routing
+
 - [ ] Domain Routing (Epic Issue #100)
 - [ ] Implement clickable-apis link generation logic (Issue #102)
 
 ### Analytics & Monitoring
+
 - [ ] Integrate PostHog for analytics & session recording (Issue #92)
 - [ ] Integrate Sentry for server and client crash reporting (Issue #93)
 - [ ] Integrate Google Analytics (Issue #94)
@@ -130,6 +146,7 @@ This roadmap outlines the planned features and development priorities for the AI
 ## Phased Implementation
 
 ### Phase 1: Core Foundation (Soft Launch - Due April 7, 2025)
+
 - Functions.do structured outputs
 - LLM.do router
 - APIs.do clickable experience
@@ -141,6 +158,7 @@ This roadmap outlines the planned features and development priorities for the AI
   - Create initial documentation structure
 
 ### Phase 2: Event System (Public Launch - Due May 5, 2025)
+
 - Triggers.do implementation
 - Actions.do implementation
 - Searches.do implementation
@@ -151,6 +169,7 @@ This roadmap outlines the planned features and development priorities for the AI
   - Implement the initial version of the Agents.do MVP
 
 ### Phase 3: Advanced Features
+
 - Agents.do MVP
 - Integrations expansion
 - SDK improvements
@@ -161,6 +180,7 @@ This roadmap outlines the planned features and development priorities for the AI
   - Implement comprehensive analytics and monitoring
 
 ### Phase 4: Scaling & Optimization
+
 - Analytics integration
 - Performance improvements
 - Extended model support

@@ -22,20 +22,20 @@ export interface AgentResponse<T = any> {
 export class AgentsClient {
   private api: ApiClient
 
-  constructor(options: { apiKey?: string, baseUrl?: string } = {}) {
+  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
     this.api = new ApiClient({
       baseUrl: options.baseUrl || 'https://agents.do',
       headers: {
         'Content-Type': 'application/json',
-        ...(options.apiKey ? { 'Authorization': `Bearer ${options.apiKey}` } : {})
-      }
+        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
+      },
     })
   }
 
   async ask<T = any>(agentId: string, question: string, context?: any): Promise<AgentResponse<T>> {
     return this.api.post(`/api/agents/${agentId}/ask`, {
       question,
-      context
+      context,
     })
   }
 
@@ -43,7 +43,7 @@ export class AgentsClient {
     return this.api.post('/api/agents', agentConfig)
   }
 
-  async list(params?: { limit?: number, page?: number }): Promise<any> {
+  async list(params?: { limit?: number; page?: number }): Promise<any> {
     return this.api.list('agents', params)
   }
 

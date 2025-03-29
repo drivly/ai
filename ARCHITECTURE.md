@@ -71,11 +71,11 @@ graph LR
     LLM[Language Model]
     Schema[Output Schema]
     Output[Structured Output]
-    
+
     Input --> LLM
     LLM --> Schema
     Schema --> Output
-    
+
     style Input fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Output fill:#f9f9f9,stroke:#333,stroke-width:1px
     style LLM fill:#d4f1f9,stroke:#333,stroke-width:1px
@@ -83,6 +83,7 @@ graph LR
 ```
 
 Key characteristics:
+
 - Strongly-typed inputs and outputs
 - Support for various output schemas
 - Cached responses for improved performance
@@ -102,7 +103,7 @@ graph TD
     Function1 --> Action1[Action]
     Function2 --> Search[Search]
     Function3 --> Action2[Action]
-    
+
     style Event fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Trigger fill:#ffd966,stroke:#333,stroke-width:1px
     style Workflow fill:#d9d2e9,stroke:#333,stroke-width:1px
@@ -115,6 +116,7 @@ graph TD
 ```
 
 Key characteristics:
+
 - Event-driven execution
 - State management
 - Error handling and retries
@@ -133,7 +135,7 @@ graph TD
     Tools --> Function2[Function 2]
     Tools --> Workflow1[Workflow 1]
     Tools --> ExternalAPI[External API]
-    
+
     style Agent fill:#e6e6fa,stroke:#333,stroke-width:1px
     style Goals fill:#fff2cc,stroke:#333,stroke-width:1px
     style Memory fill:#d0e0e3,stroke:#333,stroke-width:1px
@@ -145,6 +147,7 @@ graph TD
 ```
 
 Key characteristics:
+
 - Goal-oriented behavior
 - Memory and context management
 - Access to tools and workflows
@@ -163,7 +166,7 @@ graph LR
     APIEvent[API Event] --> TriggerHandler
     ExternalEvent[External Integration Event] --> TriggerHandler
     TriggerHandler --> Workflow[Workflow]
-    
+
     style WebhookEvent fill:#f9f9f9,stroke:#333,stroke-width:1px
     style ScheduledEvent fill:#f9f9f9,stroke:#333,stroke-width:1px
     style APIEvent fill:#f9f9f9,stroke:#333,stroke-width:1px
@@ -187,7 +190,7 @@ graph TD
     Vector --> Results
     External --> Results
     LLM --> Results
-    
+
     style Query fill:#f9f9f9,stroke:#333,stroke-width:1px
     style SearchRouter fill:#d9ead3,stroke:#333,stroke-width:1px
     style Database fill:#d0e0e3,stroke:#333,stroke-width:1px
@@ -208,7 +211,7 @@ graph LR
     ActionHandler --> Issue[Create Issue]
     ActionHandler --> Record[Update Record]
     ActionHandler --> API[Call External API]
-    
+
     style Workflow fill:#d9d2e9,stroke:#333,stroke-width:1px
     style ActionHandler fill:#ead1dc,stroke:#333,stroke-width:1px
     style Email fill:#f9f9f9,stroke:#333,stroke-width:1px
@@ -234,7 +237,7 @@ graph TD
     Anthropic --> Response
     Composite --> Response
     Custom --> Response
-    
+
     style Request fill:#f9f9f9,stroke:#333,stroke-width:1px
     style ModelSelector fill:#d4f1f9,stroke:#333,stroke-width:1px
     style OpenAI fill:#d4f1f9,stroke:#333,stroke-width:1px
@@ -245,6 +248,7 @@ graph TD
 ```
 
 Key capabilities:
+
 - Model selection based on capabilities
 - Load balancing and fallbacks
 - Integrated tool use
@@ -263,7 +267,7 @@ graph LR
     CRUD --> PayloadCMS[Payload CMS]
     AIEnrichment --> PayloadCMS
     Search --> PayloadCMS
-    
+
     style Application fill:#f9f9f9,stroke:#333,stroke-width:1px
     style DatabaseAPI fill:#d0e0e3,stroke:#333,stroke-width:1px
     style CRUD fill:#d0e0e3,stroke:#333,stroke-width:1px
@@ -283,7 +287,7 @@ graph TD
     Metrics[Metrics] --> Evaluator
     Evaluator --> Results[Evaluation Results]
     Results --> Benchmarks[Benchmarks]
-    
+
     style Function fill:#d4f1f9,stroke:#333,stroke-width:1px
     style Dataset fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Metrics fill:#f9f9f9,stroke:#333,stroke-width:1px
@@ -303,7 +307,7 @@ graph TD
     IntegrationsAPI --> Slack[Slack]
     IntegrationsAPI --> Email[Email]
     IntegrationsAPI --> Custom[Custom Integrations]
-    
+
     style Application fill:#f9f9f9,stroke:#333,stroke-width:1px
     style IntegrationsAPI fill:#ead1dc,stroke:#333,stroke-width:1px
     style GitHub fill:#ead1dc,stroke:#333,stroke-width:1px
@@ -336,7 +340,7 @@ graph TD
     FoundationAPIs --> Database[Database.do]
     FoundationAPIs --> Evals[Evals.do]
     FoundationAPIs --> Integrations[Integrations.do]
-    
+
     style Client fill:#f9f9f9,stroke:#333,stroke-width:1px
     style APIGateway fill:#cfe2f3,stroke:#333,stroke-width:1px
     style Auth fill:#cfe2f3,stroke:#333,stroke-width:1px
@@ -367,7 +371,7 @@ graph TD
     Search --> Database
     Search --> ExternalData[External Data Source]
     Action --> ExternalSystem[External System]
-    
+
     style Client fill:#f9f9f9,stroke:#333,stroke-width:1px
     style APIGateway fill:#cfe2f3,stroke:#333,stroke-width:1px
     style Workflow fill:#d9d2e9,stroke:#333,stroke-width:1px
@@ -437,7 +441,7 @@ graph TD
     Workers --> BlobStorage
     Workers --> LLMProviders
     Workers --> ThirdPartyAPIs
-    
+
     style Browser fill:#f9f9f9,stroke:#333,stroke-width:1px
     style SDK fill:#f9f9f9,stroke:#333,stroke-width:1px
     style CDN fill:#d5a6bd,stroke:#333,stroke-width:1px
@@ -469,20 +473,20 @@ graph TD
     Root --> Web["web/"]
     Root --> Workers["workers/"]
     Root --> Workflows["workflows/"]
-    
+
     App --> WebsitesApp["app/(websites)/"]
     App --> APIsApp["app/(apis)/"]
     App --> PayloadApp["app/(payload)/"]
-    
+
     Collections --> AICollections["collections/ai/"]
     Collections --> DataCollections["collections/data/"]
     Collections --> EventsCollections["collections/events/"]
     Collections --> ObservabilityCollections["collections/observability/"]
-    
+
     Packages --> AIModels["pkgs/ai-models/"]
     Packages --> DeployWorker["pkgs/deploy-worker/"]
     Packages --> ClickableLinks["pkgs/clickable-links/"]
-    
+
     style Root fill:#f9f9f9,stroke:#333,stroke-width:1px
     style App fill:#d5a6bd,stroke:#333,stroke-width:1px
     style Collections fill:#d0e0e3,stroke:#333,stroke-width:1px
@@ -496,6 +500,7 @@ graph TD
 ```
 
 Key directories:
+
 - `/app/`: Next.js application components
 - `/collections/`: Payload CMS collection definitions
 - `/components/`: Shared UI components

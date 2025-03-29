@@ -28,48 +28,44 @@ import { defineBenchmark, runBenchmark } from 'benchmarks.do'
 const customerSupportBenchmark = defineBenchmark({
   name: 'customer_support_quality',
   description: 'Evaluates AI models on customer support tasks',
-  
+
   // Define test categories
   categories: [
     {
       name: 'inquiry_classification',
       description: 'Classify customer inquiries by type',
-      weight: 0.2
+      weight: 0.2,
     },
     {
       name: 'response_generation',
       description: 'Generate helpful responses to inquiries',
-      weight: 0.5
+      weight: 0.5,
     },
     {
       name: 'escalation_detection',
       description: 'Identify when to escalate to human agents',
-      weight: 0.3
-    }
+      weight: 0.3,
+    },
   ],
-  
+
   // Define evaluation metrics
   metrics: [
     { name: 'accuracy', weight: 0.7 },
     { name: 'latency', weight: 0.15 },
-    { name: 'cost', weight: 0.15 }
-  ]
+    { name: 'cost', weight: 0.15 },
+  ],
 })
 
 // Run benchmark with multiple models
 const results = await runBenchmark({
   benchmark: customerSupportBenchmark,
-  models: [
-    'openai/gpt-4.5',
-    'anthropic/claude-3-opus',
-    'google/gemini-pro'
-  ]
+  models: ['openai/gpt-4.5', 'anthropic/claude-3-opus', 'google/gemini-pro'],
 })
 
 // Get the best model for your use case
 const bestModel = results.getBestModel({
   accuracyWeight: 0.8,
   costWeight: 0.1,
-  latencyWeight: 0.1
+  latencyWeight: 0.1,
 })
 ```

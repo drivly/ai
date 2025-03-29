@@ -5,6 +5,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Core Primitives
 
 ### Functions.do - Inputs to Structured Outputs
+
 - [#222](https://github.com/drivly/ai/issues/222) - `apis` ensure `https://functions.do/api` is equal to `/functions`
 - [#194](https://github.com/drivly/ai/issues/194) - `functions.do` add `self` to the top of `links`
 - [#191](https://github.com/drivly/ai/issues/191) - `functions.do` implement `generateCode` using `generateText`
@@ -46,11 +47,13 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#5](https://github.com/drivly/ai/issues/5) - Functions.do MVP
 
 ### Workflows.do - Business-as-Code
+
 - [#239](https://github.com/drivly/ai/issues/239) - `docs` flesh out sdk/workflows.do/README.md
 - [#229](https://github.com/drivly/ai/issues/229) - move event create from GitHub webhook event handler into handleGithubEvent workflow
 - [#6](https://github.com/drivly/ai/issues/6) - Workflows.do MVP
 
 ### Agents.do - Autonomous Digital Workers
+
 - [#255](https://github.com/drivly/ai/issues/255) - `agents.do` prevent duplicate agents being created
 - [#246](https://github.com/drivly/ai/issues/246) - `docs` flesh out sdk/agents.do/README.md
 - [#242](https://github.com/drivly/ai/issues/242) - `payload-agent` fix build & import
@@ -67,6 +70,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Event System
 
 ### Triggers.do - Start Business Processes
+
 - [#173](https://github.com/drivly/ai/issues/173) - `triggers` create /api/triggers endpoint
 - [#171](https://github.com/drivly/ai/issues/171) - `integrations` test Composio triggers
 - [#120](https://github.com/drivly/ai/issues/120) - `triggers.do` expose clickable API of triggers
@@ -75,9 +79,11 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#117](https://github.com/drivly/ai/issues/117) - `triggers.do` expose possible triggers
 
 ### Searches.do - Provide Context & Understanding
+
 - [#187](https://github.com/drivly/ai/issues/187) - `docs` search box is generating an error
 
 ### Actions.do - Impact the External World
+
 - [#174](https://github.com/drivly/ai/issues/174) - `actions` create /api/actions endpoint
 - [#116](https://github.com/drivly/ai/issues/116) - `actions.do` expose clickable API of actions
 - [#115](https://github.com/drivly/ai/issues/115) - `actions.do` ingest integration actions
@@ -87,6 +93,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Foundation Components
 
 ### LLM.do - Intelligent AI Gateway
+
 - [#207](https://github.com/drivly/ai/issues/207) - `llm.do` integrated tool use
 - [#198](https://github.com/drivly/ai/issues/198) - `llm.do` clickable experience with GET
 - [#95](https://github.com/drivly/ai/issues/95) - Add support for llms.txt on each domain
@@ -97,13 +104,16 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#4](https://github.com/drivly/ai/issues/4) - LLM.do MVP
 
 ### Database.do - AI-enriched Data
+
 - [#248](https://github.com/drivly/ai/issues/248) - `docs` flesh out sdk/database.do/README.md
 - [#153](https://github.com/drivly/ai/issues/153) - Create seed script to setup database
 
 ### Evals.do - Measure & Improve
+
 - [#37](https://github.com/drivly/ai/issues/37) - Evaluate Better Auth vs AuthJS
 
 ### Integrations.do - Connect Your Apps
+
 - [#252](https://github.com/drivly/ai/issues/252) - `payload` refactor Integration collections
 - [#177](https://github.com/drivly/ai/issues/177) - `integrations` verify web hook secret
 - [#169](https://github.com/drivly/ai/issues/169) - `integrations` set up Composio integration
@@ -112,6 +122,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## API Experience
 
 ### APIs.do - Clickable Developer Experiences
+
 - [#259](https://github.com/drivly/ai/issues/259) - Create initial implementation of each SDK that uses APIs.do
 - [#247](https://github.com/drivly/ai/issues/247) - `docs` flesh out sdk/apis.do/README.md
 - [#220](https://github.com/drivly/ai/issues/220) - `clickable-apis` implement `user` footer object
@@ -147,6 +158,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Documentation & Website
 
 ### Docs
+
 - [#237](https://github.com/drivly/ai/issues/237) - `docs` update ARCHITECTURE.md
 - [#234](https://github.com/drivly/ai/issues/234) - `docs` update ROADMAP.md
 - [#203](https://github.com/drivly/ai/issues/203) - `docs` ensure domain routing logic
@@ -157,6 +169,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#82](https://github.com/drivly/ai/issues/82) - Initial Docs
 
 ### Website
+
 - [#101](https://github.com/drivly/ai/issues/101) - `website` middleware with routing logic
 - [#81](https://github.com/drivly/ai/issues/81) - Initial Website
 - [#73](https://github.com/drivly/ai/issues/73) - `website` add support for Vercel Analytics
@@ -226,4 +239,3 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#11](https://github.com/drivly/ai/issues/11) - Proxy `/chat/completions` endpoint to OpenRouter via Cloudflare AI Gateway
 - [#7](https://github.com/drivly/ai/issues/7) - Create CONTRIBUTING.md
 - [#3](https://github.com/drivly/ai/issues/3) - Roadmap
-

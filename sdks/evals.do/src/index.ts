@@ -19,34 +19,34 @@ export interface EvalResult {
 export class EvalsClient {
   private api: ApiClient
 
-  constructor(options: { apiKey?: string, baseUrl?: string } = {}) {
+  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
     this.api = new ApiClient({
       baseUrl: options.baseUrl || 'https://evals.do',
       headers: {
         'Content-Type': 'application/json',
-        ...(options.apiKey ? { 'Authorization': `Bearer ${options.apiKey}` } : {})
-      }
+        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
+      },
     })
   }
 
   async evaluateFunction(functionId: string, input: any, expected?: any): Promise<EvalResult> {
     return this.api.post(`/api/evals/functions/${functionId}`, {
       input,
-      expected
+      expected,
     })
   }
 
   async evaluateWorkflow(workflowId: string, event: any, expected?: any): Promise<EvalResult> {
     return this.api.post(`/api/evals/workflows/${workflowId}`, {
       event,
-      expected
+      expected,
     })
   }
 
   async evaluateAgent(agentId: string, question: string, expected?: any): Promise<EvalResult> {
     return this.api.post(`/api/evals/agents/${agentId}`, {
       question,
-      expected
+      expected,
     })
   }
 
@@ -54,7 +54,7 @@ export class EvalsClient {
     return this.api.post('/api/evals', evalConfig)
   }
 
-  async listEvals(params?: { limit?: number, page?: number }): Promise<any> {
+  async listEvals(params?: { limit?: number; page?: number }): Promise<any> {
     return this.api.list('evals', params)
   }
 

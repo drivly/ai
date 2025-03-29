@@ -4,15 +4,15 @@
  */
 
 export interface MCPOptions {
-  region?: string;
-  provider?: string;
-  apiKey?: string;
+  region?: string
+  provider?: string
+  apiKey?: string
 }
 
 export interface MCPResponse {
-  success: boolean;
-  data?: any;
-  error?: string;
+  success: boolean
+  data?: any
+  error?: string
 }
 
 /**
@@ -27,11 +27,11 @@ export async function deployFunction(functionId: string, options: MCPOptions = {
     data: {
       functionId,
       status: 'deployed',
-      timestamp: new Date().toISOString()
-    }
-  };
+      timestamp: new Date().toISOString(),
+    },
+  }
 }
 
 export default {
-  deployFunction
-};
+  deployFunction,
+}

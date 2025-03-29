@@ -27,15 +27,15 @@ import { Agent } from 'agents.do'
 
 // Define specialized agents
 export const marketResearcher = new Agent({
-  name: "market-researcher",
-  instructions: "You analyze market data and identify trends",
-  model: "openai/gpt-4.5",
+  name: 'market-researcher',
+  instructions: 'You analyze market data and identify trends',
+  model: 'openai/gpt-4.5',
 })
 
 export const productDesigner = new Agent({
-  name: "product-designer",
-  instructions: "You design products based on market requirements",
-  model: "openai/gpt-4.5",
+  name: 'product-designer',
+  instructions: 'You design products based on market requirements',
+  model: 'openai/gpt-4.5',
 })
 
 // Define an AGI system for product development
@@ -44,7 +44,7 @@ const productDevelopmentSystem = defineAGISystem({
   description: 'Autonomous system for managing product development',
   agents: [marketResearcher, productDesigner],
   workflows: {
-    ideateProduct: 'onProductIdeation'
-  }
+    ideateProduct: 'onProductIdeation',
+  },
 })
 ```

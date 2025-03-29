@@ -24,16 +24,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const headersList = await headers()
   const host = headersList.get('host') || 'apis.do'
   const logoText = getDomainLogo(host)
-  
-  const navbar = (
-    <Navbar
-      logo={<b>{logoText}</b>}
-      chatLink='https://discord.gg/a87bSRvJkx'
-      projectLink='https://github.com/drivly/ai'
-    />
+
+  const navbar = <Navbar logo={<b>{logoText}</b>} chatLink='https://discord.gg/a87bSRvJkx' projectLink='https://github.com/drivly/ai' />
+  const footer = (
+    <Footer>
+      MIT {new Date().getFullYear()} © {logoText}
+    </Footer>
   )
-  const footer = <Footer>MIT {new Date().getFullYear()} © {logoText}</Footer>
-  
+
   return (
     <html
       // Not required, but good for SEO

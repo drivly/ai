@@ -4,19 +4,19 @@
  */
 
 export interface GPTOptions {
-  model?: string;
-  temperature?: number;
-  maxTokens?: number;
-  apiKey?: string;
+  model?: string
+  temperature?: number
+  maxTokens?: number
+  apiKey?: string
 }
 
 export interface GPTResponse {
-  text: string;
+  text: string
   usage?: {
-    promptTokens: number;
-    completionTokens: number;
-    totalTokens: number;
-  };
+    promptTokens: number
+    completionTokens: number
+    totalTokens: number
+  }
 }
 
 /**
@@ -31,11 +31,11 @@ export async function generateText(prompt: string, options: GPTOptions = {}): Pr
     usage: {
       promptTokens: prompt.length,
       completionTokens: 0,
-      totalTokens: prompt.length
-    }
-  };
+      totalTokens: prompt.length,
+    },
+  }
 }
 
 export default {
-  generateText
-};
+  generateText,
+}

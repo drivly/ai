@@ -5,6 +5,7 @@ A lightweight package for interfacing with Payload CMS, supporting both direct N
 ## Usage
 
 ### Node.js Runtime
+
 ```typescript
 import { createNodePayloadClient } from 'simple-payload/node'
 import { getPayload } from 'payload'
@@ -15,11 +16,12 @@ const db = createNodePayloadClient(payload)
 ```
 
 ### Edge Runtime
+
 ```typescript
 import { createEdgePayloadClient } from 'simple-payload/edge'
 
 const db = createEdgePayloadClient({
   apiUrl: 'https://your-payload-api.example.com',
-  apiKey: 'your-api-key'
+  apiKey: 'your-api-key',
 })
 ```

@@ -30,13 +30,13 @@ describe('middleware', () => {
     } as unknown as NextRequest
 
     const result = middleware(request)
-    
+
     // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
       expect.objectContaining({
         pathname: '/functions',
         search: '?param=value',
-      })
+      }),
     )
     expect(result).toEqual({
       url: expect.objectContaining({
@@ -59,13 +59,13 @@ describe('middleware', () => {
     } as unknown as NextRequest
 
     const result = middleware(request)
-    
+
     // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
       expect.objectContaining({
         pathname: '/functions/some/path',
         search: '?param=value',
-      })
+      }),
     )
     expect(result).toEqual({
       url: expect.objectContaining({
@@ -88,12 +88,12 @@ describe('middleware', () => {
     } as unknown as NextRequest
 
     const result = middleware(request)
-    
+
     // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
       expect.objectContaining({
         pathname: '/sites/functions.do/',
-      })
+      }),
     )
     expect(result).toEqual({
       url: expect.objectContaining({

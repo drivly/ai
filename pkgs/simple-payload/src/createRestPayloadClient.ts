@@ -7,12 +7,12 @@ import { CollectionData, CollectionQuery, PayloadDB, RestPayloadClientConfig } f
  */
 export const createRestPayloadClient = (config: RestPayloadClientConfig): PayloadDB => {
   const { apiUrl, apiKey, headers: customHeaders = {} } = config
-  
+
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...customHeaders,
   }
-  
+
   if (apiKey) {
     headers.Authorization = `Bearer ${apiKey}`
   }
@@ -42,16 +42,13 @@ export const createRestPayloadClient = (config: RestPayloadClientConfig): Payloa
                         queryParams.append(key, String(value))
                       }
                     })
-                    
-                    const response = await fetch(
-                      `${apiUrl}/api/${collection}?${queryParams.toString()}`,
-                      { headers }
-                    )
-                    
+
+                    const response = await fetch(`${apiUrl}/api/${collection}?${queryParams.toString()}`, { headers })
+
                     if (!response.ok) {
                       throw new Error(`API Error: ${response.status} ${response.statusText}`)
                     }
-                    
+
                     return response.json()
                   }
                   return methods.find
@@ -75,54 +72,48 @@ export const createRestPayloadClient = (config: RestPayloadClientConfig): Payloa
                         queryParams.append(key, String(value))
                       }
                     })
-                    
+
                     const queryString = queryParams.toString()
                     const url = `${apiUrl}/api/${collection}/${id}${queryString ? `?${queryString}` : ''}`
-                    
+
                     const response = await fetch(url, { headers })
-                    
+
                     if (!response.ok) {
                       throw new Error(`API Error: ${response.status} ${response.statusText}`)
                     }
-                    
+
                     return response.json()
                   }
                   return methods.get
 
                 case 'create':
                   methods.create = async (data: CollectionData, query: CollectionQuery = {}) => {
-                    const response = await fetch(
-                      `${apiUrl}/api/${collection}`,
-                      {
-                        method: 'POST',
-                        headers,
-                        body: JSON.stringify(data),
-                      }
-                    )
-                    
+                    const response = await fetch(`${apiUrl}/api/${collection}`, {
+                      method: 'POST',
+                      headers,
+                      body: JSON.stringify(data),
+                    })
+
                     if (!response.ok) {
                       throw new Error(`API Error: ${response.status} ${response.statusText}`)
                     }
-                    
+
                     return response.json()
                   }
                   return methods.create
 
                 case 'update':
                   methods.update = async (id: string, data: CollectionData, query: CollectionQuery = {}) => {
-                    const response = await fetch(
-                      `${apiUrl}/api/${collection}/${id}`,
-                      {
-                        method: 'PATCH',
-                        headers,
-                        body: JSON.stringify(data),
-                      }
-                    )
-                    
+                    const response = await fetch(`${apiUrl}/api/${collection}/${id}`, {
+                      method: 'PATCH',
+                      headers,
+                      body: JSON.stringify(data),
+                    })
+
                     if (!response.ok) {
                       throw new Error(`API Error: ${response.status} ${response.statusText}`)
                     }
-                    
+
                     return response.json()
                   }
                   return methods.update
@@ -141,18 +132,15 @@ export const createRestPayloadClient = (config: RestPayloadClientConfig): Payloa
 
                 case 'delete':
                   methods.delete = async (id: string, query: CollectionQuery = {}) => {
-                    const response = await fetch(
-                      `${apiUrl}/api/${collection}/${id}`,
-                      {
-                        method: 'DELETE',
-                        headers,
-                      }
-                    )
-                    
+                    const response = await fetch(`${apiUrl}/api/${collection}/${id}`, {
+                      method: 'DELETE',
+                      headers,
+                    })
+
                     if (!response.ok) {
                       throw new Error(`API Error: ${response.status} ${response.statusText}`)
                     }
-                    
+
                     return response.json()
                   }
                   return methods.delete

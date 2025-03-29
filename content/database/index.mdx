@@ -29,18 +29,18 @@ const db = DB({
     status: 'Draft | Published | Archived', // Select field with predefined options
     contentType: 'Text | Markdown | Code | Object | Schema', // Another select field example
     tags: 'tags[]',
-    author: 'authors'
+    author: 'authors',
   },
   tags: {
     name: 'text',
-    posts: '<-posts.tags'  // Join field to posts (reverse relation)
+    posts: '<-posts.tags', // Join field to posts (reverse relation)
   },
   authors: {
     name: 'text',
     email: 'email',
     role: 'Admin | Editor | Writer', // Select field with predefined options
-    posts: '<-posts.author'  // Join field to posts (reverse relation)
-  }
+    posts: '<-posts.author', // Join field to posts (reverse relation)
+  },
 })
 
 // Create a new post
@@ -50,18 +50,18 @@ const post = await db.posts.create({
   status: 'Published',
   contentType: 'Markdown',
   tags: ['database', 'tutorial'],
-  author: 'author123'
+  author: 'author123',
 })
 
 // Query posts with filtering
 const publishedPosts = await db.posts.find({
   status: 'Published',
-  author: 'author123'
+  author: 'author123',
 })
 
 // Update a post
 await db.posts.update(post.id, {
-  title: 'Updated Title'
+  title: 'Updated Title',
 })
 
 // Delete a post
@@ -72,25 +72,22 @@ await db.posts.delete(post.id)
 
 ```typescript
 // Find products with pagination and sorting
-const products = await db.products.find({
-  price: { gt: 100 },
-  isAvailable: true,
-  category: 'electronics'
-}, {
-  limit: 10,
-  page: 1,
-  sort: { price: 'desc' }
-})
+const products = await db.products.find(
+  {
+    price: { gt: 100 },
+    isAvailable: true,
+    category: 'electronics',
+  },
+  {
+    limit: 10,
+    page: 1,
+    sort: { price: 'desc' },
+  },
+)
 
 // Find with complex filters
 const results = await db.posts.find({
-  $or: [
-    { status: 'Published' },
-    { author: 'author123' }
-  ],
-  $and: [
-    { createdAt: { gt: new Date('2023-01-01') } },
-    { tags: { contains: 'featured' } }
-  ]
+  $or: [{ status: 'Published' }, { author: 'author123' }],
+  $and: [{ createdAt: { gt: new Date('2023-01-01') } }, { tags: { contains: 'featured' } }],
 })
 ```

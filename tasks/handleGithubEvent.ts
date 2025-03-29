@@ -11,7 +11,7 @@ export const handleGithubEvent = {
     // TODO: Figure out the correct type for Github Webhooks
     const event = job.input.payload as any
     const { payload } = req
-    
+
     if (event.action === 'labeled') {
       console.log('Label added:', event.label?.name)
       if (event.label?.name === 'research') {
@@ -25,7 +25,6 @@ export const handleGithubEvent = {
 
     const results = await payload.create({ collection: 'events', data: { data: event } })
     console.log('Event saved to database:', results)
-    
   },
 } as WorkflowConfig<'handleGithubEvent'>
 
@@ -42,7 +41,7 @@ async function createDevinSession(event: any) {
     const issueBody = issue.body || ''
     const issueUrl = issue.html_url
     const repositoryUrl = event.repository?.html_url
-    
+
     const prompt = `
       Please create a new branch and PR to solve the following GitHub issue:
       
@@ -65,9 +64,9 @@ async function createDevinSession(event: any) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.DEVIN_API_KEY}`
+        Authorization: `Bearer ${process.env.DEVIN_API_KEY}`,
       },
-      body: JSON.stringify({ prompt })
+      body: JSON.stringify({ prompt }),
     })
 
     if (!response.ok) {
@@ -85,7 +84,7 @@ async function createDevinSession(event: any) {
       console.error('Failed to parse Devin API response:', parseError)
       result = { error: 'Invalid JSON response', rawResponse: await response.text() }
     }
-    
+
     return result
   } catch (error) {
     console.error('Error creating Devin session:', error)

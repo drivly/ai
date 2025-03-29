@@ -38,19 +38,19 @@ import { MCP } from 'mcp.do'
 // Initialize with default settings
 const mcp = MCP({
   defaultProvider: 'openai',
-  defaultModel: 'gpt-4'
+  defaultModel: 'gpt-4',
 })
 
 // Create a context with system prompt
 const context = mcp.createContext({
   system: 'You are a helpful assistant that provides concise answers.',
-  maxTokens: 16000
+  maxTokens: 16000,
 })
 
 // Add user message to context
 context.addMessage({
   role: 'user',
-  content: 'Explain the concept of quantum computing in simple terms.'
+  content: 'Explain the concept of quantum computing in simple terms.',
 })
 
 // Get response within context constraints
@@ -60,7 +60,7 @@ console.log(response)
 // Continue the conversation with context management
 context.addMessage({
   role: 'user',
-  content: 'How does that compare to classical computing?'
+  content: 'How does that compare to classical computing?',
 })
 
 // Get follow-up response
@@ -81,14 +81,14 @@ const context = mcp.createContext({
   maxTokens: 8000,
   reserveTokens: 1000, // Reserve tokens for response
   provider: 'anthropic',
-  model: 'claude-3-opus'
+  model: 'claude-3-opus',
 })
 
 // Add multiple messages
 context.addMessages([
   { role: 'user', content: 'What are the key differences between CNN and RNN?' },
   { role: 'assistant', content: 'CNNs are designed for spatial data like images...' },
-  { role: 'user', content: 'How would you choose between them for a specific task?' }
+  { role: 'user', content: 'How would you choose between them for a specific task?' },
 ])
 
 // Check context utilization
@@ -99,7 +99,7 @@ console.log(`Using ${stats.currentTokens} of ${stats.maxTokens} tokens (${stats.
 if (stats.utilizationPercentage > 80) {
   context.optimize({
     strategy: 'summarize_history',
-    keepMessages: 3 // Keep the most recent messages
+    keepMessages: 3, // Keep the most recent messages
   })
 }
 ```
@@ -120,20 +120,20 @@ const promptTemplate = mcp.createPromptTemplate({
     User query: {{query}}
   `,
   defaultValues: {
-    system: 'You are a helpful assistant.'
-  }
+    system: 'You are a helpful assistant.',
+  },
 })
 
 // Generate a prompt with specific values
 const prompt = promptTemplate.generate({
   context: 'This conversation is about machine learning algorithms.',
-  query: 'Explain backpropagation.'
+  query: 'Explain backpropagation.',
 })
 
 // Optimize the prompt for a specific model
 const optimizedPrompt = mcp.optimizePrompt(prompt, {
   model: 'gpt-3.5-turbo',
-  maxTokens: 4000
+  maxTokens: 4000,
 })
 
 // Get response using the optimized prompt
@@ -149,37 +149,33 @@ Ensure consistent behavior across different models:
 const request = mcp.createRequest({
   messages: [
     { role: 'system', content: 'You are a helpful assistant.' },
-    { role: 'user', content: 'Summarize the key points of reinforcement learning.' }
+    { role: 'user', content: 'Summarize the key points of reinforcement learning.' },
   ],
   parameters: {
     temperature: 0.7,
-    maxOutputTokens: 500
-  }
+    maxOutputTokens: 500,
+  },
 })
 
 // Send to different models with consistent interface
 const openaiResponse = await request.send({
   provider: 'openai',
-  model: 'gpt-4'
+  model: 'gpt-4',
 })
 
 const anthropicResponse = await request.send({
   provider: 'anthropic',
-  model: 'claude-3-sonnet'
+  model: 'claude-3-sonnet',
 })
 
 const mistralResponse = await request.send({
   provider: 'mistral',
-  model: 'mistral-large'
+  model: 'mistral-large',
 })
 
 // Compare responses
-const comparison = mcp.compareResponses([
-  openaiResponse,
-  anthropicResponse,
-  mistralResponse
-], {
-  criteria: ['accuracy', 'conciseness', 'completeness']
+const comparison = mcp.compareResponses([openaiResponse, anthropicResponse, mistralResponse], {
+  criteria: ['accuracy', 'conciseness', 'completeness'],
 })
 ```
 

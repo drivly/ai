@@ -49,10 +49,7 @@ const gpt4 = await models.getModel('openai/gpt-4o')
 console.log(gpt4)
 
 // Compare multiple models
-const comparison = await models.compareModels([
-  'openai/gpt-4o', 
-  'anthropic/claude-3-opus'
-])
+const comparison = await models.compareModels(['openai/gpt-4o', 'anthropic/claude-3-opus'])
 console.log(comparison)
 
 // Get all available providers
@@ -79,18 +76,23 @@ new ModelsClient(options?: { apiKey?: string, baseUrl?: string })
 #### Methods
 
 - `listModels(filters?: ModelFilters): Promise<Record<string, ModelDetails>>`
+
   - List available models with optional filtering
 
 - `getModel(modelIdentifier: string): Promise<{ model: ModelDetails }>`
+
   - Get details about a specific model
 
 - `compareModels(modelIdentifiers: string[]): Promise<Record<string, ModelDetails>>`
+
   - Compare models based on their capabilities
 
 - `findModelsWithCapabilities(capabilities: ModelCapability[]): Promise<Record<string, ModelDetails>>`
+
   - Find models that have all the specified capabilities
 
 - `getProviders(): Promise<string[]>`
+
   - Get all available providers
 
 - `getAuthors(): Promise<string[]>`
@@ -99,16 +101,7 @@ new ModelsClient(options?: { apiKey?: string, baseUrl?: string })
 ### Types
 
 ```typescript
-type ModelCapability = 
-  | 'code' 
-  | 'online' 
-  | 'reasoning' 
-  | 'reasoning-low' 
-  | 'reasoning-medium' 
-  | 'reasoning-high' 
-  | 'tools' 
-  | 'structuredOutput' 
-  | 'responseFormat'
+type ModelCapability = 'code' | 'online' | 'reasoning' | 'reasoning-low' | 'reasoning-medium' | 'reasoning-high' | 'tools' | 'structuredOutput' | 'responseFormat'
 
 interface ModelDetails {
   name: string

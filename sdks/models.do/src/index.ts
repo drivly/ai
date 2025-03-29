@@ -1,15 +1,6 @@
 import { ApiClient } from './api-client'
 
-export type ModelCapability = 
-  | 'code' 
-  | 'online' 
-  | 'reasoning' 
-  | 'reasoning-low' 
-  | 'reasoning-medium' 
-  | 'reasoning-high' 
-  | 'tools' 
-  | 'structuredOutput' 
-  | 'responseFormat'
+export type ModelCapability = 'code' | 'online' | 'reasoning' | 'reasoning-low' | 'reasoning-medium' | 'reasoning-high' | 'tools' | 'structuredOutput' | 'responseFormat'
 
 export interface ModelDetails {
   name: string
@@ -31,13 +22,13 @@ export interface ModelFilters {
 export class ModelsClient {
   private api: ApiClient
 
-  constructor(options: { apiKey?: string, baseUrl?: string } = {}) {
+  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
     this.api = new ApiClient({
       baseUrl: options.baseUrl || 'https://models.do',
       headers: {
         'Content-Type': 'application/json',
-        ...(options.apiKey ? { 'Authorization': `Bearer ${options.apiKey}` } : {})
-      }
+        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
+      },
     })
   }
 
@@ -56,9 +47,7 @@ export class ModelsClient {
     }
 
     if (filters.capabilities) {
-      const capabilitiesArray = Array.isArray(filters.capabilities) 
-        ? filters.capabilities 
-        : [filters.capabilities]
+      const capabilitiesArray = Array.isArray(filters.capabilities) ? filters.capabilities : [filters.capabilities]
       params.capabilities = capabilitiesArray.join(',')
     }
 
@@ -77,14 +66,14 @@ export class ModelsClient {
    */
   async compareModels(modelIdentifiers: string[]): Promise<Record<string, ModelDetails>> {
     const models: Record<string, ModelDetails> = {}
-    
+
     for (const modelId of modelIdentifiers) {
       const result = await this.getModel(modelId)
       if (result.model) {
         models[result.model.name] = result.model
       }
     }
-    
+
     return models
   }
 
@@ -100,8 +89,7 @@ export class ModelsClient {
    */
   async getProviders(): Promise<string[]> {
     const result = await this.api.get<{ links?: { providers?: Record<string, string> } }>('/api/models')
-    return Object.keys(result?.links?.providers || {})
-      .map(key => key.split(' ')[0]) // Remove the count in parentheses
+    return Object.keys(result?.links?.providers || {}).map((key) => key.split(' ')[0]) // Remove the count in parentheses
   }
 
   /**
@@ -109,8 +97,7 @@ export class ModelsClient {
    */
   async getAuthors(): Promise<string[]> {
     const result = await this.api.get<{ links?: { authors?: Record<string, string> } }>('/api/models')
-    return Object.keys(result?.links?.authors || {})
-      .map(key => key.split(' ')[0]) // Remove the count in parentheses
+    return Object.keys(result?.links?.authors || {}).map((key) => key.split(' ')[0]) // Remove the count in parentheses
   }
 }
 

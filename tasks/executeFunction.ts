@@ -18,8 +18,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const start = Date.now()
 
   // Determine if this is a text-based function (Markdown, Text, TextArray, etc.)
-  const isTextFunction = type === 'Text' || type === 'Markdown' || type === 'TextArray' || 
-                        (settings?.type && ['Text', 'Markdown', 'TextArray'].includes(settings.type))
+  const isTextFunction = type === 'Text' || type === 'Markdown' || type === 'TextArray' || (settings?.type && ['Text', 'Markdown', 'TextArray'].includes(settings.type))
   // Determine if this is a code-based function
   const isCodeFunction = type === 'Code' || (settings?.type && settings.type === 'Code')
 
@@ -72,14 +71,16 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
   // Create any missing resources
   const createPromise = Promise.all([
-    functionDoc ? undefined : payload.create({ 
-      collection: 'functions', 
-      data: { 
-        name: functionName, 
-        type: isCodeFunction ? 'Code' : 'Generation',
-        format: isTextFunction ? type || 'Text' : 'Object'
-      } 
-    }),
+    functionDoc
+      ? undefined
+      : payload.create({
+          collection: 'functions',
+          data: {
+            name: functionName,
+            type: isCodeFunction ? 'Code' : 'Generation',
+            format: isTextFunction ? type || 'Text' : 'Object',
+          },
+        }),
     argsDoc ? undefined : payload.create({ collection: 'things', data: { hash: argsHash, data: args } }),
   ])
 

@@ -23,20 +23,20 @@ import { API } from 'apis.do'
 export default API(async (request, context) => {
   // Extract parameters from the request
   const { name } = request.query
-  
+
   // Process the request
   const greeting = `Hello, ${name || 'World'}!`
-  
+
   // Return a response
   return {
     api: {
       name: 'greeting-api',
       description: 'A simple greeting API',
       url: 'https://apis.do/greeting',
-      version: '1.0.0'
+      version: '1.0.0',
     },
     greeting,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   }
 })
 ```

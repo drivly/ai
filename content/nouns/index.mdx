@@ -23,38 +23,38 @@ import { defineNoun } from 'nouns.do'
 const Customer = defineNoun({
   name: 'Customer',
   description: 'A person or organization that purchases products or services',
-  
+
   // Define the properties of a Customer
   properties: {
     name: {
       type: 'string',
       required: true,
-      description: 'Full name of the customer'
+      description: 'Full name of the customer',
     },
     email: {
       type: 'string',
       format: 'email',
       required: true,
       unique: true,
-      description: 'Primary email address'
+      description: 'Primary email address',
     },
     phone: {
       type: 'string',
       pattern: '^\\+?[1-9]\\d{1,14}$',
       required: false,
-      description: 'Contact phone number in E.164 format'
+      description: 'Contact phone number in E.164 format',
     },
     type: {
       type: 'string',
       enum: ['individual', 'business'],
       default: 'individual',
-      description: 'Type of customer'
+      description: 'Type of customer',
     },
     status: {
       type: 'string',
       enum: ['active', 'inactive', 'pending'],
       default: 'pending',
-      description: 'Current status of the customer'
+      description: 'Current status of the customer',
     },
     address: {
       type: 'object',
@@ -63,53 +63,53 @@ const Customer = defineNoun({
         city: { type: 'string' },
         state: { type: 'string' },
         postalCode: { type: 'string' },
-        country: { type: 'string' }
+        country: { type: 'string' },
       },
       required: false,
-      description: 'Mailing address'
+      description: 'Mailing address',
     },
     createdAt: {
       type: 'string',
       format: 'date-time',
       default: () => new Date().toISOString(),
-      description: 'When the customer was created'
-    }
+      description: 'When the customer was created',
+    },
   },
-  
+
   // Define relationships to other entities
   relationships: {
     orders: {
       type: 'hasMany',
       target: 'Order',
       foreignKey: 'customerId',
-      description: 'Orders placed by this customer'
+      description: 'Orders placed by this customer',
     },
     subscriptions: {
       type: 'hasMany',
       target: 'Subscription',
       foreignKey: 'customerId',
-      description: 'Active subscriptions for this customer'
+      description: 'Active subscriptions for this customer',
     },
     primaryContact: {
       type: 'hasOne',
       target: 'Contact',
       foreignKey: 'customerId',
-      description: 'Primary contact person for this customer'
-    }
+      description: 'Primary contact person for this customer',
+    },
   },
-  
+
   // Define validation rules
   validations: [
     {
       rule: 'email must be unique',
-      message: 'A customer with this email already exists'
+      message: 'A customer with this email already exists',
     },
     {
       rule: 'if type is business, name must not be empty',
-      message: 'Business customers must have a company name'
-    }
+      message: 'Business customers must have a company name',
+    },
   ],
-  
+
   // Define methods that can be performed on this entity
   methods: {
     activate: {
@@ -118,7 +118,7 @@ const Customer = defineNoun({
         customer.status = 'active'
         customer.activatedAt = new Date().toISOString()
         return customer
-      }
+      },
     },
     deactivate: {
       description: 'Deactivate the customer account',
@@ -126,9 +126,9 @@ const Customer = defineNoun({
         customer.status = 'inactive'
         customer.deactivatedAt = new Date().toISOString()
         return customer
-      }
-    }
-  }
+      },
+    },
+  },
 })
 
 // Use the Customer entity in a workflow
@@ -137,23 +137,23 @@ import { AI } from 'workflows.do'
 export default AI({
   onNewSignup: async ({ db, event }) => {
     const { name, email, company } = event
-    
+
     // Create a new customer
     const customer = await db.Customer.create({
       name: company ? company : name,
       email,
       type: company ? 'business' : 'individual',
-      status: 'pending'
+      status: 'pending',
     })
-    
+
     // Activate the customer
     const activatedCustomer = await customer.activate()
-    
+
     return {
       customerId: activatedCustomer.id,
-      status: activatedCustomer.status
+      status: activatedCustomer.status,
     }
-  }
+  },
 })
 ```
 
@@ -171,9 +171,9 @@ const User = defineNoun({
     profile: {
       type: 'hasOne',
       target: 'Profile',
-      foreignKey: 'userId'
-    }
-  }
+      foreignKey: 'userId',
+    },
+  },
 })
 
 const Profile = defineNoun({
@@ -183,9 +183,9 @@ const Profile = defineNoun({
     user: {
       type: 'belongsTo',
       target: 'User',
-      foreignKey: 'userId'
-    }
-  }
+      foreignKey: 'userId',
+    },
+  },
 })
 ```
 
@@ -199,9 +199,9 @@ const Post = defineNoun({
     comments: {
       type: 'hasMany',
       target: 'Comment',
-      foreignKey: 'postId'
-    }
-  }
+      foreignKey: 'postId',
+    },
+  },
 })
 
 const Comment = defineNoun({
@@ -211,9 +211,9 @@ const Comment = defineNoun({
     post: {
       type: 'belongsTo',
       target: 'Post',
-      foreignKey: 'postId'
-    }
-  }
+      foreignKey: 'postId',
+    },
+  },
 })
 ```
 
@@ -229,9 +229,9 @@ const Student = defineNoun({
       target: 'Course',
       through: 'Enrollment',
       foreignKey: 'studentId',
-      targetKey: 'courseId'
-    }
-  }
+      targetKey: 'courseId',
+    },
+  },
 })
 
 const Course = defineNoun({
@@ -243,8 +243,8 @@ const Course = defineNoun({
       target: 'Student',
       through: 'Enrollment',
       foreignKey: 'courseId',
-      targetKey: 'studentId'
-    }
-  }
+      targetKey: 'studentId',
+    },
+  },
 })
 ```
