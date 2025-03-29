@@ -9,11 +9,10 @@ export const Events: CollectionConfig = {
   },
   access: { create: () => false, update: () => false, delete: () => false },
   fields: [
-    { name: 'timestamp', type: 'date', required: true },
-    { name: 'type', type: 'text', required: true },
-    { name: 'source', type: 'text', required: true },
+    { name: 'type', type: 'text' },
+    { name: 'source', type: 'text' },
     { name: 'subject', type: 'relationship', relationTo: 'things' },
-    { name: 'data', type: 'json', required: true },
+    { name: 'data', type: 'json' },
     { name: 'metadata', type: 'json' },
 
     { name: 'action', type: 'relationship', relationTo: 'actions' },
@@ -25,14 +24,4 @@ export const Events: CollectionConfig = {
 
     { name: 'generations', type: 'relationship', relationTo: 'generations', hasMany: true },
   ],
-  hooks: {
-    beforeChange: [
-      async ({ data }) => {
-        if (!data.timestamp) {
-          data.timestamp = new Date()
-        }
-        return data
-      },
-    ],
-  },
 }

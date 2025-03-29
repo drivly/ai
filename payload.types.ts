@@ -783,11 +783,10 @@ export interface Dataset {
  */
 export interface Event {
   id: string;
-  timestamp: string;
-  type: string;
-  source: string;
+  type?: string | null;
+  source?: string | null;
   subject?: (string | null) | Thing;
-  data:
+  data?:
     | {
         [k: string]: unknown;
       }
@@ -1490,7 +1489,6 @@ export interface DatasetsSelect<T extends boolean = true> {
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
-  timestamp?: T;
   type?: T;
   source?: T;
   subject?: T;
