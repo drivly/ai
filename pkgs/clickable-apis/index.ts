@@ -60,17 +60,10 @@ export const createAPI = (payloadInstance?: any) => {
           
           // Only create db client if we need it and don't already have it in the payload
           if (!payload.db) {
-            const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL 
-              ? `https://${process.env.VERCEL_URL}` 
-              : 'http://localhost:3000')
-            if (!process.env.PAYLOAD_API_URL) {
-              console.warn(`PAYLOAD_API_URL not set, falling back to ${apiUrl}`)
-            }
-            const apiKey = process.env.PAYLOAD_API_KEY
-            
+            // Pass the payload instance directly to the payload client creators
             db = isEdgeRuntime
-              ? createEdgePayloadClient({ apiUrl, apiKey })
-              : createNodePayloadClient({ apiUrl, apiKey })
+              ? createEdgePayloadClient(payload)
+              : createNodePayloadClient(payload)
           } else {
             db = payload.db
           }
@@ -91,14 +84,24 @@ export const createAPI = (payloadInstance?: any) => {
           }
           const apiKey = process.env.PAYLOAD_API_KEY
 
-          db = createEdgePayloadClient({
-            apiUrl,
-            apiKey,
-          })
-
+          // Create a mock payload instance for edge runtime
           payload = {
             auth: async () => ({ permissions: {}, user: null }),
+            // Add required API properties for payload client
+            find: async (options: any) => {
+              return fetch(`${apiUrl}/api/${options.collection}`, {
+                headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
+              }).then(res => res.json())
+            },
+            findByID: async (options: any) => {
+              return fetch(`${apiUrl}/api/${options.collection}/${options.id}`, {
+                headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
+              }).then(res => res.json())
+            }
           }
+          
+          // Pass the mock payload instance to the client creator
+          db = createEdgePayloadClient(payload)
         } else {
           try {
             if (options?.getPayloadClient) {
@@ -128,10 +131,26 @@ export const createAPI = (payloadInstance?: any) => {
             }
             const apiKey = process.env.PAYLOAD_API_KEY
             
-            db = createNodePayloadClient({
-              apiUrl,
-              apiKey,
-            })
+            // Create a mock payload instance for the fallback approach
+            const mockPayload = {
+              auth: {
+                me: async () => ({ permissions: {}, user: null })
+              },
+              // Add required API properties for payload client
+              find: async (options: any) => {
+                return fetch(`${apiUrl}/api/${options.collection}`, {
+                  headers: apiKey ? { Authorization: `JWT ${apiKey}` } : {},
+                }).then(res => res.json())
+              },
+              findByID: async (options: any) => {
+                return fetch(`${apiUrl}/api/${options.collection}/${options.id}`, {
+                  headers: apiKey ? { Authorization: `JWT ${apiKey}` } : {},
+                }).then(res => res.json())
+              }
+            }
+            
+            // Pass the mock payload instance to the client creator
+            db = createNodePayloadClient(mockPayload)
             
             try {
               const authResponse = await fetch(`${apiUrl}/api/users/me`, {
