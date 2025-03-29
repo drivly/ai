@@ -4,7 +4,8 @@
   "scripts": {
     "build": "turbo run build && pnpm build:next",
     "build:next": "pnpm build:content && cross-env NODE_OPTIONS=--no-deprecation next build",
-    "dev": "turbo dev --no-cache --concurrency 16 --continue",
+    "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "lint": "turbo lint",
     "changeset": "changeset",
     "version": "changeset version && pnpm install --lockfile-only",
@@ -23,7 +24,6 @@
     "test:watch": "vitest",
     "test:e2e": "vitest run --config vitest.e2e.config.ts",
     "clean": "turbo clean",
-    "dev:legacy": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
     "lint:legacy": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "test:legacy": "vitest run",
     "test:seed": "vitest run tests/seed.test.ts",
@@ -101,7 +101,7 @@
     "vitest": "^3.0.9"
   },
   "engines": {
-    "node": "^22.0.0",
+    "node": "^20 ||^22",
     "pnpm": "^9 || ^10"
   },
   "pnpm": {

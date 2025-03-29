@@ -7,6 +7,7 @@ declare module 'payload-rest-client' {
     url: string
     apiKey?: string
     headers?: Record<string, string>
+    fetchOptions?: RequestInit
   }
 
   export interface PayloadRestAPIClient {
@@ -15,6 +16,10 @@ declare module 'payload-rest-client' {
     create: (options: any) => Promise<any>
     update: (options: any) => Promise<any>
     delete: (options: any) => Promise<any>
+    api?: {
+      url: string
+      fetch: (endpoint: string, options?: RequestInit) => Promise<Response>
+    }
     [key: string]: any
   }
 

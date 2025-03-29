@@ -384,7 +384,7 @@ export const createAPI = (payloadInstance?: any) => {
 
         // Use the injected payload instance if provided through factory function
         if (payloadInstance) {
-          payload = payloadInstance
+          payload = await payloadInstance
 
           // Only create db client if we need it and don't already have it in the payload
           if (!payload.db) {
