@@ -1,4 +1,4 @@
-import { API } from 'clickable-apis'
+import { API } from '@/api.config'
 import { Capability, getModel, ParsedModelIdentifier, reconstructModelString, models, parse } from '@/pkgs/ai-models'
 import { createOpenAI } from '@ai-sdk/openai'
 import { generateText } from 'ai'

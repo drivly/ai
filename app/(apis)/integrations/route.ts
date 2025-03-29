@@ -1,4 +1,4 @@
-import { API } from 'clickable-apis'
+import { API } from '@/api.config'
 
 export const GET = API(async (request, { db, user, url }) => {
   if (!process.env.COMPOSIO_API_KEY) {

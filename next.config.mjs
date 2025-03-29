@@ -12,21 +12,43 @@ const nextConfig = {
   // Your Next.js config here
   transpilePackages: ['simple-payload', 'clickable-apis', 'ai-models'],
   webpack: (config, { isServer }) => {
-    // Handle node: imports by excluding them from client-side bundles
+    // Handle node: imports
     if (!isServer) {
-      // Add rule to exclude node: imports in client-side bundles
-      config.module = config.module || {}
-      config.module.rules = config.module.rules || []
+      config.resolve = config.resolve || {}
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        http: false,
+        https: false,
+        module: false,
+        crypto: false,
+        path: false,
+        os: false,
+        stream: false,
+        zlib: false,
+        process: false,
+      }
       
       // Add rule to handle node: scheme imports
+      config.module = config.module || {}
+      config.module.rules = config.module.rules || []
       config.module.rules.push({
         test: /node:(.*)$/,
         use: 'null-loader',
       })
     }
     
+    // Add rule to ignore node: imports in build scripts
+    config.module = config.module || {}
+    config.module.rules = config.module.rules || []
+    config.module.rules.push({
+      test: /build-.*\.ts$/,
+      use: 'ignore-loader',
+    })
+    
     // Add alias for payload config
-    config.resolve = config.resolve || {}
     config.resolve.alias = config.resolve.alias || {}
     config.resolve.alias['@payload-config'] = resolve('./payload.config.js')
     

@@ -1,8 +1,7 @@
 import camelCase from 'camelcase'
-import fs from 'node:fs'
-import path from 'node:path'
-import { overwrites } from './overwrites'
 import { flatten, unflatten } from 'flat'
+
+const overwrites = {};
 
 const URL = 'https://openrouter.ai/api/frontend/models/find?order=top-weekly'
 
@@ -43,8 +42,11 @@ async function main() {
     })
 
     // Write to models.json in src directory
-    const outputPath = path.resolve('./src/models.ts')
-    fs.writeFileSync(outputPath, `export default ${JSON.stringify({ models: modelsData }, null, 2)}`)
+    const { resolve } = await import('node:path')
+    const { writeFileSync } = await import('node:fs')
+    
+    const outputPath = resolve('./src/models.ts')
+    writeFileSync(outputPath, `export default ${JSON.stringify({ models: modelsData }, null, 2)}`)
 
     console.log(`Models data written to ${outputPath}`)
   } catch (error) {

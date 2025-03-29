@@ -1,6 +1,6 @@
-import { API } from 'clickable-apis'
+import { API } from '@/api.config'
 import { getPayload } from 'payload'
-import config from '../../../../payload.config'
+import config from '@payload-config'
 import { Webhook } from 'svix'
 
 export const POST = API(async (request, { db, user, origin, url, domain }) => {

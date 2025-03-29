@@ -1,3 +1,25 @@
+import { NextRequest, NextResponse } from 'next/server'
+import punycode from 'punycode'
+import { PayloadDB, createNodePayloadClient, createEdgePayloadClient } from '@/pkgs/simple-payload'
+import { API as ClickableAPI, modifyQueryString as clickableModifyQueryString } from '@/pkgs/clickable-apis'
+
+export const getPayloadClient = async () => {
+  try {
+    const { getPayload } = await import('payload')
+    const config = await import('@payload-config')
+    const payload = await getPayload({ 
+      config: config.default 
+    })
+    
+    const db = createNodePayloadClient(payload)
+    
+    return { payload, db }
+  } catch (error) {
+    console.error('Error initializing payload client:', error)
+    throw error
+  }
+}
+
 export const apis: Record<string, string> = {
   functions: 'Reliable Structured Output',
   workflows: '',
@@ -37,3 +59,8 @@ export const symbols: Record<string, string> = {
   // 卌: '',
   // 口: '',
 }
+
+export const API = <T = any>(handler: any) => 
+  ClickableAPI(handler, { getPayloadClient })
+
+export const modifyQueryString = clickableModifyQueryString
