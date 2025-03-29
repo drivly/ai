@@ -1,5 +1,6 @@
 import nextra from 'nextra'
 import { withPayload } from '@payloadcms/next/withPayload'
+import { resolve } from 'path'
 
 const withNextra = nextra({
   contentDirBasePath: '/docs',
@@ -27,7 +28,7 @@ const nextConfig = {
     // Add alias for payload config
     config.resolve = config.resolve || {}
     config.resolve.alias = config.resolve.alias || {}
-    config.resolve.alias['@payload-config'] = require('path').resolve('./payload.config.js')
+    config.resolve.alias['@payload-config'] = resolve('./payload.config.js')
     
     return config
   }
