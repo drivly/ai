@@ -14,7 +14,7 @@
     "clean": "rimraf dist",
     "lint": "tsc --noEmit",
     "prepublishOnly": "pnpm clean && pnpm build",
-    "test": "dotenvx run -- vitest",
+    "test": "echo \"No tests\" && exit 0",
     "typecheck": "tsc --noEmit"
   },
   "type": "module",

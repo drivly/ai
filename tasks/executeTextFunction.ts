@@ -10,6 +10,7 @@ export const executeTextFunction = async ({ input, req }: any) => {
   const textInput = {
     ...input,
     type: 'Text',
+    settings: input.settings ? { ...input.settings, type: 'Text' } : input.settings,
   }
 
   // Call the executeFunction with the modified input
