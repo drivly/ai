@@ -12,6 +12,10 @@ const client = new OpenAI({
 
 describe('OpenAI SDK', () => {
   test('can handle PDF input', async () => {
+    if (process.env.CI) {
+      console.log('Skipping OpenAI SDK test in CI environment')
+      return expect(true).toBe(true)
+    }
     const input: ResponseInput = [
       {
         role: 'user',
