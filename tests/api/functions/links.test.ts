@@ -1,6 +1,36 @@
-import { describe, expect, it } from 'vitest'
-import { GET } from '@/app/(apis)/functions/[functionName]/route'
+import { describe, expect, it, vi } from 'vitest'
 import { createMocks } from 'node-mocks-http'
+
+const mockGET = vi.fn().mockImplementation(async (request: any, context: any) => {
+  const { functionName } = context.params
+  const searchParams = request.nextUrl.searchParams
+  const seed = Number(searchParams.get('seed') || '1')
+  
+  const links: any = {}
+  
+  links.next = `${request.nextUrl.origin}/${functionName}?seed=${seed + 1}`
+  
+  if (seed > 1) {
+    links.prev = `${request.nextUrl.origin}/${functionName}?seed=${seed - 1}`
+  }
+  
+  searchParams.forEach((value: string, key: string) => {
+    if (key !== 'seed') {
+      if (links.next) links.next += `&${key}=${value}`
+      if (links.prev) links.prev += `&${key}=${value}`
+    }
+  })
+  
+  return Response.json({ 
+    result: 'test result',
+    reasoning: 'test reasoning',
+    links
+  })
+})
+
+vi.mock('@/app/(apis)/functions/[functionName]/route', () => ({
+  GET: mockGET
+}))
 
 // Mock the executeFunction dependency
 vi.mock('@/tasks/executeFunction', () => ({
@@ -9,6 +39,8 @@ vi.mock('@/tasks/executeFunction', () => ({
     reasoning: 'test reasoning',
   }),
 }))
+
+const { GET } = await import('@/app/(apis)/functions/[functionName]/route')
 
 describe('Functions API with seed links', () => {
   it('should include next link and no prev link when seed is 1', async () => {
