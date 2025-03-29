@@ -33,12 +33,8 @@ function getModelMetadata(modelIdentifier: string): { modelDetails: Model | null
 function getModelInstance(modelIdentifier: string): Model | null {
   const { modelDetails, parsed } = getModelMetadata(modelIdentifier)
 
-  if (!modelDetails) {
-    return null
-  }
-
   // Check if model supports all requested capabilities
-  if (parsed.capabilities.length > 0 && !modelSupportsCapabilities(modelDetails.capabilities, parsed.capabilities)) {
+  if (!modelDetails || (parsed.capabilities.length > 0 && !modelSupportsCapabilities(modelDetails.capabilities, parsed.capabilities))) {
     return null
   }
 
@@ -131,30 +127,13 @@ export function getModel(modelInput: string | string[], config?: ModelConfig): M
 
 // Reconstruct a model string from a parsed model identifier
 export function reconstructModelString(parsed: ParsedModelIdentifier): string {
-  let string = ''
-
-  if (parsed.provider) {
-    string += `${parsed.provider}/`
-  }
-
-  if (parsed.author) {
-    string += `${parsed.author}/`
-  }
-
-  string += parsed.model
-
-  if (parsed.capabilities.length > 0) {
-    string += `:${parsed.capabilities.join(',')}`
-  }
-
-  // System config
-  if (parsed.systemConfig) {
-    string += `(${Object.entries(parsed.systemConfig)
-      .map(([key, value]) => `${key}:${value}`)
-      .join(',')})`
-  }
-
-  return string
+  return `${parsed.provider ? `${parsed.provider}/` : ''}${parsed.author ? `${parsed.author}/` : ''}${parsed.model}${parsed.capabilities.length > 0 ? `:${parsed.capabilities.join(',')}` : ''}${
+    parsed.systemConfig
+      ? `(${Object.entries(parsed.systemConfig)
+          .map(([key, value]) => `${key}:${value}`)
+          .join(',')})`
+      : ''
+  }`
 }
 
 export const modelPattern = new RegExp(`[^:,()]+(?:[:,](?:${capabilities.join('|')})(?:\\([^\)]+\\))?)*`, 'g')
