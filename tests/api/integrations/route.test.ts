@@ -25,9 +25,9 @@ vi.stubEnv('COMPOSIO_API_KEY', 'test-api-key')
 // Import after mocks are set up
 import { GET } from '../../../app/(apis)/integrations/route'
 
-// const POST = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
-// const PUT = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
-// const DELETE = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
+const POST = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
+const PUT = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
+const DELETE = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
 
 describe('Integrations API', () => {
   beforeEach(() => {
@@ -79,8 +79,6 @@ describe('Integrations API', () => {
     })
   })
 
-  
-  /* 
   describe('POST', () => {
     it('should create an integration with the correct API key header', async () => {
       // Mock the request body
@@ -174,5 +172,4 @@ describe('Integrations API', () => {
       })
     })
   })
-  */
 })
