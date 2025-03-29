@@ -1,4 +1,4 @@
-import { getModels } from 'ai-models'
+import { getModels, modelPattern } from 'ai-models'
 import { getUser } from 'api/user'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
@@ -28,7 +28,7 @@ export class Chat extends OpenAPIRoute {
           prompt: z.string().describe('The user prompt').optional(),
           system: z.string().optional().describe('Optional system message'),
           model: z.string().optional().describe('Model to use for the chat'),
-          models: z.string().optional().describe('Comma-separated list of models to use for the chat'),
+          models: z.string().regex(modelPattern).optional().describe('Comma-separated list of models to use for the chat'),
           seed: z.number().optional().describe('Seed for the chat'),
           temperature: z.number().min(0).max(2).optional().describe('Controls randomness: 0 = deterministic, 2 = maximum creativity'),
           tools: z.string().optional().describe('Comma-separated list of tools to use for the chat'),

@@ -18,4 +18,15 @@ describe('OpenAI SDK', () => {
     expect(response).toBeDefined()
     expect(response.id).toBeDefined()
   })
+
+  test.fails('can create an image', async () => {
+    const response = await client.images.generate({
+      prompt: 'A beautiful sunset over a calm ocean',
+      n: 1,
+      size: '1024x1024',
+    })
+    console.log(response)
+    expect(response).toBeDefined()
+    expect(response.data[0].url).toBeDefined()
+  })
 })

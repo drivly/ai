@@ -157,7 +157,9 @@ export function reconstructModelString(parsed: ParsedModelIdentifier): string {
   return string
 }
 
+export const modelPattern = new RegExp(`(\\w+)(?:[:,](?:${capabilities.join('|')})(?:\([^\)]+\))?)*`, 'g')
+
 export function getModels(modelInput: string, config?: ModelConfig): ModelResult[] {
   // gemini:reasoning,code(seed:1,temperature:0.5),r1 -> ['gemini:reasoning,code(seed:1,temperature:0.5)', 'r1']
-  return (modelInput.match(new RegExp(`(\\w+)(?:[:,](?${capabilities.join('|')})(?:\([^\)]+\))?)*`, 'g')) || []).map((x) => getModel(x, config)).filter((x) => x !== null)
+  return (modelInput.match(modelPattern) || []).map((x) => getModel(x, config)).filter((x) => x !== null)
 }
