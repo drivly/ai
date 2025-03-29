@@ -173,6 +173,6 @@ BREAKING CHANGE: Authentication endpoints now use /auth prefix instead of /user
 
 ## Questions?
 
-If you have any questions or need help, please open an issue or reach out to the maintainers.
+If you have any questions or need help, please open an issue or reach out to the maintainers. You can also join our [Discord community](https://discord.gg/drivly) for real-time support and discussions.
 
 Thank you for contributing to Drivly AI!
