@@ -46,7 +46,8 @@ export function middleware(request: NextRequest) {
 
   if (apis[apiName]) {
     console.log('Rewriting to API', { apiName, hostname, pathname, search })
-    return NextResponse.rewrite(new URL(`/${apiName}${pathname}${search}`, request.url))
+    const url = new URL(request.url)
+    return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
   }
 
   console.log('no rewrite', { apiName, hostname, pathname, search })
