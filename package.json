@@ -19,6 +19,7 @@
     "dev:content": "velite --watch",
     "prettier-check": "prettier --check \"**/*.{js,ts,tsx,md,mdx}\"",
     "prettier-fix": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
+    "pretest": "pnpm --filter simple-payload build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "vitest run --config vitest.e2e.config.ts",
