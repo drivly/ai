@@ -95,6 +95,8 @@ export default function Particles({
   function updateParticles() {
     if (!context.current || !canvasRef.current) return;
     
+    const ctx = context.current; // Store reference to avoid null checks on each use
+    
     particles.current.forEach((p) => {
       if (mousePosition.current) {
         const { x: mouseX, y: mouseY } = mousePosition.current;
@@ -121,10 +123,10 @@ export default function Particles({
       p.x += p.vx;
       p.y += p.vy;
       
-      context.current.beginPath();
-      context.current.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      context.current.fillStyle = color;
-      context.current.fill();
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
     });
   }
 
