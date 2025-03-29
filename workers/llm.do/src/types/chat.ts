@@ -151,6 +151,14 @@ export const ChatCompletionRequestSchema = z.object({
     .optional(),
   presence_penalty: z.number().optional(),
   reasoning_effort: ReasoningEffortSchema.optional(),
+  reasoning: z
+    .object({
+      effort: ReasoningEffortSchema.optional(),
+      max_tokens: z.number().optional(),
+      exclude: z.boolean().optional(),
+    })
+    .optional(),
+  repetition_penalty: z.number().optional(),
   response_format: z
     .object({ type: z.literal('text') })
     .or(z.object({ type: z.literal('json_object') }))
@@ -219,7 +227,11 @@ export const ChatCompletionRequestSchema = z.object({
     )
     .optional(),
   top_logprobs: z.number().min(0).max(20).optional(),
+  top_a: z.number().optional(),
+  top_k: z.number().optional(),
   top_p: z.number().optional(),
+  transforms: z.array(z.string()).optional(),
+  min_p: z.number().optional(),
   user: z.string().optional(),
 })
 

@@ -1,13 +1,12 @@
 import { type Capability, getModel } from 'ai-models'
 import { env } from 'cloudflare:workers'
-import type { ChatCompletionRequest } from 'types/chat'
 
 export async function fetchFromProvider(
   {
     body,
     headers: { Authorization },
   }: {
-    body?: { model?: string; models?: string[]; seed?: number } | ChatCompletionRequest
+    body?: Record<string, any>
     headers: { Authorization: string | undefined }
   },
   method: string,
@@ -16,6 +15,14 @@ export async function fetchFromProvider(
   Authorization = Authorization?.startsWith('Bearer ') ? Authorization : `Bearer ${Authorization}`
 
   const fallbackModel = 'drivly/frontier'
+
+  if (body?.reasoning_effort) {
+    body.reasoning = {
+      ...(body.reasoning || {}),
+      effort: body.reasoning_effort,
+    }
+    delete body.reasoning_effort
+  }
 
   // Model router
   try {
@@ -26,13 +33,13 @@ export async function fetchFromProvider(
       }
       body.models = body.models
         .map(
-          (m) =>
+          (m: any) =>
             getModel(m, {
               requiredCapabilities: getRequiredCapabilities(body),
               seed: body.seed,
             })?.slug,
         )
-        .filter((m) => m !== undefined)
+        .filter((m: any) => m !== undefined)
       if (!body.models.length) {
         delete body.models
         body.model = fallbackModel
@@ -66,8 +73,8 @@ function getRequiredCapabilities(body: any) {
   if (body.tools?.find((t: any) => typeof t !== 'string' && typeof t.type === 'string' && t.type.startsWith('web_search'))) {
     requiredCapabilities.push('online')
   }
-  if (['low', 'medium', 'high'].includes(body.reasoning_effort)) {
-    requiredCapabilities.push('reasoning', `reasoning-${body.reasoning_effort}` as any)
+  if (body.reasoning?.effort) {
+    requiredCapabilities.push('reasoning', `reasoning-${body.reasoning?.effort}` as any)
   }
   if (body.tools?.find((t: any) => typeof t === 'string' || t.type === 'function')) {
     requiredCapabilities.push('tools')
