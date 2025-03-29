@@ -1,6 +1,7 @@
 import nextra from 'nextra'
 import { withPayload } from '@payloadcms/next/withPayload'
 import { resolve } from 'path'
+import NodePolyfillPlugin from 'node-polyfill-webpack-plugin'
 
 const withNextra = nextra({
   contentDirBasePath: '/docs',
@@ -12,6 +13,10 @@ const nextConfig = {
   // Your Next.js config here
   transpilePackages: ['simple-payload', 'clickable-apis', 'ai-models'],
   webpack: (config, { isServer }) => {
+    // Add NodePolyfillPlugin to handle node: imports
+    config.plugins = config.plugins || []
+    config.plugins.push(new NodePolyfillPlugin())
+    
     // Handle node: imports
     if (!isServer) {
       config.resolve = config.resolve || {}
