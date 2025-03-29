@@ -4,6 +4,7 @@ import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
 import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from 'types/api'
+import type { ChatCompletionRequest, ChatCompletionResponse } from 'types/chat'
 import { z } from 'zod'
 import { parseCookies } from './cookies'
 
@@ -111,19 +112,19 @@ export class ArenaCompletion extends OpenAPIRoute {
 
       // If prompt is not provided, use a random prompt from the PROMPTS array
       const { prompt = PROMPTS[Math.floor(Math.random() * PROMPTS.length)], system, model, models } = request.query
-      let authorization = c.req.header('Authorization') || request.query.Authorization
-      if (!authorization) {
+      let Authorization = c.req.header('Authorization') || request.query.Authorization
+      if (!Authorization) {
         const cookies = parseCookies(c.req.header('Cookie') || '')
 
         if (cookies.Authorization) {
-          authorization = cookies.Authorization
+          Authorization = cookies.Authorization
         } else {
           return c.json({ error: 'Authorization is required' }, 401)
         }
       }
 
       // Create messages array for the chat request
-      const messages = []
+      const messages: ChatCompletionRequest['messages'] = []
       if (system) {
         messages.push({ role: 'system', content: system })
       }
@@ -145,44 +146,26 @@ export class ArenaCompletion extends OpenAPIRoute {
 
       // Request completions from all specified models
       const completions = await Promise.all(
-        resolvedModels.map(async (m) => {
-          const providerRequest = {
-            headers: {
-              Authorization: authorization.includes('Bearer') ? authorization : `Bearer ${authorization}`,
-            },
-            body: {
-              model: m.slug,
-              prompt,
-              system,
-              maxTokens: 250,
-              seed: m.parsed.systemConfig?.seed || undefined,
-              temperature: m.parsed.systemConfig?.temperature || undefined,
-            },
+        resolvedModels.map(async ({ slug: model, parsed: { systemConfig: { seed, temperature } = {} } }) => {
+          const body: ChatCompletionRequest = {
+            model,
+            messages,
+            max_tokens: 250,
+            seed: seed !== undefined ? Number(seed) : undefined,
+            temperature: temperature !== undefined ? Number(temperature) : undefined,
           }
 
           try {
-            const response = await fetchFromProvider(providerRequest, 'POST', '/chat/completions')
-            const data = (await response.json()) as {
-              usage: {
-                prompt_tokens: number
-                completion_tokens: number
-                total_tokens: number
-              }
-              choices: {
-                text: string
-              }[]
-            }
-
-            const choice = data.choices[0]
-
+            const response = await fetchFromProvider({ headers: { Authorization }, body }, 'POST', '/chat/completions')
+            const data: ChatCompletionResponse = await response.json()
             return {
-              model: m.slug,
-              text: choice.text.split('\n').map((line: string) => line.trim()),
+              model,
+              text: data.choices[0].message.content?.split('\n').map((line: string) => line.trim()),
             }
           } catch (error) {
-            console.error(`Error fetching from model ${m.slug}:`, error)
+            console.error(`Error fetching from model ${model}:`, error)
             return {
-              model: m.slug,
+              model,
               text: 'Failed to get completion',
             }
           }

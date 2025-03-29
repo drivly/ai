@@ -4,7 +4,7 @@ import { Context } from 'hono'
 import { type AnyZodObject, z } from 'zod'
 import app from '../index'
 import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from '../types/api'
-import { ChatCompletionResponseSchema } from '../types/chat'
+import { ChatCompletionRequest, ChatCompletionResponseSchema } from '../types/chat'
 
 const ChatResponseSchema = z.object({
   api: APIDefinitionSchema,
@@ -57,26 +57,26 @@ export class Chat extends OpenAPIRoute {
     let data
     const Authorization = c.req.header('Authorization') || request.query.Authorization
     if (Authorization) {
-      const messages = []
+      const messages: ChatCompletionRequest['messages'] = []
       if (system) {
         messages.push({ role: 'system', content: system })
       }
       messages.push({ role: 'user', content: prompt })
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
+      const body: ChatCompletionRequest = {
+        model,
+        models: models?.length ? models.split(',') : undefined,
+        messages,
+        seed,
+        temperature,
+        tools: tools?.length ? tools.split(',') : undefined,
       }
-      headers.Authorization = Authorization.startsWith('Bearer ') ? Authorization : 'Bearer ' + Authorization
       const response = await app.request('/api/v1/chat/completions', {
         method: 'POST',
-        headers,
-        body: JSON.stringify({
-          model,
-          models: models?.length ? models.split(',') : undefined,
-          messages: messages.length ? messages : undefined,
-          seed,
-          temperature,
-          tools: tools?.length ? tools.split(',') : undefined,
-        }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization,
+        },
+        body: JSON.stringify(body),
       })
 
       data = await response.json()
