@@ -29,7 +29,8 @@
     "test:seed": "vitest run tests/seed.test.ts",
     "typecheck": "turbo typecheck",
     "format": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "validate:api": "tsx scripts/validate-api-links.ts"
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
