@@ -13,6 +13,7 @@ export const createRestPayloadClient = (config: RestPayloadClientConfig): Payloa
     url: config.apiUrl,
     apiKey: config.apiKey,
     headers: config.headers,
+    fetchOptions: config.fetchOptions,
   })
 
   // Pass the rest client to our standard payload client creator

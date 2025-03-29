@@ -42,6 +42,7 @@ export interface RestPayloadClientConfig {
   apiUrl: string
   apiKey?: string
   headers?: Record<string, string>
+  fetchOptions?: RequestInit
 }
 
 /**
