@@ -6,49 +6,21 @@ interface FooterProps {
 
 export function Footer({ className }: FooterProps) {
   return (
-    <footer style={{
-      borderTop: "1px solid hsl(var(--border))",
-      backgroundColor: "hsl(var(--background))"
-    }}>
-      <div style={{
-        maxWidth: "1400px",
-        margin: "0 auto",
-        padding: "0 2rem",
-        display: "flex",
-        height: "3.5rem",
-        alignItems: "center"
-      }}>
-        <div style={{
-          flex: 1,
-          fontSize: "0.875rem",
-          color: "hsl(var(--muted-foreground))"
-        }}>
+    <footer className="border-t border-border bg-background">
+      <div className="max-w-[1400px] mx-auto px-8 flex h-14 items-center">
+        <div className="flex-1 text-sm text-muted-foreground">
           © {new Date().getFullYear()} LLM.do All rights reserved.
         </div>
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem"
-        }}>
+        <div className="flex items-center gap-4">
           <a 
             href="https://github.com/drivly/ai" 
-            style={{
-              fontSize: "0.875rem",
-              fontWeight: "500",
-              color: "hsl(var(--muted-foreground))",
-              transition: "color 0.2s"
-            }}
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             GitHub
           </a>
           <a 
             href="https://discord.gg/a87bSRvJkx" 
-            style={{
-              fontSize: "0.875rem",
-              fontWeight: "500",
-              color: "hsl(var(--muted-foreground))",
-              transition: "color 0.2s"
-            }}
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             Discord
           </a>
