@@ -5,6 +5,7 @@ import { type AnyZodObject, z } from 'zod'
 import app from '../index'
 import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from '../types/api'
 import { ChatCompletionRequest, ChatCompletionResponseSchema } from '../types/chat'
+import { parseCookies } from './cookies'
 
 const ChatResponseSchema = z.object({
   api: APIDefinitionSchema,
@@ -55,7 +56,7 @@ export class Chat extends OpenAPIRoute {
     const { prompt = ' ', system, model = provider ? provider + '/' + providerModel : providerModel, models, seed, temperature, tools } = request.query
 
     let data
-    const Authorization = c.req.header('Authorization') || request.query.Authorization
+    const Authorization = c.req.header('Authorization') || request.query.Authorization || parseCookies(c.req.header('Cookie') || '').Authorization
     if (Authorization) {
       const messages: ChatCompletionRequest['messages'] = []
       if (system) {
