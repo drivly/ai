@@ -3,6 +3,6 @@
   "version": "0.1.0",
   "type": "module",
   "dependencies": {
-    "simple-payload": "^0.1.0"
+    "simple-payload": "workspace:*"
   }
 }
