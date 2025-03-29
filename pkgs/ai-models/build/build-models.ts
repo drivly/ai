@@ -1,5 +1,7 @@
 import camelCase from 'camelcase'
 import { flatten, unflatten } from 'flat'
+import { resolve } from 'path'
+import { writeFileSync } from 'fs'
 
 const overwrites = {};
 
@@ -42,9 +44,6 @@ async function main() {
     })
 
     // Write to models.json in src directory
-    const { resolve } = await import('node:path')
-    const { writeFileSync } = await import('node:fs')
-    
     const outputPath = resolve('./src/models.ts')
     writeFileSync(outputPath, `export default ${JSON.stringify({ models: modelsData }, null, 2)}`)
 
