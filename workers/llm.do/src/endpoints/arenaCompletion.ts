@@ -1,13 +1,21 @@
 import { getModels } from 'ai-models'
+import { getUser } from 'api/user'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
-import { APIDefinitionSchema, FlexibleAPILinksSchema } from 'types/api'
+import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from 'types/api'
 import { z } from 'zod'
-import { ArenaCompletionSchema } from '../types/arena'
 import { parseCookies } from './cookies'
 
 const PROMPTS = ["How many R's are in Strawberry?", 'Generate a business plan for selling water to a fish']
+
+const ArenaCompletionResponseSchema = z.object({
+  api: APIDefinitionSchema,
+  links: FlexibleAPILinksSchema,
+  prompt: z.string(),
+  arena: z.record(z.string(), z.array(z.string())),
+  user: APIUserSchema,
+})
 
 export class ArenaCompletion extends OpenAPIRoute {
   schema = {
@@ -28,12 +36,7 @@ export class ArenaCompletion extends OpenAPIRoute {
         description: 'Returns arena completions',
         content: {
           'application/json': {
-            schema: z.object({
-              api: APIDefinitionSchema,
-              links: FlexibleAPILinksSchema,
-              prompt: z.string(),
-              arena: ArenaCompletionSchema,
-            }),
+            schema: ArenaCompletionResponseSchema,
           },
         },
       },
@@ -211,7 +214,8 @@ export class ArenaCompletion extends OpenAPIRoute {
             [curr.model]: curr.text,
           }
         }, {}),
-      })
+        user: getUser(c.req.raw),
+      } as z.infer<typeof ArenaCompletionResponseSchema>)
     } catch (error) {
       console.error('Error in ArenaCompletion:', error)
       return c.json({ error: 'Internal server error' }, 500)

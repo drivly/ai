@@ -58,10 +58,6 @@ export const APIUserSchema = z.object({
   serviceLatency: z.number().optional(),
 })
 
-export const FlexibleAPILinksSchema = z.object({
-  home: z.string().describe('Home page'),
-  self: z.string().describe('Current page'),
-  next: z.string().optional().describe('Next page'),
-  prev: z.string().optional().describe('Previous page'),
-  last: z.string().optional().describe('Last page'),
-})
+export type APIUser = z.infer<typeof APIUserSchema>
+
+export const FlexibleAPILinksSchema = z.record(z.string().or(z.record(z.string())))

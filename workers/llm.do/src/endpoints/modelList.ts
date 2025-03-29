@@ -28,6 +28,6 @@ export class ModelList extends OpenAPIRoute {
     const request = await this.getValidatedData<typeof this.schema>()
 
     // Pass request to OpenRouter
-    return await fetchFromProvider(request, 'GET', '/models')
+    return fetchFromProvider(request, 'GET', '/models')
   }
 }

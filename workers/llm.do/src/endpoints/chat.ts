@@ -1,9 +1,17 @@
+import { getUser } from 'api/user'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
 import { type AnyZodObject, z } from 'zod'
 import app from '../index'
 import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from '../types/api'
 import { ChatCompletionResponseSchema } from '../types/chat'
+
+const ChatResponseSchema = z.object({
+  api: APIDefinitionSchema,
+  links: FlexibleAPILinksSchema,
+  data: ChatCompletionResponseSchema,
+  user: APIUserSchema,
+})
 
 export class Chat extends OpenAPIRoute {
   schema = this.createSchema()
@@ -30,12 +38,7 @@ export class Chat extends OpenAPIRoute {
           description: 'Returns chat information',
           content: {
             'application/json': {
-              schema: z.object({
-                api: APIDefinitionSchema,
-                links: FlexibleAPILinksSchema,
-                data: ChatCompletionResponseSchema,
-                user: APIUserSchema,
-              }),
+              schema: ChatResponseSchema,
             },
           },
         },
@@ -106,8 +109,8 @@ export class Chat extends OpenAPIRoute {
       },
       links: generateLinks({ prompt, system, model, seed, temperature, Authorization }),
       data,
-      user: { authenticated: false },
-    }
+      user: getUser(c.req.raw),
+    } as z.infer<typeof ChatResponseSchema>
   }
 }
 
