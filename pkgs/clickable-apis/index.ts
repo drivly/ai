@@ -338,6 +338,8 @@ type ApiContext = {
   req?: any
 }
 
+export type { ApiContext }
+
 type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T
 
 let _currentRequest: NextRequest | null = null
