@@ -360,7 +360,7 @@ export type PayloadClientFn = () => Promise<PayloadClientResult>
  * @param payloadInstance - The payload instance to use
  * @returns A function that creates API handlers
  */
-export const createAPI = async (payloadInstance?: any) => {
+export const createAPI = (payloadInstance?: any) => {
   /**
    * Creates an API handler with enhanced context
    * @param handler - Function to handle the API request
