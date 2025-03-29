@@ -1,3 +1,8 @@
+import config from '@/payload.config'
+import { getPayload } from 'payload'
+import { createAPI, modifyQueryString as clickableModifyQueryString } from '@/pkgs/clickable-apis'
+
+export const payload = await getPayload({ config })
 export const apis: Record<string, string> = {
   functions: 'Reliable Structured Output',
   workflows: '',
@@ -37,3 +42,8 @@ export const symbols: Record<string, string> = {
   // 卌: '',
   // 口: '',
 }
+
+export const API = <T = any>(handler: any) => 
+  createAPI(payload)(handler)
+
+export const modifyQueryString = clickableModifyQueryString
