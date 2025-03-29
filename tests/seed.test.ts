@@ -37,7 +37,7 @@ const mockSchemaData = {
 describe('Seed Script', () => {
   it('should extract nouns and verbs correctly from Schema.org data', async () => {
     // Import the extraction function
-    const { extractNounsAndVerbs } = await import('../scripts/seed')
+    const { extractNounsAndVerbs } = await import('../scripts/seedDatabase')
 
     // Test the extraction function
     const { nouns, verbs } = extractNounsAndVerbs(mockSchemaData)

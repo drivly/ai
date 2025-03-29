@@ -5,6 +5,7 @@ Thank you for using Drivly AI! Here are some resources to help you get the suppo
 ## Documentation
 
 Our documentation is available at [docs.drivly.ai](https://docs.drivly.ai). It includes:
+
 - Getting started guides
 - API references
 - Tutorials
@@ -15,6 +16,7 @@ Our documentation is available at [docs.drivly.ai](https://docs.drivly.ai). It i
 ### Discord
 
 Join our [Discord community](https://discord.gg/drivly) for:
+
 - Real-time support from the community
 - Discussions with other users
 - Announcements about new features and updates

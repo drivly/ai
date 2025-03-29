@@ -43,16 +43,16 @@ type PayloadClientOptions = RestPayloadClientConfig | PayloadInstance
 const createPayloadClient = (options: PayloadClientOptions): PayloadDB => {
   // Determine if options is a payload instance or config object
   const isPayloadInstance = (value: any): value is PayloadInstance => {
-    return value && 
-      typeof value === 'object' && 
-      !('apiUrl' in value) && 
-      (
-        (typeof value.find === 'function') ||
-        (typeof value.findByID === 'function') ||
-        (typeof value.create === 'function') ||
-        (typeof value.update === 'function') ||
-        (typeof value.delete === 'function')
-      )
+    return (
+      value &&
+      typeof value === 'object' &&
+      !('apiUrl' in value) &&
+      (typeof value.find === 'function' ||
+        typeof value.findByID === 'function' ||
+        typeof value.create === 'function' ||
+        typeof value.update === 'function' ||
+        typeof value.delete === 'function')
+    )
   }
 
   // Use the payload instance directly or create a REST client
@@ -88,12 +88,13 @@ const createPayloadClient = (options: PayloadClientOptions): PayloadDB => {
                     if (!payload.find) {
                       throw new Error('Payload instance missing find method')
                     }
-                    return payload.find({
-                      collection,
-                      limit: 1,
-                      ...query,
-                    })
-                    .then((result: any) => result.docs?.[0] || null)
+                    return payload
+                      .find({
+                        collection,
+                        limit: 1,
+                        ...query,
+                      })
+                      .then((result: any) => result.docs?.[0] || null)
                   }
 
                 case 'get':
@@ -146,21 +147,23 @@ const createPayloadClient = (options: PayloadClientOptions): PayloadDB => {
                         ...query,
                       })
                     } else if (payload.update && payload.create) {
-                      return payload.update({
-                        collection,
-                        id,
-                        data,
-                        ...query,
-                      }).catch(() => {
-                        if (!payload.create) {
-                          throw new Error('Payload instance missing create method')
-                        }
-                        return payload.create({
+                      return payload
+                        .update({
                           collection,
-                          data: { ...data, id },
+                          id,
+                          data,
                           ...query,
                         })
-                      })
+                        .catch(() => {
+                          if (!payload.create) {
+                            throw new Error('Payload instance missing create method')
+                          }
+                          return payload.create({
+                            collection,
+                            data: { ...data, id },
+                            ...query,
+                          })
+                        })
                     } else {
                       throw new Error('Payload instance missing update and create methods needed for upsert')
                     }
@@ -292,20 +295,20 @@ const createRestClient = (config: RestPayloadClientConfig): PayloadInstance => {
 
       return response.json()
     },
-    
+
     auth: {
       me: async () => {
         const response = await fetch(`${apiUrl}/api/users/me`, {
           headers,
         })
-        
+
         if (!response.ok) {
           return { permissions: {}, user: null }
         }
-        
+
         return response.json()
-      }
-    }
+      },
+    },
   }
 }
 
@@ -365,10 +368,10 @@ export const createAPI = (payloadInstance?: any) => {
    * @returns Next.js API handler function
    */
   return <T = any>(
-    handler: ApiHandler<T>, 
-    options?: { 
-      getPayloadClient?: PayloadClientFn 
-    }
+    handler: ApiHandler<T>,
+    options?: {
+      getPayloadClient?: PayloadClientFn
+    },
   ) => {
     return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
       try {
@@ -382,17 +385,15 @@ export const createAPI = (payloadInstance?: any) => {
         // Use the injected payload instance if provided through factory function
         if (payloadInstance) {
           payload = payloadInstance
-          
+
           // Only create db client if we need it and don't already have it in the payload
           if (!payload.db) {
             // Pass the payload instance directly to the payload client creators
-            db = isEdgeRuntime
-              ? createEdgePayloadClient(payload)
-              : createNodePayloadClient(payload)
+            db = isEdgeRuntime ? createEdgePayloadClient(payload) : createNodePayloadClient(payload)
           } else {
             db = payload.db
           }
-          
+
           try {
             const authResult = await payload.auth.me()
             permissions = authResult?.permissions || {}
@@ -401,9 +402,7 @@ export const createAPI = (payloadInstance?: any) => {
             console.error('Error fetching auth info:', authError)
           }
         } else if (isEdgeRuntime) {
-          const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL 
-            ? `https://${process.env.VERCEL_URL}` 
-            : 'http://localhost:3000')
+          const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
           if (!process.env.PAYLOAD_API_URL) {
             console.warn(`PAYLOAD_API_URL not set, falling back to ${apiUrl}`)
           }
@@ -416,15 +415,15 @@ export const createAPI = (payloadInstance?: any) => {
             find: async (options: any) => {
               return fetch(`${apiUrl}/api/${options.collection}`, {
                 headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
-              }).then(res => res.json())
+              }).then((res) => res.json())
             },
             findByID: async (options: any) => {
               return fetch(`${apiUrl}/api/${options.collection}/${options.id}`, {
                 headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
-              }).then(res => res.json())
-            }
+              }).then((res) => res.json())
+            },
           }
-          
+
           // Pass the mock payload instance to the client creator
           db = createEdgePayloadClient(payload)
         } else {
@@ -433,7 +432,7 @@ export const createAPI = (payloadInstance?: any) => {
               const result = await options.getPayloadClient()
               payload = result.payload
               db = result.db
-              
+
               try {
                 const authResult = await payload.auth.me()
                 permissions = authResult?.permissions || {}
@@ -447,43 +446,41 @@ export const createAPI = (payloadInstance?: any) => {
           } catch (error) {
             console.error('Error initializing payload:', error)
             console.warn('Falling back to API approach for payload client')
-            
-            const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL 
-              ? `https://${process.env.VERCEL_URL}` 
-              : 'http://localhost:3000')
+
+            const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
             if (!process.env.PAYLOAD_API_URL) {
               console.warn(`PAYLOAD_API_URL not set, falling back to ${apiUrl}`)
             }
             const apiKey = process.env.PAYLOAD_API_KEY
-            
+
             // Create a mock payload instance for the fallback approach
             const mockPayload = {
               auth: {
-                me: async () => ({ permissions: {}, user: null })
+                me: async () => ({ permissions: {}, user: null }),
               },
               // Add required API properties for payload client
               find: async (options: any) => {
                 return fetch(`${apiUrl}/api/${options.collection}`, {
                   headers: apiKey ? { Authorization: `JWT ${apiKey}` } : {},
-                }).then(res => res.json())
+                }).then((res) => res.json())
               },
               findByID: async (options: any) => {
                 return fetch(`${apiUrl}/api/${options.collection}/${options.id}`, {
                   headers: apiKey ? { Authorization: `JWT ${apiKey}` } : {},
-                }).then(res => res.json())
-              }
+                }).then((res) => res.json())
+              },
             }
-            
+
             // Pass the mock payload instance to the client creator
             db = createNodePayloadClient(mockPayload)
-            
+
             try {
               const authResponse = await fetch(`${apiUrl}/api/users/me`, {
                 headers: {
                   Authorization: `JWT ${apiKey}`,
                 },
               })
-              
+
               if (authResponse.ok) {
                 const authData = await authResponse.json()
                 permissions = authData.permissions || {}

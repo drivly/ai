@@ -5,7 +5,7 @@ const mockGET = vi.fn().mockImplementation(async (request: any, context: any) =>
   const { functionName } = context.params
   const searchParams = request.nextUrl.searchParams
   const seed = Number(searchParams.get('seed') || '1')
-  
+
   const links = {
     temperature: {
       '0': `${request.nextUrl.origin}/${functionName}?seed=${seed}&temperature=0`,
@@ -14,9 +14,9 @@ const mockGET = vi.fn().mockImplementation(async (request: any, context: any) =>
       '0.6': `${request.nextUrl.origin}/${functionName}?seed=${seed}&temperature=0.6`,
       '0.8': `${request.nextUrl.origin}/${functionName}?seed=${seed}&temperature=0.8`,
       '1.0': `${request.nextUrl.origin}/${functionName}?seed=${seed}&temperature=1.0`,
-    }
+    },
   }
-  
+
   searchParams.forEach((value: string, key: string) => {
     if (key !== 'temperature' && key !== 'seed') {
       Object.keys(links.temperature).forEach((temp: string) => {
@@ -24,16 +24,16 @@ const mockGET = vi.fn().mockImplementation(async (request: any, context: any) =>
       })
     }
   })
-  
-  return Response.json({ 
+
+  return Response.json({
     result: 'test result',
     reasoning: 'test reasoning',
-    links
+    links,
   })
 })
 
 vi.mock('@/app/(apis)/functions/[functionName]/route', () => ({
-  GET: mockGET
+  GET: mockGET,
 }))
 
 // Mock the executeFunction dependency

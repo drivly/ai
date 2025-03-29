@@ -8,16 +8,16 @@ import { createPayloadClient } from '../createPayloadClient'
  * @returns True if the value appears to be a payload instance
  */
 const isPayloadInstance = (value: any): value is PayloadInstance => {
-  return value && 
-    typeof value === 'object' && 
-    !('apiUrl' in value) && 
-    (
-      (typeof value.find === 'function') ||
-      (typeof value.findByID === 'function') ||
-      (typeof value.create === 'function') ||
-      (typeof value.update === 'function') ||
-      (typeof value.delete === 'function')
-    )
+  return (
+    value &&
+    typeof value === 'object' &&
+    !('apiUrl' in value) &&
+    (typeof value.find === 'function' ||
+      typeof value.findByID === 'function' ||
+      typeof value.create === 'function' ||
+      typeof value.update === 'function' ||
+      typeof value.delete === 'function')
+  )
 }
 
 /**
@@ -31,7 +31,7 @@ export const createEdgePayloadClient = (options: PayloadClientOptions): PayloadD
   if (isPayloadInstance(options)) {
     return createPayloadClient(options)
   }
-  
+
   // Otherwise, use the REST client with payload-rest-client
   return createRestPayloadClient(options)
 }

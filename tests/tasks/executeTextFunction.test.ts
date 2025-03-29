@@ -61,9 +61,9 @@ describe('executeFunction with text output', () => {
 
     // Verify the result structure
     expect(result).toEqual({
-      output: { 
+      output: {
         text: '# Test Markdown\nThis is a test markdown response.',
-        mdast: expect.any(Object) // Allow mdast property with any object structure
+        mdast: expect.any(Object), // Allow mdast property with any object structure
       },
       reasoning: 'Generated markdown for testing',
     })
@@ -74,7 +74,7 @@ describe('executeFunction with text output', () => {
         data: expect.objectContaining({
           name: 'generateMarkdown',
           type: 'Generation',
-          format: 'Markdown'
+          format: 'Markdown',
         }),
       }),
     )

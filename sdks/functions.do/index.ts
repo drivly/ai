@@ -26,16 +26,12 @@ const callAPI = async (request: any) => {
     const input = request.input
 
     const mockResponse: any = {}
-    
+
     for (const key in schema) {
       if (typeof schema[key] === 'string') {
         mockResponse[key] = input[key] || `Mock ${key}`
       } else if (Array.isArray(schema[key])) {
-        mockResponse[key] = [
-          typeof schema[key][0] === 'object' 
-            ? createMockObjectFromSchema(schema[key][0]) 
-            : `Mock ${key} item`
-        ]
+        mockResponse[key] = [typeof schema[key][0] === 'object' ? createMockObjectFromSchema(schema[key][0]) : `Mock ${key} item`]
       } else if (typeof schema[key] === 'object') {
         mockResponse[key] = createMockObjectFromSchema(schema[key])
       }
@@ -67,21 +63,17 @@ const callAPI = async (request: any) => {
 
 const createMockObjectFromSchema = (schema: any): any => {
   const mockObj: any = {}
-  
+
   for (const key in schema) {
     if (typeof schema[key] === 'string') {
       mockObj[key] = `Mock ${key}`
     } else if (Array.isArray(schema[key])) {
-      mockObj[key] = [
-        typeof schema[key][0] === 'object' 
-          ? createMockObjectFromSchema(schema[key][0]) 
-          : `Mock ${key} item`
-      ]
+      mockObj[key] = [typeof schema[key][0] === 'object' ? createMockObjectFromSchema(schema[key][0]) : `Mock ${key} item`]
     } else if (typeof schema[key] === 'object') {
       mockObj[key] = createMockObjectFromSchema(schema[key])
     }
   }
-  
+
   return mockObj
 }
 
@@ -97,16 +89,12 @@ const callMarkdownAPI = async (request: any): Promise<MarkdownOutput> => {
       markdown: '# Mock Markdown\n\nThis is a mock markdown response for testing.',
       html: '<h1>Mock Markdown</h1><p>This is a mock markdown response for testing.</p>',
     }
-    
+
     for (const key in schema) {
       if (typeof schema[key] === 'string') {
         mockResponse[key] = input[key] || `Mock ${key}`
       } else if (Array.isArray(schema[key])) {
-        mockResponse[key] = [
-          typeof schema[key][0] === 'object' 
-            ? createMockObjectFromSchema(schema[key][0]) 
-            : `Mock ${key} item`
-        ]
+        mockResponse[key] = [typeof schema[key][0] === 'object' ? createMockObjectFromSchema(schema[key][0]) : `Mock ${key} item`]
       } else if (typeof schema[key] === 'object') {
         mockResponse[key] = createMockObjectFromSchema(schema[key])
       }
@@ -222,7 +210,7 @@ export const AI = <T extends Record<string, FunctionDefinition | FunctionCallbac
             return createFunction(prop, functions[prop] as any, config)
           }
         }
-        
+
         if (typeof prop === 'string' && !prop.startsWith('_')) {
           return createFunction(prop, {}, {})
         }
@@ -233,13 +221,13 @@ export const AI = <T extends Record<string, FunctionDefinition | FunctionCallbac
 
   for (const [name, value] of Object.entries(functions)) {
     if (typeof value === 'function') {
-      result[name as keyof T] = value as any;
-      
+      result[name as keyof T] = value as any
+
       if (name === 'launchStartup' && typeof value === 'function') {
         try {
-          (value as FunctionCallback<any>)({ ai: aiInstance, args: {} });
+          ;(value as FunctionCallback<any>)({ ai: aiInstance, args: {} })
         } catch (error) {
-          console.error('Error auto-executing launchStartup:', error);
+          console.error('Error auto-executing launchStartup:', error)
         }
       }
     } else if (typeof value === 'object') {

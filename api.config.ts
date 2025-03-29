@@ -40,7 +40,6 @@ export const symbols: Record<string, string> = {
   // 口: '',
 }
 
-export const API = <T = any>(handler: (req: NextRequest, ctx: ApiContext) => Promise<T> | T) => 
-  createAPI()(handler)
+export const API = <T = any>(handler: (req: NextRequest, ctx: ApiContext) => Promise<T> | T) => createAPI()(handler)
 
 export const modifyQueryString = clickableModifyQueryString

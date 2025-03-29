@@ -14,7 +14,7 @@ export const createRestPayloadClient = (config: RestPayloadClientConfig): Payloa
     apiKey: config.apiKey,
     headers: config.headers,
   })
-  
+
   // Pass the rest client to our standard payload client creator
   // This ensures consistent behavior across different client types
   return createPayloadClient(restClient)
