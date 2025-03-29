@@ -15,7 +15,7 @@ describe('FunctionsClient', () => {
     
     client = new FunctionsClient({
       apiKey: 'test-api-key',
-      baseUrl: 'https://test-functions.do'
+      baseUrl: 'https://apis.do'
     })
     
     Object.defineProperty(client, 'api', {
@@ -44,7 +44,7 @@ describe('FunctionsClient', () => {
     it('should create an instance with custom options', () => {
       const customClient = new FunctionsClient({
         apiKey: 'custom-api-key',
-        baseUrl: 'https://custom-functions.do'
+        baseUrl: 'https://apis.do/custom'
       })
       
       expect(customClient).toBeInstanceOf(FunctionsClient)
