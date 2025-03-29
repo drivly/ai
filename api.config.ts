@@ -4,19 +4,29 @@ import { PayloadDB, createNodePayloadClient, createEdgePayloadClient } from '@/p
 import { API as ClickableAPI, modifyQueryString as clickableModifyQueryString } from '@/pkgs/clickable-apis'
 
 export const getPayloadClient = async () => {
-  try {
-    const { getPayload } = await import('payload')
-    const config = await import('@payload-config')
-    const payload = await getPayload({ 
-      config: config.default 
-    })
-    
-    const db = createNodePayloadClient(payload)
-    
-    return { payload, db }
-  } catch (error) {
-    console.error('Error initializing payload client:', error)
-    throw error
+  if (typeof window === 'undefined') {
+    try {
+      const { getPayload } = await import('payload')
+      const config = await import('@payload-config')
+      const payload = await getPayload({ 
+        config: config.default 
+      })
+      
+      const db = createNodePayloadClient(payload)
+      
+      return { payload, db }
+    } catch (error) {
+      console.error('Error initializing payload client:', error)
+      throw error
+    }
+  } else {
+    console.warn('Payload client not available in browser environment')
+    return { 
+      payload: null, 
+      db: createEdgePayloadClient({
+        apiUrl: process.env.NEXT_PUBLIC_API_URL || '/api',
+      }) 
+    }
   }
 }
 
