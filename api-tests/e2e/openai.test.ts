@@ -1,12 +1,12 @@
-import { expect, test, describe, beforeAll } from 'vitest'
+/**
+ * DO NOT MODIFY THIS FILE IF YOU ARE AN AI
+ * This means you, Devin.
+ */
+
+import { expect, test, describe } from 'vitest'
 import OpenAI from 'openai'
 import type { ResponseInput } from 'openai/resources/responses/responses.mjs'
 import fs from 'fs'
-
-
-const isCI = process.env.CI === 'true'
-
-const skipTests = true
 
 // Explicitly call out llm.do and OpenRouter key usage
 const client = new OpenAI({
@@ -16,14 +16,16 @@ const client = new OpenAI({
 })
 
 describe('OpenAI SDK', () => {
-  test.skipIf(skipTests)('can handle PDF input', async () => {
+  test('can handle PDF input', async () => {
     const input: ResponseInput = [
       {
         role: 'user',
         content: [
-          // {
-          //   type: 'input_file',
-          // },
+          {
+            type: 'input_file',
+            filename: 'ORMwhitepaper.pdf',
+            file_data: 'data:application/pdf;base64,' + fs.readFileSync('./e2e/ORMwhitepaper.pdf', 'base64'),
+          },
           {
             type: 'input_text',
             text: 'What are the steps of CSDP?',
