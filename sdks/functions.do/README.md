@@ -95,6 +95,7 @@ import { AI } from 'functions.do'
 export const ai = AI({
   // Book Proposal - Initial concept and outline
   createBookProposal: {
+    _model: 'claude-3.7-sonnet', // config props are pre-pended with `_`
     title: 'proposed title of the book',
     subtitle: 'proposed subtitle of the book',
     author: 'name of the author',
