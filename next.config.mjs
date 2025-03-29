@@ -32,14 +32,9 @@ const nextConfig = {
     config.resolve.alias = config.resolve.alias || {}
     config.resolve.alias['@payload-config'] = resolve('./payload.config.js')
     
-    // Add aliases for node: imports
-    config.resolve.alias['node:fs'] = 'browserify-fs'
-    config.resolve.alias['node:path'] = 'path-browserify'
-    config.resolve.alias['node:os'] = 'os-browserify/browser'
-    config.resolve.alias['node:process'] = 'process/browser'
-    // Handle node:module with null-loader since module-polyfill is not available
+    // Handle all node: imports with null-loader
     config.module.rules.push({
-      test: /node:module/,
+      test: /node:(.+)$/,
       use: 'null-loader',
     })
     
