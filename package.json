@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
+    "@graphdl/core": "^0.1.6",
     "@payloadcms/db-mongodb": "^3.28.1",
     "@payloadcms/next": "^3.28.1",
     "@payloadcms/payload-cloud": "^3.28.1",
@@ -50,6 +51,7 @@
     "cross-env": "^7.0.3",
     "date-fns": "^3.6.0",
     "dedent": "^1.5.3",
+    "graphdl.js": "^0.1.0",
     "graphql": "^16.8.1",
     "murmurhash": "^2.0.1",
     "next": "15.2.3",
