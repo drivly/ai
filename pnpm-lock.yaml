@@ -522,9 +522,15 @@ importers:
       composio-core:
         specifier: ^0.5.31
         version: 0.5.31(@ai-sdk/openai@1.3.1(zod@3.24.2))(@cloudflare/workers-types@4.20250321.0)(@langchain/core@0.3.43(openai@4.89.0(ws@8.18.1)(zod@3.24.2)))(@langchain/openai@0.4.9(@langchain/core@0.3.43(openai@4.89.0(ws@8.18.1)(zod@3.24.2)))(ws@8.18.1))(ai@4.2.2(react@19.0.0)(zod@3.24.2))(langchain@0.3.19(@langchain/core@0.3.43(openai@4.89.0(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(handlebars@4.7.8)(openai@4.89.0(ws@8.18.1)(zod@3.24.2))(ws@8.18.1))(openai@4.89.0(ws@8.18.1)(zod@3.24.2))
+      geolib:
+        specifier: ^3.3.4
+        version: 3.3.4
       hono:
         specifier: ^4.7.5
         version: 4.7.5
+      ua-parser-js:
+        specifier: ^2.0.3
+        version: 2.0.3
       zod:
         specifier: ^3.24.2
         version: 3.24.2
@@ -4965,6 +4971,9 @@ packages:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
 
+  detect-europe-js@0.1.2:
+    resolution: {integrity: sha512-lgdERlL3u0aUdHocoouzT10d9I89VVhk0qNRmll7mXdGfJT1/wqZ2ZLA4oJAjeACPY5fT1wsbq2AT+GkuInsow==}
+
   detect-indent@6.1.0:
     resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
     engines: {node: '>=8'}
@@ -5702,6 +5711,9 @@ packages:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
     engines: {node: '>=6.9.0'}
 
+  geolib@3.3.4:
+    resolution: {integrity: sha512-EicrlLLL3S42gE9/wde+11uiaYAaeSVDwCUIv2uMIoRBfNJCn8EsSI+6nS3r4TCKDO6+RQNM9ayLq2at+oZQWQ==}
+
   get-func-name@2.0.2:
     resolution: {integrity: sha512-8vXOvuE167CtIc3OyItco7N/dpRtBbYOsPsXCz7X/PMnlGjYjSGuZJgM1Y7mmew7BKf9BqvLX2tnOVy1BBUsxQ==}
 
@@ -6265,6 +6277,9 @@ packages:
   is-shared-array-buffer@1.0.4:
     resolution: {integrity: sha512-ISWac8drv4ZGfwKl5slpHG9OwPNty4jOWPRIhBpxOoD+hqITiwuipOQ2bNthAzwA3B4fIjO4Nln74N0S9byq8A==}
     engines: {node: '>= 0.4'}
+
+  is-standalone-pwa@0.1.1:
+    resolution: {integrity: sha512-9Cbovsa52vNQCjdXOzeQq5CnCbAcRk05aU62K20WO372NrTv0NxibLFCK6lQ4/iZEFdEA3p3t2VNOn8AJ53F5g==}
 
   is-stream@2.0.1:
     resolution: {integrity: sha512-hFoiJiTl63nn+kstHGBtewWSKnQLpyb155KHheA1l39uvtO9nWIop1p3udqPcUd/xbF1VLMO4n7OI6p7RbngDg==}
@@ -9246,6 +9261,13 @@ packages:
   typescript@5.8.2:
     resolution: {integrity: sha512-aJn6wq13/afZp/jT9QZmwEjDqqvSGp1VT5GVg+f/t6/oVyrgXM6BY1h9BRh/O5p3PlUPAe+WuiEZOmb/49RqoQ==}
     engines: {node: '>=14.17'}
+    hasBin: true
+
+  ua-is-frozen@0.1.2:
+    resolution: {integrity: sha512-RwKDW2p3iyWn4UbaxpP2+VxwqXh0jpvdxsYpZ5j/MLLiQOfbsV5shpgQiw93+KMYQPcteeMQ289MaAFzs3G9pw==}
+
+  ua-parser-js@2.0.3:
+    resolution: {integrity: sha512-LZyXZdNttONW8LjzEH3Z8+6TE7RfrEiJqDKyh0R11p/kxvrV2o9DrT2FGZO+KVNs3k+drcIQ6C3En6wLnzJGpw==}
     hasBin: true
 
   uc.micro@1.0.6:
@@ -15238,6 +15260,8 @@ snapshots:
 
   destroy@1.2.0: {}
 
+  detect-europe-js@0.1.2: {}
+
   detect-indent@6.1.0: {}
 
   detect-libc@2.0.3: {}
@@ -15689,7 +15713,7 @@ snapshots:
       '@typescript-eslint/parser': 8.28.0(eslint@9.23.0)(typescript@5.7.3)
       eslint: 9.23.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.9.1(eslint-plugin-import@2.31.0)(eslint@9.23.0)
+      eslint-import-resolver-typescript: 3.9.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint@9.23.0))(eslint@9.23.0)
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.9.1)(eslint@9.23.0)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.23.0)
       eslint-plugin-react: 7.37.4(eslint@9.23.0)
@@ -15709,7 +15733,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.9.1(eslint-plugin-import@2.31.0)(eslint@9.23.0):
+  eslint-import-resolver-typescript@3.9.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint@9.23.0))(eslint@9.23.0):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.0
@@ -15724,14 +15748,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1)(eslint@9.23.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint@9.23.0))(eslint@9.23.0))(eslint@9.23.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.28.0(eslint@9.23.0)(typescript@5.7.3)
       eslint: 9.23.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.9.1(eslint-plugin-import@2.31.0)(eslint@9.23.0)
+      eslint-import-resolver-typescript: 3.9.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint@9.23.0))(eslint@9.23.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -15746,7 +15770,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.23.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1)(eslint@9.23.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint@9.23.0))(eslint@9.23.0))(eslint@9.23.0)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -16336,6 +16360,8 @@ snapshots:
   functions-have-names@1.2.3: {}
 
   gensync@1.0.0-beta.2: {}
+
+  geolib@3.3.4: {}
 
   get-func-name@2.0.2: {}
 
@@ -17007,6 +17033,8 @@ snapshots:
   is-shared-array-buffer@1.0.4:
     dependencies:
       call-bound: 1.0.4
+
+  is-standalone-pwa@0.1.1: {}
 
   is-stream@2.0.1: {}
 
@@ -20899,6 +20927,18 @@ snapshots:
   typescript@5.7.3: {}
 
   typescript@5.8.2: {}
+
+  ua-is-frozen@0.1.2: {}
+
+  ua-parser-js@2.0.3:
+    dependencies:
+      '@types/node-fetch': 2.6.12
+      detect-europe-js: 0.1.2
+      is-standalone-pwa: 0.1.1
+      node-fetch: 2.7.0
+      ua-is-frozen: 0.1.2
+    transitivePeerDependencies:
+      - encoding
 
   uc.micro@1.0.6: {}
 
