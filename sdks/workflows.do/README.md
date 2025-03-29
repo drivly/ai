@@ -6,19 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
 [![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
 
-## Business-as-Code: Declarative Workflow Automation
-
-Workflows.do is a powerful SDK for building, deploying, and managing enterprise-grade AI workflows. It enables developers to define complex business processes as code, with built-in support for AI-driven decision making, integrations with external services, and autonomous execution.
-
-## Features
-
-- **Declarative Workflow Definition**: Define complex business processes with a simple, declarative syntax
-- **AI-Powered Automation**: Leverage AI for intelligent decision making within your workflows
-- **Seamless Integrations**: Connect to external APIs and services with pre-built connectors
-- **Event-Driven Architecture**: Trigger workflows based on events from various sources
-- **Scalable Execution**: Run workflows on a fully-managed, scalable infrastructure
-- **Comprehensive Observability**: Monitor and debug workflows with detailed logs and traces
-- **Type-Safe Development**: Full TypeScript support for reliable development experience
+A powerful SDK for creating AI-powered workflows with strongly-typed functions.
 
 ## Installation
 
@@ -30,311 +18,417 @@ yarn add workflows.do
 pnpm add workflows.do
 ```
 
-## Quick Start
+## Overview
+
+The `workflows.do` SDK provides a simple yet powerful way to define AI-powered workflows with strongly-typed functions. It allows you to:
+
+- Define event-driven workflows with AI capabilities
+- Create strongly-typed AI function schemas
+- Integrate with external APIs and databases
+- Build complex, multi-step AI processes with full TypeScript support
+
+## Usage
+
+### Creating an AI Workflow
 
 ```typescript
 import { AI } from 'workflows.do'
 
 export default AI({
-  onUserSignup: async ({ ai, api, db, event }) => {
+  onUserSignup: async (event, { ai, api, db }) => {
     const { name, email, company } = event
 
-    // Enrich contact details with lookup from external data sources
+    // Enrich content details with lookup from external data sources
     const enrichedContact = await api.apollo.search({ name, email, company })
+    const socialProfiles = await api.peopleDataLabs.findSocialProfiles({ name, email, company })
+    const githubProfile = socialProfiles.github ? await api.github.profile({ name, email, company, profile: socialProfiles.github }) : undefined
 
-    // Using the enriched contact details, do deep research on the company
+    // Using the enriched contact details, do deep research on the company and personal background
     const companyProfile = await ai.researchCompany({ company })
+    const personalProfile = await ai.researchPersonalBackground({ name, email, enrichedContact })
+    const socialActivity = await ai.researchSocialActivity({ name, email, enrichedContact, socialProfiles })
+    const githubActivity = githubProfile ? await ai.summarizeGithubActivity({ name, email, enrichedContact, githubProfile }) : undefined
 
-    // Schedule a personalized email sequence
-    const emailSequence = await ai.personalizeEmailSequence({
-      name,
-      email,
-      company,
-      companyProfile,
-    })
+    // Schedule a highly personalized sequence of emails to optimize onboarding and activation
+    const emailSequence = await ai.personalizeEmailSequence({ name, email, company, personalProfile, socialActivity, companyProfile, githubActivity })
     await api.scheduleEmails({ emailSequence })
 
-    // Save to database and notify team
-    const summary = await ai.summarizeContent({
-      length: '3 sentences',
-      name,
-      email,
-      company,
-      companyProfile,
-    })
-    await db.users.create({ name, email, company, summary, companyProfile })
-    await api.slack.postMessage({
-      channel: '#signups',
-      content: { name, email, company, summary },
-    })
+    // Summarize everything, save to the database, and post to Slack
+    const details = { enrichedContact, socialProfiles, githubProfile, companyProfile, personalProfile, socialActivity, githubActivity, emailSequence }
+    const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, ...details })
+    const { url } = await db.users.create({ name, email, company, summary, ...details })
+    await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
   },
 })
 ```
 
-## Core Concepts
+### Defining AI Function Schemas
 
-### Workflows
-
-Workflows are the central building blocks in workflows.do. A workflow is a collection of steps that are executed in a specific order to accomplish a business task.
+You can define strongly-typed AI function schemas that provide TypeScript type safety for your AI functions:
 
 ```typescript
-import { defineWorkflow } from 'workflows.do'
+export const ai = AI({
+  writeBook: async ({ ai, db, api, args }) => {
+    // Step 1: Create book proposal with provided args
+    const proposal = await ai.createBookProposal(args)
 
-const onboardingWorkflow = defineWorkflow({
-  name: 'Customer Onboarding',
-  description: 'Process for onboarding new customers',
+    // Step 2: Generate table of contents based on proposal
+    const toc = await ai.createTableOfContents({ proposal })
 
-  // Define the workflow steps
-  steps: {
-    collectInformation: {
-      action: 'collectCustomerInfo',
-      next: 'validateInformation',
-    },
-    validateInformation: {
-      action: 'validateCustomerInfo',
-      next: {
-        valid: 'setupAccount',
-        invalid: 'requestCorrections',
-      },
-    },
-    requestCorrections: {
-      action: 'sendCorrectionRequest',
-      next: 'collectInformation',
-    },
-    setupAccount: {
-      action: 'createCustomerAccount',
-      next: 'sendWelcomeEmail',
-    },
-    sendWelcomeEmail: {
-      action: 'sendWelcomeEmail',
-      next: 'complete',
-    },
-    complete: {
-      type: 'terminal',
-      result: 'Customer successfully onboarded',
-    },
-  },
+    // Step 3: Create detailed outlines for each chapter
+    const chapterOutlines = await Promise.all(
+      toc.chapters.map(async (chapter, idx) => {
+        return ai.createChapterOutline({
+          bookTitle: proposal.title,
+          chapterNumber: (idx + 1).toString(),
+          chapterTitle: chapter.title,
+        })
+      }),
+    )
 
-  // Define the triggers that can start this workflow
-  triggers: ['newCustomerSignup', 'manualOnboarding'],
-})
-```
+    // Step 4: Write all sections for each chapter
+    const completedChapters = await Promise.all(
+      chapterOutlines.map(async (outline, idx) => {
+        const chapterNumber = idx + 1
 
-### AI Integration
+        // Write each section in parallel for efficiency
+        const sections = await Promise.all(
+          outline.sections.map(async (section) => {
+            return ai.writeSection({
+              bookTitle: proposal.title,
+              chapterNumber: chapterNumber.toString(),
+              chapterTitle: outline.chapterTitle,
+              sectionTitle: section.title,
+            })
+          }),
+        )
 
-Workflows.do seamlessly integrates with AI capabilities, allowing you to incorporate intelligent decision-making into your workflows:
+        return {
+          chapterNumber,
+          chapterTitle: outline.chapterTitle,
+          sections,
+        }
+      }),
+    )
 
-```typescript
-import { AI } from 'workflows.do'
+    // Step 5: Review each chapter for quality and consistency
+    const chapterReviews = await Promise.all(
+      completedChapters.map(async (chapter) => {
+        return ai.reviewChapter({
+          bookTitle: proposal.title,
+          chapterNumber: chapter.chapterNumber.toString(),
+          chapterTitle: chapter.chapterTitle,
+        })
+      }),
+    )
 
-export const analyzeCustomerFeedback = AI({
-  onFeedbackReceived: async ({ ai, api, db, event }) => {
-    const { customerId, feedback } = event
+    // Step 6: Perform comprehensive book review
+    const bookReview = await ai.reviewBook({ bookTitle: proposal.title })
 
-    // Use AI to analyze sentiment and extract key points
-    const analysis = await ai.analyzeFeedback({
-      feedback,
-      extractTopics: true,
-      determineSentiment: true,
+    // Step 7: Edit book based on review feedback
+    const bookEdits = await ai.editBook({ bookTitle: proposal.title })
+
+    // Step 8: Prepare final materials for publication
+    const book = await ai.prepareForPublication({ bookTitle: proposal.title })
+
+    // Step 9: Save book to database
+    const { url } = await db.books.create({
+      title: proposal.title,
+      summary: proposal.summary,
+      toc,
+      chapterOutlines,
+      completedChapters,
+      chapterReviews,
+      bookReview,
+      bookEdits,
+      publicationPrep,
     })
+    await api.slack.awaitApproval({ channel: '#books', content: { title: proposal.title, message: 'Book ready for review 🚀', url } })
 
-    // Route feedback based on sentiment
-    if (analysis.sentiment === 'negative' && analysis.urgency === 'high') {
-      await api.zendesk.createUrgentTicket({
-        customerId,
-        feedback,
-        analysis,
-      })
-      await api.slack.notifyTeam({
-        channel: '#customer-escalations',
-        message: `Urgent negative feedback from customer ${customerId}`,
-      })
+    // Step 10: Return complete book package with all components
+    const publishedBook = await api.amazon.kindle.publish({ book })
+    await api.slack.postMessage({ channel: '#books', content: { title: proposal.title, message: 'Book published 🎉', url: publishedBook.url } })
+
+    return {
+      proposal,
+      tableOfContents: toc,
+      chapterOutlines,
+      completedChapters,
+      chapterReviews,
+      bookReview,
+      bookEdits,
+      publicationPrep,
     }
-
-    // Store analysis for reporting
-    await db.feedbackAnalytics.create({
-      customerId,
-      feedback,
-      analysis,
-      timestamp: new Date(),
-    })
-
-    return { status: 'processed', analysis }
-  },
-})
-```
-
-### API Integration
-
-Connect your workflows to external services and APIs:
-
-```typescript
-import { defineIntegration } from 'workflows.do'
-
-// Define a Salesforce integration
-const salesforceIntegration = defineIntegration({
-  name: 'salesforce',
-
-  // Define the actions available through this integration
-  actions: {
-    createLead: async ({ name, email, company, source }) => {
-      // Implementation details for creating a lead in Salesforce
-      // ...
-      return { leadId, status: 'created' }
-    },
-
-    updateOpportunity: async ({ opportunityId, status, amount }) => {
-      // Implementation details for updating an opportunity
-      // ...
-      return { success: true, opportunityId }
-    },
   },
 
-  // Define the events this integration can emit
-  events: ['leadCreated', 'opportunityUpdated', 'dealClosed'],
-})
-```
+  // Book Proposal - Initial concept and outline
+  createBookProposal: {
+    title: 'proposed title of the book',
+    subtitle: 'proposed subtitle of the book',
+    author: 'name of the author',
+    targetAudience: ['primary audience segments for the book'],
+    marketAnalysis: 'analysis of the current market for this type of book',
+    competitiveBooks: ['list of similar books in the market'],
+    uniqueSellingPoints: ['what makes this book different and valuable'],
+    keyTakeaways: ['main insights readers will gain'],
+    marketingPotential: 'assessment of marketing opportunities',
+    coverDescription: 'visual description of the layout and image of the book cover',
+    estimatedWordCount: 'approximate word count for the entire book',
+    estimatedTimeToComplete: 'timeline for completing the manuscript',
+    summary: 'one paragraph summary of the book concept',
+  },
 
-## Advanced Usage
-
-### Error Handling
-
-Workflows.do provides robust error handling capabilities:
-
-```typescript
-import { defineWorkflow } from 'workflows.do'
-
-const paymentProcessingWorkflow = defineWorkflow({
-  name: 'Process Payment',
-
-  steps: {
-    validatePaymentDetails: {
-      action: 'validatePayment',
-      next: 'processPayment',
-      onError: 'handleValidationError',
-    },
-
-    processPayment: {
-      action: 'chargeCustomer',
-      next: 'sendReceipt',
-      onError: 'handlePaymentError',
-      retry: {
-        maxAttempts: 3,
-        backoff: 'exponential',
-        initialDelay: 1000, // ms
+  // Table of Contents - Structure of the book
+  createTableOfContents: {
+    bookTitle: 'title of the book',
+    introduction: 'brief description of the introduction',
+    chapters: [
+      {
+        title: 'chapter title',
+        summary: 'brief summary of the chapter content',
+        sections: [
+          {
+            title: 'section title',
+            summary: 'brief description of the section content',
+          },
+        ],
+        estimatedPages: 'estimated number of pages for this chapter',
       },
-    },
-
-    handleValidationError: {
-      action: 'notifyCustomerOfInvalidDetails',
-      next: 'complete',
-    },
-
-    handlePaymentError: {
-      action: 'processPaymentFailure',
-      next: 'complete',
-    },
-
-    sendReceipt: {
-      action: 'emailReceipt',
-      next: 'complete',
-    },
-
-    complete: {
-      type: 'terminal',
-    },
+    ],
+    conclusion: 'brief description of the conclusion',
+    appendices: ['list of potential appendices if applicable'],
+    bibliography: 'description of reference sources if applicable',
+    estimatedTotalPages: 'estimated total page count for the book',
   },
-})
-```
 
-### Parallel Execution
-
-Execute steps in parallel for improved performance:
-
-```typescript
-import { defineWorkflow } from 'workflows.do'
-
-const orderFulfillmentWorkflow = defineWorkflow({
-  name: 'Order Fulfillment',
-
-  steps: {
-    receiveOrder: {
-      action: 'validateOrder',
-      next: 'parallel',
-    },
-
-    parallel: {
-      type: 'parallel',
-      branches: {
-        payment: 'processPayment',
-        inventory: 'checkInventory',
-        notification: 'notifyTeam',
+  // Chapter Outline - Detailed plan for a specific chapter
+  createChapterOutline: {
+    bookTitle: 'title of the book',
+    chapterNumber: 'number of the chapter',
+    chapterTitle: 'title of the chapter',
+    openingHook: 'engaging opening to capture reader interest',
+    keyPoints: ['main points to be covered in the chapter'],
+    sections: [
+      {
+        title: 'section title',
+        content: 'detailed description of section content',
+        keyIdeas: ['key ideas to be conveyed in this section'],
+        examples: ['examples or case studies to include'],
+        transitions: 'how this section connects to the next',
       },
-      next: 'shipOrder',
-      joinCondition: 'all', // Wait for all branches to complete
-    },
+    ],
+    conclusion: 'how the chapter will wrap up',
+    exercises: ['potential exercises or reflection questions for readers'],
+    references: ['key references or citations for this chapter'],
+    visualElements: ['diagrams, charts, or illustrations to include'],
+  },
 
-    processPayment: {
-      action: 'chargeCustomer',
-      next: 'complete',
-    },
+  // Section Writing - Content for a specific section
+  writeSection: {
+    bookTitle: 'title of the book',
+    chapterNumber: 'number of the chapter',
+    chapterTitle: 'title of the chapter',
+    sectionTitle: 'title of the section',
+    content: 'fully written content for the section',
+    keyQuotes: ['memorable quotes or statements from this section'],
+    citations: ['citations or references used in this section'],
+    images: ['descriptions of images or diagrams to include'],
+    pullQuotes: ['text that could be highlighted as pull quotes'],
+    wordCount: 'word count for this section',
+  },
 
-    checkInventory: {
-      action: 'reserveInventory',
-      next: 'complete',
-    },
+  // Chapter Review - Evaluation of a completed chapter
+  reviewChapter: {
+    bookTitle: 'title of the book',
+    chapterNumber: 'number of the chapter',
+    chapterTitle: 'title of the chapter',
+    strengthAnalysis: ['strengths of the chapter'],
+    weaknessAnalysis: ['areas that need improvement'],
+    flowAssessment: 'evaluation of how well the narrative flows',
+    clarityAssessment: 'evaluation of clarity and readability',
+    engagementAssessment: 'evaluation of how engaging the content is',
+    factsToVerify: ['factual claims that should be verified'],
+    suggestedRevisions: ['specific suggestions for revision'],
+    consistencyCheck: 'assessment of consistency with other chapters',
+    overallRating: 'rating on a scale of 1-10',
+    nextStepsRecommendation: 'recommended next steps for improvement',
+  },
 
-    notifyTeam: {
-      action: 'sendOrderNotification',
-      next: 'complete',
-    },
+  // Book Review - Comprehensive review of the entire manuscript
+  reviewBook: {
+    bookTitle: 'title of the book',
+    overallAssessment: 'comprehensive evaluation of the manuscript',
+    structureAnalysis: 'assessment of the book structure and organization',
+    narrativeFlowAnalysis: 'evaluation of how the narrative progresses',
+    thematicConsistency: 'assessment of thematic consistency throughout',
+    audienceAlignment: 'how well the book aligns with target audience',
+    marketPotential: 'assessment of commercial potential',
+    strengthHighlights: ['major strengths of the manuscript'],
+    improvementAreas: ['areas needing significant improvement'],
+    missingElements: ['important content or elements that are missing'],
+    redundancies: ['redundant or repetitive content to eliminate'],
+    titleFeedback: 'assessment of title effectiveness',
+    coverSuggestions: 'suggestions for cover design elements',
+    marketingAngles: ['potential marketing angles to emphasize'],
+    finalRecommendations: ['prioritized list of final recommendations'],
+  },
 
-    shipOrder: {
-      action: 'createShippingLabel',
-      next: 'complete',
-    },
+  // Book Editing - Specific edits for improving the manuscript
+  editBook: {
+    bookTitle: 'title of the book',
+    structuralEdits: ['suggestions for reorganizing content'],
+    developmentalEdits: ['suggestions for expanding or developing ideas'],
+    lineEdits: ['specific line-level edits for clarity and style'],
+    copyedits: ['grammar, punctuation, and spelling corrections'],
+    factChecking: ['factual errors to correct'],
+    consistencyEdits: ['inconsistencies to resolve'],
+    styleGuideApplication: 'how to apply a consistent style guide',
+    audienceConsiderations: 'edits to better target the audience',
+    paceAdjustments: 'suggestions for improving narrative pace',
+    toneRefinements: 'adjustments to maintain consistent tone',
+    dialogueImprovements: 'ways to improve any dialogue',
+    descriptionEnhancements: 'ways to enhance descriptive passages',
+    transitionImprovements: 'ways to improve transitions between sections',
+  },
 
-    complete: {
-      type: 'terminal',
-    },
+  // Book Publication Preparation - Final steps before publication
+  prepareForPublication: {
+    bookTitle: 'title of the book',
+    finalTitleRecommendation: 'final recommendation for title and subtitle',
+    blurb: 'promotional book description for back cover and marketing',
+    keySellingPoints: ['key selling points to emphasize in marketing'],
+    targetCategories: ['book categories and genres for listing'],
+    keywordRecommendations: ['keywords for search optimization'],
+    comparableTitles: ['comparable successful titles for positioning'],
+    audienceDescription: 'detailed description of target audience',
+    marketingHooks: ['marketing hooks and angles'],
+    excerptSuggestions: ['passages that would work well as excerpts'],
+    endorsementStrategy: 'strategy for obtaining endorsements',
+    launchStrategy: 'recommended approach for book launch',
+    pricingRecommendation: 'suggested pricing strategy',
+    formatRecommendations: ['recommended formats (hardcover, ebook, etc.)'],
+    distributionChannels: ['recommended distribution channels'],
   },
 })
 ```
 
 ## API Reference
 
-### Core Functions
+### AI(config)
 
-- `AI(config)`: Create an AI-powered workflow
-- `defineWorkflow(config)`: Define a new workflow
-- `defineIntegration(config)`: Create an integration with external services
-- `defineTrigger(config)`: Define an event trigger for workflows
-- `defineAction(config)`: Create a reusable action for workflow steps
+The main function to create AI workflows and function schemas.
 
-### Workflow Configuration
+**Parameters:**
+- `config`: An object containing event handlers and function schemas
 
-- `name`: The name of the workflow
-- `description`: A description of what the workflow does
-- `steps`: The steps that make up the workflow
-- `triggers`: Events that can start this workflow
-- `timeout`: Maximum execution time for the workflow
+**Returns:**
+- An AI instance with typed methods based on the provided schemas
 
-### Step Types
+### Context Object
 
-- `action`: Execute a specific action
-- `decision`: Branch based on a condition
-- `parallel`: Execute multiple branches in parallel
-- `wait`: Pause execution for a specified time or event
-- `terminal`: End the workflow execution
+Each event handler receives a context object with the following properties:
+
+- `ai`: AI functions defined in your schema
+- `api`: External API integrations
+- `db`: Database access for storing and retrieving data
 
 ## Examples
 
-Check out the [examples directory](https://github.com/drivly/ai/tree/main/examples) for more usage examples.
+### Content Generation Workflow
 
-## Contributing
+```typescript
+import { AI } from 'workflows.do'
 
-We welcome contributions! Please see our [Contributing Guide](https://github.com/drivly/ai/blob/main/CONTRIBUTING.md) for more details.
+export default AI({
+  generateBlogPost: async (event, { ai, api, db }) => {
+    const { topic, keywords, targetAudience } = event
+    
+    // Research the topic
+    const research = await ai.researchTopic({ topic, keywords })
+    
+    // Create an outline
+    const outline = await ai.createOutline({ topic, research, targetAudience })
+    
+    // Write the blog post
+    const blogPost = await ai.writeBlogPost({ topic, outline, research })
+    
+    // Create images for the blog post
+    const images = await api.dalle.generateImages({ 
+      prompt: `Image for blog post about ${topic}`,
+      n: 3
+    })
+    
+    // Save to database
+    const { url } = await db.blogPosts.create({
+      title: blogPost.title,
+      content: blogPost.content,
+      images,
+      metadata: {
+        topic,
+        keywords,
+        targetAudience,
+        research,
+        outline
+      }
+    })
+    
+    return {
+      blogPost,
+      images,
+      url
+    }
+  }
+})
+```
+
+### Customer Support Workflow
+
+```typescript
+import { AI } from 'workflows.do'
+
+export default AI({
+  handleSupportTicket: async (event, { ai, api, db }) => {
+    const { ticketId, customerMessage, customerId } = event
+    
+    // Get customer history
+    const customerHistory = await db.customers.findOne({ id: customerId })
+    
+    // Analyze the support ticket
+    const analysis = await ai.analyzeSupportTicket({ 
+      customerMessage, 
+      customerHistory 
+    })
+    
+    // Generate a response
+    const response = await ai.generateSupportResponse({
+      customerMessage,
+      analysis,
+      customerHistory
+    })
+    
+    // Update the ticket in the database
+    await db.supportTickets.update(ticketId, {
+      status: 'responded',
+      response,
+      analysis
+    })
+    
+    // Send the response to the customer
+    await api.email.send({
+      to: customerHistory.email,
+      subject: `Re: Support Ticket #${ticketId}`,
+      body: response.message
+    })
+    
+    return {
+      ticketId,
+      response,
+      analysis
+    }
+  }
+})
+```
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT)
+MIT

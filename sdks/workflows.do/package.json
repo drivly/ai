@@ -1,38 +1,39 @@
 {
   "name": "workflows.do",
-  "version": "0.0.1",
-  "description": "A framework and platform for building, deploying, and managing enterprise-grade AI workflows",
-  "keywords": [
-    "workflows",
-    "business-process",
-    "automation",
-    "ai",
-    "state-machine",
-    "serverless",
-    "event-driven"
+  "version": "0.0.2",
+  "description": "SDK for creating AI-powered workflows with strongly-typed functions",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
   ],
   "homepage": "https://workflows.do",
   "type": "module",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
     "directory": "sdks/workflows.do"
   },
-  "author": "Nathan Clevenger",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/drivly/ai/issues"
-  },
   "scripts": {
     "build": "tsc",
     "test": "echo \"No tests\" && exit 0"
   },
-  "devDependencies": {
-    "vitest": "^3.0.8"
+  "keywords": [
+    "ai",
+    "workflows",
+    "sdk",
+    "typescript"
+  ],
+  "author": "Drivly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
   },
   "dependencies": {
     "apis.do": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
   }
 }
