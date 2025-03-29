@@ -11,6 +11,7 @@ export const websites = {
   'agents.do': 'agents',
   'llm.do': 'llm',
   'dotdo.co': '.do | Economically Valuable Work',
+  'localhost': 'localhost',
 } as const
 
 export type Website = keyof typeof websites | (typeof aliases)[keyof typeof aliases] | keyof typeof aliases
