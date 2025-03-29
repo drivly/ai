@@ -18,8 +18,21 @@ export interface PayloadDBCollection {
 
 export type PayloadDB = Record<string, PayloadDBCollection>
 
+/**
+ * Payload instance that can be passed directly to client creation functions
+ */
+export type PayloadInstance = any // This should be refined based on the actual Payload types
+
+/**
+ * Configuration for REST API-based Payload client
+ */
 export interface RestPayloadClientConfig {
   apiUrl: string
   apiKey?: string
   headers?: Record<string, string>
 }
+
+/**
+ * Combined configuration options for Payload client
+ */
+export type PayloadClientOptions = RestPayloadClientConfig | PayloadInstance

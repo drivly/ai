@@ -1,11 +1,29 @@
-import { CollectionData, CollectionQuery, PayloadDB } from './types'
+import { CollectionData, CollectionQuery, PayloadDB, PayloadInstance, PayloadClientOptions } from './types'
+
+/**
+ * Determines if a provided value is a payload instance
+ * @param value - Value to check
+ * @returns True if the value appears to be a payload instance
+ */
+const isPayloadInstance = (value: any): value is PayloadInstance => {
+  return value && typeof value === 'object' && (
+    // Check for common payload properties
+    ('find' in value && typeof value.find === 'function') ||
+    ('findByID' in value && typeof value.findByID === 'function') ||
+    ('create' in value && typeof value.create === 'function') ||
+    ('update' in value && typeof value.update === 'function') ||
+    ('delete' in value && typeof value.delete === 'function')
+  )
+}
 
 /**
  * Creates a proxy object for more concise collection operations
- * @param payload - Payload CMS instance
+ * @param options - Payload CMS instance or configuration options
  * @returns A proxy object for database operations
  */
-export const createPayloadClient = (payload: any): PayloadDB => {
+export const createPayloadClient = (options: PayloadClientOptions): PayloadDB => {
+  // If options is a payload instance, use it directly
+  const payload = isPayloadInstance(options) ? options : options as any;
   return new Proxy(
     {},
     {
