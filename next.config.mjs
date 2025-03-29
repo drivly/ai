@@ -10,6 +10,17 @@ const withNextra = nextra({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
+  transpilePackages: [
+    'simple-payload', 
+    'clickable-apis', 
+    'ai-models',
+    'ai-functions',
+    'ai-providers',
+    'ai-workflows',
+    'deploy-worker',
+    'payload-agent',
+    'payload-utils'
+  ],
   webpack: (config, { isServer }) => {
     // Add alias for payload config
     config.resolve = config.resolve || {}
