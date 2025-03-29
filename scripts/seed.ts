@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config({ path: '.env.local' })
 import { getPayload } from 'payload'
-import config from '@payload-config'
+import config from '@/payload.config.ts'
 
 // Function to fetch Schema.org JSONLD
 export async function fetchSchemaOrgData() {
