@@ -2,15 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import punycode from 'punycode'
 import { PayloadDB, createNodePayloadClient, createEdgePayloadClient } from '@/pkgs/simple-payload'
 import { API as ClickableAPI, modifyQueryString as clickableModifyQueryString } from '@/pkgs/clickable-apis'
+import 'server-only'
 
 export const getPayloadClient = async () => {
   if (typeof window === 'undefined') {
     try {
-      const { getPayload } = await import('payload')
-      const config = await import('@payload-config')
-      const payload = await getPayload({ 
-        config: config.default 
-      })
+      const { getServerPayload } = await import('./lib/payload-server')
+      const payload = await getServerPayload()
       
       const db = createNodePayloadClient(payload)
       
