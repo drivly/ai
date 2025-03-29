@@ -10,8 +10,7 @@
  * If no URL is provided, it will use the VERCEL_URL environment variable.
  */
 
-const https = require('https');
-
+// Get the URL to check from command line args or environment variables
 const deploymentUrl = process.argv[2] || 
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null);
 
@@ -22,39 +21,39 @@ if (!deploymentUrl) {
 
 console.log(`Verifying deployment at: ${deploymentUrl}`);
 
-https.get(deploymentUrl, (res) => {
-  console.log(`Status code: ${res.statusCode}`);
-  
-  if (res.statusCode !== 200) {
-    console.error(`Error: Deployment verification failed. Root path returned status code ${res.statusCode}`);
-    process.exit(1);
-  }
-  
-  let data = '';
-  
-  res.on('data', (chunk) => {
-    data += chunk;
-  });
-  
-  res.on('end', () => {
+// Use modern fetch API to make a request to the root path
+async function verifyDeployment() {
+  try {
+    const response = await fetch(deploymentUrl);
+    console.log(`Status code: ${response.status}`);
+    
+    if (response.status !== 200) {
+      console.error(`Error: Deployment verification failed. Root path returned status code ${response.status}`);
+      process.exit(1);
+    }
+    
     console.log('Deployment verification successful. Root path is accessible.');
     
-    const contentType = res.headers['content-type'];
+    // Check if the response is JSON
+    const contentType = response.headers.get('content-type');
     if (contentType && contentType.includes('application/json')) {
       try {
-        const jsonData = JSON.parse(data);
+        const jsonData = await response.json();
         console.log('Response data:', jsonData);
       } catch (error) {
         console.warn('Warning: Response claimed to be JSON but could not be parsed:', error.message);
       }
     } else {
+      const text = await response.text();
       console.log(`Response content-type: ${contentType}`);
-      console.log(`Response length: ${data.length} bytes`);
+      console.log(`Response length: ${text.length} bytes`);
     }
     
     process.exit(0);
-  });
-}).on('error', (error) => {
-  console.error('Error verifying deployment:', error.message);
-  process.exit(1);
-});
+  } catch (error) {
+    console.error('Error verifying deployment:', error.message);
+    process.exit(1);
+  }
+}
+
+verifyDeployment();
