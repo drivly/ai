@@ -2,21 +2,44 @@
  * workflows.do - SDK for creating AI-powered workflows with strongly-typed functions
  */
 
-type AIFunction<T = any, R = any> = (params: { ai: any; db: any; api: any; args: T }) => Promise<R>;
-
-type AIFunctionSchema = Record<string, any>;
-
-type AIConfig = {
-  [key: string]: AIFunction | AIFunctionSchema;
-};
+import type { 
+  Workflow, 
+  WorkflowStep, 
+  WorkflowContext, 
+  WorkflowExecutionOptions, 
+  WorkflowExecutionResult 
+} from './types.js'
 
 /**
- * Creates an AI instance with typed methods based on the provided schemas
- * @param config Object containing event handlers and function schemas
- * @returns AI instance with typed methods
+ * Creates a new workflow
+ * @param workflow Workflow configuration
+ * @returns Workflow instance
  */
-export function AI<T extends AIConfig>(config: T) {
-  return config as any;
+export function createWorkflow(workflow: Workflow) {
+  return {
+    ...workflow,
+    execute: async (input: Record<string, any>, options?: WorkflowExecutionOptions): Promise<WorkflowExecutionResult> => {
+      const response = await fetch('https://apis.do/workflows/execute', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          workflow,
+          input,
+          options,
+        }),
+      })
+      
+      return response.json()
+    }
+  }
 }
 
-export default AI;
+export type {
+  Workflow,
+  WorkflowStep,
+  WorkflowContext,
+  WorkflowExecutionOptions,
+  WorkflowExecutionResult
+}
