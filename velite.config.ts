@@ -1,4 +1,5 @@
 import { defineConfig, s } from 'velite'
+import { z } from 'zod'
 
 export default defineConfig({
   root: 'content',
@@ -15,7 +16,8 @@ export default defineConfig({
       schema: s.object({
         title: s.string().optional(),
         description: s.string().optional(),
-        content: s.mdx(),
+        content: s.markdown(),
+        component: s.mdx(),
       }),
     },
   },

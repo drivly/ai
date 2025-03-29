@@ -5,7 +5,6 @@ import { AI } from 'workflows.do'
 
 export default AI({
   onUserSignup: async ({ ai, api, db, event }) => {
-
     const { name, email, company } = event
 
     // Enrich content details with lookup from external data sources
@@ -29,7 +28,6 @@ export default AI({
     const { url } = await db.users.create({ name, email, company, summary, ...details })
     await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
   },
-
 })
 ```
 
@@ -106,7 +104,7 @@ console.log(brand)
 
 ## [APIs.do](https://apis.do) Clickable Developer Experiences
 
-By visiting https://apis.do in a browser with a [JSON Plugin](https://apis.do/docs#browser-plugins), you can explore all available APIs and their capabilities without having to deal with API documentation, curl commands, or 
+By visiting https://apis.do in a browser with a [JSON Plugin](https://apis.do/docs#browser-plugins), you can explore all available APIs and their capabilities without having to deal with API documentation, curl commands, or
 
 ```json
 {
@@ -163,11 +161,11 @@ const customerSupportAgent = Agent({
   role: 'Customer Support Agent',
   job: 'Handles customer inquiries and resolves common issues',
   url: 'https://amy.do',
-  integrations: ['chat','slack','email','zendesk','shopify'],
-  triggers: ['onTicketCreated','onMessageReceived'],
-  searches: ['FAQs','Tickets','Orders','Products','Customers'],
+  integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
+  triggers: ['onTicketCreated', 'onMessageReceived'],
+  searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
   actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
-  kpis: ['ticketResponseTime', 'ticketResolutionTime', 'ticketEscalationRate', 'customerSatisfaction']
+  kpis: ['ticketResponseTime', 'ticketResolutionTime', 'ticketEscalationRate', 'customerSatisfaction'],
 })
 ```
 
@@ -179,16 +177,13 @@ Integrations.do provides a seamless way to connect your AI applications with ext
 
 Triggers.do provides a powerful framework for initiating workflows based on various events. It enables you to create event-driven architectures that respond automatically to changes in your business environment, ensuring timely execution of critical processes.
 
-
 ## [Searches.do](https://searches.do) Provide Context & Understanding
 
 Searches.do provides a unified interface for powerful data retrieval across various sources. It enables you to find relevant information quickly and efficiently, providing the context needed for intelligent decision-making in your AI applications.
 
-
 ## [Actions.do](https://actions.do) Impact the External World
 
 Actions.do provides a powerful framework for defining and executing operations that interact with external systems. It enables you to create reusable, composable actions that can be triggered from your workflows to create real-world impact.
-
 
 ## [Nouns.do](https://nouns.do) Entities in Your Business
 
@@ -201,7 +196,6 @@ Verbs.do provides a powerful framework for defining and managing the actions tha
 ## [Things.do](https://things.do) Physical and Virtual Objects
 
 Things.do provides a powerful framework for modeling and managing both physical and virtual objects in your business domain. It enables you to create a structured representation of the tangible and intangible assets that your business interacts with.
-
 
 ## [Database.do](https://database.do) AI-enriched Data
 
@@ -237,7 +231,6 @@ Events.do provides a powerful framework for tracking, analyzing, and responding 
 ```typescript
 import { track } from 'events.do'
 
-
 // Track a user signup event
 await track('UserSignup', {
   email: 'user@example.com',
@@ -252,35 +245,26 @@ await track('UserSignup', {
 
 Experiments.do provides a powerful framework for testing hypotheses, measuring outcomes, and iteratively improving your AI applications. It enables you to run controlled experiments to validate ideas, optimize performance, and make data-driven decisions.
 
-
 ## [Benchmarks.do](https://benchmarks.do) Compare Models
 
 Benchmarks.do provides a powerful framework for evaluating and comparing AI models across various dimensions. It enables you to make informed decisions about which models to use for different tasks based on objective performance metrics.
-
 
 ## [Evals.do](https://evals.do) Measure & Improve
 
 Evals.do provides a powerful framework for evaluating the performance and quality of your AI applications. It enables you to systematically assess model outputs, function results, and workflow outcomes to ensure they meet your business requirements.
 
-
 ## [Traces.do](https://traces.do) Debug & Understand
 
 Traces.do provides a powerful framework for capturing, visualizing, and analyzing the execution of your AI applications. It enables you to understand how your functions, workflows, and agents operate, making it easier to debug issues and optimize performance.
-
 
 ## [LLM.do](https://llm.do) Intelligent AI Gateway
 
 LLM.do provides a powerful gateway for routing AI requests to the optimal language models based on capabilities, cost, and performance requirements. It enables you to leverage the best AI models for each specific task without being locked into a single provider.
 
-
 ## [Analytics.do](https://analytics.do) Measure Business Impact
 
 Analytics.do provides a powerful framework for measuring and analyzing the business impact of your AI applications. It enables you to track key metrics, visualize performance trends, and make data-driven decisions about your AI investments.
 
-
 ## [AGI.do](https://agi.do) Economically Valuable Work
 
 AGI.do provides a powerful framework for creating and deploying advanced AI systems that can perform economically valuable work across various domains. It enables you to build sophisticated AI applications that deliver measurable business value through automation, optimization, and intelligent decision-making.
-
-
-

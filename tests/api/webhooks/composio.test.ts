@@ -7,7 +7,6 @@ global.fetch = vi.fn().mockResolvedValue({
   json: vi.fn().mockResolvedValue({ user: {}, permissions: {} }),
 })
 
-
 // Mock dependencies
 vi.mock('payload', () => ({
   getPayload: vi.fn().mockResolvedValue({
@@ -17,7 +16,7 @@ vi.mock('payload', () => ({
 }))
 
 vi.mock('../../../../payload.config', () => ({
-  default: {}
+  default: {},
 }))
 
 vi.mock('clickable-apis', () => ({
@@ -37,7 +36,7 @@ vi.mock('clickable-apis', () => ({
   },
   modifyQueryString: vi.fn().mockImplementation((param, value) => {
     return `https://example.com?${param}=${value}`
-  })
+  }),
 }))
 
 describe('Composio Webhook Handler', () => {
@@ -64,11 +63,11 @@ describe('Composio Webhook Handler', () => {
         pathname: '/webhooks/composio',
         searchParams: new URLSearchParams(),
       },
-      text: () => Promise.resolve(JSON.stringify({ event: 'test' }))
+      text: () => Promise.resolve(JSON.stringify({ event: 'test' })),
     } as unknown as NextRequest
 
     const response = await POST(request, {
-      params: Promise.resolve({})
+      params: Promise.resolve({}),
     })
 
     expect(response.status).toBe(500)
@@ -85,11 +84,11 @@ describe('Composio Webhook Handler', () => {
         pathname: '/webhooks/composio',
         searchParams: new URLSearchParams(),
       },
-      text: () => Promise.resolve(JSON.stringify({ event: 'test' }))
+      text: () => Promise.resolve(JSON.stringify({ event: 'test' })),
     } as unknown as NextRequest
 
     const response = await POST(request, {
-      params: Promise.resolve({})
+      params: Promise.resolve({}),
     })
 
     expect(response.status).toBe(400)
@@ -110,11 +109,11 @@ describe('Composio Webhook Handler', () => {
         pathname: '/webhooks/composio',
         searchParams: new URLSearchParams(),
       },
-      text: () => Promise.resolve(JSON.stringify({ event: 'test' }))
+      text: () => Promise.resolve(JSON.stringify({ event: 'test' })),
     } as unknown as NextRequest
 
     const response = await POST(request, {
-      params: Promise.resolve({})
+      params: Promise.resolve({}),
     })
 
     expect(response.status).toBe(401)

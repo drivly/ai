@@ -8,16 +8,16 @@ import { CollectionData, CollectionQuery, PayloadDB, PayloadInstance, PayloadCli
 const isPayloadInstance = (value: any): value is PayloadInstance => {
   // Simple check if it has at least one of the expected API methods
   // and is not just a config object with apiUrl property
-  return value && 
-    typeof value === 'object' && 
-    !('apiUrl' in value) && 
-    (
-      (typeof value.find === 'function') ||
-      (typeof value.findByID === 'function') ||
-      (typeof value.create === 'function') ||
-      (typeof value.update === 'function') ||
-      (typeof value.delete === 'function')
-    )
+  return (
+    value &&
+    typeof value === 'object' &&
+    !('apiUrl' in value) &&
+    (typeof value.find === 'function' ||
+      typeof value.findByID === 'function' ||
+      typeof value.create === 'function' ||
+      typeof value.update === 'function' ||
+      typeof value.delete === 'function')
+  )
 }
 
 /**
@@ -27,7 +27,7 @@ const isPayloadInstance = (value: any): value is PayloadInstance => {
  */
 export const createPayloadClient = (options: PayloadClientOptions): PayloadDB => {
   // If options is a payload instance, use it directly
-  const payload = isPayloadInstance(options) ? options : options as any;
+  const payload = isPayloadInstance(options) ? options : (options as any)
   return new Proxy(
     {},
     {

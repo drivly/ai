@@ -119,7 +119,7 @@ describe('functions.do', () => {
       })
 
       const mockAi: any = {
-        testFunction: () => Promise.resolve({ name: 'test', description: 'test' })
+        testFunction: () => Promise.resolve({ name: 'test', description: 'test' }),
       }
       const result = functions.testCallback({ ai: mockAi, args: { test: 123 } })
 

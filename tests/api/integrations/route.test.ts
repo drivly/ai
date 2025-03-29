@@ -6,12 +6,12 @@ vi.mock('clickable-apis', () => ({
   API: (handler: any) => {
     return async (req: any, ctx: any) => {
       try {
-        return await handler(req, ctx);
+        return await handler(req, ctx)
       } catch (error) {
-        console.error('API handler error:', error);
-        return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+        console.error('API handler error:', error)
+        return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 })
       }
-    };
+    }
   },
 }))
 
@@ -35,16 +35,19 @@ describe('Integrations API', () => {
       // Mock the fetch response
       const mockResponse = {
         json: vi.fn().mockResolvedValue({ items: [{ name: 'Test App', key: 'test-app' }] }),
-        ok: true
+        ok: true,
       }
       mockFetch.mockResolvedValue(mockResponse)
 
       // Call the GET handler
-      await GET({} as NextRequest, { 
-        url: new URL('https://example.com/api/integrations'),
-        db: {},
-        user: {}
-      } as any)
+      await GET(
+        {} as NextRequest,
+        {
+          url: new URL('https://example.com/api/integrations'),
+          db: {},
+          user: {},
+        } as any,
+      )
 
       // Verify fetch was called with the correct URL and headers
       expect(mockFetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {
@@ -60,11 +63,14 @@ describe('Integrations API', () => {
       delete process.env.COMPOSIO_API_KEY
 
       // Call the GET handler
-      const response = await GET({} as NextRequest, { 
-        url: new URL('https://example.com/api/integrations'),
-        db: {},
-        user: {}
-      } as any)
+      const response = await GET(
+        {} as NextRequest,
+        {
+          url: new URL('https://example.com/api/integrations'),
+          db: {},
+          user: {},
+        } as any,
+      )
 
       // Verify response
       expect(response).toBeInstanceOf(Response)
@@ -81,7 +87,7 @@ describe('Integrations API', () => {
         console.log('Skipping POST integration test in CI environment')
         return expect(true).toBe(true)
       }
-      
+
       // Mock the request body
       const requestBody = { name: 'Test Integration' }
       const request = {
@@ -90,21 +96,21 @@ describe('Integrations API', () => {
           origin: 'https://example.com',
           pathname: '/api/integrations',
           searchParams: new URLSearchParams(),
-        }
+        },
       } as unknown as NextRequest
 
       // Mock the fetch response
       const mockResponse = {
         json: vi.fn().mockResolvedValue({ id: '123', ...requestBody }),
-        ok: true
+        ok: true,
       }
       mockFetch.mockResolvedValue(mockResponse)
 
       // Call the POST handler
-      await POST(request, { 
+      await POST(request, {
         url: new URL('https://example.com/api/integrations'),
         db: {},
-        user: {}
+        user: {},
       } as any)
 
       // Verify fetch was called with the correct URL, method, headers, and body
@@ -125,7 +131,7 @@ describe('Integrations API', () => {
         console.log('Skipping PUT integration test in CI environment')
         return expect(true).toBe(true)
       }
-      
+
       // Mock the request body
       const requestBody = { id: '123', name: 'Updated Integration' }
       const request = {
@@ -134,21 +140,21 @@ describe('Integrations API', () => {
           origin: 'https://example.com',
           pathname: '/api/integrations',
           searchParams: new URLSearchParams(),
-        }
+        },
       } as unknown as NextRequest
 
       // Mock the fetch response
       const mockResponse = {
         json: vi.fn().mockResolvedValue(requestBody),
-        ok: true
+        ok: true,
       }
       mockFetch.mockResolvedValue(mockResponse)
 
       // Call the PUT handler
-      await PUT(request, { 
+      await PUT(request, {
         url: new URL('https://example.com/api/integrations'),
         db: {},
-        user: {}
+        user: {},
       } as any)
 
       // Verify fetch was called with the correct URL, method, headers, and body
@@ -169,20 +175,23 @@ describe('Integrations API', () => {
         console.log('Skipping DELETE integration test in CI environment')
         return expect(true).toBe(true)
       }
-      
+
       // Mock the fetch response
       const mockResponse = {
         json: vi.fn().mockResolvedValue({ success: true }),
-        ok: true
+        ok: true,
       }
       mockFetch.mockResolvedValue(mockResponse)
 
       // Call the DELETE handler
-      await DELETE({} as NextRequest, { 
-        url: new URL('https://example.com/api/integrations'),
-        db: {},
-        user: {}
-      } as any)
+      await DELETE(
+        {} as NextRequest,
+        {
+          url: new URL('https://example.com/api/integrations'),
+          db: {},
+          user: {},
+        } as any,
+      )
 
       // Verify fetch was called with the correct URL, method, and headers
       expect(mockFetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {

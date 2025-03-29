@@ -21,9 +21,11 @@ To create the most developer-friendly and business-effective AI primitives platf
 ### 2.1 Functions.do - Inputs to Structured Outputs
 
 #### Description
+
 Provides a framework for transforming inputs into structured, typesafe outputs using AI models.
 
 #### Key Features
+
 - Type-safe function results without complexity
 - Support for various output formats (JSON, Markdown, Code)
 - Model/config/prompt overrides
@@ -31,6 +33,7 @@ Provides a framework for transforming inputs into structured, typesafe outputs u
 - Temperature and model adjustment capabilities
 
 #### Requirements
+
 - Must support schema-based and schema-less operations
 - Must handle various output formats including JSON, markdown, and code
 - Must provide links to adjust parameters (temperature, models, seeds)
@@ -40,15 +43,18 @@ Provides a framework for transforming inputs into structured, typesafe outputs u
 ### 2.2 Workflows.do - Business-as-Code
 
 #### Description
+
 Enables the creation and execution of complex business workflows using a code-first approach.
 
 #### Key Features
+
 - Event-driven workflow execution
 - Integration with external data sources and APIs
 - Personalization and data enrichment capabilities
 - Automated scheduling and execution
 
 #### Requirements
+
 - Must support event-triggered workflow execution
 - Must provide reliable execution of business processes
 - Must integrate with the event system (Triggers, Searches, Actions)
@@ -57,15 +63,18 @@ Enables the creation and execution of complex business workflows using a code-fi
 ### 2.3 Agents.do - Autonomous Digital Workers
 
 #### Description
+
 Framework for creating, deploying, and managing autonomous agents that perform complex tasks with minimal intervention.
 
 #### Key Features
+
 - Configurable agent capabilities and knowledge bases
 - Behavior definition using customizable functions
 - Deployment and monitoring infrastructure
 - Integration with external systems
 
 #### Requirements
+
 - Must support agent definition with capabilities and knowledge bases
 - Must prevent duplicate agent creation
 - Must provide monitoring and oversight capabilities
@@ -77,14 +86,17 @@ Framework for creating, deploying, and managing autonomous agents that perform c
 ### 3.1 Triggers.do - Start Business Processes
 
 #### Description
+
 Provides mechanisms to initiate workflows based on various events from internal and external systems.
 
 #### Key Features
+
 - Webhook-based triggers
 - Integration with third-party systems
 - Configurable trigger definitions
 
 #### Requirements
+
 - Must expose a clickable API of available triggers
 - Must ingest triggers from integrations
 - Must configure trigger collections properly
@@ -93,14 +105,17 @@ Provides mechanisms to initiate workflows based on various events from internal 
 ### 3.2 Searches.do - Provide Context & Understanding
 
 #### Description
+
 Enables contextual search and understanding across the platform.
 
 #### Key Features
+
 - Advanced search capabilities
 - Context-aware results
 - Integration with workflow decision making
 
 #### Requirements
+
 - Must provide reliable and relevant search results
 - Must integrate with the overall platform context
 - Must support search box functionality without errors
@@ -108,14 +123,17 @@ Enables contextual search and understanding across the platform.
 ### 3.3 Actions.do - Impact the External World
 
 #### Description
+
 Enables workflows and agents to perform actions that affect external systems.
 
 #### Key Features
+
 - Predefined action templates
 - Integration with external systems and APIs
 - Action result handling and error recovery
 
 #### Requirements
+
 - Must expose a clickable API of available actions
 - Must ingest actions from integrations
 - Must configure action collections properly
@@ -126,14 +144,17 @@ Enables workflows and agents to perform actions that affect external systems.
 ### 4.1 LLM.do - Intelligent AI Gateway
 
 #### Description
+
 Provides a unified interface to various AI models and capabilities.
 
 #### Key Features
+
 - Multi-model support
 - Tool use integration
 - Clickable API experience
 
 #### Requirements
+
 - Must support integrated tool use
 - Must provide clickable experience with GET requests
 - Must support domain-specific LLM configurations
@@ -142,14 +163,17 @@ Provides a unified interface to various AI models and capabilities.
 ### 4.2 Database.do - AI-enriched Data
 
 #### Description
+
 AI-native data access layer with search and CRUD capabilities.
 
 #### Key Features
+
 - AI-enriched data storage and retrieval
 - Seamless integration with other platform components
 - Advanced search capabilities
 
 #### Requirements
+
 - Must provide reliable data storage and retrieval
 - Must support AI-enhanced search and querying
 - Must integrate with other platform components
@@ -157,14 +181,17 @@ AI-native data access layer with search and CRUD capabilities.
 ### 4.3 Evals.do - Measure & Improve
 
 #### Description
+
 Framework for evaluating the performance and quality of AI applications.
 
 #### Key Features
+
 - Systematic assessment of model outputs
 - Function result evaluation
 - Workflow outcome validation
 
 #### Requirements
+
 - Must provide reliable evaluation of AI outputs
 - Must integrate with the overall quality assurance process
 - Must support continuous improvement of AI components
@@ -172,14 +199,17 @@ Framework for evaluating the performance and quality of AI applications.
 ### 4.4 Integrations.do - Connect Your Apps
 
 #### Description
+
 Enables seamless connection with external systems, APIs, and services.
 
 #### Key Features
+
 - Predefined integration templates
 - Webhook security and verification
 - Configuration management
 
 #### Requirements
+
 - Must verify webhook secrets for security
 - Must support various integration platforms (e.g., Composio)
 - Must refactor integration collections properly
@@ -189,14 +219,17 @@ Enables seamless connection with external systems, APIs, and services.
 ### 5.1 APIs.do - Clickable Developer Experiences
 
 #### Description
+
 Provides a clickable, discoverable interface for all platform APIs.
 
 #### Key Features
+
 - Consistent API presentation
 - Self-documenting interfaces
 - User authentication and authorization
 
 #### Requirements
+
 - Must implement user footer object
 - Must implement API header object
 - Must extract database and payload dependencies

@@ -7,14 +7,14 @@ describe('Root API endpoint', () => {
     if (process.env.VERCEL && process.env.VERCEL_URL) {
       console.log('Running root API test in Vercel environment')
       const deploymentUrl = `https://${process.env.VERCEL_URL}`
-      
+
       try {
         const response = await fetch(deploymentUrl)
         expect(response.status).toBe(200)
-        
+
         const contentType = response.headers.get('content-type')
         expect(contentType).toBeDefined()
-        
+
         if (contentType?.includes('application/json')) {
           const data = await response.json()
           expect(data).toBeDefined()
@@ -22,14 +22,14 @@ describe('Root API endpoint', () => {
           const text = await response.text()
           expect(text.length).toBeGreaterThan(0)
         }
-        
+
         return
       } catch (error) {
         console.error('Root API test failed in Vercel environment:', error)
         expect.fail('Root API is not accessible in Vercel environment')
       }
     }
-    
+
     // Skip test if running in CI environment without a server
     if (process.env.CI && !process.env.API_URL) {
       console.log('Skipping API test in CI environment without API_URL')

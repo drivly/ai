@@ -5,31 +5,31 @@ const mockGET = vi.fn().mockImplementation(async (request: any, context: any) =>
   const { functionName } = context.params
   const searchParams = request.nextUrl.searchParams
   const seed = Number(searchParams.get('seed') || '1')
-  
+
   const links: any = {}
-  
+
   links.next = `${request.nextUrl.origin}/${functionName}?seed=${seed + 1}`
-  
+
   if (seed > 1) {
     links.prev = `${request.nextUrl.origin}/${functionName}?seed=${seed - 1}`
   }
-  
+
   searchParams.forEach((value: string, key: string) => {
     if (key !== 'seed') {
       if (links.next) links.next += `&${key}=${value}`
       if (links.prev) links.prev += `&${key}=${value}`
     }
   })
-  
-  return Response.json({ 
+
+  return Response.json({
     result: 'test result',
     reasoning: 'test reasoning',
-    links
+    links,
   })
 })
 
 vi.mock('@/app/(apis)/functions/[functionName]/route', () => ({
-  GET: mockGET
+  GET: mockGET,
 }))
 
 // Mock the executeFunction dependency
