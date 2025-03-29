@@ -1,7 +1,7 @@
 import { AI } from 'functions.do'
 
 export const ai = AI({
-  writeBook: async ({ ai, db, api, args }) => {
+  writeBook: async (args, { ai, db, api }) => {
     // Step 1: Create book proposal with provided args
     const proposal = await ai.createBookProposal(args)
 
