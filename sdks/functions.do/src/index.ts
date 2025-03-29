@@ -29,7 +29,7 @@ export class FunctionsClient {
 
   constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
     this.api = new ApiClient({
-      baseUrl: options.baseUrl || 'https://functions.do',
+      baseUrl: options.baseUrl || 'https://apis.do',
       headers: {
         'Content-Type': 'application/json',
         ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
