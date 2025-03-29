@@ -34,7 +34,10 @@ vi.mock('clickable-apis', () => ({
         return new Response(error.message, { status: error.statusCode || 500 })
       }
     }
-  }
+  },
+  modifyQueryString: vi.fn().mockImplementation((param, value) => {
+    return `https://example.com?${param}=${value}`
+  })
 }))
 
 describe('Composio Webhook Handler', () => {
