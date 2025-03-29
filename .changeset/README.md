@@ -6,3 +6,20 @@ find the full documentation for it [in our repository](https://github.com/change
 
 We have a quick list of common questions to get you started engaging with this project in
 [our documentation](https://github.com/changesets/changesets/blob/main/docs/common-questions.md)
+
+## Versioning Strategy
+
+This repository uses [Changesets](https://github.com/changesets/changesets) for managing versions and publishing packages.
+
+- Packages in the `sdks` folder are versioned together. When one SDK needs a version update, all SDKs get the same version.
+- Packages in the `pkgs` folder are versioned independently based on changes.
+
+### Adding a changeset
+
+To add a changeset, run:
+
+```bash
+pnpm changeset
+```
+
+This will guide you through the process of creating a changeset file that describes your changes.
