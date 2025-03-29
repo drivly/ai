@@ -5,7 +5,7 @@ import { z } from 'zod'
 export class Cookies extends OpenAPIRoute {
   schema = {
     tags: ['Authentication'],
-    summary: 'Retrieve, and set cookies for llm.do',
+    summary: 'Retrieve and set cookies for llm.do',
     request: {
       query: z.object({
         Authorization: z.string().describe('Bearer token').optional(),
