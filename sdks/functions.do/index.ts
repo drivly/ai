@@ -40,7 +40,7 @@ const callAPI = async (request: any) => {
     return { data: mockResponse }
   }
 
-  const url = process.env.FUNCTIONS_API_URL || 'https://functions.do/api/generate'
+  const url = process.env.FUNCTIONS_API_URL || 'https://apis.do/functions/generate'
   console.log({ url })
   const response = await fetch(url, {
     method: 'POST',
@@ -103,7 +103,7 @@ const callMarkdownAPI = async (request: any): Promise<MarkdownOutput> => {
     return mockResponse as MarkdownOutput
   }
 
-  const url = process.env.FUNCTIONS_API_URL || 'https://functions.do/api/generate-markdown'
+  const url = process.env.FUNCTIONS_API_URL || 'https://apis.do/functions/generate-markdown'
   console.log({ url })
   const response = await fetch(url, {
     method: 'POST',
