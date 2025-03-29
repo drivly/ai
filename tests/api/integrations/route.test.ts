@@ -3,7 +3,16 @@ import { NextRequest } from 'next/server'
 
 // Mock the API module
 vi.mock('clickable-apis', () => ({
-  API: (handler: any) => handler,
+  API: (handler: any) => {
+    return async (req: any, ctx: any) => {
+      try {
+        return await handler(req, ctx);
+      } catch (error) {
+        console.error('API handler error:', error);
+        return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });
+      }
+    };
+  },
 }))
 
 // Mock the fetch function
@@ -34,7 +43,11 @@ describe('Integrations API', () => {
       mockFetch.mockResolvedValue(mockResponse)
 
       // Call the GET handler
-      await GET({} as NextRequest, { url: 'https://example.com/api/integrations' } as any)
+      await GET({} as NextRequest, { 
+        url: new URL('https://example.com/api/integrations'),
+        db: {},
+        user: {}
+      } as any)
 
       // Verify fetch was called with the correct URL and headers
       expect(mockFetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {
@@ -50,7 +63,11 @@ describe('Integrations API', () => {
       delete process.env.COMPOSIO_API_KEY
 
       // Call the GET handler
-      const response = await GET({} as NextRequest, { url: 'https://example.com/api/integrations' } as any)
+      const response = await GET({} as NextRequest, { 
+        url: new URL('https://example.com/api/integrations'),
+        db: {},
+        user: {}
+      } as any)
 
       // Verify response
       expect(response).toBeInstanceOf(Response)
@@ -76,7 +93,11 @@ describe('Integrations API', () => {
       mockFetch.mockResolvedValue(mockResponse)
 
       // Call the POST handler
-      await POST(request, { url: 'https://example.com/api/integrations' } as any)
+      await POST(request, { 
+        url: new URL('https://example.com/api/integrations'),
+        db: {},
+        user: {}
+      } as any)
 
       // Verify fetch was called with the correct URL, method, headers, and body
       expect(mockFetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {
@@ -105,7 +126,11 @@ describe('Integrations API', () => {
       mockFetch.mockResolvedValue(mockResponse)
 
       // Call the PUT handler
-      await PUT(request, { url: 'https://example.com/api/integrations' } as any)
+      await PUT(request, { 
+        url: new URL('https://example.com/api/integrations'),
+        db: {},
+        user: {}
+      } as any)
 
       // Verify fetch was called with the correct URL, method, headers, and body
       expect(mockFetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {
@@ -128,7 +153,11 @@ describe('Integrations API', () => {
       mockFetch.mockResolvedValue(mockResponse)
 
       // Call the DELETE handler
-      await DELETE({} as NextRequest, { url: 'https://example.com/api/integrations' } as any)
+      await DELETE({} as NextRequest, { 
+        url: new URL('https://example.com/api/integrations'),
+        db: {},
+        user: {}
+      } as any)
 
       // Verify fetch was called with the correct URL, method, and headers
       expect(mockFetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {
