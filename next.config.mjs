@@ -53,7 +53,7 @@ const nextConfig = {
     return config
   },
   experimental: {
-    serverComponentsExternalPackages: ['payload']
+    serverExternalPackages: ['payload']
   }
 }
 
