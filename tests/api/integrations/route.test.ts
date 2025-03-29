@@ -23,11 +23,7 @@ global.fetch = mockFetch as unknown as typeof fetch
 vi.stubEnv('COMPOSIO_API_KEY', 'test-api-key')
 
 // Import after mocks are set up
-import { GET } from '../../../app/(apis)/integrations/route'
-
-const POST = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
-const PUT = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
-const DELETE = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
+import { GET, POST, PUT, DELETE } from '../../../app/(apis)/integrations/route'
 
 describe('Integrations API', () => {
   beforeEach(() => {
@@ -85,7 +81,12 @@ describe('Integrations API', () => {
       const requestBody = { name: 'Test Integration' }
       const request = {
         json: vi.fn().mockResolvedValue(requestBody),
-      } as unknown as Request
+        nextUrl: {
+          origin: 'https://example.com',
+          pathname: '/api/integrations',
+          searchParams: new URLSearchParams(),
+        }
+      } as unknown as NextRequest
 
       // Mock the fetch response
       const mockResponse = {
@@ -119,7 +120,12 @@ describe('Integrations API', () => {
       const requestBody = { id: '123', name: 'Updated Integration' }
       const request = {
         json: vi.fn().mockResolvedValue(requestBody),
-      } as unknown as Request
+        nextUrl: {
+          origin: 'https://example.com',
+          pathname: '/api/integrations',
+          searchParams: new URLSearchParams(),
+        }
+      } as unknown as NextRequest
 
       // Mock the fetch response
       const mockResponse = {
