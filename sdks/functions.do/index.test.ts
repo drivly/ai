@@ -118,8 +118,9 @@ describe('functions.do', () => {
         },
       })
 
-      // Access the callback function result
-      const mockAi: any = {} // Create a mock AI instance
+      const mockAi: any = {
+        testFunction: () => Promise.resolve({ name: 'test', description: 'test' })
+      }
       const result = functions.testCallback({ ai: mockAi, args: { test: 123 } })
 
       // Verify the function properties
