@@ -91,15 +91,23 @@ The `AI` function allows you to define custom AI functions with specific schemas
 ```typescript
 import { AI } from 'functions.do'
 
-// Define a custom AI function with configuration
-export default AI({
-  defineFunction: {
-    _model: 'claude-3.7-sonnet', // config props are pre-pended with `_`
-    name: 'Function name',
-    description: 'Describe the purpose of the function',
-    results: 'Deterministic | Non-deterministic',
-    observations: 'Think carefully about what is the ideal type',
-    returnType: 'Object | List | Array | Code | Markdown',
+// Define a custom AI function with book proposal schema
+export const ai = AI({
+  // Book Proposal - Initial concept and outline
+  createBookProposal: {
+    title: 'proposed title of the book',
+    subtitle: 'proposed subtitle of the book',
+    author: 'name of the author',
+    targetAudience: ['primary audience segments for the book'],
+    marketAnalysis: 'analysis of the current market for this type of book',
+    competitiveBooks: ['list of similar books in the market'],
+    uniqueSellingPoints: ['what makes this book different and valuable'],
+    keyTakeaways: ['main insights readers will gain'],
+    marketingPotential: 'assessment of marketing opportunities',
+    coverDescription: 'visual description of the layout and image of the book cover',
+    estimatedWordCount: 'approximate word count for the entire book',
+    estimatedTimeToComplete: 'timeline for completing the manuscript',
+    summary: 'one paragraph summary of the book concept',
   }
 })
 ```
