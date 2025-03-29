@@ -1,24 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
-import punycode from 'punycode'
-import { PayloadDB, createNodePayloadClient, createEdgePayloadClient } from '@/pkgs/simple-payload'
-import { API as ClickableAPI, modifyQueryString as clickableModifyQueryString } from '@/pkgs/clickable-apis'
+import config from '@/payload.config'
+import { getPayload } from 'payload'
+import { createAPI, modifyQueryString as clickableModifyQueryString } from 'clickable-apis'
 
-export const getPayloadClient = async () => {
-  try {
-    const { getPayload } = await import('payload')
-    const config = await import('@payload-config')
-    const payload = await getPayload({ 
-      config: config.default 
-    })
-    
-    const db = createNodePayloadClient(payload)
-    
-    return { payload, db }
-  } catch (error) {
-    console.error('Error initializing payload client:', error)
-    throw error
-  }
-}
+export const payload = await getPayload({ config })
 
 export const apis: Record<string, string> = {
   functions: 'Reliable Structured Output',
@@ -61,6 +45,6 @@ export const symbols: Record<string, string> = {
 }
 
 export const API = <T = any>(handler: any) => 
-  ClickableAPI(handler, { getPayloadClient })
+  createAPI(payload)(handler)
 
 export const modifyQueryString = clickableModifyQueryString
