@@ -38,7 +38,8 @@ describe('Integrations API', () => {
     it('should fetch integrations with the correct API key header', async () => {
       // Mock the fetch response
       const mockResponse = {
-        json: vi.fn().mockResolvedValue({ integrations: [] }),
+        json: vi.fn().mockResolvedValue({ items: [{ name: 'Test App', key: 'test-app' }] }),
+        ok: true
       }
       mockFetch.mockResolvedValue(mockResponse)
 
@@ -89,6 +90,7 @@ describe('Integrations API', () => {
       // Mock the fetch response
       const mockResponse = {
         json: vi.fn().mockResolvedValue({ id: '123', ...requestBody }),
+        ok: true
       }
       mockFetch.mockResolvedValue(mockResponse)
 
@@ -122,6 +124,7 @@ describe('Integrations API', () => {
       // Mock the fetch response
       const mockResponse = {
         json: vi.fn().mockResolvedValue(requestBody),
+        ok: true
       }
       mockFetch.mockResolvedValue(mockResponse)
 
@@ -149,6 +152,7 @@ describe('Integrations API', () => {
       // Mock the fetch response
       const mockResponse = {
         json: vi.fn().mockResolvedValue({ success: true }),
+        ok: true
       }
       mockFetch.mockResolvedValue(mockResponse)
 
