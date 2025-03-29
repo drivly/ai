@@ -31,3 +31,5 @@ jobs:
 
       - name: Run Tests
         run: pnpm test
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
