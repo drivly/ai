@@ -95,12 +95,12 @@ export class Chat extends OpenAPIRoute {
           models: '/api/v1/models',
         },
         examples: {
-          'Hello World': getLink({ prompt: 'Hello, World!', system, model, seed, temperature, Authorization }),
-          'What is the meaning of life?': getLink({ prompt: 'What is the meaning of life?', system, model, seed, temperature, Authorization }),
-          'Talk like a pirate': getLink({ prompt, system: 'Talk like a pirate', model, seed, temperature, Authorization }),
+          'Hello World': getLink({ prompt: 'Hello, World!', system, model, seed, temperature, Authorization: request.query.Authorization }),
+          'What is the meaning of life?': getLink({ prompt: 'What is the meaning of life?', system, model, seed, temperature, Authorization: request.query.Authorization }),
+          'Talk like a pirate': getLink({ prompt, system: 'Talk like a pirate', model, seed, temperature, Authorization: request.query.Authorization }),
         },
       },
-      links: generateLinks({ prompt, system, model, seed, temperature, Authorization }),
+      links: generateLinks({ prompt, system, model, seed, temperature, Authorization: request.query.Authorization }),
       data,
       user: getUser(c.req.raw),
     } as z.infer<typeof ChatResponseSchema>
