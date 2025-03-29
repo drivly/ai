@@ -53,10 +53,23 @@ export type AI = {
   }
 }
 
-// Dynamic AI instance type
-export type AI_Instance = {
-  [K: string]: AIFunction<any, any> & (<T = any>(input?: any, config?: AIConfig) => Promise<T>)
+export type TemplateLiteralInput = TemplateStringsArray | [TemplateStringsArray, ...any[]]
+
+export interface TaggedTemplateFunction {
+  (strings: TemplateStringsArray, ...values: any[]): Promise<string>
 }
+
+export interface ConfigurableAIProxy {
+  (config: AIConfig): TaggedTemplateFunction & AI_Instance
+}
+
+export type AI_Instance = {
+  [K: string]: AIFunction<any, any> & 
+    (<T = any>(input?: any, config?: AIConfig) => Promise<T>) &
+    (<T = any>(input?: any, schema?: FunctionDefinition, config?: AIConfig) => Promise<T>)
+} & 
+  TaggedTemplateFunction & 
+  ConfigurableAIProxy
 
 // Helper type to infer array element types
 export type ArrayElementType<T> = T extends (infer U)[] ? U : never
