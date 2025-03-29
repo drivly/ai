@@ -1,7 +1,5 @@
 import { API } from 'clickable-apis'
-import { Capability, getModel, ParsedModelIdentifier, reconstructModelString } from '@/pkgs/ai-models/src'
-import { models } from '@/pkgs/ai-models/src/providers'
-import { parse } from '@/pkgs/ai-models/src/parser'
+import { Capability, getModel, ParsedModelIdentifier, reconstructModelString, models, parse } from '@/pkgs/ai-models'
 import { createOpenAI } from '@ai-sdk/openai'
 import { generateText } from 'ai'
 

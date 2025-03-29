@@ -2,7 +2,7 @@
   "name": "ai-models",
   "version": "0.2.0",
   "description": "AI model abstractions",
-  "main": "./src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "dotenvx run -- npx tsx watch src/demo.ts",
     "build": "rimraf dist && tsc",
