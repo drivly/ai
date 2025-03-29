@@ -1,5 +1,5 @@
 import { API } from '@/pkgs/clickable-apis'
-import config from '@/payload.config.ts'
+import config from '../../../../payload.config'
 import { getPayload } from 'payload'
 // import { seedDatabase } from '@/scripts/seed'
 

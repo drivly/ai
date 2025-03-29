@@ -13,9 +13,10 @@ vi.mock('payload', () => ({
   getPayload: vi.fn().mockResolvedValue({
     create: vi.fn().mockResolvedValue({ id: 'mock-event-id' }),
   }),
+  buildConfig: vi.fn().mockImplementation((config) => config),
 }))
 
-vi.mock('@payload-config', () => ({
+vi.mock('../../../../payload.config', () => ({
   default: {}
 }))
 
