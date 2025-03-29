@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { GET } from '@/app/(apis)/functions/[functionName]/route'
 import { createMocks } from 'node-mocks-http'
 
