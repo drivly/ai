@@ -49,30 +49,23 @@ export class Chat extends OpenAPIRoute {
   async handle(c: Context<{ Bindings: Cloudflare.Env }>) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
-    const { model: providerModel, provider } = c.req.param()
 
     // Translate the query to the completion endpoint
+    const { model: providerModel, provider } = c.req.param()
     const { prompt = ' ', system, model = provider ? provider + '/' + providerModel : providerModel, models, seed, temperature, tools } = request.query
 
-    const messages = []
-    if (system) {
-      messages.push({ role: 'system', content: system })
-    }
-    messages.push({ role: 'user', content: prompt })
-
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-    }
-
-    const Authorization = c.req.header('Authorization') || request.query.Authorization
-
     let data
-
+    const Authorization = c.req.header('Authorization') || request.query.Authorization
     if (Authorization) {
-      if (!Authorization.startsWith('Bearer ')) {
-        headers.Authorization = 'Bearer ' + Authorization
+      const messages = []
+      if (system) {
+        messages.push({ role: 'system', content: system })
       }
-
+      messages.push({ role: 'user', content: prompt })
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      }
+      headers.Authorization = Authorization.startsWith('Bearer ') ? Authorization : 'Bearer ' + Authorization
       const response = await app.request('/api/v1/chat/completions', {
         method: 'POST',
         headers,
