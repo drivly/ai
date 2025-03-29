@@ -1,6 +1,6 @@
 export default {
-  'agents.do': 'Agents.do API',
-  'functions.do': 'Functions.do API',
-  'workflows.do': 'Workflows.do API',
-  'llm.do': 'LLM.do API',
+  'agents.do': 'Agents API',
+  'functions.do': 'Functions API',
+  'workflows.do': 'Workflows API',
+  'llm.do': 'LLM API',
 }

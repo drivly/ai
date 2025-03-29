@@ -1,6 +1,6 @@
 export default {
   index: {
-    title: 'Agents.do',
+    title: 'Agents',
     type: 'page',
   },
 }

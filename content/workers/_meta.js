@@ -1,3 +1,3 @@
 export default {
-  'llm.do': 'LLM.do Worker',
+  'llm.do': 'LLM Worker',
 }
