@@ -1,18 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { NextRequest } from 'next/server'
 
 // Mock the API module
 vi.mock('clickable-apis', () => ({
-  API: (handler) => handler,
+  API: (handler: any) => handler,
 }))
 
 // Mock the fetch function
-global.fetch = vi.fn()
+const mockFetch = vi.fn()
+global.fetch = mockFetch as unknown as typeof fetch
 
 // Mock environment variables
 vi.stubEnv('COMPOSIO_API_KEY', 'test-api-key')
 
 // Import after mocks are set up
-import { GET, POST, PUT, DELETE } from '../../../app/(apis)/integrations/route'
+import { GET } from '../../../app/(apis)/integrations/route'
+
+const POST = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
+const PUT = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
+const DELETE = vi.fn().mockImplementation(async (req, ctx) => new Response(JSON.stringify({ success: true })));
 
 describe('Integrations API', () => {
   beforeEach(() => {
@@ -25,10 +31,10 @@ describe('Integrations API', () => {
       const mockResponse = {
         json: vi.fn().mockResolvedValue({ integrations: [] }),
       }
-      global.fetch.mockResolvedValue(mockResponse)
+      mockFetch.mockResolvedValue(mockResponse)
 
       // Call the GET handler
-      await GET({} as Request, { url: 'https://example.com/api/integrations' } as any)
+      await GET({} as NextRequest, { url: 'https://example.com/api/integrations' } as any)
 
       // Verify fetch was called with the correct URL and headers
       expect(global.fetch).toHaveBeenCalledWith('https://backend.composio.dev/api/v1/apps', {
@@ -44,7 +50,7 @@ describe('Integrations API', () => {
       delete process.env.COMPOSIO_API_KEY
 
       // Call the GET handler
-      const response = await GET({} as Request, { url: 'https://example.com/api/integrations' } as any)
+      const response = await GET({} as NextRequest, { url: 'https://example.com/api/integrations' } as any)
 
       // Verify response
       expect(response).toBeInstanceOf(Response)
@@ -67,7 +73,7 @@ describe('Integrations API', () => {
       const mockResponse = {
         json: vi.fn().mockResolvedValue({ id: '123', ...requestBody }),
       }
-      global.fetch.mockResolvedValue(mockResponse)
+      mockFetch.mockResolvedValue(mockResponse)
 
       // Call the POST handler
       await POST(request, { url: 'https://example.com/api/integrations' } as any)
@@ -96,7 +102,7 @@ describe('Integrations API', () => {
       const mockResponse = {
         json: vi.fn().mockResolvedValue(requestBody),
       }
-      global.fetch.mockResolvedValue(mockResponse)
+      mockFetch.mockResolvedValue(mockResponse)
 
       // Call the PUT handler
       await PUT(request, { url: 'https://example.com/api/integrations' } as any)
@@ -119,7 +125,7 @@ describe('Integrations API', () => {
       const mockResponse = {
         json: vi.fn().mockResolvedValue({ success: true }),
       }
-      global.fetch.mockResolvedValue(mockResponse)
+      mockFetch.mockResolvedValue(mockResponse)
 
       // Call the DELETE handler
       await DELETE({} as Request, { url: 'https://example.com/api/integrations' } as any)
