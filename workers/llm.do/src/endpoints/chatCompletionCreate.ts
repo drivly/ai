@@ -1,11 +1,10 @@
-import { Capability, getModel } from 'ai-models'
 import { OpenAPIRoute } from 'chanfana'
 import { env } from 'cloudflare:workers'
 import { OpenAIToolSet } from 'composio-core'
 import { Context } from 'hono'
 import { fetchFromProvider } from 'providers/openRouter'
 import { AuthHeader } from 'types/shared'
-import { type ChatCompletionRequest, ChatCompletionRequestSchema, ChatCompletionResponse, ChatCompletionResponseSchema } from '../types/chat'
+import { ChatCompletionRequestSchema, ChatCompletionResponse, ChatCompletionResponseSchema } from '../types/chat'
 
 export class ChatCompletionCreate extends OpenAPIRoute {
   schema = {
@@ -36,39 +35,6 @@ export class ChatCompletionCreate extends OpenAPIRoute {
   async handle(c: Context<{ Bindings: Cloudflare.Env }>) {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
-    const fallbackModel = 'drivly/frontier'
-
-    // Model router
-    try {
-      if (request.body.models?.length) {
-        if (request.body.model && !request.body.models.includes(request.body.model)) {
-          request.body.models.push(request.body.model)
-          delete request.body.model
-        }
-        request.body.models = request.body.models
-          .map(
-            (m) =>
-              getModel(m, {
-                requiredCapabilities: getRequiredCapabilities(request.body),
-                seed: request.body.seed,
-              })?.slug,
-          )
-          .filter((m) => m !== undefined)
-        if (!request.body.models.length) {
-          delete request.body.models
-          request.body.model = fallbackModel
-        }
-      } else {
-        request.body.model =
-          getModel(request.body.model || '', {
-            requiredCapabilities: getRequiredCapabilities(request.body),
-            seed: request.body.seed,
-          })?.slug || fallbackModel
-      }
-    } catch (error) {
-      console.error(error)
-      request.body.model = fallbackModel
-    }
 
     const actions = request.body.tools?.filter((t) => typeof t === 'string')
     if (actions?.length) {
@@ -92,27 +58,4 @@ export class ChatCompletionCreate extends OpenAPIRoute {
     // Pass request to OpenRouter
     return fetchFromProvider(request, 'POST', '/chat/completions')
   }
-}
-
-function getRequiredCapabilities(body: ChatCompletionRequest) {
-  const requiredCapabilities: Capability[] = []
-  // TODO: Add code capability
-  // if (body.???) {
-  //   requiredCapabilities.push('code')
-  // }
-  if (body.tools?.find((t) => typeof t !== 'string' && typeof t.type === 'string' && t.type.startsWith('web_search'))) {
-    requiredCapabilities.push('online')
-  }
-  if (body.reasoning_effort) {
-    requiredCapabilities.push('reasoning', `reasoning-${body.reasoning_effort}`)
-  }
-  if (body.tools?.find((t) => typeof t === 'string' || t.type === 'function')) {
-    requiredCapabilities.push('tools')
-  }
-  if (body.response_format?.type === 'json_schema') {
-    requiredCapabilities.push('structuredOutput')
-  } else if (body.response_format?.type === 'json_object') {
-    requiredCapabilities.push('responseFormat')
-  }
-  return requiredCapabilities
 }
