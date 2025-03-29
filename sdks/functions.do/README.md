@@ -201,19 +201,19 @@ const landingPage = await ai.generateLandingPage(
     idea: 'AI-powered Functions-as-a-Service',
   },
   {
+    headline: 'attention-grabbing headline that clearly states value proposition',
+    subheadline: 'supporting statement that adds clarity to the headline',
+    productDescription: 'concise explanation of what the product does and its benefits',
+    keyFeatures: ['list of main features or benefits'],
+    socialProof: ['testimonials, user counts, or other trust indicators'],
+    callToAction: 'primary button text and action',
+  },
+  {
     model: 'anthropic/claude-3.7-sonnet:thinking',
     system: 'You are an expert at generating highly-converting marketing copy for startup landing pages',
     temperature: 1.0,
     seed: 1741452228,
-    schema: {
-      headline: 'attention-grabbing headline that clearly states value proposition',
-      subheadline: 'supporting statement that adds clarity to the headline',
-      productDescription: 'concise explanation of what the product does and its benefits',
-      keyFeatures: ['list of main features or benefits'],
-      socialProof: ['testimonials, user counts, or other trust indicators'],
-      callToAction: 'primary button text and action',
-    },
-  },
+  }
 )
 ```
 
