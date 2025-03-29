@@ -49,15 +49,22 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 }
 
-@layer components {
-  .hero-glow-container {
-    @apply relative overflow-hidden;
-  }
-  .hero-glow-container::before {
-    @apply content-[''] absolute w-full h-full bg-gradient-to-b from-primary/20 to-transparent blur-3xl -z-10;
-  }
+.hero-glow-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-glow-container::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, hsla(var(--primary), 0.2), transparent);
+  filter: blur(3rem);
+  z-index: -10;
 }
