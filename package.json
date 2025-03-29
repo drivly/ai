@@ -67,6 +67,7 @@
     "remark": "^15.0.1",
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
+    "server-only": "^0.0.1",
     "sharp": "0.32.6",
     "sqids": "^0.3.0",
     "svix": "^1.62.0",
