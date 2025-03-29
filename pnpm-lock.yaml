@@ -348,7 +348,7 @@ importers:
         version: 3.0.9(@types/debug@4.1.12)(@types/node@22.13.13)(jsdom@26.0.0)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
   pkgs/clickable-apis:
-    dependencies:
+    devDependencies:
       simple-payload:
         specifier: workspace:*
         version: link:../simple-payload
@@ -444,6 +444,10 @@ importers:
 
   pkgs/simple-payload:
     dependencies:
+      payload-rest-client:
+        specifier: ^0.1.0
+        version: 0.1.4
+    devDependencies:
       payload:
         specifier: ^3.0.0
         version: 3.30.0(graphql@16.10.0)(typescript@5.8.2)
@@ -7944,6 +7948,9 @@ packages:
   pause@0.0.1:
     resolution: {integrity: sha512-KG8UEiEVkR3wGEb4m5yZkVCzigAD+cVEJck2CzYZO37ZGJfctvVptVO192MwrtPhzONn6go8ylnOdMhKqi4nfg==}
 
+  payload-rest-client@0.1.4:
+    resolution: {integrity: sha512-VUVU9mpwO9Jtq2N10xaFoc4/DwMqdMfH/t+UYD/9tL6COyGTUP4dobZ65BU0lkd0cqn98qShlNI+jFBdtnfHJA==}
+
   payload@2.32.2:
     resolution: {integrity: sha512-EXsC39KsnNoAc/jOhmYNvVjsF3Eh78/gfNplv58GY+1JQTa1O3V293heBcqMP6Jm5SHXW08SYWwIMZD+bKJojw==}
     engines: {node: '>=14'}
@@ -14094,6 +14101,14 @@ snapshots:
     optionalDependencies:
       vite: 6.2.3(@types/node@22.13.13)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
+  '@vitest/mocker@3.0.9(vite@6.2.3(@types/node@22.13.14)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))':
+    dependencies:
+      '@vitest/spy': 3.0.9
+      estree-walker: 3.0.3
+      magic-string: 0.30.17
+    optionalDependencies:
+      vite: 6.2.3(@types/node@22.13.14)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+
   '@vitest/pretty-format@2.1.9':
     dependencies:
       tinyrainbow: 1.2.0
@@ -16232,7 +16247,7 @@ snapshots:
       '@typescript-eslint/parser': 8.28.0(eslint@9.23.0)(typescript@5.7.3)
       eslint: 9.23.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.9.1(eslint-plugin-import@2.31.0)(eslint@9.23.0)
+      eslint-import-resolver-typescript: 3.9.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint@9.23.0))(eslint@9.23.0)
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint-import-resolver-typescript@3.9.1)(eslint@9.23.0)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.23.0)
       eslint-plugin-react: 7.37.4(eslint@9.23.0)
@@ -16252,7 +16267,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.9.1(eslint-plugin-import@2.31.0)(eslint@9.23.0):
+  eslint-import-resolver-typescript@3.9.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint@9.23.0))(eslint@9.23.0):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.0
@@ -16267,14 +16282,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1)(eslint@9.23.0):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint@9.23.0))(eslint@9.23.0))(eslint@9.23.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.28.0(eslint@9.23.0)(typescript@5.7.3)
       eslint: 9.23.0
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.9.1(eslint-plugin-import@2.31.0)(eslint@9.23.0)
+      eslint-import-resolver-typescript: 3.9.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint@9.23.0))(eslint@9.23.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -16289,7 +16304,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.23.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1)(eslint@9.23.0)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0)(typescript@5.7.3))(eslint@9.23.0))(eslint@9.23.0))(eslint@9.23.0)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -19471,6 +19486,8 @@ snapshots:
 
   pause@0.0.1: {}
 
+  payload-rest-client@0.1.4: {}
+
   payload@2.32.2(@swc/helpers@0.5.15)(@types/react@19.0.10)(esbuild@0.19.12)(typescript@5.8.2)(webpack@5.98.0(@swc/core@1.6.1(@swc/helpers@0.5.15))(esbuild@0.19.12)):
     dependencies:
       '@date-io/date-fns': 2.16.0(date-fns@2.30.0)
@@ -22157,7 +22174,7 @@ snapshots:
   vitest@3.0.9(@types/debug@4.1.12)(@types/node@22.13.14)(jsdom@26.0.0)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0):
     dependencies:
       '@vitest/expect': 3.0.9
-      '@vitest/mocker': 3.0.9(vite@6.2.3(@types/node@22.13.13)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
+      '@vitest/mocker': 3.0.9(vite@6.2.3(@types/node@22.13.14)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0))
       '@vitest/pretty-format': 3.0.9
       '@vitest/runner': 3.0.9
       '@vitest/snapshot': 3.0.9
