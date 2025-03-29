@@ -1,5 +1,5 @@
 import { API } from 'clickable-apis'
-import allModels from '@/pkgs/ai-models/src/models'
+import { models as allModels } from '@/pkgs/ai-models'
 
 let models: Record<string, any>
 // let models: Record<string, Record<string, any>> = {
