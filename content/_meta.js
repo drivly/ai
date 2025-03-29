@@ -1,11 +1,26 @@
 export default {
-  ai: {
-    title: 'AI',
+  workflows: {
+    title: 'Workflows',
     type: 'menu',
     items: {},
   },
-  data: {
-    title: 'Data',
+  functions: {
+    title: 'Functions',
+    type: 'menu',
+    items: {},
+  },
+  api: {
+    title: 'APIs',
+    type: 'menu',
+    items: {},
+  },
+  agents: {
+    title: 'Agents',
+    type: 'menu',
+    items: {},
+  },
+  integrations: {
+    title: 'Integrations',
     type: 'menu',
     items: {},
   },
@@ -14,13 +29,13 @@ export default {
     type: 'menu',
     items: {},
   },
-  experiments: {
-    title: 'Experiments',
+  data: {
+    title: 'Data',
     type: 'menu',
     items: {},
   },
-  code: {
-    title: 'Code',
+  experiments: {
+    title: 'Experiments',
     type: 'menu',
     items: {},
   },
@@ -31,6 +46,11 @@ export default {
   },
   observability: {
     title: 'Observability',
+    type: 'menu',
+    items: {},
+  },
+  code: {
+    title: 'Code',
     type: 'menu',
     items: {},
   },
