@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest'
-import fetch from 'node-fetch'
 
 describe('Root API Deployment Test', () => {
   it('should verify root path is accessible in deployment environment', async () => {

@@ -1,6 +1,5 @@
 import { WorkflowConfig } from 'payload'
 import type { Webhooks } from '@octokit/webhooks'
-import fetch from 'node-fetch'
 
 export const handleGithubEvent = {
   retries: 3,
