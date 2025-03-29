@@ -1,5 +1,9 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ai, AI } from './index'
+
+beforeEach(() => {
+  process.env.NODE_ENV = 'test'
+})
 
 describe('functions.do', () => {
   describe('AI factory', () => {
@@ -76,6 +80,43 @@ describe('functions.do', () => {
       expect(result.questions[0]).toHaveProperty('question')
       expect(result.questions[0]).toHaveProperty('answer')
     }, 90000)
+    
+    it('should generate markdown content', async () => {
+      const functions = AI({
+        generateMarkdown: {
+          markdown: 'string',
+          html: 'string'
+        }
+      })
+      
+      const result = await functions.generateMarkdown({
+        topic: 'AI Functions',
+        format: 'tutorial'
+      })
+      
+      expect(result).toHaveProperty('markdown')
+      expect(result).toHaveProperty('html')
+      expect(typeof result.markdown).toBe('string')
+      expect(typeof result.html).toBe('string')
+      expect(result.markdown).toContain('Mock Markdown')
+    }, 90000)
+    
+    it('should preserve array types in responses', async () => {
+      const functions = AI({
+        generateList: {
+          title: 'string',
+          items: ['string'],
+        },
+      })
+      
+      const result = await functions.generateList({
+        title: 'Top Programming Languages',
+      })
+      
+      expect(result).toHaveProperty('title')
+      expect(Array.isArray(result.items)).toBe(true)
+      expect(result.items.length).toBeGreaterThan(0)
+    }, 90000)
   })
 
   describe('Dynamic ai instance', () => {
@@ -96,6 +137,16 @@ describe('functions.do', () => {
       } catch (error) {
         expect(error).toBeDefined()
       }
+    }, 90000)
+    
+    it('should support markdown generation', async () => {
+      const result = await ai.generateMarkdown({
+        topic: 'AI Functions',
+        format: 'tutorial'
+      })
+      
+      expect(result).toHaveProperty('markdown')
+      expect(result).toHaveProperty('html')
     }, 90000)
   })
 
@@ -176,6 +227,58 @@ describe('functions.do', () => {
 
       expect(asyncCallbackExecuted).toBe(true)
       expect(result).toEqual({ success: true, data: { test: 'async' } })
+    })
+  })
+  
+  describe('Mock API responses', () => {
+    it('should use mock responses in test environment', async () => {
+      const consoleSpy = vi.spyOn(console, 'log')
+      
+      const functions = AI({
+        testFunction: {
+          result: 'string',
+        },
+      })
+      
+      await functions.testFunction({})
+      
+      expect(consoleSpy).toHaveBeenCalledWith('Using mock API response for tests')
+      
+      consoleSpy.mockRestore()
+    })
+    
+    it('should create mock objects based on schema', async () => {
+      const functions = AI({
+        complexFunction: {
+          name: 'string',
+          age: 'string',
+          address: {
+            street: 'string',
+            city: 'string',
+            country: 'string',
+          },
+          hobbies: ['string'],
+          contacts: [
+            {
+              type: 'string',
+              value: 'string',
+            },
+          ],
+        },
+      })
+      
+      const result = await functions.complexFunction({})
+      
+      expect(result).toHaveProperty('name')
+      expect(result).toHaveProperty('age')
+      expect(result).toHaveProperty('address')
+      expect(result.address).toHaveProperty('street')
+      expect(result.address).toHaveProperty('city')
+      expect(result.address).toHaveProperty('country')
+      expect(Array.isArray(result.hobbies)).toBe(true)
+      expect(Array.isArray(result.contacts)).toBe(true)
+      expect(result.contacts[0]).toHaveProperty('type')
+      expect(result.contacts[0]).toHaveProperty('value')
     })
   })
 })
