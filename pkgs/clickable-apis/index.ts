@@ -1,6 +1,329 @@
 import { NextRequest, NextResponse } from 'next/server'
 import punycode from 'punycode'
-import { PayloadDB, createNodePayloadClient, createEdgePayloadClient } from 'simple-payload'
+// Use type-only imports for payload types
+import type { PayloadDB } from 'simple-payload'
+
+// Local implementation of what was previously imported from simple-payload
+// This avoids runtime dependency on simple-payload
+
+/**
+ * Type for payload instance with minimum required methods
+ */
+type PayloadInstance = {
+  find?: (options: any) => Promise<any>
+  findByID?: (options: any) => Promise<any>
+  create?: (options: any) => Promise<any>
+  update?: (options: any) => Promise<any>
+  delete?: (options: any) => Promise<any>
+  auth?: {
+    me?: () => Promise<any>
+  }
+  [key: string]: any
+}
+
+/**
+ * Configuration for REST API-based Payload client
+ */
+type RestPayloadClientConfig = {
+  apiUrl: string
+  apiKey?: string
+  headers?: Record<string, string>
+}
+
+/**
+ * Combined configuration options for Payload client
+ */
+type PayloadClientOptions = RestPayloadClientConfig | PayloadInstance
+
+/**
+ * Creates a proxy object for more concise collection operations
+ * @param options - Payload instance or configuration
+ * @returns A proxy object for database operations
+ */
+const createPayloadClient = (options: PayloadClientOptions): PayloadDB => {
+  // Determine if options is a payload instance or config object
+  const isPayloadInstance = (value: any): value is PayloadInstance => {
+    return value && 
+      typeof value === 'object' && 
+      !('apiUrl' in value) && 
+      (
+        (typeof value.find === 'function') ||
+        (typeof value.findByID === 'function') ||
+        (typeof value.create === 'function') ||
+        (typeof value.update === 'function') ||
+        (typeof value.delete === 'function')
+      )
+  }
+
+  // Use the payload instance directly or create a REST client
+  const payload = isPayloadInstance(options) ? options : createRestClient(options)
+
+  // Create a proxy for the collections
+  return new Proxy(
+    {},
+    {
+      get: (target, collectionName) => {
+        const collection = String(collectionName)
+
+        return new Proxy(
+          {},
+          {
+            get: (_, method) => {
+              const methodName = String(method)
+
+              switch (methodName) {
+                case 'find':
+                  return (query: any = {}) => {
+                    if (!payload.find) {
+                      throw new Error('Payload instance missing find method')
+                    }
+                    return payload.find({
+                      collection,
+                      ...query,
+                    })
+                  }
+
+                case 'findOne':
+                  return (query: any = {}) => {
+                    if (!payload.find) {
+                      throw new Error('Payload instance missing find method')
+                    }
+                    return payload.find({
+                      collection,
+                      limit: 1,
+                      ...query,
+                    })
+                    .then((result: any) => result.docs?.[0] || null)
+                  }
+
+                case 'get':
+                case 'findById':
+                case 'findByID':
+                  return (id: string, query: any = {}) => {
+                    if (!payload.findByID) {
+                      throw new Error('Payload instance missing findByID method')
+                    }
+                    return payload.findByID({
+                      collection,
+                      id,
+                      ...query,
+                    })
+                  }
+
+                case 'create':
+                  return (data: any, query: any = {}) => {
+                    if (!payload.create) {
+                      throw new Error('Payload instance missing create method')
+                    }
+                    return payload.create({
+                      collection,
+                      data,
+                      ...query,
+                    })
+                  }
+
+                case 'update':
+                  return (id: string, data: any, query: any = {}) => {
+                    if (!payload.update) {
+                      throw new Error('Payload instance missing update method')
+                    }
+                    return payload.update({
+                      collection,
+                      id,
+                      data,
+                      ...query,
+                    })
+                  }
+
+                case 'upsert':
+                case 'set':
+                  return (id: string, data: any, query: any = {}) => {
+                    if (payload.upsert) {
+                      return payload.upsert({
+                        collection,
+                        id,
+                        data,
+                        ...query,
+                      })
+                    } else if (payload.update && payload.create) {
+                      return payload.update({
+                        collection,
+                        id,
+                        data,
+                        ...query,
+                      }).catch(() => {
+                        if (!payload.create) {
+                          throw new Error('Payload instance missing create method')
+                        }
+                        return payload.create({
+                          collection,
+                          data: { ...data, id },
+                          ...query,
+                        })
+                      })
+                    } else {
+                      throw new Error('Payload instance missing update and create methods needed for upsert')
+                    }
+                  }
+
+                case 'delete':
+                  return (id: string, query: any = {}) => {
+                    if (!payload.delete) {
+                      throw new Error('Payload instance missing delete method')
+                    }
+                    return payload.delete({
+                      collection,
+                      id,
+                      ...query,
+                    })
+                  }
+
+                default:
+                  throw new Error(`Method ${methodName} not implemented for collection ${collection}`)
+              }
+            },
+          },
+        )
+      },
+    },
+  ) as PayloadDB
+}
+
+/**
+ * Creates a REST client for Payload API
+ */
+const createRestClient = (config: RestPayloadClientConfig): PayloadInstance => {
+  const { apiUrl, apiKey, headers: customHeaders = {} } = config
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...customHeaders,
+  }
+
+  if (apiKey) {
+    headers.Authorization = `Bearer ${apiKey}`
+  }
+
+  // Create a minimal payload-like instance for REST API
+  return {
+    find: async (options: any) => {
+      const { collection, ...query } = options
+      const queryParams = new URLSearchParams()
+      Object.entries(query).forEach(([key, value]) => {
+        if (typeof value === 'object') {
+          queryParams.append(key, JSON.stringify(value))
+        } else {
+          queryParams.append(key, String(value))
+        }
+      })
+
+      const response = await fetch(`${apiUrl}/api/${collection}?${queryParams.toString()}`, { headers })
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`)
+      }
+
+      return response.json()
+    },
+
+    findByID: async (options: any) => {
+      const { collection, id, ...query } = options
+      const queryParams = new URLSearchParams()
+      Object.entries(query).forEach(([key, value]) => {
+        if (typeof value === 'object') {
+          queryParams.append(key, JSON.stringify(value))
+        } else {
+          queryParams.append(key, String(value))
+        }
+      })
+
+      const queryString = queryParams.toString()
+      const url = `${apiUrl}/api/${collection}/${id}${queryString ? `?${queryString}` : ''}`
+
+      const response = await fetch(url, { headers })
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`)
+      }
+
+      return response.json()
+    },
+
+    create: async (options: any) => {
+      const { collection, data } = options
+      const response = await fetch(`${apiUrl}/api/${collection}`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`)
+      }
+
+      return response.json()
+    },
+
+    update: async (options: any) => {
+      const { collection, id, data } = options
+      const response = await fetch(`${apiUrl}/api/${collection}/${id}`, {
+        method: 'PATCH',
+        headers,
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`)
+      }
+
+      return response.json()
+    },
+
+    delete: async (options: any) => {
+      const { collection, id } = options
+      const response = await fetch(`${apiUrl}/api/${collection}/${id}`, {
+        method: 'DELETE',
+        headers,
+      })
+
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`)
+      }
+
+      return response.json()
+    },
+    
+    auth: {
+      me: async () => {
+        const response = await fetch(`${apiUrl}/api/users/me`, {
+          headers,
+        })
+        
+        if (!response.ok) {
+          return { permissions: {}, user: null }
+        }
+        
+        return response.json()
+      }
+    }
+  }
+}
+
+/**
+ * Creates a Payload client for Node.js environments
+ * @param options - Payload instance or connection options
+ */
+const createNodePayloadClient = (options: PayloadClientOptions): PayloadDB => {
+  return createPayloadClient(options)
+}
+
+/**
+ * Creates a Payload client for Edge runtime environments
+ * @param options - Payload instance or connection options
+ */
+const createEdgePayloadClient = (options: PayloadClientOptions): PayloadDB => {
+  return createPayloadClient(options)
+}
 
 type ApiContext = {
   params: Record<string, string | string[]>

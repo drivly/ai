@@ -6,14 +6,18 @@ import { CollectionData, CollectionQuery, PayloadDB, PayloadInstance, PayloadCli
  * @returns True if the value appears to be a payload instance
  */
 const isPayloadInstance = (value: any): value is PayloadInstance => {
-  return value && typeof value === 'object' && (
-    // Check for common payload properties
-    ('find' in value && typeof value.find === 'function') ||
-    ('findByID' in value && typeof value.findByID === 'function') ||
-    ('create' in value && typeof value.create === 'function') ||
-    ('update' in value && typeof value.update === 'function') ||
-    ('delete' in value && typeof value.delete === 'function')
-  )
+  // Simple check if it has at least one of the expected API methods
+  // and is not just a config object with apiUrl property
+  return value && 
+    typeof value === 'object' && 
+    !('apiUrl' in value) && 
+    (
+      (typeof value.find === 'function') ||
+      (typeof value.findByID === 'function') ||
+      (typeof value.create === 'function') ||
+      (typeof value.update === 'function') ||
+      (typeof value.delete === 'function')
+    )
 }
 
 /**

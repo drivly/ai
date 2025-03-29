@@ -19,9 +19,21 @@ export interface PayloadDBCollection {
 export type PayloadDB = Record<string, PayloadDBCollection>
 
 /**
- * Payload instance that can be passed directly to client creation functions
+ * Payload instance interface defining the minimum required methods
+ * This is intentionally defined here instead of importing from 'payload'
+ * to avoid runtime dependency on payload
  */
-export type PayloadInstance = any // This should be refined based on the actual Payload types
+export interface PayloadInstance {
+  find?: (options: any) => Promise<any>
+  findByID?: (options: any) => Promise<any>
+  create?: (options: any) => Promise<any>
+  update?: (options: any) => Promise<any>
+  delete?: (options: any) => Promise<any>
+  auth?: {
+    me?: () => Promise<any>
+  }
+  [key: string]: any
+}
 
 /**
  * Configuration for REST API-based Payload client
