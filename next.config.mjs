@@ -2,11 +2,20 @@ import nextra from 'nextra'
 import { withPayload } from '@payloadcms/next/withPayload'
 import { resolve } from 'path'
 import NodePolyfillPlugin from 'node-polyfill-webpack-plugin'
+import withTM from 'next-transpile-modules'
 
 const withNextra = nextra({
   contentDirBasePath: '/docs',
   // ... Other Nextra config options
 })
+
+// Transpile modules that use node: imports
+const withTranspileModules = withTM([
+  'payload',
+  '@payloadcms/db-mongodb',
+  '@payloadcms/richtext-lexical',
+  'get-tsconfig'
+])
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -81,4 +90,4 @@ const nextConfig = {
   }
 }
 
-export default withNextra(withPayload(nextConfig, { devBundleServerPackages: false }))
+export default withTranspileModules(withNextra(withPayload(nextConfig, { devBundleServerPackages: false })))
