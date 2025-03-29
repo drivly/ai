@@ -11,9 +11,12 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "src/types"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "payload-rest-client": "^0.1.0"
+  },
   "devDependencies": {
     "payload": "^3.0.0"
   },

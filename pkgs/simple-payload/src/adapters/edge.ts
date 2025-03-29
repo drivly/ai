@@ -8,18 +8,21 @@ import { createPayloadClient } from '../createPayloadClient'
  * @returns True if the value appears to be a payload instance
  */
 const isPayloadInstance = (value: any): value is PayloadInstance => {
-  return value && typeof value === 'object' && (
-    // Check for common payload properties
-    ('find' in value && typeof value.find === 'function') ||
-    ('findByID' in value && typeof value.findByID === 'function') ||
-    ('create' in value && typeof value.create === 'function') ||
-    ('update' in value && typeof value.update === 'function') ||
-    ('delete' in value && typeof value.delete === 'function')
-  )
+  return value && 
+    typeof value === 'object' && 
+    !('apiUrl' in value) && 
+    (
+      (typeof value.find === 'function') ||
+      (typeof value.findByID === 'function') ||
+      (typeof value.create === 'function') ||
+      (typeof value.update === 'function') ||
+      (typeof value.delete === 'function')
+    )
 }
 
 /**
  * Creates a Payload client for Edge runtime environments
+ * Uses payload-rest-client for API connectivity in edge environments
  * @param options - Payload CMS instance or REST client configuration
  * @returns A proxy object for database operations
  */
@@ -29,6 +32,6 @@ export const createEdgePayloadClient = (options: PayloadClientOptions): PayloadD
     return createPayloadClient(options)
   }
   
-  // Otherwise, use the REST client
+  // Otherwise, use the REST client with payload-rest-client
   return createRestPayloadClient(options)
 }
