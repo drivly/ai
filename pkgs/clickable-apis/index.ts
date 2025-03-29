@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import punycode from 'punycode'
 import { PayloadDB, createNodePayloadClient, createEdgePayloadClient } from 'simple-payload'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 type CollectionSlug = string
 type BasePayload = any
@@ -41,7 +43,12 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
       let user: any = {}
 
       if (isEdgeRuntime) {
-        const apiUrl = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
+        const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL 
+          ? `https://${process.env.VERCEL_URL}` 
+          : 'http://localhost:3000')
+        if (!process.env.PAYLOAD_API_URL) {
+          console.warn(`PAYLOAD_API_URL not set, falling back to ${apiUrl}`)
+        }
         const apiKey = process.env.PAYLOAD_API_KEY
 
         db = createEdgePayloadClient({
@@ -53,26 +60,47 @@ export const API = <T = any>(handler: ApiHandler<T>) => {
           auth: async () => ({ permissions: {}, user: null }),
         }
       } else {
-        // For server-side, use the node client
-        const apiUrl = process.env.PAYLOAD_API_URL || 'http://localhost:3000'
-        const apiKey = process.env.PAYLOAD_API_KEY
-
-        db = createNodePayloadClient({
-          apiUrl,
-          apiKey,
-        })
-
-        // Get auth info from the API
-        const authResponse = await fetch(`${apiUrl}/api/users/me`, {
-          headers: {
-            Authorization: `JWT ${apiKey}`,
-          },
-        })
-
-        if (authResponse.ok) {
-          const authData = await authResponse.json()
-          permissions = authData.permissions || {}
-          user = authData.user || {}
+        try {
+          const payloadModule = await import('../../payload.config.js');
+          payload = payloadModule.default;
+          
+          db = createNodePayloadClient(payload);
+          
+          const authResult = await payload.auth.me();
+          permissions = authResult?.permissions || {};
+          user = authResult?.user || {};
+        } catch (error) {
+          console.error('Error importing payload config:', error);
+          console.warn('Falling back to API approach for payload client');
+          
+          const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL 
+            ? `https://${process.env.VERCEL_URL}` 
+            : 'http://localhost:3000');
+          if (!process.env.PAYLOAD_API_URL) {
+            console.warn(`PAYLOAD_API_URL not set, falling back to ${apiUrl}`);
+          }
+          const apiKey = process.env.PAYLOAD_API_KEY;
+          
+          db = createNodePayloadClient({
+            apiUrl,
+            apiKey,
+          });
+          
+          try {
+            const authResponse = await fetch(`${apiUrl}/api/users/me`, {
+              headers: {
+                Authorization: `JWT ${apiKey}`,
+              },
+            });
+            
+            if (authResponse.ok) {
+              const authData = await authResponse.json();
+              permissions = authData.permissions || {};
+              user = authData.user || {};
+            }
+          } catch (authError) {
+            console.error('Error fetching auth info:', authError);
+          }
         }
       }
 
