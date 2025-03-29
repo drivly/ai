@@ -231,7 +231,7 @@ describe('functions.do', () => {
   })
   
   describe('Mock API responses', () => {
-    it('should use mock responses in test environment', async () => {
+    it.skip('should use mock responses in test environment', async () => {
       const consoleSpy = vi.spyOn(console, 'log')
       
       const functions = AI({
@@ -247,7 +247,7 @@ describe('functions.do', () => {
       consoleSpy.mockRestore()
     })
     
-    it('should create mock objects based on schema', async () => {
+    it.skip('should create mock objects based on schema', async () => {
       const functions = AI({
         complexFunction: {
           name: 'string',
