@@ -256,7 +256,7 @@ describe('ApiClient', () => {
       await apiClient.search('functions', 'test query', { limit: 10 })
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/functions/search?limit=10&q=test%20query',
+        'https://test-api.com/api/functions/search?limit=10&q=test+query',
         expect.any(Object)
       )
     })

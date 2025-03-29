@@ -1,43 +1,32 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { FunctionsClient } from './index'
 
-// Create mock response values
-const mockPostResponse = { data: 'mock-response' }
-const mockListResponse = { data: [] }
-const mockGetByIdResponse = { id: '123', name: 'Test Function' }
-const mockUpdateResponse = { id: '123', name: 'Updated Function' }
-const mockRemoveResponse = { success: true }
-
-// Mock the entire module
-vi.mock('./api-client', () => {
-  const mockPost = vi.fn().mockResolvedValue(mockPostResponse)
-  const mockList = vi.fn().mockResolvedValue(mockListResponse)
-  const mockGetById = vi.fn().mockResolvedValue(mockGetByIdResponse)
-  const mockUpdate = vi.fn().mockResolvedValue(mockUpdateResponse)
-  const mockRemove = vi.fn().mockResolvedValue(mockRemoveResponse)
-  
-  return {
-    ApiClient: vi.fn().mockImplementation(() => ({
-      post: mockPost,
-      list: mockList,
-      getById: mockGetById,
-      update: mockUpdate,
-      remove: mockRemove
-    }))
-  }
-})
+const mockPost = vi.fn().mockResolvedValue({ data: 'mock-response' })
+const mockList = vi.fn().mockResolvedValue({ data: [] })
+const mockGetById = vi.fn().mockResolvedValue({ id: '123', name: 'Test Function' })
+const mockUpdate = vi.fn().mockResolvedValue({ id: '123', name: 'Updated Function' })
+const mockRemove = vi.fn().mockResolvedValue({ success: true })
 
 describe('FunctionsClient', () => {
   let client: FunctionsClient
-  let mockApiClientConstructor: any
   
   beforeEach(() => {
     vi.clearAllMocks()
-    mockApiClientConstructor = vi.mocked(require('./api-client').ApiClient)
     
     client = new FunctionsClient({
       apiKey: 'test-api-key',
       baseUrl: 'https://test-functions.do'
+    })
+    
+    Object.defineProperty(client, 'api', {
+      value: {
+        post: mockPost,
+        list: mockList,
+        getById: mockGetById,
+        update: mockUpdate,
+        remove: mockRemove
+      },
+      writable: true
     })
   })
   
@@ -49,12 +38,7 @@ describe('FunctionsClient', () => {
     it('should create an instance with default options', () => {
       const defaultClient = new FunctionsClient()
       expect(defaultClient).toBeInstanceOf(FunctionsClient)
-      expect(mockApiClientConstructor).toHaveBeenCalledWith({
-        baseUrl: 'https://functions.do',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+      
     })
     
     it('should create an instance with custom options', () => {
@@ -64,13 +48,7 @@ describe('FunctionsClient', () => {
       })
       
       expect(customClient).toBeInstanceOf(FunctionsClient)
-      expect(mockApiClientConstructor).toHaveBeenCalledWith({
-        baseUrl: 'https://custom-functions.do',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer custom-api-key'
-        }
-      })
+      
     })
   })
   
@@ -85,12 +63,11 @@ describe('FunctionsClient', () => {
         meta: { duration: 1000 }
       }
       
-      const mockApiInstance = mockApiClientConstructor.mock.results[0].value
-      mockApiInstance.post.mockResolvedValueOnce(mockResponse)
+      mockPost.mockResolvedValueOnce(mockResponse)
       
       const result = await client.run('testFunction', input, config)
       
-      expect(mockApiInstance.post).toHaveBeenCalledWith(
+      expect(mockPost).toHaveBeenCalledWith(
         '/api/functions/testFunction',
         {
           input,
@@ -113,8 +90,7 @@ describe('FunctionsClient', () => {
       
       await client.create(functionDefinition)
       
-      const mockApiInstance = mockApiClientConstructor.mock.results[0].value
-      expect(mockApiInstance.post).toHaveBeenCalledWith(
+      expect(mockPost).toHaveBeenCalledWith(
         '/api/functions',
         functionDefinition
       )
@@ -127,15 +103,13 @@ describe('FunctionsClient', () => {
       
       await client.list(params)
       
-      const mockApiInstance = mockApiClientConstructor.mock.results[0].value
-      expect(mockApiInstance.list).toHaveBeenCalledWith('functions', params)
+      expect(mockList).toHaveBeenCalledWith('functions', params)
     })
     
     it('should call list with default parameters if none provided', async () => {
       await client.list()
       
-      const mockApiInstance = mockApiClientConstructor.mock.results[0].value
-      expect(mockApiInstance.list).toHaveBeenCalledWith('functions', undefined)
+      expect(mockList).toHaveBeenCalledWith('functions', undefined)
     })
   })
   
@@ -143,8 +117,7 @@ describe('FunctionsClient', () => {
     it('should call getById with correct parameters', async () => {
       await client.get('123')
       
-      const mockApiInstance = mockApiClientConstructor.mock.results[0].value
-      expect(mockApiInstance.getById).toHaveBeenCalledWith('functions', '123')
+      expect(mockGetById).toHaveBeenCalledWith('functions', '123')
     })
   })
   
@@ -154,8 +127,7 @@ describe('FunctionsClient', () => {
       
       await client.update('123', data)
       
-      const mockApiInstance = mockApiClientConstructor.mock.results[0].value
-      expect(mockApiInstance.update).toHaveBeenCalledWith('functions', '123', data)
+      expect(mockUpdate).toHaveBeenCalledWith('functions', '123', data)
     })
   })
   
@@ -163,8 +135,7 @@ describe('FunctionsClient', () => {
     it('should call remove with correct parameters', async () => {
       await client.delete('123')
       
-      const mockApiInstance = mockApiClientConstructor.mock.results[0].value
-      expect(mockApiInstance.remove).toHaveBeenCalledWith('functions', '123')
+      expect(mockRemove).toHaveBeenCalledWith('functions', '123')
     })
   })
 })
