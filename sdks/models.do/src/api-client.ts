@@ -35,7 +35,7 @@ export class ApiClient {
   private headers: Record<string, string>
 
   constructor(options: ClientOptions = {}) {
-    this.baseUrl = options.baseUrl || 'https://apis.do'
+    this.baseUrl = options.baseUrl || 'https://models.do'
     this.headers = {
       'Content-Type': 'application/json',
       ...options.headers,

@@ -1,4 +1,4 @@
-import { ApiClient } from './api-client'
+import { ApiClient, ClientOptions } from './api-client'
 
 export type ModelCapability = 'code' | 'online' | 'reasoning' | 'reasoning-low' | 'reasoning-medium' | 'reasoning-high' | 'tools' | 'structuredOutput' | 'responseFormat'
 
