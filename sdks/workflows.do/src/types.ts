@@ -2,8 +2,75 @@
  * Type definitions for workflows.do SDK
  */
 
+/**
+ * AI Function type
+ */
 export type AIFunction<TInput = any, TOutput = any> = {
   (input: TInput, config?: any): Promise<TOutput>
+}
+
+/**
+ * AI Function Schema
+ * Defines the expected input and output structure for an AI function
+ */
+export type AIFunctionSchema = Record<string, any>
+
+/**
+ * Database access interface
+ */
+export interface DatabaseAccess {
+  [collection: string]: {
+    create: (data: Record<string, any>) => Promise<{ url: string } & Record<string, any>>
+    findOne: (query: Record<string, any>) => Promise<Record<string, any>>
+    find: (query: Record<string, any>) => Promise<Array<Record<string, any>>>
+    update: (id: string, data: Record<string, any>) => Promise<Record<string, any>>
+    delete: (id: string) => Promise<void>
+    [method: string]: (...args: any[]) => Promise<any>
+  }
+}
+
+/**
+ * API access interface
+ */
+export interface APIAccess {
+  [service: string]: {
+    [method: string]: (...args: any[]) => Promise<any>
+  }
+}
+
+/**
+ * AI Context provided to event handlers
+ */
+export interface AIContext {
+  /** AI functions defined in the schema */
+  ai: Record<string, AIFunction>
+  /** External API integrations */
+  api: APIAccess
+  /** Database access for storing and retrieving data */
+  db: DatabaseAccess
+}
+
+/**
+ * Event handler function type
+ */
+export type AIEventHandler<TEvent = any, TResult = any> = (
+  event: TEvent,
+  context: AIContext
+) => Promise<TResult>
+
+/**
+ * AI Configuration object
+ * Contains event handlers and function schemas
+ */
+export interface AIConfig {
+  [key: string]: AIEventHandler | AIFunctionSchema
+}
+
+/**
+ * AI Instance returned by AI() function
+ */
+export interface AIInstance {
+  [key: string]: AIFunction
 }
 
 /**
