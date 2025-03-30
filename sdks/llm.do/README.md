@@ -107,7 +107,7 @@ const jsonOutput = await generateObject({
 
 // Generate embeddings
 const embeddings = await generateEmbeddings({
-  model: llm('text-embedding-3-small'),
+  model: llm.embed('text-embedding-3-small'),
   input: ['Embed this text for semantic search', 'And this one too'],
 })
 ```
