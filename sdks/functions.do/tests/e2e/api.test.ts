@@ -14,7 +14,7 @@ describeE2E('functions.do E2E API Tests', () => {
     
     client = new FunctionsClient({
       apiKey,
-      baseUrl: 'https://apis.do'
+      baseUrl: 'http://localhost:3000'
     })
   })
   
