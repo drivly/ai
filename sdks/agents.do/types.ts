@@ -2,6 +2,9 @@
  * Type definitions for agents.do SDK
  */
 
+/**
+ * Generic AI function type
+ */
 export type AIFunction<TInput = any, TOutput = any> = {
   (input: TInput, config?: any): Promise<TOutput>
 }

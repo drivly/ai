@@ -51,7 +51,6 @@
     "vitest": "^3.0.9"
   },
   "dependencies": {
-    "apis.do": "workspace:*",
-    "functions.do": "workspace:*"
+    "apis.do": "workspace:*"
   }
 }
