@@ -52,7 +52,8 @@ describe('Vercel Preview Deployment Tests', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      await page.goto(baseUrl)
+      const url = new URL('/', baseUrl).toString()
+      await page.goto(url)
 
       const title = await page.title()
       expect(title).not.toBe('')
@@ -87,7 +88,8 @@ describe('Vercel Preview Deployment Tests', () => {
       ]
 
       for (const path of apiPaths) {
-        const response = await fetch(`${baseUrl}${path}`)
+        const url = new URL(path, baseUrl).toString()
+        const response = await fetch(url)
         expect(response.status).toBeLessThan(500) // Ensure no server errors
       }
     } catch (error) {
@@ -118,7 +120,8 @@ describe('Vercel Preview Deployment Tests', () => {
       ]
 
       for (const path of websitePaths) {
-        await page.goto(`${baseUrl}${path}`)
+        const url = new URL(path, baseUrl).toString()
+        await page.goto(url)
         
         const title = await page.title()
         expect(title).not.toBe('')
