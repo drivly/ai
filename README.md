@@ -122,21 +122,14 @@ Even though [functions.do](https://functions.do) will manage the model selection
 You can call:
 
 ```bash
+# Initialize a new project
 npx functions.do init
-```
 
-And you can either push or pull your configuration and prompts in the functions.do cloud to and from the `.ai` folder in your project.
-
-To push your local configuration and prompts to the functions.do cloud:
-
-```bash
-npx functions.do push
-```
-
-To pull your configuration and prompts from the functions.do cloud:
-
-```bash
+# Pull your configuration and prompts from the functions.do cloud
 npx functions.do pull
+
+# Push your configuration and prompts to the functions.do cloud
+npx functions.do push
 ```
 
 Here is the format of the local `.ai/functions.ts` file (and it will also generate a `.ai/functions.d.ts` file):
