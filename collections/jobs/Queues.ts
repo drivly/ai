@@ -1,19 +1,22 @@
 import type { CollectionConfig } from 'payload'
 
-export const Users: CollectionConfig = {
-  slug: 'users',
+export const Queues: CollectionConfig = {
+  slug: 'queues',
   admin: {
-    group: 'Admin',
-    useAsTitle: 'email',
+    group: 'Jobs',
+    useAsTitle: 'name',
   },
-  auth: { tokenExpiration: 60 * 60 * 24 * 30, useAPIKey: true },
   fields: [
-    // Email added by default
     {
-      name: 'roles',
+      name: 'name',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'role',
       type: 'relationship',
       relationTo: 'roles' as any,
-      hasMany: true,
+      required: true,
     },
     {
       name: 'tasks',
