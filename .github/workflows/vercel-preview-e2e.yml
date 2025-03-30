@@ -130,7 +130,7 @@ jobs:
 
       - name: Run E2E tests on Vercel Preview
         env:
-          BASE_URL: ${{ env.VERCEL_PREVIEW_URL }}
+          BASE_URL: ${{ steps.wait_for_vercel.outputs.url }}
           BROWSER_TESTS: 'true'
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: |
