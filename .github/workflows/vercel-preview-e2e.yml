@@ -29,11 +29,21 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
+      - name: Extract branch name
+        shell: bash
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//-/g')" >> $GITHUB_ENV
+        
+      - name: Set Vercel Preview URL
+        run: |
+          echo "VERCEL_PREVIEW_URL=https://ai-git-${BRANCH_NAME}.dev.driv.ly" >> $GITHUB_ENV
+          echo "Using Vercel Preview URL: https://ai-git-${BRANCH_NAME}.dev.driv.ly"
+
       - name: Run E2E tests on Vercel Preview
         env:
-          BASE_URL: ${{ github.event.deployment_status.target_url }}
+          BASE_URL: ${{ env.VERCEL_PREVIEW_URL }}
           BROWSER_TESTS: 'true'
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: |
           cp tests/vitest.e2e.config.ts ./vitest.e2e.config.ts
+          echo "Testing against BASE_URL: ${BASE_URL}"
           pnpm test:e2e
