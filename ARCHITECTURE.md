@@ -130,27 +130,27 @@ Agents.do combines functions and workflows to create autonomous digital workers 
 graph TD
     Agent[Agent] --> Goals[Goals]
     Agent --> Memory[Memory]
-    Agent --> Tools[Tools]
-    Tools --> Function1[Function 1]
-    Tools --> Function2[Function 2]
-    Tools --> Workflow1[Workflow 1]
-    Tools --> ExternalAPI[External API]
+    Agent --> Capabilities[Capabilities]
+    Capabilities --> Function1[Function 1]
+    Capabilities --> Function2[Function 2]
+    Capabilities --> Workflow1[Workflow 1]
+    Capabilities --> Integration[Integration]
 
     style Agent fill:#e6e6fa,stroke:#333,stroke-width:1px
     style Goals fill:#fff2cc,stroke:#333,stroke-width:1px
     style Memory fill:#d0e0e3,stroke:#333,stroke-width:1px
-    style Tools fill:#f4cccc,stroke:#333,stroke-width:1px
+    style Capabilities fill:#f4cccc,stroke:#333,stroke-width:1px
     style Function1 fill:#d4f1f9,stroke:#333,stroke-width:1px
     style Function2 fill:#d4f1f9,stroke:#333,stroke-width:1px
     style Workflow1 fill:#d9d2e9,stroke:#333,stroke-width:1px
-    style ExternalAPI fill:#ead1dc,stroke:#333,stroke-width:1px
+    style Integration fill:#ead1dc,stroke:#333,stroke-width:1px
 ```
 
 Key characteristics:
 
 - Goal-oriented behavior
 - Memory and context management
-- Access to tools and workflows
+- Access to functions, workflows, and integrations
 - Autonomous decision making
 
 ## Event System
@@ -251,7 +251,7 @@ Key capabilities:
 
 - Model selection based on capabilities
 - Load balancing and fallbacks
-- Integrated tool use
+- Integrated function and integration calling
 - Observability and analytics
 
 ### Database.do - AI-enriched Data
@@ -460,7 +460,7 @@ graph TD
 
 ## Repository Structure
 
-The AI Primitives platform is organized as a monorepo using pnpm workspaces:
+The AI Primitives platform is organized as a monorepo using Turborepo with pnpm workspaces:
 
 ```mermaid
 graph TD
@@ -470,7 +470,9 @@ graph TD
     Root --> Content["content/"]
     Root --> Lib["lib/"]
     Root --> Packages["pkgs/"]
-    Root --> Web["web/"]
+    Root --> SDKs["sdks/"]
+    Root --> Tasks["tasks/"]
+    Root --> Websites["websites/"]
     Root --> Workers["workers/"]
     Root --> Workflows["workflows/"]
 
@@ -487,6 +489,11 @@ graph TD
     Packages --> DeployWorker["pkgs/deploy-worker/"]
     Packages --> ClickableLinks["pkgs/clickable-links/"]
 
+    SDKs --> FunctionsSDK["sdks/functions/"]
+    SDKs --> WorkflowsSDK["sdks/workflows/"]
+    SDKs --> AgentsSDK["sdks/agents/"]
+    SDKs --> DatabaseSDK["sdks/database/"]
+
     style Root fill:#f9f9f9,stroke:#333,stroke-width:1px
     style App fill:#d5a6bd,stroke:#333,stroke-width:1px
     style Collections fill:#d0e0e3,stroke:#333,stroke-width:1px
@@ -494,7 +501,9 @@ graph TD
     style Content fill:#d9ead3,stroke:#333,stroke-width:1px
     style Lib fill:#d9d2e9,stroke:#333,stroke-width:1px
     style Packages fill:#ffd966,stroke:#333,stroke-width:1px
-    style Web fill:#cfe2f3,stroke:#333,stroke-width:1px
+    style SDKs fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style Tasks fill:#ead1dc,stroke:#333,stroke-width:1px
+    style Websites fill:#cfe2f3,stroke:#333,stroke-width:1px
     style Workers fill:#ead1dc,stroke:#333,stroke-width:1px
     style Workflows fill:#d4f1f9,stroke:#333,stroke-width:1px
 ```
@@ -507,6 +516,8 @@ Key directories:
 - `/content/`: MDX content files
 - `/lib/`: Shared utility functions
 - `/pkgs/`: Shared packages (monorepo)
-- `/web/`: Website implementations
+- `/sdks/`: Zero-dependency SDK implementations published to npm
+- `/tasks/`: Backend implementations with dependencies
+- `/websites/`: Website implementations
 - `/workers/`: Cloudflare Workers implementations
 - `/workflows/`: Workflow definitions and examples
