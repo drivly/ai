@@ -60,6 +60,9 @@ describe('Vercel Preview Deployment Tests', () => {
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
       }
+      if (baseUrl === 'http://' || baseUrl === 'https://') {
+        baseUrl = 'http://localhost:3000'
+      }
       const url = new URL('/', baseUrl).toString()
       await page.goto(url)
 
@@ -90,6 +93,9 @@ describe('Vercel Preview Deployment Tests', () => {
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
       }
+      if (baseUrl === 'http://' || baseUrl === 'https://') {
+        baseUrl = 'http://localhost:3000'
+      }
       
       const apiPaths = [
         '/api',
@@ -118,6 +124,9 @@ describe('Vercel Preview Deployment Tests', () => {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
+      }
+      if (baseUrl === 'http://' || baseUrl === 'https://') {
+        baseUrl = 'http://localhost:3000'
       }
       
       const apiEndpoints = [
@@ -166,6 +175,9 @@ describe('Vercel Preview Deployment Tests', () => {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
+      }
+      if (baseUrl === 'http://' || baseUrl === 'https://') {
+        baseUrl = 'http://localhost:3000'
       }
       const websitePaths = [
         '/docs',

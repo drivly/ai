@@ -57,6 +57,9 @@ describe('Admin page', () => {
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
       }
+      if (baseUrl === 'http://' || baseUrl === 'https://') {
+        baseUrl = 'http://localhost:3000'
+      }
       const url = new URL('/admin', baseUrl).toString()
       await page.goto(url)
 
