@@ -231,7 +231,7 @@ describe('functions.do', () => {
   })
   
   describe('Mock API responses', () => {
-    it.skip('should use mock responses in test environment', async () => {
+    it('should use mock responses in test environment', async () => {
       const consoleSpy = vi.spyOn(console, 'log')
       
       const functions = AI({
@@ -247,7 +247,7 @@ describe('functions.do', () => {
       consoleSpy.mockRestore()
     })
     
-    it.skip('should create mock objects based on schema', async () => {
+    it('should create mock objects based on schema', async () => {
       const functions = AI({
         complexFunction: {
           name: 'string',
@@ -279,6 +279,24 @@ describe('functions.do', () => {
       expect(Array.isArray(result.contacts)).toBe(true)
       expect(result.contacts[0]).toHaveProperty('type')
       expect(result.contacts[0]).toHaveProperty('value')
+    })
+  })
+  
+  describe('Tagged Template Literals', () => {
+    it.skip('should support basic tagged template usage', async () => {
+      const text = 'Test tagged template'
+      const result = await ai`Summarize this: ${text}`
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+    })
+    
+    it.skip('should support configuration with tagged templates', async () => {
+      const text = 'Test with configuration'
+      const result = await ai({ model: 'test-model' })`Translate this: ${text}`
+      
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
     })
   })
 })

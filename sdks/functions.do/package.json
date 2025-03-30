@@ -29,7 +29,8 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "vitest run tests/e2e/**/*.test.ts"
   },
   "devDependencies": {
     "evalite": "^0.9.1",

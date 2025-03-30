@@ -164,7 +164,7 @@ describe('ApiClient', () => {
   })
   
   describe('utility methods', () => {
-    it.skip('should call get with correct path for list method', async () => {
+    it('should call get with correct path for list method', async () => {
       const mockListResponse: ListResponse<any> = {
         data: [{ id: '1', name: 'Test' }],
         meta: {
@@ -183,27 +183,27 @@ describe('ApiClient', () => {
       const result = await apiClient.list('functions', { limit: 10, page: 1 })
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://apis.do/functions?limit=10&page=1',
+        'https://apis.do/api/functions?limit=10&page=1',
         expect.any(Object)
       )
       expect(result).toEqual(mockListResponse)
     })
     
-    it.skip('should call get with correct path for getById method', async () => {
+    it('should call get with correct path for getById method', async () => {
       await apiClient.getById('functions', '123')
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://apis.do/functions/123',
+        'https://apis.do/api/functions/123',
         expect.any(Object)
       )
     })
     
-    it.skip('should call post with correct path for create method', async () => {
+    it('should call post with correct path for create method', async () => {
       const data = { name: 'New Function' }
       await apiClient.create('functions', data)
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://apis.do/functions',
+        'https://apis.do/api/functions',
         {
           method: 'POST',
           headers: expect.any(Object),
@@ -212,12 +212,12 @@ describe('ApiClient', () => {
       )
     })
     
-    it.skip('should call patch with correct path for update method', async () => {
+    it('should call patch with correct path for update method', async () => {
       const data = { name: 'Updated Function' }
       await apiClient.update('functions', '123', data)
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://apis.do/functions/123',
+        'https://apis.do/api/functions/123',
         {
           method: 'PATCH',
           headers: expect.any(Object),
@@ -226,12 +226,12 @@ describe('ApiClient', () => {
       )
     })
     
-    it.skip('should call put with correct path for replace method', async () => {
+    it('should call put with correct path for replace method', async () => {
       const data = { id: '123', name: 'Replaced Function' }
       await apiClient.replace('functions', '123', data)
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://apis.do/functions/123',
+        'https://apis.do/api/functions/123',
         {
           method: 'PUT',
           headers: expect.any(Object),
@@ -240,11 +240,11 @@ describe('ApiClient', () => {
       )
     })
     
-    it.skip('should call delete with correct path for remove method', async () => {
+    it('should call delete with correct path for remove method', async () => {
       await apiClient.remove('functions', '123')
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://apis.do/functions/123',
+        'https://apis.do/api/functions/123',
         {
           method: 'DELETE',
           headers: expect.any(Object)
@@ -252,11 +252,11 @@ describe('ApiClient', () => {
       )
     })
     
-    it.skip('should call get with correct path and query for search method', async () => {
+    it('should call get with correct path and query for search method', async () => {
       await apiClient.search('functions', 'test query', { limit: 10 })
       
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://apis.do/functions/search?limit=10&q=test+query',
+        'https://apis.do/api/functions/search?limit=10&q=test+query',
         expect.any(Object)
       )
     })
