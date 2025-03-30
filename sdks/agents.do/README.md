@@ -45,8 +45,8 @@ const agents = new AgentsClient()
 
 // Or with custom configuration
 const agents = new AgentsClient({
-  apiKey: 'your-api-key',
-  baseUrl: 'https://custom-agents-api.example.com',
+  apiKey: process.env.AGENTS_API_KEY,
+  baseUrl: process.env.AGENTS_API_URL || 'https://custom-agents-api.example.com',
 })
 ```
 
