@@ -167,14 +167,8 @@ const products = await db.products.find({
 // Find with complex filters
 const results = await db.posts.find({
   where: {
-    $or: [
-      { status: 'Published' }, 
-      { author: 'author123' }
-    ],
-    $and: [
-      { createdAt: { gt: new Date('2023-01-01').toISOString() } }, 
-      { tags: { contains: 'featured' } }
-    ],
+    $or: [{ status: 'Published' }, { author: 'author123' }],
+    $and: [{ createdAt: { gt: new Date('2023-01-01').toISOString() } }, { tags: { contains: 'featured' } }],
   },
 })
 
@@ -233,11 +227,11 @@ Retrieves multiple documents from a collection with optional filtering, sorting,
 
 ```typescript
 interface QueryOptions {
-  where?: Record<string, any>  // Filter criteria
-  sort?: string | string[]     // Sorting options
-  limit?: number               // Number of results per page
-  page?: number                // Page number
-  select?: string | string[]   // Fields to include
+  where?: Record<string, any> // Filter criteria
+  sort?: string | string[] // Sorting options
+  limit?: number // Number of results per page
+  page?: number // Page number
+  select?: string | string[] // Fields to include
   populate?: string | string[] // Relations to populate
 }
 
@@ -301,6 +295,7 @@ const searchResults = await db.posts.search('search term', {
 ### Schema-less Mode
 
 In schema-less mode, you can:
+
 - Create collections and documents on-the-fly
 - Add any fields to your documents without constraints
 - Evolve your data model organically as your application grows
@@ -321,6 +316,7 @@ const product = await db.products.create({
 ### Defined Schema Mode
 
 With defined schemas, you gain:
+
 - Data validation against your schema
 - Relationship management between collections
 - Type safety with TypeScript interfaces generated from your schema

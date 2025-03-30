@@ -25,9 +25,9 @@ export type PayloadDB = Record<string, PayloadDBCollection>
  */
 export const createPayloadDB = (payload: any): PayloadDB => {
   const db: PayloadDB = {}
-  
+
   const collections = payload.collections || {}
-  
+
   for (const collectionName of Object.keys(collections)) {
     db[collectionName] = {
       find: async (query = {}) => {
@@ -103,7 +103,7 @@ export const createPayloadDB = (payload: any): PayloadDB => {
       },
     }
   }
-  
+
   return db
 }
 
@@ -115,7 +115,7 @@ export const initializePayloadDB = async (): Promise<PayloadDB> => {
   try {
     const { getPayload } = await import('payload')
     const { default: config } = await import('../payload.config')
-    
+
     const payload = await getPayload({ config })
     return createPayloadDB(payload)
   } catch (error) {

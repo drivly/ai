@@ -40,11 +40,11 @@ export const createAPI = <T = any>(handler: ApiHandler<T>) => {
 
       try {
         payload = await getPayload({ config })
-        
+
         db = {} as PayloadDB
-        
+
         const collections = payload.collections || {}
-        
+
         for (const collectionName of Object.keys(collections)) {
           db[collectionName] = {
             find: async (query = {}) => {
@@ -150,7 +150,7 @@ export const createAPI = <T = any>(handler: ApiHandler<T>) => {
         permissions,
         payload,
         db,
-        req
+        req,
       }
 
       _currentRequest = req

@@ -2,13 +2,7 @@
  * workflows.do - SDK for creating AI-powered workflows with strongly-typed functions
  */
 
-import type { 
-  Workflow, 
-  WorkflowStep, 
-  WorkflowContext, 
-  WorkflowExecutionOptions, 
-  WorkflowExecutionResult 
-} from './types.js'
+import type { Workflow, WorkflowStep, WorkflowContext, WorkflowExecutionOptions, WorkflowExecutionResult } from './types.js'
 
 /**
  * Creates a new workflow
@@ -30,16 +24,10 @@ export function createWorkflow(workflow: Workflow) {
           options,
         }),
       })
-      
+
       return response.json()
-    }
+    },
   }
 }
 
-export type {
-  Workflow,
-  WorkflowStep,
-  WorkflowContext,
-  WorkflowExecutionOptions,
-  WorkflowExecutionResult
-}
+export type { Workflow, WorkflowStep, WorkflowContext, WorkflowExecutionOptions, WorkflowExecutionResult }
