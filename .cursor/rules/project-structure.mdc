@@ -1,0 +1,44 @@
+# Project Structure Convention
+
+This rule describes the project structure and organization of the AI Primitives platform.
+
+## Applies to
+**/*
+
+## Rule
+The project is organized as a monorepo using pnpm workspaces with the following structure:
+
+```
+ai/
+├── api/                  # API implementations for various services
+├── app/                  # Application code
+│   ├── (apis)/           # API route handlers
+│   ├── (websites)/       # Website components
+│   └── (payload)/        # Payload CMS admin configurations
+├── collections/          # Collection definitions
+│   ├── ai/               # AI-related collections (Functions, Workflows, Agents)
+│   ├── data/             # Data model collections (Things, Nouns, Verbs)
+│   ├── events/           # Event-related collections (Triggers, Searches, Actions)
+│   └── observability/    # Monitoring collections (Generations)
+├── components/           # Reusable UI components
+├── content/              # Content files and assets (MDX files at /content/**/*.mdx)
+├── examples/             # Example implementations
+├── lib/                  # Library code and utilities
+├── pkgs/                 # Shared packages and libraries (can have dependencies)
+│   ├── ai-models/        # AI model abstractions and selection
+│   ├── deploy-worker/    # Cloudflare Workers deployment utilities
+│   └── clickable-links/  # API handler utilities
+├── sdks/                 # Software Development Kits (zero dependencies except apis.do)
+├── tasks/                # Task implementations with dependencies
+├── tests/                # Test suites
+├── websites/             # Website implementations
+├── workers/              # Cloudflare Workers implementations
+```
+
+### Implementation Guidelines
+- Respect the monorepo architecture using pnpm workspaces
+- Place new code in the appropriate directory based on its purpose
+- Follow the naming conventions outlined in CONTRIBUTING.md
+- SDK implementations in `/sdks/` must maintain zero dependencies (except apis.do) to be publishable on npm
+- Backend implementations of SDK features should be placed in the `/tasks/` folder with workspace-level dependencies
+- Package entry points in package.json files should point to built files (e.g., dist/index.js) rather than source files
