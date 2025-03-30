@@ -69,14 +69,25 @@ jobs:
           
           echo "Waiting for Vercel Preview URL to be accessible: ${DEPLOY_URL}"
           
-          # Wait for the URL to be accessible with authentication headers
+          # Create a cookie jar file for curl
+          COOKIE_JAR=$(mktemp)
+          
+          # Wait for the URL to be accessible with authentication headers and save cookies
           MAX_ATTEMPTS=60
           ATTEMPT=0
           STATUS_CODE=0
           
           while [ $ATTEMPT -lt $MAX_ATTEMPTS ] && [ $STATUS_CODE -ne 200 ]; do
             echo "Attempt $ATTEMPT of $MAX_ATTEMPTS..."
-            STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" -H "x-vercel-protection-bypass: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}" "${DEPLOY_URL}")
+            
+            # First request to set the cookie
+            curl -s -c "$COOKIE_JAR" \
+              -H "x-vercel-protection-bypass: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}" \
+              -H "x-vercel-set-bypass-cookie: true" \
+              "${DEPLOY_URL}" > /dev/null
+            
+            # Second request using the cookie
+            STATUS_CODE=$(curl -s -b "$COOKIE_JAR" -o /dev/null -w "%{http_code}" "${DEPLOY_URL}")
             echo "Status code: $STATUS_CODE"
             
             if [ $STATUS_CODE -eq 200 ]; then
@@ -88,6 +99,9 @@ jobs:
             sleep 5
             ATTEMPT=$((ATTEMPT + 1))
           done
+          
+          # Clean up cookie jar
+          rm -f "$COOKIE_JAR"
           
           if [ $STATUS_CODE -ne 200 ]; then
             echo "Failed to access URL after $MAX_ATTEMPTS attempts"
