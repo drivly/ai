@@ -5,10 +5,13 @@ import {
   LanguageModelV1StreamPart,
   ProviderV1,
   JSONSchema7,
-  LanguageModelV1ObjectGenerationMode
+  LanguageModelV1ObjectGenerationMode,
+  EmbeddingModelV1,
+  EmbeddingModelV1Embedding
 } from '@ai-sdk/provider'
 import { LLMClient, ChatMessage, CompletionOptions } from './index'
 import type { ModelCapability } from 'models.do'
+import { ApiClient } from 'apis.do'
 
 export interface LLMDoProviderOptions {
   apiKey?: string
@@ -17,6 +20,60 @@ export interface LLMDoProviderOptions {
 }
 
 export type LLMDoModel = string
+
+class LLMDoEmbeddingModel implements EmbeddingModelV1<string> {
+  readonly specificationVersion = 'v1'
+  readonly provider = 'llm.do'
+  readonly modelId: string
+  readonly maxEmbeddingsPerCall = 1024
+  readonly supportsParallelCalls = true
+
+  private api: ApiClient
+
+  constructor(modelId: string, apiKey?: string, baseUrl?: string) {
+    this.modelId = modelId
+    this.api = new ApiClient({
+      baseUrl: baseUrl || 'https://llm.do',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
+      },
+    })
+  }
+
+  async doEmbed(options: {
+    values: Array<string>;
+    abortSignal?: AbortSignal;
+    headers?: Record<string, string | undefined>;
+  }): Promise<{
+    embeddings: Array<EmbeddingModelV1Embedding>;
+    usage?: {
+      tokens: number;
+    };
+    rawResponse?: {
+      headers?: Record<string, string>;
+    };
+  }> {
+    const response = await this.api.post('/api/llm/embeddings', {
+      texts: options.values,
+      model: this.modelId,
+    }) as { 
+      data: EmbeddingModelV1Embedding[]; 
+      usage: { tokens: number }; 
+      headers: Record<string, string>;
+    }
+
+    return {
+      embeddings: response.data,
+      usage: {
+        tokens: response.usage?.tokens || 0,
+      },
+      rawResponse: {
+        headers: response.headers,
+      },
+    }
+  }
+}
 
 class LLMDoLanguageModel implements LanguageModelV1 {
   readonly specificationVersion = 'v1'
@@ -266,11 +323,11 @@ export const createLLMDoProvider = (options: LLMDoProviderOptions = {}) => {
 
   const provider: ProviderV1 = {
     languageModel(modelId: string): LanguageModelV1 {
-      return new LLMDoLanguageModel(modelId || options.defaultModel || 'gpt-3.5-turbo', client)
+      return new LLMDoLanguageModel(modelId || options.defaultModel || 'gemini-2.0-flash', client)
     },
     
-    textEmbeddingModel(modelId: string) {
-      throw new Error('Text embedding models are not supported by LLM.do provider')
+    textEmbeddingModel(modelId: string): EmbeddingModelV1<string> {
+      return new LLMDoEmbeddingModel(modelId || options.defaultModel || 'text-embedding-3-small', options.apiKey, options.baseUrl)
     }
   }
 
