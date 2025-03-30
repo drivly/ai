@@ -1,4 +1,4 @@
-import { ApiClient } from 'apis.do'
+import { API } from 'apis.do'
 import { createLLMDoProvider, llmDoProvider } from './provider'
 
 export interface CompletionOptions {
@@ -42,10 +42,10 @@ export interface ChatCompletionResponse {
 }
 
 export class LLMClient {
-  private api: ApiClient
+  private api: API
 
   constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
-    this.api = new ApiClient({
+    this.api = new API({
       baseUrl: options.baseUrl || 'https://llm.do',
       headers: {
         'Content-Type': 'application/json',

@@ -11,7 +11,7 @@ import {
 } from '@ai-sdk/provider'
 import { LLMClient, ChatMessage, CompletionOptions } from './index'
 import type { ModelCapability } from 'models.do'
-import { ApiClient } from 'apis.do'
+import { API } from 'apis.do'
 
 export interface LLMDoProviderOptions {
   apiKey?: string
@@ -28,11 +28,11 @@ class LLMDoEmbeddingModel implements EmbeddingModelV1<string> {
   readonly maxEmbeddingsPerCall = 1024
   readonly supportsParallelCalls = true
 
-  private api: ApiClient
+  private api: API
 
   constructor(modelId: string, apiKey?: string, baseUrl?: string) {
     this.modelId = modelId
-    this.api = new ApiClient({
+    this.api = new API({
       baseUrl: baseUrl || 'https://llm.do',
       headers: {
         'Content-Type': 'application/json',
