@@ -1,4 +1,4 @@
-import { API } from '@/api.config'
+import { API } from '@/lib/api'
 import { models as allModels } from '@/pkgs/ai-models'
 
 let models: Record<string, any>

@@ -1,4 +1,4 @@
-import { API } from '@/api.config'
+import { API } from '@/lib/api'
 export const GET = API(async (request, { db, user, origin, url, domain }) => {
   // Using the new db interface for more concise syntax
   // const functions = await db.functions.find()

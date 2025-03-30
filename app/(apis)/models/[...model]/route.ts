@@ -1,4 +1,4 @@
-import { API } from '@/api.config'
+import { API } from '@/lib/api'
 import { Capability, getModel, ParsedModelIdentifier, reconstructModelString, models, parse } from '@/pkgs/ai-models'
 import { createOpenAI } from '@ai-sdk/openai'
 import { generateText } from 'ai'
