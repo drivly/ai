@@ -8,4 +8,13 @@ export { createEdgePayloadClient } from './adapters/edge'
 
 export { createNodePayloadClient as createDefaultPayloadClient } from './adapters/node'
 
-export { ApiContext, ApiHandler, PayloadClientResult, PayloadClientFn, initializePayloadClient, createMockEdgePayload, createMockNodePayload } from './api'
+export { 
+  ApiContext, 
+  ApiHandler, 
+  PayloadClientResult, 
+  PayloadClientFn, 
+  initializePayloadClient, 
+  createMockEdgePayload, 
+  createMockNodePayload,
+  initializePayloadAndDB 
+} from './api'

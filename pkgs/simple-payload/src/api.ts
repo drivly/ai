@@ -101,3 +101,92 @@ export const createMockNodePayload = (): PayloadInstance => {
     },
   }
 }
+
+/**
+ * Initializes payload and database connections based on runtime environment
+ * @param payloadInstance - Optional injected payload instance
+ * @param options - Optional configuration options
+ * @returns Object containing payload, db, user, and permissions
+ */
+export const initializePayloadAndDB = async (
+  payloadInstance?: any,
+  options?: {
+    getPayloadClient?: PayloadClientFn
+  }
+): Promise<{
+  payload: any
+  db: PayloadDB
+  user: any
+  permissions: any
+}> => {
+  const isEdgeRuntime = typeof process === 'undefined' || process.env.NEXT_RUNTIME === 'edge'
+
+  let payload: any
+  let db: PayloadDB
+  let permissions: any = {}
+  let user: any = {}
+
+  if (payloadInstance) {
+    payload = await payloadInstance
+
+    db = initializePayloadClient(payload, isEdgeRuntime)
+
+    try {
+      const authResult = await payload.auth.me()
+      permissions = authResult?.permissions || {}
+      user = authResult?.user || {}
+    } catch (authError) {
+      console.error('Error fetching auth info:', authError)
+    }
+  } else if (isEdgeRuntime) {
+    payload = createMockEdgePayload()
+
+    db = createEdgePayloadClient(payload)
+  } else {
+    try {
+      if (options?.getPayloadClient) {
+        const result = await options.getPayloadClient()
+        payload = result.payload
+        db = result.db
+
+        try {
+          const authResult = await payload.auth.me()
+          permissions = authResult?.permissions || {}
+          user = authResult?.user || {}
+        } catch (authError) {
+          console.error('Error fetching auth info:', authError)
+        }
+      } else {
+        throw new Error('No payload instance provided and no getPayloadClient function specified')
+      }
+    } catch (error) {
+      console.error('Error initializing payload:', error)
+      console.warn('Falling back to API approach for payload client')
+
+      const mockPayload = createMockNodePayload()
+
+      db = createNodePayloadClient(mockPayload)
+
+      try {
+        const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+        const apiKey = process.env.PAYLOAD_API_KEY
+
+        const authResponse = await fetch(`${apiUrl}/api/users/me`, {
+          headers: {
+            Authorization: `JWT ${apiKey}`,
+          },
+        })
+
+        if (authResponse.ok) {
+          const authData = await authResponse.json()
+          permissions = authData.permissions || {}
+          user = authData.user || {}
+        }
+      } catch (authError) {
+        console.error('Error fetching auth info:', authError)
+      }
+    }
+  }
+
+  return { payload, db, user, permissions }
+}
