@@ -9,19 +9,20 @@
 
 > AI-Native Data Access SDK for seamless database operations with MongoDB, PostgreSQL, and SQLite
 
-`database.do` is a powerful SDK that simplifies database operations with an intuitive, declarative API. It provides a seamless interface for creating database schemas, managing relationships, and performing CRUD operations with built-in AI capabilities.
+`database.do` is a powerful SDK that simplifies database operations with an intuitive API. It provides a seamless interface for managing collections and performing CRUD operations with built-in AI capabilities, all while maintaining zero dependencies except for `apis.do`.
 
 ## Features
 
-- **Simple, Declarative API** - Define your schema with a clean, intuitive syntax
-- **Automatic Relationships** - Easily define and manage relationships between collections
+- **Simple, Intuitive API** - Clean and straightforward methods for database operations
 - **AI-Native** - Built with AI-first principles for intelligent data operations
 - **Multiple Database Support** - Works with MongoDB, PostgreSQL, and SQLite
 - **Admin UI Included** - Automatic admin interface for managing your data
 - **REST API** - Full List + CRUD operations available through a REST API
-- **Type Safety** - Full TypeScript support with inferred types from your schema
+- **Type Safety** - Full TypeScript support with strongly-typed interfaces
 - **Advanced Querying** - Powerful filtering, sorting, and pagination capabilities
 - **Authentication & Authorization** - Built-in security features
+- **Zero Dependencies** - Only depends on `apis.do` for API communication
+- **Lightweight** - Minimal footprint for both browser and Node.js environments
 
 ## Installation
 
@@ -39,32 +40,16 @@ pnpm add database.do
 ## Quick Start
 
 ```typescript
-import { DB } from 'database.do'
+import { DatabaseClient } from 'database.do'
 
-// Define your database schema
-const db = DB({
-  posts: {
-    title: 'text',
-    content: 'richtext',
-    status: 'Draft | Published | Archived', // Select field with predefined options
-    contentType: 'Text | Markdown | Code | Object | Schema', // Another select field example
-    tags: 'tags[]',
-    author: 'authors',
-  },
-  tags: {
-    name: 'text',
-    posts: '<-posts.tags', // Join field to posts (reverse relation)
-  },
-  authors: {
-    name: 'text',
-    email: 'email',
-    role: 'Admin | Editor | Writer', // Select field with predefined options
-    posts: '<-posts.author', // Join field to posts (reverse relation)
-  },
+// Initialize the database client
+const db = new DatabaseClient({
+  baseUrl: 'https://database.do', // Optional, defaults to https://database.do
+  apiKey: 'your-api-key', // Optional, for authenticated requests
 })
 
 // Create a new post
-const post = await db.posts.create({
+const post = await db.create('posts', {
   title: 'Getting Started with database.do',
   content: 'This is a sample post created with database.do SDK',
   status: 'Published',
@@ -74,147 +59,212 @@ const post = await db.posts.create({
 })
 
 // Query posts with filtering
-const publishedPosts = await db.posts.find({
-  status: 'Published',
-  author: 'author123',
+const publishedPosts = await db.find('posts', {
+  where: {
+    status: 'Published',
+    author: 'author123',
+  },
 })
 
+// Get a post by ID
+const singlePost = await db.findOne('posts', post.id)
+
 // Update a post
-await db.posts.update(post.id, {
+await db.update('posts', post.id, {
   title: 'Updated Title',
 })
 
 // Delete a post
-await db.posts.delete(post.id)
+await db.delete('posts', post.id)
 ```
 
 ## Usage Examples
 
-### Defining Schema with Relationships
+### Working with Collections
 
 ```typescript
-import { DB } from 'database.do'
+import { DatabaseClient } from 'database.do'
 
-const db = DB({
-  products: {
-    name: 'text',
-    description: 'richtext',
-    price: 'number',
-    category: 'categories',
-    tags: 'tags[]',
-    isAvailable: 'boolean',
-  },
-  categories: {
-    name: 'text',
-    description: 'text',
-    products: '<-products.category',
-  },
-  tags: {
-    name: 'text',
-    products: '<-products.tags',
-  },
-  orders: {
-    customer: 'customers',
-    products: 'products[]',
-    status: 'Pending | Processing | Shipped | Delivered | Cancelled',
-    orderDate: 'date',
-    totalAmount: 'number',
-  },
-  customers: {
-    name: 'text',
-    email: 'email',
-    orders: '<-orders.customer',
-  },
+// Initialize the database client
+const db = new DatabaseClient()
+
+// Create a product
+const product = await db.create('products', {
+  name: 'Smart Speaker',
+  description: 'Voice-controlled smart speaker with AI assistant',
+  price: 99.99,
+  category: 'electronics',
+  tags: ['smart-home', 'audio', 'voice-control'],
+  isAvailable: true,
+})
+
+// Create a customer
+const customer = await db.create('customers', {
+  name: 'Jane Doe',
+  email: 'jane@example.com',
+})
+
+// Create an order
+const order = await db.create('orders', {
+  customer: customer.id,
+  products: [product.id],
+  status: 'Processing',
+  orderDate: new Date(),
+  totalAmount: 99.99,
 })
 ```
 
 ### Advanced Querying
 
 ```typescript
+import { DatabaseClient } from 'database.do'
+
+const db = new DatabaseClient()
+
 // Find products with pagination and sorting
-const products = await db.products.find(
-  {
+const products = await db.find('products', {
+  where: {
     price: { gt: 100 },
     isAvailable: true,
     category: 'electronics',
   },
-  {
-    limit: 10,
-    page: 1,
-    sort: { price: 'desc' },
-  },
-)
+  limit: 10,
+  page: 1,
+  sort: 'price:desc',
+})
 
 // Find with complex filters
-const results = await db.posts.find({
-  $or: [{ status: 'Published' }, { author: 'author123' }],
-  $and: [{ createdAt: { gt: new Date('2023-01-01') } }, { tags: { contains: 'featured' } }],
+const results = await db.find('posts', {
+  where: {
+    $or: [
+      { status: 'Published' }, 
+      { author: 'author123' }
+    ],
+    $and: [
+      { createdAt: { gt: new Date('2023-01-01').toISOString() } }, 
+      { tags: { contains: 'featured' } }
+    ],
+  },
+})
+
+// Search functionality
+const searchResults = await db.search('products', 'smart speaker', {
+  limit: 20,
+  sort: 'relevance:desc',
 })
 ```
 
-### Populating Related Data
+### Working with Related Data
 
 ```typescript
-// Get posts with author and tags populated
-const posts = await db.posts.find(
-  {},
-  {
-    populate: ['author', 'tags'],
-  },
-)
+import { DatabaseClient } from 'database.do'
 
-// Get a single post with all relations populated
-const post = await db.posts.findOne(
-  { id: 'post123' },
-  {
-    populate: true, // Populate all relations
+const db = new DatabaseClient()
+
+// Get posts with related data
+const posts = await db.find('posts', {
+  populate: ['author', 'tags'],
+})
+
+// Get a single order with customer data
+const order = await db.findOne('orders', 'order123')
+const customer = await db.findOne('customers', order.customer)
+
+// Get all orders for a customer
+const customerOrders = await db.find('orders', {
+  where: {
+    customer: customer.id,
   },
-)
+})
 ```
 
 ## API Reference
 
-### DB(schema)
+### DatabaseClient
 
-Creates a new database instance with the specified schema.
+The main client for interacting with the database.
 
 ```typescript
-const db = DB(schema, options?)
+import { DatabaseClient } from 'database.do'
+
+const db = new DatabaseClient({
+  baseUrl?: string, // Optional, defaults to 'https://database.do'
+  apiKey?: string,  // Optional, for authenticated requests
+})
 ```
 
-#### Schema Definition
+### Methods
 
-The schema is an object where each key represents a collection and its value defines the fields:
+#### find(collection, options?)
+
+Retrieves multiple documents from a collection with optional filtering, sorting, and pagination.
 
 ```typescript
-{
-  collectionName: {
-    fieldName: fieldType
-  }
+interface QueryOptions {
+  where?: Record<string, any>  // Filter criteria
+  sort?: string | string[]     // Sorting options
+  limit?: number               // Number of results per page
+  page?: number                // Page number
+  select?: string | string[]   // Fields to include
+  populate?: string | string[] // Relations to populate
 }
+
+const results = await db.find('collection', options)
 ```
 
-Field types can be:
+#### findOne(collection, id)
 
-- Primitive types: `'text'`, `'richtext'`, `'number'`, `'boolean'`, `'date'`, `'email'`
-- Enum types: `'Option1 | Option2 | Option3'`
-- Relation types: `'collectionName'` (single relation) or `'collectionName[]'` (multiple relations)
-- Reverse relations: `'<-collectionName.fieldName'`
+Retrieves a single document by its ID.
 
-#### Collection Methods
+```typescript
+const document = await db.findOne('collection', 'document-id')
+```
 
-Each collection in the schema gets the following methods:
+#### create(collection, data)
 
-- `find(filter?, options?)` - Find multiple documents
-- `findOne(filter, options?)` - Find a single document
-- `create(data)` - Create a new document
-- `update(id, data)` - Update an existing document
-- `delete(id)` - Delete a document
-- `count(filter?)` - Count documents matching a filter
+Creates a new document in the collection.
+
+```typescript
+const newDocument = await db.create('collection', {
+  field1: 'value1',
+  field2: 'value2',
+  // ...
+})
+```
+
+#### update(collection, id, data)
+
+Updates an existing document by its ID.
+
+```typescript
+const updatedDocument = await db.update('collection', 'document-id', {
+  field1: 'new value',
+  // ...
+})
+```
+
+#### delete(collection, id)
+
+Deletes a document by its ID.
+
+```typescript
+await db.delete('collection', 'document-id')
+```
+
+#### search(collection, query, options?)
+
+Performs a text search across documents in a collection.
+
+```typescript
+const searchResults = await db.search('collection', 'search term', {
+  limit: 20,
+  sort: 'relevance:desc',
+})
+```
 
 ## Implementation Details
 
-Behind the scenes, `database.do` uses [Payload CMS](https://payloadcms.com) to create a database schema:
+Behind the scenes, `database.do` uses [Payload CMS](https://payloadcms.com) to provide a powerful database solution:
 
 - **MongoDB** support via Mongoose
 - **PostgreSQL** and **SQLite** support via Drizzle ORM
@@ -224,12 +274,25 @@ Behind the scenes, `database.do` uses [Payload CMS](https://payloadcms.com) to c
 - Media handling
 - Webhooks and more
 
+The SDK itself is designed to be lightweight with zero dependencies except for `apis.do`, making it suitable for both browser and Node.js environments. It communicates with the database.do service through a RESTful API, abstracting away the complexity of direct database interactions.
+
 ## Related Projects
 
 - [functions.do](https://functions.do) - Typesafe AI Functions
 - [workflows.do](https://workflows.do) - Business Process Automation
 - [agents.do](https://agents.do) - Autonomous Digital Workers
 - [apis.do](https://apis.do) - Clickable Developer Experiences
+- [models.do](https://models.do) - AI Model Management
+- [llm.do](https://llm.do) - Large Language Model Gateway
+
+## Environment Compatibility
+
+`database.do` is designed to work seamlessly in various JavaScript environments:
+
+- **Browser** - Works in modern browsers without polyfills
+- **Node.js** - Compatible with Node.js 18+ using native fetch
+- **Edge Functions** - Optimized for serverless and edge environments
+- **React Native** - Works with React Native applications
 
 ## License
 
