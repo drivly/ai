@@ -56,7 +56,10 @@ describe('Vercel Preview Deployment Tests', () => {
     }
 
     try {
-      const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      if (!baseUrl.startsWith('http')) {
+        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
+      }
       const url = new URL('/', baseUrl).toString()
       await page.goto(url)
 
@@ -83,7 +86,10 @@ describe('Vercel Preview Deployment Tests', () => {
     }
 
     try {
-      const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      if (!baseUrl.startsWith('http')) {
+        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
+      }
       
       const apiPaths = [
         '/api',
@@ -109,7 +115,10 @@ describe('Vercel Preview Deployment Tests', () => {
   
   it('should test API endpoints with fetch only', async () => {
     try {
-      const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      if (!baseUrl.startsWith('http')) {
+        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
+      }
       
       const apiEndpoints = [
         '/',
@@ -154,7 +163,10 @@ describe('Vercel Preview Deployment Tests', () => {
     }
 
     try {
-      const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      if (!baseUrl.startsWith('http')) {
+        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
+      }
       const websitePaths = [
         '/docs',
         '/admin',

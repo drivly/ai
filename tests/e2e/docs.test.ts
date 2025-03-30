@@ -53,7 +53,10 @@ describe('Documentation page', () => {
     }
 
     try {
-      const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      if (!baseUrl.startsWith('http')) {
+        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
+      }
       const url = new URL('/docs', baseUrl).toString()
       await page.goto(url)
 
