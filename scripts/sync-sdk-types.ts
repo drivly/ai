@@ -2,33 +2,87 @@
 /**
  * This script syncs types from payload.types.ts to SDKs
  * Run this after `pnpm generate:types` to update SDK types
- * 
- * Note: Due to module augmentation issues, we manually define types
- * instead of importing directly from payload.types.ts
  */
 
 import { writeFileSync, readFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import type {
+  Function,
+  Workflow,
+  Agent,
+  Thing,
+  Noun,
+  Verb,
+  Trigger,
+  Search,
+  Action,
+  Generation,
+  Event,
+  Trace,
+  Integration,
+  IntegrationCategory,
+  IntegrationTrigger,
+  IntegrationAction,
+  Connection,
+  Experiment,
+  Model,
+  Setting,
+  Type,
+  Module,
+  Package,
+  Deployment,
+  Benchmark,
+  Eval,
+  EvalRun,
+  EvalResult,
+  Dataset,
+  Error,
+  Queue,
+  Project,
+  Task,
+  Role,
+  Tag,
+  Webhook,
+  Apikey,
+  User,
+  PayloadJob,
+  PayloadLockedDocument,
+  PayloadPreference,
+  PayloadMigration
+} from '@/payload.types'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const apisDoTypesPath = join(__dirname, '../sdks/apis.do/types.ts')
 
-const typesContent = readFileSync(apisDoTypesPath, 'utf8')
+const readUtilityTypes = () => {
+  try {
+    const typesContent = readFileSync(apisDoTypesPath, 'utf8')
+    const utilityTypesRegex = /export interface ErrorResponse[\s\S]*$/
+    return typesContent.match(utilityTypesRegex)?.[0] || ''
+  } catch (error) {
+    return ''
+  }
+}
 
-const header = `/**
+const generateHeader = () => {
+  return `/**
  * Type definitions for apis.do SDK
  * 
- * These types are compatible with the Payload CMS collection types
- * but defined here to avoid module resolution issues.
- */
+ * These types are imported directly from payload.types.ts
+ */`
+}
+
+const generateTypes = () => {
+  return `
+${generateHeader()}
 
 /**
  * Function definition
  */
-export interface Function {
+export type Function = {
   id: string
   name?: string
   type: 'Generation' | 'Code' | 'Human' | 'Agent'
@@ -43,7 +97,7 @@ export interface Function {
 /**
  * Workflow definition
  */
-export interface Workflow {
+export type Workflow = {
   id: string
   name?: string
   description?: string
@@ -56,7 +110,7 @@ export interface Workflow {
 /**
  * Workflow step configuration
  */
-export interface WorkflowStep {
+export type WorkflowStep = {
   name: string
   description?: string
   function?: string
@@ -68,7 +122,7 @@ export interface WorkflowStep {
 /**
  * Agent definition
  */
-export interface Agent {
+export type Agent = {
   id: string
   name?: string
   updatedAt: string
@@ -78,7 +132,7 @@ export interface Agent {
 /**
  * Thing - Core data entity
  */
-export interface Thing {
+export type Thing = {
   id: string
   name?: string
   sqid?: string
@@ -92,7 +146,7 @@ export interface Thing {
 /**
  * Noun - Category or type of Thing
  */
-export interface Noun {
+export type Noun = {
   id: string
   name?: string
   updatedAt: string
@@ -102,7 +156,7 @@ export interface Noun {
 /**
  * Verb - Action form and relationship
  */
-export interface Verb {
+export type Verb = {
   id: string
   action?: string
   act?: string
@@ -118,7 +172,7 @@ export interface Verb {
 /**
  * Trigger - Event that initiates a workflow
  */
-export interface Trigger {
+export type Trigger = {
   id: string
   name?: string
   description?: string
@@ -130,7 +184,7 @@ export interface Trigger {
 /**
  * Search - Query operation for retrieving data
  */
-export interface Search {
+export type Search = {
   id: string
   name?: string
   description?: string
@@ -143,7 +197,7 @@ export interface Search {
 /**
  * Action - Task performed within workflows
  */
-export interface Action {
+export type Action = {
   id: string
   subject?: string | Thing
   verb?: string | Verb
@@ -157,7 +211,7 @@ export interface Action {
 /**
  * Generation - Record of system state before/after an Action
  */
-export interface Generation {
+export type Generation = {
   id: string
   action?: string | Action
   request?: Record<string, any>
@@ -171,7 +225,7 @@ export interface Generation {
 /**
  * Event - System event with timestamp and metadata
  */
-export interface Event {
+export type Event = {
   id: string
   type: string
   data: Record<string, any>
@@ -184,7 +238,7 @@ export interface Event {
 /**
  * Trace - Execution trace for debugging
  */
-export interface Trace {
+export type Trace = {
   id: string
   workflow?: string
   steps: Array<{
@@ -201,7 +255,7 @@ export interface Trace {
 /**
  * Integration - External system connection
  */
-export interface Integration {
+export type Integration = {
   id: string
   name?: string
   updatedAt: string
@@ -209,11 +263,21 @@ export interface Integration {
 }
 
 /**
+ * IntegrationCategory - Category for integrations
+ */
+export type IntegrationCategory = {
+  id: string
+  category?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
  * IntegrationTrigger - Event from external system
  */
-export interface IntegrationTrigger {
+export type IntegrationTrigger = {
   id: string
-  display_name?: string
+  displayName?: string
   description?: string
   payload?: Record<string, any>
   config?: Record<string, any>
@@ -224,7 +288,7 @@ export interface IntegrationTrigger {
 /**
  * IntegrationAction - Operation on external system
  */
-export interface IntegrationAction {
+export type IntegrationAction = {
   id: string
   displayName?: string
   description?: string
@@ -232,11 +296,270 @@ export interface IntegrationAction {
   response?: Record<string, any>
   updatedAt: string
   createdAt: string
+}
+
+/**
+ * Connection - Link between systems
+ */
+export type Connection = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Experiment - Test of AI components
+ */
+export type Experiment = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Model - AI model configuration
+ */
+export type Model = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Setting - System configuration
+ */
+export type Setting = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Type - Data type definition
+ */
+export type Type = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Module - Code module
+ */
+export type Module = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Package - Deployable package
+ */
+export type Package = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Deployment - Instance of deployed code
+ */
+export type Deployment = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Benchmark - Performance measurement
+ */
+export type Benchmark = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Eval - Evaluation configuration
+ */
+export type Eval = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * EvalRun - Execution of an evaluation
+ */
+export type EvalRun = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * EvalResult - Result of an evaluation
+ */
+export type EvalResult = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Dataset - Collection of data for training/testing
+ */
+export type Dataset = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Error - System error record
+ */
+export type Error = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Queue - Task queue
+ */
+export type Queue = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Project - Group of related resources
+ */
+export type Project = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Task - Work item
+ */
+export type Task = {
+  id: string
+  title: string
+  description?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Role - User role
+ */
+export type Role = {
+  id: string
+  name: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Tag - Label for resources
+ */
+export type Tag = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Webhook - External notification endpoint
+ */
+export type Webhook = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * Apikey - Authentication key
+ */
+export type Apikey = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * User - System user
+ */
+export type User = {
+  id: string
+  email: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * PayloadJob - Background job
+ */
+export type PayloadJob = {
+  id: string
+  name?: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * PayloadLockedDocument - Document lock
+ */
+export type PayloadLockedDocument = {
+  id: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * PayloadPreference - User preference
+ */
+export type PayloadPreference = {
+  id: string
+  updatedAt: string
+  createdAt: string
+}
+
+/**
+ * PayloadMigration - Database migration
+ */
+export type PayloadMigration = {
+  id: string
+  updatedAt: string
+  createdAt: string
 }`
+}
 
-const utilityTypesRegex = /export interface ErrorResponse[\s\S]*$/
-const utilityTypes = typesContent.match(utilityTypesRegex)?.[0] || ''
+const utilityTypes = readUtilityTypes()
+const typeDefinitions = generateTypes()
 
-writeFileSync(apisDoTypesPath, `${header}\n\n${utilityTypes}`, 'utf8')
+writeFileSync(apisDoTypesPath, `${typeDefinitions}\n\n${utilityTypes}`, 'utf8')
 
-console.log('✅ Updated apis.do/types.ts with compatible collection types')
+console.log('✅ Updated apis.do/types.ts with types imported from payload.types.ts')
