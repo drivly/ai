@@ -68,37 +68,123 @@ APIs.do provides unified access to the entire `.do` ecosystem:
 ## 📋 Quick Start
 
 ```typescript
-import { ApiClient } from 'apis.do'
+import { API } from 'apis.do'
 
 // Initialize the client
-const api = new ApiClient({
+const api = new API({
   apiKey: 'your-api-key', // Optional: API key for authenticated requests
 })
 
 // Basic CRUD operations
 const getUsers = async () => {
-  const users = await api.list('users')
-  console.log(users.data)
+  const users = await api.users.find()
+  console.log(users)
 }
 
 const getUserById = async (id: string) => {
-  const user = await api.getById('users', id)
+  const user = await api.users.get(id)
   console.log(user)
 }
 
 const createUser = async (userData: any) => {
-  const newUser = await api.create('users', userData)
+  const newUser = await api.users.create(userData)
   console.log(newUser)
 }
 
 const updateUser = async (id: string, userData: any) => {
-  const updatedUser = await api.update('users', id, userData)
+  const updatedUser = await api.users.update(id, userData)
   console.log(updatedUser)
 }
 
 const deleteUser = async (id: string) => {
-  await api.remove('users', id)
+  await api.users.delete(id)
   console.log('User deleted')
+}
+```
+
+## 🧩 Collection Types
+
+The APIs.do SDK provides access to all collections in the platform. Here are the main collection types available:
+
+### AI Collections
+- `functions` - AI functions with type, schema, and code/prompt
+- `workflows` - Declarative state machines for orchestration
+- `agents` - Autonomous digital workers
+
+### Data Collections
+- `things` - Core data entities with properties
+- `nouns` - Categories or types of Things
+- `verbs` - Action forms and relationships
+
+### Event Collections
+- `triggers` - Events that initiate workflows
+- `searches` - Query operations for retrieving data
+- `actions` - Tasks performed within workflows
+
+### Observability Collections
+- `generations` - Records of system state before/after an Action
+- `events` - System events with timestamps and metadata
+- `traces` - Execution traces for debugging
+
+### Integration Collections
+- `integrations` - External system connections
+- `integration-triggers` - Events from external systems
+- `integration-actions` - Operations on external systems
+
+## 📊 Strongly-Typed Collection Examples
+
+```typescript
+import { API } from 'apis.do'
+import type { Function, Workflow, Agent, Thing, Action, Generation } from 'apis.do/types'
+
+const api = new API({
+  apiKey: process.env.APIS_DO_API_KEY || process.env.DO_API_KEY
+})
+
+// Working with AI Functions
+async function getFunctions() {
+  const functions = await api.functions.find()
+  return functions
+}
+
+async function createFunction(functionData: Partial<Function>) {
+  return await api.functions.create({
+    name: 'Example Function',
+    type: 'Generation',
+    format: 'Object',
+    schema: {
+      productType: 'App | API | Marketplace | Platform | Packaged Service | Professional Service | Website',
+      customer: 'ideal customer profile in 3-5 words',
+      solution: 'describe the offer in 4-10 words',
+      description: 'website meta description',
+    },
+    prompt: 'Generate a response based on the input',
+    ...functionData
+  })
+}
+
+// Working with Workflows
+async function getWorkflow(id: string) {
+  return await api.workflows.get(id)
+}
+
+// Working with Things (core data entities)
+async function createThing(data: Partial<Thing>) {
+  return await api.things.create({
+    name: 'Example Thing',
+    data: { key: 'value' },
+    ...data
+  })
+}
+
+// Working with Actions
+async function getActions(params?: { subject?: string, verb?: string }) {
+  return await api.actions.find(params)
+}
+
+// Working with Generations (observability)
+async function getGenerations(actionId: string) {
+  return await api.generations.find({ action: actionId })
 }
 ```
 
@@ -109,19 +195,18 @@ const deleteUser = async (id: string) => {
 ```typescript
 // Search for users with a specific query
 const searchUsers = async (query: string) => {
-  const results = await api.search('users', query)
-  console.log(results.data)
+  const results = await api.users.search(query)
+  console.log(results)
 }
 
 // List with filtering and pagination
 const listActiveUsers = async () => {
-  const activeUsers = await api.list('users', {
-    where: { status: 'active' },
+  const activeUsers = await api.users.find({ status: 'active' }, {
     limit: 10,
     page: 1,
-    sort: '-createdAt',
+    sort: '-createdAt'
   })
-  console.log(activeUsers.data)
+  console.log(activeUsers)
   console.log(`Total: ${activeUsers.meta?.total}`)
 }
 ```
@@ -147,70 +232,109 @@ const postCustomData = async (data: any) => {
 APIs.do seamlessly integrates with the entire `.do` ecosystem:
 
 ```typescript
+import { API } from 'apis.do'
+import type { Function, Workflow, Agent, Thing, Action } from 'apis.do/types'
+
+const api = new API({
+  apiKey: process.env.APIS_DO_API_KEY || process.env.DO_API_KEY
+})
+
 // Example: Using Functions.do through the API Gateway
-const runFunction = async (functionName: string, inputs: any) => {
-  return api.post(`/api/functions/${functionName}`, inputs)
+const runFunction = async (functionId: string, inputs: any) => {
+  return api.functions.execute(functionId, inputs)
 }
 
 // Example: Triggering a Workflow
 const startWorkflow = async (workflowId: string, context: any) => {
-  return api.post(`/api/workflows/${workflowId}/trigger`, context)
+  return api.workflows.trigger(workflowId, context)
 }
 
 // Example: Interacting with an Agent
 const askAgent = async (agentId: string, question: string) => {
-  return api.post(`/api/agents/${agentId}/ask`, { question })
+  return api.agents.ask(agentId, { question })
 }
 
 // Example: Searching for data
-const searchData = async (query: string) => {
-  return api.get(`/api/searches`, { q: query })
+const searchThings = async (query: string) => {
+  return api.things.search(query)
 }
 
 // Example: Executing an action
 const executeAction = async (actionId: string, params: any) => {
-  return api.post(`/api/actions/${actionId}/execute`, params)
+  return api.actions.execute(actionId, params)
+}
+
+// Example: Creating a relationship between Things using Actions
+const createRelationship = async (subjectId: string, verbName: string, objectId: string) => {
+  return api.actions.create({
+    subject: subjectId,
+    verb: verbName,
+    object: objectId
+  })
 }
 ```
 
-## 📊 Real-World Example: Business Intelligence Dashboard
+## 📊 Real-World Example: AI-Powered Business Intelligence Dashboard
 
 ```typescript
-import { ApiClient } from 'apis.do'
+import { API } from 'apis.do'
+import type { Thing, Function, Agent, Action } from 'apis.do/types'
 
-const api = new ApiClient({ apiKey: process.env.APIS_DO_KEY })
+const api = new API({ apiKey: process.env.APIS_DO_API_KEY })
 
 async function generateBusinessDashboard(companyId: string) {
   // Fetch company data
-  const company = await api.getById('companies', companyId)
+  const company = await api.things.get(companyId)
 
   // Get recent sales data
-  const salesData = await api.list('sales', {
-    where: { companyId, date: { $gte: '2023-01-01' } },
-    sort: '-date',
-    limit: 100,
+  const salesData = await api.things.find({ 
+    type: 'sale', 
+    'data.companyId': companyId,
+    'data.date': { $gte: '2023-01-01' } 
+  }, {
+    sort: '-createdAt',
+    limit: 100
   })
 
-  // Use Functions.do to analyze sales trends
-  const salesAnalysis = await api.post('/api/functions/analyzeSalesTrends', {
-    sales: salesData.data,
-    timeframe: 'quarterly',
+  // Get and execute the sales analysis function
+  const analyzeFunction = await api.functions.find({ name: 'analyzeSalesTrends' }, { limit: 1 })
+  const salesAnalysis = await api.functions.execute(analyzeFunction[0].id, {
+    sales: salesData,
+    timeframe: 'quarterly'
   })
 
-  // Use Agents.do to generate recommendations
-  const recommendations = await api.post('/api/agents/businessAdvisor/ask', {
+  // Get the business advisor agent and ask for recommendations
+  const advisorAgent = await api.agents.find({ name: 'businessAdvisor' }, { limit: 1 })
+  const recommendations = await api.agents.ask(advisorAgent[0].id, {
     question: 'What are the top 3 actions this company should take based on recent sales data?',
-    context: { company, salesData: salesData.data, analysis: salesAnalysis },
+    context: { 
+      company, 
+      salesData, 
+      analysis: salesAnalysis 
+    }
   })
 
-  // Store the dashboard data
-  return api.create('dashboards', {
-    companyId,
-    generatedAt: new Date().toISOString(),
-    salesData: salesData.data,
-    analysis: salesAnalysis,
-    recommendations: recommendations.suggestions,
+  // Create a new dashboard Thing
+  const dashboard = await api.things.create({
+    name: `${company.name} Dashboard`,
+    type: 'dashboard',
+    data: {
+      companyId,
+      generatedAt: new Date().toISOString(),
+      salesData: salesData.map(sale => sale.id),
+      analysis: salesAnalysis,
+      recommendations: recommendations.suggestions
+    }
   })
+  
+  // Create an Action to link the company to the dashboard
+  await api.actions.create({
+    subject: companyId,
+    verb: 'has',
+    object: dashboard.id
+  })
+  
+  return dashboard
 }
 ```
 
@@ -219,7 +343,7 @@ async function generateBusinessDashboard(companyId: string) {
 ### Client Initialization
 
 ```typescript
-const api = new ApiClient({
+const api = new API({
   baseUrl?: string, // Default: 'https://apis.do'
   apiKey?: string,  // Your API key
   headers?: Record<string, string> // Additional headers
@@ -283,12 +407,12 @@ APIs.do supports multiple authentication methods:
 
 ```typescript
 // API Key Authentication (recommended)
-const api = new ApiClient({
+const api = new API({
   apiKey: 'your-api-key',
 })
 
 // Custom Header Authentication
-const api = new ApiClient({
+const api = new API({
   headers: {
     'X-Custom-Auth': 'custom-token',
   },
@@ -304,36 +428,55 @@ const api = new ApiClient({
 
 ## 📐 TypeScript Support
 
-For full type safety, you can define your data models:
+The SDK provides built-in types for all collections in the platform, giving you full type safety:
 
 ```typescript
-interface User {
+import { API } from 'apis.do'
+import type { 
+  Function, 
+  Workflow, 
+  Agent, 
+  Thing, 
+  Action, 
+  Verb, 
+  Noun, 
+  Generation 
+} from 'apis.do/types'
+
+const api = new API({
+  apiKey: process.env.APIS_DO_API_KEY
+})
+
+// Now you get full type safety with platform collections
+const functions = await api.functions.find()
+functions.forEach(func => console.log(func.name, func.type))
+
+// Create with type checking
+const newFunction = await api.functions.create({
+  name: 'Summarize Text',
+  type: 'Generation',
+  format: 'Text',
+  prompt: 'Summarize the following text:'
+})
+
+// TypeScript will catch errors like this:
+const invalidFunction = await api.functions.create({
+  name: 'Invalid Function',
+  type: 'Unknown' // Error: Type '"Unknown"' is not assignable to type '"Generation" | "Code" | "Human" | "Agent"'
+})
+
+// You can also define your own custom types
+interface CustomThing {
   id: string
   name: string
-  email: string
-  role: 'admin' | 'user'
+  customField: string
   createdAt: string
   updatedAt: string
   metadata?: Record<string, any>
 }
 
-// Now you get full type safety
-const users = await api.list<User>('users')
-users.data.forEach((user) => console.log(user.name))
-
-// Create with type checking
-const newUser = await api.create<User>('users', {
-  name: 'John Doe',
-  email: 'john@example.com',
-  role: 'user',
-})
-
-// TypeScript will catch errors like this:
-const invalidUser = await api.create<User>('users', {
-  name: 'Jane Doe',
-  email: 'jane@example.com',
-  role: 'superadmin', // Error: Type '"superadmin"' is not assignable to type '"admin" | "user"'
-})
+// And use them with the SDK
+const customThings = await api.things.find({ type: 'custom' })
 ```
 
 ## 🌐 Browser Usage
@@ -342,9 +485,9 @@ APIs.do works seamlessly in browser environments:
 
 ```html
 <script type="module">
-  import { ApiClient } from 'https://cdn.jsdelivr.net/npm/apis.do/dist/index.js'
+  import { API } from 'https://cdn.jsdelivr.net/npm/apis.do/dist/index.js'
 
-  const api = new ApiClient({
+  const api = new API({
     apiKey: 'your-api-key',
   })
 
