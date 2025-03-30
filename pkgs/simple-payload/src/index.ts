@@ -16,5 +16,6 @@ export {
   initializePayloadClient, 
   createMockEdgePayload, 
   createMockNodePayload,
-  createAPI
+  createAPI,
+  modifyQueryString
 } from './api'
