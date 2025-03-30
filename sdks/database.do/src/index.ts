@@ -1,100 +1,112 @@
-import { ApiClient } from './api-client'
-import { DBOptions, SchemaDefinition, CollectionMethods, QueryOptions, ListResponse, DatabaseClient as DatabaseClientType } from './types'
+import {
+  API,
+  api as apisDoClient,
+  ClientOptions,
+  ListResponse,
+  QueryParams
+} from 'apis.do';
+
+import {
+  DBOptions,
+  SchemaDefinition,
+  CollectionMethods,
+  QueryOptions,
+  CollectionData,
+  DatabaseClient as DatabaseClientType
+} from './types';
 
 export * from './types'
 
-class CollectionHandler implements CollectionMethods {
-  private api: ApiClient
-  private collection: string
+class CollectionHandler<T = CollectionData> implements CollectionMethods<T> {
+  private api: API;
+  private collection: string;
 
-  constructor(api: ApiClient, collection: string) {
-    this.api = api
-    this.collection = collection
+  constructor(api: API, collection: string) {
+    this.api = api;
+    this.collection = collection;
   }
 
-  async find(options: QueryOptions = {}): Promise<any> {
-    return this.api.list(this.collection, options)
+  async find<T = CollectionData>(options: QueryOptions = {}): Promise<ListResponse<T>> {
+    return this.api.list<T>(this.collection, options);
   }
 
-  async findOne(id: string): Promise<any> {
-    return this.api.getById(this.collection, id)
+  async findOne<T = CollectionData>(id: string): Promise<T> {
+    return this.api.getById<T>(this.collection, id);
   }
 
-  async create(data: any): Promise<any> {
-    return this.api.create(this.collection, data)
+  async create<T = CollectionData>(data: Partial<T>): Promise<T> {
+    return this.api.create<T>(this.collection, data);
   }
 
-  async update(id: string, data: any): Promise<any> {
-    return this.api.update(this.collection, id, data)
+  async update<T = CollectionData>(id: string, data: Partial<T>): Promise<T> {
+    return this.api.update<T>(this.collection, id, data);
   }
 
-  async delete(id: string): Promise<any> {
-    return this.api.remove(this.collection, id)
+  async delete<T = CollectionData>(id: string): Promise<T> {
+    return this.api.remove<T>(this.collection, id);
   }
 
-  async search(query: string, options: QueryOptions = {}): Promise<any> {
-    return this.api.search(this.collection, query, options)
+  async search<T = CollectionData>(query: string, options: QueryOptions = {}): Promise<ListResponse<T>> {
+    return this.api.search<T>(this.collection, query, options);
   }
 }
 
-export function DB(options: DBOptions = {}): DatabaseClientType {
-  const { baseUrl, apiKey, ...schemaDefinitions } = options
-
-  const api = new ApiClient({
+export const DB = (options: DBOptions = {}): DatabaseClientType => {
+  const { baseUrl, apiKey, ...schemaDefinitions } = options;
+  
+  const apiOptions: ClientOptions = {
     baseUrl: baseUrl || 'https://database.do',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
-    },
-  })
+    apiKey
+  };
+  
+  const api = new API(apiOptions);
 
   return new Proxy({} as DatabaseClientType, {
     get: (target, prop) => {
       if (typeof prop === 'string' && prop !== 'then') {
         return new CollectionHandler(api, prop)
       }
-      return target[prop as keyof typeof target]
-    },
-  })
-}
+      return target[prop as keyof typeof target];
+    }
+  });
+};
 
 export const db = DB()
 
 export class DatabaseClient {
-  private api: ApiClient
+  private api: API;
 
-  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
-    this.api = new ApiClient({
+  constructor(options: DBOptions = {}) {
+    const apiOptions: ClientOptions = {
       baseUrl: options.baseUrl || 'https://database.do',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
-      },
-    })
+      apiKey: options.apiKey
+    };
+    
+    this.api = new API(apiOptions);
   }
 
-  async find(collection: string, options: QueryOptions = {}): Promise<any> {
-    return this.api.list(collection, options)
+  async find<T = CollectionData>(collection: string, options: QueryOptions = {}): Promise<ListResponse<T>> {
+    return this.api.list<T>(collection, options);
   }
 
-  async findOne(collection: string, id: string): Promise<any> {
-    return this.api.getById(collection, id)
+  async findOne<T = CollectionData>(collection: string, id: string): Promise<T> {
+    return this.api.getById<T>(collection, id);
   }
 
-  async create(collection: string, data: any): Promise<any> {
-    return this.api.create(collection, data)
+  async create<T = CollectionData>(collection: string, data: Partial<T>): Promise<T> {
+    return this.api.create<T>(collection, data);
   }
 
-  async update(collection: string, id: string, data: any): Promise<any> {
-    return this.api.update(collection, id, data)
+  async update<T = CollectionData>(collection: string, id: string, data: Partial<T>): Promise<T> {
+    return this.api.update<T>(collection, id, data);
   }
 
-  async delete(collection: string, id: string): Promise<any> {
-    return this.api.remove(collection, id)
+  async delete<T = CollectionData>(collection: string, id: string): Promise<T> {
+    return this.api.remove<T>(collection, id);
   }
 
-  async search(collection: string, query: string, options: QueryOptions = {}): Promise<any> {
-    return this.api.search(collection, query, options)
+  async search<T = CollectionData>(collection: string, query: string, options: QueryOptions = {}): Promise<ListResponse<T>> {
+    return this.api.search<T>(collection, query, options);
   }
 }
 
