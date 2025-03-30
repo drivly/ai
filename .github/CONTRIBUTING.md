@@ -10,15 +10,20 @@ By participating in this project, you agree to abide by our Code of Conduct. Ple
 
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally
+
    ```bash
    git clone https://github.com/YOUR-USERNAME/ai.git
    cd ai
    ```
+
 3. **Install dependencies**
+
    ```bash
    pnpm install
    ```
+
 4. **Create a new branch** for your feature or bugfix
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -111,7 +116,7 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 
 Each commit message should be structured as follows:
 
-```
+```text
 <type>[optional scope]: <description>
 
 [optional body]
@@ -135,7 +140,7 @@ Each commit message should be structured as follows:
 
 ### Examples
 
-```
+```text
 feat(auth): implement JWT authentication
 
 - Add token generation and validation
@@ -145,7 +150,7 @@ feat(auth): implement JWT authentication
 Closes #123
 ```
 
-```
+```text
 fix(api): prevent race condition in user data fetch
 
 Resolves an issue where concurrent requests could lead to data corruption.
@@ -153,13 +158,13 @@ Resolves an issue where concurrent requests could lead to data corruption.
 Fixes #456
 ```
 
-```
+```text
 docs(readme): update installation instructions
 ```
 
 For breaking changes, add `BREAKING CHANGE:` in the footer followed by a description:
 
-```
+```text
 feat(api): change authentication API endpoints
 
 BREAKING CHANGE: Authentication endpoints now use /auth prefix instead of /user
