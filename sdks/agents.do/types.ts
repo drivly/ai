@@ -2,7 +2,7 @@
  * Type definitions for agents.do SDK
  */
 
-import { AIFunction } from 'functions.do'
+import type { AIFunction } from 'functions.do/types'
 
 /**
  * Agent configuration
