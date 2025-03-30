@@ -319,9 +319,11 @@ export const ai = AI({
 The main function to create AI workflows and function schemas.
 
 **Parameters:**
+
 - `config`: An object containing event handlers and function schemas
 
 **Returns:**
+
 - An AI instance with typed methods based on the provided schemas
 
 ### Context Object
@@ -342,22 +344,22 @@ import { AI } from 'workflows.do'
 export default AI({
   generateBlogPost: async (event, { ai, api, db }) => {
     const { topic, keywords, targetAudience } = event
-    
+
     // Research the topic
     const research = await ai.researchTopic({ topic, keywords })
-    
+
     // Create an outline
     const outline = await ai.createOutline({ topic, research, targetAudience })
-    
+
     // Write the blog post
     const blogPost = await ai.writeBlogPost({ topic, outline, research })
-    
+
     // Create images for the blog post
-    const images = await api.dalle.generateImages({ 
+    const images = await api.dalle.generateImages({
       prompt: `Image for blog post about ${topic}`,
-      n: 3
+      n: 3,
     })
-    
+
     // Save to database
     const { url } = await db.blogPosts.create({
       title: blogPost.title,
@@ -368,16 +370,16 @@ export default AI({
         keywords,
         targetAudience,
         research,
-        outline
-      }
+        outline,
+      },
     })
-    
+
     return {
       blogPost,
       images,
-      url
+      url,
     }
-  }
+  },
 })
 ```
 
@@ -389,43 +391,43 @@ import { AI } from 'workflows.do'
 export default AI({
   handleSupportTicket: async (event, { ai, api, db }) => {
     const { ticketId, customerMessage, customerId } = event
-    
+
     // Get customer history
     const customerHistory = await db.customers.findOne({ id: customerId })
-    
+
     // Analyze the support ticket
-    const analysis = await ai.analyzeSupportTicket({ 
-      customerMessage, 
-      customerHistory 
+    const analysis = await ai.analyzeSupportTicket({
+      customerMessage,
+      customerHistory,
     })
-    
+
     // Generate a response
     const response = await ai.generateSupportResponse({
       customerMessage,
       analysis,
-      customerHistory
+      customerHistory,
     })
-    
+
     // Update the ticket in the database
     await db.supportTickets.update(ticketId, {
       status: 'responded',
       response,
-      analysis
+      analysis,
     })
-    
+
     // Send the response to the customer
     await api.email.send({
       to: customerHistory.email,
       subject: `Re: Support Ticket #${ticketId}`,
-      body: response.message
+      body: response.message,
     })
-    
+
     return {
       ticketId,
       response,
-      analysis
+      analysis,
     }
-  }
+  },
 })
 ```
 

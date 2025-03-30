@@ -69,11 +69,7 @@ const response = await agents.ask('agent-id', 'What are your available meeting t
   // Optional context
   timezone: 'America/New_York',
   calendar: {
-    availableTimes: [
-      '2023-06-15T10:00:00',
-      '2023-06-15T14:00:00',
-      '2023-06-16T11:00:00',
-    ],
+    availableTimes: ['2023-06-15T10:00:00', '2023-06-15T14:00:00', '2023-06-16T11:00:00'],
   },
 })
 
@@ -195,12 +191,12 @@ const customerServiceAgent = Agent({
   name: 'CustomerServiceBot',
   description: 'Handles customer service inquiries',
   functions: ['analyzeCustomerSentiment'],
-  
+
   // Handler for new messages
   onNewMessage: async ({ message, customer }) => {
     // Analyze sentiment
     const sentiment = await ai.analyzeCustomerSentiment({ text: message })
-    
+
     // Route based on sentiment
     if (sentiment.sentiment === 'Negative' && sentiment.score < 0.3) {
       return {
@@ -208,11 +204,11 @@ const customerServiceAgent = Agent({
         reason: `Detected negative sentiment (${sentiment.score}): ${sentiment.keyPhrases.join(', ')}`,
       }
     }
-    
+
     // Handle the inquiry
     return {
       action: 'respond',
-      message: await ai.generateResponse({ 
+      message: await ai.generateResponse({
         customerMessage: message,
         customerHistory: customer.history,
         sentiment,

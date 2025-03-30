@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import punycode from 'punycode'
-import { 
-  PayloadDB, 
-  ApiContext, 
+import {
+  PayloadDB,
+  ApiContext,
   ApiHandler,
   PayloadClientResult,
   PayloadClientFn,
@@ -10,11 +10,10 @@ import {
   createMockEdgePayload,
   createMockNodePayload,
   createEdgePayloadClient,
-  createNodePayloadClient
+  createNodePayloadClient,
 } from 'simple-payload'
 
 export type { ApiContext, PayloadClientResult, PayloadClientFn }
-
 
 let _currentRequest: NextRequest | null = null
 let _currentContext: ApiContext | null = null
@@ -91,10 +90,9 @@ export const createAPI = (payloadInstance?: any) => {
             db = createNodePayloadClient(mockPayload)
 
             try {
-              const apiUrl = process.env.PAYLOAD_API_URL || 
-                (process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+              const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
               const apiKey = process.env.PAYLOAD_API_KEY
-              
+
               const authResponse = await fetch(`${apiUrl}/api/users/me`, {
                 headers: {
                   Authorization: `JWT ${apiKey}`,

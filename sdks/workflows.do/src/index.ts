@@ -10,6 +10,7 @@ import type {
   WorkflowExecutionResult,
   AIFunction,
   AIFunctionSchema,
+  SchemaToOutput,
   AIConfig,
   AIContext,
   AIEventHandler,
@@ -82,9 +83,9 @@ export function createWorkflow(workflow: Workflow) {
           options,
         }),
       })
-      
+
       return response.json()
-    }
+    },
   }
 }
 
@@ -190,6 +191,7 @@ export type {
   WorkflowExecutionResult,
   AIFunction,
   AIFunctionSchema,
+  SchemaToOutput,
   AIConfig,
   AIContext,
   AIEventHandler,

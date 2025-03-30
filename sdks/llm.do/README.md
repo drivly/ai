@@ -94,15 +94,15 @@ const bookSchema = z.object({
       title: z.string(),
       author: z.string(),
       genre: z.string(),
-      description: z.string()
-    })
-  )
+      description: z.string(),
+    }),
+  ),
 })
 
 const jsonOutput = await generateObject({
   model: llm('gemini-2.0-flash'),
   prompt: 'Generate a list of 5 book recommendations',
-  schema: bookSchema
+  schema: bookSchema,
 })
 
 // Generate embeddings

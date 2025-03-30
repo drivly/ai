@@ -13,7 +13,14 @@ export type AIFunction<TInput = any, TOutput = any> = {
  * AI Function Schema
  * Defines the expected input and output structure for an AI function
  */
-export type AIFunctionSchema = Record<string, any>
+export type AIFunctionSchema<TOutput = any> = Record<string, any> & {
+  __output?: TOutput
+}
+
+/**
+ * Helper type to convert schema to output type
+ */
+export type SchemaToOutput<T extends Record<string, any>> = T extends { __output?: infer U } ? U : T
 
 /**
  * Database access interface
