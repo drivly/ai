@@ -543,6 +543,9 @@ importers:
       apis.do:
         specifier: workspace:*
         version: link:../apis.do
+      database.do:
+        specifier: workspace:*
+        version: link:../database.do
       functions.do:
         specifier: workspace:*
         version: link:../functions.do
