@@ -38,13 +38,13 @@ pnpm add agents.do
 ### Creating an Agent Client
 
 ```typescript
-import AgentsClient from 'agents.do'
+import { Agents } from 'agents.do'
 
 // Initialize with default settings (uses https://agents.do as base URL)
-const agents = new AgentsClient()
+const agents = new Agents()
 
 // Or with custom configuration
-const agents = new AgentsClient({
+const agents = new Agents({
   apiKey: process.env.AGENTS_API_KEY,
   baseUrl: process.env.AGENTS_API_URL || 'https://custom-agents-api.example.com',
 })
@@ -110,12 +110,12 @@ await agents.delete('agent-id')
 
 ## API Reference
 
-### AgentsClient
+### Agents
 
 The main client for interacting with the agents.do API.
 
 ```typescript
-new AgentsClient(options?: {
+new Agents(options?: {
   apiKey?: string
   baseUrl?: string
 })
