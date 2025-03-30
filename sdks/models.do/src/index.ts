@@ -1,4 +1,4 @@
-import { ApiClient } from './api-client'
+import { API as ApiClient } from 'apis.do'
 
 export type ModelCapability = 'code' | 'online' | 'reasoning' | 'reasoning-low' | 'reasoning-medium' | 'reasoning-high' | 'tools' | 'structuredOutput' | 'responseFormat'
 
