@@ -33,4 +33,6 @@ jobs:
         env:
           BASE_URL: ${{ github.event.deployment_status.target_url }}
           BROWSER_TESTS: 'true'
-        run: pnpm test:e2e
+        run: |
+          cp tests/vitest.e2e.config.ts ./vitest.e2e.config.ts
+          pnpm test:e2e
