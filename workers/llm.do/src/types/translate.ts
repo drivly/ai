@@ -1,5 +1,6 @@
 import type { ChatCompletionRequest, ChatCompletionResponse } from './chat'
 import type { Response, ResponseRequest } from './responses'
+import type { Error } from './shared'
 
 export function toChatCompletionRequest(request: ResponseRequest): ChatCompletionRequest {
   const completionRequest: ChatCompletionRequest = {
@@ -90,7 +91,11 @@ export function toChatCompletionRequest(request: ResponseRequest): ChatCompletio
   return completionRequest
 }
 
-export function toResponse(response: ChatCompletionResponse): Response {
+export function toResponse(response: ChatCompletionResponse | Error): Response | Error {
+  if (!('choices' in response)) {
+    const error = response.error
+    return { error }
+  }
   const choice = response.choices[0]
 
   const result: Response = {
