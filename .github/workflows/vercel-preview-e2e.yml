@@ -136,4 +136,9 @@ jobs:
         run: |
           cp tests/vitest.e2e.config.ts ./vitest.e2e.config.ts
           echo "Testing against BASE_URL: ${BASE_URL}"
+          # Create a temporary env file to ensure variables are properly passed to vitest
+          echo "BASE_URL=${BASE_URL}" > .env.e2e.local
+          echo "BROWSER_TESTS=true" >> .env.e2e.local
+          echo "VERCEL_AUTOMATION_BYPASS_SECRET=${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}" >> .env.e2e.local
+          # Run tests with explicit env file
           pnpm test:e2e

@@ -7,7 +7,14 @@ import { beforeAll, afterAll, vi } from 'vitest'
 
 // Mock environment variables for testing
 process.env.API_URL = process.env.API_URL || 'http://localhost:3000'
-process.env.BASE_URL = process.env.BASE_URL || 'http://localhost:3000'
+
+if (!process.env.BASE_URL || process.env.BASE_URL === 'https://' || process.env.BASE_URL === 'http://') {
+  console.log(`Invalid BASE_URL detected: "${process.env.BASE_URL}", using localhost instead`)
+  process.env.BASE_URL = 'http://localhost:3000'
+} else {
+  console.log(`Using BASE_URL: ${process.env.BASE_URL}`)
+}
+
 process.env.IS_TEST_ENV = 'true'
 
 // Mock fetch for API tests when needed
