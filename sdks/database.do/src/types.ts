@@ -1,3 +1,13 @@
+/**
+ * Types for database.do SDK
+ */
+
+import { ClientOptions, QueryParams, ErrorResponse, ListResponse } from 'apis.do';
+export { ClientOptions, QueryParams, ErrorResponse, ListResponse };
+
+/**
+ * Field types supported by the database
+ */
 export type FieldType = 
   | 'text' 
   | 'richtext' 
@@ -9,12 +19,18 @@ export type FieldType =
   | 'tags[]'
   | string; // For relationships and custom types
 
+/**
+ * Schema definition for collections
+ */
 export type SchemaDefinition = {
   [collection: string]: {
     [field: string]: FieldType;
   };
 };
 
+/**
+ * Generic collection data type
+ */
 export type CollectionData = Record<string, any>;
 
 export interface QueryOptions {
@@ -43,22 +59,4 @@ export interface CollectionMethods<T = CollectionData> {
 
 export interface DatabaseClient {
   [collection: string]: CollectionMethods;
-}
-
-export interface ListResponse<T> {
-  data: T[];
-  meta?: {
-    total?: number;
-    page?: number;
-    pageSize?: number;
-    hasNextPage?: boolean;
-  };
-}
-
-export interface ErrorResponse {
-  errors?: Array<{
-    message: string;
-    code?: string;
-    path?: string;
-  }>;
 }
