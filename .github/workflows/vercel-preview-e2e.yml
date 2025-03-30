@@ -29,14 +29,36 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//-/g')" >> $GITHUB_ENV
-        
+      - name: Debug Deployment Status Event
+        run: |
+          echo "Deployment Status Event:"
+          echo "Target URL: ${{ github.event.deployment_status.target_url }}"
+          echo "Environment: ${{ github.event.deployment_status.environment }}"
+          echo "State: ${{ github.event.deployment_status.state }}"
+          echo "GitHub Ref: ${GITHUB_REF}"
+          echo "GitHub Ref Name: ${GITHUB_REF_NAME}"
+          echo "GitHub Head Ref: ${GITHUB_HEAD_REF}"
+
       - name: Set Vercel Preview URL
         run: |
-          echo "VERCEL_PREVIEW_URL=https://ai-git-${BRANCH_NAME}.dev.driv.ly" >> $GITHUB_ENV
-          echo "Using Vercel Preview URL: https://ai-git-${BRANCH_NAME}.dev.driv.ly"
+          # Primary approach: Use the target URL from the deployment_status event
+          DEPLOY_URL="${{ github.event.deployment_status.target_url }}"
+          
+          # Fallback 1: If target_url is empty, try to extract from other fields
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "Target URL is empty, trying to extract from description..."
+            DEPLOY_URL=$(echo "${{ github.event.deployment_status.description }}" | grep -o 'https://[^ ]*' || echo "")
+          fi
+          
+          # Fallback 2: Construct URL from branch name if still empty
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "Still no URL, using branch name-based URL construction..."
+            BRANCH_NAME=$(echo ${GITHUB_REF_NAME:-${GITHUB_REF#refs/heads/}} | sed 's/\//-/g')
+            DEPLOY_URL="https://ai-git-${BRANCH_NAME}.dev.driv.ly"
+          fi
+          
+          echo "VERCEL_PREVIEW_URL=${DEPLOY_URL}" >> $GITHUB_ENV
+          echo "Using Vercel Preview URL: ${DEPLOY_URL}"
 
       - name: Run E2E tests on Vercel Preview
         env:
