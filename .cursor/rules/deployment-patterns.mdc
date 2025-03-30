@@ -1,0 +1,22 @@
+# Deployment Patterns
+
+This rule defines the deployment patterns and build configuration for the AI Primitives platform.
+
+## Applies to
+**/*.{ts,tsx,js,jsx,json,mjs}
+
+## Rule
+### Deployment Patterns
+- Vercel is used for deployment and preview environments
+- Preview environments follow the URL pattern: https://ai-git-{branch-name}.dev.driv.ly/
+- The Velite content build step (build:content) must be integrated into the Vercel build process
+- Keep next.config.mjs minimal with only essential configurations
+- Avoid using node: imports in package files, particularly in ai-models
+
+### Build Configuration Principles
+- Use Turborepo for managing the build order in monorepo packages
+- Use Turbopack for Next.js applications, making transpilePackages configuration unnecessary
+- Keep next.config.mjs minimal with only essential configurations
+- Avoid complex webpack configurations entirely
+- Tests should be excluded from the build process
+- Nextra v4 configuration is primarily managed in app/(docs)/docs/layout.tsx
