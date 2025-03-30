@@ -1,27 +1,77 @@
-# Database.do
+# [Database.do](https://database.do) - AI-Native Data Access
 
-## AI-Native Data Access
+> AI-Native Data Access SDK for seamless database operations with MongoDB, PostgreSQL, and SQLite
 
-Database.do is a powerful SDK that simplifies database operations with an intuitive, declarative API. It provides a seamless interface for creating database schemas, managing relationships, and performing CRUD operations with built-in AI capabilities.
+`database.do` is a powerful SDK that simplifies database operations with an intuitive API. It provides a seamless interface for managing collections and performing CRUD operations with built-in AI capabilities, all while maintaining zero dependencies except for `apis.do`.
 
 ## Features
 
-- **Simple, Declarative API** - Define your schema with a clean, intuitive syntax
-- **Automatic Relationships** - Easily define and manage relationships between collections
+- **Simple, Intuitive API** - Clean and straightforward methods for database operations
+- **Flexible Schema Support** - Works with both schema-less and defined schema types
 - **AI-Native** - Built with AI-first principles for intelligent data operations
 - **Multiple Database Support** - Works with MongoDB, PostgreSQL, and SQLite
 - **Admin UI Included** - Automatic admin interface for managing your data
 - **REST API** - Full List + CRUD operations available through a REST API
-- **Type Safety** - Full TypeScript support with inferred types from your schema
+- **Type Safety** - Full TypeScript support with strongly-typed interfaces
 - **Advanced Querying** - Powerful filtering, sorting, and pagination capabilities
 - **Authentication & Authorization** - Built-in security features
+- **Zero Dependencies** - Only depends on `apis.do` for API communication
 
-## Usage
+## Installation
+
+```bash
+# Using npm
+npm install database.do
+
+# Using yarn
+yarn add database.do
+
+# Using pnpm
+pnpm add database.do
+```
+
+## Quick Start
+
+```typescript
+import { db } from 'database.do'
+
+// Create a new post
+const post = await db.posts.create({
+  title: 'Getting Started with database.do',
+  content: 'This is a sample post created with database.do SDK',
+  status: 'Published',
+  contentType: 'Markdown',
+  tags: ['database', 'tutorial'],
+  author: 'author123',
+})
+
+// Query posts with filtering
+const publishedPosts = await db.posts.find({
+  where: {
+    status: 'Published',
+    author: 'author123',
+  },
+})
+
+// Get a post by ID
+const singlePost = await db.posts.findOne(post.id)
+
+// Update a post
+await db.posts.update(post.id, {
+  title: 'Updated Title',
+})
+
+// Delete a post
+await db.posts.delete(post.id)
+```
+
+## Schema Definition
+
+You can define your database schema directly in your code:
 
 ```typescript
 import { DB } from 'database.do'
 
-// Define your database schema
 const db = DB({
   posts: {
     title: 'text',
@@ -41,53 +91,5 @@ const db = DB({
     role: 'Admin | Editor | Writer', // Select field with predefined options
     posts: '<-posts.author', // Join field to posts (reverse relation)
   },
-})
-
-// Create a new post
-const post = await db.posts.create({
-  title: 'Getting Started with database.do',
-  content: 'This is a sample post created with database.do SDK',
-  status: 'Published',
-  contentType: 'Markdown',
-  tags: ['database', 'tutorial'],
-  author: 'author123',
-})
-
-// Query posts with filtering
-const publishedPosts = await db.posts.find({
-  status: 'Published',
-  author: 'author123',
-})
-
-// Update a post
-await db.posts.update(post.id, {
-  title: 'Updated Title',
-})
-
-// Delete a post
-await db.posts.delete(post.id)
-```
-
-## Advanced Querying
-
-```typescript
-// Find products with pagination and sorting
-const products = await db.products.find(
-  {
-    price: { gt: 100 },
-    isAvailable: true,
-    category: 'electronics',
-  },
-  {
-    limit: 10,
-    page: 1,
-    sort: { price: 'desc' },
-  },
-)
-
-// Find with complex filters
-const results = await db.posts.find({
-  $or: [{ status: 'Published' }, { author: 'author123' }],
-  $and: [{ createdAt: { gt: new Date('2023-01-01') } }, { tags: { contains: 'featured' } }],
 })
 ```
