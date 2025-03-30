@@ -14,6 +14,7 @@
 ## Features
 
 - **Simple, Intuitive API** - Clean and straightforward methods for database operations
+- **Flexible Schema Support** - Works with both schema-less and defined schema types
 - **AI-Native** - Built with AI-first principles for intelligent data operations
 - **Multiple Database Support** - Works with MongoDB, PostgreSQL, and SQLite
 - **Admin UI Included** - Automatic admin interface for managing your data
@@ -80,7 +81,9 @@ await db.delete('posts', post.id)
 
 ## Usage Examples
 
-### Working with Collections
+### Schema-less Usage
+
+The database.do SDK supports schema-less operations, allowing you to work with collections without predefined schemas:
 
 ```typescript
 import { DatabaseClient } from 'database.do'
@@ -88,7 +91,7 @@ import { DatabaseClient } from 'database.do'
 // Initialize the database client
 const db = new DatabaseClient()
 
-// Create a product
+// Create documents in any collection without predefined schema
 const product = await db.create('products', {
   name: 'Smart Speaker',
   description: 'Voice-controlled smart speaker with AI assistant',
@@ -96,21 +99,71 @@ const product = await db.create('products', {
   category: 'electronics',
   tags: ['smart-home', 'audio', 'voice-control'],
   isAvailable: true,
+  // Add any fields you need without schema constraints
+  dimensions: {
+    height: 15,
+    width: 10,
+    depth: 10,
+  },
+  features: ['voice-control', 'multi-room-audio', 'smart-home-integration'],
 })
 
 // Create a customer
 const customer = await db.create('customers', {
   name: 'Jane Doe',
   email: 'jane@example.com',
+  // Add any fields without schema constraints
+  preferences: {
+    notifications: true,
+    theme: 'dark',
+  },
 })
 
-// Create an order
+// Create an order with flexible structure
 const order = await db.create('orders', {
   customer: customer.id,
   products: [product.id],
   status: 'Processing',
   orderDate: new Date(),
   totalAmount: 99.99,
+  // Add any additional fields as needed
+  shippingAddress: {
+    street: '123 Main St',
+    city: 'Anytown',
+    state: 'CA',
+    zip: '12345',
+  },
+  paymentMethod: 'credit_card',
+})
+```
+
+### Working with Defined Schemas
+
+When working with a defined schema (created through the database.do admin interface or API), you get additional benefits like validation and relationships:
+
+```typescript
+import { DatabaseClient } from 'database.do'
+
+const db = new DatabaseClient()
+
+// Create documents that conform to your defined schema
+// The server will validate the data against your schema
+const product = await db.create('products', {
+  name: 'Smart Display',
+  description: 'Touch-screen smart display with voice assistant',
+  price: 149.99,
+  category: 'electronics', // References the categories collection
+  tags: ['smart-home', 'display'], // References the tags collection
+  isAvailable: true,
+})
+
+// The schema ensures data consistency and relationships
+const order = await db.create('orders', {
+  customer: 'customer-id', // References the customers collection
+  products: ['product-id-1', 'product-id-2'], // References the products collection
+  status: 'Processing', // Enum value defined in schema
+  orderDate: new Date(),
+  totalAmount: 249.98,
 })
 ```
 
@@ -261,6 +314,31 @@ const searchResults = await db.search('collection', 'search term', {
   sort: 'relevance:desc',
 })
 ```
+
+## Schema Support
+
+`database.do` offers two approaches to working with data:
+
+### Schema-less Mode
+
+In schema-less mode, you can:
+- Create collections and documents on-the-fly
+- Add any fields to your documents without constraints
+- Evolve your data model organically as your application grows
+- Store JSON documents with nested objects and arrays
+- Avoid upfront schema design when requirements are fluid
+
+### Defined Schema Mode
+
+With defined schemas, you gain:
+- Data validation against your schema
+- Relationship management between collections
+- Type safety with TypeScript interfaces generated from your schema
+- Admin UI fields customized to your schema
+- API endpoints that respect your schema constraints
+- Improved data consistency and integrity
+
+You can define schemas through the database.do admin interface or API, and then use the SDK to interact with your data according to those schemas.
 
 ## Implementation Details
 
