@@ -77,43 +77,37 @@ for await (const chunk of stream) {
 LLM.do provides a Vercel AI SDK provider for seamless integration with the Vercel AI SDK:
 
 ```typescript
-import { llmDoProvider } from 'llm.do'
+import { llm } from 'llm.do'
 import { generateText, generateObject, generateEmbeddings } from 'ai'
+import { z } from 'zod'
 
 // Generate text using the llm.do provider
 const text = await generateText({
-  model: llmDoProvider.languageModel('gemini-2.0-flash'),
+  model: llm('gemini-2.0-flash'),
   prompt: 'Explain the theory of relativity in simple terms',
 })
 
-// Generate structured JSON output
+// Generate structured JSON output with Zod schema
+const bookSchema = z.object({
+  books: z.array(
+    z.object({
+      title: z.string(),
+      author: z.string(),
+      genre: z.string(),
+      description: z.string()
+    })
+  )
+})
+
 const jsonOutput = await generateObject({
-  model: llmDoProvider.languageModel('gemini-2.0-flash'),
+  model: llm('gemini-2.0-flash'),
   prompt: 'Generate a list of 5 book recommendations',
-  schema: {
-    type: 'object',
-    properties: {
-      books: {
-        type: 'array',
-        items: {
-          type: 'object',
-          properties: {
-            title: { type: 'string' },
-            author: { type: 'string' },
-            genre: { type: 'string' },
-            description: { type: 'string' }
-          },
-          required: ['title', 'author', 'genre', 'description']
-        }
-      }
-    },
-    required: ['books']
-  }
+  schema: bookSchema
 })
 
 // Generate embeddings
 const embeddings = await generateEmbeddings({
-  model: llmDoProvider.textEmbeddingModel('text-embedding-3-small'),
+  model: llm('text-embedding-3-small'),
   input: ['Embed this text for semantic search', 'And this one too'],
 })
 ```
@@ -227,8 +221,7 @@ console.log(`Current daily usage: $${usage.daily.cost}`)
 
 ### Vercel AI SDK Provider Functions
 
-- `llmDoProvider.languageModel(modelId)`: Get a language model instance
-- `llmDoProvider.textEmbeddingModel(modelId)`: Get a text embedding model instance
+- `llm(modelId)`: Get a language model instance
 - `createLLMDoProvider(options)`: Create a custom provider instance
 
 ### Configuration Options
