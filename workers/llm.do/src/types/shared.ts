@@ -11,6 +11,15 @@ export const CitationSchema = z.object({
   url: z.string(),
 })
 
+export const ErrorSchema = z.object({
+  error: z.object({
+    code: z.string(),
+    message: z.string(),
+  }),
+})
+
+export type Error = z.infer<typeof ErrorSchema>
+
 export const LocationSchema = z.object({
   type: z.literal('approximate'),
   city: z.string().optional(),

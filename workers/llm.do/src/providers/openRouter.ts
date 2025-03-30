@@ -1,7 +1,7 @@
 import { type Capability, getModel } from 'ai-models'
 import { env } from 'cloudflare:workers'
 
-export async function fetchFromProvider(
+export function fetchFromProvider(
   {
     body,
     headers: { Authorization },
@@ -45,20 +45,16 @@ export async function fetchFromProvider(
         body.model = fallbackModel
       }
     } else if (body) {
-      body.model =
-        getModel(body.model || '', {
-          requiredCapabilities: getRequiredCapabilities(body),
-          seed: body.seed,
-        })?.slug || fallbackModel
+      body.model = getModel(body.model || fallbackModel, {
+        requiredCapabilities: getRequiredCapabilities(body),
+        seed: body.seed,
+      })?.slug
     }
   } catch (error) {
     console.error(error)
-    if (body) {
-      body.model = fallbackModel
-    }
   }
 
-  return await fetch(`https://gateway.ai.cloudflare.com/v1/${env.ACCOUNT_ID}/${env.GATEWAY_ID}/openrouter/v1${path}`, {
+  return fetch(`https://gateway.ai.cloudflare.com/v1/${env.ACCOUNT_ID}/${env.GATEWAY_ID}/openrouter/v1${path}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
