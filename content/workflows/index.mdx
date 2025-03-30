@@ -1,8 +1,15 @@
-# Workflows.do
+# [Workflows.do](https://workflows.do) Business-as-Code
 
-## Business-as-Code
+We believe that you can define, execute, and iterate on business processes as clean & simple code. It should be simple enough for a non-technical business person to read and work with an AI or technical teammate to build and iterate on workflows.
 
-Workflows.do provides a powerful framework for defining, executing, and managing business processes as code. It enables you to create reliable, scalable workflows that integrate AI capabilities with your business logic.
+## Overview
+
+The `workflows.do` SDK provides a simple yet powerful way to define AI-powered workflows with strongly-typed functions. It allows you to:
+
+- Define event-driven workflows with AI capabilities
+- Create strongly-typed AI function schemas
+- Integrate with external APIs and databases
+- Build complex, multi-step AI processes with full TypeScript support
 
 ## Features
 
@@ -13,6 +20,16 @@ Workflows.do provides a powerful framework for defining, executing, and managing
 - **Observability**: Monitor and debug workflow execution
 - **Scalability**: Run workflows at any scale, from simple tasks to enterprise processes
 - **Type Safety**: Full TypeScript support for reliable development
+
+## Installation
+
+```bash
+npm install workflows.do
+# or
+yarn add workflows.do
+# or
+pnpm add workflows.do
+```
 
 ## Usage
 
@@ -45,4 +62,3 @@ export default AI({
     await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
   },
 })
-```
