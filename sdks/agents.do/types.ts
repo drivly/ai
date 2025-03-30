@@ -2,7 +2,9 @@
  * Type definitions for agents.do SDK
  */
 
-import type { AIFunction } from 'functions.do/types'
+export type AIFunction<TInput = any, TOutput = any> = {
+  (input: TInput, config?: any): Promise<TOutput>
+}
 
 /**
  * Agent configuration
