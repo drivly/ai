@@ -20,9 +20,9 @@ export const Queues: CollectionConfig = {
     },
     {
       name: 'tasks',
-      type: 'relationship',
-      relationTo: 'tasks',
-      hasMany: true,
+      type: 'join',
+      collection: 'tasks',
+      on: 'queue',
     },
   ],
 }

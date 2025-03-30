@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 export const IntegrationActions: CollectionConfig = {
-  slug: 'integration-actions',
+  slug: 'integrationActions',
   labels: {
     singular: 'Action',
     plural: 'Actions',
