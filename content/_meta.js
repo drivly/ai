@@ -9,8 +9,13 @@ export default {
     type: 'menu',
     items: {},
   },
-  api: {
+  apis: {
     title: 'APIs',
+    type: 'menu',
+    items: {},
+  },
+  api: {
+    title: 'API',
     type: 'menu',
     items: {},
   },
@@ -26,6 +31,11 @@ export default {
   },
   events: {
     title: 'Events',
+    type: 'menu',
+    items: {},
+  },
+  database: {
+    title: 'Database',
     type: 'menu',
     items: {},
   },
