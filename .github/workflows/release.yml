@@ -19,14 +19,14 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js 22.x
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 22.x
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
         with:
-          version: 10.x
+          version: 10.7.0
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
