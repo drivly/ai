@@ -57,23 +57,8 @@ describe('Vercel Preview Deployment Tests', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      console.log(`Vercel-preview home page test using raw BASE_URL: "${baseUrl}"`)
-
+      console.log(`Vercel-preview home page test using BASE_URL: "${baseUrl}"`)
       
-      if (!baseUrl.startsWith('http')) {
-        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
-      }
-      
-      try {
-        new URL(baseUrl)
-        
-        if (baseUrl === 'http://' || baseUrl === 'https://') {
-          throw new Error('URL is just a protocol')
-        }
-      } catch (error) {
-        console.log(`Invalid BASE_URL detected: "${baseUrl}", using localhost instead`)
-        baseUrl = 'http://localhost:3000'
-      }
       const url = new URL('/', baseUrl).toString()
       await page.goto(url)
 
@@ -101,23 +86,8 @@ describe('Vercel Preview Deployment Tests', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      console.log(`Vercel-preview API endpoints test using raw BASE_URL: "${baseUrl}"`)
-
+      console.log(`Vercel-preview API endpoints test using BASE_URL: "${baseUrl}"`)
       
-      if (!baseUrl.startsWith('http')) {
-        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
-      }
-      
-      try {
-        new URL(baseUrl)
-        
-        if (baseUrl === 'http://' || baseUrl === 'https://') {
-          throw new Error('URL is just a protocol')
-        }
-      } catch (error) {
-        console.log(`Invalid BASE_URL detected: "${baseUrl}", using localhost instead`)
-        baseUrl = 'http://localhost:3000'
-      }
       
       const apiPaths = [
         '/api',
@@ -144,23 +114,8 @@ describe('Vercel Preview Deployment Tests', () => {
   it('should test API endpoints with fetch only', async () => {
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      console.log(`Vercel-preview fetch-only test using raw BASE_URL: "${baseUrl}"`)
-
+      console.log(`Vercel-preview fetch-only test using BASE_URL: "${baseUrl}"`)
       
-      if (!baseUrl.startsWith('http')) {
-        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
-      }
-      
-      try {
-        new URL(baseUrl)
-        
-        if (baseUrl === 'http://' || baseUrl === 'https://') {
-          throw new Error('URL is just a protocol')
-        }
-      } catch (error) {
-        console.log(`Invalid BASE_URL detected: "${baseUrl}", using localhost instead`)
-        baseUrl = 'http://localhost:3000'
-      }
       
       const apiEndpoints = [
         '/',
@@ -206,23 +161,8 @@ describe('Vercel Preview Deployment Tests', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      console.log(`Vercel-preview website paths test using raw BASE_URL: "${baseUrl}"`)
-
+      console.log(`Vercel-preview website paths test using BASE_URL: "${baseUrl}"`)
       
-      if (!baseUrl.startsWith('http')) {
-        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
-      }
-      
-      try {
-        new URL(baseUrl)
-        
-        if (baseUrl === 'http://' || baseUrl === 'https://') {
-          throw new Error('URL is just a protocol')
-        }
-      } catch (error) {
-        console.log(`Invalid BASE_URL detected: "${baseUrl}", using localhost instead`)
-        baseUrl = 'http://localhost:3000'
-      }
       const websitePaths = [
         '/docs',
         '/admin',

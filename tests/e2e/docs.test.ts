@@ -54,22 +54,8 @@ describe('Documentation page', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      console.log(`Docs test using raw BASE_URL: "${baseUrl}"`)
+      console.log(`Docs test using BASE_URL: "${baseUrl}"`)
       
-      if (!baseUrl.startsWith('http')) {
-        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
-      }
-      
-      try {
-        new URL(baseUrl)
-        
-        if (baseUrl === 'http://' || baseUrl === 'https://') {
-          throw new Error('URL is just a protocol')
-        }
-      } catch (error) {
-        console.log(`Invalid BASE_URL detected: "${baseUrl}", using localhost instead`)
-        baseUrl = 'http://localhost:3000'
-      }
       const url = new URL('/docs', baseUrl).toString()
       await page.goto(url)
 

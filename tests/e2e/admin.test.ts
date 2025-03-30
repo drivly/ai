@@ -54,22 +54,8 @@ describe('Admin page', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      console.log(`Admin test using raw BASE_URL: "${baseUrl}"`)
+      console.log(`Admin test using BASE_URL: "${baseUrl}"`)
       
-      if (!baseUrl.startsWith('http')) {
-        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
-      }
-      
-      try {
-        new URL(baseUrl)
-        
-        if (baseUrl === 'http://' || baseUrl === 'https://') {
-          throw new Error('URL is just a protocol')
-        }
-      } catch (error) {
-        console.log(`Invalid BASE_URL detected: "${baseUrl}", using localhost instead`)
-        baseUrl = 'http://localhost:3000'
-      }
       const url = new URL('/admin', baseUrl).toString()
       await page.goto(url)
 
