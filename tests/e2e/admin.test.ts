@@ -54,7 +54,8 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      await page.goto(`${baseUrl}/admin`)
+      const url = new URL('/admin', baseUrl).toString()
+      await page.goto(url)
 
       // Check for login form elements
       const emailInput = await page.locator('input[type="email"]')

@@ -54,7 +54,8 @@ describe('Documentation page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      await page.goto(`${baseUrl}/docs`)
+      const url = new URL('/docs', baseUrl).toString()
+      await page.goto(url)
 
       // Check for documentation page elements
       const title = await page.title()
