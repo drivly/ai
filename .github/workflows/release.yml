@@ -30,6 +30,10 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+        
+      - name: Update Lockfile for Changesets
+        if: github.ref == 'refs/heads/changeset-release/main'
+        run: pnpm install --no-frozen-lockfile
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
