@@ -54,10 +54,13 @@ describe('Admin page', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
       }
-      if (baseUrl === 'http://' || baseUrl === 'https://') {
+      
+      if (baseUrl === 'http://' || baseUrl === 'https://' || !baseUrl.includes('.')) {
+        console.log(`Invalid BASE_URL detected: "${baseUrl}", using localhost instead`)
         baseUrl = 'http://localhost:3000'
       }
       const url = new URL('/admin', baseUrl).toString()
