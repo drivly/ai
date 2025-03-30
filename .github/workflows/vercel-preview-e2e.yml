@@ -39,26 +39,31 @@ jobs:
           echo "GitHub Ref Name: ${GITHUB_REF_NAME}"
           echo "GitHub Head Ref: ${GITHUB_HEAD_REF}"
 
-      - name: Set Vercel Preview URL
+      - name: Get Vercel Preview URL
+        uses: zentered/vercel-preview-url@v1.1.9
+        id: vercel_preview_url
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        with:
+          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
+          
+      - name: Debug Vercel Preview URL
         run: |
-          # Primary approach: Use the target URL from the deployment_status event
-          DEPLOY_URL="${{ github.event.deployment_status.target_url }}"
+          echo "Vercel Preview URL: ${{ steps.vercel_preview_url.outputs.preview_url }}"
+          echo "Deployment State: ${{ steps.vercel_preview_url.outputs.deployment_state }}"
+          echo "Branch Alias: ${{ steps.vercel_preview_url.outputs.branch_alias }}"
           
-          # Fallback 1: If target_url is empty, try to extract from other fields
-          if [ -z "$DEPLOY_URL" ]; then
-            echo "Target URL is empty, trying to extract from description..."
-            DEPLOY_URL=$(echo "${{ github.event.deployment_status.description }}" | grep -o 'https://[^ ]*' || echo "")
-          fi
-          
-          # Fallback 2: Construct URL from branch name if still empty
-          if [ -z "$DEPLOY_URL" ]; then
-            echo "Still no URL, using branch name-based URL construction..."
+          # Fallback to branch name-based URL if zentered action doesn't return a URL
+          if [ -z "${{ steps.vercel_preview_url.outputs.preview_url }}" ]; then
+            echo "No URL from zentered action, using branch name-based URL construction..."
             BRANCH_NAME=$(echo ${GITHUB_REF_NAME:-${GITHUB_REF#refs/heads/}} | sed 's/\//-/g')
             DEPLOY_URL="https://ai-git-${BRANCH_NAME}.dev.driv.ly"
+            echo "VERCEL_PREVIEW_URL=${DEPLOY_URL}" >> $GITHUB_ENV
+            echo "Using fallback Vercel Preview URL: ${DEPLOY_URL}"
+          else
+            echo "VERCEL_PREVIEW_URL=${{ steps.vercel_preview_url.outputs.preview_url }}" >> $GITHUB_ENV
+            echo "Using Vercel Preview URL from API: ${{ steps.vercel_preview_url.outputs.preview_url }}"
           fi
-          
-          echo "VERCEL_PREVIEW_URL=${DEPLOY_URL}" >> $GITHUB_ENV
-          echo "Using Vercel Preview URL: ${DEPLOY_URL}"
 
       - name: Run E2E tests on Vercel Preview
         env:
