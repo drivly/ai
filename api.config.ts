@@ -1,6 +1,6 @@
 // import config from 'payload.config'
 // import { getPayload } from 'payload'
-import { createAPI, modifyQueryString as clickableModifyQueryString, ApiContext } from 'clickable-apis'
+import { createAPI, modifyQueryString as clickableModifyQueryString, ApiContext } from '@/pkgs/clickable-apis'
 import { NextRequest } from 'next/server'
 export const apis: Record<string, string> = {
   functions: 'Reliable Structured Output',
