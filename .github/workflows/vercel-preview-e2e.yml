@@ -150,5 +150,6 @@ jobs:
           echo "Contents of .env.e2e.local:"
           cat .env.e2e.local
           
-          # Run tests with explicit env file
-          pnpm test:e2e
+          # Run tests with explicit environment variables passed directly to the command
+          # This ensures the variables are properly passed to the test environment
+          BASE_URL="${BASE_URL}" BROWSER_TESTS=true VERCEL_AUTOMATION_BYPASS_SECRET="${VERCEL_AUTOMATION_BYPASS_SECRET}" pnpm test:e2e
