@@ -1,5 +1,5 @@
 import { executeFunction } from '@/tasks/executeFunction'
-import { API } from '@/api.config'
+import { API } from '@/api'
 
 export const GET = API(async (request, { db, user, url, payload, params, req }) => {
   // Using the new db interface for more concise syntax

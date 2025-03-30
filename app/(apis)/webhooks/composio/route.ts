@@ -1,9 +1,7 @@
-import { API } from '@/api.config'
-import { getPayload } from 'payload'
-import config from '@payload-config'
+import { API } from '@/api'
 import { Webhook } from 'svix'
 
-export const POST = API(async (request, { db, user, origin, url, domain }) => {
+export const POST = API(async (request, { db, user, origin, url, domain, payload }) => {
   // Get the webhook secret from environment variables
   const secret = process.env.COMPOSIO_WEBHOOK_SECRET
   if (!secret) {
@@ -40,8 +38,11 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
     const data = JSON.parse(rawBody)
 
     // Store the event in the database
-    const payloadInstance = await getPayload({ config })
-    const results = await payloadInstance.create({ collection: 'events', data: { data } })
+    if (!payload) {
+      console.error('Payload instance not available')
+      return new Response('Payload instance not available', { status: 500 })
+    }
+    const results = await (payload as any).create({ collection: 'events', data: { data } })
 
     console.log('Webhook verified and processed:', results, data)
     return { results, data }

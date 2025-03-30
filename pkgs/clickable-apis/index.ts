@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import punycode from 'punycode'
 import { 
   PayloadDB, 
   ApiContext, 
@@ -11,7 +10,7 @@ import {
   createMockNodePayload,
   createEdgePayloadClient,
   createNodePayloadClient
-} from 'simple-payload'
+} from '../simple-payload/src'
 
 export type { ApiContext, PayloadClientResult, PayloadClientFn }
 
@@ -116,7 +115,7 @@ export const createAPI = (payloadInstance?: any) => {
 
         const url = new URL(req.url)
         const path = url.pathname
-        const domain = punycode.toUnicode(url.hostname)
+        const domain = url.hostname
         const origin = url.protocol + '//' + domain + (url.port ? ':' + url.port : '')
 
         const ctx: ApiContext = {

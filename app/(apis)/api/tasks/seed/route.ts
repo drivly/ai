@@ -1,6 +1,4 @@
-import { API } from '@/api.config'
-import config from '@/payload.config'
-import { getPayload } from 'payload'
+import { API } from '@/api'
 // import { seedDatabase } from '@/scripts/seed'
 
 export const GET = API(async (req, { db, user, payload, params }) => {
