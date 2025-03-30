@@ -222,6 +222,11 @@ export interface ErrorResponse {
   }>
 }
 
+/**
+ * ListResponse - Paginated list response
+ * 
+ * Represents paginated list responses
+ */
 export interface ListResponse<T> {
   data: T[]
   meta?: {
@@ -232,6 +237,11 @@ export interface ListResponse<T> {
   }
 }
 
+/**
+ * QueryParams - Parameters for querying collections
+ * 
+ * Represents parameters for querying collections
+ */
 export interface QueryParams {
   limit?: number
   page?: number
@@ -241,8 +251,27 @@ export interface QueryParams {
   populate?: string | string[]
 }
 
+/**
+ * ClientOptions - Options for API client initialization
+ * 
+ * Represents options for API client initialization
+ */
 export interface ClientOptions {
   baseUrl?: string
   apiKey?: string
   headers?: Record<string, string>
+}
+
+/**
+ * CollectionEndpoints - Type for collection-specific endpoints
+ * 
+ * Represents collection-specific endpoints
+ */
+export interface CollectionEndpoints<T> {
+  find: (params?: Record<string, any>, queryParams?: QueryParams) => Promise<ListResponse<T>>
+  get: (id: string) => Promise<T>
+  create: (data: Partial<T>) => Promise<T>
+  update: (id: string, data: Partial<T>) => Promise<T>
+  delete: (id: string) => Promise<T>
+  search: (query: string, params?: QueryParams) => Promise<ListResponse<T>>
 }
