@@ -1,24 +1,27 @@
-# [agents.do](https://agents.do)
+# [agents.do](https://agents.do) Autonomous Digital Workers
 
 [![npm version](https://img.shields.io/npm/v/agents.do.svg)](https://www.npmjs.com/package/agents.do)
 [![npm downloads](https://img.shields.io/npm/dm/agents.do.svg)](https://www.npmjs.com/package/agents.do)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
-[![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
 
-## Autonomous Digital Workers for Your Business
+Agents.do provides a powerful framework for creating, deploying, and managing autonomous digital workers that can perform complex tasks with minimal human intervention. These agents can handle routine operations, make decisions based on predefined criteria, and adapt to changing conditions.
 
-Agents.do is a powerful SDK for building, deploying, and managing autonomous AI agents that can perform complex tasks and workflows on behalf of your business. It provides a simple, declarative way to define agent capabilities, behaviors, and integrations with external systems.
+```typescript
+import { Agent } from 'agents.do'
 
-## Features
-
-- **Autonomous Execution**: Create agents that can work independently to accomplish tasks
-- **Multi-Agent Collaboration**: Enable agents to work together to solve complex problems
-- **Tool Integration**: Connect agents to external tools, APIs, and data sources
-- **Memory & Context Management**: Maintain state and context across agent interactions
-- **Observability & Control**: Monitor agent activities and intervene when necessary
-- **Type-Safe Development**: Full TypeScript support for reliable development experience
-- **Scalable Infrastructure**: Run agents on a fully-managed, scalable cloud platform
+// Create a customer support agent
+const customerSupportAgent = Agent({
+  name: 'Amy',
+  role: 'Customer Support Agent',
+  job: 'Handles customer inquiries and resolves common issues',
+  url: 'https://amy.do',
+  integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
+  triggers: ['onTicketCreated', 'onMessageReceived'],
+  searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
+  actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
+  kpis: ['ticketResponseTime', 'ticketResolutionTime', 'ticketEscalationRate', 'customerSatisfaction'],
+})
+```
 
 ## Installation
 
@@ -30,365 +33,198 @@ yarn add agents.do
 pnpm add agents.do
 ```
 
-## Quick Start
+## Usage
+
+### Creating an Agent Client
 
 ```typescript
-import { createAgent } from 'agents.do'
+import AgentsClient from 'agents.do'
 
-// Define a customer support agent
-const supportAgent = createAgent({
-  name: 'SupportAssistant',
-  description: 'Handles customer support inquiries and resolves common issues',
+// Initialize with default settings (uses https://agents.do as base URL)
+const agents = new AgentsClient()
 
-  // Define the agent's capabilities
-  capabilities: {
-    answerProductQuestions: async ({ query, productId }) => {
-      // Retrieve product information and answer questions
-      const productInfo = await api.products.get(productId)
-      return ai.generateProductAnswer({ query, productInfo })
-    },
-
-    troubleshootIssue: async ({ description, customerInfo }) => {
-      // Analyze the issue and provide troubleshooting steps
-      const solution = await ai.troubleshoot({
-        issueDescription: description,
-        productInfo: await api.products.getByCustomer(customerInfo.id),
-        knowledgeBase: 'support-articles',
-      })
-      return solution
-    },
-
-    escalateToHuman: async ({ ticketId, reason }) => {
-      // Create an escalation ticket for human support
-      await api.zendesk.createEscalation({
-        ticketId,
-        reason,
-        priority: reason.includes('urgent') ? 'high' : 'medium',
-      })
-      return { status: 'escalated', estimatedResponse: '1 business day' }
-    },
-  },
-
-  // Define how the agent should handle different types of events
-  handlers: {
-    onNewSupportRequest: async ({ agent, event }) => {
-      const { customerId, query } = event
-
-      // Get customer information
-      const customerInfo = await api.customers.get(customerId)
-
-      // Analyze the query to determine intent
-      const intent = await ai.classifyIntent({
-        query,
-        categories: ['product-question', 'technical-issue', 'billing-inquiry', 'other'],
-      })
-
-      // Handle the request based on intent
-      switch (intent) {
-        case 'product-question':
-          return agent.capabilities.answerProductQuestions({
-            query,
-            productId: customerInfo.recentProducts[0],
-          })
-
-        case 'technical-issue':
-          return agent.capabilities.troubleshootIssue({
-            description: query,
-            customerInfo,
-          })
-
-        case 'billing-inquiry':
-          // Billing inquiries are always handled by humans
-          return agent.capabilities.escalateToHuman({
-            ticketId: event.ticketId,
-            reason: 'Billing inquiry requires human verification',
-          })
-
-        default:
-          // Try to handle with general knowledge or escalate
-          const canHandle = await ai.canHandleQuery({ query })
-          if (canHandle) {
-            return ai.generateResponse({ query })
-          } else {
-            return agent.capabilities.escalateToHuman({
-              ticketId: event.ticketId,
-              reason: 'Query outside of agent capabilities',
-            })
-          }
-      }
-    },
-  },
-})
-
-// Deploy the agent
-await supportAgent.deploy()
-```
-
-## Core Concepts
-
-### Agents
-
-Agents are autonomous digital workers that can perform tasks, make decisions, and interact with external systems. Each agent has a specific purpose, capabilities, and behaviors.
-
-```typescript
-import { defineAgent } from 'agents.do'
-
-const researchAgent = defineAgent({
-  name: 'MarketResearcher',
-  description: 'Conducts market research and competitive analysis',
-
-  // Define the agent's memory configuration
-  memory: {
-    type: 'vectorstore',
-    collections: ['market-data', 'competitor-analysis', 'industry-trends'],
-  },
-
-  // Define the tools the agent can use
-  tools: ['web-search', 'data-analysis', 'document-retrieval', 'report-generation'],
-
-  // Define the agent's capabilities
-  capabilities: {
-    // Implementation of agent capabilities
-    // ...
-  },
+// Or with custom configuration
+const agents = new AgentsClient({
+  apiKey: 'your-api-key',
+  baseUrl: 'https://custom-agents-api.example.com',
 })
 ```
 
-### Multi-Agent Systems
-
-Create systems of multiple agents that collaborate to solve complex problems:
+### Creating an Agent
 
 ```typescript
-import { AgentSystem } from 'agents.do'
-
-const customerSuccessSystem = AgentSystem({
-  name: 'CustomerSuccessTeam',
-  description: 'A team of agents that work together to ensure customer success',
-
-  agents: {
-    onboardingSpecialist: {
-      // Agent that specializes in customer onboarding
-      // ...
-    },
-
-    productExpert: {
-      // Agent that provides detailed product knowledge
-      // ...
-    },
-
-    accountManager: {
-      // Agent that manages ongoing customer relationships
-      // ...
-    },
-
-    supportSpecialist: {
-      // Agent that handles technical support issues
-      // ...
-    },
-  },
-
-  workflows: {
-    newCustomerOnboarding: {
-      // Define how agents collaborate during customer onboarding
-      // ...
-    },
-
-    quarterlyReview: {
-      // Define how agents collaborate for quarterly business reviews
-      // ...
-    },
-  },
+const agent = await agents.create({
+  name: 'SalesAssistant',
+  description: 'Helps qualify leads and schedule demos',
+  functions: ['qualifyLead', 'scheduleMeeting'],
+  workflows: ['leadQualification', 'demoScheduling'],
+  systemPrompt: 'You are a helpful sales assistant focused on qualifying leads and scheduling demos.',
 })
 ```
 
-### Agent Memory
-
-Agents can maintain memory across interactions:
+### Asking an Agent a Question
 
 ```typescript
-import { defineMemory } from 'agents.do'
-
-const customerSupportMemory = defineMemory({
-  type: 'hybrid',
-
-  // Short-term memory for the current conversation
-  shortTerm: {
-    type: 'conversation',
-    maxTokens: 4000,
-  },
-
-  // Long-term memory for persistent knowledge
-  longTerm: {
-    type: 'vectorstore',
-    collections: ['customer-interactions', 'resolved-issues'],
-  },
-
-  // Define how information moves between memory types
-  retention: {
-    strategy: 'importance-based',
-    importanceEvaluator: async (memory) => {
-      // Logic to determine memory importance
-      // ...
-      return importanceScore
-    },
-  },
-})
-```
-
-### Agent Tools
-
-Connect agents to external tools and APIs:
-
-```typescript
-import { defineTool } from 'agents.do'
-
-const salesforceTool = defineTool({
-  name: 'salesforce',
-  description: 'Interact with Salesforce CRM',
-
-  // Define the actions available through this tool
-  actions: {
-    createLead: async ({ name, email, company, source }) => {
-      // Implementation for creating a lead in Salesforce
-      // ...
-      return { leadId, status: 'created' }
-    },
-
-    updateOpportunity: async ({ opportunityId, status, amount }) => {
-      // Implementation for updating an opportunity
-      // ...
-      return { success: true, opportunityId }
-    },
-
-    queryContacts: async ({ filters }) => {
-      // Implementation for querying contacts
-      // ...
-      return contacts
-    },
-  },
-})
-```
-
-## Advanced Usage
-
-### Agent Supervision
-
-Monitor and control agent behavior:
-
-```typescript
-import { AgentSupervisor } from 'agents.do'
-
-const supervisor = AgentSupervisor({
-  agents: [customerSupportAgent, salesAgent, marketingAgent],
-
-  // Define monitoring rules
-  monitoring: {
-    // Log all agent actions
-    logging: {
-      level: 'info',
-      destinations: ['console', 'cloudwatch'],
-    },
-
-    // Set up alerts for specific conditions
-    alerts: [
-      {
-        condition: (action) => action.type === 'external-api-call' && action.cost > 10,
-        handler: async (action, agent) => {
-          await notifyAdmin(`High-cost action by ${agent.name}: $${action.cost}`)
-        },
-      },
+const response = await agents.ask('agent-id', 'What are your available meeting times this week?', {
+  // Optional context
+  timezone: 'America/New_York',
+  calendar: {
+    availableTimes: [
+      '2023-06-15T10:00:00',
+      '2023-06-15T14:00:00',
+      '2023-06-16T11:00:00',
     ],
   },
-
-  // Define intervention policies
-  interventions: {
-    // Automatically pause agent if it makes too many API calls
-    rateLimiting: {
-      maxApiCalls: 100,
-      timeWindow: '1h',
-      action: 'pause-agent',
-    },
-
-    // Require human approval for high-risk actions
-    approvals: {
-      conditions: [(action) => action.risk === 'high', (action) => action.type === 'financial-transaction' && action.amount > 1000],
-      approvalProcess: 'human-in-the-loop',
-    },
-  },
 })
+
+console.log(response.data)
+// {
+//   availableTimes: [
+//     { date: '2023-06-15', time: '10:00 AM EDT', timestamp: '2023-06-15T10:00:00' },
+//     { date: '2023-06-15', time: '2:00 PM EDT', timestamp: '2023-06-15T14:00:00' },
+//     { date: '2023-06-16', time: '11:00 AM EDT', timestamp: '2023-06-16T11:00:00' },
+//   ],
+//   recommendation: '2023-06-15T14:00:00',
+//   message: 'I have several available times this week. Would 2:00 PM EDT on Thursday work for you?'
+// }
 ```
 
-### Agent Learning
-
-Enable agents to improve over time:
+### Managing Agents
 
 ```typescript
-import { AgentLearning } from 'agents.do'
+// List all agents
+const agents = await agents.list({ limit: 10, page: 1 })
 
-const learningConfig = AgentLearning({
-  agent: customerSupportAgent,
+// Get a specific agent
+const agent = await agents.get('agent-id')
 
-  // Define learning sources
-  sources: {
-    // Learn from human feedback
-    feedback: {
-      collectFrom: ['customer-ratings', 'support-team-reviews'],
-      processStrategy: 'reinforcement-learning',
-    },
-
-    // Learn from successful interactions
-    examples: {
-      collectFrom: 'successful-resolutions',
-      selectionCriteria: (interaction) => interaction.customerSatisfaction > 4.5,
-      maxExamples: 1000,
-    },
-  },
-
-  // Define how often to update the agent
-  schedule: {
-    frequency: 'weekly',
-    evaluationMetrics: ['accuracy', 'customer-satisfaction', 'resolution-time'],
-  },
+// Update an agent
+await agents.update('agent-id', {
+  description: 'Updated description',
+  systemPrompt: 'New system prompt',
 })
+
+// Delete an agent
+await agents.delete('agent-id')
 ```
 
 ## API Reference
 
-### Core Functions
+### AgentsClient
 
-- `createAgent(config)`: Primary function to create a new agent
-- `defineAgent(config)`: Alternative way to define an agent's configuration
-- `AgentSystem(config)`: Create a system of collaborating agents
-- `defineTool(config)`: Create a tool for agent use
-- `defineMemory(config)`: Configure an agent's memory system
-- `AgentSupervisor(config)`: Create a supervisor to monitor agents
-- `AgentLearning(config)`: Configure how agents learn and improve
+The main client for interacting with the agents.do API.
 
-### Agent Configuration
+```typescript
+new AgentsClient(options?: {
+  apiKey?: string
+  baseUrl?: string
+})
+```
 
-- `name`: The name of the agent
-- `description`: A description of what the agent does
-- `capabilities`: Functions the agent can perform
-- `handlers`: How the agent responds to events
-- `memory`: Configuration for the agent's memory
-- `tools`: Tools the agent can use
-- `model`: The underlying AI model configuration
+#### Methods
 
-### Memory Types
+- `ask<T>(agentId: string, question: string, context?: any): Promise<AgentResponse<T>>`
+  Ask an agent a question with optional context.
 
-- `conversation`: Short-term memory for ongoing conversations
-- `vectorstore`: Long-term memory for knowledge storage
-- `episodic`: Memory for specific events or interactions
-- `semantic`: Memory for concepts and relationships
-- `procedural`: Memory for how to perform tasks
+- `create(agentConfig: AgentConfig): Promise<any>`
+  Create a new agent.
+
+- `list(params?: { limit?: number; page?: number }): Promise<any>`
+  List all agents with pagination.
+
+- `get(agentId: string): Promise<any>`
+  Get a specific agent by ID.
+
+- `update(agentId: string, data: Partial<AgentConfig>): Promise<any>`
+  Update an existing agent.
+
+- `delete(agentId: string): Promise<any>`
+  Delete an agent.
+
+### AgentConfig
+
+Configuration options when creating or updating an agent.
+
+```typescript
+interface AgentConfig {
+  name: string
+  description?: string
+  functions?: string[]
+  workflows?: string[]
+  tools?: string[]
+  systemPrompt?: string
+  baseModel?: string
+  [key: string]: any
+}
+```
+
+### AgentResponse
+
+The response format when asking an agent a question.
+
+```typescript
+interface AgentResponse<T = any> {
+  data: T
+  meta?: {
+    duration?: number
+    [key: string]: any
+  }
+}
+```
+
+## Integration with Functions and Workflows
+
+Agents can leverage Functions and Workflows to perform complex tasks:
+
+```typescript
+import { Agent } from 'agents.do'
+import { AI } from 'functions.do'
+
+// Define AI functions
+const ai = AI({
+  analyzeCustomerSentiment: {
+    text: 'string',
+    sentiment: 'Positive | Neutral | Negative',
+    score: 'number',
+    keyPhrases: 'string[]',
+  },
+})
+
+// Create an agent that uses functions
+const customerServiceAgent = Agent({
+  name: 'CustomerServiceBot',
+  description: 'Handles customer service inquiries',
+  functions: ['analyzeCustomerSentiment'],
+  
+  // Handler for new messages
+  onNewMessage: async ({ message, customer }) => {
+    // Analyze sentiment
+    const sentiment = await ai.analyzeCustomerSentiment({ text: message })
+    
+    // Route based on sentiment
+    if (sentiment.sentiment === 'Negative' && sentiment.score < 0.3) {
+      return {
+        action: 'escalate',
+        reason: `Detected negative sentiment (${sentiment.score}): ${sentiment.keyPhrases.join(', ')}`,
+      }
+    }
+    
+    // Handle the inquiry
+    return {
+      action: 'respond',
+      message: await ai.generateResponse({ 
+        customerMessage: message,
+        customerHistory: customer.history,
+        sentiment,
+      }),
+    }
+  },
+})
+```
 
 ## Examples
 
 Check out the [examples directory](https://github.com/drivly/ai/tree/main/examples) for more usage examples.
-
-## Contributing
-
-We welcome contributions! Please see our [Contributing Guide](https://github.com/drivly/ai/blob/main/CONTRIBUTING.md) for more details.
 
 ## License
 
