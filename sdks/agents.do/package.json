@@ -15,6 +15,20 @@
   "type": "module",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types.js",
+      "types": "./dist/types.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
@@ -27,13 +41,17 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "echo \"No tests\" && exit 0"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "evalite": "^0.9.1",
+    "typescript": "^5.7.3",
     "vitest": "^3.0.9"
   },
   "dependencies": {
-    "apis.do": "workspace:*"
+    "apis.do": "workspace:*",
+    "functions.do": "workspace:*"
   }
 }
