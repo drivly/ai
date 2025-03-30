@@ -5,7 +5,17 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Core Primitives
 
 ### Functions.do - Inputs to Structured Outputs
-
+- [#365](https://github.com/drivly/ai/issues/365) - `functions.do` develop clickable API
+- [#364](https://github.com/drivly/ai/issues/364) - `functions.do` develop API implementation
+- [#363](https://github.com/drivly/ai/issues/363) - `functions.do` develop SDK implementation
+- [#362](https://github.com/drivly/ai/issues/362) - `functions.do` develop e2e tests for SDK & API
+- [#361](https://github.com/drivly/ai/issues/361) - `functions.do` develop unit tests for SDK
+- [#360](https://github.com/drivly/ai/issues/360) - `functions.do` define types.ts for SDK
+- [#358](https://github.com/drivly/ai/issues/358) - `functions.do` write README for SDK w/ usage examples
+- [#357](https://github.com/drivly/ai/issues/357) - `functions.do` define initial API for SDK
+- [#341](https://github.com/drivly/ai/issues/341) - `functions.do` SDK
+- [#331](https://github.com/drivly/ai/issues/331) - functions.do/api returns error
+- [#289](https://github.com/drivly/ai/issues/289) - `payload` update Functions collection
 - [#222](https://github.com/drivly/ai/issues/222) - `apis` ensure `https://functions.do/api` is equal to `/functions`
 - [#194](https://github.com/drivly/ai/issues/194) - `functions.do` add `self` to the top of `links`
 - [#191](https://github.com/drivly/ai/issues/191) - `functions.do` implement `generateCode` using `generateText`
@@ -47,13 +57,32 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#5](https://github.com/drivly/ai/issues/5) - Functions.do MVP
 
 ### Workflows.do - Business-as-Code
-
+- [#356](https://github.com/drivly/ai/issues/356) - `workflows.do` implement package.json
+- [#355](https://github.com/drivly/ai/issues/355) - `workflows.do` develop clickable API
+- [#354](https://github.com/drivly/ai/issues/354) - `workflows.do` develop API implementation
+- [#353](https://github.com/drivly/ai/issues/353) - `workflows.do` develop SDK implementation
+- [#352](https://github.com/drivly/ai/issues/352) - `workflows.do` develop e2e tests for SDK & API
+- [#351](https://github.com/drivly/ai/issues/351) - `workflows.do` develop unit tests for SDK
+- [#350](https://github.com/drivly/ai/issues/350) - `workflows.do` define types.ts for SDK
+- [#349](https://github.com/drivly/ai/issues/349) - `workflows.do` write README for SDK w/ usage examples
+- [#348](https://github.com/drivly/ai/issues/348) - `workflows.do` define initial API for SDK
+- [#340](https://github.com/drivly/ai/issues/340) - `workflows.do` SDK
+- [#312](https://github.com/drivly/ai/issues/312) - `workflows` define type of the callback
 - [#239](https://github.com/drivly/ai/issues/239) - `docs` flesh out sdk/workflows.do/README.md
 - [#229](https://github.com/drivly/ai/issues/229) - move event create from GitHub webhook event handler into handleGithubEvent workflow
 - [#6](https://github.com/drivly/ai/issues/6) - Workflows.do MVP
 
 ### Agents.do - Autonomous Digital Workers
-
+- [#374](https://github.com/drivly/ai/issues/374) - `agents.do` develop clickable API
+- [#373](https://github.com/drivly/ai/issues/373) - `agents.do` develop API implementation
+- [#372](https://github.com/drivly/ai/issues/372) - `agents.do` develop SDK implementation
+- [#371](https://github.com/drivly/ai/issues/371) - `agents.do` develop e2e tests for SDK & API
+- [#370](https://github.com/drivly/ai/issues/370) - `agents.do` develop unit tests for SDK
+- [#369](https://github.com/drivly/ai/issues/369) - `agents.do` define types.ts for SDK
+- [#368](https://github.com/drivly/ai/issues/368) - `agents.do` implement package.json
+- [#367](https://github.com/drivly/ai/issues/367) - `agents.do` write README for SDK w/ usage examples
+- [#366](https://github.com/drivly/ai/issues/366) - `agents.do` define initial API for SDK
+- [#342](https://github.com/drivly/ai/issues/342) - `agents.do` SDK
 - [#255](https://github.com/drivly/ai/issues/255) - `agents.do` prevent duplicate agents being created
 - [#246](https://github.com/drivly/ai/issues/246) - `docs` flesh out sdk/agents.do/README.md
 - [#242](https://github.com/drivly/ai/issues/242) - `payload-agent` fix build & import
@@ -70,7 +99,6 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Event System
 
 ### Triggers.do - Start Business Processes
-
 - [#173](https://github.com/drivly/ai/issues/173) - `triggers` create /api/triggers endpoint
 - [#171](https://github.com/drivly/ai/issues/171) - `integrations` test Composio triggers
 - [#120](https://github.com/drivly/ai/issues/120) - `triggers.do` expose clickable API of triggers
@@ -79,11 +107,13 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#117](https://github.com/drivly/ai/issues/117) - `triggers.do` expose possible triggers
 
 ### Searches.do - Provide Context & Understanding
-
 - [#187](https://github.com/drivly/ai/issues/187) - `docs` search box is generating an error
 
 ### Actions.do - Impact the External World
-
+- [#324](https://github.com/drivly/ai/issues/324) - `tests` create new GitHub Action to run `pnpm build`
+- [#310](https://github.com/drivly/ai/issues/310) - `test` update node versions and GitHub actions to node 22
+- [#304](https://github.com/drivly/ai/issues/304) - `tests` setup github action to run pnpm test
+- [#272](https://github.com/drivly/ai/issues/272) - Computer Use Abstraction (OpenAI & Anthropic)
 - [#174](https://github.com/drivly/ai/issues/174) - `actions` create /api/actions endpoint
 - [#116](https://github.com/drivly/ai/issues/116) - `actions.do` expose clickable API of actions
 - [#115](https://github.com/drivly/ai/issues/115) - `actions.do` ingest integration actions
@@ -93,7 +123,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Foundation Components
 
 ### LLM.do - Intelligent AI Gateway
-
+- [#464](https://github.com/drivly/ai/issues/464) - `llm.do` SDK
 - [#207](https://github.com/drivly/ai/issues/207) - `llm.do` integrated tool use
 - [#198](https://github.com/drivly/ai/issues/198) - `llm.do` clickable experience with GET
 - [#95](https://github.com/drivly/ai/issues/95) - Add support for llms.txt on each domain
@@ -104,16 +134,43 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#4](https://github.com/drivly/ai/issues/4) - LLM.do MVP
 
 ### Database.do - AI-enriched Data
-
+- [#383](https://github.com/drivly/ai/issues/383) - `database.do` develop clickable API
+- [#382](https://github.com/drivly/ai/issues/382) - `database.do` develop API implementation
+- [#381](https://github.com/drivly/ai/issues/381) - `database.do` develop SDK implementation
+- [#380](https://github.com/drivly/ai/issues/380) - `database.do` develop e2e tests for SDK & API
+- [#379](https://github.com/drivly/ai/issues/379) - `database.do` develop unit tests for SDK
+- [#378](https://github.com/drivly/ai/issues/378) - `database.do` define types.ts for SDK
+- [#377](https://github.com/drivly/ai/issues/377) - `database.do` implement package.json
+- [#376](https://github.com/drivly/ai/issues/376) - `database.do` write README for SDK w/ usage examples
+- [#375](https://github.com/drivly/ai/issues/375) - `database.do` define initial API for SDK
+- [#343](https://github.com/drivly/ai/issues/343) - `database.do` SDK
 - [#248](https://github.com/drivly/ai/issues/248) - `docs` flesh out sdk/database.do/README.md
 - [#153](https://github.com/drivly/ai/issues/153) - Create seed script to setup database
 
 ### Evals.do - Measure & Improve
-
+- [#402](https://github.com/drivly/ai/issues/402) - `evals.do` develop clickable API
+- [#401](https://github.com/drivly/ai/issues/401) - `evals.do` develop API implementation
+- [#400](https://github.com/drivly/ai/issues/400) - `evals.do` develop SDK implementation
+- [#399](https://github.com/drivly/ai/issues/399) - `evals.do` develop e2e tests for SDK & API
+- [#398](https://github.com/drivly/ai/issues/398) - `evals.do` develop unit tests for SDK
+- [#397](https://github.com/drivly/ai/issues/397) - `evals.do` define types.ts for SDK
+- [#396](https://github.com/drivly/ai/issues/396) - `evals.do` implement package.json
+- [#395](https://github.com/drivly/ai/issues/395) - `evals.do` write README for SDK w/ usage examples
+- [#394](https://github.com/drivly/ai/issues/394) - `evals.do` define initial API for SDK
+- [#345](https://github.com/drivly/ai/issues/345) - `evals.do` SDK
 - [#37](https://github.com/drivly/ai/issues/37) - Evaluate Better Auth vs AuthJS
 
 ### Integrations.do - Connect Your Apps
-
+- [#420](https://github.com/drivly/ai/issues/420) - `integrations.do` develop clickable API
+- [#419](https://github.com/drivly/ai/issues/419) - `integrations.do` develop API implementation
+- [#418](https://github.com/drivly/ai/issues/418) - `integrations.do` develop SDK implementation
+- [#417](https://github.com/drivly/ai/issues/417) - `integrations.do` develop e2e tests for SDK & API
+- [#416](https://github.com/drivly/ai/issues/416) - `integrations.do` develop unit tests for SDK
+- [#415](https://github.com/drivly/ai/issues/415) - `integrations.do` define types.ts for SDK
+- [#414](https://github.com/drivly/ai/issues/414) - `integrations.do` implement package.json
+- [#413](https://github.com/drivly/ai/issues/413) - `integrations.do` write README for SDK w/ usage examples
+- [#412](https://github.com/drivly/ai/issues/412) - `integrations.do` define initial API for SDK
+- [#347](https://github.com/drivly/ai/issues/347) - `integrations.do` SDK
 - [#252](https://github.com/drivly/ai/issues/252) - `payload` refactor Integration collections
 - [#177](https://github.com/drivly/ai/issues/177) - `integrations` verify web hook secret
 - [#169](https://github.com/drivly/ai/issues/169) - `integrations` set up Composio integration
@@ -122,7 +179,32 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## API Experience
 
 ### APIs.do - Clickable Developer Experiences
-
+- [#455](https://github.com/drivly/ai/issues/455) - Create `api` and `db` lib
+- [#450](https://github.com/drivly/ai/issues/450) - `bug` in api.config and clickable-apis
+- [#438](https://github.com/drivly/ai/issues/438) - `api` support `cf-worker` for auth
+- [#429](https://github.com/drivly/ai/issues/429) - `tasks.do` develop clickable API
+- [#428](https://github.com/drivly/ai/issues/428) - `tasks.do` develop API implementation
+- [#426](https://github.com/drivly/ai/issues/426) - `tasks.do` develop e2e tests for SDK & API
+- [#421](https://github.com/drivly/ai/issues/421) - `tasks.do` define initial API for SDK
+- [#411](https://github.com/drivly/ai/issues/411) - `models.do` develop clickable API
+- [#410](https://github.com/drivly/ai/issues/410) - `models.do` develop API implementation
+- [#408](https://github.com/drivly/ai/issues/408) - `models.do` develop e2e tests for SDK & API
+- [#403](https://github.com/drivly/ai/issues/403) - `models.do` define initial API for SDK
+- [#393](https://github.com/drivly/ai/issues/393) - `apis.do` develop clickable API
+- [#392](https://github.com/drivly/ai/issues/392) - `apis.do` develop API implementation
+- [#391](https://github.com/drivly/ai/issues/391) - `apis.do` develop SDK implementation
+- [#390](https://github.com/drivly/ai/issues/390) - `apis.do` develop e2e tests for SDK & API
+- [#389](https://github.com/drivly/ai/issues/389) - `apis.do` develop unit tests for SDK
+- [#388](https://github.com/drivly/ai/issues/388) - `apis.do` define types.ts for SDK
+- [#387](https://github.com/drivly/ai/issues/387) - `apis.do` implement package.json
+- [#386](https://github.com/drivly/ai/issues/386) - `apis.do` write README for SDK w/ usage examples
+- [#385](https://github.com/drivly/ai/issues/385) - `apis.do` define initial API for SDK
+- [#344](https://github.com/drivly/ai/issues/344) - `apis.do` SDK
+- [#334](https://github.com/drivly/ai/issues/334) - Fix payload instance in api.config
+- [#329](https://github.com/drivly/ai/issues/329) - `clickable-apis` simplify exported API
+- [#322](https://github.com/drivly/ai/issues/322) - `clickable-apis` refactor to support payload dependency injection
+- [#309](https://github.com/drivly/ai/issues/309) - `test` explore automate clickable api links
+- [#297](https://github.com/drivly/ai/issues/297) - `api` all APIs are returning errors
 - [#259](https://github.com/drivly/ai/issues/259) - Create initial implementation of each SDK that uses APIs.do
 - [#247](https://github.com/drivly/ai/issues/247) - `docs` flesh out sdk/apis.do/README.md
 - [#220](https://github.com/drivly/ai/issues/220) - `clickable-apis` implement `user` footer object
@@ -149,6 +231,20 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 
 ## SDK Development
 
+- [#427](https://github.com/drivly/ai/issues/427) - `tasks.do` develop SDK implementation
+- [#425](https://github.com/drivly/ai/issues/425) - `tasks.do` develop unit tests for SDK
+- [#424](https://github.com/drivly/ai/issues/424) - `tasks.do` define types.ts for SDK
+- [#422](https://github.com/drivly/ai/issues/422) - `tasks.do` write README for SDK w/ usage examples
+- [#409](https://github.com/drivly/ai/issues/409) - `models.do` develop SDK implementation
+- [#407](https://github.com/drivly/ai/issues/407) - `models.do` develop unit tests for SDK
+- [#406](https://github.com/drivly/ai/issues/406) - `models.do` define types.ts for SDK
+- [#404](https://github.com/drivly/ai/issues/404) - `models.do` write README for SDK w/ usage examples
+- [#384](https://github.com/drivly/ai/issues/384) - `tasks.do` SDK
+- [#346](https://github.com/drivly/ai/issues/346) - `models.do` SDK
+- [#339](https://github.com/drivly/ai/issues/339) - SDKs
+- [#294](https://github.com/drivly/ai/issues/294) - Test Image output on Responses via OpenAI SDK
+- [#293](https://github.com/drivly/ai/issues/293) - Test PDF input on Responses via OpenAI SDK
+- [#292](https://github.com/drivly/ai/issues/292) - Test simple Responses usage w/ OpenAI SDK
 - [#267](https://github.com/drivly/ai/issues/267) - Create `models.do` package in `sdks` directory
 - [#257](https://github.com/drivly/ai/issues/257) - Create package.json for each subfolder in the `sdks` folder that don't exist
 - [#228](https://github.com/drivly/ai/issues/228) - `sdk` create sync logic to track/sync local `.ai/*` file changes
@@ -158,7 +254,8 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Documentation & Website
 
 ### Docs
-
+- [#286](https://github.com/drivly/ai/issues/286) - `docs` create dynamic logo by domain name
+- [#282](https://github.com/drivly/ai/issues/282) - `docs` update docs
 - [#237](https://github.com/drivly/ai/issues/237) - `docs` update ARCHITECTURE.md
 - [#234](https://github.com/drivly/ai/issues/234) - `docs` update ROADMAP.md
 - [#203](https://github.com/drivly/ai/issues/203) - `docs` ensure domain routing logic
@@ -169,7 +266,6 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#82](https://github.com/drivly/ai/issues/82) - Initial Docs
 
 ### Website
-
 - [#101](https://github.com/drivly/ai/issues/101) - `website` middleware with routing logic
 - [#81](https://github.com/drivly/ai/issues/81) - Initial Website
 - [#73](https://github.com/drivly/ai/issues/73) - `website` add support for Vercel Analytics
@@ -179,6 +275,24 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#225](https://github.com/drivly/ai/issues/225) - `sdk` generate types and sync config with backend API (Epic)
 - [#221](https://github.com/drivly/ai/issues/221) - Agents.do MVP (Epic)
 - [#100](https://github.com/drivly/ai/issues/100) - Domain Routing (Epic)
+- [#447](https://github.com/drivly/ai/issues/447) - `payload` create Queues, Tasks, and Roles collections
+- [#445](https://github.com/drivly/ai/issues/445) - `tests` Vercel Preview Deployment
+- [#440](https://github.com/drivly/ai/issues/440) - Import v0 landing page design
+- [#423](https://github.com/drivly/ai/issues/423) - `tasks.do` implement package.json
+- [#405](https://github.com/drivly/ai/issues/405) - `models.do` implement package.json
+- [#327](https://github.com/drivly/ai/issues/327) - Flesh out the .github folder
+- [#320](https://github.com/drivly/ai/issues/320) - `payload` resolve build errors
+- [#302](https://github.com/drivly/ai/issues/302) - Work on failing tests
+- [#300](https://github.com/drivly/ai/issues/300) - `tests` add tests to run on Vercel deployment to prevent regressions
+- [#295](https://github.com/drivly/ai/issues/295) - Update _meta files in content
+- [#288](https://github.com/drivly/ai/issues/288) - Do a POC of Payload Admin Bar
+- [#279](https://github.com/drivly/ai/issues/279) - Implement Changesets and automatic semver
+- [#278](https://github.com/drivly/ai/issues/278) - Implement FireCrawl as a tool to inject scraped URL as Markdown
+- [#277](https://github.com/drivly/ai/issues/277) - Add user metadata to header for AI gateway
+- [#276](https://github.com/drivly/ai/issues/276) - Support for webhook callback option
+- [#275](https://github.com/drivly/ai/issues/275) - Add links to view detailed traces from AI Gateway
+- [#274](https://github.com/drivly/ai/issues/274) - Headless DO-controlled containers via Cloudflare
+- [#273](https://github.com/drivly/ai/issues/273) - Headless Browser via Computer User (using BrowserBase)
 - [#270](https://github.com/drivly/ai/issues/270) - Create script to generate/update BACKLOG.md from Github issues
 - [#261](https://github.com/drivly/ai/issues/261) - Summarize all open issues and update ROADMAP
 - [#226](https://github.com/drivly/ai/issues/226) - Create GitHub App with `.ai` folder repo, issue, etc access
@@ -239,3 +353,4 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#11](https://github.com/drivly/ai/issues/11) - Proxy `/chat/completions` endpoint to OpenRouter via Cloudflare AI Gateway
 - [#7](https://github.com/drivly/ai/issues/7) - Create CONTRIBUTING.md
 - [#3](https://github.com/drivly/ai/issues/3) - Roadmap
+
