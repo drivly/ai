@@ -1,5 +1,5 @@
 import { PayloadDB, RestPayloadClientConfig } from './types'
-import { createPayloadRestAPIClient } from 'payload-rest-client'
+import { createClient } from 'payload-rest-client'
 import { createPayloadClient } from './createPayloadClient'
 
 /**
@@ -9,7 +9,7 @@ import { createPayloadClient } from './createPayloadClient'
  */
 export const createRestPayloadClient = (config: RestPayloadClientConfig): PayloadDB => {
   // Use payload-rest-client to create a REST client
-  const restClient = createPayloadRestAPIClient({
+  const restClient = createClient({
     url: config.apiUrl,
     apiKey: config.apiKey,
     headers: config.headers,
