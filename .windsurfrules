@@ -48,6 +48,7 @@
 - Next.js: ^15.2.4
 - React: ^19.0.0
 - React DOM: ^19.0.0
+- Vercel for deployment and preview environments
 
 ### Backend
 - Payload CMS: ^3.28.1
@@ -55,12 +56,14 @@
 - Cloudflare Workers (for APIs)
 - Hono: ^4.7.4
 - Zod: ^3.24.1
+- Composio for underlying infrastructure
 
 ### Development Tools
 - ESLint: ^9.16.0
 - Prettier: ^3.5.3
 - TypeScript: ^5.7.3
 - Wrangler: ^4.2.0
+- Changesets for version management
 
 ### Common Commands
 - Build: `pnpm build` or `pnpm build:turbo`
@@ -97,20 +100,39 @@
 - Accessibility compliance
 - Consistent design system
 - Clear and intuitive user interfaces
+## Strategic Vision
+
+The AI Primitives platform provides composable building blocks that enable developers to create, deploy, and manage AI applications with minimal complexity while maintaining reliability and scalability. The platform emphasizes:
+
+1. **Economically valuable work** delivered through simple APIs
+2. **Practical applications** of AI that deliver measurable business value
+3. **Composable architecture** with Functions, Workflows, and Agents as core primitives
+4. **Enterprise-grade reliability** with comprehensive testing and evaluation
+
 ## Project Structure Convention
 
 ```
 ai/
 ├── api/                  # API implementations for various services
 ├── app/                  # Application code
+│   ├── (apis)/           # API route handlers
+│   ├── (websites)/       # Website components
+│   └── (payload)/        # Payload CMS admin configurations
 ├── collections/          # Collection definitions
+│   ├── ai/               # AI-related collections (Functions, Workflows, Agents)
+│   ├── data/             # Data model collections (Things, Nouns, Verbs)
+│   ├── events/           # Event-related collections (Triggers, Searches, Actions)
+│   └── observability/    # Monitoring collections (Generations)
 ├── components/           # Reusable UI components
-├── content/              # Content files and assets
+├── content/              # Content files and assets (MDX files at /content/**/*.mdx)
 ├── examples/             # Example implementations
 ├── lib/                  # Library code and utilities
-├── pkgs/                 # Shared packages and libraries
-├── sdks/                 # Software Development Kits
-├── tasks/                # Task definitions
+├── pkgs/                 # Shared packages and libraries (can have dependencies)
+│   ├── ai-models/        # AI model abstractions and selection
+│   ├── deploy-worker/    # Cloudflare Workers deployment utilities
+│   └── clickable-links/  # API handler utilities
+├── sdks/                 # Software Development Kits (zero dependencies except apis.do)
+├── tasks/                # Task implementations with dependencies
 ├── tests/                # Test suites
 ├── websites/             # Website implementations
 ├── workers/              # Cloudflare Workers implementations
@@ -123,6 +145,24 @@ ai/
 - Respect the monorepo architecture using pnpm workspaces
 - Place new code in the appropriate directory based on its purpose
 - Follow the naming conventions outlined in CONTRIBUTING.md
+- SDK implementations in `/sdks/` must maintain zero dependencies (except apis.do) to be publishable on npm
+- Backend implementations of SDK features should be placed in the `/tasks/` folder with workspace-level dependencies
+- Package entry points in package.json files should point to built files (e.g., dist/index.js) rather than source files
+
+### Versioning Strategy
+- Use Changesets for version management across SDKs and packages
+- Packages in the `sdks` directory must maintain synchronized version numbers
+- Packages in the `pkgs` directory can be versioned independently
+- During API instability phase, use patch versions (0.0.x) for SDK packages
+- All packages referenced in changesets must be properly configured in pnpm-workspace.yaml
+- Package names in changesets must exactly match names in respective package.json files
+
+### Deployment Patterns
+- Vercel is used for deployment and preview environments
+- Preview environments follow the URL pattern: https://ai-git-{branch-name}.dev.driv.ly/
+- The Velite content build step (build:content) must be integrated into the Vercel build process
+- Keep next.config.mjs minimal with only essential configurations
+- Avoid using node: imports in package files, particularly in ai-models
 
 ### Code Style
 - Single quotes
@@ -132,6 +172,10 @@ ai/
 - 180 character line width
 - JSX uses single quotes
 - JSX brackets on the same line
+- Use modern Node.js features (Node 20+ or 22+):
+  - Use built-in fetch instead of node-fetch or require('https')
+  - Avoid older Node.js built-in modules when modern alternatives exist
+  - Remove unnecessary dependencies in favor of built-in alternatives
 
 ### Naming Conventions
 - Use kebab-case for file names
@@ -153,6 +197,24 @@ ai/
 - Performance impacts
 - Security risks
 ```
+
+### MDX-Based Agent Capabilities
+- MDX-based agent definitions support:
+  - Structured data through frontmatter including tools, inputs, and outputs
+  - Full code execution capabilities with import/export support
+  - Visual component integration rendered as JSX/React components
+  - Agent state visualization with support for multiple states/modes
+- MDX content files should be located at `/content/**/*.mdx`
+- The Velite content build step (`build:content`) must be integrated into the Vercel build process
+- Content files should use plural names for core primitives (Functions, Agents, Workflows) to match domain names
+
+### Build Configuration Principles
+- Use Turborepo for managing the build order in monorepo packages
+- Use Turbopack for Next.js applications, making transpilePackages configuration unnecessary
+- Keep next.config.mjs minimal with only essential configurations
+- Avoid complex webpack configurations entirely
+- Tests should be excluded from the build process
+- Nextra v4 configuration is primarily managed in app/(docs)/docs/layout.tsx
 
 ### 2. Implementation Phase
 - Integrated implementation approach
