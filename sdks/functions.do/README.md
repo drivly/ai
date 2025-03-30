@@ -264,3 +264,29 @@ const myFunction = await functionsClient.create({
   prompt: 'Analyze the following data and extract key insights',
 })
 ```
+
+## Testing
+
+The SDK includes both unit tests and end-to-end tests.
+
+### Running Unit Tests
+
+Unit tests verify the SDK's functionality without requiring API access:
+
+```bash
+pnpm test
+```
+
+### Running End-to-End Tests
+
+E2E tests verify integration with the actual API and require an API key:
+
+```bash
+# Set API key as environment variable
+export FUNCTIONS_DO_API_KEY=your_api_key
+
+# Run e2e tests
+pnpm test:e2e
+```
+
+End-to-end tests will be skipped if no API key is provided.
