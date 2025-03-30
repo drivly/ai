@@ -42,7 +42,6 @@ export const symbols: Record<string, string> = {
   // 口: '',
 }
 
-// export const API = createAPI(getPayload({ config }))
-export const API = createAPI()
+// export const API = createAPI()
 
 export const modifyQueryString = clickableModifyQueryString

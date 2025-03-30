@@ -1,4 +1,4 @@
-import { API } from '@/api.config'
+import { API } from '@/lib/api'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Webhook } from 'svix'

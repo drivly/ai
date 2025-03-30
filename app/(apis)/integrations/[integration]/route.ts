@@ -1,4 +1,4 @@
-import { API } from '@/api.config'
+import { API } from '@/lib/api'
 
 export const GET = API(async (request, { db, user, url, params: { integration } }) => {
   // Check if API key is configured
