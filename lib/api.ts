@@ -17,6 +17,7 @@ export type ApiContext = {
   permissions: any
   payload: any
   db: PayloadDB
+  req: NextRequest
 }
 
 export type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T
@@ -149,6 +150,7 @@ export const createAPI = <T = any>(handler: ApiHandler<T>) => {
         permissions,
         payload,
         db,
+        req
       }
 
       _currentRequest = req
