@@ -1,5 +1,5 @@
-// import config from 'payload.config'
-// import { getPayload } from 'payload'
+import config from '@/payload.config'
+import { getPayload } from 'payload'
 import { createAPI, modifyQueryString as clickableModifyQueryString, ApiContext } from 'clickable-apis'
 import { NextRequest } from 'next/server'
 export const apis: Record<string, string> = {
@@ -42,7 +42,6 @@ export const symbols: Record<string, string> = {
   // 口: '',
 }
 
-// export const API = createAPI(getPayload({ config }))
-export const API = createAPI()
+export const API = createAPI(getPayload({ config }))
 
 export const modifyQueryString = clickableModifyQueryString
