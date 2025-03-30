@@ -36,6 +36,13 @@ export default buildConfig({
     addParentToTaskLog: true,
     tasks,
     workflows,
+    access: {
+      run: ({ req }): boolean => {
+        if (req.user) return true
+        const authHeader = req.headers.get('authorization')
+        return authHeader === `Bearer ${process.env.CRON_SECRET}`
+      },
+    },
   },
   // sharp,
   plugins: [
