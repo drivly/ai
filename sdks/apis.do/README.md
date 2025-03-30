@@ -153,10 +153,10 @@ async function createFunction(functionData: Partial<Function>) {
     type: 'Generation',
     format: 'Object',
     schema: {
-      type: 'object',
-      properties: {
-        result: { type: 'string' }
-      }
+      productType: 'App | API | Marketplace | Platform | Packaged Service | Professional Service | Website',
+      customer: 'ideal customer profile in 3-5 words',
+      solution: 'describe the offer in 4-10 words',
+      description: 'website meta description',
     },
     prompt: 'Generate a response based on the input',
     ...functionData
@@ -407,12 +407,12 @@ APIs.do supports multiple authentication methods:
 
 ```typescript
 // API Key Authentication (recommended)
-const api = new ApiClient({
+const api = new API({
   apiKey: 'your-api-key',
 })
 
 // Custom Header Authentication
-const api = new ApiClient({
+const api = new API({
   headers: {
     'X-Custom-Auth': 'custom-token',
   },
