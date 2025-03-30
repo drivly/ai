@@ -3,6 +3,7 @@ import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
 import { Integrations } from './admin/Integrations'
 import { Tags } from './admin/Tag'
+import { Roles } from './admin/Roles'
 import { Functions } from './ai/Functions'
 import { Modules } from './code/Modules'
 import { Packages } from './code/Packages'
@@ -34,6 +35,8 @@ import { IntegrationTriggers } from './admin/IntegrationTriggers'
 import { IntegrationActions } from './admin/IntegrationActions'
 import { IntegrationCategories } from './admin/IntegrationCategories'
 import { Connections } from './admin/Connections'
+import { Queues } from './jobs/Queues'
+import { Tasks } from './jobs/Tasks'
 
 export const collections = [
   Functions,
@@ -75,8 +78,12 @@ export const collections = [
   Generations,
   Traces,
 
+  Queues,
+  Tasks,
+
   Projects,
   Users,
+  Roles,
   Tags,
   Webhooks,
   APIKeys,
