@@ -112,6 +112,8 @@ describe('Vercel Preview Deployment Tests', () => {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       
       const apiEndpoints = [
+        '/',
+        '/api',
         '/api/functions',
         '/api/workflows',
         '/api/agents',
