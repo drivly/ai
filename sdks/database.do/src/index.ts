@@ -15,7 +15,7 @@ import {
   DatabaseClient as DatabaseClientType
 } from './types';
 
-export * from './types';
+export * from './types'
 
 class CollectionHandler<T = CollectionData> implements CollectionMethods<T> {
   private api: API;
@@ -64,14 +64,14 @@ export const DB = (options: DBOptions = {}): DatabaseClientType => {
   return new Proxy({} as DatabaseClientType, {
     get: (target, prop) => {
       if (typeof prop === 'string' && prop !== 'then') {
-        return new CollectionHandler(api, prop);
+        return new CollectionHandler(api, prop)
       }
       return target[prop as keyof typeof target];
     }
   });
 };
 
-export const db = DB();
+export const db = DB()
 
 export class DatabaseClient {
   private api: API;
@@ -110,4 +110,4 @@ export class DatabaseClient {
   }
 }
 
-export default DB;
+export default DB

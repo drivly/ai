@@ -2,7 +2,7 @@
 /**
  * This script syncs types from payload.types.ts to SDKs
  * Run this after `pnpm generate:types` to update SDK types
- * 
+ *
  * Note: Due to module augmentation issues, we manually define types
  * instead of importing directly from payload.types.ts
  */

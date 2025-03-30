@@ -1,13 +1,13 @@
-import { 
-  LanguageModelV1, 
-  LanguageModelV1CallOptions, 
-  LanguageModelV1Prompt, 
+import {
+  LanguageModelV1,
+  LanguageModelV1CallOptions,
+  LanguageModelV1Prompt,
   LanguageModelV1StreamPart,
   ProviderV1,
   JSONSchema7,
   LanguageModelV1ObjectGenerationMode,
   EmbeddingModelV1,
-  EmbeddingModelV1Embedding
+  EmbeddingModelV1Embedding,
 } from '@ai-sdk/provider'
 import { LLMClient, ChatMessage, CompletionOptions } from './index'
 import type { ModelCapability } from 'models.do'
@@ -41,26 +41,22 @@ class LLMDoEmbeddingModel implements EmbeddingModelV1<string> {
     })
   }
 
-  async doEmbed(options: {
-    values: Array<string>;
-    abortSignal?: AbortSignal;
-    headers?: Record<string, string | undefined>;
-  }): Promise<{
-    embeddings: Array<EmbeddingModelV1Embedding>;
+  async doEmbed(options: { values: Array<string>; abortSignal?: AbortSignal; headers?: Record<string, string | undefined> }): Promise<{
+    embeddings: Array<EmbeddingModelV1Embedding>
     usage?: {
-      tokens: number;
-    };
+      tokens: number
+    }
     rawResponse?: {
-      headers?: Record<string, string>;
-    };
+      headers?: Record<string, string>
+    }
   }> {
-    const response = await this.api.post('/api/llm/embeddings', {
+    const response = (await this.api.post('/api/llm/embeddings', {
       texts: options.values,
       model: this.modelId,
-    }) as { 
-      data: EmbeddingModelV1Embedding[]; 
-      usage: { tokens: number }; 
-      headers: Record<string, string>;
+    })) as {
+      data: EmbeddingModelV1Embedding[]
+      usage: { tokens: number }
+      headers: Record<string, string>
     }
 
     return {
@@ -84,56 +80,61 @@ class LLMDoLanguageModel implements LanguageModelV1 {
   readonly supportsStructuredOutputs = true
 
   private client: LLMClient
-  
+
   constructor(modelId: string, client: LLMClient) {
     this.modelId = modelId
     this.client = client
   }
 
   async doGenerate(options: LanguageModelV1CallOptions): Promise<{
-    text?: string;
-    reasoning?: string | Array<{
-      type: 'text';
-      text: string;
-      signature?: string;
-    } | {
-      type: 'redacted';
-      data: string;
-    }>;
+    text?: string
+    reasoning?:
+      | string
+      | Array<
+          | {
+              type: 'text'
+              text: string
+              signature?: string
+            }
+          | {
+              type: 'redacted'
+              data: string
+            }
+        >
     files?: Array<{
-      data: string | Uint8Array;
-      mimeType: string;
-    }>;
-    toolCalls?: Array<any>;
-    finishReason: 'stop' | 'length' | 'content-filter' | 'tool-calls' | 'error' | 'other' | 'unknown';
+      data: string | Uint8Array
+      mimeType: string
+    }>
+    toolCalls?: Array<any>
+    finishReason: 'stop' | 'length' | 'content-filter' | 'tool-calls' | 'error' | 'other' | 'unknown'
     usage: {
-      promptTokens: number;
-      completionTokens: number;
-      totalTokens?: number;
-    };
+      promptTokens: number
+      completionTokens: number
+      totalTokens?: number
+    }
     rawCall: {
-      rawPrompt: unknown;
-      rawSettings: Record<string, unknown>;
-    };
+      rawPrompt: unknown
+      rawSettings: Record<string, unknown>
+    }
     rawResponse?: {
-      headers?: Record<string, string>;
-      body?: unknown;
-    };
+      headers?: Record<string, string>
+      body?: unknown
+    }
     request?: {
-      body?: string;
-    };
+      body?: string
+    }
     response?: {
-      id?: string;
-      timestamp?: Date;
-      modelId?: string;
-    };
-    warnings?: Array<any>;
-    providerMetadata?: Record<string, any>;
-    sources?: Array<any>;
-    logprobs?: any;
+      id?: string
+      timestamp?: Date
+      modelId?: string
+    }
+    warnings?: Array<any>
+    providerMetadata?: Record<string, any>
+    sources?: Array<any>
+    logprobs?: any
   }> {
     const { prompt, temperature, maxTokens, stopSequences, mode } = options
-    
+
     const llmOptions: CompletionOptions = {
       model: this.modelId,
       temperature,
@@ -142,15 +143,15 @@ class LLMDoLanguageModel implements LanguageModelV1 {
     }
 
     if (mode.type === 'object-json' && mode.schema) {
-      llmOptions.responseFormat = { 
-        type: 'json_object', 
-        schema: mode.schema 
+      llmOptions.responseFormat = {
+        type: 'json_object',
+        schema: mode.schema,
       }
     }
 
     const llmMessages = this.convertPromptToMessages(prompt)
 
-    if (mode.type === 'object-json' && !llmMessages.some(msg => msg.role === 'system')) {
+    if (mode.type === 'object-json' && !llmMessages.some((msg) => msg.role === 'system')) {
       llmMessages.unshift({
         role: 'system',
         content: 'You are a helpful assistant that responds with valid JSON according to the specified schema.',
@@ -158,7 +159,7 @@ class LLMDoLanguageModel implements LanguageModelV1 {
     }
 
     const response = await this.client.chat(llmMessages, llmOptions)
-    
+
     let text = response.message.content
 
     return {
@@ -177,26 +178,26 @@ class LLMDoLanguageModel implements LanguageModelV1 {
         id: response.id,
         modelId: this.modelId,
         timestamp: new Date(),
-      }
+      },
     }
   }
 
   async doStream(options: LanguageModelV1CallOptions): Promise<{
-    stream: ReadableStream<LanguageModelV1StreamPart>;
+    stream: ReadableStream<LanguageModelV1StreamPart>
     rawCall: {
-      rawPrompt: unknown;
-      rawSettings: Record<string, unknown>;
-    };
+      rawPrompt: unknown
+      rawSettings: Record<string, unknown>
+    }
     rawResponse?: {
-      headers?: Record<string, string>;
-    };
+      headers?: Record<string, string>
+    }
     request?: {
-      body?: string;
-    };
-    warnings?: Array<any>;
+      body?: string
+    }
+    warnings?: Array<any>
   }> {
     const { prompt, temperature, maxTokens, stopSequences, mode } = options
-    
+
     const llmOptions: CompletionOptions = {
       model: this.modelId,
       temperature,
@@ -205,15 +206,15 @@ class LLMDoLanguageModel implements LanguageModelV1 {
     }
 
     if (mode.type === 'object-json' && mode.schema) {
-      llmOptions.responseFormat = { 
-        type: 'json_object', 
-        schema: mode.schema 
+      llmOptions.responseFormat = {
+        type: 'json_object',
+        schema: mode.schema,
       }
     }
 
     const llmMessages = this.convertPromptToMessages(prompt)
 
-    if (mode.type === 'object-json' && !llmMessages.some(msg => msg.role === 'system')) {
+    if (mode.type === 'object-json' && !llmMessages.some((msg) => msg.role === 'system')) {
       llmMessages.unshift({
         role: 'system',
         content: 'You are a helpful assistant that responds with valid JSON according to the specified schema.',
@@ -221,13 +222,13 @@ class LLMDoLanguageModel implements LanguageModelV1 {
     }
 
     const stream = await this.client.chatStream(llmMessages, llmOptions)
-    
+
     const transformer = new TransformStream<Uint8Array, LanguageModelV1StreamPart>({
       async transform(chunk, controller) {
         try {
           const text = new TextDecoder().decode(chunk)
-          const lines = text.split('\n').filter(line => line.trim() !== '')
-          
+          const lines = text.split('\n').filter((line) => line.trim() !== '')
+
           for (const line of lines) {
             if (line.startsWith('data: ')) {
               const data = line.slice(6)
@@ -238,11 +239,11 @@ class LLMDoLanguageModel implements LanguageModelV1 {
                   usage: {
                     promptTokens: 0,
                     completionTokens: 0,
-                  }
+                  },
                 })
                 return
               }
-              
+
               try {
                 const parsed = JSON.parse(data)
                 if (parsed.choices && parsed.choices[0]?.delta?.content) {
@@ -251,8 +252,7 @@ class LLMDoLanguageModel implements LanguageModelV1 {
                     textDelta: parsed.choices[0].delta.content,
                   })
                 }
-              } catch (e) {
-              }
+              } catch (e) {}
             }
           }
         } catch (e) {
@@ -269,12 +269,12 @@ class LLMDoLanguageModel implements LanguageModelV1 {
       rawCall: {
         rawPrompt: llmMessages,
         rawSettings: llmOptions,
-      }
+      },
     }
   }
 
   private convertPromptToMessages(prompt: LanguageModelV1Prompt): ChatMessage[] {
-    return prompt.map(msg => {
+    return prompt.map((msg) => {
       if (msg.role === 'system') {
         return {
           role: 'system',
@@ -284,22 +284,22 @@ class LLMDoLanguageModel implements LanguageModelV1 {
         let content = ''
         if (Array.isArray(msg.content)) {
           content = msg.content
-            .filter(part => part.type === 'text')
-            .map(part => (part.type === 'text' ? part.text : ''))
+            .filter((part) => part.type === 'text')
+            .map((part) => (part.type === 'text' ? part.text : ''))
             .join('')
         } else if (typeof msg.content === 'string') {
           content = msg.content
         }
-        
+
         const chatMessage: ChatMessage = {
           role: msg.role,
           content,
         }
-        
+
         if ('name' in msg && typeof msg.name === 'string') {
           chatMessage.name = msg.name
         }
-        
+
         return chatMessage
       } else {
         return {
@@ -309,7 +309,7 @@ class LLMDoLanguageModel implements LanguageModelV1 {
       }
     })
   }
-  
+
   supportsUrl(url: URL): boolean {
     return false
   }
@@ -325,10 +325,10 @@ export const createLLMDoProvider = (options: LLMDoProviderOptions = {}) => {
     languageModel(modelId: string): LanguageModelV1 {
       return new LLMDoLanguageModel(modelId || options.defaultModel || 'gemini-2.0-flash', client)
     },
-    
+
     textEmbeddingModel(modelId: string): EmbeddingModelV1<string> {
       return new LLMDoEmbeddingModel(modelId || options.defaultModel || 'text-embedding-3-small', options.apiKey, options.baseUrl)
-    }
+    },
   }
 
   return provider

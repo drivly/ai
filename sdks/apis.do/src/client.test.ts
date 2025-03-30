@@ -11,7 +11,7 @@ describe('ApiClient', () => {
     const client = new ApiClient({
       baseUrl: 'https://example.com',
       apiKey: 'test-key',
-      headers: { 'X-Custom': 'value' }
+      headers: { 'X-Custom': 'value' },
     })
     expect(client).toBeDefined()
   })

@@ -11,17 +11,17 @@ export const Users: CollectionConfig = {
     // Email added by default
     { name: 'name', type: 'text' },
     { name: 'image', type: 'text' },
-//     {
-//       name: 'roles',
-//       type: 'relationship',
-//       relationTo: 'roles',
-//       hasMany: true,
-//     },
-//     {
-//       name: 'tasks',
-//       type: 'relationship',
-//       relationTo: 'tasks',
-//       hasMany: true,
-//     },
+    //     {
+    //       name: 'roles',
+    //       type: 'relationship',
+    //       relationTo: 'roles',
+    //       hasMany: true,
+    //     },
+    //     {
+    //       name: 'tasks',
+    //       type: 'relationship',
+    //       relationTo: 'tasks',
+    //       hasMany: true,
+    //     },
   ],
 }

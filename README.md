@@ -1,6 +1,7 @@
 # [Workflows.do](https://workflows.do) Business-as-Code
 
 We believe that you can define, execute, and iterate on business processes as clean & simple code. It should be simple enough for a non-technical business person to read and work with an AI or technical teammate to build and iterate on workflows.
+
 ```typescript
 import { AI } from 'workflows.do'
 
@@ -34,18 +35,18 @@ export default AI({
 
 ## [Functions.do](https://functions.do) Rapid Prototyping
 
-The `ai` object lets you call any arbitrary function like `ai.researchCompany({ company })`, `ai.summarizeContent({ content })`, `ai.doSomething({ task: 'write a snake game in HTML & vanilla JavaScript' })` and an object will be returned.  This can be very helpful during development or to even just see what is the schema that the AI wants to return.  Additionally, [functions.do](https://functions.do) can observe the schemas returned over time, and will automatically propose possible schemas to lock in a guaranteed return type.
+The `ai` object lets you call any arbitrary function like `ai.researchCompany({ company })`, `ai.summarizeContent({ content })`, `ai.doSomething({ task: 'write a snake game in HTML & vanilla JavaScript' })` and an object will be returned. This can be very helpful during development or to even just see what is the schema that the AI wants to return. Additionally, [functions.do](https://functions.do) can observe the schemas returned over time, and will automatically propose possible schemas to lock in a guaranteed return type.
 
 ```typescript
 import { ai } from 'functions.do'
 
-const titles = await ai.listBlogPostTitles({ topic: 'AGI Wrappers', tone: 'Clickbait Meme' }) 
-const research = await ai.researchCompany({ company }, { model: 'perplexity/sonar-deep-research' })  // specify a particular model
+const titles = await ai.listBlogPostTitles({ topic: 'AGI Wrappers', tone: 'Clickbait Meme' })
+const research = await ai.researchCompany({ company }, { model: 'perplexity/sonar-deep-research' }) // specify a particular model
 ```
 
 ## [Functions.do](https://functions.do) Structured Outputs
 
-We believe that your business and application code should not be complicated by the leaky abstractions of AI frameworks.  With new models being released daily, you shouldn't put the model, prompts, or settings (like temperature, topP, topK, etc) in your code as the only thing that matters to your application is the return type of the output.  On the backend, [functions.do](https://functions.do) will handle evaluating the model selection, experimenting with prompt engineering, and configuring the settings optimized for your model and use case, as well by specifying the business priorities.  Do you want the most intelligent model no matter how expensive or slow it is?  Do you need the lowest latency of time-to-first-token, the highest throughput of tokens per second, or the lowest cost?  Or do you want the best frontier model under a specific price point?  [Functions.do](https://functions.do) will handle all of this for you.
+We believe that your business and application code should not be complicated by the leaky abstractions of AI frameworks. With new models being released daily, you shouldn't put the model, prompts, or settings (like temperature, topP, topK, etc) in your code as the only thing that matters to your application is the return type of the output. On the backend, [functions.do](https://functions.do) will handle evaluating the model selection, experimenting with prompt engineering, and configuring the settings optimized for your model and use case, as well by specifying the business priorities. Do you want the most intelligent model no matter how expensive or slow it is? Do you need the lowest latency of time-to-first-token, the highest throughput of tokens per second, or the lowest cost? Or do you want the best frontier model under a specific price point? [Functions.do](https://functions.do) will handle all of this for you.
 
 ```typescript
 import { AI } from 'functions.do'
@@ -116,13 +117,14 @@ console.log(brand)
 // }
 ```
 
-Even though [functions.do](https://functions.do) will manage the model selection, prompt engineering, and settings optimization for you, by specifying business priorities, you can still store the configuration and prompts in your codebase with our CLI and/or Github integration.  A folder called `.ai` can be created in the root of your project and contain the configuration and prompts for your functions.
+Even though [functions.do](https://functions.do) will manage the model selection, prompt engineering, and settings optimization for you, by specifying business priorities, you can still store the configuration and prompts in your codebase with our CLI and/or Github integration. A folder called `.ai` can be created in the root of your project and contain the configuration and prompts for your functions.
 
 You can call:
 
 ```bash
 npx functions.do init
 ```
+
 And you can either push or pull your configuration and prompts in the functions.do cloud to and from the `.ai` folder in your project.
 
 To push your local configuration and prompts to the functions.do cloud:
@@ -146,7 +148,6 @@ export default AI({
   ...
 })
 ```
-
 
 ## [APIs.do](https://apis.do) Clickable Developer Experiences
 

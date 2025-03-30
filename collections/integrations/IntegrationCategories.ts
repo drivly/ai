@@ -9,7 +9,7 @@ export const IntegrationCategories: CollectionConfig = {
   admin: {
     group: 'Integrations',
     useAsTitle: 'category',
-    hidden: false ,
+    hidden: false,
   },
   versions: true,
   fields: [{ name: 'category', type: 'text' }],

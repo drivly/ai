@@ -7,27 +7,30 @@ export const Tasks: CollectionConfig = {
     useAsTitle: 'title',
   },
   fields: [
-    { type: 'row', fields: [
-      {
-        name: 'title',
-        type: 'text',
-        required: true,
-      },
-      {
-        name: 'description',
-        type: 'textarea',
-      },
-      {
-            name: 'queue',
-            type: 'relationship',
-            relationTo: 'queues',
-      },
-      {
-            name: 'parent',
-            type: 'relationship',
-            relationTo: 'tasks',
-      },
-    ]},
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'textarea',
+        },
+        {
+          name: 'queue',
+          type: 'relationship',
+          relationTo: 'queues',
+        },
+        {
+          name: 'parent',
+          type: 'relationship',
+          relationTo: 'tasks',
+        },
+      ],
+    },
     {
       name: 'subtasks',
       type: 'join',
