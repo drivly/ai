@@ -10,7 +10,7 @@ agent: CodeActAgent
 
 ## Repository Overview
 
-This repository contains a collection of AI primitives for building enterprise-grade AI functions, workflows, and agents. The project is organized as a monorepo with multiple packages and services.
+This repository contains a collection of AI primitives for building enterprise-grade AI functions, workflows, and agents. The project is organized as a monorepo with multiple packages and services, focusing on composable building blocks that enable developers to create, deploy, and manage AI applications with minimal complexity while maintaining reliability and scalability.
 
 ## Directory Structure
 
@@ -59,7 +59,8 @@ This repository contains a collection of AI primitives for building enterprise-g
 
 ## Setup Instructions
 
-- Use pnpm as the package manager
+- Use pnpm as the package manager (requires pnpm ^9 || ^10)
+- Node.js version requirements: ^20 ||^22
 - Run `pnpm install` to install dependencies
 - The project uses a workspace structure defined in package.json
 
@@ -78,15 +79,26 @@ This repository contains a collection of AI primitives for building enterprise-g
 
 - **Functions.do**: Strongly-typed composable building blocks
 - **Workflows.do**: Declarative state machines and workflows
-- **Agents.do**: Autonomous digital workers
+- **Agents.do**: Autonomous digital workers with concise implementation style
+  ```typescript
+  export const agentName = new Agent({
+    name: "agent-name",
+    instructions: "Brief, clear instructions about the agent's role and purpose",
+    model: openai("model-name"),
+  })
+  ```
+  - Supports MDX-based agent definitions with:
+    - Structured data through frontmatter (tools, inputs, outputs)
+    - Full code execution capabilities
+    - Visual component integration for agent state visualization
 - **Triggers.do**: Initiate workflows based on events
 - **Searches.do**: Query and retrieve data
-- **Actions.do**: Perform tasks within workflows
-- **LLM.do**: Intelligent AI gateway
+- **Actions.do**: Perform tasks within workflows (can be used as tools by agents)
+- **LLM.do**: Intelligent AI gateway for routing requests to optimal models
 - **Evals.do**: Evaluate Functions, Workflows, and Agents
-- **Integrations.do**: Connect external APIs and systems
-- **Database.do**: Persistent data storage
-- **APIs.do**: Unified API Gateway
+- **Integrations.do**: Connect external APIs and systems (can be used as tools by agents)
+- **Database.do**: Persistent data storage with Payload CMS
+- **APIs.do**: Unified API Gateway for all services
 
 ## Commit Guidelines
 
@@ -127,3 +139,10 @@ This repository contains a collection of AI primitives for building enterprise-g
 - Include appropriate documentation
 - Reference related issues
 - Only make a single PR per issue
+
+## Package Versioning
+
+- Packages in the `sdks` directory must maintain synchronized version numbers
+- All changes to packages in the `sdks` directory must include a changeset (`pnpm changeset`)
+- Packages in the `pkgs` directory can be versioned independently
+- During API instability phase, use patch versions (0.0.x) for SDK packages

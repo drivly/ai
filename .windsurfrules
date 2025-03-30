@@ -41,11 +41,11 @@
 
 ### Core Technologies
 - TypeScript: ^5.7.3
-- Node.js: ^18.20.2 || >=20.9.0
+- Node.js: ^20 ||^22
 - Package Manager: pnpm ^9 || ^10
 
 ### Frontend
-- Next.js: ^15.2.2
+- Next.js: ^15.2.4
 - React: ^19.0.0
 - React DOM: ^19.0.0
 
@@ -54,11 +54,11 @@
 - MongoDB (via @payloadcms/db-mongodb): latest
 - Cloudflare Workers (for APIs)
 - Hono: ^4.7.4
-- Zod: ^3.24.2
+- Zod: ^3.24.1
 
 ### Development Tools
 - ESLint: ^9.16.0
-- Prettier: ^3.4.2
+- Prettier: ^3.5.3
 - TypeScript: ^5.7.3
 - Wrangler: ^4.2.0
 
