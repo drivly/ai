@@ -15,7 +15,7 @@ export const Roles: CollectionConfig = {
     {
       name: 'users',
       type: 'relationship',
-      relationTo: 'users' as any,
+      relationTo: 'users',
       hasMany: true,
     },
   ],
