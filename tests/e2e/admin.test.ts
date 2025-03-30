@@ -59,7 +59,13 @@ describe('Admin page', () => {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
       }
       
-      if (baseUrl === 'http://' || baseUrl === 'https://' || !baseUrl.includes('.')) {
+      try {
+        new URL(baseUrl)
+        
+        if (baseUrl === 'http://' || baseUrl === 'https://') {
+          throw new Error('URL is just a protocol')
+        }
+      } catch (error) {
         console.log(`Invalid BASE_URL detected: "${baseUrl}", using localhost instead`)
         baseUrl = 'http://localhost:3000'
       }
