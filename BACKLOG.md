@@ -1,6 +1,6 @@
 # AI Primitives Platform Backlog
 
-This document organizes all open issues in the drivly/ai repository into a hierarchical structure, aligning with the platform's architecture and roadmap.
+This document organizes all open issues in the drivly/ai repository into a hierarchical structure, aligning with the platform's architecture and roadmap. The organization follows the platform's core components and identifies gaps where additional work may be needed.
 
 ## Core Primitives
 
@@ -285,21 +285,60 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 
 ## Miscellaneous
 
+### Epic Issues
+
 - [#225](https://github.com/drivly/ai/issues/225) - `sdk` generate types and sync config with backend API (Epic)
 - [#221](https://github.com/drivly/ai/issues/221) - Agents.do MVP (Epic)
 - [#100](https://github.com/drivly/ai/issues/100) - Domain Routing (Epic)
+
+### Payload & Admin UI
+
+- [#484](https://github.com/drivly/ai/issues/484) - `payload` add `payload-kanban-board` to Tasks collection
 - [#447](https://github.com/drivly/ai/issues/447) - `payload` create Queues, Tasks, and Roles collections
+- [#320](https://github.com/drivly/ai/issues/320) - `payload` resolve build errors
+- [#288](https://github.com/drivly/ai/issues/288) - Do a POC of Payload Admin Bar
+- [#224](https://github.com/drivly/ai/issues/224) - `payload` update collections/README with collections overview
+- [#205](https://github.com/drivly/ai/issues/205) - `payload` crash from multi-tenant plugin
+- [#146](https://github.com/drivly/ai/issues/146) - `payload-vscode` extension to view/edit Payload collections
+- [#133](https://github.com/drivly/ai/issues/133) - `payload` add email provider
+- [#104](https://github.com/drivly/ai/issues/104) - `payload-ui` monaco code complete
+- [#48](https://github.com/drivly/ai/issues/48) - Configure Payload Relationship Cells to be clickable in list view
+- [#47](https://github.com/drivly/ai/issues/47) - Create Payload URL Field
+- [#43](https://github.com/drivly/ai/issues/43) - `payload` add Logo & Icon to config
+- [#42](https://github.com/drivly/ai/issues/42) - Payload option to auto-add relationship
+- [#39](https://github.com/drivly/ai/issues/39) - Create Payload Grid/Card view
+- [#38](https://github.com/drivly/ai/issues/38) - Payload Kanban View
+- [#24](https://github.com/drivly/ai/issues/24) - Create initial version of `payload-theme`
+- [#23](https://github.com/drivly/ai/issues/23) - Create initial version of `payload-commandbar`
+- [#21](https://github.com/drivly/ai/issues/21) - Admin Application
+
+### Testing & CI/CD
+
 - [#445](https://github.com/drivly/ai/issues/445) - `tests` Vercel Preview Deployment
+- [#327](https://github.com/drivly/ai/issues/327) - Flesh out the .github folder
+- [#302](https://github.com/drivly/ai/issues/302) - Work on failing tests
+- [#300](https://github.com/drivly/ai/issues/300) - `tests` add tests to run on Vercel deployment to prevent regressions
+- [#214](https://github.com/drivly/ai/issues/214) - `tests` fix vitest tests inside the `ai-models` package
+- [#166](https://github.com/drivly/ai/issues/166) - `tests` resolve typescript errors
+- [#148](https://github.com/drivly/ai/issues/148) - `tests` create initial Vitest structure
+
+### Package Management & Configuration
+
 - [#440](https://github.com/drivly/ai/issues/440) - Import v0 landing page design
 - [#423](https://github.com/drivly/ai/issues/423) - `tasks.do` implement package.json
 - [#405](https://github.com/drivly/ai/issues/405) - `models.do` implement package.json
-- [#327](https://github.com/drivly/ai/issues/327) - Flesh out the .github folder
-- [#320](https://github.com/drivly/ai/issues/320) - `payload` resolve build errors
-- [#302](https://github.com/drivly/ai/issues/302) - Work on failing tests
-- [#300](https://github.com/drivly/ai/issues/300) - `tests` add tests to run on Vercel deployment to prevent regressions
 - [#295](https://github.com/drivly/ai/issues/295) - Update \_meta files in content
-- [#288](https://github.com/drivly/ai/issues/288) - Do a POC of Payload Admin Bar
 - [#279](https://github.com/drivly/ai/issues/279) - Implement Changesets and automatic semver
+- [#179](https://github.com/drivly/ai/issues/179) - `ai-models` come up with new package name
+- [#165](https://github.com/drivly/ai/issues/165) - `openhands` create `.openhands/setup.sh`
+- [#163](https://github.com/drivly/ai/issues/163) - Define PR naming and commit message rules
+- [#143](https://github.com/drivly/ai/issues/143) - Update AI context rules
+- [#34](https://github.com/drivly/ai/issues/34) - Create JSON5/YAML switcher in JSON Field Component
+- [#33](https://github.com/drivly/ai/issues/33) - Create `ai-models`
+- [#26](https://github.com/drivly/ai/issues/26) - Setup Turbo Repo
+
+### AI & Integration Features
+
 - [#278](https://github.com/drivly/ai/issues/278) - Implement FireCrawl as a tool to inject scraped URL as Markdown
 - [#277](https://github.com/drivly/ai/issues/277) - Add user metadata to header for AI gateway
 - [#276](https://github.com/drivly/ai/issues/276) - Support for webhook callback option
@@ -309,21 +348,28 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#270](https://github.com/drivly/ai/issues/270) - Create script to generate/update BACKLOG.md from Github issues
 - [#261](https://github.com/drivly/ai/issues/261) - Summarize all open issues and update ROADMAP
 - [#226](https://github.com/drivly/ai/issues/226) - Create GitHub App with `.ai` folder repo, issue, etc access
-- [#224](https://github.com/drivly/ai/issues/224) - `payload` update collections/README with collections overview
 - [#223](https://github.com/drivly/ai/issues/223) - `payload` update events collection with props, relationships, and joins
-- [#214](https://github.com/drivly/ai/issues/214) - `tests` fix vitest tests inside the `ai-models` package
-- [#205](https://github.com/drivly/ai/issues/205) - `payload` crash from multi-tenant plugin
-- [#179](https://github.com/drivly/ai/issues/179) - `ai-models` come up with new package name
-- [#166](https://github.com/drivly/ai/issues/166) - `tests` resolve typescript errors
-- [#165](https://github.com/drivly/ai/issues/165) - `openhands` create `.openhands/setup.sh`
-- [#163](https://github.com/drivly/ai/issues/163) - Define PR naming and commit message rules
-- [#148](https://github.com/drivly/ai/issues/148) - `tests` create initial Vitest structure
-- [#146](https://github.com/drivly/ai/issues/146) - `payload-vscode` extension to view/edit Payload collections
-- [#143](https://github.com/drivly/ai/issues/143) - Update AI context rules
-- [#133](https://github.com/drivly/ai/issues/133) - `payload` add email provider
 - [#111](https://github.com/drivly/ai/issues/111) - `issues.do` create Github app
+- [#70](https://github.com/drivly/ai/issues/70) - `ai-providers` support meta-models by capabilities & priorities via `ai-models`
+- [#68](https://github.com/drivly/ai/issues/68) - `ai-providers` route appropriate models to OpenAI, Anthropic, and Google providers
+- [#67](https://github.com/drivly/ai/issues/67) - `ai-providers` package
+- [#54](https://github.com/drivly/ai/issues/54) - Add Cline rules memory bank
+- [#50](https://github.com/drivly/ai/issues/50) - Update `clickable-links` with `user` object
+- [#44](https://github.com/drivly/ai/issues/44) - Expose `getModel` on models.do
+- [#16](https://github.com/drivly/ai/issues/16) - Support intelligent modification of request based on capabilities (i.e. structured_outputs, tools, etc)
+- [#14](https://github.com/drivly/ai/issues/14) - Draft RFC for model naming/routing syntax
+- [#12](https://github.com/drivly/ai/issues/12) - Proxy `/responses` endpoint to OpenAI
+- [#11](https://github.com/drivly/ai/issues/11) - Proxy `/chat/completions` endpoint to OpenRouter via Cloudflare AI Gateway
+
+### Data Models & Architecture
+
+- [#30](https://github.com/drivly/ai/issues/30) - Define Nouns, Verbs, Resources
+- [#29](https://github.com/drivly/ai/issues/29) - Flesh out Data models & Payload Collections
+- [#27](https://github.com/drivly/ai/issues/27) - Create simplified `db` access layer
+
+### Website & Marketing
+
 - [#105](https://github.com/drivly/ai/issues/105) - Add Vercel Speed Insights
-- [#104](https://github.com/drivly/ai/issues/104) - `payload-ui` monaco code complete
 - [#99](https://github.com/drivly/ai/issues/99) - Create /pricing page
 - [#98](https://github.com/drivly/ai/issues/98) - Create /terms page
 - [#97](https://github.com/drivly/ai/issues/97) - Create /privacy page
@@ -338,31 +384,9 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#86](https://github.com/drivly/ai/issues/86) - BlogPost Component
 - [#85](https://github.com/drivly/ai/issues/85) - BlogLayout Component
 - [#83](https://github.com/drivly/ai/issues/83) - LandingPage Component
-- [#70](https://github.com/drivly/ai/issues/70) - `ai-providers` support meta-models by capabilities & priorities via `ai-models`
-- [#68](https://github.com/drivly/ai/issues/68) - `ai-providers` route appropriate models to OpenAI, Anthropic, and Google providers
-- [#67](https://github.com/drivly/ai/issues/67) - `ai-providers` package
-- [#54](https://github.com/drivly/ai/issues/54) - Add Cline rules memory bank
 - [#53](https://github.com/drivly/ai/issues/53) - Add support for OpenGraph images
-- [#50](https://github.com/drivly/ai/issues/50) - Update `clickable-links` with `user` object
-- [#48](https://github.com/drivly/ai/issues/48) - Configure Payload Relationship Cells to be clickable in list view
-- [#47](https://github.com/drivly/ai/issues/47) - Create Payload URL Field
-- [#44](https://github.com/drivly/ai/issues/44) - Expose `getModel` on models.do
-- [#43](https://github.com/drivly/ai/issues/43) - `payload` add Logo & Icon to config
-- [#42](https://github.com/drivly/ai/issues/42) - Payload option to auto-add relationship
-- [#39](https://github.com/drivly/ai/issues/39) - Create Payload Grid/Card view
-- [#38](https://github.com/drivly/ai/issues/38) - Payload Kanban View
-- [#34](https://github.com/drivly/ai/issues/34) - Create JSON5/YAML switcher in JSON Field Component
-- [#33](https://github.com/drivly/ai/issues/33) - Create `ai-models`
-- [#30](https://github.com/drivly/ai/issues/30) - Define Nouns, Verbs, Resources
-- [#29](https://github.com/drivly/ai/issues/29) - Flesh out Data models & Payload Collections
-- [#27](https://github.com/drivly/ai/issues/27) - Create simplified `db` access layer
-- [#26](https://github.com/drivly/ai/issues/26) - Setup Turbo Repo
-- [#24](https://github.com/drivly/ai/issues/24) - Create initial version of `payload-theme`
-- [#23](https://github.com/drivly/ai/issues/23) - Create initial version of `payload-commandbar`
-- [#21](https://github.com/drivly/ai/issues/21) - Admin Application
-- [#16](https://github.com/drivly/ai/issues/16) - Support intelligent modification of request based on capabilities (i.e. structured_outputs, tools, etc)
-- [#14](https://github.com/drivly/ai/issues/14) - Draft RFC for model naming/routing syntax
-- [#12](https://github.com/drivly/ai/issues/12) - Proxy `/responses` endpoint to OpenAI
-- [#11](https://github.com/drivly/ai/issues/11) - Proxy `/chat/completions` endpoint to OpenRouter via Cloudflare AI Gateway
+
+### Documentation
+
 - [#7](https://github.com/drivly/ai/issues/7) - Create CONTRIBUTING.md
 - [#3](https://github.com/drivly/ai/issues/3) - Roadmap

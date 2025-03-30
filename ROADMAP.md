@@ -194,17 +194,21 @@ The following areas have been identified as gaps in the current collection of is
 
 2. **Evals.do Component:** While mentioned in the architecture, no specific implementation issues exist for this evaluation framework.
 
-3. **Testing Infrastructure:** Limited issues related to comprehensive testing of components, especially for AI functions, workflows, and agents.
+3. **Testing Infrastructure:** While there are several testing-related issues (see Testing & CI/CD section in BACKLOG.md), more comprehensive testing strategies for AI functions, workflows, and agents are needed.
 
-4. **Documentation Coverage:** While there are issues for initial documentation, more specific issues for comprehensive documentation of each component would be beneficial.
+4. **Documentation Coverage:** While there are issues for initial documentation, more specific issues for comprehensive documentation of each component would be beneficial, especially for new components like Tasks.do and Integrations.do.
 
-5. **Deployment & DevOps:** Limited issues related to deployment processes, CI/CD, and operational concerns.
+5. **Deployment & DevOps:** Limited issues related to deployment processes, CI/CD, and operational concerns beyond basic Vercel deployment.
 
-6. **Performance Monitoring:** Few issues specifically addressing performance benchmarking and optimization.
+6. **Performance Monitoring:** Few issues specifically addressing performance benchmarking and optimization, which will be critical for production usage.
 
-7. **Security & Compliance:** No specific issues addressing security concerns, authentication mechanisms (beyond OAuth), or compliance requirements.
+7. **Security & Compliance:** No specific issues addressing security concerns, authentication mechanisms (beyond OAuth), or compliance requirements for enterprise adoption.
 
-8. **Error Handling:** Limited focus on standardized error handling and recovery mechanisms across components.
+8. **Error Handling:** Limited focus on standardized error handling and recovery mechanisms across components, especially for AI-related failures.
+
+9. **Tasks.do Component:** While there are implementation issues for Tasks.do (see BACKLOG.md), there's no clear mapping in the roadmap for how this component fits into the overall architecture.
+
+10. **Payload Admin UI Improvements:** Several issues exist for Payload UI enhancements (including the recent #484 for kanban board), but a cohesive strategy for admin experience is not clearly defined.
 
 ## Next Steps
 
@@ -212,6 +216,11 @@ Based on the identified gaps, the following areas should be prioritized for the 
 
 1. Create specific issues for implementing the Searches.do component
 2. Develop the Evals.do evaluation framework with concrete implementation tasks
-3. Establish comprehensive testing strategies for all components
+3. Establish comprehensive testing strategies for all components, especially for AI functions
 4. Expand documentation coverage with component-specific documentation tasks
 5. Define security and compliance requirements and implementation tasks
+6. Create a cohesive strategy for Tasks.do integration into the overall architecture
+7. Develop a comprehensive plan for Payload Admin UI improvements and user experience
+8. Implement standardized error handling mechanisms across all components
+9. Establish performance benchmarking and monitoring for production readiness
+10. Define deployment and DevOps processes beyond basic Vercel deployment
