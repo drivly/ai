@@ -5,7 +5,7 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
-// import sharp from 'sharp'
+import sharp from 'sharp'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { Config } from './payload.types'
 
@@ -36,8 +36,15 @@ export default buildConfig({
     addParentToTaskLog: true,
     tasks,
     workflows,
+    access: {
+      run: ({ req }): boolean => {
+        if (req.user) return true
+        const authHeader = req.headers.get('authorization')
+        return authHeader === `Bearer ${process.env.CRON_SECRET}`
+      },
+    },
   },
-  // sharp,
+  sharp,
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder

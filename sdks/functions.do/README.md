@@ -1,5 +1,11 @@
 # functions.do
 
+[![npm version](https://img.shields.io/npm/v/functions.do.svg)](https://www.npmjs.com/package/functions.do)
+[![npm downloads](https://img.shields.io/npm/dm/functions.do.svg)](https://www.npmjs.com/package/functions.do)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
+[![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
+
 AI is transforming businesses but integrating LLMs into existing systems presents challenges due to the clash between AI's non-deterministic nature and traditional software's deterministic characteristics.
 
 Key challenges include:
