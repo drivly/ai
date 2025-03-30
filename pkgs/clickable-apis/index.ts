@@ -1,19 +1,129 @@
 import { NextRequest, NextResponse } from 'next/server'
 import punycode from 'punycode'
-import { 
-  PayloadDB, 
-  ApiContext, 
-  ApiHandler,
-  PayloadClientResult,
-  PayloadClientFn,
-  initializePayloadClient,
-  createMockEdgePayload,
-  createMockNodePayload,
-  createEdgePayloadClient,
-  createNodePayloadClient
-} from 'simple-payload'
+export type PayloadDB = any
+export type ApiContext = {
+  params: Record<string, string | string[]>
+  url: URL
+  path: string
+  domain: string
+  origin: string
+  user: any // Payload user object type
+  permissions: any // Payload permissions object type
+  payload: any // Payload instance
+  db: PayloadDB // Enhanced database access
+  req?: any
+}
+export type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T
+export type PayloadClientResult = {
+  payload: any
+  db: PayloadDB
+}
+export type PayloadClientFn = () => Promise<PayloadClientResult>
 
-export type { ApiContext, PayloadClientResult, PayloadClientFn }
+export const initializePayloadClient = (payload: any, isEdgeRuntime: boolean): PayloadDB => {
+  if (!payload.db) {
+    return isEdgeRuntime 
+      ? createEdgePayloadClient(payload) 
+      : createNodePayloadClient(payload)
+  }
+  return payload.db
+}
+
+export const createMockEdgePayload = (): any => {
+  const apiUrl = process.env.PAYLOAD_API_URL || 
+    (process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+  
+  if (!process.env.PAYLOAD_API_URL) {
+    console.warn(`PAYLOAD_API_URL not set, falling back to ${apiUrl}`)
+  }
+  
+  const apiKey = process.env.PAYLOAD_API_KEY
+  
+  return {
+    auth: {
+      me: async () => ({ permissions: {}, user: null }),
+    },
+    find: async (options: any) => {
+      return fetch(`${apiUrl}/api/${options.collection}`, {
+        headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
+      }).then((res) => res.json())
+    },
+    findByID: async (options: any) => {
+      return fetch(`${apiUrl}/api/${options.collection}/${options.id}`, {
+        headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
+      }).then((res) => res.json())
+    },
+    jobs: {
+      queue: async (options: any) => {
+        console.log('Mock job queued:', options)
+        return { id: `mock-job-${Date.now()}`, status: 'queued' }
+      },
+      runByID: async ({ id }: { id: string }) => {
+        console.log('Mock job run:', id)
+        return { id, status: 'completed', result: {} }
+      }
+    },
+  }
+}
+
+export const createMockNodePayload = (): any => {
+  const apiUrl = process.env.PAYLOAD_API_URL || 
+    (process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+  
+  if (!process.env.PAYLOAD_API_URL) {
+    console.warn(`PAYLOAD_API_URL not set, falling back to ${apiUrl}`)
+  }
+  
+  const apiKey = process.env.PAYLOAD_API_KEY
+  
+  return {
+    auth: {
+      me: async () => ({ permissions: {}, user: null }),
+    },
+    find: async (options: any) => {
+      return fetch(`${apiUrl}/api/${options.collection}`, {
+        headers: apiKey ? { Authorization: `JWT ${apiKey}` } : {},
+      }).then((res) => res.json())
+    },
+    findByID: async (options: any) => {
+      return fetch(`${apiUrl}/api/${options.collection}/${options.id}`, {
+        headers: apiKey ? { Authorization: `JWT ${apiKey}` } : {},
+      }).then((res) => res.json())
+    },
+    jobs: {
+      queue: async (options: any) => {
+        console.log('Mock job queued:', options)
+        return { id: `mock-job-${Date.now()}`, status: 'queued' }
+      },
+      runByID: async ({ id }: { id: string }) => {
+        console.log('Mock job run:', id)
+        return { id, status: 'completed', result: {} }
+      }
+    },
+  }
+}
+
+export const createEdgePayloadClient = (payload: any): PayloadDB => {
+  return {
+    find: async (collection: string, query: any = {}) => {
+      return payload.find({ collection, ...query })
+    },
+    findOne: async (collection: string, query: any = {}) => {
+      return payload.findByID({ collection, ...query })
+    }
+  }
+}
+
+export const createNodePayloadClient = (payload: any): PayloadDB => {
+  return {
+    find: async (collection: string, query: any = {}) => {
+      return payload.find({ collection, ...query })
+    },
+    findOne: async (collection: string, query: any = {}) => {
+      return payload.findByID({ collection, ...query })
+    }
+  }
+}
 
 
 let _currentRequest: NextRequest | null = null
