@@ -8,6 +8,9 @@ export default defineConfig({
     setupFiles: ['tests/setup.ts'],
     // Disable browser tests in CI environment to avoid dependency issues
     // The tests have fallback mechanisms for when browser is not available
+    env: {
+      envFile: '.env.e2e.local',
+    },
   },
   resolve: {
     alias: {

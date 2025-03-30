@@ -12,7 +12,8 @@ if (!process.env.BASE_URL || process.env.BASE_URL === 'https://' || process.env.
   console.log(`Invalid BASE_URL detected: "${process.env.BASE_URL}", using localhost instead`)
   process.env.BASE_URL = 'http://localhost:3000'
 } else {
-  console.log(`Using BASE_URL: ${process.env.BASE_URL}`)
+  console.log(`Using BASE_URL from environment: "${process.env.BASE_URL}"`)
+  console.log(`BASE_URL is properly set in environment: ${process.env.BASE_URL}`)
 }
 
 process.env.IS_TEST_ENV = 'true'

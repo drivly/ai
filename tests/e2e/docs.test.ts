@@ -54,6 +54,7 @@ describe('Documentation page', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      console.log(`Docs test using raw BASE_URL: "${baseUrl}"`)
       
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`

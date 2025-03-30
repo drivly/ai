@@ -57,6 +57,8 @@ describe('Vercel Preview Deployment Tests', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      console.log(`Vercel-preview home page test using raw BASE_URL: "${baseUrl}"`)
+
       
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
@@ -99,6 +101,8 @@ describe('Vercel Preview Deployment Tests', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      console.log(`Vercel-preview API endpoints test using raw BASE_URL: "${baseUrl}"`)
+
       
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
@@ -140,6 +144,8 @@ describe('Vercel Preview Deployment Tests', () => {
   it('should test API endpoints with fetch only', async () => {
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      console.log(`Vercel-preview fetch-only test using raw BASE_URL: "${baseUrl}"`)
+
       
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
@@ -200,6 +206,8 @@ describe('Vercel Preview Deployment Tests', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      console.log(`Vercel-preview website paths test using raw BASE_URL: "${baseUrl}"`)
+
       
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`

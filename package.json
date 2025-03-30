@@ -23,6 +23,7 @@
     "test": "turbo test",
     "test:watch": "vitest",
     "test:e2e": "vitest run --config vitest.e2e.config.ts",
+    "test:env": "node scripts/test-env-loading.js",
     "clean": "turbo clean",
     "lint:legacy": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "test:legacy": "vitest run",

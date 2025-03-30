@@ -54,6 +54,7 @@ describe('Admin page', () => {
 
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+      console.log(`Admin test using raw BASE_URL: "${baseUrl}"`)
       
       if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
