@@ -118,6 +118,7 @@
     "data",
     "dash",
     "sdk/*",
+    "sdks/*",
     "web/*",
     "pkgs/*",
     "workers/*",
