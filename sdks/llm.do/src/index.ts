@@ -1,4 +1,5 @@
 import { ApiClient } from './api-client'
+import { createLLMDoProvider, llmDoProvider } from './provider'
 
 export interface CompletionOptions {
   model?: string
@@ -107,5 +108,7 @@ export class LLMClient {
     return response.body as ReadableStream<any>
   }
 }
+
+export { createLLMDoProvider, llmDoProvider }
 
 export default LLMClient
