@@ -39,30 +39,40 @@ jobs:
           echo "GitHub Ref Name: ${GITHUB_REF_NAME}"
           echo "GitHub Head Ref: ${GITHUB_HEAD_REF}"
 
-      - name: Get Vercel Preview URL
-        uses: zentered/vercel-preview-url@v1.1.9
-        id: vercel_preview_url
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      - name: Debug Deployment Status Event
+        run: |
+          echo "Deployment Status Event:"
+          echo "Target URL: ${{ github.event.deployment_status.target_url }}"
+          echo "Environment: ${{ github.event.deployment_status.environment }}"
+          echo "State: ${{ github.event.deployment_status.state }}"
+          echo "GitHub Ref: ${GITHUB_REF}"
+          echo "GitHub Ref Name: ${GITHUB_REF_NAME}"
+          echo "GitHub Head Ref: ${GITHUB_HEAD_REF}"
+          echo "Deployment ID: ${{ github.event.deployment_status.deployment_id }}"
+          echo "Repository: ${{ github.repository }}"
+          
+      - name: Wait for Vercel Preview Deployment
+        id: wait_for_vercel
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.1
         with:
-          vercel_project_id: ${{ secrets.VERCEL_PROJECT_ID }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 300
+          check_interval: 5
           
       - name: Debug Vercel Preview URL
         run: |
-          echo "Vercel Preview URL: ${{ steps.vercel_preview_url.outputs.preview_url }}"
-          echo "Deployment State: ${{ steps.vercel_preview_url.outputs.deployment_state }}"
-          echo "Branch Alias: ${{ steps.vercel_preview_url.outputs.branch_alias }}"
+          echo "Vercel Preview URL: ${{ steps.wait_for_vercel.outputs.url }}"
           
-          # Fallback to branch name-based URL if zentered action doesn't return a URL
-          if [ -z "${{ steps.vercel_preview_url.outputs.preview_url }}" ]; then
-            echo "No URL from zentered action, using branch name-based URL construction..."
+          # Fallback to branch name-based URL if wait-for-vercel action doesn't return a URL
+          if [ -z "${{ steps.wait_for_vercel.outputs.url }}" ]; then
+            echo "No URL from wait-for-vercel action, using branch name-based URL construction..."
             BRANCH_NAME=$(echo ${GITHUB_REF_NAME:-${GITHUB_REF#refs/heads/}} | sed 's/\//-/g')
             DEPLOY_URL="https://ai-git-${BRANCH_NAME}.dev.driv.ly"
             echo "VERCEL_PREVIEW_URL=${DEPLOY_URL}" >> $GITHUB_ENV
             echo "Using fallback Vercel Preview URL: ${DEPLOY_URL}"
           else
-            echo "VERCEL_PREVIEW_URL=${{ steps.vercel_preview_url.outputs.preview_url }}" >> $GITHUB_ENV
-            echo "Using Vercel Preview URL from API: ${{ steps.vercel_preview_url.outputs.preview_url }}"
+            echo "VERCEL_PREVIEW_URL=${{ steps.wait_for_vercel.outputs.url }}" >> $GITHUB_ENV
+            echo "Using Vercel Preview URL from wait-for-vercel action: ${{ steps.wait_for_vercel.outputs.url }}"
           fi
 
       - name: Run E2E tests on Vercel Preview
