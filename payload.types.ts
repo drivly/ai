@@ -71,13 +71,15 @@ export interface Config {
     functions: Function;
     workflows: Workflow;
     agents: Agent;
+    queues: Queue;
+    tasks: Task;
     nouns: Noun;
     verbs: Verb;
     things: Thing;
     integrations: Integration;
-    'integration-categories': IntegrationCategory;
-    'integration-triggers': IntegrationTrigger;
-    'integration-actions': IntegrationAction;
+    integrationCategories: IntegrationCategory;
+    integrationTriggers: IntegrationTrigger;
+    integrationActions: IntegrationAction;
     connections: Connection;
     triggers: Trigger;
     searches: Search;
@@ -92,15 +94,13 @@ export interface Config {
     deployments: Deployment;
     benchmarks: Benchmark;
     evals: Eval;
-    'eval-runs': EvalRun;
-    'eval-results': EvalResult;
+    evalRuns: EvalRun;
+    evalResults: EvalResult;
     datasets: Dataset;
     events: Event;
     errors: Error;
     generations: Generation;
     traces: Trace;
-    queues: Queue;
-    tasks: Task;
     projects: Project;
     users: User;
     roles: Role;
@@ -115,6 +115,13 @@ export interface Config {
   collectionsJoins: {
     functions: {
       actions: 'actions';
+    };
+    queues: {
+      tasks: 'tasks';
+    };
+    tasks: {
+      subtasks: 'tasks';
+      dependents: 'tasks';
     };
     nouns: {
       things: 'things';
@@ -134,13 +141,15 @@ export interface Config {
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
     agents: AgentsSelect<false> | AgentsSelect<true>;
+    queues: QueuesSelect<false> | QueuesSelect<true>;
+    tasks: TasksSelect<false> | TasksSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     things: ThingsSelect<false> | ThingsSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
-    'integration-categories': IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
-    'integration-triggers': IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
-    'integration-actions': IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
+    integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
+    integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
+    integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
     connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
@@ -155,15 +164,13 @@ export interface Config {
     deployments: DeploymentsSelect<false> | DeploymentsSelect<true>;
     benchmarks: BenchmarksSelect<false> | BenchmarksSelect<true>;
     evals: EvalsSelect<false> | EvalsSelect<true>;
-    'eval-runs': EvalRunsSelect<false> | EvalRunsSelect<true>;
-    'eval-results': EvalResultsSelect<false> | EvalResultsSelect<true>;
+    evalRuns: EvalRunsSelect<false> | EvalRunsSelect<true>;
+    evalResults: EvalResultsSelect<false> | EvalResultsSelect<true>;
     datasets: DatasetsSelect<false> | DatasetsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     errors: ErrorsSelect<false> | ErrorsSelect<true>;
     generations: GenerationsSelect<false> | GenerationsSelect<true>;
     traces: TracesSelect<false> | TracesSelect<true>;
-    queues: QueuesSelect<false> | QueuesSelect<true>;
-    tasks: TasksSelect<false> | TasksSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
@@ -285,8 +292,8 @@ export interface Prompt {
  */
 export interface User {
   id: string;
-  roles?: (string | Role)[] | null;
-  tasks?: (string | Task)[] | null;
+  name?: string | null;
+  image?: string | null;
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -300,44 +307,6 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "roles".
- */
-export interface Role {
-  id: string;
-  name: string;
-  users?: (string | User)[] | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tasks".
- */
-export interface Task {
-  id: string;
-  title: string;
-  description?: string | null;
-  parent?: (string | null) | Task;
-  subtasks?: (string | Task)[] | null;
-  dependentOn?: (string | Task)[] | null;
-  dependents?: (string | Task)[] | null;
-  assigned?:
-    | (
-        | {
-            relationTo: 'users';
-            value: string | User;
-          }
-        | {
-            relationTo: 'roles';
-            value: string | Role;
-          }
-      )[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -566,6 +535,68 @@ export interface Deployment {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "queues".
+ */
+export interface Queue {
+  id: string;
+  name: string;
+  role: string | Role;
+  tasks?: {
+    docs?: (string | Task)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tasks".
+ */
+export interface Task {
+  id: string;
+  title: string;
+  description?: string | null;
+  queue?: (string | null) | Queue;
+  parent?: (string | null) | Task;
+  subtasks?: {
+    docs?: (string | Task)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  dependentOn?: (string | Task)[] | null;
+  dependents?: {
+    docs?: (string | Task)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  assigned?:
+    | (
+        | {
+            relationTo: 'users';
+            value: string | User;
+          }
+        | {
+            relationTo: 'roles';
+            value: string | Role;
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrations".
  */
 export interface Integration {
@@ -576,7 +607,7 @@ export interface Integration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-categories".
+ * via the `definition` "integrationCategories".
  */
 export interface IntegrationCategory {
   id: string;
@@ -586,7 +617,7 @@ export interface IntegrationCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-triggers".
+ * via the `definition` "integrationTriggers".
  */
 export interface IntegrationTrigger {
   id: string;
@@ -615,7 +646,7 @@ export interface IntegrationTrigger {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-actions".
+ * via the `definition` "integrationActions".
  */
 export interface IntegrationAction {
   id: string;
@@ -793,7 +824,7 @@ export interface Eval {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "eval-runs".
+ * via the `definition` "evalRuns".
  */
 export interface EvalRun {
   id: string;
@@ -803,7 +834,7 @@ export interface EvalRun {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "eval-results".
+ * via the `definition` "evalResults".
  */
 export interface EvalResult {
   id: string;
@@ -877,18 +908,6 @@ export interface Error {
 export interface Trace {
   id: string;
   name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "queues".
- */
-export interface Queue {
-  id: string;
-  name: string;
-  role: string | Role;
-  tasks?: (string | Task)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1054,6 +1073,14 @@ export interface PayloadLockedDocument {
         value: string | Agent;
       } | null)
     | ({
+        relationTo: 'queues';
+        value: string | Queue;
+      } | null)
+    | ({
+        relationTo: 'tasks';
+        value: string | Task;
+      } | null)
+    | ({
         relationTo: 'nouns';
         value: string | Noun;
       } | null)
@@ -1070,15 +1097,15 @@ export interface PayloadLockedDocument {
         value: string | Integration;
       } | null)
     | ({
-        relationTo: 'integration-categories';
+        relationTo: 'integrationCategories';
         value: string | IntegrationCategory;
       } | null)
     | ({
-        relationTo: 'integration-triggers';
+        relationTo: 'integrationTriggers';
         value: string | IntegrationTrigger;
       } | null)
     | ({
-        relationTo: 'integration-actions';
+        relationTo: 'integrationActions';
         value: string | IntegrationAction;
       } | null)
     | ({
@@ -1138,11 +1165,11 @@ export interface PayloadLockedDocument {
         value: string | Eval;
       } | null)
     | ({
-        relationTo: 'eval-runs';
+        relationTo: 'evalRuns';
         value: string | EvalRun;
       } | null)
     | ({
-        relationTo: 'eval-results';
+        relationTo: 'evalResults';
         value: string | EvalResult;
       } | null)
     | ({
@@ -1164,14 +1191,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'traces';
         value: string | Trace;
-      } | null)
-    | ({
-        relationTo: 'queues';
-        value: string | Queue;
-      } | null)
-    | ({
-        relationTo: 'tasks';
-        value: string | Task;
       } | null)
     | ({
         relationTo: 'projects';
@@ -1297,6 +1316,33 @@ export interface AgentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "queues_select".
+ */
+export interface QueuesSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  tasks?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tasks_select".
+ */
+export interface TasksSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  queue?: T;
+  parent?: T;
+  subtasks?: T;
+  dependentOn?: T;
+  dependents?: T;
+  assigned?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "nouns_select".
  */
 export interface NounsSelect<T extends boolean = true> {
@@ -1354,7 +1400,7 @@ export interface IntegrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-categories_select".
+ * via the `definition` "integrationCategories_select".
  */
 export interface IntegrationCategoriesSelect<T extends boolean = true> {
   category?: T;
@@ -1363,7 +1409,7 @@ export interface IntegrationCategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-triggers_select".
+ * via the `definition` "integrationTriggers_select".
  */
 export interface IntegrationTriggersSelect<T extends boolean = true> {
   display_name?: T;
@@ -1375,7 +1421,7 @@ export interface IntegrationTriggersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integration-actions_select".
+ * via the `definition` "integrationActions_select".
  */
 export interface IntegrationActionsSelect<T extends boolean = true> {
   displayName?: T;
@@ -1529,7 +1575,7 @@ export interface EvalsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "eval-runs_select".
+ * via the `definition` "evalRuns_select".
  */
 export interface EvalRunsSelect<T extends boolean = true> {
   name?: T;
@@ -1538,7 +1584,7 @@ export interface EvalRunsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "eval-results_select".
+ * via the `definition` "evalResults_select".
  */
 export interface EvalResultsSelect<T extends boolean = true> {
   name?: T;
@@ -1609,32 +1655,6 @@ export interface TracesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "queues_select".
- */
-export interface QueuesSelect<T extends boolean = true> {
-  name?: T;
-  role?: T;
-  tasks?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tasks_select".
- */
-export interface TasksSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  parent?: T;
-  subtasks?: T;
-  dependentOn?: T;
-  dependents?: T;
-  assigned?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
@@ -1648,8 +1668,8 @@ export interface ProjectsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  roles?: T;
-  tasks?: T;
+  name?: T;
+  image?: T;
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;
@@ -1669,7 +1689,6 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface RolesSelect<T extends boolean = true> {
   name?: T;
-  users?: T;
   updatedAt?: T;
   createdAt?: T;
 }

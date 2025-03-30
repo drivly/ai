@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 export const EvalsResults: CollectionConfig = {
-  slug: 'eval-results',
+  slug: 'evalResults',
   admin: {
     group: 'Evals',
     useAsTitle: 'name',

@@ -12,11 +12,11 @@ export const Roles: CollectionConfig = {
       type: 'text',
       required: true,
     },
-    {
-      name: 'users',
-      type: 'relationship',
-      relationTo: 'users',
-      hasMany: true,
-    },
+    // {
+    //   name: 'users',
+    //   type: 'relationship',
+    //   relationTo: 'users',
+    //   hasMany: true,
+    // },
   ],
 }

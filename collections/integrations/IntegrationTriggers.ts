@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 export const IntegrationTriggers: CollectionConfig = {
-  slug: 'integration-triggers',
+  slug: 'integrationTriggers',
   labels: {
     singular: 'Trigger',
     plural: 'Triggers',

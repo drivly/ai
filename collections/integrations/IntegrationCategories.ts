@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 export const IntegrationCategories: CollectionConfig = {
-  slug: 'integration-categories',
+  slug: 'integrationCategories',
   labels: {
     singular: 'Category',
     plural: 'Categories',
@@ -9,7 +9,7 @@ export const IntegrationCategories: CollectionConfig = {
   admin: {
     group: 'Integrations',
     useAsTitle: 'category',
-    hidden: false,
+    hidden: false ,
   },
   versions: true,
   fields: [{ name: 'category', type: 'text' }],

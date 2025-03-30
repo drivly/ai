@@ -1,7 +1,7 @@
 import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
-import { Integrations } from './admin/Integrations'
+import { Integrations } from './integrations/Integrations'
 import { Tags } from './admin/Tag'
 import { Roles } from './admin/Roles'
 import { Functions } from './ai/Functions'
@@ -31,28 +31,35 @@ import { Things } from './data/Things'
 import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
 import { Searches } from './events/Searches'
-import { IntegrationTriggers } from './admin/IntegrationTriggers'
-import { IntegrationActions } from './admin/IntegrationActions'
-import { IntegrationCategories } from './admin/IntegrationCategories'
-import { Connections } from './admin/Connections'
+import { IntegrationTriggers } from './integrations/IntegrationTriggers'
+import { IntegrationActions } from './integrations/IntegrationActions'
+import { IntegrationCategories } from './integrations/IntegrationCategories'
+import { Connections } from './integrations/Connections'
 import { Queues } from './jobs/Queues'
 import { Tasks } from './jobs/Tasks'
 
 export const collections = [
+  // Register basic collections first
   Functions,
   Workflows,
   Agents,
+  
+  // Order matters for join fields - Queues is referenced by Tasks
+  Queues,
+  Tasks,
 
   Nouns,
   Verbs,
   Things,
 
+  // Integration collections
   Integrations,
   IntegrationCategories,
   IntegrationTriggers,
   IntegrationActions,
   Connections,
 
+  // Event collections
   Triggers,
   Searches,
   Actions,
@@ -77,9 +84,6 @@ export const collections = [
   Errors,
   Generations,
   Traces,
-
-  Queues,
-  Tasks,
 
   Projects,
   Users,
