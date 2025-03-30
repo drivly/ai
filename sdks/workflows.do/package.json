@@ -35,6 +35,8 @@
     "functions.do": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.0.0"
+    "evalite": "^0.9.1",
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.9"
   }
 }

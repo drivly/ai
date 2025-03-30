@@ -30,7 +30,8 @@
     "test": "echo \"No tests\" && exit 0"
   },
   "devDependencies": {
-    "vitest": "^3.0.8"
+    "evalite": "^0.9.1",
+    "vitest": "^3.0.9"
   },
   "dependencies": {
     "apis.do": "workspace:*"
