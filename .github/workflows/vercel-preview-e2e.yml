@@ -1,4 +1,4 @@
-name: Vercel Preview Deployment E2E Tests
+name: Vercel E2E Tests
 
 on:
   deployment_status:
@@ -33,6 +33,7 @@ jobs:
         env:
           BASE_URL: ${{ github.event.deployment_status.target_url }}
           BROWSER_TESTS: 'true'
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: |
           cp tests/vitest.e2e.config.ts ./vitest.e2e.config.ts
           pnpm test:e2e
