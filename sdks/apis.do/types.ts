@@ -3,10 +3,16 @@
  * 
  * These types are compatible with the Payload CMS collection types
  * but defined here to avoid module resolution issues.
+ * 
+ * The apis.do SDK provides a unified API Gateway for all domains and services
+ * in the .do ecosystem, enabling seamless integration with Functions.do,
+ * Workflows.do, Agents.do, and other services.
  */
 
 /**
  * Function definition
+ * 
+ * Represents an AI function with type, schema, and code/prompt
  */
 export interface Function {
   id: string
@@ -22,6 +28,8 @@ export interface Function {
 
 /**
  * Workflow definition
+ * 
+ * Represents a declarative state machine for orchestration
  */
 export interface Workflow {
   id: string
@@ -29,12 +37,15 @@ export interface Workflow {
   description?: string
   type?: string
   code?: string
+  steps?: Record<string, WorkflowStep>
   updatedAt: string
   createdAt: string
 }
 
 /**
  * Workflow step configuration
+ * 
+ * Defines a single step within a workflow
  */
 export interface WorkflowStep {
   name: string
@@ -47,16 +58,24 @@ export interface WorkflowStep {
 
 /**
  * Agent definition
+ * 
+ * Represents an autonomous digital worker
  */
 export interface Agent {
   id: string
   name?: string
+  role?: string
+  job?: string
+  instructions?: string
+  tools?: string[]
   updatedAt: string
   createdAt: string
 }
 
 /**
  * Thing - Core data entity
+ * 
+ * Represents a core data entity with properties
  */
 export interface Thing {
   id: string
@@ -71,16 +90,21 @@ export interface Thing {
 
 /**
  * Noun - Category or type of Thing
+ * 
+ * Represents categories or types of Things
  */
 export interface Noun {
   id: string
   name?: string
+  description?: string
   updatedAt: string
   createdAt: string
 }
 
 /**
  * Verb - Action form and relationship
+ * 
+ * Represents action forms and relationships
  */
 export interface Verb {
   id: string
@@ -97,18 +121,24 @@ export interface Verb {
 
 /**
  * Trigger - Event that initiates a workflow
+ * 
+ * Represents events that initiate workflows
  */
 export interface Trigger {
   id: string
   name?: string
   description?: string
   type?: string
+  condition?: Record<string, any>
+  workflow?: string
   updatedAt: string
   createdAt: string
 }
 
 /**
  * Search - Query operation for retrieving data
+ * 
+ * Represents query operations for retrieving data
  */
 export interface Search {
   id: string
@@ -122,6 +152,8 @@ export interface Search {
 
 /**
  * Action - Task performed within workflows
+ * 
+ * Represents tasks performed within workflows
  */
 export interface Action {
   id: string
@@ -136,6 +168,8 @@ export interface Action {
 
 /**
  * Generation - Record of system state before/after an Action
+ * 
+ * Represents records of system state before/after an Action
  */
 export interface Generation {
   id: string
@@ -150,6 +184,8 @@ export interface Generation {
 
 /**
  * Event - System event with timestamp and metadata
+ * 
+ * Represents system events with timestamps and metadata
  */
 export interface Event {
   id: string
@@ -163,6 +199,8 @@ export interface Event {
 
 /**
  * Trace - Execution trace for debugging
+ * 
+ * Represents execution traces for debugging
  */
 export interface Trace {
   id: string
@@ -180,21 +218,28 @@ export interface Trace {
 
 /**
  * Integration - External system connection
+ * 
+ * Represents external system connections
  */
 export interface Integration {
   id: string
   name?: string
+  type?: string
+  config?: Record<string, any>
   updatedAt: string
   createdAt: string
 }
 
 /**
  * IntegrationTrigger - Event from external system
+ * 
+ * Represents events from external systems
  */
 export interface IntegrationTrigger {
   id: string
-  display_name?: string
+  displayName?: string
   description?: string
+  integration?: string | Integration
   payload?: Record<string, any>
   config?: Record<string, any>
   updatedAt: string
@@ -203,17 +248,25 @@ export interface IntegrationTrigger {
 
 /**
  * IntegrationAction - Operation on external system
+ * 
+ * Represents operations on external systems
  */
 export interface IntegrationAction {
   id: string
   displayName?: string
   description?: string
+  integration?: string | Integration
   parameters?: Record<string, any>
   response?: Record<string, any>
   updatedAt: string
   createdAt: string
 }
 
+/**
+ * ErrorResponse - API error response
+ * 
+ * Represents API error responses
+ */
 export interface ErrorResponse {
   errors?: Array<{
     message: string
@@ -222,6 +275,11 @@ export interface ErrorResponse {
   }>
 }
 
+/**
+ * ListResponse - Paginated list response
+ * 
+ * Represents paginated list responses
+ */
 export interface ListResponse<T> {
   data: T[]
   meta?: {
@@ -232,6 +290,11 @@ export interface ListResponse<T> {
   }
 }
 
+/**
+ * QueryParams - Parameters for querying collections
+ * 
+ * Represents parameters for querying collections
+ */
 export interface QueryParams {
   limit?: number
   page?: number
@@ -241,8 +304,27 @@ export interface QueryParams {
   populate?: string | string[]
 }
 
+/**
+ * ClientOptions - Options for API client initialization
+ * 
+ * Represents options for API client initialization
+ */
 export interface ClientOptions {
   baseUrl?: string
   apiKey?: string
   headers?: Record<string, string>
+}
+
+/**
+ * CollectionEndpoints - Type for collection-specific endpoints
+ * 
+ * Represents collection-specific endpoints
+ */
+export interface CollectionEndpoints<T> {
+  find: (params?: Record<string, any>, queryParams?: QueryParams) => Promise<ListResponse<T>>
+  get: (id: string) => Promise<T>
+  create: (data: Partial<T>) => Promise<T>
+  update: (id: string, data: Partial<T>) => Promise<T>
+  delete: (id: string) => Promise<T>
+  search: (query: string, params?: QueryParams) => Promise<ListResponse<T>>
 }
