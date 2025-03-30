@@ -46,7 +46,7 @@ import { DatabaseClient } from 'database.do'
 // Initialize the database client
 const db = new DatabaseClient({
   baseUrl: 'https://database.do', // Optional, defaults to https://database.do
-  apiKey: 'your-api-key', // Optional, for authenticated requests
+  apiKey: 'YOUR_API_KEY_HERE', // Optional, for authenticated requests
 })
 
 // Create a new post
