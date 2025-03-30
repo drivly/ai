@@ -3,7 +3,7 @@
  */
 
 import { ClientOptions, QueryParams, ErrorResponse, ListResponse } from 'apis.do';
-export { ClientOptions, QueryParams, ErrorResponse, ListResponse };
+export type { ClientOptions, QueryParams, ErrorResponse, ListResponse };
 
 /**
  * Field types supported by the database
