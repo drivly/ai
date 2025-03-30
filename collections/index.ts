@@ -43,7 +43,7 @@ export const collections = [
   Functions,
   Workflows,
   Agents,
-  
+
   // Order matters for join fields - Queues is referenced by Tasks
   Queues,
   Tasks,

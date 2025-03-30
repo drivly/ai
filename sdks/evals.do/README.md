@@ -8,7 +8,6 @@
 
 ## Installation
 
-
 ## Contributing
 
 We welcome contributions! Please see our [Contributing Guide](https://github.com/drivly/ai/blob/main/CONTRIBUTING.md) for more details.

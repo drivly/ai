@@ -64,11 +64,10 @@ export interface ConfigurableAIProxy {
 }
 
 export type AI_Instance = {
-  [K: string]: AIFunction<any, any> & 
+  [K: string]: AIFunction<any, any> &
     (<T = any>(input?: any, config?: AIConfig) => Promise<T>) &
     (<T = any>(input?: any, schema?: FunctionDefinition, config?: AIConfig) => Promise<T>)
-} & 
-  TaggedTemplateFunction & 
+} & TaggedTemplateFunction &
   ConfigurableAIProxy
 
 // Helper type to infer array element types

@@ -9,7 +9,7 @@ export default defineConfig({
       enabled: false,
     },
     coverage: {
-      exclude: ['tests/e2e/**']
-    }
+      exclude: ['tests/e2e/**'],
+    },
   },
 })
