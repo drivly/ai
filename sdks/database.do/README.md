@@ -41,16 +41,10 @@ pnpm add database.do
 ## Quick Start
 
 ```typescript
-import { DatabaseClient } from 'database.do'
-
-// Initialize the database client
-const db = new DatabaseClient({
-  baseUrl: 'https://database.do', // Optional, defaults to https://database.do
-  apiKey: 'YOUR_API_KEY_HERE', // Optional, for authenticated requests
-})
+import { db } from 'database.do'
 
 // Create a new post
-const post = await db.create('posts', {
+const post = await db.posts.create({
   title: 'Getting Started with database.do',
   content: 'This is a sample post created with database.do SDK',
   status: 'Published',
@@ -60,7 +54,7 @@ const post = await db.create('posts', {
 })
 
 // Query posts with filtering
-const publishedPosts = await db.find('posts', {
+const publishedPosts = await db.posts.find({
   where: {
     status: 'Published',
     author: 'author123',
@@ -68,38 +62,42 @@ const publishedPosts = await db.find('posts', {
 })
 
 // Get a post by ID
-const singlePost = await db.findOne('posts', post.id)
+const singlePost = await db.posts.findOne(post.id)
 
 // Update a post
-await db.update('posts', post.id, {
+await db.posts.update(post.id, {
   title: 'Updated Title',
 })
 
 // Delete a post
-await db.delete('posts', post.id)
+await db.posts.delete(post.id)
 ```
+
+> Note: You'll need to set the `DATABASE_API_KEY` environment variable for authenticated requests.
 
 ## Usage Examples
 
-### Schema-less Usage
+### Configuration Options
 
-The database.do SDK supports schema-less operations, allowing you to work with collections without predefined schemas:
+You can customize the database client with additional configuration options:
 
 ```typescript
-import { DatabaseClient } from 'database.do'
+import { DB } from 'database.do'
 
-// Initialize the database client
-const db = new DatabaseClient()
+// Initialize with custom configuration
+const db = DB({
+  baseUrl: 'https://your-custom-instance.database.do', // Optional, defaults to https://database.do
+  apiKey: 'YOUR_API_KEY_HERE', // Optional, overrides the DATABASE_API_KEY environment variable
+})
 
-// Create documents in any collection without predefined schema
-const product = await db.create('products', {
+// Create a product
+const product = await db.products.create({
   name: 'Smart Speaker',
   description: 'Voice-controlled smart speaker with AI assistant',
   price: 99.99,
   category: 'electronics',
   tags: ['smart-home', 'audio', 'voice-control'],
   isAvailable: true,
-  // Add any fields you need without schema constraints
   dimensions: {
     height: 15,
     width: 10,
@@ -107,75 +105,55 @@ const product = await db.create('products', {
   },
   features: ['voice-control', 'multi-room-audio', 'smart-home-integration'],
 })
-
-// Create a customer
-const customer = await db.create('customers', {
-  name: 'Jane Doe',
-  email: 'jane@example.com',
-  // Add any fields without schema constraints
-  preferences: {
-    notifications: true,
-    theme: 'dark',
-  },
-})
-
-// Create an order with flexible structure
-const order = await db.create('orders', {
-  customer: customer.id,
-  products: [product.id],
-  status: 'Processing',
-  orderDate: new Date(),
-  totalAmount: 99.99,
-  // Add any additional fields as needed
-  shippingAddress: {
-    street: '123 Main St',
-    city: 'Anytown',
-    state: 'CA',
-    zip: '12345',
-  },
-  paymentMethod: 'credit_card',
-})
 ```
 
-### Working with Defined Schemas
+### Schema Definition
 
-When working with a defined schema (created through the database.do admin interface or API), you get additional benefits like validation and relationships:
+You can define your database schema directly in your code:
 
 ```typescript
-import { DatabaseClient } from 'database.do'
+import { DB } from 'database.do'
 
-const db = new DatabaseClient()
+const db = DB({
+  posts: {
+    title: 'text',
+    content: 'richtext',
+    status: 'Draft | Published | Archived', // Select field with predefined options
+    contentType: 'Text | Markdown | Code | Object | Schema', // Another select field example
+    tags: 'tags[]',
+    author: 'authors',
+  },
+  tags: {
+    name: 'text',
+    posts: '<-posts.tags', // Join field to posts (reverse relation)
+  },
+  authors: {
+    name: 'text',
+    email: 'email',
+    role: 'Admin | Editor | Writer', // Select field with predefined options
+    posts: '<-posts.author', // Join field to posts (reverse relation)
+  },
+})
 
 // Create documents that conform to your defined schema
 // The server will validate the data against your schema
-const product = await db.create('products', {
-  name: 'Smart Display',
-  description: 'Touch-screen smart display with voice assistant',
-  price: 149.99,
-  category: 'electronics', // References the categories collection
-  tags: ['smart-home', 'display'], // References the tags collection
-  isAvailable: true,
-})
-
-// The schema ensures data consistency and relationships
-const order = await db.create('orders', {
-  customer: 'customer-id', // References the customers collection
-  products: ['product-id-1', 'product-id-2'], // References the products collection
-  status: 'Processing', // Enum value defined in schema
-  orderDate: new Date(),
-  totalAmount: 249.98,
+const post = await db.posts.create({
+  title: 'Working with Schemas',
+  content: 'This post demonstrates schema validation and relationships',
+  status: 'Published',
+  contentType: 'Markdown',
+  tags: ['database', 'schema'],
+  author: 'author123',
 })
 ```
 
 ### Advanced Querying
 
 ```typescript
-import { DatabaseClient } from 'database.do'
-
-const db = new DatabaseClient()
+import { db } from 'database.do'
 
 // Find products with pagination and sorting
-const products = await db.find('products', {
+const products = await db.products.find({
   where: {
     price: { gt: 100 },
     isAvailable: true,
@@ -187,7 +165,7 @@ const products = await db.find('products', {
 })
 
 // Find with complex filters
-const results = await db.find('posts', {
+const results = await db.posts.find({
   where: {
     $or: [
       { status: 'Published' }, 
@@ -201,7 +179,7 @@ const results = await db.find('posts', {
 })
 
 // Search functionality
-const searchResults = await db.search('products', 'smart speaker', {
+const searchResults = await db.products.search('smart speaker', {
   limit: 20,
   sort: 'relevance:desc',
 })
@@ -210,21 +188,19 @@ const searchResults = await db.search('products', 'smart speaker', {
 ### Working with Related Data
 
 ```typescript
-import { DatabaseClient } from 'database.do'
-
-const db = new DatabaseClient()
+import { db } from 'database.do'
 
 // Get posts with related data
-const posts = await db.find('posts', {
+const posts = await db.posts.find({
   populate: ['author', 'tags'],
 })
 
 // Get a single order with customer data
-const order = await db.findOne('orders', 'order123')
-const customer = await db.findOne('customers', order.customer)
+const order = await db.orders.findOne('order123')
+const customer = await db.customers.findOne(order.customer)
 
 // Get all orders for a customer
-const customerOrders = await db.find('orders', {
+const customerOrders = await db.orders.find({
   where: {
     customer: customer.id,
   },
@@ -233,22 +209,25 @@ const customerOrders = await db.find('orders', {
 
 ## API Reference
 
-### DatabaseClient
+### DB Configuration
 
-The main client for interacting with the database.
+Initialize the database client with optional configuration:
 
 ```typescript
-import { DatabaseClient } from 'database.do'
+import { DB } from 'database.do'
 
-const db = new DatabaseClient({
+const db = DB({
   baseUrl?: string, // Optional, defaults to 'https://database.do'
-  apiKey?: string,  // Optional, for authenticated requests
+  apiKey?: string,  // Optional, overrides the DATABASE_API_KEY environment variable
+  // Optional schema definitions
+  collection1: { /* schema */ },
+  collection2: { /* schema */ },
 })
 ```
 
-### Methods
+### Collection Methods
 
-#### find(collection, options?)
+#### db.{collection}.find(options?)
 
 Retrieves multiple documents from a collection with optional filtering, sorting, and pagination.
 
@@ -262,54 +241,54 @@ interface QueryOptions {
   populate?: string | string[] // Relations to populate
 }
 
-const results = await db.find('collection', options)
+const results = await db.posts.find(options)
 ```
 
-#### findOne(collection, id)
+#### db.{collection}.findOne(id)
 
 Retrieves a single document by its ID.
 
 ```typescript
-const document = await db.findOne('collection', 'document-id')
+const document = await db.posts.findOne('document-id')
 ```
 
-#### create(collection, data)
+#### db.{collection}.create(data)
 
 Creates a new document in the collection.
 
 ```typescript
-const newDocument = await db.create('collection', {
+const newDocument = await db.posts.create({
   field1: 'value1',
   field2: 'value2',
   // ...
 })
 ```
 
-#### update(collection, id, data)
+#### db.{collection}.update(id, data)
 
 Updates an existing document by its ID.
 
 ```typescript
-const updatedDocument = await db.update('collection', 'document-id', {
+const updatedDocument = await db.posts.update('document-id', {
   field1: 'new value',
   // ...
 })
 ```
 
-#### delete(collection, id)
+#### db.{collection}.delete(id)
 
 Deletes a document by its ID.
 
 ```typescript
-await db.delete('collection', 'document-id')
+await db.posts.delete('document-id')
 ```
 
-#### search(collection, query, options?)
+#### db.{collection}.search(query, options?)
 
 Performs a text search across documents in a collection.
 
 ```typescript
-const searchResults = await db.search('collection', 'search term', {
+const searchResults = await db.posts.search('search term', {
   limit: 20,
   sort: 'relevance:desc',
 })
@@ -328,6 +307,17 @@ In schema-less mode, you can:
 - Store JSON documents with nested objects and arrays
 - Avoid upfront schema design when requirements are fluid
 
+```typescript
+import { db } from 'database.do'
+
+// Use any collection name and any fields
+const product = await db.products.create({
+  name: 'Smart Speaker',
+  price: 99.99,
+  // Any fields are allowed
+})
+```
+
 ### Defined Schema Mode
 
 With defined schemas, you gain:
@@ -338,7 +328,25 @@ With defined schemas, you gain:
 - API endpoints that respect your schema constraints
 - Improved data consistency and integrity
 
-You can define schemas through the database.do admin interface or API, and then use the SDK to interact with your data according to those schemas.
+```typescript
+import { DB } from 'database.do'
+
+// Define your schema
+const db = DB({
+  products: {
+    name: 'text',
+    price: 'number',
+    description: 'richtext',
+    category: 'categories', // Reference to another collection
+  },
+  categories: {
+    name: 'text',
+    products: '<-products.category', // Reverse relation
+  },
+})
+```
+
+You can define schemas through code as shown above, or through the database.do admin interface or API, and then use the SDK to interact with your data according to those schemas.
 
 ## Implementation Details
 
