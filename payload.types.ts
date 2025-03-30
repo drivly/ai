@@ -99,8 +99,11 @@ export interface Config {
     errors: Error;
     generations: Generation;
     traces: Trace;
+    queues: Queue;
+    tasks: Task;
     projects: Project;
     users: User;
+    roles: Role;
     tags: Tag;
     webhooks: Webhook;
     apikeys: Apikey;
@@ -159,8 +162,11 @@ export interface Config {
     errors: ErrorsSelect<false> | ErrorsSelect<true>;
     generations: GenerationsSelect<false> | GenerationsSelect<true>;
     traces: TracesSelect<false> | TracesSelect<true>;
+    queues: QueuesSelect<false> | QueuesSelect<true>;
+    tasks: TasksSelect<false> | TasksSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    roles: RolesSelect<false> | RolesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
@@ -279,6 +285,8 @@ export interface Prompt {
  */
 export interface User {
   id: string;
+  roles?: (string | Role)[] | null;
+  tasks?: (string | Task)[] | null;
   updatedAt: string;
   createdAt: string;
   enableAPIKey?: boolean | null;
@@ -292,6 +300,44 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: string;
+  name: string;
+  users?: (string | User)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tasks".
+ */
+export interface Task {
+  id: string;
+  title: string;
+  description?: string | null;
+  parent?: (string | null) | Task;
+  subtasks?: (string | Task)[] | null;
+  dependentOn?: (string | Task)[] | null;
+  dependents?: (string | Task)[] | null;
+  assigned?:
+    | (
+        | {
+            relationTo: 'users';
+            value: string | User;
+          }
+        | {
+            relationTo: 'roles';
+            value: string | Role;
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -836,6 +882,18 @@ export interface Trace {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "queues".
+ */
+export interface Queue {
+  id: string;
+  name: string;
+  role: string | Role;
+  tasks?: (string | Task)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects".
  */
 export interface Project {
@@ -1108,12 +1166,24 @@ export interface PayloadLockedDocument {
         value: string | Trace;
       } | null)
     | ({
+        relationTo: 'queues';
+        value: string | Queue;
+      } | null)
+    | ({
+        relationTo: 'tasks';
+        value: string | Task;
+      } | null)
+    | ({
         relationTo: 'projects';
         value: string | Project;
       } | null)
     | ({
         relationTo: 'users';
         value: string | User;
+      } | null)
+    | ({
+        relationTo: 'roles';
+        value: string | Role;
       } | null)
     | ({
         relationTo: 'tags';
@@ -1539,6 +1609,32 @@ export interface TracesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "queues_select".
+ */
+export interface QueuesSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  tasks?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tasks_select".
+ */
+export interface TasksSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  parent?: T;
+  subtasks?: T;
+  dependentOn?: T;
+  dependents?: T;
+  assigned?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
@@ -1552,6 +1648,8 @@ export interface ProjectsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  roles?: T;
+  tasks?: T;
   updatedAt?: T;
   createdAt?: T;
   enableAPIKey?: T;
@@ -1564,6 +1662,16 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles_select".
+ */
+export interface RolesSelect<T extends boolean = true> {
+  name?: T;
+  users?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

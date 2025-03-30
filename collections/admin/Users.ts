@@ -12,13 +12,13 @@ export const Users: CollectionConfig = {
     {
       name: 'roles',
       type: 'relationship',
-      relationTo: 'roles' as any,
+      relationTo: 'roles',
       hasMany: true,
     },
     {
       name: 'tasks',
       type: 'relationship',
-      relationTo: 'tasks' as any,
+      relationTo: 'tasks',
       hasMany: true,
     },
   ],

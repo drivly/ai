@@ -15,13 +15,13 @@ export const Queues: CollectionConfig = {
     {
       name: 'role',
       type: 'relationship',
-      relationTo: 'roles' as any,
+      relationTo: 'roles',
       required: true,
     },
     {
       name: 'tasks',
       type: 'relationship',
-      relationTo: 'tasks' as any,
+      relationTo: 'tasks',
       hasMany: true,
     },
   ],
