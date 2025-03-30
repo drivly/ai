@@ -72,6 +72,66 @@ for await (const chunk of stream) {
 }
 ```
 
+## Vercel AI SDK Integration
+
+LLM.do provides a Vercel AI SDK provider for seamless integration with the Vercel AI SDK:
+
+```typescript
+import { llmDoProvider } from 'llm.do'
+import { generateText, generateObject, generateEmbeddings } from 'ai'
+
+// Generate text using the llm.do provider
+const text = await generateText({
+  model: llmDoProvider.languageModel('gemini-2.0-flash'),
+  prompt: 'Explain the theory of relativity in simple terms',
+})
+
+// Generate structured JSON output
+const jsonOutput = await generateObject({
+  model: llmDoProvider.languageModel('gemini-2.0-flash'),
+  prompt: 'Generate a list of 5 book recommendations',
+  schema: {
+    type: 'object',
+    properties: {
+      books: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            title: { type: 'string' },
+            author: { type: 'string' },
+            genre: { type: 'string' },
+            description: { type: 'string' }
+          },
+          required: ['title', 'author', 'genre', 'description']
+        }
+      }
+    },
+    required: ['books']
+  }
+})
+
+// Generate embeddings
+const embeddings = await generateEmbeddings({
+  model: llmDoProvider.textEmbeddingModel('text-embedding-3-small'),
+  input: ['Embed this text for semantic search', 'And this one too'],
+})
+```
+
+### Custom Provider Configuration
+
+You can customize the llm.do provider with your own configuration:
+
+```typescript
+import { createLLMDoProvider } from 'llm.do'
+
+const customProvider = createLLMDoProvider({
+  apiKey: 'your-api-key',
+  baseUrl: 'https://your-custom-endpoint.com',
+  defaultModel: 'custom-model-name',
+})
+```
+
 ## Core Concepts
 
 ### Model Selection
@@ -164,6 +224,12 @@ console.log(`Current daily usage: $${usage.daily.cost}`)
 - `llm.streamChat(options)`: Stream a chat response
 - `llm.estimateCost(options)`: Estimate the cost of a request
 - `llm.getUsageStats()`: Get usage statistics
+
+### Vercel AI SDK Provider Functions
+
+- `llmDoProvider.languageModel(modelId)`: Get a language model instance
+- `llmDoProvider.textEmbeddingModel(modelId)`: Get a text embedding model instance
+- `createLLMDoProvider(options)`: Create a custom provider instance
 
 ### Configuration Options
 
