@@ -72,6 +72,16 @@ export const createMockEdgePayload = (): PayloadInstance => {
         headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : {},
       }).then((res) => res.json())
     },
+    jobs: {
+      queue: async (options: any) => {
+        console.log('Mock job queued:', options)
+        return { id: `mock-job-${Date.now()}`, status: 'queued' }
+      },
+      runByID: async ({ id }: { id: string }) => {
+        console.log('Mock job run:', id)
+        return { id, status: 'completed', result: {} }
+      }
+    },
   }
 }
 
@@ -102,6 +112,16 @@ export const createMockNodePayload = (): PayloadInstance => {
       return fetch(`${apiUrl}/api/${options.collection}/${options.id}`, {
         headers: apiKey ? { Authorization: `JWT ${apiKey}` } : {},
       }).then((res) => res.json())
+    },
+    jobs: {
+      queue: async (options: any) => {
+        console.log('Mock job queued:', options)
+        return { id: `mock-job-${Date.now()}`, status: 'queued' }
+      },
+      runByID: async ({ id }: { id: string }) => {
+        console.log('Mock job run:', id)
+        return { id, status: 'completed', result: {} }
+      }
     },
   }
 }
