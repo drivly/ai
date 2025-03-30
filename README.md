@@ -1,7 +1,6 @@
 # [Workflows.do](https://workflows.do) Business-as-Code
 
-We believe that you can define, execute, and iterate on business processes as clean & simple code. It should be simple enough for a non-technical business person to read and work with an AI or technical teamate to build and iterate on workflows.
-
+We believe that you can define, execute, and iterate on business processes as clean & simple code. It should be simple enough for a non-technical business person to read and work with an AI or technical teammate to build and iterate on workflows.
 ```typescript
 import { AI } from 'workflows.do'
 
