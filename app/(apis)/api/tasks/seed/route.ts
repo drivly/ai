@@ -1,4 +1,4 @@
-import { API } from '@/api.config'
+import { API } from '@/lib/api'
 import config from '@/payload.config'
 import { getPayload } from 'payload'
 // import { seedDatabase } from '@/scripts/seed'
