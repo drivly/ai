@@ -629,8 +629,12 @@ export interface IntegrationCategory {
  */
 export interface IntegrationTrigger {
   id: string;
-  display_name?: string | null;
+  displayName?: string | null;
   description?: string | null;
+  appKey?: string | null;
+  appName?: string | null;
+  appId?: string | null;
+  logo?: string | null;
   payload?:
     | {
         [k: string]: unknown;
@@ -660,6 +664,10 @@ export interface IntegrationAction {
   id: string;
   displayName?: string | null;
   description?: string | null;
+  appKey?: string | null;
+  appName?: string | null;
+  appId?: string | null;
+  version?: string | null;
   parameters?:
     | {
         [k: string]: unknown;
@@ -1542,8 +1550,12 @@ export interface IntegrationCategoriesSelect<T extends boolean = true> {
  * via the `definition` "integrationTriggers_select".
  */
 export interface IntegrationTriggersSelect<T extends boolean = true> {
-  display_name?: T;
+  displayName?: T;
   description?: T;
+  appKey?: T;
+  appName?: T;
+  appId?: T;
+  logo?: T;
   payload?: T;
   config?: T;
   updatedAt?: T;
@@ -1556,6 +1568,10 @@ export interface IntegrationTriggersSelect<T extends boolean = true> {
 export interface IntegrationActionsSelect<T extends boolean = true> {
   displayName?: T;
   description?: T;
+  appKey?: T;
+  appName?: T;
+  appId?: T;
+  version?: T;
   parameters?: T;
   response?: T;
   updatedAt?: T;
