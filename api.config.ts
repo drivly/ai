@@ -1,3 +1,5 @@
+import { getDomain } from './domains.config'
+
 export const apis: Record<string, string> = {
   functions: 'Reliable Structured Output',
   workflows: '',
@@ -39,5 +41,8 @@ export const symbols: Record<string, string> = {
 }
 
 export const domainDescriptions = Object.fromEntries(
-  Object.entries(apis).map(([key, value]) => [`${key}.do`, value || ''])
+  Object.entries(apis).map(([key, value]) => {
+    const domain = getDomain(key) || `${key}.do`
+    return [domain, value || '']
+  })
 )
