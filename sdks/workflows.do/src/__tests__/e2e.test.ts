@@ -23,7 +23,7 @@ describe('workflows.do SDK - E2E Tests', () => {
         .mockResolvedValueOnce(new Response(JSON.stringify({ doc: mockWorkflow })))
         .mockResolvedValueOnce(new Response(JSON.stringify({ doc: mockWorkflow })))
 
-      const response = await fetch('https://apis.do/workflows/create', {
+      const response = await fetch('http://localhost:3000/api/workflows', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -35,10 +35,49 @@ describe('workflows.do SDK - E2E Tests', () => {
       expect(result.doc).toBeDefined()
       expect(result.doc.name).toBe('test-workflow')
 
-      const getResponse = await fetch(`https://apis.do/workflows/${mockWorkflow.id}`)
+      const getResponse = await fetch(`http://localhost:3000/api/workflows/${mockWorkflow.id}`)
       const getResult = await getResponse.json()
       expect(getResult.doc).toBeDefined()
       expect(getResult.doc.name).toBe('test-workflow')
+    })
+
+    it('should update and delete a workflow through Payload API', async () => {
+      const updatedWorkflow = {
+        ...mockWorkflow,
+        code: 'export default { /* updated workflow */ }'
+      }
+
+      mockFetch
+        .mockResolvedValueOnce(new Response(JSON.stringify({ doc: updatedWorkflow })))
+        .mockResolvedValueOnce(new Response(JSON.stringify({ success: true })))
+
+      const updateResponse = await fetch(`http://localhost:3000/api/workflows/${mockWorkflow.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedWorkflow)
+      })
+      const updateResult = await updateResponse.json()
+      expect(updateResult.doc.code).toBe(updatedWorkflow.code)
+
+      const deleteResponse = await fetch(`http://localhost:3000/api/workflows/${mockWorkflow.id}`, {
+        method: 'DELETE'
+      })
+      const deleteResult = await deleteResponse.json()
+      expect(deleteResult.success).toBe(true)
+    })
+
+    it('should handle Payload API errors gracefully', async () => {
+      mockFetch.mockResolvedValueOnce(new Response(JSON.stringify({ 
+        error: 'Not Found',
+        message: 'Workflow does not exist'
+      }), { status: 404 }))
+
+      const response = await fetch(`http://localhost:3000/api/workflows/nonexistent-id`)
+      expect(response.status).toBe(404)
+      const result = await response.json()
+      expect(result.error).toBe('Not Found')
     })
   })
 
