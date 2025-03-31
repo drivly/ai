@@ -4,6 +4,7 @@
  */
 
 import { API } from 'apis.do'
+import { QueryParams } from 'apis.do'
 
 /**
  * Task status options
@@ -92,6 +93,8 @@ export interface WebhookParams {
  */
 class TasksClient {
   private api: API
+  private tasksCollection = 'tasks'
+  private queuesCollection = 'queues'
   
   /**
    * Create a new TasksClient
@@ -107,7 +110,7 @@ class TasksClient {
    * @returns The created task
    */
   async create(params: CreateTaskParams): Promise<Task> {
-    return this.api.tasks.create(params)
+    return this.api.create<Task>(this.tasksCollection, params)
   }
   
   /**
@@ -116,7 +119,7 @@ class TasksClient {
    * @returns The task
    */
   async get(id: string): Promise<Task> {
-    return this.api.tasks.get(id)
+    return this.api.getById<Task>(this.tasksCollection, id)
   }
   
   /**
@@ -126,7 +129,7 @@ class TasksClient {
    * @returns The updated task
    */
   async update(id: string, params: Partial<CreateTaskParams>): Promise<Task> {
-    return this.api.tasks.update(id, params)
+    return this.api.update<Task>(this.tasksCollection, id, params)
   }
   
   /**
@@ -136,7 +139,7 @@ class TasksClient {
    * @returns The updated task
    */
   async updateStatus(id: string, status: TaskStatus): Promise<Task> {
-    return this.api.tasks.update(id, { status })
+    return this.api.update<Task>(this.tasksCollection, id, { status })
   }
   
   /**
@@ -146,7 +149,9 @@ class TasksClient {
    * @returns The updated task
    */
   async assign(id: string, params: AssignTaskParams): Promise<Task> {
-    return this.api.tasks.update(id, { assigned: [...(params.users || []), ...(params.roles || []), ...(params.agents || [])] })
+    return this.api.update<Task>(this.tasksCollection, id, { 
+      assigned: [...(params.users || []), ...(params.roles || []), ...(params.agents || [])] 
+    })
   }
   
   /**
@@ -156,7 +161,7 @@ class TasksClient {
    * @returns The completed task
    */
   async complete(id: string, params: CompleteTaskParams = {}): Promise<Task> {
-    return this.api.tasks.update(id, { 
+    return this.api.update<Task>(this.tasksCollection, id, { 
       status: 'completed',
       ...params
     })
@@ -168,7 +173,7 @@ class TasksClient {
    * @returns Array of subtasks
    */
   async getSubtasks(id: string): Promise<Array<Task>> {
-    const task = await this.api.tasks.get(id, { populate: 'subtasks' })
+    const task = await this.api.get<Task>(`/api/${this.tasksCollection}/${id}`, { populate: 'subtasks' })
     return task.subtasks || []
   }
   
@@ -178,8 +183,8 @@ class TasksClient {
    * @returns Array of dependent tasks
    */
   async getDependencies(id: string): Promise<Array<Task>> {
-    const task = await this.api.tasks.get(id, { populate: 'dependentOn' })
-    return task.dependentOn || []
+    const task = await this.api.get<Task>(`/api/${this.tasksCollection}/${id}`, { populate: 'dependentOn' })
+    return (task.dependentOn || []) as unknown as Task[]
   }
   
   /**
@@ -215,7 +220,7 @@ class TasksClient {
      * @returns The created queue
      */
     create: async (params: CreateQueueParams): Promise<Queue> => {
-      return this.api.queues.create(params)
+      return this.api.create<Queue>(this.queuesCollection, params)
     },
     
     /**
@@ -224,7 +229,7 @@ class TasksClient {
      * @returns The queue
      */
     get: async (id: string): Promise<Queue> => {
-      return this.api.queues.get(id)
+      return this.api.getById<Queue>(this.queuesCollection, id)
     },
     
     /**
@@ -233,8 +238,8 @@ class TasksClient {
      * @returns Array of tasks
      */
     getTasks: async (id: string): Promise<Array<Task>> => {
-      const queue = await this.api.queues.get(id, { populate: 'tasks' })
-      return queue.tasks || []
+      const queue = await this.api.get<Queue>(`/api/${this.queuesCollection}/${id}`, { populate: 'tasks' })
+      return (queue.tasks || []) as Task[]
     },
     
     /**
@@ -244,14 +249,18 @@ class TasksClient {
      * @returns The claimed task or null if no tasks are available
      */
     claimNext: async (id: string, userId: string): Promise<Task | null> => {
-      const tasks = await this.api.tasks.find({ 
-        queue: id,
-        status: 'todo',
-        assigned: { $exists: false }
-      }, { 
+      const params: QueryParams = {
+        where: {
+          queue: id,
+          status: 'todo',
+          assigned: { $exists: false }
+        },
         limit: 1,
         sort: 'createdAt'
-      })
+      }
+      
+      const response = await this.api.list<Task>(this.tasksCollection, params)
+      const tasks = response.data || []
       
       if (tasks.length === 0) {
         return null
