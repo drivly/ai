@@ -1,0 +1,1 @@
+{\n  "workflows.do": {\n    "patch": true\n  },\n  "message": "Added workflow file scanning capabilities to workflows.do CLI"\n}

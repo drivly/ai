@@ -1,0 +1,1 @@
+{\n  "changelog": false,\n  "commit": false,\n  "linked": [],\n  "access": "restricted",\n  "baseBranch": "main",\n  "updateInternalDependencies": "patch",\n  "ignore": []\n}
