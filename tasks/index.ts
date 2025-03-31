@@ -11,6 +11,7 @@ import { inflectNounsTask } from './inflectNouns'
 import { conjugateVerbsTask } from './conjugateVerbs'
 import { deliverWebhookTask } from './deliverWebhook'
 import { initiateComposioConnectionTask } from './initiateComposioConnection'
+import { requestHumanFeedbackTask } from './requestHumanFeedback'
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
@@ -61,7 +62,8 @@ export const tasks = [
   inflectNounsTask,
   conjugateVerbsTask,
   deliverWebhookTask,
-  initiateComposioConnectionTask
+  initiateComposioConnectionTask,
+  requestHumanFeedbackTask
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
