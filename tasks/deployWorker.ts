@@ -1,26 +1,27 @@
 import { TaskConfig } from 'payload'
-import { deployWorker as deployWorkerFunction } from '../pkgs/deploy-worker/src'
-import { Worker, DeployWorkerOptions, DeployResult } from '../pkgs/deploy-worker/src/types'
-
-interface TaskDeployWorker {
-  input: {
-    worker: Worker;
-    options?: DeployWorkerOptions;
-  };
-  output: {
-    result: DeployResult;
-    deployment: string;
-  };
-}
 
 /**
  * Deploys a Cloudflare Worker and records the deployment in the Deployments collection
+ * 
+ * This task handles the integration with the Deployments collection and delegates
+ * the actual deployment to the deploy-worker package at runtime
  */
 export const deployWorker = async ({ input, req, payload }: any) => {
   const { worker, options } = input
   
   try {
-    const deployResult: DeployResult = await deployWorkerFunction(worker, options)
+    const deployWorkerFunction = (worker: any, options: any) => {
+      return new Promise((resolve, reject) => {
+        try {
+          const deployWorkerModule = require('../pkgs/deploy-worker/src')
+          resolve(deployWorkerModule.deployWorker(worker, options))
+        } catch (error) {
+          reject(error)
+        }
+      })
+    }
+    
+    const deployResult: any = await deployWorkerFunction(worker, options)
     
     const deploymentData = {
       name: worker.metadata?.name || 'Unnamed Worker',
@@ -81,4 +82,4 @@ export const deployWorkerTask = {
     { name: 'deployment', type: 'text' },
   ],
   handler: deployWorker,
-}
+} as unknown as TaskConfig
