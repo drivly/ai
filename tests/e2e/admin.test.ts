@@ -157,30 +157,25 @@ describe('Admin page', () => {
   })
 
   it('should handle API requests to admin route without server errors', async () => {
-    // Skip test if running in CI environment without a server
-    if (process.env.CI && !process.env.API_URL) {
-      console.log('Skipping API test in CI environment without API_URL')
-      expect(true).toBe(true) // Pass the test when skipped
-      return
-    }
-
-    if (process.env.IS_TEST_ENV === 'true' && !process.env.API_URL) {
-      console.log('Using mock API response in test environment')
-      expect(true).toBe(true) // Pass the test with a mock
-      return
-    }
-
     try {
-      const baseUrl = process.env.API_URL || 'http://localhost:3000'
-      const response = await fetch(`${baseUrl}/admin`)
+      const baseUrl = process.env.API_URL || process.env.VERCEL_URL || 'http://localhost:3000'
+      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      
+      console.log(`Testing admin route at: ${adminUrl}`)
+      const response = await fetch(adminUrl)
       
       expect(response.status).not.toBe(500)
+      
+      if (response.status === 500) {
+        console.error('CRITICAL: Admin route returned a 500 error')
+        throw new Error('Admin route returned a 500 error')
+      }
       
       const content = await response.text()
       expect(content.length).toBeGreaterThan(0)
     } catch (error) {
-      console.log('API test failed, but this might be expected in test environments')
-      expect(true).toBe(true) // Pass the test with a mock
+      console.error('Admin API test failed:', error)
+      throw error
     }
   })
 })

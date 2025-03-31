@@ -148,30 +148,25 @@ describe('Documentation page', () => {
   })
 
   it('should handle API requests to docs route without server errors', async () => {
-    // Skip test if running in CI environment without a server
-    if (process.env.CI && !process.env.API_URL) {
-      console.log('Skipping API test in CI environment without API_URL')
-      expect(true).toBe(true) // Pass the test when skipped
-      return
-    }
-
-    if (process.env.IS_TEST_ENV === 'true' && !process.env.API_URL) {
-      console.log('Using mock API response in test environment')
-      expect(true).toBe(true) // Pass the test with a mock
-      return
-    }
-
     try {
-      const baseUrl = process.env.API_URL || 'http://localhost:3000'
-      const response = await fetch(`${baseUrl}/docs`)
+      const baseUrl = process.env.API_URL || process.env.VERCEL_URL || 'http://localhost:3000'
+      const docsUrl = baseUrl.endsWith('/') ? `${baseUrl}docs` : `${baseUrl}/docs`
+      
+      console.log(`Testing docs route at: ${docsUrl}`)
+      const response = await fetch(docsUrl)
       
       expect(response.status).not.toBe(500)
+      
+      if (response.status === 500) {
+        console.error('CRITICAL: Docs route returned a 500 error')
+        throw new Error('Docs route returned a 500 error')
+      }
       
       const content = await response.text()
       expect(content.length).toBeGreaterThan(0)
     } catch (error) {
-      console.log('API test failed, but this might be expected in test environments')
-      expect(true).toBe(true) // Pass the test with a mock
+      console.error('Docs API test failed:', error)
+      throw error
     }
   })
 })
