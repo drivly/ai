@@ -1,79 +1,106 @@
-import { ApiClient } from './api-client'
+import { API } from 'apis.do';
 
-export interface FunctionDefinition {
-  type?: 'Generation' | 'Code' | 'Human' | 'Agent'
-  format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code'
-  schema?: any
-  prompt?: string
-  code?: string
-  role?: string
-  agent?: string
-  [key: string]: any
-}
+export type FunctionOptions = {
+  apiUrl?: string;
+  model?: string;
+};
 
-export interface AIConfig {
-  [key: string]: any
-}
+export type FunctionDefinition = Record<string, any>;
 
 export interface FunctionResponse<T = any> {
-  data: T
+  data: T;
   meta?: {
-    duration?: number
-    modelName?: string
-    [key: string]: any
-  }
+    duration?: number;
+    modelName?: string;
+    [key: string]: any;
+  };
 }
 
+/**
+ * Create an AI function instance with provided schema
+ */
+export const AI = (schema: FunctionDefinition, options: FunctionOptions = {}) => {
+  const api = new API({ baseUrl: options.apiUrl || 'https://functions.do' });
+  
+  const registerSchema = async () => {
+    return api.post('/api/register', { schema, options });
+  };
+  
+  registerSchema().catch(console.error);
+  
+  return new Proxy({} as Record<string, (params: any) => Promise<any>>, {
+    get(target, prop) {
+      if (typeof prop === 'string' && schema[prop]) {
+        return async (params: any) => {
+          return api.post(`/api/${prop}`, params);
+        };
+      }
+      
+      return undefined;
+    }
+  });
+};
+
+/**
+ * Client for managing and executing functions
+ */
 export class FunctionsClient {
-  private api: ApiClient
+  private api: any;
 
   constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
-    this.api = new ApiClient({
-      baseUrl: options.baseUrl || 'https://apis.do',
+    this.api = new API({
+      baseUrl: options.baseUrl || 'https://functions.do',
       headers: {
         'Content-Type': 'application/json',
         ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
       },
-    })
+    });
   }
 
-  async run<T = any>(functionName: string, input: any, config?: AIConfig): Promise<FunctionResponse<T>> {
+  async run<T = any>(functionName: string, input: any, options?: FunctionOptions): Promise<FunctionResponse<T>> {
     return this.api.post(`/api/functions/${functionName}`, {
       input,
-      config,
-    })
+      options,
+    });
   }
 
   async create(functionDefinition: {
-    name: string
-    description?: string
-    type?: 'Generation' | 'Code' | 'Human' | 'Agent'
-    format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code'
-    schema?: any
-    prompt?: string
-    code?: string
-    role?: string
-    user?: string
-    agent?: string
+    name: string;
+    description?: string;
+    schema?: FunctionDefinition;
+    [key: string]: any;
   }): Promise<any> {
-    return this.api.post('/api/functions', functionDefinition)
+    return this.api.post('/api/functions', functionDefinition);
   }
 
   async list(params?: { limit?: number; page?: number }): Promise<any> {
-    return this.api.list('functions', params)
+    return this.api.get('/api/functions', params);
   }
 
   async get(functionId: string): Promise<any> {
-    return this.api.getById('functions', functionId)
+    return this.api.get(`/api/functions/${functionId}`);
   }
 
   async update(functionId: string, data: any): Promise<any> {
-    return this.api.update('functions', functionId, data)
+    return this.api.patch(`/api/functions/${functionId}`, data);
   }
 
   async delete(functionId: string): Promise<any> {
-    return this.api.remove('functions', functionId)
+    return this.api.delete(`/api/functions/${functionId}`);
   }
 }
 
-export default FunctionsClient
+/**
+ * Simple client for direct API access
+ */
+export const ai = new Proxy({} as Record<string, (params: any) => Promise<any>>, {
+  get(target, prop) {
+    const api = new API({ baseUrl: 'https://functions.do' });
+    
+    return async (params: any = {}, options: any = {}) => {
+      return api.post(`/api/${String(prop)}`, { ...params, ...options });
+    };
+  }
+});
+
+export default AI;
