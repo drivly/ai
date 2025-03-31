@@ -7,7 +7,7 @@ import config from 'payload.config'
 import React from 'react'
 
 import { Analytics } from '@vercel/analytics/react'
-import { importMap } from './admin/importMap.js'
+import { importMap } from './admin/importMap'
 import './custom.scss'
 // import { SpeedInsights } from "@vercel/speed-insights/next"
 
