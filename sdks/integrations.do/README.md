@@ -37,10 +37,12 @@ pnpm add integrations.do
 
 ## API Overview
 
-The integrations.do SDK exports two main components:
+The integrations.do SDK exports four main components:
 
 - `integrations`: A flexible client for managing connections between applications
 - `Integration`: A function for defining custom integration configurations
+- `triggers`: A collection of event triggers for integration workflows
+- `actions`: A collection of predefined operations for integrated services
 
 ## Usage Examples
 
