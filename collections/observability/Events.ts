@@ -24,4 +24,47 @@ export const Events: CollectionConfig = {
 
     { name: 'generations', type: 'relationship', relationTo: 'generations', hasMany: true },
   ],
+  hooks: {
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        if (operation === 'create') {
+          try {
+            const webhooks = await req.payload.find({
+              collection: 'webhooks',
+              where: {
+                enabled: { equals: true }
+              }
+            })
+            
+            if (webhooks.docs.length > 0) {
+              setTimeout(async () => {
+                try {
+                  const payload = req.payload
+                  
+                  for (const webhook of webhooks.docs) {
+                    const { deliverWebhookHandler } = await import('../../tasks/deliverWebhook')
+                    
+                    await deliverWebhookHandler({ 
+                      payload, 
+                      job: { 
+                        input: {
+                          event: doc,
+                          webhookId: webhook.id
+                        }
+                      } 
+                    })
+                  }
+                } catch (error) {
+                  console.error('Error processing webhooks:', error)
+                }
+              }, 0)
+            }
+          } catch (error) {
+            console.error('Error in webhook processing:', error)
+          }
+        }
+        return doc
+      }
+    ]
+  }
 }

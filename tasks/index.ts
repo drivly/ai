@@ -5,8 +5,11 @@ import { generateThingEmbedding } from './generateThingEmbedding'
 import { handleGithubEvent } from './handleGithubEvent'
 import { hybridSearchThings, searchThings } from './searchThings'
 import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './schemaUtils'
+import { processCodeFunctionWrapperTask } from './processCodeFunctionWrapper'
+import { processCodeFunctionTask } from './processCodeFunction'
 import { inflectNounsTask } from './inflectNouns'
 import { conjugateVerbsTask } from './conjugateVerbs'
+import { deliverWebhookTask } from './deliverWebhook'
 import { initiateComposioConnectionTask } from './initiateComposioConnection'
 import { requestHumanFeedbackTask } from './requestHumanFeedback'
 
@@ -54,8 +57,11 @@ export const tasks = [
   generateThingEmbeddingTask, 
   searchThingsTask, 
   hybridSearchThingsTask,
+  processCodeFunctionWrapperTask,
+  processCodeFunctionTask,
   inflectNounsTask,
   conjugateVerbsTask,
+  deliverWebhookTask,
   initiateComposioConnectionTask,
   requestHumanFeedbackTask
 ]
