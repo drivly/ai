@@ -16,8 +16,7 @@ export async function POST(request: Request) {
     }
     
     const bundleCodeDynamic = async (codeToBundle: string, bundleOptions: any) => {
-      const esbuildUtilPath = '../../../pkgs/deploy-worker/src/utils/esbuild'
-      const { bundleCode } = await import(esbuildUtilPath)
+      const { bundleCode } = await import(/* webpackIgnore: true */ '../../../pkgs/deploy-worker/src/utils/esbuild')
       return bundleCode(codeToBundle, bundleOptions)
     }
     
