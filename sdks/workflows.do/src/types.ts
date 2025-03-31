@@ -135,6 +135,10 @@ export interface WorkflowContext {
     output: any
     timestamp: number
   }>
+  /** Timeout in milliseconds */
+  timeout?: number
+  /** Number of retry attempts */
+  retries?: number
 }
 
 /**
