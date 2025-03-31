@@ -9,7 +9,7 @@ import sharp from 'sharp'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { payloadKanbanBoard } from 'payload-kanban-board'
 import { Config } from './payload.types'
-
+import { resendAdapter } from '@payloadcms/email-resend'
 import { collections } from './collections'
 import { tasks, workflows } from './tasks'
 
@@ -24,9 +24,42 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      graphics: {
+        Icon: '@/components/icon',
+        Logo: '@/components/logo',
+      },
+    },
+    meta: {
+      title: 'Drivly AGI Platform',
+      description: 'Deliver work through simple APIs',
+      icons: [
+        {
+          rel: 'icon',
+          url: '/site_favicon.png',
+        },
+      ],
+      openGraph: {
+        description: 'Deliver work through simple APIs',
+        images: [
+          {
+            url: '/Github_Banner_5.png',
+            width: 800,
+            height: 600,
+          },
+        ],
+        siteName: 'apis.do',
+        title: 'Drivly AGI Platform',
+      },
+    },
   },
   collections: collections as any,
   editor: lexicalEditor(),
+  email: resendAdapter({
+    defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || '',
+    defaultFromName: process.env.DEFAULT_FROM_NAME || '',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload.types.ts'),
@@ -68,44 +101,45 @@ export default buildConfig({
         },
       },
     }),
-    // multiTenantPlugin<Config>({
-    //   tenantSelectorLabel: 'Project',
-    //   // tenantsArrayField: {},
-    //   // tenantField: {},
-    //   collections: {
-    //     functions: {},
-    //     workflows: {},
-    //     agents: {},
-    //   },
-    //   userHasAccessToAllTenants: isSuperAdmin,
-    // }),
-    // payloadKanbanBoard({
-    //   collections: {
-    //     tasks: {
-    //       enabled: true,
-    //       config: {
-    //         statuses: [
-    //           {
-    //             value: 'draft',
-    //             label: 'Draft',
-    //           },
-    //           { value: 'in-progress', label: 'In Progress' },
-    //           {
-    //             value: 'ready-for-review',
-    //             label: 'Ready for review',
-    //             dropValidation: ({ user, data }) => {
-    //               return { dropAble: false }
-    //               //<dropValidation key is optional>
-    //             },
-    //           },
-    //           { value: 'published', label: 'Published' },
-    //         ],
-
-    //         defaultStatus: 'todo',
-    //         // hideNoStatusColumn: true,
-    //       },
-    //     },
-    //   },
-    // })
   ],
 })
+
+// multiTenantPlugin<Config>({
+//   tenantSelectorLabel: 'Project',
+//   // tenantsArrayField: {},
+//   // tenantField: {},
+//   collections: {
+//     functions: {},
+//     workflows: {},
+//     agents: {},
+//   },
+//   userHasAccessToAllTenants: isSuperAdmin,
+// }),
+// payloadKanbanBoard({
+//   collections: {
+//     tasks: {
+//       enabled: true,
+//       config: {
+//         statuses: [
+//           {
+//             value: 'draft',
+//             label: 'Draft',
+//           },
+//           { value: 'in-progress', label: 'In Progress' },
+//           {
+//             value: 'ready-for-review',
+//             label: 'Ready for review',
+//             dropValidation: ({ user, data }) => {
+//               return { dropAble: false }
+//               //<dropValidation key is optional>
+//             },
+//           },
+//           { value: 'published', label: 'Published' },
+//         ],
+
+//         defaultStatus: 'todo',
+//         // hideNoStatusColumn: true,
+//       },
+//     },
+//   },
+// })
