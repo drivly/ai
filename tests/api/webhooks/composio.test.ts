@@ -30,11 +30,37 @@ vi.mock('../../../../payload.config', () => ({
   default: {},
 }))
 
-vi.mock('clickable-apis', () => ({
+vi.mock('@/lib/api', () => ({
   API: (handler: any) => {
     return async (req: any, ctx: any) => {
       try {
-        const result = await handler(req, ctx)
+        const mockPayload = {
+          collections: {
+            events: {
+              create: vi.fn().mockResolvedValue({ id: 'mock-event-id' })
+            }
+          },
+          auth: vi.fn().mockResolvedValue({
+            permissions: {},
+            user: {}
+          }),
+          find: vi.fn().mockResolvedValue({ docs: [] }),
+          create: vi.fn().mockResolvedValue({ id: 'mock-event-id' })
+        }
+        
+        const mockContext = {
+          ...ctx,
+          payload: mockPayload,
+          db: {
+            events: {
+              create: vi.fn().mockResolvedValue({ id: 'mock-event-id' })
+            }
+          },
+          user: {},
+          permissions: {}
+        }
+        
+        const result = await handler(req, mockContext)
         if (result instanceof Response) {
           return result
         }
@@ -78,7 +104,7 @@ describe('Composio Webhook Handler', () => {
     } as unknown as NextRequest
 
     const response = await POST(request, {
-      params: Promise.resolve({}),
+      params: Promise.resolve({})
     })
 
     expect(response.status).toBe(500)
@@ -99,7 +125,7 @@ describe('Composio Webhook Handler', () => {
     } as unknown as NextRequest
 
     const response = await POST(request, {
-      params: Promise.resolve({}),
+      params: Promise.resolve({})
     })
 
     expect(response.status).toBe(400)
@@ -124,7 +150,7 @@ describe('Composio Webhook Handler', () => {
     } as unknown as NextRequest
 
     const response = await POST(request, {
-      params: Promise.resolve({}),
+      params: Promise.resolve({})
     })
 
     expect(response.status).toBe(401)
