@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
 import { chromium, Browser, Page, Response } from 'playwright'
+import '@chromatic-com/playwright'
 
 describe('Admin page', () => {
   let browser: Browser
