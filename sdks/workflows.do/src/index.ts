@@ -236,6 +236,9 @@ function createDatabaseAccess(): DatabaseAccess {
   })
 }
 
+export { API } from './client.js'
+export { CLI } from './cli.js'
+
 export type {
   Workflow,
   WorkflowStep,
