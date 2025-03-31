@@ -2,66 +2,54 @@
  * workflows.do - SDK for creating AI-powered workflows with strongly-typed functions
  */
 
-import type { 
-  Workflow, 
-  WorkflowStep, 
-  WorkflowContext, 
-  WorkflowExecutionOptions, 
-  WorkflowExecutionResult,
-  AIFunction,
-  AIFunctionSchema,
-  SchemaToOutput,
-  AIConfig,
-  AIContext,
-  AIEventHandler,
-  AIInstance,
-  DatabaseAccess,
-  APIAccess
-} from './types.js'
+import { API } from 'apis.do';
+
+export type WorkflowOptions = {
+  apiUrl?: string;
+};
+
+export type Workflow = {
+  [key: string]: (params: any) => Promise<any>;
+};
+
+export type WorkflowContext = {
+  ai: any;
+  api: any;
+  db: any;
+};
+
+export type WorkflowExecutionOptions = {
+  async?: boolean;
+  timeout?: number;
+};
+
+export type WorkflowExecutionResult = {
+  id: string;
+  status: 'completed' | 'failed' | 'in_progress';
+  output?: any;
+  error?: string;
+};
 
 /**
- * Creates an AI instance with typed methods based on the provided schemas
- * @param config Object containing event handlers and function schemas
- * @returns AI instance with typed methods
+ * Create a workflow instance with provided handlers
  */
-export function AI<T extends AIConfig>(config: T): AIInstance {
-  const instance: Record<string, AIFunction> = {}
+export const AI = (workflow: Workflow, options: WorkflowOptions = {}) => {
+  const api = new API({ baseUrl: options.apiUrl || 'https://workflows.do' });
   
-  for (const key in config) {
-    const value = config[key]
-    
-    if (typeof value === 'function') {
-      instance[key] = async (event: any) => {
-        const context: AIContext = {
-          ai: instance,
-          api: createAPIAccess(),
-          db: createDatabaseAccess()
-        }
-        
-        return await value(event, context)
+  return new Proxy(workflow, {
+    get(target, prop, receiver) {
+      const originalValue = Reflect.get(target, prop, receiver);
+      
+      if (originalValue !== undefined) {
+        return originalValue;
       }
-    } 
-    else if (typeof value === 'object') {
-      instance[key] = async (input: any) => {
-        const response = await fetch('https://apis.do/ai/execute', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            function: key,
-            schema: value,
-            input,
-          }),
-        })
-        
-        return response.json()
-      }
+      
+      return async (params: any) => {
+        return api.post(`/api/${String(prop)}`, params);
+      };
     }
-  }
-  
-  return instance as AIInstance
-}
+  });
+};
 
 /**
  * Creates a new workflow
@@ -69,133 +57,31 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
  * @returns Workflow instance
  */
 export function createWorkflow(workflow: Workflow) {
+  const api = new API({ baseUrl: 'https://workflows.do' });
+  
   return {
     ...workflow,
     execute: async (input: Record<string, any>, options?: WorkflowExecutionOptions): Promise<WorkflowExecutionResult> => {
-      const response = await fetch('https://apis.do/workflows/execute', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          workflow,
-          input,
-          options,
-        }),
-      })
-
-      return response.json()
+      return api.post('/api/workflows/execute', {
+        workflow,
+        input,
+        options,
+      });
     },
+  };
+}
+
+/**
+ * Simple client for direct API access
+ */
+export const ai = new Proxy({} as Record<string, (params: any) => Promise<any>>, {
+  get(target, prop) {
+    const api = new API({ baseUrl: 'https://workflows.do' });
+    
+    return async (params: any = {}, options: any = {}) => {
+      return api.post(`/api/${String(prop)}`, { ...params, ...options });
+    };
   }
-}
+});
 
-/**
- * Creates an API access object
- * @returns API access object
- */
-function createAPIAccess(): APIAccess {
-  return new Proxy({} as APIAccess, {
-    get: (target, service: string) => {
-      return new Proxy({} as Record<string, AIFunction>, {
-        get: (serviceTarget, method: string) => {
-          return async (...args: any[]) => {
-            const response = await fetch(`https://apis.do/${service}/${method}`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(args[0] || {}),
-            })
-            
-            return response.json()
-          }
-        }
-      })
-    }
-  })
-}
-
-/**
- * Creates a database access object
- * @returns Database access object
- */
-function createDatabaseAccess(): DatabaseAccess {
-  return new Proxy({} as DatabaseAccess, {
-    get: (target, collection: string) => {
-      return {
-        create: async (data: Record<string, any>) => {
-          const response = await fetch(`https://apis.do/db/${collection}/create`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-          
-          return response.json()
-        },
-        findOne: async (query: Record<string, any>) => {
-          const response = await fetch(`https://apis.do/db/${collection}/findOne`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(query),
-          })
-          
-          return response.json()
-        },
-        find: async (query: Record<string, any>) => {
-          const response = await fetch(`https://apis.do/db/${collection}/find`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(query),
-          })
-          
-          return response.json()
-        },
-        update: async (id: string, data: Record<string, any>) => {
-          const response = await fetch(`https://apis.do/db/${collection}/update`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id, data }),
-          })
-          
-          return response.json()
-        },
-        delete: async (id: string) => {
-          const response = await fetch(`https://apis.do/db/${collection}/delete`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id }),
-          })
-          
-          return response.json()
-        }
-      }
-    }
-  })
-}
-
-export type {
-  Workflow,
-  WorkflowStep,
-  WorkflowContext,
-  WorkflowExecutionOptions,
-  WorkflowExecutionResult,
-  AIFunction,
-  AIFunctionSchema,
-  SchemaToOutput,
-  AIConfig,
-  AIContext,
-  AIEventHandler,
-  AIInstance,
-  DatabaseAccess,
-  APIAccess
-}
+export default AI;
