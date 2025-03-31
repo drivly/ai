@@ -2,6 +2,22 @@
  * workflows.do - SDK for creating AI-powered workflows with strongly-typed functions
  */
 
+/**
+ * Determines the base URL based on the environment
+ * @returns The base URL for API requests
+ */
+function getBaseUrl(): string {
+  if (typeof window !== 'undefined') {
+    if (window.location.hostname === 'localhost') {
+      return 'http://localhost:3000'
+    }
+    if (window.location.hostname.includes('.sg')) {
+      return 'https://apis.do.sg'
+    }
+  }
+  return 'https://apis.do'
+}
+
 import type { 
   Workflow, 
   WorkflowStep, 
@@ -28,44 +44,39 @@ import type {
 export function AI<T extends AIConfig>(config: T): AIInstance {
   const instance: Record<string, AIFunction> = {}
   
-  const registrationPromises = Object.entries(config).map(async ([key, value]) => {
+  const workflowConfig: Record<string, any> = {}
+  
+  for (const key in config) {
+    const value = config[key]
+    
     if (typeof value === 'function') {
-      const functionString = value.toString()
-      
-      const response = await fetch('https://apis.do/workflows/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: key,
-          type: 'Function',
-          code: functionString,
-        }),
-      })
-      
-      return response.json() as Promise<WorkflowRegistrationResponse>
+      workflowConfig[key] = {
+        type: 'Function',
+        code: value.toString()
+      }
     } 
     else if (typeof value === 'object') {
-      const response = await fetch('https://apis.do/workflows/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: key,
-          type: 'Schema',
-          schema: value,
-        }),
-      })
-      
-      return response.json() as Promise<WorkflowRegistrationResponse>
+      workflowConfig[key] = {
+        type: 'Schema',
+        schema: value
+      }
     }
-    
-    return Promise.resolve({ success: false, error: 'Invalid workflow configuration' } as WorkflowRegistrationResponse)
-  })
+  }
   
-  Promise.all(registrationPromises).catch(error => {
+  fetch(`${getBaseUrl()}/workflows`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(workflowConfig),
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (!data.success) {
+      console.error('Error registering workflows:', data.error)
+    }
+  })
+  .catch(error => {
     console.error('Error registering workflows:', error)
   })
   
@@ -85,7 +96,7 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
     } 
     else if (typeof value === 'object') {
       instance[key] = async (input: any) => {
-        const response = await fetch('https://apis.do/ai/execute', {
+        const response = await fetch(`${getBaseUrl()}/ai/execute`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -114,7 +125,7 @@ export function createWorkflow(workflow: Workflow) {
   return {
     ...workflow,
     execute: async (input: Record<string, any>, options?: WorkflowExecutionOptions): Promise<WorkflowExecutionResult> => {
-      const response = await fetch('https://apis.do/workflows/execute', {
+      const response = await fetch(`${getBaseUrl()}/workflows/execute`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +152,7 @@ function createAPIAccess(): APIAccess {
       return new Proxy({} as Record<string, AIFunction>, {
         get: (serviceTarget, method: string) => {
           return async (...args: any[]) => {
-            const response = await fetch(`https://apis.do/${service}/${method}`, {
+            const response = await fetch(`${getBaseUrl()}/${service}/${method}`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -166,7 +177,7 @@ function createDatabaseAccess(): DatabaseAccess {
     get: (target, collection: string) => {
       return {
         create: async (data: Record<string, any>) => {
-          const response = await fetch(`https://apis.do/db/${collection}/create`, {
+          const response = await fetch(`${getBaseUrl()}/db/${collection}/create`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -177,7 +188,7 @@ function createDatabaseAccess(): DatabaseAccess {
           return response.json()
         },
         findOne: async (query: Record<string, any>) => {
-          const response = await fetch(`https://apis.do/db/${collection}/findOne`, {
+          const response = await fetch(`${getBaseUrl()}/db/${collection}/findOne`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -188,7 +199,7 @@ function createDatabaseAccess(): DatabaseAccess {
           return response.json()
         },
         find: async (query: Record<string, any>) => {
-          const response = await fetch(`https://apis.do/db/${collection}/find`, {
+          const response = await fetch(`${getBaseUrl()}/db/${collection}/find`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -199,7 +210,7 @@ function createDatabaseAccess(): DatabaseAccess {
           return response.json()
         },
         update: async (id: string, data: Record<string, any>) => {
-          const response = await fetch(`https://apis.do/db/${collection}/update`, {
+          const response = await fetch(`${getBaseUrl()}/db/${collection}/update`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -210,7 +221,7 @@ function createDatabaseAccess(): DatabaseAccess {
           return response.json()
         },
         delete: async (id: string) => {
-          const response = await fetch(`https://apis.do/db/${collection}/delete`, {
+          const response = await fetch(`${getBaseUrl()}/db/${collection}/delete`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
