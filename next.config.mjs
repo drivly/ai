@@ -23,8 +23,6 @@ export default withSentryConfig(
   {
     // Additional options for the Sentry webpack plugin
     silent: true, // Suppresses all logs
-    // For all available options, see:
-    // https://github.com/getsentry/sentry-webpack-plugin#options
   },
   {
     // For all available options, see:
