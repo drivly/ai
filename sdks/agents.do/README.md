@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/agents.do.svg)](https://www.npmjs.com/package/agents.do)
 [![npm downloads](https://img.shields.io/npm/dm/agents.do.svg)](https://www.npmjs.com/package/agents.do)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Discord](https://img.shields.io/discord/1014897323584794655?label=Discord&logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
 
 Agents.do provides a powerful framework for creating, deploying, and managing autonomous digital workers that can perform complex tasks with minimal human intervention. These agents can handle routine operations, make decisions based on predefined criteria, and adapt to changing conditions.
 
