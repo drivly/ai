@@ -8,6 +8,7 @@ import type {
   WorkflowContext, 
   WorkflowExecutionOptions, 
   WorkflowExecutionResult,
+  WorkflowRegistrationResponse,
   AIFunction,
   AIFunctionSchema,
   SchemaToOutput,
@@ -26,6 +27,47 @@ import type {
  */
 export function AI<T extends AIConfig>(config: T): AIInstance {
   const instance: Record<string, AIFunction> = {}
+  
+  const registrationPromises = Object.entries(config).map(async ([key, value]) => {
+    if (typeof value === 'function') {
+      const functionString = value.toString()
+      
+      const response = await fetch('https://apis.do/workflows/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: key,
+          type: 'Function',
+          code: functionString,
+        }),
+      })
+      
+      return response.json() as Promise<WorkflowRegistrationResponse>
+    } 
+    else if (typeof value === 'object') {
+      const response = await fetch('https://apis.do/workflows/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: key,
+          type: 'Schema',
+          schema: value,
+        }),
+      })
+      
+      return response.json() as Promise<WorkflowRegistrationResponse>
+    }
+    
+    return Promise.resolve({ success: false, error: 'Invalid workflow configuration' } as WorkflowRegistrationResponse)
+  })
+  
+  Promise.all(registrationPromises).catch(error => {
+    console.error('Error registering workflows:', error)
+  })
   
   for (const key in config) {
     const value = config[key]
@@ -189,6 +231,7 @@ export type {
   WorkflowContext,
   WorkflowExecutionOptions,
   WorkflowExecutionResult,
+  WorkflowRegistrationResponse,
   AIFunction,
   AIFunctionSchema,
   SchemaToOutput,
