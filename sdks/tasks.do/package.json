@@ -1,0 +1,31 @@
+{
+  "name": "tasks.do",
+  "version": "0.0.1",
+  "description": "Tasks SDK for human-in-the-loop interactions",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tasks",
+    "human-in-the-loop",
+    "slack",
+    "blocks"
+  ],
+  "author": "Drivly",
+  "license": "MIT",
+  "dependencies": {
+    "apis.do": "workspace:*"
+  },
+  "peerDependencies": {
+    "apis.do": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
