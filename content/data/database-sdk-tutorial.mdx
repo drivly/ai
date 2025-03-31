@@ -1,0 +1,293 @@
+ # Database SDK Tutorial
+
+The database.do SDK provides a simple, intuitive interface for working with your data in AI applications. This tutorial will guide you through using the SDK to perform common database operations.
+
+## Installation
+
+First, install the database.do SDK in your project:
+
+```bash
+# Using npm
+npm install database.do
+
+# Using yarn
+yarn add database.do
+
+# Using pnpm
+pnpm add database.do
+```
+
+## Basic Usage
+
+The database.do SDK provides a clean, intuitive API for working with your data:
+
+```typescript
+import { db } from 'database.do'
+
+// Create a new item
+const product = await db.products.create({
+  name: 'Smart Speaker',
+  price: 99.99,
+  category: 'electronics',
+  inStock: true
+})
+
+// Retrieve the item
+const retrievedProduct = await db.products.findOne(product.id)
+console.log(retrievedProduct)
+
+// Update the item
+const updatedProduct = await db.products.update(product.id, {
+  price: 89.99,
+  inStock: false
+})
+
+// Delete the item
+await db.products.delete(product.id)
+```
+
+## Working with Collections
+
+The SDK automatically creates collections as you use them. Each collection provides methods for creating, reading, updating, and deleting documents:
+
+```typescript
+// Working with a blog collection
+const post = await db.posts.create({
+  title: 'Getting Started with database.do',
+  content: 'This is a sample post created with the database.do SDK',
+  status: 'Published',
+  tags: ['database', 'tutorial'],
+  author: 'author123'
+})
+
+// Query posts with filtering
+const publishedPosts = await db.posts.find({
+  where: {
+    status: 'Published',
+    author: 'author123'
+  }
+})
+
+// Get all posts with pagination
+const allPosts = await db.posts.find({
+  limit: 10,
+  page: 1
+})
+```
+
+## Schema Definition
+
+You can define your database schema directly in your code for improved type safety and validation:
+
+```typescript
+import { DB } from 'database.do'
+
+const db = DB({
+  // Define your schema
+  posts: {
+    title: 'text',
+    content: 'richtext',
+    status: 'Draft | Published | Archived', // Select field with predefined options
+    tags: 'tags[]',
+    author: 'authors' // Relationship to authors collection
+  },
+  authors: {
+    name: 'text',
+    email: 'email',
+    role: 'Admin | Editor | Writer',
+    posts: '<-posts.author' // Reverse relationship to posts
+  },
+  tags: {
+    name: 'text',
+    posts: '<-posts.tags' // Reverse relationship to posts
+  }
+})
+
+// Create a post with the defined schema
+const post = await db.posts.create({
+  title: 'Working with Schemas',
+  content: 'This post demonstrates schema validation and relationships',
+  status: 'Published',
+  tags: ['database', 'schema'],
+  author: 'author123'
+})
+```
+
+## Advanced Querying
+
+The SDK supports powerful querying capabilities:
+
+```typescript
+// Find with complex filters
+const results = await db.posts.find({
+  where: {
+    $or: [{ status: 'Published' }, { author: 'author123' }],
+    $and: [
+      { createdAt: { gt: new Date('2023-01-01').toISOString() } },
+      { tags: { contains: 'featured' } }
+    ]
+  },
+  limit: 10,
+  page: 1,
+  sort: 'createdAt:desc'
+})
+
+// Search functionality
+const searchResults = await db.products.search('smart speaker', {
+  limit: 20,
+  sort: 'relevance:desc'
+})
+```
+
+## Working with Related Data
+
+You can easily work with related data using the populate option:
+
+```typescript
+// Get posts with related author and tags data
+const posts = await db.posts.find({
+  populate: ['author', 'tags']
+})
+
+// Access the populated data
+posts.docs.forEach(post => {
+  console.log(`Post: ${post.title}`)
+  console.log(`Author: ${post.author.name}`)
+  console.log(`Tags: ${post.tags.map(tag => tag.name).join(', ')}`)
+})
+
+// Get all posts for a specific author
+const authorPosts = await db.posts.find({
+  where: {
+    author: 'author123'
+  }
+})
+```
+
+## Custom Configuration
+
+You can customize the database client with additional configuration options:
+
+```typescript
+import { DB } from 'database.do'
+
+// Initialize with custom configuration
+const db = DB({
+  baseUrl: 'https://your-custom-instance.database.do', // Optional
+  apiKey: 'YOUR_API_KEY_HERE', // Optional, overrides environment variable
+
+  // Optional schema definitions
+  products: {
+    name: 'text',
+    price: 'number',
+    description: 'richtext',
+    category: 'categories' // Reference to another collection
+  },
+  categories: {
+    name: 'text',
+    products: '<-products.category' // Reverse relation
+  }
+})
+```
+
+## Schema-less vs. Defined Schema Modes
+
+The database.do SDK supports both schema-less and defined schema modes:
+
+### Schema-less Mode
+
+In schema-less mode, you can create collections and documents on-the-fly without defining a schema first:
+
+```typescript
+import { db } from 'database.do'
+
+// Use any collection name and any fields
+const customer = await db.customers.create({
+  name: 'Acme Corporation',
+  industry: 'Manufacturing',
+  contacts: [
+    { name: 'John Smith', email: 'john@example.com' },
+    { name: 'Jane Doe', email: 'jane@example.com' }
+  ],
+  // Add any fields without constraints
+  customField: 'custom value',
+  metrics: {
+    revenue: 1000000,
+    employees: 500
+  }
+})
+```
+
+### Defined Schema Mode
+
+With defined schemas, you gain data validation, relationship management, and improved type safety:
+
+```typescript
+import { DB } from 'database.do'
+
+// Define your schema
+const db = DB({
+  customers: {
+    name: 'text',
+    industry: 'text',
+    size: 'Small | Medium | Enterprise',
+    contacts: 'json', // Store as JSON
+    active: 'boolean'
+  },
+  orders: {
+    customer: 'customers', // Reference to customers collection
+    amount: 'number',
+    status: 'Pending | Processing | Completed | Cancelled'
+  }
+})
+
+// Create documents that conform to your defined schema
+const customer = await db.customers.create({
+  name: 'Acme Corporation',
+  industry: 'Manufacturing',
+  size: 'Enterprise',
+  contacts: [
+    { name: 'John Smith', email: 'john@example.com' },
+    { name: 'Jane Doe', email: 'jane@example.com' }
+  ],
+  active: true
+})
+
+// Create an order linked to the customer
+const order = await db.orders.create({
+  customer: customer.id,
+  amount: 1299.99,
+  status: 'Pending'
+})
+```
+
+## Environment Setup
+
+To use the database.do SDK with authentication, set the `DATABASE_API_KEY` environment variable:
+
+```bash
+# For Node.js applications
+export DATABASE_API_KEY=your_api_key_here
+
+# For Next.js applications (.env.local)
+DATABASE_API_KEY=your_api_key_here
+```
+
+Alternatively, you can provide the API key directly in your code:
+
+```typescript
+import { DB } from 'database.do'
+
+const db = DB({
+  apiKey: 'your_api_key_here'
+})
+```
+
+## Next Steps
+
+Now that you've learned the basics of using the database.do SDK, you can:
+
+- [Create your first database collection](/data/database/create)
+- [Explore database templates](/data/database/templates)
+- [Learn about semantic search](/data/database/semantic-search)
+- [Implement database-driven business applications](/data/database/business-applications)
