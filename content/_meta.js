@@ -3,41 +3,91 @@ export default {
     title: 'Introduction',
     type: 'page',
   },
-  functions: {
-    title: 'Functions',
-    type: 'page',
-  },
-  workflows: {
-    title: 'Workflows',
-    type: 'page',
-  },
-  agents: {
-    title: 'Agents',
-    type: 'page',
-  },
-  database: {
-    title: 'Database',
-    type: 'page',
-  },
-  llm: {
-    title: 'LLM',
-    type: 'page',
-  },
   data: {
     title: 'Data',
     type: 'separator',
   },
-  things: {
-    title: 'Things',
-    type: 'page',
+  data_items: {
+    title: 'Data',
+    type: 'menu',
+    items: {
+      database: {
+        title: 'Database',
+        type: 'page',
+      },
+      things: {
+        title: 'Things',
+        type: 'page',
+      },
+      nouns: {
+        title: 'Nouns',
+        type: 'page',
+      },
+      verbs: {
+        title: 'Verbs',
+        type: 'page',
+      },
+      actions: {
+        title: 'Actions',
+        type: 'page',
+      },
+    },
   },
-  nouns: {
-    title: 'Nouns',
-    type: 'page',
+  functions: {
+    title: 'Functions',
+    type: 'menu',
+    items: {
+      index: {
+        title: 'Overview',
+        type: 'page',
+      },
+      api: {
+        title: 'API Reference',
+        type: 'page',
+      },
+    },
   },
-  verbs: {
-    title: 'Verbs',
-    type: 'page',
+  workflows: {
+    title: 'Workflows',
+    type: 'menu',
+    items: {
+      index: {
+        title: 'Overview',
+        type: 'page',
+      },
+      api: {
+        title: 'API Reference',
+        type: 'page',
+      },
+    },
+  },
+  agents: {
+    title: 'Agents',
+    type: 'menu',
+    items: {
+      index: {
+        title: 'Overview',
+        type: 'page',
+      },
+      api: {
+        title: 'API Reference',
+        type: 'page',
+      },
+    },
+  },
+  llm: {
+    title: 'LLM',
+    type: 'menu',
+    items: {
+      index: {
+        title: 'Overview',
+        type: 'page',
+      },
+      api: {
+        title: 'API Reference',
+        type: 'page',
+      },
+    },
   },
   integrations: {
     title: 'Integrations',
@@ -53,10 +103,6 @@ export default {
   },
   searches: {
     title: 'Searches',
-    type: 'page',
-  },
-  actions: {
-    title: 'Actions',
     type: 'page',
   },
   observability: {
