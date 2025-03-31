@@ -7,6 +7,7 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
+import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { payloadAgentPlugin } from '@drivly/payload-agent'
 import { payloadKanbanBoard } from 'payload-kanban-board'
 import { Config } from './payload.types'
@@ -110,6 +111,10 @@ export default buildConfig({
           },
         },
       },
+    }),
+    stripePlugin({
+      stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
+      stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
     }),
   ],
 })
