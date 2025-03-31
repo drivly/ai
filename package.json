@@ -34,9 +34,8 @@
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
- 
+    "@drivly/payload-agent": "workspace:*",
     "@drivly/ui": "workspace:*",
- 
     "@graphdl/core": "^0.1.6",
     "@payloadcms/db-mongodb": "^3.31.0",
     "@payloadcms/email-resend": "^3.31.0",
@@ -148,6 +147,9 @@
     "workflows"
   ],
   "prettier": {
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ],
     "singleQuote": true,
     "trailingComma": "all",
     "printWidth": 180,
