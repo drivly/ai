@@ -168,3 +168,15 @@ export interface WorkflowExecutionResult {
   /** Workflow execution context */
   context: WorkflowContext
 }
+
+/**
+ * Workflow registration response
+ */
+export interface WorkflowRegistrationResponse {
+  /** Registration status */
+  success: boolean
+  /** Workflow ID */
+  id?: string
+  /** Error message if registration failed */
+  error?: string
+}
