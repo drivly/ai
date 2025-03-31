@@ -8,6 +8,15 @@ export default defineConfig({
     setupFiles: ['tests/setup.ts'],
     // Disable browser tests in CI environment to avoid dependency issues
     // The tests have fallback mechanisms for when browser is not available
+    testTimeout: 10000, // Increase timeout for browser tests
+    environmentOptions: {
+      env: {
+        BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
+        API_URL: process.env.API_URL || 'http://localhost:3000',
+        VERCEL_URL: process.env.VERCEL_URL || 'http://localhost:3000',
+        IS_TEST_ENV: process.env.IS_TEST_ENV || 'true',
+      }
+    }
   },
   resolve: {
     alias: {
