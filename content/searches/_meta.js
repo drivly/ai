@@ -1,6 +1,6 @@
 export default {
   index: {
-    title: 'Searches',
+    title: 'Overview',
     type: 'page',
   },
 }
