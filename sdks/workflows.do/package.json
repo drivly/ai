@@ -10,6 +10,9 @@
   "homepage": "https://workflows.do",
   "type": "module",
   "module": "dist/index.js",
+  "bin": {
+    "workflow": "./dist/bin.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
