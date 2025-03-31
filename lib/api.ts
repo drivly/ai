@@ -308,7 +308,10 @@ export const createAPI = <T = any>(handler: ApiHandler<T>) => {
         }
 
         try {
-          const authResult = await payload.auth.me()
+          // const authResult = await payload.auth.me()
+          // permissions = authResult?.permissions || {}
+          // user = authResult?.user || {}
+          const authResult = await payload.auth(req)
           permissions = authResult?.permissions || {}
           user = authResult?.user || {}
         } catch (authError) {

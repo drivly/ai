@@ -3,11 +3,14 @@ import config from '@/payload.config'
 import { getPayload } from 'payload'
 // import { seedDatabase } from '@/scripts/seed'
 
-export const GET = API(async (req, { db, user, payload, params }) => {
+export const GET = API(async (req, { db, params, user, payload }) => {
   // seedDatabase()
 
-  if (!user.email?.endsWith('@driv.ly')) {
-    return { success: false, message: 'Unauthorized' }
+  // const payload = await getPayload({ config })
+  // const { user } = await payload.auth(req)
+
+  if (!user?.email?.endsWith('@driv.ly')) {
+    return { user: user?.email, success: false, message: 'Unauthorized' }
   }
 
   // Schema.org Nouns
@@ -40,19 +43,19 @@ export const GET = API(async (req, { db, user, payload, params }) => {
     }),
   )
   console.log('Integrations seeded')
-  const categoriesResults = await payload.db.connection.collection('integration-categories').bulkWrite(
+  const categoriesResults = await payload.db.connection.collection('integrationcategories').bulkWrite(
     categories.map((category: any) => {
       return { updateOne: { filter: { category }, update: { $set: { category } }, upsert: true } }
     }),
   )
   console.log('Categories seeded')
-  const triggersResults = await payload.db.connection.collection('integration-triggers').bulkWrite(
+  const triggersResults = await payload.db.connection.collection('integrationtriggers').bulkWrite(
     triggers.map((trigger: any) => {
       return { updateOne: { filter: { appKey: trigger.appKey }, update: { $set: trigger }, upsert: true } }
     }),
   )
   console.log('Triggers seeded')
-  const actionsResults = await payload.db.connection.collection('integration-actions').bulkWrite(
+  const actionsResults = await payload.db.connection.collection('integrationactions').bulkWrite(
     actions.map((action: any) => {
       return { updateOne: { filter: { appKey: action.appKey }, update: { $set: action }, upsert: true } }
     }),

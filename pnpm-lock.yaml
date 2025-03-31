@@ -141,7 +141,7 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(acorn@8.14.1)
       yaml:
-        specifier: ^2.2.2
+        specifier: ^2.7.0
         version: 2.7.0
       zod:
         specifier: ^3.24.1

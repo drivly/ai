@@ -13,6 +13,7 @@ export const APIKeys: CollectionConfig = {
   },
   fields: [
     { name: 'name', type: 'text' },
+    { name: 'email', type: 'text' },
     { name: 'description', type: 'text' },
     { name: 'url', type: 'text' },
   ],

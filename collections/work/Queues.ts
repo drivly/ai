@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Queues: CollectionConfig = {
   slug: 'queues',
   admin: {
-    group: 'Jobs',
+    group: 'Work',
     useAsTitle: 'name',
   },
   fields: [

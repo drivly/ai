@@ -10,8 +10,8 @@ export const Types: CollectionConfig = {
   fields: [
     { name: 'name', type: 'text' },
     { name: 'hash', type: 'text' },
-    { name: 'type', type: 'code', admin: { language: 'typescript' } },
-    { name: 'json', type: 'json' },
-    { name: 'schema', type: 'json' },
+    { name: 'type', type: 'code', admin: { language: 'typescript', editorOptions: { padding: { top: 20, bottom: 20 } } } },
+    { name: 'json', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
+    { name: 'schema', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
   ],
 }

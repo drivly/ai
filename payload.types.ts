@@ -114,7 +114,7 @@ export interface Config {
   };
   collectionsJoins: {
     functions: {
-      actions: 'actions';
+      executions: 'actions';
     };
     queues: {
       tasks: 'tasks';
@@ -251,10 +251,11 @@ export interface ApikeyAuthOperations {
  */
 export interface Function {
   id: string;
-  name?: string | null;
-  type: 'Generation' | 'Code' | 'Human' | 'Agent';
+  name: string;
+  type?: ('Generation' | 'Code' | 'Human' | 'Agent') | null;
   format?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code') | null;
-  schema?:
+  schemaYaml?: string | null;
+  shape?:
     | {
         [k: string]: unknown;
       }
@@ -268,7 +269,7 @@ export interface Function {
   role?: string | null;
   user?: (string | null) | User;
   agent?: (string | null) | Agent;
-  actions?: {
+  executions?: {
     docs?: (string | Action)[];
     hasNextPage?: boolean;
     totalDocs?: number;
@@ -566,9 +567,26 @@ export interface Role {
 export interface Task {
   id: string;
   title: string;
-  description?: string | null;
+  status?: ('todo' | 'in-progress' | 'ready-for-review' | 'completed') | null;
   queue?: (string | null) | Queue;
+  assigned?:
+    | (
+        | {
+            relationTo: 'users';
+            value: string | User;
+          }
+        | {
+            relationTo: 'roles';
+            value: string | Role;
+          }
+        | {
+            relationTo: 'agents';
+            value: string | Agent;
+          }
+      )[]
+    | null;
   parent?: (string | null) | Task;
+  description?: string | null;
   subtasks?: {
     docs?: (string | Task)[];
     hasNextPage?: boolean;
@@ -580,18 +598,6 @@ export interface Task {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  assigned?:
-    | (
-        | {
-            relationTo: 'users';
-            value: string | User;
-          }
-        | {
-            relationTo: 'roles';
-            value: string | Role;
-          }
-      )[]
-    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -948,6 +954,7 @@ export interface Webhook {
 export interface Apikey {
   id: string;
   name?: string | null;
+  email?: string | null;
   description?: string | null;
   url?: string | null;
   updatedAt: string;
@@ -1280,13 +1287,14 @@ export interface FunctionsSelect<T extends boolean = true> {
   name?: T;
   type?: T;
   format?: T;
-  schema?: T;
+  schemaYaml?: T;
+  shape?: T;
   code?: T;
   prompt?: T;
   role?: T;
   user?: T;
   agent?: T;
-  actions?: T;
+  executions?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1331,13 +1339,14 @@ export interface QueuesSelect<T extends boolean = true> {
  */
 export interface TasksSelect<T extends boolean = true> {
   title?: T;
-  description?: T;
+  status?: T;
   queue?: T;
+  assigned?: T;
   parent?: T;
+  description?: T;
   subtasks?: T;
   dependentOn?: T;
   dependents?: T;
-  assigned?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1716,6 +1725,7 @@ export interface WebhooksSelect<T extends boolean = true> {
  */
 export interface ApikeysSelect<T extends boolean = true> {
   name?: T;
+  email?: T;
   description?: T;
   url?: T;
   updatedAt?: T;
