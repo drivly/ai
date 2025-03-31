@@ -103,7 +103,8 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       platform: args.platform || schema.platform || 'slack',
       userId: args.userId || functionDoc?.user?.id,
       roleId: args.roleId || schema.roleId,
-      timeout: args.timeout || schema.timeout
+      timeout: args.timeout || schema.timeout,
+      blocks: args.blocks || schema.blocks
     }
     
     const result = await requestHumanFeedback({

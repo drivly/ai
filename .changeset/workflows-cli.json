@@ -1,1 +1,1 @@
-{\n  "workflows.do": {\n    "patch": true\n  },\n  "message": "Added workflow file scanning capabilities to workflows.do CLI"\n}
+{"packages": ["workflows.do"], "message": "Add CLI for workflows.do that reuses components from apis.do SDK"}

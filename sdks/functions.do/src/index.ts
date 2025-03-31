@@ -1,5 +1,16 @@
 import { ApiClient } from './api'
 
+export interface SlackBlockSchema {
+  title: string
+  description: string
+  options?: string[]
+  freeText?: boolean
+  platform?: 'slack' | 'teams' | 'discord'
+  timeout?: number
+  channel?: string
+  mentions?: string[]
+}
+
 export interface FunctionDefinition {
   type?: 'Generation' | 'Code' | 'Human' | 'Agent'
   format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code'
@@ -8,6 +19,7 @@ export interface FunctionDefinition {
   code?: string
   role?: string
   agent?: string
+  blocks?: SlackBlockSchema
   [key: string]: any
 }
 
