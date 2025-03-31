@@ -211,6 +211,7 @@ export interface Config {
       hybridSearchThings: TaskHybridSearchThings;
       inflectNouns: TaskInflectNouns;
       conjugateVerbs: TaskConjugateVerbs;
+      deliverWebhook: TaskDeliverWebhook;
       initiateComposioConnection: TaskInitiateComposioConnection;
       inline: {
         input: unknown;
@@ -1180,6 +1181,18 @@ export interface Tag {
 export interface Webhook {
   id: string;
   name?: string | null;
+  url: string;
+  filters?:
+    | {
+        /**
+         * Use Noun.Verb format (e.g., Listing.Created) or wildcards (e.g., Listing.* or *.Created)
+         */
+        pattern: string;
+        id?: string | null;
+      }[]
+    | null;
+  enabled?: boolean | null;
+  secret?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1260,6 +1273,7 @@ export interface PayloadJob {
           | 'hybridSearchThings'
           | 'inflectNouns'
           | 'conjugateVerbs'
+          | 'deliverWebhook'
           | 'initiateComposioConnection';
         taskID: string;
         input?:
@@ -1301,6 +1315,7 @@ export interface PayloadJob {
                 | 'hybridSearchThings'
                 | 'inflectNouns'
                 | 'conjugateVerbs'
+                | 'deliverWebhook'
                 | 'initiateComposioConnection'
               )
             | null;
@@ -1320,6 +1335,7 @@ export interface PayloadJob {
         | 'hybridSearchThings'
         | 'inflectNouns'
         | 'conjugateVerbs'
+        | 'deliverWebhook'
         | 'initiateComposioConnection'
       )
     | null;
@@ -2078,6 +2094,15 @@ export interface TagsSelect<T extends boolean = true> {
  */
 export interface WebhooksSelect<T extends boolean = true> {
   name?: T;
+  url?: T;
+  filters?:
+    | T
+    | {
+        pattern?: T;
+        id?: T;
+      };
+  enabled?: T;
+  secret?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2321,6 +2346,73 @@ export interface TaskHybridSearchThings {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+<<<<<<< HEAD
+ * via the `definition` "TaskInflectNouns".
+ */
+export interface TaskInflectNouns {
+  input: {
+    noun: string;
+  };
+  output: {
+    singular?: string | null;
+    plural?: string | null;
+    possessive?: string | null;
+    pluralPossessive?: string | null;
+    verb?: string | null;
+    act?: string | null;
+    activity?: string | null;
+    event?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskConjugateVerbs".
+ */
+export interface TaskConjugateVerbs {
+  input: {
+    verb: string;
+  };
+  output: {
+    act?: string | null;
+    activity?: string | null;
+    event?: string | null;
+    subject?: string | null;
+    object?: string | null;
+    inverse?: string | null;
+    inverseAct?: string | null;
+    inverseActivity?: string | null;
+    inverseEvent?: string | null;
+    inverseSubject?: string | null;
+    inverseObject?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDeliverWebhook".
+ */
+export interface TaskDeliverWebhook {
+  input: {
+    event:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    webhookId: string;
+  };
+  output: {
+    status?: string | null;
+    message?: string | null;
+    statusCode?: number | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+||||||| e45a0a4
+=======
  * via the `definition` "TaskInflectNouns".
  */
 export interface TaskInflectNouns {
@@ -2386,6 +2478,7 @@ export interface TaskInitiateComposioConnection {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+>>>>>>> origin/main
  * via the `definition` "WorkflowHandleGithubEvent".
  */
 export interface WorkflowHandleGithubEvent {

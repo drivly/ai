@@ -9,6 +9,7 @@ import { processCodeFunctionWrapperTask } from './processCodeFunctionWrapper'
 import { processCodeFunctionTask } from './processCodeFunction'
 import { inflectNounsTask } from './inflectNouns'
 import { conjugateVerbsTask } from './conjugateVerbs'
+import { deliverWebhookTask } from './deliverWebhook'
 import { initiateComposioConnectionTask } from './initiateComposioConnection'
 
 const generateThingEmbeddingTask = {
@@ -59,6 +60,7 @@ export const tasks = [
   processCodeFunctionTask,
   inflectNounsTask,
   conjugateVerbsTask,
+  deliverWebhookTask,
   initiateComposioConnectionTask
 ]
 export const workflows = [handleGithubEvent]
