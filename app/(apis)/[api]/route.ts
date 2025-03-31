@@ -1,13 +1,17 @@
 import { API } from '@/lib/api'
 import { apis } from '@/api.config'
 import { collectionSlugs } from '@/collections/index'
+import { aliases } from '@/site.config'
 
 export const GET = API(async (request, { db, user, params }) => {
   const { api } = params as { api: string }
   
   const apiExists = api in apis
+  const isAlias = api in aliases
+  const aliasedApi = isAlias ? aliases[api as keyof typeof aliases] : null
+  const effectiveApi = isAlias ? aliasedApi : api
   
-  if (!apiExists) {
+  if (!apiExists && !isAlias) {
     return {
       error: true,
       message: `API '${api}' not found. Available APIs: ${Object.keys(apis).join(', ')}`,
@@ -15,26 +19,26 @@ export const GET = API(async (request, { db, user, params }) => {
     }
   }
   
-  const collectionExists = collectionSlugs.includes(api)
+  const collectionExists = collectionSlugs.includes(effectiveApi)
   
-  if (collectionExists && db[api]) {
+  if (collectionExists && db[effectiveApi]) {
     try {
-      const items = await db[api].find()
-      return { [api]: items }
+      const items = await db[effectiveApi].find()
+      return { [effectiveApi]: items }
     } catch (error) {
-      console.error(`Error fetching ${api}:`, error)
+      console.error(`Error fetching ${effectiveApi}:`, error)
       return {
         error: true,
-        message: `Error fetching data from ${api}`,
+        message: `Error fetching data from ${effectiveApi}`,
         statusCode: 500,
       }
     }
   }
   
   return {
-    [api]: {
-      description: apis[api] || `${api} API`,
-      message: `This is the ${api} API. No collection data available.`,
+    [effectiveApi]: {
+      description: apis[effectiveApi] || `${effectiveApi} API`,
+      message: `This is the ${api} API${isAlias ? ` (alias for ${aliasedApi})` : ''}. No collection data available.`,
     }
   }
 })
