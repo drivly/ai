@@ -44,10 +44,7 @@ const feedback = await tasks.requestHumanFeedback({
     solution: 'simplified AI integration',
     description: 'Streamlined API for AI function integration'
   },
-  options: [
-    { value: 'approve', label: 'Approve' },
-    { value: 'reject', label: 'Reject' }
-  ],
+  options: ['Approve', 'Reject'],
   freeText: true
 })
 ```

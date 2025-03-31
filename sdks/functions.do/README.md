@@ -258,10 +258,7 @@ functions.do supports multiple function types for different use cases:
          solution: 'simplified AI integration',
          description: 'Streamlined API for AI function integration'
        },
-       options: [
-         { value: 'approve', label: 'Approve' },
-         { value: 'reject', label: 'Reject' }
-       ],
+       options: ['Approve', 'Reject'],
        freeText: true
      })
      ```

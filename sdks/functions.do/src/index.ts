@@ -3,7 +3,7 @@ import { ApiClient } from './api'
 export interface SlackBlockSchema {
   title: string
   description: string
-  options?: Array<{ value: string; label: string }>
+  options?: string[]
   freeText?: boolean
   platform?: 'slack' | 'teams' | 'discord'
   timeout?: number
