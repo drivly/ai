@@ -108,6 +108,39 @@ describe('workflows.do SDK - E2E Tests', () => {
       expect(result.output).toEqual({ result: 'success' })
     })
 
+    it('should execute a workflow with custom options', async () => {
+      mockFetch.mockResolvedValueOnce(new Response(JSON.stringify({
+        status: 'completed',
+        output: { result: 'custom' },
+        context: {
+          timeout: 5000,
+          retries: 2
+        }
+      })))
+
+      const workflow = createWorkflow({
+        name: 'custom-workflow',
+        initialStep: 'start',
+        steps: {
+          start: {
+            name: 'start',
+            function: 'customFunction',
+            input: { value: 'test' },
+            isFinal: true
+          }
+        }
+      })
+
+      const result = await workflow.execute({ input: 'test' }, { 
+        timeout: 5000,
+        retries: 2
+      })
+      
+      expect(result.status).toBe('completed')
+      expect(result.context.timeout).toBe(5000)
+      expect(result.context.retries).toBe(2)
+    })
+
     it('should handle workflow execution errors gracefully', async () => {
       mockFetch.mockResolvedValueOnce(new Response(JSON.stringify({
         status: 'failed',
