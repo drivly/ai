@@ -1,0 +1,519 @@
+# Building AI-Powered Workflows: Book Creation Tutorial
+
+This tutorial demonstrates how to use the workflows.do SDK to create a complex, multi-step workflow for book creation. You'll learn how to:
+
+1. Define a main workflow function that orchestrates multiple steps
+2. Create AI function schemas for different stages of the process
+3. Integrate with external APIs and databases
+4. Process tasks in parallel for efficiency
+5. Handle complex data flows between workflow steps
+
+## Getting Started
+
+First, install the workflows.do SDK:
+
+```bash
+npm install workflows.do
+# or
+yarn add workflows.do
+# or
+pnpm add workflows.do
+```
+
+## Basic Workflow Structure
+
+Let's start with a simple version of our book creation workflow to understand the basic structure:
+
+```typescript
+import { AI } from 'workflows.do'
+
+export const ai = AI({
+  // Main workflow function
+  writeBook: async (args, { ai, db, api }) => {
+    // Create book proposal
+    const proposal = await ai.createBookProposal(args)
+    
+    // Generate table of contents
+    const toc = await ai.createTableOfContents({ proposal })
+    
+    // Save to database and return results
+    const { url } = await db.books.create({
+      title: proposal.title,
+      summary: proposal.summary,
+      toc
+    })
+    
+    return {
+      proposal,
+      tableOfContents: toc,
+      url
+    }
+  },
+  
+  // Simple function implementations
+  createBookProposal: async (args) => {
+    // In a real implementation, this would call an AI model
+    return {
+      title: `The Complete Guide to ${args.topic}`,
+      subtitle: `Everything You Need to Know About ${args.topic}`,
+      author: args.author || 'Anonymous',
+      summary: `A comprehensive guide covering all aspects of ${args.topic}.`
+    }
+  },
+  
+  createTableOfContents: async ({ proposal }) => {
+    // In a real implementation, this would call an AI model
+    return {
+      introduction: `Introduction to ${proposal.title}`,
+      chapters: [
+        { title: 'Getting Started', summary: 'An introduction to the basics' },
+        { title: 'Core Concepts', summary: 'Understanding the fundamental concepts' },
+        { title: 'Advanced Techniques', summary: 'Taking your skills to the next level' }
+      ],
+      conclusion: 'Final thoughts and next steps'
+    }
+  }
+})
+```
+
+This simple example demonstrates the basic structure of a workflow:
+
+1. A main function (`writeBook`) that orchestrates the workflow
+2. Helper functions that perform specific tasks (`createBookProposal`, `createTableOfContents`)
+3. The context object (`{ ai, db, api }`) that provides access to AI functions, database, and external APIs
+
+## Adding Function Schemas
+
+As your workflow grows in complexity, it's helpful to define schemas for your AI functions. This provides better type safety and documentation:
+
+```typescript
+import { AI } from 'workflows.do'
+
+export const ai = AI({
+  // Main workflow function
+  writeBook: async (args, { ai, db, api }) => {
+    // Create book proposal with provided args
+    const proposal = await ai.createBookProposal(args)
+    
+    // Generate table of contents based on proposal
+    const toc = await ai.createTableOfContents({ proposal })
+    
+    // Save to database and return results
+    const { url } = await db.books.create({
+      title: proposal.title,
+      summary: proposal.summary,
+      toc
+    })
+    
+    return {
+      proposal,
+      tableOfContents: toc,
+      url
+    }
+  },
+  
+  // Book Proposal schema
+  createBookProposal: {
+    title: 'proposed title of the book',
+    subtitle: 'proposed subtitle of the book',
+    author: 'name of the author',
+    targetAudience: ['primary audience segments for the book'],
+    marketAnalysis: 'analysis of the current market for this type of book',
+    uniqueSellingPoints: ['what makes this book different and valuable'],
+    summary: 'one paragraph summary of the book concept'
+  },
+  
+  // Table of Contents schema
+  createTableOfContents: {
+    bookTitle: 'title of the book',
+    introduction: 'brief description of the introduction',
+    chapters: [
+      {
+        title: 'chapter title',
+        summary: 'brief summary of the chapter content',
+        sections: [
+          {
+            title: 'section title',
+            summary: 'brief description of the section content'
+          }
+        ]
+      }
+    ],
+    conclusion: 'brief description of the conclusion'
+  }
+})
+```
+
+When you provide a schema object instead of a function, the workflows.do SDK automatically creates an AI function that follows the schema. This approach:
+
+1. Provides clear documentation of expected inputs and outputs
+2. Enables automatic type checking and validation
+3. Makes your code more maintainable and self-documenting
+
+## Building a Complete Book Creation Workflow
+
+Now let's expand our workflow to include all the steps needed for a complete book creation process:
+
+```typescript
+import { AI } from 'workflows.do'
+
+export const ai = AI({
+  writeBook: async (args, { ai, db, api }) => {
+    // Step 1: Create book proposal with provided args
+    const proposal = await ai.createBookProposal(args)
+
+    // Step 2: Generate table of contents based on proposal
+    const toc = await ai.createTableOfContents({ proposal })
+
+    // Step 3: Create detailed outlines for each chapter
+    const chapterOutlines = await Promise.all(
+      toc.chapters.map(async (chapter, idx) => {
+        return ai.createChapterOutline({
+          bookTitle: proposal.title,
+          chapterNumber: (idx + 1).toString(),
+          chapterTitle: chapter.title,
+        })
+      }),
+    )
+
+    // Step 4: Write all sections for each chapter
+    const completedChapters = await Promise.all(
+      chapterOutlines.map(async (outline, idx) => {
+        const chapterNumber = idx + 1
+
+        // Write each section in parallel for efficiency
+        const sections = await Promise.all(
+          outline.sections.map(async (section) => {
+            return ai.writeSection({
+              bookTitle: proposal.title,
+              chapterNumber: chapterNumber.toString(),
+              chapterTitle: outline.chapterTitle,
+              sectionTitle: section.title,
+            })
+          }),
+        )
+
+        return {
+          chapterNumber,
+          chapterTitle: outline.chapterTitle,
+          sections,
+        }
+      }),
+    )
+
+    // Step 5: Review each chapter for quality and consistency
+    const chapterReviews = await Promise.all(
+      completedChapters.map(async (chapter) => {
+        return ai.reviewChapter({
+          bookTitle: proposal.title,
+          chapterNumber: chapter.chapterNumber.toString(),
+          chapterTitle: chapter.chapterTitle,
+        })
+      }),
+    )
+
+    // Step 6: Perform comprehensive book review
+    const bookReview = await ai.reviewBook({ bookTitle: proposal.title })
+
+    // Step 7: Edit book based on review feedback
+    const bookEdits = await ai.editBook({ bookTitle: proposal.title })
+
+    // Step 8: Prepare final materials for publication
+    const book = await ai.prepareForPublication({ bookTitle: proposal.title })
+
+    // Step 9: Save book to database
+    const { url } = await db.books.create({
+      title: proposal.title,
+      summary: proposal.summary,
+      toc,
+      chapterOutlines,
+      completedChapters,
+      chapterReviews,
+      bookReview,
+      bookEdits,
+      publicationPrep: book,
+    })
+    
+    // Notify team via Slack
+    await api.slack.postMessage({ 
+      channel: '#books', 
+      content: { 
+        title: proposal.title, 
+        message: 'Book ready for review 🚀', 
+        url 
+      } 
+    })
+
+    // Step 10: Publish book to external platform
+    const publishedBook = await api.amazon.kindle.publish({ book })
+    
+    // Notify team of successful publication
+    await api.slack.postMessage({ 
+      channel: '#books', 
+      content: { 
+        title: proposal.title, 
+        message: 'Book published 🎉', 
+        url: publishedBook.url 
+      } 
+    })
+
+    // Return complete book package with all components
+    return {
+      proposal,
+      tableOfContents: toc,
+      chapterOutlines,
+      completedChapters,
+      chapterReviews,
+      bookReview,
+      bookEdits,
+      publicationPrep: book,
+      publishedUrl: publishedBook.url
+    }
+  },
+
+  // Book Proposal schema
+  createBookProposal: {
+    title: 'proposed title of the book',
+    subtitle: 'proposed subtitle of the book',
+    author: 'name of the author',
+    targetAudience: ['primary audience segments for the book'],
+    marketAnalysis: 'analysis of the current market for this type of book',
+    competitiveBooks: ['list of similar books in the market'],
+    uniqueSellingPoints: ['what makes this book different and valuable'],
+    keyTakeaways: ['main insights readers will gain'],
+    marketingPotential: 'assessment of marketing opportunities',
+    coverDescription: 'visual description of the layout and image of the book cover',
+    estimatedWordCount: 'approximate word count for the entire book',
+    estimatedTimeToComplete: 'timeline for completing the manuscript',
+    summary: 'one paragraph summary of the book concept',
+  },
+
+  // Table of Contents schema
+  createTableOfContents: {
+    bookTitle: 'title of the book',
+    introduction: 'brief description of the introduction',
+    chapters: [
+      {
+        title: 'chapter title',
+        summary: 'brief summary of the chapter content',
+        sections: [
+          {
+            title: 'section title',
+            summary: 'brief description of the section content',
+          },
+        ],
+        estimatedPages: 'estimated number of pages for this chapter',
+      },
+    ],
+    conclusion: 'brief description of the conclusion',
+    appendices: ['list of potential appendices if applicable'],
+    bibliography: 'description of reference sources if applicable',
+    estimatedTotalPages: 'estimated total page count for the book',
+  },
+
+  // Chapter Outline schema
+  createChapterOutline: {
+    bookTitle: 'title of the book',
+    chapterNumber: 'number of the chapter',
+    chapterTitle: 'title of the chapter',
+    openingHook: 'engaging opening to capture reader interest',
+    keyPoints: ['main points to be covered in the chapter'],
+    sections: [
+      {
+        title: 'section title',
+        content: 'detailed description of section content',
+        keyIdeas: ['key ideas to be conveyed in this section'],
+        examples: ['examples or case studies to include'],
+        transitions: 'how this section connects to the next',
+      },
+    ],
+    conclusion: 'how the chapter will wrap up',
+    exercises: ['potential exercises or reflection questions for readers'],
+    references: ['key references or citations for this chapter'],
+    visualElements: ['diagrams, charts, or illustrations to include'],
+  },
+
+  // Section Writing schema
+  writeSection: {
+    bookTitle: 'title of the book',
+    chapterNumber: 'number of the chapter',
+    chapterTitle: 'title of the chapter',
+    sectionTitle: 'title of the section',
+    content: 'fully written content for the section',
+    keyQuotes: ['memorable quotes or statements from this section'],
+    citations: ['citations or references used in this section'],
+    images: ['descriptions of images or diagrams to include'],
+    pullQuotes: ['text that could be highlighted as pull quotes'],
+    wordCount: 'word count for this section',
+  },
+
+  // Chapter Review schema
+  reviewChapter: {
+    bookTitle: 'title of the book',
+    chapterNumber: 'number of the chapter',
+    chapterTitle: 'title of the chapter',
+    strengthAnalysis: ['strengths of the chapter'],
+    weaknessAnalysis: ['areas that need improvement'],
+    flowAssessment: 'evaluation of how well the narrative flows',
+    clarityAssessment: 'evaluation of clarity and readability',
+    engagementAssessment: 'evaluation of how engaging the content is',
+    factsToVerify: ['factual claims that should be verified'],
+    suggestedRevisions: ['specific suggestions for revision'],
+    consistencyCheck: 'assessment of consistency with other chapters',
+    overallRating: 'rating on a scale of 1-10',
+    nextStepsRecommendation: 'recommended next steps for improvement',
+  },
+
+  // Book Review schema
+  reviewBook: {
+    bookTitle: 'title of the book',
+    overallAssessment: 'comprehensive evaluation of the manuscript',
+    structureAnalysis: 'assessment of the book structure and organization',
+    narrativeFlowAnalysis: 'evaluation of how the narrative progresses',
+    thematicConsistency: 'assessment of thematic consistency throughout',
+    audienceAlignment: 'how well the book aligns with target audience',
+    marketPotential: 'assessment of commercial potential',
+    strengthHighlights: ['major strengths of the manuscript'],
+    improvementAreas: ['areas needing significant improvement'],
+    missingElements: ['important content or elements that are missing'],
+    redundancies: ['redundant or repetitive content to eliminate'],
+    titleFeedback: 'assessment of title effectiveness',
+    coverSuggestions: 'suggestions for cover design elements',
+    marketingAngles: ['potential marketing angles to emphasize'],
+    finalRecommendations: ['prioritized list of final recommendations'],
+  },
+
+  // Book Editing schema
+  editBook: {
+    bookTitle: 'title of the book',
+    structuralEdits: ['suggestions for reorganizing content'],
+    developmentalEdits: ['suggestions for expanding or developing ideas'],
+    lineEdits: ['specific line-level edits for clarity and style'],
+    copyedits: ['grammar, punctuation, and spelling corrections'],
+    factChecking: ['factual errors to correct'],
+    consistencyEdits: ['inconsistencies to resolve'],
+    styleGuideApplication: 'how to apply a consistent style guide',
+    audienceConsiderations: 'edits to better target the audience',
+    paceAdjustments: 'suggestions for improving narrative pace',
+    toneRefinements: 'adjustments to maintain consistent tone',
+    dialogueImprovements: 'ways to improve any dialogue',
+    descriptionEnhancements: 'ways to enhance descriptive passages',
+    transitionImprovements: 'ways to improve transitions between sections',
+  },
+
+  // Book Publication Preparation schema
+  prepareForPublication: {
+    bookTitle: 'title of the book',
+    finalTitleRecommendation: 'final recommendation for title and subtitle',
+    blurb: 'promotional book description for back cover and marketing',
+    keySellingPoints: ['key selling points to emphasize in marketing'],
+    targetCategories: ['book categories and genres for listing'],
+    keywordRecommendations: ['keywords for search optimization'],
+    comparableTitles: ['comparable successful titles for positioning'],
+    audienceDescription: 'detailed description of target audience',
+    marketingHooks: ['marketing hooks and angles'],
+    excerptSuggestions: ['passages that would work well as excerpts'],
+    endorsementStrategy: 'strategy for obtaining endorsements',
+    launchStrategy: 'recommended approach for book launch',
+    pricingRecommendation: 'suggested pricing strategy',
+    formatRecommendations: ['recommended formats (hardcover, ebook, etc.)'],
+    distributionChannels: ['recommended distribution channels'],
+  },
+})
+```
+
+## Key Concepts Demonstrated
+
+This comprehensive example demonstrates several key concepts of the workflows.do SDK:
+
+### 1. Workflow Orchestration
+
+The main `writeBook` function orchestrates the entire workflow, calling various AI functions in sequence and managing the flow of data between them.
+
+### 2. Parallel Processing
+
+The workflow uses `Promise.all` to process multiple chapters and sections in parallel, significantly improving efficiency:
+
+```typescript
+const chapterOutlines = await Promise.all(
+  toc.chapters.map(async (chapter, idx) => {
+    return ai.createChapterOutline({
+      bookTitle: proposal.title,
+      chapterNumber: (idx + 1).toString(),
+      chapterTitle: chapter.title,
+    })
+  }),
+)
+```
+
+### 3. External API Integration
+
+The workflow integrates with external APIs for notifications and publishing:
+
+```typescript
+await api.slack.postMessage({ 
+  channel: '#books', 
+  content: { 
+    title: proposal.title, 
+    message: 'Book ready for review 🚀', 
+    url 
+  } 
+})
+
+const publishedBook = await api.amazon.kindle.publish({ book })
+```
+
+### 4. Database Integration
+
+The workflow saves data to a database for persistence:
+
+```typescript
+const { url } = await db.books.create({
+  title: proposal.title,
+  summary: proposal.summary,
+  toc,
+  chapterOutlines,
+  completedChapters,
+  // ...
+})
+```
+
+### 5. Schema-Based AI Functions
+
+The workflow uses schema-based AI functions for clear documentation and type safety:
+
+```typescript
+createBookProposal: {
+  title: 'proposed title of the book',
+  subtitle: 'proposed subtitle of the book',
+  author: 'name of the author',
+  // ...
+}
+```
+
+## Customizing for Your Use Case
+
+You can adapt this workflow pattern for many different use cases:
+
+1. **Content Creation**: Generate blog posts, articles, or marketing materials
+2. **Research**: Conduct comprehensive research on a topic with multiple stages
+3. **Product Development**: Guide the development process from ideation to launch
+4. **Customer Onboarding**: Create personalized onboarding experiences
+5. **Data Analysis**: Process and analyze data with multiple transformation steps
+
+## Best Practices
+
+When building complex workflows with the workflows.do SDK:
+
+1. **Break down the process**: Divide your workflow into clear, logical steps
+2. **Use schemas for clarity**: Define schemas for your AI functions to provide clear documentation
+3. **Process in parallel when possible**: Use `Promise.all` for tasks that can be done simultaneously
+4. **Handle errors gracefully**: Add error handling for robust workflows
+5. **Save intermediate results**: Store important data in your database at key points
+6. **Provide clear progress updates**: Use external APIs like Slack to notify stakeholders of progress
+
+## Conclusion
+
+The workflows.do SDK provides a powerful framework for creating complex, AI-powered workflows. By combining AI functions, database integration, and external APIs, you can build sophisticated processes that automate complex tasks and deliver consistent results.
+
+This book creation example demonstrates how to structure a multi-step workflow, but the same patterns can be applied to virtually any business process that can benefit from AI automation.

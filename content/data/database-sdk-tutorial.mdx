@@ -1,0 +1,314 @@
+# Database SDK Tutorial
+
+The database.do SDK provides a simple, intuitive interface for working with your data in AI applications. This tutorial will guide you through using the SDK to perform common database operations, starting with a simple schemaless approach and then progressing to a schema-based approach as your data relationships become more complex.
+
+## Installation
+
+First, install the database.do SDK in your project:
+
+```bash
+# Using npm
+npm install database.do
+
+# Using yarn
+yarn add database.do
+
+# Using pnpm
+pnpm add database.do
+```
+
+## Getting Started with Schemaless Mode
+
+The database.do SDK makes it incredibly easy to get started without defining a schema first. This is perfect for rapid prototyping or when your data structure is still evolving.
+
+### Basic CRUD Operations
+
+```typescript
+import { db } from 'database.do'
+
+// Create a new product
+const product = await db.products.create({
+  name: 'Smart Speaker',
+  price: 99.99,
+  category: 'electronics',
+  inStock: true
+})
+
+// Retrieve the product
+const retrievedProduct = await db.products.findOne(product.id)
+console.log(retrievedProduct)
+
+// Update the product
+const updatedProduct = await db.products.update(product.id, {
+  price: 89.99,
+  inStock: false
+})
+
+// Delete the product
+await db.products.delete(product.id)
+```
+
+### Working with Collections
+
+The SDK automatically creates collections as you use them. Each collection provides methods for creating, reading, updating, and deleting documents:
+
+```typescript
+// Working with a blog collection
+const post = await db.posts.create({
+  title: 'Getting Started with database.do',
+  content: 'This is a sample post created with the database.do SDK',
+  status: 'Published',
+  tags: ['database', 'tutorial'],
+  author: {
+    name: 'John Doe',
+    email: 'john@example.com'
+  }
+})
+
+// Query posts with filtering
+const publishedPosts = await db.posts.find({
+  where: {
+    status: 'Published'
+  }
+})
+
+// Get all posts with pagination
+const allPosts = await db.posts.find({
+  limit: 10,
+  page: 1
+})
+```
+
+### Flexible Data Structure
+
+In schemaless mode, you can add any fields to your documents without constraints:
+
+```typescript
+// Create a customer with nested data
+const customer = await db.customers.create({
+  name: 'Acme Corporation',
+  industry: 'Manufacturing',
+  contacts: [
+    { name: 'John Smith', email: 'john@example.com' },
+    { name: 'Jane Doe', email: 'jane@example.com' }
+  ],
+  // Add any fields without constraints
+  customField: 'custom value',
+  metrics: {
+    revenue: 1000000,
+    employees: 500
+  }
+})
+```
+
+## Advanced Querying with Schemaless Data
+
+Even without a defined schema, you can perform powerful queries:
+
+```typescript
+// Find with complex filters
+const results = await db.posts.find({
+  where: {
+    $or: [{ status: 'Published' }, { 'author.name': 'John Doe' }],
+    $and: [
+      { createdAt: { gt: new Date('2023-01-01').toISOString() } }, 
+      { tags: { contains: 'featured' } }
+    ]
+  },
+  limit: 10,
+  page: 1,
+  sort: 'createdAt:desc'
+})
+
+// Search functionality
+const searchResults = await db.products.search('smart speaker', {
+  limit: 20,
+  sort: 'relevance:desc'
+})
+```
+
+## The Need for Schema: Introducing Relationships
+
+As your application grows, you'll likely need to establish relationships between different types of data. This is where defining a schema becomes valuable.
+
+### The Limitations of Schemaless Mode
+
+Let's say we've been storing blog posts with embedded author information:
+
+```typescript
+const post = await db.posts.create({
+  title: 'Getting Started with database.do',
+  content: 'This is a sample post...',
+  author: {
+    name: 'John Doe',
+    email: 'john@example.com'
+  }
+})
+```
+
+This approach works fine until you need to:
+1. Update author information across multiple posts
+2. Query all posts by a specific author
+3. Maintain consistency in your data
+
+### Transitioning to a Schema-Based Approach
+
+Let's refactor our blog application to use a schema with proper relationships:
+
+```typescript
+import { DB } from 'database.do'
+
+// Define your schema with relationships
+const db = DB({
+  posts: {
+    title: 'text',
+    content: 'richtext',
+    status: 'Draft | Published | Archived',
+    author: 'authors' // Reference to authors collection
+  },
+  authors: {
+    name: 'text',
+    email: 'email',
+    bio: 'text',
+    posts: '<-posts.author' // Reverse relationship to posts
+  }
+})
+
+// Create an author
+const author = await db.authors.create({
+  name: 'John Doe',
+  email: 'john@example.com',
+  bio: 'Technical writer and developer'
+})
+
+// Create a post linked to the author
+const post = await db.posts.create({
+  title: 'Working with Schemas',
+  content: 'This post demonstrates schema validation and relationships',
+  status: 'Published',
+  author: author.id // Reference the author by ID
+})
+```
+
+### Working with Related Data
+
+Now you can easily work with related data using the populate option:
+
+```typescript
+// Get posts with related author data
+const posts = await db.posts.find({
+  populate: ['author']
+})
+
+// Access the populated data
+posts.docs.forEach(post => {
+  console.log(`Post: ${post.title}`)
+  console.log(`Author: ${post.author.name}`)
+})
+
+// Get all posts for a specific author
+const authorPosts = await db.posts.find({
+  where: {
+    author: author.id
+  }
+})
+```
+
+## Building a Complete Blog System with Schemas
+
+Let's expand our schema to include categories and tags:
+
+```typescript
+import { DB } from 'database.do'
+
+const db = DB({
+  posts: {
+    title: 'text',
+    content: 'richtext',
+    status: 'Draft | Published | Archived',
+    author: 'authors',
+    category: 'categories',
+    tags: 'tags[]' // Array of tag references
+  },
+  authors: {
+    name: 'text',
+    email: 'email',
+    bio: 'text',
+    posts: '<-posts.author' // Reverse relationship
+  },
+  categories: {
+    name: 'text',
+    description: 'text',
+    posts: '<-posts.category' // Reverse relationship
+  },
+  tags: {
+    name: 'text',
+    posts: '<-posts.tags' // Reverse relationship
+  }
+})
+
+// Create a category
+const category = await db.categories.create({
+  name: 'Tutorials',
+  description: 'Step-by-step guides'
+})
+
+// Create some tags
+const databaseTag = await db.tags.create({ name: 'database' })
+const tutorialTag = await db.tags.create({ name: 'tutorial' })
+
+// Create a post with relationships to author, category, and tags
+const post = await db.posts.create({
+  title: 'Advanced Database Relationships',
+  content: 'This post explores how to work with relationships...',
+  status: 'Published',
+  author: author.id,
+  category: category.id,
+  tags: [databaseTag.id, tutorialTag.id]
+})
+```
+
+## Custom Configuration
+
+You can customize the database client with additional configuration options:
+
+```typescript
+import { DB } from 'database.do'
+
+// Initialize with custom configuration
+const db = DB({
+  baseUrl: 'https://your-custom-instance.database.do', // Optional
+  apiKey: 'YOUR_API_KEY_HERE', // Optional, overrides environment variable
+})
+```
+
+## Environment Setup
+
+To use the database.do SDK with authentication, set the `DATABASE_API_KEY` environment variable:
+
+```bash
+# For Node.js applications
+export DATABASE_API_KEY=your_api_key_here
+
+# For Next.js applications (.env.local)
+DATABASE_API_KEY=your_api_key_here
+```
+
+Alternatively, you can provide the API key directly in your code:
+
+```typescript
+import { DB } from 'database.do'
+
+const db = DB({
+  apiKey: 'your_api_key_here'
+})
+```
+
+## Next Steps
+
+Now that you've learned the basics of using the database.do SDK, you can:
+
+- [Create your first database collection](/data/database/create)
+- [Explore database templates](/data/database/templates)
+- [Learn about semantic search](/data/database/semantic-search)
+- [Implement database-driven business applications](/data/database/business-applications)

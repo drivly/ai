@@ -1,0 +1,509 @@
+# Database API
+
+Welcome to the Database API documentation. This section provides detailed information about the Database API, including endpoints, parameters, and response formats.
+
+## Authentication
+
+All API requests require authentication. You can authenticate using API keys or OAuth tokens. For more information, see the [Authentication](/admin/apikeys) documentation.
+
+## Base URL
+
+```
+https://database.do/api
+```
+
+## Endpoints
+
+### List Collections
+
+```
+GET /collections
+```
+
+Returns a list of all collections accessible to the authenticated user.
+
+#### Query Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| limit | integer | Maximum number of collections to return (default: 20) |
+| offset | integer | Number of collections to skip (default: 0) |
+| sort | string | Field to sort by (default: 'createdAt') |
+| order | string | Sort order ('asc' or 'desc', default: 'desc') |
+
+#### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "collection_123",
+      "name": "customers",
+      "description": "Customer information",
+      "createdAt": "2023-01-01T00:00:00Z",
+      "updatedAt": "2023-01-02T00:00:00Z"
+    },
+    // ...
+  ],
+  "meta": {
+    "total": 100,
+    "limit": 20,
+    "offset": 0
+  }
+}
+```
+
+### Get Collection
+
+```
+GET /collections/:id
+```
+
+Returns details for a specific collection.
+
+#### Response
+
+```json
+{
+  "id": "collection_123",
+  "name": "customers",
+  "description": "Customer information",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "company": {
+        "type": "string"
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "required": ["name", "email"]
+  },
+  "indexes": [
+    {
+      "name": "email_idx",
+      "fields": ["email"],
+      "unique": true
+    }
+  ],
+  "createdAt": "2023-01-01T00:00:00Z",
+  "updatedAt": "2023-01-02T00:00:00Z"
+}
+```
+
+### Create Collection
+
+```
+POST /collections
+```
+
+Creates a new collection.
+
+#### Request Body
+
+```json
+{
+  "name": "customers",
+  "description": "Customer information",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "company": {
+        "type": "string"
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "required": ["name", "email"]
+  },
+  "indexes": [
+    {
+      "name": "email_idx",
+      "fields": ["email"],
+      "unique": true
+    }
+  ]
+}
+```
+
+#### Response
+
+```json
+{
+  "id": "collection_123",
+  "name": "customers",
+  "description": "Customer information",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "company": {
+        "type": "string"
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "required": ["name", "email"]
+  },
+  "indexes": [
+    {
+      "name": "email_idx",
+      "fields": ["email"],
+      "unique": true
+    }
+  ],
+  "createdAt": "2023-01-01T00:00:00Z",
+  "updatedAt": "2023-01-01T00:00:00Z"
+}
+```
+
+### Update Collection
+
+```
+PUT /collections/:id
+```
+
+Updates an existing collection.
+
+#### Request Body
+
+```json
+{
+  "name": "customers",
+  "description": "Updated customer information",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "company": {
+        "type": "string"
+      },
+      "phone": {
+        "type": "string"
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "required": ["name", "email"]
+  },
+  "indexes": [
+    {
+      "name": "email_idx",
+      "fields": ["email"],
+      "unique": true
+    },
+    {
+      "name": "company_idx",
+      "fields": ["company"]
+    }
+  ]
+}
+```
+
+#### Response
+
+```json
+{
+  "id": "collection_123",
+  "name": "customers",
+  "description": "Updated customer information",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "company": {
+        "type": "string"
+      },
+      "phone": {
+        "type": "string"
+      },
+      "createdAt": {
+        "type": "string",
+        "format": "date-time"
+      }
+    },
+    "required": ["name", "email"]
+  },
+  "indexes": [
+    {
+      "name": "email_idx",
+      "fields": ["email"],
+      "unique": true
+    },
+    {
+      "name": "company_idx",
+      "fields": ["company"]
+    }
+  ],
+  "createdAt": "2023-01-01T00:00:00Z",
+  "updatedAt": "2023-01-02T00:00:00Z"
+}
+```
+
+### Delete Collection
+
+```
+DELETE /collections/:id
+```
+
+Deletes a collection.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "message": "Collection deleted successfully"
+}
+```
+
+### List Documents
+
+```
+GET /collections/:collectionId/documents
+```
+
+Returns a list of documents in a collection.
+
+#### Query Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| limit | integer | Maximum number of documents to return (default: 20) |
+| offset | integer | Number of documents to skip (default: 0) |
+| sort | string | Field to sort by (default: 'createdAt') |
+| order | string | Sort order ('asc' or 'desc', default: 'desc') |
+| filter | string | JSON filter expression |
+
+#### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "doc_123",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "company": "Acme Inc.",
+      "createdAt": "2023-01-01T00:00:00Z",
+      "updatedAt": "2023-01-02T00:00:00Z"
+    },
+    // ...
+  ],
+  "meta": {
+    "total": 100,
+    "limit": 20,
+    "offset": 0
+  }
+}
+```
+
+### Get Document
+
+```
+GET /collections/:collectionId/documents/:id
+```
+
+Returns a specific document.
+
+#### Response
+
+```json
+{
+  "id": "doc_123",
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "company": "Acme Inc.",
+  "createdAt": "2023-01-01T00:00:00Z",
+  "updatedAt": "2023-01-02T00:00:00Z"
+}
+```
+
+### Create Document
+
+```
+POST /collections/:collectionId/documents
+```
+
+Creates a new document in a collection.
+
+#### Request Body
+
+```json
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "company": "Acme Inc."
+}
+```
+
+#### Response
+
+```json
+{
+  "id": "doc_123",
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "company": "Acme Inc.",
+  "createdAt": "2023-01-01T00:00:00Z",
+  "updatedAt": "2023-01-01T00:00:00Z"
+}
+```
+
+### Update Document
+
+```
+PUT /collections/:collectionId/documents/:id
+```
+
+Updates an existing document.
+
+#### Request Body
+
+```json
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "company": "Acme Corporation",
+  "phone": "+1-555-123-4567"
+}
+```
+
+#### Response
+
+```json
+{
+  "id": "doc_123",
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "company": "Acme Corporation",
+  "phone": "+1-555-123-4567",
+  "createdAt": "2023-01-01T00:00:00Z",
+  "updatedAt": "2023-01-02T00:00:00Z"
+}
+```
+
+### Delete Document
+
+```
+DELETE /collections/:collectionId/documents/:id
+```
+
+Deletes a document.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "message": "Document deleted successfully"
+}
+```
+
+### Query Documents
+
+```
+POST /collections/:collectionId/query
+```
+
+Queries documents in a collection.
+
+#### Request Body
+
+```json
+{
+  "filter": {
+    "company": "Acme Corporation"
+  },
+  "sort": {
+    "createdAt": "desc"
+  },
+  "limit": 10,
+  "offset": 0
+}
+```
+
+#### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "doc_123",
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "company": "Acme Corporation",
+      "createdAt": "2023-01-01T00:00:00Z",
+      "updatedAt": "2023-01-02T00:00:00Z"
+    },
+    // ...
+  ],
+  "meta": {
+    "total": 5,
+    "limit": 10,
+    "offset": 0
+  }
+}
+```
+
+## Error Handling
+
+The API uses standard HTTP status codes to indicate the success or failure of requests. For more information about error codes and how to handle errors, see the [Error Handling](/api/errors) documentation.
+
+## Rate Limiting
+
+API requests are subject to rate limiting to ensure fair usage and system stability. For more information about rate limits and how to handle rate-limiting responses, see the [Rate Limiting](/api/rate-limiting) documentation.
+
+## Webhooks
+
+You can configure webhooks to receive notifications about database events. For more information about webhooks, see the [Webhooks](/admin/webhooks) documentation.
+
+## SDKs
+
+We provide SDKs for popular programming languages to make it easier to integrate with the Database API:
+
+- [JavaScript/TypeScript](/code/packages#javascript)
+- [Python](/code/packages#python)
+- [Go](/code/packages#go)
+- [Ruby](/code/packages#ruby)
+- [Java](/code/packages#java)

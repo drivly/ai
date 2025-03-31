@@ -1,5 +1,10 @@
 # [Workflows.do](https://workflows.do) Business-as-Code
 
+[![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
+[![License](https://img.shields.io/github/license/drivly/ai.svg)](https://github.com/drivly/ai/blob/main/LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/drivly/ai/blob/main/CONTRIBUTING.md)
+[![Discord](https://img.shields.io/discord/1014897323584794655?label=Discord&logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+
 We believe that you can define, execute, and iterate on business processes as clean & simple code. It should be simple enough for a non-technical business person to read and work with an AI or technical teammate to build and iterate on workflows.
 
 ```typescript
