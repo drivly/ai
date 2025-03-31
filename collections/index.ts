@@ -37,6 +37,8 @@ import { IntegrationCategories } from './integrations/IntegrationCategories'
 import { Connections } from './integrations/Connections'
 import { Queues } from './work/Queues'
 import { Tasks } from './work/Tasks'
+import { Goals } from './work/Goals'
+import { KPIs } from './observability/KPIs'
 
 export const collections = [
   // Register basic collections first
@@ -47,6 +49,7 @@ export const collections = [
   // Work-related collections
   Queues,
   Tasks,
+  Goals,
 
   // Data & definitions
   Nouns,
@@ -85,6 +88,7 @@ export const collections = [
   Errors,
   Generations,
   Traces,
+  KPIs,
 
   Projects,
   Users,
