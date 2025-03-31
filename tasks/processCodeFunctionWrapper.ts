@@ -31,6 +31,10 @@ export const processCodeFunction = async ({ input, payload }: any) => {
         title: `Process Code Function: ${func.name}`,
         description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages.`,
         status: 'todo',
+        task: 'processCodeFunction',
+        input: {
+          functionId: func.id
+        }
       }
     })
     

@@ -104,9 +104,18 @@ export const GET = API(async (req, ctx) => {
   try {
     const code = await fetchCodeFromUrl(urlPath.startsWith('http') ? urlPath : `https://${urlPath}`)
     
-    const { processCode } = await import('./wrapper')
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/esbuild`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        code,
+        options: esbuildOptions
+      })
+    })
     
-    const result = await processCode(code, esbuildOptions)
+    const result = await response.json()
     
     if (!result.success) {
       return {
@@ -155,8 +164,12 @@ async function processFunctions() {
         collection: 'tasks',
         data: {
           title: `Process Code Function: ${func.name}`,
-          description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages. Task: processCodeFunctionWrapper. FunctionId: ${func.id}`,
-          status: 'todo'
+          description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages.`,
+          status: 'todo',
+          task: 'processCodeFunctionWrapper',
+          input: {
+            functionId: func.id
+          }
         }
       })
       
@@ -220,9 +233,18 @@ export const POST = API(async (req, ctx) => {
       }
     }
     
-    const { processCode } = await import('./wrapper')
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/esbuild`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        code,
+        options: esbuildOptions
+      })
+    })
     
-    const result = await processCode(code, esbuildOptions)
+    const result = await response.json()
     
     if (!result.success) {
       return {
@@ -276,8 +298,12 @@ async function processFunctionById(functionId: string) {
       collection: 'tasks',
       data: {
         title: `Process Code Function: ${func.name}`,
-        description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages. Task: processCodeFunctionWrapper. FunctionId: ${func.id}`,
-        status: 'todo'
+        description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages.`,
+        status: 'todo',
+        task: 'processCodeFunctionWrapper',
+        input: {
+          functionId: func.id
+        }
       }
     })
     
