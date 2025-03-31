@@ -1,5 +1,4 @@
-import { API } from '@/api.config'
-import { bundleCode } from '@/pkgs/deploy-worker/src/utils/esbuild'
+import { API } from '@/lib/api'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 
@@ -8,7 +7,7 @@ import config from '@/payload.config'
  * 
  * Processes code from functions to create modules and packages
  */
-export const GET = API(async ({ req, res }) => {
+export const GET = API(async (req, ctx) => {
   const payload = await getPayload({ config })
   
   const { docs: functions } = await payload.find({
@@ -26,78 +25,26 @@ export const GET = API(async ({ req, res }) => {
     if (!func.code) continue
 
     try {
-      const bundledCode = await bundleCode(func.code)
-      
-      const moduleData = {
-        name: func.name
-      }
-      
-      const { docs: existingModules } = await payload.find({
-        collection: 'modules',
-        where: {
-          name: {
-            equals: func.name
-          }
-        },
-        limit: 1
+      const task = await payload.create({
+        collection: 'tasks',
+        data: {
+          title: `Process Code Function: ${func.name}`,
+          description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages. Task: processCodeFunctionWrapper. FunctionId: ${func.id}`,
+          status: 'todo'
+        }
       })
-      
-      let moduleId
-      if (existingModules.length > 0) {
-        const updated = await payload.update({
-          collection: 'modules',
-          id: existingModules[0].id,
-          data: moduleData
-        })
-        moduleId = updated.id
-      } else {
-        const created = await payload.create({
-          collection: 'modules',
-          data: moduleData
-        })
-        moduleId = created.id
-      }
-      
-      const packageData = {
-        name: func.name
-      }
-      
-      const { docs: existingPackages } = await payload.find({
-        collection: 'packages',
-        where: {
-          name: {
-            equals: func.name
-          }
-        },
-        limit: 1
-      })
-      
-      let packageId
-      if (existingPackages.length > 0) {
-        const updated = await payload.update({
-          collection: 'packages',
-          id: existingPackages[0].id,
-          data: packageData
-        })
-        packageId = updated.id
-      } else {
-        const created = await payload.create({
-          collection: 'packages',
-          data: packageData
-        })
-        packageId = created.id
-      }
       
       results.push({
         function: func.name,
-        moduleId,
-        packageId,
-        success: true
+        taskId: task.id,
+        success: true,
+        message: 'Task created to process function code'
       })
     } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error)
       results.push({
         function: func.name,
-        error: error.message,
+        error: errorMessage,
         success: false
       })
     }
@@ -112,8 +59,8 @@ export const GET = API(async ({ req, res }) => {
 /**
  * Process a specific function by ID
  */
-export const POST = API(async ({ req, res, body }) => {
-  const { functionId } = body || {}
+export const POST = API(async (req, ctx) => {
+  const { functionId } = ctx.req.json ? await ctx.req.json() : {}
   
   if (!functionId) {
     return {
@@ -137,77 +84,25 @@ export const POST = API(async ({ req, res, body }) => {
       }
     }
     
-    const bundledCode = await bundleCode(func.code)
-    
-    const moduleData = {
-      name: func.name
-    }
-    
-    const { docs: existingModules } = await payload.find({
-      collection: 'modules',
-      where: {
-        name: {
-          equals: func.name
-        }
-      },
-      limit: 1
+    const task = await payload.create({
+      collection: 'tasks',
+      data: {
+        title: `Process Code Function: ${func.name}`,
+        description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages. Task: processCodeFunctionWrapper. FunctionId: ${func.id}`,
+        status: 'todo'
+      }
     })
-    
-    let moduleId
-    if (existingModules.length > 0) {
-      const updated = await payload.update({
-        collection: 'modules',
-        id: existingModules[0].id,
-        data: moduleData
-      })
-      moduleId = updated.id
-    } else {
-      const created = await payload.create({
-        collection: 'modules',
-        data: moduleData
-      })
-      moduleId = created.id
-    }
-    
-    const packageData = {
-      name: func.name
-    }
-    
-    const { docs: existingPackages } = await payload.find({
-      collection: 'packages',
-      where: {
-        name: {
-          equals: func.name
-        }
-      },
-      limit: 1
-    })
-    
-    let packageId
-    if (existingPackages.length > 0) {
-      const updated = await payload.update({
-        collection: 'packages',
-        id: existingPackages[0].id,
-        data: packageData
-      })
-      packageId = updated.id
-    } else {
-      const created = await payload.create({
-        collection: 'packages',
-        data: packageData
-      })
-      packageId = created.id
-    }
     
     return {
       function: func.name,
-      moduleId,
-      packageId,
-      success: true
+      taskId: task.id,
+      success: true,
+      message: 'Task created to process function code'
     }
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error)
     return {
-      error: error.message,
+      error: errorMessage,
       success: false
     }
   }
