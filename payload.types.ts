@@ -73,6 +73,7 @@ export interface Config {
     agents: Agent;
     queues: Queue;
     tasks: Task;
+    goals: Goal;
     nouns: Noun;
     verbs: Verb;
     things: Thing;
@@ -101,6 +102,7 @@ export interface Config {
     errors: Error;
     generations: Generation;
     traces: Trace;
+    kpis: Kpi;
     projects: Project;
     users: User;
     roles: Role;
@@ -136,6 +138,9 @@ export interface Config {
     actions: {
       generation: 'generations';
     };
+    kpis: {
+      goals: 'goals';
+    };
   };
   collectionsSelect: {
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
@@ -143,6 +148,7 @@ export interface Config {
     agents: AgentsSelect<false> | AgentsSelect<true>;
     queues: QueuesSelect<false> | QueuesSelect<true>;
     tasks: TasksSelect<false> | TasksSelect<true>;
+    goals: GoalsSelect<false> | GoalsSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     things: ThingsSelect<false> | ThingsSelect<true>;
@@ -171,6 +177,7 @@ export interface Config {
     errors: ErrorsSelect<false> | ErrorsSelect<true>;
     generations: GenerationsSelect<false> | GenerationsSelect<true>;
     traces: TracesSelect<false> | TracesSelect<true>;
+    kpis: KpisSelect<false> | KpisSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
@@ -202,6 +209,9 @@ export interface Config {
       generateThingEmbedding: TaskGenerateThingEmbedding;
       searchThings: TaskSearchThings;
       hybridSearchThings: TaskHybridSearchThings;
+      inflectNouns: TaskInflectNouns;
+      conjugateVerbs: TaskConjugateVerbs;
+      initiateComposioConnection: TaskInitiateComposioConnection;
       inline: {
         input: unknown;
         output: unknown;
@@ -390,6 +400,38 @@ export interface Thing {
 export interface Noun {
   id: string;
   name?: string | null;
+  /**
+   * Singular form like User
+   */
+  singular?: string | null;
+  /**
+   * Plural form like Users
+   */
+  plural?: string | null;
+  /**
+   * Possessive form like User's
+   */
+  possessive?: string | null;
+  /**
+   * Plural possessive form like Users'
+   */
+  pluralPossessive?: string | null;
+  /**
+   * Related verb like Use
+   */
+  verb?: string | null;
+  /**
+   * Third person singular present tense like Uses
+   */
+  act?: string | null;
+  /**
+   * Gerund like Using
+   */
+  activity?: string | null;
+  /**
+   * Past tense like Used
+   */
+  event?: string | null;
   things?: {
     docs?: (string | Thing)[];
     hasNextPage?: boolean;
@@ -612,6 +654,41 @@ export interface Task {
   };
   kanbanStatus?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
   kanbanOrderRank?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "goals".
+ */
+export interface Goal {
+  id: string;
+  title: string;
+  /**
+   * The objective of this goal
+   */
+  object: string;
+  keyResults: {
+    description: string;
+    value: number;
+    kpiRelationship?: (string | null) | Kpi;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kpis".
+ */
+export interface Kpi {
+  id: string;
+  name: string;
+  goals?: {
+    docs?: (string | Goal)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1180,7 +1257,10 @@ export interface PayloadJob {
           | 'generateCode'
           | 'generateThingEmbedding'
           | 'searchThings'
-          | 'hybridSearchThings';
+          | 'hybridSearchThings'
+          | 'inflectNouns'
+          | 'conjugateVerbs'
+          | 'initiateComposioConnection';
         taskID: string;
         input?:
           | {
@@ -1219,6 +1299,9 @@ export interface PayloadJob {
                 | 'generateThingEmbedding'
                 | 'searchThings'
                 | 'hybridSearchThings'
+                | 'inflectNouns'
+                | 'conjugateVerbs'
+                | 'initiateComposioConnection'
               )
             | null;
           taskID?: string | null;
@@ -1228,7 +1311,17 @@ export interface PayloadJob {
     | null;
   workflowSlug?: 'handleGithubEvent' | null;
   taskSlug?:
-    | ('inline' | 'executeFunction' | 'generateCode' | 'generateThingEmbedding' | 'searchThings' | 'hybridSearchThings')
+    | (
+        | 'inline'
+        | 'executeFunction'
+        | 'generateCode'
+        | 'generateThingEmbedding'
+        | 'searchThings'
+        | 'hybridSearchThings'
+        | 'inflectNouns'
+        | 'conjugateVerbs'
+        | 'initiateComposioConnection'
+      )
     | null;
   queue?: string | null;
   waitUntil?: string | null;
@@ -1262,6 +1355,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tasks';
         value: string | Task;
+      } | null)
+    | ({
+        relationTo: 'goals';
+        value: string | Goal;
       } | null)
     | ({
         relationTo: 'nouns';
@@ -1374,6 +1471,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'traces';
         value: string | Trace;
+      } | null)
+    | ({
+        relationTo: 'kpis';
+        value: string | Kpi;
       } | null)
     | ({
         relationTo: 'projects';
@@ -1530,10 +1631,36 @@ export interface TasksSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "goals_select".
+ */
+export interface GoalsSelect<T extends boolean = true> {
+  title?: T;
+  object?: T;
+  keyResults?:
+    | T
+    | {
+        description?: T;
+        value?: T;
+        kpiRelationship?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "nouns_select".
  */
 export interface NounsSelect<T extends boolean = true> {
   name?: T;
+  singular?: T;
+  plural?: T;
+  possessive?: T;
+  pluralPossessive?: T;
+  verb?: T;
+  act?: T;
+  activity?: T;
+  event?: T;
   things?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1889,6 +2016,16 @@ export interface TracesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kpis_select".
+ */
+export interface KpisSelect<T extends boolean = true> {
+  name?: T;
+  goals?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
@@ -2180,6 +2317,71 @@ export interface TaskHybridSearchThings {
       | number
       | boolean
       | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskInflectNouns".
+ */
+export interface TaskInflectNouns {
+  input: {
+    noun: string;
+  };
+  output: {
+    singular?: string | null;
+    plural?: string | null;
+    possessive?: string | null;
+    pluralPossessive?: string | null;
+    verb?: string | null;
+    act?: string | null;
+    activity?: string | null;
+    event?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskConjugateVerbs".
+ */
+export interface TaskConjugateVerbs {
+  input: {
+    verb: string;
+  };
+  output: {
+    act?: string | null;
+    activity?: string | null;
+    event?: string | null;
+    subject?: string | null;
+    object?: string | null;
+    inverse?: string | null;
+    inverseAct?: string | null;
+    inverseActivity?: string | null;
+    inverseEvent?: string | null;
+    inverseSubject?: string | null;
+    inverseObject?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskInitiateComposioConnection".
+ */
+export interface TaskInitiateComposioConnection {
+  input: {
+    integrationId: string;
+    userId: string;
+    taskId?: string | null;
+    redirectUrl?: string | null;
+  };
+  output: {
+    connection?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    authorization_url?: string | null;
   };
 }
 /**
