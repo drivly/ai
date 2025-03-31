@@ -6,5 +6,36 @@ export const Evals: CollectionConfig = {
     group: 'Evals',
     useAsTitle: 'name',
   },
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [
+    { name: 'name', type: 'text', required: true },
+    { name: 'description', type: 'textarea' },
+    { 
+      name: 'input', 
+      type: 'json',
+      admin: {
+        description: 'Input data for the evaluation test'
+      }
+    },
+    { 
+      name: 'expected', 
+      type: 'json',
+      admin: {
+        description: 'Expected output data for comparison'
+      }
+    },
+    { 
+      name: 'tags', 
+      type: 'array',
+      fields: [
+        {
+          name: 'tag',
+          type: 'text',
+        }
+      ],
+      admin: {
+        description: 'Tags for categorizing and filtering tests'
+      }
+    },
+  ],
+  timestamps: true,
 }
