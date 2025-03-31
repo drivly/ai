@@ -148,7 +148,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       generation = result.generation
       generationLatency = result.generationLatency
       request = result.request
-      object = { data: listItems }
+      object = listItems
     } else if (type === 'Markdown' || settings?.type === 'Markdown') {
       // Use generateMarkdown for markdown-based functions
       const result = await generateMarkdown({
@@ -174,7 +174,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       generation = result.generation
       generationLatency = result.generationLatency
       request = result.request
-      object = { text }
+      object = text
     }
   } else {
     // Use generateObject for object-based functions
