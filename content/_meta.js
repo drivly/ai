@@ -13,23 +13,18 @@ export default {
     items: {
       database: {
         title: 'Database',
-        type: 'page',
       },
       things: {
         title: 'Things',
-        type: 'page',
       },
       nouns: {
         title: 'Nouns',
-        type: 'page',
       },
       verbs: {
         title: 'Verbs',
-        type: 'page',
       },
       actions: {
         title: 'Actions',
-        type: 'page',
       },
     },
   },
@@ -39,11 +34,9 @@ export default {
     items: {
       index: {
         title: 'Overview',
-        type: 'page',
       },
       api: {
         title: 'API Reference',
-        type: 'page',
       },
     },
   },
@@ -53,11 +46,9 @@ export default {
     items: {
       index: {
         title: 'Overview',
-        type: 'page',
       },
       api: {
         title: 'API Reference',
-        type: 'page',
       },
     },
   },
@@ -67,11 +58,9 @@ export default {
     items: {
       index: {
         title: 'Overview',
-        type: 'page',
       },
       api: {
         title: 'API Reference',
-        type: 'page',
       },
     },
   },
@@ -81,11 +70,9 @@ export default {
     items: {
       index: {
         title: 'Overview',
-        type: 'page',
       },
       api: {
         title: 'API Reference',
-        type: 'page',
       },
     },
   },
