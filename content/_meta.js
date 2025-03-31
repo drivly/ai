@@ -1,123 +1,65 @@
 export default {
   index: {
-    title: 'Introduction',
-    type: 'page',
+    title: 'Introduction'
+  },
+  workflows: {
+    title: 'Workflows'
+  },
+  functions: {
+    title: 'Functions'
+  },
+  database: {
+    title: 'Database'
+  },
+  events: {
+    title: 'Events'
+  },
+  integrations: {
+    title: 'Integrations'
   },
   data: {
     title: 'Data',
-    type: 'separator',
+    type: 'separator'
   },
-  data_items: {
-    title: 'Data',
-    type: 'menu',
-    items: {
-      database: {
-        title: 'Database',
-      },
-      things: {
-        title: 'Things',
-      },
-      nouns: {
-        title: 'Nouns',
-      },
-      verbs: {
-        title: 'Verbs',
-      },
-      actions: {
-        title: 'Actions',
-      },
-    },
+  things: {
+    title: 'Things'
   },
-  functions: {
-    title: 'Functions',
-    type: 'menu',
-    items: {
-      index: {
-        title: 'Overview',
-      },
-      api: {
-        title: 'API Reference',
-      },
-    },
+  nouns: {
+    title: 'Nouns'
   },
-  workflows: {
-    title: 'Workflows',
-    type: 'menu',
-    items: {
-      index: {
-        title: 'Overview',
-      },
-      api: {
-        title: 'API Reference',
-      },
-    },
+  verbs: {
+    title: 'Verbs'
+  },
+  actions: {
+    title: 'Actions'
   },
   agents: {
-    title: 'Agents',
-    type: 'menu',
-    items: {
-      index: {
-        title: 'Overview',
-      },
-      api: {
-        title: 'API Reference',
-      },
-    },
+    title: 'Agents'
   },
   llm: {
-    title: 'LLM',
-    type: 'menu',
-    items: {
-      index: {
-        title: 'Overview',
-      },
-      api: {
-        title: 'API Reference',
-      },
-    },
-  },
-  integrations: {
-    title: 'Integrations',
-    type: 'page',
-  },
-  events: {
-    title: 'Events',
-    type: 'separator',
-  },
-  triggers: {
-    title: 'Triggers',
-    type: 'page',
-  },
-  searches: {
-    title: 'Searches',
-    type: 'page',
+    title: 'LLM'
   },
   observability: {
     title: 'Observability',
-    type: 'separator',
+    type: 'separator'
   },
   traces: {
-    title: 'Traces',
-    type: 'page',
+    title: 'Traces'
   },
   evals: {
-    title: 'Evals',
-    type: 'page',
+    title: 'Evals'
   },
   experiments: {
-    title: 'Experiments',
-    type: 'page',
+    title: 'Experiments'
   },
   admin: {
     title: 'Admin',
-    type: 'separator',
+    type: 'separator'
   },
   api: {
-    title: 'API Reference',
-    type: 'page',
+    title: 'API Reference'
   },
   code: {
-    title: 'Code',
-    type: 'page',
+    title: 'Code'
   }
 }
