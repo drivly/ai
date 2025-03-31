@@ -1,4 +1,15 @@
-import { ApiClient } from './api-client'
+import { ApiClient } from './api'
+
+export interface SlackBlockSchema {
+  title: string
+  description: string
+  options?: string[]
+  freeText?: boolean
+  platform?: 'slack' | 'teams' | 'discord'
+  timeout?: number
+  channel?: string
+  mentions?: string[]
+}
 
 export interface FunctionDefinition {
   type?: 'Generation' | 'Code' | 'Human' | 'Agent'
@@ -8,6 +19,7 @@ export interface FunctionDefinition {
   code?: string
   role?: string
   agent?: string
+  blocks?: SlackBlockSchema
   [key: string]: any
 }
 
@@ -38,7 +50,7 @@ export class FunctionsClient {
   }
 
   async run<T = any>(functionName: string, input: any, config?: AIConfig): Promise<FunctionResponse<T>> {
-    return this.api.post(`/api/functions/${functionName}`, {
+    return this.api.post<FunctionResponse<T>>(`/api/functions/${functionName}`, {
       input,
       config,
     })

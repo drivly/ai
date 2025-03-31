@@ -1,3 +1,7 @@
-export { EvalsClient } from './src/index'
-export type { EvalConfig, EvalResult } from './src/index'
-export { default } from './src/index'
+import { EvalsClient } from './src/client.js'
+export { EvalsClient } from './src/client.js'
+export * from './src/types.js'
+
+export const evals = new EvalsClient()
+
+export default EvalsClient

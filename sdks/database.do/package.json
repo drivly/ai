@@ -1,7 +1,7 @@
 {
   "name": "database.do",
   "version": "0.0.1",
-  "description": "AI-Native Data Access SDK for seamless database operations",
+  "description": "AI-Native Data Access SDK for seamless database operations with MongoDB, PostgreSQL, and SQLite",
   "keywords": [
     "database",
     "ai",
@@ -10,7 +10,11 @@
     "orm",
     "mongodb",
     "postgresql",
-    "sqlite"
+    "sqlite",
+    "serverless",
+    "edge",
+    "payload",
+    "cms"
   ],
   "homepage": "https://database.do",
   "type": "module",
@@ -26,12 +30,15 @@
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "build": "tsc",
     "test": "echo \"No tests\" && exit 0"
   },
   "devDependencies": {
-    "vitest": "^3.0.8"
+    "vitest": "^3.0.9"
   },
   "dependencies": {
     "apis.do": "workspace:*"

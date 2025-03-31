@@ -1,4 +1,4 @@
-# Functions.do
+# [Functions.do](https://functions.do) Strongly-Typed AI Functions
 
 AI is transforming businesses but integrating LLMs into existing systems presents challenges due to the clash between AI's non-deterministic nature and traditional software's deterministic characteristics.
 
@@ -18,58 +18,76 @@ functions.do creates a clean separation between AI capabilities and application 
 - Continuous improvement without disrupting application code
 - Comprehensive evaluation and optimization strategies
 
-## Usage
+## Installation
 
-You can use it by simply calling any function name with any arguments on the `ai` object like:
+```bash
+npm install functions.do
+# or
+yarn add functions.do
+# or
+pnpm add functions.do
+```
+
+## API Overview
+
+The functions.do SDK exports two main components:
+
+- `ai`: A flexible proxy for invoking AI functions with various patterns
+- `AI`: A function for defining schemas and creating custom AI functions
+
+## Rapid Prototyping
+
+The `ai` object lets you call any arbitrary function and an object will be returned. This can be very helpful during development or to even just see what is the schema that the AI wants to return.
 
 ```typescript
 import { ai } from 'functions.do'
 
-const storyBrand = await ai.storyBrand({ guide: 'aws.amazon.com' })
-
-console.log(storyBrand)
-// {
-//   productName: 'AWS',
-//   hero: 'Businesses looking to innovate and scale their operations efficiently',
-//   problem: {
-//     external: 'Managing complex IT infrastructure is costly and time-consuming',
-//     internal: 'Fear of falling behind competitors technologically',
-//     philosophical: 'Believing innovation should be accessible to all businesses',
-//     villain: 'Legacy infrastructure constraints and technical debt'
-//   },
-//   guide: 'AWS positions itself as an experienced guide with unparalleled expertise in cloud solutions',
-//   plan: ['Start with a free tier to explore services',
-//          'Consult with AWS solutions architects',
-//          'Implement scalable infrastructure based on business needs',
-//          'Optimize costs with pay-as-you-go model'],
-//   callToAction: 'Sign up for AWS Free Tier today',
-//   success: 'Businesses innovate faster, reduce costs, and scale globally without infrastructure limitations',
-//   failure: 'Companies struggle with outdated infrastructure, higher costs, and inability to compete in the digital economy',
-//   messagingExamples: ['Build on the broadest and deepest cloud platform',
-//                       'Innovate faster with the right tools for every workload',
-//                       'Pay only for what you use with no upfront costs']
-// }
+const titles = await ai.listBlogPostTitles({ topic: 'AGI Wrappers', tone: 'Clickbait Meme' })
+const research = await ai.researchCompany({ company }, { model: 'perplexity/sonar-deep-research' }) // specify a particular model
 ```
 
-Alternatively, you can define the return type of the function during initialization to get strongly-typed responses:
+## Structured Outputs
+
+We believe that your business and application code should not be complicated by the leaky abstractions of AI frameworks. With new models being released daily, you shouldn't put the model, prompts, or settings in your code as the only thing that matters to your application is the return type of the output.
 
 ```typescript
 import { AI } from 'functions.do'
 
 const ai = AI({
-  createLeanCanvas: {
-    problems: ['top 3 problems the business solves'],
-    customerSegments: ['target customers and users for the product'],
-    uniqueValueProposition: 'clear and compelling message that states why you are different and worth buying',
-    solutions: ['outline of the solutions to the identified problems'],
+  leanCanvas: {
+    productName: 'name of the product or service',
+    problem: ['top 3 problems the product solves'],
+    solution: ['top 3 solutions the product offers'],
+    uniqueValueProposition: 'clear message that states the benefit of your product',
     unfairAdvantage: 'something that cannot be easily copied or bought',
-    revenueStreams: ['revenue model, lifetime value, revenue, gross margin'],
-    costStructure: ['customer acquisition costs', 'distribution costs', 'hosting', 'people', 'etc.'],
-    keyMetrics: ['key activities you measure (acquisition, retention, referrals, etc.)'],
-    channels: ['path to customers (inbound, outbound, viral, etc.)'],
-    earlyAdopters: 'characteristics of the ideal early adopter',
+    customerSegments: ['list of target customer segments'],
+    keyMetrics: ['list of key numbers that tell you how your business is doing'],
+    channels: ['path to customers'],
+    costStructure: ['list of operational costs'],
+    revenueStreams: ['list of revenue sources'],
+    recommendations: ['list of recommendations based on the analysis'],
   },
 })
 
-const results = await ai.createLeanCanvas({ domain: 'aws.amazon.com' })
+const brand = await ai.storyBrand({
+  idea: 'Agentic Workflow Platform',
+  icp: 'Alpha Devs & Empowered CTOs',
+})
+
+console.log(brand)
+// {
+//   storyBrand: {
+//     hero: {
+//       identity: 'Alpha developers and empowered CTOs',
+//       desire: 'To effortlessly build and deploy intelligent, scalable, agent-driven workflows'
+//     },
+//     problem: {
+//       external: 'Current workflow solutions lack flexibility, autonomy, and speed.',
+//       internal: 'Frustrated by bottlenecks, repetitive tasks, and slow development cycles.',
+//       philosophical: 'Innovative developers and CTOs deserve tools designed to empower, not constrain.',
+//       villain: 'Leaky abstractions',
+//     },
+//     // ... additional output omitted for brevity
+//   }
+// }
 ```

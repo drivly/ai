@@ -1,4 +1,4 @@
-import { API } from '@/api.config'
+import { API } from '@/lib/api'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Webhook } from 'svix'
@@ -41,7 +41,14 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
 
     // Store the event in the database
     const payloadInstance = await getPayload({ config })
-    const results = await payloadInstance.create({ collection: 'events', data: { data } })
+    const results = await payloadInstance.create({ 
+      collection: 'events', 
+      data: { 
+        data,
+        type: data.type || 'webhook.received',
+        source: 'webhook'
+      } 
+    })
 
     console.log('Webhook verified and processed:', results, data)
     return { results, data }

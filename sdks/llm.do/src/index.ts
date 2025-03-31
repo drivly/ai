@@ -1,4 +1,5 @@
-import { ApiClient } from './api-client'
+import { API } from 'apis.do'
+import { createLLMDoProvider, llmDoProvider } from './provider'
 
 export interface CompletionOptions {
   model?: string
@@ -41,10 +42,10 @@ export interface ChatCompletionResponse {
 }
 
 export class LLMClient {
-  private api: ApiClient
+  private api: API
 
   constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
-    this.api = new ApiClient({
+    this.api = new API({
       baseUrl: options.baseUrl || 'https://llm.do',
       headers: {
         'Content-Type': 'application/json',
@@ -70,10 +71,7 @@ export class LLMClient {
   async stream(prompt: string, options: CompletionOptions = {}): Promise<ReadableStream<any>> {
     const response = await fetch(`${this.api['baseUrl']}/api/llm/completions/stream`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
-      },
+      headers: this.api['headers'],
       body: JSON.stringify({
         prompt,
         ...options,
@@ -90,10 +88,7 @@ export class LLMClient {
   async chatStream(messages: ChatMessage[], options: CompletionOptions = {}): Promise<ReadableStream<any>> {
     const response = await fetch(`${this.api['baseUrl']}/api/llm/chat/stream`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
-      },
+      headers: this.api['headers'],
       body: JSON.stringify({
         messages,
         ...options,
@@ -107,5 +102,7 @@ export class LLMClient {
     return response.body as ReadableStream<any>
   }
 }
+
+export { createLLMDoProvider, llmDoProvider }
 
 export default LLMClient

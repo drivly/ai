@@ -1,4 +1,4 @@
-import { ErrorResponse, ListResponse, QueryParams } from './types'
+import { ErrorResponse, ListResponse, QueryParams } from './types.js'
 
 export interface ClientOptions {
   baseUrl?: string
@@ -6,7 +6,7 @@ export interface ClientOptions {
   headers?: Record<string, string>
 }
 
-export class ApiClient {
+export class API {
   private baseUrl: string
   private headers: Record<string, string>
 

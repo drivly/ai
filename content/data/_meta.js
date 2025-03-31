@@ -1,14 +1,12 @@
 export default {
-  nouns: {
-    title: 'Nouns',
+  index: {
+    title: 'Overview',
     type: 'page',
   },
-  verbs: {
-    title: 'Verbs',
-    type: 'page',
+  database: {
+    title: 'Database',
   },
-  things: {
-    title: 'Things',
-    type: 'page',
+  'database-sdk-tutorial': {
+    title: 'Database SDK Tutorial',
   },
 }

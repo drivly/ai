@@ -1,8 +1,9 @@
 import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
-import { Integrations } from './admin/Integrations'
+import { Integrations } from './integrations/Integrations'
 import { Tags } from './admin/Tag'
+import { Roles } from './admin/Roles'
 import { Functions } from './ai/Functions'
 import { Modules } from './code/Modules'
 import { Packages } from './code/Packages'
@@ -30,26 +31,39 @@ import { Things } from './data/Things'
 import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
 import { Searches } from './events/Searches'
-import { IntegrationTriggers } from './admin/IntegrationTriggers'
-import { IntegrationActions } from './admin/IntegrationActions'
-import { IntegrationCategories } from './admin/IntegrationCategories'
-import { Connections } from './admin/Connections'
+import { IntegrationTriggers } from './integrations/IntegrationTriggers'
+import { IntegrationActions } from './integrations/IntegrationActions'
+import { IntegrationCategories } from './integrations/IntegrationCategories'
+import { Connections } from './integrations/Connections'
+import { Queues } from './work/Queues'
+import { Tasks } from './work/Tasks'
+import { Goals } from './work/Goals'
+import { KPIs } from './observability/KPIs'
 
 export const collections = [
+  // Register basic collections first
   Functions,
   Workflows,
   Agents,
 
+  // Work-related collections
+  Queues,
+  Tasks,
+  Goals,
+
+  // Data & definitions
   Nouns,
   Verbs,
   Things,
 
+  // Integration collections
   Integrations,
   IntegrationCategories,
   IntegrationTriggers,
   IntegrationActions,
   Connections,
 
+  // Event collections
   Triggers,
   Searches,
   Actions,
@@ -74,10 +88,14 @@ export const collections = [
   Errors,
   Generations,
   Traces,
+  KPIs,
 
   Projects,
   Users,
+  Roles,
   Tags,
   Webhooks,
   APIKeys,
 ]
+
+export const collectionSlugs = collections.map(collection => collection.slug)

@@ -1,3 +1,7 @@
-export { ApiClient } from './src/client'
-export type { ClientOptions } from './src/client'
-export type { ErrorResponse, ListResponse, QueryParams } from './src/types'
+import { API } from './src/client.js'
+
+export { API } from './src/client.js'
+export const api = new API()
+export type { ClientOptions } from './src/client.js'
+export type { ErrorResponse, ListResponse, QueryParams } from './src/types.js'
+export * from './types.js'

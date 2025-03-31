@@ -9,6 +9,19 @@ export const Users: CollectionConfig = {
   auth: { tokenExpiration: 60 * 60 * 24 * 30, useAPIKey: true },
   fields: [
     // Email added by default
-    // Add more fields as needed
+    { name: 'name', type: 'text' },
+    { name: 'image', type: 'text' },
+    //     {
+    //       name: 'roles',
+    //       type: 'relationship',
+    //       relationTo: 'roles',
+    //       hasMany: true,
+    //     },
+    //     {
+    //       name: 'tasks',
+    //       type: 'relationship',
+    //       relationTo: 'tasks',
+    //       hasMany: true,
+    //     },
   ],
 }

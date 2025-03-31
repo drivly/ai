@@ -1,3 +1,3 @@
-export { DatabaseClient } from './src/index'
-export type { QueryOptions } from './src/index'
+export { DB, db, DatabaseClient } from './src/index'
+export * from './src/types'
 export { default } from './src/index'

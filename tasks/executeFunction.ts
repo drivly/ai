@@ -6,6 +6,7 @@ import { generateText } from './generateText'
 import { validateWithSchema } from './schemaUtils'
 import { generateMarkdown } from './generateMarkdown'
 import { generateCode } from './generateCode'
+import { generateSchema } from '../pkgs/ai-functions/generateSchema'
 
 // export const executeFunction: TaskHandler<'executeFunction'> = async ({ input, req }) => {
 // TODO: Fix the typing and response ... temporary hack to get results in the functions API
@@ -21,6 +22,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const isTextFunction = type === 'Text' || type === 'Markdown' || type === 'TextArray' || (settings?.type && ['Text', 'Markdown', 'TextArray'].includes(settings.type))
   // Determine if this is a code-based function
   const isCodeFunction = type === 'Code' || (settings?.type && settings.type === 'Code')
+  const isHumanFunction = type === 'Human' || (settings?.type && settings.type === 'Human')
 
   // Hash args & schema
   const actionHash = hash({ functionName, args, schema, settings })
@@ -88,7 +90,33 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const prompt = `${functionName}(${JSON.stringify(args)})`
   let object, text, reasoning, generation, generationLatency, request
 
-  if (isCodeFunction && functionDoc?.code) {
+  if (isHumanFunction) {
+    const { requestHumanFeedback } = await import('./requestHumanFeedback')
+    
+    const schema = functionDoc?.shape || {}
+    
+    const humanFeedbackInput = {
+      title: args.title || `Human feedback required: ${functionName}`,
+      description: args.description || `Please provide feedback for function: ${functionName}`,
+      options: args.options || schema.options,
+      freeText: args.freeText !== undefined ? args.freeText : schema.freeText,
+      platform: args.platform || schema.platform || 'slack',
+      userId: args.userId || functionDoc?.user?.id,
+      roleId: args.roleId || schema.roleId,
+      timeout: args.timeout || schema.timeout,
+      blocks: args.blocks || schema.blocks
+    }
+    
+    const result = await requestHumanFeedback({
+      input: humanFeedbackInput,
+      payload
+    })
+    
+    object = result
+    reasoning = `Human feedback requested. Task ID: ${result.taskId}, Status: ${result.status}`
+    generationLatency = Date.now() - start
+    request = { functionName, args, settings }
+  } else if (isCodeFunction && functionDoc?.code) {
     // Use generateCode for code-based functions
     const result = await generateCode({
       input: { prompt: functionDoc.code, settings },
@@ -122,7 +150,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       generation = result.generation
       generationLatency = result.generationLatency
       request = result.request
-      object = { data: listItems }
+      object = listItems
     } else if (type === 'Markdown' || settings?.type === 'Markdown') {
       // Use generateMarkdown for markdown-based functions
       const result = await generateMarkdown({
@@ -148,12 +176,21 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       generation = result.generation
       generationLatency = result.generationLatency
       request = result.request
-      object = { text }
+      object = text
     }
   } else {
+    let zodSchema
+    try {
+      if (schema && typeof schema === 'object' && schema !== null && !Array.isArray(schema)) {
+        zodSchema = generateSchema(schema)
+      }
+    } catch (schemaGenError) {
+      console.error('Schema generation error:', schemaGenError)
+    }
+
     // Use generateObject for object-based functions
     const result = await generateObject({
-      input: { functionName, args, schema, settings },
+      input: { functionName, args, schema, zodSchema, settings },
       req,
     })
 
@@ -167,7 +204,17 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     // Validate the object against the schema if provided
     if (schema && object) {
       try {
-        object = validateWithSchema(schema, object)
+        if (typeof schema === 'object' && schema !== null && !Array.isArray(schema)) {
+          try {
+            const zodSchema = generateSchema(schema)
+            object = zodSchema.parse(object)
+          } catch (schemaGenError) {
+            console.error('Schema generation error:', schemaGenError)
+            object = validateWithSchema(schema, object)
+          }
+        } else {
+          object = validateWithSchema(schema, object)
+        }
       } catch (error) {
         console.error('Schema validation error:', error)
         // Keep the original object but add validation error information

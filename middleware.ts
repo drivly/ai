@@ -21,6 +21,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
   }
 
+  if (pathname.startsWith('/docs') && hostname.endsWith('.do')) {
+    console.log('Rewriting docs path', { hostname, pathname, search })
+    const apiName = hostname.replace('.do', '')
+    return NextResponse.rewrite(new URL(`/docs/${apiName}${pathname.replace('/docs', '')}${search}`, request.url))
+  }
+
   // TODO: Is this the correct logic for docs?
   if (sitePrefixes.some((prefix) => pathname.startsWith(prefix)) && siteDomains.includes(hostname)) {
     console.log('Rewriting to site w/ prefix', { hostname, pathname, search })
@@ -35,7 +41,7 @@ export function middleware(request: NextRequest) {
 
   // TODO: we need to ensure that all of the apis are at the root by default
   // I think this is preferred as it is what we want for localhost and API gateways like apis.do
-  console.log({ apiName, apis, name: apis[apiName] })
+  // console.log({ apiName, apis, name: apis[apiName] })
 
   // Special handler for /api path to route to the domain (minus .do) API path
   if (pathname === '/api' && apis[apiName]) {

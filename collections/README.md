@@ -34,6 +34,7 @@ Collections for managing users, projects, integrations, and system configuration
 - **Tags**: Labels for organizing and categorizing resources across the platform. Tags enable flexible metadata assignment.
 - **Webhooks**: Endpoints for receiving event notifications from external systems. Webhooks allow the platform to respond to external events.
 - **APIKeys**: Authentication keys for accessing the platform's APIs. APIKeys enable secure programmatic access to the platform.
+- **Roles**: Define user permissions and access levels within the platform. Roles are assigned to Users and are referenced by Queues for job processing.
 
 ### Events
 
@@ -80,6 +81,13 @@ Collections that provide monitoring and visibility into the platform's operation
 - **Generations**: Records of system state before/after an Action, including request, response, and status. Generations enable tracking of AI-generated content.
 - **Traces**: Provide operational visibility into workflow execution paths. Traces enable debugging and performance analysis.
 
+### Jobs
+
+Collections that manage task queues and job processing.
+
+- **Queues**: Manage job queues with specific role assignments. Queues organize Tasks for processing by Users with appropriate Roles.
+- **Tasks**: Represent work items that need to be completed. Tasks can be organized hierarchically with parent-child relationships, dependencies between tasks, and assignments to Users or Roles.
+
 ## Relationships Diagram
 
 ```mermaid
@@ -107,6 +115,9 @@ graph TD
     IntegrationActions --> Actions
     Connections --> Integrations
     Users --> Projects
+    Users --> Roles
+    Roles --> Queues
+    Queues --> Tasks
     Projects --> Functions
     Projects --> Workflows
     Projects --> Agents
@@ -137,6 +148,9 @@ graph TD
     Functions --> Actions
     Things --> Generations
     Workflows --> Traces
+    Tasks --> Tasks
+    Tasks --> Users
+    Tasks --> Roles
 ```
 
 ## Core Data Flow
@@ -225,7 +239,28 @@ graph TD
     APIKeys -->|authenticate| Users
 
     classDef admin fill:#e5d5f9,stroke:#333,stroke-width:1px
-    class IntegrationCategories,Integrations,IntegrationTriggers,IntegrationActions,Connections,Projects,Users,APIKeys admin
+    class IntegrationCategories,Integrations,IntegrationTriggers,IntegrationActions,Connections,Projects,Users,APIKeys,Roles admin
+```
+
+### Jobs Management Relationships
+
+```mermaid
+graph TD
+    Roles[Roles<br>Permission groups]
+    Users[Users<br>Human actors]
+    Queues[Queues<br>Job processing queues]
+    Tasks[Tasks<br>Work items]
+    
+    Roles -->|assigned to| Users
+    Roles -->|required for| Queues
+    Queues -->|contain| Tasks
+    Tasks -->|assigned to| Users
+    Tasks -->|assigned to| Roles
+    Tasks -->|depend on| Tasks
+    Tasks -->|parent of| Tasks
+    
+    classDef jobs fill:#f5d9a3,stroke:#333,stroke-width:1px
+    class Roles,Users,Queues,Tasks jobs
 ```
 
 This architecture enables the creation of complex, event-driven AI applications with full observability and control. The platform's modular design allows for flexible composition of AI capabilities while maintaining strong typing and clear relationships between components.

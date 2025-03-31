@@ -72,6 +72,60 @@ for await (const chunk of stream) {
 }
 ```
 
+## Vercel AI SDK Integration
+
+LLM.do provides a Vercel AI SDK provider for seamless integration with the Vercel AI SDK:
+
+```typescript
+import { llm } from 'llm.do'
+import { generateText, generateObject, generateEmbeddings } from 'ai'
+import { z } from 'zod'
+
+// Generate text using the llm.do provider
+const text = await generateText({
+  model: llm('gemini-2.0-flash'),
+  prompt: 'Explain the theory of relativity in simple terms',
+})
+
+// Generate structured JSON output with Zod schema
+const bookSchema = z.object({
+  books: z.array(
+    z.object({
+      title: z.string(),
+      author: z.string(),
+      genre: z.string(),
+      description: z.string(),
+    }),
+  ),
+})
+
+const jsonOutput = await generateObject({
+  model: llm('gemini-2.0-flash'),
+  prompt: 'Generate a list of 5 book recommendations',
+  schema: bookSchema,
+})
+
+// Generate embeddings
+const embeddings = await generateEmbeddings({
+  model: llm.embed('text-embedding-3-small'),
+  input: ['Embed this text for semantic search', 'And this one too'],
+})
+```
+
+### Custom Provider Configuration
+
+You can customize the llm.do provider with your own configuration:
+
+```typescript
+import { createLLMDoProvider } from 'llm.do'
+
+const customProvider = createLLMDoProvider({
+  apiKey: 'your-api-key',
+  baseUrl: 'https://your-custom-endpoint.com',
+  defaultModel: 'custom-model-name',
+})
+```
+
 ## Core Concepts
 
 ### Model Selection
@@ -164,6 +218,11 @@ console.log(`Current daily usage: $${usage.daily.cost}`)
 - `llm.streamChat(options)`: Stream a chat response
 - `llm.estimateCost(options)`: Estimate the cost of a request
 - `llm.getUsageStats()`: Get usage statistics
+
+### Vercel AI SDK Provider Functions
+
+- `llm(modelId)`: Get a language model instance
+- `createLLMDoProvider(options)`: Create a custom provider instance
 
 ### Configuration Options
 

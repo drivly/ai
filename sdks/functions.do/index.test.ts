@@ -80,27 +80,27 @@ describe('functions.do', () => {
       expect(result.questions[0]).toHaveProperty('question')
       expect(result.questions[0]).toHaveProperty('answer')
     }, 90000)
-    
+
     it('should generate markdown content', async () => {
       const functions = AI({
         generateMarkdown: {
           markdown: 'string',
-          html: 'string'
-        }
+          html: 'string',
+        },
       })
-      
+
       const result = await functions.generateMarkdown({
         topic: 'AI Functions',
-        format: 'tutorial'
+        format: 'tutorial',
       })
-      
+
       expect(result).toHaveProperty('markdown')
       expect(result).toHaveProperty('html')
       expect(typeof result.markdown).toBe('string')
       expect(typeof result.html).toBe('string')
       expect(result.markdown).toContain('Mock Markdown')
     }, 90000)
-    
+
     it('should preserve array types in responses', async () => {
       const functions = AI({
         generateList: {
@@ -108,11 +108,11 @@ describe('functions.do', () => {
           items: ['string'],
         },
       })
-      
+
       const result = await functions.generateList({
         title: 'Top Programming Languages',
       })
-      
+
       expect(result).toHaveProperty('title')
       expect(Array.isArray(result.items)).toBe(true)
       expect(result.items.length).toBeGreaterThan(0)
@@ -138,13 +138,13 @@ describe('functions.do', () => {
         expect(error).toBeDefined()
       }
     }, 90000)
-    
+
     it('should support markdown generation', async () => {
       const result = await ai.generateMarkdown({
         topic: 'AI Functions',
-        format: 'tutorial'
+        format: 'tutorial',
       })
-      
+
       expect(result).toHaveProperty('markdown')
       expect(result).toHaveProperty('html')
     }, 90000)
@@ -229,25 +229,25 @@ describe('functions.do', () => {
       expect(result).toEqual({ success: true, data: { test: 'async' } })
     })
   })
-  
+
   describe('Mock API responses', () => {
-    it.skip('should use mock responses in test environment', async () => {
+    it('should use mock responses in test environment', async () => {
       const consoleSpy = vi.spyOn(console, 'log')
-      
+
       const functions = AI({
         testFunction: {
           result: 'string',
         },
       })
-      
+
       await functions.testFunction({})
-      
+
       expect(consoleSpy).toHaveBeenCalledWith('Using mock API response for tests')
-      
+
       consoleSpy.mockRestore()
     })
-    
-    it.skip('should create mock objects based on schema', async () => {
+
+    it('should create mock objects based on schema', async () => {
       const functions = AI({
         complexFunction: {
           name: 'string',
@@ -266,9 +266,9 @@ describe('functions.do', () => {
           ],
         },
       })
-      
+
       const result = await functions.complexFunction({})
-      
+
       expect(result).toHaveProperty('name')
       expect(result).toHaveProperty('age')
       expect(result).toHaveProperty('address')
@@ -279,6 +279,24 @@ describe('functions.do', () => {
       expect(Array.isArray(result.contacts)).toBe(true)
       expect(result.contacts[0]).toHaveProperty('type')
       expect(result.contacts[0]).toHaveProperty('value')
+    })
+  })
+
+  describe('Tagged Template Literals', () => {
+    it.skip('should support basic tagged template usage', async () => {
+      const text = 'Test tagged template'
+      const result = await ai`Summarize this: ${text}`
+
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
+    })
+
+    it.skip('should support configuration with tagged templates', async () => {
+      const text = 'Test with configuration'
+      const result = await ai({ model: 'test-model' })`Translate this: ${text}`
+
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('string')
     })
   })
 })

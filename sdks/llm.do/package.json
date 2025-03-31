@@ -1,7 +1,7 @@
 {
   "name": "llm.do",
   "version": "0.0.1",
-  "description": "Intelligent AI Gateway for routing requests to optimal language models",
+  "description": "Intelligent AI Gateway for routing requests to optimal language models with Vercel AI SDK provider support",
   "keywords": [
     "llm",
     "ai",
@@ -9,7 +9,10 @@
     "gateway",
     "router",
     "model-selection",
-    "multi-model"
+    "multi-model",
+    "vercel-ai-sdk",
+    "ai-sdk-provider",
+    "embeddings"
   ],
   "homepage": "https://llm.do",
   "type": "module",
@@ -30,6 +33,8 @@
     "test": "echo \"No tests\" && exit 0"
   },
   "devDependencies": {
+    "@ai-sdk/provider": "^1.0.2",
+    "models.do": "workspace:^0.0.1",
     "vitest": "^3.0.8"
   },
   "dependencies": {

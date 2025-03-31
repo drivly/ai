@@ -1,5 +1,12 @@
 # functions.do
 
+[![npm version](https://img.shields.io/npm/v/functions.do.svg)](https://www.npmjs.com/package/functions.do)
+[![npm downloads](https://img.shields.io/npm/dm/functions.do.svg)](https://www.npmjs.com/package/functions.do)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
+[![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+
 AI is transforming businesses but integrating LLMs into existing systems presents challenges due to the clash between AI's non-deterministic nature and traditional software's deterministic characteristics.
 
 Key challenges include:
@@ -62,26 +69,25 @@ import { ai } from 'functions.do'
 const storyBrand = await ai.storyBrand({ company: 'Vercel' })
 
 // Function call with schema (structured output)
-const leanCanvas = await ai.leanCanvas({ company: 'Cloudflare' }, {
-  productName: 'name of the product or service',
-  problem: ['top 3 problems the product solves'],
-  solution: ['top 3 solutions the product offers'],
-  uniqueValueProposition: 'clear message that states the benefit of your product',
-  unfairAdvantage: 'something that cannot be easily copied or bought',
-  customerSegments: ['list of target customer segments'],
-  keyMetrics: ['list of key numbers that tell you how your business is doing'],
-  channels: ['path to customers'],
-  costStructure: ['list of operational costs'],
-  revenueStreams: ['list of revenue sources'],
-  recommendations: ['list of recommendations based on the analysis'],
-})
+const leanCanvas = await ai.leanCanvas(
+  { company: 'Cloudflare' },
+  {
+    productName: 'name of the product or service',
+    problem: ['top 3 problems the product solves'],
+    solution: ['top 3 solutions the product offers'],
+    uniqueValueProposition: 'clear message that states the benefit of your product',
+    unfairAdvantage: 'something that cannot be easily copied or bought',
+    customerSegments: ['list of target customer segments'],
+    keyMetrics: ['list of key numbers that tell you how your business is doing'],
+    channels: ['path to customers'],
+    costStructure: ['list of operational costs'],
+    revenueStreams: ['list of revenue sources'],
+    recommendations: ['list of recommendations based on the analysis'],
+  },
+)
 
 // Function call with schema and AI configuration
-const blogTitles = await ai.listBlogPostTitles(
-  { topic: 'the future of work post-API' },
-  ['list SEO-optimized titles'],
-  { model: 'gpt-4.5' }
-)
+const blogTitles = await ai.listBlogPostTitles({ topic: 'the future of work post-API' }, ['list SEO-optimized titles'], { model: 'gpt-4.5' })
 ```
 
 ### Using the `AI` Function
@@ -109,7 +115,7 @@ export const ai = AI({
     estimatedWordCount: 'approximate word count for the entire book',
     estimatedTimeToComplete: 'timeline for completing the manuscript',
     summary: 'one paragraph summary of the book concept',
-  }
+  },
 })
 ```
 
@@ -222,7 +228,7 @@ const landingPage = await ai.generateLandingPage(
     system: 'You are an expert at generating highly-converting marketing copy for startup landing pages',
     temperature: 1.0,
     seed: 1741452228,
-  }
+  },
 )
 ```
 
@@ -231,14 +237,31 @@ const landingPage = await ai.generateLandingPage(
 functions.do supports multiple function types for different use cases:
 
 1. **Generation Functions** - AI-powered functions that generate output based on input and prompts
+
    - Format options: Object, ObjectArray, Text, TextArray, Markdown, Code
    - Example: Content generation, data transformations, creative tasks
 
 2. **Code Functions** - Functions that execute predefined code
+
    - Example: Custom data processing, calculations, specialized transformations
 
 3. **Human Functions** - Tasks assigned to specific human users or roles
+
    - Example: Manual review tasks, approval processes, expert input
+   - Supports Slack Blocks schema for rich interactive messages:
+     ```typescript
+     const humanFeedback = await ai.humanFeedback({
+       title: 'Product Feedback Request',
+       blocks: {
+         productType: 'API',
+         customer: 'enterprise developers',
+         solution: 'simplified AI integration',
+         description: 'Streamlined API for AI function integration'
+       },
+       options: ['Approve', 'Reject'],
+       freeText: true
+     })
+     ```
 
 4. **Agent Functions** - Functions that delegate to autonomous agents
    - Example: Persistent tasks, continuous monitoring, complex workflows
@@ -258,3 +281,29 @@ const myFunction = await functionsClient.create({
   prompt: 'Analyze the following data and extract key insights',
 })
 ```
+
+## Testing
+
+The SDK includes both unit tests and end-to-end tests.
+
+### Running Unit Tests
+
+Unit tests verify the SDK's functionality without requiring API access:
+
+```bash
+pnpm test
+```
+
+### Running End-to-End Tests
+
+E2E tests verify integration with the actual API and require an API key:
+
+```bash
+# Set API key as environment variable
+export FUNCTIONS_DO_API_KEY=your_api_key
+
+# Run e2e tests
+pnpm test:e2e
+```
+
+End-to-end tests will be skipped if no API key is provided.

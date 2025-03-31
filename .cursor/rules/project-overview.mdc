@@ -1,0 +1,22 @@
+# AI Primitives Platform Overview
+
+This rule provides context about the AI Primitives platform, its strategic vision, and core components.
+
+## Applies to
+**/*.{ts,tsx,js,jsx,mdx}
+
+## Rule
+The AI Primitives platform provides composable building blocks that enable developers to create, deploy, and manage AI applications with minimal complexity while maintaining reliability and scalability. The platform emphasizes:
+
+1. **Economically valuable work** delivered through simple APIs
+2. **Practical applications** of AI that deliver measurable business value
+3. **Composable architecture** with Functions, Workflows, and Agents as core primitives
+4. **Enterprise-grade reliability** with comprehensive testing and evaluation
+
+### Core Primitives
+- **Functions.do**: Strongly-typed composable building blocks
+- **Workflows.do**: Declarative state machines for orchestration
+- **Agents.do**: Autonomous digital workers
+- **LLM.do**: Intelligent AI gateway for routing requests to optimal models
+- **Database.do**: Persistent data storage with Payload CMS
+- **APIs.do**: Unified API gateway for all services

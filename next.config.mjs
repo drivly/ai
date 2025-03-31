@@ -9,6 +9,9 @@ const withNextra = nextra({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
+ 
+  transpilePackages: ['@drivly/ui', 'simple-payload', 'clickable-apis'],
+ 
 }
 
 export default withNextra(withPayload(nextConfig, { devBundleServerPackages: false }))

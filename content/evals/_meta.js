@@ -1,4 +1,8 @@
 export default {
+  index: {
+    title: 'Overview',
+    type: 'page',
+  },
   metrics: {
     title: 'Metrics',
     type: 'page',

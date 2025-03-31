@@ -1,28 +1,19 @@
 import { ApiClient } from './api-client'
+import type { 
+  AgentConfig, 
+  AgentResponse, 
+  AgentClientOptions, 
+  AgentExecutionOptions, 
+  AgentExecutionResult 
+} from '../types'
 
-export interface AgentConfig {
-  name: string
-  description?: string
-  functions?: string[]
-  workflows?: string[]
-  tools?: string[]
-  systemPrompt?: string
-  baseModel?: string
-  [key: string]: any
-}
-
-export interface AgentResponse<T = any> {
-  data: T
-  meta?: {
-    duration?: number
-    [key: string]: any
-  }
-}
+export * from '../types'
 
 export class AgentsClient {
   private api: ApiClient
+  private defaultConfig?: Partial<AgentConfig>
 
-  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
+  constructor(options: AgentClientOptions = {}) {
     this.api = new ApiClient({
       baseUrl: options.baseUrl || 'https://agents.do',
       headers: {
@@ -30,6 +21,7 @@ export class AgentsClient {
         ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
       },
     })
+    this.defaultConfig = options.defaultConfig
   }
 
   async ask<T = any>(agentId: string, question: string, context?: any): Promise<AgentResponse<T>> {
@@ -39,8 +31,23 @@ export class AgentsClient {
     })
   }
 
+  async execute<T = any>(
+    agentId: string, 
+    input: Record<string, any>, 
+    options?: AgentExecutionOptions
+  ): Promise<AgentExecutionResult> {
+    return this.api.post(`/api/agents/${agentId}/execute`, {
+      input,
+      options,
+    })
+  }
+
   async create(agentConfig: AgentConfig): Promise<any> {
-    return this.api.post('/api/agents', agentConfig)
+    const config = {
+      ...this.defaultConfig,
+      ...agentConfig,
+    }
+    return this.api.post('/api/agents', config)
   }
 
   async list(params?: { limit?: number; page?: number }): Promise<any> {

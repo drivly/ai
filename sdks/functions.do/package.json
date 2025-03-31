@@ -29,10 +29,12 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "vitest run tests/e2e/**/*.test.ts"
   },
   "devDependencies": {
-    "vitest": "^3.0.8"
+    "evalite": "^0.9.1",
+    "vitest": "^3.0.9"
   },
   "dependencies": {
     "apis.do": "workspace:*"

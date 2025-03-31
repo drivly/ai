@@ -1,4 +1,4 @@
-import { API } from '@/api.config'
+import { API } from '@/lib/api'
 import { Capability, getModel, Provider, reconstructModelString, models } from '@/pkgs/ai-models'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {

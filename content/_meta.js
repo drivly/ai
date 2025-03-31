@@ -1,62 +1,72 @@
 export default {
+  index: {
+    title: 'Introduction'
+  },
+  manifesto: {
+    title: 'Manifesto',
+    type: 'page'
+  },
   workflows: {
-    title: 'Workflows',
-    type: 'menu',
-    items: {},
+    title: 'Workflows'
   },
   functions: {
-    title: 'Functions',
-    type: 'menu',
-    items: {},
+    title: 'Functions'
   },
-  api: {
-    title: 'APIs',
-    type: 'menu',
-    items: {},
-  },
-  agents: {
-    title: 'Agents',
-    type: 'menu',
-    items: {},
-  },
-  integrations: {
-    title: 'Integrations',
-    type: 'menu',
-    items: {},
+  database: {
+    title: 'Database'
   },
   events: {
-    title: 'Events',
-    type: 'menu',
-    items: {},
+    title: 'Events'
+  },
+  integrations: {
+    title: 'Integrations'
   },
   data: {
     title: 'Data',
-    type: 'menu',
-    items: {},
+    type: 'separator'
   },
-  experiments: {
-    title: 'Experiments',
-    type: 'menu',
-    items: {},
+  things: {
+    title: 'Things'
   },
-  evals: {
-    title: 'Evals',
-    type: 'menu',
-    items: {},
+  'vector-search': {
+    title: 'Vector Search'
+  },
+  nouns: {
+    title: 'Nouns'
+  },
+  verbs: {
+    title: 'Verbs'
+  },
+  actions: {
+    title: 'Actions'
+  },
+  agents: {
+    title: 'Agents'
+  },
+  llm: {
+    title: 'LLM'
   },
   observability: {
     title: 'Observability',
-    type: 'menu',
-    items: {},
+    type: 'separator'
   },
-  code: {
-    title: 'Code',
-    type: 'menu',
-    items: {},
+  traces: {
+    title: 'Traces'
+  },
+  evals: {
+    title: 'Evals'
+  },
+  experiments: {
+    title: 'Experiments'
   },
   admin: {
     title: 'Admin',
-    type: 'menu',
-    items: {},
+    type: 'separator'
   },
+  api: {
+    title: 'API Reference'
+  },
+  code: {
+    title: 'Code'
+  }
 }

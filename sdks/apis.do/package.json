@@ -10,12 +10,33 @@
     "experience",
     "rest",
     "json",
-    "http"
+    "http",
+    "typescript",
+    "sdk",
+    "cli"
   ],
   "homepage": "https://apis.do",
   "type": "module",
+  "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "apis": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types.js",
+      "types": "./dist/types.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
@@ -28,9 +49,19 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "echo \"No tests\" && exit 0"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
   },
   "devDependencies": {
-    "vitest": "^3.0.8"
+    "@types/react": "18.2.0",
+    "evalite": "^0.9.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
   }
 }
