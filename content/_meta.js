@@ -3,44 +3,24 @@ export default {
     title: 'Introduction',
     type: 'page',
   },
-  workflows: {
-    title: 'Workflows',
-    type: 'page',
-  },
   functions: {
     title: 'Functions',
+    type: 'page',
+  },
+  workflows: {
+    title: 'Workflows',
     type: 'page',
   },
   agents: {
     title: 'Agents',
     type: 'page',
   },
-  integrations: {
-    title: 'Integrations',
-    type: 'page',
-  },
-  apis: {
-    title: 'APIs',
-    type: 'page',
-  },
   database: {
     title: 'Database',
     type: 'page',
   },
-  events: {
-    title: 'Events',
-    type: 'separator',
-  },
-  triggers: {
-    title: 'Triggers',
-    type: 'page',
-  },
-  searches: {
-    title: 'Searches',
-    type: 'page',
-  },
-  actions: {
-    title: 'Actions',
+  llm: {
+    title: 'LLM',
     type: 'page',
   },
   data: {
@@ -59,6 +39,26 @@ export default {
     title: 'Verbs',
     type: 'page',
   },
+  integrations: {
+    title: 'Integrations',
+    type: 'page',
+  },
+  events: {
+    title: 'Events',
+    type: 'separator',
+  },
+  triggers: {
+    title: 'Triggers',
+    type: 'page',
+  },
+  searches: {
+    title: 'Searches',
+    type: 'page',
+  },
+  actions: {
+    title: 'Actions',
+    type: 'page',
+  },
   observability: {
     title: 'Observability',
     type: 'separator',
@@ -73,10 +73,6 @@ export default {
   },
   experiments: {
     title: 'Experiments',
-    type: 'page',
-  },
-  llm: {
-    title: 'LLM',
     type: 'page',
   },
   admin: {
