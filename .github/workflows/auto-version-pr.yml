@@ -1,0 +1,112 @@
+name: Auto Version PR
+
+on:
+  # Run daily at midnight
+  schedule:
+    - cron: '0 0 * * *'
+  # Allow manual triggering
+  workflow_dispatch:
+  # Run on pushes to main (except when version-stamp.txt is modified)
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/version-stamp.txt'
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  check-for-changes:
+    name: Check for Changes
+    runs-on: ubuntu-latest
+    outputs:
+      has_changes: ${{ steps.check-changes.outputs.has_changes }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.x
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.x
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Check for Changes
+        id: check-changes
+        run: |
+          # Run version-pr in dry run mode to check for changes
+          OUTPUT=$(pnpm version-pr)
+          echo "$OUTPUT" > /tmp/version-pr-output.txt
+          
+          # Check if any package has changes that need versioning
+          if echo "$OUTPUT" | grep -q "The next release version is"; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "changes_log<<EOF" >> $GITHUB_OUTPUT
+            echo "$OUTPUT" | grep -A 2 "The next release version is" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            echo "Found changes that need versioning"
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes that need versioning"
+          fi
+
+  create-version-pr:
+    name: Create Version PR
+    needs: check-for-changes
+    if: needs.check-for-changes.outputs.has_changes == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.x
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.x
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+        
+      - name: Update Version Stamp
+        run: |
+          echo "# Version Stamp - Updated on $(date)" > .github/version-stamp.txt
+          echo "# This file triggers the release workflow when merged to main" >> .github/version-stamp.txt
+          git config --global user.name "Drivly Bot"
+          git config --global user.email "bot@driv.ly"
+          git add .github/version-stamp.txt
+        
+      - name: Create Release PR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: version packages"
+          branch: version-pr
+          delete-branch: true
+          title: "chore: version packages"
+          body: |
+            This PR was created automatically by the auto-version-pr workflow.
+            It contains version updates for all packages that have changes.
+            
+            Changes detected:
+            ```
+            ${{ steps.check-changes.outputs.changes_log }}
+            ```
+          labels: |
+            version
+            automated pr
