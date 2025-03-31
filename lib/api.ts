@@ -408,13 +408,24 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
   }
 }
 
-import { createAPI as clickableCreateAPI, modifyQueryString as clickableModifyQueryString } from 'clickable-apis'
 import { domainDescriptions } from '../api.config'
-import { getPayloadClient } from './db'
 
-export const API = clickableCreateAPI(undefined, { 
-  domainDescriptions,
-  getPayloadClient
-})
+export const API = createApiHandler
 
-export { clickableModifyQueryString as modifyQueryString }
+export const modifyQueryString = (param?: string, value?: string | number) => {
+  if (!param) {
+    throw new Error('Parameter name is required')
+  }
+
+  if (value === undefined) {
+    throw new Error('Parameter value is required')
+  }
+
+  if (!_currentRequest) {
+    throw new Error('No URL provided and no current request available')
+  }
+
+  const url = new URL(_currentRequest.url)
+  url.searchParams.set(param, value.toString())
+  return url.toString()
+}
