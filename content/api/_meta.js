@@ -1,8 +1,4 @@
 export default {
-  index: {
-    title: 'Overview',
-    type: 'page',
-  },
   'agents.do': {
     title: 'Agents API',
     type: 'page',
