@@ -1,5 +1,4 @@
 import { TaskConfig } from 'payload'
-import { bundleCode } from '../pkgs/deploy-worker/src/utils/esbuild'
 
 /**
  * Process a code function using esbuild
@@ -24,6 +23,7 @@ export const processCodeFunction = async ({ input, payload }: any) => {
       throw new Error('Function not found or not a Code type function')
     }
     
+    const { bundleCode } = await import('../pkgs/deploy-worker/src/utils/esbuild')
     const bundledCode = await bundleCode(func.code)
     
     const moduleData = {
