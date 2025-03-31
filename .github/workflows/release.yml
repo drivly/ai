@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '.github/version-stamp.txt'
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
