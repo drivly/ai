@@ -53,6 +53,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           pageMap={await getPageMap()}
           docsRepositoryBase='https://github.com/drivly/ai/tree/main'
           footer={footer}
+          defaultMenuCollapsed={true}
           // ... Your additional layout options
         >
           {children}
