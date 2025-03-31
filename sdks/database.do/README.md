@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/npm/l/database.do.svg?style=flat-square)](https://github.com/drivly/ai/blob/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
-[![Discord](https://img.shields.io/discord/1234567890?style=flat-square&label=Discord&logo=discord&logoColor=white)](https://discord.gg/drivly)
+[![Discord](https://img.shields.io/discord/a87bSRvJkx?style=flat-square&label=Discord&logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
 
 > AI-Native Data Access SDK for seamless database operations with MongoDB, PostgreSQL, and SQLite
 

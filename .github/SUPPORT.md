@@ -15,7 +15,7 @@ Our documentation is available at [docs.drivly.ai](https://docs.drivly.ai). It i
 
 ### Discord
 
-Join our [Discord community](https://discord.gg/drivly) for:
+Join our [Discord community](https://discord.gg/a87bSRvJkx) for:
 
 - Real-time support from the community
 - Discussions with other users
