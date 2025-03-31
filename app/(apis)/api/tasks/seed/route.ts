@@ -3,11 +3,11 @@ import config from '@/payload.config'
 import { getPayload } from 'payload'
 // import { seedDatabase } from '@/scripts/seed'
 
-export const GET = API(async (req, { db, params }) => {
+export const GET = API(async (req, { db, params, user, payload }) => {
   // seedDatabase()
 
-  const payload = await getPayload({ config })
-  const { user } = await payload.auth(req)
+  // const payload = await getPayload({ config })
+  // const { user } = await payload.auth(req)
 
   if (!user?.email?.endsWith('@driv.ly')) {
     return { user: user?.email, success: false, message: 'Unauthorized' }
