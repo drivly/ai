@@ -4,9 +4,8 @@ import { AI, createWorkflow } from '../index'
 describe('workflows.do SDK - E2E Tests', () => {
   beforeEach(() => {
     vi.resetAllMocks()
-    global.fetch = vi.fn().mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve({})
-    })) as unknown as typeof fetch
+    const mockFetch = vi.fn()
+    global.fetch = mockFetch as unknown as typeof fetch
   })
 
   describe('Payload CRUD API', () => {
