@@ -17,7 +17,10 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "echo \"No tests\" && exit 0"
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^1.4.0"
   },
   "keywords": [
     "ai",
