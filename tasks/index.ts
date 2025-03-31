@@ -9,6 +9,7 @@ import { processCodeFunctionWrapperTask } from './processCodeFunctionWrapper'
 import { processCodeFunctionTask } from './processCodeFunction'
 import { inflectNounsTask } from './inflectNouns'
 import { conjugateVerbsTask } from './conjugateVerbs'
+import { deployWorkerTask } from './deployWorker'
 import { deliverWebhookTask } from './deliverWebhook'
 import { initiateComposioConnectionTask } from './initiateComposioConnection'
 import { requestHumanFeedbackTask } from './requestHumanFeedback'
@@ -61,6 +62,7 @@ export const tasks = [
   processCodeFunctionTask,
   inflectNounsTask,
   conjugateVerbsTask,
+  deployWorkerTask,
   deliverWebhookTask,
   initiateComposioConnectionTask,
   requestHumanFeedbackTask
