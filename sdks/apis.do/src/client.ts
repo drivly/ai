@@ -1,4 +1,4 @@
-import { ErrorResponse, ListResponse, QueryParams } from './types'
+import { ErrorResponse, ListResponse, QueryParams } from './types.js'
 
 export interface ClientOptions {
   baseUrl?: string

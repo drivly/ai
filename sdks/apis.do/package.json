@@ -56,8 +56,20 @@
     "lint": "eslint ."
   },
   "devDependencies": {
+    "@types/ink": "^2.0.3",
+    "@types/react": "^18.2.67",
     "evalite": "^0.9.1",
     "typescript": "^5.7.3",
     "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "ink": "^4.4.1",
+    "react": "^18.2.0"
+  },
+  "dependencies": {
+    "@types/ink": "^2.0.3",
+    "@types/react": "^19.0.12",
+    "ink": "^5.2.0",
+    "react": "^19.1.0"
   }
 }
