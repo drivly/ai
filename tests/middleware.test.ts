@@ -102,4 +102,32 @@ describe('middleware', () => {
       rewrite: true,
     })
   })
+
+  it('should rewrite /admin path to /admin/collections/{collection} for collection domains', () => {
+    const request = {
+      nextUrl: {
+        hostname: 'integrations.do',
+        pathname: '/admin',
+        search: '?param=value',
+      },
+      url: 'https://integrations.do/admin?param=value',
+    } as unknown as NextRequest
+
+    const result = middleware(request)
+
+    // Verify that NextResponse.rewrite was called with the correct URL
+    expect(NextResponse.rewrite).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pathname: '/admin/collections/integrations',
+        search: '?param=value',
+      }),
+    )
+    expect(result).toEqual({
+      url: expect.objectContaining({
+        pathname: '/admin/collections/integrations',
+        search: '?param=value',
+      }),
+      rewrite: true,
+    })
+  })
 })

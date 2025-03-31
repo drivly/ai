@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { apis } from './api.config'
+import { collectionSlugs } from './collections/index'
+import { aliases } from './site.config'
 
 // what domains have websites / landing pages ... otherwise base path / is the API
 const siteDomains = ['functions.do', 'workflows.do', 'llm.do', 'llms.do']
@@ -15,6 +17,18 @@ export function middleware(request: NextRequest) {
   const apiName = hostname.replace('.do', '')
 
   // TODO: should we use something like `itty-router` here?
+
+  const baseHostname = hostname.replace('.do', '')
+  const isCollectionName = collectionSlugs.includes(baseHostname)
+  const isAlias = Object.keys(aliases).includes(baseHostname + '.do')
+  const effectiveCollection = isAlias 
+    ? (aliases[baseHostname + '.do' as keyof typeof aliases] as string).replace('.do', '') 
+    : baseHostname
+
+  if ((isCollectionName || isAlias) && pathname.startsWith('/admin')) {
+    console.log('Rewriting to admin collection', { hostname, pathname, search, collection: effectiveCollection })
+    return NextResponse.rewrite(new URL(`/admin/collections/${effectiveCollection}${pathname.slice(6)}${search}`, request.url))
+  }
 
   if (sitePaths.includes(pathname) && siteDomains.includes(hostname)) {
     console.log('Rewriting to site', { hostname, pathname, search })
