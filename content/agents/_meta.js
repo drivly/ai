@@ -1,6 +1,6 @@
 export default {
   index: {
-    title: 'Agents',
+    title: 'Overview',
     type: 'page',
   },
 }

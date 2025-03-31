@@ -1,6 +1,6 @@
 export default {
   index: {
-    title: 'LLM',
+    title: 'Overview',
     type: 'page',
   },
 }
