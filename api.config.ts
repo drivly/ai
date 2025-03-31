@@ -43,6 +43,10 @@ export const symbols: Record<string, string> = {
   // 口: '',
 }
 
-// export const API = createAPI()
+const domainDescriptions = Object.fromEntries(
+  Object.entries(apis).map(([key, value]) => [`${key}.do`, value || ''])
+)
+
+export const API = createAPI(undefined, { domainDescriptions })
 
 export const modifyQueryString = clickableModifyQueryString

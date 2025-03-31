@@ -13,17 +13,82 @@ import {
   createNodePayloadClient,
 } from 'simple-payload'
 
+/**
+ * Interface for the API header object that appears at the top of all JSON responses
+ */
+export interface ApiHeader {
+  /** Name of the API */
+  name: string
+  /** Description of the API */
+  description: string
+  /** Home URL */
+  home: string
+  /** Login URL - only present when user is not logged in */
+  login?: string
+  /** Signup URL - only present when user is not logged in */
+  signup?: string
+  /** Admin URL */
+  admin: string
+  /** Documentation URL */
+  docs: string
+  /** Repository URL */
+  repo: string
+  /** SDK URL */
+  sdk: string
+  /** Site URL */
+  site: string
+  /** Discord community URL */
+  chat?: string
+  /** GitHub issues URL */
+  issues?: string
+  /** With URL - reference to apis.do */
+  with?: string
+  /** From URL - reference to agi.do */
+  from?: string
+}
+
 export type { ApiContext, PayloadClientResult, PayloadClientFn }
 
 let _currentRequest: NextRequest | null = null
 let _currentContext: ApiContext | null = null
 
+const domainDescriptions: Record<string, string> = {
+  'apis.do': 'Economically valuable work delivered through simple APIs',
+  'functions.do': 'Reliable structured outputs',
+  'workflows.do': 'Declarative state machines for orchestration',
+  'agents.do': 'Autonomous digital workers',
+  'database.do': 'AI-enriched data',
+  'llm.do': 'Intelligent gateway for routing AI requests',
+}
+
+const getDomainDescription = (domain: string, customDescriptions?: Record<string, string>): string => {
+  const baseDomain = domain.split('.').slice(-2).join('.')
+  const descriptions = customDescriptions || domainDescriptions
+  return descriptions[baseDomain] || descriptions['apis.do'] || 'API'
+}
+
+const getDomainPackageName = (domain: string): string => {
+  const baseDomain = domain.split('.').slice(-2).join('.')
+  return baseDomain
+}
+
+const getDomainSite = (domain: string): string => {
+  const baseDomain = domain.split('.').slice(-2).join('.')
+  return `https://${baseDomain}`
+}
+
 /**
  * Creates an API factory with dependency injection for payload
  * @param payloadInstance - The payload instance to use
+ * @param options - Optional configuration options
  * @returns A function that creates API handlers
  */
-export const createAPI = (payloadInstance?: any) => {
+export const createAPI = (
+  payloadInstance?: any,
+  options?: {
+    domainDescriptions?: Record<string, string>
+  }
+) => {
   /**
    * Creates an API handler with enhanced context
    * @param handler - Function to handle the API request
@@ -34,6 +99,7 @@ export const createAPI = (payloadInstance?: any) => {
     handler: ApiHandler<T>,
     options?: {
       getPayloadClient?: PayloadClientFn
+      domainDescriptions?: Record<string, string>
     },
   ) => {
     return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
@@ -90,8 +156,8 @@ export const createAPI = (payloadInstance?: any) => {
             db = createNodePayloadClient(mockPayload)
 
             try {
-              const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-              const apiKey = process.env.PAYLOAD_API_KEY
+              const apiUrl = process?.env?.PAYLOAD_API_URL || (process?.env?.VERCEL ? `https://${process?.env?.VERCEL_URL}` : 'http://localhost:3000')
+              const apiKey = process?.env?.PAYLOAD_API_KEY
 
               const authResponse = await fetch(`${apiUrl}/api/users/me`, {
                 headers: {
@@ -137,20 +203,26 @@ export const createAPI = (payloadInstance?: any) => {
         _currentRequest = null
         _currentContext = null
 
+        const apiHeader: ApiHeader = {
+          name: domain,
+          description: getDomainDescription(domain, options?.domainDescriptions),
+          home: origin,
+          login: origin + '/login',
+          signup: origin + '/signup',
+          admin: origin + '/admin',
+          docs: origin + '/docs',
+          repo: 'https://github.com/drivly/ai',
+          sdk: `https://npmjs.com/${getDomainPackageName(domain)}`,
+          site: getDomainSite(domain),
+          chat: 'https://discord.gg/a87bSRvJkx',
+          issues: 'https://github.com/drivly/ai/issues',
+          with: 'https://apis.do',
+          from: 'https://agi.do',
+        }
+
         return NextResponse.json(
           {
-            api: {
-              name: domain,
-              description: 'Economically valuable work delivered through simple APIs',
-              home: origin,
-              login: origin + '/login',
-              signup: origin + '/signup',
-              admin: origin + '/admin',
-              docs: origin + '/docs',
-              repo: 'https://github.com/drivly/ai',
-              with: 'https://apis.do',
-              from: 'https://agi.do',
-            },
+            api: apiHeader,
             ...result,
             user,
           },
@@ -167,7 +239,7 @@ export const createAPI = (payloadInstance?: any) => {
           {
             error: true,
             message: error instanceof Error ? error.message : 'Internal Server Error',
-            ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+            ...(process?.env?.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
           },
           { status },
         )
