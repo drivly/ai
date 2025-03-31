@@ -17,13 +17,9 @@ describe('workflows.do SDK - E2E Tests', () => {
         code: 'export default { /* workflow definition */ }'
       }
 
-      global.fetch
-        .mockResolvedValueOnce({
-          json: () => Promise.resolve({ doc: mockWorkflow })
-        })
-        .mockResolvedValueOnce({
-          json: () => Promise.resolve({ doc: mockWorkflow })
-        })
+      mockFetch
+        .mockResolvedValueOnce(new Response(JSON.stringify({ doc: mockWorkflow })))
+        .mockResolvedValueOnce(new Response(JSON.stringify({ doc: mockWorkflow })))
 
       const response = await fetch('https://apis.do/workflows/create', {
         method: 'POST',
@@ -46,12 +42,10 @@ describe('workflows.do SDK - E2E Tests', () => {
 
   describe('Clickable API Integration', () => {
     it('should execute a workflow through the Clickable API', async () => {
-      global.fetch.mockResolvedValueOnce({
-        json: () => Promise.resolve({
-          status: 'completed',
-          output: { result: 'success' }
-        })
-      })
+      mockFetch.mockResolvedValueOnce(new Response(JSON.stringify({
+        status: 'completed',
+        output: { result: 'success' }
+      })))
 
       const workflow = createWorkflow({
         name: 'test-workflow',
@@ -73,16 +67,14 @@ describe('workflows.do SDK - E2E Tests', () => {
     })
 
     it('should handle workflow execution errors gracefully', async () => {
-      global.fetch.mockResolvedValueOnce({
-        json: () => Promise.resolve({
-          status: 'failed',
-          error: 'Function not found',
-          context: {
-            currentStep: 'start',
-            history: []
-          }
-        })
-      })
+      mockFetch.mockResolvedValueOnce(new Response(JSON.stringify({
+        status: 'failed',
+        error: 'Function not found',
+        context: {
+          currentStep: 'start',
+          history: []
+        }
+      })))
 
       const workflow = createWorkflow({
         name: 'error-workflow',
