@@ -5,6 +5,7 @@ type GenerateObjectInput = {
   functionName: string
   args: any
   schema?: Record<string, any>
+  zodSchema?: any
   settings?: any
 }
 
@@ -32,10 +33,16 @@ export const generateObject = async ({ input, req }: { input: GenerateObjectInpu
   let jsonSchema
   let systemMessage = 'Respond ONLY with JSON.'
 
-  if (schema) {
-    // Convert the schema to JSON Schema format
+  if (input.zodSchema) {
+    const { zodToJsonSchema } = await import('zod-to-json-schema')
+    jsonSchema = zodToJsonSchema(input.zodSchema, {
+      $refStrategy: 'none',
+      target: 'openApi3',
+    })
+    // Enhance system message with schema information
+    systemMessage = `Respond ONLY with JSON that conforms to the following schema: ${JSON.stringify(jsonSchema)}`
+  } else if (schema) {
     jsonSchema = schemaToJsonSchema(schema)
-
     // Enhance system message with schema information
     systemMessage = `Respond ONLY with JSON that conforms to the following schema: ${JSON.stringify(jsonSchema)}`
   }
