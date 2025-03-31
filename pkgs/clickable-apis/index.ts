@@ -23,10 +23,10 @@ export interface ApiHeader {
   description: string
   /** Home URL */
   home: string
-  /** Login URL */
-  login: string
-  /** Signup URL */
-  signup: string
+  /** Login URL - only present when user is not logged in */
+  login?: string
+  /** Signup URL - only present when user is not logged in */
+  signup?: string
   /** Admin URL */
   admin: string
   /** Documentation URL */
@@ -40,7 +40,7 @@ export interface ApiHeader {
   /** Discord community URL */
   discord?: string
   /** GitHub issues URL */
-  github_issues?: string
+  issues?: string
   /** With URL - reference to apis.do */
   with?: string
   /** From URL - reference to agi.do */
@@ -207,7 +207,7 @@ export const createAPI = (payloadInstance?: any) => {
           sdk: `https://npmjs.com/${getDomainPackageName(domain)}`,
           site: getDomainSite(domain),
           discord: 'https://discord.gg/drivly',
-          github_issues: 'https://github.com/drivly/ai/issues',
+          issues: 'https://github.com/drivly/ai/issues',
           with: 'https://apis.do',
           from: 'https://agi.do',
         }
