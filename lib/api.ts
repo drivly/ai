@@ -410,7 +410,11 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
 
 import { createAPI as clickableCreateAPI, modifyQueryString as clickableModifyQueryString } from 'clickable-apis'
 import { domainDescriptions } from '../api.config'
+import { getPayloadClient } from './db'
 
-export const API = clickableCreateAPI(undefined, { domainDescriptions })
+export const API = clickableCreateAPI(undefined, { 
+  domainDescriptions,
+  getPayloadClient
+})
 
 export { clickableModifyQueryString as modifyQueryString }
