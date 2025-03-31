@@ -29,6 +29,14 @@ interface DiscordEmbed {
   footer?: { text: string }
 }
 
+interface BlocksSchema {
+  productType?: string
+  customer?: string
+  solution?: string
+  description?: string
+  [key: string]: any
+}
+
 interface HumanFeedbackRequest {
   taskId?: string
   title: string
@@ -39,6 +47,7 @@ interface HumanFeedbackRequest {
   userId?: string
   roleId?: string
   timeout?: number
+  blocks?: BlocksSchema
 }
 
 interface HumanFeedbackResponse {
@@ -74,7 +83,8 @@ export const requestHumanFeedback = async ({
     platform = 'slack', 
     userId, 
     roleId,
-    timeout = 3600000 // Default timeout: 1 hour
+    timeout = 3600000, // Default timeout: 1 hour
+    blocks
   } = input
 
   let task
@@ -126,7 +136,8 @@ export const requestHumanFeedback = async ({
     options,
     freeText,
     userId,
-    roleId
+    roleId,
+    blocks
   })
 
   waitUntil(
@@ -177,7 +188,8 @@ async function sendPlatformMessage(
     options,
     freeText,
     userId,
-    roleId
+    roleId,
+    blocks
   }: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { taskId: string }
 ): Promise<string> {
   const origin = process.env.NEXT_PUBLIC_SERVER_URL || 'https://ai.driv.ly'
@@ -193,7 +205,8 @@ async function sendPlatformMessage(
         freeText,
         callbackUrl,
         userId,
-        roleId
+        roleId,
+        blocks
       })
     case 'teams':
       return await sendTeamsMessage({
@@ -233,7 +246,8 @@ async function sendSlackMessage({
   freeText,
   callbackUrl,
   userId,
-  roleId
+  roleId,
+  blocks: blockSchema
 }: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { 
   taskId: string,
   callbackUrl: string 
@@ -250,26 +264,82 @@ async function sendSlackMessage({
   if (roleId) {
   }
 
-  const blocks: SlackBlock[] = [
-    {
-      type: 'header',
-      text: {
-        type: 'plain_text',
-        text: title,
-        emoji: true
+  let slackBlocks: SlackBlock[] = [];
+  
+  if (blockSchema) {
+    slackBlocks = [
+      {
+        type: 'header',
+        text: {
+          type: 'plain_text',
+          text: title || blockSchema.title,
+          emoji: true
+        }
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: description || blockSchema.description
+        }
       }
-    },
-    {
-      type: 'section',
-      text: {
-        type: 'mrkdwn',
-        text: description
-      }
-    },
-    {
-      type: 'divider'
+    ];
+    
+    if (blockSchema.productType) {
+      slackBlocks.push({
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*Product Type:* ${blockSchema.productType}`
+        }
+      });
     }
-  ]
+    
+    if (blockSchema.customer) {
+      slackBlocks.push({
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*Customer:* ${blockSchema.customer}`
+        }
+      });
+    }
+    
+    if (blockSchema.solution) {
+      slackBlocks.push({
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*Solution:* ${blockSchema.solution}`
+        }
+      });
+    }
+    
+    slackBlocks.push({
+      type: 'divider'
+    });
+  } else {
+    slackBlocks = [
+      {
+        type: 'header',
+        text: {
+          type: 'plain_text',
+          text: title,
+          emoji: true
+        }
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: description
+        }
+      },
+      {
+        type: 'divider'
+      }
+    ];
+  }
 
   if (options && options.length > 0) {
     const actionBlock: SlackBlock = {
@@ -285,11 +355,11 @@ async function sendSlackMessage({
         action_id: `human_feedback_option:${option.value}`
       }))
     }
-    blocks.push(actionBlock)
+    slackBlocks.push(actionBlock)
   }
 
   if (freeText) {
-    blocks.push({
+    slackBlocks.push({
       type: 'input',
       block_id: `human_feedback_text:${taskId}`,
       label: {
@@ -304,7 +374,7 @@ async function sendSlackMessage({
       }
     } as SlackBlock)
 
-    blocks.push({
+    slackBlocks.push({
       type: 'actions',
       elements: [
         {
@@ -330,7 +400,7 @@ async function sendSlackMessage({
       },
       body: JSON.stringify({
         channel,
-        blocks,
+        blocks: slackBlocks,
         text: title // Fallback text
       })
     })
