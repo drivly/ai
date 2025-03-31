@@ -7,7 +7,7 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
-import { payloadAgentPlugin } from '@drivly/payload-agent'
+import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { payloadKanbanBoard } from 'payload-kanban-board'
 import { Config } from './payload.types'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -83,14 +83,6 @@ export default buildConfig({
   },
   sharp,
   plugins: [
-    payloadAgentPlugin({
-      aiAvatar: '/ai.webp',
-      defaultMessage: "I'm the AI assistant for Drivly. Ask me anything about the platform.",
-      direction: 'horizontal',
-      type: 'resizable',
-      logo: '/DrivlyLogo.svg',
-      // suggestions: suggestedActions,
-    }),
     payloadCloudPlugin(),
     // storage-adapter-placeholder
     payloadKanbanBoard({
@@ -110,6 +102,10 @@ export default buildConfig({
           },
         },
       },
+    }),
+    stripePlugin({
+      stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
+      stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
     }),
   ],
 })
