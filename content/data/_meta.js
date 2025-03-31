@@ -3,8 +3,4 @@ export default {
     title: 'Overview',
     type: 'page',
   },
-  database: {
-    title: 'Database',
-    type: 'page',
-  },
 }
