@@ -6,7 +6,7 @@ export interface ClientOptions {
   headers?: Record<string, string>
 }
 
-export class ApiClient {
+export class API {
   private baseUrl: string
   private headers: Record<string, string>
 

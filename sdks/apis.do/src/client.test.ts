@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { ApiClient } from './client.js'
+import { API } from './client.js'
 
 const mockFetch = vi.fn()
 vi.stubGlobal('fetch', mockFetch)
 
-describe('ApiClient', () => {
-  let client: ApiClient
+describe('API', () => {
+  let client: API
   let mockResponse: Response
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('ApiClient', () => {
 
     mockFetch.mockResolvedValue(mockResponse)
 
-    client = new ApiClient({
+    client = new API({
       baseUrl: 'https://test-api.com',
       apiKey: 'test-api-key',
     })
@@ -31,12 +31,12 @@ describe('ApiClient', () => {
   })
 
   it('should create an instance with default options', () => {
-    const defaultClient = new ApiClient()
+    const defaultClient = new API()
     expect(defaultClient).toBeDefined()
   })
 
   it('should create an instance with custom options', () => {
-    const customClient = new ApiClient({
+    const customClient = new API({
       baseUrl: 'https://example.com',
       apiKey: 'test-key',
       headers: { 'X-Custom': 'value' },
