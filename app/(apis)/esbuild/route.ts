@@ -19,10 +19,10 @@ const DEFAULT_OPTIONS = {
   treeshaking: true,
 }
 
-function parseOptions(optionsString: string) {
+function parseOptions(optionsString: string): Record<string, string | boolean> {
   if (!optionsString) return {}
   
-  const options = {}
+  const options: Record<string, string | boolean> = {}
   
   optionsString.split(',').forEach(option => {
     const [name, value] = option.split('=')
