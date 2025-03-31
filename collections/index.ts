@@ -93,3 +93,5 @@ export const collections = [
   Webhooks,
   APIKeys,
 ]
+
+export const collectionSlugs = collections.map(collection => collection.slug)
