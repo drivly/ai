@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { ApiClient } from './client'
+import { ApiClient } from './client.js'
 
 describe('ApiClient', () => {
   it('should create an instance with default options', () => {
