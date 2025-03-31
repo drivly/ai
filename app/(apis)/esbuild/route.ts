@@ -1,6 +1,7 @@
 import { API } from '@/lib/api'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
+import { NextResponse } from 'next/server'
 
 /**
  * ESBuild API route
@@ -127,10 +128,12 @@ export const GET = API(async (req, ctx) => {
     
     const processedCode = result.code
     
-    ctx.res.headers.set('Content-Type', 'text/javascript')
-    ctx.res.headers.set('Access-Control-Allow-Origin', '*')
-    
-    return processedCode
+    return new NextResponse(processedCode, {
+      headers: {
+        'Content-Type': 'text/javascript',
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error)
     return {
@@ -257,10 +260,12 @@ export const POST = API(async (req, ctx) => {
     
     const processedCode = result.code
     
-    ctx.res.headers.set('Content-Type', 'text/javascript')
-    ctx.res.headers.set('Access-Control-Allow-Origin', '*')
-    
-    return processedCode
+    return new NextResponse(processedCode, {
+      headers: {
+        'Content-Type': 'text/javascript',
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error)
     return {
