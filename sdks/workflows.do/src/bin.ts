@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { CLI } from './cli.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const packageJsonPath = path.join(__dirname, '..', 'package.json')
+const packageJsonPath = path.join(__dirname, '..', '..', '..', 'package.json')
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
 const version = packageJson.version
 
@@ -119,7 +119,6 @@ async function runCommand() {
         const deleteResult = await cli.delete(args[1], args[2])
         console.log(JSON.stringify(deleteResult, null, 2))
         break
-
       case 'execute':
         if (!args[1]) {
           console.error('Error: Workflow ID required')
@@ -158,6 +157,24 @@ async function runCommand() {
         const registerResult = await cli.registerWorkflow(workflowDefinition)
         console.log(JSON.stringify(registerResult, null, 2))
         break
+      case 'scan':
+        const dirPath = args[1] || process.cwd()
+        if (!fs.existsSync(dirPath) || !fs.statSync(dirPath).isDirectory()) {
+          console.error(`Error: Directory not found or invalid: ${dirPath}`)
+          process.exit(1)
+        }
+        try {
+          const results = await cli.scanAndRegisterWorkflows(dirPath, {
+            recursive: args.includes('--recursive'),
+            dryRun: args.includes('--dry-run'),
+            verbose: args.includes('--verbose')
+          })
+          console.log(JSON.stringify(results, null, 2))
+        } catch (err) {
+          console.error(`Error scanning workflows: ${err instanceof Error ? err.message : String(err)}`)
+          process.exit(1)
+        }
+        break
       default:
         console.error(`Unknown command: ${command}`)
         showHelp()
@@ -192,10 +209,14 @@ Commands:
   
   execute <workflowId> [input] [options]  Execute a workflow
   register <filePath>  Register a workflow from a JSON file
+  scan [directory]     Scan directory for workflow files and register them
 
 Options:
   --help, -h          Show this help message
   --version, -v       Show version information
+  --recursive         Scan directories recursively when using scan command
+  --dry-run           Show what would be registered without actually registering workflows
+  --verbose           Display detailed information during scanning process
 
 Environment Variables:
   WORKFLOWS_DO_API_KEY  API key for authentication
