@@ -4,6 +4,7 @@
  */
 export default {
   branches: ['main'],
+  ignorePrivatePackages: true,
   plugins: [
     ['@semantic-release/commit-analyzer', {
       preset: 'angular',
