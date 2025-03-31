@@ -75,7 +75,7 @@ export async function runTests(code: string, tests: string, options: VitestOptio
               .map((assertion: any) => `${assertion.fullName}: ${assertion.failureMessages.join('\n')}`),
           )
           return errors
-        } catch (parseError) {
+        } catch (_parseError) {
           return [`Failed to parse test results: ${output}`]
         }
       }

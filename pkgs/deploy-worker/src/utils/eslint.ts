@@ -75,7 +75,7 @@ export async function validateESLint(code: string, options: ESLintOptions = {}):
           const results = JSON.parse(execError.stdout)
 
           return results.flatMap((result: any) => result.messages.map((message: any) => `${result.filePath} (${message.line},${message.column}): ${message.message}`))
-        } catch (parseError) {
+        } catch (_parseError) {
           return [`ESLint error: ${execError.message}`]
         }
       }
@@ -87,7 +87,7 @@ export async function validateESLint(code: string, options: ESLintOptions = {}):
     // Clean up the temporary directory
     try {
       fs.rmSync(tempDir, { recursive: true, force: true })
-    } catch (cleanupError) {
+    } catch (_cleanupError) {
       // Ignore cleanup errors
     }
   }
