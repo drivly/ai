@@ -9,6 +9,8 @@ import sharp from 'sharp'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { payloadAgentPlugin } from '@drivly/payload-agent'
 import { payloadKanbanBoard } from 'payload-kanban-board'
+import { sentryPlugin } from '@payloadcms/plugin-sentry'
+import * as Sentry from '@sentry/node'
 import { Config } from './payload.types'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { collections } from './collections'
@@ -108,6 +110,21 @@ export default buildConfig({
             defaultStatus: 'backlog',
             hideNoStatusColumn: false,
           },
+        },
+      },
+    }),
+    sentryPlugin({
+      Sentry,
+      options: {
+        captureErrors: [400, 403, 404, 500],
+        debug: process.env.NODE_ENV !== 'production',
+        context: ({ defaultContext, req }) => {
+          return {
+            ...defaultContext,
+            tags: {
+              locale: req.locale,
+            },
+          }
         },
       },
     }),
