@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { apis } from './api.config'
+import { domainsConfig, getCollections, isAIGateway } from './domains.config'
+import { collectionSlugs } from './collections/middleware-collections'
+import { aliases } from './site.config'
 
 // what domains have websites / landing pages ... otherwise base path / is the API
 const siteDomains = ['functions.do', 'workflows.do', 'llm.do', 'llms.do']
@@ -15,6 +18,22 @@ export function middleware(request: NextRequest) {
   const apiName = hostname.replace('.do', '')
 
   // TODO: should we use something like `itty-router` here?
+
+  const baseHostname = hostname.replace('.do', '')
+  const isCollectionName = collectionSlugs.includes(baseHostname)
+  const isSiteAlias = Object.keys(aliases).includes(baseHostname + '.do')
+  const isDomainAlias = Object.keys(domainsConfig.aliases).includes(hostname)
+  const isAlias = isSiteAlias || isDomainAlias
+  const effectiveCollection = isSiteAlias 
+    ? (aliases[baseHostname + '.do' as keyof typeof aliases] as string).replace('.do', '') 
+    : isDomainAlias
+      ? domainsConfig.aliases[hostname].replace('.do', '')
+      : baseHostname
+
+  if ((isCollectionName || isAlias) && pathname.startsWith('/admin')) {
+    console.log('Rewriting to admin collection', { hostname, pathname, search, collection: effectiveCollection })
+    return NextResponse.rewrite(new URL(`/admin/collections/${effectiveCollection}${pathname.slice(6)}${search}`, request.url))
+  }
 
   if (sitePaths.includes(pathname) && siteDomains.includes(hostname)) {
     console.log('Rewriting to site', { hostname, pathname, search })
@@ -50,10 +69,24 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${search}`))
   }
 
+  if (domainsConfig.aliases[hostname] && pathname === '/') {
+    const aliasedDomain = domainsConfig.aliases[hostname]
+    const aliasedApiName = aliasedDomain.replace('.do', '')
+    console.log('Rewriting aliased domain', { hostname, aliasedDomain, pathname, search })
+    const url = new URL(request.url)
+    return NextResponse.rewrite(new URL(`${url.origin.replace(hostname, aliasedDomain)}/${aliasedApiName}${search}`))
+  }
+
   if (apis[apiName]) {
     console.log('Rewriting to API', { apiName, hostname, pathname, search })
     const url = new URL(request.url)
     return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
+  }
+  
+  if (isAIGateway(hostname)) {
+    console.log('Handling AI gateway domain', { hostname, pathname, search })
+    const url = new URL(request.url)
+    return NextResponse.rewrite(new URL(`${url.origin}${pathname}${search}`))
   }
 
   console.log('no rewrite', { apiName, hostname, pathname, search })
