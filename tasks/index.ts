@@ -7,6 +7,7 @@ import { hybridSearchThings, searchThings } from './searchThings'
 import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './schemaUtils'
 import { inflectNounsTask } from './inflectNouns'
 import { conjugateVerbsTask } from './conjugateVerbs'
+import { deliverWebhookTask } from './deliverWebhook'
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
@@ -53,7 +54,8 @@ export const tasks = [
   searchThingsTask, 
   hybridSearchThingsTask,
   inflectNounsTask,
-  conjugateVerbsTask
+  conjugateVerbsTask,
+  deliverWebhookTask
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
