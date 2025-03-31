@@ -1,0 +1,174 @@
+{
+  "name": "@drivly/ui",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/server/index.mjs",
+  "module": "./dist/server/index.mjs",
+  "types": "./dist/server/index.d.mts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/server/index.d.mts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.mjs"
+    },
+    "./client": {
+      "types": "./dist/client/index.d.mts",
+      "import": "./dist/client/index.mjs",
+      "require": "./dist/client/index.mjs"
+    },
+    "./hooks": {
+      "types": "./dist/hooks/index.d.mts",
+      "import": "./dist/hooks/index.mjs",
+      "require": "./dist/hooks/index.mjs"
+    },
+    "./lib": {
+      "types": "./dist/lib/index.d.mts",
+      "import": "./dist/lib/index.mjs",
+      "require": "./dist/lib/index.mjs"
+    },
+    "./button": {
+      "types": "./dist/server/components/button.d.mts",
+      "import": "./dist/server/components/button.mjs",
+      "require": "./dist/server/components/button.mjs"
+    },
+    "./card": {
+      "types": "./dist/server/components/card.d.mts",
+      "import": "./dist/server/components/card.mjs",
+      "require": "./dist/server/components/card.mjs"
+    },
+    "./badge": {
+      "types": "./dist/server/components/badge.d.mts",
+      "import": "./dist/server/components/badge.mjs",
+      "require": "./dist/server/components/badge.mjs"
+    },
+    "./input": {
+      "types": "./dist/server/components/input.d.mts",
+      "import": "./dist/server/components/input.mjs",
+      "require": "./dist/server/components/input.mjs"
+    },
+    "./textarea": {
+      "types": "./dist/server/components/textarea.d.mts",
+      "import": "./dist/server/components/textarea.mjs",
+      "require": "./dist/server/components/textarea.mjs"
+    },
+    "./checkbox": {
+      "types": "./dist/server/components/checkbox.d.mts",
+      "import": "./dist/server/components/checkbox.mjs",
+      "require": "./dist/server/components/checkbox.mjs"
+    },
+    "./label": {
+      "types": "./dist/server/components/label.d.mts",
+      "import": "./dist/server/components/label.mjs",
+      "require": "./dist/server/components/label.mjs"
+    },
+    "./tooltip": {
+      "types": "./dist/server/components/tooltip.d.mts",
+      "import": "./dist/server/components/tooltip.mjs",
+      "require": "./dist/server/components/tooltip.mjs"
+    },
+    "./sheet": {
+      "types": "./dist/client/components/sheet.d.mts",
+      "import": "./dist/client/components/sheet.mjs",
+      "require": "./dist/client/components/sheet.mjs"
+    },
+    "./chat-container": {
+      "types": "./dist/client/components/chat-container.d.mts",
+      "import": "./dist/client/components/chat-container.mjs",
+      "require": "./dist/client/components/chat-container.mjs"
+    },
+    "./code-block": {
+      "types": "./dist/client/components/code-block.d.mts",
+      "import": "./dist/client/components/code-block.mjs",
+      "require": "./dist/client/components/code-block.mjs"
+    },
+    "./avatar": {
+      "types": "./dist/client/components/avatar.d.mts",
+      "import": "./dist/client/components/avatar.mjs",
+      "require": "./dist/client/components/avatar.mjs"
+    },
+    "./dialog": {
+      "types": "./dist/client/components/dialog.d.mts",
+      "import": "./dist/client/components/dialog.mjs",
+      "require": "./dist/client/components/dialog.mjs"
+    },
+    "./command": {
+      "types": "./dist/client/components/command.d.mts",
+      "import": "./dist/client/components/command.mjs",
+      "require": "./dist/client/components/command.mjs"
+    },
+    "./prompt-input": {
+      "types": "./dist/client/components/prompt-input.d.mts",
+      "import": "./dist/client/components/prompt-input.mjs",
+      "require": "./dist/client/components/prompt-input.mjs"
+    },
+    "./resizable": {
+      "types": "./dist/client/components/resizable.d.mts",
+      "import": "./dist/client/components/resizable.mjs",
+      "require": "./dist/client/components/resizable.mjs"
+    },
+    "./scroll-button": {
+      "types": "./dist/client/components/scroll-button.d.mts",
+      "import": "./dist/client/components/scroll-button.mjs",
+      "require": "./dist/client/components/scroll-button.mjs"
+    },
+    "./globals.css": "./dist/globals.css",
+    "./compiled-css": "./dist/globals.compiled.css",
+    "./base.css": "./dist/base.css"
+  },
+  "scripts": {
+    "build": "pnpm clean && tsup",
+    "clean": "rimraf dist",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "analyze": "ANALYZE=true tsup",
+    "lint": "eslint \"**/*.{ts,tsx}\""
+  },
+  "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.3",
+    "@radix-ui/react-checkbox": "^1.1.4",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@radix-ui/react-tooltip": "^1.1.8",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "js-md5": "^0.8.3",
+    "lucide-react": "^0.483.0",
+    "react-resizable-panels": "^2.1.7",
+    "tailwind-merge": "^2.6.0",
+    "tw-animate-css": "^1.2.4"
+  },
+  "peerDependencies": {
+    "next": "^15.0.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.15",
+    "@types/glob": "^8.1.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "esbuild-plugin-css-module": "^0.1.0",
+    "esbuild-plugin-react18": "^0.2.6",
+    "glob": "^11.0.1",
+    "postcss": "^8.5.3",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "tailwindcss": "^4.0.15",
+    "tsup": "^8.4.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "url": "^0.11.3"
+  }
+}

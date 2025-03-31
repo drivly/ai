@@ -3,7 +3,8 @@ export default {
     title: 'Introduction'
   },
   manifesto: {
-    title: 'Manifesto'
+    title: 'Manifesto',
+    type: 'page'
   },
   workflows: {
     title: 'Workflows'
