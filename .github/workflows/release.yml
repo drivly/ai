@@ -70,7 +70,7 @@ jobs:
         id: semantic-release
         uses: cycjimmy/semantic-release-action@v4
         with:
-          semantic-version: 19
+          semantic_version: 19
           branches: |
             [
               'main'
