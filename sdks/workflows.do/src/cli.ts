@@ -106,7 +106,7 @@ export class CLI extends BaseCLI {
           try {
             const fileContent = await fs.promises.readFile(fullPath, 'utf8')
             
-            const hasWorkflowImport = /import.*\{.*AI.*\}.*from ['"](?:workflows\.do|ai-workflows|functions\.do)['"]/.test(fileContent)
+            const hasWorkflowImport = /import.*\{.*AI.*\}.*from ['"](?:workflows\.do|ai-workflows)['"]/.test(fileContent)
             const hasAICall = /export\s+(?:default|const\s+\w+\s*=)\s*AI\s*\(/.test(fileContent)
             
             if (hasWorkflowImport && hasAICall) {
