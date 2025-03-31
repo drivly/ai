@@ -123,3 +123,22 @@ export const initializePayloadDB = async (): Promise<PayloadDB> => {
     throw error
   }
 }
+
+/**
+ * Get payload client and DB for API handlers
+ * Used by clickable-apis to initialize payload
+ */
+export const getPayloadClient = async () => {
+  try {
+    const { getPayload } = await import('payload')
+    const { default: config } = await import('../payload.config')
+
+    const payload = await getPayload({ config })
+    const db = createPayloadDB(payload)
+    
+    return { payload, db }
+  } catch (error) {
+    console.error('Error initializing payload client:', error)
+    throw error
+  }
+}
