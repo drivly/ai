@@ -216,7 +216,7 @@ let _currentContext: ApiContext | null = null
  * @param handler - Function to handle the API request
  * @returns Next.js API handler function
  */
-export const createAPI = <T = any>(handler: ApiHandler<T>) => {
+const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
   return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
     try {
       let payload: any
@@ -391,30 +391,9 @@ export const createAPI = <T = any>(handler: ApiHandler<T>) => {
   }
 }
 
-export const API = createAPI
+import { createAPI as clickableCreateAPI, modifyQueryString as clickableModifyQueryString } from 'clickable-apis'
+import { domainDescriptions } from '../api.config'
 
-/**
- * Modifies a query string parameter in a URL
- * @param param Parameter name to set
- * @param value Parameter value to set
- * @returns New URL string with the modified query parameter
- */
-export const modifyQueryString = (param?: string, value?: string | number) => {
-  if (!param) {
-    throw new Error('Parameter name is required')
-  }
+export const API = clickableCreateAPI(undefined, { domainDescriptions })
 
-  if (value === undefined) {
-    throw new Error('Parameter value is required')
-  }
-
-  if (!_currentRequest) {
-    throw new Error('No URL provided and no current request available')
-  }
-
-  const url = new URL(_currentRequest.url)
-
-  url.searchParams.set(param, value.toString())
-
-  return url.toString()
-}
+export { clickableModifyQueryString as modifyQueryString }
