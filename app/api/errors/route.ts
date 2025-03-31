@@ -1,5 +1,5 @@
 import { getPayload } from 'payload'
-import config from '../../../payload.config'
+import config from '@/payload.config'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
