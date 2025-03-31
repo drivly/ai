@@ -13,7 +13,7 @@ export const initiateComposioConnectionTask = {
     { name: 'connection', type: 'json' },
     { name: 'authorization_url', type: 'text' }
   ],
-  handler: async ({ integrationId, userId, taskId, redirectUrl }, { payload }) => {
+  handler: async ({ integrationId, userId, taskId, redirectUrl }: { integrationId: string, userId: string, taskId?: string, redirectUrl?: string }, { payload }: { payload: any }) => {
     if (!process.env.COMPOSIO_API_KEY) {
       throw new Error('COMPOSIO_API_KEY is not configured')
     }
@@ -78,10 +78,10 @@ export const initiateComposioConnectionTask = {
         id: connection.id,
         data: {
           status: 'inactive',
-          metadata: {
-            ...connection.metadata,
-            error: data,
-          },
+          metadata: Object.assign({}, 
+            typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, 
+            { error: data }
+          ),
         },
       })
 
@@ -92,10 +92,10 @@ export const initiateComposioConnectionTask = {
       collection: 'connections',
       id: connection.id,
       data: {
-        metadata: {
-          ...connection.metadata,
-          authorizationUrl: data.authorization_url,
-        },
+        metadata: Object.assign({}, 
+          typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, 
+          { authorizationUrl: data.authorization_url }
+        ),
       },
     })
 

@@ -69,10 +69,10 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
       id: connection.id,
       data: {
         status: 'inactive',
-        metadata: {
-          ...connection.metadata,
-          error: data,
-        },
+        metadata: Object.assign({}, 
+          typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, 
+          { error: data }
+        ),
       },
     })
 
@@ -83,10 +83,10 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
     collection: 'connections',
     id: connection.id,
     data: {
-      metadata: {
-        ...connection.metadata,
-        authorizationUrl: data.authorization_url,
-      },
+      metadata: Object.assign({}, 
+        typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, 
+        { authorizationUrl: data.authorization_url }
+      ),
     },
   })
 
