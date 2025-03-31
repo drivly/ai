@@ -50,6 +50,7 @@ export const Functions: CollectionConfig = {
       admin: {
         language: 'yaml',
         editorOptions: { lineNumbers: 'off', padding: { top: 20, bottom: 20 } },
+        condition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
       },
       hooks: {
         beforeValidate: [
