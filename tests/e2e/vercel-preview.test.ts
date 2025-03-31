@@ -58,12 +58,18 @@ describe('Vercel Preview Deployment Tests', () => {
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       
-      if (!baseUrl.startsWith('http')) {
+      console.log(`Original BASE_URL value: "${baseUrl}"`)
+      
+      if (!baseUrl || baseUrl.trim() === '') {
+        console.log('Empty BASE_URL detected, using localhost')
+        baseUrl = 'http://localhost:3000'
+      } else if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
       }
       
       try {
-        new URL(baseUrl)
+        const urlObj = new URL(baseUrl)
+        console.log(`Parsed URL: ${urlObj.toString()}`)
         
         if (baseUrl === 'http://' || baseUrl === 'https://') {
           throw new Error('URL is just a protocol')
@@ -100,12 +106,18 @@ describe('Vercel Preview Deployment Tests', () => {
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       
-      if (!baseUrl.startsWith('http')) {
+      console.log(`Original BASE_URL value: "${baseUrl}"`)
+      
+      if (!baseUrl || baseUrl.trim() === '') {
+        console.log('Empty BASE_URL detected, using localhost')
+        baseUrl = 'http://localhost:3000'
+      } else if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
       }
       
       try {
-        new URL(baseUrl)
+        const urlObj = new URL(baseUrl)
+        console.log(`Parsed URL: ${urlObj.toString()}`)
         
         if (baseUrl === 'http://' || baseUrl === 'https://') {
           throw new Error('URL is just a protocol')
@@ -141,12 +153,18 @@ describe('Vercel Preview Deployment Tests', () => {
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       
-      if (!baseUrl.startsWith('http')) {
+      console.log(`Original BASE_URL value: "${baseUrl}"`)
+      
+      if (!baseUrl || baseUrl.trim() === '') {
+        console.log('Empty BASE_URL detected, using localhost')
+        baseUrl = 'http://localhost:3000'
+      } else if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
       }
       
       try {
-        new URL(baseUrl)
+        const urlObj = new URL(baseUrl)
+        console.log(`Parsed URL: ${urlObj.toString()}`)
         
         if (baseUrl === 'http://' || baseUrl === 'https://') {
           throw new Error('URL is just a protocol')
@@ -201,12 +219,18 @@ describe('Vercel Preview Deployment Tests', () => {
     try {
       let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       
-      if (!baseUrl.startsWith('http')) {
+      console.log(`Original BASE_URL value: "${baseUrl}"`)
+      
+      if (!baseUrl || baseUrl.trim() === '') {
+        console.log('Empty BASE_URL detected, using localhost')
+        baseUrl = 'http://localhost:3000'
+      } else if (!baseUrl.startsWith('http')) {
         baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
       }
       
       try {
-        new URL(baseUrl)
+        const urlObj = new URL(baseUrl)
+        console.log(`Parsed URL: ${urlObj.toString()}`)
         
         if (baseUrl === 'http://' || baseUrl === 'https://') {
           throw new Error('URL is just a protocol')
