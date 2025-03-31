@@ -35,8 +35,8 @@ import { IntegrationTriggers } from './integrations/IntegrationTriggers'
 import { IntegrationActions } from './integrations/IntegrationActions'
 import { IntegrationCategories } from './integrations/IntegrationCategories'
 import { Connections } from './integrations/Connections'
-import { Queues } from './jobs/Queues'
-import { Tasks } from './jobs/Tasks'
+import { Queues } from './work/Queues'
+import { Tasks } from './work/Tasks'
 
 export const collections = [
   // Register basic collections first
@@ -44,10 +44,11 @@ export const collections = [
   Workflows,
   Agents,
 
-  // Order matters for join fields - Queues is referenced by Tasks
+  // Work-related collections
   Queues,
   Tasks,
 
+  // Data & definitions
   Nouns,
   Verbs,
   Things,

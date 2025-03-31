@@ -3,11 +3,14 @@ import config from '@/payload.config'
 import { getPayload } from 'payload'
 // import { seedDatabase } from '@/scripts/seed'
 
-export const GET = API(async (req, { db, user, payload, params }) => {
+export const GET = API(async (req, { db, params }) => {
   // seedDatabase()
 
-  if (!user.email?.endsWith('@driv.ly')) {
-    return { success: false, message: 'Unauthorized' }
+  const payload = await getPayload({ config })
+  const { user } = await payload.auth(req)
+
+  if (!user?.email?.endsWith('@driv.ly')) {
+    return { user: user?.email, success: false, message: 'Unauthorized' }
   }
 
   // Schema.org Nouns

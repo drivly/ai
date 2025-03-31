@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Tasks: CollectionConfig = {
   slug: 'tasks',
   admin: {
-    group: 'Jobs',
+    group: 'Work',
     useAsTitle: 'title',
   },
   fields: [
@@ -14,22 +14,33 @@ export const Tasks: CollectionConfig = {
           name: 'title',
           type: 'text',
           required: true,
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-        },
-        {
-          name: 'queue',
-          type: 'relationship',
-          relationTo: 'queues',
-        },
-        {
-          name: 'parent',
-          type: 'relationship',
-          relationTo: 'tasks',
+          // admin: { position: 'sidebar' },
         },
       ],
+    },
+    {
+      name: 'queue',
+      type: 'relationship',
+      relationTo: 'queues',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'assigned',
+      type: 'relationship',
+      relationTo: ['users', 'roles', 'agents'],
+      hasMany: true,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'parent',
+      type: 'relationship',
+      relationTo: 'tasks',
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      // admin: { position: 'sidebar' },
     },
     {
       name: 'subtasks',
@@ -42,18 +53,13 @@ export const Tasks: CollectionConfig = {
       type: 'relationship',
       relationTo: 'tasks',
       hasMany: true,
+      admin: { position: 'sidebar' },
     },
     {
       name: 'dependents',
       type: 'join',
       collection: 'tasks',
       on: 'dependentOn',
-    },
-    {
-      name: 'assigned',
-      type: 'relationship',
-      relationTo: ['users', 'roles'],
-      hasMany: true,
     },
   ],
 }
