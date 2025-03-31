@@ -7,12 +7,18 @@
     "queues",
     "human-in-the-loop",
     "workflows",
-    "task-management"
+    "task-management",
+    "slack",
+    "blocks"
   ],
   "homepage": "https://tasks.do",
   "type": "module",
   "module": "dist/index.js",
+  "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
@@ -34,5 +40,8 @@
   },
   "dependencies": {
     "apis.do": "workspace:*"
+  },
+  "peerDependencies": {
+    "apis.do": "*"
   }
 }

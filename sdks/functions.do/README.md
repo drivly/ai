@@ -248,6 +248,20 @@ functions.do supports multiple function types for different use cases:
 3. **Human Functions** - Tasks assigned to specific human users or roles
 
    - Example: Manual review tasks, approval processes, expert input
+   - Supports Slack Blocks schema for rich interactive messages:
+     ```typescript
+     const humanFeedback = await ai.humanFeedback({
+       title: 'Product Feedback Request',
+       blocks: {
+         productType: 'API',
+         customer: 'enterprise developers',
+         solution: 'simplified AI integration',
+         description: 'Streamlined API for AI function integration'
+       },
+       options: ['Approve', 'Reject'],
+       freeText: true
+     })
+     ```
 
 4. **Agent Functions** - Functions that delegate to autonomous agents
    - Example: Persistent tasks, continuous monitoring, complex workflows

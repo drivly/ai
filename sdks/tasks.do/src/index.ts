@@ -7,6 +7,20 @@ import { API } from 'apis.do'
 import { QueryParams } from 'apis.do'
 
 /**
+ * Slack Blocks schema for rich interactive messages
+ */
+export interface SlackBlockSchema {
+  title: string
+  description: string
+  options?: string[]
+  freeText?: boolean
+  platform?: 'slack' | 'teams' | 'discord'
+  timeout?: number
+  channel?: string
+  mentions?: string[]
+}
+
+/**
  * Task status options
  */
 export type TaskStatus = 'todo' | 'in-progress' | 'ready-for-review' | 'completed'
@@ -41,6 +55,17 @@ export interface Queue {
   tasks?: Array<Task>
   createdAt: string
   updatedAt: string
+}
+
+/**
+ * Task definition for creating tasks
+ */
+export interface TaskDefinition {
+  type?: 'Human' | 'Agent' | 'Workflow'
+  name?: string
+  description?: string
+  blocks?: SlackBlockSchema
+  [key: string]: any
 }
 
 /**
@@ -83,6 +108,29 @@ export interface CompleteTaskParams {
 }
 
 /**
+ * Human feedback options
+ */
+export interface HumanFeedbackOptions {
+  title: string
+  description: string
+  blocks?: {
+    productType?: string
+    customer?: string
+    solution?: string
+    description?: string
+    [key: string]: any
+  }
+  options?: string[] | Array<{ value: string; label: string }>
+  freeText?: boolean
+  platform?: 'slack' | 'teams' | 'discord'
+  userId?: string
+  roleId?: string
+  timeout?: number
+  channel?: string
+  mentions?: string[]
+}
+
+/**
  * Webhook registration parameters
  */
 export interface WebhookParams {
@@ -103,7 +151,7 @@ class TasksClient {
    * @param options API options
    */
   constructor(options: { apiKey?: string, baseUrl?: string } = {}) {
-    this.api = new API(options)
+    this.api = new API({ ...options, baseUrl: options.baseUrl || 'https://tasks.do' })
   }
   
   /**
@@ -116,12 +164,49 @@ class TasksClient {
   }
   
   /**
+   * Create a task with the TaskDefinition interface
+   * @param task Task definition
+   * @returns The created task
+   */
+  async createTask(task: TaskDefinition) {
+    return this.api.post('/api/tasks', task)
+  }
+  
+  /**
+   * Run a task with input
+   * @param taskId Task ID
+   * @param input Task input
+   * @returns The task result
+   */
+  async runTask(taskId: string, input: any) {
+    return this.api.post(`/api/tasks/${taskId}/run`, input)
+  }
+  
+  /**
+   * List tasks with optional parameters
+   * @param params Query parameters
+   * @returns List of tasks
+   */
+  async listTasks(params = {}) {
+    return this.api.get(`/api/${this.tasksCollection}`, { params })
+  }
+  
+  /**
    * Get a task by ID
    * @param id Task ID
    * @returns The task
    */
   async get(id: string): Promise<Task> {
     return this.api.get<Task>(`/api/${this.tasksCollection}/${id}`)
+  }
+  
+  /**
+   * Get a task by ID (alias for get)
+   * @param taskId Task ID
+   * @returns The task
+   */
+  async getTask(taskId: string) {
+    return this.get(taskId)
   }
   
   /**
@@ -132,6 +217,34 @@ class TasksClient {
    */
   async update(id: string, params: Partial<CreateTaskParams>): Promise<Task> {
     return this.api.patch<Task>(`/api/${this.tasksCollection}/${id}`, params)
+  }
+  
+  /**
+   * Update a task (alias for update)
+   * @param taskId Task ID
+   * @param task Task update parameters
+   * @returns The updated task
+   */
+  async updateTask(taskId: string, task: Partial<TaskDefinition>) {
+    return this.update(taskId, task as any)
+  }
+  
+  /**
+   * Delete a task
+   * @param taskId Task ID
+   * @returns The deletion result
+   */
+  async deleteTask(taskId: string) {
+    return this.api.delete(`/api/${this.tasksCollection}/${taskId}`)
+  }
+  
+  /**
+   * Request human feedback
+   * @param options Human feedback options
+   * @returns The feedback result
+   */
+  async requestHumanFeedback(options: HumanFeedbackOptions) {
+    return this.api.post('/api/tasks/human-feedback', options)
   }
   
   /**

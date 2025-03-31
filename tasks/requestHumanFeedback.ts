@@ -29,16 +29,27 @@ interface DiscordEmbed {
   footer?: { text: string }
 }
 
+interface BlocksSchema {
+  productType?: string
+  customer?: string
+  solution?: string
+  description?: string
+  [key: string]: any
+}
+
 interface HumanFeedbackRequest {
   taskId?: string
   title: string
   description: string
-  options?: ResponseOption[]
+  options?: ResponseOption[] | string[]
   freeText?: boolean
   platform?: MessagePlatform
   userId?: string
   roleId?: string
   timeout?: number
+  blocks?: BlocksSchema
+  channel?: string
+  mentions?: string[]
 }
 
 interface HumanFeedbackResponse {
@@ -74,7 +85,10 @@ export const requestHumanFeedback = async ({
     platform = 'slack', 
     userId, 
     roleId,
-    timeout = 3600000 // Default timeout: 1 hour
+    timeout = 3600000, // Default timeout: 1 hour
+    blocks,
+    channel,
+    mentions
   } = input
 
   let task
@@ -126,7 +140,10 @@ export const requestHumanFeedback = async ({
     options,
     freeText,
     userId,
-    roleId
+    roleId,
+    blocks,
+    channel,
+    mentions
   })
 
   waitUntil(
@@ -177,7 +194,10 @@ async function sendPlatformMessage(
     options,
     freeText,
     userId,
-    roleId
+    roleId,
+    blocks,
+    channel,
+    mentions
   }: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { taskId: string }
 ): Promise<string> {
   const origin = process.env.NEXT_PUBLIC_SERVER_URL || 'https://ai.driv.ly'
@@ -193,7 +213,10 @@ async function sendPlatformMessage(
         freeText,
         callbackUrl,
         userId,
-        roleId
+        roleId,
+        blocks,
+        channel,
+        mentions
       })
     case 'teams':
       return await sendTeamsMessage({
@@ -233,7 +256,10 @@ async function sendSlackMessage({
   freeText,
   callbackUrl,
   userId,
-  roleId
+  roleId,
+  blocks: blockSchema,
+  channel: customChannel,
+  mentions: userMentions
 }: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { 
   taskId: string,
   callbackUrl: string 
@@ -242,54 +268,120 @@ async function sendSlackMessage({
     throw new Error('SLACK_BOT_TOKEN is not configured')
   }
 
-  let channel = process.env.SLACK_DEFAULT_CHANNEL || 'general'
+  let channel = customChannel || process.env.SLACK_DEFAULT_CHANNEL || 'general'
   
   if (userId) {
   }
 
   if (roleId) {
   }
+  
+  let messageText = description;
+  if (userMentions && userMentions.length > 0) {
+    const mentionText = userMentions.map((mention: string) => `<@${mention}>`).join(' ');
+    messageText = `${mentionText} ${messageText}`;
+  }
 
-  const blocks: SlackBlock[] = [
-    {
-      type: 'header',
-      text: {
-        type: 'plain_text',
-        text: title,
-        emoji: true
+  let slackBlocks: SlackBlock[] = [];
+  
+  if (blockSchema) {
+    slackBlocks = [
+      {
+        type: 'header',
+        text: {
+          type: 'plain_text',
+          text: title || blockSchema.title,
+          emoji: true
+        }
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: messageText || blockSchema.description
+        }
       }
-    },
-    {
-      type: 'section',
-      text: {
-        type: 'mrkdwn',
-        text: description
-      }
-    },
-    {
-      type: 'divider'
+    ];
+    
+    if (blockSchema.productType) {
+      slackBlocks.push({
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*Product Type:* ${blockSchema.productType}`
+        }
+      });
     }
-  ]
+    
+    if (blockSchema.customer) {
+      slackBlocks.push({
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*Customer:* ${blockSchema.customer}`
+        }
+      });
+    }
+    
+    if (blockSchema.solution) {
+      slackBlocks.push({
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*Solution:* ${blockSchema.solution}`
+        }
+      });
+    }
+    
+    slackBlocks.push({
+      type: 'divider'
+    });
+  } else {
+    slackBlocks = [
+      {
+        type: 'header',
+        text: {
+          type: 'plain_text',
+          text: title,
+          emoji: true
+        }
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: messageText
+        }
+      },
+      {
+        type: 'divider'
+      }
+    ];
+  }
 
   if (options && options.length > 0) {
     const actionBlock: SlackBlock = {
       type: 'actions',
-      elements: options.map(option => ({
-        type: 'button',
-        text: {
-          type: 'plain_text',
-          text: option.label,
-          emoji: true
-        },
-        value: `${taskId}:${option.value}`,
-        action_id: `human_feedback_option:${option.value}`
-      }))
+      elements: options.map(option => {
+        const optionValue = typeof option === 'string' ? option : option.value;
+        const optionLabel = typeof option === 'string' ? option : option.label;
+        return {
+          type: 'button',
+          text: {
+            type: 'plain_text',
+            text: optionLabel,
+            emoji: true
+          },
+          value: `${taskId}:${optionValue}`,
+          action_id: `human_feedback_option:${optionValue}`
+        };
+      })
     }
-    blocks.push(actionBlock)
+    slackBlocks.push(actionBlock)
   }
 
   if (freeText) {
-    blocks.push({
+    slackBlocks.push({
       type: 'input',
       block_id: `human_feedback_text:${taskId}`,
       label: {
@@ -304,7 +396,7 @@ async function sendSlackMessage({
       }
     } as SlackBlock)
 
-    blocks.push({
+    slackBlocks.push({
       type: 'actions',
       elements: [
         {
@@ -330,7 +422,7 @@ async function sendSlackMessage({
       },
       body: JSON.stringify({
         channel,
-        blocks,
+        blocks: slackBlocks,
         text: title // Fallback text
       })
     })
@@ -390,12 +482,14 @@ async function sendTeamsMessage({
 
   if (options && options.length > 0) {
     options.forEach(option => {
+      const optionValue = typeof option === 'string' ? option : option.value;
+      const optionLabel = typeof option === 'string' ? option : option.label;
       card.actions.push({
         type: 'Action.Submit',
-        title: option.label,
+        title: optionLabel,
         data: {
           taskId,
-          option: option.value
+          option: optionValue
         }
       } as any)
     })
@@ -481,9 +575,11 @@ async function sendDiscordMessage({
   if (options && options.length > 0) {
     embed.fields.push({
       name: 'Options',
-      value: options.map((option, index) => 
-        `${index + 1}. ${option.label} - \`/human-feedback ${taskId} option ${option.value}\``
-      ).join('\n')
+      value: options.map((option, index) => {
+        const optionValue = typeof option === 'string' ? option : option.value;
+        const optionLabel = typeof option === 'string' ? option : option.label;
+        return `${index + 1}. ${optionLabel} - \`/human-feedback ${taskId} option ${optionValue}\``;
+      }).join('\n')
     })
   }
 

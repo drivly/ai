@@ -47,6 +47,29 @@ The tasks.do SDK exports two main components:
 
 ## Usage Examples
 
+### Human Feedback
+
+Request human feedback with a simple schema:
+
+```typescript
+import { tasks } from 'tasks.do'
+
+const feedback = await tasks.requestHumanFeedback({
+  title: 'Product Feedback Request',
+  description: 'Please provide feedback on this product concept',
+  blocks: {
+    productType: 'API',
+    customer: 'enterprise developers',
+    solution: 'simplified AI integration',
+    description: 'Streamlined API for AI function integration'
+  },
+  options: ['Approve', 'Reject'],
+  freeText: true,
+  channel: 'product-feedback',
+  mentions: ['U123456', 'U789012']
+})
+```
+
 ### Basic Task Management
 
 ```typescript
@@ -173,6 +196,25 @@ const webhook = await tasks.webhooks.register({
 // Unregister a webhook
 await tasks.webhooks.unregister(webhook.id)
 ```
+
+## Slack Blocks Schema
+
+The SDK provides a simple schema for defining Slack Block interactions:
+
+```typescript
+interface SlackBlockSchema {
+  title: string
+  description: string
+  options?: string[]
+  freeText?: boolean
+  platform?: 'slack' | 'teams' | 'discord'
+  timeout?: number
+  channel?: string
+  mentions?: string[]
+}
+```
+
+This schema can be used with both Human and Agent task types to create rich interactive messages across different platforms.
 
 ## Testing
 
