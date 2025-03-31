@@ -1,14 +1,25 @@
 'use client' // Error boundaries must be Client Components
 
 import { useEffect } from 'react'
-import { recordError } from '../actions/error'
 
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
-    recordError(error)
-      .then((result) => {
-        if (result) {
-          console.log('Error recorded successfully:', result.id)
+    fetch('/api/errors', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: error.message,
+        stack: error.stack,
+        digest: error.digest,
+        source: 'global-error-handler',
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          console.log('Error recorded successfully:', data.id)
         }
       })
       .catch((err) => {
