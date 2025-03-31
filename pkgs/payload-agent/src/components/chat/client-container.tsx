@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@drivly/ui/lib'
+import { cn } from '../../lib/cn'
 import { BotMessageSquare } from 'lucide-react'
 import React, { Fragment } from 'react'
 import { Wrapper } from '../../lib'
