@@ -152,9 +152,18 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       object = { text }
     }
   } else {
+    let zodSchema
+    try {
+      if (schema && typeof schema === 'object' && schema !== null && !Array.isArray(schema)) {
+        zodSchema = generateSchema(schema)
+      }
+    } catch (schemaGenError) {
+      console.error('Schema generation error:', schemaGenError)
+    }
+
     // Use generateObject for object-based functions
     const result = await generateObject({
-      input: { functionName, args, schema, settings },
+      input: { functionName, args, schema, zodSchema, settings },
       req,
     })
 
