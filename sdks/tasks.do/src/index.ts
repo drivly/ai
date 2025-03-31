@@ -25,6 +25,8 @@ export interface Task {
   subtasks?: Array<Task>
   dependentOn?: Array<string>
   dependents?: Array<Task>
+  notes?: string
+  data?: Record<string, any>
   createdAt: string
   updatedAt: string
 }

@@ -4,92 +4,132 @@ import { tasks, Tasks, Task, Queue } from '../src'
 vi.mock('apis.do', () => {
   return {
     API: vi.fn().mockImplementation(() => ({
-      tasks: {
-        create: vi.fn().mockImplementation((params) => ({
-          id: 'task-123',
-          ...params,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        })),
-        get: vi.fn().mockImplementation((id, options) => ({
-          id,
-          title: 'Test Task',
-          status: 'todo',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          ...(options?.populate === 'subtasks' ? {
-            subtasks: [
-              {
-                id: 'subtask-1',
-                title: 'Subtask 1',
-                status: 'todo',
-                parent: id,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-              }
-            ]
-          } : {}),
-          ...(options?.populate === 'dependentOn' ? {
-            dependentOn: [
-              {
-                id: 'dependency-1',
-                title: 'Dependency 1',
-                status: 'completed',
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-              }
-            ]
-          } : {})
-        })),
-        update: vi.fn().mockImplementation((id, params) => ({
-          id,
-          title: 'Test Task',
-          ...params,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        })),
-        find: vi.fn().mockImplementation(() => [
-          {
+      post: vi.fn().mockImplementation((path) => {
+        if (path.includes('/tasks')) {
+          return {
             id: 'task-123',
             title: 'Test Task',
             status: 'todo',
+            description: 'This is a test task',
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
           }
-        ])
-      },
-      queues: {
-        create: vi.fn().mockImplementation((params) => ({
-          id: 'queue-123',
-          ...params,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        })),
-        get: vi.fn().mockImplementation((id, options) => ({
-          id,
-          name: 'Test Queue',
-          role: 'editor',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          ...(options?.populate === 'tasks' ? {
-            tasks: [
-              {
-                id: 'task-123',
-                title: 'Test Task',
-                status: 'todo',
-                queue: id,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-              }
-            ]
-          } : {})
-        }))
-      },
-      post: vi.fn().mockImplementation(() => ({
-        id: 'webhook-123',
-        url: 'https://example.com/webhook',
-        events: ['task.created', 'task.updated']
-      })),
+        } else if (path.includes('/queues')) {
+          return {
+            id: 'queue-123',
+            name: 'Test Queue',
+            role: 'editor',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          }
+        } else if (path.includes('/webhooks')) {
+          return {
+            id: 'webhook-123',
+            url: 'https://example.com/webhook',
+            events: ['task.created', 'task.updated']
+          }
+        }
+      }),
+      get: vi.fn().mockImplementation((path) => {
+        if (path.includes('/tasks')) {
+          if (path.includes('?populate=subtasks')) {
+            return {
+              id: 'task-123',
+              title: 'Test Task',
+              status: 'todo',
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              subtasks: [
+                {
+                  id: 'subtask-1',
+                  title: 'Subtask 1',
+                  status: 'todo',
+                  parent: 'task-123',
+                  createdAt: new Date().toISOString(),
+                  updatedAt: new Date().toISOString()
+                }
+              ]
+            }
+          } else if (path.includes('?populate=dependentOn')) {
+            return {
+              id: 'task-123',
+              title: 'Test Task',
+              status: 'todo',
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              dependentOn: [
+                {
+                  id: 'dependency-1',
+                  title: 'Dependency 1',
+                  status: 'completed',
+                  createdAt: new Date().toISOString(),
+                  updatedAt: new Date().toISOString()
+                }
+              ]
+            }
+          } else if (path.includes('?')) {
+            return {
+              data: [
+                {
+                  id: 'task-123',
+                  title: 'Test Task',
+                  status: 'todo',
+                  queue: 'queue-123',
+                  createdAt: new Date().toISOString(),
+                  updatedAt: new Date().toISOString()
+                }
+              ]
+            }
+          } else {
+            return {
+              id: 'task-123',
+              title: 'Test Task',
+              status: 'todo',
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            }
+          }
+        } else if (path.includes('/queues')) {
+          if (path.includes('?populate=tasks')) {
+            return {
+              id: 'queue-123',
+              name: 'Test Queue',
+              role: 'editor',
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              tasks: [
+                {
+                  id: 'task-123',
+                  title: 'Test Task',
+                  status: 'todo',
+                  queue: 'queue-123',
+                  createdAt: new Date().toISOString(),
+                  updatedAt: new Date().toISOString()
+                }
+              ]
+            }
+          } else {
+            return {
+              id: 'queue-123',
+              name: 'Test Queue',
+              role: 'editor',
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString()
+            }
+          }
+        }
+      }),
+      patch: vi.fn().mockImplementation((path, params) => {
+        if (path.includes('/tasks')) {
+          return {
+            id: 'task-123',
+            title: 'Test Task',
+            ...params,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          }
+        }
+      }),
       delete: vi.fn()
     }))
   }
