@@ -598,6 +598,8 @@ export interface Task {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
+  kanbanStatus?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
+  kanbanOrderRank?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -824,7 +826,41 @@ export interface Benchmark {
  */
 export interface Eval {
   id: string;
-  name?: string | null;
+  name: string;
+  description?: string | null;
+  /**
+   * Input data for the evaluation test
+   */
+  input?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Expected output data for comparison
+   */
+  expected?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Tags for categorizing and filtering tests
+   */
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -834,7 +870,34 @@ export interface Eval {
  */
 export interface EvalRun {
   id: string;
-  name?: string | null;
+  name: string;
+  description?: string | null;
+  /**
+   * References to evaluation tests included in this run
+   */
+  testIds?:
+    | {
+        test: string | Eval;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * References to evaluation results for this run
+   */
+  results?:
+    | {
+        result?: (string | null) | EvalResult;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * When the evaluation run started
+   */
+  startedAt?: string | null;
+  /**
+   * When the evaluation run completed
+   */
+  completedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -844,7 +907,47 @@ export interface EvalRun {
  */
 export interface EvalResult {
   id: string;
-  name?: string | null;
+  name: string;
+  /**
+   * Reference to the evaluation test this result is for
+   */
+  testId: string | Eval;
+  /**
+   * Output data from running the test
+   */
+  output?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Overall score for this evaluation result (0-1)
+   */
+  score?: number | null;
+  /**
+   * Detailed metrics for this evaluation result
+   */
+  metrics?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Duration of the test execution in milliseconds
+   */
+  duration?: number | null;
+  /**
+   * Error message if the test execution failed
+   */
+  error?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1347,6 +1450,8 @@ export interface TasksSelect<T extends boolean = true> {
   subtasks?: T;
   dependentOn?: T;
   dependents?: T;
+  kanbanStatus?: T;
+  kanbanOrderRank?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1579,6 +1684,15 @@ export interface BenchmarksSelect<T extends boolean = true> {
  */
 export interface EvalsSelect<T extends boolean = true> {
   name?: T;
+  description?: T;
+  input?: T;
+  expected?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1588,6 +1702,21 @@ export interface EvalsSelect<T extends boolean = true> {
  */
 export interface EvalRunsSelect<T extends boolean = true> {
   name?: T;
+  description?: T;
+  testIds?:
+    | T
+    | {
+        test?: T;
+        id?: T;
+      };
+  results?:
+    | T
+    | {
+        result?: T;
+        id?: T;
+      };
+  startedAt?: T;
+  completedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1597,6 +1726,12 @@ export interface EvalRunsSelect<T extends boolean = true> {
  */
 export interface EvalResultsSelect<T extends boolean = true> {
   name?: T;
+  testId?: T;
+  output?: T;
+  score?: T;
+  metrics?: T;
+  duration?: T;
+  error?: T;
   updatedAt?: T;
   createdAt?: T;
 }
