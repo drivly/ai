@@ -1,6 +1,6 @@
 export default {
   index: {
-    title: 'Triggers',
+    title: 'Overview',
     type: 'page',
   },
 }

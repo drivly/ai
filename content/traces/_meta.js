@@ -1,6 +1,6 @@
 export default {
   index: {
-    title: 'Traces',
+    title: 'Overview',
     type: 'page',
   },
 }

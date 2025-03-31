@@ -1,3 +1,10 @@
 export default {
-  success: 'Success Workflow',
+  index: {
+    title: 'Overview',
+    type: 'page',
+  },
+  success: {
+    title: 'Success Workflow',
+    type: 'page',
+  }
 }

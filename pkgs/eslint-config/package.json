@@ -1,0 +1,24 @@
+{
+  "name": "eslint-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js",
+    "./typescript": "./src/typescript.js",
+    "./next": "./src/next.js"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@eslint/js": "^9.16.0",
+    "@typescript-eslint/eslint-plugin": "^7.7.1",
+    "@typescript-eslint/parser": "^7.7.1",
+    "eslint-config-next": "15.2.2"
+  },
+  "peerDependencies": {
+    "eslint": "^9.16.0",
+    "typescript": "^5.7.3"
+  }
+}
