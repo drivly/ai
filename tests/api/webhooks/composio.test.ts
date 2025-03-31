@@ -13,10 +13,15 @@ vi.mock('payload', () => ({
     create: vi.fn().mockResolvedValue({ id: 'mock-event-id' }),
     collections: {
       // Mock the collections structure needed by the webhook handler
-      ComposioEvents: {
+      events: {
         create: vi.fn().mockResolvedValue({ id: 'mock-event-id' })
       }
-    }
+    },
+    auth: vi.fn().mockResolvedValue({
+      permissions: {},
+      user: {}
+    }),
+    find: vi.fn().mockResolvedValue({ docs: [] })
   }),
   buildConfig: vi.fn().mockImplementation((config) => config),
 }))
