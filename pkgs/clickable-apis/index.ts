@@ -37,6 +37,10 @@ export interface ApiHeader {
   sdk: string
   /** Site URL */
   site: string
+  /** Discord community URL */
+  discord?: string
+  /** GitHub issues URL */
+  github_issues?: string
   /** With URL - reference to apis.do */
   with?: string
   /** From URL - reference to agi.do */
@@ -202,6 +206,8 @@ export const createAPI = (payloadInstance?: any) => {
           repo: 'https://github.com/drivly/ai',
           sdk: `https://npmjs.com/${getDomainPackageName(domain)}`,
           site: getDomainSite(domain),
+          discord: 'https://discord.gg/drivly',
+          github_issues: 'https://github.com/drivly/ai/issues',
           with: 'https://apis.do',
           from: 'https://agi.do',
         }
