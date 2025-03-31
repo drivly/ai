@@ -19,6 +19,17 @@ export const Tasks: CollectionConfig = {
       ],
     },
     {
+      name: 'status',
+      type: 'select',
+      options: [
+        { label: 'To Do', value: 'todo' },
+        { label: 'In Progress', value: 'in-progress' },
+        { label: 'Ready for Review', value: 'ready-for-review' },
+        { label: 'Completed', value: 'completed' },
+      ],
+      admin: { position: 'sidebar' },
+    },
+    {
       name: 'queue',
       type: 'relationship',
       relationTo: 'queues',

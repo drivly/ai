@@ -7,6 +7,7 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
+import { payloadKanbanBoard } from 'payload-kanban-board'
 import { Config } from './payload.types'
 
 import { collections } from './collections'
@@ -60,5 +61,33 @@ export default buildConfig({
     //   },
     //   userHasAccessToAllTenants: isSuperAdmin,
     // }),
+    // payloadKanbanBoard({
+    //   collections: {
+    //     tasks: {
+    //       enabled: true,
+    //       config: {
+    //         statuses: [
+    //           {
+    //             value: 'draft',
+    //             label: 'Draft',
+    //           },
+    //           { value: 'in-progress', label: 'In Progress' },
+    //           {
+    //             value: 'ready-for-review',
+    //             label: 'Ready for review',
+    //             dropValidation: ({ user, data }) => {
+    //               return { dropAble: false }
+    //               //<dropValidation key is optional>
+    //             },
+    //           },
+    //           { value: 'published', label: 'Published' },
+    //         ],
+
+    //         defaultStatus: 'todo',
+    //         // hideNoStatusColumn: true,
+    //       },
+    //     },
+    //   },
+    // })
   ],
 })

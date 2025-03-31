@@ -566,6 +566,7 @@ export interface Role {
 export interface Task {
   id: string;
   title: string;
+  status?: ('todo' | 'in-progress' | 'ready-for-review' | 'completed') | null;
   queue?: (string | null) | Queue;
   assigned?:
     | (
@@ -1336,6 +1337,7 @@ export interface QueuesSelect<T extends boolean = true> {
  */
 export interface TasksSelect<T extends boolean = true> {
   title?: T;
+  status?: T;
   queue?: T;
   assigned?: T;
   parent?: T;
