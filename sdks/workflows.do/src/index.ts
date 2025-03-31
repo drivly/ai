@@ -34,7 +34,7 @@ import type {
   AIInstance,
   DatabaseAccess,
   APIAccess
-} from './types.js'
+} from './types'
 
 /**
  * Creates an AI instance with typed methods based on the provided schemas

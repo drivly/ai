@@ -135,6 +135,10 @@ export interface WorkflowContext {
     output: any
     timestamp: number
   }>
+  /** Timeout in milliseconds */
+  timeout?: number
+  /** Number of retry attempts */
+  retries?: number
 }
 
 /**
@@ -147,6 +151,8 @@ export interface WorkflowExecutionOptions {
   timeout?: number
   /** Whether to execute the workflow asynchronously */
   async?: boolean
+  /** Number of retry attempts */
+  retries?: number
 }
 
 /**
