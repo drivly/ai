@@ -5,9 +5,135 @@ import config from '@/payload.config'
 /**
  * ESBuild API route
  * 
- * Processes code from functions to create modules and packages
+ * Processes code from functions, URLs, or request body to create modules and packages
+ * Mirrors the API format of esb.denoflare.dev but removes https:// from the base path
+ */
+
+const DEFAULT_OPTIONS = {
+  type: 'bundle',
+  format: 'esm',
+  target: 'esnext',
+  legalcomments: 'inline',
+  sourcemap: false,
+  minify: false,
+  treeshaking: true,
+}
+
+function parseOptions(optionsString: string) {
+  if (!optionsString) return {}
+  
+  const options = {}
+  
+  optionsString.split(',').forEach(option => {
+    const [name, value] = option.split('=')
+    if (!name) return
+    
+    if (!value) {
+      options[name] = true
+      return
+    }
+    
+    options[name] = value
+  })
+  
+  return options
+}
+
+function convertToESBuildOptions(options: Record<string, any>) {
+  const esbuildOptions = {
+    bundle: options.type === 'transform' ? false : true,
+    format: options.format || DEFAULT_OPTIONS.format,
+    target: options.target || DEFAULT_OPTIONS.target,
+    legalComments: options.legalcomments || DEFAULT_OPTIONS.legalcomments,
+    sourcemap: options.sourcemap ? 'inline' : false,
+    minify: options.minify === true,
+    treeShaking: options.treeshaking !== false,
+  }
+  
+  return { config: esbuildOptions }
+}
+
+async function fetchCodeFromUrl(url: string) {
+  try {
+    const response = await fetch(url)
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch code from URL: ${response.status} ${response.statusText}`)
+    }
+    
+    return await response.text()
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    throw new Error(`Error fetching code: ${errorMessage}`)
+  }
+}
+
+/**
+ * Process code from URL or functions
+ * Format: /[options]/[url]
+ * Example: /target=es2015,minify/example.com/code.js
  */
 export const GET = API(async (req, ctx) => {
+  const { pathname } = new URL(req.url)
+  const pathSegments = pathname.replace(/^\/esbuild\//, '').split('/')
+  
+  if (pathSegments.length === 0 || (pathSegments.length === 1 && !pathSegments[0])) {
+    return processFunctions()
+  }
+  
+  let optionsString = ''
+  let urlIndex = 0
+  
+  if (pathSegments[0] && !pathSegments[0].includes('://')) {
+    optionsString = pathSegments[0]
+    urlIndex = 1
+  }
+  
+  const urlPath = pathSegments.slice(urlIndex).join('/')
+  
+  if (!urlPath) {
+    return {
+      error: 'URL is required',
+      success: false,
+    }
+  }
+  
+  const options = parseOptions(optionsString)
+  const esbuildOptions = convertToESBuildOptions(options)
+  
+  try {
+    const code = await fetchCodeFromUrl(urlPath.startsWith('http') ? urlPath : `https://${urlPath}`)
+    
+    const { processCode } = await import('./wrapper')
+    
+    const result = await processCode(code, esbuildOptions)
+    
+    if (!result.success) {
+      return {
+        error: result.error || 'Failed to process code',
+        success: false
+      }
+    }
+    
+    const processedCode = result.code
+    
+    ctx.res.headers.set('Content-Type', 'text/javascript')
+    ctx.res.headers.set('Access-Control-Allow-Origin', '*')
+    
+    return processedCode
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    return {
+      error: errorMessage,
+      success: false,
+    }
+  }
+})
+
+/**
+ * Process code from functions (existing functionality)
+ */
+async function processFunctions() {
   const payload = await getPayload({ config })
   
   const { docs: functions } = await payload.find({
@@ -54,14 +180,76 @@ export const GET = API(async (req, ctx) => {
     processed: results.length,
     results
   }
+}
+
+/**
+ * Process code from request body
+ * Supports options in URL path: /[options]
+ * Example: /target=es2015,minify
+ */
+export const POST = API(async (req, ctx) => {
+  const { pathname } = new URL(req.url)
+  const pathSegments = pathname.replace(/^\/esbuild\//, '').split('/')
+  
+  if (ctx.req.json) {
+    try {
+      const { functionId } = await ctx.req.json()
+      
+      if (functionId) {
+        return processFunctionById(functionId)
+      }
+    } catch (error) {
+    }
+  }
+  
+  let optionsString = ''
+  if (pathSegments.length > 0 && pathSegments[0]) {
+    optionsString = pathSegments[0]
+  }
+  
+  const options = parseOptions(optionsString)
+  const esbuildOptions = convertToESBuildOptions(options)
+  
+  try {
+    const code = await req.text()
+    
+    if (!code) {
+      return {
+        error: 'Code is required in the request body',
+        success: false,
+      }
+    }
+    
+    const { processCode } = await import('./wrapper')
+    
+    const result = await processCode(code, esbuildOptions)
+    
+    if (!result.success) {
+      return {
+        error: result.error || 'Failed to process code',
+        success: false
+      }
+    }
+    
+    const processedCode = result.code
+    
+    ctx.res.headers.set('Content-Type', 'text/javascript')
+    ctx.res.headers.set('Access-Control-Allow-Origin', '*')
+    
+    return processedCode
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    return {
+      error: errorMessage,
+      success: false,
+    }
+  }
 })
 
 /**
- * Process a specific function by ID
+ * Process a specific function by ID (existing functionality)
  */
-export const POST = API(async (req, ctx) => {
-  const { functionId } = ctx.req.json ? await ctx.req.json() : {}
-  
+async function processFunctionById(functionId: string) {
   if (!functionId) {
     return {
       error: 'Function ID is required',
@@ -106,4 +294,4 @@ export const POST = API(async (req, ctx) => {
       success: false
     }
   }
-})
+}
