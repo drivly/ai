@@ -11,7 +11,7 @@
   "type": "module",
   "module": "dist/index.js",
   "bin": {
-    "workflow": "./dist/bin.js"
+    "workflow": "./dist/workflows.do/src/bin.js"
   },
   "repository": {
     "type": "git",
