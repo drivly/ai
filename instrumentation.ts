@@ -1,9 +1,11 @@
-import * as Sentry from '@sentry/node'
+import * as Sentry from '@sentry/nextjs'
 
 export function register() {
-  Sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    tracesSampleRate: 1,
-    debug: process.env.NODE_ENV !== 'production',
-  })
+  if (typeof window === 'undefined') {
+    Sentry.init({
+      dsn: process.env.SENTRY_DSN,
+      tracesSampleRate: 1,
+      debug: process.env.NODE_ENV !== 'production',
+    })
+  }
 }
