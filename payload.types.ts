@@ -114,7 +114,7 @@ export interface Config {
   };
   collectionsJoins: {
     functions: {
-      actions: 'actions';
+      executions: 'actions';
     };
     queues: {
       tasks: 'tasks';
@@ -251,10 +251,11 @@ export interface ApikeyAuthOperations {
  */
 export interface Function {
   id: string;
-  name?: string | null;
-  type: 'Generation' | 'Code' | 'Human' | 'Agent';
+  name: string;
+  type?: ('Generation' | 'Code' | 'Human' | 'Agent') | null;
   format?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code') | null;
-  schema?:
+  schemaYaml?: string | null;
+  shape?:
     | {
         [k: string]: unknown;
       }
@@ -268,7 +269,7 @@ export interface Function {
   role?: string | null;
   user?: (string | null) | User;
   agent?: (string | null) | Agent;
-  actions?: {
+  executions?: {
     docs?: (string | Action)[];
     hasNextPage?: boolean;
     totalDocs?: number;
@@ -1286,13 +1287,14 @@ export interface FunctionsSelect<T extends boolean = true> {
   name?: T;
   type?: T;
   format?: T;
-  schema?: T;
+  schemaYaml?: T;
+  shape?: T;
   code?: T;
   prompt?: T;
   role?: T;
   user?: T;
   agent?: T;
-  actions?: T;
+  executions?: T;
   updatedAt?: T;
   createdAt?: T;
 }
