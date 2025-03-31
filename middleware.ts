@@ -21,6 +21,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
   }
 
+  if (pathname.startsWith('/docs') && hostname.endsWith('.do')) {
+    console.log('Rewriting docs path', { hostname, pathname, search })
+    const apiName = hostname.replace('.do', '')
+    return NextResponse.rewrite(new URL(`/docs/${apiName}${pathname.replace('/docs', '')}${search}`, request.url))
+  }
+
   // TODO: Is this the correct logic for docs?
   if (sitePrefixes.some((prefix) => pathname.startsWith(prefix)) && siteDomains.includes(hostname)) {
     console.log('Rewriting to site w/ prefix', { hostname, pathname, search })
