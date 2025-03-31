@@ -378,6 +378,23 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
       _currentRequest = null
       _currentContext = null
 
+      try {
+        getPayload({ config }).then((payloadInstance) => {
+          payloadInstance.create({
+            collection: 'errors',
+            data: {
+              message: error instanceof Error ? error.message : 'Unknown API Error',
+              stack: error instanceof Error ? error.stack : undefined,
+              digest: `api-error-${Date.now()}`,
+              url: req.url,
+              source: 'api-handler',
+            },
+          }).catch((logError: Error) => console.error('Error logging to errors collection:', logError))
+        }).catch((initError: Error) => console.error('Failed to initialize payload for error logging:', initError))
+      } catch (logError) {
+        console.error('Failed to log error to collection:', logError)
+      }
+
       const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
       return NextResponse.json(
         {
