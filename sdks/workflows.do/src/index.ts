@@ -72,7 +72,7 @@ export function createWorkflow(workflow: Workflow) {
   return {
     ...workflow,
     execute: async (input: Record<string, any>, options?: WorkflowExecutionOptions): Promise<WorkflowExecutionResult> => {
-      const response = await fetch('https://apis.do/workflows/execute', {
+      const response = await fetch('http://localhost:3000/workflows', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
