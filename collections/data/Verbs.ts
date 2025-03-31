@@ -38,21 +38,7 @@ export const Verbs: CollectionConfig = {
               task: 'executeFunction',
               input: {
                 functionName: 'conjugateVerbs',
-                args: { verb: data.action },
-                schema: {
-                  action: 'string',
-                  act: 'string',
-                  activity: 'string',
-                  event: 'string',
-                  subject: 'string',
-                  object: 'string',
-                  inverse: 'string',
-                  inverseAct: 'string',
-                  inverseActivity: 'string',
-                  inverseEvent: 'string',
-                  inverseSubject: 'string',
-                  inverseObject: 'string'
-                }
+                args: { verb: data.action }
               }
             })
             
@@ -83,23 +69,27 @@ export const Verbs: CollectionConfig = {
               
               console.log('Verb semantics job result:', jobResult)
               
-              await payload.update({
-                collection: 'verbs',
-                id: doc.id,
-                data: {
-                  act: doc.act || `${doc.action}s`,
-                  activity: doc.activity || `${doc.action}ing`,
-                  event: doc.event || `${doc.action}ed`,
-                  subject: doc.subject || `${doc.action}er`,
-                  object: doc.object || `${doc.action}ion`,
-                  inverse: doc.inverse || `Un${doc.action}`,
-                  inverseAct: doc.inverseAct || `Un${doc.action}s`,
-                  inverseActivity: doc.inverseActivity || `Un${doc.action}ing`,
-                  inverseEvent: doc.inverseEvent || `Un${doc.action}ed`,
-                  inverseSubject: doc.inverseSubject || `Un${doc.action}er`,
-                  inverseObject: doc.inverseObject || `Un${doc.action}ion`
-                }
-              })
+              const updateData: Record<string, string> = {}
+              
+              if (!doc.act) updateData.act = `${doc.action}s`
+              if (!doc.activity) updateData.activity = `${doc.action}ing`
+              if (!doc.event) updateData.event = `${doc.action}ed`
+              if (!doc.subject) updateData.subject = `${doc.action}er`
+              if (!doc.object) updateData.object = `${doc.action}ion`
+              if (!doc.inverse) updateData.inverse = `Un${doc.action}`
+              if (!doc.inverseAct) updateData.inverseAct = `Un${doc.action}s`
+              if (!doc.inverseActivity) updateData.inverseActivity = `Un${doc.action}ing`
+              if (!doc.inverseEvent) updateData.inverseEvent = `Un${doc.action}ed`
+              if (!doc.inverseSubject) updateData.inverseSubject = `Un${doc.action}er`
+              if (!doc.inverseObject) updateData.inverseObject = `Un${doc.action}ion`
+              
+              if (Object.keys(updateData).length > 0) {
+                await payload.update({
+                  collection: 'verbs',
+                  id: doc.id,
+                  data: updateData
+                })
+              }
             } catch (error) {
               console.error('Error processing verb semantics in afterChange:', error)
             }

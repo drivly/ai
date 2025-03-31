@@ -33,17 +33,7 @@ export const Nouns: CollectionConfig = {
               task: 'executeFunction',
               input: {
                 functionName: 'inflectNouns',
-                args: { noun: data.name },
-                schema: {
-                  singular: 'string',
-                  plural: 'string',
-                  possessive: 'string',
-                  pluralPossessive: 'string',
-                  verb: 'string',
-                  act: 'string',
-                  activity: 'string',
-                  event: 'string'
-                }
+                args: { noun: data.name }
               }
             })
             
@@ -73,20 +63,24 @@ export const Nouns: CollectionConfig = {
               
               console.log('Noun semantics job result:', jobResult)
               
-              await payload.update({
-                collection: 'nouns',
-                id: doc.id,
-                data: {
-                  singular: doc.singular || doc.name,
-                  plural: doc.plural || `${doc.name}s`,
-                  possessive: doc.possessive || `${doc.name}'s`,
-                  pluralPossessive: doc.pluralPossessive || `${doc.name}s'`,
-                  verb: doc.verb || doc.name.toLowerCase(),
-                  act: doc.act || `${doc.name.toLowerCase()}s`,
-                  activity: doc.activity || `${doc.name.toLowerCase()}ing`,
-                  event: doc.event || `${doc.name.toLowerCase()}ed`
-                }
-              })
+              const updateData: Record<string, string> = {}
+              
+              if (!doc.singular) updateData.singular = doc.name
+              if (!doc.plural) updateData.plural = `${doc.name}s`
+              if (!doc.possessive) updateData.possessive = `${doc.name}'s`
+              if (!doc.pluralPossessive) updateData.pluralPossessive = `${doc.name}s'`
+              if (!doc.verb) updateData.verb = doc.name.toLowerCase()
+              if (!doc.act) updateData.act = `${doc.name.toLowerCase()}s`
+              if (!doc.activity) updateData.activity = `${doc.name.toLowerCase()}ing`
+              if (!doc.event) updateData.event = `${doc.name.toLowerCase()}ed`
+              
+              if (Object.keys(updateData).length > 0) {
+                await payload.update({
+                  collection: 'nouns',
+                  id: doc.id,
+                  data: updateData
+                })
+              }
             } catch (error) {
               console.error('Error processing noun semantics in afterChange:', error)
             }
