@@ -1,8 +1,7 @@
 // import config from 'payload.config'
 // import { getPayload } from 'payload'
-import { modifyQueryString as clickableModifyQueryString } from 'clickable-apis'
+import { modifyQueryString as clickableModifyQueryString, createAPI } from 'clickable-apis'
 import { NextRequest } from 'next/server'
-import { API } from './lib/api'
 export const apis: Record<string, string> = {
   functions: 'Reliable Structured Output',
   workflows: '',
