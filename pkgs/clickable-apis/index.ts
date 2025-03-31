@@ -38,7 +38,7 @@ export interface ApiHeader {
   /** Site URL */
   site: string
   /** Discord community URL */
-  discord?: string
+  chat?: string
   /** GitHub issues URL */
   issues?: string
   /** With URL - reference to apis.do */
@@ -156,8 +156,8 @@ export const createAPI = (
             db = createNodePayloadClient(mockPayload)
 
             try {
-              const apiUrl = process.env.PAYLOAD_API_URL || (process.env.VERCEL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-              const apiKey = process.env.PAYLOAD_API_KEY
+              const apiUrl = process?.env?.PAYLOAD_API_URL || (process?.env?.VERCEL ? `https://${process?.env?.VERCEL_URL}` : 'http://localhost:3000')
+              const apiKey = process?.env?.PAYLOAD_API_KEY
 
               const authResponse = await fetch(`${apiUrl}/api/users/me`, {
                 headers: {
@@ -214,7 +214,7 @@ export const createAPI = (
           repo: 'https://github.com/drivly/ai',
           sdk: `https://npmjs.com/${getDomainPackageName(domain)}`,
           site: getDomainSite(domain),
-          discord: 'https://discord.gg/a87bSRvJkx',
+          chat: 'https://discord.gg/a87bSRvJkx',
           issues: 'https://github.com/drivly/ai/issues',
           with: 'https://apis.do',
           from: 'https://agi.do',
@@ -239,7 +239,7 @@ export const createAPI = (
           {
             error: true,
             message: error instanceof Error ? error.message : 'Internal Server Error',
-            ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+            ...(process?.env?.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
           },
           { status },
         )
