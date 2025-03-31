@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import config from '../payload.config'
 import { PayloadDB } from './db'
 import { UAParser } from 'ua-parser-js'
+import { geolocation } from '@vercel/functions'
 import { continents, countries, flags, locations, metros } from './constants/cf'
 
 /**
@@ -93,6 +94,8 @@ export function getUser(request: NextRequest): APIUser {
   
   const cf = isCloudflareWorker ? (request as any).cf : undefined
   
+  const geo = !isCloudflareWorker ? geolocation(request) : undefined
+  
   const ip = request.headers.get('cf-connecting-ip') || 
              request.headers.get('x-forwarded-for') || 
              request.headers.get('x-real-ip') || 
@@ -113,6 +116,9 @@ export function getUser(request: NextRequest): APIUser {
   if (cf?.latitude && cf?.longitude) {
     latitude = Number(cf.latitude)
     longitude = Number(cf.longitude)
+  } else if (geo?.latitude && geo?.longitude) {
+    latitude = Number(geo.latitude)
+    longitude = Number(geo.longitude)
   }
   
   const colo = cf?.colo ? locations[cf.colo as keyof typeof locations] : undefined
@@ -122,7 +128,7 @@ export function getUser(request: NextRequest): APIUser {
     const latDiff = colo.lat - latitude
     const lonDiff = colo.lon - longitude
     const distance = Math.sqrt(latDiff * latDiff + lonDiff * lonDiff) * 111 // Rough km conversion
-    edgeDistance = Math.round(distance / (cf?.country === 'US' ? 1.60934 : 1)) // Convert to miles if US
+    edgeDistance = Math.round(distance / (cf?.country === 'US' || geo?.country === 'US' ? 1.60934 : 1)) // Convert to miles if US
   }
   
   let localTime = ''
@@ -145,6 +151,10 @@ export function getUser(request: NextRequest): APIUser {
     logs: origin + '/logs',
   }
   
+  const countryCode = cf?.country || geo?.country || ''
+  const countryFlag = countryCode ? flags[countryCode as keyof typeof flags] || '🏳️' : '🏳️'
+  const countryName = countryCode ? countries[countryCode as keyof typeof countries]?.name : undefined
+  
   return {
     authenticated: false, // This would be determined by authentication logic
     admin: undefined,     // This would be determined by authentication logic
@@ -154,19 +164,19 @@ export function getUser(request: NextRequest): APIUser {
     os: ua?.os?.name as string,
     ip,
     isp,
-    flag: cf?.country ? flags[cf.country as keyof typeof flags] || '🏳️' : '🏳️',
+    flag: countryFlag,
     zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
-    city: cf?.city?.toString() || request.headers.get('x-vercel-ip-city') || '',
+    city: cf?.city?.toString() || geo?.city || request.headers.get('x-vercel-ip-city') || '',
     metro: cf?.metroCode ? metros[Number(cf.metroCode) as keyof typeof metros] : undefined,
-    region: cf?.region?.toString() || request.headers.get('x-vercel-ip-region') || '',
-    country: cf?.country ? countries[cf.country as keyof typeof countries]?.name : undefined,
+    region: cf?.region?.toString() || geo?.countryRegion || request.headers.get('x-vercel-ip-region') || '',
+    country: countryName,
     continent: cf?.continent ? continents[cf.continent as keyof typeof continents] : undefined,
     requestId: cf ? request.headers.get('cf-ray') + '-' + cf.colo : request.headers.get('x-vercel-id') || '',
     localTime,
     timezone: cf?.timezone?.toString() || 'UTC',
-    edgeLocation: colo?.city,
-    edgeDistanceMiles: cf?.country === 'US' ? edgeDistance : undefined,
-    edgeDistanceKilometers: cf?.country === 'US' ? undefined : edgeDistance,
+    edgeLocation: colo?.city || geo?.region,
+    edgeDistanceMiles: (cf?.country === 'US' || geo?.country === 'US') ? edgeDistance : undefined,
+    edgeDistanceKilometers: (cf?.country === 'US' || geo?.country === 'US') ? undefined : edgeDistance,
     latencyMilliseconds: cf?.clientTcpRtt ? Number(cf.clientTcpRtt) : 0,
     recentInteractions: 0, // This would be determined by user data
     trustScore: cf?.botManagement ? (cf.botManagement as any).score : undefined,
