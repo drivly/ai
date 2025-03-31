@@ -13,10 +13,64 @@ import {
   createNodePayloadClient,
 } from 'simple-payload'
 
+/**
+ * Interface for the API header object that appears at the top of all JSON responses
+ */
+export interface ApiHeader {
+  /** Name of the API */
+  name: string
+  /** Description of the API */
+  description: string
+  /** Home URL */
+  home: string
+  /** Login URL */
+  login: string
+  /** Signup URL */
+  signup: string
+  /** Admin URL */
+  admin: string
+  /** Documentation URL */
+  docs: string
+  /** Repository URL */
+  repo: string
+  /** SDK URL */
+  sdk: string
+  /** Site URL */
+  site: string
+  /** With URL - reference to apis.do */
+  with?: string
+  /** From URL - reference to agi.do */
+  from?: string
+}
+
 export type { ApiContext, PayloadClientResult, PayloadClientFn }
 
 let _currentRequest: NextRequest | null = null
 let _currentContext: ApiContext | null = null
+
+const domainDescriptions: Record<string, string> = {
+  'apis.do': 'Economically valuable work delivered through simple APIs',
+  'functions.do': 'Reliable structured outputs',
+  'workflows.do': 'Declarative state machines for orchestration',
+  'agents.do': 'Autonomous digital workers',
+  'database.do': 'AI-enriched data',
+  'llm.do': 'Intelligent gateway for routing AI requests',
+}
+
+const getDomainDescription = (domain: string): string => {
+  const baseDomain = domain.split('.').slice(-2).join('.')
+  return domainDescriptions[baseDomain] || domainDescriptions['apis.do']
+}
+
+const getDomainPackageName = (domain: string): string => {
+  const baseDomain = domain.split('.').slice(-2).join('.')
+  return baseDomain
+}
+
+const getDomainSite = (domain: string): string => {
+  const baseDomain = domain.split('.').slice(-2).join('.')
+  return `https://${baseDomain}`
+}
 
 /**
  * Creates an API factory with dependency injection for payload
@@ -137,20 +191,24 @@ export const createAPI = (payloadInstance?: any) => {
         _currentRequest = null
         _currentContext = null
 
+        const apiHeader: ApiHeader = {
+          name: domain,
+          description: getDomainDescription(domain),
+          home: origin,
+          login: origin + '/login',
+          signup: origin + '/signup',
+          admin: origin + '/admin',
+          docs: origin + '/docs',
+          repo: 'https://github.com/drivly/ai',
+          sdk: `https://npmjs.com/${getDomainPackageName(domain)}`,
+          site: getDomainSite(domain),
+          with: 'https://apis.do',
+          from: 'https://agi.do',
+        }
+
         return NextResponse.json(
           {
-            api: {
-              name: domain,
-              description: 'Economically valuable work delivered through simple APIs',
-              home: origin,
-              login: origin + '/login',
-              signup: origin + '/signup',
-              admin: origin + '/admin',
-              docs: origin + '/docs',
-              repo: 'https://github.com/drivly/ai',
-              with: 'https://apis.do',
-              from: 'https://agi.do',
-            },
+            api: apiHeader,
             ...result,
             user,
           },
