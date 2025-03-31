@@ -7,7 +7,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/drivly/ai/blob/main/CONTRIBUTING.md)
 [![Minified Size](https://img.shields.io/bundlephobia/min/apis.do)](https://bundlephobia.com/package/apis.do)
-[![Discord](https://img.shields.io/discord/1014897323584794655?label=Discord&logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
 
 > **Economically valuable work delivered through simple APIs**
 

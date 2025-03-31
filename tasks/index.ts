@@ -5,6 +5,8 @@ import { generateThingEmbedding } from './generateThingEmbedding'
 import { handleGithubEvent } from './handleGithubEvent'
 import { hybridSearchThings, searchThings } from './searchThings'
 import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './schemaUtils'
+import { inflectNounsTask } from './inflectNouns'
+import { conjugateVerbsTask } from './conjugateVerbs'
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
@@ -44,6 +46,14 @@ const hybridSearchThingsTask = {
   handler: hybridSearchThings,
 } as unknown as TaskConfig
 
-export const tasks = [executeFunctionTask, generateCodeTask, generateThingEmbeddingTask, searchThingsTask, hybridSearchThingsTask]
+export const tasks = [
+  executeFunctionTask, 
+  generateCodeTask, 
+  generateThingEmbeddingTask, 
+  searchThingsTask, 
+  hybridSearchThingsTask,
+  inflectNounsTask,
+  conjugateVerbsTask
+]
 export const workflows = [handleGithubEvent]
-export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema }
+export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
