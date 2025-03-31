@@ -3,11 +3,11 @@
 import '@payloadcms/next/css'
 import { handleServerFunctions, RootLayout } from '@payloadcms/next/layouts'
 import type { ServerFunctionClient } from 'payload'
-import config from 'payload.config'
+import config from '@payload-config'
 import React from 'react'
 
 import { Analytics } from '@vercel/analytics/react'
-import { importMap } from './admin/importMap'
+import { importMap } from './admin/importMap.js'
 import './custom.scss'
 // import { SpeedInsights } from "@vercel/speed-insights/next"
 

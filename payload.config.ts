@@ -101,44 +101,45 @@ export default buildConfig({
         },
       },
     }),
-    // multiTenantPlugin<Config>({
-    //   tenantSelectorLabel: 'Project',
-    //   // tenantsArrayField: {},
-    //   // tenantField: {},
-    //   collections: {
-    //     functions: {},
-    //     workflows: {},
-    //     agents: {},
-    //   },
-    //   userHasAccessToAllTenants: isSuperAdmin,
-    // }),
-    // payloadKanbanBoard({
-    //   collections: {
-    //     tasks: {
-    //       enabled: true,
-    //       config: {
-    //         statuses: [
-    //           {
-    //             value: 'draft',
-    //             label: 'Draft',
-    //           },
-    //           { value: 'in-progress', label: 'In Progress' },
-    //           {
-    //             value: 'ready-for-review',
-    //             label: 'Ready for review',
-    //             dropValidation: ({ user, data }) => {
-    //               return { dropAble: false }
-    //               //<dropValidation key is optional>
-    //             },
-    //           },
-    //           { value: 'published', label: 'Published' },
-    //         ],
-
-    //         defaultStatus: 'todo',
-    //         // hideNoStatusColumn: true,
-    //       },
-    //     },
-    //   },
-    // })
   ],
 })
+
+// multiTenantPlugin<Config>({
+//   tenantSelectorLabel: 'Project',
+//   // tenantsArrayField: {},
+//   // tenantField: {},
+//   collections: {
+//     functions: {},
+//     workflows: {},
+//     agents: {},
+//   },
+//   userHasAccessToAllTenants: isSuperAdmin,
+// }),
+// payloadKanbanBoard({
+//   collections: {
+//     tasks: {
+//       enabled: true,
+//       config: {
+//         statuses: [
+//           {
+//             value: 'draft',
+//             label: 'Draft',
+//           },
+//           { value: 'in-progress', label: 'In Progress' },
+//           {
+//             value: 'ready-for-review',
+//             label: 'Ready for review',
+//             dropValidation: ({ user, data }) => {
+//               return { dropAble: false }
+//               //<dropValidation key is optional>
+//             },
+//           },
+//           { value: 'published', label: 'Published' },
+//         ],
+
+//         defaultStatus: 'todo',
+//         // hideNoStatusColumn: true,
+//       },
+//     },
+//   },
+// })
