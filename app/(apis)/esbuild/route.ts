@@ -168,12 +168,8 @@ async function processFunctions() {
         collection: 'tasks',
         data: {
           title: `Process Code Function: ${func.name}`,
-          description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages.`,
-          status: 'todo',
-          task: 'processCodeFunctionWrapper',
-          input: {
-            functionId: func.id
-          }
+          description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages. Function ID: ${func.id}`,
+          status: 'todo'
         }
       })
       
@@ -305,12 +301,8 @@ async function processFunctionById(functionId: string) {
       collection: 'tasks',
       data: {
         title: `Process Code Function: ${func.name}`,
-        description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages.`,
-        status: 'todo',
-        task: 'processCodeFunctionWrapper',
-        input: {
-          functionId: func.id
-        }
+        description: `Process code from function ${func.name} (${func.id}) using esbuild to create modules and packages. Function ID: ${func.id}`,
+        status: 'todo'
       }
     })
     

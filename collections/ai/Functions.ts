@@ -17,7 +17,7 @@ export const Functions: CollectionConfig = {
               collection: 'tasks',
               data: {
                 title: `Process Code Function: ${doc.name}`,
-                description: `Process code from function ${doc.name} (${doc.id}) using esbuild to create modules and packages.`,
+                description: `Process code from function ${doc.name} (${doc.id}) using esbuild to create modules and packages. Function ID: ${doc.id}`,
                 status: 'todo',
               },
             })
