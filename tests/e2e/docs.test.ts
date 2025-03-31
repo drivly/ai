@@ -127,8 +127,38 @@ describe('Documentation page', () => {
     }
 
     try {
-      const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const docsUrl = baseUrl.endsWith('/') ? `${baseUrl}docs` : `${baseUrl}/docs`
+      let baseUrl = process.env.API_URL || process.env.VERCEL_URL || process.env.BASE_URL || 'http://localhost:3000'
+      
+      console.log(`Original BASE_URL value: "${baseUrl}"`)
+      
+      if (!baseUrl || baseUrl.trim() === '') {
+        console.log('Empty BASE_URL detected, using localhost')
+        baseUrl = 'http://localhost:3000'
+      } else if (baseUrl === '/' || baseUrl === '//' || baseUrl === 'https://' || baseUrl === 'http://') {
+        console.log('BASE_URL is just a path or protocol, checking API_URL')
+        baseUrl = process.env.API_URL || process.env.VERCEL_URL || 'http://localhost:3000'
+        console.log(`Using API_URL instead: "${baseUrl}"`)
+      }
+      
+      if (!baseUrl.startsWith('http')) {
+        baseUrl = `https://${baseUrl.replace(/^\/+/, '')}`
+      }
+      
+      try {
+        const urlObj = new URL(baseUrl)
+        console.log(`Parsed URL: ${urlObj.toString()}`)
+        
+        if (baseUrl === 'http://' || baseUrl === 'https://') {
+          throw new Error('URL is just a protocol')
+        }
+        
+        baseUrl = urlObj.toString()
+      } catch (error) {
+        console.log(`Invalid BASE_URL detected: "${baseUrl}", using localhost instead`)
+        baseUrl = 'http://localhost:3000'
+      }
+      
+      const docsUrl = new URL('/docs', baseUrl).toString()
       
       await page.goto(docsUrl)
       
