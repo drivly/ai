@@ -34,7 +34,7 @@ export const GET = API(async (req, { db, params, user, payload }) => {
     .then((res) => res.json())
     .then((data) => data.items)
   const triggers = await fetch('https://backend.composio.dev/api/v1/triggers', composio).then((res) => res.json())
-  const actions = await fetch('https://backend.composio.dev/api/v1/actions', composio)
+  const actions = await fetch('https://backend.composio.dev/api/v2/actions/list/all', composio)
     .then((res) => res.json())
     .then((data) => data.items)
   const integrations = await payload.db.connection.collection('integrations').bulkWrite(
@@ -51,6 +51,10 @@ export const GET = API(async (req, { db, params, user, payload }) => {
   console.log('Categories seeded')
   const triggersResults = await payload.db.connection.collection('integrationtriggers').bulkWrite(
     triggers.map((trigger: any) => {
+      if (trigger.display_name) {
+        trigger.displayName = trigger.display_name;
+        delete trigger.display_name;
+      }
       return { updateOne: { filter: { appKey: trigger.appKey }, update: { $set: trigger }, upsert: true } }
     }),
   )

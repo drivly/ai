@@ -15,6 +15,10 @@ export const IntegrationActions: CollectionConfig = {
   fields: [
     { name: 'displayName', type: 'text' },
     { name: 'description', type: 'textarea' },
+    { name: 'appKey', type: 'text' },
+    { name: 'appName', type: 'text' },
+    { name: 'appId', type: 'text' },
+    { name: 'version', type: 'text' },
     { name: 'parameters', type: 'json' },
     { name: 'response', type: 'json' },
   ],
