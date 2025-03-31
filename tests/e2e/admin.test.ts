@@ -62,8 +62,8 @@ describe('Admin page', () => {
   })
 
   it('should show login screen without server errors', async () => {
-    if ((process.env.CI && !process.env.BROWSER_TESTS) || !browser || !page || process.env.IS_TEST_ENV === 'true') {
-      console.log('Skipping browser test in CI/test environment or browser not available')
+    if (!browser || !page) {
+      console.log('Skipping browser test because browser not available')
       expect(true).toBe(true) // Pass the test when skipped
       return
     }
@@ -106,8 +106,8 @@ describe('Admin page', () => {
   })
 
   it('should allow login and navigation without server errors', async () => {
-    if ((process.env.CI && !process.env.BROWSER_TESTS) || !browser || !page || process.env.IS_TEST_ENV === 'true') {
-      console.log('Skipping browser test in CI/test environment or browser not available')
+    if (!browser || !page) {
+      console.log('Skipping browser test because browser not available')
       expect(true).toBe(true) // Pass the test when skipped
       return
     }
@@ -171,8 +171,8 @@ describe('Admin page', () => {
   })
 
   it('should navigate to all collection types in the admin interface', async () => {
-    if ((process.env.CI && !process.env.BROWSER_TESTS) || !browser || !page || process.env.IS_TEST_ENV === 'true') {
-      console.log('Skipping browser test in CI/test environment or browser not available')
+    if (!browser || !page) {
+      console.log('Skipping browser test because browser not available')
       expect(true).toBe(true) // Pass the test when skipped
       return
     }
@@ -230,8 +230,8 @@ describe('Admin page', () => {
   })
 
   it('should create and view documents in key collections', async () => {
-    if ((process.env.CI && !process.env.BROWSER_TESTS) || !browser || !page || process.env.IS_TEST_ENV === 'true') {
-      console.log('Skipping browser test in CI/test environment or browser not available')
+    if (!browser || !page) {
+      console.log('Skipping browser test because browser not available')
       expect(true).toBe(true) // Pass the test when skipped
       return
     }
@@ -298,8 +298,8 @@ describe('Admin page', () => {
   })
 
   it('should test relationships between collections', async () => {
-    if ((process.env.CI && !process.env.BROWSER_TESTS) || !browser || !page || process.env.IS_TEST_ENV === 'true') {
-      console.log('Skipping browser test in CI/test environment or browser not available')
+    if (!browser || !page) {
+      console.log('Skipping browser test because browser not available')
       expect(true).toBe(true) // Pass the test when skipped
       return
     }
