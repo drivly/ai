@@ -1,8 +1,21 @@
 'use client' // Error boundaries must be Client Components
 
-// TODO: figure out if we can save errors to db via a server action
+import { useEffect } from 'react'
+import { recordError } from '../actions/error'
 
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  useEffect(() => {
+    recordError(error)
+      .then((result) => {
+        if (result) {
+          console.log('Error recorded successfully:', result.id)
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to record error:', err)
+      })
+  }, [error])
+
   return (
     // global-error must include html and body tags
     <html>
