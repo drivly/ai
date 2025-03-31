@@ -199,6 +199,9 @@ export interface Config {
     tasks: {
       executeFunction: TaskExecuteFunction;
       generateCode: TaskGenerateCode;
+      generateThingEmbedding: TaskGenerateThingEmbedding;
+      searchThings: TaskSearchThings;
+      hybridSearchThings: TaskHybridSearchThings;
       inline: {
         input: unknown;
         output: unknown;
@@ -350,6 +353,15 @@ export interface Thing {
   type?: (string | null) | Noun;
   yaml?: string | null;
   data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  embedding?:
     | {
         [k: string]: unknown;
       }
@@ -746,6 +758,26 @@ export interface Trigger {
 export interface Search {
   id: string;
   name?: string | null;
+  query?: string | null;
+  searchType?: ('text' | 'vector' | 'hybrid') | null;
+  results?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  embedding?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1142,7 +1174,13 @@ export interface PayloadJob {
     | {
         executedAt: string;
         completedAt: string;
-        taskSlug: 'inline' | 'executeFunction' | 'generateCode';
+        taskSlug:
+          | 'inline'
+          | 'executeFunction'
+          | 'generateCode'
+          | 'generateThingEmbedding'
+          | 'searchThings'
+          | 'hybridSearchThings';
         taskID: string;
         input?:
           | {
@@ -1173,14 +1211,25 @@ export interface PayloadJob {
           | boolean
           | null;
         parent?: {
-          taskSlug?: ('inline' | 'executeFunction' | 'generateCode') | null;
+          taskSlug?:
+            | (
+                | 'inline'
+                | 'executeFunction'
+                | 'generateCode'
+                | 'generateThingEmbedding'
+                | 'searchThings'
+                | 'hybridSearchThings'
+              )
+            | null;
           taskID?: string | null;
         };
         id?: string | null;
       }[]
     | null;
   workflowSlug?: 'handleGithubEvent' | null;
-  taskSlug?: ('inline' | 'executeFunction' | 'generateCode') | null;
+  taskSlug?:
+    | ('inline' | 'executeFunction' | 'generateCode' | 'generateThingEmbedding' | 'searchThings' | 'hybridSearchThings')
+    | null;
   queue?: string | null;
   waitUntil?: string | null;
   processing?: boolean | null;
@@ -1521,6 +1570,7 @@ export interface ThingsSelect<T extends boolean = true> {
   type?: T;
   yaml?: T;
   data?: T;
+  embedding?: T;
   subjectOf?: T;
   objectOf?: T;
   updatedAt?: T;
@@ -1607,6 +1657,10 @@ export interface TriggersSelect<T extends boolean = true> {
  */
 export interface SearchesSelect<T extends boolean = true> {
   name?: T;
+  query?: T;
+  searchType?: T;
+  results?: T;
+  embedding?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2056,6 +2110,68 @@ export interface TaskGenerateCode {
       | null;
     code?: string | null;
     parsed?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateThingEmbedding".
+ */
+export interface TaskGenerateThingEmbedding {
+  input: {
+    id: string;
+  };
+  output: {
+    thing?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSearchThings".
+ */
+export interface TaskSearchThings {
+  input: {
+    query: string;
+    limit?: number | null;
+  };
+  output: {
+    results?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskHybridSearchThings".
+ */
+export interface TaskHybridSearchThings {
+  input: {
+    query: string;
+    limit?: number | null;
+  };
+  output: {
+    results?:
       | {
           [k: string]: unknown;
         }
