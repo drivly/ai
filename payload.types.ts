@@ -598,6 +598,8 @@ export interface Task {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
+  kanbanStatus?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
+  kanbanOrderRank?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -903,7 +905,23 @@ export interface Event {
  */
 export interface Error {
   id: string;
-  name?: string | null;
+  message: string;
+  /**
+   * Error stack trace
+   */
+  stack?: string | null;
+  /**
+   * Error digest for identifying specific errors
+   */
+  digest?: string | null;
+  /**
+   * URL where the error occurred
+   */
+  url?: string | null;
+  /**
+   * Source of the error (client/server/etc)
+   */
+  source?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1347,6 +1365,8 @@ export interface TasksSelect<T extends boolean = true> {
   subtasks?: T;
   dependentOn?: T;
   dependents?: T;
+  kanbanStatus?: T;
+  kanbanOrderRank?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1634,7 +1654,11 @@ export interface EventsSelect<T extends boolean = true> {
  * via the `definition` "errors_select".
  */
 export interface ErrorsSelect<T extends boolean = true> {
-  name?: T;
+  message?: T;
+  stack?: T;
+  digest?: T;
+  url?: T;
+  source?: T;
   updatedAt?: T;
   createdAt?: T;
 }
