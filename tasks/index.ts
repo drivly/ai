@@ -6,6 +6,7 @@ import { handleGithubEvent } from './handleGithubEvent'
 import { hybridSearchThings, searchThings } from './searchThings'
 import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './schemaUtils'
 import { processCodeFunctionWrapperTask } from './processCodeFunctionWrapper'
+import { processCodeFunctionTask } from './processCodeFunction'
 import { inflectNounsTask } from './inflectNouns'
 import { conjugateVerbsTask } from './conjugateVerbs'
 
@@ -54,6 +55,7 @@ export const tasks = [
   searchThingsTask, 
   hybridSearchThingsTask,
   processCodeFunctionWrapperTask,
+  processCodeFunctionTask,
   inflectNounsTask,
   conjugateVerbsTask
 ]
