@@ -10,7 +10,7 @@ function getDomainLogo(hostname: string) {
   if (hostname.endsWith('.do') && !hostname.slice(0, -3).includes('.')) {
     return hostname
   }
-  return 'APIs.do'
+  return 'Workflows.do'
 }
 
 export const metadata = {

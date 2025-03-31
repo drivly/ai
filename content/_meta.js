@@ -1,94 +1,65 @@
 export default {
   index: {
-    title: 'Introduction',
-    type: 'page',
+    title: 'Introduction'
   },
   workflows: {
-    title: 'Workflows',
-    type: 'page',
+    title: 'Workflows'
   },
   functions: {
-    title: 'Functions',
-    type: 'page',
-  },
-  agents: {
-    title: 'Agents',
-    type: 'page',
-  },
-  integrations: {
-    title: 'Integrations',
-    type: 'page',
-  },
-  apis: {
-    title: 'APIs',
-    type: 'page',
+    title: 'Functions'
   },
   database: {
-    title: 'Database',
-    type: 'page',
+    title: 'Database'
   },
   events: {
-    title: 'Events',
-    type: 'separator',
+    title: 'Events'
   },
-  triggers: {
-    title: 'Triggers',
-    type: 'page',
-  },
-  searches: {
-    title: 'Searches',
-    type: 'page',
-  },
-  actions: {
-    title: 'Actions',
-    type: 'page',
+  integrations: {
+    title: 'Integrations'
   },
   data: {
     title: 'Data',
-    type: 'separator',
+    type: 'separator'
   },
   things: {
-    title: 'Things',
-    type: 'page',
+    title: 'Things'
   },
   nouns: {
-    title: 'Nouns',
-    type: 'page',
+    title: 'Nouns'
   },
   verbs: {
-    title: 'Verbs',
-    type: 'page',
+    title: 'Verbs'
+  },
+  actions: {
+    title: 'Actions'
+  },
+  agents: {
+    title: 'Agents'
+  },
+  llm: {
+    title: 'LLM'
   },
   observability: {
     title: 'Observability',
-    type: 'separator',
+    type: 'separator'
   },
   traces: {
-    title: 'Traces',
-    type: 'page',
+    title: 'Traces'
   },
   evals: {
-    title: 'Evals',
-    type: 'page',
+    title: 'Evals'
   },
   experiments: {
-    title: 'Experiments',
-    type: 'page',
-  },
-  llm: {
-    title: 'LLM',
-    type: 'page',
+    title: 'Experiments'
   },
   admin: {
     title: 'Admin',
-    type: 'separator',
+    type: 'separator'
   },
   api: {
-    title: 'API Reference',
-    type: 'page',
+    title: 'API Reference'
   },
   code: {
-    title: 'Code',
-    type: 'page',
+    title: 'Code'
   }
 }
