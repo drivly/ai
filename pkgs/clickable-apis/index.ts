@@ -61,9 +61,10 @@ const domainDescriptions: Record<string, string> = {
   'llm.do': 'Intelligent gateway for routing AI requests',
 }
 
-const getDomainDescription = (domain: string): string => {
+const getDomainDescription = (domain: string, customDescriptions?: Record<string, string>): string => {
   const baseDomain = domain.split('.').slice(-2).join('.')
-  return domainDescriptions[baseDomain] || domainDescriptions['apis.do']
+  const descriptions = customDescriptions || domainDescriptions
+  return descriptions[baseDomain] || descriptions['apis.do'] || 'API'
 }
 
 const getDomainPackageName = (domain: string): string => {
@@ -79,9 +80,15 @@ const getDomainSite = (domain: string): string => {
 /**
  * Creates an API factory with dependency injection for payload
  * @param payloadInstance - The payload instance to use
+ * @param options - Optional configuration options
  * @returns A function that creates API handlers
  */
-export const createAPI = (payloadInstance?: any) => {
+export const createAPI = (
+  payloadInstance?: any,
+  options?: {
+    domainDescriptions?: Record<string, string>
+  }
+) => {
   /**
    * Creates an API handler with enhanced context
    * @param handler - Function to handle the API request
@@ -92,6 +99,7 @@ export const createAPI = (payloadInstance?: any) => {
     handler: ApiHandler<T>,
     options?: {
       getPayloadClient?: PayloadClientFn
+      domainDescriptions?: Record<string, string>
     },
   ) => {
     return async (req: NextRequest, context: { params: Promise<Record<string, string | string[]>> }) => {
@@ -197,7 +205,7 @@ export const createAPI = (payloadInstance?: any) => {
 
         const apiHeader: ApiHeader = {
           name: domain,
-          description: getDomainDescription(domain),
+          description: getDomainDescription(domain, options?.domainDescriptions),
           home: origin,
           login: origin + '/login',
           signup: origin + '/signup',
