@@ -8,7 +8,12 @@ import { beforeAll, afterAll, vi } from 'vitest'
 // Mock environment variables for testing
 process.env.API_URL = process.env.API_URL || 'http://localhost:3000'
 process.env.BASE_URL = process.env.BASE_URL || 'http://localhost:3000'
-process.env.IS_TEST_ENV = 'true'
+process.env.IS_TEST_ENV = process.env.IS_TEST_ENV || 'true'
+
+console.log('Environment variables in setup.ts:')
+console.log(`BASE_URL: ${process.env.BASE_URL}`)
+console.log(`API_URL: ${process.env.API_URL}`)
+console.log(`IS_TEST_ENV: ${process.env.IS_TEST_ENV}`)
 
 // Mock fetch for API tests when needed
 if (!globalThis.fetch) {
