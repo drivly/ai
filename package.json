@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
+    "@ai-sdk/openai": "^1.0.10",
     "@drivly/payload-agent": "workspace:*",
     "@drivly/ui": "workspace:*",
     "@graphdl/core": "^0.1.6",
@@ -43,6 +44,7 @@
     "@payloadcms/payload-cloud": "^3.31.0",
     "@payloadcms/plugin-multi-tenant": "^3.31.0",
     "@payloadcms/plugin-sentry": "^3.31.0",
+    "@payloadcms/plugin-stripe": "^3.31.0",
     "@payloadcms/richtext-lexical": "^3.31.0",
     "@sentry/nextjs": "^9.10.1",
     "@sentry/node": "^9.10.1",

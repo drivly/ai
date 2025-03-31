@@ -11,7 +11,7 @@ const withNextra = nextra({
 const nextConfig = {
   // Your Next.js config here
  
-  transpilePackages: ['@drivly/ui', 'simple-payload', 'clickable-apis'],
+  transpilePackages: ['simple-payload', 'clickable-apis'],
 }
 
 // Apply Nextra and Payload plugins first
