@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { apis } from './api.config'
-import { collectionSlugs } from './collections/index'
+import { collectionSlugs } from './collections/middleware-collections'
 import { aliases } from './site.config'
 
 // what domains have websites / landing pages ... otherwise base path / is the API
