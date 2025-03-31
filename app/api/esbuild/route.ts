@@ -15,8 +15,13 @@ export async function POST(request: Request) {
       }, { status: 400 })
     }
     
-    const { bundleCode } = await import('../../../pkgs/deploy-worker/src/utils/esbuild')
-    const bundledCode = await bundleCode(code, options)
+    const bundleCodeDynamic = async (codeToBundle: string, bundleOptions: any) => {
+      const esbuildUtilPath = '../../../pkgs/deploy-worker/src/utils/esbuild'
+      const { bundleCode } = await import(esbuildUtilPath)
+      return bundleCode(codeToBundle, bundleOptions)
+    }
+    
+    const bundledCode = await bundleCodeDynamic(code, options)
     
     return NextResponse.json({ 
       code: bundledCode, 

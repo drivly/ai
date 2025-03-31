@@ -104,7 +104,8 @@ export const GET = API(async (req, ctx) => {
   try {
     const code = await fetchCodeFromUrl(urlPath.startsWith('http') ? urlPath : `https://${urlPath}`)
     
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/esbuild`, {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+    const response = await fetch(`${apiUrl}/api/esbuild`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -233,7 +234,8 @@ export const POST = API(async (req, ctx) => {
       }
     }
     
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/esbuild`, {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+    const response = await fetch(`${apiUrl}/api/esbuild`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
