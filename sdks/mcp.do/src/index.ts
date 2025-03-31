@@ -2,6 +2,7 @@
  * MCP.do SDK
  * Multi-Cloud Platform interface for AI Primitives
  */
+import { API } from 'apis.do'
 
 export interface MCPOptions {
   region?: string
@@ -22,14 +23,15 @@ export interface MCPResponse {
  * @returns Deployment response
  */
 export async function deployFunction(functionId: string, options: MCPOptions = {}): Promise<MCPResponse> {
-  return {
-    success: true,
-    data: {
-      functionId,
-      status: 'deployed',
-      timestamp: new Date().toISOString(),
-    },
-  }
+  const api = new API({
+    apiKey: options.apiKey
+  })
+  
+  return api.post('/mcp/deploy', {
+    functionId,
+    region: options.region,
+    provider: options.provider
+  })
 }
 
 export default {

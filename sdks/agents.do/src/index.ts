@@ -1,4 +1,4 @@
-import { ApiClient } from './api-client'
+import { API } from 'apis.do'
 import type { 
   AgentConfig, 
   AgentResponse, 
@@ -10,16 +10,13 @@ import type {
 export * from '../types'
 
 export class AgentsClient {
-  private api: ApiClient
+  private api: API
   private defaultConfig?: Partial<AgentConfig>
 
   constructor(options: AgentClientOptions = {}) {
-    this.api = new ApiClient({
+    this.api = new API({
       baseUrl: options.baseUrl || 'https://agents.do',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
-      },
+      apiKey: options.apiKey
     })
     this.defaultConfig = options.defaultConfig
   }

@@ -1,4 +1,4 @@
-import { ApiClient } from './api-client'
+import { API } from 'apis.do'
 
 export interface FunctionDefinition {
   type?: 'Generation' | 'Code' | 'Human' | 'Agent'
@@ -25,15 +25,12 @@ export interface FunctionResponse<T = any> {
 }
 
 export class FunctionsClient {
-  private api: ApiClient
+  private api: API
 
   constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
-    this.api = new ApiClient({
+    this.api = new API({
       baseUrl: options.baseUrl || 'https://apis.do',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
-      },
+      apiKey: options.apiKey
     })
   }
 

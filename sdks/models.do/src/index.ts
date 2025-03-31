@@ -1,4 +1,4 @@
-import { ApiClient } from './api-client'
+import { API } from 'apis.do'
 
 export type ModelCapability = 'code' | 'online' | 'reasoning' | 'reasoning-low' | 'reasoning-medium' | 'reasoning-high' | 'tools' | 'structuredOutput' | 'responseFormat'
 
@@ -20,15 +20,12 @@ export interface ModelFilters {
 }
 
 export class ModelsClient {
-  private api: ApiClient
+  private api: API
 
   constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
-    this.api = new ApiClient({
+    this.api = new API({
       baseUrl: options.baseUrl || 'https://models.do',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
-      },
+      apiKey: options.apiKey
     })
   }
 
