@@ -65,7 +65,7 @@ describe('workflows.do SDK - Unit Tests', () => {
 
       const result = await workflow.execute({ input: 'test' })
       expect(result).toEqual({ status: 'completed', output: 'test' })
-      expect(fetch).toHaveBeenCalledWith('http://localhost:3000/workflows', expect.any(Object))
+      expect(fetch).toHaveBeenCalledWith('https://apis.do/workflows/execute', expect.any(Object))
     })
   })
 })
