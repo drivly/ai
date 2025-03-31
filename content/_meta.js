@@ -27,6 +27,9 @@ export default {
   things: {
     title: 'Things'
   },
+  'vector-search': {
+    title: 'Vector Search'
+  },
   nouns: {
     title: 'Nouns'
   },
