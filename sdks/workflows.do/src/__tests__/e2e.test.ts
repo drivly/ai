@@ -10,14 +10,15 @@ describe('workflows.do SDK - E2E Tests', () => {
     global.fetch = mockFetch as unknown as typeof fetch
   })
 
+  const mockWorkflow = {
+    id: '123',
+    name: 'test-workflow',
+    type: 'typescript',
+    code: 'export default { /* workflow definition */ }'
+  }
+
   describe('Payload CRUD API', () => {
     it('should create and retrieve a workflow through Payload API', async () => {
-      const mockWorkflow = {
-        id: '123',
-        name: 'test-workflow',
-        type: 'typescript',
-        code: 'export default { /* workflow definition */ }'
-      }
 
       mockFetch
         .mockResolvedValueOnce(new Response(JSON.stringify({ doc: mockWorkflow })))
