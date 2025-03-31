@@ -8,6 +8,27 @@ export const Functions: CollectionConfig = {
     useAsTitle: 'name',
   },
   // versions: true,
+  hooks: {
+    afterChange: [
+      async ({ doc, req }) => {
+        if (doc.type === 'Code' && doc.code) {
+          try {
+            await req.payload.create({
+              collection: 'tasks',
+              data: {
+                title: `Process Code Function: ${doc.name}`,
+                description: `Process code from function ${doc.name} (${doc.id}) using esbuild to create modules and packages.`,
+                status: 'todo',
+              },
+            })
+          } catch (error) {
+            console.error('Error triggering processCodeFunction task:', error)
+          }
+        }
+        return doc
+      },
+    ],
+  },
   fields: [
     // {
     //   type: 'row',
