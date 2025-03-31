@@ -431,7 +431,7 @@ const api = new API({
 })
 
 // OAuth Token
-const api = new ApiClient({
+const api = new API({
   headers: {
     Authorization: `Bearer ${oauthToken}`,
   },

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import { CLI } from '../../src/cli.js'
-import { ApiClient } from '../../src/client.js'
+import { API } from '../../src/client.js'
 
 const apiKey = process.env.APIS_DO_API_KEY || process.env.DO_API_KEY
 const shouldRunE2E = !!apiKey
@@ -9,7 +9,7 @@ const describeE2E = shouldRunE2E ? describe : describe.skip
 
 describeE2E('apis.do E2E API Tests', () => {
   let cli: CLI
-  let apiClient: ApiClient
+  let apiClient: API
 
   beforeAll(() => {
     const baseUrl = 'http://localhost:3000'
@@ -19,7 +19,7 @@ describeE2E('apis.do E2E API Tests', () => {
       baseUrl,
     })
 
-    apiClient = new ApiClient({
+    apiClient = new API({
       apiKey,
       baseUrl,
     })

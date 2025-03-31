@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { CLI } from './cli.js'
-import { ApiClient } from './client.js'
+import { API } from './client.js'
 
 vi.mock('./client.js', () => {
   return {
-    ApiClient: vi.fn().mockImplementation(() => ({
+    API: vi.fn().mockImplementation(() => ({
       post: vi.fn().mockResolvedValue({ success: true }),
       list: vi.fn().mockResolvedValue({ data: [] }),
       getById: vi.fn().mockResolvedValue({ id: '123', name: 'Test' }),

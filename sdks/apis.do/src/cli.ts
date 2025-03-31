@@ -1,4 +1,4 @@
-import { ApiClient } from './client.js'
+import { API } from './client.js'
 
 export interface CliOptions {
   apiKey?: string
@@ -7,11 +7,11 @@ export interface CliOptions {
 }
 
 export class CLI {
-  private api: ApiClient
+  private api: API
   private configPath: string
 
   constructor(options: CliOptions = {}) {
-    this.api = new ApiClient({
+    this.api = new API({
       apiKey: options.apiKey,
       baseUrl: options.baseUrl,
     })
