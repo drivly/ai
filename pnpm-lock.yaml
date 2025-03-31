@@ -11,9 +11,11 @@ importers:
       '@ai-primitives/data':
         specifier: workspace:*
         version: link:collections
+ 
       '@drivly/ui':
         specifier: workspace:*
         version: link:pkgs/ui
+ 
       '@graphdl/core':
         specifier: ^0.1.6
         version: 0.1.6
