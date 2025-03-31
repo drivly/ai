@@ -4,12 +4,14 @@
   "scripts": {
     "build": "turbo run build && pnpm build:next",
     "build:next": "pnpm build:content && cross-env NODE_OPTIONS=--no-deprecation next build",
+    "changelog": "standard-version --skip.bump --skip.tag --skip.commit",
+    "changelog:first": "standard-version --first-release --skip.bump --skip.tag --skip.commit",
     "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "lint": "turbo lint",
     "changeset": "changeset",
     "version": "changeset version && pnpm install --lockfile-only",
-    "release": "pnpm build && changeset publish",
+    "release": "pnpm changelog && pnpm build && changeset publish",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types && pnpm sync:sdk-types",
@@ -102,6 +104,7 @@
     "null-loader": "^4.0.1",
     "playwright": "^1.51.1",
     "prettier": "^3.5.3",
+    "standard-version": "^9.5.0",
     "turbo": "^2.4.4",
     "typescript": "5.7.3",
     "vitest": "^3.0.9"
