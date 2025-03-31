@@ -1,6 +1,6 @@
 {
   "name": "database.do",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "AI-Native Data Access SDK for seamless database operations with MongoDB, PostgreSQL, and SQLite",
   "keywords": [
     "database",
