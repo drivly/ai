@@ -2,9 +2,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { AI, createWorkflow } from '../index'
 
 describe('workflows.do SDK - E2E Tests', () => {
+  let mockFetch: ReturnType<typeof vi.fn>
+
   beforeEach(() => {
     vi.resetAllMocks()
-    const mockFetch = vi.fn().mockImplementation(() => Promise.resolve(new Response()))
+    mockFetch = vi.fn().mockImplementation(() => Promise.resolve(new Response()))
     global.fetch = mockFetch as unknown as typeof fetch
   })
 
