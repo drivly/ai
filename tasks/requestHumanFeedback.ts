@@ -41,13 +41,15 @@ interface HumanFeedbackRequest {
   taskId?: string
   title: string
   description: string
-  options?: ResponseOption[]
+  options?: ResponseOption[] | string[]
   freeText?: boolean
   platform?: MessagePlatform
   userId?: string
   roleId?: string
   timeout?: number
   blocks?: BlocksSchema
+  channel?: string
+  mentions?: string[]
 }
 
 interface HumanFeedbackResponse {
@@ -84,7 +86,9 @@ export const requestHumanFeedback = async ({
     userId, 
     roleId,
     timeout = 3600000, // Default timeout: 1 hour
-    blocks
+    blocks,
+    channel,
+    mentions
   } = input
 
   let task
@@ -137,7 +141,9 @@ export const requestHumanFeedback = async ({
     freeText,
     userId,
     roleId,
-    blocks
+    blocks,
+    channel,
+    mentions
   })
 
   waitUntil(
@@ -189,7 +195,9 @@ async function sendPlatformMessage(
     freeText,
     userId,
     roleId,
-    blocks
+    blocks,
+    channel,
+    mentions
   }: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { taskId: string }
 ): Promise<string> {
   const origin = process.env.NEXT_PUBLIC_SERVER_URL || 'https://ai.driv.ly'
@@ -206,7 +214,9 @@ async function sendPlatformMessage(
         callbackUrl,
         userId,
         roleId,
-        blocks
+        blocks,
+        channel,
+        mentions
       })
     case 'teams':
       return await sendTeamsMessage({
@@ -247,7 +257,9 @@ async function sendSlackMessage({
   callbackUrl,
   userId,
   roleId,
-  blocks: blockSchema
+  blocks: blockSchema,
+  channel: customChannel,
+  mentions: userMentions
 }: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { 
   taskId: string,
   callbackUrl: string 
@@ -256,12 +268,18 @@ async function sendSlackMessage({
     throw new Error('SLACK_BOT_TOKEN is not configured')
   }
 
-  let channel = process.env.SLACK_DEFAULT_CHANNEL || 'general'
+  let channel = customChannel || process.env.SLACK_DEFAULT_CHANNEL || 'general'
   
   if (userId) {
   }
 
   if (roleId) {
+  }
+  
+  let messageText = description;
+  if (userMentions && userMentions.length > 0) {
+    const mentionText = userMentions.map((mention: string) => `<@${mention}>`).join(' ');
+    messageText = `${mentionText} ${messageText}`;
   }
 
   let slackBlocks: SlackBlock[] = [];
@@ -280,7 +298,7 @@ async function sendSlackMessage({
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: description || blockSchema.description
+          text: messageText || blockSchema.description
         }
       }
     ];
@@ -332,7 +350,7 @@ async function sendSlackMessage({
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: description
+          text: messageText
         }
       },
       {
@@ -344,16 +362,20 @@ async function sendSlackMessage({
   if (options && options.length > 0) {
     const actionBlock: SlackBlock = {
       type: 'actions',
-      elements: options.map(option => ({
-        type: 'button',
-        text: {
-          type: 'plain_text',
-          text: option.label,
-          emoji: true
-        },
-        value: `${taskId}:${option.value}`,
-        action_id: `human_feedback_option:${option.value}`
-      }))
+      elements: options.map(option => {
+        const optionValue = typeof option === 'string' ? option : option.value;
+        const optionLabel = typeof option === 'string' ? option : option.label;
+        return {
+          type: 'button',
+          text: {
+            type: 'plain_text',
+            text: optionLabel,
+            emoji: true
+          },
+          value: `${taskId}:${optionValue}`,
+          action_id: `human_feedback_option:${optionValue}`
+        };
+      })
     }
     slackBlocks.push(actionBlock)
   }
@@ -460,12 +482,14 @@ async function sendTeamsMessage({
 
   if (options && options.length > 0) {
     options.forEach(option => {
+      const optionValue = typeof option === 'string' ? option : option.value;
+      const optionLabel = typeof option === 'string' ? option : option.label;
       card.actions.push({
         type: 'Action.Submit',
-        title: option.label,
+        title: optionLabel,
         data: {
           taskId,
-          option: option.value
+          option: optionValue
         }
       } as any)
     })
@@ -551,9 +575,11 @@ async function sendDiscordMessage({
   if (options && options.length > 0) {
     embed.fields.push({
       name: 'Options',
-      value: options.map((option, index) => 
-        `${index + 1}. ${option.label} - \`/human-feedback ${taskId} option ${option.value}\``
-      ).join('\n')
+      value: options.map((option, index) => {
+        const optionValue = typeof option === 'string' ? option : option.value;
+        const optionLabel = typeof option === 'string' ? option : option.label;
+        return `${index + 1}. ${optionLabel} - \`/human-feedback ${taskId} option ${optionValue}\``;
+      }).join('\n')
     })
   }
 

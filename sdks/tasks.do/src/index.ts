@@ -7,6 +7,8 @@ export interface SlackBlockSchema {
   freeText?: boolean
   platform?: 'slack' | 'teams' | 'discord'
   timeout?: number
+  channel?: string
+  mentions?: string[]
 }
 
 export interface TaskDefinition {
