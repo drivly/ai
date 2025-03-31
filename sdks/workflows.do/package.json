@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "echo \"No tests\" && exit 0"
+    "test": "vitest run"
   },
   "keywords": [
     "ai",
@@ -32,7 +32,8 @@
   },
   "dependencies": {
     "apis.do": "workspace:*",
-    "functions.do": "workspace:*"
+    "functions.do": "workspace:*",
+    "database.do": "workspace:*"
   },
   "devDependencies": {
     "evalite": "^0.9.1",

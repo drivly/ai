@@ -130,27 +130,27 @@ Agents.do combines functions and workflows to create autonomous digital workers 
 graph TD
     Agent[Agent] --> Goals[Goals]
     Agent --> Memory[Memory]
-    Agent --> Tools[Tools]
-    Tools --> Function1[Function 1]
-    Tools --> Function2[Function 2]
-    Tools --> Workflow1[Workflow 1]
-    Tools --> ExternalAPI[External API]
+    Agent --> Capabilities[Capabilities]
+    Capabilities --> Function1[Function 1]
+    Capabilities --> Function2[Function 2]
+    Capabilities --> Workflow1[Workflow 1]
+    Capabilities --> Integration[Integration]
 
     style Agent fill:#e6e6fa,stroke:#333,stroke-width:1px
     style Goals fill:#fff2cc,stroke:#333,stroke-width:1px
     style Memory fill:#d0e0e3,stroke:#333,stroke-width:1px
-    style Tools fill:#f4cccc,stroke:#333,stroke-width:1px
+    style Capabilities fill:#f4cccc,stroke:#333,stroke-width:1px
     style Function1 fill:#d4f1f9,stroke:#333,stroke-width:1px
     style Function2 fill:#d4f1f9,stroke:#333,stroke-width:1px
     style Workflow1 fill:#d9d2e9,stroke:#333,stroke-width:1px
-    style ExternalAPI fill:#ead1dc,stroke:#333,stroke-width:1px
+    style Integration fill:#ead1dc,stroke:#333,stroke-width:1px
 ```
 
 Key characteristics:
 
 - Goal-oriented behavior
 - Memory and context management
-- Access to tools and workflows
+- Access to functions, workflows, and integrations
 - Autonomous decision making
 
 ## Event System
@@ -251,7 +251,7 @@ Key capabilities:
 
 - Model selection based on capabilities
 - Load balancing and fallbacks
-- Integrated tool use
+- Integrated function and integration calling
 - Observability and analytics
 
 ### Database.do - AI-enriched Data
@@ -460,7 +460,7 @@ graph TD
 
 ## Repository Structure
 
-The AI Primitives platform is organized as a monorepo using pnpm workspaces:
+The AI Primitives platform is organized as a monorepo using Turborepo with pnpm workspaces:
 
 ```mermaid
 graph TD
@@ -470,7 +470,9 @@ graph TD
     Root --> Content["content/"]
     Root --> Lib["lib/"]
     Root --> Packages["pkgs/"]
-    Root --> Web["web/"]
+    Root --> SDKs["sdks/"]
+    Root --> Tasks["tasks/"]
+    Root --> Websites["websites/"]
     Root --> Workers["workers/"]
     Root --> Workflows["workflows/"]
 
@@ -487,6 +489,11 @@ graph TD
     Packages --> DeployWorker["pkgs/deploy-worker/"]
     Packages --> ClickableLinks["pkgs/clickable-links/"]
 
+    SDKs --> FunctionsSDK["sdks/functions/"]
+    SDKs --> WorkflowsSDK["sdks/workflows/"]
+    SDKs --> AgentsSDK["sdks/agents/"]
+    SDKs --> DatabaseSDK["sdks/database/"]
+
     style Root fill:#f9f9f9,stroke:#333,stroke-width:1px
     style App fill:#d5a6bd,stroke:#333,stroke-width:1px
     style Collections fill:#d0e0e3,stroke:#333,stroke-width:1px
@@ -494,7 +501,9 @@ graph TD
     style Content fill:#d9ead3,stroke:#333,stroke-width:1px
     style Lib fill:#d9d2e9,stroke:#333,stroke-width:1px
     style Packages fill:#ffd966,stroke:#333,stroke-width:1px
-    style Web fill:#cfe2f3,stroke:#333,stroke-width:1px
+    style SDKs fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style Tasks fill:#ead1dc,stroke:#333,stroke-width:1px
+    style Websites fill:#cfe2f3,stroke:#333,stroke-width:1px
     style Workers fill:#ead1dc,stroke:#333,stroke-width:1px
     style Workflows fill:#d4f1f9,stroke:#333,stroke-width:1px
 ```
@@ -507,6 +516,195 @@ Key directories:
 - `/content/`: MDX content files
 - `/lib/`: Shared utility functions
 - `/pkgs/`: Shared packages (monorepo)
-- `/web/`: Website implementations
+- `/sdks/`: Zero-dependency SDK implementations published to npm
+- `/tasks/`: Backend implementations with dependencies
+- `/websites/`: Website implementations
 - `/workers/`: Cloudflare Workers implementations
 - `/workflows/`: Workflow definitions and examples
+
+## Collection Structure
+
+The AI Primitives platform uses Payload CMS collections to define data models and their relationships:
+
+```mermaid
+graph TD
+    subgraph "Core AI Collections"
+        Functions["Functions<br/>AI function definitions"]
+        Workflows["Workflows<br/>Orchestration definitions"]
+        Agents["Agents<br/>Autonomous workers"]
+    end
+
+    subgraph "Event Collections"
+        Triggers["Triggers<br/>Event initiators"]
+        Actions["Actions<br/>External impact"]
+        Searches["Searches<br/>Data retrieval"]
+    end
+
+    subgraph "Data Collections"
+        Things["Things<br/>Core entities"]
+        Nouns["Nouns<br/>Entity categories"]
+        Verbs["Verbs<br/>Action types"]
+    end
+
+    subgraph "Integration Collections"
+        Integrations["Integrations<br/>External systems"]
+        IntegrationActions["IntegrationActions<br/>External operations"]
+        IntegrationTriggers["IntegrationTriggers<br/>External events"]
+        Connections["Connections<br/>Integration auth"]
+        IntegrationCategories["IntegrationCategories<br/>Grouping"]
+    end
+
+    subgraph "Evaluation Collections"
+        Evals["Evals<br/>Evaluation definitions"]
+        EvalsRuns["EvalsRuns<br/>Evaluation executions"]
+        EvalsResults["EvalsResults<br/>Evaluation outcomes"]
+        Benchmarks["Benchmarks<br/>Performance metrics"]
+        Datasets["Datasets<br/>Test data"]
+    end
+
+    subgraph "Observability Collections"
+        Generations["Generations<br/>AI responses"]
+        Events["Events<br/>System events"]
+        Errors["Errors<br/>Error records"]
+        Traces["Traces<br/>Execution paths"]
+    end
+
+    subgraph "Code Collections"
+        Packages["Packages<br/>Code packages"]
+        Modules["Modules<br/>Code modules"]
+        Types["Types<br/>Type definitions"]
+        Deployments["Deployments<br/>Deployment records"]
+    end
+
+    subgraph "Admin Collections"
+        Users["Users<br/>User accounts"]
+        Roles["Roles<br/>Access control"]
+        Projects["Projects<br/>Project containers"]
+        APIKeys["APIKeys<br/>Authentication"]
+        Tags["Tags<br/>Content organization"]
+        Webhooks["Webhooks<br/>External notifications"]
+    end
+
+    subgraph "Job Collections"
+        Tasks["Tasks<br/>Background jobs"]
+        Queues["Queues<br/>Job queues"]
+    end
+
+    subgraph "Experiment Collections"
+        Experiments["Experiments<br/>Test configurations"]
+        Models["Models<br/>AI model definitions"]
+        Prompts["Prompts<br/>Prompt templates"]
+        Settings["Settings<br/>Configuration"]
+    end
+
+    style Functions fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style Workflows fill:#d9d2e9,stroke:#333,stroke-width:1px
+    style Agents fill:#e6e6fa,stroke:#333,stroke-width:1px
+    style Triggers fill:#ffd966,stroke:#333,stroke-width:1px
+    style Actions fill:#ead1dc,stroke:#333,stroke-width:1px
+    style Searches fill:#d9ead3,stroke:#333,stroke-width:1px
+    style Things fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Nouns fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Verbs fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Integrations fill:#ead1dc,stroke:#333,stroke-width:1px
+    style IntegrationActions fill:#ead1dc,stroke:#333,stroke-width:1px
+    style IntegrationTriggers fill:#ead1dc,stroke:#333,stroke-width:1px
+    style Connections fill:#ead1dc,stroke:#333,stroke-width:1px
+    style IntegrationCategories fill:#ead1dc,stroke:#333,stroke-width:1px
+    style Evals fill:#fff2cc,stroke:#333,stroke-width:1px
+    style EvalsRuns fill:#fff2cc,stroke:#333,stroke-width:1px
+    style EvalsResults fill:#fff2cc,stroke:#333,stroke-width:1px
+    style Benchmarks fill:#fff2cc,stroke:#333,stroke-width:1px
+    style Datasets fill:#fff2cc,stroke:#333,stroke-width:1px
+    style Generations fill:#d0e0e3,stroke:#333,stroke-width:1px
+    style Events fill:#d0e0e3,stroke:#333,stroke-width:1px
+    style Errors fill:#d0e0e3,stroke:#333,stroke-width:1px
+    style Traces fill:#d0e0e3,stroke:#333,stroke-width:1px
+    style Packages fill:#c9daf8,stroke:#333,stroke-width:1px
+    style Modules fill:#c9daf8,stroke:#333,stroke-width:1px
+    style Types fill:#c9daf8,stroke:#333,stroke-width:1px
+    style Deployments fill:#c9daf8,stroke:#333,stroke-width:1px
+    style Users fill:#d5a6bd,stroke:#333,stroke-width:1px
+    style Roles fill:#d5a6bd,stroke:#333,stroke-width:1px
+    style Projects fill:#d5a6bd,stroke:#333,stroke-width:1px
+    style APIKeys fill:#d5a6bd,stroke:#333,stroke-width:1px
+    style Tags fill:#d5a6bd,stroke:#333,stroke-width:1px
+    style Webhooks fill:#d5a6bd,stroke:#333,stroke-width:1px
+    style Tasks fill:#f4cccc,stroke:#333,stroke-width:1px
+    style Queues fill:#f4cccc,stroke:#333,stroke-width:1px
+    style Experiments fill:#cfe2f3,stroke:#333,stroke-width:1px
+    style Models fill:#cfe2f3,stroke:#333,stroke-width:1px
+    style Prompts fill:#cfe2f3,stroke:#333,stroke-width:1px
+    style Settings fill:#cfe2f3,stroke:#333,stroke-width:1px
+```
+
+### Collection Relationships
+
+The following diagram illustrates the key relationships between collections:
+
+```mermaid
+graph TD
+    Functions --> Prompts
+    Functions --> Agents
+    Functions --> Actions
+    
+    Workflows --> Functions
+    Workflows --> Modules
+    Workflows --> Packages
+    Workflows --> Deployments
+    
+    Actions --> Things["Things (subject)"]
+    Actions --> Verbs
+    Actions --> Functions
+    Actions --> Things2["Things (object)"]
+    Actions --> Generations
+    
+    Triggers --> Workflows
+    Searches --> Workflows
+    
+    Integrations --> IntegrationCategories
+    IntegrationActions --> Integrations
+    IntegrationTriggers --> Integrations
+    Connections --> Integrations
+    
+    Evals --> EvalsRuns
+    EvalsRuns --> EvalsResults
+    EvalsRuns --> Datasets
+    EvalsResults --> Benchmarks
+    
+    Tasks --> Queues
+    
+    Experiments --> Models
+    Experiments --> Prompts
+    Experiments --> Settings
+    
+    style Functions fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style Workflows fill:#d9d2e9,stroke:#333,stroke-width:1px
+    style Agents fill:#e6e6fa,stroke:#333,stroke-width:1px
+    style Triggers fill:#ffd966,stroke:#333,stroke-width:1px
+    style Actions fill:#ead1dc,stroke:#333,stroke-width:1px
+    style Searches fill:#d9ead3,stroke:#333,stroke-width:1px
+    style Things fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Things2 fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Verbs fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Integrations fill:#ead1dc,stroke:#333,stroke-width:1px
+    style IntegrationActions fill:#ead1dc,stroke:#333,stroke-width:1px
+    style IntegrationTriggers fill:#ead1dc,stroke:#333,stroke-width:1px
+    style Connections fill:#ead1dc,stroke:#333,stroke-width:1px
+    style IntegrationCategories fill:#ead1dc,stroke:#333,stroke-width:1px
+    style Evals fill:#fff2cc,stroke:#333,stroke-width:1px
+    style EvalsRuns fill:#fff2cc,stroke:#333,stroke-width:1px
+    style EvalsResults fill:#fff2cc,stroke:#333,stroke-width:1px
+    style Benchmarks fill:#fff2cc,stroke:#333,stroke-width:1px
+    style Datasets fill:#fff2cc,stroke:#333,stroke-width:1px
+    style Generations fill:#d0e0e3,stroke:#333,stroke-width:1px
+    style Modules fill:#c9daf8,stroke:#333,stroke-width:1px
+    style Packages fill:#c9daf8,stroke:#333,stroke-width:1px
+    style Deployments fill:#c9daf8,stroke:#333,stroke-width:1px
+    style Tasks fill:#f4cccc,stroke:#333,stroke-width:1px
+    style Queues fill:#f4cccc,stroke:#333,stroke-width:1px
+    style Experiments fill:#cfe2f3,stroke:#333,stroke-width:1px
+    style Models fill:#cfe2f3,stroke:#333,stroke-width:1px
+    style Prompts fill:#cfe2f3,stroke:#333,stroke-width:1px
+    style Settings fill:#cfe2f3,stroke:#333,stroke-width:1px
+```

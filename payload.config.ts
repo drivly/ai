@@ -50,6 +50,24 @@ export default buildConfig({
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
+    payloadKanbanBoard({
+      collections: {
+        tasks: {
+          enabled: true,
+          config: {
+            statuses: [
+              { value: 'backlog', label: 'Backlog' },
+              { value: 'todo', label: 'To Do' },
+              { value: 'in-progress', label: 'In Progress' },
+              { value: 'review', label: 'Review' },
+              { value: 'done', label: 'Done' },
+            ],
+            defaultStatus: 'backlog',
+            hideNoStatusColumn: false,
+          },
+        },
+      },
+    }),
     // multiTenantPlugin<Config>({
     //   tenantSelectorLabel: 'Project',
     //   // tenantsArrayField: {},

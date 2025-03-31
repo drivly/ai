@@ -1,4 +1,8 @@
 export default {
+  index: {
+    title: 'Overview',
+    type: 'page',
+  },
   nouns: {
     title: 'Nouns',
     type: 'page',

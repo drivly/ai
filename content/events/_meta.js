@@ -1,4 +1,8 @@
 export default {
+  index: {
+    title: 'Overview',
+    type: 'page',
+  },
   triggers: {
     title: 'Triggers',
     type: 'page',

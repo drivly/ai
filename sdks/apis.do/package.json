@@ -46,11 +46,14 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
-    "dev": "tsc --watch"
+    "test:watch": "vitest",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
   },
   "devDependencies": {
     "evalite": "^0.9.1",
-    "typescript": "^5.0.0",
+    "typescript": "^5.7.3",
     "vitest": "^3.0.9"
   }
 }
