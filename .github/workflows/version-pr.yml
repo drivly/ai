@@ -30,6 +30,12 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
         
+      - name: Update Version Stamp
+        run: |
+          echo "# Version Stamp - Updated on $(date)" > .github/version-stamp.txt
+          echo "# This file triggers the release workflow when merged to main" >> .github/version-stamp.txt
+          git add .github/version-stamp.txt
+        
       - name: Create Release PR
         uses: peter-evans/create-pull-request@v5
         with:

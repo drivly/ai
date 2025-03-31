@@ -25,6 +25,7 @@ export const Things: CollectionConfig = {
     { name: 'yaml', type: 'code', admin: { language: 'yaml', editorOptions: { padding: { top: 20, bottom: 20 } } } },
     { name: 'data', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
     // { name: 'generated', type:
+    { name: 'embedding', type: 'json', admin: { hidden: true }, index: false },
     { name: 'subjectOf', type: 'join', collection: 'actions', on: 'subject' },
     { name: 'objectOf', type: 'join', collection: 'actions', on: 'object' },
   ],
@@ -40,6 +41,22 @@ export const Things: CollectionConfig = {
           // const sqid = sqids.encode([name, type])
           // const hash = murmurhash([name, type])
           // return { sqid, hash }
+        }
+      },
+    ],
+    afterChange: [
+      async ({ doc, req }) => {
+        try {
+          const { generateThingEmbedding } = await import('../../tasks/generateThingEmbedding')
+          
+          generateThingEmbedding(doc.id).catch(error => {
+            console.error(`Error generating embedding for Thing ${doc.id}:`, error)
+          })
+          
+          return doc
+        } catch (error) {
+          console.error('Error importing generateThingEmbedding:', error)
+          return doc
         }
       },
     ],
