@@ -84,11 +84,25 @@ export const Verbs: CollectionConfig = {
               if (!doc.inverseObject) updateData.inverseObject = `Un${doc.action}ion`
               
               if (Object.keys(updateData).length > 0) {
-                await payload.update({
-                  collection: 'verbs',
-                  id: doc.id,
-                  data: updateData
-                })
+                try {
+                  const existingDoc = await payload.findByID({
+                    collection: 'verbs',
+                    id: doc.id,
+                  })
+                  
+                  if (existingDoc) {
+                    await payload.update({
+                      collection: 'verbs',
+                      id: doc.id,
+                      data: updateData
+                    })
+                    console.log('Updated verb with semantic values:', updateData)
+                  } else {
+                    console.log('Document not found for update, will be handled by beforeChange hook on next edit')
+                  }
+                } catch (updateError) {
+                  console.error('Error updating verb with semantic values:', updateError)
+                }
               }
             } catch (error) {
               console.error('Error processing verb semantics in afterChange:', error)

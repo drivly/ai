@@ -75,11 +75,25 @@ export const Nouns: CollectionConfig = {
               if (!doc.event) updateData.event = `${doc.name.toLowerCase()}ed`
               
               if (Object.keys(updateData).length > 0) {
-                await payload.update({
-                  collection: 'nouns',
-                  id: doc.id,
-                  data: updateData
-                })
+                try {
+                  const existingDoc = await payload.findByID({
+                    collection: 'nouns',
+                    id: doc.id,
+                  })
+                  
+                  if (existingDoc) {
+                    await payload.update({
+                      collection: 'nouns',
+                      id: doc.id,
+                      data: updateData
+                    })
+                    console.log('Updated noun with semantic values:', updateData)
+                  } else {
+                    console.log('Document not found for update, will be handled by beforeChange hook on next edit')
+                  }
+                } catch (updateError) {
+                  console.error('Error updating noun with semantic values:', updateError)
+                }
               }
             } catch (error) {
               console.error('Error processing noun semantics in afterChange:', error)
