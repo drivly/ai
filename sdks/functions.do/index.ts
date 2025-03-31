@@ -40,15 +40,31 @@ const callAPI = async (request: any) => {
     return { data: mockResponse }
   }
 
-  const url = process.env.FUNCTIONS_API_URL || 'https://apis.do/functions/generate'
+  const params = new URLSearchParams()
+  params.append('args', JSON.stringify(request.input || {}))
+  
+  if (request.schema) {
+    params.append('schema', JSON.stringify(request.schema))
+  }
+  
+  if (request.config) {
+    Object.entries(request.config).forEach(([key, value]) => {
+      if (value !== undefined) {
+        params.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value))
+      }
+    })
+  }
+  
+  const baseUrl = process.env.FUNCTIONS_API_URL || 'https://apis.do'
+  const url = `${baseUrl}/functions/${request.functionName}?${params.toString()}`
   console.log({ url })
+  
   const response = await fetch(url, {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `users API-Key ${process.env.FUNCTIONS_DO_API_KEY}`,
     },
-    body: JSON.stringify(request),
   })
 
   if (!response.ok) {
@@ -103,15 +119,32 @@ const callMarkdownAPI = async (request: any): Promise<MarkdownOutput> => {
     return mockResponse as MarkdownOutput
   }
 
-  const url = process.env.FUNCTIONS_API_URL || 'https://apis.do/functions/generate-markdown'
+  const params = new URLSearchParams()
+  params.append('args', JSON.stringify(request.input || {}))
+  params.append('format', 'markdown') // Specify markdown format
+  
+  if (request.schema) {
+    params.append('schema', JSON.stringify(request.schema))
+  }
+  
+  if (request.config) {
+    Object.entries(request.config).forEach(([key, value]) => {
+      if (value !== undefined) {
+        params.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value))
+      }
+    })
+  }
+  
+  const baseUrl = process.env.FUNCTIONS_API_URL || 'https://apis.do'
+  const url = `${baseUrl}/functions/${request.functionName}?${params.toString()}`
   console.log({ url })
+  
   const response = await fetch(url, {
-    method: 'POST',
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `users API-Key ${process.env.FUNCTIONS_DO_API_KEY}`,
     },
-    body: JSON.stringify(request),
   })
 
   if (!response.ok) {
