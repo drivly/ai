@@ -31,15 +31,15 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
-        
+
       - name: Build packages
         run: pnpm build
-        
+
       - name: Create Release PR or Publish
         id: semantic-release
         uses: cycjimmy/semantic-release-action@v4
         with:
-          semantic-version: 19
+          semantic_version: 19
           branches: |
             [
               'main'
