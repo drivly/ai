@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@ai-sdk/provider": "^1.0.2",
-    "models.do": "workspace:^0.0.2",
+    "models.do": "workspace:^0.0.1",
     "vitest": "^3.0.8"
   },
   "dependencies": {
