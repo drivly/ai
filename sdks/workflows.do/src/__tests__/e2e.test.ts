@@ -4,7 +4,7 @@ import { AI, createWorkflow } from '../index'
 describe('workflows.do SDK - E2E Tests', () => {
   beforeEach(() => {
     vi.resetAllMocks()
-    const mockFetch = vi.fn()
+    const mockFetch = vi.fn().mockImplementation(() => Promise.resolve(new Response()))
     global.fetch = mockFetch as unknown as typeof fetch
   })
 
