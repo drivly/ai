@@ -9,7 +9,7 @@ export const GET = API(async (request, { db, user, params }) => {
   const apiExists = api in apis
   const isAlias = api in aliases
   const aliasedApi = isAlias ? aliases[api as keyof typeof aliases] : null
-  const effectiveApi = isAlias ? aliasedApi : api
+  const effectiveApi = isAlias ? aliasedApi as string : api
   
   if (!apiExists && !isAlias) {
     return {
