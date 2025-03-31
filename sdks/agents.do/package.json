@@ -1,6 +1,6 @@
 {
   "name": "agents.do",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A framework and platform for building, deploying, and managing autonomous AI agents",
   "keywords": [
     "agents",
