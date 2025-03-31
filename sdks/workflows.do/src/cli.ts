@@ -1,7 +1,7 @@
 import { CLI as BaseCLI, CliOptions } from '../../../sdks/apis.do/src/cli.js'
 import { API } from './client.js'
 
-export { CliOptions }
+export type { CliOptions }
 
 export class CLI extends BaseCLI {
   private workflowsApi: API
