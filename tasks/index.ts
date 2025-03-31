@@ -8,6 +8,7 @@ import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './sche
 import { inflectNounsTask } from './inflectNouns'
 import { conjugateVerbsTask } from './conjugateVerbs'
 import { initiateComposioConnectionTask } from './initiateComposioConnection'
+import { requestHumanFeedbackTask } from './requestHumanFeedback'
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
@@ -55,7 +56,8 @@ export const tasks = [
   hybridSearchThingsTask,
   inflectNounsTask,
   conjugateVerbsTask,
-  initiateComposioConnectionTask
+  initiateComposioConnectionTask,
+  requestHumanFeedbackTask
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
