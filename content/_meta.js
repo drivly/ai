@@ -2,6 +2,9 @@ export default {
   index: {
     title: 'Introduction'
   },
+  manifesto: {
+    title: 'Manifesto'
+  },
   workflows: {
     title: 'Workflows'
   },
