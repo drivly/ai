@@ -19,9 +19,6 @@
     "build": "tsc",
     "test": "vitest run"
   },
-  "devDependencies": {
-    "vitest": "^1.4.0"
-  },
   "keywords": [
     "ai",
     "workflows",
