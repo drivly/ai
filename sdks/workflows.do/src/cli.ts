@@ -1,4 +1,4 @@
-import { CLI as BaseCLI, CliOptions } from '../../../sdks/apis.do/src/cli.js'
+import { CLI as BaseCLI, CliOptions } from '../../apis.do/src/cli.js'
 import { API } from './client.js'
 import fs from 'node:fs'
 import path from 'node:path'
