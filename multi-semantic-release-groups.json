@@ -2,7 +2,16 @@
   "groups": [
     {
       "name": "sdks",
-      "packages": ["sdks/*"],
+      "packages": [
+        "sdks/apis.do",
+        "sdks/functions.do",
+        "sdks/workflows.do",
+        "sdks/database.do",
+        "sdks/models.do",
+        "sdks/evals.do",
+        "sdks/agents.do",
+        "sdks/llm.do"
+      ],
       "synchronized": true,
       "patternConfig": {
         "@semantic-release/commit-analyzer": {
