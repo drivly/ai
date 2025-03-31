@@ -141,6 +141,85 @@ describe('workflows.do SDK - E2E Tests', () => {
       expect(result.context.retries).toBe(2)
     })
 
+    it('should execute workflows with different input types', async () => {
+      mockFetch.mockResolvedValueOnce(new Response(JSON.stringify({
+        status: 'completed',
+        output: { 
+          string: 'test',
+          number: 42,
+          boolean: true,
+          array: [1, 2, 3],
+          object: { key: 'value' }
+        }
+      })))
+
+      const workflow = createWorkflow({
+        name: 'input-types-workflow',
+        initialStep: 'start',
+        steps: {
+          start: {
+            name: 'start',
+            function: 'processInputs',
+            input: {
+              string: 'test',
+              number: 42,
+              boolean: true,
+              array: [1, 2, 3],
+              object: { key: 'value' }
+            },
+            isFinal: true
+          }
+        }
+      })
+
+      const result = await workflow.execute({
+        string: 'test',
+        number: 42,
+        boolean: true,
+        array: [1, 2, 3],
+        object: { key: 'value' }
+      })
+      
+      expect(result.status).toBe('completed')
+      expect(result.output).toEqual({
+        string: 'test',
+        number: 42,
+        boolean: true,
+        array: [1, 2, 3],
+        object: { key: 'value' }
+      })
+    })
+
+    it('should handle concurrent workflow executions', async () => {
+      mockFetch
+        .mockResolvedValueOnce(new Response(JSON.stringify({ status: 'completed', output: 'workflow1' })))
+        .mockResolvedValueOnce(new Response(JSON.stringify({ status: 'completed', output: 'workflow2' })))
+        .mockResolvedValueOnce(new Response(JSON.stringify({ status: 'completed', output: 'workflow3' })))
+
+      const workflow = createWorkflow({
+        name: 'concurrent-workflow',
+        initialStep: 'start',
+        steps: {
+          start: {
+            name: 'start',
+            function: 'process',
+            isFinal: true
+          }
+        }
+      })
+
+      const results = await Promise.all([
+        workflow.execute({ id: 1 }),
+        workflow.execute({ id: 2 }),
+        workflow.execute({ id: 3 })
+      ])
+
+      expect(results).toHaveLength(3)
+      expect(results[0].output).toBe('workflow1')
+      expect(results[1].output).toBe('workflow2')
+      expect(results[2].output).toBe('workflow3')
+    })
+
     it('should handle workflow execution errors gracefully', async () => {
       mockFetch.mockResolvedValueOnce(new Response(JSON.stringify({
         status: 'failed',
