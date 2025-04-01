@@ -27,8 +27,16 @@
  *   export VERCEL_TOKEN=your_token
  *   export VERCEL_TEAM_ID=your_team_id  # Optional
  *   
- *   # Run the script
+ *   # Process all domains
  *   pnpm tsx scripts/domain-automation.ts
+ *   
+ *   # Process specific domains
+ *   pnpm tsx scripts/domain-automation.ts functions.do apis.do
+ *   
+ *   # Test without making changes (dry-run mode)
+ *   pnpm tsx scripts/domain-automation.ts --dry-run
+ *   # or with specific domains
+ *   pnpm tsx scripts/domain-automation.ts functions.do -d
  * 
  * Example Output:
  *   Found 104 domains to process
