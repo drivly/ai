@@ -25,6 +25,7 @@
     "esbuild": "^0.20.2",
     "typescript": "^5.7.3",
     "vitest": "^1.6.1",
+    "vitest-environment-miniflare": "^2.14.4",
     "wrangler": "^4.2.0"
   }
 }
