@@ -1,9 +1,14 @@
 import nextra from 'nextra'
 import { withPayload } from '@payloadcms/next/withPayload'
+import { remarkCodeHike } from '@code-hike/mdx'
 
 const withNextra = nextra({
   contentDirBasePath: '/docs',
-  // ... Other Nextra config options
+  mdxOptions: {
+    remarkPlugins: [
+      [remarkCodeHike, { theme: 'github-dark' }]
+    ]
+  }
 })
 
 /** @type {import('next').NextConfig} */
