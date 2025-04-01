@@ -71,8 +71,7 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://localhost:3000${baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`}`
-      const adminUrl = fullBaseUrl.endsWith('/') ? `${fullBaseUrl}admin` : `${fullBaseUrl}/admin`
+      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
       
       let response: Response | null = null
       
@@ -116,8 +115,7 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://localhost:3000${baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`}`
-      const adminUrl = fullBaseUrl.endsWith('/') ? `${fullBaseUrl}admin` : `${fullBaseUrl}/admin`
+      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
       
       await page.goto(adminUrl)
       
@@ -182,8 +180,7 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://localhost:3000${baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`}`
-      const adminUrl = fullBaseUrl.endsWith('/') ? `${fullBaseUrl}admin` : `${fullBaseUrl}/admin`
+      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
       
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
@@ -241,8 +238,7 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://localhost:3000${baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`}`
-      const adminUrl = fullBaseUrl.endsWith('/') ? `${fullBaseUrl}admin` : `${fullBaseUrl}/admin`
+      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
       
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
@@ -309,8 +305,7 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const fullBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://localhost:3000${baseUrl.startsWith('/') ? baseUrl : `/${baseUrl}`}`
-      const adminUrl = fullBaseUrl.endsWith('/') ? `${fullBaseUrl}admin` : `${fullBaseUrl}/admin`
+      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
       
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
