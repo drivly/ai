@@ -2,6 +2,7 @@ import { TaskConfig, TaskHandler } from 'payload'
 import { waitUntil } from '@vercel/functions'
 import hash from 'object-hash'
 import { generateObject } from './generateObject'
+import { generateObjectArray } from './generateObjectArray'
 import { generateText } from './generateText'
 import { validateWithSchema } from './schemaUtils'
 import { generateMarkdown } from './generateMarkdown'
@@ -19,6 +20,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
   // Determine if this is a text-based function (Markdown, Text, TextArray, etc.)
   const isTextFunction = type === 'Text' || type === 'Markdown' || type === 'TextArray' || (settings?.type && ['Text', 'Markdown', 'TextArray'].includes(settings.type))
+  const isObjectArrayFunction = type === 'ObjectArray' || (settings?.type && settings.type === 'ObjectArray')
   // Determine if this is a code-based function
   const isCodeFunction = type === 'Code' || (settings?.type && settings.type === 'Code')
   const isHumanFunction = type === 'Human' || (settings?.type && settings.type === 'Human')
@@ -126,6 +128,61 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     text = result.code
     generationLatency = Date.now() - start
     request = { prompt: functionDoc.code, settings }
+  } else if (isObjectArrayFunction) {
+    let zodSchema
+    try {
+      // if (schema && typeof schema === 'object' && schema !== null && !Array.isArray(schema)) {
+      //   zodSchema = generateSchema(schema)
+      // }
+    } catch (schemaGenError) {
+      console.error('Schema generation error:', schemaGenError)
+    }
+    
+    const result = await generateObjectArray({
+      input: { functionName, args, schema, zodSchema, settings },
+      req,
+    })
+
+    const objectArray = result.objectArray
+    reasoning = result.reasoning
+    generation = result.generation
+    text = result.text
+    generationLatency = result.generationLatency
+    request = result.request
+
+    let validatedArray = objectArray
+    if (schema && objectArray && Array.isArray(objectArray)) {
+      try {
+        if (typeof schema === 'object' && schema !== null && !Array.isArray(schema)) {
+          validatedArray = objectArray.map(item => {
+            try {
+              return validateWithSchema(schema, item)
+            } catch (itemError) {
+              console.error('Schema validation error for array item:', itemError)
+              return {
+                ...item,
+                _validation_error: {
+                  message: 'Failed to validate against schema',
+                  details: itemError instanceof Error ? itemError.message : String(itemError),
+                },
+              }
+            }
+          })
+        }
+      } catch (error) {
+        console.error('Schema validation error for array:', error)
+        validatedArray = objectArray
+        object = {
+          items: validatedArray,
+          _validation_error: {
+            message: 'Failed to validate array against schema',
+            details: error instanceof Error ? error.message : String(error),
+          },
+        }
+      }
+    }
+    
+    object = { items: validatedArray }
   } else if (isTextFunction) {
     if (type === 'TextArray') {
       // For TextArray, use generateMarkdown with ordered list prompt
@@ -233,7 +290,9 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   if (!functionDoc && created[0]) functionDoc = created[0]
   if (!argsDoc && created[1]) argsDoc = created[1]
 
-  console.log(generation, text, object)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Generation result:', { generation, text, object })
+  }
 
   const totalLatency = Date.now() - start
   const latency = { hashLatency, lookupLatency, generationLatency, totalLatency }
