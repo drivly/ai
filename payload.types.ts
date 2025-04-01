@@ -209,10 +209,14 @@ export interface Config {
       generateThingEmbedding: TaskGenerateThingEmbedding;
       searchThings: TaskSearchThings;
       hybridSearchThings: TaskHybridSearchThings;
+      processCodeFunctionWrapper: TaskProcessCodeFunctionWrapper;
+      processCodeFunction: TaskProcessCodeFunction;
       inflectNouns: TaskInflectNouns;
       conjugateVerbs: TaskConjugateVerbs;
+      deployWorker: TaskDeployWorker;
       deliverWebhook: TaskDeliverWebhook;
       initiateComposioConnection: TaskInitiateComposioConnection;
+      requestHumanFeedback: TaskRequestHumanFeedback;
       inline: {
         input: unknown;
         output: unknown;
@@ -1271,10 +1275,14 @@ export interface PayloadJob {
           | 'generateThingEmbedding'
           | 'searchThings'
           | 'hybridSearchThings'
+          | 'processCodeFunctionWrapper'
+          | 'processCodeFunction'
           | 'inflectNouns'
           | 'conjugateVerbs'
+          | 'deployWorker'
           | 'deliverWebhook'
-          | 'initiateComposioConnection';
+          | 'initiateComposioConnection'
+          | 'requestHumanFeedback';
         taskID: string;
         input?:
           | {
@@ -1313,10 +1321,14 @@ export interface PayloadJob {
                 | 'generateThingEmbedding'
                 | 'searchThings'
                 | 'hybridSearchThings'
+                | 'processCodeFunctionWrapper'
+                | 'processCodeFunction'
                 | 'inflectNouns'
                 | 'conjugateVerbs'
+                | 'deployWorker'
                 | 'deliverWebhook'
                 | 'initiateComposioConnection'
+                | 'requestHumanFeedback'
               )
             | null;
           taskID?: string | null;
@@ -1333,10 +1345,14 @@ export interface PayloadJob {
         | 'generateThingEmbedding'
         | 'searchThings'
         | 'hybridSearchThings'
+        | 'processCodeFunctionWrapper'
+        | 'processCodeFunction'
         | 'inflectNouns'
         | 'conjugateVerbs'
+        | 'deployWorker'
         | 'deliverWebhook'
         | 'initiateComposioConnection'
+        | 'requestHumanFeedback'
       )
     | null;
   queue?: string | null;
@@ -2346,7 +2362,38 @@ export interface TaskHybridSearchThings {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
-<<<<<<< HEAD
+ * via the `definition` "TaskProcessCodeFunctionWrapper".
+ */
+export interface TaskProcessCodeFunctionWrapper {
+  input: {
+    functionId: string;
+  };
+  output: {
+    function?: string | null;
+    taskId?: string | null;
+    success?: boolean | null;
+    error?: string | null;
+    message?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessCodeFunction".
+ */
+export interface TaskProcessCodeFunction {
+  input: {
+    functionId: string;
+  };
+  output: {
+    function?: string | null;
+    moduleId?: string | null;
+    packageId?: string | null;
+    success?: boolean | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskInflectNouns".
  */
 export interface TaskInflectNouns {
@@ -2384,6 +2431,44 @@ export interface TaskConjugateVerbs {
     inverseEvent?: string | null;
     inverseSubject?: string | null;
     inverseObject?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDeployWorker".
+ */
+export interface TaskDeployWorker {
+  input: {
+    worker:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    options?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    result?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    deployment?: string | null;
   };
 }
 /**
@@ -2407,49 +2492,6 @@ export interface TaskDeliverWebhook {
     status?: string | null;
     message?: string | null;
     statusCode?: number | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
-||||||| e45a0a4
-=======
- * via the `definition` "TaskInflectNouns".
- */
-export interface TaskInflectNouns {
-  input: {
-    noun: string;
-  };
-  output: {
-    singular?: string | null;
-    plural?: string | null;
-    possessive?: string | null;
-    pluralPossessive?: string | null;
-    verb?: string | null;
-    act?: string | null;
-    activity?: string | null;
-    event?: string | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskConjugateVerbs".
- */
-export interface TaskConjugateVerbs {
-  input: {
-    verb: string;
-  };
-  output: {
-    act?: string | null;
-    activity?: string | null;
-    event?: string | null;
-    subject?: string | null;
-    object?: string | null;
-    inverse?: string | null;
-    inverseAct?: string | null;
-    inverseActivity?: string | null;
-    inverseEvent?: string | null;
-    inverseSubject?: string | null;
-    inverseObject?: string | null;
   };
 }
 /**
@@ -2478,7 +2520,53 @@ export interface TaskInitiateComposioConnection {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
->>>>>>> origin/main
+ * via the `definition` "TaskRequestHumanFeedback".
+ */
+export interface TaskRequestHumanFeedback {
+  input: {
+    taskId?: string | null;
+    title: string;
+    description: string;
+    options?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    freeText?: boolean | null;
+    platform?: ('slack' | 'teams' | 'discord') | null;
+    userId?: string | null;
+    roleId?: string | null;
+    timeout?: number | null;
+  };
+  output: {
+    taskId?: string | null;
+    status?: string | null;
+    response?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    messageId?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "WorkflowHandleGithubEvent".
  */
 export interface WorkflowHandleGithubEvent {
