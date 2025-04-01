@@ -23,7 +23,7 @@ export const Verbs: CollectionConfig = {
     { name: 'inverseEvent', type: 'text', admin: { description: 'Past tense like Destroyed', position: 'sidebar' } },
     { name: 'inverseSubject', type: 'text', admin: { description: 'Subject like Destroyer', position: 'sidebar' } },
     { name: 'inverseObject', type: 'text', admin: { description: 'Object like Destruction', position: 'sidebar' } },
-    { name: 'actions', type: 'join', collection: 'relationships', on: 'verb' },
+    { name: 'actions', type: 'join', collection: 'actions', on: 'verb' },
   ],
   hooks: {
     beforeChange: [
