@@ -40,7 +40,7 @@
     "url": "https://github.com/drivly/ai/issues"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "node build.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
