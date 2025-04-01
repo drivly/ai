@@ -16,7 +16,8 @@ The AI Primitives platform uses various domains for different services and compo
 | agents.do | ✅ Online | sean.ns.cloudflare.com, dayana.ns.cloudflare.com | [https://agents.do](https://agents.do) |
 | nouns.do | ✅ Online | dayana.ns.cloudflare.com, sean.ns.cloudflare.com | [https://nouns.do](https://nouns.do) |
 | verbs.do | ✅ Online | sean.ns.cloudflare.com, dayana.ns.cloudflare.com | [https://verbs.do](https://verbs.do) |
-| things.do | ❌ Offline | ns2.checkdomain.de, ns.checkdomain.de | [https://things.do](https://things.do) |
+
+| resources.do | ✅ Online | gina.ns.cloudflare.com, ernest.ns.cloudflare.com | [https://resources.do](https://resources.do) |
 | triggers.do | ✅ Online | gina.ns.cloudflare.com, ernest.ns.cloudflare.com | [https://triggers.do](https://triggers.do) |
 | searches.do | ✅ Online | gina.ns.cloudflare.com, ernest.ns.cloudflare.com | [https://searches.do](https://searches.do) |
 | actions.do | ✅ Online | ernest.ns.cloudflare.com, gina.ns.cloudflare.com | [https://actions.do](https://actions.do) |
@@ -47,7 +48,7 @@ The AI Primitives platform uses various domains for different services and compo
 - **actions.do**: Action definitions for workflows and agents
 - **nouns.do**: Noun definitions for language processing
 - **verbs.do**: Verb definitions for language processing
-- **things.do**: Entity management and storage
+- **resources.do**: Resource management and storage
 - **databases.do**: Alias for database.do
 - **okrs.do**: Objectives and Key Results tracking
 - **llms.do**: Alias for llm.do
@@ -56,9 +57,122 @@ The AI Primitives platform uses various domains for different services and compo
 
 Currently, none of the domains are linked in Vercel. This may require proper authentication with the Vercel API to verify.
 
+## Complete Domain List
+
+The AI Primitives platform manages the following domains:
+
+| Domain |
+|--------|
+| action.do |
+| actions.do |
+| agents.do |
+| agi.do |
+| amy.do |
+| analytics.do |
+| apis.do |
+| ari.do |
+| barcode.do |
+| bdr.do |
+| benchmarks.do |
+| blogs.do |
+| bots.do |
+| browse.do |
+| browser.do |
+| browsers.do |
+| careers.do |
+| cfo.do |
+| clickhouse.do |
+| cmo.do |
+| colo.do |
+| coo.do |
+| cpo.do |
+| cro.do |
+| cto.do |
+| ctx.do |
+| dara.do |
+| dash.do |
+| dashboard.do |
+| database.do |
+| databases.do |
+| dealers.do |
+| emails.do |
+| embeddings.do |
+| esbuild.do |
+| evals.do |
+| events.do |
+| experiments.do |
+| extract.do |
+| function.do |
+| functions.do |
+| gcp.do |
+| gpt.do |
+| graph.do |
+| humans.do |
+| integrations.do |
+| issues.do |
+| ivy.do |
+| kpis.do |
+| lena.do |
+| lexi.do |
+| lists.do |
+| llm.do |
+| llms.do |
+| lodash.do |
+| mcp.do |
+| mdx.do |
+| models.do |
+| nat.do |
+| nats.do |
+| nouns.do |
+| oauth.do |
+| objects.do |
+| okrs.do |
+| payload.do |
+| pdm.do |
+| perf.do |
+| photos.do |
+| pkg.do |
+| programmers.do |
+| prxy.do |
+| qrcode.do |
+| queue.do |
+| repo.do |
+| requests.do |
+| research.do |
+| resources.do |
+| responses.do |
+| scraper.do |
+| sdk.do |
+| sdr.do |
+| searches.do |
+| services.do |
+| sites.do |
+| speak.do |
+| state.do |
+| studio.do |
+| svc.do |
+| swe.do |
+| tasks.do |
+| tom.do |
+| trace.do |
+| traces.do |
+| trigger.do |
+| triggers.do |
+| vectors.do |
+| vehicle.do |
+| vera.do |
+| verbs.do |
+| waitlist.do |
+| webhook.do |
+| webhooks.do |
+| worker.do |
+| workers.do |
+| workflows.do |
+
 ## Notes
 
 - Domains with a ✅ status are online and responding with a 200 status code
 - Domains with a ❌ status are either offline or not responding to HTTP requests
 - NS Records show the nameservers responsible for the domain
 - Some domains may be aliases or redirects to other primary domains
+- The complete domain list is sourced from the `domains` export in domains.config.ts
