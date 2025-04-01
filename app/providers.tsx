@@ -1,8 +1,11 @@
 'use client'
 
-import { usePathname, useSearchParams } from "next/navigation"
-import { useEffect, Suspense } from "react"
+import { usePathname, useSearchParams } from 'next/navigation'
+import { useEffect, Suspense } from 'react'
 import { usePostHog } from 'posthog-js/react'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 import posthog from 'posthog-js'
 import { PostHogProvider as PHProvider } from 'posthog-js/react'
@@ -35,7 +38,7 @@ function PostHogPageView() {
     if (pathname && posthog) {
       let url = window.origin + pathname
       if (searchParams.toString()) {
-        url = url + "?" + searchParams.toString();
+        url = url + '?' + searchParams.toString()
       }
 
       posthog.capture('$pageview', { '$current_url': url })
@@ -53,5 +56,16 @@ function SuspendedPostHogPageView() {
     <Suspense fallback={null}>
       <PostHogPageView />
     </Suspense>
+  )
+}
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <PostHogProvider>
+      {children}
+      <Analytics />
+      <SpeedInsights />
+      <GoogleAnalytics />
+    </PostHogProvider>
   )
 }
