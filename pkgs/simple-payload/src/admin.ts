@@ -1,6 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { RouteHandler, RouteHandlerOptions } from './types'
-import { getPayload } from 'payload'
 
 /**
  * Generates the admin UI HTML
@@ -13,14 +11,7 @@ export const ADMIN_GET: RouteHandler = (options = {}) => {
         return new Response('Payload config is required', { status: 500 })
       }
 
-      const payload = await getPayload({ config })
       const url = new URL(req.url)
-      
-      if (url.pathname.startsWith('/_payload/')) {
-        return new Response('Static asset not found', { status: 404 })
-      }
-      
-      const collections = Object.keys(payload.collections || {})
       
       return new Response(`
         <!DOCTYPE html>
@@ -28,21 +19,10 @@ export const ADMIN_GET: RouteHandler = (options = {}) => {
           <head>
             <title>Payload CMS Admin</title>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <script>
-              window.payloadConfig = ${JSON.stringify({
-                collections,
-                serverURL: url.origin,
-              })};
-            </script>
+            <meta http-equiv="refresh" content="0;url=${url.origin}/admin">
           </head>
           <body>
-            <div id="payload-admin">
-              <h1>Payload CMS Admin</h1>
-              <p>Loading admin interface...</p>
-              <script>
-                window.location.href = '${url.origin}/admin';
-              </script>
-            </div>
+            <p>Redirecting to admin...</p>
           </body>
         </html>
       `, {

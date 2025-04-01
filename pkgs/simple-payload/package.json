@@ -15,14 +15,11 @@
     "src/types"
   ],
   "dependencies": {
-    "payload-rest-client": "^3.0.5",
-    "next": "^15.0.0",
-    "database.do": "*"
+     "payload-rest-client": "^3.0.5"
   },
   "devDependencies": {
     "payload": "^3.31.0",
-    "@payloadcms/db-mongodb": "^3.0.0",
-    "@payloadcms/richtext-lexical": "^3.0.0"
+    "next": "^14.0.0"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --no-splitting --target esnext",
