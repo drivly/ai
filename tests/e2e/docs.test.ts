@@ -54,7 +54,8 @@ describe('Documentation page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const docsUrl = baseUrl.endsWith('/') ? `${baseUrl}docs` : `${baseUrl}/docs`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const docsUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}docs` : `${normalizedBaseUrl}/docs`
       
       let response: Response | null = null
       
@@ -101,7 +102,8 @@ describe('Documentation page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const docsUrl = baseUrl.endsWith('/') ? `${baseUrl}docs` : `${baseUrl}/docs`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const docsUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}docs` : `${normalizedBaseUrl}/docs`
       
       await page.goto(docsUrl)
       
