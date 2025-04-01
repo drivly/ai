@@ -19,7 +19,6 @@ if (baseUrl.endsWith('/')) {
 process.env.BASE_URL = baseUrl
 
 console.log(`Using normalized BASE_URL: ${process.env.BASE_URL}`)
-
 process.env.IS_TEST_ENV = 'true'
 
 // Mock fetch for API tests when needed

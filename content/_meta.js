@@ -68,5 +68,8 @@ export default {
   },
   code: {
     title: 'Code'
+  },
+  'code-hike': {
+    title: 'CodeHike Examples'
   }
 }

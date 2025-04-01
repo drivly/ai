@@ -1,11 +1,44 @@
 # [Workflows.do](https://workflows.do) Business-as-Code
 
-[![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 [![License](https://img.shields.io/github/license/drivly/ai.svg)](https://github.com/drivly/ai/blob/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/drivly/ai/blob/main/CONTRIBUTING.md)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+[![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
 We believe that you can define, execute, and iterate on business processes as clean & simple code. It should be simple enough for a non-technical business person to read and work with an AI or technical teammate to build and iterate on workflows.
+
+## Core Primitives
+
+The Workflows.do platform is built around several core primitives that work together to create powerful, composable applications:
+
+### Functions
+
+At the heart of the platform are **Functions**, which come in four types:
+
+1. **Generation Functions**: Use generative AI to create content or structured data
+2. **Code Functions**: Execute deterministic code on classical computers
+3. **Agentic Functions**: Delegate tasks to autonomous AI agents
+4. **Human Functions**: Incorporate human workers into your AI workflows
+
+Functions provide the building blocks for all operations in the platform, from simple data transformations to complex decision-making processes.
+
+### Workflows
+
+**Workflows** themselves are Functions, creating a powerful compositional model. This means:
+
+- Workflows can be invoked like any other function
+- Workflows can be composed and nested within other workflows
+- Workflows can be used as tools by AI Agents
+- Workflows can be triggered by events or called directly by humans
+
+### Tools for Agents and Humans
+
+A key concept in the platform is that **Functions, Workflows, Searches, and Integrations** can all be used as tools by:
+
+- **AI Agents**: Autonomous digital workers that can reason, plan, and execute tasks
+- **Human Users**: Through interfaces like web applications, chat, APIs, and command-line tools
+
+This creates a unified toolset that both AI and human workers can leverage, enabling seamless collaboration and handoffs between automated and human-driven processes.
 
 ```typescript
 import { AI } from 'workflows.do'
@@ -170,9 +203,11 @@ By visiting https://apis.do in a browser with a [JSON Plugin](https://apis.do/do
     "Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
     "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
   },
-  "things": {
-    "Nouns - People, Places, Things, and Ideas": "https://nouns.do",
-    "Verbs - The Actions Performed to and by Nouns": "https://verbs.do"
+  "data": {
+    "Nouns - Categories or Types of Things": "https://nouns.do",
+    "Verbs - Actions That Can Be Performed": "https://verbs.do",
+    "Things - Instances of Nouns in Your System": "https://things.do",
+    "Actions - Subject-Predicate-Object Relationships": "https://actions.do"
   },
   "events": {
     "Triggers - Initiate workflows based on events": "https://triggers.do",
@@ -238,9 +273,20 @@ Nouns.do provides a powerful framework for defining and managing the entities th
 
 Verbs.do provides a powerful framework for defining and managing the actions that can be performed within your business domain. It enables you to create a structured representation of operations that connect entities and drive business processes.
 
-## [Things.do](https://things.do) Physical and Virtual Objects
+## Core Data Model
 
-Things.do provides a powerful framework for modeling and managing both physical and virtual objects in your business domain. It enables you to create a structured representation of the tangible and intangible assets that your business interacts with.
+Our platform is built on a semantic data model inspired by basic English grammar, making it intuitive and approachable:
+
+- **[Nouns](https://nouns.do)** - Categories or types of things in your system (like Customer, Product, Order)
+- **[Verbs](https://verbs.do)** - Actions that can be performed (like Create, Update, Delete)
+- **[Things](https://things.do)** - Specific instances of Nouns (a particular Customer, Product, or Order)
+- **[Actions](https://actions.do)** - Relationships between Things in Subject-Predicate-Object format
+
+This simple but powerful model follows the natural language pattern of Subject-Predicate-Object (like "Customer purchased Product"). Every Action in the system connects a Subject (a Thing) with an Object (another Thing) through a Predicate (a Verb), creating a semantic triple that represents a meaningful business event or relationship.
+
+## [Things.do](https://things.do) Instances of Nouns
+
+Things.do provides a powerful framework for modeling and managing specific instances of Nouns in your business domain. It enables you to create, track, and manipulate the actual entities that your business interacts with.
 
 ## [Database.do](https://database.do) AI-enriched Data
 
