@@ -171,7 +171,7 @@ interface AgentResponse<T = any> {
 
 ## Integration with Functions and Workflows
 
-Agents can leverage Functions and Workflows to perform complex tasks:
+Agents can leverage all four types of Functions and complete Workflows as tools to perform complex tasks:
 
 ```typescript
 import { Agent } from 'agents.do'
@@ -179,31 +179,75 @@ import { AI } from 'functions.do'
 
 // Define AI functions
 const ai = AI({
+  // Generation function - uses AI to analyze sentiment
   analyzeCustomerSentiment: {
     text: 'string',
     sentiment: 'Positive | Neutral | Negative',
     score: 'number',
     keyPhrases: 'string[]',
   },
+  
+  // Code function - deterministic data processing
+  calculateRefundAmount: {
+    orderTotal: 'number',
+    daysLate: 'number',
+    refundPercentage: 'number',
+  },
+  
+  // Human function - involves human judgment
+  escalateToHumanSupport: {
+    customerId: 'string',
+    issue: 'string',
+    priority: 'High | Medium | Low',
+  },
+  
+  // Agentic function - delegates to another agent
+  investigateComplexIssue: {
+    customerId: 'string',
+    orderHistory: 'any[]',
+    issueDescription: 'string',
+  }
 })
 
-// Create an agent that uses functions
+// Create an agent that uses functions and workflows as tools
 const customerServiceAgent = Agent({
   name: 'CustomerServiceBot',
   description: 'Handles customer service inquiries',
-  functions: ['analyzeCustomerSentiment'],
+  // Functions available as tools
+  functions: [
+    'analyzeCustomerSentiment',
+    'calculateRefundAmount',
+    'escalateToHumanSupport',
+    'investigateComplexIssue'
+  ],
+  // Workflows available as tools
+  workflows: [
+    'refundProcessWorkflow',
+    'orderTrackingWorkflow'
+  ],
 
   // Handler for new messages
   onNewMessage: async ({ message, customer }) => {
-    // Analyze sentiment
+    // Analyze sentiment using a Generation function
     const sentiment = await ai.analyzeCustomerSentiment({ text: message })
 
     // Route based on sentiment
     if (sentiment.sentiment === 'Negative' && sentiment.score < 0.3) {
-      return {
-        action: 'escalate',
-        reason: `Detected negative sentiment (${sentiment.score}): ${sentiment.keyPhrases.join(', ')}`,
-      }
+      // Use a Human function as a tool
+      return await ai.escalateToHumanSupport({
+        customerId: customer.id,
+        issue: message,
+        priority: 'High'
+      })
+    }
+
+    // For order issues, use a Workflow as a tool
+    if (message.includes('order') && message.includes('refund')) {
+      // Trigger the refund workflow
+      return await ai.refundProcessWorkflow({
+        customerId: customer.id,
+        orderIds: customer.recentOrders.map(order => order.id)
+      })
     }
 
     // Handle the inquiry

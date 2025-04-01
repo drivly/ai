@@ -18,6 +18,74 @@ functions.do creates a clean separation between AI capabilities and application 
 - Continuous improvement without disrupting application code
 - Comprehensive evaluation and optimization strategies
 
+## Function Types
+
+Functions.do supports four core function types, each serving a specific purpose in your AI applications:
+
+### 1. Generation Functions
+
+Generation functions use generative AI to create content or objects based on input parameters. These functions are ideal for tasks like content creation, data transformation, and creative generation.
+
+```typescript
+// Example of a Generation function
+const blogPost = await ai.generateBlogPost({ 
+  topic: 'AI Workflows', 
+  tone: 'Professional',
+  length: 'Medium' 
+})
+```
+
+Generation functions can produce various output formats:
+- **Object**: Structured data with a defined schema
+- **ObjectArray**: Arrays of structured objects
+- **Text**: Plain text output
+- **TextArray**: Arrays of text strings
+- **Markdown**: Formatted markdown content
+- **Code**: Programming code snippets
+
+### 2. Code Functions
+
+Code functions execute deterministic code on classical computers. These functions are useful for precise calculations, data processing, and algorithmic operations where deterministic results are required.
+
+```typescript
+// Example of a Code function
+const processedData = await ai.processDataset({
+  data: rawData,
+  operations: ['normalize', 'filter', 'aggregate']
+})
+```
+
+Code functions provide reliability and predictability for operations that don't require AI's creative capabilities.
+
+### 3. Agentic Functions
+
+Agentic functions delegate tasks to autonomous AI agents that can reason, plan, and execute complex operations. These functions are powerful for tasks requiring multi-step reasoning or decision-making.
+
+```typescript
+// Example of an Agentic function
+const researchResults = await ai.researchTopic({
+  topic: 'Quantum Computing',
+  depth: 'Comprehensive',
+  focus: ['Recent Breakthroughs', 'Commercial Applications']
+})
+```
+
+Agentic functions can leverage other functions and workflows as tools to accomplish their tasks.
+
+### 4. Human Functions
+
+Human functions incorporate human workers into your AI workflows, enabling human-in-the-loop processes for tasks requiring human judgment, verification, or creativity.
+
+```typescript
+// Example of a Human function
+const reviewedContent = await ai.humanReview({
+  content: generatedContent,
+  reviewCriteria: ['Accuracy', 'Brand Voice', 'Legal Compliance']
+})
+```
+
+Human functions are essential for quality assurance, creative direction, and handling edge cases that AI cannot address alone.
+
 ## Installation
 
 ```bash
