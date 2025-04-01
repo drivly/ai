@@ -93,9 +93,9 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
   if (isHumanFunction) {
     const { requestHumanFeedback } = await import('./requestHumanFeedback')
-    
+
     const schema = functionDoc?.shape || {}
-    
+
     const humanFeedbackInput = {
       title: args.title || `Human feedback required: ${functionName}`,
       description: args.description || `Please provide feedback for function: ${functionName}`,
@@ -105,32 +105,30 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       userId: args.userId || functionDoc?.user?.id,
       roleId: args.roleId || schema.roleId,
       timeout: args.timeout || schema.timeout,
-      blocks: args.blocks || schema.blocks
+      blocks: args.blocks || schema.blocks,
     }
-    
+
     const result = await requestHumanFeedback({
       input: humanFeedbackInput,
-      payload
+      payload,
     })
-    
+
     object = result
     reasoning = `Human feedback requested. Task ID: ${result.taskId}, Status: ${result.status}`
     generationLatency = Date.now() - start
     request = { functionName, args, settings }
   } else if (isCodeFunction && functionDoc?.code) {
     const { executeCodeFunction } = await import('./executeCodeFunction')
-    
+
     const result = await executeCodeFunction({
       code: functionDoc.code,
       args,
       timeout: settings?.timeout || 5000,
-      memoryLimit: settings?.memoryLimit || 128
+      memoryLimit: settings?.memoryLimit || 128,
     })
 
     object = result.result
-    reasoning = result.error 
-      ? `Code execution failed: ${result.error}` 
-      : `Code execution complete. Result: ${typeof object === 'object' ? JSON.stringify(object) : object}`
+    reasoning = result.error ? `Code execution failed: ${result.error}` : `Code execution complete. Result: ${typeof object === 'object' ? JSON.stringify(object) : object}`
     text = functionDoc.code
     generationLatency = Date.now() - start
     request = { code: functionDoc.code, args, settings }
@@ -143,7 +141,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     } catch (schemaGenError) {
       console.error('Schema generation error:', schemaGenError)
     }
-    
+
     const result = await generateObjectArray({
       input: { functionName, args, schema, zodSchema, settings },
       req,
@@ -160,7 +158,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     if (schema && objectArray && Array.isArray(objectArray)) {
       try {
         if (typeof schema === 'object' && schema !== null && !Array.isArray(schema)) {
-          validatedArray = objectArray.map(item => {
+          validatedArray = objectArray.map((item) => {
             try {
               return validateWithSchema(schema, item)
             } catch (itemError) {
@@ -187,7 +185,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         }
       }
     }
-    
+
     object = { items: validatedArray }
   } else if (isTextFunction) {
     if (type === 'TextArray') {

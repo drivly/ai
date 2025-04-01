@@ -21,27 +21,11 @@ jobs:
           node-version: 22.x
           cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-
-      # - name: Checkout Repository
-      #   uses: actions/checkout@v4
-      #   with:
-      #     fetch-depth: 0
-
-      # - name: Setup Node.js 22.x
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 22.x
-      #     cache: 'pnpm'
-
-      # - name: Setup PNPM
-      #   uses: pnpm/action-setup@v2
-      #   with:
-      #     version: 10.x
-
-      # - name: Install Dependencies
-      #   run: pnpm install --frozen-lockfile
-
-      # - name: Run Build
-      #   run: pnpm build
+      - run: pnpm install --no-frozen-lockfile
+      - name: Build
+        run: pnpm build
+        env:
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET || 'dev-secret-for-build-only' }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI || 'mongodb://localhost:27017/payload-cms' }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY || 'resend-key-placeholder' }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_placeholder' }}
