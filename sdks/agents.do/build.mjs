@@ -37,7 +37,8 @@ const copyDir = (src, dest) => {
       // Create simple .d.ts file
       const dtsContent = fs.readFileSync(srcPath, 'utf8')
         .replace(/\.ts';/g, '.js\';')
-        .replace(/\.ts";/g, '.js\";');
+        .replace(/\.ts";/g, '.js\";')
+        .replace(/from ['"]agents['"]/, 'from \'agents\'');
       
       fs.writeFileSync(destPath.replace('.ts', '.d.ts'), dtsContent);
     } else {

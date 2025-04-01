@@ -4,9 +4,9 @@
   "description": "Cloudflare Workers for Platforms dispatch worker",
   "main": "dist/index.js",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=neutral --external:partyserver --external:node:* --external:cloudflare:*",
-    "build:outbound": "esbuild src/outbound.ts --bundle --outfile=dist/outbound.js --format=esm --platform=neutral --external:partyserver --external:node:* --external:cloudflare:*",
-    "build:wrapper": "esbuild src/wrapper.ts --bundle --outfile=dist/wrapper.js --format=esm --platform=neutral --external:partyserver --external:node:* --external:cloudflare:*",
+    "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=neutral --external:partyserver --external:node:* --external:cloudflare:* --external:agents",
+    "build:outbound": "esbuild src/outbound.ts --bundle --outfile=dist/outbound.js --format=esm --platform=neutral --external:partyserver --external:node:* --external:cloudflare:* --external:agents",
+    "build:wrapper": "esbuild src/wrapper.ts --bundle --outfile=dist/wrapper.js --format=esm --platform=neutral --external:partyserver --external:node:* --external:cloudflare:* --external:agents",
     "build:all": "pnpm build && pnpm build:outbound && pnpm build:wrapper",
     "dev": "wrangler dev src/index.ts",
     "dev:outbound": "wrangler dev --config outbound-wrangler.toml",
