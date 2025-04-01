@@ -3,7 +3,7 @@ import { getModel, getModels } from '../src/modelSelector'
 
 describe('selector', () => {
   it('should return a model', () => {
-    const model = getModel('drivly/frontier:reasoning')
+    const model = getModel('gemini')
     expect(model).toBeDefined()
   })
 
@@ -20,7 +20,7 @@ describe('selector', () => {
   it('should return the same model when seed is provided', () => {
     const models = Array(10)
       .fill(0)
-      .map((_, i) => getModel('drivly/frontier(seed:123)'))
+      .map((_, i) => getModel('gemini(seed:123)'))
 
     // Ensure all models are the same
     expect(models.every((m) => m?.slug === models[0]?.slug)).toBe(true)
