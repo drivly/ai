@@ -105,15 +105,15 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
   },
   accounts: {
     slug: 'accounts',
-    hidden: false,
+    hidden: true,
   },
   sessions: {
     slug: 'sessions',
-    hidden: false,
+    hidden: true,
   },
   verifications: {
     slug: 'verifications',
-    hidden: false,
+    hidden: true,
   },
   betterAuthOptions: betterAuthOptions,
 }
