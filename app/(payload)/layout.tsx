@@ -11,6 +11,7 @@ import { PostHogProvider } from '@/app/providers'
 import { importMap } from './admin/importMap.js'
 import './custom.scss'
 // import { SpeedInsights } from "@vercel/speed-insights/next"
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 type Args = {
   children: React.ReactNode
@@ -32,6 +33,7 @@ const Layout = ({ children }: Args) => (
     </PostHogProvider>
     <Analytics />
     {/* <SpeedInsights /> */}
+    <GoogleAnalytics />
   </RootLayout>
 )
 
