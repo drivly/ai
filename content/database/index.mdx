@@ -104,7 +104,7 @@ const dbConfig = await db.databases.create({
   name: 'Production Database',
   type: 'Dedicated', // Integrated, Dedicated, or Self-Hosted
   databaseType: 'Postgres', // For Dedicated or Self-Hosted: Mongo, Postgres, or Sqlite
-  region: 'us-east-1', // For Dedicated only
+  region: 'us-west-1', // For Dedicated only (available regions: us-east-1, us-east-2, us-west-1, us-west-2, etc.)
   schemaEnforcement: 'enforced', // flexible or enforced
   domain: 'api.example.com', // Domain for API and Admin portal
 })
