@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { betterAuth, type BetterAuthOptions } from 'better-auth'
 import { afterAll, beforeAll, beforeEach, describe, expect, it, test, vi } from 'vitest'
-import { payloadAdapter } from './../src/index'
+import { payloadAdapter } from '../src/index'
 import { runAdapterTest } from './better-auth-adapter-test'
 import { getPayload } from '../dev/index.js'
 import { BasePayload } from 'payload'
