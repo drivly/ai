@@ -1,3 +1,4 @@
+import { Domains } from './admin/Domains'
 import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
@@ -91,6 +92,7 @@ export const collections = [
   KPIs,
 
   Projects,
+  Domains,
   Users,
   Roles,
   Tags,
