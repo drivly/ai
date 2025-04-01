@@ -1,0 +1,107 @@
+# Actions
+
+Actions represent relationships between Things in Subject-Predicate-Object format, creating a semantic triple that captures meaningful business events and connections.
+
+## Overview
+
+In our semantic data model, Actions are the dynamic connections between Things, using Verbs as the connecting element. Every Action follows the natural language pattern of Subject-Predicate-Object:
+
+```
+[Subject (Thing)] → [Predicate (Verb)] → [Object (Thing)]
+```
+
+The Actions collection provides a way to create, track, and analyze these relationships in your business applications. Actions can be:
+
+- Created when business events occur
+- Queried to understand relationships between entities
+- Analyzed to gain insights into business processes
+- Used to trigger workflows and functions
+
+## In the Subject-Predicate-Object Model
+
+Actions are the core implementation of the Subject-Predicate-Object pattern:
+
+```mermaid
+graph LR
+    A[Subject<br/>(Thing)] -->|Predicate<br/>(Verb)| B[Object<br/>(Thing)]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+Real-world examples:
+- "ACME Corp purchased Enterprise Plan"
+- "Developer deployed Application"
+- "Startup acquired Funding"
+
+This simple but powerful model allows you to represent complex business relationships and events in an intuitive, language-based format.
+
+```mermaid
+graph TD
+    subgraph "Example Action"
+    C["ACME Corp<br/>(Customer Thing)"] -->|Purchased<br/>(Verb)| D["Enterprise Plan<br/>(Product Thing)"]
+    end
+    
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style D fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+## Key Features
+
+- **Semantic Triples**: Represent business events and relationships in natural language format
+- **Event Tracking**: Capture and analyze business events as they occur
+- **Relationship Modeling**: Define connections between business entities
+- **Process Visibility**: Gain insights into business processes and workflows
+- **Audit Trail**: Maintain a complete history of business activities
+
+## Creating Actions
+
+Actions can be created using the Data.do API or through the dashboard interface.
+
+```typescript
+// Example action creation
+const purchaseAction = await actions.create({
+  subject: { id: 'customer-123', type: 'Customer' }, // The Thing performing the action
+  verb: 'Purchase',                                  // The Verb representing the action
+  object: { id: 'product-456', type: 'Product' },    // The Thing receiving the action
+  metadata: {
+    timestamp: new Date(),
+    amount: 99.99,
+    currency: 'USD',
+    paymentMethod: 'credit_card'
+  }
+})
+```
+
+## Querying Actions
+
+Actions can be queried to understand relationships and analyze business events:
+
+```typescript
+// Find all purchases by a specific customer
+const customerPurchases = await actions.find({
+  where: {
+    subject: { id: 'customer-123' },
+    verb: 'Purchase'
+  },
+  include: ['object', 'metadata']
+})
+
+// Find all actions performed on a specific product
+const productActions = await actions.find({
+  where: {
+    object: { id: 'product-456' }
+  },
+  include: ['subject', 'verb', 'metadata']
+})
+```
+
+## Action Templates
+
+Discover and use pre-built action templates from the marketplace to accelerate your development process.
+
+## Next Steps
+
+- [Create your first action](/data/actions/create)
+- [Explore industry-specific action templates](/data/actions/templates)
+- [Learn about action analytics](/data/actions/analytics)
+- [Implement action-driven business processes](/data/actions/business-processes)

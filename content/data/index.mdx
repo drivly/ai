@@ -1,12 +1,48 @@
 # Data Overview
 
-The Data collection provides powerful frameworks for modeling, managing, and processing business entities, actions, and objects in your AI applications.
+The Data collection provides a simple yet powerful semantic model for representing your business domain, inspired by basic English grammar concepts that are intuitive and approachable.
 
-## Core Components
+## Core Data Model
 
-- **[Nouns](/nouns)**: Represent and manage entities within your workflows clearly and effectively. Entities include customers, products, locations, resources, and other critical business objects.
-- **[Verbs](/verbs)**: Define potential actions within workflows explicitly, enabling dynamic decision-making and process optimization based on business logic and context.
-- **[Things](/things)**: Efficiently track, manage, and orchestrate physical and virtual objects in workflows, ensuring visibility, traceability, and operational coherence.
+Our platform is built on four fundamental concepts that work together to create a complete representation of your business domain:
+
+- **[Nouns](/nouns)**: Categories or types of things in your system (like Customer, Product, Order)
+- **[Verbs](/verbs)**: Actions that can be performed (like Create, Update, Delete)
+- **[Things](/things)**: Specific instances of Nouns (a particular Customer, Product, or Order)
+- **[Actions](/actions)**: Relationships between Things in Subject-Predicate-Object format
+
+### Subject-Predicate-Object Pattern
+
+At the heart of our data model is the natural language pattern of Subject-Predicate-Object:
+
+```mermaid
+graph LR
+    A[Subject<br/>(Thing)] -->|Predicate<br/>(Verb)| B[Object<br/>(Thing)]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+For example:
+- "Customer purchased Product"
+- "Developer deployed Application"
+- "Startup acquired Funding"
+
+Every Action in the system connects a Subject (a Thing) with an Object (another Thing) through a Predicate (a Verb), creating a semantic triple that represents a meaningful business event or relationship.
+
+```mermaid
+graph TD
+    Nouns[Nouns<br/>Categories/Types] -->|defines| Things[Things<br/>Instances]
+    Verbs[Verbs<br/>Action Types] -->|defines| Predicates[Predicates<br/>in Actions]
+    Things -->|Subject| Actions[Actions<br/>S-P-O Relationships]
+    Predicates -->|Predicate| Actions
+    Things -->|Object| Actions
+    
+    style Nouns fill:#f9f,stroke:#333,stroke-width:2px
+    style Verbs fill:#bbf,stroke:#333,stroke-width:2px
+    style Things fill:#ff9,stroke:#333,stroke-width:2px
+    style Actions fill:#9f9,stroke:#333,stroke-width:2px
+    style Predicates fill:#99f,stroke:#333,stroke-width:2px
+```
 
 ## Business Value
 

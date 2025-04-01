@@ -3,7 +3,10 @@
 [![npm version](https://img.shields.io/npm/v/agents.do.svg)](https://www.npmjs.com/package/agents.do)
 [![npm downloads](https://img.shields.io/npm/dm/agents.do.svg)](https://www.npmjs.com/package/agents.do)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+[![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
 Agents.do provides a powerful framework for creating, deploying, and managing autonomous digital workers that can perform complex tasks with minimal human intervention. These agents can handle routine operations, make decisions based on predefined criteria, and adapt to changing conditions.
 
@@ -171,7 +174,7 @@ interface AgentResponse<T = any> {
 
 ## Integration with Functions and Workflows
 
-Agents can leverage Functions and Workflows to perform complex tasks:
+Agents can leverage all four types of Functions and complete Workflows as tools to perform complex tasks:
 
 ```typescript
 import { Agent } from 'agents.do'
@@ -179,31 +182,75 @@ import { AI } from 'functions.do'
 
 // Define AI functions
 const ai = AI({
+  // Generation function - uses AI to analyze sentiment
   analyzeCustomerSentiment: {
     text: 'string',
     sentiment: 'Positive | Neutral | Negative',
     score: 'number',
     keyPhrases: 'string[]',
   },
+  
+  // Code function - deterministic data processing
+  calculateRefundAmount: {
+    orderTotal: 'number',
+    daysLate: 'number',
+    refundPercentage: 'number',
+  },
+  
+  // Human function - involves human judgment
+  escalateToHumanSupport: {
+    customerId: 'string',
+    issue: 'string',
+    priority: 'High | Medium | Low',
+  },
+  
+  // Agentic function - delegates to another agent
+  investigateComplexIssue: {
+    customerId: 'string',
+    orderHistory: 'any[]',
+    issueDescription: 'string',
+  }
 })
 
-// Create an agent that uses functions
+// Create an agent that uses functions and workflows as tools
 const customerServiceAgent = Agent({
   name: 'CustomerServiceBot',
   description: 'Handles customer service inquiries',
-  functions: ['analyzeCustomerSentiment'],
+  // Functions available as tools
+  functions: [
+    'analyzeCustomerSentiment',
+    'calculateRefundAmount',
+    'escalateToHumanSupport',
+    'investigateComplexIssue'
+  ],
+  // Workflows available as tools
+  workflows: [
+    'refundProcessWorkflow',
+    'orderTrackingWorkflow'
+  ],
 
   // Handler for new messages
   onNewMessage: async ({ message, customer }) => {
-    // Analyze sentiment
+    // Analyze sentiment using a Generation function
     const sentiment = await ai.analyzeCustomerSentiment({ text: message })
 
     // Route based on sentiment
     if (sentiment.sentiment === 'Negative' && sentiment.score < 0.3) {
-      return {
-        action: 'escalate',
-        reason: `Detected negative sentiment (${sentiment.score}): ${sentiment.keyPhrases.join(', ')}`,
-      }
+      // Use a Human function as a tool
+      return await ai.escalateToHumanSupport({
+        customerId: customer.id,
+        issue: message,
+        priority: 'High'
+      })
+    }
+
+    // For order issues, use a Workflow as a tool
+    if (message.includes('order') && message.includes('refund')) {
+      // Trigger the refund workflow
+      return await ai.refundProcessWorkflow({
+        customerId: customer.id,
+        orderIds: customer.recentOrders.map(order => order.id)
+      })
     }
 
     // Handle the inquiry

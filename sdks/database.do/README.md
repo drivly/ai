@@ -1,11 +1,12 @@
 # [database.do](https://database.do)
 
-[![npm version](https://img.shields.io/npm/v/database.do.svg?style=flat-square)](https://www.npmjs.org/package/database.do)
-[![npm downloads](https://img.shields.io/npm/dm/database.do.svg?style=flat-square)](https://npmjs.org/package/database.do)
-[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
-[![License](https://img.shields.io/npm/l/database.do.svg?style=flat-square)](https://github.com/drivly/ai/blob/main/LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+[![npm version](https://img.shields.io/npm/v/database.do.svg)](https://www.npmjs.org/package/database.do)
+[![npm downloads](https://img.shields.io/npm/dm/database.do.svg)](https://npmjs.org/package/database.do)
+[![License](https://img.shields.io/npm/l/database.do.svg)](https://github.com/drivly/ai/blob/main/LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+[![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
 > AI-Native Data Access SDK for seamless database operations with MongoDB, PostgreSQL, and SQLite
 
@@ -357,6 +358,116 @@ Behind the scenes, `database.do` uses [Payload CMS](https://payloadcms.com) to p
 - Webhooks and more
 
 The SDK itself is designed to be lightweight with zero dependencies except for `apis.do`, making it suitable for both browser and Node.js environments. It communicates with the database.do service through a RESTful API, abstracting away the complexity of direct database interactions.
+
+## Core Data Model
+
+`database.do` is built on a semantic data model inspired by basic English grammar, making it intuitive and approachable:
+
+- **Nouns** - Categories or types of things in your system (like Customer, Product, Order)
+- **Verbs** - Actions that can be performed (like Create, Update, Delete)
+- **Things** - Specific instances of Nouns (a particular Customer, Product, or Order)
+- **Actions** - Relationships between Things in Subject-Predicate-Object format
+
+### Subject-Predicate-Object Pattern
+
+At the heart of our data model is the natural language pattern of Subject-Predicate-Object:
+
+```mermaid
+graph LR
+    A[Subject<br/>(Thing)] -->|Predicate<br/>(Verb)| B[Object<br/>(Thing)]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+The complete data model relationship can be visualized as:
+
+```mermaid
+graph TD
+    Nouns[Nouns<br/>Categories/Types] -->|defines| Things[Things<br/>Instances]
+    Verbs[Verbs<br/>Action Types] -->|defines| Predicates[Predicates<br/>in Actions]
+    Things -->|Subject| Actions[Actions<br/>S-P-O Relationships]
+    Predicates -->|Predicate| Actions
+    Things -->|Object| Actions
+    
+    style Nouns fill:#f9f,stroke:#333,stroke-width:2px
+    style Verbs fill:#bbf,stroke:#333,stroke-width:2px
+    style Things fill:#ff9,stroke:#333,stroke-width:2px
+    style Actions fill:#9f9,stroke:#333,stroke-width:2px
+    style Predicates fill:#99f,stroke:#333,stroke-width:2px
+```
+
+For example:
+- "Customer purchased Product"
+- "Developer deployed Application"
+- "Startup acquired Funding"
+
+This simple but powerful model allows you to represent complex business relationships and events in an intuitive, language-based format.
+
+### Working with the Core Data Model
+
+```typescript
+import { db } from 'database.do'
+
+// Create Noun types (categories)
+const customerNoun = await db.nouns.create({
+  name: 'Customer',
+  description: 'A business or individual that purchases products or services',
+})
+
+const productNoun = await db.nouns.create({
+  name: 'Product',
+  description: 'A software offering available for purchase',
+})
+
+// Create Verb types (actions)
+const purchaseVerb = await db.verbs.create({
+  action: 'Purchase',
+  description: 'The act of buying a product or service',
+})
+
+// Create Things (instances of Nouns)
+const startupCustomer = await db.things.create({
+  name: 'TechStartup Inc.',
+  type: customerNoun.id,
+  data: {
+    email: 'contact@techstartup.com',
+    plan: 'enterprise',
+    employees: 42,
+    industry: 'SaaS',
+  },
+})
+
+const saasProduct = await db.things.create({
+  name: 'AI Analytics Platform',
+  type: productNoun.id,
+  data: {
+    price: 499.99,
+    billingCycle: 'monthly',
+    features: ['predictive-analytics', 'custom-dashboards', 'api-access'],
+  },
+})
+
+// Create an Action (Subject-Predicate-Object relationship)
+const purchaseAction = await db.actions.create({
+  subject: startupCustomer.id,  // The customer (Subject)
+  verb: purchaseVerb.id,        // The purchase action (Predicate)
+  object: saasProduct.id,       // The product (Object)
+  metadata: {
+    timestamp: new Date(),
+    amount: 499.99,
+    paymentMethod: 'credit_card',
+  },
+})
+
+// Query all purchases by this customer
+const customerPurchases = await db.actions.find({
+  where: {
+    subject: startupCustomer.id,
+    verb: purchaseVerb.id,
+  },
+  include: ['object', 'metadata'],
+})
+```
 
 ## Related Projects
 
