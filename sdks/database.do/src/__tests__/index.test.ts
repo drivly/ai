@@ -1,35 +1,47 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { DB, db, DatabaseClient } from '../index'
 
+const mockList = vi.fn()
+const mockGetById = vi.fn()
+const mockCreate = vi.fn()
+const mockUpdate = vi.fn()
+const mockRemove = vi.fn()
+const mockSearch = vi.fn()
+
 vi.mock('apis.do', () => {
-  const mockAPI = {
-    list: vi.fn(),
-    getById: vi.fn(),
-    create: vi.fn(),
-    update: vi.fn(),
-    remove: vi.fn(),
-    search: vi.fn(),
-  }
-  
   return {
-    API: vi.fn(() => mockAPI),
-    api: {
-      list: vi.fn(),
-      getById: vi.fn(),
-      create: vi.fn(),
-      update: vi.fn(),
-      remove: vi.fn(),
-      search: vi.fn(),
-    }
+    default: {
+      API: vi.fn(() => ({
+        list: mockList,
+        getById: mockGetById,
+        create: mockCreate,
+        update: mockUpdate,
+        remove: mockRemove,
+        search: mockSearch
+      })),
+      api: {
+        list: vi.fn(),
+        getById: vi.fn(),
+        create: vi.fn(),
+        update: vi.fn(),
+        remove: vi.fn(),
+        search: vi.fn()
+      }
+    },
+    API: vi.fn(() => ({
+      list: mockList,
+      getById: mockGetById,
+      create: mockCreate,
+      update: mockUpdate,
+      remove: mockRemove,
+      search: mockSearch
+    }))
   }
 })
 
 describe('database.do SDK', () => {
-  let mockAPI: any
-  
   beforeEach(() => {
     vi.clearAllMocks()
-    mockAPI = new (require('apis.do').API)()
   })
   
   describe('DB function', () => {
@@ -41,13 +53,13 @@ describe('database.do SDK', () => {
     it('should map resources collection to things collection', async () => {
       const client = DB()
       await client.resources.find()
-      expect(mockAPI.list).toHaveBeenCalledWith('things', {})
+      expect(mockList).toHaveBeenCalledWith('things', {})
     })
     
     it('should pass through other collection names', async () => {
       const client = DB()
       await client.users.find()
-      expect(mockAPI.list).toHaveBeenCalledWith('users', {})
+      expect(mockList).toHaveBeenCalledWith('users', {})
     })
   })
   
@@ -60,13 +72,13 @@ describe('database.do SDK', () => {
     it('should map resources to things collection in method calls', async () => {
       const client = new DatabaseClient()
       await client.find('resources', {})
-      expect(mockAPI.list).toHaveBeenCalledWith('things', {})
+      expect(mockList).toHaveBeenCalledWith('things', {})
     })
     
     it('should pass through other collection names in method calls', async () => {
       const client = new DatabaseClient()
       await client.find('users', {})
-      expect(mockAPI.list).toHaveBeenCalledWith('users', {})
+      expect(mockList).toHaveBeenCalledWith('users', {})
     })
   })
   
