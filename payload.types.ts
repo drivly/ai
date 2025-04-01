@@ -111,6 +111,7 @@ export interface Config {
     traces: Trace;
     kpis: Kpi;
     projects: Project;
+    domains: Domain;
     roles: Role;
     tags: Tag;
     webhooks: Webhook;
@@ -182,6 +183,7 @@ export interface Config {
     traces: TracesSelect<false> | TracesSelect<true>;
     kpis: KpisSelect<false> | KpisSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    domains: DomainsSelect<false> | DomainsSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
@@ -208,6 +210,7 @@ export interface Config {
     tasks: {
       executeFunction: TaskExecuteFunction;
       generateCode: TaskGenerateCode;
+      executeCodeFunction: TaskExecuteCodeFunction;
       generateThingEmbedding: TaskGenerateThingEmbedding;
       searchThings: TaskSearchThings;
       hybridSearchThings: TaskHybridSearchThings;
@@ -219,6 +222,12 @@ export interface Config {
       deliverWebhook: TaskDeliverWebhook;
       initiateComposioConnection: TaskInitiateComposioConnection;
       requestHumanFeedback: TaskRequestHumanFeedback;
+      processDomain: TaskProcessDomain;
+      processBatchOpenAI: TaskProcessBatchOpenAI;
+      processBatchAnthropic: TaskProcessBatchAnthropic;
+      processBatchGoogleVertexAI: TaskProcessBatchGoogleVertexAI;
+      processBatchParasail: TaskProcessBatchParasail;
+      createGenerationBatch: TaskCreateGenerationBatch;
       inline: {
         input: unknown;
         output: unknown;
@@ -520,7 +529,7 @@ export interface Function {
   /**
    * Make this function available to other users
    */
-  isPublic?: boolean | null;
+  public?: boolean | null;
   /**
    * Original function this was cloned from
    */
@@ -585,7 +594,7 @@ export interface Agent {
   /**
    * Make this agent available to other users
    */
-  isPublic?: boolean | null;
+  public?: boolean | null;
   /**
    * Original agent this was cloned from
    */
@@ -630,7 +639,7 @@ export interface Workflow {
   /**
    * Make this workflow available to other users
    */
-  isPublic?: boolean | null;
+  public?: boolean | null;
   /**
    * Original workflow this was cloned from
    */
@@ -676,6 +685,30 @@ export interface Module {
 export interface Package {
   id: string;
   name?: string | null;
+  /**
+   * The package.json content for publishing to NPM
+   */
+  package?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Collections to include in this package
+   */
+  collections?:
+    | {
+        /**
+         * Collection slug to include
+         */
+        collection?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1650,6 +1683,7 @@ export interface PayloadJob {
           | 'inline'
           | 'executeFunction'
           | 'generateCode'
+          | 'executeCodeFunction'
           | 'generateThingEmbedding'
           | 'searchThings'
           | 'hybridSearchThings'
@@ -1660,8 +1694,13 @@ export interface PayloadJob {
           | 'deployWorker'
           | 'deliverWebhook'
           | 'initiateComposioConnection'
-          | 'requestHumanFeedback';
- 
+          | 'requestHumanFeedback'
+          | 'processDomain'
+          | 'processBatchOpenAI'
+          | 'processBatchAnthropic'
+          | 'processBatchGoogleVertexAI'
+          | 'processBatchParasail'
+          | 'createGenerationBatch';
         taskID: string;
         input?:
           | {
@@ -1697,6 +1736,7 @@ export interface PayloadJob {
                 | 'inline'
                 | 'executeFunction'
                 | 'generateCode'
+                | 'executeCodeFunction'
                 | 'generateThingEmbedding'
                 | 'searchThings'
                 | 'hybridSearchThings'
@@ -1708,6 +1748,12 @@ export interface PayloadJob {
                 | 'deliverWebhook'
                 | 'initiateComposioConnection'
                 | 'requestHumanFeedback'
+                | 'processDomain'
+                | 'processBatchOpenAI'
+                | 'processBatchAnthropic'
+                | 'processBatchGoogleVertexAI'
+                | 'processBatchParasail'
+                | 'createGenerationBatch'
               )
             | null;
           taskID?: string | null;
@@ -1721,6 +1767,7 @@ export interface PayloadJob {
         | 'inline'
         | 'executeFunction'
         | 'generateCode'
+        | 'executeCodeFunction'
         | 'generateThingEmbedding'
         | 'searchThings'
         | 'hybridSearchThings'
@@ -1732,6 +1779,12 @@ export interface PayloadJob {
         | 'deliverWebhook'
         | 'initiateComposioConnection'
         | 'requestHumanFeedback'
+        | 'processDomain'
+        | 'processBatchOpenAI'
+        | 'processBatchAnthropic'
+        | 'processBatchGoogleVertexAI'
+        | 'processBatchParasail'
+        | 'createGenerationBatch'
       )
     | null;
   queue?: string | null;
@@ -1920,6 +1973,10 @@ export interface PayloadLockedDocument {
         value: string | Project;
       } | null)
     | ({
+        relationTo: 'domains';
+        value: string | Domain;
+      } | null)
+    | ({
         relationTo: 'roles';
         value: string | Role;
       } | null)
@@ -2086,7 +2143,7 @@ export interface ApiKeysSelect<T extends boolean = true> {
 export interface FunctionsSelect<T extends boolean = true> {
   name?: T;
   type?: T;
-  isPublic?: T;
+  public?: T;
   clonedFrom?: T;
   pricing?:
     | T
@@ -2119,7 +2176,7 @@ export interface WorkflowsSelect<T extends boolean = true> {
   module?: T;
   package?: T;
   deployment?: T;
-  isPublic?: T;
+  public?: T;
   clonedFrom?: T;
   pricing?:
     | T
@@ -2138,7 +2195,7 @@ export interface WorkflowsSelect<T extends boolean = true> {
  */
 export interface AgentsSelect<T extends boolean = true> {
   name?: T;
-  isPublic?: T;
+  public?: T;
   clonedFrom?: T;
   pricing?:
     | T
@@ -2435,6 +2492,13 @@ export interface ModulesSelect<T extends boolean = true> {
  */
 export interface PackagesSelect<T extends boolean = true> {
   name?: T;
+  package?: T;
+  collections?:
+    | T
+    | {
+        collection?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2853,6 +2917,47 @@ export interface TaskGenerateCode {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskExecuteCodeFunction".
+ */
+export interface TaskExecuteCodeFunction {
+  input: {
+    code: string;
+    args?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    timeout?: number | null;
+    memoryLimit?: number | null;
+  };
+  output: {
+    result?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    logs?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskGenerateThingEmbedding".
  */
 export interface TaskGenerateThingEmbedding {
@@ -3116,6 +3221,146 @@ export interface TaskRequestHumanFeedback {
       | number
       | boolean
       | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessDomain".
+ */
+export interface TaskProcessDomain {
+  input: {
+    domainId: string;
+    operation: string;
+    domain?: string | null;
+    vercelId?: string | null;
+    cloudflareId?: string | null;
+  };
+  output: {};
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchOpenAI".
+ */
+export interface TaskProcessBatchOpenAI {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchAnthropic".
+ */
+export interface TaskProcessBatchAnthropic {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchGoogleVertexAI".
+ */
+export interface TaskProcessBatchGoogleVertexAI {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchParasail".
+ */
+export interface TaskProcessBatchParasail {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskCreateGenerationBatch".
+ */
+export interface TaskCreateGenerationBatch {
+  input: {
+    name: string;
+    provider: string;
+    batchConfig:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    generations?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    success?: boolean | null;
+    batchId?: string | null;
+    jobId?: string | null;
+    error?: string | null;
   };
 }
 /**

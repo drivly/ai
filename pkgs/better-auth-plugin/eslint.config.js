@@ -1,5 +1,5 @@
-// @ts-check
-import payloadEsLintConfig from '@payloadcms/eslint-config'
+// @ts-ignore
+// import payloadEsLintConfig from '@payloadcms/eslint-config'
 
 export const defaultESLintIgnores = [
   '**/.temp',
