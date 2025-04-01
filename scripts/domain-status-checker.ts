@@ -12,7 +12,7 @@
 
 import dns from 'node:dns'
 import { promisify } from 'node:util'
-import { domainsConfig, DomainsConfig } from '../domains.config'
+import { domainsConfig, DomainsConfig, domains } from '../domains.config'
 
 const resolveNs = promisify(dns.resolveNs)
 
@@ -107,24 +107,16 @@ interface DomainsExport {
 }
 
 async function checkDomains() {
-  let domains: string[] = []
+  const domainsToCheck = domains;
   
-  const config = domainsConfig as unknown as DomainsExport;
-  
-  if (config.domains && Array.isArray(config.domains)) {
-    domains = config.domains;
-  } else {
-    domains = Object.keys(domainsConfig.domains);
-  }
-  
-  console.log(`Found ${domains.length} domains to check`)
+  console.log(`Found ${domainsToCheck.length} domains to check`)
   
   const vercelDomains = await getVercelLinkedDomains()
   console.log(`Found ${vercelDomains.length} domains linked in Vercel`)
   
   const domainStatuses: DomainStatus[] = []
   
-  for (const domain of domains) {
+  for (const domain of domainsToCheck) {
     console.log(`Checking domain: ${domain}`)
     
     const nsRecords = await checkNsRecords(domain)
@@ -157,7 +149,7 @@ async function checkDomains() {
   
   console.log('\n=== Cross-Reference Report ===\n')
   
-  const domainsNotInVercel = domains.filter(domain => 
+  const domainsNotInVercel = domainsToCheck.filter(domain => 
     !vercelDomains.some(vd => vd.domain === domain)
   )
   
@@ -171,7 +163,7 @@ async function checkDomains() {
   console.log('')
   
   const domainsNotInConfig = vercelDomains
-    .filter(vd => !domains.includes(vd.domain))
+    .filter(vd => !domainsToCheck.includes(vd.domain))
     .map(vd => vd.domain)
   
   if (domainsNotInConfig.length > 0) {
