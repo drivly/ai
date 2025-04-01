@@ -128,6 +128,9 @@ importers:
       payload-kanban-board:
         specifier: ^3.0.24
         version: 3.0.24(@swc/helpers@0.5.15)(i18next@22.5.1)(payload@3.31.0(graphql@16.10.0)(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      postal-mime:
+        specifier: ^2.4.3
+        version: 2.4.3
       posthog-js:
         specifier: ^1.234.4
         version: 1.234.4
@@ -10024,6 +10027,9 @@ packages:
   possible-typed-array-names@1.1.0:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
     engines: {node: '>= 0.4'}
+
+  postal-mime@2.4.3:
+    resolution: {integrity: sha512-KT8P+/We7LH48EhjmLRLEiQx+HI6zZ5TTeuzhuZkMbcJnp9mdmxm/FgiRIzmhZm8mxmk8mtisIAelq1wNwumxg==}
 
   postcss-load-config@4.0.2:
     resolution: {integrity: sha512-bSVhyJGL00wMVoPUzAVAnbEoWyqRxkjv64tUl427SKnPrENtq6hJwUojroMz2VB+Q1edmi4IfrAPpami5VVgMQ==}
@@ -24175,6 +24181,8 @@ snapshots:
       '@babel/runtime': 7.27.0
 
   possible-typed-array-names@1.1.0: {}
+
+  postal-mime@2.4.3: {}
 
   postcss-load-config@4.0.2(postcss@8.5.3)(ts-node@10.9.2(@swc/core@1.11.13(@swc/helpers@0.5.15))(@types/node@22.13.13)(typescript@5.8.2)):
     dependencies:

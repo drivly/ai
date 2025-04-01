@@ -74,6 +74,7 @@
     "object-hash": "^3.0.0",
     "payload": "^3.31.0",
     "payload-kanban-board": "^3.0.24",
+    "postal-mime": "^2.4.3",
     "posthog-js": "^1.234.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",
