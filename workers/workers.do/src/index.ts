@@ -128,7 +128,7 @@ app.post('/deploy/agent/:id', async (c) => {
       instructions: agentData.systemPrompt || agentData.description,
       model: agentData.baseModel || 'openai/gpt-4',
       apiKey: c.env.OPENAI_API_KEY || c.env.ANTHROPIC_API_KEY,
-    })
+    }, {})
     
     const deployResponse = await fetch(`https://api.cloudflare.com/client/v4/accounts/${c.env.CF_ACCOUNT_ID}/workers/dispatch/namespaces/${c.env.CF_NAMESPACE_ID}/scripts/${agentData.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`, {
       method: 'PUT',
