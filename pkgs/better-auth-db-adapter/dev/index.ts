@@ -6,9 +6,6 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-// Default database URI for local dev, can be overridden by env var
-const DATABASE_URI = process.env.DATABASE_URI || 'mongodb://localhost:27017/test'
-
 export const payloadConfig = buildConfig({
   admin: {
     user: 'user',
@@ -19,16 +16,7 @@ export const payloadConfig = buildConfig({
     hasBetterAuthPlugin: true,
   },
   db: mongooseAdapter({
-    url: DATABASE_URI,
-    // Add connection options for better reliability in CI environments
-    connectOptions: {
-      serverSelectionTimeoutMS: 10000, // Timeout after 10 seconds
-      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-      retryWrites: true,
-      retryReads: true,
-      w: 'majority',
-      family: 4, // Use IPv4 only
-    },
+    url: process.env.DATABASE_URI || '',
   }),
   collections: [
     {

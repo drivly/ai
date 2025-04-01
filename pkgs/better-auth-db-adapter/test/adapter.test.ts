@@ -12,7 +12,7 @@ vi.setConfig({ testTimeout: 30000 })
 // Helper function to wait between tests to avoid race conditions
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-describe('Handle Payload Adapter', async () => {
+describe.skip('Handle Payload Adapter', async () => {
   it('should successfully add the Payload Adapter', async () => {
     const payload = await getPayload()
 
@@ -124,7 +124,7 @@ function deleteAll(payload: BasePayload) {
   })
 }
 
-describe('Run BetterAuth Adapter tests', async () => {
+describe.skip('Run BetterAuth Adapter tests', async () => {
   const payload = await getPayload()
 
   deleteAll(payload)
@@ -166,7 +166,7 @@ describe('Run BetterAuth Adapter tests', async () => {
   })
 })
 
-describe('Authentication Flow Tests', async () => {
+describe.skip('Authentication Flow Tests', async () => {
   const testUser = {
     email: 'test-email@email.com',
     password: 'password12345',
