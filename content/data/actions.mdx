@@ -21,19 +21,28 @@ The Actions collection provides a way to create, track, and analyze these relati
 
 Actions are the core implementation of the Subject-Predicate-Object pattern:
 
-```
-Customer (Subject) → Purchased (Predicate) → Product (Object)
+```mermaid
+graph LR
+    A[Subject<br/>(Thing)] -->|Predicate<br/>(Verb)| B[Object<br/>(Thing)]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 Real-world examples:
 - "ACME Corp purchased Enterprise Plan"
 - "Developer deployed Application"
-- "System processed Payment"
+- "Startup acquired Funding"
 
 This simple but powerful model allows you to represent complex business relationships and events in an intuitive, language-based format.
 
-```
-ACME Corp (Customer Thing) → Purchased (Verb) → Enterprise Plan (Product Thing)
+```mermaid
+graph TD
+    subgraph "Example Action"
+    C["ACME Corp<br/>(Customer Thing)"] -->|Purchased<br/>(Verb)| D["Enterprise Plan<br/>(Product Thing)"]
+    end
+    
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style D fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 ## Key Features
