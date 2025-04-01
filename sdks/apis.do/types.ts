@@ -12,6 +12,35 @@ export interface Function {
   id: string
   name?: string
   type: 'Generation' | 'Code' | 'Human' | 'Agent'
+  /**
+   * Make this function available to other users
+   */
+  isPublic?: boolean
+  /**
+   * Original function this was cloned from
+   */
+  clonedFrom?: string | Function
+  /**
+   * Monetization settings for this function
+   */
+  pricing?: {
+    /**
+     * Enable monetization for this function
+     */
+    isMonetized?: boolean
+    /**
+     * Price per use in USD cents (platform fee is 30% above LLM costs)
+     */
+    pricePerUse?: number
+    /**
+     * Stripe Product ID (auto-generated)
+     */
+    stripeProductId?: string
+    /**
+     * Stripe Price ID (auto-generated)
+     */
+    stripePriceId?: string
+  }
   format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code'
   schema?: Record<string, any>
   prompt?: string
@@ -29,6 +58,35 @@ export interface Workflow {
   description?: string
   type?: string
   code?: string
+  /**
+   * Make this workflow available to other users
+   */
+  isPublic?: boolean
+  /**
+   * Original workflow this was cloned from
+   */
+  clonedFrom?: string | Workflow
+  /**
+   * Monetization settings for this workflow
+   */
+  pricing?: {
+    /**
+     * Enable monetization for this workflow
+     */
+    isMonetized?: boolean
+    /**
+     * Price per use in USD cents (platform fee is 30% above LLM costs)
+     */
+    pricePerUse?: number
+    /**
+     * Stripe Product ID (auto-generated)
+     */
+    stripeProductId?: string
+    /**
+     * Stripe Price ID (auto-generated)
+     */
+    stripePriceId?: string
+  }
   updatedAt: string
   createdAt: string
 }
@@ -51,6 +109,35 @@ export interface WorkflowStep {
 export interface Agent {
   id: string
   name?: string
+  /**
+   * Make this agent available to other users
+   */
+  isPublic?: boolean
+  /**
+   * Original agent this was cloned from
+   */
+  clonedFrom?: string | Agent
+  /**
+   * Monetization settings for this agent
+   */
+  pricing?: {
+    /**
+     * Enable monetization for this agent
+     */
+    isMonetized?: boolean
+    /**
+     * Price per use in USD cents (platform fee is 30% above LLM costs)
+     */
+    pricePerUse?: number
+    /**
+     * Stripe Product ID (auto-generated)
+     */
+    stripeProductId?: string
+    /**
+     * Stripe Price ID (auto-generated)
+     */
+    stripePriceId?: string
+  }
   updatedAt: string
   createdAt: string
 }
