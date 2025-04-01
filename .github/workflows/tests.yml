@@ -39,3 +39,9 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          
+      - name: Run E2E Tests
+        run: pnpm test:e2e
+        env:
+          BROWSER_TESTS: true
+          BASE_URL: http://localhost:3000
