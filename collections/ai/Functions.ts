@@ -43,7 +43,7 @@ export const Functions: CollectionConfig = {
           admin: { position: 'sidebar' } 
         },
         { 
-          name: 'isPublic', 
+          name: 'public', 
           type: 'checkbox', 
           defaultValue: false,
           admin: { 

@@ -16,7 +16,7 @@ export const Workflows: CollectionConfig = {
     { name: 'package', type: 'relationship', relationTo: 'packages' },
     { name: 'deployment', type: 'relationship', relationTo: 'deployments' },
     { 
-      name: 'isPublic', 
+      name: 'public', 
       type: 'checkbox', 
       defaultValue: false,
       admin: { 

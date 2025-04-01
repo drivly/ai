@@ -19,7 +19,7 @@ export const POST = API(async (request, { db, user, url }) => {
       return { error: 'Workflow not found' }
     }
     
-    if (!originalWorkflow.isPublic && originalWorkflow.user?.id !== user?.id) {
+    if (!originalWorkflow.public && originalWorkflow.user?.id !== user?.id) {
       return { error: 'You do not have permission to clone this workflow' }
     }
     

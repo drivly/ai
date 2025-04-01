@@ -17,7 +17,7 @@ export const POST = API(async (request, { db, user, url }) => {
       return { error: 'Agent not found' }
     }
     
-    if (!originalAgent.isPublic && originalAgent.user?.id !== user?.id) {
+    if (!originalAgent.public && originalAgent.user?.id !== user?.id) {
       return { error: 'You do not have permission to clone this agent' }
     }
     

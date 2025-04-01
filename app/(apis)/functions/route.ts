@@ -19,7 +19,7 @@ export const POST = API(async (request, { db, user, url }) => {
       return { error: 'Function not found' }
     }
     
-    if (!originalFunction.isPublic && originalFunction.user?.id !== user?.id) {
+    if (!originalFunction.public && originalFunction.user?.id !== user?.id) {
       return { error: 'You do not have permission to clone this function' }
     }
     

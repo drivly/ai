@@ -10,7 +10,7 @@ export const Agents: CollectionConfig = {
   fields: [
     { name: 'name', type: 'text' },
     { 
-      name: 'isPublic', 
+      name: 'public', 
       type: 'checkbox', 
       defaultValue: false,
       admin: { 

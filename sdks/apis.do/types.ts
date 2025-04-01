@@ -15,7 +15,7 @@ export interface Function {
   /**
    * Make this function available to other users
    */
-  isPublic?: boolean
+  public?: boolean
   /**
    * Original function this was cloned from
    */
@@ -61,7 +61,7 @@ export interface Workflow {
   /**
    * Make this workflow available to other users
    */
-  isPublic?: boolean
+  public?: boolean
   /**
    * Original workflow this was cloned from
    */
@@ -112,7 +112,7 @@ export interface Agent {
   /**
    * Make this agent available to other users
    */
-  isPublic?: boolean
+  public?: boolean
   /**
    * Original agent this was cloned from
    */
