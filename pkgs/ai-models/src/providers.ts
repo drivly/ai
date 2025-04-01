@@ -20,6 +20,14 @@ export type Model = {
   childrenModels?: Model['name'][]
   alias?: string
   rawModel?: (typeof rawModels.models)[number]
+  sorting: {
+    topWeekly: number
+    newest: number
+    throughputHighToLow: number
+    latencyLowToHigh: number
+    pricingLowToHigh: number
+    pricingHighToLow: number
+  }
 }
 
 // export function getModelOrGateway(provider: Provider, model: string, useGateway: boolean): LanguageModel {
@@ -82,6 +90,7 @@ let models: Model[] = rawModels.models.map((x) => {
     modelIdentifier: x.slug.replace(x.author + '/', ''), // Fixes cases where the modelId was google/google/google-gemini-2.0-flash-001
     alias: '',
     rawModel: x,
+    sorting: x.sorting as unknown as Model['sorting'],
   }
 
   // Do a reverse lookup for an alias, where the value is the model slug
@@ -105,18 +114,27 @@ models = models.map((x) => {
   return x
 })
 
+// Uncomment out once we finalize the composite models we're adding
 // Virtual model to get any model that supports these capabilities
-models.push({
-  isComposite: true,
-  name: 'frontier',
-  author: 'drivly',
-  provider: 'drivly',
-  capabilities: ['reasoning', 'code', 'online'],
-  modelIdentifier: 'frontier',
-  // Array of children models that will be checked for compatibility
-  // in order. First most compatible will be used.
-  childrenModels: ['google/gemini-2.0-flash-001', 'anthropic/claude-3.7-sonnet:thinking', 'openai/gpt-o1'],
-  childPriority: 'first',
-})
+// models.push({
+//   isComposite: true,
+//   name: 'frontier',
+//   author: 'drivly',
+//   provider: 'drivly',
+//   capabilities: ['reasoning', 'code', 'online'],
+//   modelIdentifier: 'frontier',
+//   // Array of children models that will be checked for compatibility
+//   // in order. First most compatible will be used.
+//   childrenModels: ['google/gemini-2.0-flash-001', 'anthropic/claude-3.7-sonnet:thinking', 'openai/gpt-o1'],
+//   childPriority: 'first',
+//   sorting: {
+//     topWeekly: 0,
+//     newest: 0,
+//     throughputHighToLow: 0,
+//     latencyLowToHigh: 0,
+//     pricingLowToHigh: 0,
+//     pricingHighToLow: 0,
+//   }
+// })
 
 export { models }

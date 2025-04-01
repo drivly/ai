@@ -3,7 +3,14 @@ import { flatten, unflatten } from 'flat'
 
 const overwrites = {};
 
-const URL = 'https://openrouter.ai/api/frontend/models/find?order=top-weekly'
+const sortingValues = [
+  'top-weekly',
+  'newest',
+  'throughput-high-to-low',
+  'latency-low-to-high',
+  'pricing-low-to-high',
+  'pricing-high-to-low'
+]
 
 function camelCaseDeep<T>(input: T): T {
   if (Array.isArray(input)) {
@@ -25,10 +32,25 @@ function camelCaseDeep<T>(input: T): T {
 
 async function main() {
   try {
-    console.log('Fetching models data from OpenRouter...')
-    const response = await fetch(URL).then((res) => res.json())
+    const URL = 'https://openrouter.ai/api/frontend/models/find?order=top-weekly'
 
-    const models = camelCaseDeep(response.data)
+    console.log('Fetching models data from OpenRouter...')
+
+    const data = (await Promise.all(sortingValues.map(async (sortingValue) => {
+      const URL = `https://openrouter.ai/api/frontend/models/find?order=${sortingValue}`
+      console.log(`Fetching ${URL}...`)
+      const response = await fetch(URL).then((res) => res.json()) as { data: any }
+      return [
+        sortingValue,
+        camelCaseDeep(response.data)
+      ]
+    }))).reduce((acc, [sortingValue, models]) => {
+      acc[sortingValue] = models
+      return acc
+    }, {} as Record<string, any>)
+
+    const models = data['top-weekly']
+
     const modelsData = models.models.map((model) => {
       if (model.slug in overwrites) {
         console.log(`Overwriting model ${model.slug} with custom data`, overwrites[model.slug])
@@ -38,7 +60,22 @@ async function main() {
         return unflatten(mergedModel)
       }
 
-      return model
+      // Find the model in the other sorting values
+      // Then add a sorting object that has the index of the model in the other sorting values
+
+      const modelIndexes = sortingValues.map((sortingValue) => {
+        const models = data[sortingValue]
+        const index = models.models.findIndex((m) => m.slug === model.slug)
+        return {
+          [camelCase(sortingValue)]: index
+        }
+      }).reduce((acc, curr) => {
+        return { ...acc, ...curr }
+      }, {})
+
+      const mergedModel = { ...model, sorting: modelIndexes }
+
+      return mergedModel
     })
 
     // Write to models.json in src directory
