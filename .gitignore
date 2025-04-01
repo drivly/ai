@@ -159,3 +159,6 @@ dist
 
 # Velite output directory
 .velite
+
+# Cloudflare Workers Wrangler cache
+.wrangler

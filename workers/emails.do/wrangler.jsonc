@@ -1,0 +1,10 @@
+{
+  "name": "emails-do",
+  "main": "index.ts",
+  "compatibility_date": "2022-07-12",
+  "workers_dev": false,
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}
