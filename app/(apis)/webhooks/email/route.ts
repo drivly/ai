@@ -1,7 +1,7 @@
 import { API } from '@/lib/api'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { PostalMime } from 'postal-mime'
+import PostalMime from 'postal-mime'
 
 export const POST = API(async (request, { db, user, origin, url, domain }) => {
   try {
