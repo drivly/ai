@@ -110,7 +110,7 @@ vi.mock('../src/ai', () => {
   }
 })
 
-describe.skip('AI Functions', () => {
+describe('AI Functions', () => {
   describe('ai function', () => {
     it('should be defined', () => {
       expect(ai).toBeDefined()

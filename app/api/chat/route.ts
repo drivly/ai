@@ -1,9 +1,18 @@
-import createChatRoute from '@drivly/payload-agent/api'
+import { streamText } from 'ai'
+import { openai } from '@ai-sdk/openai'
 
 export const maxDuration = 30
 
-const chatRoute = createChatRoute({
-  model: 'gpt-4o',
-})
+export async function POST(req: Request) {
+  const { messages } = await req.json()
 
-export { chatRoute as GET, chatRoute as POST }
+  const result = streamText({
+    model: openai('gpt-4o'),
+    system: 'You are a helpful assistant.',
+    messages,
+  })
+
+  return result.toDataStreamResponse()
+}
+
+export const GET = POST

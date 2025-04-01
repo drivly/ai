@@ -18,6 +18,48 @@ Integrations.do provides pre-built connectors to external systems and APIs, allo
 - **Custom Connectors**: Build your own integrations for proprietary systems
 - **Authentication Management**: Secure connections with OAuth, API keys, and other methods
 - **Managed Access Control**: Fine-grained permissions for integration access
+- **Tool Capabilities**: Integrations can be used as tools by AI Agents and Humans
+
+## Integrations as Tools
+
+Integrations.do connectors can be used as tools by both AI Agents and human users, creating a unified interface for interacting with external systems:
+
+### For AI Agents
+
+AI Agents can use integrations as tools to access external data and services:
+
+```typescript
+// Example of an agent using integrations as tools
+const salesAgent = Agent({
+  name: 'SalesAssistant',
+  tools: [
+    // Integrations available as tools
+    api.salesforce,
+    api.hubspot,
+    api.slack,
+    api.gmail
+  ]
+})
+
+// The agent can use these integrations to accomplish tasks
+const result = await salesAgent.handle({
+  task: "Update our CRM with the latest customer information and notify the sales team",
+  context: { customer: customerData }
+})
+```
+
+### For Humans
+
+The same integrations can be accessed by human users through standardized interfaces:
+
+```typescript
+// A human using the same integration
+const contacts = await api.salesforce.getContacts({
+  filters: { lastModified: { $gt: '2023-01-01' } }
+})
+```
+
+This shared toolset approach ensures that both AI systems and human operators have consistent access to external systems, enabling seamless collaboration and handoffs between automated and manual processes.
 
 ## Usage
 
