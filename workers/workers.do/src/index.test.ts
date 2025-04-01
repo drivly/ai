@@ -1,4 +1,15 @@
 import { describe, it, expect, vi } from 'vitest'
+
+vi.mock('agents', () => ({
+  Agent: vi.fn().mockImplementation((config, state = {}) => ({
+    name: config.name,
+    instructions: config.instructions,
+    model: config.model,
+    apiKey: config.apiKey,
+    chat: vi.fn().mockResolvedValue('Mocked response')
+  }))
+}))
+
 import app from './index'
 
 describe('Workers.do Dispatch Worker', () => {
