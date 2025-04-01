@@ -43,10 +43,13 @@ export const Domains: CollectionConfig = {
           console.log(`Queueing domain ${operation} for ${doc.domain}`)
           try {
             const job = await payload.jobs.queue({
-              task: 'processDomain',
-              payload: {
-                domainId: doc.id,
-                operation,
+              task: 'executeFunction',
+              input: {
+                functionName: 'processDomain',
+                args: {
+                  domainId: doc.id,
+                  operation,
+                }
               },
             })
             console.log(`Queued domain ${operation}`, job)
@@ -69,13 +72,16 @@ export const Domains: CollectionConfig = {
           if (domain) {
             console.log(`Queueing domain deletion for ${domain.domain}`)
             const job = await payload.jobs.queue({
-              task: 'processDomain',
-              payload: {
-                domainId: id,
-                operation: 'delete',
-                domain: domain.domain,
-                vercelId: domain.vercelId,
-                cloudflareId: domain.cloudflareId,
+              task: 'executeFunction',
+              input: {
+                functionName: 'processDomain',
+                args: {
+                  domainId: id,
+                  operation: 'delete',
+                  domain: domain.domain,
+                  vercelId: domain.vercelId,
+                  cloudflareId: domain.cloudflareId,
+                }
               },
             })
             console.log('Queued domain deletion', job)
