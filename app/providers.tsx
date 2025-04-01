@@ -6,6 +6,7 @@ import { usePostHog } from 'posthog-js/react'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import Rb2bScript from '@/components/Rb2bScript'
 
 import posthog from 'posthog-js'
 import { PostHogProvider as PHProvider } from 'posthog-js/react'
@@ -66,6 +67,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <Analytics />
       <SpeedInsights />
       <GoogleAnalytics />
+      <Rb2bScript />
     </PostHogProvider>
   )
 }
