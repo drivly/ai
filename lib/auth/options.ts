@@ -9,12 +9,9 @@ export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), 
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
 
-const vercelURL = process.env.VERCEL_URL
-
 export const betterAuthOptions: BetterAuthOptions = {
   secret: process.env.BETTER_AUTH_SECRET as string,
   appName: 'AGI Platform',
-  baseURL: vercelURL ? `https://${vercelURL}` : process.env.BETTER_AUTH_URL || 'http://localhost:3000',
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
