@@ -165,6 +165,6 @@ export const Functions: CollectionConfig = {
         condition: (data) => data?.type === 'Agent',
       },
     },
-    { name: 'executions', type: 'join', collection: 'actions', on: 'name' },
+    { name: 'executions', type: 'join', collection: 'actions', on: 'function' },
   ],
 }
