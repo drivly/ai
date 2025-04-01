@@ -65,6 +65,9 @@ importers:
       ai-workflows:
         specifier: ^1.1.0
         version: 1.1.0(@aws-sdk/credential-providers@3.774.0)(@mdx-js/mdx@3.1.0(acorn@8.14.1))(web-streams-polyfill@4.1.0)(ws@8.18.1)
+      better-auth:
+        specifier: 1.2.4
+        version: 1.2.4(typescript@5.7.3)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -19537,6 +19540,24 @@ snapshots:
 
   before-after-hook@2.2.3: {}
 
+  better-auth@1.2.4(typescript@5.7.3):
+    dependencies:
+      '@better-auth/utils': 0.2.3
+      '@better-fetch/fetch': 1.1.18
+      '@noble/ciphers': 0.6.0
+      '@noble/hashes': 1.7.1
+      '@simplewebauthn/browser': 13.1.0
+      '@simplewebauthn/server': 13.1.1
+      better-call: 1.0.5
+      defu: 6.1.4
+      jose: 5.9.6
+      kysely: 0.27.6
+      nanostores: 0.11.4
+      valibot: 1.0.0-beta.15(typescript@5.7.3)
+      zod: 3.24.2
+    transitivePeerDependencies:
+      - typescript
+
   better-auth@1.2.4(typescript@5.8.2):
     dependencies:
       '@better-auth/utils': 0.2.3
@@ -28191,6 +28212,10 @@ snapshots:
   uuid@9.0.1: {}
 
   v8-compile-cache-lib@3.0.1: {}
+
+  valibot@1.0.0-beta.15(typescript@5.7.3):
+    optionalDependencies:
+      typescript: 5.7.3
 
   valibot@1.0.0-beta.15(typescript@5.8.2):
     optionalDependencies:
