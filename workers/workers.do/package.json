@@ -13,17 +13,18 @@
     "deploy": "pnpm build && wrangler deploy",
     "deploy:outbound": "pnpm build:outbound && wrangler deploy --config outbound-wrangler.toml",
     "deploy:all": "pnpm build:all && pnpm deploy && pnpm deploy:outbound",
-    "test": "node -e \"process.env.CI ? process.exit(0) : require('vitest').run()\""
+    "test": "vitest run"
   },
   "dependencies": {
     "agents": "latest",
     "hono": "^4.7.4"
   },
   "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.8.8",
     "@cloudflare/workers-types": "^4.20240320.1",
     "esbuild": "^0.20.2",
     "typescript": "^5.7.3",
-    "vitest": "^1.4.0",
+    "vitest": "^1.6.1",
     "wrangler": "^4.2.0"
   }
 }
