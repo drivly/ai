@@ -65,9 +65,9 @@ export const Domains: CollectionConfig = {
         const { payload } = req
         try {
           const domain = await payload.findByID({
-            collection: 'domains',
+            collection: 'domains' as any,
             id,
-          })
+          }) as any
 
           if (domain) {
             console.log(`Queueing domain deletion for ${domain.domain}`)
