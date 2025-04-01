@@ -1,5 +1,5 @@
 import { TaskConfig } from 'payload'
-import ivm from 'isolated-vm'
+import { NodeVM } from 'vm2'
 
 /**
  * Executes code securely in an isolated VM environment
@@ -16,60 +16,83 @@ export const executeCodeFunction = async ({
   timeout?: number, 
   memoryLimit?: number 
 }): Promise<{ result: any, error?: string, logs?: string[] }> => {
-  const isolate = new ivm.Isolate({ memoryLimit })
+  const logs: string[] = []
   
   try {
-    const context = await isolate.createContext()
+    const mockApi = {
+      get: async (path: string) => {
+        logs.push(`API GET: ${path}`)
+        return { success: true, message: 'Mock API response' }
+      },
+      post: async (path: string, data: any) => {
+        logs.push(`API POST: ${path} with data: ${JSON.stringify(data)}`)
+        return { success: true, message: 'Mock API response' }
+      }
+    }
     
-    const jail = context.global
+    const mockAi = {
+      generate: async (prompt: string) => {
+        logs.push(`AI generate: ${prompt}`)
+        return { text: 'Mock AI response' }
+      }
+    }
     
-    await jail.set('global', jail.deref())
+    const mockDb = {
+      query: async (query: string) => {
+        logs.push(`DB query: ${query}`)
+        return { results: [] }
+      }
+    }
     
-    const logs: string[] = []
-    await jail.set('console', {
-      log: new ivm.Reference((...args: any[]) => {
-        logs.push(args.map(arg => 
-          typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
-        ).join(' '))
-      })
+    const vm = new NodeVM({
+      console: 'redirect',
+      sandbox: { 
+        args,
+        api: mockApi,
+        ai: mockAi,
+        db: mockDb
+      },
+      timeout,
+      require: {
+        external: false,
+        builtin: [],
+        root: [],
+      },
+      wrapper: 'none',
+      eval: false,
+      wasm: false
     })
     
-    await jail.set('args', args)
+    vm.on('console.log', (...consoleArgs: any[]) => {
+      logs.push(consoleArgs.map(arg => 
+        typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
+      ).join(' '))
+    })
     
     const executableCode = `
       (async function() {
         try {
           ${code}
-          return { result: null, logs: [] };
+          return null; // Default return if code doesn't explicitly return
         } catch (error) {
-          return { 
-            error: error instanceof Error ? 
-              { message: error.message, stack: error.stack } : 
-              String(error),
-            logs: []
-          };
+          throw error;
         }
       })()
     `
     
-    const script = await isolate.compileScript(executableCode)
-    
-    const result = await script.run(context, { timeout })
-    
-    const extractedResult = result?.result
+    const result = await vm.run(executableCode)
     
     return {
-      result: extractedResult,
+      result,
       error: undefined,
       logs
     }
   } catch (error: any) {
     return {
       result: null,
-      error: error.message || String(error)
+      error: error.message || String(error),
+      logs
     }
-  } finally {
-    isolate.dispose()
   }
 }
 
