@@ -13,7 +13,122 @@ Agents.do provides a framework for building autonomous AI systems that can perfo
 - **Knowledge Integration**: Incorporate domain knowledge and business rules
 - **Continuous Learning**: Improve performance through feedback and experience
 - **Multi-agent Collaboration**: Coordinate teams of specialized agents
-- **Tool Usage**: Agents can use Functions, Workflows, and Integrations as tools
+- **Tool Usage**: Agents can use Functions, Workflows, Searches, and Integrations as tools
+
+## Using Tools with Agents
+
+A powerful capability of Agents.do is the ability to use various platform components as tools. This creates a composable architecture where agents can leverage specialized capabilities to accomplish complex tasks.
+
+### Functions as Tools
+
+Agents can use any of the four function types as tools:
+
+1. **Generation Functions**: For creating content or structured data
+2. **Code Functions**: For deterministic operations and calculations
+3. **Agentic Functions**: For delegating subtasks to specialized agents
+4. **Human Functions**: For incorporating human judgment and expertise
+
+```typescript
+// Example of an agent using functions as tools
+const researchAgent = Agent({
+  name: 'ResearchAssistant',
+  tools: [
+    ai.searchWeb,                // Generation function
+    ai.analyzeData,              // Code function
+    ai.delegateToSpecialist,     // Agentic function
+    ai.requestHumanVerification  // Human function
+  ]
+})
+```
+
+### Workflows as Tools
+
+Agents can use entire workflows as tools, enabling them to trigger complex business processes:
+
+```typescript
+// Example of an agent using workflows as tools
+const customerSupportAgent = Agent({
+  name: 'SupportBot',
+  tools: [
+    // Workflows available as tools
+    ai.escalationWorkflow,
+    ai.refundProcessWorkflow,
+    ai.knowledgeBaseUpdateWorkflow
+  ]
+})
+
+// The agent can decide when to trigger a workflow
+const response = await customerSupportAgent.handle({
+  message: "I never received my order #12345",
+  context: { customer: customerData }
+})
+```
+
+### Searches as Tools
+
+Agents can use searches to retrieve relevant information from various data sources:
+
+```typescript
+// Example of an agent using searches as tools
+const knowledgeAgent = Agent({
+  name: 'KnowledgeAssistant',
+  tools: [
+    // Searches available as tools
+    searches.productCatalog,
+    searches.customerRecords,
+    searches.knowledgeBase,
+    searches.previousConversations
+  ]
+})
+
+// The agent can use searches to gather context
+const response = await knowledgeAgent.handle({
+  question: "What's our return policy for electronics?",
+  context: { customerId: 'cus_12345' }
+})
+```
+
+### Integrations and Actions as Tools
+
+Agents can use integrations and actions to interact with external systems and perform operations:
+
+```typescript
+// Example of an agent using integrations and actions as tools
+const operationsAgent = Agent({
+  name: 'OperationsAssistant',
+  tools: [
+    // Integrations available as tools
+    integrations.salesforce,
+    integrations.zendesk,
+    integrations.slack,
+    
+    // Actions available as tools
+    actions.createTicket,
+    actions.updateCustomerRecord,
+    actions.sendNotification
+  ]
+})
+
+// The agent can use integrations and actions to perform tasks
+const result = await operationsAgent.handle({
+  task: "Update customer information and notify the support team",
+  context: { 
+    customer: customerData,
+    changes: { email: 'new@example.com' }
+  }
+})
+```
+
+### Human Access to Tools
+
+Importantly, the same tools that are available to AI Agents can also be accessed by human users through interfaces like:
+
+- Web applications
+- Chat interfaces
+- API endpoints
+- Command-line tools
+
+This creates a unified toolset that both AI and human workers can leverage, enabling seamless collaboration and handoffs between automated and human-driven processes.
 
 ## Usage
 

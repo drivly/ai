@@ -21,6 +21,63 @@ The `workflows.do` SDK provides a simple yet powerful way to define AI-powered w
 - **Scalability**: Run workflows at any scale, from simple tasks to enterprise processes
 - **Type Safety**: Full TypeScript support for reliable development
 
+## Workflows as Functions
+
+A key concept in the Workflows.do platform is that **Workflows themselves are Functions**. This means:
+
+1. Workflows can be invoked like any other function
+2. Workflows can be composed and nested within other workflows
+3. Workflows can be used as tools by AI Agents
+4. Workflows can be triggered by events or called directly by humans
+
+This design creates a powerful compositional model where complex business processes can be built from simpler building blocks.
+
+```typescript
+// Example of a workflow being used as a function
+const result = await ai.onboardingWorkflow({
+  customer: {
+    name: 'Acme Corp',
+    industry: 'Manufacturing',
+    size: 'Enterprise'
+  }
+})
+```
+
+## Workflows as Tools
+
+Workflows can serve as powerful tools for both AI Agents and human operators:
+
+### For AI Agents
+
+AI Agents can use workflows as tools to accomplish complex tasks that require orchestrated steps or business logic:
+
+```typescript
+// An agent using a workflow as a tool
+const salesAgent = Agent({
+  name: 'SalesBot',
+  tools: [
+    // The lead qualification workflow is available as a tool
+    ai.leadQualificationWorkflow,
+    ai.proposalGenerationWorkflow
+  ],
+  // Agent can decide when to use which workflow
+})
+```
+
+### For Humans
+
+Human operators can also leverage workflows as tools through interfaces like chat, forms, or APIs:
+
+```typescript
+// A human triggering a workflow through an API
+const result = await api.workflows.execute('content-approval', {
+  documentId: '12345',
+  requestedBy: 'marketing@example.com'
+})
+```
+
+This dual-use capability creates a seamless experience where the same business logic can be accessed by both AI systems and human users.
+
 ## Installation
 
 ```bash

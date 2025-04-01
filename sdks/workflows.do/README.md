@@ -336,6 +336,87 @@ Each event handler receives a context object with the following properties:
 - `api`: External API integrations
 - `db`: Database access for storing and retrieving data
 
+## Workflows as Functions
+
+A key concept in the Workflows.do platform is that **Workflows themselves are Functions**. This means:
+
+1. Workflows can be invoked like any other function
+2. Workflows can be composed and nested within other workflows
+3. Workflows can be used as tools by AI Agents
+4. Workflows can be triggered by events or called directly by humans
+
+This design creates a powerful compositional model where complex business processes can be built from simpler building blocks.
+
+## Function Types in Workflows
+
+Workflows can incorporate all four function types supported by the platform:
+
+### 1. Generation Functions
+
+Generation functions use generative AI to create content or objects based on input parameters:
+
+```typescript
+// Using a Generation function in a workflow
+const summary = await ai.summarizeContent({ 
+  content: longText, 
+  maxLength: 200 
+})
+```
+
+### 2. Code Functions
+
+Code functions execute deterministic code for precise calculations and data processing:
+
+```typescript
+// Using a Code function in a workflow
+const processedData = await ai.processDataset({
+  data: rawData,
+  operations: ['normalize', 'filter']
+})
+```
+
+### 3. Agentic Functions
+
+Agentic functions delegate tasks to autonomous AI agents:
+
+```typescript
+// Using an Agentic function in a workflow
+const researchResults = await ai.researchTopic({
+  topic: 'Emerging Technologies',
+  depth: 'Comprehensive'
+})
+```
+
+### 4. Human Functions
+
+Human functions incorporate human workers into your workflows:
+
+```typescript
+// Using a Human function in a workflow
+const approvalResult = await ai.getManagerApproval({
+  proposal: proposalData,
+  deadline: '24h'
+})
+```
+
+## Workflows as Tools
+
+Workflows can serve as powerful tools for both AI Agents and human operators:
+
+```typescript
+// An agent using a workflow as a tool
+const salesAgent = Agent({
+  name: 'SalesBot',
+  tools: [
+    // The lead qualification workflow is available as a tool
+    ai.leadQualificationWorkflow,
+    ai.proposalGenerationWorkflow
+  ]
+})
+```
+
+This capability creates a seamless experience where the same business logic can be accessed by both AI systems and human users.
+
 ## Examples
 
 ### Content Generation Workflow
