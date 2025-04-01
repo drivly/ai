@@ -8,15 +8,11 @@ CF_ACCOUNT_ID = ""
 CF_API_TOKEN = ""
 CF_NAMESPACE_ID = ""
 
-# Allow the workers.do worker to bundle other modules
-[build]
-upload.format = "modules"
-
 # Add outbound worker configuration
-[dispatch_namespaces]
-  [[dispatch_namespaces.dispatches]]
-  namespace = "WORKERS_DISPATCH_NAMESPACE"
-  outbound = {service = "workers-do-outbound", parameters = ["userWorkerName", "originalUrl"]}
+[[dispatch_namespaces]]
+binding = "WORKERS_DISPATCH"
+namespace = "WORKERS_DISPATCH_NAMESPACE"
+outbound = {service = "workers-do-outbound", parameters = ["userWorkerName", "originalUrl"]}
 
 # Add custom domains
 # [routes]
