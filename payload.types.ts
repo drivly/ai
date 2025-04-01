@@ -68,6 +68,11 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    users: User;
+    accounts: Account;
+    sessions: Session;
+    verifications: Verification;
+    apiKeys: ApiKey;
     functions: Function;
     workflows: Workflow;
     agents: Agent;
@@ -104,7 +109,6 @@ export interface Config {
     traces: Trace;
     kpis: Kpi;
     projects: Project;
-    users: User;
     roles: Role;
     tags: Tag;
     webhooks: Webhook;
@@ -143,6 +147,11 @@ export interface Config {
     };
   };
   collectionsSelect: {
+    users: UsersSelect<false> | UsersSelect<true>;
+    accounts: AccountsSelect<false> | AccountsSelect<true>;
+    sessions: SessionsSelect<false> | SessionsSelect<true>;
+    verifications: VerificationsSelect<false> | VerificationsSelect<true>;
+    apiKeys: ApiKeysSelect<false> | ApiKeysSelect<true>;
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
     agents: AgentsSelect<false> | AgentsSelect<true>;
@@ -179,7 +188,6 @@ export interface Config {
     traces: TracesSelect<false> | TracesSelect<true>;
     kpis: KpisSelect<false> | KpisSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
-    users: UsersSelect<false> | UsersSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
@@ -209,10 +217,14 @@ export interface Config {
       generateThingEmbedding: TaskGenerateThingEmbedding;
       searchThings: TaskSearchThings;
       hybridSearchThings: TaskHybridSearchThings;
+      processCodeFunctionWrapper: TaskProcessCodeFunctionWrapper;
+      processCodeFunction: TaskProcessCodeFunction;
       inflectNouns: TaskInflectNouns;
       conjugateVerbs: TaskConjugateVerbs;
+      deployWorker: TaskDeployWorker;
       deliverWebhook: TaskDeliverWebhook;
       initiateComposioConnection: TaskInitiateComposioConnection;
+      requestHumanFeedback: TaskRequestHumanFeedback;
       inline: {
         input: unknown;
         output: unknown;
@@ -261,6 +273,250 @@ export interface ApikeyAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  /**
+   * Users chosen display name
+   */
+  name?: string | null;
+  /**
+   * The email of the user
+   */
+  email: string;
+  /**
+   * Whether the email of the user has been verified
+   */
+  emailVerified: boolean;
+  /**
+   * The image of the user
+   */
+  image?: string | null;
+  /**
+   * The role of the user
+   */
+  role: 'admin' | 'user';
+  updatedAt: string;
+  createdAt: string;
+  /**
+   * Whether the user is banned from the platform
+   */
+  banned?: boolean | null;
+  /**
+   * The reason for the ban
+   */
+  banReason?: string | null;
+  /**
+   * The date and time when the ban will expire
+   */
+  banExpires?: string | null;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+}
+/**
+ * Accounts are used to store user accounts for authentication providers
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "accounts".
+ */
+export interface Account {
+  id: string;
+  /**
+   * The user that the account belongs to
+   */
+  user: string | User;
+  /**
+   * The id of the account as provided by the SSO or equal to userId for credential accounts
+   */
+  accountId: string;
+  /**
+   * The id of the provider as provided by the SSO
+   */
+  providerId: string;
+  /**
+   * The access token of the account. Returned by the provider
+   */
+  accessToken?: string | null;
+  /**
+   * The refresh token of the account. Returned by the provider
+   */
+  refreshToken?: string | null;
+  /**
+   * The date and time when the access token will expire
+   */
+  accessTokenExpiresAt?: string | null;
+  /**
+   * The date and time when the refresh token will expire
+   */
+  refreshTokenExpiresAt?: string | null;
+  /**
+   * The scope of the account. Returned by the provider
+   */
+  scope?: string | null;
+  /**
+   * The id token for the account. Returned by the provider
+   */
+  idToken?: string | null;
+  /**
+   * The hashed password of the account. Mainly used for email and password authentication
+   */
+  password?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Sessions are active sessions for users. They are used to authenticate users with a session token
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sessions".
+ */
+export interface Session {
+  id: string;
+  /**
+   * The user that the session belongs to
+   */
+  user: string | User;
+  /**
+   * The unique session token
+   */
+  token: string;
+  /**
+   * The date and time when the session will expire
+   */
+  expiresAt: string;
+  /**
+   * The IP address of the device
+   */
+  ipAddress?: string | null;
+  /**
+   * The user agent information of the device
+   */
+  userAgent?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  /**
+   * The admin who is impersonating this session
+   */
+  impersonatedBy?: (string | null) | User;
+}
+/**
+ * Verifications are used to verify authentication requests
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "verifications".
+ */
+export interface Verification {
+  id: string;
+  /**
+   * The identifier of the verification request
+   */
+  identifier: string;
+  /**
+   * The value to be verified
+   */
+  value: string;
+  /**
+   * The date and time when the verification request will expire
+   */
+  expiresAt: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * API keys are used to authenticate requests to the API.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apiKeys".
+ */
+export interface ApiKey {
+  id: string;
+  /**
+   * The name of the API key.
+   */
+  name?: string | null;
+  /**
+   * The starting characters of the API key. Useful for showing the first few characters of the API key in the UI for the users to easily identify.
+   */
+  start?: string | null;
+  /**
+   * The API Key prefix. Stored as plain text.
+   */
+  prefix?: string | null;
+  /**
+   * The hashed API key itself.
+   */
+  key: string;
+  /**
+   * The user associated with the API key.
+   */
+  user: string | User;
+  /**
+   * The interval to refill the key in milliseconds.
+   */
+  refillInterval?: number | null;
+  /**
+   * The amount to refill the remaining count of the key.
+   */
+  refillAmount?: number | null;
+  /**
+   * The date and time when the key was last refilled.
+   */
+  lastRefillAt?: string | null;
+  /**
+   * Whether the API key is enabled.
+   */
+  enabled?: boolean | null;
+  /**
+   * Whether the API key has rate limiting enabled.
+   */
+  rateLimitEnabled?: boolean | null;
+  /**
+   * The time window in milliseconds for the rate limit.
+   */
+  rateLimitTimeWindow?: number | null;
+  /**
+   * The maximum number of requests allowed within the rate limit time window.
+   */
+  rateLimitMax?: number | null;
+  /**
+   * The number of requests made within the rate limit time window.
+   */
+  requstCount: number;
+  /**
+   * The number of requests remaining.
+   */
+  remaining?: number | null;
+  /**
+   * The date and time of the last request made to the key.
+   */
+  lastRequest?: string | null;
+  /**
+   * The date and time of when the API key will expire.
+   */
+  expiresAt?: string | null;
+  /**
+   * The permissions for the API key.
+   */
+  permissions?: string | null;
+  /**
+   * Any additional metadata you want to store with the key.
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "functions".
  */
 export interface Function {
@@ -300,28 +556,6 @@ export interface Prompt {
   name?: string | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: string;
-  name?: string | null;
-  image?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1271,10 +1505,14 @@ export interface PayloadJob {
           | 'generateThingEmbedding'
           | 'searchThings'
           | 'hybridSearchThings'
+          | 'processCodeFunctionWrapper'
+          | 'processCodeFunction'
           | 'inflectNouns'
           | 'conjugateVerbs'
+          | 'deployWorker'
           | 'deliverWebhook'
-          | 'initiateComposioConnection';
+          | 'initiateComposioConnection'
+          | 'requestHumanFeedback';
         taskID: string;
         input?:
           | {
@@ -1313,10 +1551,14 @@ export interface PayloadJob {
                 | 'generateThingEmbedding'
                 | 'searchThings'
                 | 'hybridSearchThings'
+                | 'processCodeFunctionWrapper'
+                | 'processCodeFunction'
                 | 'inflectNouns'
                 | 'conjugateVerbs'
+                | 'deployWorker'
                 | 'deliverWebhook'
                 | 'initiateComposioConnection'
+                | 'requestHumanFeedback'
               )
             | null;
           taskID?: string | null;
@@ -1333,10 +1575,14 @@ export interface PayloadJob {
         | 'generateThingEmbedding'
         | 'searchThings'
         | 'hybridSearchThings'
+        | 'processCodeFunctionWrapper'
+        | 'processCodeFunction'
         | 'inflectNouns'
         | 'conjugateVerbs'
+        | 'deployWorker'
         | 'deliverWebhook'
         | 'initiateComposioConnection'
+        | 'requestHumanFeedback'
       )
     | null;
   queue?: string | null;
@@ -1352,6 +1598,26 @@ export interface PayloadJob {
 export interface PayloadLockedDocument {
   id: string;
   document?:
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null)
+    | ({
+        relationTo: 'accounts';
+        value: string | Account;
+      } | null)
+    | ({
+        relationTo: 'sessions';
+        value: string | Session;
+      } | null)
+    | ({
+        relationTo: 'verifications';
+        value: string | Verification;
+      } | null)
+    | ({
+        relationTo: 'apiKeys';
+        value: string | ApiKey;
+      } | null)
     | ({
         relationTo: 'functions';
         value: string | Function;
@@ -1497,10 +1763,6 @@ export interface PayloadLockedDocument {
         value: string | Project;
       } | null)
     | ({
-        relationTo: 'users';
-        value: string | User;
-      } | null)
-    | ({
         relationTo: 'roles';
         value: string | Role;
       } | null)
@@ -1571,6 +1833,94 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  emailVerified?: T;
+  image?: T;
+  role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  banned?: T;
+  banReason?: T;
+  banExpires?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "accounts_select".
+ */
+export interface AccountsSelect<T extends boolean = true> {
+  user?: T;
+  accountId?: T;
+  providerId?: T;
+  accessToken?: T;
+  refreshToken?: T;
+  accessTokenExpiresAt?: T;
+  refreshTokenExpiresAt?: T;
+  scope?: T;
+  idToken?: T;
+  password?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sessions_select".
+ */
+export interface SessionsSelect<T extends boolean = true> {
+  user?: T;
+  token?: T;
+  expiresAt?: T;
+  ipAddress?: T;
+  userAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  impersonatedBy?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "verifications_select".
+ */
+export interface VerificationsSelect<T extends boolean = true> {
+  identifier?: T;
+  value?: T;
+  expiresAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apiKeys_select".
+ */
+export interface ApiKeysSelect<T extends boolean = true> {
+  name?: T;
+  start?: T;
+  prefix?: T;
+  key?: T;
+  user?: T;
+  refillInterval?: T;
+  refillAmount?: T;
+  lastRefillAt?: T;
+  enabled?: T;
+  rateLimitEnabled?: T;
+  rateLimitTimeWindow?: T;
+  rateLimitMax?: T;
+  requstCount?: T;
+  remaining?: T;
+  lastRequest?: T;
+  expiresAt?: T;
+  permissions?: T;
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2052,26 +2402,6 @@ export interface ProjectsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
- */
-export interface UsersSelect<T extends boolean = true> {
-  name?: T;
-  image?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  enableAPIKey?: T;
-  apiKey?: T;
-  apiKeyIndex?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "roles_select".
  */
 export interface RolesSelect<T extends boolean = true> {
@@ -2346,7 +2676,38 @@ export interface TaskHybridSearchThings {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
-<<<<<<< HEAD
+ * via the `definition` "TaskProcessCodeFunctionWrapper".
+ */
+export interface TaskProcessCodeFunctionWrapper {
+  input: {
+    functionId: string;
+  };
+  output: {
+    function?: string | null;
+    taskId?: string | null;
+    success?: boolean | null;
+    error?: string | null;
+    message?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessCodeFunction".
+ */
+export interface TaskProcessCodeFunction {
+  input: {
+    functionId: string;
+  };
+  output: {
+    function?: string | null;
+    moduleId?: string | null;
+    packageId?: string | null;
+    success?: boolean | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskInflectNouns".
  */
 export interface TaskInflectNouns {
@@ -2384,6 +2745,44 @@ export interface TaskConjugateVerbs {
     inverseEvent?: string | null;
     inverseSubject?: string | null;
     inverseObject?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDeployWorker".
+ */
+export interface TaskDeployWorker {
+  input: {
+    worker:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    options?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    result?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    deployment?: string | null;
   };
 }
 /**
@@ -2407,49 +2806,6 @@ export interface TaskDeliverWebhook {
     status?: string | null;
     message?: string | null;
     statusCode?: number | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
-||||||| e45a0a4
-=======
- * via the `definition` "TaskInflectNouns".
- */
-export interface TaskInflectNouns {
-  input: {
-    noun: string;
-  };
-  output: {
-    singular?: string | null;
-    plural?: string | null;
-    possessive?: string | null;
-    pluralPossessive?: string | null;
-    verb?: string | null;
-    act?: string | null;
-    activity?: string | null;
-    event?: string | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskConjugateVerbs".
- */
-export interface TaskConjugateVerbs {
-  input: {
-    verb: string;
-  };
-  output: {
-    act?: string | null;
-    activity?: string | null;
-    event?: string | null;
-    subject?: string | null;
-    object?: string | null;
-    inverse?: string | null;
-    inverseAct?: string | null;
-    inverseActivity?: string | null;
-    inverseEvent?: string | null;
-    inverseSubject?: string | null;
-    inverseObject?: string | null;
   };
 }
 /**
@@ -2478,7 +2834,53 @@ export interface TaskInitiateComposioConnection {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
->>>>>>> origin/main
+ * via the `definition` "TaskRequestHumanFeedback".
+ */
+export interface TaskRequestHumanFeedback {
+  input: {
+    taskId?: string | null;
+    title: string;
+    description: string;
+    options?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    freeText?: boolean | null;
+    platform?: ('slack' | 'teams' | 'discord') | null;
+    userId?: string | null;
+    roleId?: string | null;
+    timeout?: number | null;
+  };
+  output: {
+    taskId?: string | null;
+    status?: string | null;
+    response?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    messageId?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "WorkflowHandleGithubEvent".
  */
 export interface WorkflowHandleGithubEvent {

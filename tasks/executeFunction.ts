@@ -6,7 +6,7 @@ import { generateText } from './generateText'
 import { validateWithSchema } from './schemaUtils'
 import { generateMarkdown } from './generateMarkdown'
 import { generateCode } from './generateCode'
-import { generateSchema } from '../pkgs/ai-functions/generateSchema'
+import { generateSchema } from '@/lib//generateSchema'
 
 // export const executeFunction: TaskHandler<'executeFunction'> = async ({ input, req }) => {
 // TODO: Fix the typing and response ... temporary hack to get results in the functions API

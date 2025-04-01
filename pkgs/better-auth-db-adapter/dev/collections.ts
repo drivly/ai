@@ -25,6 +25,7 @@ const User: CollectionConfig = {
 		{
 			name: "image",
 			type: "upload",
+			// @ts-ignore
 			relationTo: "media",
 		},
 	],
@@ -60,6 +61,7 @@ const Session: CollectionConfig = {
 			name: "userId",
 			type: "relationship",
 			required: true,
+			// @ts-ignore
 			relationTo: "user",
 		},
 	],
@@ -85,6 +87,7 @@ const Account: CollectionConfig = {
 			name: "userId",
 			type: "relationship",
 			required: true,
+			// @ts-ignore
 			relationTo: "user",
 		},
 		{

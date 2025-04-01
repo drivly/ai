@@ -1,0 +1,122 @@
+import { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
+import { BetterAuthOptions } from 'better-auth'
+import { nextCookies } from 'better-auth/next-js'
+import { admin, apiKey, multiSession, openAPI } from 'better-auth/plugins'
+import type { CollectionConfig } from 'payload'
+import { isSuperAdmin } from '../hooks/isSuperAdmin'
+
+export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies()]
+
+export type BetterAuthPlugins = typeof betterAuthPlugins
+
+const vercelURL = process.env.VERCEL_URL
+
+export const betterAuthOptions: BetterAuthOptions = {
+  secret: process.env.BETTER_AUTH_SECRET as string,
+  appName: 'AGI Platform',
+  baseURL: vercelURL ? `https://${vercelURL}` : process.env.BETTER_AUTH_URL || 'http://localhost:3000',
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    },
+    // microsoft: {
+    //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
+    //   clientSecret: process.env.MICROSOFT_CLIENT_SECRET as string,
+    // },
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          if (isSuperAdmin(user)) {
+            console.log('create:before isSuperAdmin', user)
+            return { data: { ...user, role: 'admin' } }
+          }
+        },
+        after: async (user) => {
+          console.log('create:after', user)
+        },
+      },
+    },
+  },
+  plugins: betterAuthPlugins,
+  user: {
+    changeEmail: {
+      enabled: true,
+      sendChangeEmailVerification: async ({ user, newEmail, url, token }) => {
+        console.log('Send change email verification for user: ', user, newEmail, url, token)
+      },
+    },
+    deleteUser: {
+      enabled: true,
+      sendDeleteAccountVerification: async ({ user, url, token }) => {
+        // Send delete account verification
+      },
+      beforeDelete: async (user) => {
+        // Perform actions before user deletion
+      },
+      afterDelete: async (user) => {
+        // Perform cleanup after user deletion
+      },
+    },
+    additionalFields: {
+      role: {
+        type: 'string',
+        defaultValue: 'user',
+        input: false,
+      },
+    },
+  },
+  session: {
+    cookieCache: {
+      enabled: true,
+      maxAge: 5 * 60, // Cache duration in seconds
+    },
+  },
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ['google', 'email-password'],
+    },
+  },
+}
+
+export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
+  disabled: false,
+  logTables: false,
+  enableDebugLogs: false,
+  hidePluginCollections: true,
+  users: {
+    slug: 'users',
+    hidden: false,
+    adminRoles: ['admin'],
+    allowedFields: ['name'],
+    blockFirstBetterAuthVerificationEmail: true,
+    collectionOverrides: ({ collection }) => {
+      return {
+        ...collection,
+        auth: {
+          ...(typeof collection?.auth === 'object' ? collection.auth : {}),
+        },
+      } satisfies CollectionConfig
+    },
+  },
+  accounts: {
+    slug: 'accounts',
+    hidden: false,
+  },
+  sessions: {
+    slug: 'sessions',
+    hidden: false,
+  },
+  verifications: {
+    slug: 'verifications',
+    hidden: false,
+  },
+  betterAuthOptions: betterAuthOptions,
+}

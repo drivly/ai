@@ -70,6 +70,7 @@ export const payloadConfig = buildConfig({
           name: 'user',
           type: 'relationship',
           required: true,
+          // @ts-ignore
           relationTo: 'user',
         },
         {
@@ -156,6 +157,7 @@ export const payloadConfig = buildConfig({
           name: 'user',
           type: 'relationship',
           required: true,
+          // @ts-ignore
           relationTo: 'user',
         },
       ],

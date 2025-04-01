@@ -13,6 +13,8 @@ import { Config } from './payload.types'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { collections } from './collections'
 import { tasks, workflows } from './tasks'
+import { payloadBetterAuthOptions } from './lib/auth/options'
+import { payloadBetterAuth } from '@payload-auth/better-auth-plugin'
 
 import { isSuperAdmin } from './lib/hooks/isSuperAdmin'
 import { suggestedActions } from './lib/suggested-actions'
@@ -27,6 +29,11 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     components: {
+      afterLogin: [
+        {
+          path: '@/components/auth/sign-in',
+        },
+      ],
       graphics: {
         Icon: '@/components/icon',
         Logo: '@/components/logo',
@@ -91,6 +98,7 @@ export default buildConfig({
       logo: '/DrivlyLogo.svg',
       // suggestions: suggestedActions,
     }),
+    payloadBetterAuth(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     // storage-adapter-placeholder
     payloadKanbanBoard({

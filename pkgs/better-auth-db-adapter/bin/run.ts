@@ -58,7 +58,7 @@ await generateSchema(
 		],
 	},
 	{
-		payload_dir_path: PAYLOAD_TEST_DIR_PATH3,
+		outputDir: PAYLOAD_TEST_DIR_PATH3,
 	},
 )
 	.then(() => {

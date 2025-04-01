@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { betterAuth, type BetterAuthOptions } from "better-auth";
 import { afterAll, beforeAll, describe, expect, it, test } from "vitest";
 import { payloadAdapter } from "./../src/index";
