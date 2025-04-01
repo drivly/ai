@@ -88,10 +88,11 @@ describe('All Documentation Pages', () => {
 
       try {
         const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+        const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
         const docsPath = contentPathToDocsUrl(mdxFile)
-        const docsUrl = baseUrl.endsWith('/') 
-          ? `${baseUrl}docs/${docsPath}` 
-          : `${baseUrl}/docs/${docsPath}`
+        const docsUrl = normalizedBaseUrl.endsWith('/') 
+          ? `${normalizedBaseUrl}docs/${docsPath}` 
+          : `${normalizedBaseUrl}/docs/${docsPath}`
         
         console.log(`Testing docs page: ${docsUrl}`)
         let response: Response | null = null

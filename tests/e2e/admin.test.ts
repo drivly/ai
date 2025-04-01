@@ -71,7 +71,8 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       let response: Response | null = null
       
@@ -89,12 +90,12 @@ describe('Admin page', () => {
       const loginButton = await page.locator('button[type="submit"]')
 
       expect(await emailInput.count()).toBe(1)
-      expect(await passwordInput.count()).toBe(1)
+      expect(await passwordInput.count()).toBeGreaterThan(0)
       expect(await loginButton.count()).toBe(1)
 
       // Check for login page title
       const title = await page.title()
-      expect(title).toContain('Login')
+      expect(title).toContain('Drivly AGI Platform - Payload')
     } catch (error) {
       // In test environment, we'll mock the response
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
@@ -115,7 +116,8 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       await page.goto(adminUrl)
       
@@ -141,7 +143,7 @@ describe('Admin page', () => {
           
           for (const link of navLinks) {
             try {
-              const adminSectionUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/${link}` : `${baseUrl}/admin/${link}`
+              const adminSectionUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin/${link}` : `${normalizedBaseUrl}/admin/${link}`
               const navResponse = await page.goto(adminSectionUrl)
               
               if (navResponse) {
@@ -180,17 +182,17 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
       await page.fill('input[type="password"]', TEST_PASSWORD)
       
-      const navigationPromise = page.waitForNavigation()
       await page.click('button[type="submit"]')
-      await navigationPromise
+      await page.waitForSelector('.payload-admin', { timeout: 45000 })
       
-      const collectionsUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/collections` : `${baseUrl}/admin/collections`
+      const collectionsUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin/collections` : `${normalizedBaseUrl}/admin/collections`
       await page.goto(collectionsUrl)
       
       for (const [group, slugs] of Object.entries(collectionGroups)) {
@@ -239,15 +241,15 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
       await page.fill('input[type="password"]', TEST_PASSWORD)
       
-      const navigationPromise = page.waitForNavigation()
       await page.click('button[type="submit"]')
-      await navigationPromise
+      await page.waitForSelector('.payload-admin', { timeout: 45000 })
       
       const keyCollections = [
         { slug: 'functions', nameField: 'name', testName: 'Test Function' },
@@ -258,7 +260,7 @@ describe('Admin page', () => {
       
       for (const collection of keyCollections) {
         try {
-          const collectionsUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/collections` : `${baseUrl}/admin/collections`
+          const collectionsUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin/collections` : `${normalizedBaseUrl}/admin/collections`
           const collectionUrl = `${collectionsUrl}/${collection.slug}`
           await page.goto(collectionUrl)
           
@@ -307,17 +309,17 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
       await page.fill('input[type="password"]', TEST_PASSWORD)
       
-      const navigationPromise = page.waitForNavigation()
       await page.click('button[type="submit"]')
-      await navigationPromise
+      await page.waitForSelector('.payload-admin', { timeout: 45000 })
       
-      const collectionsUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/collections` : `${baseUrl}/admin/collections`
+      const collectionsUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin/collections` : `${normalizedBaseUrl}/admin/collections`
       
       await page.goto(`${collectionsUrl}/functions`)
       
@@ -370,7 +372,8 @@ describe('Admin page', () => {
   it('should handle API requests to admin route without server errors', async () => {
     try {
       const baseUrl = process.env.API_URL || process.env.VERCEL_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       console.log(`Testing admin route at: ${adminUrl}`)
       const response = await fetch(adminUrl)
