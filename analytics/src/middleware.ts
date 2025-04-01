@@ -46,7 +46,7 @@ export async function analyticsMiddleware(
         ip,
         userAgent,
         referer,
-      })
+      }).catch(err => console.error('Failed to track request:', err))
       
       await clickhouseClient.close()
     } catch (error) {

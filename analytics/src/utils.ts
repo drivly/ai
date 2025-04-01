@@ -12,6 +12,7 @@ export class AnalyticsService {
     if (!event.timestamp) {
       event.timestamp = Date.now()
     }
+    await this.client.ensureTableExists('events')
     await this.client.insert('events', event)
   }
 
@@ -19,6 +20,7 @@ export class AnalyticsService {
     if (!generation.timestamp) {
       generation.timestamp = Date.now()
     }
+    await this.client.ensureTableExists('generations')
     await this.client.insert('generations', generation)
   }
 
@@ -26,6 +28,7 @@ export class AnalyticsService {
     if (!request.timestamp) {
       request.timestamp = Date.now()
     }
+    await this.client.ensureTableExists('requests')
     await this.client.insert('requests', request)
   }
 
@@ -36,6 +39,8 @@ export class AnalyticsService {
     source?: string
     limit?: number
   } = {}): Promise<EventData[]> {
+    await this.client.ensureTableExists('events')
+    
     const { startDate, endDate, type, source, limit } = options
     
     let query = 'SELECT * FROM events WHERE 1=1'
@@ -76,6 +81,8 @@ export class AnalyticsService {
     status?: string
     limit?: number
   } = {}): Promise<GenerationData[]> {
+    await this.client.ensureTableExists('generations')
+    
     const { startDate, endDate, status, limit } = options
     
     let query = 'SELECT * FROM generations WHERE 1=1'
@@ -112,6 +119,8 @@ export class AnalyticsService {
     method?: string
     limit?: number
   } = {}): Promise<RequestData[]> {
+    await this.client.ensureTableExists('requests')
+    
     const { startDate, endDate, path, method, limit } = options
     
     let query = 'SELECT * FROM requests WHERE 1=1'
@@ -151,6 +160,8 @@ export class AnalyticsService {
     endDate?: Date
     groupBy?: 'day' | 'week' | 'month'
   } = {}): Promise<BillingData[]> {
+    await this.client.ensureTableExists('generations')
+    
     const { startDate, endDate, groupBy = 'day' } = options
     
     let timeFormat
@@ -197,6 +208,8 @@ export class AnalyticsService {
     endDate?: Date
     limit?: number
   } = {}): Promise<UsageData[]> {
+    await this.client.ensureTableExists('generations')
+    
     const { startDate, endDate, limit = 10 } = options
     
     let query = `

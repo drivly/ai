@@ -1,3 +1,5 @@
+
+export const eventsTableSchema = `
 CREATE TABLE IF NOT EXISTS events (
   id UUID DEFAULT generateUUID(),
   timestamp Int32 DEFAULT toInt32(now()),
@@ -13,8 +15,10 @@ CREATE TABLE IF NOT EXISTS events (
   workflowId String,
   agentId String
 ) ENGINE = MergeTree()
-ORDER BY (timestamp, type);
+ORDER BY (timestamp, type)
+`;
 
+export const generationsTableSchema = `
 CREATE TABLE IF NOT EXISTS generations (
   id UUID DEFAULT generateUUID(),
   timestamp Int32 DEFAULT toInt32(now()),
@@ -29,8 +33,10 @@ CREATE TABLE IF NOT EXISTS generations (
   tokensOutput Int32,
   cost Float64
 ) ENGINE = MergeTree()
-ORDER BY (timestamp, status);
+ORDER BY (timestamp, status)
+`;
 
+export const requestsTableSchema = `
 CREATE TABLE IF NOT EXISTS requests (
   id UUID DEFAULT generateUUID(),
   timestamp Int32 DEFAULT toInt32(now()),
@@ -46,4 +52,13 @@ CREATE TABLE IF NOT EXISTS requests (
   requestBody JSON,
   responseBody JSON
 ) ENGINE = MergeTree()
-ORDER BY (timestamp, path);
+ORDER BY (timestamp, path)
+`;
+
+export const tableSchemas: Record<string, string> = {
+  events: eventsTableSchema,
+  generations: generationsTableSchema,
+  requests: requestsTableSchema,
+};
+
+export const tableNames = Object.keys(tableSchemas);

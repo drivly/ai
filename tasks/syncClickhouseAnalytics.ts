@@ -30,19 +30,23 @@ export const syncClickhouseAnalyticsHandler = async ({ payload, job }: { payload
     })
     
     for (const event of events.docs) {
-      await analyticsService.trackEvent({
-        type: event.type,
-        source: event.source,
-        subjectId: event.subject?.id,
-        data: event.data,
-        metadata: event.metadata,
-        actionId: event.action?.id,
-        triggerId: event.trigger?.id,
-        searchId: event.search?.id,
-        functionId: event.function?.id,
-        workflowId: event.workflow?.id,
-        agentId: event.agent?.id,
-      })
+      try {
+        await analyticsService.trackEvent({
+          type: event.type,
+          source: event.source,
+          subjectId: event.subject?.id,
+          data: event.data,
+          metadata: event.metadata,
+          actionId: event.action?.id,
+          triggerId: event.trigger?.id,
+          searchId: event.search?.id,
+          functionId: event.function?.id,
+          workflowId: event.workflow?.id,
+          agentId: event.agent?.id,
+        })
+      } catch (error) {
+        console.error(`Failed to track event ${event.id}:`, error)
+      }
     }
     
     console.log(`Synced ${events.docs.length} events in ${Date.now() - eventsSyncStart}ms`)
@@ -58,18 +62,22 @@ export const syncClickhouseAnalyticsHandler = async ({ payload, job }: { payload
     })
     
     for (const generation of generations.docs) {
-      await analyticsService.trackGeneration({
-        actionId: generation.action?.id,
-        settingsId: generation.settings?.id,
-        request: generation.request,
-        response: generation.response,
-        error: generation.error,
-        status: generation.status,
-        duration: generation.duration,
-        tokensInput: generation.request?.input_tokens || 0,
-        tokensOutput: generation.response?.output_tokens || 0,
-        cost: (generation.request?.input_tokens || 0) * 0.00001 + (generation.response?.output_tokens || 0) * 0.00002, // Example cost calculation
-      })
+      try {
+        await analyticsService.trackGeneration({
+          actionId: generation.action?.id,
+          settingsId: generation.settings?.id,
+          request: generation.request,
+          response: generation.response,
+          error: generation.error,
+          status: generation.status,
+          duration: generation.duration,
+          tokensInput: generation.request?.input_tokens || 0,
+          tokensOutput: generation.response?.output_tokens || 0,
+          cost: (generation.request?.input_tokens || 0) * 0.00001 + (generation.response?.output_tokens || 0) * 0.00002, // Example cost calculation
+        })
+      } catch (error) {
+        console.error(`Failed to track generation ${generation.id}:`, error)
+      }
     }
     
     console.log(`Synced ${generations.docs.length} generations in ${Date.now() - generationsSyncStart}ms`)

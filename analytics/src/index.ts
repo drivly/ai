@@ -1,4 +1,5 @@
 import { createClient } from '@clickhouse/client-web'
+import { tableSchemas } from './schema'
 
 export interface ClickhouseConfig {
   host: string
@@ -34,7 +35,44 @@ export class ClickhouseClient {
     return data
   }
 
+  async tableExists(table: string): Promise<boolean> {
+    try {
+      const result = await this.client.query({
+        query: `EXISTS TABLE ${table}`,
+        format: 'JSONEachRow',
+      })
+      const data = await result.json<{ exists: number }>()
+      return data[0]?.exists === 1
+    } catch (error) {
+      console.error(`Error checking if table ${table} exists:`, error)
+      return false
+    }
+  }
+
+  async createTable(tableName: string, schema: string): Promise<void> {
+    try {
+      await this.client.query({
+        query: schema,
+      })
+    } catch (error) {
+      console.error(`Error creating table ${tableName}:`, error)
+      throw error
+    }
+  }
+
+  async ensureTableExists(table: string): Promise<void> {
+    const exists = await this.tableExists(table)
+    if (!exists) {
+      const schema = tableSchemas[table]
+      if (!schema) {
+        throw new Error(`No schema defined for table: ${table}`)
+      }
+      await this.createTable(table, schema)
+    }
+  }
+
   async insert(table: string, data: Record<string, any> | Record<string, any>[]): Promise<void> {
+    await this.ensureTableExists(table)
     const rows = Array.isArray(data) ? data : [data]
     await this.client.insert({
       table,
