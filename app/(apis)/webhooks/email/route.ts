@@ -32,7 +32,6 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
             attachments: parsedEmail.attachments?.map(attachment => ({
               filename: attachment.filename,
               contentType: attachment.mimeType,
-              size: attachment.size,
               contentId: attachment.contentId
             }))
           }
