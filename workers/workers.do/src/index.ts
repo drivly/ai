@@ -37,10 +37,21 @@ app.all('*', async (c) => {
       return c.text(`Worker not found: ${subdomain}`, 404)
     }
     
+    const outboundContext = {
+      userWorkerName: subdomain,
+      originalUrl: url.toString(),
+    }
+    
     const workerResponse = await fetch(url.toString(), {
       method: c.req.method,
       headers: c.req.header(),
       body: c.req.method !== 'GET' && c.req.method !== 'HEAD' ? await c.req.arrayBuffer() : undefined,
+      cf: {
+        outbound: {
+          service: "workers-do-outbound",
+          params_object: outboundContext
+        }
+      }
     })
     
     return new Response(workerResponse.body, {
