@@ -17,16 +17,29 @@ The Things collection provides a way to create, manage, and interact with these 
 
 In our semantic data model, Things play a crucial role as the actual entities that participate in Actions:
 
-```
-[Thing (Subject)] → [Verb (Predicate)] → [Thing (Object)]
+```mermaid
+graph LR
+    A[Thing<br/>(Subject)] -->|Verb<br/>(Predicate)| B[Thing<br/>(Object)]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 Things can serve as either:
-- The Subject performing an action (e.g., "ACME Corp" in "ACME Corp purchased Enterprise Plan")
-- The Object receiving an action (e.g., "Enterprise Plan" in "ACME Corp purchased Enterprise Plan")
+- The Subject performing an action (e.g., "Developer" in "Developer deployed Application")
+- The Object receiving an action (e.g., "Application" in "Developer deployed Application")
 
-```
-ACME Corp (Customer Thing) → Purchased → Enterprise Plan (Product Thing)
+```mermaid
+graph LR
+    A[ACME Corp<br/>(Customer Thing)] -->|Purchased| B[Enterprise Plan<br/>(Product Thing)]
+    C[Developer<br/>(Person Thing)] -->|Deployed| D[Application<br/>(Software Thing)]
+    E[Startup<br/>(Company Thing)] -->|Acquired| F[Funding<br/>(Resource Thing)]
+    
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style D fill:#bbf,stroke:#333,stroke-width:2px
+    style E fill:#f9f,stroke:#333,stroke-width:2px
+    style F fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 ## Key Features

@@ -17,8 +17,11 @@ The Verbs collection provides a way to define, manage, and execute these actions
 
 In our semantic data model, Verbs play a crucial role as the predicates that connect subjects and objects:
 
-```
-[Subject (Thing)] → [Predicate (Verb)] → [Object (Thing)]
+```mermaid
+graph LR
+    A[Subject<br/>(Thing)] -->|Predicate<br/>(Verb)| B[Object<br/>(Thing)]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 For example, in the action "Customer purchased Product":
@@ -26,8 +29,18 @@ For example, in the action "Customer purchased Product":
 - "purchased" is the Predicate (a Verb)
 - "Product" is the Object (another Thing)
 
-```
-ACME Corp (Customer) → Purchased → Enterprise Plan (Product)
+```mermaid
+graph LR
+    A[ACME Corp<br/>(Customer)] -->|Purchased| B[Enterprise Plan<br/>(Product)]
+    C[Developer] -->|Deployed| D[Application]
+    E[Startup] -->|Acquired| F[Funding]
+    
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#f9f,stroke:#333,stroke-width:2px
+    style D fill:#bbf,stroke:#333,stroke-width:2px
+    style E fill:#f9f,stroke:#333,stroke-width:2px
+    style F fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 ## Key Features

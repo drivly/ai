@@ -17,19 +17,25 @@ The Nouns collection provides a way to define, manage, and interact with these c
 
 In our semantic data model, Nouns play a crucial role:
 
-```
-[Noun Type] → defines → [Thing (Instance)]
+```mermaid
+graph LR
+    A[Noun Type] -->|defines| B[Thing Instance]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 For example, the Noun "Customer" defines what properties and relationships a specific customer Thing can have.
 
-```
-Customer (Noun) → defines → ACME Corp (Thing)
+```mermaid
+graph LR
+    A[Customer<br/>(Noun)] -->|defines| B[ACME Corp<br/>(Thing)]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
 When used in Actions (Subject-Predicate-Object triples), Things that are instances of Nouns can be either:
-- The Subject performing an action
-- The Object receiving an action
+- The Subject performing an action (e.g., "Developer" in "Developer deployed Application")
+- The Object receiving an action (e.g., "Funding" in "Startup acquired Funding")
 
 ## Key Features
 
