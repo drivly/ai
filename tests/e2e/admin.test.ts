@@ -372,7 +372,8 @@ describe('Admin page', () => {
   it('should handle API requests to admin route without server errors', async () => {
     try {
       const baseUrl = process.env.API_URL || process.env.VERCEL_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       console.log(`Testing admin route at: ${adminUrl}`)
       const response = await fetch(adminUrl)
