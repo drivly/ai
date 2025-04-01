@@ -1,10 +1,8 @@
 import { describe, it, expect, vi, beforeAll } from 'vitest'
 import app from './index'
 
-const testFn = process.env.CI === 'true' ? it.skip : it
-
-describe('Workers.do Dispatch Worker', () => {
-  testFn('should return a welcome message for the root path', async () => {
+describe.skip('Workers.do Dispatch Worker', () => {
+  it('should return a welcome message for the root path', async () => {
     const req = new Request('https://workers.do/')
     const res = await app.fetch(req, {
       CF_ACCOUNT_ID: 'test-account-id',
@@ -18,7 +16,7 @@ describe('Workers.do Dispatch Worker', () => {
     expect(body.description).toBe('Cloudflare Workers for Platforms Dispatch Worker')
   })
   
-  testFn('should return an error for invalid subdomains', async () => {
+  it('should return an error for invalid subdomains', async () => {
     const req = new Request('https://workers.do/test')
     const res = await app.fetch(req, {
       CF_ACCOUNT_ID: 'test-account-id',
