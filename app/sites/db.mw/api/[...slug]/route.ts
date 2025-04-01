@@ -1,5 +1,5 @@
-import { REST_DELETE, REST_GET, REST_OPTIONS, REST_PATCH, REST_POST, REST_PUT } from 'simple-payload'
-import config from 'payload.config'
+import { REST_DELETE, REST_GET, REST_OPTIONS, REST_PATCH, REST_POST, REST_PUT } from '../../../../../pkgs/simple-payload'
+import config from '../../../../../payload.config'
 
 export const GET = REST_GET({ config })
 export const POST = REST_POST({ config })
