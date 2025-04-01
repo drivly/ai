@@ -13,7 +13,7 @@ export const Actions: CollectionConfig = {
     { name: 'function', type: 'relationship', relationTo: 'functions' },
     { name: 'parameters', type: 'json' },
     { name: 'result', type: 'json' },
-    { name: 'relationships', type: 'join', collection: 'relationships', on: 'action' },
+    { name: 'relationships', type: 'join', collection: 'actions', on: 'action' },
   ],
   access: {
     create: () => false,
