@@ -15,14 +15,18 @@
     "src/types"
   ],
   "dependencies": {
-    "payload-rest-client": "^3.0.5"
+    "payload-rest-client": "^3.0.5",
+    "next": "^15.0.0",
+    "database.do": "*"
   },
   "devDependencies": {
-    "payload": "^3.31.0"
+    "payload": "^3.31.0",
+    "@payloadcms/db-mongodb": "^3.0.0",
+    "@payloadcms/richtext-lexical": "^3.0.0"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts --no-splitting",
-    "dev": "tsup src/index.ts --format esm --watch --dts",
+    "build": "tsup src/index.ts --format esm --dts --no-splitting --target esnext",
+    "dev": "tsup src/index.ts --format esm --watch --dts --target esnext",
     "lint": "eslint . --ext .ts,.tsx",
     "test": "echo \"No tests\" && exit 0"
   }
