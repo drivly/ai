@@ -50,4 +50,3 @@ jobs:
         run: pnpm test:e2e
         env:
           BROWSER_TESTS: true
-          BASE_URL: http://localhost:3000
