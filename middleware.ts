@@ -4,6 +4,7 @@ import { apis } from './api.config'
 import { domainsConfig, getCollections, isAIGateway } from './domains.config'
 import { collectionSlugs } from './collections/middleware-collections'
 import { aliases } from './site.config'
+import { analyticsMiddleware } from './analytics/src/middleware'
 
 // what domains have websites / landing pages ... otherwise base path / is the API
 const siteDomains = ['functions.do', 'workflows.do', 'llm.do', 'llms.do']
@@ -13,9 +14,10 @@ const sitePaths = ['/login', '/logout', '/signin', '/signout', '/privacy', '/ter
 const sitePrefixes = ['/blog', '/docs']
 
 // This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
-  const { hostname, pathname, search } = request.nextUrl
-  const apiName = hostname.replace('.do', '')
+export async function middleware(request: NextRequest) {
+  return analyticsMiddleware(request, async () => {
+    const { hostname, pathname, search } = request.nextUrl
+    const apiName = hostname.replace('.do', '')
 
   // TODO: should we use something like `itty-router` here?
 
@@ -90,6 +92,8 @@ export function middleware(request: NextRequest) {
   }
 
   console.log('no rewrite', { apiName, hostname, pathname, search })
+  return NextResponse.next()
+  })
 }
 
 // TODO: do we need/want middleware for everything?  Should we set up an exclude filter?

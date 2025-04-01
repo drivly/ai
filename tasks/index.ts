@@ -13,6 +13,7 @@ import { deployWorkerTask } from './deployWorker'
 import { deliverWebhookTask } from './deliverWebhook'
 import { initiateComposioConnectionTask } from './initiateComposioConnection'
 import { requestHumanFeedbackTask } from './requestHumanFeedback'
+import { syncClickhouseAnalyticsTask } from './syncClickhouseAnalytics'
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
@@ -65,7 +66,8 @@ export const tasks = [
   deployWorkerTask,
   deliverWebhookTask,
   initiateComposioConnectionTask,
-  requestHumanFeedbackTask
+  requestHumanFeedbackTask,
+  syncClickhouseAnalyticsTask
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }

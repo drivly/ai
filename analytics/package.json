@@ -1,0 +1,27 @@
+{
+  "name": "@ai-primitives/analytics",
+  "version": "0.1.0",
+  "description": "Clickhouse client for analytics",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "lint": "eslint src/**/*.ts",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "keywords": [
+    "clickhouse",
+    "analytics",
+    "drivly"
+  ],
+  "author": "Drivly",
+  "license": "MIT",
+  "dependencies": {
+    "@clickhouse/client-web": "^0.3.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3"
+  }
+}
