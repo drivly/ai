@@ -51,11 +51,11 @@ jobs:
           echo "BASE_URL=$(node -e 'console.log(process.env.BASE_URL)')" >> $GITHUB_ENV
         env:
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
         
       - name: Run E2E Tests
         run: pnpm test:e2e
         env:
           BROWSER_TESTS: true
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
