@@ -53,6 +53,7 @@
     "@vercel/analytics": "^1.5.0",
     "@vercel/functions": "^2.0.0",
     "@vercel/speed-insights": "^1.2.0",
+    "agentic.md": "^0.1.0",
     "ai": "^4.2.0",
     "ai-functions": "workspace:*",
     "ai-providers": "workspace:*",
