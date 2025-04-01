@@ -8,13 +8,19 @@ import { beforeAll, afterAll, vi } from 'vitest'
 // Mock environment variables for testing
 process.env.API_URL = process.env.API_URL || 'http://localhost:3000'
 
-const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-process.env.BASE_URL = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
-process.env.BASE_URL = process.env.BASE_URL.endsWith('/') ? process.env.BASE_URL : `${process.env.BASE_URL}/`
-
-process.env.IS_TEST_ENV = 'true'
+let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+baseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+if (baseUrl.match(/^https?:\/\/$/)) {
+  baseUrl = 'http://localhost:3000'
+}
+if (baseUrl.endsWith('/')) {
+  baseUrl = baseUrl.slice(0, -1)
+}
+process.env.BASE_URL = baseUrl
 
 console.log(`Using normalized BASE_URL: ${process.env.BASE_URL}`)
+
+process.env.IS_TEST_ENV = 'true'
 
 // Mock fetch for API tests when needed
 if (!globalThis.fetch) {
