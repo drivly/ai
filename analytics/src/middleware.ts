@@ -48,6 +48,33 @@ export async function analyticsMiddleware(
         referer,
       }).catch(err => console.error('Failed to track request:', err))
       
+      if (process.env.PIPELINE_URL) {
+        try {
+          const requestData = {
+            method,
+            path: pathname,
+            hostname,
+            status: response.status,
+            latency,
+            userId,
+            ip,
+            userAgent,
+            referer,
+            timestamp: Date.now()
+          }
+          
+          await fetch(process.env.PIPELINE_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify([requestData]) // Wrap in array as required
+          }).catch(err => console.error('Failed to send to pipeline:', err))
+        } catch (error) {
+          console.error('Error sending to pipeline:', error)
+        }
+      }
+      
       await clickhouseClient.close()
     } catch (error) {
       console.error('Error tracking analytics:', error)
