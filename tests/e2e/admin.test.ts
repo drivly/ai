@@ -71,7 +71,8 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       let response: Response | null = null
       
@@ -115,7 +116,8 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       await page.goto(adminUrl)
       
@@ -180,7 +182,8 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
@@ -189,7 +192,7 @@ describe('Admin page', () => {
       await page.click('button[type="submit"]')
       await page.waitForSelector('.payload-admin', { timeout: 45000 })
       
-      const collectionsUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/collections` : `${baseUrl}/admin/collections`
+      const collectionsUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin/collections` : `${normalizedBaseUrl}/admin/collections`
       await page.goto(collectionsUrl)
       
       for (const [group, slugs] of Object.entries(collectionGroups)) {
@@ -238,7 +241,8 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
@@ -256,7 +260,7 @@ describe('Admin page', () => {
       
       for (const collection of keyCollections) {
         try {
-          const collectionsUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/collections` : `${baseUrl}/admin/collections`
+          const collectionsUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin/collections` : `${normalizedBaseUrl}/admin/collections`
           const collectionUrl = `${collectionsUrl}/${collection.slug}`
           await page.goto(collectionUrl)
           
@@ -305,7 +309,8 @@ describe('Admin page', () => {
 
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
-      const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
+      const normalizedBaseUrl = baseUrl.startsWith('http') ? baseUrl : `http://${baseUrl}`
+      const adminUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin` : `${normalizedBaseUrl}/admin`
       
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
@@ -314,7 +319,7 @@ describe('Admin page', () => {
       await page.click('button[type="submit"]')
       await page.waitForSelector('.payload-admin', { timeout: 45000 })
       
-      const collectionsUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/collections` : `${baseUrl}/admin/collections`
+      const collectionsUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin/collections` : `${normalizedBaseUrl}/admin/collections`
       
       await page.goto(`${collectionsUrl}/functions`)
       
