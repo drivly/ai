@@ -27,6 +27,9 @@ interface DomainStatus {
   vercelStatus?: string
 }
 
+export type { DomainStatus }
+export { checkNsRecords, fetchDomainRoot, getVercelLinkedDomains }
+
 async function checkNsRecords(domain: string): Promise<string[] | null> {
   try {
     const nsRecords = await resolveNs(domain)
