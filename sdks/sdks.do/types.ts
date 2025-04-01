@@ -1,4 +1,4 @@
-export { ListResponse, ErrorResponse, QueryParams } from 'apis.do/types'
+export type { ListResponse, ErrorResponse, QueryParams } from 'apis.do/types'
 
 export interface Package {
   id: string
