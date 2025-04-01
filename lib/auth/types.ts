@@ -1,4 +1,4 @@
-import { getPayload } from '@/lib/payload'
+import { getPayload } from '@/lib/auth/payload-auth'
 import { betterAuthPlugins } from './options'
 
 const payload = await getPayload()
