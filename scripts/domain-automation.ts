@@ -56,6 +56,18 @@ import { promisify } from 'node:util'
 import { domains } from '../domains.config'
 import { checkNsRecords, fetchDomainRoot, getVercelLinkedDomains } from './domain-status-checker'
 
+const args = process.argv.slice(2)
+const domainFilter = args.length > 0 ? args : null
+const dryRun = args.includes('--dry-run') || args.includes('-d')
+
+if (dryRun) {
+  console.log('Running in dry-run mode. No changes will be made to Cloudflare or Vercel.')
+}
+
+if (domainFilter && !dryRun) {
+  console.log(`Filtering domains to: ${domainFilter.filter(arg => !arg.startsWith('-')).join(', ')}`)
+}
+
 const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN
 const CLOUDFLARE_ZONE_ID = process.env.CLOUDFLARE_ZONE_ID
 const CLOUDFLARE_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID
@@ -279,7 +291,12 @@ async function verifyDomainOnVercel(domain: string): Promise<boolean> {
  * Main function to automate domain setup
  */
 async function automateDomainsSetup() {
-  console.log(`Found ${domains.length} domains to process`)
+  const domainsToProcess = domainFilter 
+    ? domains.filter(domain => domainFilter.some(filter => 
+        !filter.startsWith('-') && domain.includes(filter)))
+    : domains
+
+  console.log(`Found ${domainsToProcess.length} domains to process out of ${domains.length} total domains`)
 
   const vercelDomains = await getVercelLinkedDomains()
   console.log(`Found ${vercelDomains.length} domains already linked in Vercel`)
@@ -287,7 +304,7 @@ async function automateDomainsSetup() {
   const cloudflareZones = await getCloudflareZones()
   console.log(`Found ${cloudflareZones.length} zones already in Cloudflare`)
 
-  for (const domain of domains) {
+  for (const domain of domainsToProcess) {
     console.log(`\nProcessing domain: ${domain}`)
 
     const isInVercel = vercelDomains.some(d => d.domain === domain)
@@ -304,41 +321,52 @@ async function automateDomainsSetup() {
 
     if (!cloudflareZone) {
       console.log(`Adding domain ${domain} to Cloudflare...`)
-      const newZone = await createCloudflareZone(domain)
       
-      if (newZone) {
-        console.log(`Successfully added domain ${domain} to Cloudflare with zone ID ${newZone.id}`)
-        
-        console.log(`Adding Vercel DNS records for ${domain}...`)
-        const dnsAdded = await addCloudflareVercelDNSRecords(newZone.id, domain)
-        
-        if (dnsAdded) {
-          console.log(`Successfully added Vercel DNS records for ${domain}`)
-        } else {
-          console.error(`Failed to add Vercel DNS records for ${domain}`)
-        }
+      if (dryRun) {
+        console.log(`[DRY RUN] Would create Cloudflare zone for ${domain}`)
       } else {
-        console.error(`Failed to add domain ${domain} to Cloudflare`)
+        const newZone = await createCloudflareZone(domain)
+        
+        if (newZone) {
+          console.log(`Successfully added domain ${domain} to Cloudflare with zone ID ${newZone.id}`)
+          
+          console.log(`Adding Vercel DNS records for ${domain}...`)
+          const dnsAdded = await addCloudflareVercelDNSRecords(newZone.id, domain)
+          
+          if (dnsAdded) {
+            console.log(`Successfully added Vercel DNS records for ${domain}`)
+          } else {
+            console.error(`Failed to add Vercel DNS records for ${domain}`)
+          }
+        } else {
+          console.error(`Failed to add domain ${domain} to Cloudflare`)
+        }
       }
     }
 
     if (!isInVercel) {
       console.log(`Adding domain ${domain} to Vercel...`)
-      const added = await addDomainToVercel(domain)
       
-      if (added) {
-        console.log(`Successfully added domain ${domain} to Vercel`)
-        
-        console.log(`Verifying domain ${domain} on Vercel...`)
-        const verified = await verifyDomainOnVercel(domain)
-        
-        if (verified) {
-          console.log(`Successfully verified domain ${domain} on Vercel`)
-        } else {
-          console.error(`Failed to verify domain ${domain} on Vercel`)
-        }
+      if (dryRun) {
+        console.log(`[DRY RUN] Would add domain ${domain} to Vercel project`)
+        console.log(`[DRY RUN] Would verify domain ${domain} on Vercel`)
       } else {
-        console.error(`Failed to add domain ${domain} to Vercel`)
+        const added = await addDomainToVercel(domain)
+        
+        if (added) {
+          console.log(`Successfully added domain ${domain} to Vercel`)
+          
+          console.log(`Verifying domain ${domain} on Vercel...`)
+          const verified = await verifyDomainOnVercel(domain)
+          
+          if (verified) {
+            console.log(`Successfully verified domain ${domain} on Vercel`)
+          } else {
+            console.error(`Failed to verify domain ${domain} on Vercel`)
+          }
+        } else {
+          console.error(`Failed to add domain ${domain} to Vercel`)
+        }
       }
     }
   }
