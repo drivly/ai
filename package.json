@@ -66,6 +66,7 @@
     "geolib": "^3.3.4",
     "graphdl.js": "^0.1.0",
     "graphql": "^16.8.1",
+    "isolated-vm": "^5.0.4",
     "lucide-react": "^0.483.0",
     "marked": "^15.0.7",
     "murmurhash": "^2.0.1",
