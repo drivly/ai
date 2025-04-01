@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/llm.do.svg)](https://www.npmjs.com/package/llm.do)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
-[![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
 
 ## Intelligent AI Gateway for Language Models
 

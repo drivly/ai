@@ -1,11 +1,10 @@
 # [database.do](https://database.do)
 
-[![npm version](https://img.shields.io/npm/v/database.do.svg?style=flat-square)](https://www.npmjs.org/package/database.do)
-[![npm downloads](https://img.shields.io/npm/dm/database.do.svg?style=flat-square)](https://npmjs.org/package/database.do)
-[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
-[![License](https://img.shields.io/npm/l/database.do.svg?style=flat-square)](https://github.com/drivly/ai/blob/main/LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+[![npm version](https://img.shields.io/npm/v/database.do.svg)](https://www.npmjs.org/package/database.do)
+[![npm downloads](https://img.shields.io/npm/dm/database.do.svg)](https://npmjs.org/package/database.do)
+[![License](https://img.shields.io/npm/l/database.do.svg)](https://github.com/drivly/ai/blob/main/LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
 
 > AI-Native Data Access SDK for seamless database operations with MongoDB, PostgreSQL, and SQLite
 
