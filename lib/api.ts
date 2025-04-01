@@ -6,6 +6,7 @@ import { PayloadDB } from './db'
 import { UAParser } from 'ua-parser-js'
 import { geolocation } from '@vercel/functions'
 import { continents, countries, flags, locations, metros } from './constants/cf'
+import { nanoid } from 'nanoid'
 
 /**
  * Context object passed to API handlers
@@ -431,4 +432,149 @@ export const modifyQueryString = (param?: string, value?: string | number) => {
   const url = new URL(_currentRequest.url)
   url.searchParams.set(param, value.toString())
   return url.toString()
+}
+
+/**
+ * Generates a short unique ID (SQID) for sharing responses
+ * @param requestId - The original request ID to encode
+ * @returns A short unique ID for sharing
+ */
+export const generateShareId = (requestId: string): string => {
+  return nanoid(10)
+}
+
+/**
+ * Decodes a share ID back to the original request ID
+ * This would typically involve a database lookup in production
+ * @param shareId - The share ID to decode
+ * @returns The original request ID or null if not found
+ */
+export const getRequestIdFromShareId = async (shareId: string, db: PayloadDB): Promise<string | null> => {
+  try {
+    const share = await db.shares?.findOne({ shareId })
+    return share?.requestId || null
+  } catch (error) {
+    console.error('Error retrieving request ID from share ID:', error)
+    return null
+  }
+}
+
+/**
+ * Stores a mapping between a share ID and request ID
+ * @param shareId - The generated share ID
+ * @param requestId - The original request ID
+ * @param response - The response data to be shared
+ * @param db - Database instance
+ */
+export const storeShareMapping = async (
+  shareId: string, 
+  requestId: string, 
+  response: Record<string, any>,
+  db: PayloadDB
+): Promise<void> => {
+  try {
+    await db.shares?.create({
+      shareId,
+      requestId,
+      response,
+      createdAt: new Date(),
+    })
+  } catch (error) {
+    console.error('Error storing share mapping:', error)
+  }
+}
+
+/**
+ * Generates sharing links for various social platforms
+ * @param shareId - The share ID to include in the links
+ * @param title - The title or content summary to share
+ * @param url - The base URL for sharing (defaults to current domain)
+ * @returns Object containing sharing links for various platforms
+ */
+export const generateSharingLinks = (shareId: string, title: string, url?: string): Record<string, string> => {
+  const baseUrl = url || (_currentRequest ? new URL(_currentRequest.url).origin : 'https://api.do')
+  const shareUrl = `${baseUrl}/share/${shareId}`
+  
+  const encodedTitle = encodeURIComponent(title)
+  const encodedUrl = encodeURIComponent(shareUrl)
+  
+  return {
+    url: shareUrl,
+    twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+    email: `mailto:?subject=${encodedTitle}&body=${encodedUrl}`,
+    sms: `sms:?body=${encodedTitle} ${shareUrl}`,
+    bluesky: `https://bsky.app/intent/compose?text=${encodedTitle} ${encodedUrl}`,
+    instagram: `https://www.instagram.com/?url=${encodedUrl}`,
+    tiktok: `https://www.tiktok.com/upload?url=${encodedUrl}`,
+  }
+}
+
+/**
+ * Enhances an API response with sharing capabilities
+ * @param response - The original API response
+ * @param requestId - The request ID to use for generating the share ID
+ * @param title - Optional title for the shared content
+ * @returns The enhanced response with sharing links
+ */
+export const addSharingToResponse = async <T extends Record<string, any>>(
+  response: T,
+  requestId: string,
+  title?: string,
+  db?: PayloadDB
+): Promise<T & { share: { id: string, links: Record<string, string> } }> => {
+  const shareId = generateShareId(requestId)
+  const shareTitle = title || response.title || 'Check out this AI response'
+  
+  if (db?.shares) {
+    await storeShareMapping(shareId, requestId, response, db)
+  }
+  
+  return {
+    ...response,
+    share: {
+      id: shareId,
+      links: generateSharingLinks(shareId, shareTitle)
+    }
+  }
+}
+
+/**
+ * API handler for the /share/:id route
+ * Retrieves the original response using the share ID and returns it
+ * @param params - Object containing the share ID
+ * @param db - Database instance
+ * @returns The original response or an error
+ */
+export const handleShareRequest = async (
+  params: { id: string },
+  db: PayloadDB
+): Promise<Record<string, any>> => {
+  try {
+    const { id } = params
+    
+    const share = await db.shares?.findOne({ shareId: id })
+    
+    if (!share) {
+      return {
+        error: true,
+        message: 'Shared content not found',
+        status: 404
+      }
+    }
+    
+    return {
+      ...share.response,
+      shared: true,
+      sharedAt: share.createdAt,
+    }
+  } catch (error) {
+    console.error('Error handling share request:', error)
+    return {
+      error: true,
+      message: 'Failed to retrieve shared content',
+      status: 500
+    }
+  }
 }

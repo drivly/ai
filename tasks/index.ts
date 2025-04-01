@@ -1,6 +1,7 @@
 import { TaskConfig } from 'payload'
 import { executeFunctionTask } from './executeFunction'
 import { generateCodeTask } from './generateCode'
+import { executeCodeFunctionTask } from './executeCodeFunction'
 import { generateThingEmbedding } from './generateThingEmbedding'
 import { handleGithubEvent } from './handleGithubEvent'
 import { hybridSearchThings, searchThings } from './searchThings'
@@ -13,6 +14,12 @@ import { deployWorkerTask } from './deployWorker'
 import { deliverWebhookTask } from './deliverWebhook'
 import { initiateComposioConnectionTask } from './initiateComposioConnection'
 import { requestHumanFeedbackTask } from './requestHumanFeedback'
+import { processDomain } from './processDomain'
+import { processBatchOpenAITask } from './batchOpenAI'
+import { processBatchAnthropicTask } from './batchAnthropic'
+import { processBatchGoogleVertexAITask } from './batchGoogleVertexAI'
+import { processBatchParasailTask } from './batchParasail'
+import { createGenerationBatchTask } from './createGenerationBatch'
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
@@ -52,9 +59,26 @@ const hybridSearchThingsTask = {
   handler: hybridSearchThings,
 } as unknown as TaskConfig
 
+const processDomainTask = {
+  slug: 'processDomain',
+  label: 'Process Domain',
+  inputSchema: [
+    { name: 'domainId', type: 'text', required: true },
+    { name: 'operation', type: 'text', required: true },
+    { name: 'domain', type: 'text' },
+    { name: 'vercelId', type: 'text' },
+    { name: 'cloudflareId', type: 'text' }
+  ],
+  outputSchema: [
+    { name: 'success', type: 'boolean' }
+  ],
+  handler: processDomain,
+} as unknown as TaskConfig
+
 export const tasks = [
   executeFunctionTask, 
-  generateCodeTask, 
+  generateCodeTask,
+  executeCodeFunctionTask,
   generateThingEmbeddingTask, 
   searchThingsTask, 
   hybridSearchThingsTask,
@@ -65,7 +89,13 @@ export const tasks = [
   deployWorkerTask,
   deliverWebhookTask,
   initiateComposioConnectionTask,
-  requestHumanFeedbackTask
+  requestHumanFeedbackTask,
+  processDomainTask,
+  processBatchOpenAITask,
+  processBatchAnthropicTask,
+  processBatchGoogleVertexAITask,
+  processBatchParasailTask,
+  createGenerationBatchTask
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }

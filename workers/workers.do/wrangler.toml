@@ -1,0 +1,20 @@
+name = "workers-do"
+main = "src/index.ts"
+compatibility_date = "2024-04-01"
+
+[vars]
+# These values will be replaced by actual values during deployment
+CF_ACCOUNT_ID = ""
+CF_API_TOKEN = ""
+CF_NAMESPACE_ID = ""
+
+# Add outbound worker configuration
+[dispatch_namespaces]
+  [[dispatch_namespaces.dispatches]]
+  namespace = "WORKERS_DISPATCH_NAMESPACE"
+  outbound = {service = "workers-do-outbound", parameters = ["userWorkerName", "originalUrl"]}
+
+# Add custom domains
+# [routes]
+# workers.do = { pattern = "workers.do/*", zone_name = "workers.do" }
+# *.workers.do = { pattern = "*.workers.do/*", zone_name = "workers.do" }

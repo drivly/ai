@@ -3,9 +3,8 @@ import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
 import './code-hike.css'
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import { headers } from 'next/headers'
+import { Providers } from '@/app/providers'
 
 function getDomainLogo(hostname: string) {
   if (hostname.endsWith('.do') && !hostname.slice(0, -3).includes('.')) {
@@ -48,18 +47,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* Your additional tags should be passed as `children` of `<Head>` element */}
       </Head>
       <body>
-        <Layout
-          banner={banner}
-          navbar={navbar}
-          pageMap={await getPageMap()}
-          docsRepositoryBase='https://github.com/drivly/ai/tree/main'
-          footer={footer}
-          // ... Your additional layout options
-        >
-          {children}
-        </Layout>
-        <Analytics />
-        <SpeedInsights />
+        <Providers>
+          <Layout
+            banner={banner}
+            navbar={navbar}
+            pageMap={await getPageMap()}
+            docsRepositoryBase='https://github.com/drivly/ai/tree/main'
+            footer={footer}
+            // ... Your additional layout options
+          >
+            {children}
+          </Layout>
+        </Providers>
       </body>
     </html>
   )

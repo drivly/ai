@@ -1,0 +1,31 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "vercel-log-drain",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-17",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  /**
+   * Environment Variables
+   * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
+   */
+  "vars": {
+    "CLICKHOUSE_HOST": "https://your-clickhouse-host.com",
+    "CLICKHOUSE_DB": "vercel_logs",
+    "CLICKHOUSE_TABLE": "log_events"
+  }
+  /**
+   * Note: Use secrets to store sensitive data.
+   * https://developers.cloudflare.com/workers/configuration/secrets/
+   * 
+   * Required secrets:
+   * - CLICKHOUSE_USER
+   * - CLICKHOUSE_PASSWORD
+   */
+}

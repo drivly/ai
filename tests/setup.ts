@@ -7,7 +7,11 @@ import { beforeAll, afterAll, vi } from 'vitest'
 
 // Mock environment variables for testing
 process.env.API_URL = process.env.API_URL || 'http://localhost:3000'
-process.env.BASE_URL = process.env.BASE_URL || 'http://localhost:3000'
+let baseUrl = process.env.BASE_URL || 'http://localhost:3000'
+if (baseUrl.endsWith('/')) {
+  baseUrl = baseUrl.slice(0, -1)
+}
+process.env.BASE_URL = baseUrl
 process.env.IS_TEST_ENV = 'true'
 
 // Mock fetch for API tests when needed

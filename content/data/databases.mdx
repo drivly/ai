@@ -1,0 +1,66 @@
+# Databases
+
+The Databases collection provides configuration options for how your data is stored, accessed, and managed within the platform.
+
+## Overview
+
+The Databases collection allows you to define different database configurations for your applications:
+
+- **Integrated** - Uses the platform's integrated collections
+- **Dedicated** - Dedicated database instances in specific AWS regions
+- **Self-Hosted** - Self-managed database instances with your own configuration
+
+## Database Types
+
+### Integrated
+
+Integrated databases use the platform's built-in collections system. This is the simplest option and requires no additional configuration.
+
+- **Schema Enforcement**: Can be set to "flexible" (schema-less) or "enforced" (schema validation)
+- **Domain**: The domain where the API and Admin portal will be hosted
+
+### Dedicated
+
+Dedicated databases provide isolated database instances managed by the platform. Options include:
+
+- **Database Type**: MongoDB, PostgreSQL, or SQLite
+- **Region**: Choose from popular AWS regions (us-east-1, us-east-2, us-west-1, us-west-2, eu-west-1, etc.)
+- **Schema Enforcement**: Can be set to "flexible" (schema-less) or "enforced" (schema validation)
+- **Domain**: The domain where the API and Admin portal will be hosted
+
+### Self-Hosted
+
+Self-hosted databases allow you to use your own database infrastructure. Options include:
+
+- **Database Type**: MongoDB, PostgreSQL, or SQLite
+- **Schema Enforcement**: Can be set to "flexible" (schema-less) or "enforced" (schema validation)
+- **Domain**: The domain where the API and Admin portal will be hosted
+
+## Relationships
+
+Databases have a many-to-many relationship with Nouns, allowing you to associate specific database configurations with different types of entities in your application.
+
+## Example Configuration
+
+```typescript
+import { db } from 'database.do'
+
+// Create a new database configuration
+const productionDb = await db.databases.create({
+  name: 'Production Database',
+  type: 'Dedicated',
+  databaseType: 'Postgres',
+  region: 'us-east-1',
+  schemaEnforcement: 'enforced',
+  domain: 'api.example.com',
+  nouns: ['products', 'customers', 'orders']
+})
+
+// Query databases with filtering
+const dedicatedDatabases = await db.databases.find({
+  where: {
+    type: 'Dedicated',
+    databaseType: 'Postgres'
+  }
+})
+```
