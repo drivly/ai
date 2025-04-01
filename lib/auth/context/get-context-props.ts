@@ -1,5 +1,5 @@
 import type { Account, DeviceSession } from '@/lib/auth/types'
-import { getPayload } from '@/lib/payload'
+import { getPayload } from '@/lib/auth/payload-auth'
 import { headers as requestHeaders } from 'next/headers'
 
 export const getSession = async () => {
