@@ -36,7 +36,7 @@ export async function analyticsMiddleware(
       
       const analyticsService = new AnalyticsService(clickhouseClient)
       
-      await analyticsService.trackRequest({
+      const requestData = {
         method,
         path: pathname,
         hostname,
@@ -46,34 +46,40 @@ export async function analyticsMiddleware(
         ip,
         userAgent,
         referer,
-      }).catch(err => console.error('Failed to track request:', err))
+        timestamp: Date.now()
+      }
+      
+      const promises = [
+        analyticsService.trackRequest({
+          method,
+          path: pathname,
+          hostname,
+          status: response.status,
+          latency,
+          userId,
+          ip,
+          userAgent,
+          referer,
+        }).catch(err => console.error('Failed to track request:', err))
+      ]
       
       if (process.env.PIPELINE_URL) {
-        try {
-          const requestData = {
-            method,
-            path: pathname,
-            hostname,
-            status: response.status,
-            latency,
-            userId,
-            ip,
-            userAgent,
-            referer,
-            timestamp: Date.now()
-          }
-          
-          await fetch(process.env.PIPELINE_URL, {
+        promises.push(
+          fetch(process.env.PIPELINE_URL, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify([requestData]) // Wrap in array as required
-          }).catch(err => console.error('Failed to send to pipeline:', err))
-        } catch (error) {
-          console.error('Error sending to pipeline:', error)
-        }
+          })
+            .then(() => {}) // Convert Promise<Response> to Promise<void>
+            .catch(err => console.error('Failed to send to pipeline:', err))
+        )
       }
+      
+      await Promise.all(promises).catch(error => {
+        console.error('Error sending analytics data:', error)
+      })
       
       await clickhouseClient.close()
     } catch (error) {
