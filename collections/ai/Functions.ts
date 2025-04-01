@@ -42,6 +42,70 @@ export const Functions: CollectionConfig = {
           // required: true,
           admin: { position: 'sidebar' } 
         },
+        { 
+          name: 'isPublic', 
+          type: 'checkbox', 
+          defaultValue: false,
+          admin: { 
+            position: 'sidebar',
+            description: 'Make this function available to other users'
+          } 
+        },
+        { 
+          name: 'clonedFrom', 
+          type: 'relationship', 
+          relationTo: 'functions',
+          admin: { 
+            position: 'sidebar',
+            description: 'Original function this was cloned from'
+          } 
+        },
+        { 
+          name: 'pricing', 
+          type: 'group', 
+          admin: {
+            position: 'sidebar',
+            condition: (data) => data?.isPublic === true,
+            description: 'Monetization settings for this function'
+          },
+          fields: [
+            {
+              name: 'isMonetized',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Enable monetization for this function'
+              }
+            },
+            {
+              name: 'pricePerUse',
+              type: 'number',
+              min: 0,
+              admin: {
+                condition: (data, siblingData) => siblingData?.isMonetized === true,
+                description: 'Price per use in USD cents (platform fee is 30% above LLM costs)'
+              }
+            },
+            {
+              name: 'stripeProductId',
+              type: 'text',
+              admin: {
+                condition: (data, siblingData) => siblingData?.isMonetized === true,
+                description: 'Stripe Product ID (auto-generated)',
+                readOnly: true
+              }
+            },
+            {
+              name: 'stripePriceId',
+              type: 'text',
+              admin: {
+                condition: (data, siblingData) => siblingData?.isMonetized === true,
+                description: 'Stripe Price ID (auto-generated)',
+                readOnly: true
+              }
+            }
+          ]
+        },
     //   ],
     // },
     {
