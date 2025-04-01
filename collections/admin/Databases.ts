@@ -36,6 +36,8 @@ export const Databases: CollectionConfig = {
       type: 'select', 
       options: [
         'us-east-1',    // N. Virginia
+        'us-east-2',    // Ohio
+        'us-west-1',    // N. California
         'us-west-2',    // Oregon
         'eu-west-1',    // Ireland
         'ap-northeast-1', // Tokyo
