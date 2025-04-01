@@ -11,6 +11,7 @@ export const Actions: CollectionConfig = {
     { name: 'name', type: 'text' },
     { name: 'description', type: 'textarea' },
     { name: 'functionId', type: 'relationship', relationTo: 'functions' },
+    { name: 'verbId', type: 'relationship', relationTo: 'verbs' },
     { name: 'parameters', type: 'json' },
     { name: 'result', type: 'json' },
     { name: 'relationships', type: 'join', collection: 'actions', on: 'action' },
