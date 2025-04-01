@@ -49,3 +49,22 @@ export interface RestPayloadClientConfig {
  * Combined configuration options for Payload client
  */
 export type PayloadClientOptions = RestPayloadClientConfig | PayloadInstance
+
+/**
+ * Types for Next.js route handlers
+ */
+export interface RouteHandlerOptions {
+  config?: any  // Payload config
+  apiRoute?: boolean  // Whether this is an API route (vs admin route)
+}
+
+export type RouteHandler = (options?: RouteHandlerOptions) => (req: Request) => Promise<Response>
+
+export interface PayloadRouteHandlers {
+  GET: RouteHandler
+  POST: RouteHandler
+  PUT: RouteHandler
+  PATCH: RouteHandler
+  DELETE: RouteHandler
+  OPTIONS: RouteHandler
+}
