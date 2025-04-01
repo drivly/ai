@@ -143,17 +143,18 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       req,
     })
 
-    object = result.objectArray
+    const objectArray = result.objectArray
     reasoning = result.reasoning
     generation = result.generation
     text = result.text
     generationLatency = result.generationLatency
     request = result.request
 
-    if (schema && object && Array.isArray(object)) {
+    let validatedArray = objectArray
+    if (schema && objectArray && Array.isArray(objectArray)) {
       try {
         if (typeof schema === 'object' && schema !== null && !Array.isArray(schema)) {
-          object = object.map(item => {
+          validatedArray = objectArray.map(item => {
             try {
               return validateWithSchema(schema, item)
             } catch (itemError) {
@@ -170,8 +171,9 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         }
       } catch (error) {
         console.error('Schema validation error for array:', error)
+        validatedArray = objectArray
         object = {
-          items: object,
+          items: validatedArray,
           _validation_error: {
             message: 'Failed to validate array against schema',
             details: error instanceof Error ? error.message : String(error),
@@ -179,6 +181,8 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         }
       }
     }
+    
+    object = { items: validatedArray }
   } else if (isTextFunction) {
     if (type === 'TextArray') {
       // For TextArray, use generateMarkdown with ordered list prompt

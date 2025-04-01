@@ -28,7 +28,7 @@ export const generateObjectArray = async ({ input, req }: { input: GenerateObjec
   const prompt = `${functionName}(${JSON.stringify(args)})`
 
   let jsonSchema
-  let systemMessage = 'Respond ONLY with a JSON array of objects.'
+  let systemMessage = 'Respond ONLY with a JSON object that has an "items" property containing an array of objects.'
 
   if (input.zodSchema) {
     const { zodToJsonSchema } = await import('zod-to-json-schema')
@@ -36,10 +36,10 @@ export const generateObjectArray = async ({ input, req }: { input: GenerateObjec
       $refStrategy: 'none',
       target: 'openApi3',
     })
-    systemMessage = `Respond ONLY with a JSON array of objects that conform to the following schema: ${JSON.stringify(jsonSchema)}`
+    systemMessage = `Respond ONLY with a JSON object that has an "items" property containing an array of objects that conform to the following schema: ${JSON.stringify(jsonSchema)}`
   } else if (schema) {
     jsonSchema = schemaToJsonSchema(schema)
-    systemMessage = `Respond ONLY with a JSON array of objects that conform to the following schema: ${JSON.stringify(jsonSchema)}`
+    systemMessage = `Respond ONLY with a JSON object that has an "items" property containing an array of objects that conform to the following schema: ${JSON.stringify(jsonSchema)}`
   }
 
   const request = {
@@ -74,7 +74,14 @@ export const generateObjectArray = async ({ input, req }: { input: GenerateObjec
 
   try {
     const parsed = JSON.parse(text.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, ''))
-    objectArray = Array.isArray(parsed) ? parsed : [parsed]
+    
+    if (parsed && typeof parsed === 'object' && Array.isArray(parsed.items)) {
+      objectArray = parsed.items
+    } else if (Array.isArray(parsed)) {
+      objectArray = parsed
+    } else {
+      objectArray = [parsed]
+    }
   } catch (error) {
     console.error('Error parsing JSON array response:', error)
     objectArray = [{ error: 'Failed to parse JSON array response' }]
