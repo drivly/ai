@@ -5,8 +5,11 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=neutral",
+    "build:outbound": "esbuild src/outbound.ts --bundle --outfile=dist/outbound.js --format=esm --platform=neutral",
     "dev": "wrangler dev src/index.ts",
+    "dev:outbound": "wrangler dev --config outbound-wrangler.toml",
     "deploy": "wrangler publish src/index.ts",
+    "deploy:outbound": "wrangler deploy --config outbound-wrangler.toml",
     "test": "vitest run"
   },
   "dependencies": {
