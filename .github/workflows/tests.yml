@@ -56,11 +56,11 @@ jobs:
       - name: Run E2E Tests
         run: |
           # Ensure BASE_URL is properly formatted for all tests
-          export BASE_URL="http://localhost:3000/"
+          export BASE_URL="http://localhost:3000"
           echo "Using BASE_URL: $BASE_URL"
           pnpm test:e2e
         env:
           BROWSER_TESTS: true
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
-          BASE_URL: "http://localhost:3000/"
+          BASE_URL: "http://localhost:3000"

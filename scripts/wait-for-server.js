@@ -37,7 +37,8 @@ async function checkPort(port) {
     if (statusCode >= 200 && statusCode < 500) {
       console.log(`Found working server at ${url}`);
       process.env.SERVER_PORT = port.toString();
-      process.env.BASE_URL = url.startsWith('http') ? url : `http://${url}`;
+      const baseUrlWithDomain = url.startsWith('http') ? url : `http://${url}`;
+      process.env.BASE_URL = baseUrlWithDomain || 'http://localhost:3000';
       return true;
     }
     return false;
@@ -62,6 +63,7 @@ async function waitForServer() {
   }
 
   console.error(`Server not ready on any port after ${timeout}ms`);
+  process.env.BASE_URL = 'http://localhost:3000';
   process.exit(1);
 }
 
