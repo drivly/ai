@@ -7,5 +7,30 @@ export const Packages: CollectionConfig = {
     useAsTitle: 'name',
   },
   versions: true,
-  fields: [{ name: 'name', type: 'text' }],
+  fields: [
+    { name: 'name', type: 'text' },
+    { 
+      name: 'package',
+      type: 'json',
+      admin: {
+        description: 'The package.json content for publishing to NPM',
+      },
+    },
+    {
+      name: 'collections',
+      type: 'array',
+      admin: {
+        description: 'Collections to include in this package',
+      },
+      fields: [
+        {
+          name: 'collection',
+          type: 'text',
+          admin: {
+            description: 'Collection slug to include',
+          },
+        },
+      ],
+    },
+  ],
 }
