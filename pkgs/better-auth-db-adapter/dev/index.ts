@@ -6,17 +6,29 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+// Default database URI for local dev, can be overridden by env var
+const DATABASE_URI = process.env.DATABASE_URI || 'mongodb://localhost:27017/test'
+
 export const payloadConfig = buildConfig({
   admin: {
     user: 'user',
   },
-  secret: 'super-secret-payload-key',
+  secret: process.env.PAYLOAD_SECRET || 'super-secret-payload-key',
   custom: {
     // This is needed for the better-auth adapter to work
     hasBetterAuthPlugin: true,
   },
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI || '',
+    url: DATABASE_URI,
+    // Add connection options for better reliability in CI environments
+    connectOptions: {
+      serverSelectionTimeoutMS: 10000, // Timeout after 10 seconds
+      socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+      retryWrites: true,
+      retryReads: true,
+      w: 'majority',
+      family: 4, // Use IPv4 only
+    },
   }),
   collections: [
     {
@@ -167,7 +179,12 @@ export const payloadConfig = buildConfig({
 })
 
 export async function getPayload() {
-  return await getPayloadBase({ config: payloadConfig })
+  try {
+    return await getPayloadBase({ config: payloadConfig })
+  } catch (error) {
+    console.error('Error initializing Payload:', error)
+    throw error
+  }
 }
 
 export default payloadConfig
