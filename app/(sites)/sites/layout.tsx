@@ -3,6 +3,7 @@ import './styles.css'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { PostHogProvider } from '@/app/providers'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 export const metadata = {
   description: 'A blank template using Payload in a Next.js app.',
@@ -20,6 +21,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         </PostHogProvider>
         <Analytics />
         <SpeedInsights />
+        <GoogleAnalytics />
       </body>
     </html>
   )

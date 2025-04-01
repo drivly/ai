@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { headers } from 'next/headers'
 import { PostHogProvider } from '@/app/providers'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 function getDomainLogo(hostname: string) {
   if (hostname.endsWith('.do') && !hostname.slice(0, -3).includes('.')) {
@@ -62,6 +63,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </Layout>
         </PostHogProvider>
         <SpeedInsights />
+        <GoogleAnalytics />
       </body>
     </html>
   )
