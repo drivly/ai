@@ -118,16 +118,22 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     generationLatency = Date.now() - start
     request = { functionName, args, settings }
   } else if (isCodeFunction && functionDoc?.code) {
-    // Use generateCode for code-based functions
-    const result = await generateCode({
-      input: { prompt: functionDoc.code, settings },
+    const { executeCodeFunction } = await import('./executeCodeFunction')
+    
+    const result = await executeCodeFunction({
+      code: functionDoc.code,
+      args,
+      timeout: settings?.timeout || 5000,
+      memoryLimit: settings?.memoryLimit || 128
     })
 
-    object = result.parsed || result.raw
-    reasoning = `Code execution complete. Result: ${typeof object === 'object' ? JSON.stringify(object) : object}`
-    text = result.code
+    object = result.result
+    reasoning = result.error 
+      ? `Code execution failed: ${result.error}` 
+      : `Code execution complete. Result: ${typeof object === 'object' ? JSON.stringify(object) : object}`
+    text = functionDoc.code
     generationLatency = Date.now() - start
-    request = { prompt: functionDoc.code, settings }
+    request = { code: functionDoc.code, args, settings }
   } else if (isObjectArrayFunction) {
     let zodSchema
     try {

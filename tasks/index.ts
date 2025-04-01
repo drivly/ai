@@ -1,6 +1,7 @@
 import { TaskConfig } from 'payload'
 import { executeFunctionTask } from './executeFunction'
 import { generateCodeTask } from './generateCode'
+import { executeCodeFunctionTask } from './executeCodeFunction'
 import { generateThingEmbedding } from './generateThingEmbedding'
 import { handleGithubEvent } from './handleGithubEvent'
 import { hybridSearchThings, searchThings } from './searchThings'
@@ -76,7 +77,8 @@ const processDomainTask = {
 
 export const tasks = [
   executeFunctionTask, 
-  generateCodeTask, 
+  generateCodeTask,
+  executeCodeFunctionTask,
   generateThingEmbeddingTask, 
   searchThingsTask, 
   hybridSearchThingsTask,
