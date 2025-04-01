@@ -10,7 +10,7 @@ import type {
 
 export * from '../types'
 
-export { AgentNamespace } from 'agents'
+export type { AgentNamespace } from 'agents'
 
 export class Agent<Env = any, State = any> extends CloudflareAgent<Env, State> {
   constructor(config: any, state: any = {}) {
