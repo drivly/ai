@@ -1,5 +1,27 @@
 # AI Primitives TODO List
 
+## SDKs
+
+This section outlines the status and required actions for each SDK in the `sdks/` directory.
+
+### General SDK Requirements
+
+- [ ] Ensure all SDKs use apis.do for the base API client, fetcher, auth
+- [ ] Ensure all SDKs extend the CLI functionality from apis.do
+- [ ] Implement consistent structure across all SDKs
+- [ ] Add comprehensive tests for all SDKs
+- [ ] Improve documentation for all SDKs
+
+### SDK-Specific Tasks
+
+- [ ] Complete gpt.do implementation using apis.do
+- [ ] Create package.json and implementation for integrations.do
+- [ ] Add apis.do dependency to mcp.do
+- [ ] Complete CLI implementation for all SDKs
+- [ ] Add streaming support for applicable SDKs
+
+See [SDKs TODO List](./sdks/TODO.md) for detailed status and required actions for each SDK.
+
 ## executeFunction
 
 This section outlines the implementation gaps that need to be addressed in the executeFunction task.
