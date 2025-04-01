@@ -1,0 +1,51 @@
+{
+  "name": "durable-objects-nosql",
+  "version": "0.1.0",
+  "description": "MongoDB-style NoSQL interface for Cloudflare Worker Durable Objects",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://mdx.org.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "pkgs/durable-objects-nosql"
+  },
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest run",
+    "prepublishOnly": "pnpm build",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "durable-objects",
+    "nosql",
+    "mongodb",
+    "sqlite"
+  ],
+  "author": "AI Primitives",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.11",
+    "@types/eslint": "^9.6.1",
+    "eslint": "^9.23.0",
+    "@typescript-eslint/eslint-plugin": "^8.27.0",
+    "@typescript-eslint/parser": "^8.27.0",
+    "eslint-config": "workspace:*",
+    "tsup": "^8.4.0",
+    "prettier": "^3.5.3",
+    "vitest": "^3.0.9"
+  }
+}
