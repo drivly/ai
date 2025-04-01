@@ -1,17 +1,34 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { Agents } from '../../collections/ai/Agents'
 import { getPayload } from 'payload'
-
-vi.mock('payload', () => ({
-  getPayload: vi.fn().mockResolvedValue({
-    create: vi.fn().mockResolvedValue({ id: 'mock-id' }),
-    find: vi.fn().mockResolvedValue({ docs: [] }),
-    update: vi.fn().mockResolvedValue({ id: 'mock-id' }),
-    delete: vi.fn().mockResolvedValue({ id: 'mock-id' }),
-  }),
-}))
+import config from '../../payload.config'
+import type { Agent as AgentType } from '../../payload.types'
 
 describe('Agents Collection', () => {
+  let payload: any
+
+  beforeAll(async () => {
+    if (process.env.CI) return
+    
+    try {
+      payload = await getPayload({
+        config,
+      })
+    } catch (error) {
+      console.error('Error initializing Payload:', error)
+    }
+  })
+
+  afterAll(async () => {
+    if (process.env.CI || !payload) return
+    
+    try {
+      await payload.disconnect()
+    } catch (error) {
+      console.error('Error disconnecting Payload:', error)
+    }
+  })
+
   it('should have the correct slug', () => {
     expect(Agents.slug).toBe('agents')
   })
@@ -28,11 +45,47 @@ describe('Agents Collection', () => {
     expect(Agents.versions).toBe(true)
   })
 
-  describe('Fields', () => {
+  describe('Fields', function() {
     it('should have a name field', () => {
       const nameField = Agents.fields.find((field: any) => field.name === 'name')
       expect(nameField).toBeDefined()
       expect(nameField?.type).toBe('text')
+    })
+  })
+  
+  (payload ? describe : describe.skip)('Payload Integration', () => {
+    it('should be able to find agents collection', async () => {
+      const result = await payload.find({
+        collection: 'agents',
+        limit: 1,
+      })
+      
+      expect(result).toBeDefined()
+      expect(result.docs).toBeDefined()
+      expect(Array.isArray(result.docs)).toBe(true)
+    })
+
+    it('should be able to create and delete an agent', async () => {
+      const testAgent = {
+        name: 'Test Agent',
+      }
+      
+      const created = await payload.create({
+        collection: 'agents',
+        data: testAgent,
+      })
+      
+      expect(created).toBeDefined()
+      expect(created.id).toBeDefined()
+      expect(created.name).toBe(testAgent.name)
+      
+      const deleted = await payload.delete({
+        collection: 'agents',
+        id: created.id,
+      })
+      
+      expect(deleted).toBeDefined()
+      expect(deleted.id).toBe(created.id)
     })
   })
 })

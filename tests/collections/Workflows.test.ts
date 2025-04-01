@@ -1,17 +1,34 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
 import { Workflows } from '../../collections/ai/Workflows'
 import { getPayload } from 'payload'
-
-vi.mock('payload', () => ({
-  getPayload: vi.fn().mockResolvedValue({
-    create: vi.fn().mockResolvedValue({ id: 'mock-id' }),
-    find: vi.fn().mockResolvedValue({ docs: [] }),
-    update: vi.fn().mockResolvedValue({ id: 'mock-id' }),
-    delete: vi.fn().mockResolvedValue({ id: 'mock-id' }),
-  }),
-}))
+import config from '../../payload.config'
+import type { Workflow as WorkflowType } from '../../payload.types'
 
 describe('Workflows Collection', () => {
+  let payload: any
+
+  beforeAll(async () => {
+    if (process.env.CI) return
+    
+    try {
+      payload = await getPayload({
+        config,
+      })
+    } catch (error) {
+      console.error('Error initializing Payload:', error)
+    }
+  })
+
+  afterAll(async () => {
+    if (process.env.CI || !payload) return
+    
+    try {
+      await payload.disconnect()
+    } catch (error) {
+      console.error('Error disconnecting Payload:', error)
+    }
+  })
+
   it('should have the correct slug', () => {
     expect(Workflows.slug).toBe('workflows')
   })
@@ -67,6 +84,44 @@ describe('Workflows Collection', () => {
       expect(deploymentField).toBeDefined()
       expect(deploymentField?.type).toBe('relationship')
       expect((deploymentField as any)?.relationTo).toBe('deployments')
+    })
+  })
+  
+  (payload ? describe : describe.skip)('Payload Integration', () => {
+    it('should be able to find workflows collection', async () => {
+      const result = await payload.find({
+        collection: 'workflows',
+        limit: 1,
+      })
+      
+      expect(result).toBeDefined()
+      expect(result.docs).toBeDefined()
+      expect(Array.isArray(result.docs)).toBe(true)
+    })
+
+    it('should be able to create and delete a workflow', async () => {
+      const testWorkflow = {
+        name: 'Test Workflow',
+        type: 'Test Type',
+      }
+      
+      const created = await payload.create({
+        collection: 'workflows',
+        data: testWorkflow,
+      })
+      
+      expect(created).toBeDefined()
+      expect(created.id).toBeDefined()
+      expect(created.name).toBe(testWorkflow.name)
+      expect(created.type).toBe(testWorkflow.type)
+      
+      const deleted = await payload.delete({
+        collection: 'workflows',
+        id: created.id,
+      })
+      
+      expect(deleted).toBeDefined()
+      expect(deleted.id).toBe(created.id)
     })
   })
 })
