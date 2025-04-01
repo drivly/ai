@@ -78,11 +78,11 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   const groupModels = qs.get('models')?.split(',').filter(Boolean) ?? []
   const sortByUntyped = qs.get('sort') ?? 'top-weekly'
 
-  type SortingValue = keyof Model['sorting']
+  type SortingValue = keyof Model['sorting'] | undefined
 
   // Ensure sortBy is one of the valid sorting values
   const allowedSortingValues: SortingValue[] = ['topWeekly', 'newest', 'throughputHighToLow', 'latencyLowToHigh', 'pricingLowToHigh', 'pricingHighToLow']
-  const sortBy: SortingValue = allowedSortingValues.includes(sortByUntyped as SortingValue) ? sortByUntyped as SortingValue : 'topWeekly'
+  const sortBy: SortingValue = allowedSortingValues.includes(sortByUntyped as SortingValue) ? sortByUntyped as SortingValue : undefined
 
   if (model) {
     return {
@@ -265,7 +265,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       }, {}),
       sortBy: allowedSortingValues.map((sortingValue) => {
         return {
-          [sortingValue]: modifyQueryString('sort', sortingValue),
+          [String(sortingValue)]: modifyQueryString('sort', String(sortingValue)),
         }
       }).reduce((acc, curr) => ({ ...acc, ...curr }), {}),
       groupBy: {
