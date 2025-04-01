@@ -9,6 +9,6 @@ export const Projects: CollectionConfig = {
   fields: [
     { name: 'name', type: 'text' },
     { name: 'domain', type: 'text' },
-    { name: 'domains', type: 'join', collection: 'domains', on: 'project' },
+    { name: 'domains', type: 'join', collection: 'domains' as any, on: 'project' },
   ],
 }
