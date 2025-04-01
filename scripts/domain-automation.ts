@@ -7,12 +7,48 @@
  * 2. Adding domains to Vercel for hosting
  * 
  * It uses the domain status information from domain-status-checker.ts to determine
- * which domains need to be added to each service.
+ * which domains need to be added to each service. The script will:
+ * - Check if domains are already in Cloudflare and Vercel
+ * - Add domains to Cloudflare if they don't exist
+ * - Create DNS records in Cloudflare pointing to Vercel
+ * - Add domains to Vercel project for hosting
+ * - Verify domains in Vercel
+ * 
+ * Required Environment Variables:
+ * - CLOUDFLARE_API_TOKEN: API token with Zone:Edit and DNS:Edit permissions
+ * - CLOUDFLARE_ACCOUNT_ID: Your Cloudflare account ID
+ * - VERCEL_TOKEN: Vercel API token with domains:read and domains:write scopes
+ * - VERCEL_TEAM_ID: (Optional) Your Vercel team ID if using a team account
  * 
  * Usage: 
+ *   # Set required environment variables
  *   export CLOUDFLARE_API_TOKEN=your_token
+ *   export CLOUDFLARE_ACCOUNT_ID=your_account_id
  *   export VERCEL_TOKEN=your_token
+ *   export VERCEL_TEAM_ID=your_team_id  # Optional
+ *   
+ *   # Run the script
  *   pnpm tsx scripts/domain-automation.ts
+ * 
+ * Example Output:
+ *   Found 104 domains to process
+ *   Found 0 domains already linked in Vercel
+ *   Found 5 zones already in Cloudflare
+ *   
+ *   Processing domain: functions.do
+ *   Domain functions.do is not in Vercel
+ *   Domain functions.do is already in Cloudflare
+ *   NS Records: ernest.ns.cloudflare.com, gina.ns.cloudflare.com
+ *   Fetch Status: 200
+ *   Adding domain functions.do to Vercel...
+ *   Successfully added domain functions.do to Vercel
+ *   Verifying domain functions.do on Vercel...
+ *   Successfully verified domain functions.do on Vercel
+ * 
+ * Notes:
+ * - The script will continue processing domains even if some fail
+ * - Domains that already exist in Cloudflare or Vercel will be skipped
+ * - Authentication errors will be reported but won't stop the script
  */
 
 import dns from 'node:dns'
