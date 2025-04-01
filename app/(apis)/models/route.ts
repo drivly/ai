@@ -204,7 +204,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       }
     }, {}) as Record<string, unknown>
 
-  if (groupBy && sortBy === 'default') {
+  if (groupBy && !sortBy) {
     // Modify the modelsObject to group by the given param
     modelsObject = groupByKey(Object.values(modelsObject) as any[], 
       (model) => model[groupBy as keyof typeof model] as any)
