@@ -116,7 +116,12 @@ app.post('/deploy/agent/:id', async (c) => {
       }, 404)
     }
     
-    const agentData = await agentResponse.json()
+    const agentData = await agentResponse.json() as {
+      name: string;
+      systemPrompt?: string;
+      description?: string;
+      baseModel?: string;
+    }
     
     const agent = new Agent({
       name: agentData.name,
@@ -196,11 +201,11 @@ app.post('/deploy/agent/:id', async (c) => {
       },
       deployment: deployResult
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error deploying agent:', error)
     return c.json({
       error: 'Internal server error',
-      message: error.message
+      message: error.message || String(error)
     }, 500)
   }
 })
