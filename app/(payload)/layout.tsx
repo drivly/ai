@@ -7,6 +7,7 @@ import config from '@payload-config'
 import React from 'react'
 
 import { Analytics } from '@vercel/analytics/react'
+import { PostHogProvider } from '@/app/providers'
 import { importMap } from './admin/importMap.js'
 import './custom.scss'
 // import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -26,7 +27,9 @@ const serverFunction: ServerFunctionClient = async function (args) {
 
 const Layout = ({ children }: Args) => (
   <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
-    {children}
+    <PostHogProvider>
+      {children}
+    </PostHogProvider>
     <Analytics />
     {/* <SpeedInsights /> */}
   </RootLayout>
