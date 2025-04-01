@@ -143,7 +143,7 @@ describe('Admin page', () => {
           
           for (const link of navLinks) {
             try {
-              const adminSectionUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/${link}` : `${baseUrl}/admin/${link}`
+              const adminSectionUrl = normalizedBaseUrl.endsWith('/') ? `${normalizedBaseUrl}admin/${link}` : `${normalizedBaseUrl}/admin/${link}`
               const navResponse = await page.goto(adminSectionUrl)
               
               if (navResponse) {
