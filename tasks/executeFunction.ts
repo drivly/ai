@@ -6,7 +6,6 @@ import { generateText } from './generateText'
 import { validateWithSchema } from './schemaUtils'
 import { generateMarkdown } from './generateMarkdown'
 import { generateCode } from './generateCode'
-import { generateSchema } from '../pkgs/ai-functions/generateSchema'
 
 // export const executeFunction: TaskHandler<'executeFunction'> = async ({ input, req }) => {
 // TODO: Fix the typing and response ... temporary hack to get results in the functions API
@@ -181,9 +180,9 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   } else {
     let zodSchema
     try {
-      if (schema && typeof schema === 'object' && schema !== null && !Array.isArray(schema)) {
-        zodSchema = generateSchema(schema)
-      }
+      // if (schema && typeof schema === 'object' && schema !== null && !Array.isArray(schema)) {
+      //   zodSchema = generateSchema(schema)
+      // }
     } catch (schemaGenError) {
       console.error('Schema generation error:', schemaGenError)
     }
@@ -205,13 +204,14 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     if (schema && object) {
       try {
         if (typeof schema === 'object' && schema !== null && !Array.isArray(schema)) {
-          try {
-            const zodSchema = generateSchema(schema)
-            object = zodSchema.parse(object)
-          } catch (schemaGenError) {
-            console.error('Schema generation error:', schemaGenError)
-            object = validateWithSchema(schema, object)
-          }
+          // try {
+          //   const zodSchema = generateSchema(schema)
+          //   object = zodSchema.parse(object)
+          // } catch (schemaGenError) {
+          //   console.error('Schema generation error:', schemaGenError)
+          //   object = validateWithSchema(schema, object)
+          // }
+          object = validateWithSchema(schema, object)
         } else {
           object = validateWithSchema(schema, object)
         }

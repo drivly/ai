@@ -3,6 +3,7 @@ import { OpenAIProvider } from './providers/openai'
 import { AnthropicProvider } from './providers/anthropic'
 import { GoogleProvider } from './providers/google'
 import { LLMdoProvider } from './providers/llmdo'
+import { ParasailProvider } from './providers/parasail'
 
 export class ProviderRouter {
   private providers: Provider[] = []
@@ -10,7 +11,7 @@ export class ProviderRouter {
 
   constructor() {
     // Add providers in order of preference
-    this.providers = [new OpenAIProvider(), new AnthropicProvider(), new GoogleProvider()]
+    this.providers = [new OpenAIProvider(), new AnthropicProvider(), new GoogleProvider(), new ParasailProvider()]
 
     // LLM.do is the fallback provider
     this.fallbackProvider = new LLMdoProvider()

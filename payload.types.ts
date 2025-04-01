@@ -101,9 +101,11 @@ export interface Config {
     events: Event;
     errors: Error;
     generations: Generation;
+    'generation-batches': GenerationBatch;
     traces: Trace;
     kpis: Kpi;
     projects: Project;
+    domains: Domain;
     users: User;
     roles: Role;
     tags: Tag;
@@ -176,9 +178,11 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     errors: ErrorsSelect<false> | ErrorsSelect<true>;
     generations: GenerationsSelect<false> | GenerationsSelect<true>;
+    'generation-batches': GenerationBatchesSelect<false> | GenerationBatchesSelect<true>;
     traces: TracesSelect<false> | TracesSelect<true>;
     kpis: KpisSelect<false> | KpisSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    domains: DomainsSelect<false> | DomainsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
@@ -217,6 +221,12 @@ export interface Config {
       deliverWebhook: TaskDeliverWebhook;
       initiateComposioConnection: TaskInitiateComposioConnection;
       requestHumanFeedback: TaskRequestHumanFeedback;
+      processDomain: TaskProcessDomain;
+      processBatchOpenAI: TaskProcessBatchOpenAI;
+      processBatchAnthropic: TaskProcessBatchAnthropic;
+      processBatchGoogleVertexAI: TaskProcessBatchGoogleVertexAI;
+      processBatchParasail: TaskProcessBatchParasail;
+      createGenerationBatch: TaskCreateGenerationBatch;
       inline: {
         input: unknown;
         output: unknown;
@@ -544,6 +554,41 @@ export interface Generation {
     | null;
   status?: ('success' | 'error') | null;
   duration?: number | null;
+  processingMode?: ('realtime' | 'batch') | null;
+  batch?: (string | null) | GenerationBatch;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Batches of AI generation jobs
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generation-batches".
+ */
+export interface GenerationBatch {
+  id: string;
+  name: string;
+  provider: 'openai' | 'anthropic' | 'google' | 'parasail';
+  status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
+  /**
+   * Provider-specific batch configuration
+   */
+  batchConfig?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * ID of the batch job in the provider system
+   */
+  providerBatchId?: string | null;
+  generations?: (string | Generation)[] | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1166,6 +1211,29 @@ export interface Project {
   id: string;
   name?: string | null;
   domain?: string | null;
+  domains?: (string | Domain)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "domains".
+ */
+export interface Domain {
+  id: string;
+  name: string;
+  domain: string;
+  project: string | Project;
+  status?: ('pending' | 'active' | 'error') | null;
+  hostnames?:
+    | {
+        hostname?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  vercelId?: string | null;
+  cloudflareId?: string | null;
+  errorMessage?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1282,7 +1350,13 @@ export interface PayloadJob {
           | 'deployWorker'
           | 'deliverWebhook'
           | 'initiateComposioConnection'
-          | 'requestHumanFeedback';
+          | 'requestHumanFeedback'
+          | 'processDomain'
+          | 'processBatchOpenAI'
+          | 'processBatchAnthropic'
+          | 'processBatchGoogleVertexAI'
+          | 'processBatchParasail'
+          | 'createGenerationBatch';
         taskID: string;
         input?:
           | {
@@ -1329,6 +1403,12 @@ export interface PayloadJob {
                 | 'deliverWebhook'
                 | 'initiateComposioConnection'
                 | 'requestHumanFeedback'
+                | 'processDomain'
+                | 'processBatchOpenAI'
+                | 'processBatchAnthropic'
+                | 'processBatchGoogleVertexAI'
+                | 'processBatchParasail'
+                | 'createGenerationBatch'
               )
             | null;
           taskID?: string | null;
@@ -1353,6 +1433,12 @@ export interface PayloadJob {
         | 'deliverWebhook'
         | 'initiateComposioConnection'
         | 'requestHumanFeedback'
+        | 'processDomain'
+        | 'processBatchOpenAI'
+        | 'processBatchAnthropic'
+        | 'processBatchGoogleVertexAI'
+        | 'processBatchParasail'
+        | 'createGenerationBatch'
       )
     | null;
   queue?: string | null;
@@ -1501,6 +1587,10 @@ export interface PayloadLockedDocument {
         value: string | Generation;
       } | null)
     | ({
+        relationTo: 'generation-batches';
+        value: string | GenerationBatch;
+      } | null)
+    | ({
         relationTo: 'traces';
         value: string | Trace;
       } | null)
@@ -1511,6 +1601,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: string | Project;
+      } | null)
+    | ({
+        relationTo: 'domains';
+        value: string | Domain;
       } | null)
     | ({
         relationTo: 'users';
@@ -2034,6 +2128,24 @@ export interface GenerationsSelect<T extends boolean = true> {
   error?: T;
   status?: T;
   duration?: T;
+  processingMode?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generation-batches_select".
+ */
+export interface GenerationBatchesSelect<T extends boolean = true> {
+  name?: T;
+  provider?: T;
+  status?: T;
+  batchConfig?: T;
+  providerBatchId?: T;
+  generations?: T;
+  startedAt?: T;
+  completedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2063,6 +2175,28 @@ export interface KpisSelect<T extends boolean = true> {
 export interface ProjectsSelect<T extends boolean = true> {
   name?: T;
   domain?: T;
+  domains?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "domains_select".
+ */
+export interface DomainsSelect<T extends boolean = true> {
+  name?: T;
+  domain?: T;
+  project?: T;
+  status?: T;
+  hostnames?:
+    | T
+    | {
+        hostname?: T;
+        id?: T;
+      };
+  vercelId?: T;
+  cloudflareId?: T;
+  errorMessage?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2563,6 +2697,146 @@ export interface TaskRequestHumanFeedback {
       | number
       | boolean
       | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessDomain".
+ */
+export interface TaskProcessDomain {
+  input: {
+    domainId: string;
+    operation: string;
+    domain?: string | null;
+    vercelId?: string | null;
+    cloudflareId?: string | null;
+  };
+  output: {};
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchOpenAI".
+ */
+export interface TaskProcessBatchOpenAI {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchAnthropic".
+ */
+export interface TaskProcessBatchAnthropic {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchGoogleVertexAI".
+ */
+export interface TaskProcessBatchGoogleVertexAI {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchParasail".
+ */
+export interface TaskProcessBatchParasail {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskCreateGenerationBatch".
+ */
+export interface TaskCreateGenerationBatch {
+  input: {
+    name: string;
+    provider: string;
+    batchConfig:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    generations?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    success?: boolean | null;
+    batchId?: string | null;
+    jobId?: string | null;
+    error?: string | null;
   };
 }
 /**

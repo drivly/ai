@@ -15,6 +15,8 @@ export const Generations: CollectionConfig = {
     { name: 'error', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
     { name: 'status', type: 'select', options: ['success', 'error'] },
     { name: 'duration', type: 'number' },
+    { name: 'processingMode', type: 'select', options: ['realtime', 'batch'], defaultValue: 'realtime' },
+    { name: 'batch', type: 'relationship', relationTo: 'generation-batches' },
 
     // { name: 'function', type: 'relationship', relationTo: 'functions' },
     // { name: 'input', type: 'relationship', relationTo: 'resources' },
