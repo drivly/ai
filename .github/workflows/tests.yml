@@ -59,4 +59,4 @@ jobs:
           BROWSER_TESTS: true
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
-          BASE_URL: "http://localhost:3000"
+          BASE_URL: "http://localhost:3000/"
