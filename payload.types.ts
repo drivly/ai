@@ -118,9 +118,6 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
-    functions: {
-      executions: 'actions';
-    };
     queues: {
       tasks: 'tasks';
     };
@@ -130,13 +127,6 @@ export interface Config {
     };
     nouns: {
       things: 'things';
-    };
-    verbs: {
-      actions: 'actions';
-    };
-    things: {
-      subjectOf: 'actions';
-      objectOf: 'actions';
     };
     actions: {
       generation: 'generations';
@@ -283,6 +273,35 @@ export interface Function {
   id: string;
   name: string;
   type?: ('Generation' | 'Code' | 'Human' | 'Agent') | null;
+  /**
+   * Make this function available to other users
+   */
+  isPublic?: boolean | null;
+  /**
+   * Original function this was cloned from
+   */
+  clonedFrom?: (string | null) | Function;
+  /**
+   * Monetization settings for this function
+   */
+  pricing?: {
+    /**
+     * Enable monetization for this function
+     */
+    isMonetized?: boolean | null;
+    /**
+     * Price per use in USD cents (platform fee is 30% above LLM costs)
+     */
+    pricePerUse?: number | null;
+    /**
+     * Stripe Product ID (auto-generated)
+     */
+    stripeProductId?: string | null;
+    /**
+     * Stripe Price ID (auto-generated)
+     */
+    stripePriceId?: string | null;
+  };
   format?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code') | null;
   schemaYaml?: string | null;
   shape?:
@@ -299,11 +318,6 @@ export interface Function {
   role?: string | null;
   user?: (string | null) | User;
   agent?: (string | null) | Agent;
-  executions?: {
-    docs?: (string | Action)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
   updatedAt: string;
   createdAt: string;
 }
@@ -346,251 +360,35 @@ export interface User {
 export interface Agent {
   id: string;
   name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions".
- */
-export interface Action {
-  id: string;
-  subject?: (string | null) | Thing;
-  verb?: (string | null) | Verb;
-  function?: (string | null) | Function;
-  object?: (string | null) | Thing;
-  hash?: string | null;
-  generation?: {
-    docs?: (string | Generation)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
+  /**
+   * Make this agent available to other users
+   */
+  isPublic?: boolean | null;
+  /**
+   * Original agent this was cloned from
+   */
+  clonedFrom?: (string | null) | Agent;
+  /**
+   * Monetization settings for this agent
+   */
+  pricing?: {
+    /**
+     * Enable monetization for this agent
+     */
+    isMonetized?: boolean | null;
+    /**
+     * Price per use in USD cents (platform fee is 30% above LLM costs)
+     */
+    pricePerUse?: number | null;
+    /**
+     * Stripe Product ID (auto-generated)
+     */
+    stripeProductId?: string | null;
+    /**
+     * Stripe Price ID (auto-generated)
+     */
+    stripePriceId?: string | null;
   };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things".
- */
-export interface Thing {
-  id: string;
-  name?: string | null;
-  sqid?: string | null;
-  hash?: string | null;
-  type?: (string | null) | Noun;
-  yaml?: string | null;
-  data?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  embedding?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  subjectOf?: {
-    docs?: (string | Action)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  objectOf?: {
-    docs?: (string | Action)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "nouns".
- */
-export interface Noun {
-  id: string;
-  name?: string | null;
-  /**
-   * Singular form like User
-   */
-  singular?: string | null;
-  /**
-   * Plural form like Users
-   */
-  plural?: string | null;
-  /**
-   * Possessive form like User's
-   */
-  possessive?: string | null;
-  /**
-   * Plural possessive form like Users'
-   */
-  pluralPossessive?: string | null;
-  /**
-   * Related verb like Use
-   */
-  verb?: string | null;
-  /**
-   * Third person singular present tense like Uses
-   */
-  act?: string | null;
-  /**
-   * Gerund like Using
-   */
-  activity?: string | null;
-  /**
-   * Past tense like Used
-   */
-  event?: string | null;
-  things?: {
-    docs?: (string | Thing)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "verbs".
- */
-export interface Verb {
-  id: string;
-  /**
-   * Active tense like Create
-   */
-  action?: string | null;
-  /**
-   * Third person singular present tense like Creates
-   */
-  act?: string | null;
-  /**
-   * Gerund like Creating
-   */
-  activity?: string | null;
-  /**
-   * Past tense like Created
-   */
-  event?: string | null;
-  /**
-   * Subject like Creator
-   */
-  subject?: string | null;
-  /**
-   * Object like Creation
-   */
-  object?: string | null;
-  /**
-   * Opposite like Destroy
-   */
-  inverse?: string | null;
-  /**
-   * Third person singular present tense like Destroys
-   */
-  inverseAct?: string | null;
-  /**
-   * Gerund like Destroying
-   */
-  inverseActivity?: string | null;
-  /**
-   * Past tense like Destroyed
-   */
-  inverseEvent?: string | null;
-  /**
-   * Subject like Destroyer
-   */
-  inverseSubject?: string | null;
-  /**
-   * Object like Destruction
-   */
-  inverseObject?: string | null;
-  actions?: {
-    docs?: (string | Action)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generations".
- */
-export interface Generation {
-  id: string;
-  action?: (string | null) | Action;
-  settings?: (string | null) | Thing;
-  request?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  response?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  error?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  status?: ('success' | 'error') | null;
-  duration?: number | null;
-  processingMode?: ('realtime' | 'batch') | null;
-  batch?: (string | null) | GenerationBatch;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Batches of AI generation jobs
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generation-batches".
- */
-export interface GenerationBatch {
-  id: string;
-  name: string;
-  provider: 'openai' | 'anthropic' | 'google' | 'parasail';
-  status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
-  /**
-   * Provider-specific batch configuration
-   */
-  batchConfig?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * ID of the batch job in the provider system
-   */
-  providerBatchId?: string | null;
-  generations?: (string | Generation)[] | null;
-  startedAt?: string | null;
-  completedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -607,6 +405,35 @@ export interface Workflow {
   module?: (string | null) | Module;
   package?: (string | null) | Package;
   deployment?: (string | null) | Deployment;
+  /**
+   * Make this workflow available to other users
+   */
+  isPublic?: boolean | null;
+  /**
+   * Original workflow this was cloned from
+   */
+  clonedFrom?: (string | null) | Workflow;
+  /**
+   * Monetization settings for this workflow
+   */
+  pricing?: {
+    /**
+     * Enable monetization for this workflow
+     */
+    isMonetized?: boolean | null;
+    /**
+     * Price per use in USD cents (platform fee is 30% above LLM costs)
+     */
+    pricePerUse?: number | null;
+    /**
+     * Stripe Product ID (auto-generated)
+     */
+    stripeProductId?: string | null;
+    /**
+     * Stripe Price ID (auto-generated)
+     */
+    stripePriceId?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -746,6 +573,237 @@ export interface Kpi {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nouns".
+ */
+export interface Noun {
+  id: string;
+  name?: string | null;
+  /**
+   * Singular form like User
+   */
+  singular?: string | null;
+  /**
+   * Plural form like Users
+   */
+  plural?: string | null;
+  /**
+   * Possessive form like User's
+   */
+  possessive?: string | null;
+  /**
+   * Plural possessive form like Users'
+   */
+  pluralPossessive?: string | null;
+  /**
+   * Related verb like Use
+   */
+  verb?: string | null;
+  /**
+   * Third person singular present tense like Uses
+   */
+  act?: string | null;
+  /**
+   * Gerund like Using
+   */
+  activity?: string | null;
+  /**
+   * Past tense like Used
+   */
+  event?: string | null;
+  things?: {
+    docs?: (string | Thing)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "things".
+ */
+export interface Thing {
+  id: string;
+  name?: string | null;
+  sqid?: string | null;
+  hash?: string | null;
+  type?: (string | null) | Noun;
+  yaml?: string | null;
+  data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  embedding?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  subjectOf?: (string | Action)[] | null;
+  objectOf?: (string | Action)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions".
+ */
+export interface Action {
+  id: string;
+  subject?: (string | null) | Thing;
+  verb?: (string | null) | Verb;
+  object?: (string | null) | Thing;
+  hash?: string | null;
+  generation?: {
+    docs?: (string | Generation)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "verbs".
+ */
+export interface Verb {
+  id: string;
+  /**
+   * Active tense like Create
+   */
+  action?: string | null;
+  /**
+   * Third person singular present tense like Creates
+   */
+  act?: string | null;
+  /**
+   * Gerund like Creating
+   */
+  activity?: string | null;
+  /**
+   * Past tense like Created
+   */
+  event?: string | null;
+  /**
+   * Subject like Creator
+   */
+  subject?: string | null;
+  /**
+   * Object like Creation
+   */
+  object?: string | null;
+  /**
+   * Opposite like Destroy
+   */
+  inverse?: string | null;
+  /**
+   * Third person singular present tense like Destroys
+   */
+  inverseAct?: string | null;
+  /**
+   * Gerund like Destroying
+   */
+  inverseActivity?: string | null;
+  /**
+   * Past tense like Destroyed
+   */
+  inverseEvent?: string | null;
+  /**
+   * Subject like Destroyer
+   */
+  inverseSubject?: string | null;
+  /**
+   * Object like Destruction
+   */
+  inverseObject?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generations".
+ */
+export interface Generation {
+  id: string;
+  action?: (string | null) | Action;
+  settings?: (string | null) | Thing;
+  request?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  response?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  error?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  status?: ('success' | 'error') | null;
+  duration?: number | null;
+  processingMode?: ('realtime' | 'batch') | null;
+  batch?: (string | null) | GenerationBatch;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Batches of AI generation jobs
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generation-batches".
+ */
+export interface GenerationBatch {
+  id: string;
+  name: string;
+  provider: 'openai' | 'anthropic' | 'google' | 'parasail';
+  status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
+  /**
+   * Provider-specific batch configuration
+   */
+  batchConfig?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * ID of the batch job in the provider system
+   */
+  providerBatchId?: string | null;
+  generations?: (string | Generation)[] | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "databases".
  */
 export interface Database {
@@ -756,7 +814,17 @@ export interface Database {
   schemaEnforcement: 'flexible' | 'enforced';
   databaseType?: ('Mongo' | 'Postgres' | 'Sqlite') | null;
   regions?:
-    | ('us-east-1' | 'us-west-2' | 'eu-west-1' | 'ap-northeast-1' | 'ap-southeast-1' | 'eu-central-1' | 'ap-south-1')
+    | (
+        | 'us-east-1'
+        | 'us-east-2'
+        | 'us-west-1'
+        | 'us-west-2'
+        | 'eu-west-1'
+        | 'ap-northeast-1'
+        | 'ap-southeast-1'
+        | 'eu-central-1'
+        | 'ap-south-1'
+      )
     | null;
   nouns?: (string | Noun)[] | null;
   updatedAt: string;
@@ -1713,6 +1781,16 @@ export interface PayloadMigration {
 export interface FunctionsSelect<T extends boolean = true> {
   name?: T;
   type?: T;
+  isPublic?: T;
+  clonedFrom?: T;
+  pricing?:
+    | T
+    | {
+        isMonetized?: T;
+        pricePerUse?: T;
+        stripeProductId?: T;
+        stripePriceId?: T;
+      };
   format?: T;
   schemaYaml?: T;
   shape?: T;
@@ -1721,7 +1799,6 @@ export interface FunctionsSelect<T extends boolean = true> {
   role?: T;
   user?: T;
   agent?: T;
-  executions?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1737,6 +1814,16 @@ export interface WorkflowsSelect<T extends boolean = true> {
   module?: T;
   package?: T;
   deployment?: T;
+  isPublic?: T;
+  clonedFrom?: T;
+  pricing?:
+    | T
+    | {
+        isMonetized?: T;
+        pricePerUse?: T;
+        stripeProductId?: T;
+        stripePriceId?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1746,6 +1833,16 @@ export interface WorkflowsSelect<T extends boolean = true> {
  */
 export interface AgentsSelect<T extends boolean = true> {
   name?: T;
+  isPublic?: T;
+  clonedFrom?: T;
+  pricing?:
+    | T
+    | {
+        isMonetized?: T;
+        pricePerUse?: T;
+        stripeProductId?: T;
+        stripePriceId?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1832,7 +1929,6 @@ export interface VerbsSelect<T extends boolean = true> {
   inverseEvent?: T;
   inverseSubject?: T;
   inverseObject?: T;
-  actions?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1963,7 +2059,6 @@ export interface SearchesSelect<T extends boolean = true> {
 export interface ActionsSelect<T extends boolean = true> {
   subject?: T;
   verb?: T;
-  function?: T;
   object?: T;
   hash?: T;
   generation?: T;
