@@ -124,6 +124,7 @@
     "tailwindcss": "^4.0.15",
     "turbo": "^2.4.4",
     "typescript": "5.7.3",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.9"
   },
   "engines": {
