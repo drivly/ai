@@ -18,7 +18,7 @@
     "url": "https://github.com/drivly/ai/issues"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm --dts",
+    "build": "tsup src/index.ts --format esm --dts --tsconfig tsconfig.build.json",
     "lint": "eslint src --ext .ts",
     "test": "vitest run",
     "prepublishOnly": "pnpm build",
