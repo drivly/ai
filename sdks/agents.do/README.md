@@ -11,10 +11,10 @@
 Agents.do provides a powerful framework for creating, deploying, and managing autonomous digital workers that can perform complex tasks with minimal human intervention. These agents can handle routine operations, make decisions based on predefined criteria, and adapt to changing conditions.
 
 ```typescript
-import { Agent } from 'agents.do'
+import { Agent, openai } from 'agents.do'
 
 // Create a customer support agent
-const customerSupportAgent = Agent({
+const customerSupportAgent = new Agent({
   name: 'Amy',
   role: 'Customer Support Agent',
   job: 'Handles customer inquiries and resolves common issues',
@@ -172,12 +172,38 @@ interface AgentResponse<T = any> {
 }
 ```
 
+## Using the Cloudflare Agents SDK
+
+Agents.do now wraps the Cloudflare Agents SDK, allowing you to create and deploy AI-powered agents with minimal configuration:
+
+```typescript
+import { Agent, openai, anthropic } from 'agents.do'
+
+// Create a simple agent using OpenAI
+const simpleAgent = new Agent({
+  name: 'SimpleAgent',
+  instructions: 'You are a helpful assistant that answers questions concisely.',
+  model: openai('gpt-4'),
+})
+
+// Create an agent using Anthropic
+const anthropicAgent = new Agent({
+  name: 'AnthropicAgent',
+  instructions: 'You are a helpful assistant that answers questions thoroughly.',
+  model: anthropic('claude-3-opus'),
+})
+
+// Use the agent
+const response = await simpleAgent.chat('What is the capital of France?')
+console.log(response) // Paris
+```
+
 ## Integration with Functions and Workflows
 
 Agents can leverage all four types of Functions and complete Workflows as tools to perform complex tasks:
 
 ```typescript
-import { Agent } from 'agents.do'
+import { Agent, openai } from 'agents.do'
 import { AI } from 'functions.do'
 
 // Define AI functions
@@ -213,7 +239,7 @@ const ai = AI({
 })
 
 // Create an agent that uses functions and workflows as tools
-const customerServiceAgent = Agent({
+const customerServiceAgent = new Agent({
   name: 'CustomerServiceBot',
   description: 'Handles customer service inquiries',
   // Functions available as tools

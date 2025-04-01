@@ -16,6 +16,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "agents": "latest",
     "hono": "^4.7.4"
   },
   "devDependencies": {

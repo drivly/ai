@@ -1,4 +1,5 @@
-import { ApiClient } from './api-client'
+import { ApiClient } from './api'
+import { Agent as CloudflareAgent, AgentNamespace } from 'agents'
 import type { 
   AgentConfig, 
   AgentResponse, 
@@ -8,6 +9,22 @@ import type {
 } from '../types'
 
 export * from '../types'
+
+export { AgentNamespace } from 'agents'
+
+export class Agent extends CloudflareAgent {
+  constructor(config: any) {
+    super(config)
+  }
+}
+
+export function openai(model: string) {
+  return `openai/${model}`
+}
+
+export function anthropic(model: string) {
+  return `anthropic/${model}`
+}
 
 export class AgentsClient {
   private api: ApiClient

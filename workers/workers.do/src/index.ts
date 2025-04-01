@@ -1,10 +1,13 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { Agent } from 'agents'
 
 interface Env {
   CF_ACCOUNT_ID: string
   CF_API_TOKEN: string
   CF_NAMESPACE_ID: string
+  OPENAI_API_KEY?: string
+  ANTHROPIC_API_KEY?: string
 }
 
 const app = new Hono<{ Bindings: Env }>()
@@ -22,7 +25,8 @@ app.get('/', async (c) => {
       name: 'Workers.do',
       description: 'Cloudflare Workers for Platforms Dispatch Worker',
       documentation: 'https://workers.do/docs',
-      version: '1.0.0'
+      version: '1.0.0',
+      features: ['agents']
     })
   }
   
@@ -87,6 +91,116 @@ app.get('/', async (c) => {
     return c.json({
       error: 'Internal server error',
       status: 500
+    }, 500)
+  }
+})
+
+app.post('/deploy/agent/:id', async (c) => {
+  const agentId = c.req.param('id')
+  
+  if (!agentId) {
+    return c.json({ error: 'Agent ID is required' }, 400)
+  }
+  
+  try {
+    const agentResponse = await fetch(`https://apis.do/api/agents/${agentId}`, {
+      headers: {
+        'Authorization': `Bearer ${c.env.CF_API_TOKEN}`,
+      },
+    })
+    
+    if (!agentResponse.ok) {
+      return c.json({ 
+        error: `Failed to fetch agent: ${agentId}`,
+        status: agentResponse.status 
+      }, 404)
+    }
+    
+    const agentData = await agentResponse.json()
+    
+    const agent = new Agent({
+      name: agentData.name,
+      instructions: agentData.systemPrompt || agentData.description,
+      model: agentData.baseModel || 'openai/gpt-4',
+      apiKey: c.env.OPENAI_API_KEY || c.env.ANTHROPIC_API_KEY,
+    })
+    
+    const deployResponse = await fetch(`https://api.cloudflare.com/client/v4/accounts/${c.env.CF_ACCOUNT_ID}/workers/dispatch/namespaces/${c.env.CF_NAMESPACE_ID}/scripts/${agentData.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${c.env.CF_API_TOKEN}`,
+        'Content-Type': 'application/javascript',
+      },
+      body: `
+        import { Agent } from 'agents'
+        
+        export default {
+          async fetch(request, env) {
+            const agent = new Agent({
+              name: "${agentData.name}",
+              instructions: "${agentData.systemPrompt || agentData.description || ''}",
+              model: "${agentData.baseModel || 'openai/gpt-4'}",
+              apiKey: env.OPENAI_API_KEY || env.ANTHROPIC_API_KEY,
+            })
+            
+            try {
+              const url = new URL(request.url)
+              const message = url.searchParams.get('message') || ''
+              
+              if (!message) {
+                return new Response(JSON.stringify({
+                  error: 'Message parameter is required'
+                }), { 
+                  status: 400,
+                  headers: { 'Content-Type': 'application/json' }
+                })
+              }
+              
+              const response = await agent.chat(message)
+              
+              return new Response(JSON.stringify({
+                response,
+                agent: "${agentData.name}"
+              }), { 
+                headers: { 'Content-Type': 'application/json' }
+              })
+            } catch (error) {
+              return new Response(JSON.stringify({
+                error: error.message
+              }), { 
+                status: 500,
+                headers: { 'Content-Type': 'application/json' }
+              })
+            }
+          }
+        }
+      `
+    })
+    
+    if (!deployResponse.ok) {
+      const errorData = await deployResponse.json()
+      return c.json({ 
+        error: 'Failed to deploy agent',
+        details: errorData
+      }, 500)
+    }
+    
+    const deployResult = await deployResponse.json()
+    
+    return c.json({
+      success: true,
+      agent: {
+        id: agentId,
+        name: agentData.name,
+        url: `https://${agentData.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.workers.do`
+      },
+      deployment: deployResult
+    })
+  } catch (error) {
+    console.error('Error deploying agent:', error)
+    return c.json({
+      error: 'Internal server error',
+      message: error.message
     }, 500)
   }
 })

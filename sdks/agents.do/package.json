@@ -51,6 +51,7 @@
     "vitest": "^3.0.9"
   },
   "dependencies": {
+    "agents": "latest",
     "apis.do": "workspace:*"
   }
 }
