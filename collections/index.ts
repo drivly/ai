@@ -15,7 +15,7 @@ import { Models } from './experiments/Models'
 import { Nouns } from './data/Nouns'
 import { Verbs } from './data/Verbs'
 import { Triggers } from './events/Triggers'
-import { Actions } from './events/Actions'
+import { Relationships } from './events/Relationships'
 import { Types } from './code/Types'
 import { Webhooks } from './admin/Webhooks'
 import { Evals } from './evals/Evals'
@@ -27,7 +27,7 @@ import { Benchmarks } from './evals/Benchmarks'
 import { Experiments } from './experiments/Experiments'
 import { Prompts } from './experiments/Prompts'
 import { Settings } from './experiments/Settings'
-import { Things } from './data/Things'
+import { Resources } from './data/Resources'
 import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
 import { Searches } from './events/Searches'
@@ -54,7 +54,7 @@ export const collections = [
   // Data & definitions
   Nouns,
   Verbs,
-  Things,
+  Resources,
 
   // Integration collections
   Integrations,
@@ -66,7 +66,7 @@ export const collections = [
   // Event collections
   Triggers,
   Searches,
-  Actions,
+  Relationships,
 
   Experiments,
   Models,
