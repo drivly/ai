@@ -1,12 +1,30 @@
 # Data Overview
 
-The Data collection provides powerful frameworks for modeling, managing, and processing business entities, actions, and objects in your AI applications.
+The Data collection provides a simple yet powerful semantic model for representing your business domain, inspired by basic English grammar concepts that are intuitive and approachable.
 
-## Core Components
+## Core Data Model
 
-- **[Nouns](/nouns)**: Represent and manage entities within your workflows clearly and effectively. Entities include customers, products, locations, resources, and other critical business objects.
-- **[Verbs](/verbs)**: Define potential actions within workflows explicitly, enabling dynamic decision-making and process optimization based on business logic and context.
-- **[Things](/things)**: Efficiently track, manage, and orchestrate physical and virtual objects in workflows, ensuring visibility, traceability, and operational coherence.
+Our platform is built on four fundamental concepts that work together to create a complete representation of your business domain:
+
+- **[Nouns](/nouns)**: Categories or types of things in your system (like Customer, Product, Order)
+- **[Verbs](/verbs)**: Actions that can be performed (like Create, Update, Delete)
+- **[Things](/things)**: Specific instances of Nouns (a particular Customer, Product, or Order)
+- **[Actions](/actions)**: Relationships between Things in Subject-Predicate-Object format
+
+### Subject-Predicate-Object Pattern
+
+At the heart of our data model is the natural language pattern of Subject-Predicate-Object:
+
+```
+Subject (Thing) → Predicate (Verb) → Object (Thing)
+```
+
+For example:
+- "Customer purchased Product"
+- "Employee created Document"
+- "System processed Order"
+
+Every Action in the system connects a Subject (a Thing) with an Object (another Thing) through a Predicate (a Verb), creating a semantic triple that represents a meaningful business event or relationship.
 
 ## Business Value
 

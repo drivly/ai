@@ -1,19 +1,38 @@
 # Verbs
 
-Verbs define potential actions within workflows explicitly, enabling dynamic decision-making and process optimization based on business logic and context.
+Verbs define actions that can be performed within your system - the dynamic elements that connect and transform your business entities. In English grammar terms, verbs are the "action words" that describe what subjects do to objects.
 
 ## Overview
 
-The Verbs collection provides a way to define, manage, and execute actions in your business applications. Verbs can be:
+In our semantic data model, Verbs define the types of actions that can connect Things (like Create, Update, Delete, Process, Approve). They serve as the predicates in Subject-Predicate-Object relationships.
+
+The Verbs collection provides a way to define, manage, and execute these actions in your business applications. Verbs can be:
 
 - Used to transform nouns from one state to another
 - Triggered by events or user actions
 - Composed into workflows
 - Executed by agents
 
+## In the Subject-Predicate-Object Model
+
+In our semantic data model, Verbs play a crucial role as the predicates that connect subjects and objects:
+
+```
+[Subject (Thing)] → [Predicate (Verb)] → [Object (Thing)]
+```
+
+For example, in the action "Customer purchased Product":
+- "Customer" is the Subject (a Thing)
+- "purchased" is the Predicate (a Verb)
+- "Product" is the Object (another Thing)
+
+```
+ACME Corp (Customer) → Purchased → Enterprise Plan (Product)
+```
+
 ## Key Features
 
-- **Business Actions**: Verbs represent specific business operations that can be performed
+- **Action Definitions**: Verbs represent specific business operations that can be performed
 - **Process-Oriented**: Define clear actions for business process steps
 - **Composable**: Verbs can be combined to create complex business operations
 - **Auditable**: Track when and how business actions are executed
