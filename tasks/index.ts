@@ -13,7 +13,7 @@ import { deployWorkerTask } from './deployWorker'
 import { deliverWebhookTask } from './deliverWebhook'
 import { initiateComposioConnectionTask } from './initiateComposioConnection'
 import { requestHumanFeedbackTask } from './requestHumanFeedback'
-import { syncClickhouseAnalyticsTask } from './syncClickhouseAnalytics'
+import { processDomain } from './processDomain'
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
@@ -53,6 +53,22 @@ const hybridSearchThingsTask = {
   handler: hybridSearchThings,
 } as unknown as TaskConfig
 
+const processDomainTask = {
+  slug: 'processDomain',
+  label: 'Process Domain',
+  inputSchema: [
+    { name: 'domainId', type: 'text', required: true },
+    { name: 'operation', type: 'text', required: true },
+    { name: 'domain', type: 'text' },
+    { name: 'vercelId', type: 'text' },
+    { name: 'cloudflareId', type: 'text' }
+  ],
+  outputSchema: [
+    { name: 'success', type: 'boolean' }
+  ],
+  handler: processDomain,
+} as unknown as TaskConfig
+
 export const tasks = [
   executeFunctionTask, 
   generateCodeTask, 
@@ -67,7 +83,7 @@ export const tasks = [
   deliverWebhookTask,
   initiateComposioConnectionTask,
   requestHumanFeedbackTask,
-  syncClickhouseAnalyticsTask
+  processDomainTask
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
