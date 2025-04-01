@@ -36,6 +36,7 @@
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
     "@ai-sdk/openai": "^1.0.10",
+    "@clickhouse/client-web": "^1.11.0",
     "@code-hike/mdx": "^0.9.0",
     "@drivly/payload-agent": "workspace:*",
     "@drivly/ui": "workspace:*",
