@@ -90,7 +90,7 @@ export const processDomain = async (args: {
           undefined,
       },
     })
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error processing domain ${domain || domainId}:`, error)
     
     if (operation !== 'delete') {
@@ -99,7 +99,7 @@ export const processDomain = async (args: {
         id: domainId,
         data: {
           status: 'error',
-          errorMessage: error.message,
+          errorMessage: error instanceof Error ? error.message : String(error),
         },
       })
     }
@@ -109,7 +109,7 @@ export const processDomain = async (args: {
 /**
  * Add a domain to Vercel project
  */
-async function addVercelDomain(domain, projectName) {
+async function addVercelDomain(domain: string, projectName: string) {
   try {
     const vercelToken = process.env.VERCEL_TOKEN
     if (!vercelToken) {
@@ -137,16 +137,16 @@ async function addVercelDomain(domain, projectName) {
       hostname: data.name,
       error: null,
     }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Vercel API error:', error)
-    return { id: null, status: 'error', hostname: domain, error: error.message }
+    return { id: null, status: 'error', hostname: domain, error: error instanceof Error ? error.message : String(error) }
   }
 }
 
 /**
  * Remove a domain from Vercel project
  */
-async function removeVercelDomain(domainId) {
+async function removeVercelDomain(domainId: string) {
   try {
     const vercelToken = process.env.VERCEL_TOKEN
     if (!vercelToken) {
@@ -166,7 +166,7 @@ async function removeVercelDomain(domainId) {
     }
     
     return true
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Vercel API error during domain removal:', error)
     throw error
   }
@@ -175,7 +175,7 @@ async function removeVercelDomain(domainId) {
 /**
  * Add a custom hostname to Cloudflare for SaaS
  */
-async function addCloudflareCustomHostname(domain, projectName) {
+async function addCloudflareCustomHostname(domain: string, projectName: string) {
   try {
     const cloudflareToken = process.env.CLOUDFLARE_API_TOKEN
     const cloudflareZoneId = process.env.CLOUDFLARE_ZONE_ID
@@ -214,16 +214,16 @@ async function addCloudflareCustomHostname(domain, projectName) {
       hostnames: [data.result.hostname],
       error: null,
     }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Cloudflare API error:', error)
-    return { id: null, status: 'error', hostnames: [domain], error: error.message }
+    return { id: null, status: 'error', hostnames: [domain], error: error instanceof Error ? error.message : String(error) }
   }
 }
 
 /**
  * Remove a custom hostname from Cloudflare for SaaS
  */
-async function removeCloudflareCustomHostname(hostnameId) {
+async function removeCloudflareCustomHostname(hostnameId: string) {
   try {
     const cloudflareToken = process.env.CLOUDFLARE_API_TOKEN
     const cloudflareZoneId = process.env.CLOUDFLARE_ZONE_ID
@@ -246,7 +246,7 @@ async function removeCloudflareCustomHostname(hostnameId) {
     }
     
     return true
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Cloudflare API error during hostname removal:', error)
     throw error
   }
