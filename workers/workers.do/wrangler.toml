@@ -8,6 +8,10 @@ CF_ACCOUNT_ID = ""
 CF_API_TOKEN = ""
 CF_NAMESPACE_ID = ""
 
+# Allow the workers.do worker to bundle other modules
+[build]
+upload.format = "modules"
+
 # Add outbound worker configuration
 [dispatch_namespaces]
   [[dispatch_namespaces.dispatches]]

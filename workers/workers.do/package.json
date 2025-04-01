@@ -6,10 +6,13 @@
   "scripts": {
     "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=neutral",
     "build:outbound": "esbuild src/outbound.ts --bundle --outfile=dist/outbound.js --format=esm --platform=neutral",
+    "build:wrapper": "esbuild src/wrapper.ts --bundle --outfile=dist/wrapper.js --format=esm --platform=neutral",
+    "build:all": "pnpm build && pnpm build:outbound && pnpm build:wrapper",
     "dev": "wrangler dev src/index.ts",
     "dev:outbound": "wrangler dev --config outbound-wrangler.toml",
-    "deploy": "wrangler publish src/index.ts",
-    "deploy:outbound": "wrangler deploy --config outbound-wrangler.toml",
+    "deploy": "pnpm build && wrangler deploy",
+    "deploy:outbound": "pnpm build:outbound && wrangler deploy --config outbound-wrangler.toml",
+    "deploy:all": "pnpm build:all && pnpm deploy && pnpm deploy:outbound",
     "test": "vitest run"
   },
   "dependencies": {

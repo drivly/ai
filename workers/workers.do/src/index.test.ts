@@ -11,7 +11,9 @@ describe('Workers.do Dispatch Worker', () => {
     })
     
     expect(res.status).toBe(200)
-    expect(await res.text()).toContain('Workers.do - Cloudflare Workers for Platforms Dispatch Worker')
+    const body = await res.json() as { name: string; description: string }
+    expect(body.name).toBe('Workers.do')
+    expect(body.description).toBe('Cloudflare Workers for Platforms Dispatch Worker')
   })
   
   it('should return an error for invalid subdomains', async () => {
