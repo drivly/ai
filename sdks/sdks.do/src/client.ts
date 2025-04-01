@@ -1,5 +1,5 @@
 import { API as ApisAPI } from 'apis.do'
-import type { ErrorResponse, ListResponse, QueryParams } from '../types.js'
+import type { ErrorResponse, ListResponse, QueryParams, Package } from '../types.js'
 
 export interface ClientOptions {
   baseUrl?: string
@@ -17,36 +17,36 @@ export class API {
   /**
    * List all packages
    */
-  async listPackages(params?: QueryParams): Promise<ListResponse<any>> {
-    return this.api.list('packages', params)
+  async listPackages(params?: QueryParams): Promise<ListResponse<Package>> {
+    return this.api.list<Package>('packages', params)
   }
 
   /**
    * Get a package by ID
    */
-  async getPackage(id: string): Promise<any> {
-    return this.api.getById('packages', id)
+  async getPackage(id: string): Promise<Package> {
+    return this.api.getById<Package>('packages', id)
   }
 
   /**
    * Create a new package
    */
-  async createPackage(data: any): Promise<any> {
-    return this.api.create('packages', data)
+  async createPackage(data: Partial<Package>): Promise<Package> {
+    return this.api.create<Package>('packages', data)
   }
 
   /**
    * Update a package
    */
-  async updatePackage(id: string, data: any): Promise<any> {
-    return this.api.update('packages', id, data)
+  async updatePackage(id: string, data: Partial<Package>): Promise<Package> {
+    return this.api.update<Package>('packages', id, data)
   }
 
   /**
    * Delete a package
    */
-  async deletePackage(id: string): Promise<any> {
-    return this.api.remove('packages', id)
+  async deletePackage(id: string): Promise<Package> {
+    return this.api.remove<Package>('packages', id)
   }
 
   /**
@@ -60,21 +60,21 @@ export class API {
    * List all functions
    */
   async listFunctions(params?: QueryParams): Promise<ListResponse<any>> {
-    return this.api.list('functions', params)
+    return this.api.list<any>('functions', params)
   }
 
   /**
    * List all workflows
    */
   async listWorkflows(params?: QueryParams): Promise<ListResponse<any>> {
-    return this.api.list('workflows', params)
+    return this.api.list<any>('workflows', params)
   }
 
   /**
    * List all databases
    */
   async listDatabases(params?: QueryParams): Promise<ListResponse<any>> {
-    return this.api.list('databases', params)
+    return this.api.list<any>('databases', params)
   }
 
   /**
