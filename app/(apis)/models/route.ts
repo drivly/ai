@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { Capability, getModel, Provider, reconstructModelString, models } from '@/pkgs/ai-models'
+import { Capability, getModel, Provider, reconstructModelString, models, Model } from '@/pkgs/ai-models'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
   // Using the new db interface for more concise syntax
@@ -76,7 +76,13 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   // We want this to be true even if the value is an empty string
   const groupCreationMode = typeof qs.get('models') === 'string'
   const groupModels = qs.get('models')?.split(',').filter(Boolean) ?? []
-  const sortBy = qs.get('sort') ?? 'default'
+  const sortByUntyped = qs.get('sort') ?? 'top-weekly'
+
+  type SortingValue = keyof Model['sorting']
+
+  // Ensure sortBy is one of the valid sorting values
+  const allowedSortingValues: SortingValue[] = ['topWeekly', 'newest', 'throughputHighToLow', 'latencyLowToHigh', 'pricingLowToHigh', 'pricingHighToLow']
+  const sortBy: SortingValue = allowedSortingValues.includes(sortByUntyped as SortingValue) ? sortByUntyped as SortingValue : 'topWeekly'
 
   if (model) {
     return {
@@ -122,12 +128,13 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   })
 
   // Sort the models
-  if (sortBy === 'default') {
+  if (sortBy) {
+    // Sort using the sorting object
+    validModels = validModels.sort((a, b) => {
+      return a.sorting[sortBy] - b.sorting[sortBy]
+    })
+  } else {
     validModels = validModels
-  } else if (sortBy === 'priceLowToHigh') {
-    validModels = validModels.sort((a, b) => parseFloat(a.rawModel?.endpoint?.pricing.completion ?? '0') - parseFloat(b.rawModel?.endpoint?.pricing.completion ?? '0'))
-  } else if (sortBy === 'priceHighToLow') {
-    validModels = validModels.sort((a, b) => parseFloat(b.rawModel?.endpoint?.pricing.completion ?? '0') - parseFloat(a.rawModel?.endpoint?.pricing.completion ?? '0'))
   }
 
   const generateFacet = (param: string, filter: string | null) => {
@@ -197,7 +204,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       }
     }, {}) as Record<string, unknown>
 
-  if (groupBy && sortBy == 'default') {
+  if (groupBy && !sortBy) {
     // Modify the modelsObject to group by the given param
     modelsObject = groupByKey(Object.values(modelsObject) as any[], 
       (model) => model[groupBy as keyof typeof model] as any)
@@ -223,10 +230,6 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       .map(([key, value]) => {
 
         let postfix = ''
-
-        if (sortBy === 'priceLowToHigh' || sortBy === 'priceHighToLow') {
-          //postfix = ` [${ (value.priceInput * 1_000_000).toFixed(7) } in / ${ (value.priceOutput * 1_000_000).toFixed(7) } out]`
-        }
 
         return [
           key + postfix,
@@ -260,11 +263,11 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
           [model]: url,
         }
       }, {}),
-      sortBy: {
-        default: modifyQueryString('sort', 'default'),
-        priceLowToHigh: modifyQueryString('sort', 'priceLowToHigh'),
-        priceHighToLow: modifyQueryString('sort', 'priceHighToLow'),
-      },
+      sortBy: allowedSortingValues.map((sortingValue) => {
+        return {
+          [sortingValue]: modifyQueryString('sort', sortingValue),
+        }
+      }).reduce((acc, curr) => ({ ...acc, ...curr }), {}),
       groupBy: {
         providers: modifyQueryString('groupBy', groupBy === 'provider' ? '' : 'provider'),
         authors: modifyQueryString('groupBy', groupBy === 'author' ? '' : 'author'),
