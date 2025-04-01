@@ -7,7 +7,7 @@ export const generateResourceEmbedding = async (resourceId: string): Promise<voi
   
   try {
     const resource = await payload.findByID({
-      collection: 'resources',
+      collection: 'things',
       id: resourceId,
     })
     
@@ -19,7 +19,7 @@ export const generateResourceEmbedding = async (resourceId: string): Promise<voi
     const embedding = { vectors: [0.1, 0.2, 0.3] } // Replace with actual embedding generation
     
     await payload.update({
-      collection: 'resources',
+      collection: 'things',
       id: resourceId,
       data: {
         embedding,

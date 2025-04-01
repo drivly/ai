@@ -2,7 +2,7 @@ import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
 
 export const Resources: CollectionConfig = {
-  slug: 'resources',
+  slug: 'things',
   admin: {
     group: 'Data',
     useAsTitle: 'yaml',
@@ -21,8 +21,8 @@ export const Resources: CollectionConfig = {
     { name: 'yaml', type: 'code', admin: { language: 'yaml', editorOptions: { padding: { top: 20, bottom: 20 } } } },
     { name: 'data', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
     { name: 'embedding', type: 'json', admin: { hidden: true }, index: false },
-    { name: 'subjectOf', type: 'join', collection: 'relationships', on: 'subject' },
-    { name: 'objectOf', type: 'join', collection: 'relationships', on: 'object' },
+    { name: 'subjectOf', type: 'relationship', relationTo: 'actions', hasMany: true },
+    { name: 'objectOf', type: 'relationship', relationTo: 'actions', hasMany: true },
   ],
   hooks: {
     beforeOperation: [
@@ -39,7 +39,7 @@ export const Resources: CollectionConfig = {
         try {
           const { generateResourceEmbedding } = await import('../../tasks/generateResourceEmbedding')
           
-          generateResourceEmbedding(doc.id).catch(error => {
+          generateResourceEmbedding(doc.id).catch((error: unknown) => {
             console.error(`Error generating embedding for Resource ${doc.id}:`, error)
           })
           
