@@ -5,6 +5,7 @@ import { APIKeys } from './admin/APIKeys'
 import { Integrations } from './integrations/Integrations'
 import { Tags } from './admin/Tag'
 import { Roles } from './admin/Roles'
+import { Databases } from './admin/Databases'
 import { Functions } from './ai/Functions'
 import { Modules } from './code/Modules'
 import { Packages } from './code/Packages'
@@ -57,6 +58,7 @@ export const collections = [
   Nouns,
   Verbs,
   Resources,
+  Databases,
 
   // Integration collections
   Integrations,
