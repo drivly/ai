@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from 'react-i18next';
 import { ReactNode } from 'react';
 
 type I18nWrapperProps = {
@@ -8,7 +7,8 @@ type I18nWrapperProps = {
 };
 
 export function I18nWrapper({ children }: I18nWrapperProps) {
-  const { i18n, t } = useTranslation();
+  const i18n = {};
+  const t = (key: string) => key;
   
   return children({ i18n, t });
 }
