@@ -1,11 +1,18 @@
 import { NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
-export const GET = async () => {
+export const GET = async (request: NextRequest) => {
+  const searchParams = request.nextUrl.searchParams
+  const path = searchParams.get('path') || '/'
+  
   const scriptContent = `
 <!DOCTYPE html>
 <html>
 <head>
   <title>rb2b Script</title>
+  <script>
+    window.currentPath = "${path}";
+  </script>
 </head>
 <body>
   <script>
