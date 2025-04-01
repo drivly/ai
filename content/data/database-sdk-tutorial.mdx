@@ -282,6 +282,22 @@ const db = DB({
 })
 ```
 
+### Database Configuration
+
+You can also configure different types of database instances using the Databases collection:
+
+```typescript
+// Create a dedicated database configuration for your application
+const dbConfig = await db.databases.create({
+  name: 'Production Database',
+  type: 'Dedicated',
+  databaseType: 'Postgres',
+  region: 'us-east-1',
+  schemaEnforcement: 'enforced',
+  domain: 'api.myapp.com'
+})
+```
+
 ## Environment Setup
 
 To use the database.do SDK with authentication, set the `DATABASE_API_KEY` environment variable:

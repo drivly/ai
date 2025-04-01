@@ -367,6 +367,17 @@ The SDK itself is designed to be lightweight with zero dependencies except for `
 - **Verbs** - Actions that can be performed (like Create, Update, Delete)
 - **Things** - Specific instances of Nouns (a particular Customer, Product, or Order)
 - **Actions** - Relationships between Things in Subject-Predicate-Object format
+- **Databases** - Configurations for database storage (Integrated, Dedicated, or Self-Hosted)
+
+### Database Configuration
+
+You can configure different types of databases for your application:
+
+- **Integrated** - Uses the platform's integrated collections with flexible or enforced schema
+- **Dedicated** - Dedicated database instances (MongoDB, PostgreSQL, or SQLite) in specific AWS regions
+- **Self-Hosted** - Self-managed database instances (MongoDB, PostgreSQL, or SQLite) with your own configuration
+
+These database configurations determine how your data is stored, accessed, and managed within the platform.
 
 ### Subject-Predicate-Object Pattern
 
@@ -388,12 +399,14 @@ graph TD
     Things -->|Subject| Actions[Actions<br/>S-P-O Relationships]
     Predicates -->|Predicate| Actions
     Things -->|Object| Actions
+    Databases -->|stores| Things
     
     style Nouns fill:#f9f,stroke:#333,stroke-width:2px
     style Verbs fill:#bbf,stroke:#333,stroke-width:2px
     style Things fill:#ff9,stroke:#333,stroke-width:2px
     style Actions fill:#9f9,stroke:#333,stroke-width:2px
     style Predicates fill:#99f,stroke:#333,stroke-width:2px
+    style Databases fill:#f99,stroke:#333,stroke-width:2px
 ```
 
 For example:

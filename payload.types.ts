@@ -77,6 +77,7 @@ export interface Config {
     nouns: Noun;
     verbs: Verb;
     things: Thing;
+    databases: Database;
     integrations: Integration;
     integrationCategories: IntegrationCategory;
     integrationTriggers: IntegrationTrigger;
@@ -154,6 +155,7 @@ export interface Config {
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     things: ThingsSelect<false> | ThingsSelect<true>;
+    databases: DatabasesSelect<false> | DatabasesSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
     integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
@@ -739,6 +741,24 @@ export interface Kpi {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "databases".
+ */
+export interface Database {
+  id: string;
+  name: string;
+  domain: string;
+  type: 'Integrated' | 'Dedicated' | 'Self-Hosted';
+  schemaEnforcement: 'flexible' | 'enforced';
+  databaseType?: ('Mongo' | 'Postgres' | 'Sqlite') | null;
+  regions?:
+    | ('us-east-1' | 'us-west-2' | 'eu-west-1' | 'ap-northeast-1' | 'ap-southeast-1' | 'eu-central-1' | 'ap-south-1')
+    | null;
+  nouns?: (string | Noun)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1491,6 +1511,10 @@ export interface PayloadLockedDocument {
         value: string | Thing;
       } | null)
     | ({
+        relationTo: 'databases';
+        value: string | Database;
+      } | null)
+    | ({
         relationTo: 'integrations';
         value: string | Integration;
       } | null)
@@ -1826,6 +1850,21 @@ export interface ThingsSelect<T extends boolean = true> {
   embedding?: T;
   subjectOf?: T;
   objectOf?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "databases_select".
+ */
+export interface DatabasesSelect<T extends boolean = true> {
+  name?: T;
+  domain?: T;
+  type?: T;
+  schemaEnforcement?: T;
+  databaseType?: T;
+  regions?: T;
+  nouns?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -93,3 +93,19 @@ const db = DB({
   },
 })
 ```
+
+## Database Configuration
+
+You can configure different types of database instances for your application using the Databases collection:
+
+```typescript
+// Create a database configuration
+const dbConfig = await db.databases.create({
+  name: 'Production Database',
+  type: 'Dedicated', // Integrated, Dedicated, or Self-Hosted
+  databaseType: 'Postgres', // For Dedicated or Self-Hosted: Mongo, Postgres, or Sqlite
+  region: 'us-east-1', // For Dedicated only
+  schemaEnforcement: 'enforced', // flexible or enforced
+  domain: 'api.example.com', // Domain for API and Admin portal
+})
+```
