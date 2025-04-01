@@ -37,7 +37,7 @@ async function checkPort(port) {
     if (statusCode >= 200 && statusCode < 500) {
       console.log(`Found working server at ${url}`);
       process.env.SERVER_PORT = port.toString();
-      process.env.BASE_URL = url;
+      process.env.BASE_URL = url.startsWith('http') ? url : `http://${url}`;
       return true;
     }
     return false;
