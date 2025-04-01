@@ -31,6 +31,7 @@ import { Settings } from './experiments/Settings'
 import { Things } from './data/Things'
 import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
+import { GenerationBatches } from './observability/GenerationBatches'
 import { Searches } from './events/Searches'
 import { IntegrationTriggers } from './integrations/IntegrationTriggers'
 import { IntegrationActions } from './integrations/IntegrationActions'
@@ -88,6 +89,7 @@ export const collections = [
   Events,
   Errors,
   Generations,
+  GenerationBatches,
   Traces,
   KPIs,
 

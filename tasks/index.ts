@@ -14,6 +14,11 @@ import { deliverWebhookTask } from './deliverWebhook'
 import { initiateComposioConnectionTask } from './initiateComposioConnection'
 import { requestHumanFeedbackTask } from './requestHumanFeedback'
 import { processDomain } from './processDomain'
+import { processBatchOpenAITask } from './batchOpenAI'
+import { processBatchAnthropicTask } from './batchAnthropic'
+import { processBatchGoogleVertexAITask } from './batchGoogleVertexAI'
+import { processBatchParasailTask } from './batchParasail'
+import { createGenerationBatchTask } from './createGenerationBatch'
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
@@ -83,7 +88,12 @@ export const tasks = [
   deliverWebhookTask,
   initiateComposioConnectionTask,
   requestHumanFeedbackTask,
-  processDomainTask
+  processDomainTask,
+  processBatchOpenAITask,
+  processBatchAnthropicTask,
+  processBatchGoogleVertexAITask,
+  processBatchParasailTask,
+  createGenerationBatchTask
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
