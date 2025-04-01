@@ -8,9 +8,6 @@
  * - interval: Polling interval in milliseconds (default: 1000)
  */
 
-const http = require('http');
-const https = require('https');
-
 const url = process.argv[2] || 'http://localhost:3000';
 const timeout = parseInt(process.argv[3] || '60000', 10);
 const interval = parseInt(process.argv[4] || '1000', 10);
@@ -20,26 +17,24 @@ console.log(`Timeout: ${timeout}ms, Interval: ${interval}ms`);
 
 const startTime = Date.now();
 
-function isServerReady() {
-  return new Promise((resolve) => {
-    const client = url.startsWith('https') ? https : http;
-    const req = client.get(url, (res) => {
-      const statusCode = res.statusCode;
-      console.log(`Server responded with status code: ${statusCode}`);
-      resolve(statusCode >= 200 && statusCode < 500);
+async function isServerReady() {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    
+    const response = await fetch(url, { 
+      signal: controller.signal 
     });
-
-    req.on('error', (err) => {
-      console.log(`Request error: ${err.message}`);
-      resolve(false);
-    });
-
-    req.setTimeout(5000, () => {
-      console.log('Request timed out');
-      req.destroy();
-      resolve(false);
-    });
-  });
+    
+    clearTimeout(timeoutId);
+    
+    const statusCode = response.status;
+    console.log(`Server responded with status code: ${statusCode}`);
+    return statusCode >= 200 && statusCode < 500;
+  } catch (error) {
+    console.log(`Request error: ${error.message}`);
+    return false;
+  }
 }
 
 async function waitForServer() {
