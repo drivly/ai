@@ -1,0 +1,142 @@
+name: Vercel E2E Tests
+
+on:
+  deployment_status:
+    branches:
+      - main
+
+jobs:
+  e2e-tests:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Preview'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: '10'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Debug Deployment Status Event
+        run: |
+          echo "Deployment Status Event:"
+          echo "Target URL: ${{ github.event.deployment_status.target_url }}"
+          echo "Environment: ${{ github.event.deployment_status.environment }}"
+          echo "State: ${{ github.event.deployment_status.state }}"
+          echo "GitHub Ref: ${GITHUB_REF}"
+          echo "GitHub Ref Name: ${GITHUB_REF_NAME}"
+          echo "GitHub Head Ref: ${GITHUB_HEAD_REF}"
+
+      - name: Debug Deployment Status Event
+        run: |
+          echo "Deployment Status Event:"
+          echo "Target URL: ${{ github.event.deployment_status.target_url }}"
+          echo "Environment: ${{ github.event.deployment_status.environment }}"
+          echo "State: ${{ github.event.deployment_status.state }}"
+          echo "GitHub Ref: ${GITHUB_REF}"
+          echo "GitHub Ref Name: ${GITHUB_REF_NAME}"
+          echo "GitHub Head Ref: ${GITHUB_HEAD_REF}"
+          echo "Deployment ID: ${{ github.event.deployment_status.deployment_id }}"
+          echo "Repository: ${{ github.repository }}"
+          
+      - name: Wait for Vercel Preview Deployment
+        id: wait_for_vercel
+        run: |
+          echo "Extracting Vercel Preview URL..."
+          
+          # Extract from deployment status event
+          DEPLOY_URL="${{ github.event.deployment_status.target_url }}"
+          
+          # Fallback to branch name-based URL if no target_url
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "No target_url in deployment_status event, using branch name-based URL construction..."
+            BRANCH_NAME=$(echo ${GITHUB_REF_NAME:-${GITHUB_REF#refs/heads/}} | sed 's/\//-/g')
+            DEPLOY_URL="https://ai-git-${BRANCH_NAME}.dev.driv.ly"
+            echo "Using branch name-based Vercel Preview URL: ${DEPLOY_URL}"
+          fi
+          
+          echo "Waiting for Vercel Preview URL to be accessible: ${DEPLOY_URL}"
+          
+          # Create a cookie jar file for curl
+          COOKIE_JAR=$(mktemp)
+          
+          # Wait for the URL to be accessible with authentication headers and save cookies
+          MAX_ATTEMPTS=60
+          ATTEMPT=0
+          STATUS_CODE=0
+          
+          while [ $ATTEMPT -lt $MAX_ATTEMPTS ] && [ $STATUS_CODE -ne 200 ]; do
+            echo "Attempt $ATTEMPT of $MAX_ATTEMPTS..."
+            
+            # First request to set the cookie
+            curl -s -c "$COOKIE_JAR" \
+              -H "x-vercel-protection-bypass: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}" \
+              -H "x-vercel-set-bypass-cookie: true" \
+              "${DEPLOY_URL}" > /dev/null
+            
+            # Second request using the cookie
+            STATUS_CODE=$(curl -s -b "$COOKIE_JAR" -o /dev/null -w "%{http_code}" "${DEPLOY_URL}")
+            echo "Status code: $STATUS_CODE"
+            
+            if [ $STATUS_CODE -eq 200 ]; then
+              echo "URL is accessible!"
+              break
+            fi
+            
+            echo "Waiting 5 seconds before next attempt..."
+            sleep 5
+            ATTEMPT=$((ATTEMPT + 1))
+          done
+          
+          # Clean up cookie jar
+          rm -f "$COOKIE_JAR"
+          
+          if [ $STATUS_CODE -ne 200 ]; then
+            echo "Failed to access URL after $MAX_ATTEMPTS attempts"
+            exit 1
+          fi
+          
+          # Set the URL as an output and environment variable
+          echo "url=${DEPLOY_URL}" >> $GITHUB_OUTPUT
+          echo "VERCEL_PREVIEW_URL=${DEPLOY_URL}" >> $GITHUB_ENV
+          
+      - name: Debug Vercel Preview URL
+        run: |
+          echo "Vercel Preview URL: ${{ steps.wait_for_vercel.outputs.url }}"
+          
+          # Fallback to branch name-based URL if wait-for-vercel action doesn't return a URL
+          if [ -z "${{ steps.wait_for_vercel.outputs.url }}" ]; then
+            echo "No URL from wait-for-vercel action, using branch name-based URL construction..."
+            BRANCH_NAME=$(echo ${GITHUB_REF_NAME:-${GITHUB_REF#refs/heads/}} | sed 's/\//-/g')
+            DEPLOY_URL="https://ai-git-${BRANCH_NAME}.dev.driv.ly"
+            echo "VERCEL_PREVIEW_URL=${DEPLOY_URL}" >> $GITHUB_ENV
+            echo "Using fallback Vercel Preview URL: ${DEPLOY_URL}"
+          else
+            echo "VERCEL_PREVIEW_URL=${{ steps.wait_for_vercel.outputs.url }}" >> $GITHUB_ENV
+            echo "Using Vercel Preview URL from wait-for-vercel action: ${{ steps.wait_for_vercel.outputs.url }}"
+          fi
+
+      - name: Run E2E tests on Vercel Preview
+        env:
+          BASE_URL: ${{ env.VERCEL_PREVIEW_URL }}
+          API_URL: ${{ env.VERCEL_PREVIEW_URL }}
+          VERCEL_URL: ${{ env.VERCEL_PREVIEW_URL }}
+          BROWSER_TESTS: 'true'
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          IS_TEST_ENV: 'false'
+        run: |
+          cp tests/vitest.e2e.config.ts ./vitest.e2e.config.ts
+          echo "Testing against BASE_URL: ${BASE_URL}"
+          pnpm test:e2e
