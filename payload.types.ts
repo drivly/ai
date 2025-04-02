@@ -81,7 +81,7 @@ export interface Config {
     goals: Goal;
     nouns: Noun;
     verbs: Verb;
-    things: Thing;
+    resources: Resource;
     databases: Database;
     integrations: Integration;
     integrationCategories: IntegrationCategory;
@@ -130,7 +130,7 @@ export interface Config {
       dependents: 'tasks';
     };
     nouns: {
-      things: 'things';
+      resources: 'resources';
     };
     actions: {
       generation: 'generations';
@@ -153,7 +153,7 @@ export interface Config {
     goals: GoalsSelect<false> | GoalsSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
-    things: ThingsSelect<false> | ThingsSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
     databases: DatabasesSelect<false> | DatabasesSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
@@ -865,8 +865,8 @@ export interface Noun {
    * Past tense like Used
    */
   event?: string | null;
-  things?: {
-    docs?: (string | Thing)[];
+  resources?: {
+    docs?: (string | Resource)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -875,9 +875,9 @@ export interface Noun {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things".
+ * via the `definition` "resources".
  */
-export interface Thing {
+export interface Resource {
   id: string;
   name?: string | null;
   sqid?: string | null;
@@ -913,9 +913,9 @@ export interface Thing {
  */
 export interface Action {
   id: string;
-  subject?: (string | null) | Thing;
+  subject?: (string | null) | Resource;
   verb?: (string | null) | Verb;
-  object?: (string | null) | Thing;
+  object?: (string | null) | Resource;
   hash?: string | null;
   generation?: {
     docs?: (string | Generation)[];
@@ -989,7 +989,7 @@ export interface Verb {
 export interface Generation {
   id: string;
   action?: (string | null) | Action;
-  settings?: (string | null) | Thing;
+  settings?: (string | null) | Resource;
   request?:
     | {
         [k: string]: unknown;
@@ -1481,7 +1481,7 @@ export interface Event {
   id: string;
   type?: string | null;
   source?: string | null;
-  subject?: (string | null) | Thing;
+  subject?: (string | null) | Resource;
   data?:
     | {
         [k: string]: unknown;
@@ -1853,8 +1853,8 @@ export interface PayloadLockedDocument {
         value: string | Verb;
       } | null)
     | ({
-        relationTo: 'things';
-        value: string | Thing;
+        relationTo: 'resources';
+        value: string | Resource;
       } | null)
     | ({
         relationTo: 'databases';
@@ -2270,7 +2270,7 @@ export interface NounsSelect<T extends boolean = true> {
   act?: T;
   activity?: T;
   event?: T;
-  things?: T;
+  resources?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2296,9 +2296,9 @@ export interface VerbsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things_select".
+ * via the `definition` "resources_select".
  */
-export interface ThingsSelect<T extends boolean = true> {
+export interface ResourcesSelect<T extends boolean = true> {
   name?: T;
   sqid?: T;
   hash?: T;

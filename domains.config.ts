@@ -14,6 +14,36 @@
  */
 import { apis } from './api.config'
 
+
+const hierarchy = {
+  ai: {
+    workflows: 'Workflows.do Reliably Execute Business Processes',
+    functions: 'Functions.do Typesafe Results without Complexity',
+    agents: 'Agents.do Deploy & Manage Autonomous Digital Workers'
+  },
+  data: {
+    databases: 'Database.do AI Native Data Access (Search + CRUD)',
+    nouns: 'Nouns.do Entities in your business',
+    verbs: 'Verbs.do Represent potential actions'
+  },
+  events: {
+    triggers: 'Triggers.do Initiate workflows based on events',
+    searches: 'Searches.do Query and retrieve data',
+    actions: 'Actions.do Perform tasks within workflows'
+  },
+  core: {
+    llm: 'LLM.do Intelligent AI Gateway',
+    evals: 'Evals.do Evaluate Functions, Workflows, and Agents',
+    analytics: 'Analytics.do Economically Validate Workflows',
+    experiments: 'Experiments.do Economically Validate Workflows',
+    database: 'Database.do AI Native Data Access (Search + CRUD)',
+    integrations: 'Integrations.do Connect External APIs and Systems'
+  }
+}
+
+
+
+
 export interface DomainConfig {
   /** Collections that belong to this domain */
   collections?: string[]

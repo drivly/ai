@@ -36,7 +36,7 @@ export default buildConfig({
       },
     },
     meta: {
-      title: 'Drivly AGI Platform',
+      title: 'Agentic Workflow Platform | Workflows.do',
       description: 'Deliver work through simple APIs',
       icons: [
         {
@@ -45,6 +45,7 @@ export default buildConfig({
         },
       ],
       openGraph: {
+        title: 'Agentic Workflow Platform | Workflows.do',
         description: 'Deliver work through simple APIs',
         images: [
           {
@@ -54,7 +55,6 @@ export default buildConfig({
           },
         ],
         siteName: 'apis.do',
-        title: 'Drivly AGI Platform',
       },
     },
   },
@@ -88,7 +88,7 @@ export default buildConfig({
   plugins: [
     payloadAgentPlugin({
       aiAvatar: '/ai.webp',
-      defaultMessage: "I'm the AI assistant for Drivly. Ask me anything about the platform.",
+      defaultMessage: "I'm the AI assistant for Workflows.do. Ask me anything about the platform.",
       direction: 'horizontal',
       type: 'resizable',
       logo: '/DrivlyLogo.svg',

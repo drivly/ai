@@ -11,7 +11,7 @@ export const Events: CollectionConfig = {
   fields: [
     { name: 'type', type: 'text' },
     { name: 'source', type: 'text' },
-    { name: 'subject', type: 'relationship', relationTo: 'things' },
+    { name: 'subject', type: 'relationship', relationTo: 'resources' },
     { name: 'data', type: 'json' },
     { name: 'metadata', type: 'json' },
 
