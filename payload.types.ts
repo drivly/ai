@@ -116,6 +116,9 @@ export interface Config {
     tags: Tag;
     webhooks: Webhook;
     apikeys: Apikey;
+    'oauth-clients': OauthClient;
+    'oauth-codes': OauthCode;
+    'oauth-tokens': OauthToken;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -188,6 +191,9 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
+    'oauth-clients': OauthClientsSelect<false> | OauthClientsSelect<true>;
+    'oauth-codes': OauthCodesSelect<false> | OauthCodesSelect<true>;
+    'oauth-tokens': OauthTokensSelect<false> | OauthTokensSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -229,6 +235,7 @@ export interface Config {
       processBatchGoogleVertexAI: TaskProcessBatchGoogleVertexAI;
       processBatchParasail: TaskProcessBatchParasail;
       createGenerationBatch: TaskCreateGenerationBatch;
+      generateFunctionExamples: TaskGenerateFunctionExamples;
       inline: {
         input: unknown;
         output: unknown;
@@ -572,6 +579,10 @@ export interface Function {
   role?: string | null;
   user?: (string | null) | User;
   agent?: (string | null) | Agent;
+  /**
+   * Example arguments for this function
+   */
+  examples?: (string | Resource)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -621,6 +632,237 @@ export interface Agent {
      */
     stripePriceId?: string | null;
   };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources".
+ */
+export interface Resource {
+  id: string;
+  name?: string | null;
+  sqid?: string | null;
+  hash?: string | null;
+  type?: (string | null) | Noun;
+  yaml?: string | null;
+  data?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  embedding?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  subjectOf?: (string | Action)[] | null;
+  objectOf?: (string | Action)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nouns".
+ */
+export interface Noun {
+  id: string;
+  name?: string | null;
+  /**
+   * Singular form like User
+   */
+  singular?: string | null;
+  /**
+   * Plural form like Users
+   */
+  plural?: string | null;
+  /**
+   * Possessive form like User's
+   */
+  possessive?: string | null;
+  /**
+   * Plural possessive form like Users'
+   */
+  pluralPossessive?: string | null;
+  /**
+   * Related verb like Use
+   */
+  verb?: string | null;
+  /**
+   * Third person singular present tense like Uses
+   */
+  act?: string | null;
+  /**
+   * Gerund like Using
+   */
+  activity?: string | null;
+  /**
+   * Past tense like Used
+   */
+  event?: string | null;
+  resources?: {
+    docs?: (string | Resource)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions".
+ */
+export interface Action {
+  id: string;
+  subject?: (string | null) | Resource;
+  verb?: (string | null) | Verb;
+  object?: (string | null) | Resource;
+  hash?: string | null;
+  generation?: {
+    docs?: (string | Generation)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "verbs".
+ */
+export interface Verb {
+  id: string;
+  /**
+   * Active tense like Create
+   */
+  action?: string | null;
+  /**
+   * Third person singular present tense like Creates
+   */
+  act?: string | null;
+  /**
+   * Gerund like Creating
+   */
+  activity?: string | null;
+  /**
+   * Past tense like Created
+   */
+  event?: string | null;
+  /**
+   * Subject like Creator
+   */
+  subject?: string | null;
+  /**
+   * Object like Creation
+   */
+  object?: string | null;
+  /**
+   * Opposite like Destroy
+   */
+  inverse?: string | null;
+  /**
+   * Third person singular present tense like Destroys
+   */
+  inverseAct?: string | null;
+  /**
+   * Gerund like Destroying
+   */
+  inverseActivity?: string | null;
+  /**
+   * Past tense like Destroyed
+   */
+  inverseEvent?: string | null;
+  /**
+   * Subject like Destroyer
+   */
+  inverseSubject?: string | null;
+  /**
+   * Object like Destruction
+   */
+  inverseObject?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generations".
+ */
+export interface Generation {
+  id: string;
+  action?: (string | null) | Action;
+  settings?: (string | null) | Resource;
+  request?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  response?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  error?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  status?: ('success' | 'error') | null;
+  duration?: number | null;
+  processingMode?: ('realtime' | 'batch') | null;
+  batch?: (string | null) | GenerationBatch;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Batches of AI generation jobs
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generation-batches".
+ */
+export interface GenerationBatch {
+  id: string;
+  name: string;
+  provider: 'openai' | 'anthropic' | 'google' | 'parasail';
+  status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
+  /**
+   * Provider-specific batch configuration
+   */
+  batchConfig?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * ID of the batch job in the provider system
+   */
+  providerBatchId?: string | null;
+  generations?: (string | Generation)[] | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -824,237 +1066,6 @@ export interface Kpi {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "nouns".
- */
-export interface Noun {
-  id: string;
-  name?: string | null;
-  /**
-   * Singular form like User
-   */
-  singular?: string | null;
-  /**
-   * Plural form like Users
-   */
-  plural?: string | null;
-  /**
-   * Possessive form like User's
-   */
-  possessive?: string | null;
-  /**
-   * Plural possessive form like Users'
-   */
-  pluralPossessive?: string | null;
-  /**
-   * Related verb like Use
-   */
-  verb?: string | null;
-  /**
-   * Third person singular present tense like Uses
-   */
-  act?: string | null;
-  /**
-   * Gerund like Using
-   */
-  activity?: string | null;
-  /**
-   * Past tense like Used
-   */
-  event?: string | null;
-  resources?: {
-    docs?: (string | Resource)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "resources".
- */
-export interface Resource {
-  id: string;
-  name?: string | null;
-  sqid?: string | null;
-  hash?: string | null;
-  type?: (string | null) | Noun;
-  yaml?: string | null;
-  data?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  embedding?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  subjectOf?: (string | Action)[] | null;
-  objectOf?: (string | Action)[] | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions".
- */
-export interface Action {
-  id: string;
-  subject?: (string | null) | Resource;
-  verb?: (string | null) | Verb;
-  object?: (string | null) | Resource;
-  hash?: string | null;
-  generation?: {
-    docs?: (string | Generation)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "verbs".
- */
-export interface Verb {
-  id: string;
-  /**
-   * Active tense like Create
-   */
-  action?: string | null;
-  /**
-   * Third person singular present tense like Creates
-   */
-  act?: string | null;
-  /**
-   * Gerund like Creating
-   */
-  activity?: string | null;
-  /**
-   * Past tense like Created
-   */
-  event?: string | null;
-  /**
-   * Subject like Creator
-   */
-  subject?: string | null;
-  /**
-   * Object like Creation
-   */
-  object?: string | null;
-  /**
-   * Opposite like Destroy
-   */
-  inverse?: string | null;
-  /**
-   * Third person singular present tense like Destroys
-   */
-  inverseAct?: string | null;
-  /**
-   * Gerund like Destroying
-   */
-  inverseActivity?: string | null;
-  /**
-   * Past tense like Destroyed
-   */
-  inverseEvent?: string | null;
-  /**
-   * Subject like Destroyer
-   */
-  inverseSubject?: string | null;
-  /**
-   * Object like Destruction
-   */
-  inverseObject?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generations".
- */
-export interface Generation {
-  id: string;
-  action?: (string | null) | Action;
-  settings?: (string | null) | Resource;
-  request?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  response?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  error?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  status?: ('success' | 'error') | null;
-  duration?: number | null;
-  processingMode?: ('realtime' | 'batch') | null;
-  batch?: (string | null) | GenerationBatch;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Batches of AI generation jobs
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generation-batches".
- */
-export interface GenerationBatch {
-  id: string;
-  name: string;
-  provider: 'openai' | 'anthropic' | 'google' | 'parasail';
-  status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
-  /**
-   * Provider-specific batch configuration
-   */
-  batchConfig?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * ID of the batch job in the provider system
-   */
-  providerBatchId?: string | null;
-  generations?: (string | Generation)[] | null;
-  startedAt?: string | null;
-  completedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1630,6 +1641,54 @@ export interface Apikey {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-clients".
+ */
+export interface OauthClient {
+  id: string;
+  name: string;
+  clientId: string;
+  clientSecret: string;
+  redirectURLs: {
+    url: string;
+    id?: string | null;
+  }[];
+  disabled?: boolean | null;
+  createdBy?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-codes".
+ */
+export interface OauthCode {
+  id: string;
+  code: string;
+  provider: string;
+  redirectUri: string;
+  userId: string | User;
+  expiresAt: string;
+  used?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-tokens".
+ */
+export interface OauthToken {
+  id: string;
+  token: string;
+  provider: string;
+  userId: string | User;
+  clientId: string;
+  expiresAt: string;
+  scope?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
@@ -1702,7 +1761,8 @@ export interface PayloadJob {
           | 'processBatchAnthropic'
           | 'processBatchGoogleVertexAI'
           | 'processBatchParasail'
-          | 'createGenerationBatch';
+          | 'createGenerationBatch'
+          | 'generateFunctionExamples';
         taskID: string;
         input?:
           | {
@@ -1757,6 +1817,7 @@ export interface PayloadJob {
                 | 'processBatchGoogleVertexAI'
                 | 'processBatchParasail'
                 | 'createGenerationBatch'
+                | 'generateFunctionExamples'
               )
             | null;
           taskID?: string | null;
@@ -1789,6 +1850,7 @@ export interface PayloadJob {
         | 'processBatchGoogleVertexAI'
         | 'processBatchParasail'
         | 'createGenerationBatch'
+        | 'generateFunctionExamples'
       )
     | null;
   queue?: string | null;
@@ -1997,6 +2059,18 @@ export interface PayloadLockedDocument {
         value: string | Apikey;
       } | null)
     | ({
+        relationTo: 'oauth-clients';
+        value: string | OauthClient;
+      } | null)
+    | ({
+        relationTo: 'oauth-codes';
+        value: string | OauthCode;
+      } | null)
+    | ({
+        relationTo: 'oauth-tokens';
+        value: string | OauthToken;
+      } | null)
+    | ({
         relationTo: 'payload-jobs';
         value: string | PayloadJob;
       } | null);
@@ -2165,6 +2239,7 @@ export interface FunctionsSelect<T extends boolean = true> {
   role?: T;
   user?: T;
   agent?: T;
+  examples?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2757,6 +2832,53 @@ export interface ApikeysSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-clients_select".
+ */
+export interface OauthClientsSelect<T extends boolean = true> {
+  name?: T;
+  clientId?: T;
+  clientSecret?: T;
+  redirectURLs?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  disabled?: T;
+  createdBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-codes_select".
+ */
+export interface OauthCodesSelect<T extends boolean = true> {
+  code?: T;
+  provider?: T;
+  redirectUri?: T;
+  userId?: T;
+  expiresAt?: T;
+  used?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-tokens_select".
+ */
+export interface OauthTokensSelect<T extends boolean = true> {
+  token?: T;
+  provider?: T;
+  userId?: T;
+  clientId?: T;
+  expiresAt?: T;
+  scope?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3384,6 +3506,31 @@ export interface TaskCreateGenerationBatch {
     success?: boolean | null;
     batchId?: string | null;
     jobId?: string | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateFunctionExamples".
+ */
+export interface TaskGenerateFunctionExamples {
+  input: {
+    functionId: string;
+    count?: number | null;
+    force?: boolean | null;
+  };
+  output: {
+    success?: boolean | null;
+    message?: string | null;
+    examples?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
     error?: string | null;
   };
 }
