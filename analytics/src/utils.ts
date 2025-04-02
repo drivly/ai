@@ -25,11 +25,15 @@ export class AnalyticsService {
   }
 
   async trackRequest(request: RequestData): Promise<void> {
-    if (!request.timestamp) {
-      request.timestamp = Date.now()
+    try {
+      if (!request.timestamp) {
+        request.timestamp = Date.now()
+      }
+      await this.client.ensureTableExists('requests')
+      await this.client.insert('requests', request)
+    } catch (error) {
+      console.error('Failed to track request:', error)
     }
-    await this.client.ensureTableExists('requests')
-    await this.client.insert('requests', request)
   }
 
   async getEvents(options: {
