@@ -5,14 +5,18 @@ import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/pl
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 
+const getCurrentURL = () => {
+  if (typeof window !== 'undefined') return window.location.origin // Client-side detection
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  if (process.env.VERCEL_BRANCH_URL) return process.env.VERCEL_BRANCH_URL
+  if (process.env.VERCEL_PREVIEW_URL) return process.env.VERCEL_PREVIEW_URL
+  return process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://apis.do'
+}
+
 export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), oAuthProxy({ 
   productionURL: 'https://apis.do',
-  currentURL: typeof window !== 'undefined' ? window.location.origin : // Client-side detection
-              process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
-              process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 
-              process.env.VERCEL_BRANCH_URL ? process.env.VERCEL_BRANCH_URL : 
-              process.env.VERCEL_PREVIEW_URL ? process.env.VERCEL_PREVIEW_URL : 
-              process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL
+  currentURL: getCurrentURL()
 })]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
@@ -24,12 +28,12 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/google',
+      redirectURI: `${getCurrentURL()}/api/auth/callback/google`,
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/github',
+      redirectURI: `${getCurrentURL()}/api/auth/callback/github`,
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
@@ -100,13 +104,17 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
   hidePluginCollections: true,
   users: {
     slug: 'users',
-    hidden: false,
+    hidden: true, // Hide the users collection from navigation
     adminRoles: ['admin'],
     allowedFields: ['name'],
     blockFirstBetterAuthVerificationEmail: true,
     collectionOverrides: ({ collection }) => {
       return {
         ...collection,
+        admin: {
+          ...(collection.admin || {}),
+          group: 'AuthInternal', // Use a different group name
+        },
         auth: {
           ...(typeof collection?.auth === 'object' ? collection.auth : {}),
         },

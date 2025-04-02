@@ -1,103 +1,118 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { apis } from './api.config'
-import { domainsConfig, getCollections, isAIGateway } from './domains.config'
+import { domainsConfig, getCollections, isAIGateway, brandDomains } from './domains.config'
 import { collectionSlugs } from './collections/middleware-collections'
-import { aliases } from './site.config'
 import { analyticsMiddleware } from './analytics/src/middleware'
 
-// what domains have websites / landing pages ... otherwise base path / is the API
+/**
+ * Middleware Configuration
+ * -----------------------
+ * This middleware handles routing logic for the .do domain ecosystem.
+ * It determines whether requests should be routed to API endpoints or website content.
+ */
+
 const siteDomains = ['functions.do', 'workflows.do', 'llm.do', 'llms.do']
-// what pathnames will always go to website content for all domains
+
 const sitePaths = ['/login', '/logout', '/signin', '/signout', '/privacy', '/terms', '/pricing', '/models']
-// what path prefixes will always go to website content for all domains
+
 const sitePrefixes = ['/blog', '/docs']
 
-// This function can be marked `async` if using `await` inside
+/**
+ * Main middleware function
+ * Handles routing logic for all incoming requests
+ */
 export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
     const { hostname, pathname, search } = request.nextUrl
+    
     const apiName = hostname.replace('.do', '')
+    const baseHostname = hostname.replace('.do', '')
 
-  // TODO: should we use something like `itty-router` here?
-
-  const baseHostname = hostname.replace('.do', '')
-  const isCollectionName = collectionSlugs.includes(baseHostname)
-  const isSiteAlias = Object.keys(aliases).includes(baseHostname + '.do')
-  const isDomainAlias = Object.keys(domainsConfig.aliases).includes(hostname)
-  const isAlias = isSiteAlias || isDomainAlias
-  const effectiveCollection = isSiteAlias 
-    ? (aliases[baseHostname + '.do' as keyof typeof aliases] as string).replace('.do', '') 
-    : isDomainAlias
+    const isCollectionName = collectionSlugs.includes(baseHostname)
+    const isDomainAlias = Object.keys(domainsConfig.aliases).includes(hostname)
+    const isAlias = isDomainAlias
+    
+    const effectiveCollection = isDomainAlias
       ? domainsConfig.aliases[hostname].replace('.do', '')
       : baseHostname
 
-  if ((isCollectionName || isAlias) && pathname.startsWith('/admin')) {
-    console.log('Rewriting to admin collection', { hostname, pathname, search, collection: effectiveCollection })
-    return NextResponse.rewrite(new URL(`/admin/collections/${effectiveCollection}${pathname.slice(6)}${search}`, request.url))
-  }
+    if ((isCollectionName || isAlias) && pathname.startsWith('/admin')) {
+      console.log('Rewriting to admin collection', { hostname, pathname, search, collection: effectiveCollection })
+      return NextResponse.rewrite(new URL(`/admin/collections/${effectiveCollection}${pathname.slice(6)}${search}`, request.url))
+    }
 
-  if (sitePaths.includes(pathname) && siteDomains.includes(hostname)) {
-    console.log('Rewriting to site', { hostname, pathname, search })
-    return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
-  }
+    if (pathname === '/admin/login') {
+      console.log('Redirecting to GitHub OAuth', { hostname, pathname, search })
+      return NextResponse.redirect(new URL(`/api/auth/signin/github?callbackUrl=/admin`, request.url))
+    }
 
-  if (pathname.startsWith('/docs') && hostname.endsWith('.do')) {
-    console.log('Rewriting docs path', { hostname, pathname, search })
-    const apiName = hostname.replace('.do', '')
-    return NextResponse.rewrite(new URL(`/docs/${apiName}${pathname.replace('/docs', '')}${search}`, request.url))
-  }
+    if (sitePaths.includes(pathname) && siteDomains.includes(hostname)) {
+      console.log('Rewriting to site', { hostname, pathname, search })
+      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
+    }
 
-  // TODO: Is this the correct logic for docs?
-  if (sitePrefixes.some((prefix) => pathname.startsWith(prefix)) && siteDomains.includes(hostname)) {
-    console.log('Rewriting to site w/ prefix', { hostname, pathname, search })
-    return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
-  }
+    if (pathname.startsWith('/docs') && hostname.endsWith('.do')) {
+      console.log('Rewriting docs path', { hostname, pathname, search })
+      const apiName = hostname.replace('.do', '')
+      return NextResponse.rewrite(new URL(`/docs/${apiName}${pathname.replace('/docs', '')}${search}`, request.url))
+    }
 
-  if (pathname === '/' && siteDomains.includes(hostname)) {
-    console.log('Rewriting to landing page', { hostname, pathname, search })
-    return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
-    // return NextResponse.rewrite(new URL(`/${hostname}`, request.url))
-  }
+    if (sitePrefixes.some((prefix) => pathname.startsWith(prefix)) && siteDomains.includes(hostname)) {
+      console.log('Rewriting to site w/ prefix', { hostname, pathname, search })
+      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
+    }
 
-  // TODO: we need to ensure that all of the apis are at the root by default
-  // I think this is preferred as it is what we want for localhost and API gateways like apis.do
-  // console.log({ apiName, apis, name: apis[apiName] })
+    if (pathname === '/' && siteDomains.includes(hostname)) {
+      console.log('Rewriting to landing page', { hostname, pathname, search })
+      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
+    }
+    
+    if (pathname === '/' && brandDomains.includes(hostname)) {
+      console.log('Rewriting brand domain to sites list', { hostname, pathname, search })
+      return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+    }
 
-  // Special handler for /api path to route to the domain (minus .do) API path
-  if (pathname === '/api' && apis[apiName]) {
-    console.log('Rewriting /api to API root', { apiName, hostname, pathname, search })
-    const url = new URL(request.url)
-    return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${search}`))
-  }
+    // Special handler for /api path to route to the domain (minus .do) API path
+    if (pathname === '/api' && apis[apiName]) {
+      console.log('Rewriting /api to API root', { apiName, hostname, pathname, search })
+      const url = new URL(request.url)
+      return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${search}`))
+    }
 
-  if (domainsConfig.aliases[hostname] && pathname === '/') {
-    const aliasedDomain = domainsConfig.aliases[hostname]
-    const aliasedApiName = aliasedDomain.replace('.do', '')
-    console.log('Rewriting aliased domain', { hostname, aliasedDomain, pathname, search })
-    const url = new URL(request.url)
-    return NextResponse.rewrite(new URL(`${url.origin.replace(hostname, aliasedDomain)}/${aliasedApiName}${search}`))
-  }
+    if (domainsConfig.aliases[hostname] && pathname === '/') {
+      const aliasedDomain = domainsConfig.aliases[hostname]
+      const aliasedApiName = aliasedDomain.replace('.do', '')
+      console.log('Rewriting aliased domain', { hostname, aliasedDomain, pathname, search })
+      const url = new URL(request.url)
+      return NextResponse.rewrite(new URL(`${url.origin.replace(hostname, aliasedDomain)}/${aliasedApiName}${search}`))
+    }
 
-  if (apis[apiName]) {
-    console.log('Rewriting to API', { apiName, hostname, pathname, search })
-    const url = new URL(request.url)
-    return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
-  }
-  
-  if (isAIGateway(hostname)) {
-    console.log('Handling AI gateway domain', { hostname, pathname, search })
-    const url = new URL(request.url)
-    return NextResponse.rewrite(new URL(`${url.origin}${pathname}${search}`))
-  }
+    if (apis[apiName]) {
+      console.log('Rewriting to API', { apiName, hostname, pathname, search })
+      const url = new URL(request.url)
+      return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
+    }
+    
+    if (isAIGateway(hostname)) {
+      console.log('Handling AI gateway domain', { hostname, pathname, search })
+      const url = new URL(request.url)
+      return NextResponse.rewrite(new URL(`${url.origin}${pathname}${search}`))
+    }
 
-  console.log('no rewrite', { apiName, hostname, pathname, search })
-  return NextResponse.next()
+    console.log('no rewrite', { apiName, hostname, pathname, search })
+    return NextResponse.next()
   })
 }
 
-// TODO: do we need/want middleware for everything?  Should we set up an exclude filter?
-// // See "Matching Paths" below to learn more
-// export const config = {
-//   matcher: '/',
-// }
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     */
+    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+  ],
+}

@@ -2,10 +2,13 @@ import { Domains } from './admin/Domains'
 import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
+import { OAuthClients } from './auth/OAuthClients'
+import { OAuthCodes } from './auth/OAuthCodes'
+import { OAuthTokens } from './auth/OAuthTokens'
 import { Integrations } from './integrations/Integrations'
 import { Tags } from './admin/Tag'
 import { Roles } from './admin/Roles'
-import { Databases } from './admin/Databases'
+import { Databases } from './data/Databases'
 import { Functions } from './ai/Functions'
 import { Modules } from './code/Modules'
 import { Packages } from './code/Packages'
@@ -41,10 +44,10 @@ import { Connections } from './integrations/Connections'
 import { Queues } from './work/Queues'
 import { Tasks } from './work/Tasks'
 import { Goals } from './work/Goals'
-import { KPIs } from './observability/KPIs'
+import { KPIs } from './work/KPIs'
 
 export const collections = [
-  // Register basic collections first
+  // Register AI collections first
   Functions,
   Workflows,
   Agents,
@@ -57,20 +60,20 @@ export const collections = [
   // Data & definitions
   Nouns,
   Verbs,
-  Resources,
   Databases,
+  Resources,
+  Relationships,
 
   // Integration collections
-  Integrations,
   IntegrationCategories,
+  Integrations,
+  Connections,
   IntegrationTriggers,
   IntegrationActions,
-  Connections,
 
   // Event collections
   Triggers,
   Searches,
-  Relationships,
 
   Experiments,
   Models,
@@ -102,6 +105,9 @@ export const collections = [
   Tags,
   Webhooks,
   APIKeys,
+  OAuthClients,
+  OAuthCodes,
+  OAuthTokens,
 ]
 
 export const collectionSlugs = collections.map(collection => collection.slug)

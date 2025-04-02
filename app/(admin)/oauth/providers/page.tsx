@@ -27,7 +27,7 @@ export default function OAuthClientsPage() {
   const fetchClients = async () => {
     try {
       setLoading(true)
-      const response = await fetch('/api/oauth/clients')
+      const response = await fetch('/oauth/clients')
       if (response.ok) {
         const data = await response.json()
         setClients(data.clients)
@@ -52,7 +52,7 @@ export default function OAuthClientsPage() {
     }
     
     try {
-      const response = await fetch('/api/oauth/register', {
+      const response = await fetch('/oauth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

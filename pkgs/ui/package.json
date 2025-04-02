@@ -140,6 +140,7 @@
     "lucide-react": "^0.483.0",
     "react-resizable-panels": "^2.1.7",
     "tailwind-merge": "^2.6.0",
+    "tailwind-scrollbar-hide": "^2.0.0",
     "tw-animate-css": "^1.2.4"
   },
   "peerDependencies": {
@@ -162,13 +163,13 @@
     "esbuild-plugin-css-module": "^0.1.0",
     "esbuild-plugin-react18": "^0.2.6",
     "glob": "^11.0.1",
+    "path-browserify": "^1.0.1",
     "postcss": "^8.5.3",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "process": "^0.11.10",
     "tailwindcss": "^4.0.15",
     "tsup": "^8.4.0",
-    "path-browserify": "^1.0.1",
-    "process": "^0.11.10",
     "url": "^0.11.3"
   }
 }

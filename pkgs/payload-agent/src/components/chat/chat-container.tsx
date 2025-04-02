@@ -101,7 +101,7 @@ const PanelContainer = ({ children, className }: RootProps) => {
 const ResizableContainer = ({ children, className, direction = 'horizontal', layoutChildren }: ResizableRootProps) => (
   <ChatProvider>
     <ResizablePanelGroup direction={direction} autoSaveId='resizable-chat' autoSave='localStorage' className={className}>
-      <ResizablePanel defaultSize={100} minSize={25} className='overflow-y-auto overflow-x-auto'>
+      <ResizablePanel defaultSize={100} minSize={25} className='scrollbar-hide h-full min-h-screen !overflow-x-hidden !overflow-y-scroll'>
         {layoutChildren}
       </ResizablePanel>
       {children}

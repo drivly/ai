@@ -1,39 +1,5 @@
 import { API } from '@/lib/api'
 import { getPayload } from '@/lib/auth/payload-auth'
-import fs from 'fs'
-import path from 'path'
-
-const OAUTH_CLIENTS_FILE = path.join(process.cwd(), 'data', 'oauth-clients.json')
-
-interface OAuthClient {
-  id: string;
-  name: string;
-  clientId: string;
-  clientSecret: string;
-  redirectURLs: string[];
-  createdBy: string;
-  createdAt: string;
-  disabled: boolean;
-}
-
-const loadOAuthClients = (): OAuthClient[] => {
-  const dataDir = path.join(process.cwd(), 'data')
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true })
-  }
-  
-  if (!fs.existsSync(OAUTH_CLIENTS_FILE)) {
-    return []
-  }
-  
-  try {
-    const data = fs.readFileSync(OAUTH_CLIENTS_FILE, 'utf8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error('Error loading OAuth clients:', error)
-    return []
-  }
-}
 
 export const GET = API(async (request, { url, user }) => {
   if (!user) {
@@ -52,13 +18,21 @@ export const GET = API(async (request, { url, user }) => {
   }
   
   try {
-    const clients = loadOAuthClients()
+    const clientsResult = await payload.find({
+      collection: 'oauth-clients',
+      depth: 0
+    })
     
-    const maskedClients = clients.map((client: OAuthClient) => ({
-      ...client,
+    const maskedClients = clientsResult.docs.map(client => ({
+      id: client.id,
+      name: client.name,
+      clientId: client.clientId,
       clientSecret: client.clientSecret 
         ? '****' + client.clientSecret.substring(client.clientSecret.length - 4) 
         : '',
+      redirectURLs: client.redirectURLs.map((item: any) => item.url),
+      disabled: client.disabled,
+      createdBy: client.createdBy
     }))
     
     return { 

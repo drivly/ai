@@ -2,10 +2,6 @@ import { executeFunction } from '@/tasks/executeFunction'
 import { API } from '@/lib/api'
 
 export const GET = API(async (request, { db, user, url, payload, params, req }) => {
-  // Using the new db interface for more concise syntax
-  // const functions = await db.functions.find()
-  // If we need a specific function by ID, we could use:
-  // const specificFunction = await db.functions.get('function-id')
   const { functionName } = params as { functionName: string }
   const { seed = '1', temperature, model, system, prompt, ...args } = Object.fromEntries(request.nextUrl.searchParams)
   const settings = {
@@ -15,6 +11,15 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
     system,
     prompt,
   }
+
+  const functionDetails = await db.functions.findOne({
+    where: {
+      name: {
+        equals: functionName
+      }
+    },
+    depth: 2 // Include related fields like examples
+  })
 
   const start = Date.now()
   const results = await executeFunction({ input: { functionName, args, settings }, payload })
@@ -47,6 +52,12 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   const modelUrl = new URL(url)
   modelUrl.pathname = modelUrl.pathname + '/models'
   links.models = modelUrl.toString()
+  
+  if (functionDetails?.examples?.length > 0) {
+    const examplesUrl = new URL(url)
+    examplesUrl.pathname = examplesUrl.pathname + '/examples'
+    links.examples = examplesUrl.toString()
+  }
 
   // // Add temperature links with values 0, 0.2, 0.4, 0.6, 0.8, and 1.0
   // const temperatureValues = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
@@ -57,7 +68,17 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   //   links.temperature[temp.toString()] = `${baseUrl}?${tempParams.toString()}`
   // })
 
-  return { functionName, args, links, type, data, reasoning: results?.reasoning?.split('\n'), settings, latency }
+  return { 
+    functionName, 
+    args, 
+    links, 
+    type, 
+    data, 
+    reasoning: results?.reasoning?.split('\n'), 
+    settings, 
+    latency,
+    examples: functionDetails?.examples || []
+  }
 
   // const job = await payload.jobs.queue({
   //   task: 'executeFunction',

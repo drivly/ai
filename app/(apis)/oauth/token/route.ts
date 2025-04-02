@@ -1,134 +1,43 @@
 import { API } from '@/lib/api'
 import { getPayload } from '@/lib/auth/payload-auth'
-import fs from 'fs'
-import path from 'path'
 import crypto from 'crypto'
 
-const OAUTH_CODES_FILE = path.join(process.cwd(), 'data', 'oauth-codes.json')
-const OAUTH_CLIENTS_FILE = path.join(process.cwd(), 'data', 'oauth-clients.json')
-const OAUTH_TOKENS_FILE = path.join(process.cwd(), 'data', 'oauth-tokens.json')
-
-const ensureDataDir = () => {
-  const dataDir = path.join(process.cwd(), 'data')
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true })
-  }
-}
-
-interface OAuthCode {
-  code: string;
-  provider: string;
-  redirectUri: string;
-  userId: string;
-  createdAt: string;
-  expiresAt: string;
-  used: boolean;
-}
-
-const loadOAuthCodes = (): OAuthCode[] => {
-  ensureDataDir()
-  if (!fs.existsSync(OAUTH_CODES_FILE)) {
-    return []
-  }
+/**
+ * Exchanges an authorization code for an access token
+ */
+const exchangeCodeForToken = async (code: string, redirectUri: string, clientId: string, clientSecret?: string, payload: any) => {
+  const codeResult = await payload.find({
+    collection: 'oauth-codes',
+    where: {
+      code: { equals: code },
+      used: { equals: false }
+    }
+  })
   
-  try {
-    const data = fs.readFileSync(OAUTH_CODES_FILE, 'utf8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error('Error loading OAuth codes:', error)
-    return []
-  }
-}
-
-const saveOAuthCodes = (codes: OAuthCode[]) => {
-  ensureDataDir()
-  try {
-    fs.writeFileSync(OAUTH_CODES_FILE, JSON.stringify(codes, null, 2))
-  } catch (error) {
-    console.error('Error saving OAuth codes:', error)
-  }
-}
-
-interface OAuthClient {
-  id: string;
-  name: string;
-  clientId: string;
-  clientSecret: string;
-  redirectURLs: string[];
-  createdBy: string;
-  createdAt: string;
-  disabled: boolean;
-}
-
-const loadOAuthClients = (): OAuthClient[] => {
-  ensureDataDir()
-  if (!fs.existsSync(OAUTH_CLIENTS_FILE)) {
-    return []
-  }
-  
-  try {
-    const data = fs.readFileSync(OAUTH_CLIENTS_FILE, 'utf8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error('Error loading OAuth clients:', error)
-    return []
-  }
-}
-
-interface OAuthToken {
-  id: string;
-  accessToken: string;
-  refreshToken: string;
-  clientId: string;
-  userId: string;
-  scope: string;
-  createdAt: string;
-  accessTokenExpiresAt: string;
-  refreshTokenExpiresAt: string;
-}
-
-const loadOAuthTokens = (): OAuthToken[] => {
-  ensureDataDir()
-  if (!fs.existsSync(OAUTH_TOKENS_FILE)) {
-    return []
-  }
-  
-  try {
-    const data = fs.readFileSync(OAUTH_TOKENS_FILE, 'utf8')
-    return JSON.parse(data)
-  } catch (error) {
-    console.error('Error loading OAuth tokens:', error)
-    return []
-  }
-}
-
-const saveOAuthTokens = (tokens: OAuthToken[]) => {
-  ensureDataDir()
-  try {
-    fs.writeFileSync(OAUTH_TOKENS_FILE, JSON.stringify(tokens, null, 2))
-  } catch (error) {
-    console.error('Error saving OAuth tokens:', error)
-  }
-}
-
-const exchangeCodeForToken = async (code: string, redirectUri: string, clientId: string, clientSecret?: string) => {
-  const codes = loadOAuthCodes()
-  const clients = loadOAuthClients()
-  
-  const codeEntry = codes.find((c: OAuthCode) => c.code === code && !c.used)
-  if (!codeEntry) {
+  if (!codeResult.docs.length) {
     throw new Error('Invalid authorization code')
   }
+  
+  const codeEntry = codeResult.docs[0]
   
   const expiresAt = new Date(codeEntry.expiresAt)
   if (expiresAt < new Date()) {
     throw new Error('Authorization code expired')
   }
   
-  const client = clients.find((c: OAuthClient) => c.clientId === clientId)
-  if (!client) {
+  const clientResult = await payload.find({
+    collection: 'oauth-clients',
+    where: {
+      clientId: { equals: clientId },
+      disabled: { equals: false }
+    }
+  })
+  
+  if (!clientResult.docs.length) {
     throw new Error('Invalid client ID')
   }
+  
+  const client = clientResult.docs[0]
   
   if (clientSecret && client.clientSecret !== clientSecret) {
     throw new Error('Invalid client secret')
@@ -138,8 +47,13 @@ const exchangeCodeForToken = async (code: string, redirectUri: string, clientId:
     throw new Error('Redirect URI mismatch')
   }
   
-  codeEntry.used = true
-  saveOAuthCodes(codes)
+  await payload.update({
+    collection: 'oauth-codes',
+    id: codeEntry.id,
+    data: {
+      used: true
+    }
+  })
   
   const accessToken = crypto.randomBytes(32).toString('hex')
   const refreshToken = crypto.randomBytes(32).toString('hex')
@@ -150,21 +64,17 @@ const exchangeCodeForToken = async (code: string, redirectUri: string, clientId:
   const refreshTokenExpiresAt = new Date()
   refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 30)
   
-  const token = {
-    id: crypto.randomUUID(),
-    accessToken,
-    refreshToken,
-    clientId,
-    userId: codeEntry.userId,
-    scope: 'read write',
-    createdAt: new Date().toISOString(),
-    accessTokenExpiresAt: accessTokenExpiresAt.toISOString(),
-    refreshTokenExpiresAt: refreshTokenExpiresAt.toISOString()
-  }
-  
-  const tokens = loadOAuthTokens()
-  tokens.push(token)
-  saveOAuthTokens(tokens)
+  await payload.create({
+    collection: 'oauth-tokens',
+    data: {
+      token: accessToken,
+      provider: codeEntry.provider,
+      userId: codeEntry.userId,
+      clientId,
+      expiresAt: accessTokenExpiresAt,
+      scope: 'read write'
+    }
+  })
   
   return {
     access_token: accessToken,
@@ -211,7 +121,8 @@ export const POST = API(async (request, { url }) => {
   }
   
   try {
-    const token = await exchangeCodeForToken(code, redirect_uri, client_id, client_secret)
+    const payload = await getPayload()
+    const token = await exchangeCodeForToken(code, redirect_uri, client_id, client_secret, payload)
     return token
   } catch (error) {
     console.error('Token exchange error:', error)

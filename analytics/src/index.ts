@@ -2,7 +2,8 @@ import { createClient } from '@clickhouse/client-web'
 import { tableSchemas } from './schema'
 
 export interface ClickhouseConfig {
-  host: string
+  url?: string
+  host?: string
   port?: number
   username?: string
   password?: string
@@ -13,12 +14,16 @@ export class ClickhouseClient {
   private client
 
   constructor(config: ClickhouseConfig) {
-    const hostWithPort = config.port ? 
-      `${config.host}:${config.port}` : 
-      config.host;
+    let url = config.url
+    
+    if (!url && config.host) {
+      url = config.port ? 
+        `${config.host}:${config.port}` : 
+        config.host
+    }
       
     this.client = createClient({
-      host: hostWithPort,
+      url,
       username: config.username || 'default',
       password: config.password || '',
       database: config.database || 'default',
@@ -54,20 +59,24 @@ export class ClickhouseClient {
       await this.client.query({
         query: schema,
       })
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Error creating table ${tableName}:`, error)
-      throw error
+      throw new Error(`Failed to create table ${tableName}: ${error.message || String(error)}`)
     }
   }
 
   async ensureTableExists(table: string): Promise<void> {
-    const exists = await this.tableExists(table)
-    if (!exists) {
-      const schema = tableSchemas[table]
-      if (!schema) {
-        throw new Error(`No schema defined for table: ${table}`)
+    try {
+      const exists = await this.tableExists(table)
+      if (!exists) {
+        const schema = tableSchemas[table]
+        if (!schema) {
+          throw new Error(`No schema defined for table: ${table}`)
+        }
+        await this.createTable(table, schema)
       }
-      await this.createTable(table, schema)
+    } catch (error: any) {
+      throw new Error(`Failed to ensure table ${table} exists: ${error.message || String(error)}`)
     }
   }
 

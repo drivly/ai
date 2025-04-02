@@ -8,8 +8,8 @@ Our platform is built on four fundamental concepts that work together to create 
 
 - **[Nouns](/nouns)**: Categories or types of things in your system (like Customer, Product, Order)
 - **[Verbs](/verbs)**: Actions that can be performed (like Create, Update, Delete)
-- **[Things](/things)**: Specific instances of Nouns (a particular Customer, Product, or Order)
-- **[Actions](/actions)**: Relationships between Things in Subject-Predicate-Object format
+- **[Resources](/resources)**: Specific instances of Nouns (a particular Customer, Product, or Order)
+- **[Actions](/actions)**: Relationships between Resources in Subject-Predicate-Object format
 
 ### Subject-Predicate-Object Pattern
 
@@ -17,7 +17,7 @@ At the heart of our data model is the natural language pattern of Subject-Predic
 
 ```mermaid
 graph LR
-    A[Subject<br/>(Thing)] -->|Predicate<br/>(Verb)| B[Object<br/>(Thing)]
+    A[Subject<br/>(Resource)] -->|Predicate<br/>(Verb)| B[Object<br/>(Resource)]
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#bbf,stroke:#333,stroke-width:2px
 ```
@@ -27,19 +27,19 @@ For example:
 - "Developer deployed Application"
 - "Startup acquired Funding"
 
-Every Action in the system connects a Subject (a Thing) with an Object (another Thing) through a Predicate (a Verb), creating a semantic triple that represents a meaningful business event or relationship.
+Every Action in the system connects a Subject (a Resource) with an Object (another Resource) through a Predicate (a Verb), creating a semantic triple that represents a meaningful business event or relationship.
 
 ```mermaid
 graph TD
-    Nouns[Nouns<br/>Categories/Types] -->|defines| Things[Things<br/>Instances]
+    Nouns[Nouns<br/>Categories/Types] -->|defines| Resources[Resources<br/>Instances]
     Verbs[Verbs<br/>Action Types] -->|defines| Predicates[Predicates<br/>in Actions]
-    Things -->|Subject| Actions[Actions<br/>S-P-O Relationships]
+    Resources -->|Subject| Actions[Actions<br/>S-P-O Relationships]
     Predicates -->|Predicate| Actions
-    Things -->|Object| Actions
+    Resources -->|Object| Actions
     
     style Nouns fill:#f9f,stroke:#333,stroke-width:2px
     style Verbs fill:#bbf,stroke:#333,stroke-width:2px
-    style Things fill:#ff9,stroke:#333,stroke-width:2px
+    style Resources fill:#ff9,stroke:#333,stroke-width:2px
     style Actions fill:#9f9,stroke:#333,stroke-width:2px
     style Predicates fill:#99f,stroke:#333,stroke-width:2px
 ```
@@ -68,4 +68,4 @@ To get started with the Data collection, explore the following pages:
 
 - [Nouns](/nouns) - Define and manage business entities
 - [Verbs](/verbs) - Represent potential actions in your business domain
-- [Things](/things) - Model physical and virtual objects
+- [Resources](/resources) - Model physical and virtual objects

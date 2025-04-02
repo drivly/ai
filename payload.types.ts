@@ -81,16 +81,16 @@ export interface Config {
     goals: Goal;
     nouns: Noun;
     verbs: Verb;
-    things: Thing;
     databases: Database;
-    integrations: Integration;
+    resources: Resource;
+    actions: Action;
     integrationCategories: IntegrationCategory;
+    integrations: Integration;
+    connections: Connection;
     integrationTriggers: IntegrationTrigger;
     integrationActions: IntegrationAction;
-    connections: Connection;
     triggers: Trigger;
     searches: Search;
-    actions: Action;
     experiments: Experiment;
     models: Model;
     prompts: Prompt;
@@ -130,7 +130,7 @@ export interface Config {
       dependents: 'tasks';
     };
     nouns: {
-      things: 'things';
+      resources: 'resources';
     };
     actions: {
       generation: 'generations';
@@ -153,16 +153,16 @@ export interface Config {
     goals: GoalsSelect<false> | GoalsSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
-    things: ThingsSelect<false> | ThingsSelect<true>;
     databases: DatabasesSelect<false> | DatabasesSelect<true>;
-    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    actions: ActionsSelect<false> | ActionsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
+    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
+    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
     integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
-    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
-    actions: ActionsSelect<false> | ActionsSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
     prompts: PromptsSelect<false> | PromptsSelect<true>;
@@ -211,6 +211,7 @@ export interface Config {
       executeFunction: TaskExecuteFunction;
       generateCode: TaskGenerateCode;
       executeCodeFunction: TaskExecuteCodeFunction;
+      generateResourceEmbedding: TaskGenerateResourceEmbedding;
       generateThingEmbedding: TaskGenerateThingEmbedding;
       searchThings: TaskSearchThings;
       hybridSearchThings: TaskHybridSearchThings;
@@ -705,7 +706,7 @@ export interface Package {
         /**
          * Collection slug to include
          */
-        collection?: string | null;
+        items?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -755,7 +756,7 @@ export interface Role {
 export interface Task {
   id: string;
   title: string;
-  status?: ('todo' | 'in-progress' | 'ready-for-review' | 'completed') | null;
+  status?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
   queue?: (string | null) | Queue;
   assigned?:
     | (
@@ -865,8 +866,8 @@ export interface Noun {
    * Past tense like Used
    */
   event?: string | null;
-  things?: {
-    docs?: (string | Thing)[];
+  resources?: {
+    docs?: (string | Resource)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -875,9 +876,9 @@ export interface Noun {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things".
+ * via the `definition` "resources".
  */
-export interface Thing {
+export interface Resource {
   id: string;
   name?: string | null;
   sqid?: string | null;
@@ -913,9 +914,9 @@ export interface Thing {
  */
 export interface Action {
   id: string;
-  subject?: (string | null) | Thing;
+  subject?: (string | null) | Resource;
   verb?: (string | null) | Verb;
-  object?: (string | null) | Thing;
+  object?: (string | null) | Resource;
   hash?: string | null;
   generation?: {
     docs?: (string | Generation)[];
@@ -989,7 +990,7 @@ export interface Verb {
 export interface Generation {
   id: string;
   action?: (string | null) | Action;
-  settings?: (string | null) | Thing;
+  settings?: (string | null) | Resource;
   request?:
     | {
         [k: string]: unknown;
@@ -1087,6 +1088,16 @@ export interface Database {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrationCategories".
+ */
+export interface IntegrationCategory {
+  id: string;
+  category?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrations".
  */
 export interface Integration {
@@ -1097,11 +1108,23 @@ export interface Integration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integrationCategories".
+ * via the `definition` "connections".
  */
-export interface IntegrationCategory {
+export interface Connection {
   id: string;
-  category?: string | null;
+  name?: string | null;
+  user: string | User;
+  integration: string | Integration;
+  status?: ('active' | 'inactive' | 'pending') | null;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1160,28 +1183,6 @@ export interface IntegrationAction {
     | boolean
     | null;
   response?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connections".
- */
-export interface Connection {
-  id: string;
-  name?: string | null;
-  user: string | User;
-  integration: string | Integration;
-  status?: ('active' | 'inactive' | 'pending') | null;
-  metadata?:
     | {
         [k: string]: unknown;
       }
@@ -1481,7 +1482,7 @@ export interface Event {
   id: string;
   type?: string | null;
   source?: string | null;
-  subject?: (string | null) | Thing;
+  subject?: (string | null) | Resource;
   data?:
     | {
         [k: string]: unknown;
@@ -1684,6 +1685,7 @@ export interface PayloadJob {
           | 'executeFunction'
           | 'generateCode'
           | 'executeCodeFunction'
+          | 'generateResourceEmbedding'
           | 'generateThingEmbedding'
           | 'searchThings'
           | 'hybridSearchThings'
@@ -1737,6 +1739,7 @@ export interface PayloadJob {
                 | 'executeFunction'
                 | 'generateCode'
                 | 'executeCodeFunction'
+                | 'generateResourceEmbedding'
                 | 'generateThingEmbedding'
                 | 'searchThings'
                 | 'hybridSearchThings'
@@ -1768,6 +1771,7 @@ export interface PayloadJob {
         | 'executeFunction'
         | 'generateCode'
         | 'executeCodeFunction'
+        | 'generateResourceEmbedding'
         | 'generateThingEmbedding'
         | 'searchThings'
         | 'hybridSearchThings'
@@ -1853,20 +1857,28 @@ export interface PayloadLockedDocument {
         value: string | Verb;
       } | null)
     | ({
-        relationTo: 'things';
-        value: string | Thing;
-      } | null)
-    | ({
         relationTo: 'databases';
         value: string | Database;
+      } | null)
+    | ({
+        relationTo: 'resources';
+        value: string | Resource;
+      } | null)
+    | ({
+        relationTo: 'actions';
+        value: string | Action;
+      } | null)
+    | ({
+        relationTo: 'integrationCategories';
+        value: string | IntegrationCategory;
       } | null)
     | ({
         relationTo: 'integrations';
         value: string | Integration;
       } | null)
     | ({
-        relationTo: 'integrationCategories';
-        value: string | IntegrationCategory;
+        relationTo: 'connections';
+        value: string | Connection;
       } | null)
     | ({
         relationTo: 'integrationTriggers';
@@ -1877,20 +1889,12 @@ export interface PayloadLockedDocument {
         value: string | IntegrationAction;
       } | null)
     | ({
-        relationTo: 'connections';
-        value: string | Connection;
-      } | null)
-    | ({
         relationTo: 'triggers';
         value: string | Trigger;
       } | null)
     | ({
         relationTo: 'searches';
         value: string | Search;
-      } | null)
-    | ({
-        relationTo: 'actions';
-        value: string | Action;
       } | null)
     | ({
         relationTo: 'experiments';
@@ -2270,7 +2274,7 @@ export interface NounsSelect<T extends boolean = true> {
   act?: T;
   activity?: T;
   event?: T;
-  things?: T;
+  resources?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2296,23 +2300,6 @@ export interface VerbsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things_select".
- */
-export interface ThingsSelect<T extends boolean = true> {
-  name?: T;
-  sqid?: T;
-  hash?: T;
-  type?: T;
-  yaml?: T;
-  data?: T;
-  embedding?: T;
-  subjectOf?: T;
-  objectOf?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "databases_select".
  */
 export interface DatabasesSelect<T extends boolean = true> {
@@ -2328,6 +2315,45 @@ export interface DatabasesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources_select".
+ */
+export interface ResourcesSelect<T extends boolean = true> {
+  name?: T;
+  sqid?: T;
+  hash?: T;
+  type?: T;
+  yaml?: T;
+  data?: T;
+  embedding?: T;
+  subjectOf?: T;
+  objectOf?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions_select".
+ */
+export interface ActionsSelect<T extends boolean = true> {
+  subject?: T;
+  verb?: T;
+  object?: T;
+  hash?: T;
+  generation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrationCategories_select".
+ */
+export interface IntegrationCategoriesSelect<T extends boolean = true> {
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrations_select".
  */
 export interface IntegrationsSelect<T extends boolean = true> {
@@ -2338,10 +2364,14 @@ export interface IntegrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integrationCategories_select".
+ * via the `definition` "connections_select".
  */
-export interface IntegrationCategoriesSelect<T extends boolean = true> {
-  category?: T;
+export interface ConnectionsSelect<T extends boolean = true> {
+  name?: T;
+  user?: T;
+  integration?: T;
+  status?: T;
+  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2379,19 +2409,6 @@ export interface IntegrationActionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connections_select".
- */
-export interface ConnectionsSelect<T extends boolean = true> {
-  name?: T;
-  user?: T;
-  integration?: T;
-  status?: T;
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "triggers_select".
  */
 export interface TriggersSelect<T extends boolean = true> {
@@ -2411,19 +2428,6 @@ export interface SearchesSelect<T extends boolean = true> {
   searchType?: T;
   results?: T;
   embedding?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions_select".
- */
-export interface ActionsSelect<T extends boolean = true> {
-  subject?: T;
-  verb?: T;
-  object?: T;
-  hash?: T;
-  generation?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2496,7 +2500,7 @@ export interface PackagesSelect<T extends boolean = true> {
   collections?:
     | T
     | {
-        collection?: T;
+        items?: T;
         id?: T;
       };
   updatedAt?: T;
@@ -2954,6 +2958,26 @@ export interface TaskExecuteCodeFunction {
       | boolean
       | null;
     error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateResourceEmbedding".
+ */
+export interface TaskGenerateResourceEmbedding {
+  input: {
+    id: string;
+  };
+  output: {
+    resource?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
 }
 /**
