@@ -240,10 +240,6 @@ export function isAIGateway(domain: string): boolean {
     return true
   }
   
-  if (domain === 'do.com.ai') {
-    return false
-  }
-
   return domainsConfig.aiGateways.some((pattern) => {
     if (pattern.startsWith('*.')) {
       const suffix = pattern.substring(1)
