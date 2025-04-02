@@ -5,7 +5,10 @@ import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/pl
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 
-export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), oAuthProxy({ productionURL: 'https://apis.do' })]
+export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), oAuthProxy({ 
+  productionURL: 'https://apis.do',
+  currentURL: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined
+})]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
 
