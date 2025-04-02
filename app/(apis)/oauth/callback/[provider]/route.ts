@@ -5,7 +5,7 @@ import crypto from 'crypto'
 
 export async function GET(
   request: NextRequest,
-  context: { params: { provider: string } }
+  { params }: { params: { provider: string } }
 ) {
   const { params } = context
   try {
