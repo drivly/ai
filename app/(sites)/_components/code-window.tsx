@@ -10,11 +10,13 @@ interface CodeWindowProps {
 
 const autoLinkHandler = {
   name: 'link',
-  annotation: (annotation) => {
+  component: ({ children, annotation }) => {
     const url = typeof annotation === 'string' ? annotation : annotation.toString()
-    return {
-      props: { href: url, target: "_blank", rel: "noopener noreferrer", className: "underline text-blue-400 hover:text-blue-300" }
-    }
+    return (
+      <a href={url} target="_blank" rel="noopener noreferrer" className="underline text-blue-400 hover:text-blue-300">
+        {children}
+      </a>
+    )
   }
 }
 
@@ -54,4 +56,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with                
+// browser bar with                  
