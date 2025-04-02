@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Badge } from '@drivly/ui/badge'
+import { Badge } from '@/app/(sites)/_components/badge'
 import { BlogPost } from './blog-posts'
 
 interface BlogCardProps {
