@@ -35,7 +35,7 @@ const nextConfig = {
         // Special case for Vercel preview domains
         {
           source: '/',
-          destination: '/sites-list',
+          destination: '/sites',
           has: [
             {
               type: 'host',
@@ -46,7 +46,7 @@ const nextConfig = {
         // Special case for do.mw
         {
           source: '/',
-          destination: '/sites-list',
+          destination: '/sites',
           has: [
             {
               type: 'host',
@@ -57,7 +57,7 @@ const nextConfig = {
         // Additional rewrite for do.mw with higher priority
         {
           source: '/:path*',
-          destination: '/sites-list',
+          destination: '/sites',
           has: [
             {
               type: 'host',
@@ -68,7 +68,7 @@ const nextConfig = {
         // Special case for apis.do/sites
         {
           source: '/sites',
-          destination: '/sites-list',
+          destination: '/sites',
           has: [
             {
               type: 'host',
