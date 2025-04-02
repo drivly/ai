@@ -46,6 +46,7 @@
     "eslint-config": "workspace:*",
     "tsup": "^8.4.0",
     "prettier": "^3.5.3",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "@cloudflare/vitest-pool-workers": "^0.1.0"
   }
 }
