@@ -15,7 +15,7 @@ export async function searchResources(query: string, limit: number = 10): Promis
     
     const db = payload.db.connection
     
-    const thingsCollection = db.collection('things')
+    const resourcesCollection = db.collection('resources')
     
     const pipeline = [
       {
@@ -37,7 +37,7 @@ export async function searchResources(query: string, limit: number = 10): Promis
       }
     ]
     
-    const results = await thingsCollection.aggregate(pipeline).toArray()
+    const results = await resourcesCollection.aggregate(pipeline).toArray()
     
     return results
   } catch (error) {
@@ -60,7 +60,7 @@ export async function hybridSearchResources(query: string, limit: number = 10): 
     
     const db = payload.db.connection
     
-    const thingsCollection = db.collection('things')
+    const resourcesCollection = db.collection('resources')
     
     const pipeline = [
       {
@@ -99,7 +99,7 @@ export async function hybridSearchResources(query: string, limit: number = 10): 
       }
     ]
     
-    const results = await thingsCollection.aggregate(pipeline).toArray()
+    const results = await resourcesCollection.aggregate(pipeline).toArray()
     
     return results
   } catch (error) {
