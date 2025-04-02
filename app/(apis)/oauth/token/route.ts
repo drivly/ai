@@ -15,7 +15,17 @@ const ensureDataDir = () => {
   }
 }
 
-const loadOAuthCodes = () => {
+interface OAuthCode {
+  code: string;
+  provider: string;
+  redirectUri: string;
+  userId: string;
+  createdAt: string;
+  expiresAt: string;
+  used: boolean;
+}
+
+const loadOAuthCodes = (): OAuthCode[] => {
   ensureDataDir()
   if (!fs.existsSync(OAUTH_CODES_FILE)) {
     return []
@@ -30,7 +40,7 @@ const loadOAuthCodes = () => {
   }
 }
 
-const saveOAuthCodes = (codes: any[]) => {
+const saveOAuthCodes = (codes: OAuthCode[]) => {
   ensureDataDir()
   try {
     fs.writeFileSync(OAUTH_CODES_FILE, JSON.stringify(codes, null, 2))
@@ -39,7 +49,18 @@ const saveOAuthCodes = (codes: any[]) => {
   }
 }
 
-const loadOAuthClients = () => {
+interface OAuthClient {
+  id: string;
+  name: string;
+  clientId: string;
+  clientSecret: string;
+  redirectURLs: string[];
+  createdBy: string;
+  createdAt: string;
+  disabled: boolean;
+}
+
+const loadOAuthClients = (): OAuthClient[] => {
   ensureDataDir()
   if (!fs.existsSync(OAUTH_CLIENTS_FILE)) {
     return []
@@ -54,7 +75,19 @@ const loadOAuthClients = () => {
   }
 }
 
-const loadOAuthTokens = () => {
+interface OAuthToken {
+  id: string;
+  accessToken: string;
+  refreshToken: string;
+  clientId: string;
+  userId: string;
+  scope: string;
+  createdAt: string;
+  accessTokenExpiresAt: string;
+  refreshTokenExpiresAt: string;
+}
+
+const loadOAuthTokens = (): OAuthToken[] => {
   ensureDataDir()
   if (!fs.existsSync(OAUTH_TOKENS_FILE)) {
     return []
@@ -69,7 +102,7 @@ const loadOAuthTokens = () => {
   }
 }
 
-const saveOAuthTokens = (tokens: any[]) => {
+const saveOAuthTokens = (tokens: OAuthToken[]) => {
   ensureDataDir()
   try {
     fs.writeFileSync(OAUTH_TOKENS_FILE, JSON.stringify(tokens, null, 2))
@@ -82,7 +115,7 @@ const exchangeCodeForToken = async (code: string, redirectUri: string, clientId:
   const codes = loadOAuthCodes()
   const clients = loadOAuthClients()
   
-  const codeEntry = codes.find(c => c.code === code && !c.used)
+  const codeEntry = codes.find((c: OAuthCode) => c.code === code && !c.used)
   if (!codeEntry) {
     throw new Error('Invalid authorization code')
   }
@@ -92,7 +125,7 @@ const exchangeCodeForToken = async (code: string, redirectUri: string, clientId:
     throw new Error('Authorization code expired')
   }
   
-  const client = clients.find(c => c.clientId === clientId)
+  const client = clients.find((c: OAuthClient) => c.clientId === clientId)
   if (!client) {
     throw new Error('Invalid client ID')
   }
