@@ -570,13 +570,15 @@ export const generateFunctionLink = (
  */
 export const createFunctionsObject = (
   request: NextRequest,
-  functions: Array<{ name: string; [key: string]: any }>
+  functions: Array<{ name: string; [key: string]: any }> | any
 ): Record<string, string> => {
   const functionsObject: Record<string, string> = {}
   
-  functions.forEach(func => {
-    functionsObject[func.name] = generateFunctionLink(request, func.name)
-  })
+  if (Array.isArray(functions)) {
+    functions.forEach(func => {
+      functionsObject[func.name] = generateFunctionLink(request, func.name)
+    })
+  }
   
   return functionsObject
 }
