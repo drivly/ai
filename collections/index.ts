@@ -61,11 +61,11 @@ export const collections = [
   Databases,
 
   // Integration collections
-  Integrations,
   IntegrationCategories,
+  Integrations,
+  Connections,
   IntegrationTriggers,
   IntegrationActions,
-  Connections,
 
   // Event collections
   Triggers,

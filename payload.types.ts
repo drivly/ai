@@ -83,11 +83,11 @@ export interface Config {
     verbs: Verb;
     resources: Resource;
     databases: Database;
-    integrations: Integration;
     integrationCategories: IntegrationCategory;
+    integrations: Integration;
+    connections: Connection;
     integrationTriggers: IntegrationTrigger;
     integrationActions: IntegrationAction;
-    connections: Connection;
     triggers: Trigger;
     searches: Search;
     actions: Action;
@@ -155,11 +155,11 @@ export interface Config {
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
     databases: DatabasesSelect<false> | DatabasesSelect<true>;
-    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
+    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
+    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
     integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
-    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
     actions: ActionsSelect<false> | ActionsSelect<true>;
@@ -1087,6 +1087,16 @@ export interface Database {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrationCategories".
+ */
+export interface IntegrationCategory {
+  id: string;
+  category?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrations".
  */
 export interface Integration {
@@ -1097,11 +1107,23 @@ export interface Integration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integrationCategories".
+ * via the `definition` "connections".
  */
-export interface IntegrationCategory {
+export interface Connection {
   id: string;
-  category?: string | null;
+  name?: string | null;
+  user: string | User;
+  integration: string | Integration;
+  status?: ('active' | 'inactive' | 'pending') | null;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1160,28 +1182,6 @@ export interface IntegrationAction {
     | boolean
     | null;
   response?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connections".
- */
-export interface Connection {
-  id: string;
-  name?: string | null;
-  user: string | User;
-  integration: string | Integration;
-  status?: ('active' | 'inactive' | 'pending') | null;
-  metadata?:
     | {
         [k: string]: unknown;
       }
@@ -1861,12 +1861,16 @@ export interface PayloadLockedDocument {
         value: string | Database;
       } | null)
     | ({
+        relationTo: 'integrationCategories';
+        value: string | IntegrationCategory;
+      } | null)
+    | ({
         relationTo: 'integrations';
         value: string | Integration;
       } | null)
     | ({
-        relationTo: 'integrationCategories';
-        value: string | IntegrationCategory;
+        relationTo: 'connections';
+        value: string | Connection;
       } | null)
     | ({
         relationTo: 'integrationTriggers';
@@ -1875,10 +1879,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'integrationActions';
         value: string | IntegrationAction;
-      } | null)
-    | ({
-        relationTo: 'connections';
-        value: string | Connection;
       } | null)
     | ({
         relationTo: 'triggers';
@@ -2328,6 +2328,15 @@ export interface DatabasesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrationCategories_select".
+ */
+export interface IntegrationCategoriesSelect<T extends boolean = true> {
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "integrations_select".
  */
 export interface IntegrationsSelect<T extends boolean = true> {
@@ -2338,10 +2347,14 @@ export interface IntegrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integrationCategories_select".
+ * via the `definition` "connections_select".
  */
-export interface IntegrationCategoriesSelect<T extends boolean = true> {
-  category?: T;
+export interface ConnectionsSelect<T extends boolean = true> {
+  name?: T;
+  user?: T;
+  integration?: T;
+  status?: T;
+  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2374,19 +2387,6 @@ export interface IntegrationActionsSelect<T extends boolean = true> {
   version?: T;
   parameters?: T;
   response?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connections_select".
- */
-export interface ConnectionsSelect<T extends boolean = true> {
-  name?: T;
-  user?: T;
-  integration?: T;
-  status?: T;
-  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
