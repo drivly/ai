@@ -65,7 +65,7 @@ export const Functions: CollectionConfig = {
           type: 'group', 
           admin: {
             position: 'sidebar',
-            condition: (data) => data?.isPublic === true,
+            condition: (data) => data?.public === true,
             description: 'Monetization settings for this function'
           },
           fields: [
