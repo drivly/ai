@@ -72,11 +72,9 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
             <div className="text-gray-400">Loading...</div>
           ) : highlighted ? (
             <Pre 
-              language={language}
-              showLineNumbers={true}
-              annotations={[autoLinkHandler]}
-              codeClassName="text-xs sm:text-sm"
               code={highlighted}
+              handlers={[autoLinkHandler]}
+              className="text-xs sm:text-sm"
             />
           ) : (
             <pre className="text-xs sm:text-sm">{code}</pre>
@@ -88,4 +86,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with            
+// browser bar with                        
