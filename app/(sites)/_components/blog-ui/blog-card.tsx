@@ -24,7 +24,7 @@ export function BlogCard({ post }: BlogCardProps) {
           <h3 className='group-hover:text-primary line-clamp-2 text-xl font-semibold tracking-tight transition-colors'>{post.title}</h3>
           <p className='text-muted-foreground mt-2 line-clamp-2 flex-grow text-sm'>{post.description}</p>
           <div className='mt-4 flex items-center justify-between'>
-            <Badge variant='outline' className='text-xs'>
+            <Badge variant='blog' className='text-xs'>
               {post.category}
             </Badge>
             <span className='text-muted-foreground text-xs'>

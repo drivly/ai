@@ -5,7 +5,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Record<
   const { domains, slug } = await params
   const domain = `${domains}.do`
   
-  const blogPost = await getBlogPost(domain, slug)
+  const blogPost = await getBlogPost(domain, Array.isArray(slug) ? slug[0] : slug)
   
   if (!blogPost) {
     return notFound()
