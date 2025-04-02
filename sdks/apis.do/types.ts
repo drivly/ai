@@ -1,6 +1,6 @@
 /**
  * Type definitions for apis.do SDK
- * 
+ *
  * These types are compatible with the Payload CMS collection types
  * but defined here to avoid module resolution issues.
  */
@@ -224,7 +224,7 @@ export interface ErrorResponse {
 
 /**
  * ListResponse - Paginated list response
- * 
+ *
  * Represents paginated list responses
  */
 export interface ListResponse<T> {
@@ -239,7 +239,7 @@ export interface ListResponse<T> {
 
 /**
  * QueryParams - Parameters for querying collections
- * 
+ *
  * Represents parameters for querying collections
  */
 export interface QueryParams {
@@ -253,7 +253,7 @@ export interface QueryParams {
 
 /**
  * ClientOptions - Options for API client initialization
- * 
+ *
  * Represents options for API client initialization
  */
 export interface ClientOptions {
@@ -264,7 +264,7 @@ export interface ClientOptions {
 
 /**
  * CollectionEndpoints - Type for collection-specific endpoints
- * 
+ *
  * Represents collection-specific endpoints
  */
 export interface CollectionEndpoints<T> {

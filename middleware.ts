@@ -25,17 +25,15 @@ const sitePrefixes = ['/blog', '/docs']
 export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
     const { hostname, pathname, search } = request.nextUrl
-    
+
     const apiName = hostname.replace('.do', '')
     const baseHostname = hostname.replace('.do', '')
 
     const isCollectionName = collectionSlugs.includes(baseHostname)
     const isDomainAlias = Object.keys(domainsConfig.aliases).includes(hostname)
     const isAlias = isDomainAlias
-    
-    const effectiveCollection = isDomainAlias
-      ? domainsConfig.aliases[hostname].replace('.do', '')
-      : baseHostname
+
+    const effectiveCollection = isDomainAlias ? domainsConfig.aliases[hostname].replace('.do', '') : baseHostname
 
     if ((isCollectionName || isAlias) && pathname.startsWith('/admin')) {
       console.log('Rewriting to admin collection', { hostname, pathname, search, collection: effectiveCollection })
@@ -83,7 +81,7 @@ export async function middleware(request: NextRequest) {
       const url = new URL(request.url)
       return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
     }
-    
+
     if (isAIGateway(hostname)) {
       console.log('Handling AI gateway domain', { hostname, pathname, search })
       const url = new URL(request.url)

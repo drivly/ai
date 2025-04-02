@@ -9,7 +9,7 @@ import config from '../../payload.config'
 export async function recordError(error: Error & { digest?: string }, url?: string) {
   try {
     const payload = await getPayload({ config })
-    
+
     return await payload.create({
       collection: 'errors',
       data: {

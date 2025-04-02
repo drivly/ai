@@ -18,11 +18,11 @@ function getBaseUrl(): string {
   return 'https://apis.do'
 }
 
-import type { 
-  Workflow, 
-  WorkflowStep, 
-  WorkflowContext, 
-  WorkflowExecutionOptions, 
+import type {
+  Workflow,
+  WorkflowStep,
+  WorkflowContext,
+  WorkflowExecutionOptions,
   WorkflowExecutionResult,
   WorkflowRegistrationResponse,
   AIFunction,
@@ -33,7 +33,7 @@ import type {
   AIEventHandler,
   AIInstance,
   DatabaseAccess,
-  APIAccess
+  APIAccess,
 } from './types'
 import { API } from './client.js'
 
@@ -44,29 +44,29 @@ import { API } from './client.js'
  */
 export function AI<T extends AIConfig>(config: T): AIInstance {
   const instance: Record<string, AIFunction> = {}
-  
+
   const workflowConfig: Record<string, any> = {}
-  
+
   for (const key in config) {
     const value = config[key]
-    
+
     if (typeof value === 'function') {
       workflowConfig[key] = {
         type: 'Function',
-        code: value.toString()
+        code: value.toString(),
       }
-    } 
-    else if (typeof value === 'object') {
+    } else if (typeof value === 'object') {
       workflowConfig[key] = {
         type: 'Schema',
-        schema: value
+        schema: value,
       }
     }
   }
-  
+
   const api = new API()
-  
-  api.registerWorkflow(workflowConfig)
+
+  api
+    .registerWorkflow(workflowConfig)
     .then((response: any) => {
       if (!response.success) {
         console.error('Error registering workflows:', response.error)
@@ -75,18 +75,18 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
     .catch((error: Error) => {
       console.error('Error registering workflows:', error)
     })
-  
+
   for (const key in config) {
     const value = config[key]
-    
+
     if (typeof value === 'function') {
       instance[key] = async (event: any) => {
         const context: AIContext = {
           ai: instance,
           api: createAPIAccess(),
-          db: createDatabaseAccess()
+          db: createDatabaseAccess(),
         }
-        
+
         try {
           return await value(event, context)
         } catch (error) {
@@ -94,8 +94,7 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
           throw error
         }
       }
-    } 
-    else if (typeof value === 'object') {
+    } else if (typeof value === 'object') {
       instance[key] = async (input: any) => {
         try {
           const response = await fetch(`${getBaseUrl()}/ai/execute`, {
@@ -109,7 +108,7 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
               input,
             }),
           })
-          
+
           return response.json()
         } catch (error) {
           console.error(`Error executing AI function ${key}:`, error)
@@ -118,13 +117,13 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
       }
     }
   }
-  
+
   const proxy = new Proxy(instance, {
     get: (target: any, prop: string) => {
       if (prop in target) {
         return target[prop]
       }
-      
+
       if (typeof prop === 'string' && !prop.startsWith('_')) {
         return async (input: any) => {
           try {
@@ -137,7 +136,7 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
                 input,
               }),
             })
-            
+
             return response.json()
           } catch (error) {
             console.error(`Error executing dynamic workflow ${prop}:`, error)
@@ -145,11 +144,11 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
           }
         }
       }
-      
+
       return target[prop]
-    }
+    },
   })
-  
+
   return proxy as AIInstance
 }
 
@@ -196,12 +195,12 @@ function createAPIAccess(): APIAccess {
               },
               body: JSON.stringify(args[0] || {}),
             })
-            
+
             return response.json()
           }
-        }
+        },
       })
-    }
+    },
   })
 }
 
@@ -221,7 +220,7 @@ function createDatabaseAccess(): DatabaseAccess {
             },
             body: JSON.stringify(data),
           })
-          
+
           return response.json()
         },
         findOne: async (query: Record<string, any>) => {
@@ -232,7 +231,7 @@ function createDatabaseAccess(): DatabaseAccess {
             },
             body: JSON.stringify(query),
           })
-          
+
           return response.json()
         },
         find: async (query: Record<string, any>) => {
@@ -243,7 +242,7 @@ function createDatabaseAccess(): DatabaseAccess {
             },
             body: JSON.stringify(query),
           })
-          
+
           return response.json()
         },
         update: async (id: string, data: Record<string, any>) => {
@@ -254,7 +253,7 @@ function createDatabaseAccess(): DatabaseAccess {
             },
             body: JSON.stringify({ id, data }),
           })
-          
+
           return response.json()
         },
         delete: async (id: string) => {
@@ -265,11 +264,11 @@ function createDatabaseAccess(): DatabaseAccess {
             },
             body: JSON.stringify({ id }),
           })
-          
+
           return response.json()
-        }
+        },
       }
-    }
+    },
   })
 }
 
@@ -291,5 +290,5 @@ export type {
   AIEventHandler,
   AIInstance,
   DatabaseAccess,
-  APIAccess
+  APIAccess,
 }

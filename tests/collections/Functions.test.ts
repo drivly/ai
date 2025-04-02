@@ -9,7 +9,7 @@ describe('Functions Collection', () => {
 
   beforeAll(async () => {
     if (process.env.CI) return
-    
+
     try {
       payload = await getPayload({
         config,
@@ -21,7 +21,7 @@ describe('Functions Collection', () => {
 
   afterAll(async () => {
     if (process.env.CI || !payload) return
-    
+
     try {
       await payload.disconnect()
     } catch (error) {
@@ -96,15 +96,13 @@ describe('Functions Collection', () => {
     it('should have an afterChange hook', () => {
       expect(Functions.hooks?.afterChange).toBeDefined()
     })
-  })
-
-  (payload ? describe : describe.skip)('Payload Integration', () => {
+  })(payload ? describe : describe.skip)('Payload Integration', () => {
     it('should be able to find functions collection', async () => {
       const result = await payload.find({
         collection: 'functions',
         limit: 1,
       })
-      
+
       expect(result).toBeDefined()
       expect(result.docs).toBeDefined()
       expect(Array.isArray(result.docs)).toBe(true)
@@ -116,23 +114,23 @@ describe('Functions Collection', () => {
         type: 'Generation',
         format: 'Text',
       }
-      
+
       const created = await payload.create({
         collection: 'functions',
         data: testFunction,
       })
-      
+
       expect(created).toBeDefined()
       expect(created.id).toBeDefined()
       expect(created.name).toBe(testFunction.name)
       expect(created.type).toBe(testFunction.type)
       expect(created.format).toBe(testFunction.format)
-      
+
       const deleted = await payload.delete({
         collection: 'functions',
         id: created.id,
       })
-      
+
       expect(deleted).toBeDefined()
       expect(deleted.id).toBe(created.id)
     })

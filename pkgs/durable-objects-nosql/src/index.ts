@@ -1,80 +1,80 @@
-import { 
-  Collection, 
-  Cursor, 
+import {
+  Collection,
+  Cursor,
   DurableObjectStorage,
   DurableObjectTransaction,
-  FindOptions, 
-  InsertManyResult, 
-  InsertOneResult, 
-  Query, 
-  Update, 
-  UpdateResult, 
+  FindOptions,
+  InsertManyResult,
+  InsertOneResult,
+  Query,
+  Update,
+  UpdateResult,
   DeleteResult,
-  StoredDocument
-} from './types';
+  StoredDocument,
+} from './types'
 
 /**
  * Implementation of a MongoDB-style cursor for query results
  */
 class CursorImpl<T = any> implements Cursor<T> {
-  private documents: T[] = [];
-  private _limit?: number;
-  private _skip?: number;
-  private _sort?: { [key: string]: 1 | -1 };
+  private documents: T[] = []
+  private _limit?: number
+  private _skip?: number
+  private _sort?: { [key: string]: 1 | -1 }
 
   constructor(documents: T[]) {
-    this.documents = documents;
+    this.documents = documents
   }
 
   async toArray(): Promise<T[]> {
-    let result = [...this.documents];
+    let result = [...this.documents]
 
     if (this._sort) {
       result.sort((a, b) => {
         for (const [key, direction] of Object.entries(this._sort!)) {
-          const valueA = getNestedProperty(a, key);
-          const valueB = getNestedProperty(b, key);
-          
-          if (valueA < valueB) return -1 * direction;
-          if (valueA > valueB) return 1 * direction;
+          const valueA = getNestedProperty(a, key)
+          const valueB = getNestedProperty(b, key)
+
+          if (valueA < valueB) return -1 * direction
+          if (valueA > valueB) return 1 * direction
         }
-        return 0;
-      });
+        return 0
+      })
     }
 
     if (this._skip) {
-      result = result.slice(this._skip);
+      result = result.slice(this._skip)
     }
 
     if (this._limit) {
-      result = result.slice(0, this._limit);
+      result = result.slice(0, this._limit)
     }
 
-    return result;
+    return result
   }
 
   async first(): Promise<T | null> {
-    const results = await this.toArray();
-    return results.length > 0 ? results[0] : null;
+    const results = await this.toArray()
+    return results.length > 0 ? results[0] : null
   }
 
   async count(): Promise<number> {
-    return this.documents.length;
+    return this.documents.length
   }
 
   limit(n: number): Cursor<T> {
-    this._limit = n;
-    return this;
+    this._limit = n
+    return this
   }
 
   skip(n: number): Cursor<T> {
-    this._skip = n;
-    return this;
+    this._skip = n
+    return this
   }
 
   sort(sortSpec: { [key: string]: 1 | -1 }): Cursor<T> {
-    this._sort = sortSpec;
-    return this;
+    this._sort = sortSpec
+    return this
   }
 }
 
@@ -82,189 +82,172 @@ class CursorImpl<T = any> implements Cursor<T> {
  * Implementation of a MongoDB-style collection
  */
 class CollectionImpl<T = any> implements Collection<T> {
-  private storage: DurableObjectStorage;
-  private collectionName: string;
+  private storage: DurableObjectStorage
+  private collectionName: string
 
   constructor(storage: DurableObjectStorage, collectionName: string) {
-    this.storage = storage;
-    this.collectionName = collectionName;
+    this.storage = storage
+    this.collectionName = collectionName
   }
 
   /**
    * Find documents matching a query
    */
   find(query: Query = {}, options: FindOptions = {}): Cursor<T> {
-    const cursor = new CursorImpl<T>([]);
-    
-    (cursor as any)._execute = async () => {
-      const documents = await this.getAllDocuments();
-      return documents.filter(doc => this.matchesQuery(doc, query));
-    };
-    
-    const originalToArray = cursor.toArray;
+    const cursor = new CursorImpl<T>([])
+
+    ;(cursor as any)._execute = async () => {
+      const documents = await this.getAllDocuments()
+      return documents.filter((doc) => this.matchesQuery(doc, query))
+    }
+
+    const originalToArray = cursor.toArray
     cursor.toArray = async () => {
       if (!(cursor as any)._documents || (cursor as any)._documents.length === 0) {
-        (cursor as any).documents = await (cursor as any)._execute();
+        ;(cursor as any).documents = await (cursor as any)._execute()
       }
-      return originalToArray.call(cursor);
-    };
-    
-    return cursor;
+      return originalToArray.call(cursor)
+    }
+
+    return cursor
   }
 
   /**
    * Find a single document matching a query
    */
   async findOne(query: Query = {}): Promise<T | null> {
-    const cursor = await this.find(query);
-    return cursor.first();
+    const cursor = await this.find(query)
+    return cursor.first()
   }
 
   /**
    * Insert a single document
    */
   async insertOne(document: T): Promise<InsertOneResult> {
-    const id = crypto.randomUUID();
-    const docWithId = { ...document, _id: id };
-    
-    await this.storage.sql.exec(
-      `INSERT INTO documents (id, collection, data) VALUES (?, ?, ?)`,
-      id,
-      this.collectionName,
-      JSON.stringify(docWithId)
-    );
-    
-    return { id };
+    const id = crypto.randomUUID()
+    const docWithId = { ...document, _id: id }
+
+    await this.storage.sql.exec(`INSERT INTO documents (id, collection, data) VALUES (?, ?, ?)`, id, this.collectionName, JSON.stringify(docWithId))
+
+    return { id }
   }
 
   /**
    * Insert multiple documents
    */
   async insertMany(documents: T[]): Promise<InsertManyResult> {
-    const ids: string[] = [];
-    
-    await this.storage.transaction(async txn => {
+    const ids: string[] = []
+
+    await this.storage.transaction(async (txn) => {
       for (const document of documents) {
-        const id = crypto.randomUUID();
-        const docWithId = { ...document, _id: id };
-        
-        await txn.put(`${this.collectionName}:${id}`, docWithId);
-        ids.push(id);
+        const id = crypto.randomUUID()
+        const docWithId = { ...document, _id: id }
+
+        await txn.put(`${this.collectionName}:${id}`, docWithId)
+        ids.push(id)
       }
-    });
-    
-    return { ids };
+    })
+
+    return { ids }
   }
 
   /**
    * Update a single document matching a query
    */
   async updateOne(query: Query, update: Update): Promise<UpdateResult> {
-    const document = await this.findOne(query);
-    
+    const document = await this.findOne(query)
+
     if (!document) {
-      return { matchedCount: 0, modifiedCount: 0 };
+      return { matchedCount: 0, modifiedCount: 0 }
     }
-    
-    const id = (document as any)._id;
-    const updatedDocument = this.applyUpdate(document, update);
-    
-    await this.storage.sql.exec(
-      `UPDATE documents SET data = ? WHERE id = ? AND collection = ?`,
-      JSON.stringify(updatedDocument),
-      id,
-      this.collectionName
-    );
-    
-    return { matchedCount: 1, modifiedCount: 1 };
+
+    const id = (document as any)._id
+    const updatedDocument = this.applyUpdate(document, update)
+
+    await this.storage.sql.exec(`UPDATE documents SET data = ? WHERE id = ? AND collection = ?`, JSON.stringify(updatedDocument), id, this.collectionName)
+
+    return { matchedCount: 1, modifiedCount: 1 }
   }
 
   /**
    * Update multiple documents matching a query
    */
   async updateMany(query: Query, update: Update): Promise<UpdateResult> {
-    const cursor = this.find(query);
-    const documents = await cursor.toArray();
-    
+    const cursor = this.find(query)
+    const documents = await cursor.toArray()
+
     if (documents.length === 0) {
-      return { matchedCount: 0, modifiedCount: 0 };
+      return { matchedCount: 0, modifiedCount: 0 }
     }
-    
-    let modifiedCount = 0;
-    
+
+    let modifiedCount = 0
+
     await this.storage.transaction(async (txn: DurableObjectTransaction) => {
       for (const document of documents) {
-        const id = (document as any)._id;
-        const updatedDocument = this.applyUpdate(document, update);
-        
-        await txn.put(`${this.collectionName}:${id}`, updatedDocument);
-        modifiedCount++;
+        const id = (document as any)._id
+        const updatedDocument = this.applyUpdate(document, update)
+
+        await txn.put(`${this.collectionName}:${id}`, updatedDocument)
+        modifiedCount++
       }
-    });
-    
-    return { matchedCount: documents.length, modifiedCount };
+    })
+
+    return { matchedCount: documents.length, modifiedCount }
   }
 
   /**
    * Delete a single document matching a query
    */
   async deleteOne(query: Query): Promise<DeleteResult> {
-    const document = await this.findOne(query);
-    
+    const document = await this.findOne(query)
+
     if (!document) {
-      return { deletedCount: 0 };
+      return { deletedCount: 0 }
     }
-    
-    const id = (document as any)._id;
-    
-    await this.storage.sql.exec(
-      `DELETE FROM documents WHERE id = ? AND collection = ?`,
-      id,
-      this.collectionName
-    );
-    
-    return { deletedCount: 1 };
+
+    const id = (document as any)._id
+
+    await this.storage.sql.exec(`DELETE FROM documents WHERE id = ? AND collection = ?`, id, this.collectionName)
+
+    return { deletedCount: 1 }
   }
 
   /**
    * Delete multiple documents matching a query
    */
   async deleteMany(query: Query): Promise<DeleteResult> {
-    const cursor = this.find(query);
-    const documents = await cursor.toArray();
-    
+    const cursor = this.find(query)
+    const documents = await cursor.toArray()
+
     if (documents.length === 0) {
-      return { deletedCount: 0 };
+      return { deletedCount: 0 }
     }
-    
+
     await this.storage.transaction(async (txn: DurableObjectTransaction) => {
       for (const document of documents) {
-        const id = (document as any)._id;
-        await txn.delete(`${this.collectionName}:${id}`);
+        const id = (document as any)._id
+        await txn.delete(`${this.collectionName}:${id}`)
       }
-    });
-    
-    return { deletedCount: documents.length };
+    })
+
+    return { deletedCount: documents.length }
   }
 
   /**
    * Get all documents in the collection
    */
   private async getAllDocuments(): Promise<T[]> {
-    const cursor = this.storage.sql.exec<StoredDocument>(
-      `SELECT * FROM documents WHERE collection = ?`,
-      this.collectionName
-    );
-    
-    const documents: T[] = [];
-    let result = cursor.next();
-    
+    const cursor = this.storage.sql.exec<StoredDocument>(`SELECT * FROM documents WHERE collection = ?`, this.collectionName)
+
+    const documents: T[] = []
+    let result = cursor.next()
+
     while (!result.done && result.value) {
-      documents.push(JSON.parse(result.value.data) as T);
-      result = cursor.next();
+      documents.push(JSON.parse(result.value.data) as T)
+      result = cursor.next()
     }
-    
-    return documents;
+
+    return documents
   }
 
   /**
@@ -275,31 +258,30 @@ class CollectionImpl<T = any> implements Collection<T> {
       if (key.startsWith('$')) {
         switch (key) {
           case '$and':
-            if (!Array.isArray(value)) return false;
-            if (!value.every(subQuery => this.matchesQuery(document, subQuery))) return false;
-            break;
+            if (!Array.isArray(value)) return false
+            if (!value.every((subQuery) => this.matchesQuery(document, subQuery))) return false
+            break
           case '$or':
-            if (!Array.isArray(value)) return false;
-            if (!value.some(subQuery => this.matchesQuery(document, subQuery))) return false;
-            break;
+            if (!Array.isArray(value)) return false
+            if (!value.some((subQuery) => this.matchesQuery(document, subQuery))) return false
+            break
           default:
-            return false;
+            return false
         }
       } else {
-        const docValue = getNestedProperty(document, key);
-        
+        const docValue = getNestedProperty(document, key)
+
         if (value !== null && typeof value === 'object') {
           for (const [op, opValue] of Object.entries(value)) {
-            if (!this.matchesOperator(docValue, op as any, opValue)) return false;
+            if (!this.matchesOperator(docValue, op as any, opValue)) return false
           }
-        } 
-        else if (!this.matchesOperator(docValue, '$eq', value)) {
-          return false;
+        } else if (!this.matchesOperator(docValue, '$eq', value)) {
+          return false
         }
       }
     }
-    
-    return true;
+
+    return true
   }
 
   /**
@@ -308,25 +290,25 @@ class CollectionImpl<T = any> implements Collection<T> {
   private matchesOperator(value: any, operator: string, operatorValue: any): boolean {
     switch (operator) {
       case '$eq':
-        return value === operatorValue;
+        return value === operatorValue
       case '$gt':
-        return value > operatorValue;
+        return value > operatorValue
       case '$gte':
-        return value >= operatorValue;
+        return value >= operatorValue
       case '$lt':
-        return value < operatorValue;
+        return value < operatorValue
       case '$lte':
-        return value <= operatorValue;
+        return value <= operatorValue
       case '$ne':
-        return value !== operatorValue;
+        return value !== operatorValue
       case '$in':
-        return Array.isArray(operatorValue) && operatorValue.includes(value);
+        return Array.isArray(operatorValue) && operatorValue.includes(value)
       case '$nin':
-        return Array.isArray(operatorValue) && !operatorValue.includes(value);
+        return Array.isArray(operatorValue) && !operatorValue.includes(value)
       case '$not':
-        return !this.matchesQuery({ value }, { value: operatorValue });
+        return !this.matchesQuery({ value }, { value: operatorValue })
       default:
-        return false;
+        return false
     }
   }
 
@@ -334,52 +316,52 @@ class CollectionImpl<T = any> implements Collection<T> {
    * Apply an update to a document
    */
   private applyUpdate(document: T, update: Update): T {
-    const result = { ...document };
-    
+    const result = { ...document }
+
     for (const [operator, fields] of Object.entries(update)) {
       switch (operator) {
         case '$set':
           for (const [field, value] of Object.entries(fields)) {
-            setNestedProperty(result, field, value);
+            setNestedProperty(result, field, value)
           }
-          break;
+          break
         case '$unset':
           for (const field of Object.keys(fields)) {
-            deleteNestedProperty(result, field);
+            deleteNestedProperty(result, field)
           }
-          break;
+          break
         case '$inc':
           for (const [field, value] of Object.entries(fields)) {
-            const currentValue = getNestedProperty(result, field) || 0;
-            setNestedProperty(result, field, currentValue + value);
+            const currentValue = getNestedProperty(result, field) || 0
+            setNestedProperty(result, field, currentValue + value)
           }
-          break;
+          break
         case '$push':
           for (const [field, value] of Object.entries(fields)) {
-            const currentValue = getNestedProperty(result, field) || [];
+            const currentValue = getNestedProperty(result, field) || []
             if (!Array.isArray(currentValue)) {
-              throw new Error(`Cannot apply $push to non-array field: ${field}`);
+              throw new Error(`Cannot apply $push to non-array field: ${field}`)
             }
-            setNestedProperty(result, field, [...currentValue, value]);
+            setNestedProperty(result, field, [...currentValue, value])
           }
-          break;
+          break
         case '$pull':
           for (const [field, value] of Object.entries(fields)) {
-            const currentValue = getNestedProperty(result, field);
+            const currentValue = getNestedProperty(result, field)
             if (!Array.isArray(currentValue)) {
-              throw new Error(`Cannot apply $pull to non-array field: ${field}`);
+              throw new Error(`Cannot apply $pull to non-array field: ${field}`)
             }
             setNestedProperty(
-              result, 
-              field, 
-              currentValue.filter(item => !this.matchesQuery({ item }, { item: value }))
-            );
+              result,
+              field,
+              currentValue.filter((item) => !this.matchesQuery({ item }, { item: value })),
+            )
           }
-          break;
+          break
       }
     }
-    
-    return result;
+
+    return result
   }
 }
 
@@ -387,13 +369,13 @@ class CollectionImpl<T = any> implements Collection<T> {
  * Main class for MongoDB-style NoSQL interface for Durable Objects
  */
 export class DurableObjectsNoSQL {
-  private storage: DurableObjectStorage;
-  private collections: Map<string, Collection<any>> = new Map();
+  private storage: DurableObjectStorage
+  private collections: Map<string, Collection<any>> = new Map()
 
   constructor(storage: DurableObjectStorage) {
-    this.storage = storage;
-    
-    this.initializeDatabase();
+    this.storage = storage
+
+    this.initializeDatabase()
   }
 
   /**
@@ -401,10 +383,10 @@ export class DurableObjectsNoSQL {
    */
   collection<T = any>(name: string): Collection<T> {
     if (!this.collections.has(name)) {
-      this.collections.set(name, new CollectionImpl<T>(this.storage, name));
+      this.collections.set(name, new CollectionImpl<T>(this.storage, name))
     }
-    
-    return this.collections.get(name) as Collection<T>;
+
+    return this.collections.get(name) as Collection<T>
   }
 
   /**
@@ -417,11 +399,11 @@ export class DurableObjectsNoSQL {
         collection TEXT NOT NULL,
         data TEXT NOT NULL
       )
-    `);
-    
+    `)
+
     this.storage.sql.exec(`
       CREATE INDEX IF NOT EXISTS idx_collection ON documents (collection)
-    `);
+    `)
   }
 }
 
@@ -431,72 +413,72 @@ export class DurableObjectsNoSQL {
 export const handler = {
   get(target: DurableObjectsNoSQL, prop: string) {
     if (prop in target) {
-      return (target as any)[prop];
+      return (target as any)[prop]
     }
-    
-    return target.collection(prop);
-  }
-};
+
+    return target.collection(prop)
+  },
+}
 
 /**
  * Create a new DurableObjectsNoSQL instance with collection proxy
  */
 export function createNoSQLClient(storage: DurableObjectStorage): DurableObjectsNoSQL {
-  const client = new DurableObjectsNoSQL(storage);
-  return new Proxy(client, handler);
+  const client = new DurableObjectsNoSQL(storage)
+  return new Proxy(client, handler)
 }
 
 /**
  * Helper function to get a nested property from an object
  */
 function getNestedProperty(obj: any, path: string): any {
-  const parts = path.split('.');
-  let current = obj;
-  
+  const parts = path.split('.')
+  let current = obj
+
   for (const part of parts) {
     if (current === null || current === undefined) {
-      return undefined;
+      return undefined
     }
-    current = current[part];
+    current = current[part]
   }
-  
-  return current;
+
+  return current
 }
 
 /**
  * Helper function to set a nested property in an object
  */
 function setNestedProperty(obj: any, path: string, value: any): void {
-  const parts = path.split('.');
-  let current = obj;
-  
+  const parts = path.split('.')
+  let current = obj
+
   for (let i = 0; i < parts.length - 1; i++) {
-    const part = parts[i];
+    const part = parts[i]
     if (!(part in current)) {
-      current[part] = {};
+      current[part] = {}
     }
-    current = current[part];
+    current = current[part]
   }
-  
-  current[parts[parts.length - 1]] = value;
+
+  current[parts[parts.length - 1]] = value
 }
 
 /**
  * Helper function to delete a nested property from an object
  */
 function deleteNestedProperty(obj: any, path: string): void {
-  const parts = path.split('.');
-  let current = obj;
-  
+  const parts = path.split('.')
+  let current = obj
+
   for (let i = 0; i < parts.length - 1; i++) {
-    const part = parts[i];
+    const part = parts[i]
     if (!(part in current)) {
-      return;
+      return
     }
-    current = current[part];
+    current = current[part]
   }
-  
-  delete current[parts[parts.length - 1]];
+
+  delete current[parts[parts.length - 1]]
 }
 
-export default createNoSQLClient;
+export default createNoSQLClient

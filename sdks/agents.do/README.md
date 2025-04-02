@@ -215,27 +215,27 @@ const ai = AI({
     score: 'number',
     keyPhrases: 'string[]',
   },
-  
+
   // Code function - deterministic data processing
   calculateRefundAmount: {
     orderTotal: 'number',
     daysLate: 'number',
     refundPercentage: 'number',
   },
-  
+
   // Human function - involves human judgment
   escalateToHumanSupport: {
     customerId: 'string',
     issue: 'string',
     priority: 'High | Medium | Low',
   },
-  
+
   // Agentic function - delegates to another agent
   investigateComplexIssue: {
     customerId: 'string',
     orderHistory: 'any[]',
     issueDescription: 'string',
-  }
+  },
 })
 
 // Create an agent that uses functions and workflows as tools
@@ -243,17 +243,9 @@ const customerServiceAgent = new Agent({
   name: 'CustomerServiceBot',
   description: 'Handles customer service inquiries',
   // Functions available as tools
-  functions: [
-    'analyzeCustomerSentiment',
-    'calculateRefundAmount',
-    'escalateToHumanSupport',
-    'investigateComplexIssue'
-  ],
+  functions: ['analyzeCustomerSentiment', 'calculateRefundAmount', 'escalateToHumanSupport', 'investigateComplexIssue'],
   // Workflows available as tools
-  workflows: [
-    'refundProcessWorkflow',
-    'orderTrackingWorkflow'
-  ],
+  workflows: ['refundProcessWorkflow', 'orderTrackingWorkflow'],
 
   // Handler for new messages
   onNewMessage: async ({ message, customer }) => {
@@ -266,7 +258,7 @@ const customerServiceAgent = new Agent({
       return await ai.escalateToHumanSupport({
         customerId: customer.id,
         issue: message,
-        priority: 'High'
+        priority: 'High',
       })
     }
 
@@ -275,7 +267,7 @@ const customerServiceAgent = new Agent({
       // Trigger the refund workflow
       return await ai.refundProcessWorkflow({
         customerId: customer.id,
-        orderIds: customer.recentOrders.map(order => order.id)
+        orderIds: customer.recentOrders.map((order) => order.id),
       })
     }
 

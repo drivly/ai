@@ -52,8 +52,8 @@ export const GET = API(async (req, { db, params, user, payload }) => {
   const triggersResults = await payload.db.connection.collection('integrationtriggers').bulkWrite(
     triggers.map((trigger: any) => {
       if (trigger.display_name) {
-        trigger.displayName = trigger.display_name;
-        delete trigger.display_name;
+        trigger.displayName = trigger.display_name
+        delete trigger.display_name
       }
       return { updateOne: { filter: { appKey: trigger.appKey }, update: { $set: trigger }, upsert: true } }
     }),

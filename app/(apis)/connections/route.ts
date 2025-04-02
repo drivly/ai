@@ -43,7 +43,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
   })
 
   const callbackUrl = `${origin}/api/webhooks/composio?connectionId=${connection.id}`
-  
+
   const finalRedirectUrl = redirectUrl || `${origin}/dashboard/connections`
 
   const response = await fetch('https://backend.composio.dev/api/v1/connections', {
@@ -69,10 +69,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
       id: connection.id,
       data: {
         status: 'inactive',
-        metadata: Object.assign({}, 
-          typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, 
-          { error: data }
-        ),
+        metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, { error: data }),
       },
     })
 
@@ -83,10 +80,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
     collection: 'connections',
     id: connection.id,
     data: {
-      metadata: Object.assign({}, 
-        typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, 
-        { authorizationUrl: data.authorization_url }
-      ),
+      metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, { authorizationUrl: data.authorization_url }),
     },
   })
 
@@ -119,7 +113,7 @@ export const GET = API(async (request, { db, user, origin, url }) => {
   }
 
   const payloadInstance = await getPayload({ config })
-  
+
   const connections = await payloadInstance.find({
     collection: 'connections',
     where: {

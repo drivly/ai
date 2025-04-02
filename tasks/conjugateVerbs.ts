@@ -5,9 +5,7 @@ export const conjugateVerbsTask = {
   retries: 3,
   slug: 'conjugateVerbs',
   label: 'Conjugate Verbs',
-  inputSchema: [
-    { name: 'verb', type: 'text', required: true },
-  ],
+  inputSchema: [{ name: 'verb', type: 'text', required: true }],
   outputSchema: [
     { name: 'act', type: 'text' },
     { name: 'activity', type: 'text' },
@@ -21,7 +19,7 @@ export const conjugateVerbsTask = {
     { name: 'inverseSubject', type: 'text' },
     { name: 'inverseObject', type: 'text' },
   ],
-  handler: async ({ input, req }: { input: { verb: string }, req: any }) => {
+  handler: async ({ input, req }: { input: { verb: string }; req: any }) => {
     const result = await executeFunction({
       input: {
         functionName: 'conjugateVerbs',
@@ -30,7 +28,7 @@ export const conjugateVerbsTask = {
       req,
       payload: req.payload,
     })
-    
+
     return result.output
   },
 } as unknown as TaskConfig
