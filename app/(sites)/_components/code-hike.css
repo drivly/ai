@@ -1,4 +1,4 @@
-@import 'codehike/styles.css';
+@import '@code-hike/mdx/dist/index.css';
 
 /* Custom styling to match the existing code window */
 .ch-code-button {
