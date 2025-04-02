@@ -1,10 +1,11 @@
 import { getDomain } from './domains.config'
 
 export const siteCategories: Record<string, string[]> = {
-  'Core': ['functions.do', 'workflows.do', 'agents.do', 'database.do', 'llm.do'],
+  'Collections': ['functions.do', 'nouns.do', 'verbs.do', 'things.do', 'resources.do', 'webhooks.do'],
+  'Core': ['workflows.do', 'agents.do', 'database.do', 'llm.do'],
   'AI': ['gpt.do', 'embeddings.do', 'agi.do', 'evals.do', 'models.do', 'experiments.do'],
   'Data': ['vectors.do', 'graph.do', 'objects.do', 'searches.do', 'analytics.do'],
-  'Events': ['triggers.do', 'events.do', 'webhooks.do', 'actions.do'],
+  'Events': ['triggers.do', 'events.do', 'actions.do'],
   'Infrastructure': ['apis.do', 'services.do', 'workers.do', 'integrations.do'],
   'Tools': ['sdk.do', 'pkg.do', 'repo.do', 'scraper.do', 'extract.do'],
   'Web': ['sites.do', 'browse.do', 'browser.do', 'browsers.do'],
@@ -58,6 +59,7 @@ export const apis: Record<string, string> = {
   nouns: 'People, Places, Things, and Ideas',
   verbs: 'The Actions Performed to and by Nouns',
   things: 'Data Resources with Properties',
+  resources: 'Structured Data Objects',
   triggers: 'Initiate workflows based on events',
   searches: 'Query and retrieve data',
   actions: 'Perform tasks within workflows',
@@ -70,7 +72,7 @@ export const apis: Record<string, string> = {
 }
 
 export const related: Record<string, string[]> = {
-  functions: ['nouns', 'verbs', 'things', 'function'],
+  functions: ['nouns', 'verbs', 'things', 'function', 'resources'],
   workflows: ['triggers', 'searches', 'actions', 'tasks', 'events'],
   database: ['evals', 'analytics', 'experiments', 'vectors', 'graph', 'objects'],
   agents: ['integrations', 'models', 'humans', 'bots', 'workers'],
@@ -78,6 +80,7 @@ export const related: Record<string, string[]> = {
   nouns: ['things', 'objects', 'humans'],
   verbs: ['actions', 'tasks', 'triggers'],
   things: ['nouns', 'objects', 'data'],
+  resources: ['nouns', 'objects', 'data'],
   triggers: ['events', 'webhooks', 'actions'],
   searches: ['vectors', 'embeddings', 'graph'],
   actions: ['tasks', 'workflows', 'functions'],
@@ -156,7 +159,7 @@ export const domainDescriptions: Record<string, string> = {
   'humans.do': 'Human-in-the-Loop Processes',
   'issues.do': 'Issue Tracking and Resolution',
   'ivy.do': 'Intelligent Virtual Assistant',
-  'kpis.do': 'KPIs - Key Performance Indicators',
+  'kpis.do': 'Key Performance Indicators',
   'lena.do': 'Language Enhancement and Analysis',
   'lexi.do': 'Lexical Analysis and Processing',
   'lists.do': 'List Management and Organization',
@@ -182,8 +185,8 @@ export const domainDescriptions: Record<string, string> = {
   'research.do': 'Research and Development',
   'responses.do': 'API Response Formatting',
   'scraper.do': 'Web Scraping and Data Extraction',
-  'sdk.do': 'SDK - Software Development Kit',
-  'sdr.do': 'SDR - Sales Development Resources',
+  'sdk.do': 'Software Development Kit',
+  'sdr.do': 'Sales Development Resources',
   'services.do': 'Service Discovery and Registry',
   'sites.do': 'Website Management',
   'speak.do': 'Text-to-Speech Conversion',

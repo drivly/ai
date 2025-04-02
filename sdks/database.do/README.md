@@ -365,8 +365,8 @@ The SDK itself is designed to be lightweight with zero dependencies except for `
 
 - **Nouns** - Categories or types of things in your system (like Customer, Product, Order)
 - **Verbs** - Actions that can be performed (like Create, Update, Delete)
-- **Things** - Specific instances of Nouns (a particular Customer, Product, or Order)
-- **Actions** - Relationships between Things in Subject-Predicate-Object format
+- **Resources** - Specific instances of Nouns (a particular Customer, Product, or Order)
+- **Actions** - Relationships between Resources in Subject-Predicate-Object format
 - **Databases** - Configurations for database storage (Integrated, Dedicated, or Self-Hosted)
 
 ### Database Configuration
@@ -385,7 +385,7 @@ At the heart of our data model is the natural language pattern of Subject-Predic
 
 ```mermaid
 graph LR
-    A[Subject<br/>(Thing)] -->|Predicate<br/>(Verb)| B[Object<br/>(Thing)]
+    A[Subject<br/>(Resource)] -->|Predicate<br/>(Verb)| B[Object<br/>(Resource)]
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#bbf,stroke:#333,stroke-width:2px
 ```
@@ -394,16 +394,16 @@ The complete data model relationship can be visualized as:
 
 ```mermaid
 graph TD
-    Nouns[Nouns<br/>Categories/Types] -->|defines| Things[Things<br/>Instances]
+    Nouns[Nouns<br/>Categories/Types] -->|defines| Resources[Resources<br/>Instances]
     Verbs[Verbs<br/>Action Types] -->|defines| Predicates[Predicates<br/>in Actions]
-    Things -->|Subject| Actions[Actions<br/>S-P-O Relationships]
+    Resources -->|Subject| Actions[Actions<br/>S-P-O Relationships]
     Predicates -->|Predicate| Actions
-    Things -->|Object| Actions
-    Databases -->|stores| Things
+    Resources -->|Object| Actions
+    Databases -->|stores| Resources
     
     style Nouns fill:#f9f,stroke:#333,stroke-width:2px
     style Verbs fill:#bbf,stroke:#333,stroke-width:2px
-    style Things fill:#ff9,stroke:#333,stroke-width:2px
+    style Resources fill:#ff9,stroke:#333,stroke-width:2px
     style Actions fill:#9f9,stroke:#333,stroke-width:2px
     style Predicates fill:#99f,stroke:#333,stroke-width:2px
     style Databases fill:#f99,stroke:#333,stroke-width:2px
@@ -438,8 +438,8 @@ const purchaseVerb = await db.verbs.create({
   description: 'The act of buying a product or service',
 })
 
-// Create Things (instances of Nouns)
-const startupCustomer = await db.things.create({
+// Create Resources (instances of Nouns)
+const startupCustomer = await db.resources.create({
   name: 'TechStartup Inc.',
   type: customerNoun.id,
   data: {
@@ -450,7 +450,7 @@ const startupCustomer = await db.things.create({
   },
 })
 
-const saasProduct = await db.things.create({
+const saasProduct = await db.resources.create({
   name: 'AI Analytics Platform',
   type: productNoun.id,
   data: {

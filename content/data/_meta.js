@@ -1,16 +1,12 @@
 export default {
-  index: {
-    title: 'Overview',
-    type: 'page',
-  },
   nouns: {
     title: 'Nouns',
   },
   verbs: {
     title: 'Verbs',
   },
-  things: {
-    title: 'Things',
+  resources: {
+    title: 'Resources',
   },
   actions: {
     title: 'Actions',

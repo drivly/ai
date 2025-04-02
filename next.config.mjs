@@ -15,6 +15,20 @@ const withNextra = nextra({
 const nextConfig = {
   // Your Next.js config here
   transpilePackages: ['@drivly/ui', '@drivly/payload-agent', 'simple-payload', 'clickable-apis'],
+  async redirects() {
+    return [
+      {
+        source: '/docs/things',
+        destination: '/docs/resources',
+        permanent: true,
+      },
+      {
+        source: '/docs/things/:path*',
+        destination: '/docs/resources/:path*',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 export default withNextra(withPayload(nextConfig, { devBundleServerPackages: false }))

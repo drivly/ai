@@ -1,6 +1,7 @@
 export default {
   index: {
-    title: 'Introduction'
+    title: 'Introduction',
+    type: 'page'
   },
   manifesto: {
     title: 'Manifesto',
@@ -25,8 +26,8 @@ export default {
     title: 'Data',
     type: 'separator'
   },
-  things: {
-    title: 'Things'
+  resources: {
+    title: 'Resources'
   },
   'vector-search': {
     title: 'Vector Search'

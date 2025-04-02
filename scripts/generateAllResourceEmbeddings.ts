@@ -4,7 +4,7 @@
 import { getPayload } from 'payload'
 import { generateResourceEmbedding } from '../tasks/generateResourceEmbedding'
 
-async function generateAllEmbeddings() {
+async function generateAllResourceEmbeddings() {
   try {
     console.log('Starting embedding generation for all Resources...')
     
@@ -24,7 +24,7 @@ async function generateAllEmbeddings() {
     for (const resource of resources) {
       try {
         console.log(`Generating embedding for Resource ${resource.id}: ${resource.name || 'Unnamed'}`)
-        await generateResourceEmbedding(resource.id)
+        await generateResourceEmbedding(String(resource.id))
         console.log(`✓ Successfully generated embedding for Resource ${resource.id}`)
       } catch (error) {
         console.error(`Error generating embedding for Resource ${resource.id}:`, error)
@@ -41,4 +41,4 @@ async function generateAllEmbeddings() {
   }
 }
 
-generateAllEmbeddings()
+generateAllResourceEmbeddings()

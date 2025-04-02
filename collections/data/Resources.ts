@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
 
 export const Resources: CollectionConfig = {
-  slug: 'things',
+  slug: 'resources',
   admin: {
     group: 'Data',
     useAsTitle: 'yaml',

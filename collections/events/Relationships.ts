@@ -9,9 +9,9 @@ export const Relationships: CollectionConfig = {
   },
   versions: true,
   fields: [
-    { name: 'subject', type: 'relationship', relationTo: 'things' },
+    { name: 'subject', type: 'relationship', relationTo: 'resources' },
     { name: 'verb', type: 'relationship', relationTo: 'verbs' },
-    { name: 'object', type: 'relationship', relationTo: 'things' },
+    { name: 'object', type: 'relationship', relationTo: 'resources' },
     { name: 'hash', type: 'text' },
     { name: 'generation', type: 'join', collection: 'generations', on: 'action' },
   ],

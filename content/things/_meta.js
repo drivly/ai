@@ -1,6 +1,7 @@
 export default {
   index: {
-    title: 'Overview',
+    title: 'Resources',
     type: 'page',
-  },
+    href: '/docs/resources'
+  }
 }
