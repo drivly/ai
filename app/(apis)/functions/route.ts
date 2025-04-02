@@ -33,11 +33,12 @@ export const GET = API(async (request, { db, user, url }) => {
   const functions = {}
   
   if (Array.isArray(functionsArray)) {
-    functionsArray.forEach(func => {
+    for (let i = 0; i < functionsArray.length; i++) {
+      const func = functionsArray[i]
       if (func && typeof func === 'object' && func.name) {
         functions[func.name] = `${request.nextUrl.origin}/functions/${func.name}`
       }
-    })
+    }
   }
   
   return { 
