@@ -9,7 +9,7 @@ describe('Agents Collection', () => {
 
   beforeAll(async () => {
     if (process.env.CI) return
-    
+
     try {
       payload = await getPayload({
         config,
@@ -21,7 +21,7 @@ describe('Agents Collection', () => {
 
   afterAll(async () => {
     if (process.env.CI || !payload) return
-    
+
     try {
       await payload.disconnect()
     } catch (error) {
@@ -45,21 +45,19 @@ describe('Agents Collection', () => {
     expect(Agents.versions).toBe(true)
   })
 
-  describe('Fields', function() {
+  describe('Fields', function () {
     it('should have a name field', () => {
       const nameField = Agents.fields.find((field: any) => field.name === 'name')
       expect(nameField).toBeDefined()
       expect(nameField?.type).toBe('text')
     })
-  })
-  
-  (payload ? describe : describe.skip)('Payload Integration', () => {
+  })(payload ? describe : describe.skip)('Payload Integration', () => {
     it('should be able to find agents collection', async () => {
       const result = await payload.find({
         collection: 'agents',
         limit: 1,
       })
-      
+
       expect(result).toBeDefined()
       expect(result.docs).toBeDefined()
       expect(Array.isArray(result.docs)).toBe(true)
@@ -69,21 +67,21 @@ describe('Agents Collection', () => {
       const testAgent = {
         name: 'Test Agent',
       }
-      
+
       const created = await payload.create({
         collection: 'agents',
         data: testAgent,
       })
-      
+
       expect(created).toBeDefined()
       expect(created.id).toBeDefined()
       expect(created.name).toBe(testAgent.name)
-      
+
       const deleted = await payload.delete({
         collection: 'agents',
         id: created.id,
       })
-      
+
       expect(deleted).toBeDefined()
       expect(deleted.id).toBe(created.id)
     })

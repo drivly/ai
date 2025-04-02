@@ -29,6 +29,7 @@ graph LR
 ```
 
 Real-world examples:
+
 - "ACME Corp purchased Enterprise Plan"
 - "Developer deployed Application"
 - "Startup acquired Funding"
@@ -40,7 +41,7 @@ graph TD
     subgraph "Example Action"
     C["ACME Corp<br/>(Customer Resource)"] -->|Purchased<br/>(Verb)| D["Enterprise Plan<br/>(Product Resource)"]
     end
-    
+
     style C fill:#f9f,stroke:#333,stroke-width:2px
     style D fill:#bbf,stroke:#333,stroke-width:2px
 ```
@@ -61,14 +62,14 @@ Actions can be created using the Data.do API or through the dashboard interface.
 // Example action creation
 const purchaseAction = await actions.create({
   subject: { id: 'customer-123', type: 'Customer' }, // The Resource performing the action
-  verb: 'Purchase',                                  // The Verb representing the action
-  object: { id: 'product-456', type: 'Product' },    // The Resource receiving the action
+  verb: 'Purchase', // The Verb representing the action
+  object: { id: 'product-456', type: 'Product' }, // The Resource receiving the action
   metadata: {
     timestamp: new Date(),
     amount: 99.99,
     currency: 'USD',
-    paymentMethod: 'credit_card'
-  }
+    paymentMethod: 'credit_card',
+  },
 })
 ```
 
@@ -81,17 +82,17 @@ Actions can be queried to understand relationships and analyze business events:
 const customerPurchases = await actions.find({
   where: {
     subject: { id: 'customer-123' },
-    verb: 'Purchase'
+    verb: 'Purchase',
   },
-  include: ['object', 'metadata']
+  include: ['object', 'metadata'],
 })
 
 // Find all actions performed on a specific product
 const productActions = await actions.find({
   where: {
-    object: { id: 'product-456' }
+    object: { id: 'product-456' },
   },
-  include: ['subject', 'verb', 'metadata']
+  include: ['subject', 'verb', 'metadata'],
 })
 ```
 

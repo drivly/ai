@@ -41,13 +41,13 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
 
     // Store the event in the database
     const payloadInstance = await getPayload({ config })
-    const results = await payloadInstance.create({ 
-      collection: 'events', 
-      data: { 
+    const results = await payloadInstance.create({
+      collection: 'events',
+      data: {
         data,
         type: data.type || 'webhook.received',
-        source: 'webhook'
-      } 
+        source: 'webhook',
+      },
     })
 
     console.log('Webhook verified and processed:', results, data)

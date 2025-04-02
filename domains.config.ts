@@ -1,12 +1,12 @@
 /**
  * Domain configuration for edge runtime
- * 
+ *
  * This file manages:
  * 1. Collections to domains mappings
  * 2. Domains to collections mappings
  * 3. AI gateways (*.com.ai, *.dotdo.dev, *.do.sg)
  * 4. Domain aliases (databases.do -> database.do, okrs.do -> goals.do)
- * 
+ *
  * IMPORTANT: This file must be edge-runtime compatible.
  * - Do not import node modules
  * - Do not import from /lib/api
@@ -14,22 +14,21 @@
  */
 import { apis } from './api.config'
 
-
 const hierarchy = {
   ai: {
     workflows: 'Workflows.do Reliably Execute Business Processes',
     functions: 'Functions.do Typesafe Results without Complexity',
-    agents: 'Agents.do Deploy & Manage Autonomous Digital Workers'
+    agents: 'Agents.do Deploy & Manage Autonomous Digital Workers',
   },
   data: {
     databases: 'Database.do AI Native Data Access (Search + CRUD)',
     nouns: 'Nouns.do Entities in your business',
-    verbs: 'Verbs.do Represent potential actions'
+    verbs: 'Verbs.do Represent potential actions',
   },
   events: {
     triggers: 'Triggers.do Initiate workflows based on events',
     searches: 'Searches.do Query and retrieve data',
-    actions: 'Actions.do Perform tasks within workflows'
+    actions: 'Actions.do Perform tasks within workflows',
   },
   core: {
     llm: 'LLM.do Intelligent AI Gateway',
@@ -37,12 +36,9 @@ const hierarchy = {
     analytics: 'Analytics.do Economically Validate Workflows',
     experiments: 'Experiments.do Economically Validate Workflows',
     database: 'Database.do AI Native Data Access (Search + CRUD)',
-    integrations: 'Integrations.do Connect External APIs and Systems'
-  }
+    integrations: 'Integrations.do Connect External APIs and Systems',
+  },
 }
-
-
-
 
 export interface DomainConfig {
   /** Collections that belong to this domain */
@@ -91,45 +87,45 @@ const primaryCollectionSlugs = [
   'analytics',
   'experiments',
   'integrations',
-  'models'
+  'models',
 ]
 
 const generateCollectionsConfig = (): Record<string, CollectionConfig> => {
   const config: Record<string, CollectionConfig> = {}
-  
+
   primaryCollectionSlugs.forEach((slug: string) => {
     const defaultDomain = defaultDomainForCollection(slug)
     config[slug] = {
       domains: [defaultDomain],
-      defaultDomain
+      defaultDomain,
     }
   })
-  
+
   return config
 }
 
 const generateDomainsConfig = (): Record<string, DomainConfig> => {
   const config: Record<string, DomainConfig> = {}
-  
+
   primaryCollectionSlugs.forEach((slug: string) => {
     const domain = defaultDomainForCollection(slug)
     config[domain] = {
-      collections: [slug]
+      collections: [slug],
     }
   })
-  
+
   config['databases.do'] = {
-    alias: 'database.do'
+    alias: 'database.do',
   }
-  
+
   config['okrs.do'] = {
-    alias: 'goals.do'
+    alias: 'goals.do',
   }
-  
+
   config['llms.do'] = {
-    alias: 'llm.do'
+    alias: 'llm.do',
   }
-  
+
   return config
 }
 
@@ -139,11 +135,7 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
 export const domainsConfig: DomainsConfig = {
   domains: generateDomainsConfig(),
   collections: generateCollectionsConfig(),
-  aiGateways: [
-    '*.com.ai',
-    '*.dotdo.dev',
-    '*.do.sg',
-  ],
+  aiGateways: ['*.com.ai', '*.dotdo.dev', '*.do.sg'],
   aliases: {
     'databases.do': 'database.do',
     'okrs.do': 'goals.do',
@@ -153,11 +145,11 @@ export const domainsConfig: DomainsConfig = {
 
 /**
  * Get the namespace for a domain
- * 
+ *
  * Rules:
  * 1. For paths with API endpoints (e.g., docs.example.com/api), ns is the full domain
  * 2. For domain-only paths (e.g., docs.example.com), ns is the parent domain
- * 
+ *
  * @param domain The domain to get the namespace for
  * @returns The namespace for the domain
  */
@@ -167,17 +159,17 @@ export function getNamespace(domain: string): string {
   }
 
   const domainConfig = domainsConfig.domains[domain]
-  
+
   if (domainConfig?.parent) {
     return domainConfig.parent
   }
-  
+
   return domain
 }
 
 /**
  * Get the collections for a domain
- * 
+ *
  * @param domain The domain to get collections for
  * @returns Array of collection names for the domain
  */
@@ -187,25 +179,25 @@ export function getCollections(domain: string): string[] {
   }
 
   const domainConfig = domainsConfig.domains[domain]
-  
+
   return domainConfig?.collections || []
 }
 
 /**
  * Get the domain for a collection
- * 
+ *
  * @param collection The collection to get the domain for
  * @returns The default domain for the collection
  */
 export function getDomain(collection: string): string | undefined {
   const collectionConfig = domainsConfig.collections[collection]
-  
+
   return collectionConfig?.defaultDomain
 }
 
 /**
  * Check if a domain is an AI gateway
- * 
+ *
  * @param domain The domain to check
  * @returns True if the domain is an AI gateway
  */
@@ -213,8 +205,8 @@ export function isAIGateway(domain: string): boolean {
   if (domainsConfig.domains[domain]?.isAIGateway) {
     return true
   }
-  
-  return domainsConfig.aiGateways.some(pattern => {
+
+  return domainsConfig.aiGateways.some((pattern) => {
     if (pattern.startsWith('*.')) {
       const suffix = pattern.substring(1)
       return domain.endsWith(suffix) && domain.length > suffix.length
@@ -327,5 +319,5 @@ export const domains = [
   'webhooks.do',
   'worker.do',
   'workers.do',
-  'workflows.do'
+  'workflows.do',
 ]

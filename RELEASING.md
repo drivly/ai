@@ -19,6 +19,7 @@ We use the [Angular commit message format](https://github.com/angular/angular/bl
 ```
 
 Common types:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes

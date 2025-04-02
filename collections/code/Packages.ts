@@ -9,7 +9,7 @@ export const Packages: CollectionConfig = {
   versions: true,
   fields: [
     { name: 'name', type: 'text' },
-    { 
+    {
       name: 'package',
       type: 'json',
       admin: {

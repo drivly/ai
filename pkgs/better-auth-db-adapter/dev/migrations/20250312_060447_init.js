@@ -1,7 +1,7 @@
-import { sql } from "@payloadcms/db-postgres";
+import { sql } from '@payloadcms/db-postgres'
 
 export async function up({ db, payload, req }) {
-	await db.execute(sql`
+  await db.execute(sql`
    ALTER TABLE "account" RENAME COLUMN "user_id_id" TO "user_id";
   ALTER TABLE "session" RENAME COLUMN "user_id_id" TO "user_id";
   ALTER TABLE "account" DROP CONSTRAINT "account_user_id_id_user_id_fk";
@@ -23,11 +23,11 @@ export async function up({ db, payload, req }) {
   END $$;
   
   CREATE INDEX IF NOT EXISTS "account_user_idx" ON "account" USING btree ("user_id");
-  CREATE INDEX IF NOT EXISTS "session_user_idx" ON "session" USING btree ("user_id");`);
+  CREATE INDEX IF NOT EXISTS "session_user_idx" ON "session" USING btree ("user_id");`)
 }
 
 export async function down({ db, payload, req }) {
-	await db.execute(sql`
+  await db.execute(sql`
    ALTER TABLE "account" DROP CONSTRAINT "account_user_id_user_id_fk";
   
   ALTER TABLE "session" DROP CONSTRAINT "session_user_id_user_id_fk";
@@ -51,5 +51,5 @@ export async function down({ db, payload, req }) {
   CREATE INDEX IF NOT EXISTS "account_user_id_idx" ON "account" USING btree ("user_id_id");
   CREATE INDEX IF NOT EXISTS "session_user_id_idx" ON "session" USING btree ("user_id_id");
   ALTER TABLE "account" DROP COLUMN IF EXISTS "user_id";
-  ALTER TABLE "session" DROP COLUMN IF EXISTS "user_id";`);
+  ALTER TABLE "session" DROP COLUMN IF EXISTS "user_id";`)
 }

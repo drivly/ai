@@ -32,24 +32,24 @@ export const ai = AI({
   writeBook: async (args, { ai, db, api }) => {
     // Create book proposal
     const proposal = await ai.createBookProposal(args)
-    
+
     // Generate table of contents
     const toc = await ai.createTableOfContents({ proposal })
-    
+
     // Save to database and return results
     const { url } = await db.books.create({
       title: proposal.title,
       summary: proposal.summary,
-      toc
+      toc,
     })
-    
+
     return {
       proposal,
       tableOfContents: toc,
-      url
+      url,
     }
   },
-  
+
   // Simple function implementations
   createBookProposal: async (args) => {
     // In a real implementation, this would call an AI model
@@ -57,10 +57,10 @@ export const ai = AI({
       title: `The Complete Guide to ${args.topic}`,
       subtitle: `Everything You Need to Know About ${args.topic}`,
       author: args.author || 'Anonymous',
-      summary: `A comprehensive guide covering all aspects of ${args.topic}.`
+      summary: `A comprehensive guide covering all aspects of ${args.topic}.`,
     }
   },
-  
+
   createTableOfContents: async ({ proposal }) => {
     // In a real implementation, this would call an AI model
     return {
@@ -68,11 +68,11 @@ export const ai = AI({
       chapters: [
         { title: 'Getting Started', summary: 'An introduction to the basics' },
         { title: 'Core Concepts', summary: 'Understanding the fundamental concepts' },
-        { title: 'Advanced Techniques', summary: 'Taking your skills to the next level' }
+        { title: 'Advanced Techniques', summary: 'Taking your skills to the next level' },
       ],
-      conclusion: 'Final thoughts and next steps'
+      conclusion: 'Final thoughts and next steps',
     }
-  }
+  },
 })
 ```
 
@@ -94,24 +94,24 @@ export const ai = AI({
   writeBook: async (args, { ai, db, api }) => {
     // Create book proposal with provided args
     const proposal = await ai.createBookProposal(args)
-    
+
     // Generate table of contents based on proposal
     const toc = await ai.createTableOfContents({ proposal })
-    
+
     // Save to database and return results
     const { url } = await db.books.create({
       title: proposal.title,
       summary: proposal.summary,
-      toc
+      toc,
     })
-    
+
     return {
       proposal,
       tableOfContents: toc,
-      url
+      url,
     }
   },
-  
+
   // Book Proposal schema
   createBookProposal: {
     title: 'proposed title of the book',
@@ -120,9 +120,9 @@ export const ai = AI({
     targetAudience: ['primary audience segments for the book'],
     marketAnalysis: 'analysis of the current market for this type of book',
     uniqueSellingPoints: ['what makes this book different and valuable'],
-    summary: 'one paragraph summary of the book concept'
+    summary: 'one paragraph summary of the book concept',
   },
-  
+
   // Table of Contents schema
   createTableOfContents: {
     bookTitle: 'title of the book',
@@ -134,13 +134,13 @@ export const ai = AI({
         sections: [
           {
             title: 'section title',
-            summary: 'brief description of the section content'
-          }
-        ]
-      }
+            summary: 'brief description of the section content',
+          },
+        ],
+      },
     ],
-    conclusion: 'brief description of the conclusion'
-  }
+    conclusion: 'brief description of the conclusion',
+  },
 })
 ```
 
@@ -233,28 +233,28 @@ export const ai = AI({
       bookEdits,
       publicationPrep: book,
     })
-    
+
     // Notify team via Slack
-    await api.slack.postMessage({ 
-      channel: '#books', 
-      content: { 
-        title: proposal.title, 
-        message: 'Book ready for review 🚀', 
-        url 
-      } 
+    await api.slack.postMessage({
+      channel: '#books',
+      content: {
+        title: proposal.title,
+        message: 'Book ready for review 🚀',
+        url,
+      },
     })
 
     // Step 10: Publish book to external platform
     const publishedBook = await api.amazon.kindle.publish({ book })
-    
+
     // Notify team of successful publication
-    await api.slack.postMessage({ 
-      channel: '#books', 
-      content: { 
-        title: proposal.title, 
-        message: 'Book published 🎉', 
-        url: publishedBook.url 
-      } 
+    await api.slack.postMessage({
+      channel: '#books',
+      content: {
+        title: proposal.title,
+        message: 'Book published 🎉',
+        url: publishedBook.url,
+      },
     })
 
     // Return complete book package with all components
@@ -267,7 +267,7 @@ export const ai = AI({
       bookReview,
       bookEdits,
       publicationPrep: book,
-      publishedUrl: publishedBook.url
+      publishedUrl: publishedBook.url,
     }
   },
 
@@ -451,13 +451,13 @@ const chapterOutlines = await Promise.all(
 The workflow integrates with external APIs for notifications and publishing:
 
 ```typescript
-await api.slack.postMessage({ 
-  channel: '#books', 
-  content: { 
-    title: proposal.title, 
-    message: 'Book ready for review 🚀', 
-    url 
-  } 
+await api.slack.postMessage({
+  channel: '#books',
+  content: {
+    title: proposal.title,
+    message: 'Book ready for review 🚀',
+    url,
+  },
 })
 
 const publishedBook = await api.amazon.kindle.publish({ book })

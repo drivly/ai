@@ -1,76 +1,76 @@
 export default {
   index: {
     title: 'Introduction',
-    type: 'page'
+    type: 'page',
   },
   manifesto: {
     title: 'Manifesto',
-    type: 'page'
+    type: 'page',
   },
   workflows: {
-    title: 'Workflows'
+    title: 'Workflows',
   },
   functions: {
-    title: 'Functions'
+    title: 'Functions',
   },
   database: {
-    title: 'Database'
+    title: 'Database',
   },
   events: {
-    title: 'Events'
+    title: 'Events',
   },
   integrations: {
-    title: 'Integrations'
+    title: 'Integrations',
   },
   data: {
     title: 'Data',
-    type: 'separator'
+    type: 'separator',
   },
   resources: {
-    title: 'Resources'
+    title: 'Resources',
   },
   'vector-search': {
-    title: 'Vector Search'
+    title: 'Vector Search',
   },
   nouns: {
-    title: 'Nouns'
+    title: 'Nouns',
   },
   verbs: {
-    title: 'Verbs'
+    title: 'Verbs',
   },
   actions: {
-    title: 'Actions'
+    title: 'Actions',
   },
   agents: {
-    title: 'Agents'
+    title: 'Agents',
   },
   llm: {
-    title: 'LLM'
+    title: 'LLM',
   },
   observability: {
     title: 'Observability',
-    type: 'separator'
+    type: 'separator',
   },
   traces: {
-    title: 'Traces'
+    title: 'Traces',
   },
   evals: {
-    title: 'Evals'
+    title: 'Evals',
   },
   experiments: {
-    title: 'Experiments'
+    title: 'Experiments',
   },
   admin: {
     title: 'Admin',
-    type: 'separator'
+    type: 'separator',
   },
   api: {
-    title: 'API Reference'
+    title: 'API Reference',
   },
   code: {
-    title: 'Code'
+    title: 'Code',
   },
   'code-hike': {
-    title: 'CodeHike Examples'
-  }
+    title: 'CodeHike Examples',
+  },
 }

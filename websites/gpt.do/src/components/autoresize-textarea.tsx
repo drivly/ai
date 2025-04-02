@@ -3,21 +3,12 @@
 import { cn } from '@/lib/utils'
 import React, { useRef, useEffect, TextareaHTMLAttributes } from 'react'
 
-interface AutoResizeTextareaProps
-  extends Omit<
-    TextareaHTMLAttributes<HTMLTextAreaElement>,
-    'value' | 'onChange'
-  > {
+interface AutoResizeTextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'value' | 'onChange'> {
   value: string
   onChange: (value: string) => void
 }
 
-export function AutoResizeTextarea({
-  className,
-  value,
-  onChange,
-  ...props
-}: AutoResizeTextareaProps) {
+export function AutoResizeTextarea({ className, value, onChange, ...props }: AutoResizeTextareaProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const resizeTextarea = () => {
@@ -38,12 +29,11 @@ export function AutoResizeTextarea({
       value={value}
       ref={textareaRef}
       rows={1}
-      onChange={e => {
+      onChange={(e) => {
         onChange(e.target.value)
         resizeTextarea()
       }}
-      className={cn('resize-none min-h-4 max-h-80', className)}
+      className={cn('max-h-80 min-h-4 resize-none', className)}
     />
   )
 }
-

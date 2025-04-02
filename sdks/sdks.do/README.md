@@ -32,12 +32,9 @@ const newPackage = await api.createPackage({
     main: 'dist/index.js',
     types: 'dist/index.d.ts',
     files: ['dist', 'README.md'],
-    license: 'MIT'
+    license: 'MIT',
   },
-  collections: [
-    { collection: 'functions' },
-    { collection: 'workflows' }
-  ]
+  collections: [{ collection: 'functions' }, { collection: 'workflows' }],
 })
 
 // Add a collection to a package
@@ -50,7 +47,7 @@ await api.removeCollectionFromPackage('package-id', 'databases')
 await api.updatePackageJson('package-id', {
   name: 'my-package',
   version: '0.0.2',
-  description: 'Updated package description'
+  description: 'Updated package description',
 })
 
 // Publish a package to NPM

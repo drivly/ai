@@ -26,24 +26,16 @@ import { createGenerationBatchTask } from './createGenerationBatch'
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
   label: 'Generate Resource Embedding',
-  inputSchema: [
-    { name: 'id', type: 'text', required: true }
-  ],
-  outputSchema: [
-    { name: 'resource', type: 'json' }
-  ],
+  inputSchema: [{ name: 'id', type: 'text', required: true }],
+  outputSchema: [{ name: 'resource', type: 'json' }],
   handler: generateResourceEmbedding,
 } as unknown as TaskConfig
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
   label: 'Generate Thing Embedding (Deprecated)',
-  inputSchema: [
-    { name: 'id', type: 'text', required: true }
-  ],
-  outputSchema: [
-    { name: 'thing', type: 'json' }
-  ],
+  inputSchema: [{ name: 'id', type: 'text', required: true }],
+  outputSchema: [{ name: 'thing', type: 'json' }],
   handler: generateThingEmbedding,
 } as unknown as TaskConfig
 
@@ -52,11 +44,9 @@ const searchThingsTask = {
   label: 'Search Things',
   inputSchema: [
     { name: 'query', type: 'text', required: true },
-    { name: 'limit', type: 'number' }
+    { name: 'limit', type: 'number' },
   ],
-  outputSchema: [
-    { name: 'results', type: 'json' }
-  ],
+  outputSchema: [{ name: 'results', type: 'json' }],
   handler: searchThings,
 } as unknown as TaskConfig
 
@@ -65,11 +55,9 @@ const hybridSearchThingsTask = {
   label: 'Hybrid Search Things',
   inputSchema: [
     { name: 'query', type: 'text', required: true },
-    { name: 'limit', type: 'number' }
+    { name: 'limit', type: 'number' },
   ],
-  outputSchema: [
-    { name: 'results', type: 'json' }
-  ],
+  outputSchema: [{ name: 'results', type: 'json' }],
   handler: hybridSearchThings,
 } as unknown as TaskConfig
 
@@ -81,21 +69,19 @@ const processDomainTask = {
     { name: 'operation', type: 'text', required: true },
     { name: 'domain', type: 'text' },
     { name: 'vercelId', type: 'text' },
-    { name: 'cloudflareId', type: 'text' }
+    { name: 'cloudflareId', type: 'text' },
   ],
-  outputSchema: [
-    { name: 'success', type: 'boolean' }
-  ],
+  outputSchema: [{ name: 'success', type: 'boolean' }],
   handler: processDomain,
 } as unknown as TaskConfig
 
 export const tasks = [
-  executeFunctionTask, 
+  executeFunctionTask,
   generateCodeTask,
   executeCodeFunctionTask,
   generateResourceEmbeddingTask,
-  generateThingEmbeddingTask, 
-  searchThingsTask, 
+  generateThingEmbeddingTask,
+  searchThingsTask,
   hybridSearchThingsTask,
   processCodeFunctionWrapperTask,
   processCodeFunctionTask,
@@ -110,7 +96,7 @@ export const tasks = [
   processBatchAnthropicTask,
   processBatchGoogleVertexAITask,
   processBatchParasailTask,
-  createGenerationBatchTask
+  createGenerationBatchTask,
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
