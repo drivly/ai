@@ -102,8 +102,8 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
     }
     
-    if (isAIGateway(hostname)) {
-      console.log('Handling AI gateway domain', { hostname, pathname, search })
+    if (isGatewayDomain(hostname)) {
+      console.log('Handling gateway domain', { hostname, pathname, search })
       const url = new URL(request.url)
       
       if (pathname === '/sites') {
