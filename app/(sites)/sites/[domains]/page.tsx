@@ -39,7 +39,7 @@ async function HomePage({ params }: { params: Promise<{ domains?: string }> }) {
   const isBlog = pathParts[1] === 'blog'
   const isBlogPost = isBlog && pathParts[2]
 
-  if (site && !domains.includes(site.split('/')[0])) {
+  if (site && domains?.includes && !domains.includes(site.split('/')[0])) {
     return notFound()
   }
 
