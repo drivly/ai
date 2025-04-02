@@ -1,6 +1,7 @@
 export default {
   index: 'Introduction',
   manifesto: '',
+  'getting-started': 'Getting Started',
   workflows: '',
   functions: '',
   database: '',
