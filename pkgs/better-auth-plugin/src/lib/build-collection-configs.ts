@@ -1571,5 +1571,5 @@ export function buildCollectionConfigs({
     )
   })
 
-  return [...enhancedCollections, ...restOfCollections]
+  return [...restOfCollections, ...enhancedCollections]
 }
