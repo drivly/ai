@@ -1,9 +1,5 @@
 import { objectKeys } from './lib/utils'
-
-export const aliases = {
-  'databases.do': 'database.do',
-  'llms.do': 'llm.do',
-} as const
+import { domainsConfig } from './domains.config'
 
 export const websites = {
   'functions.do': '',
@@ -13,6 +9,6 @@ export const websites = {
   'dotdo.co': '.do | Economically Valuable Work',
 } as const
 
-export type Website = keyof typeof websites | (typeof aliases)[keyof typeof aliases] | keyof typeof aliases
+export type Website = keyof typeof websites | (typeof domainsConfig.aliases)[keyof typeof domainsConfig.aliases] | keyof typeof domainsConfig.aliases
 
-export const websiteKeys = [...objectKeys(websites), ...objectKeys(aliases), ...Object.values(aliases)]
+export const websiteKeys = [...objectKeys(websites), ...objectKeys(domainsConfig.aliases), ...Object.values(domainsConfig.aliases)]
