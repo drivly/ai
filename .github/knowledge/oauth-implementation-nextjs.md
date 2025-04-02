@@ -44,19 +44,18 @@ export async function GET(request: NextRequest) {
 ## Callback Handler ([provider]/route.ts)
 
 ```typescript
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { provider: string } }
-) {
-  const provider = params.provider
-  const code = new URL(request.url).searchParams.get('code')
+// Using the API wrapper pattern with Promise-based params for Next.js 15+
+export const GET = API(async (request, { url, params, user }) => {
+  const { provider } = await params
+  const code = url.searchParams.get('code')
   
   // Validate code
   
   // Exchange code for token
   
   // Redirect to original redirect_uri with code
-}
+  return { redirect: redirectUrl.toString() }
+})
 ```
 
 ## Token Exchange (token/route.ts)

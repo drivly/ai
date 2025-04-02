@@ -8,8 +8,7 @@ When configuring the oAuthProxy plugin in better-auth, use the following pattern
 oAuthProxy({
   productionURL: 'https://your-production-domain.com',
   currentURL: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
-              process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
-  callbackPath: '/api/auth/callback'
+              process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 })
 ```
 
@@ -25,8 +24,7 @@ oAuthProxy({
               process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 
               process.env.VERCEL_BRANCH_URL ? process.env.VERCEL_BRANCH_URL : 
               process.env.VERCEL_PREVIEW_URL ? process.env.VERCEL_PREVIEW_URL : 
-              process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL,
-  callbackPath: '/api/auth/callback'
+              process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL
 })
 ```
 
@@ -36,7 +34,7 @@ When configuring OAuth providers, always specify the redirectURI explicitly:
 
 ```typescript
 export const authOptions: AuthOptions = {
-  providers: {
+  socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
@@ -53,8 +51,8 @@ export const authOptions: AuthOptions = {
 
 ## Best Practices
 
-1. Always specify the `callbackPath` to ensure consistent callback URL patterns
-2. Use a comprehensive URL detection strategy for Vercel preview deployments
-3. Explicitly set `redirectURI` for each provider to ensure consistent callback URLs
-4. Use environment variables for client IDs and secrets
-5. Follow the URL pattern: `https://domain.com/api/auth/callback/provider`
+1. Use a comprehensive URL detection strategy for Vercel preview deployments
+2. Explicitly set `redirectURI` for each provider to ensure consistent callback URLs
+3. Use environment variables for client IDs and secrets
+4. Follow the URL pattern: `https://domain.com/api/auth/callback/provider`
+5. Ensure your OAuth routes use the API wrapper pattern for consistent error handling
