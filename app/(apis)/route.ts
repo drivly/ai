@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
 import { domains, domainsConfig } from '@/domains.config'
-import { domainDescriptions, apis, related, parentDomains, childDomains } from '@/api.config'
+import { domainDescriptions, apis, related, parentDomains, childDomains, siteCategories } from '@/api.config'
 import { collectionSlugs } from '@/collections'
 import { titleCase } from '@/lib/utils'
 
@@ -34,13 +34,40 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     }
   }
   
-  const formattedSites: Record<string, string> = {}
+  const formattedSites: Record<string, Record<string, string>> = {}
+  
+  for (const [category, sites] of Object.entries(siteCategories)) {
+    if (!formattedSites[category]) {
+      formattedSites[category] = {}
+    }
+    
+    for (const site of sites) {
+      if (filteredDomains.includes(site)) {
+        const siteName = site.replace('.do', '')
+        const description = domainDescriptions[site] || ''
+        const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
+        formattedSites[category][siteTitle] = `${origin}/sites/${siteName}`
+      }
+    }
+  }
+  
+  formattedSites["Other"] = {}
   for (const d of filteredDomains) {
     if (d.endsWith('.do')) {
-      const siteName = d.replace('.do', '')
-      const description = domainDescriptions[d] || ''
-      const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
-      formattedSites[siteTitle] = `${origin}/sites/${siteName}`
+      let isInCategory = false
+      for (const sites of Object.values(siteCategories)) {
+        if (sites.includes(d)) {
+          isInCategory = true
+          break
+        }
+      }
+      
+      if (!isInCategory) {
+        const siteName = d.replace('.do', '')
+        const description = domainDescriptions[d] || ''
+        const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
+        formattedSites["Other"][siteTitle] = `${origin}/sites/${siteName}`
+      }
     }
   }
   
