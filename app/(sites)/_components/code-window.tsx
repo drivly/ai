@@ -19,7 +19,16 @@ interface AnnotationHandlerProps {
 const autoLinkHandler = {
   name: 'link',
   Inline: ({ annotation, children }: AnnotationHandlerProps) => {
-    const url = typeof annotation === 'string' ? annotation : String(annotation)
+    let url = typeof annotation === 'string' ? annotation : String(annotation)
+    
+    console.log('Annotation:', url, 'Children:', children)
+    
+    const markdownLinkRegex = /\[(https?:\/\/[^\]]+)\]\((https?:\/\/[^)]+)\)/
+    const match = url.match(markdownLinkRegex)
+    if (match) {
+      url = match[2] // Use the URL part
+    }
+    
     return (
       <a href={url} target="_blank" rel="noopener noreferrer" className="underline text-blue-400 hover:text-blue-300">
         {children}
@@ -88,4 +97,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with                                    
+// browser bar with                                                
