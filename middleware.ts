@@ -19,6 +19,13 @@ const sitePaths = ['/login', '/logout', '/signin', '/signout', '/privacy', '/ter
 const sitePrefixes = ['/blog', '/docs']
 
 /**
+ * Check if a domain should be treated as a gateway domain
+ */
+const isGatewayDomain = (hostname: string): boolean => {
+  return isAIGateway(hostname) || hostname === 'localhost' || hostname === 'apis.do' || hostname.includes('vercel.app')
+}
+
+/**
  * Main middleware function
  * Handles routing logic for all incoming requests
  */
@@ -99,6 +106,11 @@ export async function middleware(request: NextRequest) {
       console.log('Handling AI gateway domain', { hostname, pathname, search })
       const url = new URL(request.url)
       return NextResponse.rewrite(new URL(`${url.origin}${pathname}${search}`))
+    }
+    
+    if (pathname === '/' && !isGatewayDomain(hostname)) {
+      console.log('Redirecting non-gateway domain to sites path', { hostname, pathname, search })
+      return NextResponse.redirect(new URL(`/sites/${hostname}${search}`, request.url), 302)
     }
 
     console.log('no rewrite', { apiName, hostname, pathname, search })
