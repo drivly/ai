@@ -1,30 +1,28 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { API } from '@/lib/api'
 import { getPayload } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { provider: string } }
-) {
+export const GET = API(async (request, { url, params, user }) => {
   try {
     const provider = params.provider
-    const url = new URL(request.url)
     const code = url.searchParams.get('code')
     const state = url.searchParams.get('state')
     const error = url.searchParams.get('error')
     
     if (error) {
-      return NextResponse.json({ 
+      return { 
         error, 
-        error_description: url.searchParams.get('error_description') || 'Authentication failed' 
-      }, { status: 400 })
+        error_description: url.searchParams.get('error_description') || 'Authentication failed',
+        status: 400
+      }
     }
     
     if (!code) {
-      return NextResponse.json({ 
+      return { 
         error: 'invalid_request', 
-        error_description: 'Missing code parameter' 
-      }, { status: 400 })
+        error_description: 'Missing code parameter',
+        status: 400
+      }
     }
     
     let redirectUri = ''
@@ -42,13 +40,13 @@ export async function GET(
     
     const payload = await getPayload()
     const { betterAuth } = payload
-    const session = await betterAuth.api.getSession({ headers: request.headers })
     
-    if (!session?.user) {
-      return NextResponse.json({ 
+    if (!user) {
+      return { 
         error: 'unauthorized', 
-        error_description: 'User is not authenticated' 
-      }, { status: 401 })
+        error_description: 'User is not authenticated',
+        status: 401
+      }
     }
     
     const oauthCode = crypto.randomBytes(16).toString('hex')
@@ -60,15 +58,16 @@ export async function GET(
         redirectUrl.searchParams.set('state', originalState)
       }
       
-      return NextResponse.redirect(redirectUrl.toString())
+      return { redirect: redirectUrl.toString() }
     }
     
-    return NextResponse.json({ code: oauthCode, state: originalState })
+    return { code: oauthCode, state: originalState }
   } catch (error) {
     console.error('OAuth callback error:', error)
-    return NextResponse.json({ 
+    return { 
       error: 'server_error', 
-      error_description: 'An error occurred processing the callback' 
-    }, { status: 500 })
+      error_description: 'An error occurred processing the callback',
+      status: 500
+    }
   }
-}
+})
