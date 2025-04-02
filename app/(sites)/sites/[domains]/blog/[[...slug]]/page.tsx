@@ -7,7 +7,7 @@ import { Badge } from '../../../../_components/badge'
 import { BlogContent } from '../../../../_components/blog-ui/blog-content'
 import { BlogPosts } from '../../../../_components/blog-ui/blog-posts'
 import { ShareButtons } from '../../../../_components/blog-ui/share-button'
-import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from '../../blog-posts'
+import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from '../../../blog-posts'
 
 export default async function BlogPage({ params }: { params: { domains: string; slug?: string[] } }) {
   const { domains: domainParam, slug } = params
