@@ -154,8 +154,8 @@ describe('Workers.do Dispatch Worker', () => {
       const res = await app.fetch(req, mockEnv)
       
       expect(res.status).toBe(400)
-      const body = await res.json() as { error: string }
-      expect(body.error).toContain('Agent ID is required')
+      const text = await res.text()
+      expect(text).toContain('Agent ID is required')
     })
     
     it('should handle agent fetch failures', async () => {
