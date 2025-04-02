@@ -1,6 +1,7 @@
 export default {
   index: {
-    title: 'Introduction'
+    title: 'Introduction',
+    type: 'page'
   },
   manifesto: {
     title: 'Manifesto',
