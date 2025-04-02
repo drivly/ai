@@ -102,17 +102,21 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
     }
     
+    if (hostname.includes('dev.driv.ly')) {
+      console.log('Handling Vercel preview domain', { hostname, pathname, search })
+      
+      if (pathname === '/' || pathname === '/sites') {
+        console.log('Rewriting Vercel preview domain to sites-list', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
+      }
+    }
+    
     if (isGatewayDomain(hostname)) {
       console.log('Handling gateway domain', { hostname, pathname, search })
       const url = new URL(request.url)
       
       if (pathname === '/sites') {
         console.log('Rewriting gateway domain /sites to sites-list', { hostname, pathname, search })
-        return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
-      }
-      
-      if (hostname.includes('dev.driv.ly') && pathname === '/') {
-        console.log('Rewriting Vercel preview domain root to sites-list', { hostname, pathname, search })
         return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
       }
       
