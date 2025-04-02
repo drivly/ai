@@ -49,7 +49,7 @@ export async function middleware(request: NextRequest) {
 
     if (sitePaths.includes(pathname) && siteDomains.includes(hostname)) {
       console.log('Rewriting to site', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
+      return NextResponse.rewrite(new URL(`/site/${hostname}${pathname}${search}`, request.url))
     }
 
     if (pathname.startsWith('/docs') && hostname.endsWith('.do')) {
@@ -60,12 +60,12 @@ export async function middleware(request: NextRequest) {
 
     if (sitePrefixes.some((prefix) => pathname.startsWith(prefix)) && siteDomains.includes(hostname)) {
       console.log('Rewriting to site w/ prefix', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
+      return NextResponse.rewrite(new URL(`/site/${hostname}${pathname}${search}`, request.url))
     }
 
     if (pathname === '/' && siteDomains.includes(hostname)) {
       console.log('Rewriting to landing page', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
+      return NextResponse.rewrite(new URL(`/site/${hostname}${pathname}${search}`, request.url))
     }
     
     if (pathname === '/' && brandDomains.includes(hostname)) {

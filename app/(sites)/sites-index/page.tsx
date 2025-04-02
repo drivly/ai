@@ -7,7 +7,7 @@ import { Badge } from '@drivly/ui/badge'
 import { domains, brandDomains, isAIGateway } from '@/domains.config'
 import { siteCategories, domainDescriptions } from '@/api.config'
 
-export default function SitesPage() {
+export default function SitesIndexPage() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -80,7 +80,7 @@ export default function SitesPage() {
               const description = domainDescriptions[domain] || '';
               const href = showAbsolute || isBrandDomain 
                 ? `https://${domain}`
-                : `/site/${domain}`;
+                : `/sites/${domain}`;
               
               return (
                 <Link 

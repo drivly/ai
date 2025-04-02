@@ -1,4 +1,4 @@
-import { domainsConfig, getGlowColor } from '@/domains.config'
+import { domainsConfig, getGlowColor, domains } from '@/domains.config'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -12,7 +12,7 @@ import Particles from '../../_components/magicui/particles'
 import { Navbar } from '../../_components/navbar'
 import DotdoSection from '../../_components/sections/dotdo'
 import HeroSection from '../../_components/sections/hero'
-import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from '../blog-posts'
+import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from '../../sites/blog-posts'
 
 type PagePromiseParams<T extends object> = {
   params: Promise<T>
@@ -31,7 +31,6 @@ const withDomainContainer = <TPage extends DomainPageProps>(WrappedPage: React.C
   )
 }
 
-// need to be able to render the specific website from the slug and throw not found if the slug is not found
 async function HomePage({ params }: { params: Promise<{ domains?: string[] }> }) {
   const { domains } = await params
 
@@ -39,7 +38,7 @@ async function HomePage({ params }: { params: Promise<{ domains?: string[] }> })
   const isBlog = domains?.[1] === 'blog'
   const isBlogPost = isBlog && domains?.[2]
 
-  if (site && !domainsConfig.domains[site]) {
+  if (site && !domains.includes(site)) {
     return notFound()
   }
 
@@ -65,23 +64,17 @@ async function HomePage({ params }: { params: Promise<{ domains?: string[] }> })
 }
 
 export default withDomainContainer(HomePage)
-// Get Started // Join
-// --- Request access
-// email onboarding with questions react-email // templates
-// from Bryant's email - simple email template domain specific
 //
 //
-// login with Github
 
 async function BlogPage({ domain }: { domain: string }) {
-  // Move data fetching to the server component
   const posts = getAllBlogPosts()
   const categories = getAllCategories()
 
   return (
     <div className='container mx-auto px-4 pt-20 pb-12 md:pt-24 md:pb-24 lg:pb-32'>
       <div className='mb-8'>
-        <Link href={`/sites/${domain}`} className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
+        <Link href={`/site/${domain}`} className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
           <ArrowLeft className='mr-1 h-4 w-4' />
           Back
         </Link>
@@ -101,14 +94,14 @@ async function BlogPostPage({ domain, slug }: { domain: string, slug: string }) 
   }
 
 
-  const postUrl = `/sites/${domain}/blog/${post.slug}`
+  const postUrl = `/site/${domain}/blog/${post.slug}`
   const fallbackImage = '/images/blog-llm.png'
   const dateObj = new Date(post.date.split('-').join('/'))
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (
     <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
-      <Link href={`/sites/${domain}/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
+      <Link href={`/site/${domain}/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back
       </Link>
