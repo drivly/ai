@@ -35,6 +35,11 @@ export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
     const { hostname, pathname, search } = request.nextUrl
     
+    if (hostname.includes('dev.driv.ly') && (pathname === '/' || pathname === '/sites')) {
+      console.log('Rewriting Vercel preview domain to sites-list (top priority)', { hostname, pathname, search })
+      return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
+    }
+    
     const apiName = hostname.replace('.do', '')
     const baseHostname = hostname.replace('.do', '')
 
