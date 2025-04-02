@@ -211,6 +211,7 @@ export interface Config {
       executeFunction: TaskExecuteFunction;
       generateCode: TaskGenerateCode;
       executeCodeFunction: TaskExecuteCodeFunction;
+      generateResourceEmbedding: TaskGenerateResourceEmbedding;
       generateThingEmbedding: TaskGenerateThingEmbedding;
       searchThings: TaskSearchThings;
       hybridSearchThings: TaskHybridSearchThings;
@@ -1684,6 +1685,7 @@ export interface PayloadJob {
           | 'executeFunction'
           | 'generateCode'
           | 'executeCodeFunction'
+          | 'generateResourceEmbedding'
           | 'generateThingEmbedding'
           | 'searchThings'
           | 'hybridSearchThings'
@@ -1737,6 +1739,7 @@ export interface PayloadJob {
                 | 'executeFunction'
                 | 'generateCode'
                 | 'executeCodeFunction'
+                | 'generateResourceEmbedding'
                 | 'generateThingEmbedding'
                 | 'searchThings'
                 | 'hybridSearchThings'
@@ -1768,6 +1771,7 @@ export interface PayloadJob {
         | 'executeFunction'
         | 'generateCode'
         | 'executeCodeFunction'
+        | 'generateResourceEmbedding'
         | 'generateThingEmbedding'
         | 'searchThings'
         | 'hybridSearchThings'
@@ -2954,6 +2958,26 @@ export interface TaskExecuteCodeFunction {
       | boolean
       | null;
     error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateResourceEmbedding".
+ */
+export interface TaskGenerateResourceEmbedding {
+  input: {
+    id: string;
+  };
+  output: {
+    resource?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
 }
 /**
