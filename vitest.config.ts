@@ -7,9 +7,14 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@payload-config': resolve(__dirname, './payload.config.js'),
+      '@payload-config': resolve(__dirname, './payload.config.ts'),
       '@': resolve(__dirname),
-      'simple-payload': resolve(__dirname, './pkgs/simple-payload'),
+      '@/lib': resolve(__dirname, './lib'),
+      '@/.velite': resolve(__dirname, './.velite'),
+      '@/app': resolve(__dirname, './app'),
+      '@/collections': resolve(__dirname, './collections'),
+      '@/tasks': resolve(__dirname, './tasks'),
+      '@/scripts': resolve(__dirname, './scripts'),
     },
   },
 })

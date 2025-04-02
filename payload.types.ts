@@ -1029,8 +1029,6 @@ export interface Task {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  kanbanStatus?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
-  kanbanOrderRank?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2312,8 +2310,6 @@ export interface TasksSelect<T extends boolean = true> {
   subtasks?: T;
   dependentOn?: T;
   dependents?: T;
-  kanbanStatus?: T;
-  kanbanOrderRank?: T;
   updatedAt?: T;
   createdAt?: T;
 }
