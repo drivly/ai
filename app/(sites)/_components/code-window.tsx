@@ -1,6 +1,6 @@
 import { cn } from '@drivly/ui/lib'
-import { Pre, type HighlightedCode } from 'codehike/code'
-import React from 'react'
+import { Pre, RawCode, highlight } from 'codehike/code'
+import React, { useEffect, useState } from 'react'
 
 interface CodeWindowProps {
   className?: string
@@ -27,12 +27,29 @@ const autoLinkHandler = {
 }
 
 export function CodeWindow({ className, code, language = 'json', title = 'llm.do' }: CodeWindowProps) {
-  const highlightedCode: HighlightedCode = {
-    code,
-    highlightedCode: code,
-    highlightedTokens: [],
-    tokens: []
+  const rawCode: RawCode = {
+    lang: language,
+    value: code,
+    meta: ''
   }
+
+  const [highlighted, setHighlighted] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const highlightCode = async () => {
+      try {
+        const result = await highlight(rawCode, 'github-dark')
+        setHighlighted(result)
+      } catch (error) {
+        console.error('Error highlighting code:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    highlightCode()
+  }, [code, language])
 
   return (
     <div className={cn('bg-opacity-[0.01] rounded-2xl border-[10px] border-white/10', className)}>
@@ -51,13 +68,19 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 
         {/* Code content with CodeHike */}
         <div className='max-h-[500px] overflow-auto bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
-          <Pre 
-            language={language}
-            showLineNumbers={true}
-            annotations={[autoLinkHandler]}
-            codeClassName="text-xs sm:text-sm"
-            code={highlightedCode}
-          />
+          {isLoading ? (
+            <div className="text-gray-400">Loading...</div>
+          ) : highlighted ? (
+            <Pre 
+              language={language}
+              showLineNumbers={true}
+              annotations={[autoLinkHandler]}
+              codeClassName="text-xs sm:text-sm"
+              code={highlighted}
+            />
+          ) : (
+            <pre className="text-xs sm:text-sm">{code}</pre>
+          )}
         </div>
       </div>
     </div>
@@ -65,4 +88,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with      
+// browser bar with            
