@@ -1,11 +1,11 @@
 import { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
-import { admin, apiKey, multiSession, openAPI } from 'better-auth/plugins'
+import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 
-export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies()]
+export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), oAuthProxy({ productionURL: 'https://apis.do' })]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
 
