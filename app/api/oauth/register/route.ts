@@ -27,7 +27,7 @@ const loadOAuthClients = () => {
   }
 }
 
-const saveOAuthClients = (clients) => {
+const saveOAuthClients = (clients: any[]) => {
   ensureDataDir()
   try {
     fs.writeFileSync(OAUTH_CLIENTS_FILE, JSON.stringify(clients, null, 2))
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
     
     const clients = loadOAuthClients()
     
-    const existingClient = clients.find(client => client.name === name)
+    const existingClient = clients.find((client: any) => client.name === name)
     if (existingClient) {
       return NextResponse.json({ 
         error: 'client_exists', 
