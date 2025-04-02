@@ -12,7 +12,7 @@ import Particles from '../../_components/magicui/particles'
 import { Navbar } from '../../_components/navbar'
 import DotdoSection from '../../_components/sections/dotdo'
 import HeroSection from '../../_components/sections/hero'
-import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from '../../sites/blog-posts'
+import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from '../blog-posts'
 
 type PagePromiseParams<T extends object> = {
   params: Promise<T>
