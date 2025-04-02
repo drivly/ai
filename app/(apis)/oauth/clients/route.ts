@@ -5,7 +5,18 @@ import path from 'path'
 
 const OAUTH_CLIENTS_FILE = path.join(process.cwd(), 'data', 'oauth-clients.json')
 
-const loadOAuthClients = (): any[] => {
+interface OAuthClient {
+  id: string;
+  name: string;
+  clientId: string;
+  clientSecret: string;
+  redirectURLs: string[];
+  createdBy: string;
+  createdAt: string;
+  disabled: boolean;
+}
+
+const loadOAuthClients = (): OAuthClient[] => {
   const dataDir = path.join(process.cwd(), 'data')
   if (!fs.existsSync(dataDir)) {
     fs.mkdirSync(dataDir, { recursive: true })
@@ -43,7 +54,7 @@ export const GET = API(async (request, { url, user }) => {
   try {
     const clients = loadOAuthClients()
     
-    const maskedClients = clients.map(client => ({
+    const maskedClients = clients.map((client: OAuthClient) => ({
       ...client,
       clientSecret: client.clientSecret 
         ? '****' + client.clientSecret.substring(client.clientSecret.length - 4) 
