@@ -9,6 +9,7 @@ export const GET = API(async (request, { db, user, url }) => {
   const functionsArray = await db.functions.find({
     page,
     limit,
+    depth: 2 // Include related fields like examples
   }) || []
   
   const totalItems = Array.isArray(functionsArray) ? functionsArray.length : 0
