@@ -2,7 +2,7 @@ export default {
   index: 'Overview',
   nouns: '',
   verbs: '',
-  things: '',
+  resources: '',
   actions: '',
   database: '',
   'database-sdk-tutorial': 'Database SDK Tutorial',
