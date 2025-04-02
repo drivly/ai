@@ -541,7 +541,7 @@ graph TD
     end
 
     subgraph "Data Collections"
-        Things["Things<br/>Core entities"]
+        Resources["Resources<br/>Core entities"]
         Nouns["Nouns<br/>Entity categories"]
         Verbs["Verbs<br/>Action types"]
     end
@@ -603,7 +603,7 @@ graph TD
     style Triggers fill:#ffd966,stroke:#333,stroke-width:1px
     style Actions fill:#ead1dc,stroke:#333,stroke-width:1px
     style Searches fill:#d9ead3,stroke:#333,stroke-width:1px
-    style Things fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Resources fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Nouns fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Verbs fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Integrations fill:#ead1dc,stroke:#333,stroke-width:1px
@@ -653,10 +653,10 @@ graph TD
     Workflows --> Packages
     Workflows --> Deployments
     
-    Actions --> Things["Things (subject)"]
+    Actions --> Resources["Resources (subject)"]
     Actions --> Verbs
     Actions --> Functions
-    Actions --> Things2["Things (object)"]
+    Actions --> Resources2["Resources (object)"]
     Actions --> Generations
     
     Triggers --> Workflows
@@ -684,8 +684,8 @@ graph TD
     style Triggers fill:#ffd966,stroke:#333,stroke-width:1px
     style Actions fill:#ead1dc,stroke:#333,stroke-width:1px
     style Searches fill:#d9ead3,stroke:#333,stroke-width:1px
-    style Things fill:#f9f9f9,stroke:#333,stroke-width:1px
-    style Things2 fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Resources fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Resources2 fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Verbs fill:#f9f9f9,stroke:#333,stroke-width:1px
     style Integrations fill:#ead1dc,stroke:#333,stroke-width:1px
     style IntegrationActions fill:#ead1dc,stroke:#333,stroke-width:1px

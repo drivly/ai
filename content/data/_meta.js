@@ -9,8 +9,8 @@ export default {
   verbs: {
     title: 'Verbs',
   },
-  things: {
-    title: 'Things',
+  resources: {
+    title: 'Resources',
   },
   actions: {
     title: 'Actions',

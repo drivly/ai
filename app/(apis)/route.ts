@@ -10,7 +10,7 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
           'Workflows - Reliably Execute Business Processes': 'https://workflows.do/api',
           'Agents - Deploy & Manage Autonomous Digital Workers': 'https://agents.do/api',
         },
-        things: {
+        resources: {
           'Nouns - People, Places, Things, and Ideas': 'https://nouns.do',
           'Verbs - The Actions Performed to and by Nouns': 'https://verbs.do',
         },

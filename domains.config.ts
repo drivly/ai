@@ -82,7 +82,7 @@ const primaryCollectionSlugs = [
   'agents',
   'nouns',
   'verbs',
-  'things',
+  'resources',
   'triggers',
   'searches',
   'actions',
