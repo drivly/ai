@@ -1,3 +1,4 @@
+import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
 
@@ -13,16 +14,19 @@ export const Functions: CollectionConfig = {
       async ({ doc, req }) => {
         if (doc.type === 'Code' && doc.code) {
           try {
-            await req.payload.create({
-              collection: 'tasks',
-              data: {
-                title: `Process Code Function: ${doc.name}`,
-                description: `Process code from function ${doc.name} (${doc.id}) using esbuild. Function ID: ${doc.id}`,
-                status: 'todo'
+            const { payload } = req
+            
+            const job = await payload.jobs.queue({
+              task: 'processCodeFunction',
+              input: {
+                functionId: doc.id
               }
             })
+            
+            console.log(`Queued process code function for ${doc.name}`, job)
+            waitUntil(payload.jobs.runByID({ id: job.id }))
           } catch (error) {
-            console.error('Error triggering processCodeFunction task:', error)
+            console.error('Error queueing processCodeFunction task:', error)
           }
         }
         return doc
