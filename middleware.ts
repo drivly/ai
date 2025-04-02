@@ -38,7 +38,7 @@ export async function middleware(request: NextRequest) {
     
     if (hostname === 'do.mw') {
       console.log('Rewriting do.mw to sites-list (absolute top priority)', { hostname, pathname, search })
-      return NextResponse.redirect(new URL(`https://apis.do/sites${search}`, request.url))
+      return NextResponse.rewrite(new URL(`${request.url.split(hostname)[0]}apis.do/sites-list${search}`))
     }
     
     if (hostname === 'apis.do' && pathname === '/sites') {
