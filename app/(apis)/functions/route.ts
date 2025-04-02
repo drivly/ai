@@ -2,9 +2,10 @@ import { API } from '@/lib/api'
 
 export const GET = API(async (request, { db, user, url }) => {
   // Using the new db interface for more concise syntax
-  const functions = await db.functions.find()
+  const functions = await db.functions.find({
+    depth: 2 // Include related fields like examples
+  })
   // If we need a specific function by ID, we could use:
-  // const specificFunction = await db.functions.get('function-id')
 
   return { functions, user }
 })
