@@ -3,8 +3,8 @@ import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { domainsConfig } from '@/domains.config'
 
-export default async function PrivacyPage({ params }: { params: { domains: string } }) {
-  const domain = params.domains
+export default async function PrivacyPage({ params }: { params: Promise<{ domains: string }> }) {
+  const { domains: domain } = await params
 
   if (!domain || !domainsConfig.domains[domain]) {
     return notFound()
