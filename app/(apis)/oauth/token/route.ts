@@ -5,7 +5,7 @@ import crypto from 'crypto'
 /**
  * Exchanges an authorization code for an access token
  */
-const exchangeCodeForToken = async (code: string, redirectUri: string, clientId: string, clientSecret?: string, payload: any) => {
+const exchangeCodeForToken = async (code: string, redirectUri: string, clientId: string, payload: any, clientSecret?: string) => {
   const codeResult = await payload.find({
     collection: 'oauth-codes' as 'oauth-codes',
     where: {
@@ -122,7 +122,7 @@ export const POST = API(async (request, { url }) => {
   
   try {
     const payload = await getPayload()
-    const token = await exchangeCodeForToken(code, redirect_uri, client_id, client_secret, payload)
+    const token = await exchangeCodeForToken(code, redirect_uri, client_id, payload, client_secret)
     return token
   } catch (error) {
     console.error('Token exchange error:', error)
