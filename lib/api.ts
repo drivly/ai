@@ -576,7 +576,13 @@ export const createFunctionsObject = (
   
   if (Array.isArray(functions)) {
     functions.forEach(func => {
-      functionsObject[func.name] = generateFunctionLink(request, func.name)
+      if (func && typeof func === 'object' && func.name) {
+        functionsObject[func.name] = generateFunctionLink(request, func.name)
+      }
+    })
+  } else if (functions && typeof functions === 'object') {
+    Object.keys(functions).forEach(key => {
+      functionsObject[key] = generateFunctionLink(request, key)
     })
   }
   
