@@ -96,10 +96,9 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL(`${url.origin.replace(hostname, aliasedDomain)}/${aliasedApiName}${search}`))
     }
 
-    if (apis[apiName]) {
-      console.log('Rewriting to API', { apiName, hostname, pathname, search })
-      const url = new URL(request.url)
-      return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
+    if (hostname === 'apis.do' && pathname === '/sites') {
+      console.log('Rewriting apis.do/sites to sites-list', { hostname, pathname, search })
+      return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
     }
     
     if (hostname.includes('dev.driv.ly')) {
@@ -120,7 +119,18 @@ export async function middleware(request: NextRequest) {
         return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
       }
       
+      if (apis[apiName]) {
+        console.log('Rewriting to API', { apiName, hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
+      }
+      
       return NextResponse.rewrite(new URL(`${url.origin}${pathname}${search}`))
+    }
+    
+    if (apis[apiName] && !brandDomains.includes(hostname)) {
+      console.log('Rewriting to API', { apiName, hostname, pathname, search })
+      const url = new URL(request.url)
+      return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
     }
     
     if (pathname === '/' && !isGatewayDomain(hostname)) {
