@@ -169,7 +169,7 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
 export const domainsConfig: DomainsConfig = {
   domains: generateDomainsConfig(),
   collections: generateCollectionsConfig(),
-  aiGateways: ['*.com.ai', '*.dotdo.dev', '*.do.sg'],
+  aiGateways: ['*.com.ai', '*.dotdo.dev', '*.do.sg', '*.dev.driv.ly'],
   aliases: {
     'databases.do': 'database.do',
     'okrs.do': 'goals.do',
@@ -377,4 +377,4 @@ export const domains = [
 /**
  * Brand domains that should redirect to the /sites path
  */
-export const brandDomains = ['db.mw', 'dotdo.ai']
+export const brandDomains = ['db.mw', 'dotdo.ai', 'do.mw']
