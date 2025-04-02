@@ -18,7 +18,7 @@ type PagePromiseParams<T extends object> = {
   params: Promise<T>
 }
 
-type DomainPageProps = PagePromiseParams<{ domains?: string }>
+type DomainPageProps = PagePromiseParams<Record<string, string | string[]>>
 
 const withDomainContainer = <TPage extends DomainPageProps>(WrappedPage: React.ComponentType<TPage>) => {
   return async (props: TPage) => (
@@ -31,15 +31,16 @@ const withDomainContainer = <TPage extends DomainPageProps>(WrappedPage: React.C
   )
 }
 
-async function HomePage({ params }: { params: Promise<{ domains?: string }> }) {
-  const { domains } = await params
+async function HomePage({ params }: { params: Promise<Record<string, string | string[]>> }) {
+  const resolvedParams = await params
+  const domains = resolvedParams.domains as string
 
   const site = domains ?? 'llm.do'
   const pathParts = site.split('/')
   const isBlog = pathParts[1] === 'blog'
   const isBlogPost = isBlog && pathParts[2]
 
-  if (site && domains?.includes && !domains.includes(site.split('/')[0])) {
+  if (site && site !== 'llm.do' && !domains.includes(site.split('/')[0])) {
     return notFound()
   }
 
