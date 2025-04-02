@@ -7,7 +7,7 @@ export default function OAuthRedirect() {
   const router = useRouter()
   
   useEffect(() => {
-    router.replace('/admin/oauth-clients')
+    router.replace('/admin/oauth/providers')
   }, [router])
   
   return (
