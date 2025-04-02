@@ -1,13 +1,55 @@
-import { API } from '@/lib/api'
+import { API, generatePaginationLinks, createFunctionsObject } from '@/lib/api'
 
 export const GET = API(async (request, { db, user, url }) => {
+  const searchParams = request.nextUrl.searchParams
+  const page = parseInt(searchParams.get('page') || '1')
+  const limit = parseInt(searchParams.get('limit') || '20')
+  
   // Using the new db interface for more concise syntax
-  const functions = await db.functions.find({
+  const functionsArray = await db.functions.find({
+    page,
+    limit,
     depth: 2 // Include related fields like examples
-  })
-  // If we need a specific function by ID, we could use:
-
-  return { functions, user }
+  }) || []
+  
+  const totalItems = Array.isArray(functionsArray) ? functionsArray.length : 0
+  
+  const baseUrl = request.nextUrl.origin + request.nextUrl.pathname
+  const links: { home: string; next?: string; prev?: string } = {
+    home: baseUrl,
+  }
+  
+  if (totalItems === limit) {
+    const nextParams = new URLSearchParams(searchParams)
+    nextParams.set('page', (page + 1).toString())
+    links.next = `${baseUrl}?${nextParams.toString()}`
+  }
+  
+  if (page > 1) {
+    const prevParams = new URLSearchParams(searchParams)
+    prevParams.set('page', (page - 1).toString())
+    links.prev = `${baseUrl}?${prevParams.toString()}`
+  }
+  
+  const functions: Record<string, string> = {}
+  
+  if (Array.isArray(functionsArray)) {
+    for (let i = 0; i < functionsArray.length; i++) {
+      const func = functionsArray[i]
+      if (func && typeof func === 'object' && func.name) {
+        functions[func.name] = `${request.nextUrl.origin}/functions/${func.name}`
+      }
+    }
+  }
+  
+  return { 
+    functions, 
+    links,
+    user,
+    page,
+    limit,
+    total: totalItems
+  }
 })
 
 export const POST = API(async (request, { db, user, url }) => {
