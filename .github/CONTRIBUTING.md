@@ -47,6 +47,8 @@ This is a monorepo managed with pnpm workspaces. The main directories include:
 
 We use Prettier to maintain consistent code formatting. The configuration is defined in `package.json`.
 
+**Important**: All code must be formatted with Prettier before being committed. We have pre-commit hooks set up to automatically format your code, but you can also run the formatter manually.
+
 Key formatting rules:
 
 - Single quotes
@@ -56,11 +58,13 @@ Key formatting rules:
 - JSX uses single quotes
 - JSX brackets on the same line
 
-To format your code:
+To format your code manually:
 
 ```bash
 pnpm format
 ```
+
+Consistent formatting helps prevent merge conflicts and makes code reviews more efficient by focusing on the content rather than style differences.
 
 ### Naming Conventions
 
