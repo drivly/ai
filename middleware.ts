@@ -20,9 +20,11 @@ const sitePrefixes = ['/blog', '/docs']
 
 /**
  * Check if a domain should be treated as a gateway domain
+ * Gateway domains show the API response at the root path
  */
 const isGatewayDomain = (hostname: string): boolean => {
-  return isAIGateway(hostname) || hostname === 'localhost' || hostname === 'apis.do' || hostname.includes('vercel.app') || hostname.includes('dev.driv.ly')
+  return (isAIGateway(hostname) || hostname === 'localhost' || hostname === 'apis.do' || hostname.includes('vercel.app')) 
+    && !hostname.includes('dev.driv.ly')
 }
 
 /**
