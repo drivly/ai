@@ -756,7 +756,7 @@ export interface Role {
 export interface Task {
   id: string;
   title: string;
-  status?: ('todo' | 'in-progress' | 'ready-for-review' | 'completed') | null;
+  status?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
   queue?: (string | null) | Queue;
   assigned?:
     | (
