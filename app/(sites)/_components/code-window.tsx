@@ -11,9 +11,8 @@ interface CodeWindowProps {
 const autoLinkHandler: AnnotationHandler = {
   name: 'link',
   Inline: ({ annotation, children }) => {
-    const urlMatch = /"(https?:\/\/[^"]+)"/.exec(annotation)
-    const url = urlMatch ? urlMatch[1] : annotation
-    return <a href={url} target="_blank" rel="noopener noreferrer" className="underline text-blue-400 hover:text-blue-300">{children}</a>
+    const query = typeof annotation === 'string' ? annotation : annotation.toString()
+    return <a href={query} target="_blank" rel="noopener noreferrer" className="underline text-blue-400 hover:text-blue-300">{children}</a>
   }
 }
 
@@ -49,4 +48,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with          
+// browser bar with            
