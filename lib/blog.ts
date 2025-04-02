@@ -108,7 +108,7 @@ export async function getBlogPosts(domain: string): Promise<BlogPost[]> {
           type: 'blog-post-list',
           data: {
             domain,
-            posts: generatedPosts
+            posts: generatedPosts as unknown as Record<string, unknown>[]
           }
         }
       })
@@ -180,7 +180,7 @@ export async function getBlogPost(domain: string, slug: string): Promise<BlogPos
         data: {
           name: `blog-post-${domain}-${slug}`,
           type: 'blog-post',
-          data: blogPost
+          data: blogPost as unknown as Record<string, unknown>
         }
       })
     )
