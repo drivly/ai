@@ -4,7 +4,7 @@ import { createMocks } from 'node-mocks-http'
 const mockFind = vi.fn()
 
 vi.mock('@/lib/api', () => ({
-  API: (handler) => handler,
+  API: (handler: any) => handler,
 }))
 
 vi.mock('@/lib/db', () => ({
@@ -15,7 +15,7 @@ vi.mock('@/lib/db', () => ({
   },
 }))
 
-const { GET } = await import('@/app/(apis)/functions/route.ts')
+const { GET } = await import('@/app/(apis)/functions/route')
 
 describe('Functions API with pagination', () => {
   it('should include home link and next link when there are more pages', async () => {
@@ -46,14 +46,17 @@ describe('Functions API with pagination', () => {
 
     const response = await GET(request as any, context as any)
     
-    expect(response.links).toBeDefined()
-    expect(response.links.home).toBeDefined()
-    expect(response.links.next).toBeDefined()
-    expect(response.links.prev).toBeUndefined()
-    expect(response.functions).toBeDefined()
+    const data = response as any
     
-    expect(Object.keys(response.functions).length).toBe(20)
-    expect(response.functions['function1']).toBe('https://functions.do/functions/function1')
+    expect(data).toBeDefined()
+    expect(data.links).toBeDefined()
+    expect(data.links.home).toBeDefined()
+    expect(data.links.next).toBeDefined()
+    expect(data.links.prev).toBeUndefined()
+    expect(data.functions).toBeDefined()
+    
+    expect(Object.keys(data.functions).length).toBe(20)
+    expect(data.functions['function1']).toBe('https://functions.do/functions/function1')
   })
 
   it('should include home, next, and prev links when on page > 1', async () => {
@@ -84,12 +87,14 @@ describe('Functions API with pagination', () => {
 
     const response = await GET(request as any, context as any)
     
-    expect(response.links).toBeDefined()
-    expect(response.links.home).toBeDefined()
-    expect(response.links.next).toBeDefined()
-    expect(response.links.prev).toBeDefined()
-    expect(response.links.prev).toContain('page=1')
-    expect(response.functions).toBeDefined()
+    const data = response as any
+    
+    expect(data.links).toBeDefined()
+    expect(data.links.home).toBeDefined()
+    expect(data.links.next).toBeDefined()
+    expect(data.links.prev).toBeDefined()
+    expect(data.links.prev).toContain('page=1')
+    expect(data.functions).toBeDefined()
   })
 
   it('should not include next link when there are no more pages', async () => {
@@ -120,10 +125,12 @@ describe('Functions API with pagination', () => {
 
     const response = await GET(request as any, context as any)
     
-    expect(response.links).toBeDefined()
-    expect(response.links.home).toBeDefined()
-    expect(response.links.next).toBeUndefined()
-    expect(response.links.prev).toBeDefined()
-    expect(response.functions).toBeDefined()
+    const data = response as any
+    
+    expect(data.links).toBeDefined()
+    expect(data.links.home).toBeDefined()
+    expect(data.links.next).toBeUndefined()
+    expect(data.links.prev).toBeDefined()
+    expect(data.functions).toBeDefined()
   })
 })
