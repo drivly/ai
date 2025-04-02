@@ -9,7 +9,8 @@ import { BlogPosts } from '../../../../_components/blog-ui/blog-posts'
 import { ShareButtons } from '../../../../_components/blog-ui/share-button'
 import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from '../../../blog-posts'
 
-export default async function BlogPage({ params }: { params: { domains: string; slug?: string[] } }) {
+export default async function BlogPage(props: { params: { domains: string; slug?: string[] } }) {
+  const { params } = props
   const { domains: domainParam, slug } = params
   
   if (!domainParam || !domains.includes(domainParam)) {
