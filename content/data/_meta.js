@@ -1,7 +1,4 @@
 export default {
-  index: {
-    title: 'Overview',
-  },
   nouns: {
     title: 'Nouns',
   },
