@@ -95,7 +95,7 @@ export async function middleware(request: NextRequest) {
       const url = new URL(request.url)
       return NextResponse.rewrite(new URL(`${url.origin.replace(hostname, aliasedDomain)}/${aliasedApiName}${search}`))
     }
-
+    
     if (hostname === 'apis.do' && pathname === '/sites') {
       console.log('Rewriting apis.do/sites to sites-list', { hostname, pathname, search })
       return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
