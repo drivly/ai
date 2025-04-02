@@ -9,7 +9,7 @@ export const Generations: CollectionConfig = {
   access: { update: () => false, delete: () => false },
   fields: [
     { name: 'action', type: 'relationship', relationTo: 'actions' },
-    { name: 'settings', type: 'relationship', relationTo: 'things' },
+    { name: 'settings', type: 'relationship', relationTo: 'resources' },
     { name: 'request', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
     { name: 'response', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
     { name: 'error', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },

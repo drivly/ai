@@ -7,7 +7,7 @@ export const generateResourceEmbedding = async (resourceId: string): Promise<voi
   
   try {
     const resource = await payload.findByID({
-      collection: 'things', // Using 'things' as the slug was renamed but kept the same in the database
+      collection: 'resources', // Collection slug
       id: resourceId,
     })
     
@@ -19,7 +19,7 @@ export const generateResourceEmbedding = async (resourceId: string): Promise<voi
     const embedding = { vectors: [0.1, 0.2, 0.3] } // Replace with actual embedding generation
     
     await payload.update({
-      collection: 'things', // Using 'things' as the slug was renamed but kept the same in the database
+      collection: 'resources', // Collection slug
       id: resourceId,
       data: {
         embedding,

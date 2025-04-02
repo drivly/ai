@@ -7,7 +7,7 @@ export const apis: Record<string, string> = {
   agents: '',
   nouns: '',
   verbs: '',
-  things: '',
+  resources: '',
   triggers: '',
   searches: '',
   actions: '',
@@ -20,7 +20,7 @@ export const apis: Record<string, string> = {
 }
 
 export const related: Record<string, string[]> = {
-  functions: ['nouns', 'verbs', 'things'],
+  functions: ['nouns', 'verbs', 'resources'],
   workflows: ['triggers', 'searches', 'actions'],
   database: ['evals', 'analytics', 'experiments'],
   agents: ['integrations', 'models'],

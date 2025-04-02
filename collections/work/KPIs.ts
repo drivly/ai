@@ -3,9 +3,10 @@ import type { CollectionConfig } from 'payload'
 export const KPIs: CollectionConfig = {
   slug: 'kpis',
   admin: {
-    group: 'Observability',
+    group: 'Work',
     useAsTitle: 'name',
   },
+  labels: { singular: 'KPI', plural: 'KPIs' },
   fields: [
     {
       name: 'name',

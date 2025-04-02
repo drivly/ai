@@ -206,7 +206,7 @@ By visiting https://apis.do in a browser with a [JSON Plugin](https://apis.do/do
   "data": {
     "Nouns - Categories or Types of Things": "https://nouns.do",
     "Verbs - Actions That Can Be Performed": "https://verbs.do",
-    "Things - Instances of Nouns in Your System": "https://things.do",
+    "Resources - Instances of Nouns in Your System": "https://resources.do",
     "Actions - Subject-Predicate-Object Relationships": "https://actions.do"
   },
   "events": {
@@ -279,14 +279,14 @@ Our platform is built on a semantic data model inspired by basic English grammar
 
 - **[Nouns](https://nouns.do)** - Categories or types of things in your system (like Customer, Product, Order)
 - **[Verbs](https://verbs.do)** - Actions that can be performed (like Create, Update, Delete)
-- **[Things](https://things.do)** - Specific instances of Nouns (a particular Customer, Product, or Order)
-- **[Actions](https://actions.do)** - Relationships between Things in Subject-Predicate-Object format
+- **[Resources](https://resources.do)** - Specific instances of Nouns (a particular Customer, Product, or Order)
+- **[Actions](https://actions.do)** - Relationships between Resources in Subject-Predicate-Object format
 
-This simple but powerful model follows the natural language pattern of Subject-Predicate-Object (like "Customer purchased Product"). Every Action in the system connects a Subject (a Thing) with an Object (another Thing) through a Predicate (a Verb), creating a semantic triple that represents a meaningful business event or relationship.
+This simple but powerful model follows the natural language pattern of Subject-Predicate-Object (like "Customer purchased Product"). Every Action in the system connects a Subject (a Resource) with an Object (another Resource) through a Predicate (a Verb), creating a semantic triple that represents a meaningful business event or relationship.
 
-## [Things.do](https://things.do) Instances of Nouns
+## [Resources.do](https://resources.do) Instances of Nouns
 
-Things.do provides a powerful framework for modeling and managing specific instances of Nouns in your business domain. It enables you to create, track, and manipulate the actual entities that your business interacts with.
+Resources.do provides a powerful framework for modeling and managing specific instances of Nouns in your business domain. It enables you to create, track, and manipulate the actual entities that your business interacts with.
 
 ## [Database.do](https://database.do) AI-enriched Data
 
