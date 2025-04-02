@@ -4,7 +4,7 @@ import crypto from 'crypto'
 
 export const GET = API(async (request, { url, params, user }) => {
   try {
-    const provider = params.provider
+    const { provider } = await params
     const code = url.searchParams.get('code')
     const state = url.searchParams.get('state')
     const error = url.searchParams.get('error')
