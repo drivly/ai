@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Fragment, useEffect, useState, Suspense } from 'react'
 import Link from 'next/link'
-import { Badge } from '@drivly/ui/badge'
+import { Badge } from '@/app/(sites)/_components/badge'
 import { domains, brandDomains, isAIGateway } from '@/domains.config'
 import { siteCategories, domainDescriptions } from '@/api.config'
 
