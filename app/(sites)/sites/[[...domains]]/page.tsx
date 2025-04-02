@@ -38,9 +38,6 @@ async function HomePage({ params }: { params: Promise<{ domains?: string[] }> })
   const site = domains?.[0] ?? 'llm.do'
   const isBlog = domains?.[1] === 'blog'
   const isBlogPost = isBlog && domains?.[2]
-  const isPrivacy = domains?.[1] === 'privacy'
-  const isTerms = domains?.[1] === 'terms'
-  const isPricing = domains?.[1] === 'pricing'
 
   if (site && !domainsConfig.domains[site]) {
     return notFound()
@@ -52,18 +49,6 @@ async function HomePage({ params }: { params: Promise<{ domains?: string[] }> })
 
   if (isBlog) {
     return <BlogPage domain={domains[0]} />
-  }
-  
-  if (isPrivacy) {
-    return <PrivacyPage domain={domains[0]} />
-  }
-  
-  if (isTerms) {
-    return <TermsPage domain={domains[0]} />
-  }
-  
-  if (isPricing) {
-    return <PricingPage domain={domains[0]} />
   }
 
   const glowColor = getGlowColor(site)
@@ -147,85 +132,6 @@ async function BlogPostPage({ domain, slug }: { domain: string, slug: string }) 
       <BlogContent />
 
       {/* Related domain blog posts */}
-    </div>
-  )
-}
-
-async function PrivacyPage({ domain }: { domain: string }) {
-  return (
-    <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
-      <Link href={`/sites/${domain}`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
-        <ArrowLeft className='mr-1 h-4 w-4' />
-        Back
-      </Link>
-
-      <div className='mb-8'>
-        <h1 className='mb-4 text-4xl font-bold tracking-tight'>Privacy Policy</h1>
-        <div className='prose mt-8 max-w-none dark:prose-invert'>
-          <p>This Privacy Policy describes how your personal information is collected, used, and shared when you visit {domain}.</p>
-          <h2>Personal Information We Collect</h2>
-          <p>When you visit the Site, we automatically collect certain information about your device, including information about your web browser, IP address, time zone, and some of the cookies that are installed on your device.</p>
-          <h2>How We Use Your Personal Information</h2>
-          <p>We use the information that we collect to help us screen for potential risk and fraud, and more generally to improve and optimize our Site.</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-async function TermsPage({ domain }: { domain: string }) {
-  return (
-    <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
-      <Link href={`/sites/${domain}`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
-        <ArrowLeft className='mr-1 h-4 w-4' />
-        Back
-      </Link>
-
-      <div className='mb-8'>
-        <h1 className='mb-4 text-4xl font-bold tracking-tight'>Terms of Service</h1>
-        <div className='prose mt-8 max-w-none dark:prose-invert'>
-          <p>These Terms of Service govern your use of the website located at {domain} and any related services provided by us.</p>
-          <h2>Limitations</h2>
-          <p>You agree that we will not be liable to you or any third party for any loss or damages of any kind.</p>
-          <h2>Governing Law</h2>
-          <p>These Terms shall be governed and construed in accordance with the laws applicable to agreements made and to be performed in the United States.</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-async function PricingPage({ domain }: { domain: string }) {
-  return (
-    <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
-      <Link href={`/sites/${domain}`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
-        <ArrowLeft className='mr-1 h-4 w-4' />
-        Back
-      </Link>
-
-      <div className='mb-8'>
-        <h1 className='mb-4 text-4xl font-bold tracking-tight'>Pricing</h1>
-        <div className='prose mt-8 max-w-none dark:prose-invert'>
-          <p>Choose the plan that's right for your needs.</p>
-          <div className='grid gap-6 md:grid-cols-3'>
-            <div className='rounded-lg border p-6'>
-              <h3 className='text-xl font-bold'>Free</h3>
-              <div className='mt-2 text-3xl font-bold'>$0</div>
-              <p className='mt-4'>Basic features for individuals</p>
-            </div>
-            <div className='rounded-lg border p-6 shadow-md'>
-              <h3 className='text-xl font-bold'>Pro</h3>
-              <div className='mt-2 text-3xl font-bold'>$49</div>
-              <p className='mt-4'>Advanced features for power users</p>
-            </div>
-            <div className='rounded-lg border p-6'>
-              <h3 className='text-xl font-bold'>Enterprise</h3>
-              <div className='mt-2 text-3xl font-bold'>Contact us</div>
-              <p className='mt-4'>Custom solutions for teams</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   )
 }
