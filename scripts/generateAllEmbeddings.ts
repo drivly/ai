@@ -6,28 +6,28 @@ import { generateThingEmbedding } from '../tasks/generateThingEmbedding'
 
 async function generateAllEmbeddings() {
   try {
-    console.log('Starting embedding generation for all Things...')
+    console.log('Starting embedding generation for all Resources...')
     
     const payload = await getPayload({ config: (await import('../payload.config')).default })
     
     const response = await payload.find({
-      collection: 'things',
+      collection: 'resources',
       where: {
         embedding: { exists: false }
       },
       limit: 1000,
     })
     
-    const things = response.docs
-    console.log(`Found ${things.length} Things without embeddings`)
+    const resources = response.docs
+    console.log(`Found ${resources.length} Resources without embeddings`)
     
-    for (const thing of things) {
+    for (const resource of resources) {
       try {
-        console.log(`Generating embedding for Thing ${thing.id}: ${thing.name || 'Unnamed'}`)
-        await generateThingEmbedding(thing.id)
-        console.log(`✓ Successfully generated embedding for Thing ${thing.id}`)
+        console.log(`Generating embedding for Resource ${resource.id}: ${resource.name || 'Unnamed'}`)
+        await generateThingEmbedding(resource.id)
+        console.log(`✓ Successfully generated embedding for Resource ${resource.id}`)
       } catch (error) {
-        console.error(`Error generating embedding for Thing ${thing.id}:`, error)
+        console.error(`Error generating embedding for Resource ${resource.id}:`, error)
       }
       
       await new Promise(resolve => setTimeout(resolve, 100))
