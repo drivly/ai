@@ -5,9 +5,9 @@ import { notFound } from 'next/navigation'
 import { BlogPosts } from '../../../_components/blog-ui/blog-posts'
 import { getAllBlogPosts, getAllCategories } from '../../blog-posts'
 
-export default async function BlogIndexPage(props: { params: { domains: string } }) {
-  const { params } = props
-  const { domains: domainParam } = params
+export default async function BlogIndexPage({ params }: { params: Promise<Record<string, string | string[]>> }) {
+  const resolvedParams = await params
+  const domainParam = resolvedParams.domains as string
   
   if (!domainParam || !domains.includes(domainParam)) {
     return notFound()
