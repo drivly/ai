@@ -31,7 +31,7 @@ export default function OAuthDocs() {
       <div className='bg-gray-100 p-4 rounded mb-6'>
         <h3 className='font-semibold mb-2'>Authorization Endpoint</h3>
         <code className='block bg-gray-200 p-2 rounded'>
-          https://apis.do/oauth?provider=YOUR_CLIENT_ID&amp;redirect_uri=YOUR_REDIRECT_URI&amp;state=OPTIONAL_STATE
+          https://apis.do/api/oauth?provider=YOUR_CLIENT_ID&amp;redirect_uri=YOUR_REDIRECT_URI&amp;state=OPTIONAL_STATE
         </code>
         <p className='mt-2 text-sm'>
           This endpoint initiates the OAuth flow. The user will be redirected to the login page if not already authenticated.
@@ -41,7 +41,7 @@ export default function OAuthDocs() {
       <div className='bg-gray-100 p-4 rounded mb-6'>
         <h3 className='font-semibold mb-2'>Token Endpoint</h3>
         <code className='block bg-gray-200 p-2 rounded'>
-          https://apis.do/oauth/token
+          https://apis.do/api/oauth/token
         </code>
         <p className='mt-2 text-sm'>
           This endpoint exchanges an authorization code for an access token. Send a POST request with the following parameters:
