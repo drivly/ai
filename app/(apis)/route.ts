@@ -17,7 +17,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     if (!collection) continue
     
     const adminGroup = collection.config?.admin?.group || 'Other'
-    const title = collection.config?.labels?.singular || titleCase(slug)
+    const title = collection.config?.labels?.plural || titleCase(slug)
     
     if (!collectionsByGroup[adminGroup]) {
       collectionsByGroup[adminGroup] = {}
