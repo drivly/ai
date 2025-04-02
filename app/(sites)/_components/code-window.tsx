@@ -1,5 +1,5 @@
 import { cn } from '@drivly/ui/lib'
-import { Pre } from '@code-hike/mdx/components'
+import { CH } from '@code-hike/mdx/components'
 import React from 'react'
 
 interface CodeWindowProps {
@@ -44,13 +44,14 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 
         {/* Code content with CodeHike */}
         <div className='max-h-[500px] overflow-auto bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
-          <Pre 
+          <CH.Code 
             language={language}
             showLineNumbers={true}
             annotations={[autoLinkHandler]}
             codeClassName="text-xs sm:text-sm"
-            code={code}
-          />
+          >
+            {code}
+          </CH.Code>
         </div>
       </div>
     </div>
@@ -58,4 +59,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with                           
+// browser bar with                             
