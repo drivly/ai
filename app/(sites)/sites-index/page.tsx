@@ -1,13 +1,13 @@
 'use client'
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState, Suspense } from 'react'
 import Link from 'next/link'
 import { Badge } from '@drivly/ui/badge'
 import { domains, brandDomains, isAIGateway } from '@/domains.config'
 import { siteCategories, domainDescriptions } from '@/api.config'
 
-export default function SitesIndexPage() {
+function SitesIndexContent() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -100,5 +100,13 @@ export default function SitesIndexPage() {
         </Fragment>
       ))}
     </div>
+  )
+}
+
+export default function SitesIndexPage() {
+  return (
+    <Suspense fallback={<div className="container mx-auto px-4 pt-20 pb-12">Loading sites...</div>}>
+      <SitesIndexContent />
+    </Suspense>
   )
 }
