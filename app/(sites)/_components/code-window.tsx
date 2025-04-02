@@ -34,13 +34,9 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 
         {/* Code content with CodeHike */}
         <div className='max-h-[500px] overflow-auto bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
-          <Pre 
-            code={code} 
-            language={language} 
-            handlers={[autoLinkHandler]} 
-            theme="dracula"
-            className="text-xs sm:text-sm"
-          />
+          <pre className="text-xs sm:text-sm">
+            <code>{code}</code>
+          </pre>
         </div>
       </div>
     </div>
@@ -48,4 +44,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with            
+// browser bar with              
