@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
-export async function GET(request: NextRequest, context: { params: { provider: string } }) {
-  const { params } = context
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { provider: string } }
+) {
   try {
     const provider = params.provider
     const url = new URL(request.url)
