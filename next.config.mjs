@@ -54,6 +54,17 @@ const nextConfig = {
             },
           ],
         },
+        // Additional rewrite for do.mw with higher priority
+        {
+          source: '/:path*',
+          destination: '/sites-list',
+          has: [
+            {
+              type: 'host',
+              value: 'do\\.mw',
+            },
+          ],
+        },
         // Special case for apis.do/sites
         {
           source: '/sites',
