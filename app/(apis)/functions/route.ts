@@ -14,7 +14,7 @@ export const GET = API(async (request, { db, user, url }) => {
   const totalItems = Array.isArray(functionsArray) ? functionsArray.length : 0
   
   const baseUrl = request.nextUrl.origin + request.nextUrl.pathname
-  const links = {
+  const links: { home: string; next?: string; prev?: string } = {
     home: baseUrl,
   }
   
