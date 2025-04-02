@@ -68,6 +68,7 @@
     "date-fns": "^3.6.0",
     "dedent": "^1.5.3",
     "geolib": "^3.3.4",
+    "grant": "^5.4.24",
     "graphdl.js": "^0.1.0",
     "graphql": "^16.8.1",
     "isolated-vm": "^5.0.4",
