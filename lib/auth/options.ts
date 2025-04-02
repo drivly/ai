@@ -7,7 +7,10 @@ import { isSuperAdmin } from '../hooks/isSuperAdmin'
 
 export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), oAuthProxy({ 
   productionURL: 'https://apis.do',
-  currentURL: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined
+  currentURL: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
+              process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 
+              process.env.VERCEL_BRANCH_URL ? process.env.VERCEL_BRANCH_URL : 
+              process.env.VERCEL_PREVIEW_URL ? process.env.VERCEL_PREVIEW_URL : undefined
 })]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
