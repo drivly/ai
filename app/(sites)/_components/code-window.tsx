@@ -1,5 +1,5 @@
 import { cn } from '@drivly/ui/lib'
-import { Pre } from 'codehike/code'
+import { Pre, type HighlightedCode } from 'codehike/code'
 import React from 'react'
 
 interface CodeWindowProps {
@@ -27,6 +27,13 @@ const autoLinkHandler = {
 }
 
 export function CodeWindow({ className, code, language = 'json', title = 'llm.do' }: CodeWindowProps) {
+  const highlightedCode: HighlightedCode = {
+    code,
+    highlightedCode: code,
+    highlightedTokens: [],
+    tokens: []
+  }
+
   return (
     <div className={cn('bg-opacity-[0.01] rounded-2xl border-[10px] border-white/10', className)}>
       <div className='relative w-full overflow-hidden rounded-md border'>
@@ -49,7 +56,7 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
             showLineNumbers={true}
             annotations={[autoLinkHandler]}
             codeClassName="text-xs sm:text-sm"
-            code={code}
+            code={highlightedCode}
           />
         </div>
       </div>
@@ -58,4 +65,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with    
+// browser bar with      
