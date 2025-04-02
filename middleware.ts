@@ -94,9 +94,11 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
     }
     
-    if ((pathname === '/' || pathname === '/sites') && brandDomains.includes(hostname)) {
-      console.log('Rewriting brand domain to sites list', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
+    if (brandDomains.includes(hostname)) {
+      console.log('Rewriting brand domain to sites list (high priority)', { hostname, pathname, search })
+      if (pathname === '/' || pathname === '/sites') {
+        return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
+      }
     }
 
     if (hostname.includes('dev.driv.ly') && (pathname === '/' || pathname === '/sites')) {
