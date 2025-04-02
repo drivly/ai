@@ -2,8 +2,8 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 import { getBlogPosts } from '@/lib/blog'
 
-export default async function BlogPage({ params }: { params: { domains: string } }) {
-  const { domains } = params
+export default async function BlogPage({ params }: { params: Promise<{ domains: string }> }) {
+  const { domains } = await params
   const domain = `${domains}.do`
   
   const blogPosts = await getBlogPosts(domain)

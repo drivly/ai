@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import { getBlogPost } from '@/lib/blog'
 
-export default async function BlogPostPage({ params }: { params: { domains: string; slug: string } }) {
-  const { domains, slug } = params
+export default async function BlogPostPage({ params }: { params: Promise<{ domains: string; slug: string }> }) {
+  const { domains, slug } = await params
   const domain = `${domains}.do`
   
   const blogPost = await getBlogPost(domain, slug)
