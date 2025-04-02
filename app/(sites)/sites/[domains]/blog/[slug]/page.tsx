@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation'
 import { getBlogPost } from '@/lib/blog'
+import type { PageProps } from 'next'
 
-export default async function BlogPostPage({ params }: { params: { domains: string; slug: string } }) {
+export default async function BlogPostPage({ params }: PageProps<{ domains: string; slug: string }>) {
   const { domains, slug } = params
   const domain = `${domains}.do`
   
