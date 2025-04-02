@@ -29,6 +29,7 @@ const nextConfig = {
       },
     ]
   },
+  // All routing is handled by middleware.ts
 }
 
 export default withNextra(withPayload(nextConfig, { devBundleServerPackages: false }))
