@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from '@drivly/ui/lib'
 import { Pre, RawCode, highlight } from 'codehike/code'
 import React, { useEffect, useState } from 'react'
@@ -86,4 +88,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with                        
+// browser bar with                                    
