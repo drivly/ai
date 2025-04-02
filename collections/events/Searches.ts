@@ -1,3 +1,4 @@
+import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 
 export const Searches: CollectionConfig = {
@@ -28,14 +29,20 @@ export const Searches: CollectionConfig = {
       async ({ data, req }) => {
         if (data.searchType === 'vector' || data.searchType === 'hybrid') {
           try {
-            const { generateEmbedding } = await import('../../tasks/generateEmbedding')
+            const { payload } = req
             
-            if (data.query) {
-              const embedding = await generateEmbedding(data.query)
-              data.embedding = embedding
-            }
+            const job = await payload.jobs.queue({
+              task: 'executeFunction',
+              input: {
+                functionName: 'generateEmbedding',
+                args: { query: data.query }
+              }
+            })
+            
+            console.log(`Queued embedding generation for search query: ${data.query}`, job)
+            waitUntil(payload.jobs.runByID({ id: job.id }))
           } catch (error) {
-            console.error('Error generating embedding for search:', error)
+            console.error('Error queueing embedding generation for search:', error)
           }
         }
         
@@ -45,27 +52,33 @@ export const Searches: CollectionConfig = {
     afterChange: [
       async ({ doc, req }) => {
         try {
+          const { payload } = req
+          
           if (doc.searchType === 'vector') {
-            const { searchThings } = await import('../../tasks/searchThings')
+            const job = await payload.jobs.queue({
+              task: 'searchThings',
+              input: {
+                query: doc.query,
+                limit: 10
+              }
+            })
             
-            const results = await searchThings(doc.query)
-            
-            const { initializePayloadDB } = await import('../../lib/db')
-            const db = await initializePayloadDB()
-            
-            await db.searches.update(doc.id, { results })
+            console.log(`Queued vector search for: ${doc.query}`, job)
+            waitUntil(payload.jobs.runByID({ id: job.id }))
           } else if (doc.searchType === 'hybrid') {
-            const { hybridSearchThings } = await import('../../tasks/searchThings')
+            const job = await payload.jobs.queue({
+              task: 'hybridSearchThings',
+              input: {
+                query: doc.query,
+                limit: 10
+              }
+            })
             
-            const results = await hybridSearchThings(doc.query)
-            
-            const { initializePayloadDB } = await import('../../lib/db')
-            const db = await initializePayloadDB()
-            
-            await db.searches.update(doc.id, { results })
+            console.log(`Queued hybrid search for: ${doc.query}`, job)
+            waitUntil(payload.jobs.runByID({ id: job.id }))
           }
         } catch (error) {
-          console.error('Error performing search:', error)
+          console.error('Error queueing search task:', error)
         }
         
         return doc

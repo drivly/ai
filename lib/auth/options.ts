@@ -1,11 +1,14 @@
 import { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
-import { admin, apiKey, multiSession, openAPI } from 'better-auth/plugins'
+import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 
-export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies()]
+export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), oAuthProxy({ 
+  productionURL: 'https://apis.do',
+  currentURL: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined
+})]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
 
@@ -16,10 +19,12 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      redirectURI: 'https://apis.do/api/auth/callback/google',
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      redirectURI: 'https://apis.do/api/auth/callback/github',
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
@@ -90,13 +95,17 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
   hidePluginCollections: true,
   users: {
     slug: 'users',
-    hidden: false,
+    hidden: true, // Hide the users collection from navigation
     adminRoles: ['admin'],
     allowedFields: ['name'],
     blockFirstBetterAuthVerificationEmail: true,
     collectionOverrides: ({ collection }) => {
       return {
         ...collection,
+        admin: {
+          ...(collection.admin || {}),
+          group: 'AuthInternal', // Use a different group name
+        },
         auth: {
           ...(typeof collection?.auth === 'object' ? collection.auth : {}),
         },
