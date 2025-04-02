@@ -1575,7 +1575,8 @@ export function buildCollectionConfigs({
     ...collection,
     admin: {
       ...collection.admin,
-      group: 'Admin'
+      hidden: true, // Hide the collections from the navigation
+      group: 'AuthInternal' // Use a different group name to separate from other collections
     }
   }));
   
