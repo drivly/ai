@@ -13,7 +13,18 @@ const ensureDataDir = () => {
   }
 }
 
-const loadOAuthClients = () => {
+interface OAuthClient {
+  id: string;
+  name: string;
+  clientId: string;
+  clientSecret: string;
+  redirectURLs: string[];
+  createdBy: string;
+  createdAt: string;
+  disabled: boolean;
+}
+
+const loadOAuthClients = (): OAuthClient[] => {
   ensureDataDir()
   if (!fs.existsSync(OAUTH_CLIENTS_FILE)) {
     return []
@@ -28,7 +39,7 @@ const loadOAuthClients = () => {
   }
 }
 
-const saveOAuthClients = (clients: any[]) => {
+const saveOAuthClients = (clients: OAuthClient[]) => {
   ensureDataDir()
   try {
     fs.writeFileSync(OAUTH_CLIENTS_FILE, JSON.stringify(clients, null, 2))
