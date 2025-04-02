@@ -1,4 +1,4 @@
-import { cn } from '@drivly/ui/lib'
+import { cn } from './_components/utils'
 import type { Metadata } from 'next'
 import { Mona_Sans as FontSans } from 'next/font/google'
 import type React from 'react'
