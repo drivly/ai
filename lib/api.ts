@@ -575,15 +575,18 @@ export const createFunctionsObject = (
   const functionsObject: Record<string, string> = {}
   
   if (Array.isArray(functions)) {
-    functions.forEach(func => {
+    for (let i = 0; i < functions.length; i++) {
+      const func = functions[i]
       if (func && typeof func === 'object' && func.name) {
         functionsObject[func.name] = generateFunctionLink(request, func.name)
       }
-    })
+    }
   } else if (functions && typeof functions === 'object') {
-    Object.keys(functions).forEach(key => {
+    const keys = Object.keys(functions)
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
       functionsObject[key] = generateFunctionLink(request, key)
-    })
+    }
   }
   
   return functionsObject
