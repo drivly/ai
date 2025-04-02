@@ -74,7 +74,7 @@ async function BlogPage({ domain }: { domain: string }) {
   return (
     <div className='container mx-auto px-4 pt-20 pb-12 md:pt-24 md:pb-24 lg:pb-32'>
       <div className='mb-8'>
-        <Link href={`/site/${domain}`} className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
+        <Link href={`/sites/${domain}`} className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
           <ArrowLeft className='mr-1 h-4 w-4' />
           Back
         </Link>
@@ -94,14 +94,14 @@ async function BlogPostPage({ domain, slug }: { domain: string, slug: string }) 
   }
 
 
-  const postUrl = `/site/${domain}/blog/${post.slug}`
+  const postUrl = `/sites/${domain}/blog/${post.slug}`
   const fallbackImage = '/images/blog-llm.png'
   const dateObj = new Date(post.date.split('-').join('/'))
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (
     <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
-      <Link href={`/site/${domain}/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
+      <Link href={`/sites/${domain}/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back
       </Link>
