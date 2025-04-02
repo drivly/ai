@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
+import { getCurrentURL } from '../../../lib/utils/url'
 
 export async function GET() {
-  return NextResponse.redirect(new URL('/api/auth/signin/github?callbackUrl=/admin', process.env.NEXT_PUBLIC_SERVER_URL || 'https://apis.do'))
+  return NextResponse.redirect(new URL('/api/auth/signin/github?callbackUrl=/admin', getCurrentURL()))
 }
