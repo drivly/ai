@@ -1,4 +1,4 @@
-import type { BlogPost } from '../_components/blog-ui/blog-posts'
+import type { BlogPost } from '@/components/sites/blog-ui/blog-posts'
 
 // Sample blog posts data
 const blogPosts: BlogPost[] = [

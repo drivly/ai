@@ -1,11 +1,11 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/sites/utils'
 import type { Metadata } from 'next'
 import { Mona_Sans as FontSans } from 'next/font/google'
 import type React from 'react'
-import { Footer } from './_components/footer'
-import { Navbar } from './_components/navbar'
-import { Toaster } from './_components/sonner'
-import { ThemeProvider } from './_components/theme-provider'
+import { Footer } from '@/components/sites/footer'
+import { Navbar } from '@/components/sites/navbar'
+import { Toaster } from '@/components/sites/sonner'
+import { ThemeProvider } from '@/components/sites/theme-provider'
 import './styles.css'
 
 const fontSans = FontSans({
