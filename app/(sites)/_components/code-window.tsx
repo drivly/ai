@@ -46,6 +46,19 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 
   const [highlighted, setHighlighted] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [processedCode, setProcessedCode] = useState(code)
+
+  useEffect(() => {
+    const processLinks = () => {
+      const markdownLinkRegex = /\[(https?:\/\/[^\]]+)\]\((https?:\/\/[^)]+)\)/g
+      const processed = code.replace(markdownLinkRegex, (match, text, url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="underline text-blue-400 hover:text-blue-300">${text}</a>`
+      })
+      setProcessedCode(processed)
+    }
+
+    processLinks()
+  }, [code])
 
   useEffect(() => {
     const highlightCode = async () => {
@@ -88,7 +101,10 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
               className="text-xs sm:text-sm"
             />
           ) : (
-            <pre className="text-xs sm:text-sm">{code}</pre>
+            <div 
+              className="text-xs sm:text-sm" 
+              dangerouslySetInnerHTML={{ __html: processedCode }}
+            />
           )}
         </div>
       </div>
@@ -97,4 +113,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with                                                
+// browser bar with                                                                        
