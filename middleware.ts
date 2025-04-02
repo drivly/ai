@@ -22,7 +22,7 @@ const sitePrefixes = ['/blog', '/docs']
  * Check if a domain should be treated as a gateway domain
  */
 const isGatewayDomain = (hostname: string): boolean => {
-  return isAIGateway(hostname) || hostname === 'localhost' || hostname === 'apis.do' || hostname.includes('vercel.app')
+  return isAIGateway(hostname) || hostname === 'localhost' || hostname === 'apis.do' || hostname.includes('vercel.app') || hostname.includes('dev.driv.ly')
 }
 
 /**
