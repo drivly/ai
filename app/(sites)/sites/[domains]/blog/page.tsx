@@ -1,9 +1,8 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { getBlogPosts } from '@/lib/blog'
-import type { PageProps } from 'next'
 
-export default async function BlogPage({ params }: PageProps<{ domains: string }>) {
+export default async function BlogPage({ params }: { params: { domains: string } }) {
   const { domains } = params
   const domain = `${domains}.do`
   
