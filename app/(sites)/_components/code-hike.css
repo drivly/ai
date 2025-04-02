@@ -1,0 +1,21 @@
+@import 'codehike/styles.css';
+
+/* Custom styling to match the existing code window */
+.ch-code-button {
+  display: none;
+}
+
+.ch-code {
+  background: transparent;
+  border: none;
+}
+
+.ch-codeblock {
+  background: transparent;
+  margin: 0;
+  padding: 0;
+}
+
+.ch-code-line {
+  font-size: inherit;
+}

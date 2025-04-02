@@ -1,4 +1,6 @@
 import { cn } from '@drivly/ui/lib'
+import { Pre } from 'codehike/code'
+import React from 'react'
 
 interface CodeWindowProps {
   className?: string
@@ -7,36 +9,19 @@ interface CodeWindowProps {
   title?: string
 }
 
-// Function to syntax highlight JSON
-function syntaxHighlightJson(json: string) {
-  return json
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, (match) => {
-      let cls = 'text-green-300' // string
-      if (/^"/.test(match)) {
-        if (/:$/.test(match)) {
-          cls = 'text-blue-300' // key
-        }
-      } else if (/true|false/.test(match)) {
-        cls = 'text-yellow-300' // boolean
-      } else if (/null/.test(match)) {
-        cls = 'text-red-300' // null
-      } else {
-        cls = 'text-cyan-300' // number
-      }
-      return '<span class="' + cls + '">' + match + '</span>'
-    })
-    .replace(/({|}|\[|\]|,|:)/g, (match) => {
-      return '<span class="text-white">' + match + '</span>'
-    })
+const autoLinkHandler = {
+  name: 'link',
+  Inline: ({ annotation, children }) => {
+    const url = typeof annotation === 'string' ? annotation : String(annotation)
+    return (
+      <a href={url} target="_blank" rel="noopener noreferrer" className="underline text-blue-400 hover:text-blue-300">
+        {children}
+      </a>
+    )
+  }
 }
 
 export function CodeWindow({ className, code, language = 'json', title = 'llm.do' }: CodeWindowProps) {
-  // Only handle JSON for now
-  const highlightedCode = language === 'json' ? syntaxHighlightJson(code) : code
-
   return (
     <div className={cn('bg-opacity-[0.01] rounded-2xl border-[10px] border-white/10', className)}>
       <div className='relative w-full overflow-hidden rounded-md border'>
@@ -50,23 +35,17 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
             </div>
             <p className='text-xs text-gray-400 mx-auto'>{title}</p>
           </div>
-          {/* <div className='flex items-center gap-2'>
-            <div className='rounded bg-gray-800 px-2 py-1'>
-              <p className='text-xs text-gray-400'>{language.toUpperCase()}</p>
-            </div>
-          </div> */}
         </div>
 
-        {/* Code content */}
+        {/* Code content with CodeHike */}
         <div className='max-h-[500px] overflow-auto bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
-          <pre className='language-json '>
-            <code
-              className='text-xs sm:text-sm'
-              dangerouslySetInnerHTML={{
-                __html: highlightedCode,
-              }}
-            />
-          </pre>
+          <Pre 
+            language={language}
+            showLineNumbers={true}
+            annotations={[autoLinkHandler]}
+            codeClassName="text-xs sm:text-sm"
+            code={code}
+          />
         </div>
       </div>
     </div>
@@ -74,4 +53,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with 
+// browser bar with  
