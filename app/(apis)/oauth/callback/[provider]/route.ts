@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { API } from '@/lib/api'
 import { getPayload } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { provider: string } }
+  { params }: { params: Promise<{ provider: string }> }
 ) {
+  const resolvedParams = await params
   try {
-    const provider = params.provider
+    const provider = resolvedParams.provider
     const url = new URL(request.url)
     const code = url.searchParams.get('code')
     const state = url.searchParams.get('state')
