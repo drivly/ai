@@ -1,20 +1,9 @@
 export default {
-  nouns: {
-    title: 'Nouns',
-  },
-  verbs: {
-    title: 'Verbs',
-  },
-  resources: {
-    title: 'Resources',
-  },
-  actions: {
-    title: 'Actions',
-  },
-  database: {
-    title: 'Database',
-  },
-  'database-sdk-tutorial': {
-    title: 'Database SDK Tutorial',
-  },
+  index: 'Overview',
+  nouns: '',
+  verbs: '',
+  resources: '',
+  actions: '',
+  database: '',
+  'database-sdk-tutorial': 'Database SDK Tutorial',
 }
