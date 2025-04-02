@@ -9,8 +9,9 @@ import { BlogPosts } from '../../../../_components/blog-ui/blog-posts'
 import { ShareButtons } from '../../../../_components/blog-ui/share-button'
 import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from '../../../blog-posts'
 
-export default async function BlogPage({ params }: { params: { domains: string; slug?: string[] } }) {
-  const { domains: domainParam, slug } = params
+export default async function BlogPage({ params }: { params: Promise<{ domains: string; slug?: string[] }> }) {
+  const resolvedParams = await params
+  const { domains: domainParam, slug } = resolvedParams
   
   if (!domains.includes(domainParam)) {
     return notFound()
