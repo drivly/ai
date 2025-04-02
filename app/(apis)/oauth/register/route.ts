@@ -1,6 +1,41 @@
 import { API } from '@/lib/api'
 import { getPayload } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
+import fs from 'fs'
+import path from 'path'
+
+const OAUTH_CLIENTS_FILE = path.join(process.cwd(), 'data', 'oauth-clients.json')
+
+const ensureDataDir = () => {
+  const dataDir = path.join(process.cwd(), 'data')
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true })
+  }
+}
+
+const loadOAuthClients = () => {
+  ensureDataDir()
+  if (!fs.existsSync(OAUTH_CLIENTS_FILE)) {
+    return []
+  }
+  
+  try {
+    const data = fs.readFileSync(OAUTH_CLIENTS_FILE, 'utf8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error loading OAuth clients:', error)
+    return []
+  }
+}
+
+const saveOAuthClients = (clients: any[]) => {
+  ensureDataDir()
+  try {
+    fs.writeFileSync(OAUTH_CLIENTS_FILE, JSON.stringify(clients, null, 2))
+  } catch (error) {
+    console.error('Error saving OAuth clients:', error)
+  }
+}
 
 export const POST = API(async (request, { url, user }) => {
   if (!user) {
@@ -8,7 +43,6 @@ export const POST = API(async (request, { url, user }) => {
   }
   
   const payload = await getPayload()
-  const { betterAuth } = payload
   
   const userDoc = await payload.findByID({
     collection: 'users',
@@ -29,7 +63,21 @@ export const POST = API(async (request, { url, user }) => {
     const clientId = `client_${crypto.randomBytes(16).toString('hex')}`
     const clientSecret = crypto.randomBytes(32).toString('hex')
     
-    const client = await betterAuth.api.oAuthProxy.registerClient(name, clientId, clientSecret, redirectURLs, user.id)
+    const clients = loadOAuthClients()
+    
+    const client = {
+      id: crypto.randomUUID(),
+      name,
+      clientId,
+      clientSecret,
+      redirectURLs,
+      createdBy: user.id,
+      createdAt: new Date().toISOString(),
+      disabled: false
+    }
+    
+    clients.push(client)
+    saveOAuthClients(clients)
     
     return { success: true, ...client }
   } catch (error) {

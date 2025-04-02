@@ -1,5 +1,28 @@
 import { API } from '@/lib/api'
 import { getPayload } from '@/lib/auth/payload-auth'
+import fs from 'fs'
+import path from 'path'
+
+const OAUTH_CLIENTS_FILE = path.join(process.cwd(), 'data', 'oauth-clients.json')
+
+const loadOAuthClients = (): any[] => {
+  const dataDir = path.join(process.cwd(), 'data')
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true })
+  }
+  
+  if (!fs.existsSync(OAUTH_CLIENTS_FILE)) {
+    return []
+  }
+  
+  try {
+    const data = fs.readFileSync(OAUTH_CLIENTS_FILE, 'utf8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error loading OAuth clients:', error)
+    return []
+  }
+}
 
 export const GET = API(async (request, { url, user }) => {
   if (!user) {
@@ -7,7 +30,6 @@ export const GET = API(async (request, { url, user }) => {
   }
   
   const payload = await getPayload()
-  const { betterAuth } = payload
   
   const userDoc = await payload.findByID({
     collection: 'users',
@@ -19,7 +41,7 @@ export const GET = API(async (request, { url, user }) => {
   }
   
   try {
-    const clients = await betterAuth.api.oAuthProxy.listClients(user.id)
+    const clients = loadOAuthClients()
     
     const maskedClients = clients.map(client => ({
       ...client,
