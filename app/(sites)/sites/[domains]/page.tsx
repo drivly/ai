@@ -31,23 +31,24 @@ const withDomainContainer = <TPage extends DomainPageProps>(WrappedPage: React.C
   )
 }
 
-async function HomePage({ params }: { params: Promise<{ domains?: string[] }> }) {
+async function HomePage({ params }: { params: Promise<{ domains?: string }> }) {
   const { domains } = await params
 
-  const site = domains?.[0] ?? 'llm.do'
-  const isBlog = domains?.[1] === 'blog'
-  const isBlogPost = isBlog && domains?.[2]
+  const site = domains ?? 'llm.do'
+  const pathParts = site.split('/')
+  const isBlog = pathParts[1] === 'blog'
+  const isBlogPost = isBlog && pathParts[2]
 
-  if (site && !domains.includes(site)) {
+  if (site && !domains.includes(site.split('/')[0])) {
     return notFound()
   }
 
   if (isBlogPost) {
-    return <BlogPostPage domain={domains[0]} slug={domains[2]} />
+    return <BlogPostPage domain={pathParts[0]} slug={pathParts[2]} />
   }
 
   if (isBlog) {
-    return <BlogPage domain={domains[0]} />
+    return <BlogPage domain={pathParts[0]} />
   }
 
   const glowColor = getGlowColor(site)
