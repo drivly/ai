@@ -4,9 +4,9 @@
   "description": "Cloudflare Workers for Platforms dispatch worker",
   "main": "dist/index.js",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=neutral",
-    "build:outbound": "esbuild src/outbound.ts --bundle --outfile=dist/outbound.js --format=esm --platform=neutral",
-    "build:wrapper": "esbuild src/wrapper.ts --bundle --outfile=dist/wrapper.js --format=esm --platform=neutral",
+    "build": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=neutral --external:partyserver --external:node:* --external:cloudflare:* --external:agents",
+    "build:outbound": "esbuild src/outbound.ts --bundle --outfile=dist/outbound.js --format=esm --platform=neutral --external:partyserver --external:node:* --external:cloudflare:* --external:agents",
+    "build:wrapper": "esbuild src/wrapper.ts --bundle --outfile=dist/wrapper.js --format=esm --platform=neutral --external:partyserver --external:node:* --external:cloudflare:* --external:agents",
     "build:all": "pnpm build && pnpm build:outbound && pnpm build:wrapper",
     "dev": "wrangler dev src/index.ts",
     "dev:outbound": "wrangler dev --config outbound-wrangler.toml",
@@ -16,13 +16,16 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "agents": "latest",
     "hono": "^4.7.4"
   },
   "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.8.8",
     "@cloudflare/workers-types": "^4.20240320.1",
     "esbuild": "^0.20.2",
     "typescript": "^5.7.3",
-    "vitest": "^1.4.0",
+    "vitest": "^1.6.1",
+    "vitest-environment-miniflare": "^2.14.4",
     "wrangler": "^4.2.0"
   }
 }

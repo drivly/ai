@@ -1,14 +1,14 @@
 import { API } from '@/lib/api'
 import { apis } from '@/api.config'
 import { collectionSlugs } from '@/collections/index'
-import { aliases } from '@/site.config'
+import { domainsConfig } from '@/domains.config'
 
 export const GET = API(async (request, { db, user, params }) => {
   const { api } = params as { api: string }
   
   const apiExists = api in apis
-  const isAlias = api in aliases
-  const aliasedApi = isAlias ? aliases[api as keyof typeof aliases] : null
+  const isAlias = api in domainsConfig.aliases
+  const aliasedApi = isAlias ? domainsConfig.aliases[api] : null
   const effectiveApi = isAlias ? aliasedApi as string : api
   
   if (!apiExists && !isAlias) {

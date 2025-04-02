@@ -1,73 +1,92 @@
 import { API } from '@/lib/api'
-export const GET = API(async (request, { db, user, origin, url, domain }) => {
-  // Using the new db interface for more concise syntax
-  // const functions = await db.functions.find()
+import { domains, domainsConfig } from '@/domains.config'
+import { domainDescriptions, apis, related, parentDomains, childDomains, siteCategories } from '@/api.config'
+import { collectionSlugs } from '@/collections'
+import { titleCase } from '@/lib/utils'
 
-  return domain !== 'localhost'
-    ? {
-        ai: {
-          '入 Functions - Typesafe Results without Complexity': 'https://functions.do/api',
-          '巛 Workflows - Reliably Execute Business Processes': 'https://workflows.do/api',
-          '回 Agents - Deploy & Manage Autonomous Digital Workers': 'https://agents.do/api',
-        },
-        things: {
-          'Nouns - People, Places, Things, and Ideas': 'https://nouns.do',
-          'Verbs - The Actions Performed to and by Nouns': 'https://verbs.do',
-        },
-        events: {
-          'Triggers - Initiate workflows based on events': 'https://triggers.do',
-          'Searches - Query and retrieve data': 'https://searches.do',
-          'Actions - Perform tasks within workflows': 'https://actions.do',
-        },
-        core: {
-          'LLM - Intelligent AI Gateway': 'https://llm.do',
-          'Evals - Evaluate Functions, Workflows, and Agents': 'https://evals.do',
-          'Analytics - Economically Validate Workflows': 'https://analytics.do',
-          'Experiments - Economically Validate Workflows': 'https://experiments.do',
-          'Database - AI Native Data Access (Search + CRUD)': 'https://database.do',
-          'Integrations - Connect External APIs and Systems': 'https://integrations.do',
-        },
+export const GET = API(async (request, { db, user, origin, url, domain, payload }) => {
+  const collections = payload.collections || {}
+  
+  const domainAliases = Object.keys(domainsConfig.aliases)
+  const filteredDomains = domains.filter(d => !domainAliases.includes(d))
+  
+  const collectionsByGroup: Record<string, Record<string, string>> = {}
+  
+  for (const slug of collectionSlugs) {
+    const collection = collections[slug]
+    if (!collection) continue
+    
+    const adminGroup = collection.config?.admin?.group || 'Other'
+    const title = collection.config?.labels?.plural || titleCase(slug)
+    
+    if (!collectionsByGroup[adminGroup]) {
+      collectionsByGroup[adminGroup] = {}
+    }
+    
+    collectionsByGroup[adminGroup][title] = `${origin}/${slug}`
+  }
+  
+  const formattedApis: Record<string, string> = {}
+  for (const [key, description] of Object.entries(apis)) {
+    if (key && apis[key] !== undefined) {
+      const apiTitle = `${titleCase(key)}${description ? ` - ${description}` : ''}`
+      formattedApis[apiTitle] = `${origin}/api/${key}`
+    }
+  }
+  
+  const formattedSites: Record<string, Record<string, string>> = {}
+  
+  for (const [category, sites] of Object.entries(siteCategories)) {
+    if (!formattedSites[category]) {
+      formattedSites[category] = {}
+    }
+    
+    for (const site of sites) {
+      if (filteredDomains.includes(site)) {
+        const siteName = site.replace('.do', '')
+        const description = domainDescriptions[site] || ''
+        const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
+        formattedSites[category][siteTitle] = `${origin}/sites/${siteName}`
       }
-    : {
-        ai: {
-          '入 Functions - Typesafe Results without Complexity': origin + '/functions',
-          '巛 Workflows - Reliably Execute Business Processes': origin + '/workflows',
-          '回 Agents - Deploy & Manage Autonomous Digital Workers': origin + '/agents',
-        },
-        events: {
-          'Triggers - Initiate workflows based on events': origin + '/triggers',
-          'Searches - Query and retrieve data': origin + '/searches',
-          'Actions - Perform tasks within workflows': origin + '/actions',
-        },
-        core: {
-          'LLM - Intelligent AI Gateway': origin + '/llm',
-          'Evals - Evaluate Functions, Workflows, and Agents': origin + '/evals',
-          'Analytics - Economically Validate Workflows': origin + '/analytics',
-          'Experiments - Economically Validate Workflows': origin + '/experiments',
-          'Database - AI Native Data Access (Search + CRUD)': origin + '/database',
-          'Integrations - Connect External APIs and Systems': origin + '/integrations',
-        },
-        actions: {
-          toggleDomains: url + '?domains',
-        },
+    }
+  }
+  
+  for (const d of filteredDomains) {
+    if (d.endsWith('.do')) {
+      let isInCategory = false
+      for (const sites of Object.values(siteCategories)) {
+        if (sites.includes(d)) {
+          isInCategory = true
+          break
+        }
       }
+      
+      if (!isInCategory) {
+        const siteName = d.replace('.do', '')
+        const description = domainDescriptions[d] || ''
+        const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
+        
+        let category = "Other"
+        
+        if (collectionSlugs.includes(siteName)) {
+          category = "Collections"
+          if (!formattedSites["Collections"]) {
+            formattedSites["Collections"] = {}
+          }
+        }
+        
+        if (!formattedSites[category]) {
+          formattedSites[category] = {}
+        }
+        formattedSites[category][siteTitle] = `${origin}/sites/${siteName}`
+      }
+    }
+  }
+  
+  
+  return {
+    collections: collectionsByGroup,
+    apis: formattedApis,
+    sites: formattedSites
+  }
 })
-
-// "featured": {
-//     "Functions - Typesafe Results without Complexity": "https://functions.do",
-//     "Workflows - Reliably Execute Business Processes": "https://workflows.do",
-//     "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do"
-//   },
-//   "events": {
-//     "Triggers - Initiate workflows based on events": "https://triggers.do",
-//     "Searches - Query and retrieve data": "https://searches.do",
-//     "Actions - Perform tasks within workflows": "https://actions.do"
-//   },
-//   "core": {
-//     "LLM - Intelligent AI Gateway": "https://llm.do",
-//     "Evals - Evaluate Functions, Workflows, and Agents": "https://evals.do",
-//     "Analytics - Economically Validate Workflows": "https://analytics.do",
-//     "Experiments - Economically Validate Workflows": "https://experiments.do",
-//     "Database - AI Native Data Access (Search + CRUD)": "https://database.do",
-//     "Integrations - Connect External APIs and Systems": "https://integrations.do"
-//   },

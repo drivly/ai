@@ -24,6 +24,24 @@ export type SchemaDefinition = {
  */
 export type CollectionData = Record<string, any>
 
+/**
+ * Resource data type (formerly Things)
+ */
+export interface ResourceData {
+  id?: string
+  name?: string
+  sqid?: string
+  hash?: string
+  type?: string
+  yaml?: string
+  data?: Record<string, any>
+  embedding?: any
+  subjectOf?: string[]
+  objectOf?: string[]
+  createdAt?: string
+  updatedAt?: string
+}
+
 export interface QueryOptions {
   where?: Record<string, any>
   sort?: string | string[]
@@ -49,5 +67,6 @@ export interface CollectionMethods<T = CollectionData> {
 }
 
 export interface DatabaseClient {
+  resources: CollectionMethods<ResourceData>
   [collection: string]: CollectionMethods
 }

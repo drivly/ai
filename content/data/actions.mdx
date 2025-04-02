@@ -1,13 +1,13 @@
 # Actions
 
-Actions represent relationships between Things in Subject-Predicate-Object format, creating a semantic triple that captures meaningful business events and connections.
+Actions represent relationships between Resources in Subject-Predicate-Object format, creating a semantic triple that captures meaningful business events and connections.
 
 ## Overview
 
-In our semantic data model, Actions are the dynamic connections between Things, using Verbs as the connecting element. Every Action follows the natural language pattern of Subject-Predicate-Object:
+In our semantic data model, Actions are the dynamic connections between Resources, using Verbs as the connecting element. Every Action follows the natural language pattern of Subject-Predicate-Object:
 
 ```
-[Subject (Thing)] → [Predicate (Verb)] → [Object (Thing)]
+[Subject (Resource)] → [Predicate (Verb)] → [Object (Resource)]
 ```
 
 The Actions collection provides a way to create, track, and analyze these relationships in your business applications. Actions can be:
@@ -23,7 +23,7 @@ Actions are the core implementation of the Subject-Predicate-Object pattern:
 
 ```mermaid
 graph LR
-    A[Subject<br/>(Thing)] -->|Predicate<br/>(Verb)| B[Object<br/>(Thing)]
+    A[Subject<br/>(Resource)] -->|Predicate<br/>(Verb)| B[Object<br/>(Resource)]
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#bbf,stroke:#333,stroke-width:2px
 ```
@@ -38,7 +38,7 @@ This simple but powerful model allows you to represent complex business relation
 ```mermaid
 graph TD
     subgraph "Example Action"
-    C["ACME Corp<br/>(Customer Thing)"] -->|Purchased<br/>(Verb)| D["Enterprise Plan<br/>(Product Thing)"]
+    C["ACME Corp<br/>(Customer Resource)"] -->|Purchased<br/>(Verb)| D["Enterprise Plan<br/>(Product Resource)"]
     end
     
     style C fill:#f9f,stroke:#333,stroke-width:2px
@@ -60,9 +60,9 @@ Actions can be created using the Data.do API or through the dashboard interface.
 ```typescript
 // Example action creation
 const purchaseAction = await actions.create({
-  subject: { id: 'customer-123', type: 'Customer' }, // The Thing performing the action
+  subject: { id: 'customer-123', type: 'Customer' }, // The Resource performing the action
   verb: 'Purchase',                                  // The Verb representing the action
-  object: { id: 'product-456', type: 'Product' },    // The Thing receiving the action
+  object: { id: 'product-456', type: 'Product' },    // The Resource receiving the action
   metadata: {
     timestamp: new Date(),
     amount: 99.99,

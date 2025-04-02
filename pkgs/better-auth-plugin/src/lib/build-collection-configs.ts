@@ -1571,5 +1571,13 @@ export function buildCollectionConfigs({
     )
   })
 
-  return [...enhancedCollections, ...restOfCollections]
+  const enhancedCollectionsWithGroup = enhancedCollections.map(collection => ({
+    ...collection,
+    admin: {
+      ...collection.admin,
+      group: 'Admin'
+    }
+  }));
+  
+  return [...enhancedCollectionsWithGroup, ...restOfCollections]
 }

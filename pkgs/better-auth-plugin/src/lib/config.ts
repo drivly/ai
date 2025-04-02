@@ -18,6 +18,7 @@ export const supportedBetterAuthPluginIds = {
   nextCookies: 'next-cookies',
   sso: 'sso',
   oidc: 'oidc',
+  oAuthProxy: 'oauth-proxy',
 } as const
 
 export const baseCollectionSlugs = {

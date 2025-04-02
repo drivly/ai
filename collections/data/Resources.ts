@@ -1,8 +1,9 @@
+import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
 
 export const Resources: CollectionConfig = {
-  slug: 'things',
+  slug: 'resources',
   admin: {
     group: 'Data',
     useAsTitle: 'yaml',
@@ -37,15 +38,21 @@ export const Resources: CollectionConfig = {
     afterChange: [
       async ({ doc, req }) => {
         try {
-          const { generateResourceEmbedding } = await import('../../tasks/generateResourceEmbedding')
+          const { payload } = req
           
-          generateResourceEmbedding(doc.id).catch((error: unknown) => {
-            console.error(`Error generating embedding for Resource ${doc.id}:`, error)
+          const job = await payload.jobs.queue({
+            task: 'generateThingEmbedding',
+            input: {
+              id: doc.id
+            }
           })
+          
+          console.log(`Queued embedding generation for resource ${doc.id}`, job)
+          waitUntil(payload.jobs.runByID({ id: job.id }))
           
           return doc
         } catch (error) {
-          console.error('Error importing generateResourceEmbedding:', error)
+          console.error('Error queueing generateResourceEmbedding task:', error)
           return doc
         }
       },

@@ -35,6 +35,7 @@ import type {
   DatabaseAccess,
   APIAccess
 } from './types'
+import { API } from './client.js'
 
 /**
  * Creates an AI instance with typed methods based on the provided schemas
@@ -63,22 +64,17 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
     }
   }
   
-  fetch(`${getBaseUrl()}/workflows`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(workflowConfig),
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (!data.success) {
-      console.error('Error registering workflows:', data.error)
-    }
-  })
-  .catch(error => {
-    console.error('Error registering workflows:', error)
-  })
+  const api = new API()
+  
+  api.registerWorkflow(workflowConfig)
+    .then((response: any) => {
+      if (!response.success) {
+        console.error('Error registering workflows:', response.error)
+      }
+    })
+    .catch((error: Error) => {
+      console.error('Error registering workflows:', error)
+    })
   
   for (const key in config) {
     const value = config[key]
@@ -91,29 +87,70 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
           db: createDatabaseAccess()
         }
         
-        return await value(event, context)
+        try {
+          return await value(event, context)
+        } catch (error) {
+          console.error(`Error executing workflow function ${key}:`, error)
+          throw error
+        }
       }
     } 
     else if (typeof value === 'object') {
       instance[key] = async (input: any) => {
-        const response = await fetch(`${getBaseUrl()}/ai/execute`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            function: key,
-            schema: value,
-            input,
-          }),
-        })
-        
-        return response.json()
+        try {
+          const response = await fetch(`${getBaseUrl()}/ai/execute`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              function: key,
+              schema: value,
+              input,
+            }),
+          })
+          
+          return response.json()
+        } catch (error) {
+          console.error(`Error executing AI function ${key}:`, error)
+          throw error
+        }
       }
     }
   }
   
-  return instance as AIInstance
+  const proxy = new Proxy(instance, {
+    get: (target: any, prop: string) => {
+      if (prop in target) {
+        return target[prop]
+      }
+      
+      if (typeof prop === 'string' && !prop.startsWith('_')) {
+        return async (input: any) => {
+          try {
+            const response = await fetch(`${getBaseUrl()}/workflows/${prop}/execute`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                input,
+              }),
+            })
+            
+            return response.json()
+          } catch (error) {
+            console.error(`Error executing dynamic workflow ${prop}:`, error)
+            throw error
+          }
+        }
+      }
+      
+      return target[prop]
+    }
+  })
+  
+  return proxy as AIInstance
 }
 
 /**
