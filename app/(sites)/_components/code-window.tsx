@@ -1,5 +1,5 @@
 import { cn } from '@drivly/ui/lib'
-import { Code, AnnotationHandler } from 'codehike/code'
+import { Pre, AnnotationHandler } from 'codehike/code'
 
 interface CodeWindowProps {
   className?: string
@@ -35,12 +35,11 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 
         {/* Code content with CodeHike */}
         <div className='max-h-[500px] overflow-auto bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
-          <Code 
+          <Pre 
             code={code} 
             language={language} 
-            annotations={[autoLinkHandler]} 
+            handlers={[autoLinkHandler]} 
             theme="dracula"
-            showLineNumbers={false}
             className="text-xs sm:text-sm"
           />
         </div>
@@ -50,4 +49,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with    
+// browser bar with      
