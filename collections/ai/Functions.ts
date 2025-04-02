@@ -1,6 +1,7 @@
 import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
+import { generateFunctionExamplesTask } from '../../tasks/generateFunctionExamples'
 
 export const Functions: CollectionConfig = {
   slug: 'functions',
@@ -12,10 +13,10 @@ export const Functions: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, req }) => {
+        const { payload } = req
+        
         if (doc.type === 'Code' && doc.code) {
           try {
-            const { payload } = req
-            
             const job = await payload.jobs.queue({
               task: 'processCodeFunction',
               input: {
@@ -29,6 +30,24 @@ export const Functions: CollectionConfig = {
             console.error('Error queueing processCodeFunction task:', error)
           }
         }
+        
+        if (!doc.examples || doc.examples.length === 0) {
+          try {
+            const job = await payload.jobs.queue({
+              task: generateFunctionExamplesTask.slug,
+              input: {
+                functionId: doc.id,
+                count: 3
+              }
+            })
+            
+            console.log(`Queued example generation for ${doc.name}`, job)
+            waitUntil(payload.jobs.runByID({ id: job.id }))
+          } catch (error) {
+            console.error('Error queueing generateFunctionExamples task:', error)
+          }
+        }
+        
         return doc
       },
     ],
@@ -234,5 +253,14 @@ export const Functions: CollectionConfig = {
       },
     },
     // { name: 'executions', type: 'join', collection: 'actions', on: 'functionId' },
+    { 
+      name: 'examples', 
+      type: 'relationship', 
+      relationTo: 'resources',
+      hasMany: true,
+      admin: {
+        description: 'Example arguments for this function'
+      }
+    },
   ],
 }
