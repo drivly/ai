@@ -36,19 +36,19 @@ export async function middleware(request: NextRequest) {
     const { hostname, pathname, search } = request.nextUrl
     
     
-    if (hostname === 'do.mw' && (pathname === '/' || pathname === '/sites')) {
-      console.log('Rewriting do.mw to sites-list (top priority)', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
+    if (hostname === 'do.mw') {
+      console.log('Rewriting do.mw to sites-list (absolute top priority)', { hostname, pathname, search })
+      return NextResponse.redirect(new URL(`https://apis.do/sites${search}`, request.url))
     }
     
     if (hostname === 'apis.do' && pathname === '/sites') {
-      console.log('Rewriting apis.do/sites to sites-list (top priority)', { hostname, pathname, search })
+      console.log('Rewriting apis.do/sites to sites-list (absolute top priority)', { hostname, pathname, search })
       return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
     }
     
-    if (hostname.includes('dev.driv.ly') && (pathname === '/' || pathname === '/sites')) {
-      console.log('Rewriting Vercel preview domain to sites-list (top priority)', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
+    if (hostname.includes('dev.driv.ly')) {
+      console.log('Rewriting Vercel preview domain to sites-list (absolute top priority)', { hostname, pathname, search })
+      return NextResponse.redirect(new URL(`https://apis.do/sites${search}`, request.url))
     }
     
     const apiName = hostname.replace('.do', '')
