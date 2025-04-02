@@ -7,6 +7,7 @@ import { Navbar } from './_components/navbar'
 import { Toaster } from './_components/sonner'
 import { ThemeProvider } from './_components/theme-provider'
 import './styles.css'
+import './_components/code-hike.css'
 
 const fontSans = FontSans({
   subsets: ['latin'],
