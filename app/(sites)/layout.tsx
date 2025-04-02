@@ -28,8 +28,6 @@ export default function RootLayout({
       <body className={cn('bg-background flex min-h-screen flex-col font-sans antialiased', fontSans.variable)}>
         <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
           {children}
-          {/* <Navbar />
-          <main className='flex-1'>{children}</main> */}
           <Footer />
           <Toaster />
         </ThemeProvider>

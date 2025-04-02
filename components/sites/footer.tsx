@@ -44,8 +44,8 @@ export function Footer() {
 
           {/* Terms, Privacy, and Jobs */}
           <div className='order-2 flex justify-center space-x-6 sm:order-3 sm:justify-end'>
-            <Link href='https://careers.do' className='hover:text-primary text-sm text-gray-500 transition-colors' target='_blank' rel='noopener noreferrer'>
-              Jobs
+            <Link href='https://careers.do' className='hover:text-primary text-sm text-gray-500 transition-colors'>
+              Careers
             </Link>
             <Link href='/terms' className='hover:text-primary text-sm text-gray-500 transition-colors'>
               Terms

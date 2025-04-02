@@ -8,7 +8,7 @@ import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
-import { payloadKanbanBoard } from 'payload-kanban-board'
+// import { payloadKanbanBoard } from 'payload-kanban-board'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { collections } from './collections'
@@ -98,24 +98,7 @@ export default buildConfig({
     payloadBetterAuth(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     // storage-adapter-placeholder
-    payloadKanbanBoard({
-      collections: {
-        tasks: {
-          enabled: true,
-          config: {
-            statuses: [
-              { value: 'backlog', label: 'Backlog' },
-              { value: 'todo', label: 'To Do' },
-              { value: 'in-progress', label: 'In Progress' },
-              { value: 'review', label: 'Review' },
-              { value: 'done', label: 'Done' },
-            ],
-            defaultStatus: 'backlog',
-            hideNoStatusColumn: false,
-          },
-        },
-      },
-    }),
+   
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,

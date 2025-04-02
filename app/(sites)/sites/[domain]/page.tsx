@@ -1,54 +1,36 @@
-import { domainsConfig, getGlowColor } from '@/domains.config'
-import { ArrowLeft } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { Fragment } from 'react'
 import { Badge } from '@/components/sites/badge'
 import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { BlogPosts } from '@/components/sites/blog-ui/blog-posts'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import Particles from '@/components/sites/magicui/particles'
-import { Navbar } from '@/components/sites/navbar'
 import DotdoSection from '@/components/sites/sections/dotdo'
 import HeroSection from '@/components/sites/sections/hero'
-import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from '../blog-posts'
-
-type PagePromiseParams<T extends object> = {
-  params: Promise<T>
-}
-
-type DomainPageProps = PagePromiseParams<{ domains?: string[] }>
-
-const withDomainContainer = <TPage extends DomainPageProps>(WrappedPage: React.ComponentType<TPage>) => {
-  return async (props: TPage) => (
-    <Fragment>
-      <Navbar {...props} />
-      <main className='flex-1'>
-        <WrappedPage {...props} />
-      </main>
-    </Fragment>
-  )
-}
+import { domainsConfig, getGlowColor } from '@/domains.config'
+import { ArrowLeft } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from './blog/blog-posts'
+import { withDomainWrapper } from './with-domain-wrapper'
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
-async function HomePage({ params }: { params: Promise<{ domains?: string[] }> }) {
-  const { domains } = await params
+async function HomePage({ params }: { params: Promise<{ domain?: string }> }) {
+  const { domain } = await params
 
-  const site = domains?.[0] ?? 'llm.do'
-  const isBlog = domains?.[1] === 'blog'
-  const isBlogPost = isBlog && domains?.[2]
+  const site = domain ?? 'llm.do'
+  const isBlog = domain === 'blog'
+  const isBlogPost = isBlog && domain
 
   if (site && !domainsConfig.domains[site]) {
     return notFound()
   }
 
   if (isBlogPost) {
-    return <BlogPostPage domain={domains[0]} slug={domains[2]} />
+    return <BlogPostPage domain={domain} slug={domain} />
   }
 
   if (isBlog) {
-    return <BlogPage domain={domains[0]} />
+    return <BlogPage domain={domain} />
   }
 
   const glowColor = getGlowColor(site)
@@ -64,7 +46,7 @@ async function HomePage({ params }: { params: Promise<{ domains?: string[] }> })
   )
 }
 
-export default withDomainContainer(HomePage)
+export default withDomainWrapper(HomePage)
 // Get Started // Join
 // --- Request access
 // email onboarding with questions react-email // templates
@@ -93,13 +75,12 @@ async function BlogPage({ domain }: { domain: string }) {
   )
 }
 
-async function BlogPostPage({ domain, slug }: { domain: string, slug: string }) {
+async function BlogPostPage({ domain, slug }: { domain: string; slug: string }) {
   const post = getBlogPostBySlug(slug)
 
   if (!post) {
     notFound()
   }
-
 
   const postUrl = `/sites/${domain}/blog/${post.slug}`
   const fallbackImage = '/images/blog-llm.png'
