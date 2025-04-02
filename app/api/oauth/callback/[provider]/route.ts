@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from '../../../../../lib/auth/payload-auth'
+import crypto from 'crypto'
 
 export async function GET(
   request: NextRequest,
@@ -41,7 +42,7 @@ export async function GET(
     
     const payload = await getPayload()
     const { betterAuth } = payload
-    const session = await betterAuth.sessions.getSessionFromRequest(request)
+    const session = await betterAuth.api.getSession({ headers: request.headers })
     
     if (!session?.user) {
       return NextResponse.json({ 
@@ -50,12 +51,7 @@ export async function GET(
       }, { status: 401 })
     }
     
-    const oauthCode = await betterAuth.oauthAccessToken?.generateAuthorizationCode?.({
-      clientId: provider,
-      userId: session.user.id,
-      redirectUri,
-      scope: 'profile',
-    }) || Math.random().toString(36).substring(2, 15)
+    const oauthCode = crypto.randomBytes(16).toString('hex')
     
     if (redirectUri) {
       const redirectUrl = new URL(redirectUri)

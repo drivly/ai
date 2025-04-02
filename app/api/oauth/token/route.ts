@@ -1,5 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from '../../../../lib/auth/payload-auth'
+import fs from 'fs'
+import path from 'path'
+import crypto from 'crypto'
+
+const OAUTH_CLIENTS_FILE = path.join(process.cwd(), 'data', 'oauth-clients.json')
+
+const loadOAuthClients = (): any[] => {
+  const dataDir = path.join(process.cwd(), 'data')
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true })
+  }
+  
+  if (!fs.existsSync(OAUTH_CLIENTS_FILE)) {
+    return []
+  }
+  
+  try {
+    const data = fs.readFileSync(OAUTH_CLIENTS_FILE, 'utf8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error loading OAuth clients:', error)
+    return []
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -31,13 +55,10 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
     
-    const payload = await getPayload()
-    const { betterAuth } = payload
+    const clients = loadOAuthClients()
     
     if (client_secret) {
-      const client = await betterAuth.database.findOne(betterAuth.oauthApplication?.modelName || 'oauthApplications', {
-        where: { clientId: client_id, clientSecret: client_secret }
-      })
+      const client = clients.find(c => c.clientId === client_id && c.clientSecret === client_secret)
       
       if (!client) {
         return NextResponse.json({ 
@@ -47,31 +68,16 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    const token = await betterAuth.oauthAccessToken?.exchangeCodeForToken?.({
-      code,
-      clientId: client_id,
-      redirectUri: redirect_uri,
-    })
-    
-    if (!token) {
-      const accessToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-      const refreshToken = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-      const expiresIn = 3600 // 1 hour
-      
-      return NextResponse.json({
-        access_token: accessToken,
-        token_type: 'Bearer',
-        expires_in: expiresIn,
-        refresh_token: refreshToken,
-      })
-    }
+    const accessToken = crypto.randomBytes(32).toString('hex')
+    const refreshToken = crypto.randomBytes(32).toString('hex')
+    const expiresIn = 3600 // 1 hour
     
     return NextResponse.json({
-      access_token: token.accessToken,
+      access_token: accessToken,
       token_type: 'Bearer',
-      expires_in: Math.floor((new Date(token.accessTokenExpiresAt).getTime() - Date.now()) / 1000),
-      refresh_token: token.refreshToken,
-      scope: token.scopes,
+      expires_in: expiresIn,
+      refresh_token: refreshToken,
+      scope: 'profile',
     })
   } catch (error) {
     console.error('Token exchange error:', error)

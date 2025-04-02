@@ -21,9 +21,21 @@ export async function GET(request: NextRequest) {
     const { betterAuth } = payload
     
     if (clientId) {
-      const client = await betterAuth.database.findOne(betterAuth.oauthApplication?.modelName || 'oauthApplications', {
-        where: { clientId }
-      })
+      const fs = require('fs')
+      const path = require('path')
+      const OAUTH_CLIENTS_FILE = path.join(process.cwd(), 'data', 'oauth-clients.json')
+      
+      let clients = []
+      try {
+        if (fs.existsSync(OAUTH_CLIENTS_FILE)) {
+          const data = fs.readFileSync(OAUTH_CLIENTS_FILE, 'utf8')
+          clients = JSON.parse(data)
+        }
+      } catch (error) {
+        console.error('Error loading OAuth clients:', error)
+      }
+      
+      const client = clients.find(c => c.clientId === clientId)
       
       if (!client) {
         return NextResponse.json({ 

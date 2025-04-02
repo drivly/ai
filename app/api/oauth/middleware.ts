@@ -10,7 +10,7 @@ const grantInstance = Grant.express({
 export async function grantMiddleware(request: NextRequest) {
   const payload = await getPayload()
   const { betterAuth } = payload
-  const session = await betterAuth.sessions.getSessionFromRequest(request)
+  const session = await betterAuth.api.getSession({ headers: request.headers })
   const isAuthenticated = !!session?.user
 
   if (!isAuthenticated) {

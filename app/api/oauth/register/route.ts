@@ -1,18 +1,64 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getPayload } from '../../../../lib/auth/payload-auth'
 import crypto from 'crypto'
+import fs from 'fs'
+import path from 'path'
+
+const OAUTH_CLIENTS_FILE = path.join(process.cwd(), 'data', 'oauth-clients.json')
+
+const ensureDataDir = () => {
+  const dataDir = path.join(process.cwd(), 'data')
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true })
+  }
+}
+
+const loadOAuthClients = () => {
+  ensureDataDir()
+  if (!fs.existsSync(OAUTH_CLIENTS_FILE)) {
+    return []
+  }
+  try {
+    const data = fs.readFileSync(OAUTH_CLIENTS_FILE, 'utf8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error loading OAuth clients:', error)
+    return []
+  }
+}
+
+const saveOAuthClients = (clients) => {
+  ensureDataDir()
+  try {
+    fs.writeFileSync(OAUTH_CLIENTS_FILE, JSON.stringify(clients, null, 2))
+  } catch (error) {
+    console.error('Error saving OAuth clients:', error)
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
     const payload = await getPayload()
     const { betterAuth } = payload
-    const session = await betterAuth.sessions.getSessionFromRequest(request)
+    const session = await betterAuth.api.getSession({ headers: request.headers })
     
-    if (!session?.user || session.user.role !== 'admin') {
+    if (!session?.user) {
       return NextResponse.json({ 
         error: 'unauthorized', 
-        error_description: 'Admin access required' 
+        error_description: 'Authentication required' 
       }, { status: 401 })
+    }
+    
+    const userDoc = await payload.findByID({
+      collection: 'users',
+      id: session.user.id,
+    })
+    
+    if (!userDoc || userDoc.role !== 'admin') {
+      return NextResponse.json({ 
+        error: 'forbidden', 
+        error_description: 'Admin access required' 
+      }, { status: 403 })
     }
     
     const body = await request.json()
@@ -25,10 +71,9 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
     
-    const existingClient = await betterAuth.database.findOne(betterAuth.oauthApplication?.modelName || 'oauthApplications', {
-      where: { name }
-    })
+    const clients = loadOAuthClients()
     
+    const existingClient = clients.find(client => client.name === name)
     if (existingClient) {
       return NextResponse.json({ 
         error: 'client_exists', 
@@ -39,17 +84,20 @@ export async function POST(request: NextRequest) {
     const clientId = crypto.randomBytes(16).toString('hex')
     const clientSecret = crypto.randomBytes(32).toString('hex')
     
-    const client = await betterAuth.database.create(betterAuth.oauthApplication?.modelName || 'oauthApplications', {
-      data: {
-        name,
-        clientId,
-        clientSecret,
-        redirectURLs: redirectURLs.join(', '),
-        type,
-        disabled: false,
-        user: session.user.id,
-      }
-    })
+    const client = {
+      id: crypto.randomUUID(),
+      name,
+      clientId,
+      clientSecret,
+      redirectURLs: redirectURLs.join(', '),
+      type,
+      disabled: false,
+      userId: session.user.id,
+      createdAt: new Date().toISOString(),
+    }
+    
+    clients.push(client)
+    saveOAuthClients(clients)
     
     return NextResponse.json({
       id: client.id,
