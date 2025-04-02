@@ -3,36 +3,32 @@ import { FaGithub } from 'react-icons/fa'
 import { CodeWindow } from '@/app/(sites)/_components/code-window'
 
 export default function HeroSection() {
-  const codeExample = JSON.stringify(
-    {
-      api: {
-        name: 'APIs.do',
-        description: 'Economically valuable work delivered through simple APIs',
-        with: 'https://agi.do',
-      },
-      featured: {
-        'Functions - Typesafe Results without Complexity': 'https://functions.do',
-        'Workflows - Reliably Execute Business Processes': 'https://workflows.do',
-        'Agents - Deploy & Manage Autonomous Digital Workers': 'https://agents.do',
-      },
-      events: {
-        'Triggers - Initiate workflows based on events': 'https://triggers.do',
-        'Searches - Query and retrieve data': 'https://searches.do',
-        'Actions - Perform tasks within workflows': 'https://actions.do',
-      },
-      core: {
-        'LLM - Intelligent AI Gateway': 'https://llm.do',
-        'Evals - Evaluate Functions, Workflows, and Agents': 'https://evals.do',
-        'Analytics - Economically Validate Workflows': 'https://analytics.do',
-        'Experiments - Economically Validate Workflows': 'https://experiments.do',
-        'Database - AI Native Data Access (Search + CRUD)': 'https://database.do',
-        'Integrations - Connect External APIs and Systems': 'https://integrations.do',
-      },
-      user: {},
-    },
-    null,
-    2,
-  )
+  const codeExample = `{
+  "api": {
+    "name": "APIs.do",
+    "description": "Economically valuable work delivered through simple APIs",
+    "with": "[https://agi.do](https://agi.do)"
+  },
+  "featured": {
+    "Functions - Typesafe Results without Complexity": "[https://functions.do](https://functions.do)",
+    "Workflows - Reliably Execute Business Processes": "[https://workflows.do](https://workflows.do)",
+    "Agents - Deploy & Manage Autonomous Digital Workers": "[https://agents.do](https://agents.do)"
+  },
+  "events": {
+    "Triggers - Initiate workflows based on events": "[https://triggers.do](https://triggers.do)",
+    "Searches - Query and retrieve data": "[https://searches.do](https://searches.do)",
+    "Actions - Perform tasks within workflows": "[https://actions.do](https://actions.do)"
+  },
+  "core": {
+    "LLM - Intelligent AI Gateway": "[https://llm.do](https://llm.do)",
+    "Evals - Evaluate Functions, Workflows, and Agents": "[https://evals.do](https://evals.do)",
+    "Analytics - Economically Validate Workflows": "[https://analytics.do](https://analytics.do)",
+    "Experiments - Economically Validate Workflows": "[https://experiments.do](https://experiments.do)",
+    "Database - AI Native Data Access (Search + CRUD)": "[https://database.do](https://database.do)",
+    "Integrations - Connect External APIs and Systems": "[https://integrations.do](https://integrations.do)"
+  },
+  "user": {}
+}`
 
   return (
     <section id='hero' className='relative mx-auto mt-32 max-w-[80rem] px-6 text-center md:px-8 lg:mt-48'>
