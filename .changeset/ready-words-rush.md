@@ -1,6 +1,6 @@
 ---
 'database.do': patch
-'apis.do': patch
+'resources.do': patch
 ---
 
-Renamed Things collection to Resources throughout documentation and code while maintaining backward compatibility
+Rename Things collection to Resources throughout the codebase, with a focus on documentation and maintaining backward compatibility.
