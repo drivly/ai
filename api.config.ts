@@ -1,22 +1,22 @@
 import { getDomain } from './domains.config'
 
 export const apis: Record<string, string> = {
-  functions: 'Reliable Structured Output',
-  workflows: '',
-  database: '',
-  agents: '',
-  nouns: '',
-  verbs: '',
-  things: '',
-  triggers: '',
-  searches: '',
-  actions: '',
-  llm: '',
-  evals: '',
-  analytics: '',
-  experiments: '',
-  integrations: '',
-  models: ' ',
+  functions: 'Typesafe Results without Complexity',
+  workflows: 'Reliably Execute Business Processes',
+  database: 'AI Native Data Access (Search + CRUD)',
+  agents: 'Deploy & Manage Autonomous Digital Workers',
+  nouns: 'People, Places, Things, and Ideas',
+  verbs: 'The Actions Performed to and by Nouns',
+  things: 'Data Resources with Properties',
+  triggers: 'Initiate workflows based on events',
+  searches: 'Query and retrieve data',
+  actions: 'Perform tasks within workflows',
+  llm: 'Intelligent AI Gateway',
+  evals: 'Evaluate Functions, Workflows, and Agents',
+  analytics: 'Economically Validate Workflows',
+  experiments: 'Test and Iterate AI Components',
+  integrations: 'Connect External APIs and Systems',
+  models: 'AI Model Selection and Management',
 }
 
 export const related: Record<string, string[]> = {
