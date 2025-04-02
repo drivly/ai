@@ -1,5 +1,5 @@
 import { cn } from '@drivly/ui/lib'
-import { Pre, AnnotationHandler } from 'codehike/code'
+import { CH } from '@code-hike/mdx/components'
 
 interface CodeWindowProps {
   className?: string
@@ -8,11 +8,13 @@ interface CodeWindowProps {
   title?: string
 }
 
-const autoLinkHandler: AnnotationHandler = {
+const autoLinkHandler = {
   name: 'link',
-  Inline: ({ annotation, children }) => {
-    const query = typeof annotation === 'string' ? annotation : annotation.toString()
-    return <a href={query} target="_blank" rel="noopener noreferrer" className="underline text-blue-400 hover:text-blue-300">{children}</a>
+  annotation: (annotation) => {
+    const url = typeof annotation === 'string' ? annotation : annotation.toString()
+    return {
+      props: { href: url, target: "_blank", rel: "noopener noreferrer", className: "underline text-blue-400 hover:text-blue-300" }
+    }
   }
 }
 
@@ -34,9 +36,17 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 
         {/* Code content with CodeHike */}
         <div className='max-h-[500px] overflow-auto bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
-          <pre className="text-xs sm:text-sm">
-            <code>{code}</code>
-          </pre>
+          <CH.Code 
+            language={language}
+            showLineNumbers={true}
+            annotations={[autoLinkHandler]}
+            classes={{
+              code: 'text-xs sm:text-sm',
+              codeBlock: '',
+            }}
+          >
+            {code}
+          </CH.Code>
         </div>
       </div>
     </div>
@@ -44,4 +54,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with              
+// browser bar with                
