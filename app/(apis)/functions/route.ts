@@ -30,7 +30,7 @@ export const GET = API(async (request, { db, user, url }) => {
     links.prev = `${baseUrl}?${prevParams.toString()}`
   }
   
-  const functions = {}
+  const functions: Record<string, string> = {}
   
   if (Array.isArray(functionsArray)) {
     for (let i = 0; i < functionsArray.length; i++) {
