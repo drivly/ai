@@ -7,10 +7,10 @@ export const grantConfig: GrantConfig = {
     state: true,
   },
   openai: {
-    callback: '/api/oauth/callback/openai',
+    callback: '/oauth/callback/openai',
   },
   zapier: {
-    callback: '/api/oauth/callback/zapier',
+    callback: '/oauth/callback/zapier',
   },
 }
 
