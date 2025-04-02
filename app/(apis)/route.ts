@@ -10,12 +10,20 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
   const domainAliases = Object.keys(domainsConfig.aliases)
   const filteredDomains = domains.filter(d => !domainAliases.includes(d))
   
-  const formattedCollections: Record<string, string> = {}
+  const collectionsByGroup: Record<string, Record<string, string>> = {}
+  
   for (const slug of collectionSlugs) {
-    const title = collections[slug]?.config?.labels?.singular || titleCase(slug)
-    formattedCollections[title] = domain !== 'localhost' 
-      ? `https://${slug}.do` 
-      : `${origin}/${slug}`
+    const collection = collections[slug]
+    if (!collection) continue
+    
+    const adminGroup = collection.config?.admin?.group || 'Other'
+    const title = collection.config?.labels?.singular || titleCase(slug)
+    
+    if (!collectionsByGroup[adminGroup]) {
+      collectionsByGroup[adminGroup] = {}
+    }
+    
+    collectionsByGroup[adminGroup][title] = `${origin}/${slug}`
   }
   
   const formattedApis: Record<string, string> = {}
@@ -41,7 +49,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
   }
   
   return {
-    collections: formattedCollections,
+    collections: collectionsByGroup,
     apis: formattedApis,
     sites: formattedSites
   }

@@ -3,7 +3,6 @@ import type { NextRequest } from 'next/server'
 import { apis } from './api.config'
 import { domainsConfig, getCollections, isAIGateway } from './domains.config'
 import { collectionSlugs } from './collections/middleware-collections'
-import { aliases } from './site.config'
 import { analyticsMiddleware } from './analytics/src/middleware'
 
 // what domains have websites / landing pages ... otherwise base path / is the API
@@ -23,14 +22,11 @@ export async function middleware(request: NextRequest) {
 
   const baseHostname = hostname.replace('.do', '')
   const isCollectionName = collectionSlugs.includes(baseHostname)
-  const isSiteAlias = Object.keys(aliases).includes(baseHostname + '.do')
   const isDomainAlias = Object.keys(domainsConfig.aliases).includes(hostname)
-  const isAlias = isSiteAlias || isDomainAlias
-  const effectiveCollection = isSiteAlias 
-    ? (aliases[baseHostname + '.do' as keyof typeof aliases] as string).replace('.do', '') 
-    : isDomainAlias
-      ? domainsConfig.aliases[hostname].replace('.do', '')
-      : baseHostname
+  const isAlias = isDomainAlias
+  const effectiveCollection = isDomainAlias
+    ? domainsConfig.aliases[hostname].replace('.do', '')
+    : baseHostname
 
   if ((isCollectionName || isAlias) && pathname.startsWith('/admin')) {
     console.log('Rewriting to admin collection', { hostname, pathname, search, collection: effectiveCollection })
