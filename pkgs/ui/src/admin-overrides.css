@@ -1,0 +1,13 @@
+/* Admin portal detail pane scrolling fixes */
+:where(.payload__body-content) {
+  overflow-x: auto !important;
+}
+
+:where(.payload__edit-depth-0 .payload__body-content) {
+  overflow-x: auto !important;
+}
+
+/* Ensure tables and wide content can scroll horizontally */
+:where(.payload__table-wrapper, .payload__body-content table) {
+  overflow-x: auto !important;
+}

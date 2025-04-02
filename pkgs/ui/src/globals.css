@@ -133,3 +133,6 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Admin overrides */
+@import './admin-overrides.css';
