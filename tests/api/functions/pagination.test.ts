@@ -19,9 +19,14 @@ vi.mock('@/lib/api', () => ({
   }),
   createFunctionsObject: vi.fn().mockImplementation((request: any, functions: Array<{ name: string }>) => {
     const functionsObject: Record<string, string> = {};
-    functions.forEach((func: { name: string }) => {
-      functionsObject[func.name] = `${request.nextUrl.origin}/functions/${func.name}`;
-    });
+    if (Array.isArray(functions)) {
+      for (let i = 0; i < functions.length; i++) {
+        const func = functions[i];
+        if (func && typeof func === 'object' && func.name) {
+          functionsObject[func.name] = `${request.nextUrl.origin}/functions/${func.name}`;
+        }
+      }
+    }
     return functionsObject;
   }),
 }))
