@@ -6,19 +6,42 @@ export const GET = API(async (request, { db, user, url }) => {
   const limit = parseInt(searchParams.get('limit') || '20')
   
   // Using the new db interface for more concise syntax
-  const functions = await db.functions.find({
+  const functionsArray = await db.functions.find({
     page,
     limit,
   }) || []
   
-  const totalItems = Array.isArray(functions) ? functions.length : 0
+  const totalItems = Array.isArray(functionsArray) ? functionsArray.length : 0
   
-  const links = generatePaginationLinks(request, page, limit, totalItems)
+  const baseUrl = request.nextUrl.origin + request.nextUrl.pathname
+  const links = {
+    home: baseUrl,
+  }
   
-  const functionsObject = createFunctionsObject(request, functions)
+  if (totalItems === limit) {
+    const nextParams = new URLSearchParams(searchParams)
+    nextParams.set('page', (page + 1).toString())
+    links.next = `${baseUrl}?${nextParams.toString()}`
+  }
+  
+  if (page > 1) {
+    const prevParams = new URLSearchParams(searchParams)
+    prevParams.set('page', (page - 1).toString())
+    links.prev = `${baseUrl}?${prevParams.toString()}`
+  }
+  
+  const functions = {}
+  
+  if (Array.isArray(functionsArray)) {
+    functionsArray.forEach(func => {
+      if (func && typeof func === 'object' && func.name) {
+        functions[func.name] = `${request.nextUrl.origin}/functions/${func.name}`
+      }
+    })
+  }
   
   return { 
-    functions: functionsObject, 
+    functions, 
     links,
     user,
     page,
