@@ -3,10 +3,10 @@ import { API } from '@/lib/api'
 import { getPayload } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
-export async function GET(
+export const GET = async (
   request: NextRequest,
   { params }: { params: { provider: string } }
-) {
+) => {
   try {
     const provider = params.provider
     const url = new URL(request.url)
