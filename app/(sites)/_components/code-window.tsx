@@ -17,7 +17,7 @@ interface AnnotationProps {
 const autoLinkHandler = {
   name: 'link',
   component: ({ children, annotation }: AnnotationProps) => {
-    const url = typeof annotation === 'string' ? annotation : annotation.toString()
+    const url = typeof annotation === 'string' ? annotation : (annotation as any).toString()
     return (
       <a href={url} target="_blank" rel="noopener noreferrer" className="underline text-blue-400 hover:text-blue-300">
         {children}
@@ -62,4 +62,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with                       
+// browser bar with                         
