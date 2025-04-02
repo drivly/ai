@@ -18,7 +18,7 @@ type PagePromiseParams<T extends object> = {
   params: Promise<T>
 }
 
-type DomainPageProps = PagePromiseParams<{ domains?: string[] }>
+type DomainPageProps = PagePromiseParams<{ domains?: string }>
 
 const withDomainContainer = <TPage extends DomainPageProps>(WrappedPage: React.ComponentType<TPage>) => {
   return async (props: TPage) => (
