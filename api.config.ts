@@ -1,5 +1,39 @@
 import { getDomain } from './domains.config'
 
+export const parentDomains: Record<string, string> = {
+  'function.do': 'functions.do',
+  'trigger.do': 'triggers.do',
+  'search.do': 'searches.do',
+  'action.do': 'actions.do',
+  'worker.do': 'workers.do',
+  'webhook.do': 'webhooks.do',
+  'trace.do': 'traces.do',
+  'service.do': 'services.do',
+  'request.do': 'requests.do',
+  'response.do': 'responses.do',
+  'task.do': 'tasks.do',
+  'event.do': 'events.do',
+  'object.do': 'objects.do',
+  'vector.do': 'vectors.do',
+}
+
+export const childDomains: Record<string, string[]> = {
+  'functions.do': ['function.do'],
+  'triggers.do': ['trigger.do'],
+  'searches.do': ['search.do'],
+  'actions.do': ['action.do'],
+  'workers.do': ['worker.do'],
+  'webhooks.do': ['webhook.do'],
+  'traces.do': ['trace.do'],
+  'services.do': ['service.do'],
+  'requests.do': ['request.do'],
+  'responses.do': ['response.do'],
+  'tasks.do': ['task.do'],
+  'events.do': ['event.do'],
+  'objects.do': ['object.do'],
+  'vectors.do': ['vector.do'],
+}
+
 export const apis: Record<string, string> = {
   functions: 'Typesafe Results without Complexity',
   workflows: 'Reliably Execute Business Processes',
@@ -20,11 +54,22 @@ export const apis: Record<string, string> = {
 }
 
 export const related: Record<string, string[]> = {
-  functions: ['nouns', 'verbs', 'things'],
-  workflows: ['triggers', 'searches', 'actions'],
-  database: ['evals', 'analytics', 'experiments'],
-  agents: ['integrations', 'models'],
-  llm: ['evals', 'analytics', 'experiments'],
+  functions: ['nouns', 'verbs', 'things', 'function'],
+  workflows: ['triggers', 'searches', 'actions', 'tasks', 'events'],
+  database: ['evals', 'analytics', 'experiments', 'vectors', 'graph', 'objects'],
+  agents: ['integrations', 'models', 'humans', 'bots', 'workers'],
+  llm: ['evals', 'analytics', 'experiments', 'gpt', 'embeddings'],
+  nouns: ['things', 'objects', 'humans'],
+  verbs: ['actions', 'tasks', 'triggers'],
+  things: ['nouns', 'objects', 'data'],
+  triggers: ['events', 'webhooks', 'actions'],
+  searches: ['vectors', 'embeddings', 'graph'],
+  actions: ['tasks', 'workflows', 'functions'],
+  evals: ['benchmarks', 'experiments', 'analytics'],
+  analytics: ['dashboard', 'kpis', 'experiments'],
+  experiments: ['evals', 'analytics', 'research'],
+  integrations: ['apis', 'services', 'webhooks'],
+  models: ['llm', 'gpt', 'embeddings']
 }
 
 export const symbols: Record<string, string> = {
@@ -32,12 +77,12 @@ export const symbols: Record<string, string> = {
   巛: 'workflows',
   彡: 'database',
   人: 'agents',
-  // 回: '',
-  // 亘: ''
-  // 目: '',
-  // 田: '',
-  // 卌: '',
-  // 口: '',
+  回: 'nouns',
+  亘: 'verbs',
+  目: 'things',
+  田: 'triggers',
+  卌: 'searches',
+  口: 'actions',
 }
 
 export const domainDescriptions: Record<string, string> = {
