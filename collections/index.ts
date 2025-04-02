@@ -2,6 +2,9 @@ import { Domains } from './admin/Domains'
 import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
+import { OAuthClients } from './auth/OAuthClients'
+import { OAuthCodes } from './auth/OAuthCodes'
+import { OAuthTokens } from './auth/OAuthTokens'
 import { Integrations } from './integrations/Integrations'
 import { Tags } from './admin/Tag'
 import { Roles } from './admin/Roles'
@@ -102,6 +105,9 @@ export const collections = [
   Tags,
   Webhooks,
   APIKeys,
+  OAuthClients,
+  OAuthCodes,
+  OAuthTokens,
 ]
 
 export const collectionSlugs = collections.map(collection => collection.slug)

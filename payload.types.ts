@@ -116,6 +116,9 @@ export interface Config {
     tags: Tag;
     webhooks: Webhook;
     apikeys: Apikey;
+    'oauth-clients': OauthClient;
+    'oauth-codes': OauthCode;
+    'oauth-tokens': OauthToken;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -188,6 +191,9 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
+    'oauth-clients': OauthClientsSelect<false> | OauthClientsSelect<true>;
+    'oauth-codes': OauthCodesSelect<false> | OauthCodesSelect<true>;
+    'oauth-tokens': OauthTokensSelect<false> | OauthTokensSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -1635,6 +1641,54 @@ export interface Apikey {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-clients".
+ */
+export interface OauthClient {
+  id: string;
+  name: string;
+  clientId: string;
+  clientSecret: string;
+  redirectURLs: {
+    url: string;
+    id?: string | null;
+  }[];
+  disabled?: boolean | null;
+  createdBy?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-codes".
+ */
+export interface OauthCode {
+  id: string;
+  code: string;
+  provider: string;
+  redirectUri: string;
+  userId: string | User;
+  expiresAt: string;
+  used?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-tokens".
+ */
+export interface OauthToken {
+  id: string;
+  token: string;
+  provider: string;
+  userId: string | User;
+  clientId: string;
+  expiresAt: string;
+  scope?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-jobs".
  */
 export interface PayloadJob {
@@ -2003,6 +2057,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'apikeys';
         value: string | Apikey;
+      } | null)
+    | ({
+        relationTo: 'oauth-clients';
+        value: string | OauthClient;
+      } | null)
+    | ({
+        relationTo: 'oauth-codes';
+        value: string | OauthCode;
+      } | null)
+    | ({
+        relationTo: 'oauth-tokens';
+        value: string | OauthToken;
       } | null)
     | ({
         relationTo: 'payload-jobs';
@@ -2766,6 +2832,53 @@ export interface ApikeysSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-clients_select".
+ */
+export interface OauthClientsSelect<T extends boolean = true> {
+  name?: T;
+  clientId?: T;
+  clientSecret?: T;
+  redirectURLs?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  disabled?: T;
+  createdBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-codes_select".
+ */
+export interface OauthCodesSelect<T extends boolean = true> {
+  code?: T;
+  provider?: T;
+  redirectUri?: T;
+  userId?: T;
+  expiresAt?: T;
+  used?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-tokens_select".
+ */
+export interface OauthTokensSelect<T extends boolean = true> {
+  token?: T;
+  provider?: T;
+  userId?: T;
+  clientId?: T;
+  expiresAt?: T;
+  scope?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

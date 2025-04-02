@@ -31,27 +31,37 @@ export class ClickhouseClient {
   }
 
   async query<T = any>(query: string, params?: Record<string, any>): Promise<T[]> {
-    const result = await this.client.query({
-      query,
-      format: 'JSONEachRow',
-      query_params: params,
-    })
-    const data = await result.json<T>()
-    return data
-  }
-
-  async tableExists(table: string): Promise<boolean> {
     try {
       const result = await this.client.query({
-        query: `EXISTS TABLE ${table}`,
+        query,
         format: 'JSONEachRow',
+        query_params: params,
       })
-      const data = await result.json<{ exists: number }>()
-      return data[0]?.exists === 1
-    } catch (error) {
-      console.error(`Error checking if table ${table} exists:`, error)
-      return false
+      const data = await result.json<T>()
+      return data
+    } catch (error: any) {
+      if (error.message && (
+          error.message.includes('Table') && 
+          error.message.includes('doesn\'t exist') || 
+          error.message.includes('no such table')
+        )) {
+        const tableMatch = query.match(/FROM\s+([^\s,();]+)/i)
+        if (tableMatch && tableMatch[1]) {
+          const tableName = tableMatch[1]
+          await this.createTableAndRetry(tableName)
+          return this.query<T>(query, params)
+        }
+      }
+      throw error
     }
+  }
+
+  private async createTableAndRetry(table: string): Promise<void> {
+    const schema = tableSchemas[table]
+    if (!schema) {
+      throw new Error(`No schema defined for table: ${table}`)
+    }
+    await this.createTable(table, schema)
   }
 
   async createTable(tableName: string, schema: string): Promise<void> {
@@ -65,29 +75,54 @@ export class ClickhouseClient {
     }
   }
 
-  async ensureTableExists(table: string): Promise<void> {
+  async tableExists(table: string): Promise<boolean> {
+    console.warn('tableExists is deprecated. Tables are now created on-demand when needed.')
     try {
-      const exists = await this.tableExists(table)
-      if (!exists) {
-        const schema = tableSchemas[table]
-        if (!schema) {
-          throw new Error(`No schema defined for table: ${table}`)
-        }
-        await this.createTable(table, schema)
-      }
-    } catch (error: any) {
-      throw new Error(`Failed to ensure table ${table} exists: ${error.message || String(error)}`)
+      const result = await this.client.query({
+        query: `EXISTS TABLE ${table}`,
+        format: 'JSONEachRow',
+      })
+      const data = await result.json<{ exists: number }>()
+      return data[0]?.exists === 1
+    } catch (error) {
+      console.error(`Error checking if table ${table} exists:`, error)
+      return false
     }
   }
 
+  async ensureTableExists(table: string): Promise<void> {
+    console.warn('ensureTableExists is deprecated. Tables are now created on-demand when needed.')
+    const schema = tableSchemas[table]
+    if (!schema) {
+      throw new Error(`No schema defined for table: ${table}`)
+    }
+    await this.createTable(table, schema)
+  }
+
   async insert(table: string, data: Record<string, any> | Record<string, any>[]): Promise<void> {
-    await this.ensureTableExists(table)
     const rows = Array.isArray(data) ? data : [data]
-    await this.client.insert({
-      table,
-      values: rows,
-      format: 'JSONEachRow',
-    })
+    try {
+      await this.client.insert({
+        table,
+        values: rows,
+        format: 'JSONEachRow',
+      })
+    } catch (error: any) {
+      if (error.message && (
+          error.message.includes('Table') && 
+          error.message.includes('doesn\'t exist') || 
+          error.message.includes('no such table')
+        )) {
+        await this.createTableAndRetry(table)
+        await this.client.insert({
+          table,
+          values: rows,
+          format: 'JSONEachRow',
+        })
+      } else {
+        throw error
+      }
+    }
   }
 
   async close(): Promise<void> {

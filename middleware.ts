@@ -44,7 +44,8 @@ export async function middleware(request: NextRequest) {
 
     if (pathname === '/admin/login') {
       console.log('Redirecting to GitHub OAuth', { hostname, pathname, search })
-      return NextResponse.redirect(new URL(`/api/auth/signin/github?callbackUrl=/admin`, request.url))
+      const currentURL = `https://${hostname}`
+      return NextResponse.redirect(new URL(`/api/auth/signin/github?callbackUrl=/admin`, currentURL))
     }
 
     if (sitePaths.includes(pathname) && siteDomains.includes(hostname)) {
