@@ -65,8 +65,8 @@ export default function OAuthDocs() {
       
       <ol className='list-decimal pl-6 mb-6 space-y-2'>
         <li>Register your application with a redirect URI of <code className='bg-gray-200 px-1 rounded'>https://chat.openai.com/aip/oauth/callback</code></li>
-        <li>In your OpenAI Actions configuration, set the OAuth URL to <code className='bg-gray-200 px-1 rounded'>https://apis.do/oauth?provider=YOUR_CLIENT_ID&amp;redirect_uri=https://chat.openai.com/aip/oauth/callback</code></li>
-        <li>Set the token exchange URL to <code className='bg-gray-200 px-1 rounded'>https://apis.do/oauth/token</code></li>
+        <li>In your OpenAI Actions configuration, set the OAuth URL to <code className='bg-gray-200 px-1 rounded'>https://apis.do/api/oauth?provider=YOUR_CLIENT_ID&amp;redirect_uri=https://chat.openai.com/aip/oauth/callback</code></li>
+        <li>Set the token exchange URL to <code className='bg-gray-200 px-1 rounded'>https://apis.do/api/oauth/token</code></li>
         <li>Configure your OpenAI Action to include the access token in API requests to your service</li>
       </ol>
       
@@ -78,8 +78,8 @@ export default function OAuthDocs() {
       
       <ol className='list-decimal pl-6 mb-6 space-y-2'>
         <li>Register your application with a redirect URI of <code className='bg-gray-200 px-1 rounded'>https://zapier.com/dashboard/auth/oauth/return/App-ID/</code> (replace App-ID with your Zapier app ID)</li>
-        <li>In your Zapier OAuth configuration, set the Authorization URL to <code className='bg-gray-200 px-1 rounded'>https://apis.do/oauth?provider=YOUR_CLIENT_ID&amp;redirect_uri=YOUR_REDIRECT_URI</code></li>
-        <li>Set the Token Exchange URL to <code className='bg-gray-200 px-1 rounded'>https://apis.do/oauth/token</code></li>
+        <li>In your Zapier OAuth configuration, set the Authorization URL to <code className='bg-gray-200 px-1 rounded'>https://apis.do/api/oauth?provider=YOUR_CLIENT_ID&amp;redirect_uri=YOUR_REDIRECT_URI</code></li>
+        <li>Set the Token Exchange URL to <code className='bg-gray-200 px-1 rounded'>https://apis.do/api/oauth/token</code></li>
         <li>Configure your Zapier integration to include the access token in API requests to your service</li>
       </ol>
       
