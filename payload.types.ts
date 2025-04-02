@@ -81,8 +81,9 @@ export interface Config {
     goals: Goal;
     nouns: Noun;
     verbs: Verb;
-    resources: Resource;
     databases: Database;
+    resources: Resource;
+    actions: Action;
     integrationCategories: IntegrationCategory;
     integrations: Integration;
     connections: Connection;
@@ -90,7 +91,6 @@ export interface Config {
     integrationActions: IntegrationAction;
     triggers: Trigger;
     searches: Search;
-    actions: Action;
     experiments: Experiment;
     models: Model;
     prompts: Prompt;
@@ -153,8 +153,9 @@ export interface Config {
     goals: GoalsSelect<false> | GoalsSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
-    resources: ResourcesSelect<false> | ResourcesSelect<true>;
     databases: DatabasesSelect<false> | DatabasesSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    actions: ActionsSelect<false> | ActionsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
     connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
@@ -162,7 +163,6 @@ export interface Config {
     integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
-    actions: ActionsSelect<false> | ActionsSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
     prompts: PromptsSelect<false> | PromptsSelect<true>;
@@ -1853,12 +1853,16 @@ export interface PayloadLockedDocument {
         value: string | Verb;
       } | null)
     | ({
+        relationTo: 'databases';
+        value: string | Database;
+      } | null)
+    | ({
         relationTo: 'resources';
         value: string | Resource;
       } | null)
     | ({
-        relationTo: 'databases';
-        value: string | Database;
+        relationTo: 'actions';
+        value: string | Action;
       } | null)
     | ({
         relationTo: 'integrationCategories';
@@ -1887,10 +1891,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'searches';
         value: string | Search;
-      } | null)
-    | ({
-        relationTo: 'actions';
-        value: string | Action;
       } | null)
     | ({
         relationTo: 'experiments';
@@ -2296,6 +2296,21 @@ export interface VerbsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "databases_select".
+ */
+export interface DatabasesSelect<T extends boolean = true> {
+  name?: T;
+  domain?: T;
+  type?: T;
+  schemaEnforcement?: T;
+  databaseType?: T;
+  regions?: T;
+  nouns?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "resources_select".
  */
 export interface ResourcesSelect<T extends boolean = true> {
@@ -2313,16 +2328,14 @@ export interface ResourcesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "databases_select".
+ * via the `definition` "actions_select".
  */
-export interface DatabasesSelect<T extends boolean = true> {
-  name?: T;
-  domain?: T;
-  type?: T;
-  schemaEnforcement?: T;
-  databaseType?: T;
-  regions?: T;
-  nouns?: T;
+export interface ActionsSelect<T extends boolean = true> {
+  subject?: T;
+  verb?: T;
+  object?: T;
+  hash?: T;
+  generation?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2411,19 +2424,6 @@ export interface SearchesSelect<T extends boolean = true> {
   searchType?: T;
   results?: T;
   embedding?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions_select".
- */
-export interface ActionsSelect<T extends boolean = true> {
-  subject?: T;
-  verb?: T;
-  object?: T;
-  hash?: T;
-  generation?: T;
   updatedAt?: T;
   createdAt?: T;
 }

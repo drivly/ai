@@ -5,7 +5,7 @@ import { APIKeys } from './admin/APIKeys'
 import { Integrations } from './integrations/Integrations'
 import { Tags } from './admin/Tag'
 import { Roles } from './admin/Roles'
-import { Databases } from './admin/Databases'
+import { Databases } from './data/Databases'
 import { Functions } from './ai/Functions'
 import { Modules } from './code/Modules'
 import { Packages } from './code/Packages'
@@ -57,8 +57,9 @@ export const collections = [
   // Data & definitions
   Nouns,
   Verbs,
-  Resources,
   Databases,
+  Resources,
+  Relationships,
 
   // Integration collections
   IntegrationCategories,
@@ -70,7 +71,6 @@ export const collections = [
   // Event collections
   Triggers,
   Searches,
-  Relationships,
 
   Experiments,
   Models,

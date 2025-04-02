@@ -36,8 +36,9 @@ export default buildConfig({
       },
     },
     meta: {
-      title: 'Agentic Workflow Platform | Workflows.do',
+      title: 'Agentic Workflow Platform',
       description: 'Deliver work through simple APIs',
+      titleSuffix: '| Workflows.do',
       icons: [
         {
           rel: 'icon',
