@@ -111,6 +111,11 @@ export async function middleware(request: NextRequest) {
         return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
       }
       
+      if (hostname.includes('dev.driv.ly') && pathname === '/') {
+        console.log('Rewriting Vercel preview domain root to sites-list', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
+      }
+      
       return NextResponse.rewrite(new URL(`${url.origin}${pathname}${search}`))
     }
     
