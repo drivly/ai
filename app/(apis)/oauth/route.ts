@@ -13,7 +13,17 @@ const ensureDataDir = () => {
   }
 }
 
-const loadOAuthCodes = () => {
+interface OAuthCode {
+  code: string;
+  provider: string;
+  redirectUri: string;
+  userId: string;
+  createdAt: string;
+  expiresAt: string;
+  used: boolean;
+}
+
+const loadOAuthCodes = (): OAuthCode[] => {
   ensureDataDir()
   if (!fs.existsSync(OAUTH_CODES_FILE)) {
     return []
@@ -28,7 +38,7 @@ const loadOAuthCodes = () => {
   }
 }
 
-const saveOAuthCodes = (codes: any[]) => {
+const saveOAuthCodes = (codes: OAuthCode[]) => {
   ensureDataDir()
   try {
     fs.writeFileSync(OAUTH_CODES_FILE, JSON.stringify(codes, null, 2))
