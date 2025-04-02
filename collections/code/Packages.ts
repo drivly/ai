@@ -24,7 +24,7 @@ export const Packages: CollectionConfig = {
       },
       fields: [
         {
-          name: 'collection',
+          name: 'items',
           type: 'text',
           admin: {
             description: 'Collection slug to include',

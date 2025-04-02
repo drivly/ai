@@ -2,7 +2,7 @@
 @import 'tw-animate-css';
 
 @plugin "@tailwindcss/typography";
-
+@plugin 'tailwind-scrollbar-hide';
 /* Payload theme compatible variant */
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 /* @custom-variant dark (&:where(.dark, .dark *)); */

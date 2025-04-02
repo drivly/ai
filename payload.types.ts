@@ -705,7 +705,7 @@ export interface Package {
         /**
          * Collection slug to include
          */
-        collection?: string | null;
+        items?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -2496,7 +2496,7 @@ export interface PackagesSelect<T extends boolean = true> {
   collections?:
     | T
     | {
-        collection?: T;
+        items?: T;
         id?: T;
       };
   updatedAt?: T;
