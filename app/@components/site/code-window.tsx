@@ -19,21 +19,17 @@ interface AnnotationHandlerProps {
 const autoLinkHandler = {
   name: 'link',
   Inline: ({ annotation, children }: AnnotationHandlerProps) => {
-    let url = typeof annotation === 'string' ? annotation : String(annotation)
+    const url = typeof annotation === 'string' ? annotation : String(annotation)
     
-    console.log('Annotation:', url, 'Children:', children)
-    
-    const markdownLinkRegex = /\[(https?:\/\/[^\]]+)\]\((https?:\/\/[^)]+)\)/
-    const match = url.match(markdownLinkRegex)
-    if (match) {
-      url = match[2] // Use the URL part
+    if (url.startsWith('https://')) {
+      return (
+        <a href={url} target="_blank" rel="noopener noreferrer" className="underline text-blue-400 hover:text-blue-300">
+          {children}
+        </a>
+      )
     }
     
-    return (
-      <a href={url} target="_blank" rel="noopener noreferrer" className="underline text-blue-400 hover:text-blue-300">
-        {children}
-      </a>
-    )
+    return <>{children}</>
   }
 }
 
@@ -50,9 +46,9 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 
   useEffect(() => {
     const processLinks = () => {
-      const markdownLinkRegex = /\[(https?:\/\/[^\]]+)\]\((https?:\/\/[^)]+)\)/g
-      const processed = code.replace(markdownLinkRegex, (match, text, url) => {
-        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="underline text-blue-400 hover:text-blue-300">${text}</a>`
+      const urlRegex = /(https:\/\/[^\s"']+)/g
+      const processed = code.replace(urlRegex, (url) => {
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="underline text-blue-400 hover:text-blue-300">${url}</a>`
       })
       setProcessedCode(processed)
     }
@@ -113,4 +109,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with                                                                        
+// browser bar with                                                                                                                                                                                                                                                                                                

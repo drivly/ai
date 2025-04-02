@@ -1,6 +1,6 @@
-import { Button } from '@drivly/ui/button'
+import { Button } from '@/pkgs/ui/src/server/components/button'
 import { FaGithub } from 'react-icons/fa'
-import { CodeWindow } from '@/app/(sites)/_components/code-window'
+import { CodeWindow } from '@/app/@components/site/code-window'
 
 export default function HeroSection() {
   const codeExample = `{
