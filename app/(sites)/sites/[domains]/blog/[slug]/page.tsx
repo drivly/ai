@@ -1,15 +1,14 @@
-import { domainsConfig, domains } from '@/domains.config'
+import { domains } from '@/domains.config'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Badge } from '../../../../_components/badge'
 import { BlogContent } from '../../../../_components/blog-ui/blog-content'
-import { BlogPosts } from '../../../../_components/blog-ui/blog-posts'
 import { ShareButtons } from '../../../../_components/blog-ui/share-button'
-import { getAllBlogPosts, getAllCategories, getBlogPostBySlug } from '../../../blog-posts'
+import { getBlogPostBySlug } from '../../../blog-posts'
 
-export default async function BlogPage({ params }: { params: Promise<Record<string, string | string[]>> }) {
+export default async function BlogPostPage({ params }: { params: Promise<Record<string, string | string[]>> }) {
   const resolvedParams = await params
   const domainParam = resolvedParams.domains as string
   const slug = resolvedParams.slug as string
@@ -18,29 +17,10 @@ export default async function BlogPage({ params }: { params: Promise<Record<stri
     return notFound()
   }
   
-  if (slug) {
-    return <BlogPostPage domain={domainParam} slug={slug} />
-  }
-  
-  const posts = getAllBlogPosts()
-  const categories = getAllCategories()
-
-  return (
-    <div className='container mx-auto px-4 pt-20 pb-12 md:pt-24 md:pb-24 lg:pb-32'>
-      <div className='mb-8'>
-        <Link href={`/sites/${domainParam}`} className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
-          <ArrowLeft className='mr-1 h-4 w-4' />
-          Back
-        </Link>
-        <h1 className='mb-8 text-4xl font-bold tracking-tight'>Blog</h1>
-      </div>
-
-      <BlogPosts initialPosts={posts} categories={categories} />
-    </div>
-  )
+  return <BlogPostContent domain={domainParam} slug={slug} />
 }
 
-async function BlogPostPage({ domain, slug }: { domain: string, slug: string }) {
+async function BlogPostContent({ domain, slug }: { domain: string, slug: string }) {
   const post = getBlogPostBySlug(slug)
 
   if (!post) {
