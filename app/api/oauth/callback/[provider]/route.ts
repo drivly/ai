@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getPayload } from '../../../../../lib/auth/payload-auth'
+import { getPayload } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
 export async function GET(
