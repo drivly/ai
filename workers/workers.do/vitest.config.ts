@@ -2,17 +2,9 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
-    pool: 'workers',
-    poolOptions: {
-      workers: {
-        miniflare: {
-          bindings: {
-            CF_ACCOUNT_ID: 'test-account-id',
-            CF_API_TOKEN: 'test-api-token',
-            CF_NAMESPACE_ID: 'test-namespace-id',
-          },
-        },
-      },
-    },
+    include: ['src/**/*.test.ts', 'src/**/__tests__/**/*.test.ts'],
+    environment: 'node',
+    globals: true,
+    setupFiles: ['./src/test-setup.ts'],
   },
 })
