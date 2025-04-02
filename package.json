@@ -178,6 +178,7 @@
   },
   "packageManager": "pnpm@10.7.0",
   "lint-staged": {
-    "*.{js,ts,tsx,md,mdx}": "prettier --write"
+    "*.{js,ts,tsx}": ["prettier --write", "eslint --fix"],
+    "*.{md,mdx}": "prettier --write"
   }
 }
