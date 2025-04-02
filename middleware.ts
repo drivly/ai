@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { apis } from './api.config'
-import { domainsConfig, getCollections, isAIGateway } from './domains.config'
+import { domainsConfig, getCollections, isAIGateway, brandDomains } from './domains.config'
 import { collectionSlugs } from './collections/middleware-collections'
 import { analyticsMiddleware } from './analytics/src/middleware'
 
@@ -66,6 +66,11 @@ export async function middleware(request: NextRequest) {
     if (pathname === '/' && siteDomains.includes(hostname)) {
       console.log('Rewriting to landing page', { hostname, pathname, search })
       return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
+    }
+    
+    if (pathname === '/' && brandDomains.includes(hostname)) {
+      console.log('Rewriting brand domain to sites list', { hostname, pathname, search })
+      return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
     }
 
     // Special handler for /api path to route to the domain (minus .do) API path
