@@ -102,6 +102,12 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
     }
     
+    if (hostname === 'do.com.ai') {
+      console.log('Handling do.com.ai domain', { hostname, pathname, search })
+      const url = new URL(request.url)
+      return NextResponse.rewrite(new URL(`${url.origin}${pathname}${search}`))
+    }
+    
     if (isAIGateway(hostname)) {
       console.log('Handling AI gateway domain', { hostname, pathname, search })
       const url = new URL(request.url)

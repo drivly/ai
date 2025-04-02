@@ -239,6 +239,10 @@ export function isAIGateway(domain: string): boolean {
   if (domainsConfig.domains[domain]?.isAIGateway) {
     return true
   }
+  
+  if (domain === 'do.com.ai') {
+    return false
+  }
 
   return domainsConfig.aiGateways.some((pattern) => {
     if (pattern.startsWith('*.')) {
@@ -268,6 +272,7 @@ export function getGlowColor(domain: string): string {
 }
 
 export const domains = [
+  'do.com.ai',
   'action.do',
   'actions.do',
   'agents.do',
