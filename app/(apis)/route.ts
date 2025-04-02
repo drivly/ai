@@ -83,30 +83,6 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     }
   }
   
-  const relatedDomains: Record<string, Record<string, string[]>> = {}
-  for (const [key, relatedKeys] of Object.entries(related)) {
-    if (relatedKeys.length > 0) {
-      const domainKey = `${key}.do`
-      relatedDomains[domainKey] = {
-        related: relatedKeys.map(r => `${r}.do`)
-      }
-    }
-  }
-  
-  const domainRelationships: Record<string, any> = {}
-  for (const [child, parent] of Object.entries(parentDomains)) {
-    if (!domainRelationships[child]) {
-      domainRelationships[child] = {}
-    }
-    domainRelationships[child].parent = parent
-  }
-  
-  for (const [parent, children] of Object.entries(childDomains)) {
-    if (!domainRelationships[parent]) {
-      domainRelationships[parent] = {}
-    }
-    domainRelationships[parent].children = children
-  }
   
   return {
     collections: collectionsByGroup,
