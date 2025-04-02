@@ -22,10 +22,11 @@ export const Tasks: CollectionConfig = {
       name: 'status',
       type: 'select',
       options: [
+        { label: 'Backlog', value: 'backlog' },
         { label: 'To Do', value: 'todo' },
         { label: 'In Progress', value: 'in-progress' },
-        { label: 'Ready for Review', value: 'ready-for-review' },
-        { label: 'Completed', value: 'completed' },
+        { label: 'Review', value: 'review' },
+        { label: 'Done', value: 'done' },
       ],
       admin: { position: 'sidebar' },
     },
