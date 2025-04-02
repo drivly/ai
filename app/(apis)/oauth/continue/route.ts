@@ -1,35 +1,31 @@
-import { NextRequest, NextResponse } from 'next/server'
 import { API } from '@/lib/api'
 import { getPayload } from '@/lib/auth/payload-auth'
 
-export async function GET(request: NextRequest) {
+export const GET = API(async (request, { url, user }) => {
   try {
-    const url = new URL(request.url)
     const redirect = url.searchParams.get('redirect')
     
     if (!redirect) {
-      return NextResponse.json({ 
+      return { 
         error: 'invalid_request', 
-        error_description: 'Missing redirect parameter' 
-      }, { status: 400 })
+        error_description: 'Missing redirect parameter',
+        status: 400
+      }
     }
     
-    const payload = await getPayload()
-    const { betterAuth } = payload
-    const session = await betterAuth.api.getSession({ headers: request.headers })
-    
-    if (!session?.user) {
-      return NextResponse.redirect(
-        new URL(`/api/auth/signin?callbackUrl=${encodeURIComponent(request.url)}`, request.url)
-      )
+    if (!user) {
+      return { 
+        redirect: `/api/auth/signin?callbackUrl=${encodeURIComponent(request.url)}`
+      }
     }
     
-    return NextResponse.redirect(new URL(redirect, request.url))
+    return { redirect: redirect }
   } catch (error) {
     console.error('OAuth continue error:', error)
-    return NextResponse.json({ 
+    return { 
       error: 'server_error', 
-      error_description: 'An error occurred' 
-    }, { status: 500 })
+      error_description: 'An error occurred',
+      status: 500
+    }
   }
-}
+})
