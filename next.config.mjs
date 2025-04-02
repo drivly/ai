@@ -29,56 +29,7 @@ const nextConfig = {
       },
     ]
   },
-  async rewrites() {
-    return {
-      beforeFiles: [
-        // Special case for Vercel preview domains
-        {
-          source: '/',
-          destination: '/sites',
-          has: [
-            {
-              type: 'host',
-              value: '(.*)\\.dev\\.driv\\.ly',
-            },
-          ],
-        },
-        // Special case for do.mw
-        {
-          source: '/',
-          destination: '/sites',
-          has: [
-            {
-              type: 'host',
-              value: 'do\\.mw',
-            },
-          ],
-        },
-        // Additional rewrite for do.mw with higher priority
-        {
-          source: '/:path*',
-          destination: '/sites',
-          has: [
-            {
-              type: 'host',
-              value: 'do\\.mw',
-            },
-          ],
-        },
-        // Special case for apis.do/sites
-        {
-          source: '/sites',
-          destination: '/sites',
-          has: [
-            {
-              type: 'host',
-              value: 'apis\\.do',
-            },
-          ],
-        },
-      ],
-    }
-  },
+  // All routing is handled by middleware.ts
 }
 
 export default withNextra(withPayload(nextConfig, { devBundleServerPackages: false }))
