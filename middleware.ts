@@ -42,6 +42,11 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL(`/admin/collections/${effectiveCollection}${pathname.slice(6)}${search}`, request.url))
     }
 
+    if (pathname === '/admin/login') {
+      console.log('Redirecting to GitHub OAuth', { hostname, pathname, search })
+      return NextResponse.redirect(new URL(`/api/auth/signin/github?callbackUrl=/admin`, request.url))
+    }
+
     if (sitePaths.includes(pathname) && siteDomains.includes(hostname)) {
       console.log('Rewriting to site', { hostname, pathname, search })
       return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
