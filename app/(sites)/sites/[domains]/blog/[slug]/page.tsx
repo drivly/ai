@@ -19,7 +19,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Record<
         <div className="text-lg text-gray-600 mb-6">{blogPost.description}</div>
       )}
       
-      <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: blogPost.content }} />
+      <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: blogPost.content || '' }} />
     </div>
   )
 }
