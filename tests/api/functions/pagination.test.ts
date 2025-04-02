@@ -5,6 +5,23 @@ const mockFind = vi.fn()
 
 vi.mock('@/lib/api', () => ({
   API: (handler: any) => handler,
+  generatePaginationLinks: vi.fn().mockImplementation((request, page, limit, totalItems) => {
+    const links = { home: `${request.nextUrl.origin}${request.nextUrl.pathname}` };
+    if (totalItems === limit) {
+      links.next = `${request.nextUrl.origin}${request.nextUrl.pathname}?page=${page + 1}`;
+    }
+    if (page > 1) {
+      links.prev = `${request.nextUrl.origin}${request.nextUrl.pathname}?page=${page - 1}`;
+    }
+    return links;
+  }),
+  createFunctionsObject: vi.fn().mockImplementation((request, functions) => {
+    const functionsObject = {};
+    functions.forEach(func => {
+      functionsObject[func.name] = `${request.nextUrl.origin}/functions/${func.name}`;
+    });
+    return functionsObject;
+  }),
 }))
 
 vi.mock('@/lib/db', () => ({
