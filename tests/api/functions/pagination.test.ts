@@ -5,7 +5,7 @@ const mockFind = vi.fn()
 
 vi.mock('@/lib/api', () => ({
   API: (handler: any) => handler,
-  generatePaginationLinks: vi.fn().mockImplementation((request, page, limit, totalItems) => {
+  generatePaginationLinks: vi.fn().mockImplementation((request: any, page: number, limit: number, totalItems: number) => {
     const links: { home: string; next?: string; prev?: string } = { 
       home: `${request.nextUrl.origin}${request.nextUrl.pathname}` 
     };
@@ -17,9 +17,9 @@ vi.mock('@/lib/api', () => ({
     }
     return links;
   }),
-  createFunctionsObject: vi.fn().mockImplementation((request, functions: Array<{ name: string }>) => {
+  createFunctionsObject: vi.fn().mockImplementation((request: any, functions: Array<{ name: string }>) => {
     const functionsObject: Record<string, string> = {};
-    functions.forEach(func => {
+    functions.forEach((func: { name: string }) => {
       functionsObject[func.name] = `${request.nextUrl.origin}/functions/${func.name}`;
     });
     return functionsObject;
