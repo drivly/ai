@@ -1,5 +1,5 @@
 import { api } from 'apis.do'
-import { Integration, IntegrationConfig, IntegrationConnection, Trigger, Action } from './types'
+import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration } from './types'
 
 /**
  * Client for managing integrations between applications
@@ -56,7 +56,7 @@ export const integrations = {
  * @param config - Integration configuration
  * @returns The integration configuration
  */
-export const Integration = (config: IntegrationConfig): IntegrationConfig => {
+export const createIntegration = (config: IntegrationConfig): IntegrationConfig => {
   return config
 }
 

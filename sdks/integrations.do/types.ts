@@ -1,4 +1,18 @@
 /**
+ * Integration interface
+ */
+export interface Integration {
+  /** Integration ID */
+  id: string;
+  /** Integration name */
+  name: string;
+  /** Integration description */
+  description: string;
+  /** Integration status */
+  status: 'active' | 'inactive';
+}
+
+/**
  * Integration configuration interface
  */
 export interface IntegrationConfig {
