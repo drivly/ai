@@ -76,9 +76,9 @@ export async function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
     }
     
-    if (pathname === '/' && brandDomains.includes(hostname)) {
+    if ((pathname === '/' || pathname === '/sites') && brandDomains.includes(hostname)) {
       console.log('Rewriting brand domain to sites list', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+      return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
     }
 
     // Special handler for /api path to route to the domain (minus .do) API path
@@ -105,6 +105,12 @@ export async function middleware(request: NextRequest) {
     if (isAIGateway(hostname)) {
       console.log('Handling AI gateway domain', { hostname, pathname, search })
       const url = new URL(request.url)
+      
+      if (pathname === '/sites') {
+        console.log('Rewriting gateway domain /sites to sites-list', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/sites-list${search}`, request.url))
+      }
+      
       return NextResponse.rewrite(new URL(`${url.origin}${pathname}${search}`))
     }
     
