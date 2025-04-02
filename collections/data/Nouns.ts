@@ -1,6 +1,5 @@
+import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
-import { getPayload } from 'payload'
-import config from '@/payload.config'
 
 export const Nouns: CollectionConfig = {
   slug: 'nouns',
@@ -27,7 +26,7 @@ export const Nouns: CollectionConfig = {
         if (data.name && (!data.singular || !data.plural || !data.possessive || !data.pluralPossessive || 
             !data.verb || !data.act || !data.activity || !data.event)) {
           try {
-            const payload = await getPayload({ config })
+            const { payload } = req
             
             const jobResult = await payload.jobs.queue({
               task: 'executeFunction',
@@ -38,6 +37,7 @@ export const Nouns: CollectionConfig = {
             })
             
             console.log('Queued noun semantics job:', jobResult)
+            waitUntil(payload.jobs.runByID({ id: jobResult.id }))
           } catch (error) {
             console.error('Error processing noun semantics:', error)
           }
@@ -51,7 +51,7 @@ export const Nouns: CollectionConfig = {
           if (doc.name && (!doc.singular || !doc.plural || !doc.possessive || !doc.pluralPossessive || 
               !doc.verb || !doc.act || !doc.activity || !doc.event)) {
             try {
-              const payload = req.payload
+              const { payload } = req
               
               const jobResult = await payload.jobs.queue({
                 task: 'executeFunction',
@@ -62,6 +62,7 @@ export const Nouns: CollectionConfig = {
               })
               
               console.log('Noun semantics job result:', jobResult)
+              waitUntil(payload.jobs.runByID({ id: jobResult.id }))
               
               const updateData: Record<string, string> = {}
               
