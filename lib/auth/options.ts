@@ -4,15 +4,7 @@ import { nextCookies } from 'better-auth/next-js'
 import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
-
-const getCurrentURL = () => {
-  if (typeof window !== 'undefined') return window.location.origin // Client-side detection
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`
-  if (process.env.NEXT_PUBLIC_VERCEL_URL) return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-  if (process.env.VERCEL_BRANCH_URL) return process.env.VERCEL_BRANCH_URL
-  if (process.env.VERCEL_PREVIEW_URL) return process.env.VERCEL_PREVIEW_URL
-  return process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://apis.do'
-}
+import { getCurrentURL } from '../utils/url'
 
 export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), oAuthProxy({ 
   productionURL: 'https://apis.do',
