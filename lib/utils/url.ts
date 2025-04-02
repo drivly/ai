@@ -1,13 +1,9 @@
 /**
  * Gets the current URL based on the execution environment
  * Supports request headers, Vercel preview deployments, client-side detection, and fallbacks
- * Properly handles gateway domains like do.com.ai
  */
 export const getCurrentURL = (headers?: Headers) => {
-  if (headers?.get('host')) {
-    const host = headers.get('host')
-    return `https://${host}`
-  }
+  if (headers?.get('host')) return `https://${headers.get('host')}`
   
   if (typeof window !== 'undefined') return window.location.origin
   
