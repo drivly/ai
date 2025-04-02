@@ -95,13 +95,17 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
   hidePluginCollections: true,
   users: {
     slug: 'users',
-    hidden: false,
+    hidden: true, // Hide the users collection from navigation
     adminRoles: ['admin'],
     allowedFields: ['name'],
     blockFirstBetterAuthVerificationEmail: true,
     collectionOverrides: ({ collection }) => {
       return {
         ...collection,
+        admin: {
+          ...(collection.admin || {}),
+          group: 'AuthInternal', // Use a different group name
+        },
         auth: {
           ...(typeof collection?.auth === 'object' ? collection.auth : {}),
         },
