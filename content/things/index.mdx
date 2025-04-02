@@ -2,6 +2,15 @@
 title: Resources
 ---
 
-import { Redirect } from 'nextra/components'
+export const meta = {
+  title: 'Resources',
+  type: 'page'
+}
 
-<Redirect to="/docs/resources" />
+export default function ThingsRedirect() {
+  if (typeof window !== 'undefined') {
+    window.location.href = '/docs/resources';
+    return null;
+  }
+  return <p>Redirecting to Resources...</p>;
+}
