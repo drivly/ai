@@ -27,8 +27,10 @@ export async function analyticsMiddleware(
       const userId = request.cookies.get('userId')?.value || headers.get('x-user-id') || ''
       
       const clickhouseClient = createClickhouseClient({
-        host: process.env.CLICKHOUSE_HOST || 'http://localhost',
-        port: process.env.CLICKHOUSE_PORT ? parseInt(process.env.CLICKHOUSE_PORT) : 8123,
+        url: process.env.CLICKHOUSE_URL || 
+             `${process.env.CLICKHOUSE_HOST || 'http://localhost'}:${
+               process.env.CLICKHOUSE_PORT ? parseInt(process.env.CLICKHOUSE_PORT) : 8123
+             }`,
         username: process.env.CLICKHOUSE_USERNAME,
         password: process.env.CLICKHOUSE_PASSWORD,
         database: process.env.CLICKHOUSE_DATABASE || 'default',
