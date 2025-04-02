@@ -36,7 +36,7 @@ export const GET = API(async (request, { url, user }) => {
       state
     })
     
-    loginUrl.searchParams.set('redirect', `/api/oauth?provider=${provider}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${encodeURIComponent(state)}`)
+    loginUrl.searchParams.set('redirect', `/api/oauth?provider=${provider}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state ? encodeURIComponent(state) : ''}`)
     
     return { redirect: loginUrl.toString() }
   }

@@ -5,7 +5,15 @@ import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/pl
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 
-export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), oAuthProxy({ productionURL: 'https://apis.do' })]
+export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), oAuthProxy({ 
+  productionURL: 'https://apis.do',
+  currentURL: typeof window !== 'undefined' ? window.location.origin : // Client-side detection
+              process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
+              process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 
+              process.env.VERCEL_BRANCH_URL ? process.env.VERCEL_BRANCH_URL : 
+              process.env.VERCEL_PREVIEW_URL ? process.env.VERCEL_PREVIEW_URL : 
+              process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL
+})]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
 
@@ -16,10 +24,12 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      redirectURI: 'https://apis.do/api/auth/callback/google',
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+      redirectURI: 'https://apis.do/api/auth/callback/github',
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
