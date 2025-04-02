@@ -24,12 +24,12 @@ Returns a list of all collections accessible to the authenticated user.
 
 #### Query Parameters
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| limit | integer | Maximum number of collections to return (default: 20) |
-| offset | integer | Number of collections to skip (default: 0) |
-| sort | string | Field to sort by (default: 'createdAt') |
-| order | string | Sort order ('asc' or 'desc', default: 'desc') |
+| Parameter | Type    | Description                                           |
+| --------- | ------- | ----------------------------------------------------- |
+| limit     | integer | Maximum number of collections to return (default: 20) |
+| offset    | integer | Number of collections to skip (default: 0)            |
+| sort      | string  | Field to sort by (default: 'createdAt')               |
+| order     | string  | Sort order ('asc' or 'desc', default: 'desc')         |
 
 #### Response
 
@@ -42,7 +42,7 @@ Returns a list of all collections accessible to the authenticated user.
       "description": "Customer information",
       "createdAt": "2023-01-01T00:00:00Z",
       "updatedAt": "2023-01-02T00:00:00Z"
-    },
+    }
     // ...
   ],
   "meta": {
@@ -307,13 +307,13 @@ Returns a list of documents in a collection.
 
 #### Query Parameters
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| limit | integer | Maximum number of documents to return (default: 20) |
-| offset | integer | Number of documents to skip (default: 0) |
-| sort | string | Field to sort by (default: 'createdAt') |
-| order | string | Sort order ('asc' or 'desc', default: 'desc') |
-| filter | string | JSON filter expression |
+| Parameter | Type    | Description                                         |
+| --------- | ------- | --------------------------------------------------- |
+| limit     | integer | Maximum number of documents to return (default: 20) |
+| offset    | integer | Number of documents to skip (default: 0)            |
+| sort      | string  | Field to sort by (default: 'createdAt')             |
+| order     | string  | Sort order ('asc' or 'desc', default: 'desc')       |
+| filter    | string  | JSON filter expression                              |
 
 #### Response
 
@@ -327,7 +327,7 @@ Returns a list of documents in a collection.
       "company": "Acme Inc.",
       "createdAt": "2023-01-01T00:00:00Z",
       "updatedAt": "2023-01-02T00:00:00Z"
-    },
+    }
     // ...
   ],
   "meta": {
@@ -475,7 +475,7 @@ Queries documents in a collection.
       "company": "Acme Corporation",
       "createdAt": "2023-01-01T00:00:00Z",
       "updatedAt": "2023-01-02T00:00:00Z"
-    },
+    }
     // ...
   ],
   "meta": {

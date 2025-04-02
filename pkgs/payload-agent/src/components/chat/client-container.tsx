@@ -34,18 +34,21 @@ const ClientContainer: React.FC<ClientContainerProps> = ({
         layoutChildren={type === 'resizable' && children}
         direction={type === 'resizable' ? direction : undefined}
         suggestions={suggestions}
-        aiAvatar={aiAvatar}>
+        aiAvatar={aiAvatar}
+      >
         <Container.Trigger
           className={cn(chatOptions?.triggerStyle, {
             'right-[32px] bottom-[16px]': type === 'resizable',
-          })}>
+          })}
+        >
           <BotMessageSquare size={18} />
         </Container.Trigger>
         <Wrapper
           as={type === 'modal' ? Container.Modal : type === 'panel' ? Container.Panel : Container.Resizable}
           withOverlay={withOverlay}
           withOutsideClick={withOutsideClick}
-          className={chatOptions?.containerStyle}>
+          className={chatOptions?.containerStyle}
+        >
           <Container.Header
             className={chatOptions?.headerStyle}
             buttonStyle={chatOptions?.headerButtonStyle}

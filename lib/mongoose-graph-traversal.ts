@@ -8,18 +8,14 @@ type GraphTraversalOptions = {
   relationshipFilter?: any
 }
 
-export async function traverseGraph({ 
-  startId, 
-  maxDepth = 3,
-  relationshipFilter = {}
-}: GraphTraversalOptions) {
+export async function traverseGraph({ startId, maxDepth = 3, relationshipFilter = {} }: GraphTraversalOptions) {
   const payload = await getPayload({ config })
-  
+
   const db = mongoose.connection.db
-  
+
   const pipeline = [
     {
-      $match: { _id: new mongoose.Types.ObjectId(startId) }
+      $match: { _id: new mongoose.Types.ObjectId(startId) },
     },
     {
       $graphLookup: {
@@ -30,8 +26,8 @@ export async function traverseGraph({
         as: 'outgoingRelationships',
         maxDepth,
         depthField: 'depth',
-        restrictSearchWithMatch: relationshipFilter
-      }
+        restrictSearchWithMatch: relationshipFilter,
+      },
     },
     {
       $graphLookup: {
@@ -42,27 +38,27 @@ export async function traverseGraph({
         as: 'incomingRelationships',
         maxDepth,
         depthField: 'depth',
-        restrictSearchWithMatch: relationshipFilter
-      }
+        restrictSearchWithMatch: relationshipFilter,
+      },
     },
     {
       $lookup: {
         from: 'resources',
         localField: 'outgoingRelationships.object',
         foreignField: '_id',
-        as: 'connectedResources'
-      }
+        as: 'connectedResources',
+      },
     },
     {
       $lookup: {
         from: 'verbs',
         localField: 'outgoingRelationships.verb',
         foreignField: '_id',
-        as: 'relationshipVerbs'
-      }
-    }
+        as: 'relationshipVerbs',
+      },
+    },
   ]
-  
+
   try {
     if (!db) {
       throw new Error('MongoDB connection not established')

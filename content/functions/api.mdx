@@ -24,12 +24,12 @@ Returns a list of all functions accessible to the authenticated user.
 
 #### Query Parameters
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| limit | integer | Maximum number of functions to return (default: 20) |
-| offset | integer | Number of functions to skip (default: 0) |
-| sort | string | Field to sort by (default: 'createdAt') |
-| order | string | Sort order ('asc' or 'desc', default: 'desc') |
+| Parameter | Type    | Description                                         |
+| --------- | ------- | --------------------------------------------------- |
+| limit     | integer | Maximum number of functions to return (default: 20) |
+| offset    | integer | Number of functions to skip (default: 0)            |
+| sort      | string  | Field to sort by (default: 'createdAt')             |
+| order     | string  | Sort order ('asc' or 'desc', default: 'desc')       |
 
 #### Response
 
@@ -42,7 +42,7 @@ Returns a list of all functions accessible to the authenticated user.
       "description": "Summarizes long text into concise points",
       "createdAt": "2023-01-01T00:00:00Z",
       "updatedAt": "2023-01-02T00:00:00Z"
-    },
+    }
     // ...
   ],
   "meta": {

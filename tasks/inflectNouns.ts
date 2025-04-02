@@ -5,9 +5,7 @@ export const inflectNounsTask = {
   retries: 3,
   slug: 'inflectNouns',
   label: 'Inflect Nouns',
-  inputSchema: [
-    { name: 'noun', type: 'text', required: true },
-  ],
+  inputSchema: [{ name: 'noun', type: 'text', required: true }],
   outputSchema: [
     { name: 'singular', type: 'text' },
     { name: 'plural', type: 'text' },
@@ -18,7 +16,7 @@ export const inflectNounsTask = {
     { name: 'activity', type: 'text' },
     { name: 'event', type: 'text' },
   ],
-  handler: async ({ input, req }: { input: { noun: string }, req: any }) => {
+  handler: async ({ input, req }: { input: { noun: string }; req: any }) => {
     const result = await executeFunction({
       input: {
         functionName: 'inflectNouns',
@@ -27,7 +25,7 @@ export const inflectNounsTask = {
       req,
       payload: req.payload,
     })
-    
+
     return result.output
   },
 } as unknown as TaskConfig

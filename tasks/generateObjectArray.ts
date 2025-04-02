@@ -74,7 +74,7 @@ export const generateObjectArray = async ({ input, req }: { input: GenerateObjec
 
   try {
     const parsed = JSON.parse(text.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, ''))
-    
+
     if (parsed && typeof parsed === 'object' && Array.isArray(parsed.items)) {
       objectArray = parsed.items
     } else if (Array.isArray(parsed)) {

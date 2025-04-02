@@ -13,13 +13,13 @@ export interface EvalsOptions extends ApiClientOptions {
    * @default true
    */
   storeLocally?: boolean
-  
+
   /**
    * Whether to send results to the cloud backend
    * @default true
    */
   storeRemotely?: boolean
-  
+
   /**
    * Path to the local SQLite database
    * @default './.evalite.db'

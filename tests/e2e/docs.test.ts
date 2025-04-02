@@ -55,11 +55,11 @@ describe('Documentation page', () => {
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       const docsUrl = baseUrl.endsWith('/') ? `${baseUrl}docs` : `${baseUrl}/docs`
-      
+
       let response: Response | null = null
-      
+
       response = await page.goto(docsUrl)
-      
+
       expect(response).not.toBeNull()
       if (response) {
         expect(response.status()).not.toBe(500)
@@ -102,34 +102,34 @@ describe('Documentation page', () => {
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       const docsUrl = baseUrl.endsWith('/') ? `${baseUrl}docs` : `${baseUrl}/docs`
-      
+
       await page.goto(docsUrl)
-      
+
       const navLinks = await page.locator('nav a')
       const linkCount = await navLinks.count()
-      
+
       expect(linkCount).toBeGreaterThan(0)
-      
+
       const maxLinksToTest = Math.min(3, linkCount)
-      
+
       for (let i = 0; i < maxLinksToTest; i++) {
         try {
           const href = await navLinks.nth(i).getAttribute('href')
-          
+
           if (href && !href.startsWith('http')) {
             const navigationPromise = page.waitForNavigation()
             await navLinks.nth(i).click()
-            
+
             const response = await navigationPromise
-            
+
             if (response) {
               expect(response.status()).not.toBe(500)
               expect(response.ok()).toBe(true)
             }
-            
+
             const content = await page.locator('main')
             expect(await content.count()).toBe(1)
-            
+
             const docsBaseUrl = baseUrl.endsWith('/') ? `${baseUrl}docs` : `${baseUrl}/docs`
             await page.goto(docsBaseUrl)
           }
@@ -152,17 +152,17 @@ describe('Documentation page', () => {
     try {
       const baseUrl = process.env.API_URL || process.env.VERCEL_URL || 'http://localhost:3000'
       const docsUrl = baseUrl.endsWith('/') ? `${baseUrl}docs` : `${baseUrl}/docs`
-      
+
       console.log(`Testing docs route at: ${docsUrl}`)
       const response = await fetch(docsUrl)
-      
+
       expect(response.status).not.toBe(500)
-      
+
       if (response.status === 500) {
         console.error('CRITICAL: Docs route returned a 500 error')
         throw new Error('Docs route returned a 500 error')
       }
-      
+
       const content = await response.text()
       expect(content.length).toBeGreaterThan(0)
     } catch (error) {

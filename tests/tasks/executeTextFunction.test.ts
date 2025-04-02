@@ -29,7 +29,7 @@ describe('executeFunction with text output', () => {
       generationLatency: 100,
       request: { model: 'test-model' },
     })
-    
+
     const mockGenerateMarkdown = generateMarkdown as any
     mockGenerateMarkdown.mockResolvedValue({
       markdown: '# Test Markdown\nThis is a test markdown response.',
@@ -37,7 +37,7 @@ describe('executeFunction with text output', () => {
       generation: { choices: [{ message: { content: '# Test Markdown\nThis is a test markdown response.' } }] },
       generationLatency: 100,
       request: { model: 'test-model' },
-      mdast: {}
+      mdast: {},
     })
 
     // Mock payload.find to return empty results
@@ -93,7 +93,7 @@ describe('executeFunction with text output', () => {
 
   it('should handle TextArray function types correctly', async () => {
     vi.clearAllMocks()
-    
+
     const mockGenerateMarkdown = generateMarkdown as any
     mockGenerateMarkdown.mockResolvedValue({
       markdown: '1. First item\n2. Second item\n3. Third item',
@@ -101,9 +101,9 @@ describe('executeFunction with text output', () => {
       generation: { choices: [{ message: { content: '1. First item\n2. Second item\n3. Third item' } }] },
       generationLatency: 100,
       request: { model: 'test-model' },
-      mdast: {}
+      mdast: {},
     })
-    
+
     const input = {
       functionName: 'generateList',
       args: { topic: 'Testing' },
@@ -135,7 +135,7 @@ describe('executeFunction with text output', () => {
 
   it('should handle Text function types correctly', async () => {
     vi.clearAllMocks()
-    
+
     const mockGenerateText = generateText as any
     mockGenerateText.mockResolvedValue({
       text: 'This is a simple text response.',
@@ -144,7 +144,7 @@ describe('executeFunction with text output', () => {
       generationLatency: 100,
       request: { model: 'test-model' },
     })
-    
+
     const input = {
       functionName: 'generateText',
       args: { topic: 'Testing' },

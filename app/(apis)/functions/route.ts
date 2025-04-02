@@ -14,15 +14,15 @@ export const POST = API(async (request, { db, user, url }) => {
 
   if (action === 'clone' && functionId) {
     const originalFunction = await db.functions.get(functionId)
-    
+
     if (!originalFunction) {
       return { error: 'Function not found' }
     }
-    
+
     if (!originalFunction.public && originalFunction.user?.id !== user?.id) {
       return { error: 'You do not have permission to clone this function' }
     }
-    
+
     const cloneData = {
       ...originalFunction,
       name: `${originalFunction.name} (Clone)`,
@@ -33,17 +33,17 @@ export const POST = API(async (request, { db, user, url }) => {
       },
       user: user?.id, // Set the current user as the owner
     }
-    
+
     delete cloneData.id
     delete cloneData.createdAt
     delete cloneData.updatedAt
     delete cloneData.stripeProductId
     delete cloneData.stripePriceId
-    
+
     const newFunction = await db.functions.create(cloneData)
-    
+
     return { success: true, function: newFunction }
   }
-  
+
   return { error: 'Invalid action' }
 })

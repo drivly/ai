@@ -89,10 +89,10 @@ const Product = defineResource({
   // Define computations for derived fields
   computed: {
     isLowStock: ({ inventory }) => {
-      return inventory && inventory.quantity < 10;
+      return inventory && inventory.quantity < 10
     },
     formattedPrice: ({ price }) => {
-      return price ? `$${price.toFixed(2)}` : 'N/A';
+      return price ? `$${price.toFixed(2)}` : 'N/A'
     },
   },
 
@@ -118,38 +118,36 @@ const Product = defineResource({
   methods: {
     applyDiscount(percentage) {
       if (percentage < 0 || percentage > 100) {
-        throw new Error('Discount percentage must be between 0 and 100');
+        throw new Error('Discount percentage must be between 0 and 100')
       }
-      
-      const discountFactor = 1 - (percentage / 100);
-      this.price = this.price * discountFactor;
-      
-      return this;
+
+      const discountFactor = 1 - percentage / 100
+      this.price = this.price * discountFactor
+
+      return this
     },
-    
+
     restock(quantity) {
       if (!this.inventory) {
-        this.inventory = { quantity: 0 };
+        this.inventory = { quantity: 0 }
       }
-      
-      this.inventory.quantity += quantity;
-      
-      return this;
+
+      this.inventory.quantity += quantity
+
+      return this
     },
-    
+
     async getFullDetails() {
       // Load related data
-      const manufacturer = await this.manufacturer();
-      const reviews = await this.reviews();
-      
+      const manufacturer = await this.manufacturer()
+      const reviews = await this.reviews()
+
       return {
         ...this,
         manufacturer,
         reviews,
-        averageRating: reviews.length > 0 
-          ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length 
-          : null,
-      };
+        averageRating: reviews.length > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : null,
+      }
     },
   },
 
@@ -157,19 +155,19 @@ const Product = defineResource({
   hooks: {
     beforeCreate() {
       if (!this.releaseDate) {
-        this.releaseDate = new Date();
+        this.releaseDate = new Date()
       }
     },
-    
+
     afterCreate() {
       // Notify inventory system
     },
-    
+
     beforeUpdate(changes) {
       // Validate changes
-      return changes;
+      return changes
     },
-    
+
     afterUpdate() {
       // Update search index
     },

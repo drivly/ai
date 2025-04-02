@@ -21,9 +21,9 @@ describe('CLI', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    
+
     mockConsoleLog = vi.spyOn(console, 'log').mockImplementation(() => {})
-    
+
     cli = new CLI({
       apiKey: 'test-api-key',
       baseUrl: 'https://test-api.com',
@@ -76,7 +76,7 @@ describe('CLI', () => {
     it('should execute a function and use the API client', async () => {
       const inputs = { arg1: 'value1' }
       await cli.executeFunction('testFunction', inputs)
-      
+
       expect(mockConsoleLog).toHaveBeenCalledWith('Executing function testFunction...')
       expect(cli['api'].post).toHaveBeenCalledWith('/api/functions/testFunction/execute', inputs)
     })
@@ -86,7 +86,7 @@ describe('CLI', () => {
     it('should list resources and use the API client', async () => {
       const query = { limit: 10 }
       await cli.list('functions', query)
-      
+
       expect(mockConsoleLog).toHaveBeenCalledWith('Listing functions...')
       expect(cli['api'].list).toHaveBeenCalledWith('functions', query)
     })
@@ -95,7 +95,7 @@ describe('CLI', () => {
   describe('get', () => {
     it('should get a resource by ID and use the API client', async () => {
       await cli.get('functions', '123')
-      
+
       expect(mockConsoleLog).toHaveBeenCalledWith('Getting functions 123...')
       expect(cli['api'].getById).toHaveBeenCalledWith('functions', '123')
     })
@@ -105,7 +105,7 @@ describe('CLI', () => {
     it('should create a resource and use the API client', async () => {
       const data = { name: 'New Function' }
       await cli.create('functions', data)
-      
+
       expect(mockConsoleLog).toHaveBeenCalledWith('Creating new functions...')
       expect(cli['api'].create).toHaveBeenCalledWith('functions', data)
     })
@@ -115,7 +115,7 @@ describe('CLI', () => {
     it('should update a resource and use the API client', async () => {
       const data = { name: 'Updated Function' }
       await cli.update('functions', '123', data)
-      
+
       expect(mockConsoleLog).toHaveBeenCalledWith('Updating functions 123...')
       expect(cli['api'].update).toHaveBeenCalledWith('functions', '123', data)
     })
@@ -124,7 +124,7 @@ describe('CLI', () => {
   describe('delete', () => {
     it('should delete a resource and use the API client', async () => {
       await cli.delete('functions', '123')
-      
+
       expect(mockConsoleLog).toHaveBeenCalledWith('Deleting functions 123...')
       expect(cli['api'].remove).toHaveBeenCalledWith('functions', '123')
     })

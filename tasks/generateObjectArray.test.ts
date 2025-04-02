@@ -9,7 +9,7 @@ describe('generateObjectArray', () => {
       process.env.AI_GATEWAY_URL = 'https://ai-gateway.drivly.dev'
     }
   })
-  
+
   afterEach(() => {
     global.fetch = originalFetch
   })
@@ -18,12 +18,12 @@ describe('generateObjectArray', () => {
     const input = {
       functionName: 'testArrayFunction',
       args: { query: 'list of fruits' },
-      settings: { model: 'gpt-4o-mini' }
+      settings: { model: 'gpt-4o-mini' },
     }
 
     const result = await generateObjectArray({
       input,
-      req: { headers: new Map() }
+      req: { headers: new Map() },
     })
 
     expect(result.objectArray).toBeInstanceOf(Array)
@@ -36,17 +36,17 @@ describe('generateObjectArray', () => {
       functionName: 'testArrayFunction',
       args: { query: 'list of fruits with prices' },
       schema: { name: 'string', price: 'number' },
-      settings: { model: 'gpt-4o-mini' }
+      settings: { model: 'gpt-4o-mini' },
     }
 
     const result = await generateObjectArray({
       input,
-      req: { headers: new Map() }
+      req: { headers: new Map() },
     })
 
     expect(result.objectArray).toBeInstanceOf(Array)
     expect(result.objectArray.length).toBeGreaterThan(0)
-    result.objectArray.forEach(item => {
+    result.objectArray.forEach((item) => {
       expect(typeof item.name).toBe('string')
       expect(typeof item.price).toBe('number')
     })
@@ -56,12 +56,12 @@ describe('generateObjectArray', () => {
     const input = {
       functionName: 'testArrayFunction',
       args: { query: 'list of colors' },
-      settings: { model: 'gpt-4o-mini' }
+      settings: { model: 'gpt-4o-mini' },
     }
 
     const result = await generateObjectArray({
       input,
-      req: { headers: new Map() }
+      req: { headers: new Map() },
     })
 
     expect(result.objectArray).toBeInstanceOf(Array)
@@ -72,20 +72,20 @@ describe('generateObjectArray', () => {
     const zodSchema = {
       shape: {
         name: { _def: { typeName: 'ZodString' } },
-        count: { _def: { typeName: 'ZodNumber' } }
-      }
+        count: { _def: { typeName: 'ZodNumber' } },
+      },
     }
 
     const input = {
       functionName: 'testArrayFunction',
       args: { query: 'list of programming languages with popularity count' },
       zodSchema,
-      settings: { model: 'gpt-4o-mini' }
+      settings: { model: 'gpt-4o-mini' },
     }
 
     const result = await generateObjectArray({
       input,
-      req: { headers: new Map() }
+      req: { headers: new Map() },
     })
 
     expect(result.objectArray).toBeInstanceOf(Array)

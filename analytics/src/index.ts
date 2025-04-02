@@ -13,10 +13,8 @@ export class ClickhouseClient {
   private client
 
   constructor(config: ClickhouseConfig) {
-    const hostWithPort = config.port ? 
-      `${config.host}:${config.port}` : 
-      config.host;
-      
+    const hostWithPort = config.port ? `${config.host}:${config.port}` : config.host
+
     this.client = createClient({
       host: hostWithPort,
       username: config.username || 'default',

@@ -647,37 +647,37 @@ graph TD
     Functions --> Prompts
     Functions --> Agents
     Functions --> Actions
-    
+
     Workflows --> Functions
     Workflows --> Modules
     Workflows --> Packages
     Workflows --> Deployments
-    
+
     Actions --> Resources["Resources (subject)"]
     Actions --> Verbs
     Actions --> Functions
     Actions --> Resources2["Resources (object)"]
     Actions --> Generations
-    
+
     Triggers --> Workflows
     Searches --> Workflows
-    
+
     Integrations --> IntegrationCategories
     IntegrationActions --> Integrations
     IntegrationTriggers --> Integrations
     Connections --> Integrations
-    
+
     Evals --> EvalsRuns
     EvalsRuns --> EvalsResults
     EvalsRuns --> Datasets
     EvalsResults --> Benchmarks
-    
+
     Tasks --> Queues
-    
+
     Experiments --> Models
     Experiments --> Prompts
     Experiments --> Settings
-    
+
     style Functions fill:#d4f1f9,stroke:#333,stroke-width:1px
     style Workflows fill:#d9d2e9,stroke:#333,stroke-width:1px
     style Agents fill:#e6e6fa,stroke:#333,stroke-width:1px

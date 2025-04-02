@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server'
 export const GET = async (request: NextRequest) => {
   const searchParams = request.nextUrl.searchParams
   const path = searchParams.get('path') || '/'
-  
+
   const scriptContent = `
 <!DOCTYPE html>
 <html>
@@ -21,7 +21,7 @@ export const GET = async (request: NextRequest) => {
 </body>
 </html>
   `
-  
+
   return new NextResponse(scriptContent, {
     headers: {
       'Content-Type': 'text/html',

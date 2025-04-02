@@ -1,11 +1,11 @@
 #!/usr/bin/env tsx
 /**
  * Domain Automation Script
- * 
+ *
  * This script automates the process of:
  * 1. Adding domains to Cloudflare for DNS management
  * 2. Adding domains to Vercel for hosting
- * 
+ *
  * It uses the domain status information from domain-status-checker.ts to determine
  * which domains need to be added to each service. The script will:
  * - Check if domains are already in Cloudflare and Vercel
@@ -13,36 +13,36 @@
  * - Create DNS records in Cloudflare pointing to Vercel
  * - Add domains to Vercel project for hosting
  * - Verify domains in Vercel
- * 
+ *
  * Required Environment Variables:
  * - CLOUDFLARE_API_TOKEN: API token with Zone:Edit and DNS:Edit permissions
  * - CLOUDFLARE_ACCOUNT_ID: Your Cloudflare account ID
  * - VERCEL_TOKEN: Vercel API token with domains:read and domains:write scopes
  * - VERCEL_TEAM_ID: (Optional) Your Vercel team ID if using a team account
- * 
- * Usage: 
+ *
+ * Usage:
  *   # Set required environment variables
  *   export CLOUDFLARE_API_TOKEN=your_token
  *   export CLOUDFLARE_ACCOUNT_ID=your_account_id
  *   export VERCEL_TOKEN=your_token
  *   export VERCEL_TEAM_ID=your_team_id  # Optional
- *   
+ *
  *   # Process all domains
  *   pnpm tsx scripts/domain-automation.ts
- *   
+ *
  *   # Process specific domains
  *   pnpm tsx scripts/domain-automation.ts functions.do apis.do
- *   
+ *
  *   # Test without making changes (dry-run mode)
  *   pnpm tsx scripts/domain-automation.ts --dry-run
  *   # or with specific domains
  *   pnpm tsx scripts/domain-automation.ts functions.do -d
- * 
+ *
  * Example Output:
  *   Found 104 domains to process
  *   Found 0 domains already linked in Vercel
  *   Found 5 zones already in Cloudflare
- *   
+ *
  *   Processing domain: functions.do
  *   Domain functions.do is not in Vercel
  *   Domain functions.do is already in Cloudflare
@@ -52,7 +52,7 @@
  *   Successfully added domain functions.do to Vercel
  *   Verifying domain functions.do on Vercel...
  *   Successfully verified domain functions.do on Vercel
- * 
+ *
  * Notes:
  * - The script will continue processing domains even if some fail
  * - Domains that already exist in Cloudflare or Vercel will be skipped
@@ -73,7 +73,7 @@ if (dryRun) {
 }
 
 if (domainFilter && !dryRun) {
-  console.log(`Filtering domains to: ${domainFilter.filter(arg => !arg.startsWith('-')).join(', ')}`)
+  console.log(`Filtering domains to: ${domainFilter.filter((arg) => !arg.startsWith('-')).join(', ')}`)
 }
 
 const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN
@@ -126,16 +126,16 @@ async function getCloudflareZones(): Promise<CloudflareZone[]> {
   try {
     const response = await fetch(`${CLOUDFLARE_API_BASE}/zones?account.id=${CLOUDFLARE_ACCOUNT_ID}`, {
       headers: {
-        'Authorization': `Bearer ${CLOUDFLARE_API_TOKEN}`,
-        'Content-Type': 'application/json'
-      }
+        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
     })
 
     if (!response.ok) {
       throw new Error(`Cloudflare API returned ${response.status}: ${await response.text()}`)
     }
 
-    const data = await response.json() as CloudflareZonesResponse
+    const data = (await response.json()) as CloudflareZonesResponse
     return data.result
   } catch (error: any) {
     console.error('Error fetching Cloudflare zones:', error.message)
@@ -158,16 +158,16 @@ async function createCloudflareZone(domain: string): Promise<CloudflareZone | nu
     const response = await fetch(`${CLOUDFLARE_API_BASE}/zones`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${CLOUDFLARE_API_TOKEN}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         name: domain,
         account: {
-          id: CLOUDFLARE_ACCOUNT_ID
+          id: CLOUDFLARE_ACCOUNT_ID,
         },
-        jump_start: true
-      })
+        jump_start: true,
+      }),
     })
 
     if (!response.ok) {
@@ -198,16 +198,16 @@ async function addCloudflareVercelDNSRecords(zoneId: string, domain: string): Pr
     const response = await fetch(`${CLOUDFLARE_API_BASE}/zones/${zoneId}/dns_records`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${CLOUDFLARE_API_TOKEN}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         type: 'CNAME',
         name: domain,
         content: 'cname.vercel-dns.com',
         ttl: 1, // Auto
-        proxied: true
-      })
+        proxied: true,
+      }),
     })
 
     if (!response.ok) {
@@ -238,12 +238,12 @@ async function addDomainToVercel(domain: string): Promise<boolean> {
     const response = await fetch(`https://api.vercel.com/v10/projects/${VERCEL_PROJECT_ID}/domains?${teamParam}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${VERCEL_TOKEN}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${VERCEL_TOKEN}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        name: domain
-      })
+        name: domain,
+      }),
     })
 
     if (!response.ok) {
@@ -279,9 +279,9 @@ async function verifyDomainOnVercel(domain: string): Promise<boolean> {
     const response = await fetch(`https://api.vercel.com/v10/projects/${VERCEL_PROJECT_ID}/domains/${domain}/verify?${teamParam}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${VERCEL_TOKEN}`,
-        'Content-Type': 'application/json'
-      }
+        Authorization: `Bearer ${VERCEL_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
     })
 
     if (!response.ok) {
@@ -299,10 +299,7 @@ async function verifyDomainOnVercel(domain: string): Promise<boolean> {
  * Main function to automate domain setup
  */
 async function automateDomainsSetup() {
-  const domainsToProcess = domainFilter 
-    ? domains.filter(domain => domainFilter.some(filter => 
-        !filter.startsWith('-') && domain.includes(filter)))
-    : domains
+  const domainsToProcess = domainFilter ? domains.filter((domain) => domainFilter.some((filter) => !filter.startsWith('-') && domain.includes(filter))) : domains
 
   console.log(`Found ${domainsToProcess.length} domains to process out of ${domains.length} total domains`)
 
@@ -315,10 +312,10 @@ async function automateDomainsSetup() {
   for (const domain of domainsToProcess) {
     console.log(`\nProcessing domain: ${domain}`)
 
-    const isInVercel = vercelDomains.some(d => d.domain === domain)
+    const isInVercel = vercelDomains.some((d) => d.domain === domain)
     console.log(`Domain ${domain} is ${isInVercel ? 'already' : 'not'} in Vercel`)
 
-    const cloudflareZone = cloudflareZones.find(z => z.name === domain)
+    const cloudflareZone = cloudflareZones.find((z) => z.name === domain)
     console.log(`Domain ${domain} is ${cloudflareZone ? 'already' : 'not'} in Cloudflare`)
 
     const nsRecords = await checkNsRecords(domain)
@@ -329,18 +326,18 @@ async function automateDomainsSetup() {
 
     if (!cloudflareZone) {
       console.log(`Adding domain ${domain} to Cloudflare...`)
-      
+
       if (dryRun) {
         console.log(`[DRY RUN] Would create Cloudflare zone for ${domain}`)
       } else {
         const newZone = await createCloudflareZone(domain)
-        
+
         if (newZone) {
           console.log(`Successfully added domain ${domain} to Cloudflare with zone ID ${newZone.id}`)
-          
+
           console.log(`Adding Vercel DNS records for ${domain}...`)
           const dnsAdded = await addCloudflareVercelDNSRecords(newZone.id, domain)
-          
+
           if (dnsAdded) {
             console.log(`Successfully added Vercel DNS records for ${domain}`)
           } else {
@@ -354,19 +351,19 @@ async function automateDomainsSetup() {
 
     if (!isInVercel) {
       console.log(`Adding domain ${domain} to Vercel...`)
-      
+
       if (dryRun) {
         console.log(`[DRY RUN] Would add domain ${domain} to Vercel project`)
         console.log(`[DRY RUN] Would verify domain ${domain} on Vercel`)
       } else {
         const added = await addDomainToVercel(domain)
-        
+
         if (added) {
           console.log(`Successfully added domain ${domain} to Vercel`)
-          
+
           console.log(`Verifying domain ${domain} on Vercel...`)
           const verified = await verifyDomainOnVercel(domain)
-          
+
           if (verified) {
             console.log(`Successfully verified domain ${domain} on Vercel`)
           } else {
@@ -385,7 +382,7 @@ async function automateDomainsSetup() {
   console.log(`Domains already in Cloudflare: ${cloudflareZones.length}`)
 }
 
-automateDomainsSetup().catch(error => {
+automateDomainsSetup().catch((error) => {
   console.error('Error running domain automation:', error)
   process.exit(1)
 })

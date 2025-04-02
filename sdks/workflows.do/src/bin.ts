@@ -167,7 +167,7 @@ async function runCommand() {
           const results = await cli.scanAndRegisterWorkflows(dirPath, {
             recursive: args.includes('--recursive'),
             dryRun: args.includes('--dry-run'),
-            verbose: args.includes('--verbose')
+            verbose: args.includes('--verbose'),
           })
           console.log(JSON.stringify(results, null, 2))
         } catch (err) {

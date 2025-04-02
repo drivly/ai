@@ -15,14 +15,14 @@ export const Functions: CollectionConfig = {
         if (doc.type === 'Code' && doc.code) {
           try {
             const { payload } = req
-            
+
             const job = await payload.jobs.queue({
               task: 'processCodeFunction',
               input: {
-                functionId: doc.id
-              }
+                functionId: doc.id,
+              },
             })
-            
+
             console.log(`Queued process code function for ${doc.name}`, job)
             waitUntil(payload.jobs.runByID({ id: job.id }))
           } catch (error) {
@@ -37,79 +37,79 @@ export const Functions: CollectionConfig = {
     // {
     //   type: 'row',
     //   fields: [
-        { name: 'name', type: 'text', required: true, admin: { position: 'sidebar' } },
-        { 
-          name: 'type', 
-          type: 'select', 
-          options: ['Generation', 'Code', 'Human', 'Agent'], 
-          defaultValue: 'Generation', 
-          // required: true,
-          admin: { position: 'sidebar' } 
-        },
-        { 
-          name: 'public', 
-          type: 'checkbox', 
+    { name: 'name', type: 'text', required: true, admin: { position: 'sidebar' } },
+    {
+      name: 'type',
+      type: 'select',
+      options: ['Generation', 'Code', 'Human', 'Agent'],
+      defaultValue: 'Generation',
+      // required: true,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'public',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Make this function available to other users',
+      },
+    },
+    {
+      name: 'clonedFrom',
+      type: 'relationship',
+      relationTo: 'functions',
+      admin: {
+        position: 'sidebar',
+        description: 'Original function this was cloned from',
+      },
+    },
+    {
+      name: 'pricing',
+      type: 'group',
+      admin: {
+        position: 'sidebar',
+        condition: (data) => data?.public === true,
+        description: 'Monetization settings for this function',
+      },
+      fields: [
+        {
+          name: 'isMonetized',
+          type: 'checkbox',
           defaultValue: false,
-          admin: { 
-            position: 'sidebar',
-            description: 'Make this function available to other users'
-          } 
-        },
-        { 
-          name: 'clonedFrom', 
-          type: 'relationship', 
-          relationTo: 'functions',
-          admin: { 
-            position: 'sidebar',
-            description: 'Original function this was cloned from'
-          } 
-        },
-        { 
-          name: 'pricing', 
-          type: 'group', 
           admin: {
-            position: 'sidebar',
-            condition: (data) => data?.public === true,
-            description: 'Monetization settings for this function'
+            description: 'Enable monetization for this function',
           },
-          fields: [
-            {
-              name: 'isMonetized',
-              type: 'checkbox',
-              defaultValue: false,
-              admin: {
-                description: 'Enable monetization for this function'
-              }
-            },
-            {
-              name: 'pricePerUse',
-              type: 'number',
-              min: 0,
-              admin: {
-                condition: (data, siblingData) => siblingData?.isMonetized === true,
-                description: 'Price per use in USD cents (platform fee is 30% above LLM costs)'
-              }
-            },
-            {
-              name: 'stripeProductId',
-              type: 'text',
-              admin: {
-                condition: (data, siblingData) => siblingData?.isMonetized === true,
-                description: 'Stripe Product ID (auto-generated)',
-                readOnly: true
-              }
-            },
-            {
-              name: 'stripePriceId',
-              type: 'text',
-              admin: {
-                condition: (data, siblingData) => siblingData?.isMonetized === true,
-                description: 'Stripe Price ID (auto-generated)',
-                readOnly: true
-              }
-            }
-          ]
         },
+        {
+          name: 'pricePerUse',
+          type: 'number',
+          min: 0,
+          admin: {
+            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            description: 'Price per use in USD cents (platform fee is 30% above LLM costs)',
+          },
+        },
+        {
+          name: 'stripeProductId',
+          type: 'text',
+          admin: {
+            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            description: 'Stripe Product ID (auto-generated)',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'stripePriceId',
+          type: 'text',
+          admin: {
+            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            description: 'Stripe Price ID (auto-generated)',
+            readOnly: true,
+          },
+        },
+      ],
+    },
     //   ],
     // },
     {

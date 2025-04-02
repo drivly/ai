@@ -6,14 +6,14 @@ export const Errors: CollectionConfig = {
     group: 'Observability',
     useAsTitle: 'message',
   },
-  access: { 
-    create: () => false, 
-    update: () => false, 
-    delete: () => false 
+  access: {
+    create: () => false,
+    update: () => false,
+    delete: () => false,
   },
   fields: [
-    { 
-      name: 'message', 
+    {
+      name: 'message',
       type: 'text',
       required: true,
     },

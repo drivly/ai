@@ -7,13 +7,16 @@ export const initiateComposioConnectionTask = {
     { name: 'integrationId', type: 'text', required: true },
     { name: 'userId', type: 'text', required: true },
     { name: 'taskId', type: 'text' },
-    { name: 'redirectUrl', type: 'text' }
+    { name: 'redirectUrl', type: 'text' },
   ],
   outputSchema: [
     { name: 'connection', type: 'json' },
-    { name: 'authorization_url', type: 'text' }
+    { name: 'authorization_url', type: 'text' },
   ],
-  handler: async ({ integrationId, userId, taskId, redirectUrl }: { integrationId: string, userId: string, taskId?: string, redirectUrl?: string }, { payload }: { payload: any }) => {
+  handler: async (
+    { integrationId, userId, taskId, redirectUrl }: { integrationId: string; userId: string; taskId?: string; redirectUrl?: string },
+    { payload }: { payload: any },
+  ) => {
     if (!process.env.COMPOSIO_API_KEY) {
       throw new Error('COMPOSIO_API_KEY is not configured')
     }
@@ -52,7 +55,7 @@ export const initiateComposioConnectionTask = {
 
     const origin = process.env.NEXT_PUBLIC_SERVER_URL || 'https://ai.driv.ly'
     const callbackUrl = `${origin}/api/webhooks/composio?connectionId=${connection.id}`
-    
+
     const finalRedirectUrl = redirectUrl || `${origin}/dashboard/connections`
 
     const response = await fetch('https://backend.composio.dev/api/v1/connections', {
@@ -78,10 +81,7 @@ export const initiateComposioConnectionTask = {
         id: connection.id,
         data: {
           status: 'inactive',
-          metadata: Object.assign({}, 
-            typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, 
-            { error: data }
-          ),
+          metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, { error: data }),
         },
       })
 
@@ -92,10 +92,9 @@ export const initiateComposioConnectionTask = {
       collection: 'connections',
       id: connection.id,
       data: {
-        metadata: Object.assign({}, 
-          typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, 
-          { authorizationUrl: data.authorization_url }
-        ),
+        metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, {
+          authorizationUrl: data.authorization_url,
+        }),
       },
     })
 

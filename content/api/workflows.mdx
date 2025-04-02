@@ -53,12 +53,12 @@ Returns a list of all workflows accessible to the authenticated user.
 
 #### Query Parameters
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| limit | integer | Maximum number of workflows to return (default: 20) |
-| offset | integer | Number of workflows to skip (default: 0) |
-| sort | string | Field to sort by (default: 'createdAt') |
-| order | string | Sort order ('asc' or 'desc', default: 'desc') |
+| Parameter | Type    | Description                                         |
+| --------- | ------- | --------------------------------------------------- |
+| limit     | integer | Maximum number of workflows to return (default: 20) |
+| offset    | integer | Number of workflows to skip (default: 0)            |
+| sort      | string  | Field to sort by (default: 'createdAt')             |
+| order     | string  | Sort order ('asc' or 'desc', default: 'desc')       |
 
 #### Response
 
@@ -71,7 +71,7 @@ Returns a list of all workflows accessible to the authenticated user.
       "description": "Workflow for onboarding new customers",
       "createdAt": "2023-01-01T00:00:00Z",
       "updatedAt": "2023-01-02T00:00:00Z"
-    },
+    }
     // ...
   ],
   "meta": {
@@ -117,11 +117,7 @@ Returns details for a specific workflow.
       "type": "succeed"
     }
   },
-  "functions": [
-    "validateCustomerData",
-    "createCustomerAccount",
-    "sendEmail"
-  ],
+  "functions": ["validateCustomerData", "createCustomerAccount", "sendEmail"],
   "createdAt": "2023-01-01T00:00:00Z",
   "updatedAt": "2023-01-02T00:00:00Z"
 }
@@ -161,11 +157,7 @@ Creates a new workflow.
       "type": "succeed"
     }
   },
-  "functions": [
-    "validateCustomerData",
-    "createCustomerAccount",
-    "sendEmail"
-  ]
+  "functions": ["validateCustomerData", "createCustomerAccount", "sendEmail"]
 }
 ```
 
@@ -196,11 +188,7 @@ Creates a new workflow.
       "type": "succeed"
     }
   },
-  "functions": [
-    "validateCustomerData",
-    "createCustomerAccount",
-    "sendEmail"
-  ],
+  "functions": ["validateCustomerData", "createCustomerAccount", "sendEmail"],
   "createdAt": "2023-01-01T00:00:00Z",
   "updatedAt": "2023-01-01T00:00:00Z"
 }
@@ -250,13 +238,7 @@ Updates an existing workflow.
       "type": "succeed"
     }
   },
-  "functions": [
-    "validateCustomerData",
-    "createCustomerAccount",
-    "assignManager",
-    "sendEmail",
-    "scheduleCall"
-  ]
+  "functions": ["validateCustomerData", "createCustomerAccount", "assignManager", "sendEmail", "scheduleCall"]
 }
 ```
 
@@ -297,13 +279,7 @@ Updates an existing workflow.
       "type": "succeed"
     }
   },
-  "functions": [
-    "validateCustomerData",
-    "createCustomerAccount",
-    "assignManager",
-    "sendEmail",
-    "scheduleCall"
-  ],
+  "functions": ["validateCustomerData", "createCustomerAccount", "assignManager", "sendEmail", "scheduleCall"],
   "createdAt": "2023-01-01T00:00:00Z",
   "updatedAt": "2023-01-02T00:00:00Z"
 }

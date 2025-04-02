@@ -2,14 +2,14 @@ import { TaskConfig } from 'payload'
 
 /**
  * Deploys a Cloudflare Worker and records the deployment in the Deployments collection
- * 
+ *
  * This task creates a record in the Deployments collection and then uses a dynamic
  * import of the deploy-worker package at runtime to handle the actual deployment.
  * The webpack build process never sees the import, preventing build-time dependency issues.
  */
 export const deployWorker = async ({ input, req, payload }: any) => {
   const { worker, options } = input
-  
+
   try {
     const initialDeployment = await payload.create({
       collection: 'deployments',
@@ -19,17 +19,17 @@ export const deployWorker = async ({ input, req, payload }: any) => {
         metadata: {
           ...worker.metadata,
           startedAt: new Date().toISOString(),
-        }
+        },
       },
     })
-    
+
     const dynamicImport = new Function('path', 'return import(path)')
-    
+
     try {
       const deployWorkerModule = await dynamicImport('../pkgs/deploy-worker/src')
-      
+
       let wrappedWorker = { ...worker }
-      
+
       if (worker.tests) {
         const wrapperCode = `
 import { generateWorkerWrapper } from './wrapper'
@@ -54,9 +54,9 @@ export default wrappedModule.fetch
 `
         wrappedWorker.code = wrapperCode
       }
-      
+
       const deployResult = await deployWorkerModule.deployWorker(wrappedWorker, options)
-      
+
       await payload.update({
         collection: 'deployments',
         id: initialDeployment.id,
@@ -67,17 +67,17 @@ export default wrappedModule.fetch
           metadata: {
             ...initialDeployment.metadata,
             completedAt: new Date().toISOString(),
-          }
+          },
         },
       })
-      
+
       return {
         result: deployResult,
         deployment: initialDeployment.id,
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
-      
+
       await payload.update({
         collection: 'deployments',
         id: initialDeployment.id,
@@ -87,10 +87,10 @@ export default wrappedModule.fetch
           metadata: {
             ...initialDeployment.metadata,
             completedAt: new Date().toISOString(),
-          }
+          },
         },
       })
-      
+
       return {
         result: {
           success: false,
@@ -101,7 +101,7 @@ export default wrappedModule.fetch
     }
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error)
-    
+
     const deployment = await payload.create({
       collection: 'deployments',
       data: {
@@ -112,10 +112,10 @@ export default wrappedModule.fetch
           ...worker.metadata,
           startedAt: new Date().toISOString(),
           completedAt: new Date().toISOString(),
-        }
+        },
       },
     })
-    
+
     return {
       result: {
         success: false,

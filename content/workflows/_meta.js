@@ -10,5 +10,5 @@ export default {
   success: {
     title: 'Success Workflow',
     type: 'page',
-  }
+  },
 }

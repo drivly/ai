@@ -9,32 +9,32 @@ export const Evals: CollectionConfig = {
   fields: [
     { name: 'name', type: 'text', required: true },
     { name: 'description', type: 'textarea' },
-    { 
-      name: 'input', 
+    {
+      name: 'input',
       type: 'json',
       admin: {
-        description: 'Input data for the evaluation test'
-      }
+        description: 'Input data for the evaluation test',
+      },
     },
-    { 
-      name: 'expected', 
+    {
+      name: 'expected',
       type: 'json',
       admin: {
-        description: 'Expected output data for comparison'
-      }
+        description: 'Expected output data for comparison',
+      },
     },
-    { 
-      name: 'tags', 
+    {
+      name: 'tags',
       type: 'array',
       fields: [
         {
           name: 'tag',
           type: 'text',
-        }
+        },
       ],
       admin: {
-        description: 'Tags for categorizing and filtering tests'
-      }
+        description: 'Tags for categorizing and filtering tests',
+      },
     },
   ],
   timestamps: true,

@@ -25,11 +25,11 @@ npx chromatic --playwright --project-token=your_project_token --config=playwrigh
 Create new test files in this directory using the Chromatic Playwright syntax:
 
 ```typescript
-import { test, expect } from '@chromatic-com/playwright';
+import { test, expect } from '@chromatic-com/playwright'
 
 test('your test name', async ({ page }) => {
-  await page.goto('your-url');
+  await page.goto('your-url')
   // Test interactions here
-  await expect(page).toHaveScreenshot();
-});
+  await expect(page).toHaveScreenshot()
+})
 ```

@@ -19,6 +19,5 @@ export const Actions: CollectionConfig = {
   access: {
     create: () => false,
   },
-  hooks: {
-  },
+  hooks: {},
 }

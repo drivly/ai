@@ -250,7 +250,7 @@ graph TD
     Users[Users<br>Human actors]
     Queues[Queues<br>Job processing queues]
     Tasks[Tasks<br>Work items]
-    
+
     Roles -->|assigned to| Users
     Roles -->|required for| Queues
     Queues -->|contain| Tasks
@@ -258,7 +258,7 @@ graph TD
     Tasks -->|assigned to| Roles
     Tasks -->|depend on| Tasks
     Tasks -->|parent of| Tasks
-    
+
     classDef jobs fill:#f5d9a3,stroke:#333,stroke-width:1px
     class Roles,Users,Queues,Tasks jobs
 ```

@@ -31,7 +31,7 @@ const product = await db.products.create({
   name: 'Smart Speaker',
   price: 99.99,
   category: 'electronics',
-  inStock: true
+  inStock: true,
 })
 
 // Retrieve the product
@@ -41,7 +41,7 @@ console.log(retrievedProduct)
 // Update the product
 const updatedProduct = await db.products.update(product.id, {
   price: 89.99,
-  inStock: false
+  inStock: false,
 })
 
 // Delete the product
@@ -61,21 +61,21 @@ const post = await db.posts.create({
   tags: ['database', 'tutorial'],
   author: {
     name: 'John Doe',
-    email: 'john@example.com'
-  }
+    email: 'john@example.com',
+  },
 })
 
 // Query posts with filtering
 const publishedPosts = await db.posts.find({
   where: {
-    status: 'Published'
-  }
+    status: 'Published',
+  },
 })
 
 // Get all posts with pagination
 const allPosts = await db.posts.find({
   limit: 10,
-  page: 1
+  page: 1,
 })
 ```
 
@@ -90,14 +90,14 @@ const customer = await db.customers.create({
   industry: 'Manufacturing',
   contacts: [
     { name: 'John Smith', email: 'john@example.com' },
-    { name: 'Jane Doe', email: 'jane@example.com' }
+    { name: 'Jane Doe', email: 'jane@example.com' },
   ],
   // Add any fields without constraints
   customField: 'custom value',
   metrics: {
     revenue: 1000000,
-    employees: 500
-  }
+    employees: 500,
+  },
 })
 ```
 
@@ -110,20 +110,17 @@ Even without a defined schema, you can perform powerful queries:
 const results = await db.posts.find({
   where: {
     $or: [{ status: 'Published' }, { 'author.name': 'John Doe' }],
-    $and: [
-      { createdAt: { gt: new Date('2023-01-01').toISOString() } }, 
-      { tags: { contains: 'featured' } }
-    ]
+    $and: [{ createdAt: { gt: new Date('2023-01-01').toISOString() } }, { tags: { contains: 'featured' } }],
   },
   limit: 10,
   page: 1,
-  sort: 'createdAt:desc'
+  sort: 'createdAt:desc',
 })
 
 // Search functionality
 const searchResults = await db.products.search('smart speaker', {
   limit: 20,
-  sort: 'relevance:desc'
+  sort: 'relevance:desc',
 })
 ```
 
@@ -141,12 +138,13 @@ const post = await db.posts.create({
   content: 'This is a sample post...',
   author: {
     name: 'John Doe',
-    email: 'john@example.com'
-  }
+    email: 'john@example.com',
+  },
 })
 ```
 
 This approach works fine until you need to:
+
 1. Update author information across multiple posts
 2. Query all posts by a specific author
 3. Maintain consistency in your data
@@ -164,21 +162,21 @@ const db = DB({
     title: 'text',
     content: 'richtext',
     status: 'Draft | Published | Archived',
-    author: 'authors' // Reference to authors collection
+    author: 'authors', // Reference to authors collection
   },
   authors: {
     name: 'text',
     email: 'email',
     bio: 'text',
-    posts: '<-posts.author' // Reverse relationship to posts
-  }
+    posts: '<-posts.author', // Reverse relationship to posts
+  },
 })
 
 // Create an author
 const author = await db.authors.create({
   name: 'John Doe',
   email: 'john@example.com',
-  bio: 'Technical writer and developer'
+  bio: 'Technical writer and developer',
 })
 
 // Create a post linked to the author
@@ -186,7 +184,7 @@ const post = await db.posts.create({
   title: 'Working with Schemas',
   content: 'This post demonstrates schema validation and relationships',
   status: 'Published',
-  author: author.id // Reference the author by ID
+  author: author.id, // Reference the author by ID
 })
 ```
 
@@ -197,11 +195,11 @@ Now you can easily work with related data using the populate option:
 ```typescript
 // Get posts with related author data
 const posts = await db.posts.find({
-  populate: ['author']
+  populate: ['author'],
 })
 
 // Access the populated data
-posts.docs.forEach(post => {
+posts.docs.forEach((post) => {
   console.log(`Post: ${post.title}`)
   console.log(`Author: ${post.author.name}`)
 })
@@ -209,8 +207,8 @@ posts.docs.forEach(post => {
 // Get all posts for a specific author
 const authorPosts = await db.posts.find({
   where: {
-    author: author.id
-  }
+    author: author.id,
+  },
 })
 ```
 
@@ -228,29 +226,29 @@ const db = DB({
     status: 'Draft | Published | Archived',
     author: 'authors',
     category: 'categories',
-    tags: 'tags[]' // Array of tag references
+    tags: 'tags[]', // Array of tag references
   },
   authors: {
     name: 'text',
     email: 'email',
     bio: 'text',
-    posts: '<-posts.author' // Reverse relationship
+    posts: '<-posts.author', // Reverse relationship
   },
   categories: {
     name: 'text',
     description: 'text',
-    posts: '<-posts.category' // Reverse relationship
+    posts: '<-posts.category', // Reverse relationship
   },
   tags: {
     name: 'text',
-    posts: '<-posts.tags' // Reverse relationship
-  }
+    posts: '<-posts.tags', // Reverse relationship
+  },
 })
 
 // Create a category
 const category = await db.categories.create({
   name: 'Tutorials',
-  description: 'Step-by-step guides'
+  description: 'Step-by-step guides',
 })
 
 // Create some tags
@@ -264,7 +262,7 @@ const post = await db.posts.create({
   status: 'Published',
   author: author.id,
   category: category.id,
-  tags: [databaseTag.id, tutorialTag.id]
+  tags: [databaseTag.id, tutorialTag.id],
 })
 ```
 
@@ -294,7 +292,7 @@ const dbConfig = await db.databases.create({
   databaseType: 'Postgres',
   region: 'us-east-2', // Ohio region
   schemaEnforcement: 'enforced',
-  domain: 'api.myapp.com'
+  domain: 'api.myapp.com',
 })
 ```
 
@@ -316,7 +314,7 @@ Alternatively, you can provide the API key directly in your code:
 import { DB } from 'database.do'
 
 const db = DB({
-  apiKey: 'your_api_key_here'
+  apiKey: 'your_api_key_here',
 })
 ```
 

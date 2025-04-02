@@ -28,14 +28,15 @@ Generation functions use generative AI to create content or objects based on inp
 
 ```typescript
 // Example of a Generation function
-const blogPost = await ai.generateBlogPost({ 
-  topic: 'AI Workflows', 
+const blogPost = await ai.generateBlogPost({
+  topic: 'AI Workflows',
   tone: 'Professional',
-  length: 'Medium' 
+  length: 'Medium',
 })
 ```
 
 Generation functions can produce various output formats:
+
 - **Object**: Structured data with a defined schema
 - **ObjectArray**: Arrays of structured objects
 - **Text**: Plain text output
@@ -51,7 +52,7 @@ Code functions execute deterministic code on classical computers. These function
 // Example of a Code function
 const processedData = await ai.processDataset({
   data: rawData,
-  operations: ['normalize', 'filter', 'aggregate']
+  operations: ['normalize', 'filter', 'aggregate'],
 })
 ```
 
@@ -66,7 +67,7 @@ Agentic functions delegate tasks to autonomous AI agents that can reason, plan, 
 const researchResults = await ai.researchTopic({
   topic: 'Quantum Computing',
   depth: 'Comprehensive',
-  focus: ['Recent Breakthroughs', 'Commercial Applications']
+  focus: ['Recent Breakthroughs', 'Commercial Applications'],
 })
 ```
 
@@ -80,7 +81,7 @@ Human functions incorporate human workers into your AI workflows, enabling human
 // Example of a Human function
 const reviewedContent = await ai.humanReview({
   content: generatedContent,
-  reviewCriteria: ['Accuracy', 'Brand Voice', 'Legal Compliance']
+  reviewCriteria: ['Accuracy', 'Brand Voice', 'Legal Compliance'],
 })
 ```
 

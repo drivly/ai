@@ -4,34 +4,34 @@ import { TaskConfig } from 'payload'
  * Executes code securely in an isolated VM environment
  * This provides a safer alternative to using the Function constructor
  */
-export const executeCodeFunction = async ({ 
-  code, 
-  args = {}, 
-  timeout = 5000, 
-  memoryLimit = 128 
-}: { 
-  code: string, 
-  args?: Record<string, any>, 
-  timeout?: number, 
-  memoryLimit?: number 
-}): Promise<{ result: any, error?: string, logs?: string[] }> => {
+export const executeCodeFunction = async ({
+  code,
+  args = {},
+  timeout = 5000,
+  memoryLimit = 128,
+}: {
+  code: string
+  args?: Record<string, any>
+  timeout?: number
+  memoryLimit?: number
+}): Promise<{ result: any; error?: string; logs?: string[] }> => {
   if (typeof window !== 'undefined') {
     return {
       result: null,
       error: 'Code execution is only available on the server',
-      logs: []
+      logs: [],
     }
   }
-  
+
   const logs: string[] = []
-  
+
   try {
     const ivm = await import('isolated-vm')
-    
+
     const isolate = new ivm.Isolate({ memoryLimit })
-    
+
     const context = await isolate.createContext()
-    
+
     const mockApiObj = {
       get: async (path: string) => {
         logs.push(`API GET: ${path}`)
@@ -40,42 +40,43 @@ export const executeCodeFunction = async ({
       post: async (path: string, data: any) => {
         logs.push(`API POST: ${path} with data: ${JSON.stringify(data)}`)
         return { success: true, message: 'Mock API response' }
-      }
+      },
     }
-    
+
     const mockAiObj = {
       generate: async (prompt: string) => {
         logs.push(`AI generate: ${prompt}`)
         return { text: 'Mock AI response' }
-      }
+      },
     }
-    
+
     const mockDbObj = {
       query: async (query: string) => {
         logs.push(`DB query: ${query}`)
         return { results: [] }
-      }
+      },
     }
-    
+
     const mockApiRef = new ivm.Reference(mockApiObj)
     const mockAiRef = new ivm.Reference(mockAiObj)
     const mockDbRef = new ivm.Reference(mockDbObj)
-    
+
     await context.global.set('api', mockApiRef)
     await context.global.set('ai', mockAiRef)
     await context.global.set('db', mockDbRef)
-    
+
     await context.global.set('args', new ivm.Reference(args))
-    
-    await context.global.set('console', new ivm.Reference({
-      log: (...args: any[]) => {
-        const logMessage = args.map(arg => 
-          typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
-        ).join(' ')
-        logs.push(logMessage)
-      }
-    }))
-    
+
+    await context.global.set(
+      'console',
+      new ivm.Reference({
+        log: (...args: any[]) => {
+          const logMessage = args.map((arg) => (typeof arg === 'object' ? JSON.stringify(arg) : String(arg))).join(' ')
+          logs.push(logMessage)
+        },
+      }),
+    )
+
     const script = await isolate.compileScript(`
       (function() {
         try {
@@ -86,35 +87,33 @@ export const executeCodeFunction = async ({
         }
       })()
     `)
-    
-    let result = null;
+
+    let result = null
     try {
       result = await script.run(context, { timeout })
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error 
-        ? error.message 
-        : String(error);
-      
+      const errorMessage = error instanceof Error ? error.message : String(error)
+
       return {
         result: null,
         error: errorMessage,
-        logs
+        logs,
       }
     } finally {
       context.release()
       isolate.dispose()
     }
-    
+
     return {
       result,
       error: undefined,
-      logs
+      logs,
     }
   } catch (error: any) {
     return {
       result: null,
       error: error.message || String(error),
-      logs
+      logs,
     }
   }
 }

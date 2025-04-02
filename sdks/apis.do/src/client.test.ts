@@ -52,7 +52,7 @@ describe('API', () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer test-api-key',
+          Authorization: 'Bearer test-api-key',
         },
       })
     })
@@ -90,10 +90,7 @@ describe('API', () => {
   describe('CRUD methods', () => {
     it('should call get with correct parameters', async () => {
       await client.get('/test-path')
-      expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/test-path',
-        expect.objectContaining({ method: 'GET' })
-      )
+      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/test-path', expect.objectContaining({ method: 'GET' }))
     })
 
     it('should call post with correct parameters', async () => {
@@ -104,24 +101,18 @@ describe('API', () => {
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify(data),
-        })
+        }),
       )
     })
 
     it('should call list with correct parameters', async () => {
       await client.list('resources', { limit: 10 })
-      expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/resources?limit=10',
-        expect.objectContaining({ method: 'GET' })
-      )
+      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/api/resources?limit=10', expect.objectContaining({ method: 'GET' }))
     })
 
     it('should call getById with correct parameters', async () => {
       await client.getById('resources', '123')
-      expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/resources/123',
-        expect.objectContaining({ method: 'GET' })
-      )
+      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/api/resources/123', expect.objectContaining({ method: 'GET' }))
     })
 
     it('should call create with correct parameters', async () => {
@@ -132,7 +123,7 @@ describe('API', () => {
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify(data),
-        })
+        }),
       )
     })
 
@@ -144,16 +135,13 @@ describe('API', () => {
         expect.objectContaining({
           method: 'PATCH',
           body: JSON.stringify(data),
-        })
+        }),
       )
     })
 
     it('should call remove with correct parameters', async () => {
       await client.remove('resources', '123')
-      expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/resources/123',
-        expect.objectContaining({ method: 'DELETE' })
-      )
+      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/api/resources/123', expect.objectContaining({ method: 'DELETE' }))
     })
   })
 })

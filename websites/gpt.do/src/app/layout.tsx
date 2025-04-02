@@ -12,13 +12,10 @@ export const metadata = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body
-        className={cn('flex min-h-svh flex-col antialiased', inter.className)}
-      >
+    <html lang='en'>
+      <body className={cn('flex min-h-svh flex-col antialiased', inter.className)}>
         <TooltipProvider delayDuration={0}>{children}</TooltipProvider>
       </body>
     </html>
   )
 }
-

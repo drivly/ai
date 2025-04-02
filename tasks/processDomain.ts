@@ -38,61 +38,57 @@ export const processDomain = async (args: {
 }) => {
   const { payload } = args
   const { domainId, operation, domain, vercelId, cloudflareId } = args.job.payload
-  
+
   try {
     if (operation === 'delete') {
       if (vercelId) {
         await removeVercelDomain(vercelId)
       }
-      
+
       if (cloudflareId) {
         await removeCloudflareCustomHostname(cloudflareId)
       }
-      
+
       return
     }
-    
-    const domainDoc = await payload.findByID({
+
+    const domainDoc = (await payload.findByID({
       collection: 'domains' as any,
       id: domainId,
-    }) as unknown as Domain
-    
+    })) as unknown as Domain
+
     if (!domainDoc) {
       throw new Error(`Domain with ID ${domainId} not found`)
     }
-    
-    const project = await payload.findByID({
+
+    const project = (await payload.findByID({
       collection: 'projects' as any,
       id: typeof domainDoc.project === 'string' ? domainDoc.project : domainDoc.project.id,
-    }) as unknown as Project
-    
+    })) as unknown as Project
+
     if (!project) {
       throw new Error(`Project not found for domain ${domainDoc.domain}`)
     }
-    
+
     const vercelDomainInfo = await addVercelDomain(domainDoc.domain, project.name)
-    
+
     const cloudflareDomainInfo = await addCloudflareCustomHostname(domainDoc.domain, project.name)
-    
+
     await payload.update({
       collection: 'domains' as any,
       id: domainId,
       data: {
-        status: (vercelDomainInfo.status === 'active' && cloudflareDomainInfo.status === 'active') ? 'active' : 'pending',
+        status: vercelDomainInfo.status === 'active' && cloudflareDomainInfo.status === 'active' ? 'active' : 'pending',
         vercelId: vercelDomainInfo.id,
         cloudflareId: cloudflareDomainInfo.id,
-        hostnames: [
-          { hostname: vercelDomainInfo.hostname },
-          ...cloudflareDomainInfo.hostnames.map(h => ({ hostname: h })),
-        ],
-        errorMessage: (vercelDomainInfo.error || cloudflareDomainInfo.error) ? 
-          `Vercel: ${vercelDomainInfo.error || 'OK'}, Cloudflare: ${cloudflareDomainInfo.error || 'OK'}` : 
-          undefined,
+        hostnames: [{ hostname: vercelDomainInfo.hostname }, ...cloudflareDomainInfo.hostnames.map((h) => ({ hostname: h }))],
+        errorMessage:
+          vercelDomainInfo.error || cloudflareDomainInfo.error ? `Vercel: ${vercelDomainInfo.error || 'OK'}, Cloudflare: ${cloudflareDomainInfo.error || 'OK'}` : undefined,
       },
     })
   } catch (error: unknown) {
     console.error(`Error processing domain ${domain || domainId}:`, error)
-    
+
     if (operation !== 'delete') {
       await payload.update({
         collection: 'domains' as any,
@@ -115,22 +111,22 @@ async function addVercelDomain(domain: string, projectName: string) {
     if (!vercelToken) {
       throw new Error('VERCEL_TOKEN environment variable not set')
     }
-    
+
     const response = await fetch(`https://api.vercel.com/v9/projects/${projectName}/domains`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${vercelToken}`,
+        Authorization: `Bearer ${vercelToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ name: domain }),
     })
-    
+
     const data = await response.json()
-    
+
     if (!response.ok) {
       throw new Error(data.error?.message || 'Unknown error from Vercel API')
     }
-    
+
     return {
       id: data.id,
       status: data.verification?.status || 'pending',
@@ -152,19 +148,19 @@ async function removeVercelDomain(domainId: string) {
     if (!vercelToken) {
       throw new Error('VERCEL_TOKEN environment variable not set')
     }
-    
+
     const response = await fetch(`https://api.vercel.com/v9/domains/${domainId}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${vercelToken}`,
+        Authorization: `Bearer ${vercelToken}`,
       },
     })
-    
+
     if (!response.ok) {
       const data = await response.json()
       throw new Error(data.error?.message || 'Unknown error from Vercel API')
     }
-    
+
     return true
   } catch (error: unknown) {
     console.error('Vercel API error during domain removal:', error)
@@ -179,15 +175,15 @@ async function addCloudflareCustomHostname(domain: string, projectName: string) 
   try {
     const cloudflareToken = process.env.CLOUDFLARE_API_TOKEN
     const cloudflareZoneId = process.env.CLOUDFLARE_ZONE_ID
-    
+
     if (!cloudflareToken || !cloudflareZoneId) {
       throw new Error('Cloudflare credentials not set in environment variables')
     }
-    
+
     const response = await fetch(`https://api.cloudflare.com/client/v4/zones/${cloudflareZoneId}/custom_hostnames`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${cloudflareToken}`,
+        Authorization: `Bearer ${cloudflareToken}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -201,13 +197,13 @@ async function addCloudflareCustomHostname(domain: string, projectName: string) 
         },
       }),
     })
-    
+
     const data = await response.json()
-    
+
     if (!data.success) {
       throw new Error(data.errors?.[0]?.message || 'Unknown error from Cloudflare API')
     }
-    
+
     return {
       id: data.result.id,
       status: data.result.status === 'active' ? 'active' : 'pending',
@@ -227,24 +223,24 @@ async function removeCloudflareCustomHostname(hostnameId: string) {
   try {
     const cloudflareToken = process.env.CLOUDFLARE_API_TOKEN
     const cloudflareZoneId = process.env.CLOUDFLARE_ZONE_ID
-    
+
     if (!cloudflareToken || !cloudflareZoneId) {
       throw new Error('Cloudflare credentials not set in environment variables')
     }
-    
+
     const response = await fetch(`https://api.cloudflare.com/client/v4/zones/${cloudflareZoneId}/custom_hostnames/${hostnameId}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${cloudflareToken}`,
+        Authorization: `Bearer ${cloudflareToken}`,
       },
     })
-    
+
     const data = await response.json()
-    
+
     if (!data.success) {
       throw new Error(data.errors?.[0]?.message || 'Unknown error from Cloudflare API')
     }
-    
+
     return true
   } catch (error: unknown) {
     console.error('Cloudflare API error during hostname removal:', error)

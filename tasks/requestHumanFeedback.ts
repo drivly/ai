@@ -69,26 +69,20 @@ interface HumanFeedbackResponse {
 /**
  * Send a message to a human via Slack, Teams, or Discord and wait for their response
  */
-export const requestHumanFeedback = async ({ 
-  input, 
-  payload 
-}: { 
-  input: HumanFeedbackRequest, 
-  payload: any 
-}): Promise<HumanFeedbackResponse> => {
-  const { 
-    taskId: existingTaskId, 
-    title, 
-    description, 
-    options = [], 
-    freeText = false, 
-    platform = 'slack', 
-    userId, 
+export const requestHumanFeedback = async ({ input, payload }: { input: HumanFeedbackRequest; payload: any }): Promise<HumanFeedbackResponse> => {
+  const {
+    taskId: existingTaskId,
+    title,
+    description,
+    options = [],
+    freeText = false,
+    platform = 'slack',
+    userId,
     roleId,
     timeout = 3600000, // Default timeout: 1 hour
     blocks,
     channel,
-    mentions
+    mentions,
   } = input
 
   let task
@@ -96,7 +90,7 @@ export const requestHumanFeedback = async ({
     try {
       task = await payload.findByID({
         collection: 'tasks',
-        id: existingTaskId
+        id: existingTaskId,
       })
     } catch (error) {
       console.error('Task not found, creating new task', error)
@@ -110,9 +104,8 @@ export const requestHumanFeedback = async ({
         title,
         description,
         status: 'todo',
-        assigned: userId ? [{ relationTo: 'users', value: userId }] : 
-                 roleId ? [{ relationTo: 'roles', value: roleId }] : undefined,
-      }
+        assigned: userId ? [{ relationTo: 'users', value: userId }] : roleId ? [{ relationTo: 'roles', value: roleId }] : undefined,
+      },
     })
   }
 
@@ -128,9 +121,9 @@ export const requestHumanFeedback = async ({
         freeText,
         platform,
         createdAt: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + timeout).toISOString()
-      }
-    }
+        expiresAt: new Date(Date.now() + timeout).toISOString(),
+      },
+    },
   })
 
   const messageId = await sendPlatformMessage(platform, {
@@ -143,17 +136,17 @@ export const requestHumanFeedback = async ({
     roleId,
     blocks,
     channel,
-    mentions
+    mentions,
   })
 
   waitUntil(
-    new Promise(resolve => {
+    new Promise((resolve) => {
       setTimeout(async () => {
         const currentTask = await payload.findByID({
           collection: 'tasks',
-          id: task.id
+          id: task.id,
         })
-        
+
         if (currentTask.status === 'in-progress') {
           await payload.update({
             collection: 'tasks',
@@ -163,22 +156,22 @@ export const requestHumanFeedback = async ({
               metadata: {
                 ...currentTask.metadata,
                 timedOut: true,
-                completedAt: new Date().toISOString()
-              }
-            }
+                completedAt: new Date().toISOString(),
+              },
+            },
           })
         }
         resolve(true)
       }, timeout)
-    })
+    }),
   )
 
   return {
     taskId: task.id,
     status: 'pending',
     messageId: {
-      [platform]: messageId
-    }
+      [platform]: messageId,
+    },
   }
 }
 
@@ -187,18 +180,7 @@ export const requestHumanFeedback = async ({
  */
 async function sendPlatformMessage(
   platform: MessagePlatform,
-  {
-    taskId,
-    title,
-    description,
-    options,
-    freeText,
-    userId,
-    roleId,
-    blocks,
-    channel,
-    mentions
-  }: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { taskId: string }
+  { taskId, title, description, options, freeText, userId, roleId, blocks, channel, mentions }: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { taskId: string },
 ): Promise<string> {
   const origin = process.env.NEXT_PUBLIC_SERVER_URL || 'https://ai.driv.ly'
   const callbackUrl = `${origin}/api/webhooks/human-feedback?taskId=${taskId}`
@@ -216,7 +198,7 @@ async function sendPlatformMessage(
         roleId,
         blocks,
         channel,
-        mentions
+        mentions,
       })
     case 'teams':
       return await sendTeamsMessage({
@@ -227,7 +209,7 @@ async function sendPlatformMessage(
         freeText,
         callbackUrl,
         userId,
-        roleId
+        roleId,
       })
     case 'discord':
       return await sendDiscordMessage({
@@ -238,7 +220,7 @@ async function sendPlatformMessage(
         freeText,
         callbackUrl,
         userId,
-        roleId
+        roleId,
       })
     default:
       throw new Error(`Unsupported platform: ${platform}`)
@@ -259,31 +241,31 @@ async function sendSlackMessage({
   roleId,
   blocks: blockSchema,
   channel: customChannel,
-  mentions: userMentions
-}: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { 
-  taskId: string,
-  callbackUrl: string 
+  mentions: userMentions,
+}: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & {
+  taskId: string
+  callbackUrl: string
 }): Promise<string> {
   if (!process.env.SLACK_BOT_TOKEN) {
     throw new Error('SLACK_BOT_TOKEN is not configured')
   }
 
   let channel = customChannel || process.env.SLACK_DEFAULT_CHANNEL || 'general'
-  
+
   if (userId) {
   }
 
   if (roleId) {
   }
-  
-  let messageText = description;
+
+  let messageText = description
   if (userMentions && userMentions.length > 0) {
-    const mentionText = userMentions.map((mention: string) => `<@${mention}>`).join(' ');
-    messageText = `${mentionText} ${messageText}`;
+    const mentionText = userMentions.map((mention: string) => `<@${mention}>`).join(' ')
+    messageText = `${mentionText} ${messageText}`
   }
 
-  let slackBlocks: SlackBlock[] = [];
-  
+  let slackBlocks: SlackBlock[] = []
+
   if (blockSchema) {
     slackBlocks = [
       {
@@ -291,51 +273,51 @@ async function sendSlackMessage({
         text: {
           type: 'plain_text',
           text: title || blockSchema.title,
-          emoji: true
-        }
+          emoji: true,
+        },
       },
       {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: messageText || blockSchema.description
-        }
-      }
-    ];
-    
+          text: messageText || blockSchema.description,
+        },
+      },
+    ]
+
     if (blockSchema.productType) {
       slackBlocks.push({
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*Product Type:* ${blockSchema.productType}`
-        }
-      });
+          text: `*Product Type:* ${blockSchema.productType}`,
+        },
+      })
     }
-    
+
     if (blockSchema.customer) {
       slackBlocks.push({
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*Customer:* ${blockSchema.customer}`
-        }
-      });
+          text: `*Customer:* ${blockSchema.customer}`,
+        },
+      })
     }
-    
+
     if (blockSchema.solution) {
       slackBlocks.push({
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*Solution:* ${blockSchema.solution}`
-        }
-      });
+          text: `*Solution:* ${blockSchema.solution}`,
+        },
+      })
     }
-    
+
     slackBlocks.push({
-      type: 'divider'
-    });
+      type: 'divider',
+    })
   } else {
     slackBlocks = [
       {
@@ -343,39 +325,39 @@ async function sendSlackMessage({
         text: {
           type: 'plain_text',
           text: title,
-          emoji: true
-        }
+          emoji: true,
+        },
       },
       {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: messageText
-        }
+          text: messageText,
+        },
       },
       {
-        type: 'divider'
-      }
-    ];
+        type: 'divider',
+      },
+    ]
   }
 
   if (options && options.length > 0) {
     const actionBlock: SlackBlock = {
       type: 'actions',
-      elements: options.map(option => {
-        const optionValue = typeof option === 'string' ? option : option.value;
-        const optionLabel = typeof option === 'string' ? option : option.label;
+      elements: options.map((option) => {
+        const optionValue = typeof option === 'string' ? option : option.value
+        const optionLabel = typeof option === 'string' ? option : option.label
         return {
           type: 'button',
           text: {
             type: 'plain_text',
             text: optionLabel,
-            emoji: true
+            emoji: true,
           },
           value: `${taskId}:${optionValue}`,
-          action_id: `human_feedback_option:${optionValue}`
-        };
-      })
+          action_id: `human_feedback_option:${optionValue}`,
+        }
+      }),
     }
     slackBlocks.push(actionBlock)
   }
@@ -387,13 +369,13 @@ async function sendSlackMessage({
       label: {
         type: 'plain_text',
         text: 'Your response',
-        emoji: true
+        emoji: true,
       },
       element: {
         type: 'plain_text_input',
         action_id: 'human_feedback_text_input',
-        multiline: true
-      }
+        multiline: true,
+      },
     } as SlackBlock)
 
     slackBlocks.push({
@@ -404,12 +386,12 @@ async function sendSlackMessage({
           text: {
             type: 'plain_text',
             text: 'Submit',
-            emoji: true
+            emoji: true,
           },
           value: taskId,
-          action_id: 'human_feedback_submit'
-        }
-      ]
+          action_id: 'human_feedback_submit',
+        },
+      ],
     } as SlackBlock)
   }
 
@@ -418,13 +400,13 @@ async function sendSlackMessage({
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.SLACK_BOT_TOKEN}`
+        Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}`,
       },
       body: JSON.stringify({
         channel,
         blocks: slackBlocks,
-        text: title // Fallback text
-      })
+        text: title, // Fallback text
+      }),
     })
 
     const data = await response.json()
@@ -451,10 +433,10 @@ async function sendTeamsMessage({
   freeText,
   callbackUrl,
   userId,
-  roleId
-}: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { 
-  taskId: string,
-  callbackUrl: string 
+  roleId,
+}: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & {
+  taskId: string
+  callbackUrl: string
 }): Promise<string> {
   if (!process.env.TEAMS_WEBHOOK_URL) {
     throw new Error('TEAMS_WEBHOOK_URL is not configured')
@@ -469,28 +451,28 @@ async function sendTeamsMessage({
         type: 'TextBlock',
         size: 'Medium',
         weight: 'Bolder',
-        text: title
+        text: title,
       },
       {
         type: 'TextBlock',
         text: description,
-        wrap: true
-      }
+        wrap: true,
+      },
     ],
-    actions: []
+    actions: [],
   }
 
   if (options && options.length > 0) {
-    options.forEach(option => {
-      const optionValue = typeof option === 'string' ? option : option.value;
-      const optionLabel = typeof option === 'string' ? option : option.label;
+    options.forEach((option) => {
+      const optionValue = typeof option === 'string' ? option : option.value
+      const optionLabel = typeof option === 'string' ? option : option.label
       card.actions.push({
         type: 'Action.Submit',
         title: optionLabel,
         data: {
           taskId,
-          option: optionValue
-        }
+          option: optionValue,
+        },
       } as any)
     })
   }
@@ -500,7 +482,7 @@ async function sendTeamsMessage({
       type: 'Input.Text',
       id: 'feedbackText',
       placeholder: 'Enter your response',
-      isMultiline: true
+      isMultiline: true,
     } as any)
 
     card.actions.push({
@@ -508,8 +490,8 @@ async function sendTeamsMessage({
       title: 'Submit',
       data: {
         taskId,
-        type: 'freeText'
-      }
+        type: 'freeText',
+      },
     } as any)
   }
 
@@ -517,17 +499,17 @@ async function sendTeamsMessage({
     const response = await fetch(process.env.TEAMS_WEBHOOK_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         type: 'message',
         attachments: [
           {
             contentType: 'application/vnd.microsoft.card.adaptive',
-            content: card
-          }
-        ]
-      })
+            content: card,
+          },
+        ],
+      }),
     })
 
     if (!response.ok) {
@@ -553,10 +535,10 @@ async function sendDiscordMessage({
   freeText,
   callbackUrl,
   userId,
-  roleId
-}: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & { 
-  taskId: string,
-  callbackUrl: string 
+  roleId,
+}: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & {
+  taskId: string
+  callbackUrl: string
 }): Promise<string> {
   if (!process.env.DISCORD_WEBHOOK_URL) {
     throw new Error('DISCORD_WEBHOOK_URL is not configured')
@@ -568,25 +550,27 @@ async function sendDiscordMessage({
     color: 0x0099ff,
     fields: [],
     footer: {
-      text: `Task ID: ${taskId}`
-    }
+      text: `Task ID: ${taskId}`,
+    },
   }
 
   if (options && options.length > 0) {
     embed.fields.push({
       name: 'Options',
-      value: options.map((option, index) => {
-        const optionValue = typeof option === 'string' ? option : option.value;
-        const optionLabel = typeof option === 'string' ? option : option.label;
-        return `${index + 1}. ${optionLabel} - \`/human-feedback ${taskId} option ${optionValue}\``;
-      }).join('\n')
+      value: options
+        .map((option, index) => {
+          const optionValue = typeof option === 'string' ? option : option.value
+          const optionLabel = typeof option === 'string' ? option : option.label
+          return `${index + 1}. ${optionLabel} - \`/human-feedback ${taskId} option ${optionValue}\``
+        })
+        .join('\n'),
     })
   }
 
   if (freeText) {
     embed.fields.push({
       name: 'Free Text Response',
-      value: `Use \`/human-feedback ${taskId} text Your response here\` to submit your feedback.`
+      value: `Use \`/human-feedback ${taskId} text Your response here\` to submit your feedback.`,
     })
   }
 
@@ -594,11 +578,11 @@ async function sendDiscordMessage({
     const response = await fetch(process.env.DISCORD_WEBHOOK_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        embeds: [embed]
-      })
+        embeds: [embed],
+      }),
     })
 
     if (!response.ok) {
@@ -617,20 +601,23 @@ async function sendDiscordMessage({
 /**
  * Process a response from a human
  */
-export const processHumanFeedbackResponse = async ({
-  taskId,
-  option,
-  text,
-  platform
-}: {
-  taskId: string,
-  option?: string,
-  text?: string,
-  platform: MessagePlatform
-}, payload: any): Promise<void> => {
+export const processHumanFeedbackResponse = async (
+  {
+    taskId,
+    option,
+    text,
+    platform,
+  }: {
+    taskId: string
+    option?: string
+    text?: string
+    platform: MessagePlatform
+  },
+  payload: any,
+): Promise<void> => {
   const task = await payload.findByID({
     collection: 'tasks',
-    id: taskId
+    id: taskId,
   })
 
   if (!task) {
@@ -646,12 +633,12 @@ export const processHumanFeedbackResponse = async ({
         ...task.metadata,
         response: {
           selectedOption: option,
-          freeText: text
+          freeText: text,
         },
         respondedVia: platform,
-        completedAt: new Date().toISOString()
-      }
-    }
+        completedAt: new Date().toISOString(),
+      },
+    },
   })
 }
 
@@ -667,13 +654,13 @@ export const requestHumanFeedbackTask = {
     { name: 'platform', type: 'select', options: ['slack', 'teams', 'discord'] },
     { name: 'userId', type: 'text' },
     { name: 'roleId', type: 'text' },
-    { name: 'timeout', type: 'number' }
+    { name: 'timeout', type: 'number' },
   ],
   outputSchema: [
     { name: 'taskId', type: 'text' },
     { name: 'status', type: 'text' },
     { name: 'response', type: 'json' },
-    { name: 'messageId', type: 'json' }
+    { name: 'messageId', type: 'json' },
   ],
   handler: requestHumanFeedback,
 } as unknown as TaskConfig

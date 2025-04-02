@@ -1,4 +1,3 @@
-
 export const eventsTableSchema = `
 CREATE TABLE IF NOT EXISTS events (
   id UUID DEFAULT generateUUID(),
@@ -16,7 +15,7 @@ CREATE TABLE IF NOT EXISTS events (
   agentId String
 ) ENGINE = MergeTree()
 ORDER BY (timestamp, type)
-`;
+`
 
 export const generationsTableSchema = `
 CREATE TABLE IF NOT EXISTS generations (
@@ -34,7 +33,7 @@ CREATE TABLE IF NOT EXISTS generations (
   cost Float64
 ) ENGINE = MergeTree()
 ORDER BY (timestamp, status)
-`;
+`
 
 export const requestsTableSchema = `
 CREATE TABLE IF NOT EXISTS requests (
@@ -53,12 +52,12 @@ CREATE TABLE IF NOT EXISTS requests (
   responseBody JSON
 ) ENGINE = MergeTree()
 ORDER BY (timestamp, path)
-`;
+`
 
 export const tableSchemas: Record<string, string> = {
   events: eventsTableSchema,
   generations: generationsTableSchema,
   requests: requestsTableSchema,
-};
+}
 
-export const tableNames = Object.keys(tableSchemas);
+export const tableNames = Object.keys(tableSchemas)

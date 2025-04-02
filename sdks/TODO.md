@@ -111,26 +111,32 @@ This document outlines the status and required actions for each SDK in the `sdks
 ## General Improvements Needed Across All SDKs
 
 1. **Consistent Structure**
+
    - Ensure all SDKs follow the same structure and patterns
    - Each SDK should have a similar API surface
 
 2. **CLI Extensions**
+
    - All SDKs should extend the base CLI from apis.do
    - Implement domain-specific CLI commands
 
 3. **Documentation**
+
    - Ensure all SDKs have comprehensive README.md files
    - Add usage examples for each SDK
 
 4. **Testing**
+
    - Add unit tests for all SDKs
    - Add integration tests where applicable
 
 5. **Type Definitions**
+
    - Ensure all SDKs have proper TypeScript type definitions
    - Use consistent type naming conventions
 
 6. **Error Handling**
+
    - Implement consistent error handling across all SDKs
    - Add proper error messages and error types
 

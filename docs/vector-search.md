@@ -49,6 +49,7 @@ const results = await hybridSearchThings('machine learning models', 10)
 The Searches collection has been updated to support vector search:
 
 1. Create a new Search document with:
+
    - `name`: Name for the search
    - `query`: Search query text
    - `searchType`: Select 'vector' or 'hybrid'

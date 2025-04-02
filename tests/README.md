@@ -38,12 +38,14 @@ The E2E tests for the Payload admin interface focus on the core platform compone
 The E2E tests follow this core flow to test the platform's fundamental functionality:
 
 1. **Functions (Core of Platform)**
+
    - Create and test different function types with focus on:
      - Code Functions (with TypeScript code editor)
      - Generation Functions (with schema definition)
    - Verify function configuration and relationships
 
 2. **Actions (Execution of Functions)**
+
    - Create Actions that trigger Function execution
    - Test the complete execution flow from Action creation to Function execution
    - Verify task creation and processing
@@ -56,7 +58,7 @@ The E2E tests follow this core flow to test the platform's fundamental functiona
 
 ### Detailed Test Script
 
-```typescript
+````typescript
 // Authentication and setup
 - Login with test credentials (test@example.com/test)
 - Navigate to admin dashboard
@@ -148,7 +150,7 @@ The E2E tests follow this core flow to test the platform's fundamental functiona
   - Submit Function without required name
   - Test invalid code syntax in Code Function
   - Test invalid YAML in Thing data
-```
+````
 
 ### Implementation Approach
 
@@ -175,7 +177,7 @@ The tests will be considered successful if they can:
 ### Unit Test Coverage
 
 | Package/Directory | Implementation Files | Test Files | Coverage % |
-|-------------------|----------------------|------------|------------|
+| ----------------- | -------------------- | ---------- | ---------- |
 | pkgs/ (packages)  | 81                   | 4          | 4.9%       |
 | sdks/ (SDKs)      | 20+                  | 12         | ~60%       |
 | collections/      | 43                   | 0          | 0%         |
@@ -184,27 +186,30 @@ The tests will be considered successful if they can:
 
 ### E2E Test Coverage
 
-| Feature Area      | Test Files | Status    |
-|-------------------|------------|-----------|
-| Admin Interface   | 1          | Partial   |
-| Documentation     | 1          | Partial   |
-| API Endpoints     | 7+         | Partial   |
-| SDK Integration   | 4+         | Partial   |
+| Feature Area    | Test Files | Status  |
+| --------------- | ---------- | ------- |
+| Admin Interface | 1          | Partial |
+| Documentation   | 1          | Partial |
+| API Endpoints   | 7+         | Partial |
+| SDK Integration | 4+         | Partial |
 
 ## Skipped Tests
 
 The following tests are currently skipped and need implementation:
 
 1. **AI Functions Package** (`pkgs/ai-functions/test/ai.test.ts`):
+
    - Entire test suite is skipped with `describe.skip('AI Functions', () => {...})`
    - Tests basic AI function capabilities, template literals, schema validation
 
 2. **Functions.do SDK** (`sdks/functions.do/index.test.ts`):
+
    - `it.skip('should support basic tagged template usage', async () => {...})`
    - `it.skip('should support configuration with tagged templates', async () => {...})`
    - `it.skip('should call remove with correct parameters', async () => {...})` (in `src/index.test.ts`)
 
 3. **Composio Webhook** (`tests/api/webhooks/composio.test.ts`):
+
    - `it.skip('should process valid webhook and store event', async () => {...})`
 
 4. **E2E Tests**:
@@ -222,11 +227,13 @@ The following areas need additional test coverage:
 ## Test Assignment Recommendations
 
 1. **High Priority**:
+
    - Add tests for critical collections (Functions, Workflows, Agents)
    - Implement skipped tests for AI Functions package
    - Add tests for remaining API endpoints
 
 2. **Medium Priority**:
+
    - Add tests for remaining collections
    - Increase package test coverage
    - Add more comprehensive E2E tests

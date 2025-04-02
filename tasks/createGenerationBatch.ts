@@ -6,18 +6,18 @@ import { waitUntil } from '@vercel/functions'
  */
 export const createGenerationBatch = async ({ input, req, payload }: any) => {
   const { name, provider, batchConfig, generations = [] } = input
-  
+
   try {
     const batch = await payload.create({
       collection: 'generation-batches',
       data: {
-        name, 
+        name,
         provider,
         batchConfig,
-        status: 'queued'
-      }
+        status: 'queued',
+      },
     })
-    
+
     if (generations.length > 0) {
       for (const genData of generations) {
         await payload.create({
@@ -26,12 +26,12 @@ export const createGenerationBatch = async ({ input, req, payload }: any) => {
             ...genData,
             processingMode: 'batch',
             batch: batch.id,
-            status: 'queued'
-          }
+            status: 'queued',
+          },
         })
       }
     }
-    
+
     let taskSlug = ''
     switch (provider) {
       case 'openai':
@@ -49,20 +49,20 @@ export const createGenerationBatch = async ({ input, req, payload }: any) => {
       default:
         throw new Error(`Unsupported provider: ${provider}`)
     }
-    
+
     const job = await payload.jobs.queue({
       task: taskSlug,
       input: {
-        batchId: batch.id
-      }
+        batchId: batch.id,
+      },
     })
-    
+
     waitUntil(payload.jobs.runByID({ id: job.id }))
-    
+
     return {
       success: true,
       batchId: batch.id,
-      jobId: job.id
+      jobId: job.id,
     }
   } catch (error: any) {
     console.error('Error creating generation batch:', error)
@@ -77,13 +77,13 @@ export const createGenerationBatchTask = {
     { name: 'name', type: 'text', required: true },
     { name: 'provider', type: 'text', required: true },
     { name: 'batchConfig', type: 'json', required: true },
-    { name: 'generations', type: 'json' }
+    { name: 'generations', type: 'json' },
   ],
   outputSchema: [
     { name: 'success', type: 'checkbox' },
     { name: 'batchId', type: 'text' },
     { name: 'jobId', type: 'text' },
-    { name: 'error', type: 'text' }
+    { name: 'error', type: 'text' },
   ],
-  handler: createGenerationBatch
+  handler: createGenerationBatch,
 } as unknown as TaskConfig

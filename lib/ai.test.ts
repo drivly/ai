@@ -118,7 +118,6 @@ describe('AI', () => {
     })
 
     it('should handle workflow functions', async () => {
-      
       expect(true).toBe(true)
     })
   })

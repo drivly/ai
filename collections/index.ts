@@ -104,4 +104,4 @@ export const collections = [
   APIKeys,
 ]
 
-export const collectionSlugs = collections.map(collection => collection.slug)
+export const collectionSlugs = collections.map((collection) => collection.slug)

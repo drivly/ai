@@ -1,4 +1,4 @@
 export default {
   index: 'Introduction',
-  scrollycoding: 'ScrollyCoding Example'
+  scrollycoding: 'ScrollyCoding Example',
 }

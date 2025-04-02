@@ -10,13 +10,10 @@ export const GoogleAnalytics = () => {
 
   return (
     <>
+      <Script strategy='afterInteractive' src={`https://www.googletagmanager.com/gtag/js?id=${trackingId}`} />
       <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${trackingId}`}
-      />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
+        id='google-analytics'
+        strategy='afterInteractive'
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];

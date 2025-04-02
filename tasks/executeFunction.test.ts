@@ -10,30 +10,30 @@ vi.mock('./generateObject', () => ({
     generation: { choices: [{ message: { content: '{"name":"Test Object","value":42}' } }] },
     text: '{"name":"Test Object","value":42}',
     generationLatency: 100,
-    request: {}
-  })
+    request: {},
+  }),
 }))
 
 vi.mock('../pkgs/ai-functions/generateSchema', () => ({
   generateSchema: vi.fn().mockReturnValue({
-    parse: vi.fn().mockImplementation((obj: any) => obj)
-  })
+    parse: vi.fn().mockImplementation((obj: any) => obj),
+  }),
 }))
 
 vi.mock('./schemaUtils', () => ({
-  validateWithSchema: vi.fn().mockImplementation((schema: any, obj: any) => obj)
+  validateWithSchema: vi.fn().mockImplementation((schema: any, obj: any) => obj),
 }))
 
 const mockPayload = {
   find: vi.fn().mockResolvedValue({ docs: [] }),
   create: vi.fn().mockResolvedValue({}),
   db: {
-    upsert: vi.fn().mockResolvedValue({})
-  }
+    upsert: vi.fn().mockResolvedValue({}),
+  },
 }
 
 vi.mock('@vercel/functions', () => ({
-  waitUntil: vi.fn()
+  waitUntil: vi.fn(),
 }))
 
 describe('executeFunction', () => {
@@ -46,20 +46,20 @@ describe('executeFunction', () => {
       functionName: 'testFunction',
       args: { test: true },
       schema: { name: 'string', value: 'number' },
-      type: 'Generation'
+      type: 'Generation',
     }
 
-    const result = await executeFunction({ 
-      input, 
-      req: { headers: new Map() }, 
-      payload: mockPayload 
+    const result = await executeFunction({
+      input,
+      req: { headers: new Map() },
+      payload: mockPayload,
     })
 
     expect(generateSchema).toHaveBeenCalledWith(input.schema)
-    
+
     expect(result).toEqual({
       output: { name: 'Test Object', value: 42 },
-      reasoning: 'Test reasoning'
+      reasoning: 'Test reasoning',
     })
   })
 
@@ -68,23 +68,23 @@ describe('executeFunction', () => {
       functionName: 'testFunction',
       args: { test: true },
       schema: { name: 'string', value: 'number' },
-      type: 'Generation'
+      type: 'Generation',
     }
 
     const generateObjectMock = vi.mocked(require('./generateObject')).generateObject
-    
-    const result = await executeFunction({ 
-      input, 
-      req: { headers: new Map() }, 
-      payload: mockPayload 
+
+    const result = await executeFunction({
+      input,
+      req: { headers: new Map() },
+      payload: mockPayload,
     })
 
     expect(generateSchema).toHaveBeenCalledWith(input.schema)
-    
+
     expect(generateObjectMock.mock.calls[0][0].input.zodSchema).toBeDefined()
     expect(result).toEqual({
       output: { name: 'Test Object', value: 42 },
-      reasoning: 'Test reasoning'
+      reasoning: 'Test reasoning',
     })
   })
 
@@ -98,22 +98,22 @@ describe('executeFunction', () => {
       functionName: 'testFunction',
       args: { test: true },
       schema: { name: 'string', value: 'number' },
-      type: 'Generation'
+      type: 'Generation',
     }
 
-    const result = await executeFunction({ 
-      input, 
-      req: { headers: new Map() }, 
-      payload: mockPayload 
+    const result = await executeFunction({
+      input,
+      req: { headers: new Map() },
+      payload: mockPayload,
     })
 
     expect(generateSchema).toHaveBeenCalledWith(input.schema)
-    
+
     expect(validateWithSchema).toHaveBeenCalledWith(input.schema, { name: 'Test Object', value: 42 })
-    
+
     expect(result).toEqual({
       output: { name: 'Test Object', value: 42 },
-      reasoning: 'Test reasoning'
+      reasoning: 'Test reasoning',
     })
   })
 
@@ -122,7 +122,7 @@ describe('executeFunction', () => {
     const mockZodSchema = {
       parse: vi.fn().mockImplementation(() => {
         throw new Error('Validation failed')
-      })
+      }),
     }
     generateSchemaMock.mockReturnValueOnce(mockZodSchema as any)
 
@@ -130,17 +130,17 @@ describe('executeFunction', () => {
       functionName: 'testFunction',
       args: { test: true },
       schema: { name: 'string', value: 'number' },
-      type: 'Generation'
+      type: 'Generation',
     }
 
-    const result = await executeFunction({ 
-      input, 
-      req: { headers: new Map() }, 
-      payload: mockPayload 
+    const result = await executeFunction({
+      input,
+      req: { headers: new Map() },
+      payload: mockPayload,
     })
 
     expect(generateSchema).toHaveBeenCalledWith(input.schema)
-    
+
     expect(result.output).toHaveProperty('_validation_error')
     expect(result.output._validation_error.message).toBe('Failed to validate against schema')
   })
