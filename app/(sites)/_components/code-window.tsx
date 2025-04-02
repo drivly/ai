@@ -1,5 +1,6 @@
 import { cn } from '@drivly/ui/lib'
 import { CH } from '@code-hike/mdx/components'
+import React from 'react'
 
 interface CodeWindowProps {
   className?: string
@@ -8,9 +9,14 @@ interface CodeWindowProps {
   title?: string
 }
 
+interface AnnotationProps {
+  children: React.ReactNode
+  annotation: string | unknown
+}
+
 const autoLinkHandler = {
   name: 'link',
-  component: ({ children, annotation }) => {
+  component: ({ children, annotation }: AnnotationProps) => {
     const url = typeof annotation === 'string' ? annotation : annotation.toString()
     return (
       <a href={url} target="_blank" rel="noopener noreferrer" className="underline text-blue-400 hover:text-blue-300">
@@ -56,4 +62,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with                  
+// browser bar with                    
