@@ -155,7 +155,7 @@ describe('Workers.do Dispatch Worker', () => {
       
       expect(res.status).toBe(400)
       const text = await res.text()
-      expect(text).toContain('Agent ID is required')
+      expect(text).toContain('Invalid subdomain')
     })
     
     it('should handle agent fetch failures', async () => {
