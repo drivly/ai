@@ -7,8 +7,9 @@ import { useState, useEffect, use } from 'react'
 import { LlmsdoLogo } from './llms-do-logo'
 import { FaGithub, FaDiscord } from 'react-icons/fa'
 
-export function Navbar({ params }: { params: Promise<{ domains?: string }> }) {
-  const domain = use(params).domains
+export function Navbar({ params }: { params: Promise<Record<string, string | string[]>> }) {
+  const resolvedParams = use(params)
+  const domain = resolvedParams.domains as string
 
   const [isOpen, setIsOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
