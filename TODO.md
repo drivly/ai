@@ -1,5 +1,37 @@
 # AI Primitives TODO List
 
+## Documentation
+
+This section outlines the documentation gaps and required improvements across the repository.
+
+### Documentation Structure
+
+- [ ] Align documentation navigation in \_meta.js with strategic vision in README.md
+- [ ] Ensure consistent terminology across all documentation files
+- [ ] Remove ".do" domain suffixes from documentation file names per guidelines
+- [ ] Create documentation style guide to ensure consistency
+
+### SDK Documentation
+
+- [ ] Create comprehensive README files for all SDKs with usage examples
+- [ ] Document integration patterns between SDKs
+- [ ] Add CLI usage documentation for all SDKs
+- [ ] Ensure all SDK documentation follows the same structure and format
+
+### Architecture Documentation
+
+- [ ] Add detailed implementation guidance to ARCHITECTURE.md
+- [ ] Document technical details of component relationships
+- [ ] Add specific implementation examples for data flows
+- [ ] Create diagrams for collection relationships and data models
+
+### Content Documentation
+
+- [ ] Complete missing content in placeholder files
+- [ ] Add more code examples to existing documentation
+- [ ] Improve getting started guides for each component
+- [ ] Add troubleshooting sections to all documentation
+
 ## SDKs
 
 This section outlines the status and required actions for each SDK in the `sdks/` directory.
