@@ -29,6 +29,45 @@ const nextConfig = {
       },
     ]
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        // Special case for Vercel preview domains
+        {
+          source: '/',
+          destination: '/sites-list',
+          has: [
+            {
+              type: 'host',
+              value: '(.*)\\.dev\\.driv\\.ly',
+            },
+          ],
+        },
+        // Special case for do.mw
+        {
+          source: '/',
+          destination: '/sites-list',
+          has: [
+            {
+              type: 'host',
+              value: 'do\\.mw',
+            },
+          ],
+        },
+        // Special case for apis.do/sites
+        {
+          source: '/sites',
+          destination: '/sites-list',
+          has: [
+            {
+              type: 'host',
+              value: 'apis\\.do',
+            },
+          ],
+        },
+      ],
+    }
+  },
 }
 
 export default withNextra(withPayload(nextConfig, { devBundleServerPackages: false }))
