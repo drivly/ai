@@ -29,15 +29,6 @@ export async function middleware(request: NextRequest) {
     const apiName = hostname.replace('.do', '')
     const baseHostname = hostname.replace('.do', '')
 
-    const isStaticAsset = pathname.startsWith('/_next/') || 
-                          pathname.startsWith('/static/') || 
-                          pathname.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)(\?.*)?$/);
-    
-    if (isStaticAsset) {
-      console.log('Skipping rewrite for static asset', { hostname, pathname, search })
-      return NextResponse.next()
-    }
-
     const isCollectionName = collectionSlugs.includes(baseHostname)
     const isDomainAlias = Object.keys(domainsConfig.aliases).includes(hostname)
     const isAlias = isDomainAlias
@@ -114,5 +105,14 @@ export async function middleware(request: NextRequest) {
   })
 }
 
-// export const config = {
-// }
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     */
+    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+  ],
+}
