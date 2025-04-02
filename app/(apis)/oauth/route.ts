@@ -1,5 +1,62 @@
 import { API } from '@/lib/api'
 import { getPayload } from '@/lib/auth/payload-auth'
+import crypto from 'crypto'
+import fs from 'fs'
+import path from 'path'
+
+const OAUTH_CODES_FILE = path.join(process.cwd(), 'data', 'oauth-codes.json')
+
+const ensureDataDir = () => {
+  const dataDir = path.join(process.cwd(), 'data')
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true })
+  }
+}
+
+const loadOAuthCodes = () => {
+  ensureDataDir()
+  if (!fs.existsSync(OAUTH_CODES_FILE)) {
+    return []
+  }
+  
+  try {
+    const data = fs.readFileSync(OAUTH_CODES_FILE, 'utf8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error loading OAuth codes:', error)
+    return []
+  }
+}
+
+const saveOAuthCodes = (codes: any[]) => {
+  ensureDataDir()
+  try {
+    fs.writeFileSync(OAUTH_CODES_FILE, JSON.stringify(codes, null, 2))
+  } catch (error) {
+    console.error('Error saving OAuth codes:', error)
+  }
+}
+
+const generateAuthCode = async (provider: string, redirectUri: string, userId: string) => {
+  const code = crypto.randomBytes(16).toString('hex')
+  const codes = loadOAuthCodes()
+  
+  const expiresAt = new Date()
+  expiresAt.setMinutes(expiresAt.getMinutes() + 10)
+  
+  codes.push({
+    code,
+    provider,
+    redirectUri,
+    userId,
+    createdAt: new Date().toISOString(),
+    expiresAt: expiresAt.toISOString(),
+    used: false
+  })
+  
+  saveOAuthCodes(codes)
+  return code
+}
 
 export const GET = API(async (request, { url, user }) => {
   const provider = url.searchParams.get('provider')
@@ -15,10 +72,9 @@ export const GET = API(async (request, { url, user }) => {
   }
   
   const payload = await getPayload()
-  const { betterAuth } = payload
   
   if (user) {
-    const code = await betterAuth.api.oAuthProxy.generateAuthCode(provider, redirectUri, user.id)
+    const code = await generateAuthCode(provider, redirectUri, user.id)
     
     const redirectUrl = new URL(redirectUri)
     redirectUrl.searchParams.set('code', code)

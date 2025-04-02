@@ -1,10 +1,148 @@
 import { API } from '@/lib/api'
 import { getPayload } from '@/lib/auth/payload-auth'
+import fs from 'fs'
+import path from 'path'
+import crypto from 'crypto'
+
+const OAUTH_CODES_FILE = path.join(process.cwd(), 'data', 'oauth-codes.json')
+const OAUTH_CLIENTS_FILE = path.join(process.cwd(), 'data', 'oauth-clients.json')
+const OAUTH_TOKENS_FILE = path.join(process.cwd(), 'data', 'oauth-tokens.json')
+
+const ensureDataDir = () => {
+  const dataDir = path.join(process.cwd(), 'data')
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true })
+  }
+}
+
+const loadOAuthCodes = () => {
+  ensureDataDir()
+  if (!fs.existsSync(OAUTH_CODES_FILE)) {
+    return []
+  }
+  
+  try {
+    const data = fs.readFileSync(OAUTH_CODES_FILE, 'utf8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error loading OAuth codes:', error)
+    return []
+  }
+}
+
+const saveOAuthCodes = (codes: any[]) => {
+  ensureDataDir()
+  try {
+    fs.writeFileSync(OAUTH_CODES_FILE, JSON.stringify(codes, null, 2))
+  } catch (error) {
+    console.error('Error saving OAuth codes:', error)
+  }
+}
+
+const loadOAuthClients = () => {
+  ensureDataDir()
+  if (!fs.existsSync(OAUTH_CLIENTS_FILE)) {
+    return []
+  }
+  
+  try {
+    const data = fs.readFileSync(OAUTH_CLIENTS_FILE, 'utf8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error loading OAuth clients:', error)
+    return []
+  }
+}
+
+const loadOAuthTokens = () => {
+  ensureDataDir()
+  if (!fs.existsSync(OAUTH_TOKENS_FILE)) {
+    return []
+  }
+  
+  try {
+    const data = fs.readFileSync(OAUTH_TOKENS_FILE, 'utf8')
+    return JSON.parse(data)
+  } catch (error) {
+    console.error('Error loading OAuth tokens:', error)
+    return []
+  }
+}
+
+const saveOAuthTokens = (tokens: any[]) => {
+  ensureDataDir()
+  try {
+    fs.writeFileSync(OAUTH_TOKENS_FILE, JSON.stringify(tokens, null, 2))
+  } catch (error) {
+    console.error('Error saving OAuth tokens:', error)
+  }
+}
+
+const exchangeCodeForToken = async (code: string, redirectUri: string, clientId: string, clientSecret?: string) => {
+  const codes = loadOAuthCodes()
+  const clients = loadOAuthClients()
+  
+  const codeEntry = codes.find(c => c.code === code && !c.used)
+  if (!codeEntry) {
+    throw new Error('Invalid authorization code')
+  }
+  
+  const expiresAt = new Date(codeEntry.expiresAt)
+  if (expiresAt < new Date()) {
+    throw new Error('Authorization code expired')
+  }
+  
+  const client = clients.find(c => c.clientId === clientId)
+  if (!client) {
+    throw new Error('Invalid client ID')
+  }
+  
+  if (clientSecret && client.clientSecret !== clientSecret) {
+    throw new Error('Invalid client secret')
+  }
+  
+  if (redirectUri && codeEntry.redirectUri !== redirectUri) {
+    throw new Error('Redirect URI mismatch')
+  }
+  
+  codeEntry.used = true
+  saveOAuthCodes(codes)
+  
+  const accessToken = crypto.randomBytes(32).toString('hex')
+  const refreshToken = crypto.randomBytes(32).toString('hex')
+  
+  const accessTokenExpiresAt = new Date()
+  accessTokenExpiresAt.setHours(accessTokenExpiresAt.getHours() + 1)
+  
+  const refreshTokenExpiresAt = new Date()
+  refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 30)
+  
+  const token = {
+    id: crypto.randomUUID(),
+    accessToken,
+    refreshToken,
+    clientId,
+    userId: codeEntry.userId,
+    scope: 'read write',
+    createdAt: new Date().toISOString(),
+    accessTokenExpiresAt: accessTokenExpiresAt.toISOString(),
+    refreshTokenExpiresAt: refreshTokenExpiresAt.toISOString()
+  }
+  
+  const tokens = loadOAuthTokens()
+  tokens.push(token)
+  saveOAuthTokens(tokens)
+  
+  return {
+    access_token: accessToken,
+    token_type: 'Bearer',
+    expires_in: 3600,
+    refresh_token: refreshToken,
+    scope: 'read write'
+  }
+}
 
 export const POST = API(async (request, { url }) => {
-  const payload = await getPayload()
-  const { betterAuth } = payload
-  
   let body: any = {}
   const contentType = request.headers.get('content-type') || ''
   
@@ -40,7 +178,7 @@ export const POST = API(async (request, { url }) => {
   }
   
   try {
-    const token = await betterAuth.api.oAuthProxy.exchangeCodeForToken(code, redirect_uri, client_id, client_secret)
+    const token = await exchangeCodeForToken(code, redirect_uri, client_id, client_secret)
     return token
   } catch (error) {
     console.error('Token exchange error:', error)
