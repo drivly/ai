@@ -9,9 +9,11 @@ export const GET = API(async (request, { db, user, url }) => {
   const functions = await db.functions.find({
     page,
     limit,
-  })
+  }) || []
   
-  const links = generatePaginationLinks(request, page, limit, functions.length)
+  const totalItems = Array.isArray(functions) ? functions.length : 0
+  
+  const links = generatePaginationLinks(request, page, limit, totalItems)
   
   const functionsObject = createFunctionsObject(request, functions)
   
@@ -21,7 +23,7 @@ export const GET = API(async (request, { db, user, url }) => {
     user,
     page,
     limit,
-    total: functions.length
+    total: totalItems
   }
 })
 
