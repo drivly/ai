@@ -3,5 +3,7 @@ import { getCurrentURL } from '@/lib/utils/url'
 import { API } from '@/lib/api'
 
 export const GET = API(async (request: NextRequest) => {
-  return NextResponse.redirect(new URL('/api/auth/signin/github?callbackUrl=/admin', getCurrentURL(request.headers)))
+  const url = getCurrentURL(request.headers)
+  const domain = new URL(url).hostname
+  return NextResponse.redirect(new URL(`/api/auth/signin/github?callbackUrl=${encodeURIComponent(`/${domain}`)}`, url))
 })

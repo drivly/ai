@@ -54,6 +54,12 @@ export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
     const { hostname, pathname, search } = request.nextUrl
     
+    const authPaths = ['/login', '/signin', '/signup', '/logout']
+    if (authPaths.some(path => pathname === path)) {
+      console.log('Handling auth path on gateway domain', { hostname, pathname, search })
+      return NextResponse.next()
+    }
+    
     if (isGatewayDomain(hostname)) {
       console.log('Handling gateway domain, exiting middleware', { hostname, pathname, search })
       
@@ -72,6 +78,11 @@ export async function middleware(request: NextRequest) {
     
     if (isDoDomain(hostname)) {
       const apiName = hostname.replace('.do', '')
+      
+      if (authPaths.some(path => pathname === path)) {
+        console.log('Handling auth path on .do domain', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
+      }
       
       if (pathname.startsWith('/admin')) {
         if (collectionSlugs.includes(apiName)) {
