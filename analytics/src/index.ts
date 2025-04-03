@@ -13,6 +13,9 @@ export interface ClickhouseConfig {
 export class ClickhouseClient {
   private client
   private databaseName: string
+  private url: string | undefined
+  private username: string
+  private password: string
 
   constructor(config: ClickhouseConfig) {
     let url = config.url
@@ -24,11 +27,14 @@ export class ClickhouseClient {
     }
     
     this.databaseName = config.database || 'default'
+    this.url = url
+    this.username = config.username || 'default'
+    this.password = config.password || ''
       
     this.client = createClient({
       url,
-      username: config.username || 'default',
-      password: config.password || '',
+      username: this.username,
+      password: this.password,
       database: this.databaseName,
     })
   }
@@ -76,10 +82,19 @@ export class ClickhouseClient {
 
   async createDatabase(): Promise<void> {
     try {
-      await this.client.query({
+      const tempClient = createClient({
+        url: this.url,
+        username: this.username,
+        password: this.password,
+      })
+      
+      await tempClient.query({
         query: `CREATE DATABASE IF NOT EXISTS ${this.databaseName}`,
       })
+      
       console.log(`Created database: ${this.databaseName}`)
+      
+      await tempClient.close()
     } catch (error: any) {
       console.error(`Error creating database:`, error)
       throw new Error(`Failed to create database: ${error.message || String(error)}`)
