@@ -22,7 +22,7 @@ function SitesPage() {
               <div className='animate-pulse text-lg opacity-50'>Loading sites...</div>
             </div>
           }>
-          <DotDoSection title='Sites' description='Browse all available domains in the .do ecosystem' domainsByCategory={domainsByCategory} />
+          <DotDoSection domainsByCategory={domainsByCategory} />
         </Suspense>
       </div>
     </div>

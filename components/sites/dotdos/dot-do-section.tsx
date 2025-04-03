@@ -10,8 +10,6 @@ import { Fragment } from 'react'
 import { DotDoItem } from './dot-do-item'
 
 export interface DotDoSectionProps {
-  title: string
-  description: string
   domainsByCategory: Record<string, string[]>
 }
 
