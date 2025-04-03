@@ -52,6 +52,5 @@ export default {
     type: 'doc',
     href: '/docs/admin',
   },
-  api: 'API Reference',
-  'code-hike': 'CodeHike Examples',
+  api: 'API Reference'
 }
