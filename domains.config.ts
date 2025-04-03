@@ -38,6 +38,16 @@ const hierarchy = {
     experiments: 'Experiments.do Economically Validate Workflows',
     database: 'Database.do AI Native Data Access (Search + CRUD)',
     integrations: 'Integrations.do Connect External APIs and Systems'
+  },
+  agents: {
+    amy: 'Amy.do Personal AI Assistant',
+    ari: 'Ari.do AI Research Interface',
+    nat: 'Nat.do Network Analysis Tool',
+    dara: 'Dara.do Data Analysis and Reporting',
+    tom: 'Tom.do Task Order Management',
+    ivy: 'Ivy.do Intelligent Virtual Assistant',
+    lena: 'Lena.do Language Enhancement and Analysis',
+    lexi: 'Lexi.do Lexical Analysis and Processing'
   }
 }
 
