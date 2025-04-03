@@ -35,9 +35,7 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
     const baseUrl = request.nextUrl.origin + request.nextUrl.pathname
     const links: Record<string, string> = {}
     
-    const statusUrl = new URL(url)
-    statusUrl.pathname = `/api/jobs/${job.id}`
-    links.status = statusUrl.toString()
+    links.job = job.id
     
     if (functionDetails?.examples?.length > 0) {
       const examplesUrl = new URL(url)
