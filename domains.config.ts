@@ -89,7 +89,7 @@ export interface DomainsConfig {
 
 const defaultDomainForCollection = (collection: string) => `${collection}.do`
 
-const primaryCollectionSlugs = [
+export const primaryCollectionSlugs = [
   'functions',
   'workflows',
   'database',
