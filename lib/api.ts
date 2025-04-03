@@ -7,6 +7,7 @@ import { UAParser } from 'ua-parser-js'
 import { geolocation } from '@vercel/functions'
 import { continents, countries, flags, locations, metros } from './constants/cf'
 import { nanoid } from 'nanoid'
+import { getOrganizationByASN } from './utils/asn-lookup'
 
 /**
  * Context object passed to API handlers
@@ -36,6 +37,7 @@ export interface APIUser {
   os?: string
   ip: string
   isp: string
+  asOrg?: string
   flag: string
   zipcode: string
   city: string
@@ -109,8 +111,11 @@ export function getUser(request: NextRequest): APIUser {
               request.headers.get('x-vercel-ip-asn') || 
               ''
   
+  const asOrg = asn ? getOrganizationByASN(asn) : null
+  
   const isp = cf?.asOrganization?.toString() || 
               request.headers.get('x-vercel-ip-org') || 
+              asOrg || 
               'Unknown ISP'
   
   let latitude = 0, longitude = 0
@@ -165,6 +170,7 @@ export function getUser(request: NextRequest): APIUser {
     os: ua?.os?.name as string,
     ip,
     isp,
+    asOrg: asOrg || undefined,
     flag: countryFlag,
     zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
     city: cf?.city?.toString() || geo?.city || request.headers.get('x-vercel-ip-city') || '',
