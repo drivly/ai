@@ -11,7 +11,7 @@ export const GET = API(async (request, { params, url }) => {
     return { error: 'Unauthorized', status: 401 }
   }
   
-  const pathSegments = params.path || []
+  const pathSegments = Array.isArray(params.path) ? params.path : params.path ? [params.path] : []
   const workerName = pathSegments[0]
   
   if (!workerName) {
@@ -82,7 +82,7 @@ export const POST = API(async (request, { params, url }) => {
     return { error: 'Unauthorized', status: 401 }
   }
   
-  const pathSegments = params.path || []
+  const pathSegments = Array.isArray(params.path) ? params.path : params.path ? [params.path] : []
   const workerName = pathSegments[0]
   
   if (!workerName) {
@@ -156,7 +156,7 @@ export const PUT = API(async (request, { params, url }) => {
     return { error: 'Unauthorized', status: 401 }
   }
   
-  const pathSegments = params.path || []
+  const pathSegments = Array.isArray(params.path) ? params.path : params.path ? [params.path] : []
   const workerName = pathSegments[0]
   
   if (!workerName) {
@@ -227,7 +227,7 @@ export const DELETE = API(async (request, { params, url }) => {
     return { error: 'Unauthorized', status: 401 }
   }
   
-  const pathSegments = params.path || []
+  const pathSegments = Array.isArray(params.path) ? params.path : params.path ? [params.path] : []
   const workerName = pathSegments[0]
   
   if (!workerName) {
@@ -295,7 +295,7 @@ export const PATCH = API(async (request, { params, url }) => {
     return { error: 'Unauthorized', status: 401 }
   }
   
-  const pathSegments = params.path || []
+  const pathSegments = Array.isArray(params.path) ? params.path : params.path ? [params.path] : []
   const workerName = pathSegments[0]
   
   if (!workerName) {
