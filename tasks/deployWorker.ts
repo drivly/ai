@@ -27,7 +27,35 @@ export const deployWorker = async ({ input, req, payload }: any) => {
     
     try {
       const deployWorkerModule = await dynamicImport('../pkgs/deploy-worker/src')
-      const deployResult = await deployWorkerModule.deployWorker(worker, options)
+      
+      let wrappedWorker = { ...worker }
+      
+      if (worker.tests) {
+        const wrapperCode = `
+import { generateWorkerWrapper } from './wrapper'
+
+${worker.code}
+
+const originalModule = {}
+
+Object.keys(exports).forEach(key => {
+  if (key !== 'default') {
+    originalModule[key] = exports[key]
+  }
+})
+
+if (exports.default) {
+  originalModule.default = exports.default
+}
+
+const wrappedModule = generateWorkerWrapper(originalModule, ${JSON.stringify(worker.tests)})
+
+export default wrappedModule.fetch
+`
+        wrappedWorker.code = wrapperCode
+      }
+      
+      const deployResult = await deployWorkerModule.deployWorker(wrappedWorker, options)
       
       await payload.update({
         collection: 'deployments',

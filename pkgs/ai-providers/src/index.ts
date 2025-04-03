@@ -3,6 +3,7 @@ export * from './types'
 export * from './providers/openai'
 export * from './providers/anthropic'
 export * from './providers/google'
+export * from './providers/parasail'
 export * from './providers/llmdo'
 export * from './providerRouter'
 

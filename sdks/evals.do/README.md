@@ -8,7 +8,7 @@
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/drivly/ai/blob/main/CONTRIBUTING.md)
 [![Minified Size](https://img.shields.io/bundlephobia/min/evals.do)](https://bundlephobia.com/package/evals.do)
-[![Discord](https://img.shields.io/discord/1014897323584794655?label=Discord&logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+[![Discord](https://img.shields.io/discord/1014897323584794655?label=Discord&logo=discord&logoColor=white)](https://discord.gg/tafnNeUQdm)
 
 Evaluation tools for AI components, functions, workflows, and agents. Based on [evalite](https://github.com/mattpocock/evalite) with cloud storage integration.
 

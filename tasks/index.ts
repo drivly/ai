@@ -1,8 +1,11 @@
 import { TaskConfig } from 'payload'
 import { executeFunctionTask } from './executeFunction'
 import { generateCodeTask } from './generateCode'
+import { executeCodeFunctionTask } from './executeCodeFunction'
+import { generateResourceEmbedding } from './generateResourceEmbedding'
 import { generateThingEmbedding } from './generateThingEmbedding'
 import { handleGithubEvent } from './handleGithubEvent'
+import { hybridSearchResources, searchResources } from './searchResources'
 import { hybridSearchThings, searchThings } from './searchThings'
 import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './schemaUtils'
 import { processCodeFunctionWrapperTask } from './processCodeFunctionWrapper'
@@ -14,10 +17,28 @@ import { deliverWebhookTask } from './deliverWebhook'
 import { initiateComposioConnectionTask } from './initiateComposioConnection'
 import { requestHumanFeedbackTask } from './requestHumanFeedback'
 import { processDomain } from './processDomain'
+import { processBatchOpenAITask } from './batchOpenAI'
+import { processBatchAnthropicTask } from './batchAnthropic'
+import { processBatchGoogleVertexAITask } from './batchGoogleVertexAI'
+import { processBatchParasailTask } from './batchParasail'
+import { createGenerationBatchTask } from './createGenerationBatch'
+import { generateFunctionExamplesTask } from './generateFunctionExamples'
+
+const generateResourceEmbeddingTask = {
+  slug: 'generateResourceEmbedding',
+  label: 'Generate Resource Embedding',
+  inputSchema: [
+    { name: 'id', type: 'text', required: true }
+  ],
+  outputSchema: [
+    { name: 'resource', type: 'json' }
+  ],
+  handler: generateResourceEmbedding,
+} as unknown as TaskConfig
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
-  label: 'Generate Thing Embedding',
+  label: 'Generate Thing Embedding (Deprecated)',
   inputSchema: [
     { name: 'id', type: 'text', required: true }
   ],
@@ -71,7 +92,9 @@ const processDomainTask = {
 
 export const tasks = [
   executeFunctionTask, 
-  generateCodeTask, 
+  generateCodeTask,
+  executeCodeFunctionTask,
+  generateResourceEmbeddingTask,
   generateThingEmbeddingTask, 
   searchThingsTask, 
   hybridSearchThingsTask,
@@ -83,7 +106,13 @@ export const tasks = [
   deliverWebhookTask,
   initiateComposioConnectionTask,
   requestHumanFeedbackTask,
-  processDomainTask
+  processDomainTask,
+  processBatchOpenAITask,
+  processBatchAnthropicTask,
+  processBatchGoogleVertexAITask,
+  processBatchParasailTask,
+  createGenerationBatchTask,
+  generateFunctionExamplesTask
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }

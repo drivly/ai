@@ -27,8 +27,10 @@ export async function analyticsMiddleware(
       const userId = request.cookies.get('userId')?.value || headers.get('x-user-id') || ''
       
       const clickhouseClient = createClickhouseClient({
-        host: process.env.CLICKHOUSE_HOST || 'http://localhost',
-        port: process.env.CLICKHOUSE_PORT ? parseInt(process.env.CLICKHOUSE_PORT) : 8123,
+        url: process.env.CLICKHOUSE_URL || 
+             `${process.env.CLICKHOUSE_HOST || 'http://localhost'}:${
+               process.env.CLICKHOUSE_PORT ? parseInt(process.env.CLICKHOUSE_PORT) : 8123
+             }`,
         username: process.env.CLICKHOUSE_USERNAME,
         password: process.env.CLICKHOUSE_PASSWORD,
         database: process.env.CLICKHOUSE_DATABASE || 'default',
@@ -36,7 +38,7 @@ export async function analyticsMiddleware(
       
       const analyticsService = new AnalyticsService(clickhouseClient)
       
-      await analyticsService.trackRequest({
+      const requestData = {
         method,
         path: pathname,
         hostname,
@@ -46,7 +48,31 @@ export async function analyticsMiddleware(
         ip,
         userAgent,
         referer,
-      }).catch(err => console.error('Failed to track request:', err))
+        headers: Object.fromEntries(headers),
+        timestamp: Date.now()
+      }
+      
+      const promises = [
+        analyticsService.trackRequest(requestData).catch(err => console.error('Failed to track request:', err))
+      ]
+      
+      if (process.env.PIPELINE_URL) {
+        promises.push(
+          fetch(process.env.PIPELINE_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify([requestData]) // Wrap in array as required
+          })
+            .then(() => {}) // Convert Promise<Response> to Promise<void>
+            .catch(err => console.error('Failed to send to pipeline:', err))
+        )
+      }
+      
+      await Promise.all(promises).catch(error => {
+        console.error('Error sending analytics data:', error)
+      })
       
       await clickhouseClient.close()
     } catch (error) {

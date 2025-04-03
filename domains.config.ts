@@ -1,18 +1,58 @@
 /**
  * Domain configuration for edge runtime
- * 
+ *
  * This file manages:
  * 1. Collections to domains mappings
  * 2. Domains to collections mappings
  * 3. AI gateways (*.com.ai, *.dotdo.dev, *.do.sg)
  * 4. Domain aliases (databases.do -> database.do, okrs.do -> goals.do)
- * 
+ *
  * IMPORTANT: This file must be edge-runtime compatible.
  * - Do not import node modules
  * - Do not import from /lib/api
  * - All imports must be edge-runtime compatible
  */
 import { apis } from './api.config'
+
+
+const hierarchy = {
+  ai: {
+    workflows: 'Workflows.do Reliably Execute Business Processes',
+    functions: 'Functions.do Typesafe Results without Complexity',
+    agents: 'Agents.do Deploy & Manage Autonomous Digital Workers'
+  },
+  data: {
+    databases: 'Database.do AI Native Data Access (Search + CRUD)',
+    nouns: 'Nouns.do Entities in your business',
+    verbs: 'Verbs.do Represent potential actions'
+  },
+  events: {
+    triggers: 'Triggers.do Initiate workflows based on events',
+    searches: 'Searches.do Query and retrieve data',
+    actions: 'Actions.do Perform tasks within workflows'
+  },
+  core: {
+    llm: 'LLM.do Intelligent AI Gateway',
+    evals: 'Evals.do Evaluate Functions, Workflows, and Agents',
+    analytics: 'Analytics.do Economically Validate Workflows',
+    experiments: 'Experiments.do Economically Validate Workflows',
+    database: 'Database.do AI Native Data Access (Search + CRUD)',
+    integrations: 'Integrations.do Connect External APIs and Systems'
+  },
+  agents: {
+    amy: 'Amy.do Personal AI Assistant',
+    ari: 'Ari.do AI Research Interface',
+    nat: 'Nat.do Network Analysis Tool',
+    dara: 'Dara.do Data Analysis and Reporting',
+    tom: 'Tom.do Task Order Management',
+    ivy: 'Ivy.do Intelligent Virtual Assistant',
+    lena: 'Lena.do Language Enhancement and Analysis',
+    lexi: 'Lexi.do Lexical Analysis and Processing'
+  }
+}
+
+
+
 
 export interface DomainConfig {
   /** Collections that belong to this domain */
@@ -23,6 +63,8 @@ export interface DomainConfig {
   alias?: string
   /** Whether this is an AI gateway domain */
   isAIGateway?: boolean
+  /** Custom glow color for the domain */
+  glowColor?: string
 }
 
 export interface CollectionConfig {
@@ -41,18 +83,20 @@ export interface DomainsConfig {
   aiGateways: string[]
   /** Domain aliases (e.g., databases.do -> database.do) */
   aliases: Record<string, string>
+
+  
 }
 
 const defaultDomainForCollection = (collection: string) => `${collection}.do`
 
-const primaryCollectionSlugs = [
+export const primaryCollectionSlugs = [
   'functions',
   'workflows',
   'database',
   'agents',
   'nouns',
   'verbs',
-  'things',
+  'resources',
   'triggers',
   'searches',
   'actions',
@@ -61,45 +105,71 @@ const primaryCollectionSlugs = [
   'analytics',
   'experiments',
   'integrations',
-  'models'
+  'models',
 ]
 
 const generateCollectionsConfig = (): Record<string, CollectionConfig> => {
   const config: Record<string, CollectionConfig> = {}
-  
+
   primaryCollectionSlugs.forEach((slug: string) => {
     const defaultDomain = defaultDomainForCollection(slug)
     config[slug] = {
       domains: [defaultDomain],
-      defaultDomain
+      defaultDomain,
     }
   })
-  
+
   return config
 }
 
 const generateDomainsConfig = (): Record<string, DomainConfig> => {
   const config: Record<string, DomainConfig> = {}
-  
+
   primaryCollectionSlugs.forEach((slug: string) => {
     const domain = defaultDomainForCollection(slug)
     config[domain] = {
-      collections: [slug]
+      collections: [slug],
     }
   })
-  
+
+  // Add specific glow colors for some domains
+  config['functions.do'] = {
+    collections: ['functions'],
+    glowColor: '#fe8bbb', // Pink
+  }
+
+  config['database.do'] = {
+    collections: ['database'],
+    glowColor: '#4a7eff', // Blue
+  }
+
+  config['workflows.do'] = {
+    collections: ['workflows'],
+    glowColor: '#ff7e4a', // Orange
+  }
+
+  config['agents.do'] = {
+    collections: ['agents'],
+    glowColor: '#9e7aff', // Purple
+  }
+
+  config['llm.do'] = {
+    collections: ['llm'],
+    glowColor: '#05b2a6', // Default teal color
+  }
+
   config['databases.do'] = {
-    alias: 'database.do'
+    alias: 'database.do',
   }
-  
+
   config['okrs.do'] = {
-    alias: 'goals.do'
+    alias: 'goals.do',
   }
-  
+
   config['llms.do'] = {
-    alias: 'llm.do'
+    alias: 'llm.do',
   }
-  
+
   return config
 }
 
@@ -109,25 +179,22 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
 export const domainsConfig: DomainsConfig = {
   domains: generateDomainsConfig(),
   collections: generateCollectionsConfig(),
-  aiGateways: [
-    '*.com.ai',
-    '*.dotdo.dev',
-    '*.do.sg',
-  ],
+  aiGateways: ['*.com.ai', '*.dotdo.dev', '*.do.sg', '*.dev.driv.ly'],
   aliases: {
     'databases.do': 'database.do',
     'okrs.do': 'goals.do',
     'llms.do': 'llm.do',
+    'db.mw': 'database.do',
   },
 }
 
 /**
  * Get the namespace for a domain
- * 
+ *
  * Rules:
  * 1. For paths with API endpoints (e.g., docs.example.com/api), ns is the full domain
  * 2. For domain-only paths (e.g., docs.example.com), ns is the parent domain
- * 
+ *
  * @param domain The domain to get the namespace for
  * @returns The namespace for the domain
  */
@@ -137,17 +204,17 @@ export function getNamespace(domain: string): string {
   }
 
   const domainConfig = domainsConfig.domains[domain]
-  
+
   if (domainConfig?.parent) {
     return domainConfig.parent
   }
-  
+
   return domain
 }
 
 /**
  * Get the collections for a domain
- * 
+ *
  * @param domain The domain to get collections for
  * @returns Array of collection names for the domain
  */
@@ -157,25 +224,25 @@ export function getCollections(domain: string): string[] {
   }
 
   const domainConfig = domainsConfig.domains[domain]
-  
+
   return domainConfig?.collections || []
 }
 
 /**
  * Get the domain for a collection
- * 
+ *
  * @param collection The collection to get the domain for
  * @returns The default domain for the collection
  */
 export function getDomain(collection: string): string | undefined {
   const collectionConfig = domainsConfig.collections[collection]
-  
+
   return collectionConfig?.defaultDomain
 }
 
 /**
  * Check if a domain is an AI gateway
- * 
+ *
  * @param domain The domain to check
  * @returns True if the domain is an AI gateway
  */
@@ -184,7 +251,7 @@ export function isAIGateway(domain: string): boolean {
     return true
   }
   
-  return domainsConfig.aiGateways.some(pattern => {
+  return domainsConfig.aiGateways.some((pattern) => {
     if (pattern.startsWith('*.')) {
       const suffix = pattern.substring(1)
       return domain.endsWith(suffix) && domain.length > suffix.length
@@ -193,7 +260,26 @@ export function isAIGateway(domain: string): boolean {
   })
 }
 
+/**
+ * Get the glow color for a domain
+ *
+ * @param domain The domain to get the glow color for
+ * @returns The glow color for the domain, or the default color if not set
+ */
+export function getGlowColor(domain: string): string {
+  const DEFAULT_GLOW_COLOR = '#05b2a6'
+
+  if (domainsConfig.aliases[domain]) {
+    domain = domainsConfig.aliases[domain]
+  }
+
+  const domainConfig = domainsConfig.domains[domain]
+
+  return domainConfig?.glowColor || DEFAULT_GLOW_COLOR
+}
+
 export const domains = [
+  'do.com.ai',
   'action.do',
   'actions.do',
   'agents.do',
@@ -297,5 +383,30 @@ export const domains = [
   'webhooks.do',
   'worker.do',
   'workers.do',
-  'workflows.do'
+  'workflows.do',
+]
+
+/**
+ * Brand domains that should redirect to the /sites path
+ */
+export const brandDomains = ['dotdo.ai', 'do.mw', 'dotdo.co', 'do.industries']
+
+/**
+ * Domains that have SDK implementations in the sdks directory
+ */
+export const sdks = [
+  'agents.do',
+  'apis.do',
+  'database.do',
+  'evals.do',
+  'experiments.do',
+  'functions.do',
+  'gpt.do',
+  'integrations.do',
+  'llm.do',
+  'mcp.do',
+  'models.do',
+  'sdks.do',
+  'tasks.do',
+  'workflows.do',
 ]

@@ -1,22 +1,22 @@
 # Vector Search
 
-Vector search enables semantic search capabilities for the Things collection in the Drivly AI platform.
+Vector search enables semantic search capabilities for the Resources collection in the Drivly AI platform.
 
 ## Overview
 
-The vector search implementation allows for finding relevant Things based on meaning rather than just keyword matching, using OpenAI embeddings.
+The vector search implementation allows for finding relevant Resources based on meaning rather than just keyword matching, using OpenAI embeddings.
 
 ## Features
 
-- **Vector Embeddings**: Each Thing document is automatically embedded using OpenAI's text-embedding-3-large model
-- **Vector Search**: Search Things by semantic similarity using vector embeddings
+- **Vector Embeddings**: Each Resource document is automatically embedded using OpenAI's text-embedding-3-large model
+- **Vector Search**: Search Resources by semantic similarity using vector embeddings
 - **Hybrid Search**: Combine vector search with traditional text search for better results
-- **Automatic Embedding Generation**: Embeddings are automatically generated when Things are created or updated
+- **Automatic Embedding Generation**: Embeddings are automatically generated when Resources are created or updated
 
 ## How It Works
 
-1. When a Thing is created or updated, an embedding is automatically generated using OpenAI's text-embedding-3-large model
-2. The embedding is stored in the Thing document's `embedding` field
+1. When a Resource is created or updated, an embedding is automatically generated using OpenAI's text-embedding-3-large model
+2. The embedding is stored in the Resource document's `embedding` field
 3. A vector index on the `embedding` field enables efficient similarity search
 4. Search queries are also embedded and compared against the stored embeddings
 
@@ -27,10 +27,10 @@ The vector search implementation allows for finding relevant Things based on mea
 To perform a vector search:
 
 ```typescript
-import { searchThings } from '../tasks/searchThings'
+import { searchResources } from '../tasks/searchResources'
 
-// Search for Things similar to the query
-const results = await searchThings('artificial intelligence applications', 10)
+// Search for Resources similar to the query
+const results = await searchResources('artificial intelligence applications', 10)
 ```
 
 ### Hybrid Search
@@ -38,10 +38,10 @@ const results = await searchThings('artificial intelligence applications', 10)
 To perform a hybrid search (combining vector and text search):
 
 ```typescript
-import { hybridSearchThings } from '../tasks/searchThings'
+import { hybridSearchResources } from '../tasks/searchResources'
 
-// Search for Things using both vector and text search
-const results = await hybridSearchThings('machine learning models', 10)
+// Search for Resources using both vector and text search
+const results = await hybridSearchResources('machine learning models', 10)
 ```
 
 ### Using the Searches Collection
@@ -62,18 +62,18 @@ The Searches collection has been updated to support vector search:
 
 ### Vector Index Creation
 
-To create the vector index for the Things collection:
+To create the vector index for the Resources collection:
 
 ```bash
 node scripts/createVectorIndex.ts
 ```
 
-### Generate Embeddings for Existing Things
+### Generate Embeddings for Existing Resources
 
-To generate embeddings for all existing Thing documents:
+To generate embeddings for all existing Resource documents:
 
 ```bash
-node scripts/generateAllEmbeddings.ts
+node scripts/generateAllResourceEmbeddings.ts
 ```
 
 ## Technical Details

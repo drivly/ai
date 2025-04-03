@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/database.do.svg)](https://npmjs.org/package/database.do)
 [![License](https://img.shields.io/npm/l/database.do.svg)](https://github.com/drivly/ai/blob/main/LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/tafnNeUQdm)
 [![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
@@ -365,8 +365,19 @@ The SDK itself is designed to be lightweight with zero dependencies except for `
 
 - **Nouns** - Categories or types of things in your system (like Customer, Product, Order)
 - **Verbs** - Actions that can be performed (like Create, Update, Delete)
-- **Things** - Specific instances of Nouns (a particular Customer, Product, or Order)
-- **Actions** - Relationships between Things in Subject-Predicate-Object format
+- **Resources** - Specific instances of Nouns (a particular Customer, Product, or Order)
+- **Actions** - Relationships between Resources in Subject-Predicate-Object format
+- **Databases** - Configurations for database storage (Integrated, Dedicated, or Self-Hosted)
+
+### Database Configuration
+
+You can configure different types of databases for your application:
+
+- **Integrated** - Uses the platform's integrated collections with flexible or enforced schema
+- **Dedicated** - Dedicated database instances (MongoDB, PostgreSQL, or SQLite) in specific AWS regions
+- **Self-Hosted** - Self-managed database instances (MongoDB, PostgreSQL, or SQLite) with your own configuration
+
+These database configurations determine how your data is stored, accessed, and managed within the platform.
 
 ### Subject-Predicate-Object Pattern
 
@@ -374,7 +385,7 @@ At the heart of our data model is the natural language pattern of Subject-Predic
 
 ```mermaid
 graph LR
-    A[Subject<br/>(Thing)] -->|Predicate<br/>(Verb)| B[Object<br/>(Thing)]
+    A[Subject<br/>(Resource)] -->|Predicate<br/>(Verb)| B[Object<br/>(Resource)]
     style A fill:#f9f,stroke:#333,stroke-width:2px
     style B fill:#bbf,stroke:#333,stroke-width:2px
 ```
@@ -383,17 +394,19 @@ The complete data model relationship can be visualized as:
 
 ```mermaid
 graph TD
-    Nouns[Nouns<br/>Categories/Types] -->|defines| Things[Things<br/>Instances]
+    Nouns[Nouns<br/>Categories/Types] -->|defines| Resources[Resources<br/>Instances]
     Verbs[Verbs<br/>Action Types] -->|defines| Predicates[Predicates<br/>in Actions]
-    Things -->|Subject| Actions[Actions<br/>S-P-O Relationships]
+    Resources -->|Subject| Actions[Actions<br/>S-P-O Relationships]
     Predicates -->|Predicate| Actions
-    Things -->|Object| Actions
+    Resources -->|Object| Actions
+    Databases -->|stores| Resources
     
     style Nouns fill:#f9f,stroke:#333,stroke-width:2px
     style Verbs fill:#bbf,stroke:#333,stroke-width:2px
-    style Things fill:#ff9,stroke:#333,stroke-width:2px
+    style Resources fill:#ff9,stroke:#333,stroke-width:2px
     style Actions fill:#9f9,stroke:#333,stroke-width:2px
     style Predicates fill:#99f,stroke:#333,stroke-width:2px
+    style Databases fill:#f99,stroke:#333,stroke-width:2px
 ```
 
 For example:
@@ -425,8 +438,8 @@ const purchaseVerb = await db.verbs.create({
   description: 'The act of buying a product or service',
 })
 
-// Create Things (instances of Nouns)
-const startupCustomer = await db.things.create({
+// Create Resources (instances of Nouns)
+const startupCustomer = await db.resources.create({
   name: 'TechStartup Inc.',
   type: customerNoun.id,
   data: {
@@ -437,7 +450,7 @@ const startupCustomer = await db.things.create({
   },
 })
 
-const saasProduct = await db.things.create({
+const saasProduct = await db.resources.create({
   name: 'AI Analytics Platform',
   type: productNoun.id,
   data: {

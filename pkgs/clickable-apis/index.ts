@@ -214,7 +214,7 @@ export const createAPI = (
           repo: 'https://github.com/drivly/ai',
           sdk: `https://npmjs.com/${getDomainPackageName(domain)}`,
           site: getDomainSite(domain),
-          chat: 'https://discord.gg/a87bSRvJkx',
+          chat: 'https://discord.gg/tafnNeUQdm',
           issues: 'https://github.com/drivly/ai/issues',
           with: 'https://apis.do',
           from: 'https://agi.do',
