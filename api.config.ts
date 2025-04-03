@@ -58,7 +58,6 @@ export const apis: Record<string, string> = {
   agents: 'Deploy & Manage Autonomous Digital Workers',
   nouns: 'People, Places, Things, and Ideas',
   verbs: 'The Actions Performed to and by Nouns',
-  things: 'Data Resources with Properties',
   resources: 'Structured Data Objects',
   triggers: 'Initiate workflows based on events',
   searches: 'Query and retrieve data',

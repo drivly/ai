@@ -1,7 +1,7 @@
 import { API } from '@/lib/api'
 import { apis } from '@/api.config'
 import { collectionSlugs } from '@/collections/index'
-import { domainsConfig } from '@/domains.config'
+import { domainsConfig, primaryCollectionSlugs } from '@/domains.config'
 
 export const GET = API(async (request, { db, user, params }) => {
   const { api } = params as { api: string }
@@ -14,7 +14,7 @@ export const GET = API(async (request, { db, user, params }) => {
   if (!apiExists && !isAlias) {
     return {
       error: true,
-      message: `API '${api}' not found. Available APIs: ${Object.keys(apis).join(', ')}`,
+      message: `API '${api}' not found. Available APIs: ${primaryCollectionSlugs.map(slug => `${slug}: origin/${slug}`).join(', ')}`,
       statusCode: 404,
     }
   }
