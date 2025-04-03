@@ -23,7 +23,7 @@ export const Social = () => {
       <button
         type="button"
         className='h-[40px] w-full cursor-pointer gap-[8px] text-[14px] leading-[22px] border rounded-md px-4 py-2 flex items-center justify-center'
-        disabled={isPending && pendingProviderRef.current === 'github'}
+        disabled={isPending}
         onClick={() => handleOAuthLogin('github')}>
         <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
           <path
@@ -35,7 +35,7 @@ export const Social = () => {
       <button
         type="button"
         className='h-[40px] w-full cursor-pointer gap-[8px] text-[14px] leading-[22px] border rounded-md px-4 py-2 flex items-center justify-center'
-        disabled={isPending && pendingProviderRef.current === 'google'}
+        disabled={isPending}
         onClick={() => handleOAuthLogin('google')}>
         <svg xmlns='http://www.w3.org/2000/svg' width='0.98em' height='1em' viewBox='0 0 256 262'>
           <path
