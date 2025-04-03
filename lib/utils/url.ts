@@ -1,6 +1,9 @@
 /**
  * Gets the current URL based on the execution environment
  * Supports request headers, Vercel preview deployments, client-side detection, and fallbacks
+ * Handles all possible URL patterns for Vercel deployments including:
+ * - Standard pattern: ai-git-{branch-name}.dev.driv.ly
+ * - Short hash pattern: ai-kexlbudi2.dev.driv.ly
  */
 export const getCurrentURL = (headers?: Headers) => {
   if (headers?.get('host')) return `https://${headers.get('host')}`
