@@ -210,6 +210,17 @@ function createAPIAccess(): APIAccess {
  * @returns Database access object
  */
 function createDatabaseAccess(): DatabaseAccess {
+  if (typeof globalThis.DURABLE_OBJECT !== 'undefined' && globalThis.DURABLE_OBJECT) {
+    const storage = globalThis.DURABLE_OBJECT.storage;
+    if (storage) {
+      try {
+        return storage as unknown as DatabaseAccess;
+      } catch (error) {
+        console.error('Error initializing durable-objects-nosql:', error);
+      }
+    }
+  }
+  
   return new Proxy({} as DatabaseAccess, {
     get: (target, collection: string) => {
       return {
