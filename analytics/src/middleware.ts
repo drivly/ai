@@ -48,21 +48,12 @@ export async function analyticsMiddleware(
         ip,
         userAgent,
         referer,
+        headers: Object.fromEntries(headers),
         timestamp: Date.now()
       }
       
       const promises = [
-        analyticsService.trackRequest({
-          method,
-          path: pathname,
-          hostname,
-          status: response.status,
-          latency,
-          userId,
-          ip,
-          userAgent,
-          referer,
-        }).catch(err => console.error('Failed to track request:', err))
+        analyticsService.trackRequest(requestData).catch(err => console.error('Failed to track request:', err))
       ]
       
       if (process.env.PIPELINE_URL) {
