@@ -6,8 +6,9 @@ import Link from 'next/link'
 import { useState, useEffect, use } from 'react'
 import { LlmsdoLogo } from './llms-do-logo'
 import { FaGithub, FaDiscord } from 'react-icons/fa'
+import { MobileNav } from './mobile-nav'
 
-export function Navbar({ params }: { params: Promise<{ domain?: string }> }) {
+export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }) {
   const domain = use(params).domain
 
   const [isOpen, setIsOpen] = useState(false)
@@ -78,7 +79,7 @@ export function Navbar({ params }: { params: Promise<{ domain?: string }> }) {
 
         {/* Mobile menu button */}
         <button className='ml-auto p-2 md:hidden' onClick={() => setIsOpen(!isOpen)} aria-label='Toggle menu' aria-expanded={isOpen}>
-          <div className='flex h-5 w-6 flex-col justify-between'>
+          <div className='flex h-5 w-6 flex-col justify-between border border-transparent'>
             <span className={`h-0.5 w-full transform bg-current transition-transform ${isOpen ? 'translate-y-2 rotate-45' : ''}`}></span>
             <span className={`h-0.5 w-full bg-current transition-opacity ${isOpen ? 'opacity-0' : 'opacity-100'}`}></span>
             <span className={`h-0.5 w-full transform bg-current transition-transform ${isOpen ? '-translate-y-2 -rotate-45' : ''}`}></span>
@@ -87,56 +88,7 @@ export function Navbar({ params }: { params: Promise<{ domain?: string }> }) {
       </div>
 
       {/* Mobile menu - simplified */}
-      {isOpen && (
-        <div className='bg-background/95 backdrop-blur-md md:hidden'>
-          <nav className='container px-4 py-6'>
-            <ul className='flex flex-col space-y-6'>
-              <li>
-                <Link className='hover:text-primary flex items-center text-lg font-medium text-gray-200 transition-colors' href='/sites/blog' onClick={() => setIsOpen(false)}>
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className='hover:text-primary flex items-center text-lg font-medium text-gray-200 transition-colors'
-                  href='https://github.com/drivly/ai'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  onClick={() => setIsOpen(false)}>
-                  <FaGithub className='mr-2 h-5 w-5' />
-                  GitHub
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className='hover:text-primary flex items-center text-lg font-medium text-gray-200 transition-colors'
-                  href='https://discord.gg/qus39VeA'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  onClick={() => setIsOpen(false)}>
-                  <FaDiscord className='mr-2 h-5 w-5' />
-                  Discord
-                </Link>
-              </li>
-              <li className='pt-4'>
-                <Link
-                  className={cn(
-                    buttonVariants({
-                      variant: 'default',
-                    }),
-                    'w-full justify-center text-sm',
-                  )}
-                  href='https://apis.do/'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  onClick={() => setIsOpen(false)}>
-                  View Docs
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      )}
+      {isOpen && <MobileNav isOpen={isOpen} handleClose={() => setIsOpen(false)} />}
     </header>
   )
 }
