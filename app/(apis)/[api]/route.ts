@@ -14,7 +14,7 @@ export const GET = API(async (request, { db, user, params }) => {
   if (!apiExists && !isAlias) {
     return {
       error: true,
-      message: `API '${api}' not found. Available APIs: ${primaryCollectionSlugs.join(', ')}`,
+      message: `API '${api}' not found. Available APIs: ${primaryCollectionSlugs.map(slug => `${slug}: origin/${slug}`).join(', ')}`,
       statusCode: 404,
     }
   }
