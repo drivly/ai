@@ -1,6 +1,6 @@
 // storage-adapter-import-placeholder
 // import { payloadAgentPlugin } from '@drivly/payload-agent'
-// import { payloadBetterAuth } from '@payload-auth/better-auth-plugin'
+import { payloadBetterAuth } from '@payload-auth/better-auth-plugin'
 import { createHooksQueuePlugin } from './pkgs/payload-hooks-queue/src'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -97,7 +97,7 @@ export default buildConfig({
     //   // suggestions: suggestedActions,
     // }),
     createHooksQueuePlugin({}),
-    // payloadBetterAuth(payloadBetterAuthOptions),
+    payloadBetterAuth(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     // storage-adapter-placeholder
    
