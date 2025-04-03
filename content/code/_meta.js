@@ -1,5 +1,5 @@
 export default {
-  index: 'Database SDK Tutorial',
+  index: 'Overview',
   types: '',
   modules: '',
   packages: '',

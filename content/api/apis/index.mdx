@@ -1,0 +1,95 @@
+# [APIs.do](https://apis.do) - Clickable Developer Experiences
+
+> **Economically valuable work delivered through simple APIs**
+
+## Overview
+
+APIs.do is the unified API Gateway for all domains and services in the `.do` ecosystem. This SDK provides a simple, type-safe way to interact with the entire `.do` universe, enabling seamless integration with Functions.do, Workflows.do, Agents.do, and other services through a consistent, developer-friendly interface.
+
+## Key Features
+
+- **Universal Gateway** - Single entry point to all `.do` services and domains
+- **Simple Authentication** - Secure API key-based authentication
+- **RESTful Operations** - Complete CRUD support for all collections
+- **Advanced Querying** - Powerful search, filtering, and pagination capabilities
+- **Type Safety** - Full TypeScript support with generics for end-to-end type safety
+- **Cross-Platform** - Works in Node.js, browsers, and edge environments
+- **Minimal Dependencies** - Lightweight with zero external runtime dependencies
+- **Comprehensive Error Handling** - Detailed error information and recovery options
+
+## Installation
+
+```bash
+# Using npm
+npm install apis.do
+
+# Using yarn
+yarn add apis.do
+
+# Using pnpm
+pnpm add apis.do
+```
+
+## The `.do` Ecosystem
+
+APIs.do provides unified access to the entire `.do` ecosystem:
+
+```json
+{
+  "ai": {
+    "Functions - Typesafe Results without Complexity": "https://functions.do/api",
+    "Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
+    "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
+  },
+  "events": {
+    "Triggers - Initiate workflows based on events": "https://triggers.do",
+    "Searches - Query and retrieve data": "https://searches.do",
+    "Actions - Perform tasks within workflows": "https://actions.do"
+  },
+  "core": {
+    "LLM - Intelligent AI Gateway": "https://llm.do",
+    "Evals - Evaluate Functions, Workflows, and Agents": "https://evals.do",
+    "Analytics - Economically Validate Workflows": "https://analytics.do",
+    "Experiments - Economically Validate Workflows": "https://experiments.do",
+    "Database - AI Native Data Access (Search + CRUD)": "https://database.do",
+    "Integrations - Connect External APIs and Systems": "https://integrations.do"
+  }
+}
+```
+
+## Quick Start
+
+```typescript
+import { API } from 'apis.do'
+
+// Initialize the client
+const api = new API({
+  apiKey: 'your-api-key', // Optional: API key for authenticated requests
+})
+
+// Basic CRUD operations
+const getUsers = async () => {
+  const users = await api.users.find()
+  console.log(users)
+}
+
+const getUserById = async (id: string) => {
+  const user = await api.users.get(id)
+  console.log(user)
+}
+
+const createUser = async (userData: any) => {
+  const newUser = await api.users.create(userData)
+  console.log(newUser)
+}
+
+const updateUser = async (id: string, userData: any) => {
+  const updatedUser = await api.users.update(id, userData)
+  console.log(updatedUser)
+}
+
+const deleteUser = async (id: string) => {
+  await api.users.delete(id)
+  console.log('User deleted')
+}
+```

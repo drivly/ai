@@ -2,8 +2,8 @@ export default {
   index: 'Overview',
   nouns: '',
   verbs: '',
-  resources: '',
-  actions: '',
   database: '',
+  resources: '',
+  relationships: '',
   'database-sdk-tutorial': 'Database SDK Tutorial',
 }

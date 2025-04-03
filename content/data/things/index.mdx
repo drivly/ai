@@ -1,0 +1,20 @@
+# Resources
+
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+
+export default function ThingsRedirect() {
+  const router = useRouter()
+  
+  useEffect(() => {
+    router.replace('/docs/resources')
+  }, [router])
+  
+  return (
+    <div>
+      <h1>Resources</h1>
+      <p>This page has moved to <a href="/docs/resources">Resources</a>.</p>
+      <p>You will be redirected automatically.</p>
+    </div>
+  )
+}

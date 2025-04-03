@@ -1,9 +1,8 @@
 export default {
   index: 'Overview',
-  metrics: '',
-  tests: '',
   benchmarks: '',
+  evals: '',
+  runs: 'Eval Runs',
+  results: 'Eval Results',
   datasets: '',
-  runs: '',
-  results: '',
 }
