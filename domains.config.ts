@@ -239,7 +239,7 @@ export function isAIGateway(domain: string): boolean {
   if (domainsConfig.domains[domain]?.isAIGateway) {
     return true
   }
-
+  
   return domainsConfig.aiGateways.some((pattern) => {
     if (pattern.startsWith('*.')) {
       const suffix = pattern.substring(1)
@@ -268,6 +268,7 @@ export function getGlowColor(domain: string): string {
 }
 
 export const domains = [
+  'do.com.ai',
   'action.do',
   'actions.do',
   'agents.do',
