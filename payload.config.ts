@@ -1,6 +1,7 @@
 // storage-adapter-import-placeholder
-import { payloadAgentPlugin } from '@drivly/payload-agent'
+// import { payloadAgentPlugin } from '@drivly/payload-agent'
 import { payloadBetterAuth } from '@payload-auth/better-auth-plugin'
+import { createHooksQueuePlugin } from './pkgs/payload-hooks-queue/src'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
@@ -87,14 +88,15 @@ export default buildConfig({
   },
   sharp,
   plugins: [
-    payloadAgentPlugin({
-      aiAvatar: '/ai.webp',
-      defaultMessage: "I'm the AI assistant for Workflows.do. Ask me anything about the platform.",
-      direction: 'horizontal',
-      type: 'resizable',
-      logo: '/DrivlyLogo.svg',
-      // suggestions: suggestedActions,
-    }),
+    // payloadAgentPlugin({
+    //   aiAvatar: '/ai.webp',
+    //   defaultMessage: "I'm the AI assistant for Workflows.do. Ask me anything about the platform.",
+    //   direction: 'horizontal',
+    //   type: 'resizable',
+    //   logo: '/DrivlyLogo.svg',
+    //   // suggestions: suggestedActions,
+    // }),
+    createHooksQueuePlugin({}),
     payloadBetterAuth(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     // storage-adapter-placeholder

@@ -2,6 +2,7 @@ import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
 import { generateFunctionExamplesTask } from '../../tasks/generateFunctionExamples'
+import { on } from '../../pkgs/payload-hooks-queue/src'
 
 export const Functions: CollectionConfig = {
   slug: 'functions',
@@ -11,46 +12,18 @@ export const Functions: CollectionConfig = {
   },
   // versions: true,
   hooks: {
-    afterChange: [
-      async ({ doc, req }) => {
-        const { payload } = req
-        
-        if (doc.type === 'Code' && doc.code) {
-          try {
-            const job = await payload.jobs.queue({
-              task: 'processCodeFunction',
-              input: {
-                functionId: doc.id
-              }
-            })
-            
-            console.log(`Queued process code function for ${doc.name}`, job)
-            waitUntil(payload.jobs.runByID({ id: job.id }))
-          } catch (error) {
-            console.error('Error queueing processCodeFunction task:', error)
-          }
-        }
-        
-        if (!doc.examples || doc.examples.length === 0) {
-          try {
-            const job = await payload.jobs.queue({
-              task: generateFunctionExamplesTask.slug,
-              input: {
-                functionId: doc.id,
-                count: 3
-              }
-            })
-            
-            console.log(`Queued example generation for ${doc.name}`, job)
-            waitUntil(payload.jobs.runByID({ id: job.id }))
-          } catch (error) {
-            console.error('Error queueing generateFunctionExamples task:', error)
-          }
-        }
-        
-        return doc
+    ...on('afterChange', [
+      { 
+        slug: 'processCodeFunction', 
+        condition: 'doc.type === "Code" && doc.code',
+        input: { functionId: 'doc.id' }
       },
-    ],
+      { 
+        slug: 'generateFunctionExamples', 
+        condition: '!doc.examples || doc.examples.length === 0',
+        input: { functionId: 'doc.id', count: 3 }
+      }
+    ])
   },
   fields: [
     // {

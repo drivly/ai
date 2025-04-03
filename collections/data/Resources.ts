@@ -1,6 +1,7 @@
 import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
+import { on } from '../../pkgs/payload-hooks-queue/src'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
@@ -35,28 +36,12 @@ export const Resources: CollectionConfig = {
         }
       },
     ],
-    afterChange: [
-      async ({ doc, req }) => {
-        try {
-          const { payload } = req
-          
-          const job = await payload.jobs.queue({
-            task: 'generateThingEmbedding',
-            input: {
-              id: doc.id
-            }
-          })
-          
-          console.log(`Queued embedding generation for resource ${doc.id}`, job)
-          waitUntil(payload.jobs.runByID({ id: job.id }))
-          
-          return doc
-        } catch (error) {
-          console.error('Error queueing generateResourceEmbedding task:', error)
-          return doc
-        }
-      },
-    ],
+    ...on('afterChange', {
+      slug: 'generateThingEmbedding',
+      input: {
+        id: 'doc.id'
+      }
+    }),
     afterRead: [
       async (args) => {
         const { doc } = args

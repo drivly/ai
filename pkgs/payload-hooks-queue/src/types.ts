@@ -1,9 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
+import type { Plugin } from 'payload'
+
 /**
  * Interface for a Payload plugin
  */
-export interface PayloadPlugin {
+export interface PayloadPlugin extends Omit<Plugin, 'collections'> {
   collections?: (collections: any[]) => any[]
   globals?: (globals: any[]) => any[]
   endpoints?: (endpoints: any[]) => any[]
@@ -30,6 +32,18 @@ export interface HookHandlerOptions {
 export interface TaskConfig {
   slug: string
   input?: Record<string, any>
+  condition?: string | ((options: HookHandlerOptions) => boolean)
+  /**
+   * @description String conditions are evaluated in a context with access to:
+   * - data: The data being processed (for beforeChange) or the document (for afterChange)
+   * - doc: The document (same as data for afterChange)
+   * - originalDoc: The original document before changes
+   * - id: The document ID
+   * - collection: The collection name
+   * - operation: The operation type ('create', 'update', or 'delete')
+   * 
+   * Example: 'doc.type === "Code" && doc.code'
+   */
 }
 
 /**
