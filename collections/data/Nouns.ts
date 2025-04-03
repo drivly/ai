@@ -1,5 +1,6 @@
 import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
+import { on } from '../../pkgs/payload-hooks-queue/src'
 
 export const Nouns: CollectionConfig = {
   slug: 'nouns',
@@ -21,30 +22,14 @@ export const Nouns: CollectionConfig = {
     { name: 'resources', type: 'join', collection: 'resources', on: 'type' },
   ],
   hooks: {
-    beforeChange: [
-      async ({ data, req }) => {
-        if (data.name && (!data.singular || !data.plural || !data.possessive || !data.pluralPossessive || 
-            !data.verb || !data.act || !data.activity || !data.event)) {
-          try {
-            const { payload } = req
-            
-            const jobResult = await payload.jobs.queue({
-              task: 'executeFunction',
-              input: {
-                functionName: 'inflectNouns',
-                args: { noun: data.name }
-              }
-            })
-            
-            console.log('Queued noun semantics job:', jobResult)
-            waitUntil(payload.jobs.runByID({ id: jobResult.id }))
-          } catch (error) {
-            console.error('Error processing noun semantics:', error)
-          }
-        }
-        return data
-      }
-    ],
+    ...on('beforeChange', {
+      slug: 'executeFunction',
+      input: {
+        functionName: 'inflectNouns',
+        args: { noun: 'data.name' }
+      },
+      condition: 'data.name && (!data.singular || !data.plural || !data.possessive || !data.pluralPossessive || !data.verb || !data.act || !data.activity || !data.event)'
+    }),
     afterChange: [
       async ({ doc, operation, req }) => {
         if (operation === 'create' || operation === 'update') {
@@ -52,18 +37,6 @@ export const Nouns: CollectionConfig = {
               !doc.verb || !doc.act || !doc.activity || !doc.event)) {
             try {
               const { payload } = req
-              
-              const jobResult = await payload.jobs.queue({
-                task: 'executeFunction',
-                input: {
-                  functionName: 'inflectNouns',
-                  args: { noun: doc.name }
-                }
-              })
-              
-              console.log('Noun semantics job result:', jobResult)
-              waitUntil(payload.jobs.runByID({ id: jobResult.id }))
-              
               const updateData: Record<string, string> = {}
               
               if (!doc.singular) updateData.singular = doc.name
@@ -97,7 +70,7 @@ export const Nouns: CollectionConfig = {
                 }
               }
             } catch (error) {
-              console.error('Error processing noun semantics in afterChange:', error)
+              console.error('Error updating noun with semantic values:', error)
             }
           }
         }
