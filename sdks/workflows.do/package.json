@@ -36,7 +36,8 @@
   "dependencies": {
     "apis.do": "workspace:*",
     "functions.do": "workspace:*",
-    "database.do": "workspace:*"
+    "database.do": "workspace:*",
+    "durable-objects-nosql": "workspace:*"
   },
   "devDependencies": {
     "evalite": "^0.9.1",

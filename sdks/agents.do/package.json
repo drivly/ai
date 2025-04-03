@@ -52,6 +52,9 @@
   },
   "dependencies": {
     "agents": "latest",
-    "apis.do": "workspace:*"
+    "apis.do": "workspace:*",
+    "workflows.do": "workspace:*",
+    "agentic.md": "^0.1.0",
+    "durable-objects-nosql": "workspace:*"
   }
 }
