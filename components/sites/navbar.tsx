@@ -42,9 +42,13 @@ export function Navbar({ params }: { params: Promise<{ domain?: string }> }) {
       )}>
       <div className='container mx-auto flex h-14 items-center justify-between px-3 sm:px-8 md:px-8 lg:px-8'>
         <LlmsdoLogo domain={domain} />
-        <Link className='hidden md:block hover:text-primary absolute left-1/2 mr-6 -translate-x-1/2 transform text-sm font-semibold text-gray-500 transition-colors' href={`/sites/${domain}/blog`}>
-          Blog
-        </Link>
+        {domain && (
+          <Link
+            className='hover:text-primary absolute left-1/2 mr-6 hidden -translate-x-1/2 transform text-sm font-semibold text-gray-500 transition-colors md:block'
+            href={`/sites/${domain}/blog`}>
+            Blog
+          </Link>
+        )}
 
         {/* Desktop navigation */}
         <div className='hidden h-full items-center justify-end space-x-4 md:flex'>
@@ -56,7 +60,7 @@ export function Navbar({ params }: { params: Promise<{ domain?: string }> }) {
             <FaDiscord className='h-5 w-5' />
             <span className='sr-only'>Discord</span>
           </Link>
-    
+
           <Link
             className={cn(
               buttonVariants({

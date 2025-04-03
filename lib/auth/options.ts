@@ -6,10 +6,12 @@ import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import { getCurrentURL } from '../utils/url'
 
-export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), oAuthProxy({ 
+export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), 
+  oAuthProxy({ 
   productionURL: 'https://apis.do',
   currentURL: getCurrentURL()
-})]
+})
+]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
 

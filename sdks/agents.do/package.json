@@ -46,15 +46,16 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240320.1",
     "evalite": "^0.9.1",
     "typescript": "^5.7.3",
     "vitest": "^3.0.9"
   },
   "dependencies": {
+    "agentic.md": "^0.1.0",
     "agents": "latest",
     "apis.do": "workspace:*",
-    "workflows.do": "workspace:*",
-    "agentic.md": "^0.1.0",
-    "durable-objects-nosql": "workspace:*"
+    "durable-objects-nosql": "workspace:*",
+    "workflows.do": "workspace:*"
   }
 }
