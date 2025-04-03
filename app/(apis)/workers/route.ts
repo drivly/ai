@@ -78,7 +78,7 @@ export async function PATCH(request) {
   return await handleWorkerRequest(request)
 }
 
-export async function handleWorkerRequest(request) {
+async function handleWorkerRequest(request) {
   const headersList = headers()
   const authHeader = headersList.get('Authorization')
   const sharedSecret = process.env.WORKERS_API_SECRET
