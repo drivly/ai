@@ -126,7 +126,7 @@ export const domainDescriptions: Record<string, string> = {
   'amy.do': 'Personal AI Assistant',
   'ari.do': 'AI Research Interface',
   'barcode.do': 'Barcode Generation and Scanning',
-  'bdr.do': 'BDR - Business Development Resources',
+  'bdr.do': 'Business Development Resources',
   'benchmarks.do': 'Performance Testing and Comparison',
   'blogs.do': 'Content Management and Publishing',
   'bots.do': 'Automated Task Execution',
