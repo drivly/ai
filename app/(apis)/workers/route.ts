@@ -14,7 +14,7 @@ export const GET = API(async (request, { origin, url, payload }) => {
   const page = parseInt(searchParams.get('page') || '1')
   const limit = parseInt(searchParams.get('limit') || '20')
   
-  let workers = {}
+  let workers: Record<string, string> = {}
   try {
     const deployments = await payload.find({
       collection: 'deployments',
@@ -22,14 +22,14 @@ export const GET = API(async (request, { origin, url, payload }) => {
       page,
     })
     
-    deployments.docs.forEach(deployment => {
+    deployments.docs.forEach((deployment: { name?: string }) => {
       if (deployment.name) {
         workers[deployment.name] = `${origin}/workers/${deployment.name}`
       }
     })
     
     const baseUrl = `${origin}/workers`
-    const links = {
+    const links: Record<string, string> = {
       home: baseUrl,
     }
     
@@ -52,7 +52,7 @@ export const GET = API(async (request, { origin, url, payload }) => {
     console.error('Error fetching workers:', error)
     
     const baseUrl = `${origin}/workers`
-    const links = {
+    const links: Record<string, string> = {
       home: baseUrl,
     }
     

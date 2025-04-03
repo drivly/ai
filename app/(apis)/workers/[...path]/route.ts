@@ -67,7 +67,6 @@ export const GET = API(async (request, { params, url }) => {
     
     return {
       error: 'Error proxying request',
-      message: error.message,
       status: 500
     }
   }
@@ -141,7 +140,6 @@ export const POST = API(async (request, { params, url }) => {
     
     return {
       error: 'Error proxying request',
-      message: error.message,
       status: 500
     }
   }
@@ -212,7 +210,6 @@ export const PUT = API(async (request, { params, url }) => {
     
     return {
       error: 'Error proxying request',
-      message: error.message,
       status: 500
     }
   }
@@ -280,7 +277,6 @@ export const DELETE = API(async (request, { params, url }) => {
     
     return {
       error: 'Error proxying request',
-      message: error.message,
       status: 500
     }
   }
@@ -351,7 +347,6 @@ export const PATCH = API(async (request, { params, url }) => {
     
     return {
       error: 'Error proxying request',
-      message: error.message,
       status: 500
     }
   }
