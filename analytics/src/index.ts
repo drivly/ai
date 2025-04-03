@@ -12,6 +12,7 @@ export interface ClickhouseConfig {
 
 export class ClickhouseClient {
   private client
+  private databaseName: string
 
   constructor(config: ClickhouseConfig) {
     let url = config.url
@@ -21,12 +22,14 @@ export class ClickhouseClient {
         `${config.host}:${config.port}` : 
         config.host
     }
+    
+    this.databaseName = config.database || 'default'
       
     this.client = createClient({
       url,
       username: config.username || 'default',
       password: config.password || '',
-      database: config.database || 'default',
+      database: this.databaseName,
     })
   }
 
@@ -40,6 +43,13 @@ export class ClickhouseClient {
       const data = await result.json<T>()
       return data
     } catch (error: any) {
+      if (error.type === 'UNKNOWN_DATABASE' || 
+          (error.message && error.message.includes('Database') && 
+           error.message.includes('does not exist'))) {
+        await this.createDatabase()
+        return this.query<T>(query, params)
+      }
+      
       if (error.message && (
           error.message.includes('Table') && 
           error.message.includes('doesn\'t exist') || 
@@ -62,6 +72,18 @@ export class ClickhouseClient {
       throw new Error(`No schema defined for table: ${table}`)
     }
     await this.createTable(table, schema)
+  }
+
+  async createDatabase(): Promise<void> {
+    try {
+      await this.client.query({
+        query: `CREATE DATABASE IF NOT EXISTS ${this.databaseName}`,
+      })
+      console.log(`Created database: ${this.databaseName}`)
+    } catch (error: any) {
+      console.error(`Error creating database:`, error)
+      throw new Error(`Failed to create database: ${error.message || String(error)}`)
+    }
   }
 
   async createTable(tableName: string, schema: string): Promise<void> {
@@ -108,6 +130,13 @@ export class ClickhouseClient {
         format: 'JSONEachRow',
       })
     } catch (error: any) {
+      if (error.type === 'UNKNOWN_DATABASE' || 
+          (error.message && error.message.includes('Database') && 
+           error.message.includes('does not exist'))) {
+        await this.createDatabase()
+        return this.insert(table, data)
+      }
+      
       if (error.message && (
           error.message.includes('Table') && 
           error.message.includes('doesn\'t exist') || 
