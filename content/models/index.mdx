@@ -50,7 +50,67 @@ To support all of the above, we need to be able to express the following:
 - Routing based on business requirements, region, and other constraints
 - Optimization priorities for different use cases
 
-### Priority Dimensions
+### MRL Syntax
+
+`[author/model@host:location]([capability, priority, filters, tools and/or response formats])`
+
+Within a single expression, you can specify:
+- Model Author
+- Model
+- Provider
+- Filters
+- Capabilities
+- Priorities
+- Tools
+- Response Formats
+- + more
+
+#### Providers
+
+Providers are the AI companies that host the models. Often, this is the same as the author of a model, like with OpenAI's GPT-4o, or Anthropic's Claude.  
+You can pin a specific provider by using the `@` symbol at the end of the model name:
+
+`claude-3.7-sonnet@vertex`
+
+This will route the request to the Google Vertex AI provider.
+
+##### Examples
+- `openai/gpt-4o`
+- `anthropic/claude-3.7-sonnet`
+- `google/gemini-2.5-pro`
+
+#### Models
+
+Models are the specific instances of a model. Our API has aliases for most popular models, so you can type simply `gpt-4o` or `claude-3.7-sonnet` and we'll route you to the right place.
+
+For smaller models, like Mistral's `mistral-small-3.1-24b-instruct`, you will have to
+specify the full model name. Take Gemma 3 for example, it's a great model thats cheap and fast, but theres a lot of variants:
+
+- `gemma-3-27b-it`
+- `gemma-3-12b-it`
+- `gemma-3-4b-it`
+- `gemma-3-1b-it`
+
+Theres no set standard for how a model is named, which leads to a lot of confusion. We've tried to make it as easy as possible by providing aliases for the most popular models:
+
+##### Example aliases
+- `gpt-4o` -> `openai/gpt-4o-2024-11-20`
+- `claude-3.7-sonnet` -> `anthropic/claude-3.7-sonnet`
+- `gemini-2.5-pro` -> `gemini-2.5-pro-exp-03-25`
+- `gemini-2.0-flash` -> `gemini-2.0-flash-001`
+
+### Location
+
+Depending on what you're doing, you may need to use a specific region to comply with data protection laws. You can specify a region by using a specific provider and location:
+
+`claude-3.7-sonnet@vertex:eu`
+
+This will route the request to the Google Vertex AI provider in Europe.
+
+#### Examples
+  - `claude-3.7-sonnet@vertex:eu`
+
+### Priorities
 
 MRL allows specifying optimization priorities to select the best model for specific needs:
 
@@ -93,6 +153,28 @@ Filters can be applied to:
 
 Filters function as hard requirements, ensuring selected models meet all specified thresholds.
 
+#### Benchmarks
+
+You can specify a benchmark where the model must have a score of at least the value specified. You can use your own benchmarks by using the name in the config:
+
+Lets say you have the following benchmark:
+
+```json
+{
+  "slug": "dealReviewBenchmark",
+  "name": "Deal Review Benchmark",
+  ...
+}
+```
+
+You can then use this benchmark in your MRL expression:
+
+```
+frontier(dealReviewBenchmark>75)
+```
+
+This will route to the model that has the highest score on the Deal Review Benchmark.
+
 ### Tool Calling
 
 MRL seamlessly integrates tools with Composio, enabling precise specification of which tools a model should have access to:
@@ -120,7 +202,7 @@ This approach allows for granular security control while maintaining the simplic
 
 The tool calling syntax integrates with the rest of MRL, so expressions like `frontier(reasoning,github,cost<5)` can specify both tool access and other constraints.
 
-<div style={{ fontSize: '1rem', backgroundColor: '#1a1a1a', padding: '1rem', borderRadius: '4px' }}>
+<div style={{ backgroundColor: '#1a1a1a', padding: '1rem', borderRadius: '4px' }}>
   <b>Note:</b>  
   We need to have further discussion on how to handle tool calling with config. Right now, the best option is to use a format like this:
   `gemini(slack.sendMessage(channel:#sales,title:'New Thread'))`
