@@ -56,11 +56,14 @@ export class ClickhouseClient {
         return this.query<T>(query, params)
       }
       
-      if (error.message && (
-          error.message.includes('Table') && 
-          error.message.includes('doesn\'t exist') || 
-          error.message.includes('no such table')
-        )) {
+      if (error.type === 'UNKNOWN_TABLE' ||
+          error.code === '60' ||
+          (error.message && (
+            error.message.includes('Table') && 
+            (error.message.includes('doesn\'t exist') || 
+            error.message.includes('does not exist') ||
+            error.message.includes('no such table'))
+          ))) {
         const tableMatch = query.match(/FROM\s+([^\s,();]+)/i)
         if (tableMatch && tableMatch[1]) {
           const tableName = tableMatch[1]
@@ -73,11 +76,13 @@ export class ClickhouseClient {
   }
 
   private async createTableAndRetry(table: string): Promise<void> {
-    const schema = tableSchemas[table]
+    const tableName = table.includes('.') ? table.split('.').pop() || table : table
+    
+    const schema = tableSchemas[tableName]
     if (!schema) {
-      throw new Error(`No schema defined for table: ${table}`)
+      throw new Error(`No schema defined for table: ${tableName}`)
     }
-    await this.createTable(table, schema)
+    await this.createTable(tableName, schema)
   }
 
   async createDatabase(): Promise<void> {
@@ -152,11 +157,14 @@ export class ClickhouseClient {
         return this.insert(table, data)
       }
       
-      if (error.message && (
-          error.message.includes('Table') && 
-          error.message.includes('doesn\'t exist') || 
-          error.message.includes('no such table')
-        )) {
+      if (error.type === 'UNKNOWN_TABLE' ||
+          error.code === '60' ||
+          (error.message && (
+            error.message.includes('Table') && 
+            (error.message.includes('doesn\'t exist') || 
+            error.message.includes('does not exist') ||
+            error.message.includes('no such table'))
+          ))) {
         await this.createTableAndRetry(table)
         await this.client.insert({
           table,
