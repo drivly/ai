@@ -1,17 +1,10 @@
+import { getDomainLogo } from '@/app/_utils/get-domain-logo'
+import { Providers } from '@/app/providers'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
+import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
-import 'nextra-theme-docs/style.css'
 import './code-hike.css'
-import { headers } from 'next/headers'
-import { Providers } from '@/app/providers'
-
-function getDomainLogo(hostname: string) {
-  if (hostname.endsWith('.do') && !hostname.slice(0, -3).includes('.')) {
-    return hostname
-  }
-  return 'Workflows.do'
-}
 
 export const metadata = {
   // Define your metadata here
@@ -21,11 +14,10 @@ export const metadata = {
 const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Banner>
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const headersList = await headers()
-  const host = headersList.get('host') || 'apis.do'
-  const logoText = getDomainLogo(host)
+  const logoText = await getDomainLogo()
+  const pageMap = await getPageMap('/docs')
 
-  const navbar = <Navbar logo={<b>{logoText}</b>} chatLink='https://discord.gg/a87bSRvJkx' projectLink='https://github.com/drivly/ai' />
+  const navbar = <Navbar logo={<b>{logoText}</b>} chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
   const footer = (
     <Footer>
       MIT {new Date().getFullYear()} © {logoText}
@@ -33,29 +25,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   )
 
   return (
-    <html
-      // Not required, but good for SEO
-      lang='en'
-      // Required to be set
-      dir='ltr'
-      // Suggested by `next-themes` package https://github.com/pacocoursey/next-themes#with-app
-      suppressHydrationWarning
-    >
-      <Head
-      // ... Your additional head options
-      >
-        {/* Your additional tags should be passed as `children` of `<Head>` element */}
+    <html lang='en' dir='ltr' suppressHydrationWarning>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
       <body>
         <Providers>
           <Layout
             banner={banner}
             navbar={navbar}
-            pageMap={await getPageMap()}
+            pageMap={pageMap}
             docsRepositoryBase='https://github.com/drivly/ai/tree/main'
             footer={footer}
-            // ... Your additional layout options
-          >
+            sidebar={{ defaultMenuCollapseLevel: 1 }}
+            themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}>
             {children}
           </Layout>
         </Providers>

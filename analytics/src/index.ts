@@ -2,7 +2,8 @@ import { createClient } from '@clickhouse/client-web'
 import { tableSchemas } from './schema'
 
 export interface ClickhouseConfig {
-  host: string
+  url?: string
+  host?: string
   port?: number
   username?: string
   password?: string
@@ -11,31 +12,108 @@ export interface ClickhouseConfig {
 
 export class ClickhouseClient {
   private client
+  private databaseName: string
+  private url: string | undefined
+  private username: string
+  private password: string
 
   constructor(config: ClickhouseConfig) {
-    const hostWithPort = config.port ? 
-      `${config.host}:${config.port}` : 
-      config.host;
+    let url = config.url
+    
+    if (!url && config.host) {
+      url = config.port ? 
+        `${config.host}:${config.port}` : 
+        config.host
+    }
+    
+    this.databaseName = config.database || 'default'
+    this.url = url
+    this.username = config.username || 'default'
+    this.password = config.password || ''
       
     this.client = createClient({
-      host: hostWithPort,
-      username: config.username || 'default',
-      password: config.password || '',
-      database: config.database || 'default',
+      url,
+      username: this.username,
+      password: this.password,
+      database: this.databaseName,
     })
   }
 
   async query<T = any>(query: string, params?: Record<string, any>): Promise<T[]> {
-    const result = await this.client.query({
-      query,
-      format: 'JSONEachRow',
-      query_params: params,
-    })
-    const data = await result.json<T>()
-    return data
+    try {
+      const result = await this.client.query({
+        query,
+        format: 'JSONEachRow',
+        query_params: params,
+      })
+      const data = await result.json<T>()
+      return data
+    } catch (error: any) {
+      if (error.type === 'UNKNOWN_DATABASE' || 
+          (error.message && error.message.includes('Database') && 
+           error.message.includes('does not exist'))) {
+        await this.createDatabase()
+        return this.query<T>(query, params)
+      }
+      
+      if (error.message && (
+          error.message.includes('Table') && 
+          error.message.includes('doesn\'t exist') || 
+          error.message.includes('no such table')
+        )) {
+        const tableMatch = query.match(/FROM\s+([^\s,();]+)/i)
+        if (tableMatch && tableMatch[1]) {
+          const tableName = tableMatch[1]
+          await this.createTableAndRetry(tableName)
+          return this.query<T>(query, params)
+        }
+      }
+      throw error
+    }
+  }
+
+  private async createTableAndRetry(table: string): Promise<void> {
+    const schema = tableSchemas[table]
+    if (!schema) {
+      throw new Error(`No schema defined for table: ${table}`)
+    }
+    await this.createTable(table, schema)
+  }
+
+  async createDatabase(): Promise<void> {
+    try {
+      const tempClient = createClient({
+        url: this.url,
+        username: this.username,
+        password: this.password,
+      })
+      
+      await tempClient.query({
+        query: `CREATE DATABASE IF NOT EXISTS ${this.databaseName}`,
+      })
+      
+      console.log(`Created database: ${this.databaseName}`)
+      
+      await tempClient.close()
+    } catch (error: any) {
+      console.error(`Error creating database:`, error)
+      throw new Error(`Failed to create database: ${error.message || String(error)}`)
+    }
+  }
+
+  async createTable(tableName: string, schema: string): Promise<void> {
+    try {
+      await this.client.query({
+        query: schema,
+      })
+    } catch (error: any) {
+      console.error(`Error creating table ${tableName}:`, error)
+      throw new Error(`Failed to create table ${tableName}: ${error.message || String(error)}`)
+    }
   }
 
   async tableExists(table: string): Promise<boolean> {
+    console.warn('tableExists is deprecated. Tables are now created on-demand when needed.')
     try {
       const result = await this.client.query({
         query: `EXISTS TABLE ${table}`,
@@ -49,36 +127,46 @@ export class ClickhouseClient {
     }
   }
 
-  async createTable(tableName: string, schema: string): Promise<void> {
-    try {
-      await this.client.query({
-        query: schema,
-      })
-    } catch (error) {
-      console.error(`Error creating table ${tableName}:`, error)
-      throw error
-    }
-  }
-
   async ensureTableExists(table: string): Promise<void> {
-    const exists = await this.tableExists(table)
-    if (!exists) {
-      const schema = tableSchemas[table]
-      if (!schema) {
-        throw new Error(`No schema defined for table: ${table}`)
-      }
-      await this.createTable(table, schema)
+    console.warn('ensureTableExists is deprecated. Tables are now created on-demand when needed.')
+    const schema = tableSchemas[table]
+    if (!schema) {
+      throw new Error(`No schema defined for table: ${table}`)
     }
+    await this.createTable(table, schema)
   }
 
   async insert(table: string, data: Record<string, any> | Record<string, any>[]): Promise<void> {
-    await this.ensureTableExists(table)
     const rows = Array.isArray(data) ? data : [data]
-    await this.client.insert({
-      table,
-      values: rows,
-      format: 'JSONEachRow',
-    })
+    try {
+      await this.client.insert({
+        table,
+        values: rows,
+        format: 'JSONEachRow',
+      })
+    } catch (error: any) {
+      if (error.type === 'UNKNOWN_DATABASE' || 
+          (error.message && error.message.includes('Database') && 
+           error.message.includes('does not exist'))) {
+        await this.createDatabase()
+        return this.insert(table, data)
+      }
+      
+      if (error.message && (
+          error.message.includes('Table') && 
+          error.message.includes('doesn\'t exist') || 
+          error.message.includes('no such table')
+        )) {
+        await this.createTableAndRetry(table)
+        await this.client.insert({
+          table,
+          values: rows,
+          format: 'JSONEachRow',
+        })
+      } else {
+        throw error
+      }
+    }
   }
 
   async close(): Promise<void> {

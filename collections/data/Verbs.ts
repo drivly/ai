@@ -1,6 +1,5 @@
+import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
-import { getPayload } from 'payload'
-import config from '@/payload.config'
 
 export const Verbs: CollectionConfig = {
   slug: 'verbs',
@@ -23,7 +22,7 @@ export const Verbs: CollectionConfig = {
     { name: 'inverseEvent', type: 'text', admin: { description: 'Past tense like Destroyed', position: 'sidebar' } },
     { name: 'inverseSubject', type: 'text', admin: { description: 'Subject like Destroyer', position: 'sidebar' } },
     { name: 'inverseObject', type: 'text', admin: { description: 'Object like Destruction', position: 'sidebar' } },
-    { name: 'actions', type: 'join', collection: 'actions', on: 'verb' },
+    // { name: 'actions', type: 'join', collection: 'actions', on: 'verbId' },
   ],
   hooks: {
     beforeChange: [
@@ -32,7 +31,7 @@ export const Verbs: CollectionConfig = {
             !data.inverse || !data.inverseAct || !data.inverseActivity || !data.inverseEvent || 
             !data.inverseSubject || !data.inverseObject)) {
           try {
-            const payload = await getPayload({ config })
+            const { payload } = req
             
             const jobResult = await payload.jobs.queue({
               task: 'executeFunction',
@@ -43,6 +42,7 @@ export const Verbs: CollectionConfig = {
             })
             
             console.log('Queued verb semantics job:', jobResult)
+            waitUntil(payload.jobs.runByID({ id: jobResult.id }))
           } catch (error) {
             console.error('Error processing verb semantics:', error)
           }
@@ -57,7 +57,7 @@ export const Verbs: CollectionConfig = {
               !doc.inverse || !doc.inverseAct || !doc.inverseActivity || !doc.inverseEvent || 
               !doc.inverseSubject || !doc.inverseObject)) {
             try {
-              const payload = req.payload
+              const { payload } = req
               
               const jobResult = await payload.jobs.queue({
                 task: 'executeFunction',
@@ -68,6 +68,7 @@ export const Verbs: CollectionConfig = {
               })
               
               console.log('Verb semantics job result:', jobResult)
+              waitUntil(payload.jobs.runByID({ id: jobResult.id }))
               
               const updateData: Record<string, string> = {}
               

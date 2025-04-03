@@ -64,7 +64,8 @@ export const DB = (options: DBOptions = {}): DatabaseClientType => {
   return new Proxy({} as DatabaseClientType, {
     get: (target, prop) => {
       if (typeof prop === 'string' && prop !== 'then') {
-        return new CollectionHandler(api, prop)
+        const collectionName = prop === 'resources' ? 'things' : prop;
+        return new CollectionHandler(api, collectionName);
       }
       return target[prop as keyof typeof target];
     }
@@ -75,6 +76,7 @@ export const db = DB()
 
 export class DatabaseClient {
   private api: API;
+  public resources: CollectionMethods;
 
   constructor(options: DBOptions = {}) {
     const apiOptions: ClientOptions = {
@@ -83,30 +85,38 @@ export class DatabaseClient {
     };
     
     this.api = new API(apiOptions);
+    
+    this.resources = new CollectionHandler(this.api, 'things');
   }
 
   async find<T = CollectionData>(collection: string, options: QueryOptions = {}): Promise<ListResponse<T>> {
-    return this.api.list<T>(collection, options);
+    const collectionName = collection === 'resources' ? 'things' : collection;
+    return this.api.list<T>(collectionName, options);
   }
 
   async findOne<T = CollectionData>(collection: string, id: string): Promise<T> {
-    return this.api.getById<T>(collection, id);
+    const collectionName = collection === 'resources' ? 'things' : collection;
+    return this.api.getById<T>(collectionName, id);
   }
 
   async create<T = CollectionData>(collection: string, data: Partial<T>): Promise<T> {
-    return this.api.create<T>(collection, data);
+    const collectionName = collection === 'resources' ? 'things' : collection;
+    return this.api.create<T>(collectionName, data);
   }
 
   async update<T = CollectionData>(collection: string, id: string, data: Partial<T>): Promise<T> {
-    return this.api.update<T>(collection, id, data);
+    const collectionName = collection === 'resources' ? 'things' : collection;
+    return this.api.update<T>(collectionName, id, data);
   }
 
   async delete<T = CollectionData>(collection: string, id: string): Promise<T> {
-    return this.api.remove<T>(collection, id);
+    const collectionName = collection === 'resources' ? 'things' : collection;
+    return this.api.remove<T>(collectionName, id);
   }
 
   async search<T = CollectionData>(collection: string, query: string, options: QueryOptions = {}): Promise<ListResponse<T>> {
-    return this.api.search<T>(collection, query, options);
+    const collectionName = collection === 'resources' ? 'things' : collection;
+    return this.api.search<T>(collectionName, query, options);
   }
 }
 

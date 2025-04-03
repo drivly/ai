@@ -1,9 +1,10 @@
-# [Workflows.do](https://workflows.do) Business-as-Code
+# [Do More Work](https://do.mw) with Business-as-Code
 
 [![License](https://img.shields.io/github/license/drivly/ai.svg)](https://github.com/drivly/ai/blob/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/drivly/ai/blob/main/CONTRIBUTING.md)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/a87bSRvJkx)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/tafnNeUQdm)
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
+
 
 We believe that you can define, execute, and iterate on business processes as clean & simple code. It should be simple enough for a non-technical business person to read and work with an AI or technical teammate to build and iterate on workflows.
 
@@ -39,6 +40,8 @@ A key concept in the platform is that **Functions, Workflows, Searches, and Inte
 - **Human Users**: Through interfaces like web applications, chat, APIs, and command-line tools
 
 This creates a unified toolset that both AI and human workers can leverage, enabling seamless collaboration and handoffs between automated and human-driven processes.
+
+## [Workflows.do](https://workflows.do) Business-as-Code
 
 ```typescript
 import { AI } from 'workflows.do'
@@ -206,7 +209,7 @@ By visiting https://apis.do in a browser with a [JSON Plugin](https://apis.do/do
   "data": {
     "Nouns - Categories or Types of Things": "https://nouns.do",
     "Verbs - Actions That Can Be Performed": "https://verbs.do",
-    "Things - Instances of Nouns in Your System": "https://things.do",
+    "Resources - Instances of Nouns in Your System": "https://resources.do",
     "Actions - Subject-Predicate-Object Relationships": "https://actions.do"
   },
   "events": {
@@ -279,14 +282,14 @@ Our platform is built on a semantic data model inspired by basic English grammar
 
 - **[Nouns](https://nouns.do)** - Categories or types of things in your system (like Customer, Product, Order)
 - **[Verbs](https://verbs.do)** - Actions that can be performed (like Create, Update, Delete)
-- **[Things](https://things.do)** - Specific instances of Nouns (a particular Customer, Product, or Order)
-- **[Actions](https://actions.do)** - Relationships between Things in Subject-Predicate-Object format
+- **[Resources](https://resources.do)** - Specific instances of Nouns (a particular Customer, Product, or Order)
+- **[Actions](https://actions.do)** - Relationships between Resources in Subject-Predicate-Object format
 
-This simple but powerful model follows the natural language pattern of Subject-Predicate-Object (like "Customer purchased Product"). Every Action in the system connects a Subject (a Thing) with an Object (another Thing) through a Predicate (a Verb), creating a semantic triple that represents a meaningful business event or relationship.
+This simple but powerful model follows the natural language pattern of Subject-Predicate-Object (like "Customer purchased Product"). Every Action in the system connects a Subject (a Resource) with an Object (another Resource) through a Predicate (a Verb), creating a semantic triple that represents a meaningful business event or relationship.
 
-## [Things.do](https://things.do) Instances of Nouns
+## [Resources.do](https://resources.do) Instances of Nouns
 
-Things.do provides a powerful framework for modeling and managing specific instances of Nouns in your business domain. It enables you to create, track, and manipulate the actual entities that your business interacts with.
+Resources.do provides a powerful framework for modeling and managing specific instances of Nouns in your business domain. It enables you to create, track, and manipulate the actual entities that your business interacts with.
 
 ## [Database.do](https://database.do) AI-enriched Data
 

@@ -6,11 +6,11 @@ export const Users: CollectionConfig = {
     group: 'Admin',
     useAsTitle: 'email',
   },
-  auth: { tokenExpiration: 60 * 60 * 24 * 30, useAPIKey: true },
+  auth: { tokenExpiration: 60 * 60 * 24 * 30, useAPIKey: true, disableLocalStrategy: true },
   fields: [
     // Email added by default
-    { name: 'name', type: 'text' },
-    { name: 'image', type: 'text' },
+ 
+ 
     //     {
     //       name: 'roles',
     //       type: 'relationship',

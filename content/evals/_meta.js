@@ -1,30 +1,9 @@
 export default {
-  index: {
-    title: 'Overview',
-    type: 'page',
-  },
-  metrics: {
-    title: 'Metrics',
-    type: 'page',
-  },
-  tests: {
-    title: 'Tests',
-    type: 'page',
-  },
-  benchmarks: {
-    title: 'Benchmarks',
-    type: 'page',
-  },
-  datasets: {
-    title: 'Datasets',
-    type: 'page',
-  },
-  runs: {
-    title: 'Runs',
-    type: 'page',
-  },
-  results: {
-    title: 'Results',
-    type: 'page',
-  },
+  index: 'Overview',
+  metrics: '',
+  tests: '',
+  benchmarks: '',
+  datasets: '',
+  runs: '',
+  results: '',
 }

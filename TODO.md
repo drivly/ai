@@ -1,5 +1,59 @@
 # AI Primitives TODO List
 
+## Documentation
+
+This section outlines the documentation gaps and required improvements across the repository.
+
+### Documentation Structure
+
+- [ ] Align documentation navigation in _meta.js with strategic vision in README.md
+- [ ] Ensure consistent terminology across all documentation files
+- [ ] Remove ".do" domain suffixes from documentation file names per guidelines
+- [ ] Create documentation style guide to ensure consistency
+
+### SDK Documentation
+
+- [ ] Create comprehensive README files for all SDKs with usage examples
+- [ ] Document integration patterns between SDKs
+- [ ] Add CLI usage documentation for all SDKs
+- [ ] Ensure all SDK documentation follows the same structure and format
+
+### Architecture Documentation
+
+- [ ] Add detailed implementation guidance to ARCHITECTURE.md
+- [ ] Document technical details of component relationships
+- [ ] Add specific implementation examples for data flows
+- [ ] Create diagrams for collection relationships and data models
+
+### Content Documentation
+
+- [ ] Complete missing content in placeholder files
+- [ ] Add more code examples to existing documentation
+- [ ] Improve getting started guides for each component
+- [ ] Add troubleshooting sections to all documentation
+
+## SDKs
+
+This section outlines the status and required actions for each SDK in the `sdks/` directory.
+
+### General SDK Requirements
+
+- [ ] Ensure all SDKs use apis.do for the base API client, fetcher, auth
+- [ ] Ensure all SDKs extend the CLI functionality from apis.do
+- [ ] Implement consistent structure across all SDKs
+- [ ] Add comprehensive tests for all SDKs
+- [ ] Improve documentation for all SDKs
+
+### SDK-Specific Tasks
+
+- [ ] Complete gpt.do implementation using apis.do
+- [ ] Create package.json and implementation for integrations.do
+- [ ] Add apis.do dependency to mcp.do
+- [ ] Complete CLI implementation for all SDKs
+- [ ] Add streaming support for applicable SDKs
+
+See [SDKs TODO List](./sdks/TODO.md) for detailed status and required actions for each SDK.
+
 ## executeFunction
 
 This section outlines the implementation gaps that need to be addressed in the executeFunction task.

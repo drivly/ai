@@ -68,6 +68,11 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    users: User;
+    accounts: Account;
+    sessions: Session;
+    verifications: Verification;
+    apiKeys: ApiKey;
     functions: Function;
     workflows: Workflow;
     agents: Agent;
@@ -76,15 +81,16 @@ export interface Config {
     goals: Goal;
     nouns: Noun;
     verbs: Verb;
-    things: Thing;
-    integrations: Integration;
+    databases: Database;
+    resources: Resource;
+    actions: Action;
     integrationCategories: IntegrationCategory;
+    integrations: Integration;
+    connections: Connection;
     integrationTriggers: IntegrationTrigger;
     integrationActions: IntegrationAction;
-    connections: Connection;
     triggers: Trigger;
     searches: Search;
-    actions: Action;
     experiments: Experiment;
     models: Model;
     prompts: Prompt;
@@ -101,23 +107,24 @@ export interface Config {
     events: Event;
     errors: Error;
     generations: Generation;
+    'generation-batches': GenerationBatch;
     traces: Trace;
     kpis: Kpi;
     projects: Project;
-    users: User;
+    domains: Domain;
     roles: Role;
     tags: Tag;
     webhooks: Webhook;
     apikeys: Apikey;
+    'oauth-clients': OauthClient;
+    'oauth-codes': OauthCode;
+    'oauth-tokens': OauthToken;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
-    functions: {
-      executions: 'actions';
-    };
     queues: {
       tasks: 'tasks';
     };
@@ -126,14 +133,7 @@ export interface Config {
       dependents: 'tasks';
     };
     nouns: {
-      things: 'things';
-    };
-    verbs: {
-      actions: 'actions';
-    };
-    things: {
-      subjectOf: 'actions';
-      objectOf: 'actions';
+      resources: 'resources';
     };
     actions: {
       generation: 'generations';
@@ -143,6 +143,11 @@ export interface Config {
     };
   };
   collectionsSelect: {
+    users: UsersSelect<false> | UsersSelect<true>;
+    accounts: AccountsSelect<false> | AccountsSelect<true>;
+    sessions: SessionsSelect<false> | SessionsSelect<true>;
+    verifications: VerificationsSelect<false> | VerificationsSelect<true>;
+    apiKeys: ApiKeysSelect<false> | ApiKeysSelect<true>;
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
     agents: AgentsSelect<false> | AgentsSelect<true>;
@@ -151,15 +156,16 @@ export interface Config {
     goals: GoalsSelect<false> | GoalsSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
-    things: ThingsSelect<false> | ThingsSelect<true>;
-    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
+    databases: DatabasesSelect<false> | DatabasesSelect<true>;
+    resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    actions: ActionsSelect<false> | ActionsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
+    integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
+    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
     integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
-    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
-    actions: ActionsSelect<false> | ActionsSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
     prompts: PromptsSelect<false> | PromptsSelect<true>;
@@ -176,14 +182,18 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     errors: ErrorsSelect<false> | ErrorsSelect<true>;
     generations: GenerationsSelect<false> | GenerationsSelect<true>;
+    'generation-batches': GenerationBatchesSelect<false> | GenerationBatchesSelect<true>;
     traces: TracesSelect<false> | TracesSelect<true>;
     kpis: KpisSelect<false> | KpisSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
-    users: UsersSelect<false> | UsersSelect<true>;
+    domains: DomainsSelect<false> | DomainsSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
+    'oauth-clients': OauthClientsSelect<false> | OauthClientsSelect<true>;
+    'oauth-codes': OauthCodesSelect<false> | OauthCodesSelect<true>;
+    'oauth-tokens': OauthTokensSelect<false> | OauthTokensSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -206,6 +216,8 @@ export interface Config {
     tasks: {
       executeFunction: TaskExecuteFunction;
       generateCode: TaskGenerateCode;
+      executeCodeFunction: TaskExecuteCodeFunction;
+      generateResourceEmbedding: TaskGenerateResourceEmbedding;
       generateThingEmbedding: TaskGenerateThingEmbedding;
       searchThings: TaskSearchThings;
       hybridSearchThings: TaskHybridSearchThings;
@@ -217,6 +229,13 @@ export interface Config {
       deliverWebhook: TaskDeliverWebhook;
       initiateComposioConnection: TaskInitiateComposioConnection;
       requestHumanFeedback: TaskRequestHumanFeedback;
+      processDomain: TaskProcessDomain;
+      processBatchOpenAI: TaskProcessBatchOpenAI;
+      processBatchAnthropic: TaskProcessBatchAnthropic;
+      processBatchGoogleVertexAI: TaskProcessBatchGoogleVertexAI;
+      processBatchParasail: TaskProcessBatchParasail;
+      createGenerationBatch: TaskCreateGenerationBatch;
+      generateFunctionExamples: TaskGenerateFunctionExamples;
       inline: {
         input: unknown;
         output: unknown;
@@ -265,12 +284,285 @@ export interface ApikeyAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  /**
+   * Users chosen display name
+   */
+  name?: string | null;
+  /**
+   * The email of the user
+   */
+  email: string;
+  /**
+   * Whether the email of the user has been verified
+   */
+  emailVerified: boolean;
+  /**
+   * The image of the user
+   */
+  image?: string | null;
+  /**
+   * The role of the user
+   */
+  role: 'admin' | 'user';
+  updatedAt: string;
+  createdAt: string;
+  /**
+   * Whether the user is banned from the platform
+   */
+  banned?: boolean | null;
+  /**
+   * The reason for the ban
+   */
+  banReason?: string | null;
+  /**
+   * The date and time when the ban will expire
+   */
+  banExpires?: string | null;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+}
+/**
+ * Accounts are used to store user accounts for authentication providers
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "accounts".
+ */
+export interface Account {
+  id: string;
+  /**
+   * The user that the account belongs to
+   */
+  user: string | User;
+  /**
+   * The id of the account as provided by the SSO or equal to userId for credential accounts
+   */
+  accountId: string;
+  /**
+   * The id of the provider as provided by the SSO
+   */
+  providerId: string;
+  /**
+   * The access token of the account. Returned by the provider
+   */
+  accessToken?: string | null;
+  /**
+   * The refresh token of the account. Returned by the provider
+   */
+  refreshToken?: string | null;
+  /**
+   * The date and time when the access token will expire
+   */
+  accessTokenExpiresAt?: string | null;
+  /**
+   * The date and time when the refresh token will expire
+   */
+  refreshTokenExpiresAt?: string | null;
+  /**
+   * The scope of the account. Returned by the provider
+   */
+  scope?: string | null;
+  /**
+   * The id token for the account. Returned by the provider
+   */
+  idToken?: string | null;
+  /**
+   * The hashed password of the account. Mainly used for email and password authentication
+   */
+  password?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Sessions are active sessions for users. They are used to authenticate users with a session token
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sessions".
+ */
+export interface Session {
+  id: string;
+  /**
+   * The user that the session belongs to
+   */
+  user: string | User;
+  /**
+   * The unique session token
+   */
+  token: string;
+  /**
+   * The date and time when the session will expire
+   */
+  expiresAt: string;
+  /**
+   * The IP address of the device
+   */
+  ipAddress?: string | null;
+  /**
+   * The user agent information of the device
+   */
+  userAgent?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  /**
+   * The admin who is impersonating this session
+   */
+  impersonatedBy?: (string | null) | User;
+}
+/**
+ * Verifications are used to verify authentication requests
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "verifications".
+ */
+export interface Verification {
+  id: string;
+  /**
+   * The identifier of the verification request
+   */
+  identifier: string;
+  /**
+   * The value to be verified
+   */
+  value: string;
+  /**
+   * The date and time when the verification request will expire
+   */
+  expiresAt: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * API keys are used to authenticate requests to the API.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apiKeys".
+ */
+export interface ApiKey {
+  id: string;
+  /**
+   * The name of the API key.
+   */
+  name?: string | null;
+  /**
+   * The starting characters of the API key. Useful for showing the first few characters of the API key in the UI for the users to easily identify.
+   */
+  start?: string | null;
+  /**
+   * The API Key prefix. Stored as plain text.
+   */
+  prefix?: string | null;
+  /**
+   * The hashed API key itself.
+   */
+  key: string;
+  /**
+   * The user associated with the API key.
+   */
+  user: string | User;
+  /**
+   * The interval to refill the key in milliseconds.
+   */
+  refillInterval?: number | null;
+  /**
+   * The amount to refill the remaining count of the key.
+   */
+  refillAmount?: number | null;
+  /**
+   * The date and time when the key was last refilled.
+   */
+  lastRefillAt?: string | null;
+  /**
+   * Whether the API key is enabled.
+   */
+  enabled?: boolean | null;
+  /**
+   * Whether the API key has rate limiting enabled.
+   */
+  rateLimitEnabled?: boolean | null;
+  /**
+   * The time window in milliseconds for the rate limit.
+   */
+  rateLimitTimeWindow?: number | null;
+  /**
+   * The maximum number of requests allowed within the rate limit time window.
+   */
+  rateLimitMax?: number | null;
+  /**
+   * The number of requests made within the rate limit time window.
+   */
+  requstCount: number;
+  /**
+   * The number of requests remaining.
+   */
+  remaining?: number | null;
+  /**
+   * The date and time of the last request made to the key.
+   */
+  lastRequest?: string | null;
+  /**
+   * The date and time of when the API key will expire.
+   */
+  expiresAt?: string | null;
+  /**
+   * The permissions for the API key.
+   */
+  permissions?: string | null;
+  /**
+   * Any additional metadata you want to store with the key.
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "functions".
  */
 export interface Function {
   id: string;
   name: string;
   type?: ('Generation' | 'Code' | 'Human' | 'Agent') | null;
+  /**
+   * Make this function available to other users
+   */
+  public?: boolean | null;
+  /**
+   * Original function this was cloned from
+   */
+  clonedFrom?: (string | null) | Function;
+  /**
+   * Monetization settings for this function
+   */
+  pricing?: {
+    /**
+     * Enable monetization for this function
+     */
+    isMonetized?: boolean | null;
+    /**
+     * Price per use in USD cents (platform fee is 30% above LLM costs)
+     */
+    pricePerUse?: number | null;
+    /**
+     * Stripe Product ID (auto-generated)
+     */
+    stripeProductId?: string | null;
+    /**
+     * Stripe Price ID (auto-generated)
+     */
+    stripePriceId?: string | null;
+  };
   format?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code') | null;
   schemaYaml?: string | null;
   shape?:
@@ -287,11 +579,10 @@ export interface Function {
   role?: string | null;
   user?: (string | null) | User;
   agent?: (string | null) | Agent;
-  executions?: {
-    docs?: (string | Action)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
+  /**
+   * Example arguments for this function
+   */
+  examples?: (string | Resource)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -307,60 +598,48 @@ export interface Prompt {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: string;
-  name?: string | null;
-  image?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "agents".
  */
 export interface Agent {
   id: string;
   name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions".
- */
-export interface Action {
-  id: string;
-  subject?: (string | null) | Thing;
-  verb?: (string | null) | Verb;
-  function?: (string | null) | Function;
-  object?: (string | null) | Thing;
-  hash?: string | null;
-  generation?: {
-    docs?: (string | Generation)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
+  /**
+   * Make this agent available to other users
+   */
+  public?: boolean | null;
+  /**
+   * Original agent this was cloned from
+   */
+  clonedFrom?: (string | null) | Agent;
+  /**
+   * Monetization settings for this agent
+   */
+  pricing?: {
+    /**
+     * Enable monetization for this agent
+     */
+    isMonetized?: boolean | null;
+    /**
+     * Price per use in USD cents (platform fee is 30% above LLM costs)
+     */
+    pricePerUse?: number | null;
+    /**
+     * Stripe Product ID (auto-generated)
+     */
+    stripeProductId?: string | null;
+    /**
+     * Stripe Price ID (auto-generated)
+     */
+    stripePriceId?: string | null;
   };
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things".
+ * via the `definition` "resources".
  */
-export interface Thing {
+export interface Resource {
   id: string;
   name?: string | null;
   sqid?: string | null;
@@ -385,16 +664,8 @@ export interface Thing {
     | number
     | boolean
     | null;
-  subjectOf?: {
-    docs?: (string | Action)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
-  objectOf?: {
-    docs?: (string | Action)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
+  subjectOf?: (string | Action)[] | null;
+  objectOf?: (string | Action)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -437,8 +708,26 @@ export interface Noun {
    * Past tense like Used
    */
   event?: string | null;
-  things?: {
-    docs?: (string | Thing)[];
+  resources?: {
+    docs?: (string | Resource)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions".
+ */
+export interface Action {
+  id: string;
+  subject?: (string | null) | Resource;
+  verb?: (string | null) | Verb;
+  object?: (string | null) | Resource;
+  hash?: string | null;
+  generation?: {
+    docs?: (string | Generation)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -499,11 +788,6 @@ export interface Verb {
    * Object like Destruction
    */
   inverseObject?: string | null;
-  actions?: {
-    docs?: (string | Action)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
   updatedAt: string;
   createdAt: string;
 }
@@ -514,7 +798,7 @@ export interface Verb {
 export interface Generation {
   id: string;
   action?: (string | null) | Action;
-  settings?: (string | null) | Thing;
+  settings?: (string | null) | Resource;
   request?:
     | {
         [k: string]: unknown;
@@ -544,6 +828,41 @@ export interface Generation {
     | null;
   status?: ('success' | 'error') | null;
   duration?: number | null;
+  processingMode?: ('realtime' | 'batch') | null;
+  batch?: (string | null) | GenerationBatch;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Batches of AI generation jobs
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generation-batches".
+ */
+export interface GenerationBatch {
+  id: string;
+  name: string;
+  provider: 'openai' | 'anthropic' | 'google' | 'parasail';
+  status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
+  /**
+   * Provider-specific batch configuration
+   */
+  batchConfig?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * ID of the batch job in the provider system
+   */
+  providerBatchId?: string | null;
+  generations?: (string | Generation)[] | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -560,6 +879,35 @@ export interface Workflow {
   module?: (string | null) | Module;
   package?: (string | null) | Package;
   deployment?: (string | null) | Deployment;
+  /**
+   * Make this workflow available to other users
+   */
+  public?: boolean | null;
+  /**
+   * Original workflow this was cloned from
+   */
+  clonedFrom?: (string | null) | Workflow;
+  /**
+   * Monetization settings for this workflow
+   */
+  pricing?: {
+    /**
+     * Enable monetization for this workflow
+     */
+    isMonetized?: boolean | null;
+    /**
+     * Price per use in USD cents (platform fee is 30% above LLM costs)
+     */
+    pricePerUse?: number | null;
+    /**
+     * Stripe Product ID (auto-generated)
+     */
+    stripeProductId?: string | null;
+    /**
+     * Stripe Price ID (auto-generated)
+     */
+    stripePriceId?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -580,6 +928,30 @@ export interface Module {
 export interface Package {
   id: string;
   name?: string | null;
+  /**
+   * The package.json content for publishing to NPM
+   */
+  package?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Collections to include in this package
+   */
+  collections?:
+    | {
+        /**
+         * Collection slug to include
+         */
+        items?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -626,7 +998,7 @@ export interface Role {
 export interface Task {
   id: string;
   title: string;
-  status?: ('todo' | 'in-progress' | 'ready-for-review' | 'completed') | null;
+  status?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
   queue?: (string | null) | Queue;
   assigned?:
     | (
@@ -657,8 +1029,6 @@ export interface Task {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
-  kanbanStatus?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
-  kanbanOrderRank?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -699,11 +1069,29 @@ export interface Kpi {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integrations".
+ * via the `definition` "databases".
  */
-export interface Integration {
+export interface Database {
   id: string;
-  name?: string | null;
+  name: string;
+  domain: string;
+  type: 'Integrated' | 'Dedicated' | 'Self-Hosted';
+  schemaEnforcement: 'flexible' | 'enforced';
+  databaseType?: ('Mongo' | 'Postgres' | 'Sqlite') | null;
+  regions?:
+    | (
+        | 'us-east-1'
+        | 'us-east-2'
+        | 'us-west-1'
+        | 'us-west-2'
+        | 'eu-west-1'
+        | 'ap-northeast-1'
+        | 'ap-southeast-1'
+        | 'eu-central-1'
+        | 'ap-south-1'
+      )
+    | null;
+  nouns?: (string | Noun)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -714,6 +1102,38 @@ export interface Integration {
 export interface IntegrationCategory {
   id: string;
   category?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrations".
+ */
+export interface Integration {
+  id: string;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "connections".
+ */
+export interface Connection {
+  id: string;
+  name?: string | null;
+  user: string | User;
+  integration: string | Integration;
+  status?: ('active' | 'inactive' | 'pending') | null;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -772,28 +1192,6 @@ export interface IntegrationAction {
     | boolean
     | null;
   response?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connections".
- */
-export interface Connection {
-  id: string;
-  name?: string | null;
-  user: string | User;
-  integration: string | Integration;
-  status?: ('active' | 'inactive' | 'pending') | null;
-  metadata?:
     | {
         [k: string]: unknown;
       }
@@ -1093,7 +1491,7 @@ export interface Event {
   id: string;
   type?: string | null;
   source?: string | null;
-  subject?: (string | null) | Thing;
+  subject?: (string | null) | Resource;
   data?:
     | {
         [k: string]: unknown;
@@ -1166,6 +1564,29 @@ export interface Project {
   id: string;
   name?: string | null;
   domain?: string | null;
+  domains?: (string | Domain)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "domains".
+ */
+export interface Domain {
+  id: string;
+  name: string;
+  domain: string;
+  project: string | Project;
+  status?: ('pending' | 'active' | 'error') | null;
+  hostnames?:
+    | {
+        hostname?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  vercelId?: string | null;
+  cloudflareId?: string | null;
+  errorMessage?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1215,6 +1636,54 @@ export interface Apikey {
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-clients".
+ */
+export interface OauthClient {
+  id: string;
+  name: string;
+  clientId: string;
+  clientSecret: string;
+  redirectURLs: {
+    url: string;
+    id?: string | null;
+  }[];
+  disabled?: boolean | null;
+  createdBy?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-codes".
+ */
+export interface OauthCode {
+  id: string;
+  code: string;
+  provider: string;
+  redirectUri: string;
+  userId: string | User;
+  expiresAt: string;
+  used?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-tokens".
+ */
+export interface OauthToken {
+  id: string;
+  token: string;
+  provider: string;
+  userId: string | User;
+  clientId: string;
+  expiresAt: string;
+  scope?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1272,6 +1741,8 @@ export interface PayloadJob {
           | 'inline'
           | 'executeFunction'
           | 'generateCode'
+          | 'executeCodeFunction'
+          | 'generateResourceEmbedding'
           | 'generateThingEmbedding'
           | 'searchThings'
           | 'hybridSearchThings'
@@ -1282,7 +1753,14 @@ export interface PayloadJob {
           | 'deployWorker'
           | 'deliverWebhook'
           | 'initiateComposioConnection'
-          | 'requestHumanFeedback';
+          | 'requestHumanFeedback'
+          | 'processDomain'
+          | 'processBatchOpenAI'
+          | 'processBatchAnthropic'
+          | 'processBatchGoogleVertexAI'
+          | 'processBatchParasail'
+          | 'createGenerationBatch'
+          | 'generateFunctionExamples';
         taskID: string;
         input?:
           | {
@@ -1318,6 +1796,8 @@ export interface PayloadJob {
                 | 'inline'
                 | 'executeFunction'
                 | 'generateCode'
+                | 'executeCodeFunction'
+                | 'generateResourceEmbedding'
                 | 'generateThingEmbedding'
                 | 'searchThings'
                 | 'hybridSearchThings'
@@ -1329,6 +1809,13 @@ export interface PayloadJob {
                 | 'deliverWebhook'
                 | 'initiateComposioConnection'
                 | 'requestHumanFeedback'
+                | 'processDomain'
+                | 'processBatchOpenAI'
+                | 'processBatchAnthropic'
+                | 'processBatchGoogleVertexAI'
+                | 'processBatchParasail'
+                | 'createGenerationBatch'
+                | 'generateFunctionExamples'
               )
             | null;
           taskID?: string | null;
@@ -1342,6 +1829,8 @@ export interface PayloadJob {
         | 'inline'
         | 'executeFunction'
         | 'generateCode'
+        | 'executeCodeFunction'
+        | 'generateResourceEmbedding'
         | 'generateThingEmbedding'
         | 'searchThings'
         | 'hybridSearchThings'
@@ -1353,6 +1842,13 @@ export interface PayloadJob {
         | 'deliverWebhook'
         | 'initiateComposioConnection'
         | 'requestHumanFeedback'
+        | 'processDomain'
+        | 'processBatchOpenAI'
+        | 'processBatchAnthropic'
+        | 'processBatchGoogleVertexAI'
+        | 'processBatchParasail'
+        | 'createGenerationBatch'
+        | 'generateFunctionExamples'
       )
     | null;
   queue?: string | null;
@@ -1368,6 +1864,26 @@ export interface PayloadJob {
 export interface PayloadLockedDocument {
   id: string;
   document?:
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null)
+    | ({
+        relationTo: 'accounts';
+        value: string | Account;
+      } | null)
+    | ({
+        relationTo: 'sessions';
+        value: string | Session;
+      } | null)
+    | ({
+        relationTo: 'verifications';
+        value: string | Verification;
+      } | null)
+    | ({
+        relationTo: 'apiKeys';
+        value: string | ApiKey;
+      } | null)
     | ({
         relationTo: 'functions';
         value: string | Function;
@@ -1401,16 +1917,28 @@ export interface PayloadLockedDocument {
         value: string | Verb;
       } | null)
     | ({
-        relationTo: 'things';
-        value: string | Thing;
+        relationTo: 'databases';
+        value: string | Database;
+      } | null)
+    | ({
+        relationTo: 'resources';
+        value: string | Resource;
+      } | null)
+    | ({
+        relationTo: 'actions';
+        value: string | Action;
+      } | null)
+    | ({
+        relationTo: 'integrationCategories';
+        value: string | IntegrationCategory;
       } | null)
     | ({
         relationTo: 'integrations';
         value: string | Integration;
       } | null)
     | ({
-        relationTo: 'integrationCategories';
-        value: string | IntegrationCategory;
+        relationTo: 'connections';
+        value: string | Connection;
       } | null)
     | ({
         relationTo: 'integrationTriggers';
@@ -1421,20 +1949,12 @@ export interface PayloadLockedDocument {
         value: string | IntegrationAction;
       } | null)
     | ({
-        relationTo: 'connections';
-        value: string | Connection;
-      } | null)
-    | ({
         relationTo: 'triggers';
         value: string | Trigger;
       } | null)
     | ({
         relationTo: 'searches';
         value: string | Search;
-      } | null)
-    | ({
-        relationTo: 'actions';
-        value: string | Action;
       } | null)
     | ({
         relationTo: 'experiments';
@@ -1501,6 +2021,10 @@ export interface PayloadLockedDocument {
         value: string | Generation;
       } | null)
     | ({
+        relationTo: 'generation-batches';
+        value: string | GenerationBatch;
+      } | null)
+    | ({
         relationTo: 'traces';
         value: string | Trace;
       } | null)
@@ -1513,8 +2037,8 @@ export interface PayloadLockedDocument {
         value: string | Project;
       } | null)
     | ({
-        relationTo: 'users';
-        value: string | User;
+        relationTo: 'domains';
+        value: string | Domain;
       } | null)
     | ({
         relationTo: 'roles';
@@ -1531,6 +2055,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'apikeys';
         value: string | Apikey;
+      } | null)
+    | ({
+        relationTo: 'oauth-clients';
+        value: string | OauthClient;
+      } | null)
+    | ({
+        relationTo: 'oauth-codes';
+        value: string | OauthCode;
+      } | null)
+    | ({
+        relationTo: 'oauth-tokens';
+        value: string | OauthToken;
       } | null)
     | ({
         relationTo: 'payload-jobs';
@@ -1590,11 +2126,109 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  emailVerified?: T;
+  image?: T;
+  role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  banned?: T;
+  banReason?: T;
+  banExpires?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "accounts_select".
+ */
+export interface AccountsSelect<T extends boolean = true> {
+  user?: T;
+  accountId?: T;
+  providerId?: T;
+  accessToken?: T;
+  refreshToken?: T;
+  accessTokenExpiresAt?: T;
+  refreshTokenExpiresAt?: T;
+  scope?: T;
+  idToken?: T;
+  password?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sessions_select".
+ */
+export interface SessionsSelect<T extends boolean = true> {
+  user?: T;
+  token?: T;
+  expiresAt?: T;
+  ipAddress?: T;
+  userAgent?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  impersonatedBy?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "verifications_select".
+ */
+export interface VerificationsSelect<T extends boolean = true> {
+  identifier?: T;
+  value?: T;
+  expiresAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "apiKeys_select".
+ */
+export interface ApiKeysSelect<T extends boolean = true> {
+  name?: T;
+  start?: T;
+  prefix?: T;
+  key?: T;
+  user?: T;
+  refillInterval?: T;
+  refillAmount?: T;
+  lastRefillAt?: T;
+  enabled?: T;
+  rateLimitEnabled?: T;
+  rateLimitTimeWindow?: T;
+  rateLimitMax?: T;
+  requstCount?: T;
+  remaining?: T;
+  lastRequest?: T;
+  expiresAt?: T;
+  permissions?: T;
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "functions_select".
  */
 export interface FunctionsSelect<T extends boolean = true> {
   name?: T;
   type?: T;
+  public?: T;
+  clonedFrom?: T;
+  pricing?:
+    | T
+    | {
+        isMonetized?: T;
+        pricePerUse?: T;
+        stripeProductId?: T;
+        stripePriceId?: T;
+      };
   format?: T;
   schemaYaml?: T;
   shape?: T;
@@ -1603,7 +2237,7 @@ export interface FunctionsSelect<T extends boolean = true> {
   role?: T;
   user?: T;
   agent?: T;
-  executions?: T;
+  examples?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1619,6 +2253,16 @@ export interface WorkflowsSelect<T extends boolean = true> {
   module?: T;
   package?: T;
   deployment?: T;
+  public?: T;
+  clonedFrom?: T;
+  pricing?:
+    | T
+    | {
+        isMonetized?: T;
+        pricePerUse?: T;
+        stripeProductId?: T;
+        stripePriceId?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1628,6 +2272,16 @@ export interface WorkflowsSelect<T extends boolean = true> {
  */
 export interface AgentsSelect<T extends boolean = true> {
   name?: T;
+  public?: T;
+  clonedFrom?: T;
+  pricing?:
+    | T
+    | {
+        isMonetized?: T;
+        pricePerUse?: T;
+        stripeProductId?: T;
+        stripePriceId?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1656,8 +2310,6 @@ export interface TasksSelect<T extends boolean = true> {
   subtasks?: T;
   dependentOn?: T;
   dependents?: T;
-  kanbanStatus?: T;
-  kanbanOrderRank?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1693,7 +2345,7 @@ export interface NounsSelect<T extends boolean = true> {
   act?: T;
   activity?: T;
   event?: T;
-  things?: T;
+  resources?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1714,15 +2366,29 @@ export interface VerbsSelect<T extends boolean = true> {
   inverseEvent?: T;
   inverseSubject?: T;
   inverseObject?: T;
-  actions?: T;
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "things_select".
+ * via the `definition` "databases_select".
  */
-export interface ThingsSelect<T extends boolean = true> {
+export interface DatabasesSelect<T extends boolean = true> {
+  name?: T;
+  domain?: T;
+  type?: T;
+  schemaEnforcement?: T;
+  databaseType?: T;
+  regions?: T;
+  nouns?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resources_select".
+ */
+export interface ResourcesSelect<T extends boolean = true> {
   name?: T;
   sqid?: T;
   hash?: T;
@@ -1732,6 +2398,28 @@ export interface ThingsSelect<T extends boolean = true> {
   embedding?: T;
   subjectOf?: T;
   objectOf?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions_select".
+ */
+export interface ActionsSelect<T extends boolean = true> {
+  subject?: T;
+  verb?: T;
+  object?: T;
+  hash?: T;
+  generation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "integrationCategories_select".
+ */
+export interface IntegrationCategoriesSelect<T extends boolean = true> {
+  category?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1747,10 +2435,14 @@ export interface IntegrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "integrationCategories_select".
+ * via the `definition` "connections_select".
  */
-export interface IntegrationCategoriesSelect<T extends boolean = true> {
-  category?: T;
+export interface ConnectionsSelect<T extends boolean = true> {
+  name?: T;
+  user?: T;
+  integration?: T;
+  status?: T;
+  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1788,19 +2480,6 @@ export interface IntegrationActionsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connections_select".
- */
-export interface ConnectionsSelect<T extends boolean = true> {
-  name?: T;
-  user?: T;
-  integration?: T;
-  status?: T;
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "triggers_select".
  */
 export interface TriggersSelect<T extends boolean = true> {
@@ -1820,20 +2499,6 @@ export interface SearchesSelect<T extends boolean = true> {
   searchType?: T;
   results?: T;
   embedding?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions_select".
- */
-export interface ActionsSelect<T extends boolean = true> {
-  subject?: T;
-  verb?: T;
-  function?: T;
-  object?: T;
-  hash?: T;
-  generation?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1902,6 +2567,13 @@ export interface ModulesSelect<T extends boolean = true> {
  */
 export interface PackagesSelect<T extends boolean = true> {
   name?: T;
+  package?: T;
+  collections?:
+    | T
+    | {
+        items?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2034,6 +2706,24 @@ export interface GenerationsSelect<T extends boolean = true> {
   error?: T;
   status?: T;
   duration?: T;
+  processingMode?: T;
+  batch?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generation-batches_select".
+ */
+export interface GenerationBatchesSelect<T extends boolean = true> {
+  name?: T;
+  provider?: T;
+  status?: T;
+  batchConfig?: T;
+  providerBatchId?: T;
+  generations?: T;
+  startedAt?: T;
+  completedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2063,28 +2753,30 @@ export interface KpisSelect<T extends boolean = true> {
 export interface ProjectsSelect<T extends boolean = true> {
   name?: T;
   domain?: T;
+  domains?: T;
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "domains_select".
  */
-export interface UsersSelect<T extends boolean = true> {
+export interface DomainsSelect<T extends boolean = true> {
   name?: T;
-  image?: T;
+  domain?: T;
+  project?: T;
+  status?: T;
+  hostnames?:
+    | T
+    | {
+        hostname?: T;
+        id?: T;
+      };
+  vercelId?: T;
+  cloudflareId?: T;
+  errorMessage?: T;
   updatedAt?: T;
   createdAt?: T;
-  enableAPIKey?: T;
-  apiKey?: T;
-  apiKeyIndex?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2136,6 +2828,53 @@ export interface ApikeysSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-clients_select".
+ */
+export interface OauthClientsSelect<T extends boolean = true> {
+  name?: T;
+  clientId?: T;
+  clientSecret?: T;
+  redirectURLs?:
+    | T
+    | {
+        url?: T;
+        id?: T;
+      };
+  disabled?: T;
+  createdBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-codes_select".
+ */
+export interface OauthCodesSelect<T extends boolean = true> {
+  code?: T;
+  provider?: T;
+  redirectUri?: T;
+  userId?: T;
+  expiresAt?: T;
+  used?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauth-tokens_select".
+ */
+export interface OauthTokensSelect<T extends boolean = true> {
+  token?: T;
+  provider?: T;
+  userId?: T;
+  clientId?: T;
+  expiresAt?: T;
+  scope?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2288,6 +3027,67 @@ export interface TaskGenerateCode {
       | null;
     code?: string | null;
     parsed?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskExecuteCodeFunction".
+ */
+export interface TaskExecuteCodeFunction {
+  input: {
+    code: string;
+    args?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    timeout?: number | null;
+    memoryLimit?: number | null;
+  };
+  output: {
+    result?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    logs?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateResourceEmbedding".
+ */
+export interface TaskGenerateResourceEmbedding {
+  input: {
+    id: string;
+  };
+  output: {
+    resource?:
       | {
           [k: string]: unknown;
         }
@@ -2563,6 +3363,171 @@ export interface TaskRequestHumanFeedback {
       | number
       | boolean
       | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessDomain".
+ */
+export interface TaskProcessDomain {
+  input: {
+    domainId: string;
+    operation: string;
+    domain?: string | null;
+    vercelId?: string | null;
+    cloudflareId?: string | null;
+  };
+  output: {};
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchOpenAI".
+ */
+export interface TaskProcessBatchOpenAI {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchAnthropic".
+ */
+export interface TaskProcessBatchAnthropic {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchGoogleVertexAI".
+ */
+export interface TaskProcessBatchGoogleVertexAI {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchParasail".
+ */
+export interface TaskProcessBatchParasail {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskCreateGenerationBatch".
+ */
+export interface TaskCreateGenerationBatch {
+  input: {
+    name: string;
+    provider: string;
+    batchConfig:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    generations?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    success?: boolean | null;
+    batchId?: string | null;
+    jobId?: string | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateFunctionExamples".
+ */
+export interface TaskGenerateFunctionExamples {
+  input: {
+    functionId: string;
+    count?: number | null;
+    force?: boolean | null;
+  };
+  output: {
+    success?: boolean | null;
+    message?: string | null;
+    examples?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    error?: string | null;
   };
 }
 /**

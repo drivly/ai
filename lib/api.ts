@@ -7,6 +7,7 @@ import { UAParser } from 'ua-parser-js'
 import { geolocation } from '@vercel/functions'
 import { continents, countries, flags, locations, metros } from './constants/cf'
 import { nanoid } from 'nanoid'
+import { getOrganizationByASN } from './utils/asn-lookup'
 
 /**
  * Context object passed to API handlers
@@ -36,6 +37,7 @@ export interface APIUser {
   os?: string
   ip: string
   isp: string
+  asOrg?: string
   flag: string
   zipcode: string
   city: string
@@ -109,8 +111,11 @@ export function getUser(request: NextRequest): APIUser {
               request.headers.get('x-vercel-ip-asn') || 
               ''
   
+  const asOrg = asn ? getOrganizationByASN(asn) : null
+  
   const isp = cf?.asOrganization?.toString() || 
               request.headers.get('x-vercel-ip-org') || 
+              asOrg || 
               'Unknown ISP'
   
   let latitude = 0, longitude = 0
@@ -165,6 +170,7 @@ export function getUser(request: NextRequest): APIUser {
     os: ua?.os?.name as string,
     ip,
     isp,
+    asOrg: asOrg || undefined,
     flag: countryFlag,
     zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
     city: cf?.city?.toString() || geo?.city || request.headers.get('x-vercel-ip-city') || '',
@@ -509,6 +515,87 @@ export const generateSharingLinks = (shareId: string, title: string, url?: strin
     instagram: `https://www.instagram.com/?url=${encodedUrl}`,
     tiktok: `https://www.tiktok.com/upload?url=${encodedUrl}`,
   }
+}
+
+/**
+ * Generates pagination links for API responses
+ * @param request - The NextRequest object
+ * @param page - Current page number
+ * @param limit - Items per page
+ * @param totalItems - Total number of items
+ * @returns Object containing home, next, and prev links
+ */
+export const generatePaginationLinks = (
+  request: NextRequest,
+  page: number,
+  limit: number,
+  totalItems: number
+): { home: string; next?: string; prev?: string } => {
+  const url = new URL(request.url)
+  const baseUrl = url.origin + url.pathname
+  const searchParams = url.searchParams
+  
+  const links: { home: string; next?: string; prev?: string } = {
+    home: baseUrl,
+  }
+  
+  if (totalItems === limit) {
+    const nextParams = new URLSearchParams(searchParams)
+    nextParams.set('page', (page + 1).toString())
+    links.next = `${baseUrl}?${nextParams.toString()}`
+  }
+  
+  if (page > 1) {
+    const prevParams = new URLSearchParams(searchParams)
+    prevParams.set('page', (page - 1).toString())
+    links.prev = `${baseUrl}?${prevParams.toString()}`
+  }
+  
+  return links
+}
+
+/**
+ * Generates a function link for a given function name
+ * @param request - The NextRequest object
+ * @param functionName - Name of the function
+ * @returns URL string pointing to the function
+ */
+export const generateFunctionLink = (
+  request: NextRequest,
+  functionName: string
+): string => {
+  const url = new URL(request.url)
+  return `${url.origin}/functions/${functionName}`
+}
+
+/**
+ * Creates a functions object with function names as keys and links as values
+ * @param request - The NextRequest object
+ * @param functions - Array of function objects with name property
+ * @returns Object with function names as keys and links as values
+ */
+export const createFunctionsObject = (
+  request: NextRequest,
+  functions: Array<{ name: string; [key: string]: any }> | any
+): Record<string, string> => {
+  const functionsObject: Record<string, string> = {}
+  
+  if (Array.isArray(functions)) {
+    for (let i = 0; i < functions.length; i++) {
+      const func = functions[i]
+      if (func && typeof func === 'object' && func.name) {
+        functionsObject[func.name] = generateFunctionLink(request, func.name)
+      }
+    }
+  } else if (functions && typeof functions === 'object') {
+    const keys = Object.keys(functions)
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      functionsObject[key] = generateFunctionLink(request, key)
+    }
+  }
+  
+  return functionsObject
 }
 
 /**

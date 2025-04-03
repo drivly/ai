@@ -2,9 +2,13 @@ import { Domains } from './admin/Domains'
 import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
+import { OAuthClients } from './auth/OAuthClients'
+import { OAuthCodes } from './auth/OAuthCodes'
+import { OAuthTokens } from './auth/OAuthTokens'
 import { Integrations } from './integrations/Integrations'
 import { Tags } from './admin/Tag'
 import { Roles } from './admin/Roles'
+import { Databases } from './data/Databases'
 import { Functions } from './ai/Functions'
 import { Modules } from './code/Modules'
 import { Packages } from './code/Packages'
@@ -16,7 +20,7 @@ import { Models } from './experiments/Models'
 import { Nouns } from './data/Nouns'
 import { Verbs } from './data/Verbs'
 import { Triggers } from './events/Triggers'
-import { Actions } from './events/Actions'
+import { Relationships } from './events/Relationships'
 import { Types } from './code/Types'
 import { Webhooks } from './admin/Webhooks'
 import { Evals } from './evals/Evals'
@@ -28,9 +32,10 @@ import { Benchmarks } from './evals/Benchmarks'
 import { Experiments } from './experiments/Experiments'
 import { Prompts } from './experiments/Prompts'
 import { Settings } from './experiments/Settings'
-import { Things } from './data/Things'
+import { Resources } from './data/Resources'
 import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
+import { GenerationBatches } from './observability/GenerationBatches'
 import { Searches } from './events/Searches'
 import { IntegrationTriggers } from './integrations/IntegrationTriggers'
 import { IntegrationActions } from './integrations/IntegrationActions'
@@ -39,10 +44,10 @@ import { Connections } from './integrations/Connections'
 import { Queues } from './work/Queues'
 import { Tasks } from './work/Tasks'
 import { Goals } from './work/Goals'
-import { KPIs } from './observability/KPIs'
+import { KPIs } from './work/KPIs'
 
 export const collections = [
-  // Register basic collections first
+  // Register AI collections first
   Functions,
   Workflows,
   Agents,
@@ -55,19 +60,20 @@ export const collections = [
   // Data & definitions
   Nouns,
   Verbs,
-  Things,
+  Databases,
+  Resources,
+  Relationships,
 
   // Integration collections
-  Integrations,
   IntegrationCategories,
+  Integrations,
+  Connections,
   IntegrationTriggers,
   IntegrationActions,
-  Connections,
 
   // Event collections
   Triggers,
   Searches,
-  Actions,
 
   Experiments,
   Models,
@@ -88,6 +94,7 @@ export const collections = [
   Events,
   Errors,
   Generations,
+  GenerationBatches,
   Traces,
   KPIs,
 
@@ -98,6 +105,9 @@ export const collections = [
   Tags,
   Webhooks,
   APIKeys,
+  OAuthClients,
+  OAuthCodes,
+  OAuthTokens,
 ]
 
 export const collectionSlugs = collections.map(collection => collection.slug)
