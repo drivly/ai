@@ -1,12 +1,14 @@
 import { Badge } from '@/components/sites/badge'
-import { getBlogPostBySlug } from '../blog-posts'
-import { notFound } from 'next/navigation'
-import { ArrowLeft, Link } from 'lucide-react'
-import { ShareButtons } from '@/components/sites/blog-ui/share-button'
-import Image from 'next/image'
 import { BlogContent } from '@/components/sites/blog-ui/blog-content'
+import { ShareButtons } from '@/components/sites/blog-ui/share-button'
+import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
+import { ArrowLeft } from 'lucide-react'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
+import { getBlogPostBySlug } from '../blog-posts'
+import Link from 'next/link'
 
-export default async function BlogPostPage({ params }: { params: Promise<{ domain?: string[]; slug?: string }> }) {
+async function BlogPostPage({ params }: { params: Promise<{ domain?: string; slug?: string }> }) {
   const { domain, slug } = await params
   const post = getBlogPostBySlug(slug || '')
 
@@ -48,3 +50,5 @@ export default async function BlogPostPage({ params }: { params: Promise<{ domai
     </div>
   )
 }
+
+export default withSitesNavbar(BlogPostPage)

@@ -18,7 +18,7 @@
     "payload-rest-client": "^3.0.5"
   },
   "devDependencies": {
-    "payload": "^3.31.0"
+    "payload": "^3.32.0"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --no-splitting",

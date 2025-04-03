@@ -1,118 +1,32 @@
-'use client'
+import { DotDoSection } from '@/components/sites/dotdos/dot-do-section'
+import { getDomainsByCategory } from '@/components/sites/dotdos/get-domain-by-category'
+import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
+import { domains } from '@/domains.config'
+import { Suspense } from 'react'
+// api - /api, sdk - /sdk pagckage domains config link to that apis.do sdk, docs - /docs Get Started or Join Waitlist
 
-import { domainDescriptions, siteCategories } from '@/api.config'
-import { Badge } from '@/components/sites/badge'
-import { brandDomains, domains } from '@/domains.config'
-import Link from 'next/link'
-import { usePathname, useSearchParams } from 'next/navigation'
-import { Fragment, Suspense, useEffect, useState } from 'react'
+// experiments.do uses vercel flags api...
+// .do
+// Process domain categories once
 
-function SitesContent() {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const [hostname, setHostname] = useState<string>('')
-
-  const absoluteURL = searchParams.get('absolute') || 'true'
-
-  useEffect(() => {
-    const host = window.location.hostname
-    setHostname(host)
-  }, [])
-
-  const domainsByCategory: Record<string, string[]> = {}
-
-  Object.entries(siteCategories).forEach(([category, categoryDomains]) => {
-    domainsByCategory[category] = categoryDomains.filter((domain) => domains.includes(domain))
-  })
-
-  const categorizedDomains = Object.values(domainsByCategory).flat()
-  const uncategorizedDomains = domains.filter((domain) => !categorizedDomains.includes(domain))
-
-  if (uncategorizedDomains.length > 0) {
-    domainsByCategory['Other'] = uncategorizedDomains
-  }
-
-  const isBrandDomain = brandDomains.includes(hostname)
-  const showAbsolute = absoluteURL === 'true'
-
+function SitesPage() {
+  const domainsByCategory = getDomainsByCategory(domains)
   return (
-    <div className='container mx-auto px-4 pt-20 pb-12 md:pt-24 md:pb-32'>
-      <div className='mb-8'>
-        <h1 className='mb-4 text-4xl font-bold tracking-tight'>Sites</h1>
-        <p className='text-muted-foreground mb-6 text-xl'>Browse all available domains in the .do ecosystem</p>
-
-        {!isBrandDomain && (
-          <div className='mb-8 flex items-center space-x-2'>
-            <span className='mr-2 text-sm'>Show URLs as:</span>
-            <div className='flex items-center space-x-4'>
-              <Link
-                href={{
-                  pathname,
-                  query: updateOptionParams('absolute', 'false', searchParams),
-                }}
-                className={`rounded-md px-3 py-1 transition-colors ${!showAbsolute ? 'bg-gray-200 font-bold dark:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
-                Relative
-              </Link>
-              <Link
-                href={{
-                  pathname,
-                  query: updateOptionParams('absolute', 'true', searchParams),
-                }}
-                className={`rounded-md px-3 py-1 transition-colors ${showAbsolute ? 'bg-gray-200 font-bold dark:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}>
-                Absolute
-              </Link>
+    <div className='container mx-auto max-w-7xl px-4 pt-24 pb-20 md:pt-32 md:pb-40'>
+      <div className='mb-16'>
+        <h1 className='mb-4 bg-gradient-to-br from-white to-gray-400 bg-clip-text text-5xl font-bold tracking-tight text-transparent dark:from-white dark:to-gray-500'>Sites</h1>
+        <p className='text-muted-foreground mb-10 max-w-2xl text-xl'>Browse all available domains in the .do ecosystem</p>
+        <Suspense
+          fallback={
+            <div className='container mx-auto flex h-[50vh] items-center justify-center px-4 pt-24'>
+              <div className='animate-pulse text-lg opacity-50'>Loading sites...</div>
             </div>
-          </div>
-        )}
+          }>
+          <DotDoSection title='Sites' description='Browse all available domains in the .do ecosystem' domainsByCategory={domainsByCategory} />
+        </Suspense>
       </div>
-
-      {Object.entries(domainsByCategory).map(([category, categoryDomains]) => (
-        <Fragment key={category}>
-          <h2 className='mt-8 mb-4 text-2xl font-bold'>{category}</h2>
-          <div className='mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-            {categoryDomains.map((domain) => {
-              const description = domainDescriptions[domain] || ''
-              const href = showAbsolute || isBrandDomain ? `https://${domain}` : `/sites/${domain}`
-
-              return (
-                <Link
-                  href={href}
-                  key={domain}
-                  className='bg-card flex h-full flex-col overflow-hidden rounded-lg border p-4 transition-all duration-300 hover:translate-y-[-5px] hover:shadow-md'>
-                  <h3 className='group-hover:text-primary mb-2 text-xl font-semibold'>{domain}</h3>
-                  <p className='text-muted-foreground mb-auto text-sm'>{description}</p>
-                  <Badge variant='default' className='mt-3 self-start'>
-                    {showAbsolute || isBrandDomain ? 'External' : 'Internal'}
-                  </Badge>
-                </Link>
-              )
-            })}
-          </div>
-        </Fragment>
-      ))}
     </div>
   )
 }
 
-export default function SitesPage() {
-  return (
-    <Suspense fallback={<div className='container mx-auto px-4 pt-20 pb-12'>Loading sites...</div>}>
-      <SitesContent />
-    </Suspense>
-  )
-}
-
-function updateOptionParams(key: string, value: string, search: URLSearchParams) {
-  const queryParams = { ...Object.fromEntries(search) }
-
-  if (queryParams[key] === value) {
-    if (key === 'make' && queryParams['model']) {
-      delete queryParams['model']
-    }
-    delete queryParams[key]
-  } else {
-    queryParams[key] = value
-  }
-
-  return queryParams
-}
+export default withSitesNavbar(SitesPage)
