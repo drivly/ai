@@ -20,6 +20,10 @@
     border-radius: 4px !important;
   }
 
+  .table {
+    @apply block;
+  }
+
   textarea:focus-visible {
     outline: none !important;
   }
