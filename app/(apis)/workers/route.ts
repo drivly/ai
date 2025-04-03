@@ -1,139 +1,87 @@
-import { NextResponse } from 'next/server'
+import { API } from '@/lib/api'
 import { headers } from 'next/headers'
 
-export async function GET(request) {
-  const headersList = headers()
+export const GET = API(async (request, { origin, url, payload }) => {
+  const headersList = await headers()
   const authHeader = headersList.get('Authorization')
   const sharedSecret = process.env.WORKERS_API_SECRET
   
   if (!authHeader || !sharedSecret || authHeader !== `Bearer ${sharedSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    return { error: 'Unauthorized', status: 401 }
   }
   
-  const url = new URL(request.url)
-  const origin = url.origin
   const searchParams = url.searchParams
   const page = parseInt(searchParams.get('page') || '1')
   const limit = parseInt(searchParams.get('limit') || '20')
   
-  const baseUrl = `${origin}/workers`
-  const links = {
-    home: baseUrl,
-  }
-  
-  const workers = {
-    'example-worker': `${origin}/workers/example-worker`,
-  }
-  
-  const apiHeader = {
-    name: 'workers.do',
-    description: 'Cloudflare Workers API',
-    home: origin,
-    login: `${origin}/login`,
-    signup: `${origin}/signup`,
-    admin: `${origin}/admin`,
-    docs: `${origin}/docs`,
-    repo: 'https://github.com/drivly/ai',
-    sdk: 'https://npmjs.com/workers.do',
-    site: 'https://workers.do',
-  }
-  
-  const user = {
-    authenticated: false,
-    plan: 'Free',
-    ip: request.headers.get('x-forwarded-for') || '127.0.0.1',
-    isp: 'Unknown ISP',
-    flag: '🏳️',
-    requestId: Date.now().toString(),
-    localTime: new Date().toLocaleString(),
-    timezone: 'UTC',
-    latencyMilliseconds: 0,
-    recentInteractions: 0,
-  }
-  
-  return NextResponse.json({
-    api: apiHeader,
-    workers,
-    links,
-    page,
-    limit,
-    total: Object.keys(workers).length,
-    user,
-  })
-}
-
-export async function POST(request) {
-  return await handleWorkerRequest(request)
-}
-
-export async function PUT(request) {
-  return await handleWorkerRequest(request)
-}
-
-export async function DELETE(request) {
-  return await handleWorkerRequest(request)
-}
-
-export async function PATCH(request) {
-  return await handleWorkerRequest(request)
-}
-
-async function handleWorkerRequest(request) {
-  const headersList = headers()
-  const authHeader = headersList.get('Authorization')
-  const sharedSecret = process.env.WORKERS_API_SECRET
-  
-  if (!authHeader || !sharedSecret || authHeader !== `Bearer ${sharedSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-  
-  const url = new URL(request.url)
-  const workerName = url.pathname.split('/workers/')[1]?.split('/')[0]
-  
-  if (!workerName) {
-    return NextResponse.json({ error: 'Worker name is required' }, { status: 400 })
-  }
-  
-  const workerUrl = new URL(`https://${workerName}.workers.do${url.pathname.replace(`/workers/${workerName}`, '')}`)
-  workerUrl.search = url.search
-  
+  let workers = {}
   try {
-    console.log(`Proxying request to: ${workerUrl.toString()}`)
+    const deployments = await payload.find({
+      collection: 'deployments',
+      limit,
+      page,
+    })
     
-    let body = null
-    if (request.method !== 'GET' && request.method !== 'HEAD') {
-      body = await request.arrayBuffer()
+    deployments.docs.forEach(deployment => {
+      if (deployment.name) {
+        workers[deployment.name] = `${origin}/workers/${deployment.name}`
+      }
+    })
+    
+    const baseUrl = `${origin}/workers`
+    const links = {
+      home: baseUrl,
     }
     
-    const startTime = Date.now()
-    const response = await fetch(workerUrl.toString(), {
-      method: request.method,
-      headers: {
-        ...Object.fromEntries(request.headers),
-        'X-Proxied-By': 'workers-api',
-      },
-      body: body,
-    })
-    const endTime = Date.now()
+    if (deployments.hasNextPage) {
+      links.next = `${baseUrl}?page=${page + 1}&limit=${limit}`
+    }
     
-    console.log(`Proxied response from: ${workerUrl.toString()}`, {
-      status: response.status,
-      duration: endTime - startTime,
-    })
+    if (page > 1) {
+      links.prev = `${baseUrl}?page=${page - 1}&limit=${limit}`
+    }
     
-    const responseData = await response.arrayBuffer()
-    
-    return new NextResponse(responseData, {
-      status: response.status,
-      statusText: response.statusText,
-      headers: response.headers,
-    })
+    return {
+      workers,
+      links,
+      page,
+      limit,
+      total: deployments.totalDocs,
+    }
   } catch (error) {
-    console.error(`Error proxying request to: ${workerUrl.toString()}`, error)
+    console.error('Error fetching workers:', error)
     
-    return NextResponse.json(
-      { error: 'Error proxying request', message: error.message },
-      { status: 500 }
-    )
+    const baseUrl = `${origin}/workers`
+    const links = {
+      home: baseUrl,
+    }
+    
+    workers = {
+      'example-worker': `${baseUrl}/example-worker`,
+    }
+    
+    return {
+      workers,
+      links,
+      page,
+      limit,
+      total: Object.keys(workers).length,
+    }
   }
-}
+})
+
+export const POST = API(async (request, { params, url }) => {
+  return { error: 'Method not allowed on root workers endpoint. Use a specific worker path.', status: 405 }
+})
+
+export const PUT = API(async (request, { params, url }) => {
+  return { error: 'Method not allowed on root workers endpoint. Use a specific worker path.', status: 405 }
+})
+
+export const DELETE = API(async (request, { params, url }) => {
+  return { error: 'Method not allowed on root workers endpoint. Use a specific worker path.', status: 405 }
+})
+
+export const PATCH = API(async (request, { params, url }) => {
+  return { error: 'Method not allowed on root workers endpoint. Use a specific worker path.', status: 405 }
+})
