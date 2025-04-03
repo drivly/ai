@@ -8,23 +8,42 @@ import { analyticsMiddleware } from './analytics/src/middleware'
 /**
  * Middleware Configuration
  * -----------------------
- * This middleware handles routing logic for the .do domain ecosystem.
+ * This middleware handles routing logic for the .do domain ecosystem and custom domains.
  * It determines whether requests should be routed to API endpoints or website content.
  */
 
-const siteDomains = ['functions.do', 'workflows.do', 'llm.do', 'llms.do']
-
-const sitePaths = ['/login', '/logout', '/signin', '/signout', '/privacy', '/terms', '/pricing', '/models']
-
-const sitePrefixes = ['/blog', '/docs']
-
 /**
  * Check if a domain should be treated as a gateway domain
- * Gateway domains show the API response at the root path
+ * Gateway domains show the API response at the root path and don't get rewritten
  */
 const isGatewayDomain = (hostname: string): boolean => {
-  return (isAIGateway(hostname) || hostname === 'localhost' || hostname === 'apis.do' || hostname.includes('vercel.app')) 
-    && !hostname.includes('dev.driv.ly')
+  return isAIGateway(hostname) || 
+         hostname === 'localhost' || 
+         hostname === 'apis.do' || 
+         hostname.includes('dev.driv.ly')
+}
+
+/**
+ * Check if a domain is a brand domain that should rewrite to /sites
+ */
+const isBrandDomain = (hostname: string): boolean => {
+  return brandDomains.includes(hostname)
+}
+
+/**
+ * Check if a domain is a .do domain
+ */
+const isDoDomain = (hostname: string): boolean => {
+  return hostname.endsWith('.do')
+}
+
+/**
+ * Get path to correct docs hierarchy for a domain
+ */
+const getDocsPath = (hostname: string): string => {
+  const apiName = hostname.replace('.do', '')
+  
+  return `/docs/${apiName}`
 }
 
 /**
@@ -35,127 +54,50 @@ export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
     const { hostname, pathname, search } = request.nextUrl
     
-    
-    if (hostname === 'do.mw') {
-      console.log('Rewriting do.mw to sites (absolute top priority)', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL('/sites', request.url))
-    }
-    
-    if (hostname === 'apis.do' && pathname === '/sites') {
-      console.log('Rewriting apis.do/sites to sites (absolute top priority)', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL('/sites', request.url))
-    }
-    
-    if (hostname.includes('dev.driv.ly')) {
-      console.log('Rewriting Vercel preview domain to sites (absolute top priority)', { hostname, pathname, search })
-      return NextResponse.redirect(new URL(`https://apis.do/sites${search}`, request.url))
-    }
-    
-    const apiName = hostname.replace('.do', '')
-    const baseHostname = hostname.replace('.do', '')
-
-    const isCollectionName = collectionSlugs.includes(baseHostname)
-    const isDomainAlias = Object.keys(domainsConfig.aliases).includes(hostname)
-    const isAlias = isDomainAlias
-    
-    const effectiveCollection = isDomainAlias
-      ? domainsConfig.aliases[hostname].replace('.do', '')
-      : baseHostname
-
-    if ((isCollectionName || isAlias) && pathname.startsWith('/admin')) {
-      console.log('Rewriting to admin collection', { hostname, pathname, search, collection: effectiveCollection })
-      return NextResponse.rewrite(new URL(`/admin/collections/${effectiveCollection}${pathname.slice(6)}${search}`, request.url))
-    }
-
-    if (pathname === '/admin/login') {
-      console.log('Redirecting to GitHub OAuth', { hostname, pathname, search })
-      const currentURL = `https://${hostname}`
-      return NextResponse.redirect(new URL(`/api/auth/signin/github?callbackUrl=/admin`, currentURL))
-    }
-
-    if (sitePaths.includes(pathname) && siteDomains.includes(hostname)) {
-      console.log('Rewriting to site', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
-    }
-
-    if (pathname.startsWith('/docs') && hostname.endsWith('.do')) {
-      console.log('Rewriting docs path', { hostname, pathname, search })
-      const apiName = hostname.replace('.do', '')
-      return NextResponse.rewrite(new URL(`/docs/${apiName}${pathname.replace('/docs', '')}${search}`, request.url))
-    }
-
-    if (sitePrefixes.some((prefix) => pathname.startsWith(prefix)) && siteDomains.includes(hostname)) {
-      console.log('Rewriting to site w/ prefix', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
-    }
-
-    if (pathname === '/' && siteDomains.includes(hostname)) {
-      console.log('Rewriting to landing page', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
-    }
-    
-    if (brandDomains.includes(hostname)) {
-      console.log('Rewriting brand domain to sites list (high priority)', { hostname, pathname, search })
-      if (pathname === '/' || pathname === '/sites') {
-        return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
-      }
-    }
-
-    if (hostname.includes('dev.driv.ly') && (pathname === '/' || pathname === '/sites')) {
-      console.log('Rewriting Vercel preview domain to sites', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
-    }
-    
-    // Special handler for /api path to route to the domain (minus .do) API path
-    if (pathname === '/api' && apis[apiName]) {
-      console.log('Rewriting /api to API root', { apiName, hostname, pathname, search })
-      const url = new URL(request.url)
-      return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${search}`))
-    }
-
-    if (domainsConfig.aliases[hostname] && pathname === '/') {
-      const aliasedDomain = domainsConfig.aliases[hostname]
-      const aliasedApiName = aliasedDomain.replace('.do', '')
-      console.log('Rewriting aliased domain', { hostname, aliasedDomain, pathname, search })
-      const url = new URL(request.url)
-      return NextResponse.rewrite(new URL(`${url.origin.replace(hostname, aliasedDomain)}/${aliasedApiName}${search}`))
-    }
-    
-    if (hostname === 'apis.do' && pathname === '/sites') {
-      console.log('Rewriting apis.do/sites to sites', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
-    }
-    
     if (isGatewayDomain(hostname)) {
-      console.log('Handling gateway domain', { hostname, pathname, search })
-      const url = new URL(request.url)
+      console.log('Handling gateway domain, exiting middleware', { hostname, pathname, search })
       
       if (pathname === '/sites') {
         console.log('Rewriting gateway domain /sites to sites', { hostname, pathname, search })
         return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
       }
       
-      if (apis[apiName]) {
-        console.log('Rewriting to API', { apiName, hostname, pathname, search })
-        return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
+      return NextResponse.next()
+    }
+    
+    if (isBrandDomain(hostname)) {
+      console.log('Rewriting brand domain to sites list', { hostname, pathname, search })
+      return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+    }
+    
+    if (isDoDomain(hostname)) {
+      const apiName = hostname.replace('.do', '')
+      
+      if (pathname.startsWith('/admin')) {
+        if (collectionSlugs.includes(apiName)) {
+          console.log('Rewriting to admin collection', { hostname, pathname, search, collection: apiName })
+          return NextResponse.rewrite(new URL(`/admin/collections/${apiName}${pathname.slice(6)}${search}`, request.url))
+        }
       }
       
-      return NextResponse.rewrite(new URL(`${url.origin}${pathname}${search}`))
+      if (pathname.startsWith('/docs')) {
+        console.log('Rewriting docs path', { hostname, pathname, search })
+        const docsPath = getDocsPath(hostname)
+        return NextResponse.rewrite(new URL(`${docsPath}${pathname.replace('/docs', '')}${search}`, request.url))
+      }
+      
+      if (pathname.startsWith('/api')) {
+        console.log('Rewriting /api to API root', { apiName, hostname, pathname, search })
+        const url = new URL(request.url)
+        return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname.replace('/api', '')}${search}`))
+      }
+      
+      console.log('Rewriting to site', { hostname, pathname, search })
+      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
     }
     
-    if (apis[apiName] && !brandDomains.includes(hostname)) {
-      console.log('Rewriting to API', { apiName, hostname, pathname, search })
-      const url = new URL(request.url)
-      return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname}${search}`))
-    }
-    
-    if (pathname === '/' && !isGatewayDomain(hostname)) {
-      console.log('Redirecting non-gateway domain to sites path', { hostname, pathname, search })
-      return NextResponse.redirect(new URL(`/sites/${hostname}${search}`, request.url), 302)
-    }
-
-    console.log('no rewrite', { apiName, hostname, pathname, search })
-    return NextResponse.next()
+    console.log('Handling custom domain', { hostname, pathname, search })
+    return NextResponse.rewrite(new URL(`/tenants/${hostname}${pathname}${search}`, request.url))
   })
 }
 
