@@ -111,9 +111,9 @@ export default buildConfig({
       'verbs.beforeChange': 'conjugateVerbs',
       'verbs.afterChange': 'conjugateVerbs',
       'functions.afterChange': ['processCodeFunction', 'generateFunctionExamples'],
-      'searches.beforeChange': { slug: 'executeFunction', input: { functionName: 'generateEmbedding' } },
+      'searches.beforeChange': 'generateEmbedding',
       'searches.afterChange': ['searchThings', 'hybridSearchThings'],
-      'actions.afterChange': { slug: 'executeFunction', input: { functionName: 'executeFunction' } },
+      'actions.afterChange': 'executeFunction',
       'events.afterChange': 'deliverWebhook',
     }),
     // workosPlugin({
