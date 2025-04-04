@@ -30,9 +30,9 @@ export async function fetchOpenRouterModels() {
   }
 }
 
-// Function to extract Nouns and Verbs from Schema.org data
 export function extractNounsAndVerbs(data: any) {
   const nouns: Set<string> = new Set()
+  const things: Set<string> = new Set()
   const verbs: { action: string; type: string }[] = []
 
   // Extract @graph from the JSONLD
@@ -40,7 +40,7 @@ export function extractNounsAndVerbs(data: any) {
 
   if (!graph) {
     console.error('No @graph found in Schema.org data')
-    return { nouns: [], verbs }
+    return { nouns: [], things: [], verbs }
   }
 
   // Process each item in the graph
@@ -57,14 +57,14 @@ export function extractNounsAndVerbs(data: any) {
           verbs.push({ action, type: typeName })
         }
       }
-      // Otherwise it's a noun - we capture all class types as nouns, not just Thing subclasses
       else if (typeName && typeName.length > 0) {
         nouns.add(typeName)
+        things.add(typeName)
       }
     }
   })
 
-  return { nouns: Array.from(nouns), verbs }
+  return { nouns: Array.from(nouns), things: Array.from(things), verbs }
 }
 
 // Function to seed the database
@@ -78,8 +78,7 @@ export async function seedDatabase() {
     // Fetch Schema.org data
     const schemaOrgData = await fetchSchemaOrgData()
 
-    // Extract Nouns and Verbs
-    const { nouns, verbs } = extractNounsAndVerbs(schemaOrgData)
+    const { nouns, things, verbs } = extractNounsAndVerbs(schemaOrgData)
 
     console.log(`Found ${nouns.length} nouns and ${verbs.length} verbs`)
 
@@ -117,6 +116,39 @@ export async function seedDatabase() {
     }
 
     console.log(`Nouns: ${nounsCreated} created, ${nounsSkipped} skipped`)
+
+    console.log('Seeding Things...')
+    let thingsCreated = 0
+    let thingsSkipped = 0
+
+    for (const thing of things) {
+      try {
+        const exists = await payload.find({
+          collection: 'things',
+          where: { name: { equals: thing } },
+        })
+
+        if (exists.docs.length > 0) {
+          console.log(`Thing already exists: ${thing}`)
+          thingsSkipped++
+          continue
+        }
+
+        // Create if it doesn't exist
+        await payload.create({
+          collection: 'things',
+          data: {
+            name: thing,
+          },
+        })
+        console.log(`Created thing: ${thing}`)
+        thingsCreated++
+      } catch (error) {
+        console.error(`Error processing thing ${thing}:`, error)
+      }
+    }
+
+    console.log(`Things: ${thingsCreated} created, ${thingsSkipped} skipped`)
 
     // Seed Verbs
     console.log('Seeding Verbs...')
@@ -340,6 +372,7 @@ export async function seedDatabase() {
     console.log('Database seeding completed successfully!')
     return {
       nouns: { created: nounsCreated, skipped: nounsSkipped },
+      things: { created: thingsCreated, skipped: thingsSkipped },
       verbs: { created: verbsCreated, skipped: verbsSkipped },
       providers: { created: providersCreated, skipped: providersSkipped },
       labs: { created: labsCreated, skipped: labsSkipped },

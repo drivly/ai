@@ -10,10 +10,18 @@ export const GET = API(async (req, { db, params, user, payload }) => {
   
   const seedResults = await seedDatabase()
 
-  // Schema.org Nouns
   const graph = await fetch('https://schema.org/version/latest/schemaorg-current-https.jsonld')
     .then((res) => res.json())
     .then((data) => data['@graph'])
+  
+  const thingsResults = await payload.db.connection.collection('things').bulkWrite(
+    graph.map((thing: any) => {
+      thing.name = thing['rdfs:label']
+      return { updateOne: { filter: { '@id': thing['@id'] }, update: { $set: thing }, upsert: true } }
+    }),
+  )
+  console.log('Schema.org things seeded')
+  
   const schemaResults = await payload.db.connection.collection('nouns').bulkWrite(
     graph.map((thing: any) => {
       thing.name = thing['rdfs:label']
