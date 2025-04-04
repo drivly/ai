@@ -78,4 +78,4 @@ export const saveExecutionResultsTask = {
     { name: 'success', type: 'boolean' }
   ],
   handler: saveExecutionResults,
-} as unknown as TaskConfig<'saveExecutionResults'>
+}
