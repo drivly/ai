@@ -101,7 +101,7 @@ export default buildConfig({
     payloadBetterAuth(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     // storage-adapter-placeholder
-   
+
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
@@ -123,42 +123,42 @@ export default buildConfig({
         functions: {},
         workflows: {},
         agents: {},
-        
+
         queues: {},
         tasks: {},
         goals: {},
         kpis: {},
-        
+
         nouns: {},
         verbs: {},
         databases: {},
         resources: {},
-        
+
         integrations: {},
         connections: {},
         integrationTriggers: {},
         integrationActions: {},
         integrationCategories: {},
-        
+
         triggers: {},
         searches: {},
-        
+
         experiments: {},
         models: {},
         prompts: {},
         settings: {},
-        
+
         types: {},
         modules: {},
         packages: {},
         deployments: {},
-        
+
         benchmarks: {},
         evals: {},
         evalRuns: {},
         evalResults: {},
         datasets: {},
-        
+
         events: {},
         errors: {},
         generations: {},
@@ -166,17 +166,16 @@ export default buildConfig({
         traces: {},
       },
       tenantsSlug: 'projects',
-      userHasAccessToAllTenants: ({ req }) => {
-        const user = req.user;
-        if (!user) return false;
-        
+      userHasAccessToAllTenants: (user) => {
+        if (!user) return false
+
         if (user.roles?.some((role: any) => typeof role === 'object' && role.superAdmin)) {
-          return true;
+          return true
         }
-        
-        const email = user.email;
-        if (!email) return false;
-        return email.endsWith('@driv.ly');
+
+        const email = user.email
+        if (!email) return false
+        return email.endsWith('@driv.ly')
       },
     }),
     // workosPlugin({
