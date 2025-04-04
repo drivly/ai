@@ -168,6 +168,7 @@ async function ActionDetailsSection({
 }
 
 async function ActionPage({ params }: { params: Promise<{ 
+  domain?: string,
   provider?: string, 
   model?: string, 
   integration?: string,

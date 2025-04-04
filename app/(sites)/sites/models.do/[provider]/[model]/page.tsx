@@ -123,7 +123,7 @@ async function ModelDetailsSection({ provider, modelSlug }: { provider: string |
   )
 }
 
-async function ModelDetailsPage({ params }: { params: Promise<{ provider?: string, model?: string }> }) {
+async function ModelDetailsPage({ params }: { params: Promise<{ domain?: string, provider?: string, model?: string }> }) {
   const { provider, model: modelSlug } = await params
   const glowColor = getGlowColor('models.do')
   

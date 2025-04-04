@@ -129,7 +129,7 @@ async function IntegrationDetailsSection({
   )
 }
 
-async function IntegrationPage({ params }: { params: Promise<{ provider?: string, model?: string, integration?: string }> }) {
+async function IntegrationPage({ params }: { params: Promise<{ domain?: string, provider?: string, model?: string, integration?: string }> }) {
   const { provider, model: modelSlug, integration: integrationId } = await params
   const glowColor = getGlowColor('models.do')
   
