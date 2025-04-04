@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
-import { generateFunctionExamplesTask } from '../../tasks/generateFunctionExamples'
+import { generateFunctionExamplesTask } from '../../tasks/ai/generateFunctionExamples'
 import { simplerJSON } from '../../lib/fields/simplerJSON'
 
 export const Functions: CollectionConfig = {
