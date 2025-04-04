@@ -4,9 +4,12 @@ import { Suspense } from 'react'
 
 async function ModelsListSection() {
   const url = 'https://openrouter.ai/api/frontend/models/find?supported_parameters=response_format'
-  const { data } = await fetch(url).then((res) => res.json())
+  const response = await fetch(url).then((res) => res.json())
   
-  const modelsByProvider = data.models.reduce((acc: Record<string, any[]>, model: any) => {
+  const data = response?.data || {}
+  const models = Array.isArray(data.models) ? data.models : []
+  
+  const modelsByProvider = models.reduce((acc: Record<string, any[]>, model: any) => {
     const provider = model.provider || 'unknown'
     if (!acc[provider]) {
       acc[provider] = []
