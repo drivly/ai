@@ -1,6 +1,7 @@
-import { Button } from '@drivly/ui/button'
-import { cn } from '@drivly/ui/lib'
+import { Button } from '@/pkgs/ui/src/server/components/button'
+import { cn } from '@/pkgs/ui/src/lib/utils'
 import { GridPattern } from '../magicui/grid-pattern'
+import Link from 'next/link'
 
 export default function CallToAction() {
   return (
@@ -21,9 +22,11 @@ export default function CallToAction() {
         </h2>
         <div className='flex flex-col justify-center gap-4 sm:flex-row'>
           <Button className='bg-white px-8 py-3 text-base text-black hover:bg-gray-200 hover:text-black'>Join the waitlist</Button>
-          <Button variant='outline' className='border-gray-700 px-12 py-3 text-base text-white hover:bg-[#1A1A1D] hover:text-white' href='#'>
-            Learn more
-          </Button>
+          <Link href='#'>
+            <Button variant='outline' className='border-gray-700 px-12 py-3 text-base text-white hover:bg-[#1A1A1D] hover:text-white'>
+              Learn more
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
