@@ -17,6 +17,8 @@ import { Workflows } from './ai/Workflows'
 import { Agents } from './ai/Agents'
 import { Datasets } from './evals/Datasets'
 import { Models } from './experiments/Models'
+import { Providers } from './experiments/Providers'
+import { Labs } from './experiments/Labs'
 import { Nouns } from './data/Nouns'
 import { Verbs } from './data/Verbs'
 import { Triggers } from './events/Triggers'
@@ -77,6 +79,8 @@ export const collections = [
 
   Experiments,
   Models,
+  Providers,
+  Labs,
   Prompts,
   Settings,
 
