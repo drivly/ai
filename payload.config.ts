@@ -7,6 +7,7 @@ import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { createHooksQueuePlugin } from './pkgs/payload-hooks-queue'
+import { createMultiTenantPlugin } from 'simple-payload'
 import path from 'path'
 import { buildConfig } from 'payload'
 // import { payloadKanbanBoard } from 'payload-kanban-board'
@@ -115,20 +116,17 @@ export default buildConfig({
       'actions.afterChange': { slug: 'executeFunction', input: { functionName: 'executeFunction' } },
       'events.afterChange': 'deliverWebhook',
     }),
+    createMultiTenantPlugin({
+      tenantSelectorLabel: 'Project',
+      collections: {
+        functions: {},
+        workflows: {},
+        agents: {},
+      },
+    }),
   ],
 })
 
-// multiTenantPlugin<Config>({
-//   tenantSelectorLabel: 'Project',
-//   // tenantsArrayField: {},
-//   // tenantField: {},
-//   collections: {
-//     functions: {},
-//     workflows: {},
-//     agents: {},
-//   },
-//   userHasAccessToAllTenants: isSuperAdmin,
-// }),
 // payloadKanbanBoard({
 //   collections: {
 //     tasks: {
