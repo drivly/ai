@@ -88,10 +88,10 @@ export async function middleware(request: NextRequest) {
         }
       }
       
-      if (pathname.startsWith('/docs')) {
+      if (pathname === '/docs') {
         console.log('Rewriting docs path', { hostname, pathname, search })
         const docsPath = getDocsPath(hostname)
-        return NextResponse.rewrite(new URL(`${docsPath}${pathname.replace('/docs', '')}${search}`, request.url))
+        return NextResponse.rewrite(new URL(`${docsPath}${search}`, request.url))
       }
       
       if (pathname === '/api') {
