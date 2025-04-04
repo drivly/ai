@@ -1,10 +1,11 @@
 export default {
-  users: '',
-  teams: '',
-  organizations: '',
+  index: 'Overview',
   projects: '',
-  integrations: '',
+  domains: '',
+  users: '',
+  roles: '',
+  tags: '',
   webhooks: '',
-  apikeys: 'API Keys',
-  billing: ''
+  keys: 'API Keys',
+  auth: 'Authentication',
 }

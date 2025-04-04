@@ -1,0 +1,71 @@
+# Benchmarks
+
+Evaluate AI models on real-world business tasks to select the best models for your specific use cases.
+
+## Overview
+
+Benchmarks provides a framework for evaluating and comparing AI models based on real-world business performance. It enables you to:
+
+- Assess model performance on enterprise-specific tasks
+- Compare models across accuracy, cost, latency, and throughput
+- Create standardized evaluation suites for business functions
+- Maintain leaderboards for different business capabilities
+
+## Features
+
+- **Business Function Evals**: Specialized tests for Sales, Marketing, Support, Coding, etc.
+- **Multi-dimensional Scoring**: Evaluate on accuracy, cost, and performance
+- **Custom Test Suites**: Create evaluations tailored to your business
+- **Automated Testing**: Run benchmarks on model releases
+- **Comparative Analysis**: Track model improvements over time
+
+## Usage
+
+```typescript
+import { defineBenchmark, runBenchmark } from 'benchmarks.do'
+
+// Define a customer support benchmark
+const customerSupportBenchmark = defineBenchmark({
+  name: 'customer_support_quality',
+  description: 'Evaluates AI models on customer support tasks',
+
+  // Define test categories
+  categories: [
+    {
+      name: 'inquiry_classification',
+      description: 'Classify customer inquiries by type',
+      weight: 0.2,
+    },
+    {
+      name: 'response_generation',
+      description: 'Generate helpful responses to inquiries',
+      weight: 0.5,
+    },
+    {
+      name: 'escalation_detection',
+      description: 'Identify when to escalate to human agents',
+      weight: 0.3,
+    },
+  ],
+
+  // Define evaluation metrics
+  metrics: [
+    { name: 'accuracy', weight: 0.7 },
+    { name: 'latency', weight: 0.15 },
+    { name: 'cost', weight: 0.15 },
+  ],
+})
+
+// Run benchmark with multiple models
+const results = await runBenchmark({
+  benchmark: customerSupportBenchmark,
+  models: ['openai/gpt-4.5', 'anthropic/claude-3-opus', 'google/gemini-pro'],
+})
+
+// Get the best model for your use case
+const bestModel = results.getBestModel({
+  accuracyWeight: 0.8,
+  costWeight: 0.1,
+  latencyWeight: 0.1,
+})
+```

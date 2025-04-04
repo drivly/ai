@@ -1,10 +1,7 @@
 export default {
-  logs: '',
-  traces: '',
-  metrics: '',
-  alerts: '',
+  index: 'Overview',
   events: '',
   errors: '',
-  benchmarks: '',
   generations: '',
+  traces: '',
 }

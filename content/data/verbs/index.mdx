@@ -1,0 +1,282 @@
+# Verbs
+
+Verbs define potential actions within workflows explicitly, enabling dynamic decision-making and process optimization based on business logic and context.
+
+## Represent Potential Actions
+
+Verbs provides a powerful framework for defining and managing the actions that can be performed within your business domain. It enables you to create a structured representation of operations that connect entities and drive business processes.
+
+## Features
+
+- **Action Modeling**: Define the core actions in your business domain
+- **Subject-Verb-Object Structure**: Create semantic relationships between entities
+- **Parameter Definitions**: Define the inputs required for each action
+- **Validation Rules**: Ensure action integrity with validation constraints
+- **Composition**: Combine simple verbs into complex operations
+- **Extensibility**: Extend verb definitions with custom behaviors
+- **Type Safety**: Full TypeScript support for reliable development
+
+## Usage
+
+```typescript
+import { defineVerb } from 'verbs.do'
+
+// Define a Purchase verb
+const Purchase = defineVerb({
+  name: 'Purchase',
+  description: 'Represents the action of buying a product or service',
+
+  // Define the subject and object of this verb
+  subject: {
+    type: 'Customer',
+    description: 'The customer making the purchase',
+  },
+  object: {
+    type: 'Product',
+    description: 'The product being purchased',
+  },
+
+  // Define additional parameters for this verb
+  parameters: {
+    quantity: {
+      type: 'number',
+      required: true,
+      minimum: 1,
+      description: 'Number of items to purchase',
+    },
+    paymentMethod: {
+      type: 'string',
+      enum: ['credit_card', 'paypal', 'bank_transfer', 'crypto'],
+      required: true,
+      description: 'Method of payment',
+    },
+    shippingAddress: {
+      type: 'object',
+      properties: {
+        street: { type: 'string', required: true },
+        city: { type: 'string', required: true },
+        state: { type: 'string', required: true },
+        postalCode: { type: 'string', required: true },
+        country: { type: 'string', required: true },
+      },
+      required: true,
+      description: 'Shipping address for physical products',
+    },
+    couponCode: {
+      type: 'string',
+      required: false,
+      description: 'Optional discount coupon code',
+    },
+  },
+
+  // Define the result of this verb
+  result: {
+    type: 'Order',
+    description: 'The order created from this purchase',
+  },
+
+  // Define validation rules
+  validations: [
+    {
+      rule: 'quantity must be available in inventory',
+      message: 'The requested quantity is not available',
+    },
+    {
+      rule: 'if product is digital, shippingAddress is not required',
+      message: 'Shipping address is not required for digital products',
+    },
+  ],
+
+  // Define the handler that executes this verb
+  handler: async ({ subject, object, parameters }, context) => {
+    const { quantity, paymentMethod, shippingAddress, couponCode } = parameters
+
+    // Check inventory
+    const product = await context.db.Product.findById(object.id)
+    if (product.inventory < quantity) {
+      throw new Error('Insufficient inventory')
+    }
+
+    // Calculate price
+    let totalPrice = product.price * quantity
+    if (couponCode) {
+      const coupon = await context.db.Coupon.findByCode(couponCode)
+      if (coupon && coupon.isValid) {
+        totalPrice = totalPrice * (1 - coupon.discountPercentage / 100)
+      }
+    }
+
+    // Process payment
+    const paymentResult = await context.services.payment.process({
+      customerId: subject.id,
+      amount: totalPrice,
+      method: paymentMethod,
+    })
+
+    // Create order
+    const order = await context.db.Order.create({
+      customerId: subject.id,
+      productId: object.id,
+      quantity,
+      totalPrice,
+      paymentId: paymentResult.id,
+      shippingAddress,
+      status: 'confirmed',
+    })
+
+    // Update inventory
+    await context.db.Product.update(object.id, {
+      inventory: product.inventory - quantity,
+    })
+
+    return order
+  },
+})
+
+// Use the Purchase verb in a workflow
+import { AI } from 'workflows.do'
+
+export default AI({
+  onCheckout: async ({ verbs, event }) => {
+    const { customerId, productId, quantity, paymentMethod, shippingAddress, couponCode } = event
+
+    // Execute the Purchase verb
+    const order = await verbs.Purchase({
+      subject: { id: customerId },
+      object: { id: productId },
+      parameters: {
+        quantity,
+        paymentMethod,
+        shippingAddress,
+        couponCode,
+      },
+    })
+
+    return {
+      orderId: order.id,
+      status: order.status,
+      totalPrice: order.totalPrice,
+    }
+  },
+})
+```
+
+## Verb Composition
+
+Verbs.do allows you to compose complex operations from simpler verbs:
+
+```typescript
+const CompleteCheckout = defineVerb({
+  name: 'CompleteCheckout',
+  description: 'Completes the checkout process for a shopping cart',
+
+  subject: {
+    type: 'Customer',
+    description: 'The customer checking out',
+  },
+  object: {
+    type: 'ShoppingCart',
+    description: 'The shopping cart being checked out',
+  },
+
+  // Define the composition of verbs
+  composition: [
+    {
+      verb: 'ValidateCart',
+      mapping: {
+        subject: 'subject',
+        object: 'object',
+      },
+    },
+    {
+      verb: 'ProcessPayment',
+      mapping: {
+        subject: 'subject',
+        object: {
+          type: 'PaymentIntent',
+          source: 'parameters.paymentIntent',
+        },
+      },
+    },
+    {
+      verb: 'CreateOrder',
+      mapping: {
+        subject: 'subject',
+        object: 'object',
+        result: 'result',
+      },
+    },
+    {
+      verb: 'EmptyCart',
+      mapping: {
+        subject: 'subject',
+        object: 'object',
+      },
+    },
+  ],
+
+  // Additional configuration...
+})
+```
+
+## Verb Categories
+
+Verbs.do supports various categories of verbs for different types of actions:
+
+### Transactional Verbs
+
+```typescript
+const Transfer = defineVerb({
+  name: 'Transfer',
+  category: 'transaction',
+  subject: { type: 'Account' },
+  object: { type: 'Account' },
+  parameters: {
+    amount: { type: 'number', required: true },
+    currency: { type: 'string', required: true },
+  },
+  // Additional configuration...
+})
+```
+
+### Communication Verbs
+
+```typescript
+const Notify = defineVerb({
+  name: 'Notify',
+  category: 'communication',
+  subject: { type: 'System' },
+  object: { type: 'User' },
+  parameters: {
+    message: { type: 'string', required: true },
+    channel: { type: 'string', enum: ['email', 'sms', 'push'], required: true },
+  },
+  // Additional configuration...
+})
+```
+
+### State Change Verbs
+
+```typescript
+const Activate = defineVerb({
+  name: 'Activate',
+  category: 'state',
+  subject: { type: 'Admin' },
+  object: { type: 'Account' },
+  parameters: {
+    reason: { type: 'string', required: false },
+  },
+  // Additional configuration...
+})
+```
+
+## Verb Templates
+
+Discover and use pre-built verb templates from the marketplace to accelerate your development process.
+
+## Next Steps
+
+- [Create your first business action](/verbs/create)
+- [Explore industry-specific action templates](/verbs/templates)
+- [Learn about action permissions](/verbs/permissions)
+- [Implement action-driven business processes](/verbs/business-processes)

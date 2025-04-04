@@ -1,0 +1,230 @@
+# [Searches.do](https://searches.do) - Context-Aware Data Retrieval
+
+> Query and retrieve relevant data for your AI applications
+
+## Overview
+
+Searches.do provides powerful search capabilities for retrieving context-relevant data from various sources. This AI primitive enables:
+
+- Natural language querying of structured and unstructured data
+- Semantic search across multiple data sources
+- Relevance ranking and filtering
+- Vector search for similarity matching
+- Context-aware data retrieval for AI functions and agents
+
+## Features
+
+- **Unified Search Interface**: Search across multiple data sources with a consistent API
+- **Semantic Search**: Find information based on meaning, not just keywords
+- **Faceted Search**: Filter results by multiple dimensions
+- **Vector Search**: Find similar items using embeddings
+- **Hybrid Search**: Combine keyword and semantic search for optimal results
+- **Personalized Results**: Tailor search results based on user context
+- **Real-time Updates**: Get the latest information from connected systems
+
+## Usage
+
+```typescript
+import { defineSearch } from 'searches.do'
+
+// Define a search across knowledge base articles
+const knowledgeBaseSearch = defineSearch({
+  name: 'knowledgeBaseSearch',
+  description: 'Search across knowledge base articles',
+
+  // Define the data sources to search
+  sources: [
+    {
+      name: 'articles',
+      type: 'database',
+      collection: 'knowledgeBase',
+      fields: ['title', 'content', 'tags'],
+      weights: {
+        title: 2.0,
+        content: 1.0,
+        tags: 1.5,
+      },
+    },
+    {
+      name: 'faqs',
+      type: 'database',
+      collection: 'frequentlyAskedQuestions',
+      fields: ['question', 'answer'],
+      weights: {
+        question: 2.0,
+        answer: 1.0,
+      },
+    },
+  ],
+
+  // Define search parameters
+  parameters: {
+    query: {
+      type: 'string',
+      required: true,
+      description: 'The search query',
+    },
+    filters: {
+      type: 'object',
+      required: false,
+      description: 'Filters to apply to the search results',
+      properties: {
+        category: {
+          type: 'string',
+          description: 'Filter by category',
+        },
+        tags: {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
+          description: 'Filter by tags',
+        },
+        createdAfter: {
+          type: 'string',
+          format: 'date',
+          description: 'Filter by creation date',
+        },
+      },
+    },
+    limit: {
+      type: 'number',
+      required: false,
+      default: 10,
+      description: 'Maximum number of results to return',
+    },
+    offset: {
+      type: 'number',
+      required: false,
+      default: 0,
+      description: 'Number of results to skip',
+    },
+  },
+
+  // Transform the search results
+  transform: (results) => {
+    return {
+      items: results.map((item) => ({
+        id: item.id,
+        title: item.title || item.question,
+        content: item.content || item.answer,
+        type: item._source === 'articles' ? 'article' : 'faq',
+        url: item._source === 'articles' ? `/knowledge-base/${item.id}` : `/faqs/${item.id}`,
+        relevanceScore: item._score,
+      })),
+      totalCount: results.totalCount,
+      facets: results.facets,
+    }
+  },
+})
+
+// Use the search in a workflow
+import { AI } from 'workflows.do'
+
+export default AI({
+  onCustomerSupport: async ({ ai, api, event }) => {
+    const { query } = event
+
+    // Search for relevant knowledge base articles
+    const searchResults = await api.searches.knowledgeBaseSearch({
+      query,
+      filters: {
+        category: 'customer-support',
+      },
+      limit: 5,
+    })
+
+    // Generate a response based on the search results
+    const response = await ai.generateSupportResponse({
+      query,
+      relevantArticles: searchResults.items,
+    })
+
+    return {
+      answer: response.answer,
+      sources: response.sources,
+      suggestedArticles: searchResults.items.map((item) => ({
+        title: item.title,
+        url: item.url,
+      })),
+    }
+  },
+})
+```
+
+## Search Types
+
+### Database Search
+
+Search across collections in your database:
+
+```typescript
+const productSearch = defineSearch({
+  name: 'productSearch',
+  sources: [
+    {
+      name: 'products',
+      type: 'database',
+      collection: 'products',
+      fields: ['name', 'description', 'categories', 'tags'],
+    },
+  ],
+  // Additional configuration...
+})
+```
+
+### Vector Search
+
+Find similar items using vector embeddings:
+
+```typescript
+const similarDocumentSearch = defineSearch({
+  name: 'similarDocumentSearch',
+  sources: [
+    {
+      name: 'documents',
+      type: 'vector',
+      collection: 'documents',
+      embeddingField: 'embedding',
+      contentFields: ['title', 'content'],
+    },
+  ],
+  // Additional configuration...
+})
+```
+
+### External API Search
+
+Search using external APIs:
+
+```typescript
+const githubIssueSearch = defineSearch({
+  name: 'githubIssueSearch',
+  sources: [
+    {
+      name: 'github',
+      type: 'api',
+      endpoint: 'https://api.github.com/search/issues',
+      parameters: {
+        q: '{{query}} repo:{{repo}}',
+        sort: 'updated',
+        order: 'desc',
+      },
+      authentication: {
+        type: 'bearer',
+        token: '{{secrets.GITHUB_TOKEN}}',
+      },
+      resultPath: 'items',
+      mapping: {
+        id: 'number',
+        title: 'title',
+        content: 'body',
+        url: 'html_url',
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+      },
+    },
+  ],
+  // Additional configuration...
+})
+```
