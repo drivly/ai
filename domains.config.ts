@@ -61,6 +61,8 @@ export interface DomainConfig {
   isAIGateway?: boolean
   /** Custom glow color for the domain */
   glowColor?: string
+  /** Docs sub-path for this domain */
+  docs?: string
 }
 
 export interface CollectionConfig {
@@ -123,6 +125,7 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
     const domain = defaultDomainForCollection(slug)
     config[domain] = {
       collections: [slug],
+      docs: `/docs/${slug}`,
     }
   })
 
@@ -130,26 +133,31 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
   config['functions.do'] = {
     collections: ['functions'],
     glowColor: '#b30510', // RED-b30510 Pink-fe8bbb
+    docs: '/docs/functions',
   }
 
   config['database.do'] = {
     collections: ['database'],
     glowColor: '#0510b3', // Blue-0510b3  4a7eff
+    docs: '/docs/database',
   }
 
   config['workflows.do'] = {
     collections: ['workflows'],
     glowColor: '#05b2a6', // Green-05b2a6
+    docs: '/docs/workflows',
   }
 
   config['agents.do'] = {
     collections: ['agents'],
     glowColor: '#9e7aff', // Purple
+    docs: '/docs/agents',
   }
 
   config['llm.do'] = {
     collections: ['llm'],
     glowColor: '#05b2a6', // Green-05b2a6
+    docs: '/docs/llm',
   }
 
   config['databases.do'] = {

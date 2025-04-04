@@ -1,6 +1,7 @@
 export default {
   index: 'Introduction',
   manifesto: 'Manifesto',
+  README: { display: 'hidden' },
   // 'getting-started': 'Getting Started',
   apis: '',
   sdks: '',
