@@ -219,14 +219,18 @@ const db = DB({
   baseUrl?: string, // Optional, defaults to 'https://database.do'
   apiKey?: string,  // Optional, overrides the DATABASE_API_KEY environment variable
   // Optional schema definitions
-  resourceType1: { /* schema */ },
-  resourceType2: { /* schema */ },
+```text
+  resource1: { /* schema */ },
+  resource2: { /* schema */ },
+```
 })
 ```
 
 ### Resource Methods
 
-#### db.{resourceType}.find(options?)
+```text
+db.{resourceName}.find(options?)
+```
 
 Retrieves multiple documents from a resource with optional filtering, sorting, and pagination.
 
@@ -243,7 +247,9 @@ interface QueryOptions {
 const results = await db.posts.find(options)
 ```
 
-#### db.{resourceType}.findOne(id)
+```text
+db.{resourceName}.findOne(id)
+```
 
 Retrieves a single document by its ID.
 
@@ -251,7 +257,9 @@ Retrieves a single document by its ID.
 const document = await db.posts.findOne('document-id')
 ```
 
-#### db.{resourceType}.create(data)
+```text
+db.{resourceName}.create(data)
+```
 
 Creates a new document in the resource.
 
@@ -263,7 +271,9 @@ const newDocument = await db.posts.create({
 })
 ```
 
-#### db.{resourceType}.update(id, data)
+```text
+db.{resourceName}.update(id, data)
+```
 
 Updates an existing document by its ID.
 
@@ -274,7 +284,9 @@ const updatedDocument = await db.posts.update('document-id', {
 })
 ```
 
-#### db.{resourceType}.delete(id)
+```text
+db.{resourceName}.delete(id)
+```
 
 Deletes a document by its ID.
 
@@ -282,7 +294,9 @@ Deletes a document by its ID.
 await db.posts.delete('document-id')
 ```
 
-#### db.{resourceType}.search(query, options?)
+```text
+db.{resourceName}.search(query, options?)
+```
 
 Performs a text search across documents in a collection.
 
