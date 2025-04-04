@@ -14,7 +14,7 @@ const defaultConfig: AnalyticsConfig = {
 };
 
 const analyticsApi = new API({
-  baseURL: 'https://analytics.do/api',
+  baseUrl: 'https://analytics.do/api',
 });
 
 /**
