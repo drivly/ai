@@ -33,7 +33,7 @@ export class CronDurableObject {
     this.handlers = options.handlers || {};
     
     state.blockConcurrencyWhile(async () => {
-      state.setAlarm(await this.getNextAlarmTime());
+      await state.storage.setAlarm(await this.getNextAlarmTime());
     });
   }
   

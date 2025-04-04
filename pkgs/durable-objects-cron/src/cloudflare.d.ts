@@ -1,6 +1,7 @@
 
+
 declare global {
-  interface DurableObjectState {
+  interface DurableObjectStorage {
     /**
      * Set an alarm to be triggered at the specified time
      */
@@ -10,6 +11,11 @@ declare global {
      * Get the current alarm time
      */
     getAlarm(): Promise<number | null>;
+    
+    /**
+     * Delete the current alarm
+     */
+    deleteAlarm(): Promise<void>;
   }
 }
 
