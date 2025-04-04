@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { simplerJSON } from '../../pkgs/payload-schema-fields/src'
+import { simplerJSON } from '../../pkgs/payload-utils/src'
 
 export const Functions: CollectionConfig = {
   slug: 'functions',
