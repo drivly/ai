@@ -2,7 +2,7 @@ import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
 import { generateFunctionExamplesTask } from '../../tasks/generateFunctionExamples'
-import { createSchemaFields } from '../../lib/fields/createSchemaFields'
+import { simplerJSON } from '../../lib/fields/simplerJSON'
 
 export const Functions: CollectionConfig = {
   slug: 'functions',
@@ -152,7 +152,7 @@ export const Functions: CollectionConfig = {
     //     condition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
     //   },
     // },
-    ...createSchemaFields({
+    ...simplerJSON({
       jsonFieldName: 'shape',
       codeFieldName: 'schemaYaml',
       label: 'Schema',

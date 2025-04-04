@@ -15,7 +15,7 @@ try {
 
 type SchemaFormat = 'yaml' | 'json5'
 
-type CreateSchemaFieldsOptions = {
+type SimplerJSONOptions = {
   jsonFieldName?: string
   codeFieldName?: string
   label?: string
@@ -41,7 +41,7 @@ type CreateSchemaFieldsOptions = {
  * 
  * The function handles conversion between formats and validation.
  */
-export const createSchemaFields = ({
+export const simplerJSON = ({
   jsonFieldName = 'shape',
   codeFieldName = 'schemaYaml',
   label = 'Schema',
@@ -52,7 +52,7 @@ export const createSchemaFields = ({
     padding: { top: 20, bottom: 20 } 
   },
   hideJsonField = true
-}: CreateSchemaFieldsOptions = {}): Field[] => {
+}: SimplerJSONOptions = {}): Field[] => {
   const language = defaultFormat === 'yaml' ? 'yaml' : 'json'
   
   return [
