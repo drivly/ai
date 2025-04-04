@@ -379,13 +379,13 @@ const api = new API({
 
 | Method                                                                                         | Description                |
 | ---------------------------------------------------------------------------------------------- | -------------------------- |
-| `list<T>(collectionName: string, params?: QueryParams): Promise<ListResponse<T>>`                  | List items in a collection |
-| `getById<T>(collectionName: string, id: string): Promise<T>`                                       | Get an item by ID          |
-| `create<T>(collectionName: string, data: Partial<T>): Promise<T>`                                  | Create a new item          |
-| `update<T>(collectionName: string, id: string, data: Partial<T>): Promise<T>`                      | Update an item             |
-| `replace<T>(collectionName: string, id: string, data: T): Promise<T>`                              | Replace an item            |
-| `remove<T>(collectionName: string, id: string): Promise<T>`                                        | Delete an item             |
-| `search<T>(collectionName: string, query: string, params?: QueryParams): Promise<ListResponse<T>>` | Search within a collection |
+| `list<T>(collection: string, params?: QueryParams): Promise<ListResponse<T>>`                  | List items in a collection |
+| `getById<T>(collection: string, id: string): Promise<T>`                                       | Get an item by ID          |
+| `create<T>(collection: string, data: Partial<T>): Promise<T>`                                  | Create a new item          |
+| `update<T>(collection: string, id: string, data: Partial<T>): Promise<T>`                      | Update an item             |
+| `replace<T>(collection: string, id: string, data: T): Promise<T>`                              | Replace an item            |
+| `remove<T>(collection: string, id: string): Promise<T>`                                        | Delete an item             |
+| `search<T>(collection: string, query: string, params?: QueryParams): Promise<ListResponse<T>>` | Search within a collection |
 
 ### Query Parameters
 
