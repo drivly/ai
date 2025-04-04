@@ -1,19 +1,35 @@
 export default {
   index: 'Introduction',
-  manifesto: '',
+  manifesto: 'Manifesto',
   'getting-started': 'Getting Started',
+  _: {
+    type: 'separator',
+    title: 'AI' // Title is optional
+  },
   workflows: '',
   functions: '',
-  database: '',
-  events: '',
-  integrations: '',
-  data: '',
-  things: '',
-  'vector-search': '',
+  agents: '',
+  _2: {
+    type: 'separator',
+    title: 'Data' // Title is optional
+  },
   nouns: '',
   verbs: '',
+  database: '',
+  _3: {
+    type: 'separator',
+    title: 'Events' // Title is optional
+  },
+  events: '',
+  integrations: '',
+  _3: {
+    type: 'separator',
+    title: 'Integrations' // Title is optional
+  },
+  data: '',
+  things: '',
+  // 'vector-search': '',
   actions: '',
-  agents: '',
   llm: '',
   observability: '',
   traces: '',
@@ -22,5 +38,5 @@ export default {
   admin: '',
   api: 'API Reference',
   code: '',
-  'code-hike': 'CodeHike Examples',
+  // 'code-hike': 'CodeHike Examples',
 }

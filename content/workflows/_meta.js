@@ -1,5 +1,5 @@
 export default {
-  index: 'Overview',
+  // index: 'Workflows',
   tutorial: 'Book Creation Tutorial',
   success: 'Success Workflow',
 }
