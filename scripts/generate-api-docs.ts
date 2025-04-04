@@ -1,5 +1,5 @@
-import { getPayload } from 'payload'
-import config from '../payload.config'
+const { getPayload } = require('payload')
+const config = require('../payload.config').default
 
 /**
  * Script to generate API documentation for all collections
