@@ -1,5 +1,5 @@
 export default {
-  index: 'Introduction',
+  index: { title: 'Introduction', display: 'hidden' },
   manifesto: 'Manifesto',
   README: { display: 'hidden' },
   // 'getting-started': 'Getting Started',
