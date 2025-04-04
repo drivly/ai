@@ -23,6 +23,7 @@ import { processBatchGoogleVertexAITask } from './batchGoogleVertexAI'
 import { processBatchParasailTask } from './batchParasail'
 import { createGenerationBatchTask } from './createGenerationBatch'
 import { generateFunctionExamplesTask } from './generateFunctionExamples'
+import { generateApiDocsTask } from './generateApiDocs'
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
@@ -90,6 +91,17 @@ const processDomainTask = {
   handler: processDomain,
 } as unknown as TaskConfig
 
+const generateApiDocsTaskConfig = {
+  slug: 'generateApiDocs',
+  label: 'Generate API Documentation',
+  inputSchema: [],
+  outputSchema: [
+    { name: 'success', type: 'boolean' },
+    { name: 'error', type: 'text' }
+  ],
+  handler: generateApiDocsTask,
+} as unknown as TaskConfig
+
 export const tasks = [
   executeFunctionTask, 
   generateCodeTask,
@@ -112,7 +124,8 @@ export const tasks = [
   processBatchGoogleVertexAITask,
   processBatchParasailTask,
   createGenerationBatchTask,
-  generateFunctionExamplesTask
+  generateFunctionExamplesTask,
+  generateApiDocsTaskConfig
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
