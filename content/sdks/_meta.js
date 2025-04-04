@@ -1,5 +1,6 @@
 export default {
   agents: 'Agents',
+  analytics: 'Analytics',
   apis: 'APIs',
   database: 'Database',
   evals: 'Evals',
