@@ -47,6 +47,7 @@ const writeSdkMdx = async (name, readmeContent) => {
   
   const mdxContent = `---
 title: ${name}
+collection: sdks
 ---
 
 ${readmeContent}`
@@ -62,6 +63,7 @@ const updateIndexMdx = async (sdksInfo) => {
   
   let indexContent = `---
 title: SDKs
+collection: sdks
 asIndexPage: true
 ---
 
@@ -72,7 +74,7 @@ asIndexPage: true
 `
   
   sdksInfo.forEach(({ name, description, baseName }) => {
-    indexContent += `## [${name}](${baseName})\n\n${description}\n\n`
+    indexContent += `## [${name}](${baseName}.mdx)\n\n${description}\n\n`
   })
   
   await fs.writeFile(indexPath, indexContent)
