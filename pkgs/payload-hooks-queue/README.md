@@ -18,7 +18,24 @@ export default buildConfig({
   // ... other config
   plugins: [
     createHooksQueuePlugin({
-      // Simple string syntax - runs task after any change to this collection
+      // TypeScript-friendly collection.hook pattern
+      'nouns.afterChange': 'enrichNoun',
+      'verbs.afterChange': ['enrichVerb', 'notifyVerbChange'],
+      'things.beforeChange': ['validateThing'],
+      'things.afterChange': [
+        'enrichThing',
+        {
+          slug: 'notifyThingChange',
+          input: {
+            notificationType: 'email',
+            recipients: ['admin@example.com']
+          }
+        }
+      ],
+      'things.beforeDelete': 'archiveThing',
+      'things.afterDelete': 'notifyThingDelete',
+      
+      // Traditional syntax is still supported
       collections: {
         // Run a specific task on nouns collection changes
         'nouns': 'enrichNoun',
@@ -56,7 +73,10 @@ export default buildConfig({
       // Global hooks run for all collections
       global: {
         afterChange: ['logAllChanges']
-      }
+      },
+      
+      // Exclude specific collections from global hooks
+      excludeFromGlobal: ['sensitiveCollection', 'highVolumeCollection']
     })
   ]
 })
