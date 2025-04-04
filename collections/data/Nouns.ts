@@ -29,19 +29,6 @@ export const Nouns: CollectionConfig = {
             try {
               const { payload } = req
               
-              const jobResult = await payload.find({
-                collection: 'jobs',
-                sort: '-createdAt',
-                where: {
-                  task: { equals: 'inflectNouns' },
-                  'input.args.noun': { equals: doc.name }
-                },
-                limit: 1
-              })
-              
-              if (jobResult.docs.length > 0) {
-                waitUntil(payload.jobs.runByID({ id: jobResult.docs[0].id }))
-              }
               
               const updateData: Record<string, string> = {}
               
