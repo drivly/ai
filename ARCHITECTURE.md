@@ -153,6 +153,44 @@ Key characteristics:
 - Access to functions, workflows, and integrations
 - Autonomous decision making
 
+### MDX-Based Agent Capabilities
+
+Agents can be defined using MDX files, providing a powerful and flexible way to implement agent behavior:
+
+```mermaid
+graph TD
+    MDXFile["MDX File"] --> Frontmatter["Frontmatter<br/>Metadata, tools, etc."]
+    MDXFile --> Components["React Components<br/>UI elements"]
+    MDXFile --> CodeBlocks["Code Blocks<br/>JavaScript execution"]
+    
+    Frontmatter --> AgentInstance["Agent Instance"]
+    Components --> AgentUI["Agent UI<br/>Visualization"]
+    CodeBlocks --> AgentLogic["Agent Logic<br/>Behavior"]
+    
+    AgentInstance --> AgentRuntime["Agent Runtime"]
+    AgentUI --> AgentRuntime
+    AgentLogic --> AgentRuntime
+    
+    style MDXFile fill:#d9ead3,stroke:#333,stroke-width:1px
+    style Frontmatter fill:#d9ead3,stroke:#333,stroke-width:1px
+    style Components fill:#d9ead3,stroke:#333,stroke-width:1px
+    style CodeBlocks fill:#d9ead3,stroke:#333,stroke-width:1px
+    style AgentInstance fill:#e6e6fa,stroke:#333,stroke-width:1px
+    style AgentUI fill:#e6e6fa,stroke:#333,stroke-width:1px
+    style AgentLogic fill:#e6e6fa,stroke:#333,stroke-width:1px
+    style AgentRuntime fill:#e6e6fa,stroke:#333,stroke-width:1px
+```
+
+Key features:
+
+- Structured data through frontmatter including tools, inputs, and outputs
+- Full code execution capabilities with import/export support
+- Visual component integration rendered as JSX/React components
+- Agent state visualization with support for multiple states/modes
+- MDX content files located at `/content/**/*.mdx`
+- The Velite content build step (`build:content`) integrated into the Vercel build process
+- Content files use plural names for core primitives (Functions, Agents, Workflows) to match domain names
+
 ## Event System
 
 ### Triggers.do - Start Business Processes
@@ -397,9 +435,10 @@ graph TD
         SDK[SDK]
     end
 
-    subgraph "Edge Network"
+    subgraph "Vercel"
         CDN[CDN]
         EdgeFunctions[Edge Functions]
+        WebsitePreview[Preview Environments]
     end
 
     subgraph "API Layer"
@@ -427,6 +466,7 @@ graph TD
     Browser --> CDN
     SDK --> EdgeFunctions
     CDN --> EdgeFunctions
+    EdgeFunctions --> WebsitePreview
     EdgeFunctions --> APIGateway
     APIGateway --> Auth
     APIGateway --> Routing
@@ -446,6 +486,7 @@ graph TD
     style SDK fill:#f9f9f9,stroke:#333,stroke-width:1px
     style CDN fill:#d5a6bd,stroke:#333,stroke-width:1px
     style EdgeFunctions fill:#d5a6bd,stroke:#333,stroke-width:1px
+    style WebsitePreview fill:#d5a6bd,stroke:#333,stroke-width:1px
     style APIGateway fill:#cfe2f3,stroke:#333,stroke-width:1px
     style Auth fill:#cfe2f3,stroke:#333,stroke-width:1px
     style Routing fill:#cfe2f3,stroke:#333,stroke-width:1px
@@ -458,9 +499,18 @@ graph TD
     style ThirdPartyAPIs fill:#d9d2e9,stroke:#333,stroke-width:1px
 ```
 
+Key deployment patterns:
+
+- Vercel is used for deployment and preview environments
+- Preview environments follow the URL pattern: https://ai-git-{branch-name}.dev.driv.ly/
+- The Velite content build step (`build:content`) is integrated into the Vercel build process
+- Documentation is accessible at the same path structure in preview as in local development
+  - Local: http://localhost:3000/docs
+  - Preview: https://ai-git-{branch-name}.dev.driv.ly/docs
+
 ## Repository Structure
 
-The AI Primitives platform is organized as a monorepo using Turborepo with pnpm workspaces:
+The AI Primitives platform is organized as a monorepo using pnpm workspaces:
 
 ```mermaid
 graph TD
@@ -489,10 +539,12 @@ graph TD
     Packages --> DeployWorker["pkgs/deploy-worker/"]
     Packages --> ClickableLinks["pkgs/clickable-links/"]
 
-    SDKs --> FunctionsSDK["sdks/functions/"]
-    SDKs --> WorkflowsSDK["sdks/workflows/"]
-    SDKs --> AgentsSDK["sdks/agents/"]
-    SDKs --> DatabaseSDK["sdks/database/"]
+    SDKs --> FunctionsSDK["sdks/functions.do/"]
+    SDKs --> WorkflowsSDK["sdks/workflows.do/"]
+    SDKs --> AgentsSDK["sdks/agents.do/"]
+    SDKs --> LLMSDK["sdks/llm.do/"]
+    SDKs --> DatabaseSDK["sdks/database.do/"]
+    SDKs --> IntegrationsSDK["sdks/integrations.do/"]
 
     style Root fill:#f9f9f9,stroke:#333,stroke-width:1px
     style App fill:#d5a6bd,stroke:#333,stroke-width:1px
@@ -511,16 +563,64 @@ graph TD
 Key directories:
 
 - `/app/`: Next.js application components
+  - `/(websites)/`: Website components
+  - `/(apis)/`: API route handlers
+  - `/(payload)/`: Payload CMS admin configurations
 - `/collections/`: Payload CMS collection definitions
+  - `/ai/`: AI-related collections (Functions, Workflows, Agents)
+  - `/data/`: Data model collections (Things, Nouns, Verbs)
+  - `/events/`: Event-related collections (Triggers, Searches, Actions)
+  - `/observability/`: Monitoring collections (Generations)
 - `/components/`: Shared UI components
 - `/content/`: MDX content files
 - `/lib/`: Shared utility functions
-- `/pkgs/`: Shared packages (monorepo)
+- `/pkgs/`: Shared packages (monorepo, can have dependencies)
 - `/sdks/`: Zero-dependency SDK implementations published to npm
 - `/tasks/`: Backend implementations with dependencies
 - `/websites/`: Website implementations
 - `/workers/`: Cloudflare Workers implementations
 - `/workflows/`: Workflow definitions and examples
+
+## SDK Implementation Patterns
+
+The AI Primitives platform follows specific patterns for SDK implementation to ensure clean separation between interface and implementation:
+
+```mermaid
+graph TD
+    subgraph "SDK Package Structure"
+        SDKInterface["SDK Interface<br/>Zero-dependency implementation"]
+        SDKTypes["SDK Types<br/>TypeScript interfaces"]
+        SDKExports["SDK Exports<br/>Public API"]
+    end
+    
+    subgraph "Backend Implementation"
+        TaskImplementation["Task Implementation<br/>With dependencies"]
+        APIRoutes["API Routes<br/>Server endpoints"]
+        DatabaseModels["Database Models<br/>Payload collections"]
+    end
+    
+    SDKInterface --> SDKTypes
+    SDKInterface --> SDKExports
+    TaskImplementation --> SDKInterface
+    APIRoutes --> TaskImplementation
+    DatabaseModels --> TaskImplementation
+    
+    style SDKInterface fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style SDKTypes fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style SDKExports fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style TaskImplementation fill:#ead1dc,stroke:#333,stroke-width:1px
+    style APIRoutes fill:#cfe2f3,stroke:#333,stroke-width:1px
+    style DatabaseModels fill:#d0e0e3,stroke:#333,stroke-width:1px
+```
+
+Key principles:
+
+- SDK implementations in `/sdks/` maintain zero dependencies (except apis.do) to be publishable on npm
+- Backend implementations of SDK features are placed in the `/tasks/` folder with workspace-level dependencies
+- Package entry points in package.json files point to built files (e.g., dist/index.js) rather than source files
+- Modern Node.js features (Node 20+ or 22+) are used throughout the codebase:
+  - Built-in fetch instead of node-fetch or require('https')
+  - Built-in modern alternatives to older Node.js modules
 
 ## Collection Structure
 
@@ -708,3 +808,105 @@ graph TD
     style Prompts fill:#cfe2f3,stroke:#333,stroke-width:1px
     style Settings fill:#cfe2f3,stroke:#333,stroke-width:1px
 ```
+
+## Documentation Practices
+
+The AI Primitives platform follows specific practices for documentation to ensure consistency and clarity:
+
+```mermaid
+graph TD
+    subgraph "Documentation Sources"
+        README["Root README.md<br/>Strategic vision"]
+        CollectionsIndex["collections/index.ts<br/>Collection registration"]
+        SDKReadmes["SDK README.md files<br/>Package documentation"]
+        WindsurfRules[".windsurfrules<br/>Technical specifications"]
+        OpenHandsRepo[".openhands/microagents/repo.md<br/>Implementation patterns"]
+    end
+    
+    subgraph "Documentation Structure"
+        ContentDirectory["content/<br/>MDX documentation"]
+        MetaFiles["_meta.js<br/>Navigation structure"]
+        APIDocs["API documentation"]
+        GuideDocs["Guides and tutorials"]
+    end
+    
+    README --> ContentDirectory
+    README --> MetaFiles
+    CollectionsIndex --> ContentDirectory
+    SDKReadmes --> ContentDirectory
+    WindsurfRules --> ContentDirectory
+    OpenHandsRepo --> ContentDirectory
+    
+    style README fill:#d9ead3,stroke:#333,stroke-width:1px
+    style CollectionsIndex fill:#d0e0e3,stroke:#333,stroke-width:1px
+    style SDKReadmes fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style WindsurfRules fill:#ffd966,stroke:#333,stroke-width:1px
+    style OpenHandsRepo fill:#ead1dc,stroke:#333,stroke-width:1px
+    style ContentDirectory fill:#d9ead3,stroke:#333,stroke-width:1px
+    style MetaFiles fill:#d9ead3,stroke:#333,stroke-width:1px
+    style APIDocs fill:#d9ead3,stroke:#333,stroke-width:1px
+    style GuideDocs fill:#d9ead3,stroke:#333,stroke-width:1px
+```
+
+Key documentation principles:
+
+- Documentation files and references use plural names for core primitives (Functions, Agents, Workflows) to match domain names
+- The README.md in the root directory contains the strategic vision and is used as the source of truth
+- Core items (Workflows, Functions, Database, Events, Integrations) are placed at the root level of the documentation
+- Documentation order follows the logical order established in the root README.md and collections/index.ts
+- Websites and workers do not have their own folders in the documentation
+- The Table of Contents hierarchy is controlled by _meta.js files in the content directory
+
+## Package Versioning
+
+The AI Primitives platform follows specific versioning patterns to ensure consistency across packages:
+
+```mermaid
+graph TD
+    subgraph "SDK Packages"
+        FunctionsSDK["functions.do<br/>Version synchronized"]
+        WorkflowsSDK["workflows.do<br/>Version synchronized"]
+        AgentsSDK["agents.do<br/>Version synchronized"]
+        APISDK["apis.do<br/>Version synchronized"]
+    end
+    
+    subgraph "Regular Packages"
+        AIModels["ai-models<br/>Independent versioning"]
+        DeployWorker["deploy-worker<br/>Independent versioning"]
+        ClickableLinks["clickable-links<br/>Independent versioning"]
+    end
+    
+    subgraph "Version Management"
+        Changesets["Changesets<br/>Version tracking"]
+        PNPMWorkspace["pnpm workspace<br/>Package resolution"]
+    end
+    
+    FunctionsSDK --> Changesets
+    WorkflowsSDK --> Changesets
+    AgentsSDK --> Changesets
+    APISDK --> Changesets
+    AIModels --> Changesets
+    DeployWorker --> Changesets
+    ClickableLinks --> Changesets
+    
+    Changesets --> PNPMWorkspace
+    
+    style FunctionsSDK fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style WorkflowsSDK fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style AgentsSDK fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style APISDK fill:#d4f1f9,stroke:#333,stroke-width:1px
+    style AIModels fill:#ffd966,stroke:#333,stroke-width:1px
+    style DeployWorker fill:#ffd966,stroke:#333,stroke-width:1px
+    style ClickableLinks fill:#ffd966,stroke:#333,stroke-width:1px
+    style Changesets fill:#c9daf8,stroke:#333,stroke-width:1px
+    style PNPMWorkspace fill:#c9daf8,stroke:#333,stroke-width:1px
+```
+
+Key versioning principles:
+
+- Packages in the `sdks` directory maintain synchronized version numbers
+- Packages in the `pkgs` directory can be versioned independently
+- All changes to packages in the `sdks` directory must include a changeset (`pnpm changeset`)
+- During API instability phase, patch versions (0.0.x) are used for SDK packages
+- Version numbers in workspace package dependencies must be synchronized before running Changesets
+- Package names in changesets must exactly match names in respective package.json files
