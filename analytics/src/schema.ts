@@ -1,4 +1,8 @@
 
+export const useJsonType = false;
+
+const jsonFieldType = () => useJsonType ? 'JSON' : 'String';
+
 export const eventsTableSchema = `
 CREATE TABLE IF NOT EXISTS events (
   id UUID DEFAULT generateULID(),
@@ -6,8 +10,8 @@ CREATE TABLE IF NOT EXISTS events (
   type String,
   source String,
   subjectId String,
-  data JSON,
-  metadata JSON,
+  data ${jsonFieldType()},
+  metadata ${jsonFieldType()},
   actionId String,
   triggerId String,
   searchId String,
@@ -24,9 +28,9 @@ CREATE TABLE IF NOT EXISTS generations (
   timestamp Int32 DEFAULT toInt32(now()),
   actionId String,
   settingsId String,
-  request JSON,
-  response JSON,
-  error JSON,
+  request ${jsonFieldType()},
+  response ${jsonFieldType()},
+  error ${jsonFieldType()},
   status String,
   duration Float64,
   tokensInput Int32,
@@ -49,8 +53,8 @@ CREATE TABLE IF NOT EXISTS requests (
   ip String,
   userAgent String,
   referer String,
-  requestBody JSON,
-  responseBody JSON
+  requestBody ${jsonFieldType()},
+  responseBody ${jsonFieldType()}
 ) ENGINE = MergeTree()
 ORDER BY (timestamp, path)
 `;
