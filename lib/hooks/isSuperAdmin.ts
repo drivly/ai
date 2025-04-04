@@ -6,8 +6,11 @@ export function isSuperAdmin(user: unknown) {
   
   const typedUser = user as User
   
-  if (typedUser.roles?.some(role => typeof role === 'object' && role.superAdmin)) {
-    return true
+  const userRoles = (typedUser as any).roles
+  if (userRoles && Array.isArray(userRoles)) {
+    if (userRoles.some((role: any) => typeof role === 'object' && role.superAdmin)) {
+      return true
+    }
   }
   
   return typedUser?.email?.endsWith('@driv.ly') ?? false
