@@ -85,5 +85,4 @@ async function ModelsHomePage({ params }: { params: Promise<{ domain?: string; p
   )
 }
 
-import { withModelsNavbar } from './with-models-navbar'
-export default withModelsNavbar(ModelsHomePage)
+export default ModelsHomePage
