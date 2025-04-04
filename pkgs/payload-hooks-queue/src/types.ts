@@ -25,12 +25,30 @@ export interface HookHandlerOptions {
 }
 
 /**
- * Configuration for a task to be run
+ * Task configuration
  */
-export interface TaskConfig {
+export interface Task {
   slug: string
   input?: Record<string, any>
 }
+
+/**
+ * Workflow configuration
+ */
+export interface Workflow {
+  slug: string
+  input?: Record<string, any>
+}
+
+/**
+ * Configuration for a task or workflow to be run
+ */
+export type TaskConfig = Task | Workflow
+
+/**
+ * Hook types available in Payload collections
+ */
+export type HookType = 'beforeChange' | 'afterChange' | 'beforeDelete' | 'afterDelete'
 
 /**
  * Configuration for hooks in a specific collection
@@ -51,9 +69,19 @@ export interface CollectionHookConfig {
 export type HookConfig = string | string[] | CollectionHookConfig
 
 /**
+ * Type for collection.hook pattern
+ */
+export type CollectionHookPattern = `${string}.${HookType}`
+
+/**
  * Plugin configuration for hook queuing
  */
 export interface HookQueuePluginConfig {
   collections?: Record<string, HookConfig>
+  
+  [key: CollectionHookPattern]: string | TaskConfig | Array<string | TaskConfig>
+  
   global?: HookConfig
+  
+  excludeFromGlobal?: string[]
 }
