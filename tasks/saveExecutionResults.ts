@@ -41,7 +41,7 @@ export const saveExecutionResults = async ({ input, payload }: any) => {
   })
   const generationResult = await payload.create({
     collection: 'generations',
-    data: { action: actionResult?.id, settings: argsDoc?.id, request: input.request || {}, response: generation, status: 'success', duration: generationLatency },
+    data: { action: actionResult?.id, settings: argsDoc?.id, request: input.request || {}, response: generation || {}, status: 'success', duration: generationLatency },
   })
   const eventResult = await payload.create({
     collection: 'events',
