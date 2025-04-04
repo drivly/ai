@@ -38,27 +38,27 @@ const newPackage = await api.createPackage({
     files: ['dist', 'README.md'],
     license: 'MIT'
   },
-  collections: [
-    { collectionName: 'functions' },
-    { collectionName: 'workflows' }
+  "collections": [
+    { "collectionName": "functions" },
+    { "collectionName": "workflows" }
   ]
 })
 
 // Add a collection to a package
-await api.addCollectionToPackage('package-id', 'databases')
+await api.addCollectionToPackage("package-id", "databases")
 
 // Remove a collection from a package
-await api.removeCollectionFromPackage('package-id', 'databases')
+await api.removeCollectionFromPackage("package-id", "databases")
 
 // Update package.json for a package
-await api.updatePackageJson('package-id', {
-  name: 'my-package',
-  version: '0.0.2',
-  description: 'Updated package description'
+await api.updatePackageJson("package-id", {
+  "name": "my-package",
+  "version": "0.0.2",
+  "description": "Updated package description"
 })
 
 // Publish a package to NPM
-await api.publishPackage('package-id', { tag: 'latest' })
+await api.publishPackage("package-id", { "tag": "latest" })
 ```
 
 ### CLI
@@ -187,8 +187,8 @@ interface Package {
   id: string
   name: string
   package: any
-  collections: Array<{
-    collectionName: string
+  "collections": Array<{
+    "collectionName": string
   }>
 }
 ```
