@@ -51,11 +51,14 @@ async function ActionDetailsSection({
   integrationId,
   actionId
 }: { 
-  provider: string, 
-  modelSlug: string, 
-  integrationId: string,
-  actionId: string
+  provider: string | undefined, 
+  modelSlug: string | undefined, 
+  integrationId: string | undefined,
+  actionId: string | undefined
 }) {
+  if (!provider || !modelSlug || !integrationId || !actionId) {
+    notFound()
+  }
   const model = await fetchModelDetails(provider, modelSlug)
   const integration = await fetchIntegration(integrationId)
   const action = await fetchAction(integrationId, actionId)
