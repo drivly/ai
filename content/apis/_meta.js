@@ -1,5 +1,5 @@
 export default {
-  index: 'API Reference',
+  '*': 'API Reference',
   admin: 'Admin',
   ai: 'AI',
   authentication: 'Authentication',
