@@ -9,9 +9,9 @@ type PagePromiseParams<T extends object> = {
 type DomainPageProps = PagePromiseParams<{ domain?: string; slug?: string; provider?: string; model?: string; integration?: string; action?: string }>
 
 export const withSitesNavbar = <TPage extends Record<string, any>>(WrappedPage: React.ComponentType<TPage>) => {
-  return async (props: TPage & { params: Promise<{ domain?: string; provider?: string; model?: string; integration?: string; action?: string }> }) => (
+  return async (props: TPage) => (
     <Fragment>
-      <SitesNavbar params={props.params} />
+      <SitesNavbar {...props} />
       <main className='flex-1 overflow-x-hidden'>
         <WrappedPage {...props} />
       </main>
