@@ -8,6 +8,7 @@ import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { createHooksQueuePlugin } from './pkgs/payload-hooks-queue'
+// import workosPlugin from './pkgs/payload-workos'
 import path from 'path'
 import { buildConfig } from 'payload'
 // import { payloadKanbanBoard } from 'payload-kanban-board'
@@ -111,9 +112,9 @@ export default buildConfig({
       'verbs.beforeChange': 'conjugateVerbs',
       'verbs.afterChange': 'conjugateVerbs',
       'functions.afterChange': ['processCodeFunction', 'generateFunctionExamples'],
-      'searches.beforeChange': { slug: 'executeFunction', input: { functionName: 'generateEmbedding' } },
+      'searches.beforeChange': 'generateEmbedding',
       'searches.afterChange': ['searchThings', 'hybridSearchThings'],
-      'actions.afterChange': { slug: 'executeFunction', input: { functionName: 'executeFunction' } },
+      'actions.afterChange': 'executeFunction',
       'events.afterChange': 'deliverWebhook',
     }),
     multiTenantPlugin({
@@ -178,6 +179,20 @@ export default buildConfig({
         return email.endsWith('@driv.ly');
       },
     }),
+    // workosPlugin({
+    //   apiKey: process.env.WORKOS_API_KEY,
+    //   clientId: process.env.WORKOS_CLIENT_ID,
+    //   redirectUri: process.env.WORKOS_REDIRECT_URI,
+    //   features: {
+    //     sso: true,
+    //     directorySync: true,
+    //     mfa: true,
+    //     adminPortal: true,
+    //     magicAuth: true,
+    //     secrets: true,
+    //     webhooks: true,
+    //   },
+    // }),
   ],
 })
 

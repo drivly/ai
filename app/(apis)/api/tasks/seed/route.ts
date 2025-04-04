@@ -1,17 +1,14 @@
 import { API } from '@/lib/api'
 import config from '@/payload.config'
 import { getPayload } from 'payload'
-// import { seedDatabase } from '@/scripts/seed'
+import { seedDatabase } from '@/scripts/seedDatabase'
 
 export const GET = API(async (req, { db, params, user, payload }) => {
-  // seedDatabase()
-
-  // const payload = await getPayload({ config })
-  // const { user } = await payload.auth(req)
-
   if (!user?.email?.endsWith('@driv.ly')) {
     return { user: user?.email, success: false, message: 'Unauthorized' }
   }
+  
+  const seedResults = await seedDatabase()
 
   // Schema.org Nouns
   const graph = await fetch('https://schema.org/version/latest/schemaorg-current-https.jsonld')
