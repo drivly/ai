@@ -1,7 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import yaml from 'yaml'
-import { generateFunctionExamplesTask } from '../../tasks/generateFunctionExamples'
-import { simplerJSON } from '../../lib/fields/simplerJSON'
+import { simplerJSON } from '../../pkgs/payload-schema-fields/src'
 
 export const Functions: CollectionConfig = {
   slug: 'functions',

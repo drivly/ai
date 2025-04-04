@@ -1,4 +1,3 @@
-import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 
 export const Domains: CollectionConfig = {
@@ -53,7 +52,7 @@ export const Domains: CollectionConfig = {
               },
             })
             console.log(`Queued domain ${operation}`, job)
-            waitUntil(payload.jobs.runByID({ id: job.id }))
+            await payload.jobs.runByID({ id: job.id })
           } catch (error) {
             console.error(`Error queueing domain ${operation}:`, error)
           }
@@ -85,7 +84,7 @@ export const Domains: CollectionConfig = {
               },
             })
             console.log('Queued domain deletion', job)
-            waitUntil(payload.jobs.runByID({ id: job.id }))
+            await payload.jobs.runByID({ id: job.id })
           }
         } catch (error) {
           console.error('Error in beforeDelete hook:', error)
