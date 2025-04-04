@@ -1,5 +1,5 @@
-import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
 import { Fragment } from 'react'
+import { ModelsNavbar } from './sites-navbar'
 
 export default function ModelsLayout({
   children,
@@ -12,7 +12,7 @@ export default function ModelsLayout({
 
   return (
     <Fragment>
-      <SitesNavbar params={paramsPromise} />
+      <ModelsNavbar params={paramsPromise} />
       <main className="flex-1 overflow-x-hidden">
         {children}
       </main>
