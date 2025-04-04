@@ -34,6 +34,18 @@ yarn add payload-workos
 pnpm add payload-workos
 ```
 
+## Environment Variables
+
+The plugin uses the following environment variables:
+
+```
+WORKOS_API_KEY=your_workos_api_key
+WORKOS_CLIENT_ID=your_workos_client_id
+WORKOS_REDIRECT_URI=https://your-app.com/api/workos/sso/callback
+```
+
+These can also be provided directly in the plugin configuration.
+
 ## Usage
 
 ```typescript
