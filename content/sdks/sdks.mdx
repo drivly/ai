@@ -20,7 +20,8 @@ pnpm add sdks.do
 
 ### JavaScript/TypeScript SDK
 
-```typescript
+```js
+// Example code - not evaluated during build
 import { api } from 'sdks.do'
 
 // List all packages
@@ -38,27 +39,27 @@ const newPackage = await api.createPackage({
     files: ['dist', 'README.md'],
     license: 'MIT'
   },
-  "collections": [
-    { "collectionName": "functions" },
-    { "collectionName": "workflows" }
+  collections: [
+    { collection: 'functions' },
+    { collection: 'workflows' }
   ]
 })
 
 // Add a collection to a package
-await api.addCollectionToPackage("package-id", "databases")
+await api.addCollectionToPackage('package-id', 'databases')
 
 // Remove a collection from a package
-await api.removeCollectionFromPackage("package-id", "databases")
+await api.removeCollectionFromPackage('package-id', 'databases')
 
 // Update package.json for a package
-await api.updatePackageJson("package-id", {
-  "name": "my-package",
-  "version": "0.0.2",
-  "description": "Updated package description"
+await api.updatePackageJson('package-id', {
+  name: 'my-package',
+  version: '0.0.2',
+  description: 'Updated package description'
 })
 
 // Publish a package to NPM
-await api.publishPackage("package-id", { "tag": "latest" })
+await api.publishPackage('package-id', { tag: 'latest' })
 ```
 
 ### CLI
@@ -128,11 +129,11 @@ List all workflows.
 
 List all databases.
 
-#### `addCollectionToPackage(packageId: string, collectionName: string): Promise<any>`
+#### `addCollectionToPackage(packageId: string, collection: string): Promise<any>`
 
 Add a collection to a package.
 
-#### `removeCollectionFromPackage(packageId: string, collectionName: string): Promise<any>`
+#### `removeCollectionFromPackage(packageId: string, collection: string): Promise<any>`
 
 Remove a collection from a package.
 
@@ -162,11 +163,11 @@ List all packages.
 
 Create a new package.
 
-#### `addCollection(packageId: string, collectionName: string): Promise<any>`
+#### `addCollection(packageId: string, collection: string): Promise<any>`
 
 Add a collection to a package.
 
-#### `removeCollection(packageId: string, collectionName: string): Promise<any>`
+#### `removeCollection(packageId: string, collection: string): Promise<any>`
 
 Remove a collection from a package.
 
@@ -182,13 +183,14 @@ Publish a package to NPM.
 
 ### Package
 
-```typescript
+```js
+// Example code - not evaluated during build
 interface Package {
   id: string
   name: string
   package: any
-  "collections": Array<{
-    "collectionName": string
+  collections: Array<{
+    collection: string
   }>
 }
 ```
