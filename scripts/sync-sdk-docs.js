@@ -47,7 +47,6 @@ const writeSdkMdx = async (name, readmeContent) => {
   
   const mdxContent = `---
 title: ${name}
-collection: sdks
 ---
 
 ${readmeContent}`
@@ -63,7 +62,6 @@ const updateIndexMdx = async (sdksInfo) => {
   
   let indexContent = `---
 title: SDKs
-collection: sdks
 asIndexPage: true
 ---
 
