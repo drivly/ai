@@ -1,5 +1,5 @@
 export default {
-  index: 'Overview',
+  // index: 'Overview',
   metrics: '',
   tests: '',
   benchmarks: '',

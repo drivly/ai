@@ -1,3 +1,3 @@
 export default {
-  index: 'AGI'
+  // index: 'AGI'
 }
