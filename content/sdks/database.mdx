@@ -219,16 +219,16 @@ const db = DB({
   baseUrl?: string, // Optional, defaults to 'https://database.do'
   apiKey?: string,  // Optional, overrides the DATABASE_API_KEY environment variable
   // Optional schema definitions
-  collection1: { /* schema */ },
-  collection2: { /* schema */ },
+  resourceType1: { /* schema */ },
+  resourceType2: { /* schema */ },
 })
 ```
 
-### Collection Methods
+### Resource Methods
 
-#### db.{collection}.find(options?)
+#### db.{resourceType}.find(options?)
 
-Retrieves multiple documents from a collection with optional filtering, sorting, and pagination.
+Retrieves multiple documents from a resource with optional filtering, sorting, and pagination.
 
 ```typescript
 interface QueryOptions {
@@ -243,7 +243,7 @@ interface QueryOptions {
 const results = await db.posts.find(options)
 ```
 
-#### db.{collection}.findOne(id)
+#### db.{resourceType}.findOne(id)
 
 Retrieves a single document by its ID.
 
@@ -251,9 +251,9 @@ Retrieves a single document by its ID.
 const document = await db.posts.findOne('document-id')
 ```
 
-#### db.{collection}.create(data)
+#### db.{resourceType}.create(data)
 
-Creates a new document in the collection.
+Creates a new document in the resource.
 
 ```typescript
 const newDocument = await db.posts.create({
@@ -263,7 +263,7 @@ const newDocument = await db.posts.create({
 })
 ```
 
-#### db.{collection}.update(id, data)
+#### db.{resourceType}.update(id, data)
 
 Updates an existing document by its ID.
 
@@ -274,7 +274,7 @@ const updatedDocument = await db.posts.update('document-id', {
 })
 ```
 
-#### db.{collection}.delete(id)
+#### db.{resourceType}.delete(id)
 
 Deletes a document by its ID.
 
@@ -282,7 +282,7 @@ Deletes a document by its ID.
 await db.posts.delete('document-id')
 ```
 
-#### db.{collection}.search(query, options?)
+#### db.{resourceType}.search(query, options?)
 
 Performs a text search across documents in a collection.
 
@@ -338,7 +338,7 @@ const db = DB({
     name: 'text',
     price: 'number',
     description: 'richtext',
-    category: 'categories', // Reference to another collection
+    category: 'categories', // Reference to another resource type
   },
   categories: {
     name: 'text',
