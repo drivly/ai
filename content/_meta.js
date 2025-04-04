@@ -11,25 +11,40 @@ export default {
   agents: '',
   _2: {
     type: 'separator',
+    title: 'Work'
+  },
+  goals: '',
+  plans: '',
+  tasks: '',
+  // kpis: 'KPIs',
+  _3: {
+    type: 'separator',
     title: 'Data' // Title is optional
   },
   nouns: '',
   verbs: '',
   database: '',
-  _3: {
+  resources: '',
+  _4: {
     type: 'separator',
     title: 'Events' // Title is optional
   },
   events: '',
+  _5: {
+    type: 'separator',
+    title: 'Integrations' // Title is optional
+  },
   integrations: '',
-  _3: {
+  triggers: '',
+  searches: '',
+  actions: '',
+  _6: {
     type: 'separator',
     title: 'Integrations' // Title is optional
   },
   data: '',
   things: '',
   // 'vector-search': '',
-  actions: '',
   llm: '',
   observability: '',
   traces: '',
