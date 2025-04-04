@@ -29,7 +29,7 @@ export default {
   resources: '',
   _4: {
     type: 'separator',
-    title: 'Analytics' // Title is optional
+    title: 'Experiments' // Title is optional
   },
   analytics: '',
   experiments: '',
