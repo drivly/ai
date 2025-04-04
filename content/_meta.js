@@ -1,26 +1,68 @@
 export default {
   index: 'Introduction',
-  manifesto: '',
+  manifesto: 'Manifesto',
   'getting-started': 'Getting Started',
+  _: {
+    type: 'separator',
+    title: 'AI' // Title is optional
+  },
   workflows: '',
   functions: '',
-  database: '',
-  events: '',
-  integrations: '',
-  data: '',
-  things: '',
-  'vector-search': '',
+  agents: '',
+  _2: {
+    type: 'separator',
+    title: 'Work'
+  },
+  goals: '',
+  plans: '',
+  tasks: '',
+  // kpis: 'KPIs',
+  _3: {
+    type: 'separator',
+    title: 'Data' // Title is optional
+  },
   nouns: '',
   verbs: '',
+  database: '',
+  resources: '',
+  _4: {
+    type: 'separator',
+    title: 'Events' // Title is optional
+  },
+  events: '',
+  _5: {
+    type: 'separator',
+    title: 'Integrations' // Title is optional
+  },
+  integrations: '',
+  triggers: '',
+  searches: '',
   actions: '',
-  agents: '',
-  llm: '',
-  observability: '',
-  traces: '',
+  _6: {
+    type: 'separator',
+    title: 'Evals' // Title is optional
+  },
   evals: '',
   experiments: '',
-  admin: '',
-  api: 'API Reference',
+  _7: {
+    type: 'separator',
+    title: 'Deploy' // Title is optional
+  },
   code: '',
-  'code-hike': 'CodeHike Examples',
+  _8: {
+    type: 'separator',
+    title: 'Operate' // Title is optional
+  },
+  // data: '',
+  // things: '',
+  // // 'vector-search': '',
+  // llm: '',
+  // observability: '',
+  // traces: '',
+  // evals: '',
+  // experiments: '',
+  // admin: '',
+  // api: 'API Reference',
+  // code: '',
+  // 'code-hike': 'CodeHike Examples',
 }
