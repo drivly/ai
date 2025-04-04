@@ -1,4 +1,3 @@
-import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 
 export const Events: CollectionConfig = {
@@ -24,32 +23,5 @@ export const Events: CollectionConfig = {
     { name: 'agent', type: 'relationship', relationTo: 'agents' },
 
     { name: 'generations', type: 'relationship', relationTo: 'generations', hasMany: true },
-  ],
-  hooks: {
-    afterChange: [
-      async ({ doc, operation, req }) => {
-        if (operation === 'create') {
-          try {
-            const webhooks = await req.payload.find({
-              collection: 'webhooks',
-              where: {
-                enabled: { equals: true }
-              }
-            })
-            
-            if (webhooks.docs.length > 0) {
-              const { payload } = req
-              
-              for (const webhook of webhooks.docs) {
-                console.log(`Processing webhook delivery for event ${doc.id} to webhook ${webhook.id}`)
-              }
-            }
-          } catch (error) {
-            console.error('Error in webhook processing:', error)
-          }
-        }
-        return doc
-      }
-    ]
-  }
+  ]
 }
