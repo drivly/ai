@@ -21,9 +21,9 @@ async function ModelsListSection() {
         <div key={provider} className="space-y-4">
           <h2 className="text-2xl font-bold text-foreground">{provider}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {models.map((model: any) => (
+            {models.map((model: any, modelIndex: number) => (
               <a 
-                key={model.id} 
+                key={`${provider}-model-${modelIndex}-${model.id || model.slug}`} 
                 href={`/sites/models.do/${provider}/${model.slug}`}
                 className="block p-4 rounded-lg border border-border hover:border-primary/50 transition-colors"
               >
