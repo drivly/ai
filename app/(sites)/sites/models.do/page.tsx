@@ -32,8 +32,8 @@ async function ModelsListSection() {
                   {model.description?.substring(0, 120)}...
                 </div>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {model.features?.map((feature: string) => (
-                    <span key={feature} className="text-xs px-2 py-1 bg-primary/10 rounded-full">
+                  {model.features?.map((feature: string, index: number) => (
+                    <span key={`${model.id}-feature-${index}`} className="text-xs px-2 py-1 bg-primary/10 rounded-full">
                       {feature}
                     </span>
                   ))}
