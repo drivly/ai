@@ -17,6 +17,7 @@ export const Nouns: CollectionConfig = {
     { name: 'act', type: 'text', admin: { description: 'Third person singular present tense like Uses' } },
     { name: 'activity', type: 'text', admin: { description: 'Gerund like Using' } },
     { name: 'event', type: 'text', admin: { description: 'Past tense like Used' } },
+    { name: 'type', type: 'relationship', relationTo: 'things', hasMany: true },
     { name: 'resources', type: 'join', collection: 'resources', on: 'type' },
   ]
 }
