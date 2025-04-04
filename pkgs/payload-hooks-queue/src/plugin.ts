@@ -1,6 +1,5 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, Config, Plugin } from 'payload'
 import { 
-  PayloadPlugin, 
   HookHandlerOptions, 
   TaskConfig, 
   HookConfig, 
@@ -130,194 +129,199 @@ const parsePatternKeys = (config: HookQueuePluginConfig): Record<string, Collect
  * Creates a Payload plugin that allows queueing tasks or workflows
  * from collection hooks with a simple API
  */
-export const createHooksQueuePlugin = (config: HookQueuePluginConfig): PayloadPlugin => {
-  const globalHooks = config.global ? normalizeHookConfig(config.global) : undefined
-  const excludeFromGlobal = config.excludeFromGlobal || []
-  
-  const patternCollections = parsePatternKeys(config)
-  
-  const mergedCollections: Record<string, CollectionHookConfig> = {}
-  
-  if (config.collections) {
-    for (const collection in config.collections) {
-      mergedCollections[collection] = normalizeHookConfig(config.collections[collection])
+export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin => {
+  return (incomingConfig: Config): Config => {
+    const globalHooks = config.global ? normalizeHookConfig(config.global) : undefined
+    const excludeFromGlobal = config.excludeFromGlobal || []
+    
+    const patternCollections = parsePatternKeys(config)
+    
+    const mergedCollections: Record<string, CollectionHookConfig> = {}
+    
+    if (config.collections) {
+      for (const collection in config.collections) {
+        mergedCollections[collection] = normalizeHookConfig(config.collections[collection])
+      }
     }
-  }
-  
-  for (const collection in patternCollections) {
-    if (!mergedCollections[collection]) {
-      mergedCollections[collection] = patternCollections[collection]
-    } else {
-      for (const hookType of ['beforeChange', 'afterChange', 'beforeDelete', 'afterDelete'] as const) {
-        if (patternCollections[collection][hookType]) {
-          if (!mergedCollections[collection][hookType]) {
-            mergedCollections[collection][hookType] = patternCollections[collection][hookType]
-          } else {
-            mergedCollections[collection][hookType] = [
-              ...(mergedCollections[collection][hookType] || []),
-              ...(patternCollections[collection][hookType] || [])
-            ]
+    
+    for (const collection in patternCollections) {
+      if (!mergedCollections[collection]) {
+        mergedCollections[collection] = patternCollections[collection]
+      } else {
+        for (const hookType of ['beforeChange', 'afterChange', 'beforeDelete', 'afterDelete'] as const) {
+          if (patternCollections[collection][hookType]) {
+            if (!mergedCollections[collection][hookType]) {
+              mergedCollections[collection][hookType] = patternCollections[collection][hookType]
+            } else {
+              mergedCollections[collection][hookType] = [
+                ...(mergedCollections[collection][hookType] || []),
+                ...(patternCollections[collection][hookType] || [])
+              ]
+            }
           }
         }
       }
     }
-  }
-  
-  return {
-    collections: (incomingCollections: CollectionConfig[]) => {
-      return incomingCollections.map((collection) => {
-        const collectionSlug = collection.slug
-        
-        let collectionConfig = mergedCollections[collectionSlug]
-        if (!collectionConfig && mergedCollections['*']) {
-          collectionConfig = mergedCollections['*']
-        }
-        
-        if (!collectionConfig && !globalHooks) {
-          return collection
-        }
-        
-        const collectionHooks = collectionConfig
-        
-        const isExcludedFromGlobal = excludeFromGlobal.includes(collectionSlug)
-        
-        return {
-          ...collection,
-          hooks: {
-            ...collection.hooks,
-            beforeChange: [
-              ...(collection.hooks?.beforeChange || []),
-              async ({ data, originalDoc, req }: { data: any; originalDoc: any; req: any }) => {
-                if (collectionHooks?.beforeChange) {
-                  await processHook(
-                    collectionHooks.beforeChange,
-                    {
-                      collection: collectionSlug,
-                      operation: originalDoc ? 'update' : 'create',
-                      data,
-                      originalDoc,
-                      req
-                    },
-                    req?.payload
-                  )
-                }
-                
-                if (globalHooks?.beforeChange && !isExcludedFromGlobal) {
-                  await processHook(
-                    globalHooks.beforeChange,
-                    {
-                      collection: collectionSlug,
-                      operation: originalDoc ? 'update' : 'create',
-                      data,
-                      originalDoc,
-                      req
-                    },
-                    req?.payload
-                  )
-                }
-                
-                return data
-              },
-            ],
-            afterChange: [
-              ...(collection.hooks?.afterChange || []),
-              async ({ doc, previousDoc, req }: { doc: any; previousDoc: any; req: any }) => {
-                if (collectionHooks?.afterChange) {
-                  await processHook(
-                    collectionHooks.afterChange,
-                    {
-                      collection: collectionSlug,
-                      operation: previousDoc ? 'update' : 'create',
-                      data: doc,
-                      originalDoc: previousDoc,
-                      req
-                    },
-                    req?.payload
-                  )
-                }
-                
-                if (globalHooks?.afterChange && !isExcludedFromGlobal) {
-                  await processHook(
-                    globalHooks.afterChange,
-                    {
-                      collection: collectionSlug,
-                      operation: previousDoc ? 'update' : 'create',
-                      data: doc,
-                      originalDoc: previousDoc,
-                      req
-                    },
-                    req?.payload
-                  )
-                }
-                
-                return doc
-              },
-            ],
-            beforeDelete: [
-              ...(collection.hooks?.beforeDelete || []),
-              async ({ id, req }: { id: any; req: any }) => {
-                if (collectionHooks?.beforeDelete) {
-                  await processHook(
-                    collectionHooks.beforeDelete,
-                    {
-                      collection: collectionSlug,
-                      operation: 'delete',
-                      data: { id },
-                      req
-                    },
-                    req?.payload
-                  )
-                }
-                
-                if (globalHooks?.beforeDelete && !isExcludedFromGlobal) {
-                  await processHook(
-                    globalHooks.beforeDelete,
-                    {
-                      collection: collectionSlug,
-                      operation: 'delete',
-                      data: { id },
-                      req
-                    },
-                    req?.payload
-                  )
-                }
-              },
-            ],
-            afterDelete: [
-              ...(collection.hooks?.afterDelete || []),
-              async ({ id, doc, req }: { id: any; doc: any; req: any }) => {
-                if (collectionHooks?.afterDelete) {
-                  await processHook(
-                    collectionHooks.afterDelete,
-                    {
-                      collection: collectionSlug,
-                      operation: 'delete',
-                      data: { id },
-                      originalDoc: doc,
-                      req
-                    },
-                    req?.payload
-                  )
-                }
-                
-                if (globalHooks?.afterDelete && !isExcludedFromGlobal) {
-                  await processHook(
-                    globalHooks.afterDelete,
-                    {
-                      collection: collectionSlug,
-                      operation: 'delete',
-                      data: { id },
-                      originalDoc: doc,
-                      req
-                    },
-                    req?.payload
-                  )
-                }
-              },
-            ],
-          },
-        }
-      })
-    },
+    
+    const collections = incomingConfig.collections || []
+    
+    const modifiedCollections = collections.map((collection: any) => {
+      const collectionSlug = collection.slug
+      
+      let collectionConfig = mergedCollections[collectionSlug]
+      if (!collectionConfig && mergedCollections['*']) {
+        collectionConfig = mergedCollections['*']
+      }
+      
+      if (!collectionConfig && !globalHooks) {
+        return collection
+      }
+      
+      const collectionHooks = collectionConfig
+      
+      const isExcludedFromGlobal = excludeFromGlobal.includes(collectionSlug)
+      
+      return {
+        ...collection,
+        hooks: {
+          ...collection.hooks,
+          beforeChange: [
+            ...(collection.hooks?.beforeChange || []),
+            async ({ data, originalDoc, req }: { data: any; originalDoc: any; req: any }) => {
+              if (collectionHooks?.beforeChange) {
+                await processHook(
+                  collectionHooks.beforeChange,
+                  {
+                    collection: collectionSlug,
+                    operation: originalDoc ? 'update' : 'create',
+                    data,
+                    originalDoc,
+                    req
+                  },
+                  req?.payload
+                )
+              }
+              
+              if (globalHooks?.beforeChange && !isExcludedFromGlobal) {
+                await processHook(
+                  globalHooks.beforeChange,
+                  {
+                    collection: collectionSlug,
+                    operation: originalDoc ? 'update' : 'create',
+                    data,
+                    originalDoc,
+                    req
+                  },
+                  req?.payload
+                )
+              }
+              
+              return data
+            },
+          ],
+          afterChange: [
+            ...(collection.hooks?.afterChange || []),
+            async ({ doc, previousDoc, req }: { doc: any; previousDoc: any; req: any }) => {
+              if (collectionHooks?.afterChange) {
+                await processHook(
+                  collectionHooks.afterChange,
+                  {
+                    collection: collectionSlug,
+                    operation: previousDoc ? 'update' : 'create',
+                    data: doc,
+                    originalDoc: previousDoc,
+                    req
+                  },
+                  req?.payload
+                )
+              }
+              
+              if (globalHooks?.afterChange && !isExcludedFromGlobal) {
+                await processHook(
+                  globalHooks.afterChange,
+                  {
+                    collection: collectionSlug,
+                    operation: previousDoc ? 'update' : 'create',
+                    data: doc,
+                    originalDoc: previousDoc,
+                    req
+                  },
+                  req?.payload
+                )
+              }
+              
+              return doc
+            },
+          ],
+          beforeDelete: [
+            ...(collection.hooks?.beforeDelete || []),
+            async ({ id, req }: { id: any; req: any }) => {
+              if (collectionHooks?.beforeDelete) {
+                await processHook(
+                  collectionHooks.beforeDelete,
+                  {
+                    collection: collectionSlug,
+                    operation: 'delete',
+                    data: { id },
+                    req
+                  },
+                  req?.payload
+                )
+              }
+              
+              if (globalHooks?.beforeDelete && !isExcludedFromGlobal) {
+                await processHook(
+                  globalHooks.beforeDelete,
+                  {
+                    collection: collectionSlug,
+                    operation: 'delete',
+                    data: { id },
+                    req
+                  },
+                  req?.payload
+                )
+              }
+            },
+          ],
+          afterDelete: [
+            ...(collection.hooks?.afterDelete || []),
+            async ({ id, doc, req }: { id: any; doc: any; req: any }) => {
+              if (collectionHooks?.afterDelete) {
+                await processHook(
+                  collectionHooks.afterDelete,
+                  {
+                    collection: collectionSlug,
+                    operation: 'delete',
+                    data: { id },
+                    originalDoc: doc,
+                    req
+                  },
+                  req?.payload
+                )
+              }
+              
+              if (globalHooks?.afterDelete && !isExcludedFromGlobal) {
+                await processHook(
+                  globalHooks.afterDelete,
+                  {
+                    collection: collectionSlug,
+                    operation: 'delete',
+                    data: { id },
+                    originalDoc: doc,
+                    req
+                  },
+                  req?.payload
+                )
+              }
+            },
+          ],
+        },
+      }
+    })
+    
+    return {
+      ...incomingConfig,
+      collections: modifiedCollections as any,
+    }
   }
 }

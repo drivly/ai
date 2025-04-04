@@ -24,18 +24,9 @@ export const Relationships: CollectionConfig = {
           req: { payload },
         } = ctx
         if (operation === 'create') {
-          console.log('Queueing function execution', doc)
+          console.log('Processing function execution', doc)
           if (!doc.object) {
-            const job = await payload.jobs.queue({
-              task: 'executeFunction',
-              input: {
-                functionName: doc.function?.functionName,
-                args: doc.subject?.data,
-                schema: doc.function?.schema,
-              },
-            })
-            console.log('Queued function execution', job)
-            waitUntil(payload.jobs.runByID({ id: job.id }))
+            console.log('Processing function execution for relationship')
           }
         }
       },

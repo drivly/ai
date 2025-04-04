@@ -17,34 +17,17 @@ export const Functions: CollectionConfig = {
         
         if (doc.type === 'Code' && doc.code) {
           try {
-            const job = await payload.jobs.queue({
-              task: 'processCodeFunction',
-              input: {
-                functionId: doc.id
-              }
-            })
-            
-            console.log(`Queued process code function for ${doc.name}`, job)
-            waitUntil(payload.jobs.runByID({ id: job.id }))
+            console.log(`Processing code function for ${doc.name}`)
           } catch (error) {
-            console.error('Error queueing processCodeFunction task:', error)
+            console.error('Error processing code function:', error)
           }
         }
         
         if (!doc.examples || doc.examples.length === 0) {
           try {
-            const job = await payload.jobs.queue({
-              task: generateFunctionExamplesTask.slug,
-              input: {
-                functionId: doc.id,
-                count: 3
-              }
-            })
-            
-            console.log(`Queued example generation for ${doc.name}`, job)
-            waitUntil(payload.jobs.runByID({ id: job.id }))
+            console.log(`Processing example generation for ${doc.name}`)
           } catch (error) {
-            console.error('Error queueing generateFunctionExamples task:', error)
+            console.error('Error processing function examples:', error)
           }
         }
         

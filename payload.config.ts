@@ -6,6 +6,7 @@ import { resendAdapter } from '@payloadcms/email-resend'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { createHooksQueuePlugin } from './pkgs/payload-hooks-queue'
 import path from 'path'
 import { buildConfig } from 'payload'
 // import { payloadKanbanBoard } from 'payload-kanban-board'
@@ -102,6 +103,17 @@ export default buildConfig({
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
+    }),
+    createHooksQueuePlugin({
+      'nouns.beforeChange': 'inflectNouns',
+      'nouns.afterChange': 'inflectNouns',
+      'verbs.beforeChange': 'conjugateVerbs',
+      'verbs.afterChange': 'conjugateVerbs',
+      'functions.afterChange': ['processCodeFunction', 'generateFunctionExamples'],
+      'searches.beforeChange': { slug: 'executeFunction', input: { functionName: 'generateEmbedding' } },
+      'searches.afterChange': ['searchThings', 'hybridSearchThings'],
+      'actions.afterChange': { slug: 'executeFunction', input: { functionName: 'executeFunction' } },
+      'events.afterChange': 'deliverWebhook',
     }),
   ],
 })
