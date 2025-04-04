@@ -50,10 +50,14 @@ async function IntegrationDetailsSection({
   modelSlug, 
   integrationId 
 }: { 
-  provider: string, 
-  modelSlug: string, 
-  integrationId: string 
+  provider: string | undefined, 
+  modelSlug: string | undefined, 
+  integrationId: string | undefined 
 }) {
+  if (!provider || !modelSlug || !integrationId) {
+    notFound()
+  }
+  
   const model = await fetchModelDetails(provider, modelSlug)
   const integration = await fetchIntegration(integrationId)
   const actions = await fetchActions(integrationId)

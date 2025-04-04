@@ -34,7 +34,11 @@ async function fetchIntegrations() {
   }
 }
 
-async function ModelDetailsSection({ provider, modelSlug }: { provider: string, modelSlug: string }) {
+async function ModelDetailsSection({ provider, modelSlug }: { provider: string | undefined, modelSlug: string | undefined }) {
+  if (!provider || !modelSlug) {
+    notFound()
+  }
+  
   const model = await fetchModelDetails(provider, modelSlug)
   const integrationsData = await fetchIntegrations()
   
