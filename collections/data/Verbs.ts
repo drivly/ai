@@ -1,4 +1,3 @@
-import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 
 export const Verbs: CollectionConfig = {
@@ -23,61 +22,7 @@ export const Verbs: CollectionConfig = {
     { name: 'inverseSubject', type: 'text', admin: { description: 'Subject like Destroyer', position: 'sidebar' } },
     { name: 'inverseObject', type: 'text', admin: { description: 'Object like Destruction', position: 'sidebar' } },
     // { name: 'actions', type: 'join', collection: 'actions', on: 'verbId' },
-  ],
-  hooks: {
-    afterChange: [
-      async ({ doc, operation, req }) => {
-        if (operation === 'create' || operation === 'update') {
-          if (doc.action && (!doc.act || !doc.activity || !doc.event || !doc.subject || !doc.object || 
-              !doc.inverse || !doc.inverseAct || !doc.inverseActivity || !doc.inverseEvent || 
-              !doc.inverseSubject || !doc.inverseObject)) {
-            try {
-              const { payload } = req
-              
-              
-              const updateData: Record<string, string> = {}
-              
-              if (!doc.act) updateData.act = `${doc.action}s`
-              if (!doc.activity) updateData.activity = `${doc.action}ing`
-              if (!doc.event) updateData.event = `${doc.action}ed`
-              if (!doc.subject) updateData.subject = `${doc.action}er`
-              if (!doc.object) updateData.object = `${doc.action}ion`
-              if (!doc.inverse) updateData.inverse = `Un${doc.action}`
-              if (!doc.inverseAct) updateData.inverseAct = `Un${doc.action}s`
-              if (!doc.inverseActivity) updateData.inverseActivity = `Un${doc.action}ing`
-              if (!doc.inverseEvent) updateData.inverseEvent = `Un${doc.action}ed`
-              if (!doc.inverseSubject) updateData.inverseSubject = `Un${doc.action}er`
-              if (!doc.inverseObject) updateData.inverseObject = `Un${doc.action}ion`
-              
-              if (Object.keys(updateData).length > 0) {
-                try {
-                  const existingDoc = await payload.findByID({
-                    collection: 'verbs',
-                    id: doc.id,
-                  })
-                  
-                  if (existingDoc) {
-                    await payload.update({
-                      collection: 'verbs',
-                      id: doc.id,
-                      data: updateData
-                    })
-                    console.log('Updated verb with semantic values:', updateData)
-                  } else {
-                    console.log('Document not found for update, will be handled by beforeChange hook on next edit')
-                  }
-                } catch (updateError) {
-                  console.error('Error updating verb with semantic values:', updateError)
-                }
-              }
-            } catch (error) {
-              console.error('Error processing verb semantics in afterChange:', error)
-            }
-          }
-        }
-      }
-    ]
-  }
+  ]
 }
 
 // conjugateVerbs: {

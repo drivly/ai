@@ -1,4 +1,3 @@
-import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
 import { generateFunctionExamplesTask } from '../../tasks/generateFunctionExamples'
@@ -10,31 +9,6 @@ export const Functions: CollectionConfig = {
     useAsTitle: 'name',
   },
   // versions: true,
-  hooks: {
-    afterChange: [
-      async ({ doc, req }) => {
-        const { payload } = req
-        
-        if (doc.type === 'Code' && doc.code) {
-          try {
-            console.log(`Processing code function for ${doc.name}`)
-          } catch (error) {
-            console.error('Error processing code function:', error)
-          }
-        }
-        
-        if (!doc.examples || doc.examples.length === 0) {
-          try {
-            console.log(`Processing example generation for ${doc.name}`)
-          } catch (error) {
-            console.error('Error processing function examples:', error)
-          }
-        }
-        
-        return doc
-      },
-    ],
-  },
   fields: [
     // {
     //   type: 'row',
