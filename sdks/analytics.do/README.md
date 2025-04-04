@@ -29,7 +29,7 @@ analytics.do provides a lightweight, privacy-focused approach to collecting and 
 
 ## Installation
 
-```bash
+```text
 npm install analytics.do
 # or
 yarn add analytics.do
@@ -39,7 +39,7 @@ pnpm add analytics.do
 
 ## Basic Usage
 
-```typescript
+```text
 import { trackMetric, defineExperiment } from 'analytics.do';
 
 // Track metrics for business KPIs
@@ -56,7 +56,7 @@ await trackMetric({
 
 ## Experiment Tracking
 
-```typescript
+```text
 import { defineExperiment } from 'analytics.do';
 
 // Define an A/B test experiment
@@ -92,7 +92,7 @@ await productRecommendationTest.trackMetric({
 
 ## React Component for Page Views
 
-```tsx
+```text
 import { Analytics } from 'analytics.do';
 
 function MyApp({ Component, pageProps }) {
@@ -107,7 +107,7 @@ function MyApp({ Component, pageProps }) {
 
 ## Advanced Configuration
 
-```typescript
+```text
 import { initAnalytics } from 'analytics.do';
 
 const analytics = initAnalytics({
