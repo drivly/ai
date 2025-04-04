@@ -80,6 +80,7 @@ export interface Config {
     tasks: Task;
     goals: Goal;
     nouns: Noun;
+    things: Thing;
     verbs: Verb;
     databases: Database;
     resources: Resource;
@@ -93,6 +94,8 @@ export interface Config {
     searches: Search;
     experiments: Experiment;
     models: Model;
+    providers: Provider;
+    labs: Lab;
     prompts: Prompt;
     settings: Setting;
     types: Type;
@@ -135,6 +138,9 @@ export interface Config {
     nouns: {
       resources: 'resources';
     };
+    things: {
+      resources: 'resources';
+    };
     actions: {
       generation: 'generations';
     };
@@ -155,6 +161,7 @@ export interface Config {
     tasks: TasksSelect<false> | TasksSelect<true>;
     goals: GoalsSelect<false> | GoalsSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
+    things: ThingsSelect<false> | ThingsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     databases: DatabasesSelect<false> | DatabasesSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
@@ -168,6 +175,8 @@ export interface Config {
     searches: SearchesSelect<false> | SearchesSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
+    providers: ProvidersSelect<false> | ProvidersSelect<true>;
+    labs: LabsSelect<false> | LabsSelect<true>;
     prompts: PromptsSelect<false> | PromptsSelect<true>;
     settings: SettingsSelect<false> | SettingsSelect<true>;
     types: TypesSelect<false> | TypesSelect<true>;
@@ -293,6 +302,10 @@ export interface User {
    */
   name?: string | null;
   /**
+   * The email of the user
+   */
+  email: string;
+  /**
    * Whether the email of the user has been verified
    */
   emailVerified: boolean;
@@ -321,17 +334,6 @@ export interface User {
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
-  /**
-   * The email of the user
-   */
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * Accounts are used to store user accounts for authentication providers
@@ -651,7 +653,15 @@ export interface Resource {
   name?: string | null;
   sqid?: string | null;
   hash?: string | null;
-  type?: (string | null) | Noun;
+  type?:
+    | ({
+        relationTo: 'nouns';
+        value: string | Noun;
+      } | null)
+    | ({
+        relationTo: 'things';
+        value: string | Thing;
+      } | null);
   yaml?: string | null;
   data?:
     | {
@@ -713,6 +723,59 @@ export interface Noun {
   activity?: string | null;
   /**
    * Past tense like Used
+   */
+  event?: string | null;
+  type?:
+    | {
+        relationTo: 'things';
+        value: string | Thing;
+      }[]
+    | null;
+  resources?: {
+    docs?: (string | Resource)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "things".
+ */
+export interface Thing {
+  id: string;
+  name?: string | null;
+  /**
+   * Singular form
+   */
+  singular?: string | null;
+  /**
+   * Plural form
+   */
+  plural?: string | null;
+  /**
+   * Possessive form
+   */
+  possessive?: string | null;
+  /**
+   * Plural possessive form
+   */
+  pluralPossessive?: string | null;
+  /**
+   * Related verb
+   */
+  verb?: string | null;
+  /**
+   * Third person singular present tense
+   */
+  act?: string | null;
+  /**
+   * Gerund
+   */
+  activity?: string | null;
+  /**
+   * Past tense
    */
   event?: string | null;
   resources?: {
@@ -1283,8 +1346,50 @@ export interface Experiment {
  * via the `definition` "models".
  */
 export interface Model {
+  name: string;
   id: string;
-  name?: string | null;
+  provider: string | Provider;
+  lab?: (string | null) | Lab;
+  description?: string | null;
+  context_length?: number | null;
+  pricing?: {
+    prompt?: number | null;
+    completion?: number | null;
+  };
+  capabilities?:
+    | {
+        capability?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  modelUrl?: string | null;
+  imageUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "providers".
+ */
+export interface Provider {
+  name: string;
+  id: string;
+  description?: string | null;
+  website?: string | null;
+  logoUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labs".
+ */
+export interface Lab {
+  name: string;
+  id: string;
+  description?: string | null;
+  website?: string | null;
+  logoUrl?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1920,6 +2025,10 @@ export interface PayloadLockedDocument {
         value: string | Noun;
       } | null)
     | ({
+        relationTo: 'things';
+        value: string | Thing;
+      } | null)
+    | ({
         relationTo: 'verbs';
         value: string | Verb;
       } | null)
@@ -1970,6 +2079,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'models';
         value: string | Model;
+      } | null)
+    | ({
+        relationTo: 'providers';
+        value: string | Provider;
+      } | null)
+    | ({
+        relationTo: 'labs';
+        value: string | Lab;
       } | null)
     | ({
         relationTo: 'prompts';
@@ -2137,6 +2254,7 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  email?: T;
   emailVerified?: T;
   image?: T;
   role?: T;
@@ -2148,13 +2266,6 @@ export interface UsersSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2358,6 +2469,25 @@ export interface NounsSelect<T extends boolean = true> {
   act?: T;
   activity?: T;
   event?: T;
+  type?: T;
+  resources?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "things_select".
+ */
+export interface ThingsSelect<T extends boolean = true> {
+  name?: T;
+  singular?: T;
+  plural?: T;
+  possessive?: T;
+  pluralPossessive?: T;
+  verb?: T;
+  act?: T;
+  activity?: T;
+  event?: T;
   resources?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2530,6 +2660,51 @@ export interface ExperimentsSelect<T extends boolean = true> {
  */
 export interface ModelsSelect<T extends boolean = true> {
   name?: T;
+  id?: T;
+  provider?: T;
+  lab?: T;
+  description?: T;
+  context_length?: T;
+  pricing?:
+    | T
+    | {
+        prompt?: T;
+        completion?: T;
+      };
+  capabilities?:
+    | T
+    | {
+        capability?: T;
+        id?: T;
+      };
+  modelUrl?: T;
+  imageUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "providers_select".
+ */
+export interface ProvidersSelect<T extends boolean = true> {
+  name?: T;
+  id?: T;
+  description?: T;
+  website?: T;
+  logoUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labs_select".
+ */
+export interface LabsSelect<T extends boolean = true> {
+  name?: T;
+  id?: T;
+  description?: T;
+  website?: T;
+  logoUrl?: T;
   updatedAt?: T;
   createdAt?: T;
 }
