@@ -1,4 +1,4 @@
-import { executeFunction } from '@/tasks/executeFunction'
+import { executeFunction } from '@/tasks/ai/executeFunction'
 
 type AIFunctionSettings = {
   _model?: string
