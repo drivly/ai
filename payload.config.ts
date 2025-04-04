@@ -122,11 +122,57 @@ export default buildConfig({
         functions: {},
         workflows: {},
         agents: {},
+        
+        queues: {},
+        tasks: {},
+        goals: {},
+        kpis: {},
+        
+        nouns: {},
+        verbs: {},
+        databases: {},
+        resources: {},
+        
+        integrations: {},
+        connections: {},
+        integrationTriggers: {},
+        integrationActions: {},
+        integrationCategories: {},
+        
+        triggers: {},
+        searches: {},
+        
+        experiments: {},
+        models: {},
+        prompts: {},
+        settings: {},
+        
+        types: {},
+        modules: {},
+        packages: {},
+        deployments: {},
+        
+        benchmarks: {},
+        evals: {},
+        evalRuns: {},
+        evalResults: {},
+        datasets: {},
+        
+        events: {},
+        errors: {},
+        generations: {},
+        'generation-batches': {},
+        traces: {},
       },
       tenantsSlug: 'projects',
       userHasAccessToAllTenants: ({ req }) => {
         const user = req.user;
         if (!user) return false;
+        
+        if (user.roles?.some(role => typeof role === 'object' && role.superAdmin)) {
+          return true;
+        }
+        
         const email = user.email;
         if (!email) return false;
         return email.endsWith('@driv.ly');
