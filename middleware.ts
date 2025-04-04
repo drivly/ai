@@ -20,7 +20,8 @@ const isGatewayDomain = (hostname: string): boolean => {
   return isAIGateway(hostname) || 
          hostname === 'localhost' || 
          hostname === 'apis.do' || 
-         hostname.includes('dev.driv.ly')
+         hostname.endsWith('do.gt') ||
+         hostname.endsWith('dev.driv.ly')
 }
 
 /**
@@ -86,7 +87,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.rewrite(new URL(`${docsPath}${pathname.replace('/docs', '')}${search}`, request.url))
       }
       
-      if (pathname.startsWith('/api')) {
+      if (pathname === '/api') {
         console.log('Rewriting /api to API root', { apiName, hostname, pathname, search })
         const url = new URL(request.url)
         return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname.replace('/api', '')}${search}`))
@@ -109,6 +110,7 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      */
-    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    // '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    '/((?!_next/static|_next/image).*)',
   ],
 }
