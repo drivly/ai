@@ -1,7 +1,6 @@
 import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
 import { getGlowColor } from '@/domains.config'
 import { Suspense } from 'react'
-import { Skeleton } from '@/components/ui/skeleton'
 import { notFound } from 'next/navigation'
 
 async function fetchModelDetails(provider: string, modelSlug: string) {
@@ -137,8 +136,8 @@ function ModelDetailsPage({ params }: { params: { provider: string, model: strin
       
       <Suspense fallback={
         <div className="space-y-8">
-          <Skeleton className="h-64 w-full" />
-          <Skeleton className="h-48 w-full" />
+          <div className="h-64 w-full bg-gray-200 animate-pulse rounded"></div>
+          <div className="h-48 w-full bg-gray-200 animate-pulse rounded"></div>
         </div>
       }>
         <ModelDetailsSection provider={provider} modelSlug={modelSlug} />

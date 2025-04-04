@@ -1,7 +1,6 @@
 import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
 import { getGlowColor } from '@/domains.config'
 import { Suspense } from 'react'
-import { Skeleton } from '@/components/ui/skeleton'
 
 async function ModelsListSection() {
   const url = 'https://openrouter.ai/api/frontend/models/find?supported_parameters=response_format'
@@ -66,10 +65,10 @@ function ModelsHomePage() {
         <div className="space-y-12">
           {[1, 2, 3].map((i) => (
             <div key={i} className="space-y-4">
-              <Skeleton className="h-8 w-48" />
+              <div className="h-8 w-48 bg-gray-200 animate-pulse rounded"></div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[1, 2, 3, 4, 5].map((j) => (
-                  <Skeleton key={j} className="h-48 w-full" />
+                  <div key={j} className="h-48 w-full bg-gray-200 animate-pulse rounded"></div>
                 ))}
               </div>
             </div>
