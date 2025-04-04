@@ -2,6 +2,7 @@ export interface ExperimentVariant {
   id: string
   description?: string
   config: Record<string, any>
+  isControl?: boolean
 }
 
 export interface ExperimentMetric {
