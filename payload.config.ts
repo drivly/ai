@@ -5,6 +5,7 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { stripePlugin } from '@payloadcms/plugin-stripe'
+import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { createHooksQueuePlugin } from './pkgs/payload-hooks-queue'
 // import workosPlugin from './pkgs/payload-workos'
@@ -116,6 +117,68 @@ export default buildConfig({
       'actions.afterChange': 'executeFunction',
       'events.afterChange': 'deliverWebhook',
     }),
+    multiTenantPlugin({
+      tenantSelectorLabel: 'Project',
+      collections: {
+        functions: {},
+        workflows: {},
+        agents: {},
+        
+        queues: {},
+        tasks: {},
+        goals: {},
+        kpis: {},
+        
+        nouns: {},
+        verbs: {},
+        databases: {},
+        resources: {},
+        
+        integrations: {},
+        connections: {},
+        integrationTriggers: {},
+        integrationActions: {},
+        integrationCategories: {},
+        
+        triggers: {},
+        searches: {},
+        
+        experiments: {},
+        models: {},
+        prompts: {},
+        settings: {},
+        
+        types: {},
+        modules: {},
+        packages: {},
+        deployments: {},
+        
+        benchmarks: {},
+        evals: {},
+        evalRuns: {},
+        evalResults: {},
+        datasets: {},
+        
+        events: {},
+        errors: {},
+        generations: {},
+        'generation-batches': {},
+        traces: {},
+      },
+      tenantsSlug: 'projects',
+      userHasAccessToAllTenants: ({ req }) => {
+        const user = req.user;
+        if (!user) return false;
+        
+        if (user.roles?.some((role: any) => typeof role === 'object' && role.superAdmin)) {
+          return true;
+        }
+        
+        const email = user.email;
+        if (!email) return false;
+        return email.endsWith('@driv.ly');
+      },
+    }),
     // workosPlugin({
     //   apiKey: process.env.WORKOS_API_KEY,
     //   clientId: process.env.WORKOS_CLIENT_ID,
@@ -133,17 +196,6 @@ export default buildConfig({
   ],
 })
 
-// multiTenantPlugin<Config>({
-//   tenantSelectorLabel: 'Project',
-//   // tenantsArrayField: {},
-//   // tenantField: {},
-//   collections: {
-//     functions: {},
-//     workflows: {},
-//     agents: {},
-//   },
-//   userHasAccessToAllTenants: isSuperAdmin,
-// }),
 // payloadKanbanBoard({
 //   collections: {
 //     tasks: {

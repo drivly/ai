@@ -12,6 +12,14 @@ export const Roles: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'superAdmin',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'Grant super admin privileges to users with this role',
+      },
+    },
     // {
     //   name: 'users',
     //   type: 'relationship',
