@@ -2,6 +2,14 @@ import fs from 'fs'
 import path from 'path'
 
 /**
+ * Interface for API documentation item
+ */
+interface ApiDoc {
+  title: string
+  slug: string
+}
+
+/**
  * Script to update the API documentation index file
  * Organizes API documentation links by Admin group
  */
@@ -18,7 +26,7 @@ const updateApiDocsIndex = async () => {
     const files = fs.readdirSync(apisDir)
       .filter(file => file.endsWith('.mdx') && file !== 'index.mdx')
     
-    const apisByGroup = {}
+    const apisByGroup: Record<string, ApiDoc[]> = {}
     
     for (const file of files) {
       const filePath = path.join(apisDir, file)
