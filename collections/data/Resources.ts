@@ -1,6 +1,7 @@
 import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
+import { simplerJSON } from '../../lib/fields/simplerJSON'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
@@ -19,8 +20,13 @@ export const Resources: CollectionConfig = {
         { name: 'type', type: 'relationship', relationTo: 'nouns' },
       ],
     },
-    { name: 'yaml', type: 'code', admin: { language: 'yaml', editorOptions: { padding: { top: 20, bottom: 20 } } } },
-    { name: 'data', type: 'json', admin: { editorOptions: { padding: { top: 20, bottom: 20 } } } },
+    ...simplerJSON({
+      jsonFieldName: 'data',
+      codeFieldName: 'yaml',
+      label: 'Data',
+      defaultFormat: 'yaml',
+      editorOptions: { padding: { top: 20, bottom: 20 } }
+    }),
     { name: 'embedding', type: 'json', admin: { hidden: true }, index: false },
     { name: 'subjectOf', type: 'relationship', relationTo: 'actions', hasMany: true },
     { name: 'objectOf', type: 'relationship', relationTo: 'actions', hasMany: true },
@@ -55,13 +61,6 @@ export const Resources: CollectionConfig = {
           console.error('Error queueing generateResourceEmbedding task:', error)
           return doc
         }
-      },
-    ],
-    afterRead: [
-      async (args) => {
-        const { doc } = args
-        doc.yaml = yaml.stringify(doc.data, { singleQuote: true, lineWidth: 0 })
-        return doc
       },
     ],
   },
