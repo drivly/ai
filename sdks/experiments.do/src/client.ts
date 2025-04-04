@@ -9,18 +9,20 @@ import {
   QueryParams,
   ListResponse
 } from './types.js'
-import { VercelFlagsProvider } from './provider.js'
+import { VercelFlagsProvider, EvaluationContext } from './provider.js'
 
 export interface ClientOptions {
   apiKey?: string
   baseUrl?: string
   flagsApiKey?: string
   flagsBaseUrl?: string
+  analyticsEnabled?: boolean
 }
 
 export class ExperimentsClient {
   private api: API
   private flagsProvider: VercelFlagsProvider
+  private analyticsEnabled: boolean
   
   constructor(options: ClientOptions = {}) {
     this.api = new API({
@@ -35,6 +37,10 @@ export class ExperimentsClient {
       apiKey: options.flagsApiKey || options.apiKey,
       baseUrl: options.flagsBaseUrl,
     })
+    
+    this.analyticsEnabled = options.analyticsEnabled ?? true
+    
+    this.flagsProvider.initialize().catch(err => console.error('Failed to initialize flags provider:', err))
   }
   
   async create(experiment: Experiment): Promise<Experiment> {
@@ -47,7 +53,7 @@ export class ExperimentsClient {
         acc[variant.id] = variant.config
         return acc
       }, {} as Record<string, any>),
-      defaultVariant: experiment.variants[0].id,
+      defaultVariant: experiment.variants.find(v => v.isControl)?.id || experiment.variants[0].id,
     })
     
     return createdExperiment
@@ -58,16 +64,76 @@ export class ExperimentsClient {
   }
   
   async getVariant(experimentName: string, context: VariantContext): Promise<VariantResult> {
-    const flagResult = await this.flagsProvider.evaluateFlag(experimentName, context)
+    const evaluationContext: EvaluationContext = {
+      ...context
+    }
+    
+    const defaultValue = {}
+    const resolution = await this.flagsProvider.resolveObjectEvaluation(
+      experimentName, 
+      defaultValue,
+      evaluationContext
+    )
     
     return {
-      id: flagResult.variant,
-      config: flagResult.value,
+      id: resolution.variant || 'default',
+      config: resolution.value || defaultValue,
     }
   }
   
-  async recordMetrics(experimentName: string, variantId: string, metrics: Record<string, number>): Promise<any> {
-    return this.flagsProvider.recordMetric(experimentName, variantId, metrics)
+  async track(experimentName: string, variantId: string, metrics: Record<string, number>, context?: VariantContext): Promise<any> {
+    const flagsResult = await this.flagsProvider.recordMetric(experimentName, variantId, metrics)
+    
+    if (this.analyticsEnabled) {
+      const metricEntries = Object.entries(metrics).map(([name, value]) => ({
+        experimentId: experimentName,
+        variantId,
+        metricName: name,
+        value,
+        userId: context?.userId,
+        sessionId: context?.sessionId,
+        metadata: context || {},
+      }))
+      
+      await Promise.all(
+        metricEntries.map(entry => 
+          this.api.create('experiment-metrics', entry)
+        )
+      )
+    }
+    
+    return flagsResult
+  }
+  
+  async trackEvent(experimentName: string, variantId: string, eventName: string, properties?: Record<string, any>, context?: VariantContext): Promise<any> {
+    if (!this.analyticsEnabled) {
+      return null
+    }
+    
+    if (typeof window !== 'undefined' && 'va' in window) {
+      const va = (window as any).va
+      if (typeof va === 'function') {
+        va('event', {
+          name: eventName,
+          experimentName,
+          variantId,
+          ...properties
+        })
+      }
+    }
+    
+    return this.api.create('experiment-metrics', {
+      experimentId: experimentName,
+      variantId,
+      metricName: eventName,
+      value: 1, // Default value for events
+      userId: context?.userId,
+      sessionId: context?.sessionId,
+      metadata: {
+        ...properties,
+        ...context
+      },
+    })
   }
   
   async getResults(experimentName: string): Promise<ExperimentResults> {

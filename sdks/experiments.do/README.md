@@ -16,6 +16,48 @@ Experiments.do provides a powerful framework for testing hypotheses, measuring o
 - **Metrics Tracking**: Measure and analyze performance metrics
 - **Versioning**: Track changes and iterations
 - **Reproducibility**: Ensure experiments can be reproduced
+- **Feature Flags**: Integrate with Vercel Feature Flags
+- **Real-World User Feedback**: Collect and analyze user interactions
+
+## Feature Flags Integration
+
+Experiments.do integrates with Vercel Feature Flags through the OpenFeature specification, providing a standardized way to evaluate feature flags and collect real-world user feedback metrics.
+
+### Real-World User Feedback
+
+Track user interactions with different variants of your experiments:
+
+```typescript
+// Track a click event for a specific experiment and variant
+await experiments.trackEvent('ButtonExperiment', variant.id, 'button_click', {
+  buttonType: 'cta',
+  position: 'header',
+}, {
+  userId: 'user-123',
+  sessionId: 'session-456',
+})
+
+// Record a conversion metric
+await experiments.track('ButtonExperiment', variant.id, {
+  'click_through_rate': 1,
+  'time_on_page': 120, // seconds
+}, {
+  userId: 'user-123',
+  sessionId: 'session-456',
+})
+```
+
+### Vercel Analytics Integration
+
+When running in the browser, experiments.do automatically integrates with Vercel Analytics to track experiment events:
+
+```typescript
+// Configure the client with analytics enabled
+const experiments = new ExperimentsClient({
+  apiKey: 'your-api-key',
+  analyticsEnabled: true, // default is true
+})
+```
 
 ## Installation
 
@@ -154,7 +196,8 @@ new ExperimentsClient({
 - `create(experiment: Experiment): Promise<Experiment>` - Create a new experiment
 - `start(experimentName: string): Promise<any>` - Start an experiment
 - `getVariant(experimentName: string, context: VariantContext): Promise<VariantResult>` - Get a variant for a specific context
-- `recordMetrics(experimentName: string, variantId: string, metrics: Record<string, number>): Promise<any>` - Record metrics for a variant
+- `track(experimentName: string, variantId: string, metrics: Record<string, number>, context?: VariantContext): Promise<any>` - Record metrics for a variant
+- `trackEvent(experimentName: string, variantId: string, eventName: string, properties?: Record<string, any>, context?: VariantContext): Promise<any>` - Track a user interaction event
 - `getResults(experimentName: string): Promise<ExperimentResults>` - Get experiment results
 - `compareVariants(experimentName: string, variantIds: string[]): Promise<ExperimentComparison>` - Compare variants
 - `getRecommendations(experimentName: string): Promise<ExperimentRecommendation>` - Get recommendations
