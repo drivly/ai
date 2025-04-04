@@ -1,7 +1,7 @@
 'use client'
 
-import { buttonVariants } from '@drivly/ui/button'
-import { cn } from '@drivly/ui/lib'
+import { buttonVariants } from '@/pkgs/ui/src/server/components/button'
+import { cn } from '@/pkgs/ui/src/lib/utils'
 import Link from 'next/link'
 import { useState, useEffect, use } from 'react'
 import { LlmsdoLogo } from './llms-do-logo'
