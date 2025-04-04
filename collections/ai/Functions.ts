@@ -2,6 +2,7 @@ import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
 import { generateFunctionExamplesTask } from '../../tasks/generateFunctionExamples'
+import { createSchemaFields } from '../../lib/fields/createSchemaFields'
 
 export const Functions: CollectionConfig = {
   slug: 'functions',
@@ -151,63 +152,15 @@ export const Functions: CollectionConfig = {
     //     condition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
     //   },
     // },
-    {
-      name: 'schemaYaml',
-      type: 'code',
+    ...createSchemaFields({
+      jsonFieldName: 'shape',
+      codeFieldName: 'schemaYaml',
       label: 'Schema',
-      admin: {
-        language: 'yaml',
-        editorOptions: { lineNumbers: 'off', padding: { top: 20, bottom: 20 } },
-        condition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
-      },
-      hooks: {
-        beforeValidate: [
-          ({ value, siblingData }) => {
-            if (value && typeof value === 'string' && value.trim()) {
-              try {
-                // Convert YAML to JSON and update the schema field
-                const jsonData = yaml.parse(value)
-                siblingData.shape = jsonData
-              } catch (error) {
-                // If YAML parsing fails, return validation error
-                return 'Invalid YAML format'
-              }
-            } else {
-              // Initialize with empty object if no value
-              siblingData.shape = {}
-            }
-            return value
-          },
-        ],
-        afterRead: [
-          ({ value, data }) => {
-            // Convert JSON to YAML when reading the document
-            if (data && data.shape) {
-              try {
-                return yaml.stringify(data.shape, {
-                  indent: 2,
-                  lineWidth: -1, // No line wrapping
-                })
-              } catch (error) {
-                console.error('Error converting JSON to YAML:', error)
-                return ''
-              }
-            }
-            // Return empty string if no schema data
-            return value || ''
-          },
-        ],
-      },
-    },
-    {
-      name: 'shape',
-      type: 'json',
-      admin: {
-        condition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
-        editorOptions: { padding: { top: 20, bottom: 20 } },
-        hidden: true,
-      },
-    },
+      defaultFormat: 'yaml',
+      adminCondition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
+      editorOptions: { lineNumbers: 'off', padding: { top: 20, bottom: 20 } },
+      hideJsonField: true
+    }),
     {
       name: 'code',
       type: 'code',
