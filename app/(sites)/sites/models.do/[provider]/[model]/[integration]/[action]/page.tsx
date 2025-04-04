@@ -166,14 +166,14 @@ async function ActionDetailsSection({
   )
 }
 
-async function ActionPage({ params }: { params: Promise<{ 
+async function ActionPage({ params }: { params: { 
   domain?: string,
   provider?: string, 
   model?: string, 
   integration?: string,
   action?: string
-}> }) {
-  const { provider, model: modelSlug, integration: integrationId, action: actionId } = await params
+} }) {
+  const { provider, model: modelSlug, integration: integrationId, action: actionId } = params
   const glowColor = getGlowColor('models.do')
   
   return (
