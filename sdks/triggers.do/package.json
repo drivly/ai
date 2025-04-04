@@ -1,0 +1,44 @@
+{
+  "name": "triggers.do",
+  "version": "0.0.1",
+  "description": "SDK for managing event triggers that initiate workflows",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://triggers.do",
+  "type": "module",
+  "module": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/triggers.do"
+  },
+  "scripts": {
+    "build": "tsc",
+    "generate:constants": "echo 'Using placeholder constants'",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "triggers",
+    "events",
+    "workflows",
+    "sdk",
+    "typescript"
+  ],
+  "author": "Drivly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "dependencies": {
+    "apis.do": "workspace:*"
+  },
+  "devDependencies": {
+    "evalite": "^0.9.1",
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.9"
+  }
+}
