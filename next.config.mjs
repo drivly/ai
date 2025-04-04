@@ -9,6 +9,7 @@ const withNextra = nextra({
   search: {
     codeblocks: false,
   },
+
 })
 
 /** @type {import('next').NextConfig} */
