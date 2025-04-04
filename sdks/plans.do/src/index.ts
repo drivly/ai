@@ -1,5 +1,5 @@
-import type { ClientOptions, ListResponse, QueryParams } from './types';
-import { API } from './api';
+import type { ClientOptions, ListResponse, QueryParams } from './types.js';
+import { API } from './api.js';
 import { Plan, PlanStep } from '../types.js';
 
 export * from '../types.js';

@@ -2,7 +2,7 @@
  * Simple API client implementation that mimics the apis.do client
  * but avoids direct dependencies for build compatibility
  */
-import type { ClientOptions, ListResponse, QueryParams } from './types';
+import type { ClientOptions, ListResponse, QueryParams } from './types.js';
 
 export class API {
   private baseUrl: string;
