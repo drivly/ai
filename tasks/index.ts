@@ -23,6 +23,7 @@ import { processBatchGoogleVertexAITask } from './batchGoogleVertexAI'
 import { processBatchParasailTask } from './batchParasail'
 import { createGenerationBatchTask } from './createGenerationBatch'
 import { generateFunctionExamplesTask } from './generateFunctionExamples'
+import { generateEmbeddingTask } from './generateEmbeddingTask'
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
@@ -112,7 +113,8 @@ export const tasks = [
   processBatchGoogleVertexAITask,
   processBatchParasailTask,
   createGenerationBatchTask,
-  generateFunctionExamplesTask
+  generateFunctionExamplesTask,
+  generateEmbeddingTask
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
