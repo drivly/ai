@@ -6,86 +6,87 @@ group: Experiments
 
 # Experiments API
 
-API for managing Experiments resources.
+Feature flags and A/B testing experiments with real-world user feedback metrics
 
 ## Fields
 
 ### name
+
 - **Type**: `text`
 - **Required**: Yes
-- **Unique**: Yes
+
 - **Description**: Unique name for the experiment (used as the feature flag key)
 
+
 ### description
+
 - **Type**: `textarea`
 - **Required**: No
+
 - **Description**: Description of what this experiment is testing
 
+
 ### status
+
 - **Type**: `select`
 - **Required**: Yes
 - **Default**: `draft`
-- **Options**: 
-  - Draft
-  - Active
-  - Paused
-  - Completed
 - **Description**: Current status of the experiment
 
+
 ### provider
+
 - **Type**: `select`
 - **Required**: Yes
 - **Default**: `vercel`
-- **Options**:
-  - Vercel
-  - Internal
 - **Description**: Feature flag provider to use for this experiment
 
+
 ### variants
+
 - **Type**: `array`
 - **Required**: Yes
-- **Min Rows**: 1
+
 - **Description**: Different variations to test in this experiment
-- **Fields**:
-  - **id**: Unique identifier for this variant (text, required)
-  - **description**: Description of this variant (textarea)
-  - **isControl**: Whether this is the control/baseline variant (checkbox)
-  - **config**: Configuration values for this variant (json, required)
+
 
 ### metrics
+
 - **Type**: `array`
 - **Required**: No
+
 - **Description**: Metrics to track for this experiment
-- **Fields**:
-  - **name**: Name of the metric (text, required)
-  - **description**: Description of what this metric measures (textarea)
-  - **higherIsBetter**: Whether higher values for this metric are better (checkbox)
-  - **primary**: Whether this is a primary metric for the experiment (checkbox)
+
 
 ### trafficAllocation
+
 - **Type**: `group`
 - **Required**: No
+
 - **Description**: How traffic is allocated between variants
-- **Fields**:
-  - **type**: Type of traffic allocation (select: percentage, user, session)
-  - **values**: Allocation values for each variant as JSON (e.g., `{"control": 50, "variant-a": 25, "variant-b": 25}`)
+
 
 ### targeting
+
 - **Type**: `json`
 - **Required**: No
+
 - **Description**: Targeting rules for this experiment (optional)
 
+
 ### duration
+
 - **Type**: `group`
 - **Required**: No
+
 - **Description**: Duration of the experiment
-- **Fields**:
-  - **startDate**: When the experiment starts (date)
-  - **endDate**: When the experiment ends (date)
+
 
 ### results
+
 - **Type**: `json`
 - **Required**: No
+
 - **Description**: Aggregated results of the experiment (updated periodically)
 
 
