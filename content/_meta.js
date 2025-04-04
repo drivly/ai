@@ -1,7 +1,9 @@
 export default {
   index: 'Introduction',
   manifesto: 'Manifesto',
-  'getting-started': 'Getting Started',
+  // 'getting-started': 'Getting Started',
+  apis: '',
+  sdks: '',
   _: {
     type: 'separator',
     title: 'AI' // Title is optional
@@ -23,12 +25,14 @@ export default {
   },
   nouns: '',
   verbs: '',
-  database: '',
+  // database: '',
   resources: '',
   _4: {
     type: 'separator',
-    title: 'Events' // Title is optional
+    title: 'Analytics' // Title is optional
   },
+  analytics: '',
+  experiments: '',
   events: '',
   _5: {
     type: 'separator',
@@ -42,8 +46,10 @@ export default {
     type: 'separator',
     title: 'Evals' // Title is optional
   },
+  benchmarks: '',
+  datasets: '',
   evals: '',
-  experiments: '',
+  // experiments: '',
   _7: {
     type: 'separator',
     title: 'Deploy' // Title is optional
@@ -55,7 +61,6 @@ export default {
   },
   // data: '',
   // things: '',
-  // // 'vector-search': '',
   // llm: '',
   // observability: '',
   // traces: '',
@@ -64,5 +69,4 @@ export default {
   // admin: '',
   // api: 'API Reference',
   // code: '',
-  // 'code-hike': 'CodeHike Examples',
 }
