@@ -205,4 +205,5 @@ async function ActionPage({ params }: { params: Promise<{
   )
 }
 
-export default withSitesNavbar(ActionPage)
+import { withModelsNavbar } from '../../../../with-models-navbar'
+export default withModelsNavbar(ActionPage)

@@ -160,4 +160,5 @@ async function IntegrationPage({ params }: { params: Promise<{ domain?: string, 
   )
 }
 
-export default withSitesNavbar(IntegrationPage)
+import { withModelsNavbar } from '../../../with-models-navbar'
+export default withModelsNavbar(IntegrationPage)
