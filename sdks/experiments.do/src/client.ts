@@ -105,6 +105,37 @@ export class ExperimentsClient {
     return flagsResult
   }
   
+  async trackEvent(experimentName: string, variantId: string, eventName: string, properties?: Record<string, any>, context?: VariantContext): Promise<any> {
+    if (!this.analyticsEnabled) {
+      return null
+    }
+    
+    if (typeof window !== 'undefined' && 'va' in window) {
+      const va = (window as any).va
+      if (typeof va === 'function') {
+        va('event', {
+          name: eventName,
+          experimentName,
+          variantId,
+          ...properties
+        })
+      }
+    }
+    
+    return this.api.create('experiment-metrics', {
+      experimentId: experimentName,
+      variantId,
+      metricName: eventName,
+      value: 1, // Default value for events
+      userId: context?.userId,
+      sessionId: context?.sessionId,
+      metadata: {
+        ...properties,
+        ...context
+      },
+    })
+  }
+  
   async getResults(experimentName: string): Promise<ExperimentResults> {
     const flagResults = await this.flagsProvider.getResults(experimentName)
     
