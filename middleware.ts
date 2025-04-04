@@ -50,6 +50,7 @@ const extractApiNameFromDomain = (hostname: string): string => {
  */
 const getDocsPath = (hostname: string): string => {
   const apiName = extractApiNameFromDomain(hostname)
+  // TODO: we need to refactor this to support nested docs, because not every API will be root level
   
   return `/docs/${apiName}`
 }
