@@ -55,7 +55,7 @@ const normalizePatternValue = (
 }
 
 /**
- * Process a hook by running the associated task
+ * Process a hook by running the associated task or function
  */
 const processHook = async (
   hooks: Array<string | TaskConfig> | undefined,
@@ -78,16 +78,42 @@ const processHook = async (
             originalDoc: options.originalDoc
           }
           
-          return payload.db.tasks.run({
-            slug,
-            input: {
-              ...input,
-              ...(Object.keys(input).length === 0 ? options.data : {}),
-              context
+          try {
+            return await payload.db.tasks.run({
+              slug,
+              input: {
+                ...input,
+                ...(Object.keys(input).length === 0 ? options.data : {}),
+                context
+              }
+            })
+          } catch (taskError) {
+            const { docs: functions } = await payload.find({
+              collection: 'functions',
+              where: { name: { equals: slug } },
+              depth: 0,
+              limit: 1
+            })
+            
+            if (functions && functions.length > 0) {
+              return await payload.jobs.queue({
+                task: 'executeFunction',
+                input: {
+                  functionName: slug,
+                  args: {
+                    ...input,
+                    ...(Object.keys(input).length === 0 ? options.data : {}),
+                    context
+                  }
+                }
+              })
+            } else {
+              console.warn(`No task or function found with name: ${slug}`)
+              throw taskError
             }
-          })
+          }
         } catch (error) {
-          console.error(`Error running task ${slug}:`, error)
+          console.error(`Error running task/function ${slug}:`, error)
         }
       }
     })

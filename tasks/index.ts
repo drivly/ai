@@ -34,6 +34,7 @@ import { handleGithubEvent } from './integrations/handleGithubEvent'
 import { deliverWebhookTask } from './integrations/deliverWebhook'
 import { initiateComposioConnectionTask } from './integrations/initiateComposioConnection'
 import { processDomain } from './integrations/processDomain'
+import { saveExecutionResultsTask } from './saveExecutionResults'
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
@@ -128,7 +129,8 @@ export const tasks = [
   
   deliverWebhookTask,
   initiateComposioConnectionTask,
-  processDomainTask
+  processDomainTask,
+  saveExecutionResultsTask
 ]
 
 export const workflows = [handleGithubEvent]

@@ -1,5 +1,4 @@
 import { TaskConfig, TaskHandler } from 'payload'
-import { waitUntil } from '@vercel/functions'
 import hash from 'object-hash'
 import { generateObject } from './generateObject'
 import { generateObjectArray } from './generateObjectArray'
@@ -66,7 +65,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   // If we have a cached result, return it immediately without calling generateObject
   if (actionDoc?.object) {
     // If action & output object exists, log event and return action output/object
-    waitUntil(payload.create({ collection: 'events', data: { action: actionDoc.id, request: { headers, seeds, callback }, meta: { type: isTextFunction ? 'text' : 'object' } } }))
+    payload.create({ collection: 'events', data: { action: actionDoc.id, request: { headers, seeds, callback }, meta: { type: isTextFunction ? 'text' : 'object' } } })
 
     // Extract the data from the object
     const objectData = actionDoc.object.data || { result: 'test data' }
@@ -312,40 +311,26 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   console.log(latency)
 
   // Save the results asynchronously
-  waitUntil(
-    (async () => {
-      const startSave = Date.now()
-      const objectHash = hash(object)
-      const objectResult = await payload.create({
-        collection: 'things',
-        data: { name: prompt, hash: objectHash, data: object },
-      })
-      const actionHash = hash({ functionName, args, settings })
-
-      // Use upsert to avoid duplicates with the same hash
-      const actionResult = await payload.db.upsert({
-        collection: 'actions',
-        where: { hash: { equals: actionHash } },
-        data: {
-          hash: actionHash,
-          subject: argsDoc?.id,
-          function: functionDoc?.id,
-          object: objectResult?.id,
-          reasoning: reasoning,
-        },
-      })
-      const generationResult = await payload.create({
-        collection: 'generations',
-        data: { action: actionResult?.id, settings: argsDoc?.id, request, response: generation, status: 'success', duration: generationLatency },
-      })
-      const eventResult = await payload.create({
-        collection: 'events',
-        data: { name: prompt, action: actionResult?.id, request: { headers, seeds, callback }, meta: { type: isTextFunction ? 'text' : 'object', latency } },
-      })
-      const saveLatency = Date.now() - startSave
-      console.log({ saveLatency })
-    })(),
-  )
+  payload.jobs.queue({
+    task: 'saveExecutionResults',
+    input: {
+      prompt,
+      object,
+      functionName,
+      args,
+      settings,
+      argsDoc,
+      functionDoc,
+      reasoning,
+      generation,
+      generationLatency,
+      headers,
+      seeds,
+      callback,
+      isTextFunction,
+      latency
+    }
+  })
 
   return { output: object, reasoning }
 }

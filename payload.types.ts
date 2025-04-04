@@ -245,6 +245,7 @@ export interface Config {
       processBatchParasail: TaskProcessBatchParasail;
       createGenerationBatch: TaskCreateGenerationBatch;
       generateFunctionExamples: TaskGenerateFunctionExamples;
+      generateEmbedding: TaskGenerateEmbedding;
       inline: {
         input: unknown;
         output: unknown;
@@ -298,6 +299,10 @@ export interface ApikeyAuthOperations {
 export interface User {
   id: string;
   /**
+   * User roles for permissions and access control
+   */
+  roles?: (string | Role)[] | null;
+  /**
    * Users chosen display name
    */
   name?: string | null;
@@ -331,9 +336,63 @@ export interface User {
    * The date and time when the ban will expire
    */
   banExpires?: string | null;
+  tenants?:
+    | {
+        tenant: string | Project;
+        id?: string | null;
+      }[]
+    | null;
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: string;
+  name: string;
+  /**
+   * Grant super admin privileges to users with this role
+   */
+  superAdmin?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: string;
+  name?: string | null;
+  domain?: string | null;
+  domains?: (string | Domain)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "domains".
+ */
+export interface Domain {
+  id: string;
+  name: string;
+  domain: string;
+  project: string | Project;
+  status?: ('pending' | 'active' | 'error') | null;
+  hostnames?:
+    | {
+        hostname?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  vercelId?: string | null;
+  cloudflareId?: string | null;
+  errorMessage?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Accounts are used to store user accounts for authentication providers
@@ -541,6 +600,7 @@ export interface ApiKey {
  */
 export interface Function {
   id: string;
+  tenant?: (string | null) | Project;
   name: string;
   type?: ('Generation' | 'Code' | 'Human' | 'Agent') | null;
   /**
@@ -601,6 +661,7 @@ export interface Function {
  */
 export interface Prompt {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -611,6 +672,7 @@ export interface Prompt {
  */
 export interface Agent {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   /**
    * Make this agent available to other users
@@ -650,6 +712,7 @@ export interface Agent {
  */
 export interface Resource {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   sqid?: string | null;
   hash?: string | null;
@@ -692,6 +755,7 @@ export interface Resource {
  */
 export interface Noun {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   /**
    * Singular form like User
@@ -810,6 +874,7 @@ export interface Action {
  */
 export interface Verb {
   id: string;
+  tenant?: (string | null) | Project;
   /**
    * Active tense like Create
    */
@@ -867,6 +932,7 @@ export interface Verb {
  */
 export interface Generation {
   id: string;
+  tenant?: (string | null) | Project;
   action?: (string | null) | Action;
   settings?: (string | null) | Resource;
   request?:
@@ -911,6 +977,7 @@ export interface Generation {
  */
 export interface GenerationBatch {
   id: string;
+  tenant?: (string | null) | Project;
   name: string;
   provider: 'openai' | 'anthropic' | 'google' | 'parasail';
   status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
@@ -942,6 +1009,7 @@ export interface GenerationBatch {
  */
 export interface Workflow {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   type?: string | null;
   code?: string | null;
@@ -987,6 +1055,7 @@ export interface Workflow {
  */
 export interface Module {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -997,6 +1066,7 @@ export interface Module {
  */
 export interface Package {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   /**
    * The package.json content for publishing to NPM
@@ -1031,6 +1101,7 @@ export interface Package {
  */
 export interface Deployment {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -1041,6 +1112,7 @@ export interface Deployment {
  */
 export interface Queue {
   id: string;
+  tenant?: (string | null) | Project;
   name: string;
   role: string | Role;
   tasks?: {
@@ -1053,20 +1125,11 @@ export interface Queue {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "roles".
- */
-export interface Role {
-  id: string;
-  name: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tasks".
  */
 export interface Task {
   id: string;
+  tenant?: (string | null) | Project;
   title: string;
   status?: ('backlog' | 'todo' | 'in-progress' | 'review' | 'done') | null;
   queue?: (string | null) | Queue;
@@ -1108,6 +1171,7 @@ export interface Task {
  */
 export interface Goal {
   id: string;
+  tenant?: (string | null) | Project;
   title: string;
   /**
    * The objective of this goal
@@ -1128,6 +1192,7 @@ export interface Goal {
  */
 export interface Kpi {
   id: string;
+  tenant?: (string | null) | Project;
   name: string;
   goals?: {
     docs?: (string | Goal)[];
@@ -1143,6 +1208,7 @@ export interface Kpi {
  */
 export interface Database {
   id: string;
+  tenant?: (string | null) | Project;
   name: string;
   domain: string;
   type: 'Integrated' | 'Dedicated' | 'Self-Hosted';
@@ -1171,6 +1237,7 @@ export interface Database {
  */
 export interface IntegrationCategory {
   id: string;
+  tenant?: (string | null) | Project;
   category?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -1180,6 +1247,7 @@ export interface IntegrationCategory {
  * via the `definition` "integrations".
  */
 export interface Integration {
+  tenant?: (string | null) | Project;
   id: string;
   name?: string | null;
   updatedAt: string;
@@ -1191,6 +1259,7 @@ export interface Integration {
  */
 export interface Connection {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   user: string | User;
   integration: string | Integration;
@@ -1213,6 +1282,7 @@ export interface Connection {
  */
 export interface IntegrationTrigger {
   id: string;
+  tenant?: (string | null) | Project;
   displayName?: string | null;
   description?: string | null;
   appKey?: string | null;
@@ -1246,6 +1316,7 @@ export interface IntegrationTrigger {
  */
 export interface IntegrationAction {
   id: string;
+  tenant?: (string | null) | Project;
   displayName?: string | null;
   description?: string | null;
   appKey?: string | null;
@@ -1279,6 +1350,7 @@ export interface IntegrationAction {
  */
 export interface Trigger {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   payload?:
     | {
@@ -1307,6 +1379,7 @@ export interface Trigger {
  */
 export interface Search {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   query?: string | null;
   searchType?: ('text' | 'vector' | 'hybrid') | null;
@@ -1337,6 +1410,7 @@ export interface Search {
  */
 export interface Experiment {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -1346,6 +1420,7 @@ export interface Experiment {
  * via the `definition` "models".
  */
 export interface Model {
+  tenant?: (string | null) | Project;
   name: string;
   id: string;
   provider: string | Provider;
@@ -1399,6 +1474,7 @@ export interface Lab {
  */
 export interface Setting {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   settings?:
     | {
@@ -1418,6 +1494,7 @@ export interface Setting {
  */
 export interface Type {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   hash?: string | null;
   type?: string | null;
@@ -1448,6 +1525,7 @@ export interface Type {
  */
 export interface Benchmark {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -1458,6 +1536,7 @@ export interface Benchmark {
  */
 export interface Eval {
   id: string;
+  tenant?: (string | null) | Project;
   name: string;
   description?: string | null;
   /**
@@ -1502,6 +1581,7 @@ export interface Eval {
  */
 export interface EvalRun {
   id: string;
+  tenant?: (string | null) | Project;
   name: string;
   description?: string | null;
   /**
@@ -1539,6 +1619,7 @@ export interface EvalRun {
  */
 export interface EvalResult {
   id: string;
+  tenant?: (string | null) | Project;
   name: string;
   /**
    * Reference to the evaluation test this result is for
@@ -1589,6 +1670,7 @@ export interface EvalResult {
  */
 export interface Dataset {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -1601,6 +1683,7 @@ export interface Dataset {
  */
 export interface Event {
   id: string;
+  tenant?: (string | null) | Project;
   type?: string | null;
   source?: string | null;
   subject?: (string | null) | Resource;
@@ -1638,6 +1721,7 @@ export interface Event {
  */
 export interface Error {
   id: string;
+  tenant?: (string | null) | Project;
   message: string;
   /**
    * Error stack trace
@@ -1664,41 +1748,8 @@ export interface Error {
  */
 export interface Trace {
   id: string;
+  tenant?: (string | null) | Project;
   name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects".
- */
-export interface Project {
-  id: string;
-  name?: string | null;
-  domain?: string | null;
-  domains?: (string | Domain)[] | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "domains".
- */
-export interface Domain {
-  id: string;
-  name: string;
-  domain: string;
-  project: string | Project;
-  status?: ('pending' | 'active' | 'error') | null;
-  hostnames?:
-    | {
-        hostname?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  vercelId?: string | null;
-  cloudflareId?: string | null;
-  errorMessage?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1872,7 +1923,8 @@ export interface PayloadJob {
           | 'processBatchGoogleVertexAI'
           | 'processBatchParasail'
           | 'createGenerationBatch'
-          | 'generateFunctionExamples';
+          | 'generateFunctionExamples'
+          | 'generateEmbedding';
         taskID: string;
         input?:
           | {
@@ -1928,6 +1980,7 @@ export interface PayloadJob {
                 | 'processBatchParasail'
                 | 'createGenerationBatch'
                 | 'generateFunctionExamples'
+                | 'generateEmbedding'
               )
             | null;
           taskID?: string | null;
@@ -1961,6 +2014,7 @@ export interface PayloadJob {
         | 'processBatchParasail'
         | 'createGenerationBatch'
         | 'generateFunctionExamples'
+        | 'generateEmbedding'
       )
     | null;
   queue?: string | null;
@@ -2253,6 +2307,7 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  roles?: T;
   name?: T;
   email?: T;
   emailVerified?: T;
@@ -2263,6 +2318,12 @@ export interface UsersSelect<T extends boolean = true> {
   banned?: T;
   banReason?: T;
   banExpires?: T;
+  tenants?:
+    | T
+    | {
+        tenant?: T;
+        id?: T;
+      };
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
@@ -2341,6 +2402,7 @@ export interface ApiKeysSelect<T extends boolean = true> {
  * via the `definition` "functions_select".
  */
 export interface FunctionsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   type?: T;
   public?: T;
@@ -2370,6 +2432,7 @@ export interface FunctionsSelect<T extends boolean = true> {
  * via the `definition` "workflows_select".
  */
 export interface WorkflowsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   type?: T;
   code?: T;
@@ -2395,6 +2458,7 @@ export interface WorkflowsSelect<T extends boolean = true> {
  * via the `definition` "agents_select".
  */
 export interface AgentsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   public?: T;
   clonedFrom?: T;
@@ -2414,6 +2478,7 @@ export interface AgentsSelect<T extends boolean = true> {
  * via the `definition` "queues_select".
  */
 export interface QueuesSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   role?: T;
   tasks?: T;
@@ -2425,6 +2490,7 @@ export interface QueuesSelect<T extends boolean = true> {
  * via the `definition` "tasks_select".
  */
 export interface TasksSelect<T extends boolean = true> {
+  tenant?: T;
   title?: T;
   status?: T;
   queue?: T;
@@ -2442,6 +2508,7 @@ export interface TasksSelect<T extends boolean = true> {
  * via the `definition` "goals_select".
  */
 export interface GoalsSelect<T extends boolean = true> {
+  tenant?: T;
   title?: T;
   object?: T;
   keyResults?:
@@ -2460,6 +2527,7 @@ export interface GoalsSelect<T extends boolean = true> {
  * via the `definition` "nouns_select".
  */
 export interface NounsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   singular?: T;
   plural?: T;
@@ -2497,6 +2565,7 @@ export interface ThingsSelect<T extends boolean = true> {
  * via the `definition` "verbs_select".
  */
 export interface VerbsSelect<T extends boolean = true> {
+  tenant?: T;
   action?: T;
   act?: T;
   activity?: T;
@@ -2517,6 +2586,7 @@ export interface VerbsSelect<T extends boolean = true> {
  * via the `definition` "databases_select".
  */
 export interface DatabasesSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   domain?: T;
   type?: T;
@@ -2532,6 +2602,7 @@ export interface DatabasesSelect<T extends boolean = true> {
  * via the `definition` "resources_select".
  */
 export interface ResourcesSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   sqid?: T;
   hash?: T;
@@ -2562,6 +2633,7 @@ export interface ActionsSelect<T extends boolean = true> {
  * via the `definition` "integrationCategories_select".
  */
 export interface IntegrationCategoriesSelect<T extends boolean = true> {
+  tenant?: T;
   category?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2571,6 +2643,7 @@ export interface IntegrationCategoriesSelect<T extends boolean = true> {
  * via the `definition` "integrations_select".
  */
 export interface IntegrationsSelect<T extends boolean = true> {
+  tenant?: T;
   id?: T;
   name?: T;
   updatedAt?: T;
@@ -2581,6 +2654,7 @@ export interface IntegrationsSelect<T extends boolean = true> {
  * via the `definition` "connections_select".
  */
 export interface ConnectionsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   user?: T;
   integration?: T;
@@ -2594,6 +2668,7 @@ export interface ConnectionsSelect<T extends boolean = true> {
  * via the `definition` "integrationTriggers_select".
  */
 export interface IntegrationTriggersSelect<T extends boolean = true> {
+  tenant?: T;
   displayName?: T;
   description?: T;
   appKey?: T;
@@ -2610,6 +2685,7 @@ export interface IntegrationTriggersSelect<T extends boolean = true> {
  * via the `definition` "integrationActions_select".
  */
 export interface IntegrationActionsSelect<T extends boolean = true> {
+  tenant?: T;
   displayName?: T;
   description?: T;
   appKey?: T;
@@ -2626,6 +2702,7 @@ export interface IntegrationActionsSelect<T extends boolean = true> {
  * via the `definition` "triggers_select".
  */
 export interface TriggersSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   payload?: T;
   config?: T;
@@ -2637,6 +2714,7 @@ export interface TriggersSelect<T extends boolean = true> {
  * via the `definition` "searches_select".
  */
 export interface SearchesSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   query?: T;
   searchType?: T;
@@ -2650,6 +2728,7 @@ export interface SearchesSelect<T extends boolean = true> {
  * via the `definition` "experiments_select".
  */
 export interface ExperimentsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2659,6 +2738,7 @@ export interface ExperimentsSelect<T extends boolean = true> {
  * via the `definition` "models_select".
  */
 export interface ModelsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   id?: T;
   provider?: T;
@@ -2713,6 +2793,7 @@ export interface LabsSelect<T extends boolean = true> {
  * via the `definition` "prompts_select".
  */
 export interface PromptsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2722,6 +2803,7 @@ export interface PromptsSelect<T extends boolean = true> {
  * via the `definition` "settings_select".
  */
 export interface SettingsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   settings?: T;
   updatedAt?: T;
@@ -2732,6 +2814,7 @@ export interface SettingsSelect<T extends boolean = true> {
  * via the `definition` "types_select".
  */
 export interface TypesSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   hash?: T;
   type?: T;
@@ -2745,6 +2828,7 @@ export interface TypesSelect<T extends boolean = true> {
  * via the `definition` "modules_select".
  */
 export interface ModulesSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2754,6 +2838,7 @@ export interface ModulesSelect<T extends boolean = true> {
  * via the `definition` "packages_select".
  */
 export interface PackagesSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   package?: T;
   collections?:
@@ -2770,6 +2855,7 @@ export interface PackagesSelect<T extends boolean = true> {
  * via the `definition` "deployments_select".
  */
 export interface DeploymentsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2779,6 +2865,7 @@ export interface DeploymentsSelect<T extends boolean = true> {
  * via the `definition` "benchmarks_select".
  */
 export interface BenchmarksSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2788,6 +2875,7 @@ export interface BenchmarksSelect<T extends boolean = true> {
  * via the `definition` "evals_select".
  */
 export interface EvalsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   description?: T;
   input?: T;
@@ -2806,6 +2894,7 @@ export interface EvalsSelect<T extends boolean = true> {
  * via the `definition` "evalRuns_select".
  */
 export interface EvalRunsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   description?: T;
   testIds?:
@@ -2830,6 +2919,7 @@ export interface EvalRunsSelect<T extends boolean = true> {
  * via the `definition` "evalResults_select".
  */
 export interface EvalResultsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   testId?: T;
   output?: T;
@@ -2845,6 +2935,7 @@ export interface EvalResultsSelect<T extends boolean = true> {
  * via the `definition` "datasets_select".
  */
 export interface DatasetsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2854,6 +2945,7 @@ export interface DatasetsSelect<T extends boolean = true> {
  * via the `definition` "events_select".
  */
 export interface EventsSelect<T extends boolean = true> {
+  tenant?: T;
   type?: T;
   source?: T;
   subject?: T;
@@ -2874,6 +2966,7 @@ export interface EventsSelect<T extends boolean = true> {
  * via the `definition` "errors_select".
  */
 export interface ErrorsSelect<T extends boolean = true> {
+  tenant?: T;
   message?: T;
   stack?: T;
   digest?: T;
@@ -2887,6 +2980,7 @@ export interface ErrorsSelect<T extends boolean = true> {
  * via the `definition` "generations_select".
  */
 export interface GenerationsSelect<T extends boolean = true> {
+  tenant?: T;
   action?: T;
   settings?: T;
   request?: T;
@@ -2904,6 +2998,7 @@ export interface GenerationsSelect<T extends boolean = true> {
  * via the `definition` "generation-batches_select".
  */
 export interface GenerationBatchesSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   provider?: T;
   status?: T;
@@ -2920,6 +3015,7 @@ export interface GenerationBatchesSelect<T extends boolean = true> {
  * via the `definition` "traces_select".
  */
 export interface TracesSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -2929,6 +3025,7 @@ export interface TracesSelect<T extends boolean = true> {
  * via the `definition` "kpis_select".
  */
 export interface KpisSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   goals?: T;
   updatedAt?: T;
@@ -2972,6 +3069,7 @@ export interface DomainsSelect<T extends boolean = true> {
  */
 export interface RolesSelect<T extends boolean = true> {
   name?: T;
+  superAdmin?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3716,6 +3814,26 @@ export interface TaskGenerateFunctionExamples {
       | boolean
       | null;
     error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateEmbedding".
+ */
+export interface TaskGenerateEmbedding {
+  input: {
+    text: string;
+  };
+  output: {
+    embedding?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
 }
 /**

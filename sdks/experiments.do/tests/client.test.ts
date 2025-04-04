@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ExperimentsClient } from '../src/client.js'
 import { API } from 'apis.do'
 import { VercelFlagsProvider } from '../src/provider.js'
+import { Experiment } from '../src/types.js'
 
 vi.mock('apis.do', () => {
   return {
@@ -74,7 +75,7 @@ describe('ExperimentsClient', () => {
           treatment: 50,
         },
       },
-    }
+    } satisfies Experiment
 
     const result = await client.create(experiment)
     expect(result).toEqual({ name: 'test-experiment' })
