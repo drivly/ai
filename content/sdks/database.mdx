@@ -219,20 +219,16 @@ const db = DB({
   baseUrl?: string, // Optional, defaults to 'https://database.do'
   apiKey?: string,  // Optional, overrides the DATABASE_API_KEY environment variable
   // Optional schema definitions
-```text
-  resource1: { /* schema */ },
-  resource2: { /* schema */ },
-```
+  collection1: { /* schema */ },
+  collection2: { /* schema */ },
 })
 ```
 
-### Resource Methods
+### Collection Methods
 
-```text
-db.{resourceName}.find(options?)
-```
+#### db.{collection}.find(options?)
 
-Retrieves multiple documents from a resource with optional filtering, sorting, and pagination.
+Retrieves multiple documents from a collection with optional filtering, sorting, and pagination.
 
 ```typescript
 interface QueryOptions {
@@ -247,9 +243,7 @@ interface QueryOptions {
 const results = await db.posts.find(options)
 ```
 
-```text
-db.{resourceName}.findOne(id)
-```
+#### db.{collection}.findOne(id)
 
 Retrieves a single document by its ID.
 
@@ -257,11 +251,9 @@ Retrieves a single document by its ID.
 const document = await db.posts.findOne('document-id')
 ```
 
-```text
-db.{resourceName}.create(data)
-```
+#### db.{collection}.create(data)
 
-Creates a new document in the resource.
+Creates a new document in the collection.
 
 ```typescript
 const newDocument = await db.posts.create({
@@ -271,9 +263,7 @@ const newDocument = await db.posts.create({
 })
 ```
 
-```text
-db.{resourceName}.update(id, data)
-```
+#### db.{collection}.update(id, data)
 
 Updates an existing document by its ID.
 
@@ -284,9 +274,7 @@ const updatedDocument = await db.posts.update('document-id', {
 })
 ```
 
-```text
-db.{resourceName}.delete(id)
-```
+#### db.{collection}.delete(id)
 
 Deletes a document by its ID.
 
@@ -294,9 +282,7 @@ Deletes a document by its ID.
 await db.posts.delete('document-id')
 ```
 
-```text
-db.{resourceName}.search(query, options?)
-```
+#### db.{collection}.search(query, options?)
 
 Performs a text search across documents in a collection.
 
@@ -352,7 +338,7 @@ const db = DB({
     name: 'text',
     price: 'number',
     description: 'richtext',
-    category: 'categories', // Reference to another resource type
+    category: 'categories', // Reference to another collection
   },
   categories: {
     name: 'text',
