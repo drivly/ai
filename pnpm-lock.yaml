@@ -780,10 +780,17 @@ importers:
         version: 3.32.0(graphql@16.10.0)(typescript@5.8.2)
 
   pkgs/payload-utils:
+    dependencies:
+      yaml:
+        specifier: ^2.3.4
+        version: 2.7.0
     devDependencies:
       '@types/node':
         specifier: ^22.13.11
         version: 22.13.13
+      payload:
+        specifier: ^3.0.0
+        version: 3.32.0(graphql@16.10.0)(typescript@5.8.2)
       tsup:
         specifier: ^7.2.0
         version: 7.3.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(postcss@8.5.3)(ts-node@10.9.2(@swc/core@1.11.13(@swc/helpers@0.5.15))(@types/node@22.13.13)(typescript@5.8.2))(typescript@5.8.2)

@@ -1,7 +1,5 @@
-import { waitUntil } from '@vercel/functions'
 import type { CollectionConfig } from 'payload'
-import yaml from 'yaml'
-import { simplerJSON } from '../../lib/fields/simplerJSON'
+import { simplerJSON } from '../../pkgs/payload-utils/src'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
@@ -54,7 +52,7 @@ export const Resources: CollectionConfig = {
           })
           
           console.log(`Queued embedding generation for resource ${doc.id}`, job)
-          waitUntil(payload.jobs.runByID({ id: job.id }))
+          await payload.jobs.runByID({ id: job.id })
           
           return doc
         } catch (error) {

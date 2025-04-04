@@ -24,6 +24,7 @@ import { processBatchParasailTask } from './batchParasail'
 import { createGenerationBatchTask } from './createGenerationBatch'
 import { generateFunctionExamplesTask } from './generateFunctionExamples'
 import { generateEmbeddingTask } from './generateEmbeddingTask'
+import { saveExecutionResultsTask } from './saveExecutionResults'
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
@@ -114,7 +115,8 @@ export const tasks = [
   processBatchParasailTask,
   createGenerationBatchTask,
   generateFunctionExamplesTask,
-  generateEmbeddingTask
+  generateEmbeddingTask,
+  saveExecutionResultsTask
 ]
 export const workflows = [handleGithubEvent]
 export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
