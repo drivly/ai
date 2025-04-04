@@ -4,8 +4,9 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "declaration": true,
-    "incremental": false
+    "incremental": false,
+    "typeRoots": ["./node_modules/@types", "./src"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

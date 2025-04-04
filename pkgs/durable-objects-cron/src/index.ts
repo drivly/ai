@@ -174,7 +174,7 @@ export class CronDurableObject {
    */
   async getTask(id: string): Promise<ScheduledTask | null> {
     const task = await this.storage.get(`task:${id}`);
-    return task || null;
+    return (task as ScheduledTask | null) || null;
   }
   
   /**
