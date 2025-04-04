@@ -1,4 +1,3 @@
-import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
 import { getGlowColor } from '@/domains.config'
 import { Suspense } from 'react'
 
