@@ -1,5 +1,4 @@
-import { Fragment } from 'react'
-import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
+import { ModelsDoWrapper } from './models-do-wrapper'
 
 export default function ModelsLayout({
   children,
@@ -8,14 +7,9 @@ export default function ModelsLayout({
   children: React.ReactNode
   params: { domain?: string; provider?: string; model?: string; integration?: string; action?: string }
 }) {
-  const paramsPromise = Promise.resolve(params)
-
   return (
-    <Fragment>
-      <SitesNavbar params={paramsPromise} />
-      <main className="flex-1 overflow-x-hidden">
-        {children}
-      </main>
-    </Fragment>
+    <ModelsDoWrapper params={params}>
+      {children}
+    </ModelsDoWrapper>
   )
 }
