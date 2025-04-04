@@ -1,6 +1,6 @@
 import { TaskConfig } from 'payload'
-import { createClickhouseClient } from '../analytics/src'
-import { createAnalyticsService } from '../analytics/src/utils'
+import { createClickhouseClient } from '../../analytics/src'
+import { createAnalyticsService } from '../../analytics/src/utils'
 
 export const syncClickhouseAnalyticsHandler = async ({ payload, job }: { payload: any; job: { input?: any } }) => {
   const { input } = job

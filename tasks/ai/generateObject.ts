@@ -1,4 +1,4 @@
-import { schemaToJsonSchema } from './schemaUtils'
+import { schemaToJsonSchema } from '../language/schemaUtils'
 
 // Define the input and output types for the generateObject utility function
 type GenerateObjectInput = {

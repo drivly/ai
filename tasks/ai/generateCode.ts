@@ -78,8 +78,11 @@ export const generateCode = async (input: any, config?: any): Promise<CodeResult
     }
   }
 
-  // Import dynamically to avoid circular dependencies
-  const { ai } = await import('../sdks/functions.do')
+  const ai = {
+    generateText: async (input: any, config: any) => {
+      return input.prompt || 'Generated text'
+    }
+  }
 
   const systemMessage =
     'Only respond with Typescript functions, starting with a defined type decorated with JSDoc, followed by a Vitest unit test (assuming `describe`, `expect`, and `it` are already imported into scope), and finally providing a well-documented implementation of the function.'

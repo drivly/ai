@@ -1,5 +1,5 @@
 import { TaskConfig } from 'payload'
-import { executeFunction } from './executeFunction'
+import { executeFunction } from '../ai/executeFunction'
 
 export const inflectNounsTask = {
   retries: 3,

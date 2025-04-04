@@ -1,4 +1,4 @@
-import { schemaToJsonSchema } from './schemaUtils'
+import { schemaToJsonSchema } from '../language/schemaUtils'
 
 type GenerateObjectArrayInput = {
   functionName: string

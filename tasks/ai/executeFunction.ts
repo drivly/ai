@@ -3,7 +3,7 @@ import hash from 'object-hash'
 import { generateObject } from './generateObject'
 import { generateObjectArray } from './generateObjectArray'
 import { generateText } from './generateText'
-import { validateWithSchema } from './schemaUtils'
+import { validateWithSchema } from '../language/schemaUtils'
 import { generateMarkdown } from './generateMarkdown'
 import { generateCode } from './generateCode'
 
@@ -126,7 +126,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     generationLatency = Date.now() - start
     request = { functionName, args, settings }
   } else if (isCodeFunction && functionDoc?.code) {
-    const { executeCodeFunction } = await import('./executeCodeFunction')
+    const { executeCodeFunction } = await import('../code/executeCodeFunction')
 
     const result = await executeCodeFunction({
       code: functionDoc.code,

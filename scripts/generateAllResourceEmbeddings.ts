@@ -2,7 +2,7 @@
  * Script to generate embeddings for all existing Resource documents
  */
 import { getPayload } from 'payload'
-import { generateResourceEmbedding } from '../tasks/generateResourceEmbedding'
+import { generateResourceEmbedding } from '../tasks/data/generateResourceEmbedding'
 
 async function generateAllResourceEmbeddings() {
   try {
