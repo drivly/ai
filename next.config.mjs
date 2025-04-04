@@ -9,13 +9,7 @@ const withNextra = nextra({
   search: {
     codeblocks: false,
   },
-  mdxOptions: {
-    remarkPlugins: [],
-    rehypePlugins: [],
-    format: 'mdx',
-    // Disable evaluation of code blocks
-    evaluate: false,
-  },
+
 })
 
 /** @type {import('next').NextConfig} */
