@@ -20,6 +20,7 @@ This plugin enables Payload CMS to leverage WorkOS services for enterprise-grade
 - [ ] MFA support for enhanced security
 - [ ] Admin Portal integration
 - [ ] Magic Auth for passwordless login
+- [ ] Secrets management for API keys and connection strings
 - [ ] Webhooks for WorkOS events
 
 ## Installation
