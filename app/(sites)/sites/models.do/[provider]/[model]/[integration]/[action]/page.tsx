@@ -127,7 +127,7 @@ async function ActionDetailsSection({
       </div>
       
       <div className="p-6 border border-border rounded-lg">
-        <h2 className="text-2xl font-bold text-foreground mb-4">Integration & Model</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-4">Integration &amp; Model</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="p-4 bg-primary/5 rounded-lg">
@@ -166,14 +166,14 @@ async function ActionDetailsSection({
   )
 }
 
-async function ActionPage({ params }: { params: { 
+async function ActionPage({ params }: { params: Promise<{ 
   domain?: string,
   provider?: string, 
   model?: string, 
   integration?: string,
   action?: string
-} }) {
-  const { provider, model: modelSlug, integration: integrationId, action: actionId } = params
+}> }) {
+  const { provider, model: modelSlug, integration: integrationId, action: actionId } = await params
   const glowColor = getGlowColor('models.do')
   
   return (
