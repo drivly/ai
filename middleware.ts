@@ -20,7 +20,7 @@ const isGatewayDomain = (hostname: string): boolean => {
   return isAIGateway(hostname) || 
          hostname === 'localhost' || 
          hostname === 'apis.do' || 
-         hostname.endsWith('do.gt') ||
+         hostname === 'do.gt' ||
          hostname.endsWith('dev.driv.ly')
 }
 
@@ -35,14 +35,21 @@ const isBrandDomain = (hostname: string): boolean => {
  * Check if a domain is a .do domain
  */
 const isDoDomain = (hostname: string): boolean => {
-  return hostname.endsWith('.do')
+  return hostname.endsWith('.do') || hostname.endsWith('.do.gt')
+}
+
+/**
+ * Extract API name from a .do or .do.gt domain
+ */
+const extractApiNameFromDomain = (hostname: string): string => {
+  return hostname.endsWith('.do.gt') ? hostname.replace('.do.gt', '') : hostname.replace('.do', '')
 }
 
 /**
  * Get path to correct docs hierarchy for a domain
  */
 const getDocsPath = (hostname: string): string => {
-  const apiName = hostname.replace('.do', '')
+  const apiName = extractApiNameFromDomain(hostname)
   
   return `/docs/${apiName}`
 }
@@ -72,12 +79,12 @@ export async function middleware(request: NextRequest) {
     }
     
     if (isDoDomain(hostname)) {
-      const apiName = hostname.replace('.do', '')
+      const apiName = extractApiNameFromDomain(hostname)
       
-      if (pathname.startsWith('/admin')) {
+      if (pathname === '/admin') {  
         if (collectionSlugs.includes(apiName)) {
           console.log('Rewriting to admin collection', { hostname, pathname, search, collection: apiName })
-          return NextResponse.rewrite(new URL(`/admin/collections/${apiName}${pathname.slice(6)}${search}`, request.url))
+          return NextResponse.rewrite(new URL(`/admin/collections/${apiName}${search}`, request.url))
         }
       }
       
