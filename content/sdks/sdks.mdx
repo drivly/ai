@@ -39,8 +39,8 @@ const newPackage = await api.createPackage({
     license: 'MIT'
   },
   collections: [
-    { collection: 'functions' },
-    { collection: 'workflows' }
+    { collectionType: 'functions' },
+    { collectionType: 'workflows' }
   ]
 })
 
@@ -128,11 +128,11 @@ List all workflows.
 
 List all databases.
 
-#### `addCollectionToPackage(packageId: string, collection: string): Promise<any>`
+#### `addCollectionToPackage(packageId: string, collectionType: string): Promise<any>`
 
 Add a collection to a package.
 
-#### `removeCollectionFromPackage(packageId: string, collection: string): Promise<any>`
+#### `removeCollectionFromPackage(packageId: string, collectionType: string): Promise<any>`
 
 Remove a collection from a package.
 
@@ -162,11 +162,11 @@ List all packages.
 
 Create a new package.
 
-#### `addCollection(packageId: string, collection: string): Promise<any>`
+#### `addCollection(packageId: string, collectionType: string): Promise<any>`
 
 Add a collection to a package.
 
-#### `removeCollection(packageId: string, collection: string): Promise<any>`
+#### `removeCollection(packageId: string, collectionType: string): Promise<any>`
 
 Remove a collection from a package.
 
@@ -188,7 +188,7 @@ interface Package {
   name: string
   package: any
   collections: Array<{
-    collection: string
+    collectionType: string
   }>
 }
 ```
