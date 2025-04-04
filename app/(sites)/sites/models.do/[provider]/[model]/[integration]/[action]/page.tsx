@@ -165,10 +165,10 @@ async function ActionDetailsSection({
 }
 
 function ActionPage({ params }: { params: { 
-  provider: string, 
-  model: string, 
-  integration: string,
-  action: string
+  provider?: string, 
+  model?: string, 
+  integration?: string,
+  action?: string
 } }) {
   const { provider, model: modelSlug, integration: integrationId, action: actionId } = params
   const glowColor = getGlowColor('models.do')

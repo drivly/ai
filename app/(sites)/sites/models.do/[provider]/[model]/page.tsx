@@ -119,7 +119,7 @@ async function ModelDetailsSection({ provider, modelSlug }: { provider: string, 
   )
 }
 
-function ModelDetailsPage({ params }: { params: { provider: string, model: string } }) {
+function ModelDetailsPage({ params }: { params: { provider?: string, model?: string } }) {
   const { provider, model: modelSlug } = params
   const glowColor = getGlowColor('models.do')
   

@@ -8,8 +8,8 @@ import { LlmsdoLogo } from './llms-do-logo'
 import { FaGithub, FaDiscord } from 'react-icons/fa'
 import { MobileNav } from './mobile-nav'
 
-export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }) {
-  const domain = use(params).domain
+export function SitesNavbar({ params }: { params: Promise<{ domain?: string; provider?: string; model?: string; integration?: string; action?: string }> }) {
+  const { domain } = use(params)
 
   const [isOpen, setIsOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)

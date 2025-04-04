@@ -6,9 +6,9 @@ type PagePromiseParams<T extends object> = {
   params: Promise<T>
 }
 
-type DomainPageProps = PagePromiseParams<{ domain?: string; slug?: string }>
+type DomainPageProps = PagePromiseParams<{ domain?: string; slug?: string; provider?: string; model?: string; integration?: string; action?: string }>
 
-export const withSitesNavbar = <TPage extends DomainPageProps>(WrappedPage: React.ComponentType<TPage>) => {
+export const withSitesNavbar = <TPage extends Record<string, any>>(WrappedPage: React.ComponentType<TPage>) => {
   return async (props: TPage) => (
     <Fragment>
       <SitesNavbar {...props} />

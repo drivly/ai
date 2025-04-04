@@ -125,7 +125,7 @@ async function IntegrationDetailsSection({
   )
 }
 
-function IntegrationPage({ params }: { params: { provider: string, model: string, integration: string } }) {
+function IntegrationPage({ params }: { params: { provider?: string, model?: string, integration?: string } }) {
   const { provider, model: modelSlug, integration: integrationId } = params
   const glowColor = getGlowColor('models.do')
   

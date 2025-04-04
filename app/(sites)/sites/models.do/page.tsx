@@ -47,7 +47,7 @@ async function ModelsListSection() {
   )
 }
 
-function ModelsHomePage() {
+function ModelsHomePage({ params }: { params?: { domain?: string } }) {
   const glowColor = getGlowColor('models.do')
 
   return (
