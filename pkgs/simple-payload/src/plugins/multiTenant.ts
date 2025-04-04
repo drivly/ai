@@ -21,5 +21,6 @@ export const createMultiTenantPlugin = (options: MultiTenantPluginOptions = {}):
     tenantSelectorLabel,
     collections,
     userHasAccessToAllTenants: isSuperAdmin,
+    tenantsSlug: 'tenants',
   })
 }

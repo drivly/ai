@@ -1,5 +1,6 @@
 import { Domains } from './admin/Domains'
 import { Projects } from './admin/Projects'
+import { Tenants } from './admin/Tenants'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
 import { OAuthClients } from './auth/OAuthClients'
@@ -100,6 +101,7 @@ export const collections = [
 
   Projects,
   Domains,
+  Tenants,
   Users,
   Roles,
   Tags,
