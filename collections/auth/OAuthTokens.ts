@@ -4,6 +4,7 @@ export const OAuthTokens: CollectionConfig = {
   slug: 'oauth-tokens',
   admin: {
     group: 'Authentication',
+    hidden: true,
   },
   access: {
     read: ({ req }) => {
