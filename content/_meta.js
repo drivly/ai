@@ -40,18 +40,29 @@ export default {
   actions: '',
   _6: {
     type: 'separator',
-    title: 'Integrations' // Title is optional
+    title: 'Evals' // Title is optional
   },
-  data: '',
-  things: '',
-  // 'vector-search': '',
-  llm: '',
-  observability: '',
-  traces: '',
   evals: '',
   experiments: '',
-  admin: '',
-  api: 'API Reference',
+  _7: {
+    type: 'separator',
+    title: 'Deploy' // Title is optional
+  },
   code: '',
+  _8: {
+    type: 'separator',
+    title: 'Operate' // Title is optional
+  },
+  // data: '',
+  // things: '',
+  // // 'vector-search': '',
+  // llm: '',
+  // observability: '',
+  // traces: '',
+  // evals: '',
+  // experiments: '',
+  // admin: '',
+  // api: 'API Reference',
+  // code: '',
   // 'code-hike': 'CodeHike Examples',
 }
