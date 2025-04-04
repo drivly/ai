@@ -1,5 +1,4 @@
 export default {
-  index: 'SDKs',
   agents: 'Agents',
   apis: 'APIs',
   database: 'Database',
