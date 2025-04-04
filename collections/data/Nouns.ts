@@ -21,30 +21,6 @@ export const Nouns: CollectionConfig = {
     { name: 'resources', type: 'join', collection: 'resources', on: 'type' },
   ],
   hooks: {
-    beforeChange: [
-      async ({ data, req }) => {
-        if (data.name && (!data.singular || !data.plural || !data.possessive || !data.pluralPossessive || 
-            !data.verb || !data.act || !data.activity || !data.event)) {
-          try {
-            const { payload } = req
-            
-            const jobResult = await payload.jobs.queue({
-              task: 'executeFunction',
-              input: {
-                functionName: 'inflectNouns',
-                args: { noun: data.name }
-              }
-            })
-            
-            console.log('Queued noun semantics job:', jobResult)
-            waitUntil(payload.jobs.runByID({ id: jobResult.id }))
-          } catch (error) {
-            console.error('Error processing noun semantics:', error)
-          }
-        }
-        return data
-      }
-    ],
     afterChange: [
       async ({ doc, operation, req }) => {
         if (operation === 'create' || operation === 'update') {
@@ -53,16 +29,19 @@ export const Nouns: CollectionConfig = {
             try {
               const { payload } = req
               
-              const jobResult = await payload.jobs.queue({
-                task: 'executeFunction',
-                input: {
-                  functionName: 'inflectNouns',
-                  args: { noun: doc.name }
-                }
+              const jobResult = await payload.find({
+                collection: 'jobs',
+                sort: '-createdAt',
+                where: {
+                  task: { equals: 'inflectNouns' },
+                  'input.args.noun': { equals: doc.name }
+                },
+                limit: 1
               })
               
-              console.log('Noun semantics job result:', jobResult)
-              waitUntil(payload.jobs.runByID({ id: jobResult.id }))
+              if (jobResult.docs.length > 0) {
+                waitUntil(payload.jobs.runByID({ id: jobResult.docs[0].id }))
+              }
               
               const updateData: Record<string, string> = {}
               

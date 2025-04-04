@@ -25,60 +25,18 @@ export const Searches: CollectionConfig = {
     { name: 'embedding', type: 'json', admin: { hidden: true } }
   ],
   hooks: {
-    beforeChange: [
-      async ({ data, req }) => {
-        if (data.searchType === 'vector' || data.searchType === 'hybrid') {
-          try {
-            const { payload } = req
-            
-            const job = await payload.jobs.queue({
-              task: 'executeFunction',
-              input: {
-                functionName: 'generateEmbedding',
-                args: { query: data.query }
-              }
-            })
-            
-            console.log(`Queued embedding generation for search query: ${data.query}`, job)
-            waitUntil(payload.jobs.runByID({ id: job.id }))
-          } catch (error) {
-            console.error('Error queueing embedding generation for search:', error)
-          }
-        }
-        
-        return data
-      }
-    ],
     afterChange: [
       async ({ doc, req }) => {
         try {
           const { payload } = req
           
           if (doc.searchType === 'vector') {
-            const job = await payload.jobs.queue({
-              task: 'searchThings',
-              input: {
-                query: doc.query,
-                limit: 10
-              }
-            })
-            
-            console.log(`Queued vector search for: ${doc.query}`, job)
-            waitUntil(payload.jobs.runByID({ id: job.id }))
+            console.log(`Processing vector search for: ${doc.query}`)
           } else if (doc.searchType === 'hybrid') {
-            const job = await payload.jobs.queue({
-              task: 'hybridSearchThings',
-              input: {
-                query: doc.query,
-                limit: 10
-              }
-            })
-            
-            console.log(`Queued hybrid search for: ${doc.query}`, job)
-            waitUntil(payload.jobs.runByID({ id: job.id }))
+            console.log(`Processing hybrid search for: ${doc.query}`)
           }
         } catch (error) {
-          console.error('Error queueing search task:', error)
+          console.error('Error processing search task:', error)
         }
         
         return doc

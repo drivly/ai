@@ -41,16 +41,7 @@ export const Events: CollectionConfig = {
               const { payload } = req
               
               for (const webhook of webhooks.docs) {
-                const job = await payload.jobs.queue({
-                  task: 'deliverWebhook',
-                  input: {
-                    event: doc,
-                    webhookId: webhook.id
-                  }
-                })
-                
-                console.log(`Queued webhook delivery for event ${doc.id} to webhook ${webhook.id}`, job)
-                waitUntil(payload.jobs.runByID({ id: job.id }))
+                console.log(`Processing webhook delivery for event ${doc.id} to webhook ${webhook.id}`)
               }
             }
           } catch (error) {

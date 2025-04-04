@@ -25,31 +25,6 @@ export const Verbs: CollectionConfig = {
     // { name: 'actions', type: 'join', collection: 'actions', on: 'verbId' },
   ],
   hooks: {
-    beforeChange: [
-      async ({ data, req }) => {
-        if (data.action && (!data.act || !data.activity || !data.event || !data.subject || !data.object || 
-            !data.inverse || !data.inverseAct || !data.inverseActivity || !data.inverseEvent || 
-            !data.inverseSubject || !data.inverseObject)) {
-          try {
-            const { payload } = req
-            
-            const jobResult = await payload.jobs.queue({
-              task: 'executeFunction',
-              input: {
-                functionName: 'conjugateVerbs',
-                args: { verb: data.action }
-              }
-            })
-            
-            console.log('Queued verb semantics job:', jobResult)
-            waitUntil(payload.jobs.runByID({ id: jobResult.id }))
-          } catch (error) {
-            console.error('Error processing verb semantics:', error)
-          }
-        }
-        return data
-      }
-    ],
     afterChange: [
       async ({ doc, operation, req }) => {
         if (operation === 'create' || operation === 'update') {
@@ -59,16 +34,6 @@ export const Verbs: CollectionConfig = {
             try {
               const { payload } = req
               
-              const jobResult = await payload.jobs.queue({
-                task: 'executeFunction',
-                input: {
-                  functionName: 'conjugateVerbs',
-                  args: { verb: doc.action }
-                }
-              })
-              
-              console.log('Verb semantics job result:', jobResult)
-              waitUntil(payload.jobs.runByID({ id: jobResult.id }))
               
               const updateData: Record<string, string> = {}
               
