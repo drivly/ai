@@ -39,17 +39,17 @@ const newPackage = await api.createPackage({
     files: ['dist', 'README.md'],
     license: 'MIT'
   },
-  collections: [
-    { collection: 'functions' },
-    { collection: 'workflows' }
+  items: [
+    { type: 'functions' },
+    { type: 'workflows' }
   ]
 })
 
-// Add a collection to a package
-await api.addCollectionToPackage('package-id', 'databases')
+// Add an item to a package
+await api.addItemToPackage('package-id', 'databases')
 
-// Remove a collection from a package
-await api.removeCollectionFromPackage('package-id', 'databases')
+// Remove an item from a package
+await api.removeItemFromPackage('package-id', 'databases')
 
 // Update package.json for a package
 await api.updatePackageJson('package-id', {
@@ -129,13 +129,13 @@ List all workflows.
 
 List all databases.
 
-#### `addCollectionToPackage(packageId: string, collection: string): Promise<any>`
+#### `addItemToPackage(packageId: string, itemType: string): Promise<any>`
 
-Add a collection to a package.
+Add an item to a package.
 
-#### `removeCollectionFromPackage(packageId: string, collection: string): Promise<any>`
+#### `removeItemFromPackage(packageId: string, itemType: string): Promise<any>`
 
-Remove a collection from a package.
+Remove an item from a package.
 
 #### `updatePackageJson(packageId: string, packageJson: any): Promise<any>`
 
@@ -163,13 +163,13 @@ List all packages.
 
 Create a new package.
 
-#### `addCollection(packageId: string, collection: string): Promise<any>`
+#### `addItem(packageId: string, itemType: string): Promise<any>`
 
-Add a collection to a package.
+Add an item to a package.
 
-#### `removeCollection(packageId: string, collection: string): Promise<any>`
+#### `removeItem(packageId: string, itemType: string): Promise<any>`
 
-Remove a collection from a package.
+Remove an item from a package.
 
 #### `updatePackageJson(packageId: string, packageJson: any): Promise<any>`
 
@@ -189,8 +189,8 @@ interface Package {
   id: string
   name: string
   package: any
-  collections: Array<{
-    collection: string
+  items: Array<{
+    type: string
   }>
 }
 ```
