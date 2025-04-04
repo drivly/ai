@@ -1,6 +1,7 @@
 import { API } from '@/lib/api'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import { initiateComposioConnection } from '@/tasks/integrations/initiateComposioConnection'
 
 export const POST = API(async (request, { db, user, origin, url, domain }) => {
   if (!process.env.COMPOSIO_API_KEY) {
