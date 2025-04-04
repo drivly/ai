@@ -219,14 +219,14 @@ const db = DB({
   baseUrl?: string, // Optional, defaults to 'https://database.do'
   apiKey?: string,  // Optional, overrides the DATABASE_API_KEY environment variable
   // Optional schema definitions
-  collection1: { /* schema */ },
-  collection2: { /* schema */ },
+  collectionType1: { /* schema */ },
+  collectionType2: { /* schema */ },
 })
 ```
 
 ### Collection Methods
 
-#### db.{collection}.find(options?)
+#### db.{collectionType}.find(options?)
 
 Retrieves multiple documents from a collection with optional filtering, sorting, and pagination.
 
@@ -243,7 +243,7 @@ interface QueryOptions {
 const results = await db.posts.find(options)
 ```
 
-#### db.{collection}.findOne(id)
+#### db.{collectionType}.findOne(id)
 
 Retrieves a single document by its ID.
 
@@ -251,7 +251,7 @@ Retrieves a single document by its ID.
 const document = await db.posts.findOne('document-id')
 ```
 
-#### db.{collection}.create(data)
+#### db.{collectionType}.create(data)
 
 Creates a new document in the collection.
 
@@ -263,7 +263,7 @@ const newDocument = await db.posts.create({
 })
 ```
 
-#### db.{collection}.update(id, data)
+#### db.{collectionType}.update(id, data)
 
 Updates an existing document by its ID.
 
@@ -274,7 +274,7 @@ const updatedDocument = await db.posts.update('document-id', {
 })
 ```
 
-#### db.{collection}.delete(id)
+#### db.{collectionType}.delete(id)
 
 Deletes a document by its ID.
 
@@ -282,7 +282,7 @@ Deletes a document by its ID.
 await db.posts.delete('document-id')
 ```
 
-#### db.{collection}.search(query, options?)
+#### db.{collectionType}.search(query, options?)
 
 Performs a text search across documents in a collection.
 
