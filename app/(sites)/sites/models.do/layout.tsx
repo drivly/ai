@@ -1,4 +1,5 @@
-import { ModelsDoWrapper } from './models-do-wrapper'
+import { Fragment } from 'react'
+import { StandaloneNavbar } from './standalone-navbar'
 
 export default function ModelsLayout({
   children,
@@ -8,8 +9,11 @@ export default function ModelsLayout({
   params: { domain?: string; provider?: string; model?: string; integration?: string; action?: string }
 }) {
   return (
-    <ModelsDoWrapper params={params}>
-      {children}
-    </ModelsDoWrapper>
+    <Fragment>
+      <StandaloneNavbar domain={params.domain} />
+      <main className="flex-1 overflow-x-hidden">
+        {children}
+      </main>
+    </Fragment>
   )
 }
