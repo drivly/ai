@@ -85,7 +85,7 @@ const createEndpointHandlers = (workosClient: WorkOSClient, config: WorkOSPlugin
 /**
  * WorkOS plugin for Payload CMS
  */
-export const workosPlugin = (pluginConfig: WorkOSPluginConfig = {}): Plugin => {
+export const workosPlugin = (pluginConfig: WorkOSPluginConfig = {}) => {
   return (incomingConfig: Config): Config => {
     const workosClient = new WorkOSClient(pluginConfig)
     
