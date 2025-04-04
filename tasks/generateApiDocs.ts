@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { getPayload } from 'payload'
+import { getPayload, Payload, CollectionConfig } from 'payload'
 import config from '../payload.config'
 import { collections } from '../collections'
 
@@ -8,7 +8,7 @@ import { collections } from '../collections'
  * Generates API documentation in MDX format for each collection
  * Places the generated files in the /content/apis directory
  */
-export const generateApiDocsTask = async ({ payload }) => {
+export const generateApiDocsTask = async ({ payload }: { payload: Payload }) => {
   try {
     console.log('Generating API documentation for collections...')
     
@@ -23,16 +23,33 @@ export const generateApiDocsTask = async ({ payload }) => {
     
     console.log('API documentation generation complete')
     return { success: true }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error generating API documentation:', error)
-    return { success: false, error: error.message }
+    return { 
+      success: false, 
+      error: error instanceof Error ? error.message : String(error) 
+    }
   }
 }
+
+interface CollectionField {
+  name: string
+  type: string
+  required?: boolean
+  defaultValue?: any
+  admin?: {
+    description?: string
+    [key: string]: any
+  }
+  [key: string]: any
+}
+
+type Collection = CollectionConfig
 
 /**
  * Generates an MDX file for a single collection
  */
-const generateCollectionDoc = async (collection, apisDir) => {
+const generateCollectionDoc = async (collection: Collection, apisDir: string) => {
   const { slug, fields = [], admin = {} } = collection
   
   if (!slug) return
@@ -42,8 +59,8 @@ const generateCollectionDoc = async (collection, apisDir) => {
   const group = admin.group || 'Uncategorized'
   
   const fieldDocs = fields
-    .filter(field => field.name && field.type) // Only document fields with name and type
-    .map(field => {
+    .filter((field: any) => field.name && field.type) // Only document fields with name and type
+    .map((field: any) => {
       const { name, type, required, defaultValue, admin: fieldAdmin = {} } = field
       const description = fieldAdmin.description || ''
       
