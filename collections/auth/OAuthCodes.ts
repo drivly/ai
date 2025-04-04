@@ -4,6 +4,7 @@ export const OAuthCodes: CollectionConfig = {
   slug: 'oauth-codes',
   admin: {
     group: 'Authentication',
+    hidden: true,
   },
   access: {
     read: ({ req }) => {

@@ -5,6 +5,7 @@ export const OAuthClients: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     group: 'Authentication',
+    hidden: true,
   },
   access: {
     read: ({ req }) => {
