@@ -169,7 +169,7 @@ export default buildConfig({
         const user = req.user;
         if (!user) return false;
         
-        if (user.roles?.some(role => typeof role === 'object' && role.superAdmin)) {
+        if (user.roles?.some((role: any) => typeof role === 'object' && role.superAdmin)) {
           return true;
         }
         
