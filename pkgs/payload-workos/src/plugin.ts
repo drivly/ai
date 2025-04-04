@@ -1,4 +1,4 @@
-import type { Config } from 'payload/config'
+import type { Config, Plugin } from 'payload/config'
 import { WorkOSPluginConfig } from './types'
 import { WorkOSClient } from './lib/workos-client'
 
@@ -85,7 +85,7 @@ const createEndpointHandlers = (workosClient: WorkOSClient, config: WorkOSPlugin
 /**
  * WorkOS plugin for Payload CMS
  */
-export const workosPlugin = (pluginConfig: WorkOSPluginConfig = {}) => {
+export const workosPlugin = (pluginConfig: WorkOSPluginConfig = {}): Plugin => {
   return (incomingConfig: Config): Config => {
     const workosClient = new WorkOSClient(pluginConfig)
     
