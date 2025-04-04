@@ -5,9 +5,9 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { stripePlugin } from '@payloadcms/plugin-stripe'
+import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { createHooksQueuePlugin } from './pkgs/payload-hooks-queue'
-import { createMultiTenantPlugin } from './pkgs/simple-payload'
 import path from 'path'
 import { buildConfig } from 'payload'
 // import { payloadKanbanBoard } from 'payload-kanban-board'
@@ -116,12 +116,20 @@ export default buildConfig({
       'actions.afterChange': { slug: 'executeFunction', input: { functionName: 'executeFunction' } },
       'events.afterChange': 'deliverWebhook',
     }),
-    createMultiTenantPlugin({
+    multiTenantPlugin({
       tenantSelectorLabel: 'Project',
       collections: {
         functions: {},
         workflows: {},
         agents: {},
+      },
+      tenantsSlug: 'projects',
+      userHasAccessToAllTenants: ({ req }) => {
+        const user = req.user;
+        if (!user) return false;
+        const email = user.email;
+        if (!email) return false;
+        return email.endsWith('@driv.ly');
       },
     }),
   ],
