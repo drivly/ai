@@ -1,4 +1,61 @@
-import { API as ApisAPI } from '../../apis.do'
+class ApisAPI {
+  private baseUrl: string
+  private apiKey?: string
+  private headers: Record<string, string>
+
+  constructor(options: { baseUrl?: string, apiKey?: string, headers?: Record<string, string> } = {}) {
+    this.baseUrl = options.baseUrl || 'https://api.do'
+    this.apiKey = options.apiKey
+    this.headers = {
+      'Content-Type': 'application/json',
+      ...options.headers
+    }
+    
+    if (this.apiKey) {
+      this.headers['Authorization'] = `Bearer ${this.apiKey}`
+    }
+  }
+
+  async get(path: string, params?: Record<string, any>) {
+    const url = new URL(path, this.baseUrl)
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined) {
+          url.searchParams.append(key, String(value))
+        }
+      })
+    }
+    
+    const response = await fetch(url.toString(), {
+      method: 'GET',
+      headers: this.headers
+    })
+    
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.message || 'API request failed')
+    }
+    
+    return response.json()
+  }
+
+  async post(path: string, data?: any) {
+    const url = new URL(path, this.baseUrl)
+    
+    const response = await fetch(url.toString(), {
+      method: 'POST',
+      headers: this.headers,
+      body: data ? JSON.stringify(data) : undefined
+    })
+    
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.message || 'API request failed')
+    }
+    
+    return response.json()
+  }
+}
 import type { ErrorResponse, ListResponse, QueryParams, Package } from '../types.js'
 
 export interface ClientOptions {
