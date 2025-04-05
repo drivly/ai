@@ -1,4 +1,4 @@
-# triggers.do
+# [triggers.do](https://triggers.do) - Elegant Event-Driven Automation
 
 [![npm version](https://img.shields.io/npm/v/triggers.do.svg)](https://www.npmjs.com/package/triggers.do)
 [![npm downloads](https://img.shields.io/npm/dm/triggers.do.svg)](https://www.npmjs.com/package/triggers.do)
@@ -8,27 +8,40 @@
 [![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
-SDK for creating and managing event-based triggers for workflows and functions with APIs.do integration.
+> **Seamless event-driven automation with elegant, type-safe triggers**
+
+## Overview
+
+Triggers.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, providing a clean, type-safe interface for creating and managing event-based triggers. These triggers initiate workflows and functions in response to events, enabling seamless automation across your business processes.
 
 ## The Challenge
 
-Implementing event-based triggers presents several challenges:
+Event-driven automation presents several challenges:
 
-- **Event Detection**: Identifying and capturing relevant events
-- **Conditional Logic**: Determining when to trigger actions
-- **Scheduling**: Executing triggers at specific times
-- **Reliability**: Ensuring triggers fire consistently
-- **Integration**: Connecting triggers to workflows and functions
+- **Event Detection**: Identifying and capturing relevant events across diverse systems
+- **Conditional Logic**: Determining precisely when to initiate processes
+- **Scheduling**: Executing triggers at specific times with reliability
+- **Data Transformation**: Converting event data into actionable inputs
+- **Error Handling**: Gracefully managing failures in event processing
 
 ## The Solution
 
-triggers.do provides a clean, type-safe interface for implementing event-based triggers:
+Triggers.do provides an elegant, type-safe interface for event-driven automation:
 
-- Create triggers based on various event types
-- Define conditional logic for trigger activation
-- Schedule triggers for specific times
-- Ensure reliable trigger execution
-- Integrate with Workflows.do and Functions.do
+- **Unified Event Handling**: Consistent patterns for events from any source
+- **Declarative Conditions**: Simple, powerful conditions for trigger activation
+- **Reliable Scheduling**: Precise time-based triggers with built-in reliability
+- **Seamless Data Mapping**: Transform event data into structured inputs
+- **Elegant Error Recovery**: Graceful failure modes with retry capabilities
+
+## Key Features
+
+- **Elegant API Design** - Clean, intuitive interfaces for event-driven automation
+- **Type-Safe Events** - Strongly-typed event data for reliable processing
+- **Flexible Trigger Conditions** - Powerful, declarative conditions for precise activation
+- **Seamless Integration** - Works with all [.do](https://dotdo.ai) services
+- **Comprehensive Event Sources** - Support for webhooks, schedules, and system events
+- **Minimal Configuration** - Simple setup with sensible defaults
 
 ## Installation
 
@@ -40,24 +53,170 @@ yarn add triggers.do
 pnpm add triggers.do
 ```
 
-## API Overview
+## Elegant API Design
 
-The triggers.do SDK exports:
+The triggers.do SDK provides a clean, intuitive interface for event-driven automation:
 
-- `triggers`: A client for interacting with event-based triggers
-- Types for strong typing support
+```typescript
+import { Triggers } from 'triggers.do'
 
-## Related Projects
+// Simple initialization with default settings
+const triggers = new Triggers()
 
-- [functions.do](https://functions.do) - Typesafe AI Functions
-- [workflows.do](https://workflows.do) - Business Process Automation
-- [agents.do](https://agents.do) - Autonomous Digital Workers
-- [apis.do](https://apis.do) - Clickable Developer Experiences
+// Or with custom configuration
+const triggers = new Triggers({
+  apiKey: process.env.TRIGGERS_API_KEY,
+  baseUrl: process.env.TRIGGERS_API_URL || 'https://triggers.do',
+})
+```
+
+### Creating Triggers
+
+```typescript
+// Create a webhook trigger with elegant configuration
+const webhookTrigger = await triggers.create({
+  name: 'New GitHub Issue',
+  type: 'webhook',
+  source: 'github',
+  event: 'issues.opened',
+  // Elegant condition for trigger activation
+  condition: {
+    'payload.repository.full_name': 'drivly/ai',
+    'payload.issue.labels': { contains: 'bug' },
+  },
+  // Define the target workflow to execute
+  target: {
+    type: 'workflow',
+    id: 'bug-triage-workflow',
+    // Map event data to workflow inputs
+    input: {
+      issueTitle: '{{payload.issue.title}}',
+      issueBody: '{{payload.issue.body}}',
+      issueUrl: '{{payload.issue.html_url}}',
+      reporter: '{{payload.issue.user.login}}',
+    },
+  },
+})
+
+// Create a schedule trigger with minimal configuration
+const scheduleTrigger = await triggers.create({
+  name: 'Daily Report',
+  type: 'schedule',
+  // Simple cron expression
+  schedule: '0 9 * * 1-5', // Weekdays at 9am
+  target: {
+    type: 'function',
+    id: 'generateDailyReport',
+    input: {
+      date: '{{now | date: "YYYY-MM-DD"}}',
+      format: 'pdf',
+    },
+  },
+})
+```
+
+### Managing Triggers
+
+```typescript
+// List all triggers with simple pagination
+const allTriggers = await triggers.list({ limit: 10, page: 1 })
+
+// Get a specific trigger by ID
+const trigger = await triggers.get('trigger-id')
+
+// Update a trigger with minimal configuration
+await triggers.update('trigger-id', {
+  condition: {
+    'payload.repository.full_name': 'drivly/ai',
+    'payload.issue.labels': { contains: ['bug', 'high-priority'] },
+  },
+})
+
+// Delete a trigger when no longer needed
+await triggers.delete('trigger-id')
+```
+
+## Integration with the [.do](https://dotdo.ai) Ecosystem
+
+Triggers.do is designed to work seamlessly with other [.do](https://dotdo.ai) services:
+
+```typescript
+import { Workflow } from 'workflows.do'
+import { AI } from 'functions.do'
+import { Triggers } from 'triggers.do'
+
+// Define an AI function using functions.do
+const ai = AI({
+  analyzeBugReport: {
+    title: 'string',
+    body: 'string',
+    severity: 'Low | Medium | High',
+    category: 'UI | Backend | Performance | Security',
+    estimatedEffort: 'string',
+  },
+})
+
+// Define a workflow using workflows.do
+const workflow = new Workflow({
+  name: 'Bug Triage',
+  steps: [
+    {
+      name: 'Analyze Bug',
+      function: 'analyzeBugReport',
+      input: {
+        title: '{{trigger.issueTitle}}',
+        body: '{{trigger.issueBody}}',
+      },
+    },
+    {
+      name: 'Create Task',
+      action: 'jira.createIssue',
+      input: {
+        project: 'AI',
+        type: 'Bug',
+        title: '{{trigger.issueTitle}}',
+        description: '{{trigger.issueBody}}',
+        priority: '{{steps.analyzeBug.severity}}',
+        labels: ['github', '{{steps.analyzeBug.category}}'],
+      },
+    },
+  ],
+})
+
+// Create a trigger using triggers.do
+const triggers = new Triggers()
+const trigger = await triggers.create({
+  name: 'GitHub Issue Trigger',
+  type: 'webhook',
+  source: 'github',
+  event: 'issues.opened',
+  target: {
+    type: 'workflow',
+    id: workflow.id,
+    input: {
+      issueTitle: '{{payload.issue.title}}',
+      issueBody: '{{payload.issue.body}}',
+      issueUrl: '{{payload.issue.html_url}}',
+    },
+  },
+})
+```
+
+## The [.do](https://dotdo.ai) Ecosystem
+
+Triggers.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, designed to work seamlessly with other .do services:
+
+- **[apis.do](https://apis.do)** - The foundational SDK and unified API Gateway
+- **[functions.do](https://functions.do)** - Strongly-typed AI functions
+- **[workflows.do](https://workflows.do)** - Business process orchestration
+- **[agents.do](https://agents.do)** - Autonomous digital workers
+- **[actions.do](https://actions.do)** - External system operations
+- **[searches.do](https://searches.do)** - Contextual data retrieval
 
 ## License
 
-MIT © [Drivly](https://driv.ly)
+[MIT](https://opensource.org/licenses/MIT)
 
 ## Dependencies
 
-- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the [.do](https://dotdo.ai) ecosystem
