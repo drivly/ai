@@ -2,9 +2,9 @@
   "extends": "../../pkgs/tsconfig/src/sdk.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "noEmit": false
   },
-  "include": ["src/**/*"],
+  "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist", "tests"]
 }
