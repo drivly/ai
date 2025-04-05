@@ -1,5 +1,4 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
 
 pnpm lint-staged
 pnpm typecheck || echo "Typecheck failed but continuing with commit"
