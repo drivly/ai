@@ -1,5 +1,4 @@
 export default {
-  index: 'Overview',
   nouns: '',
   verbs: '',
   resources: '',

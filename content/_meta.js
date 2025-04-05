@@ -1,5 +1,4 @@
 export default {
-  index: 'Introduction',
   manifesto: 'Manifesto',
   _1: {
     type: 'separator',
