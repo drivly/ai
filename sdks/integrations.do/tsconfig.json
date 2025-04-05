@@ -1,10 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../pkgs/tsconfig/src/base.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": ".",
     "declaration": true,
-    "skipLibCheck": true
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": [
     "*.ts",

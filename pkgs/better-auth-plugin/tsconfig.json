@@ -1,29 +1,16 @@
 {
+  "extends": "../../pkgs/tsconfig/src/nextjs.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "rootDir": "./src",
     "outDir": "./dist",
-    "esModuleInterop": true,
-    "target": "ESNext",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noErrorTruncation": true,
-    "module": "esnext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
     "emitDeclarationOnly": true,
     "composite": true,
     "declaration": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "exclude": ["**/dist", "node_modules"],
   "references": [],

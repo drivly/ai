@@ -1,13 +1,13 @@
 {
+  "extends": "../../pkgs/tsconfig/src/base.json",
   "compilerOptions": {
-    "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "./dist",
-    "esModuleInterop": true,
-    "strict": true,
     "declaration": true,
-    "skipLibCheck": true
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["*.ts", "src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

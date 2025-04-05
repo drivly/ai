@@ -1,3 +1,3 @@
-import typescriptConfig from '../../pkgs/eslint-config/src/typescript.js'
+import workerConfig from "../../pkgs/eslint-config/src/worker.js"
 
-export default typescriptConfig
+export default workerConfig
