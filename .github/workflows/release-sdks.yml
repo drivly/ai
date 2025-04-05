@@ -97,8 +97,7 @@ jobs:
               '@semantic-release/changelog',
               '@semantic-release/npm',
               '@semantic-release/github',
-              '@semantic-release/git',
-              'multi-semantic-release'
+              '@semantic-release/git'
             ]
           custom-command: "node scripts/release-sdks.js"
           dry_run: false
