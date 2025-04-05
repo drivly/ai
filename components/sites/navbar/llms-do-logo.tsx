@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/pkgs/ui/src/lib/utils'
 
 export function LlmsdoLogo({ className, domain }: { className?: string; domain?: string }) {
   return (

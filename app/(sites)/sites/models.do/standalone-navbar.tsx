@@ -3,18 +3,14 @@
 import { buttonVariants } from '@/pkgs/ui/src/server/components/button'
 import { cn } from '@/pkgs/ui/src/lib/utils'
 import Link from 'next/link'
-import { useState, useEffect, use } from 'react'
-import { LlmsdoLogo } from './llms-do-logo'
+import { useState, useEffect } from 'react'
+import { LlmsdoLogo } from '@/components/sites/navbar/llms-do-logo'
 import { FaGithub, FaDiscord } from 'react-icons/fa'
-import { MobileNav } from './mobile-nav'
 
-export function SitesNavbar({ params }: { params: Promise<{ domain?: string; provider?: string; model?: string; integration?: string; action?: string }> }) {
-  const { domain } = use(params)
-
+export function StandaloneNavbar({ domain }: { domain?: string }) {
   const [isOpen, setIsOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
 
-  // Handle scroll detection
   useEffect(() => {
     const handleScroll = () => {
       setHasScrolled(window.scrollY > 10)
@@ -23,7 +19,6 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string; pro
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Handle body scroll lock
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
@@ -88,7 +83,41 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string; pro
       </div>
 
       {/* Mobile menu - simplified */}
-      {isOpen && <MobileNav isOpen={isOpen} handleClose={() => setIsOpen(false)} />}
+      {isOpen && (
+        <div className="fixed inset-0 top-14 z-50 bg-background/95 backdrop-blur-sm">
+          <nav className="container mx-auto px-4 py-6">
+            <ul className="space-y-4">
+              <li>
+                <Link 
+                  href="/docs" 
+                  className="block py-2 text-lg font-medium"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Docs
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="https://github.com/drivly/ai" 
+                  className="block py-2 text-lg font-medium"
+                  onClick={() => setIsOpen(false)}
+                >
+                  GitHub
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href="https://discord.gg/qus39VeA" 
+                  className="block py-2 text-lg font-medium"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Discord
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      )}
     </header>
   )
 }
