@@ -15,43 +15,43 @@ export const EvalsResults: CollectionConfig = {
       relationTo: 'evals',
       required: true,
       admin: {
-        description: 'Reference to the evaluation test this result is for'
-      }
+        description: 'Reference to the evaluation test this result is for',
+      },
     },
     {
       name: 'output',
       type: 'json',
       admin: {
-        description: 'Output data from running the test'
-      }
+        description: 'Output data from running the test',
+      },
     },
     {
       name: 'score',
       type: 'number',
       admin: {
-        description: 'Overall score for this evaluation result (0-1)'
-      }
+        description: 'Overall score for this evaluation result (0-1)',
+      },
     },
     {
       name: 'metrics',
       type: 'json',
       admin: {
-        description: 'Detailed metrics for this evaluation result'
-      }
+        description: 'Detailed metrics for this evaluation result',
+      },
     },
     {
       name: 'duration',
       type: 'number',
       admin: {
-        description: 'Duration of the test execution in milliseconds'
-      }
+        description: 'Duration of the test execution in milliseconds',
+      },
     },
     {
       name: 'error',
       type: 'text',
       admin: {
-        description: 'Error message if the test execution failed'
-      }
+        description: 'Error message if the test execution failed',
+      },
     },
   ],
   timestamps: true,

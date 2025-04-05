@@ -5,7 +5,6 @@
 [![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/tafnNeUQdm)
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
-
 We believe that you can define, execute, and iterate on business processes as clean & simple code. It should be simple enough for a non-technical business person to read and work with an AI or technical teammate to build and iterate on workflows.
 
 ## Core Primitives

@@ -135,7 +135,7 @@ export const getPayloadClient = async () => {
 
     const payload = await getPayload({ config })
     const db = createPayloadDB(payload)
-    
+
     return { payload, db }
   } catch (error) {
     console.error('Error initializing payload client:', error)

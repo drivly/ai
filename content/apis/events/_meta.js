@@ -1,3 +1,3 @@
 export default {
-  '*': 'Events APIs'
+  '*': 'Events APIs',
 }

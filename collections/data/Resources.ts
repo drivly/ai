@@ -23,7 +23,7 @@ export const Resources: CollectionConfig = {
       codeFieldName: 'yaml',
       label: 'Data',
       defaultFormat: 'yaml',
-      editorOptions: { padding: { top: 20, bottom: 20 } }
+      editorOptions: { padding: { top: 20, bottom: 20 } },
     }) as any),
     { name: 'embedding', type: 'json', admin: { hidden: true }, index: false },
     { name: 'subjectOf', type: 'relationship', relationTo: 'actions', hasMany: true },
@@ -47,8 +47,8 @@ export const Resources: CollectionConfig = {
           const job = await payload.jobs.queue({
             task: 'generateThingEmbedding',
             input: {
-              id: doc.id
-            }
+              id: doc.id,
+            },
           })
 
           console.log(`Queued embedding generation for resource ${doc.id}`, job)

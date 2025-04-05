@@ -5,22 +5,19 @@ import { createAnalyticsService } from '../../analytics/src/utils'
 export const syncClickhouseAnalyticsHandler = async ({ payload, job }: { payload: any; job: { input?: any } }) => {
   const { input } = job
   const { startDate, endDate } = input || {}
-  
+
   try {
     console.log('Starting Clickhouse analytics sync')
-    
+
     const clickhouseClient = createClickhouseClient({
-      url: process.env.CLICKHOUSE_URL || 
-           `${process.env.CLICKHOUSE_HOST || 'http://localhost'}:${
-             process.env.CLICKHOUSE_PORT ? parseInt(process.env.CLICKHOUSE_PORT) : 8123
-           }`,
+      url: process.env.CLICKHOUSE_URL || `${process.env.CLICKHOUSE_HOST || 'http://localhost'}:${process.env.CLICKHOUSE_PORT ? parseInt(process.env.CLICKHOUSE_PORT) : 8123}`,
       username: process.env.CLICKHOUSE_USERNAME,
       password: process.env.CLICKHOUSE_PASSWORD,
       database: process.env.CLICKHOUSE_DATABASE || 'default',
     })
-    
+
     const analyticsService = createAnalyticsService(clickhouseClient)
-    
+
     const eventsSyncStart = Date.now()
     const events = await payload.find({
       collection: 'events',
@@ -30,7 +27,7 @@ export const syncClickhouseAnalyticsHandler = async ({ payload, job }: { payload
       },
       limit: 1000,
     })
-    
+
     for (const event of events.docs) {
       try {
         await analyticsService.trackEvent({
@@ -50,9 +47,9 @@ export const syncClickhouseAnalyticsHandler = async ({ payload, job }: { payload
         console.error(`Failed to track event ${event.id}:`, error)
       }
     }
-    
+
     console.log(`Synced ${events.docs.length} events in ${Date.now() - eventsSyncStart}ms`)
-    
+
     const generationsSyncStart = Date.now()
     const generations = await payload.find({
       collection: 'generations',
@@ -62,7 +59,7 @@ export const syncClickhouseAnalyticsHandler = async ({ payload, job }: { payload
       },
       limit: 1000,
     })
-    
+
     for (const generation of generations.docs) {
       try {
         await analyticsService.trackGeneration({
@@ -81,11 +78,11 @@ export const syncClickhouseAnalyticsHandler = async ({ payload, job }: { payload
         console.error(`Failed to track generation ${generation.id}:`, error)
       }
     }
-    
+
     console.log(`Synced ${generations.docs.length} generations in ${Date.now() - generationsSyncStart}ms`)
-    
+
     await clickhouseClient.close()
-    
+
     return {
       eventsCount: events.docs.length,
       generationsCount: generations.docs.length,

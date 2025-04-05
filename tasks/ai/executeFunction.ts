@@ -13,15 +13,15 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const headers = req?.headers ? Object.fromEntries(req?.headers) : undefined
   // const { payload } = req
   if (!payload) payload = req?.payload
-  
+
   if (!input.functionName && input.data) {
-    input = { 
+    input = {
       functionName: 'executeFunction',
       args: input.data,
-      ...input
+      ...input,
     }
   }
-  
+
   const { functionName, args, schema, timeout, seeds, callback, type } = input
   const { settings } = input as any
   const start = Date.now()
@@ -328,8 +328,8 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       seeds,
       callback,
       isTextFunction,
-      latency
-    }
+      latency,
+    },
   })
 
   return { output: object, reasoning }

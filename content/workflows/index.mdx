@@ -44,8 +44,8 @@ const result = await ai.onboardingWorkflow({
   customer: {
     name: 'Acme Corp',
     industry: 'Manufacturing',
-    size: 'Enterprise'
-  }
+    size: 'Enterprise',
+  },
 })
 ```
 
@@ -64,7 +64,7 @@ const salesAgent = Agent({
   tools: [
     // The lead qualification workflow is available as a tool
     ai.leadQualificationWorkflow,
-    ai.proposalGenerationWorkflow
+    ai.proposalGenerationWorkflow,
   ],
   // Agent can decide when to use which workflow
 })
@@ -78,7 +78,7 @@ Human operators can also leverage workflows as tools through interfaces like cha
 // A human triggering a workflow through an API
 const result = await api.workflows.execute('content-approval', {
   documentId: '12345',
-  requestedBy: 'marketing@example.com'
+  requestedBy: 'marketing@example.com',
 })
 ```
 
@@ -125,3 +125,4 @@ export default AI({
     await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
   },
 })
+```

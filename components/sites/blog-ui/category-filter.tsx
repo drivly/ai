@@ -40,7 +40,8 @@ export function CategoryFilter({ categories, selectedCategories, onSelectCategor
           'cursor-pointer px-3 py-1.5 text-sm sm:px-2.5 sm:py-1 sm:text-xs',
           selectedCategories.length === 0 ? 'bg-gray-800 text-gray-100 hover:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-800/50',
         )}
-        onClick={() => toggleCategory(null)}>
+        onClick={() => toggleCategory(null)}
+      >
         All
       </Badge>
       {allCategories.map((category) => (
@@ -51,7 +52,8 @@ export function CategoryFilter({ categories, selectedCategories, onSelectCategor
             'cursor-pointer px-3 py-1.5 text-sm sm:px-2.5 sm:py-1 sm:text-xs',
             selectedCategories.includes(category) ? 'bg-gray-800 text-gray-100 hover:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-800/50',
           )}
-          onClick={() => toggleCategory(category)}>
+          onClick={() => toggleCategory(category)}
+        >
           {category}
         </Badge>
       ))}
@@ -61,7 +63,8 @@ export function CategoryFilter({ categories, selectedCategories, onSelectCategor
           variant='ghost'
           size='sm'
           onClick={() => onSelectCategories([])}
-          className='text-muted-foreground hover:text-primary h-8 rounded-full px-3 text-sm transition-colors sm:h-7 sm:px-2 sm:text-xs'>
+          className='text-muted-foreground hover:text-primary h-8 rounded-full px-3 text-sm transition-colors sm:h-7 sm:px-2 sm:text-xs'
+        >
           <XIcon className='mr-1 h-3 w-3' />
           Clear ({selectedCategories.length})
         </Button>

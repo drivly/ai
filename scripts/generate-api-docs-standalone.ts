@@ -9,15 +9,17 @@ import { collections } from '../collections'
 const generateApiDocs = async () => {
   try {
     console.log('Generating API documentation for collections...')
-    
+
     const apisDir = path.resolve(process.cwd(), 'content/apis')
     if (!fs.existsSync(apisDir)) {
       fs.mkdirSync(apisDir, { recursive: true })
     }
-    
+
     const indexPath = path.join(apisDir, 'index.mdx')
     if (!fs.existsSync(indexPath)) {
-      fs.writeFileSync(indexPath, `---
+      fs.writeFileSync(
+        indexPath,
+        `---
 title: API Reference
 description: API documentation for all collections
 ---
@@ -25,14 +27,15 @@ description: API documentation for all collections
 # API Reference
 
 This section contains API documentation for all collections in the system.
-`)
+`,
+      )
       console.log('Created API documentation index file')
     }
-    
+
     for (const collection of collections) {
       await generateCollectionDoc(collection, apisDir)
     }
-    
+
     console.log('API documentation generation complete')
   } catch (error) {
     console.error('Error generating API documentation:', error)
@@ -45,19 +48,19 @@ This section contains API documentation for all collections in the system.
  */
 const generateCollectionDoc = async (collection: any, apisDir: string) => {
   const { slug, fields = [], admin = {} } = collection
-  
+
   if (!slug) return
-  
+
   const title = slug.charAt(0).toUpperCase() + slug.slice(1)
-  
+
   const group = admin.group || 'Uncategorized'
-  
+
   const fieldDocs = fields
     .filter((field: any) => field.name && field.type) // Only document fields with name and type
     .map((field: any) => {
       const { name, type, required, defaultValue, admin: fieldAdmin = {} } = field
       const description = fieldAdmin.description || ''
-      
+
       let defaultValueStr = ''
       if (defaultValue !== undefined) {
         if (typeof defaultValue === 'object') {
@@ -66,7 +69,7 @@ const generateCollectionDoc = async (collection: any, apisDir: string) => {
           defaultValueStr = `\`${defaultValue}\``
         }
       }
-      
+
       return `### ${name}
 
 - **Type**: \`${type}\`
@@ -76,7 +79,7 @@ ${description ? `- **Description**: ${description}` : ''}
 `
     })
     .join('\n\n')
-  
+
   const endpoints = `
 ## API Endpoints
 

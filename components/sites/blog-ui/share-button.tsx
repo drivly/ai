@@ -56,7 +56,8 @@ export function ShareButtons({ title, url, hideLabel = false }: ShareButtonsProp
           target='_blank'
           rel='noopener noreferrer'
           className='hover:text-primary text-gray-500 transition-colors'
-          aria-label={`Share on ${link.name}`}>
+          aria-label={`Share on ${link.name}`}
+        >
           {link.icon}
         </a>
       ))}

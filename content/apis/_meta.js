@@ -10,5 +10,5 @@ export default {
   experiments: 'Experiments',
   integrations: 'Integrations',
   observability: 'Observability',
-  work: 'Work'
+  work: 'Work',
 }

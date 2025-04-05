@@ -1,3 +1,3 @@
 export default {
-  '*': 'Work APIs'
+  '*': 'Work APIs',
 }

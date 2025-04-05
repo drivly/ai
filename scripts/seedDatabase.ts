@@ -56,8 +56,7 @@ export function extractNounsAndVerbs(data: any) {
         if (action && action.length > 0) {
           verbs.push({ action, type: typeName })
         }
-      }
-      else if (typeName && typeName.length > 0) {
+      } else if (typeName && typeName.length > 0) {
         nouns.add(typeName)
         things.add(typeName)
       }
@@ -208,44 +207,44 @@ export async function seedDatabase() {
 
     console.log('Fetching OpenRouter models...')
     const openRouterData = await fetchOpenRouterModels()
-    
+
     if (!openRouterData || !openRouterData.data) {
       console.error('No data returned from OpenRouter API')
       return
     }
-    
+
     console.log(`Found ${openRouterData.data.length} models from OpenRouter`)
-    
+
     const providers = new Map<string, any>()
     const labs = new Map<string, any>()
-    
+
     openRouterData.data.forEach((model: any) => {
       if (model.provider && !providers.has(model.provider.id)) {
         providers.set(model.provider.id, model.provider)
       }
-      
+
       if (model.lab && !labs.has(model.lab.id)) {
         labs.set(model.lab.id, model.lab)
       }
     })
-    
+
     console.log('Seeding Providers...')
     let providersCreated = 0
     let providersSkipped = 0
-    
+
     for (const [id, provider] of providers.entries()) {
       try {
         const exists = await payload.find({
           collection: 'providers' as any,
           where: { id: { equals: id } },
         })
-        
+
         if (exists.docs.length > 0) {
           console.log(`Provider already exists: ${provider.name}`)
           providersSkipped++
           continue
         }
-        
+
         // Create if it doesn't exist
         await payload.create({
           collection: 'providers' as any,
@@ -262,26 +261,26 @@ export async function seedDatabase() {
         console.error(`Error creating provider ${provider.name}:`, error)
       }
     }
-    
+
     console.log(`Providers: ${providersCreated} created, ${providersSkipped} skipped`)
-    
+
     console.log('Seeding Labs...')
     let labsCreated = 0
     let labsSkipped = 0
-    
+
     for (const [id, lab] of labs.entries()) {
       try {
         const exists = await payload.find({
           collection: 'labs' as any,
           where: { id: { equals: id } },
         })
-        
+
         if (exists.docs.length > 0) {
           console.log(`Lab already exists: ${lab.name}`)
           labsSkipped++
           continue
         }
-        
+
         // Create if it doesn't exist
         await payload.create({
           collection: 'labs' as any,
@@ -298,50 +297,50 @@ export async function seedDatabase() {
         console.error(`Error creating lab ${lab.name}:`, error)
       }
     }
-    
+
     console.log(`Labs: ${labsCreated} created, ${labsSkipped} skipped`)
-    
+
     console.log('Seeding Models...')
     let modelsCreated = 0
     let modelsSkipped = 0
-    
+
     for (const model of openRouterData.data) {
       try {
         const exists = await payload.find({
           collection: 'models',
           where: { id: { equals: model.id } },
         })
-        
+
         if (exists.docs.length > 0) {
           console.log(`Model already exists: ${model.name}`)
           modelsSkipped++
           continue
         }
-        
+
         let providerId = null
         if (model.provider) {
           const providerDoc = await payload.find({
             collection: 'providers' as any,
             where: { id: { equals: model.provider.id } },
           })
-          
+
           if (providerDoc.docs.length > 0) {
             providerId = providerDoc.docs[0].id
           }
         }
-        
+
         let labId = null
         if (model.lab) {
           const labDoc = await payload.find({
             collection: 'labs' as any,
             where: { id: { equals: model.lab.id } },
           })
-          
+
           if (labDoc.docs.length > 0) {
             labId = labDoc.docs[0].id
           }
         }
-        
+
         await payload.create({
           collection: 'models',
           data: {
@@ -366,7 +365,7 @@ export async function seedDatabase() {
         console.error(`Error creating model ${model.name}:`, error)
       }
     }
-    
+
     console.log(`Models: ${modelsCreated} created, ${modelsSkipped} skipped`)
 
     console.log('Database seeding completed successfully!')

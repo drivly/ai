@@ -17,14 +17,12 @@ API for managing Verbs resources.
 
 - **Description**: Active tense like Create
 
-
 ### act
 
 - **Type**: `text`
 - **Required**: No
 
 - **Description**: Third person singular present tense like Creates
-
 
 ### activity
 
@@ -33,14 +31,12 @@ API for managing Verbs resources.
 
 - **Description**: Gerund like Creating
 
-
 ### event
 
 - **Type**: `text`
 - **Required**: No
 
 - **Description**: Past tense like Created
-
 
 ### subject
 
@@ -49,14 +45,12 @@ API for managing Verbs resources.
 
 - **Description**: Subject like Creator
 
-
 ### object
 
 - **Type**: `text`
 - **Required**: No
 
 - **Description**: Object like Creation
-
 
 ### inverse
 
@@ -65,14 +59,12 @@ API for managing Verbs resources.
 
 - **Description**: Opposite like Destroy
 
-
 ### inverseAct
 
 - **Type**: `text`
 - **Required**: No
 
 - **Description**: Third person singular present tense like Destroys
-
 
 ### inverseActivity
 
@@ -81,14 +73,12 @@ API for managing Verbs resources.
 
 - **Description**: Gerund like Destroying
 
-
 ### inverseEvent
 
 - **Type**: `text`
 - **Required**: No
 
 - **Description**: Past tense like Destroyed
-
 
 ### inverseSubject
 
@@ -97,7 +87,6 @@ API for managing Verbs resources.
 
 - **Description**: Subject like Destroyer
 
-
 ### inverseObject
 
 - **Type**: `text`
@@ -105,28 +94,31 @@ API for managing Verbs resources.
 
 - **Description**: Object like Destruction
 
-
-
 ## API Endpoints
 
 ### GET /api/verbs
+
 Retrieves a list of Verbs with pagination.
 
 #### Query Parameters
+
 - `limit`: Maximum number of items to return (default: 10)
 - `page`: Page number for pagination (default: 1)
 - `sort`: Field to sort by (default: createdAt)
 - `where`: JSON query for filtering results
 
 ### GET /api/verbs/:id
+
 Retrieves a single Verbs by ID.
 
 ### POST /api/verbs
+
 Creates a new Verbs.
 
 ### PATCH /api/verbs/:id
+
 Updates an existing Verbs.
 
 ### DELETE /api/verbs/:id
-Deletes a Verbs.
 
+Deletes a Verbs.

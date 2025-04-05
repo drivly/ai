@@ -6,14 +6,14 @@ export default {
   sdks: '',
   _: {
     type: 'separator',
-    title: 'AI' // Title is optional
+    title: 'AI', // Title is optional
   },
   workflows: '',
   functions: '',
   agents: '',
   _2: {
     type: 'separator',
-    title: 'Work'
+    title: 'Work',
   },
   goals: '',
   plans: '',
@@ -21,7 +21,7 @@ export default {
   // kpis: 'KPIs',
   _3: {
     type: 'separator',
-    title: 'Data' // Title is optional
+    title: 'Data', // Title is optional
   },
   nouns: '',
   verbs: '',
@@ -29,14 +29,14 @@ export default {
   resources: '',
   _4: {
     type: 'separator',
-    title: 'Experiments' // Title is optional
+    title: 'Experiments', // Title is optional
   },
   analytics: '',
   experiments: '',
   events: '',
   _5: {
     type: 'separator',
-    title: 'Integrations' // Title is optional
+    title: 'Integrations', // Title is optional
   },
   integrations: '',
   triggers: '',
@@ -44,7 +44,7 @@ export default {
   actions: '',
   _6: {
     type: 'separator',
-    title: 'Evals' // Title is optional
+    title: 'Evals', // Title is optional
   },
   benchmarks: '',
   datasets: '',
@@ -52,12 +52,12 @@ export default {
   // experiments: '',
   _7: {
     type: 'separator',
-    title: 'Deploy' // Title is optional
+    title: 'Deploy', // Title is optional
   },
   code: '',
   _8: {
     type: 'separator',
-    title: 'Operate' // Title is optional
+    title: 'Operate', // Title is optional
   },
   // data: '',
   // things: '',

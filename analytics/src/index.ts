@@ -19,18 +19,16 @@ export class ClickhouseClient {
 
   constructor(config: ClickhouseConfig) {
     let url = config.url
-    
+
     if (!url && config.host) {
-      url = config.port ? 
-        `${config.host}:${config.port}` : 
-        config.host
+      url = config.port ? `${config.host}:${config.port}` : config.host
     }
-    
+
     this.databaseName = config.database || 'default'
     this.url = url
     this.username = config.username || 'default'
     this.password = config.password || ''
-      
+
     this.client = createClient({
       url,
       username: this.username,
@@ -49,21 +47,18 @@ export class ClickhouseClient {
       const data = await result.json<T>()
       return data
     } catch (error: any) {
-      if (error.type === 'UNKNOWN_DATABASE' || 
-          (error.message && error.message.includes('Database') && 
-           error.message.includes('does not exist'))) {
+      if (error.type === 'UNKNOWN_DATABASE' || (error.message && error.message.includes('Database') && error.message.includes('does not exist'))) {
         await this.createDatabase()
         return this.query<T>(query, params)
       }
-      
-      if (error.type === 'UNKNOWN_TABLE' ||
-          error.code === '60' ||
-          (error.message && (
-            error.message.includes('Table') && 
-            (error.message.includes('doesn\'t exist') || 
-            error.message.includes('does not exist') ||
-            error.message.includes('no such table'))
-          ))) {
+
+      if (
+        error.type === 'UNKNOWN_TABLE' ||
+        error.code === '60' ||
+        (error.message &&
+          error.message.includes('Table') &&
+          (error.message.includes("doesn't exist") || error.message.includes('does not exist') || error.message.includes('no such table')))
+      ) {
         const tableMatch = query.match(/FROM\s+([^\s,();]+)/i)
         if (tableMatch && tableMatch[1]) {
           const tableName = tableMatch[1]
@@ -77,7 +72,7 @@ export class ClickhouseClient {
 
   private async createTableAndRetry(table: string): Promise<void> {
     const tableName = table.includes('.') ? table.split('.').pop() || table : table
-    
+
     const schema = tableSchemas[tableName]
     if (!schema) {
       throw new Error(`No schema defined for table: ${tableName}`)
@@ -92,13 +87,13 @@ export class ClickhouseClient {
         username: this.username,
         password: this.password,
       })
-      
+
       await tempClient.query({
         query: `CREATE DATABASE IF NOT EXISTS ${this.databaseName}`,
       })
-      
+
       console.log(`Created database: ${this.databaseName}`)
-      
+
       await tempClient.close()
     } catch (error: any) {
       console.error(`Error creating database:`, error)
@@ -150,21 +145,18 @@ export class ClickhouseClient {
         format: 'JSONEachRow',
       })
     } catch (error: any) {
-      if (error.type === 'UNKNOWN_DATABASE' || 
-          (error.message && error.message.includes('Database') && 
-           error.message.includes('does not exist'))) {
+      if (error.type === 'UNKNOWN_DATABASE' || (error.message && error.message.includes('Database') && error.message.includes('does not exist'))) {
         await this.createDatabase()
         return this.insert(table, data)
       }
-      
-      if (error.type === 'UNKNOWN_TABLE' ||
-          error.code === '60' ||
-          (error.message && (
-            error.message.includes('Table') && 
-            (error.message.includes('doesn\'t exist') || 
-            error.message.includes('does not exist') ||
-            error.message.includes('no such table'))
-          ))) {
+
+      if (
+        error.type === 'UNKNOWN_TABLE' ||
+        error.code === '60' ||
+        (error.message &&
+          error.message.includes('Table') &&
+          (error.message.includes("doesn't exist") || error.message.includes('does not exist') || error.message.includes('no such table')))
+      ) {
         await this.createTableAndRetry(table)
         await this.client.insert({
           table,

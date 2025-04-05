@@ -1,3 +1,3 @@
 export default {
-  '*': 'Observability APIs'
+  '*': 'Observability APIs',
 }

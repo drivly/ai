@@ -7,20 +7,20 @@ import { generateResourceEmbedding } from '../tasks/data/generateResourceEmbeddi
 async function generateAllResourceEmbeddings() {
   try {
     console.log('Starting embedding generation for all Resources...')
-    
+
     const payload = await getPayload({ config: (await import('../payload.config')).default })
-    
+
     const response = await payload.find({
       collection: 'resources',
       where: {
-        embedding: { exists: false }
+        embedding: { exists: false },
       },
       limit: 1000,
     })
-    
+
     const resources = response.docs
     console.log(`Found ${resources.length} Resources without embeddings`)
-    
+
     for (const resource of resources) {
       try {
         console.log(`Generating embedding for Resource ${resource.id}: ${resource.name || 'Unnamed'}`)
@@ -29,10 +29,10 @@ async function generateAllResourceEmbeddings() {
       } catch (error) {
         console.error(`Error generating embedding for Resource ${resource.id}:`, error)
       }
-      
-      await new Promise(resolve => setTimeout(resolve, 100))
+
+      await new Promise((resolve) => setTimeout(resolve, 100))
     }
-    
+
     console.log('Finished generating embeddings for all Resources')
   } catch (error) {
     console.error('Error generating embeddings:', error)

@@ -38,11 +38,11 @@ Agents can use any of the four function types as tools:
 const researchAgent = Agent({
   name: 'ResearchAssistant',
   tools: [
-    ai.searchWeb,                // Generation function
-    ai.analyzeData,              // Code function
-    ai.delegateToSpecialist,     // Agentic function
-    ai.requestHumanVerification  // Human function
-  ]
+    ai.searchWeb, // Generation function
+    ai.analyzeData, // Code function
+    ai.delegateToSpecialist, // Agentic function
+    ai.requestHumanVerification, // Human function
+  ],
 })
 ```
 
@@ -58,14 +58,14 @@ const customerSupportAgent = Agent({
     // Workflows available as tools
     ai.escalationWorkflow,
     ai.refundProcessWorkflow,
-    ai.knowledgeBaseUpdateWorkflow
-  ]
+    ai.knowledgeBaseUpdateWorkflow,
+  ],
 })
 
 // The agent can decide when to trigger a workflow
 const response = await customerSupportAgent.handle({
-  message: "I never received my order #12345",
-  context: { customer: customerData }
+  message: 'I never received my order #12345',
+  context: { customer: customerData },
 })
 ```
 
@@ -82,14 +82,14 @@ const knowledgeAgent = Agent({
     searches.productCatalog,
     searches.customerRecords,
     searches.knowledgeBase,
-    searches.previousConversations
-  ]
+    searches.previousConversations,
+  ],
 })
 
 // The agent can use searches to gather context
 const response = await knowledgeAgent.handle({
   question: "What's our return policy for electronics?",
-  context: { customerId: 'cus_12345' }
+  context: { customerId: 'cus_12345' },
 })
 ```
 
@@ -106,21 +106,21 @@ const operationsAgent = Agent({
     integrations.salesforce,
     integrations.zendesk,
     integrations.slack,
-    
+
     // Actions available as tools
     actions.createTicket,
     actions.updateCustomerRecord,
-    actions.sendNotification
-  ]
+    actions.sendNotification,
+  ],
 })
 
 // The agent can use integrations and actions to perform tasks
 const result = await operationsAgent.handle({
-  task: "Update customer information and notify the support team",
-  context: { 
+  task: 'Update customer information and notify the support team',
+  context: {
     customer: customerData,
-    changes: { email: 'new@example.com' }
-  }
+    changes: { email: 'new@example.com' },
+  },
 })
 ```
 

@@ -25,7 +25,8 @@ export const MobileNav = ({ isOpen, handleClose }: MobileNavProps) => {
               href='https://github.com/drivly/ai'
               target='_blank'
               rel='noopener noreferrer'
-              onClick={handleClose}>
+              onClick={handleClose}
+            >
               <FaGithub className='mr-2 h-5 w-5' />
               GitHub
             </Link>
@@ -36,7 +37,8 @@ export const MobileNav = ({ isOpen, handleClose }: MobileNavProps) => {
               href='https://discord.gg/qus39VeA'
               target='_blank'
               rel='noopener noreferrer'
-              onClick={handleClose}>
+              onClick={handleClose}
+            >
               <FaDiscord className='mr-2 h-5 w-5' />
               Discord
             </Link>
@@ -52,7 +54,8 @@ export const MobileNav = ({ isOpen, handleClose }: MobileNavProps) => {
               href='https://apis.do/'
               target='_blank'
               rel='noopener noreferrer'
-              onClick={handleClose}>
+              onClick={handleClose}
+            >
               View Docs
             </Link>
           </li>

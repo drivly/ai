@@ -8,8 +8,8 @@ export const Experiments: CollectionConfig = {
     description: 'Feature flags and A/B testing experiments with real-world user feedback metrics',
   },
   fields: [
-    { 
-      name: 'name', 
+    {
+      name: 'name',
       type: 'text',
       required: true,
       unique: true,
@@ -214,13 +214,13 @@ export const Experiments: CollectionConfig = {
     beforeChange: [
       ({ data }) => {
         if (data.variants && Array.isArray(data.variants)) {
-          const hasControl = data.variants.some(variant => variant.isControl);
+          const hasControl = data.variants.some((variant) => variant.isControl)
           if (!hasControl && data.variants.length > 0) {
-            data.variants[0].isControl = true;
+            data.variants[0].isControl = true
           }
         }
-        return data;
-      }
+        return data
+      },
     ],
   },
 }
