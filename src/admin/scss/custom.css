@@ -1,0 +1,13 @@
+/* Fix vertical and horizontal scrolling in admin detail panes */
+.payload__edit-depth-0 .payload__body-content {
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  max-height: 100vh !important;
+}
+
+/* Fix parent container to ensure proper layout */
+.payload__edit-form {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}

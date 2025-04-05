@@ -133,3 +133,5 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Admin overrides are now in src/admin/scss/custom.css */
