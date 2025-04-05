@@ -188,11 +188,11 @@
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": [
-      "pnpm lint",
-      "pnpm format"
+      "eslint",
+      "prettier --write"
     ],
     "**/*.{md,mdx}": [
-      "pnpm format"
+      "prettier --write"
     ]
   },
   "packageManager": "pnpm@10.7.0"
