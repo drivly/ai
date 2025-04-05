@@ -187,14 +187,6 @@
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
   },
-  "lint-staged": {
-    "**/*.{js,ts,tsx}": [
-      "pnpm lint:file",
-      "prettier --write"
-    ],
-    "**/*.{md,mdx}": [
-      "prettier --write"
-    ]
-  },
+
   "packageManager": "pnpm@10.7.0"
 }

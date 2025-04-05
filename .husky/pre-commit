@@ -1,4 +1,6 @@
 #!/bin/sh
 
-pnpm lint-staged
+pnpm lint
+pnpm format
+pnpm generate:types
 pnpm typecheck || echo "Typecheck failed but continuing with commit"
