@@ -2,25 +2,6 @@
   "name": "actions.do",
   "version": "0.0.1",
   "description": "SDK for performing tasks within workflows",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "homepage": "https://actions.do",
-  "type": "module",
-  "module": "dist/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/actions.do"
-  },
-  "scripts": {
-    "build": "tsc",
-    "generate:constants": "echo 'Using placeholder constants'",
-    "test": "vitest run",
-    "test:watch": "vitest"
-  },
   "keywords": [
     "actions",
     "tasks",
@@ -28,10 +9,39 @@
     "sdk",
     "typescript"
   ],
+  "homepage": "https://actions.do",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/actions.do"
+  },
   "author": "Drivly",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "generate:constants": "echo 'Using placeholder constants'",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "apis.do": "workspace:*"
