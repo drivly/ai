@@ -23,7 +23,7 @@ The Actions collection provides a way to define, manage, and execute operations 
 
 Actions can be defined using the Events.do API or through the dashboard interface.
 
-```typescript
+```text
 // Example action definition
 const SendEmailAction = {
   name: 'SendEmailAction',
@@ -77,7 +77,7 @@ Actions.do supports various action categories:
 
 Send messages through different channels:
 
-```typescript
+```text
 const SendSlackMessageAction = {
   name: 'SendSlackMessageAction',
   input: z.object({
@@ -93,7 +93,7 @@ const SendSlackMessageAction = {
 
 Manipulate data in your systems:
 
-```typescript
+```text
 const UpdateDatabaseAction = {
   name: 'UpdateDatabaseAction',
   input: z.object({
@@ -114,7 +114,7 @@ const UpdateDatabaseAction = {
 
 Connect with external systems:
 
-```typescript
+```text
 const CallExternalAPIAction = {
   name: 'CallExternalAPIAction',
   input: z.object({
@@ -132,7 +132,7 @@ const CallExternalAPIAction = {
 
 Actions can be executed throughout your AI applications:
 
-```typescript
+```text
 // Execute an action directly
 const result = await actions.execute('SendEmailAction', {
   to: 'user@example.com',

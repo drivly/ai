@@ -4,7 +4,7 @@ Models are the AI engines that power your applications, from language models to 
 
 ## Overview
 
-The Models collection provides a way to define, manage, and use AI models in your applications. Models can:
+The Models resource provides a way to define, manage, and use AI models in your applications. Models can:
 
 - Generate text, code, and other content
 - Process and analyze data
@@ -26,7 +26,7 @@ Experiments.do supports various model types:
 
 General-purpose language models for text generation:
 
-```typescript
+```text
 const GPT4Model = {
   name: 'gpt-4',
   provider: 'openai',
@@ -58,7 +58,7 @@ const GPT4Model = {
 
 Models for creating vector embeddings:
 
-```typescript
+```text
 const EmbeddingModel = {
   name: 'text-embedding-ada-002',
   provider: 'openai',
@@ -82,7 +82,7 @@ const EmbeddingModel = {
 
 Models for specific tasks:
 
-```typescript
+```text
 const TranslationModel = {
   name: 'translation-model',
   provider: 'google',
@@ -106,7 +106,7 @@ const TranslationModel = {
 
 Models can be used throughout your AI applications:
 
-```typescript
+```text
 // Generate text with a language model
 const completion = await models.generate('gpt-4', {
   prompt: 'Write a short story about a robot learning to paint.',
@@ -154,7 +154,7 @@ const contentGenerationWorkflow = {
 
 Manage your models through the dashboard or API:
 
-```typescript
+```text
 // Register a new model
 await models.register({
   name: 'custom-model',
