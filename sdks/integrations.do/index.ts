@@ -1,4 +1,4 @@
-import { api } from '../../apis.do/index.js'
+import { api } from '../../apis.do'
 import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration } from './types.js'
 
 /**
