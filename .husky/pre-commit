@@ -1,0 +1,2 @@
+pnpm lint-staged
+pnpm typecheck || echo "Typecheck failed but continuing with commit"

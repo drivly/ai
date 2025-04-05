@@ -35,7 +35,8 @@
     "test:seed": "vitest run tests/seed.test.ts",
     "typecheck": "turbo typecheck",
     "format": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
@@ -131,8 +132,10 @@
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.16.0",
     "eslint-config-next": "15.2.2",
+    "husky": "^9.1.7",
     "ignore-loader": "^0.1.2",
     "jsdom": "^26.0.0",
+    "lint-staged": "^15.5.0",
     "multi-semantic-release": "^3.0.2",
     "node-mocks-http": "^1.16.2",
     "node-polyfill-webpack-plugin": "^4.1.0",
@@ -182,6 +185,15 @@
     "semi": false,
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": [
+      "pnpm lint",
+      "pnpm format"
+    ],
+    "**/*.{md,mdx}": [
+      "pnpm format"
+    ]
   },
   "packageManager": "pnpm@10.7.0"
 }
