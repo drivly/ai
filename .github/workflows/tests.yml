@@ -29,6 +29,13 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Run Typecheck
+        run: |
+          pnpm --filter apis.do build
+          pnpm --filter @drivly/ui build
+          pnpm --filter @drivly/payload-agent build
+          pnpm typecheck
+
       - name: Run Tests
         run: pnpm test
         env:
