@@ -5,6 +5,7 @@
     "outDir": "./dist",
     "declaration": true,
     "jsx": "react",
+    "incremental": false,
     "paths": {
       "@/*": ["./src/*"]
     }
