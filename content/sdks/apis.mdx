@@ -71,7 +71,7 @@ APIs.do provides unified access to the entire `.do` ecosystem:
 
 ## 📋 Quick Start
 
-```typescript
+```text
 import { API } from 'apis.do'
 
 // Initialize the client
@@ -142,7 +142,7 @@ The APIs.do SDK provides access to all collections in the platform. Here are the
 
 ## 📊 Strongly-Typed Collection Examples
 
-```typescript
+```text
 import { API } from 'apis.do'
 import type { Function, Workflow, Agent, Thing, Action, Generation } from 'apis.do/types'
 
@@ -201,7 +201,7 @@ async function getGenerations(actionId: string) {
 
 ### Searching and Filtering
 
-```typescript
+```text
 // Search for users with a specific query
 const searchUsers = async (query: string) => {
   const results = await api.users.search(query)
@@ -225,7 +225,7 @@ const listActiveUsers = async () => {
 
 ### Custom Endpoints
 
-```typescript
+```text
 // Make custom GET requests
 const getCustomData = async () => {
   const data = await api.get('/api/custom-endpoint')
@@ -243,7 +243,7 @@ const postCustomData = async (data: any) => {
 
 APIs.do seamlessly integrates with the entire `.do` ecosystem:
 
-```typescript
+```text
 import { API } from 'apis.do'
 import type { Function, Workflow, Agent, Thing, Action } from 'apis.do/types'
 
@@ -288,7 +288,7 @@ const createRelationship = async (subjectId: string, verbName: string, objectId:
 
 ## 📊 Real-World Example: AI-Powered Business Intelligence Dashboard
 
-```typescript
+```text
 import { API } from 'apis.do'
 import type { Thing, Function, Agent, Action } from 'apis.do/types'
 
@@ -357,7 +357,7 @@ async function generateBusinessDashboard(companyId: string) {
 
 ### Client Initialization
 
-```typescript
+```text
 const api = new API({
   baseUrl?: string, // Default: 'https://apis.do'
   apiKey?: string,  // Your API key
@@ -402,7 +402,7 @@ const api = new API({
 
 The SDK provides detailed error information when API requests fail:
 
-```typescript
+```text
 try {
   const user = await api.getById('users', 'non-existent-id')
 } catch (error) {
@@ -420,7 +420,7 @@ try {
 
 APIs.do supports multiple authentication methods:
 
-```typescript
+```text
 // API Key Authentication (recommended)
 const api = new API({
   apiKey: 'your-api-key',
@@ -445,7 +445,7 @@ const api = new API({
 
 The SDK provides built-in types for all collections in the platform, giving you full type safety:
 
-```typescript
+```text
 import { API } from 'apis.do'
 import type { Function, Workflow, Agent, Thing, Action, Verb, Noun, Generation } from 'apis.do/types'
 
