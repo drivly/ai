@@ -57,17 +57,17 @@ async function main() {
         break
       default:
         console.log(`
-sdks.do - SDK for publishing Functions, Workflows, and Databases to NPM
+sdk.do - SDK for publishing Functions, Workflows, and Databases to NPM
 
 Usage:
-  sdks init [name] [--force]        Initialize a new package
-  sdks login [token]                Login to sdks.do
-  sdks logout                       Logout from sdks.do
-  sdks list                         List all packages
-  sdks create <name> [collections]  Create a new package
-  sdks add <packageId> <collection> Add a collection to a package
-  sdks remove <packageId> <collection> Remove a collection from a package
-  sdks publish <packageId> [--tag=latest] [--dry-run] Publish a package to NPM
+  sdk init [name] [--force]        Initialize a new package
+  sdk login [token]                Login to sdk.do
+  sdk logout                       Logout from sdk.do
+  sdk list                         List all packages
+  sdk create <name> [collections]  Create a new package
+  sdk add <packageId> <collection> Add a collection to a package
+  sdk remove <packageId> <collection> Remove a collection from a package
+  sdk publish <packageId> [--tag=latest] [--dry-run] Publish a package to NPM
         `)
         break
     }

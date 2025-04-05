@@ -1,15 +1,15 @@
-# sdks.do
+# sdk.do
 
 SDK for publishing Functions, Workflows, and Databases to NPM.
 
 ## Installation
 
 ```bash
-npm install sdks.do
+npm install sdk.do
 # or
-yarn add sdks.do
+yarn add sdk.do
 # or
-pnpm add sdks.do
+pnpm add sdk.do
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ pnpm add sdks.do
 ### JavaScript/TypeScript SDK
 
 ```typescript
-import { api } from 'sdks.do'
+import { api } from 'sdk.do'
 
 // List all packages
 const packages = await api.listPackages()
@@ -63,25 +63,25 @@ The SDK includes a CLI for managing packages from the command line.
 
 ```bash
 # Initialize a new package
-sdks init my-package
+sdk init my-package
 
-# Login to sdks.do
-sdks login <token>
+# Login to sdk.do
+sdk login <token>
 
 # List all packages
-sdks list
+sdk list
 
 # Create a new package with collections
-sdks create my-package functions workflows
+sdk create my-package functions workflows
 
 # Add a collection to a package
-sdks add <package-id> databases
+sdk add <package-id> databases
 
 # Remove a collection from a package
-sdks remove <package-id> databases
+sdk remove <package-id> databases
 
 # Publish a package to NPM
-sdks publish <package-id> --tag=latest
+sdk publish <package-id> --tag=latest
 ```
 
 ## API Reference
@@ -144,7 +144,7 @@ Initialize a new package.
 
 #### `login(options: { token?: string }): Promise<void>`
 
-Login to sdks.do and store credentials.
+Login to sdk.do and store credentials.
 
 #### `logout(): Promise<void>`
 

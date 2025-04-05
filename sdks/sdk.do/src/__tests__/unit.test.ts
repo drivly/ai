@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { API } from '../client.js'
 import { CLI } from '../cli.js'
 
-describe('sdks.do SDK - Unit Tests', () => {
+describe('sdk.do SDK - Unit Tests', () => {
   describe('API', () => {
     it('should create an API instance', () => {
       const api = new API()

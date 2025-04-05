@@ -27,10 +27,10 @@ export class CLI {
   }
 
   /**
-   * Login to sdks.do and store credentials
+   * Login to sdk.do and store credentials
    */
   async login(options: { token?: string } = {}): Promise<void> {
-    console.log('Logging in to sdks.do...')
+    console.log('Logging in to sdk.do...')
     return Promise.resolve()
   }
 
@@ -38,7 +38,7 @@ export class CLI {
    * Logout and remove stored credentials
    */
   async logout(): Promise<void> {
-    console.log('Logging out from sdks.do...')
+    console.log('Logging out from sdk.do...')
     return Promise.resolve()
   }
 

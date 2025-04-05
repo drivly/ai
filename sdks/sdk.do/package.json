@@ -1,5 +1,5 @@
 {
-  "name": "sdks.do",
+  "name": "sdk.do",
   "version": "0.0.1",
   "description": "SDK for publishing Functions, Workflows, and Databases to NPM",
   "keywords": [
@@ -12,13 +12,13 @@
     "typescript",
     "cli"
   ],
-  "homepage": "https://sdks.do",
+  "homepage": "https://sdk.do",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "sdks": "./dist/bin.js"
+    "sdk": "./dist/bin.js"
   },
   "exports": {
     ".": {
@@ -37,7 +37,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/sdks.do"
+    "directory": "sdks/sdk.do"
   },
   "author": "Drivly",
   "license": "MIT",
