@@ -9,7 +9,7 @@
     "tsBuildInfoFile": ".tsbuildinfo",
     "outDir": "dist",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],
