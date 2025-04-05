@@ -1,72 +1,54 @@
 export default {
   index: 'Introduction',
   manifesto: 'Manifesto',
-  // 'getting-started': 'Getting Started',
-  apis: '',
-  sdks: '',
-  _: {
+  _1: {
     type: 'separator',
-    title: 'AI' // Title is optional
+    title: 'Core Primitives'
   },
   workflows: '',
   functions: '',
-  agents: '',
+  database: '',
+  events: '',
+  integrations: '',
   _2: {
     type: 'separator',
-    title: 'Work'
+    title: 'AI'
+  },
+  agents: '',
+  apis: '',
+  _3: {
+    type: 'separator',
+    title: 'Data'
+  },
+  nouns: '',
+  verbs: '',
+  resources: '',
+  _4: {
+    type: 'separator',
+    title: 'Business'
   },
   goals: '',
   plans: '',
   tasks: '',
-  // kpis: 'KPIs',
-  _3: {
-    type: 'separator',
-    title: 'Data' // Title is optional
-  },
-  nouns: '',
-  verbs: '',
-  // database: '',
-  resources: '',
-  _4: {
-    type: 'separator',
-    title: 'Experiments' // Title is optional
-  },
-  analytics: '',
-  experiments: '',
-  events: '',
   _5: {
     type: 'separator',
-    title: 'Integrations' // Title is optional
+    title: 'Triggers & Actions'
   },
-  integrations: '',
   triggers: '',
   searches: '',
   actions: '',
   _6: {
     type: 'separator',
-    title: 'Evals' // Title is optional
+    title: 'Measurement'
   },
+  analytics: '',
+  experiments: '',
   benchmarks: '',
-  datasets: '',
   evals: '',
-  // experiments: '',
+  datasets: '',
   _7: {
     type: 'separator',
-    title: 'Deploy' // Title is optional
+    title: 'Deploy'
   },
   code: '',
-  _8: {
-    type: 'separator',
-    title: 'Operate' // Title is optional
-  },
-  // data: '',
-  // things: '',
-  // llm: '',
-  // observability: '',
-  // traces: '',
-  // evals: '',
-  // experiments: '',
-  // admin: '',
-  // api: 'API Reference',
-  // code: '',
 }
