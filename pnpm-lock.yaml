@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@peculiar/asn1-ecc': 2.3.14
-
 importers:
 
   .:
