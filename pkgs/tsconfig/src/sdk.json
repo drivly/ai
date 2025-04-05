@@ -8,11 +8,13 @@
     "declaration": true,
     "noEmit": false,
     "incremental": false,
+    "composite": false,
     "baseUrl": ".",
+    "rootDir": "../../../",
     "paths": {
       "@/*": ["./src/*"],
-      "apis.do": ["../../sdks/apis.do/dist/index"],
-      "apis.do/types": ["../../sdks/apis.do/dist/types"]
+      "apis.do": ["../../../sdks/apis.do"],
+      "apis.do/types": ["../../../sdks/apis.do/types"]
     }
   },
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
