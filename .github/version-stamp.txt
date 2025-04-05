@@ -1,3 +1,2 @@
-# Version Stamp
-# This file is updated by the version-pr workflow to trigger the release workflow
-# Do not modify this file manually
+# Version Stamp - Updated on Sat Apr  5 13:30:38 UTC 2025
+# This file triggers the release workflow when merged to main
