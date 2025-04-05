@@ -1,4 +1,4 @@
-import { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
+import type { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin/src/types'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
 import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/plugins'
@@ -6,11 +6,16 @@ import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import { getCurrentURL } from '../utils/url'
 
-export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), 
-  oAuthProxy({ 
-  productionURL: 'https://apis.do',
-  currentURL: getCurrentURL()
-})
+export const betterAuthPlugins = [
+  admin(),
+  apiKey(),
+  multiSession(),
+  openAPI(),
+  nextCookies(),
+  oAuthProxy({
+    productionURL: 'https://apis.do',
+    currentURL: getCurrentURL(),
+  }),
 ]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
@@ -102,7 +107,7 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
     adminRoles: ['admin'],
     allowedFields: ['name'],
     blockFirstBetterAuthVerificationEmail: true,
-    collectionOverrides: ({ collection }) => {
+    collectionOverrides: ({ collection }: { collection: CollectionConfig }) => {
       return {
         ...collection,
         admin: {
