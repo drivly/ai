@@ -1,6 +1,6 @@
 {
   "name": "functions.do",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
   "keywords": [
     "functions",

@@ -1,6 +1,6 @@
 {
   "name": "workflows.do",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "SDK for creating AI-powered workflows with strongly-typed functions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
