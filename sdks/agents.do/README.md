@@ -299,3 +299,7 @@ Check out the [examples directory](https://github.com/drivly/ai/tree/main/exampl
 ## License
 
 [MIT](https://opensource.org/licenses/MIT)
+
+## Dependencies
+
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem

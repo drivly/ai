@@ -517,3 +517,10 @@ export default AI({
 ## License
 
 MIT
+
+## Dependencies
+
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem
+- [functions.do](https://www.npmjs.com/package/functions.do) - AI-powered Functions-as-a-Service
+- [database.do](https://www.npmjs.com/package/database.do) - AI Native Data Access
+- [durable-objects-nosql](https://www.npmjs.com/package/durable-objects-nosql) - NoSQL database for Cloudflare Workers
