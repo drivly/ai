@@ -463,6 +463,22 @@ importers:
         specifier: ^3.0.9
         version: 3.0.9(@types/debug@4.1.12)(@types/node@22.13.13)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
+  pkgs/ai-workflows:
+    dependencies:
+      ai-functions:
+        specifier: workspace:*
+        version: link:../ai-functions
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.13.14
+      rimraf:
+        specifier: ^5.0.0
+        version: 5.0.10
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.2
+
   pkgs/better-auth-db-adapter:
     devDependencies:
       '@changesets/cli':
@@ -779,11 +795,70 @@ importers:
         specifier: ^5.8.2
         version: 5.8.2
 
-  pkgs/payload-hooks-queue:
-    devDependencies:
+  pkgs/payload-commandbar:
+    dependencies:
+      '@drivly/ui':
+        specifier: workspace:*
+        version: link:../ui
       payload:
         specifier: ^3.33.0
         version: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
+      react:
+        specifier: ^18.0.0 || ^19.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: ^18.0.0 || ^19.0.0
+        version: 19.0.0(react@19.0.0)
+    devDependencies:
+      '@types/react':
+        specifier: 19.0.7
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.7)
+      tsup:
+        specifier: ^8.4.0
+        version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
+      typescript:
+        specifier: ^5.8.2
+        version: 5.8.2
+
+  pkgs/payload-hooks-queue:
+    devDependencies:
+      eslint-config:
+        specifier: workspace:*
+        version: link:../eslint-config
+      payload:
+        specifier: ^3.33.0
+        version: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
+
+  pkgs/payload-theme:
+    dependencies:
+      '@drivly/ui':
+        specifier: workspace:*
+        version: link:../ui
+      payload:
+        specifier: ^3.33.0
+        version: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
+      react:
+        specifier: ^18.0.0 || ^19.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: ^18.0.0 || ^19.0.0
+        version: 19.0.0(react@19.0.0)
+    devDependencies:
+      '@types/react':
+        specifier: 19.0.7
+        version: 19.0.7
+      '@types/react-dom':
+        specifier: 19.0.3
+        version: 19.0.3(@types/react@19.0.7)
+      tsup:
+        specifier: ^8.4.0
+        version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
+      typescript:
+        specifier: ^5.8.2
+        version: 5.8.2
 
   pkgs/payload-utils:
     dependencies:
@@ -866,6 +941,25 @@ importers:
         specifier: ^5.0.0
         version: 5.8.2
 
+  pkgs/payload-zapier-apps:
+    dependencies:
+      payload:
+        specifier: ^3.0.0
+        version: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
+    devDependencies:
+      '@types/node':
+        specifier: ^22.0.0
+        version: 22.13.14
+      tsup:
+        specifier: ^8.0.0
+        version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.2
+      vitest:
+        specifier: ^3.0.0
+        version: 3.0.9(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+
   pkgs/simple-payload:
     dependencies:
       payload-rest-client:
@@ -875,6 +969,8 @@ importers:
       payload:
         specifier: ^3.33.0
         version: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
+
+  pkgs/tsconfig: {}
 
   pkgs/ui:
     dependencies:
