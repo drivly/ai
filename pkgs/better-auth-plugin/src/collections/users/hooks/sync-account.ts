@@ -1,5 +1,5 @@
 import type { CollectionAfterChangeHook } from 'payload'
-import type { CollectionHookWithBetterAuth } from '../../../types'
+import type { CollectionHookWithBetterAuth } from '@/types'
 import { BETTER_AUTH_CONTEXT_KEY } from '@payload-auth/better-auth-db-adapter'
 
 type CollectionAfterChangeHookWithBetterAuth =
