@@ -1,13 +1,8 @@
 {
-  "extends": "../../pkgs/tsconfig/src/base.json",
+  "extends": "../../pkgs/tsconfig/src/sdk.json",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
     "outDir": "./dist",
-    "declaration": true,
-    "paths": {
-      "@/*": ["./*"]
-    }
+    "declaration": true
   },
   "include": ["*.ts", "src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

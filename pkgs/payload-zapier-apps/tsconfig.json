@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "outDir": "./dist",
     "declaration": true,
+    "incremental": false,
     "paths": {
       "@/*": ["./src/*"]
     }

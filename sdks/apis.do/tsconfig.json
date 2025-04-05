@@ -1,13 +1,14 @@
 {
   "extends": "../../pkgs/tsconfig/src/base.json",
   "compilerOptions": {
-    "module": "Node16",
-    "moduleResolution": "node16",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "declaration": true,
     "outDir": "dist",
     "jsx": "react",
     "resolveJsonModule": true,
     "composite": true,
+    "incremental": false,
     "paths": {
       "@/*": ["./*"]
     }
