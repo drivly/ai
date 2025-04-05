@@ -1,27 +1,23 @@
----
-title: sdks.do
----
-
-# sdks.do
+# sdk.do
 
 SDK for publishing Functions, Workflows, and Databases to NPM.
 
 ## Installation
 
 ```bash
-npm install sdks.do
+npm install sdk.do
 # or
-yarn add sdks.do
+yarn add sdk.do
 # or
-pnpm add sdks.do
+pnpm add sdk.do
 ```
 
 ## Usage
 
 ### JavaScript/TypeScript SDK
 
-```text
-import { api } from 'sdks.do'
+```typescript
+import { api } from 'sdk.do'
 
 // List all packages
 const packages = await api.listPackages()
@@ -38,17 +34,17 @@ const newPackage = await api.createPackage({
     files: ['dist', 'README.md'],
     license: 'MIT'
   },
-  items: [
-    { type: 'functions' },
-    { type: 'workflows' }
+  collections: [
+    { collection: 'functions' },
+    { collection: 'workflows' }
   ]
 })
 
-// Add an item to a package
-await api.addItemToPackage('package-id', 'databases')
+// Add a collection to a package
+await api.addCollectionToPackage('package-id', 'databases')
 
-// Remove an item from a package
-await api.removeItemFromPackage('package-id', 'databases')
+// Remove a collection from a package
+await api.removeCollectionFromPackage('package-id', 'databases')
 
 // Update package.json for a package
 await api.updatePackageJson('package-id', {
@@ -67,25 +63,25 @@ The SDK includes a CLI for managing packages from the command line.
 
 ```bash
 # Initialize a new package
-sdks init my-package
+sdk init my-package
 
-# Login to sdks.do
-sdks login <token>
+# Login to sdk.do
+sdk login <token>
 
 # List all packages
-sdks list
+sdk list
 
 # Create a new package with collections
-sdks create my-package functions workflows
+sdk create my-package functions workflows
 
 # Add a collection to a package
-sdks add <package-id> databases
+sdk add <package-id> databases
 
 # Remove a collection from a package
-sdks remove <package-id> databases
+sdk remove <package-id> databases
 
 # Publish a package to NPM
-sdks publish <package-id> --tag=latest
+sdk publish <package-id> --tag=latest
 ```
 
 ## API Reference
@@ -128,13 +124,13 @@ List all workflows.
 
 List all databases.
 
-#### `addItemToPackage(packageId: string, itemType: string): Promise<any>`
+#### `addCollectionToPackage(packageId: string, collection: string): Promise<any>`
 
-Add an item to a package.
+Add a collection to a package.
 
-#### `removeItemFromPackage(packageId: string, itemType: string): Promise<any>`
+#### `removeCollectionFromPackage(packageId: string, collection: string): Promise<any>`
 
-Remove an item from a package.
+Remove a collection from a package.
 
 #### `updatePackageJson(packageId: string, packageJson: any): Promise<any>`
 
@@ -148,7 +144,7 @@ Initialize a new package.
 
 #### `login(options: { token?: string }): Promise<void>`
 
-Login to sdks.do and store credentials.
+Login to sdk.do and store credentials.
 
 #### `logout(): Promise<void>`
 
@@ -162,13 +158,13 @@ List all packages.
 
 Create a new package.
 
-#### `addItem(packageId: string, itemType: string): Promise<any>`
+#### `addCollection(packageId: string, collection: string): Promise<any>`
 
-Add an item to a package.
+Add a collection to a package.
 
-#### `removeItem(packageId: string, itemType: string): Promise<any>`
+#### `removeCollection(packageId: string, collection: string): Promise<any>`
 
-Remove an item from a package.
+Remove a collection from a package.
 
 #### `updatePackageJson(packageId: string, packageJson: any): Promise<any>`
 
@@ -182,13 +178,13 @@ Publish a package to NPM.
 
 ### Package
 
-```text
+```typescript
 interface Package {
   id: string
   name: string
   package: any
-  items: Array<{
-    type: string
+  collections: Array<{
+    collection: string
   }>
 }
 ```
@@ -205,3 +201,7 @@ interface PublishOptions {
 ## License
 
 MIT
+
+## Dependencies
+
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem

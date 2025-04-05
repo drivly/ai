@@ -68,6 +68,7 @@ export const apis: Record<string, string> = {
   experiments: 'Test and Iterate AI Components',
   integrations: 'Connect External APIs and Systems',
   models: 'AI Model Selection and Management',
+  workers: 'Cloudflare Workers API',
 }
 
 export const related: Record<string, string[]> = {

@@ -1,0 +1,43 @@
+{
+  "name": "analytics.do",
+  "version": "0.0.1",
+  "description": "A framework for collecting, analyzing, and acting on user feedback and analytics data",
+  "keywords": [
+    "analytics",
+    "user feedback",
+    "experimental design",
+    "a/b testing",
+    "ai",
+    "evaluation"
+  ],
+  "homepage": "https://analytics.do",
+  "type": "module",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/analytics.do"
+  },
+  "author": "Drivly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "vitest run tests/e2e/**/*.test.ts"
+  },
+  "devDependencies": {
+    "evalite": "^0.9.1",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "apis.do": "workspace:*"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

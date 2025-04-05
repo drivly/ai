@@ -52,5 +52,8 @@
   },
   "dependencies": {
     "apis.do": "workspace:*"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

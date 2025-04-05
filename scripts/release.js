@@ -11,14 +11,28 @@ import fs from 'fs';
 
 const DRY_RUN = process.argv.includes('--dry-run');
 const SDK_PACKAGES = [
-  'sdks/apis.do',
-  'sdks/functions.do',
-  'sdks/workflows.do',
-  'sdks/database.do',
-  'sdks/models.do',
-  'sdks/evals.do',
+  'sdks/actions.do',
   'sdks/agents.do',
-  'sdks/llm.do'
+  'sdks/analytics.do',
+  'sdks/apis.do',
+  'sdks/database.do',
+  'sdks/evals.do',
+  'sdks/experiments.do',
+  'sdks/functions.do',
+  'sdks/goals.do',
+  'sdks/gpt.do',
+  'sdks/integrations.do',
+  'sdks/llm.do',
+  'sdks/mcp.do',
+  'sdks/models.do',
+  'sdks/plans.do',
+  'sdks/projects.do',
+  'sdks/sdk.do',
+  'sdks/sdks.do',
+  'sdks/searches.do',
+  'sdks/tasks.do',
+  'sdks/triggers.do',
+  'sdks/workflows.do'
 ];
 
 console.log(`Running release script in ${DRY_RUN ? 'dry run' : 'release'} mode`);
@@ -59,7 +73,36 @@ const runSemanticRelease = (packagePath) => {
   console.log(`Processing package: ${packageJson.name}`);
   
   try {
-    const cmd = `npx semantic-release ${DRY_RUN ? '--dry-run' : ''} --extends=${path.resolve(process.cwd(), 'multi-semantic-release.config.js')}`;
+    const tempConfigPath = path.resolve(process.cwd(), 'temp-semantic-release-config.cjs');
+    const configContent = `
+      module.exports = {
+        branches: ['main'],
+        ignorePrivatePackages: true,
+        plugins: [
+          ['@semantic-release/commit-analyzer', {
+            preset: 'angular',
+            releaseRules: [
+              {type: 'feat', release: 'patch'},
+              {type: 'fix', release: 'patch'},
+              {type: 'docs', release: 'patch'},
+              {type: 'style', release: 'patch'},
+              {type: 'refactor', release: 'patch'},
+              {type: 'perf', release: 'patch'},
+              {type: 'test', release: 'patch'},
+              {type: 'build', release: 'patch'},
+              {type: 'ci', release: 'patch'},
+              {type: 'chore', release: 'patch'}
+            ]
+          }],
+          '@semantic-release/release-notes-generator',
+          '@semantic-release/npm',
+          '@semantic-release/github'
+        ]
+      };
+    `;
+    fs.writeFileSync(tempConfigPath, configContent, 'utf8');
+    
+    const cmd = `npx semantic-release ${DRY_RUN ? '--dry-run' : ''} --extends=${tempConfigPath}`;
     console.log(`Running: ${cmd} in ${packagePath}`);
     
     if (!DRY_RUN) {
@@ -71,6 +114,10 @@ const runSemanticRelease = (packagePath) => {
           FORCE_PATCH_RELEASE: 'true'
         }
       });
+      
+      if (fs.existsSync(tempConfigPath)) {
+        fs.unlinkSync(tempConfigPath);
+      }
     } else {
       console.log(`[DRY RUN] Would run semantic-release in ${packagePath}`);
     }

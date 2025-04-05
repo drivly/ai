@@ -23,6 +23,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "payload": "^3.32.0"
+    "payload": "^3.33.0"
   }
 }

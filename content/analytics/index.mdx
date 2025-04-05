@@ -21,7 +21,7 @@ Analytics provides a framework for measuring, analyzing, and reporting on the bu
 
 ## Usage
 
-```typescript
+```text
 import { trackMetric, defineExperiment } from 'analytics.do'
 
 // Define an A/B test experiment
@@ -62,3 +62,24 @@ await analytics.updateKpiDashboard({
   },
 })
 ```
+
+## React Integration
+
+For React applications, you can use the Analytics component to automatically track page views:
+
+```text
+import { Analytics } from 'analytics.do'
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <>
+      <Component {...pageProps} />
+      <Analytics />
+    </>
+  )
+}
+```
+
+## Server-Side Integration
+
+For server-side analytics collection, the SDK integrates with our Clickhouse-based analytics service, which handles data storage, processing, and visualization.

@@ -44,14 +44,33 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "actions.do": "workspace:*",
+    "analytics.do": "workspace:*",
     "apis.do": "workspace:*",
-    "functions.do": "workspace:*",
     "database.do": "workspace:*",
-    "durable-objects-nosql": "workspace:*"
+    "durable-objects-nosql": "workspace:*",
+    "evals.do": "workspace:*",
+    "experiments.do": "workspace:*",
+    "functions.do": "workspace:*",
+    "goals.do": "workspace:*",
+    "gpt.do": "workspace:*",
+    "integrations.do": "workspace:*",
+    "llm.do": "workspace:*",
+    "mcp.do": "workspace:*",
+    "models.do": "workspace:*",
+    "plans.do": "workspace:*",
+    "projects.do": "workspace:*",
+    "searches.do": "workspace:*",
+    "sdks.do": "workspace:*",
+    "tasks.do": "workspace:*",
+    "triggers.do": "workspace:*"
   },
   "devDependencies": {
     "evalite": "^0.9.1",
     "typescript": "^5.0.0",
     "vitest": "^3.0.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

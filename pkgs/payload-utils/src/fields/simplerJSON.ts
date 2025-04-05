@@ -1,15 +1,28 @@
 import yaml from 'yaml'
-import type { Field } from 'payload'
+import type { Condition, Field } from 'payload'
 
-let json5: any
+type JSON5Interface = {
+  parse: typeof JSON.parse;
+  stringify: (obj: unknown, options?: unknown) => string;
+  default?: {
+    parse: typeof JSON.parse;
+    stringify: (obj: unknown, options?: unknown) => string;
+  };
+}
+
+let json5: {
+  parse: typeof JSON.parse;
+  stringify: (obj: unknown, options?: unknown) => string;
+}
 
 try {
-  json5 = await import('json5')
+  const importedJson5 = await import('json5') as JSON5Interface
+  json5 = importedJson5.default || importedJson5
 } catch (error) {
   console.warn('JSON5 not available, falling back to JSON')
   json5 = {
     parse: JSON.parse,
-    stringify: (obj: any, options?: any) => JSON.stringify(obj, null, 2)
+    stringify: (obj: unknown, options?: unknown) => JSON.stringify(obj, null, 2)
   }
 }
 
@@ -22,7 +35,7 @@ type SimplerJSONOptions = {
   
   defaultFormat?: SchemaFormat
   
-  adminCondition?: (data: any) => boolean
+  adminCondition?: Condition
   editorOptions?: {
     lineNumbers?: 'on' | 'off'
     padding?: {
@@ -122,5 +135,5 @@ export const simplerJSON = ({
         hidden: hideJsonField,
       },
     },
-  ]
+  ] satisfies Field[]
 }

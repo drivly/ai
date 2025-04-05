@@ -61,5 +61,8 @@
     "apis.do": "workspace:*",
     "durable-objects-nosql": "workspace:*",
     "workflows.do": "workspace:*"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
