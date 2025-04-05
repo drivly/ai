@@ -319,3 +319,7 @@ pnpm test:e2e
 ```
 
 End-to-end tests will be skipped if required credentials are not provided.
+
+## Dependencies
+
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem
