@@ -1,7 +1,7 @@
 'use client'
 
 import { useChat } from '@ai-sdk/react'
-import { createRequiredContext } from '@drivly/ui/hooks'
+import { createRequiredContext } from '../ui/hooks'
 import type { UIMessage } from 'ai'
 import React from 'react'
 
