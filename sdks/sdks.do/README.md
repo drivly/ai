@@ -201,3 +201,7 @@ interface PublishOptions {
 ## License
 
 MIT
+
+## Dependencies
+
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem
