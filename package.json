@@ -160,7 +160,10 @@
       "@vercel/speed-insights",
       "esbuild",
       "sharp"
-    ]
+    ],
+    "overrides": {
+      "@peculiar/asn1-ecc": "2.3.14"
+    }
   },
   "workspaces": [
     "api/*",
