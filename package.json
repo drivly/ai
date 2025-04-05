@@ -10,6 +10,7 @@
     "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "lint": "turbo lint",
+    "lint:file": "eslint",
     "semantic-release": "node scripts/release.js",
     "version-pr": "node scripts/release.js --dry-run",
     "release": "pnpm build && pnpm semantic-release",
@@ -188,7 +189,7 @@
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": [
-      "eslint",
+      "pnpm lint:file",
       "prettier --write"
     ],
     "**/*.{md,mdx}": [
