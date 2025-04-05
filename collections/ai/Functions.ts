@@ -3,7 +3,7 @@ import yaml from 'yaml'
 import { generateFunctionExamplesTask } from '../../tasks/ai/generateFunctionExamples'
 import { simplerJSON } from '../../pkgs/payload-utils'
 
-export const Functions: any = {
+export const Functions: CollectionConfig = {
   slug: 'functions',
   admin: {
     group: 'AI',
