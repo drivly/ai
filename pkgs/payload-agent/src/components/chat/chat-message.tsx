@@ -41,7 +41,7 @@ export const ChatMessage = ({ chatId, attachments, parts, role }: ChatMessagePro
         className='size-7 bg-transparent font-bold'
       />
 
-      <motion.div initial={{ y: 5, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className={cn('text-primary flex flex-col max-w-[90%] flex-1 space-y-3')}>
+      <motion.div initial={{ y: 5, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className={cn('text-primary flex max-w-[90%] flex-1 flex-col space-y-3')}>
         {parts.map((part, index) => {
           switch (part.type) {
             case 'text': {

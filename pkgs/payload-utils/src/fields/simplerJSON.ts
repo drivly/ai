@@ -2,27 +2,27 @@ import yaml from 'yaml'
 import type { Condition, Field } from 'payload'
 
 type JSON5Interface = {
-  parse: typeof JSON.parse;
-  stringify: (obj: unknown, options?: unknown) => string;
+  parse: typeof JSON.parse
+  stringify: (obj: unknown, options?: unknown) => string
   default?: {
-    parse: typeof JSON.parse;
-    stringify: (obj: unknown, options?: unknown) => string;
-  };
+    parse: typeof JSON.parse
+    stringify: (obj: unknown, options?: unknown) => string
+  }
 }
 
 let json5: {
-  parse: typeof JSON.parse;
-  stringify: (obj: unknown, options?: unknown) => string;
+  parse: typeof JSON.parse
+  stringify: (obj: unknown, options?: unknown) => string
 }
 
 try {
-  const importedJson5 = await import('json5') as JSON5Interface
+  const importedJson5 = (await import('json5')) as JSON5Interface
   json5 = importedJson5.default || importedJson5
 } catch (error) {
   console.warn('JSON5 not available, falling back to JSON')
   json5 = {
     parse: JSON.parse,
-    stringify: (obj: unknown, options?: unknown) => JSON.stringify(obj, null, 2)
+    stringify: (obj: unknown, options?: unknown) => JSON.stringify(obj, null, 2),
   }
 }
 
@@ -32,9 +32,9 @@ type SimplerJSONOptions = {
   jsonFieldName?: string
   codeFieldName?: string
   label?: string
-  
+
   defaultFormat?: SchemaFormat
-  
+
   adminCondition?: Condition
   editorOptions?: {
     lineNumbers?: 'on' | 'off'
@@ -43,7 +43,7 @@ type SimplerJSONOptions = {
       bottom?: number
     }
   }
-  
+
   hideJsonField?: boolean
 }
 
@@ -51,7 +51,7 @@ type SimplerJSONOptions = {
  * Creates a pair of fields for schema editing:
  * 1. A code field for editing in YAML or JSON5 format
  * 2. A JSON field for storing the parsed data
- * 
+ *
  * The function handles conversion between formats and validation.
  */
 export const simplerJSON = ({
@@ -60,14 +60,14 @@ export const simplerJSON = ({
   label = 'Schema',
   defaultFormat = 'yaml',
   adminCondition = () => true,
-  editorOptions = { 
-    lineNumbers: 'off', 
-    padding: { top: 20, bottom: 20 } 
+  editorOptions = {
+    lineNumbers: 'off',
+    padding: { top: 20, bottom: 20 },
   },
-  hideJsonField = true
+  hideJsonField = true,
 }: SimplerJSONOptions = {}): Field[] => {
   const language = defaultFormat === 'yaml' ? 'yaml' : 'json'
-  
+
   return [
     {
       name: codeFieldName,
@@ -84,13 +84,13 @@ export const simplerJSON = ({
             if (value && typeof value === 'string' && value.trim()) {
               try {
                 let jsonData
-                
+
                 if (language === 'yaml') {
                   jsonData = yaml.parse(value)
                 } else {
                   jsonData = json5.parse(value)
                 }
-                
+
                 siblingData[jsonFieldName] = jsonData
               } catch (error) {
                 return `Invalid ${language.toUpperCase()} format`

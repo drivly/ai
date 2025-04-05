@@ -400,7 +400,7 @@ graph TD
     Predicates -->|Predicate| Actions
     Resources -->|Object| Actions
     Databases -->|stores| Resources
-    
+
     style Nouns fill:#f9f,stroke:#333,stroke-width:2px
     style Verbs fill:#bbf,stroke:#333,stroke-width:2px
     style Resources fill:#ff9,stroke:#333,stroke-width:2px
@@ -410,6 +410,7 @@ graph TD
 ```
 
 For example:
+
 - "Customer purchased Product"
 - "Developer deployed Application"
 - "Startup acquired Funding"
@@ -462,9 +463,9 @@ const saasProduct = await db.resources.create({
 
 // Create an Action (Subject-Predicate-Object relationship)
 const purchaseAction = await db.actions.create({
-  subject: startupCustomer.id,  // The customer (Subject)
-  verb: purchaseVerb.id,        // The purchase action (Predicate)
-  object: saasProduct.id,       // The product (Object)
+  subject: startupCustomer.id, // The customer (Subject)
+  verb: purchaseVerb.id, // The purchase action (Predicate)
+  object: saasProduct.id, // The product (Object)
   metadata: {
     timestamp: new Date(),
     amount: 499.99,

@@ -1,12 +1,6 @@
 import { ApiClient } from './api'
 import { Agent as CloudflareAgent, AgentNamespace } from 'agents'
-import type { 
-  AgentConfig, 
-  AgentResponse, 
-  AgentClientOptions, 
-  AgentExecutionOptions, 
-  AgentExecutionResult 
-} from '../types'
+import type { AgentConfig, AgentResponse, AgentClientOptions, AgentExecutionOptions, AgentExecutionResult } from '../types'
 
 export * from '../types'
 
@@ -48,11 +42,7 @@ export class AgentsClient {
     })
   }
 
-  async execute<T = any>(
-    agentId: string, 
-    input: Record<string, any>, 
-    options?: AgentExecutionOptions
-  ): Promise<AgentExecutionResult> {
+  async execute<T = any>(agentId: string, input: Record<string, any>, options?: AgentExecutionOptions): Promise<AgentExecutionResult> {
     return this.api.post(`/api/agents/${agentId}/execute`, {
       input,
       options,

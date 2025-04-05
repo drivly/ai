@@ -58,7 +58,8 @@ function PromptInput({ className, isLoading = false, maxHeight = 240, value, onV
           setValue: onValueChange ?? handleChange,
           maxHeight,
           onSubmit,
-        }}>
+        }}
+      >
         <div className={cn('border-input bg-background rounded-3xl border p-2 shadow-xs', className)}>{children}</div>
       </PromptInputContext.Provider>
     </TooltipProvider>
@@ -96,7 +97,10 @@ function PromptInputTextarea({ className, onKeyDown, disableAutosize = false, ..
       value={value}
       onChange={(e) => setValue(e.target.value)}
       onKeyDown={handleKeyDown}
-      className={cn('text-primary min-h-[44px] w-full resize-none border-none bg-transparent shadow-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none', className)}
+      className={cn(
+        'text-primary min-h-[44px] w-full resize-none border-none bg-transparent shadow-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none',
+        className,
+      )}
       rows={1}
       disabled={disabled}
       {...props}

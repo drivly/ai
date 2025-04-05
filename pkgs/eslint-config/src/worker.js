@@ -7,7 +7,7 @@ export default [
     rules: {
       'no-restricted-globals': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
-      'no-unused-vars': 'off'
+      'no-unused-vars': 'off',
     },
     languageOptions: {
       globals: {
@@ -21,8 +21,8 @@ export default [
         addEventListener: 'readonly',
         crypto: 'readonly',
         caches: 'readonly',
-        WebSocketPair: 'readonly'
-      }
-    }
-  }
+        WebSocketPair: 'readonly',
+      },
+    },
+  },
 ]

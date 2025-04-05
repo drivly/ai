@@ -8,8 +8,8 @@ vi.mock('apis.do', () => ({
     getById: vi.fn(),
     create: vi.fn(),
     update: vi.fn(),
-    remove: vi.fn()
-  }
+    remove: vi.fn(),
+  },
 }))
 
 describe('triggers.do SDK', () => {
@@ -23,7 +23,7 @@ describe('triggers.do SDK', () => {
       vi.mocked(api.list).mockResolvedValue(mockTriggers)
 
       const result = await triggers.list()
-      
+
       expect(api.list).toHaveBeenCalledWith('triggers', undefined)
       expect(result).toEqual(mockTriggers.data)
     })
@@ -33,7 +33,7 @@ describe('triggers.do SDK', () => {
       vi.mocked(api.getById).mockResolvedValue(mockTrigger)
 
       const result = await triggers.get('123')
-      
+
       expect(api.getById).toHaveBeenCalledWith('triggers', '123')
       expect(result).toEqual(mockTrigger)
     })
@@ -43,7 +43,7 @@ describe('triggers.do SDK', () => {
       vi.mocked(api.create).mockResolvedValue(mockTrigger)
 
       const result = await triggers.create({ name: 'test-trigger' })
-      
+
       expect(api.create).toHaveBeenCalledWith('triggers', { name: 'test-trigger' })
       expect(result).toEqual(mockTrigger)
     })
@@ -53,7 +53,7 @@ describe('triggers.do SDK', () => {
       vi.mocked(api.update).mockResolvedValue(mockTrigger)
 
       const result = await triggers.update('123', { name: 'updated-trigger' })
-      
+
       expect(api.update).toHaveBeenCalledWith('triggers', '123', { name: 'updated-trigger' })
       expect(result).toEqual(mockTrigger)
     })
@@ -63,7 +63,7 @@ describe('triggers.do SDK', () => {
       vi.mocked(api.remove).mockResolvedValue(mockTrigger)
 
       const result = await triggers.delete('123')
-      
+
       expect(api.remove).toHaveBeenCalledWith('triggers', '123')
       expect(result).toEqual(mockTrigger)
     })

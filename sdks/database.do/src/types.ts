@@ -2,8 +2,8 @@
  * Types for database.do SDK
  */
 
-import { ClientOptions, QueryParams, ErrorResponse, ListResponse } from 'apis.do';
-export type { ClientOptions, QueryParams, ErrorResponse, ListResponse };
+import { ClientOptions, QueryParams, ErrorResponse, ListResponse } from 'apis.do'
+export type { ClientOptions, QueryParams, ErrorResponse, ListResponse }
 
 /**
  * Field types supported by the database

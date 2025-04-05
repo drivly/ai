@@ -60,7 +60,7 @@ export const actions = {
    */
   execute: async (id: string, params?: Record<string, any>): Promise<any> => {
     return api.post<any>(`/api/actions/${id}/execute`, params)
-  }
+  },
 }
 
 export * from './types.js'
