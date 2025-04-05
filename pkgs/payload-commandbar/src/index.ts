@@ -16,9 +16,8 @@ export const commandBarPlugin = (options: CommandBarOptions = {}) => {
   return {
     name: 'commandBarPlugin',
     admin: {
-      components: {
-      }
-    }
+      components: {},
+    },
   }
 }
 

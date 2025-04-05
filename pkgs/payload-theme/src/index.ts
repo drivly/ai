@@ -28,9 +28,8 @@ export const themePlugin = (options: ThemeOptions = {}) => {
   return {
     name: 'themePlugin',
     admin: {
-      components: {
-      }
-    }
+      components: {},
+    },
   }
 }
 

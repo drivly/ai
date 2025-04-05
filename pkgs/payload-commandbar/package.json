@@ -11,7 +11,7 @@
     "dist/**/*"
   ],
   "scripts": {
-    "build": "tsup --format esm --dts",
+    "build": "tsup src/index.ts --format esm --dts",
     "clean": "rimraf dist",
     "lint": "eslint ."
   },
