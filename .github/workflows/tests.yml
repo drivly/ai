@@ -30,7 +30,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run Typecheck
-        run: pnpm typecheck || echo "Typecheck failed but continuing with tests"
+        run: pnpm typecheck
 
       - name: Run Tests
         run: pnpm test

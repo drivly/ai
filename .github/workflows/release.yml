@@ -36,7 +36,7 @@ jobs:
         run: pnpm build
         
       - name: Run Typecheck
-        run: pnpm typecheck || echo "Typecheck failed but continuing with tests"
+        run: pnpm typecheck
         
       - name: Run tests
         run: pnpm test
