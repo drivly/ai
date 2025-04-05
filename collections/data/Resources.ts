@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { simplerJSON } from '@/lib/fields/simplerJSON'
+import { simplerJSON } from '../../pkgs/payload-utils/src'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
@@ -24,7 +24,7 @@ export const Resources: CollectionConfig = {
       label: 'Data',
       defaultFormat: 'yaml',
       editorOptions: { padding: { top: 20, bottom: 20 } }
-    }) as any,
+    }),
     { name: 'embedding', type: 'json', admin: { hidden: true }, index: false },
     { name: 'subjectOf', type: 'relationship', relationTo: 'actions', hasMany: true },
     { name: 'objectOf', type: 'relationship', relationTo: 'actions', hasMany: true },

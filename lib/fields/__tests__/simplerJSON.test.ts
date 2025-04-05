@@ -1,4 +1,4 @@
-import { simplerJSON } from '../simplerJSON'
+import { simplerJSON } from '../../../pkgs/payload-utils/src/fields/simplerJSON'
 import type { Field } from 'payload'
 
 describe('simplerJSON', () => {
