@@ -1,6 +1,9 @@
 import { BasePayload } from 'payload'
 import { betterAuthPlugins } from './options'
-import type { BetterAuthReturn } from '@payload-auth/better-auth-plugin/dist/types'
+type BetterAuthReturn<T> = {
+  api: any
+  $Infer: any
+}
 
 export type PayloadWithBetterAuth = BasePayload & {
   betterAuth: BetterAuthReturn<typeof betterAuthPlugins>
