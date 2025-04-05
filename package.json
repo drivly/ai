@@ -137,6 +137,7 @@
     "ignore-loader": "^0.1.2",
     "jsdom": "^26.0.0",
     "lint-staged": "^15.5.0",
+    "mongodb-memory-server": "^10.1.4",
     "multi-semantic-release": "^3.0.2",
     "node-mocks-http": "^1.16.2",
     "node-polyfill-webpack-plugin": "^4.1.0",
@@ -187,6 +188,5 @@
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
   },
-
   "packageManager": "pnpm@10.7.0"
 }

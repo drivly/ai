@@ -1,8 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
 import { Workflows } from '../../collections/ai/Workflows'
-import { getPayload } from 'payload'
-import config from '../../payload.config'
 import type { Workflow as WorkflowType } from '../../payload.types'
+import { getTestPayload } from '../setup'
 
 describe('Workflows Collection', () => {
   let payload: any
@@ -11,22 +10,13 @@ describe('Workflows Collection', () => {
     if (process.env.CI) return
     
     try {
-      payload = await getPayload({
-        config,
-      })
+      payload = await getTestPayload()
     } catch (error) {
       console.error('Error initializing Payload:', error)
     }
   })
 
   afterAll(async () => {
-    if (process.env.CI || !payload) return
-    
-    try {
-      await payload.disconnect()
-    } catch (error) {
-      console.error('Error disconnecting Payload:', error)
-    }
   })
 
   it('should have the correct slug', () => {
