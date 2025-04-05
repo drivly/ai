@@ -1292,6 +1292,12 @@ importers:
 
   sdks/workflows.do:
     dependencies:
+      actions.do:
+        specifier: workspace:*
+        version: link:../actions.do
+      analytics.do:
+        specifier: workspace:*
+        version: link:../analytics.do
       apis.do:
         specifier: workspace:*
         version: link:../apis.do
@@ -1301,9 +1307,51 @@ importers:
       durable-objects-nosql:
         specifier: workspace:*
         version: link:../../pkgs/durable-objects-nosql
+      evals.do:
+        specifier: workspace:*
+        version: link:../evals.do
+      experiments.do:
+        specifier: workspace:*
+        version: link:../experiments.do
       functions.do:
         specifier: workspace:*
         version: link:../functions.do
+      goals.do:
+        specifier: workspace:*
+        version: link:../goals.do
+      gpt.do:
+        specifier: workspace:*
+        version: link:../gpt.do
+      integrations.do:
+        specifier: workspace:*
+        version: link:../integrations.do
+      llm.do:
+        specifier: workspace:*
+        version: link:../llm.do
+      mcp.do:
+        specifier: workspace:*
+        version: link:../mcp.do
+      models.do:
+        specifier: workspace:*
+        version: link:../models.do
+      plans.do:
+        specifier: workspace:*
+        version: link:../plans.do
+      projects.do:
+        specifier: workspace:*
+        version: link:../projects.do
+      sdks.do:
+        specifier: workspace:*
+        version: link:../sdks.do
+      searches.do:
+        specifier: workspace:*
+        version: link:../searches.do
+      tasks.do:
+        specifier: workspace:*
+        version: link:../tasks.do
+      triggers.do:
+        specifier: workspace:*
+        version: link:../triggers.do
     devDependencies:
       evalite:
         specifier: ^0.9.1
