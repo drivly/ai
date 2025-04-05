@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { simplerJSON } from '../../pkgs/payload-utils/src'
+import { simplerJSON } from '../../pkgs/payload-utils'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
