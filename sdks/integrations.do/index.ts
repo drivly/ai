@@ -1,5 +1,5 @@
-import { api } from 'apis.do'
-import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration } from './types'
+import { api } from '../../apis.do/index.js'
+import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration } from './types.js'
 
 /**
  * Client for managing integrations between applications
@@ -104,4 +104,4 @@ export const actions = {
   },
 }
 
-export * from './types'
+export * from './types.js'
