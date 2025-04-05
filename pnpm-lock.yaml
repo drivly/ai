@@ -1231,6 +1231,9 @@ importers:
       '@types/react':
         specifier: 18.2.0
         version: 18.2.0
+      eslint-config:
+        specifier: workspace:*
+        version: link:../../pkgs/eslint-config
       evalite:
         specifier: ^0.9.1
         version: 0.9.1
