@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
 import { chromium, Browser, Page, Response } from 'playwright'
-import { test } from '@chromatic-com/playwright'
+import { test as chromaticTest, expect as chromaticExpect } from '@chromatic-com/playwright'
 
 describe('Documentation page', () => {
   let browser: Browser
@@ -81,6 +81,8 @@ describe('Documentation page', () => {
       // Check for heading
       const heading = await page.locator('h1')
       expect(await heading.count()).toBeGreaterThan(0)
+      
+      await chromaticExpect(page).toHaveScreenshot('docs-main-page.png')
     } catch (error) {
       // In test environment, we'll mock the response
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
@@ -129,6 +131,8 @@ describe('Documentation page', () => {
             
             const content = await page.locator('main')
             expect(await content.count()).toBe(1)
+            
+            await chromaticExpect(page).toHaveScreenshot(`docs-navigation-${i}.png`)
             
             const docsBaseUrl = baseUrl.endsWith('/') ? `${baseUrl}docs` : `${baseUrl}/docs`
             await page.goto(docsBaseUrl)

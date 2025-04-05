@@ -1,37 +1,47 @@
 {
   "name": "workflows.do",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "SDK for creating AI-powered workflows with strongly-typed functions",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "homepage": "https://workflows.do",
-  "type": "module",
-  "module": "dist/index.js",
-  "bin": {
-    "workflow": "./dist/bin.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/workflows.do"
-  },
-  "scripts": {
-    "build": "tsc",
-    "test": "vitest run"
-  },
   "keywords": [
     "ai",
     "workflows",
     "sdk",
     "typescript"
   ],
+  "homepage": "https://workflows.do",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "workflow": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/workflows.do"
+  },
   "author": "Drivly",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
   },
   "dependencies": {
     "actions.do": "workspace:*",
@@ -51,7 +61,7 @@
     "plans.do": "workspace:*",
     "projects.do": "workspace:*",
     "searches.do": "workspace:*",
-    "sdks.do": "workspace:*",
+    "sdk.do": "workspace:*",
     "tasks.do": "workspace:*",
     "triggers.do": "workspace:*"
   },

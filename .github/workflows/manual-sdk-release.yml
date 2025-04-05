@@ -1,0 +1,29 @@
+name: Manual SDK Release Trigger
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_message:
+        description: 'Message for the release commit'
+        required: false
+        default: 'chore: trigger SDK release'
+
+jobs:
+  update-version-stamp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Update SDK Version Stamp
+        run: |
+          echo "# SDK Version Stamp - Updated on $(date)" > .github/version-stamp-sdks.txt
+          echo "# This file triggers the SDK release workflow when merged to main" >> .github/version-stamp-sdks.txt
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions"
+          git add .github/version-stamp-sdks.txt
+          git commit -m "${{ github.event.inputs.release_message || 'chore: trigger SDK release' }}"
+          git push

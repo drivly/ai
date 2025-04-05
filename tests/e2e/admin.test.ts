@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
 import { chromium, Browser, Page, Response } from 'playwright'
 import { collections } from '../../collections'
-import { test } from '@chromatic-com/playwright'
+import { test as chromaticTest, expect as chromaticExpect } from '@chromatic-com/playwright'
 
 describe('Admin page', () => {
   let browser: Browser
@@ -95,6 +95,8 @@ describe('Admin page', () => {
       // Check for login page title
       const title = await page.title()
       expect(title).toContain('Login')
+      
+      await chromaticExpect(page).toHaveScreenshot('admin-login-screen.png')
     } catch (error) {
       // In test environment, we'll mock the response
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
@@ -137,6 +139,8 @@ describe('Admin page', () => {
           const header = await page.locator('header')
           expect(await header.count()).toBeGreaterThan(0)
           
+          await chromaticExpect(page).toHaveScreenshot('admin-dashboard.png')
+          
           const navLinks = ['collections', 'users', 'settings']
           
           for (const link of navLinks) {
@@ -149,6 +153,8 @@ describe('Admin page', () => {
               }
               
               await page.waitForTimeout(500)
+              
+              await chromaticExpect(page).toHaveScreenshot(`admin-${link}-section.png`)
             } catch (navError) {
               console.log(`Navigation to /admin/${link} failed, but continuing test`)
             }
@@ -214,6 +220,8 @@ describe('Admin page', () => {
             expect(await table.count() + await list.count()).toBeGreaterThan(0)
             
             await page.waitForTimeout(500)
+            
+            await chromaticExpect(page).toHaveScreenshot(`admin-collection-${slug}.png`)
           } catch (error) {
             console.log(`Navigation to collection ${slug} failed, but continuing test: ${error}`)
           }
@@ -283,6 +291,8 @@ describe('Admin page', () => {
           expect(await heading.count()).toBeGreaterThan(0)
           const headingText = await heading.first().textContent()
           expect(headingText).toContain(collection.testName)
+          
+          await chromaticExpect(page).toHaveScreenshot(`admin-${collection.slug}-document.png`)
         } catch (error) {
           console.log(`Testing collection ${collection.slug} failed, but continuing test: ${error}`)
         }
@@ -356,6 +366,8 @@ describe('Admin page', () => {
       expect(await heading.count()).toBeGreaterThan(0)
       const headingText = await heading.first().textContent()
       expect(headingText).toContain('Prompt')
+      
+      await chromaticExpect(page).toHaveScreenshot('admin-relationships-test.png')
     } catch (error) {
       // In test environment, we'll mock the response
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {

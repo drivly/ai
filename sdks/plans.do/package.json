@@ -12,11 +12,18 @@
   ],
   "homepage": "https://plans.do",
   "type": "module",
-  "module": "dist/index.js",
   "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "repository": {
     "type": "git",
@@ -28,19 +35,19 @@
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "vitest run tests/e2e/**/*.test.ts"
   },
-  "devDependencies": {
-    "vitest": "^3.0.9"
-  },
   "dependencies": {
     "apis.do": "workspace:*"
   },
-  "engines": {
-    "node": ">=18.0.0"
+  "devDependencies": {
+    "vitest": "^3.0.9"
   }
 }

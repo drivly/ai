@@ -43,20 +43,42 @@ jobs:
       - name: Check for Changes
         id: check-changes
         run: |
-          # Run version-pr in dry run mode to check for changes
-          OUTPUT=$(pnpm version-pr)
-          echo "$OUTPUT" > /tmp/version-pr-output.txt
+          # Run version-pr scripts in dry run mode to check for changes
+          SDK_OUTPUT=$(pnpm version-pr-sdks)
+          PKG_OUTPUT=$(pnpm version-pr-pkgs)
           
-          # Check if any package has changes that need versioning
-          if echo "$OUTPUT" | grep -q "The next release version is"; then
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-            echo "changes_log<<EOF" >> $GITHUB_OUTPUT
-            echo "$OUTPUT" | grep -A 2 "The next release version is" >> $GITHUB_OUTPUT
+          echo "$SDK_OUTPUT" > /tmp/sdk-version-pr-output.txt
+          echo "$PKG_OUTPUT" > /tmp/pkg-version-pr-output.txt
+          
+          # Check if SDK packages have changes
+          if echo "$SDK_OUTPUT" | grep -q "The next release version is"; then
+            echo "sdk_changes=true" >> $GITHUB_OUTPUT
+            echo "sdk_changes_log<<EOF" >> $GITHUB_OUTPUT
+            echo "$SDK_OUTPUT" | grep -A 2 "The next release version is" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
-            echo "Found changes that need versioning"
+            echo "Found SDK changes that need versioning"
+          else
+            echo "sdk_changes=false" >> $GITHUB_OUTPUT
+            echo "No SDK changes that need versioning"
+          fi
+          
+          # Check if other packages have changes
+          if echo "$PKG_OUTPUT" | grep -q "The next release version is"; then
+            echo "pkg_changes=true" >> $GITHUB_OUTPUT
+            echo "pkg_changes_log<<EOF" >> $GITHUB_OUTPUT
+            echo "$PKG_OUTPUT" | grep -A 2 "The next release version is" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            echo "Found package changes that need versioning"
+          else
+            echo "pkg_changes=false" >> $GITHUB_OUTPUT
+            echo "No package changes that need versioning"
+          fi
+          
+          # Set overall has_changes flag
+          if [[ "$SDK_OUTPUT" == *"The next release version is"* ]] || [[ "$PKG_OUTPUT" == *"The next release version is"* ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
           else
             echo "has_changes=false" >> $GITHUB_OUTPUT
-            echo "No changes that need versioning"
           fi
 
   create-version-pr:
@@ -85,11 +107,23 @@ jobs:
         
       - name: Update Version Stamp
         run: |
-          echo "# Version Stamp - Updated on $(date)" > .github/version-stamp.txt
-          echo "# This file triggers the release workflow when merged to main" >> .github/version-stamp.txt
+          # Determine if we have SDK or package changes or both
+          if [[ "${{ steps.check-changes.outputs.sdk_changes }}" == "true" ]]; then
+            echo "# SDK Version Stamp - Updated on $(date)" > .github/version-stamp-sdks.txt
+            echo "# This file triggers the SDK release workflow when merged to main" >> .github/version-stamp-sdks.txt
+            git add .github/version-stamp-sdks.txt
+            echo "SDK changes detected, creating version stamp"
+          fi
+          
+          if [[ "${{ steps.check-changes.outputs.pkg_changes }}" == "true" ]]; then
+            echo "# Package Version Stamp - Updated on $(date)" > .github/version-stamp-pkgs.txt
+            echo "# This file triggers the package release workflow when merged to main" >> .github/version-stamp-pkgs.txt
+            git add .github/version-stamp-pkgs.txt
+            echo "Package changes detected, creating version stamp"
+          fi
+          
           git config --global user.name "Drivly Bot"
           git config --global user.email "bot@driv.ly"
-          git add .github/version-stamp.txt
         
       - name: Create Release PR
         uses: peter-evans/create-pull-request@v5
