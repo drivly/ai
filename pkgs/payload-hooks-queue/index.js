@@ -1,1 +1,1 @@
-export { createHooksQueuePlugin } from './dist/index.js';
+export { createHooksQueuePlugin } from './dist/index.js'

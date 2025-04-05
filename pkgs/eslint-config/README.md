@@ -43,7 +43,7 @@ export default [
     // Add your custom rules here
     rules: {
       // Your custom rules
-    }
-  }
+    },
+  },
 ]
 ```

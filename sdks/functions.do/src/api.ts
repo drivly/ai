@@ -31,7 +31,7 @@ export class ApiClient {
 
   constructor(options: ClientOptions = {}) {
     this.baseUrl = options.baseUrl || process.env.FUNCTIONS_API_URL || 'https://apis.do'
-    
+
     this.headers = {
       'Content-Type': 'application/json',
       ...options.headers,
@@ -42,12 +42,7 @@ export class ApiClient {
     }
   }
 
-  async request<T = any>(
-    method: string,
-    path: string,
-    data?: any,
-    queryParams?: QueryParams,
-  ): Promise<T> {
+  async request<T = any>(method: string, path: string, data?: any, queryParams?: QueryParams): Promise<T> {
     const url = new URL(path.startsWith('http') ? path : `${this.baseUrl}${path}`)
 
     if (queryParams) {
@@ -120,11 +115,7 @@ export class ApiClient {
     return this.delete<T>(`/api/${resource}/${id}`)
   }
 
-  async search<T = any>(
-    resource: string,
-    query: string,
-    queryParams?: QueryParams,
-  ): Promise<ListResponse<T>> {
+  async search<T = any>(resource: string, query: string, queryParams?: QueryParams): Promise<ListResponse<T>> {
     return this.get<ListResponse<T>>(`/api/${resource}/search`, { q: query, ...queryParams })
   }
 }

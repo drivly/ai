@@ -6,32 +6,35 @@ describe('workflows.do SDK - Unit Tests', () => {
     it('should create an AI instance with event handlers', async () => {
       const mockHandler = vi.fn()
       const ai = AI({
-        testHandler: mockHandler
+        testHandler: mockHandler,
       })
-      
+
       expect(ai.testHandler).toBeDefined()
       expect(typeof ai.testHandler).toBe('function')
-      
+
       const event = { type: 'test' }
       await ai.testHandler(event)
-      
-      expect(mockHandler).toHaveBeenCalledWith(event, expect.objectContaining({
-        ai: expect.any(Object),
-        api: expect.any(Object),
-        db: expect.any(Object)
-      }))
+
+      expect(mockHandler).toHaveBeenCalledWith(
+        event,
+        expect.objectContaining({
+          ai: expect.any(Object),
+          api: expect.any(Object),
+          db: expect.any(Object),
+        }),
+      )
     })
 
     it('should create an AI instance with function schemas', async () => {
       global.fetch = vi.fn().mockResolvedValue({
-        json: () => Promise.resolve({ result: 'test' })
+        json: () => Promise.resolve({ result: 'test' }),
       })
 
       const ai = AI({
         testFunction: {
           input: { type: 'string' },
-          output: { type: 'string' }
-        }
+          output: { type: 'string' },
+        },
       })
 
       expect(ai.testFunction).toBeDefined()
@@ -44,7 +47,7 @@ describe('workflows.do SDK - Unit Tests', () => {
   describe('createWorkflow', () => {
     it('should create a workflow instance with execute method', async () => {
       global.fetch = vi.fn().mockResolvedValue({
-        json: () => Promise.resolve({ status: 'completed', output: 'test' })
+        json: () => Promise.resolve({ status: 'completed', output: 'test' }),
       })
 
       const workflow = createWorkflow({
@@ -55,9 +58,9 @@ describe('workflows.do SDK - Unit Tests', () => {
             name: 'start',
             function: 'testFunction',
             input: { value: 'test' },
-            isFinal: true
-          }
-        }
+            isFinal: true,
+          },
+        },
       })
 
       expect(workflow.name).toBe('test-workflow')

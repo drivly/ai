@@ -73,13 +73,13 @@ The plugin will support various configuration options to customize the integrati
 ```typescript
 interface WorkOSPluginConfig {
   // Required
-  apiKey: string;
-  clientId: string;
-  
+  apiKey: string
+  clientId: string
+
   // Optional
-  redirectUri?: string;
-  organizationCollection?: string;
-  userCollection?: string;
+  redirectUri?: string
+  organizationCollection?: string
+  userCollection?: string
   // Additional options to be determined
 }
 ```

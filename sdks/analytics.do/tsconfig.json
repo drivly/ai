@@ -1,14 +1,15 @@
 {
+  "extends": "../../pkgs/tsconfig/src/base.json",
   "compilerOptions": {
-    "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "node",
-    "esModuleInterop": true,
     "declaration": true,
     "outDir": "./dist",
     "rootDir": "./",
-    "strict": true,
-    "skipLibCheck": true
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": ["src/**/*", "types.ts", "index.ts"]
+  "include": ["src/**/*", "types.ts", "index.ts"],
+  "exclude": ["node_modules", "dist"]
 }

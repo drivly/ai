@@ -13,7 +13,7 @@ cli.extend({
       action: async () => {
         const result = await integrations.list()
         console.table(result)
-      }
+      },
     },
     {
       name: 'get',
@@ -22,13 +22,13 @@ cli.extend({
         {
           name: 'service',
           description: 'Service name',
-          required: true
-        }
+          required: true,
+        },
       ],
       action: async (args) => {
         const result = await integrations.get(args.service)
         console.log(JSON.stringify(result, null, 2))
-      }
+      },
     },
     {
       name: 'connect',
@@ -37,48 +37,48 @@ cli.extend({
         {
           name: 'service',
           description: 'Service name',
-          required: true
+          required: true,
         },
         {
           name: 'auth-type',
           description: 'Authentication type (oauth, apiKey)',
-          required: true
-        }
+          required: true,
+        },
       ],
       options: [
         {
           name: '--client-id',
-          description: 'OAuth client ID'
+          description: 'OAuth client ID',
         },
         {
           name: '--client-secret',
-          description: 'OAuth client secret'
+          description: 'OAuth client secret',
         },
         {
           name: '--api-key',
-          description: 'API key for authentication'
-        }
+          description: 'API key for authentication',
+        },
       ],
       action: async (args, options) => {
         const authConfig = {}
-        
+
         if (args.authType === 'oauth') {
           authConfig.clientId = options.clientId
           authConfig.clientSecret = options.clientSecret
         } else if (args.authType === 'apiKey') {
           authConfig.apiKey = options.apiKey
         }
-        
+
         const result = await integrations.connect(args.service, {
           authType: args.authType,
-          credentials: authConfig
+          credentials: authConfig,
         })
-        
+
         console.log('Connection established:')
         console.log(JSON.stringify(result, null, 2))
-      }
-    }
-  ]
+      },
+    },
+  ],
 })
 
 cli.run()

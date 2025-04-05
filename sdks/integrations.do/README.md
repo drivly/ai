@@ -130,7 +130,7 @@ import { Integration } from 'integrations.do'
 const slackIntegration = Integration({
   name: 'slack',
   description: 'Integration with Slack messaging platform',
-  
+
   // Authentication methods
   auth: {
     oauth: {
@@ -143,7 +143,7 @@ const slackIntegration = Integration({
       prefix: 'Bearer ',
     },
   },
-  
+
   // Available operations
   operations: {
     sendMessage: {
@@ -168,7 +168,7 @@ const slackIntegration = Integration({
       },
     },
   },
-  
+
   // Event triggers
   triggers: {
     messageReceived: {
@@ -231,14 +231,17 @@ integrations.do supports various integration categories:
 integrations.do supports various trigger mechanisms to notify your system of events:
 
 1. **Webhooks**: HTTP POST requests sent to a publicly accessible URL
+
    - Example: Receive notifications when a GitHub issue is created
    - Ideal for asynchronous event handling
 
 2. **Websockets**: Persistent, real-time connections for immediate data delivery
+
    - Example: Live chat message notifications
    - Suitable for applications requiring low-latency communication
 
 3. **Scheduled**: Time-based triggers for recurring operations
+
    - Example: Run a report every Monday at 9 AM
 
 4. **Manual**: User-initiated triggers for on-demand workflows
@@ -249,15 +252,19 @@ integrations.do supports various trigger mechanisms to notify your system of eve
 Actions represent operations that can be performed on integrated systems:
 
 1. **Create**: Add new resources
+
    - Example: Create a Jira ticket, add a calendar event
 
 2. **Read**: Retrieve information
+
    - Example: Get customer details from CRM, fetch repository stats
 
 3. **Update**: Modify existing resources
+
    - Example: Update task status, edit document content
 
 4. **Delete**: Remove resources
+
    - Example: Archive completed tasks, remove calendar events
 
 5. **Custom**: Specialized operations

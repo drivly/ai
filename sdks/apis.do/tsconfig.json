@@ -1,16 +1,16 @@
 {
+  "extends": "../../pkgs/tsconfig/src/base.json",
   "compilerOptions": {
-    "target": "ES2020",
     "module": "Node16",
     "moduleResolution": "node16",
-    "esModuleInterop": true,
     "declaration": true,
     "outDir": "dist",
-    "strict": true,
-    "skipLibCheck": true,
     "jsx": "react",
     "resolveJsonModule": true,
-    "composite": true
+    "composite": true,
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": ["index.ts", "types.ts", "src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "dist"]

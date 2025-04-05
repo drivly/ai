@@ -1,16 +1,14 @@
 {
+  "extends": "../../pkgs/tsconfig/src/base.json",
   "compilerOptions": {
     "module": "commonjs",
-    "target": "ES2022",
     "outDir": "dist",
     "lib": ["ES2022"],
     "sourceMap": true,
     "rootDir": "src",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "noImplicitAny": true,
-    "forceConsistentCasingInFileNames": true
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "exclude": ["node_modules", ".vscode-test"]
 }

@@ -1,13 +1,5 @@
 import type { CollectionConfig, Config, Plugin } from 'payload'
-import { 
-  HookHandlerOptions, 
-  TaskConfig, 
-  HookConfig, 
-  CollectionHookConfig,
-  HookQueuePluginConfig,
-  HookType,
-  CollectionHookPattern
-} from './types'
+import { HookHandlerOptions, TaskConfig, HookConfig, CollectionHookConfig, HookQueuePluginConfig, HookType, CollectionHookPattern } from './types'
 
 /**
  * Helper to normalize hook config to standard format
@@ -15,18 +7,18 @@ import {
 const normalizeHookConfig = (config: HookConfig): CollectionHookConfig => {
   if (typeof config === 'string') {
     return {
-      afterChange: [{ slug: config }]
+      afterChange: [{ slug: config }],
     }
   } else if (Array.isArray(config)) {
     return {
-      afterChange: config.map(slug => typeof slug === 'string' ? { slug } : slug)
+      afterChange: config.map((slug) => (typeof slug === 'string' ? { slug } : slug)),
     }
   } else {
     const result: CollectionHookConfig = {}
-    
+
     for (const hookType of ['beforeChange', 'afterChange', 'beforeDelete', 'afterDelete'] as const) {
       if (config[hookType]) {
-        result[hookType] = config[hookType]!.map(item => {
+        result[hookType] = config[hookType]!.map((item) => {
           if (typeof item === 'string') {
             return { slug: item }
           }
@@ -34,7 +26,7 @@ const normalizeHookConfig = (config: HookConfig): CollectionHookConfig => {
         })
       }
     }
-    
+
     return result
   }
 }
@@ -42,13 +34,11 @@ const normalizeHookConfig = (config: HookConfig): CollectionHookConfig => {
 /**
  * Normalize a collection.hook pattern value to a standard format
  */
-const normalizePatternValue = (
-  value: string | TaskConfig | Array<string | TaskConfig>
-): Array<TaskConfig> => {
+const normalizePatternValue = (value: string | TaskConfig | Array<string | TaskConfig>): Array<TaskConfig> => {
   if (typeof value === 'string') {
     return [{ slug: value }]
   } else if (Array.isArray(value)) {
-    return value.map(item => typeof item === 'string' ? { slug: item } : item)
+    return value.map((item) => (typeof item === 'string' ? { slug: item } : item))
   } else {
     return [value]
   }
@@ -57,44 +47,40 @@ const normalizePatternValue = (
 /**
  * Process a hook by running the associated task or function
  */
-const processHook = async (
-  hooks: Array<string | TaskConfig> | undefined,
-  options: HookHandlerOptions,
-  payload: any
-) => {
+const processHook = async (hooks: Array<string | TaskConfig> | undefined, options: HookHandlerOptions, payload: any) => {
   if (!hooks || !hooks.length) return
-  
+
   await Promise.all(
     hooks.map(async (hook) => {
       const config = typeof hook === 'string' ? { slug: hook } : hook
       const { slug, input = {} } = config
-      
+
       if (payload?.db?.tasks) {
         try {
           const context = {
             collection: options.collection,
             operation: options.operation,
             data: options.data,
-            originalDoc: options.originalDoc
+            originalDoc: options.originalDoc,
           }
-          
+
           try {
             return await payload.db.tasks.run({
               slug,
               input: {
                 ...input,
                 ...(Object.keys(input).length === 0 ? options.data : {}),
-                context
-              }
+                context,
+              },
             })
           } catch (taskError) {
             const { docs: functions } = await payload.find({
               collection: 'functions',
               where: { name: { equals: slug } },
               depth: 0,
-              limit: 1
+              limit: 1,
             })
-            
+
             if (functions && functions.length > 0) {
               return await payload.jobs.queue({
                 task: 'executeFunction',
@@ -103,9 +89,9 @@ const processHook = async (
                   args: {
                     ...input,
                     ...(Object.keys(input).length === 0 ? options.data : {}),
-                    context
-                  }
-                }
+                    context,
+                  },
+                },
               })
             } else {
               console.warn(`No task or function found with name: ${slug}`)
@@ -116,7 +102,7 @@ const processHook = async (
           console.error(`Error running task/function ${slug}:`, error)
         }
       }
-    })
+    }),
   )
 }
 
@@ -125,29 +111,29 @@ const processHook = async (
  */
 const parsePatternKeys = (config: HookQueuePluginConfig): Record<string, CollectionHookConfig> => {
   const result: Record<string, CollectionHookConfig> = {}
-  
+
   for (const key in config) {
     if (key === 'collections' || key === 'global' || key === 'excludeFromGlobal') {
       continue
     }
-    
+
     const match = key.match(/^(.+)\.(.+)$/)
     if (match) {
       const [, collection, hookType] = match
-      
+
       if (!['beforeChange', 'afterChange', 'beforeDelete', 'afterDelete'].includes(hookType)) {
         console.warn(`Invalid hook type in pattern: ${key}`)
         continue
       }
-      
+
       if (!result[collection]) {
         result[collection] = {}
       }
-      
+
       result[collection][hookType as HookType] = normalizePatternValue(config[key as CollectionHookPattern])
     }
   }
-  
+
   return result
 }
 
@@ -159,17 +145,17 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
   return (incomingConfig: Config): Config => {
     const globalHooks = config.global ? normalizeHookConfig(config.global) : undefined
     const excludeFromGlobal = config.excludeFromGlobal || []
-    
+
     const patternCollections = parsePatternKeys(config)
-    
+
     const mergedCollections: Record<string, CollectionHookConfig> = {}
-    
+
     if (config.collections) {
       for (const collection in config.collections) {
         mergedCollections[collection] = normalizeHookConfig(config.collections[collection])
       }
     }
-    
+
     for (const collection in patternCollections) {
       if (!mergedCollections[collection]) {
         mergedCollections[collection] = patternCollections[collection]
@@ -179,34 +165,31 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
             if (!mergedCollections[collection][hookType]) {
               mergedCollections[collection][hookType] = patternCollections[collection][hookType]
             } else {
-              mergedCollections[collection][hookType] = [
-                ...(mergedCollections[collection][hookType] || []),
-                ...(patternCollections[collection][hookType] || [])
-              ]
+              mergedCollections[collection][hookType] = [...(mergedCollections[collection][hookType] || []), ...(patternCollections[collection][hookType] || [])]
             }
           }
         }
       }
     }
-    
+
     const collections = incomingConfig.collections || []
-    
+
     const modifiedCollections = collections.map((collection: any) => {
       const collectionSlug = collection.slug
-      
+
       let collectionConfig = mergedCollections[collectionSlug]
       if (!collectionConfig && mergedCollections['*']) {
         collectionConfig = mergedCollections['*']
       }
-      
+
       if (!collectionConfig && !globalHooks) {
         return collection
       }
-      
+
       const collectionHooks = collectionConfig
-      
+
       const isExcludedFromGlobal = excludeFromGlobal.includes(collectionSlug)
-      
+
       return {
         ...collection,
         hooks: {
@@ -222,12 +205,12 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
                     operation: originalDoc ? 'update' : 'create',
                     data,
                     originalDoc,
-                    req
+                    req,
                   },
-                  req?.payload
+                  req?.payload,
                 )
               }
-              
+
               if (globalHooks?.beforeChange && !isExcludedFromGlobal) {
                 await processHook(
                   globalHooks.beforeChange,
@@ -236,12 +219,12 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
                     operation: originalDoc ? 'update' : 'create',
                     data,
                     originalDoc,
-                    req
+                    req,
                   },
-                  req?.payload
+                  req?.payload,
                 )
               }
-              
+
               return data
             },
           ],
@@ -256,12 +239,12 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
                     operation: previousDoc ? 'update' : 'create',
                     data: doc,
                     originalDoc: previousDoc,
-                    req
+                    req,
                   },
-                  req?.payload
+                  req?.payload,
                 )
               }
-              
+
               if (globalHooks?.afterChange && !isExcludedFromGlobal) {
                 await processHook(
                   globalHooks.afterChange,
@@ -270,12 +253,12 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
                     operation: previousDoc ? 'update' : 'create',
                     data: doc,
                     originalDoc: previousDoc,
-                    req
+                    req,
                   },
-                  req?.payload
+                  req?.payload,
                 )
               }
-              
+
               return doc
             },
           ],
@@ -289,12 +272,12 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
                     collection: collectionSlug,
                     operation: 'delete',
                     data: { id },
-                    req
+                    req,
                   },
-                  req?.payload
+                  req?.payload,
                 )
               }
-              
+
               if (globalHooks?.beforeDelete && !isExcludedFromGlobal) {
                 await processHook(
                   globalHooks.beforeDelete,
@@ -302,9 +285,9 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
                     collection: collectionSlug,
                     operation: 'delete',
                     data: { id },
-                    req
+                    req,
                   },
-                  req?.payload
+                  req?.payload,
                 )
               }
             },
@@ -320,12 +303,12 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
                     operation: 'delete',
                     data: { id },
                     originalDoc: doc,
-                    req
+                    req,
                   },
-                  req?.payload
+                  req?.payload,
                 )
               }
-              
+
               if (globalHooks?.afterDelete && !isExcludedFromGlobal) {
                 await processHook(
                   globalHooks.afterDelete,
@@ -334,9 +317,9 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
                     operation: 'delete',
                     data: { id },
                     originalDoc: doc,
-                    req
+                    req,
                   },
-                  req?.payload
+                  req?.payload,
                 )
               }
             },
@@ -344,7 +327,7 @@ export const createHooksQueuePlugin = (config: HookQueuePluginConfig): Plugin =>
         },
       }
     })
-    
+
     return {
       ...incomingConfig,
       collections: modifiedCollections as any,

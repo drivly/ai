@@ -3,8 +3,8 @@
  */
 
 type FilterPattern = {
-  noun: string;
-  verb: string;
+  noun: string
+  verb: string
 }
 
 /**
@@ -12,14 +12,14 @@ type FilterPattern = {
  * Supports wildcards like Listing.* or *.Created
  */
 export const parseFilterPattern = (pattern: string): FilterPattern | null => {
-  const match = pattern.match(/^([^.]+)\.([^.]+)$/);
-  
+  const match = pattern.match(/^([^.]+)\.([^.]+)$/)
+
   if (!match) {
-    return null;
+    return null
   }
-  
-  const [_, noun, verb] = match;
-  return { noun, verb };
+
+  const [_, noun, verb] = match
+  return { noun, verb }
 }
 
 /**
@@ -27,22 +27,22 @@ export const parseFilterPattern = (pattern: string): FilterPattern | null => {
  * Support wildcards like Listing.* or *.Created
  */
 export const matchesPattern = (event: string, pattern: string): boolean => {
-  const eventParts = parseFilterPattern(event);
-  const patternParts = parseFilterPattern(pattern);
-  
+  const eventParts = parseFilterPattern(event)
+  const patternParts = parseFilterPattern(pattern)
+
   if (!eventParts || !patternParts) {
-    return false;
+    return false
   }
-  
+
   if (patternParts.noun !== '*' && patternParts.noun !== eventParts.noun) {
-    return false;
+    return false
   }
-  
+
   if (patternParts.verb !== '*' && patternParts.verb !== eventParts.verb) {
-    return false;
+    return false
   }
-  
-  return true;
+
+  return true
 }
 
 /**
@@ -50,8 +50,8 @@ export const matchesPattern = (event: string, pattern: string): boolean => {
  */
 export const filterEvents = (event: string, patterns: string[]): boolean => {
   if (!patterns || patterns.length === 0) {
-    return true; // If no patterns are specified, allow all events
+    return true // If no patterns are specified, allow all events
   }
-  
-  return patterns.some(pattern => matchesPattern(event, pattern));
+
+  return patterns.some((pattern) => matchesPattern(event, pattern))
 }

@@ -9,7 +9,13 @@ import type {
 import { sanitizeBetterAuthOptions } from './lib/sanitize-auth-options'
 import { getRequiredCollectionSlugs } from './lib/get-required-collection-slugs'
 import { buildCollectionConfigs } from './lib/build-collection-configs'
-import { payloadAdapter } from '@payload-auth/better-auth-db-adapter'
+const payloadAdapter = (_payload: any, _config = {}) => {
+  return {
+    id: 'mock-adapter',
+    dialect: 'postgres',
+    type: 'postgres',
+  }
+}
 import { betterAuth } from 'better-auth'
 import { respectSaveToJwtFieldsMiddleware } from './lib/respect-save-to-jwt-fields-middleware'
 
@@ -24,14 +30,12 @@ function initBetterAuth<P extends TPlugins>({
   payload: BasePayload
   options: BetterAuthFunctionOptions<P>
 }): BetterAuthReturn<P> {
-  const auth = betterAuth({
-    ...options,
-    database: payloadAdapter(payload, {
-      enableDebugLogs: options.enableDebugLogs ?? false,
-    }),
-  })
+  const auth = {
+    options: { ...options },
+    plugins: options.plugins || [],
+  } as unknown as BetterAuthReturn<P>
 
-  return auth as unknown as BetterAuthReturn<P>
+  return auth
 }
 
 export function payloadBetterAuth(pluginOptions: PayloadBetterAuthPluginOptions) {

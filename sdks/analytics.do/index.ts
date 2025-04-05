@@ -1,2 +1,2 @@
-export * from './src/index';
-export * from './types';
+export * from './src/index'
+export * from './types'

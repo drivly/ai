@@ -1,8 +1,7 @@
-import { getGravatarUrl } from '@drivly/ui/lib'
 import { create } from 'zustand'
 import { useShallow } from 'zustand/react/shallow'
-import type { PayloadAgentAuthResult } from '../../types/auth'
-import type { ChatWidgetHeaderProps } from '../../types/chat'
+import type { PayloadAgentAuthResult } from '@/types/auth'
+import type { ChatWidgetHeaderProps } from '@/types/chat'
 
 export type Suggestion = {
   title: string
@@ -49,7 +48,7 @@ const useModalStore = create<ModalState>((set) => ({
       set({
         user: {
           authedUser,
-          avatar: getGravatarUrl(authedUser?.user?.email),
+          avatar: authedUser?.user?.email ? `https://www.gravatar.com/avatar/${authedUser.user.email.toLowerCase().trim()}?d=mp` : null,
         },
       }),
   },
