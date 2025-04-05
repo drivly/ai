@@ -1,4 +1,4 @@
-# [APIs.do](https://apis.do) - Clickable Developer Experiences
+# [APIs.do](https://apis.do) - The Foundation of the .do Ecosystem
 
 [![npm version](https://img.shields.io/npm/v/apis.do.svg)](https://www.npmjs.com/package/apis.do)
 [![npm downloads](https://img.shields.io/npm/dm/apis.do.svg)](https://www.npmjs.com/package/apis.do)
@@ -8,22 +8,22 @@
 [![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
-> **Economically valuable work delivered through simple APIs**
+> **Elegant APIs for economically valuable work**
 
 ## Overview
 
-APIs.do is the unified API Gateway for all domains and services in the `.do` ecosystem. This SDK provides a simple, type-safe way to interact with the entire `.do` universe, enabling seamless integration with Functions.do, Workflows.do, Agents.do, and other services through a consistent, developer-friendly interface.
+APIs.do is the foundational SDK and unified API Gateway for the entire [.do](https://dotdo.ai) ecosystem. As the core building block, it provides the essential infrastructure upon which all other .do services are built. This lightweight, zero-dependency SDK delivers a simple, type-safe interface to interact with Functions.do, Workflows.do, Agents.do, and all other .do services through a consistent, elegantly designed API.
 
 ## 🌟 Key Features
 
-- **Universal Gateway** - Single entry point to all `.do` services and domains
-- **Simple Authentication** - Secure API key-based authentication
-- **RESTful Operations** - Complete CRUD support for all collections
-- **Advanced Querying** - Powerful search, filtering, and pagination capabilities
+- **Foundation of the .do Ecosystem** - The core SDK upon which all other .do services are built
+- **Zero Dependencies** - Lightweight implementation with no external runtime dependencies
+- **Universal Gateway** - Single, elegant entry point to all `.do` services and domains
+- **Extreme Simplicity** - Clean, intuitive API design that prioritizes developer experience
 - **Type Safety** - Full TypeScript support with generics for end-to-end type safety
-- **Cross-Platform** - Works in Node.js, browsers, and edge environments
-- **Minimal Dependencies** - Lightweight with zero external runtime dependencies
-- **Comprehensive Error Handling** - Detailed error information and recovery options
+- **Cross-Platform** - Seamlessly works in Node.js, browsers, and edge environments
+- **Elegant Authentication** - Simple, secure API key-based authentication
+- **Comprehensive Error Handling** - Clear, actionable error information
 
 ## 🚀 Installation
 
@@ -38,313 +38,257 @@ yarn add apis.do
 pnpm add apis.do
 ```
 
-## 🔍 The `.do` Ecosystem
+## 🔍 The [.do](https://dotdo.ai) Ecosystem
 
-APIs.do provides unified access to the entire `.do` ecosystem:
+As the foundation of the [.do](https://dotdo.ai) ecosystem, APIs.do provides elegant, unified access to all services:
 
 ```json
 {
   "ai": {
-    "Functions - Typesafe Results without Complexity": "https://functions.do/api",
-    "Workflows - Reliably Execute Business Processes": "https://workflows.do/api",
-    "Agents - Deploy & Manage Autonomous Digital Workers": "https://agents.do/api"
+    "Functions - Typesafe AI Results": "https://functions.do/api",
+    "Workflows - Business Process Orchestration": "https://workflows.do/api",
+    "Agents - Autonomous Digital Workers": "https://agents.do/api"
   },
   "events": {
-    "Triggers - Initiate workflows based on events": "https://triggers.do",
-    "Searches - Query and retrieve data": "https://searches.do",
-    "Actions - Perform tasks within workflows": "https://actions.do"
+    "Triggers - Event-Driven Process Initiation": "https://triggers.do",
+    "Searches - Contextual Data Retrieval": "https://searches.do",
+    "Actions - External System Operations": "https://actions.do"
   },
   "core": {
     "LLM - Intelligent AI Gateway": "https://llm.do",
-    "Evals - Evaluate Functions, Workflows, and Agents": "https://evals.do",
-    "Analytics - Economically Validate Workflows": "https://analytics.do",
-    "Experiments - Economically Validate Workflows": "https://experiments.do",
-    "Database - AI Native Data Access (Search + CRUD)": "https://database.do",
-    "Integrations - Connect External APIs and Systems": "https://integrations.do"
+    "Database - AI-Native Data Layer": "https://database.do",
+    "Integrations - External System Connections": "https://integrations.do",
+    "Analytics - Business Impact Measurement": "https://analytics.do",
+    "Evals - Quality Assessment": "https://evals.do",
+    "Experiments - Controlled Testing": "https://experiments.do"
   }
 }
 ```
 
 ## 📋 Quick Start
 
+The elegance of APIs.do is evident in its minimal, intuitive interface:
+
 ```typescript
 import { API } from 'apis.do'
 
-// Initialize the client
-const api = new API({
-  apiKey: 'your-api-key', // Optional: API key for authenticated requests
-})
+// Initialize with a single line
+const api = new API({ apiKey: 'your-api-key' })
 
-// Basic CRUD operations
-const getUsers = async () => {
-  const users = await api.users.find()
-  console.log(users)
-}
+// Access any collection with simple, consistent patterns
+const users = await api.users.find()
+const user = await api.users.get('user-id')
+const newUser = await api.users.create({ name: 'Jane Doe', email: 'jane@example.com' })
+const updatedUser = await api.users.update('user-id', { status: 'active' })
+await api.users.delete('user-id')
 
-const getUserById = async (id: string) => {
-  const user = await api.users.get(id)
-  console.log(user)
-}
-
-const createUser = async (userData: any) => {
-  const newUser = await api.users.create(userData)
-  console.log(newUser)
-}
-
-const updateUser = async (id: string, userData: any) => {
-  const updatedUser = await api.users.update(id, userData)
-  console.log(updatedUser)
-}
-
-const deleteUser = async (id: string) => {
-  await api.users.delete(id)
-  console.log('User deleted')
-}
+// The same elegant pattern works across all .do services
+const functions = await api.functions.find()
+const workflows = await api.workflows.find({ status: 'active' })
+const agents = await api.agents.find({ type: 'assistant' })
 ```
 
-## 🧩 Collection Types
+## 🧩 Unified Collection Access
 
-The APIs.do SDK provides access to all collections in the platform. Here are the main collection types available:
+As the foundation of the [.do](https://dotdo.ai) ecosystem, APIs.do provides elegant, consistent access to all collections:
 
-### AI Collections
+### AI Primitives
 
-- `functions` - AI functions with type, schema, and code/prompt
-- `workflows` - Declarative state machines for orchestration
-- `agents` - Autonomous digital workers
+- `functions` - Typesafe AI functions that deliver predictable results
+- `workflows` - Elegant business process orchestration
+- `agents` - Autonomous digital workers that accomplish tasks
 
-### Data Collections
+### Core Data Model
 
-- `things` - Core data entities with properties
-- `nouns` - Categories or types of Things
-- `verbs` - Action forms and relationships
+- `things` - Business entities with properties and relationships
+- `nouns` - Entity types and categories
+- `verbs` - Actions and relationships between entities
 
-### Event Collections
+### Event System
 
-- `triggers` - Events that initiate workflows
-- `searches` - Query operations for retrieving data
-- `actions` - Tasks performed within workflows
+- `triggers` - Event-driven process initiation
+- `searches` - Contextual data retrieval
+- `actions` - External system operations
 
-### Observability Collections
+### Observability
 
-- `generations` - Records of system state before/after an Action
-- `events` - System events with timestamps and metadata
-- `traces` - Execution traces for debugging
+- `generations` - Before/after state records
+- `events` - System event tracking
+- `traces` - Execution path visualization
 
-### Integration Collections
+### Integrations
 
 - `integrations` - External system connections
-- `integration-triggers` - Events from external systems
-- `integration-actions` - Operations on external systems
+- `integration-triggers` - External event sources
+- `integration-actions` - External system operations
 
-## 📊 Strongly-Typed Collection Examples
+## 📊 Type-Safe Elegance
 
-```typescript
-import { API } from 'apis.do'
-import type { Function, Workflow, Agent, Thing, Action, Generation } from 'apis.do/types'
-
-const api = new API({
-  apiKey: process.env.APIS_DO_API_KEY || process.env.DO_API_KEY,
-})
-
-// Working with AI Functions
-async function getFunctions() {
-  const functions = await api.functions.find()
-  return functions
-}
-
-async function createFunction(functionData: Partial<Function>) {
-  return await api.functions.create({
-    name: 'Example Function',
-    type: 'Generation',
-    format: 'Object',
-    schema: {
-      productType: 'App | API | Marketplace | Platform | Packaged Service | Professional Service | Website',
-      customer: 'ideal customer profile in 3-5 words',
-      solution: 'describe the offer in 4-10 words',
-      description: 'website meta description',
-    },
-    prompt: 'Generate a response based on the input',
-    ...functionData,
-  })
-}
-
-// Working with Workflows
-async function getWorkflow(id: string) {
-  return await api.workflows.get(id)
-}
-
-// Working with Things (core data entities)
-async function createThing(data: Partial<Thing>) {
-  return await api.things.create({
-    name: 'Example Thing',
-    data: { key: 'value' },
-    ...data,
-  })
-}
-
-// Working with Actions
-async function getActions(params?: { subject?: string; verb?: string }) {
-  return await api.actions.find(params)
-}
-
-// Working with Generations (observability)
-async function getGenerations(actionId: string) {
-  return await api.generations.find({ action: actionId })
-}
-```
-
-## 🔧 Advanced Usage
-
-### Searching and Filtering
-
-```typescript
-// Search for users with a specific query
-const searchUsers = async (query: string) => {
-  const results = await api.users.search(query)
-  console.log(results)
-}
-
-// List with filtering and pagination
-const listActiveUsers = async () => {
-  const activeUsers = await api.users.find(
-    { status: 'active' },
-    {
-      limit: 10,
-      page: 1,
-      sort: '-createdAt',
-    },
-  )
-  console.log(activeUsers)
-  console.log(`Total: ${activeUsers.meta?.total}`)
-}
-```
-
-### Custom Endpoints
-
-```typescript
-// Make custom GET requests
-const getCustomData = async () => {
-  const data = await api.get('/api/custom-endpoint')
-  console.log(data)
-}
-
-// Make custom POST requests
-const postCustomData = async (data: any) => {
-  const response = await api.post('/api/custom-endpoint', data)
-  console.log(response)
-}
-```
-
-## 🔄 Integration with `.do` Services
-
-APIs.do seamlessly integrates with the entire `.do` ecosystem:
+APIs.do provides full TypeScript support with a clean, intuitive interface:
 
 ```typescript
 import { API } from 'apis.do'
 import type { Function, Workflow, Agent, Thing, Action } from 'apis.do/types'
 
-const api = new API({
-  apiKey: process.env.APIS_DO_API_KEY || process.env.DO_API_KEY,
-})
+// Simple initialization
+const api = new API({ apiKey: process.env.DO_API_KEY })
 
-// Example: Using Functions.do through the API Gateway
-const runFunction = async (functionId: string, inputs: any) => {
-  return api.functions.execute(functionId, inputs)
+// Create an AI function with type safety
+const createFunction = async () => {
+  return await api.functions.create({
+    name: 'Product Description Generator',
+    type: 'Generation',
+    format: 'Object',
+    schema: {
+      productType: 'string',
+      customer: 'string',
+      solution: 'string',
+      description: 'string',
+    },
+    prompt: 'Generate a product description based on the input',
+  })
 }
 
-// Example: Triggering a Workflow
-const startWorkflow = async (workflowId: string, context: any) => {
-  return api.workflows.trigger(workflowId, context)
+// Access workflows with the same elegant pattern
+const getActiveWorkflows = async () => {
+  return await api.workflows.find({ status: 'active' })
 }
 
-// Example: Interacting with an Agent
-const askAgent = async (agentId: string, question: string) => {
-  return api.agents.ask(agentId, { question })
+// Create data entities with consistent patterns
+const createCustomer = async (data: Partial<Thing>) => {
+  return await api.things.create({
+    name: data.name,
+    type: 'customer',
+    data,
+  })
 }
 
-// Example: Searching for data
-const searchThings = async (query: string) => {
-  return api.things.search(query)
-}
-
-// Example: Executing an action
-const executeAction = async (actionId: string, params: any) => {
-  return api.actions.execute(actionId, params)
-}
-
-// Example: Creating a relationship between Things using Actions
-const createRelationship = async (subjectId: string, verbName: string, objectId: string) => {
-  return api.actions.create({
-    subject: subjectId,
-    verb: verbName,
-    object: objectId,
+// Query relationships with intuitive filtering
+const getCustomerPurchases = async (customerId: string) => {
+  return await api.actions.find({ 
+    subject: customerId, 
+    verb: 'purchased' 
   })
 }
 ```
 
-## 📊 Real-World Example: AI-Powered Business Intelligence Dashboard
+## 🔧 Elegant Advanced Features
+
+Even advanced features maintain the same elegant simplicity:
+
+### Powerful Search & Filtering
+
+```typescript
+// Natural language search across collections
+const searchResults = await api.users.search('active customers in California')
+
+// Structured filtering with intuitive syntax
+const activeUsers = await api.users.find(
+  { status: 'active', 'profile.location.state': 'CA' },
+  { limit: 10, sort: '-createdAt' }
+)
+```
+
+### Direct API Access
+
+When needed, access the underlying API directly with the same elegant patterns:
+
+```typescript
+// Direct GET requests
+const data = await api.get('/api/custom-endpoint')
+
+// Direct POST requests with the same consistent interface
+const response = await api.post('/api/custom-endpoint', { key: 'value' })
+```
+
+## 🔄 The Foundation of the [.do](https://dotdo.ai) Ecosystem
+
+As the core SDK, APIs.do provides the foundation for all other .do services:
 
 ```typescript
 import { API } from 'apis.do'
-import type { Thing, Function, Agent, Action } from 'apis.do/types'
+import type { Function, Workflow, Agent, Thing, Action } from 'apis.do/types'
 
-const api = new API({ apiKey: process.env.APIS_DO_API_KEY })
+// One client to access the entire ecosystem
+const api = new API({ apiKey: process.env.DO_API_KEY })
 
-async function generateBusinessDashboard(companyId: string) {
-  // Fetch company data
+// Execute AI functions with a simple, consistent interface
+const generateContent = async (prompt: string) => {
+  return api.functions.execute('content-generator', { prompt })
+}
+
+// Orchestrate business processes with the same elegant pattern
+const processOrder = async (orderId: string) => {
+  return api.workflows.trigger('order-fulfillment', { orderId })
+}
+
+// Delegate tasks to autonomous agents
+const researchTopic = async (topic: string) => {
+  return api.agents.ask('research-assistant', { question: `Research ${topic}` })
+}
+
+// Create relationships between business entities
+const recordPurchase = async (customerId: string, productId: string) => {
+  return api.actions.create({
+    subject: customerId,
+    verb: 'purchased',
+    object: productId,
+  })
+}
+```
+
+## 📊 Elegant Business Solutions
+
+The foundational nature of APIs.do enables elegant solutions to complex business problems:
+
+```typescript
+import { API } from 'apis.do'
+import type { Thing, Function, Agent } from 'apis.do/types'
+
+// One client for the entire ecosystem
+const api = new API({ apiKey: process.env.DO_API_KEY })
+
+async function createBusinessInsights(companyId: string) {
+  // Access company data with a simple, consistent pattern
   const company = await api.things.get(companyId)
-
-  // Get recent sales data
-  const salesData = await api.things.find(
-    {
-      type: 'sale',
-      'data.companyId': companyId,
-      'data.date': { $gte: '2023-01-01' },
-    },
-    {
-      sort: '-createdAt',
-      limit: 100,
-    },
-  )
-
-  // Get and execute the sales analysis function
-  const analyzeFunction = await api.functions.find({ name: 'analyzeSalesTrends' }, { limit: 1 })
-  const salesAnalysis = await api.functions.execute(analyzeFunction[0].id, {
+  
+  // Query sales data with intuitive filtering
+  const salesData = await api.things.find({
+    type: 'sale',
+    'data.companyId': companyId,
+    'data.date': { $gte: '2023-01-01' }
+  }, { sort: '-createdAt', limit: 100 })
+  
+  // Execute AI analysis with the same elegant interface
+  const analysis = await api.functions.execute('sales-trend-analyzer', {
     sales: salesData,
-    timeframe: 'quarterly',
+    timeframe: 'quarterly'
   })
-
-  // Get the business advisor agent and ask for recommendations
-  const advisorAgent = await api.agents.find({ name: 'businessAdvisor' }, { limit: 1 })
-  const recommendations = await api.agents.ask(advisorAgent[0].id, {
-    question: 'What are the top 3 actions this company should take based on recent sales data?',
-    context: {
-      company,
-      salesData,
-      analysis: salesAnalysis,
-    },
+  
+  // Get AI-powered recommendations
+  const recommendations = await api.agents.ask('business-advisor', {
+    question: 'What are the top 3 strategic actions for this company?',
+    context: { company, salesData, analysis }
   })
-
-  // Create a new dashboard Thing
+  
+  // Create a dashboard entity
   const dashboard = await api.things.create({
-    name: `${company.name} Dashboard`,
+    name: `${company.name} Strategic Dashboard`,
     type: 'dashboard',
     data: {
-      companyId,
-      generatedAt: new Date().toISOString(),
-      salesData: salesData.map((sale) => sale.id),
-      analysis: salesAnalysis,
-      recommendations: recommendations.suggestions,
-    },
+      company: companyId,
+      analysis,
+      recommendations: recommendations.suggestions
+    }
   })
-
-  // Create an Action to link the company to the dashboard
+  
+  // Create a relationship between entities
   await api.actions.create({
     subject: companyId,
     verb: 'has',
-    object: dashboard.id,
+    object: dashboard.id
   })
-
+  
   return dashboard
 }
 ```
