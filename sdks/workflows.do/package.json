@@ -61,7 +61,7 @@
     "plans.do": "workspace:*",
     "projects.do": "workspace:*",
     "searches.do": "workspace:*",
-    "sdks.do": "workspace:*",
+    "sdk.do": "workspace:*",
     "tasks.do": "workspace:*",
     "triggers.do": "workspace:*"
   },
