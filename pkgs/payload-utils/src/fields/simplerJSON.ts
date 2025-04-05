@@ -122,5 +122,5 @@ export const simplerJSON = ({
         hidden: hideJsonField,
       },
     },
-  ]
+  ] satisfies Field[]
 }

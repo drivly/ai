@@ -21,6 +21,7 @@ const isGatewayDomain = (hostname: string): boolean => {
          hostname === 'localhost' || 
          hostname === 'apis.do' || 
          hostname === 'do.gt' ||
+         hostname === 'do.mw' ||
          hostname.endsWith('dev.driv.ly')
 }
 
@@ -35,14 +36,14 @@ const isBrandDomain = (hostname: string): boolean => {
  * Check if a domain is a .do domain
  */
 const isDoDomain = (hostname: string): boolean => {
-  return hostname.endsWith('.do') || hostname.endsWith('.do.gt')
+  return hostname.endsWith('.do') || hostname.endsWith('.do.gt') || hostname.endsWith('.do.mw')
 }
 
 /**
- * Extract API name from a .do or .do.gt domain
+ * Extract API name from a .do, .do.gt, or .do.mw domain
  */
 const extractApiNameFromDomain = (hostname: string): string => {
-  return hostname.endsWith('.do.gt') ? hostname.replace('.do.gt', '') : hostname.replace('.do', '')
+  return hostname.replace(/\.do(\.mw|\.gt)?$/, '')
 }
 
 /**
