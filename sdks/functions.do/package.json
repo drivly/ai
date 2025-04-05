@@ -1,6 +1,6 @@
 {
   "name": "functions.do",
-  "version": "0.0.5",
+  "version": "0.0.1",
   "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
   "keywords": [
     "functions",
@@ -14,8 +14,19 @@
   ],
   "homepage": "https://functions.do",
   "type": "module",
+  "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
@@ -25,6 +36,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "tsc",
