@@ -1,4 +1,4 @@
-import { API as ApisAPI } from '../../apis.do/index.js'
+import { API as ApisAPI } from '../../apis.do'
 import type { ErrorResponse, ListResponse, QueryParams, Package } from '../types.js'
 
 export interface ClientOptions {

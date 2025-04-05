@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { integrations, createIntegration, triggers, actions } from './index.js'
-import { api } from '../../apis.do/index.js'
+import { api } from '../../apis.do'
 
-vi.mock('../../apis.do/index.js', () => ({
+vi.mock('../../apis.do', () => ({
   api: {
     get: vi.fn(),
     post: vi.fn(),
