@@ -7,6 +7,10 @@ on:
         description: 'Message for the release commit'
         required: false
         default: 'chore: trigger SDK release'
+      pr_title:
+        description: 'Pull request title'
+        required: false
+        default: 'chore: trigger SDK release'
 
 jobs:
   update-version-stamp:
@@ -15,15 +19,35 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v3
 
+      - name: Setup Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions"
+
+      - name: Create Branch
+        run: |
+          BRANCH_NAME="release/sdk-trigger-$(date +%s)"
+          git checkout -b $BRANCH_NAME
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+
       - name: Update SDK Version Stamp
         run: |
           echo "# SDK Version Stamp - Updated on $(date)" > .github/version-stamp-sdks.txt
           echo "# This file triggers the SDK release workflow when merged to main" >> .github/version-stamp-sdks.txt
 
-      - name: Commit and Push Changes
+      - name: Commit Changes
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "GitHub Actions"
           git add .github/version-stamp-sdks.txt
           git commit -m "${{ github.event.inputs.release_message || 'chore: trigger SDK release' }}"
-          git push
+          git push --set-upstream origin ${{ env.BRANCH_NAME }}
+
+      - name: Create Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_TITLE="${{ github.event.inputs.pr_title || 'chore: trigger SDK release' }}"
+          PR_BODY="This PR updates the SDK version stamp to trigger a new SDK release when merged to main.
+
+          **Note:** This PR was automatically created by the Manual SDK Release Trigger workflow."
+          
+          gh pr create --title "$PR_TITLE" --body "$PR_BODY" --base main --head ${{ env.BRANCH_NAME }}
