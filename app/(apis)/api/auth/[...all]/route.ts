@@ -3,4 +3,13 @@ import { getPayload } from '@/lib/auth/payload-auth'
 
 const payload = await getPayload()
 
-export const { POST, GET } = toNextJsHandler(payload.auth)
+const authHandler = {
+  handler: async (request: Request) => {
+    const result = await payload.auth(request)
+    return new Response(JSON.stringify(result), {
+      headers: { 'Content-Type': 'application/json' }
+    })
+  }
+}
+
+export const { POST, GET } = toNextJsHandler(authHandler)
