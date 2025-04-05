@@ -4,93 +4,169 @@ sidebarTitle: Functions
 asIndexPage: true
 ---
 
-# [Functions.do](https://functions.do) Strongly-Typed AI Functions
+# [Functions.do](https://functions.do) - Elegant Type-Safe AI Functions
 
-AI is transforming businesses but integrating LLMs into existing systems presents challenges due to the clash between AI's non-deterministic nature and traditional software's deterministic characteristics.
+> **Predictable AI results through elegant, type-safe functions**
 
-Key challenges include:
+## Overview
 
-- **Reliability**: AI's unpredictable outputs complicate testing and maintenance
-- **Accuracy**: Models can hallucinate or produce incorrect information
-- **Model Selection**: Balancing capabilities, speed, and cost across rapidly evolving models
-- **Prompt Engineering**: More art than science, difficult to standardize
-- **Configuration**: Complex parameter interactions require careful tuning
+Functions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, providing a clean, type-safe interface for creating and using AI functions. This SDK transforms the unpredictable nature of AI into reliable, structured outputs that seamlessly integrate with your business processes.
+
+## The Challenge
+
+Integrating AI into business systems presents several challenges:
+
+- **Type Safety**: Converting unstructured AI outputs into reliable, typed data
+- **Reliability**: Ensuring consistent, predictable results from non-deterministic models
+- **Model Selection**: Navigating the rapidly evolving landscape of AI models
+- **Prompt Engineering**: Creating effective prompts without specialized expertise
+- **Abstraction Leakage**: Preventing AI complexities from complicating application code
 
 ## The Solution
 
-functions.do creates a clean separation between AI capabilities and application code through strongly-typed interfaces that hide model complexities, enabling:
+Functions.do provides an elegant, type-safe interface for AI functions:
 
-- Rapid prototyping of AI applications
-- Continuous improvement without disrupting application code
-- Comprehensive evaluation and optimization strategies
+- **Type-Safe Outputs** - Structured, predictable results from AI operations
+- **Model Abstraction** - Clean separation between AI capabilities and application code
+- **Elegant API Design** - Simple, intuitive interfaces for complex AI operations
+- **Minimal Configuration** - Sensible defaults with flexible customization options
+- **Seamless Integration** - Works with all [.do](https://dotdo.ai) services
+
+## Elegant API Design
+
+Functions.do provides a clean, intuitive interface for creating and using AI functions:
+
+```typescript
+import { AI } from 'functions.do'
+
+// Define type-safe AI functions with elegant schemas
+const ai = AI({
+  generateProductDescription: {
+    name: 'string',
+    features: 'string[]',
+    targetAudience: 'string',
+    tone: 'Professional | Casual | Technical',
+    description: 'string',
+  },
+  
+  analyzeSentiment: {
+    text: 'string',
+    sentiment: 'Positive | Neutral | Negative',
+    score: 'number',
+    keyPhrases: 'string[]',
+  },
+})
+
+// Use functions with type-safe inputs and outputs
+const product = await ai.generateProductDescription({
+  name: 'AirFlow Pro',
+  features: ['Noise cancellation', 'Waterproof', '24-hour battery'],
+  targetAudience: 'Active professionals',
+  tone: 'Professional',
+})
+
+console.log(product.description)
+// "The AirFlow Pro delivers uncompromising audio quality for active professionals..."
+```
 
 ## Function Types
 
-Functions.do supports four core function types, each serving a specific purpose in your AI applications:
+Functions.do supports four elegant function types, each serving a specific purpose:
 
 ### 1. Generation Functions
 
-Generation functions use generative AI to create content or objects based on input parameters. These functions are ideal for tasks like content creation, data transformation, and creative generation.
+Create content or structured data with generative AI:
 
 ```typescript
-// Example of a Generation function
+// Simple generation with minimal configuration
 const blogPost = await ai.generateBlogPost({ 
   topic: 'AI Workflows', 
   tone: 'Professional',
   length: 'Medium' 
 })
-```
 
-Generation functions can produce various output formats:
-- **Object**: Structured data with a defined schema
-- **ObjectArray**: Arrays of structured objects
-- **Text**: Plain text output
-- **TextArray**: Arrays of text strings
-- **Markdown**: Formatted markdown content
-- **Code**: Programming code snippets
+// Structured generation with type-safe outputs
+const productCopy = await ai.createMarketingCopy({
+  product: 'AirFlow Pro',
+  audience: 'Active professionals',
+  channels: ['Website', 'Email', 'Social'],
+})
+
+console.log(productCopy.headline)
+console.log(productCopy.tagline)
+console.log(productCopy.features.map(f => f.title))
+```
 
 ### 2. Code Functions
 
-Code functions execute deterministic code on classical computers. These functions are useful for precise calculations, data processing, and algorithmic operations where deterministic results are required.
+Execute deterministic code with predictable results:
 
 ```typescript
-// Example of a Code function
+// Data processing with elegant configuration
 const processedData = await ai.processDataset({
   data: rawData,
-  operations: ['normalize', 'filter', 'aggregate']
+  operations: ['normalize', 'filter', 'aggregate'],
+  parameters: {
+    normalizeFields: ['price', 'rating'],
+    filterCriteria: { price: { min: 100 } },
+    aggregateBy: 'category',
+  },
+})
+
+// Financial calculations with type safety
+const forecast = await ai.calculateFinancialProjection({
+  initialInvestment: 100000,
+  annualGrowthRate: 0.08,
+  years: 5,
+  inflationRate: 0.03,
 })
 ```
-
-Code functions provide reliability and predictability for operations that don't require AI's creative capabilities.
 
 ### 3. Agentic Functions
 
-Agentic functions delegate tasks to autonomous AI agents that can reason, plan, and execute complex operations. These functions are powerful for tasks requiring multi-step reasoning or decision-making.
+Delegate complex tasks to autonomous AI agents:
 
 ```typescript
-// Example of an Agentic function
+// Research with minimal configuration
 const researchResults = await ai.researchTopic({
   topic: 'Quantum Computing',
   depth: 'Comprehensive',
-  focus: ['Recent Breakthroughs', 'Commercial Applications']
+  focus: ['Recent Breakthroughs', 'Commercial Applications'],
+})
+
+// Complex problem-solving with elegant interfaces
+const solution = await ai.solveBusinessProblem({
+  problem: 'Customer churn has increased by 15% in the last quarter',
+  context: {
+    industry: 'SaaS',
+    customerBase: 'Enterprise',
+    recentChanges: ['Price increase', 'UI redesign'],
+  },
+  desiredOutcome: 'Reduce churn to previous levels within 60 days',
 })
 ```
-
-Agentic functions can leverage other functions and workflows as tools to accomplish their tasks.
 
 ### 4. Human Functions
 
-Human functions incorporate human workers into your AI workflows, enabling human-in-the-loop processes for tasks requiring human judgment, verification, or creativity.
+Incorporate human expertise into AI workflows:
 
 ```typescript
-// Example of a Human function
+// Simple review process
 const reviewedContent = await ai.humanReview({
   content: generatedContent,
-  reviewCriteria: ['Accuracy', 'Brand Voice', 'Legal Compliance']
+  reviewCriteria: ['Accuracy', 'Brand Voice', 'Legal Compliance'],
 })
-```
 
-Human functions are essential for quality assurance, creative direction, and handling edge cases that AI cannot address alone.
+// Collaborative creation with elegant handoffs
+const finalDesign = await ai.collaborativeDesign({
+  initialConcept: aiGeneratedConcept,
+  humanFeedback: {
+    required: true,
+    aspects: ['Visual appeal', 'Brand alignment', 'Usability'],
+    iterations: 2,
+  },
+  finalApproval: 'design-team-lead@example.com',
+})
 
 ## Installation
 
@@ -102,66 +178,180 @@ yarn add functions.do
 pnpm add functions.do
 ```
 
-## API Overview
-
-The functions.do SDK exports two main components:
-
-- `ai`: A flexible proxy for invoking AI functions with various patterns
-- `AI`: A function for defining schemas and creating custom AI functions
-
 ## Rapid Prototyping
 
-The `ai` object lets you call any arbitrary function and an object will be returned. This can be very helpful during development or to even just see what is the schema that the AI wants to return.
+Functions.do enables rapid prototyping with minimal configuration:
 
 ```typescript
 import { ai } from 'functions.do'
 
-const titles = await ai.listBlogPostTitles({ topic: 'AGI Wrappers', tone: 'Clickbait Meme' })
-const research = await ai.researchCompany({ company }, { model: 'perplexity/sonar-deep-research' }) // specify a particular model
+// Call any function with minimal configuration
+const titles = await ai.generateBlogTitles({ 
+  topic: 'AI Workflows', 
+  tone: 'Professional' 
+})
+
+// Explore capabilities without defining schemas
+const analysis = await ai.analyzeSentiment('I absolutely love this product!')
+
+// Specify model options when needed
+const research = await ai.researchCompany(
+  { company: 'Tesla' }, 
+  { model: 'perplexity/sonar-deep-research' }
+)
 ```
 
-## Structured Outputs
+## Type-Safe Schemas
 
-We believe that your business and application code should not be complicated by the leaky abstractions of AI frameworks. With new models being released daily, you shouldn't put the model, prompts, or settings in your code as the only thing that matters to your application is the return type of the output.
+Functions.do provides elegant type safety through simple schema definitions:
 
 ```typescript
 import { AI } from 'functions.do'
 
+// Define type-safe functions with elegant schemas
 const ai = AI({
+  // Business analysis function
   leanCanvas: {
-    productName: 'name of the product or service',
-    problem: ['top 3 problems the product solves'],
-    solution: ['top 3 solutions the product offers'],
-    uniqueValueProposition: 'clear message that states the benefit of your product',
-    unfairAdvantage: 'something that cannot be easily copied or bought',
-    customerSegments: ['list of target customer segments'],
-    keyMetrics: ['list of key numbers that tell you how your business is doing'],
-    channels: ['path to customers'],
-    costStructure: ['list of operational costs'],
-    revenueStreams: ['list of revenue sources'],
-    recommendations: ['list of recommendations based on the analysis'],
+    productName: 'string',
+    problem: 'string[]',
+    solution: 'string[]',
+    uniqueValueProposition: 'string',
+    unfairAdvantage: 'string',
+    customerSegments: 'string[]',
+    keyMetrics: 'string[]',
+    channels: 'string[]',
+    costStructure: 'string[]',
+    revenueStreams: 'string[]',
+    recommendations: 'string[]',
+  },
+  
+  // Marketing function
+  storyBrand: {
+    hero: {
+      identity: 'string',
+      desire: 'string',
+    },
+    problem: {
+      external: 'string',
+      internal: 'string',
+      philosophical: 'string',
+      villain: 'string',
+    },
+    guide: {
+      empathy: 'string',
+      authority: 'string',
+    },
+    plan: 'string[]',
+    callToAction: {
+      direct: 'string',
+      transitional: 'string',
+    },
+    success: 'string',
+    failure: 'string',
   },
 })
 
+// Use the defined functions with type safety
 const brand = await ai.storyBrand({
   idea: 'Agentic Workflow Platform',
   icp: 'Alpha Devs & Empowered CTOs',
 })
 
-console.log(brand)
-// {
-//   storyBrand: {
-//     hero: {
-//       identity: 'Alpha developers and empowered CTOs',
-//       desire: 'To effortlessly build and deploy intelligent, scalable, agent-driven workflows'
-//     },
-//     problem: {
-//       external: 'Current workflow solutions lack flexibility, autonomy, and speed.',
-//       internal: 'Frustrated by bottlenecks, repetitive tasks, and slow development cycles.',
-//       philosophical: 'Innovative developers and CTOs deserve tools designed to empower, not constrain.',
-//       villain: 'Leaky abstractions',
-//     },
-//     // ... additional output omitted for brevity
-//   }
-// }
+// Access strongly-typed results
+console.log(brand.hero.identity)
+console.log(brand.problem.external)
+console.log(brand.plan)
 ```
+
+## Integration with the [.do](https://dotdo.ai) Ecosystem
+
+Functions.do is designed to work seamlessly with other [.do](https://dotdo.ai) services:
+
+```typescript
+import { AI } from 'functions.do'
+import { Workflow } from 'workflows.do'
+import { Triggers } from 'triggers.do'
+
+// Define AI functions
+const ai = AI({
+  generateEmailCampaign: {
+    subject: 'string',
+    preheader: 'string',
+    greeting: 'string',
+    body: 'string',
+    callToAction: 'string',
+    signature: 'string',
+  },
+  
+  personalizeContent: {
+    content: 'string',
+    customerName: 'string',
+    customerSegment: 'string',
+    recentPurchases: 'string[]',
+    personalizedContent: 'string',
+  },
+})
+
+// Create a workflow that uses the functions
+const workflow = new Workflow({
+  name: 'Email Marketing Campaign',
+  steps: [
+    {
+      name: 'Generate Campaign',
+      function: 'generateEmailCampaign',
+      input: {
+        product: '{{trigger.product}}',
+        audience: '{{trigger.audience}}',
+        promotionType: '{{trigger.promotionType}}',
+      },
+    },
+    {
+      name: 'Personalize For Customer',
+      function: 'personalizeContent',
+      input: {
+        content: '{{steps.generateCampaign.body}}',
+        customerName: '{{customer.name}}',
+        customerSegment: '{{customer.segment}}',
+        recentPurchases: '{{customer.recentPurchases}}',
+      },
+    },
+    {
+      name: 'Send Email',
+      action: 'sendgrid.sendEmail',
+      input: {
+        to: '{{customer.email}}',
+        subject: '{{steps.generateCampaign.subject}}',
+        body: '{{steps.personalizeForCustomer.personalizedContent}}',
+      },
+    },
+  ],
+})
+
+// Create a trigger for the workflow
+const triggers = new Triggers()
+const trigger = await triggers.create({
+  name: 'Weekly Promotion Trigger',
+  type: 'schedule',
+  schedule: '0 9 * * 1', // Every Monday at 9am
+  target: {
+    type: 'workflow',
+    id: workflow.id,
+    input: {
+      product: 'Spring Collection',
+      audience: 'Returning Customers',
+      promotionType: 'Discount',
+    },
+  },
+})
+```
+
+## The [.do](https://dotdo.ai) Ecosystem
+
+Functions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, designed to work seamlessly with other .do services:
+
+- **[apis.do](https://apis.do)** - The foundational SDK and unified API Gateway
+- **[workflows.do](https://workflows.do)** - Business process orchestration
+- **[agents.do](https://agents.do)** - Autonomous digital workers
+- **[triggers.do](https://triggers.do)** - Event-driven process initiation
+- **[actions.do](https://actions.do)** - External system operations
+- **[searches.do](https://searches.do)** - Contextual data retrieval
