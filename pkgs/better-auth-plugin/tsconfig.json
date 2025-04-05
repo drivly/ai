@@ -6,7 +6,8 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "emitDeclarationOnly": false,
-    "composite": true,
+    "composite": false,
+    "incremental": false,
     "declaration": true,
     "baseUrl": ".",
     "paths": {
