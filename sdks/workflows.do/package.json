@@ -43,5 +43,8 @@
     "evalite": "^0.9.1",
     "typescript": "^5.0.0",
     "vitest": "^3.0.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

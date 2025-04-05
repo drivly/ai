@@ -23,7 +23,7 @@
     "url": "https://github.com/drivly/ai.git",
     "directory": "sdks/goals.do"
   },
-  "author": "Nathan Clevenger",
+  "author": "Drivly",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
@@ -39,5 +39,8 @@
   },
   "dependencies": {
     "apis.do": "workspace:*"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
