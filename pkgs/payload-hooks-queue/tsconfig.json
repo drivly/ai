@@ -1,9 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../pkgs/tsconfig/src/base.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "incremental": false
+    "incremental": false,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

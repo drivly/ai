@@ -78,10 +78,10 @@ export type CollectionHookPattern = `${string}.${HookType}`
  */
 export interface HookQueuePluginConfig {
   collections?: Record<string, HookConfig>
-  
+
   [key: CollectionHookPattern]: string | TaskConfig | Array<string | TaskConfig>
-  
+
   global?: HookConfig
-  
+
   excludeFromGlobal?: string[]
 }

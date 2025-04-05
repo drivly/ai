@@ -1,10 +1,4 @@
-import { ErrorResponse, ListResponse, QueryParams } from './types.js'
-
-export interface ClientOptions {
-  baseUrl?: string
-  apiKey?: string
-  headers?: Record<string, string>
-}
+import { ClientOptions, ErrorResponse, ListResponse, QueryParams } from './types.js'
 
 export class API {
   private baseUrl: string

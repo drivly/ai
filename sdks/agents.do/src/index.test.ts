@@ -13,8 +13,8 @@ describe('AgentsClient', () => {
       apiKey: 'test-key',
       baseUrl: 'https://custom-agents.do',
       defaultConfig: {
-        baseModel: 'gpt-4'
-      }
+        baseModel: 'gpt-4',
+      },
     })
     expect(client).toBeDefined()
   })
@@ -22,11 +22,11 @@ describe('AgentsClient', () => {
   it('should properly format API requests', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,
-      json: vi.fn().mockResolvedValue({ data: 'test-response' })
+      json: vi.fn().mockResolvedValue({ data: 'test-response' }),
     })
 
     const client = new AgentsClient({
-      apiKey: 'test-key'
+      apiKey: 'test-key',
     })
 
     const response = await client.ask('test-agent', 'What is the weather?')
@@ -37,10 +37,10 @@ describe('AgentsClient', () => {
         method: 'POST',
         headers: expect.objectContaining({
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer test-key'
+          Authorization: 'Bearer test-key',
         }),
-        body: expect.any(String)
-      })
+        body: expect.any(String),
+      }),
     )
   })
 })

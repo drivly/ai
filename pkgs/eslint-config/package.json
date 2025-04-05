@@ -6,7 +6,9 @@
   "exports": {
     ".": "./src/index.js",
     "./typescript": "./src/typescript.js",
-    "./next": "./src/next.js"
+    "./next": "./src/next.js",
+    "./worker": "./src/worker.js",
+    "./react": "./src/react.js"
   },
   "files": [
     "src"

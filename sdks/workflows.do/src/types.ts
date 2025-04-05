@@ -60,10 +60,7 @@ export interface AIContext {
 /**
  * Event handler function type
  */
-export type AIEventHandler<TEvent = any, TResult = any> = (
-  event: TEvent,
-  context: AIContext
-) => Promise<TResult>
+export type AIEventHandler<TEvent = any, TResult = any> = (event: TEvent, context: AIContext) => Promise<TResult>
 
 /**
  * AI Configuration object

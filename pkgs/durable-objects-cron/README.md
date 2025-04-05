@@ -19,54 +19,58 @@ This package provides a simple interface for scheduling and executing tasks usin
 ### Basic Example
 
 ```typescript
-import { createCronDurableObject } from 'durable-objects-cron';
+import { createCronDurableObject } from 'durable-objects-cron'
 
 // Create a Durable Object class with cron capabilities
 export class MyCronDurableObject extends createCronDurableObject({
   defaultHandler: async (task) => {
-    console.log(`Executing task ${task.id} with data:`, task.data);
+    console.log(`Executing task ${task.id} with data:`, task.data)
     // Perform your task logic here
-  }
+  },
 }) {}
 
 // In your Worker
 export default {
   async fetch(request, env) {
-    const id = env.MY_CRON_DURABLE_OBJECT.newUniqueId();
-    const obj = env.MY_CRON_DURABLE_OBJECT.get(id);
-    
+    const id = env.MY_CRON_DURABLE_OBJECT.newUniqueId()
+    const obj = env.MY_CRON_DURABLE_OBJECT.get(id)
+
     // Schedule a task to run every 5 minutes
     if (request.url.includes('/schedule')) {
-      return obj.fetch(new Request('http://cron/schedule', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          cron: '*/5 * * * *',
-          options: {
-            id: 'my-task',
-            data: { foo: 'bar' }
-          }
-        })
-      }));
+      return obj.fetch(
+        new Request('http://cron/schedule', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cron: '*/5 * * * *',
+            options: {
+              id: 'my-task',
+              data: { foo: 'bar' },
+            },
+          }),
+        }),
+      )
     }
-    
+
     // List all scheduled tasks
     if (request.url.includes('/tasks')) {
-      return obj.fetch(new Request('http://cron/tasks'));
+      return obj.fetch(new Request('http://cron/tasks'))
     }
-    
+
     // Cancel a task
     if (request.url.includes('/cancel')) {
-      return obj.fetch(new Request('http://cron/cancel', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: 'my-task' })
-      }));
+      return obj.fetch(
+        new Request('http://cron/cancel', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: 'my-task' }),
+        }),
+      )
     }
-    
-    return new Response('Not found', { status: 404 });
-  }
-};
+
+    return new Response('Not found', { status: 404 })
+  },
+}
 
 // In your wrangler.toml
 // [durable_objects]
@@ -78,24 +82,24 @@ export default {
 ### Advanced Usage with Task-Specific Handlers
 
 ```typescript
-import { createCronDurableObject } from 'durable-objects-cron';
+import { createCronDurableObject } from 'durable-objects-cron'
 
 // Create a Durable Object class with task-specific handlers
 export class MyCronDurableObject extends createCronDurableObject({
   handlers: {
     'backup:': async (task) => {
-      console.log(`Running backup task ${task.id}`);
+      console.log(`Running backup task ${task.id}`)
       // Backup logic here
     },
     'notification:': async (task) => {
-      console.log(`Sending notification ${task.id}`);
+      console.log(`Sending notification ${task.id}`)
       // Notification logic here
-    }
+    },
   },
   defaultHandler: async (task) => {
-    console.log(`Executing default task ${task.id}`);
+    console.log(`Executing default task ${task.id}`)
     // Default task logic here
-  }
+  },
 }) {}
 ```
 
@@ -117,7 +121,7 @@ Creates a new Durable Object class with cron capabilities.
 Schedules a task to be executed according to a cron expression.
 
 - `cron`: Cron expression (e.g., `*/5 * * * *` for every 5 minutes)
-- `options`: 
+- `options`:
   - `id`: Optional unique identifier for the task
   - `data`: Optional data to be passed to the task when it executes
 

@@ -23,6 +23,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "payload": "^3.33.0"
+    "payload": "^3.33.0",
+    "eslint-config": "workspace:*"
   }
 }

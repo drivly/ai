@@ -42,11 +42,11 @@ const callAPI = async (request: any) => {
 
   const params = new URLSearchParams()
   params.append('args', JSON.stringify(request.input || {}))
-  
+
   if (request.schema) {
     params.append('schema', JSON.stringify(request.schema))
   }
-  
+
   if (request.config) {
     Object.entries(request.config).forEach(([key, value]) => {
       if (value !== undefined) {
@@ -54,11 +54,11 @@ const callAPI = async (request: any) => {
       }
     })
   }
-  
+
   const baseUrl = process.env.FUNCTIONS_API_URL || 'https://apis.do'
   const url = `${baseUrl}/functions/${request.functionName}?${params.toString()}`
   console.log({ url })
-  
+
   const response = await fetch(url, {
     method: 'GET',
     headers: {
@@ -122,11 +122,11 @@ const callMarkdownAPI = async (request: any): Promise<MarkdownOutput> => {
   const params = new URLSearchParams()
   params.append('args', JSON.stringify(request.input || {}))
   params.append('format', 'markdown') // Specify markdown format
-  
+
   if (request.schema) {
     params.append('schema', JSON.stringify(request.schema))
   }
-  
+
   if (request.config) {
     Object.entries(request.config).forEach(([key, value]) => {
       if (value !== undefined) {
@@ -134,11 +134,11 @@ const callMarkdownAPI = async (request: any): Promise<MarkdownOutput> => {
       }
     })
   }
-  
+
   const baseUrl = process.env.FUNCTIONS_API_URL || 'https://apis.do'
   const url = `${baseUrl}/functions/${request.functionName}?${params.toString()}`
   console.log({ url })
-  
+
   const response = await fetch(url, {
     method: 'GET',
     headers: {

@@ -145,15 +145,15 @@ class TasksClient {
   private api: API
   private tasksCollection = 'tasks'
   private queuesCollection = 'queues'
-  
+
   /**
    * Create a new TasksClient
    * @param options API options
    */
-  constructor(options: { apiKey?: string, baseUrl?: string } = {}) {
+  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
     this.api = new API({ ...options, baseUrl: options.baseUrl || 'https://tasks.do' })
   }
-  
+
   /**
    * Create a new task
    * @param params Task creation parameters
@@ -162,7 +162,7 @@ class TasksClient {
   async create(params: CreateTaskParams): Promise<Task> {
     return this.api.post<Task>(`/api/${this.tasksCollection}`, params)
   }
-  
+
   /**
    * Create a task with the TaskDefinition interface
    * @param task Task definition
@@ -171,7 +171,7 @@ class TasksClient {
   async createTask(task: TaskDefinition) {
     return this.api.post('/api/tasks', task)
   }
-  
+
   /**
    * Run a task with input
    * @param taskId Task ID
@@ -181,7 +181,7 @@ class TasksClient {
   async runTask(taskId: string, input: any) {
     return this.api.post(`/api/tasks/${taskId}/run`, input)
   }
-  
+
   /**
    * List tasks with optional parameters
    * @param params Query parameters
@@ -190,7 +190,7 @@ class TasksClient {
   async listTasks(params = {}) {
     return this.api.get(`/api/${this.tasksCollection}`, { params })
   }
-  
+
   /**
    * Get a task by ID
    * @param id Task ID
@@ -199,7 +199,7 @@ class TasksClient {
   async get(id: string): Promise<Task> {
     return this.api.get<Task>(`/api/${this.tasksCollection}/${id}`)
   }
-  
+
   /**
    * Get a task by ID (alias for get)
    * @param taskId Task ID
@@ -208,7 +208,7 @@ class TasksClient {
   async getTask(taskId: string) {
     return this.get(taskId)
   }
-  
+
   /**
    * Update a task
    * @param id Task ID
@@ -218,7 +218,7 @@ class TasksClient {
   async update(id: string, params: Partial<CreateTaskParams>): Promise<Task> {
     return this.api.patch<Task>(`/api/${this.tasksCollection}/${id}`, params)
   }
-  
+
   /**
    * Update a task (alias for update)
    * @param taskId Task ID
@@ -228,7 +228,7 @@ class TasksClient {
   async updateTask(taskId: string, task: Partial<TaskDefinition>) {
     return this.update(taskId, task as any)
   }
-  
+
   /**
    * Delete a task
    * @param taskId Task ID
@@ -237,7 +237,7 @@ class TasksClient {
   async deleteTask(taskId: string) {
     return this.api.delete(`/api/${this.tasksCollection}/${taskId}`)
   }
-  
+
   /**
    * Request human feedback
    * @param options Human feedback options
@@ -246,7 +246,7 @@ class TasksClient {
   async requestHumanFeedback(options: HumanFeedbackOptions) {
     return this.api.post('/api/tasks/human-feedback', options)
   }
-  
+
   /**
    * Update task status
    * @param id Task ID
@@ -256,7 +256,7 @@ class TasksClient {
   async updateStatus(id: string, status: TaskStatus): Promise<Task> {
     return this.api.patch<Task>(`/api/${this.tasksCollection}/${id}`, { status })
   }
-  
+
   /**
    * Assign a task to users, roles, or agents
    * @param id Task ID
@@ -264,11 +264,11 @@ class TasksClient {
    * @returns The updated task
    */
   async assign(id: string, params: AssignTaskParams): Promise<Task> {
-    return this.api.patch<Task>(`/api/${this.tasksCollection}/${id}`, { 
-      assigned: [...(params.users || []), ...(params.roles || []), ...(params.agents || [])] 
+    return this.api.patch<Task>(`/api/${this.tasksCollection}/${id}`, {
+      assigned: [...(params.users || []), ...(params.roles || []), ...(params.agents || [])],
     })
   }
-  
+
   /**
    * Complete a task
    * @param id Task ID
@@ -276,12 +276,12 @@ class TasksClient {
    * @returns The completed task
    */
   async complete(id: string, params: CompleteTaskParams = {}): Promise<Task> {
-    return this.api.patch<Task>(`/api/${this.tasksCollection}/${id}`, { 
+    return this.api.patch<Task>(`/api/${this.tasksCollection}/${id}`, {
       status: 'completed',
-      ...params
+      ...params,
     })
   }
-  
+
   /**
    * Get subtasks for a task
    * @param id Parent task ID
@@ -291,7 +291,7 @@ class TasksClient {
     const task = await this.api.get<Task>(`/api/${this.tasksCollection}/${id}?populate=subtasks`)
     return task.subtasks || []
   }
-  
+
   /**
    * Get dependencies for a task
    * @param id Task ID
@@ -301,30 +301,30 @@ class TasksClient {
     const task = await this.api.get<Task>(`/api/${this.tasksCollection}/${id}?populate=dependentOn`)
     return (task.dependentOn || []) as unknown as Task[]
   }
-  
+
   /**
    * Wait for a task to be completed
    * @param id Task ID
    * @param options Polling options
    * @returns The completed task
    */
-  async waitForCompletion(id: string, options: { interval?: number, timeout?: number } = {}): Promise<Task> {
+  async waitForCompletion(id: string, options: { interval?: number; timeout?: number } = {}): Promise<Task> {
     const interval = options.interval || 5000
     const timeout = options.timeout || 3600000
     const startTime = Date.now()
-    
+
     while (Date.now() - startTime < timeout) {
       const task = await this.get(id)
       if (task.status === 'completed') {
         return task
       }
-      
-      await new Promise(resolve => setTimeout(resolve, interval))
+
+      await new Promise((resolve) => setTimeout(resolve, interval))
     }
-    
+
     throw new Error(`Task ${id} did not complete within the timeout period`)
   }
-  
+
   /**
    * Queues client for interacting with queues
    */
@@ -337,7 +337,7 @@ class TasksClient {
     create: async (params: CreateQueueParams): Promise<Queue> => {
       return this.api.post<Queue>(`/api/${this.queuesCollection}`, params)
     },
-    
+
     /**
      * Get a queue by ID
      * @param id Queue ID
@@ -346,7 +346,7 @@ class TasksClient {
     get: async (id: string): Promise<Queue> => {
       return this.api.get<Queue>(`/api/${this.queuesCollection}/${id}`)
     },
-    
+
     /**
      * Get tasks in a queue
      * @param id Queue ID
@@ -356,7 +356,7 @@ class TasksClient {
       const queue = await this.api.get<Queue>(`/api/${this.queuesCollection}/${id}?populate=tasks`)
       return (queue.tasks || []) as Task[]
     },
-    
+
     /**
      * Claim the next available task in a queue
      * @param id Queue ID
@@ -368,24 +368,24 @@ class TasksClient {
         where: JSON.stringify({
           queue: id,
           status: 'todo',
-          assigned: { $exists: false }
+          assigned: { $exists: false },
         }),
         limit: '1',
-        sort: 'createdAt'
+        sort: 'createdAt',
       }).toString()
-      
+
       const response = await this.api.get<{ data: Task[] }>(`/api/${this.tasksCollection}?${queryString}`)
       const tasks = response.data || []
-      
+
       if (tasks.length === 0) {
         return null
       }
-      
+
       const task = tasks[0]
       return this.assign(task.id, { users: [userId] })
-    }
+    },
   }
-  
+
   /**
    * Webhooks client for managing task webhooks
    */
@@ -398,14 +398,14 @@ class TasksClient {
     register: async (params: WebhookParams): Promise<any> => {
       return this.api.post('/api/webhooks', params)
     },
-    
+
     /**
      * Unregister a webhook
      * @param id Webhook ID
      */
     unregister: async (id: string): Promise<void> => {
       await this.api.delete(`/api/webhooks/${id}`)
-    }
+    },
   }
 }
 
@@ -425,5 +425,5 @@ export function Tasks(config: Record<string, any> = {}) {
 
 export default {
   tasks,
-  Tasks
+  Tasks,
 }

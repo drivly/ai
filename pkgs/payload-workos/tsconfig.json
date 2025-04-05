@@ -1,15 +1,14 @@
 {
+  "extends": "../../pkgs/tsconfig/src/react.json",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "esnext",
     "moduleResolution": "node",
-    "esModuleInterop": true,
-    "strict": true,
     "outDir": "./dist",
     "declaration": true,
-    "skipLibCheck": true,
     "jsx": "react",
-    "forceConsistentCasingInFileNames": true
+    "incremental": false,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

@@ -50,7 +50,7 @@ export const triggers = {
    */
   delete: async (id: string): Promise<Trigger> => {
     return api.remove<Trigger>('triggers', id)
-  }
+  },
 }
 
 export * from './types.js'

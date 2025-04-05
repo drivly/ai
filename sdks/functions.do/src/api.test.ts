@@ -73,10 +73,7 @@ describe('ApiClient', () => {
         param3: true,
       })
 
-      expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/test-path?param1=value1&param2=123&param3=true',
-        expect.any(Object),
-      )
+      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/test-path?param1=value1&param2=123&param3=true', expect.any(Object))
     })
 
     it('should include request body for POST requests', async () => {
@@ -97,7 +94,7 @@ describe('ApiClient', () => {
         statusText: 'Not Found',
         json: vi.fn().mockResolvedValue({ error: 'Not found' }),
       } as unknown as Response
-      
+
       mockFetch.mockResolvedValueOnce(errorResponse)
 
       await expect(client.request('GET', '/test-path')).rejects.toThrow('API request failed: Not Found')

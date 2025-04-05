@@ -1,11 +1,15 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../pkgs/tsconfig/src/base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "."
+    "rootDir": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": [
     "index.ts",
     "src"
-  ]
+  ],
+  "exclude": ["node_modules", "dist"]
 }

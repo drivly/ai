@@ -3,13 +3,13 @@
  */
 export interface Integration {
   /** Integration ID */
-  id: string;
+  id: string
   /** Integration name */
-  name: string;
+  name: string
   /** Integration description */
-  description: string;
+  description: string
   /** Integration status */
-  status: 'active' | 'inactive';
+  status: 'active' | 'inactive'
 }
 
 /**
@@ -17,44 +17,50 @@ export interface Integration {
  */
 export interface IntegrationConfig {
   /** Name of the integration */
-  name: string;
+  name: string
   /** Description of the integration */
-  description: string;
+  description: string
   /** Authentication methods */
   auth?: {
     /** OAuth configuration */
     oauth?: {
       /** Authorization URL */
-      authorizationUrl: string;
+      authorizationUrl: string
       /** Token URL */
-      tokenUrl: string;
+      tokenUrl: string
       /** Required scopes */
-      scope: string[];
-    };
+      scope: string[]
+    }
     /** API Key configuration */
     apiKey?: {
       /** Header name for API key */
-      headerName: string;
+      headerName: string
       /** Prefix for API key value */
-      prefix?: string;
-    };
-  };
+      prefix?: string
+    }
+  }
   /** Available operations */
-  operations?: Record<string, {
-    /** Operation description */
-    description: string;
-    /** Input schema */
-    inputSchema: Record<string, string>;
-    /** Execute function */
-    execute: (inputs: any, auth: any) => Promise<any>;
-  }>;
+  operations?: Record<
+    string,
+    {
+      /** Operation description */
+      description: string
+      /** Input schema */
+      inputSchema: Record<string, string>
+      /** Execute function */
+      execute: (inputs: any, auth: any) => Promise<any>
+    }
+  >
   /** Event triggers */
-  triggers?: Record<string, {
-    /** Trigger description */
-    description: string;
-    /** Setup webhook function */
-    setupWebhook: (config: any, auth: any) => Promise<any>;
-  }>;
+  triggers?: Record<
+    string,
+    {
+      /** Trigger description */
+      description: string
+      /** Setup webhook function */
+      setupWebhook: (config: any, auth: any) => Promise<any>
+    }
+  >
 }
 
 /**
@@ -62,20 +68,20 @@ export interface IntegrationConfig {
  */
 export interface IntegrationConnection {
   /** Connection ID */
-  id: string;
+  id: string
   /** Service name */
-  service: string;
+  service: string
   /** Connection status */
-  status: 'active' | 'inactive' | 'error';
+  status: 'active' | 'inactive' | 'error'
   /** Authentication details */
   auth: {
     /** Authentication type */
-    type: 'oauth' | 'apiKey';
+    type: 'oauth' | 'apiKey'
     /** Expiration timestamp */
-    expiresAt?: string;
-  };
+    expiresAt?: string
+  }
   /** Available methods */
-  [key: string]: any;
+  [key: string]: any
 }
 
 /**
@@ -83,21 +89,21 @@ export interface IntegrationConnection {
  */
 export interface Trigger {
   /** Trigger ID */
-  id: string;
+  id: string
   /** Trigger type */
-  type: 'webhook' | 'websocket' | 'scheduled' | 'manual';
+  type: 'webhook' | 'websocket' | 'scheduled' | 'manual'
   /** Source service */
-  source: string;
+  source: string
   /** Event name */
-  event: string;
+  event: string
   /** Filter criteria */
-  filter?: Record<string, any>;
+  filter?: Record<string, any>
   /** Action function */
-  action: (event: any) => Promise<any>;
+  action: (event: any) => Promise<any>
   /** Enable the trigger */
-  enable: () => Promise<void>;
+  enable: () => Promise<void>
   /** Disable the trigger */
-  disable: () => Promise<void>;
+  disable: () => Promise<void>
 }
 
 /**
@@ -105,17 +111,17 @@ export interface Trigger {
  */
 export interface Action {
   /** Action ID */
-  id: string;
+  id: string
   /** Action name */
-  name: string;
+  name: string
   /** Action description */
-  description: string;
+  description: string
   /** Source service */
-  source: string;
+  source: string
   /** Operation name */
-  operation: string;
+  operation: string
   /** Input schema */
-  inputSchema: Record<string, string>;
+  inputSchema: Record<string, string>
   /** Execute the action */
-  execute: (inputs: any) => Promise<any>;
+  execute: (inputs: any) => Promise<any>
 }

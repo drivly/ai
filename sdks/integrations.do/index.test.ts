@@ -5,8 +5,8 @@ import { api } from 'apis.do'
 vi.mock('apis.do', () => ({
   api: {
     get: vi.fn(),
-    post: vi.fn()
-  }
+    post: vi.fn(),
+  },
 }))
 
 describe('integrations.do SDK', () => {
@@ -20,7 +20,7 @@ describe('integrations.do SDK', () => {
       vi.mocked(api.post).mockResolvedValue(mockConnection)
 
       const result = await integrations.connect('test-service', { authType: 'apiKey' })
-      
+
       expect(api.post).toHaveBeenCalledWith('/integrations/test-service/connect', { authType: 'apiKey' })
       expect(result).toEqual(mockConnection)
     })
@@ -30,7 +30,7 @@ describe('integrations.do SDK', () => {
       vi.mocked(api.post).mockResolvedValue(mockTrigger)
 
       const result = await integrations.createTrigger({ type: 'webhook', source: 'test-service' })
-      
+
       expect(api.post).toHaveBeenCalledWith('/integrations/triggers', { type: 'webhook', source: 'test-service' })
       expect(result).toEqual(mockTrigger)
     })
@@ -40,7 +40,7 @@ describe('integrations.do SDK', () => {
       vi.mocked(api.post).mockResolvedValue(mockAction)
 
       const result = await integrations.createAction({ name: 'test-action', source: 'test-service' })
-      
+
       expect(api.post).toHaveBeenCalledWith('/integrations/actions', { name: 'test-action', source: 'test-service' })
       expect(result).toEqual(mockAction)
     })
@@ -50,7 +50,7 @@ describe('integrations.do SDK', () => {
       vi.mocked(api.get).mockResolvedValue(mockIntegrations)
 
       const result = await integrations.list()
-      
+
       expect(api.get).toHaveBeenCalledWith('/integrations')
       expect(result).toEqual(mockIntegrations)
     })
@@ -60,7 +60,7 @@ describe('integrations.do SDK', () => {
       vi.mocked(api.get).mockResolvedValue(mockIntegration)
 
       const result = await integrations.get('test-integration')
-      
+
       expect(api.get).toHaveBeenCalledWith('/integrations/test-integration')
       expect(result).toEqual(mockIntegration)
     })
@@ -70,11 +70,11 @@ describe('integrations.do SDK', () => {
     it('should return the integration configuration', () => {
       const config = {
         name: 'test-integration',
-        description: 'Test integration'
+        description: 'Test integration',
       }
 
       const result = createIntegration(config)
-      
+
       expect(result).toEqual(config)
     })
   })
@@ -85,7 +85,7 @@ describe('integrations.do SDK', () => {
       vi.mocked(api.get).mockResolvedValue(mockTriggers)
 
       const result = await triggers.list()
-      
+
       expect(api.get).toHaveBeenCalledWith('/integrations/triggers')
       expect(result).toEqual(mockTriggers)
     })
@@ -95,7 +95,7 @@ describe('integrations.do SDK', () => {
       vi.mocked(api.get).mockResolvedValue(mockTrigger)
 
       const result = await triggers.get('123')
-      
+
       expect(api.get).toHaveBeenCalledWith('/integrations/triggers/123')
       expect(result).toEqual(mockTrigger)
     })
@@ -107,7 +107,7 @@ describe('integrations.do SDK', () => {
       vi.mocked(api.get).mockResolvedValue(mockActions)
 
       const result = await actions.list()
-      
+
       expect(api.get).toHaveBeenCalledWith('/integrations/actions')
       expect(result).toEqual(mockActions)
     })
@@ -117,7 +117,7 @@ describe('integrations.do SDK', () => {
       vi.mocked(api.get).mockResolvedValue(mockAction)
 
       const result = await actions.get('123')
-      
+
       expect(api.get).toHaveBeenCalledWith('/integrations/actions/123')
       expect(result).toEqual(mockAction)
     })

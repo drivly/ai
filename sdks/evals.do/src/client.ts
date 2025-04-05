@@ -1,12 +1,5 @@
 import { API, api as apisDoClient } from 'apis.do'
-import { 
-  EvalsOptions, 
-  Test, 
-  Result, 
-  TestRun, 
-  TaskExecutor,
-  EvaluationOptions
-} from './types.js'
+import { EvalsOptions, Test, Result, TestRun, TaskExecutor, EvaluationOptions } from './types.js'
 
 /**
  * SQLite adapter for local storage
@@ -21,7 +14,7 @@ class SQLiteAdapter {
     this.db = {
       tests: new Map<string, Test>(),
       results: new Map<string, Result>(),
-      runs: new Map<string, TestRun>()
+      runs: new Map<string, TestRun>(),
     }
   }
 
@@ -63,24 +56,17 @@ export class EvalsClient {
   private storeRemotely: boolean
 
   constructor(options: EvalsOptions = {}) {
-    const { 
-      baseUrl = 'https://evals.do',
-      apiKey,
-      storeLocally = true,
-      storeRemotely = true,
-      dbPath = './node_modules/evalite/.evalite.db',
-      ...rest
-    } = options
+    const { baseUrl = 'https://evals.do', apiKey, storeLocally = true, storeRemotely = true, dbPath = './node_modules/evalite/.evalite.db', ...rest } = options
 
-    this.api = new API({ 
-      baseUrl, 
+    this.api = new API({
+      baseUrl,
       apiKey,
-      ...rest
+      ...rest,
     })
 
     this.storeLocally = storeLocally
     this.storeRemotely = storeRemotely
-    
+
     this.localStore = storeLocally ? new SQLiteAdapter(dbPath) : null
   }
 
@@ -97,7 +83,7 @@ export class EvalsClient {
       tags: test.tags || [],
       createdAt: now,
       updatedAt: now,
-      ...test
+      ...test,
     }
 
     if (this.storeRemotely) {
@@ -147,7 +133,7 @@ export class EvalsClient {
       metrics: result.metrics || {},
       createdAt: now,
       updatedAt: now,
-      ...result
+      ...result,
     }
 
     if (this.storeRemotely) {
@@ -198,7 +184,7 @@ export class EvalsClient {
       startedAt: run.startedAt || now,
       createdAt: now,
       updatedAt: now,
-      ...run
+      ...run,
     }
 
     if (this.storeRemotely) {
@@ -239,48 +225,44 @@ export class EvalsClient {
   /**
    * Run an evaluation on a task executor with the given tests
    */
-  async evaluate<T = any, R = any>(
-    executor: TaskExecutor<T, R>,
-    tests: Test[],
-    options: EvaluationOptions = {}
-  ): Promise<TestRun> {
+  async evaluate<T = any, R = any>(executor: TaskExecutor<T, R>, tests: Test[], options: EvaluationOptions = {}): Promise<TestRun> {
     const runId = crypto.randomUUID()
     const now = new Date().toISOString()
-    
+
     const run: TestRun = {
       id: runId,
       name: `Run ${runId.split('-')[0]}`,
-      testIds: tests.map(test => test.id),
+      testIds: tests.map((test) => test.id),
       results: [],
       startedAt: now,
       createdAt: now,
-      updatedAt: now
+      updatedAt: now,
     }
-    
+
     await this.createRun(run)
-    
+
     const results: Result[] = []
-    
+
     for (const test of tests) {
       const startTime = Date.now()
       let output: any = {}
       let error: string | undefined
-      
+
       try {
         output = await executor.execute(test.input as T)
       } catch (err) {
         error = err instanceof Error ? err.message : String(err)
       }
-      
+
       const duration = Date.now() - startTime
-      
+
       let metrics: Record<string, number> = {}
-      
+
       if (options.metrics && test.expected) {
         for (const [name, calculator] of Object.entries(options.metrics)) {
           try {
             const metricResult = calculator.calculate(output, test.expected)
-            
+
             if (typeof metricResult === 'number') {
               metrics[name] = metricResult
             } else if (typeof metricResult === 'object') {
@@ -291,22 +273,22 @@ export class EvalsClient {
           }
         }
       }
-      
+
       const result = await this.createResult({
         testId: test.id,
         output,
         error,
         duration,
-        metrics
+        metrics,
       })
-      
+
       results.push(result)
     }
-    
+
     run.results = results
     run.completedAt = new Date().toISOString()
     run.updatedAt = run.completedAt
-    
+
     if (this.storeRemotely) {
       try {
         await this.api.update<TestRun>('runs', run.id, run)
@@ -314,11 +296,11 @@ export class EvalsClient {
         console.error('Failed to update run remotely:', error)
       }
     }
-    
+
     if (this.storeLocally && this.localStore) {
       await this.localStore.saveRun(run)
     }
-    
+
     return run
   }
 }

@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 import { Fragment } from 'react'
-import type { DefaultChatOptions } from '../../types/chat'
+import type { DefaultChatOptions } from '@/types/chat'
 import React from 'react'
 
 // Use a relative path for dynamic import

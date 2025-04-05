@@ -23,7 +23,8 @@ export function ChatSuggestions({ append }: ChatSuggestionsProps) {
                   content: suggestedAction.action,
                 })
               }}
-              className='bg-muted/50 flex w-full cursor-pointer flex-col rounded-lg border border-none border-zinc-200 p-3 text-left text-sm text-zinc-800 transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800'>
+              className='bg-muted/50 flex w-full cursor-pointer flex-col rounded-lg border border-none border-zinc-200 p-3 text-left text-sm text-zinc-800 transition-colors hover:bg-zinc-100 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800'
+            >
               <span className='font-medium'>{suggestedAction.title}</span>
               <span className='text-zinc-500 dark:text-zinc-400'>{suggestedAction.label}</span>
             </button>

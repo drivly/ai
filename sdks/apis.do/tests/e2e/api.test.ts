@@ -27,7 +27,7 @@ describeE2E('apis.do E2E API Tests', () => {
 
   it('should list collections using the API client', async () => {
     const result = await cli.list('functions')
-    
+
     expect(result).toBeDefined()
     expect(Array.isArray(result.data)).toBe(true)
   }, 30000)
@@ -38,7 +38,7 @@ describeE2E('apis.do E2E API Tests', () => {
       name: testName,
       description: 'Test resource created during E2E testing',
     }
-    
+
     const createResult = await cli.create('functions', createData)
     expect(createResult).toBeDefined()
     expect(createResult.id).toBeDefined()

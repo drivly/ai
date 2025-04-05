@@ -357,9 +357,9 @@ Generation functions use generative AI to create content or objects based on inp
 
 ```typescript
 // Using a Generation function in a workflow
-const summary = await ai.summarizeContent({ 
-  content: longText, 
-  maxLength: 200 
+const summary = await ai.summarizeContent({
+  content: longText,
+  maxLength: 200,
 })
 ```
 
@@ -371,7 +371,7 @@ Code functions execute deterministic code for precise calculations and data proc
 // Using a Code function in a workflow
 const processedData = await ai.processDataset({
   data: rawData,
-  operations: ['normalize', 'filter']
+  operations: ['normalize', 'filter'],
 })
 ```
 
@@ -383,7 +383,7 @@ Agentic functions delegate tasks to autonomous AI agents:
 // Using an Agentic function in a workflow
 const researchResults = await ai.researchTopic({
   topic: 'Emerging Technologies',
-  depth: 'Comprehensive'
+  depth: 'Comprehensive',
 })
 ```
 
@@ -395,7 +395,7 @@ Human functions incorporate human workers into your workflows:
 // Using a Human function in a workflow
 const approvalResult = await ai.getManagerApproval({
   proposal: proposalData,
-  deadline: '24h'
+  deadline: '24h',
 })
 ```
 
@@ -410,8 +410,8 @@ const salesAgent = Agent({
   tools: [
     // The lead qualification workflow is available as a tool
     ai.leadQualificationWorkflow,
-    ai.proposalGenerationWorkflow
-  ]
+    ai.proposalGenerationWorkflow,
+  ],
 })
 ```
 

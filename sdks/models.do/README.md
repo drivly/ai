@@ -27,7 +27,7 @@ import { ModelsSDK } from 'models.do'
 
 // Create the SDK client
 const models = new ModelsSDK({
-  apiKey: 'your-api-key'
+  apiKey: 'your-api-key',
 })
 
 // Resolve a specific model
@@ -40,7 +40,7 @@ await models.get('claude-3.7:reasoning') // -> { model: ModelDetails, parsed: { 
 await models.find({
   author: 'google',
   capabilities: ['reasoning', 'structuredOutput'],
-  sortBy: 'pricingLowToHigh'
+  sortBy: 'pricingLowToHigh',
 })
 
 // Returns both model's details, as well as a diff of the capabilities and attributes

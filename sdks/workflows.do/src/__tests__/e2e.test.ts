@@ -3,7 +3,7 @@ import { AI, createWorkflow } from '../index'
 
 /**
  * E2E Tests for workflows.do SDK
- * 
+ *
  * These tests use mocks to simulate API interactions.
  * In a production environment, these would connect to the actual backend.
  */
@@ -11,15 +11,15 @@ describe('workflows.do SDK - E2E Tests', () => {
   beforeAll(() => {
     global.window = {
       location: {
-        hostname: 'localhost'
-      }
+        hostname: 'localhost',
+      },
     } as any
   })
 
   const testWorkflow = {
     name: 'e2e-test-workflow',
     type: 'typescript',
-    code: 'export default { /* workflow definition */ }'
+    code: 'export default { /* workflow definition */ }',
   }
 
   const mockWorkflowId = 'mock-workflow-id-123'
@@ -31,36 +31,36 @@ describe('workflows.do SDK - E2E Tests', () => {
 
     it('should create and retrieve a workflow through Payload API', async () => {
       vi.mocked(fetch).mockResolvedValueOnce({
-        json: async () => ({ 
-          doc: { 
-            ...testWorkflow, 
-            id: mockWorkflowId 
-          } 
-        })
+        json: async () => ({
+          doc: {
+            ...testWorkflow,
+            id: mockWorkflowId,
+          },
+        }),
       } as Response)
 
       vi.mocked(fetch).mockResolvedValueOnce({
-        json: async () => ({ 
-          doc: { 
-            ...testWorkflow, 
-            id: mockWorkflowId 
-          } 
-        })
+        json: async () => ({
+          doc: {
+            ...testWorkflow,
+            id: mockWorkflowId,
+          },
+        }),
       } as Response)
 
       const response = await fetch('http://localhost:3000/api/workflows', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(testWorkflow)
+        body: JSON.stringify(testWorkflow),
       })
-      
+
       const result = await response.json()
       expect(result.doc).toBeDefined()
       expect(result.doc.name).toBe('e2e-test-workflow')
       expect(result.doc.id).toBe(mockWorkflowId)
-      
+
       const getResponse = await fetch(`http://localhost:3000/api/workflows/${mockWorkflowId}`)
       const getResult = await getResponse.json()
       expect(getResult.doc).toBeDefined()
@@ -70,26 +70,26 @@ describe('workflows.do SDK - E2E Tests', () => {
     it('should update a workflow through Payload API', async () => {
       const updatedWorkflow = {
         ...testWorkflow,
-        code: 'export default { /* updated workflow */ }'
+        code: 'export default { /* updated workflow */ }',
       }
 
       vi.mocked(fetch).mockResolvedValueOnce({
-        json: async () => ({ 
-          doc: { 
-            ...updatedWorkflow, 
-            id: mockWorkflowId 
-          } 
-        })
+        json: async () => ({
+          doc: {
+            ...updatedWorkflow,
+            id: mockWorkflowId,
+          },
+        }),
       } as Response)
 
       const updateResponse = await fetch(`http://localhost:3000/api/workflows/${mockWorkflowId}`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedWorkflow)
+        body: JSON.stringify(updatedWorkflow),
       })
-      
+
       const updateResult = await updateResponse.json()
       expect(updateResult.doc).toBeDefined()
       expect(updateResult.doc.code).toBe(updatedWorkflow.code)
@@ -98,14 +98,14 @@ describe('workflows.do SDK - E2E Tests', () => {
     it('should handle Payload API errors gracefully', async () => {
       vi.mocked(fetch).mockResolvedValueOnce({
         status: 404,
-        json: async () => ({ 
-          errors: [{ message: 'Workflow not found' }] 
-        })
+        json: async () => ({
+          errors: [{ message: 'Workflow not found' }],
+        }),
       } as Response)
 
       const response = await fetch(`http://localhost:3000/api/workflows/nonexistent-id`)
       expect(response.status).toBe(404)
-      
+
       const result = await response.json()
       expect(result.errors).toBeDefined()
     })
@@ -113,15 +113,15 @@ describe('workflows.do SDK - E2E Tests', () => {
     it('should delete a workflow through Payload API', async () => {
       vi.mocked(fetch).mockResolvedValueOnce({
         status: 200,
-        json: async () => ({ 
-          doc: { id: mockWorkflowId, deleted: true } 
-        })
+        json: async () => ({
+          doc: { id: mockWorkflowId, deleted: true },
+        }),
       } as Response)
 
       const deleteResponse = await fetch(`http://localhost:3000/api/workflows/${mockWorkflowId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
       })
-      
+
       expect(deleteResponse.status).toBe(200)
       const deleteResult = await deleteResponse.json()
       expect(deleteResult.doc).toBeDefined()
@@ -143,23 +143,23 @@ describe('workflows.do SDK - E2E Tests', () => {
             name: 'start',
             function: 'testFunction',
             input: { value: 'test' },
-            isFinal: true
-          }
-        }
+            isFinal: true,
+          },
+        },
       })
 
       vi.mocked(fetch).mockImplementation((url, options) => {
         if (url.toString().includes('/workflows/execute')) {
           return Promise.resolve({
-            json: async () => ({ 
+            json: async () => ({
               status: 'completed',
-              output: { result: 'success' }
-            })
+              output: { result: 'success' },
+            }),
           } as Response)
         }
-        
+
         return Promise.resolve({
-          json: async () => ({})
+          json: async () => ({}),
         } as Response)
       })
 
@@ -177,35 +177,38 @@ describe('workflows.do SDK - E2E Tests', () => {
             name: 'start',
             function: 'customFunction',
             input: { value: 'test' },
-            isFinal: true
-          }
-        }
+            isFinal: true,
+          },
+        },
       })
 
       vi.mocked(fetch).mockImplementation((url, options) => {
         if (url.toString().includes('/workflows/execute')) {
           return Promise.resolve({
-            json: async () => ({ 
+            json: async () => ({
               status: 'completed',
-              output: { 
+              output: {
                 result: 'custom',
                 timeout: 5000,
-                retries: 2
-              }
-            })
+                retries: 2,
+              },
+            }),
           } as Response)
         }
-        
+
         return Promise.resolve({
-          json: async () => ({})
+          json: async () => ({}),
         } as Response)
       })
 
-      const result = await workflow.execute({ input: 'test' }, { 
-        timeout: 5000,
-        retries: 2
-      })
-      
+      const result = await workflow.execute(
+        { input: 'test' },
+        {
+          timeout: 5000,
+          retries: 2,
+        },
+      )
+
       expect(result).toBeDefined()
       expect(result.status).toBe('completed')
     })
@@ -219,23 +222,23 @@ describe('workflows.do SDK - E2E Tests', () => {
             name: 'start',
             function: 'nonExistentFunction',
             input: { value: 'test' },
-            isFinal: true
-          }
-        }
+            isFinal: true,
+          },
+        },
       })
 
       vi.mocked(fetch).mockImplementation((url, options) => {
         if (url.toString().includes('/workflows/execute')) {
           return Promise.resolve({
-            json: async () => ({ 
+            json: async () => ({
               status: 'failed',
-              error: 'Function not found: nonExistentFunction'
-            })
+              error: 'Function not found: nonExistentFunction',
+            }),
           } as Response)
         }
-        
+
         return Promise.resolve({
-          json: async () => ({})
+          json: async () => ({}),
         } as Response)
       })
 

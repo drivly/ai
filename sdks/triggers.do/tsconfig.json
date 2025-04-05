@@ -1,6 +1,6 @@
 {
+  "extends": "../../pkgs/tsconfig/src/base.json",
   "compilerOptions": {
-    "target": "ES2020",
     "module": "ESNext",
     "lib": ["ES2020"],
     "declaration": true,
@@ -8,15 +8,11 @@
     "sourceMap": true,
     "outDir": "./dist",
     "rootDir": ".",
-    "strict": true,
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
     },
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "noEmit": false
   },
