@@ -4,7 +4,7 @@ import { FaXTwitter, FaLinkedin } from 'react-icons/fa6'
 import { FaHackerNews } from 'react-icons/fa'
 import { LinkIcon, CheckIcon } from 'lucide-react'
 import { useState } from 'react'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 
 interface ShareButtonsProps {
   title: string
@@ -56,7 +56,8 @@ export function ShareButtons({ title, url, hideLabel = false }: ShareButtonsProp
           target='_blank'
           rel='noopener noreferrer'
           className='hover:text-primary text-gray-500 transition-colors'
-          aria-label={`Share on ${link.name}`}>
+          aria-label={`Share on ${link.name}`}
+        >
           {link.icon}
         </a>
       ))}
