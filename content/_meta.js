@@ -3,7 +3,7 @@ export default {
   manifesto: 'Manifesto',
   // 'getting-started': 'Getting Started',
   apis: '',
-  // sdks: '',
+  sdks: '',
   _: {
     type: 'separator',
     title: 'AI' // Title is optional
