@@ -7,7 +7,6 @@ export default {
   },
   workflows: '',
   functions: '',
-  database: '',
   events: '',
   integrations: '',
   _2: {
