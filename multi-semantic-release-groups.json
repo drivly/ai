@@ -10,7 +10,19 @@
         "sdks/models.do",
         "sdks/evals.do",
         "sdks/agents.do",
-        "sdks/llm.do"
+        "sdks/llm.do",
+        "sdks/gpt.do",
+        "sdks/mcp.do",
+        "sdks/goals.do",
+        "sdks/plans.do",
+        "sdks/projects.do",
+        "sdks/sdks.do",
+        "sdks/tasks.do",
+        "sdks/searches.do",
+        "sdks/triggers.do",
+        "sdks/actions.do",
+        "sdks/experiments.do",
+        "sdks/integrations.do"
       ],
       "synchronized": true,
       "patternConfig": {
