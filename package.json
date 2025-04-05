@@ -10,6 +10,7 @@
     "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "lint": "turbo lint",
+    "lint:file": "eslint",
     "semantic-release": "node scripts/release.js",
     "version-pr": "node scripts/release.js --dry-run",
     "release": "pnpm build && pnpm semantic-release",
@@ -35,7 +36,8 @@
     "test:seed": "vitest run tests/seed.test.ts",
     "typecheck": "turbo typecheck",
     "format": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
@@ -131,8 +133,10 @@
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.16.0",
     "eslint-config-next": "15.2.2",
+    "husky": "^9.1.7",
     "ignore-loader": "^0.1.2",
     "jsdom": "^26.0.0",
+    "lint-staged": "^15.5.0",
     "multi-semantic-release": "^3.0.2",
     "node-mocks-http": "^1.16.2",
     "node-polyfill-webpack-plugin": "^4.1.0",
@@ -183,5 +187,6 @@
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
   },
+
   "packageManager": "pnpm@10.7.0"
 }

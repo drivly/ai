@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
 import { generateFunctionExamplesTask } from '../../tasks/ai/generateFunctionExamples'
-import { simplerJSON } from '../../pkgs/payload-utils/src'
+import { simplerJSON } from '../../pkgs/payload-utils'
 
 export const Functions: CollectionConfig = {
   slug: 'functions',
@@ -15,35 +15,35 @@ export const Functions: CollectionConfig = {
     //   type: 'row',
     //   fields: [
         { name: 'name', type: 'text', required: true, admin: { position: 'sidebar' } },
-        { 
-          name: 'type', 
-          type: 'select', 
-          options: ['Generation', 'Code', 'Human', 'Agent'], 
-          defaultValue: 'Generation', 
+        {
+          name: 'type',
+          type: 'select',
+          options: ['Generation', 'Code', 'Human', 'Agent'],
+          defaultValue: 'Generation',
           // required: true,
-          admin: { position: 'sidebar' } 
+          admin: { position: 'sidebar' }
         },
-        { 
-          name: 'public', 
-          type: 'checkbox', 
+        {
+          name: 'public',
+          type: 'checkbox',
           defaultValue: false,
-          admin: { 
+          admin: {
             position: 'sidebar',
             description: 'Make this function available to other users'
-          } 
+          }
         },
-        { 
-          name: 'clonedFrom', 
-          type: 'relationship', 
+        {
+          name: 'clonedFrom',
+          type: 'relationship',
           relationTo: 'functions',
-          admin: { 
+          admin: {
             position: 'sidebar',
             description: 'Original function this was cloned from'
-          } 
+          }
         },
-        { 
-          name: 'pricing', 
-          type: 'group', 
+        {
+          name: 'pricing',
+          type: 'group',
           admin: {
             position: 'sidebar',
             condition: (data) => data?.public === true,
@@ -109,12 +109,12 @@ export const Functions: CollectionConfig = {
     //     condition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
     //   },
     // },
-    ...simplerJSON({
+    ...(simplerJSON as any)({
       jsonFieldName: 'shape',
       codeFieldName: 'schemaYaml',
       label: 'Schema',
       defaultFormat: 'yaml',
-      adminCondition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
+      adminCondition: (data: any) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
       editorOptions: { lineNumbers: 'off', padding: { top: 20, bottom: 20 } },
       hideJsonField: true
     }),
@@ -163,9 +163,9 @@ export const Functions: CollectionConfig = {
       },
     },
     // { name: 'executions', type: 'join', collection: 'actions', on: 'functionId' },
-    { 
-      name: 'examples', 
-      type: 'relationship', 
+    {
+      name: 'examples',
+      type: 'relationship',
       relationTo: 'resources',
       hasMany: true,
       admin: {
