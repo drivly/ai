@@ -80,7 +80,8 @@
     "react-dom": "19.0.0",
     "sonner": "2.0.1",
     "tailwind-merge": "3.0.2",
-    "typescript": "5.8.2"
+    "typescript": "5.8.2",
+    "eslint-config": "workspace:*"
   },
   "dependencies": {
     "@better-auth/utils": "0.2.4",

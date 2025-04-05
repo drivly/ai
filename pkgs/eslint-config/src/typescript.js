@@ -6,7 +6,7 @@ import base from './index.js'
 export default [
   ...base,
   {
-    files: ['**/*.ts', '**/*.tsx'],
+    files: ['**/*.ts', '**/*.tsx', '**/*.js'],
     plugins: {
       '@typescript-eslint': tseslint,
     },
@@ -40,7 +40,18 @@ export default [
         setTimeout: 'readonly',
         ScrollBehavior: 'readonly',
         require: 'readonly',
-        Thenable: 'readonly'
+        Thenable: 'readonly',
+        Headers: 'readonly',
+        TextEncoder: 'readonly',
+        Buffer: 'readonly',
+        CryptoKey: 'readonly',
+        BufferSource: 'readonly',
+        atob: 'readonly',
+        btoa: 'readonly',
+        File: 'readonly',
+        FileReader: 'readonly',
+        DOMParser: 'readonly',
+        HTMLInputElement: 'readonly',
       },
     },
     rules: {
@@ -48,7 +59,7 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
-      'no-case-declarations': 'off'
+      'no-case-declarations': 'off',
     },
   },
 ]

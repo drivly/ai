@@ -1,3 +1,3 @@
-import nextConfig from 'eslint-config/next'
+import typescriptConfig from '../../pkgs/eslint-config/src/typescript.js'
 
-export default nextConfig
+export default typescriptConfig
