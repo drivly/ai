@@ -13,7 +13,7 @@
     "rootDir": "../../../",
     "paths": {
       "@/*": ["./src/*"],
-      "apis.do": ["../../../sdks/apis.do"],
+      "apis.do": ["../../../sdks/apis.do/index"],
       "apis.do/types": ["../../../sdks/apis.do/types"]
     }
   },
