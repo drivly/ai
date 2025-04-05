@@ -8,16 +8,16 @@ const cn = (...classes: (string | undefined | null | false)[]) => {
   return classes.filter(Boolean).join(' ')
 }
 
-const Wrapper = ({ 
-  as: Component = 'div', 
-  withOverlay, 
-  withOutsideClick, 
-  ...rest 
-}: { 
-  as?: React.ElementType; 
-  withOverlay?: boolean; 
-  withOutsideClick?: boolean; 
-  [key: string]: any 
+const Wrapper = ({
+  as: Component = 'div',
+  withOverlay,
+  withOutsideClick,
+  ...rest
+}: {
+  as?: React.ElementType
+  withOverlay?: boolean
+  withOutsideClick?: boolean
+  [key: string]: any
 }) => {
   return <Component {...rest} />
 }
@@ -40,20 +40,10 @@ const ClientContainer: React.FC<ClientContainerProps> = ({
     <Fragment>
       {children}
       <div className={chatOptions?.rootStyle}>
-        <button 
-          className={cn(
-            chatOptions?.triggerStyle, 
-            type === 'resizable' && 'right-[32px] bottom-[16px]'
-          )}
-        >
+        <button className={cn(chatOptions?.triggerStyle, type === 'resizable' && 'right-[32px] bottom-[16px]')}>
           <BotMessageSquare size={18} />
         </button>
-        <Wrapper
-          as="div"
-          withOverlay={withOverlay}
-          withOutsideClick={withOutsideClick}
-          className={chatOptions?.containerStyle}
-        >
+        <Wrapper as='div' withOverlay={withOverlay} withOutsideClick={withOutsideClick} className={chatOptions?.containerStyle}>
           <div className={chatOptions?.headerStyle}>
             {logo && <div className={chatOptions?.headerLogoStyle}>{logo}</div>}
             {title && <div className={chatOptions?.headerTitleStyle}>{title}</div>}
