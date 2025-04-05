@@ -5,9 +5,10 @@
     "outDir": "./dist",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": false,
     "composite": true,
     "declaration": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
