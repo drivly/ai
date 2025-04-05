@@ -8,7 +8,7 @@
     "jsx": "react",
     "resolveJsonModule": true,
     "composite": true,
-    "incremental": false,
+    "incremental": true,
     "paths": {
       "@/*": ["./*"]
     }
