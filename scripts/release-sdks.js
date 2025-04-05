@@ -28,7 +28,6 @@ const SDK_PACKAGES = [
   'sdks/plans.do',
   'sdks/projects.do',
   'sdks/sdk.do',
-  'sdks/sdks.do',
   'sdks/searches.do',
   'sdks/tasks.do',
   'sdks/triggers.do',
