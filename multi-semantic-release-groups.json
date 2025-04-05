@@ -22,7 +22,8 @@
         "sdks/triggers.do",
         "sdks/actions.do",
         "sdks/experiments.do",
-        "sdks/integrations.do"
+        "sdks/integrations.do",
+        "sdks/analytics.do"
       ],
       "synchronized": true,
       "patternConfig": {
