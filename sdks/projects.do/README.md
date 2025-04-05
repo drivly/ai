@@ -58,3 +58,7 @@ The projects.do SDK exports:
 ## License
 
 MIT © [Drivly](https://driv.ly)
+
+## Dependencies
+
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem
