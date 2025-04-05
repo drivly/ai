@@ -16,7 +16,7 @@
         "sdks/goals.do",
         "sdks/plans.do",
         "sdks/projects.do",
-        "sdks/sdks.do",
+        "sdks/sdk.do",
         "sdks/tasks.do",
         "sdks/searches.do",
         "sdks/triggers.do",
