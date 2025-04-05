@@ -60,6 +60,8 @@ export default [
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
       'no-case-declarations': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/no-empty-function': 'off',
     },
   },
 ]
