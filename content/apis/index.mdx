@@ -1,67 +1,201 @@
 ---
-title: API Reference
+title: APIs
 sidebarTitle: APIs
 asIndexPage: true
 ---
 
-# API Reference
+# APIs - The Foundation of the .do Ecosystem
 
-This section contains API documentation for all collections in the system, organized by category.
+> **Elegant APIs for economically valuable work**
 
-## Work
-- [Jobs](/docs/apis/work/jobs)
-- [Tasks](/docs/apis/work/tasks)
-- [Workflows](/docs/apis/work/workflows)
+## Overview
 
-## AI
-- [Agents](/docs/apis/ai/agents)
-- [Chats](/docs/apis/ai/chats)
-- [Functions](/docs/apis/ai/functions)
-- [Messages](/docs/apis/ai/messages)
-- [Prompts](/docs/apis/ai/prompts)
+APIs is the foundational SDK and unified API Gateway for the entire [.do](https://dotdo.ai) ecosystem. As the core building block, it provides the essential infrastructure upon which all other .do services are built. This lightweight, zero-dependency SDK delivers a simple, type-safe interface to interact with Functions, Workflows, Agents, and all other .do services through a consistent, elegantly designed API.
 
-## Data
-- [Databases](/docs/apis/data/databases)
-- [Datasets](/docs/apis/data/datasets)
-- [Files](/docs/apis/data/files)
-- [Resources](/docs/apis/data/resources)
-- [Vectors](/docs/apis/data/vectors)
+## Key Features
 
-## Events
-- [Events](/docs/apis/events/events)
-- [Webhooks](/docs/apis/events/webhooks)
+- **Foundation of the .do Ecosystem** - The core SDK upon which all other .do services are built
+- **Zero Dependencies** - Lightweight implementation with no external runtime dependencies
+- **Universal Gateway** - Single, elegant entry point to all `.do` services and domains
+- **Extreme Simplicity** - Clean, intuitive API design that prioritizes developer experience
+- **Type Safety** - Full TypeScript support with generics for end-to-end type safety
+- **Cross-Platform** - Seamlessly works in Node.js, browsers, and edge environments
+- **Elegant Authentication** - Simple, secure API key-based authentication
+- **Comprehensive Error Handling** - Clear, actionable error information
 
-## Integrations
-- [Connections](/docs/apis/integrations/connections)
-- [Integrations](/docs/apis/integrations/integrations)
+## Installation
 
-## Admin
-- [API Keys](/docs/apis/admin/apikeys)
-- [Domains](/docs/apis/admin/domains)
-- [Projects](/docs/apis/admin/projects)
-- [Tags](/docs/apis/admin/tags)
-- [Users](/docs/apis/admin/users)
+```bash
+# Using npm
+npm install apis.do
 
-## Authentication
-- [API Keys](/docs/apis/authentication/apikeys)
-- [OAuth Apps](/docs/apis/authentication/oauthapps)
-- [OAuth Clients](/docs/apis/authentication/oauthclients)
-- [OAuth Tokens](/docs/apis/authentication/oauthtokens)
-- [Sessions](/docs/apis/authentication/sessions)
+# Using yarn
+yarn add apis.do
 
-## Code
-- [Packages](/docs/apis/code/packages)
-- [Repositories](/docs/apis/code/repositories)
+# Using pnpm
+pnpm add apis.do
+```
 
-## Evals
-- [Evals](/docs/apis/evals/evals)
-- [Runs](/docs/apis/evals/runs)
+## The .do Ecosystem
 
-## Experiments
-- [Experiments](/docs/apis/experiments/experiments)
-- [Runs](/docs/apis/experiments/runs)
+As the foundation of the [.do](https://dotdo.ai) ecosystem, APIs provides elegant, unified access to all services:
 
-## Observability
-- [Logs](/docs/apis/observability/logs)
-- [Metrics](/docs/apis/observability/metrics)
-- [Traces](/docs/apis/observability/traces)
+```json
+{
+  "ai": {
+    "Functions - Typesafe AI Results": "https://functions.do/api",
+    "Workflows - Business Process Orchestration": "https://workflows.do/api",
+    "Agents - Autonomous Digital Workers": "https://agents.do/api"
+  },
+  "events": {
+    "Triggers - Event-Driven Process Initiation": "https://triggers.do",
+    "Searches - Contextual Data Retrieval": "https://searches.do",
+    "Actions - External System Operations": "https://actions.do"
+  },
+  "core": {
+    "LLM - Intelligent AI Gateway": "https://llm.do",
+    "Database - AI-Native Data Layer": "https://database.do",
+    "Integrations - External System Connections": "https://integrations.do",
+    "Analytics - Business Impact Measurement": "https://analytics.do",
+    "Evals - Quality Assessment": "https://evals.do",
+    "Experiments - Controlled Testing": "https://experiments.do"
+  }
+}
+```
+
+## Quick Start
+
+The elegance of APIs is evident in its minimal, intuitive interface:
+
+```typescript
+import { API } from 'apis.do'
+
+// Initialize with a single line
+const api = new API({ apiKey: 'your-api-key' })
+
+// Access any collection with simple, consistent patterns
+const users = await api.users.find()
+const user = await api.users.get('user-id')
+const newUser = await api.users.create({ name: 'Jane Doe', email: 'jane@example.com' })
+const updatedUser = await api.users.update('user-id', { status: 'active' })
+await api.users.delete('user-id')
+
+// The same elegant pattern works across all .do services
+const functions = await api.functions.find()
+const workflows = await api.workflows.find({ status: 'active' })
+const agents = await api.agents.find({ type: 'assistant' })
+```
+
+## Unified Collection Access
+
+As the foundation of the [.do](https://dotdo.ai) ecosystem, APIs provides elegant, consistent access to all collections:
+
+### AI Primitives
+
+- `functions` - Typesafe AI functions that deliver predictable results
+- `workflows` - Elegant business process orchestration
+- `agents` - Autonomous digital workers that accomplish tasks
+
+### Core Data Model
+
+- `things` - Business entities with properties and relationships
+- `nouns` - Entity types and categories
+- `verbs` - Actions and relationships between entities
+
+### Event System
+
+- `triggers` - Event-driven process initiation
+- `searches` - Contextual data retrieval
+- `actions` - External system operations
+
+### Observability
+
+- `generations` - Before/after state records
+- `events` - System event tracking
+- `traces` - Execution path visualization
+
+## Type-Safe Elegance
+
+APIs provides full TypeScript support with a clean, intuitive interface:
+
+```typescript
+import { API } from 'apis.do'
+import type { Function, Workflow, Agent, Thing, Action } from 'apis.do/types'
+
+// Simple initialization
+const api = new API({ apiKey: process.env.DO_API_KEY })
+
+// Create an AI function with type safety
+const createFunction = async () => {
+  return await api.functions.create({
+    name: 'Product Description Generator',
+    type: 'Generation',
+    format: 'Object',
+    schema: {
+      productType: 'string',
+      customer: 'string',
+      solution: 'string',
+      description: 'string',
+    },
+    prompt: 'Generate a product description based on the input',
+  })
+}
+
+// Access workflows with the same elegant pattern
+const getActiveWorkflows = async () => {
+  return await api.workflows.find({ status: 'active' })
+}
+
+// Create data entities with consistent patterns
+const createCustomer = async (data: Partial<Thing>) => {
+  return await api.things.create({
+    name: data.name,
+    type: 'customer',
+    data,
+  })
+}
+
+// Query relationships with intuitive filtering
+const getCustomerPurchases = async (customerId: string) => {
+  return await api.actions.find({ 
+    subject: customerId, 
+    verb: 'purchased' 
+  })
+}
+```
+
+## The Foundation of the .do Ecosystem
+
+As the core SDK, APIs provides the foundation for all other .do services:
+
+```typescript
+import { API } from 'apis.do'
+import type { Function, Workflow, Agent, Thing, Action } from 'apis.do/types'
+
+// One client to access the entire ecosystem
+const api = new API({ apiKey: process.env.DO_API_KEY })
+
+// Execute AI functions with a simple, consistent interface
+const generateContent = async (prompt: string) => {
+  return api.functions.execute('content-generator', { prompt })
+}
+
+// Orchestrate business processes with the same elegant pattern
+const processOrder = async (orderId: string) => {
+  return api.workflows.trigger('order-fulfillment', { orderId })
+}
+
+// Delegate tasks to autonomous agents
+const researchTopic = async (topic: string) => {
+  return api.agents.ask('research-assistant', { question: `Research ${topic}` })
+}
+
+// Create relationships between business entities
+const recordPurchase = async (customerId: string, productId: string) => {
+  return api.actions.create({
+    subject: customerId,
+    verb: 'purchased',
+    object: productId,
+  })
+}
+```
