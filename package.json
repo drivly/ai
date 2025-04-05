@@ -131,6 +131,7 @@
     "@types/react-dom": "19.0.4",
     "@types/ua-parser-js": "^0.7.39",
     "@vitejs/plugin-react": "^4.3.4",
+    "chromatic": "^11.28.0",
     "eslint": "^9.16.0",
     "eslint-config-next": "15.2.2",
     "husky": "^9.1.7",
@@ -187,6 +188,5 @@
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
   },
-
   "packageManager": "pnpm@10.7.0"
 }
