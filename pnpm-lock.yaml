@@ -599,6 +599,9 @@ importers:
       copyfiles:
         specifier: ^2.4.1
         version: 2.4.1
+      eslint-config:
+        specifier: workspace:*
+        version: link:../eslint-config
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@22.13.14)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.11.8(@swc/helpers@0.5.15))(@types/node@22.13.14)(typescript@5.8.2))
