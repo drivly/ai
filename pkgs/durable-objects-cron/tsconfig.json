@@ -1,14 +1,19 @@
 {
-  "extends": "../../pkgs/tsconfig/src/worker.json",
   "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": true,
     "outDir": "./dist",
     "rootDir": "./src",
     "declaration": true,
-    "typeRoots": ["./node_modules/@types", "./src"],
+    "types": ["@cloudflare/workers-types"],
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "src/**/*.d.ts"],
+  "include": ["src/**/*", "worker-configuration.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
