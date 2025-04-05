@@ -999,7 +999,7 @@ importers:
         version: 0.1.0(mermaid.cli@0.3.6)(react@18.3.1)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.2))
       agents:
         specifier: latest
-        version: 0.0.50(@cloudflare/workers-types@4.20250321.0)
+        version: 0.0.51(@cloudflare/workers-types@4.20250321.0)
       apis.do:
         specifier: workspace:*
         version: link:../apis.do
@@ -1134,13 +1134,13 @@ importers:
       apis.do:
         specifier: workspace:*
         version: link:../apis.do
+      models.do:
+        specifier: workspace:*
+        version: link:../models.do
     devDependencies:
       '@ai-sdk/provider':
         specifier: ^1.0.2
         version: 1.1.0
-      models.do:
-        specifier: workspace:^0.0.1
-        version: link:../models.do
       vitest:
         specifier: ^3.0.8
         version: 3.0.9(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
@@ -1340,7 +1340,7 @@ importers:
     dependencies:
       agents:
         specifier: latest
-        version: 0.0.50(@cloudflare/workers-types@4.20250321.0)
+        version: 0.0.51(@cloudflare/workers-types@4.20250321.0)
       hono:
         specifier: ^4.7.4
         version: 4.7.5
@@ -6729,8 +6729,8 @@ packages:
     resolution: {integrity: sha512-kja8j7PjmncONqaTsB8fQ+wE2mSU2DJ9D4XKoJ5PFWIdRMa6SLSN1ff4mOr4jCbfRSsxR4keIiySJU0N9T5hIQ==}
     engines: {node: '>= 8.0.0'}
 
-  agents@0.0.50:
-    resolution: {integrity: sha512-IaKgKNWP0z8GKBjRtFZz3OsYn0Y3U4G7xtlhSJw9i/9l8LoVWR9AOSHYF6K/BBoBxoT0hrHcyhngWEl9G9nvkA==}
+  agents@0.0.51:
+    resolution: {integrity: sha512-ees7852elVQRt0nOZDQXshfs1BUVfw/z7Ld7mKsAvqu6lTHhLgqFy/ECnAcRZFJSg5J7PYuKZarSC/Ap1ncTag==}
 
   aggregate-error@3.1.0:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
@@ -21966,7 +21966,7 @@ snapshots:
     dependencies:
       humanize-ms: 1.2.1
 
-  agents@0.0.50(@cloudflare/workers-types@4.20250321.0):
+  agents@0.0.51(@cloudflare/workers-types@4.20250321.0):
     dependencies:
       '@modelcontextprotocol/sdk': 1.8.0
       cron-schedule: 5.0.4
