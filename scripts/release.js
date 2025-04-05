@@ -11,14 +11,28 @@ import fs from 'fs';
 
 const DRY_RUN = process.argv.includes('--dry-run');
 const SDK_PACKAGES = [
-  'sdks/apis.do',
-  'sdks/functions.do',
-  'sdks/workflows.do',
-  'sdks/database.do',
-  'sdks/models.do',
-  'sdks/evals.do',
+  'sdks/actions.do',
   'sdks/agents.do',
-  'sdks/llm.do'
+  'sdks/analytics.do',
+  'sdks/apis.do',
+  'sdks/database.do',
+  'sdks/evals.do',
+  'sdks/experiments.do',
+  'sdks/functions.do',
+  'sdks/goals.do',
+  'sdks/gpt.do',
+  'sdks/integrations.do',
+  'sdks/llm.do',
+  'sdks/mcp.do',
+  'sdks/models.do',
+  'sdks/plans.do',
+  'sdks/projects.do',
+  'sdks/sdk.do',
+  'sdks/sdks.do',
+  'sdks/searches.do',
+  'sdks/tasks.do',
+  'sdks/triggers.do',
+  'sdks/workflows.do'
 ];
 
 console.log(`Running release script in ${DRY_RUN ? 'dry run' : 'release'} mode`);
