@@ -165,9 +165,9 @@ const createCustomer = async (data: Partial<Thing>) => {
 
 // Query relationships with intuitive filtering
 const getCustomerPurchases = async (customerId: string) => {
-  return await api.actions.find({ 
-    subject: customerId, 
-    verb: 'purchased' 
+  return await api.actions.find({
+    subject: customerId,
+    verb: 'purchased',
   })
 }
 ```
@@ -183,10 +183,7 @@ Even advanced features maintain the same elegant simplicity:
 const searchResults = await api.users.search('active customers in California')
 
 // Structured filtering with intuitive syntax
-const activeUsers = await api.users.find(
-  { status: 'active', 'profile.location.state': 'CA' },
-  { limit: 10, sort: '-createdAt' }
-)
+const activeUsers = await api.users.find({ status: 'active', 'profile.location.state': 'CA' }, { limit: 10, sort: '-createdAt' })
 ```
 
 ### Direct API Access
@@ -251,26 +248,29 @@ const api = new API({ apiKey: process.env.DO_API_KEY })
 async function createBusinessInsights(companyId: string) {
   // Access company data with a simple, consistent pattern
   const company = await api.things.get(companyId)
-  
+
   // Query sales data with intuitive filtering
-  const salesData = await api.things.find({
-    type: 'sale',
-    'data.companyId': companyId,
-    'data.date': { $gte: '2023-01-01' }
-  }, { sort: '-createdAt', limit: 100 })
-  
+  const salesData = await api.things.find(
+    {
+      type: 'sale',
+      'data.companyId': companyId,
+      'data.date': { $gte: '2023-01-01' },
+    },
+    { sort: '-createdAt', limit: 100 },
+  )
+
   // Execute AI analysis with the same elegant interface
   const analysis = await api.functions.execute('sales-trend-analyzer', {
     sales: salesData,
-    timeframe: 'quarterly'
+    timeframe: 'quarterly',
   })
-  
+
   // Get AI-powered recommendations
   const recommendations = await api.agents.ask('business-advisor', {
     question: 'What are the top 3 strategic actions for this company?',
-    context: { company, salesData, analysis }
+    context: { company, salesData, analysis },
   })
-  
+
   // Create a dashboard entity
   const dashboard = await api.things.create({
     name: `${company.name} Strategic Dashboard`,
@@ -278,17 +278,17 @@ async function createBusinessInsights(companyId: string) {
     data: {
       company: companyId,
       analysis,
-      recommendations: recommendations.suggestions
-    }
+      recommendations: recommendations.suggestions,
+    },
   })
-  
+
   // Create a relationship between entities
   await api.actions.create({
     subject: companyId,
     verb: 'has',
-    object: dashboard.id
+    object: dashboard.id,
   })
-  
+
   return dashboard
 }
 ```

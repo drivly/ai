@@ -14,14 +14,14 @@ vi.mock('payload', () => ({
     collections: {
       // Mock the collections structure needed by the webhook handler
       events: {
-        create: vi.fn().mockResolvedValue({ id: 'mock-event-id' })
-      }
+        create: vi.fn().mockResolvedValue({ id: 'mock-event-id' }),
+      },
     },
     auth: vi.fn().mockResolvedValue({
       permissions: {},
-      user: {}
+      user: {},
     }),
-    find: vi.fn().mockResolvedValue({ docs: [] })
+    find: vi.fn().mockResolvedValue({ docs: [] }),
   }),
   buildConfig: vi.fn().mockImplementation((config) => config),
 }))
@@ -37,29 +37,29 @@ vi.mock('@/lib/api', () => ({
         const mockPayload = {
           collections: {
             events: {
-              create: vi.fn().mockResolvedValue({ id: 'mock-event-id' })
-            }
+              create: vi.fn().mockResolvedValue({ id: 'mock-event-id' }),
+            },
           },
           auth: vi.fn().mockResolvedValue({
             permissions: {},
-            user: {}
+            user: {},
           }),
           find: vi.fn().mockResolvedValue({ docs: [] }),
-          create: vi.fn().mockResolvedValue({ id: 'mock-event-id' })
+          create: vi.fn().mockResolvedValue({ id: 'mock-event-id' }),
         }
-        
+
         const mockContext = {
           ...ctx,
           payload: mockPayload,
           db: {
             events: {
-              create: vi.fn().mockResolvedValue({ id: 'mock-event-id' })
-            }
+              create: vi.fn().mockResolvedValue({ id: 'mock-event-id' }),
+            },
           },
           user: {},
-          permissions: {}
+          permissions: {},
         }
-        
+
         const result = await handler(req, mockContext)
         if (result instanceof Response) {
           return result
@@ -104,7 +104,7 @@ describe('Composio Webhook Handler', () => {
     } as unknown as NextRequest
 
     const response = await POST(request, {
-      params: Promise.resolve({})
+      params: Promise.resolve({}),
     })
 
     expect(response.status).toBe(500)
@@ -125,7 +125,7 @@ describe('Composio Webhook Handler', () => {
     } as unknown as NextRequest
 
     const response = await POST(request, {
-      params: Promise.resolve({})
+      params: Promise.resolve({}),
     })
 
     expect(response.status).toBe(400)
@@ -150,7 +150,7 @@ describe('Composio Webhook Handler', () => {
     } as unknown as NextRequest
 
     const response = await POST(request, {
-      params: Promise.resolve({})
+      params: Promise.resolve({}),
     })
 
     expect(response.status).toBe(401)

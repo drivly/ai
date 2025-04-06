@@ -9,7 +9,7 @@ export const GET = API(async (request: NextRequest, { user }) => {
       await signOut({
         fetchOptions: {
           headers: request.headers,
-        }
+        },
       })
     } catch (error) {
       console.error('Error during logout:', error)

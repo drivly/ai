@@ -6,5 +6,5 @@ export default {
   integrations: '',
   webhooks: '',
   apikeys: 'API Keys',
-  billing: ''
+  billing: '',
 }

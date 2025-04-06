@@ -5,7 +5,6 @@
 [![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/tafnNeUQdm)
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
-
 The [.do](https://dotdo.ai) platform enables you to define, execute, and iterate on business processes as clean & simple code. Our APIs and SDKs are designed with extreme simplicity and elegance, making them accessible enough for non-technical business people to read while providing the power and flexibility that developers need.
 
 ## Core Primitives

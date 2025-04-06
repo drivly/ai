@@ -43,16 +43,14 @@ export class API {
     if (data) {
       options.body = JSON.stringify(data)
     }
-    
-    if (typeof process !== 'undefined' && 
-        (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') && 
-        this.options?.ignoreSSLErrors) {
+
+    if (typeof process !== 'undefined' && (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') && this.options?.ignoreSSLErrors) {
       try {
-        const { Agent } = require('node:https');
-        const fetchOptions = options as RequestInit & { agent?: any };
-        fetchOptions.agent = new Agent({ rejectUnauthorized: false });
+        const { Agent } = require('node:https')
+        const fetchOptions = options as RequestInit & { agent?: any }
+        fetchOptions.agent = new Agent({ rejectUnauthorized: false })
       } catch (e) {
-        console.warn('SSL certificate validation will not be disabled in browser environment');
+        console.warn('SSL certificate validation will not be disabled in browser environment')
       }
     }
 

@@ -47,13 +47,13 @@ export const metros: Record<number, string> = {
   511: 'Washington DC',
 }
 
-export const locations: Record<string, { city: string, lat: number, lon: number }> = {
+export const locations: Record<string, { city: string; lat: number; lon: number }> = {
   ORD: { city: 'Chicago', lat: 41.8781, lon: -87.6298 },
-  DFW: { city: 'Dallas', lat: 32.7767, lon: -96.7970 },
+  DFW: { city: 'Dallas', lat: 32.7767, lon: -96.797 },
   IAD: { city: 'Washington DC', lat: 38.9072, lon: -77.0369 },
   LAX: { city: 'Los Angeles', lat: 34.0522, lon: -118.2437 },
   SJC: { city: 'San Jose', lat: 37.3382, lon: -121.8863 },
-  ATL: { city: 'Atlanta', lat: 33.7490, lon: -84.3880 },
+  ATL: { city: 'Atlanta', lat: 33.749, lon: -84.388 },
   LHR: { city: 'London', lat: 51.5074, lon: -0.1278 },
   FRA: { city: 'Frankfurt', lat: 50.1109, lon: 8.6821 },
   CDG: { city: 'Paris', lat: 48.8566, lon: 2.3522 },

@@ -39,11 +39,7 @@ export function Attachment({ id, url, thumbnailUrl, name, type, size, onRemove, 
   // compact version
   if (compact) {
     return (
-      <PromptInputAction
-        delayDuration={0}
-        className='rounded-sm bg-black p-1 dark:bg-white'
-        tooltip="File preview"
-      >
+      <PromptInputAction delayDuration={0} className='rounded-sm bg-black p-1 dark:bg-white' tooltip='File preview'>
         <div
           className={cn(
             'group bg-card hover:bg-accent border-border relative flex h-[40px] w-[150px] cursor-pointer items-center gap-[8px] rounded-sm border py-[4px] pr-[12px] pl-[4px] transition-colors duration-200 ease-out dark:bg-[#141415] hover:dark:bg-[#1f1f22]',

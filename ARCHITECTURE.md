@@ -162,15 +162,15 @@ graph TD
     MDXFile["MDX File"] --> Frontmatter["Frontmatter<br/>Metadata, tools, etc."]
     MDXFile --> Components["React Components<br/>UI elements"]
     MDXFile --> CodeBlocks["Code Blocks<br/>JavaScript execution"]
-    
+
     Frontmatter --> AgentInstance["Agent Instance"]
     Components --> AgentUI["Agent UI<br/>Visualization"]
     CodeBlocks --> AgentLogic["Agent Logic<br/>Behavior"]
-    
+
     AgentInstance --> AgentRuntime["Agent Runtime"]
     AgentUI --> AgentRuntime
     AgentLogic --> AgentRuntime
-    
+
     style MDXFile fill:#d9ead3,stroke:#333,stroke-width:1px
     style Frontmatter fill:#d9ead3,stroke:#333,stroke-width:1px
     style Components fill:#d9ead3,stroke:#333,stroke-width:1px
@@ -592,19 +592,19 @@ graph TD
         SDKTypes["SDK Types<br/>TypeScript interfaces"]
         SDKExports["SDK Exports<br/>Public API"]
     end
-    
+
     subgraph "Backend Implementation"
         TaskImplementation["Task Implementation<br/>With dependencies"]
         APIRoutes["API Routes<br/>Server endpoints"]
         DatabaseModels["Database Models<br/>Payload collections"]
     end
-    
+
     SDKInterface --> SDKTypes
     SDKInterface --> SDKExports
     TaskImplementation --> SDKInterface
     APIRoutes --> TaskImplementation
     DatabaseModels --> TaskImplementation
-    
+
     style SDKInterface fill:#d4f1f9,stroke:#333,stroke-width:1px
     style SDKTypes fill:#d4f1f9,stroke:#333,stroke-width:1px
     style SDKExports fill:#d4f1f9,stroke:#333,stroke-width:1px
@@ -747,37 +747,37 @@ graph TD
     Functions --> Prompts
     Functions --> Agents
     Functions --> Actions
-    
+
     Workflows --> Functions
     Workflows --> Modules
     Workflows --> Packages
     Workflows --> Deployments
-    
+
     Actions --> Resources["Resources (subject)"]
     Actions --> Verbs
     Actions --> Functions
     Actions --> Resources2["Resources (object)"]
     Actions --> Generations
-    
+
     Triggers --> Workflows
     Searches --> Workflows
-    
+
     Integrations --> IntegrationCategories
     IntegrationActions --> Integrations
     IntegrationTriggers --> Integrations
     Connections --> Integrations
-    
+
     Evals --> EvalsRuns
     EvalsRuns --> EvalsResults
     EvalsRuns --> Datasets
     EvalsResults --> Benchmarks
-    
+
     Tasks --> Queues
-    
+
     Experiments --> Models
     Experiments --> Prompts
     Experiments --> Settings
-    
+
     style Functions fill:#d4f1f9,stroke:#333,stroke-width:1px
     style Workflows fill:#d9d2e9,stroke:#333,stroke-width:1px
     style Agents fill:#e6e6fa,stroke:#333,stroke-width:1px
@@ -822,21 +822,21 @@ graph TD
         WindsurfRules[".windsurfrules<br/>Technical specifications"]
         OpenHandsRepo[".openhands/microagents/repo.md<br/>Implementation patterns"]
     end
-    
+
     subgraph "Documentation Structure"
         ContentDirectory["content/<br/>MDX documentation"]
         MetaFiles["_meta.js<br/>Navigation structure"]
         APIDocs["API documentation"]
         GuideDocs["Guides and tutorials"]
     end
-    
+
     README --> ContentDirectory
     README --> MetaFiles
     CollectionsIndex --> ContentDirectory
     SDKReadmes --> ContentDirectory
     WindsurfRules --> ContentDirectory
     OpenHandsRepo --> ContentDirectory
-    
+
     style README fill:#d9ead3,stroke:#333,stroke-width:1px
     style CollectionsIndex fill:#d0e0e3,stroke:#333,stroke-width:1px
     style SDKReadmes fill:#d4f1f9,stroke:#333,stroke-width:1px
@@ -855,7 +855,7 @@ Key documentation principles:
 - Core items (Workflows, Functions, Database, Events, Integrations) are placed at the root level of the documentation
 - Documentation order follows the logical order established in the root README.md and collections/index.ts
 - Websites and workers do not have their own folders in the documentation
-- The Table of Contents hierarchy is controlled by _meta.js files in the content directory
+- The Table of Contents hierarchy is controlled by \_meta.js files in the content directory
 
 ## Package Versioning
 
@@ -869,18 +869,18 @@ graph TD
         AgentsSDK["agents.do<br/>Version synchronized"]
         APISDK["apis.do<br/>Version synchronized"]
     end
-    
+
     subgraph "Regular Packages"
         AIModels["ai-models<br/>Independent versioning"]
         DeployWorker["deploy-worker<br/>Independent versioning"]
         ClickableLinks["clickable-links<br/>Independent versioning"]
     end
-    
+
     subgraph "Version Management"
         Changesets["Changesets<br/>Version tracking"]
         PNPMWorkspace["pnpm workspace<br/>Package resolution"]
     end
-    
+
     FunctionsSDK --> Changesets
     WorkflowsSDK --> Changesets
     AgentsSDK --> Changesets
@@ -888,9 +888,9 @@ graph TD
     AIModels --> Changesets
     DeployWorker --> Changesets
     ClickableLinks --> Changesets
-    
+
     Changesets --> PNPMWorkspace
-    
+
     style FunctionsSDK fill:#d4f1f9,stroke:#333,stroke-width:1px
     style WorkflowsSDK fill:#d4f1f9,stroke:#333,stroke-width:1px
     style AgentsSDK fill:#d4f1f9,stroke:#333,stroke-width:1px

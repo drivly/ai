@@ -3,7 +3,7 @@
 import { domainDescriptions } from '@/api.config'
 import { updateOptionParams } from '@/app/_utils/update-option-params'
 import { useSitesData } from '@/components/sites/dotdos/useSitesData'
-import { getGlowColor } from '@/domains.config'
+import { getGlowColor, sdks } from '@/domains.config'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Fragment } from 'react'
@@ -30,7 +30,8 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                   pathname,
                   query: updateOptionParams('absolute', 'false', searchParams),
                 }}
-                className={`rounded-full px-4 py-1 text-sm transition-all ${!showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}>
+                className={`rounded-full px-4 py-1 text-sm transition-all ${!showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}
+              >
                 Relative
               </Link>
               <Link
@@ -38,7 +39,8 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                   pathname,
                   query: updateOptionParams('absolute', 'true', searchParams),
                 }}
-                className={`rounded-full px-4 py-1 text-sm transition-all ${showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}>
+                className={`rounded-full px-4 py-1 text-sm transition-all ${showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}
+              >
                 Absolute
               </Link>
             </div>
@@ -56,7 +58,7 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                 title={domain}
                 href={showAbsolute || isBrandDomain ? `https://${domain}` : `/sites/${domain}`}
                 description={domainDescriptions[domain]}
-                type={showAbsolute || isBrandDomain ? 'External' : 'Internal'}
+                hasSdk={sdks.includes(domain)}
                 mounted={mounted}
                 glowColor={mounted ? getGlowColor(domain) : '#05b2a6'}
               />

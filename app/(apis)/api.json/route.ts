@@ -2,23 +2,14 @@ import { API } from '@/lib/api'
 import { collectionSlugs } from '@/collections'
 import { titleCase } from '@/lib/utils'
 import type { CollectionConfig } from 'payload'
-import type { 
-  OpenAPIObject, 
-  SchemaObject, 
-  PathItemObject, 
-  OperationObject, 
-  ParameterObject,
-  ResponseObject,
-  RequestBodyObject,
-  ComponentsObject
-} from 'openapi3-ts/oas30'
+import type { OpenAPIObject, SchemaObject, PathItemObject, OperationObject, ParameterObject, ResponseObject, RequestBodyObject, ComponentsObject } from 'openapi3-ts/oas30'
 
 /**
  * Generate and return a full OpenAPI specification based on Payload collections
  */
 export const GET = API(async (request, { db, user, origin, url, domain, payload }) => {
   const collections = payload.collections || {}
-  
+
   const openApiSpec: OpenAPIObject = {
     openapi: '3.0.0',
     info: {
@@ -45,24 +36,23 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
   for (const slug of collectionSlugs) {
     const collection = collections[slug]
     if (!collection) continue
-    
+
     const title = collection.config?.labels?.singular || titleCase(slug)
     const pluralTitle = collection.config?.labels?.plural || `${title}s`
-    
+
     if (!openApiSpec.components) {
-      openApiSpec.components = { schemas: {} };
+      openApiSpec.components = { schemas: {} }
     } else if (!openApiSpec.components.schemas) {
-      openApiSpec.components.schemas = {};
+      openApiSpec.components.schemas = {}
     }
-    
+
     if (openApiSpec.components && openApiSpec.components.schemas) {
       openApiSpec.components.schemas[title] = {
         type: 'object',
         properties: generateSchemaProperties(collection),
       } as SchemaObject
     }
-    
-    
+
     openApiSpec.paths[`/${slug}`] = {
       get: {
         summary: `List all ${pluralTitle}`,
@@ -134,7 +124,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
         },
       } as OperationObject,
     } as PathItemObject
-    
+
     openApiSpec.paths[`/${slug}/{id}`] = {
       get: {
         summary: `Get a specific ${title}`,
@@ -269,11 +259,11 @@ function generateSchemaProperties(collection: { config?: CollectionConfig }): Re
     createdAt: { type: 'string', format: 'date-time' },
     updatedAt: { type: 'string', format: 'date-time' },
   }
-  
+
   if (collection.config?.fields) {
     for (const field of collection.config.fields) {
       if (!('name' in field)) continue
-      
+
       switch (field.type) {
         case 'text':
         case 'textarea':
@@ -292,9 +282,9 @@ function generateSchemaProperties(collection: { config?: CollectionConfig }): Re
           properties[field.name] = { type: 'string', format: 'date-time' } as SchemaObject
           break
         case 'select':
-          properties[field.name] = { 
+          properties[field.name] = {
             type: 'string',
-            enum: field.options?.map((opt: any) => typeof opt === 'string' ? opt : opt.value) || [],
+            enum: field.options?.map((opt: any) => (typeof opt === 'string' ? opt : opt.value)) || [],
           } as SchemaObject
           break
         case 'relationship':
@@ -331,6 +321,6 @@ function generateSchemaProperties(collection: { config?: CollectionConfig }): Re
       }
     }
   }
-  
+
   return properties
 }

@@ -1,10 +1,10 @@
-import { test, expect } from '@chromatic-com/playwright';
+import { test, expect } from '@chromatic-com/playwright'
 
 test('ui change test', async ({ page }) => {
-  await page.goto('https://example.com');
-  
+  await page.goto('https://example.com')
+
   await page.evaluate(() => {
-    const style = document.createElement('style');
+    const style = document.createElement('style')
     style.textContent = `
       body { 
         background-color: #f0f8ff !important;
@@ -18,11 +18,11 @@ test('ui change test', async ({ page }) => {
         color: #4682b4 !important;
         font-size: 1.5em !important;
       }
-    `;
-    document.head.appendChild(style);
-  });
-  
-  await page.waitForTimeout(500);
-  
-  await expect(page).toHaveScreenshot('modified-example-page.png');
-});
+    `
+    document.head.appendChild(style)
+  })
+
+  await page.waitForTimeout(500)
+
+  await expect(page).toHaveScreenshot('modified-example-page.png')
+})

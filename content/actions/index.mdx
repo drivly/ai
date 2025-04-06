@@ -66,7 +66,7 @@ import { defineAction } from 'actions.do'
 const sendEmail = defineAction({
   name: 'sendEmail',
   description: 'Sends an email to a recipient',
-  
+
   // Type-safe input schema
   input: {
     to: { type: 'string', format: 'email', required: true },
@@ -74,20 +74,23 @@ const sendEmail = defineAction({
     body: { type: 'string', required: true, format: 'html' },
     attachments: { type: 'array', items: 'Attachment', optional: true },
   },
-  
+
   // Type-safe output schema
   output: {
     messageId: { type: 'string' },
     status: { type: 'string', enum: ['sent', 'queued', 'failed'] },
   },
-  
+
   // Elegant execution handler
   async execute({ to, subject, body, attachments }, context) {
     // Implementation details abstracted away
     const result = await context.services.email.send({
-      to, subject, body, attachments
+      to,
+      subject,
+      body,
+      attachments,
     })
-    
+
     return {
       messageId: result.id,
       status: result.status,
@@ -99,14 +102,14 @@ const sendEmail = defineAction({
 const createContact = defineAction({
   name: 'createContact',
   description: 'Creates a new contact in the CRM',
-  
+
   input: {
     firstName: { type: 'string', required: true },
     lastName: { type: 'string', required: true },
     email: { type: 'string', format: 'email', required: true },
     company: { type: 'string', optional: true },
   },
-  
+
   output: {
     id: { type: 'string' },
     url: { type: 'string', format: 'uri' },
@@ -125,15 +128,19 @@ const emailResult = await actions.execute('sendEmail', {
 })
 
 // Execute an action with context
-const contactResult = await actions.execute('createContact', {
-  firstName: 'Jane',
-  lastName: 'Smith',
-  email: 'jane@example.com',
-  company: 'Acme Inc',
-}, {
-  user: { id: 'usr_123', role: 'admin' },
-  tenant: 'org_456',
-})
+const contactResult = await actions.execute(
+  'createContact',
+  {
+    firstName: 'Jane',
+    lastName: 'Smith',
+    email: 'jane@example.com',
+    company: 'Acme Inc',
+  },
+  {
+    user: { id: 'usr_123', role: 'admin' },
+    tenant: 'org_456',
+  },
+)
 
 console.log(`Contact created: ${contactResult.id}`)
 console.log(`View contact: ${contactResult.url}`)
@@ -160,7 +167,7 @@ const ai = AI({
       amount: order.total,
       customerId: customer.id,
     })
-    
+
     if (paymentResult.status === 'success') {
       // Execute another action after successful payment
       const fulfillmentResult = await actions.execute('createFulfillment', {
@@ -168,7 +175,7 @@ const ai = AI({
         items: order.items,
         shippingAddress: customer.shippingAddress,
       })
-      
+
       return {
         success: true,
         paymentId: paymentResult.id,
@@ -176,7 +183,7 @@ const ai = AI({
         estimatedDelivery: fulfillmentResult.estimatedDelivery,
       }
     }
-    
+
     return {
       success: false,
       reason: paymentResult.failureReason,
@@ -239,4 +246,7 @@ Actions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, designe
 - **[agents.do](https://agents.do)** - Autonomous digital workers
 - **[triggers.do](https://triggers.do)** - Event-driven process initiation
 - **[searches.do](https://searches.do)** - Contextual data retrieval
+
+```
+
 ```

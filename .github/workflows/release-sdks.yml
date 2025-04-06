@@ -96,8 +96,8 @@ jobs:
               '@semantic-release/github',
               '@semantic-release/git'
             ]
-          extends: "./scripts/release-sdks.js"
-          dry-run: false
+          custom-command: "node scripts/release-sdks.js"
+          dry_run: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

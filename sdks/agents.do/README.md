@@ -176,14 +176,14 @@ Agents.do provides elegant, type-safe configuration options:
 ```typescript
 // Clean, intuitive configuration interface
 interface AgentConfig {
-  name: string                // Required agent name
-  description?: string        // Optional description
-  functions?: string[]        // Functions.do integration
-  workflows?: string[]        // Workflows.do integration
-  tools?: string[]            // Available tools
-  systemPrompt?: string       // Base instructions
-  baseModel?: string          // Default AI model
-  [key: string]: any          // Extensible properties
+  name: string // Required agent name
+  description?: string // Optional description
+  functions?: string[] // Functions.do integration
+  workflows?: string[] // Workflows.do integration
+  tools?: string[] // Available tools
+  systemPrompt?: string // Base instructions
+  baseModel?: string // Default AI model
+  [key: string]: any // Extensible properties
 }
 ```
 
@@ -194,10 +194,11 @@ Agents return clean, structured responses for predictable integration:
 ```typescript
 // Type-safe response format
 interface AgentResponse<T = any> {
-  data: T                     // Strongly-typed response data
-  meta?: {                    // Optional metadata
-    duration?: number         // Processing time
-    [key: string]: any        // Additional metadata
+  data: T // Strongly-typed response data
+  meta?: {
+    // Optional metadata
+    duration?: number // Processing time
+    [key: string]: any // Additional metadata
   }
 }
 ```
@@ -213,7 +214,7 @@ import { Agent, openai, anthropic } from 'agents.do'
 const openaiAgent = new Agent({
   name: 'ConciseHelper',
   instructions: 'You are a helpful assistant that answers questions concisely.',
-  model: openai('gpt-4'),     // Simple model selection
+  model: openai('gpt-4'), // Simple model selection
 })
 
 // Create an Anthropic-powered agent with the same elegant interface
@@ -273,17 +274,9 @@ const customerServiceAgent = new Agent({
   name: 'CustomerServiceBot',
   description: 'Handles customer service inquiries',
   // Integration with functions.do
-  functions: [
-    'analyzeCustomerSentiment',
-    'calculateRefundAmount',
-    'escalateToHumanSupport',
-    'investigateComplexIssue'
-  ],
+  functions: ['analyzeCustomerSentiment', 'calculateRefundAmount', 'escalateToHumanSupport', 'investigateComplexIssue'],
   // Integration with workflows.do
-  workflows: [
-    'refundProcessWorkflow',
-    'orderTrackingWorkflow'
-  ],
+  workflows: ['refundProcessWorkflow', 'orderTrackingWorkflow'],
 
   // Event handler for new messages
   onNewMessage: async ({ message, customer }) => {

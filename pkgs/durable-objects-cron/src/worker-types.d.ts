@@ -1,7 +1,5 @@
-
 declare global {
-  interface Env {
-  }
+  interface Env {}
 }
 
 export {}

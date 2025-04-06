@@ -93,7 +93,7 @@ const filteredResults = await searches.search('products', {
 
 // Access strongly-typed results
 console.log(`Found ${results.total} results`)
-results.items.forEach(item => {
+results.items.forEach((item) => {
   console.log(`${item.name}: ${item.description}`)
 })
 ```
@@ -133,10 +133,10 @@ const ai = AI({
       },
       limit: 5,
     })
-    
+
     // Process and return recommendations
     return {
-      recommendations: products.items.map(product => ({
+      recommendations: products.items.map((product) => ({
         id: product.id,
         name: product.name,
         price: product.price,
