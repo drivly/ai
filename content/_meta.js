@@ -38,8 +38,7 @@ export default {
   },
   agents: '',
   apis: {
-    title: 'APIs',
-    layout: 'full'
+    title: 'APIs'
   },
   _3: {
     type: 'separator',
