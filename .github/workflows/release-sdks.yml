@@ -96,8 +96,7 @@ jobs:
               '@semantic-release/github',
               '@semantic-release/git'
             ]
-          entryPoint: "node"
-          args: "scripts/release-sdks.js"
+          working-directory: '.'
           dry-run: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
