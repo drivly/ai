@@ -64,13 +64,8 @@ export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
     const { hostname, pathname, search } = request.nextUrl
     
-    if (isGatewayDomain(hostname)) {
-      console.log('Handling gateway domain, exiting middleware', { hostname, pathname, search })
-      
-      if (pathname === '/sites') {
-        console.log('Rewriting gateway domain /sites to sites', { hostname, pathname, search })
-        return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
-      }
+    if (pathname === '/api' || pathname.startsWith('/api/')) {
+      console.log('Handling API route', { hostname, pathname, search })
       
       if (pathname === '/api/docs' || pathname.startsWith('/api/docs/')) {
         console.log('Rewriting /api/docs to docs.apis.do', { hostname, pathname, search })
@@ -102,6 +97,25 @@ export async function middleware(request: NextRequest) {
         )
         
         return response
+      }
+      
+      if (isDoDomain(hostname)) {
+        const apiName = extractApiNameFromDomain(hostname)
+        console.log('Rewriting /api to API root for .do domain', { apiName, hostname, pathname, search })
+        const url = new URL(request.url)
+        return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname.replace('/api', '')}${search}`))
+      }
+      
+      console.log('Passing through API request', { hostname, pathname, search })
+      return NextResponse.next()
+    }
+    
+    if (isGatewayDomain(hostname)) {
+      console.log('Handling gateway domain, exiting middleware', { hostname, pathname, search })
+      
+      if (pathname === '/sites') {
+        console.log('Rewriting gateway domain /sites to sites', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
       }
       
       return NextResponse.next()
