@@ -20,20 +20,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     logoLink="https://dotdo.ai"
     chatLink='https://discord.gg/tafnNeUQdm' 
     projectLink='https://github.com/drivly/ai'
-    navs={[
-      {
-        title: 'Home',
-        path: '/'
-      },
-      {
-        title: 'API',
-        path: '/api'
-      },
-      {
-        title: 'SDK',
-        path: '/sdk'
-      }
-    ]}
   />
   const footer = (
     <Footer>
