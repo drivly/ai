@@ -37,7 +37,10 @@ export default {
     title: 'AI'
   },
   agents: '',
-  apis: '',
+  apis: {
+    title: 'APIs',
+    layout: 'full'
+  },
   _3: {
     type: 'separator',
     title: 'Data'
