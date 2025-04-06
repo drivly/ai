@@ -23,7 +23,7 @@ export const GET = API(async (request, { url, user }) => {
       depth: 0,
     })
 
-    const maskedClients = clientsResult.docs.map((client) => ({
+    const maskedClients = clientsResult.docs.map((client: any) => ({
       id: client.id,
       name: client.name,
       clientId: client.clientId,

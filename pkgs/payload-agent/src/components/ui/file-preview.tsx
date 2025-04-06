@@ -1,5 +1,5 @@
 import React from 'react'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '../../lib/utils'
 import { AnimatePresence, motion } from 'motion/react'
 import { Attachment } from './attachment'
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { CheckIcon, CopyIcon } from 'lucide-react'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 
 interface CodeBlockProps {
   code: string

@@ -4,7 +4,7 @@ import { FaXTwitter, FaLinkedin } from 'react-icons/fa6'
 import { FaHackerNews } from 'react-icons/fa'
 import { LinkIcon, CheckIcon } from 'lucide-react'
 import { useState } from 'react'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 
 interface ShareButtonsProps {
   title: string

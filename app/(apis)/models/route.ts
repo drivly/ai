@@ -163,6 +163,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     .map((model) => {
       //console.log(model.name, model.alias)
       const reconstructedModelString = reconstructModelString({
+        provider: model.provider,
         model: model.alias || model.modelIdentifier || '',
         capabilities: capabilities as Capability[],
       })

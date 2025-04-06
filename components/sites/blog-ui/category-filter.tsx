@@ -1,9 +1,9 @@
 'use client'
 
 import { Badge } from '@/components/sites/badge'
-import { Button } from '@drivly/ui/button'
+import { Button } from '@drivly/ui/server/components/button'
 import { XIcon } from 'lucide-react'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@drivly/ui/lib/index'
 
 interface CategoryFilterProps {
   categories: string[]

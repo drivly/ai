@@ -1,6 +1,6 @@
-import { Button } from '@drivly/ui/button'
-import { PromptInputAction } from '@drivly/ui/prompt-input'
-import { cn } from '@drivly/ui/lib'
+import { Button } from './button'
+import { PromptInputAction } from './prompt-input'
+import { cn } from '../../lib/utils'
 import { X } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
@@ -42,11 +42,7 @@ export function Attachment({ id, url, thumbnailUrl, name, type, size, onRemove, 
       <PromptInputAction
         delayDuration={0}
         className='rounded-sm bg-black p-1 dark:bg-white'
-        tooltip={
-          <div data-chat-widget='file-preview-tooltip' className='relative aspect-auto h-[220px] w-[180px] overflow-hidden'>
-            <Image src={url} alt={name} fill className='z-10 flex shrink-0 items-center justify-center overflow-hidden rounded-sm object-cover' onError={handleImageError} />
-          </div>
-        }
+        tooltip="File preview"
       >
         <div
           className={cn(

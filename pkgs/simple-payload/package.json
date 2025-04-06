@@ -18,6 +18,7 @@
     "payload-rest-client": "^3.0.5"
   },
   "devDependencies": {
+    "eslint-config": "workspace:*",
     "payload": "^3.33.0"
   },
   "scripts": {

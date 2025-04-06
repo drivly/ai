@@ -286,14 +286,29 @@ function createDatabaseAccess(): DatabaseAccess {
 export { API } from './client.js'
 export { CLI } from './cli.js'
 
-export { actions } from 'actions.do'
-export { Analytics, initAnalytics, trackMetric, defineExperiment } from 'analytics.do'
+// export { actions } from 'actions.do'
+// export { Analytics, initAnalytics, trackMetric, defineExperiment } from 'analytics.do'
 export { api } from 'apis.do'
+<<<<<<< HEAD
 export { evals } from 'evals.do'
 export { ai as functionsAI } from 'functions.do'
 export { projects } from 'projects.do'
 export { tasks } from 'tasks.do'
 
+||||||| 88b1c576
+export { evals } from 'evals.do'
+export { ai as functionsAI } from 'functions.do'
+export { projects } from 'projects.do'
+export { tasks } from 'tasks.do'
+
+
+=======
+// export { evals } from 'evals.do'
+// export { ai as functionsAI } from 'functions.do'
+// export { projects } from 'projects.do'
+// export { tasks } from 'tasks.do'
+
+>>>>>>> origin/main
 export type {
   Workflow,
   WorkflowStep,

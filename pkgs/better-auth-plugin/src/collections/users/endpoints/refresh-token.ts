@@ -1,7 +1,7 @@
 import { setCookieCache } from 'better-auth/cookies'
 import { CollectionSlug, type Endpoint, getFieldsToSign, refreshOperation, User } from 'payload'
 import { GenericEndpointContext } from 'better-auth/types'
-import { EndpointWithBetterAuth } from 'src/types'
+import { EndpointWithBetterAuth } from '../../../types'
 import { getPayloadWithAuth } from '../../../index'
 
 type RefreshTokenEndpointOptions = {

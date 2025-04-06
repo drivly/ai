@@ -22,7 +22,8 @@
     "paths": {
       "@/*": ["./*"],
       "@payload-config": ["payload.config.ts"],
-      "@/.velite/*": [".velite/*"]
+      "@/.velite/*": [".velite/*"],
+      "@drivly/ui/*": ["./pkgs/ui/src/*"]
     },
     "target": "ES2022"
   },

@@ -1,8 +1,8 @@
 import { FaGithub } from 'react-icons/fa'
 import { FaDiscord } from 'react-icons/fa'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { buttonVariants } from '@drivly/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 
 export interface MobileNavProps {
   isOpen: boolean

@@ -93,5 +93,6 @@
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
-  "homepage": "https://github.com/drivly/ai"
+  "homepage": "https://github.com/drivly/ai",
+  "type": "module"
 }
