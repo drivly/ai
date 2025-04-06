@@ -37,8 +37,9 @@ export default {
     title: 'AI'
   },
   agents: '',
-  apis: {
-    title: 'APIs'
+  apis: '',
+  reference: {
+    title: 'API Reference'
   },
   _3: {
     type: 'separator',
