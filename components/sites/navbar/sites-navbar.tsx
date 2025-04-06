@@ -42,48 +42,47 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
         hasScrolled ? 'bg-background/80 border-b' : 'border-transparent bg-transparent',
       )}
     >
-      <div className='container mx-auto flex h-14 items-center justify-between px-3 sm:px-8 md:px-8 lg:px-8'>
+      <div className='container mx-auto flex h-14 items-center px-3 sm:px-8 md:px-8 lg:px-8'>
         <LlmsdoLogo domain={domain} />
-        <div className='hidden h-full items-center justify-end space-x-4 md:flex'>
+        
+        {/* Right-aligned navigation links - using ml-auto to push to the right */}
+        <div className='hidden h-full items-center md:flex ml-auto'>
           <Link
-            className='hover:text-primary mr-6 text-sm font-semibold text-gray-500 transition-colors'
+            className='hover:text-primary mx-2 text-sm font-semibold text-gray-500 transition-colors'
             href={`/api`}
           >
             API
           </Link>
           <Link
-            className='hover:text-primary mr-6 text-sm font-semibold text-gray-500 transition-colors'
+            className='hover:text-primary mx-2 text-sm font-semibold text-gray-500 transition-colors'
             href={`/docs/sdks`}
           >
             SDK
           </Link>
           <Link
-            className='hover:text-primary mr-6 text-sm font-semibold text-gray-500 transition-colors'
+            className='hover:text-primary mx-2 text-sm font-semibold text-gray-500 transition-colors'
             href={`/docs`}
           >
             Docs
           </Link>
           <Link
-            className='hover:text-primary mr-6 text-sm font-semibold text-gray-500 transition-colors'
+            className='hover:text-primary mx-2 text-sm font-semibold text-gray-500 transition-colors'
             href={`/admin`}
           >
             Dashboard
           </Link>
           <Link
-            className='hover:text-primary mr-6 text-sm font-semibold text-gray-500 transition-colors'
+            className='hover:text-primary mx-2 text-sm font-semibold text-gray-500 transition-colors'
             href={`/blog`}
           >
             Blog
           </Link>
-        </div>
 
-        {/* Desktop navigation */}
-        <div className='hidden h-full items-center justify-end space-x-4 md:flex'>
-          <Link href='https://github.com/drivly/ai' className='hover:text-primary mr-4 text-sm text-gray-500 transition-colors'>
+          <Link href='https://github.com/drivly/ai' className='hover:text-primary mx-2 text-sm text-gray-500 transition-colors'>
             <FaGithub className='h-5 w-5' />
             <span className='sr-only'>GitHub</span>
           </Link>
-          <Link href='https://discord.gg/qus39VeA' className='hover:text-primary mr-6 text-sm text-gray-500 transition-colors'>
+          <Link href='https://discord.gg/qus39VeA' className='hover:text-primary mx-2 text-sm text-gray-500 transition-colors'>
             <FaDiscord className='h-5 w-5' />
             <span className='sr-only'>Discord</span>
           </Link>
