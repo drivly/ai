@@ -23,6 +23,9 @@ importers:
       '@drivly/payload-agent':
         specifier: workspace:*
         version: link:pkgs/payload-agent
+      '@drivly/payload-oapi-plugin':
+        specifier: workspace:^0.1.0
+        version: link:pkgs/payload-oapi-plugin
       '@drivly/ui':
         specifier: workspace:*
         version: link:pkgs/ui
@@ -164,6 +167,9 @@ importers:
       payload-kanban-board:
         specifier: ^3.0.24
         version: 3.0.24(@swc/helpers@0.5.15)(i18next@22.5.1)(payload@3.33.0(graphql@16.10.0)(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      payload-oapi:
+        specifier: ^0.2.0
+        version: 0.2.0(payload@3.33.0(graphql@16.10.0)(typescript@5.7.3))
       postal-mime:
         specifier: ^2.4.3
         version: 2.4.3
@@ -861,6 +867,22 @@ importers:
       payload:
         specifier: ^3.33.0
         version: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
+
+  pkgs/payload-oapi-plugin:
+    dependencies:
+      payload:
+        specifier: ^3.33.0
+        version: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
+      payload-oapi:
+        specifier: ^0.2.0
+        version: 0.2.0(payload@3.33.0(graphql@16.10.0)(typescript@5.8.2))
+    devDependencies:
+      tsup:
+        specifier: ^8.0.2
+        version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.8.2
 
   pkgs/payload-theme:
     dependencies:
@@ -4538,6 +4560,11 @@ packages:
   '@octokit/webhooks@13.7.5':
     resolution: {integrity: sha512-qmmu4cfKmm58RWyDPUDoI7ls9JWw88qbqPzEi+TDBaSirHQPsixxdPU4OjPDcnDnjee7JXv525yv4qNN3BRlyg==}
     engines: {node: '>= 18'}
+
+  '@openapi-contrib/json-schema-to-openapi-schema@3.0.3':
+    resolution: {integrity: sha512-2/UmpUBebll6ShAJ4+vlBDqntvJmf7qQ/+/c6QLhZUgCSvfuygjYqQSUMtYuJzhIydatNB/ksO+7sPww+aGgvg==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   '@opentelemetry/api-logs@0.57.2':
     resolution: {integrity: sha512-uIX52NnTM0iBh84MShlpouI7UKqkZ7MrUszTmaypHBu4r7NofznSnQRfJ+uUeDtQDj6w8eFGg5KBLDAwAPz1+A==}
@@ -8289,6 +8316,10 @@ packages:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
     engines: {node: '>=12'}
 
+  clone@2.1.2:
+    resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
+    engines: {node: '>=0.8'}
+
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
@@ -11283,6 +11314,10 @@ packages:
   json-schema-typed@7.0.3:
     resolution: {integrity: sha512-7DE8mpG+/fVw+dTpjbxnx47TaMnDfOI1jwft9g1VybltZCduyRQPJPvc+zzKY9WPHxhPWczyFuYa6I8Mw4iU5A==}
 
+  json-schema-walker@2.0.0:
+    resolution: {integrity: sha512-nXN2cMky0Iw7Af28w061hmxaPDaML5/bQD9nwm1lOoIKEGjHcRGxqWe4MfrkYThYAPjSUhmsp4bJNoLAyVn9Xw==}
+    engines: {node: '>=10'}
+
   json-schema@0.4.0:
     resolution: {integrity: sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==}
 
@@ -12432,6 +12467,10 @@ packages:
     resolution: {integrity: sha512-71ippSywq5Yb7/tVYyGbkBggbU8H3u5Rz56fH60jGFgr8uHwxs+aSKeqmluIVzM0m0kB7xQjKS6qPfd0b2ZoqQ==}
     hasBin: true
 
+  mutative@1.1.0:
+    resolution: {integrity: sha512-2PJADREjOusk3iJkD3rXV2YjAxTuaLxdfqtqTEt6vcY07LtEBR1seHuBHXWEIuscqRDGvbauYPs+A4Rj/KTczQ==}
+    engines: {node: '>=14.0'}
+
   mute-stream@0.0.8:
     resolution: {integrity: sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==}
 
@@ -13297,6 +13336,11 @@ packages:
     engines: {node: ^18.20.2 || >=20.9.0, pnpm: ^9}
     peerDependencies:
       payload: ^3.17.1
+
+  payload-oapi@0.2.0:
+    resolution: {integrity: sha512-PGzotcY4PzGUlsbeKDdOXLpiALVnPTS8twypaR7qwZBDkHndP281mPGFxZvuMNHz1yWVBI4hN8hoPAzpBzVV/g==}
+    peerDependencies:
+      payload: ^3.0.0
 
   payload-rest-client@3.0.5:
     resolution: {integrity: sha512-4NZeYHwCkBD0s8hfP5i0WHYYSsZEzGARZsKSEfMDqjHapdwYCLZKUE48YhriTctivk4tE09qO2E4ZVhR1LiT+Q==}
@@ -20033,6 +20077,13 @@ snapshots:
       '@octokit/request-error': 6.1.7
       '@octokit/webhooks-methods': 5.1.1
 
+  '@openapi-contrib/json-schema-to-openapi-schema@3.0.3':
+    dependencies:
+      '@apidevtools/json-schema-ref-parser': 11.9.3
+      json-schema-walker: 2.0.0
+      openapi-types: 12.1.3
+      yargs: 17.7.2
+
   '@opentelemetry/api-logs@0.57.2':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -24895,6 +24946,8 @@ snapshots:
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
 
+  clone@2.1.2: {}
+
   clsx@2.1.1: {}
 
   cmdk@1.1.1(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
@@ -28832,6 +28885,11 @@ snapshots:
 
   json-schema-typed@7.0.3: {}
 
+  json-schema-walker@2.0.0:
+    dependencies:
+      '@apidevtools/json-schema-ref-parser': 11.9.3
+      clone: 2.1.2
+
   json-schema@0.4.0: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
@@ -30395,6 +30453,8 @@ snapshots:
 
   mustache@4.2.0: {}
 
+  mutative@1.1.0: {}
+
   mute-stream@0.0.8: {}
 
   mute-stream@1.0.0: {}
@@ -31243,6 +31303,22 @@ snapshots:
       - react
       - react-dom
       - react-native
+
+  payload-oapi@0.2.0(payload@3.33.0(graphql@16.10.0)(typescript@5.7.3)):
+    dependencies:
+      '@openapi-contrib/json-schema-to-openapi-schema': 3.0.3
+      mutative: 1.1.0
+      openapi-types: 12.1.3
+      payload: 3.33.0(graphql@16.10.0)(typescript@5.7.3)
+      util: 0.12.5
+
+  payload-oapi@0.2.0(payload@3.33.0(graphql@16.10.0)(typescript@5.8.2)):
+    dependencies:
+      '@openapi-contrib/json-schema-to-openapi-schema': 3.0.3
+      mutative: 1.1.0
+      openapi-types: 12.1.3
+      payload: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
+      util: 0.12.5
 
   payload-rest-client@3.0.5: {}
 
