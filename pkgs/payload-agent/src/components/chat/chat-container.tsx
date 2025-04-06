@@ -1,12 +1,12 @@
 'use client'
 
-import { Button } from '@drivly/ui/button'
-import { ChatContainer } from '@drivly/ui/chat-container'
-import { useCheckMobile, useOutsideClick } from '@drivly/ui/hooks'
-import { cn } from '@drivly/ui/lib'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@drivly/ui/resizable'
-import { ScrollButton } from '@drivly/ui/scroll-button'
-import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@drivly/ui/sheet'
+import { Button } from '../ui/button'
+import { ChatContainer } from '../ui/chat-container'
+import { useCheckMobile, useOutsideClick } from '../ui/hooks'
+import { cn } from '../../lib/utils'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '../ui/resizable'
+import { ScrollButton } from '../ui/scroll-button'
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from '../ui/sheet'
 import { MessageSquareText, X, XIcon } from 'lucide-react'
 import type { ForwardRefComponent, HTMLMotionProps } from 'motion/react'
 import { AnimatePresence, motion } from 'motion/react'
@@ -280,8 +280,8 @@ function Content() {
   const { messages } = useChatMessages()
   const { config } = useModalConfig()
 
-  const containerRef = useRef<HTMLDivElement>(null)
-  const bottomRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>
+  const bottomRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>
 
   if (!isOpen) return null
 
