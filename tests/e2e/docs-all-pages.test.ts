@@ -12,11 +12,11 @@ describe('All Documentation Pages', () => {
 
   function findMdxFiles(dir: string, basePath = '') {
     const entries = fs.readdirSync(dir, { withFileTypes: true })
-    
+
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name)
       const relativePath = path.join(basePath, entry.name)
-      
+
       if (entry.isDirectory() && !entry.name.startsWith('_') && !entry.name.startsWith('.')) {
         findMdxFiles(fullPath, relativePath)
       } else if (entry.isFile() && entry.name.endsWith('.mdx')) {
@@ -41,7 +41,7 @@ describe('All Documentation Pages', () => {
     try {
       findMdxFiles(contentDir)
       console.log(`Found ${mdxFiles.length} documentation pages to test`)
-      
+
       browser = await chromium.launch({
         headless: true,
       })
@@ -90,15 +90,13 @@ describe('All Documentation Pages', () => {
       try {
         const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
         const docsPath = contentPathToDocsUrl(mdxFile)
-        const docsUrl = baseUrl.endsWith('/') 
-          ? `${baseUrl}docs/${docsPath}` 
-          : `${baseUrl}/docs/${docsPath}`
-        
+        const docsUrl = baseUrl.endsWith('/') ? `${baseUrl}docs/${docsPath}` : `${baseUrl}/docs/${docsPath}`
+
         console.log(`Testing docs page: ${docsUrl}`)
         let response: Response | null = null
-        
+
         response = await page.goto(docsUrl)
-        
+
         expect(response).not.toBeNull()
         if (response) {
           expect(response.status()).not.toBe(500)
@@ -116,7 +114,7 @@ describe('All Documentation Pages', () => {
 
         const heading = await page.locator('h1, h2, h3')
         expect(await heading.count()).toBeGreaterThan(0)
-        
+
         await chromaticExpect(page).toHaveScreenshot(`docs-${docsPath.replace(/\//g, '-')}.png`)
       } catch (error) {
         if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {

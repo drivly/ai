@@ -70,7 +70,7 @@ const ai = AI({
     maxLength: 'number',
     summary: 'string',
   },
-  
+
   analyzeData: {
     data: 'any[]',
     metrics: 'string[]',
@@ -82,34 +82,21 @@ const ai = AI({
 const researchAgent = new Agent({
   name: 'research-assistant',
   description: 'Conducts comprehensive research on business topics',
-  tools: [
-    ai.generateSummary,
-    ai.analyzeData,
-    ai.searchWeb,
-    ai.requestHumanVerification,
-  ],
+  tools: [ai.generateSummary, ai.analyzeData, ai.searchWeb, ai.requestHumanVerification],
 })
 
 // Create an agent with access to workflows as tools
 const customerSupportAgent = new Agent({
   name: 'support-assistant',
   description: 'Helps customers with product issues and service requests',
-  tools: [
-    workflows.escalationProcess,
-    workflows.refundRequest,
-    workflows.knowledgeBaseUpdate,
-  ],
+  tools: [workflows.escalationProcess, workflows.refundRequest, workflows.knowledgeBaseUpdate],
 })
 
 // Create an agent with access to searches as tools
 const knowledgeAgent = new Agent({
   name: 'knowledge-assistant',
   description: 'Provides accurate information from company knowledge bases',
-  tools: [
-    searches.productCatalog,
-    searches.customerRecords,
-    searches.knowledgeBase,
-  ],
+  tools: [searches.productCatalog, searches.customerRecords, searches.knowledgeBase],
 })
 ```
 
@@ -120,8 +107,8 @@ Agents.do enables elegant, context-aware interactions with users and systems:
 ```typescript
 // Handle a customer inquiry with minimal configuration
 const response = await supportAgent.handle({
-  message: "I never received my order #12345",
-  context: { 
+  message: 'I never received my order #12345',
+  context: {
     customer: {
       id: 'cus_789',
       name: 'Jane Smith',
@@ -132,8 +119,8 @@ const response = await supportAgent.handle({
 
 // Handle a complex business task with elegant configuration
 const result = await operationsAgent.handle({
-  task: "Update customer information and notify the support team",
-  context: { 
+  task: 'Update customer information and notify the support team',
+  context: {
     customer: customerData,
     changes: { email: 'new@example.com' },
     priority: 'High',

@@ -13,5 +13,5 @@ export const Relationships: CollectionConfig = {
     { name: 'object', type: 'relationship', relationTo: 'resources' },
     { name: 'hash', type: 'text' },
     { name: 'generation', type: 'join', collection: 'generations', on: 'action' },
-  ]
+  ],
 }

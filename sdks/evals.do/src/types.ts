@@ -13,7 +13,7 @@ export interface EvalsOptions extends ApiClientOptions {
    * @default 'https://evals.do'
    */
   baseUrl?: string
-  
+
   /**
    * API key for authentication
    */

@@ -48,7 +48,7 @@ const ai = AI({
     tone: 'Professional | Casual | Technical',
     description: 'string',
   },
-  
+
   analyzeSentiment: {
     text: 'string',
     sentiment: 'Positive | Neutral | Negative',
@@ -79,10 +79,10 @@ Create content or structured data with generative AI:
 
 ```typescript
 // Simple generation with minimal configuration
-const blogPost = await ai.generateBlogPost({ 
-  topic: 'AI Workflows', 
+const blogPost = await ai.generateBlogPost({
+  topic: 'AI Workflows',
   tone: 'Professional',
-  length: 'Medium' 
+  length: 'Medium',
 })
 
 // Structured generation with type-safe outputs
@@ -94,7 +94,7 @@ const productCopy = await ai.createMarketingCopy({
 
 console.log(productCopy.headline)
 console.log(productCopy.tagline)
-console.log(productCopy.features.map(f => f.title))
+console.log(productCopy.features.map((f) => f.title))
 ```
 
 ### 2. Code Functions
@@ -150,7 +150,7 @@ const solution = await ai.solveBusinessProblem({
 
 Incorporate human expertise into AI workflows:
 
-```typescript
+````typescript
 // Simple review process
 const reviewedContent = await ai.humanReview({
   content: generatedContent,
@@ -176,7 +176,7 @@ npm install functions.do
 yarn add functions.do
 # or
 pnpm add functions.do
-```
+````
 
 ## Rapid Prototyping
 
@@ -186,19 +186,16 @@ Functions.do enables rapid prototyping with minimal configuration:
 import { ai } from 'functions.do'
 
 // Call any function with minimal configuration
-const titles = await ai.generateBlogTitles({ 
-  topic: 'AI Workflows', 
-  tone: 'Professional' 
+const titles = await ai.generateBlogTitles({
+  topic: 'AI Workflows',
+  tone: 'Professional',
 })
 
 // Explore capabilities without defining schemas
 const analysis = await ai.analyzeSentiment('I absolutely love this product!')
 
 // Specify model options when needed
-const research = await ai.researchCompany(
-  { company: 'Tesla' }, 
-  { model: 'perplexity/sonar-deep-research' }
-)
+const research = await ai.researchCompany({ company: 'Tesla' }, { model: 'perplexity/sonar-deep-research' })
 ```
 
 ## Type-Safe Schemas
@@ -224,7 +221,7 @@ const ai = AI({
     revenueStreams: 'string[]',
     recommendations: 'string[]',
   },
-  
+
   // Marketing function
   storyBrand: {
     hero: {
@@ -282,7 +279,7 @@ const ai = AI({
     callToAction: 'string',
     signature: 'string',
   },
-  
+
   personalizeContent: {
     content: 'string',
     customerName: 'string',

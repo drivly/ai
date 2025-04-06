@@ -17,7 +17,8 @@ export const DotDoItem = ({ title, description, href, mounted, glowColor, type }
       className='relative flex h-full flex-col rounded-xl border border-white/10 bg-black/20 p-5 backdrop-blur-sm transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg'
       style={{
         boxShadow: mounted ? `0 0 20px -15px ${glowColor}` : undefined,
-      }}>
+      }}
+    >
       {mounted && (
         <div
           className='absolute inset-0 rounded-xl opacity-5 transition-opacity duration-300 hover:opacity-10'

@@ -1,5 +1,5 @@
 export default {
   functions: '',
   workflows: '',
-  agents: ''
+  agents: '',
 }

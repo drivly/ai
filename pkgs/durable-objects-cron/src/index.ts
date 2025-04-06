@@ -39,13 +39,13 @@ export class CronDurableObject {
 
     if (request.method === 'POST') {
       if (path[0] === 'schedule') {
-        const body = await request.json() as { cron: string; options?: ScheduleOptions }
+        const body = (await request.json()) as { cron: string; options?: ScheduleOptions }
         const result = await this.schedule(body.cron, body.options || {})
         return new Response(JSON.stringify(result), {
           headers: { 'Content-Type': 'application/json' },
         })
       } else if (path[0] === 'cancel') {
-        const body = await request.json() as { id: string }
+        const body = (await request.json()) as { id: string }
         await this.cancel(body.id)
         return new Response(JSON.stringify({ success: true }), {
           headers: { 'Content-Type': 'application/json' },

@@ -1,3 +1,3 @@
 export default {
-  '*': 'Code APIs'
+  '*': 'Code APIs',
 }

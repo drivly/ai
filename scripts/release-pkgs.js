@@ -5,44 +5,43 @@
  * This script handles the packages in pkgs directory with independent versioning
  */
 
-import { execSync } from 'child_process';
-import path from 'path';
-import fs from 'fs';
+import { execSync } from 'child_process'
+import path from 'path'
+import fs from 'fs'
 
-const DRY_RUN = process.argv.includes('--dry-run');
+const DRY_RUN = process.argv.includes('--dry-run')
 
-console.log(`Running pkgs-only release script in ${DRY_RUN ? 'dry run' : 'release'} mode`);
+console.log(`Running pkgs-only release script in ${DRY_RUN ? 'dry run' : 'release'} mode`)
 
 const getPackagePaths = () => {
-  const pkgPaths = [];
-  
-  const pkgsDir = path.resolve(process.cwd(), 'pkgs');
+  const pkgPaths = []
+
+  const pkgsDir = path.resolve(process.cwd(), 'pkgs')
   if (fs.existsSync(pkgsDir)) {
-    const pkgDirs = fs.readdirSync(pkgsDir);
+    const pkgDirs = fs.readdirSync(pkgsDir)
     for (const dir of pkgDirs) {
-      const fullPath = path.join(pkgsDir, dir);
-      if (fs.statSync(fullPath).isDirectory() && 
-          fs.existsSync(path.join(fullPath, 'package.json'))) {
-        pkgPaths.push(fullPath);
+      const fullPath = path.join(pkgsDir, dir)
+      if (fs.statSync(fullPath).isDirectory() && fs.existsSync(path.join(fullPath, 'package.json'))) {
+        pkgPaths.push(fullPath)
       }
     }
   }
-  
-  return pkgPaths;
-};
+
+  return pkgPaths
+}
 
 const runSemanticRelease = (packagePath) => {
-  const packageJson = JSON.parse(fs.readFileSync(path.join(packagePath, 'package.json'), 'utf8'));
-  
+  const packageJson = JSON.parse(fs.readFileSync(path.join(packagePath, 'package.json'), 'utf8'))
+
   if (packageJson.private) {
-    console.log(`Skipping private package: ${packageJson.name}`);
-    return;
+    console.log(`Skipping private package: ${packageJson.name}`)
+    return
   }
-  
-  console.log(`Processing package: ${packageJson.name}`);
-  
+
+  console.log(`Processing package: ${packageJson.name}`)
+
   try {
-    const tempConfigPath = path.resolve(process.cwd(), 'temp-semantic-release-config.cjs');
+    const tempConfigPath = path.resolve(process.cwd(), 'temp-semantic-release-config.cjs')
     const configContent = `
       module.exports = {
         branches: ['main'],
@@ -68,41 +67,41 @@ const runSemanticRelease = (packagePath) => {
           '@semantic-release/github'
         ]
       };
-    `;
-    fs.writeFileSync(tempConfigPath, configContent, 'utf8');
-    
-    const cmd = `npx semantic-release ${DRY_RUN ? '--dry-run' : ''} --extends=${tempConfigPath}`;
-    console.log(`Running: ${cmd} in ${packagePath}`);
-    
+    `
+    fs.writeFileSync(tempConfigPath, configContent, 'utf8')
+
+    const cmd = `npx semantic-release ${DRY_RUN ? '--dry-run' : ''} --extends=${tempConfigPath}`
+    console.log(`Running: ${cmd} in ${packagePath}`)
+
     if (!DRY_RUN) {
-      execSync(cmd, { 
-        cwd: packagePath, 
+      execSync(cmd, {
+        cwd: packagePath,
         stdio: 'inherit',
         env: {
           ...process.env,
-          FORCE_PATCH_RELEASE: 'true'
-        }
-      });
-      
+          FORCE_PATCH_RELEASE: 'true',
+        },
+      })
+
       if (fs.existsSync(tempConfigPath)) {
-        fs.unlinkSync(tempConfigPath);
+        fs.unlinkSync(tempConfigPath)
       }
     } else {
-      console.log(`[DRY RUN] Would run semantic-release in ${packagePath}`);
+      console.log(`[DRY RUN] Would run semantic-release in ${packagePath}`)
     }
   } catch (error) {
-    console.error(`Error processing ${packageJson.name}:`, error.message);
+    console.error(`Error processing ${packageJson.name}:`, error.message)
   }
-};
-
-const packagePaths = getPackagePaths();
-console.log(`Found ${packagePaths.length} packages to process`);
-
-const otherPaths = packagePaths.filter(p => !p.includes('/sdks/'));
-console.log(`Processing ${otherPaths.length} other packages with independent versioning`);
-
-for (const pkgPath of otherPaths) {
-  runSemanticRelease(pkgPath);
 }
 
-console.log('Package release process completed');
+const packagePaths = getPackagePaths()
+console.log(`Found ${packagePaths.length} packages to process`)
+
+const otherPaths = packagePaths.filter((p) => !p.includes('/sdks/'))
+console.log(`Processing ${otherPaths.length} other packages with independent versioning`)
+
+for (const pkgPath of otherPaths) {
+  runSemanticRelease(pkgPath)
+}
+
+console.log('Package release process completed')

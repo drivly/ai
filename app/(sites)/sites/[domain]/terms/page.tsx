@@ -19,7 +19,7 @@ export default async function TermsPage({ params }: { params: Promise<{ domains:
 
       <div className='mb-8'>
         <h1 className='mb-4 text-4xl font-bold tracking-tight'>Terms of Service</h1>
-        <div className='prose mt-8 max-w-none dark:prose-invert'>
+        <div className='prose dark:prose-invert mt-8 max-w-none'>
           <p>These Terms of Service govern your use of the website located at {domain} and any related services provided by us.</p>
           <h2>Limitations</h2>
           <p>You agree that we will not be liable to you or any third party for any loss or damages of any kind.</p>

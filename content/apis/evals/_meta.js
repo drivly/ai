@@ -1,3 +1,3 @@
 export default {
-  '*': 'Evals APIs'
+  '*': 'Evals APIs',
 }

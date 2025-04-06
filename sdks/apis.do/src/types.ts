@@ -33,22 +33,22 @@ export interface ClientOptions {
    * @default 'https://api.do'
    */
   baseUrl?: string
-  
+
   /**
    * API key for authentication
    */
   apiKey?: string
-  
+
   /**
    * Custom fetch implementation
    */
   fetch?: typeof fetch
-  
+
   /**
    * Skip SSL certificate validation (only for testing)
    */
   ignoreSSLErrors?: boolean
-  
+
   /**
    * Additional headers to include with requests
    */

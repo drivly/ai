@@ -53,14 +53,14 @@ const productionDb = await db.databases.create({
   region: 'us-east-1',
   schemaEnforcement: 'enforced',
   domain: 'api.example.com',
-  nouns: ['products', 'customers', 'orders']
+  nouns: ['products', 'customers', 'orders'],
 })
 
 // Query databases with filtering
 const dedicatedDatabases = await db.databases.find({
   where: {
     type: 'Dedicated',
-    databaseType: 'Postgres'
-  }
+    databaseType: 'Postgres',
+  },
 })
 ```

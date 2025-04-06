@@ -12,7 +12,7 @@ export enum Provider {
   Mistral = 'mistral',
   Cohere = 'cohere',
   Azure = 'azure',
-  Custom = 'custom'
+  Custom = 'custom',
 }
 
 export interface ParsedModelIdentifier {

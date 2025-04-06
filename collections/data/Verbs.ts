@@ -22,7 +22,7 @@ export const Verbs: CollectionConfig = {
     { name: 'inverseSubject', type: 'text', admin: { description: 'Subject like Destroyer', position: 'sidebar' } },
     { name: 'inverseObject', type: 'text', admin: { description: 'Object like Destruction', position: 'sidebar' } },
     // { name: 'actions', type: 'join', collection: 'actions', on: 'verbId' },
-  ]
+  ],
 }
 
 // conjugateVerbs: {

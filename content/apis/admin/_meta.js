@@ -1,3 +1,3 @@
 export default {
-  '*': 'Admin APIs'
+  '*': 'Admin APIs',
 }

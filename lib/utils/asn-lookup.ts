@@ -19,22 +19,22 @@ interface ASNRecord {
 function loadASNData(): Map<string, string> {
   try {
     const asnDataPath = join(process.cwd(), 'node_modules', '@ip-location-db', 'asn', 'asn-ipv4.csv')
-    
+
     const fileContent = readFileSync(asnDataPath, 'utf-8')
     const records = parse(fileContent, {
       columns: ['start_ip', 'end_ip', 'asn', 'organization'],
       skip_empty_lines: true,
       trim: true,
-      from_line: 2 // Skip header
+      from_line: 2, // Skip header
     })
-    
+
     const asnMap = new Map<string, string>()
     records.forEach((record: any) => {
       if (record.asn && record.organization) {
         asnMap.set(record.asn, record.organization)
       }
     })
-    
+
     return asnMap
   } catch (error) {
     console.error('Error loading ASN data:', error)
@@ -49,10 +49,10 @@ function loadASNData(): Map<string, string> {
  */
 export function getOrganizationByASN(asn: string): string | null {
   if (!asn) return null
-  
+
   if (!asnData) {
     asnData = loadASNData()
   }
-  
+
   return asnData.get(asn) || null
 }

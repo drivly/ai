@@ -23,5 +23,5 @@ export const Events: CollectionConfig = {
     { name: 'agent', type: 'relationship', relationTo: 'agents' },
 
     { name: 'generations', type: 'relationship', relationTo: 'generations', hasMany: true },
-  ]
+  ],
 }

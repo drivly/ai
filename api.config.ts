@@ -1,20 +1,20 @@
 import { getDomain } from './domains.config'
 
 export const siteCategories: Record<string, string[]> = {
-  'Collections': ['functions.do', 'nouns.do', 'verbs.do', 'things.do', 'resources.do', 'webhooks.do'],
-  'Core': ['workflows.do', 'agents.do', 'database.do', 'llm.do'],
-  'AI': ['gpt.do', 'embeddings.do', 'agi.do', 'evals.do', 'models.do', 'experiments.do'],
-  'Data': ['vectors.do', 'graph.do', 'objects.do', 'searches.do', 'analytics.do'],
-  'Events': ['triggers.do', 'events.do', 'actions.do'],
-  'Infrastructure': ['apis.do', 'services.do', 'workers.do', 'integrations.do'],
-  'Tools': ['sdk.do', 'pkg.do', 'repo.do', 'scraper.do', 'extract.do'],
-  'Web': ['sites.do', 'browse.do', 'browser.do', 'browsers.do'],
-  'Management': ['tasks.do', 'issues.do', 'okrs.do', 'kpis.do', 'lists.do'],
-  'Executives': ['cto.do', 'cpo.do', 'cfo.do', 'cmo.do', 'coo.do', 'cro.do'],
-  'Sales': ['bdr.do', 'sdr.do', 'dealers.do'],
-  'Agents': ['amy.do', 'ari.do', 'nat.do', 'dara.do', 'tom.do', 'ivy.do', 'lena.do', 'lexi.do'],
-  'Monitoring': ['traces.do', 'trace.do', 'perf.do', 'dashboard.do'],
-  'Utilities': ['barcode.do', 'qrcode.do', 'speak.do', 'emails.do', 'photos.do']
+  Collections: ['functions.do', 'nouns.do', 'verbs.do', 'things.do', 'resources.do', 'webhooks.do'],
+  Core: ['workflows.do', 'agents.do', 'database.do', 'llm.do'],
+  AI: ['gpt.do', 'embeddings.do', 'agi.do', 'evals.do', 'models.do', 'experiments.do'],
+  Data: ['vectors.do', 'graph.do', 'objects.do', 'searches.do', 'analytics.do'],
+  Events: ['triggers.do', 'events.do', 'actions.do'],
+  Infrastructure: ['apis.do', 'services.do', 'workers.do', 'integrations.do'],
+  Tools: ['sdk.do', 'pkg.do', 'repo.do', 'scraper.do', 'extract.do'],
+  Web: ['sites.do', 'browse.do', 'browser.do', 'browsers.do'],
+  Management: ['tasks.do', 'issues.do', 'okrs.do', 'kpis.do', 'lists.do'],
+  Executives: ['cto.do', 'cpo.do', 'cfo.do', 'cmo.do', 'coo.do', 'cro.do'],
+  Sales: ['bdr.do', 'sdr.do', 'dealers.do'],
+  Agents: ['amy.do', 'ari.do', 'nat.do', 'dara.do', 'tom.do', 'ivy.do', 'lena.do', 'lexi.do'],
+  Monitoring: ['traces.do', 'trace.do', 'perf.do', 'dashboard.do'],
+  Utilities: ['barcode.do', 'qrcode.do', 'speak.do', 'emails.do', 'photos.do'],
 }
 
 export const parentDomains: Record<string, string> = {
@@ -88,7 +88,7 @@ export const related: Record<string, string[]> = {
   analytics: ['dashboard', 'kpis', 'experiments'],
   experiments: ['evals', 'analytics', 'research'],
   integrations: ['apis', 'services', 'webhooks'],
-  models: ['llm', 'gpt', 'embeddings']
+  models: ['llm', 'gpt', 'embeddings'],
 }
 
 export const symbols: Record<string, string> = {
@@ -207,5 +207,5 @@ export const domainDescriptions: Record<string, string> = {
   'webhooks.do': 'Event Subscription Management',
   'worker.do': 'Background Task Processing',
   'workers.do': 'Distributed Task Execution',
-  'dotdo.co': '.do | Economically Valuable Work'
+  'dotdo.co': '.do | Economically Valuable Work',
 }

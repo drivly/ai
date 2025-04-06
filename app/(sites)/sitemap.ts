@@ -12,9 +12,9 @@ export default async function sitemap(): Promise<SitemapEntry[]> {
   const headersList = await headers()
   const host = headersList.get('host') || 'apis.do'
   const baseUrl = `https://${host}`
-  
+
   const commonPages = ['', '/privacy', '/terms', '/blog', '/pricing']
-  
+
   const sitemapEntries: SitemapEntry[] = [
     {
       url: `${baseUrl}/sites`,
@@ -23,10 +23,9 @@ export default async function sitemap(): Promise<SitemapEntry[]> {
       priority: 1.0,
     },
   ]
-  
+
   for (const domain of domains) {
     for (const page of commonPages) {
-      
       sitemapEntries.push({
         url: `${baseUrl}/sites/${domain}${page}`,
         lastModified: new Date(),
@@ -35,6 +34,6 @@ export default async function sitemap(): Promise<SitemapEntry[]> {
       })
     }
   }
-  
+
   return sitemapEntries
 }

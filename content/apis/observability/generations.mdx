@@ -15,56 +15,35 @@ API for managing Generations resources.
 - **Type**: `relationship`
 - **Required**: No
 
-
-
-
 ### settings
 
 - **Type**: `relationship`
 - **Required**: No
-
-
-
 
 ### request
 
 - **Type**: `json`
 - **Required**: No
 
-
-
-
 ### response
 
 - **Type**: `json`
 - **Required**: No
-
-
-
 
 ### error
 
 - **Type**: `json`
 - **Required**: No
 
-
-
-
 ### status
 
 - **Type**: `select`
 - **Required**: No
 
-
-
-
 ### duration
 
 - **Type**: `number`
 - **Required**: No
-
-
-
 
 ### processingMode
 
@@ -72,37 +51,36 @@ API for managing Generations resources.
 - **Required**: No
 - **Default**: `realtime`
 
-
-
 ### batch
 
 - **Type**: `relationship`
 - **Required**: No
 
-
-
-
-
 ## API Endpoints
 
 ### GET /api/generations
+
 Retrieves a list of Generations with pagination.
 
 #### Query Parameters
+
 - `limit`: Maximum number of items to return (default: 10)
 - `page`: Page number for pagination (default: 1)
 - `sort`: Field to sort by (default: createdAt)
 - `where`: JSON query for filtering results
 
 ### GET /api/generations/:id
+
 Retrieves a single Generations by ID.
 
 ### POST /api/generations
+
 Creates a new Generations.
 
 ### PATCH /api/generations/:id
+
 Updates an existing Generations.
 
 ### DELETE /api/generations/:id
-Deletes a Generations.
 
+Deletes a Generations.

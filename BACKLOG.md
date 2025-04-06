@@ -5,6 +5,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Core Primitives
 
 ### Functions.do - Inputs to Structured Outputs
+
 - [#365](https://github.com/drivly/ai/issues/365) - `functions.do` develop clickable API
 - [#364](https://github.com/drivly/ai/issues/364) - `functions.do` develop API implementation
 - [#363](https://github.com/drivly/ai/issues/363) - `functions.do` develop SDK implementation
@@ -57,6 +58,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#5](https://github.com/drivly/ai/issues/5) - Functions.do MVP
 
 ### Workflows.do - Business-as-Code
+
 - [#356](https://github.com/drivly/ai/issues/356) - `workflows.do` implement package.json
 - [#355](https://github.com/drivly/ai/issues/355) - `workflows.do` develop clickable API
 - [#354](https://github.com/drivly/ai/issues/354) - `workflows.do` develop API implementation
@@ -73,6 +75,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#6](https://github.com/drivly/ai/issues/6) - Workflows.do MVP
 
 ### Agents.do - Autonomous Digital Workers
+
 - [#374](https://github.com/drivly/ai/issues/374) - `agents.do` develop clickable API
 - [#373](https://github.com/drivly/ai/issues/373) - `agents.do` develop API implementation
 - [#372](https://github.com/drivly/ai/issues/372) - `agents.do` develop SDK implementation
@@ -99,6 +102,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Event System
 
 ### Triggers.do - Start Business Processes
+
 - [#173](https://github.com/drivly/ai/issues/173) - `triggers` create /api/triggers endpoint
 - [#171](https://github.com/drivly/ai/issues/171) - `integrations` test Composio triggers
 - [#120](https://github.com/drivly/ai/issues/120) - `triggers.do` expose clickable API of triggers
@@ -107,9 +111,11 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#117](https://github.com/drivly/ai/issues/117) - `triggers.do` expose possible triggers
 
 ### Searches.do - Provide Context & Understanding
+
 - [#187](https://github.com/drivly/ai/issues/187) - `docs` search box is generating an error
 
 ### Actions.do - Impact the External World
+
 - [#324](https://github.com/drivly/ai/issues/324) - `tests` create new GitHub Action to run `pnpm build`
 - [#310](https://github.com/drivly/ai/issues/310) - `test` update node versions and GitHub actions to node 22
 - [#304](https://github.com/drivly/ai/issues/304) - `tests` setup github action to run pnpm test
@@ -123,6 +129,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Foundation Components
 
 ### LLM.do - Intelligent AI Gateway
+
 - [#464](https://github.com/drivly/ai/issues/464) - `llm.do` SDK
 - [#207](https://github.com/drivly/ai/issues/207) - `llm.do` integrated tool use
 - [#198](https://github.com/drivly/ai/issues/198) - `llm.do` clickable experience with GET
@@ -134,6 +141,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#4](https://github.com/drivly/ai/issues/4) - LLM.do MVP
 
 ### Database.do - AI-enriched Data
+
 - [#383](https://github.com/drivly/ai/issues/383) - `database.do` develop clickable API
 - [#382](https://github.com/drivly/ai/issues/382) - `database.do` develop API implementation
 - [#381](https://github.com/drivly/ai/issues/381) - `database.do` develop SDK implementation
@@ -148,6 +156,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#153](https://github.com/drivly/ai/issues/153) - Create seed script to setup database
 
 ### Evals.do - Measure & Improve
+
 - [#653](https://github.com/drivly/ai/issues/653) - `evals.do` auto-generate schemas from `no_schema` output
 - [#402](https://github.com/drivly/ai/issues/402) - `evals.do` develop clickable API
 - [#401](https://github.com/drivly/ai/issues/401) - `evals.do` develop API implementation
@@ -162,6 +171,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#37](https://github.com/drivly/ai/issues/37) - Evaluate Better Auth vs AuthJS
 
 ### Integrations.do - Connect Your Apps
+
 - [#420](https://github.com/drivly/ai/issues/420) - `integrations.do` develop clickable API
 - [#419](https://github.com/drivly/ai/issues/419) - `integrations.do` develop API implementation
 - [#418](https://github.com/drivly/ai/issues/418) - `integrations.do` develop SDK implementation
@@ -180,6 +190,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## API Experience
 
 ### APIs.do - Clickable Developer Experiences
+
 - [#646](https://github.com/drivly/ai/issues/646) - [BUG] APIs.do description incomplete
 - [#534](https://github.com/drivly/ai/issues/534) - `apis.do` create CLI
 - [#455](https://github.com/drivly/ai/issues/455) - Create `api` and `db` lib
@@ -257,6 +268,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 ## Documentation & Website
 
 ### Docs
+
 - [#515](https://github.com/drivly/ai/issues/515) - `docs` fix left nav bar
 - [#286](https://github.com/drivly/ai/issues/286) - `docs` create dynamic logo by domain name
 - [#282](https://github.com/drivly/ai/issues/282) - `docs` update docs
@@ -270,6 +282,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#82](https://github.com/drivly/ai/issues/82) - Initial Docs
 
 ### Website
+
 - [#101](https://github.com/drivly/ai/issues/101) - `website` middleware with routing logic
 - [#81](https://github.com/drivly/ai/issues/81) - Initial Website
 - [#73](https://github.com/drivly/ai/issues/73) - `website` add support for Vercel Analytics
@@ -300,7 +313,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#320](https://github.com/drivly/ai/issues/320) - `payload` resolve build errors
 - [#302](https://github.com/drivly/ai/issues/302) - Work on failing tests
 - [#300](https://github.com/drivly/ai/issues/300) - `tests` add tests to run on Vercel deployment to prevent regressions
-- [#295](https://github.com/drivly/ai/issues/295) - Update _meta files in content
+- [#295](https://github.com/drivly/ai/issues/295) - Update \_meta files in content
 - [#288](https://github.com/drivly/ai/issues/288) - Do a POC of Payload Admin Bar
 - [#279](https://github.com/drivly/ai/issues/279) - Implement Changesets and automatic semver
 - [#278](https://github.com/drivly/ai/issues/278) - Implement FireCrawl as a tool to inject scraped URL as Markdown
@@ -369,4 +382,3 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#11](https://github.com/drivly/ai/issues/11) - Proxy `/chat/completions` endpoint to OpenRouter via Cloudflare AI Gateway
 - [#7](https://github.com/drivly/ai/issues/7) - Create CONTRIBUTING.md
 - [#3](https://github.com/drivly/ai/issues/3) - Roadmap
-

@@ -75,13 +75,15 @@ Tasks are configured in `payload.config.ts` and should be invoked using the payl
 
 ```typescript
 // Queue a task
-const createdJob = await payload.jobs.queue({ 
-  task: 'taskName', 
-  input: { /* params */ } 
-});
+const createdJob = await payload.jobs.queue({
+  task: 'taskName',
+  input: {
+    /* params */
+  },
+})
 
 // Execute the task (in serverless environments)
-waitUntil(req.payload.jobs.runByID({ id: createdJob.id }));
+waitUntil(req.payload.jobs.runByID({ id: createdJob.id }))
 ```
 
 This ensures durable execution with automatic retry capabilities if errors occur.
