@@ -32,7 +32,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     },
     servers: [
       {
-        url: 'https://apis.do',
+        url: 'https://apis.do/api',
         description: 'Production API Server',
       },
     ],
@@ -63,7 +63,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     }
     
     
-    openApiSpec.paths[`/api/${slug}`] = {
+    openApiSpec.paths[`/${slug}`] = {
       get: {
         summary: `List all ${pluralTitle}`,
         description: `Returns a list of all ${pluralTitle}`,
@@ -135,7 +135,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
       } as OperationObject,
     } as PathItemObject
     
-    openApiSpec.paths[`/api/${slug}/{id}`] = {
+    openApiSpec.paths[`/${slug}/{id}`] = {
       get: {
         summary: `Get a specific ${title}`,
         description: `Returns a specific ${title} by ID`,
