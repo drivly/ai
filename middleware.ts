@@ -17,12 +17,7 @@ import { analyticsMiddleware } from './analytics/src/middleware'
  * Gateway domains show the API response at the root path and don't get rewritten
  */
 const isGatewayDomain = (hostname: string): boolean => {
-  return isAIGateway(hostname) || 
-         hostname === 'localhost' || 
-         hostname === 'apis.do' || 
-         hostname === 'do.gt' ||
-         hostname === 'do.mw' ||
-         hostname.endsWith('dev.driv.ly')
+  return isAIGateway(hostname) || hostname === 'localhost' || hostname === 'apis.do' || hostname === 'do.gt' || hostname === 'do.mw' || hostname.endsWith('dev.driv.ly')
 }
 
 /**
@@ -52,7 +47,7 @@ const extractApiNameFromDomain = (hostname: string): string => {
 const getDocsPath = (hostname: string): string => {
   const apiName = extractApiNameFromDomain(hostname)
   // TODO: we need to refactor this to support nested docs, because not every API will be root level
-  
+
   return `/docs/${apiName}`
 }
 
@@ -63,49 +58,49 @@ const getDocsPath = (hostname: string): string => {
 export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
     const { hostname, pathname, search } = request.nextUrl
-    
+
     if (isGatewayDomain(hostname)) {
       console.log('Handling gateway domain, exiting middleware', { hostname, pathname, search })
-      
+
       if (pathname === '/sites') {
         console.log('Rewriting gateway domain /sites to sites', { hostname, pathname, search })
         return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
       }
-      
+
       return NextResponse.next()
     }
-    
+
     if (isBrandDomain(hostname)) {
       console.log('Rewriting brand domain to sites list', { hostname, pathname, search })
       return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
     }
-    
+
     if (isDoDomain(hostname)) {
       const apiName = extractApiNameFromDomain(hostname)
-      
-      if (pathname === '/admin') {  
+
+      if (pathname === '/admin') {
         if (collectionSlugs.includes(apiName)) {
           console.log('Rewriting to admin collection', { hostname, pathname, search, collection: apiName })
           return NextResponse.rewrite(new URL(`/admin/collections/${apiName}${search}`, request.url))
         }
       }
-      
+
       if (pathname === '/docs') {
         console.log('Rewriting docs path', { hostname, pathname, search })
         const docsPath = getDocsPath(hostname)
         return NextResponse.rewrite(new URL(`${docsPath}${search}`, request.url))
       }
-      
+
       if (pathname === '/api') {
         console.log('Rewriting /api to API root', { apiName, hostname, pathname, search })
         const url = new URL(request.url)
         return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname.replace('/api', '')}${search}`))
       }
-      
+
       console.log('Rewriting to site', { hostname, pathname, search })
       return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
     }
-    
+
     console.log('Handling custom domain', { hostname, pathname, search })
     return NextResponse.rewrite(new URL(`/tenants/${hostname}${pathname}${search}`, request.url))
   })

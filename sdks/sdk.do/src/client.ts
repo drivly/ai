@@ -9,7 +9,7 @@ export interface ClientOptions {
 
 export class API {
   private api: ApisAPI
-  
+
   constructor(options: ClientOptions = {}) {
     this.api = new ApisAPI(options)
   }

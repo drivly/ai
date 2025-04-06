@@ -9,8 +9,8 @@ vi.mock('apis.do', () => ({
     create: vi.fn(),
     update: vi.fn(),
     remove: vi.fn(),
-    get: vi.fn()
-  }
+    get: vi.fn(),
+  },
 }))
 
 describe('searches.do SDK', () => {
@@ -24,7 +24,7 @@ describe('searches.do SDK', () => {
       vi.mocked(api.list).mockResolvedValue(mockSearches)
 
       const result = await searches.list()
-      
+
       expect(api.list).toHaveBeenCalledWith('searches', undefined)
       expect(result).toEqual(mockSearches.data)
     })
@@ -34,7 +34,7 @@ describe('searches.do SDK', () => {
       vi.mocked(api.getById).mockResolvedValue(mockSearch)
 
       const result = await searches.get('123')
-      
+
       expect(api.getById).toHaveBeenCalledWith('searches', '123')
       expect(result).toEqual(mockSearch)
     })
@@ -44,7 +44,7 @@ describe('searches.do SDK', () => {
       vi.mocked(api.create).mockResolvedValue(mockSearch)
 
       const result = await searches.create({ name: 'test-search', query: 'test query' })
-      
+
       expect(api.create).toHaveBeenCalledWith('searches', { name: 'test-search', query: 'test query' })
       expect(result).toEqual(mockSearch)
     })
@@ -54,7 +54,7 @@ describe('searches.do SDK', () => {
       vi.mocked(api.update).mockResolvedValue(mockSearch)
 
       const result = await searches.update('123', { name: 'updated-search' })
-      
+
       expect(api.update).toHaveBeenCalledWith('searches', '123', { name: 'updated-search' })
       expect(result).toEqual(mockSearch)
     })
@@ -64,7 +64,7 @@ describe('searches.do SDK', () => {
       vi.mocked(api.remove).mockResolvedValue(mockSearch)
 
       const result = await searches.delete('123')
-      
+
       expect(api.remove).toHaveBeenCalledWith('searches', '123')
       expect(result).toEqual(mockSearch)
     })
@@ -74,7 +74,7 @@ describe('searches.do SDK', () => {
       vi.mocked(api.get).mockResolvedValue(mockResults)
 
       const result = await searches.execute('123')
-      
+
       expect(api.get).toHaveBeenCalledWith('/api/searches/123/execute', undefined)
       expect(result).toEqual(mockResults)
     })

@@ -1,24 +1,8 @@
 import { TaskConfig } from 'payload'
 import hash from 'object-hash'
 
-export const saveExecutionResults = async ({ input, req }: { input: any, req: any }) => {
-  const {
-    prompt,
-    object,
-    functionName,
-    args,
-    settings,
-    argsDoc,
-    functionDoc,
-    reasoning,
-    generation,
-    generationLatency,
-    headers,
-    seeds,
-    callback,
-    isTextFunction,
-    latency
-  } = input
+export const saveExecutionResults = async ({ input, req }: { input: any; req: any }) => {
+  const { prompt, object, functionName, args, settings, argsDoc, functionDoc, reasoning, generation, generationLatency, headers, seeds, callback, isTextFunction, latency } = input
 
   const payload = req.payload
   const startSave = Date.now()
@@ -50,7 +34,7 @@ export const saveExecutionResults = async ({ input, req }: { input: any, req: an
   })
   const saveLatency = Date.now() - startSave
   console.log({ saveLatency })
-  
+
   return { success: true }
 }
 
@@ -73,10 +57,8 @@ export const saveExecutionResultsTask = {
     { name: 'seeds', type: 'json' },
     { name: 'callback', type: 'text' },
     { name: 'isTextFunction', type: 'text' },
-    { name: 'latency', type: 'json' }
+    { name: 'latency', type: 'json' },
   ],
-  outputSchema: [
-    { name: 'success', type: 'text' }
-  ],
+  outputSchema: [{ name: 'success', type: 'text' }],
   handler: saveExecutionResults,
 } as unknown as TaskConfig

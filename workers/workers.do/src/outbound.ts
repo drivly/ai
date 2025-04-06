@@ -11,7 +11,7 @@ app.all('*', async (c) => {
   const userWorkerName = c.env.userWorkerName
   const originalUrl = c.env.originalUrl
   const requestUrl = c.req.url
-  
+
   try {
     const logEvent = fetch('https://apis.do/api/events', {
       method: 'POST',
@@ -30,23 +30,23 @@ app.all('*', async (c) => {
         },
         metadata: {
           timestamp: new Date().toISOString(),
-        }
+        },
       }),
-    }).catch(error => {
+    }).catch((error) => {
       console.error('Error logging outbound request:', error)
     })
-    
+
     const headers = new Headers(c.req.header())
     headers.set('X-User-Worker-Name', userWorkerName)
-    
+
     const request = new Request(c.req.url, {
       method: c.req.method,
       headers,
       body: c.req.method !== 'GET' && c.req.method !== 'HEAD' ? await c.req.arrayBuffer() : undefined,
     })
-    
+
     const response = await fetch(request)
-    
+
     try {
       if (c.executionCtx) {
         c.executionCtx.waitUntil(logEvent)
@@ -54,7 +54,7 @@ app.all('*', async (c) => {
     } catch (waitUntilError) {
       console.error('Error with waitUntil:', waitUntilError)
     }
-    
+
     return new Response(response.body, {
       status: response.status,
       statusText: response.statusText,
@@ -62,7 +62,7 @@ app.all('*', async (c) => {
     })
   } catch (error) {
     console.error('Error in outbound worker:', error)
-    
+
     try {
       if (c.executionCtx) {
         c.executionCtx.waitUntil(
@@ -82,17 +82,17 @@ app.all('*', async (c) => {
               },
               metadata: {
                 timestamp: new Date().toISOString(),
-              }
+              },
             }),
-          }).catch(err => {
+          }).catch((err) => {
             console.error('Error logging outbound error:', err)
-          })
+          }),
         )
       }
     } catch (waitUntilError) {
       console.error('Error with waitUntil for error logging:', waitUntilError)
     }
-    
+
     return new Response('Error processing outbound request', { status: 500 })
   }
 })

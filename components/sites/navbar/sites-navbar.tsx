@@ -40,13 +40,15 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
       className={cn(
         'fixed top-0 left-0 z-50 w-full backdrop-blur-[12px] transition-all duration-200',
         hasScrolled ? 'bg-background/80 border-b' : 'border-transparent bg-transparent',
-      )}>
+      )}
+    >
       <div className='container mx-auto flex h-14 items-center justify-between px-3 sm:px-8 md:px-8 lg:px-8'>
         <LlmsdoLogo domain={domain} />
         {domain && (
           <Link
             className='hover:text-primary absolute left-1/2 mr-6 hidden -translate-x-1/2 transform text-sm font-semibold text-gray-500 transition-colors md:block'
-            href={`/sites/${domain}/blog`}>
+            href={`/sites/${domain}/blog`}
+          >
             Blog
           </Link>
         )}
@@ -72,7 +74,8 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
             )}
             href='/docs'
             target='_blank'
-            rel='noopener noreferrer'>
+            rel='noopener noreferrer'
+          >
             View Docs
           </Link>
         </div>

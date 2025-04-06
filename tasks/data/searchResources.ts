@@ -10,13 +10,13 @@ import { generateEmbedding } from './generateEmbedding'
 export async function searchResources(query: string, limit: number = 10): Promise<any[]> {
   try {
     const queryEmbedding = await generateEmbedding(query)
-    
+
     const payload = await getPayload({ config: (await import('../../payload.config')).default })
-    
+
     const db = payload.db.connection
-    
+
     const resourcesCollection = db.collection('resources')
-    
+
     const pipeline = [
       {
         $vectorSearch: {
@@ -24,21 +24,21 @@ export async function searchResources(query: string, limit: number = 10): Promis
           path: 'embedding',
           queryVector: queryEmbedding,
           numCandidates: limit * 10, // Search through more candidates for better results
-          limit: limit
-        }
+          limit: limit,
+        },
       },
       {
         $project: {
           _id: 1,
           name: 1,
           data: 1,
-          score: { $meta: 'vectorSearchScore' }
-        }
-      }
+          score: { $meta: 'vectorSearchScore' },
+        },
+      },
     ]
-    
+
     const results = await resourcesCollection.aggregate(pipeline).toArray()
-    
+
     return results
   } catch (error) {
     console.error('Error searching Resources:', error)
@@ -55,13 +55,13 @@ export async function searchResources(query: string, limit: number = 10): Promis
 export async function hybridSearchResources(query: string, limit: number = 10): Promise<any[]> {
   try {
     const queryEmbedding = await generateEmbedding(query)
-    
+
     const payload = await getPayload({ config: (await import('../../payload.config')).default })
-    
+
     const db = payload.db.connection
-    
+
     const resourcesCollection = db.collection('resources')
-    
+
     const pipeline = [
       {
         $search: {
@@ -72,35 +72,35 @@ export async function hybridSearchResources(query: string, limit: number = 10): 
                 vectorSearch: {
                   path: 'embedding',
                   queryVector: queryEmbedding,
-                  score: { boost: { value: 1.5 } } // Boost vector search results
-                }
+                  score: { boost: { value: 1.5 } }, // Boost vector search results
+                },
               },
               {
                 text: {
                   query: query,
                   path: ['name', 'data'],
-                  score: { boost: { value: 1.0 } }
-                }
-              }
-            ]
-          }
-        }
+                  score: { boost: { value: 1.0 } },
+                },
+              },
+            ],
+          },
+        },
       },
       {
-        $limit: limit
+        $limit: limit,
       },
       {
         $project: {
           _id: 1,
           name: 1,
           data: 1,
-          score: { $meta: 'searchScore' }
-        }
-      }
+          score: { $meta: 'searchScore' },
+        },
+      },
     ]
-    
+
     const results = await resourcesCollection.aggregate(pipeline).toArray()
-    
+
     return results
   } catch (error) {
     console.error('Error performing hybrid search on Resources:', error)

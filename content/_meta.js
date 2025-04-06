@@ -3,30 +3,30 @@ export default {
     title: 'Home',
     type: 'page',
     href: '/',
-    display: 'hidden'
+    display: 'hidden',
   },
   api: {
     title: 'API',
     type: 'page',
     href: '/api',
-    display: 'hidden'
+    display: 'hidden',
   },
   sdk: {
     title: 'SDK',
     type: 'page',
     href: '/sdk',
-    display: 'hidden'
+    display: 'hidden',
   },
   reference: {
     title: 'Reference',
     type: 'page',
     href: 'https://docs.apis.do',
-    display: 'hidden'
+    display: 'hidden',
   },
   manifesto: 'Manifesto',
   _1: {
     type: 'separator',
-    title: 'Core Primitives'
+    title: 'Core Primitives',
   },
   workflows: '',
   functions: '',
@@ -34,34 +34,34 @@ export default {
   integrations: '',
   _2: {
     type: 'separator',
-    title: 'AI'
+    title: 'AI',
   },
   agents: '',
   apis: '',
   _3: {
     type: 'separator',
-    title: 'Data'
+    title: 'Data',
   },
   nouns: '',
   verbs: '',
   resources: '',
   _4: {
     type: 'separator',
-    title: 'Business'
+    title: 'Business',
   },
   goals: '',
   plans: '',
   tasks: '',
   _5: {
     type: 'separator',
-    title: 'Triggers & Actions'
+    title: 'Triggers & Actions',
   },
   triggers: '',
   searches: '',
   actions: '',
   _6: {
     type: 'separator',
-    title: 'Measurement'
+    title: 'Measurement',
   },
   analytics: '',
   experiments: '',
@@ -70,7 +70,7 @@ export default {
   datasets: '',
   _7: {
     type: 'separator',
-    title: 'Deploy'
+    title: 'Deploy',
   },
   code: '',
 }

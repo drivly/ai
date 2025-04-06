@@ -51,11 +51,11 @@ export interface FlagResult {
 
 export class VercelFlagsProvider implements OpenFeatureProvider {
   private api: API
-  
+
   metadata = {
     name: 'Vercel Flags Provider',
   }
-  
+
   constructor(options: VercelFlagsProviderOptions = {}) {
     this.api = new API({
       baseUrl: options.baseUrl || 'https://flags-api.vercel.com',
@@ -65,29 +65,28 @@ export class VercelFlagsProvider implements OpenFeatureProvider {
       },
     })
   }
-  
-  async initialize(): Promise<void> {
-  }
-  
+
+  async initialize(): Promise<void> {}
+
   async createFlag(flag: FlagDefinition): Promise<any> {
     return this.api.post('/api/v1/flags', flag)
   }
-  
+
   async getFlag(flagKey: string): Promise<FlagDefinition> {
     return this.api.get(`/api/v1/flags/${flagKey}`)
   }
-  
+
   async evaluateFlag(flagKey: string, context: FlagContext): Promise<FlagResult> {
     return this.api.post(`/api/v1/flags/${flagKey}/evaluate`, context)
   }
-  
+
   async recordMetric(flagKey: string, variant: string, metrics: Record<string, number>): Promise<any> {
     return this.api.post(`/api/v1/flags/${flagKey}/metrics`, {
       variant,
       metrics,
     })
   }
-  
+
   async getResults(flagKey: string): Promise<any> {
     return this.api.get(`/api/v1/flags/${flagKey}/results`)
   }
@@ -144,7 +143,7 @@ export class VercelFlagsProvider implements OpenFeatureProvider {
     try {
       const result = await this.evaluateFlag(flagKey, context)
       return {
-        value: typeof result.value === 'object' ? result.value as U : defaultValue,
+        value: typeof result.value === 'object' ? (result.value as U) : defaultValue,
         variant: result.variant,
       }
     } catch (error: any) {

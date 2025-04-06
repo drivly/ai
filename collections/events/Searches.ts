@@ -10,17 +10,17 @@ export const Searches: CollectionConfig = {
   fields: [
     { name: 'name', type: 'text' },
     { name: 'query', type: 'text' },
-    { 
-      name: 'searchType', 
-      type: 'select', 
+    {
+      name: 'searchType',
+      type: 'select',
       options: [
         { label: 'Text', value: 'text' },
         { label: 'Vector', value: 'vector' },
-        { label: 'Hybrid', value: 'hybrid' }
+        { label: 'Hybrid', value: 'hybrid' },
       ],
-      defaultValue: 'text'
+      defaultValue: 'text',
     },
     { name: 'results', type: 'json', admin: { readOnly: true } },
-    { name: 'embedding', type: 'json', admin: { hidden: true } }
-  ]
+    { name: 'embedding', type: 'json', admin: { hidden: true } },
+  ],
 }

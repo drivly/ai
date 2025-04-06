@@ -17,7 +17,7 @@ const createEndpointHandlers = (workosClient: WorkOSClient, config: WorkOSPlugin
         }
 
         const { profile } = await workosClient.authenticateWithSSO(code)
-        
+
         if (req.session) {
           req.session.workosUser = profile
         }
@@ -40,11 +40,11 @@ const createEndpointHandlers = (workosClient: WorkOSClient, config: WorkOSPlugin
         }
 
         const { user } = await workosClient.verifyMagicAuthSession(code)
-        
+
         if (req.session) {
           req.session.workosUser = user
         }
-        
+
         const redirectTo = req.query.state || '/'
         return res.redirect(redirectTo as string)
       } catch (error) {
@@ -61,7 +61,7 @@ const createEndpointHandlers = (workosClient: WorkOSClient, config: WorkOSPlugin
         }
 
         const event = req.body
-        
+
         switch (event.type) {
           case 'directory_user.created':
           case 'directory_user.updated':
@@ -88,9 +88,9 @@ const createEndpointHandlers = (workosClient: WorkOSClient, config: WorkOSPlugin
 export const workosPlugin = (pluginConfig: WorkOSPluginConfig = {}) => {
   return (incomingConfig: Config): Config => {
     const workosClient = new WorkOSClient(pluginConfig)
-    
+
     const handlers = createEndpointHandlers(workosClient, pluginConfig)
-    
+
     const defaultConfig: WorkOSPluginConfig = {
       features: {
         sso: true,
@@ -114,7 +114,7 @@ export const workosPlugin = (pluginConfig: WorkOSPluginConfig = {}) => {
         path: '/api/workos/webhooks',
       },
     }
-    
+
     const config = {
       ...defaultConfig,
       ...pluginConfig,
@@ -135,27 +135,39 @@ export const workosPlugin = (pluginConfig: WorkOSPluginConfig = {}) => {
         ...pluginConfig.webhooks,
       },
     }
-    
+
     const endpoints = [
-      ...(config.features?.sso ? [{
-        path: config.sso?.callbackPath || '/api/workos/sso/callback',
-        method: 'get',
-        handler: handlers.ssoCallback,
-      }] : []),
-      
-      ...(config.features?.magicAuth ? [{
-        path: config.magicAuth?.callbackPath || '/api/workos/magic/callback',
-        method: 'get',
-        handler: handlers.magicAuthCallback,
-      }] : []),
-      
-      ...(config.features?.webhooks ? [{
-        path: config.webhooks?.path || '/api/workos/webhooks',
-        method: 'post',
-        handler: handlers.webhook,
-      }] : []),
+      ...(config.features?.sso
+        ? [
+            {
+              path: config.sso?.callbackPath || '/api/workos/sso/callback',
+              method: 'get',
+              handler: handlers.ssoCallback,
+            },
+          ]
+        : []),
+
+      ...(config.features?.magicAuth
+        ? [
+            {
+              path: config.magicAuth?.callbackPath || '/api/workos/magic/callback',
+              method: 'get',
+              handler: handlers.magicAuthCallback,
+            },
+          ]
+        : []),
+
+      ...(config.features?.webhooks
+        ? [
+            {
+              path: config.webhooks?.path || '/api/workos/webhooks',
+              method: 'post',
+              handler: handlers.webhook,
+            },
+          ]
+        : []),
     ]
-    
+
     return {
       ...incomingConfig,
       admin: {
@@ -163,16 +175,13 @@ export const workosPlugin = (pluginConfig: WorkOSPluginConfig = {}) => {
         user: incomingConfig.admin?.user || config.userCollection,
       },
       onInit: async (payload) => {
-        (payload as any).workosClient = workosClient
-        
+        ;(payload as any).workosClient = workosClient
+
         if (incomingConfig.onInit) {
           await incomingConfig.onInit(payload)
         }
       },
-      endpoints: [
-        ...((incomingConfig.endpoints as any[]) || []),
-        ...endpoints,
-      ],
+      endpoints: [...((incomingConfig.endpoints as any[]) || []), ...endpoints],
     }
   }
 }

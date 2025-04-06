@@ -77,10 +77,10 @@ export const ExperimentMetrics: CollectionConfig = {
     beforeChange: [
       ({ data }) => {
         if (!data.timestamp) {
-          data.timestamp = new Date().toISOString();
+          data.timestamp = new Date().toISOString()
         }
-        return data;
-      }
+        return data
+      },
     ],
   },
 }

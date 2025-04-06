@@ -81,7 +81,7 @@ export const generateCode = async (input: any, config?: any): Promise<CodeResult
   const ai = {
     generateText: async (input: any, config: any) => {
       return input.prompt || 'Generated text'
-    }
+    },
   }
 
   const systemMessage =

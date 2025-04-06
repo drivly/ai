@@ -1,3 +1,3 @@
 export default {
-  '*': 'AI APIs'
+  '*': 'AI APIs',
 }

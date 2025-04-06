@@ -118,4 +118,4 @@ export const collections = [
   OAuthTokens,
 ]
 
-export const collectionSlugs = collections.map(collection => collection.slug)
+export const collectionSlugs = collections.map((collection) => collection.slug)

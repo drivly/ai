@@ -12,7 +12,7 @@ describe('sdk.do SDK - Unit Tests', () => {
     it('should accept custom options', () => {
       const api = new API({
         baseUrl: 'https://custom-api.example.com',
-        apiKey: 'test-api-key'
+        apiKey: 'test-api-key',
       })
       expect(api).toBeInstanceOf(API)
     })
@@ -28,7 +28,7 @@ describe('sdk.do SDK - Unit Tests', () => {
       const cli = new CLI({
         apiKey: 'test-api-key',
         baseUrl: 'https://custom-api.example.com',
-        configPath: './custom-config.json'
+        configPath: './custom-config.json',
       })
       expect(cli).toBeInstanceOf(CLI)
     })

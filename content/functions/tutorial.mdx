@@ -74,11 +74,7 @@ const leanCanvas = await ai.leanCanvas(
 )
 
 // Function call with schema and AI configuration
-const blogTitles = await ai.listBlogPostTitles(
-  { topic: 'the future of work post-API' }, 
-  ['list SEO-optimized titles'], 
-  { model: 'gpt-4.5' }
-)
+const blogTitles = await ai.listBlogPostTitles({ topic: 'the future of work post-API' }, ['list SEO-optimized titles'], { model: 'gpt-4.5' })
 ```
 
 ## Using the `AI` Function
@@ -170,9 +166,9 @@ const ai = AI({
 })
 
 // Using the defined function
-const competitiveAnalysis = await ai.competitiveLandscape({ 
-  company: 'Stripe', 
-  industry: 'Payment Processing' 
+const competitiveAnalysis = await ai.competitiveLandscape({
+  company: 'Stripe',
+  industry: 'Payment Processing',
 })
 ```
 
@@ -253,10 +249,10 @@ export const ai = AI({
 })
 
 // Using the defined function
-const book = await ai.writeBook({ 
+const book = await ai.writeBook({
   topic: 'Artificial Intelligence in Business',
   author: 'Jane Smith',
-  audience: 'Business executives and technology leaders'
+  audience: 'Business executives and technology leaders',
 })
 ```
 
@@ -347,9 +343,9 @@ const ai = AI({
   },
 })
 
-const businessModel = await ai.businessModelCanvas({ 
+const businessModel = await ai.businessModelCanvas({
   company: 'Shopify',
-  industry: 'E-commerce'
+  industry: 'E-commerce',
 })
 ```
 
@@ -376,9 +372,9 @@ const ai = AI({
   },
 })
 
-const jtbd = await ai.jobsToBeDone({ 
+const jtbd = await ai.jobsToBeDone({
   product: 'Slack',
-  industry: 'Team Communication'
+  industry: 'Team Communication',
 })
 ```
 
@@ -419,25 +415,13 @@ You can specify different AI models for different tasks based on their capabilit
 import { ai } from 'functions.do'
 
 // Use a specific model for research-intensive tasks
-const research = await ai.researchCompany(
-  { company: 'Tesla' }, 
-  {}, 
-  { model: 'perplexity/sonar-deep-research' }
-)
+const research = await ai.researchCompany({ company: 'Tesla' }, {}, { model: 'perplexity/sonar-deep-research' })
 
 // Use a different model for creative tasks
-const blogPost = await ai.writeBlogPost(
-  { topic: 'The Future of AI', tone: 'Optimistic' }, 
-  {}, 
-  { model: 'anthropic/claude-3.7-sonnet:creative' }
-)
+const blogPost = await ai.writeBlogPost({ topic: 'The Future of AI', tone: 'Optimistic' }, {}, { model: 'anthropic/claude-3.7-sonnet:creative' })
 
 // Use a model with code capabilities for programming tasks
-const code = await ai.generateCode(
-  { language: 'TypeScript', task: 'Create a React component for a form' }, 
-  {}, 
-  { model: 'openai/gpt-4-turbo:code' }
-)
+const code = await ai.generateCode({ language: 'TypeScript', task: 'Create a React component for a form' }, {}, { model: 'openai/gpt-4-turbo:code' })
 ```
 
 ## Function Types
@@ -445,13 +429,16 @@ const code = await ai.generateCode(
 functions.do supports multiple function types for different use cases:
 
 1. **Generation Functions** - AI-powered functions that generate output based on input and prompts
+
    - Format options: Object, ObjectArray, Text, TextArray, Markdown, Code
    - Example: Content generation, data transformations, creative tasks
 
 2. **Code Functions** - Functions that execute predefined code
+
    - Example: Custom data processing, calculations, specialized transformations
 
 3. **Human Functions** - Tasks assigned to specific human users or roles
+
    - Example: Manual review tasks, approval processes, expert input
 
 4. **Agent Functions** - Functions that delegate to autonomous agents

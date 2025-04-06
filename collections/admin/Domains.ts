@@ -9,26 +9,24 @@ export const Domains: CollectionConfig = {
   fields: [
     { name: 'name', type: 'text', required: true },
     { name: 'domain', type: 'text', required: true },
-    { 
-      name: 'project', 
-      type: 'relationship', 
-      relationTo: 'projects', 
-      required: true 
+    {
+      name: 'project',
+      type: 'relationship',
+      relationTo: 'projects',
+      required: true,
     },
-    { 
-      name: 'status', 
-      type: 'select', 
-      options: ['pending', 'active', 'error'], 
-      defaultValue: 'pending', 
-      admin: { readOnly: true } 
-    },
-    { 
-      name: 'hostnames', 
-      type: 'array', 
+    {
+      name: 'status',
+      type: 'select',
+      options: ['pending', 'active', 'error'],
+      defaultValue: 'pending',
       admin: { readOnly: true },
-      fields: [
-        { name: 'hostname', type: 'text' }
-      ] 
+    },
+    {
+      name: 'hostnames',
+      type: 'array',
+      admin: { readOnly: true },
+      fields: [{ name: 'hostname', type: 'text' }],
     },
     { name: 'vercelId', type: 'text', admin: { hidden: true } },
     { name: 'cloudflareId', type: 'text', admin: { hidden: true } },
@@ -48,7 +46,7 @@ export const Domains: CollectionConfig = {
                 args: {
                   domainId: doc.id,
                   operation,
-                }
+                },
               },
             })
             console.log(`Queued domain ${operation}`, job)
@@ -63,10 +61,10 @@ export const Domains: CollectionConfig = {
       async ({ req, id }) => {
         const { payload } = req
         try {
-          const domain = await payload.findByID({
+          const domain = (await payload.findByID({
             collection: 'domains' as any,
             id,
-          }) as any
+          })) as any
 
           if (domain) {
             console.log(`Queueing domain deletion for ${domain.domain}`)
@@ -80,7 +78,7 @@ export const Domains: CollectionConfig = {
                   domain: domain.domain,
                   vercelId: domain.vercelId,
                   cloudflareId: domain.cloudflareId,
-                }
+                },
               },
             })
             console.log('Queued domain deletion', job)

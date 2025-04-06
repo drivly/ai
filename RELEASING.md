@@ -19,6 +19,7 @@ We use the [Angular commit message format](https://github.com/angular/angular/bl
 ```
 
 Common types:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -50,11 +51,13 @@ The repository supports separate release processes for SDK packages and other pa
 2. Other packages (in the `pkgs` directory) are released independently
 
 To trigger a release:
+
 - For SDK packages only: Update `.github/version-stamp-sdks.txt`
 - For other packages only: Update `.github/version-stamp-pkgs.txt`
 - For both: Update both files
 
 You can also use the following npm scripts:
+
 ```
 pnpm release-sdks      # Release only SDK packages
 pnpm release-pkgs      # Release only packages in pkgs directory

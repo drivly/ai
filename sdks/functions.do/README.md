@@ -103,11 +103,7 @@ const leanCanvas = await ai.leanCanvas(
 )
 
 // Function call with schema and configuration
-const blogTitles = await ai.listBlogPostTitles(
-  { topic: 'the future of work' }, 
-  ['list SEO-optimized titles'], 
-  { model: 'gpt-4.5' }
-)
+const blogTitles = await ai.listBlogPostTitles({ topic: 'the future of work' }, ['list SEO-optimized titles'], { model: 'gpt-4.5' })
 ```
 
 ### Creating Custom Functions with `AI`
@@ -286,10 +282,10 @@ functions.do supports multiple function types for different use cases:
          productType: 'API',
          customer: 'enterprise developers',
          solution: 'simplified AI integration',
-         description: 'Streamlined API for AI function integration'
+         description: 'Streamlined API for AI function integration',
        },
        options: ['Approve', 'Reject'],
-       freeText: true
+       freeText: true,
      })
      ```
 
