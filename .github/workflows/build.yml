@@ -68,9 +68,19 @@ jobs:
           path: .next/analyze/base/bundle
           if_no_artifact_found: warn
 
-      - name: Compare with base branch bundle
+      - name: Check if base branch bundle exists
+        id: check-base-bundle
         if: success() && github.event.number
-        run: ls -la .next/analyze/base/bundle && npx -p nextjs-bundle-analysis compare
+        run: |
+          if [ -d ".next/analyze/base/bundle" ] && [ "$(ls -A .next/analyze/base/bundle 2>/dev/null)" ]; then
+            echo "base_bundle_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "base_bundle_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Compare with base branch bundle
+        if: success() && github.event.number && steps.check-base-bundle.outputs.base_bundle_exists == 'true'
+        run: npx -p nextjs-bundle-analysis compare
 
       - name: Get Comment
         id: get-comment
