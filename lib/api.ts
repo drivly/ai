@@ -366,7 +366,8 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
         plan: user?.plan || 'Free',
       }
       
-      const apiDescription = typeof result === 'object' && result !== null && 'api' in result && 
+      const apiDescription = typeof result === 'object' && result !== null && 
+                            (result && 'api' in result) && 
                             typeof (result as any).api === 'object' && (result as any).api !== null ? 
                             (result as any).api.description : undefined
       const api = getApiHeader(req, apiDescription)
