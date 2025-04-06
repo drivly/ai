@@ -3,7 +3,7 @@
 import { domainDescriptions } from '@/api.config'
 import { updateOptionParams } from '@/app/_utils/update-option-params'
 import { useSitesData } from '@/components/sites/dotdos/useSitesData'
-import { getGlowColor } from '@/domains.config'
+import { getGlowColor, sdks } from '@/domains.config'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Fragment } from 'react'
@@ -56,7 +56,7 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                 title={domain}
                 href={showAbsolute || isBrandDomain ? `https://${domain}` : `/sites/${domain}`}
                 description={domainDescriptions[domain]}
-                type={showAbsolute || isBrandDomain ? 'External' : 'Internal'}
+                hasSdk={sdks.includes(domain)}
                 mounted={mounted}
                 glowColor={mounted ? getGlowColor(domain) : '#05b2a6'}
               />
