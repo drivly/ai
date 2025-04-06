@@ -1,6 +1,7 @@
 import { withSentryConfig } from '@sentry/nextjs';
 import nextra from 'nextra'
 import { withPayload } from '@payloadcms/next/withPayload'
+import withBundleAnalyzer from '@next/bundle-analyzer'
 
 const withNextra = nextra({
   codeHighlight: true,
@@ -20,7 +21,12 @@ const nextConfig = {
   // All routing is handled by middleware.ts
 }
 
-export default withNextra(withPayload(nextConfig, { devBundleServerPackages: false }))
+// Configure bundle analyzer to run only when ANALYZE=true
+const analyzeBundles = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})
+
+export default analyzeBundles(withNextra(withPayload(nextConfig, { devBundleServerPackages: false })))
 
 // TODO: We need to figure out the build errors here
 // export default withNextra(withSentryConfig(withPayload(nextConfig, { devBundleServerPackages: false }), {
