@@ -18,6 +18,7 @@
     "payload-oapi": "^0.2.0"
   },
   "devDependencies": {
+    "eslint-config": "workspace:*",
     "tsup": "^8.0.2",
     "typescript": "^5.7.3"
   },
