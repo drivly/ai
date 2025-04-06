@@ -4,6 +4,7 @@
   "description": "WorkOS plugin for Payload CMS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch"

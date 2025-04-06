@@ -1,7 +1,7 @@
-import { sql } from "@payloadcms/db-postgres";
+import { sql } from '@payloadcms/db-postgres'
 
 export async function up({ db, payload, req }) {
-	await db.execute(sql`
+  await db.execute(sql`
    CREATE TABLE IF NOT EXISTS "user" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"name" varchar NOT NULL,
@@ -180,11 +180,11 @@ export async function up({ db, payload, req }) {
   CREATE INDEX IF NOT EXISTS "payload_preferences_rels_path_idx" ON "payload_preferences_rels" USING btree ("path");
   CREATE INDEX IF NOT EXISTS "payload_preferences_rels_user_id_idx" ON "payload_preferences_rels" USING btree ("user_id");
   CREATE INDEX IF NOT EXISTS "payload_migrations_updated_at_idx" ON "payload_migrations" USING btree ("updated_at");
-  CREATE INDEX IF NOT EXISTS "payload_migrations_created_at_idx" ON "payload_migrations" USING btree ("created_at");`);
+  CREATE INDEX IF NOT EXISTS "payload_migrations_created_at_idx" ON "payload_migrations" USING btree ("created_at");`)
 }
 
 export async function down({ db, payload, req }) {
-	await db.execute(sql`
+  await db.execute(sql`
    DROP TABLE "user" CASCADE;
   DROP TABLE "account" CASCADE;
   DROP TABLE "verification" CASCADE;
@@ -193,5 +193,5 @@ export async function down({ db, payload, req }) {
   DROP TABLE "payload_locked_documents_rels" CASCADE;
   DROP TABLE "payload_preferences" CASCADE;
   DROP TABLE "payload_preferences_rels" CASCADE;
-  DROP TABLE "payload_migrations" CASCADE;`);
+  DROP TABLE "payload_migrations" CASCADE;`)
 }

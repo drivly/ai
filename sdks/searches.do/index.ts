@@ -60,7 +60,7 @@ export const searches = {
    */
   execute: async (id: string, params?: Record<string, any>): Promise<any> => {
     return api.get<any>(`/api/searches/${id}/execute`, params)
-  }
+  },
 }
 
 export * from './types.js'

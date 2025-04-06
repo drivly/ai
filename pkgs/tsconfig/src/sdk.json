@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "SDK",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "declaration": true,
+    "noEmit": false,
+    "incremental": false,
+    "composite": false,
+    "baseUrl": ".",
+    "rootDir": "../../../",
+    "paths": {
+      "@/*": ["./src/*"],
+      "apis.do": ["../../../sdks/apis.do"],
+      "apis.do/types": ["../../../sdks/apis.do/types"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+}

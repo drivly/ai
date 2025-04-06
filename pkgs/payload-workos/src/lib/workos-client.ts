@@ -7,12 +7,12 @@ export class WorkOSClient {
 
   constructor(config: WorkOSPluginConfig) {
     this.config = config
-    
+
     const apiKey = config.apiKey || process.env.WORKOS_API_KEY
     if (!apiKey) {
       throw new Error('WorkOS API key is required. Set it in the plugin config or as WORKOS_API_KEY environment variable.')
     }
-    
+
     this.workos = new WorkOS(apiKey)
   }
 

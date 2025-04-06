@@ -1,5 +1,5 @@
 import { api } from 'apis.do'
-import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration } from './types'
+import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration } from './types.js'
 
 /**
  * Client for managing integrations between applications
@@ -48,7 +48,7 @@ export const integrations = {
    */
   get: async (service: string): Promise<Integration> => {
     return api.get(`/integrations/${service}`)
-  }
+  },
 }
 
 /**
@@ -79,7 +79,7 @@ export const triggers = {
    */
   get: async (id: string): Promise<Trigger> => {
     return api.get(`/integrations/triggers/${id}`)
-  }
+  },
 }
 
 /**
@@ -101,7 +101,7 @@ export const actions = {
    */
   get: async (id: string): Promise<Action> => {
     return api.get(`/integrations/actions/${id}`)
-  }
+  },
 }
 
-export * from './types'
+export * from './types.js'

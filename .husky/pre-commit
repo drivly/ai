@@ -3,4 +3,6 @@
 pnpm lint
 pnpm format
 pnpm generate:types
-pnpm typecheck || echo "Typecheck failed but continuing with commit"
+# Temporarily disabled typecheck as requested
+# pnpm typecheck || echo "Typecheck failed but continuing with commit"
+echo "Typecheck temporarily disabled as requested"

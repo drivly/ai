@@ -2,24 +2,34 @@
  * Type definitions for evals.do SDK
  */
 
-import { ClientOptions as ApiClientOptions } from 'apis.do'
+import { ClientOptions as ApiClientOptions } from '../../apis.do/src/types.js'
 
 /**
  * Configuration options for the Evals client
  */
 export interface EvalsOptions extends ApiClientOptions {
   /**
+   * Base URL for API requests
+   * @default 'https://evals.do'
+   */
+  baseUrl?: string
+  
+  /**
+   * API key for authentication
+   */
+  apiKey?: string
+  /**
    * Whether to store results locally
    * @default true
    */
   storeLocally?: boolean
-  
+
   /**
    * Whether to send results to the cloud backend
    * @default true
    */
   storeRemotely?: boolean
-  
+
   /**
    * Path to the local SQLite database
    * @default './.evalite.db'

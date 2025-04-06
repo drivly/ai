@@ -21,7 +21,7 @@ export class CLI {
   /**
    * Initialize a new package
    */
-  async init(options: { name?: string, force?: boolean } = {}): Promise<void> {
+  async init(options: { name?: string; force?: boolean } = {}): Promise<void> {
     console.log('Initializing new package...')
     return Promise.resolve()
   }
@@ -64,9 +64,9 @@ export class CLI {
         main: 'dist/index.js',
         types: 'dist/index.d.ts',
         files: ['dist', 'README.md'],
-        license: 'MIT'
+        license: 'MIT',
       },
-      collections: options.collections?.map(collection => ({ collection })) || []
+      collections: options.collections?.map((collection) => ({ collection })) || [],
     }
     return this.api.createPackage(packageData)
   }
@@ -98,7 +98,7 @@ export class CLI {
   /**
    * Publish a package to NPM
    */
-  async publish(packageId: string, options: { tag?: string, dryRun?: boolean } = {}): Promise<any> {
+  async publish(packageId: string, options: { tag?: string; dryRun?: boolean } = {}): Promise<any> {
     const action = options.dryRun ? 'Dry run publishing' : 'Publishing'
     console.log(`${action} package ${packageId} to NPM...`)
     return this.api.publishPackage(packageId, options)

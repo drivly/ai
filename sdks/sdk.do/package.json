@@ -62,6 +62,11 @@
   "dependencies": {
     "apis.do": "workspace:*"
   },
+  "pnpm": {
+    "overrides": {
+      "apis.do": "workspace:*"
+    }
+  },
   "engines": {
     "node": ">=18.0.0"
   }

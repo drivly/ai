@@ -29,22 +29,33 @@ Track user interactions with different variants of your experiments:
 
 ```typescript
 // Track a click event for a specific experiment and variant
-await experiments.trackEvent('ButtonExperiment', variant.id, 'button_click', {
-  buttonType: 'cta',
-  position: 'header',
-}, {
-  userId: 'user-123',
-  sessionId: 'session-456',
-})
+await experiments.trackEvent(
+  'ButtonExperiment',
+  variant.id,
+  'button_click',
+  {
+    buttonType: 'cta',
+    position: 'header',
+  },
+  {
+    userId: 'user-123',
+    sessionId: 'session-456',
+  },
+)
 
 // Record a conversion metric
-await experiments.track('ButtonExperiment', variant.id, {
-  'click_through_rate': 1,
-  'time_on_page': 120, // seconds
-}, {
-  userId: 'user-123',
-  sessionId: 'session-456',
-})
+await experiments.track(
+  'ButtonExperiment',
+  variant.id,
+  {
+    click_through_rate: 1,
+    time_on_page: 120, // seconds
+  },
+  {
+    userId: 'user-123',
+    sessionId: 'session-456',
+  },
+)
 ```
 
 ### Vercel Analytics Integration

@@ -73,6 +73,7 @@ const model = getSupportedModel([
 To support complex busines requirements, we need a system that can automatically determine the best model for each task.
 
 ### Classification of content
+
 A classification layer will be used to attach weights based on the prompt. The weights indicate the relative importance of each type of content in the prompt:
 
 `'Generate a business plan to sell water to a fish.'` -> `[ 'businessLogic:0.5', 'marketing:0.4', 'legal:0.21' ]`
@@ -92,9 +93,13 @@ The key difference between this and systems such as NotDiamond is that we can of
 ### Examples
 
 #### Meta model: frontier()
+
 #### Prompt: Generate a business plan to sell water to a fish.
+
 #### Weights: `[ 'businessLogic:0.75', 'marketing:0.4', 'legal:0.21' ]`
+
 #### Models
+
 Using the above information, we can now sort our models using the weights to find the best model within a certain "meta-model". In this example, we're using the `frontier-reasoning` group of models that are best at reasoning and logic.
 
 Thanks to our classification layer, its extremely easy to route the prompt to `claude-3.7-sonnet`, which best matches the `businessLogic` tag (among others).
@@ -113,24 +118,25 @@ sequenceDiagram
     User->>Classification: Send prompt "Generate business plan for fish water"
     Note over Classification: Analyzes content types in prompt
     Classification->>MetaManager: Provides weights [businessLogic:0.75, marketing:0.4, legal:0.21]
-    
+
     MetaManager->>ModelRegistry: Request models matching meta-model type (e.g., "frontier-reasoning")
     ModelRegistry->>MetaManager: Return candidate models with performance weights
-    
+
     Note over MetaManager: Ranks models based on content weights<br/>and historical performance
     MetaManager->>SelectedModel: Route prompt to best model (e.g., claude-3.7-sonnet)
     SelectedModel->>User: Return response
-    
+
     User->>Feedback: Provides feedback (👍)
     Feedback->>ModelRegistry: Update model scores for identified content tags
     Note over ModelRegistry: Increases claude-3.7-sonnet's<br/>score for businessLogic tag
-    
+
     Note over MetaManager: Future similar prompts more likely<br/>to select same high-performing model
 ```
 
 `*:reasoning(sort:pricing,latency)`
 
 ## Examples
+
 - Best PDF model thats the cheapest (gemini-2.0-flash) -> `*:pdf(sort:pricing)`
 - PDF with reasoning (claude-3.7-sonnet) -> `*:pdf,reasoning`
 - Creative writing (gpt-4.5) -> `creative`
@@ -141,6 +147,7 @@ sequenceDiagram
 - Deal review (o3-mini || claude-3.7-sonnet || gemini-2.5-pro)
 
 #### Example business requirements
+
 ```
 Requirements: Must be good at creative writing, but cost less than $15 per million tokens
 Constraints: Must be able to handle complex code

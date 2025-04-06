@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 import * as React from 'react'
 
 interface GridPatternProps extends React.SVGProps<SVGSVGElement> {

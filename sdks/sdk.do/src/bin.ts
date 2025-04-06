@@ -7,7 +7,7 @@ const cli = new CLI()
 async function main() {
   const args = process.argv.slice(2)
   const command = args[0]
-  
+
   try {
     switch (command) {
       case 'init':
@@ -28,7 +28,7 @@ async function main() {
           console.error('Package name is required')
           process.exit(1)
         }
-        const collections = args.slice(2).filter(arg => !arg.startsWith('--'))
+        const collections = args.slice(2).filter((arg) => !arg.startsWith('--'))
         await cli.createPackage(args[1], { collections })
         break
       case 'add':
@@ -51,8 +51,8 @@ async function main() {
           process.exit(1)
         }
         await cli.publish(args[1], {
-          tag: args.find(arg => arg.startsWith('--tag='))?.split('=')[1],
-          dryRun: args.includes('--dry-run')
+          tag: args.find((arg) => arg.startsWith('--tag='))?.split('=')[1],
+          dryRun: args.includes('--dry-run'),
         })
         break
       default:

@@ -1,4 +1,4 @@
-import { Button } from '@drivly/ui/button'
+import { Button } from '@/components/ui/button'
 import { FaGithub } from 'react-icons/fa'
 import { CodeWindow } from '@/components/sites/code-window'
 
