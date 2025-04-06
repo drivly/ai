@@ -1,4 +1,3 @@
 export default {
-  api: '',
-  sdk: '',
+  roles: { display: 'hidden' }
 }
