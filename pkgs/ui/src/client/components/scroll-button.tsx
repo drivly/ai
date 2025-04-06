@@ -63,8 +63,7 @@ function ScrollButton({ scrollRef, containerRef, className, threshold = 100, var
         className,
       )}
       onClick={handleScroll}
-      {...props}
-    >
+      {...props}>
       <ChevronDown className='h-4 w-4' />
     </Button>
   )

@@ -1,13 +1,17 @@
 {
-  "extends": "../../pkgs/tsconfig/src/react.json",
   "compilerOptions": {
+    "target": "ES2022",
     "module": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "declaration": true,
     "outDir": "dist",
+    "strict": true,
     "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
-    "incremental": false,
     "paths": {
       "@/*": ["./src/*"]
     }
