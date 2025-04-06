@@ -108,6 +108,38 @@ export async function middleware(request: NextRequest) {
     }
     
     if (isBrandDomain(hostname)) {
+      console.log('Handling brand domain', { hostname, pathname, search })
+      
+      if (pathname === '/docs' || pathname.startsWith('/docs/')) {
+        console.log('Rewriting brand domain docs path', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/docs${pathname.replace('/docs', '')}${search}`, request.url))
+      }
+      
+      if (pathname === '/login') {
+        console.log('Rewriting brand domain login path', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/login${search}`, request.url))
+      }
+      
+      if (pathname === '/signup') {
+        console.log('Rewriting brand domain signup path', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/signup${search}`, request.url))
+      }
+      
+      if (pathname === '/admin') {
+        console.log('Rewriting brand domain admin path', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/admin${search}`, request.url))
+      }
+      
+      if (pathname === '/privacy') {
+        console.log('Rewriting brand domain privacy path', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/privacy${search}`, request.url))
+      }
+      
+      if (pathname === '/terms') {
+        console.log('Rewriting brand domain terms path', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/terms${search}`, request.url))
+      }
+      
       console.log('Rewriting brand domain to sites list', { hostname, pathname, search })
       return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
     }
