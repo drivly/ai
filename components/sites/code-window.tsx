@@ -58,8 +58,8 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
         </div>
 
         {/* Code content */}
-        <div className='max-h-[500px] overflow-auto scrollbar-hide bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
-          <pre className='language-json '>
+        <div className='bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
+          <pre className='language-json'>
             <code
               className='text-xs sm:text-sm'
               dangerouslySetInnerHTML={{
@@ -68,21 +68,10 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
             />
           </pre>
         </div>
-
-        {/* CSS to hide scrollbar while maintaining functionality */}
-        <style jsx global>{`
-          .scrollbar-hide {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;     /* Firefox */
-          }
-          .scrollbar-hide::-webkit-scrollbar {
-            display: none;             /* Chrome, Safari and Opera */
-          }
-        `}</style>
       </div>
     </div>
   )
 }
 
 
-// browser bar with  
+// browser bar with    
