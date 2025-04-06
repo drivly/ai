@@ -96,7 +96,7 @@ jobs:
               '@semantic-release/github',
               '@semantic-release/git'
             ]
-          working-directory: '.'
+          extends: "./scripts/release-sdks.js"
           dry-run: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

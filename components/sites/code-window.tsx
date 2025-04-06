@@ -58,8 +58,8 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
         </div>
 
         {/* Code content */}
-        <div className='max-h-[500px] overflow-auto bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
-          <pre className='language-json '>
+        <div className='bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
+          <pre className='language-json'>
             <code
               className='text-xs sm:text-sm'
               dangerouslySetInnerHTML={{
@@ -74,4 +74,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with 
+// browser bar with    

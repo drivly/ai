@@ -1,4 +1,28 @@
 export default {
+  home: {
+    title: 'Home',
+    type: 'page',
+    href: '/',
+    display: 'hidden'
+  },
+  api: {
+    title: 'API',
+    type: 'page',
+    href: '/api',
+    display: 'hidden'
+  },
+  sdk: {
+    title: 'SDK',
+    type: 'page',
+    href: '/sdk',
+    display: 'hidden'
+  },
+  api_docs: {
+    title: 'Reference',
+    type: 'page',
+    href: 'https://docs.apis.do',
+    display: 'hidden'
+  },
   manifesto: 'Manifesto',
   _1: {
     type: 'separator',
@@ -14,6 +38,9 @@ export default {
   },
   agents: '',
   apis: '',
+  reference: {
+    title: 'API Reference'
+  },
   _3: {
     type: 'separator',
     title: 'Data'
