@@ -286,7 +286,7 @@ function createDatabaseAccess(): DatabaseAccess {
 export { API } from './client.js'
 export { CLI } from './cli.js'
 
-export { actions } from 'actions.do'
+// export { actions } from 'actions.do'
 export { Analytics, initAnalytics, trackMetric, defineExperiment } from 'analytics.do'
 export { api } from 'apis.do'
 export { evals } from 'evals.do'
