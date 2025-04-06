@@ -124,6 +124,11 @@ export async function middleware(request: NextRequest) {
     if (isBrandDomain(hostname)) {
       console.log('Handling brand domain', { hostname, pathname, search })
       
+      if (pathname === '/docs' || pathname.startsWith('/docs/')) {
+        console.log('Passing through docs path for brand domain', { hostname, pathname, search })
+        return NextResponse.next()
+      }
+      
       if (pathname === '/') {
         console.log('Rewriting brand domain root path to /sites', { hostname, pathname, search })
         return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
