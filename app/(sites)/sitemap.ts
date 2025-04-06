@@ -9,7 +9,7 @@ export type SitemapEntry = {
 }
 
 export default async function sitemap(): Promise<SitemapEntry[]> {
-  const headersList = headers()
+  const headersList = await headers()
   const host = headersList.get('host') || 'apis.do'
   const baseUrl = `https://${host}`
   
