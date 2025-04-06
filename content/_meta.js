@@ -17,6 +17,12 @@ export default {
     href: '/sdk',
     display: 'hidden'
   },
+  reference: {
+    title: 'Reference',
+    type: 'page',
+    href: 'https://docs.apis.do',
+    display: 'hidden'
+  },
   manifesto: 'Manifesto',
   _1: {
     type: 'separator',
