@@ -15,7 +15,12 @@ const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Bann
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const pageMap = await getPageMap('/docs')
 
-  const navbar = <Navbar logo={<b><a href="https://dotdo.ai" style={{ textDecoration: 'none', color: 'inherit' }}>.do</a></b>} chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
+  const navbar = <Navbar 
+    logo={<b>.do</b>} 
+    logoLink="https://dotdo.ai"
+    chatLink='https://discord.gg/tafnNeUQdm' 
+    projectLink='https://github.com/drivly/ai'
+  />
   const footer = (
     <Footer>
       MIT {new Date().getFullYear()} © <a href="https://dotdo.ai" style={{ textDecoration: 'none', color: 'inherit' }}>.do</a>
