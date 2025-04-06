@@ -18,5 +18,5 @@ export const Things: CollectionConfig = {
     { name: 'activity', type: 'text', admin: { description: 'Gerund' } },
     { name: 'event', type: 'text', admin: { description: 'Past tense' } },
     { name: 'resources', type: 'join', collection: 'resources', on: 'type' },
-  ]
+  ],
 }

@@ -1,6 +1,4 @@
 export default {
-
-
   docs: { type: 'page', href: '/docs' },
   apis: { type: 'page', theme: { layout: 'full' } },
   sdks: { type: 'page', theme: { layout: 'full' } },
@@ -12,7 +10,7 @@ export default {
   
   _ai: {
     type: 'separator',
-    title: 'AI'
+    title: 'AI',
   },
   workflows: '',
   functions: '',
@@ -20,7 +18,7 @@ export default {
 
   _data: {
     type: 'separator',
-    title: 'Data'
+    title: 'Data',
   },
   nouns: '',
   verbs: '',
@@ -29,7 +27,7 @@ export default {
 
   _business: {
     type: 'separator',
-    title: 'Business'
+    title: 'Business',
   },
   goals: '',
   plans: { display: 'hidden' },
@@ -37,7 +35,7 @@ export default {
 
   _events: {
     type: 'separator',
-    title: 'Events'
+    title: 'Events',
   },
   events: '',
   triggers: '',
@@ -46,7 +44,7 @@ export default {
   
   _experiments: {
     type: 'separator',
-    title: 'Experiments'
+    title: 'Experiments',
   },
   analytics: '',
   experiments: '',
@@ -54,10 +52,9 @@ export default {
   evals: '',
   datasets: '',
   models: '',
-  // prompts: '',
   _7: {
     type: 'separator',
-    title: 'Deploy'
+    title: 'Deploy',
   },
   code: '',
 }

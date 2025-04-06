@@ -3,77 +3,77 @@ import { waitUntil } from '@vercel/functions'
 
 export const processBatchParasail = async ({ input, req, payload }: any) => {
   const { batchId, checkStatus } = input
-  
+
   try {
     const batch = await payload.findByID({
       collection: 'generation-batches',
-      id: batchId
+      id: batchId,
     })
-    
+
     if (!batch) {
       throw new Error(`Batch with ID ${batchId} not found`)
     }
-    
+
     if (checkStatus && batch.providerBatchId) {
       const response = await fetch(`https://api.parasail.io/v1/batch/${batch.providerBatchId}`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${process.env.PARASAIL_API_KEY || ''}`,
-          'Content-Type': 'application/json'
-        }
+          Authorization: `Bearer ${process.env.PARASAIL_API_KEY || ''}`,
+          'Content-Type': 'application/json',
+        },
       } as RequestInit)
-      
+
       const batchStatus = await response.json()
-      
-      const status = batchStatus.status === 'completed' ? 'completed' : 
-                    batchStatus.status === 'failed' ? 'failed' :
-                    'processing'
-      
+
+      const status = batchStatus.status === 'completed' ? 'completed' : batchStatus.status === 'failed' ? 'failed' : 'processing'
+
       await payload.update({
         collection: 'generation-batches',
         id: batchId,
         data: {
           status,
-          completedAt: status === 'completed' ? new Date().toISOString() : undefined
-        }
+          completedAt: status === 'completed' ? new Date().toISOString() : undefined,
+        },
       })
-      
+
       if (status === 'completed' && batchStatus.results) {
       }
-      
+
       return { status, batchStatus }
     }
-    
+
     const batchConfig = batch.batchConfig || {}
     const response = await fetch('https://api.parasail.io/v1/batch', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.PARASAIL_API_KEY || ''}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${process.env.PARASAIL_API_KEY || ''}`,
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(batchConfig)
+      body: JSON.stringify(batchConfig),
     } as RequestInit)
-    
+
     const result = await response.json()
-    
+
     await payload.update({
       collection: 'generation-batches',
       id: batchId,
       data: {
         providerBatchId: result.id,
         status: 'processing',
-        startedAt: new Date().toISOString()
-      }
+        startedAt: new Date().toISOString(),
+      },
     })
-    
-    waitUntil(payload.jobs.queue({
-      task: 'processBatchParasail',
-      input: {
-        batchId,
-        checkStatus: true
-      }
-    }))
-    
+
+    waitUntil(
+      payload.jobs.queue({
+        task: 'processBatchParasail',
+        input: {
+          batchId,
+          checkStatus: true,
+        },
+      }),
+    )
+
     return { success: true, batchId: result.id }
   } catch (error: any) {
     console.error('Error processing Parasail batch:', error)
@@ -86,12 +86,12 @@ export const processBatchParasailTask = {
   label: 'Process Parasail Batch',
   inputSchema: [
     { name: 'batchId', type: 'text', required: true },
-    { name: 'checkStatus', type: 'checkbox' }
+    { name: 'checkStatus', type: 'checkbox' },
   ],
   outputSchema: [
     { name: 'status', type: 'text' },
     { name: 'error', type: 'text' },
-    { name: 'batchStatus', type: 'json' }
+    { name: 'batchStatus', type: 'json' },
   ],
-  handler: processBatchParasail
+  handler: processBatchParasail,
 } as unknown as TaskConfig

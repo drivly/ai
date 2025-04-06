@@ -47,27 +47,33 @@ export default AI({
     // Integrate with external APIs through Integrations.do
     const enrichedContact = await api.apollo.search({ name, email, company })
     const socialProfiles = await api.peopleDataLabs.findSocialProfiles({ name, email, company })
-    
+
     // Leverage Functions.do for AI-powered analysis
     const companyProfile = await ai.researchCompany({ company })
     const personalProfile = await ai.researchPersonalBackground({ name, email, enrichedContact })
-    
+
     // Create personalized content with Functions.do
-    const emailSequence = await ai.personalizeEmailSequence({ 
-      name, email, company, personalProfile, companyProfile 
+    const emailSequence = await ai.personalizeEmailSequence({
+      name,
+      email,
+      company,
+      personalProfile,
+      companyProfile,
     })
-    
+
     // Store data with Database.do
-    const { url } = await db.users.create({ 
-      name, email, company, 
+    const { url } = await db.users.create({
+      name,
+      email,
+      company,
       profiles: { company: companyProfile, personal: personalProfile },
-      emailSequence
+      emailSequence,
     })
-    
+
     // Trigger notifications through Events.do
-    await api.slack.postMessage({ 
-      channel: '#signups', 
-      content: { name, email, company, url } 
+    await api.slack.postMessage({
+      channel: '#signups',
+      content: { name, email, company, url },
     })
   },
 })
@@ -84,7 +90,7 @@ export const ai = AI({
     // Step 1: Generate initial content with Functions.do
     const proposal = await ai.createContentProposal(args)
     const outline = await ai.createContentOutline({ proposal })
-    
+
     // Step 2: Generate sections in parallel for efficiency
     const sections = await Promise.all(
       outline.sections.map(async (section) => {
@@ -92,48 +98,48 @@ export const ai = AI({
           title: proposal.title,
           sectionTitle: section.title,
         })
-      })
+      }),
     )
-    
+
     // Step 3: Enhance content with media using Integrations.do
     const media = await api.dalle.generateImages({
       prompt: `Images for ${proposal.title}`,
-      count: outline.sections.length
+      count: outline.sections.length,
     })
-    
+
     // Step 4: Review and refine with Functions.do
     const review = await ai.reviewContent({
       title: proposal.title,
-      sections
+      sections,
     })
-    
+
     // Step 5: Store in Database.do
     const { id } = await db.publications.create({
       title: proposal.title,
       sections,
       media,
-      review
+      review,
     })
-    
+
     // Step 6: Publish through Integrations.do
     const published = await api.publishing.publish({
       id,
-      channels: args.channels
+      channels: args.channels,
     })
-    
+
     // Step 7: Track with Analytics.do
     await api.analytics.trackPublication({
       id,
       type: 'content',
-      channels: args.channels
+      channels: args.channels,
     })
-    
+
     return {
       id,
       title: proposal.title,
       sections,
       media,
-      published
+      published,
     }
   },
 
@@ -159,7 +165,7 @@ export const ai = AI({
         title: 'section title',
         summary: 'brief description of section content',
         keyPoints: ['main points to cover in this section'],
-      }
+      },
     ],
     conclusion: 'brief description of the conclusion',
     estimatedLength: 'estimated total length',
@@ -201,7 +207,8 @@ Workflows.do serves as the central integration hub for the entire [.do](https://
 8. **Actions.do** - External world impact
 
 This seamless integration enables you to create elegant business processes that leverage the full power of the [.do](https://dotdo.ai) platform with minimal code.
-```
+
+````
 
 ## Elegant API Design
 
@@ -212,7 +219,7 @@ Workflows.do provides a simple, elegant API that makes it easy to orchestrate co
 const workflow = AI({
   // Your workflow definition here
 })
-```
+````
 
 ### Context Object
 
@@ -241,9 +248,9 @@ Workflows.do seamlessly integrates all four function types from the [.do](https:
 
 ```typescript
 // Integrate with Functions.do for AI-powered capabilities
-const summary = await ai.summarizeContent({ 
-  content: longText, 
-  maxLength: 200 
+const summary = await ai.summarizeContent({
+  content: longText,
+  maxLength: 200,
 })
 ```
 
@@ -252,7 +259,7 @@ const summary = await ai.summarizeContent({
 ```typescript
 // Connect with external services through Integrations.do
 const customerData = await api.salesforce.getCustomer({
-  email: customer.email
+  email: customer.email,
 })
 ```
 
@@ -261,8 +268,8 @@ const customerData = await api.salesforce.getCustomer({
 ```typescript
 // Leverage autonomous agents through Agents.do
 const researchResults = await ai.researchAgent.execute({
-  topic: "Competitive Analysis",
-  depth: "Comprehensive"
+  topic: 'Competitive Analysis',
+  depth: 'Comprehensive',
 })
 ```
 
@@ -272,8 +279,8 @@ const researchResults = await ai.researchAgent.execute({
 // Incorporate human workers into your workflows
 const approval = await api.humans.requestApproval({
   document: proposal,
-  approvers: ["manager@company.com"],
-  deadline: "24h"
+  approvers: ['manager@company.com'],
+  deadline: '24h',
 })
 ```
 
@@ -291,8 +298,8 @@ const salesAgent = Agent({
     // Workflows are available as tools for agents
     workflows.qualifyLead,
     workflows.generateProposal,
-    workflows.scheduleDemo
-  ]
+    workflows.scheduleDemo,
+  ],
 })
 ```
 
@@ -313,12 +320,15 @@ export default AI({
     // Research phase using Functions.do
     const marketResearch = await ai.researchMarketTrends({ topic, audience })
     const competitorAnalysis = await ai.analyzeCompetitorContent({ topic })
-    
+
     // Content creation using Functions.do
-    const contentStrategy = await ai.createContentStrategy({ 
-      topic, audience, marketResearch, competitorAnalysis 
+    const contentStrategy = await ai.createContentStrategy({
+      topic,
+      audience,
+      marketResearch,
+      competitorAnalysis,
     })
-    
+
     // Generate content pieces in parallel
     const contentPieces = await Promise.all(
       contentStrategy.pieces.map(async (piece) => {
@@ -327,17 +337,17 @@ export default AI({
           topic: piece.topic,
           audience,
           tone: piece.tone,
-          length: piece.length
+          length: piece.length,
         })
-      })
+      }),
     )
-    
+
     // Generate visuals using Integrations.do
     const visuals = await api.dalle.generateImages({
-      prompts: contentPieces.map(p => `Visual for ${p.title}`),
-      style: "professional"
+      prompts: contentPieces.map((p) => `Visual for ${p.title}`),
+      style: 'professional',
     })
-    
+
     // Store in Database.do
     const campaign = await db.campaigns.create({
       topic,
@@ -345,31 +355,31 @@ export default AI({
       strategy: contentStrategy,
       content: contentPieces.map((piece, i) => ({
         ...piece,
-        visual: visuals[i]
-      }))
+        visual: visuals[i],
+      })),
     })
-    
+
     // Schedule distribution using Integrations.do
     const schedule = await api.marketing.scheduleContent({
       campaignId: campaign.id,
       channels,
-      startDate: new Date()
+      startDate: new Date(),
     })
-    
+
     // Set up analytics tracking using Analytics.do
     await api.analytics.createCampaignTracking({
       campaignId: campaign.id,
       channels,
-      goals: ['engagement', 'conversion']
+      goals: ['engagement', 'conversion'],
     })
-    
+
     return {
       campaignId: campaign.id,
       content: contentPieces,
       schedule,
-      trackingUrl: `https://analytics.do/campaigns/${campaign.id}`
+      trackingUrl: `https://analytics.do/campaigns/${campaign.id}`,
     }
-  }
+  },
 })
 ```
 
@@ -382,37 +392,37 @@ import { AI } from 'workflows.do'
 export default AI({
   enhanceCustomerExperience: async (event, { ai, api, db }) => {
     const { customerId, interactionType } = event
-    
+
     // Retrieve customer data from Database.do
     const customer = await db.customers.findOne({ id: customerId })
-    
+
     // Enrich customer profile using Integrations.do
     const enrichedProfile = await api.clearbit.enrichCompany({
-      domain: customer.company.domain
+      domain: customer.company.domain,
     })
-    
+
     // Analyze customer journey using Functions.do
     const journeyAnalysis = await ai.analyzeCustomerJourney({
       customer,
       enrichedProfile,
-      interactionHistory: await db.interactions.find({ customerId })
+      interactionHistory: await db.interactions.find({ customerId }),
     })
-    
+
     // Generate personalized recommendations using Functions.do
     const recommendations = await ai.createPersonalizedRecommendations({
       customer,
       journeyAnalysis,
-      interactionType
+      interactionType,
     })
-    
+
     // Update customer record in Database.do
     await db.customers.update(customerId, {
       enrichedProfile,
       journeyAnalysis,
       recommendations,
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     })
-    
+
     // Trigger appropriate actions based on interaction type
     if (interactionType === 'support') {
       // Notify support team through Events.do
@@ -421,27 +431,27 @@ export default AI({
         content: {
           customerId,
           name: customer.name,
-          recommendations: recommendations.supportActions
-        }
+          recommendations: recommendations.supportActions,
+        },
       })
     } else if (interactionType === 'sales') {
       // Create follow-up tasks in CRM through Integrations.do
       await api.salesforce.createTasks({
         customerId,
-        tasks: recommendations.salesActions.map(a => ({
+        tasks: recommendations.salesActions.map((a) => ({
           title: a.title,
           description: a.description,
-          dueDate: a.timeframe
-        }))
+          dueDate: a.timeframe,
+        })),
       })
     }
-    
+
     return {
       customerId,
       recommendations,
-      nextSteps: recommendations[interactionType + 'Actions']
+      nextSteps: recommendations[interactionType + 'Actions'],
     }
-  }
+  },
 })
 ```
 
@@ -452,6 +462,7 @@ MIT
 ## Integration Foundation
 
 Workflows.do is built on [APIs.do](https://apis.do), the foundational SDK of the [.do](https://dotdo.ai) ecosystem, providing seamless integration with all .do services through a unified, elegant interface.
+
 - [functions.do](https://www.npmjs.com/package/functions.do) - AI-powered Functions-as-a-Service
 - [database.do](https://www.npmjs.com/package/database.do) - AI Native Data Access
 - [durable-objects-nosql](https://www.npmjs.com/package/durable-objects-nosql) - NoSQL database for Cloudflare Workers

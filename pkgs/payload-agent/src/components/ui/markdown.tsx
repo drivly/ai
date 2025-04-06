@@ -7,10 +7,7 @@ export interface MarkdownProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Markdown({ className, children, ...props }: MarkdownProps) {
   return (
-    <div 
-      className={cn('prose dark:prose-invert max-w-none', className)} 
-      {...props}
-    >
+    <div className={cn('prose dark:prose-invert max-w-none', className)} {...props}>
       {children}
     </div>
   )

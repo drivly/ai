@@ -21,7 +21,7 @@ vi.mock('./index.js', () => {
       },
       get: async (id: string) => {
         return mockGet(`/integrations/${id}`)
-      }
+      },
     },
     createIntegration: (config: any) => config,
     triggers: {
@@ -30,7 +30,7 @@ vi.mock('./index.js', () => {
       },
       get: async (id: string) => {
         return mockGet(`/integrations/triggers/${id}`)
-      }
+      },
     },
     actions: {
       list: async () => {
@@ -38,8 +38,8 @@ vi.mock('./index.js', () => {
       },
       get: async (id: string) => {
         return mockGet(`/integrations/actions/${id}`)
-      }
-    }
+      },
+    },
   }
 })
 

@@ -5,15 +5,15 @@ export const GET = API(async (request, { origin, url, payload }) => {
   const headersList = await headers()
   const authHeader = headersList.get('Authorization')
   const sharedSecret = process.env.WORKERS_API_SECRET
-  
+
   if (!authHeader || !sharedSecret || authHeader !== `Bearer ${sharedSecret}`) {
     return { error: 'Unauthorized', status: 401 }
   }
-  
+
   const searchParams = url.searchParams
   const page = parseInt(searchParams.get('page') || '1')
   const limit = parseInt(searchParams.get('limit') || '20')
-  
+
   let workers: Record<string, string> = {}
   try {
     const deployments = await payload.find({
@@ -21,26 +21,26 @@ export const GET = API(async (request, { origin, url, payload }) => {
       limit,
       page,
     })
-    
+
     deployments.docs.forEach((deployment: { name?: string }) => {
       if (deployment.name) {
         workers[deployment.name] = `${origin}/workers/${deployment.name}`
       }
     })
-    
+
     const baseUrl = `${origin}/workers`
     const links: Record<string, string> = {
       home: baseUrl,
     }
-    
+
     if (deployments.hasNextPage) {
       links.next = `${baseUrl}?page=${page + 1}&limit=${limit}`
     }
-    
+
     if (page > 1) {
       links.prev = `${baseUrl}?page=${page - 1}&limit=${limit}`
     }
-    
+
     return {
       workers,
       links,
@@ -50,16 +50,16 @@ export const GET = API(async (request, { origin, url, payload }) => {
     }
   } catch (error) {
     console.error('Error fetching workers:', error)
-    
+
     const baseUrl = `${origin}/workers`
     const links: Record<string, string> = {
       home: baseUrl,
     }
-    
+
     workers = {
       'example-worker': `${baseUrl}/example-worker`,
     }
-    
+
     return {
       workers,
       links,

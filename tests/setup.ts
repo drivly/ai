@@ -64,7 +64,7 @@ export const getTestPayload = async () => {
   }
 
   const mongoUri = mongoMemoryServer.getUri()
-  
+
   const testConfig = {
     ...config,
     db: mongooseAdapter({
@@ -82,9 +82,9 @@ export const getTestPayload = async () => {
 // Global setup
 beforeAll(async () => {
   console.log('Starting test suite')
-  
+
   if (process.env.CI) return
-  
+
   mongoMemoryServer = await MongoMemoryServer.create()
   console.log(`MongoDB Memory Server started at ${mongoMemoryServer.getUri()}`)
 })
@@ -92,14 +92,14 @@ beforeAll(async () => {
 // Global teardown
 afterAll(async () => {
   console.log('Test suite completed')
-  
+
   if (process.env.CI) return
-  
+
   if (payloadInstance) {
     await payloadInstance.disconnect()
     payloadInstance = null
   }
-  
+
   if (mongoMemoryServer) {
     await mongoMemoryServer.stop()
     console.log('MongoDB Memory Server stopped')

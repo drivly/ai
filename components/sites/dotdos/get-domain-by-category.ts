@@ -1,4 +1,4 @@
-import { siteCategories } from "@/api.config"
+import { siteCategories } from '@/api.config'
 
 export function getDomainsByCategory(domains: string[]) {
   const domainsByCategory: Record<string, string[]> = {}

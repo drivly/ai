@@ -48,13 +48,10 @@ export function ScrollButton({ containerRef, scrollRef, className }: ScrollButto
   return (
     <Button
       onClick={scrollToBottom}
-      className={cn(
-        'flex h-8 w-8 items-center justify-center rounded-full border bg-background p-0 shadow-md',
-        className
-      )}
-      aria-label="Scroll to bottom"
+      className={cn('bg-background flex h-8 w-8 items-center justify-center rounded-full border p-0 shadow-md', className)}
+      aria-label='Scroll to bottom'
     >
-      <ArrowDown className="h-4 w-4" />
+      <ArrowDown className='h-4 w-4' />
     </Button>
   )
 }

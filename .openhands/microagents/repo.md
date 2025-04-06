@@ -51,6 +51,7 @@ This repository contains a collection of AI primitives for building enterprise-g
 - Error handling: Use try/catch with meaningful error messages
 
 ### SDK Implementation Patterns
+
 - SDK implementations in `/sdks/` must maintain zero dependencies (except apis.do) to be publishable on npm
 - Backend implementations of SDK features should be placed in the `/tasks/` folder
 - When moving code from SDK to tasks, ensure all SDK files are completely reverted to maintain zero dependencies
@@ -61,6 +62,7 @@ This repository contains a collection of AI primitives for building enterprise-g
   - Avoid older Node.js built-in modules when modern alternatives exist
 
 ### Dependency Management
+
 - pnpm-lock.yaml must be kept in sync with package.json dependencies
 - CI environments use frozen-lockfile setting by default
 - When updating dependencies, run `pnpm i` at the root of the monorepo
@@ -99,9 +101,9 @@ This repository contains a collection of AI primitives for building enterprise-g
 - **Agents.do**: Autonomous digital workers with concise implementation style
   ```typescript
   export const agentName = new Agent({
-    name: "agent-name",
+    name: 'agent-name',
     instructions: "Brief, clear instructions about the agent's role and purpose",
-    model: openai("model-name"),
+    model: openai('model-name'),
   })
   ```
   - Supports MDX-based agent definitions with:
@@ -122,6 +124,7 @@ This repository contains a collection of AI primitives for building enterprise-g
 - **APIs.do**: Unified API Gateway for all services
 
 ### Documentation Practices
+
 - Documentation files and references should use plural names for core primitives (Functions, Agents, Workflows) to match domain names
 - The README.md in the root directory contains the strategic vision and should be used as the source of truth
 - MDX files in the content folder should be aligned with this vision

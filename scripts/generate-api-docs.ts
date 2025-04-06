@@ -29,7 +29,7 @@ const generateApiDocs = async () => {
     if (payload.db && typeof payload.db.destroy === 'function') {
       await payload.db.destroy()
     }
-    
+
     process.exit(0)
   } catch (error) {
     console.error('Error:', error)

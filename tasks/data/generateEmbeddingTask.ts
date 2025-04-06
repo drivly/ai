@@ -7,13 +7,9 @@ import { generateEmbedding } from './generateEmbedding'
 export const generateEmbeddingTask = {
   slug: 'generateEmbedding',
   label: 'Generate Embedding',
-  inputSchema: [
-    { name: 'text', type: 'text', required: true }
-  ],
-  outputSchema: [
-    { name: 'embedding', type: 'json' }
-  ],
-  handler: async ({ input, req }: { input: { text: string }, req: any }) => {
+  inputSchema: [{ name: 'text', type: 'text', required: true }],
+  outputSchema: [{ name: 'embedding', type: 'json' }],
+  handler: async ({ input, req }: { input: { text: string }; req: any }) => {
     try {
       const text = input.text
       const embedding = await generateEmbedding(text)
