@@ -1,7 +1,7 @@
 // storage-adapter-import-placeholder
 import { payloadAgentPlugin } from '@drivly/payload-agent'
 import { payloadBetterAuth } from '@payload-auth/better-auth-plugin'
-import { payloadOapiPlugin } from '@drivly/payload-oapi-plugin'
+import { openapi } from 'payload-oapi'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
@@ -101,10 +101,12 @@ export default buildConfig({
     }),
     payloadBetterAuth(payloadBetterAuthOptions),
     payloadCloudPlugin(),
-    payloadOapiPlugin({
-      title: 'Workflows.do API',
-      description: 'API documentation for Workflows.do',
-      version: '1.0.0',
+    openapi({
+      metadata: {
+        title: 'Workflows.do API',
+        description: 'API documentation for Workflows.do',
+        version: '1.0.0',
+      },
       specEndpoint: '/api/docs/openapi.json',
     }),
     // storage-adapter-placeholder

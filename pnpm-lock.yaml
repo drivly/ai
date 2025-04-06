@@ -23,9 +23,6 @@ importers:
       '@drivly/payload-agent':
         specifier: workspace:*
         version: link:pkgs/payload-agent
-      '@drivly/payload-oapi-plugin':
-        specifier: workspace:^0.1.0
-        version: link:pkgs/payload-oapi-plugin
       '@drivly/ui':
         specifier: workspace:*
         version: link:pkgs/ui
@@ -820,22 +817,6 @@ importers:
       payload:
         specifier: ^3.33.0
         version: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
-
-  pkgs/payload-oapi-plugin:
-    dependencies:
-      payload:
-        specifier: ^3.33.0
-        version: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
-      payload-oapi:
-        specifier: ^0.2.0
-        version: 0.2.0(payload@3.33.0(graphql@16.10.0)(typescript@5.8.2))
-    devDependencies:
-      tsup:
-        specifier: ^8.0.2
-        version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
-      typescript:
-        specifier: ^5.7.3
-        version: 5.8.2
 
   pkgs/payload-utils:
     dependencies:
@@ -31344,14 +31325,6 @@ snapshots:
       mutative: 1.1.0
       openapi-types: 12.1.3
       payload: 3.33.0(graphql@16.10.0)(typescript@5.7.3)
-      util: 0.12.5
-
-  payload-oapi@0.2.0(payload@3.33.0(graphql@16.10.0)(typescript@5.8.2)):
-    dependencies:
-      '@openapi-contrib/json-schema-to-openapi-schema': 3.0.3
-      mutative: 1.1.0
-      openapi-types: 12.1.3
-      payload: 3.33.0(graphql@16.10.0)(typescript@5.8.2)
       util: 0.12.5
 
   payload-rest-client@3.0.5: {}
