@@ -72,6 +72,21 @@ export async function middleware(request: NextRequest) {
         return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
       }
       
+      if (pathname === '/api/docs' || pathname.startsWith('/api/docs/')) {
+        console.log('Rewriting /api/docs to docs.apis.do', { hostname, pathname, search })
+        const apiDocsPath = pathname.replace('/api/docs', '')
+        const response = NextResponse.rewrite(new URL(`https://docs.apis.do${apiDocsPath}${search}`))
+        
+        response.headers.delete('X-Frame-Options')
+        
+        response.headers.set(
+          'Content-Security-Policy',
+          "frame-ancestors 'self' https://*.driv.ly http://localhost:* https://*.vercel.app;"
+        )
+        
+        return response
+      }
+      
       return NextResponse.next()
     }
     
