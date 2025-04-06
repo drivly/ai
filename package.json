@@ -7,7 +7,7 @@
     "build:filtered": "turbo run build --filter=$npm_config_filter && pnpm build:next:filtered",
     "build:next:filtered": "pnpm build:content && cross-env NODE_OPTIONS=--no-deprecation next build",
     "build:triggers": "pnpm --filter=triggers.do build && pnpm build:next",
-    "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "dev": "turbo dev --filter=!./workers/* --no-cache --concurrency 16 --continue",
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "lint": "turbo lint",
     "lint:file": "eslint",
