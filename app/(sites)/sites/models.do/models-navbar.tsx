@@ -4,17 +4,16 @@ import { buttonVariants } from '@/pkgs/ui/src/server/components/button'
 import { cn } from '@/pkgs/ui/src/lib/utils'
 import Link from 'next/link'
 import { useState, useEffect, use } from 'react'
-import { LlmsdoLogo } from './llms-do-logo'
+import { LlmsdoLogo } from '@/components/sites/navbar/llms-do-logo'
 import { FaGithub, FaDiscord } from 'react-icons/fa'
-import { MobileNav } from './mobile-nav'
+import { MobileNav } from '@/components/sites/navbar/mobile-nav'
 
-export function SitesNavbar({ params }: { params: Promise<{ domain?: string; provider?: string; model?: string; integration?: string; action?: string }> }) {
+export function ModelsNavbar({ params }: { params: Promise<{ domain?: string; provider?: string; model?: string; integration?: string; action?: string }> }) {
   const { domain } = use(params)
 
   const [isOpen, setIsOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
 
-  // Handle scroll detection
   useEffect(() => {
     const handleScroll = () => {
       setHasScrolled(window.scrollY > 10)
@@ -23,7 +22,6 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string; pro
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Handle body scroll lock
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'

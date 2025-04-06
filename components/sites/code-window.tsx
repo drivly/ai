@@ -1,4 +1,4 @@
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/pkgs/ui/src/lib/utils'
 
 interface CodeWindowProps {
   className?: string
@@ -74,4 +74,4 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 }
 
 
-// browser bar with 
+// browser bar with  
