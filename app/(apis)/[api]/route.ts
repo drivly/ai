@@ -24,7 +24,7 @@ export const GET = API(async (request, { db, user, params }) => {
   if (collectionExists && db[effectiveApi]) {
     try {
       const items = await db[effectiveApi].find()
-      return { [effectiveApi]: items }
+      return { [effectiveApi]: items || [] }
     } catch (error) {
       console.error(`Error fetching ${effectiveApi}:`, error)
       return {
