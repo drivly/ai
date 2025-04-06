@@ -59,14 +59,8 @@ export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
     const { hostname, pathname, search } = request.nextUrl
 
-    if (isGatewayDomain(hostname)) {
-      console.log('Handling gateway domain, exiting middleware', { hostname, pathname, search })
-
-      if (pathname === '/sites') {
-        console.log('Rewriting gateway domain /sites to sites', { hostname, pathname, search })
-        return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
-      }
-
+    if (pathname === '/api' || pathname.startsWith('/api/')) {
+      console.log('Handling API route', { hostname, pathname, search })
       if (pathname === '/api/docs' || pathname.startsWith('/api/docs/')) {
         console.log('Rewriting /api/docs to docs.apis.do', { hostname, pathname, search })
         const apiDocsPath = pathname.replace('/api/docs', '')
@@ -95,13 +89,47 @@ export async function middleware(request: NextRequest) {
 
         return response
       }
-
+      
+      if (isDoDomain(hostname)) {
+        const apiName = extractApiNameFromDomain(hostname)
+        console.log('Rewriting /api to API root for .do domain', { apiName, hostname, pathname, search })
+        const url = new URL(request.url)
+        return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname.replace('/api', '')}${search}`))
+      }
+      
+      console.log('Passing through API request', { hostname, pathname, search })
+      return NextResponse.next()
+    }
+    
+    if (isGatewayDomain(hostname)) {
+      console.log('Handling gateway domain, exiting middleware', { hostname, pathname, search })
+      
+      if (pathname === '/sites') {
+        console.log('Rewriting gateway domain /sites to sites', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+      }
       return NextResponse.next()
     }
 
     if (isBrandDomain(hostname)) {
-      console.log('Rewriting brand domain to sites list', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+      console.log('Handling brand domain', { hostname, pathname, search })
+      
+      if (pathname === '/docs' || pathname.startsWith('/docs/')) {
+        console.log('Passing through docs path for brand domain', { hostname, pathname, search })
+        return NextResponse.next()
+      }
+      
+      if (pathname === '/') {
+        console.log('Rewriting brand domain root path to /sites', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+      }
+      
+      const cleanPathname = pathname.endsWith('/') && pathname !== '/' 
+        ? pathname.slice(0, -1) 
+        : pathname
+      
+      console.log('Rewriting brand domain to sites domain path', { hostname, cleanPathname, search })
+      return NextResponse.rewrite(new URL(`/sites/${hostname}${cleanPathname}${search}`, request.url))
     }
 
     if (isDoDomain(hostname)) {
