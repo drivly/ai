@@ -44,6 +44,11 @@ jobs:
       - name: Create Pull Request
         env:
           # Use a PAT with workflow permissions instead of GITHUB_TOKEN to trigger workflows
+          # Required permissions for WORKFLOW_PAT:
+          # - Contents: read and write (for repo access)
+          # - Pull Requests: read and write (for PR creation)
+          # - Workflows: read and write (to trigger workflows)
+          # Create this token at: https://github.com/settings/tokens?type=beta
           GH_TOKEN: ${{ secrets.WORKFLOW_PAT }}
         run: |
           PR_TITLE="${{ github.event.inputs.pr_title || 'chore: trigger SDK release' }}"
