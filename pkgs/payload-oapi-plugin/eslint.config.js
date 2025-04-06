@@ -5,8 +5,7 @@ export default {
   },
   files: ['**/*.ts', '**/*.tsx'],
   languageOptions: {
-    parser: {
-      moduleType: 'esm',
-    },
+    ecmaVersion: 2022,
+    sourceType: 'module',
   },
 }

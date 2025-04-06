@@ -1,4 +1,4 @@
-import type { Config } from 'payload'
+import type { Config, Plugin } from 'payload'
 import { openapi } from 'payload-oapi'
 
 export interface PayloadOapiPluginOptions {
@@ -11,13 +11,9 @@ export interface PayloadOapiPluginOptions {
   openapiVersion?: '3.0' | '3.1'
 }
 
-export const payloadOapiPlugin = (options: PayloadOapiPluginOptions = {}) => {
+export const payloadOapiPlugin = (options: PayloadOapiPluginOptions = {}): Plugin => {
   if (options.enabled === false) {
-    return {
-      collections: [],
-      globals: [],
-      endpoints: [],
-    }
+    return (config) => config
   }
 
   return openapi({
