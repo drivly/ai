@@ -110,8 +110,17 @@ export async function middleware(request: NextRequest) {
     if (isBrandDomain(hostname)) {
       console.log('Handling brand domain', { hostname, pathname, search })
       
-      console.log('Rewriting brand domain to sites domain path', { hostname, pathname, search })
-      return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, request.url))
+      if (pathname === '/') {
+        console.log('Rewriting brand domain root path to /sites', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+      }
+      
+      const cleanPathname = pathname.endsWith('/') && pathname !== '/' 
+        ? pathname.slice(0, -1) 
+        : pathname
+      
+      console.log('Rewriting brand domain to sites domain path', { hostname, cleanPathname, search })
+      return NextResponse.rewrite(new URL(`/sites/${hostname}${cleanPathname}${search}`, request.url))
     }
     
     if (isDoDomain(hostname)) {
