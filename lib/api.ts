@@ -128,13 +128,13 @@ export function getUser(request: NextRequest): APIUser {
   const flag = geo.flag || flags[geo.country as keyof typeof flags] || '🏳️'
   const zipcode = geo.postalCode || ''
   const city = geo.city || ''
-  const metro = geo.city ? metros[geo.city as keyof typeof metros] : undefined
+  const metro = geo.city ? metros[geo.city as unknown as keyof typeof metros] : undefined
   const region = geo.region || ''
   const country = geo.country ? countries[geo.country as keyof typeof countries] : undefined
   const continent = geo.country ? continents[geo.country as keyof typeof continents] : undefined
   const requestId = nanoid()
   
-  const timezone = geo.timezone || 'UTC'
+  const timezone = (geo as any).timezone || 'UTC'
   const localTime = new Date().toLocaleString('en-US', { 
     timeZone: timezone 
   })
@@ -163,7 +163,7 @@ export function getUser(request: NextRequest): APIUser {
     city,
     metro,
     region,
-    country,
+    country: country as string | undefined,
     continent,
     requestId,
     localTime,
@@ -229,7 +229,6 @@ export const createApiHandler = (
         try {
           const payload = await getPayload({ 
             config,
-            local: process.env.PAYLOAD_PUBLIC_SERVER_URL?.includes('localhost'),
           })
           
           db[options.collectionName] = {
@@ -557,35 +556,17 @@ const addSharingToResponse = (req: NextRequest, response: any) => {
  * @returns Response or null if not a share request
  */
 export const handleShareRequest = async (
-  params: { id: string },
-  db: PayloadDB
-): Promise<Record<string, any>> => {
-  try {
-    const { id } = params
-    
-    const share = await db.shares?.findOne({ shareId: id })
-    
-    if (!share) {
-      return {
-        error: true,
-        message: 'Shared content not found',
-        status: 404
-      }
-    }
-    
-    return {
-      ...share.response,
-      shared: true,
-      sharedAt: share.createdAt,
-    }
-  } catch (error) {
-    console.error('Error handling share request:', error)
-    return {
-      error: true,
-      message: 'Failed to retrieve shared content',
-      status: 500
-    }
+  req: NextRequest
+): Promise<NextResponse | null> => {
+  const url = new URL(req.url)
+  const shareId = url.searchParams.get('share')
+  
+  if (!shareId) {
+    return null
   }
+  
+  console.log('Share request detected for ID:', shareId)
+  return null
 }
 
 /**

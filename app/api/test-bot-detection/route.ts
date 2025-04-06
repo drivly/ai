@@ -5,6 +5,7 @@ export const runtime = 'edge'
 
 /**
  * Test API endpoint for bot detection with URLs in JSON
+ * This endpoint is edge runtime compatible
  */
 export const GET = async (req: NextRequest) => {
   const apiHeader: APIHeader = {
