@@ -1,4 +1,3 @@
-import { getDomainLogo } from '@/app/_utils/get-domain-logo'
 import { Providers } from '@/app/providers'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import 'nextra-theme-docs/style.css'
@@ -14,13 +13,12 @@ export const metadata = {
 const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Banner>
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const logoText = await getDomainLogo()
   const pageMap = await getPageMap('/docs')
 
-  const navbar = <Navbar logo={<b>{logoText}</b>} chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
+  const navbar = <Navbar logo={<b>.do</b>} chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
   const footer = (
     <Footer>
-      MIT {new Date().getFullYear()} © {logoText}
+      MIT {new Date().getFullYear()} © .do
     </Footer>
   )
 
