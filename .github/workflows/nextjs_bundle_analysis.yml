@@ -24,10 +24,10 @@ jobs:
   analyze:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 22
 
@@ -43,7 +43,7 @@ jobs:
           run_install: true
 
       - name: Restore next build
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: restore-build-cache
         env:
           cache-name: cache-next-build
