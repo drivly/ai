@@ -43,7 +43,8 @@ jobs:
 
       - name: Create Pull Request
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use a PAT with workflow permissions instead of GITHUB_TOKEN to trigger workflows
+          GH_TOKEN: ${{ secrets.WORKFLOW_PAT }}
         run: |
           PR_TITLE="${{ github.event.inputs.pr_title || 'chore: trigger SDK release' }}"
           PR_BODY="This PR updates the SDK version stamp to trigger a new SDK release when merged to main.
