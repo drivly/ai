@@ -54,6 +54,9 @@ jobs:
           # change this if you prefer a more strict cache
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
+      - name: Build workspace packages
+        run: pnpm build --filter="@drivly/ui" --filter="@drivly/payload-agent"
+
       - name: Build next.js app
         # Using pnpm build:next to match repository's build script
         run: pnpm build:next
