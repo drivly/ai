@@ -1,0 +1,2193 @@
+lockVersion: 2.0.0
+id: b49e3610-3bb8-452b-b735-66f9037d3f64
+management:
+  docChecksum: 479b76ed4be33bc87d9bb64e1707e938
+  docVersion: 1.0.0
+  speakeasyVersion: 1.529.1
+  generationVersion: 2.566.5
+  releaseVersion: 0.0.1
+  configChecksum: 69b887788845dc4afda01a7ef8a2cccb
+features:
+  typescript:
+    additionalDependencies: 0.1.0
+    core: 3.21.5
+    defaultEnabledRetries: 0.1.0
+    devContainers: 2.90.0
+    enumUnions: 0.1.0
+    envVarSecurityUsage: 0.1.2
+    globalSecurityCallbacks: 0.1.0
+    globalServerURLs: 2.82.4
+    mcpServer: 0.9.0
+    responseFormat: 0.2.3
+    retries: 2.83.0
+    sdkHooks: 0.2.0
+generatedFiles:
+  - .devcontainer/README.md
+  - .devcontainer/devcontainer.json
+  - .devcontainer/setup.sh
+  - .gitattributes
+  - .npmignore
+  - FUNCTIONS.md
+  - RUNTIMES.md
+  - USAGE.md
+  - docs/lib/utils/retryconfig.md
+  - docs/models/components/action.md
+  - docs/models/components/agent.md
+  - docs/models/components/agentpricing.md
+  - docs/models/components/apikey.md
+  - docs/models/components/batchconfig.md
+  - docs/models/components/benchmark.md
+  - docs/models/components/betterauthadminbuttons.md
+  - docs/models/components/capabilities.md
+  - docs/models/components/category.md
+  - docs/models/components/collections.md
+  - docs/models/components/config.md
+  - docs/models/components/connection.md
+  - docs/models/components/connectionstatus.md
+  - docs/models/components/data.md
+  - docs/models/components/database.md
+  - docs/models/components/databasetype.md
+  - docs/models/components/databasetype1.md
+  - docs/models/components/dataset.md
+  - docs/models/components/dependents.md
+  - docs/models/components/deployment.md
+  - docs/models/components/domain.md
+  - docs/models/components/domainstatus.md
+  - docs/models/components/duration.md
+  - docs/models/components/embedding.md
+  - docs/models/components/errort.md
+  - docs/models/components/eval.md
+  - docs/models/components/evalresult.md
+  - docs/models/components/evalresultmetrics.md
+  - docs/models/components/evalrun.md
+  - docs/models/components/evalrunresults.md
+  - docs/models/components/event.md
+  - docs/models/components/eventdata.md
+  - docs/models/components/eventmetadata.md
+  - docs/models/components/expected.md
+  - docs/models/components/experiment.md
+  - docs/models/components/experimentmetric.md
+  - docs/models/components/experimentmetricmetadata.md
+  - docs/models/components/experimentprovider.md
+  - docs/models/components/experimentresults.md
+  - docs/models/components/experimentstatus.md
+  - docs/models/components/filters.md
+  - docs/models/components/format.md
+  - docs/models/components/functiont.md
+  - docs/models/components/functiontype.md
+  - docs/models/components/generation.md
+  - docs/models/components/generationbatch.md
+  - docs/models/components/generationbatchprovider.md
+  - docs/models/components/generationbatchstatus.md
+  - docs/models/components/generationerror.md
+  - docs/models/components/generationresponse.md
+  - docs/models/components/generationstatus.md
+  - docs/models/components/goal.md
+  - docs/models/components/goals.md
+  - docs/models/components/hostnames.md
+  - docs/models/components/input.md
+  - docs/models/components/integration.md
+  - docs/models/components/json.md
+  - docs/models/components/keyresults.md
+  - docs/models/components/kpi.md
+  - docs/models/components/lab.md
+  - docs/models/components/metadata.md
+  - docs/models/components/metrics.md
+  - docs/models/components/model.md
+  - docs/models/components/modelpricing.md
+  - docs/models/components/module.md
+  - docs/models/components/noun.md
+  - docs/models/components/oauthclient.md
+  - docs/models/components/oauthcode.md
+  - docs/models/components/oauthtoken.md
+  - docs/models/components/output.md
+  - docs/models/components/package.md
+  - docs/models/components/packagepackage.md
+  - docs/models/components/parameterst.md
+  - docs/models/components/payload.md
+  - docs/models/components/pricing.md
+  - docs/models/components/processingmode.md
+  - docs/models/components/project.md
+  - docs/models/components/prompt.md
+  - docs/models/components/provider.md
+  - docs/models/components/queue.md
+  - docs/models/components/redirecturls.md
+  - docs/models/components/regions.md
+  - docs/models/components/request.md
+  - docs/models/components/resource.md
+  - docs/models/components/resources.md
+  - docs/models/components/response.md
+  - docs/models/components/results.md
+  - docs/models/components/role.md
+  - docs/models/components/schema.md
+  - docs/models/components/schemaenforcement.md
+  - docs/models/components/search.md
+  - docs/models/components/searchembedding.md
+  - docs/models/components/searchtype.md
+  - docs/models/components/setting.md
+  - docs/models/components/settings.md
+  - docs/models/components/shape.md
+  - docs/models/components/status.md
+  - docs/models/components/subtasks.md
+  - docs/models/components/tag.md
+  - docs/models/components/tags.md
+  - docs/models/components/targeting.md
+  - docs/models/components/task.md
+  - docs/models/components/tasks.md
+  - docs/models/components/tenants.md
+  - docs/models/components/testids.md
+  - docs/models/components/thing.md
+  - docs/models/components/thingresources.md
+  - docs/models/components/trace.md
+  - docs/models/components/trafficallocation.md
+  - docs/models/components/trigger.md
+  - docs/models/components/type.md
+  - docs/models/components/user.md
+  - docs/models/components/userrole.md
+  - docs/models/components/variants.md
+  - docs/models/components/verb.md
+  - docs/models/components/webhook.md
+  - docs/models/components/workflow.md
+  - docs/models/components/workflowpricing.md
+  - docs/models/operations/actions.md
+  - docs/models/operations/agents.md
+  - docs/models/operations/apikeys.md
+  - docs/models/operations/benchmarks.md
+  - docs/models/operations/connections.md
+  - docs/models/operations/databases.md
+  - docs/models/operations/datasets.md
+  - docs/models/operations/deleteapiactionsidrequest.md
+  - docs/models/operations/deleteapiactionsidresponsebody.md
+  - docs/models/operations/deleteapiagentsidrequest.md
+  - docs/models/operations/deleteapiagentsidresponsebody.md
+  - docs/models/operations/deleteapiapikeysidrequest.md
+  - docs/models/operations/deleteapiapikeysidresponsebody.md
+  - docs/models/operations/deleteapibenchmarksidrequest.md
+  - docs/models/operations/deleteapibenchmarksidresponsebody.md
+  - docs/models/operations/deleteapiconnectionsidrequest.md
+  - docs/models/operations/deleteapiconnectionsidresponsebody.md
+  - docs/models/operations/deleteapidatabasesidrequest.md
+  - docs/models/operations/deleteapidatabasesidresponsebody.md
+  - docs/models/operations/deleteapidatasetsidrequest.md
+  - docs/models/operations/deleteapidatasetsidresponsebody.md
+  - docs/models/operations/deleteapideploymentsidrequest.md
+  - docs/models/operations/deleteapideploymentsidresponsebody.md
+  - docs/models/operations/deleteapidomainsidrequest.md
+  - docs/models/operations/deleteapidomainsidresponsebody.md
+  - docs/models/operations/deleteapierrorsidrequest.md
+  - docs/models/operations/deleteapierrorsidresponsebody.md
+  - docs/models/operations/deleteapievalresultsidrequest.md
+  - docs/models/operations/deleteapievalresultsidresponsebody.md
+  - docs/models/operations/deleteapievalrunsidrequest.md
+  - docs/models/operations/deleteapievalrunsidresponsebody.md
+  - docs/models/operations/deleteapievalsidrequest.md
+  - docs/models/operations/deleteapievalsidresponsebody.md
+  - docs/models/operations/deleteapieventsidrequest.md
+  - docs/models/operations/deleteapieventsidresponsebody.md
+  - docs/models/operations/deleteapiexperimentmetricsidrequest.md
+  - docs/models/operations/deleteapiexperimentmetricsidresponsebody.md
+  - docs/models/operations/deleteapiexperimentsidrequest.md
+  - docs/models/operations/deleteapiexperimentsidresponsebody.md
+  - docs/models/operations/deleteapifunctionsidrequest.md
+  - docs/models/operations/deleteapifunctionsidresponsebody.md
+  - docs/models/operations/deleteapigenerationbatchesidrequest.md
+  - docs/models/operations/deleteapigenerationbatchesidresponsebody.md
+  - docs/models/operations/deleteapigenerationsidrequest.md
+  - docs/models/operations/deleteapigenerationsidresponsebody.md
+  - docs/models/operations/deleteapigoalsidrequest.md
+  - docs/models/operations/deleteapigoalsidresponsebody.md
+  - docs/models/operations/deleteapiintegrationactionsidrequest.md
+  - docs/models/operations/deleteapiintegrationactionsidresponsebody.md
+  - docs/models/operations/deleteapiintegrationcategoriesidrequest.md
+  - docs/models/operations/deleteapiintegrationcategoriesidresponsebody.md
+  - docs/models/operations/deleteapiintegrationsidrequest.md
+  - docs/models/operations/deleteapiintegrationsidresponsebody.md
+  - docs/models/operations/deleteapiintegrationtriggersidrequest.md
+  - docs/models/operations/deleteapiintegrationtriggersidresponsebody.md
+  - docs/models/operations/deleteapikpisidrequest.md
+  - docs/models/operations/deleteapikpisidresponsebody.md
+  - docs/models/operations/deleteapilabsidrequest.md
+  - docs/models/operations/deleteapilabsidresponsebody.md
+  - docs/models/operations/deleteapimodelsidrequest.md
+  - docs/models/operations/deleteapimodelsidresponsebody.md
+  - docs/models/operations/deleteapimodulesidrequest.md
+  - docs/models/operations/deleteapimodulesidresponsebody.md
+  - docs/models/operations/deleteapinounsidrequest.md
+  - docs/models/operations/deleteapinounsidresponsebody.md
+  - docs/models/operations/deleteapioauthclientsidrequest.md
+  - docs/models/operations/deleteapioauthclientsidresponsebody.md
+  - docs/models/operations/deleteapioauthcodesidrequest.md
+  - docs/models/operations/deleteapioauthcodesidresponsebody.md
+  - docs/models/operations/deleteapioauthtokensidrequest.md
+  - docs/models/operations/deleteapioauthtokensidresponsebody.md
+  - docs/models/operations/deleteapipackagesidrequest.md
+  - docs/models/operations/deleteapipackagesidresponsebody.md
+  - docs/models/operations/deleteapiprojectsidrequest.md
+  - docs/models/operations/deleteapiprojectsidresponsebody.md
+  - docs/models/operations/deleteapipromptsidrequest.md
+  - docs/models/operations/deleteapipromptsidresponsebody.md
+  - docs/models/operations/deleteapiprovidersidrequest.md
+  - docs/models/operations/deleteapiprovidersidresponsebody.md
+  - docs/models/operations/deleteapiqueuesidrequest.md
+  - docs/models/operations/deleteapiqueuesidresponsebody.md
+  - docs/models/operations/deleteapiresourcesidrequest.md
+  - docs/models/operations/deleteapiresourcesidresponsebody.md
+  - docs/models/operations/deleteapirolesidrequest.md
+  - docs/models/operations/deleteapirolesidresponsebody.md
+  - docs/models/operations/deleteapisearchesidrequest.md
+  - docs/models/operations/deleteapisearchesidresponsebody.md
+  - docs/models/operations/deleteapisettingsidrequest.md
+  - docs/models/operations/deleteapisettingsidresponsebody.md
+  - docs/models/operations/deleteapitagsidrequest.md
+  - docs/models/operations/deleteapitagsidresponsebody.md
+  - docs/models/operations/deleteapitasksidrequest.md
+  - docs/models/operations/deleteapitasksidresponsebody.md
+  - docs/models/operations/deleteapithingsidrequest.md
+  - docs/models/operations/deleteapithingsidresponsebody.md
+  - docs/models/operations/deleteapitracesidrequest.md
+  - docs/models/operations/deleteapitracesidresponsebody.md
+  - docs/models/operations/deleteapitriggersidrequest.md
+  - docs/models/operations/deleteapitriggersidresponsebody.md
+  - docs/models/operations/deleteapitypesidrequest.md
+  - docs/models/operations/deleteapitypesidresponsebody.md
+  - docs/models/operations/deleteapiusersidrequest.md
+  - docs/models/operations/deleteapiusersidresponsebody.md
+  - docs/models/operations/deleteapiverbsidrequest.md
+  - docs/models/operations/deleteapiverbsidresponsebody.md
+  - docs/models/operations/deleteapiwebhooksidrequest.md
+  - docs/models/operations/deleteapiwebhooksidresponsebody.md
+  - docs/models/operations/deleteapiworkflowsidrequest.md
+  - docs/models/operations/deleteapiworkflowsidresponsebody.md
+  - docs/models/operations/deployments.md
+  - docs/models/operations/domains.md
+  - docs/models/operations/errors.md
+  - docs/models/operations/evalresults.md
+  - docs/models/operations/evalruns.md
+  - docs/models/operations/evals.md
+  - docs/models/operations/events.md
+  - docs/models/operations/experimentmetrics.md
+  - docs/models/operations/experiments.md
+  - docs/models/operations/functions.md
+  - docs/models/operations/generationbatches.md
+  - docs/models/operations/generations.md
+  - docs/models/operations/getapiactionsidrequest.md
+  - docs/models/operations/getapiactionslinks.md
+  - docs/models/operations/getapiactionsresponsebody.md
+  - docs/models/operations/getapiagentsidrequest.md
+  - docs/models/operations/getapiagentslinks.md
+  - docs/models/operations/getapiagentsresponsebody.md
+  - docs/models/operations/getapiapikeysidrequest.md
+  - docs/models/operations/getapiapikeyslinks.md
+  - docs/models/operations/getapiapikeysresponsebody.md
+  - docs/models/operations/getapibenchmarksidrequest.md
+  - docs/models/operations/getapibenchmarkslinks.md
+  - docs/models/operations/getapibenchmarksresponsebody.md
+  - docs/models/operations/getapiconnectionsidrequest.md
+  - docs/models/operations/getapiconnectionslinks.md
+  - docs/models/operations/getapiconnectionsresponsebody.md
+  - docs/models/operations/getapidatabasesidrequest.md
+  - docs/models/operations/getapidatabaseslinks.md
+  - docs/models/operations/getapidatabasesresponsebody.md
+  - docs/models/operations/getapidatasetsidrequest.md
+  - docs/models/operations/getapidatasetslinks.md
+  - docs/models/operations/getapidatasetsresponsebody.md
+  - docs/models/operations/getapideploymentsidrequest.md
+  - docs/models/operations/getapideploymentslinks.md
+  - docs/models/operations/getapideploymentsresponsebody.md
+  - docs/models/operations/getapidomainsidrequest.md
+  - docs/models/operations/getapidomainslinks.md
+  - docs/models/operations/getapidomainsresponsebody.md
+  - docs/models/operations/getapierrorsidrequest.md
+  - docs/models/operations/getapierrorslinks.md
+  - docs/models/operations/getapierrorsresponsebody.md
+  - docs/models/operations/getapievalresultsidrequest.md
+  - docs/models/operations/getapievalresultslinks.md
+  - docs/models/operations/getapievalresultsresponsebody.md
+  - docs/models/operations/getapievalrunsidrequest.md
+  - docs/models/operations/getapievalrunslinks.md
+  - docs/models/operations/getapievalrunsresponsebody.md
+  - docs/models/operations/getapievalsidrequest.md
+  - docs/models/operations/getapievalslinks.md
+  - docs/models/operations/getapievalsresponsebody.md
+  - docs/models/operations/getapieventsidrequest.md
+  - docs/models/operations/getapieventslinks.md
+  - docs/models/operations/getapieventsresponsebody.md
+  - docs/models/operations/getapiexperimentmetricsidrequest.md
+  - docs/models/operations/getapiexperimentmetricslinks.md
+  - docs/models/operations/getapiexperimentmetricsresponsebody.md
+  - docs/models/operations/getapiexperimentsidrequest.md
+  - docs/models/operations/getapiexperimentslinks.md
+  - docs/models/operations/getapiexperimentsresponsebody.md
+  - docs/models/operations/getapifunctionsidrequest.md
+  - docs/models/operations/getapifunctionsresponsebody.md
+  - docs/models/operations/getapigenerationbatchesidrequest.md
+  - docs/models/operations/getapigenerationbatcheslinks.md
+  - docs/models/operations/getapigenerationbatchesresponsebody.md
+  - docs/models/operations/getapigenerationsidrequest.md
+  - docs/models/operations/getapigenerationslinks.md
+  - docs/models/operations/getapigenerationsresponsebody.md
+  - docs/models/operations/getapigoalsidrequest.md
+  - docs/models/operations/getapigoalslinks.md
+  - docs/models/operations/getapigoalsresponsebody.md
+  - docs/models/operations/getapiintegrationactionsidrequest.md
+  - docs/models/operations/getapiintegrationactionslinks.md
+  - docs/models/operations/getapiintegrationactionsresponsebody.md
+  - docs/models/operations/getapiintegrationcategoriesidrequest.md
+  - docs/models/operations/getapiintegrationcategorieslinks.md
+  - docs/models/operations/getapiintegrationcategoriesresponsebody.md
+  - docs/models/operations/getapiintegrationsidrequest.md
+  - docs/models/operations/getapiintegrationslinks.md
+  - docs/models/operations/getapiintegrationsresponsebody.md
+  - docs/models/operations/getapiintegrationtriggersidrequest.md
+  - docs/models/operations/getapiintegrationtriggerslinks.md
+  - docs/models/operations/getapiintegrationtriggersresponsebody.md
+  - docs/models/operations/getapikpisidrequest.md
+  - docs/models/operations/getapikpislinks.md
+  - docs/models/operations/getapikpisresponsebody.md
+  - docs/models/operations/getapilabsidrequest.md
+  - docs/models/operations/getapilabslinks.md
+  - docs/models/operations/getapilabsresponsebody.md
+  - docs/models/operations/getapimodelsidrequest.md
+  - docs/models/operations/getapimodelslinks.md
+  - docs/models/operations/getapimodelsresponsebody.md
+  - docs/models/operations/getapimodulesidrequest.md
+  - docs/models/operations/getapimoduleslinks.md
+  - docs/models/operations/getapimodulesresponsebody.md
+  - docs/models/operations/getapinounsidrequest.md
+  - docs/models/operations/getapinounslinks.md
+  - docs/models/operations/getapinounsresponsebody.md
+  - docs/models/operations/getapioauthclientsidrequest.md
+  - docs/models/operations/getapioauthclientslinks.md
+  - docs/models/operations/getapioauthclientsresponsebody.md
+  - docs/models/operations/getapioauthcodesidrequest.md
+  - docs/models/operations/getapioauthcodeslinks.md
+  - docs/models/operations/getapioauthcodesresponsebody.md
+  - docs/models/operations/getapioauthtokensidrequest.md
+  - docs/models/operations/getapioauthtokenslinks.md
+  - docs/models/operations/getapioauthtokensresponsebody.md
+  - docs/models/operations/getapipackagesidrequest.md
+  - docs/models/operations/getapipackageslinks.md
+  - docs/models/operations/getapipackagesresponsebody.md
+  - docs/models/operations/getapiprojectsidrequest.md
+  - docs/models/operations/getapiprojectslinks.md
+  - docs/models/operations/getapiprojectsresponsebody.md
+  - docs/models/operations/getapipromptsidrequest.md
+  - docs/models/operations/getapipromptslinks.md
+  - docs/models/operations/getapipromptsresponsebody.md
+  - docs/models/operations/getapiprovidersidrequest.md
+  - docs/models/operations/getapiproviderslinks.md
+  - docs/models/operations/getapiprovidersresponsebody.md
+  - docs/models/operations/getapiqueuesidrequest.md
+  - docs/models/operations/getapiqueueslinks.md
+  - docs/models/operations/getapiqueuesresponsebody.md
+  - docs/models/operations/getapiresourcesidrequest.md
+  - docs/models/operations/getapiresourceslinks.md
+  - docs/models/operations/getapiresourcesresponsebody.md
+  - docs/models/operations/getapirolesidrequest.md
+  - docs/models/operations/getapiroleslinks.md
+  - docs/models/operations/getapirolesresponsebody.md
+  - docs/models/operations/getapisearchesidrequest.md
+  - docs/models/operations/getapisearcheslinks.md
+  - docs/models/operations/getapisearchesresponsebody.md
+  - docs/models/operations/getapisettingsidrequest.md
+  - docs/models/operations/getapisettingslinks.md
+  - docs/models/operations/getapisettingsresponsebody.md
+  - docs/models/operations/getapitagsidrequest.md
+  - docs/models/operations/getapitagslinks.md
+  - docs/models/operations/getapitagsresponsebody.md
+  - docs/models/operations/getapitasksidrequest.md
+  - docs/models/operations/getapitaskslinks.md
+  - docs/models/operations/getapitasksresponsebody.md
+  - docs/models/operations/getapithingsidrequest.md
+  - docs/models/operations/getapithingslinks.md
+  - docs/models/operations/getapithingsresponsebody.md
+  - docs/models/operations/getapitracesidrequest.md
+  - docs/models/operations/getapitraceslinks.md
+  - docs/models/operations/getapitracesresponsebody.md
+  - docs/models/operations/getapitriggersidrequest.md
+  - docs/models/operations/getapitriggerslinks.md
+  - docs/models/operations/getapitriggersresponsebody.md
+  - docs/models/operations/getapitypesidrequest.md
+  - docs/models/operations/getapitypeslinks.md
+  - docs/models/operations/getapitypesresponsebody.md
+  - docs/models/operations/getapiusersidrequest.md
+  - docs/models/operations/getapiuserslinks.md
+  - docs/models/operations/getapiusersresponsebody.md
+  - docs/models/operations/getapiverbsidrequest.md
+  - docs/models/operations/getapiverbslinks.md
+  - docs/models/operations/getapiverbsresponsebody.md
+  - docs/models/operations/getapiwebhooksidrequest.md
+  - docs/models/operations/getapiwebhookslinks.md
+  - docs/models/operations/getapiwebhooksresponsebody.md
+  - docs/models/operations/getapiworkflowsidrequest.md
+  - docs/models/operations/getapiworkflowslinks.md
+  - docs/models/operations/getapiworkflowsresponsebody.md
+  - docs/models/operations/goals.md
+  - docs/models/operations/integrationactions.md
+  - docs/models/operations/integrationcategories.md
+  - docs/models/operations/integrations.md
+  - docs/models/operations/integrationtriggers.md
+  - docs/models/operations/kpis.md
+  - docs/models/operations/labs.md
+  - docs/models/operations/links.md
+  - docs/models/operations/models.md
+  - docs/models/operations/modules.md
+  - docs/models/operations/nouns.md
+  - docs/models/operations/oauthclients.md
+  - docs/models/operations/oauthcodes.md
+  - docs/models/operations/oauthtokens.md
+  - docs/models/operations/packages.md
+  - docs/models/operations/projects.md
+  - docs/models/operations/prompts.md
+  - docs/models/operations/providers.md
+  - docs/models/operations/queues.md
+  - docs/models/operations/resources.md
+  - docs/models/operations/roles.md
+  - docs/models/operations/searches.md
+  - docs/models/operations/settings.md
+  - docs/models/operations/tags.md
+  - docs/models/operations/tasks.md
+  - docs/models/operations/things.md
+  - docs/models/operations/traces.md
+  - docs/models/operations/triggers.md
+  - docs/models/operations/types.md
+  - docs/models/operations/users.md
+  - docs/models/operations/verbs.md
+  - docs/models/operations/webhooks.md
+  - docs/models/operations/workflows.md
+  - docs/sdks/actions/README.md
+  - docs/sdks/agents/README.md
+  - docs/sdks/api/README.md
+  - docs/sdks/apikeys/README.md
+  - docs/sdks/benchmarks/README.md
+  - docs/sdks/categories/README.md
+  - docs/sdks/connections/README.md
+  - docs/sdks/databases/README.md
+  - docs/sdks/datasets/README.md
+  - docs/sdks/deployments/README.md
+  - docs/sdks/domains/README.md
+  - docs/sdks/errors/README.md
+  - docs/sdks/evalresults/README.md
+  - docs/sdks/evalruns/README.md
+  - docs/sdks/evals/README.md
+  - docs/sdks/events/README.md
+  - docs/sdks/experimentmetrics/README.md
+  - docs/sdks/experiments/README.md
+  - docs/sdks/functions/README.md
+  - docs/sdks/generationbatches/README.md
+  - docs/sdks/generations/README.md
+  - docs/sdks/goals/README.md
+  - docs/sdks/integrations/README.md
+  - docs/sdks/kpis/README.md
+  - docs/sdks/labs/README.md
+  - docs/sdks/models/README.md
+  - docs/sdks/modules/README.md
+  - docs/sdks/nouns/README.md
+  - docs/sdks/oauthclients/README.md
+  - docs/sdks/oauthcodes/README.md
+  - docs/sdks/oauthtokens/README.md
+  - docs/sdks/packages/README.md
+  - docs/sdks/projects/README.md
+  - docs/sdks/prompts/README.md
+  - docs/sdks/providers/README.md
+  - docs/sdks/queues/README.md
+  - docs/sdks/resources/README.md
+  - docs/sdks/roles/README.md
+  - docs/sdks/searches/README.md
+  - docs/sdks/settings/README.md
+  - docs/sdks/tags/README.md
+  - docs/sdks/tasks/README.md
+  - docs/sdks/things/README.md
+  - docs/sdks/traces/README.md
+  - docs/sdks/triggers/README.md
+  - docs/sdks/types/README.md
+  - docs/sdks/users/README.md
+  - docs/sdks/verbs/README.md
+  - docs/sdks/webhooks/README.md
+  - docs/sdks/workflows/README.md
+  - eslint.config.mjs
+  - jsr.json
+  - package.json
+  - src/core.ts
+  - src/funcs/actionsDeleteApiActionsId.ts
+  - src/funcs/actionsDeleteApiIntegrationActionsId.ts
+  - src/funcs/actionsGetApiActions.ts
+  - src/funcs/actionsGetApiActionsId.ts
+  - src/funcs/actionsGetApiIntegrationActions.ts
+  - src/funcs/actionsGetApiIntegrationActionsId.ts
+  - src/funcs/agentsDeleteApiAgentsId.ts
+  - src/funcs/agentsGetApiAgents.ts
+  - src/funcs/agentsGetApiAgentsId.ts
+  - src/funcs/apiKeysDeleteAPIApikeysId.ts
+  - src/funcs/apiKeysGetAPIApikeys.ts
+  - src/funcs/apiKeysGetAPIApikeysId.ts
+  - src/funcs/benchmarksDeleteApiBenchmarksId.ts
+  - src/funcs/benchmarksGetApiBenchmarks.ts
+  - src/funcs/benchmarksGetApiBenchmarksId.ts
+  - src/funcs/categoriesDeleteApiIntegrationCategoriesId.ts
+  - src/funcs/categoriesGetApiIntegrationCategories.ts
+  - src/funcs/categoriesGetApiIntegrationCategoriesId.ts
+  - src/funcs/connectionsDeleteApiConnectionsId.ts
+  - src/funcs/connectionsGetApiConnections.ts
+  - src/funcs/connectionsGetApiConnectionsId.ts
+  - src/funcs/databasesDeleteApiDatabasesId.ts
+  - src/funcs/databasesGetApiDatabases.ts
+  - src/funcs/databasesGetApiDatabasesId.ts
+  - src/funcs/datasetsDeleteApiDatasetsId.ts
+  - src/funcs/datasetsGetApiDatasets.ts
+  - src/funcs/datasetsGetApiDatasetsId.ts
+  - src/funcs/deploymentsDeleteApiDeploymentsId.ts
+  - src/funcs/deploymentsGetApiDeployments.ts
+  - src/funcs/deploymentsGetApiDeploymentsId.ts
+  - src/funcs/domainsDeleteApiDomainsId.ts
+  - src/funcs/domainsGetApiDomains.ts
+  - src/funcs/domainsGetApiDomainsId.ts
+  - src/funcs/errorsDeleteApiErrorsId.ts
+  - src/funcs/errorsGetApiErrors.ts
+  - src/funcs/errorsGetApiErrorsId.ts
+  - src/funcs/evalResultsDeleteApiEvalResultsId.ts
+  - src/funcs/evalResultsGetApiEvalResults.ts
+  - src/funcs/evalResultsGetApiEvalResultsId.ts
+  - src/funcs/evalRunsDeleteApiEvalRunsId.ts
+  - src/funcs/evalRunsGetApiEvalRuns.ts
+  - src/funcs/evalRunsGetApiEvalRunsId.ts
+  - src/funcs/evalsDeleteApiEvalsId.ts
+  - src/funcs/evalsGetApiEvals.ts
+  - src/funcs/evalsGetApiEvalsId.ts
+  - src/funcs/eventsDeleteApiEventsId.ts
+  - src/funcs/eventsGetApiEvents.ts
+  - src/funcs/eventsGetApiEventsId.ts
+  - src/funcs/experimentMetricsDeleteApiExperimentMetricsId.ts
+  - src/funcs/experimentMetricsGetApiExperimentMetrics.ts
+  - src/funcs/experimentMetricsGetApiExperimentMetricsId.ts
+  - src/funcs/experimentsDeleteApiExperimentsId.ts
+  - src/funcs/experimentsGetApiExperiments.ts
+  - src/funcs/experimentsGetApiExperimentsId.ts
+  - src/funcs/functionsDeleteApiFunctionsId.ts
+  - src/funcs/functionsGetApiFunctions.ts
+  - src/funcs/functionsGetApiFunctionsId.ts
+  - src/funcs/generationBatchesDeleteApiGenerationBatchesId.ts
+  - src/funcs/generationBatchesGetApiGenerationBatches.ts
+  - src/funcs/generationBatchesGetApiGenerationBatchesId.ts
+  - src/funcs/generationsDeleteApiGenerationsId.ts
+  - src/funcs/generationsGetApiGenerations.ts
+  - src/funcs/generationsGetApiGenerationsId.ts
+  - src/funcs/goalsDeleteApiGoalsId.ts
+  - src/funcs/goalsGetApiGoals.ts
+  - src/funcs/goalsGetApiGoalsId.ts
+  - src/funcs/integrationsDeleteApiIntegrationsId.ts
+  - src/funcs/integrationsGetApiIntegrations.ts
+  - src/funcs/integrationsGetApiIntegrationsId.ts
+  - src/funcs/kpIsDeleteApiKpisId.ts
+  - src/funcs/kpIsGetApiKpis.ts
+  - src/funcs/kpIsGetApiKpisId.ts
+  - src/funcs/labsDeleteApiLabsId.ts
+  - src/funcs/labsGetApiLabs.ts
+  - src/funcs/labsGetApiLabsId.ts
+  - src/funcs/modelsDeleteApiModelsId.ts
+  - src/funcs/modelsGetApiModels.ts
+  - src/funcs/modelsGetApiModelsId.ts
+  - src/funcs/modulesDeleteApiModulesId.ts
+  - src/funcs/modulesGetApiModules.ts
+  - src/funcs/modulesGetApiModulesId.ts
+  - src/funcs/nounsDeleteApiNounsId.ts
+  - src/funcs/nounsGetApiNouns.ts
+  - src/funcs/nounsGetApiNounsId.ts
+  - src/funcs/oauthClientsDeleteApiOauthClientsId.ts
+  - src/funcs/oauthClientsGetApiOauthClients.ts
+  - src/funcs/oauthClientsGetApiOauthClientsId.ts
+  - src/funcs/oauthCodesDeleteApiOauthCodesId.ts
+  - src/funcs/oauthCodesGetApiOauthCodes.ts
+  - src/funcs/oauthCodesGetApiOauthCodesId.ts
+  - src/funcs/oauthTokensDeleteApiOauthTokensId.ts
+  - src/funcs/oauthTokensGetApiOauthTokens.ts
+  - src/funcs/oauthTokensGetApiOauthTokensId.ts
+  - src/funcs/packagesDeleteApiPackagesId.ts
+  - src/funcs/packagesGetApiPackages.ts
+  - src/funcs/packagesGetApiPackagesId.ts
+  - src/funcs/projectsDeleteApiProjectsId.ts
+  - src/funcs/projectsGetApiProjects.ts
+  - src/funcs/projectsGetApiProjectsId.ts
+  - src/funcs/promptsDeleteApiPromptsId.ts
+  - src/funcs/promptsGetApiPrompts.ts
+  - src/funcs/promptsGetApiPromptsId.ts
+  - src/funcs/providersDeleteApiProvidersId.ts
+  - src/funcs/providersGetApiProviders.ts
+  - src/funcs/providersGetApiProvidersId.ts
+  - src/funcs/queuesDeleteApiQueuesId.ts
+  - src/funcs/queuesGetApiQueues.ts
+  - src/funcs/queuesGetApiQueuesId.ts
+  - src/funcs/resourcesDeleteApiResourcesId.ts
+  - src/funcs/resourcesGetApiResources.ts
+  - src/funcs/resourcesGetApiResourcesId.ts
+  - src/funcs/rolesDeleteApiRolesId.ts
+  - src/funcs/rolesGetApiRoles.ts
+  - src/funcs/rolesGetApiRolesId.ts
+  - src/funcs/searchesDeleteApiSearchesId.ts
+  - src/funcs/searchesGetApiSearches.ts
+  - src/funcs/searchesGetApiSearchesId.ts
+  - src/funcs/settingsDeleteApiSettingsId.ts
+  - src/funcs/settingsGetApiSettings.ts
+  - src/funcs/settingsGetApiSettingsId.ts
+  - src/funcs/tagsDeleteApiTagsId.ts
+  - src/funcs/tagsGetApiTags.ts
+  - src/funcs/tagsGetApiTagsId.ts
+  - src/funcs/tasksDeleteApiTasksId.ts
+  - src/funcs/tasksGetApiTasks.ts
+  - src/funcs/tasksGetApiTasksId.ts
+  - src/funcs/thingsDeleteApiThingsId.ts
+  - src/funcs/thingsGetApiThings.ts
+  - src/funcs/thingsGetApiThingsId.ts
+  - src/funcs/tracesDeleteApiTracesId.ts
+  - src/funcs/tracesGetApiTraces.ts
+  - src/funcs/tracesGetApiTracesId.ts
+  - src/funcs/triggersDeleteApiIntegrationTriggersId.ts
+  - src/funcs/triggersDeleteApiTriggersId.ts
+  - src/funcs/triggersGetApiIntegrationTriggers.ts
+  - src/funcs/triggersGetApiIntegrationTriggersId.ts
+  - src/funcs/triggersGetApiTriggers.ts
+  - src/funcs/triggersGetApiTriggersId.ts
+  - src/funcs/typesDeleteApiTypesId.ts
+  - src/funcs/typesGetApiTypes.ts
+  - src/funcs/typesGetApiTypesId.ts
+  - src/funcs/usersDeleteApiUsersId.ts
+  - src/funcs/usersGetApiUsers.ts
+  - src/funcs/usersGetApiUsersId.ts
+  - src/funcs/verbsDeleteApiVerbsId.ts
+  - src/funcs/verbsGetApiVerbs.ts
+  - src/funcs/verbsGetApiVerbsId.ts
+  - src/funcs/webhooksDeleteApiWebhooksId.ts
+  - src/funcs/webhooksGetApiWebhooks.ts
+  - src/funcs/webhooksGetApiWebhooksId.ts
+  - src/funcs/workflowsDeleteApiWorkflowsId.ts
+  - src/funcs/workflowsGetApiWorkflows.ts
+  - src/funcs/workflowsGetApiWorkflowsId.ts
+  - src/hooks/hooks.ts
+  - src/hooks/index.ts
+  - src/hooks/types.ts
+  - src/index.ts
+  - src/lib/base64.ts
+  - src/lib/config.ts
+  - src/lib/dlv.ts
+  - src/lib/encodings.ts
+  - src/lib/env.ts
+  - src/lib/files.ts
+  - src/lib/http.ts
+  - src/lib/is-plain-object.ts
+  - src/lib/logger.ts
+  - src/lib/matchers.ts
+  - src/lib/primitives.ts
+  - src/lib/retries.ts
+  - src/lib/schemas.ts
+  - src/lib/sdks.ts
+  - src/lib/security.ts
+  - src/lib/url.ts
+  - src/mcp-server/build.mts
+  - src/mcp-server/cli.ts
+  - src/mcp-server/cli/start/command.ts
+  - src/mcp-server/cli/start/impl.ts
+  - src/mcp-server/console-logger.ts
+  - src/mcp-server/extensions.ts
+  - src/mcp-server/mcp-server.ts
+  - src/mcp-server/prompts.ts
+  - src/mcp-server/resources.ts
+  - src/mcp-server/scopes.ts
+  - src/mcp-server/server.ts
+  - src/mcp-server/shared.ts
+  - src/mcp-server/tools.ts
+  - src/mcp-server/tools/actionsDeleteApiActionsId.ts
+  - src/mcp-server/tools/actionsDeleteApiIntegrationActionsId.ts
+  - src/mcp-server/tools/actionsGetApiActions.ts
+  - src/mcp-server/tools/actionsGetApiActionsId.ts
+  - src/mcp-server/tools/actionsGetApiIntegrationActions.ts
+  - src/mcp-server/tools/actionsGetApiIntegrationActionsId.ts
+  - src/mcp-server/tools/agentsDeleteApiAgentsId.ts
+  - src/mcp-server/tools/agentsGetApiAgents.ts
+  - src/mcp-server/tools/agentsGetApiAgentsId.ts
+  - src/mcp-server/tools/apiKeysDeleteAPIApikeysId.ts
+  - src/mcp-server/tools/apiKeysGetAPIApikeys.ts
+  - src/mcp-server/tools/apiKeysGetAPIApikeysId.ts
+  - src/mcp-server/tools/benchmarksDeleteApiBenchmarksId.ts
+  - src/mcp-server/tools/benchmarksGetApiBenchmarks.ts
+  - src/mcp-server/tools/benchmarksGetApiBenchmarksId.ts
+  - src/mcp-server/tools/categoriesDeleteApiIntegrationCategoriesId.ts
+  - src/mcp-server/tools/categoriesGetApiIntegrationCategories.ts
+  - src/mcp-server/tools/categoriesGetApiIntegrationCategoriesId.ts
+  - src/mcp-server/tools/connectionsDeleteApiConnectionsId.ts
+  - src/mcp-server/tools/connectionsGetApiConnections.ts
+  - src/mcp-server/tools/connectionsGetApiConnectionsId.ts
+  - src/mcp-server/tools/databasesDeleteApiDatabasesId.ts
+  - src/mcp-server/tools/databasesGetApiDatabases.ts
+  - src/mcp-server/tools/databasesGetApiDatabasesId.ts
+  - src/mcp-server/tools/datasetsDeleteApiDatasetsId.ts
+  - src/mcp-server/tools/datasetsGetApiDatasets.ts
+  - src/mcp-server/tools/datasetsGetApiDatasetsId.ts
+  - src/mcp-server/tools/deploymentsDeleteApiDeploymentsId.ts
+  - src/mcp-server/tools/deploymentsGetApiDeployments.ts
+  - src/mcp-server/tools/deploymentsGetApiDeploymentsId.ts
+  - src/mcp-server/tools/domainsDeleteApiDomainsId.ts
+  - src/mcp-server/tools/domainsGetApiDomains.ts
+  - src/mcp-server/tools/domainsGetApiDomainsId.ts
+  - src/mcp-server/tools/errorsDeleteApiErrorsId.ts
+  - src/mcp-server/tools/errorsGetApiErrors.ts
+  - src/mcp-server/tools/errorsGetApiErrorsId.ts
+  - src/mcp-server/tools/evalResultsDeleteApiEvalResultsId.ts
+  - src/mcp-server/tools/evalResultsGetApiEvalResults.ts
+  - src/mcp-server/tools/evalResultsGetApiEvalResultsId.ts
+  - src/mcp-server/tools/evalRunsDeleteApiEvalRunsId.ts
+  - src/mcp-server/tools/evalRunsGetApiEvalRuns.ts
+  - src/mcp-server/tools/evalRunsGetApiEvalRunsId.ts
+  - src/mcp-server/tools/evalsDeleteApiEvalsId.ts
+  - src/mcp-server/tools/evalsGetApiEvals.ts
+  - src/mcp-server/tools/evalsGetApiEvalsId.ts
+  - src/mcp-server/tools/eventsDeleteApiEventsId.ts
+  - src/mcp-server/tools/eventsGetApiEvents.ts
+  - src/mcp-server/tools/eventsGetApiEventsId.ts
+  - src/mcp-server/tools/experimentMetricsDeleteApiExperimentMetricsId.ts
+  - src/mcp-server/tools/experimentMetricsGetApiExperimentMetrics.ts
+  - src/mcp-server/tools/experimentMetricsGetApiExperimentMetricsId.ts
+  - src/mcp-server/tools/experimentsDeleteApiExperimentsId.ts
+  - src/mcp-server/tools/experimentsGetApiExperiments.ts
+  - src/mcp-server/tools/experimentsGetApiExperimentsId.ts
+  - src/mcp-server/tools/functionsDeleteApiFunctionsId.ts
+  - src/mcp-server/tools/functionsGetApiFunctions.ts
+  - src/mcp-server/tools/functionsGetApiFunctionsId.ts
+  - src/mcp-server/tools/generationBatchesDeleteApiGenerationBatchesId.ts
+  - src/mcp-server/tools/generationBatchesGetApiGenerationBatches.ts
+  - src/mcp-server/tools/generationBatchesGetApiGenerationBatchesId.ts
+  - src/mcp-server/tools/generationsDeleteApiGenerationsId.ts
+  - src/mcp-server/tools/generationsGetApiGenerations.ts
+  - src/mcp-server/tools/generationsGetApiGenerationsId.ts
+  - src/mcp-server/tools/goalsDeleteApiGoalsId.ts
+  - src/mcp-server/tools/goalsGetApiGoals.ts
+  - src/mcp-server/tools/goalsGetApiGoalsId.ts
+  - src/mcp-server/tools/integrationsDeleteApiIntegrationsId.ts
+  - src/mcp-server/tools/integrationsGetApiIntegrations.ts
+  - src/mcp-server/tools/integrationsGetApiIntegrationsId.ts
+  - src/mcp-server/tools/kpIsDeleteApiKpisId.ts
+  - src/mcp-server/tools/kpIsGetApiKpis.ts
+  - src/mcp-server/tools/kpIsGetApiKpisId.ts
+  - src/mcp-server/tools/labsDeleteApiLabsId.ts
+  - src/mcp-server/tools/labsGetApiLabs.ts
+  - src/mcp-server/tools/labsGetApiLabsId.ts
+  - src/mcp-server/tools/modelsDeleteApiModelsId.ts
+  - src/mcp-server/tools/modelsGetApiModels.ts
+  - src/mcp-server/tools/modelsGetApiModelsId.ts
+  - src/mcp-server/tools/modulesDeleteApiModulesId.ts
+  - src/mcp-server/tools/modulesGetApiModules.ts
+  - src/mcp-server/tools/modulesGetApiModulesId.ts
+  - src/mcp-server/tools/nounsDeleteApiNounsId.ts
+  - src/mcp-server/tools/nounsGetApiNouns.ts
+  - src/mcp-server/tools/nounsGetApiNounsId.ts
+  - src/mcp-server/tools/oauthClientsDeleteApiOauthClientsId.ts
+  - src/mcp-server/tools/oauthClientsGetApiOauthClients.ts
+  - src/mcp-server/tools/oauthClientsGetApiOauthClientsId.ts
+  - src/mcp-server/tools/oauthCodesDeleteApiOauthCodesId.ts
+  - src/mcp-server/tools/oauthCodesGetApiOauthCodes.ts
+  - src/mcp-server/tools/oauthCodesGetApiOauthCodesId.ts
+  - src/mcp-server/tools/oauthTokensDeleteApiOauthTokensId.ts
+  - src/mcp-server/tools/oauthTokensGetApiOauthTokens.ts
+  - src/mcp-server/tools/oauthTokensGetApiOauthTokensId.ts
+  - src/mcp-server/tools/packagesDeleteApiPackagesId.ts
+  - src/mcp-server/tools/packagesGetApiPackages.ts
+  - src/mcp-server/tools/packagesGetApiPackagesId.ts
+  - src/mcp-server/tools/projectsDeleteApiProjectsId.ts
+  - src/mcp-server/tools/projectsGetApiProjects.ts
+  - src/mcp-server/tools/projectsGetApiProjectsId.ts
+  - src/mcp-server/tools/promptsDeleteApiPromptsId.ts
+  - src/mcp-server/tools/promptsGetApiPrompts.ts
+  - src/mcp-server/tools/promptsGetApiPromptsId.ts
+  - src/mcp-server/tools/providersDeleteApiProvidersId.ts
+  - src/mcp-server/tools/providersGetApiProviders.ts
+  - src/mcp-server/tools/providersGetApiProvidersId.ts
+  - src/mcp-server/tools/queuesDeleteApiQueuesId.ts
+  - src/mcp-server/tools/queuesGetApiQueues.ts
+  - src/mcp-server/tools/queuesGetApiQueuesId.ts
+  - src/mcp-server/tools/resourcesDeleteApiResourcesId.ts
+  - src/mcp-server/tools/resourcesGetApiResources.ts
+  - src/mcp-server/tools/resourcesGetApiResourcesId.ts
+  - src/mcp-server/tools/rolesDeleteApiRolesId.ts
+  - src/mcp-server/tools/rolesGetApiRoles.ts
+  - src/mcp-server/tools/rolesGetApiRolesId.ts
+  - src/mcp-server/tools/searchesDeleteApiSearchesId.ts
+  - src/mcp-server/tools/searchesGetApiSearches.ts
+  - src/mcp-server/tools/searchesGetApiSearchesId.ts
+  - src/mcp-server/tools/settingsDeleteApiSettingsId.ts
+  - src/mcp-server/tools/settingsGetApiSettings.ts
+  - src/mcp-server/tools/settingsGetApiSettingsId.ts
+  - src/mcp-server/tools/tagsDeleteApiTagsId.ts
+  - src/mcp-server/tools/tagsGetApiTags.ts
+  - src/mcp-server/tools/tagsGetApiTagsId.ts
+  - src/mcp-server/tools/tasksDeleteApiTasksId.ts
+  - src/mcp-server/tools/tasksGetApiTasks.ts
+  - src/mcp-server/tools/tasksGetApiTasksId.ts
+  - src/mcp-server/tools/thingsDeleteApiThingsId.ts
+  - src/mcp-server/tools/thingsGetApiThings.ts
+  - src/mcp-server/tools/thingsGetApiThingsId.ts
+  - src/mcp-server/tools/tracesDeleteApiTracesId.ts
+  - src/mcp-server/tools/tracesGetApiTraces.ts
+  - src/mcp-server/tools/tracesGetApiTracesId.ts
+  - src/mcp-server/tools/triggersDeleteApiIntegrationTriggersId.ts
+  - src/mcp-server/tools/triggersDeleteApiTriggersId.ts
+  - src/mcp-server/tools/triggersGetApiIntegrationTriggers.ts
+  - src/mcp-server/tools/triggersGetApiIntegrationTriggersId.ts
+  - src/mcp-server/tools/triggersGetApiTriggers.ts
+  - src/mcp-server/tools/triggersGetApiTriggersId.ts
+  - src/mcp-server/tools/typesDeleteApiTypesId.ts
+  - src/mcp-server/tools/typesGetApiTypes.ts
+  - src/mcp-server/tools/typesGetApiTypesId.ts
+  - src/mcp-server/tools/usersDeleteApiUsersId.ts
+  - src/mcp-server/tools/usersGetApiUsers.ts
+  - src/mcp-server/tools/usersGetApiUsersId.ts
+  - src/mcp-server/tools/verbsDeleteApiVerbsId.ts
+  - src/mcp-server/tools/verbsGetApiVerbs.ts
+  - src/mcp-server/tools/verbsGetApiVerbsId.ts
+  - src/mcp-server/tools/webhooksDeleteApiWebhooksId.ts
+  - src/mcp-server/tools/webhooksGetApiWebhooks.ts
+  - src/mcp-server/tools/webhooksGetApiWebhooksId.ts
+  - src/mcp-server/tools/workflowsDeleteApiWorkflowsId.ts
+  - src/mcp-server/tools/workflowsGetApiWorkflows.ts
+  - src/mcp-server/tools/workflowsGetApiWorkflowsId.ts
+  - src/models/components/action.ts
+  - src/models/components/agent.ts
+  - src/models/components/apikey.ts
+  - src/models/components/benchmark.ts
+  - src/models/components/category.ts
+  - src/models/components/connection.ts
+  - src/models/components/database.ts
+  - src/models/components/dataset.ts
+  - src/models/components/deployment.ts
+  - src/models/components/domain.ts
+  - src/models/components/error.ts
+  - src/models/components/eval.ts
+  - src/models/components/evalresult.ts
+  - src/models/components/evalrun.ts
+  - src/models/components/event.ts
+  - src/models/components/experiment.ts
+  - src/models/components/experimentmetric.ts
+  - src/models/components/function.ts
+  - src/models/components/generation.ts
+  - src/models/components/generationbatch.ts
+  - src/models/components/goal.ts
+  - src/models/components/index.ts
+  - src/models/components/integration.ts
+  - src/models/components/kpi.ts
+  - src/models/components/lab.ts
+  - src/models/components/model.ts
+  - src/models/components/module.ts
+  - src/models/components/noun.ts
+  - src/models/components/oauthclient.ts
+  - src/models/components/oauthcode.ts
+  - src/models/components/oauthtoken.ts
+  - src/models/components/package.ts
+  - src/models/components/project.ts
+  - src/models/components/prompt.ts
+  - src/models/components/provider.ts
+  - src/models/components/queue.ts
+  - src/models/components/resource.ts
+  - src/models/components/role.ts
+  - src/models/components/search.ts
+  - src/models/components/setting.ts
+  - src/models/components/tag.ts
+  - src/models/components/task.ts
+  - src/models/components/thing.ts
+  - src/models/components/trace.ts
+  - src/models/components/trigger.ts
+  - src/models/components/type.ts
+  - src/models/components/user.ts
+  - src/models/components/verb.ts
+  - src/models/components/webhook.ts
+  - src/models/components/workflow.ts
+  - src/models/errors/apierror.ts
+  - src/models/errors/httpclienterrors.ts
+  - src/models/errors/index.ts
+  - src/models/errors/sdkvalidationerror.ts
+  - src/models/operations/deleteapiactionsid.ts
+  - src/models/operations/deleteapiagentsid.ts
+  - src/models/operations/deleteapiapikeysid.ts
+  - src/models/operations/deleteapibenchmarksid.ts
+  - src/models/operations/deleteapiconnectionsid.ts
+  - src/models/operations/deleteapidatabasesid.ts
+  - src/models/operations/deleteapidatasetsid.ts
+  - src/models/operations/deleteapideploymentsid.ts
+  - src/models/operations/deleteapidomainsid.ts
+  - src/models/operations/deleteapierrorsid.ts
+  - src/models/operations/deleteapievalresultsid.ts
+  - src/models/operations/deleteapievalrunsid.ts
+  - src/models/operations/deleteapievalsid.ts
+  - src/models/operations/deleteapieventsid.ts
+  - src/models/operations/deleteapiexperimentmetricsid.ts
+  - src/models/operations/deleteapiexperimentsid.ts
+  - src/models/operations/deleteapifunctionsid.ts
+  - src/models/operations/deleteapigenerationbatchesid.ts
+  - src/models/operations/deleteapigenerationsid.ts
+  - src/models/operations/deleteapigoalsid.ts
+  - src/models/operations/deleteapiintegrationactionsid.ts
+  - src/models/operations/deleteapiintegrationcategoriesid.ts
+  - src/models/operations/deleteapiintegrationsid.ts
+  - src/models/operations/deleteapiintegrationtriggersid.ts
+  - src/models/operations/deleteapikpisid.ts
+  - src/models/operations/deleteapilabsid.ts
+  - src/models/operations/deleteapimodelsid.ts
+  - src/models/operations/deleteapimodulesid.ts
+  - src/models/operations/deleteapinounsid.ts
+  - src/models/operations/deleteapioauthclientsid.ts
+  - src/models/operations/deleteapioauthcodesid.ts
+  - src/models/operations/deleteapioauthtokensid.ts
+  - src/models/operations/deleteapipackagesid.ts
+  - src/models/operations/deleteapiprojectsid.ts
+  - src/models/operations/deleteapipromptsid.ts
+  - src/models/operations/deleteapiprovidersid.ts
+  - src/models/operations/deleteapiqueuesid.ts
+  - src/models/operations/deleteapiresourcesid.ts
+  - src/models/operations/deleteapirolesid.ts
+  - src/models/operations/deleteapisearchesid.ts
+  - src/models/operations/deleteapisettingsid.ts
+  - src/models/operations/deleteapitagsid.ts
+  - src/models/operations/deleteapitasksid.ts
+  - src/models/operations/deleteapithingsid.ts
+  - src/models/operations/deleteapitracesid.ts
+  - src/models/operations/deleteapitriggersid.ts
+  - src/models/operations/deleteapitypesid.ts
+  - src/models/operations/deleteapiusersid.ts
+  - src/models/operations/deleteapiverbsid.ts
+  - src/models/operations/deleteapiwebhooksid.ts
+  - src/models/operations/deleteapiworkflowsid.ts
+  - src/models/operations/getapiactions.ts
+  - src/models/operations/getapiactionsid.ts
+  - src/models/operations/getapiagents.ts
+  - src/models/operations/getapiagentsid.ts
+  - src/models/operations/getapiapikeys.ts
+  - src/models/operations/getapiapikeysid.ts
+  - src/models/operations/getapibenchmarks.ts
+  - src/models/operations/getapibenchmarksid.ts
+  - src/models/operations/getapiconnections.ts
+  - src/models/operations/getapiconnectionsid.ts
+  - src/models/operations/getapidatabases.ts
+  - src/models/operations/getapidatabasesid.ts
+  - src/models/operations/getapidatasets.ts
+  - src/models/operations/getapidatasetsid.ts
+  - src/models/operations/getapideployments.ts
+  - src/models/operations/getapideploymentsid.ts
+  - src/models/operations/getapidomains.ts
+  - src/models/operations/getapidomainsid.ts
+  - src/models/operations/getapierrors.ts
+  - src/models/operations/getapierrorsid.ts
+  - src/models/operations/getapievalresults.ts
+  - src/models/operations/getapievalresultsid.ts
+  - src/models/operations/getapievalruns.ts
+  - src/models/operations/getapievalrunsid.ts
+  - src/models/operations/getapievals.ts
+  - src/models/operations/getapievalsid.ts
+  - src/models/operations/getapievents.ts
+  - src/models/operations/getapieventsid.ts
+  - src/models/operations/getapiexperimentmetrics.ts
+  - src/models/operations/getapiexperimentmetricsid.ts
+  - src/models/operations/getapiexperiments.ts
+  - src/models/operations/getapiexperimentsid.ts
+  - src/models/operations/getapifunctions.ts
+  - src/models/operations/getapifunctionsid.ts
+  - src/models/operations/getapigenerationbatches.ts
+  - src/models/operations/getapigenerationbatchesid.ts
+  - src/models/operations/getapigenerations.ts
+  - src/models/operations/getapigenerationsid.ts
+  - src/models/operations/getapigoals.ts
+  - src/models/operations/getapigoalsid.ts
+  - src/models/operations/getapiintegrationactions.ts
+  - src/models/operations/getapiintegrationactionsid.ts
+  - src/models/operations/getapiintegrationcategories.ts
+  - src/models/operations/getapiintegrationcategoriesid.ts
+  - src/models/operations/getapiintegrations.ts
+  - src/models/operations/getapiintegrationsid.ts
+  - src/models/operations/getapiintegrationtriggers.ts
+  - src/models/operations/getapiintegrationtriggersid.ts
+  - src/models/operations/getapikpis.ts
+  - src/models/operations/getapikpisid.ts
+  - src/models/operations/getapilabs.ts
+  - src/models/operations/getapilabsid.ts
+  - src/models/operations/getapimodels.ts
+  - src/models/operations/getapimodelsid.ts
+  - src/models/operations/getapimodules.ts
+  - src/models/operations/getapimodulesid.ts
+  - src/models/operations/getapinouns.ts
+  - src/models/operations/getapinounsid.ts
+  - src/models/operations/getapioauthclients.ts
+  - src/models/operations/getapioauthclientsid.ts
+  - src/models/operations/getapioauthcodes.ts
+  - src/models/operations/getapioauthcodesid.ts
+  - src/models/operations/getapioauthtokens.ts
+  - src/models/operations/getapioauthtokensid.ts
+  - src/models/operations/getapipackages.ts
+  - src/models/operations/getapipackagesid.ts
+  - src/models/operations/getapiprojects.ts
+  - src/models/operations/getapiprojectsid.ts
+  - src/models/operations/getapiprompts.ts
+  - src/models/operations/getapipromptsid.ts
+  - src/models/operations/getapiproviders.ts
+  - src/models/operations/getapiprovidersid.ts
+  - src/models/operations/getapiqueues.ts
+  - src/models/operations/getapiqueuesid.ts
+  - src/models/operations/getapiresources.ts
+  - src/models/operations/getapiresourcesid.ts
+  - src/models/operations/getapiroles.ts
+  - src/models/operations/getapirolesid.ts
+  - src/models/operations/getapisearches.ts
+  - src/models/operations/getapisearchesid.ts
+  - src/models/operations/getapisettings.ts
+  - src/models/operations/getapisettingsid.ts
+  - src/models/operations/getapitags.ts
+  - src/models/operations/getapitagsid.ts
+  - src/models/operations/getapitasks.ts
+  - src/models/operations/getapitasksid.ts
+  - src/models/operations/getapithings.ts
+  - src/models/operations/getapithingsid.ts
+  - src/models/operations/getapitraces.ts
+  - src/models/operations/getapitracesid.ts
+  - src/models/operations/getapitriggers.ts
+  - src/models/operations/getapitriggersid.ts
+  - src/models/operations/getapitypes.ts
+  - src/models/operations/getapitypesid.ts
+  - src/models/operations/getapiusers.ts
+  - src/models/operations/getapiusersid.ts
+  - src/models/operations/getapiverbs.ts
+  - src/models/operations/getapiverbsid.ts
+  - src/models/operations/getapiwebhooks.ts
+  - src/models/operations/getapiwebhooksid.ts
+  - src/models/operations/getapiworkflows.ts
+  - src/models/operations/getapiworkflowsid.ts
+  - src/models/operations/index.ts
+  - src/sdk/actions.ts
+  - src/sdk/agents.ts
+  - src/sdk/apikeys.ts
+  - src/sdk/benchmarks.ts
+  - src/sdk/categories.ts
+  - src/sdk/connections.ts
+  - src/sdk/databases.ts
+  - src/sdk/datasets.ts
+  - src/sdk/deployments.ts
+  - src/sdk/domains.ts
+  - src/sdk/errors.ts
+  - src/sdk/evalresults.ts
+  - src/sdk/evalruns.ts
+  - src/sdk/evals.ts
+  - src/sdk/events.ts
+  - src/sdk/experimentmetrics.ts
+  - src/sdk/experiments.ts
+  - src/sdk/functions.ts
+  - src/sdk/generationbatches.ts
+  - src/sdk/generations.ts
+  - src/sdk/goals.ts
+  - src/sdk/index.ts
+  - src/sdk/integrations.ts
+  - src/sdk/kpis.ts
+  - src/sdk/labs.ts
+  - src/sdk/models.ts
+  - src/sdk/modules.ts
+  - src/sdk/nouns.ts
+  - src/sdk/oauthclients.ts
+  - src/sdk/oauthcodes.ts
+  - src/sdk/oauthtokens.ts
+  - src/sdk/packages.ts
+  - src/sdk/projects.ts
+  - src/sdk/prompts.ts
+  - src/sdk/providers.ts
+  - src/sdk/queues.ts
+  - src/sdk/resources.ts
+  - src/sdk/roles.ts
+  - src/sdk/sdk.ts
+  - src/sdk/searches.ts
+  - src/sdk/settings.ts
+  - src/sdk/tags.ts
+  - src/sdk/tasks.ts
+  - src/sdk/things.ts
+  - src/sdk/traces.ts
+  - src/sdk/triggers.ts
+  - src/sdk/types.ts
+  - src/sdk/users.ts
+  - src/sdk/verbs.ts
+  - src/sdk/webhooks.ts
+  - src/sdk/workflows.ts
+  - src/types/async.ts
+  - src/types/blobs.ts
+  - src/types/constdatetime.ts
+  - src/types/enums.ts
+  - src/types/fp.ts
+  - src/types/index.ts
+  - src/types/operations.ts
+  - src/types/rfcdate.ts
+  - src/types/streams.ts
+  - tsconfig.json
+examples:
+  get_/api/functions:
+    speakeasy-default-get-/api/functions:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/functions/{id}:
+    speakeasy-default-get-/api/functions/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/functions/{id}:
+    speakeasy-default-delete-/api/functions/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/workflows:
+    speakeasy-default-get-/api/workflows:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/workflows/{id}:
+    speakeasy-default-get-/api/workflows/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/workflows/{id}:
+    speakeasy-default-delete-/api/workflows/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/agents:
+    speakeasy-default-get-/api/agents:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/agents/{id}:
+    speakeasy-default-get-/api/agents/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/agents/{id}:
+    speakeasy-default-delete-/api/agents/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/queues:
+    speakeasy-default-get-/api/queues:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/queues/{id}:
+    speakeasy-default-get-/api/queues/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/queues/{id}:
+    speakeasy-default-delete-/api/queues/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/tasks:
+    speakeasy-default-get-/api/tasks:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/tasks/{id}:
+    speakeasy-default-get-/api/tasks/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/tasks/{id}:
+    speakeasy-default-delete-/api/tasks/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/goals:
+    speakeasy-default-get-/api/goals:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/goals/{id}:
+    speakeasy-default-get-/api/goals/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/goals/{id}:
+    speakeasy-default-delete-/api/goals/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/nouns:
+    speakeasy-default-get-/api/nouns:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/nouns/{id}:
+    speakeasy-default-get-/api/nouns/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/nouns/{id}:
+    speakeasy-default-delete-/api/nouns/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/things:
+    speakeasy-default-get-/api/things:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/things/{id}:
+    speakeasy-default-get-/api/things/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/things/{id}:
+    speakeasy-default-delete-/api/things/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/verbs:
+    speakeasy-default-get-/api/verbs:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/verbs/{id}:
+    speakeasy-default-get-/api/verbs/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/verbs/{id}:
+    speakeasy-default-delete-/api/verbs/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/databases:
+    speakeasy-default-get-/api/databases:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/databases/{id}:
+    speakeasy-default-get-/api/databases/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/databases/{id}:
+    speakeasy-default-delete-/api/databases/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/resources:
+    speakeasy-default-get-/api/resources:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/resources/{id}:
+    speakeasy-default-get-/api/resources/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/resources/{id}:
+    speakeasy-default-delete-/api/resources/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/actions:
+    speakeasy-default-get-/api/actions:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/actions/{id}:
+    speakeasy-default-get-/api/actions/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/actions/{id}:
+    speakeasy-default-delete-/api/actions/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/integrationActions:
+    speakeasy-default-get-/api/integration-actions:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/integrationActions/{id}:
+    speakeasy-default-get-/api/integration-actions/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/integrationActions/{id}:
+    speakeasy-default-delete-/api/integration-actions/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/integrationCategories:
+    speakeasy-default-get-/api/integration-categories:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/integrationCategories/{id}:
+    speakeasy-default-get-/api/integration-categories/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/integrationCategories/{id}:
+    speakeasy-default-delete-/api/integration-categories/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/integrations:
+    speakeasy-default-get-/api/integrations:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/integrations/{id}:
+    speakeasy-default-get-/api/integrations/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/integrations/{id}:
+    speakeasy-default-delete-/api/integrations/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/connections:
+    speakeasy-default-get-/api/connections:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/connections/{id}:
+    speakeasy-default-get-/api/connections/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/connections/{id}:
+    speakeasy-default-delete-/api/connections/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/integrationTriggers:
+    speakeasy-default-get-/api/integration-triggers:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/integrationTriggers/{id}:
+    speakeasy-default-get-/api/integration-triggers/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/integrationTriggers/{id}:
+    speakeasy-default-delete-/api/integration-triggers/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/triggers:
+    speakeasy-default-get-/api/triggers:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/triggers/{id}:
+    speakeasy-default-get-/api/triggers/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/triggers/{id}:
+    speakeasy-default-delete-/api/triggers/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/searches:
+    speakeasy-default-get-/api/searches:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/searches/{id}:
+    speakeasy-default-get-/api/searches/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/searches/{id}:
+    speakeasy-default-delete-/api/searches/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/experiments:
+    speakeasy-default-get-/api/experiments:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/experiments/{id}:
+    speakeasy-default-get-/api/experiments/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/experiments/{id}:
+    speakeasy-default-delete-/api/experiments/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/experiment-metrics:
+    speakeasy-default-get-/api/experiment-metrics:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/experiment-metrics/{id}:
+    speakeasy-default-get-/api/experiment-metrics/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/experiment-metrics/{id}:
+    speakeasy-default-delete-/api/experiment-metrics/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/models:
+    speakeasy-default-get-/api/models:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/models/{id}:
+    speakeasy-default-get-/api/models/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/models/{id}:
+    speakeasy-default-delete-/api/models/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/providers:
+    speakeasy-default-get-/api/providers:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/providers/{id}:
+    speakeasy-default-get-/api/providers/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/providers/{id}:
+    speakeasy-default-delete-/api/providers/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/labs:
+    speakeasy-default-get-/api/labs:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/labs/{id}:
+    speakeasy-default-get-/api/labs/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/labs/{id}:
+    speakeasy-default-delete-/api/labs/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/prompts:
+    speakeasy-default-get-/api/prompts:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/prompts/{id}:
+    speakeasy-default-get-/api/prompts/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/prompts/{id}:
+    speakeasy-default-delete-/api/prompts/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/settings:
+    speakeasy-default-get-/api/settings:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/settings/{id}:
+    speakeasy-default-get-/api/settings/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/settings/{id}:
+    speakeasy-default-delete-/api/settings/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/types:
+    speakeasy-default-get-/api/types:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/types/{id}:
+    speakeasy-default-get-/api/types/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/types/{id}:
+    speakeasy-default-delete-/api/types/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/modules:
+    speakeasy-default-get-/api/modules:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/modules/{id}:
+    speakeasy-default-get-/api/modules/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/modules/{id}:
+    speakeasy-default-delete-/api/modules/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/packages:
+    speakeasy-default-get-/api/packages:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/packages/{id}:
+    speakeasy-default-get-/api/packages/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/packages/{id}:
+    speakeasy-default-delete-/api/packages/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/deployments:
+    speakeasy-default-get-/api/deployments:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/deployments/{id}:
+    speakeasy-default-get-/api/deployments/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/deployments/{id}:
+    speakeasy-default-delete-/api/deployments/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/benchmarks:
+    speakeasy-default-get-/api/benchmarks:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/benchmarks/{id}:
+    speakeasy-default-get-/api/benchmarks/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/benchmarks/{id}:
+    speakeasy-default-delete-/api/benchmarks/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/evals:
+    speakeasy-default-get-/api/evals:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/evals/{id}:
+    speakeasy-default-get-/api/evals/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/evals/{id}:
+    speakeasy-default-delete-/api/evals/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/evalRuns:
+    speakeasy-default-get-/api/eval-runs:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/evalRuns/{id}:
+    speakeasy-default-get-/api/eval-runs/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/evalRuns/{id}:
+    speakeasy-default-delete-/api/eval-runs/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/evalResults:
+    speakeasy-default-get-/api/eval-results:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/evalResults/{id}:
+    speakeasy-default-get-/api/eval-results/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/evalResults/{id}:
+    speakeasy-default-delete-/api/eval-results/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/datasets:
+    speakeasy-default-get-/api/datasets:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/datasets/{id}:
+    speakeasy-default-get-/api/datasets/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/datasets/{id}:
+    speakeasy-default-delete-/api/datasets/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/events:
+    speakeasy-default-get-/api/events:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/events/{id}:
+    speakeasy-default-get-/api/events/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/events/{id}:
+    speakeasy-default-delete-/api/events/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/errors:
+    speakeasy-default-get-/api/errors:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/errors/{id}:
+    speakeasy-default-get-/api/errors/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/errors/{id}:
+    speakeasy-default-delete-/api/errors/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/generations:
+    speakeasy-default-get-/api/generations:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/generations/{id}:
+    speakeasy-default-get-/api/generations/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/generations/{id}:
+    speakeasy-default-delete-/api/generations/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/generation-batches:
+    speakeasy-default-get-/api/generation-batches:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/generation-batches/{id}:
+    speakeasy-default-get-/api/generation-batches/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/generation-batches/{id}:
+    speakeasy-default-delete-/api/generation-batches/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/traces:
+    speakeasy-default-get-/api/traces:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/traces/{id}:
+    speakeasy-default-get-/api/traces/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/traces/{id}:
+    speakeasy-default-delete-/api/traces/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/kpis:
+    speakeasy-default-get-/api/kpis:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/kpis/{id}:
+    speakeasy-default-get-/api/kpis/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/kpis/{id}:
+    speakeasy-default-delete-/api/kpis/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/projects:
+    speakeasy-default-get-/api/projects:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/projects/{id}:
+    speakeasy-default-get-/api/projects/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/projects/{id}:
+    speakeasy-default-delete-/api/projects/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/domains:
+    speakeasy-default-get-/api/domains:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/domains/{id}:
+    speakeasy-default-get-/api/domains/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/domains/{id}:
+    speakeasy-default-delete-/api/domains/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/users:
+    speakeasy-default-get-/api/users:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/users/{id}:
+    speakeasy-default-get-/api/users/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/users/{id}:
+    speakeasy-default-delete-/api/users/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/roles:
+    speakeasy-default-get-/api/roles:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/roles/{id}:
+    speakeasy-default-get-/api/roles/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/roles/{id}:
+    speakeasy-default-delete-/api/roles/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/tags:
+    speakeasy-default-get-/api/tags:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/tags/{id}:
+    speakeasy-default-get-/api/tags/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/tags/{id}:
+    speakeasy-default-delete-/api/tags/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/webhooks:
+    speakeasy-default-get-/api/webhooks:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/webhooks/{id}:
+    speakeasy-default-get-/api/webhooks/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/webhooks/{id}:
+    speakeasy-default-delete-/api/webhooks/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/apikeys:
+    speakeasy-default-get-/api/apikeys:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/apikeys/{id}:
+    speakeasy-default-get-/api/apikeys/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/apikeys/{id}:
+    speakeasy-default-delete-/api/apikeys/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/oauth-clients:
+    speakeasy-default-get-/api/oauth-clients:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/oauth-clients/{id}:
+    speakeasy-default-get-/api/oauth-clients/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/oauth-clients/{id}:
+    speakeasy-default-delete-/api/oauth-clients/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/oauth-codes:
+    speakeasy-default-get-/api/oauth-codes:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/oauth-codes/{id}:
+    speakeasy-default-get-/api/oauth-codes/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/oauth-codes/{id}:
+    speakeasy-default-delete-/api/oauth-codes/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+  get_/api/oauth-tokens:
+    speakeasy-default-get-/api/oauth-tokens:
+      responses:
+        "200":
+          application/json: {}
+  get_/api/oauth-tokens/{id}:
+    speakeasy-default-get-/api/oauth-tokens/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {}
+  delete_/api/oauth-tokens/{id}:
+    speakeasy-default-delete-/api/oauth-tokens/{id}:
+      parameters:
+        path:
+          id: "<id>"
+      responses:
+        "200":
+          application/json: {"message": "Successfully deleted"}
+examplesVersion: 1.0.1
+generatedTests: {}

@@ -1,43 +1,39 @@
 export default {
   manifesto: 'Manifesto',
-  _1: {
-    type: 'separator',
-    title: 'Core Primitives'
-  },
-  workflows: '',
-  functions: '',
-  events: '',
-  integrations: '',
-  _2: {
+  _ai: {
     type: 'separator',
     title: 'AI'
   },
+  workflows: '',
+  functions: '',
   agents: '',
-  apis: '',
-  _3: {
-    type: 'separator',
-    title: 'Data'
-  },
-  nouns: '',
-  verbs: '',
-  resources: '',
-  _4: {
+  _business: {
     type: 'separator',
     title: 'Business'
   },
   goals: '',
   plans: '',
   tasks: '',
-  _5: {
+  _events: {
     type: 'separator',
-    title: 'Triggers & Actions'
+    title: 'Events'
   },
+  events: '',
+  integrations: '',
   triggers: '',
   searches: '',
   actions: '',
-  _6: {
+  apis: { display: 'hidden' },
+  _data: {
     type: 'separator',
-    title: 'Measurement'
+    title: 'Data'
+  },
+  nouns: '',
+  verbs: '',
+  resources: '',
+  _experiments: {
+    type: 'separator',
+    title: 'Experiments'
   },
   analytics: '',
   experiments: '',
@@ -49,4 +45,5 @@ export default {
     title: 'Deploy'
   },
   code: '',
+  archive: { display: 'hidden' },
 }

@@ -1,0 +1,22 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    Drivly AI API:
+        inputs:
+            - location: https://apis.do/api.json
+        transformations:
+            - filterOperations:
+                operations: post_/api/evalRuns,patch_/api/roles/{id},patch_/api/traces/{id},post_/api/experiment-metrics,post_/api/queues,post_/api/goals,patch_/api/nouns/{id},patch_/api/integrationCategories/{id},post_/api/connections,post_/api/triggers,patch_/api/labs/{id},patch_/api/triggers/{id},patch_/api/providers/{id},patch_/api/generation-batches/{id},patch_/api/prompts/{id},post_/api/traces,post_/api/oauth-tokens,post_/api/webhooks,post_/api/types,patch_/api/modules/{id},patch_/api/errors/{id},patch_/api/verbs/{id},patch_/api/types/{id},patch_/api/tasks/{id},post_/api/modules,post_/api/datasets,post_/api/searches,post_/api/nouns,post_/api/users,post_/api/databases,patch_/api/evalRuns/{id},post_/api/projects,post_/api/prompts,patch_/api/kpis/{id},patch_/api/projects/{id},post_/api/models,post_/api/integrationCategories,post_/api/evals,post_/api/workflows,post_/api/providers,patch_/api/oauth-codes/{id},patch_/api/things/{id},post_/api/packages,patch_/api/users/{id},post_/api/oauth-codes,patch_/api/oauth-tokens/{id},patch_/api/settings/{id},patch_/api/packages/{id},patch_/api/integrationActions/{id},patch_/api/deployments/{id},post_/api/errors,patch_/api/functions/{id},patch_/api/evalResults/{id},patch_/api/searches/{id},patch_/api/integrations/{id},patch_/api/apikeys/{id},patch_/api/connections/{id},post_/api/actions,patch_/api/experiments/{id},post_/api/evalResults,post_/api/roles,patch_/api/resources/{id},patch_/api/experiment-metrics/{id},post_/api/resources,patch_/api/databases/{id},patch_/api/evals/{id},post_/api/tasks,post_/api/tags,patch_/api/tags/{id},post_/api/things,post_/api/integrationActions,post_/api/labs,post_/api/events,post_/api/verbs,patch_/api/models/{id},patch_/api/integrationTriggers/{id},post_/api/settings,patch_/api/domains/{id},patch_/api/datasets/{id},post_/api/generation-batches,post_/api/kpis,post_/api/integrations,patch_/api/benchmarks/{id},post_/api/apikeys,post_/api/oauth-clients,post_/api/domains,patch_/api/queues/{id},patch_/api/events/{id},post_/api/deployments,patch_/api/workflows/{id},post_/api/benchmarks,patch_/api/agents/{id},post_/api/functions,post_/api/agents,post_/api/integrationTriggers,patch_/api/webhooks/{id},post_/api/experiments,patch_/api/generations/{id},patch_/api/oauth-clients/{id},patch_/api/goals/{id},patch_/api/actions/{id},post_/api/generations
+                exclude: true
+        registry:
+            location: registry.speakeasyapi.dev/do/apis/drivly-ai-api
+targets:
+    api:
+        target: typescript
+        source: Drivly AI API
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/do/apis/drivly-ai-api-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false

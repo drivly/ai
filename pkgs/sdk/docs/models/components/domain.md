@@ -1,0 +1,25 @@
+# Domain
+
+## Example Usage
+
+```typescript
+import { Domain } from "apis.do/models/components";
+
+let value: Domain = {};
+```
+
+## Fields
+
+| Field                                                                                         | Type                                                                                          | Required                                                                                      | Description                                                                                   |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `id`                                                                                          | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `createdAt`                                                                                   | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `updatedAt`                                                                                   | [Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `name`                                                                                        | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `domain`                                                                                      | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `project`                                                                                     | *string*                                                                                      | :heavy_minus_sign:                                                                            | ID of related projects document                                                               |
+| `status`                                                                                      | [components.DomainStatus](../../models/components/domainstatus.md)                            | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `hostnames`                                                                                   | [components.Hostnames](../../models/components/hostnames.md)[]                                | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `vercelId`                                                                                    | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `cloudflareId`                                                                                | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
+| `errorMessage`                                                                                | *string*                                                                                      | :heavy_minus_sign:                                                                            | N/A                                                                                           |
