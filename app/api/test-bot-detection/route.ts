@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { isBot, APIHeader } from '../../../lib/api'
 
-export const runtime = 'edge'
+export const runtime = 'node'
 
 /**
  * Test API endpoint for bot detection with URLs in JSON
