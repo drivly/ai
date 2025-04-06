@@ -160,6 +160,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint-config": "workspace:*",
     "esbuild-plugin-css-module": "^0.1.0",
     "esbuild-plugin-react18": "^0.2.6",
     "glob": "^11.0.1",
