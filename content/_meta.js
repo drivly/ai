@@ -1,76 +1,60 @@
 export default {
-  home: {
-    title: 'Home',
-    type: 'page',
-    href: '/',
-    display: 'hidden'
-  },
-  api: {
-    title: 'API',
-    type: 'page',
-    href: '/api',
-    display: 'hidden'
-  },
-  sdk: {
-    title: 'SDK',
-    type: 'page',
-    href: '/sdk',
-    display: 'hidden'
-  },
-  api_docs: {
-    title: 'Reference',
-    type: 'page',
-    href: 'https://docs.apis.do',
-    display: 'hidden'
-  },
-  manifesto: 'Manifesto',
-  _1: {
-    type: 'separator',
-    title: 'Core Primitives'
-  },
-  workflows: '',
-  functions: '',
-  events: '',
-  integrations: '',
-  _2: {
+
+
+  docs: { type: 'page', href: '/docs' },
+  apis: { type: 'page', theme: { layout: 'full' } },
+  sdks: { type: 'page', theme: { layout: 'full' } },
+  integrations: { type: 'page', theme: { layout: 'full' } },
+  dashboard: { type: 'page', href: '/admin' },
+  reference: { type: 'page', href: 'https://docs.apis.do' },
+
+  manifesto: '',
+  
+  _ai: {
     type: 'separator',
     title: 'AI'
   },
+  workflows: '',
+  functions: '',
   agents: '',
-  apis: '',
-  reference: {
-    title: 'API Reference'
-  },
-  _3: {
+
+  _data: {
     type: 'separator',
     title: 'Data'
   },
   nouns: '',
   verbs: '',
-  resources: '',
-  _4: {
+  databases: { display: 'hidden' },
+  resources: { display: 'hidden' },
+
+  _business: {
     type: 'separator',
     title: 'Business'
   },
   goals: '',
-  plans: '',
+  plans: { display: 'hidden' },
   tasks: '',
-  _5: {
+
+  _events: {
     type: 'separator',
-    title: 'Triggers & Actions'
+    title: 'Events'
   },
+  events: '',
   triggers: '',
   searches: '',
   actions: '',
-  _6: {
+  
+  _experiments: {
     type: 'separator',
-    title: 'Measurement'
+    title: 'Experiments'
   },
   analytics: '',
   experiments: '',
   benchmarks: '',
   evals: '',
   datasets: '',
+  models: '',
+  // prompts: '',
   _7: {
     type: 'separator',
     title: 'Deploy'
