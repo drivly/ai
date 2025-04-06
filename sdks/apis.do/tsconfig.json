@@ -9,6 +9,7 @@
     "resolveJsonModule": true,
     "composite": true,
     "incremental": true,
+    "noEmit": false,
     "paths": {
       "@/*": ["./*"]
     }
