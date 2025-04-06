@@ -286,10 +286,10 @@ functions.do supports multiple function types for different use cases:
          productType: 'API',
          customer: 'enterprise developers',
          solution: 'simplified AI integration',
-         description: 'Streamlined API for AI function integration'
+         description: 'Streamlined API for AI function integration',
        },
        options: ['Approve', 'Reject'],
-       freeText: true
+       freeText: true,
      })
      ```
 

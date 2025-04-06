@@ -1,3 +1,3 @@
-import typescriptConfig from '../../pkgs/eslint-config/src/typescript.js'
+import typescriptConfig from '../eslint-config/src/typescript.js'
 
 export default typescriptConfig

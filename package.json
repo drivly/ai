@@ -155,7 +155,6 @@
     "lint-staged": "^15.5.0",
     "mongodb-memory-server": "^10.1.4",
     "multi-semantic-release": "^3.0.2",
-    "nextjs-bundle-analysis": "^0.5.0",
     "node-mocks-http": "^1.16.2",
     "node-polyfill-webpack-plugin": "^4.1.0",
     "null-loader": "^4.0.1",
@@ -205,12 +204,5 @@
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
   },
-  "packageManager": "pnpm@10.7.0",
-  "nextBundleAnalysis": {
-    "budget": 358400,
-    "budgetPercentIncreaseRed": 20,
-    "minimumChangeThreshold": 0,
-    "showDetails": true,
-    "buildOutputDirectory": ".next"
-  }
+  "packageManager": "pnpm@10.7.0"
 }

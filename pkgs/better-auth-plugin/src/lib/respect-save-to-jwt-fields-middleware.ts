@@ -8,7 +8,7 @@ import { prepareSessionData } from './prepare-session-data'
  * Sets up a middleware that enforces the saveToJwt configuration when setting session data.
  * This ensures that only fields specified in saveToJwt are included in the cookie cache
  * for both user and session objects.
- * 
+ *
  * The middleware runs after authentication and filters the session data based on
  * the collection configurations before storing it in the cookie cache.
  */

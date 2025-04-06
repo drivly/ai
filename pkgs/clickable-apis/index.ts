@@ -87,7 +87,7 @@ export const createAPI = (
   payloadInstance?: any,
   options?: {
     domainDescriptions?: Record<string, string>
-  }
+  },
 ) => {
   /**
    * Creates an API handler with enhanced context

@@ -61,12 +61,12 @@ const feedback = await tasks.requestHumanFeedback({
     productType: 'API',
     customer: 'enterprise developers',
     solution: 'simplified AI integration',
-    description: 'Streamlined API for AI function integration'
+    description: 'Streamlined API for AI function integration',
   },
   options: ['Approve', 'Reject'],
   freeText: true,
   channel: 'product-feedback',
-  mentions: ['U123456', 'U789012']
+  mentions: ['U123456', 'U789012'],
 })
 ```
 
@@ -80,13 +80,13 @@ const newTask = await tasks.create({
   title: 'Review content for accuracy',
   description: 'Please review this article for factual accuracy and clarity',
   status: 'todo',
-  queue: 'content-review'
+  queue: 'content-review',
 })
 
 // Assign a task to a user
 const assignedTask = await tasks.assign(newTask.id, {
   users: ['user-123'],
-  roles: ['editor']
+  roles: ['editor'],
 })
 
 // Update task status
@@ -94,7 +94,7 @@ const updatedTask = await tasks.updateStatus(newTask.id, 'in-progress')
 
 // Complete a task
 const completedTask = await tasks.complete(newTask.id, {
-  notes: 'Content reviewed and approved with minor edits'
+  notes: 'Content reviewed and approved with minor edits',
 })
 ```
 
@@ -106,7 +106,7 @@ import { tasks } from 'tasks.do'
 // Create a new queue
 const newQueue = await tasks.queues.create({
   name: 'Content Review',
-  role: 'editor'
+  role: 'editor',
 })
 
 // Get tasks in a queue
@@ -123,29 +123,32 @@ import { tasks } from 'tasks.do'
 import { ai } from 'functions.do'
 
 // Create a workflow with a human-in-the-loop step
-const result = await ai.generateAndReviewContent({
-  topic: 'AI Ethics',
-  length: '1000 words',
-  tone: 'academic'
-}, {
-  // This will be handled by a human function
-  humanReview: async (content) => {
-    // Create a task for human review
-    const reviewTask = await tasks.create({
-      title: 'Review AI-generated content',
-      description: 'Please review this AI-generated content for accuracy and quality',
-      status: 'todo',
-      queue: 'content-review',
-      data: { content }
-    })
-    
-    // Wait for the task to be completed
-    const completedTask = await tasks.waitForCompletion(reviewTask.id)
-    
-    // Return the human feedback
-    return completedTask.data.feedback
-  }
-})
+const result = await ai.generateAndReviewContent(
+  {
+    topic: 'AI Ethics',
+    length: '1000 words',
+    tone: 'academic',
+  },
+  {
+    // This will be handled by a human function
+    humanReview: async (content) => {
+      // Create a task for human review
+      const reviewTask = await tasks.create({
+        title: 'Review AI-generated content',
+        description: 'Please review this AI-generated content for accuracy and quality',
+        status: 'todo',
+        queue: 'content-review',
+        data: { content },
+      })
+
+      // Wait for the task to be completed
+      const completedTask = await tasks.waitForCompletion(reviewTask.id)
+
+      // Return the human feedback
+      return completedTask.data.feedback
+    },
+  },
+)
 ```
 
 ## Advanced Features
@@ -158,21 +161,21 @@ import { tasks } from 'tasks.do'
 // Create a parent task
 const parentTask = await tasks.create({
   title: 'Publish new website',
-  status: 'todo'
+  status: 'todo',
 })
 
 // Create subtasks with dependencies
 const designTask = await tasks.create({
   title: 'Design homepage',
   parent: parentTask.id,
-  status: 'todo'
+  status: 'todo',
 })
 
 const developTask = await tasks.create({
   title: 'Develop homepage',
   parent: parentTask.id,
   dependentOn: [designTask.id],
-  status: 'todo'
+  status: 'todo',
 })
 
 // Get all subtasks
@@ -190,7 +193,7 @@ import { tasks } from 'tasks.do'
 // Register a webhook for task status changes
 const webhook = await tasks.webhooks.register({
   url: 'https://example.com/task-webhook',
-  events: ['task.created', 'task.updated', 'task.completed']
+  events: ['task.created', 'task.updated', 'task.completed'],
 })
 
 // Unregister a webhook

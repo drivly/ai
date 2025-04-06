@@ -1,13 +1,13 @@
-import { describe, it, expect } from 'vitest';
-import { initAnalytics, trackMetric, defineExperiment } from '../src/index';
+import { describe, it, expect } from 'vitest'
+import { initAnalytics, trackMetric, defineExperiment } from '../src/index'
 
 describe('Analytics SDK', () => {
   it('initializes with default config', () => {
-    const analytics = initAnalytics();
-    expect(analytics).toBeDefined();
-    expect(analytics.track).toBeDefined();
-    expect(analytics.trackPageView).toBeDefined();
-  });
+    const analytics = initAnalytics()
+    expect(analytics).toBeDefined()
+    expect(analytics.track).toBeDefined()
+    expect(analytics.trackPageView).toBeDefined()
+  })
 
   it('tracks metrics', async () => {
     const trackPromise = trackMetric({
@@ -16,10 +16,10 @@ describe('Analytics SDK', () => {
       metadata: {
         testKey: 'testValue',
       },
-    });
-    
-    expect(trackPromise).resolves.toBeUndefined();
-  });
+    })
+
+    expect(trackPromise).resolves.toBeUndefined()
+  })
 
   it('defines experiments', () => {
     const experiment = defineExperiment({
@@ -33,19 +33,19 @@ describe('Analytics SDK', () => {
         primary: 'conversion_rate',
         secondary: ['click_through_rate'],
       },
-    });
-    
-    expect(experiment).toBeDefined();
-    expect(experiment.id).toBe('test_experiment');
-    expect(experiment.getVariant).toBeDefined();
-    expect(experiment.trackMetric).toBeDefined();
-    
-    const userId1 = 'user1';
-    const userId2 = 'user2';
-    const variant1 = experiment.getVariant(userId1);
-    const variant2 = experiment.getVariant(userId2);
-    
-    expect(experiment.getVariant(userId1)).toBe(variant1);
-    expect(experiment.getVariant(userId2)).toBe(variant2);
-  });
-});
+    })
+
+    expect(experiment).toBeDefined()
+    expect(experiment.id).toBe('test_experiment')
+    expect(experiment.getVariant).toBeDefined()
+    expect(experiment.trackMetric).toBeDefined()
+
+    const userId1 = 'user1'
+    const userId2 = 'user2'
+    const variant1 = experiment.getVariant(userId1)
+    const variant2 = experiment.getVariant(userId2)
+
+    expect(experiment.getVariant(userId1)).toBe(variant1)
+    expect(experiment.getVariant(userId2)).toBe(variant2)
+  })
+})

@@ -1,14 +1,14 @@
 'use client'
 
 import { useChat } from '@ai-sdk/react'
-import { createRequiredContext } from '@drivly/ui/hooks'
+import { createRequiredContext } from '../ui/hooks'
 import type { UIMessage } from 'ai'
 import React from 'react'
 
 /** Type representing all values returned by Vercel's useChat hook */
 type ChatContextValue = ReturnType<typeof useChat>
 
-const [_useChatContext, ChatContextProvider] = createRequiredContext<ChatContextValue>()
+const [ChatContextProvider, _useChatContext] = createRequiredContext<ChatContextValue>('ChatContext')
 
 /**
  * Hook to access chat messages and message-related functionality
@@ -23,7 +23,7 @@ const [_useChatContext, ChatContextProvider] = createRequiredContext<ChatContext
  * ```
  */
 export function useChatMessages() {
-  const { error, messages, reload } = _useChatContext()
+  const { error, messages, reload } = _useChatContext({})
   const { isThinking } = useChatStatus()
 
   const displayMessages: UIMessage[] = isThinking ? [...messages, { role: 'assistant', content: '', id: 'thinking', experimental_attachments: [], parts: [] }] : messages
@@ -43,7 +43,7 @@ export function useChatMessages() {
  * ```
  */
 export function useChatInput() {
-  const { input, handleInputChange, handleSubmit, append } = _useChatContext()
+  const { input, handleInputChange, handleSubmit, append } = _useChatContext({})
 
   return { input, append, handleInputChange, handleSubmit }
 }
@@ -60,7 +60,7 @@ export function useChatInput() {
  * ```
  */
 export function useChatStatus() {
-  const { status, stop } = _useChatContext()
+  const { status, stop } = _useChatContext({})
   const isThinking = status === 'submitted'
   const isLoading = status === 'streaming' || status === 'submitted'
   return { status, stop, isThinking, isLoading }

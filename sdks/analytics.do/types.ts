@@ -3,15 +3,15 @@
  */
 export interface AnalyticsConfig {
   /** API endpoint for analytics data */
-  endpoint?: string;
+  endpoint?: string
   /** Debug mode for analytics */
-  debug?: boolean;
+  debug?: boolean
   /** Environment mode */
-  mode?: 'development' | 'production' | 'auto';
+  mode?: 'development' | 'production' | 'auto'
   /** Function to run before sending analytics events */
-  beforeSend?: (event: BeforeSendEvent) => BeforeSendEvent | null;
+  beforeSend?: (event: BeforeSendEvent) => BeforeSendEvent | null
   /** Custom event handlers */
-  handlers?: Record<string, EventHandler>;
+  handlers?: Record<string, EventHandler>
 }
 
 /**
@@ -19,30 +19,30 @@ export interface AnalyticsConfig {
  */
 export interface BeforeSendEvent {
   /** Event name */
-  name: string;
+  name: string
   /** Event properties */
-  properties?: Record<string, any>;
+  properties?: Record<string, any>
   /** URL where the event occurred */
-  url: string;
+  url: string
   /** Timestamp of the event */
-  timestamp: number;
+  timestamp: number
 }
 
 /**
  * Custom event handler function
  */
-export type EventHandler = (event: BeforeSendEvent) => void;
+export type EventHandler = (event: BeforeSendEvent) => void
 
 /**
  * Metrics tracking options
  */
 export interface TrackMetricOptions {
   /** Metric name */
-  name: string;
+  name: string
   /** Metric value */
-  value: number | string | boolean;
+  value: number | string | boolean
   /** Additional metadata */
-  metadata?: Record<string, any>;
+  metadata?: Record<string, any>
 }
 
 /**
@@ -50,9 +50,9 @@ export interface TrackMetricOptions {
  */
 export interface ExperimentVariant {
   /** Variant ID */
-  id: string;
+  id: string
   /** Variant description */
-  description: string;
+  description: string
 }
 
 /**
@@ -60,9 +60,9 @@ export interface ExperimentVariant {
  */
 export interface ExperimentMetrics {
   /** Primary metric for the experiment */
-  primary: string;
+  primary: string
   /** Secondary metrics for the experiment */
-  secondary?: string[];
+  secondary?: string[]
 }
 
 /**
@@ -70,13 +70,13 @@ export interface ExperimentMetrics {
  */
 export interface ExperimentOptions {
   /** Experiment name */
-  name: string;
+  name: string
   /** Experiment description */
-  description: string;
+  description: string
   /** Experiment variants */
-  variants: ExperimentVariant[];
+  variants: ExperimentVariant[]
   /** Metrics to track for this experiment */
-  metrics: ExperimentMetrics;
+  metrics: ExperimentMetrics
 }
 
 /**
@@ -84,9 +84,9 @@ export interface ExperimentOptions {
  */
 export interface Experiment {
   /** Experiment ID */
-  id: string;
+  id: string
   /** Get the variant for a user */
-  getVariant: (userId: string) => string;
+  getVariant: (userId: string) => string
   /** Track a metric for this experiment */
-  trackMetric: (options: TrackMetricOptions & { variant: string, userId: string }) => Promise<void>;
+  trackMetric: (options: TrackMetricOptions & { variant: string; userId: string }) => Promise<void>
 }

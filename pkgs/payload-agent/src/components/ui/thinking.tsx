@@ -1,4 +1,4 @@
-import { cn } from '@drivly/ui/lib'
+import { cn } from '../../lib/utils'
 import { Bot } from 'lucide-react'
 import React from 'react'
 

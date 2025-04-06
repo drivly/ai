@@ -34,6 +34,7 @@ const customJestConfig = {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/test/helpers/mocks/fileMock.js',
     '^(\\.{1,2}/.*)\\.js$': '$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   testEnvironment: 'node',
   testTimeout: 90000,
@@ -42,12 +43,6 @@ const customJestConfig = {
   },
   verbose: true,
   testMatch: ['<rootDir>/**/*int.spec.ts'],
-  moduleNameMapper: {
-    '\\.(css|scss)$': '<rootDir>/helpers/mocks/emptyModule.js',
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/helpers/mocks/fileMock.js',
-    '^(\\.{1,2}/.*)\\.js$': '$1',
-  },
 }
 
 export default customJestConfig

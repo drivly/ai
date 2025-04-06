@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { CheckIcon, CopyIcon } from 'lucide-react'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 
 interface CodeBlockProps {
   code: string
@@ -74,7 +74,8 @@ export function CodeBlock({ code, language = 'typescript', className }: CodeBloc
         <button
           onClick={copyToClipboard}
           className='flex items-center justify-center rounded-md p-1.5 text-[#44475a] transition-colors hover:bg-[#44475a]/30 hover:text-[#f8f8f2]'
-          aria-label='Copy code'>
+          aria-label='Copy code'
+        >
           {copied ? <CheckIcon className='h-4 w-4 text-[#50fa7b]' /> : <CopyIcon className='h-4 w-4' />}
         </button>
       </div>

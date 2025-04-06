@@ -1,8 +1,8 @@
 import { FaGithub } from 'react-icons/fa'
 import { FaDiscord } from 'react-icons/fa'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { buttonVariants } from '@drivly/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 
 export interface MobileNavProps {
   isOpen: boolean
@@ -25,7 +25,8 @@ export const MobileNav = ({ isOpen, handleClose }: MobileNavProps) => {
               href='https://github.com/drivly/ai'
               target='_blank'
               rel='noopener noreferrer'
-              onClick={handleClose}>
+              onClick={handleClose}
+            >
               <FaGithub className='mr-2 h-5 w-5' />
               GitHub
             </Link>
@@ -36,7 +37,8 @@ export const MobileNav = ({ isOpen, handleClose }: MobileNavProps) => {
               href='https://discord.gg/qus39VeA'
               target='_blank'
               rel='noopener noreferrer'
-              onClick={handleClose}>
+              onClick={handleClose}
+            >
               <FaDiscord className='mr-2 h-5 w-5' />
               Discord
             </Link>
@@ -52,7 +54,8 @@ export const MobileNav = ({ isOpen, handleClose }: MobileNavProps) => {
               href='https://apis.do/'
               target='_blank'
               rel='noopener noreferrer'
-              onClick={handleClose}>
+              onClick={handleClose}
+            >
               View Docs
             </Link>
           </li>

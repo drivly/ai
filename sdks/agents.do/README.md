@@ -245,27 +245,27 @@ const ai = AI({
     score: 'number',
     keyPhrases: 'string[]',
   },
-  
+
   // Code function - deterministic data processing
   calculateRefundAmount: {
     orderTotal: 'number',
     daysLate: 'number',
     refundPercentage: 'number',
   },
-  
+
   // Human function - involves human judgment
   escalateToHumanSupport: {
     customerId: 'string',
     issue: 'string',
     priority: 'High | Medium | Low',
   },
-  
+
   // Agentic function - delegates to another agent
   investigateComplexIssue: {
     customerId: 'string',
     orderHistory: 'any[]',
     issueDescription: 'string',
-  }
+  },
 })
 
 // Create an agent that leverages the entire .do ecosystem
@@ -296,7 +296,7 @@ const customerServiceAgent = new Agent({
       return await ai.escalateToHumanSupport({
         customerId: customer.id,
         issue: message,
-        priority: 'High'
+        priority: 'High',
       })
     }
 
@@ -305,7 +305,7 @@ const customerServiceAgent = new Agent({
       // Execute the refund workflow
       return await ai.refundProcessWorkflow({
         customerId: customer.id,
-        orderIds: customer.recentOrders.map(order => order.id)
+        orderIds: customer.recentOrders.map((order) => order.id),
       })
     }
 

@@ -1,9 +1,9 @@
-import { Button } from '@drivly/ui/button'
-import { cn } from '@drivly/ui/lib'
-import { PromptInput, PromptInputAction, PromptInputActions, PromptInputTextarea } from '@drivly/ui/prompt-input'
+import { Button } from '../../components/ui/button'
+import { cn } from '../../lib/utils'
+import { PromptInput, PromptInputAction, PromptInputActions, PromptInputTextarea } from '../ui/prompt-input'
 import { ArrowUp, CircleStop, Paperclip } from 'lucide-react'
 import React, { Fragment, useCallback } from 'react'
-import { useChatInputMethods } from '../../hooks'
+import { useChatInputMethods } from '@/hooks'
 import { useChatInput, useChatMessages, useChatStatus } from '../store/context'
 import { FilePreview } from '../ui'
 import { ChatSuggestions } from './chat-suggestions'
@@ -37,11 +37,12 @@ export function ChatInput() {
           onValueChange={handleInputChangeWrapper}
           isLoading={isLoading}
           className='bg-background text-primary w-full rounded-t-none rounded-b-lg border-0 dark:bg-[#141415]'
-          maxHeight={384}>
+          maxHeight={384}
+        >
           <PromptInputTextarea
             ref={textareaRef}
             placeholder='Send a message...'
-            className='placeholder:text-muted-foreground font-geist px-4 py-3 text-[14px] leading-[24px] placeholder:text-[14px] focus:outline-none md:text-[14px] dark:bg-transparent !focus-visible:outline-none'
+            className='placeholder:text-muted-foreground font-geist !focus-visible:outline-none px-4 py-3 text-[14px] leading-[24px] placeholder:text-[14px] focus:outline-none md:text-[14px] dark:bg-transparent'
             onKeyDown={handleKeyDown}
             disabled={isLoading || disabled}
             autoFocus
@@ -58,7 +59,8 @@ export function ChatInput() {
                   event.preventDefault()
                   fileInputRef.current?.click()
                 }}
-                disabled={isLoading || disabled}>
+                disabled={isLoading || disabled}
+              >
                 <Paperclip className='!h-[16px] !w-[16px]' />
               </Button>
             </PromptInputAction>
@@ -75,7 +77,8 @@ export function ChatInput() {
                   onClick={(event) => {
                     event.preventDefault()
                     stop()
-                  }}>
+                  }}
+                >
                   <CircleStop absoluteStrokeWidth strokeWidth={2.5} className='!h-[16px] !w-[16px]' />
                 </Button>
               ) : (
@@ -92,7 +95,8 @@ export function ChatInput() {
                   onClick={(event) => {
                     event.preventDefault()
                     submitForm()
-                  }}>
+                  }}
+                >
                   <ArrowUp absoluteStrokeWidth strokeWidth={2.5} className='!h-[16px] !w-[16px]' />
                 </Button>
               )}
