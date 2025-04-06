@@ -45,6 +45,11 @@ export interface ClientOptions {
   fetch?: typeof fetch
   
   /**
+   * Skip SSL certificate validation (only for testing)
+   */
+  ignoreSSLErrors?: boolean
+  
+  /**
    * Additional headers to include with requests
    */
   headers?: Record<string, string>
