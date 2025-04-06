@@ -1,3 +1,12 @@
-import { createConfig } from '@ai-primitives/eslint-config'
-
-export default createConfig()
+export default {
+  ignores: ['dist/**', 'node_modules/**'],
+  linterOptions: {
+    reportUnusedDisableDirectives: true,
+  },
+  files: ['**/*.ts', '**/*.tsx'],
+  languageOptions: {
+    parser: {
+      moduleType: 'esm',
+    },
+  },
+}
