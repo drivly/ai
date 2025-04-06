@@ -86,10 +86,7 @@ jobs:
         id: semantic-release
         uses: codfish/semantic-release-action@v3
         with:
-          branches: |
-            [
-              'main'
-            ]
+          branches: 'main'
           plugins: |
             [
               '@semantic-release/commit-analyzer',

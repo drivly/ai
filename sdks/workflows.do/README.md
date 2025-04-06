@@ -1,4 +1,4 @@
-# [workflows.do](https://workflows.do)
+# [Workflows.do](https://workflows.do) - Elegant Business Process Orchestration
 
 [![npm version](https://img.shields.io/npm/v/workflows.do.svg)](https://www.npmjs.com/package/workflows.do)
 [![npm downloads](https://img.shields.io/npm/dm/workflows.do.svg)](https://www.npmjs.com/package/workflows.do)
@@ -8,7 +8,7 @@
 [![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
-A powerful SDK for creating AI-powered workflows with strongly-typed functions.
+> **Orchestrate business processes with elegant simplicity**
 
 ## Installation
 
@@ -22,495 +22,426 @@ pnpm add workflows.do
 
 ## Overview
 
-The `workflows.do` SDK provides a simple yet powerful way to define AI-powered workflows with strongly-typed functions. It allows you to:
+Workflows.do is the integration hub of the [.do](https://dotdo.ai) ecosystem, seamlessly connecting all SDKs into elegant business processes. Built on the foundation of [APIs.do](https://apis.do), it orchestrates Functions.do, Agents.do, Database.do, and all other .do services through a simple, unified interface.
 
-- Define event-driven workflows with AI capabilities
-- Create strongly-typed AI function schemas
-- Integrate with external APIs and databases
-- Build complex, multi-step AI processes with full TypeScript support
+With Workflows.do, you can:
 
-## Usage
+- Orchestrate elegant business processes with minimal code
+- Seamlessly integrate all [.do](https://dotdo.ai) services in a single workflow
+- Connect AI functions, databases, and external APIs with type safety
+- Create event-driven processes that respond to business triggers
+- Build complex, multi-step processes with simple, readable code
 
-### Creating an AI Workflow
+## Elegant Integration
+
+Workflows.do seamlessly integrates all [.do](https://dotdo.ai) services into elegant business processes:
 
 ```typescript
 import { AI } from 'workflows.do'
 
+// Create a workflow that integrates multiple .do services
 export default AI({
   onUserSignup: async (event, { ai, api, db }) => {
     const { name, email, company } = event
 
-    // Enrich content details with lookup from external data sources
+    // Integrate with external APIs through Integrations.do
     const enrichedContact = await api.apollo.search({ name, email, company })
     const socialProfiles = await api.peopleDataLabs.findSocialProfiles({ name, email, company })
-    const githubProfile = socialProfiles.github ? await api.github.profile({ name, email, company, profile: socialProfiles.github }) : undefined
-
-    // Using the enriched contact details, do deep research on the company and personal background
+    
+    // Leverage Functions.do for AI-powered analysis
     const companyProfile = await ai.researchCompany({ company })
     const personalProfile = await ai.researchPersonalBackground({ name, email, enrichedContact })
-    const socialActivity = await ai.researchSocialActivity({ name, email, enrichedContact, socialProfiles })
-    const githubActivity = githubProfile ? await ai.summarizeGithubActivity({ name, email, enrichedContact, githubProfile }) : undefined
-
-    // Schedule a highly personalized sequence of emails to optimize onboarding and activation
-    const emailSequence = await ai.personalizeEmailSequence({ name, email, company, personalProfile, socialActivity, companyProfile, githubActivity })
-    await api.scheduleEmails({ emailSequence })
-
-    // Summarize everything, save to the database, and post to Slack
-    const details = { enrichedContact, socialProfiles, githubProfile, companyProfile, personalProfile, socialActivity, githubActivity, emailSequence }
-    const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, ...details })
-    const { url } = await db.users.create({ name, email, company, summary, ...details })
-    await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
+    
+    // Create personalized content with Functions.do
+    const emailSequence = await ai.personalizeEmailSequence({ 
+      name, email, company, personalProfile, companyProfile 
+    })
+    
+    // Store data with Database.do
+    const { url } = await db.users.create({ 
+      name, email, company, 
+      profiles: { company: companyProfile, personal: personalProfile },
+      emailSequence
+    })
+    
+    // Trigger notifications through Events.do
+    await api.slack.postMessage({ 
+      channel: '#signups', 
+      content: { name, email, company, url } 
+    })
   },
 })
 ```
 
-### Defining AI Function Schemas
+## Type-Safe Function Schemas
 
-You can define strongly-typed AI function schemas that provide TypeScript type safety for your AI functions:
+Workflows.do provides elegant, type-safe function schemas that integrate seamlessly with Functions.do:
 
 ```typescript
 export const ai = AI({
-  writeBook: async ({ ai, db, api, args }) => {
-    // Step 1: Create book proposal with provided args
-    const proposal = await ai.createBookProposal(args)
-
-    // Step 2: Generate table of contents based on proposal
-    const toc = await ai.createTableOfContents({ proposal })
-
-    // Step 3: Create detailed outlines for each chapter
-    const chapterOutlines = await Promise.all(
-      toc.chapters.map(async (chapter, idx) => {
-        return ai.createChapterOutline({
-          bookTitle: proposal.title,
-          chapterNumber: (idx + 1).toString(),
-          chapterTitle: chapter.title,
+  // Define a complex workflow that orchestrates multiple .do services
+  createPublication: async ({ ai, db, api, args }) => {
+    // Step 1: Generate initial content with Functions.do
+    const proposal = await ai.createContentProposal(args)
+    const outline = await ai.createContentOutline({ proposal })
+    
+    // Step 2: Generate sections in parallel for efficiency
+    const sections = await Promise.all(
+      outline.sections.map(async (section) => {
+        return ai.writeSection({
+          title: proposal.title,
+          sectionTitle: section.title,
         })
-      }),
+      })
     )
-
-    // Step 4: Write all sections for each chapter
-    const completedChapters = await Promise.all(
-      chapterOutlines.map(async (outline, idx) => {
-        const chapterNumber = idx + 1
-
-        // Write each section in parallel for efficiency
-        const sections = await Promise.all(
-          outline.sections.map(async (section) => {
-            return ai.writeSection({
-              bookTitle: proposal.title,
-              chapterNumber: chapterNumber.toString(),
-              chapterTitle: outline.chapterTitle,
-              sectionTitle: section.title,
-            })
-          }),
-        )
-
-        return {
-          chapterNumber,
-          chapterTitle: outline.chapterTitle,
-          sections,
-        }
-      }),
-    )
-
-    // Step 5: Review each chapter for quality and consistency
-    const chapterReviews = await Promise.all(
-      completedChapters.map(async (chapter) => {
-        return ai.reviewChapter({
-          bookTitle: proposal.title,
-          chapterNumber: chapter.chapterNumber.toString(),
-          chapterTitle: chapter.chapterTitle,
-        })
-      }),
-    )
-
-    // Step 6: Perform comprehensive book review
-    const bookReview = await ai.reviewBook({ bookTitle: proposal.title })
-
-    // Step 7: Edit book based on review feedback
-    const bookEdits = await ai.editBook({ bookTitle: proposal.title })
-
-    // Step 8: Prepare final materials for publication
-    const book = await ai.prepareForPublication({ bookTitle: proposal.title })
-
-    // Step 9: Save book to database
-    const { url } = await db.books.create({
-      title: proposal.title,
-      summary: proposal.summary,
-      toc,
-      chapterOutlines,
-      completedChapters,
-      chapterReviews,
-      bookReview,
-      bookEdits,
-      publicationPrep,
+    
+    // Step 3: Enhance content with media using Integrations.do
+    const media = await api.dalle.generateImages({
+      prompt: `Images for ${proposal.title}`,
+      count: outline.sections.length
     })
-    await api.slack.awaitApproval({ channel: '#books', content: { title: proposal.title, message: 'Book ready for review 🚀', url } })
-
-    // Step 10: Return complete book package with all components
-    const publishedBook = await api.amazon.kindle.publish({ book })
-    await api.slack.postMessage({ channel: '#books', content: { title: proposal.title, message: 'Book published 🎉', url: publishedBook.url } })
-
+    
+    // Step 4: Review and refine with Functions.do
+    const review = await ai.reviewContent({
+      title: proposal.title,
+      sections
+    })
+    
+    // Step 5: Store in Database.do
+    const { id } = await db.publications.create({
+      title: proposal.title,
+      sections,
+      media,
+      review
+    })
+    
+    // Step 6: Publish through Integrations.do
+    const published = await api.publishing.publish({
+      id,
+      channels: args.channels
+    })
+    
+    // Step 7: Track with Analytics.do
+    await api.analytics.trackPublication({
+      id,
+      type: 'content',
+      channels: args.channels
+    })
+    
     return {
-      proposal,
-      tableOfContents: toc,
-      chapterOutlines,
-      completedChapters,
-      chapterReviews,
-      bookReview,
-      bookEdits,
-      publicationPrep,
+      id,
+      title: proposal.title,
+      sections,
+      media,
+      published
     }
   },
 
-  // Book Proposal - Initial concept and outline
-  createBookProposal: {
-    title: 'proposed title of the book',
-    subtitle: 'proposed subtitle of the book',
-    author: 'name of the author',
-    targetAudience: ['primary audience segments for the book'],
-    marketAnalysis: 'analysis of the current market for this type of book',
-    competitiveBooks: ['list of similar books in the market'],
-    uniqueSellingPoints: ['what makes this book different and valuable'],
-    keyTakeaways: ['main insights readers will gain'],
-    marketingPotential: 'assessment of marketing opportunities',
-    coverDescription: 'visual description of the layout and image of the book cover',
-    estimatedWordCount: 'approximate word count for the entire book',
-    estimatedTimeToComplete: 'timeline for completing the manuscript',
-    summary: 'one paragraph summary of the book concept',
+  // Content proposal schema - integrated with Functions.do
+  createContentProposal: {
+    title: 'proposed title of the content',
+    audience: ['target audience segments'],
+    goals: ['business objectives for this content'],
+    keyPoints: ['main points to communicate'],
+    format: 'content format (blog, whitepaper, video script, etc.)',
+    tone: 'desired tone and style',
+    length: 'approximate word count or duration',
+    callToAction: 'desired reader/viewer action',
+    summary: 'brief summary of the content concept',
   },
 
-  // Table of Contents - Structure of the book
-  createTableOfContents: {
-    bookTitle: 'title of the book',
+  // Content outline schema - integrated with Functions.do
+  createContentOutline: {
+    title: 'content title',
     introduction: 'brief description of the introduction',
-    chapters: [
-      {
-        title: 'chapter title',
-        summary: 'brief summary of the chapter content',
-        sections: [
-          {
-            title: 'section title',
-            summary: 'brief description of the section content',
-          },
-        ],
-        estimatedPages: 'estimated number of pages for this chapter',
-      },
-    ],
-    conclusion: 'brief description of the conclusion',
-    appendices: ['list of potential appendices if applicable'],
-    bibliography: 'description of reference sources if applicable',
-    estimatedTotalPages: 'estimated total page count for the book',
-  },
-
-  // Chapter Outline - Detailed plan for a specific chapter
-  createChapterOutline: {
-    bookTitle: 'title of the book',
-    chapterNumber: 'number of the chapter',
-    chapterTitle: 'title of the chapter',
-    openingHook: 'engaging opening to capture reader interest',
-    keyPoints: ['main points to be covered in the chapter'],
     sections: [
       {
         title: 'section title',
-        content: 'detailed description of section content',
-        keyIdeas: ['key ideas to be conveyed in this section'],
-        examples: ['examples or case studies to include'],
-        transitions: 'how this section connects to the next',
-      },
+        summary: 'brief description of section content',
+        keyPoints: ['main points to cover in this section'],
+      }
     ],
-    conclusion: 'how the chapter will wrap up',
-    exercises: ['potential exercises or reflection questions for readers'],
-    references: ['key references or citations for this chapter'],
-    visualElements: ['diagrams, charts, or illustrations to include'],
+    conclusion: 'brief description of the conclusion',
+    estimatedLength: 'estimated total length',
   },
 
-  // Section Writing - Content for a specific section
+  // Section writing schema - integrated with Functions.do
   writeSection: {
-    bookTitle: 'title of the book',
-    chapterNumber: 'number of the chapter',
-    chapterTitle: 'title of the chapter',
-    sectionTitle: 'title of the section',
+    title: 'content title',
+    sectionTitle: 'section title',
     content: 'fully written content for the section',
-    keyQuotes: ['memorable quotes or statements from this section'],
-    citations: ['citations or references used in this section'],
-    images: ['descriptions of images or diagrams to include'],
-    pullQuotes: ['text that could be highlighted as pull quotes'],
-    wordCount: 'word count for this section',
+    keyTakeaways: ['key points readers should remember'],
+    mediaRecommendations: ['suggestions for supporting media'],
   },
 
-  // Chapter Review - Evaluation of a completed chapter
-  reviewChapter: {
-    bookTitle: 'title of the book',
-    chapterNumber: 'number of the chapter',
-    chapterTitle: 'title of the chapter',
-    strengthAnalysis: ['strengths of the chapter'],
-    weaknessAnalysis: ['areas that need improvement'],
-    flowAssessment: 'evaluation of how well the narrative flows',
-    clarityAssessment: 'evaluation of clarity and readability',
-    engagementAssessment: 'evaluation of how engaging the content is',
-    factsToVerify: ['factual claims that should be verified'],
-    suggestedRevisions: ['specific suggestions for revision'],
-    consistencyCheck: 'assessment of consistency with other chapters',
-    overallRating: 'rating on a scale of 1-10',
-    nextStepsRecommendation: 'recommended next steps for improvement',
-  },
-
-  // Book Review - Comprehensive review of the entire manuscript
-  reviewBook: {
-    bookTitle: 'title of the book',
-    overallAssessment: 'comprehensive evaluation of the manuscript',
-    structureAnalysis: 'assessment of the book structure and organization',
-    narrativeFlowAnalysis: 'evaluation of how the narrative progresses',
-    thematicConsistency: 'assessment of thematic consistency throughout',
-    audienceAlignment: 'how well the book aligns with target audience',
-    marketPotential: 'assessment of commercial potential',
-    strengthHighlights: ['major strengths of the manuscript'],
-    improvementAreas: ['areas needing significant improvement'],
-    missingElements: ['important content or elements that are missing'],
-    redundancies: ['redundant or repetitive content to eliminate'],
-    titleFeedback: 'assessment of title effectiveness',
-    coverSuggestions: 'suggestions for cover design elements',
-    marketingAngles: ['potential marketing angles to emphasize'],
-    finalRecommendations: ['prioritized list of final recommendations'],
-  },
-
-  // Book Editing - Specific edits for improving the manuscript
-  editBook: {
-    bookTitle: 'title of the book',
-    structuralEdits: ['suggestions for reorganizing content'],
-    developmentalEdits: ['suggestions for expanding or developing ideas'],
-    lineEdits: ['specific line-level edits for clarity and style'],
-    copyedits: ['grammar, punctuation, and spelling corrections'],
-    factChecking: ['factual errors to correct'],
-    consistencyEdits: ['inconsistencies to resolve'],
-    styleGuideApplication: 'how to apply a consistent style guide',
-    audienceConsiderations: 'edits to better target the audience',
-    paceAdjustments: 'suggestions for improving narrative pace',
-    toneRefinements: 'adjustments to maintain consistent tone',
-    dialogueImprovements: 'ways to improve any dialogue',
-    descriptionEnhancements: 'ways to enhance descriptive passages',
-    transitionImprovements: 'ways to improve transitions between sections',
-  },
-
-  // Book Publication Preparation - Final steps before publication
-  prepareForPublication: {
-    bookTitle: 'title of the book',
-    finalTitleRecommendation: 'final recommendation for title and subtitle',
-    blurb: 'promotional book description for back cover and marketing',
-    keySellingPoints: ['key selling points to emphasize in marketing'],
-    targetCategories: ['book categories and genres for listing'],
-    keywordRecommendations: ['keywords for search optimization'],
-    comparableTitles: ['comparable successful titles for positioning'],
-    audienceDescription: 'detailed description of target audience',
-    marketingHooks: ['marketing hooks and angles'],
-    excerptSuggestions: ['passages that would work well as excerpts'],
-    endorsementStrategy: 'strategy for obtaining endorsements',
-    launchStrategy: 'recommended approach for book launch',
-    pricingRecommendation: 'suggested pricing strategy',
-    formatRecommendations: ['recommended formats (hardcover, ebook, etc.)'],
-    distributionChannels: ['recommended distribution channels'],
+  // Content review schema - integrated with Functions.do
+  reviewContent: {
+    title: 'content title',
+    sections: ['array of section content'],
+    strengths: ['content strengths'],
+    improvements: ['suggested improvements'],
+    audienceAlignment: 'how well content meets audience needs',
+    goalAlignment: 'how well content achieves business goals',
+    recommendations: ['specific recommendations for improvement'],
   },
 })
 ```
 
-## API Reference
+## The Integration Hub
 
-### AI(config)
+Workflows.do serves as the central integration hub for the entire [.do](https://dotdo.ai) ecosystem, connecting:
 
-The main function to create AI workflows and function schemas.
+1. **Functions.do** - AI function execution
+2. **Database.do** - Data storage and retrieval
+3. **Agents.do** - Autonomous AI workers
+4. **Integrations.do** - External API connections
+5. **Events.do** - Business event tracking
+6. **Analytics.do** - Performance measurement
+7. **Triggers.do** - Workflow initiation
+8. **Actions.do** - External world impact
 
-**Parameters:**
+This seamless integration enables you to create elegant business processes that leverage the full power of the [.do](https://dotdo.ai) platform with minimal code.
+```
 
-- `config`: An object containing event handlers and function schemas
+## Elegant API Design
 
-**Returns:**
+Workflows.do provides a simple, elegant API that makes it easy to orchestrate complex business processes:
 
-- An AI instance with typed methods based on the provided schemas
+```typescript
+// Create a workflow with the AI function
+const workflow = AI({
+  // Your workflow definition here
+})
+```
 
 ### Context Object
 
-Each event handler receives a context object with the following properties:
+Each workflow receives a powerful context object that provides access to the entire [.do](https://dotdo.ai) ecosystem:
 
-- `ai`: AI functions defined in your schema
-- `api`: External API integrations
-- `db`: Database access for storing and retrieving data
+- `ai`: Access to Functions.do for AI-powered capabilities
+- `api`: Integration with external services through Integrations.do
+- `db`: Data storage and retrieval through Database.do
 
-## Workflows as Functions
+## Composable Architecture
 
-A key concept in the Workflows.do platform is that **Workflows themselves are Functions**. This means:
+A key strength of Workflows.do is its **composable architecture**:
 
-1. Workflows can be invoked like any other function
-2. Workflows can be composed and nested within other workflows
-3. Workflows can be used as tools by AI Agents
-4. Workflows can be triggered by events or called directly by humans
+1. **Workflows as Functions** - Workflows can be called like any other function
+2. **Nested Workflows** - Complex workflows can be built from simpler ones
+3. **Cross-Service Integration** - Seamlessly connect all [.do](https://dotdo.ai) services
+4. **Human-AI Collaboration** - Combine AI and human workers in the same process
 
-This design creates a powerful compositional model where complex business processes can be built from simpler building blocks.
+This elegant design enables you to build sophisticated business processes from simple, reusable components.
 
-## Function Types in Workflows
+## Integrated Function Types
 
-Workflows can incorporate all four function types supported by the platform:
+Workflows.do seamlessly integrates all four function types from the [.do](https://dotdo.ai) ecosystem:
 
-### 1. Generation Functions
-
-Generation functions use generative AI to create content or objects based on input parameters:
+### 1. AI Functions
 
 ```typescript
-// Using a Generation function in a workflow
-const summary = await ai.summarizeContent({
-  content: longText,
-  maxLength: 200,
+// Integrate with Functions.do for AI-powered capabilities
+const summary = await ai.summarizeContent({ 
+  content: longText, 
+  maxLength: 200 
 })
 ```
 
-### 2. Code Functions
-
-Code functions execute deterministic code for precise calculations and data processing:
+### 2. Integration Functions
 
 ```typescript
-// Using a Code function in a workflow
-const processedData = await ai.processDataset({
-  data: rawData,
-  operations: ['normalize', 'filter'],
+// Connect with external services through Integrations.do
+const customerData = await api.salesforce.getCustomer({
+  email: customer.email
 })
 ```
 
-### 3. Agentic Functions
-
-Agentic functions delegate tasks to autonomous AI agents:
+### 3. Agent Functions
 
 ```typescript
-// Using an Agentic function in a workflow
-const researchResults = await ai.researchTopic({
-  topic: 'Emerging Technologies',
-  depth: 'Comprehensive',
+// Leverage autonomous agents through Agents.do
+const researchResults = await ai.researchAgent.execute({
+  topic: "Competitive Analysis",
+  depth: "Comprehensive"
 })
 ```
 
 ### 4. Human Functions
 
-Human functions incorporate human workers into your workflows:
-
 ```typescript
-// Using a Human function in a workflow
-const approvalResult = await ai.getManagerApproval({
-  proposal: proposalData,
-  deadline: '24h',
+// Incorporate human workers into your workflows
+const approval = await api.humans.requestApproval({
+  document: proposal,
+  approvers: ["manager@company.com"],
+  deadline: "24h"
 })
 ```
 
-## Workflows as Tools
+## Seamless Tool Integration
 
-Workflows can serve as powerful tools for both AI Agents and human operators:
+Workflows.do enables seamless integration between workflows and other [.do](https://dotdo.ai) services:
 
 ```typescript
-// An agent using a workflow as a tool
+// An agent using workflows as tools
+import { Agent } from 'agents.do'
+
 const salesAgent = Agent({
-  name: 'SalesBot',
+  name: 'SalesAssistant',
   tools: [
-    // The lead qualification workflow is available as a tool
-    ai.leadQualificationWorkflow,
-    ai.proposalGenerationWorkflow,
-  ],
+    // Workflows are available as tools for agents
+    workflows.qualifyLead,
+    workflows.generateProposal,
+    workflows.scheduleDemo
+  ]
 })
 ```
 
-This capability creates a seamless experience where the same business logic can be accessed by both AI systems and human users.
+This integration creates a unified ecosystem where business processes can be accessed by both AI systems and human users.
 
-## Examples
+## Real-World Integration Examples
 
-### Content Generation Workflow
+### Content Marketing Workflow
 
 ```typescript
 import { AI } from 'workflows.do'
 
+// Create an integrated content marketing workflow
 export default AI({
-  generateBlogPost: async (event, { ai, api, db }) => {
-    const { topic, keywords, targetAudience } = event
+  createContentCampaign: async (event, { ai, api, db }) => {
+    const { topic, audience, channels } = event
 
-    // Research the topic
-    const research = await ai.researchTopic({ topic, keywords })
-
-    // Create an outline
-    const outline = await ai.createOutline({ topic, research, targetAudience })
-
-    // Write the blog post
-    const blogPost = await ai.writeBlogPost({ topic, outline, research })
-
-    // Create images for the blog post
-    const images = await api.dalle.generateImages({
-      prompt: `Image for blog post about ${topic}`,
-      n: 3,
+    // Research phase using Functions.do
+    const marketResearch = await ai.researchMarketTrends({ topic, audience })
+    const competitorAnalysis = await ai.analyzeCompetitorContent({ topic })
+    
+    // Content creation using Functions.do
+    const contentStrategy = await ai.createContentStrategy({ 
+      topic, audience, marketResearch, competitorAnalysis 
     })
-
-    // Save to database
-    const { url } = await db.blogPosts.create({
-      title: blogPost.title,
-      content: blogPost.content,
-      images,
-      metadata: {
-        topic,
-        keywords,
-        targetAudience,
-        research,
-        outline,
-      },
+    
+    // Generate content pieces in parallel
+    const contentPieces = await Promise.all(
+      contentStrategy.pieces.map(async (piece) => {
+        return ai.createContent({
+          type: piece.type,
+          topic: piece.topic,
+          audience,
+          tone: piece.tone,
+          length: piece.length
+        })
+      })
+    )
+    
+    // Generate visuals using Integrations.do
+    const visuals = await api.dalle.generateImages({
+      prompts: contentPieces.map(p => `Visual for ${p.title}`),
+      style: "professional"
     })
-
+    
+    // Store in Database.do
+    const campaign = await db.campaigns.create({
+      topic,
+      audience,
+      strategy: contentStrategy,
+      content: contentPieces.map((piece, i) => ({
+        ...piece,
+        visual: visuals[i]
+      }))
+    })
+    
+    // Schedule distribution using Integrations.do
+    const schedule = await api.marketing.scheduleContent({
+      campaignId: campaign.id,
+      channels,
+      startDate: new Date()
+    })
+    
+    // Set up analytics tracking using Analytics.do
+    await api.analytics.createCampaignTracking({
+      campaignId: campaign.id,
+      channels,
+      goals: ['engagement', 'conversion']
+    })
+    
     return {
-      blogPost,
-      images,
-      url,
+      campaignId: campaign.id,
+      content: contentPieces,
+      schedule,
+      trackingUrl: `https://analytics.do/campaigns/${campaign.id}`
     }
-  },
+  }
 })
 ```
 
-### Customer Support Workflow
+### Customer Experience Workflow
 
 ```typescript
 import { AI } from 'workflows.do'
 
+// Create an integrated customer experience workflow
 export default AI({
-  handleSupportTicket: async (event, { ai, api, db }) => {
-    const { ticketId, customerMessage, customerId } = event
-
-    // Get customer history
-    const customerHistory = await db.customers.findOne({ id: customerId })
-
-    // Analyze the support ticket
-    const analysis = await ai.analyzeSupportTicket({
-      customerMessage,
-      customerHistory,
+  enhanceCustomerExperience: async (event, { ai, api, db }) => {
+    const { customerId, interactionType } = event
+    
+    // Retrieve customer data from Database.do
+    const customer = await db.customers.findOne({ id: customerId })
+    
+    // Enrich customer profile using Integrations.do
+    const enrichedProfile = await api.clearbit.enrichCompany({
+      domain: customer.company.domain
     })
-
-    // Generate a response
-    const response = await ai.generateSupportResponse({
-      customerMessage,
-      analysis,
-      customerHistory,
+    
+    // Analyze customer journey using Functions.do
+    const journeyAnalysis = await ai.analyzeCustomerJourney({
+      customer,
+      enrichedProfile,
+      interactionHistory: await db.interactions.find({ customerId })
     })
-
-    // Update the ticket in the database
-    await db.supportTickets.update(ticketId, {
-      status: 'responded',
-      response,
-      analysis,
+    
+    // Generate personalized recommendations using Functions.do
+    const recommendations = await ai.createPersonalizedRecommendations({
+      customer,
+      journeyAnalysis,
+      interactionType
     })
-
-    // Send the response to the customer
-    await api.email.send({
-      to: customerHistory.email,
-      subject: `Re: Support Ticket #${ticketId}`,
-      body: response.message,
+    
+    // Update customer record in Database.do
+    await db.customers.update(customerId, {
+      enrichedProfile,
+      journeyAnalysis,
+      recommendations,
+      lastUpdated: new Date()
     })
-
-    return {
-      ticketId,
-      response,
-      analysis,
+    
+    // Trigger appropriate actions based on interaction type
+    if (interactionType === 'support') {
+      // Notify support team through Events.do
+      await api.slack.postMessage({
+        channel: '#customer-support',
+        content: {
+          customerId,
+          name: customer.name,
+          recommendations: recommendations.supportActions
+        }
+      })
+    } else if (interactionType === 'sales') {
+      // Create follow-up tasks in CRM through Integrations.do
+      await api.salesforce.createTasks({
+        customerId,
+        tasks: recommendations.salesActions.map(a => ({
+          title: a.title,
+          description: a.description,
+          dueDate: a.timeframe
+        }))
+      })
     }
-  },
+    
+    return {
+      customerId,
+      recommendations,
+      nextSteps: recommendations[interactionType + 'Actions']
+    }
+  }
 })
 ```
 
@@ -518,9 +449,9 @@ export default AI({
 
 MIT
 
-## Dependencies
+## Integration Foundation
 
-- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem
+Workflows.do is built on [APIs.do](https://apis.do), the foundational SDK of the [.do](https://dotdo.ai) ecosystem, providing seamless integration with all .do services through a unified, elegant interface.
 - [functions.do](https://www.npmjs.com/package/functions.do) - AI-powered Functions-as-a-Service
 - [database.do](https://www.npmjs.com/package/database.do) - AI Native Data Access
 - [durable-objects-nosql](https://www.npmjs.com/package/durable-objects-nosql) - NoSQL database for Cloudflare Workers

@@ -9,7 +9,8 @@
     "tsBuildInfoFile": ".tsbuildinfo",
     "outDir": "dist",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@drivly/ui/*": ["../../pkgs/ui/src/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],
