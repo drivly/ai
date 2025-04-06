@@ -1,0 +1,27 @@
+{
+  "name": "@drivly/payload-oapi-plugin",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"No tests\" && exit 0"
+  },
+  "dependencies": {
+    "payload-oapi": "^0.2.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.7.3"
+  },
+  "peerDependencies": {
+    "payload": "^3.33.0"
+  }
+}
