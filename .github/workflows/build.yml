@@ -38,3 +38,51 @@ jobs:
           DATABASE_URI: ${{ secrets.DATABASE_URI || 'mongodb://localhost:27017/payload-cms' }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY || 'resend-key-placeholder' }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_placeholder' }}
+
+      # Bundle analysis steps
+      - name: Restore next build
+        uses: actions/cache@v4
+        id: restore-build-cache
+        env:
+          cache-name: cache-next-build
+        with:
+          path: .next/cache
+          # If you use a different build directory, change this path
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+
+      - name: Analyze bundle
+        run: npx -p nextjs-bundle-analysis report
+
+      - name: Upload bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle
+          path: .next/analyze/__bundle_analysis.json
+
+      - name: Download base branch bundle stats
+        uses: dawidd6/action-download-artifact@v2
+        if: success() && github.event.number
+        with:
+          workflow: build.yml
+          branch: ${{ github.event.pull_request.base.ref }}
+          path: .next/analyze/base/bundle
+          if_no_artifact_found: warn
+
+      - name: Compare with base branch bundle
+        if: success() && github.event.number
+        run: ls -la .next/analyze/base/bundle && npx -p nextjs-bundle-analysis compare
+
+      - name: Get Comment
+        id: get-comment
+        if: success() && github.event.number
+        run: |
+          if [ -f .next/analyze/__bundle_analysis_comment.txt ]; then
+            echo "comment=$(cat .next/analyze/__bundle_analysis_comment.txt)" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: success() && github.event.number && steps.get-comment.outputs.comment
+        with:
+          header: next-bundle-analysis
+          message: ${{ steps.get-comment.outputs.comment }}
