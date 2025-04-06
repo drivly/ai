@@ -85,6 +85,29 @@ export interface APIHeader {
 export type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T
 
 /**
+ * Function to check if the request is from a bot
+ * @param request - The NextRequest object
+ * @returns boolean indicating if the request is from a bot
+ */
+export function isBot(request: NextRequest): boolean {
+  const userAgent = request.headers.get('user-agent') || ''
+  const lowercaseUA = userAgent.toLowerCase()
+  
+  const botIdentifiers = [
+    'bot', 'crawl', 'spider', 'slurp', 'baiduspider',
+    'yandex', 'googlebot', 'bingbot', 'semrushbot',
+    'facebook', 'twitter', 'slack', 'telegram', 'discord',
+    'whatsapp', 'viber', 'skype', 'linkedin', 'pinterest',
+    'facebot', 'telegrambot', 'discordbot', 'whatsappbot',
+    'twitterbot', 'pinterestbot', 'linkedinbot',
+    'ahrefsbot', 'msnbot', 'petalbot', 'coccocbot',
+    'applebot', 'duckduckbot', 'archive.org_bot'
+  ]
+  
+  return botIdentifiers.some(identifier => lowercaseUA.includes(identifier))
+}
+
+/**
  * Function to get user information from the request
  */
 export function getUser(request: NextRequest): APIUser {
@@ -371,6 +394,18 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
                             typeof (result as any).api === 'object' && (result as any).api !== null ? 
                             (result as any).api.description : undefined
       const api = getApiHeader(req, apiDescription)
+      
+      if (isBot(req)) {
+        const htmlResponse = generateBotHtml(req, api, {
+          api,
+          ...result,
+          user: mergedUser,
+        })
+        
+        return new NextResponse(htmlResponse, {
+          headers: { 'content-type': 'text/html; charset=utf-8' }
+        })
+      }
       
       return NextResponse.json(
         {
@@ -665,4 +700,114 @@ export const handleShareRequest = async (
       status: 500
     }
   }
+}
+/**
+ * Generates HTML with stringified JSON and metadata for bot crawlers
+ * @param request - The NextRequest object
+ * @param api - The API header object
+ * @param response - The API response object to stringify
+ * @returns HTML string with metadata and stringified JSON
+ */
+export function generateBotHtml(
+  request: NextRequest,
+  api: APIHeader,
+  response: Record<string, any>
+): string {
+  const url = new URL(request.url)
+  const domain = punycode.toUnicode(url.hostname)
+  const origin = url.protocol + '//' + domain + (url.port ? ':' + url.port : '')
+  
+  const title = api.name || domain
+  const description = api.description || 'API Response'
+  
+  const jsonPreviewUrl = `${origin}/api/opengraph-image?title=${encodeURIComponent(title)}`
+  
+  const formattedJson = JSON.stringify(response, null, 2)
+  
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${title} - API Response</title>
+  <meta name="description" content="${description}">
+  
+  <!-- OpenGraph meta tags -->
+  <meta property="og:title" content="${title} - API Response">
+  <meta property="og:description" content="${description}">
+  <meta property="og:image" content="${jsonPreviewUrl}">
+  <meta property="og:url" content="${request.url}">
+  <meta property="og:type" content="website">
+  
+  <!-- Twitter card tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${title} - API Response">
+  <meta name="twitter:description" content="${description}">
+  <meta name="twitter:image" content="${jsonPreviewUrl}">
+  
+  <!-- Additional SEO metadata -->
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="${request.url}">
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      margin-top: 0;
+      margin-bottom: 24px;
+      font-size: 32px;
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: monospace;
+      font-size: 14px;
+    }
+    .api-info {
+      margin-bottom: 24px;
+      padding: 16px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+    }
+    .api-info p {
+      margin: 8px 0;
+    }
+    .api-links {
+      margin-top: 16px;
+    }
+    .api-links a {
+      color: #0366d6;
+      text-decoration: none;
+      margin-right: 16px;
+    }
+    .api-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>${title} - API Response</h1>
+  
+  <div class="api-info">
+    <p><strong>Description:</strong> ${description}</p>
+    <p><strong>Domain:</strong> ${domain}</p>
+    
+    <div class="api-links">
+      <a href="${api.home}" target="_blank">Home</a>
+      <a href="${api.docs}" target="_blank">Documentation</a>
+      <a href="${api.repo}" target="_blank">Repository</a>
+    </div>
+  </div>
+  
+  <pre>${formattedJson}</pre>
+</body>
+</html>`
 }
