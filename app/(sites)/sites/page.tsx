@@ -9,7 +9,7 @@ import { Suspense } from 'react'
 // .do
 // Process domain categories once
 
-function SitesPage() {
+export default async function SitesPage() {
   const domainsByCategory = getDomainsByCategory(domains)
   return (
     <div className='container mx-auto max-w-7xl px-4 pt-24 pb-20 md:pt-32 md:pb-40'>
@@ -30,4 +30,4 @@ function SitesPage() {
   )
 }
 
-export default withSitesNavbar(SitesPage)
+// export default withSitesNavbar(SitesPage)
