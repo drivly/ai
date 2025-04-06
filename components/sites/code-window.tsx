@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@drivly/ui/lib'
 
 interface CodeWindowProps {
   className?: string
@@ -48,7 +48,7 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
               <div className='size-3 rounded-full bg-white/20'></div>
               <div className='size-3 rounded-full bg-white/20'></div>
             </div>
-            <p className='mx-auto text-xs text-gray-400'>{title}</p>
+            <p className='text-xs text-gray-400 mx-auto'>{title}</p>
           </div>
           {/* <div className='flex items-center gap-2'>
             <div className='rounded bg-gray-800 px-2 py-1'>
@@ -58,7 +58,7 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
         </div>
 
         {/* Code content */}
-        <div className='max-h-[500px] overflow-auto bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
+        <div className='bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
           <pre className='language-json'>
             <code
               className='text-xs sm:text-sm'
@@ -73,4 +73,5 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
   )
 }
 
-// browser bar with
+
+// browser bar with    
