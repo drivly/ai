@@ -702,6 +702,40 @@ export const handleShareRequest = async (
   }
 }
 /**
+ * Converts URLs in JSON string values to HTML anchor tags
+ * @param obj - The object to process
+ * @returns A new object with URLs converted to anchor tags
+ */
+export function convertUrlsToLinks(obj: any): any {
+  if (obj === null || obj === undefined) {
+    return obj
+  }
+  
+  if (typeof obj === 'string') {
+    if (obj.trim().startsWith('https://')) {
+      return `<a href="${obj}" target="_blank" rel="noopener noreferrer">${obj}</a>`
+    }
+    return obj
+  }
+  
+  if (Array.isArray(obj)) {
+    return obj.map(item => convertUrlsToLinks(item))
+  }
+  
+  if (typeof obj === 'object') {
+    const result: Record<string, any> = {}
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        result[key] = convertUrlsToLinks(obj[key])
+      }
+    }
+    return result
+  }
+  
+  return obj
+}
+
+/**
  * Generates HTML with stringified JSON and metadata for bot crawlers
  * @param request - The NextRequest object
  * @param api - The API header object
@@ -722,7 +756,20 @@ export function generateBotHtml(
   
   const jsonPreviewUrl = `${origin}/api/opengraph-image?title=${encodeURIComponent(title)}`
   
-  const formattedJson = JSON.stringify(response, null, 2)
+  const processedResponse = convertUrlsToLinks(response)
+  
+  const formattedJson = JSON.stringify(processedResponse, (key, value) => {
+    if (typeof value === 'string' && value.includes('<a href="https://')) {
+      return value
+    }
+    return value
+  }, 2)
+  
+  const htmlFormattedJson = formattedJson
+    .replace(/&quot;&lt;a href=&quot;(https:\/\/[^&]*)&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;(https:\/\/[^&]*)&lt;\/a&gt;&quot;/g, 
+      '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>')
+    .replace(/"<a href="(https:\/\/[^"]*)" target="_blank" rel="noopener noreferrer">(https:\/\/[^"]*)<\/a>"/g, 
+      '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>')
   
   return `<!DOCTYPE html>
 <html lang="en">
@@ -771,6 +818,13 @@ export function generateBotHtml(
       font-family: monospace;
       font-size: 14px;
     }
+    pre a {
+      color: #0366d6;
+      text-decoration: none;
+    }
+    pre a:hover {
+      text-decoration: underline;
+    }
     .api-info {
       margin-bottom: 24px;
       padding: 16px;
@@ -807,7 +861,7 @@ export function generateBotHtml(
     </div>
   </div>
   
-  <pre>${formattedJson}</pre>
+  <pre>${htmlFormattedJson}</pre>
 </body>
 </html>`
 }
