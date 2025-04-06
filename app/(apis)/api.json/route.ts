@@ -1,6 +1,17 @@
 import { API } from '@/lib/api'
 import { collectionSlugs } from '@/collections'
 import { titleCase } from '@/lib/utils'
+import type { CollectionConfig } from 'payload'
+import type { 
+  OpenAPIObject, 
+  SchemaObject, 
+  PathItemObject, 
+  OperationObject, 
+  ParameterObject,
+  ResponseObject,
+  RequestBodyObject,
+  ComponentsObject
+} from 'openapi3-ts/oas30'
 
 /**
  * Generate and return a full OpenAPI specification based on Payload collections
@@ -8,7 +19,7 @@ import { titleCase } from '@/lib/utils'
 export const GET = API(async (request, { db, user, origin, url, domain, payload }) => {
   const collections = payload.collections || {}
   
-  const openApiSpec = {
+  const openApiSpec: OpenAPIObject = {
     openapi: '3.0.0',
     info: {
       title: 'Drivly AI API',
@@ -21,14 +32,14 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     },
     servers: [
       {
-        url: origin,
-        description: 'Current server',
+        url: 'https://apis.do',
+        description: 'Production API Server',
       },
     ],
     paths: {},
     components: {
       schemas: {},
-    },
+    } as ComponentsObject,
   }
 
   for (const slug of collectionSlugs) {
@@ -38,9 +49,17 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     const title = collection.config?.labels?.singular || titleCase(slug)
     const pluralTitle = collection.config?.labels?.plural || `${title}s`
     
-    openApiSpec.components.schemas[title] = {
-      type: 'object',
-      properties: generateSchemaProperties(collection),
+    if (!openApiSpec.components) {
+      openApiSpec.components = { schemas: {} };
+    } else if (!openApiSpec.components.schemas) {
+      openApiSpec.components.schemas = {};
+    }
+    
+    if (openApiSpec.components && openApiSpec.components.schemas) {
+      openApiSpec.components.schemas[title] = {
+        type: 'object',
+        properties: generateSchemaProperties(collection),
+      } as SchemaObject
     }
     
     
@@ -80,8 +99,41 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
             },
           },
         },
-      },
-    }
+      } as OperationObject,
+      post: {
+        summary: `Create a new ${title}`,
+        description: `Creates a new ${title} document`,
+        tags: [pluralTitle],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: `#/components/schemas/${title}`,
+              },
+            },
+          },
+        } as RequestBodyObject,
+        responses: {
+          '201': {
+            description: 'Successfully created',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: `#/components/schemas/${title}`,
+                },
+              },
+            },
+          } as ResponseObject,
+          '400': {
+            description: 'Bad request',
+          } as ResponseObject,
+          '401': {
+            description: 'Unauthorized',
+          } as ResponseObject,
+        },
+      } as OperationObject,
+    } as PathItemObject
     
     openApiSpec.paths[`/api/${slug}/{id}`] = {
       get: {
@@ -97,7 +149,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
               type: 'string',
             },
             description: `The ID of the ${title}`,
-          },
+          } as ParameterObject,
         ],
         responses: {
           '200': {
@@ -109,13 +161,100 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
                 },
               },
             },
-          },
+          } as ResponseObject,
           '404': {
             description: 'Not found',
-          },
+          } as ResponseObject,
         },
-      },
-    }
+      } as OperationObject,
+      patch: {
+        summary: `Update a ${title}`,
+        description: `Updates a specific ${title} by ID`,
+        tags: [pluralTitle],
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: {
+              type: 'string',
+            },
+            description: `The ID of the ${title}`,
+          } as ParameterObject,
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: `#/components/schemas/${title}`,
+              },
+            },
+          },
+        } as RequestBodyObject,
+        responses: {
+          '200': {
+            description: 'Successfully updated',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: `#/components/schemas/${title}`,
+                },
+              },
+            },
+          } as ResponseObject,
+          '400': {
+            description: 'Bad request',
+          } as ResponseObject,
+          '401': {
+            description: 'Unauthorized',
+          } as ResponseObject,
+          '404': {
+            description: 'Not found',
+          } as ResponseObject,
+        },
+      } as OperationObject,
+      delete: {
+        summary: `Delete a ${title}`,
+        description: `Deletes a specific ${title} by ID`,
+        tags: [pluralTitle],
+        parameters: [
+          {
+            name: 'id',
+            in: 'path',
+            required: true,
+            schema: {
+              type: 'string',
+            },
+            description: `The ID of the ${title}`,
+          } as ParameterObject,
+        ],
+        responses: {
+          '200': {
+            description: 'Successfully deleted',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                      example: 'Successfully deleted',
+                    },
+                  },
+                },
+              },
+            },
+          } as ResponseObject,
+          '401': {
+            description: 'Unauthorized',
+          } as ResponseObject,
+          '404': {
+            description: 'Not found',
+          } as ResponseObject,
+        },
+      } as OperationObject,
+    } as PathItemObject
   }
 
   return openApiSpec
@@ -124,8 +263,8 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
 /**
  * Generate schema properties from collection fields
  */
-function generateSchemaProperties(collection) {
-  const properties = {
+function generateSchemaProperties(collection: { config?: CollectionConfig }): Record<string, SchemaObject> {
+  const properties: Record<string, SchemaObject> = {
     id: { type: 'string' },
     createdAt: { type: 'string', format: 'date-time' },
     updatedAt: { type: 'string', format: 'date-time' },
@@ -133,7 +272,7 @@ function generateSchemaProperties(collection) {
   
   if (collection.config?.fields) {
     for (const field of collection.config.fields) {
-      if (!field.name) continue
+      if (!('name' in field)) continue
       
       switch (field.type) {
         case 'text':
@@ -141,22 +280,22 @@ function generateSchemaProperties(collection) {
         case 'code':
         case 'email':
         case 'richText':
-          properties[field.name] = { type: 'string' }
+          properties[field.name] = { type: 'string' } as SchemaObject
           break
         case 'number':
-          properties[field.name] = { type: 'number' }
+          properties[field.name] = { type: 'number' } as SchemaObject
           break
         case 'checkbox':
-          properties[field.name] = { type: 'boolean' }
+          properties[field.name] = { type: 'boolean' } as SchemaObject
           break
         case 'date':
-          properties[field.name] = { type: 'string', format: 'date-time' }
+          properties[field.name] = { type: 'string', format: 'date-time' } as SchemaObject
           break
         case 'select':
           properties[field.name] = { 
             type: 'string',
-            enum: field.options?.map(opt => typeof opt === 'string' ? opt : opt.value) || [],
-          }
+            enum: field.options?.map((opt: any) => typeof opt === 'string' ? opt : opt.value) || [],
+          } as SchemaObject
           break
         case 'relationship':
           if (field.hasMany) {
@@ -165,30 +304,30 @@ function generateSchemaProperties(collection) {
               items: {
                 type: 'string',
                 description: `ID of related ${field.relationTo} document`,
-              },
-            }
+              } as SchemaObject,
+            } as SchemaObject
           } else {
             properties[field.name] = {
               type: 'string',
               description: `ID of related ${field.relationTo} document`,
-            }
+            } as SchemaObject
           }
           break
         case 'array':
         case 'blocks':
           properties[field.name] = {
             type: 'array',
-            items: { type: 'object' },
-          }
+            items: { type: 'object' } as SchemaObject,
+          } as SchemaObject
           break
         case 'group':
           properties[field.name] = {
             type: 'object',
             properties: {},
-          }
+          } as SchemaObject
           break
         default:
-          properties[field.name] = { type: 'object' }
+          properties[field.name] = { type: 'object' } as SchemaObject
       }
     }
   }
