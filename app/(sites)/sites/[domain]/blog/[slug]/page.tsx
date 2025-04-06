@@ -13,12 +13,12 @@ async function BlogPostPage({ params }: { params: Promise<{ domain?: string; slu
   const post = getBlogPostBySlug(slug || '')
 
   if (!post) {
-    notFound()
+    // notFound()
   }
 
-  const postUrl = `/sites/${domain}/blog/${post.slug}`
+  const postUrl = `/sites/${domain}/blog/${slug}`
   const fallbackImage = '/images/blog-llm.png'
-  const dateObj = new Date(post.date.split('-').join('/'))
+  const dateObj = new Date(post?.date.split('-').join('/') || '')
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (
@@ -30,18 +30,18 @@ async function BlogPostPage({ params }: { params: Promise<{ domain?: string; slu
 
       <div className='mb-8'>
         <Badge variant='blog' className='mb-4'>
-          {post.category}
+          {post?.category}
         </Badge>
-        <h1 className='mb-4 text-4xl font-bold tracking-tight'>{post.title}</h1>
-        <p className='text-muted-foreground text-xl'>{post.description}</p>
+        <h1 className='mb-4 text-4xl font-bold tracking-tight'>{post?.title}</h1>
+        <p className='text-muted-foreground text-xl'>{post?.description}</p>
         <div className='mt-4 flex flex-row items-center justify-between gap-2'>
           <div className='text-muted-foreground text-sm'>{formattedDate}</div>
-          <ShareButtons title={post.title} url={postUrl} hideLabel={true} />
+          <ShareButtons title={post?.title || ''} url={postUrl} hideLabel={true} />
         </div>
       </div>
 
       <div className='relative mb-8 h-[400px] w-full overflow-hidden rounded-lg'>
-        <Image src={post.image || fallbackImage} alt={post.title} fill className='object-cover' priority />
+        <Image src={post?.image || fallbackImage} alt={post?.title || ''} fill className='object-cover' priority />
       </div>
 
       <BlogContent />
