@@ -6,7 +6,7 @@ export const runtime = 'edge'
 
 export const alt = 'API Response'
 export const contentType = 'image/png'
-export const size = {
+const size = {
   width: 1200,
   height: 630,
 }

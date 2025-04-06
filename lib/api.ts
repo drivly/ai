@@ -385,6 +385,8 @@ export const createApiHandler = (
   }
 }
 
+export const API = createApiHandler
+
 /**
  * Modifies a query string by adding or updating parameters
  * @param url - The URL to modify
