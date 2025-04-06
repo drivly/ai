@@ -17,7 +17,7 @@ export default {
     href: '/sdk',
     display: 'hidden'
   },
-  reference: {
+  api_docs: {
     title: 'Reference',
     type: 'page',
     href: 'https://docs.apis.do',
@@ -38,6 +38,9 @@ export default {
   },
   agents: '',
   apis: '',
+  reference: {
+    title: 'API Reference'
+  },
   _3: {
     type: 'separator',
     title: 'Data'
