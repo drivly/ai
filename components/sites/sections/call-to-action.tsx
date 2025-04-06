@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { GridPattern } from '../magicui/grid-pattern'
@@ -21,7 +23,7 @@ export default function CallToAction() {
         </h2>
         <div className='flex flex-col justify-center gap-4 sm:flex-row'>
           <Button className='bg-white px-8 py-3 text-base text-black hover:bg-gray-200 hover:text-black'>Join the waitlist</Button>
-          <Button variant='outline' className='border-gray-700 px-12 py-3 text-base text-white hover:bg-[#1A1A1D] hover:text-white' onClick={() => window.location.href = '#'}>
+          <Button variant='outline' className='border-gray-700 px-12 py-3 text-base text-white hover:bg-[#1A1A1D] hover:text-white' onClick={() => (window.location.href = '#')}>
             Learn more
           </Button>
         </div>
