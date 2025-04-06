@@ -17,7 +17,7 @@ export default {
     href: '/sdk',
     display: 'hidden'
   },
-  reference: {
+  api_docs: {
     title: 'Reference',
     type: 'page',
     href: 'https://docs.apis.do',
