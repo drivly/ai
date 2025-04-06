@@ -289,10 +289,10 @@ export { CLI } from './cli.js'
 // export { actions } from 'actions.do'
 // export { Analytics, initAnalytics, trackMetric, defineExperiment } from 'analytics.do'
 export { api } from 'apis.do'
-export { evals } from 'evals.do'
-export { ai as functionsAI } from 'functions.do'
-export { projects } from 'projects.do'
-export { tasks } from 'tasks.do'
+// export { evals } from 'evals.do'
+// export { ai as functionsAI } from 'functions.do'
+// export { projects } from 'projects.do'
+// export { tasks } from 'tasks.do'
 
 export type {
   Workflow,
