@@ -38,7 +38,7 @@
     }
   },
   "scripts": {
-    "clean": "rm -rf ./dist && rm -rf ./tsconfig.tsbuildinfo",
+    "clean": "rimraf ./dist && rimraf ./tsconfig.tsbuildinfo",
     "build": "pnpm clean && pnpm copyfiles && pnpm build:types && pnpm build:swc",
     "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths",
     "build:types": "tsc --project tsconfig.json",
@@ -69,6 +69,9 @@
     "next": "15.2.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "rimraf": "^6.0.1",
+    "sonner": "2.0.1",
+    "tailwind-merge": "3.0.2",
     "typescript": "5.8.2",
     "eslint-config": "workspace:*",
     "tsconfig": "workspace:*"

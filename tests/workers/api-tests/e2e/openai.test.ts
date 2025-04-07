@@ -17,11 +17,12 @@ describe('OpenAI SDK', () => {
     expect(response.error).toBeNull()
     expect(response.id).toBeDefined()
     expect(response.output_text).toMatch(/hello|hi/i)
+    console.log(`${model}: ${response.output_text}`)
   })
 
-  // This endpoint's maximum context length is 128000 tokens. However, you requested about 137982 tokens (137982 of text input). Please reduce the length of either one, or use the "middle-out" transform to compress your prompt automatically.
+  // Currently fails due to OpenRouter not supporting PDFs
 
-  test.fails.each(['gpt-4o', 'gemini-2.0-flash-001', 'claude-3.7-sonnet'])(
+  test.fails.skip.each(['gpt-4o', 'gemini-2.0-flash-001', 'claude-3.7-sonnet'])(
     'can handle PDF input with %s',
     async (model) => {
       const input: ResponseInput = [
