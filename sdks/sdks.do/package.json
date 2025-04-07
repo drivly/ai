@@ -1,0 +1,53 @@
+{
+  "name": "sdks.do",
+  "version": "0.0.1",
+  "description": "SDK for managing and accessing all Drivly SDKs",
+  "keywords": [
+    "sdks",
+    "api",
+    "sdk",
+    "typescript",
+    "cli"
+  ],
+  "homepage": "https://sdks.do",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/sdks.do"
+  },
+  "author": "Drivly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "apis.do": "workspace:*"
+  },
+  "devDependencies": {
+    "evalite": "^0.9.1",
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.9"
+  }
+}
