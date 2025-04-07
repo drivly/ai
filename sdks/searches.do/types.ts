@@ -2,7 +2,8 @@
  * Type definitions for searches.do SDK
  */
 
-import { Search as ApiSearch } from 'apis.do'
+import type { Search as ApiSearch } from 'apis.do/types'
+import type { ClientOptions, ListResponse, QueryParams } from 'apis.do/types'
 
 export type Search = ApiSearch
 
@@ -13,4 +14,9 @@ export interface SearchConfig {
   embedding?: Record<string, any>
 }
 
-export * from './src/constants.js'
+export interface SearchClientOptions extends ClientOptions {
+  baseUrl?: string
+  apiKey?: string
+}
+
+export * from './src/constants'

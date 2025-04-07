@@ -3,8 +3,9 @@
  * with the Tasks & Queue collections.
  */
 
-import { API } from 'apis.do'
-import { QueryParams } from 'apis.do'
+import { API } from 'apis.do/src/client'
+import type { QueryParams } from 'apis.do/types'
+import { URLSearchParams } from 'node:url'
 
 /**
  * Slack Blocks schema for rich interactive messages

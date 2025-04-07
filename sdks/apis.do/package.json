@@ -31,6 +31,14 @@
     "./types": {
       "import": "./dist/types.js",
       "types": "./dist/types.d.ts"
+    },
+    "./src/client": {
+      "import": "./dist/src/client.js",
+      "types": "./dist/src/client.d.ts"
+    },
+    "./src/types": {
+      "import": "./dist/src/types.js",
+      "types": "./dist/src/types.d.ts"
     }
   },
   "files": [
@@ -51,7 +59,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "tsup --config tsup.config.ts",
+    "build": "rm -rf dist && tsc -p tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "dev": "tsc --watch",

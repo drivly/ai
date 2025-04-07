@@ -2,9 +2,16 @@
   "extends": "tsconfig/src/sdk.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "../..",
-    "noEmit": false
+    "rootDir": "src",
+    "noEmit": false,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": ["**/*.ts", "../apis.do/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist", "tests"]
 }

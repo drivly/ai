@@ -2,7 +2,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { CLI } from './cli.js'
+import { CLI } from './cli'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const packageJsonPath = path.join(__dirname, '..', '..', 'package.json')

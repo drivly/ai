@@ -40,7 +40,8 @@ describe('Agents Collection', () => {
       expect(nameField).toBeDefined()
       expect(nameField?.type).toBe('text')
     })
-  })(payload ? describe : describe.skip)('Payload Integration', () => {
+  })
+  ;(payload ? describe : describe.skip)('Payload Integration', () => {
     it('should be able to find agents collection', async () => {
       const result = await payload.find({
         collection: 'agents',

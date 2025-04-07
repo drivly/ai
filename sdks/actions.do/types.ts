@@ -2,7 +2,8 @@
  * Type definitions for actions.do SDK
  */
 
-import { Action as ApiAction } from 'apis.do'
+import type { Action as ApiAction } from 'apis.do/types'
+import type { ClientOptions, ListResponse, QueryParams } from 'apis.do/types'
 
 export type Action = ApiAction
 
@@ -14,4 +15,13 @@ export interface ActionConfig {
   parameters?: Record<string, any>
 }
 
-export * from './src/constants.js'
+export interface ActionHandler {
+  execute: (params?: Record<string, any>) => Promise<any>
+}
+
+export interface ActionClientOptions extends ClientOptions {
+  baseUrl?: string
+  apiKey?: string
+}
+
+export * from './src/constants'

@@ -12,11 +12,9 @@
     "noEmit": false,
     "incremental": false,
     "paths": {
-      "@/*": ["./*"],
-      "apis.do": ["../../sdks/apis.do"]
+      "@/*": ["./*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "../apis.do" }]
+  "exclude": ["node_modules", "dist"]
 }

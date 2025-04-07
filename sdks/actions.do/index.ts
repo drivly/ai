@@ -1,5 +1,5 @@
 import { api } from 'apis.do'
-import { Action, ActionConfig } from './types.js'
+import { Action, ActionConfig } from './types'
 
 /**
  * Client for managing workflow actions
@@ -63,4 +63,4 @@ export const actions = {
   },
 }
 
-export * from './types.js'
+export * from './types'
