@@ -57,7 +57,8 @@ const getDocsPath = (hostname: string): string => {
  */
 export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
-    const { hostname, pathname, search } = request.nextUrl
+    const { hostname: actualHostname, pathname, search } = request.nextUrl
+    const hostname = process.env.HOSTNAME_OVERRIDE || actualHostname
 
     if (pathname === '/api' || pathname.startsWith('/api/')) {
       console.log('Handling API route', { hostname, pathname, search })
