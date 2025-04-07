@@ -70,9 +70,15 @@ export class LLMClient {
   }
 
   async stream(prompt: string, options: CompletionOptions = {}): Promise<ReadableStream<any>> {
-    const response = await fetch(`${this.api['baseUrl']}/api/llm/completions/stream`, {
+    const apiUrl = options.baseUrl || 'https://llm.do'
+    const headers = {
+      'Content-Type': 'application/json',
+      ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
+    }
+
+    const response = await fetch(`${apiUrl}/api/llm/completions/stream`, {
       method: 'POST',
-      headers: this.api['headers'],
+      headers,
       body: JSON.stringify({
         prompt,
         ...options,
@@ -80,16 +86,22 @@ export class LLMClient {
     })
 
     if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`)
+      throw new Error(`LLM stream request failed with status ${response.status}`)
     }
 
     return response.body as ReadableStream<any>
   }
 
   async chatStream(messages: ChatMessage[], options: CompletionOptions = {}): Promise<ReadableStream<any>> {
-    const response = await fetch(`${this.api['baseUrl']}/api/llm/chat/stream`, {
+    const apiUrl = options.baseUrl || 'https://llm.do'
+    const headers = {
+      'Content-Type': 'application/json',
+      ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
+    }
+
+    const response = await fetch(`${apiUrl}/api/llm/chat/stream`, {
       method: 'POST',
-      headers: this.api['headers'],
+      headers,
       body: JSON.stringify({
         messages,
         ...options,
@@ -97,7 +109,7 @@ export class LLMClient {
     })
 
     if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`)
+      throw new Error(`LLM chat stream request failed with status ${response.status}`)
     }
 
     return response.body as ReadableStream<any>

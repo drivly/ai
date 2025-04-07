@@ -1,3 +1,5 @@
+import type { ClientOptions, ErrorResponse, ListResponse, QueryParams } from 'apis.do/types'
+
 export interface ExperimentVariant {
   id: string
   description?: string
@@ -89,23 +91,5 @@ export interface ExperimentRecommendation {
   >
 }
 
-export interface ErrorResponse {
-  error: {
-    message: string
-    code?: string
-    status?: number
-  }
-}
-
-export interface ListResponse<T = any> {
-  data: T[]
-  meta?: {
-    total?: number
-    page?: number
-    limit?: number
-  }
-}
-
-export interface QueryParams {
-  [key: string]: string | number | boolean | undefined
-}
+// Export types from apis.do
+export type { ClientOptions, ErrorResponse, ListResponse, QueryParams }

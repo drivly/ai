@@ -11,12 +11,10 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "apis.do": ["../apis.do"]
+      "@/*": ["./*"]
     },
     "resolveJsonModule": true
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "../apis.do" }]
+  "exclude": ["node_modules", "dist"]
 }

@@ -5,15 +5,13 @@
     "rootDir": "src",
     "noEmit": false,
     "skipLibCheck": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "apis.do": ["../apis.do", "../apis.do/dist"]
+      "@/*": ["./*"]
     }
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "tests"],
-  "references": [{ "path": "../apis.do" }]
+  "exclude": ["node_modules", "dist", "tests"]
 }

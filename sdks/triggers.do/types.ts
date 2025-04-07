@@ -2,7 +2,7 @@
  * Type definitions for triggers.do SDK
  */
 
-import { Trigger as ApiTrigger } from 'apis.do'
+import type { Trigger as ApiTrigger } from 'apis.do/types'
 
 export type Trigger = ApiTrigger
 
