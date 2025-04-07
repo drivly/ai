@@ -7,6 +7,20 @@ on:
     paths:
       - '.github/version-stamp-sdks.txt'
   workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Dry Run'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      custom-command:
+        description: 'Custom Command'
+        required: false
+        default: ''
+        type: string
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -97,7 +111,7 @@ jobs:
               '@semantic-release/git'
             ]
           custom-command: "node scripts/release-sdks.js"
-          dry_run: false
+          dry-run: ${{ inputs.dry-run }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
