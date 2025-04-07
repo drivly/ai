@@ -1,5 +1,5 @@
 import { headers } from 'next/headers'
-import { domains, brandDomains } from '@/domains.config'
+import { domains, brandDomains } from '../domains.config'
 
 export type SitemapEntry = {
   url: string
