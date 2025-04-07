@@ -119,6 +119,16 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next()
       }
       
+      if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+        console.log('Passing through admin path for brand domain', { hostname, pathname, search })
+        return NextResponse.next()
+      }
+      
+      if (pathname === '/api/auth' || pathname.startsWith('/api/auth/')) {
+        console.log('Passing through auth path for brand domain', { hostname, pathname, search })
+        return NextResponse.next()
+      }
+      
       if (pathname === '/') {
         console.log('Rewriting brand domain root path to /sites', { hostname, pathname, search })
         return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
