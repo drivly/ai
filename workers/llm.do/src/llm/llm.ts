@@ -121,7 +121,7 @@ ${JSON.stringify(schema instanceof z.ZodType ? zodToJsonSchema(schema) : schema)
     console.error(e)
     throw e instanceof Error
       ? new Error(e.message, {
-          cause: e instanceof APICallError ? 502 : e instanceof LoadAPIKeyError ? 503 : undefined,
+          cause: e instanceof APICallError ? 502 : e instanceof LoadAPIKeyError ? 503 : e,
         })
       : e
   }
