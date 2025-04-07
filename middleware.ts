@@ -124,8 +124,8 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next()
       }
       
-      if (pathname === '/api/auth' || pathname.startsWith('/api/auth/')) {
-        console.log('Passing through auth path for brand domain', { hostname, pathname, search })
+      if (pathname === '/api' || pathname.startsWith('/api/')) {
+        console.log('Passing through API path for brand domain', { hostname, pathname, search })
         return NextResponse.next()
       }
       
