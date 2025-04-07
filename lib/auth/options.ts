@@ -27,16 +27,12 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: process.env.VERCEL_URL 
-        ? `https://${process.env.VERCEL_URL}/api/auth/callback/google`
-        : 'https://apis.do/api/auth/callback/google',
+      redirectURI: 'https://apis.do/api/auth/callback/google', // Must remain fixed for better-auth oauth proxy to work correctly
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: process.env.VERCEL_URL 
-        ? `https://${process.env.VERCEL_URL}/api/auth/callback/github`
-        : 'https://apis.do/api/auth/callback/github',
+      redirectURI: 'https://apis.do/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
