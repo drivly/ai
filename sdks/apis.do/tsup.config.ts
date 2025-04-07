@@ -1,13 +1,18 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['index.ts', 'types.ts'],
+  entry: {
+    index: 'index.ts',
+    types: 'types.ts',
+    cli: 'src/cli.ts',
+    bin: 'src/bin.ts',
+  },
   format: ['esm'],
   dts: {
     resolve: true,
     compilerOptions: {
-      composite: true,
-      incremental: true,
+      skipLibCheck: true,
+      moduleResolution: 'NodeNext',
     },
   },
   clean: true,

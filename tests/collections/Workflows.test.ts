@@ -36,14 +36,14 @@ describe('Workflows Collection', () => {
 
   describe('Fields', () => {
     it('should have a name field', () => {
-      const nameField = Workflows.fields.find((field: any) => field.name === 'name')
+      const nameField = Workflows.fields.find((field: any) => field.name === 'name') as any
       expect(nameField).toBeDefined()
       expect(nameField?.type).toBe('text')
     })
 
     it('should have type and code fields', () => {
-      const typeField = Workflows.fields.find((field: any) => field.name === 'type')
-      const codeField = Workflows.fields.find((field: any) => field.name === 'code')
+      const typeField = Workflows.fields.find((field: any) => field.name === 'type') as any
+      const codeField = Workflows.fields.find((field: any) => field.name === 'code') as any
 
       expect(typeField).toBeDefined()
       expect(typeField?.type).toBe('code')
@@ -53,28 +53,29 @@ describe('Workflows Collection', () => {
     })
 
     it('should have relationship fields', () => {
-      const functionsField = Workflows.fields.find((field: any) => field.name === 'functions')
-      const moduleField = Workflows.fields.find((field: any) => field.name === 'module')
-      const packageField = Workflows.fields.find((field: any) => field.name === 'package')
-      const deploymentField = Workflows.fields.find((field: any) => field.name === 'deployment')
+      const functionsField = Workflows.fields.find((field: any) => field.name === 'functions') as any
+      const moduleField = Workflows.fields.find((field: any) => field.name === 'module') as any
+      const packageField = Workflows.fields.find((field: any) => field.name === 'package') as any
+      const deploymentField = Workflows.fields.find((field: any) => field.name === 'deployment') as any
 
       expect(functionsField).toBeDefined()
       expect(functionsField?.type).toBe('relationship')
-      expect((functionsField as any)?.relationTo).toBe('functions')
+      expect(functionsField?.relationTo).toBe('functions')
 
       expect(moduleField).toBeDefined()
       expect(moduleField?.type).toBe('relationship')
-      expect((moduleField as any)?.relationTo).toBe('modules')
+      expect(moduleField?.relationTo).toBe('modules')
 
       expect(packageField).toBeDefined()
       expect(packageField?.type).toBe('relationship')
-      expect((packageField as any)?.relationTo).toBe('packages')
+      expect(packageField?.relationTo).toBe('packages')
 
       expect(deploymentField).toBeDefined()
       expect(deploymentField?.type).toBe('relationship')
-      expect((deploymentField as any)?.relationTo).toBe('deployments')
+      expect(deploymentField?.relationTo).toBe('deployments')
     })
-  })(payload ? describe : describe.skip)('Payload Integration', () => {
+  })
+  ;(payload ? describe : describe.skip)('Payload Integration', () => {
     it('should be able to find workflows collection', async () => {
       const result = await payload.find({
         collection: 'workflows',

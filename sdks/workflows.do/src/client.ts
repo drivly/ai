@@ -1,5 +1,4 @@
-import { API as BaseAPI } from '../../apis.do/src/client.js'
-import { ClientOptions } from '../../apis.do/src/types.js'
+import { API as BaseAPI, ClientOptions } from 'apis.do'
 
 export class API extends BaseAPI {
   constructor(options: ClientOptions = {}) {

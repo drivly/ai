@@ -2,7 +2,7 @@
  * Type definitions for evals.do SDK
  */
 
-import { ClientOptions as ApiClientOptions } from '../../apis.do/src/types.js'
+import { ClientOptions as ApiClientOptions } from 'apis.do'
 
 /**
  * Configuration options for the Evals client

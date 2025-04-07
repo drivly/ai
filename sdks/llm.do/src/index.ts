@@ -1,5 +1,6 @@
 import { API } from 'apis.do'
 import { createLLMDoProvider, llmDoProvider } from './provider'
+import { ReadableStream } from 'node:stream/web'
 
 export interface CompletionOptions {
   model?: string

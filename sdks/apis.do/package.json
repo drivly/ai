@@ -51,7 +51,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "tsup --config tsup.config.ts",
+    "build": "rm -rf dist && tsc -p tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "dev": "tsc --watch",

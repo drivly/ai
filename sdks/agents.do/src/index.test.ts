@@ -20,7 +20,7 @@ describe('AgentsClient', () => {
   })
 
   it('should properly format API requests', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: vi.fn().mockResolvedValue({ data: 'test-response' }),
     })

@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { generateText } from '../../tasks/generateText'
-import { generateMarkdown } from '../../tasks/generateMarkdown'
-import { executeFunction } from '../../tasks/executeFunction'
+import { generateText } from '../../tasks/ai/generateText'
+import { generateMarkdown } from '../../tasks/ai/generateMarkdown'
+import { executeFunction } from '../../tasks/ai/executeFunction'
 
 // Mock the dependencies
-vi.mock('../../tasks/generateText')
-vi.mock('../../tasks/generateMarkdown')
+vi.mock('../../tasks/ai/generateText')
+vi.mock('../../tasks/ai/generateMarkdown')
 vi.mock('@vercel/functions', () => ({
   waitUntil: vi.fn((promise) => promise),
 }))

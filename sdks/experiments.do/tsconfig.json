@@ -2,9 +2,18 @@
   "extends": "tsconfig/src/sdk.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "../..",
-    "noEmit": false
+    "rootDir": "src",
+    "noEmit": false,
+    "skipLibCheck": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "apis.do": ["../../sdks/apis.do"]
+    }
   },
-  "include": ["**/*.ts", "../apis.do/**/*.ts"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "tests"],
+  "references": [{ "path": "../apis.do" }]
 }

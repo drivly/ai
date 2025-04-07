@@ -3,8 +3,9 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "declaration": true,
     "outDir": "dist",
+    "rootDir": ".",
+    "declaration": true,
     "jsx": "react",
     "resolveJsonModule": true,
     "incremental": true,
