@@ -1,25 +1,22 @@
 {
-  "extends": "../../pkgs/tsconfig/src/base.json",
+  "extends": "tsconfig/src/sdk.json",
   "compilerOptions": {
     "module": "ESNext",
     "lib": ["ES2020"],
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
     "outDir": "./dist",
-    "composite": true,
     "moduleResolution": "node",
     "baseUrl": ".",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "noEmit": false,
+    "incremental": false,
     "paths": {
       "@/*": ["./*"],
       "apis.do": ["../../sdks/apis.do"]
-    },
-    "resolveJsonModule": true,
-    "noEmit": false
+    }
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "dist"],
-  "references": [
-    { "path": "../apis.do" }
-  ]
+  "references": [{ "path": "../apis.do" }]
 }

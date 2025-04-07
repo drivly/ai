@@ -1,5 +1,5 @@
 {
-  "extends": "../../pkgs/tsconfig/src/base.json",
+  "extends": "tsconfig/src/sdk.json",
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -7,9 +7,10 @@
     "outDir": "dist",
     "jsx": "react",
     "resolveJsonModule": true,
-    "composite": true,
     "incremental": true,
+    "composite": true,
     "noEmit": false,
+    "skipLibCheck": true,
     "paths": {
       "@/*": ["./*"]
     }

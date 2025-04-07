@@ -1,24 +1,24 @@
 import { Badge } from '@/components/sites/badge'
 import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
-import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
+import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
-import { notFound } from 'next/navigation'
-import { getBlogPostBySlug } from '../blog-posts'
 import Link from 'next/link'
+import { getBlogPostBySlug } from '../blog-posts'
 
-async function BlogPostPage({ params }: { params: Promise<{ domain?: string; slug?: string }> }) {
-  const { domain, slug } = await params
+async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: string }> }) {
+  const { domain, slug } = await props.params
   const post = getBlogPostBySlug(slug || '')
+  const fallbackImage = '/images/blog-llm.png'
 
+  // If post not found, render custom not found component
   if (!post) {
-    // notFound()
+    return <BlogPostNotFound domain={domain} fallbackImage={fallbackImage} />
   }
 
-  const postUrl = `/sites/${domain}/blog/${slug}`
-  const fallbackImage = '/images/blog-llm.png'
-  const dateObj = new Date(post?.date.split('-').join('/') || '')
+  const postUrl = `/sites/${domain}/blog/${post.slug}`
+  const dateObj = new Date(post.date.split('-').join('/'))
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (
@@ -51,4 +51,35 @@ async function BlogPostPage({ params }: { params: Promise<{ domain?: string; slu
   )
 }
 
-export default withSitesNavbar(BlogPostPage)
+export default withSitesWrapper(BlogPostPage)
+
+function BlogPostNotFound({ domain, fallbackImage }: { domain: string; fallbackImage: string }) {
+  return (
+    <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
+      <Link href={`/sites/${domain}/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
+        <ArrowLeft className='mr-1 h-4 w-4' />
+        Back
+      </Link>
+
+      <div className='mb-8'>
+        <h1 className='mb-4 text-4xl font-bold tracking-tight'>Blog Post Not Found</h1>
+        <p className='text-muted-foreground text-xl'>The blog post you're looking for doesn't exist or may have been removed.</p>
+      </div>
+
+      <div className='relative mb-8 h-[400px] w-full overflow-hidden rounded-lg'>
+        <Image src={fallbackImage} alt='Blog post not found' fill className='object-cover opacity-70' priority />
+        <div className='absolute inset-0 flex items-center justify-center'>
+          <div className='bg-background/80 rounded-lg px-8 py-6 text-center backdrop-blur-sm'>
+            <h2 className='mb-2 text-2xl font-bold'>404</h2>
+            <p className='mb-4'>This blog post could not be found</p>
+            <Link
+              href={`/sites/${domain}/blog`}
+              className='bg-primary text-primary-foreground ring-offset-background hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'>
+              Browse All Blog Posts
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

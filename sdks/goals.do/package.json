@@ -20,6 +20,7 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
+  
   },
   "files": [
     "dist",
@@ -48,6 +49,7 @@
     "apis.do": "workspace:*"
   },
   "devDependencies": {
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "tsconfig": "workspace:*"
   }
 }

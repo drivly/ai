@@ -1,5 +1,4 @@
 import { defineConfig, s } from 'velite'
-import { z } from 'zod'
 
 export default defineConfig({
   root: 'content',

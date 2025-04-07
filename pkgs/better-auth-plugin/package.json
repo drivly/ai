@@ -73,7 +73,8 @@
     "sonner": "2.0.1",
     "tailwind-merge": "3.0.2",
     "typescript": "5.8.2",
-    "eslint-config": "workspace:*"
+    "eslint-config": "workspace:*",
+    "tsconfig": "workspace:*"
   },
   "dependencies": {
     "@better-auth/utils": "0.2.4",

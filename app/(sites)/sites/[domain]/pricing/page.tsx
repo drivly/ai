@@ -1,14 +1,8 @@
-import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { notFound } from 'next/navigation'
-import { domainsConfig } from '@/domains.config'
+import Link from 'next/link'
 
-export default async function PricingPage({ params }: { params: Promise<{ domains: string }> }) {
-  const { domains: domain } = await params
-
-  if (!domain || !domainsConfig.domains[domain]) {
-    return notFound()
-  }
+export default async function PricingPage(props: { params: Promise<{ domain: string }> }) {
+  const { domain } = await props.params
 
   return (
     <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>

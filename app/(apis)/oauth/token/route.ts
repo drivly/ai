@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayload } from '@/lib/auth/payload-auth'
+import { getPayloadAuth } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
 /**
@@ -115,7 +115,7 @@ export const POST = API(async (request, { url }) => {
   }
 
   try {
-    const payload = await getPayload()
+    const payload = await getPayloadAuth()
     const token = await exchangeCodeForToken(code, redirect_uri, client_id, payload, client_secret)
     return token
   } catch (error) {

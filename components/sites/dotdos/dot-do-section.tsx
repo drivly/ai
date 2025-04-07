@@ -51,7 +51,7 @@ export const DotDoSection = (props: DotDoSectionProps) => {
       {Object.entries(props.domainsByCategory).map(([category, categoryDomains]) => (
         <Fragment key={category}>
           <h2 className='mt-16 mb-6 text-2xl font-bold'>{category}</h2>
-          <div className='mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+          <div className='mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
             {categoryDomains.map((domain) => (
               <DotDoItem
                 key={domain}

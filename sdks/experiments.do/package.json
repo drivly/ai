@@ -20,6 +20,7 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
+   
   },
   "files": [
     "dist",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "evalite": "^0.9.1",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "tsconfig": "workspace:*"
   }
 }

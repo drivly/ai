@@ -50,6 +50,7 @@
     "eslint": "^9.23.0",
     "eslint-config": "workspace:*",
     "prettier": "^3.5.3",
+    "tsconfig": "workspace:*",
     "tsup": "^8.4.0",
     "vitest": "^3.0.9"
   }

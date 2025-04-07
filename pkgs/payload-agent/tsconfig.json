@@ -1,5 +1,5 @@
 {
-  "extends": "../../pkgs/tsconfig/src/react.json",
+  "extends": "tsconfig/src/react.json",
   "compilerOptions": {
     "rootDir": ".",
     "declaration": true,

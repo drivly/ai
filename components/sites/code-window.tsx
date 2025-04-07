@@ -58,7 +58,7 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
         </div>
 
         {/* Code content */}
-        <div className='bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
+        <div className='scrollbar-hide max-h-[500px] overflow-auto bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
           <pre className='language-json'>
             <code
               className='text-xs sm:text-sm'

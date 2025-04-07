@@ -29,6 +29,7 @@
       "import": "./dist/types.js",
       "types": "./dist/types.d.ts"
     }
+ 
   },
   "files": [
     "dist",
@@ -57,7 +58,8 @@
     "evalite": "^0.9.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "tsconfig": "workspace:*"
   },
   "dependencies": {
     "apis.do": "workspace:*"

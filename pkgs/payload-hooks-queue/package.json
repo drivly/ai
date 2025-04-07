@@ -24,6 +24,7 @@
   "dependencies": {},
   "devDependencies": {
     "payload": "^3.33.0",
-    "eslint-config": "workspace:*"
+    "eslint-config": "workspace:*",
+    "tsconfig": "workspace:*"
   }
 }

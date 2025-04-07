@@ -37,10 +37,17 @@
     "url": "https://github.com/drivly/ai/issues"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsup index.ts --format esm",
     "test": "echo \"No tests\" && exit 0"
   },
   "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "eslint-config": "workspace:*",
+    "prettier": "^3.1.1",
+    "tsconfig": "workspace:*",
+    "tsup": "^8.0.1",
     "vitest": "^3.0.8"
   },
   "dependencies": {

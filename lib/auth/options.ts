@@ -104,7 +104,7 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
   users: {
     slug: 'users',
     hidden: true, // Hide the users collection from navigation
-    adminRoles: ['admin'],
+    adminRoles: ['superAdmin'],
     allowedFields: ['name'],
     blockFirstBetterAuthVerificationEmail: true,
     collectionOverrides: ({ collection }: { collection: CollectionConfig }) => {

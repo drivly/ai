@@ -51,7 +51,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsup --config tsup.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "dev": "tsc --watch",
@@ -63,8 +63,9 @@
     "evalite": "^0.9.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "tsconfig": "workspace:*",
+    "tsup": "^8.0.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

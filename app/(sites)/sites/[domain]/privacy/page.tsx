@@ -1,13 +1,12 @@
-import Link from 'next/link'
+import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
-import { notFound } from 'next/navigation'
-import { domainsConfig } from '@/domains.config'
+import Link from 'next/link'
 
-export default async function PrivacyPage({ params }: { params: Promise<{ domains: string }> }) {
-  const { domains: domain } = await params
+async function PrivacyPage(props: { params: Promise<{ domain: string }> }) {
+  const { domain } = await props.params
 
   return (
-    <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
+    <div className='container mx-auto min-h-screen max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
       <Link href='/' className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back
@@ -29,3 +28,5 @@ export default async function PrivacyPage({ params }: { params: Promise<{ domain
     </div>
   )
 }
+
+export default withSitesWrapper(PrivacyPage)
