@@ -14,6 +14,6 @@ export const heroContent = {
       <br className='hidden md:block' /> model selection, and API integration.
     </>
   ),
-  buttonText: 'Join Waitlist',
+  buttonText: 'Join waitlist',
   codeExample: codeExample,
 } as const
