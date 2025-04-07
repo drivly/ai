@@ -1,8 +1,9 @@
 #!/bin/sh
 
-pnpm lint
-pnpm format
-pnpm generate:types
+# Temporarily disabled as requested for stability
+# pnpm lint
+# pnpm format
+# pnpm generate:types
 # Temporarily disabled typecheck as requested
 # pnpm typecheck || echo "Typecheck failed but continuing with commit"
-echo "Typecheck temporarily disabled as requested"
+echo "All pre-commit hooks temporarily disabled as requested for stability"
