@@ -1,0 +1,16 @@
+{
+  "name": "tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "files": ["src"],
+  "exports": {
+    "./src/base.json": "./src/base.json",
+    "./src/nextjs.json": "./src/nextjs.json",
+    "./src/react.json": "./src/react.json",
+    "./src/worker.json": "./src/worker.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

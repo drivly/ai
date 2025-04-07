@@ -1,3 +1,9 @@
+---
+title: Integrations
+sidebarTitle: Integrations
+asIndexPage: true
+---
+
 # [Integrations.do](https://integrations.do) - External System Connectors
 
 > Connect your AI applications to external APIs, services, and data sources
@@ -37,14 +43,14 @@ const salesAgent = Agent({
     api.salesforce,
     api.hubspot,
     api.slack,
-    api.gmail
-  ]
+    api.gmail,
+  ],
 })
 
 // The agent can use these integrations to accomplish tasks
 const result = await salesAgent.handle({
-  task: "Update our CRM with the latest customer information and notify the sales team",
-  context: { customer: customerData }
+  task: 'Update our CRM with the latest customer information and notify the sales team',
+  context: { customer: customerData },
 })
 ```
 
@@ -55,7 +61,7 @@ The same integrations can be accessed by human users through standardized interf
 ```typescript
 // A human using the same integration
 const contacts = await api.salesforce.getContacts({
-  filters: { lastModified: { $gt: '2023-01-01' } }
+  filters: { lastModified: { $gt: '2023-01-01' } },
 })
 ```
 

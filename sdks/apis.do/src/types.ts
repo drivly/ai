@@ -23,3 +23,34 @@ export interface QueryParams {
   sort?: string | string[]
   where?: Record<string, any>
 }
+
+/**
+ * Client configuration options
+ */
+export interface ClientOptions {
+  /**
+   * Base URL for API requests
+   * @default 'https://api.do'
+   */
+  baseUrl?: string
+
+  /**
+   * API key for authentication
+   */
+  apiKey?: string
+
+  /**
+   * Custom fetch implementation
+   */
+  fetch?: typeof fetch
+
+  /**
+   * Skip SSL certificate validation (only for testing)
+   */
+  ignoreSSLErrors?: boolean
+
+  /**
+   * Additional headers to include with requests
+   */
+  headers?: Record<string, string>
+}

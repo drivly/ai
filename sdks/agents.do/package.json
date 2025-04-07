@@ -13,6 +13,7 @@
   ],
   "homepage": "https://agents.do",
   "type": "module",
+  "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -34,10 +35,13 @@
     "url": "https://github.com/drivly/ai.git",
     "directory": "sdks/agents.do"
   },
-  "author": "Nathan Clevenger",
+  "author": "Drivly",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "node build.mjs",
@@ -57,5 +61,8 @@
     "apis.do": "workspace:*",
     "durable-objects-nosql": "workspace:*",
     "workflows.do": "workspace:*"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

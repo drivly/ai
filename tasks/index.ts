@@ -1,51 +1,54 @@
 import { TaskConfig } from 'payload'
-import { executeFunctionTask } from './executeFunction'
-import { generateCodeTask } from './generateCode'
-import { executeCodeFunctionTask } from './executeCodeFunction'
-import { generateResourceEmbedding } from './generateResourceEmbedding'
-import { generateThingEmbedding } from './generateThingEmbedding'
-import { handleGithubEvent } from './handleGithubEvent'
-import { hybridSearchResources, searchResources } from './searchResources'
-import { hybridSearchThings, searchThings } from './searchThings'
-import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './schemaUtils'
-import { processCodeFunctionWrapperTask } from './processCodeFunctionWrapper'
-import { processCodeFunctionTask } from './processCodeFunction'
-import { inflectNounsTask } from './inflectNouns'
-import { conjugateVerbsTask } from './conjugateVerbs'
-import { deployWorkerTask } from './deployWorker'
-import { deliverWebhookTask } from './deliverWebhook'
-import { initiateComposioConnectionTask } from './initiateComposioConnection'
-import { requestHumanFeedbackTask } from './requestHumanFeedback'
-import { processDomain } from './processDomain'
-import { processBatchOpenAITask } from './batchOpenAI'
-import { processBatchAnthropicTask } from './batchAnthropic'
-import { processBatchGoogleVertexAITask } from './batchGoogleVertexAI'
-import { processBatchParasailTask } from './batchParasail'
-import { createGenerationBatchTask } from './createGenerationBatch'
-import { generateFunctionExamplesTask } from './generateFunctionExamples'
-import { generateEmbeddingTask } from './generateEmbeddingTask'
+
+import { executeFunctionTask } from './ai/executeFunction'
+import { generateCodeTask } from './ai/generateCode'
+import { generateFunctionExamplesTask } from './ai/generateFunctionExamples'
+import { requestHumanFeedbackTask } from './ai/requestHumanFeedback'
+import { executeTextFunction } from './ai/executeTextFunction'
+import { generateMarkdown } from './ai/generateMarkdown'
+import { generateObject } from './ai/generateObject'
+import { generateObjectArray } from './ai/generateObjectArray'
+import { generateText } from './ai/generateText'
+import { processBatchOpenAITask } from './ai/batchOpenAI'
+import { processBatchAnthropicTask } from './ai/batchAnthropic'
+import { processBatchGoogleVertexAITask } from './ai/batchGoogleVertexAI'
+import { processBatchParasailTask } from './ai/batchParasail'
+import { createGenerationBatchTask } from './ai/createGenerationBatch'
+
+import { executeCodeFunctionTask } from './code/executeCodeFunction'
+import { processCodeFunctionWrapperTask } from './code/processCodeFunctionWrapper'
+import { processCodeFunctionTask } from './code/processCodeFunction'
+import { deployWorkerTask } from './code/deployWorker'
+
+import { generateResourceEmbedding } from './data/generateResourceEmbedding'
+import { generateThingEmbedding } from './data/generateThingEmbedding'
+import { hybridSearchResources, searchResources } from './data/searchResources'
+import { hybridSearchThings, searchThings } from './data/searchThings'
+import { generateEmbeddingTask } from './data/generateEmbeddingTask'
+
+import { inflectNounsTask } from './language/inflectNouns'
+import { conjugateVerbsTask } from './language/conjugateVerbs'
+import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './language/schemaUtils'
+
+import { handleGithubEvent } from './integrations/handleGithubEvent'
+import { deliverWebhookTask } from './integrations/deliverWebhook'
+import { initiateComposioConnectionTask } from './integrations/initiateComposioConnection'
+import { processDomain } from './integrations/processDomain'
+import { saveExecutionResultsTask } from './saveExecutionResults'
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
   label: 'Generate Resource Embedding',
-  inputSchema: [
-    { name: 'id', type: 'text', required: true }
-  ],
-  outputSchema: [
-    { name: 'resource', type: 'json' }
-  ],
+  inputSchema: [{ name: 'id', type: 'text', required: true }],
+  outputSchema: [{ name: 'resource', type: 'json' }],
   handler: generateResourceEmbedding,
 } as unknown as TaskConfig
 
 const generateThingEmbeddingTask = {
   slug: 'generateThingEmbedding',
   label: 'Generate Thing Embedding (Deprecated)',
-  inputSchema: [
-    { name: 'id', type: 'text', required: true }
-  ],
-  outputSchema: [
-    { name: 'thing', type: 'json' }
-  ],
+  inputSchema: [{ name: 'id', type: 'text', required: true }],
+  outputSchema: [{ name: 'thing', type: 'json' }],
   handler: generateThingEmbedding,
 } as unknown as TaskConfig
 
@@ -54,11 +57,9 @@ const searchThingsTask = {
   label: 'Search Things',
   inputSchema: [
     { name: 'query', type: 'text', required: true },
-    { name: 'limit', type: 'number' }
+    { name: 'limit', type: 'number' },
   ],
-  outputSchema: [
-    { name: 'results', type: 'json' }
-  ],
+  outputSchema: [{ name: 'results', type: 'json' }],
   handler: searchThings,
 } as unknown as TaskConfig
 
@@ -67,11 +68,9 @@ const hybridSearchThingsTask = {
   label: 'Hybrid Search Things',
   inputSchema: [
     { name: 'query', type: 'text', required: true },
-    { name: 'limit', type: 'number' }
+    { name: 'limit', type: 'number' },
   ],
-  outputSchema: [
-    { name: 'results', type: 'json' }
-  ],
+  outputSchema: [{ name: 'results', type: 'json' }],
   handler: hybridSearchThings,
 } as unknown as TaskConfig
 
@@ -83,38 +82,56 @@ const processDomainTask = {
     { name: 'operation', type: 'text', required: true },
     { name: 'domain', type: 'text' },
     { name: 'vercelId', type: 'text' },
-    { name: 'cloudflareId', type: 'text' }
+    { name: 'cloudflareId', type: 'text' },
   ],
-  outputSchema: [
-    { name: 'success', type: 'boolean' }
-  ],
+  outputSchema: [{ name: 'success', type: 'boolean' }],
   handler: processDomain,
 } as unknown as TaskConfig
 
 export const tasks = [
-  executeFunctionTask, 
+  executeFunctionTask,
   generateCodeTask,
-  executeCodeFunctionTask,
-  generateResourceEmbeddingTask,
-  generateThingEmbeddingTask, 
-  searchThingsTask, 
-  hybridSearchThingsTask,
-  processCodeFunctionWrapperTask,
-  processCodeFunctionTask,
-  inflectNounsTask,
-  conjugateVerbsTask,
-  deployWorkerTask,
-  deliverWebhookTask,
-  initiateComposioConnectionTask,
   requestHumanFeedbackTask,
-  processDomainTask,
   processBatchOpenAITask,
   processBatchAnthropicTask,
   processBatchGoogleVertexAITask,
   processBatchParasailTask,
   createGenerationBatchTask,
   generateFunctionExamplesTask,
-  generateEmbeddingTask
+
+  executeCodeFunctionTask,
+  processCodeFunctionWrapperTask,
+  processCodeFunctionTask,
+  deployWorkerTask,
+
+  generateResourceEmbeddingTask,
+  generateThingEmbeddingTask,
+  searchThingsTask,
+  hybridSearchThingsTask,
+  generateEmbeddingTask,
+
+  inflectNounsTask,
+  conjugateVerbsTask,
+
+  deliverWebhookTask,
+  initiateComposioConnectionTask,
+  processDomainTask,
+  saveExecutionResultsTask,
 ]
+
 export const workflows = [handleGithubEvent]
-export { parseSchemaToZod, schemaToJsonSchema, validateWithSchema, inflectNounsTask, conjugateVerbsTask }
+
+export {
+  parseSchemaToZod,
+  schemaToJsonSchema,
+  validateWithSchema,
+  inflectNounsTask,
+  conjugateVerbsTask,
+  executeTextFunction,
+  generateMarkdown,
+  generateObject,
+  generateObjectArray,
+  generateText,
+  searchResources,
+  hybridSearchResources,
+}

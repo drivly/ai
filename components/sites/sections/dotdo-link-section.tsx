@@ -13,7 +13,8 @@ export default function DotdoLinkSection() {
                   href='https://apis.do'
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
-                  rel='noopener noreferrer'>
+                  rel='noopener noreferrer'
+                >
                   apis.do
                 </Link>
               </li>
@@ -27,7 +28,8 @@ export default function DotdoLinkSection() {
                   href='https://functions.do'
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
-                  rel='noopener noreferrer'>
+                  rel='noopener noreferrer'
+                >
                   functions.do
                 </Link>
               </li>
@@ -36,7 +38,8 @@ export default function DotdoLinkSection() {
                   href='https://workflows.do'
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
-                  rel='noopener noreferrer'>
+                  rel='noopener noreferrer'
+                >
                   workflows.do
                 </Link>
               </li>
@@ -45,7 +48,8 @@ export default function DotdoLinkSection() {
                   href='https://agents.do'
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
-                  rel='noopener noreferrer'>
+                  rel='noopener noreferrer'
+                >
                   agents.do
                 </Link>
               </li>

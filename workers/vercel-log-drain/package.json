@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
+    "dev:workers": "wrangler dev",
     "start": "wrangler dev",
     "cf-typegen": "wrangler types"
   },

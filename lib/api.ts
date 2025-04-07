@@ -92,33 +92,26 @@ export function getUser(request: NextRequest): APIUser {
   const url = new URL(request.url)
   const domain = punycode.toUnicode(url.hostname)
   const origin = url.protocol + '//' + domain + (url.port ? ':' + url.port : '')
-  
+
   const isCloudflareWorker = 'cf' in request
-  
+
   const cf = isCloudflareWorker ? (request as any).cf : undefined
-  
+
   const geo = !isCloudflareWorker ? geolocation(request) : undefined
-  
-  const ip = request.headers.get('cf-connecting-ip') || 
-             request.headers.get('x-forwarded-for') || 
-             request.headers.get('x-real-ip') || 
-             '127.0.0.1'
-  
+
+  const ip = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || '127.0.0.1'
+
   const userAgent = request.headers.get('user-agent') || ''
   const ua = userAgent ? new UAParser(userAgent).getResult() : { browser: { name: 'unknown' }, os: { name: 'unknown' } }
-  
-  const asn = request.headers.get('cf-ray')?.split('-')[0] || 
-              request.headers.get('x-vercel-ip-asn') || 
-              ''
-  
+
+  const asn = request.headers.get('cf-ray')?.split('-')[0] || request.headers.get('x-vercel-ip-asn') || ''
+
   const asOrg = asn ? getOrganizationByASN(asn) : null
-  
-  const isp = cf?.asOrganization?.toString() || 
-              request.headers.get('x-vercel-ip-org') || 
-              asOrg || 
-              'Unknown ISP'
-  
-  let latitude = 0, longitude = 0
+
+  const isp = cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP'
+
+  let latitude = 0,
+    longitude = 0
   if (cf?.latitude && cf?.longitude) {
     latitude = Number(cf.latitude)
     longitude = Number(cf.longitude)
@@ -126,17 +119,17 @@ export function getUser(request: NextRequest): APIUser {
     latitude = Number(geo.latitude)
     longitude = Number(geo.longitude)
   }
-  
+
   const colo = cf?.colo ? locations[cf.colo as keyof typeof locations] : undefined
   let edgeDistance: number | undefined = undefined
-  
+
   if (colo && latitude && longitude) {
     const latDiff = colo.lat - latitude
     const lonDiff = colo.lon - longitude
     const distance = Math.sqrt(latDiff * latDiff + lonDiff * lonDiff) * 111 // Rough km conversion
     edgeDistance = Math.round(distance / (cf?.country === 'US' || geo?.country === 'US' ? 1.60934 : 1)) // Convert to miles if US
   }
-  
+
   let localTime = ''
   try {
     localTime = now.toLocaleString('en-US', {
@@ -148,7 +141,7 @@ export function getUser(request: NextRequest): APIUser {
       timeZone: 'UTC',
     })
   }
-  
+
   const links = {
     profile: origin + '/profile',
     account: origin + '/account',
@@ -156,15 +149,15 @@ export function getUser(request: NextRequest): APIUser {
     upgrade: origin + '/upgrade',
     logs: origin + '/logs',
   }
-  
+
   const countryCode = cf?.country || geo?.country || ''
   const countryFlag = countryCode ? flags[countryCode as keyof typeof flags] || '🏳️' : '🏳️'
   const countryName = countryCode ? countries[countryCode as keyof typeof countries]?.name : undefined
-  
+
   return {
     authenticated: false, // This would be determined by authentication logic
-    admin: undefined,     // This would be determined by authentication logic
-    plan: 'Free',         // This would be determined by user data
+    admin: undefined, // This would be determined by authentication logic
+    plan: 'Free', // This would be determined by user data
     browser: ua?.browser?.name,
     userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
     os: ua?.os?.name as string,
@@ -182,8 +175,8 @@ export function getUser(request: NextRequest): APIUser {
     localTime,
     timezone: cf?.timezone?.toString() || 'UTC',
     edgeLocation: colo?.city || geo?.region,
-    edgeDistanceMiles: (cf?.country === 'US' || geo?.country === 'US') ? edgeDistance : undefined,
-    edgeDistanceKilometers: (cf?.country === 'US' || geo?.country === 'US') ? undefined : edgeDistance,
+    edgeDistanceMiles: cf?.country === 'US' || geo?.country === 'US' ? edgeDistance : undefined,
+    edgeDistanceKilometers: cf?.country === 'US' || geo?.country === 'US' ? undefined : edgeDistance,
     latencyMilliseconds: cf?.clientTcpRtt ? Number(cf.clientTcpRtt) : 0,
     recentInteractions: 0, // This would be determined by user data
     trustScore: cf?.botManagement ? (cf.botManagement as any).score : undefined,
@@ -198,9 +191,9 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
   const url = new URL(request.url)
   const domain = punycode.toUnicode(url.hostname)
   const origin = url.protocol + '//' + domain + (url.port ? ':' + url.port : '')
-  
+
   const packageName = domain
-  
+
   return {
     name: domain,
     description: description || 'Economically valuable work delivered through simple APIs',
@@ -358,19 +351,20 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
       _currentContext = null
 
       const enhancedUser = getUser(req)
-      
+
       const mergedUser = {
         ...enhancedUser,
         authenticated: user?.id ? true : false,
         admin: user?.admin || undefined,
         plan: user?.plan || 'Free',
       }
-      
-      const apiDescription = typeof result === 'object' && result !== null && 'api' in result && 
-                            typeof (result as any).api === 'object' && (result as any).api !== null ? 
-                            (result as any).api.description : undefined
+
+      const apiDescription =
+        typeof result === 'object' && result !== null && result && 'api' in result && typeof (result as any).api === 'object' && (result as any).api !== null
+          ? (result as any).api.description
+          : undefined
       const api = getApiHeader(req, apiDescription)
-      
+
       return NextResponse.json(
         {
           api,
@@ -386,18 +380,22 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
       _currentContext = null
 
       try {
-        getPayload({ config }).then((payloadInstance) => {
-          payloadInstance.create({
-            collection: 'errors',
-            data: {
-              message: error instanceof Error ? error.message : 'Unknown API Error',
-              stack: error instanceof Error ? error.stack : undefined,
-              digest: `api-error-${Date.now()}`,
-              url: req.url,
-              source: 'api-handler',
-            },
-          }).catch((logError: Error) => console.error('Error logging to errors collection:', logError))
-        }).catch((initError: Error) => console.error('Failed to initialize payload for error logging:', initError))
+        getPayload({ config })
+          .then((payloadInstance) => {
+            payloadInstance
+              .create({
+                collection: 'errors',
+                data: {
+                  message: error instanceof Error ? error.message : 'Unknown API Error',
+                  stack: error instanceof Error ? error.stack : undefined,
+                  digest: `api-error-${Date.now()}`,
+                  url: req.url,
+                  source: 'api-handler',
+                },
+              })
+              .catch((logError: Error) => console.error('Error logging to errors collection:', logError))
+          })
+          .catch((initError: Error) => console.error('Failed to initialize payload for error logging:', initError))
       } catch (logError) {
         console.error('Failed to log error to collection:', logError)
       }
@@ -472,12 +470,7 @@ export const getRequestIdFromShareId = async (shareId: string, db: PayloadDB): P
  * @param response - The response data to be shared
  * @param db - Database instance
  */
-export const storeShareMapping = async (
-  shareId: string, 
-  requestId: string, 
-  response: Record<string, any>,
-  db: PayloadDB
-): Promise<void> => {
+export const storeShareMapping = async (shareId: string, requestId: string, response: Record<string, any>, db: PayloadDB): Promise<void> => {
   try {
     await db.shares?.create({
       shareId,
@@ -500,10 +493,10 @@ export const storeShareMapping = async (
 export const generateSharingLinks = (shareId: string, title: string, url?: string): Record<string, string> => {
   const baseUrl = url || (_currentRequest ? new URL(_currentRequest.url).origin : 'https://api.do')
   const shareUrl = `${baseUrl}/share/${shareId}`
-  
+
   const encodedTitle = encodeURIComponent(title)
   const encodedUrl = encodeURIComponent(shareUrl)
-  
+
   return {
     url: shareUrl,
     twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
@@ -525,32 +518,27 @@ export const generateSharingLinks = (shareId: string, title: string, url?: strin
  * @param totalItems - Total number of items
  * @returns Object containing home, next, and prev links
  */
-export const generatePaginationLinks = (
-  request: NextRequest,
-  page: number,
-  limit: number,
-  totalItems: number
-): { home: string; next?: string; prev?: string } => {
+export const generatePaginationLinks = (request: NextRequest, page: number, limit: number, totalItems: number): { home: string; next?: string; prev?: string } => {
   const url = new URL(request.url)
   const baseUrl = url.origin + url.pathname
   const searchParams = url.searchParams
-  
+
   const links: { home: string; next?: string; prev?: string } = {
     home: baseUrl,
   }
-  
+
   if (totalItems === limit) {
     const nextParams = new URLSearchParams(searchParams)
     nextParams.set('page', (page + 1).toString())
     links.next = `${baseUrl}?${nextParams.toString()}`
   }
-  
+
   if (page > 1) {
     const prevParams = new URLSearchParams(searchParams)
     prevParams.set('page', (page - 1).toString())
     links.prev = `${baseUrl}?${prevParams.toString()}`
   }
-  
+
   return links
 }
 
@@ -560,10 +548,7 @@ export const generatePaginationLinks = (
  * @param functionName - Name of the function
  * @returns URL string pointing to the function
  */
-export const generateFunctionLink = (
-  request: NextRequest,
-  functionName: string
-): string => {
+export const generateFunctionLink = (request: NextRequest, functionName: string): string => {
   const url = new URL(request.url)
   return `${url.origin}/functions/${functionName}`
 }
@@ -574,12 +559,9 @@ export const generateFunctionLink = (
  * @param functions - Array of function objects with name property
  * @returns Object with function names as keys and links as values
  */
-export const createFunctionsObject = (
-  request: NextRequest,
-  functions: Array<{ name: string; [key: string]: any }> | any
-): Record<string, string> => {
+export const createFunctionsObject = (request: NextRequest, functions: Array<{ name: string; [key: string]: any }> | any): Record<string, string> => {
   const functionsObject: Record<string, string> = {}
-  
+
   if (Array.isArray(functions)) {
     for (let i = 0; i < functions.length; i++) {
       const func = functions[i]
@@ -594,7 +576,7 @@ export const createFunctionsObject = (
       functionsObject[key] = generateFunctionLink(request, key)
     }
   }
-  
+
   return functionsObject
 }
 
@@ -609,21 +591,21 @@ export const addSharingToResponse = async <T extends Record<string, any>>(
   response: T,
   requestId: string,
   title?: string,
-  db?: PayloadDB
-): Promise<T & { share: { id: string, links: Record<string, string> } }> => {
+  db?: PayloadDB,
+): Promise<T & { share: { id: string; links: Record<string, string> } }> => {
   const shareId = generateShareId(requestId)
   const shareTitle = title || response.title || 'Check out this AI response'
-  
+
   if (db?.shares) {
     await storeShareMapping(shareId, requestId, response, db)
   }
-  
+
   return {
     ...response,
     share: {
       id: shareId,
-      links: generateSharingLinks(shareId, shareTitle)
-    }
+      links: generateSharingLinks(shareId, shareTitle),
+    },
   }
 }
 
@@ -634,23 +616,20 @@ export const addSharingToResponse = async <T extends Record<string, any>>(
  * @param db - Database instance
  * @returns The original response or an error
  */
-export const handleShareRequest = async (
-  params: { id: string },
-  db: PayloadDB
-): Promise<Record<string, any>> => {
+export const handleShareRequest = async (params: { id: string }, db: PayloadDB): Promise<Record<string, any>> => {
   try {
     const { id } = params
-    
+
     const share = await db.shares?.findOne({ shareId: id })
-    
+
     if (!share) {
       return {
         error: true,
         message: 'Shared content not found',
-        status: 404
+        status: 404,
       }
     }
-    
+
     return {
       ...share.response,
       shared: true,
@@ -661,7 +640,7 @@ export const handleShareRequest = async (
     return {
       error: true,
       message: 'Failed to retrieve shared content',
-      status: 500
+      status: 500,
     }
   }
 }

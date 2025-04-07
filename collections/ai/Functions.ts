@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
-import { generateFunctionExamplesTask } from '../../tasks/generateFunctionExamples'
-import { simplerJSON } from '../../lib/fields/simplerJSON'
+import { generateFunctionExamplesTask } from '../../tasks/ai/generateFunctionExamples'
+import { simplerJSON } from '../../pkgs/payload-utils/src'
 
 export const Functions: CollectionConfig = {
   slug: 'functions',
@@ -14,79 +14,79 @@ export const Functions: CollectionConfig = {
     // {
     //   type: 'row',
     //   fields: [
-        { name: 'name', type: 'text', required: true, admin: { position: 'sidebar' } },
-        { 
-          name: 'type', 
-          type: 'select', 
-          options: ['Generation', 'Code', 'Human', 'Agent'], 
-          defaultValue: 'Generation', 
-          // required: true,
-          admin: { position: 'sidebar' } 
-        },
-        { 
-          name: 'public', 
-          type: 'checkbox', 
+    { name: 'name', type: 'text', required: true, admin: { position: 'sidebar' } },
+    {
+      name: 'type',
+      type: 'select',
+      options: ['Generation', 'Code', 'Human', 'Agent'],
+      defaultValue: 'Generation',
+      // required: true,
+      admin: { position: 'sidebar' },
+    },
+    {
+      name: 'public',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Make this function available to other users',
+      },
+    },
+    {
+      name: 'clonedFrom',
+      type: 'relationship',
+      relationTo: 'functions',
+      admin: {
+        position: 'sidebar',
+        description: 'Original function this was cloned from',
+      },
+    },
+    {
+      name: 'pricing',
+      type: 'group',
+      admin: {
+        position: 'sidebar',
+        condition: (data) => data?.public === true,
+        description: 'Monetization settings for this function',
+      },
+      fields: [
+        {
+          name: 'isMonetized',
+          type: 'checkbox',
           defaultValue: false,
-          admin: { 
-            position: 'sidebar',
-            description: 'Make this function available to other users'
-          } 
-        },
-        { 
-          name: 'clonedFrom', 
-          type: 'relationship', 
-          relationTo: 'functions',
-          admin: { 
-            position: 'sidebar',
-            description: 'Original function this was cloned from'
-          } 
-        },
-        { 
-          name: 'pricing', 
-          type: 'group', 
           admin: {
-            position: 'sidebar',
-            condition: (data) => data?.public === true,
-            description: 'Monetization settings for this function'
+            description: 'Enable monetization for this function',
           },
-          fields: [
-            {
-              name: 'isMonetized',
-              type: 'checkbox',
-              defaultValue: false,
-              admin: {
-                description: 'Enable monetization for this function'
-              }
-            },
-            {
-              name: 'pricePerUse',
-              type: 'number',
-              min: 0,
-              admin: {
-                condition: (data, siblingData) => siblingData?.isMonetized === true,
-                description: 'Price per use in USD cents (platform fee is 30% above LLM costs)'
-              }
-            },
-            {
-              name: 'stripeProductId',
-              type: 'text',
-              admin: {
-                condition: (data, siblingData) => siblingData?.isMonetized === true,
-                description: 'Stripe Product ID (auto-generated)',
-                readOnly: true
-              }
-            },
-            {
-              name: 'stripePriceId',
-              type: 'text',
-              admin: {
-                condition: (data, siblingData) => siblingData?.isMonetized === true,
-                description: 'Stripe Price ID (auto-generated)',
-                readOnly: true
-              }
-            }
-          ]
         },
+        {
+          name: 'pricePerUse',
+          type: 'number',
+          min: 0,
+          admin: {
+            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            description: 'Price per use in USD cents (platform fee is 30% above LLM costs)',
+          },
+        },
+        {
+          name: 'stripeProductId',
+          type: 'text',
+          admin: {
+            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            description: 'Stripe Product ID (auto-generated)',
+            readOnly: true,
+          },
+        },
+        {
+          name: 'stripePriceId',
+          type: 'text',
+          admin: {
+            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            description: 'Stripe Price ID (auto-generated)',
+            readOnly: true,
+          },
+        },
+      ],
+    },
     //   ],
     // },
     {
@@ -109,14 +109,14 @@ export const Functions: CollectionConfig = {
     //     condition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
     //   },
     // },
-    ...simplerJSON({
+    ...(simplerJSON as any)({
       jsonFieldName: 'shape',
       codeFieldName: 'schemaYaml',
       label: 'Schema',
       defaultFormat: 'yaml',
-      adminCondition: (data) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
+      adminCondition: (data: any) => (data?.type === 'Generation' && ['Object', 'ObjectArray'].includes(data?.format || '')) || ['Human', 'Agent'].includes(data?.type || ''),
       editorOptions: { lineNumbers: 'off', padding: { top: 20, bottom: 20 } },
-      hideJsonField: true
+      hideJsonField: true,
     }),
     {
       name: 'code',
@@ -163,14 +163,14 @@ export const Functions: CollectionConfig = {
       },
     },
     // { name: 'executions', type: 'join', collection: 'actions', on: 'functionId' },
-    { 
-      name: 'examples', 
-      type: 'relationship', 
+    {
+      name: 'examples',
+      type: 'relationship',
       relationTo: 'resources',
       hasMany: true,
       admin: {
-        description: 'Example arguments for this function'
-      }
+        description: 'Example arguments for this function',
+      },
     },
   ],
 }

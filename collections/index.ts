@@ -33,6 +33,7 @@ import { Events } from './observability/Events'
 import { Errors } from './observability/Errors'
 import { Benchmarks } from './evals/Benchmarks'
 import { Experiments } from './experiments/Experiments'
+import { ExperimentMetrics } from './experiments/ExperimentMetrics'
 import { Prompts } from './experiments/Prompts'
 import { Settings } from './experiments/Settings'
 import { Resources } from './data/Resources'
@@ -80,6 +81,7 @@ export const collections = [
   Searches,
 
   Experiments,
+  ExperimentMetrics,
   Models,
   Providers,
   Labs,
@@ -111,9 +113,11 @@ export const collections = [
   Tags,
   Webhooks,
   APIKeys,
+
+  
   OAuthClients,
   OAuthCodes,
   OAuthTokens,
 ]
 
-export const collectionSlugs = collections.map(collection => collection.slug)
+export const collectionSlugs = collections.map((collection) => collection.slug)

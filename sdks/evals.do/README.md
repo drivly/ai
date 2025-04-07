@@ -31,7 +31,7 @@ import { evals, EvalsClient } from 'evals.do'
 const test = await evals.createTest({
   name: 'My Test',
   input: { prompt: 'Hello, world!' },
-  expected: { response: 'Hi there!' }
+  expected: { response: 'Hi there!' },
 })
 
 // Or create a custom client
@@ -40,7 +40,7 @@ const customClient = new EvalsClient({
   apiKey: 'your-api-key',
   storeLocally: true,
   storeRemotely: true,
-  dbPath: './my-evals.db'
+  dbPath: './my-evals.db',
 })
 
 // Create and run tests
@@ -48,13 +48,13 @@ const tests = await Promise.all([
   customClient.createTest({
     name: 'Test 1',
     input: { prompt: 'Tell me a joke' },
-    expected: { type: 'joke' }
+    expected: { type: 'joke' },
   }),
   customClient.createTest({
     name: 'Test 2',
     input: { prompt: 'What is the capital of France?' },
-    expected: { answer: 'Paris' }
-  })
+    expected: { answer: 'Paris' },
+  }),
 ])
 
 // Define a task executor
@@ -62,7 +62,7 @@ const executor = {
   execute: async (input: any) => {
     // Call your AI function, workflow, or agent here
     return { response: `Processed: ${input.prompt}` }
-  }
+  },
 }
 
 // Define metrics
@@ -71,15 +71,15 @@ const metrics = {
     calculate: (result: any, expected: any) => {
       // Implement your accuracy metric here
       return result.response === expected.response ? 1 : 0
-    }
-  }
+    },
+  },
 }
 
 // Run evaluation
 const results = await customClient.evaluate(executor, tests, {
   metrics,
   concurrency: 1,
-  timeout: 30000
+  timeout: 30000,
 })
 
 console.log(`Evaluation complete: ${results.id}`)
@@ -99,6 +99,7 @@ new EvalsClient(options?: EvalsOptions)
 ```
 
 Options:
+
 - `baseUrl`: The URL of the evals.do API (default: 'https://evals.do')
 - `apiKey`: Your API key for authentication
 - `storeLocally`: Whether to store data locally (default: true)
@@ -122,3 +123,7 @@ We welcome contributions! Please see our [Contributing Guide](https://github.com
 ## License
 
 [MIT](https://opensource.org/licenses/MIT)
+
+## Dependencies
+
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem

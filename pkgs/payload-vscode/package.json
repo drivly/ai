@@ -63,7 +63,7 @@
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "test": "echo \"No tests\" && exit 0",
-    "lint": "eslint src --ext ts",
+    "lint": "eslint src",
     "package": "vsce package",
     "publish": "vsce publish"
   },
@@ -93,5 +93,6 @@
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
-  "homepage": "https://github.com/drivly/ai"
+  "homepage": "https://github.com/drivly/ai",
+  "type": "module"
 }

@@ -12,10 +12,6 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
 
   const site = domain ?? 'llm.do'
 
-  if (site && !domainsConfig.domains[domain as keyof typeof domainsConfig.domains]) {
-    return notFound()
-  }
-
   const glowColor = getGlowColor(site)
 
   return (

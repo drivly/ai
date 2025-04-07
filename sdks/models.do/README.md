@@ -23,101 +23,90 @@ pnpm add models.do
 ## Usage
 
 ```typescript
-import { ModelsClient } from 'models.do'
+import { ModelsSDK } from 'models.do'
 
-// Initialize the client
-const models = new ModelsClient()
+// Create the SDK client
+const models = new ModelsSDK({
+  apiKey: 'your-api-key',
+})
 
-// List all available models
-const allModels = await models.listModels()
-console.log(allModels)
+// Resolve a specific model
+await models.get('gemini') // -> { model: ModelDetails, parsed: { model: 'gemini' } }
+await models.get('gemini(seed:1)') // -> { model: ModelDetails, parsed: { model: 'gemini', systemConfig: { seed: 1 } } }
+await models.get('claude-3.7:reasoning') // -> { model: ModelDetails, parsed: { model: 'claude', capabilities: ['reasoning'] } }
 
-// Filter models by provider
-const openAIModels = await models.listModels({ provider: 'openai' })
-console.log(openAIModels)
+// Find models by filters and sorting
+// For most use cases, you'll most likely use the find method as its more flexible
+await models.find({
+  author: 'google',
+  capabilities: ['reasoning', 'structuredOutput'],
+  sortBy: 'pricingLowToHigh',
+})
 
-// Filter models by author
-const anthropicModels = await models.listModels({ author: 'anthropic' })
-console.log(anthropicModels)
+// Returns both model's details, as well as a diff of the capabilities and attributes
+await models.compare(['gemini', 'gpt-4o'])
 
-// Filter models by capability
-const codingModels = await models.findModelsWithCapabilities(['code'])
-console.log(codingModels)
-
-// Get details about a specific model
-const gpt4 = await models.getModel('openai/gpt-4o')
-console.log(gpt4)
-
-// Compare multiple models
-const comparison = await models.compareModels(['openai/gpt-4o', 'anthropic/claude-3-opus'])
-console.log(comparison)
-
-// Get all available providers
-const providers = await models.getProviders()
-console.log(providers)
-
-// Get all available authors
-const authors = await models.getAuthors()
-console.log(authors)
+// Retrieve a group of pre-parsed models
+const frontierModels: Model[] = await models.group('frontier')
+const wideRange: Model[] = await models.group('wideRange')
 ```
 
 ## API Reference
 
-### `ModelsClient`
+### `ModelsSDK`
 
-The main client for interacting with Models.do.
+The main client for interacting with Models.do. Fetches data using the models API provided by Drivly.ai, making the SDK both slim and fast.
 
 #### Constructor
 
 ```typescript
-new ModelsClient(options?: { apiKey?: string, baseUrl?: string })
+new ModelsSDK(options?: { apiKey?: string, baseUrl?: 'https://models.do' | string })
 ```
 
 #### Methods
 
-- `listModels(filters?: ModelFilters): Promise<Record<string, ModelDetails>>`
-
-  - List available models with optional filtering
-
-- `getModel(modelIdentifier: string): Promise<{ model: ModelDetails }>`
-
-  - Get details about a specific model
-
-- `compareModels(modelIdentifiers: string[]): Promise<Record<string, ModelDetails>>`
-
-  - Compare models based on their capabilities
-
-- `findModelsWithCapabilities(capabilities: ModelCapability[]): Promise<Record<string, ModelDetails>>`
-
-  - Find models that have all the specified capabilities
-
-- `getProviders(): Promise<string[]>`
-
-  - Get all available providers
-
-- `getAuthors(): Promise<string[]>`
-  - Get all available authors
+- `get(modelIdentifier: string): Promise<{ model: ModelDetails }>`  
+  Get details about a specific model
+- `find(filters?: ModelFilters): Promise<Record<string, ModelDetails>>`  
+  Find models that match the filters
+- `compare(modelIdentifiers: string[]): Promise<Record<string, ModelDetails>>`  
+  Compare models based on their capabilities
+- `group(groupName: string): Promise<Model[]>`  
+  Retrieve a group of models pre-parsed
 
 ### Types
 
 ```typescript
-type ModelCapability = 'code' | 'online' | 'reasoning' | 'reasoning-low' | 'reasoning-medium' | 'reasoning-high' | 'tools' | 'structuredOutput' | 'responseFormat'
+type Capability = 'code' | 'online' | 'reasoning' | 'tools' | 'structuredOutput' | 'responseFormat'
 
-interface ModelDetails {
+type Model = {
+  isComposite?: boolean
   name: string
-  url?: string
-  author?: string
-  provider?: string
-  capabilities?: ModelCapability[]
-  defaults?: ModelCapability[]
-  [key: string]: any
+  author: string
+  modelIdentifier?: string
+  openRouterSlug?: string
+  provider: Provider
+  capabilities?: Capability[]
+  alias?: string
+  sorting: {
+    topWeekly: number
+    newest: number
+    throughputHighToLow: number
+    latencyLowToHigh: number
+    pricingLowToHigh: number
+    pricingHighToLow: number
+  }
 }
 
-interface ModelFilters {
+type ModelFilters = {
   provider?: string
   author?: string
-  capabilities?: ModelCapability | ModelCapability[]
-  [key: string]: any
+  sortBy?: 'topWeekly' | 'newest' | 'throughputHighToLow' | 'latencyLowToHigh' | 'pricingLowToHigh' | 'pricingHighToLow'
+  capabilities?: Capability | Capability[]
+  // Shortcuts for different capabilities
+  // For example, instead of writing `capabilities: ['structuredOutput', 'tools']`
+  // you can write `outputType: 'Object'`
+  outputType?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code'
 }
 ```
 
@@ -132,3 +121,7 @@ interface ModelFilters {
 ## License
 
 MIT
+
+## Dependencies
+
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem

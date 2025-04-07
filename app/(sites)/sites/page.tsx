@@ -10,7 +10,7 @@ import { Suspense } from 'react'
 // .do
 // Process domain categories once
 
-function SitesPage() {
+async function SitesPage() {
   const domainsByCategory = getDomainsByCategory(domains)
 
   return (

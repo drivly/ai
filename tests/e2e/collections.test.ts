@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
 import { chromium, Browser, Page, Response } from 'playwright'
 import { collections } from '../../collections'
+import { test as chromaticTest, expect as chromaticExpect } from '@chromatic-com/playwright'
 
 describe('Critical Collections', () => {
   let browser: Browser
@@ -12,7 +13,7 @@ describe('Critical Collections', () => {
   const criticalCollections = [
     { slug: 'functions', name: 'Functions', testName: 'Test Function' },
     { slug: 'workflows', name: 'Workflows', testName: 'Test Workflow' },
-    { slug: 'agents', name: 'Agents', testName: 'Test Agent' }
+    { slug: 'agents', name: 'Agents', testName: 'Test Agent' },
   ]
 
   beforeAll(async () => {
@@ -56,17 +57,15 @@ describe('Critical Collections', () => {
   it('should access critical collection API endpoints without errors', async () => {
     try {
       const baseUrl = process.env.API_URL || process.env.VERCEL_URL || 'http://localhost:3000'
-      
+
       for (const collection of criticalCollections) {
-        const apiUrl = baseUrl.endsWith('/') 
-          ? `${baseUrl}api/${collection.slug}` 
-          : `${baseUrl}/api/${collection.slug}`
-        
+        const apiUrl = baseUrl.endsWith('/') ? `${baseUrl}api/${collection.slug}` : `${baseUrl}/api/${collection.slug}`
+
         console.log(`Testing API endpoint for ${collection.name} at: ${apiUrl}`)
         const response = await fetch(apiUrl)
-        
+
         expect(response.status).not.toBe(500)
-        
+
         if (response.status === 200) {
           const data = await response.json()
           expect(data).toBeDefined()
@@ -96,37 +95,39 @@ describe('Critical Collections', () => {
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
-      
+
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
       await page.fill('input[type="password"]', TEST_PASSWORD)
-      
+
       const navigationPromise = page.waitForNavigation()
       await page.click('button[type="submit"]')
       await navigationPromise
-      
+
       const collectionsUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/collections` : `${baseUrl}/admin/collections`
-      
+
       for (const collection of criticalCollections) {
         try {
           console.log(`Testing navigation to ${collection.name} collection`)
-          
+
           const collectionUrl = `${collectionsUrl}/${collection.slug}`
           const response = await page.goto(collectionUrl)
-          
+
           if (response) {
             expect(response.status()).not.toBe(500)
             expect(response.ok()).toBe(true)
           }
-          
+
           const heading = await page.locator('h1')
           expect(await heading.count()).toBeGreaterThan(0)
-          
+
           const table = await page.locator('table')
           const list = await page.locator('[data-list-view]')
-          expect(await table.count() + await list.count()).toBeGreaterThan(0)
-          
+          expect((await table.count()) + (await list.count())).toBeGreaterThan(0)
+
           await page.waitForTimeout(500)
+
+          await chromaticExpect(page).toHaveScreenshot(`critical-collection-${collection.slug}.png`)
         } catch (error) {
           console.log(`Navigation to collection ${collection.slug} failed, but continuing test: ${error}`)
         }
@@ -151,48 +152,50 @@ describe('Critical Collections', () => {
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
-      
+
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
       await page.fill('input[type="password"]', TEST_PASSWORD)
-      
+
       const navigationPromise = page.waitForNavigation()
       await page.click('button[type="submit"]')
       await navigationPromise
-      
+
       for (const collection of criticalCollections) {
         try {
           console.log(`Testing CRUD operations for ${collection.name} collection`)
-          
+
           const collectionsUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/collections` : `${baseUrl}/admin/collections`
           const collectionUrl = `${collectionsUrl}/${collection.slug}`
           await page.goto(collectionUrl)
-          
+
           const createButton = await page.locator('a[href*="create"]')
           await createButton.first().click()
           await page.waitForTimeout(1000)
-          
+
           await page.fill('input[name="name"]', collection.testName)
-          
+
           if (collection.slug === 'functions') {
             await page.selectOption('select[name="type"]', 'Generation')
           }
-          
+
           const saveButton = await page.locator('button[type="submit"]')
           await saveButton.click()
           await page.waitForTimeout(2000)
-          
+
           await page.goto(collectionUrl)
           const documentLink = await page.locator(`text="${collection.testName}"`)
           expect(await documentLink.count()).toBeGreaterThan(0)
-          
+
           await documentLink.first().click()
           await page.waitForTimeout(1000)
-          
+
           const heading = await page.locator('h1')
           expect(await heading.count()).toBeGreaterThan(0)
           const headingText = await heading.first().textContent()
           expect(headingText).toContain(collection.testName)
+
+          await chromaticExpect(page).toHaveScreenshot(`critical-collection-${collection.slug}-document.png`)
         } catch (error) {
           console.log(`Testing collection ${collection.slug} failed, but continuing test: ${error}`)
         }
@@ -217,23 +220,23 @@ describe('Critical Collections', () => {
     try {
       const baseUrl = process.env.BASE_URL || 'http://localhost:3000'
       const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
-      
+
       await page.goto(adminUrl)
       await page.fill('input[type="email"]', TEST_EMAIL)
       await page.fill('input[type="password"]', TEST_PASSWORD)
-      
+
       const navigationPromise = page.waitForNavigation()
       await page.click('button[type="submit"]')
       await navigationPromise
-      
+
       const collectionsUrl = baseUrl.endsWith('/') ? `${baseUrl}admin/collections` : `${baseUrl}/admin/collections`
-      
+
       await page.goto(`${collectionsUrl}/workflows`)
-      
+
       let workflowExists = false
       try {
         const workflowLink = await page.locator('tbody tr a').first()
-        if (await workflowLink.count() > 0) {
+        if ((await workflowLink.count()) > 0) {
           workflowExists = true
           await workflowLink.click()
           await page.waitForTimeout(1000)
@@ -241,28 +244,28 @@ describe('Critical Collections', () => {
       } catch (error) {
         console.log('No existing workflows found, will create one')
       }
-      
+
       if (!workflowExists) {
         const createButton = await page.locator('a[href*="create"]')
         await createButton.first().click()
         await page.waitForTimeout(1000)
-        
+
         await page.fill('input[name="name"]', 'Relationship Test Workflow')
-        
+
         const saveButton = await page.locator('button[type="submit"]')
         await saveButton.click()
         await page.waitForTimeout(2000)
       }
-      
+
       const relationshipFields = await page.locator('label:has-text("Functions")')
       expect(await relationshipFields.count()).toBeGreaterThan(0)
-      
+
       await page.goto(`${collectionsUrl}/functions`)
-      
+
       let functionExists = false
       try {
         const functionLink = await page.locator('tbody tr a').first()
-        if (await functionLink.count() > 0) {
+        if ((await functionLink.count()) > 0) {
           functionExists = true
           await functionLink.click()
           await page.waitForTimeout(1000)
@@ -270,22 +273,24 @@ describe('Critical Collections', () => {
       } catch (error) {
         console.log('No existing functions found, will create one')
       }
-      
+
       if (!functionExists) {
         const createButton = await page.locator('a[href*="create"]')
         await createButton.first().click()
         await page.waitForTimeout(1000)
-        
+
         await page.fill('input[name="name"]', 'Relationship Test Function')
         await page.selectOption('select[name="type"]', 'Agent')
-        
+
         const saveButton = await page.locator('button[type="submit"]')
         await saveButton.click()
         await page.waitForTimeout(2000)
       }
-      
+
       const agentFields = await page.locator('label:has-text("Agent")')
       expect(await agentFields.count()).toBeGreaterThan(0)
+
+      await chromaticExpect(page).toHaveScreenshot('critical-collections-relationships.png')
     } catch (error) {
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
         console.log('Mocking admin relationships test in test environment')

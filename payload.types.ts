@@ -93,6 +93,7 @@ export interface Config {
     triggers: Trigger;
     searches: Search;
     experiments: Experiment;
+    'experiment-metrics': ExperimentMetric;
     models: Model;
     providers: Provider;
     labs: Lab;
@@ -174,6 +175,7 @@ export interface Config {
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
+    'experiment-metrics': ExperimentMetricsSelect<false> | ExperimentMetricsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
     providers: ProvidersSelect<false> | ProvidersSelect<true>;
     labs: LabsSelect<false> | LabsSelect<true>;
@@ -225,27 +227,28 @@ export interface Config {
     tasks: {
       executeFunction: TaskExecuteFunction;
       generateCode: TaskGenerateCode;
-      executeCodeFunction: TaskExecuteCodeFunction;
-      generateResourceEmbedding: TaskGenerateResourceEmbedding;
-      generateThingEmbedding: TaskGenerateThingEmbedding;
-      searchThings: TaskSearchThings;
-      hybridSearchThings: TaskHybridSearchThings;
-      processCodeFunctionWrapper: TaskProcessCodeFunctionWrapper;
-      processCodeFunction: TaskProcessCodeFunction;
-      inflectNouns: TaskInflectNouns;
-      conjugateVerbs: TaskConjugateVerbs;
-      deployWorker: TaskDeployWorker;
-      deliverWebhook: TaskDeliverWebhook;
-      initiateComposioConnection: TaskInitiateComposioConnection;
       requestHumanFeedback: TaskRequestHumanFeedback;
-      processDomain: TaskProcessDomain;
       processBatchOpenAI: TaskProcessBatchOpenAI;
       processBatchAnthropic: TaskProcessBatchAnthropic;
       processBatchGoogleVertexAI: TaskProcessBatchGoogleVertexAI;
       processBatchParasail: TaskProcessBatchParasail;
       createGenerationBatch: TaskCreateGenerationBatch;
       generateFunctionExamples: TaskGenerateFunctionExamples;
+      executeCodeFunction: TaskExecuteCodeFunction;
+      processCodeFunctionWrapper: TaskProcessCodeFunctionWrapper;
+      processCodeFunction: TaskProcessCodeFunction;
+      deployWorker: TaskDeployWorker;
+      generateResourceEmbedding: TaskGenerateResourceEmbedding;
+      generateThingEmbedding: TaskGenerateThingEmbedding;
+      searchThings: TaskSearchThings;
+      hybridSearchThings: TaskHybridSearchThings;
       generateEmbedding: TaskGenerateEmbedding;
+      inflectNouns: TaskInflectNouns;
+      conjugateVerbs: TaskConjugateVerbs;
+      deliverWebhook: TaskDeliverWebhook;
+      initiateComposioConnection: TaskInitiateComposioConnection;
+      processDomain: TaskProcessDomain;
+      saveExecutionResults: TaskSaveExecutionResults;
       inline: {
         input: unknown;
         output: unknown;
@@ -1412,13 +1415,189 @@ export interface Search {
   createdAt: string;
 }
 /**
+ * Feature flags and A/B testing experiments with real-world user feedback metrics
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "experiments".
  */
 export interface Experiment {
   id: string;
   tenant?: (string | null) | Project;
-  name?: string | null;
+  /**
+   * Unique name for the experiment (used as the feature flag key)
+   */
+  name: string;
+  /**
+   * Description of what this experiment is testing
+   */
+  description?: string | null;
+  /**
+   * Current status of the experiment
+   */
+  status: 'draft' | 'active' | 'paused' | 'completed';
+  /**
+   * Feature flag provider to use for this experiment
+   */
+  provider: 'vercel' | 'internal';
+  /**
+   * Different variations to test in this experiment
+   */
+  variants: {
+    id: string | null;
+    /**
+     * Description of this variant
+     */
+    description?: string | null;
+    /**
+     * Whether this is the control/baseline variant
+     */
+    isControl?: boolean | null;
+    /**
+     * Configuration values for this variant
+     */
+    config:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  }[];
+  /**
+   * Metrics to track for this experiment
+   */
+  metrics?:
+    | {
+        /**
+         * Name of the metric (e.g., click_through_rate, conversion_rate)
+         */
+        name: string;
+        /**
+         * Description of what this metric measures
+         */
+        description?: string | null;
+        /**
+         * Whether higher values for this metric are better
+         */
+        higherIsBetter?: boolean | null;
+        /**
+         * Whether this is a primary metric for the experiment
+         */
+        primary?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * How traffic is allocated between variants
+   */
+  trafficAllocation: {
+    /**
+     * Type of traffic allocation
+     */
+    type: 'percentage' | 'user' | 'session';
+    /**
+     * Allocation values for each variant (e.g., {"control": 50, "variant-a": 25, "variant-b": 25})
+     */
+    values:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  /**
+   * Targeting rules for this experiment (optional)
+   */
+  targeting?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Duration of the experiment
+   */
+  duration?: {
+    /**
+     * When the experiment starts
+     */
+    startDate?: string | null;
+    /**
+     * When the experiment ends
+     */
+    endDate?: string | null;
+  };
+  /**
+   * Aggregated results of the experiment (updated periodically)
+   */
+  results?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Metrics collected from real-world user feedback for experiments
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiment-metrics".
+ */
+export interface ExperimentMetric {
+  id: string;
+  /**
+   * The experiment this metric is associated with
+   */
+  experimentId: string | Experiment;
+  /**
+   * The variant ID this metric is for
+   */
+  variantId: string;
+  /**
+   * User ID associated with this metric (if available)
+   */
+  userId?: string | null;
+  /**
+   * Session ID associated with this metric (if available)
+   */
+  sessionId?: string | null;
+  /**
+   * Name of the metric (e.g., click_through_rate, conversion_rate)
+   */
+  metricName: string;
+  /**
+   * Numeric value of the metric
+   */
+  value: number;
+  /**
+   * When this metric was recorded
+   */
+  timestamp?: string | null;
+  /**
+   * Additional metadata for this metric (e.g., browser, device, page)
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1911,27 +2090,28 @@ export interface PayloadJob {
           | 'inline'
           | 'executeFunction'
           | 'generateCode'
-          | 'executeCodeFunction'
-          | 'generateResourceEmbedding'
-          | 'generateThingEmbedding'
-          | 'searchThings'
-          | 'hybridSearchThings'
-          | 'processCodeFunctionWrapper'
-          | 'processCodeFunction'
-          | 'inflectNouns'
-          | 'conjugateVerbs'
-          | 'deployWorker'
-          | 'deliverWebhook'
-          | 'initiateComposioConnection'
           | 'requestHumanFeedback'
-          | 'processDomain'
           | 'processBatchOpenAI'
           | 'processBatchAnthropic'
           | 'processBatchGoogleVertexAI'
           | 'processBatchParasail'
           | 'createGenerationBatch'
           | 'generateFunctionExamples'
-          | 'generateEmbedding';
+          | 'executeCodeFunction'
+          | 'processCodeFunctionWrapper'
+          | 'processCodeFunction'
+          | 'deployWorker'
+          | 'generateResourceEmbedding'
+          | 'generateThingEmbedding'
+          | 'searchThings'
+          | 'hybridSearchThings'
+          | 'generateEmbedding'
+          | 'inflectNouns'
+          | 'conjugateVerbs'
+          | 'deliverWebhook'
+          | 'initiateComposioConnection'
+          | 'processDomain'
+          | 'saveExecutionResults';
         taskID: string;
         input?:
           | {
@@ -1967,27 +2147,28 @@ export interface PayloadJob {
                 | 'inline'
                 | 'executeFunction'
                 | 'generateCode'
-                | 'executeCodeFunction'
-                | 'generateResourceEmbedding'
-                | 'generateThingEmbedding'
-                | 'searchThings'
-                | 'hybridSearchThings'
-                | 'processCodeFunctionWrapper'
-                | 'processCodeFunction'
-                | 'inflectNouns'
-                | 'conjugateVerbs'
-                | 'deployWorker'
-                | 'deliverWebhook'
-                | 'initiateComposioConnection'
                 | 'requestHumanFeedback'
-                | 'processDomain'
                 | 'processBatchOpenAI'
                 | 'processBatchAnthropic'
                 | 'processBatchGoogleVertexAI'
                 | 'processBatchParasail'
                 | 'createGenerationBatch'
                 | 'generateFunctionExamples'
+                | 'executeCodeFunction'
+                | 'processCodeFunctionWrapper'
+                | 'processCodeFunction'
+                | 'deployWorker'
+                | 'generateResourceEmbedding'
+                | 'generateThingEmbedding'
+                | 'searchThings'
+                | 'hybridSearchThings'
                 | 'generateEmbedding'
+                | 'inflectNouns'
+                | 'conjugateVerbs'
+                | 'deliverWebhook'
+                | 'initiateComposioConnection'
+                | 'processDomain'
+                | 'saveExecutionResults'
               )
             | null;
           taskID?: string | null;
@@ -2001,27 +2182,28 @@ export interface PayloadJob {
         | 'inline'
         | 'executeFunction'
         | 'generateCode'
-        | 'executeCodeFunction'
-        | 'generateResourceEmbedding'
-        | 'generateThingEmbedding'
-        | 'searchThings'
-        | 'hybridSearchThings'
-        | 'processCodeFunctionWrapper'
-        | 'processCodeFunction'
-        | 'inflectNouns'
-        | 'conjugateVerbs'
-        | 'deployWorker'
-        | 'deliverWebhook'
-        | 'initiateComposioConnection'
         | 'requestHumanFeedback'
-        | 'processDomain'
         | 'processBatchOpenAI'
         | 'processBatchAnthropic'
         | 'processBatchGoogleVertexAI'
         | 'processBatchParasail'
         | 'createGenerationBatch'
         | 'generateFunctionExamples'
+        | 'executeCodeFunction'
+        | 'processCodeFunctionWrapper'
+        | 'processCodeFunction'
+        | 'deployWorker'
+        | 'generateResourceEmbedding'
+        | 'generateThingEmbedding'
+        | 'searchThings'
+        | 'hybridSearchThings'
         | 'generateEmbedding'
+        | 'inflectNouns'
+        | 'conjugateVerbs'
+        | 'deliverWebhook'
+        | 'initiateComposioConnection'
+        | 'processDomain'
+        | 'saveExecutionResults'
       )
     | null;
   queue?: string | null;
@@ -2136,6 +2318,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'experiments';
         value: string | Experiment;
+      } | null)
+    | ({
+        relationTo: 'experiment-metrics';
+        value: string | ExperimentMetric;
       } | null)
     | ({
         relationTo: 'models';
@@ -2743,6 +2929,56 @@ export interface SearchesSelect<T extends boolean = true> {
 export interface ExperimentsSelect<T extends boolean = true> {
   tenant?: T;
   name?: T;
+  description?: T;
+  status?: T;
+  provider?: T;
+  variants?:
+    | T
+    | {
+        id?: T;
+        description?: T;
+        isControl?: T;
+        config?: T;
+      };
+  metrics?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        higherIsBetter?: T;
+        primary?: T;
+        id?: T;
+      };
+  trafficAllocation?:
+    | T
+    | {
+        type?: T;
+        values?: T;
+      };
+  targeting?: T;
+  duration?:
+    | T
+    | {
+        startDate?: T;
+        endDate?: T;
+      };
+  results?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "experiment-metrics_select".
+ */
+export interface ExperimentMetricsSelect<T extends boolean = true> {
+  experimentId?: T;
+  variantId?: T;
+  userId?: T;
+  sessionId?: T;
+  metricName?: T;
+  value?: T;
+  timestamp?: T;
+  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3338,287 +3574,6 @@ export interface TaskGenerateCode {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskExecuteCodeFunction".
- */
-export interface TaskExecuteCodeFunction {
-  input: {
-    code: string;
-    args?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-    timeout?: number | null;
-    memoryLimit?: number | null;
-  };
-  output: {
-    result?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-    logs?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-    error?: string | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskGenerateResourceEmbedding".
- */
-export interface TaskGenerateResourceEmbedding {
-  input: {
-    id: string;
-  };
-  output: {
-    resource?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskGenerateThingEmbedding".
- */
-export interface TaskGenerateThingEmbedding {
-  input: {
-    id: string;
-  };
-  output: {
-    thing?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskSearchThings".
- */
-export interface TaskSearchThings {
-  input: {
-    query: string;
-    limit?: number | null;
-  };
-  output: {
-    results?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskHybridSearchThings".
- */
-export interface TaskHybridSearchThings {
-  input: {
-    query: string;
-    limit?: number | null;
-  };
-  output: {
-    results?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskProcessCodeFunctionWrapper".
- */
-export interface TaskProcessCodeFunctionWrapper {
-  input: {
-    functionId: string;
-  };
-  output: {
-    function?: string | null;
-    taskId?: string | null;
-    success?: boolean | null;
-    error?: string | null;
-    message?: string | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskProcessCodeFunction".
- */
-export interface TaskProcessCodeFunction {
-  input: {
-    functionId: string;
-  };
-  output: {
-    function?: string | null;
-    moduleId?: string | null;
-    packageId?: string | null;
-    success?: boolean | null;
-    error?: string | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskInflectNouns".
- */
-export interface TaskInflectNouns {
-  input: {
-    noun: string;
-  };
-  output: {
-    singular?: string | null;
-    plural?: string | null;
-    possessive?: string | null;
-    pluralPossessive?: string | null;
-    verb?: string | null;
-    act?: string | null;
-    activity?: string | null;
-    event?: string | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskConjugateVerbs".
- */
-export interface TaskConjugateVerbs {
-  input: {
-    verb: string;
-  };
-  output: {
-    act?: string | null;
-    activity?: string | null;
-    event?: string | null;
-    subject?: string | null;
-    object?: string | null;
-    inverse?: string | null;
-    inverseAct?: string | null;
-    inverseActivity?: string | null;
-    inverseEvent?: string | null;
-    inverseSubject?: string | null;
-    inverseObject?: string | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskDeployWorker".
- */
-export interface TaskDeployWorker {
-  input: {
-    worker:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-    options?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-  };
-  output: {
-    result?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-    deployment?: string | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskDeliverWebhook".
- */
-export interface TaskDeliverWebhook {
-  input: {
-    event:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-    webhookId: string;
-  };
-  output: {
-    status?: string | null;
-    message?: string | null;
-    statusCode?: number | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskInitiateComposioConnection".
- */
-export interface TaskInitiateComposioConnection {
-  input: {
-    integrationId: string;
-    userId: string;
-    taskId?: string | null;
-    redirectUrl?: string | null;
-  };
-  output: {
-    connection?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-    authorization_url?: string | null;
-  };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskRequestHumanFeedback".
  */
 export interface TaskRequestHumanFeedback {
@@ -3663,20 +3618,6 @@ export interface TaskRequestHumanFeedback {
       | boolean
       | null;
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "TaskProcessDomain".
- */
-export interface TaskProcessDomain {
-  input: {
-    domainId: string;
-    operation: string;
-    domain?: string | null;
-    vercelId?: string | null;
-    cloudflareId?: string | null;
-  };
-  output: {};
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3831,6 +3772,199 @@ export interface TaskGenerateFunctionExamples {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskExecuteCodeFunction".
+ */
+export interface TaskExecuteCodeFunction {
+  input: {
+    code: string;
+    args?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    timeout?: number | null;
+    memoryLimit?: number | null;
+  };
+  output: {
+    result?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    logs?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessCodeFunctionWrapper".
+ */
+export interface TaskProcessCodeFunctionWrapper {
+  input: {
+    functionId: string;
+  };
+  output: {
+    function?: string | null;
+    taskId?: string | null;
+    success?: boolean | null;
+    error?: string | null;
+    message?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessCodeFunction".
+ */
+export interface TaskProcessCodeFunction {
+  input: {
+    functionId: string;
+  };
+  output: {
+    function?: string | null;
+    moduleId?: string | null;
+    packageId?: string | null;
+    success?: boolean | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDeployWorker".
+ */
+export interface TaskDeployWorker {
+  input: {
+    worker:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    options?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    result?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    deployment?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateResourceEmbedding".
+ */
+export interface TaskGenerateResourceEmbedding {
+  input: {
+    id: string;
+  };
+  output: {
+    resource?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateThingEmbedding".
+ */
+export interface TaskGenerateThingEmbedding {
+  input: {
+    id: string;
+  };
+  output: {
+    thing?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSearchThings".
+ */
+export interface TaskSearchThings {
+  input: {
+    query: string;
+    limit?: number | null;
+  };
+  output: {
+    results?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskHybridSearchThings".
+ */
+export interface TaskHybridSearchThings {
+  input: {
+    query: string;
+    limit?: number | null;
+  };
+  output: {
+    results?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskGenerateEmbedding".
  */
 export interface TaskGenerateEmbedding {
@@ -3847,6 +3981,206 @@ export interface TaskGenerateEmbedding {
       | number
       | boolean
       | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskInflectNouns".
+ */
+export interface TaskInflectNouns {
+  input: {
+    noun: string;
+  };
+  output: {
+    singular?: string | null;
+    plural?: string | null;
+    possessive?: string | null;
+    pluralPossessive?: string | null;
+    verb?: string | null;
+    act?: string | null;
+    activity?: string | null;
+    event?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskConjugateVerbs".
+ */
+export interface TaskConjugateVerbs {
+  input: {
+    verb: string;
+  };
+  output: {
+    act?: string | null;
+    activity?: string | null;
+    event?: string | null;
+    subject?: string | null;
+    object?: string | null;
+    inverse?: string | null;
+    inverseAct?: string | null;
+    inverseActivity?: string | null;
+    inverseEvent?: string | null;
+    inverseSubject?: string | null;
+    inverseObject?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDeliverWebhook".
+ */
+export interface TaskDeliverWebhook {
+  input: {
+    event:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    webhookId: string;
+  };
+  output: {
+    status?: string | null;
+    message?: string | null;
+    statusCode?: number | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskInitiateComposioConnection".
+ */
+export interface TaskInitiateComposioConnection {
+  input: {
+    integrationId: string;
+    userId: string;
+    taskId?: string | null;
+    redirectUrl?: string | null;
+  };
+  output: {
+    connection?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    authorization_url?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessDomain".
+ */
+export interface TaskProcessDomain {
+  input: {
+    domainId: string;
+    operation: string;
+    domain?: string | null;
+    vercelId?: string | null;
+    cloudflareId?: string | null;
+  };
+  output: {};
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSaveExecutionResults".
+ */
+export interface TaskSaveExecutionResults {
+  input: {
+    prompt?: string | null;
+    object?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    functionName?: string | null;
+    args?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    settings?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    argsDoc?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    functionDoc?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    reasoning?: string | null;
+    generation?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    generationLatency?: number | null;
+    headers?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    seeds?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    callback?: string | null;
+    isTextFunction?: string | null;
+    latency?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    success?: string | null;
   };
 }
 /**

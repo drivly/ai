@@ -1,16 +1,15 @@
-# [Do More Work](https://do.mw) with Business-as-Code
+# [.do](https://dotdo.ai) Business-as-Code
 
 [![License](https://img.shields.io/github/license/drivly/ai.svg)](https://github.com/drivly/ai/blob/main/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/drivly/ai/blob/main/CONTRIBUTING.md)
 [![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/tafnNeUQdm)
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
-
-We believe that you can define, execute, and iterate on business processes as clean & simple code. It should be simple enough for a non-technical business person to read and work with an AI or technical teammate to build and iterate on workflows.
+The [.do](https://dotdo.ai) platform enables you to define, execute, and iterate on business processes as clean & simple code. Our APIs and SDKs are designed with extreme simplicity and elegance, making them accessible enough for non-technical business people to read while providing the power and flexibility that developers need.
 
 ## Core Primitives
 
-The Workflows.do platform is built around several core primitives that work together to create powerful, composable applications:
+The [.do](https://dotdo.ai) platform is built around several core primitives that work together to create powerful, composable applications:
 
 ### Functions
 
@@ -41,7 +40,7 @@ A key concept in the platform is that **Functions, Workflows, Searches, and Inte
 
 This creates a unified toolset that both AI and human workers can leverage, enabling seamless collaboration and handoffs between automated and human-driven processes.
 
-## [Workflows.do](https://workflows.do) Business-as-Code
+## [Workflows.do](https://workflows.do) - Elegant Business Process Orchestration
 
 ```typescript
 import { AI } from 'workflows.do'
@@ -74,7 +73,7 @@ export default AI({
 })
 ```
 
-## [Functions.do](https://functions.do) Rapid Prototyping
+## [Functions.do](https://functions.do) - Rapid AI Function Prototyping
 
 The `ai` object lets you call any arbitrary function like `ai.researchCompany({ company })`, `ai.summarizeContent({ content })`, `ai.doSomething({ task: 'write a snake game in HTML & vanilla JavaScript' })` and an object will be returned. This can be very helpful during development or to even just see what is the schema that the AI wants to return. Additionally, [functions.do](https://functions.do) can observe the schemas returned over time, and will automatically propose possible schemas to lock in a guaranteed return type.
 
@@ -85,7 +84,7 @@ const titles = await ai.listBlogPostTitles({ topic: 'AGI Wrappers', tone: 'Click
 const research = await ai.researchCompany({ company }, { model: 'perplexity/sonar-deep-research' }) // specify a particular model
 ```
 
-## [Functions.do](https://functions.do) Structured Outputs
+## [Functions.do](https://functions.do) - Structured AI Outputs
 
 We believe that your business and application code should not be complicated by the leaky abstractions of AI frameworks. With new models being released daily, you shouldn't put the model, prompts, or settings (like temperature, topP, topK, etc) in your code as the only thing that matters to your application is the return type of the output. On the backend, [functions.do](https://functions.do) will handle evaluating the model selection, experimenting with prompt engineering, and configuring the settings optimized for your model and use case, as well by specifying the business priorities. Do you want the most intelligent model no matter how expensive or slow it is? Do you need the lowest latency of time-to-first-token, the highest throughput of tokens per second, or the lowest cost? Or do you want the best frontier model under a specific price point? [Functions.do](https://functions.do) will handle all of this for you.
 
@@ -183,9 +182,9 @@ export default AI({
 })
 ```
 
-## [APIs.do](https://apis.do) Clickable Developer Experiences
+## [APIs.do](https://apis.do) - Clickable Developer Experiences
 
-By visiting https://apis.do in a browser with a [JSON Plugin](https://apis.do/docs#browser-plugins), you can explore all available APIs and their capabilities without having to deal with API documentation, curl commands, or
+By visiting https://apis.do in a browser with a [JSON Plugin](https://apis.do/docs#browser-plugins), you can explore all available APIs and their capabilities without having to deal with complex API documentation, curl commands, or verbose SDK implementations. The elegant, clickable interface provides a seamless developer experience.
 
 ```json
 {
@@ -231,7 +230,7 @@ By visiting https://apis.do in a browser with a [JSON Plugin](https://apis.do/do
 }
 ```
 
-## [Agents.do](https://agents.do) Autonomous Digital Workers
+## [Agents.do](https://agents.do) - Autonomous Digital Workers
 
 Agents.do provides a powerful framework for creating, deploying, and managing autonomous digital workers that can perform complex tasks with minimal human intervention. These agents can handle routine operations, make decisions based on predefined criteria, and adapt to changing conditions.
 
@@ -252,27 +251,27 @@ const customerSupportAgent = Agent({
 })
 ```
 
-## [Integrations.do](https://integrations.do) Connect Your Apps
+## [Integrations.do](https://integrations.do) - Connect Your Apps
 
 Integrations.do provides a seamless way to connect your AI applications with external systems, APIs, and services. It enables you to extend your workflows with powerful integrations that enhance functionality and automate processes across your entire tech stack.
 
-## [Triggers.do](https://triggers.do) Start Business Processes
+## [Triggers.do](https://triggers.do) - Start Business Processes
 
 Triggers.do provides a powerful framework for initiating workflows based on various events. It enables you to create event-driven architectures that respond automatically to changes in your business environment, ensuring timely execution of critical processes.
 
-## [Searches.do](https://searches.do) Provide Context & Understanding
+## [Searches.do](https://searches.do) - Provide Context & Understanding
 
 Searches.do provides a unified interface for powerful data retrieval across various sources. It enables you to find relevant information quickly and efficiently, providing the context needed for intelligent decision-making in your AI applications.
 
-## [Actions.do](https://actions.do) Impact the External World
+## [Actions.do](https://actions.do) - Impact the External World
 
 Actions.do provides a powerful framework for defining and executing operations that interact with external systems. It enables you to create reusable, composable actions that can be triggered from your workflows to create real-world impact.
 
-## [Nouns.do](https://nouns.do) Entities in Your Business
+## [Nouns.do](https://nouns.do) - Entities in Your Business
 
 Nouns.do provides a powerful framework for defining and managing the entities that make up your business domain. It enables you to create a structured representation of your business objects and their relationships.
 
-## [Verbs.do](https://verbs.do) Represent Potential Actions
+## [Verbs.do](https://verbs.do) - Represent Potential Actions
 
 Verbs.do provides a powerful framework for defining and managing the actions that can be performed within your business domain. It enables you to create a structured representation of operations that connect entities and drive business processes.
 
@@ -287,11 +286,11 @@ Our platform is built on a semantic data model inspired by basic English grammar
 
 This simple but powerful model follows the natural language pattern of Subject-Predicate-Object (like "Customer purchased Product"). Every Action in the system connects a Subject (a Resource) with an Object (another Resource) through a Predicate (a Verb), creating a semantic triple that represents a meaningful business event or relationship.
 
-## [Resources.do](https://resources.do) Instances of Nouns
+## [Resources.do](https://resources.do) - Instances of Nouns
 
 Resources.do provides a powerful framework for modeling and managing specific instances of Nouns in your business domain. It enables you to create, track, and manipulate the actual entities that your business interacts with.
 
-## [Database.do](https://database.do) AI-enriched Data
+## [Database.do](https://database.do) - AI-enriched Data
 
 ```typescript
 import { DB } from 'database.do'
@@ -318,7 +317,7 @@ const db = DB({
 })
 ```
 
-## [Events.do](https://events.do) Track Business Events
+## [Events.do](https://events.do) - Track Business Events
 
 Events.do provides a powerful framework for tracking, analyzing, and responding to business events across your organization. It enables you to create a comprehensive event-driven architecture that captures valuable data about user actions, system operations, and business processes.
 
@@ -335,27 +334,27 @@ await track('UserSignup', {
 })
 ```
 
-## [Experiments.do](https://experiments.do) Iterate & Improve
+## [Experiments.do](https://experiments.do) - Iterate & Improve
 
 Experiments.do provides a powerful framework for testing hypotheses, measuring outcomes, and iteratively improving your AI applications. It enables you to run controlled experiments to validate ideas, optimize performance, and make data-driven decisions.
 
-## [Benchmarks.do](https://benchmarks.do) Compare Models
+## [Benchmarks.do](https://benchmarks.do) - Compare Models
 
 Benchmarks.do provides a powerful framework for evaluating and comparing AI models across various dimensions. It enables you to make informed decisions about which models to use for different tasks based on objective performance metrics.
 
-## [Evals.do](https://evals.do) Measure & Improve
+## [Evals.do](https://evals.do) - Measure & Improve
 
 Evals.do provides a powerful framework for evaluating the performance and quality of your AI applications. It enables you to systematically assess model outputs, function results, and workflow outcomes to ensure they meet your business requirements.
 
-## [Traces.do](https://traces.do) Debug & Understand
+## [Traces.do](https://traces.do) - Debug & Understand
 
 Traces.do provides a powerful framework for capturing, visualizing, and analyzing the execution of your AI applications. It enables you to understand how your functions, workflows, and agents operate, making it easier to debug issues and optimize performance.
 
-## [LLM.do](https://llm.do) Intelligent AI Gateway
+## [LLM.do](https://llm.do) - Intelligent AI Gateway
 
 LLM.do provides a powerful gateway for routing AI requests to the optimal language models based on capabilities, cost, and performance requirements. It enables you to leverage the best AI models for each specific task without being locked into a single provider.
 
-## [Analytics.do](https://analytics.do) Measure Business Impact
+## [Analytics.do](https://analytics.do) - Measure Business Impact
 
 Analytics.do provides a powerful framework for measuring and analyzing the business impact of your AI applications. It enables you to track key metrics, visualize performance trends, and make data-driven decisions about your AI investments.
 

@@ -12,6 +12,7 @@ The script is located at `scripts/sync-sdk-types.ts` and maintains compatibility
 ## How it works
 
 The script:
+
 1. Reads the existing types.ts file
 2. Replaces the collection type definitions with predefined types from the script
 3. Preserves utility types (like ErrorResponse, ListResponse, etc.)

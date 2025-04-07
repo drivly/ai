@@ -9,31 +9,31 @@ export const Agents: CollectionConfig = {
   versions: true,
   fields: [
     { name: 'name', type: 'text' },
-    { 
-      name: 'public', 
-      type: 'checkbox', 
+    {
+      name: 'public',
+      type: 'checkbox',
       defaultValue: false,
-      admin: { 
+      admin: {
         position: 'sidebar',
-        description: 'Make this agent available to other users'
-      } 
+        description: 'Make this agent available to other users',
+      },
     },
-    { 
-      name: 'clonedFrom', 
-      type: 'relationship', 
+    {
+      name: 'clonedFrom',
+      type: 'relationship',
       relationTo: 'agents',
-      admin: { 
+      admin: {
         position: 'sidebar',
-        description: 'Original agent this was cloned from'
-      } 
+        description: 'Original agent this was cloned from',
+      },
     },
-    { 
-      name: 'pricing', 
-      type: 'group', 
+    {
+      name: 'pricing',
+      type: 'group',
       admin: {
         position: 'sidebar',
         condition: (data) => data?.isPublic === true,
-        description: 'Monetization settings for this agent'
+        description: 'Monetization settings for this agent',
       },
       fields: [
         {
@@ -41,8 +41,8 @@ export const Agents: CollectionConfig = {
           type: 'checkbox',
           defaultValue: false,
           admin: {
-            description: 'Enable monetization for this agent'
-          }
+            description: 'Enable monetization for this agent',
+          },
         },
         {
           name: 'pricePerUse',
@@ -50,8 +50,8 @@ export const Agents: CollectionConfig = {
           min: 0,
           admin: {
             condition: (data, siblingData) => siblingData?.isMonetized === true,
-            description: 'Price per use in USD cents (platform fee is 30% above LLM costs)'
-          }
+            description: 'Price per use in USD cents (platform fee is 30% above LLM costs)',
+          },
         },
         {
           name: 'stripeProductId',
@@ -59,8 +59,8 @@ export const Agents: CollectionConfig = {
           admin: {
             condition: (data, siblingData) => siblingData?.isMonetized === true,
             description: 'Stripe Product ID (auto-generated)',
-            readOnly: true
-          }
+            readOnly: true,
+          },
         },
         {
           name: 'stripePriceId',
@@ -68,10 +68,10 @@ export const Agents: CollectionConfig = {
           admin: {
             condition: (data, siblingData) => siblingData?.isMonetized === true,
             description: 'Stripe Price ID (auto-generated)',
-            readOnly: true
-          }
-        }
-      ]
+            readOnly: true,
+          },
+        },
+      ],
     },
   ],
 }

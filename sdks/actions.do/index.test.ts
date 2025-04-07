@@ -9,8 +9,8 @@ vi.mock('apis.do', () => ({
     create: vi.fn(),
     update: vi.fn(),
     remove: vi.fn(),
-    post: vi.fn()
-  }
+    post: vi.fn(),
+  },
 }))
 
 describe('actions.do SDK', () => {
@@ -24,7 +24,7 @@ describe('actions.do SDK', () => {
       vi.mocked(api.list).mockResolvedValue(mockActions)
 
       const result = await actions.list()
-      
+
       expect(api.list).toHaveBeenCalledWith('actions', undefined)
       expect(result).toEqual(mockActions.data)
     })
@@ -34,7 +34,7 @@ describe('actions.do SDK', () => {
       vi.mocked(api.getById).mockResolvedValue(mockAction)
 
       const result = await actions.get('123')
-      
+
       expect(api.getById).toHaveBeenCalledWith('actions', '123')
       expect(result).toEqual(mockAction)
     })
@@ -44,7 +44,7 @@ describe('actions.do SDK', () => {
       vi.mocked(api.create).mockResolvedValue(mockAction)
 
       const result = await actions.create({ name: 'test-action', description: 'Test action description' })
-      
+
       expect(api.create).toHaveBeenCalledWith('actions', { name: 'test-action', description: 'Test action description' })
       expect(result).toEqual(mockAction)
     })
@@ -54,7 +54,7 @@ describe('actions.do SDK', () => {
       vi.mocked(api.update).mockResolvedValue(mockAction)
 
       const result = await actions.update('123', { name: 'updated-action' })
-      
+
       expect(api.update).toHaveBeenCalledWith('actions', '123', { name: 'updated-action' })
       expect(result).toEqual(mockAction)
     })
@@ -64,7 +64,7 @@ describe('actions.do SDK', () => {
       vi.mocked(api.remove).mockResolvedValue(mockAction)
 
       const result = await actions.delete('123')
-      
+
       expect(api.remove).toHaveBeenCalledWith('actions', '123')
       expect(result).toEqual(mockAction)
     })
@@ -74,7 +74,7 @@ describe('actions.do SDK', () => {
       vi.mocked(api.post).mockResolvedValue(mockResult)
 
       const result = await actions.execute('123', { param1: 'value1' })
-      
+
       expect(api.post).toHaveBeenCalledWith('/api/actions/123/execute', { param1: 'value1' })
       expect(result).toEqual(mockResult)
     })

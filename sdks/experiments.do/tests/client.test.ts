@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ExperimentsClient } from '../src/client.js'
-import { API } from 'apis.do'
+import { API } from '../../apis.do/index.js'
 import { VercelFlagsProvider } from '../src/provider.js'
 import { Experiment } from '../src/types.js'
 
-vi.mock('apis.do', () => {
+vi.mock('../../apis.do/index.js', () => {
   return {
     API: vi.fn().mockImplementation(() => ({
       create: vi.fn().mockResolvedValue({ name: 'test-experiment' }),
@@ -21,11 +21,13 @@ vi.mock('apis.do', () => {
 vi.mock('../src/provider.js', () => {
   return {
     VercelFlagsProvider: vi.fn().mockImplementation(() => ({
+      initialize: vi.fn().mockResolvedValue(undefined),
       createFlag: vi.fn().mockResolvedValue({ name: 'test-flag' }),
       getFlag: vi.fn().mockResolvedValue({ name: 'test-flag' }),
       evaluateFlag: vi.fn().mockResolvedValue({ variant: 'control', value: { enabled: true } }),
       recordMetric: vi.fn().mockResolvedValue({ success: true }),
       getResults: vi.fn().mockResolvedValue({ variants: { control: { metrics: { conversion: { mean: 0.5 } } } } }),
+      resolveObjectEvaluation: vi.fn().mockResolvedValue({ value: { enabled: true }, variant: 'control' }),
     })),
   }
 })
@@ -97,7 +99,7 @@ describe('ExperimentsClient', () => {
       latency: 450,
     }
 
-    const result = await client.recordMetrics('test-experiment', 'control', metrics)
+    const result = await client.track('test-experiment', 'control', metrics)
     expect(result).toEqual({ success: true })
   })
 

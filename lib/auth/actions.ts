@@ -19,7 +19,7 @@ export async function signUp({
 }) {
   const payload = await getPayloadAuth()
 
-  const resFoo = await payload.betterAuth.api.createUser({
+  const resFoo = await payload.auth.createUser({
     asResponse: true,
     body: {
       email,

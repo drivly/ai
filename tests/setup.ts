@@ -1,5 +1,9 @@
 import '@testing-library/jest-dom'
-import { beforeAll, afterAll, vi } from 'vitest'
+import { beforeAll, afterAll, vi, beforeEach, afterEach } from 'vitest'
+import { MongoMemoryServer } from 'mongodb-memory-server'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import { mongooseAdapter } from '@payloadcms/db-mongodb'
 
 // Set up global test environment
 // Note: We don't set NODE_ENV directly as it's read-only
@@ -13,6 +17,10 @@ if (baseUrl.endsWith('/')) {
 }
 process.env.BASE_URL = baseUrl
 process.env.IS_TEST_ENV = 'true'
+
+let mongoMemoryServer: MongoMemoryServer
+
+let payloadInstance: any
 
 // Mock fetch for API tests when needed
 if (!globalThis.fetch) {
@@ -46,12 +54,54 @@ if (!globalThis.fetch) {
   })
 }
 
+export const getTestPayload = async () => {
+  if (payloadInstance) {
+    return payloadInstance
+  }
+
+  if (!mongoMemoryServer) {
+    mongoMemoryServer = await MongoMemoryServer.create()
+  }
+
+  const mongoUri = mongoMemoryServer.getUri()
+
+  const testConfig = {
+    ...config,
+    db: mongooseAdapter({
+      url: mongoUri,
+    }),
+  }
+
+  payloadInstance = await getPayload({
+    config: testConfig,
+  })
+
+  return payloadInstance
+}
+
 // Global setup
-beforeAll(() => {
+beforeAll(async () => {
   console.log('Starting test suite')
+
+  if (process.env.CI) return
+
+  mongoMemoryServer = await MongoMemoryServer.create()
+  console.log(`MongoDB Memory Server started at ${mongoMemoryServer.getUri()}`)
 })
 
 // Global teardown
-afterAll(() => {
+afterAll(async () => {
   console.log('Test suite completed')
+
+  if (process.env.CI) return
+
+  if (payloadInstance) {
+    await payloadInstance.disconnect()
+    payloadInstance = null
+  }
+
+  if (mongoMemoryServer) {
+    await mongoMemoryServer.stop()
+    console.log('MongoDB Memory Server stopped')
+  }
 })

@@ -1,4 +1,4 @@
-import { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
+import type { PayloadBetterAuthPluginOptions } from '../../pkgs/better-auth-plugin/src/types'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
 import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/plugins'
@@ -27,12 +27,12 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/google' : 'http://localhost:3000/api/auth/callback/google',
+      redirectURI: 'https://apis.do/api/auth/callback/google', // Must remain fixed for better-auth oauth proxy to work correctly
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/github' : 'http://localhost:3000/api/auth/callback/github',
+      redirectURI: 'https://apis.do/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
@@ -107,7 +107,7 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
     adminRoles: ['superAdmin'],
     allowedFields: ['name'],
     blockFirstBetterAuthVerificationEmail: true,
-    collectionOverrides: ({ collection }) => {
+    collectionOverrides: ({ collection }: { collection: CollectionConfig }) => {
       return {
         ...collection,
         admin: {

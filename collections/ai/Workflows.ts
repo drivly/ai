@@ -15,31 +15,31 @@ export const Workflows: CollectionConfig = {
     { name: 'module', type: 'relationship', relationTo: 'modules' },
     { name: 'package', type: 'relationship', relationTo: 'packages' },
     { name: 'deployment', type: 'relationship', relationTo: 'deployments' },
-    { 
-      name: 'public', 
-      type: 'checkbox', 
+    {
+      name: 'public',
+      type: 'checkbox',
       defaultValue: false,
-      admin: { 
+      admin: {
         position: 'sidebar',
-        description: 'Make this workflow available to other users'
-      } 
+        description: 'Make this workflow available to other users',
+      },
     },
-    { 
-      name: 'clonedFrom', 
-      type: 'relationship', 
+    {
+      name: 'clonedFrom',
+      type: 'relationship',
       relationTo: 'workflows',
-      admin: { 
+      admin: {
         position: 'sidebar',
-        description: 'Original workflow this was cloned from'
-      } 
+        description: 'Original workflow this was cloned from',
+      },
     },
-    { 
-      name: 'pricing', 
-      type: 'group', 
+    {
+      name: 'pricing',
+      type: 'group',
       admin: {
         position: 'sidebar',
         condition: (data) => data?.public === true,
-        description: 'Monetization settings for this workflow'
+        description: 'Monetization settings for this workflow',
       },
       fields: [
         {
@@ -47,8 +47,8 @@ export const Workflows: CollectionConfig = {
           type: 'checkbox',
           defaultValue: false,
           admin: {
-            description: 'Enable monetization for this workflow'
-          }
+            description: 'Enable monetization for this workflow',
+          },
         },
         {
           name: 'pricePerUse',
@@ -56,8 +56,8 @@ export const Workflows: CollectionConfig = {
           min: 0,
           admin: {
             condition: (data, siblingData) => siblingData?.isMonetized === true,
-            description: 'Price per use in USD cents (platform fee is 30% above LLM costs)'
-          }
+            description: 'Price per use in USD cents (platform fee is 30% above LLM costs)',
+          },
         },
         {
           name: 'stripeProductId',
@@ -65,8 +65,8 @@ export const Workflows: CollectionConfig = {
           admin: {
             condition: (data, siblingData) => siblingData?.isMonetized === true,
             description: 'Stripe Product ID (auto-generated)',
-            readOnly: true
-          }
+            readOnly: true,
+          },
         },
         {
           name: 'stripePriceId',
@@ -74,10 +74,10 @@ export const Workflows: CollectionConfig = {
           admin: {
             condition: (data, siblingData) => siblingData?.isMonetized === true,
             description: 'Stripe Price ID (auto-generated)',
-            readOnly: true
-          }
-        }
-      ]
+            readOnly: true,
+          },
+        },
+      ],
     },
   ],
 }

@@ -1,72 +1,80 @@
 export default {
-  index: 'Introduction',
-  manifesto: 'Manifesto',
-  // 'getting-started': 'Getting Started',
-  apis: '',
-  sdks: '',
-  _: {
+  docs: { type: 'page', href: '/docs' },
+  api: { type: 'page', title: 'APIs', href: '/docs/apis' },
+  sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
+  // integrations: { type: 'page', theme: { layout: 'full' } },
+  dashboard: { type: 'page', href: '/admin' },
+  reference: { type: 'page', href: 'https://docs.apis.do' },
+
+  manifesto: '',
+  
+  _ai: {
     type: 'separator',
-    title: 'AI' // Title is optional
+    title: 'AI',
   },
   workflows: '',
   functions: '',
   agents: '',
-  _2: {
+
+  _: {
     type: 'separator',
-    title: 'Work'
   },
-  goals: '',
-  plans: '',
-  tasks: '',
-  // kpis: 'KPIs',
-  _3: {
-    type: 'separator',
-    title: 'Data' // Title is optional
-  },
-  nouns: '',
-  verbs: '',
-  // database: '',
-  resources: '',
-  _4: {
-    type: 'separator',
-    title: 'Analytics' // Title is optional
-  },
-  analytics: '',
-  experiments: '',
+
+  business: '',
+  data: '',
   events: '',
-  _5: {
-    type: 'separator',
-    title: 'Integrations' // Title is optional
-  },
+  experiments: '',
   integrations: '',
-  triggers: '',
-  searches: '',
-  actions: '',
-  _6: {
+  observability: '',
+  
+
+  __: {
     type: 'separator',
-    title: 'Evals' // Title is optional
   },
-  benchmarks: '',
-  datasets: '',
-  evals: '',
+
+  // apis: '',
+  // sdks: '',
+
+  // _data: {
+  //   type: 'separator',
+  //   title: 'Data',
+  // },
+  // nouns: '',
+  // verbs: '',
+  // databases: { display: 'hidden' },
+  // resources: { display: 'hidden' },
+
+  // _business: {
+  //   type: 'separator',
+  //   title: 'Business',
+  // },
+  // goals: '',
+  // plans: { display: 'hidden' },
+  // tasks: '',
+
+  // _events: {
+  //   type: 'separator',
+  //   title: 'Events',
+  // },
+  // events: '',
+  // triggers: '',
+  // searches: '',
+  // actions: '',
+  
+  // _experiments: {
+  //   type: 'separator',
+  //   title: 'Experiments',
+  // },
+  // analytics: '',
   // experiments: '',
-  _7: {
-    type: 'separator',
-    title: 'Deploy' // Title is optional
-  },
-  code: '',
-  _8: {
-    type: 'separator',
-    title: 'Operate' // Title is optional
-  },
-  // data: '',
-  // things: '',
-  // llm: '',
-  // observability: '',
-  // traces: '',
+  // benchmarks: '',
   // evals: '',
-  // experiments: '',
-  // admin: '',
-  // api: 'API Reference',
+  // datasets: '',
+  // models: '',
+
+  // _deploy: {
+  //   type: 'separator',
+  //   title: 'Deploy',
+  // },
   // code: '',
 }

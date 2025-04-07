@@ -1,33 +1,22 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
 import { Workflows } from '../../collections/ai/Workflows'
-import { getPayload } from 'payload'
-import config from '../../payload.config'
 import type { Workflow as WorkflowType } from '../../payload.types'
+import { getTestPayload } from '../setup'
 
 describe('Workflows Collection', () => {
   let payload: any
 
   beforeAll(async () => {
     if (process.env.CI) return
-    
+
     try {
-      payload = await getPayload({
-        config,
-      })
+      payload = await getTestPayload()
     } catch (error) {
       console.error('Error initializing Payload:', error)
     }
   })
 
-  afterAll(async () => {
-    if (process.env.CI || !payload) return
-    
-    try {
-      await payload.disconnect()
-    } catch (error) {
-      console.error('Error disconnecting Payload:', error)
-    }
-  })
+  afterAll(async () => {})
 
   it('should have the correct slug', () => {
     expect(Workflows.slug).toBe('workflows')
@@ -55,10 +44,10 @@ describe('Workflows Collection', () => {
     it('should have type and code fields', () => {
       const typeField = Workflows.fields.find((field: any) => field.name === 'type')
       const codeField = Workflows.fields.find((field: any) => field.name === 'code')
-      
+
       expect(typeField).toBeDefined()
       expect(typeField?.type).toBe('code')
-      
+
       expect(codeField).toBeDefined()
       expect(codeField?.type).toBe('code')
     })
@@ -68,32 +57,30 @@ describe('Workflows Collection', () => {
       const moduleField = Workflows.fields.find((field: any) => field.name === 'module')
       const packageField = Workflows.fields.find((field: any) => field.name === 'package')
       const deploymentField = Workflows.fields.find((field: any) => field.name === 'deployment')
-      
+
       expect(functionsField).toBeDefined()
       expect(functionsField?.type).toBe('relationship')
       expect((functionsField as any)?.relationTo).toBe('functions')
-      
+
       expect(moduleField).toBeDefined()
       expect(moduleField?.type).toBe('relationship')
       expect((moduleField as any)?.relationTo).toBe('modules')
-      
+
       expect(packageField).toBeDefined()
       expect(packageField?.type).toBe('relationship')
       expect((packageField as any)?.relationTo).toBe('packages')
-      
+
       expect(deploymentField).toBeDefined()
       expect(deploymentField?.type).toBe('relationship')
       expect((deploymentField as any)?.relationTo).toBe('deployments')
     })
-  })
-  
-  (payload ? describe : describe.skip)('Payload Integration', () => {
+  })(payload ? describe : describe.skip)('Payload Integration', () => {
     it('should be able to find workflows collection', async () => {
       const result = await payload.find({
         collection: 'workflows',
         limit: 1,
       })
-      
+
       expect(result).toBeDefined()
       expect(result.docs).toBeDefined()
       expect(Array.isArray(result.docs)).toBe(true)
@@ -104,22 +91,22 @@ describe('Workflows Collection', () => {
         name: 'Test Workflow',
         type: 'Test Type',
       }
-      
+
       const created = await payload.create({
         collection: 'workflows',
         data: testWorkflow,
       })
-      
+
       expect(created).toBeDefined()
       expect(created.id).toBeDefined()
       expect(created.name).toBe(testWorkflow.name)
       expect(created.type).toBe(testWorkflow.type)
-      
+
       const deleted = await payload.delete({
         collection: 'workflows',
         id: created.id,
       })
-      
+
       expect(deleted).toBeDefined()
       expect(deleted.id).toBe(created.id)
     })

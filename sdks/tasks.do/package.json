@@ -16,15 +16,22 @@
   "module": "dist/index.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
     "directory": "sdks/tasks.do"
   },
-  "author": "Nathan Clevenger",
+  "author": "Drivly",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
@@ -43,5 +50,8 @@
   },
   "peerDependencies": {
     "apis.do": "*"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

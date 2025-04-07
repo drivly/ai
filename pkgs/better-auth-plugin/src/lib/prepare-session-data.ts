@@ -66,4 +66,4 @@ export async function prepareSessionData({
     user: filteredUser,
     session: filteredSession,
   }
-} 
+}

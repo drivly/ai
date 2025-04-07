@@ -44,5 +44,5 @@ export function circleArea(params) {
 export default {
   fetch: (request, env, ctx) => {
     return new Response('Math Worker')
-  }
+  },
 }

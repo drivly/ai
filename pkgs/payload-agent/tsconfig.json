@@ -1,59 +1,18 @@
 {
+  "extends": "../../pkgs/tsconfig/src/react.json",
   "compilerOptions": {
     "rootDir": ".",
-    "target": "ES2022",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "jsx": "preserve",
-    "module": "ESNext",
     "declaration": true,
     "declarationDir": "types",
     "sourceMap": true,
     "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
     "tsBuildInfoFile": ".tsbuildinfo",
-    "emitDeclarationOnly": false,
     "outDir": "dist",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "allowJs": true,
-    "noEmit": true,
-    "incremental": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true
+    "paths": {
+      "@/*": ["./src/*"],
+      "@drivly/ui/*": ["../../pkgs/ui/src/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "dist"]
 }
-// {
-//   "compilerOptions": {
-//     "target": "es5",
-//     "esModuleInterop": true,
-//     "forceConsistentCasingInFileNames": true,
-//     "strict": true,
-//     "skipLibCheck": true,
-//     "jsx": "preserve",
-//     "module": "esnext",
-//     "declaration": true,
-//     "declarationDir": "types",
-//     "sourceMap": true,
-//     "moduleResolution": "Node",
-//     "allowSyntheticDefaultImports": true,
-//     "tsBuildInfoFile": ".tsbuildinfo",
-//     "emitDeclarationOnly": false,
-//     "outDir": "dist",
-//     "lib": ["dom", "dom.iterable", "esnext"],
-//     "allowJs": true,
-//     "noEmit": true,
-//     "incremental": true,
-//     "resolveJsonModule": true,
-//     "isolatedModules": true,
-//     "plugins": [
-//       {
-//         "name": "next"
-//       }
-//     ]
-//   },
-
-// }

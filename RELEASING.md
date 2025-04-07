@@ -19,6 +19,7 @@ We use the [Angular commit message format](https://github.com/angular/angular/bl
 ```
 
 Common types:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -35,7 +36,30 @@ Common types:
 To test the release process locally without publishing:
 
 ```
-pnpm version-pr
+pnpm version-pr          # Test both SDK and package releases
+pnpm version-pr-sdks     # Test SDK releases only
+pnpm version-pr-pkgs     # Test package releases only
 ```
 
-This will simulate a release and show what versions would be bumped.
+These will simulate a release and show what versions would be bumped.
+
+## Separate Release Processes
+
+The repository supports separate release processes for SDK packages and other packages:
+
+1. SDK packages (in the `sdks` directory) are released together with synchronized versioning
+2. Other packages (in the `pkgs` directory) are released independently
+
+To trigger a release:
+
+- For SDK packages only: Update `.github/version-stamp-sdks.txt`
+- For other packages only: Update `.github/version-stamp-pkgs.txt`
+- For both: Update both files
+
+You can also use the following npm scripts:
+
+```
+pnpm release-sdks      # Release only SDK packages
+pnpm release-pkgs      # Release only packages in pkgs directory
+pnpm release           # Release both SDK and other packages
+```

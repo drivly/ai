@@ -73,7 +73,7 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
             <FaGithub className='h-5 w-5' />
             <span className='sr-only'>GitHub</span>
           </Link>
-          <Link href='https://discord.gg/qus39VeA' className='hover:text-primary mr-6 text-sm text-gray-500 transition-colors' target='_blank' rel='noopener noreferrer'>
+          <Link href='https://discord.gg/qus39VeA' className='hover:text-primary mx-2 text-sm text-gray-500 transition-colors'>
             <FaDiscord className='h-5 w-5' />
             <span className='sr-only'>Discord</span>
           </Link>
