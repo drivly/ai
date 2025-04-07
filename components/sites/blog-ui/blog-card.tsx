@@ -11,7 +11,7 @@ interface BlogCardProps {
 export function BlogCard({ post }: BlogCardProps) {
   return (
     <div className='bg-card flex min-h-[400px] flex-col overflow-hidden rounded-lg border transition-all duration-300 hover:translate-y-[-5px] hover:shadow-md'>
-      <Link href={`/sites/llms.do/blog/${post.slug}`} className='group flex h-full flex-col'>
+      <Link href={`./blog/${post.slug}`} className='group flex h-full flex-col'>
         <div className='relative h-1/2 w-full overflow-hidden'>
           <Image
             src={post.image || '/placeholder.svg?height=200&width=400&bg=161616'}

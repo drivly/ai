@@ -1,17 +1,12 @@
-import Link from 'next/link'
+import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
-import { notFound } from 'next/navigation'
-import { domainsConfig } from '@/domains.config'
+import Link from 'next/link'
 
-export default async function TermsPage({ params }: { params: Promise<{ domains: string }> }) {
-  const { domains: domain } = await params
-
-  if (!domain || !domainsConfig.domains[domain]) {
-    return notFound()
-  }
+async function TermsPage(props: { params: Promise<{ domain: string }> }) {
+  const { domain } = await props.params
 
   return (
-    <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
+    <div className='container mx-auto min-h-screen max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
       <Link href={`/sites/${domain}`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back
@@ -19,7 +14,7 @@ export default async function TermsPage({ params }: { params: Promise<{ domains:
 
       <div className='mb-8'>
         <h1 className='mb-4 text-4xl font-bold tracking-tight'>Terms of Service</h1>
-        <div className='prose mt-8 max-w-none dark:prose-invert'>
+        <div className='prose dark:prose-invert mt-8 max-w-none'>
           <p>These Terms of Service govern your use of the website located at {domain} and any related services provided by us.</p>
           <h2>Limitations</h2>
           <p>You agree that we will not be liable to you or any third party for any loss or damages of any kind.</p>
@@ -30,6 +25,8 @@ export default async function TermsPage({ params }: { params: Promise<{ domains:
     </div>
   )
 }
+
+export default withSitesWrapper(TermsPage)
 
 // # Drivly, Inc. Terms of Service
 // **Last Updated: April 4, 2025 **

@@ -1,63 +1,175 @@
-import { FaGithub } from 'react-icons/fa'
-import { FaDiscord } from 'react-icons/fa'
+import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
 import { cn } from '@drivly/ui/lib'
+import { AnimatePresence, motion } from 'motion/react'
 import Link from 'next/link'
-import { buttonVariants } from '@drivly/ui/button'
+import { type Dispatch, Fragment, type SetStateAction, useState } from 'react'
+import { IconType } from 'react-icons/lib'
+import { backgroundAnimation, blurAnimation, heightAnimation, translateAnimation } from './animations'
+import { navLinks } from './nav-config'
 
 export interface MobileNavProps {
+  domain?: string
   isOpen: boolean
-  handleClose: () => void
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export const MobileNav = ({ isOpen, handleClose }: MobileNavProps) => {
+export const MobileNav = ({ domain, isOpen, setOpen }: MobileNavProps) => {
   return (
-    <div className='bg-background/95 backdrop-blur-md md:hidden'>
-      <nav className='container px-4 py-6'>
-        <ul className='flex flex-col space-y-6'>
-          <li>
-            <Link className='hover:text-primary flex items-center text-lg font-medium text-gray-200 transition-colors' href='/sites/blog' onClick={handleClose}>
-              Blog
-            </Link>
-          </li>
-          <li>
-            <Link
-              className='hover:text-primary flex items-center text-lg font-medium text-gray-200 transition-colors'
-              href='https://github.com/drivly/ai'
-              target='_blank'
-              rel='noopener noreferrer'
-              onClick={handleClose}>
-              <FaGithub className='mr-2 h-5 w-5' />
-              GitHub
-            </Link>
-          </li>
-          <li>
-            <Link
-              className='hover:text-primary flex items-center text-lg font-medium text-gray-200 transition-colors'
-              href='https://discord.gg/qus39VeA'
-              target='_blank'
-              rel='noopener noreferrer'
-              onClick={handleClose}>
-              <FaDiscord className='mr-2 h-5 w-5' />
-              Discord
-            </Link>
-          </li>
-          <li className='pt-4'>
-            <Link
-              className={cn(
-                buttonVariants({
-                  variant: 'default',
-                }),
-                'w-full justify-center text-sm',
-              )}
-              href='https://apis.do/'
-              target='_blank'
-              rel='noopener noreferrer'
-              onClick={handleClose}>
-              View Docs
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <Fragment>
+      <motion.div
+        className='bg-background/50 absolute inset-0 h-full min-h-0 w-full md:hidden'
+        variants={backgroundAnimation}
+        initial='initial'
+        animate={isOpen ? 'enter' : 'exit'}
+      />
+      <MobileNavButton isOpen={isOpen} toggleOpen={() => setOpen(!isOpen)} />
+      <AnimatePresence mode='wait'>
+        {isOpen && (
+          <motion.div
+            variants={heightAnimation}
+            initial='initial'
+            animate='enter'
+            exit='exit'
+            className='!bg-background/95 fixed top-14 right-0 z-50 min-w-full overflow-hidden backdrop-blur-md md:hidden'>
+            <nav className='w-full px-4 py-6'>
+              <MobileNavMenu onClose={() => setOpen(false)} domain={domain} />
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </Fragment>
+  )
+}
+
+export function MobileNavButton({ isOpen, toggleOpen }: { isOpen: boolean; toggleOpen: () => void }) {
+  return (
+    <button className='z-10 ml-auto p-2 md:hidden' onClick={toggleOpen} aria-label='Toggle menu' aria-expanded={isOpen}>
+      <div className='flex h-5 w-6 flex-col justify-between border border-transparent'>
+        <span
+          className={cn('h-0.5 w-full transform bg-current transition-transform duration-300', {
+            'translate-y-2 rotate-45': isOpen,
+          })}
+        />
+        <span
+          className={cn('h-0.5 w-full bg-current transition-opacity duration-300', {
+            'opacity-0': isOpen,
+          })}
+        />
+        <span
+          className={cn('h-0.5 w-full transform bg-current transition-transform duration-300', {
+            '-translate-y-2 -rotate-45': isOpen,
+          })}
+        />
+      </div>
+    </button>
+  )
+}
+
+export const getChar = (title: string) => {
+  let chars: React.ReactNode[] = []
+  title.split('').forEach((char, index) => {
+    chars.push(
+      <motion.span
+        key={`c_${index}`}
+        custom={[index * 0.02, (title.length - index) * 0.01]}
+        variants={translateAnimation}
+        initial='initial'
+        animate='enter'
+        exit='exit'
+        className='inline-block'>
+        {char}
+      </motion.span>,
+    )
+  })
+  return chars
+}
+
+export function MobileNavMenu({ onClose, domain }: { onClose: () => void; domain?: string }) {
+  const [hovered, setHovered] = useState({ isActive: false, index: 0 })
+  return (
+    <ul className='flex flex-col space-y-6'>
+      {navLinks.map((link, index) => {
+        if (link.label === 'Blog' && domain) {
+          return (
+            <NavItem
+              key={link.label}
+              label={link.label}
+              href={link.href}
+              target={link.target}
+              rel={link.rel}
+              onClose={onClose}
+              index={index}
+              setHovered={setHovered}
+              hovered={hovered}>
+              {getChar(link.label)}
+            </NavItem>
+          )
+        } else if (link.label !== 'Blog' && link.href) {
+          return (
+            <NavItem
+              key={link.label}
+              label={link.label}
+              href={link.href}
+              target={link.target}
+              rel={link.rel}
+              onClose={onClose}
+              Icon={link.Icon}
+              index={index}
+              setHovered={setHovered}
+              hovered={hovered}>
+              {getChar(link.label)}
+            </NavItem>
+          )
+        }
+      })}
+
+      <li className='pt-4'>
+        <JoinWaitlistButton className='w-full' domain={domain}>
+          Join waitlist
+        </JoinWaitlistButton>
+      </li>
+    </ul>
+  )
+}
+
+interface NavItemProps {
+  children: React.ReactNode
+  label: string
+  href: string
+  target?: string
+  rel?: string
+  Icon?: IconType
+  onClose: () => void
+  index: number
+  setHovered: Dispatch<SetStateAction<{ isActive: boolean; index: number }>>
+  hovered: { isActive: boolean; index: number }
+}
+
+export const NavItem = ({ children, label, href, target, rel, Icon, onClose, index, setHovered, hovered }: NavItemProps) => {
+  return (
+    <li onMouseOver={() => setHovered({ isActive: true, index })} onMouseLeave={() => setHovered({ isActive: false, index })}>
+      <Link
+        className='hover:text-primary flex items-center overflow-hidden text-lg font-medium text-gray-200 transition-colors'
+        href={href}
+        target={target}
+        rel={rel}
+        onClick={onClose}>
+        <motion.p variants={blurAnimation} initial='initial' animate={hovered.isActive && hovered.index !== index ? 'blur' : 'unblur'} className='flex items-center'>
+          {Icon && (
+            <motion.span
+              key={`c_${index}`}
+              custom={[index * 0.02, (label.length - index) * 0.01]}
+              variants={translateAnimation}
+              initial='initial'
+              animate='enter'
+              exit='exit'
+              className='inline-block'>
+              <Icon className='mr-2 h-5 w-5' />
+            </motion.span>
+          )}
+          {children}
+        </motion.p>
+      </Link>
+    </li>
   )
 }

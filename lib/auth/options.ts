@@ -6,11 +6,16 @@ import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import { getCurrentURL } from '../utils/url'
 
-export const betterAuthPlugins = [admin(), apiKey(), multiSession(), openAPI(), nextCookies(), 
-  oAuthProxy({ 
-  productionURL: 'https://apis.do',
-  currentURL: getCurrentURL()
-})
+export const betterAuthPlugins = [
+  admin(),
+  apiKey(),
+  multiSession(),
+  openAPI(),
+  nextCookies(),
+  oAuthProxy({
+    productionURL: 'https://apis.do',
+    currentURL: getCurrentURL(),
+  }),
 ]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
@@ -22,12 +27,12 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/google',
+      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/google' : 'http://localhost:3000/api/auth/callback/google',
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/github',
+      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/github' : 'http://localhost:3000/api/auth/callback/github',
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
@@ -99,7 +104,7 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
   users: {
     slug: 'users',
     hidden: true, // Hide the users collection from navigation
-    adminRoles: ['admin'],
+    adminRoles: ['superAdmin'],
     allowedFields: ['name'],
     blockFirstBetterAuthVerificationEmail: true,
     collectionOverrides: ({ collection }) => {

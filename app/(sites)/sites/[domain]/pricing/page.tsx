@@ -1,14 +1,8 @@
-import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { notFound } from 'next/navigation'
-import { domainsConfig } from '@/domains.config'
+import Link from 'next/link'
 
-export default async function PricingPage({ params }: { params: Promise<{ domains: string }> }) {
-  const { domains: domain } = await params
-
-  if (!domain || !domainsConfig.domains[domain]) {
-    return notFound()
-  }
+export default async function PricingPage(props: { params: Promise<{ domain: string }> }) {
+  const { domain } = await props.params
 
   return (
     <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
@@ -19,7 +13,7 @@ export default async function PricingPage({ params }: { params: Promise<{ domain
 
       <div className='mb-8'>
         <h1 className='mb-4 text-4xl font-bold tracking-tight'>Pricing</h1>
-        <div className='prose mt-8 max-w-none dark:prose-invert'>
+        <div className='prose dark:prose-invert mt-8 max-w-none'>
           <p>Choose the plan that's right for your needs.</p>
           <div className='grid gap-6 md:grid-cols-3'>
             <div className='rounded-lg border p-6'>

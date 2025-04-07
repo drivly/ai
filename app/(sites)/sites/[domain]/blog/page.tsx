@@ -1,10 +1,10 @@
 import { BlogPosts } from '@/components/sites/blog-ui/blog-posts'
-import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
+import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { getAllBlogPosts, getAllCategories } from './blog-posts'
 
-async function BlogPage(props: { params: Promise<{ domain?: string }> }) {
+async function BlogPage(props: { params: Promise<{ domain: string }> }) {
   const { domain } = await props.params
   // Move data fetching to the server component
   const posts = getAllBlogPosts()
@@ -25,7 +25,7 @@ async function BlogPage(props: { params: Promise<{ domain?: string }> }) {
   )
 }
 
-export default withSitesNavbar(BlogPage)
+export default withSitesWrapper(BlogPage)
 // Get Started // Join
 // --- Request access
 // email onboarding with questions react-email // templates

@@ -3,7 +3,7 @@
 import { domainDescriptions } from '@/api.config'
 import { updateOptionParams } from '@/app/_utils/update-option-params'
 import { useSitesData } from '@/components/sites/dotdos/useSitesData'
-import { getGlowColor } from '@/domains.config'
+import { getGlowColor, sdks } from '@/domains.config'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Fragment } from 'react'
@@ -49,14 +49,14 @@ export const DotDoSection = (props: DotDoSectionProps) => {
       {Object.entries(props.domainsByCategory).map(([category, categoryDomains]) => (
         <Fragment key={category}>
           <h2 className='mt-16 mb-6 text-2xl font-bold'>{category}</h2>
-          <div className='mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+          <div className='mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
             {categoryDomains.map((domain) => (
               <DotDoItem
                 key={domain}
                 title={domain}
                 href={showAbsolute || isBrandDomain ? `https://${domain}` : `/sites/${domain}`}
                 description={domainDescriptions[domain]}
-                type={showAbsolute || isBrandDomain ? 'External' : 'Internal'}
+                hasSdk={sdks.includes(domain)}
                 mounted={mounted}
                 glowColor={mounted ? getGlowColor(domain) : '#05b2a6'}
               />
