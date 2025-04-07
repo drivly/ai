@@ -69,7 +69,7 @@ export default function CareersPage() {
                       Remote/Full-time
                     </Badge>
                   </div>
-                  <Button>Apply with Github</Button>
+                  <Button>Apply with GitHub</Button>
                 </div>
               </div>
 
@@ -91,7 +91,7 @@ export default function CareersPage() {
                       Remote/Full-time
                     </Badge>
                   </div>
-                  <Button>Apply with Github</Button>
+                  <Button>Apply with GitHub</Button>
                 </div>
               </div>
             </div>
