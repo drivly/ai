@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { headers } from 'next/headers'
+import { domains, brandDomains } from '../domains.config'
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
   const headersList = await headers()
