@@ -46,6 +46,8 @@ const runSemanticRelease = (packagePath) => {
       module.exports = {
         branches: ['main'],
         ignorePrivatePackages: true,
+        repositoryUrl: 'https://github.com/drivly/ai.git',
+        tagFormat: '\${name}@\${version}',
         plugins: [
           ['@semantic-release/commit-analyzer', {
             preset: 'angular',

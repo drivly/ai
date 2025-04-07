@@ -57,7 +57,8 @@ const getDocsPath = (hostname: string): string => {
  */
 export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
-    const { hostname, pathname, search } = request.nextUrl
+    const { hostname: actualHostname, pathname, search } = request.nextUrl
+    const hostname = process.env.HOSTNAME_OVERRIDE || actualHostname
 
     if (pathname === '/api' || pathname.startsWith('/api/')) {
       console.log('Handling API route', { hostname, pathname, search })
@@ -119,6 +120,16 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next()
       }
       
+      if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+        console.log('Passing through admin path for brand domain', { hostname, pathname, search })
+        return NextResponse.next()
+      }
+      
+      if (pathname === '/api' || pathname.startsWith('/api/')) {
+        console.log('Passing through API path for brand domain', { hostname, pathname, search })
+        return NextResponse.next()
+      }
+      
       if (pathname === '/') {
         console.log('Rewriting brand domain root path to /sites', { hostname, pathname, search })
         return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
@@ -171,7 +182,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      */
-    // '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
-    '/((?!_next/static|_next/image).*)',
+    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 }
