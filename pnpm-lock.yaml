@@ -1049,6 +1049,9 @@ importers:
       payload:
         specifier: ^2.0.0
         version: 2.32.2(@swc/helpers@0.5.15)(@types/react@19.0.12)(esbuild@0.19.12)(typescript@5.8.2)(webpack@5.98.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(esbuild@0.19.12))
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
       tsup:
         specifier: ^8.0.0
         version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
@@ -1294,6 +1297,9 @@ importers:
       tsconfig:
         specifier: workspace:*
         version: link:../../pkgs/tsconfig
+      tsup:
+        specifier: ^8.0.1
+        version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
       typescript:
         specifier: ^5.7.3
         version: 5.8.2
@@ -1340,10 +1346,10 @@ importers:
         version: link:../../pkgs/tsconfig
       tsup:
         specifier: ^8.0.1
-        version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
+        version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.7.0)
       vitest:
         specifier: ^3.0.8
-        version: 3.0.9(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+        version: 3.0.9(@types/debug@4.1.12)(@types/node@20.17.28)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
 
   sdks/experiments.do:
     dependencies:
@@ -1424,6 +1430,9 @@ importers:
       tsconfig:
         specifier: workspace:*
         version: link:../../pkgs/tsconfig
+      tsup:
+        specifier: ^8.0.1
+        version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.15))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.2)(yaml@2.7.0)
       typescript:
         specifier: ^5.7.3
         version: 5.8.2
