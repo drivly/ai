@@ -32,7 +32,6 @@
       "import": "./dist/types.js",
       "types": "./dist/types.d.ts"
     }
- 
   },
   "files": [
     "dist",
@@ -49,7 +48,8 @@
     "url": "https://github.com/drivly/ai/issues"
   },
   "scripts": {
-    "build": "tsc",
+    "prebuild": "cd ../apis.do && pnpm run build",
+    "build": "tsup --config tsup.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "dev": "tsc --watch",
@@ -63,7 +63,8 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
     "vitest": "^3.0.9",
-    "tsconfig": "workspace:*"
+    "tsconfig": "workspace:*",
+    "tsup": "^8.0.1"
   },
   "dependencies": {
     "apis.do": "workspace:*"
