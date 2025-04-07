@@ -4,7 +4,7 @@ import { API } from 'apis.do'
 import { VercelFlagsProvider } from '../src/provider.js'
 import { Experiment } from '../src/types.js'
 
-vi.mock('apis.do', () => {
+vi.mock('apis.do/src/client', () => {
   return {
     API: vi.fn().mockImplementation(() => ({
       create: vi.fn().mockResolvedValue({ name: 'test-experiment' }),
