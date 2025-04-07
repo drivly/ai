@@ -2,6 +2,7 @@ export interface ExperimentVariant {
   id: string
   description?: string
   config: Record<string, any>
+  isControl?: boolean
 }
 
 export interface ExperimentMetric {
@@ -48,32 +49,44 @@ export interface VariantResult {
 
 export interface ExperimentResults {
   name: string
-  variants: Record<string, {
-    metrics: Record<string, {
-      mean: number
-      count: number
-      sum: number
-    }>
-  }>
+  variants: Record<
+    string,
+    {
+      metrics: Record<
+        string,
+        {
+          mean: number
+          count: number
+          sum: number
+        }
+      >
+    }
+  >
 }
 
 export interface ExperimentComparison {
   name: string
   variants: string[]
-  metrics: Record<string, {
-    differences: Record<string, number>
-    significances: Record<string, number>
-  }>
+  metrics: Record<
+    string,
+    {
+      differences: Record<string, number>
+      significances: Record<string, number>
+    }
+  >
 }
 
 export interface ExperimentRecommendation {
   name: string
   recommendedVariant: string
   confidence: number
-  metrics: Record<string, {
-    improvement: number
-    significance: number
-  }>
+  metrics: Record<
+    string,
+    {
+      improvement: number
+      significance: number
+    }
+  >
 }
 
 export interface ErrorResponse {

@@ -22,10 +22,12 @@
     "paths": {
       "@/*": ["./*"],
       "@payload-config": ["payload.config.ts"],
-      "@/.velite/*": [".velite/*"]
+      "@/.velite/*": [".velite/*"],
+      "@drivly/ui/*": ["./pkgs/ui/src/*"]
     },
-    "target": "ES2022"
+    "target": "ES2022",
+    "typeRoots": ["./node_modules/@types", "./types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "mdx-components.ts", ".velite/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "mdx-components.ts", ".velite/**/*.ts", "types/**/*.d.ts", "content/databases/index.mdx"],
   "exclude": ["node_modules", "workers", "pkgs", "websites"]
 }

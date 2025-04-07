@@ -6,22 +6,16 @@ export const Users: CollectionConfig = {
     group: 'Admin',
     useAsTitle: 'email',
   },
-  auth: { tokenExpiration: 60 * 60 * 24 * 30, useAPIKey: true, disableLocalStrategy: true },
+  auth: { tokenExpiration: 60 * 60 * 24 * 30, useAPIKey: true, disableLocalStrategy: process.env.NODE_ENV === 'development' ? undefined : true },
   fields: [
-    // Email added by default
- 
- 
-    //     {
-    //       name: 'roles',
-    //       type: 'relationship',
-    //       relationTo: 'roles',
-    //       hasMany: true,
-    //     },
-    //     {
-    //       name: 'tasks',
-    //       type: 'relationship',
-    //       relationTo: 'tasks',
-    //       hasMany: true,
-    //     },
+    {
+      name: 'roles',
+      type: 'relationship',
+      relationTo: 'roles',
+      hasMany: true,
+      admin: {
+        description: 'User roles for permissions and access control',
+      },
+    },
   ],
 }

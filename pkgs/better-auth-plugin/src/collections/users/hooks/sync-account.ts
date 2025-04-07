@@ -1,6 +1,7 @@
 import type { CollectionAfterChangeHook } from 'payload'
 import type { CollectionHookWithBetterAuth } from '../../../types'
-import { BETTER_AUTH_CONTEXT_KEY } from '@payload-auth/better-auth-db-adapter'
+
+const BETTER_AUTH_CONTEXT_KEY = 'payload-db-adapter'
 
 type CollectionAfterChangeHookWithBetterAuth =
   CollectionHookWithBetterAuth<CollectionAfterChangeHook>
@@ -10,9 +11,7 @@ type SyncAccountOptions = {
   accountSlug: string
 }
 
-export const getSyncAccountHook = (
-  options: SyncAccountOptions,
-): CollectionAfterChangeHook => {
+export const getSyncAccountHook = (options: SyncAccountOptions): CollectionAfterChangeHook => {
   const hook: CollectionAfterChangeHookWithBetterAuth = async ({
     doc,
     req,
@@ -59,10 +58,7 @@ export const getSyncAccountHook = (
         const accounts = await req.payload.find({
           collection: options.accountSlug,
           where: {
-            and: [
-              { [userField]: { equals: doc.id } },
-              { providerId: { equals: 'credential' } },
-            ],
+            and: [{ [userField]: { equals: doc.id } }, { providerId: { equals: 'credential' } }],
           },
           req,
           depth: 0,

@@ -9,10 +9,14 @@ export const getBeforeLoginHook = (): CollectionBeforeLoginHook => {
     const config = req.payload.config
     const payload = await getPayloadWithAuth(config)
 
-    const requireEmailVerification = payload.betterAuth.options.emailAndPassword?.requireEmailVerification ?? false
-    
+    const requireEmailVerification =
+      payload.betterAuth.options.emailAndPassword?.requireEmailVerification ?? false
+
     if (requireEmailVerification && !user.emailVerified) {
-      throw new APIError('Email verification required. Please verify your email before logging in.', 403)
+      throw new APIError(
+        'Email verification required. Please verify your email before logging in.',
+        403,
+      )
     }
 
     return user

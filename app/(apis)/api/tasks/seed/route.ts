@@ -1,22 +1,27 @@
 import { API } from '@/lib/api'
 import config from '@/payload.config'
 import { getPayload } from 'payload'
-// import { seedDatabase } from '@/scripts/seed'
+import { seedDatabase } from '@/scripts/seedDatabase'
 
 export const GET = API(async (req, { db, params, user, payload }) => {
-  // seedDatabase()
-
-  // const payload = await getPayload({ config })
-  // const { user } = await payload.auth(req)
-
   if (!user?.email?.endsWith('@driv.ly')) {
     return { user: user?.email, success: false, message: 'Unauthorized' }
   }
 
-  // Schema.org Nouns
+  const seedResults = await seedDatabase()
+
   const graph = await fetch('https://schema.org/version/latest/schemaorg-current-https.jsonld')
     .then((res) => res.json())
     .then((data) => data['@graph'])
+
+  const thingsResults = await payload.db.connection.collection('things').bulkWrite(
+    graph.map((thing: any) => {
+      thing.name = thing['rdfs:label']
+      return { updateOne: { filter: { '@id': thing['@id'] }, update: { $set: thing }, upsert: true } }
+    }),
+  )
+  console.log('Schema.org things seeded')
+
   const schemaResults = await payload.db.connection.collection('nouns').bulkWrite(
     graph.map((thing: any) => {
       thing.name = thing['rdfs:label']
@@ -52,8 +57,8 @@ export const GET = API(async (req, { db, params, user, payload }) => {
   const triggersResults = await payload.db.connection.collection('integrationtriggers').bulkWrite(
     triggers.map((trigger: any) => {
       if (trigger.display_name) {
-        trigger.displayName = trigger.display_name;
-        delete trigger.display_name;
+        trigger.displayName = trigger.display_name
+        delete trigger.display_name
       }
       return { updateOne: { filter: { appKey: trigger.appKey }, update: { $set: trigger }, upsert: true } }
     }),

@@ -7,8 +7,7 @@ When configuring the oAuthProxy plugin in better-auth, use the following pattern
 ```typescript
 oAuthProxy({
   productionURL: 'https://your-production-domain.com',
-  currentURL: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
-              process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  currentURL: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
 })
 ```
 
@@ -17,14 +16,20 @@ oAuthProxy({
 For Vercel preview deployments, implement a comprehensive URL detection strategy:
 
 ```typescript
-oAuthProxy({ 
+oAuthProxy({
   productionURL: 'https://apis.do',
-  currentURL: typeof window !== 'undefined' ? window.location.origin : // Client-side detection
-              process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
-              process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : 
-              process.env.VERCEL_BRANCH_URL ? process.env.VERCEL_BRANCH_URL : 
-              process.env.VERCEL_PREVIEW_URL ? process.env.VERCEL_PREVIEW_URL : 
-              process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL
+  currentURL:
+    typeof window !== 'undefined'
+      ? window.location.origin // Client-side detection
+      : process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : process.env.NEXT_PUBLIC_VERCEL_URL
+          ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+          : process.env.VERCEL_BRANCH_URL
+            ? process.env.VERCEL_BRANCH_URL
+            : process.env.VERCEL_PREVIEW_URL
+              ? process.env.VERCEL_PREVIEW_URL
+              : process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL,
 })
 ```
 
@@ -45,7 +50,7 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
       redirectURI: 'https://apis.do/api/auth/callback/github',
     },
-  }
+  },
 }
 ```
 

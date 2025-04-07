@@ -19,7 +19,7 @@ export default async function PricingPage({ params }: { params: Promise<{ domain
 
       <div className='mb-8'>
         <h1 className='mb-4 text-4xl font-bold tracking-tight'>Pricing</h1>
-        <div className='prose mt-8 max-w-none dark:prose-invert'>
+        <div className='prose dark:prose-invert mt-8 max-w-none'>
           <p>Choose the plan that's right for your needs.</p>
           <div className='grid gap-6 md:grid-cols-3'>
             <div className='rounded-lg border p-6'>

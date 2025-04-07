@@ -19,11 +19,11 @@ export default function OAuthClientsPage() {
   const [name, setName] = useState('')
   const [redirectURLs, setRedirectURLs] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
-  
+
   useEffect(() => {
     fetchClients()
   }, [])
-  
+
   const fetchClients = async () => {
     try {
       setLoading(true)
@@ -40,27 +40,30 @@ export default function OAuthClientsPage() {
       setLoading(false)
     }
   }
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSuccessMessage('')
     setError('')
-    
+
     if (!name.trim() || !redirectURLs.trim()) {
       setError('Name and Redirect URLs are required')
       return
     }
-    
+
     try {
       const response = await fetch('/oauth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: name.trim(),
-          redirectURLs: redirectURLs.split(',').map(url => url.trim()).filter(Boolean),
+          redirectURLs: redirectURLs
+            .split(',')
+            .map((url) => url.trim())
+            .filter(Boolean),
         }),
       })
-      
+
       if (response.ok) {
         const data = await response.json()
         setSuccessMessage(`Client "${data.name}" registered successfully!`)
@@ -75,68 +78,57 @@ export default function OAuthClientsPage() {
       setError('An error occurred while registering the client')
     }
   }
-  
+
   return (
-    <div className='container mx-auto py-8 px-4'>
-      <h1 className='text-3xl font-bold mb-6'>OAuth Clients</h1>
-      
-      {successMessage && (
-        <div className='bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4'>
-          {successMessage}
-        </div>
-      )}
-      
-      {error && (
-        <div className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4'>
-          {error}
-        </div>
-      )}
-      
-      <div className='bg-white shadow-md rounded p-6 mb-8'>
-        <h2 className='text-xl font-semibold mb-4'>Register New OAuth Client</h2>
+    <div className='container mx-auto px-4 py-8'>
+      <h1 className='mb-6 text-3xl font-bold'>OAuth Clients</h1>
+
+      {successMessage && <div className='mb-4 rounded border border-green-400 bg-green-100 px-4 py-3 text-green-700'>{successMessage}</div>}
+
+      {error && <div className='mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700'>{error}</div>}
+
+      <div className='mb-8 rounded bg-white p-6 shadow-md'>
+        <h2 className='mb-4 text-xl font-semibold'>Register New OAuth Client</h2>
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='name'>
+            <label className='mb-2 block text-sm font-bold text-gray-700' htmlFor='name'>
               Name
             </label>
             <input
               id='name'
               type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700'
+              className='w-full appearance-none rounded border px-3 py-2 text-gray-700 shadow'
               placeholder='e.g., OpenAI Actions, Zapier'
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className='mb-6'>
-            <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='redirectURLs'>
+            <label className='mb-2 block text-sm font-bold text-gray-700' htmlFor='redirectURLs'>
               Redirect URLs (comma separated)
             </label>
             <input
               id='redirectURLs'
               type='text'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700'
+              className='w-full appearance-none rounded border px-3 py-2 text-gray-700 shadow'
               placeholder='https://chat.openai.com/aip/oauth/callback,https://zapier.com/oauth/callback'
               value={redirectURLs}
               onChange={(e) => setRedirectURLs(e.target.value)}
             />
           </div>
-          <button
-            type='submit'
-            className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-          >
+          <button type='submit' className='rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700'>
             Register Client
           </button>
         </form>
       </div>
-      
-      <h2 className='text-xl font-semibold mb-4'>Existing OAuth Clients</h2>
+
+      <h2 className='mb-4 text-xl font-semibold'>Existing OAuth Clients</h2>
       {loading ? (
         <p>Loading...</p>
       ) : clients.length === 0 ? (
         <p>No OAuth clients found.</p>
       ) : (
-        <div className='bg-white shadow-md rounded overflow-x-auto'>
+        <div className='overflow-x-auto rounded bg-white shadow-md'>
           <table className='min-w-full'>
             <thead>
               <tr>
@@ -152,25 +144,16 @@ export default function OAuthClientsPage() {
                   <td className='border px-4 py-2'>{client.name}</td>
                   <td className='border px-4 py-2'>{client.clientId}</td>
                   <td className='border px-4 py-2'>{client.redirectURLs}</td>
-                  <td className='border px-4 py-2'>
-                    {client.disabled ? (
-                      <span className='text-red-500'>Disabled</span>
-                    ) : (
-                      <span className='text-green-500'>Active</span>
-                    )}
-                  </td>
+                  <td className='border px-4 py-2'>{client.disabled ? <span className='text-red-500'>Disabled</span> : <span className='text-green-500'>Active</span>}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       )}
-      
+
       <div className='mt-8'>
-        <Link
-          href='/admin'
-          className='inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded'
-        >
+        <Link href='/admin' className='inline-block rounded bg-gray-200 px-4 py-2 font-bold text-gray-800 hover:bg-gray-300'>
           Back to Admin
         </Link>
       </div>

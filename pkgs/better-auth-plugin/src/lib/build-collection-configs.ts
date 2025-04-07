@@ -121,7 +121,10 @@ export function buildCollectionConfigs({
             ],
             afterLogin: [
               ...(existingUserCollection?.hooks?.afterLogin ?? []),
-              getAfterLoginHook({ sessionsCollectionSlug: sessionSlug, usersCollectionSlug: userSlug }),
+              getAfterLoginHook({
+                sessionsCollectionSlug: sessionSlug,
+                usersCollectionSlug: userSlug,
+              }),
             ],
             afterLogout: [
               ...(existingUserCollection?.hooks?.afterLogout ?? []),
@@ -1571,13 +1574,13 @@ export function buildCollectionConfigs({
     )
   })
 
-  const enhancedCollectionsWithGroup = enhancedCollections.map(collection => ({
+  const enhancedCollectionsWithGroup = enhancedCollections.map((collection) => ({
     ...collection,
     admin: {
       ...collection.admin,
-      group: 'Admin'
-    }
-  }));
-  
+      group: 'Admin',
+    },
+  }))
+
   return [...enhancedCollectionsWithGroup, ...restOfCollections]
 }

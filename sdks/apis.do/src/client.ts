@@ -1,16 +1,12 @@
-import { ErrorResponse, ListResponse, QueryParams } from './types.js'
-
-export interface ClientOptions {
-  baseUrl?: string
-  apiKey?: string
-  headers?: Record<string, string>
-}
+import { ClientOptions, ErrorResponse, ListResponse, QueryParams } from './types.js'
 
 export class API {
   private baseUrl: string
   private headers: Record<string, string>
+  private options?: ClientOptions
 
   constructor(options: ClientOptions = {}) {
+    this.options = options
     this.baseUrl = options.baseUrl || 'https://apis.do'
     this.headers = {
       'Content-Type': 'application/json',
@@ -46,6 +42,16 @@ export class API {
 
     if (data) {
       options.body = JSON.stringify(data)
+    }
+
+    if (typeof process !== 'undefined' && (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') && this.options?.ignoreSSLErrors) {
+      try {
+        const { Agent } = require('node:https')
+        const fetchOptions = options as RequestInit & { agent?: any }
+        fetchOptions.agent = new Agent({ rejectUnauthorized: false })
+      } catch (e) {
+        console.warn('SSL certificate validation will not be disabled in browser environment')
+      }
     }
 
     const response = await fetch(url.toString(), options)

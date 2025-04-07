@@ -1,82 +1,33 @@
-# [Workflows.do](https://workflows.do) Business-as-Code
+---
+title: Workflows
+sidebarTitle: Workflows
+asIndexPage: true
+---
 
-We believe that you can define, execute, and iterate on business processes as clean & simple code. It should be simple enough for a non-technical business person to read and work with an AI or technical teammate to build and iterate on workflows.
+# Workflows - Elegant Business Process Orchestration
+
+> **Define, execute, and iterate on business processes as clean & simple code**
 
 ## Overview
 
-The `workflows.do` SDK provides a simple yet powerful way to define AI-powered workflows with strongly-typed functions. It allows you to:
+Workflows is the integration hub of the [.do](https://dotdo.ai) ecosystem, seamlessly connecting all SDKs into elegant business processes. It provides a simple yet powerful way to orchestrate AI-powered workflows with strongly-typed functions, enabling you to:
 
 - Define event-driven workflows with AI capabilities
-- Create strongly-typed AI function schemas
-- Integrate with external APIs and databases
-- Build complex, multi-step AI processes with full TypeScript support
+- Orchestrate complex business processes with minimal code
+- Integrate with external APIs, databases, and services
+- Connect AI functions, agents, and human operators in unified processes
+- Build elegant, multi-step processes with full TypeScript support
 
-## Features
+## Key Features
 
-- **Declarative Workflows**: Define complex business processes using a simple, declarative syntax
-- **AI Integration**: Seamlessly incorporate AI functions into your workflows
-- **Event-Driven Architecture**: Trigger workflows based on events from various sources
-- **Error Handling**: Built-in mechanisms for handling errors and exceptions
-- **Observability**: Monitor and debug workflow execution
-- **Scalability**: Run workflows at any scale, from simple tasks to enterprise processes
-- **Type Safety**: Full TypeScript support for reliable development
-
-## Workflows as Functions
-
-A key concept in the Workflows.do platform is that **Workflows themselves are Functions**. This means:
-
-1. Workflows can be invoked like any other function
-2. Workflows can be composed and nested within other workflows
-3. Workflows can be used as tools by AI Agents
-4. Workflows can be triggered by events or called directly by humans
-
-This design creates a powerful compositional model where complex business processes can be built from simpler building blocks.
-
-```typescript
-// Example of a workflow being used as a function
-const result = await ai.onboardingWorkflow({
-  customer: {
-    name: 'Acme Corp',
-    industry: 'Manufacturing',
-    size: 'Enterprise'
-  }
-})
-```
-
-## Workflows as Tools
-
-Workflows can serve as powerful tools for both AI Agents and human operators:
-
-### For AI Agents
-
-AI Agents can use workflows as tools to accomplish complex tasks that require orchestrated steps or business logic:
-
-```typescript
-// An agent using a workflow as a tool
-const salesAgent = Agent({
-  name: 'SalesBot',
-  tools: [
-    // The lead qualification workflow is available as a tool
-    ai.leadQualificationWorkflow,
-    ai.proposalGenerationWorkflow
-  ],
-  // Agent can decide when to use which workflow
-})
-```
-
-### For Humans
-
-Human operators can also leverage workflows as tools through interfaces like chat, forms, or APIs:
-
-```typescript
-// A human triggering a workflow through an API
-const result = await api.workflows.execute('content-approval', {
-  documentId: '12345',
-  requestedBy: 'marketing@example.com'
-})
-```
-
-This dual-use capability creates a seamless experience where the same business logic can be accessed by both AI systems and human users.
+- **The Integration Hub** - Seamlessly connects all .do services into cohesive processes
+- **Elegant API Design** - Simple, declarative syntax that prioritizes readability
+- **Composable Architecture** - Build complex workflows from simple, reusable components
+- **AI-Native Integration** - First-class support for AI functions and agents
+- **Event-Driven Processes** - Trigger workflows based on events from various sources
+- **Human-in-the-Loop** - Seamlessly incorporate human approval and input steps
+- **Type Safety** - Full TypeScript support with generics for end-to-end type safety
+- **Observability** - Built-in tracing and monitoring capabilities
 
 ## Installation
 
@@ -88,34 +39,551 @@ yarn add workflows.do
 pnpm add workflows.do
 ```
 
-## Usage
+## Quick Start
+
+The elegance of Workflows is evident in its minimal, intuitive interface:
+
+```typescript
+import { AI } from 'workflows.do'
+
+// Define a workflow with a simple, declarative syntax
+export default AI({
+  processOrder: async (event, { ai, api, db }) => {
+    const { orderId, customer } = event
+
+    // Validate order details
+    const orderDetails = await db.orders.get(orderId)
+    const validationResult = await ai.validateOrderDetails({ orderDetails })
+
+    if (!validationResult.isValid) {
+      return { status: 'rejected', reason: validationResult.issues }
+    }
+
+    // Process payment
+    const paymentResult = await api.stripe.createCharge({
+      amount: orderDetails.total,
+      currency: 'usd',
+      customer: customer.stripeId,
+    })
+
+    // Update inventory
+    await db.inventory.updateStock(orderDetails.items)
+
+    // Generate shipping label
+    const shippingLabel = await api.shippo.createLabel({
+      address: customer.shippingAddress,
+      items: orderDetails.items,
+    })
+
+    // Send confirmation email
+    const emailContent = await ai.generateOrderConfirmation({
+      order: orderDetails,
+      customer,
+      tracking: shippingLabel.trackingNumber,
+    })
+
+    await api.sendgrid.sendEmail({
+      to: customer.email,
+      subject: `Order Confirmation #${orderId}`,
+      content: emailContent,
+    })
+
+    return { status: 'completed', trackingNumber: shippingLabel.trackingNumber }
+  },
+})
+```
+
+## The Integration Hub
+
+As the integration hub of the [.do](https://dotdo.ai) ecosystem, Workflows seamlessly connects all services:
 
 ```typescript
 import { AI } from 'workflows.do'
 
 export default AI({
-  onUserSignup: async ({ ai, api, db, event }) => {
-    const { name, email, company } = event
+  createContentCampaign: async (event, { ai, api, db }) => {
+    const { topic, audience } = event
 
-    // Enrich content details with lookup from external data sources
-    const enrichedContact = await api.apollo.search({ name, email, company })
-    const socialProfiles = await api.peopleDataLabs.findSocialProfiles({ name, email, company })
-    const githubProfile = socialProfiles.github ? await api.github.profile({ name, email, company, profile: socialProfiles.github }) : undefined
+    // Use Functions.do for AI-powered content generation
+    const marketResearch = await ai.researchMarketTrends({ topic, audience })
+    const contentIdeas = await ai.generateContentIdeas({
+      topic,
+      audience,
+      research: marketResearch,
+      count: 5,
+    })
 
-    // Using the enriched contact details, do deep research on the company and personal background
-    const companyProfile = await ai.researchCompany({ company })
-    const personalProfile = await ai.researchPersonalBackground({ name, email, enrichedContact })
-    const socialActivity = await ai.researchSocialActivity({ name, email, enrichedContact, socialProfiles })
-    const githubActivity = githubProfile ? await ai.summarizeGithubActivity({ name, email, enrichedContact, githubProfile }) : undefined
+    // Select the best ideas using an AI evaluation
+    const rankedIdeas = await ai.rankContentIdeas({ ideas: contentIdeas })
+    const topIdeas = rankedIdeas.slice(0, 3)
 
-    // Schedule a highly personalized sequence of emails to optimize onboarding and activation
-    const emailSequence = await ai.personalizeEmailSequence({ name, email, company, personalProfile, socialActivity, companyProfile, githubActivity })
-    await api.scheduleEmails({ emailSequence })
+    // Generate content for each selected idea
+    const contentPieces = await Promise.all(topIdeas.map((idea) => ai.generateContent({ idea, audience, tone: 'professional' })))
 
-    // Summarize everything, save to the database, and post to Slack
-    const details = { enrichedContact, socialProfiles, githubProfile, companyProfile, personalProfile, socialActivity, githubActivity, emailSequence }
-    const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, ...details })
-    const { url } = await db.users.create({ name, email, company, summary, ...details })
-    await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
+    // Use Integrations.do to create visuals with DALL-E
+    const visuals = await api.dalle.generateImages({
+      prompts: contentPieces.map((p) => `Visual for ${p.title}`),
+      style: 'professional',
+    })
+
+    // Use Database.do to store the campaign
+    const campaign = await db.campaigns.create({
+      topic,
+      audience,
+      content: contentPieces.map((piece, i) => ({
+        ...piece,
+        visual: visuals[i].url,
+      })),
+    })
+
+    // Use Analytics.do to track campaign performance
+    await api.analytics.createCampaignTracking({
+      campaignId: campaign.id,
+      goals: ['engagement', 'conversion'],
+    })
+
+    return {
+      campaignId: campaign.id,
+      contentPieces: contentPieces.length,
+      status: 'ready',
+    }
   },
 })
+```
+
+## Elegant API Design
+
+Workflows prioritizes simplicity and readability in its API design:
+
+```typescript
+import { AI } from 'workflows.do'
+
+// Clean, minimal syntax that focuses on business logic
+export default AI({
+  approveExpense: async (event, { ai, api, db }) => {
+    const { expenseId, amount, submittedBy, category } = event
+
+    // Simple conditional logic
+    if (amount <= 100) {
+      return { status: 'auto-approved', approvedBy: 'system' }
+    }
+
+    // AI-powered risk assessment
+    const risk = await ai.assessExpenseRisk({ amount, submittedBy, category })
+
+    if (risk.score > 0.7) {
+      // Human approval for high-risk expenses
+      const approvalResult = await api.humans.requestApproval({
+        type: 'expense',
+        id: expenseId,
+        details: { amount, submittedBy, category, risk },
+        approvers: ['finance@example.com'],
+      })
+
+      return {
+        status: approvalResult.approved ? 'approved' : 'rejected',
+        approvedBy: approvalResult.approver,
+        notes: approvalResult.notes,
+      }
+    } else {
+      // Auto-approve low-risk expenses
+      await db.expenses.update(expenseId, { status: 'approved' })
+      return { status: 'approved', approvedBy: 'system', riskScore: risk.score }
+    }
+  },
+})
+```
+
+## Composable Architecture
+
+Workflows enables building complex processes from simple, reusable components:
+
+```typescript
+import { AI } from 'workflows.do'
+
+// Define reusable sub-workflows
+const validateCustomer = async ({ customerId }, { db, ai }) => {
+  const customer = await db.customers.get(customerId)
+  const validation = await ai.validateCustomerData({ customer })
+  return { customer, isValid: validation.valid, issues: validation.issues }
+}
+
+const processPayment = async ({ customer, amount }, { api }) => {
+  return api.stripe.createCharge({
+    amount,
+    currency: 'usd',
+    customer: customer.stripeId,
+  })
+}
+
+// Compose them into a larger workflow
+export default AI({
+  subscriptionRenewal: async (event, context) => {
+    const { customerId, planId } = event
+
+    // Reuse the customer validation component
+    const { customer, isValid } = await validateCustomer({ customerId }, context)
+
+    if (!isValid) {
+      return { status: 'failed', reason: 'invalid_customer' }
+    }
+
+    // Get plan details
+    const plan = await context.db.plans.get(planId)
+
+    // Reuse the payment processing component
+    const paymentResult = await processPayment(
+      {
+        customer,
+        amount: plan.price,
+      },
+      context,
+    )
+
+    if (paymentResult.status !== 'succeeded') {
+      return { status: 'failed', reason: 'payment_failed' }
+    }
+
+    // Update subscription
+    await context.db.subscriptions.update({
+      customerId,
+      planId,
+      renewedAt: new Date().toISOString(),
+      expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+    })
+
+    return { status: 'renewed', nextRenewal: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) }
+  },
+})
+```
+
+## Integrated Function Types
+
+Workflows provides seamless integration with Functions for type-safe AI operations:
+
+```typescript
+import { AI, defineFunction } from 'workflows.do'
+
+// Define strongly-typed AI functions
+const analyzeCustomerSentiment = defineFunction({
+  name: 'analyzeCustomerSentiment',
+  description: 'Analyze customer feedback for sentiment and key issues',
+  input: {
+    feedback: 'string',
+    customerHistory: 'object?',
+  },
+  output: {
+    sentiment: 'string', // positive, negative, neutral
+    score: 'number', // 0-1
+    keyIssues: 'string[]',
+    actionRecommendations: 'string[]',
+  },
+})
+
+// Use the typed functions in workflows
+export default AI({
+  processFeedback: async (event, { ai, db, api }) => {
+    const { feedbackId } = event
+
+    // Get feedback details
+    const feedback = await db.feedback.get(feedbackId)
+    const customer = await db.customers.get(feedback.customerId)
+
+    // Use the typed function
+    const analysis = await ai.analyzeCustomerSentiment({
+      feedback: feedback.text,
+      customerHistory: customer.interactions,
+    })
+
+    // Take action based on sentiment
+    if (analysis.score < 0.3) {
+      // Negative sentiment - create support ticket
+      await api.zendesk.createTicket({
+        customer: customer.email,
+        subject: `Urgent: Negative Feedback (${analysis.score.toFixed(2)})`,
+        description: `Issues: ${analysis.keyIssues.join(', ')}`,
+        priority: 'high',
+      })
+    }
+
+    // Store analysis
+    await db.feedback.update(feedbackId, {
+      analysis,
+      processed: true,
+    })
+
+    return {
+      feedbackId,
+      sentiment: analysis.sentiment,
+      processed: true,
+    }
+  },
+})
+```
+
+## Seamless Tool Integration
+
+Workflows integrates seamlessly with external tools and services:
+
+```typescript
+import { AI } from 'workflows.do'
+
+export default AI({
+  onboardNewClient: async (event, { ai, api, db }) => {
+    const { client } = event
+
+    // Create accounts in various systems
+    const crmAccount = await api.salesforce.createAccount({
+      name: client.companyName,
+      industry: client.industry,
+      size: client.employeeCount,
+    })
+
+    const supportAccount = await api.zendesk.createOrganization({
+      name: client.companyName,
+      details: client.description,
+    })
+
+    const billingAccount = await api.stripe.createCustomer({
+      name: client.companyName,
+      email: client.billingEmail,
+      description: `${client.industry} company with ${client.employeeCount} employees`,
+    })
+
+    // Generate personalized welcome materials
+    const welcomeEmail = await ai.generateWelcomeEmail({
+      company: client.companyName,
+      contactName: client.contactName,
+      industry: client.industry,
+      products: client.purchasedProducts,
+    })
+
+    const onboardingPlan = await ai.createOnboardingPlan({
+      company: client.companyName,
+      products: client.purchasedProducts,
+      teamSize: client.teamSize,
+    })
+
+    // Send communications
+    await api.sendgrid.sendEmail({
+      to: client.contactEmail,
+      subject: `Welcome to Our Platform, ${client.companyName}!`,
+      content: welcomeEmail,
+    })
+
+    // Schedule onboarding call
+    const calendarEvent = await api.calendar.scheduleEvent({
+      title: `${client.companyName} Onboarding Call`,
+      attendees: [client.contactEmail, 'success@ourcompany.com'],
+      duration: 60,
+      preferredTimes: client.preferredMeetingTimes,
+    })
+
+    // Store everything in our database
+    await db.clients.create({
+      ...client,
+      status: 'onboarding',
+      accounts: {
+        crm: crmAccount.id,
+        support: supportAccount.id,
+        billing: billingAccount.id,
+      },
+      onboarding: {
+        plan: onboardingPlan,
+        kickoffCall: calendarEvent.id,
+        kickoffTime: calendarEvent.startTime,
+      },
+    })
+
+    return {
+      status: 'onboarded',
+      kickoffCall: calendarEvent.startTime,
+      onboardingSteps: onboardingPlan.steps.length,
+    }
+  },
+})
+```
+
+## Real-World Integration Examples
+
+### Content Marketing Workflow
+
+```typescript
+import { AI } from 'workflows.do'
+
+export default AI({
+  contentMarketingCampaign: async (event, { ai, api, db }) => {
+    const { topic, targetAudience, channels } = event
+
+    // Research phase using Functions.do
+    const marketResearch = await ai.researchTopic({
+      topic,
+      audience: targetAudience,
+      depth: 'comprehensive',
+    })
+
+    const competitorAnalysis = await ai.analyzeCompetitorContent({
+      topic,
+      competitors: event.competitors || [],
+    })
+
+    // Content planning using Functions.do
+    const contentStrategy = await ai.createContentStrategy({
+      topic,
+      audience: targetAudience,
+      research: marketResearch,
+      competitorAnalysis,
+      channels,
+    })
+
+    // Content creation for each piece
+    const contentPieces = await Promise.all(
+      contentStrategy.pieces.map((piece) =>
+        ai.generateContent({
+          title: piece.title,
+          type: piece.type,
+          audience: targetAudience,
+          keyPoints: piece.keyPoints,
+          tone: piece.tone,
+          length: piece.wordCount,
+        }),
+      ),
+    )
+
+    // Visual creation using Integrations.do
+    const visuals = await Promise.all(
+      contentPieces.map((piece) =>
+        api.dalle.generateImage({
+          prompt: `Visual for article titled "${piece.title}" about ${topic}`,
+          style: 'professional',
+          size: '1024x1024',
+        }),
+      ),
+    )
+
+    // Store in Database.do
+    const campaign = await db.campaigns.create({
+      topic,
+      audience: targetAudience,
+      strategy: contentStrategy,
+      content: contentPieces.map((piece, i) => ({
+        ...piece,
+        visual: visuals[i].url,
+      })),
+    })
+
+    // Schedule publication using Integrations.do
+    const publishingSchedule = await ai.createPublishingSchedule({
+      contentPieces: contentPieces.map((p) => p.title),
+      channels,
+      startDate: new Date().toISOString(),
+      frequency: event.frequency || 'weekly',
+    })
+
+    await Promise.all(
+      publishingSchedule.items.map((item) =>
+        api.buffer.schedulePost({
+          content: contentPieces.find((p) => p.title === item.title).body,
+          image: visuals[contentPieces.findIndex((p) => p.title === item.title)].url,
+          channels: item.channels,
+          publishAt: item.publishAt,
+        }),
+      ),
+    )
+
+    return {
+      campaignId: campaign.id,
+      contentPieces: contentPieces.length,
+      schedule: publishingSchedule,
+      status: 'scheduled',
+    }
+  },
+})
+```
+
+### Customer Support Automation
+
+```typescript
+import { AI } from 'workflows.do'
+
+export default AI({
+  handleSupportTicket: async (event, { ai, api, db }) => {
+    const { ticketId } = event
+
+    // Get ticket details from Zendesk
+    const ticket = await api.zendesk.getTicket(ticketId)
+
+    // Analyze the ticket using Functions.do
+    const analysis = await ai.analyzeSupportTicket({
+      subject: ticket.subject,
+      description: ticket.description,
+      customer: ticket.requester.email,
+    })
+
+    // Get customer history from Database.do
+    const customerHistory = await db.customers.findOne({
+      email: ticket.requester.email,
+    })
+
+    // Determine if AI can handle or needs human
+    if (analysis.complexity <= 0.3 && !analysis.sensitiveData) {
+      // Generate response using Functions.do
+      const response = await ai.generateTicketResponse({
+        ticketSubject: ticket.subject,
+        ticketDescription: ticket.description,
+        analysis,
+        customerHistory,
+        tone: 'helpful',
+      })
+
+      // Update ticket in Zendesk
+      await api.zendesk.updateTicket(ticketId, {
+        status: 'solved',
+        comment: {
+          body: response,
+          public: true,
+        },
+      })
+
+      // Log the interaction
+      await db.interactions.create({
+        type: 'support',
+        customer: ticket.requester.email,
+        ticketId,
+        handledBy: 'ai',
+        resolution: 'automated',
+        response,
+      })
+
+      return { status: 'resolved', handledBy: 'ai' }
+    } else {
+      // Route to appropriate human agent
+      const assignee = await ai.determineOptimalAgent({
+        ticketAnalysis: analysis,
+        availableAgents: await api.zendesk.getAvailableAgents(),
+      })
+
+      // Update ticket with AI analysis to help human agent
+      await api.zendesk.updateTicket(ticketId, {
+        assignee_id: assignee.id,
+        comment: {
+          body: `AI Analysis:\n${analysis.summary}\n\nSuggested approach: ${analysis.suggestedApproach}`,
+          public: false,
+        },
+      })
+
+      // Log the interaction
+      await db.interactions.create({
+        type: 'support',
+        customer: ticket.requester.email,
+        ticketId,
+        handledBy: 'human',
+        assignee: assignee.email,
+        aiAnalysis: analysis,
+      })
+
+      return { status: 'assigned', handledBy: 'human', assignee: assignee.name }
+    }
+  },
+})
+```

@@ -23,7 +23,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         break
       case 'array':
         // arrays are serialized as a comma separated list
-        // when the value exists, remove it, otherwise add it, 
+        // when the value exists, remove it, otherwise add it,
         // then re-serialize into a comma separated list
         let existingArray = qs.get(param)?.split(',') ?? []
 
@@ -48,9 +48,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       }
     })
 
-    return `${originOrApiRoute}?${qs.toString()}`
-      .replaceAll('%3A', ':')
-      .replaceAll('%2C', ',')
+    return `${originOrApiRoute}?${qs.toString()}`.replaceAll('%3A', ':').replaceAll('%2C', ',')
   }
 
   const generateLinks = (param: string, options: any[]) => {
@@ -60,14 +58,17 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   // Custom groupBy implementation
   // Cannot bump to ES2024 because it breaks imports so we need to use a polyfill
   function groupByKey<T, K extends keyof any>(array: T[], getKey: (item: T) => K) {
-    return array.reduce((result, item) => {
-      const key = getKey(item);
-      if (!result[key]) {
-        result[key] = [];
-      }
-      result[key].push(item);
-      return result;
-    }, {} as Record<K, T[]>);
+    return array.reduce(
+      (result, item) => {
+        const key = getKey(item)
+        if (!result[key]) {
+          result[key] = []
+        }
+        result[key].push(item)
+        return result
+      },
+      {} as Record<K, T[]>,
+    )
   }
 
   const qs = new URLSearchParams(request.url.split('?')[1])
@@ -204,7 +205,8 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         priceInput: model.endpoint?.pricing.prompt,
         priceOutput: model.endpoint?.pricing.completion,
       }
-    }).reduce((acc, curr) => {
+    })
+    .reduce((acc, curr) => {
       return {
         ...acc,
         [curr.name]: curr,
@@ -213,36 +215,30 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
   if (groupBy && !sortBy) {
     // Modify the modelsObject to group by the given param
-    modelsObject = groupByKey(Object.values(modelsObject) as any[], 
-      (model) => model[groupBy as keyof typeof model] as any)
-    
+    modelsObject = groupByKey(Object.values(modelsObject) as any[], (model) => model[groupBy as keyof typeof model] as any)
+
     // Strip the object down to just the URL now that we've done the grouping
-    modelsObject = Object.fromEntries(Object.entries(modelsObject)
-      .map(([key, value]) => [
+    modelsObject = Object.fromEntries(
+      Object.entries(modelsObject).map(([key, value]) => [
         key,
-        // @ts-expect-error - Ignore 
+        // @ts-expect-error - Ignore
         value.reduce((acc, curr) => {
           return {
             ...acc,
             [curr.name]: curr.url,
           }
-        }, {})
-      ])
+        }, {}),
+      ]),
     )
   } else {
     // Just strip the object down to just the URL now that we've done the grouping
 
-
-    modelsObject = Object.fromEntries(Object.entries(modelsObject)
-      .map(([key, value]) => {
-
+    modelsObject = Object.fromEntries(
+      Object.entries(modelsObject).map(([key, value]) => {
         let postfix = ''
 
-        return [
-          key + postfix,
-          (value as { url: string }).url,
-        ]
-      })
+        return [key + postfix, (value as { url: string }).url]
+      }),
     )
   }
 
@@ -250,7 +246,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
   return {
     links: {
-      toLLM: `${llmDoUrl}/chat/arena?model=${ model || groupModels.join(',') }`,
+      toLLM: `${llmDoUrl}/chat/arena?model=${model || groupModels.join(',')}`,
       groupPresets: {
         custom: modifyQueryString('models', groupModels.join(',')),
         frontier: modifyQueryString('models', 'claude-3.7-sonnet,o3-mini,gemini'),
@@ -262,19 +258,23 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         wideRange: modifyQueryString('models', 'claude-3.7-sonnet,gemini,gpt-4o-mini,ministral-8b,qwq-32b'),
       },
       // The current active group
-      editModels: groupModels.map((model) => {
-        return [model, `${originOrApiRoute}/${model}?${qs.toString()}`]
-      }).reduce((acc, [model, url]) => {
-        return {
-          ...acc,
-          [model]: url,
-        }
-      }, {}),
-      sortBy: allowedSortingValues.map((sortingValue) => {
-        return {
-          [String(sortingValue)]: modifyQueryString('sort', String(sortingValue)),
-        }
-      }).reduce((acc, curr) => ({ ...acc, ...curr }), {}),
+      editModels: groupModels
+        .map((model) => {
+          return [model, `${originOrApiRoute}/${model}?${qs.toString()}`]
+        })
+        .reduce((acc, [model, url]) => {
+          return {
+            ...acc,
+            [model]: url,
+          }
+        }, {}),
+      sortBy: allowedSortingValues
+        .map((sortingValue) => {
+          return {
+            [String(sortingValue)]: modifyQueryString('sort', String(sortingValue)),
+          }
+        })
+        .reduce((acc, curr) => ({ ...acc, ...curr }), {}),
       groupBy: {
         providers: modifyQueryString('groupBy', groupBy === 'provider' ? '' : 'provider'),
         authors: modifyQueryString('groupBy', groupBy === 'author' ? '' : 'author'),
@@ -288,15 +288,15 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       outputType: {
         // ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code']
         object: modifyQueryString('outputType', 'Object', 'array'),
-        'ObjectArray': modifyQueryString('outputType', 'ObjectArray', 'array'),
+        ObjectArray: modifyQueryString('outputType', 'ObjectArray', 'array'),
         Text: modifyQueryString('outputType', 'Text'),
-        'TextArray': modifyQueryString('outputType', 'TextArray', 'array'),
+        TextArray: modifyQueryString('outputType', 'TextArray', 'array'),
         Markdown: modifyQueryString('outputType', 'Markdown'),
         Code: modifyQueryString('outputType', 'Code'),
       },
       providers: generateFacet('provider', provider),
       authors: generateFacet('author', author),
     },
-    models: modelsObject
+    models: modelsObject,
   }
 })

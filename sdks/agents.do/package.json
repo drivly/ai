@@ -13,6 +13,7 @@
   ],
   "homepage": "https://agents.do",
   "type": "module",
+  "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -34,10 +35,13 @@
     "url": "https://github.com/drivly/ai.git",
     "directory": "sdks/agents.do"
   },
-  "author": "Nathan Clevenger",
+  "author": "Drivly",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "node build.mjs",
@@ -46,15 +50,19 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240320.1",
     "evalite": "^0.9.1",
     "typescript": "^5.7.3",
     "vitest": "^3.0.9"
   },
   "dependencies": {
+    "agentic.md": "^0.1.0",
     "agents": "latest",
     "apis.do": "workspace:*",
-    "workflows.do": "workspace:*",
-    "agentic.md": "^0.1.0",
-    "durable-objects-nosql": "workspace:*"
+    "durable-objects-nosql": "workspace:*",
+    "workflows.do": "workspace:*"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

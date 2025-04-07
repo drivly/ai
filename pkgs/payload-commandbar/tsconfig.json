@@ -1,0 +1,14 @@
+{
+  "extends": "../../pkgs/tsconfig/src/react.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "declaration": true,
+    "outDir": "./dist",
+    "incremental": false,
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}

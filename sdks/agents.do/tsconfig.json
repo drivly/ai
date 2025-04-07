@@ -1,14 +1,15 @@
 {
+  "extends": "../../pkgs/tsconfig/src/worker.json",
   "compilerOptions": {
-    "target": "ES2020",
     "module": "ESNext",
     "moduleResolution": "node",
-    "esModuleInterop": true,
     "declaration": true,
     "outDir": "dist",
-    "strict": true,
-    "skipLibCheck": true
+    "types": ["@cloudflare/workers-types"],
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": ["index.ts", "src/**/*", "src/types/**/*"],
+  "include": ["index.ts", "src/**/*", "src/types/**/*", "**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

@@ -4,29 +4,29 @@ import config from '@payload-config'
 
 export const POST = API(async (request, { db, user, origin, url, domain, params }) => {
   const sourceParam = params.source
-  
+
   if (!sourceParam) {
     console.error('Missing source parameter')
     return new Response('Missing source parameter', { status: 400 })
   }
-  
+
   const source = Array.isArray(sourceParam) ? sourceParam[0] : sourceParam
-  
+
   const rawBody = await request.text()
-  
+
   try {
     const data = JSON.parse(rawBody)
-    
+
     const payloadInstance = await getPayload({ config })
-    const results = await payloadInstance.create({ 
-      collection: 'events', 
-      data: { 
+    const results = await payloadInstance.create({
+      collection: 'events',
+      data: {
         data,
         type: data.type || 'webhook.received',
-        source: source
-      } 
+        source: source,
+      },
     })
-    
+
     console.log(`Webhook from ${source} processed:`, results)
     return { results, data }
   } catch (err) {

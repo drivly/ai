@@ -159,3 +159,6 @@ dist
 
 # Velite output directory
 .velite
+
+# Sentry Config File
+.env.sentry-build-plugin

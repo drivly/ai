@@ -1,4 +1,4 @@
-import { cn } from '@drivly/ui/lib'
+import { cn } from '../../lib/utils'
 import { cva, VariantProps } from 'class-variance-authority'
 import { File, FileImage, Loader } from 'lucide-react'
 import Image from 'next/image'

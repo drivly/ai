@@ -1,11 +1,11 @@
+import { Footer } from '@/components/sites/footer'
+import CallToAction from '@/components/sites/sections/call-to-action'
+import { Toaster } from '@/components/sites/sonner'
+import { ThemeProvider } from '@/components/sites/theme-provider'
 import { cn } from '@/components/sites/utils'
 import type { Metadata } from 'next'
 import { Mona_Sans as FontSans } from 'next/font/google'
 import type React from 'react'
-import { Footer } from '@/components/sites/footer'
-import { Navbar } from '@/components/sites/navbar'
-import { Toaster } from '@/components/sites/sonner'
-import { ThemeProvider } from '@/components/sites/theme-provider'
 import './styles.css'
 
 const fontSans = FontSans({
@@ -28,6 +28,7 @@ export default function RootLayout({
       <body className={cn('bg-background flex min-h-screen flex-col font-sans antialiased', fontSans.variable)}>
         <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
           {children}
+          <CallToAction />
           <Footer />
           <Toaster />
         </ThemeProvider>

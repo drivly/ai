@@ -1,11 +1,15 @@
 // storage-adapter-import-placeholder
 import { payloadAgentPlugin } from '@drivly/payload-agent'
 import { payloadBetterAuth } from '@payload-auth/better-auth-plugin'
+import { openapi } from 'payload-oapi'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { stripePlugin } from '@payloadcms/plugin-stripe'
+import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { createHooksQueuePlugin } from './pkgs/payload-hooks-queue'
+// import workosPlugin from './pkgs/payload-workos'
 import path from 'path'
 import { buildConfig } from 'payload'
 // import { payloadKanbanBoard } from 'payload-kanban-board'
@@ -97,26 +101,109 @@ export default buildConfig({
     }),
     payloadBetterAuth(payloadBetterAuthOptions),
     payloadCloudPlugin(),
+    openapi({
+      metadata: {
+        title: 'Workflows.do API',
+        description: 'API documentation for Workflows.do',
+        version: '1.0.0',
+      },
+      specEndpoint: '/api/docs/openapi.json',
+    }),
     // storage-adapter-placeholder
-   
+
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
     }),
+    createHooksQueuePlugin({
+      'nouns.beforeChange': 'inflectNouns',
+      'nouns.afterChange': 'inflectNouns',
+      'verbs.beforeChange': 'conjugateVerbs',
+      'verbs.afterChange': 'conjugateVerbs',
+      'functions.afterChange': ['processCodeFunction', 'generateFunctionExamples'],
+      'searches.beforeChange': 'generateEmbedding',
+      'searches.afterChange': ['searchThings', 'hybridSearchThings'],
+      'actions.afterChange': 'executeFunction',
+      'events.afterChange': 'deliverWebhook',
+    }),
+    multiTenantPlugin({
+      tenantSelectorLabel: 'Project',
+      collections: {
+        functions: {},
+        workflows: {},
+        agents: {},
+
+        queues: {},
+        tasks: {},
+        goals: {},
+        kpis: {},
+
+        nouns: {},
+        verbs: {},
+        databases: {},
+        resources: {},
+
+        integrations: {},
+        connections: {},
+        integrationTriggers: {},
+        integrationActions: {},
+        integrationCategories: {},
+
+        triggers: {},
+        searches: {},
+
+        experiments: {},
+        models: {},
+        prompts: {},
+        settings: {},
+
+        types: {},
+        modules: {},
+        packages: {},
+        deployments: {},
+
+        benchmarks: {},
+        evals: {},
+        evalRuns: {},
+        evalResults: {},
+        datasets: {},
+
+        events: {},
+        errors: {},
+        generations: {},
+        'generation-batches': {},
+        traces: {},
+      },
+      tenantsSlug: 'projects',
+      userHasAccessToAllTenants: (user) => {
+        if (!user) return false
+
+        if (user.roles?.some((role: any) => typeof role === 'object' && role.superAdmin)) {
+          return true
+        }
+
+        const email = user.email
+        if (!email) return false
+        return email.endsWith('@driv.ly')
+      },
+    }),
+    // workosPlugin({
+    //   apiKey: process.env.WORKOS_API_KEY,
+    //   clientId: process.env.WORKOS_CLIENT_ID,
+    //   redirectUri: process.env.WORKOS_REDIRECT_URI,
+    //   features: {
+    //     sso: true,
+    //     directorySync: true,
+    //     mfa: true,
+    //     adminPortal: true,
+    //     magicAuth: true,
+    //     secrets: true,
+    //     webhooks: true,
+    //   },
+    // }),
   ],
 })
 
-// multiTenantPlugin<Config>({
-//   tenantSelectorLabel: 'Project',
-//   // tenantsArrayField: {},
-//   // tenantField: {},
-//   collections: {
-//     functions: {},
-//     workflows: {},
-//     agents: {},
-//   },
-//   userHasAccessToAllTenants: isSuperAdmin,
-// }),
 // payloadKanbanBoard({
 //   collections: {
 //     tasks: {

@@ -1,4 +1,4 @@
-import { executeFunction } from '@/tasks/executeFunction'
+import { executeFunction } from '@/tasks/ai/executeFunction'
 import { API } from '@/lib/api'
 import { waitUntil } from '@vercel/functions'
 
@@ -16,10 +16,10 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   const functionDetails = await db.functions.findOne({
     where: {
       name: {
-        equals: functionName
-      }
+        equals: functionName,
+      },
     },
-    depth: 2 // Include related fields like examples
+    depth: 2, // Include related fields like examples
   })
 
   if (async === 'true') {
@@ -28,30 +28,30 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
       task: 'executeFunction',
       input: { functionName, args, settings },
     })
-    
+
     waitUntil(payload.jobs.runByID({ id: job.id }))
     const queueLatency = Date.now() - start
 
     const baseUrl = request.nextUrl.origin + request.nextUrl.pathname
     const links: Record<string, string> = {}
-    
+
     const statusUrl = new URL(url)
     statusUrl.pathname = `/api/payload-jobs/${job.id}`
     links.status = statusUrl.toString()
-    
+
     if (functionDetails?.examples?.length > 0) {
       const examplesUrl = new URL(url)
       examplesUrl.pathname = examplesUrl.pathname + '/examples'
       links.examples = examplesUrl.toString()
     }
 
-    return { 
-      functionName, 
-      args, 
-      links, 
+    return {
+      functionName,
+      args,
+      links,
       type: 'async',
       jobId: job.id,
-      queueLatency
+      queueLatency,
     }
   }
 
@@ -86,7 +86,7 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   const modelUrl = new URL(url)
   modelUrl.pathname = modelUrl.pathname + '/models'
   links.models = modelUrl.toString()
-  
+
   if (functionDetails?.examples?.length > 0) {
     const examplesUrl = new URL(url)
     examplesUrl.pathname = examplesUrl.pathname + '/examples'
@@ -102,16 +102,16 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   //   links.temperature[temp.toString()] = `${baseUrl}?${tempParams.toString()}`
   // })
 
-  return { 
-    functionName, 
-    args, 
-    links, 
-    type, 
-    data, 
-    reasoning: results?.reasoning?.split('\n'), 
-    settings, 
+  return {
+    functionName,
+    args,
+    links,
+    type,
+    data,
+    reasoning: results?.reasoning?.split('\n'),
+    settings,
     latency,
-    examples: functionDetails?.examples || []
+    examples: functionDetails?.examples || [],
   }
 
   // const job = await payload.jobs.queue({

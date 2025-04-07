@@ -18,19 +18,36 @@ export default buildConfig({
   // ... other config
   plugins: [
     createHooksQueuePlugin({
-      // Simple string syntax - runs task after any change to this collection
+      // TypeScript-friendly collection.hook pattern
+      'nouns.afterChange': 'enrichNoun',
+      'verbs.afterChange': ['enrichVerb', 'notifyVerbChange'],
+      'things.beforeChange': ['validateThing'],
+      'things.afterChange': [
+        'enrichThing',
+        {
+          slug: 'notifyThingChange',
+          input: {
+            notificationType: 'email',
+            recipients: ['admin@example.com'],
+          },
+        },
+      ],
+      'things.beforeDelete': 'archiveThing',
+      'things.afterDelete': 'notifyThingDelete',
+
+      // Traditional syntax is still supported
       collections: {
         // Run a specific task on nouns collection changes
-        'nouns': 'enrichNoun',
-        
+        nouns: 'enrichNoun',
+
         // Run multiple tasks on changes to the verbs collection (array syntax)
-        'verbs': ['enrichVerb', 'notifyVerbChange'],
-        
+        verbs: ['enrichVerb', 'notifyVerbChange'],
+
         // Wildcard to run tasks on all collections
         '*': 'logAllChanges',
-        
+
         // Detailed configuration for a specific collection
-        'things': {
+        things: {
           // Run before the item is created or updated
           beforeChange: ['validateThing'],
           // Run after the item is created or updated
@@ -42,23 +59,26 @@ export default buildConfig({
               slug: 'notifyThingChange',
               input: {
                 notificationType: 'email',
-                recipients: ['admin@example.com']
-              }
-            }
+                recipients: ['admin@example.com'],
+              },
+            },
           ],
           // Run before the item is deleted
           beforeDelete: ['archiveThing'],
           // Run after the item is deleted
-          afterDelete: ['notifyThingDelete']
-        }
+          afterDelete: ['notifyThingDelete'],
+        },
       },
-      
+
       // Global hooks run for all collections
       global: {
-        afterChange: ['logAllChanges']
-      }
-    })
-  ]
+        afterChange: ['logAllChanges'],
+      },
+
+      // Exclude specific collections from global hooks
+      excludeFromGlobal: ['sensitiveCollection', 'highVolumeCollection'],
+    }),
+  ],
 })
 ```
 
@@ -156,10 +176,10 @@ The task will receive:
 {
   // Custom input
   notificationType: 'email',
-  
+
   // Document data (if no custom input fields conflict)
   ...documentData,
-  
+
   // Always included
   context: {
     collection: 'collectionName',

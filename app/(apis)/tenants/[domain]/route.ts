@@ -6,10 +6,10 @@ import { API } from '@/lib/api'
  */
 export const GET = API(async (request, { params }) => {
   const { domain } = params as { domain: string }
-  
+
   return {
     tenant: domain,
     message: `This is a placeholder for tenant domain: ${domain}`,
-    status: 'Coming soon'
+    status: 'Coming soon',
   }
 })

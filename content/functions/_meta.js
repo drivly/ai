@@ -1,5 +1,6 @@
 export default {
-  index: 'Overview',
-  tutorial: '',
-  api: 'API Reference',
+  generation: { display: 'hidden' },
+  code: { display: 'hidden' },
+  human: { display: 'hidden' },
+  agent: { display: 'hidden' },
 }

@@ -133,12 +133,12 @@ This directory contains examples of high-value AI workflows that can be built us
 97. **Cap Table Manager**: Track and optimize equity distribution and ownership.
 98. **Valuation Calculator**: Estimate company valuation using multiple methodologies.
 99. **Term Sheet Analyzer**: Evaluate and negotiate investor term sheets.
-100. **Board Meeting Preparation**: Generate comprehensive board materials from business data.
-101. **Cash Flow Forecaster**: Generate detailed cash flow projections and recommendations.
-102. **Budget Allocation Optimizer**: Analyze and optimize departmental budget allocations.
-103. **Financial Reporting Automator**: Generate comprehensive financial reports.
-104. **Tax Strategy Optimizer**: Identify tax efficiency opportunities.
-105. **Expense Policy Compliance**: Monitor and ensure compliance with expense policies.
+100.  **Board Meeting Preparation**: Generate comprehensive board materials from business data.
+101.  **Cash Flow Forecaster**: Generate detailed cash flow projections and recommendations.
+102.  **Budget Allocation Optimizer**: Analyze and optimize departmental budget allocations.
+103.  **Financial Reporting Automator**: Generate comprehensive financial reports.
+104.  **Tax Strategy Optimizer**: Identify tax efficiency opportunities.
+105.  **Expense Policy Compliance**: Monitor and ensure compliance with expense policies.
 
 ## Team Building
 
@@ -175,46 +175,46 @@ export default AI({
   customerOnboardingWorkflow: async (event, { ai, api, db }) => {
     // 1. Extract customer data from signup event
     const { customer } = event
-    
+
     // 2. Analyze customer needs and preferences
     const customerProfile = await ai.analyzeCustomerProfile(customer)
-    
+
     // 3. Generate personalized onboarding materials
     const onboardingMaterials = await ai.generateOnboardingMaterials(customerProfile)
-    
+
     // 4. Store customer profile in database
     await db.customers.create({
       data: {
         ...customer,
         profileAnalysis: customerProfile,
-        onboardingStatus: 'materials_generated'
-      }
+        onboardingStatus: 'materials_generated',
+      },
     })
-    
+
     // 5. Trigger email sequence
     await api.email.sendOnboardingSequence(customer.email, onboardingMaterials)
-    
+
     // 6. Schedule follow-up tasks
     return {
       customer,
       onboardingMaterials,
       nextSteps: [
         { task: 'follow_up_call', scheduledFor: '+3days' },
-        { task: 'feature_adoption_check', scheduledFor: '+7days' }
-      ]
+        { task: 'feature_adoption_check', scheduledFor: '+7days' },
+      ],
     }
   },
-  
+
   // Function schemas
   analyzeCustomerProfile: {
     description: 'Analyze customer data to identify needs, preferences, and success factors',
     // Schema definition
   },
-  
+
   generateOnboardingMaterials: {
     description: 'Create personalized onboarding content based on customer profile',
     // Schema definition
-  }
+  },
 })
 ```
 

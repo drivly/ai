@@ -1,4 +1,4 @@
-# functions.do
+# [functions.do](https://functions.do) - Strongly-Typed AI Functions
 
 [![npm version](https://img.shields.io/npm/v/functions.do.svg)](https://www.npmjs.com/package/functions.do)
 [![npm downloads](https://img.shields.io/npm/dm/functions.do.svg)](https://www.npmjs.com/package/functions.do)
@@ -8,23 +8,30 @@
 [![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
-AI is transforming businesses but integrating LLMs into existing systems presents challenges due to the clash between AI's non-deterministic nature and traditional software's deterministic characteristics.
+> **Elegant, type-safe AI functions that deliver predictable results**
 
-Key challenges include:
+## Overview
 
-- **Reliability**: AI's unpredictable outputs complicate testing and maintenance
-- **Accuracy**: Models can hallucinate or produce incorrect information
-- **Model Selection**: Balancing capabilities, speed, and cost across rapidly evolving models
-- **Prompt Engineering**: More art than science, difficult to standardize
-- **Configuration**: Complex parameter interactions require careful tuning
+Functions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, providing strongly-typed AI functions that transform unpredictable AI capabilities into reliable, deterministic components for your applications. As a foundational building block, it enables you to create elegant, type-safe interfaces to AI capabilities that seamlessly integrate with your existing codebase.
+
+## The Challenge
+
+Integrating AI into production systems presents several challenges:
+
+- **Unpredictability**: AI outputs vary, making testing and maintenance difficult
+- **Schema Enforcement**: Ensuring AI outputs conform to expected structures
+- **Model Selection**: Choosing the right model for each specific task
+- **Prompt Engineering**: Creating effective prompts that produce consistent results
+- **Type Safety**: Maintaining strong typing across AI interactions
 
 ## The Solution
 
-functions.do creates a clean separation between AI capabilities and application code through strongly-typed interfaces that hide model complexities, enabling:
+Functions.do creates a clean separation between AI capabilities and application code through an elegant, strongly-typed interface that:
 
-- Rapid prototyping of AI applications
-- Continuous improvement without disrupting application code
-- Comprehensive evaluation and optimization strategies
+- **Simplifies AI Integration**: Use AI capabilities with the simplicity of function calls
+- **Enforces Type Safety**: Get predictable, structured outputs that match your schemas
+- **Abstracts Complexity**: Hide model selection, prompt engineering, and configuration details
+- **Enables Iteration**: Improve AI performance without changing application code
 
 ## Installation
 
@@ -36,29 +43,38 @@ yarn add functions.do
 pnpm add functions.do
 ```
 
-## API Overview
+## Key Features
 
-The functions.do SDK exports two main components:
+- **Zero-Boilerplate Integration**: Use AI capabilities with minimal code
+- **Type-Safe Interfaces**: Get predictable, structured outputs that match your schemas
+- **Multiple Invocation Patterns**: Choose the syntax that fits your coding style
+- **Schema Enforcement**: Ensure AI outputs conform to your expected data structures
+- **Model Abstraction**: Switch between AI models without changing application code
+- **Elegant API Design**: Clean, intuitive interfaces that prioritize developer experience
 
-- `ai`: A flexible proxy for invoking AI functions with various patterns
+## Elegant API Design
+
+The functions.do SDK exports two main components with a focus on simplicity:
+
+- `ai`: A flexible proxy for invoking AI functions with minimal syntax
 - `AI`: A function for defining schemas and creating custom AI functions
 
 ## Usage Examples
 
 ### Using the `ai` Proxy
 
-The `ai` export is a versatile proxy that supports multiple invocation patterns:
+The `ai` export supports multiple elegant invocation patterns:
 
 #### Tagged Template Literals
 
 ```typescript
 import { ai } from 'functions.do'
 
-// Basic usage
-const result = await ai`Summarize this article: ${articleText}`
+// Simple, intuitive syntax
+const summary = await ai`Summarize this article: ${articleText}`
 
 // With configuration
-const configuredResult = await ai({ model: 'grok-3' })`Translate this to French: ${text}`
+const translation = await ai({ model: 'grok-3' })`Translate to French: ${text}`
 ```
 
 #### Function Invocation
@@ -69,7 +85,7 @@ import { ai } from 'functions.do'
 // Simple function call without schema
 const storyBrand = await ai.storyBrand({ company: 'Vercel' })
 
-// Function call with schema (structured output)
+// Function call with schema for structured output
 const leanCanvas = await ai.leanCanvas(
   { company: 'Cloudflare' },
   {
@@ -83,26 +99,25 @@ const leanCanvas = await ai.leanCanvas(
     channels: ['path to customers'],
     costStructure: ['list of operational costs'],
     revenueStreams: ['list of revenue sources'],
-    recommendations: ['list of recommendations based on the analysis'],
   },
 )
 
-// Function call with schema and AI configuration
-const blogTitles = await ai.listBlogPostTitles({ topic: 'the future of work post-API' }, ['list SEO-optimized titles'], { model: 'gpt-4.5' })
+// Function call with schema and configuration
+const blogTitles = await ai.listBlogPostTitles({ topic: 'the future of work' }, ['list SEO-optimized titles'], { model: 'gpt-4.5' })
 ```
 
-### Using the `AI` Function
+### Creating Custom Functions with `AI`
 
-The `AI` function allows you to define custom AI functions with specific schemas:
+The `AI` function provides an elegant way to define custom AI functions with specific schemas:
 
 ```typescript
 import { AI } from 'functions.do'
 
-// Define a custom AI function with book proposal schema
+// Define custom AI functions with type-safe schemas
 export const ai = AI({
-  // Book Proposal - Initial concept and outline
+  // Book Proposal Generator
   createBookProposal: {
-    _model: 'claude-3.7-sonnet', // config props are pre-pended with `_`
+    _model: 'claude-3.7-sonnet', // Configuration properties use `_` prefix
     title: 'proposed title of the book',
     subtitle: 'proposed subtitle of the book',
     author: 'name of the author',
@@ -112,7 +127,7 @@ export const ai = AI({
     uniqueSellingPoints: ['what makes this book different and valuable'],
     keyTakeaways: ['main insights readers will gain'],
     marketingPotential: 'assessment of marketing opportunities',
-    coverDescription: 'visual description of the layout and image of the book cover',
+    coverDescription: 'visual description of potential cover design',
     estimatedWordCount: 'approximate word count for the entire book',
     estimatedTimeToComplete: 'timeline for completing the manuscript',
     summary: 'one paragraph summary of the book concept',
@@ -120,13 +135,16 @@ export const ai = AI({
 })
 ```
 
-## Real-World Examples
+## Business Applications
+
+Functions.do enables elegant solutions for common business challenges:
 
 ### StoryBrand Framework
 
 ```typescript
 import { ai } from 'functions.do'
 
+// Generate a StoryBrand framework with a single function call
 const storyBrand = await ai.storyBrand({ guide: 'aws.amazon.com' })
 
 console.log(storyBrand)
@@ -153,11 +171,12 @@ console.log(storyBrand)
 // }
 ```
 
-### Blog Post Title Generation
+### Content Generation
 
 ```typescript
 import { ai } from 'functions.do'
 
+// Generate blog post titles with a single function call
 const results = await ai.writeBlogPostTitles({
   topic: 'automating business workflows with LLMs',
   audience: 'executives',
@@ -181,52 +200,58 @@ console.log(results)
 // }
 ```
 
-### Custom Schema Definition
+### Business Analysis
 
 ```typescript
 import { AI } from 'functions.do'
 
+// Define custom business analysis functions
 const ai = AI({
   createLeanCanvas: {
     problems: ['top 3 problems the business solves'],
     customerSegments: ['target customers and users for the product'],
-    uniqueValueProposition: 'clear and compelling message that states why you are different and worth buying',
+    uniqueValueProposition: 'clear message that states why you are different',
     solutions: ['outline of the solutions to the identified problems'],
     unfairAdvantage: 'something that cannot be easily copied or bought',
     revenueStreams: ['revenue model, lifetime value, revenue, gross margin'],
-    costStructure: ['customer acquisition costs', 'distribution costs', 'hosting', 'people', 'etc.'],
-    keyMetrics: ['key activities you measure (acquisition, retention, referrals, etc.)'],
-    channels: ['path to customers (inbound, outbound, viral, etc.)'],
+    costStructure: ['customer acquisition costs', 'distribution costs', 'hosting'],
+    keyMetrics: ['key activities you measure (acquisition, retention, referrals)'],
+    channels: ['path to customers (inbound, outbound, viral)'],
     earlyAdopters: 'characteristics of the ideal early adopter',
   },
 })
 
+// Generate a lean canvas with a single function call
 const results = await ai.createLeanCanvas({ domain: 'aws.amazon.com' })
 ```
 
-## Advanced Configuration
+## Elegant Configuration
 
-You can override system settings for specific function calls:
+Functions.do provides simple ways to customize AI behavior while maintaining clean code:
 
 ```typescript
 import { ai } from 'functions.do'
 
+// Generate landing page content with elegant configuration
 const landingPage = await ai.generateLandingPage(
+  // Input data
   {
     brand: 'Functions.do',
     idea: 'AI-powered Functions-as-a-Service',
   },
+  // Output schema
   {
     headline: 'attention-grabbing headline that clearly states value proposition',
     subheadline: 'supporting statement that adds clarity to the headline',
-    productDescription: 'concise explanation of what the product does and its benefits',
+    productDescription: 'concise explanation of what the product does',
     keyFeatures: ['list of main features or benefits'],
     socialProof: ['testimonials, user counts, or other trust indicators'],
     callToAction: 'primary button text and action',
   },
+  // Configuration options
   {
     model: 'anthropic/claude-3.7-sonnet:thinking',
-    system: 'You are an expert at generating highly-converting marketing copy for startup landing pages',
+    system: 'You are an expert at generating marketing copy for startups',
     temperature: 1.0,
     seed: 1741452228,
   },
@@ -257,10 +282,10 @@ functions.do supports multiple function types for different use cases:
          productType: 'API',
          customer: 'enterprise developers',
          solution: 'simplified AI integration',
-         description: 'Streamlined API for AI function integration'
+         description: 'Streamlined API for AI function integration',
        },
        options: ['Approve', 'Reject'],
-       freeText: true
+       freeText: true,
      })
      ```
 
@@ -308,3 +333,20 @@ pnpm test:e2e
 ```
 
 End-to-end tests will be skipped if no API key is provided.
+
+## Integration with the [.do](https://dotdo.ai) Ecosystem
+
+Functions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, designed to work seamlessly with other .do services:
+
+- **[apis.do](https://apis.do)** - The foundational SDK and unified API Gateway
+- **[workflows.do](https://workflows.do)** - Business process orchestration
+- **[agents.do](https://agents.do)** - Autonomous digital workers
+- **[database.do](https://database.do)** - AI-native data layer
+
+## License
+
+[MIT](https://opensource.org/licenses/MIT)
+
+## Dependencies
+
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the [.do](https://dotdo.ai) ecosystem

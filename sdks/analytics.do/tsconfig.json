@@ -1,0 +1,15 @@
+{
+  "extends": "../../pkgs/tsconfig/src/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["src/**/*", "types.ts", "index.ts"],
+  "exclude": ["node_modules", "dist"]
+}

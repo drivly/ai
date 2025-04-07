@@ -2,9 +2,14 @@ import { CollectionConfig } from 'payload'
 
 export const OAuthClients: CollectionConfig = {
   slug: 'oauth-clients',
+  labels: {
+    singular: 'OAuth Client',
+    plural: 'OAuth Clients',
+  },
   admin: {
     useAsTitle: 'name',
     group: 'Authentication',
+    hidden: true,
   },
   access: {
     read: ({ req }) => {

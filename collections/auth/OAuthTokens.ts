@@ -2,8 +2,13 @@ import { CollectionConfig } from 'payload'
 
 export const OAuthTokens: CollectionConfig = {
   slug: 'oauth-tokens',
+  labels: {
+    singular: 'OAuth Token',
+    plural: 'OAuth Tokens',
+  },
   admin: {
     group: 'Authentication',
+    hidden: true,
   },
   access: {
     read: ({ req }) => {

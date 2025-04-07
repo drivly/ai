@@ -13,23 +13,43 @@
   ],
   "homepage": "https://gpt.do",
   "type": "module",
+  "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
     "directory": "sdks/gpt.do"
   },
-  "author": "Nathan Clevenger",
+  "author": "Drivly",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "tsc",
     "test": "echo \"No tests\" && exit 0"
   },
+  "dependencies": {
+    "apis.do": "workspace:*"
+  },
   "devDependencies": {
     "vitest": "^3.0.8"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

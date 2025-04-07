@@ -1,22 +1,24 @@
 import { Badge } from '@/components/sites/badge'
-import { getBlogPostBySlug } from '../blog-posts'
-import { notFound } from 'next/navigation'
-import { ArrowLeft, Link } from 'lucide-react'
-import { ShareButtons } from '@/components/sites/blog-ui/share-button'
-import Image from 'next/image'
 import { BlogContent } from '@/components/sites/blog-ui/blog-content'
+import { ShareButtons } from '@/components/sites/blog-ui/share-button'
+import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
+import { ArrowLeft } from 'lucide-react'
+import Image from 'next/image'
+import { notFound } from 'next/navigation'
+import { getBlogPostBySlug } from '../blog-posts'
+import Link from 'next/link'
 
-export default async function BlogPostPage({ params }: { params: Promise<{ domain?: string[]; slug?: string }> }) {
+async function BlogPostPage({ params }: { params: Promise<{ domain?: string; slug?: string }> }) {
   const { domain, slug } = await params
   const post = getBlogPostBySlug(slug || '')
 
   if (!post) {
-    notFound()
+    // notFound()
   }
 
-  const postUrl = `/sites/${domain}/blog/${post.slug}`
+  const postUrl = `/sites/${domain}/blog/${slug}`
   const fallbackImage = '/images/blog-llm.png'
-  const dateObj = new Date(post.date.split('-').join('/'))
+  const dateObj = new Date(post?.date.split('-').join('/') || '')
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (
@@ -28,18 +30,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ domai
 
       <div className='mb-8'>
         <Badge variant='blog' className='mb-4'>
-          {post.category}
+          {post?.category}
         </Badge>
-        <h1 className='mb-4 text-4xl font-bold tracking-tight'>{post.title}</h1>
-        <p className='text-muted-foreground text-xl'>{post.description}</p>
+        <h1 className='mb-4 text-4xl font-bold tracking-tight'>{post?.title}</h1>
+        <p className='text-muted-foreground text-xl'>{post?.description}</p>
         <div className='mt-4 flex flex-row items-center justify-between gap-2'>
           <div className='text-muted-foreground text-sm'>{formattedDate}</div>
-          <ShareButtons title={post.title} url={postUrl} hideLabel={true} />
+          <ShareButtons title={post?.title || ''} url={postUrl} hideLabel={true} />
         </div>
       </div>
 
       <div className='relative mb-8 h-[400px] w-full overflow-hidden rounded-lg'>
-        <Image src={post.image || fallbackImage} alt={post.title} fill className='object-cover' priority />
+        <Image src={post?.image || fallbackImage} alt={post?.title || ''} fill className='object-cover' priority />
       </div>
 
       <BlogContent />
@@ -48,3 +50,5 @@ export default async function BlogPostPage({ params }: { params: Promise<{ domai
     </div>
   )
 }
+
+export default withSitesNavbar(BlogPostPage)

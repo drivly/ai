@@ -1,0 +1,252 @@
+# Agents
+
+Welcome to the Agents documentation. This section provides detailed information about creating, deploying, and managing autonomous digital workers.
+
+## Overview
+
+Agents provides a powerful framework for creating, deploying, and managing autonomous digital workers that can perform complex tasks with minimal human intervention. These agents can handle routine operations, make decisions based on predefined criteria, and adapt to changing conditions.
+
+## Creating an Agent
+
+```typescript
+import { Agent } from 'agents.do'
+
+// Create a customer support agent
+const customerSupportAgent = Agent({
+  name: 'Amy',
+  role: 'Customer Support Agent',
+  job: 'Handles customer inquiries and resolves common issues',
+  url: 'https://amy.do',
+  integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
+  triggers: ['onTicketCreated', 'onMessageReceived'],
+  searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
+  actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
+  kpis: ['ticketResponseTime', 'ticketResolutionTime', 'ticketEscalationRate', 'customerSatisfaction'],
+})
+```
+
+## Endpoints
+
+### List Agents
+
+```
+GET /agents
+```
+
+Returns a list of all agents accessible to the authenticated user.
+
+#### Query Parameters
+
+| Parameter | Type    | Description                                      |
+| --------- | ------- | ------------------------------------------------ |
+| limit     | integer | Maximum number of agents to return (default: 20) |
+| offset    | integer | Number of agents to skip (default: 0)            |
+| sort      | string  | Field to sort by (default: 'createdAt')          |
+| order     | string  | Sort order ('asc' or 'desc', default: 'desc')    |
+
+#### Response
+
+```json
+{
+  "data": [
+    {
+      "id": "agent_123",
+      "name": "Customer Support Agent",
+      "description": "Handles customer inquiries and support tickets",
+      "createdAt": "2023-01-01T00:00:00Z",
+      "updatedAt": "2023-01-02T00:00:00Z"
+    }
+    // ...
+  ],
+  "meta": {
+    "total": 100,
+    "limit": 20,
+    "offset": 0
+  }
+}
+```
+
+### Get Agent
+
+```
+GET /agents/:id
+```
+
+Returns details for a specific agent.
+
+#### Response
+
+```json
+{
+  "id": "agent_123",
+  "name": "Customer Support Agent",
+  "description": "Handles customer inquiries and support tickets",
+  "functions": ["function_1", "function_2"],
+  "workflows": ["workflow_1"],
+  "createdAt": "2023-01-01T00:00:00Z",
+  "updatedAt": "2023-01-02T00:00:00Z"
+}
+```
+
+### Create Agent
+
+```
+POST /agents
+```
+
+Creates a new agent.
+
+#### Request Body
+
+```json
+{
+  "name": "Customer Support Agent",
+  "description": "Handles customer inquiries and support tickets",
+  "functions": ["function_1", "function_2"],
+  "workflows": ["workflow_1"]
+}
+```
+
+#### Response
+
+```json
+{
+  "id": "agent_123",
+  "name": "Customer Support Agent",
+  "description": "Handles customer inquiries and support tickets",
+  "functions": ["function_1", "function_2"],
+  "workflows": ["workflow_1"],
+  "createdAt": "2023-01-01T00:00:00Z",
+  "updatedAt": "2023-01-01T00:00:00Z"
+}
+```
+
+### Update Agent
+
+```
+PUT /agents/:id
+```
+
+Updates an existing agent.
+
+#### Request Body
+
+```json
+{
+  "name": "Updated Customer Support Agent",
+  "description": "Handles customer inquiries and support tickets with improved responses",
+  "functions": ["function_1", "function_2", "function_3"],
+  "workflows": ["workflow_1", "workflow_2"]
+}
+```
+
+#### Response
+
+```json
+{
+  "id": "agent_123",
+  "name": "Updated Customer Support Agent",
+  "description": "Handles customer inquiries and support tickets with improved responses",
+  "functions": ["function_1", "function_2", "function_3"],
+  "workflows": ["workflow_1", "workflow_2"],
+  "createdAt": "2023-01-01T00:00:00Z",
+  "updatedAt": "2023-01-02T00:00:00Z"
+}
+```
+
+### Delete Agent
+
+```
+DELETE /agents/:id
+```
+
+Deletes an agent.
+
+#### Response
+
+```json
+{
+  "success": true,
+  "message": "Agent deleted successfully"
+}
+```
+
+### Run Agent
+
+```
+POST /agents/:id/run
+```
+
+Executes an agent with the provided input.
+
+#### Request Body
+
+```json
+{
+  "input": {
+    "query": "How do I reset my password?",
+    "context": {
+      "user": {
+        "id": "user_123",
+        "email": "user@example.com"
+      }
+    }
+  }
+}
+```
+
+#### Response
+
+```json
+{
+  "id": "run_123",
+  "agentId": "agent_123",
+  "status": "completed",
+  "input": {
+    "query": "How do I reset my password?",
+    "context": {
+      "user": {
+        "id": "user_123",
+        "email": "user@example.com"
+      }
+    }
+  },
+  "output": {
+    "response": "You can reset your password by clicking on the 'Forgot Password' link on the login page and following the instructions sent to your email.",
+    "actions": [
+      {
+        "type": "send_email",
+        "params": {
+          "to": "user@example.com",
+          "subject": "Password Reset Instructions",
+          "body": "Here are the instructions to reset your password..."
+        }
+      }
+    ]
+  },
+  "createdAt": "2023-01-01T00:00:00Z",
+  "completedAt": "2023-01-01T00:00:01Z"
+}
+```
+
+## Error Handling
+
+The API uses standard HTTP status codes to indicate the success or failure of requests. For more information about error codes and how to handle errors, see the [Error Handling](/api/errors) documentation.
+
+## Rate Limiting
+
+API requests are subject to rate limiting to ensure fair usage and system stability. For more information about rate limits and how to handle rate-limiting responses, see the [Rate Limiting](/api/rate-limiting) documentation.
+
+## Webhooks
+
+You can configure webhooks to receive notifications about agent events. For more information about webhooks, see the [Webhooks](/admin/webhooks) documentation.
+
+## SDKs
+
+We provide SDKs for popular programming languages to make it easier to integrate with the Agents API:
+
+- [JavaScript/TypeScript](/code/packages#javascript)
+- [Python](/code/packages#python)
+- [Go](/code/packages#go)
+- [Ruby](/code/packages#ruby)
+- [Java](/code/packages#java)

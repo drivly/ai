@@ -29,6 +29,15 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Run Typecheck
+        run: |
+          pnpm --filter apis.do build
+          pnpm --filter @drivly/ui build
+          pnpm --filter @drivly/payload-agent build
+          # Temporarily disabled typecheck as requested
+          # pnpm typecheck
+          echo "Typecheck temporarily disabled as requested"
+
       - name: Run Tests
         run: pnpm test
         env:
@@ -36,3 +45,4 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}

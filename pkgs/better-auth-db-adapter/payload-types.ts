@@ -59,281 +59,280 @@ export type SupportedTimezones =
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+  | 'Pacific/Fiji'
 
 export interface Config {
   auth: {
-    user: UserAuthOperations;
-  };
-  blocks: {};
+    user: UserAuthOperations
+  }
+  blocks: {}
   collections: {
-    user: User;
-    account: Account;
-    verification: Verification;
-    session: Session;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
-  };
-  collectionsJoins: {};
+    user: User
+    account: Account
+    verification: Verification
+    session: Session
+    'payload-locked-documents': PayloadLockedDocument
+    'payload-preferences': PayloadPreference
+    'payload-migrations': PayloadMigration
+  }
+  collectionsJoins: {}
   collectionsSelect: {
-    user: UserSelect<false> | UserSelect<true>;
-    account: AccountSelect<false> | AccountSelect<true>;
-    verification: VerificationSelect<false> | VerificationSelect<true>;
-    session: SessionSelect<false> | SessionSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
-  };
+    user: UserSelect<false> | UserSelect<true>
+    account: AccountSelect<false> | AccountSelect<true>
+    verification: VerificationSelect<false> | VerificationSelect<true>
+    session: SessionSelect<false> | SessionSelect<true>
+    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>
+  }
   db: {
-    defaultIDType: string;
-  };
-  globals: {};
-  globalsSelect: {};
-  locale: null;
+    defaultIDType: string
+  }
+  globals: {}
+  globalsSelect: {}
+  locale: null
   user: User & {
-    collection: 'user';
-  };
+    collection: 'user'
+  }
   jobs: {
-    tasks: unknown;
-    workflows: unknown;
-  };
+    tasks: unknown
+    workflows: unknown
+  }
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   login: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   registerFirstUser: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   unlock: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "user".
  */
 export interface User {
-  id: string;
-  name: string;
-  email: string;
-  emailVerified: boolean;
-  image?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "account".
  */
 export interface Account {
-  id: string;
-  accountId: number;
-  providerId?: string | null;
-  user: string | User;
-  accessToken?: string | null;
-  refreshToken?: string | null;
-  idToken?: string | null;
-  accessTokenExpiresAt?: string | null;
-  refreshTokenExpiresAt?: string | null;
-  scope?: string | null;
-  password?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  accountId: number
+  providerId?: string | null
+  user: string | User
+  accessToken?: string | null
+  refreshToken?: string | null
+  idToken?: string | null
+  accessTokenExpiresAt?: string | null
+  refreshTokenExpiresAt?: string | null
+  scope?: string | null
+  password?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "verification".
  */
 export interface Verification {
-  id: string;
-  identifier: string;
-  value: string;
-  expiresAt: string;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  identifier: string
+  value: string
+  expiresAt: string
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "session".
  */
 export interface Session {
-  id: string;
-  expiresAt: string;
-  token: string;
-  ipAddress?: string | null;
-  userAgent?: string | null;
-  user: string | User;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  expiresAt: string
+  token: string
+  ipAddress?: string | null
+  userAgent?: string | null
+  user: string | User
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: string
   document?:
     | ({
-        relationTo: 'user';
-        value: string | User;
+        relationTo: 'user'
+        value: string | User
       } | null)
     | ({
-        relationTo: 'account';
-        value: string | Account;
+        relationTo: 'account'
+        value: string | Account
       } | null)
     | ({
-        relationTo: 'verification';
-        value: string | Verification;
+        relationTo: 'verification'
+        value: string | Verification
       } | null)
     | ({
-        relationTo: 'session';
-        value: string | Session;
-      } | null);
-  globalSlug?: string | null;
+        relationTo: 'session'
+        value: string | Session
+      } | null)
+  globalSlug?: string | null
   user: {
-    relationTo: 'user';
-    value: string | User;
-  };
-  updatedAt: string;
-  createdAt: string;
+    relationTo: 'user'
+    value: string | User
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: string
   user: {
-    relationTo: 'user';
-    value: string | User;
-  };
-  key?: string | null;
+    relationTo: 'user'
+    value: string | User
+  }
+  key?: string | null
   value?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
-  name?: string | null;
-  batch?: number | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  name?: string | null
+  batch?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "user_select".
  */
 export interface UserSelect<T extends boolean = true> {
-  name?: T;
-  email?: T;
-  emailVerified?: T;
-  image?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  email?: T
+  emailVerified?: T
+  image?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "account_select".
  */
 export interface AccountSelect<T extends boolean = true> {
-  accountId?: T;
-  providerId?: T;
-  user?: T;
-  accessToken?: T;
-  refreshToken?: T;
-  idToken?: T;
-  accessTokenExpiresAt?: T;
-  refreshTokenExpiresAt?: T;
-  scope?: T;
-  password?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  accountId?: T
+  providerId?: T
+  user?: T
+  accessToken?: T
+  refreshToken?: T
+  idToken?: T
+  accessTokenExpiresAt?: T
+  refreshTokenExpiresAt?: T
+  scope?: T
+  password?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "verification_select".
  */
 export interface VerificationSelect<T extends boolean = true> {
-  identifier?: T;
-  value?: T;
-  expiresAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  identifier?: T
+  value?: T
+  expiresAt?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "session_select".
  */
 export interface SessionSelect<T extends boolean = true> {
-  expiresAt?: T;
-  token?: T;
-  ipAddress?: T;
-  userAgent?: T;
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  expiresAt?: T
+  token?: T
+  ipAddress?: T
+  userAgent?: T
+  user?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T;
-  globalSlug?: T;
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  document?: T
+  globalSlug?: T
+  user?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences_select".
  */
 export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T;
-  key?: T;
-  value?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  user?: T
+  key?: T
+  value?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations_select".
  */
 export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T;
-  batch?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  batch?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown;
+  [k: string]: unknown
 }
-
 
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}

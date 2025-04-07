@@ -17,7 +17,10 @@ import { Workflows } from './ai/Workflows'
 import { Agents } from './ai/Agents'
 import { Datasets } from './evals/Datasets'
 import { Models } from './experiments/Models'
+import { Providers } from './experiments/Providers'
+import { Labs } from './experiments/Labs'
 import { Nouns } from './data/Nouns'
+import { Things } from './data/Things'
 import { Verbs } from './data/Verbs'
 import { Triggers } from './events/Triggers'
 import { Relationships } from './events/Relationships'
@@ -30,6 +33,7 @@ import { Events } from './observability/Events'
 import { Errors } from './observability/Errors'
 import { Benchmarks } from './evals/Benchmarks'
 import { Experiments } from './experiments/Experiments'
+import { ExperimentMetrics } from './experiments/ExperimentMetrics'
 import { Prompts } from './experiments/Prompts'
 import { Settings } from './experiments/Settings'
 import { Resources } from './data/Resources'
@@ -59,6 +63,7 @@ export const collections = [
 
   // Data & definitions
   Nouns,
+  Things,
   Verbs,
   Databases,
   Resources,
@@ -76,7 +81,10 @@ export const collections = [
   Searches,
 
   Experiments,
+  ExperimentMetrics,
   Models,
+  Providers,
+  Labs,
   Prompts,
   Settings,
 
@@ -105,9 +113,11 @@ export const collections = [
   Tags,
   Webhooks,
   APIKeys,
+
+  
   OAuthClients,
   OAuthCodes,
   OAuthTokens,
 ]
 
-export const collectionSlugs = collections.map(collection => collection.slug)
+export const collectionSlugs = collections.map((collection) => collection.slug)

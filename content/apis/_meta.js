@@ -1,3 +1,6 @@
 export default {
-  index: 'Overview',
+  apis: '',
+  workflows: '',
+  functions: '',
+  agents: '',
 }
