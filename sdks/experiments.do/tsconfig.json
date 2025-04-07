@@ -10,7 +10,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "apis.do": ["../../sdks/apis.do"]
+      "apis.do": ["../apis.do"]
     }
   },
   "include": ["src/**/*.ts"],
