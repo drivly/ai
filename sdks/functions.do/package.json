@@ -48,12 +48,10 @@
   },
   "devDependencies": {
     "evalite": "^0.9.1",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "tsconfig": "workspace:*"
   },
   "dependencies": {
     "apis.do": "workspace:*"
-  },
-  "engines": {
-    "node": ">=18.0.0"
   }
 }

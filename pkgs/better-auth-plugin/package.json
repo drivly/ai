@@ -70,7 +70,8 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "typescript": "5.8.2",
-    "eslint-config": "workspace:*"
+    "eslint-config": "workspace:*",
+    "tsconfig": "workspace:*"
   },
   "dependencies": {
     "@better-auth/utils": "0.2.4",

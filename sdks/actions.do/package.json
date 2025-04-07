@@ -19,6 +19,7 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
+
   },
   "files": [
     "dist",
@@ -34,9 +35,7 @@
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
+   
   "scripts": {
     "build": "tsc",
     "generate:constants": "echo 'Using placeholder constants'",
@@ -49,7 +48,8 @@
   "devDependencies": {
     "evalite": "^0.9.1",
     "typescript": "^5.0.0",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "tsconfig": "workspace:*"
   },
   "engines": {
     "node": ">=18.0.0"

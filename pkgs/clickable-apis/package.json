@@ -5,5 +5,7 @@
   "dependencies": {
     "simple-payload": "workspace:*"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "tsconfig": "workspace:*"
+  }
 }
