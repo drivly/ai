@@ -1,4 +1,5 @@
 {
+  "name": "ai-primitives",
   "private": true,
   "type": "module",
   "scripts": {
