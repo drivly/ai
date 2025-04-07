@@ -1,8 +1,8 @@
 export default {
   docs: { type: 'page', href: '/docs' },
-  apis: { type: 'page', theme: { layout: 'full' } },
-  sdks: { type: 'page', theme: { layout: 'full' } },
-  integrations: { type: 'page', theme: { layout: 'full' } },
+  api: { type: 'page', title: 'APIs', href: '/docs/apis' },
+  sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
+  // integrations: { type: 'page', theme: { layout: 'full' } },
   dashboard: { type: 'page', href: '/admin' },
   reference: { type: 'page', href: 'https://docs.apis.do' },
 
@@ -16,45 +16,65 @@ export default {
   functions: '',
   agents: '',
 
-  _data: {
+  _: {
     type: 'separator',
-    title: 'Data',
   },
-  nouns: '',
-  verbs: '',
-  databases: { display: 'hidden' },
-  resources: { display: 'hidden' },
 
-  _business: {
-    type: 'separator',
-    title: 'Business',
-  },
-  goals: '',
-  plans: { display: 'hidden' },
-  tasks: '',
-
-  _events: {
-    type: 'separator',
-    title: 'Events',
-  },
+  business: '',
+  data: '',
   events: '',
-  triggers: '',
-  searches: '',
-  actions: '',
-  
-  _experiments: {
-    type: 'separator',
-    title: 'Experiments',
-  },
-  analytics: '',
   experiments: '',
-  benchmarks: '',
-  evals: '',
-  datasets: '',
-  models: '',
-  _7: {
+  integrations: '',
+  observability: '',
+  
+
+  __: {
     type: 'separator',
-    title: 'Deploy',
   },
-  code: '',
+
+  // apis: '',
+  // sdks: '',
+
+  // _data: {
+  //   type: 'separator',
+  //   title: 'Data',
+  // },
+  // nouns: '',
+  // verbs: '',
+  // databases: { display: 'hidden' },
+  // resources: { display: 'hidden' },
+
+  // _business: {
+  //   type: 'separator',
+  //   title: 'Business',
+  // },
+  // goals: '',
+  // plans: { display: 'hidden' },
+  // tasks: '',
+
+  // _events: {
+  //   type: 'separator',
+  //   title: 'Events',
+  // },
+  // events: '',
+  // triggers: '',
+  // searches: '',
+  // actions: '',
+  
+  // _experiments: {
+  //   type: 'separator',
+  //   title: 'Experiments',
+  // },
+  // analytics: '',
+  // experiments: '',
+  // benchmarks: '',
+  // evals: '',
+  // datasets: '',
+  // models: '',
+
+  // _deploy: {
+  //   type: 'separator',
+  //   title: 'Deploy',
+  // },
+  // code: '',
 }
