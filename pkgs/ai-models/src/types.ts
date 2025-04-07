@@ -1,28 +1,135 @@
-// Types for @drivly/ai-utils
-
-// All of our providers
-export type Provider = 'drivly' | 'openai' | 'anthropic' | 'google' | 'openrouter' | 'cloudflare' | 'google-vertex' | 'google-ai-studio'
-
-// All of the capabilities that we support as an enum
-export const capabilities = ['code', 'online', 'reasoning', 'reasoning-low', 'reasoning-medium', 'reasoning-high', 'tools', 'structuredOutput', 'responseFormat', 'free'] as const
-
-// A way for models to declare what they can do
-export type Capability = (typeof capabilities)[number]
-
-export type ThinkingLevel = 'low' | 'medium' | 'high'
-
-// Object representing a model definition from a string
-export interface ParsedModelIdentifier {
-  provider?: Provider
-  author?: string
-  model: string
-  capabilities: Capability[]
-  thinkingLevel?: ThinkingLevel
-  systemConfig?: Record<string, string | number>
-  alias?: string
+export type Endpoint = {
+  id:                     string;
+  name:                   string;
+  contextLength:          number;
+  model:                  Model;
+  modelVariantSlug:       string;
+  modelVariantPermaslug:  string;
+  providerName:           string;
+  providerInfo:           ProviderInfo;
+  providerDisplayName:    string;
+  providerModelId:        string;
+  providerGroup:          string;
+  isCloaked:              boolean;
+  quantization:           null;
+  variant:                string;
+  isSelfHosted:           boolean;
+  canAbort:               boolean;
+  maxPromptTokens:        null;
+  maxCompletionTokens:    number;
+  maxPromptImages:        null;
+  maxTokensPerImage:      null;
+  supportedParameters:    string[];
+  isByok:                 boolean;
+  moderationRequired:     boolean;
+  dataPolicy:             DataPolicy;
+  pricing:                Pricing;
+  isHidden:               boolean;
+  isDeranked:             boolean;
+  isDisabled:             boolean;
+  supportsToolParameters: boolean;
+  supportsReasoning:      boolean;
+  supportsMultipart:      boolean;
+  limitRpm:               number;
+  limitRpd:               null;
+  hasCompletions:         boolean;
+  hasChatCompletions:     boolean;
+  features:               Features;
+  providerRegion:         null;
 }
 
-export interface ModelConfig {
-  seed?: number
-  requiredCapabilities?: Capability[]
+export type Model = {
+  slug:                string;
+  hfSlug:              string;
+  updatedAt:           string;
+  createdAt:           string;
+  hfUpdatedAt:         null;
+  name:                string;
+  shortName:           string;
+  author:              string;
+  description:         string;
+  modelVersionGroupId: string;
+  contextLength:       number;
+  inputModalities:     string[];
+  outputModalities:    string[];
+  hasTextOutput:       boolean;
+  group:               string;
+  instructType:        null;
+  defaultSystem:       null;
+  defaultStops:        any[];
+  hidden:              boolean;
+  router:              null;
+  warningMessage:      null;
+  permaslug:           string;
+  reasoningConfig:     null;
+  endpoint?:           Endpoint | Provider;
+  sorting?:            Sorting;
+  providers?:          Provider[];
+}
+
+export type DataPolicy = {
+  termsOfServiceUrl: string;
+  privacyPolicyUrl:  string;
+  training:          boolean;
+}
+
+export type Features = {
+}
+
+export type Pricing = {
+  prompt:            string;
+  completion:        string;
+  image:             string;
+  request:           string;
+  inputCacheRead:    string;
+  inputCacheWrite:   string;
+  webSearch:         string;
+  internalReasoning: string;
+}
+
+export type ProviderInfo = {
+  name:                 string;
+  displayName:          string;
+  baseUrl:              string;
+  dataPolicy:           DataPolicy;
+  headquarters:         string;
+  hasChatCompletions:   boolean;
+  hasCompletions:       boolean;
+  isAbortable:          boolean;
+  moderationRequired:   boolean;
+  group:                string;
+  editors:              any[];
+  owners:               any[];
+  isMultipartSupported: boolean;
+  statusPageUrl:        null;
+  byokEnabled:          boolean;
+  isPrimaryProvider:    boolean;
+  icon:                 Icon;
+}
+
+export type Icon = {
+  url: string;
+}
+
+export type Provider = {
+  name:                string;
+  slug:                string;
+  quantization:        string | null;
+  context:             number;
+  maxCompletionTokens: number;
+  pricing:             Pricing;
+  supportedParameters: string[];
+  inputCost:           number;
+  outputCost:          number;
+  throughput:          number;
+  latency:             number;
+}
+
+export type Sorting = {
+  topWeekly:           number;
+  newest:              number;
+  throughputHighToLow: number;
+  latencyLowToHigh:    number;
+  pricingLowToHigh:    number;
+  pricingHighToLow:    number;
 }

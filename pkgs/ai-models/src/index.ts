@@ -1,5 +1,7 @@
-export { getModel, getModels, reconstructModelString, modelPattern } from './modelSelector'
-export { parse } from './parser'
+export * from './parser'
+export * from './aliases'
+import allModels from './models'
+import type { Model } from './types'
 export * from './types'
-export * from './models'
-export * from './providers'
+
+export const models = allModels.models as Model[]
