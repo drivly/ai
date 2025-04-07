@@ -39,7 +39,6 @@ export const GET = API(async (request, { url, params, user }) => {
     }
 
     const payload = await getPayloadAuth()
-    const { betterAuth } = payload
 
     if (!user) {
       return {
