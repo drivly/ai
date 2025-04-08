@@ -14,7 +14,7 @@ async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: st
 
   // If post not found, render custom not found component
   if (!post) {
-    return <BlogPostNotFound domain={domain} fallbackImage={fallbackImage} />
+    return <BlogPostNotFound fallbackImage={fallbackImage} />
   }
 
   const postUrl = `/blog/${post.slug}`
@@ -53,7 +53,7 @@ async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: st
 
 export default withSitesWrapper(BlogPostPage)
 
-function BlogPostNotFound({ domain, fallbackImage }: { domain: string; fallbackImage: string }) {
+function BlogPostNotFound({ fallbackImage }: { fallbackImage: string }) {
   return (
     <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
       <Link href={`/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>

@@ -3,11 +3,11 @@ import { useParams } from 'next/navigation'
 import { useEffect } from 'react'
 
 export const useGlowColor = () => {
-  const params = useParams<{ domains?: string[] }>()
-  const domain = params.domains || ['apis.do']
+  const params = useParams<{ domain?: string }>()
+  const domain = params.domain || 'apis.do'
 
   useEffect(() => {
-    const glowColor = getGlowColor(domain[0])
+    const glowColor = getGlowColor(domain)
 
     document.documentElement.style.setProperty('--glow-color', glowColor)
 
