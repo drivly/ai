@@ -5,7 +5,7 @@ import Script from 'next/script'
 
 export function StoplightAPIViewer() {
   const [mounted, setMounted] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
   const containerRef = useRef<HTMLDivElement>(null)
   
   const [isDarkMode, setIsDarkMode] = useState(false)
@@ -69,13 +69,6 @@ export function StoplightAPIViewer() {
 
   return (
     <>
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="api-button"
-      >
-        Open API Reference
-      </button>
-      
       {isOpen && (
         <div className="api-popover-overlay">
           <div className="api-popover">
