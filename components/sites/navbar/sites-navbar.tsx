@@ -73,16 +73,12 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
             <FaGithub className='h-5 w-5' />
             <span className='sr-only'>GitHub</span>
           </Link>
-          <Link href='https://discord.gg/qus39VeA' className='hover:text-primary mx-2 text-sm text-gray-500 transition-colors'>
+          <Link href='https://discord.gg/qus39VeA' className='hover:text-primary text-sm text-gray-500 transition-colors'>
             <FaDiscord className='h-5 w-5' />
             <span className='sr-only'>Discord</span>
           </Link>
 
-          <JoinWaitlistButton
-            variant='ghost'
-            className={cn('hover:text-primary text-sm text-gray-500 transition-colors', hasScrolled && 'hover:text-primary bg-white text-black hover:bg-white')}>
-            Join waitlist
-          </JoinWaitlistButton>
+          <JoinWaitlistButton className='bg-white text-sm transition-colors'>Join waitlist</JoinWaitlistButton>
         </div>
 
         <MobileNav isOpen={isOpen} setOpen={setOpen} domain={domain} />

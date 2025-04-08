@@ -8,7 +8,6 @@ import { useState } from 'react'
 export interface JoinWaitlistButtonProps {
   children?: React.ReactNode
   className?: string
-  domain?: string
   variant?: 'default' | 'secondary' | 'destructive' | 'outline' | 'link' | 'ghost' | null | undefined
 }
 

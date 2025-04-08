@@ -78,19 +78,17 @@ export function Footer() {
                 <RiNpmjsFill className='size-6' aria-hidden='true' />
                 <span className='sr-only'>NPM</span>
               </a>
-              <a href='https://www.npmjs.com/package/workflows.do' target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
-                <span className='rounded-md border-[.5px] border-slate-800/70 bg-slate-600/50 bg-[linear-gradient(_rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] px-2 py-1 text-sm font-normal shadow-lg'>
-                  .do
-                </span>
-
-                <span className='sr-only'>.do</span>
-              </a>
             </div>
           </div>
           <div className='mt-16 grid grid-cols-1 gap-14 sm:gap-8 md:grid-cols-2 xl:col-span-2 xl:mt-0'>
             <div className='grid grid-cols-2 gap-8'>
               <div>
-                <h3 className='text-sm leading-6 font-semibold text-white'>Products</h3>
+                <h3 className='text-sm leading-6 font-semibold text-white'>
+                  <span className='mr-1 rounded-md border-[.5px] border-slate-800/50 bg-slate-600/50 bg-[linear-gradient(_rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] px-2 py-1 font-normal text-slate-300 shadow-lg'>
+                    .do
+                  </span>
+                  Products
+                </h3>
                 <ul role='list' className='mt-6 space-y-4' aria-label='Quick links Products'>
                   {navigation.products.map((item) => (
                     <li key={item.name} className='w-fit'>
@@ -194,67 +192,3 @@ export function Footer() {
     </footer>
   )
 }
-
-// import { FaDiscord, FaGithub, FaXTwitter } from 'react-icons/fa6'
-// import Link from 'next/link'
-// import { use } from 'react'
-
-// const footerSocials = [
-//   {
-//     href: 'https://github.com/drivly/ai',
-//     name: 'GitHub',
-//     icon: <FaGithub className='h-5 w-5' />,
-//   },
-//   {
-//     href: 'https://discord.gg/qus39VeA',
-//     name: 'Discord',
-//     icon: <FaDiscord className='h-5 w-5' />,
-//   },
-//   // {
-//   //   href: 'https://x.com',
-//   //   name: 'X',
-//   //   icon: <FaXTwitter className='h-5 w-5' />,
-//   // },
-// ]
-
-// export function Footer({ params }: { params: Promise<{ domain?: string }> }) {
-//   const domain = use(params).domain
-//   return (
-//     <footer className='mt-auto w-full'>
-//       <div className='container mx-auto px-3 sm:px-8 md:px-8 lg:px-8'>
-//         <div className='flex flex-col gap-6 rounded-md border-neutral-700/20 py-10 text-[13px] sm:grid sm:grid-cols-3 sm:items-center sm:justify-between sm:py-12'>
-//           {/* Social icons on the left */}
-//           <div className='flex justify-center space-x-5 sm:justify-start'>
-//             {footerSocials.map((social) => (
-//               <Link key={social.name} href={social.href} className='text-gray-400 transition-colors duration-200 hover:text-white' target='_blank' rel='noopener noreferrer'>
-//                 {social.icon}
-//                 <span className='sr-only'>{social.name}</span>
-//               </Link>
-//             ))}
-//           </div>
-
-//           <span className='order-3 text-center text-gray-500 sm:order-2 dark:text-gray-400'>
-//             Copyright © {new Date().getFullYear()}{' '}
-//             <Link href='/' className='text-gray-400 transition-colors duration-200 hover:text-white'>
-//               llm.do
-//             </Link>
-//             . All Rights Reserved.
-//           </span>
-
-//           {/* Terms, Privacy, and Jobs */}
-//           <div className='order-2 flex justify-center space-x-6 text-sm sm:order-3 sm:justify-end'>
-//             <Link href='https://careers.do' className='hover:text-primary text-gray-500 transition-colors'>
-//               Careers
-//             </Link>
-//             <Link href={`/sites/${domain}/terms`} className='hover:text-primary text-gray-500 transition-colors'>
-//               Terms
-//             </Link>
-//             <Link href={`/sites/${domain}/privacy`} className='hover:text-primary text-gray-500 transition-colors'>
-//               Privacy
-//             </Link>
-//           </div>
-//         </div>
-//       </div>
-//     </footer>
-//   )
-// }

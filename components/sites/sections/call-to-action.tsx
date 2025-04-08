@@ -31,7 +31,7 @@ export default function CallToAction() {
           <span className='text-gray-400'>Do Work.</span> <span className='text-white'>With AI.</span>
         </h2>
         <div className='flex flex-col justify-center gap-4 sm:flex-row'>
-          <JoinWaitlistButton className='bg-white px-8 py-3 text-base text-black hover:bg-gray-200 hover:text-black'>Join the waitlist</JoinWaitlistButton>
+          <JoinWaitlistButton className='bg-white px-8 py-3 text-base hover:bg-gray-200'>Join the waitlist</JoinWaitlistButton>
           <Button variant='outline' className='border-gray-700 px-12 py-3 text-base text-white hover:bg-[#1A1A1D] hover:text-white' asChild>
             <Link href='/docs'>Learn more</Link>
           </Button>
