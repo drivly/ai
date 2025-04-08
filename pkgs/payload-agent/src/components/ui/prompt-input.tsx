@@ -1,7 +1,7 @@
 'use client'
 
 import React, { forwardRef, useRef, useEffect } from 'react'
-import { cn } from '../../lib/utils'
+import { cn } from '@/lib/utils'
 
 export interface PromptInputProps extends React.HTMLAttributes<HTMLDivElement> {
   value: string

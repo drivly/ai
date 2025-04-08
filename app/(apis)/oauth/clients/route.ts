@@ -1,12 +1,12 @@
 import { API } from '@/lib/api'
-import { getPayload } from '@/lib/auth/payload-auth'
+import { getPayloadAuth } from '@/lib/auth/payload-auth'
 
 export const GET = API(async (request, { url, user }) => {
   if (!user) {
     return { error: 'unauthorized', error_description: 'Authentication required' }
   }
 
-  const payload = await getPayload()
+  const payload = await getPayloadAuth()
 
   const userDoc = await payload.findByID({
     collection: 'users',

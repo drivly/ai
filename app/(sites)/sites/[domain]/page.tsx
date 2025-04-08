@@ -1,15 +1,16 @@
 import { heroContent } from '@/components/sites/constants/content'
-import Particles from '@/components/sites/magicui/particles'
-import DotdoSection from '@/components/sites/sections/dotdo'
-import HeroSection from '@/components/sites/sections/hero'
-import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
-import { domainsConfig, getGlowColor } from '@/domains.config'
-import { notFound } from 'next/navigation'
+import { Particles } from '@/components/sites/magicui/particles'
+import DotdoLinkSection from '@/components/sites/sections/dotdo-link-section'
+import HeroSection from '@/components/sites/sections/hero-section'
+import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
+import { getGlowColor } from '@/domains.config'
+import { getSession } from '@/lib/auth/context/get-context-props'
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
-async function DotDoPage({ params }: { params: Promise<{ domain?: string }> }) {
-  const { domain } = await params
-
+async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
+  const { domain } = await props.params
+  await getSession()
+  
   const site = domain ?? 'llm.do'
 
   const glowColor = getGlowColor(site)
@@ -23,15 +24,16 @@ async function DotDoPage({ params }: { params: Promise<{ domain?: string }> }) {
           buttonText={heroContent.buttonText}
           title={heroContent.title}
           description={heroContent.description}
+          domain={domain}
         />
       </div>
-      <DotdoSection />
+      <DotdoLinkSection />
       <Particles className='absolute inset-0 -z-10' quantity={50} ease={70} size={0.05} staticity={40} color={'#ffffff'} />
     </>
   )
 }
 
-export default withSitesNavbar(DotDoPage)
+export default withSitesWrapper(DotDoPage)
 // Get Started // Join
 // --- Request access
 // email onboarding with questions react-email // templates

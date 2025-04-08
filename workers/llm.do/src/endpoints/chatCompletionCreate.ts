@@ -2,7 +2,7 @@ import { OpenAPIRoute } from 'chanfana'
 import { env } from 'cloudflare:workers'
 import { OpenAIToolSet } from 'composio-core'
 import { Context } from 'hono'
-import { fetchFromProvider } from 'providers/openRouter'
+import { providers } from 'providers/provider'
 import { AuthHeader } from 'types/shared'
 import { ChatCompletionRequestSchema, ChatCompletionResponse, ChatCompletionResponseSchema } from '../types/chat'
 
@@ -46,7 +46,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
 
       const tools = await composioToolset.getTools({ actions: actions.length === 1 && actions[0] === 'all' ? undefined : actions })
       request.body.tools = (request.body.tools?.filter((t) => typeof t !== 'string') || []).concat(tools)
-      const response = await fetchFromProvider(request, 'POST', '/chat/completions')
+      const response = await providers.default.fetchFromProvider(request, 'POST', '/chat/completions')
       const json: ChatCompletionResponse = await response.json()
       if (json.choices?.find((c) => c.message.tool_calls?.find((c) => tools.find((t) => t.function.name === c.function.name)))) {
         const composioResponse = await composioToolset.handleToolCall(json)
@@ -55,7 +55,7 @@ export class ChatCompletionCreate extends OpenAPIRoute {
       return c.json(json)
     }
 
-    // Pass request to OpenRouter
-    return fetchFromProvider(request, 'POST', '/chat/completions')
+    // Pass request to provider
+    return providers.default.fetchFromProvider(request, 'POST', '/chat/completions')
   }
 }

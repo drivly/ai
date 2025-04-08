@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayload } from '@/lib/auth/payload-auth'
+import { getPayloadAuth } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
 export const GET = API(async (request, { url, params, user }) => {
@@ -38,8 +38,7 @@ export const GET = API(async (request, { url, params, user }) => {
       }
     }
 
-    const payload = await getPayload()
-    const auth = payload.auth
+    const payload = await getPayloadAuth()
 
     if (!user) {
       return {

@@ -39,7 +39,9 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "tsc",
+    "prebuild": "if [ ! -d \"../apis.do/dist\" ]; then cd ../apis.do && pnpm build; fi",
+    "build": "tsup --config tsup.config.ts",
+    "postbuild": "tsc --emitDeclarationOnly --declaration --outDir dist",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "vitest run tests/e2e/**/*.test.ts"
@@ -48,7 +50,10 @@
     "apis.do": "workspace:*"
   },
   "devDependencies": {
+    "eslint-config": "workspace:*",
     "evalite": "^0.9.1",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "tsconfig": "workspace:*",
+    "tsup": "^8.0.1"
   }
 }

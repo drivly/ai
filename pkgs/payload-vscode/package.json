@@ -81,7 +81,9 @@
     "eslint": "^8.54.0",
     "typescript": "^5.3.2",
     "vitest": "^0.34.6",
-    "@vscode/vsce": "^2.22.0"
+    "@vscode/vsce": "^2.22.0",
+    "tsconfig": "workspace:*",
+    "eslint-config": "workspace:*"
   },
   "peerDependencies": {
     "payload": "^2.0.0"

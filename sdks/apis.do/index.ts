@@ -1,7 +1,17 @@
-import { API } from './src/client.js'
+import { API } from './src/client'
+export { API } from './src/client'
 
-export { API } from './src/client.js'
+import { CLI, CliOptions } from './src/cli'
+export { CLI } from './src/cli'
+export type { CliOptions } from './src/cli'
+
 export const api = new API()
-export type { ClientOptions } from './src/types.js'
-export type { ErrorResponse, ListResponse, QueryParams } from './src/types.js'
-export * from './types.js'
+export const cli = new CLI()
+
+export type { ClientOptions, ErrorResponse, ListResponse, QueryParams } from './src/types'
+
+export * from './types'
+
+export * from './src/index'
+
+export * from './src/bin'

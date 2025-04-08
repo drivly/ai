@@ -103,7 +103,7 @@ describe('middleware', () => {
     })
   })
 
-  it('should rewrite /docs path for .do domains to /docs/{apiName}', () => {
+  it('should rewrite /docs path for .do domains to /docs/{apiName} if docs exist', () => {
     const request = {
       nextUrl: {
         hostname: 'functions.do',
@@ -131,7 +131,35 @@ describe('middleware', () => {
     })
   })
 
-  it('should rewrite /docs/path for .do domains to /docs/{apiName}/path', () => {
+  it('should fallback to general /docs when .do domain has no docs', () => {
+    const request = {
+      nextUrl: {
+        hostname: 'nonexistent.do',
+        pathname: '/docs',
+        search: '?param=value',
+      },
+      url: 'https://nonexistent.do/docs?param=value',
+    } as unknown as NextRequest
+
+    const result = middleware(request)
+
+    // Verify that NextResponse.rewrite was called with the correct URL
+    expect(NextResponse.rewrite).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pathname: '/docs',
+        search: '?param=value',
+      }),
+    )
+    expect(result).toEqual({
+      url: expect.objectContaining({
+        pathname: '/docs',
+        search: '?param=value',
+      }),
+      rewrite: true,
+    })
+  })
+
+  it('should not rewrite nested paths under /docs for .do domains', () => {
     const request = {
       nextUrl: {
         hostname: 'functions.do',
@@ -143,16 +171,15 @@ describe('middleware', () => {
 
     const result = middleware(request)
 
-    // Verify that NextResponse.rewrite was called with the correct URL
     expect(NextResponse.rewrite).toHaveBeenCalledWith(
       expect.objectContaining({
-        pathname: '/docs/functions/usage',
+        pathname: '/sites/functions.do/docs/usage',
         search: '?param=value',
       }),
     )
     expect(result).toEqual({
       url: expect.objectContaining({
-        pathname: '/docs/functions/usage',
+        pathname: '/sites/functions.do/docs/usage',
         search: '?param=value',
       }),
       rewrite: true,

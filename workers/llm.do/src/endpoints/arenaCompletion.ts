@@ -2,7 +2,7 @@ import { getModels, modelToIdentifier, Model, modelPattern } from 'language-mode
 import { getUser } from 'api/user'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
-import { fetchFromProvider } from 'providers/openRouter'
+import { providers } from 'providers/provider'
 import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from 'types/api'
 import type { ChatCompletionRequest, ChatCompletionResponse } from 'types/chat'
 import { z } from 'zod'
@@ -156,7 +156,7 @@ export class ArenaCompletion extends OpenAPIRoute {
           }
 
           try {
-            const response = await fetchFromProvider({ headers: { Authorization }, body }, 'POST', '/chat/completions')
+            const response = await providers.default.fetchFromProvider({ headers: { Authorization }, body }, 'POST', '/chat/completions')
             const data: ChatCompletionResponse = await response.json()
             return {
               model: modelToIdentifier(rawModel),

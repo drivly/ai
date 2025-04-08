@@ -1,0 +1,68 @@
+---
+title: Agents
+sidebarTitle: Agents
+group: AI
+---
+
+# Agents API
+
+API for managing Agents resources.
+
+## Fields
+
+### name
+
+- **Type**: `text`
+- **Required**: No
+
+
+
+
+### public
+
+- **Type**: `checkbox`
+- **Required**: No
+- **Default**: `false`
+- **Description**: Make this agent available to other users
+
+
+### clonedFrom
+
+- **Type**: `relationship`
+- **Required**: No
+
+- **Description**: Original agent this was cloned from
+
+
+### pricing
+
+- **Type**: `group`
+- **Required**: No
+
+- **Description**: Monetization settings for this agent
+
+
+
+## API Endpoints
+
+### GET /api/agents
+Retrieves a list of Agents with pagination.
+
+#### Query Parameters
+- `limit`: Maximum number of items to return (default: 10)
+- `page`: Page number for pagination (default: 1)
+- `sort`: Field to sort by (default: createdAt)
+- `where`: JSON query for filtering results
+
+### GET /api/agents/:id
+Retrieves a single Agents by ID.
+
+### POST /api/agents
+Creates a new Agents.
+
+### PATCH /api/agents/:id
+Updates an existing Agents.
+
+### DELETE /api/agents/:id
+Deletes a Agents.
+

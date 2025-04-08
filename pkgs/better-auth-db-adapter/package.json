@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "test": "vitest",
-    "clean": "rm -rf ./dist && rm -rf ./tsconfig.tsbuildinfo",
+    "clean": "rimraf ./dist && rimraf ./tsconfig.tsbuildinfo",
     "build": "pnpm clean && pnpm build:types && pnpm build:swc",
     "build:swc": "swc ./src -d ./dist --config-file .swcrc --strip-leading-paths",
     "build:types": "tsc --project tsconfig.json",
@@ -45,10 +45,13 @@
     "cross-env": "^7.0.3",
     "payload": "^3.33.0",
     "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8",
     "@swc/cli": "0.6.0",
-    "@swc/core": "1.11.8"
+    "@swc/core": "1.11.8",
+    "tsconfig": "workspace:*",
+    "eslint-config": "workspace:*"
   },
   "peerDependencies": {
     "better-auth": "1.2.4",

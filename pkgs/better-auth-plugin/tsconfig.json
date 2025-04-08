@@ -1,14 +1,16 @@
 {
-  "extends": "../../pkgs/tsconfig/src/nextjs.json",
+  "extends": "tsconfig/src/nextjs.json",
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
     "moduleResolution": "bundler",
+    "module": "esnext",
     "resolveJsonModule": true,
     "emitDeclarationOnly": false,
     "composite": false,
     "incremental": false,
     "declaration": true,
+    "noEmit": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

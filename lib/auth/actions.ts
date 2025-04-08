@@ -1,6 +1,6 @@
 'use server'
 
-import { getPayload } from '@/lib/auth/payload-auth'
+import { getPayloadAuth } from '@/lib/auth/payload-auth'
 
 export async function signUp({
   email,
@@ -17,9 +17,9 @@ export async function signUp({
   image?: string
   //   callbackURL: string;
 }) {
-  const payload = await getPayload()
+  const payload = await getPayloadAuth()
 
-  const resFoo = await payload.auth.createUser({
+  const resFoo = await payload.betterAuth.api.createUser({
     asResponse: true,
     body: {
       email,

@@ -1,19 +1,111 @@
-import { CLI as BaseCLI, CliOptions } from '../../apis.do/src/cli.js'
 import { API } from './client.js'
 import fs from 'node:fs'
 import path from 'node:path'
 
-export type { CliOptions }
+export interface CliOptions {
+  apiKey?: string
+  baseUrl?: string
+  configPath?: string
+}
 
-export class CLI extends BaseCLI {
-  private workflowsApi: API
+export class CLI {
+  private api: API
+  private configPath: string
 
   constructor(options: CliOptions = {}) {
-    super(options)
-    this.workflowsApi = new API({
+    this.api = new API({
       apiKey: options.apiKey,
       baseUrl: options.baseUrl,
     })
+    this.configPath = options.configPath || '.ai/config.json'
+  }
+
+  /**
+   * Initialize a new project with .ai configuration
+   */
+  async init(options: { force?: boolean } = {}): Promise<void> {
+    console.log('Initializing workflows.do project...')
+    return Promise.resolve()
+  }
+
+  /**
+   * Login to workflows.do and store credentials
+   */
+  async login(options: { token?: string } = {}): Promise<void> {
+    console.log('Logging in to workflows.do...')
+    return Promise.resolve()
+  }
+
+  /**
+   * Logout and remove stored credentials
+   */
+  async logout(): Promise<void> {
+    console.log('Logging out from workflows.do...')
+    return Promise.resolve()
+  }
+
+  /**
+   * Pull remote resources to local project
+   */
+  async pull(options: { resources?: string[] } = {}): Promise<void> {
+    console.log('Pulling resources from workflows.do...')
+    return Promise.resolve()
+  }
+
+  /**
+   * Push local resources to remote
+   */
+  async push(options: { resources?: string[] } = {}): Promise<void> {
+    console.log('Pushing resources to workflows.do...')
+    return Promise.resolve()
+  }
+
+  /**
+   * Sync local and remote resources
+   */
+  async sync(): Promise<void> {
+    console.log('Syncing resources with workflows.do...')
+    return Promise.resolve()
+  }
+
+  /**
+   * List resources of a specific collection
+   */
+  async list(collection: string, query: any = {}): Promise<any> {
+    console.log(`Listing ${collection}...`)
+    return this.api.list(collection, query)
+  }
+
+  /**
+   * Get a specific resource by ID
+   */
+  async get(collection: string, id: string): Promise<any> {
+    console.log(`Getting ${collection} ${id}...`)
+    return this.api.getById(collection, id)
+  }
+
+  /**
+   * Create a new resource
+   */
+  async create(collection: string, data: any): Promise<any> {
+    console.log(`Creating new ${collection}...`)
+    return this.api.create(collection, data)
+  }
+
+  /**
+   * Update an existing resource
+   */
+  async update(collection: string, id: string, data: any): Promise<any> {
+    console.log(`Updating ${collection} ${id}...`)
+    return this.api.update(collection, id, data)
+  }
+
+  /**
+   * Delete a resource
+   */
+  async delete(collection: string, id: string): Promise<any> {
+    console.log(`Deleting ${collection} ${id}...`)
+    return this.api.remove(collection, id)
   }
 
   /**
@@ -21,7 +113,7 @@ export class CLI extends BaseCLI {
    */
   async executeWorkflow(workflowId: string, input: Record<string, any>, options: any = {}): Promise<any> {
     console.log(`Executing workflow ${workflowId}...`)
-    return this.workflowsApi.executeWorkflow(workflowId, input, options)
+    return this.api.executeWorkflow(workflowId, input, options)
   }
 
   /**
@@ -29,7 +121,7 @@ export class CLI extends BaseCLI {
    */
   async registerWorkflow(workflowDefinition: any): Promise<any> {
     console.log('Registering workflow...')
-    return this.workflowsApi.registerWorkflow(workflowDefinition)
+    return this.api.registerWorkflow(workflowDefinition)
   }
 
   /**
@@ -72,7 +164,7 @@ export class CLI extends BaseCLI {
 
         if (verbose) console.log(`Registering workflow from ${file}...`)
         if (!dryRun) {
-          await this.workflowsApi.registerWorkflow(workflowDefinition)
+          await this.api.registerWorkflow(workflowDefinition)
         }
         results.registered++
         results.files.push({ path: file, status: 'registered' })

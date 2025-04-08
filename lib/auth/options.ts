@@ -1,4 +1,4 @@
-import type { PayloadBetterAuthPluginOptions } from '../../pkgs/better-auth-plugin/src/types'
+import type { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
 import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/plugins'
@@ -104,7 +104,7 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
   users: {
     slug: 'users',
     hidden: true, // Hide the users collection from navigation
-    adminRoles: ['admin'],
+    adminRoles: ['superAdmin'],
     allowedFields: ['name'],
     blockFirstBetterAuthVerificationEmail: true,
     collectionOverrides: ({ collection }: { collection: CollectionConfig }) => {

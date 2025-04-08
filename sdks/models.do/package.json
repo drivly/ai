@@ -20,6 +20,7 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
+ 
   },
   "files": [
     "dist",
@@ -46,6 +47,8 @@
     "apis.do": "workspace:*"
   },
   "devDependencies": {
-    "vitest": "^3.0.8"
+    "eslint-config": "workspace:*",
+    "vitest": "^3.0.8",
+    "tsconfig": "workspace:*"
   }
 }

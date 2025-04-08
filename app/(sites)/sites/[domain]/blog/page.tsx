@@ -1,10 +1,10 @@
 import { BlogPosts } from '@/components/sites/blog-ui/blog-posts'
-import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
+import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { getAllBlogPosts, getAllCategories } from './blog-posts'
 
-async function BlogPage(props: { params: Promise<{ domain?: string }> }) {
+async function BlogPage(props: { params: Promise<{ domain: string }> }) {
   const { domain } = await props.params
   // Move data fetching to the server component
   const posts = getAllBlogPosts()
@@ -13,7 +13,7 @@ async function BlogPage(props: { params: Promise<{ domain?: string }> }) {
   return (
     <div className='container mx-auto max-w-7xl px-4 pt-20 pb-12 md:pt-24 md:pb-24 lg:pb-32'>
       <div className='mb-8'>
-        <Link href={`/sites/${domain}`} className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
+        <Link href='/' className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
           <ArrowLeft className='mr-1 h-4 w-4' />
           Back
         </Link>
@@ -25,7 +25,7 @@ async function BlogPage(props: { params: Promise<{ domain?: string }> }) {
   )
 }
 
-export default withSitesNavbar(BlogPage)
+export default withSitesWrapper(BlogPage)
 // Get Started // Join
 // --- Request access
 // email onboarding with questions react-email // templates

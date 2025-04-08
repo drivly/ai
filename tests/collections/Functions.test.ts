@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { Functions } from '../../collections/ai/Functions'
-import type { Function as FunctionType } from '../../payload.types'
+import { Functions } from '@/collections/ai/Functions'
+import type { Function as FunctionType } from '@/payload.types'
 import { getTestPayload } from '../setup'
 
 describe('Functions Collection', () => {
@@ -36,14 +36,14 @@ describe('Functions Collection', () => {
 
   describe('Fields', () => {
     it('should have a name field', () => {
-      const nameField = Functions.fields.find((field: any) => field.name === 'name')
+      const nameField = Functions.fields.find((field: any) => field.name === 'name') as any
       expect(nameField).toBeDefined()
       expect(nameField?.type).toBe('text')
       expect(nameField?.required).toBe(true)
     })
 
     it('should have a type field with correct options', () => {
-      const typeField = Functions.fields.find((field: any) => field.name === 'type')
+      const typeField = Functions.fields.find((field: any) => field.name === 'type') as any
       expect(typeField).toBeDefined()
       expect(typeField?.type).toBe('select')
       expect(typeField?.options).toContain('Generation')
@@ -53,7 +53,7 @@ describe('Functions Collection', () => {
     })
 
     it('should have a format field with correct options', () => {
-      const formatField = Functions.fields.find((field: any) => field.name === 'format')
+      const formatField = Functions.fields.find((field: any) => field.name === 'format') as any
       expect(formatField).toBeDefined()
       expect(formatField?.type).toBe('select')
       expect(formatField?.options).toContain('Object')
@@ -65,13 +65,13 @@ describe('Functions Collection', () => {
     })
 
     it('should have a schemaYaml field', () => {
-      const schemaField = Functions.fields.find((field: any) => field.name === 'schemaYaml')
+      const schemaField = Functions.fields.find((field: any) => field.name === 'schemaYaml') as any
       expect(schemaField).toBeDefined()
       expect(schemaField?.type).toBe('textarea')
     })
 
     it('should have a code field', () => {
-      const codeField = Functions.fields.find((field: any) => field.name === 'code')
+      const codeField = Functions.fields.find((field: any) => field.name === 'code') as any
       expect(codeField).toBeDefined()
       expect(codeField?.type).toBe('code')
     })
@@ -85,7 +85,8 @@ describe('Functions Collection', () => {
     it('should have an afterChange hook', () => {
       expect(Functions.hooks?.afterChange).toBeDefined()
     })
-  })(payload ? describe : describe.skip)('Payload Integration', () => {
+  })
+  ;(payload ? describe : describe.skip)('Payload Integration', () => {
     it('should be able to find functions collection', async () => {
       const result = await payload.find({
         collection: 'functions',

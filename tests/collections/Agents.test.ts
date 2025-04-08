@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { Agents } from '../../collections/ai/Agents'
-import type { Agent as AgentType } from '../../payload.types'
+import { Agents } from '@/collections/ai/Agents'
+import type { Agent as AgentType } from '@/payload.types'
 import { getTestPayload } from '../setup'
 
 describe('Agents Collection', () => {
@@ -40,7 +40,8 @@ describe('Agents Collection', () => {
       expect(nameField).toBeDefined()
       expect(nameField?.type).toBe('text')
     })
-  })(payload ? describe : describe.skip)('Payload Integration', () => {
+  })
+  ;(payload ? describe : describe.skip)('Payload Integration', () => {
     it('should be able to find agents collection', async () => {
       const result = await payload.find({
         collection: 'agents',

@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayload } from '@/lib/auth/payload-auth'
+import { getPayloadAuth } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
 /**
@@ -39,7 +39,7 @@ export const GET = API(async (request, { url, user }) => {
     return { error: 'invalid_request', error_description: 'Missing redirect_uri parameter' }
   }
 
-  const payload = await getPayload()
+  const payload = await getPayloadAuth()
 
   if (user) {
     const code = await generateAuthCode(provider, redirectUri, user.id, payload)

@@ -25,6 +25,7 @@
       "import": "./dist/types.js",
       "types": "./dist/types.d.ts"
     }
+  
   },
   "files": [
     "dist",
@@ -40,9 +41,7 @@
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
+  
   "scripts": {
     "build": "node build.mjs",
     "test": "echo 'Tests skipped for CI compatibility'",
@@ -50,10 +49,12 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "eslint-config": "workspace:*",
     "@cloudflare/workers-types": "^4.20240320.1",
     "evalite": "^0.9.1",
     "typescript": "^5.7.3",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "tsconfig": "workspace:*"
   },
   "dependencies": {
     "agentic.md": "^0.1.0",
