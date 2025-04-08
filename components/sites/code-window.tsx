@@ -7,30 +7,35 @@ interface CodeWindowProps {
   title?: string
 }
 
-// Function to syntax highlight JSON
 function syntaxHighlightJson(json: string) {
-  return json
+  let result = json
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, (match) => {
-      let cls = 'text-green-300' // string
-      if (/^"/.test(match)) {
-        if (/:$/.test(match)) {
-          cls = 'text-blue-300' // key
-        }
-      } else if (/true|false/.test(match)) {
-        cls = 'text-yellow-300' // boolean
-      } else if (/null/.test(match)) {
-        cls = 'text-red-300' // null
+  
+  result = result.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, (match) => {
+    let cls = 'text-green-300' // string
+    if (/^"/.test(match)) {
+      if (/:$/.test(match)) {
+        cls = 'text-blue-300' // key
       } else {
-        cls = 'text-cyan-300' // number
+        match = match.replace(/"(https:\/\/[^"\s]+)"/g, (urlMatch, url) => {
+          return '"<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">' + url + '</a>"'
+        })
       }
-      return '<span class="' + cls + '">' + match + '</span>'
-    })
-    .replace(/({|}|\[|\]|,|:)/g, (match) => {
-      return '<span class="text-white">' + match + '</span>'
-    })
+    } else if (/true|false/.test(match)) {
+      cls = 'text-yellow-300' // boolean
+    } else if (/null/.test(match)) {
+      cls = 'text-red-300' // null
+    } else {
+      cls = 'text-cyan-300' // number
+    }
+    return '<span class="' + cls + '">' + match + '</span>'
+  })
+  
+  return result.replace(/({|}|\[|\]|,|:)/g, (match) => {
+    return '<span class="text-white">' + match + '</span>'
+  })
 }
 
 export function CodeWindow({ className, code, language = 'json', title = 'llm.do' }: CodeWindowProps) {
