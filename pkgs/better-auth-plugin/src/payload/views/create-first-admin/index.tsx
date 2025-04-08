@@ -3,8 +3,8 @@ import type { AdminViewServerProps, ServerProps } from 'payload'
 import { RenderServerComponent } from '@payloadcms/ui/elements/RenderServerComponent'
 import { redirect } from 'next/navigation'
 import { Gutter } from '@payloadcms/ui'
-import { SignUp } from '../../../components/sign-up'
-import Logo from '../../../components/logo'
+import { SignUp } from '../../components/sign-up'
+import Logo from '../../components/logo'
 
 export default async function CreateFirstAdmin({
   initPageResult,
