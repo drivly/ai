@@ -71,7 +71,7 @@ export default function OAuthClientsPage() {
         setRedirectURLs('')
         fetchClients()
       } else {
-        const error = await response.json()
+        const error = await response.json() as { error_description?: string }
         setError(error.error_description || 'Failed to register client')
       }
     } catch (err) {
