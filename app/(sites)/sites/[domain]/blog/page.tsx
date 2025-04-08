@@ -13,7 +13,7 @@ async function BlogPage(props: { params: Promise<{ domain: string }> }) {
   return (
     <div className='container mx-auto max-w-7xl px-4 pt-20 pb-12 md:pt-24 md:pb-24 lg:pb-32'>
       <div className='mb-8'>
-        <Link href={`/sites/${domain}`} className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
+        <Link href='/' className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
           <ArrowLeft className='mr-1 h-4 w-4' />
           Back
         </Link>
