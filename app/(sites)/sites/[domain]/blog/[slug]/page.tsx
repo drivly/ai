@@ -17,13 +17,13 @@ async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: st
     return <BlogPostNotFound domain={domain} fallbackImage={fallbackImage} />
   }
 
-  const postUrl = `/sites/${domain}/blog/${post.slug}`
+  const postUrl = `/blog/${post.slug}`
   const dateObj = new Date(post.date.split('-').join('/'))
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (
     <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
-      <Link href={`/sites/${domain}/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
+      <Link href={`/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back
       </Link>
@@ -56,7 +56,7 @@ export default withSitesWrapper(BlogPostPage)
 function BlogPostNotFound({ domain, fallbackImage }: { domain: string; fallbackImage: string }) {
   return (
     <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
-      <Link href={`/sites/${domain}/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
+      <Link href={`/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back
       </Link>
@@ -73,7 +73,7 @@ function BlogPostNotFound({ domain, fallbackImage }: { domain: string; fallbackI
             <h2 className='mb-2 text-2xl font-bold'>404</h2>
             <p className='mb-4'>This blog post could not be found</p>
             <Link
-              href={`/sites/${domain}/blog`}
+              href={`/blog`}
               className='bg-primary text-primary-foreground ring-offset-background hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'>
               Browse All Blog Posts
             </Link>
