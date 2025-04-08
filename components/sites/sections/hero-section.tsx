@@ -29,7 +29,7 @@ export default function HeroSection({ className, badge, buttonText, codeExample,
       </h1>
       <p className='mb-12 text-lg tracking-tight text-balance text-gray-400 md:text-xl'>{description}</p>
       {buttonText && (
-        <JoinWaitlistButton className='cursor-pointer gap-2 rounded-lg text-white ease-in-out dark:text-black'>
+        <JoinWaitlistButton className='cursor-pointer gap-2 rounded-lg ease-in-out'>
           <FaGithub className='h-4 w-4' />
           <span>{buttonText}</span>
         </JoinWaitlistButton>
