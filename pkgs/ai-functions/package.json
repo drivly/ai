@@ -55,7 +55,8 @@
     "undici": "^7.2.0",
     "vitest": "^2.1.8",
     "web-streams-polyfill": "^4.0.0",
-    "tsconfig": "workspace:*"
+    "tsconfig": "workspace:*",
+    "eslint-config": "workspace:*"
   },
   "peerDependencies": {
     "typescript": ">=5.0.0"
