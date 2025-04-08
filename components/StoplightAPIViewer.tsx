@@ -2,18 +2,32 @@
 
 import React, { useEffect, useState, useRef } from 'react'
 import Script from 'next/script'
-import { useTheme } from 'next-themes'
 
 export function StoplightAPIViewer() {
   const [mounted, setMounted] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
-  const { resolvedTheme } = useTheme()
-  const isDarkMode = resolvedTheme === 'dark'
-
+  
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  
   useEffect(() => {
     setMounted(true)
     
+    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const updateDarkMode = () => {
+      setIsDarkMode(darkModeMediaQuery.matches)
+    }
+    
+    updateDarkMode()
+    
+    darkModeMediaQuery.addEventListener('change', updateDarkMode)
+    
+    return () => {
+      darkModeMediaQuery.removeEventListener('change', updateDarkMode)
+    }
+  }, [])
+  
+  useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
       
