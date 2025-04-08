@@ -41,6 +41,7 @@ class LLMDoEmbeddingModel implements EmbeddingModelV1<string> {
     })
   }
 
+  // eslint-disable-next-line no-undef
   async doEmbed(options: { values: Array<string>; abortSignal?: AbortSignal; headers?: Record<string, string | undefined> }): Promise<{
     embeddings: Array<EmbeddingModelV1Embedding>
     usage?: {
@@ -183,6 +184,7 @@ class LLMDoLanguageModel implements LanguageModelV1 {
   }
 
   async doStream(options: LanguageModelV1CallOptions): Promise<{
+    // eslint-disable-next-line no-undef
     stream: ReadableStream<LanguageModelV1StreamPart>
     rawCall: {
       rawPrompt: unknown
@@ -223,9 +225,11 @@ class LLMDoLanguageModel implements LanguageModelV1 {
 
     const stream = await this.client.chatStream(llmMessages, llmOptions)
 
+    // eslint-disable-next-line no-undef
     const transformer = new TransformStream<Uint8Array, LanguageModelV1StreamPart>({
       async transform(chunk, controller) {
         try {
+          // eslint-disable-next-line no-undef
           const text = new TextDecoder().decode(chunk)
           const lines = text.split('\n').filter((line) => line.trim() !== '')
 
@@ -252,6 +256,7 @@ class LLMDoLanguageModel implements LanguageModelV1 {
                     textDelta: parsed.choices[0].delta.content,
                   })
                 }
+              // eslint-disable-next-line no-empty
               } catch (e) {}
             }
           }
@@ -265,7 +270,7 @@ class LLMDoLanguageModel implements LanguageModelV1 {
     })
 
     return {
-      stream: stream.pipeThrough(transformer),
+      stream: stream.pipeThrough(transformer as any) as any,
       rawCall: {
         rawPrompt: llmMessages,
         rawSettings: llmOptions,

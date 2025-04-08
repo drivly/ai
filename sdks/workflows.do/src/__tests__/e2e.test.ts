@@ -9,7 +9,7 @@ import { AI, createWorkflow } from '../index'
  */
 describe('workflows.do SDK - E2E Tests', () => {
   beforeAll(() => {
-    global.window = {
+    globalThis.window = {
       location: {
         hostname: 'localhost',
       },
@@ -26,7 +26,7 @@ describe('workflows.do SDK - E2E Tests', () => {
 
   describe('Payload CRUD API', () => {
     beforeAll(() => {
-      global.fetch = vi.fn()
+      globalThis.fetch = vi.fn()
     })
 
     it('should create and retrieve a workflow through Payload API', async () => {
@@ -131,7 +131,7 @@ describe('workflows.do SDK - E2E Tests', () => {
   describe('Clickable API Integration', () => {
     beforeEach(() => {
       vi.resetAllMocks()
-      global.fetch = vi.fn()
+      globalThis.fetch = vi.fn()
     })
 
     it('should execute a workflow through the Clickable API', async () => {

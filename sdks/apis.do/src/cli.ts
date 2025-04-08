@@ -1,4 +1,4 @@
-import { API } from './client.js'
+import { API } from './client'
 
 export interface CliOptions {
   apiKey?: string

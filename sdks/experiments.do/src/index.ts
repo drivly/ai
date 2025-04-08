@@ -1,6 +1,6 @@
-import { ExperimentsClient } from './client.js'
-import { VercelFlagsProvider } from './provider.js'
+import { ExperimentsClient } from './client'
+import { VercelFlagsProvider } from './provider'
 
-export * from './types.js'
+export * from './types'
 export { ExperimentsClient, VercelFlagsProvider }
 export default ExperimentsClient

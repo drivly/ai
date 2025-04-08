@@ -1,4 +1,4 @@
-import { API } from 'apis.do'
+import { API } from 'apis.do/src/client'
 import type { AnalyticsConfig, BeforeSendEvent, TrackMetricOptions, ExperimentOptions, Experiment } from '../types'
 
 const defaultConfig: AnalyticsConfig = {

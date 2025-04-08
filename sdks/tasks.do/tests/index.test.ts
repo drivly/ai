@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { tasks, Tasks, Task, Queue } from '../src'
 
-vi.mock('apis.do', () => {
+vi.mock('apis.do/src/client', () => {
   return {
     API: vi.fn().mockImplementation(() => ({
       post: vi.fn().mockImplementation((path) => {

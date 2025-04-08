@@ -10,13 +10,11 @@
     "baseUrl": ".",
     "skipLibCheck": true,
     "paths": {
-      "@/*": ["./*"],
-      "apis.do": ["../../sdks/apis.do"]
+      "@/*": ["./*"]
     },
     "resolveJsonModule": true,
     "noEmit": false
   },
   "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist"],
-  "references": [{ "path": "../apis.do" }]
+  "exclude": ["node_modules", "dist"]
 }
