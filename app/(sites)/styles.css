@@ -91,6 +91,7 @@
 }
 
 @theme inline {
+  --font-ibm: var(--font-ibm);
   --font-geist: var(--font-geist);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
