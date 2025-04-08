@@ -1,5 +1,73 @@
 ---
+title: Workflows API
+sidebarTitle: Workflows
 asIndexPage: true
 ---
 
-# workflows.do
+# Workflows API
+
+> **RESTful endpoints for managing business process orchestration**
+
+## Overview
+
+The Workflows API provides a comprehensive set of endpoints for creating, managing, and executing business process workflows. This API allows you to programmatically define, deploy, and monitor workflows that orchestrate AI functions, integrations, and human interactions.
+
+## Key Features
+
+- **Workflow Management** - Create, update, and version workflow definitions
+- **Execution Control** - Start, monitor, and control workflow executions
+- **Event Integration** - Connect workflows to event sources and triggers
+- **Human-in-the-Loop** - Incorporate human approval and input steps
+- **Observability** - Track workflow performance and execution history
+
+## Endpoints
+
+### Workflow Management
+
+- **GET /workflows** - List all available workflows
+- **GET /workflows/:id** - Retrieve a specific workflow
+- **POST /workflows** - Create a new workflow
+- **PUT /workflows/:id** - Update an existing workflow
+- **DELETE /workflows/:id** - Remove a workflow
+
+### Workflow Execution
+
+- **POST /workflows/:id/execute** - Execute a workflow with provided inputs
+- **GET /workflows/:id/executions** - List execution history for a workflow
+- **GET /workflows/:id/executions/:executionId** - Get details of a specific execution
+- **PUT /workflows/:id/executions/:executionId/cancel** - Cancel a running execution
+
+### Workflow Versioning
+
+- **GET /workflows/:id/versions** - List all versions of a workflow
+- **POST /workflows/:id/versions** - Create a new version
+- **GET /workflows/:id/versions/:versionId** - Get a specific version
+- **PUT /workflows/:id/versions/:versionId/activate** - Activate a version
+
+### Event Integration
+
+- **GET /workflows/:id/triggers** - List triggers for a workflow
+- **POST /workflows/:id/triggers** - Create a new trigger
+- **DELETE /workflows/:id/triggers/:triggerId** - Remove a trigger
+
+### Human Interaction
+
+- **GET /workflows/:id/tasks** - List human tasks for a workflow
+- **POST /workflows/:id/tasks/:taskId/complete** - Complete a human task
+- **GET /workflows/tasks/assigned** - List tasks assigned to current user
+
+## Integration
+
+- Authentication Requirements
+- Rate Limiting Considerations
+- Webhook Configuration
+- Error Handling
+- Performance Optimization
+
+## Examples
+
+- Creating a New Workflow
+- Executing a Workflow
+- Connecting Workflows to Events
+- Managing Human Tasks
+- Monitoring Workflow Performance

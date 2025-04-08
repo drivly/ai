@@ -4,208 +4,120 @@ sidebarTitle: Triggers
 asIndexPage: true
 ---
 
-# [Triggers.do](https://triggers.do) - Elegant Event-Driven Automation
+# Triggers - Event-Driven Automation
 
-> **Seamless event-driven automation with elegant, type-safe triggers**
+> **Seamless event-driven automation through type-safe trigger definitions**
 
 ## Overview
 
-Triggers.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, providing a clean, type-safe interface for creating and managing event-based triggers. These triggers initiate workflows and functions in response to events, enabling seamless automation across your business processes.
-
-## The Challenge
-
-Event-driven automation presents several challenges:
-
-- **Event Detection**: Identifying and capturing relevant events across diverse systems
-- **Conditional Logic**: Determining precisely when to initiate processes
-- **Scheduling**: Executing triggers at specific times with reliability
-- **Data Transformation**: Converting event data into actionable inputs
-- **Error Handling**: Gracefully managing failures in event processing
-
-## The Solution
-
-Triggers.do provides an elegant, type-safe interface for event-driven automation:
-
-- **Unified Event Handling**: Consistent patterns for events from any source
-- **Declarative Conditions**: Simple, powerful conditions for trigger activation
-- **Reliable Scheduling**: Precise time-based triggers with built-in reliability
-- **Seamless Data Mapping**: Transform event data into structured inputs
-- **Elegant Error Recovery**: Graceful failure modes with retry capabilities
+Triggers provide a comprehensive framework for creating and managing event-based automations within the .do ecosystem. This system enables workflows and functions to initiate in response to events from various sources, creating seamless automation across business processes.
 
 ## Key Features
 
-- **Elegant API Design** - Clean, intuitive interfaces for event-driven automation
-- **Type-Safe Events** - Strongly-typed event data for reliable processing
-- **Flexible Trigger Conditions** - Powerful, declarative conditions for precise activation
-- **Seamless Integration** - Works with all [.do](https://dotdo.ai) services
-- **Comprehensive Event Sources** - Support for webhooks, schedules, and system events
+- **Unified Event Handling** - Consistent patterns for events from any source
+- **Declarative Conditions** - Simple, powerful conditions for trigger activation
+- **Reliable Scheduling** - Precise time-based triggers with built-in reliability
+- **Seamless Data Mapping** - Transform event data into structured inputs
+- **Elegant Error Recovery** - Graceful failure modes with retry capabilities
 
-## Elegant API Design
+## Core Concepts
 
-Triggers.do provides a clean, intuitive interface for event-driven automation:
+### Trigger Structure
 
-```typescript
-import { Triggers } from 'triggers.do'
+- Trigger Definition
+- Event Source Configuration
+- Condition Specification
+- Target Mapping
+- Data Transformation
 
-// Simple initialization with default settings
-const triggers = new Triggers()
+### Trigger Types
 
-// Or with custom configuration
-const triggers = new Triggers({
-  apiKey: process.env.TRIGGERS_API_KEY,
-  baseUrl: process.env.TRIGGERS_API_URL || 'https://triggers.do',
-})
-```
+- Webhook Triggers
+- Schedule Triggers
+- Database Triggers
+- System Event Triggers
+- User Action Triggers
 
-### Creating Triggers
+### Trigger Lifecycle
 
-```typescript
-// Create a webhook trigger with elegant configuration
-const webhookTrigger = await triggers.create({
-  name: 'New GitHub Issue',
-  type: 'webhook',
-  source: 'github',
-  event: 'issues.opened',
-  // Elegant condition for trigger activation
-  condition: {
-    'payload.repository.full_name': 'drivly/ai',
-    'payload.issue.labels': { contains: 'bug' },
-  },
-  // Define the target workflow to execute
-  target: {
-    type: 'workflow',
-    id: 'bug-triage-workflow',
-    // Map event data to workflow inputs
-    input: {
-      issueTitle: '{{payload.issue.title}}',
-      issueBody: '{{payload.issue.body}}',
-      issueUrl: '{{payload.issue.html_url}}',
-      reporter: '{{payload.issue.user.login}}',
-    },
-  },
-})
+- Creation and Registration
+- Activation and Listening
+- Event Detection
+- Condition Evaluation
+- Target Execution
 
-// Create a schedule trigger with minimal configuration
-const scheduleTrigger = await triggers.create({
-  name: 'Daily Report',
-  type: 'schedule',
-  // Simple cron expression
-  schedule: '0 9 * * 1-5', // Weekdays at 9am
-  target: {
-    type: 'function',
-    id: 'generateDailyReport',
-    input: {
-      date: '{{now | date: "YYYY-MM-DD"}}',
-      format: 'pdf',
-    },
-  },
-})
-```
+## Event Sources
 
-### Managing Triggers
+### External Systems
 
-```typescript
-// List all triggers with simple pagination
-const allTriggers = await triggers.list({ limit: 10, page: 1 })
+- API Webhooks
+- Third-Party Services
+- Integration Platforms
+- External Databases
+- Cloud Services
 
-// Get a specific trigger by ID
-const trigger = await triggers.get('trigger-id')
+### Internal Systems
 
-// Update a trigger with minimal configuration
-await triggers.update('trigger-id', {
-  condition: {
-    'payload.repository.full_name': 'drivly/ai',
-    'payload.issue.labels': { contains: ['bug', 'high-priority'] },
-  },
-})
+- Database Changes
+- System Events
+- User Actions
+- Application States
+- Process Completions
 
-// Delete a trigger when no longer needed
-await triggers.delete('trigger-id')
-```
+### Time-Based Events
 
-## Integration with the [.do](https://dotdo.ai) Ecosystem
+- Scheduled Intervals
+- Cron Expressions
+- Calendar Events
+- Business Hours
+- Relative Timing
 
-Triggers.do is designed to work seamlessly with other [.do](https://dotdo.ai) services:
+## Condition Capabilities
 
-```typescript
-import { Workflow } from 'workflows.do'
-import { AI } from 'functions.do'
-import { Triggers } from 'triggers.do'
+### Data Filtering
 
-// Define an AI function using functions.do
-const ai = AI({
-  analyzeBugReport: {
-    title: 'string',
-    body: 'string',
-    severity: 'Low | Medium | High',
-    category: 'UI | Backend | Performance | Security',
-    estimatedEffort: 'string',
-  },
-})
+- Property Matching
+- Value Comparison
+- Pattern Recognition
+- Array Operations
+- Logical Combinations
 
-// Define a workflow using workflows.do
-const workflow = new Workflow({
-  name: 'Bug Triage',
-  steps: [
-    {
-      name: 'Analyze Bug',
-      function: 'analyzeBugReport',
-      input: {
-        title: '{{trigger.issueTitle}}',
-        body: '{{trigger.issueBody}}',
-      },
-    },
-    {
-      name: 'Create Task',
-      action: 'jira.createIssue',
-      input: {
-        project: 'AI',
-        type: 'Bug',
-        title: '{{trigger.issueTitle}}',
-        description: '{{trigger.issueBody}}',
-        priority: '{{steps.analyzeBug.severity}}',
-        labels: ['github', '{{steps.analyzeBug.category}}'],
-      },
-    },
-  ],
-})
+### Context Evaluation
 
-// Create a trigger using triggers.do
-const triggers = new Triggers()
-const trigger = await triggers.create({
-  name: 'GitHub Issue Trigger',
-  type: 'webhook',
-  source: 'github',
-  event: 'issues.opened',
-  target: {
-    type: 'workflow',
-    id: workflow.id,
-    input: {
-      issueTitle: '{{payload.issue.title}}',
-      issueBody: '{{payload.issue.body}}',
-      issueUrl: '{{payload.issue.html_url}}',
-    },
-  },
-})
-```
+- User Context
+- System State
+- Historical Data
+- Environmental Factors
+- Business Rules
 
-## Installation
+### Advanced Conditions
 
-```bash
-npm install triggers.do
-# or
-yarn add triggers.do
-# or
-pnpm add triggers.do
-```
+- Expression Evaluation
+- Function Execution
+- Composite Conditions
+- Threshold Detection
+- Rate Limiting
 
-## The [.do](https://dotdo.ai) Ecosystem
+## Implementation Approaches
 
-Triggers.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, designed to work seamlessly with other .do services:
+- Direct Trigger Definition
+- Template-Based Creation
+- Programmatic Generation
+- Event Pattern Matching
+- Rule-Based Configuration
 
-- **[apis.do](https://apis.do)** - The foundational SDK and unified API Gateway
-- **[functions.do](https://functions.do)** - Strongly-typed AI functions
-- **[workflows.do](https://workflows.do)** - Business process orchestration
-- **[agents.do](https://agents.do)** - Autonomous digital workers
-- **[actions.do](https://actions.do)** - External system operations
-- **[searches.do](https://searches.do)** - Contextual data retrieval
+## Integration Points
+
+- Workflow Initiation
+- Function Execution
+- Agent Activation
+- Data Pipeline Triggers
+- System Notifications
+
+## Getting Started
+
+- Creating Your First Trigger
+- Configuring Event Sources
+- Defining Trigger Conditions
+- Mapping Event Data
+- Testing and Monitoring Triggers

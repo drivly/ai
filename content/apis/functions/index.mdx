@@ -1,5 +1,73 @@
 ---
+title: Functions API
+sidebarTitle: Functions
 asIndexPage: true
 ---
 
-# functions.do
+# Functions API
+
+> **RESTful endpoints for managing AI functions and capabilities**
+
+## Overview
+
+The Functions API provides a comprehensive set of endpoints for creating, managing, and executing strongly-typed AI functions. This API allows you to programmatically define, deploy, and invoke AI functions with full type safety and version control.
+
+## Key Features
+
+- **Function Management** - Create, update, and version AI functions
+- **Type-Safe Execution** - Invoke functions with validated inputs and outputs
+- **Composition Support** - Build complex functions from simpler components
+- **Monitoring and Observability** - Track function performance and usage
+- **Integration Capabilities** - Connect functions to workflows and agents
+
+## Endpoints
+
+### Function Management
+
+- **GET /functions** - List all available functions
+- **GET /functions/:id** - Retrieve a specific function
+- **POST /functions** - Create a new function
+- **PUT /functions/:id** - Update an existing function
+- **DELETE /functions/:id** - Remove a function
+
+### Function Execution
+
+- **POST /functions/:id/execute** - Execute a function with provided inputs
+- **GET /functions/:id/executions** - List execution history for a function
+- **GET /functions/:id/executions/:executionId** - Get details of a specific execution
+
+### Function Composition
+
+- **POST /functions/compose** - Create a composite function
+- **GET /functions/:id/components** - List component functions
+- **PUT /functions/:id/components** - Update component functions
+
+### Function Versioning
+
+- **GET /functions/:id/versions** - List all versions of a function
+- **POST /functions/:id/versions** - Create a new version
+- **GET /functions/:id/versions/:versionId** - Get a specific version
+- **PUT /functions/:id/versions/:versionId/activate** - Activate a version
+
+### Function Testing
+
+- **POST /functions/:id/test** - Test a function with sample inputs
+- **GET /functions/:id/tests** - List test cases for a function
+- **POST /functions/:id/tests** - Create a new test case
+- **GET /functions/:id/tests/:testId/results** - Get test results
+
+## Integration
+
+- Authentication Requirements
+- Rate Limiting Considerations
+- Webhook Configuration
+- Error Handling
+- Performance Optimization
+
+## Examples
+
+- Creating a New Function
+- Executing a Function
+- Composing Functions
+- Version Management
+- Testing Functions

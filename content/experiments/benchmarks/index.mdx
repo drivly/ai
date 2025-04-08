@@ -1,71 +1,105 @@
-# Benchmarks
+---
+title: Benchmarks
+sidebarTitle: Benchmarks
+asIndexPage: true
+---
 
-Evaluate AI models on real-world business tasks to select the best models for your specific use cases.
+# Benchmarks - Model Evaluation Framework
+
+> **Evaluate AI models on real-world business tasks to select the best models for your specific use cases**
 
 ## Overview
 
-Benchmarks provides a framework for evaluating and comparing AI models based on real-world business performance. It enables you to:
+Benchmarks provide a comprehensive framework for evaluating and comparing AI models based on real-world business performance within the .do ecosystem. This system enables organizations to assess model capabilities, compare performance across multiple dimensions, and select the optimal models for specific business functions.
 
-- Assess model performance on enterprise-specific tasks
-- Compare models across accuracy, cost, latency, and throughput
-- Create standardized evaluation suites for business functions
-- Maintain leaderboards for different business capabilities
+## Key Features
 
-## Features
+- **Business Function Evals** - Specialized tests for Sales, Marketing, Support, Coding, etc.
+- **Multi-dimensional Scoring** - Evaluate on accuracy, cost, and performance
+- **Custom Test Suites** - Create evaluations tailored to your business
+- **Automated Testing** - Run benchmarks on model releases
+- **Comparative Analysis** - Track model improvements over time
 
-- **Business Function Evals**: Specialized tests for Sales, Marketing, Support, Coding, etc.
-- **Multi-dimensional Scoring**: Evaluate on accuracy, cost, and performance
-- **Custom Test Suites**: Create evaluations tailored to your business
-- **Automated Testing**: Run benchmarks on model releases
-- **Comparative Analysis**: Track model improvements over time
+## Core Concepts
 
-## Usage
+### Evaluation Dimensions
 
-```typescript
-import { defineBenchmark, runBenchmark } from 'benchmarks.do'
+- Accuracy and Quality
+- Cost and Efficiency
+- Latency and Responsiveness
+- Throughput and Scalability
+- Reliability and Consistency
 
-// Define a customer support benchmark
-const customerSupportBenchmark = defineBenchmark({
-  name: 'customer_support_quality',
-  description: 'Evaluates AI models on customer support tasks',
+### Benchmark Categories
 
-  // Define test categories
-  categories: [
-    {
-      name: 'inquiry_classification',
-      description: 'Classify customer inquiries by type',
-      weight: 0.2,
-    },
-    {
-      name: 'response_generation',
-      description: 'Generate helpful responses to inquiries',
-      weight: 0.5,
-    },
-    {
-      name: 'escalation_detection',
-      description: 'Identify when to escalate to human agents',
-      weight: 0.3,
-    },
-  ],
+- Natural Language Processing
+- Code Generation
+- Decision Making
+- Creative Content
+- Specialized Domain Tasks
 
-  // Define evaluation metrics
-  metrics: [
-    { name: 'accuracy', weight: 0.7 },
-    { name: 'latency', weight: 0.15 },
-    { name: 'cost', weight: 0.15 },
-  ],
-})
+### Test Suite Structure
 
-// Run benchmark with multiple models
-const results = await runBenchmark({
-  benchmark: customerSupportBenchmark,
-  models: ['openai/gpt-4.5', 'anthropic/claude-3-opus', 'google/gemini-pro'],
-})
+- Test Case Definition
+- Expected Outputs
+- Scoring Criteria
+- Weighting System
+- Evaluation Context
 
-// Get the best model for your use case
-const bestModel = results.getBestModel({
-  accuracyWeight: 0.8,
-  costWeight: 0.1,
-  latencyWeight: 0.1,
-})
-```
+### Result Analysis
+
+- Performance Metrics
+- Comparative Rankings
+- Trend Visualization
+- Statistical Significance
+- Recommendation Engine
+
+## Business Applications
+
+### Customer Engagement
+
+- Support Response Quality
+- Sales Conversation Effectiveness
+- Marketing Content Generation
+- Customer Sentiment Analysis
+- Personalization Accuracy
+
+### Operational Efficiency
+
+- Code Quality Assessment
+- Documentation Generation
+- Process Automation
+- Data Analysis
+- Error Detection
+
+### Strategic Decision Making
+
+- Market Analysis
+- Risk Assessment
+- Opportunity Identification
+- Competitive Intelligence
+- Scenario Planning
+
+## Implementation Approaches
+
+- Standardized Test Suites
+- Custom Evaluation Frameworks
+- Continuous Benchmarking
+- Comparative Analysis
+- Performance Tracking
+
+## Integration Points
+
+- Model Selection for Functions
+- Workflow Optimization
+- Agent Capability Assessment
+- Integration Performance
+- System Reliability Testing
+
+## Getting Started
+
+- Creating Your First Benchmark
+- Defining Evaluation Criteria
+- Running Comparative Tests
+- Analyzing Benchmark Results
+- Implementing Model Recommendations

@@ -4,249 +4,102 @@ sidebarTitle: Actions
 asIndexPage: true
 ---
 
-# [Actions.do](https://actions.do) - Elegant External System Operations
+# Actions - External System Operations
 
 > **Seamless integration with external systems through elegant, type-safe actions**
 
 ## Overview
 
-Actions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, providing a clean, type-safe interface for creating and managing reusable actions. These actions enable functions, workflows, and agents to interact with external systems and services with minimal configuration.
-
-## The Challenge
-
-Integrating with external systems presents several challenges:
-
-- **Standardization**: Creating consistent interfaces across diverse systems
-- **Authentication**: Managing secure access to external services
-- **Error Handling**: Gracefully managing failures in external operations
-- **Discoverability**: Making available actions easily discoverable
-- **Versioning**: Maintaining compatibility as external APIs evolve
-
-## The Solution
-
-Actions.do provides an elegant, type-safe interface for external system operations:
-
-- **Unified Action Interface**: Consistent patterns for interacting with any external system
-- **Secure Authentication**: Simplified credential management for external services
-- **Elegant Error Handling**: Graceful failure modes with comprehensive reporting
-- **Discoverable Actions**: Self-documenting action registry for easy exploration
-- **Seamless Versioning**: Maintain compatibility as external APIs evolve
+Actions provide a comprehensive framework for creating and managing reusable operations that interact with external systems and services within the .do ecosystem. This system enables functions, workflows, and agents to seamlessly connect with third-party services, APIs, and data sources with minimal configuration.
 
 ## Key Features
 
-- **Elegant API Design** - Clean, intuitive interfaces for external operations
-- **Type-Safe Actions** - Strongly-typed inputs and outputs for reliable integration
+- **Unified Interface** - Consistent patterns for interacting with any external system
+- **Type-Safe Operations** - Strongly-typed inputs and outputs for reliable integration
+- **Secure Authentication** - Simplified credential management for external services
+- **Elegant Error Handling** - Graceful failure modes with comprehensive reporting
 - **Minimal Configuration** - Simple setup with sensible defaults
-- **Seamless Integration** - Works with all [.do](https://dotdo.ai) services
-- **Comprehensive Monitoring** - Detailed tracking of action execution and performance
 
-## Elegant API Design
+## Core Concepts
 
-Actions.do provides a clean, intuitive interface for creating and executing operations on external systems:
+### Action Structure
 
-```typescript
-import { Actions } from 'actions.do'
+- Action Definition
+- Input Schema
+- Output Schema
+- Execution Handler
+- Error Handling
 
-// Simple initialization with default settings
-const actions = new Actions()
+### Action Categories
 
-// Or with custom configuration
-const actions = new Actions({
-  apiKey: process.env.ACTIONS_API_KEY,
-  baseUrl: process.env.ACTIONS_API_URL || 'https://actions.do',
-})
-```
+- Data Operations
+- Communication Actions
+- Authentication Operations
+- File Management
+- Service Integration
 
-### Defining Actions
+### Action Lifecycle
 
-```typescript
-import { defineAction } from 'actions.do'
+- Definition and Registration
+- Validation and Verification
+- Execution and Monitoring
+- Response Processing
+- Error Management
 
-// Define an email action with elegant configuration
-const sendEmail = defineAction({
-  name: 'sendEmail',
-  description: 'Sends an email to a recipient',
+### Action Context
 
-  // Type-safe input schema
-  input: {
-    to: { type: 'string', format: 'email', required: true },
-    subject: { type: 'string', required: true },
-    body: { type: 'string', required: true, format: 'html' },
-    attachments: { type: 'array', items: 'Attachment', optional: true },
-  },
+- Authentication Context
+- User Context
+- Tenant Context
+- Environment Variables
+- Service Connections
 
-  // Type-safe output schema
-  output: {
-    messageId: { type: 'string' },
-    status: { type: 'string', enum: ['sent', 'queued', 'failed'] },
-  },
+## Common Action Types
 
-  // Elegant execution handler
-  async execute({ to, subject, body, attachments }, context) {
-    // Implementation details abstracted away
-    const result = await context.services.email.send({
-      to,
-      subject,
-      body,
-      attachments,
-    })
+### Communication Actions
 
-    return {
-      messageId: result.id,
-      status: result.status,
-    }
-  },
-})
+- Email Sending
+- SMS Notifications
+- Push Notifications
+- Chat Messages
+- Webhook Delivery
 
-// Define a CRM action with minimal configuration
-const createContact = defineAction({
-  name: 'createContact',
-  description: 'Creates a new contact in the CRM',
+### Data Actions
 
-  input: {
-    firstName: { type: 'string', required: true },
-    lastName: { type: 'string', required: true },
-    email: { type: 'string', format: 'email', required: true },
-    company: { type: 'string', optional: true },
-  },
+- Database Operations
+- CRM Interactions
+- ERP Transactions
+- Analytics Events
+- Data Transformation
 
-  output: {
-    id: { type: 'string' },
-    url: { type: 'string', format: 'uri' },
-  },
-})
-```
+### Service Actions
 
-### Executing Actions
+- Payment Processing
+- Document Generation
+- Media Processing
+- Authentication Services
+- Geographic Operations
 
-```typescript
-// Execute an action with minimal configuration
-const emailResult = await actions.execute('sendEmail', {
-  to: 'customer@example.com',
-  subject: 'Your order has shipped',
-  body: '<p>Your order #12345 has shipped and will arrive on Tuesday.</p>',
-})
+## Implementation Approaches
 
-// Execute an action with context
-const contactResult = await actions.execute(
-  'createContact',
-  {
-    firstName: 'Jane',
-    lastName: 'Smith',
-    email: 'jane@example.com',
-    company: 'Acme Inc',
-  },
-  {
-    user: { id: 'usr_123', role: 'admin' },
-    tenant: 'org_456',
-  },
-)
+- Direct Definition
+- Template-Based Creation
+- Composition-Based Design
+- Event-Driven Actions
+- Workflow Integration
 
-console.log(`Contact created: ${contactResult.id}`)
-console.log(`View contact: ${contactResult.url}`)
-```
+## Integration Points
 
-## Integration with the [.do](https://dotdo.ai) Ecosystem
+- Workflow Orchestration
+- Function Execution
+- Agent Capabilities
+- Trigger Responses
+- Search Operations
 
-Actions.do is designed to work seamlessly with other [.do](https://dotdo.ai) services:
+## Getting Started
 
-```typescript
-import { AI } from 'functions.do'
-import { Workflow } from 'workflows.do'
-import { Actions } from 'actions.do'
-
-// Initialize services
-const actions = new Actions()
-
-// Define AI functions that use actions
-const ai = AI({
-  processOrder: async ({ orderId, customer }) => {
-    // Use actions.do to interact with external systems
-    const paymentResult = await actions.execute('processPayment', {
-      orderId,
-      amount: order.total,
-      customerId: customer.id,
-    })
-
-    if (paymentResult.status === 'success') {
-      // Execute another action after successful payment
-      const fulfillmentResult = await actions.execute('createFulfillment', {
-        orderId,
-        items: order.items,
-        shippingAddress: customer.shippingAddress,
-      })
-
-      return {
-        success: true,
-        paymentId: paymentResult.id,
-        fulfillmentId: fulfillmentResult.id,
-        estimatedDelivery: fulfillmentResult.estimatedDelivery,
-      }
-    }
-
-    return {
-      success: false,
-      reason: paymentResult.failureReason,
-    }
-  },
-})
-
-// Define a workflow that uses both functions and actions
-const workflow = new Workflow({
-  name: 'Order Processing',
-  steps: [
-    {
-      name: 'Validate Order',
-      function: 'validateOrder',
-      input: {
-        orderId: '{{trigger.orderId}}',
-        customer: '{{trigger.customer}}',
-      },
-    },
-    {
-      name: 'Process Payment',
-      action: 'processPayment',
-      input: {
-        orderId: '{{trigger.orderId}}',
-        amount: '{{steps.validateOrder.total}}',
-        customerId: '{{trigger.customer.id}}',
-      },
-    },
-    {
-      name: 'Create Fulfillment',
-      action: 'createFulfillment',
-      input: {
-        orderId: '{{trigger.orderId}}',
-        items: '{{steps.validateOrder.items}}',
-        shippingAddress: '{{trigger.customer.shippingAddress}}',
-      },
-      condition: '{{steps.processPayment.status === "success"}}',
-    },
-  ],
-})
-```
-
-## Installation
-
-```bash
-npm install actions.do
-# or
-yarn add actions.do
-# or
-pnpm add actions.do
-```
-
-## The [.do](https://dotdo.ai) Ecosystem
-
-Actions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, designed to work seamlessly with other .do services:
-
-- **[apis.do](https://apis.do)** - The foundational SDK and unified API Gateway
-- **[functions.do](https://functions.do)** - Strongly-typed AI functions
-- **[workflows.do](https://workflows.do)** - Business process orchestration
-- **[agents.do](https://agents.do)** - Autonomous digital workers
-- **[triggers.do](https://triggers.do)** - Event-driven process initiation
-- **[searches.do](https://searches.do)** - Contextual data retrieval
-
-```
-
-```
+- Creating Your First Action
+- Defining Action Parameters
+- Implementing Action Handlers
+- Testing and Validating Actions
+- Deploying Actions to Production
