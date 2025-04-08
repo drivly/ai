@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 
 export function LlmsdoLogo({ className, domain }: { className?: string; domain?: string }) {
   return (
-    <Link href='/sites' className={cn('z-10 text-lg font-medium', className)}>
+    <Link href='/' className={cn('z-10 text-lg font-medium', className)}>
       {domain ?? '.do'}
     </Link>
   )
