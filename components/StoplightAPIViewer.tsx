@@ -1,25 +1,42 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import dynamic from 'next/dynamic'
-
-const APIViewer = dynamic(
-  () => import('@stoplight/elements').then((mod) => mod.API),
-  { ssr: false }
-)
+import React, { useEffect, useState, useRef } from 'react'
+import Script from 'next/script'
 
 export function StoplightAPIViewer() {
   const [mounted, setMounted] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
+    
     const link = document.createElement('link')
     link.rel = 'stylesheet'
     link.href = 'https://unpkg.com/@stoplight/elements@9.0.1/styles.min.css'
     document.head.appendChild(link)
     
+    const initializeApiViewer = () => {
+      if (containerRef.current && window.customElements && window.customElements.get('elements-api')) {
+        const apiElement = document.createElement('elements-api')
+        apiElement.setAttribute('apiDescriptionUrl', '/api.json')
+        apiElement.setAttribute('router', 'hash')
+        apiElement.setAttribute('layout', 'sidebar')
+        containerRef.current.innerHTML = ''
+        containerRef.current.appendChild(apiElement)
+      }
+    }
+    
+    if (window.customElements && window.customElements.get('elements-api')) {
+      initializeApiViewer()
+    } else {
+      window.addEventListener('WebComponentsReady', initializeApiViewer)
+    }
+    
     return () => {
-      document.head.removeChild(link)
+      if (document.head.contains(link)) {
+        document.head.removeChild(link)
+      }
+      window.removeEventListener('WebComponentsReady', initializeApiViewer)
     }
   }, [])
 
@@ -29,12 +46,25 @@ export function StoplightAPIViewer() {
 
   return (
     <div className="stoplight-container">
-      <APIViewer apiDescriptionUrl="/api.json" />
+      <Script 
+        src="https://unpkg.com/@stoplight/elements@9.0.1/web-components.min.js"
+        strategy="afterInteractive"
+        onLoad={() => {
+          window.dispatchEvent(new CustomEvent('WebComponentsReady'))
+        }}
+      />
+      <div ref={containerRef} className="api-container">
+        {/* API viewer will be mounted here */}
+      </div>
       <style jsx global>{`
         .stoplight-container {
           width: 100%;
           height: 100vh;
           margin-top: 1rem;
+        }
+        .api-container {
+          width: 100%;
+          height: 100%;
         }
       `}</style>
     </div>
