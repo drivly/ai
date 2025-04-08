@@ -1,4 +1,35 @@
-import type { ClientOptions, ErrorResponse, ListResponse, QueryParams } from 'apis.do/types'
+export interface ClientOptions {
+  baseUrl?: string
+  apiKey?: string
+  headers?: Record<string, string>
+}
+
+export interface ErrorResponse {
+  errors?: Array<{
+    message: string
+    code?: string
+    path?: string
+  }>
+}
+
+export interface ListResponse<T> {
+  data: T[]
+  meta?: {
+    total?: number
+    page?: number
+    pageSize?: number
+    hasNextPage?: boolean
+  }
+}
+
+export interface QueryParams {
+  limit?: number
+  page?: number
+  sort?: string | string[]
+  where?: Record<string, any>
+  select?: string | string[]
+  populate?: string | string[]
+}
 
 export interface ExperimentVariant {
   id: string
@@ -90,6 +121,3 @@ export interface ExperimentRecommendation {
     }
   >
 }
-
-// Export types from apis.do
-export type { ClientOptions, ErrorResponse, ListResponse, QueryParams }

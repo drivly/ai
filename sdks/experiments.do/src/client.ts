@@ -1,11 +1,13 @@
-import { API } from 'apis.do/src/client'
-import { Experiment, VariantContext, VariantResult, ExperimentResults, ExperimentComparison, ExperimentRecommendation, QueryParams, ListResponse, ClientOptions } from './types.js'
-import { VercelFlagsProvider, EvaluationContext } from './provider.js'
+import { API } from 'apis.do'
+import { Experiment, VariantContext, VariantResult, ExperimentResults, ExperimentComparison, ExperimentRecommendation, QueryParams, ListResponse, ClientOptions } from './types'
+import { VercelFlagsProvider, EvaluationContext } from './provider'
 
 export interface ExperimentsClientOptions extends ClientOptions {
   flagsApiKey?: string
   flagsBaseUrl?: string
   analyticsEnabled?: boolean
+  baseUrl?: string
+  apiKey?: string
 }
 
 export class ExperimentsClient {
