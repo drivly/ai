@@ -1,6 +1,6 @@
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
-import { fetchFromProvider } from 'providers/openRouter'
+import { providers } from 'providers/provider'
 import { ModelListResponseSchema } from 'types/models'
 import { AuthHeader } from 'types/shared'
 
@@ -27,7 +27,7 @@ export class ModelList extends OpenAPIRoute {
     // Retrieve the validated request
     const request = await this.getValidatedData<typeof this.schema>()
 
-    // Pass request to OpenRouter
-    return fetchFromProvider(request, 'GET', '/models')
+    // Pass request to provider
+    return providers.default.fetchFromProvider(request, 'GET', '/models')
   }
 }

@@ -1,6 +1,6 @@
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
-import { fetchFromProvider } from 'providers/openRouter'
+import { providers } from 'providers/provider'
 import { ResponseRequestSchema, ResponseSchema } from 'types/responses'
 import { AuthHeader } from 'types/shared'
 import { toChatCompletionRequest, toResponse } from 'types/translate'
@@ -38,8 +38,8 @@ export class ResponseCreate extends OpenAPIRoute {
 
     request.body.stream = false
 
-    // Pass request to OpenRouter
-    const response = await fetchFromProvider({ ...request, body: toChatCompletionRequest(request.body) }, 'POST', '/chat/completions')
+    // Pass request to provider
+    const response = await providers.default.fetchFromProvider({ ...request, body: toChatCompletionRequest(request.body) }, 'POST', '/chat/completions')
     const json: ChatCompletionResponse = await response.json()
 
     return c.json(toResponse(json))
