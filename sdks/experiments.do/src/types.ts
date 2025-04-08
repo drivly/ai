@@ -1,4 +1,4 @@
-import type { ClientOptions, ErrorResponse, ListResponse, QueryParams } from 'apis.do/src/types'
+import type { ClientOptions, ErrorResponse, ListResponse, QueryParams } from 'apis.do/types'
 
 export interface ExperimentVariant {
   id: string
