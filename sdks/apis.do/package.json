@@ -40,6 +40,10 @@
     "./src/types": {
       "import": "./dist/src/types.js",
       "types": "./dist/src/types.d.ts"
+    },
+    "./src/cli": {
+      "import": "./dist/src/cli.js",
+      "types": "./dist/src/cli.d.ts"
     }
   },
   "files": [
