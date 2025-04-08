@@ -4,6 +4,8 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "declaration": true,
+    "emitDeclarationOnly": false,
+    "noEmit": false,
     "outDir": "./dist",
     "resolveJsonModule": true,
     "paths": {

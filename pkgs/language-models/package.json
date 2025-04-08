@@ -1,7 +1,7 @@
 {
-  "name": "ai-models",
+  "name": "language-models",
   "version": "0.2.0",
-  "description": "AI model abstractions",
+  "description": "Language model abstractions",
   "main": "dist/index.js",
   "scripts": {
     "dev": "dotenvx run -- npx tsx watch src/demo.ts",
