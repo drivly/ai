@@ -14,6 +14,6 @@ export const GET = API(async (request, { db, user, url }) => {
     },
   })
 
-  const data = await response.json()
+  const data = await response.json() as { actions?: any[] }
   return { actions: data.actions || data }
 })
