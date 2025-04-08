@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { VercelFlagsProvider, EvaluationContext } from '../src/provider'
 import { ExperimentsClient } from '../src/client'
 
-vi.mock('../../apis.do/index.js', () => {
+vi.mock('../../apis.do/index', () => {
   return {
     API: class MockAPI {
       post = vi.fn().mockResolvedValue({})

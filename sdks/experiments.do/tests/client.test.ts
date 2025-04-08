@@ -18,7 +18,7 @@ vi.mock('apis.do', () => {
   }
 })
 
-vi.mock('../src/provider.js', () => {
+vi.mock('../src/provider', () => {
   return {
     VercelFlagsProvider: vi.fn().mockImplementation(() => ({
       initialize: vi.fn().mockResolvedValue(undefined),
