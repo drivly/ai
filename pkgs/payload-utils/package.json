@@ -5,6 +5,12 @@
   "description": "Payload CMS utilities for Cloudflare Workers and NextJS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist"
   ],
