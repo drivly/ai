@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest'
-import { Workflows } from '../../collections/ai/Workflows'
-import type { Workflow as WorkflowType } from '../../payload.types'
+import { Workflows } from '@/collections/ai/Workflows'
+import type { Workflow as WorkflowType } from '@/payload.types'
 import { getTestPayload } from '../setup'
 
 describe('Workflows Collection', () => {

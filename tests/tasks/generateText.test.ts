@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest'
-import { generateText } from '../../tasks/ai/generateText'
+import { generateText } from '@/tasks/ai/generateText'
 
 // Setup mock fetch with proper type
 const mockFetch: Mock = vi.fn()
