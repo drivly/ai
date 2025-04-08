@@ -13,5 +13,10 @@ export default [
   ...compat.extends('next/core-web-vitals'),
   {
     ignores: ['pkgs/ui/**'],
+    rules: {
+      'react/no-unescaped-entities': 'off',
+      'react/display-name': 'off',
+      'react-hooks/exhaustive-deps': 'warn'
+    }
   },
 ]
