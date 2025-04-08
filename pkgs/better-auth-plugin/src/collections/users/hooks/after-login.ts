@@ -4,9 +4,9 @@ import { setCookieCache } from 'better-auth/cookies'
 import { parseSetCookie, type ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { cookies } from 'next/headers'
 import { CollectionAfterLoginHook } from 'payload'
-import { getPayloadWithAuth } from '../../../index'
-import { getIp } from '../../../helpers/get-ip'
-import { prepareSessionData } from '../../../lib/prepare-session-data'
+import { getPayloadWithAuth } from '@/../index'
+import { getIp } from '@/../helpers/get-ip'
+import { prepareSessionData } from '@/../lib/prepare-session-data'
 
 type AfterLoginOptions = {
   usersCollectionSlug: string

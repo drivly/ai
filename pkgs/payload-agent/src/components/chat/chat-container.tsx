@@ -3,7 +3,7 @@
 import { Button } from '../ui/button'
 import { ChatContainer } from '../ui/chat-container'
 import { useCheckMobile, useOutsideClick } from '../ui/hooks'
-import { cn } from '../../lib/utils'
+import { cn } from '@/lib/utils'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '../ui/resizable'
 import { ScrollButton } from '../ui/scroll-button'
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '../ui/sheet'

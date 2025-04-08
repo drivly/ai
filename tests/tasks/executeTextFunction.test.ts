@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { generateText } from '../../tasks/ai/generateText'
-import { generateMarkdown } from '../../tasks/ai/generateMarkdown'
-import { executeFunction } from '../../tasks/ai/executeFunction'
+import { generateText } from '@/tasks/ai/generateText'
+import { generateMarkdown } from '@/tasks/ai/generateMarkdown'
+import { executeFunction } from '@/tasks/ai/executeFunction'
 
 // Mock the dependencies
 vi.mock('../../tasks/ai/generateText')

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
 import { chromium, Browser, Page, Response } from 'playwright'
-import { collections } from '../../collections'
+import { collections } from '@/collections'
 import { test as chromaticTest, expect as chromaticExpect } from '@chromatic-com/playwright'
 
 describe('Critical Collections', () => {

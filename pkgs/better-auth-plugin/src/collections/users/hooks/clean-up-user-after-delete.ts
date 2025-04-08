@@ -1,5 +1,5 @@
 import type { CollectionAfterDeleteHook } from 'payload'
-import type { CollectionHookWithBetterAuth } from '../../../types'
+import type { CollectionHookWithBetterAuth } from '@/../types'
 
 type CollectionAfterDeleteHookWithBetterAuth =
   CollectionHookWithBetterAuth<CollectionAfterDeleteHook>
