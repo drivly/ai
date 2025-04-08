@@ -42,6 +42,14 @@ const extractApiNameFromDomain = (hostname: string): string => {
 }
 
 /**
+ * Check if docs exist for a specific API name
+ */
+const docsExistForApi = (apiName: string): boolean => {
+  const apisWithDocs = ['functions', 'workflows', 'agents', 'llm', 'integrations', 'database', 'evals', 'experiments'];
+  return apisWithDocs.includes(apiName);
+}
+
+/**
  * Get path to correct docs hierarchy for a domain
  */
 const getDocsPath = (hostname: string): string => {
@@ -155,8 +163,13 @@ export async function middleware(request: NextRequest) {
 
       if (pathname === '/docs') {
         console.log('Rewriting docs path', { hostname, pathname, search })
-        const docsPath = getDocsPath(hostname)
-        return NextResponse.rewrite(new URL(`${docsPath}${search}`, request.url))
+        const apiName = extractApiNameFromDomain(hostname)
+        
+        if (docsExistForApi(apiName)) {
+          const docsPath = getDocsPath(hostname)
+          return NextResponse.rewrite(new URL(`${docsPath}${search}`, request.url))
+        }
+        return NextResponse.rewrite(new URL(`/docs${search}`, request.url))
       }
 
       if (pathname === '/api') {
