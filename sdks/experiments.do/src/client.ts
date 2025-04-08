@@ -6,6 +6,8 @@ export interface ExperimentsClientOptions extends ClientOptions {
   flagsApiKey?: string
   flagsBaseUrl?: string
   analyticsEnabled?: boolean
+  baseUrl?: string
+  apiKey?: string
 }
 
 export class ExperimentsClient {
