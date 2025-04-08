@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { ExperimentsClient } from '../src/client.js'
+import { ExperimentsClient } from '../src/client'
 import { API } from 'apis.do'
-import { VercelFlagsProvider } from '../src/provider.js'
-import { Experiment } from '../src/types.js'
+import { VercelFlagsProvider } from '../src/provider'
+import { Experiment } from '../src/types'
 
-vi.mock('apis.do/src/client', () => {
+vi.mock('apis.do', () => {
   return {
     API: vi.fn().mockImplementation(() => ({
       create: vi.fn().mockResolvedValue({ name: 'test-experiment' }),
