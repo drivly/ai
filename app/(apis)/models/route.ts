@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { Capability, getModel, Provider, reconstructModelString, models, Model } from 'ai-models'
+import { Capability, getModel, Provider, reconstructModelString, models, Model } from '@/pkgs/ai-models'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
   // Using the new db interface for more concise syntax
