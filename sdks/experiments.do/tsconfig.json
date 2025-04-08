@@ -2,7 +2,7 @@
   "extends": "tsconfig/src/sdk.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "src",
+    "rootDir": ".",
     "noEmit": false,
     "skipLibCheck": true,
     "module": "ESNext",
