@@ -1,16 +1,13 @@
 'use client'
 
-import { Faqs } from '@/components/sites/sections/faqs'
 import { Button } from '@drivly/ui/button'
 import { Label } from '@drivly/ui/label'
 import { cn } from '@drivly/ui/lib'
 import { Switch } from '@drivly/ui/switch'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@drivly/ui/tooltip'
-import { RiCheckLine, RiCloudLine, RiInformationLine, RiLightbulbLine, RiSubtractLine, RiUserLine } from '@remixicon/react'
+import { RiCheckLine, RiCloudLine, RiDiscordFill, RiInformationLine, RiLightbulbLine, RiSubtractLine, RiUserLine } from '@remixicon/react'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
-
-import { Enterprise } from '../sections/enterprise'
 
 type FixedPrice = string
 
@@ -19,7 +16,19 @@ interface VariablePrice {
   annually: string
 }
 
-export const plans = [
+interface Plan {
+  name: string
+  price: FixedPrice | VariablePrice
+  description: string
+  capacity: string[]
+  features: string[]
+  isStarter: boolean
+  isRecommended: boolean
+  buttonText: string
+  buttonLink: string
+}
+
+const plans: Plan[] = [
   {
     name: 'Pay as you Go',
     price: {
@@ -35,10 +44,10 @@ export const plans = [
     buttonLink: '#',
   },
   {
-    name: 'Build',
+    name: 'Scale',
     price: {
-      monthly: '$50',
-      annually: '$40',
+      monthly: '$500',
+      annually: '$400',
     },
     description: 'For professionals and teams building production-ready AI applications.',
     capacity: ['Fixed monthly fee', 'Usage-based billing'],
@@ -49,44 +58,50 @@ export const plans = [
     buttonLink: '#',
   },
   {
-    name: 'Scale',
+    name: 'Enterprise',
     price: {
       monthly: '$500',
       annually: '$400',
     },
     description: 'For organizations requiring advanced features, security, and dedicated support.',
     capacity: ['Fixed monthly fee', 'Usage-based billing'],
-    features: ['All Build features', 'Dedicated databases', 'Self-hosted databases', 'WorkOS integrations', 'Audit logs, SAML, directory sync', 'SOC2 & HIPAA compliance*'],
+    features: ['All Scale features', 'Dedicated databases', 'Self-hosted databases', 'SAML', 'Directory sync', 'Audit logs', 'SOC2 & HIPAA compliance*'],
     isStarter: false,
     isRecommended: false,
-    buttonText: 'Start 14-day trial',
-    buttonLink: '#',
+    buttonText: 'Contact sales',
+    buttonLink: 'mailto:sales@dotdo.ai',
   },
-] as const
+]
 
-export const pricingSections = [
+interface Feature {
+  name: string
+  plans: Record<string, boolean | string>
+  tooltip?: string
+}
+
+interface Section {
+  name: string
+  features: Feature[]
+}
+
+const sections: Section[] = [
   {
     name: 'Core Features',
     features: [
       {
         name: 'Monthly fee',
-        tooltip: 'Fixed monthly subscription cost',
-        plans: { 'Pay as you Go': '$0', Build: '$50', Scale: '$500' },
+        tooltip: 'Fixed monthly subscription cost based on plan',
+        plans: { 'Pay as you Go': '$0', Scale: '$500', Enterprise: 'Varies' },
       },
       {
         name: 'Usage-based billing',
-        tooltip: 'Pay per token or API call',
-        plans: { 'Pay as you Go': 'Yes', Build: 'Yes', Scale: 'Yes' },
-      },
-      {
-        name: 'Free trial',
-        tooltip: 'Try before you commit',
-        plans: { 'Pay as you Go': '14 days', Build: '14 days', Scale: '14 days' },
+        tooltip: 'Pay per token/API call',
+        plans: { 'Pay as you Go': 'Yes', Scale: 'Yes', Enterprise: 'Yes' },
       },
       {
         name: 'API access',
-        tooltip: 'Programmatic access to LLM.do capabilities',
-        plans: { 'Pay as you Go': 'Basic', Build: 'Priority', Scale: 'Priority+' },
+        tooltip: 'Programmatic access to .do capabilities',
+        plans: { 'Pay as you Go': 'Basic', Scale: 'Limited', Enterprise: 'Full access' },
       },
     ],
   },
@@ -96,17 +111,17 @@ export const pricingSections = [
       {
         name: 'Standard models',
         tooltip: 'Access to foundational LLM models',
-        plans: { 'Pay as you Go': true, Build: true, Scale: true },
+        plans: { 'Pay as you Go': true, Scale: true, Enterprise: true },
       },
       {
         name: 'Advanced models',
         tooltip: 'Access to more powerful and specialized models',
-        plans: { 'Pay as you Go': false, Build: true, Scale: true },
+        plans: { 'Pay as you Go': false, Scale: true, Enterprise: true },
       },
       {
         name: 'Custom fine-tuning',
         tooltip: 'Train models on your own data',
-        plans: { 'Pay as you Go': false, Build: 'Limited', Scale: 'Full access' },
+        plans: { 'Pay as you Go': false, Scale: 'Limited', Enterprise: 'Full access' },
       },
     ],
   },
@@ -116,17 +131,27 @@ export const pricingSections = [
       {
         name: 'Dedicated databases',
         tooltip: 'Isolated database instances for your workloads',
-        plans: { 'Pay as you Go': false, Build: false, Scale: true },
+        plans: { 'Pay as you Go': false, Scale: true, Enterprise: true },
       },
       {
         name: 'Self-hosted databases',
         tooltip: 'Run databases in your own infrastructure',
-        plans: { 'Pay as you Go': false, Build: false, Scale: true },
+        plans: { 'Pay as you Go': false, Scale: true, Enterprise: true },
       },
       {
-        name: 'WorkOS integrations',
-        tooltip: 'Enterprise-grade authentication and directory services',
-        plans: { 'Pay as you Go': false, Build: false, Scale: true },
+        name: 'SAML',
+        tooltip: 'Secure single sign-on using SAML',
+        plans: { 'Pay as you Go': false, Scale: false, Enterprise: true },
+      },
+      {
+        name: 'Directory sync',
+        tooltip: 'Automatically sync user directories',
+        plans: { 'Pay as you Go': false, Scale: false, Enterprise: true },
+      },
+      {
+        name: 'Audit logs',
+        tooltip: 'Detailed logs for security and compliance.',
+        plans: { 'Pay as you Go': false, Scale: false, Enterprise: true },
       },
     ],
   },
@@ -137,27 +162,27 @@ export const pricingSections = [
         name: 'Support channels',
         plans: {
           'Pay as you Go': 'Community',
-          Build: 'Email & chat',
-          Scale: 'Dedicated support',
+          Scale: 'Email & chat',
+          Enterprise: 'Dedicated support',
         },
       },
       {
         name: 'Response time',
-        plans: { 'Pay as you Go': 'Best effort', Build: '24 hours', Scale: '4 hours' },
+        plans: { 'Pay as you Go': 'Best effort', Scale: '24 hours', Enterprise: '4 hours' },
       },
       {
         name: 'SOC2 compliance',
         tooltip: 'Security and availability certification',
-        plans: { 'Pay as you Go': false, Build: false, Scale: 'Coming soon*' },
+        plans: { 'Pay as you Go': false, Scale: 'Coming soon*', Enterprise: 'Coming soon*' },
       },
       {
         name: 'HIPAA compliance',
         tooltip: 'Healthcare data protection standards',
-        plans: { 'Pay as you Go': false, Build: false, Scale: 'Coming soon*' },
+        plans: { 'Pay as you Go': false, Scale: 'Coming soon*', Enterprise: 'Coming soon*' },
       },
     ],
   },
-] as const
+]
 
 const isVariablePrice = (price: FixedPrice | VariablePrice): price is VariablePrice => {
   return (price as VariablePrice).monthly !== undefined
@@ -165,9 +190,8 @@ const isVariablePrice = (price: FixedPrice | VariablePrice): price is VariablePr
 
 export function Pricing() {
   const [billingFrequency, setBillingFrequency] = React.useState<'monthly' | 'annually'>('monthly')
-
   return (
-    <div className='py-8 sm:py-12'>
+    <div className='mx-auto max-w-6xl bg-black px-3 py-8 sm:py-10'>
       <section
         aria-labelledby='pricing-title'
         className='animate-slide-up-fade flex flex-col items-center text-center'
@@ -176,13 +200,13 @@ export function Pricing() {
           animationFillMode: 'backwards',
         }}>
         <div className='mt-2 max-w-3xl'>
-          <h1 className='text-center text-4xl font-semibold text-white sm:text-5xl'>Transparent and scalable pricing.</h1>
-          <p className='text-md mt-6 max-w-2xl text-gray-400'>Choose the plan that's right for you. All plans include a 14-day free trial, you only pay for what you use.</p>
+          <h1 className='text-center text-4xl font-semibold text-white sm:text-5xl'>Flexible, Transparent Pricing.</h1>
+          <p className='text-md mt-6 max-w-xl text-gray-400'>Choose the plan that's right for you. Designed to grow with your needs—pay only for what you use.</p>
         </div>
       </section>
       <section
         id='pricing-overview'
-        className='animate-slide-up-fade container mx-auto mt-16 max-w-5xl'
+        className='animate-slide-up-fade mt-16'
         aria-labelledby='pricing-overview'
         style={{
           animationDuration: '600ms',
@@ -223,13 +247,19 @@ export function Pricing() {
                   <div>
                     <h2 className='text-xl font-semibold text-gray-900 dark:text-white'>{plan.name}</h2>
                     <div className='mt-3 flex items-baseline gap-x-2'>
-                      <span className='text-4xl font-semibold tracking-tight text-gray-900 dark:text-white'>
-                        {isVariablePrice(plan.price) ? (billingFrequency === 'monthly' ? plan.price.monthly : plan.price.annually) : plan.price}
-                      </span>
-                      <span className='text-sm text-gray-600 dark:text-gray-400'>
-                        /month
-                        {billingFrequency === 'annually' && isVariablePrice(plan.price) && plan.price.annually !== '$0' ? ' (billed annually)' : ''}
-                      </span>
+                      {plan.name === 'Enterprise' ? (
+                        <span className='inline-block py-2 align-bottom text-sm text-gray-400'>Contact for pricing</span>
+                      ) : (
+                        <>
+                          <span className='text-4xl font-semibold tracking-tight text-gray-900 dark:text-white'>
+                            {isVariablePrice(plan.price) ? (billingFrequency === 'monthly' ? plan.price.monthly : plan.price.annually) : plan.price}
+                          </span>
+                          <span className='text-sm text-gray-400'>
+                            /month
+                            {billingFrequency === 'annually' && isVariablePrice(plan.price) && plan.price.annually !== '$0' ? ' (billed annually)' : ''}
+                          </span>
+                        </>
+                      )}
                     </div>
                     <p className='mt-4 text-sm text-gray-600 dark:text-gray-400'>{plan.description}</p>
 
@@ -293,15 +323,17 @@ export function Pricing() {
                   {plan.name}
                 </h3>
                 <p className='text-sm font-normal text-gray-600 dark:text-gray-400'>
-                  {isVariablePrice(plan.price)
-                    ? `${
-                        billingFrequency === 'monthly' ? plan.price.monthly : plan.price.annually
-                      } / month${billingFrequency === 'annually' && plan.price.annually !== '$0' ? ' (billed annually)' : ''}`
-                    : `${plan.price} /month`}
+                  {plan.name === 'Enterprise'
+                    ? 'Contact sales'
+                    : isVariablePrice(plan.price)
+                      ? `${
+                          billingFrequency === 'monthly' ? plan.price.monthly : plan.price.annually
+                        } / month${billingFrequency === 'annually' && plan.price.annually !== '$0' ? ' (billed annually)' : ''}`
+                      : `${plan.price} /month`}
                 </p>
               </div>
               <ul role='list' className='mt-8 space-y-8 text-sm leading-6 text-gray-900 dark:text-white'>
-                {pricingSections.map((section) => (
+                {sections.map((section) => (
                   <li key={section.name}>
                     <h4 className='font-semibold'>{section.name}</h4>
                     <ul role='list' className='mt-2 divide-y divide-gray-200 dark:divide-gray-800'>
@@ -334,7 +366,7 @@ export function Pricing() {
       </section>
 
       {/* plan details (lg+) */}
-      <section id='pricing-details-desktop' className='container mx-auto mt-4 max-w-5xl md:mt-3' aria-labelledby='pricing-details-desktop'>
+      <section id='pricing-details-desktop' className='mx-auto mt-4 md:mt-3' aria-labelledby='pricing-details-desktop'>
         <div className='hidden lg:block'>
           <div className='relative'>
             <div className='sticky top-0 z-20 h-20 w-full bg-white dark:bg-black' />
@@ -365,14 +397,18 @@ export function Pricing() {
                         )}
                       </div>
                       <div className='text-sm font-normal text-gray-600 dark:text-gray-400'>
-                        {isVariablePrice(plan.price) ? `${billingFrequency === 'monthly' ? plan.price.monthly : plan.price.annually} / month` : `${plan.price} /month`}
+                        {plan.name === 'Enterprise'
+                          ? 'Contact sales'
+                          : isVariablePrice(plan.price)
+                            ? `${billingFrequency === 'monthly' ? plan.price.monthly : plan.price.annually} / month`
+                            : `${plan.price} /month`}
                       </div>
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {pricingSections.map((section, sectionIdx) => (
+                {sections.map((section, sectionIdx) => (
                   <Fragment key={section.name}>
                     <tr>
                       <th
@@ -389,15 +425,17 @@ export function Pricing() {
                       <tr key={feature.name} className='transition hover:bg-slate-800/20'>
                         <th
                           scope='row'
-                          className='flex items-center gap-2 border-b border-gray-200 py-4 text-sm leading-6 font-normal text-gray-900 dark:border-gray-800 dark:text-white'>
+                          className='flex items-center gap-2 border-b border-gray-100 py-4 text-sm leading-6 font-normal text-gray-900 dark:border-gray-800 dark:text-white'>
                           <span>{feature.name}</span>
-                          {'tooltip' in feature ? (
+                          {feature.tooltip ? (
                             <TooltipProvider>
                               <Tooltip>
                                 <TooltipTrigger asChild>
-                                  <RiInformationLine className='size-4 shrink-0 cursor-help text-gray-400' aria-hidden='true' />
+                                  <RiInformationLine className='size-4 shrink-0 cursor-pointer text-gray-400' aria-hidden='true' />
                                 </TooltipTrigger>
-                                <TooltipContent side='right'>{feature.tooltip}</TooltipContent>
+                                <TooltipContent side='right' className='border border-gray-800'>
+                                  {feature.tooltip}
+                                </TooltipContent>
                               </Tooltip>
                             </TooltipProvider>
                           ) : null}
@@ -448,10 +486,33 @@ export function Pricing() {
           </div>
         </div>
       </section>
-      <Enterprise />
-      <Faqs />
+
+      {/* Join Discord Community */}
+      <section className='my-20 overflow-hidden rounded-lg border border-gray-800 sm:my-36'>
+        <div className='relative grid grid-cols-1 bg-slate-600/25 bg-[linear-gradient(rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] p-6 md:p-12 lg:grid-cols-2'>
+          {/* Discord splash icon */}
+          <div className='pointer-events-none absolute -right-16 -bottom-24 opacity-[0.04]'>
+            <RiDiscordFill className='h-80 w-80 text-white' />
+          </div>
+          <div className='relative z-10'>
+            <h2 className='text-2xl font-semibold text-gray-900 md:text-3xl dark:text-white'>Join the Community</h2>
+            <p className='mt-4 text-gray-400'>
+              Join our Discord to collaborate with visionary developers, business leaders, and AI enthusiasts transforming business processes into code.
+            </p>
+          </div>
+
+          <div className='relative z-10 text-right lg:mx-12'>
+            <div className='mt-8 space-y-4'>
+              <Button asChild className='w-full bg-[#7289da] bg-black text-black hover:bg-[#839AED] lg:w-1/2'>
+                <Link href='https://discord.gg/26nNxZTz9X' className='flex items-center justify-center'>
+                  <RiDiscordFill className='mr-2 size-5' />
+                  Join Discord
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
-
-

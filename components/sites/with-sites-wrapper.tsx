@@ -2,6 +2,7 @@ import { Footer } from '@/components/sites/footer'
 import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
 import { Fragment } from 'react'
 import CallToAction from './sections/call-to-action'
+import { Faqs } from './sections/faqs'
 
 type PagePromiseParams<T extends object> = {
   params: Promise<T>
@@ -9,14 +10,15 @@ type PagePromiseParams<T extends object> = {
 
 type DomainPageProps = PagePromiseParams<{ domain?: string; slug?: string }>
 
-export const withSitesWrapper = <TPage extends DomainPageProps>(WrappedPage: React.ComponentType<TPage>) => {
+export const withSitesWrapper = <TPage extends DomainPageProps>(WrappedPage: React.ComponentType<TPage>, withFaqs = true, withCallToAction = true) => {
   return async (props: TPage) => (
     <Fragment>
       <SitesNavbar {...props} />
       <main className='flex-1 overflow-x-hidden'>
         <WrappedPage {...props} />
       </main>
-      <CallToAction />
+      {withFaqs && <Faqs />}
+      {withCallToAction && <CallToAction />}
       <Footer />
     </Fragment>
   )
