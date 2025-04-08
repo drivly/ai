@@ -1,3 +1,3 @@
-import workerConfig from 'eslint-config/worker'
+import workerConfig from '@/pkgs/eslint-config/src/worker.js'
 
 export default workerConfig

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { Agents } from '../../collections/ai/Agents'
-import type { Agent as AgentType } from '../../payload.types'
+import { Agents } from '@/collections/ai/Agents'
+import type { Agent as AgentType } from '@/payload.types'
 import { getTestPayload } from '../setup'
 
 describe('Agents Collection', () => {

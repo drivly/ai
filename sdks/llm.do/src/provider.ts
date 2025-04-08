@@ -10,7 +10,6 @@ import {
   EmbeddingModelV1Embedding,
 } from '@ai-sdk/provider'
 import { LLMClient, ChatMessage, CompletionOptions } from './index'
-import type { ModelCapability } from '../../models.do/src/index'
 import { API } from 'apis.do'
 
 export interface LLMDoProviderOptions {
