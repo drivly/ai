@@ -65,7 +65,7 @@ export default function OAuthClientsPage() {
       })
 
       if (response.ok) {
-        const data = await response.json()
+        const data = await response.json() as { name: string }
         setSuccessMessage(`Client "${data.name}" registered successfully!`)
         setName('')
         setRedirectURLs('')
