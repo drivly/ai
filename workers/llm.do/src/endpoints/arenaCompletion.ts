@@ -1,4 +1,4 @@
-import { getModels, Model, modelPattern } from 'language-models'
+import { getModels, modelToIdentifier, Model, modelPattern } from 'language-models'
 import { getUser } from 'api/user'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
@@ -143,8 +143,10 @@ export class ArenaCompletion extends OpenAPIRoute {
 
       // Request completions from all specified models
       const completions = await Promise.all(
-        resolvedModels.map(async ({ slug: model, parsed }: { slug: string, parsed: any }) => {
+        resolvedModels.map(async (rawModel) => {
+          const { slug: model, name, parsed } = rawModel
           const { systemConfig: { seed, temperature } = {} } = parsed
+
           const body: ChatCompletionRequest = {
             model,
             messages,
@@ -157,7 +159,7 @@ export class ArenaCompletion extends OpenAPIRoute {
             const response = await fetchFromProvider({ headers: { Authorization }, body }, 'POST', '/chat/completions')
             const data: ChatCompletionResponse = await response.json()
             return {
-              model,
+              model: modelToIdentifier(rawModel),
               text: data.choices[0].message.content?.split('\n').map((line: string) => line.trim()),
             }
           } catch (error) {

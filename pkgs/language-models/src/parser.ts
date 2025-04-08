@@ -1,7 +1,7 @@
 import camelCase from 'camelcase'
 import { aliases } from './aliases'
-import rawModels from './models'
 import { Model, Provider } from './types'
+import rawModels from './models'
 
 type InternalModel = Model
 
@@ -98,6 +98,10 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
         .replace('>', ':>')
         .split(':')
   
+      if (!key) {
+        continue
+      } 
+      
       let notAKnownParameter = false
   
       switch (true) {
@@ -253,6 +257,13 @@ export function constructModelIdentifier(parsed: ParsedModelIdentifier): string 
   return identifier
 }
 
+export function modelToIdentifier(model: Model): string {
+  return constructModelIdentifier({
+    model: model.slug.split('/')[1],
+    provider: model.slug.split('/')[0]
+  })
+}
+
 // Its a model, but with a provider attached
 type ResolvedModel = Model & {
   provider: Provider
@@ -363,19 +374,19 @@ export function filterModels(modelIdentifier: string, modelsToFilter?: InternalM
 
   const orderBy = (fields: string[]) => (a: any, b: any) => fields.map(o => {
     let dir = 1;
-    if (o[0] === '-') { dir = -1; o=o.substring(1); }
+    if (o[0] === '-') { dir = -1; o=o.substring(1) }
     
     // Support for dot notation to access nested properties
     const getNestedValue = (obj: any, path: string): any => {
       return path.split('.').reduce((prev, curr) => 
-        prev && prev[curr] !== undefined ? prev[curr] : undefined, obj);
-    };
+        prev && prev[curr] !== undefined ? prev[curr] : undefined, obj)
+    }
     
     const aVal = getNestedValue(a, o);
     const bVal = getNestedValue(b, o);
     
-    return aVal > bVal ? dir : aVal < bVal ? -(dir) : 0;
-  }).reduce((p: number, n: number) => p ? p : n, 0);
+    return aVal > bVal ? dir : aVal < bVal ? -(dir) : 0
+  }).reduce((p: number, n: number) => p ? p : n, 0)
 
   let sortingStrategy = orderBy(parsed?.priorities?.map(f => `provider.${f}`) || [])
 
@@ -422,7 +433,7 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
   })
 
   if (parentheses) {
-    modelIdentifier = modelIdentifier.replace(parentheses[0], `${parentheses[1]},${augmentsString.join(',')}`)
+    modelIdentifier = modelIdentifier.replace(parentheses[0], `(${parentheses[1]},${augmentsString.filter(Boolean).join(',')})`)
   } else {
     if (augmentsString.length) {
       modelIdentifier += `(${augmentsString.join(',')})`
@@ -443,9 +454,9 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
 
 export function getModels(modelIdentifier: string) {
   // Split the modelIdentifier by comma, ignoring commas inside parentheses
-  let result = [];
-  let segment = '';
-  let depth = 0;
+  let result = []
+  let segment = ''
+  let depth = 0
   
   for (const char of modelIdentifier) {
     if (char === '(') depth++
@@ -459,6 +470,10 @@ export function getModels(modelIdentifier: string) {
   }
   
   if (segment.trim()) result.push(segment.trim())
+
+  console.log(
+    result
+  )
 
   // Resolve each segment
   return result.map(r => getModel(r)) as (Model & { parsed: ParsedModelIdentifier })[]
