@@ -162,14 +162,15 @@ export async function middleware(request: NextRequest) {
       }
 
       if (pathname === '/docs') {
-        console.log('Rewriting docs path', { hostname, pathname, search })
+        console.log('Redirecting docs path', { hostname, pathname, search })
         const apiName = extractApiNameFromDomain(hostname)
+        const hash = request.nextUrl.hash || ''
         
         if (docsExistForApi(apiName)) {
           const docsPath = getDocsPath(hostname)
-          return NextResponse.rewrite(new URL(`${docsPath}${search}`, request.url))
+          return NextResponse.redirect(new URL(`${docsPath}${search}${hash}`, request.url), 307)
         }
-        return NextResponse.rewrite(new URL(`/docs${search}`, request.url))
+        return NextResponse.redirect(new URL(`/docs${search}${hash}`, request.url), 307)
       }
 
       if (pathname === '/api') {
