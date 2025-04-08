@@ -8,7 +8,17 @@ interface CodeWindowProps {
 }
 
 function syntaxHighlightJson(json: string) {
-  let result = json
+  const urlMap = new Map<string, string>()
+  let urlCounter = 0
+  
+  let processedJson = json.replace(/"(https:\/\/[^"\s]+)"/g, (match, url) => {
+    const placeholder = `__URL_PLACEHOLDER_${urlCounter}__`
+    urlMap.set(placeholder, url)
+    urlCounter++
+    return `"${placeholder}"`
+  })
+  
+  let result = processedJson
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -18,10 +28,6 @@ function syntaxHighlightJson(json: string) {
     if (/^"/.test(match)) {
       if (/:$/.test(match)) {
         cls = 'text-blue-300' // key
-      } else {
-        match = match.replace(/"(https:\/\/[^"\s]+)"/g, (urlMatch, url) => {
-          return '"<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">' + url + '</a>"'
-        })
       }
     } else if (/true|false/.test(match)) {
       cls = 'text-yellow-300' // boolean
@@ -33,9 +39,15 @@ function syntaxHighlightJson(json: string) {
     return '<span class="' + cls + '">' + match + '</span>'
   })
   
-  return result.replace(/({|}|\[|\]|,|:)/g, (match) => {
+  result = result.replace(/({|}|\[|\]|,|:)/g, (match) => {
     return '<span class="text-white">' + match + '</span>'
   })
+  
+  urlMap.forEach((url, placeholder) => {
+    result = result.replace(new RegExp(`"${placeholder}"`, 'g'), `"<a href="${url}" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">${url}</a>"`);
+  })
+  
+  return result
 }
 
 export function CodeWindow({ className, code, language = 'json', title = 'llm.do' }: CodeWindowProps) {
