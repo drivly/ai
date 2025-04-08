@@ -112,7 +112,7 @@ jobs:
               '@semantic-release/github',
               '@semantic-release/git'
             ]
-          custom-command: "node scripts/release-sdks.js"
+          args: "node scripts/release-sdks.js"
           dry-run: ${{ inputs.dry-run }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
