@@ -28,6 +28,7 @@ export async function analyticsMiddleware(request: NextRequest, next: () => Prom
         username: process.env.CLICKHOUSE_USERNAME,
         password: process.env.CLICKHOUSE_PASSWORD,
         database: process.env.CLICKHOUSE_DATABASE || 'default',
+        forceRecreate: process.env.CLICKHOUSE_FORCE_RECREATE === 'true'
       })
 
       const analyticsService = new AnalyticsService(clickhouseClient)
