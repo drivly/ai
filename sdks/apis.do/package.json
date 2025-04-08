@@ -40,6 +40,10 @@
     "./src/types": {
       "import": "./dist/src/types.js",
       "types": "./dist/src/types.d.ts"
+    },
+    "./src/cli": {
+      "import": "./dist/src/cli.js",
+      "types": "./dist/src/cli.d.ts"
     }
   },
   "files": [
@@ -60,7 +64,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.json",
+    "build": "rimraf dist && tsc -p tsconfig.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "dev": "tsc --watch",
@@ -71,11 +75,12 @@
     "@types/react": "18.2.0",
     "eslint-config": "workspace:*",
     "evalite": "^0.9.1",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.3",
-    "vitest": "^3.0.9",
     "tsconfig": "workspace:*",
-    "tsup": "^8.0.1"
+    "tsup": "^8.0.1",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.9"
   },
   "dependencies": {}
 }

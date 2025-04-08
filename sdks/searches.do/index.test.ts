@@ -11,6 +11,7 @@ vi.mock('apis.do', () => ({
     remove: vi.fn(),
     get: vi.fn(),
   },
+  API: vi.fn(),
 }))
 
 describe('searches.do SDK', () => {

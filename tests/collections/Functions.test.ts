@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { Functions } from '../../collections/ai/Functions'
-import type { Function as FunctionType } from '../../payload.types'
+import { Functions } from '@/collections/ai/Functions'
+import type { Function as FunctionType } from '@/payload.types'
 import { getTestPayload } from '../setup'
 
 describe('Functions Collection', () => {

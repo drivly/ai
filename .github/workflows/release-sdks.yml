@@ -120,4 +120,4 @@ jobs:
           FORCE_PATCH_RELEASE: 'true'
 
       - name: Release outputs
-        run: echo "${{ toJSON(steps.semantic-release.outputs) }}"
+        run: echo "Semantic release outputs - ${{ steps.semantic-release.outputs.version || 'No version' }}"

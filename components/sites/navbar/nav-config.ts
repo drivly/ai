@@ -6,16 +6,16 @@ export const navLinks = [
     href: '/docs',
   },
   {
+    label: 'Pricing',
+    href: '/pricing',
+  },
+  {
     label: 'API',
     href: '/api',
   },
   {
     label: 'SDK',
     href: '/docs/sdks',
-  },
-  {
-    label: 'Pricing',
-    href: '/pricing',
   },
   {
     label: 'Dashboard',

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
-import { generateObjectArray } from '../../tasks/ai/generateObjectArray'
-import { executeFunction } from '../../tasks/ai/executeFunction'
+import { generateObjectArray } from '@/tasks/ai/generateObjectArray'
+import { executeFunction } from '@/tasks/ai/executeFunction'
 
 const originalGenerateObjectArray = generateObjectArray
 

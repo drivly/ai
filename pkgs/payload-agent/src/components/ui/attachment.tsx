@@ -1,6 +1,6 @@
 import { Button } from './button'
 import { PromptInputAction } from './prompt-input'
-import { cn } from '../../lib/utils'
+import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
