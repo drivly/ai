@@ -3,8 +3,7 @@ import { Particles } from '@/components/sites/magicui/particles'
 import DotdoLinkSection from '@/components/sites/sections/dotdo-link-section'
 import HeroSection from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
-import { domainsConfig, getGlowColor } from '@/domains.config'
-import { notFound } from 'next/navigation'
+import { getGlowColor } from '@/domains.config'
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
 async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
