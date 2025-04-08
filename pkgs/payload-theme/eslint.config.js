@@ -1,3 +1,3 @@
-import reactConfig from '@/pkgs/eslint-config/src/react.js'
+import reactConfig from 'eslint-config/react'
 
 export default reactConfig

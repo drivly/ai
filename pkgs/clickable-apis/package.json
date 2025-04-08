@@ -6,6 +6,7 @@
     "simple-payload": "workspace:*"
   },
   "devDependencies": {
-    "tsconfig": "workspace:*"
+    "tsconfig": "workspace:*",
+    "eslint-config": "workspace:*"
   }
 }
