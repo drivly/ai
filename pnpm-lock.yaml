@@ -170,12 +170,18 @@ importers:
       payload:
         specifier: ^3.33.0
         version: 3.33.0(graphql@16.10.0)(typescript@5.7.3)
+      payload-hooks-queue:
+        specifier: workspace:*
+        version: link:pkgs/payload-hooks-queue
       payload-kanban-board:
         specifier: ^3.0.24
         version: 3.0.24(@swc/helpers@0.5.15)(i18next@22.5.1)(payload@3.33.0(graphql@16.10.0)(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       payload-oapi:
         specifier: ^0.2.0
         version: 0.2.0(payload@3.33.0(graphql@16.10.0)(typescript@5.7.3))
+      payload-utils:
+        specifier: workspace:*
+        version: link:pkgs/payload-utils
       postal-mime:
         specifier: ^2.4.3
         version: 2.4.3
