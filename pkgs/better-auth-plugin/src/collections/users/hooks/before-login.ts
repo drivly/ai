@@ -1,5 +1,5 @@
 import { APIError, CollectionBeforeLoginHook } from 'payload'
-import { getPayloadWithAuth } from '@/../index'
+import { getPayloadWithAuth } from '../../../../index'
 
 /**
  * This hook blocks login attempts if email verification is required and the user's email is not verified

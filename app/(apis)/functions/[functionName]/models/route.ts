@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { models as allModels } from '@/pkgs/ai-models'
+import { models as allModels } from 'ai-models'
 
 let models: Record<string, any>
 // let models: Record<string, Record<string, any>> = {
