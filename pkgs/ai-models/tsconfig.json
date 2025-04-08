@@ -6,10 +6,11 @@
     "declaration": true,
     "outDir": "./dist",
     "resolveJsonModule": true,
+    "noEmit": false,
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["./src/**/*.ts"],
+  "include": ["./src/**/*.ts", "./index.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "build/**/*.ts", "src/demo.ts"]
 }
