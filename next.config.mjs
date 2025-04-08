@@ -17,7 +17,7 @@ const withNextra = nextra({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
-  transpilePackages: ['@drivly/ui', '@drivly/payload-agent', 'simple-payload', 'clickable-apis', 'ai-models'],
+  transpilePackages: ['@drivly/ui', '@drivly/payload-agent', 'simple-payload', 'clickable-apis', 'ai-models', 'payload-utils'],
   // All routing is handled by middleware.ts
 }
 
