@@ -91,14 +91,14 @@ export default buildConfig({
   },
   sharp,
   plugins: [
-    payloadAgentPlugin({
-      aiAvatar: '/ai.webp',
-      defaultMessage: "I'm the AI assistant for Workflows.do. Ask me anything about the platform.",
-      direction: 'horizontal',
-      type: 'resizable',
-      logo: '/DrivlyLogo.svg',
-      // suggestions: suggestedActions,
-    }),
+    // payloadAgentPlugin({
+    //   aiAvatar: '/ai.webp',
+    //   defaultMessage: "I'm the AI assistant for Workflows.do. Ask me anything about the platform.",
+    //   direction: 'horizontal',
+    //   type: 'resizable',
+    //   logo: '/DrivlyLogo.svg',
+    //   // suggestions: suggestedActions,
+    // }),
     payloadBetterAuth(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     openapi({
