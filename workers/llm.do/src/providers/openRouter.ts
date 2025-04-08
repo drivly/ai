@@ -65,7 +65,7 @@ export function fetchFromProvider(
 }
 
 function getRequiredCapabilities(body: any) {
-  const requiredCapabilities: Capability[] = []
+  const requiredCapabilities: string[] = []
   if (body.tools?.find((t: any) => typeof t !== 'string' && typeof t.type === 'string' && t.type.startsWith('web_search'))) {
     requiredCapabilities.push('online')
   }

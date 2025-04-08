@@ -401,11 +401,43 @@ export function filterModels(modelIdentifier: string, modelsToFilter?: InternalM
  * @param modelIdentifier 
  * @returns ResolvedModel
  */
-export function getModel(modelIdentifier: string) {
+export function getModel(modelIdentifier: string, augments: Record<string, string | number | boolean | string[]> = {}) {
+  // Inject the augments into the model string inside the parentheses
+  // Keeping the content of the parentheses intact
+  const parentheses = modelIdentifier.match(/\(([^)]+)\)/)
+
+  const augmentsString: string[] = []
+
+  Object.entries(augments).forEach(([key, value]) => {
+    if (key == 'seed') augmentsString.push(`seed:${value}`)
+    else if (key == 'temperature') augmentsString.push(`temperature:${value}`)
+    else if (key == 'topP') augmentsString.push(`topP:${value}`)
+    else if (key == 'topK') augmentsString.push(`topK:${value}`)
+    else if (key == 'thread') augmentsString.push(`thread:${value}`)
+    else if (key == 'requiredCapabilities') {
+      for (const capability of value as string[]) {
+        augmentsString.push(capability)
+      }
+    } else augmentsString.push(`${key}:${value}`)
+  })
+
+  if (parentheses) {
+    modelIdentifier = modelIdentifier.replace(parentheses[0], `${parentheses[1]},${augmentsString.join(',')}`)
+  } else {
+    if (augmentsString.length) {
+      modelIdentifier += `(${augmentsString.join(',')})`
+    }
+  }
+
+  const parsed = parse(modelIdentifier)
+
   const { models } = filterModels(modelIdentifier)
   return {
     ...models[0],
-    parsed: parse(modelIdentifier)
+    parsed: {
+      ...parsed,
+      ...augments
+    }
   }
 }
 

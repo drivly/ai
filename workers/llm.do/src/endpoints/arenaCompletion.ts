@@ -8,7 +8,10 @@ import type { ChatCompletionRequest, ChatCompletionResponse } from 'types/chat'
 import { z } from 'zod'
 import { parseCookies } from './cookies'
 
-const PROMPTS = ["How many R's are in Strawberry?", 'Generate a business plan for selling water to a fish']
+const PROMPTS = [
+  "How many R's are in Strawberry?",
+  'Generate a business plan for selling water to a fish'
+]
 
 const ArenaCompletionResponseSchema = z.object({
   api: APIDefinitionSchema,
@@ -140,7 +143,7 @@ export class ArenaCompletion extends OpenAPIRoute {
 
       // Request completions from all specified models
       const completions = await Promise.all(
-        resolvedModels.map(async ({ slug: model, parsed }) => {
+        resolvedModels.map(async ({ slug: model, parsed }: { slug: string, parsed: any }) => {
           const { systemConfig: { seed, temperature } = {} } = parsed
           const body: ChatCompletionRequest = {
             model,
@@ -185,7 +188,7 @@ export class ArenaCompletion extends OpenAPIRoute {
           },
         },
         prompt,
-        arena: completions.reduce((acc, curr) => {
+        arena: completions.reduce((acc: Record<string, string[]>, curr: { model: string, text: string }) => {
           return {
             ...acc,
             [curr.model]: curr.text,
