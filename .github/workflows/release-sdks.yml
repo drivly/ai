@@ -86,6 +86,12 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 10.x
+          
+      - name: Setup Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions"
+          git fetch --all
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -109,8 +115,7 @@ jobs:
               '@semantic-release/release-notes-generator',
               '@semantic-release/changelog',
               '@semantic-release/npm',
-              '@semantic-release/github',
-              '@semantic-release/git'
+              '@semantic-release/github'
             ]
           args: "node scripts/release-sdks.js"
           dry-run: ${{ inputs.dry-run }}
