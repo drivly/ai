@@ -35,7 +35,7 @@ export const Typewriter = ({ examples }: { examples: string[] }) => {
     }, SWAP_DELAY_IN_MS)
 
     return () => clearInterval(swapInterval)
-  }, [])
+  }, [examples.length])
 
   return (
     <p>

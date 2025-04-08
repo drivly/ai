@@ -1,7 +1,7 @@
 import { getPayloadAuth } from '@/lib/auth/payload-auth'
 import { User } from '@/payload.types'
 import { headers as requestHeaders } from 'next/headers'
-import WaitlistPage from './waitlist-page'
+import { Waitlist } from './waitlist-page'
 import { handleWaitlistActions } from '@/lib/auth/actions/waitlist.action'
 import { redirect } from 'next/navigation'
 
@@ -19,5 +19,5 @@ export default async function WaitListPage(props: { params: Promise<{ domain: st
 
   await handleWaitlistActions(user, domain)
 
-  return <WaitlistPage email={user.email} name={name} subtitle='You are now on the waitlist' />
+  return <Waitlist email={user.email} name={name} />
 }
