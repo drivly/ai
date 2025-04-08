@@ -29,7 +29,7 @@ export default function OAuthClientsPage() {
       setLoading(true)
       const response = await fetch('/oauth/clients')
       if (response.ok) {
-        const data = await response.json()
+        const data = await response.json() as { clients: OAuthClient[] }
         setClients(data.clients)
       } else {
         setError('Failed to load clients')
