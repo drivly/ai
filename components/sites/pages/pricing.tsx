@@ -10,7 +10,7 @@ import { RiCheckLine, RiCloudLine, RiInformationLine, RiLightbulbLine, RiSubtrac
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 
-import { Enterprise } from './enterprise'
+import { Enterprise } from '../sections/enterprise'
 
 type FixedPrice = string
 
@@ -163,11 +163,11 @@ const isVariablePrice = (price: FixedPrice | VariablePrice): price is VariablePr
   return (price as VariablePrice).monthly !== undefined
 }
 
-export default function Pricing() {
+export function Pricing() {
   const [billingFrequency, setBillingFrequency] = React.useState<'monthly' | 'annually'>('monthly')
 
   return (
-    <div className='bg-white px-3 py-8 sm:py-12 dark:bg-black'>
+    <div className='py-8 sm:py-12'>
       <section
         aria-labelledby='pricing-title'
         className='animate-slide-up-fade flex flex-col items-center text-center'
@@ -453,3 +453,5 @@ export default function Pricing() {
     </div>
   )
 }
+
+
