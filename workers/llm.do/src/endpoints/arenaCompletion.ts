@@ -188,7 +188,7 @@ export class ArenaCompletion extends OpenAPIRoute {
           },
         },
         prompt,
-        arena: completions.reduce((acc: Record<string, string[]>, curr: { model: string, text: string }) => {
+        arena: completions.reduce((acc: any, curr: any) => {
           return {
             ...acc,
             [curr.model]: curr.text,
