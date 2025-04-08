@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
 import camelcase from 'camelcase'
-import { filterModels, constructModelIdentifier, models, Model, parse } from '@/pkgs/ai-models'
+import { filterModels, constructModelIdentifier, models, Model, parse } from 'language-models'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
   // Using the new db interface for more concise syntax
