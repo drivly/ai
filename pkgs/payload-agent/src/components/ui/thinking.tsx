@@ -1,4 +1,4 @@
-import { cn } from '../../lib/utils'
+import { cn } from '@/lib/utils'
 import { Bot } from 'lucide-react'
 import React from 'react'
 

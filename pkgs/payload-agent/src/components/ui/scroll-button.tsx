@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { ArrowDown } from 'lucide-react'
-import { cn } from '../../lib/utils'
+import { cn } from '@/lib/utils'
 import { Button } from './button'
 
 interface ScrollButtonProps {

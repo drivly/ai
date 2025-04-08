@@ -20,7 +20,6 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
- 
   },
   "files": [
     "dist",
@@ -36,10 +35,11 @@
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
- 
   "scripts": {
-    "build": "tsc",
+    "prebuild": "cd ../apis.do && pnpm run build",
+    "build": "tsup --config tsup.config.ts",
     "generate:constants": "echo 'Using placeholder constants'",
+    "pretest": "if [ ! -d \"../apis.do/dist\" ]; then cd ../apis.do && pnpm build; fi",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -47,6 +47,7 @@
     "apis.do": "workspace:*"
   },
   "devDependencies": {
+    "eslint-config": "workspace:*",
     "evalite": "^0.9.1",
     "typescript": "^5.0.0",
     "vitest": "^3.0.9",

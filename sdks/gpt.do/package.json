@@ -46,6 +46,7 @@
     "apis.do": "workspace:*"
   },
   "devDependencies": {
+    "eslint-config": "workspace:*",
     "vitest": "^3.0.8",
     "tsconfig": "workspace:*"
   },

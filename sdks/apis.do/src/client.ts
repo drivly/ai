@@ -1,4 +1,4 @@
-import { ClientOptions, ErrorResponse, ListResponse, QueryParams } from './types.js'
+import { ClientOptions, ErrorResponse, ListResponse, QueryParams } from './types'
 
 export class API {
   private baseUrl: string

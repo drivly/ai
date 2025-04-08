@@ -1,7 +1,7 @@
 import { Button } from '../ui/button'
 import { Markdown } from '../ui/markdown'
 import { Message, MessageAvatar, MessageContent } from '../ui/message'
-import { cn } from '../../lib/utils'
+import { cn } from '@/lib/utils'
 import type { UIMessage } from 'ai'
 import { motion } from 'motion/react'
 import { nanoid } from 'nanoid'

@@ -1,6 +1,14 @@
 import { FaDiscord, FaGithub } from 'react-icons/fa'
 
-export const navLinks =   [
+export const navLinks = [
+  {
+    label: 'Docs',
+    href: '/docs',
+  },
+  {
+    label: 'Pricing',
+    href: '/pricing',
+  },
   {
     label: 'API',
     href: '/api',
@@ -8,14 +16,6 @@ export const navLinks =   [
   {
     label: 'SDK',
     href: '/docs/sdks',
-  },
-  {
-    label: 'Docs',
-    href: '/docs',
-  },
-  {
-    label: 'Blog',
-    href: `/blog`,
   },
   {
     label: 'Dashboard',
@@ -30,7 +30,7 @@ export const navLinks =   [
   },
   {
     label: 'Discord',
-    href: 'https://discord.gg/qus39VeA',
+    href: 'https://discord.gg/26nNxZTz9X',
     target: '_blank',
     rel: 'noopener noreferrer',
     Icon: FaDiscord,

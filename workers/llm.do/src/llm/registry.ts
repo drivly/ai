@@ -5,6 +5,10 @@ import { openai } from '@ai-sdk/openai'
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
 import { createProviderRegistry } from 'ai'
 
+const openRouter = createOpenAICompatible({
+  name: 'openrouter',
+  baseURL: process.env.OPENROUTER_BASE_URL || '',
+})
 const compatible = createOpenAICompatible({
   name: 'compatible',
   baseURL: process.env.OPENAI_COMPATIBLE_BASE_URL || '',
@@ -16,6 +20,7 @@ export const registry = createProviderRegistry(
     deepseek,
     google,
     openai,
+    openRouter,
     compatible,
   },
   { separator: '/' },

@@ -48,6 +48,7 @@
     "test": "echo \"No tests\" && exit 0"
   },
   "devDependencies": {
+    "eslint-config": "workspace:*",
     "@ai-sdk/provider": "^1.0.2",
     "vitest": "^3.0.8",
     "tsconfig": "workspace:*"

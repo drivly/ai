@@ -74,7 +74,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.WORKFLOW_PAT }}
 
       - name: Setup Node.js 22.x
         uses: actions/setup-node@v3
@@ -112,12 +112,12 @@ jobs:
               '@semantic-release/github',
               '@semantic-release/git'
             ]
-          custom-command: "node scripts/release-sdks.js"
-          dry-run: ${{ inputs.dry-run }}
+          args: "node scripts/release-sdks.js"
+          dry-run: true  # Set to true for testing
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           FORCE_PATCH_RELEASE: 'true'
 
       - name: Release outputs
-        run: echo "${{ toJSON(steps.semantic-release.outputs) }}"
+        run: echo "Semantic release outputs - ${{ steps.semantic-release.outputs.version || 'No version' }}"

@@ -1,5 +1,5 @@
 import { api } from 'apis.do'
-import { Search, SearchConfig } from './types.js'
+import { Search, SearchConfig } from './types'
 
 /**
  * Client for managing search operations
@@ -63,4 +63,4 @@ export const searches = {
   },
 }
 
-export * from './types.js'
+export * from './types'
