@@ -1,4 +1,4 @@
-import * as test from 'ai-models'
+import { getModels, Model, modelPattern } from 'language-models'
 import { getUser } from 'api/user'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
@@ -7,8 +7,6 @@ import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from 'type
 import type { ChatCompletionRequest, ChatCompletionResponse } from 'types/chat'
 import { z } from 'zod'
 import { parseCookies } from './cookies'
-
-console.log(test)
 
 const PROMPTS = ["How many R's are in Strawberry?", 'Generate a business plan for selling water to a fish']
 
@@ -19,8 +17,6 @@ const ArenaCompletionResponseSchema = z.object({
   arena: z.record(z.string(), z.array(z.string())),
   user: APIUserSchema,
 })
-
-const modelPattern = /^.*$/
 
 export class ArenaCompletion extends OpenAPIRoute {
   schema = {
@@ -136,7 +132,7 @@ export class ArenaCompletion extends OpenAPIRoute {
       }
 
       // Resolve the models
-      const { parsed, models: resolvedModels } = filterModels(combinedModels)
+      const resolvedModels = getModels(combinedModels)
 
       if (!resolvedModels.length) {
         return c.json({ error: 'No valid models found' }, 400)
@@ -144,7 +140,7 @@ export class ArenaCompletion extends OpenAPIRoute {
 
       // Request completions from all specified models
       const completions = await Promise.all(
-        resolvedModels.map(async ({ slug: model }) => {
+        resolvedModels.map(async ({ slug: model, parsed }) => {
           const { systemConfig: { seed, temperature } = {} } = parsed
           const body: ChatCompletionRequest = {
             model,

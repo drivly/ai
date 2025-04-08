@@ -1,4 +1,4 @@
-import { type Capability, getModel } from 'ai-models'
+import { getModel } from 'language-models'
 import { env } from 'cloudflare:workers'
 
 export function fetchFromProvider(

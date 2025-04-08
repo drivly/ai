@@ -409,6 +409,29 @@ export function getModel(modelIdentifier: string) {
   }
 }
 
+export function getModels(modelIdentifier: string) {
+  // Split the modelIdentifier by comma, ignoring commas inside parentheses
+  let result = [];
+  let segment = '';
+  let depth = 0;
+  
+  for (const char of modelIdentifier) {
+    if (char === '(') depth++
+    else if (char === ')') depth--
+    else if (char === ',' && depth === 0) {
+      result.push(segment.trim())
+      segment = ''
+      continue
+    }
+    segment += char
+  }
+  
+  if (segment.trim()) result.push(segment.trim())
+
+  // Resolve each segment
+  return result.map(r => getModel(r)) as (Model & { parsed: ParsedModelIdentifier })[]
+}
+
 // TODO: Move this to a database or another source of truth
 // This isnt a good place for this data.
 const metaModels = [
@@ -420,8 +443,3 @@ const metaModels = [
     ]
   }
 ]
-
-console.log(
-  `Providers cheapest to most expensive`,
-  filterModels('(discord,cost)').models.map(x => `${x.slug} - ${x.provider.slug} - ${x.provider.outputCost}`).slice(0, 10)
-)

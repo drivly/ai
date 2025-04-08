@@ -9,7 +9,7 @@
     "cf-typegen": "wrangler types"
   },
   "dependencies": {
-    "ai-models": "workspace:*",
+    "language-models": "workspace:*",
     "ai-providers": "workspace:*",
     "chanfana": "^2.8.0",
     "composio-core": "^0.5.31",

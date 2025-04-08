@@ -23,8 +23,7 @@
     "@ai-sdk/anthropic": "^1.2.0",
     "@ai-sdk/google": "^1.2.1",
     "@ai-sdk/openai": "^1.0.10",
-    "ai": "^2.2.37",
-    "ai-models": "workspace:*"
+    "ai": "^2.2.37"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",
