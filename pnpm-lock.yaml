@@ -1246,7 +1246,7 @@ importers:
         version: 0.1.0(mermaid.cli@0.3.6)(react@18.3.1)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.2))
       agents:
         specifier: latest
-        version: 0.0.55(@cloudflare/workers-types@4.20250321.0)
+        version: 0.0.56(@cloudflare/workers-types@4.20250321.0)
       apis.do:
         specifier: workspace:*
         version: link:../apis.do
@@ -1306,6 +1306,9 @@ importers:
       evalite:
         specifier: ^0.9.1
         version: 0.9.1
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.11.13(@swc/helpers@0.5.15))(@types/node@22.14.0)(typescript@5.8.2)
@@ -1810,7 +1813,7 @@ importers:
     dependencies:
       agents:
         specifier: latest
-        version: 0.0.55(@cloudflare/workers-types@4.20250321.0)
+        version: 0.0.56(@cloudflare/workers-types@4.20250321.0)
       hono:
         specifier: ^4.7.4
         version: 4.7.5
@@ -8508,8 +8511,8 @@ packages:
     resolution: {integrity: sha512-kja8j7PjmncONqaTsB8fQ+wE2mSU2DJ9D4XKoJ5PFWIdRMa6SLSN1ff4mOr4jCbfRSsxR4keIiySJU0N9T5hIQ==}
     engines: {node: '>= 8.0.0'}
 
-  agents@0.0.55:
-    resolution: {integrity: sha512-tdpeyfPj6iVg4ehIzYLV+ZT0aoDUGiO5xDIYZHKKj8nwFzCjolXnnGRVJeVBvTpMQdjR4YmfwgzK/iq6t1k0Aw==}
+  agents@0.0.56:
+    resolution: {integrity: sha512-bqmlbaWe/utr56GZErPzx7ZKbqh/0WgdPftnHZ+im0Wyuf4qX1ZkYGgJWAZvbdpVffjqiKkLqmkj++1tVuOl2w==}
 
   aggregate-error@3.1.0:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
@@ -26743,7 +26746,7 @@ snapshots:
     dependencies:
       humanize-ms: 1.2.1
 
-  agents@0.0.55(@cloudflare/workers-types@4.20250321.0):
+  agents@0.0.56(@cloudflare/workers-types@4.20250321.0):
     dependencies:
       '@modelcontextprotocol/sdk': 1.8.0
       cron-schedule: 5.0.4
