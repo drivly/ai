@@ -66,7 +66,7 @@ export function Footer() {
                 <RiGithubFill className='size-6' aria-hidden='true' />
                 <span className='sr-only'>GitHub</span>
               </a>
-              <a href='https://discord.gg/qus39VeA' target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
+              <a href='https://discord.gg/26nNxZTz9X' target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
                 <RiDiscordFill className='size-6' aria-hidden='true' />
                 <span className='sr-only'>Discord</span>
               </a>
