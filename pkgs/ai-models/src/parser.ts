@@ -1,9 +1,13 @@
 import camelCase from 'camelcase'
 import { aliases } from './aliases'
-import allModels from './models'
+import rawModels from './models'
 import { Model, Provider } from './types'
 
 type InternalModel = Model
+
+const allModels = rawModels as unknown as {
+  models: Model[]
+}
 
 type ParsedModelIdentifier = {
   provider?: string
@@ -416,3 +420,8 @@ const metaModels = [
     ]
   }
 ]
+
+console.log(
+  `Providers cheapest to most expensive`,
+  filterModels('(discord,cost)').models.map(x => `${x.slug} - ${x.provider.slug} - ${x.provider.outputCost}`).slice(0, 10)
+)

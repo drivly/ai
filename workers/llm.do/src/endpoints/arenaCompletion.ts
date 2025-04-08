@@ -1,4 +1,4 @@
-import { getModels, modelPattern } from 'ai-models'
+import * as test from 'ai-models'
 import { getUser } from 'api/user'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
@@ -7,6 +7,8 @@ import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from 'type
 import type { ChatCompletionRequest, ChatCompletionResponse } from 'types/chat'
 import { z } from 'zod'
 import { parseCookies } from './cookies'
+
+console.log(test)
 
 const PROMPTS = ["How many R's are in Strawberry?", 'Generate a business plan for selling water to a fish']
 
@@ -18,6 +20,8 @@ const ArenaCompletionResponseSchema = z.object({
   user: APIUserSchema,
 })
 
+const modelPattern = /^.*$/
+
 export class ArenaCompletion extends OpenAPIRoute {
   schema = {
     tags: ['Chat'],
@@ -26,7 +30,7 @@ export class ArenaCompletion extends OpenAPIRoute {
       query: z.object({
         prompt: z.string().describe('The user prompt').optional(),
         system: z.string().optional().describe('Optional system message'),
-        model: z.string().optional().describe('Model to use for the chat'),
+        model: z.string().regex(modelPattern).optional().describe('Model to use for the chat'),
         models: z.string().regex(modelPattern).optional().describe('Comma-separated list of models to use for the chat'),
         tools: z.string().optional().describe('Comma-separated list of tools to use for the chat (or "all" for all tools)'),
         Authorization: z.string().describe('Bearer token').optional(),
@@ -132,7 +136,7 @@ export class ArenaCompletion extends OpenAPIRoute {
       }
 
       // Resolve the models
-      const resolvedModels = getModels(combinedModels)
+      const { parsed, models: resolvedModels } = filterModels(combinedModels)
 
       if (!resolvedModels.length) {
         return c.json({ error: 'No valid models found' }, 400)
@@ -140,7 +144,8 @@ export class ArenaCompletion extends OpenAPIRoute {
 
       // Request completions from all specified models
       const completions = await Promise.all(
-        resolvedModels.map(async ({ slug: model, parsed: { systemConfig: { seed, temperature } = {} } }) => {
+        resolvedModels.map(async ({ slug: model }) => {
+          const { systemConfig: { seed, temperature } = {} } = parsed
           const body: ChatCompletionRequest = {
             model,
             messages,

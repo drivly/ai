@@ -40,7 +40,7 @@ export type Endpoint = {
 
 export type Model = {
   slug:                string;
-  hfSlug:              string;
+  hfSlug?:              string | null;
   updatedAt:           string;
   createdAt:           string;
   hfUpdatedAt:         null;
