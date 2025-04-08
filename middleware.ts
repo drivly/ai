@@ -161,16 +161,36 @@ export async function middleware(request: NextRequest) {
         }
       }
 
-      if (pathname === '/docs') {
-        console.log('Redirecting docs path', { hostname, pathname, search })
+      /**
+       * Handle documentation paths (/docs and /docs/*)
+       * - Sets canonical URL to workflows.do for all docs pages to prevent SEO duplicate content issues
+       * - Maintains existing redirect behavior for /docs root path
+       * - Adds canonical URL header for all docs pages
+       */
+      if (pathname === '/docs' || pathname.startsWith('/docs/')) {
+        console.log('Handling docs path', { hostname, pathname, search })
         const apiName = extractApiNameFromDomain(hostname)
         const hash = request.nextUrl.hash || ''
         
-        if (docsExistForApi(apiName)) {
+        const canonicalPath = pathname.startsWith('/docs/') ? pathname : '/docs'
+        const canonicalUrl = `https://workflows.do${canonicalPath}${search}${hash}`
+        
+        if (pathname === '/docs' && docsExistForApi(apiName)) {
           const docsPath = getDocsPath(hostname)
-          return NextResponse.redirect(new URL(`${docsPath}${search}${hash}`, request.url), 307)
+          const response = NextResponse.redirect(new URL(`${docsPath}${search}${hash}`, request.url), 307)
+          response.headers.set('Link', `<${canonicalUrl}>; rel="canonical"`)
+          return response
         }
-        return NextResponse.redirect(new URL(`/docs${search}${hash}`, request.url), 307)
+        
+        if (pathname === '/docs') {
+          const response = NextResponse.redirect(new URL(`/docs${search}${hash}`, request.url), 307)
+          response.headers.set('Link', `<${canonicalUrl}>; rel="canonical"`)
+          return response
+        }
+        
+        const response = NextResponse.next()
+        response.headers.set('Link', `<${canonicalUrl}>; rel="canonical"`)
+        return response
       }
 
       if (pathname === '/api') {
