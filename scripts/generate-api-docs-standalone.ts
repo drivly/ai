@@ -2,17 +2,30 @@ import fs from 'fs'
 import path from 'path'
 import { collections } from '../collections'
 
+
 /**
  * Standalone script to generate API documentation for all collections
- * This creates MDX files in the /content/apis directory without requiring Payload initialization
+ * This creates MDX files in the /content/apis/apis.do directory without requiring Payload initialization
  */
 const generateApiDocs = async () => {
   try {
     console.log('Generating API documentation for collections...')
 
-    const apisDir = path.resolve(process.cwd(), 'content/apis')
+    const apisDir = path.resolve(process.cwd(), 'content/apis/apis.do')
     if (!fs.existsSync(apisDir)) {
       fs.mkdirSync(apisDir, { recursive: true })
+    }
+
+    const metaPath = path.join(apisDir, '_meta.js')
+    if (!fs.existsSync(metaPath)) {
+      fs.writeFileSync(
+        metaPath,
+        `module.exports = {
+  index: 'API Reference',
+}
+`,
+      )
+      console.log('Created _meta.js file for apis.do directory')
     }
 
     const indexPath = path.join(apisDir, 'index.mdx')
@@ -22,6 +35,7 @@ const generateApiDocs = async () => {
         `---
 title: API Reference
 description: API documentation for all collections
+asIndexPage: true
 ---
 
 # API Reference
@@ -55,30 +69,63 @@ const generateCollectionDoc = async (collection: any, apisDir: string) => {
 
   const group = admin.group || 'Uncategorized'
 
-  const fieldDocs = fields
+  const interfaceName = `${title}Type`
+  
+  const typeProperties = fields
     .filter((field: any) => field.name && field.type) // Only document fields with name and type
     .map((field: any) => {
       const { name, type, required, defaultValue, admin: fieldAdmin = {} } = field
       const description = fieldAdmin.description || ''
-
-      let defaultValueStr = ''
-      if (defaultValue !== undefined) {
-        if (typeof defaultValue === 'object') {
-          defaultValueStr = `\`${JSON.stringify(defaultValue)}\``
-        } else {
-          defaultValueStr = `\`${defaultValue}\``
-        }
+      
+      let tsType = 'any'
+      switch (type) {
+        case 'text':
+        case 'textarea':
+        case 'email':
+        case 'code':
+        case 'date':
+          tsType = 'string'
+          break
+        case 'number':
+          tsType = 'number'
+          break
+        case 'checkbox':
+          tsType = 'boolean'
+          break
+        case 'select':
+          tsType = 'string'
+          break
+        case 'relationship':
+          tsType = 'string | { id: string }'
+          break
+        case 'array':
+          tsType = 'any[]'
+          break
+        case 'blocks':
+        case 'group':
+        case 'json':
+        case 'richText':
+          tsType = 'object'
+          break
+        default:
+          tsType = 'any'
       }
 
-      return `### ${name}
-
-- **Type**: \`${type}\`
-- **Required**: ${required ? 'Yes' : 'No'}
-${defaultValue !== undefined ? `- **Default**: ${defaultValueStr}` : ''}
-${description ? `- **Description**: ${description}` : ''}
-`
+      const jsDocComment = description ? `/** ${description} */\n  ` : ''
+      
+      return `${jsDocComment}${name}${required ? '' : '?'}: ${tsType}`
     })
-    .join('\n\n')
+    .join('\n  ')
+
+  const tsInterface = `interface ${interfaceName} {
+  ${typeProperties}
+}`
+
+  const fieldDocs = `<TSDoc>
+\`\`\`typescript
+${tsInterface}
+\`\`\`
+</TSDoc>`
 
   const endpoints = `
 ## API Endpoints
@@ -111,6 +158,8 @@ sidebarTitle: ${title}
 group: ${group}
 ---
 
+import { unstable_TSDoc as TSDoc } from 'nextra/tsdoc'
+
 # ${title} API
 
 ${collection.admin?.description || `API for managing ${title} resources.`}
@@ -127,4 +176,78 @@ ${endpoints}
   console.log(`Generated API documentation for ${slug}`)
 }
 
-generateApiDocs()
+/**
+ * Updates the API documentation index file with links to all collection docs
+ */
+const updateApiDocsIndex = async (apisDir: string) => {
+  try {
+    console.log('Updating API documentation index...')
+
+    const files = fs.readdirSync(apisDir).filter((file) => file.endsWith('.mdx') && file !== 'index.mdx')
+
+    const apisByGroup: Record<string, { title: string; slug: string }[]> = {}
+
+    for (const file of files) {
+      const filePath = path.join(apisDir, file)
+      const content = fs.readFileSync(filePath, 'utf-8')
+
+      const titleMatch = content.match(/title:\s*([^\n]+)/)
+      const groupMatch = content.match(/group:\s*([^\n]+)/)
+
+      const title = titleMatch ? titleMatch[1].trim() : path.basename(file, '.mdx')
+      const group = groupMatch ? groupMatch[1].trim() : 'Uncategorized'
+
+      if (!apisByGroup[group]) {
+        apisByGroup[group] = []
+      }
+
+      apisByGroup[group].push({
+        title,
+        slug: path.basename(file, '.mdx'),
+      })
+    }
+
+    const sortedGroups = Object.keys(apisByGroup).sort()
+
+    let indexContent = `---
+title: API Reference
+description: API documentation for all collections
+asIndexPage: true
+---
+
+import { unstable_TSDoc as TSDoc } from 'nextra/tsdoc'
+
+# API Reference
+
+This section contains API documentation for all collections in the system, organized by category.
+
+`
+
+    for (const group of sortedGroups) {
+      indexContent += `## ${group}\n\n`
+
+      const sortedApis = apisByGroup[group].sort((a, b) => a.title.localeCompare(b.title))
+
+      for (const api of sortedApis) {
+        indexContent += `- [${api.title}](${api.slug})\n`
+      }
+
+      indexContent += '\n'
+    }
+
+    const indexPath = path.join(apisDir, 'index.mdx')
+    fs.writeFileSync(indexPath, indexContent)
+
+    console.log('API documentation index updated successfully')
+  } catch (error) {
+    console.error('Error updating API documentation index:', error)
+  }
+}
+
+const main = async () => {
+  await generateApiDocs()
+  const apisDir = path.resolve(process.cwd(), 'content/apis/apis.do')
+  await updateApiDocsIndex(apisDir)
+}
+
+main()
