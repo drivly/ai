@@ -30,9 +30,14 @@ export function useMDXComponents(components?: MDXComponents) {
             
             const highlightedCode = syntaxHighlightJson(code);
             
-            return React.createElement('pre', props, 
+            const preProps = {
+              ...props,
+              className: `${props.className || ''} nextra-code-block`,
+            };
+            
+            return React.createElement('pre', preProps, 
               React.createElement('code', {
-                className: childProps.className,
+                className: `${childProps.className || ''} has-highlighted-code`,
                 dangerouslySetInnerHTML: { __html: highlightedCode }
               })
             );

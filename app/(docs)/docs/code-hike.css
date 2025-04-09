@@ -2,14 +2,19 @@
 
 /* Custom styles for links in code blocks */
 .nextra-code-block pre code a,
-pre code.language-json a {
+pre code.language-json a,
+.nextra-code-block pre code.has-highlighted-code a,
+div[data-rehype-pretty-code-fragment] pre code a {
   color: #60a5fa !important; /* text-blue-400 equivalent */
-  text-decoration: underline;
-  cursor: pointer;
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
   transition: opacity 0.2s;
 }
 
 .nextra-code-block pre code a:hover,
-pre code.language-json a:hover {
+pre code.language-json a:hover,
+.nextra-code-block pre code.has-highlighted-code a:hover,
+div[data-rehype-pretty-code-fragment] pre code a:hover {
   opacity: 0.8;
 }
