@@ -26,6 +26,7 @@ const meta: MetaRecord = {
   events: '',
   experiments: '',
   integrations: '',
+  deployment: '',
   observability: '',
   
 
