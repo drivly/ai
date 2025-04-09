@@ -184,12 +184,31 @@ export class ClickhouseClient {
       })
       
       const rows = await result.json() as Array<{name: string, type: string}>
+      const columnNames = rows.map(row => row.name)
       
       for (const row of rows) {
         if (row.name === 'id' && row.type.includes('UUID')) {
           console.warn(`
 ==========================================================================
 WARNING: Table ${tableName} has UUID type for id column and needs migration
+To fix this issue, you need to manually drop the table and let it recreate:
+  1. Connect to your ClickHouse instance
+  2. Run: DROP TABLE IF EXISTS ${tableName}
+  3. Or use a different database/table name in your environment variables
+==========================================================================
+          `)
+          return false
+        }
+      }
+      
+      if (tableName === 'events') {
+        const requiredColumns = ['url', 'headers', 'query']
+        const missingColumns = requiredColumns.filter(col => !columnNames.includes(col))
+        
+        if (missingColumns.length > 0) {
+          console.warn(`
+==========================================================================
+WARNING: Table ${tableName} is missing columns: ${missingColumns.join(', ')}
 To fix this issue, you need to manually drop the table and let it recreate:
   1. Connect to your ClickHouse instance
   2. Run: DROP TABLE IF EXISTS ${tableName}
@@ -213,12 +232,20 @@ To fix this issue, you need to manually drop the table and let it recreate:
   async initialize(): Promise<void> {
     try {
       const { tableNames } = await import('./schema')
+      let needsMigration = false
       
       for (const tableName of tableNames) {
-        await this.checkTableSchema(tableName)
+        const isValid = await this.checkTableSchema(tableName)
+        if (!isValid) {
+          needsMigration = true
+        }
       }
       
-      console.log('ClickHouse client initialized, schema checks completed')
+      if (needsMigration) {
+        console.log('ClickHouse client initialized, schema checks completed. Some tables need migration - see warnings above.')
+      } else {
+        console.log('ClickHouse client initialized, schema checks completed')
+      }
     } catch (error: any) {
       console.error('Error initializing ClickHouse client:', error)
     }
