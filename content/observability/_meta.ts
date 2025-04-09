@@ -1,4 +1,6 @@
-export default {
+import type { MetaRecord } from 'nextra'
+
+const meta: MetaRecord = {
   logs: '',
   traces: '',
   metrics: '',
@@ -8,3 +10,5 @@ export default {
   benchmarks: '',
   generations: '',
 }
+
+export default meta

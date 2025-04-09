@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload'
 
 export const OAuthClients: CollectionConfig = {
-  slug: 'oauth-clients',
+  slug: 'oauthClients',
   labels: {
     singular: 'OAuth Client',
     plural: 'OAuth Clients',

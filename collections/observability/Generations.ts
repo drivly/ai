@@ -16,7 +16,7 @@ export const Generations: CollectionConfig = {
     { name: 'status', type: 'select', options: ['success', 'error'] },
     { name: 'duration', type: 'number' },
     { name: 'processingMode', type: 'select', options: ['realtime', 'batch'], defaultValue: 'realtime' },
-    { name: 'batch', type: 'relationship', relationTo: 'generation-batches' },
+    { name: 'batch', type: 'relationship', relationTo: 'generationBatches' },
 
     // { name: 'function', type: 'relationship', relationTo: 'functions' },
     // { name: 'input', type: 'relationship', relationTo: 'resources' },
