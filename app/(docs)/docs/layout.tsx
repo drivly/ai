@@ -4,10 +4,24 @@ import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import './code-hike.css'
+import { headers } from 'next/headers'
+import type { Metadata } from 'next'
 
-export const metadata = {
-  // Define your metadata here
-  // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
+export async function generateMetadata(): Promise<Metadata> {
+  const headersList = await headers()
+  const hostname = headersList.get('host') || ''
+  const pathname = headersList.get('x-pathname') || '/docs'
+  
+  const canonicalPath = pathname.startsWith('/docs/') ? pathname : '/docs'
+  const canonicalUrl = `https://workflows.do${canonicalPath}`
+  
+  return {
+    // Define your metadata here
+    // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
+    alternates: {
+      canonical: canonicalUrl,
+    }
+  }
 }
 
 const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Banner>

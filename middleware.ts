@@ -161,16 +161,28 @@ export async function middleware(request: NextRequest) {
         }
       }
 
-      if (pathname === '/docs') {
-        console.log('Redirecting docs path', { hostname, pathname, search })
+      const response = NextResponse.next()
+      response.headers.set('x-pathname', pathname)
+
+      /**
+       * Handle documentation paths (/docs and /docs/*)
+       * - Redirects to appropriate docs path based on domain
+       */
+      if (pathname === '/docs' || pathname.startsWith('/docs/')) {
+        console.log('Handling docs path', { hostname, pathname, search })
         const apiName = extractApiNameFromDomain(hostname)
         const hash = request.nextUrl.hash || ''
         
-        if (docsExistForApi(apiName)) {
+        if (pathname === '/docs' && docsExistForApi(apiName)) {
           const docsPath = getDocsPath(hostname)
           return NextResponse.redirect(new URL(`${docsPath}${search}${hash}`, request.url), 307)
         }
-        return NextResponse.redirect(new URL(`/docs${search}${hash}`, request.url), 307)
+        
+        if (pathname === '/docs') {
+          return NextResponse.redirect(new URL(`/docs${search}${hash}`, request.url), 307)
+        }
+        
+        return NextResponse.next()
       }
 
       if (pathname === '/api') {
