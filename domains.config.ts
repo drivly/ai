@@ -14,39 +14,39 @@
  */
 import { apis } from './api.config'
 
-const hierarchy = {
-  ai: {
-    workflows: 'Workflows.do Reliably Execute Business Processes',
-    functions: 'Functions.do Typesafe Results without Complexity',
-    agents: 'Agents.do Deploy & Manage Autonomous Digital Workers',
+export const hierarchy = {
+  AI: {
+    Workflows: 'Reliably Execute Business Processes',
+    Functions: 'Typesafe Results without Complexity',
+    Agents: 'Deploy & Manage Autonomous Digital Workers',
   },
-  data: {
-    databases: 'Database.do AI Native Data Access (Search + CRUD)',
-    nouns: 'Nouns.do Entities in your business',
-    verbs: 'Verbs.do Represent potential actions',
+  Data: {
+    Databases: 'AI Native Data Access (Search + CRUD)',
+    Nouns: 'Entities in your business',
+    Verbs: 'Represent potential actions',
   },
-  events: {
-    triggers: 'Triggers.do Initiate workflows based on events',
-    searches: 'Searches.do Query and retrieve data',
-    actions: 'Actions.do Perform tasks within workflows',
+  Events: {
+    Triggers: 'Initiate workflows based on events',
+    Searches: 'Query and retrieve data',
+    Actions: 'Perform tasks within workflows',
   },
-  core: {
-    llm: 'LLM.do Intelligent AI Gateway',
-    evals: 'Evals.do Evaluate Functions, Workflows, and Agents',
-    analytics: 'Analytics.do Economically Validate Workflows',
-    experiments: 'Experiments.do Economically Validate Workflows',
-    database: 'Database.do AI Native Data Access (Search + CRUD)',
-    integrations: 'Integrations.do Connect External APIs and Systems',
+  Core: {
+    LLM: 'Intelligent AI Gateway',
+    Evals: 'Evaluate Functions, Workflows, and Agents',
+    Analytics: 'Economically Validate Workflows',
+    Experiments: 'Economically Validate Workflows',
+    Database: 'AI Native Data Access (Search + CRUD)',
+    Integrations: 'Connect External APIs and Systems',
   },
-  agents: {
-    amy: 'Amy.do Personal AI Assistant',
-    ari: 'Ari.do AI Research Interface',
-    nat: 'Nat.do Network Analysis Tool',
-    dara: 'Dara.do Data Analysis and Reporting',
-    tom: 'Tom.do Task Order Management',
-    ivy: 'Ivy.do Intelligent Virtual Assistant',
-    lena: 'Lena.do Language Enhancement and Analysis',
-    lexi: 'Lexi.do Lexical Analysis and Processing',
+  Agents: {
+    Amy: 'Personal AI Assistant',
+    Ari: 'AI Research Interface',
+    Nat: 'Network Analysis Tool',
+    Dara: 'Data Analysis and Reporting',
+    Tom: 'Task Order Management',
+    Ivy: 'Intelligent Virtual Assistant',
+    Lena: 'Language Enhancement and Analysis',
+    Lexi: 'Lexical Analysis and Processing',
   },
 }
 
