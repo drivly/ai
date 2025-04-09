@@ -8,14 +8,15 @@ const meta: MetaRecord = {
   reference: { type: 'page', href: 'https://docs.apis.do' },
 
   manifesto: '',
+  primitives: '',
   
   _ai: {
     type: 'separator',
     title: 'AI',
   },
-  workflows: '',
   functions: '',
   agents: '',
+  workflows: '',
 
   _: {
     type: 'separator',
@@ -26,6 +27,7 @@ const meta: MetaRecord = {
   events: '',
   experiments: '',
   integrations: '',
+  deployment: '',
   observability: '',
   
 

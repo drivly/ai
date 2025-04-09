@@ -1,0 +1,56 @@
+---
+title: Tasks
+sidebarTitle: Tasks
+group: Work
+---
+
+import { Callout } from 'nextra/components'
+
+# Tasks API
+
+API for managing Tasks resources.
+
+
+
+
+## Fields
+
+```typescript
+interface Tasks {
+  status?: 'backlog' | 'todo' | 'in-progress' | 'review' | 'done';
+  queue?: string;
+  assigned?: Array<{ relationTo: string; value: string }>;
+  parent?: string;
+  description?: string;
+  subtasks?: any;
+  dependentOn?: string[];
+  dependents?: any;
+}
+```
+
+
+
+
+## API Endpoints
+
+### GET /api/tasks
+Retrieves a list of Tasks with pagination.
+
+#### Query Parameters
+- `limit`: Maximum number of items to return (default: 10)
+- `page`: Page number for pagination (default: 1)
+- `sort`: Field to sort by (default: createdAt)
+- `where`: JSON query for filtering results
+
+### GET /api/tasks/:id
+Retrieves a single Tasks by ID.
+
+### POST /api/tasks
+Creates a new Tasks.
+
+### PATCH /api/tasks/:id
+Updates an existing Tasks.
+
+### DELETE /api/tasks/:id
+Deletes a Tasks.
+

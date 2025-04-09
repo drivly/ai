@@ -16,7 +16,7 @@ export default defineConfig({
         title: s.string().optional(),
         description: s.string().optional(),
         content: s.markdown(),
-        component: s.mdx(),
+        // component: s.mdx(),
       }),
     },
   },
