@@ -1,11 +1,11 @@
 import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
+import { navigation } from '@/components/site-config'
 import { cn } from '@drivly/ui/lib'
 import { AnimatePresence, motion } from 'motion/react'
 import Link from 'next/link'
 import { type Dispatch, Fragment, type SetStateAction, useState } from 'react'
 import { IconType } from 'react-icons/lib'
 import { backgroundAnimation, blurAnimation, heightAnimation, translateAnimation } from './animations'
-import { navLinks } from './nav-config'
 
 export interface MobileNavProps {
   domain?: string
@@ -88,36 +88,27 @@ export function MobileNavMenu({ onClose, domain }: { onClose: () => void; domain
   const [hovered, setHovered] = useState({ isActive: false, index: 0 })
   return (
     <ul className='flex flex-col space-y-6'>
-      {navLinks.map((link, index) => {
-        if (link.label === 'Blog' && domain) {
+      {navigation.map((link, index) => {
+        if (link.name === 'Blog' && domain) {
           return (
-            <NavItem
-              key={link.label}
-              label={link.label}
-              href={link.href}
-              target={link.target}
-              rel={link.rel}
-              onClose={onClose}
-              index={index}
-              setHovered={setHovered}
-              hovered={hovered}>
-              {getChar(link.label)}
+            <NavItem key={link.name} name={link.name} href={link.href} onClose={onClose} index={index} setHovered={setHovered} hovered={hovered}>
+              {getChar(link.name)}
             </NavItem>
           )
-        } else if (link.label !== 'Blog' && link.href) {
+        } else if (link.name !== 'Blog' && link.href) {
           return (
             <NavItem
-              key={link.label}
-              label={link.label}
+              key={link.name}
+              name={link.name}
               href={link.href}
-              target={link.target}
-              rel={link.rel}
+              target={'target' in link ? link.target : undefined}
+              rel={'rel' in link ? link.rel : undefined}
               onClose={onClose}
-              Icon={link.Icon}
+              Icon={'icon' in link ? link.icon : undefined}
               index={index}
               setHovered={setHovered}
               hovered={hovered}>
-              {getChar(link.label)}
+              {getChar(link.name)}
             </NavItem>
           )
         }
@@ -132,7 +123,7 @@ export function MobileNavMenu({ onClose, domain }: { onClose: () => void; domain
 
 interface NavItemProps {
   children: React.ReactNode
-  label: string
+  name: string
   href: string
   target?: string
   rel?: string
@@ -143,7 +134,7 @@ interface NavItemProps {
   hovered: { isActive: boolean; index: number }
 }
 
-export const NavItem = ({ children, label, href, target, rel, Icon, onClose, index, setHovered, hovered }: NavItemProps) => {
+export const NavItem = ({ children, name, href, target, rel, Icon, onClose, index, setHovered, hovered }: NavItemProps) => {
   return (
     <li onMouseOver={() => setHovered({ isActive: true, index })} onMouseLeave={() => setHovered({ isActive: false, index })}>
       <Link
@@ -156,7 +147,7 @@ export const NavItem = ({ children, label, href, target, rel, Icon, onClose, ind
           {Icon && (
             <motion.span
               key={`c_${index}`}
-              custom={[index * 0.02, (label.length - index) * 0.01]}
+              custom={[index * 0.02, (name.length - index) * 0.01]}
               variants={translateAnimation}
               initial='initial'
               animate='enter'

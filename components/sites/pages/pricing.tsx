@@ -8,6 +8,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@drivl
 import { RiCheckLine, RiCloudLine, RiDiscordFill, RiInformationLine, RiLightbulbLine, RiSubtractLine, RiUserLine } from '@remixicon/react'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
+import { siteConfig } from '../../site-config'
 
 type FixedPrice = string
 
@@ -503,8 +504,8 @@ export function Pricing() {
 
           <div className='relative z-10 text-right lg:mx-12'>
             <div className='mt-8 space-y-4'>
-              <Button asChild className='w-full bg-[#7289da] bg-black text-black hover:bg-[#839AED] lg:w-1/2'>
-                <Link href='https://discord.gg/26nNxZTz9X' className='flex items-center justify-center'>
+              <Button asChild className='w-full bg-[#7289da] text-black hover:bg-[#839AED] lg:w-1/2'>
+                <Link href={siteConfig.baseLinks.discord} className='flex items-center justify-center'>
                   <RiDiscordFill className='mr-2 size-5' />
                   Join Discord
                 </Link>

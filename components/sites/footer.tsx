@@ -1,5 +1,6 @@
 import { RiArrowRightUpLine, RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
 import Link from 'next/link'
+import { siteConfig } from '../site-config'
 
 const navigation = {
   products: [
@@ -26,8 +27,8 @@ const navigation = {
     { name: 'About', href: 'https://dotdo.ai/docs/manifesto', external: false },
     { name: 'Careers', href: 'https://dotdo.ai/careers', external: false },
     { name: 'Contact', href: '#', external: true },
-    { name: 'Privacy', href: '/privacy', external: false },
-    { name: 'Terms', href: '/terms', external: false },
+    { name: 'Privacy', href: siteConfig.baseLinks.privacy, external: false },
+    { name: 'Terms', href: siteConfig.baseLinks.terms, external: false },
   ],
 }
 
@@ -59,22 +60,22 @@ export function Footer() {
                 </svg>
               </div>
             </div>
-            <p className='text-sm leading-6 text-gray-400'>Agentic Workflow Platform. Redefining work with Businesses-as-Code.</p>
+            <p className='text-sm leading-6 text-gray-400'>{siteConfig.description}</p>
 
             <div className='mt-6 flex space-x-4'>
-              <a href='https://github.com/drivly/ai' target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
+              <a href={siteConfig.baseLinks.github} target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
                 <RiGithubFill className='size-6' aria-hidden='true' />
                 <span className='sr-only'>GitHub</span>
               </a>
-              <a href='https://discord.gg/26nNxZTz9X' target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
+              <a href={siteConfig.baseLinks.discord} target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
                 <RiDiscordFill className='size-6' aria-hidden='true' />
                 <span className='sr-only'>Discord</span>
               </a>
-              <a href='https://x.com/dotdo_ai' target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
+              <a href={siteConfig.baseLinks.twitter} target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
                 <RiTwitterXFill className='size-6' aria-hidden='true' />
                 <span className='sr-only'>Twitter X</span>
               </a>
-              <a href='https://www.npmjs.com/package/workflows.do' target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
+              <a href={siteConfig.baseLinks.npm} target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
                 <RiNpmjsFill className='size-6' aria-hidden='true' />
                 <span className='sr-only'>NPM</span>
               </a>
