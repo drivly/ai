@@ -13,33 +13,34 @@ A [Workflow](/docs/workflows) is a special type of [Function](/docs/functions) d
 
 ## Functions
 
-A [Functions](/docs/functions) that accept inputs and return outputs: [Code](/docs/functions/code), [Generative](/docs/functions/generative), [Agent](/docs/functions/agent), and [Human](/docs/functions/human). 
+A [Function](/docs/functions) is a composable and atomic primitive that accepts inputs and returns strongly-typed outputs.  There are four types of functions: [Code](/docs/functions/code), [Generative](/docs/functions/generative), [Agent](/docs/functions/agent), and [Human](/docs/functions/human). 
 
 {/* ### Code Function */}
 
- A [Code Function](/docs/functions/code) is a deterministic function with objective results, making it ideal for anything that has traditionally been capable of being automated with classical computing. It is [evaluated](/docs/evals) using traditional unit tests.
+ - A [Code Function](/docs/functions/code) is a deterministic function with objective results, making it ideal for anything that has traditionally been capable of being automated with classical computing. It is [evaluated](/docs/evals) using traditional unit tests.
 
 {/* ### Generative Function */}
 
- A [Generative Function](/docs/functions/generative) is a non-deterministic function that uses AI to generate content or structured data, and may have either objective or subjective results.  [Objective](/docs/functions/generative#objective) functions are evaluated using traditional unit tests, while [Subjective](/docs/functions/generative#subjective) functions are evaluated using [LLM-as-Judge](/docs/experiments/evals#llm-as-judge), [Human Feedback](/docs/functions/human), or trailing [Business KPIs](/docs/business/kpis).
+ - A [Generative Function](/docs/functions/generative) is a non-deterministic function that uses AI to generate content or structured data, and may have either objective or subjective results.  [Objective](/docs/functions/generative#objective) functions are evaluated using traditional unit tests, while [Subjective](/docs/functions/generative#subjective) functions are evaluated using [LLM-as-Judge](/docs/experiments/evals#llm-as-judge), [Human Feedback](/docs/functions/human), or trailing [Business KPIs](/docs/business/kpis).
  
 {/* ### Agent Function */}
 
- An [Agent Function](/docs/functions/agent) uses autonomous AI agents to perform tasks.
+ - An [Agent Function](/docs/functions/agent) uses autonomous AI agents to perform tasks.
  
 {/* ### Human Function */}
 
- A [Human Function](/docs/functions/human) uses human workers to perform [Tasks](/docs/business/tasks) in prioritized [Queues](/docs/business/queues).
+ - A [Human Function](/docs/functions/human) uses human workers to perform [Tasks](/docs/business/tasks) in prioritized [Queues](/docs/business/queues).
 
 ## Agents
 
-An [Agent](/docs/agents) is an autonomous digital worker with [Goals & Objectives](/docs/business/goals) and is evaluated by the [Key Results](/docs/business/kpis) delivered to the business.
+An [Agent](/docs/agents) is an autonomous digital worker with [Goals & Objectives](/docs/business/goals) and is evaluated by the [Key Results](/docs/business/kpis) it delivers to the business. It can do work at scheduled intervals or in response to [Events](/docs/events) in real-time.
 
 ## Business
 
 
 ## Data
 
+[Nouns](/docs/data/nouns) are the types of physical or digital entities in your business, and [Verbs](/docs/data/verbs) are the potential [Actions](/docs/business/actions) that can be performed by or to them. [Resources](/docs/data/resources) are the data records that are instances of [Nouns](/docs/data/nouns) and are stored in the [Database](/docs/data/database).
 
 
 {/* ### Nouns
