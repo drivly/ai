@@ -3,11 +3,18 @@ import { MDXComponents } from 'nextra/mdx-components'
 import Hero from './components/Hero'
 import { syntaxHighlightJson } from '@/lib/utils/syntax-highlight'
 import React from 'react'
-import { JsonCodeBlock } from './components/docs/JsonCodeBlock'
-import { ClickableJsonCode } from './components/docs/ClickableJsonCode'
 
 // Get the default MDX components
 const themeComponents = getThemeComponents()
+
+/**
+ * Process JSON code to make URLs clickable
+ */
+function processJsonLinks(code: string): string {
+  return code.replace(/"(https?:\/\/[^"]+)"/g, (match, url) => {
+    return `"<a href="${url}" target="_blank" rel="noopener noreferrer" style="color:#60a5fa;text-decoration:underline;cursor:pointer;pointer-events:auto;position:relative;z-index:10;">${url}</a>"`;
+  });
+}
 
 /**
  * Custom MDX components for Nextra documentation
@@ -19,64 +26,32 @@ export function useMDXComponents(components?: MDXComponents) {
     ...components,
     Hero,
     pre: ({ children, ...props }: React.DetailedHTMLProps<React.HTMLAttributes<HTMLPreElement>, HTMLPreElement>) => {
-      try {
-        if (children && typeof children === 'object' && 'props' in children) {
-          const childProps = (children as any).props || {};
-          
-          if (childProps.className?.includes('language-json') && childProps.children) {
-            const code = typeof childProps.children === 'string' 
-              ? childProps.children 
-              : Array.isArray(childProps.children) 
-                ? childProps.children.join('') 
-                : String(childProps.children);
-            
-            try {
-              JSON.parse(code);
-              return React.createElement(ClickableJsonCode, { code });
-            } catch (jsonError) {
-              return React.createElement(JsonCodeBlock, {
-                code,
-                className: props.className || ''
-              });
-            }
-          }
-        }
+      if (children && typeof children === 'object' && 'props' in children) {
+        const childProps = (children as any).props || {};
         
-        return typeof themeComponents.pre === 'function' 
-          ? themeComponents.pre({ children, ...props }) 
-          : React.createElement('pre', props, children);
-      } catch (error) {
-        console.error('Error in pre component:', error);
-        return typeof themeComponents.pre === 'function' 
-          ? themeComponents.pre({ children, ...props }) 
-          : React.createElement('pre', props, children);
-      }
-    },
-    
-    code: ({ children, className, ...props }: any) => {
-      if (className?.includes('language-json') && children) {
-        try {
-          const code = typeof children === 'string' 
-            ? children 
-            : Array.isArray(children) 
-              ? children.join('') 
-              : String(children);
+        if (childProps.className?.includes('language-json') && childProps.children) {
+          const code = typeof childProps.children === 'string' 
+            ? childProps.children 
+            : Array.isArray(childProps.children) 
+              ? childProps.children.join('') 
+              : String(childProps.children);
           
-          const highlightedCode = syntaxHighlightJson(code);
+          const processedCode = processJsonLinks(code);
           
-          return React.createElement('code', {
-            className,
-            ...props,
-            dangerouslySetInnerHTML: { __html: highlightedCode }
-          });
-        } catch (error) {
-          console.error('Error applying JSON syntax highlighting to inline code:', error);
+          const newCodeProps = {
+            ...childProps,
+            dangerouslySetInnerHTML: { __html: processedCode }
+          };
+          
+          return React.createElement('pre', props, 
+            React.createElement('code', newCodeProps)
+          );
         }
       }
       
-      return typeof themeComponents.code === 'function' 
-        ? themeComponents.code({ children, className, ...props }) 
-        : React.createElement('code', { className, ...props }, children);
+      return typeof themeComponents.pre === 'function' 
+        ? themeComponents.pre({ children, ...props }) 
+        : React.createElement('pre', props, children);
     }
   };
 }
