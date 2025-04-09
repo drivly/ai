@@ -5,6 +5,7 @@ import { BetterAuthProvider } from '@/lib/auth/context'
 import { getContextProps } from '@/lib/auth/context/get-context-props'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { JsonLinkProcessor } from '@/components/docs/JsonLinkProcessor'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +16,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <SpeedInsights />
         <GoogleAnalytics />
         <Rb2bScript />
+        <JsonLinkProcessor />
       </PostHogProvider>
     </BetterAuthProvider>
   )
