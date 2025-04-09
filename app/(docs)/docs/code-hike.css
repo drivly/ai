@@ -4,17 +4,21 @@
 .nextra-code-block pre code a,
 pre code.language-json a,
 .nextra-code-block pre code.has-highlighted-code a,
-div[data-rehype-pretty-code-fragment] pre code a {
+div[data-rehype-pretty-code-fragment] pre code a,
+.json-link {
   color: #60a5fa !important; /* text-blue-400 equivalent */
   text-decoration: underline !important;
   cursor: pointer !important;
   pointer-events: auto !important;
   transition: opacity 0.2s;
+  z-index: 10 !important;
+  position: relative !important;
 }
 
 .nextra-code-block pre code a:hover,
 pre code.language-json a:hover,
 .nextra-code-block pre code.has-highlighted-code a:hover,
-div[data-rehype-pretty-code-fragment] pre code a:hover {
+div[data-rehype-pretty-code-fragment] pre code a:hover,
+.json-link:hover {
   opacity: 0.8;
 }

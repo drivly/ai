@@ -3,6 +3,7 @@ import { MDXComponents } from 'nextra/mdx-components'
 import Hero from './components/Hero'
 import { syntaxHighlightJson } from '@/lib/utils/syntax-highlight'
 import React from 'react'
+import { JsonCodeBlock } from './components/docs/JsonCodeBlock'
 
 // Get the default MDX components
 const themeComponents = getThemeComponents()
@@ -28,19 +29,10 @@ export function useMDXComponents(components?: MDXComponents) {
                 ? childProps.children.join('') 
                 : String(childProps.children);
             
-            const highlightedCode = syntaxHighlightJson(code);
-            
-            const preProps = {
-              ...props,
-              className: `${props.className || ''} nextra-code-block`,
-            };
-            
-            return React.createElement('pre', preProps, 
-              React.createElement('code', {
-                className: `${childProps.className || ''} has-highlighted-code`,
-                dangerouslySetInnerHTML: { __html: highlightedCode }
-              })
-            );
+            return React.createElement(JsonCodeBlock, {
+              code,
+              className: props.className || ''
+            });
           }
         }
         
