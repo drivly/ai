@@ -1,268 +1,87 @@
 ---
 title: Nouns
+sidebarTitle: Nouns
 asIndexPage: true
 ---
 
-# Nouns
+# Nouns - Entity Management System
 
-Nouns represent and manage entities within your workflows clearly and effectively. Entities include customers, products, locations, resources, and other critical business objects.
+> **Define, manage, and relate business entities with precision**
 
-## Entities in Your Business
+## Overview
 
-Nouns provides a powerful framework for defining and managing the entities that make up your business domain. It enables you to create a structured representation of your business objects and their relationships.
+Nouns provide a comprehensive framework for defining and managing the entities that make up your business domain within the .do ecosystem. This system enables you to create structured representations of business objects, establish relationships between them, and ensure data integrity across your applications.
 
-## Features
+## Key Features
 
-- **Domain Modeling**: Define the core entities in your business domain
-- **Relationship Management**: Establish connections between different entity types
-- **Property Definitions**: Define the properties and attributes of each entity
-- **Validation Rules**: Ensure data integrity with validation constraints
-- **Inheritance**: Create hierarchies of entity types with shared properties
-- **Extensibility**: Extend entity definitions with custom properties and behaviors
-- **Type Safety**: Full TypeScript support for reliable development
+- **Domain Modeling** - Define core entities in your business domain
+- **Relationship Management** - Establish connections between different entity types
+- **Property Definitions** - Define properties and attributes of each entity
+- **Validation Rules** - Ensure data integrity with validation constraints
+- **Type Safety** - Full type support for reliable development
 
-## Usage
+## Core Concepts
 
-```typescript
-import { defineNoun } from 'nouns.do'
+### Entity Structure
 
-// Define a Customer entity
-const Customer = defineNoun({
-  name: 'Customer',
-  description: 'A person or organization that purchases products or services',
+- Entity Definition
+- Property Types
+- Required Fields
+- Default Values
+- Validation Rules
 
-  // Define the properties of a Customer
-  properties: {
-    name: {
-      type: 'string',
-      required: true,
-      description: 'Full name of the customer',
-    },
-    email: {
-      type: 'string',
-      format: 'email',
-      required: true,
-      unique: true,
-      description: 'Primary email address',
-    },
-    phone: {
-      type: 'string',
-      pattern: '^\\+?[1-9]\\d{1,14}$',
-      required: false,
-      description: 'Contact phone number in E.164 format',
-    },
-    type: {
-      type: 'string',
-      enum: ['individual', 'business'],
-      default: 'individual',
-      description: 'Type of customer',
-    },
-    status: {
-      type: 'string',
-      enum: ['active', 'inactive', 'pending'],
-      default: 'pending',
-      description: 'Current status of the customer',
-    },
-    address: {
-      type: 'object',
-      properties: {
-        street: { type: 'string' },
-        city: { type: 'string' },
-        state: { type: 'string' },
-        postalCode: { type: 'string' },
-        country: { type: 'string' },
-      },
-      required: false,
-      description: 'Mailing address',
-    },
-    createdAt: {
-      type: 'string',
-      format: 'date-time',
-      default: () => new Date().toISOString(),
-      description: 'When the customer was created',
-    },
-  },
+### Entity Relationships
 
-  // Define relationships to other entities
-  relationships: {
-    orders: {
-      type: 'hasMany',
-      target: 'Order',
-      foreignKey: 'customerId',
-      description: 'Orders placed by this customer',
-    },
-    subscriptions: {
-      type: 'hasMany',
-      target: 'Subscription',
-      foreignKey: 'customerId',
-      description: 'Active subscriptions for this customer',
-    },
-    primaryContact: {
-      type: 'hasOne',
-      target: 'Contact',
-      foreignKey: 'customerId',
-      description: 'Primary contact person for this customer',
-    },
-  },
+- One-to-One Relationships
+- One-to-Many Relationships
+- Many-to-Many Relationships
+- Relationship Navigation
+- Foreign Key Management
 
-  // Define validation rules
-  validations: [
-    {
-      rule: 'email must be unique',
-      message: 'A customer with this email already exists',
-    },
-    {
-      rule: 'if type is business, name must not be empty',
-      message: 'Business customers must have a company name',
-    },
-  ],
+### Entity Lifecycle
 
-  // Define methods that can be performed on this entity
-  methods: {
-    activate: {
-      description: 'Activate the customer account',
-      handler: async (customer) => {
-        customer.status = 'active'
-        customer.activatedAt = new Date().toISOString()
-        return customer
-      },
-    },
-    deactivate: {
-      description: 'Deactivate the customer account',
-      handler: async (customer) => {
-        customer.status = 'inactive'
-        customer.deactivatedAt = new Date().toISOString()
-        return customer
-      },
-    },
-  },
-})
+- Creation and Definition
+- Validation and Verification
+- Storage and Retrieval
+- Modification and Updates
+- Archiving and Deletion
 
-// Use the Customer entity in a workflow
-import { AI } from 'workflows.do'
+### Entity Methods
 
-export default AI({
-  onNewSignup: async ({ db, event }) => {
-    const { name, email, company } = event
+- Business Logic
+- State Transitions
+- Calculated Properties
+- Validation Functions
+- Custom Operations
 
-    // Create a new customer
-    const customer = await db.Customer.create({
-      name: company ? company : name,
-      email,
-      type: company ? 'business' : 'individual',
-      status: 'pending',
-    })
+## Entity Types
 
-    // Activate the customer
-    const activatedCustomer = await customer.activate()
+- Customer Entities
+- Product Entities
+- Order Entities
+- Location Entities
+- Resource Entities
 
-    return {
-      customerId: activatedCustomer.id,
-      status: activatedCustomer.status,
-    }
-  },
-})
-```
+## Implementation Approaches
 
-## Entity Relationships
+- Schema-First Design
+- Code-First Modeling
+- Template-Based Creation
+- Industry-Specific Models
+- Custom Entity Extensions
 
-Nouns.do supports various types of relationships between entities:
+## Integration Points
 
-### One-to-One Relationships
+- Database Storage
+- Workflow Integration
+- Function Parameters
+- Agent Knowledge Base
+- API Endpoints
 
-```typescript
-const User = defineNoun({
-  name: 'User',
-  // ...
-  relationships: {
-    profile: {
-      type: 'hasOne',
-      target: 'Profile',
-      foreignKey: 'userId',
-    },
-  },
-})
+## Getting Started
 
-const Profile = defineNoun({
-  name: 'Profile',
-  // ...
-  relationships: {
-    user: {
-      type: 'belongsTo',
-      target: 'User',
-      foreignKey: 'userId',
-    },
-  },
-})
-```
-
-### One-to-Many Relationships
-
-```typescript
-const Post = defineNoun({
-  name: 'Post',
-  // ...
-  relationships: {
-    comments: {
-      type: 'hasMany',
-      target: 'Comment',
-      foreignKey: 'postId',
-    },
-  },
-})
-
-const Comment = defineNoun({
-  name: 'Comment',
-  // ...
-  relationships: {
-    post: {
-      type: 'belongsTo',
-      target: 'Post',
-      foreignKey: 'postId',
-    },
-  },
-})
-```
-
-### Many-to-Many Relationships
-
-```typescript
-const Student = defineNoun({
-  name: 'Student',
-  // ...
-  relationships: {
-    courses: {
-      type: 'belongsToMany',
-      target: 'Course',
-      through: 'Enrollment',
-      foreignKey: 'studentId',
-      targetKey: 'courseId',
-    },
-  },
-})
-
-const Course = defineNoun({
-  name: 'Course',
-  // ...
-  relationships: {
-    students: {
-      type: 'belongsToMany',
-      target: 'Student',
-      through: 'Enrollment',
-      foreignKey: 'courseId',
-      targetKey: 'studentId',
-    },
-  },
-})
-```
-
-## Noun Templates
-
-Discover and use pre-built noun templates from the marketplace to accelerate your development process.
-
-## Next Steps
-
-- [Create your first business entity](/nouns/create)
-- [Explore industry-specific entity templates](/nouns/templates)
-- [Learn about entity relationships](/nouns/relationships)
-- [Implement entity-driven business models](/nouns/business-models)
+- Creating Your First Entity
+- Defining Entity Properties
+- Establishing Relationships
+- Implementing Validation
+- Using Entities in Workflows

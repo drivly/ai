@@ -4,183 +4,120 @@ sidebarTitle: Searches
 asIndexPage: true
 ---
 
-# [Searches.do](https://searches.do) - Elegant Contextual Data Retrieval
+# Searches - Contextual Data Retrieval
 
-> **Seamless access to contextual data through elegant, type-safe searches**
+> **Seamless access to contextual data through type-safe search operations**
 
 ## Overview
 
-Searches.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, providing a clean, type-safe interface for retrieving contextual data from various sources. This SDK enables functions, workflows, and agents to access relevant information when needed, enhancing decision-making capabilities across your business processes.
-
-## The Challenge
-
-Contextual data retrieval presents several challenges:
-
-- **Data Source Diversity**: Accessing information across disparate systems
-- **Query Complexity**: Formulating precise queries for relevant results
-- **Context Awareness**: Understanding the context of search requests
-- **Result Relevance**: Delivering the most valuable information first
-- **Performance**: Retrieving data quickly without compromising quality
-
-## The Solution
-
-Searches.do provides an elegant, type-safe interface for contextual data retrieval:
-
-- **Unified Data Access**: Consistent patterns for accessing any data source
-- **Intelligent Queries**: Simple yet powerful query capabilities
-- **Context-Aware Results**: Results tailored to the specific use case
-- **Relevance Optimization**: Most valuable information prioritized
-- **Seamless Performance**: Fast retrieval without compromising quality
+Searches provide a comprehensive framework for retrieving contextual data from various sources within the .do ecosystem. This system enables functions, workflows, and agents to access relevant information when needed, enhancing decision-making capabilities across business processes.
 
 ## Key Features
 
-- **Elegant API Design** - Clean, intuitive interfaces for data retrieval
-- **Type-Safe Queries** - Strongly-typed queries and results for reliable integration
-- **Multi-Source Access** - Unified interface for diverse data sources
-- **Context-Aware Results** - Results tailored to the specific use case
-- **Seamless Integration** - Works with all [.do](https://dotdo.ai) services
-- **Minimal Configuration** - Simple setup with sensible defaults
+- **Unified Data Access** - Consistent patterns for accessing any data source
+- **Intelligent Queries** - Simple yet powerful query capabilities
+- **Context-Aware Results** - Results tailored to specific use cases
+- **Relevance Optimization** - Most valuable information prioritized
+- **Multi-Source Integration** - Seamless access across diverse systems
 
-## Elegant API Design
+## Core Concepts
 
-Searches.do provides a clean, intuitive interface for contextual data retrieval:
+### Search Structure
 
-```typescript
-import { Searches } from 'searches.do'
+- Query Definition
+- Filter Specification
+- Sort Parameters
+- Pagination Controls
+- Result Formatting
 
-// Simple initialization with default settings
-const searches = new Searches()
+### Search Types
 
-// Or with custom configuration
-const searches = new Searches({
-  apiKey: process.env.SEARCHES_API_KEY,
-  baseUrl: process.env.SEARCHES_API_URL || 'https://searches.do',
-})
-```
+- Keyword Searches
+- Semantic Searches
+- Filtered Queries
+- Faceted Searches
+- Relational Lookups
 
-### Performing Searches
+### Search Lifecycle
 
-```typescript
-// Simple search with minimal configuration
-const results = await searches.search('customers', {
-  query: 'enterprise clients in healthcare',
-  limit: 10,
-})
+- Query Formation
+- Source Selection
+- Execution and Retrieval
+- Result Processing
+- Context Integration
 
-// Advanced search with type-safe filters
-const filteredResults = await searches.search('products', {
-  query: 'wireless headphones',
-  filters: {
-    price: { range: [100, 300] },
-    brand: { in: ['Sony', 'Bose', 'Apple'] },
-    inStock: true,
-  },
-  sort: { field: 'rating', order: 'desc' },
-  limit: 20,
-})
+## Data Source Types
 
-// Access strongly-typed results
-console.log(`Found ${results.total} results`)
-results.items.forEach((item) => {
-  console.log(`${item.name}: ${item.description}`)
-})
-```
+### Internal Sources
 
-### Managing Search Sources
+- Database Collections
+- Document Repositories
+- Knowledge Bases
+- Vector Stores
+- Structured Data
 
-```typescript
-// List available search sources
-const sources = await searches.listSources()
+### External Sources
 
-// Get details about a specific search source
-const customerSource = await searches.getSource('customers')
-console.log(customerSource.schema) // View source schema
-```
+- API Endpoints
+- Third-Party Services
+- Web Content
+- Enterprise Systems
+- Public Datasets
 
-## Integration with the [.do](https://dotdo.ai) Ecosystem
+### Hybrid Sources
 
-Searches.do is designed to work seamlessly with other [.do](https://dotdo.ai) services:
+- Federated Search
+- Multi-Source Queries
+- Aggregated Results
+- Cross-System Lookups
+- Unified Indices
 
-```typescript
-import { AI } from 'functions.do'
-import { Workflow } from 'workflows.do'
-import { Searches } from 'searches.do'
+## Query Capabilities
 
-// Initialize services
-const searches = new Searches()
+### Basic Operations
 
-// Define AI functions that use searches
-const ai = AI({
-  recommendProducts: async ({ customerQuery, preferences }) => {
-    // Use searches.do to find relevant products
-    const products = await searches.search('products', {
-      query: customerQuery,
-      filters: {
-        category: { in: preferences.categories },
-        price: { range: [preferences.minPrice, preferences.maxPrice] },
-      },
-      limit: 5,
-    })
+- Text Matching
+- Numeric Comparisons
+- Boolean Filters
+- Date Range Filtering
+- Existence Checks
 
-    // Process and return recommendations
-    return {
-      recommendations: products.items.map((product) => ({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        rating: product.rating,
-        imageUrl: product.imageUrl,
-      })),
-      totalMatches: products.total,
-    }
-  },
-})
+### Advanced Features
 
-// Define a workflow that uses both functions and searches
-const workflow = new Workflow({
-  name: 'Customer Support',
-  steps: [
-    {
-      name: 'Find Similar Issues',
-      search: 'knowledgeBase',
-      input: {
-        query: '{{trigger.customerQuery}}',
-        filters: {
-          category: 'technical-support',
-          product: '{{trigger.productId}}',
-        },
-      },
-    },
-    {
-      name: 'Generate Response',
-      function: 'createSupportResponse',
-      input: {
-        customerQuery: '{{trigger.customerQuery}}',
-        similarIssues: '{{steps.findSimilarIssues.items}}',
-        customerName: '{{trigger.customerName}}',
-      },
-    },
-  ],
-})
-```
+- Semantic Similarity
+- Relevance Ranking
+- Facet Aggregation
+- Fuzzy Matching
+- Contextual Boosting
 
-## Installation
+### Result Management
 
-```bash
-npm install searches.do
-# or
-yarn add searches.do
-# or
-pnpm add searches.do
-```
+- Pagination
+- Sorting
+- Field Selection
+- Result Transformation
+- Format Conversion
 
-## The [.do](https://dotdo.ai) Ecosystem
+## Implementation Approaches
 
-Searches.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, designed to work seamlessly with other .do services:
+- Direct Query Construction
+- Query Builder Utilization
+- Template-Based Queries
+- Natural Language Queries
+- Programmatic Query Generation
 
-- **[apis.do](https://apis.do)** - The foundational SDK and unified API Gateway
-- **[functions.do](https://functions.do)** - Strongly-typed AI functions
-- **[workflows.do](https://workflows.do)** - Business process orchestration
-- **[agents.do](https://agents.do)** - Autonomous digital workers
-- **[actions.do](https://actions.do)** - External system operations
-- **[triggers.do](https://triggers.do)** - Event-driven process initiation
+## Integration Points
+
+- Function Context Enrichment
+- Workflow Decision Support
+- Agent Knowledge Retrieval
+- Trigger Condition Evaluation
+- Action Parameter Population
+
+## Getting Started
+
+- Configuring Search Sources
+- Creating Your First Query
+- Filtering and Sorting Results
+- Integrating Search with Functions
+- Optimizing Search Performance

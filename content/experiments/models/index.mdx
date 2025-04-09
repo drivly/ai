@@ -4,346 +4,102 @@ sidebarTitle: Models
 asIndexPage: true
 ---
 
-# Model Routing Language
+# Models - AI Model Management
 
-Model Routing Language (MRL) is a powerful yet intuitive syntax for dynamically selecting AI models based on capabilities, performance benchmarks,
-and cost constraints. MRL provides a standardized way to express model requirements through simple, human-readable expressions:
+> **Select, configure, and optimize AI models for specific business needs**
 
-```
-frontier(pdf,cost<1,evals>95)
-opensource(reasoning,code,throughput,swebench>50)
-gpt-4o(pdf,cost<15)
-frontier(thread:1234,json)
-gemini(reasoning,slack,discord)
-claude-3.7-sonnet@vertex:eu(reasoning:high)
-gpt-4o(latency,reasoning)
-```
+## Overview
 
-Each expression follows a consistent pattern:
+Models provide a comprehensive framework for selecting, configuring, and optimizing AI models within the .do ecosystem. This system enables organizations to choose the right models for specific tasks, manage model versions, and optimize performance based on business requirements.
 
-- **Model Family**: Specifies the model author, or meta-model group.
-- **Capabilities**: Lists required features like `pdf`, `reasoning`, or `code`
-- **Constraints**: Sets limits like `cost<15` (dollars per million tokens) or performance thresholds like `evals>95`
-- **Context**: Provides execution context like `thread:1234` for continuity
-- **Output Format**: Defines return formats like `json` or schema.org types
-- **Specific Model & Provider**: Optionally specify exact model and provider with `model@provider` syntax
-- **Regional Deployment**: Define regional requirements with `provider:region` format, allows for routing for legal and data protection reasons
-- **Capability Levels**: Set capability strength using `capability:level` notation
-- **Tool Calling**: Specify which tools a model should have access to with `model(tool.method,toolGroup)`
-- **Priority Dimensions**: Indicate optimization priorities like `latency`, `throughput`, or `intelligence`
+## Key Features
 
-MRL functions as the foundation for intelligent model routing across platforms, allowing systems to select the optimal AI model for each specific
-task based on explicit requirements.
+- **Model Selection** - Choose the optimal model for each specific task
+- **Provider Abstraction** - Reduce vendor lock-in with provider-agnostic interfaces
+- **Performance Optimization** - Select models based on benchmark performance
+- **Cost Management** - Control spending with explicit cost constraints
+- **Capability Matching** - Ensure models have required features for specific tasks
 
-## Who is this for?
+## Core Concepts
 
-MRL serves multiple stakeholders in the AI ecosystem:
+### Model Routing
 
-- **Developers**: Who need a simple, consistent way to specify model requirements without being locked into specific providers
-- **Platform Builders**: Creating AI orchestration layers that need to abstract away model selection complexities
-- **AI Product Managers**: Making cost-performance tradeoffs across different model options
-- **End Users**: Benefiting from "just right" model selection without needing to understand technical details
-- **Enterprise**: The need to use the best model for each task, without being locked into a specific provider, or needing to stay up to date withthe latest news
+- Dynamic Model Selection
+- Capability-Based Routing
+- Performance-Based Routing
+- Cost-Based Routing
+- Regional Routing
 
-The syntax is designed to be intuitive enough for new AI practitioners while offering the expressiveness needed by experienced engineers building complex systems.
+### Model Capabilities
 
-## How
+- Natural Language Processing
+- Code Generation
+- Reasoning and Problem Solving
+- Document Processing
+- Multimodal Understanding
 
-To support all of the above, we need to be able to express the following:
+### Model Constraints
 
-- Tool calling, with seamless integration with Composio and other tooling APIs
-- Filtering models by performance, cost, latency, etc.
-- Output Format (Structured Output, JSON, etc.)
-- Routing based on business requirements, region, and other constraints
-- Optimization priorities for different use cases
+- Cost Limitations
+- Performance Requirements
+- Latency Thresholds
+- Throughput Needs
+- Compliance Requirements
 
-### MRL Syntax
+### Output Formats
 
-`[author/model@host:location]([capability, priority, filters, tools and/or response formats])`
+- Structured Data
+- JSON and JSON Arrays
+- Plain Text
+- Markdown
+- Code Generation
 
-Within a single expression, you can specify:
+## Model Categories
 
-- Model Author
-- Model
-- Provider
-- Filters
-- Capabilities
-- Priorities
-- Tools
-- Response Formats
-- - more
+### Proprietary Models
 
-#### Providers
+- OpenAI Models
+- Anthropic Models
+- Google Models
+- Microsoft Models
+- Specialized Provider Models
 
-Providers are the AI companies that host the models. Often, this is the same as the author of a model, like with OpenAI's GPT-4o, or Anthropic's Claude.  
-You can pin a specific provider by using the `@` symbol at the end of the model name:
+### Open Source Models
 
-`claude-3.7-sonnet@vertex`
+- Llama Family
+- Mistral Models
+- Falcon Models
+- MPT Models
+- Specialized Open Models
 
-This will route the request to the Google Vertex AI provider.
+### Custom Models
 
-##### Examples
+- Fine-Tuned Models
+- Domain-Specific Models
+- Enterprise-Trained Models
+- Hybrid Models
+- Specialized Task Models
 
-- `openai/gpt-4o`
-- `anthropic/claude-3.7-sonnet`
-- `google/gemini-2.5-pro`
+## Implementation Approaches
 
-#### Models
+- Direct Model Selection
+- Capability-Based Routing
+- Performance-Based Selection
+- Cost-Optimized Routing
+- Compliance-Driven Selection
 
-Models are the specific instances of a model. Our API has aliases for most popular models, so you can type simply `gpt-4o` or `claude-3.7-sonnet` and we'll route you to the right place.
+## Integration Points
 
-For smaller models, like Mistral's `mistral-small-3.1-24b-instruct`, you will have to
-specify the full model name. Take Gemma 3 for example, it's a great model thats cheap and fast, but theres a lot of variants:
+- Function Execution
+- Workflow Processing
+- Agent Capabilities
+- Tool Integration
+- Data Processing
 
-- `gemma-3-27b-it`
-- `gemma-3-12b-it`
-- `gemma-3-4b-it`
-- `gemma-3-1b-it`
+## Getting Started
 
-Theres no set standard for how a model is named, which leads to a lot of confusion. We've tried to make it as easy as possible by providing aliases for the most popular models:
-
-##### Example aliases
-
-- `gpt-4o` -> `openai/gpt-4o-2024-11-20`
-- `claude-3.7-sonnet` -> `anthropic/claude-3.7-sonnet`
-- `gemini-2.5-pro` -> `gemini-2.5-pro-exp-03-25`
-- `gemini-2.0-flash` -> `gemini-2.0-flash-001`
-
-### Location
-
-Depending on what you're doing, you may need to use a specific region to comply with data protection laws. You can specify a region by using a specific provider and location:
-
-`claude-3.7-sonnet@vertex:eu`
-
-This will route the request to the Google Vertex AI provider in Europe.
-
-#### Examples
-
-- `claude-3.7-sonnet@vertex:eu`
-
-### Priorities
-
-MRL allows specifying optimization priorities to select the best model for specific needs:
-
-```
-gpt-4o(latency,reasoning)
-frontier(throughput,code)
-opensource(intelligence,cost<1)
-```
-
-Priority dimensions include:
-
-- **Latency**: Optimizes for low token count responses needing speed
-  - Example: `gpt-4o(latency,reasoning)` routes to the provider with the lowest latency for that model
-- **Throughput**: Optimizes for high token count responses needing sustained speed
-  - Example: `frontier(throughput,code)` selects models with high tokens-per-second throughput
-- **Intelligence**: Selects models based on benchmark performance
-  - Uses public benchmarks like SWE Bench or LM Arena
-  - Can leverage private evaluation suites when available
-  - Example: `opensource(intelligence,cost<1)` finds the most capable open source model under $1/M tokens
-
-These priority tags act as routing instructions, helping select the optimal model instance based on the specific use case requirements.
-
-### Filters and Constraints
-
-MRL supports precise filtering on multiple dimensions:
-
-```
-frontier(swebench>50,cost<2,latency<200ms)
-opensource(lmarena>75,throughput>1000)
-anthropic(cost<5,evals>90,privacy)
-```
-
-Filters can be applied to:
-
-- **Cost**: In dollars per million tokens
-  - Example: `cost<2` for models under $2/M tokens
-- **Performance**: Based on benchmarks
-  - Example: `swebench>50` for models scoring above 50% on SWE Bench
-  - Example: `lmarena>75` for models in the top 25% on LM Arena
-- **Private Evaluations**: Custom benchmark results
-  - Example: `evals>90` for models scoring 90%+ on proprietary evaluation suite
-
-Filters function as hard requirements, ensuring selected models meet all specified thresholds.
-
-#### Benchmarks
-
-You can specify a benchmark where the model must have a score of at least the value specified. You can use your own benchmarks by using the name in the config:
-
-Lets say you have the following benchmark:
-
-```json
-{
-  "slug": "dealReviewBenchmark",
-  "name": "Deal Review Benchmark",
-  ...
-}
-```
-
-You can then use this benchmark in your MRL expression:
-
-```
-frontier(dealReviewBenchmark>75)
-```
-
-This will route to the model that has the highest score on the Deal Review Benchmark.
-
-### Tool Calling
-
-MRL seamlessly integrates tools with Composio, enabling precise specification of which tools a model should have access to:
-
-```
-gemini(slack,discord.sendMessage)
-anthropic(reasoning,github,jira.createTicket)
-opensource(reasoning,stripe,twilio.sendSMS)
-gemini(reasoning,slack,discord)
-```
-
-This syntax follows clear patterns:
-
-- **Full API Access**: `model(apiName)` grants access to all tools within an API
-
-  - Example: `frontier(slack)` gives access to all Slack methods
-  - Example: `gemini(reasoning,slack,discord)` gives access to all Slack and Discord methods
-
-- **Specific Methods**: `model(apiName.method)` grants access to a single method
-
-  - Example: `gemini(discord.sendMessage)` limits access to just sending Discord messages
-
-- **Mixed Access Levels**: Combine broad and narrow permissions in a single expression
-  - Example: `anthropic(github,jira.createTicket)` provides full GitHub access but restricts Jira to ticket creation only
-
-This approach allows for granular security control while maintaining the simplicity of the routing language. Developers can ensure models have exactly the tool access needed—no more, no less—reducing potential security risks while enabling powerful automation.
-
-The tool calling syntax integrates with the rest of MRL, so expressions like `frontier(reasoning,github,cost<5)` can specify both tool access and other constraints.
-
-<div style={{ backgroundColor: '#1a1a1a', padding: '1rem', borderRadius: '4px' }}>
-  <b>Note:</b>  
-  We need to have further discussion on how to handle tool calling with config. Right now, the best option is to use a format like this:
-  `gemini(slack.sendMessage(channel:#sales,title:'New Thread'))`
-
-However, this can be cumbersome and hard to read.
-
-</div>
-
-### Response Formats
-
-MRL supports specifying diverse output formats to match Generation Functions capabilities:
-
-```
-frontier(JSON,Person)
-gpt-4o(JSONArray,Product[])
-claude(Text)
-anthropic(TextArray)
-gemini(Markdown)
-opensource(Code:TypeScript,code)
-```
-
-Available formats include:
-
-- **JSON**: Structured JSON output with optional schema
-  - Example: `JSON, Person` returns a JSON object with Person schema
-  - Example: `output:{ address: string, phoneNumber: number }` returns JSON with custom schema
-- **JSON Array**: Array of structured objects
-  - Example: `JSONArray,Product[]` returns array of Product objects
-- **Text**: Plain text responses
-  - Example: `Text` for unformatted text output
-- **Text Array**: Ordered lists parsed as string arrays
-  - Example: `TextArray` for numbered markdown lists parsed as string[]
-- **Markdown**: With parsed Markdown AST
-  - Example: `Markdown` for richly formatted content
-- **Code**: Returns an implementation in the language specified, defaults to TypeScript
-  - Example: `code:Python` to output a Python script
-
-Future format support will include:
-
-- Image generation
-- Voice synthesis
-- Video creation
-
-### Structured Output with Schema Types
-
-MRL supports specifying structured output formats using standard schema.org types or custom schemas:
-
-```
-frontier(reasoning,Brand)
-opensource(reasoning,throughput,Product)
-r1(output:DealReview,cost)
-```
-
-When using schema.org types:
-
-- The model will return data structured according to the specified schema
-- No additional specification is needed for standard types like `Brand`, `Product`, `Person`
-- Custom types can be defined for domain-specific needs
-
-For example, `gemini-2.0-flash(Brand)` would return structured data like:
-
-```json
-{
-  "@type": "Brand",
-  "name": "Acme Corporation",
-  "logo": "https://example.com/logo.png",
-  "description": "Leading provider of innovative solutions",
-  "url": "https://acme.example.com",
-  "sameAs": ["https://twitter.com/acmecorp", "https://www.linkedin.com/company/acmecorp"]
-}
-```
-
-You can also specify a schema for the output (styled like TypeScript):
-
-```
-r1(output:{ address: string, phoneNumber: number, name: string }, cost)
-```
-
-```json
-{
-  "address": "123 Main St",
-  "phoneNumber": 1234567890,
-  "name": "John Doe"
-}
-```
-
-This makes it easy to generate consistent structured data across different models and providers while adhering to widely-used standards.
-
-### Specific Models and Capability Levels
-
-MRL enables precise control over model selection and capability configuration:
-
-```
-claude-3.7-sonnet@vertex:eu(reasoning:high)
-gpt-4o@azure:westus(pdf,cost<20)
-gemini-2.5-pro@gcp:asia(code,throughput>500)
-```
-
-This extended syntax provides:
-
-- **Exact Model Selection**: Specify exact model versions when needed
-  - Example: `claude-3.7-sonnet` targets a specific Claude model
-- **Provider Specification**: Define which cloud platform to use
-  - Example: `@vertex` routes to Google's Vertex AI platform
-  - Example: `@azure` routes to Microsoft Azure
-  - Note: if the region is not supported (Mistral in euwest), it will be ignored
-- **Regional Requirements**: Control data sovereignty and latency
-  - Example: `:eu` ensures European data processing
-  - Example: `:uswest` specifies western US data centers
-- **Capability Levels**: Fine-tune specific capabilities
-  - Example: `reasoning:high` requests enhanced reasoning capabilities (on Anthropic models, this raises `maxThinkingToken` to a preset amount)
-  - Example: `code` requests code execution
-
-This granular control enables compliance with regional regulations, optimizes for latency requirements, and fine-tunes specific model capabilities while maintaining the simple, expressive syntax of MRL.
-
-## Why
-
-MRL addresses critical challenges in the rapidly evolving AI landscape:
-
-1. **Reducing Vendor Lock-in**: Abstract away specific model versions and providers
-2. **Performance Optimization**: Select models based on specific benchmark performance
-3. **Cost Management**: Explicitly control spending with cost constraints (in dollars per million tokens)
-4. **Capability Matching**: Ensure models have required features (PDF processing, reasoning, etc.)
-5. **Future-Proofing**: As new models emerge, routing rules remain consistent
-6. **Standardization**: Create a common language for model requirements across tools and platforms
-
-As AI models proliferate across providers, open source ecosystems, and specialized applications, MRL provides a vital abstraction layer, allowing systems to transparently select the right model for each task based on explicit requirements rather than hardcoded choices.
-
-By functioning as the foundation for systems like `models.do`, `llm.do`, and `functions.do`, MRL creates a powerful routing mechanism that can evolve alongside the AI ecosystem while maintaining a consistent interface for developers.
+- Selecting Your First Model
+- Defining Model Requirements
+- Optimizing Model Selection
+- Managing Model Costs
+- Evaluating Model Performance

@@ -1,5 +1,72 @@
 ---
+title: Agents API
+sidebarTitle: Agents
 asIndexPage: true
 ---
 
-# agents.do
+# Agents API
+
+> **RESTful endpoints for managing autonomous digital workers**
+
+## Overview
+
+The Agents API provides a comprehensive set of endpoints for creating, configuring, and managing autonomous agents. This API allows you to programmatically control agent behavior, assign tools, monitor performance, and integrate agents into your applications.
+
+## Key Features
+
+- **Agent Lifecycle Management** - Create, update, and delete agents
+- **Tool Assignment** - Configure agent capabilities by assigning tools
+- **Role Management** - Apply and customize predefined agent roles
+- **Execution Control** - Start, pause, and stop agent tasks
+- **Performance Monitoring** - Track agent metrics and effectiveness
+
+## Endpoints
+
+### Agent Management
+
+- **GET /agents** - List all available agents
+- **GET /agents/:id** - Retrieve a specific agent
+- **POST /agents** - Create a new agent
+- **PUT /agents/:id** - Update an existing agent
+- **DELETE /agents/:id** - Remove an agent
+
+### Tool Configuration
+
+- **GET /agents/:id/tools** - List tools assigned to an agent
+- **POST /agents/:id/tools** - Assign tools to an agent
+- **DELETE /agents/:id/tools/:toolId** - Remove a tool from an agent
+
+### Role Management
+
+- **GET /agents/roles** - List available agent roles
+- **GET /agents/:id/role** - Get the current role of an agent
+- **PUT /agents/:id/role** - Assign or change an agent's role
+
+### Execution
+
+- **POST /agents/:id/execute** - Execute a task with an agent
+- **GET /agents/:id/tasks** - List tasks assigned to an agent
+- **GET /agents/:id/tasks/:taskId** - Get details of a specific task
+- **PUT /agents/:id/tasks/:taskId/cancel** - Cancel a running task
+
+### Analytics
+
+- **GET /agents/:id/metrics** - Retrieve performance metrics
+- **GET /agents/:id/history** - Get execution history
+- **GET /agents/:id/logs** - Access agent execution logs
+
+## Integration
+
+- Authentication Requirements
+- Rate Limiting Considerations
+- Webhook Configuration
+- Event Subscriptions
+- Error Handling
+
+## Examples
+
+- Creating a New Agent
+- Assigning Tools to an Agent
+- Executing a Task
+- Monitoring Performance
+- Implementing Webhooks

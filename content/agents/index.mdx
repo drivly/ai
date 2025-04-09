@@ -4,206 +4,75 @@ sidebarTitle: Agents
 asIndexPage: true
 ---
 
-# [Agents.do](https://agents.do) - Autonomous Digital Workers
+# Agents - Autonomous Digital Workers
 
 > **Intelligent autonomous workers that accomplish business tasks with elegance**
 
 ## Overview
 
-Agents.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, providing a clean, type-safe interface for creating and managing autonomous digital workers. These intelligent agents combine the power of functions, workflows, and integrations to accomplish complex business tasks with minimal human intervention.
-
-## The Challenge
-
-Building autonomous business systems presents several challenges:
-
-- **Decision Complexity**: Enabling AI to make appropriate business decisions
-- **Tool Orchestration**: Coordinating multiple capabilities for complex tasks
-- **Context Awareness**: Maintaining relevant context across interactions
-- **Human Collaboration**: Seamlessly working alongside human operators
-- **Adaptability**: Responding to changing business conditions
+Agents are a core primitive of the .do ecosystem, providing a clean, type-safe interface for creating and managing autonomous digital workers. These intelligent agents combine the power of Functions, Workflows, and Integrations to accomplish complex business tasks with minimal human intervention.
 
 ## Key Features
 
 - **Elegant Agent Design** - Clean, intuitive interfaces for autonomous workers
-- **Seamless Tool Integration** - Effortless access to functions, workflows, and integrations
+- **Seamless Tool Integration** - Effortless access to Functions, Workflows, and Integrations
 - **Intelligent Decision-Making** - Autonomous operation within defined parameters
 - **Minimal Configuration** - Simple setup with sensible defaults
 - **Human Collaboration** - Graceful handoffs between AI and human operators
 
-## Elegant API Design
+## Core Concepts
 
-Agents.do provides a clean, intuitive interface for creating and managing autonomous digital workers:
+### Agent Definition
 
-```typescript
-import { Agent } from 'agents.do'
+- Agent Name and Description
+- Model Configuration
+- Memory and Context Management
+- Tool Access and Permissions
 
-// Simple initialization with default settings
-const agent = new Agent({
-  name: 'customer-support',
-  description: 'Helps customers with product questions and technical issues',
-})
+### Tool Integration
 
-// Or with custom configuration
-const agent = new Agent({
-  name: 'research-assistant',
-  description: 'Conducts in-depth research on specified topics',
-  model: 'openai/gpt-4o',
-  memory: {
-    type: 'conversational',
-    retention: '30d',
-  },
-})
-```
+- Functions as Tools
+- Workflows as Tools
+- Integrations as Tools
+- Custom Tool Development
 
-## Tool Integration
+### Intelligent Interactions
 
-A powerful capability of Agents.do is the elegant integration with other [.do](https://dotdo.ai) services as tools:
+- Task Handling
+- Context Management
+- Decision Making
+- Response Generation
 
-```typescript
-import { Agent } from 'agents.do'
-import { AI } from 'functions.do'
+### Human Collaboration
 
-// Define AI functions
-const ai = AI({
-  generateSummary: {
-    text: 'string',
-    maxLength: 'number',
-    summary: 'string',
-  },
+- Escalation Mechanisms
+- Human-in-the-Loop Workflows
+- Approval Processes
+- Handoff Protocols
 
-  analyzeData: {
-    data: 'any[]',
-    metrics: 'string[]',
-    results: 'Record<string, number>',
-  },
-})
+## Agent Types
 
-// Create an agent with access to functions as tools
-const researchAgent = new Agent({
-  name: 'research-assistant',
-  description: 'Conducts comprehensive research on business topics',
-  tools: [ai.generateSummary, ai.analyzeData, ai.searchWeb, ai.requestHumanVerification],
-})
+- Customer Support Agents
+- Research Assistants
+- Content Creation Agents
+- Data Analysis Agents
+- Operations Assistants
 
-// Create an agent with access to workflows as tools
-const customerSupportAgent = new Agent({
-  name: 'support-assistant',
-  description: 'Helps customers with product issues and service requests',
-  tools: [workflows.escalationProcess, workflows.refundRequest, workflows.knowledgeBaseUpdate],
-})
+## The .do Ecosystem
 
-// Create an agent with access to searches as tools
-const knowledgeAgent = new Agent({
-  name: 'knowledge-assistant',
-  description: 'Provides accurate information from company knowledge bases',
-  tools: [searches.productCatalog, searches.customerRecords, searches.knowledgeBase],
-})
-```
+Agents are designed to work seamlessly with other .do services:
 
-## Intelligent Interactions
+- **Functions** - Strongly-typed AI functions
+- **Workflows** - Business process orchestration
+- **Integrations** - External system connectors
+- **Triggers** - Event-driven process initiation
+- **Actions** - External system operations
+- **Searches** - Contextual data retrieval
 
-Agents.do enables elegant, context-aware interactions with users and systems:
+## Getting Started
 
-```typescript
-// Handle a customer inquiry with minimal configuration
-const response = await supportAgent.handle({
-  message: 'I never received my order #12345',
-  context: {
-    customer: {
-      id: 'cus_789',
-      name: 'Jane Smith',
-      tier: 'Premium',
-    },
-  },
-})
-
-// Handle a complex business task with elegant configuration
-const result = await operationsAgent.handle({
-  task: 'Update customer information and notify the support team',
-  context: {
-    customer: customerData,
-    changes: { email: 'new@example.com' },
-    priority: 'High',
-  },
-})
-```
-
-## Seamless Human Collaboration
-
-Agents.do provides elegant handoffs between AI and human operators:
-
-```typescript
-// Create an agent with human collaboration capabilities
-const reviewAgent = new Agent({
-  name: 'content-reviewer',
-  description: 'Reviews and improves marketing content',
-  humanCollaboration: {
-    enabled: true,
-    escalationThreshold: 0.7, // Confidence threshold for escalation
-    assignTo: 'marketing-team',
-  },
-})
-
-// Handle a task with potential human handoff
-const reviewResult = await reviewAgent.handle({
-  content: draftContent,
-  guidelines: brandGuidelines,
-  deadline: '2023-04-10T15:00:00Z',
-})
-
-// Check if the task was handled by AI or escalated
-if (reviewResult.handledBy === 'ai') {
-  console.log('AI completed the review:', reviewResult.improvements)
-} else {
-  console.log('Task escalated to:', reviewResult.assignedTo)
-  console.log('Escalation reason:', reviewResult.escalationReason)
-}
-```
-
-## The [.do](https://dotdo.ai) Ecosystem
-
-Agents.do is designed to work seamlessly with other [.do](https://dotdo.ai) services:
-
-- **[apis.do](https://apis.do)** - The foundational SDK and unified API Gateway
-- **[functions.do](https://functions.do)** - Strongly-typed AI functions
-- **[workflows.do](https://workflows.do)** - Business process orchestration
-- **[triggers.do](https://triggers.do)** - Event-driven process initiation
-- **[actions.do](https://actions.do)** - External system operations
-- **[searches.do](https://searches.do)** - Contextual data retrieval
-
-## Installation
-
-```bash
-npm install agents.do
-# or
-yarn add agents.do
-# or
-pnpm add agents.do
-```
-
-## Quick Start
-
-```typescript
-import { Agent } from 'agents.do'
-
-// Create a customer support agent with minimal configuration
-const supportAgent = new Agent({
-  name: 'customer-support',
-  description: 'Assists customers with product questions and technical issues',
-})
-
-// Use the agent to handle a customer inquiry
-const response = await supportAgent.handle({
-  message: "I'm having trouble connecting my device to WiFi",
-  context: {
-    customer: {
-      id: 'cus_12345',
-      name: 'John Doe',
-      recentPurchases: [{ id: 'prod_789', name: 'Smart Hub' }],
-    },
-  },
-})
-
-console.log(response.message)
-// "I see you recently purchased a Smart Hub. Let me help you connect it to WiFi..."
-```
+- Installation
+- Basic Configuration
+- Adding Tools
+- Handling Tasks
+- Deployment Options

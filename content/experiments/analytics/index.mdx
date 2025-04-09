@@ -1,85 +1,87 @@
-# Analytics
+---
+title: Analytics
+sidebarTitle: Analytics
+asIndexPage: true
+---
 
-Measure business impact and performance of your AI applications with KPIs and OKRs that matter to stakeholders.
+# Analytics - Business Impact Measurement
+
+> **Measure business impact and performance of your AI applications with meaningful metrics**
 
 ## Overview
 
-Analytics provides a framework for measuring, analyzing, and reporting on the business impact of your AI applications. It enables you to:
+Analytics provides a comprehensive framework for measuring, analyzing, and reporting on the business impact of AI applications within the .do ecosystem. This system enables organizations to track performance, measure ROI, compare experiments, and align technical metrics with business objectives.
 
-- Track key performance indicators (KPIs) for AI-driven processes
-- Measure return on investment (ROI) of AI initiatives
-- Compare performance across A/B tests and experiments
-- Align technical metrics with business objectives (OKRs)
+## Key Features
 
-## Features
+- **Business Metrics** - Track KPIs that matter to stakeholders
+- **ROI Analysis** - Calculate financial impact of AI investments
+- **Experiment Tracking** - Compare performance across A/B tests
+- **OKR Alignment** - Connect AI performance to business objectives
+- **Custom Dashboards** - Create reports for different stakeholders
 
-- **Business Metrics**: Track KPIs that matter to stakeholders
-- **ROI Analysis**: Calculate financial impact of AI investments
-- **Experiment Tracking**: Compare performance across A/B tests
-- **OKR Alignment**: Connect AI performance to business objectives
-- **Custom Dashboards**: Create reports for different stakeholders
+## Core Concepts
 
-## Usage
+### Metric Types
 
-```text
-import { trackMetric, defineExperiment } from 'analytics.do'
+- Key Performance Indicators (KPIs)
+- Return on Investment (ROI)
+- Conversion Metrics
+- Engagement Metrics
+- Efficiency Metrics
 
-// Define an A/B test experiment
-const productRecommendationTest = defineExperiment({
-  name: 'product_recommendation_algorithm',
-  description: 'Test different recommendation algorithms',
-  variants: [
-    { id: 'control', description: 'Current algorithm' },
-    { id: 'collaborative', description: 'Collaborative filtering' },
-    { id: 'content_based', description: 'Content-based filtering' },
-  ],
-  metrics: {
-    primary: 'conversion_rate',
-    secondary: ['revenue_per_user', 'click_through_rate'],
-  },
-})
+### Experiment Design
 
-// Track metrics for business KPIs
-await trackMetric({
-  name: 'conversion',
-  value: 1,
-  metadata: {
-    userId,
-    productId,
-    revenue,
-    experimentId: 'product_recommendation_algorithm',
-    variant: 'collaborative',
-  },
-})
+- A/B Testing Framework
+- Variant Definition
+- Control Groups
+- Statistical Significance
+- Experiment Duration
 
-// Update KPI dashboard aligned with business OKRs
-await analytics.updateKpiDashboard({
-  metric: 'revenue_from_recommendations',
-  value: revenue,
-  dimensions: {
-    experiment: 'product_recommendation_algorithm',
-    variant: 'collaborative',
-  },
-})
-```
+### Data Collection
 
-## React Integration
+- Event Tracking
+- User Journey Analysis
+- Funnel Visualization
+- Cohort Analysis
+- Attribution Modeling
 
-For React applications, you can use the Analytics component to automatically track page views:
+### Reporting
 
-```text
-import { Analytics } from 'analytics.do'
+- Executive Dashboards
+- Operational Reports
+- Trend Analysis
+- Comparative Benchmarks
+- Predictive Insights
 
-function MyApp({ Component, pageProps }) {
-  return (
-    <>
-      <Component {...pageProps} />
-      <Analytics />
-    </>
-  )
-}
-```
+## Implementation Approaches
 
-## Server-Side Integration
+- Client-Side Integration
+- Server-Side Collection
+- Hybrid Analytics
+- Real-Time Monitoring
+- Batch Processing
 
-For server-side analytics collection, the SDK integrates with our Clickhouse-based analytics service, which handles data storage, processing, and visualization.
+## Business Applications
+
+- Product Optimization
+- Marketing Effectiveness
+- Operational Efficiency
+- Customer Experience
+- Strategic Decision-Making
+
+## Integration Points
+
+- Workflow Performance
+- Function Effectiveness
+- Agent Productivity
+- Integration Efficiency
+- System Reliability
+
+## Getting Started
+
+- Setting Up Analytics
+- Defining Key Metrics
+- Creating Your First Experiment
+- Building Custom Dashboards
+- Interpreting Results

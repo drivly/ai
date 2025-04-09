@@ -1,85 +1,79 @@
-# Analytics
+---
+title: Analytics
+sidebarTitle: Analytics
+asIndexPage: true
+---
 
-Measure business impact and performance of your AI applications with KPIs and OKRs that matter to stakeholders.
+# Analytics - Performance Measurement Framework
+
+> **Measure business impact and performance of AI applications with precision**
 
 ## Overview
 
-Analytics provides a framework for measuring, analyzing, and reporting on the business impact of your AI applications. It enables you to:
+Analytics provides a comprehensive framework for measuring, analyzing, and reporting on the business impact of AI applications. This system enables organizations to track key performance indicators, measure return on investment, compare experimental results, and align technical metrics with business objectives.
 
-- Track key performance indicators (KPIs) for AI-driven processes
-- Measure return on investment (ROI) of AI initiatives
-- Compare performance across A/B tests and experiments
-- Align technical metrics with business objectives (OKRs)
+## Key Features
 
-## Features
+- **Business Metrics** - Track KPIs that matter to stakeholders
+- **ROI Analysis** - Calculate financial impact of AI investments
+- **Experiment Tracking** - Compare performance across A/B tests
+- **OKR Alignment** - Connect AI performance to business objectives
+- **Custom Dashboards** - Create reports for different stakeholders
 
-- **Business Metrics**: Track KPIs that matter to stakeholders
-- **ROI Analysis**: Calculate financial impact of AI investments
-- **Experiment Tracking**: Compare performance across A/B tests
-- **OKR Alignment**: Connect AI performance to business objectives
-- **Custom Dashboards**: Create reports for different stakeholders
+## Core Concepts
 
-## Usage
+### Metric Types
 
-```text
-import { trackMetric, defineExperiment } from 'analytics.do'
+- Performance Metrics
+- Business Impact Metrics
+- User Engagement Metrics
+- Operational Metrics
+- Financial Metrics
 
-// Define an A/B test experiment
-const productRecommendationTest = defineExperiment({
-  name: 'product_recommendation_algorithm',
-  description: 'Test different recommendation algorithms',
-  variants: [
-    { id: 'control', description: 'Current algorithm' },
-    { id: 'collaborative', description: 'Collaborative filtering' },
-    { id: 'content_based', description: 'Content-based filtering' },
-  ],
-  metrics: {
-    primary: 'conversion_rate',
-    secondary: ['revenue_per_user', 'click_through_rate'],
-  },
-})
+### Data Collection
 
-// Track metrics for business KPIs
-await trackMetric({
-  name: 'conversion',
-  value: 1,
-  metadata: {
-    userId,
-    productId,
-    revenue,
-    experimentId: 'product_recommendation_algorithm',
-    variant: 'collaborative',
-  },
-})
+- Event Tracking
+- User Interaction Monitoring
+- System Performance Logging
+- Integration Metrics
+- Custom Data Points
 
-// Update KPI dashboard aligned with business OKRs
-await analytics.updateKpiDashboard({
-  metric: 'revenue_from_recommendations',
-  value: revenue,
-  dimensions: {
-    experiment: 'product_recommendation_algorithm',
-    variant: 'collaborative',
-  },
-})
-```
+### Analysis Methods
 
-## React Integration
+- Real-time Analysis
+- Historical Trends
+- Comparative Studies
+- Predictive Analytics
+- Anomaly Detection
 
-For React applications, you can use the Analytics component to automatically track page views:
+### Visualization Options
 
-```text
-import { Analytics } from 'analytics.do'
+- Executive Dashboards
+- Performance Reports
+- Trend Analysis
+- Comparative Views
+- Custom Visualizations
 
-function MyApp({ Component, pageProps }) {
-  return (
-    <>
-      <Component {...pageProps} />
-      <Analytics />
-    </>
-  )
-}
-```
+## Integration Points
 
-## Server-Side Integration
+- Application Integration
+- Workflow Monitoring
+- Function Performance
+- Agent Effectiveness
+- System Health Metrics
 
-For server-side analytics collection, the SDK integrates with our Clickhouse-based analytics service, which handles data storage, processing, and visualization.
+## Implementation Approaches
+
+- Client-Side Analytics
+- Server-Side Collection
+- Hybrid Approaches
+- Data Warehousing
+- Real-time Processing
+
+## Getting Started
+
+- Setting Up Analytics
+- Defining Key Metrics
+- Creating Dashboards
+- Analyzing Results
+- Making Data-Driven Decisions
