@@ -14,9 +14,9 @@ const meta: MetaRecord = {
     type: 'separator',
     title: 'AI',
   },
-  workflows: '',
   functions: '',
   agents: '',
+  workflows: '',
 
   _: {
     type: 'separator',
