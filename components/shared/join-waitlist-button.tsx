@@ -3,7 +3,7 @@
 import { signIn } from '@/lib/auth/auth-client'
 import { Button } from '@drivly/ui'
 import { cn } from '@drivly/ui/lib'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { useState } from 'react'
 import { siteConfig } from '../site-config'
 
@@ -15,16 +15,12 @@ export interface JoinWaitlistButtonProps {
 
 export const JoinWaitlistButton = (props: JoinWaitlistButtonProps) => {
   const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
-
-  const joinWaitlist = async () => {
-    setIsLoading(true)
-    router.push(siteConfig.baseLinks.waitlist)
-  }
 
   return (
-    <Button disabled={isLoading} variant={props.variant} className={cn('cursor-pointer', props.className)} onClick={joinWaitlist}>
-      {props.children || 'Join Waitlist'}
-    </Button>
+    <Link href={siteConfig.baseLinks.waitlist} passHref>
+      <Button variant={props.variant} className={cn('cursor-pointer', props.className)}>
+        {props.children || 'Join Waitlist'}
+      </Button>
+    </Link>
   )
 }
