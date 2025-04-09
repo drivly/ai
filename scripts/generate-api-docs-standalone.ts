@@ -16,16 +16,20 @@ const generateApiDocs = async () => {
       fs.mkdirSync(apisDir, { recursive: true })
     }
 
-    const metaPath = path.join(apisDir, '_meta.js')
+    const metaPath = path.join(apisDir, '_meta.ts')
     if (!fs.existsSync(metaPath)) {
       fs.writeFileSync(
         metaPath,
-        `module.exports = {
+        `import type { MetaRecord } from 'nextra'
+
+const meta: MetaRecord = {
   index: 'API Reference',
 }
+
+export default meta
 `,
       )
-      console.log('Created _meta.js file for apis.do directory')
+      console.log('Created _meta.ts file for apis.do directory')
     }
 
     const indexPath = path.join(apisDir, 'index.mdx')
@@ -158,7 +162,7 @@ sidebarTitle: ${title}
 group: ${group}
 ---
 
-import { unstable_TSDoc as TSDoc } from 'nextra/tsdoc'
+import { TSDoc } from 'nextra/components'
 
 # ${title} API
 
@@ -215,7 +219,7 @@ description: API documentation for all collections
 asIndexPage: true
 ---
 
-import { unstable_TSDoc as TSDoc } from 'nextra/tsdoc'
+import { TSDoc } from 'nextra/components'
 
 # API Reference
 
