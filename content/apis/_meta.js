@@ -1,5 +1,6 @@
 export default {
-  apis: '',
+  index: 'APIs',
+  apis: 'API Reference',
   workflows: '',
   functions: '',
   agents: '',

@@ -17,7 +17,7 @@ const updateApiDocsIndex = async () => {
   try {
     console.log('Updating API documentation index...')
 
-    const apisDir = path.resolve(process.cwd(), 'content/apis')
+    const apisDir = path.resolve(process.cwd(), 'content/apis/apis')
     if (!fs.existsSync(apisDir)) {
       console.error('APIs directory does not exist')
       process.exit(1)
@@ -67,7 +67,7 @@ This section contains API documentation for all collections in the system, organ
       const sortedApis = apisByGroup[group].sort((a, b) => a.title.localeCompare(b.title))
 
       for (const api of sortedApis) {
-        indexContent += `- [${api.title}](/${api.slug})\n`
+        indexContent += `- [${api.title}](/docs/apis/${api.slug})\n`
       }
 
       indexContent += '\n'

@@ -3,7 +3,7 @@ import config from '../payload.config'
 
 /**
  * Script to generate API documentation for all collections
- * This creates MDX files in the /content/apis directory
+ * This creates MDX files in the /content/apis/apis directory
  */
 const generateApiDocs = async () => {
   try {

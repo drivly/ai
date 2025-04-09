@@ -10,7 +10,7 @@ const generateApiDocs = async () => {
   try {
     console.log('Generating API documentation for collections...')
 
-    const apisDir = path.resolve(process.cwd(), 'content/apis')
+    const apisDir = path.resolve(process.cwd(), 'content/apis/apis')
     if (!fs.existsSync(apisDir)) {
       fs.mkdirSync(apisDir, { recursive: true })
     }

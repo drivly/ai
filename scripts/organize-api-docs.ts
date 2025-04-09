@@ -19,7 +19,7 @@ const organizeApiDocs = async () => {
   try {
     console.log('Organizing API documentation into subfolders by admin group...')
 
-    const apisDir = path.resolve(process.cwd(), 'content/apis')
+    const apisDir = path.resolve(process.cwd(), 'content/apis/apis')
     if (!fs.existsSync(apisDir)) {
       console.error('APIs directory does not exist')
       process.exit(1)
@@ -118,7 +118,7 @@ This section contains API documentation for all collections in the system, organ
 
     for (const api of sortedApis) {
       const groupPath = group.toLowerCase().replace(/\s+/g, '-')
-      indexContent += `- [${api.title}](/${groupPath}/${api.slug})\n`
+      indexContent += `- [${api.title}](/docs/apis/${groupPath}/${api.slug})\n`
     }
 
     indexContent += '\n'
