@@ -4,89 +4,31 @@ sidebarTitle: Things
 group: Data
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Things API
 
 API for managing Things resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### singular
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Singular form
-
-
-### plural
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Plural form
-
-
-### possessive
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Possessive form
-
-
-### pluralPossessive
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Plural possessive form
-
-
-### verb
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Related verb
-
-
-### act
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Third person singular present tense
-
-
-### activity
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Gerund
-
-
-### event
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Past tense
-
-
-### resources
-
-- **Type**: `join`
-- **Required**: No
-
+<TSDoc code={"interface Things {
+  name?: string;
+  singular?: string;
+  plural?: string;
+  possessive?: string;
+  pluralPossessive?: string;
+  verb?: string;
+  act?: string;
+  activity?: string;
+  event?: string;
+  resources?: any;
+}"} />
 
 
 

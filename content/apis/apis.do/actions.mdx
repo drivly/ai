@@ -4,49 +4,26 @@ sidebarTitle: Actions
 group: Events
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Actions API
 
 API for managing Actions resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### subject
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### verb
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### object
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### hash
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### generation
-
-- **Type**: `join`
-- **Required**: No
-
+<TSDoc code={"interface Actions {
+  subject?: string;
+  verb?: string;
+  object?: string;
+  hash?: string;
+  generation?: any;
+}"} />
 
 
 

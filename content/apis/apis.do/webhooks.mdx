@@ -4,49 +4,26 @@ sidebarTitle: Webhooks
 group: Admin
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Webhooks API
 
 API for managing Webhooks resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### url
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### filters
-
-- **Type**: `array`
-- **Required**: No
-
-
-
-
-### enabled
-
-- **Type**: `checkbox`
-- **Required**: No
-- **Default**: `true`
-
-
-
-### secret
-
-- **Type**: `text`
-- **Required**: No
-
+<TSDoc code={"interface Webhooks {
+  name?: string;
+  url: string;
+  filters?: any[];
+  enabled?: boolean;
+  secret?: string;
+}"} />
 
 
 

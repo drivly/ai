@@ -4,58 +4,28 @@ sidebarTitle: EvalRuns
 group: Evals
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # EvalRuns API
 
 API for managing EvalRuns resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
+<TSDoc code={"interface EvalRuns {
+  name: string;
+  description?: string;
+  testIds?: any[];
+  results?: any[];
+  startedAt?: string;
+  completedAt?: string;
+}"} />
 
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### description
-
-- **Type**: `textarea`
-- **Required**: No
-
-
-
-
-### testIds
-
-- **Type**: `array`
-- **Required**: No
-
-- **Description**: References to evaluation tests included in this run
-
-
-### results
-
-- **Type**: `array`
-- **Required**: No
-
-- **Description**: References to evaluation results for this run
-
-
-### startedAt
-
-- **Type**: `date`
-- **Required**: No
-
-- **Description**: When the evaluation run started
-
-
-### completedAt
-
-- **Type**: `date`
-- **Required**: No
-
-- **Description**: When the evaluation run completed
 
 
 

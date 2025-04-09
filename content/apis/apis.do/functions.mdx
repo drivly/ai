@@ -4,122 +4,36 @@ sidebarTitle: Functions
 group: AI
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Functions API
 
 API for managing Functions resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
+<TSDoc code={"interface Functions {
+  name: string;
+  type?: 'Generation' | 'Code' | 'Human' | 'Agent';
+  public?: boolean;
+  clonedFrom?: string;
+  pricing?: any;
+  format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code';
+  schemaYaml?: string;
+  shape?: Record<string, any>;
+  code?: string;
+  prompt?: string;
+  role?: string;
+  user?: string;
+  agent?: string;
+  examples?: string[];
+}"} />
 
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### type
-
-- **Type**: `select`
-- **Required**: No
-- **Default**: `Generation`
-
-
-
-### public
-
-- **Type**: `checkbox`
-- **Required**: No
-- **Default**: `false`
-- **Description**: Make this function available to other users
-
-
-### clonedFrom
-
-- **Type**: `relationship`
-- **Required**: No
-
-- **Description**: Original function this was cloned from
-
-
-### pricing
-
-- **Type**: `group`
-- **Required**: No
-
-- **Description**: Monetization settings for this function
-
-
-### format
-
-- **Type**: `select`
-- **Required**: No
-- **Default**: `Object`
-
-
-
-### schemaYaml
-
-- **Type**: `code`
-- **Required**: No
-
-
-
-
-### shape
-
-- **Type**: `json`
-- **Required**: No
-
-
-
-
-### code
-
-- **Type**: `code`
-- **Required**: No
-
-
-
-
-### prompt
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### role
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### user
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### agent
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### examples
-
-- **Type**: `relationship`
-- **Required**: No
-
-- **Description**: Example arguments for this function
 
 
 

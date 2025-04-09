@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { collections } from '../collections'
-import type { Field } from 'payload/types'
+import type { Field } from 'payload'
 
 /**
  * Standalone script to generate API documentation for all collections
@@ -117,11 +117,9 @@ const generateCollectionDoc = async (collection: any, apisDir: string) => {
   const fieldDocs = `
 ## Fields
 
-\`\`\`typescript
-interface ${title} {
+<TSDoc code={"interface ${title} {
 ${generateTypeInterface(fields)}
-}
-\`\`\`
+}"} />
 
 `
 
@@ -156,11 +154,7 @@ sidebarTitle: ${title}
 group: ${group}
 ---
 
-import { Callout } from 'nextra/components'
-import { Tab, Tabs } from 'nextra/components'
-import { Steps } from 'nextra/components'
-import { FileTree } from 'nextra/components'
-import { Cards, Card } from 'nextra/components'
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
 
 # ${title} API
 

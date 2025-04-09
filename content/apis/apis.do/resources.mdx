@@ -4,49 +4,26 @@ sidebarTitle: Resources
 group: Data
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Resources API
 
 API for managing Resources resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### yaml
-
-- **Type**: `code`
-- **Required**: No
-
-
-
-
-### data
-
-- **Type**: `json`
-- **Required**: No
-
-
-
-
-### embedding
-
-- **Type**: `json`
-- **Required**: No
-
-
-
-
-### subjectOf
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### objectOf
-
-- **Type**: `relationship`
-- **Required**: No
-
+<TSDoc code={"interface Resources {
+  yaml?: string;
+  data?: Record<string, any>;
+  embedding?: Record<string, any>;
+  subjectOf?: string[];
+  objectOf?: string[];
+}"} />
 
 
 

@@ -4,73 +4,29 @@ sidebarTitle: GenerationBatches
 group: Observability
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # GenerationBatches API
 
 Batches of AI generation jobs
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### provider
-
-- **Type**: `select`
-- **Required**: Yes
-
-
-
-
-### status
-
-- **Type**: `select`
-- **Required**: No
-- **Default**: `queued`
-
-
-
-### batchConfig
-
-- **Type**: `json`
-- **Required**: No
-
-- **Description**: Provider-specific batch configuration
-
-
-### providerBatchId
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: ID of the batch job in the provider system
-
-
-### generations
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### startedAt
-
-- **Type**: `date`
-- **Required**: No
-
-
-
-
-### completedAt
-
-- **Type**: `date`
-- **Required**: No
-
+<TSDoc code={"interface GenerationBatches {
+  name: string;
+  provider: 'openai' | 'anthropic' | 'google' | 'parasail';
+  status?: 'queued' | 'processing' | 'completed' | 'failed';
+  batchConfig?: Record<string, any>;
+  providerBatchId?: string;
+  generations?: string[];
+  startedAt?: string;
+  completedAt?: string;
+}"} />
 
 
 

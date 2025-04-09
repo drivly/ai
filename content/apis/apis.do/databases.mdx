@@ -4,65 +4,28 @@ sidebarTitle: Databases
 group: Data
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Databases API
 
 API for managing Databases resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### domain
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### type
-
-- **Type**: `select`
-- **Required**: Yes
-- **Default**: `Integrated`
-
-
-
-### schemaEnforcement
-
-- **Type**: `select`
-- **Required**: Yes
-- **Default**: `flexible`
-
-
-
-### databaseType
-
-- **Type**: `select`
-- **Required**: No
-
-
-
-
-### regions
-
-- **Type**: `select`
-- **Required**: No
-
-
-
-
-### nouns
-
-- **Type**: `relationship`
-- **Required**: No
-
+<TSDoc code={"interface Databases {
+  name: string;
+  domain: string;
+  type: 'Integrated' | 'Dedicated' | 'Self-Hosted';
+  schemaEnforcement: 'flexible' | 'enforced';
+  databaseType?: 'Mongo' | 'Postgres' | 'Sqlite';
+  regions?: 'us-east-1' | 'us-east-2' | 'us-west-1' | 'us-west-2' | 'eu-west-1' | 'ap-northeast-1' | 'ap-southeast-1' | 'eu-central-1' | 'ap-south-1';
+  nouns?: string[];
+}"} />
 
 
 

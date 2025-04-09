@@ -4,49 +4,26 @@ sidebarTitle: Types
 group: Code
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Types API
 
 API for managing Types resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### hash
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### type
-
-- **Type**: `code`
-- **Required**: No
-
-
-
-
-### json
-
-- **Type**: `json`
-- **Required**: No
-
-
-
-
-### schema
-
-- **Type**: `json`
-- **Required**: No
-
+<TSDoc code={"interface Types {
+  name?: string;
+  hash?: string;
+  type?: string;
+  json?: Record<string, any>;
+  schema?: Record<string, any>;
+}"} />
 
 
 

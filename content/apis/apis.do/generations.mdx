@@ -4,81 +4,30 @@ sidebarTitle: Generations
 group: Observability
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Generations API
 
 API for managing Generations resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### action
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### settings
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### request
-
-- **Type**: `json`
-- **Required**: No
-
-
-
-
-### response
-
-- **Type**: `json`
-- **Required**: No
-
-
-
-
-### error
-
-- **Type**: `json`
-- **Required**: No
-
-
-
-
-### status
-
-- **Type**: `select`
-- **Required**: No
-
-
-
-
-### duration
-
-- **Type**: `number`
-- **Required**: No
-
-
-
-
-### processingMode
-
-- **Type**: `select`
-- **Required**: No
-- **Default**: `realtime`
-
-
-
-### batch
-
-- **Type**: `relationship`
-- **Required**: No
-
+<TSDoc code={"interface Generations {
+  action?: string;
+  settings?: string;
+  request?: Record<string, any>;
+  response?: Record<string, any>;
+  error?: Record<string, any>;
+  status?: 'success' | 'error';
+  duration?: number;
+  processingMode?: 'realtime' | 'batch';
+  batch?: string;
+}"} />
 
 
 

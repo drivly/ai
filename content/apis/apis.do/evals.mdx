@@ -4,50 +4,27 @@ sidebarTitle: Evals
 group: Evals
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Evals API
 
 API for managing Evals resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
+<TSDoc code={"interface Evals {
+  name: string;
+  description?: string;
+  input?: Record<string, any>;
+  expected?: Record<string, any>;
+  tags?: any[];
+}"} />
 
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### description
-
-- **Type**: `textarea`
-- **Required**: No
-
-
-
-
-### input
-
-- **Type**: `json`
-- **Required**: No
-
-- **Description**: Input data for the evaluation test
-
-
-### expected
-
-- **Type**: `json`
-- **Required**: No
-
-- **Description**: Expected output data for comparison
-
-
-### tags
-
-- **Type**: `array`
-- **Required**: No
-
-- **Description**: Tags for categorizing and filtering tests
 
 
 

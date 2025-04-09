@@ -4,49 +4,26 @@ sidebarTitle: Searches
 group: Events
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Searches API
 
 API for managing Searches resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### query
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### searchType
-
-- **Type**: `select`
-- **Required**: No
-- **Default**: `text`
-
-
-
-### results
-
-- **Type**: `json`
-- **Required**: No
-
-
-
-
-### embedding
-
-- **Type**: `json`
-- **Required**: No
-
+<TSDoc code={"interface Searches {
+  name?: string;
+  query?: string;
+  searchType?: 'text' | 'vector' | 'hybrid';
+  results?: Record<string, any>;
+  embedding?: Record<string, any>;
+}"} />
 
 
 

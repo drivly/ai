@@ -4,25 +4,23 @@ sidebarTitle: Settings
 group: Experiments
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Settings API
 
 API for managing Settings resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### settings
-
-- **Type**: `json`
-- **Required**: No
-
+<TSDoc code={"interface Settings {
+  name?: string;
+  settings?: Record<string, any>;
+}"} />
 
 
 

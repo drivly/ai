@@ -4,90 +4,32 @@ sidebarTitle: Workflows
 group: AI
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Workflows API
 
 API for managing Workflows resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
+<TSDoc code={"interface Workflows {
+  name?: string;
+  type?: string;
+  code?: string;
+  functions?: string;
+  module?: string;
+  package?: string;
+  deployment?: string;
+  public?: boolean;
+  clonedFrom?: string;
+  pricing?: any;
+}"} />
 
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### type
-
-- **Type**: `code`
-- **Required**: No
-
-
-
-
-### code
-
-- **Type**: `code`
-- **Required**: No
-
-
-
-
-### functions
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### module
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### package
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### deployment
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### public
-
-- **Type**: `checkbox`
-- **Required**: No
-- **Default**: `false`
-- **Description**: Make this workflow available to other users
-
-
-### clonedFrom
-
-- **Type**: `relationship`
-- **Required**: No
-
-- **Description**: Original workflow this was cloned from
-
-
-### pricing
-
-- **Type**: `group`
-- **Required**: No
-
-- **Description**: Monetization settings for this workflow
 
 
 

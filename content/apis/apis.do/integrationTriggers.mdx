@@ -4,73 +4,29 @@ sidebarTitle: IntegrationTriggers
 group: Integrations
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # IntegrationTriggers API
 
 API for managing IntegrationTriggers resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### displayName
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### description
-
-- **Type**: `textarea`
-- **Required**: No
-
-
-
-
-### appKey
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### appName
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### appId
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### logo
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### payload
-
-- **Type**: `json`
-- **Required**: No
-
-
-
-
-### config
-
-- **Type**: `json`
-- **Required**: No
-
+<TSDoc code={"interface IntegrationTriggers {
+  displayName?: string;
+  description?: string;
+  appKey?: string;
+  appName?: string;
+  appId?: string;
+  logo?: string;
+  payload?: Record<string, any>;
+  config?: Record<string, any>;
+}"} />
 
 
 

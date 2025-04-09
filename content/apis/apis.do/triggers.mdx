@@ -4,33 +4,24 @@ sidebarTitle: Triggers
 group: Events
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Triggers API
 
 API for managing Triggers resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### payload
-
-- **Type**: `json`
-- **Required**: No
-
-
-
-
-### config
-
-- **Type**: `json`
-- **Required**: No
-
+<TSDoc code={"interface Triggers {
+  name?: string;
+  payload?: Record<string, any>;
+  config?: Record<string, any>;
+}"} />
 
 
 

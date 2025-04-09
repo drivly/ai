@@ -4,73 +4,29 @@ sidebarTitle: Tasks
 group: Work
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Tasks API
 
 API for managing Tasks resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### status
-
-- **Type**: `select`
-- **Required**: No
-
-
-
-
-### queue
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### assigned
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### parent
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### description
-
-- **Type**: `textarea`
-- **Required**: No
-
-
-
-
-### subtasks
-
-- **Type**: `join`
-- **Required**: No
-
-
-
-
-### dependentOn
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### dependents
-
-- **Type**: `join`
-- **Required**: No
-
+<TSDoc code={"interface Tasks {
+  status?: 'backlog' | 'todo' | 'in-progress' | 'review' | 'done';
+  queue?: string;
+  assigned?: Array<{ relationTo: string; value: string }>;
+  parent?: string;
+  description?: string;
+  subtasks?: any;
+  dependentOn?: string[];
+  dependents?: any;
+}"} />
 
 
 

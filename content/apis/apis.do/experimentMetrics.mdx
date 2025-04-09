@@ -4,74 +4,30 @@ sidebarTitle: ExperimentMetrics
 group: Experiments
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # ExperimentMetrics API
 
 Metrics collected from real-world user feedback for experiments
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### experimentId
+<TSDoc code={"interface ExperimentMetrics {
+  experimentId: string;
+  variantId: string;
+  userId?: string;
+  sessionId?: string;
+  metricName: string;
+  value: number;
+  timestamp?: string;
+  metadata?: Record<string, any>;
+}"} />
 
-- **Type**: `relationship`
-- **Required**: Yes
-
-- **Description**: The experiment this metric is associated with
-
-
-### variantId
-
-- **Type**: `text`
-- **Required**: Yes
-
-- **Description**: The variant ID this metric is for
-
-
-### userId
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: User ID associated with this metric (if available)
-
-
-### sessionId
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Session ID associated with this metric (if available)
-
-
-### metricName
-
-- **Type**: `text`
-- **Required**: Yes
-
-- **Description**: Name of the metric (e.g., click_through_rate, conversion_rate)
-
-
-### value
-
-- **Type**: `number`
-- **Required**: Yes
-
-- **Description**: Numeric value of the metric
-
-
-### timestamp
-
-- **Type**: `date`
-- **Required**: No
-
-- **Description**: When this metric was recorded
-
-
-### metadata
-
-- **Type**: `json`
-- **Required**: No
-
-- **Description**: Additional metadata for this metric (e.g., browser, device, page)
 
 
 

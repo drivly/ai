@@ -4,57 +4,27 @@ sidebarTitle: OauthTokens
 group: Authentication
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # OauthTokens API
 
 API for managing OauthTokens resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### token
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### provider
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### userId
-
-- **Type**: `relationship`
-- **Required**: Yes
-
-
-
-
-### clientId
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### expiresAt
-
-- **Type**: `date`
-- **Required**: Yes
-
-
-
-
-### scope
-
-- **Type**: `text`
-- **Required**: No
-
+<TSDoc code={"interface OauthTokens {
+  token: string;
+  provider: string;
+  userId: string;
+  clientId: string;
+  expiresAt: string;
+  scope?: string;
+}"} />
 
 
 

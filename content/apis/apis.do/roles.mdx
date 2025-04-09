@@ -4,26 +4,24 @@ sidebarTitle: Roles
 group: Admin
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Roles API
 
 API for managing Roles resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
+<TSDoc code={"interface Roles {
+  name: string;
+  superAdmin?: boolean;
+}"} />
 
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### superAdmin
-
-- **Type**: `checkbox`
-- **Required**: No
-- **Default**: `false`
-- **Description**: Grant super admin privileges to users with this role
 
 
 

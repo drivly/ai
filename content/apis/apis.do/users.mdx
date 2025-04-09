@@ -4,18 +4,23 @@ sidebarTitle: Users
 group: Admin
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Users API
 
 API for managing Users resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### roles
+<TSDoc code={"interface Users {
+  roles?: string[];
+}"} />
 
-- **Type**: `relationship`
-- **Required**: No
-
-- **Description**: User roles for permissions and access control
 
 
 

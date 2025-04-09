@@ -4,50 +4,27 @@ sidebarTitle: Errors
 group: Observability
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Errors API
 
 API for managing Errors resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### message
+<TSDoc code={"interface Errors {
+  message: string;
+  stack?: string;
+  digest?: string;
+  url?: string;
+  source?: string;
+}"} />
 
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### stack
-
-- **Type**: `textarea`
-- **Required**: No
-
-- **Description**: Error stack trace
-
-
-### digest
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Error digest for identifying specific errors
-
-
-### url
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: URL where the error occurred
-
-
-### source
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Source of the error (client/server/etc)
 
 
 

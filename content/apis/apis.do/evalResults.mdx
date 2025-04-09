@@ -4,66 +4,29 @@ sidebarTitle: EvalResults
 group: Evals
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # EvalResults API
 
 API for managing EvalResults resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
+<TSDoc code={"interface EvalResults {
+  name: string;
+  testId: string;
+  output?: Record<string, any>;
+  score?: number;
+  metrics?: Record<string, any>;
+  duration?: number;
+  error?: string;
+}"} />
 
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### testId
-
-- **Type**: `relationship`
-- **Required**: Yes
-
-- **Description**: Reference to the evaluation test this result is for
-
-
-### output
-
-- **Type**: `json`
-- **Required**: No
-
-- **Description**: Output data from running the test
-
-
-### score
-
-- **Type**: `number`
-- **Required**: No
-
-- **Description**: Overall score for this evaluation result (0-1)
-
-
-### metrics
-
-- **Type**: `json`
-- **Required**: No
-
-- **Description**: Detailed metrics for this evaluation result
-
-
-### duration
-
-- **Type**: `number`
-- **Required**: No
-
-- **Description**: Duration of the test execution in milliseconds
-
-
-### error
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Error message if the test execution failed
 
 
 

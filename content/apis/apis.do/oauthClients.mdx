@@ -4,57 +4,27 @@ sidebarTitle: OauthClients
 group: Authentication
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # OauthClients API
 
 API for managing OauthClients resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### clientId
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### clientSecret
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### redirectURLs
-
-- **Type**: `array`
-- **Required**: Yes
-
-
-
-
-### disabled
-
-- **Type**: `checkbox`
-- **Required**: No
-- **Default**: `false`
-
-
-
-### createdBy
-
-- **Type**: `relationship`
-- **Required**: No
-
+<TSDoc code={"interface OauthClients {
+  name: string;
+  clientId: string;
+  clientSecret: string;
+  redirectURLs: any[];
+  disabled?: boolean;
+  createdBy?: string;
+}"} />
 
 
 

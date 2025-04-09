@@ -4,34 +4,25 @@ sidebarTitle: Packages
 group: Code
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Packages API
 
 API for managing Packages resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
+<TSDoc code={"interface Packages {
+  name?: string;
+  package?: Record<string, any>;
+  collections?: any[];
+}"} />
 
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### package
-
-- **Type**: `json`
-- **Required**: No
-
-- **Description**: The package.json content for publishing to NPM
-
-
-### collections
-
-- **Type**: `array`
-- **Required**: No
-
-- **Description**: Collections to include in this package
 
 
 

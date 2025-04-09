@@ -4,73 +4,29 @@ sidebarTitle: Domains
 group: Admin
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Domains API
 
 API for managing Domains resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### domain
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### project
-
-- **Type**: `relationship`
-- **Required**: Yes
-
-
-
-
-### status
-
-- **Type**: `select`
-- **Required**: No
-- **Default**: `pending`
-
-
-
-### hostnames
-
-- **Type**: `array`
-- **Required**: No
-
-
-
-
-### vercelId
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### cloudflareId
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### errorMessage
-
-- **Type**: `text`
-- **Required**: No
-
+<TSDoc code={"interface Domains {
+  name: string;
+  domain: string;
+  project: string;
+  status?: 'pending' | 'active' | 'error';
+  hostnames?: any[];
+  vercelId?: string;
+  cloudflareId?: string;
+  errorMessage?: string;
+}"} />
 
 
 

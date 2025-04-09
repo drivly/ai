@@ -4,97 +4,32 @@ sidebarTitle: Nouns
 group: Data
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Nouns API
 
 API for managing Nouns resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### singular
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Singular form like User
-
-
-### plural
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Plural form like Users
-
-
-### possessive
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Possessive form like User's
-
-
-### pluralPossessive
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Plural possessive form like Users'
-
-
-### verb
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Related verb like Use
-
-
-### act
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Third person singular present tense like Uses
-
-
-### activity
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Gerund like Using
-
-
-### event
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Past tense like Used
-
-
-### type
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### resources
-
-- **Type**: `join`
-- **Required**: No
-
+<TSDoc code={"interface Nouns {
+  name?: string;
+  singular?: string;
+  plural?: string;
+  possessive?: string;
+  pluralPossessive?: string;
+  verb?: string;
+  act?: string;
+  activity?: string;
+  event?: string;
+  type?: Array<{ relationTo: string; value: string }>;
+  resources?: any;
+}"} />
 
 
 

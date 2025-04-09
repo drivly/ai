@@ -4,33 +4,24 @@ sidebarTitle: Projects
 group: Admin
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Projects API
 
 API for managing Projects resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### domain
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### domains
-
-- **Type**: `relationship`
-- **Required**: No
-
+<TSDoc code={"interface Projects {
+  name?: string;
+  domain?: string;
+  domains?: string[];
+}"} />
 
 
 

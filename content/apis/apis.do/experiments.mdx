@@ -4,90 +4,32 @@ sidebarTitle: Experiments
 group: Experiments
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Experiments API
 
 Feature flags and A/B testing experiments with real-world user feedback metrics
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
+<TSDoc code={"interface Experiments {
+  name: string;
+  description?: string;
+  status: 'draft' | 'active' | 'paused' | 'completed';
+  provider: 'vercel' | 'internal';
+  variants: any[];
+  metrics?: any[];
+  trafficAllocation?: any;
+  targeting?: Record<string, any>;
+  duration?: any;
+  results?: Record<string, any>;
+}"} />
 
-- **Type**: `text`
-- **Required**: Yes
-
-- **Description**: Unique name for the experiment (used as the feature flag key)
-
-
-### description
-
-- **Type**: `textarea`
-- **Required**: No
-
-- **Description**: Description of what this experiment is testing
-
-
-### status
-
-- **Type**: `select`
-- **Required**: Yes
-- **Default**: `draft`
-- **Description**: Current status of the experiment
-
-
-### provider
-
-- **Type**: `select`
-- **Required**: Yes
-- **Default**: `vercel`
-- **Description**: Feature flag provider to use for this experiment
-
-
-### variants
-
-- **Type**: `array`
-- **Required**: Yes
-
-- **Description**: Different variations to test in this experiment
-
-
-### metrics
-
-- **Type**: `array`
-- **Required**: No
-
-- **Description**: Metrics to track for this experiment
-
-
-### trafficAllocation
-
-- **Type**: `group`
-- **Required**: No
-
-- **Description**: How traffic is allocated between variants
-
-
-### targeting
-
-- **Type**: `json`
-- **Required**: No
-
-- **Description**: Targeting rules for this experiment (optional)
-
-
-### duration
-
-- **Type**: `group`
-- **Required**: No
-
-- **Description**: Duration of the experiment
-
-
-### results
-
-- **Type**: `json`
-- **Required**: No
-
-- **Description**: Aggregated results of the experiment (updated periodically)
 
 
 

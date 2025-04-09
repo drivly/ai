@@ -4,42 +4,26 @@ sidebarTitle: Agents
 group: AI
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Agents API
 
 API for managing Agents resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
+<TSDoc code={"interface Agents {
+  name?: string;
+  public?: boolean;
+  clonedFrom?: string;
+  pricing?: any;
+}"} />
 
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### public
-
-- **Type**: `checkbox`
-- **Required**: No
-- **Default**: `false`
-- **Description**: Make this agent available to other users
-
-
-### clonedFrom
-
-- **Type**: `relationship`
-- **Required**: No
-
-- **Description**: Original agent this was cloned from
-
-
-### pricing
-
-- **Type**: `group`
-- **Required**: No
-
-- **Description**: Monetization settings for this agent
 
 
 

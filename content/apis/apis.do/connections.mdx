@@ -4,49 +4,26 @@ sidebarTitle: Connections
 group: Integrations
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Connections API
 
 API for managing Connections resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### user
-
-- **Type**: `relationship`
-- **Required**: Yes
-
-
-
-
-### integration
-
-- **Type**: `relationship`
-- **Required**: Yes
-
-
-
-
-### status
-
-- **Type**: `select`
-- **Required**: No
-- **Default**: `active`
-
-
-
-### metadata
-
-- **Type**: `json`
-- **Required**: No
-
+<TSDoc code={"interface Connections {
+  name?: string;
+  user: string;
+  integration: string;
+  status?: 'active' | 'inactive' | 'pending';
+  metadata?: Record<string, any>;
+}"} />
 
 
 

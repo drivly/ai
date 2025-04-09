@@ -4,89 +4,31 @@ sidebarTitle: Models
 group: Experiments
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Models API
 
 API for managing Models resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### id
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### provider
-
-- **Type**: `relationship`
-- **Required**: Yes
-
-
-
-
-### lab
-
-- **Type**: `relationship`
-- **Required**: No
-
-
-
-
-### description
-
-- **Type**: `textarea`
-- **Required**: No
-
-
-
-
-### context_length
-
-- **Type**: `number`
-- **Required**: No
-
-
-
-
-### pricing
-
-- **Type**: `group`
-- **Required**: No
-
-
-
-
-### capabilities
-
-- **Type**: `array`
-- **Required**: No
-
-
-
-
-### modelUrl
-
-- **Type**: `text`
-- **Required**: No
-
-
-
-
-### imageUrl
-
-- **Type**: `text`
-- **Required**: No
-
+<TSDoc code={"interface Models {
+  name: string;
+  id: string;
+  provider: string;
+  lab?: string;
+  description?: string;
+  context_length?: number;
+  pricing?: any;
+  capabilities?: any[];
+  modelUrl?: string;
+  imageUrl?: string;
+}"} />
 
 
 

@@ -4,33 +4,24 @@ sidebarTitle: Queues
 group: Work
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Queues API
 
 API for managing Queues resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### name
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### role
-
-- **Type**: `relationship`
-- **Required**: Yes
-
-
-
-
-### tasks
-
-- **Type**: `join`
-- **Required**: No
-
+<TSDoc code={"interface Queues {
+  name: string;
+  role: string;
+  tasks?: any;
+}"} />
 
 
 

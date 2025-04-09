@@ -4,106 +4,34 @@ sidebarTitle: Verbs
 group: Data
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # Verbs API
 
 API for managing Verbs resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### action
+<TSDoc code={"interface Verbs {
+  action?: string;
+  act?: string;
+  activity?: string;
+  event?: string;
+  subject?: string;
+  object?: string;
+  inverse?: string;
+  inverseAct?: string;
+  inverseActivity?: string;
+  inverseEvent?: string;
+  inverseSubject?: string;
+  inverseObject?: string;
+}"} />
 
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Active tense like Create
-
-
-### act
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Third person singular present tense like Creates
-
-
-### activity
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Gerund like Creating
-
-
-### event
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Past tense like Created
-
-
-### subject
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Subject like Creator
-
-
-### object
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Object like Creation
-
-
-### inverse
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Opposite like Destroy
-
-
-### inverseAct
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Third person singular present tense like Destroys
-
-
-### inverseActivity
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Gerund like Destroying
-
-
-### inverseEvent
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Past tense like Destroyed
-
-
-### inverseSubject
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Subject like Destroyer
-
-
-### inverseObject
-
-- **Type**: `text`
-- **Required**: No
-
-- **Description**: Object like Destruction
 
 
 

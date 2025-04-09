@@ -4,57 +4,27 @@ sidebarTitle: OauthCodes
 group: Authentication
 ---
 
+import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+
 # OauthCodes API
 
 API for managing OauthCodes resources.
 
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
+
+
 ## Fields
 
-### code
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### provider
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### redirectUri
-
-- **Type**: `text`
-- **Required**: Yes
-
-
-
-
-### userId
-
-- **Type**: `relationship`
-- **Required**: Yes
-
-
-
-
-### expiresAt
-
-- **Type**: `date`
-- **Required**: Yes
-
-
-
-
-### used
-
-- **Type**: `checkbox`
-- **Required**: No
-- **Default**: `false`
+<TSDoc code={"interface OauthCodes {
+  code: string;
+  provider: string;
+  redirectUri: string;
+  userId: string;
+  expiresAt: string;
+  used?: boolean;
+}"} />
 
 
 
