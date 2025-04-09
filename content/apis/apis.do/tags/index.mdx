@@ -1,0 +1,34 @@
+---
+title: Tags API
+description: API for managing Tags resources
+group: Admin
+---
+
+import { TSDoc } from 'nextra/components'
+
+# Tags API
+
+API for managing Tags resources.
+
+## Properties
+
+<TSDoc>
+```typescript
+interface TagsType {
+  /** Tag name */
+  name: string
+  /** Tag description */
+  description?: string
+  /** Tag color */
+  color?: string
+}
+```
+</TSDoc>
+
+## API Endpoints
+
+- `GET /api/tags` - List all Tags
+- `GET /api/tags/:id` - Get a Tag by ID
+- `POST /api/tags` - Create a new Tag
+- `PATCH /api/tags/:id` - Update a Tag
+- `DELETE /api/tags/:id` - Delete a Tag

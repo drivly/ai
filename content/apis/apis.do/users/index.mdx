@@ -1,0 +1,34 @@
+---
+title: Users API
+description: API for managing Users resources
+group: Admin
+---
+
+import { TSDoc } from 'nextra/components'
+
+# Users API
+
+API for managing Users resources.
+
+## Properties
+
+<TSDoc>
+```typescript
+interface UsersType {
+  /** User email */
+  email: string
+  /** User name */
+  name?: string
+  /** User role */
+  role?: string | { id: string }
+}
+```
+</TSDoc>
+
+## API Endpoints
+
+- `GET /api/users` - List all Users
+- `GET /api/users/:id` - Get a User by ID
+- `POST /api/users` - Create a new User
+- `PATCH /api/users/:id` - Update a User
+- `DELETE /api/users/:id` - Delete a User
