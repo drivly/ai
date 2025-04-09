@@ -12,6 +12,13 @@ export function syntaxHighlightJson(json: string) {
     return `"${placeholder}"`
   })
   
+  processedJson = processedJson.replace(/(?<!")(https?:\/\/\S+)(?!")/g, (match, url) => {
+    const placeholder = `__URL_PLACEHOLDER_UNQUOTED_${urlCounter}__`
+    urlMap.set(placeholder, url)
+    urlCounter++
+    return placeholder
+  })
+  
   let result = processedJson
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -38,8 +45,17 @@ export function syntaxHighlightJson(json: string) {
   })
   
   urlMap.forEach((url, placeholder) => {
-    const linkHtml = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline hover:opacity-80">${url}</a>`
-    result = result.replace(new RegExp(`"${placeholder}"`, 'g'), `"${linkHtml}"`);
+    if (placeholder.includes('UNQUOTED')) {
+      result = result.replace(
+        new RegExp(placeholder, 'g'), 
+        `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline hover:opacity-80">${url}</a>`
+      );
+    } else {
+      result = result.replace(
+        new RegExp(`"${placeholder}"`, 'g'), 
+        `"<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline hover:opacity-80">${url}</a>"`
+      );
+    }
   })
   
   return result
