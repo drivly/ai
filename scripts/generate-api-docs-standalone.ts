@@ -158,7 +158,7 @@ sidebarTitle: ${title}
 group: ${group}
 ---
 
-import { unstable_TSDoc as TSDoc } from 'nextra/tsdoc'
+import { TSDoc } from 'nextra/components'
 
 # ${title} API
 
@@ -215,7 +215,7 @@ description: API documentation for all collections
 asIndexPage: true
 ---
 
-import { unstable_TSDoc as TSDoc } from 'nextra/tsdoc'
+import { TSDoc } from 'nextra/components'
 
 # API Reference
 
