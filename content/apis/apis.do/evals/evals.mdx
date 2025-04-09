@@ -1,0 +1,53 @@
+---
+title: Evals
+sidebarTitle: Evals
+group: Evals
+---
+
+import { Callout } from 'nextra/components'
+
+# Evals API
+
+API for managing Evals resources.
+
+
+
+
+## Fields
+
+```typescript
+interface Evals {
+  name: string;
+  description?: string;
+  input?: Record<string, any>;
+  expected?: Record<string, any>;
+  tags?: any[];
+}
+```
+
+
+
+
+## API Endpoints
+
+### GET /api/evals
+Retrieves a list of Evals with pagination.
+
+#### Query Parameters
+- `limit`: Maximum number of items to return (default: 10)
+- `page`: Page number for pagination (default: 1)
+- `sort`: Field to sort by (default: createdAt)
+- `where`: JSON query for filtering results
+
+### GET /api/evals/:id
+Retrieves a single Evals by ID.
+
+### POST /api/evals
+Creates a new Evals.
+
+### PATCH /api/evals/:id
+Updates an existing Evals.
+
+### DELETE /api/evals/:id
+Deletes a Evals.
+
