@@ -4,9 +4,16 @@
  * Handles all possible URL patterns for Vercel deployments including:
  * - Standard pattern: ai-git-{branch-name}.dev.driv.ly
  * - Short hash pattern: ai-kexlbudi2.dev.driv.ly
+ * 
+ * This function is critical for OAuth proxy configuration to ensure
+ * authentication works correctly across all environments.
  */
 export const getCurrentURL = (headers?: Headers) => {
-  if (headers?.get('host')) return `https://${headers.get('host')}`
+  if (headers?.get('host')) {
+    const host = headers.get('host')
+    const protocol = host?.includes('localhost') ? 'http' : 'https'
+    return `${protocol}://${host}`
+  }
 
   if (typeof window !== 'undefined') return window.location.origin
 
