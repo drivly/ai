@@ -10,7 +10,7 @@ const meta: MetaRecord = {
   benchmarks: '',
   generations: '',
   tbd: { display: 'hidden' },
-  references: { display: 'hidden' },
+  reference: { display: 'hidden' },
 }
 
 export default meta
