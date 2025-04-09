@@ -48,12 +48,12 @@ export function syntaxHighlightJson(json: string) {
     if (placeholder.includes('UNQUOTED')) {
       result = result.replace(
         new RegExp(placeholder, 'g'), 
-        `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline hover:opacity-80">${url}</a>`
+        `<a href="${url}" target="_blank" rel="noopener noreferrer" class="nx-text-primary-600 nx-underline nx-decoration-from-font hover:nx-opacity-80">${url}</a>`
       );
     } else {
       result = result.replace(
         new RegExp(`"${placeholder}"`, 'g'), 
-        `"<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline hover:opacity-80">${url}</a>"`
+        `"<a href="${url}" target="_blank" rel="noopener noreferrer" class="nx-text-primary-600 nx-underline nx-decoration-from-font hover:nx-opacity-80">${url}</a>"`
       );
     }
   })
