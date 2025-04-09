@@ -1,10 +1,11 @@
 import { getDomain } from './domains.config'
 
 export const siteCategories: Record<string, string[]> = {
+  AI: ['workflows.do', 'functions.do', 'agents.do'],
+  Business: ['goals.do', 'okrs.do', 'kpis.do', 'plans.do', 'projects.do', 'tasks.do'],
+  Data: ['nouns.do', 'verbs.do', 'resources.do', 'database.do', 'vectors.do', 'graph.do', 'objects.do', 'searches.do', 'analytics.do'],
   Collections: ['functions.do', 'nouns.do', 'verbs.do', 'things.do', 'resources.do', 'webhooks.do'],
   Core: ['workflows.do', 'agents.do', 'database.do', 'llm.do'],
-  AI: ['gpt.do', 'embeddings.do', 'agi.do', 'evals.do', 'models.do', 'experiments.do'],
-  Data: ['vectors.do', 'graph.do', 'objects.do', 'searches.do', 'analytics.do'],
   Events: ['triggers.do', 'events.do', 'actions.do'],
   Infrastructure: ['apis.do', 'services.do', 'workers.do', 'integrations.do'],
   Tools: ['sdk.do', 'pkg.do', 'repo.do', 'scraper.do', 'extract.do'],
