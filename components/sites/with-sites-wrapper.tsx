@@ -14,7 +14,7 @@ export const withSitesWrapper = <TPage extends DomainPageProps>(WrappedPage: Rea
   return async (props: TPage) => (
     <Fragment>
       <SitesNavbar {...props} />
-      <main className='flex-1 overflow-x-hidden'>
+      <main className='flex-1 overflow-x-hidden border-b border-gray-800/50'>
         <WrappedPage {...props} />
       </main>
       {withFaqs && <Faqs />}

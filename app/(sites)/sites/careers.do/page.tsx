@@ -1,4 +1,5 @@
 import { Careers } from '@/components/sites/pages/careers'
+import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -6,6 +7,8 @@ export const metadata: Metadata = {
   description: 'Join us and shape the future of Agentic work',
 }
 
-export default function CareersPage() {
+function CareersPage() {
   return <Careers />
 }
+
+export default withSitesWrapper(CareersPage, false, false)

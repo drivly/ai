@@ -26,3 +26,6 @@ export const JoinWaitlistButton = (props: JoinWaitlistButtonProps) => {
     </Button>
   )
 }
+
+
+// if user logged in, show user icon same size as payloads user avatar
