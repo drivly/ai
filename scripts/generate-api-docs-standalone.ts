@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { collections } from '../collections'
+import type { Field } from 'payload/types'
 
 /**
  * Standalone script to generate API documentation for all collections
@@ -10,7 +11,8 @@ const generateApiDocs = async () => {
   try {
     console.log('Generating API documentation for collections...')
 
-    const apisDir = path.resolve(process.cwd(), 'content/apis')
+    const apisBaseDir = path.resolve(process.cwd(), 'content/apis')
+    const apisDir = path.resolve(apisBaseDir, 'apis.do')
     if (!fs.existsSync(apisDir)) {
       fs.mkdirSync(apisDir, { recursive: true })
     }
@@ -20,11 +22,12 @@ const generateApiDocs = async () => {
       fs.writeFileSync(
         indexPath,
         `---
+asIndexPage: true
 title: API Reference
 description: API documentation for all collections
 ---
 
-# API Reference
+# apis.do API Reference
 
 This section contains API documentation for all collections in the system.
 `,
@@ -55,30 +58,72 @@ const generateCollectionDoc = async (collection: any, apisDir: string) => {
 
   const group = admin.group || 'Uncategorized'
 
-  const fieldDocs = fields
-    .filter((field: any) => field.name && field.type) // Only document fields with name and type
-    .map((field: any) => {
-      const { name, type, required, defaultValue, admin: fieldAdmin = {} } = field
-      const description = fieldAdmin.description || ''
+  // Generate TypeScript interface for the collection
+  const generateTypeInterface = (fields: any[]) => {
+    return fields
+      .filter((field: any) => field.name && field.type)
+      .map((field: any) => {
+        const { name, type, required, defaultValue } = field
+        let tsType = mapPayloadTypeToTS(field)
+        
+        // Format the field as a TypeScript property
+        return `  ${name}${required ? '' : '?'}: ${tsType};`
+      })
+      .join('\n')
+  }
 
-      let defaultValueStr = ''
-      if (defaultValue !== undefined) {
-        if (typeof defaultValue === 'object') {
-          defaultValueStr = `\`${JSON.stringify(defaultValue)}\``
-        } else {
-          defaultValueStr = `\`${defaultValue}\``
+  // Map Payload field types to TypeScript types
+  const mapPayloadTypeToTS = (field: any): string => {
+    const { type, hasMany } = field
+    
+    switch (type) {
+      case 'text':
+      case 'textarea':
+      case 'code':
+      case 'email':
+      case 'date':
+        return 'string'
+      case 'number':
+        return 'number'
+      case 'checkbox':
+        return 'boolean'
+      case 'select':
+        if (field.options && Array.isArray(field.options)) {
+          const options = field.options
+            .map((opt: any) => typeof opt === 'string' ? `'${opt}'` : `'${opt.value}'`)
+            .join(' | ')
+          return options || 'string'
         }
-      }
+        return 'string'
+      case 'relationship':
+        const relationType = field.relationTo
+        if (Array.isArray(relationType)) {
+          return hasMany ? `Array<{ relationTo: string; value: string }>` : `{ relationTo: string; value: string }`
+        }
+        return hasMany ? `string[]` : 'string'
+      case 'array':
+        return 'any[]'
+      case 'json':
+      case 'object':
+        return 'Record<string, any>'
+      case 'richText':
+        return 'any[]' // Rich text is typically stored as a JSON array
+      default:
+        return 'any'
+    }
+  }
 
-      return `### ${name}
+  // Generate field documentation with TSDoc format
+  const fieldDocs = `
+## Fields
 
-- **Type**: \`${type}\`
-- **Required**: ${required ? 'Yes' : 'No'}
-${defaultValue !== undefined ? `- **Default**: ${defaultValueStr}` : ''}
-${description ? `- **Description**: ${description}` : ''}
+\`\`\`typescript
+interface ${title} {
+${generateTypeInterface(fields)}
+}
+\`\`\`
+
 `
-    })
-    .join('\n\n')
 
   const endpoints = `
 ## API Endpoints
@@ -111,11 +156,19 @@ sidebarTitle: ${title}
 group: ${group}
 ---
 
+import { Callout } from 'nextra/components'
+import { Tab, Tabs } from 'nextra/components'
+import { Steps } from 'nextra/components'
+import { FileTree } from 'nextra/components'
+import { Cards, Card } from 'nextra/components'
+
 # ${title} API
 
 ${collection.admin?.description || `API for managing ${title} resources.`}
 
-## Fields
+<Callout type="info">
+  This documentation is automatically generated from the Payload CMS collection configuration.
+</Callout>
 
 ${fieldDocs}
 
