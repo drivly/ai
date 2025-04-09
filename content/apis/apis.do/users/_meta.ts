@@ -1,8 +1,7 @@
 import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
-  'apis.do': 'API Reference',
-  index: 'API Reference',
+  index: 'Users API',
 }
 
 export default meta
