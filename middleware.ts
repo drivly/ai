@@ -147,8 +147,8 @@ export async function middleware(request: NextRequest) {
         ? pathname.slice(0, -1) 
         : pathname
       
-      console.log('Rewriting brand domain to sites domain path', { hostname, cleanPathname, search })
-      return NextResponse.rewrite(new URL(`/sites/${hostname}${cleanPathname}${search}`, request.url))
+      console.log('Rewriting brand domain to sites domain path using .do', { hostname, cleanPathname, search })
+      return NextResponse.rewrite(new URL(`/sites/.do${cleanPathname}${search}`, request.url))
     }
 
     if (isDoDomain(hostname)) {
