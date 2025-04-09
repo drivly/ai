@@ -9,6 +9,8 @@ const meta: MetaRecord = {
   errors: '',
   benchmarks: '',
   generations: '',
+  tbd: { display: 'hidden' },
+  references: { display: 'hidden' },
 }
 
 export default meta
