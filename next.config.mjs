@@ -18,8 +18,7 @@ const withNextra = nextra({
   latex: true,
   search: {
     codeblocks: false,
-  },
-
+  }
 })
 
 /** @type {import('next').NextConfig} */

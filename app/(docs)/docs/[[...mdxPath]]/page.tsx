@@ -1,5 +1,6 @@
 import { generateStaticParamsFor, importPage } from 'nextra/pages'
 import { useMDXComponents as getMDXComponents } from '@/mdx-components'
+import ClientScript from './client-script'
 
 export const generateStaticParams = generateStaticParamsFor('mdxPath')
 
@@ -22,6 +23,11 @@ export default async function Page(props: Props) {
   return (
     <Wrapper toc={toc} metadata={metadata}>
       <MDXContent {...props} params={params} />
+      {/* Client script will be loaded here */}
+      <div id="client-script-container" suppressHydrationWarning>
+        {/* @ts-ignore */}
+        <ClientScript />
+      </div>
     </Wrapper>
   )
 }
