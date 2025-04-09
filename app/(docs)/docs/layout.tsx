@@ -6,6 +6,7 @@ import { getPageMap } from 'nextra/page-map'
 import './code-hike.css'
 import { headers } from 'next/headers'
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers()
@@ -57,6 +58,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           >
             {children}
           </Layout>
+          <Script src="/json-links.js" strategy="afterInteractive" />
         </Providers>
       </body>
     </html>
