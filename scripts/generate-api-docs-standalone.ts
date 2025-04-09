@@ -50,11 +50,12 @@ This section contains API documentation for all collections in the system.
  * Generates an MDX file for a single collection
  */
 const generateCollectionDoc = async (collection: any, apisDir: string) => {
-  const { slug, fields = [], admin = {} } = collection
+  const { slug, fields = [], admin = {}, labels = {} } = collection
 
   if (!slug) return
 
-  const title = slug.charAt(0).toUpperCase() + slug.slice(1)
+  // Use labels.plural if available, otherwise capitalize the slug
+  const title = labels.plural || slug.charAt(0).toUpperCase() + slug.slice(1)
 
   const group = admin.group || 'Uncategorized'
 
@@ -113,13 +114,15 @@ const generateCollectionDoc = async (collection: any, apisDir: string) => {
     }
   }
 
-  // Generate field documentation with TSDoc format
+  // Generate field documentation with standard code block
   const fieldDocs = `
 ## Fields
 
-<TSDoc code="interface ${title} {
+\`\`\`typescript
+interface ${title} {
 ${generateTypeInterface(fields)}
-}" />
+}
+\`\`\`
 
 `
 
@@ -154,7 +157,7 @@ sidebarTitle: ${title}
 group: ${group}
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # ${title} API
 

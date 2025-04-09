@@ -4,7 +4,7 @@ sidebarTitle: Generations
 group: Observability
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Generations API
 
@@ -17,7 +17,8 @@ API for managing Generations resources.
 
 ## Fields
 
-<TSDoc code="interface Generations {
+```typescript
+interface Generations {
   action?: string;
   settings?: string;
   request?: Record<string, any>;
@@ -27,7 +28,8 @@ API for managing Generations resources.
   duration?: number;
   processingMode?: 'realtime' | 'batch';
   batch?: string;
-}" />
+}
+```
 
 
 

@@ -1,10 +1,10 @@
 import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
-  apis: '',
-  workflows: '',
-  functions: '',
-  agents: '',
+  'apis.do': '',
+  'workflows.do': '',
+  'functions.do': '',
+  'agents.do': '',
 }
 
 export default meta

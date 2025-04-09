@@ -4,7 +4,7 @@ sidebarTitle: GenerationBatches
 group: Observability
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # GenerationBatches API
 
@@ -17,7 +17,8 @@ Batches of AI generation jobs
 
 ## Fields
 
-<TSDoc code="interface GenerationBatches {
+```typescript
+interface GenerationBatches {
   name: string;
   provider: 'openai' | 'anthropic' | 'google' | 'parasail';
   status?: 'queued' | 'processing' | 'completed' | 'failed';
@@ -26,7 +27,8 @@ Batches of AI generation jobs
   generations?: string[];
   startedAt?: string;
   completedAt?: string;
-}" />
+}
+```
 
 
 

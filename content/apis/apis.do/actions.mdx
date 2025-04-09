@@ -4,7 +4,7 @@ sidebarTitle: Actions
 group: Events
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Actions API
 
@@ -17,13 +17,15 @@ API for managing Actions resources.
 
 ## Fields
 
-<TSDoc code="interface Actions {
+```typescript
+interface Actions {
   subject?: string;
   verb?: string;
   object?: string;
   hash?: string;
   generation?: any;
-}" />
+}
+```
 
 
 

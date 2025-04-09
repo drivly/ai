@@ -4,7 +4,7 @@ sidebarTitle: Resources
 group: Data
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Resources API
 
@@ -17,13 +17,15 @@ API for managing Resources resources.
 
 ## Fields
 
-<TSDoc code="interface Resources {
+```typescript
+interface Resources {
   yaml?: string;
   data?: Record<string, any>;
   embedding?: Record<string, any>;
   subjectOf?: string[];
   objectOf?: string[];
-}" />
+}
+```
 
 
 

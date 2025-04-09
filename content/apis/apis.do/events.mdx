@@ -4,7 +4,7 @@ sidebarTitle: Events
 group: Observability
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Events API
 
@@ -17,7 +17,8 @@ Records of all significant occurrences within the platform
 
 ## Fields
 
-<TSDoc code="interface Events {
+```typescript
+interface Events {
   type?: string;
   source?: string;
   subject?: string;
@@ -30,7 +31,8 @@ Records of all significant occurrences within the platform
   workflow?: string;
   agent?: string;
   generations?: string[];
-}" />
+}
+```
 
 
 

@@ -4,7 +4,7 @@ sidebarTitle: Connections
 group: Integrations
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Connections API
 
@@ -17,13 +17,15 @@ API for managing Connections resources.
 
 ## Fields
 
-<TSDoc code="interface Connections {
+```typescript
+interface Connections {
   name?: string;
   user: string;
   integration: string;
   status?: 'active' | 'inactive' | 'pending';
   metadata?: Record<string, any>;
-}" />
+}
+```
 
 
 

@@ -4,7 +4,7 @@ sidebarTitle: Errors
 group: Observability
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Errors API
 
@@ -17,13 +17,15 @@ API for managing Errors resources.
 
 ## Fields
 
-<TSDoc code="interface Errors {
+```typescript
+interface Errors {
   message: string;
   stack?: string;
   digest?: string;
   url?: string;
   source?: string;
-}" />
+}
+```
 
 
 

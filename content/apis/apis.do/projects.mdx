@@ -4,7 +4,7 @@ sidebarTitle: Projects
 group: Admin
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Projects API
 
@@ -17,11 +17,13 @@ API for managing Projects resources.
 
 ## Fields
 
-<TSDoc code="interface Projects {
+```typescript
+interface Projects {
   name?: string;
   domain?: string;
   domains?: string[];
-}" />
+}
+```
 
 
 

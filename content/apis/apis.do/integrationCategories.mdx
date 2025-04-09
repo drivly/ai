@@ -1,14 +1,14 @@
 ---
-title: IntegrationCategories
-sidebarTitle: IntegrationCategories
+title: Categories
+sidebarTitle: Categories
 group: Integrations
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
-# IntegrationCategories API
+# Categories API
 
-API for managing IntegrationCategories resources.
+API for managing Categories resources.
 
 <Callout type="info">
   This documentation is automatically generated from the Payload CMS collection configuration.
@@ -17,9 +17,11 @@ API for managing IntegrationCategories resources.
 
 ## Fields
 
-<TSDoc code="interface IntegrationCategories {
+```typescript
+interface Categories {
   category?: string;
-}" />
+}
+```
 
 
 
@@ -27,7 +29,7 @@ API for managing IntegrationCategories resources.
 ## API Endpoints
 
 ### GET /api/integrationCategories
-Retrieves a list of IntegrationCategories with pagination.
+Retrieves a list of Categories with pagination.
 
 #### Query Parameters
 - `limit`: Maximum number of items to return (default: 10)
@@ -36,14 +38,14 @@ Retrieves a list of IntegrationCategories with pagination.
 - `where`: JSON query for filtering results
 
 ### GET /api/integrationCategories/:id
-Retrieves a single IntegrationCategories by ID.
+Retrieves a single Categories by ID.
 
 ### POST /api/integrationCategories
-Creates a new IntegrationCategories.
+Creates a new Categories.
 
 ### PATCH /api/integrationCategories/:id
-Updates an existing IntegrationCategories.
+Updates an existing Categories.
 
 ### DELETE /api/integrationCategories/:id
-Deletes a IntegrationCategories.
+Deletes a Categories.
 

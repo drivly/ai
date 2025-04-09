@@ -4,7 +4,7 @@ sidebarTitle: Things
 group: Data
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Things API
 
@@ -17,7 +17,8 @@ API for managing Things resources.
 
 ## Fields
 
-<TSDoc code="interface Things {
+```typescript
+interface Things {
   name?: string;
   singular?: string;
   plural?: string;
@@ -28,7 +29,8 @@ API for managing Things resources.
   activity?: string;
   event?: string;
   resources?: any;
-}" />
+}
+```
 
 
 

@@ -1,14 +1,14 @@
 ---
-title: OauthCodes
-sidebarTitle: OauthCodes
+title: OAuth Codes
+sidebarTitle: OAuth Codes
 group: Authentication
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
-# OauthCodes API
+# OAuth Codes API
 
-API for managing OauthCodes resources.
+API for managing OAuth Codes resources.
 
 <Callout type="info">
   This documentation is automatically generated from the Payload CMS collection configuration.
@@ -17,14 +17,16 @@ API for managing OauthCodes resources.
 
 ## Fields
 
-<TSDoc code="interface OauthCodes {
+```typescript
+interface OAuth Codes {
   code: string;
   provider: string;
   redirectUri: string;
   userId: string;
   expiresAt: string;
   used?: boolean;
-}" />
+}
+```
 
 
 
@@ -32,7 +34,7 @@ API for managing OauthCodes resources.
 ## API Endpoints
 
 ### GET /api/oauthCodes
-Retrieves a list of OauthCodes with pagination.
+Retrieves a list of OAuth Codes with pagination.
 
 #### Query Parameters
 - `limit`: Maximum number of items to return (default: 10)
@@ -41,14 +43,14 @@ Retrieves a list of OauthCodes with pagination.
 - `where`: JSON query for filtering results
 
 ### GET /api/oauthCodes/:id
-Retrieves a single OauthCodes by ID.
+Retrieves a single OAuth Codes by ID.
 
 ### POST /api/oauthCodes
-Creates a new OauthCodes.
+Creates a new OAuth Codes.
 
 ### PATCH /api/oauthCodes/:id
-Updates an existing OauthCodes.
+Updates an existing OAuth Codes.
 
 ### DELETE /api/oauthCodes/:id
-Deletes a OauthCodes.
+Deletes a OAuth Codes.
 

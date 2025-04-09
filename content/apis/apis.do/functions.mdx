@@ -4,7 +4,7 @@ sidebarTitle: Functions
 group: AI
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Functions API
 
@@ -17,7 +17,8 @@ API for managing Functions resources.
 
 ## Fields
 
-<TSDoc code="interface Functions {
+```typescript
+interface Functions {
   name: string;
   type?: 'Generation' | 'Code' | 'Human' | 'Agent';
   public?: boolean;
@@ -32,7 +33,8 @@ API for managing Functions resources.
   user?: string;
   agent?: string;
   examples?: string[];
-}" />
+}
+```
 
 
 

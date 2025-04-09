@@ -1,14 +1,14 @@
 ---
-title: Kpis
-sidebarTitle: Kpis
+title: KPIs
+sidebarTitle: KPIs
 group: Work
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
-# Kpis API
+# KPIs API
 
-API for managing Kpis resources.
+API for managing KPIs resources.
 
 <Callout type="info">
   This documentation is automatically generated from the Payload CMS collection configuration.
@@ -17,10 +17,12 @@ API for managing Kpis resources.
 
 ## Fields
 
-<TSDoc code="interface Kpis {
+```typescript
+interface KPIs {
   name: string;
   goals?: any;
-}" />
+}
+```
 
 
 
@@ -28,7 +30,7 @@ API for managing Kpis resources.
 ## API Endpoints
 
 ### GET /api/kpis
-Retrieves a list of Kpis with pagination.
+Retrieves a list of KPIs with pagination.
 
 #### Query Parameters
 - `limit`: Maximum number of items to return (default: 10)
@@ -37,14 +39,14 @@ Retrieves a list of Kpis with pagination.
 - `where`: JSON query for filtering results
 
 ### GET /api/kpis/:id
-Retrieves a single Kpis by ID.
+Retrieves a single KPIs by ID.
 
 ### POST /api/kpis
-Creates a new Kpis.
+Creates a new KPIs.
 
 ### PATCH /api/kpis/:id
-Updates an existing Kpis.
+Updates an existing KPIs.
 
 ### DELETE /api/kpis/:id
-Deletes a Kpis.
+Deletes a KPIs.
 

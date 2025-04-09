@@ -4,7 +4,7 @@ sidebarTitle: Agents
 group: AI
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Agents API
 
@@ -17,12 +17,14 @@ API for managing Agents resources.
 
 ## Fields
 
-<TSDoc code="interface Agents {
+```typescript
+interface Agents {
   name?: string;
   public?: boolean;
   clonedFrom?: string;
   pricing?: any;
-}" />
+}
+```
 
 
 

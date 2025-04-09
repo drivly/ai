@@ -4,7 +4,7 @@ sidebarTitle: Domains
 group: Admin
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Domains API
 
@@ -17,7 +17,8 @@ API for managing Domains resources.
 
 ## Fields
 
-<TSDoc code="interface Domains {
+```typescript
+interface Domains {
   name: string;
   domain: string;
   project: string;
@@ -26,7 +27,8 @@ API for managing Domains resources.
   vercelId?: string;
   cloudflareId?: string;
   errorMessage?: string;
-}" />
+}
+```
 
 
 

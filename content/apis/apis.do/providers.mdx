@@ -4,7 +4,7 @@ sidebarTitle: Providers
 group: Experiments
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Providers API
 
@@ -17,13 +17,15 @@ API for managing Providers resources.
 
 ## Fields
 
-<TSDoc code="interface Providers {
+```typescript
+interface Providers {
   name: string;
   id: string;
   description?: string;
   website?: string;
   logoUrl?: string;
-}" />
+}
+```
 
 
 

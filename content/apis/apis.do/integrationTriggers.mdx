@@ -1,14 +1,14 @@
 ---
-title: IntegrationTriggers
-sidebarTitle: IntegrationTriggers
+title: Triggers
+sidebarTitle: Triggers
 group: Integrations
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
-# IntegrationTriggers API
+# Triggers API
 
-API for managing IntegrationTriggers resources.
+API for managing Triggers resources.
 
 <Callout type="info">
   This documentation is automatically generated from the Payload CMS collection configuration.
@@ -17,7 +17,8 @@ API for managing IntegrationTriggers resources.
 
 ## Fields
 
-<TSDoc code="interface IntegrationTriggers {
+```typescript
+interface Triggers {
   displayName?: string;
   description?: string;
   appKey?: string;
@@ -26,7 +27,8 @@ API for managing IntegrationTriggers resources.
   logo?: string;
   payload?: Record<string, any>;
   config?: Record<string, any>;
-}" />
+}
+```
 
 
 
@@ -34,7 +36,7 @@ API for managing IntegrationTriggers resources.
 ## API Endpoints
 
 ### GET /api/integrationTriggers
-Retrieves a list of IntegrationTriggers with pagination.
+Retrieves a list of Triggers with pagination.
 
 #### Query Parameters
 - `limit`: Maximum number of items to return (default: 10)
@@ -43,14 +45,14 @@ Retrieves a list of IntegrationTriggers with pagination.
 - `where`: JSON query for filtering results
 
 ### GET /api/integrationTriggers/:id
-Retrieves a single IntegrationTriggers by ID.
+Retrieves a single Triggers by ID.
 
 ### POST /api/integrationTriggers
-Creates a new IntegrationTriggers.
+Creates a new Triggers.
 
 ### PATCH /api/integrationTriggers/:id
-Updates an existing IntegrationTriggers.
+Updates an existing Triggers.
 
 ### DELETE /api/integrationTriggers/:id
-Deletes a IntegrationTriggers.
+Deletes a Triggers.
 

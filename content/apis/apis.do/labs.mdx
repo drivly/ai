@@ -4,7 +4,7 @@ sidebarTitle: Labs
 group: Experiments
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Labs API
 
@@ -17,13 +17,15 @@ API for managing Labs resources.
 
 ## Fields
 
-<TSDoc code="interface Labs {
+```typescript
+interface Labs {
   name: string;
   id: string;
   description?: string;
   website?: string;
   logoUrl?: string;
-}" />
+}
+```
 
 
 

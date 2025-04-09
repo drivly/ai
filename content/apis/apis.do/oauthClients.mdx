@@ -1,14 +1,14 @@
 ---
-title: OauthClients
-sidebarTitle: OauthClients
+title: OAuth Clients
+sidebarTitle: OAuth Clients
 group: Authentication
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
-# OauthClients API
+# OAuth Clients API
 
-API for managing OauthClients resources.
+API for managing OAuth Clients resources.
 
 <Callout type="info">
   This documentation is automatically generated from the Payload CMS collection configuration.
@@ -17,14 +17,16 @@ API for managing OauthClients resources.
 
 ## Fields
 
-<TSDoc code="interface OauthClients {
+```typescript
+interface OAuth Clients {
   name: string;
   clientId: string;
   clientSecret: string;
   redirectURLs: any[];
   disabled?: boolean;
   createdBy?: string;
-}" />
+}
+```
 
 
 
@@ -32,7 +34,7 @@ API for managing OauthClients resources.
 ## API Endpoints
 
 ### GET /api/oauthClients
-Retrieves a list of OauthClients with pagination.
+Retrieves a list of OAuth Clients with pagination.
 
 #### Query Parameters
 - `limit`: Maximum number of items to return (default: 10)
@@ -41,14 +43,14 @@ Retrieves a list of OauthClients with pagination.
 - `where`: JSON query for filtering results
 
 ### GET /api/oauthClients/:id
-Retrieves a single OauthClients by ID.
+Retrieves a single OAuth Clients by ID.
 
 ### POST /api/oauthClients
-Creates a new OauthClients.
+Creates a new OAuth Clients.
 
 ### PATCH /api/oauthClients/:id
-Updates an existing OauthClients.
+Updates an existing OAuth Clients.
 
 ### DELETE /api/oauthClients/:id
-Deletes a OauthClients.
+Deletes a OAuth Clients.
 

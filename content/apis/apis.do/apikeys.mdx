@@ -1,14 +1,14 @@
 ---
-title: Apikeys
-sidebarTitle: Apikeys
+title: API Keys
+sidebarTitle: API Keys
 group: Admin
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
-# Apikeys API
+# API Keys API
 
-API for managing Apikeys resources.
+API for managing API Keys resources.
 
 <Callout type="info">
   This documentation is automatically generated from the Payload CMS collection configuration.
@@ -17,12 +17,14 @@ API for managing Apikeys resources.
 
 ## Fields
 
-<TSDoc code="interface Apikeys {
+```typescript
+interface API Keys {
   name?: string;
   email?: string;
   description?: string;
   url?: string;
-}" />
+}
+```
 
 
 
@@ -30,7 +32,7 @@ API for managing Apikeys resources.
 ## API Endpoints
 
 ### GET /api/apikeys
-Retrieves a list of Apikeys with pagination.
+Retrieves a list of API Keys with pagination.
 
 #### Query Parameters
 - `limit`: Maximum number of items to return (default: 10)
@@ -39,14 +41,14 @@ Retrieves a list of Apikeys with pagination.
 - `where`: JSON query for filtering results
 
 ### GET /api/apikeys/:id
-Retrieves a single Apikeys by ID.
+Retrieves a single API Keys by ID.
 
 ### POST /api/apikeys
-Creates a new Apikeys.
+Creates a new API Keys.
 
 ### PATCH /api/apikeys/:id
-Updates an existing Apikeys.
+Updates an existing API Keys.
 
 ### DELETE /api/apikeys/:id
-Deletes a Apikeys.
+Deletes a API Keys.
 

@@ -4,7 +4,7 @@ sidebarTitle: Databases
 group: Data
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Databases API
 
@@ -17,7 +17,8 @@ API for managing Databases resources.
 
 ## Fields
 
-<TSDoc code="interface Databases {
+```typescript
+interface Databases {
   name: string;
   domain: string;
   type: 'Integrated' | 'Dedicated' | 'Self-Hosted';
@@ -25,7 +26,8 @@ API for managing Databases resources.
   databaseType?: 'Mongo' | 'Postgres' | 'Sqlite';
   regions?: 'us-east-1' | 'us-east-2' | 'us-west-1' | 'us-west-2' | 'eu-west-1' | 'ap-northeast-1' | 'ap-southeast-1' | 'eu-central-1' | 'ap-south-1';
   nouns?: string[];
-}" />
+}
+```
 
 
 

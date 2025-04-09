@@ -4,7 +4,7 @@ sidebarTitle: Experiments
 group: Experiments
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Experiments API
 
@@ -17,7 +17,8 @@ Feature flags and A/B testing experiments with real-world user feedback metrics
 
 ## Fields
 
-<TSDoc code="interface Experiments {
+```typescript
+interface Experiments {
   name: string;
   description?: string;
   status: 'draft' | 'active' | 'paused' | 'completed';
@@ -28,7 +29,8 @@ Feature flags and A/B testing experiments with real-world user feedback metrics
   targeting?: Record<string, any>;
   duration?: any;
   results?: Record<string, any>;
-}" />
+}
+```
 
 
 

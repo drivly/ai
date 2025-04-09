@@ -4,7 +4,7 @@ sidebarTitle: Types
 group: Code
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Types API
 
@@ -17,13 +17,15 @@ API for managing Types resources.
 
 ## Fields
 
-<TSDoc code="interface Types {
+```typescript
+interface Types {
   name?: string;
   hash?: string;
   type?: string;
   json?: Record<string, any>;
   schema?: Record<string, any>;
-}" />
+}
+```
 
 
 

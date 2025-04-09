@@ -1,14 +1,14 @@
 ---
-title: OauthTokens
-sidebarTitle: OauthTokens
+title: OAuth Tokens
+sidebarTitle: OAuth Tokens
 group: Authentication
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
-# OauthTokens API
+# OAuth Tokens API
 
-API for managing OauthTokens resources.
+API for managing OAuth Tokens resources.
 
 <Callout type="info">
   This documentation is automatically generated from the Payload CMS collection configuration.
@@ -17,14 +17,16 @@ API for managing OauthTokens resources.
 
 ## Fields
 
-<TSDoc code="interface OauthTokens {
+```typescript
+interface OAuth Tokens {
   token: string;
   provider: string;
   userId: string;
   clientId: string;
   expiresAt: string;
   scope?: string;
-}" />
+}
+```
 
 
 
@@ -32,7 +34,7 @@ API for managing OauthTokens resources.
 ## API Endpoints
 
 ### GET /api/oauthTokens
-Retrieves a list of OauthTokens with pagination.
+Retrieves a list of OAuth Tokens with pagination.
 
 #### Query Parameters
 - `limit`: Maximum number of items to return (default: 10)
@@ -41,14 +43,14 @@ Retrieves a list of OauthTokens with pagination.
 - `where`: JSON query for filtering results
 
 ### GET /api/oauthTokens/:id
-Retrieves a single OauthTokens by ID.
+Retrieves a single OAuth Tokens by ID.
 
 ### POST /api/oauthTokens
-Creates a new OauthTokens.
+Creates a new OAuth Tokens.
 
 ### PATCH /api/oauthTokens/:id
-Updates an existing OauthTokens.
+Updates an existing OAuth Tokens.
 
 ### DELETE /api/oauthTokens/:id
-Deletes a OauthTokens.
+Deletes a OAuth Tokens.
 

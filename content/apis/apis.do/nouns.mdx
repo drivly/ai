@@ -4,7 +4,7 @@ sidebarTitle: Nouns
 group: Data
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Nouns API
 
@@ -17,7 +17,8 @@ API for managing Nouns resources.
 
 ## Fields
 
-<TSDoc code="interface Nouns {
+```typescript
+interface Nouns {
   name?: string;
   singular?: string;
   plural?: string;
@@ -29,7 +30,8 @@ API for managing Nouns resources.
   event?: string;
   type?: Array<{ relationTo: string; value: string }>;
   resources?: any;
-}" />
+}
+```
 
 
 

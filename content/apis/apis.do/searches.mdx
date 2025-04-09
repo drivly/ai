@@ -4,7 +4,7 @@ sidebarTitle: Searches
 group: Events
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Searches API
 
@@ -17,13 +17,15 @@ API for managing Searches resources.
 
 ## Fields
 
-<TSDoc code="interface Searches {
+```typescript
+interface Searches {
   name?: string;
   query?: string;
   searchType?: 'text' | 'vector' | 'hybrid';
   results?: Record<string, any>;
   embedding?: Record<string, any>;
-}" />
+}
+```
 
 
 

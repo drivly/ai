@@ -4,7 +4,7 @@ sidebarTitle: Webhooks
 group: Admin
 ---
 
-import { Callout, unstable_TSDoc as TSDoc } from 'nextra/components'
+import { Callout } from 'nextra/components'
 
 # Webhooks API
 
@@ -17,13 +17,15 @@ API for managing Webhooks resources.
 
 ## Fields
 
-<TSDoc code="interface Webhooks {
+```typescript
+interface Webhooks {
   name?: string;
   url: string;
   filters?: any[];
   enabled?: boolean;
   secret?: string;
-}" />
+}
+```
 
 
 
