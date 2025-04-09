@@ -8,28 +8,28 @@ To do [Business-as-Code](/docs/manifesto), all work is requested and delivered b
 
 ## Workflows
 
-A [Workflow](/docs/workflows) is a special type of [Function](/docs/functions) defined as declarative [Code](/docs/functions/code) that enables [Generative](/docs/functions/generative) [AI](/docs/functions/ai) and [Humans](/docs/functions/humans) to work together to accomplish business [Tasks](/docs/business/tasks) in the pursuit of a [Goal](/docs/business/goals) as measured by [KPIs](/docs/business/kpis).
+A [Workflow](/docs/workflows) is a special type of [Function](/docs/functions) defined as declarative [Code](/docs/functions#code) that enables [Generative](/docs/functions#generative) [AI](/docs/functions#agents) and [Humans](/docs/functions#humans) to work together to accomplish business [Tasks](/docs/business/tasks) in the pursuit of a [Goal](/docs/business/goals) as measured by [KPIs](/docs/business/kpis).
 
 
 ## Functions
 
-A [Function](/docs/functions) is a composable and atomic primitive that accepts inputs and returns strongly-typed outputs.  There are four types of functions: [Code](/docs/functions/code), [Generative](/docs/functions/generative), [Agent](/docs/functions/agent), and [Human](/docs/functions/human). 
+A [Function](/docs/functions) is a composable and atomic primitive that accepts inputs and returns strongly-typed outputs.  There are four types of functions: [Code Functions](/docs/functions#code), [Generative Functions](/docs/functions#generative), [Agent Functions](/docs/functions#agent), and [Human Functions](/docs/functions#human). 
 
 {/* ### Code Function */}
 
- - A [Code Function](/docs/functions/code) is a deterministic function with objective results, making it ideal for anything that has traditionally been capable of being automated with classical computing. It is [evaluated](/docs/evals) using traditional unit tests.
+ - [Code Functions](/docs/functions#code) are deterministic with objective results, making them ideal for anything that has traditionally been capable of being automated with classical computing. 
 
 {/* ### Generative Function */}
 
- - A [Generative Function](/docs/functions/generative) is a non-deterministic function that uses AI to generate content or structured data, and may have either objective or subjective results.  [Objective](/docs/functions/generative#objective) functions are evaluated using traditional unit tests, while [Subjective](/docs/functions/generative#subjective) functions are evaluated using [LLM-as-Judge](/docs/experiments/evals#llm-as-judge), [Human Feedback](/docs/functions/human), or trailing [Business KPIs](/docs/business/kpis).
+ - [Generative Functions](/docs/functions#generative) use AI to generate content or structured data. While they are inherently non-deterministic, they may have either objective or subjective results.
  
 {/* ### Agent Function */}
 
- - An [Agent Function](/docs/functions/agent) uses autonomous AI agents to perform tasks.
+ - [Agent Functions](/docs/functions#agent) use autonomous AI agents to perform tasks.
  
 {/* ### Human Function */}
 
- - A [Human Function](/docs/functions/human) uses human workers to perform [Tasks](/docs/business/tasks) in prioritized [Queues](/docs/business/queues).
+ - [Human Functions](/docs/functions#human) use human workers to perform [Tasks](/docs/business/tasks) in prioritized [Queues](/docs/business/queues).
 
 ## Agents
 
@@ -37,31 +37,17 @@ An [Agent](/docs/agents) is an autonomous digital worker with [Goals & Objective
 
 ## Business
 
+Doing [Business-as-Code](/docs/manifesto) requires clearly-defined [Objectives](/docs/business/goals#objectives) and [Key Results](/docs/business/goals#key-results). Objectives are the strategic business goals that you want to achieve, and the Key Results are how you measure progress against your goals.
 
 ## Data
 
 [Nouns](/docs/data/nouns) are the types of physical or digital entities in your business, and [Verbs](/docs/data/verbs) are the potential [Actions](/docs/business/actions) that can be performed by or to them. [Resources](/docs/data/resources) are the data records that are instances of [Nouns](/docs/data/nouns) and are stored in the [Database](/docs/data/database).
 
 
-{/* ### Nouns
-
-
-### Verbs
-
-
-### Resources */}
-
-
 ## Events
 
 
-{/* ### Triggers
-
-
-### Searches
-
-
-### Actions */}
+[Events](/docs/events) occur when a [Subject](/docs/events#subject) performs an [Action](/docs/events#action) to an [Object](/docs/events#object).
 
 
 ## Evaluations
@@ -73,6 +59,7 @@ An [Agent](/docs/agents) is an autonomous digital worker with [Goals & Objective
 
 
 ## Integrations
+
 
 
 ## Deployment
