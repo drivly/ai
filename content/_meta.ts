@@ -8,6 +8,7 @@ const meta: MetaRecord = {
   reference: { type: 'page', href: 'https://docs.apis.do' },
 
   manifesto: '',
+  primitives: '',
   
   _ai: {
     type: 'separator',
