@@ -117,9 +117,9 @@ const generateCollectionDoc = async (collection: any, apisDir: string) => {
   const fieldDocs = `
 ## Fields
 
-<TSDoc code={"interface ${title} {
+<TSDoc code="interface ${title} {
 ${generateTypeInterface(fields)}
-}"} />
+}" />
 
 `
 
