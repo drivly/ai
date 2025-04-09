@@ -31,7 +31,7 @@ const faqs = [
 
 export function Faqs() {
   return (
-    <section className='mx-auto max-w-5xl container py-20 sm:my-36' aria-labelledby='faq-title'>
+    <section className='mx-auto max-w-6xl container py-20 sm:my-36 px-3' aria-labelledby='faq-title'>
       <div className='grid grid-cols-1 lg:grid-cols-12 lg:gap-14'>
         <div className='col-span-full sm:col-span-5'>
           <h2 id='faq-title' className='scroll-my-24 text-2xl font-semibold tracking-tight text-white lg:text-3xl'>

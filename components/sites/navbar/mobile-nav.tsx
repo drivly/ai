@@ -3,9 +3,9 @@ import { navigation } from '@/components/site-config'
 import { cn } from '@drivly/ui/lib'
 import { AnimatePresence, motion } from 'motion/react'
 import Link from 'next/link'
-import { type Dispatch, Fragment, type SetStateAction, useState } from 'react'
+import { type Dispatch, Fragment, type SetStateAction } from 'react'
 import { IconType } from 'react-icons/lib'
-import { backgroundAnimation, blurAnimation, heightAnimation, translateAnimation } from './animations'
+import { backgroundAnimation, heightAnimation, translateAnimation } from './animations'
 
 export interface MobileNavProps {
   domain?: string
@@ -43,7 +43,7 @@ export const MobileNav = ({ domain, isOpen, setOpen }: MobileNavProps) => {
 
 export function MobileNavButton({ isOpen, toggleOpen }: { isOpen: boolean; toggleOpen: () => void }) {
   return (
-    <button className='z-10 ml-auto p-2 md:hidden' onClick={toggleOpen} aria-label='Toggle menu' aria-expanded={isOpen}>
+    <button className='z-10 ml-auto cursor-pointer p-2 md:hidden' onClick={toggleOpen} aria-label='Toggle menu' aria-expanded={isOpen}>
       <div className='flex h-5 w-6 flex-col justify-between border border-transparent'>
         <span
           className={cn('h-0.5 w-full transform bg-current transition-transform duration-300', {
@@ -65,13 +65,22 @@ export function MobileNavButton({ isOpen, toggleOpen }: { isOpen: boolean; toggl
   )
 }
 
-export const getChar = (title: string) => {
+export const getChar = (Icon: IconType | undefined, title: string) => {
   let chars: React.ReactNode[] = []
+
+  if (Icon) {
+    chars.push(
+      <motion.span custom={[0, title.length * 0.01]} variants={translateAnimation} initial='initial' animate='enter' exit='exit' className='inline-block'>
+        <Icon className='mr-2 h-5 w-5' />
+      </motion.span>,
+    )
+  }
+
   title.split('').forEach((char, index) => {
     chars.push(
       <motion.span
         key={`c_${index}`}
-        custom={[index * 0.02, (title.length - index) * 0.01]}
+        custom={typeof Icon !== 'undefined' ? [(index + 1) * 0.02, (title.length - index - 1) * 0.01] : [index * 0.02, (title.length - index - 1) * 0.01]}
         variants={translateAnimation}
         initial='initial'
         animate='enter'
@@ -81,48 +90,40 @@ export const getChar = (title: string) => {
       </motion.span>,
     )
   })
+
   return chars
 }
 
 export function MobileNavMenu({ onClose, domain }: { onClose: () => void; domain?: string }) {
-  const [hovered, setHovered] = useState({ isActive: false, index: 0 })
   return (
-    <ul className='flex flex-col space-y-6'>
+    <ul className='flex flex-col space-y-3.5'>
       {navigation.map((link, index) => {
         if (link.name === 'Blog' && domain) {
-          return (
-            <NavItem key={link.name} name={link.name} href={link.href} onClose={onClose} index={index} setHovered={setHovered} hovered={hovered}>
-              {getChar(link.name)}
-            </NavItem>
-          )
+          return <NavItem key={link.name} name={link.name} href={link.href} onClose={onClose} index={index} />
         } else if (link.name !== 'Blog' && link.href) {
           return (
             <NavItem
               key={link.name}
               name={link.name}
               href={link.href}
-              target={'target' in link ? link.target : undefined}
-              rel={'rel' in link ? link.rel : undefined}
+              target={'external' in link ? '_blank' : undefined}
+              rel={'external' in link ? 'noopener noreferrer' : undefined}
               onClose={onClose}
               Icon={'icon' in link ? link.icon : undefined}
               index={index}
-              setHovered={setHovered}
-              hovered={hovered}>
-              {getChar(link.name)}
-            </NavItem>
+            />
           )
         }
       })}
 
       <li className='pt-4'>
-        <JoinWaitlistButton className='w-full bg-white text-sm transition-colors'>Join waitlist</JoinWaitlistButton>
+        <JoinWaitlistButton className='h-10 w-full rounded-sm bg-white text-base transition-colors sm:text-sm'>Join waitlist</JoinWaitlistButton>
       </li>
     </ul>
   )
 }
 
 interface NavItemProps {
-  children: React.ReactNode
   name: string
   href: string
   target?: string
@@ -130,34 +131,18 @@ interface NavItemProps {
   Icon?: IconType
   onClose: () => void
   index: number
-  setHovered: Dispatch<SetStateAction<{ isActive: boolean; index: number }>>
-  hovered: { isActive: boolean; index: number }
 }
 
-export const NavItem = ({ children, name, href, target, rel, Icon, onClose, index, setHovered, hovered }: NavItemProps) => {
+export const NavItem = ({ name, href, target, rel, Icon, onClose, index }: NavItemProps) => {
   return (
-    <li onMouseOver={() => setHovered({ isActive: true, index })} onMouseLeave={() => setHovered({ isActive: false, index })}>
+    <li>
       <Link
-        className='hover:text-primary flex items-center overflow-hidden text-lg font-medium text-gray-200 transition-colors'
+        className='hover:text-primary flex h-10 items-center overflow-hidden text-lg font-medium text-gray-400 transition-colors'
         href={href}
         target={target}
         rel={rel}
         onClick={onClose}>
-        <motion.p variants={blurAnimation} initial='initial' animate={hovered.isActive && hovered.index !== index ? 'blur' : 'unblur'} className='flex items-center'>
-          {Icon && (
-            <motion.span
-              key={`c_${index}`}
-              custom={[index * 0.02, (name.length - index) * 0.01]}
-              variants={translateAnimation}
-              initial='initial'
-              animate='enter'
-              exit='exit'
-              className='inline-block'>
-              <Icon className='mr-2 h-5 w-5' />
-            </motion.span>
-          )}
-          {children}
-        </motion.p>
+        <p className='flex items-center'>{getChar(Icon, name)}</p>
       </Link>
     </li>
   )

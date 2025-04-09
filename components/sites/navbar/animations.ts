@@ -1,4 +1,4 @@
-export const transition = { duration: 1, ease: [0.76, 0, 0.24, 1] }
+export const transition = { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
 
 export const heightAnimation = {
   initial: { height: 0 },
@@ -22,25 +22,8 @@ export const translateAnimation = {
   exit: (i: number[]) => ({
     y: '100%',
     opacity: 0,
-    transition: { ...transition, duration: 0.7, delay: i[1] },
+    transition: { ...transition, duration: 0.6, delay: i[1] },
   }),
-}
-
-export const blurAnimation = {
-  initial: {
-    opacity: 0,
-    filter: 'blur(0px)',
-  },
-  blur: {
-    filter: 'blur(4px)',
-    opacity: 0.6,
-    transition: { duration: 0.3 },
-  },
-  unblur: {
-    filter: 'blur(0px)',
-    opacity: 1,
-    transition: { duration: 0.3 },
-  },
 }
 
 export const backgroundAnimation = {

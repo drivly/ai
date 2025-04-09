@@ -1,11 +1,12 @@
 import { getPayloadAuth } from '@/lib/auth/payload-auth'
 import { User } from '@/payload.types'
 import { headers as requestHeaders } from 'next/headers'
-import { Waitlist } from './waitlist-page'
+import { Waitlist } from './waitlist'
 import { handleWaitlistActions } from '@/lib/auth/actions/waitlist.action'
 import { redirect } from 'next/navigation'
+import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 
-export default async function WaitListPage(props: { params: Promise<{ domain: string }> }) {
+async function WaitListPage(props: { params: Promise<{ domain: string }> }) {
   const { domain } = await props.params
   const payload = await getPayloadAuth()
   const headers = await requestHeaders()
@@ -21,3 +22,5 @@ export default async function WaitListPage(props: { params: Promise<{ domain: st
 
   return <Waitlist email={user.email} name={name} />
 }
+
+export default withSitesWrapper(WaitListPage, false, false)

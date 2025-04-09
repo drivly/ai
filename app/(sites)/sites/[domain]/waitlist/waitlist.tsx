@@ -1,5 +1,6 @@
 'use client'
 
+import { DotdoLogo } from '@/components/shared/dotdo-logo'
 import { Button } from '@drivly/ui/button'
 import { RiDiscordFill } from '@remixicon/react'
 import Link from 'next/link'
@@ -15,8 +16,9 @@ export const Waitlist = ({ email, name }: WaitlistProps) => {
 
   return (
     <div className='font-geist flex min-h-screen flex-col items-center justify-center bg-black text-white'>
-      <div className='flex w-full max-w-xl flex-col items-center space-y-8 px-4'>
-        <div className='text-center'>
+      <div className='flex w-full max-w-2xl flex-col items-center space-y-8 px-3'>
+        <div className='relative flex flex-col items-center justify-center text-center'>
+          <DotdoLogo className='mb-2' />
           <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-4xl leading-none font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40'>
             <span className=''>Thanks, </span>
             <span className=''>{name}!</span>
@@ -28,7 +30,7 @@ export const Waitlist = ({ email, name }: WaitlistProps) => {
           </pre>
         </div>
         <div className='flex w-full justify-center'>
-          <Button variant='secondary' asChild className='w-full bg-[#7289da] text-black hover:bg-[#839AED] sm:w-1/3'>
+          <Button variant='secondary' asChild className='h-10 w-full rounded-sm bg-[#7289da] text-black hover:bg-[#839AED] sm:w-1/3'>
             <Link href='https://discord.gg/26nNxZTz9X' target='_blank'>
               <RiDiscordFill className='h-4 w-4' />
               <span>Join community</span>
