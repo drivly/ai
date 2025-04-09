@@ -154,11 +154,16 @@ export async function middleware(request: NextRequest) {
     if (isDoDomain(hostname)) {
       const apiName = extractApiNameFromDomain(hostname)
 
-      if (pathname === '/admin') {
+      if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+        console.log('Handling admin path for .do domain', { hostname, pathname, search })
+        
         if (collectionSlugs.includes(apiName)) {
           console.log('Rewriting to admin collection', { hostname, pathname, search, collection: apiName })
           return NextResponse.rewrite(new URL(`/admin/collections/${apiName}${search}`, request.url))
         }
+        
+        console.log('Passing through admin path for .do domain', { hostname, pathname, search })
+        return NextResponse.next()
       }
 
       const response = NextResponse.next()
