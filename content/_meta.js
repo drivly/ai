@@ -4,7 +4,7 @@ export default {
   sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
   // integrations: { type: 'page', theme: { layout: 'full' } },
   dashboard: { type: 'page', href: '/admin' },
-  reference: { type: 'page', href: 'https://docs.apis.do' },
+  reference: { type: 'page', href: '/docs/reference' },
 
   manifesto: '',
   
