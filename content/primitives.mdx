@@ -4,35 +4,69 @@ title: Primitives
 
 # Business-as-Code
 
-To do [Business-as-Code](/docs/manifesto), all work is requested and delivered through [Functions](/docs/functions), with [Workflows](/docs/workflows), [Agents](/docs/agents), and [APIs](/docs/apis) as the core primitives of the platform.
+To do [Business-as-Code](/docs/manifesto), all work is requested and delivered by a [Function](/docs/functions) using the [API](/docs/apis/functions.do) or [SDK](/docs/sdks/functions.do). [Workflows](/docs/workflows), [Agents](/docs/agents), and [APIs](/docs/apis) are the core primitives of the platform.
+
 
 ## Workflows
 
-A [Workflow](/docs/workflows) is a special type of [Function](/docs/functions) 
+A [Workflow](/docs/workflows) is a special type of [Function](/docs/functions) defined as declarative [Code](/docs/functions#code) that enables [Generative](/docs/functions#generative) [AI](/docs/functions#agents) and [Humans](/docs/functions#humans) to work together to accomplish business [Tasks](/docs/business/tasks) in the pursuit of a [Goal](/docs/business/goals) as measured by [KPIs](/docs/business/kpis).
 
 
 ## Functions
 
+A [Function](/docs/functions) is a composable and atomic primitive that accepts inputs and returns strongly-typed outputs.  There are four types of functions: [Code](/docs/functions#code), [Generative](/docs/functions#generative), [Agent](/docs/functions#agent), and [Human](/docs/functions#human). 
+
+ - [Code Functions](/docs/functions#code) are deterministic with objective results, making them ideal for anything that has traditionally been capable of being automated with classical computing. 
+
+ - [Generative Functions](/docs/functions#generative) use AI to generate content or structured data. While they are inherently non-deterministic, they may have either objective or subjective results.
+ 
+ - [Agent Functions](/docs/functions#agent) use autonomous AI agents to perform tasks.
+ 
+ - [Human Functions](/docs/functions#human) use human workers to perform [Tasks](/docs/business/tasks) in prioritized [Queues](/docs/business/queues).
+
 
 ## Agents
+
+An [Agent](/docs/agents) is an autonomous digital worker with [Goals & Objectives](/docs/business/goals) and is evaluated by the [Key Results](/docs/business/kpis) it delivers to the business. It can do work at scheduled intervals or in response to [Events](/docs/events) in real-time.
+
+Agents interact with other Agents and Humans through Functions and Workflows as Tools.  Agents also have access to tens of thousands of searches and actions from external systems via integrations.
 
 
 ## Business
 
+Doing [Business-as-Code](/docs/manifesto) requires clearly-defined [Objectives](/docs/business/goals#objectives) and [Key Results](/docs/business/goals#key-results). Objectives are the strategic business goals that you want to achieve, and the Key Results are how you measure progress against your goals.
+
 
 ## Data
+
+[Nouns](/docs/data/nouns) are the types of physical or digital entities in your business, and [Verbs](/docs/data/verbs) are the potential [Actions](/docs/business/actions) that can be performed by or to them. [Resources](/docs/data/resources) are the data records that are instances of [Nouns](/docs/data/nouns) and are stored in the [Database](/docs/data/database).
 
 
 ## Events
 
 
+[Events](/docs/events) occur when a [Subject](/docs/events#subject) performs an [Action](/docs/events#action) to an [Object](/docs/events#object).  They can be [Triggers](/docs/events/triggers) for [Workflows](/docs/workflows) or [Functions](/docs/functions) enabling [Agents](/docs/agents) or [Humans](/docs/functions#human) to take [Actions](/docs/business/actions).
+
+
+## Evaluations
+
+[Evaluations](/docs/evaluations) (i.e. Evals) are the process of measuring the performance of Functions, Workflows, Agents, and Humans against their Objectives and Key Results.
+
+[Deterministic](/docs/evaluations#deterministic) evals are those that are based on objective metrics, while [Non-deterministic](/docs/evaluations#non-deterministic) evals require LLM-as-Judge, Human Feedback, and/or business KPIs to measure and score.
+
+With AI Evals, the key variables to be evaluated in the context of inputs & expected outputs are the Prompts and the Models.
+
+
 ## Experiments
+
 
 
 ## Integrations
 
 
+
 ## Deployment
+
 
 
 ## Observability
