@@ -4,6 +4,9 @@ export interface EventData {
   type: string
   source: string
   subjectId?: string
+  url?: string
+  headers?: Record<string, any>
+  query?: Record<string, any>
   data?: Record<string, any>
   metadata?: Record<string, any>
   actionId?: string

@@ -48,6 +48,27 @@ export async function analyticsMiddleware(request: NextRequest, next: () => Prom
       }
 
       const promises = [analyticsService.trackRequest(requestData).catch((err) => console.error('Failed to track request:', err))]
+      
+      const eventData = {
+        type: 'page_view',
+        source: 'web',
+        url: url,
+        headers: Object.fromEntries(headers),
+        query: Object.fromEntries(parsedUrl.searchParams),
+        data: {
+          path: pathname,
+          method,
+          status: response.status
+        },
+        metadata: {
+          userId,
+          ip,
+          userAgent,
+          referer
+        }
+      }
+      
+      promises.push(analyticsService.trackEvent(eventData).catch((err) => console.error('Failed to track event:', err)))
 
       if (process.env.PIPELINE_URL) {
         promises.push(
