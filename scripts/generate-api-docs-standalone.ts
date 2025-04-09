@@ -59,14 +59,23 @@ This section contains API documentation for all collections in the system.
     }
 
     // Group collections by their admin group
-    const collectionsByGroup: { [key: string]: any[] } = {}
+    interface CollectionGroup {
+      [key: string]: any[];
+    }
+    
+    const collectionsByGroup: CollectionGroup = {}
     
     for (const collection of collections) {
-      const group = collection.admin?.group || 'Uncategorized'
-      if (!collectionsByGroup[group]) {
-        collectionsByGroup[group] = []
+      // Safely extract the group and ensure it's a string
+      const groupName: string = typeof collection.admin?.group === 'string' 
+        ? collection.admin.group 
+        : 'Uncategorized';
+      
+      // Use the string as an index key
+      if (!collectionsByGroup[groupName]) {
+        collectionsByGroup[groupName] = [];
       }
-      collectionsByGroup[group].push(collection)
+      collectionsByGroup[groupName].push(collection)
     }
     
     // First, delete all existing files and directories in the apisDir except index.mdx
@@ -86,7 +95,9 @@ This section contains API documentation for all collections in the system.
     
     // Process each group
     for (const group of Object.keys(collectionsByGroup)) {
-      for (const collection of collectionsByGroup[group]) {
+      const groupKey = group as string;  // Ensure group is treated as a string
+      const collectionsInGroup = collectionsByGroup[groupKey] || [];
+      for (const collection of collectionsInGroup) {
         await generateCollectionDoc(collection, apisDir)
       }
     }
@@ -97,7 +108,11 @@ This section contains API documentation for all collections in the system.
     
     // Create _meta.ts files for each group's collections
     for (const group of groups) {
-      const groupDir = path.join(apisDir, group.toLowerCase().replace(/\s+/g, '-'))
+      // Ensure group is a string and create valid directory name
+      const groupStr = String(group);
+      const groupDirName = groupStr.toLowerCase().replace(/\s+/g, '-');
+      const groupDir = path.join(apisDir, groupDirName);
+      
       if (fs.existsSync(groupDir)) {
         const files = fs.readdirSync(groupDir)
           .filter(file => file.endsWith('.mdx') && file !== 'index.mdx')
