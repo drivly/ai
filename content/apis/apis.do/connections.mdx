@@ -1,0 +1,50 @@
+---
+title: Connections
+sidebarTitle: Connections
+group: Integrations
+---
+
+import { unstable_TSDoc as TSDoc } from 'nextra/tsdoc'
+
+# Connections API
+
+API for managing Connections resources.
+
+## Fields
+
+<TSDoc>
+```typescript
+interface ConnectionsType {
+  name?: string
+  user: string | { id: string }
+  integration: string | { id: string }
+  status?: string
+  metadata?: object
+}
+```
+</TSDoc>
+
+
+## API Endpoints
+
+### GET /api/connections
+Retrieves a list of Connections with pagination.
+
+#### Query Parameters
+- `limit`: Maximum number of items to return (default: 10)
+- `page`: Page number for pagination (default: 1)
+- `sort`: Field to sort by (default: createdAt)
+- `where`: JSON query for filtering results
+
+### GET /api/connections/:id
+Retrieves a single Connections by ID.
+
+### POST /api/connections
+Creates a new Connections.
+
+### PATCH /api/connections/:id
+Updates an existing Connections.
+
+### DELETE /api/connections/:id
+Deletes a Connections.
+

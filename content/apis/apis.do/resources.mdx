@@ -1,0 +1,50 @@
+---
+title: Resources
+sidebarTitle: Resources
+group: Data
+---
+
+import { unstable_TSDoc as TSDoc } from 'nextra/tsdoc'
+
+# Resources API
+
+API for managing Resources resources.
+
+## Fields
+
+<TSDoc>
+```typescript
+interface ResourcesType {
+  yaml?: string
+  data?: object
+  embedding?: object
+  subjectOf?: string | { id: string }
+  objectOf?: string | { id: string }
+}
+```
+</TSDoc>
+
+
+## API Endpoints
+
+### GET /api/resources
+Retrieves a list of Resources with pagination.
+
+#### Query Parameters
+- `limit`: Maximum number of items to return (default: 10)
+- `page`: Page number for pagination (default: 1)
+- `sort`: Field to sort by (default: createdAt)
+- `where`: JSON query for filtering results
+
+### GET /api/resources/:id
+Retrieves a single Resources by ID.
+
+### POST /api/resources
+Creates a new Resources.
+
+### PATCH /api/resources/:id
+Updates an existing Resources.
+
+### DELETE /api/resources/:id
+Deletes a Resources.
+

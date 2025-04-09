@@ -1,0 +1,61 @@
+---
+title: Experiment-metrics
+sidebarTitle: Experiment-metrics
+group: Experiments
+---
+
+import { unstable_TSDoc as TSDoc } from 'nextra/tsdoc'
+
+# Experiment-metrics API
+
+Metrics collected from real-world user feedback for experiments
+
+## Fields
+
+<TSDoc>
+```typescript
+interface Experiment-metricsType {
+  /** The experiment this metric is associated with */
+  experimentId: string | { id: string }
+  /** The variant ID this metric is for */
+  variantId: string
+  /** User ID associated with this metric (if available) */
+  userId?: string
+  /** Session ID associated with this metric (if available) */
+  sessionId?: string
+  /** Name of the metric (e.g., click_through_rate, conversion_rate) */
+  metricName: string
+  /** Numeric value of the metric */
+  value: number
+  /** When this metric was recorded */
+  timestamp?: string
+  /** Additional metadata for this metric (e.g., browser, device, page) */
+  metadata?: object
+}
+```
+</TSDoc>
+
+
+## API Endpoints
+
+### GET /api/experiment-metrics
+Retrieves a list of Experiment-metrics with pagination.
+
+#### Query Parameters
+- `limit`: Maximum number of items to return (default: 10)
+- `page`: Page number for pagination (default: 1)
+- `sort`: Field to sort by (default: createdAt)
+- `where`: JSON query for filtering results
+
+### GET /api/experiment-metrics/:id
+Retrieves a single Experiment-metrics by ID.
+
+### POST /api/experiment-metrics
+Creates a new Experiment-metrics.
+
+### PATCH /api/experiment-metrics/:id
+Updates an existing Experiment-metrics.
+
+### DELETE /api/experiment-metrics/:id
+Deletes a Experiment-metrics.
+
