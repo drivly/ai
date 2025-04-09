@@ -7,6 +7,10 @@ import React from 'react'
 // Get the default MDX components
 const themeComponents = getThemeComponents()
 
+/**
+ * Custom MDX components for Nextra documentation
+ * Overrides the default pre and code components to add clickable links in JSON code blocks
+ */
 export function useMDXComponents(components?: MDXComponents) {
   return {
     ...themeComponents,
