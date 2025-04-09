@@ -5,12 +5,11 @@ export function syntaxHighlightJson(json: string) {
   const urlMap = new Map<string, string>()
   let urlCounter = 0
   
-  let processedJson = json.replace(/"(https?:\/\/[^"\s]+)"|(\bhttps?:\/\/[^"\s,\}\]]+)/g, (match, quotedUrl, rawUrl) => {
-    const url = quotedUrl || rawUrl
+  let processedJson = json.replace(/"(https?:\/\/[^"]+)"/g, (match, url) => {
     const placeholder = `__URL_PLACEHOLDER_${urlCounter}__`
     urlMap.set(placeholder, url)
     urlCounter++
-    return quotedUrl ? `"${placeholder}"` : placeholder
+    return `"${placeholder}"`
   })
   
   let result = processedJson
@@ -39,8 +38,8 @@ export function syntaxHighlightJson(json: string) {
   })
   
   urlMap.forEach((url, placeholder) => {
-    result = result.replace(new RegExp(`"${placeholder}"`, 'g'), `"<a href="${url}" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">${url}</a>"`);
-    result = result.replace(new RegExp(`\\b${placeholder}\\b`, 'g'), `<a href="${url}" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">${url}</a>`);
+    const linkHtml = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-400 underline hover:opacity-80">${url}</a>`
+    result = result.replace(new RegExp(`"${placeholder}"`, 'g'), `"${linkHtml}"`);
   })
   
   return result
