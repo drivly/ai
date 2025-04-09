@@ -2,6 +2,11 @@ import { withSentryConfig } from '@sentry/nextjs';
 import nextra from 'nextra'
 import { withPayload } from '@payloadcms/next/withPayload'
 import withBundleAnalyzer from '@next/bundle-analyzer'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
 
 const withNextra = nextra({
   codeHighlight: true,
@@ -26,7 +31,11 @@ const analyzeBundles = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
-export default analyzeBundles(withNextra(withPayload(nextConfig, { devBundleServerPackages: false })))
+export default analyzeBundles(withNextra(withPayload(nextConfig, { 
+  devBundleServerPackages: false,
+  adminRoute: '/admin',
+  configPath: path.resolve(dirname, 'app/(admin)'),
+})))
 
 // TODO: We need to figure out the build errors here
 // export default withNextra(withSentryConfig(withPayload(nextConfig, { devBundleServerPackages: false }), {
