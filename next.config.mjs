@@ -8,6 +8,9 @@ import { fileURLToPath } from 'url'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+/**
+ * @type {import('nextra').NextraConfig<import('nextra-theme-docs').DocsThemeConfig>}
+ */
 const withNextra = nextra({
   codeHighlight: true,
   contentDirBasePath: '/docs',
