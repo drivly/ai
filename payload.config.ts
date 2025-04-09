@@ -27,6 +27,7 @@ export default buildConfig({
     // user: 'users',
     importMap: {
       baseDir: path.resolve(dirname),
+      importMapFile: path.resolve(dirname, 'app/(admin)/admin/importMap.js'),
     },
     components: {
       afterLogin: [
