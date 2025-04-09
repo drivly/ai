@@ -7,6 +7,29 @@ import type { Field } from 'payload'
  * Standalone script to generate API documentation for all collections
  * This creates MDX files in the /content/apis directory without requiring Payload initialization
  */
+/**
+ * Creates a _meta.ts file for a directory to control the order of items in the sidebar
+ */
+const createMetaFile = (dir: string, items: string[]) => {
+  const metaPath = path.join(dir, '_meta.ts')
+  
+  // Create the meta content with proper escaping
+  let itemsStr = ''
+  for (const item of items) {
+    itemsStr += `  '${item}': '',
+`
+  }
+  
+  const metaContent = `import type { MetaRecord } from 'nextra'
+
+const meta: MetaRecord = {
+${itemsStr}}
+
+export default meta`
+  
+  fs.writeFileSync(metaPath, metaContent)
+}
+
 const generateApiDocs = async () => {
   try {
     console.log('Generating API documentation for collections...')
@@ -35,8 +58,53 @@ This section contains API documentation for all collections in the system.
       console.log('Created API documentation index file')
     }
 
+    // Group collections by their admin group
+    const collectionsByGroup: { [key: string]: any[] } = {}
+    
     for (const collection of collections) {
-      await generateCollectionDoc(collection, apisDir)
+      const group = collection.admin?.group || 'Uncategorized'
+      if (!collectionsByGroup[group]) {
+        collectionsByGroup[group] = []
+      }
+      collectionsByGroup[group].push(collection)
+    }
+    
+    // First, delete all existing files and directories in the apisDir except index.mdx
+    const existingFiles = fs.readdirSync(apisDir)
+    for (const file of existingFiles) {
+      if (file !== 'index.mdx') {
+        const filePath = path.join(apisDir, file)
+        if (fs.lstatSync(filePath).isDirectory()) {
+          // Delete directory recursively
+          fs.rmSync(filePath, { recursive: true, force: true })
+        } else {
+          // Delete file
+          fs.unlinkSync(filePath)
+        }
+      }
+    }
+    
+    // Process each group
+    for (const group of Object.keys(collectionsByGroup)) {
+      for (const collection of collectionsByGroup[group]) {
+        await generateCollectionDoc(collection, apisDir)
+      }
+    }
+    
+    // Create _meta.ts files for each group directory to control sidebar order
+    const groups = Object.keys(collectionsByGroup)
+    createMetaFile(apisDir, groups.map(group => group.toLowerCase().replace(/\s+/g, '-')))
+    
+    // Create _meta.ts files for each group's collections
+    for (const group of groups) {
+      const groupDir = path.join(apisDir, group.toLowerCase().replace(/\s+/g, '-'))
+      if (fs.existsSync(groupDir)) {
+        const files = fs.readdirSync(groupDir)
+          .filter(file => file.endsWith('.mdx') && file !== 'index.mdx')
+          .map(file => file.replace('.mdx', ''))
+        
+        createMetaFile(groupDir, files)
+      }
     }
 
     console.log('API documentation generation complete')
@@ -58,6 +126,28 @@ const generateCollectionDoc = async (collection: any, apisDir: string) => {
   const title = labels.plural || slug.charAt(0).toUpperCase() + slug.slice(1)
 
   const group = admin.group || 'Uncategorized'
+
+  // Create a subfolder for the group if it doesn't exist
+  const groupDir = path.join(apisDir, group.toLowerCase().replace(/\s+/g, '-'))
+  if (!fs.existsSync(groupDir)) {
+    fs.mkdirSync(groupDir, { recursive: true })
+    
+    // Create an index.mdx file for the group
+    const groupIndexPath = path.join(groupDir, 'index.mdx')
+    fs.writeFileSync(
+      groupIndexPath,
+      `---
+asIndexPage: true
+title: ${group}
+description: API documentation for ${group} collections
+---
+
+# ${group} API Reference
+
+This section contains API documentation for ${group} collections.
+`
+    )
+  }
 
   // Generate TypeScript interface for the collection
   const generateTypeInterface = (fields: any[]) => {
@@ -163,16 +253,14 @@ import { Callout } from 'nextra/components'
 
 ${collection.admin?.description || `API for managing ${title} resources.`}
 
-<Callout type="info">
-  This documentation is automatically generated from the Payload CMS collection configuration.
-</Callout>
+
 
 ${fieldDocs}
 
 ${endpoints}
 `
 
-  const filePath = path.join(apisDir, `${slug}.mdx`)
+  const filePath = path.join(groupDir, `${slug}.mdx`)
   fs.writeFileSync(filePath, mdxContent)
   console.log(`Generated API documentation for ${slug}`)
 }
