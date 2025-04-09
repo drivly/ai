@@ -4,7 +4,7 @@ title: Primitives
 
 # Business-as-Code
 
-To do [Business-as-Code](/docs/manifesto), all work is requested and delivered through [Functions](/docs/functions), with [Workflows](/docs/workflows), [Agents](/docs/agents), and [APIs](/docs/apis) as the core primitives of the platform.
+To do [Business-as-Code](/docs/manifesto), all work is requested and delivered by a [Function](/docs/functions) using the [API](/docs/apis/functions.do) or [SDK](/docs/sdks/functions.do). [Workflows](/docs/workflows), [Agents](/docs/agents), and [APIs](/docs/apis) are the core primitives of the platform.
 
 ## Workflows
 
@@ -13,19 +13,27 @@ A [Workflow](/docs/workflows) is a special type of [Function](/docs/functions) d
 
 ## Functions
 
-There are four types of [Functions](/docs/functions) that accept inputs and return outputs: [Code](/docs/functions/code), [Generative](/docs/functions/generative), [Agent](/docs/functions/agent), and [Human](/docs/functions/human). 
+A [Functions](/docs/functions) that accept inputs and return outputs: [Code](/docs/functions/code), [Generative](/docs/functions/generative), [Agent](/docs/functions/agent), and [Human](/docs/functions/human). 
+
+{/* ### Code Function */}
 
  A [Code Function](/docs/functions/code) is a deterministic function with objective results, making it ideal for anything that has traditionally been capable of being automated with classical computing. It is [evaluated](/docs/evals) using traditional unit tests.
 
- A [Generative Function](/docs/functions/generative) is a non-deterministic function that uses AI to generate content or structured data, and may have either objective or subjective results.  [Objective Generative Functions](/docs/functions/generative#objective) are evaluated 
+{/* ### Generative Function */}
+
+ A [Generative Function](/docs/functions/generative) is a non-deterministic function that uses AI to generate content or structured data, and may have either objective or subjective results.  [Objective](/docs/functions/generative#objective) functions are evaluated using traditional unit tests, while [Subjective](/docs/functions/generative#subjective) functions are evaluated using [LLM-as-Judge](/docs/experiments/evals#llm-as-judge), [Human Feedback](/docs/functions/human), or trailing [Business KPIs](/docs/business/kpis).
  
+{/* ### Agent Function */}
+
  An [Agent Function](/docs/functions/agent) uses autonomous AI agents to perform tasks.
  
+{/* ### Human Function */}
+
  A [Human Function](/docs/functions/human) uses human workers to perform [Tasks](/docs/business/tasks) in prioritized [Queues](/docs/business/queues).
 
 ## Agents
 
-An [AI Agent](/docs/agents) is an autonomous digital worker 
+An [Agent](/docs/agents) is an autonomous digital worker with [Goals & Objectives](/docs/business/goals) and is evaluated by the [Key Results](/docs/business/kpis) delivered to the business.
 
 ## Business
 
@@ -33,10 +41,34 @@ An [AI Agent](/docs/agents) is an autonomous digital worker
 ## Data
 
 
+
+{/* ### Nouns
+
+
+### Verbs
+
+
+### Resources */}
+
+
 ## Events
 
 
+{/* ### Triggers
+
+
+### Searches
+
+
+### Actions */}
+
+
+## Evaluations
+
+
+
 ## Experiments
+
 
 
 ## Integrations

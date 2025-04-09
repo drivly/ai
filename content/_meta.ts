@@ -4,6 +4,7 @@ const meta: MetaRecord = {
   docs: { type: 'page', href: '/docs' },
   api: { type: 'page', title: 'APIs', href: '/docs/apis' },
   sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
+  pricing: { type: 'page', href: '/pricing' },
   dashboard: { type: 'page', href: '/admin' },
   reference: { type: 'page', href: 'https://docs.apis.do' },
 
@@ -25,6 +26,7 @@ const meta: MetaRecord = {
   business: '',
   data: '',
   events: '',
+  evaluations: '',
   experiments: '',
   integrations: '',
   deployment: '',
