@@ -172,7 +172,6 @@ export default buildConfig({
         events: {},
         errors: {},
         generations: {},
-        'generation-batches': {},
         traces: {},
       },
       tenantsSlug: 'projects',
