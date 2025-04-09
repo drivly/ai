@@ -93,7 +93,7 @@ export interface Config {
     triggers: Trigger;
     searches: Search;
     experiments: Experiment;
-    'experiment-metrics': ExperimentMetric;
+    experimentMetrics: ExperimentMetric;
     models: Model;
     providers: Provider;
     labs: Lab;
@@ -111,7 +111,7 @@ export interface Config {
     events: Event;
     errors: Error;
     generations: Generation;
-    'generation-batches': GenerationBatch;
+    generationBatches: GenerationBatch;
     traces: Trace;
     kpis: Kpi;
     projects: Project;
@@ -120,9 +120,9 @@ export interface Config {
     tags: Tag;
     webhooks: Webhook;
     apikeys: Apikey;
-    'oauth-clients': OauthClient;
-    'oauth-codes': OauthCode;
-    'oauth-tokens': OauthToken;
+    oauthClients: OauthClient;
+    oauthCodes: OauthCode;
+    oauthTokens: OauthToken;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -175,7 +175,7 @@ export interface Config {
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
-    'experiment-metrics': ExperimentMetricsSelect<false> | ExperimentMetricsSelect<true>;
+    experimentMetrics: ExperimentMetricsSelect<false> | ExperimentMetricsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
     providers: ProvidersSelect<false> | ProvidersSelect<true>;
     labs: LabsSelect<false> | LabsSelect<true>;
@@ -193,7 +193,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     errors: ErrorsSelect<false> | ErrorsSelect<true>;
     generations: GenerationsSelect<false> | GenerationsSelect<true>;
-    'generation-batches': GenerationBatchesSelect<false> | GenerationBatchesSelect<true>;
+    generationBatches: GenerationBatchesSelect<false> | GenerationBatchesSelect<true>;
     traces: TracesSelect<false> | TracesSelect<true>;
     kpis: KpisSelect<false> | KpisSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
@@ -202,9 +202,9 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
-    'oauth-clients': OauthClientsSelect<false> | OauthClientsSelect<true>;
-    'oauth-codes': OauthCodesSelect<false> | OauthCodesSelect<true>;
-    'oauth-tokens': OauthTokensSelect<false> | OauthTokensSelect<true>;
+    oauthClients: OauthClientsSelect<false> | OauthClientsSelect<true>;
+    oauthCodes: OauthCodesSelect<false> | OauthCodesSelect<true>;
+    oauthTokens: OauthTokensSelect<false> | OauthTokensSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -310,6 +310,10 @@ export interface User {
    */
   name?: string | null;
   /**
+   * The email of the user
+   */
+  email: string;
+  /**
    * Whether the email of the user has been verified
    */
   emailVerified: boolean;
@@ -344,17 +348,6 @@ export interface User {
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
-  /**
-   * The email of the user
-   */
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -983,11 +976,10 @@ export interface Generation {
  * Batches of AI generation jobs
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generation-batches".
+ * via the `definition` "generationBatches".
  */
 export interface GenerationBatch {
   id: string;
-  tenant?: (string | null) | Project;
   name: string;
   provider: 'openai' | 'anthropic' | 'google' | 'parasail';
   status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
@@ -1554,7 +1546,7 @@ export interface Experiment {
  * Metrics collected from real-world user feedback for experiments
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "experiment-metrics".
+ * via the `definition` "experimentMetrics".
  */
 export interface ExperimentMetric {
   id: string;
@@ -1988,7 +1980,7 @@ export interface Apikey {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-clients".
+ * via the `definition` "oauthClients".
  */
 export interface OauthClient {
   id: string;
@@ -2006,7 +1998,7 @@ export interface OauthClient {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-codes".
+ * via the `definition` "oauthCodes".
  */
 export interface OauthCode {
   id: string;
@@ -2021,7 +2013,7 @@ export interface OauthCode {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-tokens".
+ * via the `definition` "oauthTokens".
  */
 export interface OauthToken {
   id: string;
@@ -2320,7 +2312,7 @@ export interface PayloadLockedDocument {
         value: string | Experiment;
       } | null)
     | ({
-        relationTo: 'experiment-metrics';
+        relationTo: 'experimentMetrics';
         value: string | ExperimentMetric;
       } | null)
     | ({
@@ -2392,7 +2384,7 @@ export interface PayloadLockedDocument {
         value: string | Generation;
       } | null)
     | ({
-        relationTo: 'generation-batches';
+        relationTo: 'generationBatches';
         value: string | GenerationBatch;
       } | null)
     | ({
@@ -2428,15 +2420,15 @@ export interface PayloadLockedDocument {
         value: string | Apikey;
       } | null)
     | ({
-        relationTo: 'oauth-clients';
+        relationTo: 'oauthClients';
         value: string | OauthClient;
       } | null)
     | ({
-        relationTo: 'oauth-codes';
+        relationTo: 'oauthCodes';
         value: string | OauthCode;
       } | null)
     | ({
-        relationTo: 'oauth-tokens';
+        relationTo: 'oauthTokens';
         value: string | OauthToken;
       } | null)
     | ({
@@ -2502,6 +2494,7 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   roles?: T;
   name?: T;
+  email?: T;
   emailVerified?: T;
   image?: T;
   role?: T;
@@ -2519,13 +2512,6 @@ export interface UsersSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2968,7 +2954,7 @@ export interface ExperimentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "experiment-metrics_select".
+ * via the `definition` "experimentMetrics_select".
  */
 export interface ExperimentMetricsSelect<T extends boolean = true> {
   experimentId?: T;
@@ -3244,10 +3230,9 @@ export interface GenerationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generation-batches_select".
+ * via the `definition` "generationBatches_select".
  */
 export interface GenerationBatchesSelect<T extends boolean = true> {
-  tenant?: T;
   name?: T;
   provider?: T;
   status?: T;
@@ -3366,7 +3351,7 @@ export interface ApikeysSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-clients_select".
+ * via the `definition` "oauthClients_select".
  */
 export interface OauthClientsSelect<T extends boolean = true> {
   name?: T;
@@ -3385,7 +3370,7 @@ export interface OauthClientsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-codes_select".
+ * via the `definition` "oauthCodes_select".
  */
 export interface OauthCodesSelect<T extends boolean = true> {
   code?: T;
@@ -3399,7 +3384,7 @@ export interface OauthCodesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-tokens_select".
+ * via the `definition` "oauthTokens_select".
  */
 export interface OauthTokensSelect<T extends boolean = true> {
   token?: T;

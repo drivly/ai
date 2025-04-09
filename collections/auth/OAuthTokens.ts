@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload'
 
 export const OAuthTokens: CollectionConfig = {
-  slug: 'oauth-tokens',
+  slug: 'oauthTokens',
   labels: {
     singular: 'OAuth Token',
     plural: 'OAuth Tokens',
