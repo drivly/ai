@@ -29,7 +29,7 @@ export const POST = API(async (request, { url, user }) => {
     const clientSecret = crypto.randomBytes(32).toString('hex')
 
     const client = await payload.create({
-      collection: 'oauthClients' as 'oauthClients',
+      collection: 'oauthClients',
       data: {
         name,
         clientId,

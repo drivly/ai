@@ -19,7 +19,7 @@ export const GET = API(async (request, { url, user }) => {
 
   try {
     const clientsResult = await payload.find({
-      collection: 'oauthClients' as 'oauthClients',
+      collection: 'oauthClients',
       depth: 0,
     })
 

@@ -7,7 +7,7 @@ import crypto from 'crypto'
  */
 const exchangeCodeForToken = async (code: string, redirectUri: string, clientId: string, payload: any, clientSecret?: string) => {
   const codeResult = await payload.find({
-    collection: 'oauthCodes' as 'oauthCodes',
+    collection: 'oauthCodes',
     where: {
       code: { equals: code },
       used: { equals: false },
@@ -26,7 +26,7 @@ const exchangeCodeForToken = async (code: string, redirectUri: string, clientId:
   }
 
   const clientResult = await payload.find({
-    collection: 'oauthClients' as 'oauthClients',
+    collection: 'oauthClients',
     where: {
       clientId: { equals: clientId },
       disabled: { equals: false },
@@ -48,7 +48,7 @@ const exchangeCodeForToken = async (code: string, redirectUri: string, clientId:
   }
 
   await payload.update({
-    collection: 'oauthCodes' as 'oauthCodes',
+    collection: 'oauthCodes',
     id: codeEntry.id,
     data: {
       used: true,
@@ -65,7 +65,7 @@ const exchangeCodeForToken = async (code: string, redirectUri: string, clientId:
   refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 30)
 
   await payload.create({
-    collection: 'oauthTokens' as 'oauthTokens',
+    collection: 'oauthTokens',
     data: {
       token: accessToken,
       provider: codeEntry.provider,

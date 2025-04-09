@@ -12,7 +12,7 @@ const generateAuthCode = async (provider: string, redirectUri: string, userId: s
   expiresAt.setMinutes(expiresAt.getMinutes() + 10)
 
   await payload.create({
-    collection: 'oauthCodes' as 'oauthCodes',
+    collection: 'oauthCodes',
     data: {
       code,
       provider,
