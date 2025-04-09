@@ -5,7 +5,8 @@
 pre code.language-json a,
 .nextra-code-block pre code.has-highlighted-code a,
 div[data-rehype-pretty-code-fragment] pre code a,
-.json-link {
+.json-link,
+code a {
   color: #60a5fa !important; /* text-blue-400 equivalent */
   text-decoration: underline !important;
   cursor: pointer !important;
@@ -19,6 +20,30 @@ div[data-rehype-pretty-code-fragment] pre code a,
 pre code.language-json a:hover,
 .nextra-code-block pre code.has-highlighted-code a:hover,
 div[data-rehype-pretty-code-fragment] pre code a:hover,
-.json-link:hover {
+.json-link:hover,
+code a:hover {
   opacity: 0.8;
+}
+
+/* Override Nextra's code styles to ensure links are clickable */
+.nextra-code-block pre,
+pre,
+code {
+  pointer-events: auto !important;
+}
+
+/* Add this script to process JSON links */
+@media screen {
+  body::after {
+    content: "";
+    display: none;
+  }
+  
+  body.loaded::after {
+    display: block;
+  }
+  
+  script#json-links-processor {
+    display: none;
+  }
 }
