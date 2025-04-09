@@ -6,7 +6,15 @@ export const getSession = async () => {
   try {
     const payload = await getPayloadAuth()
     const headers = await requestHeaders()
-    if (!payload?.betterAuth?.api) {
+    if (!payload) {
+      console.error('payload is not available')
+      return null
+    }
+    if (!payload.betterAuth) {
+      console.error('betterAuth is not available')
+      return null
+    }
+    if (!payload.betterAuth.api) {
       console.error('betterAuth API not available')
       return null
     }
@@ -22,7 +30,15 @@ export const getUserAccounts = async (): Promise<Account[]> => {
   try {
     const payload = await getPayloadAuth()
     const headers = await requestHeaders()
-    if (!payload?.betterAuth?.api) {
+    if (!payload) {
+      console.error('payload is not available for getUserAccounts')
+      return []
+    }
+    if (!payload.betterAuth) {
+      console.error('betterAuth is not available for getUserAccounts')
+      return []
+    }
+    if (!payload.betterAuth.api) {
       console.error('betterAuth API not available for getUserAccounts')
       return []
     }
@@ -38,7 +54,15 @@ export const getDeviceSessions = async (): Promise<DeviceSession[]> => {
   try {
     const payload = await getPayloadAuth()
     const headers = await requestHeaders()
-    if (!payload?.betterAuth?.api) {
+    if (!payload) {
+      console.error('payload is not available for getDeviceSessions')
+      return []
+    }
+    if (!payload.betterAuth) {
+      console.error('betterAuth is not available for getDeviceSessions')
+      return []
+    }
+    if (!payload.betterAuth.api) {
       console.error('betterAuth API not available for getDeviceSessions')
       return []
     }
