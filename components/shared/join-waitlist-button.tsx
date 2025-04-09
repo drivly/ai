@@ -4,6 +4,7 @@ import { signIn } from '@/lib/auth/auth-client'
 import { Button } from '@drivly/ui'
 import { cn } from '@drivly/ui/lib'
 import { useState } from 'react'
+import { siteConfig } from '../site-config'
 
 export interface JoinWaitlistButtonProps {
   children?: React.ReactNode
@@ -16,7 +17,7 @@ export const JoinWaitlistButton = (props: JoinWaitlistButtonProps) => {
 
   const joinWaitlist = async () => {
     setIsLoading(true)
-    await signIn.social({ provider: 'github', callbackURL: `/waitlist` })
+    await signIn.social({ provider: 'github', callbackURL: siteConfig.baseLinks.waitlist })
   }
 
   return (

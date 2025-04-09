@@ -7,15 +7,15 @@ import { FaDiscord, FaGithub } from 'react-icons/fa'
 import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
 import { LlmsdoLogo } from './llms-do-logo'
 import { MobileNav } from './mobile-nav'
-import { navLinks } from './nav-config'
+import { navigation, siteConfig } from '@/components/site-config'
 
-function linkFilter(link: (typeof navLinks)[number]) {
-  return link.label !== 'GitHub' && link.label !== 'Discord'
+function linkFilter(link: (typeof navigation)[number]) {
+  return link.name !== 'GitHub' && link.name !== 'Discord'
 }
 
 export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }) {
   const domain = use(params).domain
-  const navMenuLinks = navLinks.filter(linkFilter)
+  const navMenuLinks = navigation.filter(linkFilter)
 
   const [isOpen, setOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
@@ -51,16 +51,10 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
 
         <div className='absolute left-1/2 mr-6 hidden -translate-x-1/2 transform space-x-6 md:block'>
           {navMenuLinks.map((link) => {
-            if (link.label === 'Blog' && domain) {
+            if (link.name !== 'Blog') {
               return (
-                <Link key={link.label} href={link.href} rel={link.rel} target={link.target} className='hover:text-primary text-sm font-semibold text-gray-500 transition-colors'>
-                  {link.label}
-                </Link>
-              )
-            } else if (link.label !== 'Blog') {
-              return (
-                <Link key={link.label} href={link.href} rel={link.rel} target={link.target} className='hover:text-primary text-sm font-semibold text-gray-500 transition-colors'>
-                  {link.label}
+                <Link key={link.name} href={link.href} className='hover:text-primary text-sm font-semibold text-gray-500 transition-colors'>
+                  {link.name}
                 </Link>
               )
             }
@@ -69,11 +63,11 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
 
         {/* Desktop navigation */}
         <div className='hidden h-full items-center justify-end space-x-4 md:flex'>
-          <Link href='https://github.com/drivly/ai' className='hover:text-primary text-sm text-gray-500 transition-colors' target='_blank' rel='noopener noreferrer'>
+          <Link href={siteConfig.baseLinks.github} className='hover:text-primary text-sm text-gray-500 transition-colors' target='_blank' rel='noopener noreferrer'>
             <FaGithub className='h-5 w-5' />
             <span className='sr-only'>GitHub</span>
           </Link>
-          <Link href='https://discord.gg/qus39VeA' className='hover:text-primary text-sm text-gray-500 transition-colors'>
+          <Link href={siteConfig.baseLinks.discord} className='hover:text-primary text-sm text-gray-500 transition-colors' target='_blank' rel='noopener noreferrer'>
             <FaDiscord className='h-5 w-5' />
             <span className='sr-only'>Discord</span>
           </Link>
