@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import { syntaxHighlightJson } from '@/lib/utils/syntax-highlight'
 import React from 'react'
 import { JsonCodeBlock } from './components/docs/JsonCodeBlock'
+import { ClickableJsonCode } from './components/docs/ClickableJsonCode'
 
 // Get the default MDX components
 const themeComponents = getThemeComponents()
@@ -29,10 +30,15 @@ export function useMDXComponents(components?: MDXComponents) {
                 ? childProps.children.join('') 
                 : String(childProps.children);
             
-            return React.createElement(JsonCodeBlock, {
-              code,
-              className: props.className || ''
-            });
+            try {
+              JSON.parse(code);
+              return React.createElement(ClickableJsonCode, { code });
+            } catch (jsonError) {
+              return React.createElement(JsonCodeBlock, {
+                code,
+                className: props.className || ''
+              });
+            }
           }
         }
         
