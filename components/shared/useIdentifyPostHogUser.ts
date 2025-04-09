@@ -19,5 +19,5 @@ export const useIdentifyPostHogUser = () => {
       })
       posthog?.group('tenant', currentUser.tenants?.[0]?.id || 'unknown')
     }
-  }, [currentUser])
+  }, [currentUser, posthog])
 }
