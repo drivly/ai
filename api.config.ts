@@ -1,106 +1,42 @@
-import { getDomain, getDomainDescription } from './domains.config'
+import { 
+  getDomain, 
+  getDomainDescription, 
+  domainCategories, 
+  parentDomains, 
+  childDomains, 
+  relatedDomains, 
+  domainSymbols, 
+  domainDescriptions 
+} from './domains.config'
 
-export const siteCategories: Record<string, string[]> = {
-  AI: ['workflows.do', 'functions.do', 'agents.do'],
-  Business: ['goals.do', 'okrs.do', 'kpis.do', 'plans.do', 'projects.do', 'tasks.do'],
-  Data: ['nouns.do', 'verbs.do', 'resources.do', 'database.do', 'vectors.do', 'graph.do', 'objects.do', 'searches.do', 'analytics.do'],
-  Collections: ['functions.do', 'nouns.do', 'verbs.do', 'things.do', 'resources.do', 'webhooks.do'],
-  Core: ['workflows.do', 'agents.do', 'database.do', 'llm.do'],
-  Events: ['triggers.do', 'events.do', 'actions.do'],
-  Infrastructure: ['apis.do', 'services.do', 'workers.do', 'integrations.do'],
-  Tools: ['sdk.do', 'pkg.do', 'repo.do', 'scraper.do', 'extract.do'],
-  Web: ['sites.do', 'browse.do', 'browser.do', 'browsers.do'],
-  Management: ['tasks.do', 'issues.do', 'okrs.do', 'kpis.do', 'lists.do'],
-  Executives: ['cto.do', 'cpo.do', 'cfo.do', 'cmo.do', 'coo.do', 'cro.do'],
-  Sales: ['bdr.do', 'sdr.do', 'dealers.do'],
-  Agents: ['amy.do', 'ari.do', 'nat.do', 'dara.do', 'tom.do', 'ivy.do', 'lena.do', 'lexi.do'],
-  Monitoring: ['traces.do', 'trace.do', 'perf.do', 'dashboard.do'],
-  Utilities: ['barcode.do', 'qrcode.do', 'speak.do', 'emails.do', 'photos.do'],
-}
+export const siteCategories = Object.fromEntries(
+  Object.entries(domainCategories).map(([category, domains]) => [
+    category,
+    domains.map(domain => `${domain}.do`)
+  ])
+)
 
-export const parentDomains: Record<string, string> = {
-  'function.do': 'functions.do',
-  'trigger.do': 'triggers.do',
-  'search.do': 'searches.do',
-  'action.do': 'actions.do',
-  'worker.do': 'workers.do',
-  'webhook.do': 'webhooks.do',
-  'trace.do': 'traces.do',
-  'service.do': 'services.do',
-  'request.do': 'requests.do',
-  'response.do': 'responses.do',
-  'task.do': 'tasks.do',
-  'event.do': 'events.do',
-  'object.do': 'objects.do',
-  'vector.do': 'vectors.do',
-}
+export const parentDomainsWithDo: Record<string, string> = Object.fromEntries(
+  Object.entries(parentDomains).map(([child, parent]) => [
+    `${child}.do`,
+    `${parent}.do`
+  ])
+)
 
-export const childDomains: Record<string, string[]> = {
-  'functions.do': ['function.do'],
-  'triggers.do': ['trigger.do'],
-  'searches.do': ['search.do'],
-  'actions.do': ['action.do'],
-  'workers.do': ['worker.do'],
-  'webhooks.do': ['webhook.do'],
-  'traces.do': ['trace.do'],
-  'services.do': ['service.do'],
-  'requests.do': ['request.do'],
-  'responses.do': ['response.do'],
-  'tasks.do': ['task.do'],
-  'events.do': ['event.do'],
-  'objects.do': ['object.do'],
-  'vectors.do': ['vector.do'],
-}
+export const childDomainsWithDo: Record<string, string[]> = Object.fromEntries(
+  Object.entries(childDomains).map(([parent, children]) => [
+    `${parent}.do`,
+    children.map(child => `${child}.do`)
+  ])
+)
 
-export const apis: Record<string, string> = {
-  functions: 'Typesafe Results without Complexity',
-  workflows: 'Reliably Execute Business Processes',
-  database: 'AI Native Data Access (Search + CRUD)',
-  agents: 'Deploy & Manage Autonomous Digital Workers',
-  nouns: 'People, Places, Things, and Ideas',
-  verbs: 'The Actions Performed to and by Nouns',
-  resources: 'Structured Data Objects',
-  triggers: 'Initiate workflows based on events',
-  searches: 'Query and retrieve data',
-  actions: 'Perform tasks within workflows',
-  llm: 'Intelligent AI Gateway',
-  evals: 'Evaluate Functions, Workflows, and Agents',
-  analytics: 'Economically Validate Workflows',
-  experiments: 'Test and Iterate AI Components',
-  integrations: 'Connect External APIs and Systems',
-  models: 'AI Model Selection and Management',
-  workers: 'Cloudflare Workers API',
-}
+export { parentDomainsWithDo as parentDomains }
+export { childDomainsWithDo as childDomains }
+export { relatedDomains as related }
+export { domainSymbols as symbols }
 
-export const related: Record<string, string[]> = {
-  functions: ['nouns', 'verbs', 'things', 'function', 'resources'],
-  workflows: ['triggers', 'searches', 'actions', 'tasks', 'events'],
-  database: ['evals', 'analytics', 'experiments', 'vectors', 'graph', 'objects'],
-  agents: ['integrations', 'models', 'humans', 'bots', 'workers'],
-  llm: ['evals', 'analytics', 'experiments', 'gpt', 'embeddings'],
-  nouns: ['things', 'objects', 'humans'],
-  verbs: ['actions', 'tasks', 'triggers'],
-  things: ['nouns', 'objects', 'data'],
-  resources: ['nouns', 'objects', 'data'],
-  triggers: ['events', 'webhooks', 'actions'],
-  searches: ['vectors', 'embeddings', 'graph'],
-  actions: ['tasks', 'workflows', 'functions'],
-  evals: ['benchmarks', 'experiments', 'analytics'],
-  analytics: ['dashboard', 'kpis', 'experiments'],
-  experiments: ['evals', 'analytics', 'research'],
-  integrations: ['apis', 'services', 'webhooks'],
-  models: ['llm', 'gpt', 'embeddings'],
-}
-
-export const symbols: Record<string, string> = {
-  入: 'functions',
-  巛: 'workflows',
-  彡: 'database',
-  人: 'agents',
-  回: 'nouns',
-  亘: 'verbs',
-  目: 'things',
-  田: 'triggers',
-  卌: 'searches',
-  口: 'actions',
-}
+export const apis: Record<string, string> = Object.fromEntries(
+  Object.entries(domainDescriptions)
+    .map(([key, value]) => [key.toLowerCase(), value])
+    .filter(([key]) => !key.includes('.'))
+)
