@@ -23,4 +23,4 @@ async function WaitListPage(props: { params: Promise<{ domain: string }> }) {
   return <Waitlist email={user.email} name={name} />
 }
 
-export default withSitesWrapper(WaitListPage, false, false)
+export default withSitesWrapper({ WrappedPage: WaitListPage, withFaqs: false, withCallToAction: false })

@@ -3,10 +3,10 @@ import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
+import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getBlogPostBySlug } from '../blog-posts'
-import { headers } from 'next/headers'
 
 async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: string }> }) {
   const { domain, slug } = await props.params
@@ -54,7 +54,7 @@ async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: st
   )
 }
 
-export default withSitesWrapper(BlogPostPage, false)
+export default withSitesWrapper({ WrappedPage: BlogPostPage, withFaqs: false })
 
 function BlogPostNotFound({ fallbackImage }: { fallbackImage: string }) {
   return (

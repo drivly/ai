@@ -31,7 +31,7 @@ async function DirectoryPage() {
   )
 }
 
-export default withSitesWrapper(DirectoryPage)
+export default withSitesWrapper({ WrappedPage: DirectoryPage })
 
 // experiments.do uses vercel flags api...
 // .do

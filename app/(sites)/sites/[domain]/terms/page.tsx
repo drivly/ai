@@ -26,7 +26,7 @@ async function TermsPage(props: { params: Promise<{ domain: string }> }) {
   )
 }
 
-export default withSitesWrapper(TermsPage, false, false)
+export default withSitesWrapper({ WrappedPage: TermsPage, withFaqs: false, withCallToAction: false })
 
 // # Drivly, Inc. Terms of Service
 // **Last Updated: April 4, 2025 **

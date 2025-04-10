@@ -3,7 +3,11 @@ import Link from 'next/link'
 import { footerNavigation, siteConfig } from '../site-config'
 import { DotdoLogo } from '../shared/dotdo-logo'
 
-export function Footer() {
+export function Footer({ minimal }: { minimal?: boolean }) {
+  if (minimal) {
+    return <MinimalFooter />
+  }
+
   return (
     <footer id='footer' className='bg-black'>
       <div className='mx-auto max-w-6xl px-3 pt-16 pb-8 sm:pt-24 lg:pt-32'>
@@ -129,6 +133,29 @@ export function Footer() {
               </div>
               <span className='text-xs text-white'>All systems operational</span>
             </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+function MinimalFooter() {
+  return (
+    <footer id='footer' className='bg-black'>
+      <div className='mx-auto max-w-6xl px-3 pt-16 pb-8 sm:pt-24 lg:pt-32'>
+        <div className='grid grid-flow-row auto-rows-max items-center gap-y-8 sm:grid-cols-3 sm:gap-y-0'>
+          <div className='flex items-center justify-center sm:justify-start'>
+            <DotdoLogo />
+          </div>
+          <p className='text-center text-sm leading-5 text-gray-400'>&copy; {new Date().getFullYear()} .do, Inc. All rights reserved.</p>
+          <div className='flex justify-center space-x-4 sm:justify-end'>
+            {footerNavigation.social.map((item) => (
+              <a key={item.name} href={item.href} target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
+                <item.icon className='size-6' aria-hidden='true' />
+                <span className='sr-only'>{item.name}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
