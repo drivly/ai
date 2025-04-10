@@ -2,6 +2,7 @@ import { FaDiscord, FaGithub } from 'react-icons/fa'
 import logo from '@/public/favicon/faviconDo.png'
 import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
 import { extractApiNameFromDomain, docsExistForApi, getDocsPath } from '@/middleware'
+import { headers } from 'next/headers'
 
 /**
  * Get the appropriate docs link based on the hostname
@@ -22,9 +23,9 @@ export const getDocsLink = (hostname: string = ''): string => {
  * Get the current hostname in a server component
  * This function should only be called in server components
  */
-export const getCurrentHostname = (): string => {
+export const getCurrentHostname = async (): Promise<string> => {
   try {
-    const headersList = headers()
+    const headersList = await headers()
     return headersList.get('host') || ''
   } catch (error) {
     return ''
