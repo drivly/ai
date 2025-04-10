@@ -72,7 +72,7 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
             <span className='sr-only'>Discord</span>
           </Link>
 
-          <JoinWaitlistButton className='rounded-sm bg-white text-sm transition-colors'>Join waitlist</JoinWaitlistButton>
+          <JoinWaitlistButton className='rounded-sm bg-white text-sm transition-colors' type='user' />
         </div>
 
         <MobileNav isOpen={isOpen} setOpen={setOpen} domain={domain} />

@@ -3,8 +3,9 @@ import { cn } from '@/lib/utils'
 import { siteConfig } from '../../site-config'
 
 export function LlmsdoLogo({ className, domain }: { className?: string; domain?: string }) {
+  const isCareers = domain === 'careers.do'
   return (
-    <Link href={siteConfig.baseLinks.home} className={cn('font-ibm z-10 text-lg font-medium', className)}>
+    <Link href={isCareers ? siteConfig.url : siteConfig.baseLinks.home} className={cn('font-ibm z-10 text-lg font-medium', className)}>
       {domain ?? siteConfig.name}
     </Link>
   )

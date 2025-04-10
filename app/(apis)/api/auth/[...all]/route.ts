@@ -1,6 +1,6 @@
 import { toNextJsHandler } from 'better-auth/next-js'
-import { getPayloadAuth } from '@/lib/auth/payload-auth'
-
-const payload = await getPayloadAuth()
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+ 
+const payload = await getPayloadWithAuth()
 
 export const { POST, GET } = toNextJsHandler(payload.betterAuth)

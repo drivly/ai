@@ -26,7 +26,7 @@ export const Careers = () => {
       </div>
 
       {/* Page content */}
-      <div className='relative z-10 container mx-auto px-3 pt-24 pb-12 md:pt-32 md:pb-24 lg:pb-32'>
+      <div className='relative z-10 container mx-auto px-3 py-24 md:pt-36'>
         <div className='mx-auto mb-16 max-w-3xl'>
           <div className='mb-12 text-center'>
             <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl leading-none font-medium tracking-tighter text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
@@ -65,7 +65,7 @@ export const Careers = () => {
                       Remote/Full-time
                     </Badge>
                   </div>
-                  <Button className='h-10 rounded-sm'>Apply with GitHub</Button>
+                  <Button className='h-10 cursor-pointer rounded-sm'>Apply with GitHub</Button>
                 </div>
               </div>
 
@@ -87,7 +87,7 @@ export const Careers = () => {
                       Remote/Full-time
                     </Badge>
                   </div>
-                  <Button className='h-10 rounded-sm'>Apply with GitHub</Button>
+                  <Button className='h-10 cursor-pointer rounded-sm'>Apply with GitHub</Button>
                 </div>
               </div>
             </div>

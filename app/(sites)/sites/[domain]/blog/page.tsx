@@ -11,13 +11,13 @@ async function BlogPage(props: { params: Promise<{ domain: string }> }) {
   const categories = getAllCategories()
 
   return (
-    <div className='container mx-auto max-w-6xl px-3 pt-20 pb-12 md:pt-24 md:pb-24 lg:pb-32'>
+    <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
       <div className='mb-8'>
         <Link href='/' className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
           <ArrowLeft className='mr-1 h-4 w-4' />
           Back
         </Link>
-        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-none font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40'>
+        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40'>
           Blog
         </h1>
       </div>

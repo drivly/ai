@@ -3,7 +3,7 @@
 import { domainDescriptions } from '@/api.config'
 import { updateOptionParams } from '@/app/_utils/update-option-params'
 import { useSitesData } from '@/components/sites/dotdos/useSitesData'
-import { getGlowColor, sdks } from '@/domains.config'
+import { sdks } from '@/domains.config'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Fragment } from 'react'
@@ -58,7 +58,6 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                 description={domainDescriptions[domain]}
                 hasSdk={sdks.includes(domain)}
                 mounted={mounted}
-                glowColor={mounted ? getGlowColor(domain) : '#05b2a6'}
               />
             ))}
           </div>
