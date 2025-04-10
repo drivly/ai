@@ -7,4 +7,8 @@ export const metadata: Metadata = {
   description: 'Join us and shape the future of Agentic work',
 }
 
-export default withSitesWrapper(Careers, false, false)
+export default withSitesWrapper({ WrappedPage: Careers, withFaqs: false, withCallToAction: false, minimal: true })
+
+// flag for minimal nav, footer
+// minimal: true
+// default: false

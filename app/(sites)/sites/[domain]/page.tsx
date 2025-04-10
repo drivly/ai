@@ -10,7 +10,7 @@ import { getSession } from '@/lib/auth/context/get-context-props'
 async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
   const { domain } = await props.params
   await getSession()
-  
+
   const site = domain ?? 'llm.do'
 
   const glowColor = getGlowColor(site)
@@ -33,7 +33,7 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
   )
 }
 
-export default withSitesWrapper(DotDoPage)
+export default withSitesWrapper({ WrappedPage: DotDoPage })
 // Get Started // Join
 // --- Request access
 // email onboarding with questions react-email // templates

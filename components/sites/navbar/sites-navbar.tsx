@@ -13,7 +13,7 @@ function linkFilter(link: (typeof navigation)[number]) {
   return link.name !== 'GitHub' && link.name !== 'Discord'
 }
 
-export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }) {
+export function SitesNavbar({ params, minimal }: { params: Promise<{ domain?: string }>; minimal?: boolean }) {
   const domain = use(params).domain
   const navMenuLinks = navigation.filter(linkFilter)
 
@@ -47,22 +47,27 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
         hasScrolled ? 'bg-background/80 border-b' : 'border-transparent bg-transparent',
       )}>
       <nav className='container mx-auto flex h-14 max-w-6xl items-center justify-between px-3'>
-        <LlmsdoLogo domain={domain} />
+        <LlmsdoLogo domain={domain} minimal={minimal} />
 
-        <div className='absolute left-1/2 mr-6 hidden -translate-x-1/2 transform space-x-6 md:block'>
-          {navMenuLinks.map((link) => {
-            if (link.name !== 'Blog') {
-              return (
-                <Link key={link.name} href={link.href} className='hover:text-primary text-sm font-semibold text-gray-400 transition-colors'>
-                  {link.name}
-                </Link>
-              )
-            }
-          })}
-        </div>
+        {!minimal && (
+          <div className='absolute left-1/2 mr-6 hidden -translate-x-1/2 transform space-x-6 md:block'>
+            {navMenuLinks.map((link) => {
+              if (link.name !== 'Blog') {
+                return (
+                  <Link key={link.name} href={link.href} className='hover:text-primary text-sm font-semibold text-gray-400 transition-colors'>
+                    {link.name}
+                  </Link>
+                )
+              }
+            })}
+          </div>
+        )}
 
         {/* Desktop navigation */}
-        <div className='hidden h-full items-center justify-end space-x-4 md:flex'>
+        <div
+          className={cn('hidden h-full items-center justify-end space-x-4 md:flex', {
+            flex: minimal,
+          })}>
           <Link href={siteConfig.baseLinks.github} className='hover:text-primary text-sm text-gray-400 transition-colors' target='_blank' rel='noopener noreferrer'>
             <FaGithub className='h-5 w-5' />
             <span className='sr-only'>GitHub</span>
@@ -75,7 +80,7 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
           <JoinWaitlistButton className='rounded-sm bg-white text-sm transition-colors' type='user' />
         </div>
 
-        <MobileNav isOpen={isOpen} setOpen={setOpen} domain={domain} />
+        {!minimal && <MobileNav isOpen={isOpen} setOpen={setOpen} domain={domain} />}
       </nav>
     </header>
   )
