@@ -16,7 +16,9 @@ export const betterAuthPlugins = [
     productionURL: 'https://apis.do',
     currentURL: getCurrentURL(),
   }),
-  oidcProvider(),
+  oidcProvider({
+    loginPage: '/sign-in',
+  }),
 ]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
@@ -39,19 +41,6 @@ export const betterAuthOptions: BetterAuthOptions = {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
     //   clientSecret: process.env.MICROSOFT_CLIENT_SECRET as string,
     // },
-  },
-  oidcProviders: {
-    workos: {
-      name: 'WorkOS',
-      clientId: process.env.WORKOS_CLIENT_ID as string,
-      clientSecret: process.env.WORKOS_CLIENT_SECRET as string,
-      issuer: process.env.WORKOS_ISSUER_URL as string,
-      redirectURI: 'https://apis.do/api/auth/callback/workos',
-      scope: 'openid profile email',
-      authenticationOptions: {
-        provider: 'GitHubOAuth',
-      },
-    },
   },
   databaseHooks: {
     user: {
