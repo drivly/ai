@@ -12,7 +12,6 @@
  * - Do not import from /lib/api
  * - All imports must be edge-runtime compatible
  */
-import { apis } from './api.config'
 
 export const hierarchy = {
   AI: {
@@ -61,6 +60,8 @@ export interface DomainConfig {
   isAIGateway?: boolean
   /** Custom glow color for the domain */
   glowColor?: string
+  /** Description of the domain's purpose */
+  description?: string
 }
 
 export interface CollectionConfig {
@@ -126,30 +127,93 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
     }
   })
 
-  // Add specific glow colors for some domains
   config['functions.do'] = {
     collections: ['functions'],
     glowColor: '#b30510', // RED-b30510 Pink-fe8bbb
+    description: 'Typesafe Results without Complexity',
   }
 
   config['database.do'] = {
     collections: ['database'],
     glowColor: '#0510b3', // Blue-0510b3  4a7eff
+    description: 'AI Native Data Access (Search + CRUD)',
   }
 
   config['workflows.do'] = {
     collections: ['workflows'],
     glowColor: '#05b2a6', // Green-05b2a6
+    description: 'Reliably Execute Business Processes',
   }
 
   config['agents.do'] = {
     collections: ['agents'],
     glowColor: '#9e7aff', // Purple
+    description: 'Deploy & Manage Autonomous Digital Workers',
   }
 
   config['llm.do'] = {
     collections: ['llm'],
     glowColor: '#05b2a6', // Green-05b2a6
+    description: 'Intelligent AI Gateway',
+  }
+
+  config['nouns.do'] = {
+    collections: ['nouns'],
+    description: 'People, Places, Things, and Ideas',
+  }
+
+  config['verbs.do'] = {
+    collections: ['verbs'],
+    description: 'The Actions Performed to and by Nouns',
+  }
+
+  config['resources.do'] = {
+    collections: ['resources'],
+    description: 'Structured Data Objects',
+  }
+
+  config['triggers.do'] = {
+    collections: ['triggers'],
+    description: 'Initiate workflows based on events',
+  }
+
+  config['searches.do'] = {
+    collections: ['searches'],
+    description: 'Query and retrieve data',
+  }
+
+  config['actions.do'] = {
+    collections: ['actions'],
+    description: 'Perform tasks within workflows',
+  }
+
+  config['evals.do'] = {
+    collections: ['evals'],
+    description: 'Evaluate Functions, Workflows, and Agents',
+  }
+
+  config['analytics.do'] = {
+    collections: ['analytics'],
+    description: 'Economically Validate Workflows',
+  }
+
+  config['experiments.do'] = {
+    collections: ['experiments'],
+    description: 'Test and Iterate AI Components',
+  }
+
+  config['integrations.do'] = {
+    collections: ['integrations'],
+    description: 'Connect External APIs and Systems',
+  }
+
+  config['models.do'] = {
+    collections: ['models'],
+    description: 'AI Model Selection and Management',
+  }
+
+  config['apis.do'] = {
+    description: 'API Gateway for All Services',
   }
 
   config['databases.do'] = {
@@ -158,6 +222,7 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
 
   config['okrs.do'] = {
     alias: 'goals.do',
+    description: 'Objectives and Key Results',
   }
 
   config['llms.do'] = {
@@ -276,6 +341,21 @@ export function getGlowColor(domain: string): string {
   // Use a random color from the glowColors array
   const randomIndex = Math.floor(Math.random() * glowColors.length)
   return glowColors[randomIndex]
+}
+
+/**
+ * Get the description for a domain
+ *
+ * @param domain The domain to get the description for
+ * @returns The description for the domain, or undefined if not set
+ */
+export function getDomainDescription(domain: string): string | undefined {
+  if (domainsConfig.aliases[domain]) {
+    domain = domainsConfig.aliases[domain]
+  }
+
+  const domainConfig = domainsConfig.domains[domain]
+  return domainConfig?.description
 }
 
 export const domains = [
