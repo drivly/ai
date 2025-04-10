@@ -47,7 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <Providers>
           <Layout
-            banner={banner}
+            // banner={banner}
             navbar={navbar}
             pageMap={pageMap}
             docsRepositoryBase='https://github.com/drivly/ai/tree/main'
