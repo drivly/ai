@@ -1,7 +1,7 @@
 import type { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
-import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/plugins'
+import { admin, apiKey, multiSession, openAPI, oAuthProxy, oidcProvider } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import { getCurrentURL } from '../utils/url'
@@ -16,6 +16,7 @@ export const betterAuthPlugins = [
     productionURL: 'https://apis.do',
     currentURL: getCurrentURL(),
   }),
+  oidcProvider(),
 ]
 
 export type BetterAuthPlugins = typeof betterAuthPlugins
@@ -38,6 +39,19 @@ export const betterAuthOptions: BetterAuthOptions = {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
     //   clientSecret: process.env.MICROSOFT_CLIENT_SECRET as string,
     // },
+  },
+  oidcProviders: {
+    workos: {
+      name: 'WorkOS',
+      clientId: process.env.WORKOS_CLIENT_ID as string,
+      clientSecret: process.env.WORKOS_CLIENT_SECRET as string,
+      issuer: process.env.WORKOS_ISSUER_URL as string,
+      redirectURI: 'https://apis.do/api/auth/callback/workos',
+      scope: 'openid profile email',
+      authenticationOptions: {
+        provider: 'GitHubOAuth',
+      },
+    },
   },
   databaseHooks: {
     user: {
@@ -91,7 +105,7 @@ export const betterAuthOptions: BetterAuthOptions = {
   account: {
     accountLinking: {
       enabled: true,
-      trustedProviders: ['google', 'email-password'],
+      trustedProviders: ['google', 'email-password', 'workos'],
     },
   },
 }
