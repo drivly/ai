@@ -1,6 +1,35 @@
 import { FaDiscord, FaGithub } from 'react-icons/fa'
 import logo from '@/public/favicon/faviconDo.png'
 import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
+import { extractApiNameFromDomain, docsExistForApi, getDocsPath } from '@/middleware'
+
+/**
+ * Get the appropriate docs link based on the hostname
+ * Falls back to '/docs' for domains without specific documentation
+ */
+export const getDocsLink = (hostname: string = ''): string => {
+  if (!hostname) return '/docs'
+  
+  const apiName = extractApiNameFromDomain(hostname)
+  if (docsExistForApi(apiName)) {
+    return getDocsPath(hostname)
+  }
+  
+  return '/docs'
+}
+
+/**
+ * Get the current hostname in a server component
+ * This function should only be called in server components
+ */
+export const getCurrentHostname = (): string => {
+  try {
+    const headersList = headers()
+    return headersList.get('host') || ''
+  } catch (error) {
+    return ''
+  }
+}
 
 export const siteConfig = {
   name: '.do',
@@ -50,8 +79,8 @@ export const siteConfig = {
 
 export type siteConfig = typeof siteConfig
 
-export const navigation = [
-  { name: 'Docs', href: siteConfig.baseLinks.docs },
+export const getNavigation = (hostname: string = '') => [
+  { name: 'Docs', href: getDocsLink(hostname) },
   { name: 'Pricing', href: siteConfig.baseLinks.pricing },
   { name: 'API', href: siteConfig.baseLinks.api },
   { name: 'SDK', href: siteConfig.baseLinks.sdk },
@@ -60,6 +89,8 @@ export const navigation = [
   { name: 'GitHub', href: siteConfig.baseLinks.github, icon: FaGithub, external: true },
   { name: 'Discord', href: siteConfig.baseLinks.discord, icon: FaDiscord, external: true },
 ] as const
+
+export const navigation = getNavigation()
 
 const productLinks = [
   { name: 'Workflows.do', href: siteConfig.baseLinks.products.workflows, external: false },
