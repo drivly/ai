@@ -1,6 +1,6 @@
 import type { AuthStrategy } from 'payload'
-import { getPayloadWithAuth } from '../index'
-import type { TPlugins } from '../types'
+import { getPayloadAuth } from './get-payload-auth'
+import type { TPlugins } from '..'
 
 /**
  * Auth strategy for BetterAuth
@@ -12,55 +12,32 @@ export function betterAuthStrategy(adminRoles?: string[], userSlug?: string): Au
   return {
     name: 'better-auth',
     authenticate: async ({ payload, headers }) => {
+      const payloadAuth = await getPayloadAuth<NonNullable<TPlugins>>(payload.config)
+      const session = await payloadAuth.betterAuth.api.getSession({ headers })
+      const sessionUserIdField = payloadAuth.betterAuth.options.session?.fields?.userId ?? 'userId'
+      const userId = (session?.session as any)?.[sessionUserIdField] ?? session?.user?.id
+
+      if (!session || !userId) {
+        return { user: null }
+      }
       try {
-        const payloadAuth = await getPayloadWithAuth<NonNullable<TPlugins>>(payload.config)
-        
-        if (!payloadAuth) {
-          console.error('payloadAuth is not available in auth-strategy')
-          return { user: null }
-        }
-        
-        if (!payloadAuth.betterAuth) {
-          console.error('betterAuth is not available in auth-strategy')
-          return { user: null }
-        }
-        
-        if (!payloadAuth.betterAuth.api) {
-          console.error('betterAuth API not available in auth-strategy')
-          return { user: null }
-        }
-        
-        const session = await payloadAuth.betterAuth.api.getSession({ headers })
-        const sessionUserIdField = payloadAuth.betterAuth.options.session?.fields?.userId ?? 'userId'
-        const userId = (session?.session as any)?.[sessionUserIdField] ?? session?.user?.id
+        const user = await payloadAuth.findByID({
+          collection: userSlug ?? 'users',
+          id: userId,
+        })
 
-        if (!session || !userId) {
+        if (!user) {
           return { user: null }
         }
-        
-        try {
-          const user = await payloadAuth.findByID({
+
+        return {
+          user: {
+            ...user,
             collection: userSlug ?? 'users',
-            id: userId,
-          })
-
-          if (!user) {
-            return { user: null }
-          }
-
-          return {
-            user: {
-              ...user,
-              collection: userSlug ?? 'users',
-              _strategy: 'better-auth',
-            },
-          }
-        } catch (error) {
-          console.error('Error finding user by ID:', error)
-          return { user: null }
+            _strategy: 'better-auth',
+          },
         }
-      } catch (error) {
-        console.error('Error in betterAuth authentication:', error)
+      } catch {
         return { user: null }
       }
     },

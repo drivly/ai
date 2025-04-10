@@ -15,6 +15,7 @@ export const getCurrentURL = (headers?: Headers) => {
     return `${protocol}://${host}`
   }
 
+  if (process.env.NODE_ENV === 'development') return 'http://localhost:3000'
   if (typeof window !== 'undefined') return window.location.origin
 
   if (process.env.NEXT_PUBLIC_SERVER_URL) return process.env.NEXT_PUBLIC_SERVER_URL
@@ -25,7 +26,6 @@ export const getCurrentURL = (headers?: Headers) => {
   if (process.env.NEXT_PUBLIC_VERCEL_URL) return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
   if (process.env.VERCEL_BRANCH_URL) return process.env.VERCEL_BRANCH_URL
   if (process.env.VERCEL_PREVIEW_URL) return process.env.VERCEL_PREVIEW_URL
-  if (process.env.NODE_ENV === 'development') return 'http://localhost:3000'
 
   return 'https://apis.do'
 }

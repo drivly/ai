@@ -1,8 +1,8 @@
+import type { BetterAuthOptions } from 'better-auth'
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import type { BetterAuthOptions } from 'better-auth'
-import { generateSchemaBuilderStage } from './generate-schema-builder.js'
-import { getPayloadSchema } from './get-payload-schema.js'
+import { generateSchemaBuilderStage } from './generate-schema-builder'
+import { getPayloadSchema } from './get-payload-schema'
 
 export const generateSchema = async (
   BAoptions: BetterAuthOptions,

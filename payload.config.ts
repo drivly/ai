@@ -1,6 +1,6 @@
 // storage-adapter-import-placeholder
-import { payloadAgentPlugin } from '@drivly/payload-agent'
-import { payloadBetterAuth } from '@payload-auth/better-auth-plugin'
+// import { payloadAgentPlugin } from '@drivly/payload-agent'
+import { betterAuthPlugin } from '@payload-auth/better-auth-plugin'
 import { openapi } from 'payload-oapi'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -25,6 +25,7 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     // user: 'users',
+
     importMap: {
       baseDir: path.resolve(dirname),
       importMapFile: path.resolve(dirname, 'app/(admin)/admin/importMap.js'),
@@ -100,7 +101,7 @@ export default buildConfig({
     //   logo: '/DrivlyLogo.svg',
     //   // suggestions: suggestedActions,
     // }),
-    payloadBetterAuth(payloadBetterAuthOptions),
+    betterAuthPlugin(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     openapi({
       metadata: {

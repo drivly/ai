@@ -7,8 +7,4 @@ export const metadata: Metadata = {
   description: 'Join us and shape the future of Agentic work',
 }
 
-function CareersPage() {
-  return <Careers />
-}
-
-export default withSitesWrapper(CareersPage, false, false)
+export default withSitesWrapper(Careers, false, false)

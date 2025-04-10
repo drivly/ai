@@ -4,7 +4,7 @@ import { setCookieCache } from 'better-auth/cookies'
 import { parseSetCookie, type ResponseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { cookies } from 'next/headers'
 import { CollectionAfterLoginHook } from 'payload'
-import { getPayloadWithAuth } from '../../../index'
+import { getPayloadAuth } from '../../../lib/get-payload-auth'
 import { getIp } from '../../../helpers/get-ip'
 import { prepareSessionData } from '../../../lib/prepare-session-data'
 
@@ -20,7 +20,7 @@ type AfterLoginOptions = {
 export const getAfterLoginHook = (options: AfterLoginOptions): CollectionAfterLoginHook => {
   const hook: CollectionAfterLoginHook = async ({ collection, context, req, token, user }) => {
     const config = req.payload.config
-    const payload = await getPayloadWithAuth(config)
+    const payload = await getPayloadAuth(config)
     const cookieStore = await cookies()
     const authContext = await payload.betterAuth.$context
 

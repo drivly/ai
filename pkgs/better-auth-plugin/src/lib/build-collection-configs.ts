@@ -1,4 +1,4 @@
-import type { PayloadBetterAuthPluginOptions, SanitizedBetterAuthOptions } from '../types'
+import type { PayloadBetterAuthPluginOptions, SanitizedBetterAuthOptions } from '..'
 import { baseCollectionSlugs, betterAuthPluginSlugs } from './config'
 import { betterAuthStrategy } from './auth-strategy'
 import { getAfterLogoutHook } from '../collections/users/hooks/after-logout'
@@ -1574,13 +1574,5 @@ export function buildCollectionConfigs({
     )
   })
 
-  const enhancedCollectionsWithGroup = enhancedCollections.map((collection) => ({
-    ...collection,
-    admin: {
-      ...collection.admin,
-      group: 'Admin',
-    },
-  }))
-
-  return [...enhancedCollectionsWithGroup, ...restOfCollections]
+  return [...enhancedCollections, ...restOfCollections]
 }

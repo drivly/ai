@@ -5,7 +5,7 @@ export interface DotdoLogoProps {
 
 export const DotdoLogo = (props: DotdoLogoProps) => {
   return (
-    <div className={cn('relative flex h-7 w-20 items-center justify-center', props.className)}>
+    <div className={cn('relative flex h-7 items-center justify-center', props.className)}>
       {/* Use a direct SVG element instead of an img tag */}
 
       <svg width='268' height='148' viewBox='0 0 268 148' fill='none' xmlns='http://www.w3.org/2000/svg' className='h-full w-full'>

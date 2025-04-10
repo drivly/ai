@@ -320,7 +320,7 @@ export interface User {
   /**
    * The role of the user
    */
-  role: 'admin' | 'user';
+  role: 'user' | 'admin' | 'superAdmin';
   updatedAt: string;
   createdAt: string;
   /**

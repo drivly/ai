@@ -31,7 +31,7 @@ const faqs = [
 
 export function Faqs() {
   return (
-    <section className='mx-auto max-w-6xl container py-20 sm:my-36 px-3' aria-labelledby='faq-title'>
+    <section className='container mx-auto max-w-6xl px-3 py-20 sm:my-36' aria-labelledby='faq-title'>
       <div className='grid grid-cols-1 lg:grid-cols-12 lg:gap-14'>
         <div className='col-span-full sm:col-span-5'>
           <h2 id='faq-title' className='scroll-my-24 text-2xl font-semibold tracking-tight text-white lg:text-3xl'>
@@ -42,8 +42,8 @@ export function Faqs() {
           <Accordion type='multiple' className='sm:mx-auto'>
             {faqs.map((item) => (
               <AccordionItem value={item.question} key={item.question} className='border-b border-gray-800 py-3 first:pt-0 first:pb-3'>
-                <AccordionTrigger className='text-left text-white hover:no-underline'>{item.question}</AccordionTrigger>
-                <AccordionContent className='text-gray-400'>{item.answer}</AccordionContent>
+                <AccordionTrigger className='text-left text-lg text-white hover:no-underline'>{item.question}</AccordionTrigger>
+                <AccordionContent className='text-base leading-[24px] text-gray-400 sm:text-sm sm:leading-[22px]'>{item.answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>

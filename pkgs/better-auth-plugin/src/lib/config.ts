@@ -18,6 +18,7 @@ export const supportedBetterAuthPluginIds = {
   nextCookies: 'next-cookies',
   sso: 'sso',
   oidc: 'oidc',
+  expo: 'expo',
   oAuthProxy: 'oauth-proxy',
 } as const
 

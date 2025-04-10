@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayloadAuth } from '@/lib/auth/payload-auth'
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
 export const POST = API(async (request, { url, user }) => {
@@ -7,7 +7,7 @@ export const POST = API(async (request, { url, user }) => {
     return { error: 'unauthorized', error_description: 'Authentication required' }
   }
 
-  const payload = await getPayloadAuth()
+  const payload = await getPayloadWithAuth()
 
   const userDoc = await payload.findByID({
     collection: 'users',

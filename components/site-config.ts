@@ -113,7 +113,7 @@ const resourceLinks = [
 
 const companyLinks = [
   { name: 'About', href: siteConfig.baseLinks.company.about, external: false },
-  { name: 'Careers', href: siteConfig.baseLinks.company.careers, external: false },
+  { name: 'Careers', href: siteConfig.baseLinks.company.careers, external: true },
   { name: 'Contact', href: siteConfig.baseLinks.company.contact, external: true },
   { name: 'Privacy', href: siteConfig.baseLinks.company.privacy, external: false },
   { name: 'Terms', href: siteConfig.baseLinks.company.terms, external: false },

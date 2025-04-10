@@ -117,7 +117,7 @@ export function MobileNavMenu({ onClose, domain }: { onClose: () => void; domain
       })}
 
       <li className='pt-4'>
-        <JoinWaitlistButton className='h-10 w-full rounded-sm bg-white text-base transition-colors sm:text-sm'>Join waitlist</JoinWaitlistButton>
+        <JoinWaitlistButton className='h-10 w-full text-base transition-colors sm:text-sm' type='cta' />
       </li>
     </ul>
   )

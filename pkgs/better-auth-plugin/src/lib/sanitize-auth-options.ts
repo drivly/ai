@@ -1,5 +1,4 @@
-import { BetterAuthOptions } from 'better-auth'
-import type { PayloadBetterAuthPluginOptions, SanitizedBetterAuthOptions } from '../types'
+import type { PayloadBetterAuthPluginOptions, SanitizedBetterAuthOptions } from '..'
 import { supportedBetterAuthPluginIds, betterAuthPluginSlugs, baseCollectionSlugs } from './config'
 import { ensurePasswordSetBeforeUserCreate } from './ensure-password-set-before-create'
 import { verifyPassword, hashPassword } from './password'
@@ -61,7 +60,8 @@ export function sanitizeBetterAuthOptions(
     }
   }
 
-  if (options.users?.blockFirstBetterAuthVerificationEmail) {
+  // eslint-disable-next-line no-extra-boolean-cast
+  if (Boolean(options.users?.blockFirstBetterAuthVerificationEmail)) {
     const originalSendVerificationEmail = baOptions?.emailVerification?.sendVerificationEmail
     // Only override sendVerificationEmail if the developer provided their own implementation
     if (typeof originalSendVerificationEmail === 'function') {
