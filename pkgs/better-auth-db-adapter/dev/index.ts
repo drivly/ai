@@ -11,10 +11,6 @@ export const payloadConfig = buildConfig({
     user: 'user',
   },
   secret: process.env.PAYLOAD_SECRET || 'super-secret-payload-key',
-  custom: {
-    // This is needed for the better-auth adapter to work
-    hasBetterAuthPlugin: true,
-  },
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
@@ -167,12 +163,7 @@ export const payloadConfig = buildConfig({
 })
 
 export async function getPayload() {
-  try {
-    return await getPayloadBase({ config: payloadConfig })
-  } catch (error) {
-    console.error('Error initializing Payload:', error)
-    throw error
-  }
+  return await getPayloadBase({ config: payloadConfig })
 }
 
 export default payloadConfig

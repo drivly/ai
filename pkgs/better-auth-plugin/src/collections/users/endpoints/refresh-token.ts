@@ -2,7 +2,7 @@ import { setCookieCache } from 'better-auth/cookies'
 import { CollectionSlug, type Endpoint, getFieldsToSign, refreshOperation, User } from 'payload'
 import { GenericEndpointContext } from 'better-auth/types'
 import { EndpointWithBetterAuth } from '../../../types'
-import { getPayloadWithAuth } from '../../../index'
+import { getPayloadAuth } from '../../../lib/get-payload-auth'
 
 type RefreshTokenEndpointOptions = {
   userSlug: CollectionSlug
@@ -15,7 +15,7 @@ export const getRefreshTokenEndpoint = (options?: RefreshTokenEndpointOptions): 
     path: '/refresh-token',
     method: 'post',
     handler: async (req) => {
-      const payload = await getPayloadWithAuth(req.payload.config)
+      const payload = await getPayloadAuth(req.payload.config)
       const betterAuth = payload.betterAuth
       const authContext = await betterAuth?.$context
       const userCollection = payload.collections[userSlug as CollectionSlug]

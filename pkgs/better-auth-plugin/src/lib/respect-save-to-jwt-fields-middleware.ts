@@ -1,6 +1,6 @@
 import { setCookieCache } from 'better-auth/cookies'
 import { createAuthMiddleware } from 'better-auth/api'
-import type { SanitizedBetterAuthOptions, PayloadBetterAuthPluginOptions } from '../types'
+import type { SanitizedBetterAuthOptions, PayloadBetterAuthPluginOptions } from '..'
 import type { Config, Payload } from 'payload'
 import { prepareSessionData } from './prepare-session-data'
 
