@@ -30,21 +30,21 @@ const isBrandDomain = (hostname: string): boolean => {
 /**
  * Check if a domain is a .do domain
  */
-const isDoDomain = (hostname: string): boolean => {
+export const isDoDomain = (hostname: string): boolean => {
   return hostname.endsWith('.do') || hostname.endsWith('.do.gt') || hostname.endsWith('.do.mw')
 }
 
 /**
  * Extract API name from a .do, .do.gt, or .do.mw domain
  */
-const extractApiNameFromDomain = (hostname: string): string => {
+export const extractApiNameFromDomain = (hostname: string): string => {
   return hostname.replace(/\.do(\.mw|\.gt)?$/, '')
 }
 
 /**
  * Check if docs exist for a specific API name
  */
-const docsExistForApi = (apiName: string): boolean => {
+export const docsExistForApi = (apiName: string): boolean => {
   const apisWithDocs = ['functions', 'workflows', 'agents', 'llm', 'integrations', 'database', 'evals', 'experiments'];
   return apisWithDocs.includes(apiName);
 }
@@ -52,7 +52,7 @@ const docsExistForApi = (apiName: string): boolean => {
 /**
  * Get path to correct docs hierarchy for a domain
  */
-const getDocsPath = (hostname: string): string => {
+export const getDocsPath = (hostname: string): string => {
   const apiName = extractApiNameFromDomain(hostname)
   // TODO: we need to refactor this to support nested docs, because not every API will be root level
 
@@ -147,8 +147,8 @@ export async function middleware(request: NextRequest) {
         ? pathname.slice(0, -1) 
         : pathname
       
-      console.log('Rewriting brand domain to sites domain path', { hostname, cleanPathname, search })
-      return NextResponse.rewrite(new URL(`/sites/${hostname}${cleanPathname}${search}`, request.url))
+      console.log('Rewriting brand domain to sites domain path using .do', { hostname, cleanPathname, search })
+      return NextResponse.rewrite(new URL(`/sites/.do${cleanPathname}${search}`, request.url))
     }
 
     if (isDoDomain(hostname)) {
@@ -171,21 +171,22 @@ export async function middleware(request: NextRequest) {
 
       /**
        * Handle documentation paths (/docs and /docs/*)
-       * - Redirects to appropriate docs path based on domain
+       * - Commented out redirect logic to allow access to root documentation pages
+       * - TODO: Figure out how to support domain-specific docs without blocking access to root docs
        */
       if (pathname === '/docs' || pathname.startsWith('/docs/')) {
         console.log('Handling docs path', { hostname, pathname, search })
-        const apiName = extractApiNameFromDomain(hostname)
-        const hash = request.nextUrl.hash || ''
+        // const apiName = extractApiNameFromDomain(hostname)
+        // const hash = request.nextUrl.hash || ''
         
-        if (pathname === '/docs' && docsExistForApi(apiName)) {
-          const docsPath = getDocsPath(hostname)
-          return NextResponse.redirect(new URL(`${docsPath}${search}${hash}`, request.url), 307)
-        }
+        // if (pathname === '/docs' && docsExistForApi(apiName)) {
+        //   const docsPath = getDocsPath(hostname)
+        //   return NextResponse.redirect(new URL(`${docsPath}${search}${hash}`, request.url), 307)
+        // }
         
-        if (pathname === '/docs') {
-          return NextResponse.redirect(new URL(`/docs${search}${hash}`, request.url), 307)
-        }
+        // if (pathname === '/docs') {
+        //   return NextResponse.redirect(new URL(`/docs${search}${hash}`, request.url), 307)
+        // }
         
         return NextResponse.next()
       }

@@ -14,7 +14,7 @@ async function SitesPage() {
   const domainsByCategory = getDomainsByCategory(domains)
 
   return (
-    <div className='container mx-auto max-w-6xl px-4 pt-5 pb-20 md:pb-40 lg:px-8'>
+    <div className='container mx-auto max-w-6xl px-3 pt-5 pb-20 md:pb-40'>
       <HeroSection title='Do Business-as-Code' description='Purpose-built domains for your business workflows and AI integrations' className='pb-16' />
       <Suspense
         fallback={
