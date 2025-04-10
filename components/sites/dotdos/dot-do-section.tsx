@@ -54,7 +54,7 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                 key={domain}
                 title={domain}
                 href={showAbsolute || isBrandDomain ? `https://${domain}` : `/sites/${domain}`}
-                description={getDomainDescription(domain)}
+                description={getDomainDescription(domain) || ''}
                 hasSdk={sdks.includes(domain)}
                 mounted={mounted}
                 glowColor={mounted ? getGlowColor(domain) : '#05b2a6'}
