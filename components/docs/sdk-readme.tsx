@@ -17,10 +17,21 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   let sdkContent = null;
   
   if (sdkName === 'workflows.do') {
-    sdkContent = sdks.find(sdk => 
-      sdk.content && 
-      sdk.content.toLowerCase().includes('workflows.do - elegant business process orchestration')
-    );
+    sdkContent = sdks.find(sdk => {
+      if (!sdk.content) return false;
+      
+      const content = sdk.content.toLowerCase();
+      
+      return (
+        content.includes('workflows.do') && 
+        content.includes('business process orchestration') &&
+        !content.includes('actions.do - elegant external system operations')
+      );
+    });
+    
+    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+      console.log('Special workflows.do search result:', !!sdkContent);
+    }
   }
   
   if (!sdkContent) {
