@@ -1,17 +1,21 @@
 /**
- * Convert a title to a URL slug by replacing spaces with underscores
+ * Convert a title to a URL slug by replacing spaces with hyphens
  * and removing special characters
  */
 export function titleToSlug(title: string): string {
   return title
     .trim()
-    .replace(/\s+/g, '_')
-    .replace(/[^\w_-]/g, '');
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]/g, '');
 }
 
 /**
- * Convert a URL slug back to a title by replacing underscores with spaces
+ * Convert a URL slug back to a title by replacing hyphens with spaces
+ * and properly capitalizing words
  */
 export function slugToTitle(slug: string): string {
-  return slug.replace(/_/g, ' ');
+  return slug
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
 }
