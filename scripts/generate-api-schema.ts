@@ -3,6 +3,8 @@ import path from 'path'
 import { generateOpenApiSpec } from '../lib/api-schema'
 import payload from 'payload'
 import { fileURLToPath } from 'url'
+import { getPayload } from 'payload'
+import config from '../payload.config'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -13,17 +15,23 @@ async function generateApiSchema() {
   try {
     console.log('Initializing Payload CMS...')
     
-    let payloadInstance = payload
+    let payloadInstance
     
-    if (!('collections' in payloadInstance)) {
-      console.log('Payload not initialized, initializing now...')
-      payloadInstance = await payload.init({
-        local: true,
-        mongoURL: process.env.DATABASE_URI || 'mongodb://localhost/payload-local',
-        onInit: () => {
-          console.log('Payload initialized successfully')
-        },
-      })
+    try {
+      if ('collections' in payload) {
+        payloadInstance = payload
+      } else {
+        console.log('Payload not initialized, initializing now...')
+        payloadInstance = await getPayload({
+          config,
+        })
+        console.log('Payload initialized successfully')
+      }
+    } catch (error) {
+      console.error('Error initializing Payload:', error)
+      payloadInstance = {
+        collections: {},
+      }
     }
     
     console.log('Generating OpenAPI schema...')
