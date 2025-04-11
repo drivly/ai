@@ -18,8 +18,10 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   const sdkContent = sdks.find(
     (sdk) => {
       const contentMatch = sdk.content && (
-        sdk.content.toLowerCase().includes(`# ${sdkName}`) || 
-        sdk.content.toLowerCase().includes(`# ${sdkName.replace('.do', '')}`)
+        sdk.content.toLowerCase().includes(`<h1><a href="https://${sdkName}">`) || 
+        sdk.content.toLowerCase().includes(`<h1><a href="https://${sdkName.replace('.do', '')}.do">`) ||
+        sdk.content.toLowerCase().includes(`# [${sdkName}]`) ||
+        sdk.content.toLowerCase().includes(`# [${sdkName.replace('.do', '')}]`)
       )
       
       const titleMatch = sdk.title && (
@@ -37,9 +39,7 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   
   return (
     <div className="sdk-readme">
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>
-        {sdkContent.content}
-      </ReactMarkdown>
+      <div dangerouslySetInnerHTML={{ __html: sdkContent.content }} />
     </div>
   )
 }
