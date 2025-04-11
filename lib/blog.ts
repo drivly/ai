@@ -123,13 +123,54 @@ export async function generateBlogPosts(domain: string, count: number = 9, topic
   } catch (error) {
     console.error(`Error generating blog posts for domain ${domain}:`, error)
     
+    if (domain === 'workflows.do') {
+      const workflowPosts = [
+        {
+          slug: 'workflow-automation-best-practices',
+          title: 'Workflow Automation Best Practices for Business Efficiency',
+          description: 'Learn how to implement effective workflow automation strategies to streamline your business processes.',
+          date: new Date().toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' }).replace(/\//g, '-'),
+          category: 'Best Practices',
+          image: '/images/blog-functions.png',
+        },
+        {
+          slug: 'optimizing-business-processes',
+          title: 'Optimizing Business Processes with Workflows.do',
+          description: 'Discover how Workflows.do can help you optimize and automate complex business processes with minimal effort.',
+          date: new Date().toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' }).replace(/\//g, '-'),
+          category: 'Tutorials',
+          image: '/images/blog-llm.png',
+        },
+        {
+          slug: 'workflow-integration-strategies',
+          title: 'Workflow Integration Strategies for Enterprise Systems',
+          description: 'Explore effective strategies for integrating automated workflows with your existing enterprise systems.',
+          date: new Date().toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' }).replace(/\//g, '-'),
+          category: 'Industry Insights',
+          image: '/images/apis-plus-ai.png',
+        }
+      ]
+      
+      const staticPosts = getAllBlogPosts()
+      const remainingCount = count - workflowPosts.length
+      
+      if (remainingCount > 0) {
+        const additionalPosts = staticPosts.slice(0, remainingCount).map(post => ({
+          ...post,
+          description: `${post.description} Learn how this applies to workflow automation and business processes.`
+        }))
+        
+        return [...workflowPosts, ...additionalPosts]
+      }
+      
+      return workflowPosts
+    }
+    
     const staticPosts = getAllBlogPosts()
     return staticPosts.map(post => {
       let domainDescription = post.description
       
-      if (domain === 'workflows.do') {
-        domainDescription = `${post.description} Learn how this applies to workflow automation and business processes.`
-      } else if (domain === 'functions.do') {
+      if (domain === 'functions.do') {
         domainDescription = `${post.description} Explore how this works with serverless functions and code execution.`
       } else if (domain === 'agents.do') {
         domainDescription = `${post.description} Discover the implications for AI agents and autonomous systems.`
