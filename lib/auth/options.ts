@@ -50,7 +50,7 @@ export type BetterAuthPlugins = typeof betterAuthPlugins
 
 export const betterAuthOptions: BetterAuthOptions = {
   secret: process.env.BETTER_AUTH_SECRET as string,
-  appName: 'AGI Platform',
+  appName: '.do',
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
