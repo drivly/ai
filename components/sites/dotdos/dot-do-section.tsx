@@ -1,9 +1,8 @@
 'use client'
 
-import { domainDescriptions } from '@/api.config'
 import { updateOptionParams } from '@/app/_utils/update-option-params'
 import { useSitesData } from '@/components/sites/dotdos/useSitesData'
-import { sdks } from '@/domains.config'
+import { sdks, getDomainDescription } from '@/domains.config'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Fragment } from 'react'
@@ -55,7 +54,7 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                 key={domain}
                 title={domain}
                 href={showAbsolute || isBrandDomain ? `https://${domain}` : `/sites/${domain}`}
-                description={domainDescriptions[domain]}
+                description={getDomainDescription(domain) || ''}
                 hasSdk={sdks.includes(domain)}
                 mounted={mounted}
               />

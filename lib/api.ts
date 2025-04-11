@@ -416,7 +416,6 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
 // NOTE: Do not import from clickable-apis or simple-payload packages until things stabilize.
 // We're using the native implementation directly to avoid dependency issues.
 // Later we can extract these functions into those packages if needed.
-import { domainDescriptions } from '../api.config'
 
 export const API = createApiHandler
 

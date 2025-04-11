@@ -1,212 +1,42 @@
-import { getDomain } from './domains.config'
+import { 
+  getDomain, 
+  getDomainDescription, 
+  domainCategories, 
+  parentDomains, 
+  childDomains, 
+  relatedDomains, 
+  domainSymbols, 
+  domainDescriptions 
+} from './domains.config'
 
-export const siteCategories: Record<string, string[]> = {
-  AI: ['workflows.do', 'functions.do', 'agents.do'],
-  Business: ['goals.do', 'okrs.do', 'kpis.do', 'plans.do', 'projects.do', 'tasks.do'],
-  Data: ['nouns.do', 'verbs.do', 'resources.do', 'database.do', 'vectors.do', 'graph.do', 'objects.do', 'searches.do', 'analytics.do'],
-  Collections: ['functions.do', 'nouns.do', 'verbs.do', 'things.do', 'resources.do', 'webhooks.do'],
-  Core: ['workflows.do', 'agents.do', 'database.do', 'llm.do'],
-  Events: ['triggers.do', 'events.do', 'actions.do'],
-  Infrastructure: ['apis.do', 'services.do', 'workers.do', 'integrations.do'],
-  Tools: ['sdk.do', 'pkg.do', 'repo.do', 'scraper.do', 'extract.do'],
-  Web: ['sites.do', 'browse.do', 'browser.do', 'browsers.do'],
-  Management: ['tasks.do', 'issues.do', 'okrs.do', 'kpis.do', 'lists.do'],
-  Executives: ['cto.do', 'cpo.do', 'cfo.do', 'cmo.do', 'coo.do', 'cro.do'],
-  Sales: ['bdr.do', 'sdr.do', 'dealers.do'],
-  Agents: ['amy.do', 'ari.do', 'nat.do', 'dara.do', 'tom.do', 'ivy.do', 'lena.do', 'lexi.do'],
-  Monitoring: ['traces.do', 'trace.do', 'perf.do', 'dashboard.do'],
-  Utilities: ['barcode.do', 'qrcode.do', 'speak.do', 'emails.do', 'photos.do'],
-}
+export const siteCategories = Object.fromEntries(
+  Object.entries(domainCategories).map(([category, domains]) => [
+    category,
+    domains.map(domain => `${domain}.do`)
+  ])
+)
 
-export const parentDomains: Record<string, string> = {
-  'function.do': 'functions.do',
-  'trigger.do': 'triggers.do',
-  'search.do': 'searches.do',
-  'action.do': 'actions.do',
-  'worker.do': 'workers.do',
-  'webhook.do': 'webhooks.do',
-  'trace.do': 'traces.do',
-  'service.do': 'services.do',
-  'request.do': 'requests.do',
-  'response.do': 'responses.do',
-  'task.do': 'tasks.do',
-  'event.do': 'events.do',
-  'object.do': 'objects.do',
-  'vector.do': 'vectors.do',
-}
+export const parentDomainsWithDo: Record<string, string> = Object.fromEntries(
+  Object.entries(parentDomains).map(([child, parent]) => [
+    `${child}.do`,
+    `${parent}.do`
+  ])
+)
 
-export const childDomains: Record<string, string[]> = {
-  'functions.do': ['function.do'],
-  'triggers.do': ['trigger.do'],
-  'searches.do': ['search.do'],
-  'actions.do': ['action.do'],
-  'workers.do': ['worker.do'],
-  'webhooks.do': ['webhook.do'],
-  'traces.do': ['trace.do'],
-  'services.do': ['service.do'],
-  'requests.do': ['request.do'],
-  'responses.do': ['response.do'],
-  'tasks.do': ['task.do'],
-  'events.do': ['event.do'],
-  'objects.do': ['object.do'],
-  'vectors.do': ['vector.do'],
-}
+export const childDomainsWithDo: Record<string, string[]> = Object.fromEntries(
+  Object.entries(childDomains).map(([parent, children]) => [
+    `${parent}.do`,
+    children.map(child => `${child}.do`)
+  ])
+)
 
-export const apis: Record<string, string> = {
-  functions: 'Typesafe Results without Complexity',
-  workflows: 'Reliably Execute Business Processes',
-  database: 'AI Native Data Access (Search + CRUD)',
-  agents: 'Deploy & Manage Autonomous Digital Workers',
-  nouns: 'People, Places, Things, and Ideas',
-  verbs: 'The Actions Performed to and by Nouns',
-  resources: 'Structured Data Objects',
-  triggers: 'Initiate workflows based on events',
-  searches: 'Query and retrieve data',
-  actions: 'Perform tasks within workflows',
-  llm: 'Intelligent AI Gateway',
-  evals: 'Evaluate Functions, Workflows, and Agents',
-  analytics: 'Economically Validate Workflows',
-  experiments: 'Test and Iterate AI Components',
-  integrations: 'Connect External APIs and Systems',
-  models: 'AI Model Selection and Management',
-  workers: 'Cloudflare Workers API',
-}
+export { parentDomainsWithDo as parentDomains }
+export { childDomainsWithDo as childDomains }
+export { relatedDomains as related }
+export { domainSymbols as symbols }
 
-export const related: Record<string, string[]> = {
-  functions: ['nouns', 'verbs', 'things', 'function', 'resources'],
-  workflows: ['triggers', 'searches', 'actions', 'tasks', 'events'],
-  database: ['evals', 'analytics', 'experiments', 'vectors', 'graph', 'objects'],
-  agents: ['integrations', 'models', 'humans', 'bots', 'workers'],
-  llm: ['evals', 'analytics', 'experiments', 'gpt', 'embeddings'],
-  nouns: ['things', 'objects', 'humans'],
-  verbs: ['actions', 'tasks', 'triggers'],
-  things: ['nouns', 'objects', 'data'],
-  resources: ['nouns', 'objects', 'data'],
-  triggers: ['events', 'webhooks', 'actions'],
-  searches: ['vectors', 'embeddings', 'graph'],
-  actions: ['tasks', 'workflows', 'functions'],
-  evals: ['benchmarks', 'experiments', 'analytics'],
-  analytics: ['dashboard', 'kpis', 'experiments'],
-  experiments: ['evals', 'analytics', 'research'],
-  integrations: ['apis', 'services', 'webhooks'],
-  models: ['llm', 'gpt', 'embeddings'],
-}
-
-export const symbols: Record<string, string> = {
-  入: 'functions',
-  巛: 'workflows',
-  彡: 'database',
-  人: 'agents',
-  回: 'nouns',
-  亘: 'verbs',
-  目: 'things',
-  田: 'triggers',
-  卌: 'searches',
-  口: 'actions',
-}
-
-export const domainDescriptions: Record<string, string> = {
-  'functions.do': 'Typesafe Results without Complexity',
-  'workflows.do': 'Reliably Execute Business Processes',
-  'database.do': 'AI Native Data Access (Search + CRUD)',
-  'agents.do': 'Deploy & Manage Autonomous Digital Workers',
-  'nouns.do': 'People, Places, Things, and Ideas',
-  'verbs.do': 'The Actions Performed to and by Nouns',
-  'things.do': 'Data Resources with Properties',
-  'triggers.do': 'Initiate workflows based on events',
-  'searches.do': 'Query and retrieve data',
-  'actions.do': 'Perform tasks within workflows',
-  'llm.do': 'Intelligent AI Gateway',
-  'evals.do': 'Evaluate Functions, Workflows, and Agents',
-  'analytics.do': 'Economically Validate Workflows',
-  'experiments.do': 'Test and Iterate AI Components',
-  'integrations.do': 'Connect External APIs and Systems',
-  'models.do': 'AI Model Selection and Management',
-  'apis.do': 'API Gateway for All Services',
-  'agi.do': 'Artificial General Intelligence Research',
-  'amy.do': 'Personal AI Assistant',
-  'ari.do': 'AI Research Interface',
-  'barcode.do': 'Barcode Generation and Scanning',
-  'bdr.do': 'Business Development Resources',
-  'benchmarks.do': 'Performance Testing and Comparison',
-  'blogs.do': 'Content Management and Publishing',
-  'bots.do': 'Automated Task Execution',
-  'browse.do': 'Web Browsing and Navigation',
-  'browser.do': 'Web Content Rendering',
-  'browsers.do': 'Cross-Browser Testing',
-  'careers.do': 'Job Listings and Career Development',
-  'cfo.do': 'Financial Planning and Analysis',
-  'clickhouse.do': 'High-Performance Analytics Database',
-  'cmo.do': 'Marketing Strategy and Execution',
-  'colo.do': 'Colocation and Infrastructure',
-  'coo.do': 'Operations Management',
-  'cpo.do': 'Product Strategy and Roadmap',
-  'cro.do': 'Revenue Optimization',
-  'cto.do': 'Technology Strategy and Leadership',
-  'ctx.do': 'Context Management for AI',
-  'dara.do': 'Data Analysis and Reporting',
-  'dash.do': 'Interactive Data Visualization',
-  'dashboard.do': 'Business Intelligence and Metrics',
-  'dealers.do': 'Partner and Reseller Management',
-  'emails.do': 'Email Composition and Delivery',
-  'embeddings.do': 'Vector Representation of Data',
-  'esbuild.do': 'JavaScript Bundling and Optimization',
-  'events.do': 'Event Management and Processing',
-  'extract.do': 'Data Extraction and Transformation',
-  'function.do': 'Single Function Execution',
-  'gcp.do': 'Google Cloud Platform Integration',
-  'gpt.do': 'Generative Pre-trained Transformer',
-  'graph.do': 'Graph Database and Visualization',
-  'humans.do': 'Human-in-the-Loop Processes',
-  'issues.do': 'Issue Tracking and Resolution',
-  'ivy.do': 'Intelligent Virtual Assistant',
-  'kpis.do': 'Key Performance Indicators',
-  'lena.do': 'Language Enhancement and Analysis',
-  'lexi.do': 'Lexical Analysis and Processing',
-  'lists.do': 'List Management and Organization',
-  'lodash.do': 'Utility Library for JavaScript',
-  'mcp.do': 'Master Control Program',
-  'mdx.do': 'Markdown with JSX Support',
-  'nat.do': 'Network Analysis Tool',
-  'nats.do': 'Messaging System for Cloud Native',
-  'oauth.do': 'Authentication and Authorization',
-  'objects.do': 'Object Storage and Management',
-  'okrs.do': 'Objectives and Key Results',
-  'payload.do': 'Headless CMS and API',
-  'pdm.do': 'Product Data Management',
-  'perf.do': 'Performance Monitoring and Optimization',
-  'photos.do': 'Image Storage and Processing',
-  'pkg.do': 'Package Management',
-  'programmers.do': 'Developer Resources and Tools',
-  'prxy.do': 'Proxy Server and Routing',
-  'qrcode.do': 'QR Code Generation and Scanning',
-  'queue.do': 'Message Queue Management',
-  'repo.do': 'Repository Management',
-  'requests.do': 'HTTP Request Handling',
-  'research.do': 'Research and Development',
-  'responses.do': 'API Response Formatting',
-  'scraper.do': 'Web Scraping and Data Extraction',
-  'sdk.do': 'Software Development Kit',
-  'sdr.do': 'Sales Development Resources',
-  'services.do': 'Service Discovery and Registry',
-  'sites.do': 'Website Management',
-  'speak.do': 'Text-to-Speech Conversion',
-  'state.do': 'State Management for Applications',
-  'studio.do': 'Creative Development Environment',
-  'svc.do': 'Service Management',
-  'swe.do': 'Software Engineering Resources',
-  'tasks.do': 'Task Management and Scheduling',
-  'tom.do': 'Task Order Management',
-  'trace.do': 'Distributed Tracing',
-  'traces.do': 'Execution Path Monitoring',
-  'trigger.do': 'Event-Based Execution',
-  'vectors.do': 'Vector Database and Operations',
-  'vehicle.do': 'Vehicle Data and Management',
-  'vera.do': 'Verification and Authentication',
-  'waitlist.do': 'Waitlist Management',
-  'webhook.do': 'Webhook Registration and Delivery',
-  'webhooks.do': 'Event Subscription Management',
-  'worker.do': 'Background Task Processing',
-  'workers.do': 'Distributed Task Execution',
-  'dotdo.co': '.do | Economically Valuable Work',
-}
+export const apis: Record<string, string> = Object.fromEntries(
+  Object.entries(domainDescriptions)
+    .map(([key, value]) => [key.toLowerCase(), value])
+    .filter(([key]) => !key.includes('.'))
+)

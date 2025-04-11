@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
-import { domains, domainsConfig } from '@/domains.config'
-import { domainDescriptions, apis, related, parentDomains, childDomains, siteCategories } from '@/api.config'
+import { domains, domainsConfig, getDomainDescription } from '@/domains.config'
+import { apis, related, parentDomains, childDomains, siteCategories } from '@/api.config'
 import { collectionSlugs } from '@/collections'
 import { titleCase } from '@/lib/utils'
 
@@ -44,7 +44,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     for (const site of sites) {
       if (filteredDomains.includes(site)) {
         const siteName = site.replace('.do', '')
-        const description = domainDescriptions[site] || ''
+        const description = getDomainDescription(site) || ''
         const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
         formattedSites[category][siteTitle] = `${origin}/sites/${siteName}`
       }
@@ -63,7 +63,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
 
       if (!isInCategory) {
         const siteName = d.replace('.do', '')
-        const description = domainDescriptions[d] || ''
+        const description = getDomainDescription(d) || ''
         const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
 
         let category = 'Other'
