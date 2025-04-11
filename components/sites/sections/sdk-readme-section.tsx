@@ -2,7 +2,6 @@
 
 import { sdks as sdksCollection } from '@/app/_utils/content'
 import { FC } from 'react'
-import ReactMarkdown from 'react-markdown'
 
 interface SDKReadmeSectionProps {
   domain: string
@@ -28,11 +27,11 @@ export const SDKReadmeSection: FC<SDKReadmeSectionProps> = ({ domain }) => {
     <div className="container mx-auto py-12">
       <div className="prose prose-invert mx-auto max-w-4xl">
         <h2 className="mb-6 text-2xl font-bold">SDK Documentation</h2>
-        {/* Use the prose class for styling markdown content */}
-        <div className="markdown-content">
-          {/* Use dangerouslySetInnerHTML since Velite already processes markdown to HTML */}
-          <div dangerouslySetInnerHTML={{ __html: markdownContent }} />
-        </div>
+        {/* The prose class handles styling of the markdown content */}
+        <div 
+          className="markdown-content"
+          dangerouslySetInnerHTML={{ __html: markdownContent }} 
+        />
       </div>
     </div>
   )
