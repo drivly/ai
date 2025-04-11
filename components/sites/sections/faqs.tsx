@@ -6,27 +6,27 @@ const defaultFaqs = [
   {
     question: "Does implementing `.do` require significant upfront developer effort or major infrastructure changes?",
     answer:
-      "Minimal friction. .do integrates smoothly with your existing tech stack and development processes. With intuitive APIs, SDKs, and composable primitives, your development team can quickly build or extend powerful workflows without major refactoring or infrastructure overhauls. Our CLI and GitHub integrations further streamline implementation.",
+      "**Minimal friction.** .do integrates smoothly with your existing tech stack and development processes. With intuitive APIs, SDKs, and composable primitives, your development team can quickly build or extend powerful workflows without major refactoring or infrastructure overhauls. Our CLI and GitHub integrations further streamline implementation.",
   },
   {
     question: "Will `.do` lock us into specific AI models or frameworks, limiting flexibility?",
     answer:
-      "No vendor lock-in. .do abstracts away model-specific details, letting you focus solely on structured outputs and business outcomes. We continuously evaluate, benchmark, and route your workloads to the optimal models based on your defined priorities—performance, cost-efficiency, or cutting-edge capabilities—ensuring flexibility and future-proofing your tech stack.",
+      "**No vendor lock-in.** .do abstracts away model-specific details, letting you focus solely on structured outputs and business outcomes. We continuously evaluate, benchmark, and route your workloads to the optimal models based on your defined priorities—performance, cost-efficiency, or cutting-edge capabilities—ensuring flexibility and future-proofing your tech stack.",
+  },
+  {
+    question: "Can `.do` reliably handle mission-critical operations at enterprise scale?",
+    answer:
+      "**Absolutely!** .`do` is built on robust primitives—deterministic Functions, structured Workflows, and autonomous Agents—that ensure reliability, predictability, and scalability. Our customers confidently automate mission-critical processes, backed by our enterprise-grade monitoring, observability, and performance optimization tools.",
   },
   {
     question: "How does `.do` ensure data privacy and security compliance?",
     answer:
-      "Enterprise-grade protection. Our platform implements end-to-end encryption, role-based access controls, and comprehensive audit logging. We're compliant with SOC 2, GDPR, HIPAA, and other industry standards. All data processing occurs within your designated regions, and we never use your data to train our models—ensuring your intellectual property remains protected.",
-  },
-  {
-    question: "Can `.do` handle our enterprise-scale production workloads?",
-    answer:
-      "Built for scale. Our infrastructure automatically scales to handle millions of requests per minute with consistent low-latency responses. We maintain 99.99% uptime SLAs with redundancy across multiple regions. This reliability means your business-critical applications won't face downtime or performance degradation, even during peak usage periods.",
+      "**Enterprise-grade protection.** Our platform implements end-to-end encryption, role-based access controls, and comprehensive audit logging. We're compliant with SOC 2, GDPR, HIPAA, and other industry standards. All data processing occurs within your designated regions, and we never use your data to train our models—ensuring your intellectual property remains protected.",
   },
   {
     question: "How does `.do` help control costs as our AI usage grows?",
     answer:
-      "Predictable economics. Our platform provides granular usage monitoring, cost allocation by team/project, and configurable rate limiting. You can set budget caps at multiple levels and receive alerts before thresholds are reached. Our optimization engine automatically selects the most cost-effective models for each task based on your requirements, ensuring transparent and manageable spending.",
+      "**Predictable economics.** Our platform provides granular usage monitoring, cost allocation by team/project, and configurable rate limiting. You can set budget caps at multiple levels and receive alerts before thresholds are reached. Our optimization engine automatically selects the most cost-effective models for each task based on your requirements, ensuring transparent and manageable spending.",
   },
 ]
 
