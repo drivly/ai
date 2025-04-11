@@ -20,7 +20,7 @@ export default defineConfig({
       }),
     },
     sdks: {
-      name: 'Sdk',
+      name: 'SDK',
       pattern: '../sdks/**/README.md',
       schema: s.object({
         title: s.string().optional(),
