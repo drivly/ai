@@ -65,7 +65,7 @@ export default buildConfig({
       },
     },
   },
-  collections: collections as any,
+  collections: collections,
   editor: lexicalEditor(),
   email: resendAdapter({
     defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || '',
