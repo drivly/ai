@@ -1,9 +1,10 @@
-// @ts-ignore
-import { API } from '@stoplight/elements'
-import '@stoplight/elements/styles.min.css'
+import { ApiReference } from '@scalar/nextjs-api-reference'
 
-export default function APIs() {    
+export default function APIReference() {
   return (
-    <API apiDescriptionUrl="/api.json" />
+    <ApiReference 
+      apiDescriptionUrl="/api/docs/openapi.json" 
+      layout="stacked" 
+    />
   )
 }
