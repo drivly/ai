@@ -5,7 +5,7 @@
   "scripts": {
     "build": "turbo run build && pnpm build:next:no-content",
     "build:next": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192 --no-deprecation\" next build",
-    "build:next:no-content": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192 --no-deprecation\" SKIP_VELITE=true next build",
+    "build:next:no-content": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192 --no-deprecation\" SKIP_VELITE=true NEXT_TELEMETRY_DISABLED=1 next build",
     "build:filtered": "turbo run build --filter=$npm_config_filter && pnpm build:next:filtered",
     "build:next:filtered": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096 --no-deprecation\" next build",
     "build:triggers": "pnpm --filter=triggers.do build && pnpm build:next",
