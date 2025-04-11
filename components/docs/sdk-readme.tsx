@@ -44,7 +44,23 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   return (
     <div className="sdk-readme">
       <ReactMarkdown remarkPlugins={[remarkGfm]}>
-        {sdkContent.content.replace(/<[^>]*>/g, '')}
+        {sdkContent.content
+          .replace(/<h1.*?>(.*?)<\/h1>/g, '# $1')
+          .replace(/<h2.*?>(.*?)<\/h2>/g, '## $1')
+          .replace(/<h3.*?>(.*?)<\/h3>/g, '### $1')
+          .replace(/<h4.*?>(.*?)<\/h4>/g, '#### $1')
+          .replace(/<h5.*?>(.*?)<\/h5>/g, '##### $1')
+          .replace(/<h6.*?>(.*?)<\/h6>/g, '###### $1')
+          .replace(/<p>(.*?)<\/p>/g, '$1\n\n')
+          .replace(/<a.*?href="(.*?)".*?>(.*?)<\/a>/g, '[$2]($1)')
+          .replace(/<code.*?>(.*?)<\/code>/g, '`$1`')
+          .replace(/<pre.*?>(.*?)<\/pre>/g, '```\n$1\n```')
+          .replace(/<ul.*?>(.*?)<\/ul>/gs, '$1')
+          .replace(/<li.*?>(.*?)<\/li>/g, '- $1\n')
+          .replace(/<strong>(.*?)<\/strong>/g, '**$1**')
+          .replace(/<em>(.*?)<\/em>/g, '*$1*')
+          .replace(/<br\s*\/?>/g, '\n')
+          .replace(/<[^>]*>/g, '')}
       </ReactMarkdown>
     </div>
   )
