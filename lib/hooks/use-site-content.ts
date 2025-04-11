@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { findSiteContent } from '@/lib/sites'
+import { sites } from '@/.velite'
 
 /**
  * Hook to access site content for the current domain
@@ -14,13 +14,21 @@ export function useSiteContent() {
   const domain = params?.domain as string || 'apis.do'
 
   useEffect(() => {
-    findSiteContent(domain, false)
-      .then((siteContent) => {
-        setContent(siteContent)
-      })
-      .catch((error) => {
-        console.error('Error fetching site content:', error)
-      })
+    const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
+    
+    const siteContent = sites.find((s: any) => {
+      const titleDomain = s.title.split(' - ')[0].toLowerCase()
+      return site === titleDomain.toLowerCase() || 
+             site === titleDomain.toLowerCase().replace('.do', '') ||
+             s.title.toLowerCase().includes(site.toLowerCase())
+    })
+    
+    if (siteContent) {
+      setContent(siteContent)
+    } else {
+      console.error(`Site content not found for domain: ${domain}`)
+      setContent(null)
+    }
   }, [domain])
 
   return content
