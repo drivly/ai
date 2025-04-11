@@ -39,7 +39,9 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   
   return (
     <div className="sdk-readme">
-      <div dangerouslySetInnerHTML={{ __html: sdkContent.content }} />
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+        {sdkContent.content.replace(/<[^>]*>/g, '')}
+      </ReactMarkdown>
     </div>
   )
 }
