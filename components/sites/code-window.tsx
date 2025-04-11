@@ -2,7 +2,7 @@ import { cn } from '@drivly/ui/lib'
 
 interface CodeWindowProps {
   className?: string
-  code: string
+  code: string | object
   language?: string
   title?: string
 }
@@ -51,8 +51,10 @@ function syntaxHighlightJson(json: string) {
 }
 
 export function CodeWindow({ className, code, language = 'json', title = 'llm.do' }: CodeWindowProps) {
+  const codeString = typeof code === 'object' ? JSON.stringify(code, null, 2) : String(code)
+  
   // Only handle JSON for now
-  const highlightedCode = language === 'json' ? syntaxHighlightJson(code) : code
+  const highlightedCode = language === 'json' ? syntaxHighlightJson(codeString) : codeString
 
   return (
     <div className={cn('bg-opacity-[0.01] rounded-2xl border-[10px] border-white/10', className)}>

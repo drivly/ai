@@ -4,7 +4,25 @@ description: Build reliable applications with Functions.do, delivering typesafe 
 headline: Type-Safe Functions That Just Work
 subhead: Build with confidence using strongly-typed functions that just work. Eliminate runtime errors with compile-time type checking and validation.
 badge: "AI without Complexity"
-codeExample: "import { createFunction } from 'functions.do';\n\nconst getUser = createFunction({\n  name: 'getUser',\n  input: z.object({\n    id: z.string(),\n  }),\n  output: z.object({\n    id: z.string(),\n    name: z.string(),\n    email: z.string().email(),\n  }),\n  handler: async ({ id }) => {\n    // Implementation here\n    return { id, name: 'John Doe', email: 'john@example.com' };\n  },\n});"
+codeLang: "typescript"
+codeExample: |
+  import { createFunction } from 'functions.do';
+
+  const getUser = createFunction({
+    name: 'getUser',
+    input: z.object({
+      id: z.string(),
+    }),
+    output: z.object({
+      id: z.string(),
+      name: z.string(),
+      email: z.string().email(),
+    }),
+    handler: async ({ id }) => {
+      // Implementation here
+      return { id, name: 'John Doe', email: 'john@example.com' };
+    },
+  });
 ---
 
 # Functions.do
