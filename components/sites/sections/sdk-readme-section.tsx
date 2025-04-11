@@ -14,28 +14,46 @@ interface SDKReadmeSectionProps {
 export const SDKReadmeSection: FC<SDKReadmeSectionProps> = ({ domain }) => {
   const sdkName = domain.toLowerCase().endsWith('.do') ? domain.toLowerCase() : `${domain.toLowerCase()}.do`
   
-  const sdkContent = sdksCollection.find(
-    (sdk) => {
-      if (sdk.content) {
-        const content = sdk.content.toLowerCase();
-        const nameWithoutDo = sdkName.replace('.do', '');
-        
-        return (
-          content.includes(`# ${sdkName}`) || 
-          content.includes(`# [${sdkName}]`) ||
-          content.includes(`# ${nameWithoutDo}`) ||
-          content.includes(`# [${nameWithoutDo}]`) ||
-          (sdk.title && (
-            sdk.title.toLowerCase() === sdkName.toLowerCase() ||
-            sdk.title.toLowerCase() === nameWithoutDo.toLowerCase()
-          )) ||
-          content.includes(`import { ${nameWithoutDo} } from '${sdkName}'`) ||
-          content.includes(`import ${nameWithoutDo} from '${sdkName}'`)
-        );
-      }
-      return false;
-    }
-  )
+  const sdkContent = sdksCollection.find(sdk => {
+    if (!sdk.content) return false;
+    
+    const content = sdk.content.toLowerCase();
+    const nameWithoutDo = sdkName.replace('.do', '');
+    
+    const titlePatterns = [
+      `<h1><a href="https://${sdkName}">`,
+      `<h1>${sdkName}</h1>`,
+      `<h1>[${sdkName}]</h1>`,
+      `<h1><a href="https://${sdkName}">${sdkName}</a></h1>`,
+      `# ${sdkName}`,
+      `# [${sdkName}]`,
+      `<h1><a href="https://${sdkName.toLowerCase()}">`,
+      `${nameWithoutDo}.do - `,
+      `${nameWithoutDo} - `,
+    ];
+    
+    const installPatterns = [
+      `npm install ${sdkName}`,
+      `yarn add ${sdkName}`,
+      `pnpm add ${sdkName}`,
+    ];
+    
+    const importPatterns = [
+      `import { ${nameWithoutDo} } from '${sdkName}'`,
+      `import ${nameWithoutDo} from '${sdkName}'`,
+      `import { ai } from '${sdkName}'`,
+    ];
+    
+    return (
+      titlePatterns.some(pattern => content.includes(pattern)) ||
+      installPatterns.some(pattern => content.includes(pattern)) ||
+      importPatterns.some(pattern => content.includes(pattern)) ||
+      (sdk.title && (
+        sdk.title.toLowerCase() === sdkName.toLowerCase() ||
+        sdk.title.toLowerCase() === nameWithoutDo.toLowerCase()
+      ))
+    );
+  });
 
   if (!sdkContent) {
     return null
