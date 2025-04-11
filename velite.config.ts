@@ -19,5 +19,16 @@ export default defineConfig({
         // component: s.mdx(),
       }),
     },
+    sites: {
+      name: 'Site',
+      pattern: 'sites/**/*.mdx',
+      schema: s.object({
+        title: s.string(),
+        description: s.string(),
+        headline: s.string(),
+        subhead: s.string().optional(),
+        content: s.markdown(),
+      }),
+    },
   },
 })
