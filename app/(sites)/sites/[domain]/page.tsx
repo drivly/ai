@@ -37,8 +37,8 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
           codeExample={content.subhead || ''}
           badge={content.headline || ''}
           buttonText="Join waitlist"
-          title={content.title}
-          description={content.description}
+          title={content.headline || content.title}
+          description={content.subhead || content.description}
           domain={domain}
         />
       </div>
