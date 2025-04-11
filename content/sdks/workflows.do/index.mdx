@@ -2,4 +2,21 @@
 asIndexPage: true
 ---
 
-# workflows.do
+import { sdks } from '@/app/_utils/content'
+
+export const WorkflowsSDKContent = () => {
+  const workflowsSdk = sdks.find(
+    sdk => sdk.title?.toLowerCase() === 'workflows.do' || 
+           sdk.title?.toLowerCase() === 'workflows'
+  )
+  
+  if (!workflowsSdk) {
+    return <h1>workflows.do</h1>
+  }
+  
+  return (
+    <div dangerouslySetInnerHTML={{ __html: workflowsSdk.content }} />
+  )
+}
+
+<WorkflowsSDKContent />
