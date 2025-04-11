@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { sites } from '@/app/_utils/content'
+import { Site } from '@/.velite'
 
 /**
  * Hook to access the content of the current site based on hostname
@@ -9,26 +10,7 @@ import { sites } from '@/app/_utils/content'
  */
 export function useSiteContent() {
   const [hostname, setHostname] = useState<string>('')
-  interface SiteContent {
-    _path: string
-    title: string
-    description: string
-    headline: string
-    subhead?: string
-    brandColor?: string
-    content: string
-    group?: string
-    codeExample?: string
-    codeLang?: string
-    badge?: string
-    faqs?: Array<{
-      question: string
-      answer: string
-    }>
-    [key: string]: any
-  }
-  
-  const [siteContent, setSiteContent] = useState<SiteContent | undefined>(undefined)
+  const [siteContent, setSiteContent] = useState<Site | undefined>(undefined)
   
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -45,10 +27,13 @@ export function useSiteContent() {
         }
       }
       
-      const matchingSite = sites.find((site: SiteContent) => {
-        const sitePath = site._path.split('/')
-        const siteName = sitePath[sitePath.length - 1].replace('.do.mdx', '')
-        return siteName === subdomain
+      const matchingSite = sites.find((site) => {
+        const siteTitle = site.title.toLowerCase()
+        if (siteTitle.includes('.do')) {
+          const siteName = siteTitle.split('.')[0]
+          return siteName === subdomain
+        }
+        return false
       })
       
       setSiteContent(matchingSite)
