@@ -7,13 +7,14 @@ import { FaGithub } from 'react-icons/fa'
 type HeroSectionProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'description'> & {
   badge?: string
   buttonText?: string
-  codeExample?: string
+  codeExample?: string | object
+  codeLang?: string
   description: React.ReactNode
   title: React.ReactNode
   domain?: string
 }
 
-export default function HeroSection({ className, badge, buttonText, codeExample, description, title, domain }: HeroSectionProps) {
+export default function HeroSection({ className, badge, buttonText, codeExample, codeLang = 'json', description, title, domain }: HeroSectionProps) {
   return (
     <section id='hero' className={cn('relative mx-auto px-3 mt-32 max-w-[80rem] text-center lg:mt-48', className)}>
 
@@ -48,7 +49,7 @@ export default function HeroSection({ className, badge, buttonText, codeExample,
           />
 
           <div>
-            <CodeWindow code={codeExample} title={domain} />
+            <CodeWindow code={codeExample} language={codeLang} title={domain} />
           </div>
         </div>
       )}

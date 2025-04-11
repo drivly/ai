@@ -1,4 +1,5 @@
 import { sites } from '@/.velite'
+import { codeExample } from '@/components/sites/constants/code-example'
 
 /**
  * Site content type definition
@@ -9,6 +10,9 @@ interface SiteContent {
   headline?: string;
   subhead?: string;
   brandColor?: string;
+  badge?: string;
+  codeExample?: string | object;
+  codeLang?: string;
   content?: any;
   group?: string;
 }
@@ -40,6 +44,9 @@ export function findSiteContent(domain: string, includeHero = false): SiteConten
         ...fallbackContent,
         headline: site,
         subhead: 'Powered by .do',
+        badge: 'AI without Complexity',
+        codeExample: codeExample,
+        codeLang: 'json',
       };
     }
     

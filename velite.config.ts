@@ -39,6 +39,9 @@ export default defineConfig({
         brandColor: s.string().optional(), // Add this field
         content: s.markdown(),
         group: s.string().optional(),
+        codeExample: s.string().optional(), // Code example content
+        codeLang: s.string().optional(), // Language of the code example (typescript, json, etc.)
+        badge: s.string().optional(), // Badge text
       }),
       transform: (data: any) => {
         const pathParts = data._path.split('/');
