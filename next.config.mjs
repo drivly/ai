@@ -33,7 +33,6 @@ const nextConfig = {
   reactStrictMode: false,
   experimental: {
     // Disable experimental features that might cause stack overflow
-    serverExternalPackages: [],
     optimizeCss: false,
     optimizePackageImports: []
   }
