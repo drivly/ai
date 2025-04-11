@@ -1,3 +1,62 @@
 @import '@code-hike/mdx/dist/index.css';
 
-/* Additional custom styles for CodeHike if needed */
+/* Custom styles for links in code blocks */
+.nextra-code-block pre code a,
+pre code.language-json a,
+div[data-rehype-pretty-code-fragment] pre code a,
+.json-link {
+  color: #60a5fa !important; /* text-blue-400 equivalent */
+  text-decoration: underline !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  transition: opacity 0.2s;
+  z-index: 10 !important;
+  position: relative !important;
+}
+
+.nextra-code-block pre code a:hover,
+pre code.language-json a:hover,
+div[data-rehype-pretty-code-fragment] pre code a:hover,
+.json-link:hover {
+  opacity: 0.8;
+}
+
+/* Override Nextra's code styles to ensure links are clickable */
+.nextra-code-block pre,
+pre,
+code {
+  pointer-events: auto !important;
+}
+
+/* Ensure code blocks have proper styling */
+.shiki {
+  background-color: transparent !important;
+}
+
+/* Style for JSON link containers */
+.json-link-container {
+  display: inline !important;
+}
+
+/* Additional styles to ensure links are visible and clickable */
+[data-rehype-pretty-code-fragment] pre {
+  overflow-x: auto;
+  background-color: rgb(1 31 51) !important;
+  border-radius: 0.5rem;
+}
+
+[data-rehype-pretty-code-fragment] code {
+  display: grid;
+  min-width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  background-color: transparent !important;
+}
+
+/* Ensure all code blocks allow pointer events */
+pre, code, pre code, .nextra-code-block pre code {
+  pointer-events: auto !important;
+  position: relative !important;
+  z-index: 1 !important;
+}

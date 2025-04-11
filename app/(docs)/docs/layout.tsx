@@ -6,6 +6,7 @@ import { getPageMap } from 'nextra/page-map'
 import './code-hike.css'
 import { headers } from 'next/headers'
 import type { Metadata } from 'next'
+import Script from 'next/script'
 
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers()
@@ -57,6 +58,42 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           >
             {children}
           </Layout>
+          <Script src="/json-links-fix.js" strategy="afterInteractive" />
+          <Script id="inline-json-links" strategy="afterInteractive">
+            {`
+              (function() {
+                function makeJsonLinksClickable() {
+                  const codeBlocks = document.querySelectorAll('pre code.language-json');
+                  
+                  codeBlocks.forEach((codeBlock) => {
+                    const html = codeBlock.innerHTML;
+                    
+                    const processedHtml = html.replace(
+                      /"(https?:\\/\\/[^"]+)"/g, 
+                      (match, url) => {
+                        return '"<a href="' + url + '" target="_blank" rel="noopener noreferrer" style="color:#60a5fa;text-decoration:underline;cursor:pointer;pointer-events:auto;position:relative;z-index:10;">' + url + '</a>"';
+                      }
+                    );
+                    
+                    if (html !== processedHtml) {
+                      codeBlock.innerHTML = processedHtml;
+                    }
+                  });
+                }
+                
+                makeJsonLinksClickable();
+                
+                setTimeout(makeJsonLinksClickable, 500);
+                setTimeout(makeJsonLinksClickable, 1500);
+                
+                const observer = new MutationObserver(() => {
+                  makeJsonLinksClickable();
+                });
+                
+                observer.observe(document.body, { childList: true, subtree: true });
+              })();
+            `}
+          </Script>
         </Providers>
       </body>
     </html>
