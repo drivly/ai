@@ -1,4 +1,4 @@
-export const dynamic = 'force-static'
+'use client'
 
 export default function APIReference() {
   return (
