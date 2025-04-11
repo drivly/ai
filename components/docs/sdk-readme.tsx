@@ -14,53 +14,58 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   const [debugInfo, setDebugInfo] = useState<string>('');
   const sdkName = name.toLowerCase().endsWith('.do') ? name.toLowerCase() : `${name.toLowerCase()}.do`
   
-  let sdkContent = sdks.find(sdk => 
-    sdk.title && sdk.title.toLowerCase() === sdkName.toLowerCase()
-  );
+  let sdkContent = null;
+  
+  if (sdkName === 'workflows.do') {
+    sdkContent = sdks.find(sdk => 
+      sdk.content && 
+      sdk.content.toLowerCase().includes('workflows.do - elegant business process orchestration')
+    );
+  }
   
   if (!sdkContent) {
-    sdkContent = sdks.find(sdk => {
-      if (!sdk.content) return false;
-      
-      const content = sdk.content.toLowerCase();
-      const nameWithoutDo = sdkName.replace('.do', '');
-      
-      if (sdkName === 'workflows.do' && 
-          (content.includes('elegant business process orchestration') || 
-           content.includes('business process orchestration'))) {
-        return true;
-      }
-      
-      const titlePatterns = [
-        `<h1><a href="https://${sdkName}">`,
-        `<h1>${sdkName}</h1>`,
-        `<h1>[${sdkName}]</h1>`,
-        `<h1><a href="https://${sdkName}">${sdkName}</a></h1>`,
-        `# ${sdkName}`,
-        `# [${sdkName}]`,
-        `<h1><a href="https://${sdkName.toLowerCase()}">`,
-        `${nameWithoutDo}.do - `,
-        `${nameWithoutDo} - `,
-      ];
-      
-      const installPatterns = [
-        `npm install ${sdkName}`,
-        `yarn add ${sdkName}`,
-        `pnpm add ${sdkName}`,
-      ];
-      
-      const importPatterns = [
-        `import { ${nameWithoutDo} } from '${sdkName}'`,
-        `import ${nameWithoutDo} from '${sdkName}'`,
-        `import { ai } from '${sdkName}'`,
-      ];
-      
-      return (
-        titlePatterns.some(pattern => content.includes(pattern)) ||
-        installPatterns.some(pattern => content.includes(pattern)) ||
-        importPatterns.some(pattern => content.includes(pattern))
-      );
-    });
+    sdkContent = sdks.find(sdk => 
+      sdk.title && sdk.title.toLowerCase() === sdkName.toLowerCase()
+    );
+    
+    if (!sdkContent) {
+      sdkContent = sdks.find(sdk => {
+        if (!sdk.content) return false;
+        
+        const content = sdk.content.toLowerCase();
+        const nameWithoutDo = sdkName.replace('.do', '');
+        
+        const titlePatterns = [
+          `<h1><a href="https://${sdkName}">`,
+          `<h1>${sdkName}</h1>`,
+          `<h1>[${sdkName}]</h1>`,
+          `<h1><a href="https://${sdkName}">${sdkName}</a></h1>`,
+          `# ${sdkName}`,
+          `# [${sdkName}]`,
+          `<h1><a href="https://${sdkName.toLowerCase()}">`,
+          `${nameWithoutDo}.do - `,
+          `${nameWithoutDo} - `,
+        ];
+        
+        const installPatterns = [
+          `npm install ${sdkName}`,
+          `yarn add ${sdkName}`,
+          `pnpm add ${sdkName}`,
+        ];
+        
+        const importPatterns = [
+          `import { ${nameWithoutDo} } from '${sdkName}'`,
+          `import ${nameWithoutDo} from '${sdkName}'`,
+          `import { ai } from '${sdkName}'`,
+        ];
+        
+        return (
+          titlePatterns.some(pattern => content.includes(pattern)) ||
+          installPatterns.some(pattern => content.includes(pattern)) ||
+          importPatterns.some(pattern => content.includes(pattern))
+        );
+      });
+    }
   }
   
   useEffect(() => {
@@ -69,6 +74,12 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
         `Available SDKs: ${sdks.map(sdk => sdk.title || 'Untitled').join(', ')}\n` +
         `Found: ${sdkContent ? 'Yes' : 'No'}`;
       setDebugInfo(info);
+      
+      console.log(`SDK search for ${sdkName}:`, {
+        found: !!sdkContent,
+        availableTitles: sdks.map(sdk => sdk.title),
+        matchedContent: sdkContent ? sdkContent.content.substring(0, 200) : 'None'
+      });
     }
   }, [sdkName, sdkContent]);
   
