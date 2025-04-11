@@ -10,16 +10,11 @@ export default function DotdoLinkSection() {
             <ul className='flex flex-wrap items-center justify-center gap-x-10 gap-y-10 md:gap-x-16'>
               <li>
                 <Link
-                  href='https://apis.do'
+                  href='https://workflows.do'
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
                   rel='noopener noreferrer'>
-                  apis.do
-                </Link>
-              </li>
-              <li>
-                <Link href='https://llm.do' className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg' target='_blank' rel='noopener noreferrer'>
-                  llm.do
+                  Workflows.do
                 </Link>
               </li>
               <li>
@@ -28,16 +23,7 @@ export default function DotdoLinkSection() {
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
                   rel='noopener noreferrer'>
-                  functions.do
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='https://workflows.do'
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
-                  target='_blank'
-                  rel='noopener noreferrer'>
-                  workflows.do
+                  Functions.do
                 </Link>
               </li>
               <li>
@@ -46,7 +32,25 @@ export default function DotdoLinkSection() {
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
                   rel='noopener noreferrer'>
-                  agents.do
+                  Agents.do
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  href='https://llm.do' 
+                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg' 
+                  target='_blank' 
+                  rel='noopener noreferrer'>
+                  LLM.do
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href='https://apis.do'
+                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
+                  target='_blank'
+                  rel='noopener noreferrer'>
+                  APIs.do
                 </Link>
               </li>
             </ul>
