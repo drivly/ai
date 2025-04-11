@@ -51,6 +51,43 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
           padding: 0.2em 0.4em;
           border-radius: 0.25rem;
         }
+        .sdk-readme pre code {
+          background-color: transparent;
+          padding: 0;
+        }
+        .sdk-readme ul {
+          list-style-type: disc;
+          margin-left: 1.5rem;
+          margin-bottom: 1rem;
+        }
+        .sdk-readme ol {
+          list-style-type: decimal;
+          margin-left: 1.5rem;
+          margin-bottom: 1rem;
+        }
+        .sdk-readme li {
+          margin-bottom: 0.5rem;
+        }
+        .sdk-readme a {
+          color: #3b82f6;
+          text-decoration: none;
+        }
+        .sdk-readme a:hover {
+          text-decoration: underline;
+        }
+        .sdk-readme img {
+          max-width: 100%;
+          height: auto;
+          margin: 1rem 0;
+        }
+        .sdk-readme blockquote {
+          border-left: 4px solid #3b82f6;
+          padding-left: 1rem;
+          margin-left: 0;
+          margin-right: 0;
+          font-style: italic;
+          color: #94a3b8;
+        }
       `}</style>
       <h1>{sdkName} SDK</h1>
       <p>Documentation for the {sdkName} SDK.</p>
@@ -58,6 +95,13 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
       <pre><code>npm install {sdkName}</code></pre>
       <h2>Usage</h2>
       <pre><code>import {'{'}  {sdkName.replace('.do', '')} {'}'} from '{sdkName}'</code></pre>
+      <h2>Features</h2>
+      <ul>
+        <li>Lightweight SDK with minimal dependencies</li>
+        <li>Built on the unified API gateway (apis.do)</li>
+        <li>TypeScript support with full type definitions</li>
+        <li>Compatible with both browser and Node.js environments</li>
+      </ul>
       <p>For more detailed documentation, please refer to the official documentation.</p>
     </div>
   );
