@@ -37,7 +37,7 @@ export async function generateBlogPosts(domain: string, count: number = 9, topic
   if (!domainTopics) {
     if (domain === 'workflows.do') {
       domainTopics = 'workflow automation, business process optimization, task management, workflow efficiency, business workflows'
-      domainContext = 'Focus on practical business workflow automation examples and best practices'
+      domainContext = 'Focus on practical business workflow automation examples and best practices for workflows.do'
     } else if (domain === 'functions.do') {
       domainTopics = 'serverless functions, function programming, AI functions, code execution, function composition'
       domainContext = 'Focus on technical implementation of functions and serverless architecture'
