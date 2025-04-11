@@ -27,8 +27,6 @@ export const urlField = ({
     admin: {
       description: 'Enter a valid URL (e.g., https://example.com)',
       className: 'payload-url-field',
-      components: {
-      },
       ...admin,
     },
     hooks: {
