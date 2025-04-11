@@ -32,6 +32,7 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
       <div className='hero-glow-container' style={{ '--glow-color': glowColor } as React.CSSProperties}>
         <HeroSection
           codeExample={content.codeExample || ('subhead' in content ? content.subhead : '')}
+          codeLang={content.codeLang || 'json'}
           badge={content.badge || ('headline' in content ? content.headline : '')}
           buttonText="Join waitlist"
           title={'headline' in content ? content.headline : content.title}
