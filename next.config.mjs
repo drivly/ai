@@ -58,19 +58,14 @@ const nextConfig = {
     }
   },
   
-  // Use experimental.excludePages instead of excludePages
+  // Disable experimental features to prevent stack overflow
   experimental: {
     optimizeCss: false,
     optimizePackageImports: [],
     serverActions: {
       bodySizeLimit: '2mb',
     },
-    mdxRs: false,
-    // Exclude specific pages from the build
-    excludePages: [
-      '/docs/reference',
-      '/docs/reference/**',
-    ]
+    mdxRs: false
   },
   
   // Exclude SDK documentation pages from the build
