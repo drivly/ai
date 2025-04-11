@@ -91,39 +91,86 @@ export async function getBlogPostContent(title: string, domain: string): Promise
   try {
     let tone = 'professional'
     let length = 'medium'
+    let additionalContext = ''
     
     if (domain === 'workflows.do') {
       tone = 'practical'
       length = 'medium'
+      additionalContext = 'Focus on workflow automation, business process optimization, and practical examples.'
     } else if (domain === 'functions.do') {
       tone = 'technical'
       length = 'medium'
+      additionalContext = 'Include code examples and technical implementation details where appropriate.'
     } else if (domain === 'agents.do') {
       tone = 'conversational'
       length = 'medium'
+      additionalContext = 'Discuss AI agent capabilities, autonomous systems, and real-world applications.'
     } else if (domain.includes('functions')) {
       tone = 'technical'
+      additionalContext = 'Include code examples and technical implementation details where appropriate.'
     } else if (domain.includes('workflows')) {
       tone = 'practical'
+      additionalContext = 'Focus on workflow automation, business process optimization, and practical examples.'
     } else if (domain.includes('agents')) {
       tone = 'conversational'
+      additionalContext = 'Discuss AI agent capabilities, autonomous systems, and real-world applications.'
     }
     
-    console.log(`Using tone: ${tone} and length: ${length} for domain: ${domain}`)
+    console.log(`Using tone: ${tone}, length: ${length}, and additional context for domain: ${domain}`)
     
-    const settings = isPreview ? { _bypassCache: true } : undefined
+    const settings = isPreview ? 
+      { _bypassCache: true, _temperature: 0.8 } : 
+      { _temperature: 0.7, _cacheKey: `blog_${domain}_${title.substring(0, 20)}` }
     
-    const content = await ai.writeBlogPost({
-      title,
-      domain,
-      tone,
-      length,
-    }, settings)
+    let attempts = 0
+    const maxAttempts = 2
+    let content = ''
     
-    console.log(`Successfully generated content for "${title}" in domain ${domain}`)
-    return content
+    while (attempts < maxAttempts) {
+      try {
+        attempts++
+        console.log(`Attempt ${attempts} to generate content for "${title}" in domain ${domain}`)
+        
+        content = await ai.writeBlogPost({
+          title,
+          domain,
+          tone,
+          length,
+          context: additionalContext,
+        }, settings)
+        
+        if (content && content.length > 100) {
+          console.log(`Successfully generated content for "${title}" in domain ${domain}`)
+          return content
+        } else {
+          console.warn(`Generated content for "${title}" was too short (${content.length} chars), retrying...`)
+        }
+      } catch (retryError) {
+        console.error(`Error in attempt ${attempts} for "${title}":`, retryError)
+        if (attempts >= maxAttempts) throw retryError
+      }
+    }
+    
+    if (content) return content
+    
+    throw new Error('Failed to generate content after multiple attempts')
   } catch (error) {
     console.error(`Error generating blog post content for "${title}" in domain ${domain}:`, error)
-    return `### ${title}\n\nThis is a blog post about ${title} for ${domain}.\n\nWe're currently experiencing issues with our content generation system. Please check back later for the full article.`
+    
+    let fallbackContent = `# ${title}\n\n`
+    
+    if (domain === 'workflows.do') {
+      fallbackContent += `This article explores how workflow automation can streamline business processes and improve efficiency. Workflows.do provides tools for reliably executing business processes with minimal complexity.\n\n`
+    } else if (domain === 'functions.do') {
+      fallbackContent += `This article examines how Functions.do makes generative AI feel like classic programming again, providing typesafe results without complexity.\n\n`
+    } else if (domain === 'agents.do') {
+      fallbackContent += `This article discusses autonomous digital workers and how they can be deployed and managed using Agents.do to perform complex tasks.\n\n`
+    } else {
+      fallbackContent += `This article explores key concepts related to ${domain} and how they can be applied in practical scenarios.\n\n`
+    }
+    
+    fallbackContent += `We're currently experiencing issues with our content generation system. Please check back later for the full article.`
+    
+    return fallbackContent
   }
 }
