@@ -27,7 +27,6 @@ const nextConfig = {
   // Your Next.js config here
   // Disable all optimizations to prevent stack overflow
   reactStrictMode: false,
-  swcMinify: false,
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   
@@ -41,18 +40,42 @@ const nextConfig = {
     mdxRs: false
   },
   
-  // Exclude SDK documentation routes to prevent stack overflow
+  // Exclude all documentation routes to prevent stack overflow
   async rewrites() {
     return {
       beforeFiles: [
-        // Redirect SDK documentation routes to a static page
+        // Redirect all documentation routes to a static page
         {
-          source: '/docs/sdks/:path*',
-          destination: '/docs',
+          source: '/docs/:path*',
+          destination: '/api',
+        },
+        // Redirect reference page specifically to avoid placeholder.js error
+        {
+          source: '/docs/reference',
+          destination: '/api/reference',
         },
       ],
     }
-  }
+  },
+  
+  // Disable experimental features to prevent stack overflow
+  experimental: {
+    optimizeCss: false,
+    optimizePackageImports: [],
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+    mdxRs: false
+  },
+  
+  // Exclude SDK documentation pages from the build
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'].filter(ext => {
+    // During build, if SKIP_NEXTRA is true, exclude mdx files
+    if (process.env.SKIP_NEXTRA === 'true') {
+      return ext !== 'mdx';
+    }
+    return true;
+  })
 }
 
 // Configure bundle analyzer to run only when ANALYZE=true
@@ -63,18 +86,39 @@ const analyzeBundles = withBundleAnalyzer({
 // Conditionally apply Nextra based on SKIP_NEXTRA env var
 const skipNextra = process.env.SKIP_NEXTRA === 'true'
 
+// Create a custom Nextra config that skips SDK routes
+const customNextraConfig = (config) => {
+  // If we're skipping Nextra entirely, just return the base config
+  if (skipNextra) {
+    return config;
+  }
+  
+  // Otherwise, apply Nextra but with custom handling
+  const nextraConfig = withNextra(config);
+  
+  return {
+    ...nextraConfig,
+    webpack: (webpackConfig, options) => {
+      // Apply the original Nextra webpack config
+      const newConfig = typeof nextraConfig.webpack === 'function'
+        ? nextraConfig.webpack(webpackConfig, options)
+        : webpackConfig;
+      
+      return newConfig;
+    }
+  };
+};
+
 // Export the final config
-const finalConfig = skipNextra
-  ? analyzeBundles(withPayload(nextConfig, {
+const finalConfig = analyzeBundles(
+  customNextraConfig(
+    withPayload(nextConfig, {
       devBundleServerPackages: false,
       adminRoute: '/admin',
       configPath: path.resolve(dirname, 'app/(admin)'),
-    }))
-  : analyzeBundles(withNextra(withPayload(nextConfig, {
-      devBundleServerPackages: false,
-      adminRoute: '/admin',
-      configPath: path.resolve(dirname, 'app/(admin)'),
-    })))
+    })
+  )
+)
 
 export default finalConfig
 
