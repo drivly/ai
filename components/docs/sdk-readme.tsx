@@ -21,7 +21,11 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
         sdk.content.toLowerCase().includes(`<h1><a href="https://${sdkName}">`) || 
         sdk.content.toLowerCase().includes(`<h1><a href="https://${sdkName.replace('.do', '')}.do">`) ||
         sdk.content.toLowerCase().includes(`# [${sdkName}]`) ||
-        sdk.content.toLowerCase().includes(`# [${sdkName.replace('.do', '')}]`)
+        sdk.content.toLowerCase().includes(`# [${sdkName.replace('.do', '')}]`) ||
+        sdk.content.toLowerCase().includes(`<h1>[${sdkName}]`) ||
+        sdk.content.toLowerCase().includes(`<h1>[${sdkName.replace('.do', '')}]`) ||
+        sdk.content.toLowerCase().includes(`${sdkName.toLowerCase()}`) ||
+        sdk.content.toLowerCase().includes(`${sdkName.replace('.do', '').toLowerCase()}.do`)
       )
       
       const titleMatch = sdk.title && (
