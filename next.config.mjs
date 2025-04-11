@@ -60,12 +60,23 @@ const analyzeBundles = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
-// Restore Nextra to fix docs route
-export default analyzeBundles(withNextra(withPayload(nextConfig, { 
-  devBundleServerPackages: false,
-  adminRoute: '/admin',
-  configPath: path.resolve(dirname, 'app/(admin)'),
-})))
+// Conditionally apply Nextra based on SKIP_NEXTRA env var
+const skipNextra = process.env.SKIP_NEXTRA === 'true'
+
+// Export the final config
+const finalConfig = skipNextra
+  ? analyzeBundles(withPayload(nextConfig, {
+      devBundleServerPackages: false,
+      adminRoute: '/admin',
+      configPath: path.resolve(dirname, 'app/(admin)'),
+    }))
+  : analyzeBundles(withNextra(withPayload(nextConfig, {
+      devBundleServerPackages: false,
+      adminRoute: '/admin',
+      configPath: path.resolve(dirname, 'app/(admin)'),
+    })))
+
+export default finalConfig
 
 // TODO: We need to figure out the build errors here
 // export default withNextra(withSentryConfig(withPayload(nextConfig, { devBundleServerPackages: false }), {
