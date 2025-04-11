@@ -7,7 +7,11 @@ import { generateBlogPosts } from '@/lib/blog'
 async function BlogPage(props: { params: Promise<{ domain: string }> }) {
   const { domain } = await props.params
   
-  const posts = await generateBlogPosts(domain)
+  console.log(`Blog page rendering for domain: ${domain}`)
+  
+  const normalizedDomain = domain.includes('workflows') ? 'workflows.do' : domain
+  
+  const posts = await generateBlogPosts(normalizedDomain)
   
   const categories = Array.from(new Set(posts.map(post => post.category)))
 

@@ -15,13 +15,17 @@ async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: st
   const siteUrl = `${headersList.get('x-forwarded-proto')}://${headersList.get('x-forwarded-host')}`
   const fallbackImage = '/images/blog-llm.png'
   
+  console.log(`Blog post page rendering for domain: ${domain}, slug: ${slug}`)
+  
   if (!slug) {
     return <BlogPostNotFound fallbackImage={fallbackImage} />
   }
   
+  const normalizedDomain = domain.includes('workflows') ? 'workflows.do' : domain
+  
   const title = slugToTitle(slug)
   
-  const allPosts = await generateBlogPosts(domain)
+  const allPosts = await generateBlogPosts(normalizedDomain)
   const post = allPosts.find(p => p.slug === slug)
   
   // If post not found, render custom not found component
