@@ -37,7 +37,7 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
           buttonText='Join waitlist'
           title={'headline' in content ? content.headline : content.title}
           description={'subhead' in content ? content.subhead : content.description}
-          domain={domain}
+          domain={site}
         />
       </div>
       <DotdoLinkSection />
