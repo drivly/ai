@@ -1,4 +1,4 @@
-import { heroContent } from '@/components/sites/constants/content'
+import { sites } from '@/app/_utils/content'
 import { Particles } from '@/components/sites/magicui/particles'
 import DotdoLinkSection from '@/components/sites/sections/dotdo-link-section'
 import HeroSection from '@/components/sites/sections/hero-section'
@@ -12,18 +12,33 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
   await getSession()
 
   const site = domain ?? 'llm.do'
-
   const glowColor = getGlowColor(site)
+  
+  const siteContent = sites.find(s => {
+    const titleDomain = s.title.split(' - ')[0].toLowerCase()
+    return site === titleDomain.toLowerCase() || 
+           site === titleDomain.toLowerCase().replace('.do', '') ||
+           s.title.toLowerCase().includes(site.toLowerCase())
+  })
+  
+  const fallbackContent = {
+    title: site,
+    description: `${site} - AI-Powered Domain`,
+    headline: site,
+    subhead: 'Powered by .do',
+  }
+  
+  const content = siteContent || fallbackContent
 
   return (
     <>
       <div className='hero-glow-container' style={{ '--glow-color': glowColor } as React.CSSProperties}>
         <HeroSection
-          codeExample={heroContent.codeExample}
-          badge={heroContent.badge}
-          buttonText={heroContent.buttonText}
-          title={heroContent.title}
-          description={heroContent.description}
+          codeExample={content.subhead || ''}
+          badge={content.headline || ''}
+          buttonText="Join waitlist"
+          title={content.title}
+          description={content.description}
           domain={domain}
         />
       </div>
