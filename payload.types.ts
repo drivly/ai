@@ -255,6 +255,7 @@ export interface Config {
       initiateComposioConnection: TaskInitiateComposioConnection;
       processDomain: TaskProcessDomain;
       saveExecutionResults: TaskSaveExecutionResults;
+      researchTask: TaskResearchTask;
       inline: {
         input: unknown;
         output: unknown;
@@ -316,6 +317,10 @@ export interface User {
    */
   name?: string | null;
   /**
+   * The email of the user
+   */
+  email: string;
+  /**
    * Whether the email of the user has been verified
    */
   emailVerified: boolean;
@@ -350,17 +355,6 @@ export interface User {
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
-  /**
-   * The email of the user
-   */
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2237,7 +2231,8 @@ export interface PayloadJob {
           | 'deliverWebhook'
           | 'initiateComposioConnection'
           | 'processDomain'
-          | 'saveExecutionResults';
+          | 'saveExecutionResults'
+          | 'researchTask';
         taskID: string;
         input?:
           | {
@@ -2295,6 +2290,7 @@ export interface PayloadJob {
                 | 'initiateComposioConnection'
                 | 'processDomain'
                 | 'saveExecutionResults'
+                | 'researchTask'
               )
             | null;
           taskID?: string | null;
@@ -2330,6 +2326,7 @@ export interface PayloadJob {
         | 'initiateComposioConnection'
         | 'processDomain'
         | 'saveExecutionResults'
+        | 'researchTask'
       )
     | null;
   queue?: string | null;
@@ -2640,6 +2637,7 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   roles?: T;
   name?: T;
+  email?: T;
   emailVerified?: T;
   image?: T;
   role?: T;
@@ -2657,13 +2655,6 @@ export interface UsersSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4362,6 +4353,46 @@ export interface TaskSaveExecutionResults {
   };
   output: {
     success?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskResearchTask".
+ */
+export interface TaskResearchTask {
+  input: {
+    topic: string;
+    depth?: number | null;
+    sources?:
+      | {
+          sourceUrl?: string | null;
+        }[]
+      | null;
+    format?: string | null;
+    taskId: string;
+    callback?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    summary?: string | null;
+    findings?:
+      | {
+          finding?: string | null;
+        }[]
+      | null;
+    sources?:
+      | {
+          sourceUrl?: string | null;
+        }[]
+      | null;
+    confidence?: number | null;
   };
 }
 /**
