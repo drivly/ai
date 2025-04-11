@@ -35,11 +35,23 @@ const nextConfig = {
   experimental: {
     optimizeCss: false,
     optimizePackageImports: [],
-    serverComponentsExternalPackages: [],
     serverActions: {
       bodySizeLimit: '2mb',
     },
     mdxRs: false
+  },
+  
+  // Exclude SDK documentation routes to prevent stack overflow
+  async rewrites() {
+    return {
+      beforeFiles: [
+        // Redirect SDK documentation routes to a static page
+        {
+          source: '/docs/sdks/:path*',
+          destination: '/docs',
+        },
+      ],
+    }
   }
 }
 
