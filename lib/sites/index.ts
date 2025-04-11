@@ -1,5 +1,6 @@
 import { sites } from '@/.velite'
 import { codeExample } from '@/components/sites/constants/code-example'
+import { ai } from '@/ai.config'
 
 /**
  * Site content type definition
@@ -23,7 +24,7 @@ interface SiteContent {
  * @param includeHero Whether to include hero content fields
  * @returns Site content with fallback if not found
  */
-export function findSiteContent(domain: string, includeHero = false): SiteContent {
+export async function findSiteContent(domain: string, includeHero = false): Promise<SiteContent> {
   const site = domain ?? 'llm.do';
   
   const siteContent = sites.find((s: any) => {
@@ -34,23 +35,41 @@ export function findSiteContent(domain: string, includeHero = false): SiteConten
   });
   
   if (!siteContent) {
-    const fallbackContent: SiteContent = {
-      title: site,
-      description: `${site} | .do Business-as-Code`,
-    };
-    
-    if (includeHero) {
+    try {
+      const { output } = await ai.generateSiteContent({ domain: site });
+      
       return {
-        ...fallbackContent,
-        headline: site,
-        subhead: 'Powered by .do',
-        badge: 'AI without Complexity',
-        codeExample: codeExample,
-        codeLang: 'json',
+        title: output.title || site,
+        description: output.description || `${site} | .do Business-as-Code`,
+        headline: output.headline || site,
+        subhead: output.subhead || 'Powered by .do',
+        badge: output.badge || 'AI without Complexity',
+        codeExample: output.codeExample || codeExample,
+        codeLang: output.codeLang || 'json',
+        brandColor: output.brandColor,
+        group: output.group || 'other',
       };
+    } catch (error) {
+      console.error(`Error generating content for ${site}:`, error);
+      
+      const fallbackContent: SiteContent = {
+        title: site,
+        description: `${site} | .do Business-as-Code`,
+      };
+      
+      if (includeHero) {
+        return {
+          ...fallbackContent,
+          headline: site,
+          subhead: 'Powered by .do',
+          badge: 'AI without Complexity',
+          codeExample: codeExample,
+          codeLang: 'json',
+        };
+      }
+      
+      return fallbackContent;
     }
-    
-    return fallbackContent;
   }
   
   return siteContent;
