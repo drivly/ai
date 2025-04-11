@@ -28,8 +28,14 @@ const imagePaths = [
 export async function generateBlogPosts(domain: string, count: number = 9, topics?: string): Promise<BlogPost[]> {
   console.log(`Generating blog posts for domain: ${domain}`)
   
-  const isPreview = typeof window === 'undefined' && process.env.VERCEL_ENV === 'preview'
-  console.log(`Environment: ${isPreview ? 'Preview' : 'Production/Development'}`)
+  const isPreview = typeof window === 'undefined' && 
+    (process.env.VERCEL_ENV === 'preview' || 
+     process.env.VERCEL_URL?.includes('git-devin') ||
+     process.env.VERCEL_URL?.includes('-git-') ||
+     process.env.NEXT_PUBLIC_VERCEL_URL?.includes('-git-'))
+  
+  console.log(`Environment detection: VERCEL_ENV=${process.env.VERCEL_ENV}, VERCEL_URL=${process.env.VERCEL_URL}`)
+  console.log(`Is preview environment: ${isPreview ? 'Yes' : 'No'}`)
   
   let domainTopics = topics
   let domainContext = ''
@@ -216,7 +222,14 @@ export async function generateBlogPosts(domain: string, count: number = 9, topic
 export async function getBlogPostContent(title: string, domain: string): Promise<string> {
   console.log(`Generating blog post content for title: "${title}" in domain: ${domain}`)
   
-  const isPreview = typeof window === 'undefined' && process.env.VERCEL_ENV === 'preview'
+  const isPreview = typeof window === 'undefined' && 
+    (process.env.VERCEL_ENV === 'preview' || 
+     process.env.VERCEL_URL?.includes('git-devin') ||
+     process.env.VERCEL_URL?.includes('-git-') ||
+     process.env.NEXT_PUBLIC_VERCEL_URL?.includes('-git-'))
+  
+  console.log(`Environment detection: VERCEL_ENV=${process.env.VERCEL_ENV}, VERCEL_URL=${process.env.VERCEL_URL}`)
+  console.log(`Is preview environment: ${isPreview ? 'Yes' : 'No'}`)
   
   try {
     let tone = 'professional'
