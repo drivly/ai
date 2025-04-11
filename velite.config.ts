@@ -19,6 +19,15 @@ export default defineConfig({
         // component: s.mdx(),
       }),
     },
+    sdks: {
+      name: 'SDK',
+      pattern: '../sdks/**/README.md',
+      schema: s.object({
+        title: s.string().optional(),
+        description: s.string().optional(),
+        content: s.markdown(),
+      }),
+    },
     sites: {
       name: 'Site',
       pattern: 'sites/**/*.mdx',
