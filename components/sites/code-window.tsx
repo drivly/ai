@@ -58,7 +58,7 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 
   return (
     <div className={cn('bg-opacity-[0.01] rounded-2xl border-[10px] border-white/10', className)}>
-      <div className='relative w-full overflow-hidden rounded-md border'>
+      <div className='relative w-full overflow-hidden rounded-sm border'>
         {/* Code window header */}
         <div className='flex items-center justify-between bg-black/80 px-4 py-2 backdrop-blur-md'>
           <div className='flex items-center gap-2'>
