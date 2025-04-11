@@ -32,39 +32,89 @@ export async function generateBlogPosts(domain: string, count: number = 9, topic
   console.log(`Environment: ${isPreview ? 'Preview' : 'Production/Development'}`)
   
   let domainTopics = topics
+  let domainContext = ''
+  
   if (!domainTopics) {
     if (domain === 'workflows.do') {
-      domainTopics = 'workflow automation, business process optimization, task management, workflow efficiency'
+      domainTopics = 'workflow automation, business process optimization, task management, workflow efficiency, business workflows'
+      domainContext = 'Focus on practical business workflow automation examples and best practices'
     } else if (domain === 'functions.do') {
-      domainTopics = 'serverless functions, function programming, AI functions, code execution'
+      domainTopics = 'serverless functions, function programming, AI functions, code execution, function composition'
+      domainContext = 'Focus on technical implementation of functions and serverless architecture'
     } else if (domain === 'agents.do') {
+      domainTopics = 'AI agents, autonomous systems, agent frameworks, intelligent assistants, agent orchestration'
+      domainContext = 'Focus on agent capabilities, use cases, and implementation strategies'
+    } else if (domain.includes('functions')) {
+      domainTopics = 'serverless functions, function programming, AI functions, code execution'
+      domainContext = 'Focus on technical implementation of functions'
+    } else if (domain.includes('workflows')) {
+      domainTopics = 'workflow automation, business process optimization, task management'
+      domainContext = 'Focus on practical business workflow automation'
+    } else if (domain.includes('agents')) {
       domainTopics = 'AI agents, autonomous systems, agent frameworks, intelligent assistants'
+      domainContext = 'Focus on agent capabilities and use cases'
     } else {
       domainTopics = `${domain.replace('.do', '')} related topics`
+      domainContext = `Focus on ${domain.replace('.do', '')} specific use cases and applications`
     }
   }
   
-  console.log(`Using topics: ${domainTopics}`)
+  console.log(`Using topics: ${domainTopics} with context: ${domainContext}`)
   
   try {
-    const settings = isPreview ? { _bypassCache: true } : undefined
+    const settings = isPreview ? 
+      { _bypassCache: true, _temperature: 0.7 } : 
+      { _temperature: 0.7, _cacheKey: `blog_titles_${domain}` }
     
-    const titles = await ai.listBlogPostTitles({
-      domain,
-      count,
-      topics: domainTopics,
-    }, settings)
-
-    console.log(`Generated ${titles.length} titles for domain ${domain}`)
+    let attempts = 0
+    const maxAttempts = 2
+    let titles: string[] = []
+    
+    while (attempts < maxAttempts && (!titles || titles.length === 0)) {
+      try {
+        attempts++
+        console.log(`Attempt ${attempts} to generate titles for domain ${domain}`)
+        
+        titles = await ai.listBlogPostTitles({
+          domain,
+          count,
+          topics: domainTopics,
+          context: domainContext
+        }, settings)
+        
+        if (titles && titles.length > 0) {
+          console.log(`Successfully generated ${titles.length} titles for domain ${domain}`)
+        } else {
+          console.warn(`Generated empty titles array for ${domain}, retrying...`)
+        }
+      } catch (retryError) {
+        console.error(`Error in attempt ${attempts} for domain ${domain}:`, retryError)
+        if (attempts >= maxAttempts) throw retryError
+      }
+    }
+    
+    if (!titles || titles.length === 0) {
+      throw new Error('Failed to generate titles after multiple attempts')
+    }
 
     const today = new Date()
     const dateString = `${today.getMonth() + 1}-${today.getDate()}-${today.getFullYear()}`
 
     return titles.map((title: string, index: number) => {
+      let description = `AI-generated blog post about ${title.toLowerCase()} for ${domain}`
+      
+      if (domain === 'workflows.do') {
+        description = `Learn how ${title.toLowerCase()} can improve your business workflow efficiency and automation.`
+      } else if (domain === 'functions.do') {
+        description = `Explore ${title.toLowerCase()} in the context of serverless functions and AI-powered code execution.`
+      } else if (domain === 'agents.do') {
+        description = `Discover how ${title.toLowerCase()} relates to AI agents and autonomous systems.`
+      }
+      
       return {
         slug: titleToSlug(title),
         title: title,
-        description: `AI-generated blog post about ${title.toLowerCase()} for ${domain}`,
+        description: description,
         date: dateString,
         category: categories[index % categories.length],
         image: imagePaths[index % imagePaths.length],
@@ -72,11 +122,26 @@ export async function generateBlogPosts(domain: string, count: number = 9, topic
     })
   } catch (error) {
     console.error(`Error generating blog posts for domain ${domain}:`, error)
+    
     const staticPosts = getAllBlogPosts()
-    return staticPosts.map(post => ({
-      ...post,
-      description: `${post.description} Relevant for ${domain}.`
-    }))
+    return staticPosts.map(post => {
+      let domainDescription = post.description
+      
+      if (domain === 'workflows.do') {
+        domainDescription = `${post.description} Learn how this applies to workflow automation and business processes.`
+      } else if (domain === 'functions.do') {
+        domainDescription = `${post.description} Explore how this works with serverless functions and code execution.`
+      } else if (domain === 'agents.do') {
+        domainDescription = `${post.description} Discover the implications for AI agents and autonomous systems.`
+      } else {
+        domainDescription = `${post.description} Relevant for ${domain}.`
+      }
+      
+      return {
+        ...post,
+        description: domainDescription
+      }
+    })
   }
 }
 
