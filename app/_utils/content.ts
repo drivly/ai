@@ -1,6 +1,4 @@
 // Import Velite-generated content
-const pages = [];
-const sites = [];
-const sdks = [];
+import { pages, sites, sdks } from '@/.velite'
 
 export { pages, sites, sdks }
