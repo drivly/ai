@@ -1,4 +1,5 @@
 import type { Field, TextFieldSingleValidation } from 'payload'
+import path from 'path'
 
 type URLFieldOptions = {
   name?: string
@@ -27,6 +28,9 @@ export const urlField = ({
     admin: {
       description: 'Enter a valid URL (e.g., https://example.com)',
       className: 'payload-url-field',
+      components: {
+        Cell: path.resolve(__dirname, './components/URLCell'),
+      },
       ...admin,
     },
     hooks: {
