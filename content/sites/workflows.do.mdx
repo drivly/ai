@@ -4,7 +4,19 @@ description: "Build and deploy powerful workflow automations with Workflows.do"
 headline: "Automate Your Business Processes with Workflows.do"
 subhead: "Build, deploy, and manage powerful workflow automations without code"
 badge: "AI without Complexity"
-codeExample: "import { Workflow } from 'workflows.do';\n\nconst onboarding = new Workflow({\n  name: 'Customer Onboarding',\n  triggers: ['new_customer'],\n  steps: [\n    { task: 'Send Welcome Email' },\n    { task: 'Schedule Kickoff Call' },\n    { task: 'Create Account' }\n  ]\n});"
+codeLang: "typescript"
+codeExample: |
+  import { Workflow } from 'workflows.do';
+
+  const onboarding = new Workflow({
+    name: 'Customer Onboarding',
+    triggers: ['new_customer'],
+    steps: [
+      { task: 'Send Welcome Email' },
+      { task: 'Schedule Kickoff Call' },
+      { task: 'Create Account' }
+    ]
+  });
 ---
 
 # Workflows.do

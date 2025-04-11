@@ -38,8 +38,9 @@ export default defineConfig({
         subhead: s.string().optional(),
         content: s.markdown(),
         group: s.string().optional(),
-        codeExample: s.string().optional(), // Add this new field
-        badge: s.string().optional(), // Add this new field
+        codeExample: s.string().optional(), // Code example content
+        codeLang: s.string().optional(), // Language of the code example (typescript, json, etc.)
+        badge: s.string().optional(), // Badge text
       }),
       transform: (data: any) => {
         const pathParts = data._path.split('/');
