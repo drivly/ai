@@ -22,7 +22,7 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
   const { domain } = await props.params
   await getSession()
 
-  const site = domain ?? 'llm.do'
+  const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
   const content = await findSiteContent(domain, true)
 
   const glowColor = (content as any).brandColor || getGlowColor(site)
@@ -37,7 +37,7 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
           buttonText='Join waitlist'
           title={'headline' in content ? content.headline : content.title}
           description={'subhead' in content ? content.subhead : content.description}
-          domain={domain}
+          domain={site}
         />
       </div>
       <DotdoLinkSection />

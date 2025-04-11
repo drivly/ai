@@ -51,6 +51,9 @@ function syntaxHighlightJson(json: string) {
 }
 
 export function CodeWindow({ className, code, language = 'json', title = 'llm.do' }: CodeWindowProps) {
+  if (title === '%5Bdomain%5D') {
+    title = 'workflows.do'
+  }
   const codeString = typeof code === 'object' ? JSON.stringify(code, null, 2) : String(code)
   
   // Only handle JSON for now
