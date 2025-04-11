@@ -1,5 +1,6 @@
 'use client'
 
+import { sdks } from '@/app/_utils/content'
 import { FC } from 'react'
 
 interface SDKReadmeSectionProps {
@@ -8,11 +9,15 @@ interface SDKReadmeSectionProps {
 
 /**
  * Simplified component to display SDK README content
- * This version avoids complex content processing that might cause stack overflow
+ * This version uses the static SDK data from content.ts
  */
 export const SDKReadmeSection: FC<SDKReadmeSectionProps> = ({ domain }) => {
   const sdkName = domain.toLowerCase().endsWith('.do') ? domain.toLowerCase() : `${domain.toLowerCase()}.do`
   const nameWithoutDo = sdkName.replace('.do', '');
+  
+  const sdkContent = sdks.find(sdk => 
+    sdk.title.toLowerCase() === sdkName.toLowerCase()
+  );
 
   return (
     <div className="container mx-auto py-12" id="sdk-documentation">
@@ -80,24 +85,30 @@ export const SDKReadmeSection: FC<SDKReadmeSectionProps> = ({ domain }) => {
               text-decoration: underline;
             }
           `}</style>
-          <h1>{sdkName}</h1>
-          <p>Documentation for the {sdkName} SDK.</p>
-          
-          <h2>Installation</h2>
-          <pre><code>npm install {sdkName}</code></pre>
-          
-          <h2>Usage</h2>
-          <pre><code>import {'{'}  {nameWithoutDo} {'}'} from '{sdkName}'</code></pre>
-          
-          <h2>Features</h2>
-          <ul>
-            <li>Lightweight SDK with minimal dependencies</li>
-            <li>Built on the unified API gateway (apis.do)</li>
-            <li>TypeScript support with full type definitions</li>
-            <li>Compatible with both browser and Node.js environments</li>
-          </ul>
-          
-          <p>For more detailed documentation, please refer to the official documentation.</p>
+          {sdkContent ? (
+            <div dangerouslySetInnerHTML={{ __html: sdkContent.content.replace(/\n/g, '<br/>') }} />
+          ) : (
+            <>
+              <h1>{sdkName}</h1>
+              <p>Documentation for the {sdkName} SDK.</p>
+              
+              <h2>Installation</h2>
+              <pre><code>npm install {sdkName}</code></pre>
+              
+              <h2>Usage</h2>
+              <pre><code>import {'{'}  {nameWithoutDo} {'}'} from '{sdkName}'</code></pre>
+              
+              <h2>Features</h2>
+              <ul>
+                <li>Lightweight SDK with minimal dependencies</li>
+                <li>Built on the unified API gateway (apis.do)</li>
+                <li>TypeScript support with full type definitions</li>
+                <li>Compatible with both browser and Node.js environments</li>
+              </ul>
+              
+              <p>For more detailed documentation, please refer to the official documentation.</p>
+            </>
+          )}
         </div>
       </div>
     </div>
