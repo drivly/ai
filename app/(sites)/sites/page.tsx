@@ -1,12 +1,12 @@
 import { DotDoSection } from '@/components/sites/dotdos/dot-do-section'
-import { getDomainsByCategory } from '@/components/sites/dotdos/get-domain-by-category'
+import { getSitesByCategory } from '@/components/sites/dotdos/get-sites-by-category'
 import HeroSection from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
-import { domains } from '@/domains.config'
+import { sites } from '@/app/_utils/content'
 import { Suspense } from 'react'
 
 async function DirectoryPage() {
-  const domainsByCategory = await getDomainsByCategory(domains)
+  const sitesByCategory = await getSitesByCategory(sites)
 
   return (
     <div className='container mx-auto max-w-6xl px-3 pt-5 pb-20 md:pb-40'>
@@ -25,7 +25,7 @@ async function DirectoryPage() {
             <div className='animate-pulse text-lg opacity-50'>Loading sites...</div>
           </div>
         }>
-        <DotDoSection domainsByCategory={domainsByCategory} />
+        <DotDoSection sitesByCategory={sitesByCategory} />
       </Suspense>
     </div>
   )
