@@ -1,10 +1,21 @@
-import { heroContent } from '@/components/sites/constants/content'
 import { Particles } from '@/components/sites/magicui/particles'
 import DotdoLinkSection from '@/components/sites/sections/dotdo-link-section'
 import HeroSection from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
+import { findSiteContent } from '@/lib/sites'
+import { Metadata } from 'next'
+
+export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
+  const { domain } = await params;
+  const content = findSiteContent(domain);
+  
+  return {
+    title: content.title,
+    description: content.description,
+  };
+}
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
 async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
@@ -12,18 +23,19 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
   await getSession()
 
   const site = domain ?? 'llm.do'
-
   const glowColor = getGlowColor(site)
+  
+  const content = findSiteContent(domain, true)
 
   return (
     <>
       <div className='hero-glow-container' style={{ '--glow-color': glowColor } as React.CSSProperties}>
         <HeroSection
-          codeExample={heroContent.codeExample}
-          badge={heroContent.badge}
-          buttonText={heroContent.buttonText}
-          title={heroContent.title}
-          description={heroContent.description}
+          codeExample={'subhead' in content ? content.subhead : ''}
+          badge={'headline' in content ? content.headline : ''}
+          buttonText="Join waitlist"
+          title={'headline' in content ? content.headline : content.title}
+          description={'subhead' in content ? content.subhead : content.description}
           domain={domain}
         />
       </div>
