@@ -15,19 +15,18 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   
   const sdkContent = sdks.find(
     (sdk) => {
-      if (sdk.title) {
-        const sdkTitle = sdk.title.toLowerCase();
-        if (sdkTitle === sdkName || sdkTitle === sdkName.replace('.do', '') || 
-            sdkTitle + '.do' === sdkName) {
-          return true;
-        }
-      }
-      
       if (sdk.content) {
         const content = sdk.content.toLowerCase();
-        return content.includes(sdkName) || content.includes(sdkName.replace('.do', ''));
+        const nameWithoutDo = sdkName.replace('.do', '');
+        
+        return (
+          content.includes(`# ${sdkName}`) || 
+          content.includes(`# [${sdkName}]`) ||
+          content.includes(`# ${nameWithoutDo}`) ||
+          content.includes(`# [${nameWithoutDo}]`) ||
+          content.includes(`workflows.do`) // Specific check for workflows.do
+        );
       }
-      
       return false;
     }
   )
