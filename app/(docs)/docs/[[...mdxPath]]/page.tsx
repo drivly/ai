@@ -3,13 +3,12 @@ import { useMDXComponents as getMDXComponents } from '@/mdx-components'
 
 export const generateStaticParams = async () => {
   try {
-    const paramsPromise = generateStaticParamsFor('mdxPath')()
-    const params = await Promise.resolve(paramsPromise)
-    
-    return params.filter((param: any) => {
-      if (!param.mdxPath || !Array.isArray(param.mdxPath)) return true
-      return !param.mdxPath.includes('sdks')
-    })
+    return [
+      { mdxPath: [] },
+      { mdxPath: ['getting-started'] },
+      { mdxPath: ['guides'] },
+      { mdxPath: ['reference'] },
+    ]
   } catch (error) {
     console.error('Error generating static params:', error)
     return []
