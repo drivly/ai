@@ -1,7 +1,7 @@
 import type { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
-import { admin, apiKey, multiSession, openAPI, oAuthProxy, genericOAuth } from 'better-auth/plugins'
+import { admin, apiKey, multiSession, openAPI, oAuthProxy, genericOAuth, oidcProvider } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import { getCurrentURL } from '../utils/url'
@@ -28,6 +28,21 @@ export const betterAuthPlugins = [
         scopes: ['openid', 'profile', 'email']
       }
     ]
+  }),
+  oidcProvider({
+    metadata: {
+      issuer: 'https://apis.do',
+      authorization_endpoint: '/api/auth/authorize',
+      token_endpoint: '/api/auth/token',
+      userinfo_endpoint: '/api/auth/userinfo',
+      jwks_uri: '/api/auth/jwks',
+      scopes_supported: ['openid', 'profile', 'email', 'api'],
+    },
+    scopes: ['openid', 'profile', 'email', 'api'],
+    defaultScope: 'openid',
+    accessTokenExpiresIn: 3600, // 1 hour
+    refreshTokenExpiresIn: 604800, // 7 days
+    loginPage: '/sign-in',
   }),
 ]
 
