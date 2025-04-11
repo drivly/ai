@@ -39,7 +39,6 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "prebuild": "if [ ! -d \"../apis.do/dist\" ]; then cd ../apis.do && pnpm build; fi",
     "build": "tsup --config tsup.config.ts",
     "postbuild": "tsc --emitDeclarationOnly --declaration --outDir dist",
     "test": "vitest run",
