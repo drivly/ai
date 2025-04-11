@@ -4,16 +4,12 @@ import HeroSection from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
-import { findSiteContent, getFallbackContent } from '@/lib/sites'
+import { findSiteContent } from '@/lib/sites'
 import { Metadata } from 'next'
 
-export async function generateMetadata({ params }: { params: { domain: string } }): Promise<Metadata> {
-  const domain = params.domain;
-  
-  const siteContent = findSiteContent(domain);
-  const fallbackContent = getFallbackContent(domain);
-  
-  const content = siteContent || fallbackContent;
+export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
+  const { domain } = await params;
+  const content = findSiteContent(domain);
   
   return {
     title: content.title,
@@ -29,10 +25,7 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
   const site = domain ?? 'llm.do'
   const glowColor = getGlowColor(site)
   
-  const siteContent = findSiteContent(domain)
-  const fallbackContent = getFallbackContent(domain, true)
-  
-  const content = siteContent || fallbackContent
+  const content = findSiteContent(domain, true)
 
   return (
     <>

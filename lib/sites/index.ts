@@ -1,11 +1,12 @@
 import { sites } from '@/.velite'
 
 /**
- * Find site content based on domain
+ * Find site content based on domain with fallback
  * @param domain Domain to find content for
- * @returns Site content or undefined if not found
+ * @param includeHero Whether to include hero content fields
+ * @returns Site content with fallback if not found
  */
-export function findSiteContent(domain: string) {
+export function findSiteContent(domain: string, includeHero = false) {
   const site = domain ?? 'llm.do';
   
   const siteContent = sites.find(s => {
@@ -15,30 +16,22 @@ export function findSiteContent(domain: string) {
            s.title.toLowerCase().includes(site.toLowerCase());
   });
   
-  return siteContent;
-}
-
-/**
- * Get fallback content for a domain
- * @param domain Domain to get fallback content for
- * @param includeHero Whether to include hero content fields
- * @returns Fallback content object
- */
-export function getFallbackContent(domain: string, includeHero = false) {
-  const site = domain ?? 'llm.do';
-  
-  const fallbackContent = {
-    title: site,
-    description: `${site} | .do Business-as-Code`,
-  };
-  
-  if (includeHero) {
-    return {
-      ...fallbackContent,
-      headline: site,
-      subhead: 'Powered by .do',
+  if (!siteContent) {
+    const fallbackContent = {
+      title: site,
+      description: `${site} | .do Business-as-Code`,
     };
+    
+    if (includeHero) {
+      return {
+        ...fallbackContent,
+        headline: site,
+        subhead: 'Powered by .do',
+      };
+    }
+    
+    return fallbackContent;
   }
   
-  return fallbackContent;
+  return siteContent;
 }
