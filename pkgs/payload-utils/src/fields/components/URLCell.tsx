@@ -3,20 +3,29 @@
 import React from 'react'
 
 type URLCellProps = {
-  url?: string
+  cellData?: string
+  field: {
+    name: string
+  }
+  colIndex: number
+  rowData: Record<string, unknown>
+  className?: string
 }
 
-export const URLCell: React.FC<URLCellProps> = ({ url }) => {
-  if (!url) return null
+export const URLCell: React.FC<URLCellProps> = ({ 
+  cellData, 
+  className 
+}) => {
+  if (!cellData) return null
   
   return (
     <a 
-      href={url} 
+      href={cellData} 
       target="_blank" 
       rel="noopener noreferrer"
-      className="underline text-blue-500 hover:text-blue-700"
+      className={`underline text-blue-500 hover:text-blue-700 ${className || ''}`}
     >
-      {url}
+      {cellData}
     </a>
   )
 }
