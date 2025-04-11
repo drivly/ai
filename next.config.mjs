@@ -31,10 +31,9 @@ const nextConfig = {
   
   // Disable optimization to prevent stack overflow
   reactStrictMode: false,
-  swcMinify: false,
   experimental: {
     // Disable experimental features that might cause stack overflow
-    serverComponentsExternalPackages: [],
+    serverExternalPackages: [],
     optimizeCss: false,
     optimizePackageImports: []
   }
