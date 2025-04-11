@@ -25,14 +25,14 @@ codeExample: |
   });
 brandColor: "#b30510"
 faqs:
-  - question: "How does Functions.do ensure type safety across our stack?"
-    answer: "Functions.do generates TypeScript interfaces from your function definitions that are used both at runtime and build time. This ensures consistent types across your entire stack and eliminates integration errors that typically occur when frontend and backend implementations drift apart. Our customers report 70% fewer type-related bugs in production, significantly reducing maintenance costs and improving developer productivity."
+  - question: "Will Functions.do introduce type inconsistencies between our frontend and backend?"
+    answer: "Complete type consistency. Functions.do generates TypeScript interfaces from your function definitions that are used both at runtime and build time. This ensures perfect alignment between frontend and backend, eliminating an entire class of integration errors. Our customers report 70% fewer type-related bugs in production and significantly faster development cycles without sacrificing reliability."
   
-  - question: "What happens if our function execution fails in production?"
-    answer: "Functions.do implements comprehensive error handling with automatic retries, dead-letter queues, and detailed execution logs. Failed executions are captured with their full context, making debugging straightforward. This reduces your mean time to resolution by up to 80% and ensures business continuity even when underlying services experience issues."
+  - question: "How does Functions.do handle failures in production environments?"
+    answer: "Graceful degradation by design. Functions.do implements comprehensive error handling with automatic retries, dead-letter queues, and detailed execution logs. Failed executions are captured with their full context, making debugging straightforward. You can configure custom fallback strategies for each function, ensuring business continuity even when underlying services experience issues."
   
-  - question: "How does Functions.do protect us from breaking changes?"
-    answer: "Functions.do includes built-in versioning that allows you to evolve your API without disrupting existing clients. You can deploy multiple versions simultaneously and gradually migrate traffic on your schedule. This eliminates the risk of breaking changes affecting production systems while allowing your team to continuously improve and iterate on your applications."
+  - question: "Will API changes in Functions.do break our existing applications?"
+    answer: "Zero-risk evolution. Functions.do includes built-in versioning capabilities that allow you to evolve your API without disrupting existing clients. You can deploy multiple versions simultaneously, gradually migrate traffic, and deprecate older versions on your schedule. This eliminates the risk of breaking changes affecting production systems while enabling continuous improvement of your applications."
 ---
 
 # Functions.do
