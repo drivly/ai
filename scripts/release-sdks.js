@@ -68,6 +68,15 @@ const runSemanticRelease = (packagePath) => {
         repositoryUrl: 'https://github.com/drivly/ai.git',
         tagFormat: '\${name}@\${version}',
         plugins: [
+          {
+            verifyConditions: () => {},
+            analyzeCommits: (pluginConfig, context) => {
+              if (!context.lastRelease.version) {
+                return '0.1.0';
+              }
+              return null; // Let semantic-release determine version
+            }
+          },
           ['@semantic-release/commit-analyzer', {
             preset: 'angular',
             releaseRules: [
