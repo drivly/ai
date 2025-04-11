@@ -7,7 +7,7 @@ export default function APIReference() {
   return (
     <ApiReferenceReact
       configuration={{
-        apiDescriptionUrl: "/api/docs/openapi.json",
+        url: "/api/docs/openapi.json",
         layout: "stacked"
       }}
     />
