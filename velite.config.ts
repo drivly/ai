@@ -42,6 +42,10 @@ export default defineConfig({
         codeExample: s.string().optional(), // Code example content
         codeLang: s.string().optional(), // Language of the code example (typescript, json, etc.)
         badge: s.string().optional(), // Badge text
+        faqs: s.array(s.object({
+          question: s.string(),
+          answer: s.markdown(),
+        })).optional(),
       }),
       transform: (data: any) => {
         const pathParts = data._path.split('/');
