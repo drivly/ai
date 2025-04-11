@@ -15,8 +15,69 @@
       "description": "Production API Server"
     }
   ],
-  "paths": {},
+  "paths": {
+    "/ai": {
+      "get": {
+        "summary": "List all AIs",
+        "description": "Returns a list of all AIs",
+        "tags": [
+          "AIs"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "links": {
+                      "type": "object",
+                      "properties": {
+                        "home": {
+                          "type": "string"
+                        },
+                        "next": {
+                          "type": "string"
+                        },
+                        "prev": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "components": {
-    "schemas": {}
+    "schemas": {
+      "AI": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
   }
 }
