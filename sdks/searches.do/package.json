@@ -36,7 +36,6 @@
     "url": "https://github.com/drivly/ai/issues"
   },
   "scripts": {
-    "prebuild": "cd ../apis.do && pnpm run build",
     "build": "tsup --config tsup.config.ts",
     "generate:constants": "echo 'Using placeholder constants'",
     "pretest": "if [ ! -d \"../apis.do/dist\" ]; then cd ../apis.do && pnpm build; fi",

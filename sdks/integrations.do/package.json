@@ -48,7 +48,6 @@
     "url": "https://github.com/drivly/ai/issues"
   },
   "scripts": {
-    "prebuild": "cd ../apis.do && pnpm run build",
     "build": "tsup --config tsup.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
