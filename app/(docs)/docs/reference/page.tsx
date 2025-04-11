@@ -1,13 +1,11 @@
-import { ApiReference } from '@scalar/nextjs-api-reference'
+'use client'
 
-export const metadata = {
-  title: 'API Reference',
-  description: 'Drivly AI API Reference Documentation',
-}
+import { ApiReferenceReact } from '@scalar/api-reference-react'
+import '@scalar/api-reference-react/style.css'
 
 export default function APIReference() {
   return (
-    <ApiReference
+    <ApiReferenceReact
       configuration={{
         url: "/api.json",
         layout: "modern"
