@@ -1,27 +1,17 @@
-import { sites } from '@/app/_utils/content'
 import { Particles } from '@/components/sites/magicui/particles'
 import DotdoLinkSection from '@/components/sites/sections/dotdo-link-section'
 import HeroSection from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
+import { findSiteContent, getFallbackContent } from '@/lib/sites'
 import { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: { domain: string } }): Promise<Metadata> {
   const domain = params.domain;
-  const site = domain ?? 'llm.do';
   
-  const siteContent = sites.find(s => {
-    const titleDomain = s.title.split(' - ')[0].toLowerCase();
-    return site === titleDomain.toLowerCase() || 
-           site === titleDomain.toLowerCase().replace('.do', '') ||
-           s.title.toLowerCase().includes(site.toLowerCase());
-  });
-  
-  const fallbackContent = {
-    title: site,
-    description: `${site} | .do Business-as-Code`,
-  };
+  const siteContent = findSiteContent(domain);
+  const fallbackContent = getFallbackContent(domain);
   
   const content = siteContent || fallbackContent;
   
@@ -39,19 +29,8 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
   const site = domain ?? 'llm.do'
   const glowColor = getGlowColor(site)
   
-  const siteContent = sites.find(s => {
-    const titleDomain = s.title.split(' - ')[0].toLowerCase()
-    return site === titleDomain.toLowerCase() || 
-           site === titleDomain.toLowerCase().replace('.do', '') ||
-           s.title.toLowerCase().includes(site.toLowerCase())
-  })
-  
-  const fallbackContent = {
-    title: site,
-    description: `${site} | .do Business-as-Code`,
-    headline: site,
-    subhead: 'Powered by .do',
-  }
+  const siteContent = findSiteContent(domain)
+  const fallbackContent = getFallbackContent(domain, true)
   
   const content = siteContent || fallbackContent
 
