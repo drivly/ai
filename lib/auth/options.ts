@@ -1,7 +1,7 @@
 import type { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
-import { admin, apiKey, multiSession, openAPI, oAuthProxy, oidcProvider } from 'better-auth/plugins'
+import { admin, apiKey, multiSession, openAPI, oAuthProxy, genericOAuth } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import { getCurrentURL } from '../utils/url'
@@ -16,8 +16,18 @@ export const betterAuthPlugins = [
     productionURL: 'https://apis.do',
     currentURL: getCurrentURL(),
   }),
-  oidcProvider({
-    loginPage: '/sign-in',
+  genericOAuth({
+    config: [
+      {
+        providerId: 'workos',
+        clientId: process.env.WORKOS_CLIENT_ID as string,
+        clientSecret: process.env.WORKOS_CLIENT_SECRET as string,
+        authorizationUrl: 'https://api.workos.com/sso/authorize',
+        tokenUrl: 'https://api.workos.com/sso/token',
+        redirectURI: 'https://apis.do/api/auth/callback/workos',
+        scopes: ['openid', 'profile', 'email']
+      }
+    ]
   }),
 ]
 
