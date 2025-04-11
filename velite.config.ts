@@ -21,7 +21,7 @@ export default defineConfig({
     },
     sdks: {
       name: 'SDK',
-      pattern: '../sdks/**/README.md',
+      pattern: '../sdks/!(node_modules)/**/README.md',
       schema: s.object({
         title: s.string().optional(),
         description: s.string().optional(),
