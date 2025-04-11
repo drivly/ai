@@ -1,15 +1,28 @@
 import { sites } from '@/.velite'
 
 /**
+ * Site content type definition
+ */
+interface SiteContent {
+  title: string;
+  description: string;
+  headline?: string;
+  subhead?: string;
+  brandColor?: string;
+  content?: any;
+  group?: string;
+}
+
+/**
  * Find site content based on domain with fallback
  * @param domain Domain to find content for
  * @param includeHero Whether to include hero content fields
  * @returns Site content with fallback if not found
  */
-export function findSiteContent(domain: string, includeHero = false) {
+export function findSiteContent(domain: string, includeHero = false): SiteContent {
   const site = domain ?? 'llm.do';
   
-  const siteContent = sites.find(s => {
+  const siteContent = sites.find((s: any) => {
     const titleDomain = s.title.split(' - ')[0].toLowerCase();
     return site === titleDomain.toLowerCase() || 
            site === titleDomain.toLowerCase().replace('.do', '') ||
@@ -17,7 +30,7 @@ export function findSiteContent(domain: string, includeHero = false) {
   });
   
   if (!siteContent) {
-    const fallbackContent = {
+    const fallbackContent: SiteContent = {
       title: site,
       description: `${site} | .do Business-as-Code`,
     };

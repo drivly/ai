@@ -10,7 +10,7 @@ export const useGlowColor = () => {
     const { findSiteContent } = require('@/lib/sites')
     const content = findSiteContent(domain, false)
     
-    const glowColor = content.brandColor || getGlowColor(domain)
+    const glowColor = (content as any).brandColor || getGlowColor(domain)
 
     document.documentElement.style.setProperty('--glow-color', glowColor)
 

@@ -25,7 +25,7 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
   const site = domain ?? 'llm.do'
   const content = findSiteContent(domain, true)
   
-  const glowColor = content.brandColor || getGlowColor(site)
+  const glowColor = (content as any).brandColor || getGlowColor(site)
 
   return (
     <>
