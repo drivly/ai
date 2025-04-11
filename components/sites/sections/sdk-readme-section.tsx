@@ -1,8 +1,9 @@
 'use client'
 
 import { sdks as sdksCollection } from '@/app/_utils/content'
-import { Markdown } from '@/pkgs/ui/src/server/components/markdown'
 import { FC } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface SDKReadmeSectionProps {
   domain: string
@@ -28,9 +29,11 @@ export const SDKReadmeSection: FC<SDKReadmeSectionProps> = ({ domain }) => {
     <div className="container mx-auto py-12">
       <div className="prose prose-invert mx-auto max-w-4xl">
         <h2 className="mb-6 text-2xl font-bold">SDK Documentation</h2>
-        <Markdown className="markdown-content">
-          {markdownContent}
-        </Markdown>
+        <div className="markdown-content">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {markdownContent}
+          </ReactMarkdown>
+        </div>
       </div>
     </div>
   )
