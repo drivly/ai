@@ -1,8 +1,8 @@
 'use client'
 
+import useConfetti from '@/components/shared/use-confetti'
 import React, { useEffect } from 'react'
 import ReactCanvasConfetti from 'react-canvas-confetti'
-import useConfetti from '@/components/shared/use-confetti'
 
 export interface TemplateProps {
   children: React.ReactNode

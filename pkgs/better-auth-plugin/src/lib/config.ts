@@ -20,6 +20,7 @@ export const supportedBetterAuthPluginIds = {
   oidc: 'oidc',
   expo: 'expo',
   oAuthProxy: 'oauth-proxy',
+  genericOAuth: 'generic-oauth',
 } as const
 
 export const baseCollectionSlugs = {

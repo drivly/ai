@@ -46,7 +46,7 @@ export function SitesNavbar({ params, minimal }: { params: Promise<{ domain?: st
         'fixed top-0 left-0 z-50 w-full backdrop-blur-[12px] transition-all duration-200',
         hasScrolled ? 'bg-background/80 border-b' : 'border-transparent bg-transparent',
       )}>
-      <nav className='container mx-auto flex h-14 max-w-6xl items-center justify-between px-3'>
+      <nav className='container mx-auto flex h-14 max-w-6xl items-center justify-between px-3 xl:px-0'>
         <LlmsdoLogo domain={domain} minimal={minimal} />
 
         {!minimal && (
