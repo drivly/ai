@@ -1,28 +1,25 @@
 import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
-  apis: {
+  'apis.do': {
     title: 'APIs',
   },
-  functions: {
+  'functions.do': {
     title: 'Functions',
   },
-  workflows: {
+  'workflows.do': {
     title: 'Workflows',
   },
-  agents: {
+  'agents.do': {
     title: 'Agents',
   },
-  database: {
+  'database.do': {
     title: 'Database',
   },
-  events: {
-    title: 'Events',
-  },
-  experiments: {
+  'experiments.do': {
     title: 'Experiments',
   },
-  gpt: {
+  'gpt.do': {
     title: 'GPT',
   },
 }
