@@ -21,7 +21,7 @@ export default defineConfig({
     },
     sdks: {
       name: 'SDK',
-      pattern: '../sdks/*/README.md', // Only match direct SDK folders, not nested node_modules
+      pattern: '../sdks/{actions.do,agents.do,analytics.do,apis.do,database.do,evals.do,experiments.do,functions.do,goals.do,gpt.do,integrations.do,llm.do,mcp.do,models.do,plans.do,projects.do,sdk.do,searches.do,tasks.do,triggers.do,workflows.do}/README.md', // Explicitly list SDK folders to avoid node_modules
       schema: s.object({
         title: s.string().optional(),
         description: s.string().optional(),
