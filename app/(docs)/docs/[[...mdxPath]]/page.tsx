@@ -1,9 +1,11 @@
 import { generateStaticParamsFor, importPage } from 'nextra/pages'
 import { useMDXComponents as getMDXComponents } from '@/mdx-components'
 
-export const generateStaticParams = () => {
+export const generateStaticParams = async () => {
   try {
-    const params = generateStaticParamsFor('mdxPath')()
+    const paramsPromise = generateStaticParamsFor('mdxPath')()
+    const params = await Promise.resolve(paramsPromise)
+    
     return params.filter((param: any) => {
       if (!param.mdxPath || !Array.isArray(param.mdxPath)) return true
       return !param.mdxPath.includes('sdks')
