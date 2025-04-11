@@ -536,9 +536,6 @@ importers:
       ai:
         specifier: ^2.2.37
         version: 2.2.37(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.2))
-      ai-models:
-        specifier: workspace:*
-        version: link:../ai-models
     devDependencies:
       '@types/node':
         specifier: ^22.13.10
@@ -886,6 +883,28 @@ importers:
         version: 15.2.2(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
       typescript:
         specifier: ^5.7.3
+        version: 5.8.2
+
+  pkgs/language-models:
+    dependencies:
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.13.14
+      camelcase:
+        specifier: ^8.0.0
+        version: 8.0.0
+      flat:
+        specifier: ^6.0.1
+        version: 6.0.1
+      vitest:
+        specifier: ^3.0.9
+        version: 3.0.9(@types/debug@4.1.12)(@types/node@22.13.14)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+    devDependencies:
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      typescript:
+        specifier: ^5.8.2
         version: 5.8.2
 
   pkgs/payload-agent:
@@ -1818,6 +1837,9 @@ importers:
       hono:
         specifier: ^4.7.5
         version: 4.7.5
+      language-models:
+        specifier: workspace:*
+        version: link:../../pkgs/language-models
       ua-parser-js:
         specifier: ^2.0.3
         version: 2.0.3
