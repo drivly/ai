@@ -17,7 +17,7 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   let sdkContent = null;
   
   if (sdkName === 'workflows.do') {
-    sdkContent = sdks.find(sdk => {
+    sdkContent = sdks.find((sdk: { content?: string; title?: string }) => {
       if (!sdk.content) return false;
       
       const content = sdk.content.toLowerCase();
@@ -35,12 +35,12 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   }
   
   if (!sdkContent) {
-    sdkContent = sdks.find(sdk => 
+    sdkContent = sdks.find((sdk: { content?: string; title?: string }) => 
       sdk.title && sdk.title.toLowerCase() === sdkName.toLowerCase()
     );
     
     if (!sdkContent) {
-      sdkContent = sdks.find(sdk => {
+      sdkContent = sdks.find((sdk: { content?: string; title?: string }) => {
         if (!sdk.content) return false;
         
         const content = sdk.content.toLowerCase();
@@ -82,13 +82,13 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   useEffect(() => {
     if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
       const info = `Looking for SDK: ${sdkName}\n` +
-        `Available SDKs: ${sdks.map(sdk => sdk.title || 'Untitled').join(', ')}\n` +
+        `Available SDKs: ${sdks.map((sdk: { title?: string }) => sdk.title || 'Untitled').join(', ')}\n` +
         `Found: ${sdkContent ? 'Yes' : 'No'}`;
       setDebugInfo(info);
       
       console.log(`SDK search for ${sdkName}:`, {
         found: !!sdkContent,
-        availableTitles: sdks.map(sdk => sdk.title),
+        availableTitles: sdks.map((sdk: { title?: string }) => sdk.title),
         matchedContent: sdkContent ? sdkContent.content.substring(0, 200) : 'None'
       });
     }

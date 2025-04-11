@@ -14,7 +14,7 @@ interface SDKReadmeSectionProps {
 export const SDKReadmeSection: FC<SDKReadmeSectionProps> = ({ domain }) => {
   const sdkName = domain.toLowerCase().endsWith('.do') ? domain.toLowerCase() : `${domain.toLowerCase()}.do`
   
-  const sdkContent = sdksCollection.find(sdk => {
+  const sdkContent = sdksCollection.find((sdk: { content?: string; title?: string }) => {
     if (!sdk.content) return false;
     
     const content = sdk.content.toLowerCase();
