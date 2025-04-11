@@ -9,7 +9,7 @@ import { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params
-  const content = findSiteContent(domain)
+  const content = await findSiteContent(domain)
 
   return {
     title: content.title,
@@ -23,7 +23,7 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
   await getSession()
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
-  const content = findSiteContent(domain, true)
+  const content = await findSiteContent(domain, true)
 
   const glowColor = (content as any).brandColor || getGlowColor(site)
 
