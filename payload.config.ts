@@ -76,25 +76,9 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload.types.ts'),
   },
-  db: process.env.SKIP_DATABASE_CONNECTION === 'true'
-    ? {
-        connect: async () => ({}),
-        disconnect: async () => ({}),
-        name: 'mock',
-        defaultIDType: 'number',
-        findOne: async () => null,
-        findMany: async () => [],
-        findVersions: async () => [],
-        createOne: async () => ({}),
-        createMany: async () => [],
-        updateOne: async () => ({}),
-        updateMany: async () => [],
-        deleteOne: async () => ({}),
-        deleteMany: async () => []
-      } as any
-    : mongooseAdapter({
-        url: process.env.DATABASE_URI || '',
-      }),
+  db: mongooseAdapter({
+    url: process.env.DATABASE_URI || '',
+  }),
   jobs: {
     addParentToTaskLog: true,
     tasks,
