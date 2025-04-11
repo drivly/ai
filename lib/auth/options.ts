@@ -1,7 +1,7 @@
 import type { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
-import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/plugins'
+import { admin, apiKey, multiSession, openAPI, oAuthProxy, genericOAuth } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import { getCurrentURL } from '../utils/url'
@@ -15,6 +15,19 @@ export const betterAuthPlugins = [
   oAuthProxy({
     productionURL: process.env.NODE_ENV === 'production' ? 'https://apis.do' : 'http://localhost:3000',
     currentURL: getCurrentURL(),
+  }),
+  genericOAuth({
+    config: [
+      {
+        providerId: 'workos',
+        clientId: process.env.WORKOS_CLIENT_ID as string,
+        clientSecret: process.env.WORKOS_CLIENT_SECRET as string,
+        authorizationUrl: 'https://api.workos.com/sso/authorize',
+        tokenUrl: 'https://api.workos.com/sso/token',
+        redirectURI: 'https://apis.do/api/auth/callback/workos',
+        scopes: ['openid', 'profile', 'email']
+      }
+    ]
   }),
 ]
 
@@ -93,7 +106,7 @@ export const betterAuthOptions: BetterAuthOptions = {
   account: {
     accountLinking: {
       enabled: true,
-      trustedProviders: ['google', 'email-password'],
+      trustedProviders: ['google', 'email-password', 'workos'],
     },
   },
 }
