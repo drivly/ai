@@ -31,7 +31,7 @@ const meta: MetaRecord = {
   integrations: '',
   deployment: '',
   observability: '',
-  
+  '_sites': '',
 
   __: {
     type: 'separator',

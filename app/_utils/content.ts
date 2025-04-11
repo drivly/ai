@@ -1,5 +1,5 @@
 // Import Velite-generated content
 // Using the correct path to the Velite-generated index file
-import { pages } from '@/.velite'
+import { pages, sites } from '@/.velite'
 
-export { pages }
+export { pages, sites }
