@@ -1,6 +1,7 @@
 'use client'
 
 import { sdks as sdksCollection } from '@/app/_utils/content'
+import { Markdown } from '@/pkgs/ui/src/server/components/markdown'
 import { FC } from 'react'
 
 interface SDKReadmeSectionProps {
@@ -27,11 +28,9 @@ export const SDKReadmeSection: FC<SDKReadmeSectionProps> = ({ domain }) => {
     <div className="container mx-auto py-12">
       <div className="prose prose-invert mx-auto max-w-4xl">
         <h2 className="mb-6 text-2xl font-bold">SDK Documentation</h2>
-        {/* The prose class handles styling of the markdown content */}
-        <div 
-          className="markdown-content"
-          dangerouslySetInnerHTML={{ __html: markdownContent }} 
-        />
+        <Markdown className="markdown-content">
+          {markdownContent}
+        </Markdown>
       </div>
     </div>
   )
