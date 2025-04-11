@@ -7,7 +7,10 @@ export const useGlowColor = () => {
   const domain = params.domain || 'apis.do'
 
   useEffect(() => {
-    const glowColor = getGlowColor(domain)
+    const { findSiteContent } = require('@/lib/sites')
+    const content = findSiteContent(domain, false)
+    
+    const glowColor = (content as any).brandColor || getGlowColor(domain)
 
     document.documentElement.style.setProperty('--glow-color', glowColor)
 

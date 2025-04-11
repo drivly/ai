@@ -36,6 +36,7 @@ export default defineConfig({
         description: s.string(),
         headline: s.string(),
         subhead: s.string().optional(),
+        brandColor: s.string().optional(), // Add this field
         content: s.markdown(),
         group: s.string().optional(),
       }),
