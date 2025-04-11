@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: { domain: string } 
   
   const fallbackContent = {
     title: site,
-    description: `${site} - AI-Powered Domain`,
+    description: `${site} | .do Business-as-Code`,
   };
   
   const content = siteContent || fallbackContent;
@@ -48,7 +48,7 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
   
   const fallbackContent = {
     title: site,
-    description: `${site} - AI-Powered Domain`,
+    description: `${site} | .do Business-as-Code`,
     headline: site,
     subhead: 'Powered by .do',
   }
