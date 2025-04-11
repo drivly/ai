@@ -1,25 +1,46 @@
 import { Badge } from '@/components/sites/badge'
-import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
 import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getBlogPostBySlug } from '../blog-posts'
+import { generateBlogPosts, getBlogPostContent } from '@/lib/blog'
+import { slugToTitle } from '@/lib/utils/slug'
+import { Markdown } from '@/components/sites/markdown'
 
 async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: string }> }) {
   const { domain, slug } = await props.params
   const headersList = await headers()
   const siteUrl = `${headersList.get('x-forwarded-proto')}://${headersList.get('x-forwarded-host')}`
-  const post = getBlogPostBySlug(slug || '')
   const fallbackImage = '/images/blog-llm.png'
-
+  
+  console.log(`Blog post page rendering for domain: ${domain}, slug: ${slug}`)
+  
+  if (!slug) {
+    return <BlogPostNotFound fallbackImage={fallbackImage} />
+  }
+  
+  const normalizedDomain = domain.includes('workflows') ? 'workflows.do' : domain
+  
+  const isPreview = process.env.VERCEL_ENV === 'preview' || 
+                    process.env.VERCEL_URL?.includes('git-devin') || 
+                    process.env.VERCEL_URL?.includes('-git-')
+  
+  console.log(`Preview environment detection in blog post page: ${isPreview ? 'Yes' : 'No'}`)
+  
+  const title = slugToTitle(slug)
+  
+  const allPosts = await generateBlogPosts(normalizedDomain, 9, undefined, isPreview)
+  const post = allPosts.find(p => p.slug === slug)
+  
   // If post not found, render custom not found component
   if (!post) {
     return <BlogPostNotFound fallbackImage={fallbackImage} />
   }
 
+  const content = await getBlogPostContent(title, normalizedDomain, isPreview)
+  
   const postUrl = `${siteUrl}/blog/${post.slug}`
   const dateObj = new Date(post.date.split('-').join('/'))
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
@@ -47,9 +68,7 @@ async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: st
         <Image src={post?.image || fallbackImage} alt={post?.title || ''} fill className='object-cover' priority />
       </div>
 
-      <BlogContent />
-
-      {/* Related domain blog posts */}
+      <Markdown content={content} />
     </div>
   )
 }

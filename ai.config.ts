@@ -69,4 +69,23 @@ export const ai = AI({
     activity: 'gerund like Using',
     event: 'past tense like Used',
   },
+
+  listBlogPostTitles: {
+    name: 'List Blog Post Titles',
+    description: 'Generate a list of blog post titles',
+    domain: 'The domain to generate blog posts for',
+    count: 'Number of blog post titles to generate',
+    topics: 'Optional topics to focus on',
+    returnType: 'TextArray',
+  },
+
+  writeBlogPost: {
+    name: 'Write Blog Post',
+    description: 'Generate content for a blog post',
+    title: 'The title of the blog post',
+    domain: 'The domain the blog post is for',
+    tone: 'Optional tone for the content (professional, casual, etc.)',
+    length: 'Optional desired length (short, medium, long)',
+    returnType: 'Markdown',
+  },
 })

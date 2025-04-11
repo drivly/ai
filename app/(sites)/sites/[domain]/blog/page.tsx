@@ -2,13 +2,25 @@ import { BlogPosts } from '@/components/sites/blog-ui/blog-posts'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import { getAllBlogPosts, getAllCategories } from './blog-posts'
+import { generateBlogPosts } from '@/lib/blog'
 
 async function BlogPage(props: { params: Promise<{ domain: string }> }) {
   const { domain } = await props.params
-  // Move data fetching to the server component
-  const posts = getAllBlogPosts()
-  const categories = getAllCategories()
+  
+  console.log(`Blog page rendering for domain: ${domain}`)
+  
+  const normalizedDomain = domain.includes('workflows') ? 'workflows.do' : domain
+  console.log(`Normalized domain for blog page: ${normalizedDomain}`)
+  
+  const isPreview = process.env.VERCEL_ENV === 'preview' || 
+                    process.env.VERCEL_URL?.includes('git-devin') || 
+                    process.env.VERCEL_URL?.includes('-git-')
+  
+  console.log(`Preview environment detection in blog page: ${isPreview ? 'Yes' : 'No'}`)
+  
+  const posts = await generateBlogPosts(normalizedDomain, 9, undefined, isPreview)
+  
+  const categories = Array.from(new Set(posts.map(post => post.category)))
 
   return (
     <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
