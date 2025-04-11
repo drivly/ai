@@ -35,6 +35,8 @@ import { deliverWebhookTask } from './integrations/deliverWebhook'
 import { initiateComposioConnectionTask } from './integrations/initiateComposioConnection'
 import { processDomain } from './integrations/processDomain'
 import { saveExecutionResultsTask } from './saveExecutionResults'
+import { researchTask } from './ai/researchTask' // Import the new task
+
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
@@ -117,6 +119,8 @@ export const tasks = [
   initiateComposioConnectionTask,
   processDomainTask,
   saveExecutionResultsTask,
+  researchTask, // Add the new task here
+
 ]
 
 export const workflows = [handleGithubEvent]
