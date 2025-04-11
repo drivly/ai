@@ -1,10 +1,15 @@
-import { ApiReference } from '@scalar/nextjs-api-reference'
+'use client'
+
+import { ApiReferenceReact } from '@scalar/api-reference-react'
+import '@scalar/api-reference-react/style.css'
 
 export default function APIReference() {
   return (
-    <ApiReference 
-      apiDescriptionUrl="/api/docs/openapi.json" 
-      layout="stacked" 
+    <ApiReferenceReact
+      configuration={{
+        apiDescriptionUrl: "/api/docs/openapi.json",
+        layout: "stacked"
+      }}
     />
   )
 }
