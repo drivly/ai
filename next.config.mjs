@@ -44,11 +44,12 @@ const analyzeBundles = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
-export default analyzeBundles(withNextra(withPayload(nextConfig, { 
+// Temporarily bypass Nextra to avoid stack overflow
+export default analyzeBundles(withPayload(nextConfig, { 
   devBundleServerPackages: false,
   adminRoute: '/admin',
   configPath: path.resolve(dirname, 'app/(admin)'),
-})))
+}))
 
 // TODO: We need to figure out the build errors here
 // export default withNextra(withSentryConfig(withPayload(nextConfig, { devBundleServerPackages: false }), {
