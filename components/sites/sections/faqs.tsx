@@ -1,35 +1,39 @@
 'use client'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@drivly/ui/accordion'
+import { useSiteContent } from '@/lib/hooks/use-site-content'
 
-const faqs = [
+const defaultFaqs = [
   {
-    question: 'How secure is the LLM.do platform in terms of protecting sensitive data?',
+    question: "What security guarantees do you provide for my company's data?",
     answer:
-      'LLM.do employs enterprise-grade security measures including end-to-end encryption, regular security audits, and compliance with industry standards. All data is encrypted both in transit and at rest, and we maintain strict access controls to protect your sensitive information.',
+      "Our platform employs enterprise-grade security measures including end-to-end encryption, regular security audits, and compliance with industry standards. All data is encrypted both in transit and at rest, and we maintain strict access controls to protect your sensitive information.",
   },
   {
-    question: 'Can I use LLM.do with my existing AI models?',
+    question: "How does your platform scale with increasing workloads?",
     answer:
-      'Yes, LLM.do is designed to work with a wide range of AI models. Our platform supports integration with popular models from leading providers, and Enterprise customers can also bring their own custom-trained models to the platform.',
+      "Our infrastructure automatically scales horizontally to handle increased demand, ensuring consistent performance even during peak usage. We've designed our system to handle enterprise-level workloads without performance degradation.",
   },
   {
-    question: 'Does LLM.do support integration with other systems and applications?',
+    question: "What makes your API different from other AI platforms?",
     answer:
-      'Absolutely. LLM.do provides comprehensive API access and webhooks that allow for seamless integration with your existing tools and workflows. We offer SDKs for popular programming languages and pre-built integrations with common business applications.',
+      "Unlike other solutions that require extensive setup and maintenance, our platform provides a simple, developer-friendly API that works out of the box. We focus on strong typing and validation to catch errors at build time rather than runtime, significantly reducing production issues.",
   },
   {
-    question: 'How can I monitor and optimize my usage of the platform?',
+    question: "How do you ensure reliability for production applications?",
     answer:
-      'LLM.do includes built-in analytics and monitoring tools that provide insights into your usage patterns, performance metrics, and cost optimization opportunities. Pro and Enterprise plans include more advanced analytics capabilities to help you get the most value from the platform.',
+      "We provide a 99.99% uptime SLA for enterprise customers, with redundant infrastructure across multiple regions. Our monitoring systems detect and mitigate issues before they affect your applications.",
   },
   {
-    question: 'What level of technical support is provided with each plan?',
+    question: "Can we integrate with our existing tools and workflows?",
     answer:
-      'Free users have access to our community support forums. Pro users receive email and chat support with 24-hour response times. Enterprise customers enjoy dedicated support with 4-hour response times and optional custom training sessions for your team.',
+      "Yes, our platform is designed for seamless integration with your current technology stack. We provide SDKs for all major programming languages and pre-built integrations with popular development tools and services.",
   },
 ]
 
 export function Faqs() {
+  const { faqs: siteFaqs } = useSiteContent() || {}
+  const faqsToShow = siteFaqs?.length ? siteFaqs : defaultFaqs
+
   return (
     <section className='container mx-auto max-w-6xl px-3 py-20 sm:my-36' aria-labelledby='faq-title'>
       <div className='grid grid-cols-1 lg:grid-cols-12 lg:gap-14'>
@@ -40,7 +44,7 @@ export function Faqs() {
         </div>
         <div className='col-span-full mt-6 lg:col-span-7 lg:mt-0'>
           <Accordion type='multiple' className='sm:mx-auto'>
-            {faqs.map((item) => (
+            {faqsToShow.map((item) => (
               <AccordionItem value={item.question} key={item.question} className='border-b border-gray-800 py-3 first:pt-0 first:pb-3'>
                 <AccordionTrigger className='text-left text-lg text-white hover:no-underline'>{item.question}</AccordionTrigger>
                 <AccordionContent className='text-base leading-[24px] text-gray-400 sm:text-sm sm:leading-[22px]'>{item.answer}</AccordionContent>
