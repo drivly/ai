@@ -35,9 +35,10 @@ jobs:
         run: pnpm build
         env:
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET || 'dev-secret-for-build-only' }}
-          DATABASE_URI: ${{ secrets.DATABASE_URI || 'mongodb://localhost:27017/payload-cms' }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI || 'mongodb://mock:27017/payload-cms?mock=true' }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY || 'resend-key-placeholder' }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_placeholder' }}
+          SKIP_DATABASE_CONNECTION: 'true'
 
       # Bundle analysis steps
       - name: Restore next build
