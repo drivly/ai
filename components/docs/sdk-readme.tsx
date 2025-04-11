@@ -15,12 +15,20 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   
   const sdkContent = sdks.find(
     (sdk) => {
-      const titleMatch = sdk.title && (
-        sdk.title.toLowerCase() === sdkName || 
-        sdk.title.toLowerCase() === sdkName.replace('.do', '')
-      )
+      if (sdk.title) {
+        const sdkTitle = sdk.title.toLowerCase();
+        if (sdkTitle === sdkName || sdkTitle === sdkName.replace('.do', '') || 
+            sdkTitle + '.do' === sdkName) {
+          return true;
+        }
+      }
       
-      return titleMatch
+      if (sdk.content) {
+        const content = sdk.content.toLowerCase();
+        return content.includes(sdkName) || content.includes(sdkName.replace('.do', ''));
+      }
+      
+      return false;
     }
   )
   
@@ -29,7 +37,7 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   }
   
   return (
-    <div className="sdk-readme">
+    <div className="sdk-readme prose prose-invert max-w-none">
       <div dangerouslySetInnerHTML={{ __html: sdkContent.content }} />
     </div>
   )
