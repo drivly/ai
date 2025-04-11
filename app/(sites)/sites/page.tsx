@@ -1,8 +1,8 @@
+import { sites } from '@/app/_utils/content'
 import { DotDoSection } from '@/components/sites/dotdos/dot-do-section'
 import { getSitesByCategory } from '@/components/sites/dotdos/get-sites-by-category'
 import HeroSection from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
-import { sites } from '@/app/_utils/content'
 import { Suspense } from 'react'
 
 async function DirectoryPage() {

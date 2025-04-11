@@ -1,10 +1,10 @@
+import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
+import { handleWaitlistActions } from '@/lib/auth/actions/waitlist.action'
 import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 import { User } from '@/payload.types'
 import { headers as requestHeaders } from 'next/headers'
-import { Waitlist } from './waitlist'
-import { handleWaitlistActions } from '@/lib/auth/actions/waitlist.action'
 import { redirect } from 'next/navigation'
-import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
+import { Waitlist } from './waitlist'
 
 async function WaitListPage(props: { params: Promise<{ domain: string }> }) {
   const { domain } = await props.params

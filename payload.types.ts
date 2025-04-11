@@ -73,6 +73,9 @@ export interface Config {
     sessions: Session;
     verifications: Verification;
     apiKeys: ApiKey;
+    oauthApplications: OauthApplication;
+    oauthAccessTokens: OauthAccessToken;
+    oauthConsents: OauthConsent;
     functions: Function;
     workflows: Workflow;
     agents: Agent;
@@ -155,6 +158,9 @@ export interface Config {
     sessions: SessionsSelect<false> | SessionsSelect<true>;
     verifications: VerificationsSelect<false> | VerificationsSelect<true>;
     apiKeys: ApiKeysSelect<false> | ApiKeysSelect<true>;
+    oauthApplications: OauthApplicationsSelect<false> | OauthApplicationsSelect<true>;
+    oauthAccessTokens: OauthAccessTokensSelect<false> | OauthAccessTokensSelect<true>;
+    oauthConsents: OauthConsentsSelect<false> | OauthConsentsSelect<true>;
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
     agents: AgentsSelect<false> | AgentsSelect<true>;
@@ -601,6 +607,127 @@ export interface ApiKey {
     | number
     | boolean
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * OAuth applications are custom OAuth clients
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthApplications".
+ */
+export interface OauthApplication {
+  id: string;
+  /**
+   * Unique identifier for each OAuth client
+   */
+  clientId: string;
+  /**
+   * Secret key for the OAuth client
+   */
+  clientSecret: string;
+  /**
+   * Name of the OAuth application
+   */
+  name: string;
+  /**
+   * Comma-separated list of redirect URLs
+   */
+  redirectURLs: string;
+  /**
+   * Additional metadata for the OAuth application
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Type of OAuth client (e.g., web, mobile)
+   */
+  type: string;
+  /**
+   * Indicates if the client is disabled
+   */
+  disabled: boolean;
+  /**
+   * Icon of the OAuth application
+   */
+  icon?: string | null;
+  /**
+   * ID of the user who owns the client. (optional)
+   */
+  user?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * OAuth access tokens for custom OAuth clients
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthAccessTokens".
+ */
+export interface OauthAccessToken {
+  id: string;
+  /**
+   * Access token issued to the client
+   */
+  accessToken: string;
+  /**
+   * Refresh token issued to the client
+   */
+  refreshToken: string;
+  /**
+   * Expiration date of the access token
+   */
+  accessTokenExpiresAt: string;
+  /**
+   * Expiration date of the refresh token
+   */
+  refreshTokenExpiresAt: string;
+  /**
+   * OAuth application associated with the access token
+   */
+  client: string | OauthApplication;
+  /**
+   * User associated with the access token
+   */
+  user: string | User;
+  /**
+   * Comma-separated list of scopes granted
+   */
+  scopes: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * OAuth consents are used to store user consents for OAuth clients
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthConsents".
+ */
+export interface OauthConsent {
+  id: string;
+  /**
+   * OAuth client associated with the consent
+   */
+  client: string | OauthApplication;
+  /**
+   * User associated with the consent
+   */
+  user: string | User;
+  /**
+   * Comma-separated list of scopes consented to
+   */
+  scopes: string;
+  /**
+   * 	Indicates if consent was given
+   */
+  consentGiven: boolean;
   updatedAt: string;
   createdAt: string;
 }
@@ -2239,6 +2366,18 @@ export interface PayloadLockedDocument {
         value: string | ApiKey;
       } | null)
     | ({
+        relationTo: 'oauthApplications';
+        value: string | OauthApplication;
+      } | null)
+    | ({
+        relationTo: 'oauthAccessTokens';
+        value: string | OauthAccessToken;
+      } | null)
+    | ({
+        relationTo: 'oauthConsents';
+        value: string | OauthConsent;
+      } | null)
+    | ({
         relationTo: 'functions';
         value: string | Function;
       } | null)
@@ -2592,6 +2731,50 @@ export interface ApiKeysSelect<T extends boolean = true> {
   expiresAt?: T;
   permissions?: T;
   metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthApplications_select".
+ */
+export interface OauthApplicationsSelect<T extends boolean = true> {
+  clientId?: T;
+  clientSecret?: T;
+  name?: T;
+  redirectURLs?: T;
+  metadata?: T;
+  type?: T;
+  disabled?: T;
+  icon?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthAccessTokens_select".
+ */
+export interface OauthAccessTokensSelect<T extends boolean = true> {
+  accessToken?: T;
+  refreshToken?: T;
+  accessTokenExpiresAt?: T;
+  refreshTokenExpiresAt?: T;
+  client?: T;
+  user?: T;
+  scopes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthConsents_select".
+ */
+export interface OauthConsentsSelect<T extends boolean = true> {
+  client?: T;
+  user?: T;
+  scopes?: T;
+  consentGiven?: T;
   updatedAt?: T;
   createdAt?: T;
 }

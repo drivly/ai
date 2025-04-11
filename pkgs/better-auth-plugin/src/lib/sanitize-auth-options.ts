@@ -308,6 +308,50 @@ export function sanitizeBetterAuthOptions(
               }
               Object.assign(plugin, oidcPlugin)
               break
+            case supportedBetterAuthPluginIds.oAuthProxy:
+              const oAuthProxyPlugin = plugin as any
+              // The oAuthProxy plugin doesn't require any schema modifications
+              // It mainly needs the productionURL and currentURL configuration
+              // which are already provided in the plugin configuration
+              Object.assign(plugin, oAuthProxyPlugin)
+              break
+            case supportedBetterAuthPluginIds.genericOAuth:
+              const genericOAuthPlugin = plugin as any
+              // The genericOAuth plugin requires proper account integration for storing
+              // OAuth tokens and provider information
+
+              // Ensure the plugin has the necessary schema structure
+              if (!genericOAuthPlugin.schema) genericOAuthPlugin.schema = {}
+
+              // Set up the account schema - this is where OAuth tokens and provider info are stored
+              if (!genericOAuthPlugin.schema.account) genericOAuthPlugin.schema.account = {}
+              genericOAuthPlugin.schema.account = {
+                ...genericOAuthPlugin.schema.account,
+                modelName: baseCollectionSlugs.accounts,
+                fields: {
+                  ...(genericOAuthPlugin.schema.account.fields ?? {}),
+                  userId: {
+                    ...(genericOAuthPlugin.schema.account.fields?.userId ?? {}),
+                    fieldName: 'user',
+                  },
+                  // Make sure these fields exist for OAuth token storage
+                  providerId: {
+                    ...(genericOAuthPlugin.schema.account.fields?.providerId ?? {}),
+                  },
+                  accessToken: {
+                    ...(genericOAuthPlugin.schema.account.fields?.accessToken ?? {}),
+                  },
+                  refreshToken: {
+                    ...(genericOAuthPlugin.schema.account.fields?.refreshToken ?? {}),
+                  },
+                  accessTokenExpiresAt: {
+                    ...(genericOAuthPlugin.schema.account.fields?.accessTokenExpiresAt ?? {}),
+                  },
+                },
+              }
+
+              Object.assign(plugin, genericOAuthPlugin)
+              break
             default:
               break
           }

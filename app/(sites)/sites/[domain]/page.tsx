@@ -8,13 +8,13 @@ import { findSiteContent } from '@/lib/sites'
 import { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
-  const { domain } = await params;
-  const content = findSiteContent(domain);
-  
+  const { domain } = await params
+  const content = findSiteContent(domain)
+
   return {
     title: content.title,
     description: content.description,
-  };
+  }
 }
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
@@ -24,17 +24,17 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
 
   const site = domain ?? 'llm.do'
   const content = findSiteContent(domain, true)
-  
+
   const glowColor = (content as any).brandColor || getGlowColor(site)
 
   return (
     <>
       <div className='hero-glow-container' style={{ '--glow-color': glowColor } as React.CSSProperties}>
         <HeroSection
-          codeExample={'codeExample' in content ? (content as any).codeExample : ('subhead' in content ? (content as any).subhead : '')}
-          codeLang={'codeLang' in content ? (content as any).codeLang : 'json'}
-          badge={'badge' in content ? (content as any).badge : ('headline' in content ? (content as any).headline : '')}
-          buttonText="Join waitlist"
+          codeExample={'codeExample' in content ? content.codeExample : 'subhead' in content ? content.subhead : ''}
+          codeLang={'codeLang' in content ? content.codeLang : 'json'}
+          badge={'badge' in content ? content.badge : 'headline' in content ? content.headline : ''}
+          buttonText='Join waitlist'
           title={'headline' in content ? content.headline : content.title}
           description={'subhead' in content ? content.subhead : content.description}
           domain={domain}
