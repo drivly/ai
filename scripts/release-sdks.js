@@ -83,7 +83,11 @@ const runSemanticRelease = (packagePath) => {
               {type: 'chore', release: 'patch'}
             ]
           }],
-          '@semantic-release/release-notes-generator',
+          ['@semantic-release/release-notes-generator', {
+            writerOpts: {
+              commitLimit: 100,  // Only include the 100 most recent commits
+            }
+          }],
           '@semantic-release/npm',
           '@semantic-release/github'
         ]
