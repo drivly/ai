@@ -37,6 +37,10 @@ export default defineConfig({
         headline: s.string(),
         subhead: s.string().optional(),
         content: s.markdown(),
+        group: s.computed(doc => {
+          const pathParts = doc._path.split('/');
+          return pathParts.length > 2 ? pathParts[1] : 'other';
+        }),
       }),
     },
   },
