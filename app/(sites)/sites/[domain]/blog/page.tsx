@@ -10,8 +10,15 @@ async function BlogPage(props: { params: Promise<{ domain: string }> }) {
   console.log(`Blog page rendering for domain: ${domain}`)
   
   const normalizedDomain = domain.includes('workflows') ? 'workflows.do' : domain
+  console.log(`Normalized domain for blog page: ${normalizedDomain}`)
   
-  const posts = await generateBlogPosts(normalizedDomain)
+  const isPreview = process.env.VERCEL_ENV === 'preview' || 
+                    process.env.VERCEL_URL?.includes('git-devin') || 
+                    process.env.VERCEL_URL?.includes('-git-')
+  
+  console.log(`Preview environment detection in blog page: ${isPreview ? 'Yes' : 'No'}`)
+  
+  const posts = await generateBlogPosts(normalizedDomain, 9, undefined, isPreview)
   
   const categories = Array.from(new Set(posts.map(post => post.category)))
 

@@ -25,14 +25,14 @@ const imagePaths = [
 /**
  * Generate a list of blog posts with AI-generated titles
  */
-export async function generateBlogPosts(domain: string, count: number = 9, topics?: string): Promise<BlogPost[]> {
+export async function generateBlogPosts(domain: string, count: number = 9, topics?: string, forcePreview: boolean = false): Promise<BlogPost[]> {
   console.log(`Generating blog posts for domain: ${domain}`)
   
-  const isPreview = typeof window === 'undefined' && 
+  const isPreview = forcePreview || (typeof window === 'undefined' && 
     (process.env.VERCEL_ENV === 'preview' || 
      process.env.VERCEL_URL?.includes('git-devin') ||
      process.env.VERCEL_URL?.includes('-git-') ||
-     process.env.NEXT_PUBLIC_VERCEL_URL?.includes('-git-'))
+     process.env.NEXT_PUBLIC_VERCEL_URL?.includes('-git-')))
   
   console.log(`Environment detection: VERCEL_ENV=${process.env.VERCEL_ENV}, VERCEL_URL=${process.env.VERCEL_URL}`)
   console.log(`Is preview environment: ${isPreview ? 'Yes' : 'No'}`)
@@ -219,14 +219,14 @@ export async function generateBlogPosts(domain: string, count: number = 9, topic
 /**
  * Get the content for a specific blog post by title
  */
-export async function getBlogPostContent(title: string, domain: string): Promise<string> {
+export async function getBlogPostContent(title: string, domain: string, forcePreview: boolean = false): Promise<string> {
   console.log(`Generating blog post content for title: "${title}" in domain: ${domain}`)
   
-  const isPreview = typeof window === 'undefined' && 
+  const isPreview = forcePreview || (typeof window === 'undefined' && 
     (process.env.VERCEL_ENV === 'preview' || 
      process.env.VERCEL_URL?.includes('git-devin') ||
      process.env.VERCEL_URL?.includes('-git-') ||
-     process.env.NEXT_PUBLIC_VERCEL_URL?.includes('-git-'))
+     process.env.NEXT_PUBLIC_VERCEL_URL?.includes('-git-')))
   
   console.log(`Environment detection: VERCEL_ENV=${process.env.VERCEL_ENV}, VERCEL_URL=${process.env.VERCEL_URL}`)
   console.log(`Is preview environment: ${isPreview ? 'Yes' : 'No'}`)

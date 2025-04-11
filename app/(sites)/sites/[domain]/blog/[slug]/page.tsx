@@ -23,9 +23,15 @@ async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: st
   
   const normalizedDomain = domain.includes('workflows') ? 'workflows.do' : domain
   
+  const isPreview = process.env.VERCEL_ENV === 'preview' || 
+                    process.env.VERCEL_URL?.includes('git-devin') || 
+                    process.env.VERCEL_URL?.includes('-git-')
+  
+  console.log(`Preview environment detection in blog post page: ${isPreview ? 'Yes' : 'No'}`)
+  
   const title = slugToTitle(slug)
   
-  const allPosts = await generateBlogPosts(normalizedDomain)
+  const allPosts = await generateBlogPosts(normalizedDomain, 9, undefined, isPreview)
   const post = allPosts.find(p => p.slug === slug)
   
   // If post not found, render custom not found component
@@ -33,7 +39,7 @@ async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: st
     return <BlogPostNotFound fallbackImage={fallbackImage} />
   }
 
-  const content = await getBlogPostContent(title, domain)
+  const content = await getBlogPostContent(title, normalizedDomain, isPreview)
   
   const postUrl = `${siteUrl}/blog/${post.slug}`
   const dateObj = new Date(post.date.split('-').join('/'))
