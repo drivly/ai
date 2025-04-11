@@ -7,7 +7,7 @@ export default function APIReference() {
   return (
     <ApiReferenceReact
       configuration={{
-        url: "/api.json",
+        url: "/api/docs/openapi.json",
         layout: "modern"
       }}
     />
