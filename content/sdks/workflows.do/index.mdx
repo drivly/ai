@@ -2,7 +2,7 @@
 asIndexPage: true
 ---
 
-# workflows.do - Elegant Business Process Orchestration
+# [Workflows.do](https://workflows.do) - Elegant Business Process Orchestration
 
 [![npm version](https://img.shields.io/npm/v/workflows.do.svg)](https://www.npmjs.com/package/workflows.do)
 [![npm downloads](https://img.shields.io/npm/dm/workflows.do.svg)](https://www.npmjs.com/package/workflows.do)
@@ -74,6 +74,61 @@ Workflows.do serves as the central integration hub for the entire [.do](https://
 8. **Actions.do** - External world impact
 
 This seamless integration enables you to create elegant business processes that leverage the full power of the [.do](https://dotdo.ai) platform with minimal code.
+
+## Composable Architecture
+
+A key strength of Workflows.do is its **composable architecture**:
+
+1. **Workflows as Functions** - Workflows can be called like any other function
+2. **Nested Workflows** - Complex workflows can be built from simpler ones
+3. **Cross-Service Integration** - Seamlessly connect all [.do](https://dotdo.ai) services
+4. **Human-AI Collaboration** - Combine AI and human workers in the same process
+
+This elegant design enables you to build sophisticated business processes from simple, reusable components.
+
+## Integrated Function Types
+
+Workflows.do seamlessly integrates all four function types from the [.do](https://dotdo.ai) ecosystem:
+
+### 1. AI Functions
+
+```typescript
+// Integrate with Functions.do for AI-powered capabilities
+const summary = await ai.summarizeContent({
+  content: longText,
+  maxLength: 200,
+})
+```
+
+### 2. Integration Functions
+
+```typescript
+// Connect with external services through Integrations.do
+const customerData = await api.salesforce.getCustomer({
+  email: customer.email,
+})
+```
+
+### 3. Agent Functions
+
+```typescript
+// Leverage autonomous agents through Agents.do
+const researchResults = await ai.researchAgent.execute({
+  topic: 'Competitive Analysis',
+  depth: 'Comprehensive',
+})
+```
+
+### 4. Human Functions
+
+```typescript
+// Incorporate human workers into your workflows
+const approval = await api.humans.requestApproval({
+  document: proposal,
+  approvers: ['manager@company.com'],
+  deadline: '24h',
+})
+```
 
 ## License
 
