@@ -1,4 +1,4 @@
-import { getPayloadAuth } from '@/lib/auth/payload-auth'
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 import { User } from '@/payload.types'
 import { headers as requestHeaders } from 'next/headers'
 import { Waitlist } from './waitlist'
@@ -8,7 +8,7 @@ import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 
 async function WaitListPage(props: { params: Promise<{ domain: string }> }) {
   const { domain } = await props.params
-  const payload = await getPayloadAuth()
+  const payload = await getPayloadWithAuth()
   const headers = await requestHeaders()
   const { user } = (await payload.auth({ headers })) as { user: User }
 
@@ -23,4 +23,4 @@ async function WaitListPage(props: { params: Promise<{ domain: string }> }) {
   return <Waitlist email={user.email} name={name} />
 }
 
-export default withSitesWrapper(WaitListPage, false, false)
+export default withSitesWrapper({ WrappedPage: WaitListPage, withFaqs: false, withCallToAction: false })

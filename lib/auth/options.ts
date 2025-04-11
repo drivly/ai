@@ -13,7 +13,7 @@ export const betterAuthPlugins = [
   openAPI(),
   nextCookies(),
   oAuthProxy({
-    productionURL: 'https://apis.do',
+    productionURL: process.env.NODE_ENV === 'production' ? 'https://apis.do' : 'http://localhost:3000',
     currentURL: getCurrentURL(),
   }),
 ]
@@ -27,12 +27,12 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/google', // Must remain fixed for better-auth oauth proxy to work correctly
+      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/google' : 'http://localhost:3000/api/auth/callback/google', // Must remain fixed for better-auth oauth proxy to work correctly
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
+      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/github' : 'http://localhost:3000/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
@@ -45,7 +45,9 @@ export const betterAuthOptions: BetterAuthOptions = {
         before: async (user) => {
           if (isSuperAdmin(user)) {
             console.log('create:before isSuperAdmin', user)
-            return { data: { ...user, role: 'admin' } }
+            return { data: { ...user, role: 'superAdmin' } }
+          } else {
+            return { data: { ...user, role: 'user' } }
           }
         },
         after: async (user) => {
@@ -78,7 +80,7 @@ export const betterAuthOptions: BetterAuthOptions = {
       role: {
         type: 'string',
         defaultValue: 'user',
-        input: false,
+        // input: false,
       },
     },
   },
@@ -104,7 +106,8 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
   users: {
     slug: 'users',
     hidden: true, // Hide the users collection from navigation
-    adminRoles: ['superAdmin'],
+    adminRoles: ['admin', 'superAdmin'],
+    roles: ['user', 'admin', 'superAdmin'],
     allowedFields: ['name'],
     blockFirstBetterAuthVerificationEmail: true,
     collectionOverrides: ({ collection }: { collection: CollectionConfig }) => {

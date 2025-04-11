@@ -1,5 +1,5 @@
 import { getAuthTables } from 'better-auth/db'
-import type { PayloadBetterAuthPluginOptions, SanitizedBetterAuthOptions } from '../types'
+import type { PayloadBetterAuthPluginOptions, SanitizedBetterAuthOptions } from '..'
 
 /**
  * Determines which collections are required based on the BetterAuth options and plugins

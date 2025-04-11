@@ -1,10 +1,10 @@
-import { getPayloadAuth } from '@/lib/auth/payload-auth'
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 import type { Account, DeviceSession } from '@/lib/auth/types'
 import { headers as requestHeaders } from 'next/headers'
 
 export const getSession = async () => {
   try {
-    const payload = await getPayloadAuth()
+    const payload = await getPayloadWithAuth()
     const headers = await requestHeaders()
     if (!payload) {
       console.error('payload is not available')
@@ -28,7 +28,7 @@ export const getSession = async () => {
 
 export const getUserAccounts = async (): Promise<Account[]> => {
   try {
-    const payload = await getPayloadAuth()
+    const payload = await getPayloadWithAuth()
     const headers = await requestHeaders()
     if (!payload) {
       console.error('payload is not available for getUserAccounts')
@@ -52,7 +52,7 @@ export const getUserAccounts = async (): Promise<Account[]> => {
 
 export const getDeviceSessions = async (): Promise<DeviceSession[]> => {
   try {
-    const payload = await getPayloadAuth()
+    const payload = await getPayloadWithAuth()
     const headers = await requestHeaders()
     if (!payload) {
       console.error('payload is not available for getDeviceSessions')
@@ -76,7 +76,7 @@ export const getDeviceSessions = async (): Promise<DeviceSession[]> => {
 
 export const currentUser = async () => {
   try {
-    const payload = await getPayloadAuth()
+    const payload = await getPayloadWithAuth()
     const headers = await requestHeaders()
     if (!payload?.auth) {
       console.error('payload.auth not available for currentUser')

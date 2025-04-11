@@ -1,6 +1,6 @@
+import type { BetterAuthOptions, Where } from 'better-auth'
 import { BetterAuthError } from 'better-auth'
 import { getAuthTables } from 'better-auth/db'
-import type { BetterAuthOptions, Where } from 'better-auth'
 import type { CollectionSlug, Where as PayloadWhere } from 'payload'
 
 export const createTransform = (options: BetterAuthOptions, enableDebugLogs: boolean) => {
@@ -190,14 +190,11 @@ export const createTransform = (options: BetterAuthOptions, enableDebugLogs: boo
       case 'contains':
         return { contains: value }
       case 'in':
-        // For MongoDB, ensure this is an array
-        return Array.isArray(value) ? { in: value } : { in: [value] }
+        return { in: value }
       case 'starts_with':
-        // Use regex pattern for MongoDB compatibility
-        return { starts_with: value }
+        return { like: `${value}%` }
       case 'ends_with':
-        // Use regex pattern for MongoDB compatibility
-        return { ends_with: value }
+        return { like: `%${value}` }
       default:
         return { equals: value }
     }

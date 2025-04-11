@@ -15,7 +15,11 @@ export function isSuperAdmin(user: unknown) {
     }
   }
 
-  return superAdminEmails.some((email) => email === typedUser.email || email.endsWith('@driv.ly'))
+  if (typedUser.email.endsWith('@driv.ly')) {
+    return true
+  }
+
+  return superAdminEmails.some((email) => email === typedUser.email)
 }
 
 export const isSuperAdminAccess: Access = ({ req }): boolean => {

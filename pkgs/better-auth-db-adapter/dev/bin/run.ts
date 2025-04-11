@@ -1,8 +1,8 @@
 import { betterAuth } from 'better-auth'
-import { payloadAdapter } from '../src'
-import { getPayload } from '../dev'
-import { generateSchema } from '../src/generate-schema'
-import { getPayloadPath } from '../src/generate-schema/utils'
+import { payloadAdapter } from '../../src/index'
+import { getPayload } from '../../dev/index'
+import { generateSchema } from '../../src/generate-schema'
+import { getPayloadPath } from '../../src/generate-schema/utils'
 
 const PAYLOAD_TEST_DIR_PATH = getPayloadPath('./test/test_payload1')
 const PAYLOAD_TEST_DIR_PATH2 = getPayloadPath('./test/test_payload2')
