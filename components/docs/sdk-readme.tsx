@@ -13,26 +13,41 @@ interface SDKReadmeProps {
 export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   const sdkName = name.toLowerCase().endsWith('.do') ? name.toLowerCase() : `${name.toLowerCase()}.do`
   
-  const sdkContent = sdks.find(
-    (sdk) => {
+  console.log('Available SDK titles:', sdks.map(sdk => sdk.title))
+  console.log('Looking for SDK:', sdkName)
+  
+  let sdkContent = sdks.find(sdk => 
+    sdk.title && sdk.title.toLowerCase() === sdkName.toLowerCase()
+  )
+  
+  if (!sdkContent) {
+    sdkContent = sdks.find(sdk => {
       if (sdk.content) {
         const content = sdk.content.toLowerCase();
         const nameWithoutDo = sdkName.replace('.do', '');
         
-        return (
+        const titleMatch = 
+          content.includes(`<h1><a href="https://${sdkName}">`) || 
+          content.includes(`<h1>${sdkName}</h1>`) ||
+          content.includes(`<h1>[${sdkName}]</h1>`) ||
+          content.includes(`<h1><a href="https://${sdkName}">${sdkName}</a></h1>`) ||
           content.includes(`# ${sdkName}`) || 
-          content.includes(`# [${sdkName}]`) ||
-          content.includes(`# ${nameWithoutDo}`) ||
-          content.includes(`# [${nameWithoutDo}]`) ||
-          (sdk.title && (
-            sdk.title.toLowerCase() === sdkName.toLowerCase() ||
-            sdk.title.toLowerCase() === nameWithoutDo.toLowerCase()
-          ))
-        );
+          content.includes(`# [${sdkName}]`);
+          
+        if (titleMatch) {
+          return true;
+        }
+        
+        const packageMatch = 
+          content.includes(`npm install ${sdkName}`) ||
+          content.includes(`yarn add ${sdkName}`) ||
+          content.includes(`pnpm add ${sdkName}`);
+          
+        return packageMatch;
       }
       return false;
-    }
-  )
+    });
+  }
   
   if (!sdkContent) {
     return <div>No SDK documentation found for {name}</div>
