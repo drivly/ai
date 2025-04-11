@@ -34,7 +34,7 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
           codeExample={'codeExample' in content ? (content as any).codeExample : ('subhead' in content ? (content as any).subhead : '')}
           codeLang={'codeLang' in content ? (content as any).codeLang : 'json'}
           badge={'badge' in content ? (content as any).badge : ('headline' in content ? (content as any).headline : '')}
-          buttonText=".do Business-as-Code"
+          buttonText="Join waitlist"
           title={'headline' in content ? content.headline : content.title}
           description={'subhead' in content ? content.subhead : content.description}
           domain={domain}
