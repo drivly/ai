@@ -24,7 +24,7 @@ export async function generateMetadata(props: Props) {
   try {
     const params = await props.params
     if (params.mdxPath && params.mdxPath.includes('sdks')) {
-      return { title: 'SDK Documentation' }
+      return { title: 'SDK Documentation', filePath: '/docs/sdks/index.mdx' }
     }
     const { metadata } = await importPage(params.mdxPath)
     return metadata
@@ -42,7 +42,7 @@ export default async function Page(props: Props) {
     
     if (params.mdxPath && params.mdxPath.includes('sdks')) {
       return (
-        <Wrapper toc={[]} metadata={{ title: 'SDK Documentation' }}>
+        <Wrapper toc={[]} metadata={{ title: 'SDK Documentation', filePath: '/docs/sdks/index.mdx' }}>
           <div className="nextra-body">
             <h1>SDK Documentation</h1>
             <p>Please refer to the SDK documentation for more information.</p>
@@ -61,7 +61,7 @@ export default async function Page(props: Props) {
   } catch (error) {
     console.error('Error rendering page:', error)
     return (
-      <Wrapper toc={[]} metadata={{ title: 'Error' }}>
+      <Wrapper toc={[]} metadata={{ title: 'Error', filePath: '/docs/error.mdx' }}>
         <div className="nextra-body">
           <h1>Error Loading Page</h1>
           <p>There was an error loading this page. Please try again later.</p>
