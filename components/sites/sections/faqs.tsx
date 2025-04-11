@@ -30,6 +30,11 @@ const defaultFaqs = [
   },
 ]
 
+interface FAQ {
+  question: string
+  answer: string
+}
+
 export function Faqs() {
   const { faqs: siteFaqs } = useSiteContent() || {}
   const faqsToShow = siteFaqs?.length ? siteFaqs : defaultFaqs
@@ -44,7 +49,7 @@ export function Faqs() {
         </div>
         <div className='col-span-full mt-6 lg:col-span-7 lg:mt-0'>
           <Accordion type='multiple' className='sm:mx-auto'>
-            {faqsToShow.map((item) => (
+            {faqsToShow.map((item: FAQ) => (
               <AccordionItem value={item.question} key={item.question} className='border-b border-gray-800 py-3 first:pt-0 first:pb-3'>
                 <AccordionTrigger className='text-left text-lg text-white hover:no-underline'>{item.question}</AccordionTrigger>
                 <AccordionContent className='text-base leading-[24px] text-gray-400 sm:text-sm sm:leading-[22px]'>{item.answer}</AccordionContent>
