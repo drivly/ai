@@ -1,5 +1,11 @@
 
-export const sdks = [
+
+export interface SDK {
+  title: string;
+  content: string;
+}
+
+export const sdks: SDK[] = [
   {
     title: 'workflows.do',
     content: '# Workflows.do SDK\n\nImport the workflows SDK:\n```js\nimport { workflows } from "workflows.do"\n```',
@@ -82,5 +88,5 @@ export const sdks = [
   }
 ];
 
-export const pages = [];
-export const sites = [];
+export const pages: any[] = [];
+export const sites: any[] = [];

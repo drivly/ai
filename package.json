@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "turbo run build && pnpm build:next",
-    "build:next": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "build:next": "cross-env NODE_OPTIONS=--max-old-space-size=4096 --no-deprecation next build",
     "build:filtered": "turbo run build --filter=$npm_config_filter && pnpm build:next:filtered",
-    "build:next:filtered": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "build:next:filtered": "cross-env NODE_OPTIONS=--max-old-space-size=4096 --no-deprecation next build",
     "build:triggers": "pnpm --filter=triggers.do build && pnpm build:next",
     "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:email": "email dev",
