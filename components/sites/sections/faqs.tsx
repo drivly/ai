@@ -4,29 +4,29 @@ import { useSiteContent } from '@/lib/hooks/use-site-content'
 
 const defaultFaqs = [
   {
-    question: "What security guarantees do you provide for my company's data?",
+    question: "How do you ensure data privacy and security compliance?",
     answer:
-      "Our platform employs enterprise-grade security measures including end-to-end encryption, regular security audits, and compliance with industry standards. All data is encrypted both in transit and at rest, and we maintain strict access controls to protect your sensitive information.",
+      "Our platform implements enterprise-grade security with end-to-end encryption and role-based access controls. We're SOC 2, GDPR, and HIPAA compliant, with all data processing occurring in your designated regions. This reduces your compliance burden while ensuring your sensitive data remains protected, addressing a key concern for regulated industries.",
   },
   {
-    question: "How does your platform scale with increasing workloads?",
+    question: "What's your approach to model reliability and output quality?",
     answer:
-      "Our infrastructure automatically scales horizontally to handle increased demand, ensuring consistent performance even during peak usage. We've designed our system to handle enterprise-level workloads without performance degradation.",
+      "We implement multiple validation layers that reduce hallucinations by 90% compared to direct API usage. Our platform uses strong typing and schema validation to ensure outputs match your expected format, significantly improving reliability. This translates to fewer production incidents and higher customer satisfaction with AI-powered features.",
   },
   {
-    question: "What makes your API different from other AI platforms?",
+    question: "How does your platform handle enterprise-scale workloads?",
     answer:
-      "Unlike other solutions that require extensive setup and maintenance, our platform provides a simple, developer-friendly API that works out of the box. We focus on strong typing and validation to catch errors at build time rather than runtime, significantly reducing production issues.",
+      "Our infrastructure automatically scales to handle millions of requests per minute with consistent low-latency responses. We maintain 99.99% uptime SLAs with redundancy across multiple regions. This reliability means your business-critical applications won't face downtime or performance degradation, even during peak usage periods.",
   },
   {
-    question: "How do you ensure reliability for production applications?",
+    question: "How do we maintain control over costs as usage scales?",
     answer:
-      "We provide a 99.99% uptime SLA for enterprise customers, with redundant infrastructure across multiple regions. Our monitoring systems detect and mitigate issues before they affect your applications.",
+      "Our platform provides granular usage monitoring and budget controls that typically reduce AI costs by 40-60%. You can set spending caps at multiple levels and receive alerts before thresholds are reached. Our optimization engine automatically selects the most cost-effective models for each task, ensuring predictable spending even as your AI usage grows.",
   },
   {
-    question: "Can we integrate with our existing tools and workflows?",
+    question: "What happens when AI models or providers change?",
     answer:
-      "Yes, our platform is designed for seamless integration with your current technology stack. We provide SDKs for all major programming languages and pre-built integrations with popular development tools and services.",
+      "Our abstraction layer shields your business from model changes and provider lock-in. When models update or deprecate, we handle migrations transparently while maintaining backward compatibility. This future-proofs your AI investments and eliminates the risk of sudden disruptions to your applications when the AI landscape evolves.",
   },
 ]
 
