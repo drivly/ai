@@ -72,7 +72,7 @@ const runSemanticRelease = (packagePath) => {
             verifyConditions: () => {},
             analyzeCommits: (pluginConfig, context) => {
               if (!context.lastRelease.version) {
-                return '0.1.0';
+                return '0.0.7'; // Return correct patch version for new packages
               }
               return null; // Let semantic-release determine version
             }

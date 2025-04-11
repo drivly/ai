@@ -125,4 +125,9 @@ jobs:
           FORCE_PATCH_RELEASE: 'true'
 
       - name: Release outputs
-        run: echo "Semantic release outputs - ${{ steps.semantic-release.outputs.version || 'No version' }}"
+        run: |
+          if [ -n "${{ steps.semantic-release.outputs.new_release_version }}" ]; then
+            echo "Semantic release outputs - Version: ${{ steps.semantic-release.outputs.new_release_version }}"
+          else 
+            echo "Semantic release outputs - No version"
+          fi
