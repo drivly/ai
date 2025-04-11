@@ -3,10 +3,17 @@
 import * as Sentry from '@sentry/nextjs'
 import NextError from 'next/error'
 import { useEffect } from 'react'
+import { captureError } from '@/components/shared/post-hog-provider'
 
 export default function GlobalError({ error }: { error: Error & { digest?: string } }) {
   useEffect(() => {
     Sentry.captureException(error)
+    
+    captureError(error, {
+      source: 'global-error',
+      url: typeof window !== 'undefined' ? window.location.href : undefined,
+      digest: error.digest,
+    })
   }, [error])
 
   return (
