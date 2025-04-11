@@ -1,0 +1,22 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Drivly AI API",
+    "description": "API for the Drivly AI Primitives Platform",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Drivly",
+      "url": "https://drivly.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://apis.do/api",
+      "description": "Production API Server"
+    }
+  ],
+  "paths": {},
+  "components": {
+    "schemas": {}
+  }
+}
