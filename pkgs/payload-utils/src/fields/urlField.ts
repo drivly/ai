@@ -29,12 +29,7 @@ export const urlField = ({
       description: 'Enter a valid URL (e.g., https://example.com)',
       className: 'payload-url-field',
       components: {
-        Cell: {
-          path: '/pkgs/payload-utils/src/fields/components/URLCell',
-          clientProps: {
-            className: 'url-field-cell',
-          },
-        },
+        Cell: path.resolve(__dirname, './components/URLCell'),
       },
       ...admin,
     },
