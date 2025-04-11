@@ -1,4 +1,5 @@
 import { sites } from '@/.velite'
+import { codeExample } from '@/components/sites/constants/code-example'
 
 /**
  * Find site content based on domain with fallback
@@ -27,6 +28,8 @@ export function findSiteContent(domain: string, includeHero = false) {
         ...fallbackContent,
         headline: site,
         subhead: 'Powered by .do',
+        badge: 'AI without Complexity',
+        codeExample: codeExample,
       };
     }
     

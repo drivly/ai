@@ -38,6 +38,8 @@ export default defineConfig({
         subhead: s.string().optional(),
         content: s.markdown(),
         group: s.string().optional(),
+        codeExample: s.string().optional(), // Add this new field
+        badge: s.string().optional(), // Add this new field
       }),
       transform: (data: any) => {
         const pathParts = data._path.split('/');
