@@ -10,6 +10,9 @@ interface SiteContent {
   headline?: string;
   subhead?: string;
   brandColor?: string;
+  badge?: string;
+  codeExample?: string | object;
+  codeLang?: string;
   content?: any;
   group?: string;
 }
