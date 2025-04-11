@@ -5,6 +5,31 @@ import HeroSection from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
+import { Metadata } from 'next'
+
+export async function generateMetadata({ params }: { params: { domain: string } }): Promise<Metadata> {
+  const domain = params.domain;
+  const site = domain ?? 'llm.do';
+  
+  const siteContent = sites.find(s => {
+    const titleDomain = s.title.split(' - ')[0].toLowerCase();
+    return site === titleDomain.toLowerCase() || 
+           site === titleDomain.toLowerCase().replace('.do', '') ||
+           s.title.toLowerCase().includes(site.toLowerCase());
+  });
+  
+  const fallbackContent = {
+    title: site,
+    description: `${site} - AI-Powered Domain`,
+  };
+  
+  const content = siteContent || fallbackContent;
+  
+  return {
+    title: content.title,
+    description: content.description,
+  };
+}
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
 async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
