@@ -30,6 +30,7 @@ export function findSiteContent(domain: string, includeHero = false) {
         subhead: 'Powered by .do',
         badge: 'AI without Complexity',
         codeExample: codeExample,
+        codeLang: 'json',
       };
     }
     
