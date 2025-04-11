@@ -1,10 +1,7 @@
 import fs from 'fs/promises'
 import path from 'path'
 import { generateOpenApiSpec } from '../lib/api-schema'
-import payload from 'payload'
 import { fileURLToPath } from 'url'
-import { getPayload } from 'payload'
-import config from '../payload.config'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -13,28 +10,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
  */
 async function generateApiSchema() {
   try {
-    console.log('Initializing Payload CMS...')
+    console.log('Generating OpenAPI schema...')
     
-    let payloadInstance
-    
-    try {
-      if ('collections' in payload) {
-        payloadInstance = payload
-      } else {
-        console.log('Payload not initialized, initializing now...')
-        payloadInstance = await getPayload({
-          config,
-        })
-        console.log('Payload initialized successfully')
-      }
-    } catch (error) {
-      console.error('Error initializing Payload:', error)
-      payloadInstance = {
-        collections: {},
-      }
+    const payloadInstance = {
+      collections: {},
     }
     
-    console.log('Generating OpenAPI schema...')
     const spec = await generateOpenApiSpec(payloadInstance)
     
     const publicDir = path.join(process.cwd(), 'public')
