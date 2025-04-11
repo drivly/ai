@@ -40,14 +40,14 @@ const nextConfig = {
     mdxRs: false
   },
   
-  // Exclude SDK documentation routes to prevent stack overflow
+  // Exclude all documentation routes to prevent stack overflow
   async rewrites() {
     return {
       beforeFiles: [
-        // Redirect SDK documentation routes to a static page
+        // Redirect all documentation routes to a static page
         {
-          source: '/docs/sdks/:path*',
-          destination: '/docs',
+          source: '/docs/:path*',
+          destination: '/api',
         },
       ],
     }
