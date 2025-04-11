@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "turbo run build && pnpm build:next",
-    "build:next": "pnpm build:content && cross-env NODE_OPTIONS=--no-deprecation next build",
+    "build:next": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS=--no-deprecation next build",
     "build:filtered": "turbo run build --filter=$npm_config_filter && pnpm build:next:filtered",
-    "build:next:filtered": "pnpm build:content && cross-env NODE_OPTIONS=--no-deprecation next build",
+    "build:next:filtered": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS=--no-deprecation next build",
     "build:triggers": "pnpm --filter=triggers.do build && pnpm build:next",
     "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:email": "email dev",
