@@ -1,71 +1,26 @@
-import { generateStaticParamsFor, importPage } from 'nextra/pages'
-import { useMDXComponents as getMDXComponents } from '@/mdx-components'
+
+export const dynamic = 'force-static'
 
 export const generateStaticParams = async () => {
-  try {
-    return [
-      { mdxPath: [] },
-      { mdxPath: ['getting-started'] },
-      { mdxPath: ['guides'] },
-      { mdxPath: ['reference'] },
-    ]
-  } catch (error) {
-    console.error('Error generating static params:', error)
-    return []
+  return []
+}
+
+export const generateMetadata = async () => {
+  return {
+    title: 'Documentation',
   }
 }
 
-type Props = {
-  params: Promise<{ mdxPath: string[] }>
-}
-
-export async function generateMetadata(props: Props) {
-  try {
-    const params = await props.params
-    if (params.mdxPath && params.mdxPath.includes('sdks')) {
-      return { title: 'SDK Documentation', filePath: '/docs/sdks/index.mdx' }
-    }
-    const { metadata } = await importPage(params.mdxPath)
-    return metadata
-  } catch (error) {
-    console.error('Error generating metadata:', error)
-    return { title: 'Documentation' }
-  }
-}
-
-const Wrapper = getMDXComponents().wrapper
-
-export default async function Page(props: Props) {
-  try {
-    const params = await props.params
-    
-    if (params.mdxPath && params.mdxPath.includes('sdks')) {
-      return (
-        <Wrapper toc={[]} metadata={{ title: 'SDK Documentation', filePath: '/docs/sdks/index.mdx' }}>
-          <div className="nextra-body">
-            <h1>SDK Documentation</h1>
-            <p>Please refer to the SDK documentation for more information.</p>
-          </div>
-        </Wrapper>
-      )
-    }
-    
-    const result = await importPage(params.mdxPath)
-    const { default: MDXContent, toc, metadata } = result
-    return (
-      <Wrapper toc={toc} metadata={metadata}>
-        <MDXContent {...props} params={params} />
-      </Wrapper>
-    )
-  } catch (error) {
-    console.error('Error rendering page:', error)
-    return (
-      <Wrapper toc={[]} metadata={{ title: 'Error', filePath: '/docs/error.mdx' }}>
-        <div className="nextra-body">
-          <h1>Error Loading Page</h1>
-          <p>There was an error loading this page. Please try again later.</p>
-        </div>
-      </Wrapper>
-    )
-  }
+export default function Page() {
+  return (
+    <div className="container mx-auto py-12">
+      <div className="prose prose-invert mx-auto max-w-4xl">
+        <h1>Documentation</h1>
+        <p>
+          Documentation is temporarily unavailable during this build.
+          Please check back later or visit the main site for more information.
+        </p>
+      </div>
+    </div>
+  )
 }
