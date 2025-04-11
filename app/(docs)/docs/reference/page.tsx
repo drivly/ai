@@ -1,4 +1,7 @@
-import { ApiReference } from '@scalar/nextjs-api-reference'
+'use client'
+
+import { ApiReferenceReact } from '@scalar/api-reference-react'
+import '@scalar/api-reference-react/style.css'
 
 export const metadata = {
   title: 'API Reference',
@@ -7,7 +10,7 @@ export const metadata = {
 
 export default function APIReference() {
   return (
-    <ApiReference
+    <ApiReferenceReact
       configuration={{
         url: "/api.json",
         layout: "modern"
