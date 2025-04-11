@@ -24,7 +24,10 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
           content.includes(`# [${sdkName}]`) ||
           content.includes(`# ${nameWithoutDo}`) ||
           content.includes(`# [${nameWithoutDo}]`) ||
-          content.includes(`workflows.do`) // Specific check for workflows.do
+          (sdk.title && (
+            sdk.title.toLowerCase() === sdkName.toLowerCase() ||
+            sdk.title.toLowerCase() === nameWithoutDo.toLowerCase()
+          ))
         );
       }
       return false;
