@@ -21,12 +21,21 @@ export default defineConfig({
     },
     sdks: {
       name: 'SDK',
-      pattern: '../sdks/!(node_modules)/**/README.md',
+      pattern: '../sdks/{actions.do,agents.do,analytics.do,apis.do,database.do,evals.do,experiments.do,functions.do,goals.do,gpt.do,integrations.do,llm.do,mcp.do,models.do,plans.do,projects.do,sdk.do,searches.do,tasks.do,triggers.do,workflows.do}/README.md', // Explicitly list SDK folders to avoid node_modules
       schema: s.object({
         title: s.string().optional(),
         description: s.string().optional(),
         content: s.markdown(),
       }),
+      transform: (data: any) => {
+        const pathParts = data._path.split('/');
+        const sdkName = pathParts[pathParts.length - 2]; // Get the directory name
+        
+        return {
+          ...data,
+          title: sdkName, // Set the title to the SDK name
+        };
+      },
     },
     sites: {
       name: 'Site',

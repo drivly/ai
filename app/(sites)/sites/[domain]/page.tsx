@@ -1,8 +1,9 @@
 import { Particles } from '@/components/sites/magicui/particles'
 import DotdoLinkSection from '@/components/sites/sections/dotdo-link-section'
 import HeroSection from '@/components/sites/sections/hero-section'
+import { SDKReadmeSection } from '@/components/sites/sections/sdk-readme-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
-import { getGlowColor } from '@/domains.config'
+import { getGlowColor, sdks } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
 import { findSiteContent } from '@/lib/sites'
 import { Metadata } from 'next'
@@ -41,6 +42,8 @@ async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
         />
       </div>
       <DotdoLinkSection />
+      {/* Add SDK README section if this domain has an SDK */}
+      {sdks.includes(domain) && <SDKReadmeSection domain={domain} />}
       <Particles className='absolute inset-0 -z-10' quantity={50} ease={70} size={0.05} staticity={40} color={'#ffffff'} />
     </>
   )
