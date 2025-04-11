@@ -58,11 +58,20 @@ const nextConfig = {
     }
   },
   
-  // Exclude specific pages from the build
-  excludePages: [
-    '/docs/reference',
-    '/docs/reference/**',
-  ],
+  // Use experimental.excludePages instead of excludePages
+  experimental: {
+    optimizeCss: false,
+    optimizePackageImports: [],
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+    mdxRs: false,
+    // Exclude specific pages from the build
+    excludePages: [
+      '/docs/reference',
+      '/docs/reference/**',
+    ]
+  },
   
   // Exclude SDK documentation pages from the build
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'].filter(ext => {
