@@ -2,14 +2,15 @@
 
 import { updateOptionParams } from '@/app/_utils/update-option-params'
 import { useSitesData } from '@/components/sites/dotdos/useSitesData'
-import { sdks, getDomainDescription } from '@/domains.config'
+import { sdks } from '@/domains.config'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Fragment } from 'react'
 import { DotDoItem } from './dot-do-item'
+import { Site } from '@/.velite/index'
 
 export interface DotDoSectionProps {
-  domainsByCategory: Record<string, string[]>
+  sitesByCategory: Record<string, Site[]>
 }
 
 export const DotDoSection = (props: DotDoSectionProps) => {
@@ -45,20 +46,23 @@ export const DotDoSection = (props: DotDoSectionProps) => {
         )}
       </div>
 
-      {Object.entries(props.domainsByCategory).map(([category, categoryDomains]) => (
+      {Object.entries(props.sitesByCategory).map(([category, sites]) => (
         <Fragment key={category}>
           <h2 className='mt-16 mb-6 text-2xl font-bold'>{category}</h2>
           <div className='mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
-            {categoryDomains.map((domain) => (
-              <DotDoItem
-                key={domain}
-                title={domain}
-                href={showAbsolute || isBrandDomain ? `https://${domain}` : `/sites/${domain}`}
-                description={getDomainDescription(domain) || ''}
-                hasSdk={sdks.includes(domain)}
-                mounted={mounted}
-              />
-            ))}
+            {sites.map((site) => {
+              const domain = site.title.split(' - ')[0]
+              return (
+                <DotDoItem
+                  key={domain}
+                  title={domain}
+                  href={showAbsolute || isBrandDomain ? `https://${domain}` : `/sites/${domain}`}
+                  description={site.description}
+                  hasSdk={sdks.includes(domain)}
+                  mounted={mounted}
+                />
+              )
+            })}
           </div>
         </Fragment>
       ))}
