@@ -28,14 +28,32 @@ const imagePaths = [
 export async function generateBlogPosts(domain: string, count: number = 9, topics?: string): Promise<BlogPost[]> {
   console.log(`Generating blog posts for domain: ${domain}`)
   
+  const isPreview = typeof window === 'undefined' && process.env.VERCEL_ENV === 'preview'
+  console.log(`Environment: ${isPreview ? 'Preview' : 'Production/Development'}`)
+  
+  let domainTopics = topics
+  if (!domainTopics) {
+    if (domain === 'workflows.do') {
+      domainTopics = 'workflow automation, business process optimization, task management, workflow efficiency'
+    } else if (domain === 'functions.do') {
+      domainTopics = 'serverless functions, function programming, AI functions, code execution'
+    } else if (domain === 'agents.do') {
+      domainTopics = 'AI agents, autonomous systems, agent frameworks, intelligent assistants'
+    } else {
+      domainTopics = `${domain.replace('.do', '')} related topics`
+    }
+  }
+  
+  console.log(`Using topics: ${domainTopics}`)
+  
   try {
-    const domainTopics = topics || `${domain} related topics`
+    const settings = isPreview ? { _bypassCache: true } : undefined
     
     const titles = await ai.listBlogPostTitles({
       domain,
       count,
       topics: domainTopics,
-    })
+    }, settings)
 
     console.log(`Generated ${titles.length} titles for domain ${domain}`)
 
@@ -68,17 +86,39 @@ export async function generateBlogPosts(domain: string, count: number = 9, topic
 export async function getBlogPostContent(title: string, domain: string): Promise<string> {
   console.log(`Generating blog post content for title: "${title}" in domain: ${domain}`)
   
+  const isPreview = typeof window === 'undefined' && process.env.VERCEL_ENV === 'preview'
+  
   try {
-    const tone = domain.includes('functions') ? 'technical' : 
-                domain.includes('workflows') ? 'practical' : 
-                domain.includes('agents') ? 'conversational' : 'professional'
+    let tone = 'professional'
+    let length = 'medium'
+    
+    if (domain === 'workflows.do') {
+      tone = 'practical'
+      length = 'medium'
+    } else if (domain === 'functions.do') {
+      tone = 'technical'
+      length = 'medium'
+    } else if (domain === 'agents.do') {
+      tone = 'conversational'
+      length = 'medium'
+    } else if (domain.includes('functions')) {
+      tone = 'technical'
+    } else if (domain.includes('workflows')) {
+      tone = 'practical'
+    } else if (domain.includes('agents')) {
+      tone = 'conversational'
+    }
+    
+    console.log(`Using tone: ${tone} and length: ${length} for domain: ${domain}`)
+    
+    const settings = isPreview ? { _bypassCache: true } : undefined
     
     const content = await ai.writeBlogPost({
       title,
       domain,
       tone,
-      length: 'medium',
-    })
+      length,
+    }, settings)
     
     console.log(`Successfully generated content for "${title}" in domain ${domain}`)
     return content
