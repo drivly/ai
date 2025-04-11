@@ -24,7 +24,7 @@ interface SiteContent {
  * @returns Site content with fallback if not found
  */
 export function findSiteContent(domain: string, includeHero = false): SiteContent {
-  const site = domain ?? 'llm.do';
+  const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do');
   
   const siteContent = sites.find((s: any) => {
     const titleDomain = s.title.split(' - ')[0].toLowerCase();
