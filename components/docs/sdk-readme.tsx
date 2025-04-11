@@ -16,8 +16,19 @@ export const SDKReadme: FC<SDKReadmeProps> = ({ name }) => {
   const sdkName = name.toLowerCase().endsWith('.do') ? name.toLowerCase() : `${name.toLowerCase()}.do`
   
   const sdkContent = sdks.find(
-    (sdk) => sdk.title?.toLowerCase() === sdkName || 
-             sdk.title?.toLowerCase() === sdkName.replace('.do', '')
+    (sdk) => {
+      const contentMatch = sdk.content && (
+        sdk.content.toLowerCase().includes(`# ${sdkName}`) || 
+        sdk.content.toLowerCase().includes(`# ${sdkName.replace('.do', '')}`)
+      )
+      
+      const titleMatch = sdk.title && (
+        sdk.title.toLowerCase() === sdkName || 
+        sdk.title.toLowerCase() === sdkName.replace('.do', '')
+      )
+      
+      return contentMatch || titleMatch
+    }
   )
   
   if (!sdkContent) {

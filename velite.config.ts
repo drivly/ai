@@ -27,6 +27,15 @@ export default defineConfig({
         description: s.string().optional(),
         content: s.markdown(),
       }),
+      transform: (data: any) => {
+        const pathParts = data._path.split('/');
+        const sdkName = pathParts[pathParts.length - 2]; // Get the directory name
+        
+        return {
+          ...data,
+          title: sdkName, // Set the title to the SDK name
+        };
+      },
     },
     sites: {
       name: 'Site',
