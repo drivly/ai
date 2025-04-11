@@ -1,8 +1,4 @@
 export default {
-  'index': {
-    title: 'SDKs',
-    type: 'page',
-  },
   'workflows.do': {
     title: 'Workflows.do',
     type: 'page',
