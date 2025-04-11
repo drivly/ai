@@ -28,6 +28,16 @@ const nextConfig = {
   // Temporarily disable transpilePackages to avoid circular dependencies
   // transpilePackages: ['@drivly/ui', '@drivly/payload-agent', 'simple-payload', 'clickable-apis', 'ai-models', 'payload-utils', 'payload-hooks-queue'],
   // All routing is handled by middleware.ts
+  
+  // Disable optimization to prevent stack overflow
+  reactStrictMode: false,
+  swcMinify: false,
+  experimental: {
+    // Disable experimental features that might cause stack overflow
+    serverComponentsExternalPackages: [],
+    optimizeCss: false,
+    optimizePackageImports: []
+  }
 }
 
 // Configure bundle analyzer to run only when ANALYZE=true
