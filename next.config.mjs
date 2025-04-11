@@ -49,6 +49,11 @@ const nextConfig = {
           source: '/docs/:path*',
           destination: '/api',
         },
+        // Redirect reference page specifically to avoid placeholder.js error
+        {
+          source: '/docs/reference',
+          destination: '/api/reference',
+        },
       ],
     }
   },
