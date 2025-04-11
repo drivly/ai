@@ -34,7 +34,7 @@ export const siteConfig = {
   name: '.do',
   logo,
   url: 'https://dotdo.ai/',
-  description: 'Agentic Workflow Platform. Redefining work with Businesses-as-Code.',
+  description: '.do Business-as-Code',
   baseLinks: {
     home: '/',
     docs: '/docs',
