@@ -1,11 +1,10 @@
-import type { Field } from 'payload'
-import React from 'react'
+import type { Field, TextFieldSingleValidation } from 'payload'
 
 type URLFieldOptions = {
   name?: string
   label?: string
   required?: boolean
-  validate?: (value: string) => string | boolean
+  validate?: TextFieldSingleValidation
   admin?: Record<string, unknown>
 }
 
@@ -26,41 +25,34 @@ export const urlField = ({
     label,
     required,
     admin: {
+      description: 'Enter a valid URL (e.g., https://example.com)',
+      className: 'payload-url-field',
       components: {
-        Cell: function URLFieldCell({ cellData }: { cellData: unknown }) {
-          if (!cellData || typeof cellData !== 'string') {
-            return null
-          }
-          
-          return React.createElement(
-            'a',
-            {
-              href: cellData,
-              target: '_blank',
-              rel: 'noopener noreferrer',
-              className: 'underline hover:opacity-80'
-            },
-            cellData
-          )
-        },
       },
       ...admin,
     },
-    validate: function validateURLField(value: unknown): string | boolean {
-      if (required && !value) {
+    hooks: {
+      afterRead: [
+        ({ value }) => {
+          return value
+        }
+      ]
+    },
+    validate: ((value, options) => {
+      if ((options?.required || required) && !value) {
         return 'URL is required'
       }
       
-      if (value && typeof value === 'string' && !validateURL(value)) {
+      if (value && !validateURL(value)) {
         return 'Please enter a valid URL'
       }
       
-      if (validate && value && typeof value === 'string') {
-        return validate(value)
+      if (validate && value) {
+        return validate(value, options)
       }
       
       return true
-    },
+    }) as TextFieldSingleValidation,
   }
 }
 
