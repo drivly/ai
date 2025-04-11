@@ -58,6 +58,12 @@ const nextConfig = {
     }
   },
   
+  // Exclude specific pages from the build
+  excludePages: [
+    '/docs/reference',
+    '/docs/reference/**',
+  ],
+  
   // Exclude SDK documentation pages from the build
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'].filter(ext => {
     // During build, if SKIP_NEXTRA is true, exclude mdx files
