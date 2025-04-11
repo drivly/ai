@@ -2,8 +2,83 @@
 asIndexPage: true
 ---
 
-import SDKReadme from '@/components/docs/sdk-readme'
+# workflows.do - Elegant Business Process Orchestration
 
-# workflows.do
+[![npm version](https://img.shields.io/npm/v/workflows.do.svg)](https://www.npmjs.com/package/workflows.do)
+[![npm downloads](https://img.shields.io/npm/dm/workflows.do.svg)](https://www.npmjs.com/package/workflows.do)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
+[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/tafnNeUQdm)
+[![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
-<SDKReadme name="workflows.do" />
+> **Orchestrate business processes with elegant simplicity**
+
+## Installation
+
+```bash
+npm install workflows.do
+# or
+yarn add workflows.do
+# or
+pnpm add workflows.do
+```
+
+## Usage
+
+```typescript
+import { AI } from 'workflows.do'
+
+// Create a workflow with the AI function
+export default AI({
+  // Your workflow definition here
+  processOrder: async (event, { ai, api, db }) => {
+    // Process the order using AI functions, integrations, and database
+    const { orderId, customer } = event
+    
+    // Validate the order with AI
+    const validation = await ai.validateOrder({ orderId })
+    
+    // Process payment through an integration
+    const payment = await api.stripe.processPayment({
+      amount: validation.total,
+      customer: customer.id
+    })
+    
+    // Store the result in the database
+    await db.orders.update(orderId, {
+      status: payment.status,
+      paymentId: payment.id
+    })
+    
+    return {
+      success: payment.status === 'succeeded',
+      orderId,
+      paymentId: payment.id
+    }
+  }
+})
+```
+
+## The Integration Hub
+
+Workflows.do serves as the central integration hub for the entire [.do](https://dotdo.ai) ecosystem, connecting:
+
+1. **Functions.do** - AI function execution
+2. **Database.do** - Data storage and retrieval
+3. **Agents.do** - Autonomous AI workers
+4. **Integrations.do** - External API connections
+5. **Events.do** - Business event tracking
+6. **Analytics.do** - Performance measurement
+7. **Triggers.do** - Workflow initiation
+8. **Actions.do** - External world impact
+
+This seamless integration enables you to create elegant business processes that leverage the full power of the [.do](https://dotdo.ai) platform with minimal code.
+
+## License
+
+MIT
+
+## Dependencies
+
+- [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the `.do` ecosystem
