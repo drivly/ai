@@ -25,7 +25,12 @@ export const SDKReadmeSection: FC<SDKReadmeSectionProps> = ({ domain }) => {
           content.includes(`# [${sdkName}]`) ||
           content.includes(`# ${nameWithoutDo}`) ||
           content.includes(`# [${nameWithoutDo}]`) ||
-          content.includes(sdkName) // General check for the domain name
+          (sdk.title && (
+            sdk.title.toLowerCase() === sdkName.toLowerCase() ||
+            sdk.title.toLowerCase() === nameWithoutDo.toLowerCase()
+          )) ||
+          content.includes(`import { ${nameWithoutDo} } from '${sdkName}'`) ||
+          content.includes(`import ${nameWithoutDo} from '${sdkName}'`)
         );
       }
       return false;
