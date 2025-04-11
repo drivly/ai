@@ -1,8 +1,12 @@
 /**
  * Convert a title to a URL slug by replacing spaces with underscores
+ * and removing special characters
  */
 export function titleToSlug(title: string): string {
-  return title.replace(/\s+/g, '_');
+  return title
+    .trim()
+    .replace(/\s+/g, '_')
+    .replace(/[^\w_-]/g, '');
 }
 
 /**
