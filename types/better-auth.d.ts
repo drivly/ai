@@ -10,7 +10,7 @@ declare module 'better-auth/plugins' {
 
 declare module '@payload-auth/better-auth-plugin' {
   import { BetterAuthOptions } from 'better-auth';
-  import { CollectionConfig } from 'payload';
+  import { CollectionConfig, Plugin } from 'payload';
   import { Payload } from 'payload';
 
   export interface PayloadBetterAuthPluginOptions {
@@ -43,4 +43,5 @@ declare module '@payload-auth/better-auth-plugin' {
   }
 
   export function getPayloadAuth<T = any>(config: Promise<any>): Promise<Payload<T>>;
+  export function betterAuthPlugin(options: PayloadBetterAuthPluginOptions): Plugin;
 }
