@@ -24,6 +24,15 @@
     "lint": "eslint .",
     "test": "echo \"No tests\" && exit 0"
   },
+  "keywords": [
+    "ai",
+    "business",
+    "strategy",
+    "operations",
+    "automation",
+    "sdk",
+    "typescript"
+  ],
   "dependencies": {
     "workflows.do": "0.0.1",
     "functions.do": "0.0.1",
