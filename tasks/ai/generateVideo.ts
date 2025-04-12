@@ -40,9 +40,9 @@ export const generateVideo = async ({ input, req }: { input: GenerateVideoInput;
       duration: result.duration,
       size: result.size,
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error generating video:', error)
-    throw new Error(`Failed to generate video: ${error.message}`)
+    throw new Error(`Failed to generate video: ${error.message || String(error)}`)
   }
 }
 
