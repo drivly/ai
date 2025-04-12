@@ -105,3 +105,6 @@ export const actions = {
 }
 
 export * from './types.js'
+export { youtube } from './youtube.js'
+export { videoGeneration } from './videoGeneration.js'
+export { speech } from './speech.js'
