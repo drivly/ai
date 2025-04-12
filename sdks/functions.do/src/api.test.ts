@@ -158,7 +158,7 @@ describe('ApiClient', () => {
       const spy = vi.spyOn(client, 'get')
       await client.getById('resources', '123')
 
-      expect(spy).toHaveBeenCalledWith('/api/resources/123')
+      expect(spy).toHaveBeenCalledWith('/v1/resources/123')
     })
 
     it('should call post with correct path for create', async () => {
@@ -166,7 +166,7 @@ describe('ApiClient', () => {
       const data = { name: 'Test Resource' }
       await client.create('resources', data)
 
-      expect(spy).toHaveBeenCalledWith('/api/resources', data)
+      expect(spy).toHaveBeenCalledWith('/v1/resources', data)
     })
 
     it('should call patch with correct path for update', async () => {
@@ -174,7 +174,7 @@ describe('ApiClient', () => {
       const data = { name: 'Updated Resource' }
       await client.update('resources', '123', data)
 
-      expect(spy).toHaveBeenCalledWith('/api/resources/123', data)
+      expect(spy).toHaveBeenCalledWith('/v1/resources/123', data)
     })
 
     it('should call put with correct path for replace', async () => {
@@ -182,21 +182,21 @@ describe('ApiClient', () => {
       const data = { name: 'Replaced Resource' }
       await client.replace('resources', '123', data)
 
-      expect(spy).toHaveBeenCalledWith('/api/resources/123', data)
+      expect(spy).toHaveBeenCalledWith('/v1/resources/123', data)
     })
 
     it('should call delete with correct path for remove', async () => {
       const spy = vi.spyOn(client, 'delete')
       await client.remove('resources', '123')
 
-      expect(spy).toHaveBeenCalledWith('/api/resources/123')
+      expect(spy).toHaveBeenCalledWith('/v1/resources/123')
     })
 
     it('should call get with correct path and query for search', async () => {
       const spy = vi.spyOn(client, 'get')
       await client.search('resources', 'test query', { limit: 10 })
 
-      expect(spy).toHaveBeenCalledWith('/api/resources/search', { q: 'test query', limit: 10 })
+      expect(spy).toHaveBeenCalledWith('/v1/resources/search', { q: 'test query', limit: 10 })
     })
   })
 })
