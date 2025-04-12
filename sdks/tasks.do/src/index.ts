@@ -170,7 +170,7 @@ class TasksClient {
    * @returns The created task
    */
   async createTask(task: TaskDefinition) {
-    return this.api.post('/api/tasks', task)
+    return this.api.post('/v1/tasks', task)
   }
 
   /**
