@@ -18,8 +18,7 @@ export async function createVideoFromSlides({
   
   const mergedOptions = { ...defaultOptions, ...options }
   
-  // Use path.join to create a relative path that works in both CJS and ESM
-  const compositionPath = path.join(__dirname, 'composition')
+  const compositionPath = require.resolve('./composition')
   
   const bundleResult = await bundle({
     entryPoint: compositionPath,

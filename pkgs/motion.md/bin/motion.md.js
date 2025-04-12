@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-const { program } = require('commander')
-const { parseMarkdownWithFrontmatter, createVideoFromSlides } = require('../dist')
+import { program } from 'commander'
+import { parseMarkdownWithFrontmatter, createVideoFromSlides } from '../dist/index.js'
+import fs from 'fs'
 
 program
   .name('motion.md')
@@ -16,7 +17,6 @@ program
   .option('--no-tts', 'Disable text-to-speech')
   .action(async (input, options) => {
     try {
-      const fs = require('fs')
       const markdownContent = fs.readFileSync(input, 'utf-8')
       
       const { globalConfig, slides } = parseMarkdownWithFrontmatter(markdownContent)
