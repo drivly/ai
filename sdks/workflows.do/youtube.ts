@@ -1,4 +1,4 @@
-import { AI } from 'workflows.do'
+import { AI } from './index'
 
 export default AI({
   createYoutubeVideo: async (event, { ai, api, db }) => {
