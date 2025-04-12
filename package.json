@@ -57,6 +57,7 @@
     "@graphdl/core": "^0.1.6",
     "@ip-location-db/asn": "^2.3.2025040218",
     "@linear/sdk": "^39.0.0",
+    "@octokit/rest": "^21.1.1",
     "@payload-auth/better-auth-db-adapter": "workspace:*",
     "@payload-auth/better-auth-plugin": "workspace:*",
     "@payloadcms/db-mongodb": "^3.33.0",
