@@ -30,7 +30,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
   for (const [key, description] of Object.entries(apis)) {
     if (key && apis[key] !== undefined) {
       const apiTitle = `${titleCase(key)}${description ? ` - ${description}` : ''}`
-      formattedApis[apiTitle] = `${origin}/api/${key}`
+      formattedApis[apiTitle] = `${origin}/v1/${key}`
     }
   }
 

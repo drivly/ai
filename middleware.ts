@@ -68,11 +68,11 @@ export async function middleware(request: NextRequest) {
     const { hostname: actualHostname, pathname, search } = request.nextUrl
     const hostname = process.env.HOSTNAME_OVERRIDE || actualHostname
 
-    if (pathname === '/api' || pathname.startsWith('/api/')) {
+    if (pathname === '/api' || pathname.startsWith('/api/') || pathname === '/v1' || pathname.startsWith('/v1/')) {
       console.log('Handling API route', { hostname, pathname, search })
-      if (pathname === '/api/docs' || pathname.startsWith('/api/docs/')) {
-        console.log('Rewriting /api/docs to docs.apis.do', { hostname, pathname, search })
-        const apiDocsPath = pathname.replace('/api/docs', '')
+      if (pathname === '/api/docs' || pathname.startsWith('/api/docs/') || pathname === '/v1/docs' || pathname.startsWith('/v1/docs/')) {
+        console.log('Rewriting /api/docs or /v1/docs to docs.apis.do', { hostname, pathname, search })
+        const apiDocsPath = pathname.replace('/api/docs', '').replace('/v1/docs', '')
 
         const url = new URL(`https://docs.apis.do${apiDocsPath}${search}`)
         const headers = new Headers(request.headers)
@@ -101,9 +101,14 @@ export async function middleware(request: NextRequest) {
       
       if (isDoDomain(hostname)) {
         const apiName = extractApiNameFromDomain(hostname)
-        console.log('Rewriting /api to API root for .do domain', { apiName, hostname, pathname, search })
+        console.log('Rewriting /api or /v1 to API root for .do domain', { apiName, hostname, pathname, search })
         const url = new URL(request.url)
-        return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname.replace('/api', '')}${search}`))
+        
+        const path = pathname.startsWith('/api') 
+          ? pathname.replace('/api', '') 
+          : pathname.replace('/v1', '')
+          
+        return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${path}${search}`))
       }
       
       console.log('Passing through API request', { hostname, pathname, search })
@@ -133,7 +138,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next()
       }
       
-      if (pathname === '/api' || pathname.startsWith('/api/')) {
+      if (pathname === '/api' || pathname.startsWith('/api/') || pathname === '/v1' || pathname.startsWith('/v1/')) {
         console.log('Passing through API path for brand domain', { hostname, pathname, search })
         return NextResponse.next()
       }
@@ -191,10 +196,11 @@ export async function middleware(request: NextRequest) {
         return NextResponse.next()
       }
 
-      if (pathname === '/api') {
-        console.log('Rewriting /api to API root', { apiName, hostname, pathname, search })
+      if (pathname === '/api' || pathname === '/v1') {
+        console.log('Rewriting /api or /v1 to API root', { apiName, hostname, pathname, search })
         const url = new URL(request.url)
-        return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${pathname.replace('/api', '')}${search}`))
+        const path = pathname === '/api' ? pathname.replace('/api', '') : pathname.replace('/v1', '')
+        return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${path}${search}`))
       }
 
       console.log('Rewriting to site', { hostname, pathname, search })

@@ -109,7 +109,7 @@ export default buildConfig({
         description: 'API documentation for Workflows.do',
         version: '1.0.0',
       },
-      specEndpoint: '/api/docs/openapi.json',
+      specEndpoint: '/v1/docs/openapi.json',
     }),
     // storage-adapter-placeholder
 
