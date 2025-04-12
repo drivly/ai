@@ -50,11 +50,11 @@ export const DotDoSection = (props: DotDoSectionProps) => {
         <Fragment key={category}>
           <h2 className='mt-16 mb-6 text-2xl font-bold'>{category}</h2>
           <div className='mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
-            {sites.map((site) => {
+            {sites.map((site, index) => {
               const domain = site.title.split(' - ')[0]
               return (
                 <DotDoItem
-                  key={domain}
+                  key={`${domain}-${index}`}
                   title={domain}
                   href={showAbsolute || isBrandDomain ? `https://${domain}` : `/sites/${domain}`}
                   description={site.description}

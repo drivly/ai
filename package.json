@@ -50,6 +50,7 @@
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
     "@ai-sdk/openai": "^1.0.10",
+    "@better-auth/stripe": "^1.2.5",
     "@clickhouse/client-web": "^1.11.0",
     "@code-hike/mdx": "^0.9.0",
     "@drivly/payload-agent": "workspace:*",
@@ -82,7 +83,7 @@
     "ai-providers": "workspace:*",
     "ai-workflows": "^1.1.0",
     "apis.do": "0.0.1",
-    "better-auth": "1.2.4",
+    "better-auth": "1.2.5",
     "business-as-code": "0.0.2",
     "class-variance-authority": "^0.7.1",
     "clickable-apis": "workspace:*",

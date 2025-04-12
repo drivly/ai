@@ -73,6 +73,7 @@ export interface Config {
     sessions: Session;
     verifications: Verification;
     apiKeys: ApiKey;
+    subscriptions: Subscription;
     oauthApplications: OauthApplication;
     oauthAccessTokens: OauthAccessToken;
     oauthConsents: OauthConsent;
@@ -159,6 +160,7 @@ export interface Config {
     sessions: SessionsSelect<false> | SessionsSelect<true>;
     verifications: VerificationsSelect<false> | VerificationsSelect<true>;
     apiKeys: ApiKeysSelect<false> | ApiKeysSelect<true>;
+    subscriptions: SubscriptionsSelect<false> | SubscriptionsSelect<true>;
     oauthApplications: OauthApplicationsSelect<false> | OauthApplicationsSelect<true>;
     oauthAccessTokens: OauthAccessTokensSelect<false> | OauthAccessTokensSelect<true>;
     oauthConsents: OauthConsentsSelect<false> | OauthConsentsSelect<true>;
@@ -352,6 +354,10 @@ export interface User {
    * The date and time when the ban will expire
    */
   banExpires?: string | null;
+  /**
+   * The Stripe customer ID associated with this user
+   */
+  stripeCustomerId?: string | null;
   tenants?:
     | {
         tenant: string | Project;
@@ -607,6 +613,64 @@ export interface ApiKey {
     | number
     | boolean
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Stripe subscription management
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions".
+ */
+export interface Subscription {
+  /**
+   * Unique identifier for each subscription
+   */
+  id: string;
+  /**
+   * The name of the subscription plan
+   */
+  plan: string;
+  /**
+   * The user associated with this subscription
+   */
+  user: string | User;
+  /**
+   * The Stripe customer ID
+   */
+  stripeCustomerId?: string | null;
+  /**
+   * The Stripe subscription ID
+   */
+  stripeSubscriptionId?: string | null;
+  /**
+   * The status of the subscription (active, canceled, etc.)
+   */
+  status: string;
+  /**
+   * Start date of the current billing period
+   */
+  periodStart?: string | null;
+  /**
+   * End date of the current billing period
+   */
+  periodEnd?: string | null;
+  /**
+   * Whether the subscription will be canceled at the end of the period
+   */
+  cancelAtPeriodEnd?: boolean | null;
+  /**
+   * Number of seats for team plans
+   */
+  seats?: number | null;
+  /**
+   * Start date of the trial period
+   */
+  trialStart?: string | null;
+  /**
+   * End date of the trial period
+   */
+  trialEnd?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2427,6 +2491,10 @@ export interface PayloadLockedDocument {
         value: string | ApiKey;
       } | null)
     | ({
+        relationTo: 'subscriptions';
+        value: string | Subscription;
+      } | null)
+    | ({
         relationTo: 'oauthApplications';
         value: string | OauthApplication;
       } | null)
@@ -2714,6 +2782,7 @@ export interface UsersSelect<T extends boolean = true> {
   banned?: T;
   banReason?: T;
   banExpires?: T;
+  stripeCustomerId?: T;
   tenants?:
     | T
     | {
@@ -2790,6 +2859,26 @@ export interface ApiKeysSelect<T extends boolean = true> {
   expiresAt?: T;
   permissions?: T;
   metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions_select".
+ */
+export interface SubscriptionsSelect<T extends boolean = true> {
+  id?: T;
+  plan?: T;
+  user?: T;
+  stripeCustomerId?: T;
+  stripeSubscriptionId?: T;
+  status?: T;
+  periodStart?: T;
+  periodEnd?: T;
+  cancelAtPeriodEnd?: T;
+  seats?: T;
+  trialStart?: T;
+  trialEnd?: T;
   updatedAt?: T;
   createdAt?: T;
 }

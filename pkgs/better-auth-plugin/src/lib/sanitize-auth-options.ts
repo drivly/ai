@@ -308,13 +308,6 @@ export function sanitizeBetterAuthOptions(
               }
               Object.assign(plugin, oidcPlugin)
               break
-            case supportedBetterAuthPluginIds.oAuthProxy:
-              const oAuthProxyPlugin = plugin as any
-              // The oAuthProxy plugin doesn't require any schema modifications
-              // It mainly needs the productionURL and currentURL configuration
-              // which are already provided in the plugin configuration
-              Object.assign(plugin, oAuthProxyPlugin)
-              break
             case supportedBetterAuthPluginIds.genericOAuth:
               const genericOAuthPlugin = plugin as any
               // The genericOAuth plugin requires proper account integration for storing
@@ -349,8 +342,72 @@ export function sanitizeBetterAuthOptions(
                   },
                 },
               }
+              break
+            case supportedBetterAuthPluginIds.stripe:
+              const stripePlugin = plugin as any
+              if (!stripePlugin.schema) stripePlugin.schema = {}
+              if (!stripePlugin.schema.subscription) stripePlugin.schema.subscription = {}
+              if (!stripePlugin.schema.user) stripePlugin.schema.user = {}
 
-              Object.assign(plugin, genericOAuthPlugin)
+              // Configure the subscription schema
+              stripePlugin.schema.subscription = {
+                ...stripePlugin.schema.subscription,
+                modelName: betterAuthPluginSlugs.subscriptions,
+                fields: {
+                  ...(stripePlugin.schema.subscription.fields ?? {}),
+                  id: {
+                    ...(stripePlugin.schema.subscription.fields?.id ?? {}),
+                  },
+                  plan: {
+                    ...(stripePlugin.schema.subscription.fields?.plan ?? {}),
+                  },
+                  referenceId: {
+                    ...(stripePlugin.schema.subscription.fields?.referenceId ?? {}),
+                    fieldName: 'user',
+                  },
+                  stripeCustomerId: {
+                    ...(stripePlugin.schema.subscription.fields?.stripeCustomerId ?? {}),
+                  },
+                  stripeSubscriptionId: {
+                    ...(stripePlugin.schema.subscription.fields?.stripeSubscriptionId ?? {}),
+                  },
+                  status: {
+                    ...(stripePlugin.schema.subscription.fields?.status ?? {}),
+                  },
+                  periodStart: {
+                    ...(stripePlugin.schema.subscription.fields?.periodStart ?? {}),
+                  },
+                  periodEnd: {
+                    ...(stripePlugin.schema.subscription.fields?.periodEnd ?? {}),
+                  },
+                  cancelAtPeriodEnd: {
+                    ...(stripePlugin.schema.subscription.fields?.cancelAtPeriodEnd ?? {}),
+                  },
+                  seats: {
+                    ...(stripePlugin.schema.subscription.fields?.seats ?? {}),
+                  },
+                  trialStart: {
+                    ...(stripePlugin.schema.subscription.fields?.trialStart ?? {}),
+                  },
+                  trialEnd: {
+                    ...(stripePlugin.schema.subscription.fields?.trialEnd ?? {}),
+                  },
+                },
+              }
+
+              // Configure the user schema to include stripeCustomerId
+              stripePlugin.schema.user = {
+                ...stripePlugin.schema.user,
+                modelName: baseCollectionSlugs.users,
+                fields: {
+                  ...(stripePlugin.schema.user.fields ?? {}),
+                  stripeCustomerId: {
+                    ...(stripePlugin.schema.user.fields?.stripeCustomerId ?? {}),
+                  },
+                },
+              }
+
+              Object.assign(plugin, stripePlugin)
               break
             default:
               break

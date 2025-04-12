@@ -1,10 +1,9 @@
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { apis } from './api.config'
-import { domainsConfig, getCollections, isAIGateway, brandDomains } from './domains.config'
-import { collectionSlugs } from './collections/middleware-collections'
+import { NextResponse } from 'next/server'
 import { analyticsMiddleware } from './analytics/src/middleware'
-
+import { collectionSlugs } from './collections/middleware-collections'
+import { brandDomains, isAIGateway } from './domains.config'
+import { API_AUTH_PREFIX, publicRoutes } from './lib/routes'
 /**
  * Middleware Configuration
  * -----------------------
@@ -14,10 +13,16 @@ import { analyticsMiddleware } from './analytics/src/middleware'
 
 /**
  * Check if a domain should be treated as a gateway domain
- * Gateway domains show the API response at the root path and don't get rewritten
- */
+ * Gateway domains show the API response at the root path and don't get rewrittenØ */
 const isGatewayDomain = (hostname: string): boolean => {
-  return isAIGateway(hostname) || hostname === 'localhost' || hostname === 'apis.do' || hostname === 'do.gt' || hostname === 'do.mw' || hostname.endsWith('dev.driv.ly')
+  return (
+    isAIGateway(hostname) ||
+    hostname === 'localhost' ||
+    hostname === 'apis.do' ||
+    hostname === 'do.gt' ||
+    hostname === 'do.mw' ||
+    hostname.endsWith('dev.driv.ly')
+  )
 }
 
 /**
@@ -45,8 +50,8 @@ export const extractApiNameFromDomain = (hostname: string): string => {
  * Check if docs exist for a specific API name
  */
 export const docsExistForApi = (apiName: string): boolean => {
-  const apisWithDocs = ['functions', 'workflows', 'agents', 'llm', 'integrations', 'database', 'evals', 'experiments'];
-  return apisWithDocs.includes(apiName);
+  const apisWithDocs = ['functions', 'workflows', 'agents', 'llm', 'integrations', 'database', 'evals', 'experiments']
+  return apisWithDocs.includes(apiName)
 }
 
 /**
@@ -68,9 +73,24 @@ export async function middleware(request: NextRequest) {
     const { hostname: actualHostname, pathname, search } = request.nextUrl
     const hostname = process.env.HOSTNAME_OVERRIDE || actualHostname
 
+    const isApiAuthRoute = pathname.startsWith(API_AUTH_PREFIX)
+    const isPublicRoute = publicRoutes.includes(pathname)
+
+    const isLoggedIn = request.cookies.has('better-auth.session_data')
+    console.log('🚀 ~ isLoggedIn:', isLoggedIn)
+
+    if (isApiAuthRoute || isPublicRoute) {
+      return NextResponse.next()
+    }
+
     if (pathname === '/api' || pathname.startsWith('/api/') || pathname === '/v1' || pathname.startsWith('/v1/')) {
       console.log('Handling API route', { hostname, pathname, search })
-      if (pathname === '/api/docs' || pathname.startsWith('/api/docs/') || pathname === '/v1/docs' || pathname.startsWith('/v1/docs/')) {
+      if (
+        pathname === '/api/docs' ||
+        pathname.startsWith('/api/docs/') ||
+        pathname === '/v1/docs' ||
+        pathname.startsWith('/v1/docs/')
+      ) {
         console.log('Rewriting /api/docs or /v1/docs to docs.apis.do', { hostname, pathname, search })
         const apiDocsPath = pathname.replace('/api/docs', '').replace('/v1/docs', '')
 
@@ -94,30 +114,31 @@ export async function middleware(request: NextRequest) {
 
         response.headers.delete('X-Frame-Options')
 
-        response.headers.set('Content-Security-Policy', "frame-ancestors 'self' https://*.driv.ly http://localhost:* https://*.vercel.app;")
+        response.headers.set(
+          'Content-Security-Policy',
+          "frame-ancestors 'self' https://*.driv.ly http://localhost:* https://*.vercel.app;",
+        )
 
         return response
       }
-      
+
       if (isDoDomain(hostname)) {
         const apiName = extractApiNameFromDomain(hostname)
         console.log('Rewriting /api or /v1 to API root for .do domain', { apiName, hostname, pathname, search })
         const url = new URL(request.url)
-        
-        const path = pathname.startsWith('/api') 
-          ? pathname.replace('/api', '') 
-          : pathname.replace('/v1', '')
-          
+
+        const path = pathname.startsWith('/api') ? pathname.replace('/api', '') : pathname.replace('/v1', '')
+
         return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${path}${search}`))
       }
-      
+
       console.log('Passing through API request', { hostname, pathname, search })
       return NextResponse.next()
     }
-    
+
     if (isGatewayDomain(hostname)) {
       console.log('Handling gateway domain, exiting middleware', { hostname, pathname, search })
-      
+
       if (pathname === '/sites') {
         console.log('Rewriting gateway domain /sites to sites', { hostname, pathname, search })
         return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
@@ -127,12 +148,12 @@ export async function middleware(request: NextRequest) {
 
     if (isBrandDomain(hostname)) {
       console.log('Handling brand domain', { hostname, pathname, search })
-      
+
       if (pathname === '/docs' || pathname.startsWith('/docs/')) {
         console.log('Passing through docs path for brand domain', { hostname, pathname, search })
         return NextResponse.next()
       }
-      
+
       if (pathname === '/admin' || pathname.startsWith('/admin/')) {
         console.log('Passing through admin path for brand domain', { hostname, pathname, search })
         return NextResponse.next()
@@ -142,16 +163,14 @@ export async function middleware(request: NextRequest) {
         console.log('Passing through API path for brand domain', { hostname, pathname, search })
         return NextResponse.next()
       }
-      
+
       if (pathname === '/') {
         console.log('Rewriting brand domain root path to /sites', { hostname, pathname, search })
         return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
       }
-      
-      const cleanPathname = pathname.endsWith('/') && pathname !== '/' 
-        ? pathname.slice(0, -1) 
-        : pathname
-      
+
+      const cleanPathname = pathname.endsWith('/') && pathname !== '/' ? pathname.slice(0, -1) : pathname
+
       console.log('Rewriting brand domain to sites domain path using .do', { hostname, cleanPathname, search })
       return NextResponse.rewrite(new URL(`/sites/.do${cleanPathname}${search}`, request.url))
     }
@@ -161,12 +180,12 @@ export async function middleware(request: NextRequest) {
 
       if (pathname === '/admin' || pathname.startsWith('/admin/')) {
         console.log('Handling admin path for .do domain', { hostname, pathname, search })
-        
+
         if (collectionSlugs.includes(apiName)) {
           console.log('Rewriting to admin collection', { hostname, pathname, search, collection: apiName })
           return NextResponse.rewrite(new URL(`/admin/collections/${apiName}${search}`, request.url))
         }
-        
+
         console.log('Passing through admin path for .do domain', { hostname, pathname, search })
         return NextResponse.next()
       }
@@ -183,16 +202,16 @@ export async function middleware(request: NextRequest) {
         console.log('Handling docs path', { hostname, pathname, search })
         // const apiName = extractApiNameFromDomain(hostname)
         // const hash = request.nextUrl.hash || ''
-        
+
         // if (pathname === '/docs' && docsExistForApi(apiName)) {
         //   const docsPath = getDocsPath(hostname)
         //   return NextResponse.redirect(new URL(`${docsPath}${search}${hash}`, request.url), 307)
         // }
-        
+
         // if (pathname === '/docs') {
         //   return NextResponse.redirect(new URL(`/docs${search}${hash}`, request.url), 307)
         // }
-        
+
         return NextResponse.next()
       }
 

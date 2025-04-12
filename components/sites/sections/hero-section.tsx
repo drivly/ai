@@ -16,8 +16,7 @@ type HeroSectionProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'de
 
 export default function HeroSection({ className, badge, buttonText, codeExample, codeLang = 'json', description, title, domain }: HeroSectionProps) {
   return (
-    <section id='hero' className={cn('relative mx-auto px-3 mt-32 max-w-[80rem] text-center lg:mt-48', className)}>
-
+    <section id='hero' className={cn('relative mx-auto mt-32 max-w-[80rem] px-3 text-center lg:mt-48', className)}>
       {badge && (
         <div className='group inline-flex h-7 items-center justify-between gap-1 rounded-full border border-white/5 bg-white/10 px-3 text-xs text-white backdrop-filter-[16px] dark:text-black'>
           <p className='mx-auto inline-flex max-w-md items-center justify-center text-gray-400'>
@@ -25,7 +24,7 @@ export default function HeroSection({ className, badge, buttonText, codeExample,
           </p>
         </div>
       )}
-      <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-[46px]  leading-none font-medium tracking-tighter text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
+      <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-[46px] leading-none font-medium tracking-tighter text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
         {title}
       </h1>
       <p className='mb-12 text-lg tracking-tight text-balance text-gray-400 md:text-xl'>{description}</p>
@@ -49,6 +48,7 @@ export default function HeroSection({ className, badge, buttonText, codeExample,
           />
 
           <div>
+            {/* If json, url or code, show code file */}
             <CodeWindow code={codeExample} language={codeLang} title={domain} />
           </div>
         </div>
