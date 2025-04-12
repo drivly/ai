@@ -1,6 +1,7 @@
 import { executeFunction } from '@/tasks/ai/executeFunction'
 import { API } from '@/lib/api'
 import { waitUntil } from '@vercel/functions'
+import hash from 'object-hash'
 
 export const GET = API(async (request, { db, user, url, payload, params, req }) => {
   const { functionName } = params as { functionName: string }
@@ -24,16 +25,21 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
 
   if (async === 'true') {
     const start = Date.now()
+    
+    const generationHash = hash({ functionName, args, settings, timestamp: Date.now() })
+    
     const job = await payload.jobs.queue({
       task: 'executeFunction',
-      input: { functionName, args, settings },
+      input: { functionName, args, settings, generationHash },
     })
 
     waitUntil(payload.jobs.runByID({ id: job.id }))
     const queueLatency = Date.now() - start
 
     const baseUrl = request.nextUrl.origin + request.nextUrl.pathname
-    const links: Record<string, string> = {}
+    const links: Record<string, string> = {
+      self: decodeURIComponent(url.toString()).replace(/ /g, '+'),
+    }
 
     const statusUrl = new URL(url)
     statusUrl.pathname = `/api/payload-jobs/${job.id}`
@@ -44,6 +50,10 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
       examplesUrl.pathname = examplesUrl.pathname + '/examples'
       links.examples = examplesUrl.toString()
     }
+
+    const generationUrl = new URL(url)
+    generationUrl.pathname = `/api/generations/${generationHash}`
+    links.generation = generationUrl.toString()
 
     return {
       functionName,
@@ -59,6 +69,7 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   const results = await executeFunction({ input: { functionName, args, settings }, payload })
   const latency = Date.now() - start
   const output = results?.output
+  const generationHash = results?.generationHash
   const keys = Object.keys(output || {})
   const type = keys.length === 1 ? keys[0] : undefined
   const data = type ? output[type] : output
@@ -72,6 +83,7 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   nextParams.set('seed', (currentSeed + 1).toString())
 
   const links: Record<string, string> = {
+    self: decodeURIComponent(url.toString()).replace(/ /g, '+'),
     next: `${baseUrl}?${nextParams.toString()}`,
     // temperature: {},
   }
@@ -91,6 +103,12 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
     const examplesUrl = new URL(url)
     examplesUrl.pathname = examplesUrl.pathname + '/examples'
     links.examples = examplesUrl.toString()
+  }
+
+  if (generationHash) {
+    const generationUrl = new URL(url)
+    generationUrl.pathname = `/api/generations/${generationHash}`
+    links.generation = generationUrl.toString()
   }
 
   // // Add temperature links with values 0, 0.2, 0.4, 0.6, 0.8, and 1.0

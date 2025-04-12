@@ -127,6 +127,8 @@ export default buildConfig({
       'searches.afterChange': ['searchThings', 'hybridSearchThings'],
       'actions.afterChange': 'executeFunction',
       'events.afterChange': 'deliverWebhook',
+      'tasks.afterChange': ['syncTaskToLinear'],
+      'tasks.afterDelete': ['deleteLinearIssue'],
     }),
     multiTenantPlugin({
       tenantSelectorLabel: 'Project',

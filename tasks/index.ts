@@ -37,7 +37,9 @@ import { processDomain } from './integrations/processDomain'
 import { postGithubComment } from './integrations/postGithubComment'
 import { saveExecutionResultsTask } from './saveExecutionResults'
 import { researchTask } from './ai/researchTask'
-
+import { syncTaskToLinearTask } from './integrations/syncTaskToLinear'
+import { deleteLinearIssueTask } from './integrations/deleteLinearIssue'
+import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
@@ -121,7 +123,10 @@ export const tasks = [
   processDomainTask,
   postGithubComment,
   saveExecutionResultsTask,
-  researchTask
+  researchTask,
+  syncTaskToLinearTask,
+  deleteLinearIssueTask,
+  handleLinearWebhookTask
 
 ]
 
