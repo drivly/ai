@@ -1,5 +1,5 @@
 import React from 'react'
-import { Composition, AbsoluteFill, useVideoConfig } from '@remotion/react'
+import { Composition, AbsoluteFill, useVideoConfig } from 'remotion'
 import { VideoConfig, Slide } from '../types'
 import { Intro, Cover, Default } from '../components/core'
 

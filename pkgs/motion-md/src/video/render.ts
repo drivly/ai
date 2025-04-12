@@ -1,5 +1,4 @@
-import { bundle } from '@remotion/bundler'
-import { renderMedia, selectComposition } from '@remotion/renderer'
+import { bundle, renderMedia, selectComposition } from 'remotion'
 import { VideoGenerationOptions, VideoResult } from '../types'
 
 /**
@@ -20,7 +19,7 @@ export async function createVideoFromSlides({
   
   const bundleResult = await bundle({
     entryPoint: require.resolve('./composition'),
-    webpackOverride: (config) => {
+    webpackOverride: (config: any) => {
       return {
         ...config,
         externals: {
