@@ -10,7 +10,7 @@ export const deleteLinearIssueHandler = async ({ data, originalDoc, req }: { dat
       return { status: 'skipped', message: 'No original document provided' }
     }
     
-    const linearIssueId = originalDoc.metadata?.linearIssueId
+    const linearIssueId = originalDoc.metadata?.linearIssueId || originalDoc.linearMetadata?.id
     
     if (!linearIssueId) {
       return { status: 'skipped', message: 'Task has no linked Linear issue' }

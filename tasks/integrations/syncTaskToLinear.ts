@@ -60,7 +60,7 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
       accessToken: connection.metadata.accessToken,
     })
 
-    const linearIssueId = data.metadata?.linearIssueId
+    const linearIssueId = data.metadata?.linearIssueId || data.linearMetadata?.id
     
     const issueData = {
       title: data.title,
@@ -133,17 +133,17 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
         return { status: 'error', message: 'Failed to create Linear issue' }
       }
       
-      const updatedMetadata = {
-        ...(data.metadata || {}),
-        linearIssueId: result.issueCreate.issue.id,
-        linearIssueUrl: result.issueCreate.issue.url,
+      const linearMetadata = {
+        id: result.issueCreate.issue.id,
+        url: result.issueCreate.issue.url,
+        teamId: teamId,
       }
       
       await payload.update({
         collection: 'tasks',
         id: data.id,
         data: {
-          metadata: updatedMetadata,
+          linearMetadata,
         },
       })
     }
