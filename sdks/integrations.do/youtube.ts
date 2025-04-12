@@ -56,7 +56,7 @@ export const youtube = {
     id: string,
     url: string
   }> => {
-    return api.put(`/youtube/videos/${videoId}`, metadata)
+    return api.post(`/youtube/videos/${videoId}`, metadata)
   },
   
   /**
