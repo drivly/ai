@@ -33,7 +33,9 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
     const queueLatency = Date.now() - start
 
     const baseUrl = request.nextUrl.origin + request.nextUrl.pathname
-    const links: Record<string, string> = {}
+    const links: Record<string, string> = {
+      self: decodeURIComponent(url.toString()).replace(/ /g, '+'),
+    }
 
     const statusUrl = new URL(url)
     statusUrl.pathname = `/api/payload-jobs/${job.id}`
@@ -72,6 +74,7 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
   nextParams.set('seed', (currentSeed + 1).toString())
 
   const links: Record<string, string> = {
+    self: decodeURIComponent(url.toString()).replace(/ /g, '+'),
     next: `${baseUrl}?${nextParams.toString()}`,
     // temperature: {},
   }
