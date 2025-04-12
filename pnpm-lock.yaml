@@ -733,22 +733,6 @@ importers:
         version: 5.8.2
 
   pkgs/business-as-code:
-    dependencies:
-      agents.do:
-        specifier: ^0.0.1
-        version: link:../../sdks/agents.do
-      apis.do:
-        specifier: ^0.0.1
-        version: link:../../sdks/apis.do
-      database.do:
-        specifier: ^0.0.1
-        version: link:../../sdks/database.do
-      functions.do:
-        specifier: ^0.0.1
-        version: link:../../sdks/functions.do
-      workflows.do:
-        specifier: ^0.0.1
-        version: link:../../sdks/workflows.do
     devDependencies:
       eslint-config:
         specifier: workspace:*

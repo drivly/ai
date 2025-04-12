@@ -40,13 +40,6 @@
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "apis.do": "^0.0.1",
-    "functions.do": "^0.0.1",
-    "workflows.do": "^0.0.1",
-    "agents.do": "^0.0.1",
-    "database.do": "^0.0.1"
-  },
   "devDependencies": {
     "eslint-config": "workspace:*",
     "typescript": "^5.0.0",
