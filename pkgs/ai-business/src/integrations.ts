@@ -1,14 +1,13 @@
-import { API } from 'apis.do';
 import { Objective, KeyResult, AnalysisResult, StrategyRecommendation } from './types';
 
 /**
  * Integration with external systems and the broader .do ecosystem
  */
 export class BusinessIntegrations {
-  private api: ReturnType<typeof API>;
+  private api: any;
   
   constructor() {
-    this.api = API();
+    this.api = {};
   }
   
   /**

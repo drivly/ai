@@ -20,51 +20,18 @@ export class AiBusinessOperator {
       ...config
     };
     
-    try {
-      const { AI } = require('workflows.do');
-      this.ai = AI({
-        schemas: {
-          analyzeObjective: {
-            input: {
-              objective: 'object',
-              currentDate: 'string'
-            },
-            output: {
-              status: 'string',
-              insights: 'string[]',
-              recommendations: 'string[]'
-            }
-          },
-          suggestStrategyAdjustments: {
-            input: {
-              objective: 'object',
-              analysisResults: 'object'
-            },
-            output: {
-              recommendations: 'object[]'
-            }
-          }
-        }
-      });
-    } catch (error) {
-      this.ai = {
-        analyzeObjective: async () => ({
-          status: 'on_track',
-          insights: ['Mock insight'],
-          recommendations: ['Mock recommendation']
-        }),
-        suggestStrategyAdjustments: async () => ({
-          recommendations: []
-        })
-      };
-    }
+    this.ai = {
+      analyzeObjective: async () => ({
+        status: 'on_track',
+        insights: ['Mock insight'],
+        recommendations: ['Mock recommendation']
+      }),
+      suggestStrategyAdjustments: async () => ({
+        recommendations: []
+      })
+    };
     
-    try {
-      const { API } = require('apis.do');
-      this.api = {};
-    } catch (error) {
-      this.api = {};
-    }
+    this.api = {};
   }
 
   /**
