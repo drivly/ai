@@ -107,19 +107,19 @@ describe('API', () => {
 
     it('should call list with correct parameters', async () => {
       await client.list('resources', { limit: 10 })
-      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/api/resources?limit=10', expect.objectContaining({ method: 'GET' }))
+      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/v1/resources?limit=10', expect.objectContaining({ method: 'GET' }))
     })
 
     it('should call getById with correct parameters', async () => {
       await client.getById('resources', '123')
-      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/api/resources/123', expect.objectContaining({ method: 'GET' }))
+      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/v1/resources/123', expect.objectContaining({ method: 'GET' }))
     })
 
     it('should call create with correct parameters', async () => {
       const data = { name: 'New Resource' }
       await client.create('resources', data)
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/resources',
+        'https://test-api.com/v1/resources',
         expect.objectContaining({
           method: 'POST',
           body: JSON.stringify(data),
@@ -131,7 +131,7 @@ describe('API', () => {
       const data = { name: 'Updated Resource' }
       await client.update('resources', '123', data)
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://test-api.com/api/resources/123',
+        'https://test-api.com/v1/resources/123',
         expect.objectContaining({
           method: 'PATCH',
           body: JSON.stringify(data),
@@ -141,7 +141,7 @@ describe('API', () => {
 
     it('should call remove with correct parameters', async () => {
       await client.remove('resources', '123')
-      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/api/resources/123', expect.objectContaining({ method: 'DELETE' }))
+      expect(mockFetch).toHaveBeenCalledWith('https://test-api.com/v1/resources/123', expect.objectContaining({ method: 'DELETE' }))
     })
   })
 })
