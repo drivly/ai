@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "description": "Build, define, launch, experiment, iterate, and grow your business entirely in code.",
+  "homepage": "https://business-as-code.dev",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
