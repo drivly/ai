@@ -76,7 +76,10 @@ export const ai = AI({
     domain: 'The domain to generate blog posts for',
     count: 'Number of blog post titles to generate',
     topics: 'Optional topics to focus on',
-    returnType: 'TextArray',
+    returnType: 'Object',
+    returnSchema: {
+      titles: 'Array of SEO-optimized blog post titles',
+    },
   },
 
   writeBlogPost: {
@@ -86,6 +89,10 @@ export const ai = AI({
     domain: 'The domain the blog post is for',
     tone: 'Optional tone for the content (professional, casual, etc.)',
     length: 'Optional desired length (short, medium, long)',
-    returnType: 'Markdown',
+    returnType: 'Object',
+    returnSchema: {
+      title: 'The title of the blog post',
+      markdown: 'The markdown content of the blog post',
+    },
   },
 })

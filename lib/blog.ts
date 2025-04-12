@@ -105,12 +105,14 @@ export async function generateBlogPosts(domain: string, count: number = 9, topic
           break
         }
         
-        titles = await ai.listBlogPostTitles({
+        const result = await ai.listBlogPostTitles({
           domain,
           count,
           topics: domainTopics,
           context: domainContext
         }, settings)
+        
+        titles = result.titles || []
         
         if (titles && titles.length > 0) {
           console.log(`Successfully generated ${titles.length} titles for domain ${domain}`)
@@ -274,13 +276,15 @@ export async function getBlogPostContent(title: string, domain: string, forcePre
         attempts++
         console.log(`Attempt ${attempts} to generate content for "${title}" in domain ${domain}`)
         
-        content = await ai.writeBlogPost({
+        const result = await ai.writeBlogPost({
           title,
           domain,
           tone,
           length,
           context: additionalContext,
         }, settings)
+        
+        content = result.markdown || ''
         
         if (content && content.length > 100) {
           console.log(`Successfully generated content for "${title}" in domain ${domain}`)
