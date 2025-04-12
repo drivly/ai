@@ -1,6 +1,5 @@
-'use client'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@drivly/ui/accordion'
-import { useSiteContent } from '@/lib/hooks/use-site-content'
+import { sites } from '@/.velite'
 
 const defaultFaqs = [
   {
@@ -35,8 +34,19 @@ interface FAQ {
   answer: string
 }
 
-export function Faqs() {
-  const { faqs: siteFaqs } = useSiteContent() || {}
+interface FaqsProps {
+  domain?: string
+}
+
+export function Faqs({ domain }: FaqsProps) {
+  const siteContent = domain ? sites.find((s: any) => {
+    const titleDomain = s.title.split(' - ')[0].toLowerCase()
+    return domain === titleDomain.toLowerCase() || 
+           domain === titleDomain.toLowerCase().replace('.do', '') ||
+           s.title.toLowerCase().includes(domain.toLowerCase())
+  }) : null
+  
+  const siteFaqs = siteContent?.faqs
   const faqsToShow = siteFaqs?.length ? siteFaqs : defaultFaqs
 
   return (
