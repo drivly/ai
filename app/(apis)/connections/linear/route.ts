@@ -50,7 +50,7 @@ export const GET = API(async (request, { db, user, url }) => {
       data: {
         status: 'inactive',
         metadata: {
-          ...(connection.metadata || {}),
+          ...(typeof connection.metadata === 'object' && connection.metadata ? connection.metadata : {}),
           error: errorData,
         },
       },
@@ -66,7 +66,7 @@ export const GET = API(async (request, { db, user, url }) => {
     data: {
       status: 'active',
       metadata: {
-        ...(connection.metadata || {}),
+        ...(typeof connection.metadata === 'object' && connection.metadata ? connection.metadata : {}),
         accessToken: tokenData.access_token,
         tokenType: tokenData.token_type,
         expiresIn: tokenData.expires_in,
