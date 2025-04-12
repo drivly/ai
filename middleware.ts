@@ -13,7 +13,7 @@ import { API_AUTH_PREFIX, publicRoutes } from './lib/routes'
 
 /**
  * Check if a domain should be treated as a gateway domain
- * Gateway domains show the API response at the root path and don't get rewrittenØ */
+ * Gateway domains show the API response at the root path and don't get rewritten */
 const isGatewayDomain = (hostname: string): boolean => {
   return (
     isAIGateway(hostname) ||
