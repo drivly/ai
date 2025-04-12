@@ -55,7 +55,7 @@ export class ExperimentsClient {
   }
 
   async start(experimentName: string): Promise<any> {
-    return this.api.post(`/api/experiments/${experimentName}/start`, {})
+    return this.api.post(`/v1/experiments/${experimentName}/start`, {})
   }
 
   async getVariant(experimentName: string, context: VariantContext): Promise<VariantResult> {

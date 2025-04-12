@@ -51,7 +51,7 @@ export class ModelsClient {
       params.capabilities = capabilitiesArray.join(',')
     }
 
-    return this.api.get('/api/models', params)
+    return this.api.get('/v1/models', params)
   }
 
   /**

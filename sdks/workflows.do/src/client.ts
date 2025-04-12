@@ -10,13 +10,13 @@ export class API extends BaseAPI {
    * Execute a workflow
    */
   async executeWorkflow(workflowId: string, input: Record<string, any>, options?: any): Promise<any> {
-    return this.post(`/api/workflows/${workflowId}/execute`, { input, options })
+    return this.post(`/v1/workflows/${workflowId}/execute`, { input, options })
   }
 
   /**
    * Register a workflow
    */
   async registerWorkflow(workflow: any): Promise<any> {
-    return this.post('/api/workflows/register', { workflow })
+    return this.post('/v1/workflows/register', { workflow })
   }
 }

@@ -50,7 +50,7 @@ export class FunctionsClient {
   }
 
   async run<T = any>(functionName: string, input: any, config?: AIConfig): Promise<FunctionResponse<T>> {
-    return this.api.post<FunctionResponse<T>>(`/api/functions/${functionName}`, {
+    return this.api.post<FunctionResponse<T>>(`/v1/functions/${functionName}`, {
       input,
       config,
     })

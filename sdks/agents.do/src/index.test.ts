@@ -32,7 +32,7 @@ describe('AgentsClient', () => {
     const response = await client.ask('test-agent', 'What is the weather?')
     expect(response).toEqual({ data: 'test-response' })
     expect(fetch).toHaveBeenCalledWith(
-      'https://agents.do/api/agents/test-agent/ask',
+      'https://agents.do/v1/agents/test-agent/ask',
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({

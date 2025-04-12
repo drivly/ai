@@ -71,7 +71,7 @@ export class CLI {
    */
   async executeFunction(functionId: string, inputs: any): Promise<any> {
     console.log(`Executing function ${functionId}...`)
-    return this.api.post(`/api/functions/${functionId}/execute`, inputs)
+    return this.api.post(`/v1/functions/${functionId}/execute`, inputs)
   }
 
   /**

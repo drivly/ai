@@ -107,7 +107,7 @@ class ApisAPI {
   }
 
   async list<T>(resource: string, params?: any): Promise<any> {
-    return this.get(`/api/${resource}`, params)
+    return this.get(`/v1/${resource}`, params)
   }
 
   async getById<T>(resource: string, id: string): Promise<T> {

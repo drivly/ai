@@ -75,31 +75,31 @@ export class API {
   }
 
   async list<T>(collection: string, params?: QueryParams): Promise<ListResponse<T>> {
-    return this.get<ListResponse<T>>(`/api/${collection}`, params)
+    return this.get<ListResponse<T>>(`/v1/${collection}`, params)
   }
 
   async getById<T>(collection: string, id: string): Promise<T> {
-    return this.get<T>(`/api/${collection}/${id}`)
+    return this.get<T>(`/v1/${collection}/${id}`)
   }
 
   async create<T>(collection: string, data: Partial<T>): Promise<T> {
-    return this.post<T>(`/api/${collection}`, data)
+    return this.post<T>(`/v1/${collection}`, data)
   }
 
   async update<T>(collection: string, id: string, data: Partial<T>): Promise<T> {
-    return this.patch<T>(`/api/${collection}/${id}`, data)
+    return this.patch<T>(`/v1/${collection}/${id}`, data)
   }
 
   async replace<T>(collection: string, id: string, data: T): Promise<T> {
-    return this.put<T>(`/api/${collection}/${id}`, data)
+    return this.put<T>(`/v1/${collection}/${id}`, data)
   }
 
   async remove<T>(collection: string, id: string): Promise<T> {
-    return this.delete<T>(`/api/${collection}/${id}`)
+    return this.delete<T>(`/v1/${collection}/${id}`)
   }
 
   async search<T>(collection: string, query: string, params?: QueryParams): Promise<ListResponse<T>> {
-    return this.get<ListResponse<T>>(`/api/${collection}/search`, {
+    return this.get<ListResponse<T>>(`/v1/${collection}/search`, {
       ...params,
       q: query,
     })

@@ -56,7 +56,7 @@ export class LLMClient {
   }
 
   async complete(prompt: string, options: CompletionOptions = {}): Promise<CompletionResponse> {
-    return this.api.post('/api/llm/completions', {
+    return this.api.post('/v1/llm/completions', {
       prompt,
       ...options,
     })

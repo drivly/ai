@@ -65,7 +65,7 @@ describe('FunctionsClient', () => {
 
       const result = await client.run('testFunction', input, config)
 
-      expect(mockPost).toHaveBeenCalledWith('/api/functions/testFunction', {
+      expect(mockPost).toHaveBeenCalledWith('/v1/functions/testFunction', {
         input,
         config,
       })

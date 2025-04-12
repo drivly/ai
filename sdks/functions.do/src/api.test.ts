@@ -151,7 +151,7 @@ describe('ApiClient', () => {
       const spy = vi.spyOn(client, 'get')
       await client.list('resources', { limit: 10 })
 
-      expect(spy).toHaveBeenCalledWith('/api/resources', { limit: 10 })
+      expect(spy).toHaveBeenCalledWith('/v1/resources', { limit: 10 })
     })
 
     it('should call get with correct path for getById', async () => {
