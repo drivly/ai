@@ -310,6 +310,8 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const latency = { hashLatency, lookupLatency, generationLatency, totalLatency }
   console.log(latency)
 
+  const generationHash = input.generationHash || hash({ actionHash, timestamp: Date.now() })
+
   // Save the results asynchronously
   payload.jobs.queue({
     task: 'saveExecutionResults',
@@ -329,10 +331,11 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       callback,
       isTextFunction,
       latency,
+      generationHash, // Pass the generation hash to saveExecutionResults
     },
   })
 
-  return { output: object, reasoning }
+  return { output: object, reasoning, generationHash }
 }
 
 export const executeFunctionTask = {
@@ -352,6 +355,7 @@ export const executeFunctionTask = {
   outputSchema: [
     { name: 'output', type: 'json' },
     { name: 'reasoning', type: 'text' },
+    { name: 'generationHash', type: 'text' },
   ],
   handler: executeFunction,
 } as TaskConfig<'executeFunction'>

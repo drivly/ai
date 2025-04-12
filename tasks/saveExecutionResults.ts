@@ -2,7 +2,7 @@ import { TaskConfig } from 'payload'
 import hash from 'object-hash'
 
 export const saveExecutionResults = async ({ input, req }: { input: any; req: any }) => {
-  const { prompt, object, functionName, args, settings, argsDoc, functionDoc, reasoning, generation, generationLatency, headers, seeds, callback, isTextFunction, latency } = input
+  const { prompt, object, functionName, args, settings, argsDoc, functionDoc, reasoning, generation, generationLatency, headers, seeds, callback, isTextFunction, latency, generationHash } = input
 
   const payload = req.payload
   const startSave = Date.now()
@@ -26,7 +26,7 @@ export const saveExecutionResults = async ({ input, req }: { input: any; req: an
   })
   const generationResult = await payload.create({
     collection: 'generations',
-    data: { action: actionResult?.id, settings: argsDoc?.id, request: input.request || {}, response: generation || {}, status: 'success', duration: generationLatency },
+    data: { id: generationHash, action: actionResult?.id, settings: argsDoc?.id, request: input.request || {}, response: generation || {}, status: 'success', duration: generationLatency },
   })
   const eventResult = await payload.create({
     collection: 'events',
@@ -58,6 +58,7 @@ export const saveExecutionResultsTask = {
     { name: 'callback', type: 'text' },
     { name: 'isTextFunction', type: 'text' },
     { name: 'latency', type: 'json' },
+    { name: 'generationHash', type: 'text' },
   ],
   outputSchema: [{ name: 'success', type: 'text' }],
   handler: saveExecutionResults,
