@@ -6,7 +6,6 @@ import { OAuthClients } from './auth/OAuthClients'
 import { OAuthCodes } from './auth/OAuthCodes'
 import { OAuthTokens } from './auth/OAuthTokens'
 import { Integrations } from './integrations/Integrations'
-import { GithubTasks } from './integrations/GithubTasks'
 import { Tags } from './admin/Tag'
 import { Roles } from './admin/Roles'
 import { Databases } from './data/Databases'
@@ -76,7 +75,6 @@ export const collections = [
   Connections,
   IntegrationTriggers,
   IntegrationActions,
-  GithubTasks,
 
   // Event collections
   Triggers,

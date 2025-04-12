@@ -30,12 +30,13 @@ export const postGithubComment = {
       })
       
       await payload.update({
-        collection: 'githubTasks',
+        collection: 'tasks',
         where: {
-          issueNumber: { equals: issueNumber },
-          repository: { equals: repository }
+          'data.type': { equals: 'github-research' },
+          'data.issueNumber': { equals: issueNumber },
+          'data.repository': { equals: repository }
         },
-        data: { status: 'completed' }
+        data: { status: 'done' }
       })
       
       return { success: true }
@@ -43,12 +44,13 @@ export const postGithubComment = {
       console.error('Error posting GitHub comment:', error)
       
       await payload.update({
-        collection: 'githubTasks',
+        collection: 'tasks',
         where: {
-          issueNumber: { equals: issueNumber },
-          repository: { equals: repository }
+          'data.type': { equals: 'github-research' },
+          'data.issueNumber': { equals: issueNumber },
+          'data.repository': { equals: repository }
         },
-        data: { status: 'failed' }
+        data: { status: 'backlog' }
       })
       
       return { success: false, error: error instanceof Error ? error.message : String(error) }

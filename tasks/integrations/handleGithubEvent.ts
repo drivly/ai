@@ -51,12 +51,18 @@ export const handleGithubEvent = {
         })
         
         await payload.create({ 
-          collection: 'githubTasks', 
+          collection: 'tasks', 
           data: { 
-            issueNumber: issue.number,
-            repository: event.repository?.full_name,
+            title: `Research: ${issue.title}`,
+            description: `Research on GitHub issue #${issue.number} from ${event.repository?.full_name}: ${issue.html_url}`,
+            status: 'in-progress',
             jobId: researchJob.id,
-            status: 'processing' 
+            data: {
+              type: 'github-research',
+              issueNumber: issue.number,
+              repository: event.repository?.full_name,
+              url: issue.html_url
+            }
           } 
         })
       } else if (event.label?.name === 'devin') {

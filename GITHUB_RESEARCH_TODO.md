@@ -1,18 +1,18 @@
 # GitHub Research Integration Implementation
 
 ## Current Implementation Progress
-- [x] Create GithubTasks collection to track research tasks
-- [x] Update handleGithubEvent.ts to implement research label handling
+- [x] Update handleGithubEvent.ts to implement research label handling using Tasks collection
 - [x] Create postGithubComment task to post research results back to GitHub issues
 - [x] Register the new task in tasks/index.ts
 - [x] Create PR with changes (PR #1050)
 - [x] Generate types with `pnpm generate:types`
-- [x] Update API documentation for GithubTasks
 - [x] Add @octokit/rest dependency for GitHub API integration
+- [x] Refactor implementation to use existing Tasks collection instead of creating a new collection
 
 ## Technical Challenges and Blockers
 - [x] CI/CD build check passed
 - [ ] Vercel deployment still in progress
+- [x] Refactored to use Tasks collection per user feedback
 
 ## Verification Requirements
 - [x] CI/CD tests pass
