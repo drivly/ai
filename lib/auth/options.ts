@@ -1,11 +1,12 @@
+import { stripe } from '@better-auth/stripe'
 import type { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
-import { admin, apiKey, multiSession, openAPI, oAuthProxy, genericOAuth, oidcProvider } from 'better-auth/plugins'
+import { admin, apiKey, genericOAuth, multiSession, oAuthProxy, oidcProvider, openAPI } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
-import { stripe } from '@better-auth/stripe'
 import stripeClient from '../stripe'
+import { getCurrentURL } from '../utils/url'
 
 // import { getCurrentURL } from '../utils/url'
 
@@ -16,12 +17,10 @@ export const betterAuthPlugins = [
   openAPI(),
   nextCookies(),
   stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
-  // oAuthProxy({
-  //   productionURL: process.env.NODE_ENV === 'production' ? 'https://apis.do' : 'http://localhost:3000',
-  //   currentURL: getCurrentURL(),
-  // }),
-
-  oAuthProxy(),
+  oAuthProxy({
+    productionURL: process.env.NODE_ENV === 'production' ? 'https://apis.do' : 'http://localhost:3000',
+    currentURL: getCurrentURL(),
+  }),
   genericOAuth({
     config: [
       {
@@ -31,7 +30,7 @@ export const betterAuthPlugins = [
         authorizationUrl: 'https://api.workos.com/sso/authorize',
         tokenUrl: 'https://api.workos.com/sso/token',
         redirectURI: 'https://apis.do/api/auth/callback/workos',
-        scopes: ['openid', 'profile', 'email']
+        scopes: ['openid', 'profile', 'email'],
       },
       {
         providerId: 'linear',
@@ -40,9 +39,9 @@ export const betterAuthPlugins = [
         authorizationUrl: 'https://linear.app/oauth/authorize',
         tokenUrl: 'https://api.linear.app/oauth/token',
         redirectURI: 'https://apis.do/api/auth/callback/linear',
-        scopes: ['read', 'write'] // Preliminary scopes, may need adjustment
-      }
-    ]
+        scopes: ['read', 'write'], // Preliminary scopes, may need adjustment
+      },
+    ],
   }),
   oidcProvider({
     metadata: {
