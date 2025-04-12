@@ -5,11 +5,12 @@
   "description": "Build, define, launch, experiment, iterate, and grow your business entirely in code.",
   "homepage": "https://business-as-code.dev",
   "main": "dist/index.js",
-  "module": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },
@@ -18,7 +19,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm && tsc --declaration --emitDeclarationOnly --outDir dist",
     "clean": "rimraf dist",
     "lint": "eslint .",
     "test": "echo \"No tests\" && exit 0"
@@ -33,7 +34,8 @@
   "devDependencies": {
     "typescript": "^5.0.0",
     "rimraf": "^5.0.0",
-    "eslint": "^8.0.0"
+    "eslint": "^8.0.0",
+    "esbuild": "^0.19.12"
   },
   "author": "Drivly",
   "license": "MIT",
