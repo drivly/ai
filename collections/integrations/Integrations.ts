@@ -14,5 +14,6 @@ export const Integrations: CollectionConfig = {
   fields: [
     { name: 'id', type: 'text' },
     { name: 'name', type: 'text' },
+    { name: 'provider', type: 'select', options: ['composio', 'linear'], defaultValue: 'composio' },
   ],
 }
