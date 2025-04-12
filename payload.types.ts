@@ -93,6 +93,7 @@ export interface Config {
     connections: Connection;
     integrationTriggers: IntegrationTrigger;
     integrationActions: IntegrationAction;
+    githubTasks: GithubTask;
     triggers: Trigger;
     searches: Search;
     experiments: Experiment;
@@ -178,6 +179,7 @@ export interface Config {
     connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
     integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
+    githubTasks: GithubTasksSelect<false> | GithubTasksSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
@@ -254,6 +256,7 @@ export interface Config {
       deliverWebhook: TaskDeliverWebhook;
       initiateComposioConnection: TaskInitiateComposioConnection;
       processDomain: TaskProcessDomain;
+      postGithubComment: TaskPostGithubComment;
       saveExecutionResults: TaskSaveExecutionResults;
       researchTask: TaskResearchTask;
       inline: {
@@ -1475,6 +1478,33 @@ export interface IntegrationAction {
   createdAt: string;
 }
 /**
+ * Tasks triggered by GitHub events
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "githubTasks".
+ */
+export interface GithubTask {
+  id: string;
+  /**
+   * GitHub issue number
+   */
+  issueNumber: number;
+  /**
+   * GitHub repository in owner/repo format
+   */
+  repository: string;
+  /**
+   * ID of the associated job
+   */
+  jobId: string;
+  /**
+   * Current status of the task
+   */
+  status: 'processing' | 'completed' | 'failed';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "triggers".
  */
@@ -2231,6 +2261,7 @@ export interface PayloadJob {
           | 'deliverWebhook'
           | 'initiateComposioConnection'
           | 'processDomain'
+          | 'postGithubComment'
           | 'saveExecutionResults'
           | 'researchTask';
         taskID: string;
@@ -2289,6 +2320,7 @@ export interface PayloadJob {
                 | 'deliverWebhook'
                 | 'initiateComposioConnection'
                 | 'processDomain'
+                | 'postGithubComment'
                 | 'saveExecutionResults'
                 | 'researchTask'
               )
@@ -2325,6 +2357,7 @@ export interface PayloadJob {
         | 'deliverWebhook'
         | 'initiateComposioConnection'
         | 'processDomain'
+        | 'postGithubComment'
         | 'saveExecutionResults'
         | 'researchTask'
       )
@@ -2441,6 +2474,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'integrationActions';
         value: string | IntegrationAction;
+      } | null)
+    | ({
+        relationTo: 'githubTasks';
+        value: string | GithubTask;
       } | null)
     | ({
         relationTo: 'triggers';
@@ -3066,6 +3103,18 @@ export interface IntegrationActionsSelect<T extends boolean = true> {
   version?: T;
   parameters?: T;
   response?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "githubTasks_select".
+ */
+export interface GithubTasksSelect<T extends boolean = true> {
+  issueNumber?: T;
+  repository?: T;
+  jobId?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -4256,6 +4305,26 @@ export interface TaskProcessDomain {
     cloudflareId?: string | null;
   };
   output: {};
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskPostGithubComment".
+ */
+export interface TaskPostGithubComment {
+  input: {
+    issueNumber: number;
+    repository: string;
+    researchResults:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output?: unknown;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
