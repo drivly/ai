@@ -8,6 +8,7 @@
 - [x] Create PR with changes (PR #1050)
 - [x] Generate types with `pnpm generate:types`
 - [x] Update API documentation for GithubTasks
+- [x] Add @octokit/rest dependency for GitHub API integration
 
 ## Technical Challenges and Blockers
 - [ ] CI/CD build check still running (tests are passing)
