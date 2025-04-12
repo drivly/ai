@@ -40,7 +40,6 @@ import { syncTaskToLinearTask } from './integrations/syncTaskToLinear'
 import { deleteLinearIssueTask } from './integrations/deleteLinearIssue'
 import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
 
-
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
   label: 'Generate Resource Embedding',
