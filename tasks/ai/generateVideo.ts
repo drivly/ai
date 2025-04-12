@@ -1,5 +1,5 @@
-import { parseMarkdownWithFrontmatter, createVideoFromSlides } from '../../pkgs/motion-md'
-import { VideoGenerationOptions, VideoResult } from '../../pkgs/motion-md/src/types'
+import { TaskConfig } from 'payload'
+import { parseMarkdownWithFrontmatter, createVideoFromSlides } from '../../pkgs/motion.md'
 
 type GenerateVideoInput = {
   markdown: string
@@ -11,17 +11,10 @@ type GenerateVideoInput = {
   }
 }
 
-type GenerateVideoOutput = {
-  success: boolean
-  outputPath: string
-  duration: number
-  size: number
-}
-
 /**
  * Task to generate a video from markdown content
  */
-export const generateVideo = async ({ input, req }: { input: GenerateVideoInput; req: any }): Promise<GenerateVideoOutput> => {
+export const generateVideo = async ({ input, req, payload }: any) => {
   try {
     const { globalConfig, slides } = parseMarkdownWithFrontmatter(input.markdown)
     
@@ -35,19 +28,28 @@ export const generateVideo = async ({ input, req }: { input: GenerateVideoInput;
     })
     
     return {
-      success: true,
-      outputPath: result.outputPath,
-      duration: result.duration,
-      size: result.size,
+      output: {
+        success: true,
+        outputPath: result.outputPath,
+        duration: result.duration,
+        size: result.size,
+      },
+      state: 'succeeded'
     }
   } catch (error: any) {
     console.error('Error generating video:', error)
-    throw new Error(`Failed to generate video: ${error.message || String(error)}`)
+    return {
+      output: {
+        success: false,
+        error: error.message || String(error)
+      },
+      state: 'failed'
+    }
   }
 }
 
 export const generateVideoTask = {
-  slug: 'generateVideo',
+  slug: 'executeFunction',
   label: 'Generate Video from Markdown',
   inputSchema: [
     { name: 'markdown', type: 'text', required: true },
@@ -59,6 +61,7 @@ export const generateVideoTask = {
     { name: 'outputPath', type: 'text' },
     { name: 'duration', type: 'number' },
     { name: 'size', type: 'number' },
+    { name: 'error', type: 'text' },
   ],
   handler: generateVideo,
-}
+} as TaskConfig<'executeFunction'>
