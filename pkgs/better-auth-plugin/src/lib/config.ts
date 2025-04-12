@@ -21,6 +21,7 @@ export const supportedBetterAuthPluginIds = {
   expo: 'expo',
   oAuthProxy: 'oauth-proxy',
   genericOAuth: 'generic-oauth',
+  stripe: 'stripe',
 } as const
 
 export const baseCollectionSlugs = {
@@ -43,4 +44,5 @@ export const betterAuthPluginSlugs = {
   invitations: 'invitations',
   members: 'members',
   teams: 'teams',
+  subscriptions: 'subscriptions',
 } as const

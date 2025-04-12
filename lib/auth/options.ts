@@ -4,6 +4,9 @@ import { nextCookies } from 'better-auth/next-js'
 import { admin, apiKey, multiSession, openAPI, oAuthProxy, genericOAuth, oidcProvider } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
+import { stripe } from '@better-auth/stripe'
+import stripeClient from '../stripe'
+
 // import { getCurrentURL } from '../utils/url'
 
 export const betterAuthPlugins = [
@@ -12,10 +15,12 @@ export const betterAuthPlugins = [
   multiSession(),
   openAPI(),
   nextCookies(),
+  stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
   // oAuthProxy({
   //   productionURL: process.env.NODE_ENV === 'production' ? 'https://apis.do' : 'http://localhost:3000',
   //   currentURL: getCurrentURL(),
   // }),
+
   oAuthProxy(),
   genericOAuth({
     config: [
@@ -71,7 +76,6 @@ export const betterAuthOptions: BetterAuthOptions = {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
       redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/github' : 'http://localhost:3000/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
-      
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,

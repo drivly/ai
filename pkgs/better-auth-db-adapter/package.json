@@ -41,7 +41,7 @@
     "@payloadcms/db-mongodb": "^3.33.0",
     "@payloadcms/db-postgres": "^3.33.0",
     "@types/node": "^22.10.5",
-    "better-auth": "1.2.4",
+    "better-auth": "1.2.5",
     "cross-env": "^7.0.3",
     "payload": "^3.33.0",
     "prettier": "^3.4.2",
@@ -54,7 +54,7 @@
     "eslint-config": "workspace:*"
   },
   "peerDependencies": {
-    "better-auth": "1.2.4",
+    "better-auth": "1.2.5",
     "payload": "^3.33.0"
   },
   "directories": {
