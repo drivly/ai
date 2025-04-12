@@ -35,8 +35,9 @@ import { deliverWebhookTask } from './integrations/deliverWebhook'
 import { initiateComposioConnectionTask } from './integrations/initiateComposioConnection'
 import { processDomain } from './integrations/processDomain'
 import { saveExecutionResultsTask } from './saveExecutionResults'
-import { researchTask } from './ai/researchTask' // Import the new task
+import { researchTask } from './ai/researchTask'
 import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
+import { generateVideoTask } from './ai/generateVideo'
 
 
 const generateResourceEmbeddingTask = {
@@ -120,8 +121,9 @@ export const tasks = [
   initiateComposioConnectionTask,
   processDomainTask,
   saveExecutionResultsTask,
-  researchTask, // Add the new task here
-  handleLinearWebhookTask, // Linear webhook handler
+  researchTask,
+  handleLinearWebhookTask,
+  generateVideoTask, // Add video generation task
 
 ]
 

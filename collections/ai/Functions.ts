@@ -92,7 +92,7 @@ export const Functions: CollectionConfig = {
     {
       name: 'format',
       type: 'select',
-      options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code'],
+      options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code', 'Video'],
       defaultValue: 'Object',
       // required: true,
       admin: {
