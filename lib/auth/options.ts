@@ -27,6 +27,15 @@ export const betterAuthPlugins = [
         tokenUrl: 'https://api.workos.com/sso/token',
         redirectURI: 'https://apis.do/api/auth/callback/workos',
         scopes: ['openid', 'profile', 'email']
+      },
+      {
+        providerId: 'linear',
+        clientId: process.env.LINEAR_CLIENT_ID as string,
+        clientSecret: process.env.LINEAR_CLIENT_SECRET as string,
+        authorizationUrl: 'https://linear.app/oauth/authorize',
+        tokenUrl: 'https://api.linear.app/oauth/token',
+        redirectURI: 'https://apis.do/api/auth/callback/linear',
+        scopes: ['read', 'write'] // Preliminary scopes, may need adjustment
       }
     ]
   }),

@@ -38,6 +38,7 @@ import { saveExecutionResultsTask } from './saveExecutionResults'
 import { researchTask } from './ai/researchTask'
 import { syncTaskToLinearTask } from './integrations/syncTaskToLinear'
 import { deleteLinearIssueTask } from './integrations/deleteLinearIssue'
+import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
 
 
 const generateResourceEmbeddingTask = {
@@ -123,7 +124,8 @@ export const tasks = [
   saveExecutionResultsTask,
   researchTask,
   syncTaskToLinearTask,
-  deleteLinearIssueTask
+  deleteLinearIssueTask,
+  handleLinearWebhookTask
 
 ]
 
