@@ -74,5 +74,6 @@ export const Tasks: CollectionConfig = {
       on: 'dependentOn',
     },
     { name: 'metadata', type: 'json' },
+    { name: 'linearMetadata', type: 'json' },
   ],
 }
