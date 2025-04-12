@@ -1,13 +1,20 @@
 import { Objective, KeyResult, AnalysisResult, StrategyRecommendation } from './types';
 
+let api: any;
+try {
+  api = { fetch: globalThis.fetch };
+} catch (error) {
+  api = { fetch: globalThis.fetch };
+}
+
 /**
  * Integration with external systems and the broader .do ecosystem
  */
 export class BusinessIntegrations {
-  private api: any;
+  private apiClient: any;
   
   constructor() {
-    this.api = {};
+    this.apiClient = api;
   }
   
   /**

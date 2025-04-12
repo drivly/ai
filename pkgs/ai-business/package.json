@@ -51,8 +51,6 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "apis.do": "0.0.1",
-    "functions.do": "0.0.1",
-    "workflows.do": "0.0.1"
+    "apis.do": "0.0.1"
   }
 }

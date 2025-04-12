@@ -6,13 +6,20 @@ import {
   AiBusinessOperatorConfig
 } from './types';
 
+let api: any;
+try {
+  api = { fetch: globalThis.fetch };
+} catch (error) {
+  api = { fetch: globalThis.fetch };
+}
+
 /**
  * Core class for AI-powered business operations
  */
 export class AiBusinessOperator {
   private config: AiBusinessOperatorConfig;
   private ai: any;
-  private api: any;
+  private apiClient: any;
 
   constructor(config: AiBusinessOperatorConfig = {}) {
     this.config = {
@@ -31,7 +38,7 @@ export class AiBusinessOperator {
       })
     };
     
-    this.api = {};
+    this.apiClient = api;
   }
 
   /**
