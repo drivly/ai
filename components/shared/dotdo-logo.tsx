@@ -6,8 +6,8 @@ export interface DotdoLogoProps {
 
 export const DotdoLogo = (props: DotdoLogoProps) => {
   return (
-    <div className={cn('h-7', props.className)}>
-      <svg width='268' height='148' viewBox='0 0 268 148' fill='none' xmlns='http://www.w3.org/2000/svg' className='h-full w-fit'>
+    <div className={cn('h-7 w-[50.7px]', props.className)}>
+      <svg width='268' height='148' viewBox='0 0 268 148' fill='none' xmlns='http://www.w3.org/2000/svg'>
         <path d='M181.102 0.127563L197.762 0.127563L231.083 73.8492L197.762 147.571H182.082L215.402 73.8492L181.102 0.127563Z' fill='#3063B6' />
         <path d='M162.917 147.203H147.938V0H162.917V147.203ZM158.294 147.203H120.753V134.628H158.294V147.203ZM158.294 12.5752H120.753V0H158.294V12.5752Z' fill='#34D399' />
         <path
