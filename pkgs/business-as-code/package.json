@@ -1,6 +1,6 @@
 {
   "name": "business-as-code",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Define, launch, experiment, iterate, and grow your business entirely in code.",
   "keywords": [
     "ai",
@@ -11,7 +11,7 @@
     "sdk",
     "typescript"
   ],
-  "homepage": "https://dotdo.ai",
+  "homepage": "https://business-as-code.dev",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -46,5 +46,11 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "apis.do": "0.0.1",
+    "database.do": "0.0.1",
+    "functions.do": "0.0.1",
+    "workflows.do": "0.0.1"
   }
 }

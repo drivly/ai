@@ -744,7 +744,20 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
 
-  pkgs/business-as-code: {}
+  pkgs/business-as-code:
+    dependencies:
+      apis.do:
+        specifier: 0.0.1
+        version: link:../../sdks/apis.do
+      database.do:
+        specifier: 0.0.1
+        version: link:../../sdks/database.do
+      functions.do:
+        specifier: 0.0.1
+        version: link:../../sdks/functions.do
+      workflows.do:
+        specifier: 0.0.1
+        version: link:../../sdks/workflows.do
 
   pkgs/clickable-apis:
     dependencies:
