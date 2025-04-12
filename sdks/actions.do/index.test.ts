@@ -75,7 +75,7 @@ describe('actions.do SDK', () => {
 
       const result = await actions.execute('123', { param1: 'value1' })
 
-      expect(api.post).toHaveBeenCalledWith('/api/actions/123/execute', { param1: 'value1' })
+      expect(api.post).toHaveBeenCalledWith('/v1/actions/123/execute', { param1: 'value1' })
       expect(result).toEqual(mockResult)
     })
   })

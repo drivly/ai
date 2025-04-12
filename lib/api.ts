@@ -542,6 +542,51 @@ export const generatePaginationLinks = (request: NextRequest, page: number, limi
 }
 
 /**
+ * Generates complete pagination links for API responses including first and last pages
+ * @param request - The NextRequest object
+ * @param page - Current page number
+ * @param limit - Items per page
+ * @param totalItems - Total number of items
+ * @param totalPages - Total number of pages
+ * @returns Object containing home, first, last, next, and prev links
+ */
+export const generateCompletePaginationLinks = (
+  request: NextRequest, 
+  page: number, 
+  limit: number, 
+  totalItems: number,
+  totalPages: number
+): { home: string; first: string; last?: string; next?: string; prev?: string } => {
+  const baseLinks = generatePaginationLinks(request, page, limit, totalItems)
+  const url = new URL(request.url)
+  const baseUrl = url.origin + url.pathname
+  const searchParams = url.searchParams
+  
+  const links: { 
+    home: string; 
+    first: string; 
+    last?: string; 
+    next?: string; 
+    prev?: string 
+  } = {
+    ...baseLinks,
+    first: '',  // Will be set below
+  }
+  
+  const firstParams = new URLSearchParams(searchParams)
+  firstParams.set('page', '1')
+  links.first = `${baseUrl}?${firstParams.toString()}`
+  
+  if (totalPages > 1) {
+    const lastParams = new URLSearchParams(searchParams)
+    lastParams.set('page', totalPages.toString())
+    links.last = `${baseUrl}?${lastParams.toString()}`
+  }
+  
+  return links
+}
+
+/**
  * Generates a function link for a given function name
  * @param request - The NextRequest object
  * @param functionName - Name of the function

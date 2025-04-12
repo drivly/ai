@@ -76,7 +76,7 @@ describe('searches.do SDK', () => {
 
       const result = await searches.execute('123')
 
-      expect(api.get).toHaveBeenCalledWith('/api/searches/123/execute', undefined)
+      expect(api.get).toHaveBeenCalledWith('/v1/searches/123/execute', undefined)
       expect(result).toEqual(mockResults)
     })
   })

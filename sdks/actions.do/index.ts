@@ -59,7 +59,7 @@ export const actions = {
    * @returns Action execution result
    */
   execute: async (id: string, params?: Record<string, any>): Promise<any> => {
-    return api.post<any>(`/api/actions/${id}/execute`, params)
+    return api.post<any>(`/v1/actions/${id}/execute`, params)
   },
 }
 

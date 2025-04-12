@@ -36,14 +36,14 @@ export class AgentsClient {
   }
 
   async ask<T = any>(agentId: string, question: string, context?: any): Promise<AgentResponse<T>> {
-    return this.api.post(`/api/agents/${agentId}/ask`, {
+    return this.api.post(`/v1/agents/${agentId}/ask`, {
       question,
       context,
     })
   }
 
   async execute<T = any>(agentId: string, input: Record<string, any>, options?: AgentExecutionOptions): Promise<AgentExecutionResult> {
-    return this.api.post(`/api/agents/${agentId}/execute`, {
+    return this.api.post(`/v1/agents/${agentId}/execute`, {
       input,
       options,
     })
@@ -54,7 +54,7 @@ export class AgentsClient {
       ...this.defaultConfig,
       ...agentConfig,
     }
-    return this.api.post('/api/agents', config)
+    return this.api.post('/v1/agents', config)
   }
 
   async list(params?: { limit?: number; page?: number }): Promise<any> {

@@ -92,30 +92,30 @@ export class ApiClient {
   }
 
   async list<T = any>(resource: string, queryParams?: QueryParams): Promise<ListResponse<T>> {
-    return this.get<ListResponse<T>>(`/api/${resource}`, queryParams)
+    return this.get<ListResponse<T>>(`/v1/${resource}`, queryParams)
   }
 
   async getById<T = any>(resource: string, id: string): Promise<T> {
-    return this.get<T>(`/api/${resource}/${id}`)
+    return this.get<T>(`/v1/${resource}/${id}`)
   }
 
   async create<T = any>(resource: string, data: any): Promise<T> {
-    return this.post<T>(`/api/${resource}`, data)
+    return this.post<T>(`/v1/${resource}`, data)
   }
 
   async update<T = any>(resource: string, id: string, data: any): Promise<T> {
-    return this.patch<T>(`/api/${resource}/${id}`, data)
+    return this.patch<T>(`/v1/${resource}/${id}`, data)
   }
 
   async replace<T = any>(resource: string, id: string, data: any): Promise<T> {
-    return this.put<T>(`/api/${resource}/${id}`, data)
+    return this.put<T>(`/v1/${resource}/${id}`, data)
   }
 
   async remove<T = any>(resource: string, id: string): Promise<T> {
-    return this.delete<T>(`/api/${resource}/${id}`)
+    return this.delete<T>(`/v1/${resource}/${id}`)
   }
 
   async search<T = any>(resource: string, query: string, queryParams?: QueryParams): Promise<ListResponse<T>> {
-    return this.get<ListResponse<T>>(`/api/${resource}/search`, { q: query, ...queryParams })
+    return this.get<ListResponse<T>>(`/v1/${resource}/search`, { q: query, ...queryParams })
   }
 }

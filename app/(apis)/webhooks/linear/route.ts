@@ -32,7 +32,7 @@ export const POST = API(async (request, { payload }) => {
     const data = JSON.parse(rawBody)
 
     const job = await payload.jobs.queue({ 
-      workflow: 'handleLinearWebhook', 
+      task: 'handleLinearWebhook', 
       input: { payload: data } 
     })
     
