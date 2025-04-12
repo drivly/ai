@@ -1,4 +1,4 @@
-import { bundle, renderMedia, selectComposition } from 'remotion'
+import { renderMedia, RenderMediaOnProgress, getCompositions } from '@remotion/renderer'
 import { VideoGenerationOptions, VideoResult } from '../types'
 import path from 'path'
 
@@ -20,30 +20,22 @@ export async function createVideoFromSlides({
   
   const compositionPath = require.resolve('./composition')
   
-  const bundleResult = await bundle({
-    entryPoint: compositionPath,
-    webpackOverride: (config: any) => {
-      return {
-        ...config,
-        externals: {
-          ...config.externals,
-        },
-      }
-    },
-  })
+  const compositions = await getCompositions(compositionPath)
   
-  const composition = await selectComposition({
-    serveUrl: bundleResult.serveUrl,
-    id: 'MotionComposition',
-    inputProps: {
-      slides,
-      config,
-    },
-  })
+  const composition = compositions.find(
+    (comp: { id: string }) => comp.id === 'MotionComposition'
+  )
+  
+  if (!composition) {
+    throw new Error('Could not find composition with id "MotionComposition"')
+  }
+  
+  const onProgress: RenderMediaOnProgress = ({ progress }: { progress: number }) => {
+    console.log(`Rendering progress: ${Math.floor(progress * 100)}%`)
+  }
   
   const renderResult = await renderMedia({
     composition,
-    serveUrl: bundleResult.serveUrl,
     codec: 'h264',
     outputLocation: outputPath,
     inputProps: {
@@ -51,15 +43,15 @@ export async function createVideoFromSlides({
       config,
     },
     imageFormat: 'jpeg',
-    quality: mergedOptions.quality === 'production' ? 100 : 50,
-    fps: config.fps,
-    dumpBrowserLogs: true,
+    jpegQuality: mergedOptions.quality === 'production' ? 100 : 50,
+    onProgress,
+    serveUrl: 'http://localhost:3000',
   })
   
   return {
     success: true,
     outputPath,
-    duration: composition.durationInFrames / config.fps,
-    size: renderResult.sizeInBytes,
+    duration: composition.durationInFrames / (config.fps || 30),
+    size: 0, // Size information not available in Remotion v4 API
   }
 }
