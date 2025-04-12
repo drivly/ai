@@ -1,6 +1,7 @@
 import HeroSection from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { Metadata } from 'next'
+import Link from 'next/link'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -85,19 +86,19 @@ async function BusinessAsCodePage() {
           <div className="rounded-lg border border-gray-800 p-6 transition-all hover:border-gray-700">
             <h3 className="mb-3 text-xl font-medium">Workflows.do</h3>
             <p className="text-gray-400">Define business processes as clean & simple code. Orchestrate multiple functions to accomplish complex tasks.</p>
-            <a href="/docs/workflows" className="mt-4 inline-block text-sm font-medium text-blue-500 hover:text-blue-400">Learn more →</a>
+            <Link href="/docs/workflows" className="mt-4 inline-block text-sm font-medium text-blue-500 hover:text-blue-400">Learn more →</Link>
           </div>
           
           <div className="rounded-lg border border-gray-800 p-6 transition-all hover:border-gray-700">
             <h3 className="mb-3 text-xl font-medium">Functions.do</h3>
             <p className="text-gray-400">Strongly-typed AI functions for specific tasks. Execute code, use AI to generate structured data, or assign tasks.</p>
-            <a href="/docs/functions" className="mt-4 inline-block text-sm font-medium text-blue-500 hover:text-blue-400">Learn more →</a>
+            <Link href="/docs/functions" className="mt-4 inline-block text-sm font-medium text-blue-500 hover:text-blue-400">Learn more →</Link>
           </div>
           
           <div className="rounded-lg border border-gray-800 p-6 transition-all hover:border-gray-700">
             <h3 className="mb-3 text-xl font-medium">Agents.do</h3>
             <p className="text-gray-400">Autonomous digital workers that combine functions and workflows. Driven by explicit goals and measured against Key Results.</p>
-            <a href="/docs/agents" className="mt-4 inline-block text-sm font-medium text-blue-500 hover:text-blue-400">Learn more →</a>
+            <Link href="/docs/agents" className="mt-4 inline-block text-sm font-medium text-blue-500 hover:text-blue-400">Learn more →</Link>
           </div>
         </div>
       </section>
