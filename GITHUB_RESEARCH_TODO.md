@@ -7,9 +7,11 @@
 - [x] Register the new task in tasks/index.ts
 - [x] Create PR with changes (PR #1050)
 - [x] Generate types with `pnpm generate:types`
+- [x] Update API documentation for GithubTasks
 
 ## Technical Challenges and Blockers
-- [ ] CI/CD build check still running
+- [ ] CI/CD build check still running (tests are passing)
+- [ ] Vercel deployment still in progress
 
 ## Verification Requirements
 - [x] CI/CD tests pass
