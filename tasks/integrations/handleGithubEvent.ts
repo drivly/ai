@@ -14,8 +14,51 @@ export const handleGithubEvent = {
     if (event.action === 'labeled') {
       console.log('Label added:', event.label?.name)
       if (event.label?.name === 'research') {
-        // TODO: Kick off a research workflow using Perplexity Deep Research
         console.log('Starting research workflow')
+        const issue = event.issue
+        
+        const researchJob = await payload.jobs.queue({
+          task: 'executeFunction',
+          input: {
+            functionName: 'research',
+            args: { 
+              issue: {
+                number: issue.number,
+                title: issue.title,
+                body: issue.body || '',
+                url: issue.html_url,
+                repo: event.repository?.full_name
+              }
+            },
+            schema: {
+              summary: 'string',
+              findings: 'string[]',
+              sources: 'string[]',
+              confidence: 'number'
+            },
+            settings: {
+              model: 'perplexity/sonar-deep-research'
+            },
+            type: 'Object',
+            callback: {
+              task: 'postGithubComment',
+              input: {
+                issueNumber: issue.number,
+                repository: event.repository?.full_name
+              }
+            }
+          }
+        })
+        
+        await payload.create({ 
+          collection: 'githubTasks', 
+          data: { 
+            issueNumber: issue.number,
+            repository: event.repository?.full_name,
+            jobId: researchJob.id,
+            status: 'processing' 
+          } 
+        })
       } else if (event.label?.name === 'devin') {
         console.log('Starting Devin workflow')
         await createDevinSession(event)
