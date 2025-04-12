@@ -113,6 +113,9 @@ importers:
       better-auth:
         specifier: 1.2.4
         version: 1.2.4(typescript@5.7.3)
+      business-as-code:
+        specifier: 0.0.2
+        version: link:pkgs/business-as-code
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -744,7 +747,20 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
 
-  pkgs/business-as-code: {}
+  pkgs/business-as-code:
+    dependencies:
+      apis.do:
+        specifier: 0.0.1
+        version: link:../../sdks/apis.do
+      database.do:
+        specifier: 0.0.1
+        version: link:../../sdks/database.do
+      functions.do:
+        specifier: 0.0.1
+        version: link:../../sdks/functions.do
+      workflows.do:
+        specifier: 0.0.1
+        version: link:../../sdks/workflows.do
 
   pkgs/clickable-apis:
     dependencies:
