@@ -18,7 +18,7 @@ export async function createVideoFromSlides({
   const mergedOptions = { ...defaultOptions, ...options }
   
   const bundleResult = await bundle({
-    entryPoint: require.resolve('./composition'),
+    entryPoint: require.resolve('../video/composition'),
     webpackOverride: (config: any) => {
       return {
         ...config,
