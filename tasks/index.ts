@@ -36,6 +36,7 @@ import { initiateComposioConnectionTask } from './integrations/initiateComposioC
 import { processDomain } from './integrations/processDomain'
 import { saveExecutionResultsTask } from './saveExecutionResults'
 import { researchTask } from './ai/researchTask' // Import the new task
+import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
 
 
 const generateResourceEmbeddingTask = {
@@ -120,6 +121,7 @@ export const tasks = [
   processDomainTask,
   saveExecutionResultsTask,
   researchTask, // Add the new task here
+  handleLinearWebhookTask, // Linear webhook handler
 
 ]
 
