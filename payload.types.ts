@@ -256,6 +256,8 @@ export interface Config {
       processDomain: TaskProcessDomain;
       saveExecutionResults: TaskSaveExecutionResults;
       researchTask: TaskResearchTask;
+      syncTaskToLinear: TaskSyncTaskToLinear;
+      deleteLinearIssue: TaskDeleteLinearIssue;
       inline: {
         input: unknown;
         output: unknown;
@@ -1292,6 +1294,15 @@ export interface Task {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1380,6 +1391,7 @@ export interface Integration {
   tenant?: (string | null) | Project;
   id: string;
   name?: string | null;
+  provider?: ('composio' | 'linear') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2232,7 +2244,9 @@ export interface PayloadJob {
           | 'initiateComposioConnection'
           | 'processDomain'
           | 'saveExecutionResults'
-          | 'researchTask';
+          | 'researchTask'
+          | 'syncTaskToLinear'
+          | 'deleteLinearIssue';
         taskID: string;
         input?:
           | {
@@ -2291,6 +2305,8 @@ export interface PayloadJob {
                 | 'processDomain'
                 | 'saveExecutionResults'
                 | 'researchTask'
+                | 'syncTaskToLinear'
+                | 'deleteLinearIssue'
               )
             | null;
           taskID?: string | null;
@@ -2327,6 +2343,8 @@ export interface PayloadJob {
         | 'processDomain'
         | 'saveExecutionResults'
         | 'researchTask'
+        | 'syncTaskToLinear'
+        | 'deleteLinearIssue'
       )
     | null;
   queue?: string | null;
@@ -2872,6 +2890,7 @@ export interface TasksSelect<T extends boolean = true> {
   subtasks?: T;
   dependentOn?: T;
   dependents?: T;
+  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3018,6 +3037,7 @@ export interface IntegrationsSelect<T extends boolean = true> {
   tenant?: T;
   id?: T;
   name?: T;
+  provider?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -4393,6 +4413,68 @@ export interface TaskResearchTask {
         }[]
       | null;
     confidence?: number | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSyncTaskToLinear".
+ */
+export interface TaskSyncTaskToLinear {
+  input: {
+    data:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    originalDoc?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    status?: string | null;
+    message?: string | null;
+    linearIssueId?: string | null;
+    linearIssueUrl?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDeleteLinearIssue".
+ */
+export interface TaskDeleteLinearIssue {
+  input: {
+    data:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    originalDoc?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    status?: string | null;
+    message?: string | null;
   };
 }
 /**
