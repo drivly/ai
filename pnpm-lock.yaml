@@ -741,17 +741,7 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
 
-  pkgs/business-as-code:
-    devDependencies:
-      eslint-config:
-        specifier: workspace:*
-        version: link:../eslint-config
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
-      typescript:
-        specifier: ^5.0.0
-        version: 5.8.3
+  pkgs/business-as-code: {}
 
   pkgs/clickable-apis:
     dependencies:
