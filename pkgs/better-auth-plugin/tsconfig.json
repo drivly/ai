@@ -1,22 +1,31 @@
 {
-  "extends": "tsconfig/src/nextjs.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
-    "moduleResolution": "bundler",
-    "module": "esnext",
-    "resolveJsonModule": true,
-    "emitDeclarationOnly": false,
-    "composite": false,
-    "incremental": false,
-    "declaration": true,
+    "composite": true,
     "noEmit": false,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "sourceMap": true,
+    "strict": false,
+    "isolatedModules": true,
+    "target": "ES2022",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "exclude": ["**/dist", "node_modules"],
-  "references": [],
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "src/**/*.json"],
+  "exclude": ["dist", "build", "node_modules"]
 }

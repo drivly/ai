@@ -214,6 +214,7 @@ export function SignUp({
               const user = await authClient.signUp.email({
                 email,
                 password,
+                // @ts-ignore
                 role: admin ? 'admin' : 'user',
                 name: `${firstName} ${lastName}`,
                 callbackURL: admin ? '/admin' : '/dashboard',
