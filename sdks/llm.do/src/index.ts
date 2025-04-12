@@ -63,7 +63,7 @@ export class LLMClient {
   }
 
   async chat(messages: ChatMessage[], options: CompletionOptions = {}): Promise<ChatCompletionResponse> {
-    return this.api.post('/api/llm/chat', {
+    return this.api.post('/v1/llm/chat', {
       messages,
       ...options,
     })
@@ -76,7 +76,7 @@ export class LLMClient {
       ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
     }
 
-    const response = await fetch(`${apiUrl}/api/llm/completions/stream`, {
+    const response = await fetch(`${apiUrl}/v1/llm/completions/stream`, {
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -99,7 +99,7 @@ export class LLMClient {
       ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
     }
 
-    const response = await fetch(`${apiUrl}/api/llm/chat/stream`, {
+    const response = await fetch(`${apiUrl}/v1/llm/chat/stream`, {
       method: 'POST',
       headers,
       body: JSON.stringify({

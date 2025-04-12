@@ -68,7 +68,7 @@ export class FunctionsClient {
     user?: string
     agent?: string
   }): Promise<any> {
-    return this.api.post('/api/functions', functionDefinition)
+    return this.api.post('/v1/functions', functionDefinition)
   }
 
   async list(params?: { limit?: number; page?: number }): Promise<any> {

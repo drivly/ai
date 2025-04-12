@@ -85,7 +85,7 @@ describe('FunctionsClient', () => {
 
       await client.create(functionDefinition)
 
-      expect(mockPost).toHaveBeenCalledWith('/api/functions', functionDefinition)
+      expect(mockPost).toHaveBeenCalledWith('/v1/functions', functionDefinition)
     })
   })
 

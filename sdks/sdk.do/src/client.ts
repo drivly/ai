@@ -111,19 +111,19 @@ class ApisAPI {
   }
 
   async getById<T>(resource: string, id: string): Promise<T> {
-    return this.get(`/api/${resource}/${id}`)
+    return this.get(`/v1/${resource}/${id}`)
   }
 
   async create<T>(resource: string, data: any): Promise<T> {
-    return this.post(`/api/${resource}`, data)
+    return this.post(`/v1/${resource}`, data)
   }
 
   async update<T>(resource: string, id: string, data: any): Promise<T> {
-    return this.put(`/api/${resource}/${id}`, data)
+    return this.put(`/v1/${resource}/${id}`, data)
   }
 
   async remove<T>(resource: string, id: string): Promise<T> {
-    return this.delete(`/api/${resource}/${id}`)
+    return this.delete(`/v1/${resource}/${id}`)
   }
 }
 import type { ErrorResponse, ListResponse, QueryParams, Package } from '../types.js'
@@ -180,7 +180,7 @@ export class API {
    * Publish a package to NPM
    */
   async publishPackage(id: string, options: { tag?: string } = {}): Promise<any> {
-    return this.api.post(`/api/packages/${id}/publish`, options)
+    return this.api.post(`/v1/packages/${id}/publish`, options)
   }
 
   /**
@@ -208,20 +208,20 @@ export class API {
    * Add a collection to a package
    */
   async addCollectionToPackage(packageId: string, collection: string): Promise<any> {
-    return this.api.post(`/api/packages/${packageId}/collections`, { collection })
+    return this.api.post(`/v1/packages/${packageId}/collections`, { collection })
   }
 
   /**
    * Remove a collection from a package
    */
   async removeCollectionFromPackage(packageId: string, collection: string): Promise<any> {
-    return this.api.delete(`/api/packages/${packageId}/collections/${collection}`)
+    return this.api.delete(`/v1/packages/${packageId}/collections/${collection}`)
   }
 
   /**
    * Update package.json for a package
    */
   async updatePackageJson(packageId: string, packageJson: any): Promise<any> {
-    return this.api.patch(`/api/packages/${packageId}`, { package: packageJson })
+    return this.api.patch(`/v1/packages/${packageId}`, { package: packageJson })
   }
 }

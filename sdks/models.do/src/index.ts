@@ -58,7 +58,7 @@ export class ModelsClient {
    * Get details about a specific model
    */
   async getModel(modelIdentifier: string): Promise<{ model: ModelDetails }> {
-    return this.api.get(`/api/models/${modelIdentifier}`)
+    return this.api.get(`/v1/models/${modelIdentifier}`)
   }
 
   /**
@@ -88,7 +88,7 @@ export class ModelsClient {
    * Get all available providers
    */
   async getProviders(): Promise<string[]> {
-    const result = await this.api.get<{ links?: { providers?: Record<string, string> } }>('/api/models')
+    const result = await this.api.get<{ links?: { providers?: Record<string, string> } }>('/v1/models')
     return Object.keys(result?.links?.providers || {}).map((key) => key.split(' ')[0]) // Remove the count in parentheses
   }
 
@@ -96,7 +96,7 @@ export class ModelsClient {
    * Get all available authors
    */
   async getAuthors(): Promise<string[]> {
-    const result = await this.api.get<{ links?: { authors?: Record<string, string> } }>('/api/models')
+    const result = await this.api.get<{ links?: { authors?: Record<string, string> } }>('/v1/models')
     return Object.keys(result?.links?.authors || {}).map((key) => key.split(' ')[0]) // Remove the count in parentheses
   }
 }
