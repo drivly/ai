@@ -1,7 +1,7 @@
 import { 
-  Business, 
+  BusinessInterface, 
   Objective, 
-  Experiment, 
+  ExperimentInterface, 
   Workflow, 
   Agent, 
   BusinessModel 
@@ -11,19 +11,19 @@ import {
  * Creates a new Business instance
  */
 export function Business(
-  config: Omit<Business, 'execute' | 'launch' | 'addExperiment'>
-): Business {
-  const experiments: Experiment[] = [];
+  config: Omit<BusinessInterface, 'execute' | 'launch' | 'addExperiment'>
+): BusinessInterface {
+  const experiments: ExperimentInterface[] = [];
   const state = {
     isLaunched: false,
     isExecuting: false,
     metrics: {} as Record<string, number>,
   };
 
-  const business: Business = {
+  const business: BusinessInterface = {
     ...config,
     
-    addExperiment(experiment: Experiment): void {
+    addExperiment(experiment: ExperimentInterface): void {
       experiments.push(experiment);
     },
     

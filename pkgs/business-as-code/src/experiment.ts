@@ -1,5 +1,5 @@
 import { 
-  Experiment, 
+  ExperimentInterface, 
   ExperimentVariant, 
   ExperimentResults, 
   Objective, 
@@ -13,8 +13,8 @@ import {
  * Creates a new Experiment instance
  */
 export function Experiment(
-  config: Omit<Experiment, 'start' | 'stop' | 'analyze'>
-): Experiment {
+  config: Omit<ExperimentInterface, 'start' | 'stop' | 'analyze'>
+): ExperimentInterface {
   const state = {
     isRunning: false,
     startTime: null as Date | null,
@@ -27,7 +27,7 @@ export function Experiment(
   
   for (const variantKey in config.variants) {
     state.variantData[variantKey] = {
-      metrics: config.metrics.reduce((acc, metric) => {
+      metrics: config.metrics.reduce((acc: Record<string, number[]>, metric: string) => {
         acc[metric] = [];
         return acc;
       }, {} as Record<string, number[]>),
@@ -35,7 +35,7 @@ export function Experiment(
     };
   }
   
-  const experiment: Experiment = {
+  const experiment: ExperimentInterface = {
     ...config,
     
     async start(): Promise<void> {

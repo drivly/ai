@@ -1,4 +1,4 @@
-export interface Business {
+export interface BusinessInterface {
   name: string;
   vision: string;
   objectives: Record<string, Objective>;
@@ -8,7 +8,7 @@ export interface Business {
   
   execute(): Promise<void>;
   launch(): Promise<void>;
-  addExperiment(experiment: Experiment): void;
+  addExperiment(experiment: ExperimentInterface): void;
 }
 
 export interface Objective {
@@ -24,7 +24,7 @@ export interface KeyResult {
   dueDate?: Date;
 }
 
-export interface Experiment {
+export interface ExperimentInterface {
   name: string;
   hypothesis: string;
   variants: Record<string, ExperimentVariant>;

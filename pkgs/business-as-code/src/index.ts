@@ -2,10 +2,10 @@ export { Business } from './business';
 export { Experiment } from './experiment';
 
 export type {
-  Business,
+  BusinessInterface,
   Objective,
   KeyResult,
-  Experiment,
+  ExperimentInterface,
   ExperimentVariant,
   ExperimentResults,
   VariantPerformance,
