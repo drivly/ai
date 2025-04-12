@@ -1,0 +1,58 @@
+{
+  "name": "business-as-code",
+  "version": "0.0.1",
+  "description": "Define, launch, experiment, iterate, and grow your business entirely in code.",
+  "keywords": [
+    "ai",
+    "business",
+    "strategy",
+    "operations",
+    "automation",
+    "sdk",
+    "typescript"
+  ],
+  "homepage": "https://dotdo.ai",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "pkgs/business-as-code"
+  },
+  "author": "Drivly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "apis.do": "workspace:*",
+    "functions.do": "workspace:*",
+    "workflows.do": "workspace:*",
+    "agents.do": "workspace:*",
+    "database.do": "workspace:*"
+  },
+  "devDependencies": {
+    "eslint-config": "workspace:*",
+    "typescript": "^5.0.0",
+    "tsconfig": "workspace:*"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
