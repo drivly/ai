@@ -888,6 +888,64 @@ importers:
         specifier: ^5.7.3
         version: 5.8.3
 
+  pkgs/motion-md:
+    dependencies:
+      commander:
+        specifier: ^11.1.0
+        version: 11.1.0
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
+      mdast-util-from-markdown:
+        specifier: ^2.0.0
+        version: 2.0.2
+      mdast-util-to-string:
+        specifier: ^4.0.0
+        version: 4.0.0
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remark-stringify:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remotion:
+        specifier: ^4.0.0
+        version: 4.0.286(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      unified:
+        specifier: ^11.0.4
+        version: 11.0.5
+      zod:
+        specifier: ^3.22.4
+        version: 3.24.2
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.17.30
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.20
+      '@types/react-dom':
+        specifier: ^18.2.0
+        version: 18.3.6(@types/react@18.3.20)
+      eslint:
+        specifier: ^8.56.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.1
+        version: 8.4.0(@swc/core@1.11.20(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.7.1)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.8.3
+      vitest:
+        specifier: ^1.0.0
+        version: 1.6.1(@types/node@20.17.30)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
+
   pkgs/payload-agent:
     dependencies:
       '@drivly/ui':
@@ -16475,6 +16533,12 @@ packages:
   remark@15.0.1:
     resolution: {integrity: sha512-Eht5w30ruCXgFmxVUSlNWQ9iiimq07URKeFS3hNc8cUWy1llX4KDWfyEDZRycMc+znsN9Ux5/tJ/BFdgdOwA3A==}
 
+  remotion@4.0.286:
+    resolution: {integrity: sha512-Zwh8ZQ93X1QetpwM78pcavyBOr8srg1v2enWU4sKlGNikvAgOOyvFK8qtZGtjkFOkpb7oRsmmAikUxjpXSTGgA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
   remove-accents@0.5.0:
     resolution: {integrity: sha512-8g3/Otx1eJaVD12e31UbJj1YzdtVvzH85HV7t+9MJYk/u3XmkOUJ5Ys9wQrf9PCPK8+xn4ymzqYCiZl6QWKn+A==}
 
@@ -26568,7 +26632,7 @@ snapshots:
 
   '@types/hoist-non-react-statics@3.3.6':
     dependencies:
-      '@types/react': 19.0.10
+      '@types/react': 18.3.20
       hoist-non-react-statics: 3.3.2
 
   '@types/html-minifier-terser@6.1.0': {}
@@ -26710,7 +26774,7 @@ snapshots:
   '@types/react-redux@7.1.34':
     dependencies:
       '@types/hoist-non-react-statics': 3.3.6
-      '@types/react': 19.0.10
+      '@types/react': 18.3.20
       hoist-non-react-statics: 3.3.2
       redux: 4.2.1
 
@@ -37567,6 +37631,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  remotion@4.0.286(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
   remove-accents@0.5.0: {}
 
   remove-trailing-separator@1.1.0: {}
@@ -39899,6 +39968,24 @@ snapshots:
       - supports-color
       - terser
 
+  vite-node@1.6.1(@types/node@20.17.30)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.4.0
+      pathe: 1.1.2
+      picocolors: 1.1.1
+      vite: 5.4.18(@types/node@20.17.30)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   vite-node@1.6.1(@types/node@22.14.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
     dependencies:
       cac: 6.7.14
@@ -39976,6 +40063,18 @@ snapshots:
       - terser
       - tsx
       - yaml
+
+  vite@5.4.18(@types/node@20.17.30)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
+    dependencies:
+      esbuild: 0.21.5
+      postcss: 8.5.3
+      rollup: 4.39.0
+    optionalDependencies:
+      '@types/node': 20.17.30
+      fsevents: 2.3.3
+      lightningcss: 1.29.2
+      sass: 1.77.4
+      terser: 5.39.0
 
   vite@5.4.18(@types/node@22.14.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
     dependencies:
@@ -40060,6 +40159,41 @@ snapshots:
     optionalDependencies:
       jsdom: 26.0.0
       playwright: 1.51.1
+    transitivePeerDependencies:
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
+  vitest@1.6.1(@types/node@20.17.30)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
+    dependencies:
+      '@vitest/expect': 1.6.1
+      '@vitest/runner': 1.6.1
+      '@vitest/snapshot': 1.6.1
+      '@vitest/spy': 1.6.1
+      '@vitest/utils': 1.6.1
+      acorn-walk: 8.3.4
+      chai: 4.5.0
+      debug: 4.4.0
+      execa: 8.0.1
+      local-pkg: 0.5.1
+      magic-string: 0.30.17
+      pathe: 1.1.2
+      picocolors: 1.1.1
+      std-env: 3.9.0
+      strip-literal: 2.1.1
+      tinybench: 2.9.0
+      tinypool: 0.8.4
+      vite: 5.4.18(@types/node@20.17.30)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
+      vite-node: 1.6.1(@types/node@20.17.30)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 20.17.30
+      jsdom: 26.0.0
     transitivePeerDependencies:
       - less
       - lightningcss
