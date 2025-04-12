@@ -258,6 +258,7 @@ export interface Config {
       researchTask: TaskResearchTask;
       syncTaskToLinear: TaskSyncTaskToLinear;
       deleteLinearIssue: TaskDeleteLinearIssue;
+      handleLinearWebhook: TaskHandleLinearWebhook;
       inline: {
         input: unknown;
         output: unknown;
@@ -1303,6 +1304,15 @@ export interface Task {
     | number
     | boolean
     | null;
+  linearMetadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2246,7 +2256,8 @@ export interface PayloadJob {
           | 'saveExecutionResults'
           | 'researchTask'
           | 'syncTaskToLinear'
-          | 'deleteLinearIssue';
+          | 'deleteLinearIssue'
+          | 'handleLinearWebhook';
         taskID: string;
         input?:
           | {
@@ -2307,6 +2318,7 @@ export interface PayloadJob {
                 | 'researchTask'
                 | 'syncTaskToLinear'
                 | 'deleteLinearIssue'
+                | 'handleLinearWebhook'
               )
             | null;
           taskID?: string | null;
@@ -2345,6 +2357,7 @@ export interface PayloadJob {
         | 'researchTask'
         | 'syncTaskToLinear'
         | 'deleteLinearIssue'
+        | 'handleLinearWebhook'
       )
     | null;
   queue?: string | null;
@@ -2891,6 +2904,7 @@ export interface TasksSelect<T extends boolean = true> {
   dependentOn?: T;
   dependents?: T;
   metadata?: T;
+  linearMetadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3723,6 +3737,7 @@ export interface TaskExecuteFunction {
       | boolean
       | null;
     reasoning?: string | null;
+    generationHash?: string | null;
   };
 }
 /**
@@ -4370,6 +4385,7 @@ export interface TaskSaveExecutionResults {
       | number
       | boolean
       | null;
+    generationHash?: string | null;
   };
   output: {
     success?: string | null;
@@ -4476,6 +4492,24 @@ export interface TaskDeleteLinearIssue {
     status?: string | null;
     message?: string | null;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskHandleLinearWebhook".
+ */
+export interface TaskHandleLinearWebhook {
+  input: {
+    payload:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output?: unknown;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
