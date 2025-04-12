@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 
 // Without the API wrapper
-export const GET = async (request: Request) => {
+export const GET = async (request: NextRequest) => {
   const payload = await getPayloadWithAuth()
   const hostname = request.headers.get('host') || ''
   const callbackUrl = hostname.endsWith('.do') && !hostname.includes('apis.do') ? `/admin/collections/${hostname.replace('.do', '')}` : '/admin'
