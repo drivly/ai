@@ -40,6 +40,7 @@ import { researchTask } from './ai/researchTask'
 import { syncTaskToLinearTask } from './integrations/syncTaskToLinear'
 import { deleteLinearIssueTask } from './integrations/deleteLinearIssue'
 import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
+import { generateVideoTask } from './ai/generateVideo'
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
@@ -124,6 +125,8 @@ export const tasks = [
   postGithubComment,
   saveExecutionResultsTask,
   researchTask,
+  handleLinearWebhookTask,
+  generateVideoTask, // Add vid
   syncTaskToLinearTask,
   deleteLinearIssueTask,
   handleLinearWebhookTask

@@ -918,6 +918,125 @@ importers:
         specifier: ^5.7.3
         version: 5.8.3
 
+  pkgs/motion-md:
+    dependencies:
+      commander:
+        specifier: ^11.1.0
+        version: 11.1.0
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
+      mdast-util-from-markdown:
+        specifier: ^2.0.0
+        version: 2.0.2
+      mdast-util-to-string:
+        specifier: ^4.0.0
+        version: 4.0.0
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remark-stringify:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remotion:
+        specifier: ^4.0.0
+        version: 4.0.286(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      unified:
+        specifier: ^11.0.4
+        version: 11.0.5
+      zod:
+        specifier: ^3.22.4
+        version: 3.24.2
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.17.30
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.20
+      '@types/react-dom':
+        specifier: ^18.2.0
+        version: 18.3.6(@types/react@18.3.20)
+      eslint:
+        specifier: ^8.56.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.1
+        version: 8.4.0(@swc/core@1.11.20(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.7.1)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.8.3
+      vitest:
+        specifier: ^1.0.0
+        version: 1.6.1(@types/node@20.17.30)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
+
+  pkgs/motion.md:
+    dependencies:
+      '@remotion/renderer':
+        specifier: ^4.0.286
+        version: 4.0.286(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      commander:
+        specifier: ^11.1.0
+        version: 11.1.0
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
+      mdast-util-from-markdown:
+        specifier: ^2.0.0
+        version: 2.0.2
+      mdast-util-to-string:
+        specifier: ^4.0.0
+        version: 4.0.0
+      react:
+        specifier: ^18.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: ^18.0.0
+        version: 19.0.0(react@19.0.0)
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remark-stringify:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remotion:
+        specifier: ^4.0.0
+        version: 4.0.286(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      unified:
+        specifier: ^11.0.4
+        version: 11.0.5
+      zod:
+        specifier: ^3.22.4
+        version: 3.24.2
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.17.30
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.20
+      '@types/react-dom':
+        specifier: ^18.2.0
+        version: 18.3.6(@types/react@18.3.20)
+      eslint:
+        specifier: ^8.56.0
+        version: 8.57.1
+      tsup:
+        specifier: ^8.0.1
+        version: 8.4.0(@swc/core@1.11.20(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.7.1)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.8.3
+      vitest:
+        specifier: ^1.0.0
+        version: 1.6.1(@types/node@20.17.30)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
+
   pkgs/payload-agent:
     dependencies:
       '@drivly/ui':
@@ -6332,6 +6451,50 @@ packages:
     peerDependencies:
       react: '>=18.2.0'
 
+  '@remotion/compositor-darwin-arm64@4.0.286':
+    resolution: {integrity: sha512-0v1crc+65Yo2qRqRS8XeiISkAs+fyhoXQtBe0r+yDtJQMLhTHGkvwGVAFJpeOBo2WpfNkhpKqN8wB/1pPB/llw==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@remotion/compositor-darwin-x64@4.0.286':
+    resolution: {integrity: sha512-1OoApxncp/yQ+0IlyDE0QnCEQY5phruYbvC7B3O7GQvx/cwZyAPUq8Vix3HQEFKDzu0yBsg9+SbnG+hs3AI9VQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@remotion/compositor-linux-arm64-gnu@4.0.286':
+    resolution: {integrity: sha512-hJNE2d7p4a0o+W8hmw1PM0ShXYnmiPnHvfVAUplKbP2HR9vvHQCQiTolucUt2A7Abqp9Nzci9nSid3+EJAPWhw==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@remotion/compositor-linux-arm64-musl@4.0.286':
+    resolution: {integrity: sha512-ix0Aa9wB95Rqr5z+HfmdjWctv4OfALs2NJgGZvdGUInjvZJiyvrachkF/ek15zBsinx6PDiJC8dhwfI/+ZhG8g==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@remotion/compositor-linux-x64-gnu@4.0.286':
+    resolution: {integrity: sha512-RXGgst6AfDQya4ym3chpKN42AedNt42yKxN59wvE5VMtKNfkgtDGvSj64NUcGNidJtduPei2/poZgtOcOAfLSQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@remotion/compositor-linux-x64-musl@4.0.286':
+    resolution: {integrity: sha512-PljI4b8YBGiR7lh2oyi5AwhHgXGHb0zt2ABbQsI0iQGyUyt9yYd0eUo6W+2rEZHVWZFLNZpovQhNIm2tEdABxQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@remotion/compositor-win32-x64-msvc@4.0.286':
+    resolution: {integrity: sha512-PsR5fyZhu9JOqTsbVb4nyi8/7aa7vDFAdo0LgRXl/G26ioEyF03pWQdWQjdbwC1hRmXy72AtVQfU1WCkAEfGPg==}
+    cpu: [x64]
+    os: [win32]
+
+  '@remotion/renderer@4.0.286':
+    resolution: {integrity: sha512-VtKPjYofNDLEIQimVUppzD18Q48eu1zrG9nMnd9Xy4GEO6FKenGkt9bkH8N+X6K7S+KSJiVy7nTR5S6qr8Xgjg==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+
+  '@remotion/streaming@4.0.286':
+    resolution: {integrity: sha512-os52J+Ci1Twrn1a+LNqPkz3TuAV/qxEHmGsGuhdRfHDJ+fnZws1VebDm+Tdlk8BGdvCbL/h0NUeEdpBcMOWrsA==}
+
   '@replit/codemirror-css-color-picker@6.3.0':
     resolution: {integrity: sha512-19biDANghUm7Fz7L1SNMIhK48tagaWuCOHj4oPPxc7hxPGkTVY2lU/jVZ8tsbTKQPVG7BO2CBDzs7CBwb20t4A==}
     peerDependencies:
@@ -8255,6 +8418,9 @@ packages:
 
   '@types/yargs@17.0.33':
     resolution: {integrity: sha512-WpxBCKWPLr4xSsHgz511rFJAM+wS28w2zEO1QDNY5zM/S8ok70NNfztH0xwhqKyaK0OHCbN98LDAZuy1ctxDkA==}
+
+  '@types/yauzl@2.10.3':
+    resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
 
   '@typescript-eslint/eslint-plugin@6.21.0':
     resolution: {integrity: sha512-oy9+hTPCUFpngkEZUSzbf9MxI65wbKFoQYsgPdILTfbUldp5ovUuphZVe4i30emU9M/kP+T64Di0mxl7dSw3MA==}
@@ -11458,6 +11624,11 @@ packages:
 
   extract-zip@1.7.0:
     resolution: {integrity: sha512-xoh5G1W/PB0/27lXgMQyIhP5DSY/LhoCsOyZgb+6iMmRtCwVBo55uKaMoEYrDCKQhWvqEip5ZPKAc6eFNyf/MA==}
+    hasBin: true
+
+  extract-zip@2.0.1:
+    resolution: {integrity: sha512-GDhU9ntwuKyGXdZBUgTIe+vXnWj0fppUEtMDL0+idd5Sta8TGpHssn/eusA9mrPr9qNDym6SxAYZjNvCn/9RBg==}
+    engines: {node: '>= 10.17.0'}
     hasBin: true
 
   fast-base64-decode@1.0.0:
@@ -16571,6 +16742,12 @@ packages:
 
   remark@15.0.1:
     resolution: {integrity: sha512-Eht5w30ruCXgFmxVUSlNWQ9iiimq07URKeFS3hNc8cUWy1llX4KDWfyEDZRycMc+znsN9Ux5/tJ/BFdgdOwA3A==}
+
+  remotion@4.0.286:
+    resolution: {integrity: sha512-Zwh8ZQ93X1QetpwM78pcavyBOr8srg1v2enWU4sKlGNikvAgOOyvFK8qtZGtjkFOkpb7oRsmmAikUxjpXSTGgA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   remove-accents@0.5.0:
     resolution: {integrity: sha512-8g3/Otx1eJaVD12e31UbJj1YzdtVvzH85HV7t+9MJYk/u3XmkOUJ5Ys9wQrf9PCPK8+xn4ymzqYCiZl6QWKn+A==}
@@ -24289,6 +24466,52 @@ snapshots:
     dependencies:
       react: 19.0.0
 
+  '@remotion/compositor-darwin-arm64@4.0.286':
+    optional: true
+
+  '@remotion/compositor-darwin-x64@4.0.286':
+    optional: true
+
+  '@remotion/compositor-linux-arm64-gnu@4.0.286':
+    optional: true
+
+  '@remotion/compositor-linux-arm64-musl@4.0.286':
+    optional: true
+
+  '@remotion/compositor-linux-x64-gnu@4.0.286':
+    optional: true
+
+  '@remotion/compositor-linux-x64-musl@4.0.286':
+    optional: true
+
+  '@remotion/compositor-win32-x64-msvc@4.0.286':
+    optional: true
+
+  '@remotion/renderer@4.0.286(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@remotion/streaming': 4.0.286
+      execa: 5.1.1
+      extract-zip: 2.0.1
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+      remotion: 4.0.286(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      source-map: 0.8.0-beta.0
+      ws: 8.17.1
+    optionalDependencies:
+      '@remotion/compositor-darwin-arm64': 4.0.286
+      '@remotion/compositor-darwin-x64': 4.0.286
+      '@remotion/compositor-linux-arm64-gnu': 4.0.286
+      '@remotion/compositor-linux-arm64-musl': 4.0.286
+      '@remotion/compositor-linux-x64-gnu': 4.0.286
+      '@remotion/compositor-linux-x64-musl': 4.0.286
+      '@remotion/compositor-win32-x64-msvc': 4.0.286
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
+  '@remotion/streaming@4.0.286': {}
+
   '@replit/codemirror-css-color-picker@6.3.0(@codemirror/language@6.11.0)(@codemirror/state@6.5.2)(@codemirror/view@6.36.5)':
     dependencies:
       '@codemirror/language': 6.11.0
@@ -26735,7 +26958,7 @@ snapshots:
 
   '@types/hoist-non-react-statics@3.3.6':
     dependencies:
-      '@types/react': 19.0.10
+      '@types/react': 18.3.20
       hoist-non-react-statics: 3.3.2
 
   '@types/html-minifier-terser@6.1.0': {}
@@ -26877,7 +27100,7 @@ snapshots:
   '@types/react-redux@7.1.34':
     dependencies:
       '@types/hoist-non-react-statics': 3.3.6
-      '@types/react': 19.0.10
+      '@types/react': 18.3.20
       hoist-non-react-statics: 3.3.2
       redux: 4.2.1
 
@@ -26975,6 +27198,11 @@ snapshots:
   '@types/yargs@17.0.33':
     dependencies:
       '@types/yargs-parser': 21.0.3
+
+  '@types/yauzl@2.10.3':
+    dependencies:
+      '@types/node': 22.14.0
+    optional: true
 
   '@typescript-eslint/eslint-plugin@6.21.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1)(typescript@5.8.3)':
     dependencies:
@@ -30643,7 +30871,7 @@ snapshots:
       '@typescript-eslint/parser': 8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3)
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2))
+      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react: 7.37.5(eslint@9.24.0(jiti@2.4.2))
@@ -30663,7 +30891,7 @@ snapshots:
       '@typescript-eslint/parser': 8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react: 7.37.5(eslint@9.24.0(jiti@2.4.2))
@@ -30683,22 +30911,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
-    dependencies:
-      '@nolyfill/is-core-module': 1.0.39
-      debug: 4.4.0
-      eslint: 9.24.0(jiti@2.4.2)
-      get-tsconfig: 4.10.0
-      is-bun-module: 2.0.0
-      stable-hash: 0.0.5
-      tinyglobby: 0.2.12
-      unrs-resolver: 1.5.0
-    optionalDependencies:
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2))
-    transitivePeerDependencies:
-      - supports-color
-
-  eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2)):
+  eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.0
@@ -30713,25 +30926,25 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2)):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3)
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2))
+      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
     transitivePeerDependencies:
       - supports-color
 
@@ -30746,7 +30959,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2))
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -30775,7 +30988,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.7.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -31259,6 +31472,16 @@ snapshots:
       debug: 2.6.9
       mkdirp: 0.5.6
       yauzl: 2.10.0
+    transitivePeerDependencies:
+      - supports-color
+
+  extract-zip@2.0.1:
+    dependencies:
+      debug: 4.4.0
+      get-stream: 5.2.0
+      yauzl: 2.10.0
+    optionalDependencies:
+      '@types/yauzl': 2.10.3
     transitivePeerDependencies:
       - supports-color
 
@@ -37751,6 +37974,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  remotion@4.0.286(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  remotion@4.0.286(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+
   remove-accents@0.5.0: {}
 
   remove-trailing-separator@1.1.0: {}
@@ -40087,6 +40320,24 @@ snapshots:
       - supports-color
       - terser
 
+  vite-node@1.6.1(@types/node@20.17.30)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
+    dependencies:
+      cac: 6.7.14
+      debug: 4.4.0
+      pathe: 1.1.2
+      picocolors: 1.1.1
+      vite: 5.4.18(@types/node@20.17.30)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
   vite-node@1.6.1(@types/node@22.14.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
     dependencies:
       cac: 6.7.14
@@ -40164,6 +40415,18 @@ snapshots:
       - terser
       - tsx
       - yaml
+
+  vite@5.4.18(@types/node@20.17.30)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
+    dependencies:
+      esbuild: 0.21.5
+      postcss: 8.5.3
+      rollup: 4.39.0
+    optionalDependencies:
+      '@types/node': 20.17.30
+      fsevents: 2.3.3
+      lightningcss: 1.29.2
+      sass: 1.77.4
+      terser: 5.39.0
 
   vite@5.4.18(@types/node@22.14.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
     dependencies:
@@ -40248,6 +40511,41 @@ snapshots:
     optionalDependencies:
       jsdom: 26.0.0
       playwright: 1.51.1
+    transitivePeerDependencies:
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+
+  vitest@1.6.1(@types/node@20.17.30)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
+    dependencies:
+      '@vitest/expect': 1.6.1
+      '@vitest/runner': 1.6.1
+      '@vitest/snapshot': 1.6.1
+      '@vitest/spy': 1.6.1
+      '@vitest/utils': 1.6.1
+      acorn-walk: 8.3.4
+      chai: 4.5.0
+      debug: 4.4.0
+      execa: 8.0.1
+      local-pkg: 0.5.1
+      magic-string: 0.30.17
+      pathe: 1.1.2
+      picocolors: 1.1.1
+      std-env: 3.9.0
+      strip-literal: 2.1.1
+      tinybench: 2.9.0
+      tinypool: 0.8.4
+      vite: 5.4.18(@types/node@20.17.30)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
+      vite-node: 1.6.1(@types/node@20.17.30)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
+      why-is-node-running: 2.3.0
+    optionalDependencies:
+      '@types/node': 20.17.30
+      jsdom: 26.0.0
     transitivePeerDependencies:
       - less
       - lightningcss

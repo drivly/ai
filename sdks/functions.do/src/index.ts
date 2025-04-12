@@ -13,7 +13,7 @@ export interface SlackBlockSchema {
 
 export interface FunctionDefinition {
   type?: 'Generation' | 'Code' | 'Human' | 'Agent'
-  format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code'
+  format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code' | 'Video'
   schema?: any
   prompt?: string
   code?: string
@@ -60,7 +60,7 @@ export class FunctionsClient {
     name: string
     description?: string
     type?: 'Generation' | 'Code' | 'Human' | 'Agent'
-    format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code'
+    format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code' | 'Video'
     schema?: any
     prompt?: string
     code?: string
