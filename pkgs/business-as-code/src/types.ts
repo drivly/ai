@@ -57,14 +57,14 @@ export interface VariantPerformance {
 }
 
 export interface BusinessModel {
-  leanCanvas?: LeanCanvas;
-  storyBrand?: StoryBrand;
-  valueProposition?: ValueProposition;
+  leanCanvas?: LeanCanvasModel;
+  storyBrand?: StoryBrandModel;
+  valueProposition?: ValuePropositionModel;
   revenueStreams?: RevenueStream[];
   customerSegments?: CustomerSegment[];
 }
 
-export interface LeanCanvas {
+export interface LeanCanvasModel {
   problem: string[];
   solution: string[];
   uniqueValueProposition: string;
@@ -76,7 +76,7 @@ export interface LeanCanvas {
   revenueStreams: string[];
 }
 
-export interface StoryBrand {
+export interface StoryBrandModel {
   hero: string;
   problem: string;
   guide: string;
@@ -86,7 +86,7 @@ export interface StoryBrand {
   success: string;
 }
 
-export interface ValueProposition {
+export interface ValuePropositionModel {
   customerJobs: string[];
   pains: string[];
   gains: string[];
