@@ -161,7 +161,7 @@ class TasksClient {
    * @returns The created task
    */
   async create(params: CreateTaskParams): Promise<Task> {
-    return this.api.post<Task>(`/api/${this.tasksCollection}`, params)
+    return this.api.post<Task>(`/v1/${this.tasksCollection}`, params)
   }
 
   /**
@@ -170,7 +170,7 @@ class TasksClient {
    * @returns The created task
    */
   async createTask(task: TaskDefinition) {
-    return this.api.post('/api/tasks', task)
+    return this.api.post('/v1/tasks', task)
   }
 
   /**

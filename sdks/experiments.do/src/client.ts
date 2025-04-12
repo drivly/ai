@@ -55,7 +55,7 @@ export class ExperimentsClient {
   }
 
   async start(experimentName: string): Promise<any> {
-    return this.api.post(`/api/experiments/${experimentName}/start`, {})
+    return this.api.post(`/v1/experiments/${experimentName}/start`, {})
   }
 
   async getVariant(experimentName: string, context: VariantContext): Promise<VariantResult> {
@@ -133,13 +133,13 @@ export class ExperimentsClient {
   }
 
   async compareVariants(experimentName: string, variantIds: string[]): Promise<ExperimentComparison> {
-    return this.api.post<ExperimentComparison>(`/api/experiments/${experimentName}/compare`, {
+    return this.api.post<ExperimentComparison>(`/v1/experiments/${experimentName}/compare`, {
       variants: variantIds,
     })
   }
 
   async getRecommendations(experimentName: string): Promise<ExperimentRecommendation> {
-    return this.api.get<ExperimentRecommendation>(`/api/experiments/${experimentName}/recommendations`)
+    return this.api.get<ExperimentRecommendation>(`/v1/experiments/${experimentName}/recommendations`)
   }
 
   async list(params?: QueryParams): Promise<ListResponse<Experiment>> {
