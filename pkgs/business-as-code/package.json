@@ -36,14 +36,7 @@
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {
-    "eslint-config": "workspace:*",
-    "typescript": "^5.0.0",
-    "tsconfig": "workspace:*"
-  },
+  "scripts": {},
   "engines": {
     "node": ">=18.0.0"
   }
