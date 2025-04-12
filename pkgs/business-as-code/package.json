@@ -46,6 +46,9 @@
     "eslint": "^8.0.0",
     "esbuild": "^0.19.12"
   },
+  "peerDependencies": {
+    "typescript": ">=5.0.0"
+  },
   "author": "Drivly",
   "license": "MIT",
   "repository": {
