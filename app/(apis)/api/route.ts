@@ -1,57 +1,50 @@
-import { API } from '@/lib/api'
+import { API, formatUrl } from '@/lib/api'
 
 export const GET = API(async (request, { db, user, origin, url, domain }) => {
-  // Using the new db interface for more concise syntax
-  // const functions = await db.functions.find()
+  const showDomains = url.searchParams.has('domains')
+  
+  const formatWithOptions = (path, defaultDomain) => formatUrl(path, {
+    origin,
+    domain,
+    showDomains,
+    defaultDomain
+  })
 
-  return domain === 'apis.do'
-    ? {
-        featured: {
-          'Functions - Typesafe Results without Complexity': 'https://functions.do',
-          'Workflows - Reliably Execute Business Processes': 'https://workflows.do',
-          'Agents - Deploy & Manage Autonomous Digital Workers': 'https://agents.do',
-        },
-        resources: {
-          'Nouns - People, Places, Things, and Ideas': 'https://nouns.do',
-          'Verbs - The Actions Performed to and by Nouns': 'https://verbs.do',
-        },
-        events: {
-          'Triggers - Initiate workflows based on events': 'https://triggers.do',
-          'Searches - Query and retrieve data': 'https://searches.do',
-          'Actions - Perform tasks within workflows': 'https://actions.do',
-        },
-        core: {
-          'LLM - Intelligent AI Gateway': 'https://llm.do',
-          'Evals - Evaluate Functions, Workflows, and Agents': 'https://evals.do',
-          'Analytics - Economically Validate Workflows': 'https://analytics.do',
-          'Experiments - Economically Validate Workflows': 'https://experiments.do',
-          'Database - AI Native Data Access (Search + CRUD)': 'https://database.do',
-          'Integrations - Connect External APIs and Systems': 'https://integrations.do',
-        },
-      }
-    : {
-        featured: {
-          'Functions - Typesafe Results without Complexity': origin + '/functions',
-          'Workflows - Reliably Execute Business Processes': origin + '/workflows',
-          'Agents - Deploy & Manage Autonomous Digital Workers': origin + '/agents',
-        },
-        events: {
-          'Triggers - Initiate workflows based on events': origin + '/triggers',
-          'Searches - Query and retrieve data': origin + '/searches',
-          'Actions - Perform tasks within workflows': origin + '/actions',
-        },
-        core: {
-          'LLM - Intelligent AI Gateway': origin + '/llm',
-          'Evals - Evaluate Functions, Workflows, and Agents': origin + '/evals',
-          'Analytics - Economically Validate Workflows': origin + '/analytics',
-          'Experiments - Economically Validate Workflows': origin + '/experiments',
-          'Database - AI Native Data Access (Search + CRUD)': origin + '/database',
-          'Integrations - Connect External APIs and Systems': origin + '/integrations',
-        },
-        actions: {
-          toggleDomains: url + '?domains',
-        },
-      }
+  const response = {
+    featured: {
+      'Functions - Typesafe Results without Complexity': formatWithOptions('functions', 'functions.do'),
+      'Workflows - Reliably Execute Business Processes': formatWithOptions('workflows', 'workflows.do'),
+      'Agents - Deploy & Manage Autonomous Digital Workers': formatWithOptions('agents', 'agents.do'),
+    },
+    events: {
+      'Triggers - Initiate workflows based on events': formatWithOptions('triggers', 'triggers.do'),
+      'Searches - Query and retrieve data': formatWithOptions('searches', 'searches.do'),
+      'Actions - Perform tasks within workflows': formatWithOptions('actions', 'actions.do'),
+    },
+    core: {
+      'LLM - Intelligent AI Gateway': formatWithOptions('llm', 'llm.do'),
+      'Evals - Evaluate Functions, Workflows, and Agents': formatWithOptions('evals', 'evals.do'),
+      'Analytics - Economically Validate Workflows': formatWithOptions('analytics', 'analytics.do'),
+      'Experiments - Economically Validate Workflows': formatWithOptions('experiments', 'experiments.do'),
+      'Database - AI Native Data Access (Search + CRUD)': formatWithOptions('database', 'database.do'),
+      'Integrations - Connect External APIs and Systems': formatWithOptions('integrations', 'integrations.do'),
+    },
+  }
+
+  if (domain === 'apis.do') {
+    response.resources = {
+      'Nouns - People, Places, Things, and Ideas': formatWithOptions('nouns', 'nouns.do'),
+      'Verbs - The Actions Performed to and by Nouns': formatWithOptions('verbs', 'verbs.do'),
+    }
+  }
+
+  response.actions = {
+    toggleDomains: url.searchParams.has('domains') 
+      ? url.toString().replace(/[?&]domains/, '') 
+      : url.toString() + (url.toString().includes('?') ? '&domains' : '?domains')
+  }
+
+  return response
 })
 
 // "featured": {

@@ -1,10 +1,11 @@
-import { API } from '@/lib/api'
+import { API, formatUrl } from '@/lib/api'
 import { domains, domainsConfig, getDomainDescription } from '@/domains.config'
 import { apis, related, parentDomains, childDomains, siteCategories } from '@/api.config'
 import { collectionSlugs } from '@/collections'
 import { titleCase } from '@/lib/utils'
 
 export const GET = API(async (request, { db, user, origin, url, domain, payload }) => {
+  const showDomains = url.searchParams.has('domains')
   const collections = payload.collections || {}
 
   const domainAliases = Object.keys(domainsConfig.aliases)
@@ -25,14 +26,24 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     }
 
     const collectionTitle = `${title}${description ? ` - ${description}` : ''}`
-    collectionsByGroup[adminGroup][collectionTitle] = `${origin}/${slug}`
+    collectionsByGroup[adminGroup][collectionTitle] = formatUrl(slug, {
+      origin,
+      domain,
+      showDomains,
+      defaultDomain: `${slug}.do`
+    })
   }
 
   const formattedApis: Record<string, string> = {}
   for (const [key, description] of Object.entries(apis)) {
     if (key && apis[key] !== undefined) {
       const apiTitle = `${titleCase(key)}${description ? ` - ${description}` : ''}`
-      formattedApis[apiTitle] = `${origin}/v1/${key}`
+      formattedApis[apiTitle] = formatUrl(`v1/${key}`, {
+        origin,
+        domain,
+        showDomains,
+        defaultDomain: `${key}.do`
+      })
     }
   }
 
@@ -48,7 +59,12 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
         const siteName = site.replace('.do', '')
         const description = getDomainDescription(site) || ''
         const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
-        formattedSites[category][siteTitle] = `${origin}/sites/${siteName}`
+        formattedSites[category][siteTitle] = formatUrl(`sites/${siteName}`, {
+          origin,
+          domain,
+          showDomains,
+          defaultDomain: site
+        })
       }
     }
   }
@@ -80,7 +96,12 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
         if (!formattedSites[category]) {
           formattedSites[category] = {}
         }
-        formattedSites[category][siteTitle] = `${origin}/sites/${siteName}`
+        formattedSites[category][siteTitle] = formatUrl(`sites/${siteName}`, {
+          origin,
+          domain,
+          showDomains,
+          defaultDomain: d
+        })
       }
     }
   }
@@ -89,5 +110,10 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     collections: collectionsByGroup,
     apis: formattedApis,
     sites: formattedSites,
+    actions: {
+      toggleDomains: url.searchParams.has('domains') 
+        ? url.toString().replace(/[?&]domains/, '') 
+        : url.toString() + (url.toString().includes('?') ? '&domains' : '?domains')
+    }
   }
 })
