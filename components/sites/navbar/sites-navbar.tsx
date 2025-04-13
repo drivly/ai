@@ -20,12 +20,19 @@ export function SitesNavbar({ params, minimal }: { params: Promise<{ domain?: st
   const [isOpen, setOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
 
+  const [isStabilized, setIsStabilized] = useState(false)
+
   useEffect(() => {
-    const handleScroll = () => {
-      setHasScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    const timeoutId = setTimeout(() => {
+      setIsStabilized(true)
+      const handleScroll = () => {
+        setHasScrolled(window.scrollY > 10)
+      }
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      return () => window.removeEventListener('scroll', handleScroll)
+    }, 300)
+    
+    return () => clearTimeout(timeoutId)
   }, [])
 
   // Handle body scroll lock
@@ -43,14 +50,15 @@ export function SitesNavbar({ params, minimal }: { params: Promise<{ domain?: st
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 z-50 w-full backdrop-blur-[12px] transition-all duration-200',
-        hasScrolled ? 'bg-background/90 border-b' : 'border-transparent bg-transparent',
+        'fixed top-0 left-0 z-50 w-full backdrop-blur-[12px]',
+        isStabilized ? 'transition-all duration-200' : '',
+        hasScrolled ? 'bg-background/90 border-b' : 'border-transparent bg-transparent', // Keep 90% opacity from my change
       )}>
       <nav className='container mx-auto flex h-14 max-w-6xl items-center justify-between px-3 xl:px-0'>
         <LlmsdoLogo domain={domain} minimal={minimal} />
 
         {!minimal && (
-          <div className='absolute left-1/2 mr-6 hidden -translate-x-1/2 transform space-x-6 md:block'>
+          <div className='flex-1 hidden justify-center space-x-6 mx-6 md:flex'>
             {navMenuLinks.map((link) => {
               if (link.name !== 'Blog') {
                 return (
@@ -59,6 +67,7 @@ export function SitesNavbar({ params, minimal }: { params: Promise<{ domain?: st
                   </Link>
                 )
               }
+              return null;
             })}
           </div>
         )}
