@@ -37,7 +37,7 @@
   "author": "Forrest Devs <luke.gannon@me.com>",
   "license": "MIT",
   "devDependencies": {
-    "@changesets/cli": "^2.27.11",
+
     "@payloadcms/db-mongodb": "^3.33.0",
     "@payloadcms/db-postgres": "^3.33.0",
     "@types/node": "^22.10.5",

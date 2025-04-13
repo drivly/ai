@@ -315,7 +315,7 @@ This document organizes all open issues in the drivly/ai repository into a hiera
 - [#300](https://github.com/drivly/ai/issues/300) - `tests` add tests to run on Vercel deployment to prevent regressions
 - [#295](https://github.com/drivly/ai/issues/295) - Update \_meta files in content
 - [#288](https://github.com/drivly/ai/issues/288) - Do a POC of Payload Admin Bar
-- [#279](https://github.com/drivly/ai/issues/279) - Implement Changesets and automatic semver
+- [x] [#279](https://github.com/drivly/ai/issues/279) - Implement Changesets and automatic semver
 - [#278](https://github.com/drivly/ai/issues/278) - Implement FireCrawl as a tool to inject scraped URL as Markdown
 - [#277](https://github.com/drivly/ai/issues/277) - Add user metadata to header for AI gateway
 - [#276](https://github.com/drivly/ai/issues/276) - Support for webhook callback option
