@@ -1,6 +1,6 @@
-import { sites } from '@/.velite'
+import { sites } from '@/.velite/content'
 import { codeExample } from '@/components/sites/constants/code-example'
-import { ai } from '@/ai.config'
+import { ai } from '@/config/ai.config'
 
 /**
  * Site content type definition
