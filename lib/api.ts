@@ -85,6 +85,7 @@ export interface APIHeader {
   repo: string
   sdk: string
   site: string
+  from: string // Added from field
   [key: string]: string
 }
 
@@ -261,6 +262,23 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
 
   const packageName = domain
 
+  const isPreview = domain === 'localhost' || domain.endsWith('dev.driv.ly')
+
+  let rootDomain = 'workflows'
+  if (isPreview && domain !== 'localhost') {
+    const parts = domain.split('.')
+    if (parts.length > 2) {
+      rootDomain = parts[0]
+    }
+  }
+
+  let site = domain.endsWith('.do') ? `https://${domain}` : 'https://apis.do'
+  if (isPreview) {
+    site = `/sites/${rootDomain}.do`
+  }
+
+  const from = isPreview ? '/sites' : 'https://dotdo.ai'
+
   return {
     name: domain,
     description: description || 'Economically valuable work delivered through simple APIs',
@@ -271,7 +289,8 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
     docs: origin + '/docs',
     repo: 'https://github.com/drivly/ai',
     sdk: `https://npmjs.com/${packageName}`,
-    site: domain.endsWith('.do') ? `https://${domain}` : 'https://apis.do',
+    site, // Use the variable we created
+    from, // Add the new field
   }
 }
 
