@@ -18,6 +18,7 @@ const withNextra = nextra({
   latex: true,
   search: {
     codeblocks: false,
+    indexing: 'onBuild',
   },
 
 })
