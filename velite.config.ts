@@ -44,22 +44,10 @@ export default defineConfig({
         badge: s.string().optional(), // Badge text
       }),
       transform: (data: any) => {
-        const pathParts = data._path.split('/'); // e.g., ['sites', 'ai', 'some-site.mdx'] or ['sites', 'workflows.do.mdx']
-        let group = 'other';
-      
-        if (pathParts.length > 2) {
-          group = pathParts[1];
-        } else if (pathParts.length === 2) {
-          const filename = pathParts[1];
-          const match = filename.match(/^([^.]+)\.?/); 
-          if (match && match[1]) {
-            group = match[1];
-          }
-        }
-      
+        const pathParts = data._path.split('/');
         return {
           ...data,
-          group,
+          group: pathParts.length > 2 ? pathParts[1] : 'other',
         };
       },
     },
