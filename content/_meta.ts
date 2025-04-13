@@ -6,7 +6,10 @@ const meta: MetaRecord = {
   sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
   pricing: { type: 'page', href: '/pricing' },
   dashboard: { type: 'page', href: '/admin' },
-  reference: { type: 'page', href: '/docs/reference' },
+  reference: { 
+    type: 'page',
+    href: 'https://apis.do/reference'
+  },
 
   manifesto: '',
   primitives: '',
