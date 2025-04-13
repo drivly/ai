@@ -218,7 +218,7 @@ export const createAPI = (
         let from = 'https://dotdo.ai'
 
         if (isPreview) {
-          site = `${origin}/sites/${rootDomain}.do`
+          site = `${origin}/sites/workflows.do` // Always use workflows.do for preview domains
           from = `${origin}/sites`
         }
 
