@@ -8,7 +8,8 @@ const meta: MetaRecord = {
   dashboard: { type: 'page', href: '/admin' },
   reference: { 
     title: 'API Reference',
-    href: 'https://workflows.do/docs/reference'
+    href: 'https://workflows.do/reference',
+    display: 'hidden'
   },
 
   manifesto: '',
