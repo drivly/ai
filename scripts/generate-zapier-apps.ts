@@ -16,6 +16,38 @@ async function main() {
     
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true })
+      
+      const packageJson = {
+        "name": "zapier-apis-do",
+        "version": "0.1.0",
+        "description": "Zapier integration APIs for Payload CMS collections",
+        "private": true,
+        "scripts": {
+          "build": "echo 'No build step required'"
+        }
+      }
+      
+      fs.writeFileSync(
+        path.resolve(outputDir, 'package.json'), 
+        JSON.stringify(packageJson, null, 2)
+      )
+      
+      const readmeContent = `# Zapier APIs
+
+Generated Zapier integration APIs for Payload CMS collections.
+
+This package is automatically generated using the \`payload-zapier-apps\` package.
+
+To regenerate the APIs, run:
+
+\`\`\`bash
+pnpm run generate-zapier-apps
+\`\`\`
+`
+      fs.writeFileSync(
+        path.resolve(outputDir, 'README.md'),
+        readmeContent
+      )
     }
     
     console.log(`Generating Zapier apps in ${outputDir}...`)
