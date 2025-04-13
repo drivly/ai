@@ -4,93 +4,100 @@
   match the main site's theme variables.
 */
 
-/* Force dark theme on Nextra docs */
-:root {
-  color-scheme: dark !important;
+/* Target dark mode directly with more specific selectors */
+.dark {
+  /* Override Nextra's dark mode background colors */
+  --nextra-primary-hue: 212;
+  --nextra-primary-saturation: 100%;
+  --nextra-navbar-background: #000000;
+  --nextra-sidebar-background: #000000;
+  --nextra-menu-background: #000000;
+  --nextra-card-background: #141414;
+  --nextra-footer-background: #000000;
+  
+  /* Set background to pure black to match main site */
+  --tw-bg-opacity: 1;
+  --background: #000000;
+  --background-color: #000000;
+  
+  /* Override Nextra's background colors */
+  --shiki-color-background: #141414;
+  --shiki-color-text: #ffffff;
+  
+  /* Force dark theme colors */
+  --nextra-background: #000000 !important;
 }
 
-/* Force dark class on html element */
-html {
-  /* Force dark theme class */
-  &:not(.dark) {
-    @media (prefers-color-scheme: dark) {
-      color-scheme: dark;
-    }
-  }
+/* Target specific Nextra elements in dark mode */
+.dark .nx-bg-white {
+  background-color: #000000 !important;
 }
 
-/* Apply dark theme variables directly to html.dark */
-html.dark {
-  --background: oklch(0 0 0) !important;
-  --foreground: oklch(0.985 0 0) !important;
-  --card: oklch(0.14 0 0) !important;
-  --card-foreground: oklch(0.98 0 0) !important;
-  --popover: oklch(0.196 0 0) !important;
-  --popover-foreground: oklch(0.972 0 0) !important;
-  --primary: oklch(0.922 0 0) !important;
-  --primary-foreground: oklch(0.205 0 0) !important;
-  --secondary: oklch(0.269 0 0) !important;
-  --secondary-foreground: oklch(0.985 0 0) !important;
-  --muted: oklch(0.269 0 0) !important;
-  --muted-foreground: oklch(0.708 0 0) !important;
-  --accent: oklch(0.371 0 0) !important;
-  --accent-foreground: oklch(0.985 0 0) !important;
-  --destructive: oklch(0.704 0.191 22.216) !important;
-  --border: oklch(1 0 0 / 10%) !important;
-  --input: oklch(1 0 0 / 15%) !important;
-  --ring: oklch(0.556 0 0) !important;
+.dark .nx-bg-gray-100 {
+  background-color: #000000 !important;
 }
 
-/* Force dark theme background on body */
-html.dark body {
-  background-color: var(--background) !important;
-  color: var(--foreground) !important;
+.dark .nx-bg-slate-100 {
+  background-color: #000000 !important;
 }
 
-/* Target the main Nextra container with higher specificity */
-html.dark .nextra-container {
-  background-color: var(--background) !important;
+/* Target the main content area */
+.dark main {
+  background-color: #000000 !important;
 }
 
-/* Target the main content area with higher specificity */
-html.dark main {
-  background-color: var(--background) !important;
+/* Target the body */
+.dark body {
+  background-color: #000000 !important;
 }
 
-/* Target the sidebar with higher specificity */
-html.dark .nextra-sidebar-container {
-  background-color: var(--background) !important;
+/* Target the html */
+.dark html {
+  background-color: #000000 !important;
 }
 
-/* Target the navbar with higher specificity */
-html.dark .nextra-nav-container {
-  background-color: var(--background) !important;
+/* Target the sidebar */
+.dark .nextra-sidebar-container,
+.dark .nx-bg-white {
+  background-color: #000000 !important;
 }
 
-/* Target the footer with higher specificity */
-html.dark footer {
-  background-color: var(--background) !important;
+/* Target the navbar */
+.dark .nextra-nav-container {
+  background-color: #000000 !important;
 }
 
-/* Target the code blocks with higher specificity */
-html.dark .nextra-code-block {
-  background-color: var(--card) !important;
+/* Target the footer */
+.dark footer {
+  background-color: #000000 !important;
 }
 
-/* Target the search overlay with higher specificity */
-html.dark .nextra-search {
-  background-color: var(--popover) !important;
+/* Target article and content containers */
+.dark article,
+.dark .nx-w-full,
+.dark .nx-px-6,
+.dark .nx-bg-white,
+.dark .nx-transition-colors {
+  background-color: #000000 !important;
 }
 
-/* Target any other Nextra-specific elements with higher specificity */
-html.dark .nextra-menu-desktop, 
-html.dark .nextra-scrollbar {
-  background-color: var(--background) !important;
+/* Target any element with background-color in dark mode */
+.dark [class*="nx-bg-"] {
+  background-color: #000000 !important;
 }
 
-/* Force dark theme on article and content */
-html.dark article,
-html.dark aside,
-html.dark nav {
-  background-color: var(--background) !important;
+/* Target the code blocks */
+.dark .nextra-code-block {
+  background-color: #141414 !important;
+}
+
+/* Target the search overlay */
+.dark .nextra-search {
+  background-color: #1c1c1c !important;
+}
+
+/* Override any remaining white backgrounds */
+.dark * {
+  --tw-bg-opacity: 1;
+  background-color: var(--background, #000000);
 }
