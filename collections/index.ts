@@ -49,7 +49,7 @@ import { Queues } from './work/Queues'
 import { Tasks } from './work/Tasks'
 import { Goals } from './work/Goals'
 import { KPIs } from './work/KPIs'
-import SyncedFiles from './sync/SyncedFiles'
+import Config from './sync/SyncedFiles'
 
 export const collections = [
   // Register AI collections first
@@ -107,7 +107,7 @@ export const collections = [
   Traces,
   KPIs,
   
-  SyncedFiles,
+  Config,
 
   Projects,
   Domains,

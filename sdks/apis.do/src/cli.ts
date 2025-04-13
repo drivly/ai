@@ -72,12 +72,13 @@ export class CLI {
       }
       
       console.log('Fetching remote file list...')
-      const remoteFiles = await this.api.post('/v1/ai/files/list', { resources: options.resources }) as any[]
+      const remoteFiles = await this.api.post('/v1/ai/files/list', { resources: options.resources })
+      const files = Array.isArray(remoteFiles) ? remoteFiles : []
       
       await fs.promises.mkdir('.ai', { recursive: true })
       
-      console.log(`Pulling ${remoteFiles.length} files from remote...`)
-      for (const file of remoteFiles) {
+      console.log(`Pulling ${files.length} files from remote...`)
+      for (const file of files) {
         const fileContent = await this.api.post('/v1/ai/files/get', { path: file.path }) as { content: string }
         const localPath = path.join('.ai', file.path)
         
@@ -294,11 +295,15 @@ export class CLI {
   
   private async getRemoteFileData(): Promise<Record<string, any>> {
     try {
-      const response = await this.api.post('/v1/ai/files/list-with-metadata', {}) as any[]
+      const response = await this.api.post('/v1/ai/files/list-with-metadata', {})
       
       const fileData: Record<string, any> = {}
-      for (const file of response || []) {
-        fileData[file.path] = file
+      if (Array.isArray(response)) {
+        for (const file of response) {
+          if (file && file.path) {
+            fileData[file.path] = file
+          }
+        }
       }
       
       return fileData

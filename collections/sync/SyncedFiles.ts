@@ -4,7 +4,8 @@ const SyncedFiles: CollectionConfig = {
   slug: 'synced-files',
   admin: {
     useAsTitle: 'path',
-    description: 'Files tracked for .ai folder synchronization',
+    description: 'Configuration for different aspects of a project',
+    group: 'Admin',
   },
   access: {
     read: () => true,
@@ -28,6 +29,14 @@ const SyncedFiles: CollectionConfig = {
       required: true,
       admin: {
         description: 'SHA-256 hash of file content to detect changes',
+      },
+    },
+    {
+      name: 'project',
+      type: 'relationship',
+      relationTo: 'projects',
+      admin: {
+        description: 'Project this configuration belongs to',
       },
     },
     {
