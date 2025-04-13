@@ -23,6 +23,7 @@
       "@/*": ["./*"],
       "@payload-config": ["payload.config.ts"],
       "@/.velite/*": [".velite/*"],
+      "@/.velite/content": [".velite/content"],
       "payload-utils": ["./pkgs/payload-utils/src"],
       "payload-hooks-queue": ["./pkgs/payload-hooks-queue/src"]
     },
