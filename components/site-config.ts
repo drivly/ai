@@ -1,7 +1,7 @@
 import { FaDiscord, FaGithub } from 'react-icons/fa'
 import logo from '@/public/favicon/faviconDo.png'
 import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
-import { extractApiNameFromDomain, docsExistForApi, getDocsPath } from '@/middleware'
+import { extractApiNameFromDomain, docsExistForApi, getDocsPath } from '@/lib/domains'
 
 /**
  * Get the appropriate docs link based on the hostname
