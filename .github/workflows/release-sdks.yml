@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - next
     paths:
       - '.github/version-stamp-sdks.txt'
   workflow_dispatch:
