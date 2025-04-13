@@ -67,6 +67,7 @@ const runSemanticRelease = (packagePath) => {
         ignorePrivatePackages: true,
         repositoryUrl: 'https://github.com/drivly/ai.git',
         tagFormat: '\${name}@\${version}',
+        initialVersion: '0.0.1',
         plugins: [
           {
             verifyConditions: () => {},
@@ -74,7 +75,8 @@ const runSemanticRelease = (packagePath) => {
               if (!context.lastRelease.version) {
                 return '0.0.7'; // Return correct patch version for new packages
               }
-              return null; // Let semantic-release determine version
+              
+              return 'patch';
             }
           },
           ['@semantic-release/commit-analyzer', {
