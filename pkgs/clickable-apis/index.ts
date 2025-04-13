@@ -62,19 +62,20 @@ const domainDescriptions: Record<string, string> = {
 }
 
 const getDomainDescription = (domain: string, customDescriptions?: Record<string, string>): string => {
-  const baseDomain = domain.split('.').slice(-2).join('.')
+  const baseDomain = domain.replace(/\.do(\.mw|\.gt)?$/, '')
+  const lookupDomain = baseDomain + '.do'
   const descriptions = customDescriptions || domainDescriptions
-  return descriptions[baseDomain] || descriptions['apis.do'] || 'API'
+  return descriptions[lookupDomain] || descriptions['apis.do'] || 'API'
 }
 
 const getDomainPackageName = (domain: string): string => {
-  const baseDomain = domain.split('.').slice(-2).join('.')
-  return baseDomain
+  const baseDomain = domain.replace(/\.do(\.mw|\.gt)?$/, '')
+  return baseDomain + '.do'
 }
 
 const getDomainSite = (domain: string): string => {
-  const baseDomain = domain.split('.').slice(-2).join('.')
-  return `https://${baseDomain}`
+  const baseDomain = domain.replace(/\.do(\.mw|\.gt)?$/, '')
+  return `https://${baseDomain}.do`
 }
 
 /**

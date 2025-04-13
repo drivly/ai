@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "eslint-config": "workspace:*",
-    "evalite": "^0.9.1",
+    "evalite": "^0.10.0",
     "typescript": "^5.0.0",
     "vitest": "^3.0.9",
     "tsconfig": "workspace:*"

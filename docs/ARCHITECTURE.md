@@ -877,19 +877,16 @@ graph TD
     end
 
     subgraph "Version Management"
-        Changesets["Changesets<br/>Version tracking"]
         PNPMWorkspace["pnpm workspace<br/>Package resolution"]
     end
 
-    FunctionsSDK --> Changesets
-    WorkflowsSDK --> Changesets
-    AgentsSDK --> Changesets
-    APISDK --> Changesets
-    AIModels --> Changesets
-    DeployWorker --> Changesets
-    ClickableLinks --> Changesets
-
-    Changesets --> PNPMWorkspace
+    FunctionsSDK --> PNPMWorkspace
+    WorkflowsSDK --> PNPMWorkspace
+    AgentsSDK --> PNPMWorkspace
+    APISDK --> PNPMWorkspace
+    AIModels --> PNPMWorkspace
+    DeployWorker --> PNPMWorkspace
+    ClickableLinks --> PNPMWorkspace
 
     style FunctionsSDK fill:#d4f1f9,stroke:#333,stroke-width:1px
     style WorkflowsSDK fill:#d4f1f9,stroke:#333,stroke-width:1px
@@ -898,7 +895,7 @@ graph TD
     style AIModels fill:#ffd966,stroke:#333,stroke-width:1px
     style DeployWorker fill:#ffd966,stroke:#333,stroke-width:1px
     style ClickableLinks fill:#ffd966,stroke:#333,stroke-width:1px
-    style Changesets fill:#c9daf8,stroke:#333,stroke-width:1px
+    style SemanticRelease fill:#c9daf8,stroke:#333,stroke-width:1px
     style PNPMWorkspace fill:#c9daf8,stroke:#333,stroke-width:1px
 ```
 
@@ -906,7 +903,7 @@ Key versioning principles:
 
 - Packages in the `sdks` directory maintain synchronized version numbers
 - Packages in the `pkgs` directory can be versioned independently
-- All changes to packages in the `sdks` directory must include a changeset (`pnpm changeset`)
+- All changes to packages in the `sdks` directory must include appropriate version updates
 - During API instability phase, patch versions (0.0.x) are used for SDK packages
-- Version numbers in workspace package dependencies must be synchronized before running Changesets
-- Package names in changesets must exactly match names in respective package.json files
+- Version numbers in workspace package dependencies must be synchronized before releasing
+- Package names must exactly match names in respective package.json files

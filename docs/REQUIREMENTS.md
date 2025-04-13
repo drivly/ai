@@ -655,7 +655,7 @@ Things.do provides a powerful framework for modeling and managing both physical 
 - Cloudflare Workers (for APIs)
 - Hono: ^4.7.4
 - Zod: ^3.24.2
-- Changesets: ^2.27.1
+- semantic-release: ^19.0.5
 
 ### 11.2 Development Tools
 
@@ -665,7 +665,7 @@ Things.do provides a powerful framework for modeling and managing both physical 
 - Wrangler: ^4.2.0
 - Vitest: ^1.4.0
 - Turborepo: ^2.0.0
-- Changeset CLI: ^2.27.1
+
 
 ### 11.3 Common Commands
 
