@@ -3,6 +3,7 @@
 /**
  * Custom release script for multi-semantic-release (SDK packages only)
  * This script handles the SDK packages with synchronized versioning
+ * Enforces 0.x.x versioning and ensures proper NPM publishing
  */
 
 import { execSync } from 'child_process'
@@ -36,6 +37,35 @@ const SDK_PACKAGES = [
 
 console.log(`Running SDK-only release script in ${DRY_RUN ? 'dry run' : 'release'} mode`)
 
+const verifyNpmConfig = () => {
+  try {
+    console.log('Verifying NPM configuration...')
+    console.log(`NPM_CONFIG_REGISTRY: ${process.env.NPM_CONFIG_REGISTRY || 'not set'}`)
+    console.log(`NODE_AUTH_TOKEN exists: ${!!process.env.NODE_AUTH_TOKEN}`)
+    
+    const npmRegistry = execSync('npm config get registry').toString().trim()
+    console.log(`Current NPM registry: ${npmRegistry}`)
+    
+    if (!process.env.NPM_CONFIG_REGISTRY) {
+      console.log('Setting NPM_CONFIG_REGISTRY to https://registry.npmjs.org/')
+      process.env.NPM_CONFIG_REGISTRY = 'https://registry.npmjs.org/'
+    }
+    
+    try {
+      execSync('npm whoami', { stdio: ['pipe', 'pipe', 'pipe'] })
+      console.log('NPM authentication verified successfully')
+    } catch (error) {
+      console.warn('NPM authentication check failed. This may cause publishing to fail.')
+      console.warn('Error details:', error.message)
+    }
+    
+    return true
+  } catch (error) {
+    console.error('Error verifying NPM configuration:', error.message)
+    return false
+  }
+}
+
 const getPackagePaths = () => {
   const pkgPaths = []
 
@@ -49,6 +79,17 @@ const getPackagePaths = () => {
   return pkgPaths
 }
 
+const enforceZeroVersioning = (packagePath) => {
+  const packageJsonPath = path.join(packagePath, 'package.json')
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+  
+  if (packageJson.version && !packageJson.version.startsWith('0.')) {
+    console.log(`Resetting version for ${packageJson.name} from ${packageJson.version} to 0.0.1`)
+    packageJson.version = '0.0.1'
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
+  }
+}
+
 const runSemanticRelease = (packagePath) => {
   const packageJson = JSON.parse(fs.readFileSync(path.join(packagePath, 'package.json'), 'utf8'))
 
@@ -58,6 +99,8 @@ const runSemanticRelease = (packagePath) => {
   }
 
   console.log(`Processing package: ${packageJson.name}`)
+  
+  enforceZeroVersioning(packagePath)
 
   try {
     const tempConfigPath = path.resolve(process.cwd(), 'temp-semantic-release-config.cjs')
@@ -68,12 +111,18 @@ const runSemanticRelease = (packagePath) => {
         repositoryUrl: 'https://github.com/drivly/ai.git',
         tagFormat: '\${name}@\${version}',
         initialVersion: '0.0.1',
+        npmPublish: true,
+        pkgRoot: '.',
         plugins: [
           {
-            verifyConditions: () => {},
+            verifyConditions: (pluginConfig, context) => {
+              if (context.nextRelease && context.nextRelease.version && !context.nextRelease.version.startsWith('0.')) {
+                context.nextRelease.version = '0.' + context.nextRelease.version;
+              }
+            },
             analyzeCommits: (pluginConfig, context) => {
               if (!context.lastRelease.version) {
-                return '0.0.7'; // Return correct patch version for new packages
+                return '0.0.1'; // Start new packages at 0.0.1
               }
               
               return 'patch';
@@ -99,12 +148,23 @@ const runSemanticRelease = (packagePath) => {
               commitLimit: 100,  // Only include the 100 most recent commits
             }
           }],
-          '@semantic-release/npm',
+          ['@semantic-release/npm', {
+            npmPublish: true,
+            pkgRoot: '.'
+          }],
           '@semantic-release/github'
         ]
       };
     `
     fs.writeFileSync(tempConfigPath, configContent, 'utf8')
+
+    const npmrcPath = path.join(packagePath, '.npmrc')
+    const npmrcContent = `
+registry=https://registry.npmjs.org/
+always-auth=true
+`
+    fs.writeFileSync(npmrcPath, npmrcContent, 'utf8')
+    console.log(`Created temporary .npmrc in ${packagePath}`)
 
     const cmd = `npx semantic-release ${DRY_RUN ? '--dry-run' : ''} --extends=${tempConfigPath}`
     console.log(`Running: ${cmd} in ${packagePath}`)
@@ -112,12 +172,22 @@ const runSemanticRelease = (packagePath) => {
     if (!DRY_RUN) {
       execSync(cmd, {
         cwd: packagePath,
-        env: { ...process.env, NODE_DEBUG: 'npm', DEBUG: 'semantic-release:*', FORCE_PATCH_RELEASE: 'true' },
+        env: { 
+          ...process.env, 
+          NODE_DEBUG: 'npm', 
+          DEBUG: 'semantic-release:*,npm:*', 
+          FORCE_PATCH_RELEASE: 'true',
+          INITIAL_VERSION: '0.0.1',
+          RELEASE_MAJOR: '0'
+        },
         stdio: 'inherit',
       })
 
       if (fs.existsSync(tempConfigPath)) {
         fs.unlinkSync(tempConfigPath)
+      }
+      if (fs.existsSync(npmrcPath)) {
+        fs.unlinkSync(npmrcPath)
       }
     } else {
       console.log(`[DRY RUN] Would run semantic-release in ${packagePath}`)
@@ -128,6 +198,15 @@ const runSemanticRelease = (packagePath) => {
     if (error.stderr) console.error('stderr:', error.stderr.toString())
     console.error(`NPM config: ${process.env.npm_config_registry || 'default registry'}`)
     console.error(`NODE_AUTH_TOKEN exists: ${!!process.env.NODE_AUTH_TOKEN}`)
+    console.error(`Current working directory: ${packagePath}`)
+    
+    try {
+      console.log('Attempting to diagnose NPM issues...')
+      execSync('npm config list', { stdio: 'inherit' })
+      execSync('npm whoami || echo "Not authenticated with NPM"', { stdio: 'inherit' })
+    } catch (npmError) {
+      console.error('Error diagnosing NPM issues:', npmError.message)
+    }
   }
 }
 
