@@ -6,6 +6,13 @@ export const GET = API(async (request, { db, user, url, origin, domain }) => {
   const limit = parseInt(searchParams.get('limit') || '20')
   
   const showDomains = url.searchParams.has('domains')
+  
+  const formatWithOptions = (path: string, defaultDomain?: string) => formatUrl(path, {
+    origin,
+    domain,
+    showDomains,
+    defaultDomain
+  })
 
   // Using the new db interface for more concise syntax
   const functionsArray =
@@ -40,12 +47,7 @@ export const GET = API(async (request, { db, user, url, origin, domain }) => {
     for (let i = 0; i < functionsArray.length; i++) {
       const func = functionsArray[i]
       if (func && typeof func === 'object' && func.name) {
-        functions[func.name] = formatUrl(`functions/${func.name}`, {
-          origin,
-          domain,
-          showDomains,
-          defaultDomain: 'functions.do'
-        })
+        functions[func.name] = formatWithOptions(`functions/${func.name}`, 'functions.do')
       }
     }
   }

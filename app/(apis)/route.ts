@@ -6,6 +6,13 @@ import { titleCase } from '@/lib/utils'
 
 export const GET = API(async (request, { db, user, origin, url, domain, payload }) => {
   const showDomains = url.searchParams.has('domains')
+  
+  const formatWithOptions = (path: string, defaultDomain?: string) => formatUrl(path, {
+    origin,
+    domain,
+    showDomains,
+    defaultDomain
+  })
   const collections = payload.collections || {}
 
   const domainAliases = Object.keys(domainsConfig.aliases)
@@ -26,24 +33,14 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     }
 
     const collectionTitle = `${title}${description ? ` - ${description}` : ''}`
-    collectionsByGroup[adminGroup][collectionTitle] = formatUrl(slug, {
-      origin,
-      domain,
-      showDomains,
-      defaultDomain: `${slug}.do`
-    })
+    collectionsByGroup[adminGroup][collectionTitle] = formatWithOptions(slug, `${slug}.do`)
   }
 
   const formattedApis: Record<string, string> = {}
   for (const [key, description] of Object.entries(apis)) {
     if (key && apis[key] !== undefined) {
       const apiTitle = `${titleCase(key)}${description ? ` - ${description}` : ''}`
-      formattedApis[apiTitle] = formatUrl(`v1/${key}`, {
-        origin,
-        domain,
-        showDomains,
-        defaultDomain: `${key}.do`
-      })
+      formattedApis[apiTitle] = formatWithOptions(`v1/${key}`, `${key}.do`)
     }
   }
 
@@ -59,12 +56,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
         const siteName = site.replace('.do', '')
         const description = getDomainDescription(site) || ''
         const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
-        formattedSites[category][siteTitle] = formatUrl(`sites/${siteName}`, {
-          origin,
-          domain,
-          showDomains,
-          defaultDomain: site
-        })
+        formattedSites[category][siteTitle] = formatWithOptions(`sites/${siteName}`, site)
       }
     }
   }
@@ -96,12 +88,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
         if (!formattedSites[category]) {
           formattedSites[category] = {}
         }
-        formattedSites[category][siteTitle] = formatUrl(`sites/${siteName}`, {
-          origin,
-          domain,
-          showDomains,
-          defaultDomain: d
-        })
+        formattedSites[category][siteTitle] = formatWithOptions(`sites/${siteName}`, d)
       }
     }
   }

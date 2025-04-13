@@ -3,7 +3,7 @@ import { API, formatUrl } from '@/lib/api'
 export const GET = API(async (request, { db, user, origin, url, domain }) => {
   const showDomains = url.searchParams.has('domains')
   
-  const formatWithOptions = (path, defaultDomain) => formatUrl(path, {
+  const formatWithOptions = (path: string, defaultDomain?: string) => formatUrl(path, {
     origin,
     domain,
     showDomains,
