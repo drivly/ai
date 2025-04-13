@@ -1,0 +1,3981 @@
+# https://docs.composio.dev/ llms-full.txt
+
+## Composio Integration Guide
+Composio is an integration and tooling platform built for AI agents and LLM applications that lets you:
+
+- Add tool-use capabilities to your AI agent from [300+ apps](https://docs.composio.dev/tools).
+- Give agents [authenticated access to tools](https://docs.composio.dev/auth/introduction).
+- [Listen and trigger](https://docs.composio.dev/triggers/using-triggers) agents and workflows from external events (e.g., new Slack message, GitHub issue).
+- [Customize tools](https://docs.composio.dev/tool-calling/customizing-tools) for proprietary APIs or specific functions.
+- Seamlessly integrate tool-calling into frameworks like OpenAI Agents, Vercel AI, LangChain, etc.
+- Refine tool interactions with [input/output processing](https://docs.composio.dev/tool-calling/processing-tools) for greater reliability.
+
+You get to connect your AI agents faster without wrestling with individual API integrations and managing their authentication or converting them into LLM tool calls.
+
+We also optimise the tool calls for you for maximum accuracy, free of cost! 😉
+
+## Getting started
+
+The fastest way to give your agent tools is with Composio — often with **zero setup** needed on your part. Just:
+
+1. **Install the core SDK** (and a framework helper if needed):
+
+
+
+
+
+
+
+PythonTypeScript
+
+
+
+
+
+
+
+```code-block text-sm
+
+
+
+
+$pip install composio_core composio_openai # Example for OpenAI
+```
+
+2. **Login and get your API key**:
+
+
+
+```code-block text-sm
+
+
+
+
+$composio login
+```
+
+
+
+_(Ensure `COMPOSIO_API_KEY` is set as an environment variable)_
+
+3. **Connect your first app** (e.g., GitHub):
+
+
+
+```code-block text-sm
+
+
+
+
+$composio add github
+```
+
+
+…and you’re ready to integrate tools. Here’s what you can do next:
+
+- Head to the [quickstart](https://docs.composio.dev/getting-started/quickstart) guide to learn more.
+- Browse our [tools](https://docs.composio.dev/tools) to see what you can integrate with.
+
+## Framework Integrations
+
+Here are some popular frameworks that Composio supports:
+
+[OpenAI\\
+\\
+Add 250+ tools to your Assistants API with automatic authentication handling and real-time function execution.](https://docs.composio.dev/model-providers/openai) [Vercel AI SDK\\
+\\
+Turn your Vercel AI SDK agents into powerful workflows that interact with external services without managing API connections.](https://docs.composio.dev/frameworks/vercel) [LangChain\\
+\\
+Turn your LangChain agents into powerful workflows that interact with external services without managing API connections.](https://docs.composio.dev/frameworks/langchain) [CrewAI\\
+\\
+Build specialized CrewAI agent teams that collaborate using external tools and data sources to accomplish complex tasks.](https://docs.composio.dev/frameworks/crewai)
+
+[All Frameworks\\
+\\
+Check out all the frameworks.](https://docs.composio.dev/frameworks)
+
+## Composio Integration Guide
+Composio is an integration and tooling platform built for AI agents and LLM applications that lets you:
+
+- Add tool-use capabilities to your AI agent from [300+ apps](https://docs.composio.dev/tools).
+- Give agents [authenticated access to tools](https://docs.composio.dev/auth/introduction).
+- [Listen and trigger](https://docs.composio.dev/triggers/using-triggers) agents and workflows from external events (e.g., new Slack message, GitHub issue).
+- [Customize tools](https://docs.composio.dev/tool-calling/customizing-tools) for proprietary APIs or specific functions.
+- Seamlessly integrate tool-calling into frameworks like OpenAI Agents, Vercel AI, LangChain, etc.
+- Refine tool interactions with [input/output processing](https://docs.composio.dev/tool-calling/processing-tools) for greater reliability.
+
+You get to connect your AI agents faster without wrestling with individual API integrations and managing their authentication or converting them into LLM tool calls.
+
+We also optimise the tool calls for you for maximum accuracy, free of cost! 😉
+
+## Getting started
+
+The fastest way to give your agent tools is with Composio — often with **zero setup** needed on your part. Just:
+
+1. **Install the core SDK** (and a framework helper if needed):
+
+
+
+
+
+
+
+PythonTypeScript
+
+
+
+
+
+
+
+```code-block text-sm
+
+
+
+
+$pip install composio_core composio_openai # Example for OpenAI
+```
+
+2. **Login and get your API key**:
+
+
+
+```code-block text-sm
+
+
+
+
+$composio login
+```
+
+
+
+_(Ensure `COMPOSIO_API_KEY` is set as an environment variable)_
+
+3. **Connect your first app** (e.g., GitHub):
+
+
+
+```code-block text-sm
+
+
+
+
+$composio add github
+```
+
+
+…and you’re ready to integrate tools. Here’s what you can do next:
+
+- Head to the [quickstart](https://docs.composio.dev/getting-started/quickstart) guide to learn more.
+- Browse our [tools](https://docs.composio.dev/tools) to see what you can integrate with.
+
+## Framework Integrations
+
+Here are some popular frameworks that Composio supports:
+
+[OpenAI\\
+\\
+Add 250+ tools to your Assistants API with automatic authentication handling and real-time function execution.](https://docs.composio.dev/model-providers/openai) [Vercel AI SDK\\
+\\
+Turn your Vercel AI SDK agents into powerful workflows that interact with external services without managing API connections.](https://docs.composio.dev/frameworks/vercel) [LangChain\\
+\\
+Turn your LangChain agents into powerful workflows that interact with external services without managing API connections.](https://docs.composio.dev/frameworks/langchain) [CrewAI\\
+\\
+Build specialized CrewAI agent teams that collaborate using external tools and data sources to accomplish complex tasks.](https://docs.composio.dev/frameworks/crewai)
+
+[All Frameworks\\
+\\
+Check out all the frameworks.](https://docs.composio.dev/frameworks)
+
+## Composio SDK Installation
+Composio provides Python and TypeScript SDKs as well as plugins with other LLM frameworks like CrewAI, LangChain, AutoGen.
+
+## Install the SDK
+
+###### Python
+
+###### TypeScript
+
+Before installing the SDK, ensure you have Python 3.8+.
+
+[1](https://docs.composio.dev/getting-started/installation#install-composio)
+
+### Install Composio
+
+pipuv
+
+```code-block text-sm
+
+1pip install composio_core composio_openai
+```
+
+[2](https://docs.composio.dev/getting-started/installation#install-the-relevant-plugin)
+
+### Install the relevant plugin
+
+Depending on what LLM framework you’re using, you’ll need to install the relevant plugin.
+
+pipuv
+
+```code-block text-sm
+
+1pip install composio_crewai      # For CrewAI2pip install composio_langchain   # For LangChain
+```
+
+[3](https://docs.composio.dev/getting-started/installation#post-installation)
+
+### Post Installation
+
+On new installations, you’ll need to generate the SDK types. If you encounter errors related to missing “metadata,” it likely means you need to update your types.
+
+```code-block text-sm
+
+$composio apps generate-types
+```
+
+## Composio Quickstart Guide
+This guide demonstrates a core Composio feature, executing authenticated tool calls without wrapping complex API calls into LLM tools yourself.
+
+We’ll connect to GitHub and fetch your username using a simple script.
+
+## Setup
+
+First, let’s get your environment ready. You only need to do this once.
+
+This command will open a browser window for you to authenticate and generate your API key.
+
+```code-block text-sm
+
+$composio login
+```
+
+Make sure to set the retrieved `COMPOSIO_API_KEY` as an environment variable in your development environment (e.g., in a `.env` file or by exporting it).
+
+Composio handles the OAuth flow. This command links your GitHub account to your default Composio Entity (user profile).
+
+```code-block text-sm
+
+$composio add github
+```
+
+Follow the prompts in your terminal and browser to authorize Composio.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio_openai import ComposioToolSet, Action2from openai import OpenAI34# Initialize Composio ToolSet5# It automatically picks up COMPOSIO_API_KEY from env vars6# Uses the 'default' entity_id if not specified7toolset = ComposioToolSet()8client = OpenAI()
+```
+
+With setup done, let’s write the code.
+
+## Tool-calling with Composio
+
+The code below shows how to give tools to an LLM and letting Composio handle the execution when the LLM decides to use a tool.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Directly execute the action to get the authenticated user's info2# Composio uses the connection linked via 'composio add github'3tools = toolset.get_tools(actions=[Action.GITHUB_GET_THE_AUTHENTICATED_USER])45task = "Get my GitHub username."6messages = [7    {"role": "system", "content": "You are a helpful assistant that can use tools."},8    {"role": "user", "content": task},9]1011response = client.chat.completions.create(12    model="gpt-4o-mini", # Or another capable model13    messages=messages,14    tools=tools,    # The tools we prepared earlier15    tool_choice="auto", # Let the LLM decide whether to use a tool16)1718result = toolset.handle_tool_calls(response)1920print(result)
+```
+
+After running the script, you should see your GitHub username printed!
+
+## What just happened?
+
+1. **Tool Discovery**: You asked Composio for tools (toolset.get\_tools). Composio provided LLM-ready definitions for GitHub actions.
+2. **LLM Reasoning**: The LLM received your task (“Get my GitHub username”) and the available tools. It determined the `GITHUB_GET_THE_AUTHENTICATED_USER` tool was appropriate.
+3. **Tool Request**: The LLM responded asking to call that specific tool.
+4. **Composio Execution**: `toolset.handle_tool_calls` intercepted this request. It found your linked GitHub credentials, made the actual API call, and returned the result.
+
+You focused on the prompt and handling the final outcome, while Composio managed the tool schemas, authentication, and API interaction.
+
+###### Full Code
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio_openai import ComposioToolSet, Action2from openai import OpenAI34toolset = ComposioToolSet()5client = OpenAI()67tools = toolset.get_tools(actions=[Action.GITHUB_GET_THE_AUTHENTICATED_USER])8task = "Get my GitHub username."9messages = [10    {"role": "system", "content": "You are a helpful assistant that can use tools."},11    {"role": "user", "content": task},12]13response = client.chat.completions.create(14    model="gpt-4o-mini", 15    messages=messages,16    tools=tools,17    tool_choice="auto",18)19result = toolset.handle_tool_calls(response)20print(result)
+```
+
+## AI Tool Integration
+Tool calling as a concept was introduced due to LLMs lack of ability to interact with data and influence external systems. Earlier you might be able to ask an LLM to write you a nice email, but you would have to manually send it. With tool calling, you can now provide an LLM a valid tools for example, [`GMAIL_SEND_EMAIL`](https://docs.composio.dev/tools/gmail#gmail_send_email) to go and accomplish the task autonomously.
+
+Composio extends this by providing a platform to connect your AI agents to external tools like Gmail, GitHub, Salesforce, etc. It’s like a bridge between your AI and the tools it needs to get work done.
+
+## Tool Calling with Composio
+
+Here’s a typical flow when your agent uses a tool via Composio:
+
+External API (e.g., GitHub)Language ModelComposioYour AI Agent/AppExternal API (e.g., GitHub)Language ModelComposioYour AI Agent/App"Get my GitHub username." + \[Tool: GITHUB\_GET\_...\]Chooses GITHUB\_GET... toolPass LLM's tool call request (\`handle\_tool\_calls\`)Finds correct auth for user & GitHubMakes authenticated call to api.github.com/userReturns user data{"data": {"login": "user", ...}, "successful": true}"Tool Result: User login is 'user'""Your GitHub username is user."1\. User Request + Available Tools (via Composio)2\. LLM decides to use a tool3\. Request Tool Execution4\. Retrieve Credentials5\. Execute API Call6\. API Response7\. Return Execution Result8\. Provide Result to LLM (Optional)9\. Final Response
+
+Essentially: Your app gets tool definitions from Composio, the LLM decides which to use, your app tells Composio to run it ( `handle_tool_calls`), and Composio securely executes the real API call.
+
+## Example: Using a Composio Tool with OpenAI
+
+Let’s see this in action. We’ll ask an OpenAI model to fetch a GitHub username using a pre-built Composio tool.
+
+_(Assumes you’ve completed the [Setup steps](https://docs.composio.dev/getting-started/quickstart#setup): installed SDKs, run `composio login`, and `composio add github`)_
+
+**1\. Initialize Clients & Toolset**
+Get your LLM client and Composio toolset ready.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio_openai import ComposioToolSet, App, Action2from openai import OpenAI3# Assumes .env file with API keys is loaded45client = OpenAI()6toolset = ComposioToolSet() # Uses default entity_id
+```
+
+**2\. Get the Composio Tool**
+Fetch the specific tool definition from Composio, formatted for your LLM.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Fetch the tool for getting the authenticated user's GitHub info2tools = toolset.get_tools(actions=[Action.GITHUB_GET_THE_AUTHENTICATED_USER])3print(f"Fetched {len(tools)} tool(s) for the LLM.")
+```
+
+**3\. Send Request to LLM**
+Provide the user’s task and the Composio tools to the LLM.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1task = "What is my GitHub username?"2messages = [{"role": "user", "content": task}]34print(f"Sending task to LLM: '{task}'")5response = client.chat.completions.create(6    model="gpt-4o-mini",7    messages=messages,8    tools=tools,9    tool_choice="auto" # Instruct LLM to choose if a tool is needed10)
+```
+
+**4\. Handle Tool Call via Composio**
+If the LLM decided to use a tool, pass the response to `handle_tool_calls`. Composio takes care of the execution.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1execution_result = None2response_message = response.choices[0].message34if response_message.tool_calls:5    print("LLM requested tool use. Executing via Composio...")6    # Composio handles auth, API call execution, and returns the result7    execution_result = toolset.handle_tool_calls(response)8    print("Execution Result from Composio:", execution_result)9else:10    print("LLM responded directly (no tool used):", response_message.content)1112# Now 'execution_result' holds the data returned by the GitHub API call13# You could parse it or feed it back to the LLM for a final summary.
+```
+
+This example showcases how Composio seamlessly integrates with the LLM’s tool-calling mechanism, handling the complex parts of API interaction securely and reliably.
+
+## Composio Tool Fetching
+Composio has 9000+ tools that one can view, fetch and filter from.
+
+To view the tools, you can use the **[Composio Tool Directory](https://docs.composio.dev/tools)**. It’s a searchable catalog of tools from all our apps. It has the following info for each app:
+
+- Authentication details for the app.
+- List of available actions.
+- Schema for each action.
+
+Once you know which tools you need, you can fetch their definitions programmatically using the methods below.
+
+## Fetching Specific Actions
+
+This is the most precise method. Use it when you know exactly which tool(s) your agent needs access to for a specific task. You can pass specific `Action` enums or their string equivalents.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio_openai import ComposioToolSet, Action23# Initialize ToolSet (assuming API key is in env)4toolset = ComposioToolSet()56# Fetch only the tool for starring a GitHub repo7github_star_tool = toolset.get_tools(8    actions=[Action.GITHUB_STAR_A_REPOSITORY_FOR_THE_AUTHENTICATED_USER]9)1011print(github_star_tool)12# Output will contain the schema for the specified action.
+```
+
+## Fetching Tools by App
+
+If you want to give an LLM general capabilities for a connected application (like “manage my GitHub issues”), you can fetch tools by specifying the `App`.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Fetch default tools for the connected GitHub app2github_tools = toolset.get_tools(apps=[App.GITHUB])34print(f"Fetched {len(github_tools)} tools for GitHub.")5# Output contains schemas for 'important' GitHub tools.
+```
+
+##### Default App Tool Filtering
+
+By default, fetching tools using only the `apps` filter returns actions tagged as `important`. This prevents overwhelming the LLM’s context window with too many tools. If you need _all_ actions for an app, you’ll need to fetch them explicitly or explore the app’s page in the [Tool Directory](https://docs.composio.dev/tools).
+
+## Fetching Specific Tools
+
+You can fetch specific tools by their action names.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Fetch specific tools by action name2github_tools = toolset.get_tools(3    actions=[4        Action.GITHUB_GET_THE_AUTHENTICATED_USER,5        Action.GITHUB_LIST_REPOSITORIES_FOR_THE_AUTHENTICATED_USER6    ]7)89print(f"Fetched {len(github_tools)} tools.")10# Output contains schemas for the specified actions.
+```
+
+## Filtering App Tools by Tags
+
+You can refine the tools fetched for an app by adding `tags`. This is useful for focusing the LLM on a specific category of actions within an app.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Fetch only Jira tools related to 'Issues'2jira_issue_tools = toolset.get_tools(3    apps=[App.JIRA],4    tags=["Issues"] # Tag names are case-sensitive5)67print(f"Fetched {len(jira_issue_tools)} Jira tools tagged with 'Issues'.")
+```
+
+## Finding Tools by Use Case (Experimental)
+
+For creating more agentic flows when creating general agents over a broad problem statement, you can search for actions based on a natural language description of the task and then inject it in.
+
+This feature uses semantic search and is currently experimental. Results may vary.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Describe the task2query = "create a new page in notion"34# Find relevant action ENUMS (Python-specific helper)5relevant_actions = toolset.find_actions_by_use_case(6    use_case=query,7    apps=[App.NOTION] # Optionally scope the search to specific apps8    # advanced=True # Use for complex queries needing multiple tools9)1011print(f"Found relevant actions: {relevant_actions}")1213# Fetch the actual tool schemas for the found actions14if relevant_actions:15    notion_tools = toolset.get_tools(actions=relevant_actions)16    print(f"Fetched {len(notion_tools)} tool(s) for the use case.")17else:18    print("No relevant actions found for the use case.")1920# Use the `notion_tools` in your agent
+```
+
+Use the `advanced=True` (Python) / `advanced: true` (TypeScript) flag if the use case might require multiple tools working together in sequence. Composio’s search will attempt to find a suitable chain of actions.
+
+## Inspecting Tool Schemas
+
+Sometimes, you might need to examine the raw JSON schema definition of a tool, rather than getting it pre-formatted for a specific LLM framework via `get_tools`. This can be useful for:
+
+- Understanding exact input parameters and output structures.
+- Building custom logic around tool definitions.
+- Debugging tool interactions.
+- Research and experimentation.
+
+You can retrieve the raw action schemas using the `get_action_schemas` method.
+
+##### Bypass Connection Checks
+
+A key feature for inspection is setting `check_connected_accounts=False`. This allows you to fetch the schema for any tool, even if you haven’t connected the corresponding app via `composio add <app>`, making it ideal for exploration.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio import ComposioToolSet, Action, App # Use base ComposioToolSet for schema inspection23# Initialize base ToolSet4base_toolset = ComposioToolSet()56# Get the raw schema for a specific Google Calendar action7# Bypass the check for an active Google Calendar connection8calendar_schemas = base_toolset.get_action_schemas(9    actions=[Action.GOOGLECALENDAR_LIST_CALENDARS],10    check_connected_accounts=False11)1213if calendar_schemas:14    import json15    print("Raw Schema for GOOGLECALENDAR_LIST_CALENDARS:")16    # calendar_schemas is a list, access the first element17    print(json.dumps(calendar_schemas[0].model_dump(), indent=2))18else:19    print("Schema not found.")2021# You can also fetch schemas by app or tags similarly22# github_schemas = base_toolset.get_action_schemas(23#    apps=[App.GITHUB], check_connected_accounts=False24# )
+
+```
+
+This method returns detailed `ActionModel` objects containing the full parameter and response schemas, version information, and more, without the framework-specific wrappers applied by `get_tools`.
+
+## Executing Composio Tools
+Once you have fetched or defined your tools ( [Fetching Tools](https://docs.composio.dev/tool-calling/fetching-tools)), the next step is to execute them. This means triggering the actual API call or function execution that the tool represents.
+
+There are two primary ways to execute Composio tools:
+
+1. **[Automatic execution](https://docs.composio.dev/tool-calling/executing-tools#automatic-execution)**: Your chosen LLM decides which tool to call, and a framework (like Vercel AI SDK, LangChain) handles triggering the execution logic provided by Composio.
+2. **[Direct execution](https://docs.composio.dev/tool-calling/executing-tools#direct-execution)**: Your LLM/agent decides to call a tool and the code explicitly invokes the specific Composio tool using the `execute_action` method, often used for testing or simple automation.
+
+## Automatic execution
+
+Frameworks like the Vercel AI, LangGraph often have features to automatically `execute` the tools. The framework will handle the execution logic provided by Composio.
+
+**Here’s an example of how Vercel AI SDK automatically executes tools**
+
+Vercel AI SDK
+
+```code-block text-sm
+
+1// Conceptual illustration within Vercel AI SDK context2import { VercelAIToolSet } from "composio-core";3import { generateText } from 'ai';4import { openai } from '@ai-sdk/openai';56const toolset = new VercelAIToolSet(); // Gets API key from env78async function runVercelExample() {9  const { tool } = await import('ai'); // Vercel AI SDK tool definition type1011  // 1. Fetch tool - Composio formats it for Vercel, including an 'execute' function12  const tools = await toolset.getTools({ actions: ["GITHUB_GET_THE_AUTHENTICATED_USER"] });1314  // 2. Use the tool with the framework's function (e.g., generateText)15  const { text, toolResults } = await generateText({16    model: openai('gpt-4o-mini'),17    prompt: 'Get my GitHub username',18    tools: tools // Provide the Composio-generated tool definitions19  });2021  // 3. Framework internally calls the 'execute' method on the chosen tool.22  //    Composio's wrapper inside 'execute' handles the actual API call.23  console.log("Tool Results:", toolResults);24  console.log("Final Text:", text);25}
+```
+
+**Key Takeaway:** When using a framework integration, you typically fetch tools using the corresponding Composio ToolSet (e.g., `VercelAIToolSet`) and then use the framework’s standard way to handle tool calls. Composio’s ToolSet ensures the execution logic is correctly wired behind the scenes.
+
+Refer to the specific **[Framework Integration Guide](https://docs.composio.dev/frameworks)** for your chosen framework (e.g., Vercel AI, LangChain, CrewAI) to see the exact code patterns for handling tool execution within that ecosystem.
+
+## Direct execution
+
+For scenarios where you want to run a specific tool programmatically without an LLM making the decision, use the `execute_action` method. This is available on the base `ComposioToolSet` and framework-specific ToolSets.
+
+Use this when you want to run a specific tool programmatically without an LLM making the decision.
+
+Let’s create a **[GitHub issue](https://docs.composio.dev/tools/github#github_create_an_issue)** using Composio.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Example: Create a GitHub Issue Directly2from composio_openai import ComposioToolSet, Action3# Assumes toolset is initialized and authenticated45toolset = ComposioToolSet()67print("Creating GitHub issue directly...")8try:9    result = toolset.execute_action(10        action=Action.GITHUB_CREATE_AN_ISSUE,11        params={12            "owner": "composiohq",  # Replace with actual owner13            "repo": "agi",  # Replace with actual repo14            "title": "New Issue via Composio execute_action",15            "body": "This issue was created directly using the Composio SDK.",16            # Other optional params like 'assignees', 'labels' can be added here17        },18        # entity_id="your-user-id" # Optional: Specify if not 'default'19    )2021    if result.get("successful"):22        print("Successfully created issue!")23        # Issue details are often in result['data']24        print("Issue URL:", result.get("data", {}).get("html_url"))25    else:26        print("Failed to create issue:", result.get("error"))2728except Exception as e:29    print(f"An error occurred: {e}")
+```
+
+This directly triggers the specified Composio action using the associated user’s credentials.
+
+## Specifying Users
+
+### By using `entity_id`
+
+Composio needs to know _which user’s_ connection/credentials to use when executing an authenticated action. You provide this context using `entity_id` and sometimes `connected_account_id`.
+
+By default it uses the default entity ID `"default"`.
+
+For multi-tenant applications (multi-user apps), you need to provide the `entity_id`.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Direct Execution with entity_id2toolset.execute_action(3    action=Action.GITHUB_CREATE_AN_ISSUE,4    params={...},5    entity_id="user-from-my-db-123"6)
+```
+
+### By using `connected_account_id`
+
+`connected_account_id` offers more precision by identifying a _specific instance_ of a connection (e.g., a user’s work Gmail vs. personal Gmail).
+
+You typically only need this if an `entity_id` has multiple active connections for the _same app_.
+
+If `connected_account_id` is not provided, Composio generally uses the most recently added _active_ connection matching the `entity_id` and the app being used. You can pass it when needed, primarily with `execute_action`:
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Direct Execution targeting a specific connection2toolset.execute_action(3    action=Action.GMAIL_SEND_EMAIL,4    params={...},5    connected_account_id="conn_abc123xyz" # The specific Gmail connection6)
+```
+
+## Customizing Composio Tools
+While Composio offers a vast library of pre-built tools, you often need to integrate your own custom logic or interact with APIs in specific ways. This guide covers how to create and use custom tools within the Composio ecosystem.
+
+**You can create custom tools to:**
+
+- [Wrap your existing functions](https://docs.composio.dev/tool-calling/customizing-tools#defining-tools-from-your-functions), making them callable by LLMs.
+- [Extend the functionality of existing Composio-integrated apps](https://docs.composio.dev/tool-calling/customizing-tools#extending-composio-toolkits) by calling their APIs using Composio’s managed authentication.
+- Inject and [use your own external authentication](https://docs.composio.dev/tool-calling/customizing-tools#adding-custom-authentication-to-tools) credentials to execute any Composio tool.
+
+## Defining Tools from Your Functions
+
+The most straightforward way to create a custom tool is to wrap an existing function in your codebase. Composio provides decorators (Python) and methods (TypeScript) to make these functions discoverable and executable by LLMs.
+
+### Python ( `@action`)
+
+Use the `@action` decorator from `composio` to designate a Python function as a tool. Composio automatically infers the tool’s schema and description from the following:
+
+- **Function Name:** Becomes the default tool name (can be overridden).
+- **Docstring:** Used as the tool’s description for the LLM. Make it clear and concise!
+- **Type Hints:** Define the input parameters and their types for the LLM and for validation.
+- **Return Type Hint:** Informs the expected output structure.
+
+**Example:**
+
+Python
+
+```code-block text-sm
+
+1from composio import action2from typing import Annotated # Recommended for descriptions34# Define a simple function5@action # Decorate it to make it a Composio tool6def add_numbers(7    a: Annotated[int, "The first number to add"],8    b: Annotated[int, "The second number to add"]9) -> int:10    """Adds two integers and returns the result."""11    print(f"Executing add_numbers: Adding {a} and {b}")12    return a + b1314# Optionally, provide a custom name for the tool15@action(toolname="calculator_multiply")16def multiply_numbers(17    a: Annotated[int, "The first number"],18    b: Annotated[int, "The second number"]19) -> int:20    """Multiplies two integers."""21    print(f"Executing multiply_numbers: Multiplying {a} by {b}")22    return a * b
+```
+
+### TypeScript ( `createAction`)
+
+Use the `createAction` method on your ToolSet instance ( `OpenAIToolSet`, `LangchainToolSet`, etc.). You provide the configuration, including a [Zod](https://zod.dev/) schema for input parameters and an async callback function containing your logic.
+
+**Example:**
+
+TypeScript
+
+```code-block text-sm
+
+1import { OpenAIToolSet } from "composio-core"; // Or your specific framework ToolSet2import { z } from "zod";34const toolset = new OpenAIToolSet(); // Initialize ToolSet56// Define the input schema using Zod7const addSchema = z.object({8    a: z.number().describe("The first number to add"),9    b: z.number().describe("The second number to add"),10});1112// Register the custom action13await toolset.createAction({14    actionName: "add_numbers", // Unique name for this tool15    description: "Adds two numbers and returns the sum.",16    inputParams: addSchema, // Provide the Zod schema17    // The callback function containing your logic18    callback: async (input) => {19        // Safely access validated input (casting based on schema)20        const params = input as z.infer<typeof addSchema>;21        console.log(`Executing add_numbers: Adding ${params.a} and ${params.b}`);22        const sum = params.a + params.b;23        // Return a JSON-serializable result24        return { result: sum };25    },26});2728console.log("Custom action 'add_numbers' registered.");
+```
+
+### Using Your Custom Function Tools
+
+Once defined ( `@action`) or registered ( `createAction`), these tools behave like any other Composio tool:
+
+1. **Fetch them:** Use `get_tools`, referencing the function object (Python) or the `actionName` string (Python/TS).
+2. **Execute them:** Use framework handlers (like Vercel’s `execute`) or `execute_action`.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Fetch custom and built-in tools together2tools = toolset.get_tools(3    actions=[4        Action.GITHUB_GET_THE_AUTHENTICATED_USER, # Built-in5        add_numbers,                         # Custom (by function object)6        "calculator_multiply"                # Custom (by toolname string)7    ]8)9# Pass 'tools' to your LLM or framework
+```
+
+## Extending Composio Toolkits
+
+A powerful feature is creating custom tools that leverage Composio’s **managed authentication** for an existing app (like GitHub, Slack, etc.). This allows you to call API endpoints for that app without handling credentials yourself.
+
+**Example: Get GitHub Repository Topics**
+
+Let’s create a tool to fetch topics for a GitHub repo, using Composio’s managed GitHub auth.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Python Example using execute_request2from composio import action, ComposioToolSet3import typing as t45toolset = ComposioToolSet()67@action(toolname="github") # Associate with GitHub app for auth8def get_github_repo_topics(9    owner: Annotated[str, "Repository owner username"],10    repo: Annotated[str, "Repository name"],11    execute_request: t.Callable # Injected by Composio12) -> dict:13    """Gets the topics associated with a specific GitHub repository."""14    print(f"Getting topics for {owner}/{repo} using Composio-managed GitHub auth...")15    try:16        # Call the GitHub API endpoint using the injected function17        response_data = execute_request(18            endpoint=f"/repos/{owner}/{repo}/topics", # API path relative to base URL19            method="GET"20            # Body/parameters usually not needed when relying on managed auth21        )22        # Ensure response_data is a dictionary before accessing 'names'23        if isinstance(response_data, dict):24             return {"topics": response_data.get("names", [])}25        else:26             # Handle unexpected response format27             print(f"Warning: Unexpected response format from execute_request: {type(response_data)}")28             return {"error": "Failed to parse topics", "raw_response": response_data}2930    except Exception as e:31        print(f"Error executing request for topics: {e}")32        return {"error": str(e)}3334# --- Example Usage ---35# You would fetch this tool like any other:36# tools = toolset.get_tools(actions=[get_github_repo_topics])37# result = toolset.execute_action(get_github_repo_topics, params={"owner": "composiohq", "repo": "composio"})38# print(result)
+```
+
+This allows you to extend Composio’s capabilities for any integrated app without managing the authentication flow yourself.
+
+## Adding Custom Authentication to Tools
+
+You can also execute _any_ Composio tool (pre-built or custom-defined) using your own authentication credentials provided at runtime. This is useful if you manage tokens or API keys separately from Composio’s connection system.
+
+Use the `execute_action` method and provide the `auth` parameter.
+
+**Example: Create GitHub Issue with a Provided Token**
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Python example providing a custom Bearer token2from composio import ComposioToolSet, Action34toolset = ComposioToolSet()5bearer_token = "ghp_YourPersonalAccessToken..." # Replace with your actual token67print("Creating issue using custom auth...")8try:9    result = toolset.execute_action(10        action=Action.GITHUB_CREATE_ISSUE,11        params={12            "owner": "your-username",13            "repo": "test-repo",14            "title": "Issue Created with Custom Token",15            "body": "This issue uses an externally provided auth token."16        },17        # Provide authentication details via the 'auth' parameter18        auth={19            "parameters": [20                {21                    "name": "Authorization", # Header name22                    "value": f"Bearer {bearer_token}", # Header value23                    "in_": "header" # Placement (header, query, path, etc.)24                }25            ]26            # 'base_url' could be added here for GitHub Enterprise27            # 'body' could be added for complex auth flows if needed28        }29        # entity_id is typically not needed when providing full custom auth30    )31    print(result)32except Exception as e:33    print(f"An error occurred: {e}")
+
+```
+
+This gives you flexibility while still leveraging Composio’s standardized action execution and schema handling. The `ParamPlacement` enum (TS) or string values ( `"header"`, `"query"`, `"path"`) specify where the custom parameter should be injected into the API request.
+
+## Composio Processing Tools
+Composio allows you to refine how tools interact with LLMs and external APIs through **Processors**. These are custom functions you provide to modify data at key stages:
+
+- before the LLM sees the tool’s definition
+- before Composio executes the tool
+- after Composio executes the tool
+
+**Why use Processors?**
+
+- **Improve Reliability:** Remove confusing parameters or inject required values the LLM might miss.
+- **Guide LLMs:** Simplify tool schemas or descriptions for better tool selection.
+- **Manage Context & Cost:** Filter large API responses to send only relevant data back to the LLM, saving tokens.
+- **Adapt to Workflows:** Transform tool inputs or outputs to match your application’s specific needs.
+
+##### Python SDK Only
+
+Tool Processors described on this page are currently only available in Composio’s **Python SDK**. Support for TypeScript is planned for the future.
+
+## How Processors Work
+
+Processors are Python functions you define and pass to `get_tools` within a `processors` dictionary. The dictionary maps the processing stage ( `"schema"`, `"pre"`, `"post"`) to another dictionary, which maps the specific `Action` to your processor function.
+
+Python
+
+```code-block text-sm
+
+1# Conceptual structure for applying processors23def my_schema_processor(schema: dict) -> dict: ...4def my_preprocessor(inputs: dict) -> dict: ...5def my_postprocessor(result: dict) -> dict: ...67tools = toolset.get_tools(8    actions=[Action.SOME_ACTION],9    processors={10        # Applied BEFORE the LLM sees the schema11        "schema": {Action.SOME_ACTION: my_schema_processor},1213        # Applied BEFORE the tool executes14        "pre": {Action.SOME_ACTION: my_preprocessor},1516        # Applied AFTER the tool executes, BEFORE the result is returned17        "post": {Action.SOME_ACTION: my_postprocessor}18    }19)
+```
+
+Let’s look at each type.
+
+## Schema Processing ( `schema`)
+
+**Goal:** Modify the tool’s definition (schema) _before_ it’s provided to the LLM.
+
+**Example: Simplifying `GMAIL_SEND_EMAIL` Schema**
+
+Let’s hide the `recipient_email` and `attachment` parameters from the LLM, perhaps because our application handles the recipient logic separately and doesn’t support attachments in this flow.
+
+Python
+
+```code-block text-sm
+
+1from composio_openai import ComposioToolSet, Action23toolset = ComposioToolSet()45def simplify_gmail_send_schema(schema: dict) -> dict:6    """Removes recipient_email and attachment params from the schema."""7    params = schema.get("parameters", {}).get("properties", {})8    params.pop("recipient_email", None)9    params.pop("attachment", None)10    # We could also modify descriptions here, e.g.:11    # schema["description"] = "Sends an email using Gmail (recipient managed separately)."12    return schema1314# Get tools with the modified schema15processed_tools = toolset.get_tools(16    actions=[Action.GMAIL_SEND_EMAIL],17    processors={18        "schema": {Action.GMAIL_SEND_EMAIL: simplify_gmail_send_schema}19    }20)2122# Now, when 'processed_tools' are given to an LLM, it won't see23# the 'recipient_email' or 'attachment' parameters in the schema.24# print(processed_tools[0]) # To inspect the modified tool definition
+```
+
+## Preprocessing ( `pre`)
+
+**Goal:** Modify the input parameters provided by the LLM _just before_ the tool executes.
+
+Use this to inject required values hidden from the LLM (like the `recipient_email` from the previous example), add default values, clean up or format LLM-generated inputs, or perform last-minute validation.
+
+**Example: Injecting `recipient_email` for `GMAIL_SEND_EMAIL`**
+
+Continuing the previous example, since we hid `recipient_email` from the LLM via schema processing, we now need to inject the correct value before Composio executes the `GMAIL_SEND_EMAIL` action.
+
+Python
+
+```code-block text-sm
+
+1def inject_gmail_recipient(inputs: dict) -> dict:2    """Injects a fixed recipient email into the inputs."""3    # Get the recipient from app logic, context, or hardcode it4    inputs["recipient_email"] = "fixed.recipient@example.com"5    # Ensure subject exists, providing a default if necessary6    inputs["subject"] = inputs.get("subject", "No Subject Provided")7    return inputs89# Combine schema processing and preprocessing10processed_tools = toolset.get_tools(11    actions=[Action.GMAIL_SEND_EMAIL],12    processors={13        "schema": {Action.GMAIL_SEND_EMAIL: simplify_gmail_send_schema},14        "pre": {Action.GMAIL_SEND_EMAIL: inject_gmail_recipient}15    }16)1718# Now, when the LLM calls this tool (without providing recipient_email),19# the 'inject_gmail_recipient' function will run automatically20# before Composio executes the action, adding the correct email.21# result = toolset.handle_tool_calls(llm_response_using_processed_tools)
+```
+
+##### Schema vs. Preprocessing
+
+Think of `schema` processing as changing the **tool’s instructions** for the LLM, while `pre` processing adjusts the **actual inputs** right before execution based on those instructions (or other logic).
+
+## Postprocessing ( `post`)
+
+**Goal:** Modify the result returned by the tool’s execution _before_ it is passed back.
+
+This is invaluable for filtering large or complex API responses to extract only the necessary information, reducing the number of tokens sent back to the LLM, improving clarity, and potentially lowering costs.
+
+**Example: Filtering `GMAIL_FETCH_EMAILS` Response**
+
+The `GMAIL_FETCH_EMAILS` action can return a lot of data per email. Let’s filter the response to include only the `sender` and `subject`, significantly reducing the payload sent back to the LLM.
+
+Python
+
+```code-block text-sm
+
+1import json # For pretty printing example output23def filter_email_results(result: dict) -> dict:4    """Filters email list to only include sender and subject."""5    # Pass through errors or unsuccessful executions unchanged6    if not result.get("successful") or "data" not in result:7        return result89    original_messages = result["data"].get("messages", [])10    if not isinstance(original_messages, list):11        return result # Return if data format is unexpected1213    filtered_messages = []14    for email in original_messages:15        filtered_messages.append({16            "sender": email.get("sender"),17            "subject": email.get("subject"),18        })1920    # Construct the new result dictionary21    processed_result = {22        "successful": True,23        # Use a clear key for the filtered data24        "data": {"summary": filtered_messages},25        "error": None26    }27    return processed_result2829# Get tools with the postprocessor30processed_tools = toolset.get_tools(31    actions=[Action.GMAIL_FETCH_EMAILS],32    processors={33        "post": {Action.GMAIL_FETCH_EMAILS: filter_email_results}34    }35)3637# --- Simulate Execution and Postprocessing ---38# Assume 'raw_execution_result' is the large dictionary returned by39# executing GMAIL_FETCH_EMAILS without postprocessing.40# raw_execution_result = toolset.execute_action(Action.GMAIL_FETCH_EMAILS, params={...})4142# Apply the postprocessor manually to see the effect (handle_tool_calls does this automatically)43# filtered_result = filter_email_results(raw_execution_result)44# print("Filtered Result (much smaller for LLM):")45# print(json.dumps(filtered_result, indent=2))
+```
+
+By using postprocessing, you can make tool results much more manageable and useful for the LLM, preventing context overflow and focusing its attention on the most relevant information.
+
+## Custom Apps Integration
+## OpenAPI based Apps and Tools
+
+Composio supports installing [custom apps and tools](https://app.composio.dev/custom_tools) based on an OpenAPI specification.
+
+Make sure to have `info` section in your OpenAPI Specification. In the info section, you should have the following fields:
+
+- `title`: Name of the tool
+- `version`: Version of the tool/spec
+
+### Integration YAML Configuration
+
+This README provides an overview of the `integration.yaml` file structure used for configuring app integrations, with a focus on custom fields.
+
+### YAML Structure
+
+The `integration.yaml` file typically includes the following key sections:
+
+1. **Basic Information**
+   - `name`: App name
+   - `unique_key`: Unique identifier for the app
+   - `description`: Brief description of the app
+   - `logo`: URL to the app’s logo
+   - `categories`: List of categories the app belongs to. Examples include:
+     - productivity
+     - marketing
+     - social
+     - crm
+   - `docs`: Link to the app’s documentation
+2. **Authentication Schemes**
+   - `auth_schemes`: List of authentication methods supported
+     - `name`: Name of the auth scheme
+     - `auth_mode`: Authentication mode (Supported modes: OAUTH2, BASIC, API\_KEY, OAUTH1)
+     - For OAuth2:
+       - `authorization_url`: OAuth authorization URL
+       - `token_url`: Token endpoint URL
+       - `default_scopes`: Default OAuth scopes
+       - `available_scopes`: List of all available scopes
+       - `authorization_params`: Additional parameters for authorization (e.g., `response_type`, `user_scopes`)
+     - For OAuth1:
+       - `authorization_url`: OAuth authorization URL
+       - `request_url`: Request token URL
+       - `token_url`: Access token URL
+       - `signature_method`: Signature method (e.g., HMAC-SHA1)
+       - `default_scopes`: Default OAuth scopes
+       - `scope_separator`: Character used to separate scopes
+     - For API Key:
+
+
+       ```code-block text-sm
+
+
+
+
+       1proxy:2  base_url: "{{base_url}}"3  headers:4    Authorization: "{{api_key}}"
+       ```
+
+     - For Basic Auth:
+       `username` and `password` fields are required. You can use them in the proxy/header section directly like:
+
+
+       ```code-block text-sm
+
+
+
+
+       1proxy:2  headers:3    username: "{{username}}"4    password: "{{password}}"
+       ```
+3. **Endpoints**
+   - `get_current_user_endpoint`: Endpoint for retrieving current user info. This is used to check if the auth is valid and refresh the token if it is expired.
+4. **Custom Fields**
+Custom fields are defined within the `auth_schemes` section and provide additional configuration options for the integration. They are typically found under the `fields` key of an auth scheme.
+
+Common attributes for custom fields include:
+
+
+   - `name`: Unique identifier for the field
+   - `display_name`: Human-readable name for the field
+   - `description`: Detailed explanation of the field’s purpose
+   - `type`: Data type of the field (e.g., string, boolean)
+   - `required`: Whether the field is mandatory
+   - `expected_from_customer`: Indicates if the end customer needs to provide this information
+   - `default`: Default value for the field (if applicable)
+
+Examples of custom fields:
+
+a. API Key field:
+
+```code-block text-sm
+
+1fields:2  - name: api_key3    display_name: API Key4    description: "Your API key for authentication."5    type: string6    required: true7    expected_from_customer: true
+```
+
+b. Instance URL field (e.g., for Salesforce):
+
+```code-block text-sm
+
+1fields:2  - name: instanceUrl3    display_name: Instance URL4    description: "The base URL for your instance, used for API requests."5    type: string6    required: true7    expected_from_customer: true
+```
+
+c. Subdomain field (e.g., for PostHog):
+
+```code-block text-sm
+
+1fields:2  - name: subdomain3    display_name: Sub Domain4    description: "Your PostHog subdomain (e.g., 'app' for app.posthog.com)."5    type: string6    required: true7    default: "app"
+```
+
+5. **Additional Configuration**
+
+
+   - `callback_url`: URL for OAuth callback
+   - `token_response_metadata`: List of metadata fields expected in the token response
+   - `proxy`: Configuration for API request proxying. This section defines the data to be used in the request. It can use the fields defined via jinja templating `{{field_name}}`. It can include:
+     - `base_url`: The base URL for API requests
+     - `headers`: Custom headers to be included in the request
+     - `query_params`: Custom query parameters to be included in the request
+     - `path_params`: Custom path parameters to be included in the request
+
+Example of a proxy configuration:
+
+```code-block text-sm
+
+1proxy:2  base_url: "https://api.example.com/v1"3  headers:4    Authorization: "Bearer {{access_token}}"5    Content-Type: "application/json"6  query_params:7    api_key: "{{api_key}}"
+```
+
+In this example, `{{access_token}}` and `{{api_key}}` are placeholders that will be replaced with actual values from the authentication process or custom fields.
+
+### Usage of Custom Fields
+
+Custom fields are used to gather necessary information from users or provide default configurations for the integration. They can be referenced in other parts of the configuration using placeholders, typically in the format `{{field_name}}`.
+
+## Composio Auth Overview
+AI agents often need to perform actions on behalf of users like;
+
+- sending an email from their Gmail
+- creating an issue in their Jira
+- or posting to their Slack
+
+Doing this securely requires handling complex authentication flows like OAuth 2.0, managing API keys, storing sensitive tokens, and refreshing credentials. This distracts from building the core agent logic.
+
+Let’s see how Composio Auth works in a basic example where we connect a user to their GitHub account.
+
+## Quickstart with Composio Auth
+
+**1\. Identify the User (Entity) & App**
+
+Composio lets you specify a unique `entity_id` for each user in your application. This is the user’s identifier in your application.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# User identifier from your application2user_id_in_my_app = "user-alice-456"    # Can be UUID from DB3app_to_connect = "github" # The app key
+```
+
+**2\. Initiate the Connection**
+
+You’ll need the `integration_id` for the app (which you typically set up once - see [Integrations](https://docs.composio.dev/auth/set-up-integrations)) and the `entity_id` you specified for your user.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio_openai import ComposioToolSet, Action # Or framework-specific ToolSet23toolset = ComposioToolSet()4entity = toolset.get_entity(id=user_id_in_my_app) # Get Entity object56print(f"Initiating GitHub connection for entity: {entity.id}")7# Initiate connection using the app's Integration and the user's Entity ID8connection_request = entity.initiate_connection(app_name=app_to_connect)910# Composio returns a redirect URL for OAuth flows11if connection_request.redirectUrl:12    print(f"Please direct the user to visit: {connection_request.redirectUrl}")
+```
+
+**3\. Wait for Connection Activation (OAuth)**
+
+For OAuth flows, the user needs to visit the `redirectUrl` and authorize the connection. Your application can wait for the connection to become active.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Wait for the user to complete the OAuth flow in their browser2print("Waiting for connection to become active...")3try:4    # This polls until the connection status is ACTIVE or timeout occurs5    active_connection = connection_request.wait_until_active(6        client=toolset.client, # Pass the underlying client7        timeout=120 # Wait for up to 2 minutes8    )9    print(f"Connection successful! ID: {active_connection.id}")10    # Store active_connection.id associated with user_id_in_my_app11except Exception as e:12    print(f"Connection timed out or failed: {e}")
+```
+
+**4\. Execute Actions Using the Connection**
+
+Once the connection is active, you (or realistically, an agent) can execute actions for that app _on behalf of that specific user_ by providing their `entity_id`
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Execute using the user's entity_id (Composio finds the right connection)2print(f"\nFetching GitHub username for entity: {user_id_in_my_app}")3user_info = toolset.execute_action(4    action=Action.GITHUB_GET_THE_AUTHENTICATED_USER,5    params={},6    entity_id=user_id_in_my_app # Specify the user context7)89if user_info.get("successful"):10    print("GitHub username:", user_info.get("data", {}).get("login"))11else:12    print("Failed to fetch user:", user_info.get("error"))
+```
+
+Alternatively, you can execute actions directly using the connection ID if you have it:
+
+PythonTypeScript
+
+```code-block text-sm
+
+1user_info_direct = toolset.execute_action(2    action=Action.GITHUB_GET_THE_AUTHENTICATED_USER,3    params={},4    connected_account_id=active_connection.id5)
+```
+
+This flow demonstrates how Composio uses **Integrations** (app config), **Entities** (your users), and **Connections** (the secure link between them) to simplify authenticated interactions for your AI agents.
+
+![Composio Auth Concepts Diagram](https://prod.ferndocs.com/_next/image?url=https%3A%2F%2Ffiles.buildwithfern.com%2Fcomposio.docs.buildwithfern.com%2F2025-04-11T20%3A00%3A49.804Z%2Fassets%2Fimages%2Fauth-concepts.png&w=3840&q=75)
+
+###### Full Runnable Example Code
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# filename: connect_and_fetch_github.py2from composio_openai import ComposioToolSet, Action, App3from dotenv import load_dotenv4import os5import sys6import time78# Load environment variables from .env file9# Ensure COMPOSIO_API_KEY is set10load_dotenv()1112def run_auth_flow():13    # --- 1. Identify User & App ---14    user_id_in_my_app = "user-quickstart-py-example" # Example user ID15    app_to_connect = App.GITHUB # Use Enum for clarity1617    print(f"--- Starting GitHub connection for Entity: {user_id_in_my_app} ---")1819    toolset = ComposioToolSet()20    entity = toolset.get_entity(id=user_id_in_my_app)2122    active_connection = None # Initialize variable2324    try:25        # --- 2. Initiate Connection ---26        print(f"Initiating {app_to_connect.value} connection...")27        # Use app_name; SDK finds appropriate integration28        connection_request = entity.initiate_connection(app_name=app_to_connect)2930        # --- 3. Handle Redirect & Wait for Activation (OAuth) ---31        if connection_request.redirectUrl:32            print("\n!!! ACTION REQUIRED !!!")33            print(f"Please visit this URL to authorize the connection:\n{connection_request.redirectUrl}\n")34            print("Waiting for connection to become active (up to 120 seconds)...")3536            try:37                # Poll Composio until the connection is marked active38                active_connection = connection_request.wait_until_active(39                    client=toolset.client, # Pass the underlying client40                    timeout=12041                )42                print(f"\nConnection successful! ID: {active_connection.id}")43                # In a real app, you'd store active_connection.id linked to user_id_in_my_app44            except Exception as e:45                print(f"Error waiting for connection: {e}", file=sys.stderr)46                print("Please ensure you visited the URL and approved the connection.")47                return # Exit if connection failed4849        else:50            # Handle non-OAuth flows if needed (e.g., API Key where connection is instant)51            print("Connection established (non-OAuth flow). Fetching details...")52            # Fetch the connection details using the ID from the request53            active_connection = toolset.client.connected_accounts.get(connection_id=connection_request.connectedAccountId)54            if active_connection.status != "ACTIVE":55                 print(f"Connection is not active (Status: {active_connection.status}). Exiting.", file=sys.stderr)56                 return575859        # --- 4. Execute Action ---60        if active_connection and active_connection.status == "ACTIVE":61            print(f"\nExecuting action using connection ID: {active_connection.id}")62            print(f"Fetching GitHub username for entity: {user_id_in_my_app}...")6364            user_info = toolset.execute_action(65                action=Action.GITHUB_GET_THE_AUTHENTICATED_USER,66                params={},67                # Provide context via entity_id (recommended)68                entity_id=user_id_in_my_app69                # OR precisely target the connection (if ID was stored)70                # connected_account_id=active_connection.id71            )7273            print("\n--- Execution Result ---")74            if user_info.get("successful"):75                username = user_info.get("data", {}).get("login", "N/A")76                print(f"Successfully fetched GitHub username: {username}")77            else:78                print(f"Failed to fetch user info: {user_info.get('error', 'Unknown error')}")79            # import json80            # print("\nFull response:")81            # print(json.dumps(user_info, indent=2))82        else:83             print("\nSkipping action execution as connection is not active.")848586    except Exception as e:87        print(f"\nAn unexpected error occurred: {e}", file=sys.stderr)8889if __name__ == "__main__":90    run_auth_flow()
+```
+
+## Composio Integration Setup
+An **Integration** is the developer-level configuration within Composio for a specific external app (like GitHub, Slack, Google Calendar). It acts as the **blueprint** defining _how_ Composio should interact with that app, including its authentication method (OAuth, API Key, etc.) and API details.
+
+- Integrations **do not** store individual user credentials.
+- You typically **create an Integration once per app**, per environment (e.g., one for development, one for production).
+- The main outcome is obtaining a unique **`integration_id`**, which you’ll use later to [connect your users](https://docs.composio.dev/auth/connection).
+
+## Creating an Integration
+
+You can set up Integrations via the Composio Dashboard (recommended for visual configuration) or the CLI.
+
+###### Dashboard (Recommended)
+
+###### CLI
+
+###### Code (Advanced)
+
+The dashboard offers a guided process for all app types.
+
+[1](https://docs.composio.dev/auth/set-up-integrations#select-app)
+
+### Select App
+
+Navigate to the [Apps page](https://app.composio.dev/apps) and choose the app you want to integrate (e.g., Slack).
+
+![](https://prod.ferndocs.com/_next/image?url=https%3A%2F%2Ffiles.buildwithfern.com%2Fcomposio.docs.buildwithfern.com%2F2025-04-11T20%3A00%3A49.804Z%2Fassets%2Fimages%2Fintegration-step-1-0.png&w=3840&q=75)
+
+[2](https://docs.composio.dev/auth/set-up-integrations#initiate-setup)
+
+### Initiate Setup
+
+Click the **“Setup Integration”** button.
+
+![](https://prod.ferndocs.com/_next/image?url=https%3A%2F%2Ffiles.buildwithfern.com%2Fcomposio.docs.buildwithfern.com%2F2025-04-11T20%3A00%3A49.804Z%2Fassets%2Fimages%2Fintegration-step-2-0.png&w=3840&q=75)
+
+[3](https://docs.composio.dev/auth/set-up-integrations#configure-integration-settings-if-required)
+
+### Configure Integration Settings (If Required)
+
+The next steps depend on the app’s authentication method:
+
+- **For OAuth 2.0 Apps:** You’ll need to decide whether to use Composio’s default OAuth app or your own developer credentials. For more details, see **[Handling OAuth Connections](https://docs.composio.dev/auth/connection/oauth)** and **[White-labelling](https://docs.composio.dev/auth/white-labelling)**.
+- **For API Key/Token Apps:** The keys are typically provided by the end-user later in the connection flow. See **[Handling API Key Connections](https://docs.composio.dev/auth/connection/non-oauth)** for that process.
+
+You might also configure default scopes or API base URLs here if applicable.
+
+[4](https://docs.composio.dev/auth/set-up-integrations#optional-limit-actions)
+
+### (Optional) Limit Actions
+
+You can restrict which specific tools (actions) are enabled for this Integration, providing an extra layer of security.
+
+![](https://prod.ferndocs.com/_next/image?url=https%3A%2F%2Ffiles.buildwithfern.com%2Fcomposio.docs.buildwithfern.com%2F2025-04-11T20%3A00%3A49.804Z%2Fassets%2Fimages%2Fintegration-step-3-0.png&w=1920&q=75)
+
+[5](https://docs.composio.dev/auth/set-up-integrations#create-and-get-id)
+
+### Create and Get ID
+
+Click **“Create Integration”**. After creation, **copy the displayed `integration_id`**. You’ll need this ID in your application code.
+
+Ensure you save the `integration_id` in a secrets manager or environment variable for later use.
+
+## Using the Integration ID
+
+The key outcome of this setup process is the **`integration_id`**. This unique identifier represents the specific configuration you’ve created for an app within Composio.
+
+You will use this `integration_id` in the next step to initiate the authentication flow for your end-users.
+
+➡️ **Next: [Connecting Users Overview](https://docs.composio.dev/auth/connection)**
+
+## User Connection Authorization
+After [setting up an Integration](https://docs.composio.dev/auth/integrations) for an external app, the next step is to enable your individual end-users to authorize Composio to act on their behalf. This process creates a **Connection**.
+
+It securely stores the user-specific credentials (like OAuth tokens or API keys) obtained during the authorization process. Every authenticated action executed via Composio happens through one of these Connections.
+
+## Identifying Your User: The `entity_id`
+
+A fundamental concept when creating Connections is the `entity_id`.
+
+- **What:** A unique ID that represents _your_ end-user within Composio. Can map to DB/UUID in your app.
+- **Why:** It allows Composio to use the correct credentials for your end-user in multi-tenant scenarios.
+- **Default:** Composio uses the default ID `"default"`. This is suitable only for single-user scripts, personal testing.
+
+You will pass the `entity_id` when initiating the connection process using the SDK, typically by first getting an `Entity` object:
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio_openai import ComposioToolSet, Action, App23toolset = ComposioToolSet()4user_identifier_from_my_app = "user_7a9f3b_db_id" # Example56# Get the Composio Entity object for your user7entity = toolset.get_entity(id=user_identifier_from_my_app)8# Use this 'entity' object to initiate connections
+```
+
+## Initiating a Connection (Conceptual)
+
+The process generally starts by calling `initiate_connection` (Python) or `initiateConnection` (TS) on the `entity` object, providing the `integration_id` or `app_name`.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Conceptual initiation - details depend on auth type2connection_request = toolset.initiate_connection(3    integration_id=YOUR_INTEGRATION_ID, entity_id=user_identifier_from_my_app4)5# or6connection_request = toolset.initiate_connection(7    app_name=App.GITHUB, entity_id=user_identifier_from_my_app8)910toolset.execute_action(11    action=Action.GITHUB_CREATE_AN_ISSUE, params={...}, entity_id=user_identifier_from_my_app12)1314toolset.execute_action(15    action=Action.GITHUB_CREATE_AN_ISSUE,16    params={...},17    entity_id=user_identifier_from_my_app18)
+```
+
+The specific steps that follow (handling redirects, waiting for activation, or providing parameters) depend heavily on whether the app uses OAuth or requires user-provided tokens.
+
+**Follow the detailed guides for your specific scenario:**
+
+- **[Connecting to OAuth Apps](https://docs.composio.dev/auth/connect/oauth)**
+- **[Connecting to Token/API Key Apps](https://docs.composio.dev/auth/connect/non-oauth)**
+
+## Managing Existing Connections
+
+Once connections are established, you can retrieve and manage them using the SDK.
+
+- **List Connections for a User:** Get all active connections associated with a specific `entity_id`.
+
+
+
+
+
+
+
+PythonTypeScript
+
+
+
+
+
+
+
+```code-block text-sm
+
+
+
+
+1user_identifier_from_my_app = "user_7a9f3b_db_id"  # Example2entity = toolset.get_entity(id=user_identifier_from_my_app)3try:4    connections = toolset.get_connected_accounts(entity_id=user_identifier_from_my_app) # Returns list of active connections5    print(f"Found {len(connections)} active connections for {entity.id}:")6    for conn in connections:7        print(f"- App: {conn.appName}, ID: {conn.id}, Status: {conn.status}")8    # You can also filter directly via the client:9    # connections = toolset.client.connected_accounts.get(entity_ids=[entity.id], active=True)10except Exception as e:11    print(f"Error fetching connections: {e}")
+```
+
+- **Get a Specific Connection:** Retrieve details using its unique `connected_account_id`.
+
+
+
+
+
+
+
+PythonTypeScript
+
+
+
+
+
+
+
+```code-block text-sm
+
+
+
+
+1connection_id = "1d28bbbb-91d0-4181-b4e5-088bab0d7779"23connection = toolset.get_connected_account(connection_id)4print(f"Details for {connection.id}: App={connection.appName}, Status={connection.status}")
+```
+
+## OAuth 2.0 Connection Guide
+This guide details the programmatic steps required to connect your users (Entities) to external applications that use **OAuth 2.0** for authorization (e.g., Google Workspace, GitHub, Slack, Salesforce).
+
+This flow involves redirecting the user to the external service’s login and consent screen in their browser.
+
+**Prerequisites:**
+
+- An [Integration](https://docs.composio.dev/auth/set-up-integrations) for the OAuth app must be configured in Composio, providing you with an `integration_id`. Ensure it’s set up correctly for OAuth (using Composio’s shared app or your own credentials).
+- A unique `entity_id` representing the user within your application.
+
+## OAuth Connection Flow
+
+The process involves initiating the connection, redirecting the user for authorization, and then waiting for Composio to confirm the connection is active.
+
+**Step 1: Initiate the Connection**
+
+Use the `initiate_connection` (Python) or `initiateConnection` (TypeScript) method on the user’s `Entity` object. Provide the `integration_id` for the OAuth app you configured.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio_openai import ComposioToolSet, App23# Assumes toolset is initialized4toolset = ComposioToolSet()5user_id = "your_user_unique_id"6# Get this from your Composio Integration setup7google_integration_id = "int_google_xxxxxxxx..."89entity = toolset.get_entity(id=user_id)1011try:12    print(f"Initiating OAuth connection for entity {entity.id}...")13    connection_request = toolset.initiate_connection(14        integration_id=google_integration_id,15        entity_id=user_id,16        # Optionally add: redirect_url="https://yourapp.com/final-destination"17        # if you want user sent somewhere specific *after* Composio finishes.18        # Optional add: app=App.APP_NAME19    )2021    # Check if a redirect URL was provided (expected for OAuth)22    if connection_request.redirectUrl:23        print(f"Received redirect URL: {connection_request.redirectUrl}")24    else:25        print("Error: Expected a redirectUrl for OAuth flow but didn't receive one.")26        # Handle error: Maybe the integration is misconfigured?2728    # Store connection_request.connectedAccountId if needed for Step 3 polling29    # connection_id_in_progress = connection_request.connectedAccountId3031except Exception as e:32    print(f"Error initiating connection: {e}")
+```
+
+The key output here is the `redirectUrl`.
+
+**Step 2: Redirect the User**
+
+Your application **must** now direct the user’s browser to the `redirectUrl` obtained in Step 1.
+
+- **How:** This typically involves sending an HTTP 302 Redirect response from your backend, or using `window.location.href = redirectUrl;` in your frontend JavaScript.
+
+The user will see the external service’s login page (if not already logged in) followed by an authorization screen asking them to grant the permissions (scopes) defined in your Composio Integration.
+
+**Step 3: Wait for Connection Activation**
+
+After the user authorizes the app, the external service redirects back (typically to Composio’s callback URL). Composio exchanges the authorization code for access/refresh tokens and securely stores them, marking the Connection as `ACTIVE`.
+
+Your application needs to wait for this confirmation. Use the `wait_until_active` (Python) / `waitUntilActive` (TypeScript) method on the `connection_request` object obtained in Step 1.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Assuming 'connection_request' from Step 123print("Waiting for user authorization and connection activation...")4try:5    # Poll Composio until the status is ACTIVE6    active_connection = connection_request.wait_until_active(7        client=toolset.client, # Pass the Composio client instance8        timeout=180 # Wait up to 3 minutes (adjust as needed)9    )10    print(f"Success! Connection is ACTIVE. ID: {active_connection.id}")11    # Store active_connection.id associated with your user (entity_id)12    # Now ready for Step 4.13except Exception as e: # Catches TimeoutError, etc.14    print(f"Connection did not become active within timeout or failed: {e}")15    # Implement retry logic or inform the user
+```
+
+**Step 4: Use the Connection**
+
+Once `wait_until_active` completes successfully, the Connection is ready. You can now use the `entity_id` or the obtained `active_connection.id` to [execute actions](https://docs.composio.dev/tool-calling/executing-tools) on behalf of this user for the connected app.
+
+## API Key Connection Guide
+This guide covers the connection process for external apps that use authentication methods like **static API Keys**, **Bearer Tokens**, or other credentials that the **end-user must provide** (e.g., OpenAI, Stripe, Twilio, many database connections).
+
+Unlike OAuth, this flow doesn’t typically involve redirecting the user’s browser. Instead, your application securely collects the necessary credentials from the user and passes them to Composio during the connection setup.
+
+**Prerequisites:**
+
+- An [Integration](https://docs.composio.dev/auth/set-up-integrations) for the target app must be configured in Composio, specifying the correct authentication scheme (e.g., `API_KEY`, `BEARER_TOKEN`).
+- A unique `entity_id` representing the user within your application.
+
+## Token/API Key Connection Flow
+
+**Step 1: Discover Required Fields**
+
+Before prompting your user, determine exactly which credentials they need to provide. Use `get_expected_params_for_user` (Python) or `apps.getRequiredParamsForAuthScheme` (TypeScript) to query Composio.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio_openai import ComposioToolSet, App23toolset = ComposioToolSet()45# Replace with your actual integration ID6YOUR_INTEGRATION_ID = "int_shopify_xxxxxxxx..."78auth_scheme_for_shopify = "API_KEY"  # Check Integration config or Tool Directory9try:10    required_info = toolset.get_expected_params_for_user(11        app=App.SHOPIFY, auth_scheme=auth_scheme_for_shopify, integration_id=YOUR_INTEGRATION_ID12    )13    field_names = [field["name"] for field in required_info["expectedInputFields"]]14    print(f"Required fields for {App.SHOPIFY.value} ({auth_scheme_for_shopify}): {field_names}")15    # Use required_info["expectedInputFields"] for descriptions to show the user16except Exception as e:17    print(f"Error fetching required params: {e}")
+```
+
+This tells your application which fields (e.g., `api_key`, `account_sid`, `token`) to request from the user.
+
+**Step 2: Securely Collect Credentials from User**
+
+Your application’s UI must now prompt the user to enter the credentials identified in Step 1.
+
+##### Handle Credentials Securely
+
+Always transmit credentials over HTTPS. Avoid storing them unnecessarily client-side. Mask input fields for keys/tokens. **Never log raw credentials.**
+
+**Step 3: Initiate Connection with User Credentials**
+
+Call `initiate_connection` (Python) or `initiateConnection` (TypeScript) on the user’s `Entity` object. Provide the `integration_id` (or `app_name`) and `entity_id`. Crucially, pass the credentials collected from the user inside the `connected_account_params` (Python) or `connectionParams` (TypeScript) dictionary.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1user_id = "user_shopify_456"23# Assume user provided this value securely via your UI4user_provided_shopify_key = "sk_live_xxxxxxxxxxxxxxx"56# Assume entity and integration ID are known7# entity = toolset.get_entity(id="user_stripe_456")8SHOPIFY_INTEGRATION_ID = "int_shopify_yyyyyyyy..."910try:11    print(f"Initiating Shopify connection for entity {user_id}...")12    connection_request = toolset.initiate_connection(13        integration_id=SHOPIFY_INTEGRATION_ID, # Or app_name=App.SHOPIFY14        entity_id=user_id,15        auth_scheme="API_KEY", # Must match the integration's config16        # Pass the user-provided key(s) here17        connected_account_params={18            "api_key": user_provided_shopify_key19            # Add other fields if the app requires more (e.g., account_id)20        },21    )22    print("Connection initiation response:", connection_request)23    # Status should be ACTIVE almost immediately24    # connection_id = connection_request.connectedAccountId2526except Exception as e:27    print(f"Error initiating connection: {e}")
+```
+
+**Step 4: Connection Activation (Immediate)**
+
+For these types of connections, the `connectionStatus` in the response from `initiate_connection` should usually be **`ACTIVE`** immediately, as no external user authorization step is needed. The `redirectUrl` will typically be null.
+
+You can optionally fetch the connection details using the `connectedAccountId` from the response to confirm the `ACTIVE` status before proceeding.
+
+Once active, the Connection is ready, and you can use the `entity_id` or `connectedAccountId` to [execute actions](https://docs.composio.dev/tool-calling/executing-tools) for this user and app.
+
+## Custom Auth App Setup
+## Using custom auth app (aka white-labelling)
+
+When going to production, it’s recommended to use your own developer credentials.
+
+[1](https://docs.composio.dev/auth/white-labelling#set-up-a-301-redirect)
+
+### Set up a 301 redirect
+
+The endpoint `https://backend.composio.dev/api/v1/auth-apps/add` is what captures the user’s credentials to manage the auth. However, OAuth consent screens show the callback URL - and if it isn’t the same as your application, that creates distrust.
+
+It’s recommended to specify the redirect URL to your own domain and create a redirect logic, either through your DNS or in your application to redirect that endpoint to `https://backend.composio.dev/api/v1/auth-apps/add`
+
+###### Setting up a redirect through DNS
+
+- [Cloudflare URL Forwarding Guide](https://developers.cloudflare.com/rules/url-forwarding/single-redirects/create-dashboard/)
+
+- [GoDaddy Domain Forwarding Guide](https://www.godaddy.com/en-in/help/forward-my-godaddy-domain-12123)
+
+- [Namecheap URL Redirect Setup Guide](https://www.namecheap.com/support/knowledgebase/article.aspx/385/2237/how-to-set-up-a-url-redirect-for-a-domain/)
+
+
+Whether using DNS or application-level redirects, ensure you’re preserving the query string and all params and headers are forwarded correctly
+
+This diagram shows the entire redirect sequence.
+
+[2](https://docs.composio.dev/auth/white-labelling#create-the-integration)
+
+### Create the integration
+
+Create your integration, specifying the redirect URL in the auth configuration.
+
+Make sure to set the `use_composio_oauth_app` / `useComposioAuth` flag to False!
+
+Refer to the [concepts](https://docs.composio.dev/auth/introduction#retrieve-connection-parameters) page for more information on how to retrieve the auth configuration for an integration.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio_openai import App, ComposioToolSet23toolset = ComposioToolSet()4integration = toolset.create_integration(5    app=App.GOOGLECALENDAR,6    auth_mode="OAUTH2",7    use_composio_oauth_app=False,8    auth_config={9      "client_id": "12345678",10      "client_secret": "12345678",11      "redirect_uri": "https://yourapp.com/redirect"12    }13)1415entity = toolset.get_entity("default")1617connection_request = entity.initiate_connection(18    app_name=App.GOOGLECALENDAR, integration=integration19)20print(connection_request)
+```
+
+[3](https://docs.composio.dev/auth/white-labelling#create-the-connection)
+
+### Create the connection
+
+Now you can create the connection. Make sure to include the `redirectUri` parameter and set it to where the user should be redirected to after the auth process is finished.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1user_id = "00000000-0000-0000-0000-000000000000"2entity = toolset.get_entity(user_id)34thread_id = "12345678"5redirect_url = "https://yourapp.com/thread/{thread_id}" # Example redirect URL67conn_req = entity.initiate_connection(8    app_name=App.GOOGLECALENDAR,9    auth_mode="OAUTH2",10    use_composio_auth=False,11    redirect_url=redirect_url12)1314print(conn_req.redirect_url)
+```
+
+The connection request returns a redirect URL that you can emit to the user to start the auth process. They see the custom consent screen that you configured.
+In this case, it’s “usefulagents.com”
+
+![](https://prod.ferndocs.com/_next/image?url=https%3A%2F%2Ffiles.buildwithfern.com%2Fcomposio.docs.buildwithfern.com%2F2025-04-11T20%3A00%3A49.804Z%2Fassets%2Fimages%2Fcustom-auth-app.png&w=3840&q=75)
+
+## Custom Credentials Injection
+While Composio excels at managing user connections via [Integrations](https://docs.composio.dev/auth/set-up-integrations) and the [connection flow](https://docs.composio.dev/auth/connection), there are scenarios where you might need to provide authentication credentials **directly** when executing an action. This bypasses Composio’s stored Connections entirely.
+
+This is achieved using the `auth` parameter within the `execute_action` method.
+
+## The `auth` parameter in `execute_action`
+
+When calling `execute_action`, you can include an `auth` object (Python `dict` / TS `object`) to specify the credentials Composio should use for that specific API call. This overrides any attempt Composio would normally make to look up credentials based on `entity_id` or `connected_account_id`.
+
+The core of the `auth` object is the `parameters` list, which defines the credentials and how they should be injected into the API request.
+
+**`CustomAuthParameter` Structure:**
+
+Each item in the `parameters` list should be an object with:
+
+- `name`: ( `str`) The name of the credential parameter (e.g., `"Authorization"`, `"X-Api-Key"`, `"api_key"`).
+- `value`: ( `str`) The actual secret value (e.g., `"Bearer xyz..."`, `"sk-abc..."`).
+- `in_` (Python) / `in` (TS): ( `str` or `ParamPlacement`) Where to place the parameter in the HTTP request. Common values include:
+  - `"header"` / `ParamPlacement.Header`: In the request headers.
+  - `"query"` / `ParamPlacement.Query`: As a URL query parameter.
+  - `"path"` / `ParamPlacement.Path`: As part of the URL path (less common for auth).
+  - `"subdomain"` / `ParamPlacement.Subdomain`: As part of the subdomain.
+
+_(Optional fields like `base_url` and `body` can also exist within the top-level `auth` object for very specific authentication schemes, but `parameters` is the most common.)_
+
+## Adding Custom Authentication to Tools
+
+You can also execute _any_ Composio tool (pre-built or custom-defined) using your own authentication credentials provided at runtime. This is useful if you manage tokens or API keys separately from Composio’s connection system.
+
+Use the `execute_action` method and provide the `auth` parameter.
+
+**Example: Create GitHub Issue with a Provided Token**
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Python example providing a custom Bearer token2from composio import ComposioToolSet, Action34toolset = ComposioToolSet()5bearer_token = "ghp_YourPersonalAccessToken..." # Replace with your actual token67print("Creating issue using custom auth...")8try:9    result = toolset.execute_action(10        action=Action.GITHUB_CREATE_ISSUE,11        params={12            "owner": "your-username",13            "repo": "test-repo",14            "title": "Issue Created with Custom Token",15            "body": "This issue uses an externally provided auth token."16        },17        # Provide authentication details via the 'auth' parameter18        auth={19            "parameters": [20                {21                    "name": "Authorization", # Header name22                    "value": f"Bearer {bearer_token}", # Header value23                    "in_": "header" # Placement (header, query, path, etc.)24                }25            ]26            # 'base_url' could be added here for GitHub Enterprise27            # 'body' could be added for complex auth flows if needed28        }29        # entity_id is typically not needed when providing full custom auth30    )31    print(result)32except Exception as e:33    print(f"An error occurred: {e}")
+```
+
+## Using Triggers Guide
+## Overview
+
+Triggers act as a notification system for your AI applications, enabling your agents to respond dynamically to external events occurring within your integrations.
+
+When these events take place, triggers capture relevant information and deliver structured payloads directly to your system, facilitating timely and context-aware responses.
+
+For instance, imagine building a Slack bot designed to generate humorous responses to messages from your co-workers. To achieve this, your application needs to receive notifications whenever someone posts a new message in a specific Slack channel. Triggers fulfill this role by listening for these events and promptly notifying your system, allowing your bot to respond appropriately.
+
+![Triggers Overview](https://prod.ferndocs.com/_next/image?url=https%3A%2F%2Ffiles.buildwithfern.com%2Fcomposio.docs.buildwithfern.com%2F2025-04-11T20%3A00%3A49.804Z%2Fassets%2Fimages%2Ftriggers.png&w=3840&q=75)
+
+Triggers through Composio
+
+Composio supports two primary methods for delivering these payloads:
+
+- **[Webhooks](https://docs.composio.dev/triggers/using-triggers#specifying-listeners-through-webhooks)**: HTTP POST requests sent to a publicly accessible URL that you configure. Webhooks are ideal for scenarios where your application needs to handle events asynchronously and independently from the event source.
+
+- **[Websockets](https://docs.composio.dev/triggers/using-triggers#specifying-listeners-through-websockets)**: Persistent, real-time connections that push event data directly to your application. Websockets are suitable for applications requiring immediate, continuous, and low-latency communication.
+
+
+## Managing triggers
+
+Before proceeding, ensure you’ve created an integration and established a connection to your external account (e.g., Slack, GitHub).
+
+[Adding Integrations\\
+\\
+You need to have an integration set up in order to listen on it’s triggers. Learn how to set it up here.](https://docs.composio.dev/auth/introduction)
+
+### Enable the Trigger
+
+Enable the “New Message Received” trigger for your Slack app through the dashboard, CLI, or code.
+
+###### Code
+
+###### CLI
+
+###### Dashboard
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from composio_openai import ComposioToolSet23toolset = ComposioToolSet()45user_id = "default" # User ID referencing an entity retrieved from application logic6entity = toolset.get_entity(id=user_id)7triggers = toolset.get_trigger("SLACK_RECEIVE_MESSAGE")89res = entity.enable_trigger(10    app=App.SLACK,11    trigger_name="SLACK_RECEIVE_MESSAGE",12    config={}13)1415print(res["status"])
+```
+
+Specifying Trigger Configuration
+
+Some triggers expect certain configuration to set the correct events. You can inspect and add these properties while enabling the triggers.
+
+[1](https://docs.composio.dev/triggers/using-triggers#viewing-the-configuration)
+
+### Viewing the configuration
+
+PythonTypeScript
+
+```code-block text-sm
+
+1# Using same imports as above2trigger = toolset.get_trigger("GITHUB_STAR_ADDED_EVENT")3print(trigger.config.model_dump_json(indent=4))
+```
+
+Expected properties focus
+
+```code-block text-sm
+
+1{2    "properties": {3        "owner": {4            "description": "Owner of the repository",5            "title": "Owner",6            "default": null,7            "type": "string"8        },9        "repo": {10            "description": "Repository name",11            "title": "Repo",12            "default": null,13            "type": "string"14        }15    },16    "title": "WebhookConfigSchema",17    "type": "object",18    "required": [19        "owner",20        "repo"21    ]22}
+```
+
+[3](https://docs.composio.dev/triggers/using-triggers#specifying-the-configuration)
+
+### Specifying the configuration
+
+PythonTypeScript
+
+```code-block text-sm
+
+1response = entity.enable_trigger(2    app=App.GITHUB,3    trigger_name="GITHUB_PULL_REQUEST_EVENT",4    config={"owner": "composiohq", "repo": "composio"},5)
+```
+
+## Listeners
+
+Once you have the triggers set up, you can specify listener functions using websockets through the SDK or webhooks.
+
+### Specifying Listeners through Websockets
+
+We create a listener and then define a callback function that executes when a listener recieves a payload.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1listener = toolset.create_trigger_listener()23@listener.callback(4    filters={5        "trigger_name": "SLACK_RECEIVE_MESSAGE",6    }7)8def handle_slack_message(event):9    print(event)1011listener.wait_forever()
+```
+
+### Specifying Listeners through Webhooks
+
+Assuming you’ve already set up a trigger as discussed in previous steps, here’s how you can use webhooks instead to listen in on new events happening in an app.
+
+[1](https://docs.composio.dev/triggers/using-triggers#configure-webhook-url)
+
+### Configure Webhook URL
+
+To receive trigger events via webhooks, you need to configure a publicly accessible URL where Composio can send the event payloads. This URL should point to an endpoint in your application that can process incoming webhook requests.
+
+[2](https://docs.composio.dev/triggers/using-triggers#listening-on-the-webhooks)
+
+### Listening on the webhooks
+
+To demonstrate, here’s an example of a server to handle incoming webhook requests.
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from fastapi import FastAPI, Request2from typing import Dict, Any3import uvicorn4import json56app = FastAPI(title="Webhook Demo")78@app.post("/webhook")9async def webhook_handler(request: Request):10    # Get the raw payload11    payload = await request.json()12    13    # Log the received webhook data14    print("Received webhook payload:")15    print(json.dumps(payload, indent=2))16    17    # Return a success response18    return {"status": "success", "message": "Webhook received"}1920if __name__ == "__main__":21    uvicorn.run(app, host="0.0.0.0", port=8000)
+```
+
+To test out webhooks locally, use an SSH tunnel like [ngrok](https://ngrok.com/docs/agent/)
+
+## Demo: Roast Slack Messages
+
+Let’s build a fun bot that generates snarky greentext responses to Slack messages using `gpt-4.5`.
+
+[1](https://docs.composio.dev/triggers/using-triggers#set-up-the-fastapi-server)
+
+### Set up the FastAPI Server
+
+First, let’s create a FastAPI server to handle webhook events:
+
+```code-block text-sm
+
+1from fastapi import FastAPI, Request2from openai import OpenAI3from composio_openai import ComposioToolSet, App, Action4from dotenv import load_dotenv5import uvicorn67load_dotenv()8app = FastAPI()9client = OpenAI()10toolset = ComposioToolSet()11entity = toolset.get_entity(id="default")
+```
+
+[2](https://docs.composio.dev/triggers/using-triggers#track-responded-threads)
+
+### Track Responded Threads
+
+Create a set to avoid duplicate responses:
+
+```code-block text-sm
+
+1# Set to keep track of threads we've already responded to2responded_threads = set()
+```
+
+[3](https://docs.composio.dev/triggers/using-triggers#implement-response-generation)
+
+### Implement Response Generation
+
+Create a function to generate snarky responses using `gpt-4.5`. We’ll also set up a preprocessor to handle Slack-specific message parameters:
+
+```code-block text-sm
+
+1async def generate_response(payload: Dict[str, Any]):2    ts = payload.get("data", {}).get("ts", "")3    thread_ts = payload.get("data", {}).get("thread_ts", ts)4    channel = payload.get("data", {}).get("channel", "")5    6    # Skip if already responded7    if thread_ts in responded_threads:8        return9    10    responded_threads.add(thread_ts)11    12    # Preprocessor to automatically inject Slack-specific parameters13    def slack_send_message_preprocessor(inputs: Dict[str, Any]) -> Dict[str, Any]:14        inputs["thread_ts"] = ts          # Ensure reply goes to the correct thread15        inputs["channel"] = channel       # Target the specific channel16        inputs["mrkdwn"] = False         # Disable markdown for greentext formatting17        return inputs
+```
+
+[4](https://docs.composio.dev/triggers/using-triggers#configure-the-tools)
+
+### Configure the tools
+
+Set up the tools for sending Slack messages. We attach our preprocessor to automatically handle message threading and formatting:
+
+````code-block text-sm
+
+1# Configure tools with the preprocessor to handle Slack-specific parameters2tools = toolset.get_tools(3    [Action.SLACK_SENDS_A_MESSAGE_TO_A_SLACK_CHANNEL],4    processors={5        "pre": {6            Action.SLACK_SENDS_A_MESSAGE_TO_A_SLACK_CHANNEL: slack_send_message_preprocessor7        }8    }9)1011response = client.chat.completions.create(12    model="gpt-4.5-preview",13    messages=[14        {"role": "system", "content": "Given a slack text. Generate a snarky greentext response mocking the user. Render the response in ``` codeblocks"},15        {"role": "user", "content": payload.get("data", {}).get("text")}16    ],17    tools=tools,18    tool_choice="required"19)20toolset.handle_tool_calls(response, entity_id="default")
+````
+
+The preprocessor ensures that every message is automatically configured with the correct thread, channel, and formatting settings, reducing the chance of misconfigured responses.
+
+[5](https://docs.composio.dev/triggers/using-triggers#create-webhook-handler)
+
+### Create Webhook Handler
+
+Set up the webhook endpoint to process incoming messages:
+
+```code-block text-sm
+
+1@app.post("/webhook")2async def webhook_handler(request: Request):3    payload = await request.json()4    if payload.get("type") == "slack_receive_message":5        channel = payload.get("data", {}).get("channel")6        if channel == "YOUR_CHANNEL_ID":  # Replace with your channel ID7            await generate_response(payload)8    return {"status": "success", "message": "Webhook received"}910uvicorn.run(app, host="0.0.0.0", port=8000)
+```
+
+Testing Locally
+
+Run your server locally and use ngrok to expose it:
+
+```code-block text-sm
+
+$# Start your FastAPI server>python webhook.py>># In another terminal, start ngrok>ngrok http 8000
+```
+
+Remember to update your webhook URL in the Composio dashboard with your ngrok URL.
+
+## Troubleshooting
+
+If you encounter issues with triggers or webhook listeners, you can use the Composio dashboard to inspect detailed trigger logs. The dashboard allows you to review event payloads, identify errors, and manually resend events for testing purposes.
+
+Access the trigger logs [here](https://app.composio.dev/trigger_logs)
+
+## Model Context Protocol
+### What is MCP?
+
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/introduction) is an open standard developed by Anthropic to help AI models, especially Large Language Models (LLMs), connect with external data sources and tools. Think of it like a universal adapter that lets AI systems access real-time information from places like databases, APIs, or business tools, making their responses more relevant and accurate. This is particularly useful for AI-powered applications like chatbots or IDEs, where access to up-to-date data can enhance functionality.
+
+### How Server-Client Interactions Work
+
+MCP operates on a client-server model:
+
+- The **client** (or host) is the AI application, like Claude Desktop or an IDE, that needs data.
+- The **server** exposes tools, prompts, and resources that the client can use.
+
+![Client and server](https://prod.ferndocs.com/_next/image?url=https%3A%2F%2Ffiles.buildwithfern.com%2Fcomposio.docs.buildwithfern.com%2F2025-04-11T20%3A00%3A49.804Z%2Fassets%2Fimages%2Fmcp_server_client.png&w=3840&q=75)
+
+Credit: [https://modelcontextprotocol.io/docs/concepts/architecture](https://modelcontextprotocol.io/docs/concepts/architecture)
+
+Interactions happen through two kinds of [transport layers](https://modelcontextprotocol.io/docs/concepts/transports#built-in-transport-types):
+
+- **Stdio transport:** Used when the server runs locally with the client, communicating through standard input and output. This is great for local development, as it’s simple and fast.
+- **HTTP with SSE (Server-Sent Events) transport:** Used for remote servers, allowing real-time updates over HTTP. This is ideal for cloud-based setups, enabling the server to push updates to the client as they happen.
+
+### How Servers Are Deployed
+
+Servers can be set up in two main ways, depending on your needs:
+
+- **Local Deployment:** If you have the server code locally or can pull it from a repository, you can start it using simple commands. For example, the [GitHub MCP server](https://github.com/modelcontextprotocol/servers/tree/main/src/github) maintained by the `modelcontextprotocol` repository can be started by running `npx -y  @modelcontextprotocol/server-github` with the GitHub personal access token specified in the environment. Most MCP clients let you specify the command to run, so they can start the server directly when needed, which is great for development.
+- **Remote Deployment (SSE Servers):** For remote use, servers are deployed to a web endpoint somewhere, and all you need is the SSE URL to connect your client. There’s no need for local setup or running commands; the server is managed separately, making it hassle-free. Clients typically have an option to just take this URL and connect, which is convenient for cloud-based setups.
+
+Composio manages SSE servers for users, handling setup and maintenance, which means you don’t need to worry about the technical details. Check out the full list of [servers here](https://mcp.composio.dev/).
+
+Currently we are not envisioning our fully managed MCP servers to function like a devtool and something you build on top of but rather for providers who have MCP as a way to quickly integrate with our tools. Read more about this here: [Building on top of Composio MCP](https://composio.notion.site/mcp-faq?pvs=4)
+
+### Benefits of Using Composio MCP Servers
+
+Choosing Composio for hosting your MCP servers comes with several advantages:
+
+- **No Management Needed:** Composio takes care of server setup, updates, and maintenance, freeing you to focus on development.
+- **Automatic Authentication:** Authentication is handled through [Composio’s integrations](https://composio.dev/tools), so you don’t need to manage API keys or credentials, reducing setup friction.
+- **One-Click Installation:** You can connect to hundreds of servers with simple instructions, often integrating with clients in a single line of code, which is unexpectedly convenient for rapid deployment.
+
+### Exploring Further
+
+You can check out Composio’s offerings and find a list of available servers with one-click installation instructions at [Composio MCP](https://composio.dev/mcp/). For detailed setup guides on clients like Cursor, Windsurf, and Claude, refer to their documentation pages ( [Cursor](https://docs.composio.dev/mcp/cursor), [Windsurf](https://docs.composio.dev/mcp/windsurf) and [Claude](https://docs.composio.dev/mcp/claude)).
+
+We also wrote an [extensive blogpost](https://composio.dev/blog/mcp-server-step-by-step-guide-to-building-from-scrtch/) that has a step-by-step guide to building MCP servers from scratch, what the different components of MCP are, how they work and more details on the Composio MCP integration.
+
+## MCP Tools Guide
+This guide covers installation, authentication flows, and troubleshooting for MCP tools in Cursor.
+
+## Installation
+
+1. **Check Node.js Installation**
+   - Make sure Node.js is installed on your system by running:
+
+
+
+     ```code-block text-sm
+
+
+
+
+     $node -v
+     ```
+
+   - If Node.js is not installed, download it from [nodejs.org](https://nodejs.org/).
+
+   - **Note**: For best results, use Node.js 10 or higher. We don’t support earlier versions.
+2. **Install MCP Tools**
+   - Paste the `npx` command generated by [mcp.composio.dev](http://mcp.composio.dev/) into your terminal:
+
+
+
+     ```code-block text-sm
+
+
+
+
+     $# Example:>Your generated code
+     ```
+
+   - This command installs the MCP tools and configures them for use in Cursor.
+3. **Verify Installation**
+   - Open Cursor settings and navigate to **MCP** to confirm the MCP servers are installed.
+   - If everything looks correct, you can start using MCP features directly in Cursor.
+
+Cursor MCP Installation
+
+## Authentication Methods
+
+Composio MCP supports two authentication methods:
+
+### OAuth Authentication
+
+1. **Connection Check:**
+Ask the LLM if there is any active connection with the said app.
+2. **Initiate Connection:**
+If no active connection exists, ask the LLM to initiate a connection.
+3. **Complete Authentication:**
+Click the provided authentication link and complete the OAuth flow in your browser.
+4. **Execute Actions:**
+Once authenticated, the LLM can execute authorized actions.
+
+OAuth Authentication in Cursor
+
+### API Key Authentication
+
+1. **Connection Verification:**
+Ask the LLM if there is any active connection with the said app.
+
+2. **Initiate Connection:**
+If no active connection exists, ask the LLM to initiate a connection.
+
+3. **Request API Key:**
+The LLM initiates a connection and prompts for your API key.
+
+4. **Enter Credentials:**
+Paste your API key when prompted in the chat interface.
+
+
+
+
+
+
+
+
+
+
+
+API key entry will be streamlined in future updates.
+
+5. Execute actions
+After successful authentication, the tool is ready for use.
+
+
+###### Troubleshooting
+
+### 1\. Missing Authentication Link
+
+If the authentication link doesn’t appear in chat:
+
+- Explicitly request the link by asking: “Connect to \[App name\] first and output the auth link.”
+- Or specify: “Run COMPOSIO\_INITIATE\_CONNECTION for \[App name\] and output the auth link”
+
+### 2\. Connection Verification Issues
+
+If the LLM skips connection verification and starts executing tools:
+
+- Manually request connection initiation: “Run COMPOSIO\_INITIATE\_CONNECTION for \[app name\] and provide the authentication link.”
+
+Important: We are actively working on improving the tool execution flow. These troubleshooting steps are temporary solutions to help you get started.
+
+## Best Practices
+
+For optimal performance and reliability, follow these recommended practices when using MCP tools in Cursor:
+
+- **Limit MCP Servers:**
+  - To ensure stable connectivity and proper functionality, connect **no more than 3 MCP servers simultaneously**. Connecting more than 3 servers may result in authentication issues or connection failures.
+
+Connecting more than the recommended number of MCP servers can lead to unexpected behavior. Adhering to these best practices will help you get the most out of MCP tools in Cursor.
+
+## MCP Tools Installation Guide
+Node.js versions below 10 are not supported and may cause issues. **Uninstall any older Node.js versions** before proceeding.
+
+This guide covers installation, authentication flows, and troubleshooting for MCP tools in Claude Desktop.
+
+## Installation
+
+1. **Check NodeJS Installation**
+   - Verify NodeJS is installed on your system: `node -v`
+
+   - If not installed, download from [nodejs.org](https://nodejs.org/).
+2. **Install MCP Tools**
+
+
+   - Paste the command generated from the [mcp.composio.dev](http://mcp.composio.dev/):
+
+```code-block text-sm
+
+$Your generated code
+```
+
+3. **Verify Installation**
+   - Restart the Claude Desktop app and check installed tools by clicking the “hammer” icon in the Claude chat interface.
+
+Claude MCP Installation
+
+## Authentication Methods
+
+Composio MCP supports two authentication methods:
+
+### OAuth Authentication
+
+1. **Connection Check:**
+Ask the LLM if there is any active connection with the said app.
+2. **Initiate Connection:**
+If no active connection exists, ask the LLM to initiate a connection.
+3. **Complete Authentication:**
+Click the provided authentication link and complete the OAuth flow in your browser.
+4. **Execute Actions:**
+Once authenticated, the LLM can execute authorized actions.
+
+OAuth Authentication in Claude
+
+### API Key Authentication
+
+1. **Connection Verification:**
+Ask the LLM if there is any active connection with the said app.
+
+2. **Initiate Connection:**
+If no active connection exists, ask the LLM to initiate a connection.
+
+3. **Request API Key:**
+The LLM initiates a connection and prompts for your API key.
+
+4. **Enter Credentials:**
+Paste your API key when prompted in the chat interface.
+
+
+
+
+
+
+
+
+
+
+
+API key entry will be streamlined in future updates.
+
+5. Execute actions
+After successful authentication, the tool is ready for use.
+
+
+###### Troubleshooting
+
+### 1\. Missing Authentication Link
+
+If the authentication link doesn’t appear in chat:
+
+- Explicitly request the link by asking: “Connect to \[App name\] first and output the auth link.”
+- Or specify: “Run COMPOSIO\_INITIATE\_CONNECTION for \[App name\] and output the auth link”
+
+### 2\. Connection Verification Issues
+
+If the LLM skips connection verification and starts executing tools:
+
+- Manually request connection initiation: “Run COMPOSIO\_INITIATE\_CONNECTION for \[app name\] and provide the authentication link.”
+
+Important: We are actively working on improving the tool execution flow. These troubleshooting steps are quick solutions to help you get started.
+
+## MCP Tools Guide
+This guide covers installation, authentication flows, and troubleshooting for MCP tools in Windsurf IDE.
+
+## Installation
+
+1. **Check NodeJS Installation**
+   - Verify NodeJS is installed on your system: `node -v`
+
+   - If not installed, download from [nodejs.org](https://nodejs.org/).
+2. **Install MCP Tools**
+
+
+   - Run the following command in your terminal:
+
+```code-block text-sm
+
+$npx composio-core@rc mcp "https://mcp.composio.dev/notion/RANDOM_SUFFIX" --client windsurf
+```
+
+3. **Verify Installation**
+   - After running the command, restart Windsurf to start using the integration.
+
+## Authentication Methods
+
+Composio MCP supports two authentication methods:
+
+### OAuth Authentication
+
+1. **Connection Check:**
+Ask the LLM if there is any active connection with the said app.
+2. **Initiate Connection:**
+If no active connection exists, ask the LLM to initiate a connection.
+3. **Complete Authentication:**
+Click the provided authentication link and complete the OAuth flow in your browser.
+4. **Execute Actions:**
+Once authenticated, the LLM can execute authorized actions.
+
+### API Key Authentication
+
+1. **Connection Verification:**
+Ask the LLM if there is any active connection with the said app.
+
+2. **Initiate Connection:**
+If no active connection exists, ask the LLM to initiate a connection.
+
+3. **Request API Key:**
+The LLM initiates a connection and prompts for your API key.
+
+4. **Enter Credentials:**
+Paste your API key when prompted in the chat interface.
+
+
+
+
+
+
+
+
+
+
+
+API key entry will be streamlined in future updates.
+
+5. Execute actions
+After successful authentication, the tool is ready for use.
+
+
+###### Troubleshooting
+
+### 1\. Missing Authentication Link
+
+If the authentication link doesn’t appear in chat:
+
+- Explicitly request the link by asking: “Connect to \[App name\] first and output the auth link.”
+- Or specify: “Run COMPOSIO\_INITIATE\_CONNECTION for \[App name\] and output the auth link”
+
+### 2\. Connection Verification Issues
+
+If the LLM skips connection verification and starts executing tools:
+
+- Manually request connection initiation: “Run COMPOSIO\_INITIATE\_CONNECTION for \[app name\] and provide the authentication link.”
+
+We are actively working on improving the tool execution flow. These troubleshooting steps are temporary solutions to help you get started.
+
+## V3 API Migration
+## Upcoming Changes
+
+##### Upcoming Deprecation: V1/V2 Action Log APIs
+
+**Effective Date:** **2025-04-15**
+
+The **V1/V2 Action Log APIs** (endpoints for fetching historical action execution logs) will be **deprecated in one week** and subsequently removed.
+
+This is part of our migration to the enhanced V3 API infrastructure. Please transition to the new **V3 Logs API** for improved logging and tracing capabilities before the deprecation date to avoid disruption.
+
+**Resources:**
+
+- **V3 Logs API Reference:** [`/api-reference/api-reference/v-3/logs/`](https://docs.composio.dev/api-reference/api-reference/v-3/logs) \- _Start migration here._
+- [V3 General API Reference](https://docs.composio.dev/api-reference/api-reference/v-3)
+- Contact us via [Discord](https://dub.composio.dev/discord) or [tech@composio.dev](mailto:tech@composio.dev) for assistance.
+
+Below you’ll find details on major platform updates, ongoing migrations, and historical changes.
+
+* * *
+
+## V3 API Migration (Ongoing)
+
+This section details the ongoing migration to Composio’s V3 API.
+
+### Why V3?
+
+V3 represents a significant improvement over previous versions. It offers:
+
+- **Enhanced Performance**: Faster response times and improved stability, especially for tool calls and triggers
+- **More Intuitive**: Streamlines interfaces for easier integration.
+- **Greater Robustness**: Significantly improved error handling, suggestions and validation.
+- **Simpler Developer Experience**: Takes into account the feedback from our users and makes the API more user-friendly.
+
+On top of this, we **implemented a major change in nomenclature** across the API (Coming soon in the SDK).
+The table below outlines the terminology changes implemented in the V3 API.
+
+| Previous Term | New Term (V3) | Description |
+| --- | --- | --- |
+| App | Toolkit | A collection of LLM-callable tools grouped together for a specific domain or purpose |
+| Action | Tool | A function that can be directly called by an LLM to perform a specific task |
+| Integration | Auth Config | Authentication and configuration settings for a toolkit’s external service connections |
+| Connection | Connected Account | User’s authenticated instance of an external service with active credentials |
+| Entity | User | Individual account with permissions and access to the platform |
+| Trigger | Trigger Types | The available triggers for a user on a specific toolkit |
+| Trigger Metadata | Trigger Instance | Specific configuration and settings for a deployed trigger in your workflow |
+
+When migrating your code from previous versions to V3, update your references to match this new terminology. Migration guides and code examples will use these new terms exclusively.
+
+Nothing Changes for you today!
+
+We will provide ample notice and support before deprecating the old APIs.
+
+We will be supporting V1/V2 APIs and corresponding SDKs for the foreseeable future, and they will still work in production and have full backwards compatability with new API surface.
+
+### General rollout plan
+
+1. **Frontend Implementation** \- As of right now, our dashboard is running on V3 APIs. This phase allows us to gather information about performance and see how the api works in a controlled environment.
+2. **Beta Access** \- We will make the V3 API available for beta users and testers in the coming week.
+3. **SDK Release** \- We will release Beta SDKs revamped for the new API once the V3 API stabilizes.
+4. **LSE Release** \- We will work towards stabilizing the new SDKs that power V3 APIs and get them to a stable release - at which time they will become our primary SDKs. We will still be supporting the old SDKs at this time.
+5. **Deprecations** \- We will deprecate the old APIs and SDKs after the LSE release, with two months of notice before finally discontinuing them.
+
+The rollout plan may change based on feedback and testing results.
+
+We have opened an issue as an RFC for comment on changes here: [https://github.com/ComposioHQ/composio/issues/1523](https://github.com/ComposioHQ/composio/issues/1523)
+
+### Resources
+
+- [V3 API Reference](https://docs.composio.dev/api-reference/api-reference/v-3)
+- Migration guides (Coming soon)
+- Code examples (Coming soon)
+- Migration support channel (Coming soon)
+- Contact support (Coming soon)
+
+* * *
+
+## Star GitHub Repository
+## Star A Repository on Github
+
+In this example, we will use OpenAI Assistant to star a repository on Github using Composio Tools
+
+[1](https://docs.composio.dev/model-providers/openai#install-packages)
+
+### Install Packages
+
+PythonJavaScript
+
+```code-block text-sm
+
+$pip install composio-openai openai
+```
+
+[2](https://docs.composio.dev/model-providers/openai#import-libraries--initialize-composiotoolset--llm)
+
+### Import Libraries & Initialize ComposioToolSet & LLM
+
+PythonJavaScript
+
+```code-block text-sm
+
+1from openai import OpenAI2from composio_openai import ComposioToolSet, Action34openai_client = OpenAI()5composio_toolset = ComposioToolSet()
+```
+
+[3](https://docs.composio.dev/model-providers/openai#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPythonJavaScript
+
+```code-block text-sm
+
+$composio login>composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` and `OPENAI_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/model-providers/openai#get-all-github-tools)
+
+### Get All Github Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+PythonJavaScript
+
+```code-block text-sm
+
+1tools = composio_toolset.get_tools(apps=[App.GITHUB])
+```
+
+[5](https://docs.composio.dev/model-providers/openai#define-the-assistant)
+
+### Define the Assistant
+
+PythonJavaScript
+
+```code-block text-sm
+
+1assistant_instruction = "You are a super intelligent personal assistant"23assistant = openai_client.beta.assistants.create(4  name="Personal Assistant",5  instructions=assistant_instruction,6  model="gpt-4-turbo-preview",7  tools=tools,8)910thread = openai_client.beta.threads.create()11my_task = "Star a repo composiohq/composio on GitHub"12message = openai_client.beta.threads.messages.create(thread_id=thread.id,role="user",content=my_task)1314run = openai_client.beta.threads.runs.create(thread_id=thread.id,assistant_id=assistant.id)1516response_after_tool_calls = composio_toolset.wait_and_handle_assistant_tool_calls(17    client=openai_client,18    run=run,19    thread=thread,20)
+```
+
+[6](https://docs.composio.dev/model-providers/openai#execute-the-agent)
+
+### Execute the Agent
+
+PythonJavaScript
+
+```code-block text-sm
+
+1print(response_after_tool_calls)
+```
+
+## Star GitHub Repositories
+## Star A Repository on GitHub
+
+In this example, we will use Gemini to star a repository on GitHub using Composio Tools
+
+[1](https://docs.composio.dev/model-providers/gemini#install-packages)
+
+### Install Packages
+
+Python
+
+```code-block text-sm
+
+$pip install composio-gemini
+```
+
+[2](https://docs.composio.dev/model-providers/gemini#import-libraries--initialize-composiotoolset--gemini)
+
+### Import Libraries & Initialize ComposioToolSet & Gemini
+
+Python
+
+```code-block text-sm
+
+$from google.genai import types>from google import genai>from composio_gemini import Action, ComposioToolSet, App>>client = genai.Client(api_key="<gemini-api-key>")>toolset = ComposioToolSet(api_key="<composio-api-key>")
+```
+
+[3](https://docs.composio.dev/model-providers/gemini#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPython
+
+```code-block text-sm
+
+$composio login >composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` and `GEMINI_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/model-providers/gemini#get-all-github-tools--create-config)
+
+### Get All GitHub Tools & Create Config
+
+You can get all the tools for a given app or specific actions as shown below. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+Python
+
+```code-block text-sm
+
+1tools = toolset.get_tools(2    apps=[3        App.GITHUB4    ]5)67config = types.GenerateContentConfig(tools=tools)
+```
+
+[5](https://docs.composio.dev/model-providers/gemini#execute-the-agent)
+
+### Execute the Agent
+
+Python
+
+```code-block text-sm
+
+1chat = client.chats.create(model="gemini-2.0-flash", config=config)23response = chat.send_message(4    "Can you star composiohq/composio repository on github",5)67print(response.text)
+```
+
+## Star GitHub Repository
+## Star A Repository on GitHub
+
+In this example, we will use LangChain Agent to star a repository on GitHub using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/langchain#install-packages)
+
+### Install Packages
+
+PythonJavaScript
+
+```code-block text-sm
+
+$pip install composio-langchain langchain_openai
+```
+
+[2](https://docs.composio.dev/frameworks/langchain#import-libraries--initialize-composiotoolset--llm)
+
+### Import Libraries & Initialize ComposioToolSet & LLM
+
+PythonJavaScript
+
+```code-block text-sm
+
+1from langchain.agents import create_openai_functions_agent, AgentExecutor2from langchain import hub3from langchain_openai import ChatOpenAI4from composio_langchain import ComposioToolSet, App56llm = ChatOpenAI()7composio_toolset = ComposioToolSet()
+```
+
+[3](https://docs.composio.dev/frameworks/langchain#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPythonJavaScript
+
+```code-block text-sm
+
+$composio login>composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` and `OPENAI_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/frameworks/langchain#get-all-github-tools)
+
+### Get All GitHub Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+PythonJavaScript
+
+```code-block text-sm
+
+1tools = composio_toolset.get_tools(apps=[App.GITHUB])
+```
+
+[5](https://docs.composio.dev/frameworks/langchain#define-the-agent)
+
+### Define the Agent
+
+PythonJavaScript
+
+```code-block text-sm
+
+1prompt = hub.pull("hwchase17/openai-functions-agent")2agent = create_openai_functions_agent(llm, tools, prompt)3agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+```
+
+[6](https://docs.composio.dev/frameworks/langchain#execute-the-agent)
+
+### Execute the Agent
+
+PythonJavaScript
+
+```code-block text-sm
+
+1task = "Star a repo composiohq/composio on GitHub"2agent_executor.invoke({"input": task})
+```
+
+## Star GitHub Repository
+## Star A Repository on GitHub
+
+In this example, we will use LangGraph Agent to star a repository on GitHub using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/langgraph#install-packages)
+
+### Install Packages
+
+PythonTypeScript
+
+```code-block text-sm
+
+$pip install composio-langgraph
+```
+
+[2](https://docs.composio.dev/frameworks/langgraph#import-libraries--initialize-composiotoolset)
+
+### Import Libraries & Initialize ComposioToolSet
+
+PythonTypeScript
+
+```code-block text-sm
+
+1from typing import Literal2from langchain_openai import ChatOpenAI3from langgraph.graph import MessagesState, StateGraph4from langgraph.prebuilt import ToolNode5from composio_langgraph import Action, ComposioToolSet, App67composio_toolset = ComposioToolSet()
+```
+
+[3](https://docs.composio.dev/frameworks/langgraph#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPythonTypeScript
+
+```code-block text-sm
+
+$composio login>composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` and `OPENAI_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/frameworks/langgraph#get-and-bind-tools)
+
+### Get And Bind Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+PythonTypeScript
+
+```code-block text-sm
+
+1tools = composio_toolset.get_tools(2    apps=[App.GITHUB]3)4tool_node = ToolNode(tools)5model = ChatOpenAI(temperature=0, streaming=True)6model_with_tools = model.bind_tools(tools)
+```
+
+[5](https://docs.composio.dev/frameworks/langgraph#define-the-model-calling-function)
+
+### Define the model calling function
+
+PythonTypeScript
+
+```code-block text-sm
+
+1def call_model(state: MessagesState):2    """3    Process messages through the LLM and return the response4    """5    messages = state["messages"]6    response = model_with_tools.invoke(messages)7    return {"messages": [response]}
+```
+
+[6](https://docs.composio.dev/frameworks/langgraph#define-the-decision-function-for-workflow-routing)
+
+### Define the decision function for workflow routing
+
+PythonTypeScript
+
+```code-block text-sm
+
+1def should_continue(state: MessagesState) -> Literal["tools", "__end__"]:2    """3    Determine if the conversation should continue to tools or end4    Returns:5        - "tools" if the last message contains tool calls6        - "__end__" otherwise7    """8    messages = state["messages"]9    last_message = messages[-1]10    if last_message.tool_calls:11        return "tools"12    return "__end__"
+```
+
+[7](https://docs.composio.dev/frameworks/langgraph#define-the-workflow-graph)
+
+### Define the workflow graph
+
+PythonTypeScript
+
+```code-block text-sm
+
+1workflow = StateGraph(MessagesState)23workflow.add_node("agent", call_model)4workflow.add_node("tools", tool_node)5workflow.add_edge("__start__", "agent")6workflow.add_conditional_edges(7    "agent",8    should_continue,9)10workflow.add_edge("tools", "agent")1112app = workflow.compile()
+```
+
+[8](https://docs.composio.dev/frameworks/langgraph#execute-the-workflow)
+
+### Execute the workflow
+
+PythonTypeScript
+
+```code-block text-sm
+
+1for chunk in app.stream(2    {3        "messages": [4            (5                "human",6                "Star the GitHub Repository composiohq/composio",7            )8        ]9    },10    stream_mode="values",11):12    chunk["messages"][-1].pretty_print()
+```
+
+## Star GitHub Repository
+## Star A Repository on GitHub
+
+In this example, we will use CrewAI Agent to star a repository on GitHub using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/crewai#install-packages)
+
+### Install Packages
+
+Python
+
+```code-block text-sm
+
+$pip install composio_crewai crewai langchain_openai
+```
+
+[2](https://docs.composio.dev/frameworks/crewai#import-libraries--initialize-composiotoolset--llm)
+
+### Import Libraries & Initialize ComposioToolSet & LLM
+
+Python
+
+```code-block text-sm
+
+$from composio_crewai import ComposioToolSet, App>from crewai import Agent, Task, Crew>from langchain_openai import ChatOpenAI>>toolset = ComposioToolSet(api_key="<your-composio-api-key>")>llm = ChatOpenAI(api_key="<your-openai-api-key>")
+```
+
+[3](https://docs.composio.dev/frameworks/crewai#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPython
+
+```code-block text-sm
+
+$composio login >composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` and `OPENAI_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/frameworks/crewai#get-all-github-tools)
+
+### Get All GitHub Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+Python
+
+```code-block text-sm
+
+1tools = toolset.get_tools(apps=[App.GITHUB])
+```
+
+[5](https://docs.composio.dev/frameworks/crewai#define-the-agent-task--crew)
+
+### Define the Agent, Task & Crew
+
+Python
+
+```code-block text-sm
+
+1crewai_agent = Agent(2    role="GitHub Agent",3    goal="You take action on GitHub using GitHub APIs",4    backstory="You are AI agent that is responsible for taking actions on GitHub on behalf of users using GitHub APIs",5    verbose=True,6    tools=tools,7    llm=llm,8)910task = Task(11    description="Star a repo composiohq/composio on GitHub",12    agent=crewai_agent,13    expected_output="Status of the operation"14)1516crew = Crew(17    agents = [crewai_agent],18    tasks = [task]19)
+```
+
+[6](https://docs.composio.dev/frameworks/crewai#crew-kickoff)
+
+### Crew Kickoff
+
+Python
+
+```code-block text-sm
+
+1result = crew.kickoff()2print(result)
+```
+
+## Star GitHub Repository
+## Star A Repository on Github
+
+In this example, we will use Vercel AI SDK to star a repository on Github using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/vercel#install-packages)
+
+### Install Packages
+
+JavaScript
+
+```code-block text-sm
+
+$npm install @ai-sdk/openai composio-core ai
+```
+
+[2](https://docs.composio.dev/frameworks/vercel#import-libraries--initialize-composiotoolset--llm)
+
+### Import Libraries & Initialize ComposioToolSet & LLM
+
+JavaScript
+
+```code-block text-sm
+
+1import { openai } from "@ai-sdk/openai";2import { VercelAIToolSet } from "composio-core";3import { generateText } from "ai";45const toolset = new VercelAIToolSet();
+```
+
+[3](https://docs.composio.dev/frameworks/vercel#get-all-github-tools)
+
+### Get All Github Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+JavaScript
+
+```code-block text-sm
+
+1const tools = await toolset.getTools({ apps: ["github"] });
+```
+
+[4](https://docs.composio.dev/frameworks/vercel#define-the-agent)
+
+### Define the Agent
+
+JavaScript
+
+```code-block text-sm
+
+1const output = await generateText({2    model: openai("gpt-4o-mini"),3    streamText: false,4    tools,5    prompt: 'Star the repository "composiohq/composio"',6    maxToolRoundtrips: 5,7});
+```
+
+[5](https://docs.composio.dev/frameworks/vercel#execute-the-agent)
+
+### Execute the Agent
+
+JavaScript
+
+```code-block text-sm
+
+1console.log(output.text);
+```
+
+## Star GitHub Repository
+## Star A Repository on GitHub
+
+In this example, we will use Autogen Agent to star a repository on GitHub using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/autogen#install-packages)
+
+### Install Packages
+
+Python
+
+```code-block text-sm
+
+$pip install composio-autogen
+```
+
+[2](https://docs.composio.dev/frameworks/autogen#import-libraries--initialize-composiotoolset--llm)
+
+### Import Libraries & Initialize ComposioToolSet & LLM
+
+Python
+
+```code-block text-sm
+
+1from autogen import AssistantAgent, UserProxyAgent2from composio_autogen import ComposioToolSet, App34toolset = ComposioToolSet(api_key="<your-composio-api-key>")5llm_config = {6    "config_list": [7        {8            "model": "gpt-4o-mini",9            "api_key": "<your-api-key>",10        }11    ]12}
+```
+
+[3](https://docs.composio.dev/frameworks/autogen#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPython
+
+```code-block text-sm
+
+$composio login >composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` and `OPENAI_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/frameworks/autogen#define-the-assistant--resigter-the-tools)
+
+### Define the Assistant & resigter the tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+Python
+
+```code-block text-sm
+
+1chatbot = AssistantAgent(2    "chatbot",3    system_message="Reply TERMINATE when the task is done or when user's content is empty",4    llm_config=llm_config,5)67user_proxy = UserProxyAgent(8    name="User",9    is_termination_msg=lambda x: x.get("content", "")10    and "TERMINATE" in x.get("content", ""),11    human_input_mode="NEVER",12    code_execution_config={"use_docker": False},13)1415toolset.register_tools(apps=[App.GITHUB], caller=chatbot, executor=user_proxy)
+```
+
+[5](https://docs.composio.dev/frameworks/autogen#run-the-agent)
+
+### Run the Agent
+
+Python
+
+```code-block text-sm
+
+1task = "Star a repo composiohq/composio on GitHub"2response = user_proxy.initiate_chat(chatbot, message=task)3print(response.chat_history)
+```
+
+## Python SDK Integration Guide
+This guide walks you through the process of integrating third-party Python frameworks with Composio. By creating these integrations, you enable Composio’s tools to work seamlessly with popular AI/ML frameworks.
+
+## Understanding the integration pattern
+
+When integrating a Python SDK with Composio, you’re essentially creating a bridge between:
+
+1. _Composio’s tool schema and execution model_ \- How Composio represents and calls tools
+2. _The target framework’s tool representation_ \- How the framework defines and calls tools
+
+An integration primarily handles the transformation of tool schemas and execution flows between the two systems, while preserving all the capabilities and data.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- Basic understanding of Python and object-oriented programming
+- Familiarity with the Composio platform
+- Knowledge of the target framework you want to integrate
+- Python 3.9+ installed on your development machine
+
+## Step-by-step integration process
+
+[1](https://docs.composio.dev/creating-frameworks/python-sdk#step)
+
+### Setup your environment
+
+First, fork and clone the Composio repository:
+
+```code-block text-sm
+
+$git clone https://github.com/ComposioHQ/composio.git
+```
+
+Then navigate to the plugins directory:
+
+```code-block text-sm
+
+$cd composio/python/plugins
+```
+
+Create a new directory for your integration:
+
+```code-block text-sm
+
+$mkdir composio_yourframework>cd composio_yourframework
+```
+
+[2](https://docs.composio.dev/creating-frameworks/python-sdk#step-1)
+
+### Create the basic structure
+
+Every integration requires at least these files:
+
+- `__init__.py` \- Exports your module’s components
+- `toolset.py` \- Contains the core integration logic
+- `setup.py` \- Package configuration for installation
+- `README.md` \- Documentation for your integration
+
+[3](https://docs.composio.dev/creating-frameworks/python-sdk#step-2)
+
+### Implement the `toolset.py` File
+
+This is the heart of your integration. Here’s a template to follow:
+
+toolset.py
+
+```code-block text-sm
+
+1import typing as t2from typing import List, cast34# Import from your target framework5from targetframework import FrameworkTool, SomeFrameworkClass67# Import from Composio8from composio import ActionType, AppType, TagType9from composio.tools import ComposioToolSet as BaseComposioToolSet10from composio.tools.toolset import ProcessorsType11from composio.utils.pydantic import parse_pydantic_error12from composio.utils.shared import get_signature_format_from_schema_params1314class ComposioToolSet(BaseComposioToolSet):15    """16    Composio toolset for [Your Framework] integration.17    18    Add usage examples here to help users understand how to use your integration.19    """20    21    def __init__(self, *args, **kwargs):22        # Initialize with your framework-specific settings23        super().__init__(*args, **kwargs, 24                         runtime="your_framework_name",25                         description_char_limit=1024,26                         action_name_char_limit=64)27    28    def _wrap_tool(29        self,30        schema: t.Dict[str, t.Any],31        entity_id: t.Optional[str] = None,32    ) -> FrameworkTool:33        """Convert a Composio tool schema into a framework-specific tool."""34        action = schema["name"]35        description = schema["description"]36        schema_params = schema["parameters"]37        38        # Implementation specific to your framework39        # This is where you adapt the Composio schema to your framework's format40        41        # Example implementation (modify for your framework):42        tool = FrameworkTool(43            name=action,44            description=description,45            # Transform schema_params to match your framework's format46            parameters=self._adapt_parameters(schema_params),47            # Create a wrapper function that calls Composio's execute_action48            function=lambda **kwargs: self.execute_action(49                action=action,50                params=kwargs,51                entity_id=entity_id or self.entity_id,52            )53        )54        55        return tool56    57    def get_tools(58        self,59        actions: t.Optional[t.Sequence[ActionType]] = None,60        apps: t.Optional[t.Sequence[AppType]] = None,61        tags: t.Optional[t.List[TagType]] = None,62        entity_id: t.Optional[str] = None,63        *,64        processors: t.Optional[ProcessorsType] = None,65        check_connected_accounts: bool = True,66    ) -> List[FrameworkTool]:67        """68        Get Composio tools as your framework's tool objects.69        70        Args:71            actions: List of specific actions to get72            apps: List of apps to get tools from73            tags: Filter tools by tags74            entity_id: Entity ID to use for tool execution75            processors: Optional request/response processors76            check_connected_accounts: Whether to check for connected accounts77            78        Returns:79            A list of framework-compatible tools80        """81        # Validate and prepare82        self.validate_tools(apps=apps, actions=actions, tags=tags)83        if processors is not None:84            self._processor_helpers.merge_processors(processors)85        86        # Get action schemas from Composio87        tools = [88            self._wrap_tool(89                schema=tool.model_dump(exclude_none=True),90                entity_id=entity_id or self.entity_id,91            )92            for tool in self.get_action_schemas(93                actions=actions,94                apps=apps,95                tags=tags,96                check_connected_accounts=check_connected_accounts,97                _populate_requested=True,98            )99        ]100        101        return tools
+```
+
+[4](https://docs.composio.dev/creating-frameworks/python-sdk#step-3)
+
+### Create the `__init__.py` File
+
+This file exports the necessary components:
+
+\_\_init\_\_.py
+
+```code-block text-sm
+
+1from composio import Action, App, Tag, Trigger, WorkspaceType, action23from composio_yourframework.toolset import ComposioToolSet45__all__ = (6    "Action",7    "App",8    "Tag",9    "Trigger",10    "WorkspaceType",11    "action",12    "ComposioToolSet",13)
+```
+
+[5](https://docs.composio.dev/creating-frameworks/python-sdk#step-4)
+
+### Create a demo file
+
+Create a demonstration file that shows your integration in action:
+
+framework\_demo.py
+
+```code-block text-sm
+
+1"""2Example demonstrating how to use the [Your Framework] integration with Composio.3"""45import os6import dotenv78# Import from your target framework9from targetframework import Agent, Runner1011# Import from your integration12from composio_yourframework import App, Action, ComposioToolSet1314# Set up environment15dotenv.load_dotenv()1617def main():18    # Initialize your toolset19    toolset = ComposioToolSet()20    21    # Get specific tools22    tools = toolset.get_tools(actions=[Action.GITHUB_STAR_A_REPOSITORY_FOR_THE_AUTHENTICATED_USER])23    24    # Create a framework agent with the tools25    agent = Agent(26        name="Demo Agent",27        tools=tools,28        # Other framework-specific parameters29    )30    31    # Run the agent32    result = Runner.run(33        agent, 34        "Perform an action using the integrated tools"35    )36    37    print(result)3839if __name__ == "__main__":40    main()
+```
+
+[6](https://docs.composio.dev/creating-frameworks/python-sdk#step-5)
+
+### Create the `setup.py` File
+
+This configures your package for installation:
+
+setup.py
+
+```code-block text-sm
+
+1"""2Setup configuration for Composio [Your Framework] plugin3"""45from pathlib import Path6from setuptools import setup, find_packages78setup(9    name="composio_yourframework",10    version="0.1.0",11    author="Your Name",12    author_email="your.email@example.com",13    description="Use Composio with [Your Framework]",14    long_description=(Path(__file__).parent / "README.md").read_text(encoding="utf-8"),15    long_description_content_type="text/markdown",16    url="https://github.com/ComposioHQ/composio",17    classifiers=[18        "Programming Language :: Python :: 3",19        "License :: OSI Approved :: Apache Software License",20        "Operating System :: OS Independent",21    ],22    python_requires=">=3.9,<4",23    packages=find_packages(),24    install_requires=[25        "composio_core>=0.7.0,<0.8.0",26        "your-framework>=X.Y.Z",  # Replace with actual dependency27        "pydantic>=2.0.0",28        "typing-extensions>=4.0.0",29    ],30    include_package_data=True,31)
+```
+
+## Code Standards and Quality
+
+For comprehensive guidance on code formatting, linting, testing, and development practices, please refer to the `Development.md` file in the Python project’s docs directory. This file contains detailed instructions on environment setup, code conventions, and all the commands needed for maintaining code quality.
+
+## Common challenges and solutions
+
+When creating an integration, you might encounter these challenges:
+
+Pay special attention to data type conversions between systems. This is the most common source of bugs in integrations.
+
+### Type compatibility issues
+
+**Problem**: The framework expects different data types than what Composio provides.
+
+**Solution**:
+
+```code-block text-sm
+
+1def _adapt_parameters(self, schema_params):2    """Convert Composio parameter schema to framework-specific format"""3    # Implement type conversions here4    return converted_schema
+```
+
+### Schema format differences
+
+**Problem**: The framework has a different JSON schema format than Composio.
+
+**Solution**: Add required properties to match the framework’s expectations. For example:
+
+```code-block text-sm
+
+1# Adding additionalProperties: false for OpenAI-compatible frameworks2modified_schema = schema_params.copy()3modified_schema["additionalProperties"] = False
+```
+
+### String vs. object returns
+
+**Problem**: Many frameworks expect string outputs from tool calls, while you want to preserve structured data.
+
+**Solution**: Use JSON serialization to preserve structure:
+
+```code-block text-sm
+
+1import json23# When returning tool results4if isinstance(result, dict):5    return json.dumps(result)  # For frameworks that expect strings6else:7    return json.dumps({"result": result})
+```
+
+### Tool naming restrictions
+
+**Problem**: The framework has restrictions on tool names or descriptions.
+
+**Solution**: Implement transformation logic:
+
+```code-block text-sm
+
+1def _sanitize_tool_name(self, name):2    """Ensure tool name meets framework requirements"""3    # Replace invalid characters, truncate if needed, etc.4    return sanitized_name
+```
+
+## Real-world example: OpenAI Agents Integration
+
+Below is a concrete example of integrating the OpenAI Agents framework with Composio:
+
+The OpenAI Agents framework expects strings for tool outputs, has specific JSON schema requirements, and needs custom wrapping of tool functions.
+
+Here’s the key implementation for `_wrap_tool` in this integration:
+
+```code-block text-sm
+
+1def _wrap_tool(2    self,3    schema: t.Dict[str, t.Any],4    entity_id: t.Optional[str] = None,5) -> FunctionTool:6    """Wraps composio tool as OpenAI Agents FunctionTool object."""7    action = schema["name"]8    description = schema["description"]9    schema_params = schema["parameters"]10    11    # Create a function that accepts explicit JSON string for parameters12    def execute_action_wrapper(ctx, args_json):13        """Execute Composio action with the given arguments."""14        try:15            # Parse the args_json into a dict16            import json17            kwargs = json.loads(args_json) if args_json else {}18            19            result = self.execute_action(20                action=action,21                params=kwargs,22                entity_id=entity_id or self.entity_id,23                _check_requested_actions=True,24            )25            26            # Serialize result to JSON string for OpenAI API27            if not isinstance(result, dict):28                result_dict = {"result": result}29            else:30                result_dict = result31            32            return json.dumps(result_dict)33            34        except Exception as e:35            # Handle errors consistently36            return json.dumps({37                "successful": False, 38                "error": str(e),39                "data": None,40            })41    42    # Add required schema properties for OpenAI43    modified_schema = schema_params.copy()44    modified_schema["additionalProperties"] = False45    46    # Create a framework-specific tool47    tool = FunctionTool(48        name=action,49        description=description,50        params_json_schema=modified_schema,51        on_invoke_tool=execute_action_wrapper,52        strict_json_schema=True,53    )54    55    return tool
+```
+
+## Testing your integration
+
+Always test your integration thoroughly:
+
+1. **Unit Tests**: Test individual components like parameter transformation
+2. **Integration Tests**: Test the full flow from Composio to framework and back
+3. **End-to-End Testing**: Run a complete scenario with a real API call
+
+Example test structure:
+
+```code-block text-sm
+
+1def test_schema_transformation():2    """Test that Composio schemas are correctly transformed to framework schemas"""3    toolset = ComposioToolSet()4    composio_schema = {...}  # Sample Composio schema5    framework_tool = toolset._wrap_tool(composio_schema)6    7    # Assert framework tool has expected properties8    assert framework_tool.name == composio_schema["name"]9    assert framework_tool.description == composio_schema["description"]10    # ... more assertions
+```
+
+## Best practices for SDK integration
+
+- **Preserve Data Fidelity**: Ensure data structures are properly converted between systems
+- **Handle Errors Gracefully**: Provide clear error messages and follow both systems’ error patterns
+- **Document Edge Cases**: Note any limitations or special considerations in your README
+- **Type Safety**: Use proper type annotations and handle type conversions carefully
+- **Minimal Dependencies**: Don’t add unnecessary dependencies to your integration
+- **Comprehensive Examples**: Include examples for all common use cases
+
+The best integrations are those that feel native to both systems, requiring minimal special handling by users.
+
+## Contribution and maintenance
+
+After creating your integration:
+
+1. **Documentation**: Write clear documentation with examples
+2. **Tests**: Ensure comprehensive test coverage
+3. **Pull Request**: Submit a PR to the Composio repository
+4. **Maintenance**: Monitor compatibility with new versions of both Composio and the target framework
+
+## Conclusion
+
+Creating a Python SDK integration for Composio allows users to leverage Composio’s rich tool ecosystem within their preferred frameworks. By following this guide, you can create robust, type-safe, and user-friendly integrations that enhance the power of both systems.
+
+Remember that a good integration should feel natural to users of both Composio and the target framework, requiring minimal adaptation of their existing code.
+
+## Star GitHub Repository
+## Star A Repository on Github
+
+In this example, we will use LLamaIndex Agent to star a repository on Github using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/llamaindex#install-packages)
+
+### Install Packages
+
+PythonTypescript
+
+```code-block text-sm
+
+$pip install composio-llamaindex llama-index
+```
+
+[2](https://docs.composio.dev/frameworks/llamaindex#import-libraries--initialize-composiotoolset--llm)
+
+### Import Libraries & Initialize ComposioToolSet & LLM
+
+PythonTypescript
+
+```code-block text-sm
+
+1from llama_index.llms.openai import OpenAI2from llama_index.core.llms import ChatMessage3from llama_index.core.agent import FunctionCallingAgentWorker4from composio_llamaindex import App, ComposioToolSet56toolset = ComposioToolSet()7llm = OpenAI()
+```
+
+[3](https://docs.composio.dev/frameworks/llamaindex#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPythonTypeScript
+
+```code-block text-sm
+
+$composio login>composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` and `OPENAI_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/frameworks/llamaindex#get-all-github-tools)
+
+### Get All Github Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+PythonTypescript
+
+```code-block text-sm
+
+1tools = toolset.get_tools(apps=[App.GITHUB])
+```
+
+[5](https://docs.composio.dev/frameworks/llamaindex#define-the-agent)
+
+### Define the Agent
+
+PythonTypescript
+
+```code-block text-sm
+
+1prefix_messages = [2    ChatMessage(3        role="system",4        content=(5            "You are a Github Agent, and you can use tools to perform actions on Github."6        ),7    )8]910agent = FunctionCallingAgentWorker(11    tools=tools,12    llm=llm,13    prefix_messages=prefix_messages,14    max_function_calls=10,15    allow_parallel_tool_calls=False,16    verbose=True,17).as_agent()
+```
+
+[6](https://docs.composio.dev/frameworks/llamaindex#execute-the-agent)
+
+### Execute the Agent
+
+PythonTypescript
+
+```code-block text-sm
+
+1result = agent.chat("Star a repo composiohq/composio on GitHub")
+```
+
+## Star GitHub Repository
+## Star A Repository on GitHub
+
+In this example, we will use SmolAgent’s Code Agent to star a repository on GitHub using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/smolagents#install-packages)
+
+### Install Packages
+
+Python
+
+```code-block text-sm
+
+$pip install composio-smol smolagents
+```
+
+[2](https://docs.composio.dev/frameworks/smolagents#import-libraries--initialize-composiotoolset)
+
+### Import Libraries & Initialize ComposioToolSet
+
+Python
+
+```code-block text-sm
+
+1from composio_smol import ComposioToolSet, Action, App2from smolagents import CodeAgent, HfApiModel3from dotenv import load_dotenv45load_dotenv()67composio_toolset = ComposioToolSet()
+```
+
+[3](https://docs.composio.dev/frameworks/smolagents#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPython
+
+```code-block text-sm
+
+$composio login>composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/frameworks/smolagents#get-all-github-tools)
+
+### Get All GitHub Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+Python
+
+```code-block text-sm
+
+1tools = composio_toolset.get_tools(actions=[Action.GITHUB_STAR_A_REPOSITORY_FOR_THE_AUTHENTICATED_USER])
+```
+
+[5](https://docs.composio.dev/frameworks/smolagents#define-the-agent)
+
+### Define the Agent
+
+Python
+
+```code-block text-sm
+
+1agent = CodeAgent(tools=tools, model=HfApiModel())
+```
+
+[6](https://docs.composio.dev/frameworks/smolagents#execute-the-agent)
+
+### Execute the Agent
+
+Python
+
+```code-block text-sm
+
+1task = "Star a repo composiohq/composio on GitHub"2agent.run(task)
+```
+
+## Star GitHub Repo
+## Star A Repository on Github
+
+In this example, we will use Cloudflare Worker AI to star a repository on Github using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/cloudflare#install-packages)
+
+### Install Packages
+
+JavaScript
+
+```code-block text-sm
+
+$npm install composio-core -g wrangler fs
+```
+
+[2](https://docs.composio.dev/frameworks/cloudflare#setup-wrangler-in-wranglertoml-file)
+
+### Setup wrangler in wrangler.toml file
+
+wrangler.toml
+
+```code-block text-sm
+
+1name = "github-agent"2main = "worker.js"3compatibility_date = "2024-09-23"4compatibility_flags = ["nodejs_compat"]56[vars]7COMPOSIO_API_KEY = "<your-composio-api-key>"89[ai]10binding = "AI"
+```
+
+[3](https://docs.composio.dev/frameworks/cloudflare#import-libraries--initialize-hono)
+
+### Import Libraries & Initialize Hono
+
+worker.js
+
+```code-block text-sm
+
+1import { Hono } from 'hono';2import { CloudflareToolSet } from "composio-core"34const app = new Hono();
+```
+
+[4](https://docs.composio.dev/frameworks/cloudflare#create-an-endpoint--get-github-tools)
+
+### Create an endpoint & get GitHub Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+worker.js
+
+```code-block text-sm
+
+1app.post('/', async (c) => {2    const toolset = new CloudflareToolSet();34    try {5        const tools = await toolset.getTools({ apps: ['github'] });6        const instruction = 'Star the repository "composiohq/composio"';    78        let messages = [9            { role: 'system', content: '' },10            { role: 'user', content: instruction },11        ];1213        const config = {14            model: '@hf/nousresearch/hermes-2-pro-mistral-7b',15        };1617        const toolCallResp = await c.env.AI.run(config.model, {18            messages,19            tools,20        });2122        await toolset.handleToolCall(toolCallResp, entity.id);23        return c.json({ messages: "Your issue has been created" });24    } catch (err) {25        console.log(err);26        return c.text('Something went wrong', 500);27    }2829    export default app;30});
+```
+
+[5](https://docs.composio.dev/frameworks/cloudflare#start-the-worker)
+
+### Start the Worker
+
+CLI
+
+```code-block text-sm
+
+$wrangler dev
+```
+
+## Integrate CAMEL with GitHub
+**Composio enables** your **CAMEL agents** to **connect** with many **tools**!
+
+Goal: Star a repository on GitHub with natural language & CAMEL Agent
+
+### Install Packages & Connect a Tool
+
+Ensure you have the necessary packages installed and connect your GitHub account to allow your CAMEL-AI agents to utilize GitHub functionalities.
+
+Run command
+
+```code-block text-sm
+
+$pip install camel-ai>pip install composio-camel -U>#  Connect your GitHub so agents can use it. >composio add github>#  Check all different apps which you can connect with>composio apps
+```
+
+### Goal: Prepare your environment by initializing necessary imports from Composio & CAMEL.
+
+[1](https://docs.composio.dev/frameworks/camelai#import-base-packages)
+
+### Import Base Packages
+
+Prepare your environment by initializing necessary imports from Composio & CAMEL.
+
+Default Imports
+
+```code-block text-sm
+
+1from colorama import Fore2from camel.agents import ChatAgent3from camel.configs import ChatGPTConfig4from camel.messages import BaseMessage5from camel.models import ModelFactory6from camel.types import ModelPlatformType, ModelType7from camel.utils import print_text_animated8from composio_camel import ComposioToolSet, Action
+```
+
+[2](https://docs.composio.dev/frameworks/camelai#integrating-github-tools-with-composio)
+
+### Integrating GitHub Tools with Composio
+
+This step involves fetching and integrating GitHub tools provided by Composio, enabling enhanced functionality for CAMEL operations.
+
+CAMEL Supported tools from Composio
+
+```code-block text-sm
+
+1composio_toolset = ComposioToolSet()2tools = composio_toolset.get_tools(3    actions=[Action.GITHUB_ACTIVITY_STAR_REPO_FOR_AUTHENTICATED_USER]4)
+```
+
+[3](https://docs.composio.dev/frameworks/camelai#camel-agent-setup)
+
+### CAMEL Agent Setup
+
+This step involves configuring and executing the agent to carry out actions, such as starring a GitHub repository.
+
+CAMEL Agent Setup
+
+```code-block text-sm
+
+1assistant_model_config = ChatGPTConfig(2    temperature=0.0,3    tools=tools,4)56model = ModelFactory.create(7    model_platform=ModelPlatformType.OPENAI,8    model_type=ModelType.GPT_3_5_TURBO,9    model_config_dict=assistant_model_config.__dict__,10)111213# set up agent14assistant_sys_msg = BaseMessage.make_assistant_message(15    role_name="Developer",16    content=(17        "You are a programmer as well an experienced github user. "18        "When asked given a instruction, "19        "you try to use available tools, and execute it"20    ),21)2223agent = ChatAgent(24    assistant_sys_msg,25    model,26    tools=tools,27)28agent.reset()
+```
+
+[4](https://docs.composio.dev/frameworks/camelai#execute-with-your-prompttask)
+
+### Execute with your prompt/task.
+
+Execute the following code to execute the agent, ensuring that the intended task has been successfully completed.
+
+CAMEL Agent Execution
+
+```code-block text-sm
+
+1prompt = (2    "I have created a new GitHub Repo,"3    "Please star my github repository: camel-ai/camel"4)5user_msg = BaseMessage.make_user_message(role_name="User", content=prompt)6print(Fore.YELLOW + f"User prompt:\n{prompt}\n")78response = agent.step(user_msg)9for msg in response.msgs:10    print_text_animated(Fore.GREEN + f"Agent response:\n{msg.content}\n")
+```
+
+## Google AI Integration
+**Composio enables** your **Google AI models** to **connect** with many **tools**!
+
+### Install Packages & Connect a Tool
+
+Goal: Enable Google AI models to perform tasks like starring a repository on
+GitHub via natural language commands
+
+These steps prepare your environment to enable interactions between Google AI and GitHub through Composio.
+
+Run Command
+
+```code-block text-sm
+
+$pip install composio-google>># Connect your GitHub so models can interact with it>>composio add github>># Check all supported apps>>composio apps
+```
+
+[1](https://docs.composio.dev/frameworks/google#import-base-packages--initialize-google-ai-model)
+
+### Import Base Packages & Initialize Google AI Model
+
+Replace `{google_api_key}` with your actual API key.
+
+Default Imports & Configuration
+
+```code-block text-sm
+
+1import dotenv2from composio_google import App, ComposioToolset3from vertexai.generative_models import GenerativeModel45# Load environment variables from .env6dotenv.load_dotenv()78# Initialize the Composio Toolset9composio_toolset = ComposioToolset()1011# Get GitHub tools that are pre-configured12tool = composio_toolset.get_tool(apps=[App.GITHUB])1314# Initialize the Google AI Gemini model15model = GenerativeModel("gemini-1.5-pro", tools=[tool])
+```
+
+[2](https://docs.composio.dev/frameworks/google#start-a-chat-session-with-the-model)
+
+### Start a Chat Session with the Model
+
+Start Chat Session
+
+```code-block text-sm
+
+1# Start a chat session2chat = model.start_chat()
+```
+
+[3](https://docs.composio.dev/frameworks/google#execute-the-task-via-google-ai-model)
+
+### Execute the Task via Google AI Model
+
+Execute Task
+
+```code-block text-sm
+
+1# Define task2task = "Star a repo composiohq/composio on GitHub"34# Send a message to the model5response = chat.send_message(task)67print("Model response:")8print(response)
+```
+
+[4](https://docs.composio.dev/frameworks/google#handle-the-tool-calls)
+
+### Handle the Tool Calls
+
+Handle Tool Calls
+
+```code-block text-sm
+
+1result = composio_toolset.handle_response(response)2print("Function call result:")3print(result)
+```
+
+### Use Specific Actions
+
+Filter Specific Action
+
+```code-block text-sm
+
+1# To restrict models from executing any actions, filter specific actions 2actions = composio_toolset.get_tool(actions=[Action.GITHUB_CREATE_ISSUE])
+```
+
+### Use Specific Apps
+
+Filter Specific App
+
+```code-block text-sm
+
+1# To restrict models from using all tools, filter specific tools 2actions = composio_toolset.get_tool(apps=[App.ASANA, App.GITHUB])
+```
+
+### Filter apps actions by tags
+
+Filter Actions by Tags
+
+```code-block text-sm
+
+1actions = composio_toolset.get_tool(apps=[App.ASANA], tags=[Tag.ASANA_TASKS])
+```
+
+## Groq and GitHub Integration
+**Composio enables** your **Groq based assistants** to **connect** with many **tools**!
+
+Goal: Star a repository on GitHub with natural language & Groq
+
+### Install Packages & Connect a Tool
+
+These commands prepare your environment for seamless interaction between Groq and GitHub.
+
+pythonjavascript
+
+```code-block text-sm
+
+$pip install composio-langchain>pip install langchain-groq>>#Connect your GitHub so agents can use it>composio add github>>#Check all different apps which you can connect with>composio apps
+```
+
+[1](https://docs.composio.dev/frameworks/groq#import-base-packages)
+
+### Import Base Packages
+
+pythonjavascript
+
+```code-block text-sm
+
+1# Initialise imports2from langchain.agents import AgentExecutor3from langchain import hub4from langchain_groq import ChatGroq5from langgraph.prebuilt import create_react_agent67llm = ChatGroq(model="mixtral-8x7b-32768", temperature=0)89prompt = hub.pull("hwchase17/react")
+```
+
+[2](https://docs.composio.dev/frameworks/groq#fetch-all-github-langchain-tools-via-composio)
+
+### Fetch all GitHub Langchain Tools via Composio
+
+pythonjavascript
+
+```code-block text-sm
+
+1# Import from composio_langchain2from composio_langchain import ComposioToolSet, Action, App34# Get All the tools56composio_toolset = ComposioToolSet()7tools = composio_toolset.get_tools(apps=[App.GITHUB])
+```
+
+[3](https://docs.composio.dev/frameworks/groq#execute-the-agent)
+
+### Execute the Agent
+
+Create an agent, set up an executor, and invoke tasks to perform GitHub API calls using Composio.
+
+pythonjavascript
+
+```code-block text-sm
+
+1task = "Star a repo composiohq/composio on GitHub"23agent = create_react_agent(llm, tools)4agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)56# Execute using agent_executor7inputs = {"messages": [("user",  task)]}8agent_executor.invoke(input=inputs)
+```
+
+[4](https://docs.composio.dev/frameworks/groq#check-response)
+
+### Check Response
+
+Executing Agents
+
+```code-block text-sm
+
+$> Entering new AgentExecutor chain...>>Invoking: `github_star_repo` with `{'owner': 'composiohq', 'repo': 'docs'}`>>{'connectedAccountId': 'ade8c167-836b-404b-bb47-fb8550203417', 'input': {'owner': 'composiohq', 'repo': 'docs'}}>{'execution_details': {'executed': True}, 'response_data': ''}I have successfully starred the repository composiohq/composio on GitHub.
+```
+
+### Use Specific Actions
+
+Filter Specific Action
+
+```code-block text-sm
+
+$# To restrict agents from using all the actions, filter specific actions>tools = composio_toolset.get_tools(apps=[App.GITHUB])
+```
+
+### Use Specific Apps
+
+Filter Specific App
+
+```code-block text-sm
+
+$# To restrict agents from using all tools, filter specific tools >tools = composio_toolset.get_tools(actions=[Action.GITHUB_CREATE_ISSUE])
+```
+
+## Composio and IBM Integration
+**Composio enables** **IBM’s Granite Models** to **connect** with many **tools**!
+
+Goal: Star a repository on GitHub with natural language
+
+## Video Guide
+
+Composio x IBM Video Guide - YouTube
+
+Prathit Joshi
+
+No subscribers
+
+[Composio x IBM Video Guide](https://www.youtube.com/watch?v=d3-UIp1MOXg)
+
+Prathit Joshi
+
+Search
+
+Watch later
+
+Share
+
+Copy link
+
+Info
+
+Shopping
+
+Tap to unmute
+
+If playback doesn't begin shortly, try restarting your device.
+
+Full screen is unavailable. [Learn More](https://support.google.com/youtube/answer/6276924)
+
+More videos
+
+## More videos
+
+You're signed out
+
+Videos you watch may be added to the TV's watch history and influence TV recommendations. To avoid this, cancel and sign in to YouTube on your computer.
+
+CancelConfirm
+
+Share
+
+Include playlist
+
+An error occurred while retrieving sharing information. Please try again later.
+
+[Watch on](https://www.youtube.com/watch?v=d3-UIp1MOXg&embeds_referring_euri=https%3A%2F%2Fdocs.composio.dev%2F)
+
+0:00
+
+0:00 / 1:57•Live
+
+•
+
+[Watch on YouTube](https://www.youtube.com/watch?v=d3-UIp1MOXg "Watch on YouTube")
+
+### Install Packages & Connect a Tool
+
+Ensure you have the necessary packages installed and connect your GitHub account to allow your IBM agents to utilize GitHub functionalities.
+
+Run command
+
+```code-block text-sm
+
+$pip install composio-langchain>pip install langchain-ibm>>#  Connect your GitHub so agents can use it. >composio add github>#  Check all different apps which you can connect with>composio apps
+```
+
+### Goal: Prepare your environment by initializing necessary imports from Composio & IBM.
+
+[1](https://docs.composio.dev/frameworks/ibm#import-base-packages)
+
+### Import Base Packages
+
+Prepare your environment by initializing necessary imports from Composio & IBM.
+
+Default Imports
+
+```code-block text-sm
+
+1from composio_langchain import ComposioToolSet, Action2from langchain_ibm import ChatWatsonx3import os45os.environ['WATSONX_API_KEY'] = '<ibm_api_key>' #add your ibm api key here6if not os.environ.get('WATSONX_API_KEY'):7    raise ValueError("WATSONX_API_KEY environment variable is not set")
+```
+
+[2](https://docs.composio.dev/frameworks/ibm#integrating-github-tools-with-composio)
+
+### Integrating GitHub Tools with Composio
+
+This step involves fetching and integrating GitHub tools provided by Composio, enabling enhanced functionality for Agent operations.
+
+IBM Supported tools from Composio
+
+```code-block text-sm
+
+1composio_toolset = ComposioToolSet()2tools = composio_toolset.get_tools(3    actions=[Action.GITHUB_ACTIVITY_STAR_REPO_FOR_AUTHENTICATED_USER]4)
+```
+
+[3](https://docs.composio.dev/frameworks/ibm#ibm-agent-setup)
+
+### IBM Agent Setup
+
+This step involves configuring and executing the agent to carry out actions, such as starring a GitHub repository.
+
+IBM Agent Setup
+
+```code-block text-sm
+
+1parameters = {2"decoding_method": "sample",3"max_new_tokens": 100,4"min_new_tokens": 1,5"temperature": 0.5,6"top_k": 50,7"top_p": 1,8}9url = input('Add your IBM Cloud URL here: ')10project_id = input('Add your IBM Project ID here: ')11watsonx_llm = ChatWatsonx(12model_id = 'ibm/granite-3-8b-instruct',13url = url, 14project_id = project_id,15)   1617if not url or not project_id:18    raise ValueError("IBM Cloud URL and Project ID must be provided")1920llm_with_tools = watsonx_llm.bind_tools(tools)
+```
+
+[4](https://docs.composio.dev/frameworks/ibm#execute-with-your-prompttask)
+
+### Execute with your prompt/task.
+
+Execute the following code to execute the agent, ensuring that the intended task has been successfully completed.
+
+Agent Execution
+
+```code-block text-sm
+
+1response = llm_with_tools.invoke("Star the composiohq/composio repository")2print(response)
+```
+
+## Julep and GitHub Integration
+**Composio and Julep together** empower your agents to **interact effectively** with various **external applications**!
+
+### Install Packages & Connect a Tool
+
+Goal: Allow agents to interact with GitHub projects, like starring a
+repository using natural language & Julep Agent
+
+These commands set up your environment to enable smooth interactions between Julep and GitHub.
+
+Run Command
+
+```code-block text-sm
+
+$pip install composio-julep>># Connect your GitHub so agents can interact with it>>composio add github>># Check all supported apps>>composio apps
+```
+
+[1](https://docs.composio.dev/frameworks/julep#import-base-packages--create-default-julep-agent)
+
+### Import Base Packages & Create Default Julep Agent
+
+Replace `julep_api_key` with actual API key.
+
+Default Imports & Configuration
+
+```code-block text-sm
+
+1from julep import Client2from composio_julep import ComposioToolSet, App3import os45julep_api_key = "{julep_api_key}" # Replace it6julep_client = Client(api_key=julep_api_key)
+```
+
+[2](https://docs.composio.dev/frameworks/julep#configure-julep-agent-with-composio-tools)
+
+### Configure Julep Agent with Composio Tools
+
+Agent Configuration
+
+```code-block text-sm
+
+1# Initialise the Composio Tool Set2composio_toolset = ComposioToolSet()34# Register the GitHub app with the right settings56tools = composio_toolset.get_tools(apps=[App.GITHUB])78# Create and configure the Julep agent910agent = julep_client.agents.create(11name="Jessica",12about="Tech entrepreneur with a focus on sustainability and AI.",13default_settings={14"temperature": 0.7,15"top_p": 1,16"min_p": 0.01,17"presence_penalty": 0,18"frequency_penalty": 0,19"length_penalty": 1.0,20"max_tokens": 15021},22model="gpt-4-turbo",23tools=tools,24)
+
+```
+
+[3](https://docs.composio.dev/frameworks/julep#execute-the-task-via-julep-agent)
+
+### Execute the Task via Julep Agent
+
+Julep Agent Executes the Task
+
+```code-block text-sm
+
+1about = """2Sam, a software developer, is passionate about impactful tech.3At the tech fair, he seeks investors and collaborators for his project.4"""5user = julep_client.users.create(6    name="Sam",7    about=about,8)910situation_prompt = "You are at a tech fair seeking innovative projects."11session = julep_client.sessions.create(user_id=user.id, agent_id=agent.id, situation=situation_prompt)1213user_msg = "Could you star the GitHub repository composiohq/composio?"1415response = julep_client.sessions.chat(16    session_id=session.id,17    messages=[18        {"role": "user", "content": user_msg, "name": "Sam"}19    ],20    recall=True,21    remember=True22)
+
+```
+
+[4](https://docs.composio.dev/frameworks/julep#handle-all-the-tool-calls)
+
+### Handle all the Tool calls
+
+Handle Tool Call
+
+```code-block text-sm
+
+1response = composio_toolset.handle_tool_calls(response)23print(response.messages)
+```
+
+[5](https://docs.composio.dev/frameworks/julep#check-response)
+
+### Check Response
+
+Check Agent Response
+
+```code-block text-sm
+
+$[{'content': 'I have starred the repository "composio" for you on GitHub under the account "composiohq".', 'role': 'agent'}]
+```
+
+### Use Specific Actions
+
+Filter Specific Action
+
+```code-block text-sm
+
+1# To restrict agents from executing any actions, filter specific actions 2actions = composio_toolset.get_tools(actions=[Action.GITHUB_CREATE_ISSUE])
+```
+
+### Use Specific Apps
+
+Filter Specific App
+
+```code-block text-sm
+
+1# To restrict agents from using all tools, filter specific tools 2actions = composio_toolset.get_tools(apps=[App.ASANA, App.GITHUB])
+```
+
+### Filter apps actions by tags
+
+Filter Actions by Tags
+
+```code-block text-sm
+
+1actions = toolset.get_tools(apps=[App.ASANA], tags=[Tag.ASANA_TASKS])
+```
+
+## Star GitHub Repository
+## Star A Repository on GitHub
+
+In this example, we will use Letta Agent to star a repository on GitHub using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/letta#install-packages)
+
+### Install Packages
+
+PythonJavaScript
+
+```code-block text-sm
+
+$pip install letta-client composio_langchain
+```
+
+[2](https://docs.composio.dev/frameworks/letta#import-libraries--configure-client)
+
+### Import Libraries & Configure Client
+
+PythonJavaScript
+
+```code-block text-sm
+
+1from letta_client import Letta2from composio_langchain import Action, ComposioToolSet, App34client = Letta(base_url="http://localhost:8283")
+```
+
+[3](https://docs.composio.dev/frameworks/letta#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPythonJavaScript
+
+```code-block text-sm
+
+$composio login >composio add github
+```
+
+[4](https://docs.composio.dev/frameworks/letta#add-github-action-to-client)
+
+### Add GitHub action to Client
+
+Adding tools to the client
+
+PythonJavaScript
+
+```code-block text-sm
+
+1tool = client.tools.add_composio_tool(composio_action_name=Action.GITHUB_STAR_A_REPOSITORY_FOR_THE_AUTHENTICATED_USER.name)
+```
+
+[5](https://docs.composio.dev/frameworks/letta#create-the-agent)
+
+### Create the agent
+
+PythonJavaScript
+
+```code-block text-sm
+
+1agent = client.agents.create(2    name="GitHub Agent",3    memory_blocks=[4        {"label": "persona", "value": "I am a helpful assistant"}5    ],6    model="openai/gpt-4o",7    embedding="openai/text-embedding-ada-002", 8    tool_ids=[tool.id]9)
+```
+
+[6](https://docs.composio.dev/frameworks/letta#execute-the-agent)
+
+### Execute the Agent
+
+PythonJavaScript
+
+```code-block text-sm
+
+1response = client.agents.messages.create(2    agent_id=agent.id,3    messages=[4        {5            "role": "user",6            "content": "Star the github repo composioHQ/composio/"7        }8    ]9)10for message in response.messages:11    print(message)
+```
+
+## Star GitHub Repository
+## Star A Repository on Github
+
+In this example, we will use LiteLLM to star a repository on Github using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/litellm#install-packages)
+
+### Install Packages
+
+Python
+
+```code-block text-sm
+
+$ pip install composio_openai litellm
+```
+
+[2](https://docs.composio.dev/frameworks/litellm#import-libraries-initialize-composiotoolset--create-router)
+
+### Import Libraries, Initialize ComposioToolSet & Create Router
+
+Python
+
+```code-block text-sm
+
+$from composio_openai import ComposioToolSet, App>from litellm.router import Router>>toolset = ComposioToolSet()>>router = Router(>    model_list=[>        {>            "model_name": "anthropic/claude-3-5",>            "litellm_params": {>                "model": "claude-3-opus-20240229",>                "api_key": "<your-anthropic-api-key>",>            },>        }>    ]>)
+```
+
+[3](https://docs.composio.dev/frameworks/litellm#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPython
+
+```code-block text-sm
+
+$composio login >composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` and `OPENAI_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/frameworks/litellm#get-all-github-tools)
+
+### Get All Github Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+Python
+
+```code-block text-sm
+
+1tools = toolset.get_tools(apps=[App.GITHUB])
+```
+
+[5](https://docs.composio.dev/frameworks/litellm#configure-router)
+
+### Configure Router
+
+Python
+
+```code-block text-sm
+
+1response = router.completion(2    model="anthropic/claude-3-5",3    messages=[4        {"role": "user", "content": "Star the repository composiohq/composio on github"},5    ],6    tools=tools,7    tool_choice="auto",8)
+```
+
+[6](https://docs.composio.dev/frameworks/litellm#execute-tool-calls)
+
+### Execute Tool Calls
+
+Python
+
+```code-block text-sm
+
+1result = toolset.handle_tool_calls(response=response)2print(result)
+```
+
+## Lyzr Agent Integration
+**Composio enables** your **Lyzr agents** to **connect** with many **tools**!
+
+Goal: Star a repository on GitHub with natural language & Lyzr Agent
+
+### Install Packages & Connect a Tool
+
+These commands prepare your environment for seamless interaction between Lyzr and Github.
+
+Run command
+
+```code-block text-sm
+
+$    pip install lyzr-automata -q>    pip install composio_lyzr>    #Connect your Github so agents can use it. >    composio add github>    #Check all different apps which you can connect with>    composio apps
+```
+
+### Goal: Use Lyzr Agent to Interact with Github using Composio
+
+[1](https://docs.composio.dev/frameworks/lyzr#import-base-packages)
+
+### Import Base Packages
+
+Default Imports
+
+```code-block text-sm
+
+1    from lyzr_automata import Task, Agent2    from lyzr_automata.ai_models.openai import OpenAIModel3    from composio_lyzr import ComposioToolSet, App, Action4    from lyzr_automata.pipelines.linear_sync_pipeline import LinearSyncPipeline567    open_ai_text_completion_model = OpenAIModel( api_key="sk-...", parameters={"model": "gpt-4-turbo"})
+```
+
+[2](https://docs.composio.dev/frameworks/lyzr#execute-the-agent)
+
+### Execute the Agent
+
+Lyzr Agent Executes Task
+
+```code-block text-sm
+
+1    lyzr_agent = Agent(2        role="Github Agent",3        prompt_persona="You are AI agent that is responsible for taking actions on Github on users behalf. You need to take action on Github using Github APIs",4    )56    composio_toolset = ComposioToolSet().get_lyzr_tool(Action.GITHUB_STAR_A_REPOSITORY_FOR_THE_AUTHENTICATED_USER)78    task = Task(9        name="Github Starring",10        agent=lyzr_agent,11        tool=composio_toolset,12        model=open_ai_text_completion_model,13        instructions="Star a repo composiohq/composio on GitHub",14    )1516    LinearSyncPipeline(name="Composio Lyzr", completion_message="Task completed",tasks=[task]).run()
+```
+
+[3](https://docs.composio.dev/frameworks/lyzr#check-response)
+
+### Check Response
+
+Lyzr agent output
+
+```code-block text-sm
+
+$    START PIPELINE Composio Lyzr :: start time : 1713439069.754745>    START TASK Github Starring :: start time : 1713439069.7548192>    output : {'execution_details': {'executed': True}, 'response_data': ''}>    END TASK Github Starring :: end time :  1713439073.961327 :: execution time : 4.206507921218872>    END PIPELINE Composio Lyzr :: end time :  1713439073.961421 :: execution time : 4.206676006317139>    Task completed>    [{'task_id': UUID('d0280a9d-89ef-4f8b-8145-58588aebcb6c'), 'task_output': {'execution_details': {'executed': True}, 'response_data': ''}}]
+```
+
+## PraisonAI GitHub Integration
+**Composio** enables your **PraisonAI agents** to **connect** with many **tools**!
+
+Goal: Star a repository on GitHub with natural language & PraisonAI Agent
+
+### Install Packages & Connect a Tool
+
+These commands prepare your environment for seamless interaction between PraisonAI and GitHub.
+
+Run command
+
+```code-block text-sm
+
+$pip install PraisonAI -q>pip install composio-praisonai># login to composio>composio login># Connect your GitHub using command below, so agents can use it. >composio add github># Check all different apps which you can connect with>composio apps
+```
+
+### Goal: Use PraisonAI Agent to Interact with Github using Composio
+
+[1](https://docs.composio.dev/frameworks/praison-ai#import-base-packages)
+
+### Import Base Packages
+
+Prepare your environment by initializing necessary imports from PraisonAI and setting up your client.
+
+Default Imports
+
+```code-block text-sm
+
+1import os2import yaml3from praisonai import PraisonAI45from composio_praisonai import Action, ComposioToolSet
+```
+
+[2](https://docs.composio.dev/frameworks/praison-ai#write-the-praison-supported-composio-tools-in-toolspy-file)
+
+### Write the Praison-supported Composio Tools in `tools.py` file.
+
+This step involves fetching and integrating GitHub tools provided by Composio, and writing them in PraisonAI supported Format, returning the name of tools in a format, that should be added to `agents.yml` file.
+
+Write the tools
+
+```code-block text-sm
+
+1composio_toolset = ComposioToolSet()2tools = composio_toolset.get_tools(3    actions=[Action.GITHUB_ACTIVITY_STAR_REPO_FOR_AUTHENTICATED_USER]4)5tool_section_str = composio_toolset.get_tools_section(tools)6print(tool_section_str)
+```
+
+[3](https://docs.composio.dev/frameworks/praison-ai#define-the-agentsyml-either-in-a-separate-file-or-in-your-script)
+
+### Define the `agents.yml` either in a separate file, or in your script.
+
+This step involves configuring and executing the agent to carry out actions, such as starring a GitHub repository.
+
+Define agent.yml
+
+```code-block text-sm
+
+1agent_yaml = """2framework: "crewai"3topic: "Github Management"45roles:6  developer:7    role: "Developer"8    goal: "An expert programmer"9    backstory: "A developer exploring new codebases and having certain tools available to execute different tasks."10    tasks:11      star_github:12        description: "Star a repo composiohq/composio on GitHub"13        expected_output: "Response whether the task was executed."14""" + tool_section_str1516print(agent_yaml)
+```
+
+[4](https://docs.composio.dev/frameworks/praison-ai#run-the-praisonai-agents-to-execute-the-goaltask)
+
+### Run the PraisonAI Agents to execute the goal/task.
+
+Here you initialize PraisonAI class, and execute.
+
+Define agent.yml
+
+```code-block text-sm
+
+1# Create a PraisonAI instance with the agent_yaml content2praison_ai = PraisonAI(agent_yaml=agent_yaml)34# Run PraisonAI5result = praison_ai.main()67# Print the result8print(result)
+```
+
+## Star GitHub Repository
+## Star A Repository on GitHub
+
+In this example, we will use Agno Agent to star a repository on GitHub using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/agno#install-packages)
+
+### Install Packages
+
+Python
+
+```code-block text-sm
+
+$pip install composio-agno openai
+```
+
+[2](https://docs.composio.dev/frameworks/agno#import-libraries--initialize-composiotoolset--llm)
+
+### Import Libraries & Initialize ComposioToolSet & LLM
+
+Python
+
+```code-block text-sm
+
+1from agno.agent.agent import Agent2from composio_agno import Action, App, ComposioToolSet34toolset = ComposioToolSet()
+```
+
+[3](https://docs.composio.dev/frameworks/agno#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPython
+
+```code-block text-sm
+
+$composio login >composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` and `OPENAI_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/frameworks/agno#get-all-github-tools)
+
+### Get All GitHub Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+Python
+
+```code-block text-sm
+
+1tools = toolset.get_tools(apps=[App.GITHUB])
+```
+
+[5](https://docs.composio.dev/frameworks/agno#define-the-assistant)
+
+### Define the Assistant
+
+Python
+
+```code-block text-sm
+
+1agent = Agent(tools=tools, show_tool_calls=True)
+```
+
+[6](https://docs.composio.dev/frameworks/agno#execute-the-agent)
+
+### Execute the Agent
+
+Python
+
+```code-block text-sm
+
+1agent.print_response("Can you star ComposioHQ/composio repo?")
+```
+
+## Star GitHub Repositories
+## Star A Repository on Github
+
+In this example, we will use Together AI to star a repository on GitHub using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/together#install-packages)
+
+### Install Packages
+
+Python
+
+```code-block text-sm
+
+$pip install composio-togetherai
+```
+
+[2](https://docs.composio.dev/frameworks/together#import-libraries--initialize-composiotoolset--together-client)
+
+### Import Libraries & Initialize ComposioToolSet & Together Client
+
+Python
+
+```code-block text-sm
+
+1from composio_togetherai import ComposioToolSet, App2from together import Together34client = Together()5toolset = ComposioToolSet()
+```
+
+[3](https://docs.composio.dev/frameworks/together#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPython
+
+```code-block text-sm
+
+$composio login>composio add github
+```
+
+Don’t forget to set your `COMPOSIO_API_KEY` and `TOGETHER_API_KEY` in your environment variables.
+
+[4](https://docs.composio.dev/frameworks/together#get-all-github-tools)
+
+### Get All Github Tools
+
+You can get all the tools for a given app as shown below, but you can get **specific actions** and filter actions using **usecase** & **tags**. Learn more [here](https://docs.composio.dev/tool-calling/fetching-tools)
+
+Python
+
+```code-block text-sm
+
+1tools = toolset.get_tools(apps=[App.GITHUB])
+```
+
+[5](https://docs.composio.dev/frameworks/together#create-a-chat-completion-with-tools)
+
+### Create a Chat Completion with Tools
+
+Python
+
+```code-block text-sm
+
+1response = client.chat.completions.create(2    tools=tools,3    model="mistralai/Mixtral-8x7B-Instruct-v0.1",4    messages=[5        {6            "role": "user",7            "content": "Star the repo 'composiohq/composio'",8        }9    ],10)1112res = toolset.handle_tool_calls(response)13print(res)
+```
+
+## Star GitHub Repositories
+**Composio enables** your **Mastra agents** to **connect** with many **tools**!
+
+Goal: Star a repository on GitHub with a Mastra agent
+
+## Star A Repository on Github
+
+In this example, we will use Mastra to star a repository on Github using Composio Tools
+
+[1](https://docs.composio.dev/frameworks/mastra#create-mastra-project)
+
+### Create Mastra project
+
+JavaScript
+
+```code-block text-sm
+
+$npx create-mastra@latest
+```
+
+You can get the full Mastra installation instructions [here](https://mastra.ai/docs/getting-started/installation)
+
+[2](https://docs.composio.dev/frameworks/mastra#install-mastramcp)
+
+### Install `@mastra/mcp`
+
+JavaScript
+
+```code-block text-sm
+
+$npm install @mastra/mcp@latest
+```
+
+[3](https://docs.composio.dev/frameworks/mastra#import-libraries--setup-mcpconfiguration)
+
+### Import Libraries & Setup MCPConfiguration
+
+The SSE URL that’s generated for Cursor is compatible with Mastra - you can use it directly in your configuration
+
+JavaScript
+
+```code-block text-sm
+
+1import { MCPConfiguration } from "@mastra/mcp";2import { Agent } from "@mastra/core/agent";3import { openai } from "@ai-sdk/openai";45const mcp = new MCPConfiguration({6  servers: {7      github: {8        url: new URL("https://mcp.composio.dev/github/[private-url-path]"),9      },10  },11});
+```
+
+[4](https://docs.composio.dev/frameworks/mastra#execute-the-agent)
+
+### Execute the Agent
+
+JavaScript
+
+```code-block text-sm
+
+1const mcp = new MCPConfiguration({2    servers: {3        github: {4        url: new URL("https://mcp.composio.dev/github/[private-url-path]"),5        },6    },7});89const agent = new Agent({10    name: "CLI Assistant",11    instructions: "You help users star GitHub repositories",12    model: openai("gpt-4o-mini"),13    tools: await mcp.getTools(),14});1516const stream = await agent.stream("Please star the repository 'composiohq/composio'");1718for await (const chunk of stream.textStream) {19    process.stdout.write(chunk);20}
+```
+
+## Voice Agent for GitHub
+## Star A Repository on Github
+
+In this example, we will use LiveKit to build a voice a Agent to star a repository on GitHub using Composio Tools. Follow LiveKit’s [Guide](https://docs.livekit.io/agents/v1/start/voice-ai/) for basic setup before proceeding.
+
+[1](https://docs.composio.dev/frameworks/livekit#install-packages)
+
+### Install Packages
+
+Python
+
+```code-block text-sm
+
+$pip install composio-livekit
+```
+
+[2](https://docs.composio.dev/frameworks/livekit#set-environment-variables)
+
+### Set Environment Variables
+
+.env
+
+```code-block text-sm
+
+1DEEPGRAM_API_KEY=2OPENAI_API_KEY=3CARTESIA_API_KEY=4LIVEKIT_API_KEY=5LIVEKIT_API_SECRET=6LIVEKIT_URL=7COMPOSIO_API_KEY=
+```
+
+[3](https://docs.composio.dev/frameworks/livekit#import-libraries--initialize-composiotoolset)
+
+### Import Libraries & Initialize ComposioToolSet
+
+Python
+
+```code-block text-sm
+
+1from composio_livekit import Action, ComposioToolSet2from livekit import agents3from livekit.agents.voice import Agent, AgentSession, room_io4from livekit.plugins import (5    cartesia,6    deepgram,7    noise_cancellation,8    openai,9    silero,10    turn_detector,11)1213toolset = ComposioToolSet()
+```
+
+[4](https://docs.composio.dev/frameworks/livekit#connect-your-github-account)
+
+### Connect Your GitHub Account
+
+You need to have an active GitHub Integration. Learn how to do this [here](https://youtu.be/LmyWy4LiedQ?si=u5uFArlNL0tew0Wf)
+
+CLIPython
+
+```code-block text-sm
+
+$composio login>composio add github
+```
+
+[5](https://docs.composio.dev/frameworks/livekit#get-the-star-a-repository-action)
+
+### Get the Star A Repository Action
+
+Python
+
+```code-block text-sm
+
+1tools = toolset.get_tools(2    actions=[Action.GITHUB_STAR_A_REPOSITORY_FOR_THE_AUTHENTICATED_USER]3)
+```
+
+[6](https://docs.composio.dev/frameworks/livekit#define-the-agent)
+
+### Define the Agent
+
+Define the agent and pass the tools to it
+
+Python
+
+```code-block text-sm
+
+1class Assistant(Agent):2    def __init__(self) -> None:3        super().__init__(4            instructions="You are a helpful voice AI assistant.", tools=tools5        )67async def entrypoint(ctx: agents.JobContext):8    await ctx.connect()910    session = AgentSession(11        stt=deepgram.STT(),12        llm=openai.LLM(model="gpt-4o"),13        tts=cartesia.TTS(),14        vad=silero.VAD.load(),15        turn_detection=turn_detector.EOUModel(),16    )1718    await session.start(19        room=ctx.room,20        agent=Assistant(),21        room_input_options=room_io.RoomInputOptions(22            noise_cancellation=noise_cancellation.BVC(),23        ),24    )2526    await session.generate_reply()2728if __name__ == "__main__":29    agents.cli.run_app(agents.WorkerOptions(entrypoint_fnc=entrypoint))
+```
+
+[7](https://docs.composio.dev/frameworks/livekit#speak-to-your-agent)
+
+### Speak To Your Agent
+
+Start your agent in `console` mode to run inside your terminal:
+
+Python
+
+```code-block text-sm
+
+$python main.py console
+```
+
+Your agent speaks to you in the terminal, and you can speak to it as well.
+
+## API Keys Overview
+### Headers
+
+x-api-keystringRequired
+
+x-org-api-keystringRequired
+
+### Response
+
+idstring
+
+The ID of the API key
+
+namestring
+
+The name of the API key
+
+createdAtstring `format: "\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?"`
+
+The creation date of the API key
+
+updatedAtstring `format: "\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?"`
+
+The last update date of the API key
+
+keystring
+
+The generated API key
+
+isHiddenboolean
+
+Whether the API key is hidden
+
+membermap from strings to any
+
+The member of the API key
+
+lastUsedstringOptional `format: "\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?"`
+
+The last used date of the API key
+
+## API Key Generation
+### Headers
+
+x-api-keystringRequired
+
+x-org-api-keystringRequired
+
+### Request
+
+This endpoint expects an object.
+
+namestringRequired
+
+The name of the API key to be generated
+
+### Response
+
+idstring
+
+The ID of the API key
+
+namestring
+
+The name of the API key
+
+createdAtstring `format: "\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?"`
+
+The creation date of the API key
+
+updatedAtstring `format: "\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?"`
+
+The last update date of the API key
+
+keystring
+
+The generated API key
+
+isHiddenboolean
+
+Whether the API key is hidden
+
+membermap from strings to any
+
+The member of the API key
+
+lastUsedstringOptional `format: "\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d.\d+Z?"`
+
+The last used date of the API key
+

@@ -1,0 +1,51 @@
+# https://docs.composio.dev/ llms.txt
+
+- [Composio Integration Guide](https://docs.composio.dev/getting-started/welcome): Integrate AI agents with 300+ tools effortlessly using Composio.
+- [Composio Integration Guide](https://docs.composio.dev/getting-started/welcome): Integrate AI agents with 300+ tools effortlessly using Composio.
+- [Composio SDK Installation](https://docs.composio.dev/getting-started/installation): Guide to install Composio SDK for Python and TypeScript.
+- [Composio Quickstart Guide](https://docs.composio.dev/getting-started/quickstart): Learn to execute authenticated tool calls with Composio.
+- [AI Tool Integration](https://docs.composio.dev/tool-calling/introduction): Composio enables AI to autonomously use external tools.
+- [Composio Tool Fetching](https://docs.composio.dev/tool-calling/fetching-tools): Explore Composio's extensive tool fetching and filtering methods.
+- [Executing Composio Tools](https://docs.composio.dev/tool-calling/executing-tools): Learn how to execute Composio tools automatically or directly.
+- [Customizing Composio Tools](https://docs.composio.dev/tool-calling/customizing-tools): Guide to creating and customizing tools in Composio.
+- [Composio Processing Tools](https://docs.composio.dev/tool-calling/processing-tools): Composio's Processors enhance tool interactions with LLMs and APIs.
+- [Custom Apps Integration](https://docs.composio.dev/tool-calling/adding-your-own-app): Guide to adding custom apps using OpenAPI specifications.
+- [Composio Auth Overview](https://docs.composio.dev/auth/introduction): Composio Auth simplifies secure user app connections.
+- [Composio Integration Setup](https://docs.composio.dev/auth/set-up-integrations): Set up integrations for external apps in Composio.
+- [User Connection Authorization](https://docs.composio.dev/auth/connection): Guide to authorizing Composio for user connections securely.
+- [OAuth 2.0 Connection Guide](https://docs.composio.dev/auth/connection/oauth): Guide to connect users to external apps using OAuth 2.0.
+- [API Key Connection Guide](https://docs.composio.dev/auth/connection/non-oauth): Guide for connecting external apps using API keys and tokens.
+- [Custom Auth App Setup](https://docs.composio.dev/auth/white-labelling): Guide to setting up custom authentication with redirects.
+- [Custom Credentials Injection](https://docs.composio.dev/auth/injecting-custom-credentials): Learn to inject custom credentials for API actions.
+- [Using Triggers Guide](https://docs.composio.dev/triggers/using-triggers): Learn to use triggers for dynamic AI responses.
+- [Model Context Protocol](https://docs.composio.dev/mcp/introduction): MCP connects AI models to external data sources seamlessly.
+- [MCP Tools Guide](https://docs.composio.dev/mcp/cursor): Guide for installing, authenticating, and troubleshooting MCP tools.
+- [MCP Tools Installation Guide](https://docs.composio.dev/mcp/claude): Guide for installing and authenticating MCP tools in Claude.
+- [MCP Tools Guide](https://docs.composio.dev/mcp/windsurf): Guide for installing and authenticating MCP tools in Windsurf IDE.
+- [V3 API Migration](https://docs.composio.dev/changelog/api-v-3-migration): Transitioning to V3 API with enhanced performance and features.
+- [Star GitHub Repository](https://docs.composio.dev/model-providers/openai): Learn to star a GitHub repository using Composio Tools.
+- [Star GitHub Repositories](https://docs.composio.dev/model-providers/gemini): Learn to star GitHub repositories using Composio Tools.
+- [Star GitHub Repository](https://docs.composio.dev/frameworks/langchain): Learn to star a GitHub repository using LangChain.
+- [Star GitHub Repository](https://docs.composio.dev/frameworks/langgraph): Learn to star GitHub repositories using LangGraph Agent.
+- [Star GitHub Repository](https://docs.composio.dev/frameworks/crewai): Learn to star a GitHub repository using CrewAI.
+- [Star GitHub Repository](https://docs.composio.dev/frameworks/vercel): Learn to star a GitHub repository using Vercel AI SDK.
+- [Star GitHub Repository](https://docs.composio.dev/frameworks/autogen): Learn to star GitHub repositories using Composio Tools.
+- [Python SDK Integration Guide](https://docs.composio.dev/creating-frameworks/python-sdk): Integrate Python frameworks with Composio for seamless AI/ML tools.
+- [Star GitHub Repository](https://docs.composio.dev/frameworks/llamaindex): Learn to star a GitHub repository using Composio Tools.
+- [Star GitHub Repository](https://docs.composio.dev/frameworks/smolagents): Learn to star a GitHub repository using SmolAgent.
+- [Star GitHub Repo](https://docs.composio.dev/frameworks/cloudflare): Learn to star a GitHub repository using Cloudflare Worker AI.
+- [Integrate CAMEL with GitHub](https://docs.composio.dev/frameworks/camelai): Connect CAMEL agents with GitHub for enhanced functionality.
+- [Google AI Integration](https://docs.composio.dev/frameworks/google): Connect Google AI models with tools like GitHub easily.
+- [Groq and GitHub Integration](https://docs.composio.dev/frameworks/groq): Connect Groq assistants with GitHub using Composio tools.
+- [Composio and IBM Integration](https://docs.composio.dev/frameworks/ibm): Composio connects IBM's Granite Models with various tools effectively.
+- [Julep and GitHub Integration](https://docs.composio.dev/frameworks/julep): Integrate Julep with GitHub for seamless agent interactions.
+- [Star GitHub Repository](https://docs.composio.dev/frameworks/letta): Learn to star GitHub repositories using Letta Agent.
+- [Star GitHub Repository](https://docs.composio.dev/frameworks/litellm): Learn to star a GitHub repository using LiteLLM.
+- [Lyzr Agent Integration](https://docs.composio.dev/frameworks/lyzr): Connect Lyzr agents with tools like GitHub seamlessly.
+- [PraisonAI GitHub Integration](https://docs.composio.dev/frameworks/praison-ai): Connect PraisonAI agents with GitHub for seamless integration.
+- [Star GitHub Repository](https://docs.composio.dev/frameworks/agno): Learn to star GitHub repositories using Agno Agent.
+- [Star GitHub Repositories](https://docs.composio.dev/frameworks/together): Learn to star GitHub repositories using Together AI tools.
+- [Star GitHub Repositories](https://docs.composio.dev/frameworks/mastra): Learn to star GitHub repositories using Mastra agents.
+- [Voice Agent for GitHub](https://docs.composio.dev/frameworks/livekit): Build a voice agent to star GitHub repositories using LiveKit.
+- [API Keys Overview](https://docs.composio.dev/api-reference/api-reference/v-1/api-keys/list-api-keys): API key management and details for developers.
+- [API Key Generation](https://docs.composio.dev/api-reference/api-reference/v-1/api-keys/generate-api-key): Generate and manage API keys for your application.
