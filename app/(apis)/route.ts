@@ -24,10 +24,8 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
       collectionsByGroup[adminGroup] = {}
     }
 
-    collectionsByGroup[adminGroup][title] = {
-      url: `${origin}/${slug}`,
-      description,
-    }
+    const collectionTitle = `${title}${description ? ` - ${description}` : ''}`
+    collectionsByGroup[adminGroup][collectionTitle] = `${origin}/${slug}`
   }
 
   const formattedApis: Record<string, string> = {}
