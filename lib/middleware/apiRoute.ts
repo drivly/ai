@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { isDoDomain, extractApiNameFromDomain } from '../../domains'
+import { isDoDomain, extractApiNameFromDomain } from '../domains'
 
 /**
  * Handle API routes (/api/* and /v1/*)

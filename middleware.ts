@@ -18,7 +18,7 @@ import {
   handleDoManagementDomain,
   handleDoDomain,
   handleCustomDomain,
-} from './lib/middleware/handlers'
+} from './lib/middleware'
 
 /**
  * Middleware Configuration

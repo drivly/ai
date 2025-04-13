@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { extractApiNameFromManagementDomain } from '../../domains'
-import { collectionSlugs } from '../../../collections/middleware-collections'
+import { extractApiNameFromManagementDomain } from '../domains'
+import { collectionSlugs } from '../../collections/middleware-collections'
 
 /**
  * Handle .do.management domains

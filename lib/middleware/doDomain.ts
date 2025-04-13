@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { extractApiNameFromDomain, docsExistForApi, getDocsPath } from '../../domains'
-import { collectionSlugs } from '../../../collections/middleware-collections'
+import { extractApiNameFromDomain, docsExistForApi, getDocsPath } from '../domains'
+import { collectionSlugs } from '../../collections/middleware-collections'
 
 /**
  * Handle .do domains
