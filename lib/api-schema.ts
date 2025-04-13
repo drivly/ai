@@ -11,11 +11,12 @@ import path from 'path'
 export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> {
   const collections = payload.collections || {}
 
-  const packageJsonPath = path.resolve(process.cwd(), 'sdks/apis.do/package.json')
+  const projectRoot = process.cwd()
+  const packageJsonPath = path.join(projectRoot, 'sdks/apis.do/package.json')
   const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
   const version = packageJson.version
   
-  const contentPath = path.resolve(process.cwd(), 'content/index.mdx')
+  const contentPath = path.join(projectRoot, 'content/index.mdx')
   const mdxContent = await fs.readFile(contentPath, 'utf8')
   
   const descriptionMatch = mdxContent.match(/# `.do` Business-as-Code\n\n(.*?)(?:\n\n|$)/s)

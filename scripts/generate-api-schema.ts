@@ -13,12 +13,12 @@ async function generateApiSchema() {
   try {
     console.log('Generating static OpenAPI schema...')
     
-    const rootDir = path.resolve(process.cwd(), '..')
-    const packageJsonPath = path.join(rootDir, 'sdks/apis.do/package.json')
+    const projectRoot = process.cwd()
+    const packageJsonPath = path.join(projectRoot, 'sdks/apis.do/package.json')
     const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
     const version = packageJson.version
     
-    const contentPath = path.join(rootDir, 'content/index.mdx')
+    const contentPath = path.join(projectRoot, 'content/index.mdx')
     const mdxContent = await fs.readFile(contentPath, 'utf8')
     
     const descriptionMatch = mdxContent.match(/# `.do` Business-as-Code\n\n(.*?)(?:\n\n|$)/s)
@@ -90,7 +90,7 @@ async function generateApiSchema() {
       },
     }
     
-    const publicDir = path.resolve(process.cwd(), '../public')
+    const publicDir = path.join(projectRoot, 'public')
     try {
       await fs.access(publicDir)
     } catch (error) {
