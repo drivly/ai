@@ -172,7 +172,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "chromatic": "^11.28.0",
     "eslint": "^9.16.0",
-    "eslint-config-next": "15.2.2",
+    "eslint-config-next": "15.3.0",
     "husky": "^9.1.7",
     "ignore-loader": "^0.1.2",
     "jsdom": "^26.0.0",
