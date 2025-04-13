@@ -47,6 +47,20 @@ export const extractApiNameFromDomain = (hostname: string): string => {
 }
 
 /**
+ * Check if a domain is a .do.management domain
+ */
+export const isDoManagementDomain = (hostname: string): boolean => {
+  return hostname === 'do.management' || hostname.endsWith('.do.management')
+}
+
+/**
+ * Extract API name from a .do.management domain
+ */
+export const extractApiNameFromManagementDomain = (hostname: string): string => {
+  return hostname === 'do.management' ? '' : hostname.replace('.do.management', '')
+}
+
+/**
  * Check if docs exist for a specific API name
  */
 export const docsExistForApi = (apiName: string): boolean => {
@@ -173,6 +187,23 @@ export async function middleware(request: NextRequest) {
 
       console.log('Rewriting brand domain to sites domain path using .do', { hostname, cleanPathname, search })
       return NextResponse.rewrite(new URL(`/sites/.do${cleanPathname}${search}`, request.url))
+    }
+
+    if (isDoManagementDomain(hostname)) {
+      const apiName = extractApiNameFromManagementDomain(hostname)
+      
+      if (apiName === '') {
+        console.log('Rewriting do.management to /admin', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/admin${pathname}${search}`, request.url))
+      } else {
+        if (collectionSlugs.includes(apiName)) {
+          console.log('Rewriting to admin collection', { hostname, pathname, search, collection: apiName })
+          return NextResponse.rewrite(new URL(`/admin/collections/${apiName}${pathname}${search}`, request.url))
+        }
+        
+        console.log('Rewriting to admin path', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/admin${pathname}${search}`, request.url))
+      }
     }
 
     if (isDoDomain(hostname)) {
