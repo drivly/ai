@@ -4,8 +4,8 @@ const Config: CollectionConfig = {
   slug: 'config',
   admin: {
     useAsTitle: 'path',
-    description: 'Configuration for different aspects of a project',
-    group: 'Admin',
+    description: 'Configuration for .ai folder synchronization',
+    group: 'Sync',
   },
   access: {
     read: () => true,
@@ -35,6 +35,7 @@ const Config: CollectionConfig = {
       name: 'project',
       type: 'relationship',
       relationTo: 'projects',
+      required: true,
       admin: {
         description: 'Project this configuration belongs to',
       },
