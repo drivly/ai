@@ -10,6 +10,7 @@ export const IntegrationTriggers: CollectionConfig = {
     group: 'Integrations',
     useAsTitle: 'displayName',
     hidden: false,
+    description: 'Defines events from external systems that can trigger workflows',
   },
   versions: true,
   fields: [

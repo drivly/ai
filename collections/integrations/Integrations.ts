@@ -9,6 +9,7 @@ export const Integrations: CollectionConfig = {
   admin: {
     group: 'Integrations',
     useAsTitle: 'name',
+    description: 'Manages external service integrations and their configurations',
   },
   versions: true,
   fields: [
