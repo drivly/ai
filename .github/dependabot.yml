@@ -28,5 +28,3 @@ updates:
       # Ignore major version updates for these dependencies to reduce PR noise
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
-    # Add pnpm-specific settings
-    insecure-external-code-execution: allow
