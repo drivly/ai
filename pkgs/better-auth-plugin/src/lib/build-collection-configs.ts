@@ -1108,6 +1108,21 @@ export function buildCollectionConfigs({
                 description: 'Any additional metadata you want to store with the key.',
               },
             },
+            {
+              name: 'cfWorkerDomains',
+              type: 'array',
+              label: 'Cloudflare Worker Domains',
+              admin: {
+                description: 'Domains of authorized Cloudflare Workers',
+              },
+              fields: [
+                {
+                  name: 'domain',
+                  type: 'text',
+                  required: true,
+                }
+              ]
+            },
           ],
           timestamps: true,
         }

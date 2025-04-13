@@ -29,6 +29,9 @@ export type ApiContext = {
  * Type definition for the user object in API responses
  */
 export interface APIUser {
+  id?: string
+  email?: string
+  name?: string
   authenticated: boolean
   admin?: boolean
   plan: string
@@ -55,6 +58,8 @@ export interface APIUser {
   recentInteractions: number
   trustScore?: number
   serviceLatency?: number
+  authMethod?: string
+  authWorkerDomain?: string
   links?: {
     profile?: string
     account?: string
@@ -87,7 +92,7 @@ export type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise
 /**
  * Function to get user information from the request
  */
-export function getUser(request: NextRequest): APIUser {
+export async function getUser(request: NextRequest, payload?: any): Promise<APIUser> {
   const now = new Date()
   const url = new URL(request.url)
   const domain = punycode.toUnicode(url.hostname)
@@ -153,6 +158,67 @@ export function getUser(request: NextRequest): APIUser {
   const countryCode = cf?.country || geo?.country || ''
   const countryFlag = countryCode ? flags[countryCode as keyof typeof flags] || '🏳️' : '🏳️'
   const countryName = countryCode ? countries[countryCode as keyof typeof countries]?.name : undefined
+
+  const cfWorkerHeader = request.headers.get('cf-worker')
+  if (cfWorkerHeader && isCloudflareWorker && payload) {
+    try {
+      const { isCloudflareIP } = await import('./utils/cloudflare-ip')
+      if (await isCloudflareIP(ip)) {
+        const workerDomain = cfWorkerHeader.trim()
+        
+        const apiKeyWithDomain = await payload.db.apikeys.findOne({
+          where: {
+            cfWorkerDomains: {
+              elemMatch: {
+                domain: workerDomain
+              }
+            }
+          }
+        })
+        
+        if (apiKeyWithDomain) {
+          const user = await payload.db.users.findByID(apiKeyWithDomain.user)
+          if (user) {
+            return {
+              id: user.id,
+              email: user.email,
+              name: user.name,
+              authenticated: true,
+              admin: user.role === 'admin',
+              plan: user.plan || 'Free',
+              browser: ua?.browser?.name,
+              userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
+              os: ua?.os?.name as string,
+              ip,
+              isp,
+              asOrg: asOrg || undefined,
+              flag: countryFlag,
+              zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
+              city: cf?.city?.toString() || geo?.city || request.headers.get('x-vercel-ip-city') || '',
+              metro: cf?.metroCode ? metros[Number(cf.metroCode) as keyof typeof metros] : undefined,
+              region: cf?.region?.toString() || geo?.countryRegion || request.headers.get('x-vercel-ip-region') || '',
+              country: countryName,
+              continent: cf?.continent ? continents[cf.continent as keyof typeof continents] : undefined,
+              requestId: cf ? request.headers.get('cf-ray') + '-' + cf.colo : request.headers.get('x-vercel-id') || '',
+              localTime,
+              timezone: cf?.timezone?.toString() || 'UTC',
+              edgeLocation: colo?.city || geo?.region,
+              edgeDistanceMiles: cf?.country === 'US' || geo?.country === 'US' ? edgeDistance : undefined,
+              edgeDistanceKilometers: cf?.country === 'US' || geo?.country === 'US' ? undefined : edgeDistance,
+              latencyMilliseconds: cf?.clientTcpRtt ? Number(cf.clientTcpRtt) : 0,
+              recentInteractions: 0,
+              trustScore: cf?.botManagement ? (cf.botManagement as any).score : undefined,
+              links,
+              authMethod: 'cloudflare-worker',
+              authWorkerDomain: workerDomain,
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error in Cloudflare Worker authentication:', error)
+    }
+  }
 
   return {
     authenticated: false, // This would be determined by authentication logic
@@ -350,7 +416,7 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
       _currentRequest = null
       _currentContext = null
 
-      const enhancedUser = getUser(req)
+      const enhancedUser = await getUser(req, payload)
 
       const mergedUser = {
         ...enhancedUser,

@@ -17,5 +17,20 @@ export const APIKeys: CollectionConfig = {
     { name: 'email', type: 'text' },
     { name: 'description', type: 'text' },
     { name: 'url', type: 'text' },
+    {
+      name: 'cfWorkerDomains',
+      type: 'array',
+      label: 'Cloudflare Worker Domains',
+      admin: {
+        description: 'Domains of authorized Cloudflare Workers',
+      },
+      fields: [
+        {
+          name: 'domain',
+          type: 'text',
+          required: true,
+        }
+      ]
+    },
   ],
 }
