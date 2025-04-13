@@ -2,7 +2,7 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { analyticsMiddleware } from './analytics/src/middleware'
 import { collectionSlugs } from './collections/middleware-collections'
-import { brandDomains, isAIGateway } from './domains.config'
+import { brandDomains, isAIGateway } from './config/domains.config'
 import { API_AUTH_PREFIX, publicRoutes } from './lib/routes'
 /**
  * Middleware Configuration
