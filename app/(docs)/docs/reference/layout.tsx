@@ -2,7 +2,7 @@ import { Providers } from '@/app/providers'
 import { Navbar } from 'nextra-theme-docs'
 import { Head } from 'nextra/components'
 
-export default function ReferenceLayout({ children }) {
+export default function ReferenceLayout({ children }: { children: React.ReactNode }) {
   const navbar = <Navbar logo={<b>.do</b>} logoLink='https://dotdo.ai' chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
 
   return (
