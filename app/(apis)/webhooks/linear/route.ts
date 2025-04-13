@@ -14,7 +14,10 @@ export const POST = API(async (request, { payload }) => {
   const webhookSignature = request.headers.get('linear-signature')
 
   if (!webhookId || !webhookTimestamp || !webhookSignature) {
-    console.error('Missing Linear webhook headers')
+    console.error('Missing Linear webhook headers', {
+      headers: Object.fromEntries([...request.headers.entries()]),
+      hasBody: Boolean(await request.clone().text()) 
+    })
     return new Response('Missing webhook headers', { status: 400 })
   }
 
