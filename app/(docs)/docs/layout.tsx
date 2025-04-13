@@ -5,6 +5,7 @@ import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import './code-hike.css'
+import '@/app/(sites)/styles.css'
 import { headers } from 'next/headers'
 import type { Metadata } from 'next'
 
