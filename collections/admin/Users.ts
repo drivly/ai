@@ -5,6 +5,7 @@ export const Users: CollectionConfig = {
   admin: {
     group: 'Admin',
     useAsTitle: 'email',
+    description: 'Manages user accounts and their associated roles',
   },
   auth: { tokenExpiration: 60 * 60 * 24 * 30, useAPIKey: true, disableLocalStrategy: process.env.NODE_ENV === 'development' ? undefined : true },
   fields: [
