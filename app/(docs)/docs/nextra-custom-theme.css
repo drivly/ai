@@ -30,7 +30,7 @@
 }
 
 /* Target the main content area */
-.dark main.nx-flex.nx-min-h-[calc(100vh-var(--nextra-navbar-height))] {
+.dark main.nx-flex {
   background-color: #000000;
 }
 
