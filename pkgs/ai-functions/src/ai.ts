@@ -1,7 +1,8 @@
 import { openai } from '@ai-sdk/openai'
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
 import { z } from 'zod'
-import { streamText } from 'ai' // Import streamText for streaming
+import { CoreMessage } from 'ai';
+import { streamText, streamObject } from 'ai' // Import streamText and streamObject for streaming
 
 import type { AIFunctionOptions, AIFunctionConfig } from './types/index'
 
@@ -78,22 +79,97 @@ const generateText = async (options: { model: any; prompt: string; temperature?:
 /**
  * Create a streaming function that yields results as they come in
  */
-const createStreamingFunction = (model: any, prompt: string, config: any) => {
+const createStreamingFunction = (model: any, prompt: string, config: any, schema?: z.ZodType<any>, format?: string) => {
   return {
     [Symbol.asyncIterator]: async function* () {
       try {
-        const stream = await streamText({
-          model,
-          prompt,
-          ...config, // Pass remaining config like temperature, maxTokens etc.
-        })
+        let effectiveFormat = format; // `format` comes from params.output or defaults ('Object'/'Text')
 
-        for await (const chunk of stream.textStream) {
-          yield chunk
+        if (!effectiveFormat || effectiveFormat === 'Object' || effectiveFormat === 'array') {
+            if (schema instanceof z.ZodArray) {
+                effectiveFormat = 'ObjectArray';
+            } else if (schema instanceof z.ZodObject) {
+                effectiveFormat = 'Object';
+            } else {
+                effectiveFormat = 'Text';
+            }
+        }
+
+        console.log(`>>> ai-functions: Streaming with effective format: ${effectiveFormat}`); // Log the final determined format
+
+        if (effectiveFormat === 'TextArray') {
+           const listPrompt = `${prompt}\n\nRespond ONLY with a numbered markdown list. Each item must be on a new line.`
+           const { system, ...restTextArrayConfig } = config;
+           const textArrayMessages: CoreMessage[] = [ // Assuming CoreMessage is available or imported
+              { role: 'system', content: `${system || ''}\nRespond ONLY with a numbered markdown list.` },
+              { role: 'user', content: prompt }
+           ];
+           const result = await streamText({ model, messages: textArrayMessages, ...restTextArrayConfig });
+           let buffer = '';
+           const lineRegex = /^\s*\d+\.\s+(.*)/;
+           for await (const textChunk of result.textStream) {
+             buffer += textChunk;
+             let newlineIndex;
+             while ((newlineIndex = buffer.indexOf('\n')) !== -1) {
+               const line = buffer.substring(0, newlineIndex);
+               buffer = buffer.substring(newlineIndex + 1);
+               const match = line.match(lineRegex);
+               if (match && match[1]) {
+                 yield match[1].trim();
+               }
+             }
+           }
+           if (buffer.length > 0) {
+              const match = buffer.match(lineRegex);
+              if (match && match[1]) {
+                yield match[1].trim();
+              }
+           }
+        }
+        else if (effectiveFormat === 'ObjectArray' && schema instanceof z.ZodArray) {
+          const { system: objArraySystem, ...restObjectArrayConfig } = config;
+          const objectArrayMessages: CoreMessage[] = [
+             { role: 'system', content: `${objArraySystem || ''}\nRespond ONLY with a JSON array conforming to the provided item schema.` },
+             { role: 'user', content: prompt }
+          ];
+          const result = await streamObject({ model, messages: objectArrayMessages, schema, ...restObjectArrayConfig });
+          if (result.elementStream && typeof (result.elementStream as any)[Symbol.asyncIterator] === 'function') {
+             console.log(">>> ai-functions: Iterating over elementStream for ObjectArray")
+             for await (const element of result.elementStream as AsyncIterable<any>) {
+               yield element
+             }
+          } else {
+             console.warn(">>> ai-functions: elementStream not available/iterable for ObjectArray, falling back to partialObjectStream")
+             for await (const partial of result.partialObjectStream) {
+                yield partial // Yield partial arrays
+             }
+          }
+        }
+        else if (effectiveFormat === 'Object' && schema instanceof z.ZodObject) {
+           const { system: objSystem, ...restObjectConfig } = config;
+           const objectMessages: CoreMessage[] = [
+              { role: 'system', content: `${objSystem || ''}\nRespond ONLY with a JSON object conforming to the provided schema.` },
+              { role: 'user', content: prompt }
+           ];
+           const result = await streamObject({ model, messages: objectMessages, schema, ...restObjectConfig });
+           for await (const partial of result.partialObjectStream) {
+             yield partial
+           }
+        }
+        else {
+          const { system, ...restTextConfig } = config;
+          const textMessages: CoreMessage[] = [
+             { role: 'system', content: system || 'You are a helpful assistant.' },
+             { role: 'user', content: prompt }
+          ];
+          const result = await streamText({ model, messages: textMessages, ...restTextConfig });
+          for await (const chunk of result.textStream) {
+            yield chunk
+          }
         }
       } catch (error) {
         console.error('Error during AI streaming:', error)
-        throw error
+        yield { error: `Streaming failed: ${error instanceof Error ? error.message : String(error)}` }
       }
     },
   }
@@ -113,8 +189,8 @@ const aiHandler = {
         const model = getAIProvider(modelName) // Resolve the model name to a model object
 
         if (fullConfig.stream === true) {
-          const { stream, model: _modelConfig, schema: _schema, ...streamingConfig } = fullConfig // Exclude stream, model, schema
-          return createStreamingFunction(model, prompt, streamingConfig)
+          const { stream, model: _modelConfig, schema: schemaFromConfig, ...streamingConfig } = fullConfig // Exclude stream, model, schema
+          return createStreamingFunction(model, prompt, streamingConfig, schemaFromConfig)
         } else {
           return (async () => {
             if (fullConfig.schema) {
@@ -156,8 +232,38 @@ const aiHandler = {
 
         if (params.stream === true) {
           const prompt = `Function: ${prop}\nParameters: ${JSON.stringify(params, null, 2)}` // Construct prompt
-          const { stream, model: _modelConfig, schema: _schema, ...streamingConfig } = params // Exclude stream, model, schema
-          return createStreamingFunction(model, prompt, streamingConfig)
+          let schemaForStreaming: z.ZodTypeAny | undefined = params.schema
+          const outputFormat = params.output || (params.schema ? 'Object' : 'Text'); // Determine format: 'array', 'TextArray', 'Object', 'Text', 'no-schema'
+
+          if (!schemaForStreaming && outputFormat !== 'no-schema' && outputFormat !== 'TextArray' && outputFormat !== 'Text') {
+             const schemaObj: Record<string, z.ZodType> = {}
+             Object.entries(params).forEach(([key, value]) => {
+               if (!['model', 'temperature', 'maxTokens', 'output', 'stream', 'schema', 'system'].includes(key)) {
+                  if (typeof value === 'string') schemaObj[key] = z.string().describe(value);
+                  else if (typeof value === 'number') schemaObj[key] = z.number().describe(String(value));
+                  else if (typeof value === 'boolean') schemaObj[key] = z.boolean().describe(String(value));
+                  else if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'string') schemaObj[key] = z.array(z.string()).describe(value[0]);
+                  else schemaObj[key] = z.any().describe(JSON.stringify(value)); // Fallback
+               }
+             })
+             if (Object.keys(schemaObj).length > 0) {
+                const itemSchema = z.object(schemaObj);
+                if (outputFormat === 'array') { // Explicitly 'array' means ObjectArray
+                    schemaForStreaming = z.array(itemSchema).describe('Array of objects based on input parameters');
+                } else { // Default to single object if not 'array'
+                    schemaForStreaming = itemSchema;
+                }
+             }
+          } else if (outputFormat === 'array' && schemaForStreaming && !(schemaForStreaming instanceof z.ZodArray)) {
+             console.warn(">>> ai-functions: Wrapping provided schema in z.array() due to output: 'array'");
+             schemaForStreaming = z.array(schemaForStreaming);
+          } else if (outputFormat === 'array' && !schemaForStreaming) {
+             console.warn(">>> ai-functions: output: 'array' specified but no schema provided or inferrable. Defaulting to z.array(z.string()).");
+             schemaForStreaming = z.array(z.string()).describe('Array of strings (fallback)');
+          }
+
+          const { stream, model: _modelConfig, schema: _schemaParam, output: _output, ...streamingConfig } = params // Exclude control params
+          return createStreamingFunction(model, prompt, streamingConfig, schemaForStreaming, outputFormat)
         } else {
           return (async () => {
             const prompt = `Function: ${prop}\nParameters: ${JSON.stringify(params, null, 2)}` // Construct prompt

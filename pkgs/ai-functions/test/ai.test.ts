@@ -89,11 +89,22 @@ vi.mock('ai', async (importOriginal) => {
   const actual = (await importOriginal()) as Record<string, any> // Cast to Record<string, any> to allow spreading
   return {
     ...actual, // Spread original exports
-    streamText: vi.fn().mockImplementation(async ({ prompt, ...config }) => {
+    streamText: vi.fn().mockImplementation(async (options) => {
+      const promptContent = options.prompt || options.messages?.find(m => m.role === 'user')?.content || 'undefined_prompt';
       const encoder = new TextEncoder()
       const stream = new ReadableStream({
         async start(controller) {
-          controller.enqueue(encoder.encode(`Streaming chunk 1 for: ${prompt}`))
+          if (options.messages?.some(m => m.role === 'user' && m.content.includes('generateList'))) {
+             controller.enqueue(encoder.encode(`1. First item\n`));
+             await new Promise((resolve) => setTimeout(resolve, 5));
+             controller.enqueue(encoder.encode(`2. Second item\n`));
+             await new Promise((resolve) => setTimeout(resolve, 5));
+             controller.enqueue(encoder.encode(`3. Third item`)); // No trailing newline
+             controller.close();
+             return; // Exit early for this specific mock
+          }
+
+          controller.enqueue(encoder.encode(`Streaming chunk 1 for: ${promptContent}`))
           await new Promise((resolve) => setTimeout(resolve, 10)) // Simulate delay
           controller.enqueue(encoder.encode(` Streaming chunk 2`))
           controller.close()
@@ -101,13 +112,63 @@ vi.mock('ai', async (importOriginal) => {
       })
       return {
         textStream: stream.pipeThrough(new TextDecoderStream()),
+        usage: { promptTokens: 10, completionTokens: 20, totalTokens: 30 },
+        finishReason: 'stop',
       }
     }),
-    streamObject: vi.fn().mockImplementation(async ({ schema, prompt, ...config }) => {
-      if (prompt.includes('categorizeProduct')) {
-        return { object: JSON.parse(mockResponses.categorizeProduct) }
+    streamObject: vi.fn().mockImplementation(async (options) => {
+      const { schema, prompt, messages, ...config } = options;
+      const userContent = messages?.find(m => m.role === 'user')?.content || prompt || '';
+
+      if (schema instanceof z.ZodArray && (userContent.includes('generateItems') || prompt?.includes('generateItems'))) { // Check both prompt and messages
+        console.log(">>> Mock streamObject: Matched ObjectArray for generateItems"); // Debug log
+        const itemSchema = (schema as z.ZodArray<any>).element;
+        const stream = new ReadableStream({
+          async start(controller) {
+            controller.enqueue({ name: 'Item 1', value: 10 });
+            await new Promise((resolve) => setTimeout(resolve, 5));
+            controller.enqueue({ name: 'Item 2', value: 20 });
+            controller.close();
+          },
+        });
+        return {
+           elementStream: stream,
+           partialObjectStream: new ReadableStream({ start(controller) { controller.close() } }),
+           usage: { promptTokens: 10, completionTokens: 20, totalTokens: 30 },
+           finishReason: 'stop',
+        };
       }
-      return { object: { mock: 'object' } }
+
+      if (userContent.includes('categorizeProduct') || prompt?.includes('categorizeProduct')) { // Check both
+         console.log(">>> Mock streamObject: Matched Object for categorizeProduct"); // Debug log
+         const finalObject = JSON.parse(mockResponses.categorizeProduct);
+         const stream = new ReadableStream({
+            async start(controller) {
+               controller.enqueue({ category: 'Electronics' }); // First part
+               await new Promise(resolve => setTimeout(resolve, 5));
+               controller.enqueue(finalObject); // Full object at the end
+               controller.close();
+            }
+         });
+         return {
+            partialObjectStream: stream,
+            usage: { promptTokens: 5, completionTokens: 15, totalTokens: 20 },
+            finishReason: 'stop',
+         };
+      }
+
+      console.log(">>> Mock streamObject: Fallback mock for content:", userContent); // Debug log
+      const fallbackStream = new ReadableStream({
+         start(controller) {
+            controller.enqueue({ mock: 'fallback object chunk' });
+            controller.close();
+         }
+      });
+      return {
+         partialObjectStream: fallbackStream,
+         usage: { promptTokens: 1, completionTokens: 1, totalTokens: 2 },
+         finishReason: 'stop',
+      };
     }),
   }
 })
@@ -226,6 +287,63 @@ describe('AI Functions', () => {
     expect(chunks.join('')).toContain('Streaming chunk 2')
     expect(chunks.join('')).toContain('Generate a streaming response') // Check if prompt was included
   })
+
+  it('should support streaming with ObjectArray output', async () => {
+    const originalModule = (await vi.importActual('../src/ai')) as any
+    const actualAI = originalModule.ai as AI_Instance
+
+    const itemSchema = z.object({ name: z.string(), value: z.number() });
+    const arraySchema = z.array(itemSchema);
+
+    const streamResult = actualAI.generateItems({ schema: arraySchema, stream: true });
+
+    expect(streamResult).toBeDefined();
+    expect(typeof streamResult[Symbol.asyncIterator]).toBe('function');
+
+    const items: any[] = [];
+    for await (const item of streamResult as unknown as AsyncIterable<any>) {
+      items.push(item);
+    }
+
+    expect(items.length).toBe(2);
+    expect(items[0]).toEqual({ name: 'Item 1', value: 10 });
+    expect(items[1]).toEqual({ name: 'Item 2', value: 20 });
+
+     const streamResultInferred = actualAI.generateItems({
+       name: 'string', // Infer schema from params
+       value: 'number',
+       output: 'array',
+       stream: true
+     });
+
+     const itemsInferred: any[] = [];
+     for await (const item of streamResultInferred as unknown as AsyncIterable<any>) {
+       itemsInferred.push(item);
+     }
+     expect(itemsInferred.length).toBe(2); // Should use the same mock
+     expect(itemsInferred[0]).toEqual({ name: 'Item 1', value: 10 });
+  });
+
+  it('should support streaming with TextArray output', async () => {
+    const originalModule = (await vi.importActual('../src/ai')) as any
+    const actualAI = originalModule.ai as AI_Instance
+
+    const streamResult = actualAI.generateList({ output: 'TextArray', stream: true });
+
+    expect(streamResult).toBeDefined();
+    expect(typeof streamResult[Symbol.asyncIterator]).toBe('function');
+
+    const items: string[] = [];
+    for await (const item of streamResult as unknown as AsyncIterable<string>) {
+      items.push(item);
+    }
+
+    expect(items.length).toBe(3);
+    expect(items[0]).toBe('First item');
+    expect(items[1]).toBe('Second item');
+    expect(items[2]).toBe('Third item');
+  });
+
 
   describe('list function', () => {
     it('should be defined', () => {

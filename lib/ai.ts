@@ -1,8 +1,9 @@
-import { AIConfig as SDKAIConfig, StreamingAIConfig, AI_Instance, TaggedTemplateFunction } from '@/sdks/functions.do/types'
+import { AIConfig as SDKAIConfig, StreamingAIConfig, AI_Instance, TaggedTemplateFunction, FunctionDefinition } from '@/sdks/functions.do/types'
 
+import { CoreMessage } from 'ai';
 import { streamText, streamObject } from 'ai'
 import { z } from 'zod'
-import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
+import { createOpenAI } from '@ai-sdk/openai' // Use createOpenAI for compatibility
 import { openai } from '@ai-sdk/openai'
 
 const getAIProvider = (modelName?: string) => {
@@ -14,10 +15,10 @@ const getAIProvider = (modelName?: string) => {
     const apiKey = process.env.OPENAI_API_KEY || undefined // API key might be needed even with gateway depending on setup, or if gateway is bypassed
 
     if (baseURL) {
-      return createOpenAICompatible({ baseURL })(actualModelName)
+      return createOpenAI({ baseURL, apiKey })(actualModelName)
     } else {
-      console.warn('AI_GATEWAY not set, using default OpenAI endpoint.')
-      return openai(actualModelName)
+      console.warn('AI_GATEWAY not set, using default OpenAI provider.')
+      return createOpenAI({ apiKey })(actualModelName)
     }
   }
   throw new Error(`Unsupported AI provider: ${providerName}`)
@@ -34,7 +35,7 @@ type AIFunctionSettings = {
 }
 
 type AIFunctionProperty = string | string[] | Record<string, string> | Record<string, string[]>
-type AIFunction = Record<string, AIFunctionProperty>
+type AIFunction = Record<string, AIFunctionProperty> & { _format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code' } // Add _format
 type AIWorkflow = (args: any) => Promise<any> // TODO: Get this strongly typed with generics on ai and db
 
 type AIConfig = AIFunctionSettings & {
@@ -74,7 +75,8 @@ export const AI = (config: AIConfig) => {
           const initialSettings = Object.fromEntries(Object.entries(schemaDefinition).filter(([key]) => key.startsWith('_')))
 
           return (args: any, callTimeConfig?: SDKAIConfig | StreamingAIConfig): Promise<any> | AsyncIterable<any> => {
-            const mergedSettings: SDKAIConfig | StreamingAIConfig = { ...defaultConfig, ...initialSettings, ...(callTimeConfig as any) }
+            const mergedSettings: SDKAIConfig | StreamingAIConfig = { ...defaultConfig, ...initialSettings, ...(callTimeConfig as any) };
+            const format = (mergedSettings as any).format || (initialSettings as any)._format || (Object.keys(schema).length > 0 ? 'Object' : 'Text'); // Determine format
 
             const isStreaming = 'stream' in mergedSettings && mergedSettings.stream === true
 
@@ -99,13 +101,95 @@ export const AI = (config: AIConfig) => {
               const prompt = `Function: ${functionName}\nSchema: ${JSON.stringify(schema)}\nArgs: ${JSON.stringify(args)}`
               const streamingSdkConfig = { ...sdkConfig }
 
-              if (Object.keys(schema).length > 0) {
+              if (format === 'TextArray') {
+                const listPrompt = `${prompt}\n\nRespond ONLY with a numbered markdown list. Each item must be on a new line.`
+                const { system, ...restTextArraySettings } = streamingSdkConfig;
+                const textArrayPrompt = `${prompt}\n\nRespond ONLY with a numbered markdown list. Each item must be on a new line.`
+                const textArrayMessages: CoreMessage[] = [
+                   { role: 'system', content: `${system || ''}\nRespond ONLY with a numbered markdown list. Each item must be on a new line.` },
+                   { role: 'user', content: prompt } // Use original prompt here, instruction is in system
+                ];
+
+                return (async function*() {
+                  try {
+                    const result = await streamText({ model, messages: textArrayMessages, ...restTextArraySettings });
+                    let buffer = '';
+                    const lineRegex = /^\s*\d+\.\s+(.*)/;
+                    for await (const textChunk of result.textStream) {
+                      buffer += textChunk;
+                      let newlineIndex;
+                      while ((newlineIndex = buffer.indexOf('\n')) !== -1) {
+                        const line = buffer.substring(0, newlineIndex);
+                        buffer = buffer.substring(newlineIndex + 1);
+                        const match = line.match(lineRegex);
+                        if (match && match[1]) {
+                          yield match[1].trim();
+                        }
+                      }
+                    }
+                    if (buffer.length > 0) {
+                       const match = buffer.match(lineRegex);
+                       if (match && match[1]) {
+                         yield match[1].trim();
+                       }
+                    }
+                  } catch (e) {
+                     console.error(`Error streaming TextArray for ${functionName}:`, e);
+                     yield { error: `Failed to stream TextArray for ${functionName}: ${e instanceof Error ? e.message : String(e)}` };
+                  }
+                })();
+              }
+              else if (format === 'ObjectArray' && Object.keys(schema).length > 0) {
+                 try {
+                   const itemSchema = z.object(
+                     Object.entries(schema).reduce(
+                       (acc, [key, value]) => {
+                         if (typeof value === 'string') acc[key] = z.string().describe(value);
+                         else if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'string') acc[key] = z.array(z.string()).describe(value[0]);
+                         else if (typeof value === 'number') acc[key] = z.number().describe(String(value));
+                         else if (typeof value === 'boolean') acc[key] = z.boolean().describe(String(value));
+                         else acc[key] = z.any().describe(JSON.stringify(value)); // Fallback
+                         return acc;
+                       },
+                       {} as Record<string, z.ZodTypeAny>,
+                     ),
+                   );
+                   const arraySchema = z.array(itemSchema);
+                   const arrayPrompt = `${prompt}\n\nRespond ONLY with a JSON array of objects conforming to the item schema.`
+                   const { system: objArraySystem, ...restObjectArraySettings } = streamingSdkConfig;
+                   const objectArrayPrompt = `${prompt}\n\nRespond ONLY with a JSON array of objects conforming to the item schema.`
+                   const objectArrayMessages: CoreMessage[] = [
+                      { role: 'system', content: `${objArraySystem || ''}\nRespond ONLY with a JSON array of objects conforming to the item schema.` },
+                      { role: 'user', content: prompt } // Use original prompt
+                   ];
+
+                   return (async function* () {
+                     try {
+                       const result = await streamObject({ model, messages: objectArrayMessages, schema: arraySchema, ...restObjectArraySettings });
+                       for await (const partial of result.partialObjectStream) {
+                         yield partial;
+                       }
+                     } catch (e) {
+                        console.error(`Error streaming ObjectArray for ${functionName}:`, e);
+                        yield { error: `Failed to stream ObjectArray for ${functionName}: ${e instanceof Error ? e.message : String(e)}` };
+                     }
+                   })();
+                 } catch (e) {
+                   console.error(`Error creating Zod schema for ObjectArray ${functionName}:`, e);
+                   return (async function* () {
+                     yield { error: `Failed to create schema for ObjectArray ${functionName}: ${e instanceof Error ? e.message : String(e)}` };
+                   })();
+                 }
+              }
+              else if (format === 'Object' && Object.keys(schema).length > 0) {
                 try {
                   const zodSchema = z.object(
                     Object.entries(schema).reduce(
                       (acc, [key, value]) => {
                         if (typeof value === 'string') acc[key] = z.string().describe(value)
                         else if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'string') acc[key] = z.array(z.string()).describe(value[0])
+                        else if (typeof value === 'number') acc[key] = z.number().describe(String(value));
+                        else if (typeof value === 'boolean') acc[key] = z.boolean().describe(String(value));
                         else acc[key] = z.any().describe(JSON.stringify(value))
                         return acc
                       },
@@ -114,10 +198,15 @@ export const AI = (config: AIConfig) => {
                   )
 
                   return (async function* () {
-                    const result = await streamObject({ model, prompt, schema: zodSchema, ...streamingSdkConfig })
-                    for await (const partial of result.partialObjectStream) {
-                      yield partial
-                    }
+                     try {
+                        const result = await streamObject({ model, prompt, schema: zodSchema, ...streamingSdkConfig })
+                        for await (const partial of result.partialObjectStream) {
+                          yield partial
+                        }
+                     } catch (e) {
+                        console.error(`Error streaming Object for ${functionName}:`, e);
+                        yield { error: `Failed to stream Object for ${functionName}: ${e instanceof Error ? e.message : String(e)}` };
+                     }
                   })()
                 } catch (e) {
                   console.error(`Error creating Zod schema or streaming object for ${functionName}:`, e)
@@ -125,13 +214,19 @@ export const AI = (config: AIConfig) => {
                     yield { error: `Failed to stream object for ${functionName}: ${e instanceof Error ? e.message : String(e)}` }
                   })()
                 }
-              } else {
-                return (async function* () {
-                  const result = await streamText({ model, prompt, ...streamingSdkConfig })
-                  for await (const textChunk of result.textStream) {
-                    yield textChunk
-                  }
-                })()
+              }
+              else {
+                 return (async function* () {
+                    try {
+                       const result = await streamText({ model, prompt, ...streamingSdkConfig })
+                       for await (const textChunk of result.textStream) {
+                         yield textChunk
+                       }
+                    } catch (e) {
+                       console.error(`Error streaming Text for ${functionName}:`, e);
+                       yield { error: `Failed to stream Text for ${functionName}: ${e instanceof Error ? e.message : String(e)}` };
+                    }
+                 })()
               }
             } else {
               return executeFunction({ functionName, schema, settings: mergedSettings, args }).catch((error) => {
