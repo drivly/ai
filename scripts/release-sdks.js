@@ -232,7 +232,7 @@ const runSemanticRelease = (packagePath, allPackages) => {
     const releaseConfigPath = path.join(packagePath, '.releaserc.js')
     const configContent = `
 export default {
-  branches: ['main'],
+  branches: ['main', 'next'],
   repositoryUrl: 'https://github.com/drivly/ai.git',
   tagFormat: '\${name}@\${version}',
   initialVersion: '0.0.1',
