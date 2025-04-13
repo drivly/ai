@@ -3,7 +3,7 @@ import { defineConfig, s, type ZodMeta } from 'velite' // Import ZodMeta
 export default defineConfig({
   root: 'content',
   output: {
-    data: '.velite',
+    data: '../.velite',
     name: 'content',
     format: 'esm',
     clean: true,
