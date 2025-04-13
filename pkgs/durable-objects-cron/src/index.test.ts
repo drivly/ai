@@ -42,10 +42,26 @@ describe('durable-objects-cron', () => {
     expect(cronDO).toBeInstanceOf(CronDurableObject)
   })
 
-  it('sets an alarm on initialization', () => {
-    new CronDurableObject(mockState as any, {})
+  it('sets an alarm on initialization', async () => {
+    const nextAlarmTime = Date.now() + 60000
+    
+    vi.clearAllMocks()
+    
+    mockStorage.getAlarm.mockResolvedValue(null)
+    mockStorage.list.mockResolvedValue(new Map())
+    
+    const setAlarmSpy = vi.spyOn(mockStorage, 'setAlarm')
+    
+    mockState.blockConcurrencyWhile.mockImplementation(async (callback) => {
+      await callback()
+    })
+    
+    const cronDO = new CronDurableObject(mockState as any, {})
+    
+    await new Promise(resolve => setTimeout(resolve, 10))
+    
     expect(mockState.blockConcurrencyWhile).toHaveBeenCalled()
-    expect(mockStorage.setAlarm).toHaveBeenCalled()
+    expect(setAlarmSpy).toHaveBeenCalled()
   })
 
   it('schedules a task with a cron expression', async () => {
@@ -159,6 +175,13 @@ describe('durable-objects-cron', () => {
     mockStorage.list.mockResolvedValue(
       new Map([['task:error-task', mockTask]])
     )
+    
+    mockStorage.get.mockImplementation(async (key) => {
+      if (key === `task:${mockTask.id}`) {
+        return { ...mockTask }
+      }
+      return null
+    })
     
     const errorHandler = vi.fn().mockImplementation(() => {
       throw new Error('Test error')
