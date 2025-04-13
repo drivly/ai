@@ -268,3 +268,19 @@
   pointer-events: none;
   animation: glow-on 1.5s ease-in-out forwards;
 }
+
+/* Custom styles for reference page layout */
+.full-width-header {
+  @apply w-full; /* Ensure the container spans full width */
+}
+
+/* Ensure the Nextra navbar inside the full-width container also spans full width */
+/* This might need adjustment based on Nextra's internal structure */
+.full-width-header .nextra-nav-container > nav {
+  @apply max-w-full px-4 sm:px-6 lg:px-8; /* Override default max-width and padding if necessary */
+}
+
+.reference-content {
+  /* Add any specific styling for the main content area if needed */
+  /* For now, it will inherit default main content styling */
+}
