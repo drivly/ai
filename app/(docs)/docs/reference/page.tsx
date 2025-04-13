@@ -1,15 +1,16 @@
 'use client'
 
-import { ApiReferenceReact } from '@scalar/api-reference-react'
-import '@scalar/api-reference-react/style.css'
+import { useEffect } from 'react'
 
 export default function APIReference() {
+  useEffect(() => {
+    window.open('https://apis.do/reference', '_blank')
+    window.history.back()
+  }, [])
+  
   return (
-    <ApiReferenceReact
-      configuration={{
-        url: "/api.json",
-        layout: "modern"
-      }}
-    />
+    <div className="flex items-center justify-center min-h-screen">
+      <p>Redirecting to API Reference...</p>
+    </div>
   )
 }
