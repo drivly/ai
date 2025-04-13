@@ -4,7 +4,40 @@
   match the main site's theme variables.
 */
 
-/* Target the main Nextra container and body */
+/* Force dark theme on Nextra docs */
+:root {
+  color-scheme: dark;
+}
+
+html {
+  /* Force dark theme variables */
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.14 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.196 0 0);
+  --popover-foreground: oklch(0.972 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.371 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+}
+
+/* Add dark class to body to ensure dark theme is applied */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Target the main Nextra container */
 .nextra-container {
   background-color: var(--background);
 }
@@ -37,11 +70,6 @@ footer {
 /* Target the search overlay */
 .nextra-search {
   background-color: var(--popover);
-}
-
-/* Ensure text colors are properly set for contrast */
-.dark .nextra-container {
-  color: var(--foreground);
 }
 
 /* Target any other Nextra-specific elements that need background color adjustments */
