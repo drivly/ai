@@ -8,6 +8,7 @@ import { geolocation } from '@vercel/functions'
 import { continents, countries, flags, locations, metros } from './constants/cf'
 import { nanoid } from 'nanoid'
 import { getOrganizationByASN } from './utils/asn-lookup'
+import { parentDomains, childDomains } from '../domains.config'
 
 /**
  * Context object passed to API handlers
@@ -753,4 +754,44 @@ export const handleShareRequest = async (params: { id: string }, db: PayloadDB):
       status: 500,
     }
   }
+}
+
+/**
+ * Checks if a domain has a "shortcut path"
+ * A shortcut path is a domain that has a direct .do equivalent
+ * @param domain - The domain to check
+ * @returns Boolean indicating if the domain has a shortcut path
+ */
+const hasShortcutPath = (domain?: string): boolean => {
+  if (!domain) return false
+  
+  const baseDomain = domain.replace(/\.do(\.mw|\.gt)?$/, '')
+  return parentDomains[baseDomain] !== undefined || 
+         Object.values(childDomains).some(children => children.includes(baseDomain))
+}
+
+/**
+ * Formats a URL based on domain type and user preference
+ * @param path - The relative path (e.g., 'functions')
+ * @param options - Options for formatting the URL
+ * @returns Formatted URL string
+ */
+export const formatUrl = (path: string, options: { 
+  origin: string, 
+  domain?: string, 
+  showDomains?: boolean,
+  defaultDomain?: string
+}): string => {
+  const { origin, domain, showDomains, defaultDomain } = options
+  
+  const shouldShowDomains = showDomains ?? (
+    domain === 'apis.do' || 
+    hasShortcutPath(domain) 
+  )
+  
+  if (shouldShowDomains && defaultDomain) {
+    return `https://${defaultDomain}`
+  }
+  
+  return `${origin}/${path}`
 }
