@@ -3,7 +3,7 @@
 import { ApiReferenceReact } from '@scalar/api-reference-react'
 import '@scalar/api-reference-react/style.css'
 
-export default function APIReference() {
+export default function ReferencePage() {
   return (
     <ApiReferenceReact
       configuration={{
