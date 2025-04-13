@@ -295,7 +295,7 @@ export class CLI {
   
   private async getRemoteFileData(): Promise<Record<string, any>> {
     try {
-      const response = await this.api.post('/v1/ai/files/list-with-metadata', {})
+      const response = await this.api.post('/v1/ai/files/list-with-metadata', {}) as any[]
       
       const fileData: Record<string, any> = {}
       if (Array.isArray(response)) {
@@ -320,25 +320,32 @@ export class CLI {
         branch,
         path: '.ai',
         operation: 'list'
-      }) as { success: boolean; error?: string; data?: any[] }
+      }) as any
+      
+      if (!response) {
+        throw new Error('Failed to list GitHub files: Invalid response')
+      }
       
       if (!response.success) {
-        throw new Error(response.error || 'Failed to list GitHub files')
+        const errorMsg = response.error ? String(response.error) : 'Failed to list GitHub files'
+        throw new Error(errorMsg)
       }
       
       const fileData: Record<string, any> = {}
       
-      for (const item of response.data || []) {
-        if (item.type === 'file') {
-          const fileResponse = await this.api.post('/v1/tasks/githubFileOperations', {
-            repository,
-            branch,
-            path: item.path,
-            operation: 'read'
-          }) as { success: boolean; data?: any }
-          
-          if (fileResponse.success) {
-            fileData[item.path.replace(/^.ai\//, '')] = fileResponse.data
+      if (Array.isArray(response.data)) {
+        for (const item of response.data) {
+          if (item && item.type === 'file' && item.path) {
+            const fileResponse = await this.api.post('/v1/tasks/githubFileOperations', {
+              repository,
+              branch,
+              path: item.path,
+              operation: 'read'
+            }) as any
+            
+            if (fileResponse && fileResponse.success && fileResponse.data) {
+              fileData[item.path.replace(/^.ai\//, '')] = fileResponse.data
+            }
           }
         }
       }
