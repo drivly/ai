@@ -790,7 +790,14 @@ export const formatUrl = (path: string, options: {
   )
   
   if (shouldShowDomains && defaultDomain) {
-    return `https://${defaultDomain}`
+    let tldVariant = '';
+    if (domain) {
+      if (domain.endsWith('.do.gt')) tldVariant = '.gt';
+      else if (domain.endsWith('.do.mw')) tldVariant = '.mw';
+    }
+    
+    const domainWithCorrectTLD = defaultDomain.replace(/\.do$/, `.do${tldVariant}`);
+    return `https://${domainWithCorrectTLD}`
   }
   
   return `${origin}/${path}`
