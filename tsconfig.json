@@ -25,13 +25,7 @@
       "@/.velite/*": [".velite/*"],
       "@/.velite/content": [".velite/content"],
       "payload-utils": ["./pkgs/payload-utils/src"],
-      "payload-hooks-queue": ["./pkgs/payload-hooks-queue/src"],
-      "@/domains.config": ["./config/domains.config.ts"],
-      "@/api.config": ["./config/api.config.ts"],
-      "@/ai.config": ["./config/ai.config.ts"],
-      "@/velite.config": ["./config/velite.config.ts"],
-      "@/sentry.edge.config": ["./config/sentry.edge.config.ts"],
-      "@/sentry.server.config": ["./config/sentry.server.config.ts"]
+      "payload-hooks-queue": ["./pkgs/payload-hooks-queue/src"]
     },
     "target": "ES2022",
     "typeRoots": ["./node_modules/@types", "./types"]

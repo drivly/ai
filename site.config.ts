@@ -1,5 +1,5 @@
 import { objectKeys } from './lib/utils'
-import { domainsConfig } from './config/domains.config'
+import { domainsConfig } from './domains.config'
 
 export const websites = {
   'functions.do': '',
