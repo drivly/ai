@@ -1,4 +1,4 @@
-import { sites } from '@/.velite/content'
+import { sites } from '@/.velite'
 import { codeExample } from '@/components/sites/constants/code-example'
 import { ai } from '@/config/ai.config'
 
