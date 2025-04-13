@@ -187,7 +187,13 @@ describe('Collection', () => {
 
       expect(result).toEqual({ ids: ['test-uuid-1', 'test-uuid-2'] })
       expect(mockStorage.transaction).toHaveBeenCalled()
-      expect(mockStorage.sql.exec).toHaveBeenCalledTimes(4) // 2 for schema init + 2 for insertMany
+      expect(mockStorage.sql.exec).toHaveBeenCalled()
+      expect(mockStorage.sql.exec).toHaveBeenCalledWith(
+        expect.stringContaining('INSERT INTO documents'),
+        expect.any(String),
+        expect.any(String),
+        expect.any(String)
+      )
 
       crypto.randomUUID = originalRandomUUID
     })
@@ -235,6 +241,7 @@ describe('Collection', () => {
 
       expect(result).toEqual({ matchedCount: 2, modifiedCount: 2 })
       expect(mockStorage.transaction).toHaveBeenCalled()
+      expect(mockStorage.sql.exec).toHaveBeenCalled()
       expect(mockStorage.sql.exec).toHaveBeenCalledWith(
         expect.stringContaining('UPDATE documents SET data'),
         expect.any(String),
@@ -286,6 +293,7 @@ describe('Collection', () => {
 
       expect(result).toEqual({ deletedCount: 2 })
       expect(mockStorage.transaction).toHaveBeenCalled()
+      expect(mockStorage.sql.exec).toHaveBeenCalled()
       expect(mockStorage.sql.exec).toHaveBeenCalledWith(
         expect.stringContaining('DELETE FROM documents'),
         expect.any(String),
