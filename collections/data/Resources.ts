@@ -6,6 +6,7 @@ export const Resources: CollectionConfig = {
   admin: {
     group: 'Data',
     useAsTitle: 'yaml',
+    description: 'Structured data resources with embeddings for semantic search',
   },
   versions: true,
   fields: [

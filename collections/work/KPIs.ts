@@ -5,6 +5,7 @@ export const KPIs: CollectionConfig = {
   admin: {
     group: 'Work',
     useAsTitle: 'name',
+    description: 'Manages key performance indicators for tracking business metrics',
   },
   labels: { singular: 'KPI', plural: 'KPIs' },
   fields: [

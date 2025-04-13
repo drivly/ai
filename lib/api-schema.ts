@@ -55,7 +55,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
     openApiSpec.paths[`/${slug}`] = {
       get: {
         summary: `List all ${pluralTitle}`,
-        description: `Returns a list of all ${pluralTitle}`,
+        description: collection.config?.admin?.description || `Returns a list of all ${pluralTitle}`,
         tags: [pluralTitle],
         responses: {
           '200': {
@@ -91,7 +91,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
       } as OperationObject,
       post: {
         summary: `Create a new ${title}`,
-        description: `Creates a new ${title} document`,
+        description: collection.config?.admin?.description || `Creates a new ${title} document`,
         tags: [pluralTitle],
         requestBody: {
           required: true,
@@ -127,7 +127,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
     openApiSpec.paths[`/${slug}/{id}`] = {
       get: {
         summary: `Get a specific ${title}`,
-        description: `Returns a specific ${title} by ID`,
+        description: collection.config?.admin?.description || `Returns a specific ${title} by ID`,
         tags: [pluralTitle],
         parameters: [
           {
@@ -158,7 +158,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
       } as OperationObject,
       patch: {
         summary: `Update a ${title}`,
-        description: `Updates a specific ${title} by ID`,
+        description: collection.config?.admin?.description || `Updates a specific ${title} by ID`,
         tags: [pluralTitle],
         parameters: [
           {
@@ -205,7 +205,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
       } as OperationObject,
       delete: {
         summary: `Delete a ${title}`,
-        description: `Deletes a specific ${title} by ID`,
+        description: collection.config?.admin?.description || `Deletes a specific ${title} by ID`,
         tags: [pluralTitle],
         parameters: [
           {

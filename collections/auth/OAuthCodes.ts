@@ -9,6 +9,7 @@ export const OAuthCodes: CollectionConfig = {
   admin: {
     group: 'Authentication',
     hidden: true,
+    description: 'Manages OAuth authorization codes for authentication flows',
   },
   access: {
     read: ({ req }) => {

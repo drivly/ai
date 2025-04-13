@@ -5,6 +5,7 @@ export const Models: CollectionConfig = {
   admin: {
     group: 'Experiments',
     useAsTitle: 'name',
+    description: 'Defines AI models with their capabilities and pricing information',
   },
   access: { create: () => false, update: () => false, delete: () => false },
   fields: [

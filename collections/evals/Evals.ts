@@ -5,6 +5,7 @@ export const Evals: CollectionConfig = {
   admin: {
     group: 'Evals',
     useAsTitle: 'name',
+    description: 'Defines evaluation tests for measuring AI function performance',
   },
   fields: [
     { name: 'name', type: 'text', required: true },

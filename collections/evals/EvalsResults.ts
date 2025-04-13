@@ -6,6 +6,7 @@ export const EvalsResults: CollectionConfig = {
     group: 'Evals',
     useAsTitle: 'name',
     hidden: true,
+    description: 'Stores detailed results from evaluation test runs',
   },
   fields: [
     { name: 'name', type: 'text', required: true },

@@ -5,6 +5,7 @@ export const Verbs: CollectionConfig = {
   admin: {
     group: 'Data',
     useAsTitle: 'action',
+    description: 'Defines action verbs and their conjugations for semantic relationships',
   },
   versions: true,
   fields: [

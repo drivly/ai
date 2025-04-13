@@ -8,6 +8,7 @@ export const Functions: CollectionConfig = {
   admin: {
     group: 'AI',
     useAsTitle: 'name',
+    description: 'Reusable AI capabilities with typed inputs and outputs',
   },
   // versions: true,
   fields: [

@@ -5,6 +5,7 @@ export const Prompts: CollectionConfig = {
   admin: {
     group: 'Experiments',
     useAsTitle: 'name',
+    description: 'Manages prompt templates for AI model interactions',
   },
   fields: [{ name: 'name', type: 'text' }],
 }
