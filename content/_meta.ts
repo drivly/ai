@@ -6,7 +6,7 @@ const meta: MetaRecord = {
   sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
   pricing: { type: 'page', href: '/pricing' },
   dashboard: { type: 'page', href: '/admin' },
-  reference: { type: 'page', href: '/docs/reference' },
+  reference: { type: 'page', title: 'API Reference', href: 'https://workflows.do/docs/reference' },
 
   manifesto: '',
   primitives: '',
