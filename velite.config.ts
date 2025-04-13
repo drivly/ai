@@ -1,4 +1,4 @@
-import { defineConfig, s } from 'velite'
+import { defineConfig, s, type ZodMeta } from 'velite' // Import ZodMeta
 
 export default defineConfig({
   root: 'content',
@@ -38,18 +38,28 @@ export default defineConfig({
         subhead: s.string().optional(),
         brandColor: s.string().optional(), // Add this field
         content: s.markdown(),
-        group: s.string().optional(),
         codeExample: s.string().optional(), // Code example content
         codeLang: s.string().optional(), // Language of the code example (typescript, json, etc.)
         badge: s.string().optional(), // Badge text
-      }),
-      transform: (data: any) => {
-        const pathParts = data._path.split('/');
+      }).transform((data, { meta }: { meta: any }) => { // Use 'any' for meta
+        const path = meta.path;
+        const contentSitesPattern = '/content/sites/';
+        const contentSitesIndex = path.indexOf(contentSitesPattern);
+        let group = 'other';
+
+        if (contentSitesIndex !== -1) {
+          const relativePath = path.substring(contentSitesIndex + contentSitesPattern.length);
+          const relativePathParts = relativePath.split('/');
+          if (relativePathParts.length > 1) {
+            group = relativePathParts[0];
+          }
+        }
+
         return {
           ...data,
-          group: pathParts.length > 2 ? pathParts[1] : 'other',
+          group: group, // Assign the determined group
         };
-      },
+      }),
     },
   },
 })
