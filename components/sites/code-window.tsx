@@ -72,6 +72,16 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
         const html = await codeToHtml(codeString, {
           lang: language,
           theme: 'dracula', // Match our UI package theme
+          transformers: [{
+            pre(node) {
+              node.properties.style = 'background-color: transparent !important;'
+              return node
+            },
+            code(node) {
+              node.properties.style = 'background-color: transparent !important;'
+              return node
+            }
+          }]
         })
         return html
       }
