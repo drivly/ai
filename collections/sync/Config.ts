@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload'
 
-const SyncedFiles: CollectionConfig = {
-  slug: 'synced-files',
+const Config: CollectionConfig = {
+  slug: 'config',
   admin: {
     useAsTitle: 'path',
     description: 'Configuration for different aspects of a project',
@@ -100,4 +100,4 @@ const SyncedFiles: CollectionConfig = {
   timestamps: true,
 }
 
-export default SyncedFiles
+export default Config
