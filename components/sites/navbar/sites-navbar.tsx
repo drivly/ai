@@ -13,7 +13,7 @@ function linkFilter(link: (typeof navigation)[number]) {
   return link.name !== 'GitHub' && link.name !== 'Discord'
 }
 
-export function SitesNavbar({ params, minimal }: { params: Promise<{ domain?: string }>; minimal?: boolean }) {
+export function SitesNavbar({ params, minimal, disableAuthFeatures }: { params: Promise<{ domain?: string }>; minimal?: boolean; disableAuthFeatures?: boolean }) {
   const domain = use(params).domain
   const navMenuLinks = navigation.filter(linkFilter)
 
@@ -86,7 +86,7 @@ export function SitesNavbar({ params, minimal }: { params: Promise<{ domain?: st
             <span className='sr-only'>Discord</span>
           </Link>
 
-          <JoinWaitlistButton className='rounded-sm bg-white text-sm transition-colors' type='user' />
+          {!disableAuthFeatures && <JoinWaitlistButton className='rounded-sm bg-white text-sm transition-colors' type='user' />}
         </div>
 
         {!minimal && <MobileNav isOpen={isOpen} setOpen={setOpen} domain={domain} />}

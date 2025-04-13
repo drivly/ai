@@ -1,8 +1,6 @@
 import { Layout } from 'nextra-theme-docs'
 import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
 import { Footer } from '@/components/sites/footer'
-import { BetterAuthProvider } from '@/lib/auth/context'
-import { getContextProps } from '@/lib/auth/context/get-context-props'
 import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
@@ -36,7 +34,7 @@ const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Bann
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const pageMap = await getPageMap('/docs')
 
-  const navbar = <SitesNavbar params={Promise.resolve({})} minimal={true} /> 
+  const navbar = <SitesNavbar params={Promise.resolve({})} minimal={true} disableAuthFeatures={true} /> 
   const footer = (
     <Footer minimal={true} className="z-10 relative" />
   )
@@ -47,7 +45,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
       <body className="bg-black">
-        <BetterAuthProvider {...getContextProps()}>
 
         <Layout
           // banner={banner}
@@ -61,7 +58,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
         </Layout>
       </body>
-        </BetterAuthProvider>
 
     </html>
   )
