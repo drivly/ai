@@ -10,6 +10,7 @@ export const IntegrationCategories: CollectionConfig = {
     group: 'Integrations',
     useAsTitle: 'category',
     hidden: false,
+    description: 'Organizes integrations into logical categories for easier discovery',
   },
   versions: true,
   fields: [{ name: 'category', type: 'text' }],

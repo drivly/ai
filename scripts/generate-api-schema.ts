@@ -26,7 +26,7 @@ async function generateApiSchema() {
       },
       servers: [
         {
-          url: 'https://apis.do/api',
+          url: 'https://apis.do/v1',
           description: 'Production API Server',
         },
       ],

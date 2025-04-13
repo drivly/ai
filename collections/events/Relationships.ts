@@ -5,6 +5,7 @@ export const Relationships: CollectionConfig = {
   admin: {
     group: 'Events',
     useAsTitle: 'verb',
+    description: 'Defines semantic relationships between resources using subject-verb-object patterns',
   },
   versions: true,
   fields: [

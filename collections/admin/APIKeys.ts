@@ -6,6 +6,7 @@ export const APIKeys: CollectionConfig = {
   admin: {
     group: 'Admin',
     useAsTitle: 'name',
+    description: 'Manages API keys for authentication and access control',
   },
   auth: {
     useAPIKey: true,

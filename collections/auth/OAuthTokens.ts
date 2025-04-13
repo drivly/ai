@@ -9,6 +9,7 @@ export const OAuthTokens: CollectionConfig = {
   admin: {
     group: 'Authentication',
     hidden: true,
+    description: 'Manages OAuth access tokens for authenticated users',
   },
   access: {
     read: ({ req }) => {

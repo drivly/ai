@@ -10,6 +10,7 @@ export const IntegrationActions: CollectionConfig = {
     group: 'Integrations',
     useAsTitle: 'displayName',
     hidden: false,
+    description: 'Defines actions that can be performed through external integrations',
   },
   versions: true,
   fields: [

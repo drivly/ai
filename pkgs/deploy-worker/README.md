@@ -14,7 +14,7 @@ npm install deploy-worker
 ## Usage
 
 ```typescript
-import { deployWorker } from '@ai-primitives/deploy-worker'
+import { deployWorker } from 'deploy-worker'
 
 const worker = {
   code: `

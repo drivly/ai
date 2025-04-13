@@ -5,6 +5,7 @@ export const Nouns: CollectionConfig = {
   admin: {
     group: 'Data',
     useAsTitle: 'name',
+    description: 'Defines semantic noun entities with their various grammatical forms',
   },
   versions: true,
   fields: [

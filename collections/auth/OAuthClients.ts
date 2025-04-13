@@ -10,6 +10,7 @@ export const OAuthClients: CollectionConfig = {
     useAsTitle: 'name',
     group: 'Authentication',
     hidden: true,
+    description: 'Manages OAuth client applications and their credentials',
   },
   access: {
     read: ({ req }) => {

@@ -5,6 +5,7 @@ export const Goals: CollectionConfig = {
   admin: {
     group: 'Work',
     useAsTitle: 'title',
+    description: 'Manages objectives and key results for tracking progress',
   },
   fields: [
     {

@@ -1,8 +1,12 @@
-import { Footer, Layout, Navbar } from 'nextra-theme-docs'
+import { Layout, Navbar } from 'nextra-theme-docs'
+import { Footer } from '@/components/sites/footer'
 import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import './code-hike.css'
+import '@/app/(sites)/styles.css'
+import { headers } from 'next/headers'
+
 import type { Metadata } from 'next'
 
 /*
@@ -31,12 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   const navbar = <Navbar logo={<b>.do</b>} logoLink='https://dotdo.ai' chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
   const footer = (
-    <Footer>
-      MIT {new Date().getFullYear()} ©{' '}
-      <a href='https://dotdo.ai' style={{ textDecoration: 'none', color: 'inherit' }}>
-        .do
-      </a>
-    </Footer>
+    <Footer minimal={false} />
   )
 
   return (

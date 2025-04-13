@@ -67,6 +67,7 @@ const runSemanticRelease = (packagePath) => {
         ignorePrivatePackages: true,
         repositoryUrl: 'https://github.com/drivly/ai.git',
         tagFormat: '\${name}@\${version}',
+        initialVersion: '0.0.1',
         plugins: [
           {
             verifyConditions: () => {},
@@ -74,7 +75,8 @@ const runSemanticRelease = (packagePath) => {
               if (!context.lastRelease.version) {
                 return '0.0.7'; // Return correct patch version for new packages
               }
-              return null; // Let semantic-release determine version
+              
+              return 'patch';
             }
           },
           ['@semantic-release/commit-analyzer', {
@@ -110,11 +112,8 @@ const runSemanticRelease = (packagePath) => {
     if (!DRY_RUN) {
       execSync(cmd, {
         cwd: packagePath,
+        env: { ...process.env, NODE_DEBUG: 'npm', DEBUG: 'semantic-release:*', FORCE_PATCH_RELEASE: 'true' },
         stdio: 'inherit',
-        env: {
-          ...process.env,
-          FORCE_PATCH_RELEASE: 'true',
-        },
       })
 
       if (fs.existsSync(tempConfigPath)) {
@@ -125,6 +124,10 @@ const runSemanticRelease = (packagePath) => {
     }
   } catch (error) {
     console.error(`Error processing ${packageJson.name}:`, error.message)
+    if (error.stdout) console.error('stdout:', error.stdout.toString())
+    if (error.stderr) console.error('stderr:', error.stderr.toString())
+    console.error(`NPM config: ${process.env.npm_config_registry || 'default registry'}`)
+    console.error(`NODE_AUTH_TOKEN exists: ${!!process.env.NODE_AUTH_TOKEN}`)
   }
 }
 
