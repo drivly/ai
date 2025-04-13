@@ -11,6 +11,17 @@ import { execSync } from 'child_process'
 import path from 'path'
 import fs from 'fs'
 
+const getBranchName = () => {
+  try {
+    return execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
+  } catch (error) {
+    console.warn('Could not determine branch name:', error.message)
+    return 'main' // Default to main if detection fails
+  }
+}
+
+const npmTag = getBranchName() === 'next' ? 'next' : 'latest'
+
 const DRY_RUN = process.argv.includes('--dry-run')
 const SDK_PACKAGES = [
   'sdks/actions.do',
@@ -340,7 +351,8 @@ export default {
     }],
     ['@semantic-release/npm', {
       npmPublish: true,
-      pkgRoot: '.'
+      pkgRoot: '.',
+      tag: context.branch === 'next' ? 'next' : 'latest'
     }],
     '@semantic-release/github'
   ]
@@ -396,7 +408,7 @@ try {
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
   }
   
-  execSync('npm publish --access public', { 
+  execSync(\`npm publish --access public --tag \${npmTag}\`, { 
     stdio: 'inherit',
     env: {
       ...process.env,
