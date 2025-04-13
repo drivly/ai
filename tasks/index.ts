@@ -35,6 +35,7 @@ import { deliverWebhookTask } from './integrations/deliverWebhook'
 import { initiateComposioConnectionTask } from './integrations/initiateComposioConnection'
 import { processDomain } from './integrations/processDomain'
 import { postGithubComment } from './integrations/postGithubComment'
+import { githubFileOperations } from './integrations/githubFileOperations'
 import { saveExecutionResultsTask } from './saveExecutionResults'
 import { researchTask } from './ai/researchTask'
 import { syncTaskToLinearTask } from './integrations/syncTaskToLinear'
@@ -123,6 +124,7 @@ export const tasks = [
   initiateComposioConnectionTask,
   processDomainTask,
   postGithubComment,
+  githubFileOperations,
   saveExecutionResultsTask,
   researchTask,
   handleLinearWebhookTask,
