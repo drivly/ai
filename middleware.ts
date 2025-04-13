@@ -157,6 +157,12 @@ export async function middleware(request: NextRequest) {
         console.log('Rewriting gateway domain /sites to sites', { hostname, pathname, search })
         return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
       }
+      
+      if ((hostname === 'do.gt' || hostname === 'do.mw') && pathname === '/') {
+        console.log('Rewriting do.gt/do.mw root to /sites', { hostname, pathname, search })
+        return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+      }
+      
       return NextResponse.next()
     }
 
