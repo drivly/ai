@@ -8,26 +8,26 @@
 [![GitHub Issues](https://img.shields.io/github/issues/drivly/ai.svg)](https://github.com/drivly/ai/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
 
-SDK for creating, managing, and tracking goals with strong typing and APIs.do integration.
+A concise, elegant SDK for defining and tracking OKRs (Objectives & Key Results).
 
 ## The Challenge
 
-Managing goals effectively presents several challenges:
+Managing OKRs effectively presents several challenges:
 
-- **Goal Setting**: Creating clear, measurable, and achievable goals
-- **Progress Tracking**: Monitoring progress and adjusting as needed
+- **Goal Setting**: Creating clear, measurable, and achievable objectives
+- **Progress Tracking**: Monitoring key results and adjusting as needed
 - **Accountability**: Ensuring responsibility and ownership
 - **Metrics**: Defining and measuring success criteria
-- **Integration**: Connecting goals with other business systems
+- **Integration**: Connecting OKRs with other business systems
 
 ## The Solution
 
-goals.do provides a clean, type-safe interface for creating and managing goals:
+goals.do provides a clean, type-safe interface for defining and tracking OKRs:
 
-- Create and track goals with defined metrics
-- Monitor progress and status
-- Integrate with other systems through APIs.do
-- Maintain accountability with ownership and milestones
+- Define objectives and key results with a concise, elegant syntax
+- Track progress of key results
+- Calculate overall objective progress automatically
+- Integrate with KPIs and other systems through APIs.do
 
 ## Installation
 
@@ -39,12 +39,145 @@ yarn add goals.do
 pnpm add goals.do
 ```
 
-## API Overview
+## Basic Usage
 
-The goals.do SDK exports:
+The Goals.do SDK provides a simple, expressive syntax for defining and tracking your organization's OKRs:
 
-- `goals`: A client for interacting with goals and milestones
-- Types for strong typing support
+```typescript
+import { Goals } from 'goals.do'
+
+// Define objectives and key results
+const companyGoals = Goals({
+  customerSuccess: {
+    description: 'Create delighted customers who achieve their goals',
+    keyResults: [
+      'Achieve 95% customer satisfaction score by Q4',
+      'Reduce average support resolution time by 30%',
+      { 
+        description: 'Increase customer retention rate to 85%',
+        target: 85,
+        currentValue: 72,
+        unit: '%'
+      }
+    ]
+  },
+  productInnovation: {
+    description: 'Build features that solve real customer problems',
+    keyResults: [
+      'Launch 3 major features by Q2',
+      'Achieve 80% feature adoption within 30 days of launch',
+      { 
+        description: 'Reduce feature development cycle time by 20%',
+        target: 20,
+        currentValue: 0,
+        unit: '%'
+      }
+    ]
+  }
+})
+
+// Save goals to database
+await companyGoals.save()
+
+// Track progress
+await companyGoals.updateProgress('customerSuccess', 'Achieve 95% customer satisfaction score by Q4', 85)
+
+// Get current progress
+const progress = await companyGoals.getProgress()
+console.log(progress)
+```
+
+## API Reference
+
+### Goals(input, options)
+
+Creates a new goals instance with the specified objectives and key results.
+
+#### Parameters
+
+- `input`: An object where each key represents an objective with key results
+- `options` (optional): Client options for API connection
+
+#### Returns
+
+A goals instance with methods for saving and tracking progress.
+
+### Goals Instance Methods
+
+#### save()
+
+Saves all defined objectives and key results to the database.
+
+**Returns**: Promise resolving to an object mapping objective keys to their saved Goal objects.
+
+#### updateProgress(objectiveKey, keyResult, progress)
+
+Updates the progress of a specific key result.
+
+**Parameters**:
+- `objectiveKey`: The key of the objective containing the key result
+- `keyResult`: Either the string description of the key result or its index in the array
+- `progress`: The progress value (0-100)
+
+**Returns**: Promise that resolves when the update is complete.
+
+#### getProgress()
+
+Gets the current progress for all objectives and key results.
+
+**Returns**: Promise resolving to an object with progress information.
+
+#### toJSON()
+
+Converts the goals instance to a JSON representation.
+
+**Returns**: The original input object.
+
+### Traditional CRUD API
+
+The SDK also provides a traditional CRUD API for working with goals:
+
+```typescript
+import { GoalsClient } from 'goals.do'
+
+const client = new GoalsClient({ apiKey: 'your-api-key' })
+
+// Find all goals
+const goals = await client.find()
+
+// Create a goal
+const newGoal = await client.create({
+  name: 'Product Innovation',
+  description: 'Build features that solve real customer problems',
+})
+
+// Update a goal
+await client.update(newGoal.id, { progress: 75 })
+
+// Delete a goal
+await client.delete(newGoal.id)
+```
+
+## Integration with KPIs
+
+The Goals.do SDK integrates with the KPIs collection, allowing you to connect key results to specific KPIs:
+
+```typescript
+const businessGoals = Goals({
+  revenue: {
+    description: 'Increase annual recurring revenue',
+    keyResults: [
+      { 
+        description: 'Achieve $10M ARR by end of year',
+        target: 10000000,
+        currentValue: 7500000,
+        unit: '$',
+        kpiRelationship: 'monthly-recurring-revenue'
+      }
+    ]
+  }
+})
+```
 
 ## Related Projects
 

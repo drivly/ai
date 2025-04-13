@@ -35,6 +35,44 @@ export interface Milestone {
   dueDate?: string
   completedDate?: string
   status?: 'not_started' | 'in_progress' | 'completed' | 'canceled'
+  progress?: number
   updatedAt: string
   createdAt: string
+}
+
+/**
+ * Key Result definition - can be either a string or an object
+ */
+export type KeyResult = string | {
+  description: string
+  target?: number
+  currentValue?: number
+  unit?: string
+  kpiRelationship?: string
+  progress?: number
+}
+
+/**
+ * Objective definition with key results
+ */
+export interface Objective {
+  description: string
+  keyResults: KeyResult[]
+}
+
+/**
+ * Input for creating goals with objectives and key results
+ */
+export interface GoalsInput {
+  [key: string]: Objective
+}
+
+/**
+ * Goals instance returned by the Goals function
+ */
+export interface GoalsInstance {
+  save(): Promise<Record<string, Goal>>
+  updateProgress(objectiveKey: string, keyResult: string | number, progress: number): Promise<void>
+  getProgress(): Promise<Record<string, { progress: number, keyResults: Record<string, number> }>>
+  toJSON(): GoalsInput
 }

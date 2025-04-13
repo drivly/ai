@@ -1,10 +1,12 @@
 {
   "name": "goals.do",
   "version": "0.0.1",
-  "description": "SDK for creating, managing, and tracking goals with strong typing and APIs.do integration",
+  "description": "A concise, elegant SDK for defining and tracking OKRs (Objectives & Key Results)",
   "keywords": [
     "goals",
     "objectives",
+    "okr",
+    "key results",
     "tracking",
     "management",
     "sdk",
