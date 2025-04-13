@@ -1,11 +1,11 @@
 # Release Process
 
-This repository uses multi-semantic-release to automate versioning and changelog generation based on commit messages.
+This repository uses semantic-release to automate versioning and changelog generation based on commit messages.
 
 ## How it works
 
-1. When code is pushed to the `main` branch, the GitHub Actions workflow runs multi-semantic-release
-2. multi-semantic-release analyzes commit messages to determine version bumps
+1. When code is pushed to the `main` branch, the GitHub Actions workflow runs semantic-release
+2. semantic-release analyzes commit messages to determine version bumps
 3. During development, all version increments are restricted to patch versions (0.0.x)
 4. Packages in the `sdks` directory are versioned in sync with each other
 5. Packages in the `pkgs` directory are versioned independently

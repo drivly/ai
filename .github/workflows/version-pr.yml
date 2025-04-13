@@ -45,7 +45,7 @@ jobs:
           delete-branch: true
           title: "chore: version packages"
           body: |
-            This PR was created by the multi-semantic-release action.
+            This PR was created by the semantic-release action.
             It contains version updates for all packages that have changes.
           labels: |
             version
