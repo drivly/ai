@@ -2,7 +2,10 @@
  * CommonJS wrapper for ESM semantic-release config
  */
 module.exports = {
-  branches: ['main'],
+  branches: [
+    'main',
+    {name: 'next', prerelease: 'next', channel: 'next'}
+  ],
   ignorePrivatePackages: true,
   plugins: [
     ['@semantic-release/commit-analyzer', {
