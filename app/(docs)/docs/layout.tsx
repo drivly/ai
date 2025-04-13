@@ -1,12 +1,11 @@
-import { Providers } from '@/app/providers'
 import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import './code-hike.css'
-import { headers } from 'next/headers'
 import type { Metadata } from 'next'
 
+/*
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers()
   const hostname = headersList.get('host') || ''
@@ -23,6 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     }
   }
 }
+*/
 
 const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Banner>
 
@@ -45,19 +45,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
       <body>
-        <Providers>
-          <Layout
-            // banner={banner}
-            navbar={navbar}
-            pageMap={pageMap}
-            docsRepositoryBase='https://github.com/drivly/ai/tree/main'
-            footer={footer}
-            sidebar={{ defaultMenuCollapseLevel: 1 }}
-            themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}
-          >
-            {children}
-          </Layout>
-        </Providers>
+        <Layout
+          // banner={banner}
+          navbar={navbar}
+          pageMap={pageMap}
+          docsRepositoryBase='https://github.com/drivly/ai/tree/main'
+          footer={footer}
+          sidebar={{ defaultMenuCollapseLevel: 1 }}
+          themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}
+        >
+          {children}
+        </Layout>
       </body>
     </html>
   )
