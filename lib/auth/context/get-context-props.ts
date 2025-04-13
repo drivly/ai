@@ -28,6 +28,11 @@ export const getSession = async () => {
 
 export const getUserAccounts = async (): Promise<Account[]> => {
   try {
+    const session = await getSession()
+    if (!session) {
+      return [] // Skip API call for anonymous users
+    }
+    
     const payload = await getPayloadWithAuth()
     const headers = await requestHeaders()
     if (!payload) {
