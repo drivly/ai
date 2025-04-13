@@ -5,6 +5,7 @@ export const Projects: CollectionConfig = {
   admin: {
     group: 'Admin',
     useAsTitle: 'name',
+    description: 'Manages projects and their associated domains',
   },
   fields: [
     { name: 'name', type: 'text' },

@@ -5,6 +5,7 @@ export const Providers: CollectionConfig = {
   admin: {
     group: 'Experiments',
     useAsTitle: 'name',
+    description: 'Defines AI service providers and their connection details',
   },
   access: { create: () => false, update: () => false, delete: () => false },
   fields: [

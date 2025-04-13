@@ -5,6 +5,7 @@ export const EvalsRuns: CollectionConfig = {
   admin: {
     group: 'Evals',
     useAsTitle: 'name',
+    description: 'Records of evaluation test runs and their results',
   },
   fields: [
     { name: 'name', type: 'text', required: true },

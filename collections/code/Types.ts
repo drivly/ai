@@ -5,6 +5,7 @@ export const Types: CollectionConfig = {
   admin: {
     group: 'Code',
     useAsTitle: 'name',
+    description: 'Defines TypeScript type definitions used throughout the system',
   },
   versions: true,
   fields: [

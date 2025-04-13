@@ -5,6 +5,7 @@ export const Generations: CollectionConfig = {
   admin: {
     group: 'Observability',
     useAsTitle: 'action',
+    description: 'Records of AI model generation requests and responses',
   },
   access: { update: () => false, delete: () => false },
   fields: [

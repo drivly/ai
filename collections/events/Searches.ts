@@ -5,6 +5,7 @@ export const Searches: CollectionConfig = {
   admin: {
     group: 'Events',
     useAsTitle: 'name',
+    description: 'Records and manages search queries and their results',
   },
   versions: true,
   fields: [

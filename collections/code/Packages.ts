@@ -5,6 +5,7 @@ export const Packages: CollectionConfig = {
   admin: {
     group: 'Code',
     useAsTitle: 'name',
+    description: 'Defines packages for publishing to NPM with included collections',
   },
   versions: true,
   fields: [

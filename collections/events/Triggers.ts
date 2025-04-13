@@ -5,6 +5,7 @@ export const Triggers: CollectionConfig = {
   admin: {
     group: 'Events',
     useAsTitle: 'name',
+    description: 'Defines event triggers that can initiate workflows and actions',
   },
   versions: true,
   fields: [

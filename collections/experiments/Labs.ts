@@ -5,6 +5,7 @@ export const Labs: CollectionConfig = {
   admin: {
     group: 'Experiments',
     useAsTitle: 'name',
+    description: 'Defines research labs and their experimental AI capabilities',
   },
   access: { create: () => false, update: () => false, delete: () => false },
   fields: [
