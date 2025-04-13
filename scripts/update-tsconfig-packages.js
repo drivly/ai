@@ -7,7 +7,7 @@ import { execSync } from 'child_process'
 
 // Get the directory name in ESM context
 const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const __dirname = path.dirname(path.dirname(__filename)) // Go up one level since we're in scripts/ directory
 
 // List of packages to update
 const PACKAGES = [
