@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "Drivly AI API",
-    "description": "API for the Drivly AI Primitives Platform",
-    "version": "1.0.0",
+    "title": "APIs.do Business-as-Code",
+    "description": "AI is getting extremely good at skills like math & code, because the outputs are verifiable. By representing your Business-as-Code, you can leverage the power of AI to automate, optimize, and scale your business processes.",
+    "version": "0.0.1",
     "contact": {
       "name": "Drivly",
       "url": "https://drivly.com"

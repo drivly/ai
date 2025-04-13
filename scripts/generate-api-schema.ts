@@ -13,12 +13,25 @@ async function generateApiSchema() {
   try {
     console.log('Generating static OpenAPI schema...')
     
+    const projectRoot = process.cwd()
+    const packageJsonPath = path.join(projectRoot, 'sdks/apis.do/package.json')
+    const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
+    const version = packageJson.version
+    
+    const contentPath = path.join(projectRoot, 'content/index.mdx')
+    const mdxContent = await fs.readFile(contentPath, 'utf8')
+    
+    const descriptionMatch = mdxContent.match(/# `.do` Business-as-Code\n\n(.*?)(?:\n\n|$)/s)
+    const description = descriptionMatch 
+      ? descriptionMatch[1].replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') 
+      : 'AI is getting extremely good at skills like math & code, because the outputs are verifiable. By representing your Business-as-Code, you can leverage the power of AI to automate, optimize, and scale your business processes.'
+    
     const openApiSpec = {
       openapi: '3.0.0',
       info: {
-        title: 'Drivly AI API',
-        description: 'API for the Drivly AI Primitives Platform',
-        version: '1.0.0',
+        title: 'APIs.do Business-as-Code',
+        description,
+        version,
         contact: {
           name: 'Drivly',
           url: 'https://drivly.com',
@@ -77,7 +90,7 @@ async function generateApiSchema() {
       },
     }
     
-    const publicDir = path.join(process.cwd(), 'public')
+    const publicDir = path.join(projectRoot, 'public')
     try {
       await fs.access(publicDir)
     } catch (error) {

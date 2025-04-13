@@ -174,11 +174,11 @@ This repository contains a collection of AI primitives for building enterprise-g
 ## Package Versioning
 
 - Packages in the `sdks` directory must maintain synchronized version numbers
-- All changes to packages in the `sdks` directory must include a changeset (`pnpm changeset`)
+- All changes to packages in the `sdks` directory must include appropriate version updates
 - Packages in the `pkgs` directory can be versioned independently
 - During API instability phase, use patch versions (0.0.x) for SDK packages
-- Version numbers in workspace package dependencies must be synchronized before running Changesets
-- Package names in changesets must exactly match names in respective package.json files
+- Version numbers in workspace package dependencies must be synchronized before releasing
+- Package names must exactly match names in respective package.json files
 
 ## Deployment Patterns
 

@@ -2,6 +2,8 @@ import { collectionSlugs } from '@/collections'
 import { titleCase } from '@/lib/utils'
 import type { CollectionConfig } from 'payload'
 import type { OpenAPIObject, SchemaObject, PathItemObject, OperationObject, ParameterObject, ResponseObject, RequestBodyObject, ComponentsObject } from 'openapi3-ts/oas30'
+import fs from 'fs/promises'
+import path from 'path'
 
 /**
  * Generate a full OpenAPI specification based on Payload collections
@@ -9,12 +11,25 @@ import type { OpenAPIObject, SchemaObject, PathItemObject, OperationObject, Para
 export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> {
   const collections = payload.collections || {}
 
+  const projectRoot = process.cwd()
+  const packageJsonPath = path.join(projectRoot, 'sdks/apis.do/package.json')
+  const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
+  const version = packageJson.version
+  
+  const contentPath = path.join(projectRoot, 'content/index.mdx')
+  const mdxContent = await fs.readFile(contentPath, 'utf8')
+  
+  const descriptionMatch = mdxContent.match(/# `.do` Business-as-Code\n\n(.*?)(?:\n\n|$)/s)
+  const description = descriptionMatch 
+    ? descriptionMatch[1].replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') 
+    : 'AI is getting extremely good at skills like math & code, because the outputs are verifiable. By representing your Business-as-Code, you can leverage the power of AI to automate, optimize, and scale your business processes.'
+
   const openApiSpec: OpenAPIObject = {
     openapi: '3.0.0',
     info: {
-      title: 'Drivly AI API',
-      description: 'API for the Drivly AI Primitives Platform',
-      version: '1.0.0',
+      title: 'APIs.do Business-as-Code',
+      description,
+      version,
       contact: {
         name: 'Drivly',
         url: 'https://drivly.com',
