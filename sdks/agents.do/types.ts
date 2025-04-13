@@ -146,3 +146,29 @@ export interface AgentClientOptions {
   /** Default agent configuration */
   defaultConfig?: Partial<AgentConfig>
 }
+
+/**
+ * Agent do function response
+ */
+export interface AgentDoResponse<T = any> extends AgentResponse<T> {}
+
+/**
+ * Template literal tag function for agent do
+ */
+export interface AgentDoTemplateFunction {
+  (strings: TemplateStringsArray, ...values: any[]): Promise<any>
+}
+
+/**
+ * Agent do function with various call patterns
+ */
+export interface AgentDoFunction {
+  (input: string | Record<string, any>, options?: AgentExecutionOptions): Promise<any>
+  
+  (strings: TemplateStringsArray, ...values: any[]): Promise<any>
+  
+  (agentId: string): {
+    (input: string | Record<string, any>, options?: AgentExecutionOptions): Promise<any>
+    (strings: TemplateStringsArray, ...values: any[]): Promise<any>
+  }
+}

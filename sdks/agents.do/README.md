@@ -113,6 +113,27 @@ console.log(response.data)
 // }
 ```
 
+### Using the `do` Function
+
+The `do` function provides a simple, elegant way to interact with agents:
+
+```typescript
+import { do } from 'agents.do'
+
+// Simple, expressive template literal syntax
+const topic = 'renewable energy'
+const email = 'john@example.com'
+await do`Research ${topic} and send a report to ${email}`
+
+// Objects are automatically serialized
+const user = { name: 'John', email: 'john@example.com' }
+await do`Process this user: ${user}`
+
+// Agent instance method
+const agent = new Agent({ name: 'assistant' })
+await agent.do`Summarize the latest news about AI`
+```
+
 ### Managing Agents
 
 ```typescript
