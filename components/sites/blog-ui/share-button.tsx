@@ -21,17 +21,17 @@ export function ShareButtons({ title, url, hideLabel = false }: ShareButtonsProp
   const shareLinks = [
     {
       name: 'X',
-      icon: <FaXTwitter className='h-5 w-5 sm:h-4 sm:w-4' />,
+      icon: <FaXTwitter className='h-5 w-5' />,
       href: `https://x.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
     },
     {
       name: 'LinkedIn',
-      icon: <FaLinkedin className='h-5 w-5 sm:h-4 sm:w-4' />,
+      icon: <FaLinkedin className='h-5 w-5' />,
       href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
     },
     {
       name: 'HackerNews',
-      icon: <FaHackerNews className='h-5 w-5 sm:h-4 sm:w-4' />,
+      icon: <FaHackerNews className='h-5 w-5' />,
       href: `https://news.ycombinator.com/submitlink?u=${encodedUrl}&t=${encodedTitle}`,
     },
   ]
@@ -48,7 +48,7 @@ export function ShareButtons({ title, url, hideLabel = false }: ShareButtonsProp
 
   return (
     <div className='flex items-center space-x-3 sm:space-x-2'>
-      <span className={cn('text-muted-foreground text-xs', hideLabel ? 'hidden sm:inline' : 'inline')}>Share:</span>
+      <span className={cn('text-muted-foreground text-sm', hideLabel ? 'hidden sm:inline' : 'inline')}>Share:</span>
       {shareLinks.map((link) => (
         <a
           key={link.name}
@@ -56,12 +56,11 @@ export function ShareButtons({ title, url, hideLabel = false }: ShareButtonsProp
           target='_blank'
           rel='noopener noreferrer'
           className='hover:text-primary text-gray-500 transition-colors'
-          aria-label={`Share on ${link.name}`}
-        >
+          aria-label={`Share on ${link.name}`}>
           {link.icon}
         </a>
       ))}
-      <button onClick={copyToClipboard} className='hover:text-primary text-gray-500 transition-colors' aria-label='Copy link'>
+      <button onClick={copyToClipboard} className='hover:text-primary cursor-pointer text-gray-500 transition-colors' aria-label='Copy link'>
         {copied ? <CheckIcon className='h-5 w-5 text-green-500 sm:h-4 sm:w-4' /> : <LinkIcon className='h-5 w-5 sm:h-4 sm:w-4' />}
       </button>
     </div>

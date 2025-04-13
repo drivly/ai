@@ -1,34 +1,11 @@
-import { BasePayload } from 'payload'
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 import { betterAuthPlugins } from './options'
-type BetterAuthReturn<T> = {
-  api: any
-  $Infer: any
-}
 
-export type PayloadWithBetterAuth = BasePayload & {
-  betterAuth: BetterAuthReturn<typeof betterAuthPlugins>
-}
+const payload = await getPayloadWithAuth()
 
+export type Session = typeof payload.betterAuth.$Infer.Session
+export type SocialProvider = Parameters<Awaited<ReturnType<typeof getPayloadWithAuth>>['betterAuth']['api']['signInSocial']>[0]['body']['provider']
 export type BetterAuthPlugins = typeof betterAuthPlugins
 
-export type Session = any // Will be properly typed when betterAuth is fixed
-export type SocialProvider =
-  | 'twitter'
-  | 'facebook'
-  | 'apple'
-  | 'google'
-  | 'github'
-  | 'discord'
-  | 'microsoft'
-  | 'spotify'
-  | 'twitch'
-  | 'dropbox'
-  | 'linkedin'
-  | 'gitlab'
-  | 'tiktok'
-  | 'reddit'
-  | 'roblox'
-  | 'vk'
-  | 'kick'
-export type Account = any
-export type DeviceSession = any
+export type Account = Awaited<ReturnType<typeof payload.betterAuth.api.listUserAccounts>>[number]
+export type DeviceSession = Awaited<ReturnType<typeof payload.betterAuth.api.listDeviceSessions>>[number]

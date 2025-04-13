@@ -41,7 +41,7 @@
     "@payloadcms/db-mongodb": "^3.33.0",
     "@payloadcms/db-postgres": "^3.33.0",
     "@types/node": "^22.10.5",
-    "better-auth": "1.2.4",
+    "better-auth": "1.2.5",
     "cross-env": "^7.0.3",
     "payload": "^3.33.0",
     "prettier": "^3.4.2",
@@ -49,10 +49,12 @@
     "typescript": "^5.7.2",
     "vitest": "^2.1.8",
     "@swc/cli": "0.6.0",
-    "@swc/core": "1.11.8"
+    "@swc/core": "1.11.8",
+    "tsconfig": "workspace:*",
+    "eslint-config": "workspace:*"
   },
   "peerDependencies": {
-    "better-auth": "1.2.4",
+    "better-auth": "1.2.5",
     "payload": "^3.33.0"
   },
   "directories": {

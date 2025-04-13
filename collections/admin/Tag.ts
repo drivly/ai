@@ -6,6 +6,7 @@ export const Tags: CollectionConfig = {
     group: 'Admin',
     useAsTitle: 'id',
     hidden: true,
+    description: 'Manages tags for categorizing and organizing content',
   },
   versions: true,
   fields: [{ name: 'id', type: 'text' }],

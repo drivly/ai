@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayload } from '@/lib/auth/payload-auth'
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
 /**
@@ -7,7 +7,7 @@ import crypto from 'crypto'
  */
 const exchangeCodeForToken = async (code: string, redirectUri: string, clientId: string, payload: any, clientSecret?: string) => {
   const codeResult = await payload.find({
-    collection: 'oauth-codes' as 'oauth-codes',
+    collection: 'oauthCodes',
     where: {
       code: { equals: code },
       used: { equals: false },
@@ -26,7 +26,7 @@ const exchangeCodeForToken = async (code: string, redirectUri: string, clientId:
   }
 
   const clientResult = await payload.find({
-    collection: 'oauth-clients' as 'oauth-clients',
+    collection: 'oauthClients',
     where: {
       clientId: { equals: clientId },
       disabled: { equals: false },
@@ -48,7 +48,7 @@ const exchangeCodeForToken = async (code: string, redirectUri: string, clientId:
   }
 
   await payload.update({
-    collection: 'oauth-codes' as 'oauth-codes',
+    collection: 'oauthCodes',
     id: codeEntry.id,
     data: {
       used: true,
@@ -65,7 +65,7 @@ const exchangeCodeForToken = async (code: string, redirectUri: string, clientId:
   refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 30)
 
   await payload.create({
-    collection: 'oauth-tokens' as 'oauth-tokens',
+    collection: 'oauthTokens',
     data: {
       token: accessToken,
       provider: codeEntry.provider,
@@ -115,7 +115,7 @@ export const POST = API(async (request, { url }) => {
   }
 
   try {
-    const payload = await getPayload()
+    const payload = await getPayloadWithAuth()
     const token = await exchangeCodeForToken(code, redirect_uri, client_id, payload, client_secret)
     return token
   } catch (error) {

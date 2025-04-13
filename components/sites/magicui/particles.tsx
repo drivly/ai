@@ -49,7 +49,17 @@ function hexToRgb(hex: string): number[] {
   return [red, green, blue]
 }
 
-const Particles: React.FC<ParticlesProps> = ({ className = '', quantity = 100, staticity = 50, ease = 50, size = 0.4, refresh = false, color = '#ffffff', vx = 0, vy = 0 }) => {
+export const Particles: React.FC<ParticlesProps> = ({
+  className = '',
+  quantity = 100,
+  staticity = 50,
+  ease = 50,
+  size = 0.4,
+  refresh = false,
+  color = '#ffffff',
+  vx = 0,
+  vy = 0,
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const canvasContainerRef = useRef<HTMLDivElement>(null)
   const context = useRef<CanvasRenderingContext2D | null>(null)
@@ -70,14 +80,17 @@ const Particles: React.FC<ParticlesProps> = ({ className = '', quantity = 100, s
     return () => {
       window.removeEventListener('resize', initCanvas)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [color])
 
   useEffect(() => {
     onMouseMove()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mousePosition.x, mousePosition.y])
 
   useEffect(() => {
     initCanvas()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refresh])
 
   const initCanvas = () => {
@@ -234,5 +247,3 @@ const Particles: React.FC<ParticlesProps> = ({ className = '', quantity = 100, s
     </div>
   )
 }
-
-export default Particles

@@ -1,5 +1,5 @@
 {
-  "extends": "../../pkgs/tsconfig/src/worker.json",
+  "extends": "tsconfig/src/worker.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "node",

@@ -20,7 +20,7 @@ describe('AgentsClient', () => {
   })
 
   it('should properly format API requests', async () => {
-    global.fetch = vi.fn().mockResolvedValue({
+    globalThis.fetch = vi.fn().mockResolvedValue({
       ok: true,
       json: vi.fn().mockResolvedValue({ data: 'test-response' }),
     })
@@ -32,7 +32,7 @@ describe('AgentsClient', () => {
     const response = await client.ask('test-agent', 'What is the weather?')
     expect(response).toEqual({ data: 'test-response' })
     expect(fetch).toHaveBeenCalledWith(
-      'https://agents.do/api/agents/test-agent/ask',
+      'https://agents.do/v1/agents/test-agent/ask',
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({

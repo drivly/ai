@@ -1,13 +1,13 @@
-import { API } from '../../apis.do/index.js'
-import { Experiment, VariantContext, VariantResult, ExperimentResults, ExperimentComparison, ExperimentRecommendation, QueryParams, ListResponse } from './types.js'
+import { API } from 'apis.do'
+import { Experiment, VariantContext, VariantResult, ExperimentResults, ExperimentComparison, ExperimentRecommendation, QueryParams, ListResponse, ClientOptions } from './types.js'
 import { VercelFlagsProvider, EvaluationContext } from './provider.js'
 
-export interface ClientOptions {
-  apiKey?: string
-  baseUrl?: string
+export interface ExperimentsClientOptions extends ClientOptions {
   flagsApiKey?: string
   flagsBaseUrl?: string
   analyticsEnabled?: boolean
+  baseUrl?: string
+  apiKey?: string
 }
 
 export class ExperimentsClient {
@@ -15,7 +15,7 @@ export class ExperimentsClient {
   private flagsProvider: VercelFlagsProvider
   private analyticsEnabled: boolean
 
-  constructor(options: ClientOptions = {}) {
+  constructor(options: ExperimentsClientOptions = {}) {
     this.api = new API({
       baseUrl: options.baseUrl || 'https://apis.do',
       headers: {
@@ -55,7 +55,7 @@ export class ExperimentsClient {
   }
 
   async start(experimentName: string): Promise<any> {
-    return this.api.post(`/api/experiments/${experimentName}/start`, {})
+    return this.api.post(`/v1/experiments/${experimentName}/start`, {})
   }
 
   async getVariant(experimentName: string, context: VariantContext): Promise<VariantResult> {
@@ -133,13 +133,13 @@ export class ExperimentsClient {
   }
 
   async compareVariants(experimentName: string, variantIds: string[]): Promise<ExperimentComparison> {
-    return this.api.post<ExperimentComparison>(`/api/experiments/${experimentName}/compare`, {
+    return this.api.post<ExperimentComparison>(`/v1/experiments/${experimentName}/compare`, {
       variants: variantIds,
     })
   }
 
   async getRecommendations(experimentName: string): Promise<ExperimentRecommendation> {
-    return this.api.get<ExperimentRecommendation>(`/api/experiments/${experimentName}/recommendations`)
+    return this.api.get<ExperimentRecommendation>(`/v1/experiments/${experimentName}/recommendations`)
   }
 
   async list(params?: QueryParams): Promise<ListResponse<Experiment>> {

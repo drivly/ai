@@ -14,6 +14,12 @@ export interface MarkdownOutput {
   mdast: any
 }
 
+export interface VideoOutput {
+  outputPath: string
+  duration: number
+  size: number
+}
+
 // Generic AI function type
 export type AIFunction<TInput = any, TOutput = any> = {
   (input: TInput, config?: AIConfig): Promise<TOutput>

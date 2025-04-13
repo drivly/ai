@@ -5,6 +5,7 @@ export const Agents: CollectionConfig = {
   admin: {
     group: 'AI',
     useAsTitle: 'name',
+    description: 'Autonomous AI agents that can perform tasks using functions and workflows',
   },
   versions: true,
   fields: [

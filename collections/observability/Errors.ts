@@ -5,6 +5,7 @@ export const Errors: CollectionConfig = {
   admin: {
     group: 'Observability',
     useAsTitle: 'message',
+    description: 'Records system errors and exceptions for debugging',
   },
   access: {
     create: () => false,

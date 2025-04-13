@@ -8,6 +8,7 @@ import { geolocation } from '@vercel/functions'
 import { continents, countries, flags, locations, metros } from './constants/cf'
 import { nanoid } from 'nanoid'
 import { getOrganizationByASN } from './utils/asn-lookup'
+import { parentDomains, childDomains } from '../domains.config'
 
 /**
  * Context object passed to API handlers
@@ -29,6 +30,9 @@ export type ApiContext = {
  * Type definition for the user object in API responses
  */
 export interface APIUser {
+  id?: string
+  email?: string
+  name?: string
   authenticated: boolean
   admin?: boolean
   plan: string
@@ -55,6 +59,8 @@ export interface APIUser {
   recentInteractions: number
   trustScore?: number
   serviceLatency?: number
+  authMethod?: string
+  authWorkerDomain?: string
   links?: {
     profile?: string
     account?: string
@@ -87,7 +93,7 @@ export type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise
 /**
  * Function to get user information from the request
  */
-export function getUser(request: NextRequest): APIUser {
+export async function getUser(request: NextRequest, payload?: any): Promise<APIUser> {
   const now = new Date()
   const url = new URL(request.url)
   const domain = punycode.toUnicode(url.hostname)
@@ -153,6 +159,67 @@ export function getUser(request: NextRequest): APIUser {
   const countryCode = cf?.country || geo?.country || ''
   const countryFlag = countryCode ? flags[countryCode as keyof typeof flags] || '🏳️' : '🏳️'
   const countryName = countryCode ? countries[countryCode as keyof typeof countries]?.name : undefined
+
+  const cfWorkerHeader = request.headers.get('cf-worker')
+  if (cfWorkerHeader && isCloudflareWorker && payload) {
+    try {
+      const { isCloudflareIP } = await import('./utils/cloudflare-ip')
+      if (await isCloudflareIP(ip)) {
+        const workerDomain = cfWorkerHeader.trim()
+        
+        const apiKeyWithDomain = await payload.db.apikeys.findOne({
+          where: {
+            cfWorkerDomains: {
+              elemMatch: {
+                domain: workerDomain
+              }
+            }
+          }
+        })
+        
+        if (apiKeyWithDomain) {
+          const user = await payload.db.users.findByID(apiKeyWithDomain.user)
+          if (user) {
+            return {
+              id: user.id,
+              email: user.email,
+              name: user.name,
+              authenticated: true,
+              admin: user.role === 'admin',
+              plan: user.plan || 'Free',
+              browser: ua?.browser?.name,
+              userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
+              os: ua?.os?.name as string,
+              ip,
+              isp,
+              asOrg: asOrg || undefined,
+              flag: countryFlag,
+              zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
+              city: cf?.city?.toString() || geo?.city || request.headers.get('x-vercel-ip-city') || '',
+              metro: cf?.metroCode ? metros[Number(cf.metroCode) as keyof typeof metros] : undefined,
+              region: cf?.region?.toString() || geo?.countryRegion || request.headers.get('x-vercel-ip-region') || '',
+              country: countryName,
+              continent: cf?.continent ? continents[cf.continent as keyof typeof continents] : undefined,
+              requestId: cf ? request.headers.get('cf-ray') + '-' + cf.colo : request.headers.get('x-vercel-id') || '',
+              localTime,
+              timezone: cf?.timezone?.toString() || 'UTC',
+              edgeLocation: colo?.city || geo?.region,
+              edgeDistanceMiles: cf?.country === 'US' || geo?.country === 'US' ? edgeDistance : undefined,
+              edgeDistanceKilometers: cf?.country === 'US' || geo?.country === 'US' ? undefined : edgeDistance,
+              latencyMilliseconds: cf?.clientTcpRtt ? Number(cf.clientTcpRtt) : 0,
+              recentInteractions: 0,
+              trustScore: cf?.botManagement ? (cf.botManagement as any).score : undefined,
+              links,
+              authMethod: 'cloudflare-worker',
+              authWorkerDomain: workerDomain,
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error in Cloudflare Worker authentication:', error)
+    }
+  }
 
   return {
     authenticated: false, // This would be determined by authentication logic
@@ -350,7 +417,7 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
       _currentRequest = null
       _currentContext = null
 
-      const enhancedUser = getUser(req)
+      const enhancedUser = await getUser(req, payload)
 
       const mergedUser = {
         ...enhancedUser,
@@ -416,7 +483,6 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
 // NOTE: Do not import from clickable-apis or simple-payload packages until things stabilize.
 // We're using the native implementation directly to avoid dependency issues.
 // Later we can extract these functions into those packages if needed.
-import { domainDescriptions } from '../api.config'
 
 export const API = createApiHandler
 
@@ -543,6 +609,51 @@ export const generatePaginationLinks = (request: NextRequest, page: number, limi
 }
 
 /**
+ * Generates complete pagination links for API responses including first and last pages
+ * @param request - The NextRequest object
+ * @param page - Current page number
+ * @param limit - Items per page
+ * @param totalItems - Total number of items
+ * @param totalPages - Total number of pages
+ * @returns Object containing home, first, last, next, and prev links
+ */
+export const generateCompletePaginationLinks = (
+  request: NextRequest, 
+  page: number, 
+  limit: number, 
+  totalItems: number,
+  totalPages: number
+): { home: string; first: string; last?: string; next?: string; prev?: string } => {
+  const baseLinks = generatePaginationLinks(request, page, limit, totalItems)
+  const url = new URL(request.url)
+  const baseUrl = url.origin + url.pathname
+  const searchParams = url.searchParams
+  
+  const links: { 
+    home: string; 
+    first: string; 
+    last?: string; 
+    next?: string; 
+    prev?: string 
+  } = {
+    ...baseLinks,
+    first: '',  // Will be set below
+  }
+  
+  const firstParams = new URLSearchParams(searchParams)
+  firstParams.set('page', '1')
+  links.first = `${baseUrl}?${firstParams.toString()}`
+  
+  if (totalPages > 1) {
+    const lastParams = new URLSearchParams(searchParams)
+    lastParams.set('page', totalPages.toString())
+    links.last = `${baseUrl}?${lastParams.toString()}`
+  }
+  
+  return links
+}
+
+/**
  * Generates a function link for a given function name
  * @param request - The NextRequest object
  * @param functionName - Name of the function
@@ -643,4 +754,44 @@ export const handleShareRequest = async (params: { id: string }, db: PayloadDB):
       status: 500,
     }
   }
+}
+
+/**
+ * Checks if a domain has a "shortcut path"
+ * A shortcut path is a domain that has a direct .do equivalent
+ * @param domain - The domain to check
+ * @returns Boolean indicating if the domain has a shortcut path
+ */
+const hasShortcutPath = (domain?: string): boolean => {
+  if (!domain) return false
+  
+  const baseDomain = domain.replace(/\.do(\.mw|\.gt)?$/, '')
+  return parentDomains[baseDomain] !== undefined || 
+         Object.values(childDomains).some(children => children.includes(baseDomain))
+}
+
+/**
+ * Formats a URL based on domain type and user preference
+ * @param path - The relative path (e.g., 'functions')
+ * @param options - Options for formatting the URL
+ * @returns Formatted URL string
+ */
+export const formatUrl = (path: string, options: { 
+  origin: string, 
+  domain?: string, 
+  showDomains?: boolean,
+  defaultDomain?: string
+}): string => {
+  const { origin, domain, showDomains, defaultDomain } = options
+  
+  const shouldShowDomains = showDomains ?? (
+    domain === 'apis.do' || 
+    hasShortcutPath(domain) 
+  )
+  
+  if (shouldShowDomains && defaultDomain) {
+    return `https://${defaultDomain}`
+  }
+  
+  return `${origin}/${path}`
 }

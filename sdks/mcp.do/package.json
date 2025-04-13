@@ -21,6 +21,7 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
+ 
   },
   "files": [
     "dist",
@@ -36,9 +37,7 @@
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
+ 
   "scripts": {
     "build": "tsc",
     "test": "echo \"No tests\" && exit 0"
@@ -47,7 +46,9 @@
     "apis.do": "workspace:*"
   },
   "devDependencies": {
-    "vitest": "^3.0.8"
+    "eslint-config": "workspace:*",
+    "vitest": "^3.0.8",
+    "tsconfig": "workspace:*"
   },
   "engines": {
     "node": ">=18.0.0"

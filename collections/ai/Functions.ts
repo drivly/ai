@@ -1,13 +1,14 @@
 import type { CollectionConfig } from 'payload'
 import yaml from 'yaml'
-import { generateFunctionExamplesTask } from '../../tasks/ai/generateFunctionExamples'
-import { simplerJSON } from '../../pkgs/payload-utils/src'
+import { generateFunctionExamplesTask } from '@/tasks/ai/generateFunctionExamples'
+import { simplerJSON } from 'payload-utils'
 
 export const Functions: CollectionConfig = {
   slug: 'functions',
   admin: {
     group: 'AI',
     useAsTitle: 'name',
+    description: 'Reusable AI capabilities with typed inputs and outputs',
   },
   // versions: true,
   fields: [
@@ -92,7 +93,7 @@ export const Functions: CollectionConfig = {
     {
       name: 'format',
       type: 'select',
-      options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code'],
+      options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code', 'Video'],
       defaultValue: 'Object',
       // required: true,
       admin: {

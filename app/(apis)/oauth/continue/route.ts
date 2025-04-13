@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayload } from '@/lib/auth/payload-auth'
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 
 export const GET = API(async (request, { url, user }) => {
   try {

@@ -1,10 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { executeFunction } from '../../tasks/executeFunction'
-import { generateObjectArray } from '../../tasks/generateObjectArray'
+
+import { generateObjectArray } from '@/tasks/ai/generateObjectArray'
+import { executeFunction } from '@/tasks/ai/executeFunction'
 
 const originalGenerateObjectArray = generateObjectArray
 
-vi.mock('../../tasks/schemaUtils', () => ({
+vi.mock('../../tasks/language/schemaUtils', () => ({
   validateWithSchema: vi.fn().mockImplementation((schema, obj) => obj),
   schemaToJsonSchema: vi.fn(),
 }))

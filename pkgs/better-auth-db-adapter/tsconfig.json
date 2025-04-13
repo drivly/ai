@@ -1,20 +1,31 @@
 {
-	"extends": "../../pkgs/tsconfig/src/base.json",
-	"compilerOptions": {
-		"rootDir": "./src",
-		"outDir": "./dist",
-		"module": "NodeNext",
-		"moduleResolution": "nodenext",
-		"resolveJsonModule": true,
-		"emitDeclarationOnly": true,
-		"composite": true,
-		"declaration": true,
-		"declarationMap": true,
-		"paths": {
-			"@/*": ["./src/*"]
-		}
-	},
-	"exclude": ["**/dist", "node_modules"],
-	"references": [],
-	"include": ["src/index.ts", "src/types.ts", "src/**/*.ts"]
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "declaration": true,
+    "declarationMap": true,
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "sourceMap": true,
+    "strict": false,
+    "isolatedModules": true,
+    "target": "ES2022",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "src/**/*.json"],
+  "exclude": ["dist", "build", "node_modules"]
 }

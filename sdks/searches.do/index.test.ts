@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { searches } from './index.js'
+import { searches } from './index'
 import { api } from 'apis.do'
 
 vi.mock('apis.do', () => ({
@@ -11,6 +11,7 @@ vi.mock('apis.do', () => ({
     remove: vi.fn(),
     get: vi.fn(),
   },
+  API: vi.fn(),
 }))
 
 describe('searches.do SDK', () => {
@@ -75,7 +76,7 @@ describe('searches.do SDK', () => {
 
       const result = await searches.execute('123')
 
-      expect(api.get).toHaveBeenCalledWith('/api/searches/123/execute', undefined)
+      expect(api.get).toHaveBeenCalledWith('/v1/searches/123/execute', undefined)
       expect(result).toEqual(mockResults)
     })
   })

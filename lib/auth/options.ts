@@ -1,10 +1,14 @@
-import type { PayloadBetterAuthPluginOptions } from '../../pkgs/better-auth-plugin/src/types'
+import { stripe } from '@better-auth/stripe'
+import type { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
-import { admin, apiKey, multiSession, openAPI, oAuthProxy } from 'better-auth/plugins'
+import { admin, apiKey, genericOAuth, multiSession, oAuthProxy, oidcProvider, openAPI } from 'better-auth/plugins'
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
+import stripeClient from '../stripe'
 import { getCurrentURL } from '../utils/url'
+
+// import { getCurrentURL } from '../utils/url'
 
 export const betterAuthPlugins = [
   admin(),
@@ -12,9 +16,47 @@ export const betterAuthPlugins = [
   multiSession(),
   openAPI(),
   nextCookies(),
+  stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
   oAuthProxy({
-    productionURL: 'https://apis.do',
+    productionURL: process.env.NODE_ENV === 'production' ? 'https://apis.do' : 'http://localhost:3000',
     currentURL: getCurrentURL(),
+  }),
+  genericOAuth({
+    config: [
+      {
+        providerId: 'workos',
+        clientId: process.env.WORKOS_CLIENT_ID as string,
+        clientSecret: process.env.WORKOS_CLIENT_SECRET as string,
+        authorizationUrl: 'https://api.workos.com/sso/authorize',
+        tokenUrl: 'https://api.workos.com/sso/token',
+        redirectURI: 'https://apis.do/api/auth/callback/workos',
+        scopes: ['openid', 'profile', 'email'],
+      },
+      {
+        providerId: 'linear',
+        clientId: process.env.LINEAR_CLIENT_ID as string,
+        clientSecret: process.env.LINEAR_CLIENT_SECRET as string,
+        authorizationUrl: 'https://linear.app/oauth/authorize',
+        tokenUrl: 'https://api.linear.app/oauth/token',
+        redirectURI: 'https://apis.do/api/auth/callback/linear',
+        scopes: ['read', 'write'], // Preliminary scopes, may need adjustment
+      },
+    ],
+  }),
+  oidcProvider({
+    metadata: {
+      issuer: 'https://apis.do',
+      authorization_endpoint: '/api/auth/authorize',
+      token_endpoint: '/api/auth/token',
+      userinfo_endpoint: '/api/auth/userinfo',
+      jwks_uri: '/api/auth/jwks',
+      scopes_supported: ['openid', 'profile', 'email', 'api'],
+    },
+    scopes: ['openid', 'profile', 'email', 'api'],
+    defaultScope: 'openid',
+    accessTokenExpiresIn: 3600, // 1 hour
+    refreshTokenExpiresIn: 604800, // 7 days
+    loginPage: '/sign-in',
   }),
 ]
 
@@ -22,17 +64,17 @@ export type BetterAuthPlugins = typeof betterAuthPlugins
 
 export const betterAuthOptions: BetterAuthOptions = {
   secret: process.env.BETTER_AUTH_SECRET as string,
-  appName: 'AGI Platform',
+  appName: '.do',
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/google', // Must remain fixed for better-auth oauth proxy to work correctly
+      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/google' : 'http://localhost:3000/api/auth/callback/google', // Must remain fixed for better-auth oauth proxy to work correctly
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
+      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/github' : 'http://localhost:3000/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
@@ -45,7 +87,9 @@ export const betterAuthOptions: BetterAuthOptions = {
         before: async (user) => {
           if (isSuperAdmin(user)) {
             console.log('create:before isSuperAdmin', user)
-            return { data: { ...user, role: 'admin' } }
+            return { data: { ...user, role: 'superAdmin' } }
+          } else {
+            return { data: { ...user, role: 'user' } }
           }
         },
         after: async (user) => {
@@ -78,7 +122,7 @@ export const betterAuthOptions: BetterAuthOptions = {
       role: {
         type: 'string',
         defaultValue: 'user',
-        input: false,
+        // input: false,
       },
     },
   },
@@ -91,7 +135,7 @@ export const betterAuthOptions: BetterAuthOptions = {
   account: {
     accountLinking: {
       enabled: true,
-      trustedProviders: ['google', 'email-password'],
+      trustedProviders: ['google', 'email-password', 'workos'],
     },
   },
 }
@@ -104,7 +148,8 @@ export const payloadBetterAuthOptions: PayloadBetterAuthPluginOptions = {
   users: {
     slug: 'users',
     hidden: true, // Hide the users collection from navigation
-    adminRoles: ['admin'],
+    adminRoles: ['admin', 'superAdmin'],
+    roles: ['user', 'admin', 'superAdmin'],
     allowedFields: ['name'],
     blockFirstBetterAuthVerificationEmail: true,
     collectionOverrides: ({ collection }: { collection: CollectionConfig }) => {

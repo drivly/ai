@@ -3,8 +3,9 @@
  * with the Tasks & Queue collections.
  */
 
-import { API } from 'apis.do'
-import { QueryParams } from 'apis.do'
+import { API } from 'apis.do/src/client'
+import type { QueryParams } from 'apis.do/types'
+import { URLSearchParams } from 'node:url'
 
 /**
  * Slack Blocks schema for rich interactive messages
@@ -160,7 +161,7 @@ class TasksClient {
    * @returns The created task
    */
   async create(params: CreateTaskParams): Promise<Task> {
-    return this.api.post<Task>(`/api/${this.tasksCollection}`, params)
+    return this.api.post<Task>(`/v1/${this.tasksCollection}`, params)
   }
 
   /**
@@ -169,7 +170,7 @@ class TasksClient {
    * @returns The created task
    */
   async createTask(task: TaskDefinition) {
-    return this.api.post('/api/tasks', task)
+    return this.api.post('/v1/tasks', task)
   }
 
   /**

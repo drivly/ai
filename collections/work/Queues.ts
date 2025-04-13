@@ -5,6 +5,7 @@ export const Queues: CollectionConfig = {
   admin: {
     group: 'Work',
     useAsTitle: 'name',
+    description: 'Manages work queues for task assignment and processing',
   },
   fields: [
     {

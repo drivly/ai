@@ -12,16 +12,15 @@ import { generateDeleteTemplate } from './templates/delete'
 import { ZapierCollectionConfig } from './types/collection'
 import { camelCase, pascalCase, kebabCase } from './utils/stringUtils'
 
-// Get the current file's directory
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
 // Import collections dynamically
-async function getCollections() {
+async function getCollections(collectionsPath?: string) {
   try {
     // Dynamic import for ESM compatibility
-    const collectionsPath = path.resolve(__dirname, '../../../collections/index.js')
-    const collectionsModule = await import(collectionsPath)
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = path.dirname(__filename)
+    
+    const resolvedPath = collectionsPath || path.resolve(__dirname, '../../../collections/index.js')
+    const collectionsModule = await import(resolvedPath)
     return collectionsModule.collections || []
   } catch (error) {
     console.error('Error importing collections:', error)
@@ -30,16 +29,22 @@ async function getCollections() {
 }
 
 // Main function to generate Zapier apps
-async function main() {
+export async function main(options: { collectionsPath?: string; outputDir?: string } = {}) {
   try {
+    const __filename = fileURLToPath(import.meta.url)
+    const __dirname = path.dirname(__filename)
+    
     // Ensure output directories exist
-    const outputDir = path.resolve(__dirname, '../apps')
+    const outputDir = options.outputDir 
+      ? path.resolve(options.outputDir) 
+      : path.resolve(__dirname, '../apps')
+      
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true })
     }
 
     // Get collections
-    const collections = await getCollections()
+    const collections = await getCollections(options.collectionsPath)
 
     if (!collections || collections.length === 0) {
       console.error('No collections found')
@@ -156,6 +161,3 @@ node_modules/
     console.error('Error generating Zapier apps:', error)
   }
 }
-
-// Run the main function
-main()

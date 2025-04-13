@@ -73,6 +73,10 @@ export interface Config {
     sessions: Session;
     verifications: Verification;
     apiKeys: ApiKey;
+    subscriptions: Subscription;
+    oauthApplications: OauthApplication;
+    oauthAccessTokens: OauthAccessToken;
+    oauthConsents: OauthConsent;
     functions: Function;
     workflows: Workflow;
     agents: Agent;
@@ -90,10 +94,11 @@ export interface Config {
     connections: Connection;
     integrationTriggers: IntegrationTrigger;
     integrationActions: IntegrationAction;
+    githubTasks: GithubTask;
     triggers: Trigger;
     searches: Search;
     experiments: Experiment;
-    'experiment-metrics': ExperimentMetric;
+    experimentMetrics: ExperimentMetric;
     models: Model;
     providers: Provider;
     labs: Lab;
@@ -111,7 +116,7 @@ export interface Config {
     events: Event;
     errors: Error;
     generations: Generation;
-    'generation-batches': GenerationBatch;
+    generationBatches: GenerationBatch;
     traces: Trace;
     kpis: Kpi;
     projects: Project;
@@ -120,9 +125,9 @@ export interface Config {
     tags: Tag;
     webhooks: Webhook;
     apikeys: Apikey;
-    'oauth-clients': OauthClient;
-    'oauth-codes': OauthCode;
-    'oauth-tokens': OauthToken;
+    oauthClients: OauthClient;
+    oauthCodes: OauthCode;
+    oauthTokens: OauthToken;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -155,6 +160,10 @@ export interface Config {
     sessions: SessionsSelect<false> | SessionsSelect<true>;
     verifications: VerificationsSelect<false> | VerificationsSelect<true>;
     apiKeys: ApiKeysSelect<false> | ApiKeysSelect<true>;
+    subscriptions: SubscriptionsSelect<false> | SubscriptionsSelect<true>;
+    oauthApplications: OauthApplicationsSelect<false> | OauthApplicationsSelect<true>;
+    oauthAccessTokens: OauthAccessTokensSelect<false> | OauthAccessTokensSelect<true>;
+    oauthConsents: OauthConsentsSelect<false> | OauthConsentsSelect<true>;
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
     agents: AgentsSelect<false> | AgentsSelect<true>;
@@ -172,10 +181,11 @@ export interface Config {
     connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
     integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
+    githubTasks: GithubTasksSelect<false> | GithubTasksSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
-    'experiment-metrics': ExperimentMetricsSelect<false> | ExperimentMetricsSelect<true>;
+    experimentMetrics: ExperimentMetricsSelect<false> | ExperimentMetricsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
     providers: ProvidersSelect<false> | ProvidersSelect<true>;
     labs: LabsSelect<false> | LabsSelect<true>;
@@ -193,7 +203,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     errors: ErrorsSelect<false> | ErrorsSelect<true>;
     generations: GenerationsSelect<false> | GenerationsSelect<true>;
-    'generation-batches': GenerationBatchesSelect<false> | GenerationBatchesSelect<true>;
+    generationBatches: GenerationBatchesSelect<false> | GenerationBatchesSelect<true>;
     traces: TracesSelect<false> | TracesSelect<true>;
     kpis: KpisSelect<false> | KpisSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
@@ -202,9 +212,9 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
-    'oauth-clients': OauthClientsSelect<false> | OauthClientsSelect<true>;
-    'oauth-codes': OauthCodesSelect<false> | OauthCodesSelect<true>;
-    'oauth-tokens': OauthTokensSelect<false> | OauthTokensSelect<true>;
+    oauthClients: OauthClientsSelect<false> | OauthClientsSelect<true>;
+    oauthCodes: OauthCodesSelect<false> | OauthCodesSelect<true>;
+    oauthTokens: OauthTokensSelect<false> | OauthTokensSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -248,7 +258,12 @@ export interface Config {
       deliverWebhook: TaskDeliverWebhook;
       initiateComposioConnection: TaskInitiateComposioConnection;
       processDomain: TaskProcessDomain;
+      postGithubComment: TaskPostGithubComment;
       saveExecutionResults: TaskSaveExecutionResults;
+      researchTask: TaskResearchTask;
+      syncTaskToLinear: TaskSyncTaskToLinear;
+      deleteLinearIssue: TaskDeleteLinearIssue;
+      handleLinearWebhook: TaskHandleLinearWebhook;
       inline: {
         input: unknown;
         output: unknown;
@@ -310,6 +325,10 @@ export interface User {
    */
   name?: string | null;
   /**
+   * The email of the user
+   */
+  email: string;
+  /**
    * Whether the email of the user has been verified
    */
   emailVerified: boolean;
@@ -320,7 +339,7 @@ export interface User {
   /**
    * The role of the user
    */
-  role: 'admin' | 'user';
+  role: 'user' | 'admin' | 'superAdmin';
   updatedAt: string;
   createdAt: string;
   /**
@@ -335,6 +354,10 @@ export interface User {
    * The date and time when the ban will expire
    */
   banExpires?: string | null;
+  /**
+   * The Stripe customer ID associated with this user
+   */
+  stripeCustomerId?: string | null;
   tenants?:
     | {
         tenant: string | Project;
@@ -344,17 +367,6 @@ export interface User {
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
-  /**
-   * The email of the user
-   */
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -601,6 +613,185 @@ export interface ApiKey {
     | number
     | boolean
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Stripe subscription management
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions".
+ */
+export interface Subscription {
+  /**
+   * Unique identifier for each subscription
+   */
+  id: string;
+  /**
+   * The name of the subscription plan
+   */
+  plan: string;
+  /**
+   * The user associated with this subscription
+   */
+  user: string | User;
+  /**
+   * The Stripe customer ID
+   */
+  stripeCustomerId?: string | null;
+  /**
+   * The Stripe subscription ID
+   */
+  stripeSubscriptionId?: string | null;
+  /**
+   * The status of the subscription (active, canceled, etc.)
+   */
+  status: string;
+  /**
+   * Start date of the current billing period
+   */
+  periodStart?: string | null;
+  /**
+   * End date of the current billing period
+   */
+  periodEnd?: string | null;
+  /**
+   * Whether the subscription will be canceled at the end of the period
+   */
+  cancelAtPeriodEnd?: boolean | null;
+  /**
+   * Number of seats for team plans
+   */
+  seats?: number | null;
+  /**
+   * Start date of the trial period
+   */
+  trialStart?: string | null;
+  /**
+   * End date of the trial period
+   */
+  trialEnd?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * OAuth applications are custom OAuth clients
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthApplications".
+ */
+export interface OauthApplication {
+  id: string;
+  /**
+   * Unique identifier for each OAuth client
+   */
+  clientId: string;
+  /**
+   * Secret key for the OAuth client
+   */
+  clientSecret: string;
+  /**
+   * Name of the OAuth application
+   */
+  name: string;
+  /**
+   * Comma-separated list of redirect URLs
+   */
+  redirectURLs: string;
+  /**
+   * Additional metadata for the OAuth application
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Type of OAuth client (e.g., web, mobile)
+   */
+  type: string;
+  /**
+   * Indicates if the client is disabled
+   */
+  disabled: boolean;
+  /**
+   * Icon of the OAuth application
+   */
+  icon?: string | null;
+  /**
+   * ID of the user who owns the client. (optional)
+   */
+  user?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * OAuth access tokens for custom OAuth clients
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthAccessTokens".
+ */
+export interface OauthAccessToken {
+  id: string;
+  /**
+   * Access token issued to the client
+   */
+  accessToken: string;
+  /**
+   * Refresh token issued to the client
+   */
+  refreshToken: string;
+  /**
+   * Expiration date of the access token
+   */
+  accessTokenExpiresAt: string;
+  /**
+   * Expiration date of the refresh token
+   */
+  refreshTokenExpiresAt: string;
+  /**
+   * OAuth application associated with the access token
+   */
+  client: string | OauthApplication;
+  /**
+   * User associated with the access token
+   */
+  user: string | User;
+  /**
+   * Comma-separated list of scopes granted
+   */
+  scopes: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * OAuth consents are used to store user consents for OAuth clients
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthConsents".
+ */
+export interface OauthConsent {
+  id: string;
+  /**
+   * OAuth client associated with the consent
+   */
+  client: string | OauthApplication;
+  /**
+   * User associated with the consent
+   */
+  user: string | User;
+  /**
+   * Comma-separated list of scopes consented to
+   */
+  scopes: string;
+  /**
+   * 	Indicates if consent was given
+   */
+  consentGiven: boolean;
   updatedAt: string;
   createdAt: string;
 }
@@ -983,11 +1174,10 @@ export interface Generation {
  * Batches of AI generation jobs
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generation-batches".
+ * via the `definition` "generationBatches".
  */
 export interface GenerationBatch {
   id: string;
-  tenant?: (string | null) | Project;
   name: string;
   provider: 'openai' | 'anthropic' | 'google' | 'parasail';
   status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
@@ -1172,6 +1362,24 @@ export interface Task {
     hasNextPage?: boolean;
     totalDocs?: number;
   };
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  linearMetadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1260,6 +1468,7 @@ export interface Integration {
   tenant?: (string | null) | Project;
   id: string;
   name?: string | null;
+  provider?: ('composio' | 'linear') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1351,6 +1560,33 @@ export interface IntegrationAction {
     | number
     | boolean
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Tasks triggered by GitHub events
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "githubTasks".
+ */
+export interface GithubTask {
+  id: string;
+  /**
+   * GitHub issue number
+   */
+  issueNumber: number;
+  /**
+   * GitHub repository in owner/repo format
+   */
+  repository: string;
+  /**
+   * ID of the associated job
+   */
+  jobId: string;
+  /**
+   * Current status of the task
+   */
+  status: 'processing' | 'completed' | 'failed';
   updatedAt: string;
   createdAt: string;
 }
@@ -1554,7 +1790,7 @@ export interface Experiment {
  * Metrics collected from real-world user feedback for experiments
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "experiment-metrics".
+ * via the `definition` "experimentMetrics".
  */
 export interface ExperimentMetric {
   id: string;
@@ -1988,7 +2224,7 @@ export interface Apikey {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-clients".
+ * via the `definition` "oauthClients".
  */
 export interface OauthClient {
   id: string;
@@ -2006,7 +2242,7 @@ export interface OauthClient {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-codes".
+ * via the `definition` "oauthCodes".
  */
 export interface OauthCode {
   id: string;
@@ -2021,7 +2257,7 @@ export interface OauthCode {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-tokens".
+ * via the `definition` "oauthTokens".
  */
 export interface OauthToken {
   id: string;
@@ -2111,7 +2347,12 @@ export interface PayloadJob {
           | 'deliverWebhook'
           | 'initiateComposioConnection'
           | 'processDomain'
-          | 'saveExecutionResults';
+          | 'postGithubComment'
+          | 'saveExecutionResults'
+          | 'researchTask'
+          | 'syncTaskToLinear'
+          | 'deleteLinearIssue'
+          | 'handleLinearWebhook';
         taskID: string;
         input?:
           | {
@@ -2168,7 +2409,12 @@ export interface PayloadJob {
                 | 'deliverWebhook'
                 | 'initiateComposioConnection'
                 | 'processDomain'
+                | 'postGithubComment'
                 | 'saveExecutionResults'
+                | 'researchTask'
+                | 'syncTaskToLinear'
+                | 'deleteLinearIssue'
+                | 'handleLinearWebhook'
               )
             | null;
           taskID?: string | null;
@@ -2203,7 +2449,12 @@ export interface PayloadJob {
         | 'deliverWebhook'
         | 'initiateComposioConnection'
         | 'processDomain'
+        | 'postGithubComment'
         | 'saveExecutionResults'
+        | 'researchTask'
+        | 'syncTaskToLinear'
+        | 'deleteLinearIssue'
+        | 'handleLinearWebhook'
       )
     | null;
   queue?: string | null;
@@ -2238,6 +2489,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'apiKeys';
         value: string | ApiKey;
+      } | null)
+    | ({
+        relationTo: 'subscriptions';
+        value: string | Subscription;
+      } | null)
+    | ({
+        relationTo: 'oauthApplications';
+        value: string | OauthApplication;
+      } | null)
+    | ({
+        relationTo: 'oauthAccessTokens';
+        value: string | OauthAccessToken;
+      } | null)
+    | ({
+        relationTo: 'oauthConsents';
+        value: string | OauthConsent;
       } | null)
     | ({
         relationTo: 'functions';
@@ -2308,6 +2575,10 @@ export interface PayloadLockedDocument {
         value: string | IntegrationAction;
       } | null)
     | ({
+        relationTo: 'githubTasks';
+        value: string | GithubTask;
+      } | null)
+    | ({
         relationTo: 'triggers';
         value: string | Trigger;
       } | null)
@@ -2320,7 +2591,7 @@ export interface PayloadLockedDocument {
         value: string | Experiment;
       } | null)
     | ({
-        relationTo: 'experiment-metrics';
+        relationTo: 'experimentMetrics';
         value: string | ExperimentMetric;
       } | null)
     | ({
@@ -2392,7 +2663,7 @@ export interface PayloadLockedDocument {
         value: string | Generation;
       } | null)
     | ({
-        relationTo: 'generation-batches';
+        relationTo: 'generationBatches';
         value: string | GenerationBatch;
       } | null)
     | ({
@@ -2428,15 +2699,15 @@ export interface PayloadLockedDocument {
         value: string | Apikey;
       } | null)
     | ({
-        relationTo: 'oauth-clients';
+        relationTo: 'oauthClients';
         value: string | OauthClient;
       } | null)
     | ({
-        relationTo: 'oauth-codes';
+        relationTo: 'oauthCodes';
         value: string | OauthCode;
       } | null)
     | ({
-        relationTo: 'oauth-tokens';
+        relationTo: 'oauthTokens';
         value: string | OauthToken;
       } | null)
     | ({
@@ -2502,6 +2773,7 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   roles?: T;
   name?: T;
+  email?: T;
   emailVerified?: T;
   image?: T;
   role?: T;
@@ -2510,6 +2782,7 @@ export interface UsersSelect<T extends boolean = true> {
   banned?: T;
   banReason?: T;
   banExpires?: T;
+  stripeCustomerId?: T;
   tenants?:
     | T
     | {
@@ -2519,13 +2792,6 @@ export interface UsersSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2593,6 +2859,70 @@ export interface ApiKeysSelect<T extends boolean = true> {
   expiresAt?: T;
   permissions?: T;
   metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions_select".
+ */
+export interface SubscriptionsSelect<T extends boolean = true> {
+  id?: T;
+  plan?: T;
+  user?: T;
+  stripeCustomerId?: T;
+  stripeSubscriptionId?: T;
+  status?: T;
+  periodStart?: T;
+  periodEnd?: T;
+  cancelAtPeriodEnd?: T;
+  seats?: T;
+  trialStart?: T;
+  trialEnd?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthApplications_select".
+ */
+export interface OauthApplicationsSelect<T extends boolean = true> {
+  clientId?: T;
+  clientSecret?: T;
+  name?: T;
+  redirectURLs?: T;
+  metadata?: T;
+  type?: T;
+  disabled?: T;
+  icon?: T;
+  user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthAccessTokens_select".
+ */
+export interface OauthAccessTokensSelect<T extends boolean = true> {
+  accessToken?: T;
+  refreshToken?: T;
+  accessTokenExpiresAt?: T;
+  refreshTokenExpiresAt?: T;
+  client?: T;
+  user?: T;
+  scopes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "oauthConsents_select".
+ */
+export interface OauthConsentsSelect<T extends boolean = true> {
+  client?: T;
+  user?: T;
+  scopes?: T;
+  consentGiven?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2699,6 +3029,8 @@ export interface TasksSelect<T extends boolean = true> {
   subtasks?: T;
   dependentOn?: T;
   dependents?: T;
+  metadata?: T;
+  linearMetadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2845,6 +3177,7 @@ export interface IntegrationsSelect<T extends boolean = true> {
   tenant?: T;
   id?: T;
   name?: T;
+  provider?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2893,6 +3226,18 @@ export interface IntegrationActionsSelect<T extends boolean = true> {
   version?: T;
   parameters?: T;
   response?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "githubTasks_select".
+ */
+export interface GithubTasksSelect<T extends boolean = true> {
+  issueNumber?: T;
+  repository?: T;
+  jobId?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2968,7 +3313,7 @@ export interface ExperimentsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "experiment-metrics_select".
+ * via the `definition` "experimentMetrics_select".
  */
 export interface ExperimentMetricsSelect<T extends boolean = true> {
   experimentId?: T;
@@ -3244,10 +3589,9 @@ export interface GenerationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generation-batches_select".
+ * via the `definition` "generationBatches_select".
  */
 export interface GenerationBatchesSelect<T extends boolean = true> {
-  tenant?: T;
   name?: T;
   provider?: T;
   status?: T;
@@ -3366,7 +3710,7 @@ export interface ApikeysSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-clients_select".
+ * via the `definition` "oauthClients_select".
  */
 export interface OauthClientsSelect<T extends boolean = true> {
   name?: T;
@@ -3385,7 +3729,7 @@ export interface OauthClientsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-codes_select".
+ * via the `definition` "oauthCodes_select".
  */
 export interface OauthCodesSelect<T extends boolean = true> {
   code?: T;
@@ -3399,7 +3743,7 @@ export interface OauthCodesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauth-tokens_select".
+ * via the `definition` "oauthTokens_select".
  */
 export interface OauthTokensSelect<T extends boolean = true> {
   token?: T;
@@ -3531,6 +3875,7 @@ export interface TaskExecuteFunction {
       | boolean
       | null;
     reasoning?: string | null;
+    generationHash?: string | null;
   };
 }
 /**
@@ -4087,6 +4432,26 @@ export interface TaskProcessDomain {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskPostGithubComment".
+ */
+export interface TaskPostGithubComment {
+  input: {
+    issueNumber: number;
+    repository: string;
+    researchResults:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskSaveExecutionResults".
  */
 export interface TaskSaveExecutionResults {
@@ -4178,10 +4543,131 @@ export interface TaskSaveExecutionResults {
       | number
       | boolean
       | null;
+    generationHash?: string | null;
   };
   output: {
     success?: string | null;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskResearchTask".
+ */
+export interface TaskResearchTask {
+  input: {
+    topic: string;
+    depth?: number | null;
+    sources?:
+      | {
+          sourceUrl?: string | null;
+        }[]
+      | null;
+    format?: string | null;
+    taskId: string;
+    callback?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    summary?: string | null;
+    findings?:
+      | {
+          finding?: string | null;
+        }[]
+      | null;
+    sources?:
+      | {
+          sourceUrl?: string | null;
+        }[]
+      | null;
+    confidence?: number | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSyncTaskToLinear".
+ */
+export interface TaskSyncTaskToLinear {
+  input: {
+    data:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    originalDoc?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    status?: string | null;
+    message?: string | null;
+    linearIssueId?: string | null;
+    linearIssueUrl?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDeleteLinearIssue".
+ */
+export interface TaskDeleteLinearIssue {
+  input: {
+    data:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    originalDoc?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    status?: string | null;
+    message?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskHandleLinearWebhook".
+ */
+export interface TaskHandleLinearWebhook {
+  input: {
+    payload:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output?: unknown;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

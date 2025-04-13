@@ -1,20 +1,31 @@
 {
-  "extends": "../../pkgs/tsconfig/src/nextjs.json",
   "compilerOptions": {
-    "rootDir": "./src",
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
     "outDir": "./dist",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "emitDeclarationOnly": false,
-    "composite": false,
-    "incremental": false,
+    "rootDir": "./src",
     "declaration": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "declarationMap": true,
+    "allowJs": true,
+    "checkJs": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "sourceMap": true,
+    "strict": false,
+    "isolatedModules": true,
+    "target": "ES2022",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "exclude": ["**/dist", "node_modules"],
-  "references": [],
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "src/**/*.json"],
+  "exclude": ["dist", "build", "node_modules"]
 }

@@ -1,6 +1,6 @@
 {
   "name": "durable-objects-nosql",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MongoDB-style NoSQL interface for Cloudflare Worker Durable Objects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -47,6 +47,7 @@
     "eslint-config": "workspace:*",
     "prettier": "^3.5.3",
     "tsup": "^8.4.0",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "tsconfig": "workspace:*"
   }
 }

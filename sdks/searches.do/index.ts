@@ -1,5 +1,5 @@
 import { api } from 'apis.do'
-import { Search, SearchConfig } from './types.js'
+import { Search, SearchConfig } from './types'
 
 /**
  * Client for managing search operations
@@ -59,8 +59,8 @@ export const searches = {
    * @returns Search results
    */
   execute: async (id: string, params?: Record<string, any>): Promise<any> => {
-    return api.get<any>(`/api/searches/${id}/execute`, params)
+    return api.get<any>(`/v1/searches/${id}/execute`, params)
   },
 }
 
-export * from './types.js'
+export * from './types'

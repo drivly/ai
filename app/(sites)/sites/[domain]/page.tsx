@@ -1,37 +1,52 @@
-import { heroContent } from '@/components/sites/constants/content'
-import Particles from '@/components/sites/magicui/particles'
-import DotdoSection from '@/components/sites/sections/dotdo'
-import HeroSection from '@/components/sites/sections/hero'
-import { withSitesNavbar } from '@/components/sites/with-sites-navbar'
-import { domainsConfig, getGlowColor } from '@/domains.config'
-import { notFound } from 'next/navigation'
+import { Particles } from '@/components/sites/magicui/particles'
+import DotdoLinkSection from '@/components/sites/sections/dotdo-link-section'
+import HeroSection from '@/components/sites/sections/hero-section'
+import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
+import { getGlowColor } from '@/domains.config'
+import { getSession } from '@/lib/auth/context/get-context-props'
+import { findSiteContent } from '@/lib/sites'
+import { Metadata } from 'next'
+
+export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
+  const { domain } = await params
+  const content = await findSiteContent(domain)
+
+  return {
+    title: content.title,
+    description: content.description,
+  }
+}
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
-async function DotDoPage({ params }: { params: Promise<{ domain?: string }> }) {
-  const { domain } = await params
+async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
+  const { domain } = await props.params
+  await getSession()
 
-  const site = domain ?? 'llm.do'
+  const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
+  const content = await findSiteContent(domain, true)
 
-  const glowColor = getGlowColor(site)
+  const glowColor = (content as any).brandColor || getGlowColor(site)
 
   return (
     <>
       <div className='hero-glow-container' style={{ '--glow-color': glowColor } as React.CSSProperties}>
         <HeroSection
-          codeExample={heroContent.codeExample}
-          badge={heroContent.badge}
-          buttonText={heroContent.buttonText}
-          title={heroContent.title}
-          description={heroContent.description}
+          codeExample={'codeExample' in content ? content.codeExample : 'subhead' in content ? content.subhead : ''}
+          codeLang={'codeLang' in content ? content.codeLang : 'json'}
+          badge={'badge' in content ? content.badge : 'headline' in content ? content.headline : ''}
+          buttonText='Join waitlist'
+          title={'headline' in content ? content.headline : content.title}
+          description={'subhead' in content ? content.subhead : content.description}
+          domain={site}
         />
       </div>
-      <DotdoSection />
+      <DotdoLinkSection />
       <Particles className='absolute inset-0 -z-10' quantity={50} ease={70} size={0.05} staticity={40} color={'#ffffff'} />
     </>
   )
 }
 
-export default withSitesNavbar(DotDoPage)
+export default withSitesWrapper({ WrappedPage: DotDoPage })
 // Get Started // Join
 // --- Request access
 // email onboarding with questions react-email // templates

@@ -5,6 +5,7 @@ export const Tasks: CollectionConfig = {
   admin: {
     group: 'Work',
     useAsTitle: 'title',
+    description: 'Manages work items and assignments within the platform',
   },
   fields: [
     {
@@ -73,5 +74,7 @@ export const Tasks: CollectionConfig = {
       collection: 'tasks',
       on: 'dependentOn',
     },
+    { name: 'metadata', type: 'json' },
+    { name: 'linearMetadata', type: 'json' },
   ],
 }

@@ -1,9 +1,18 @@
-import { API, generatePaginationLinks, createFunctionsObject } from '@/lib/api'
+import { API, generatePaginationLinks, createFunctionsObject, formatUrl } from '@/lib/api'
 
-export const GET = API(async (request, { db, user, url }) => {
+export const GET = API(async (request, { db, user, url, origin, domain }) => {
   const searchParams = request.nextUrl.searchParams
   const page = parseInt(searchParams.get('page') || '1')
   const limit = parseInt(searchParams.get('limit') || '20')
+  
+  const showDomains = url.searchParams.has('domains')
+  
+  const formatWithOptions = (path: string, defaultDomain?: string) => formatUrl(path, {
+    origin,
+    domain,
+    showDomains,
+    defaultDomain
+  })
 
   // Using the new db interface for more concise syntax
   const functionsArray =
@@ -38,7 +47,7 @@ export const GET = API(async (request, { db, user, url }) => {
     for (let i = 0; i < functionsArray.length; i++) {
       const func = functionsArray[i]
       if (func && typeof func === 'object' && func.name) {
-        functions[func.name] = `${request.nextUrl.origin}/functions/${func.name}`
+        functions[func.name] = formatWithOptions(`functions/${func.name}`, 'functions.do')
       }
     }
   }
@@ -50,6 +59,11 @@ export const GET = API(async (request, { db, user, url }) => {
     page,
     limit,
     total: totalItems,
+    actions: {
+      toggleDomains: url.searchParams.has('domains') 
+        ? url.toString().replace(/[?&]domains/, '') 
+        : url.toString() + (url.toString().includes('?') ? '&domains' : '?domains')
+    },
   }
 })
 

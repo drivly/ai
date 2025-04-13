@@ -4,11 +4,14 @@ const jsonFieldType = () => (useJsonType ? 'JSON' : 'String')
 
 export const eventsTableSchema = `
 CREATE TABLE IF NOT EXISTS events (
-  id UUID DEFAULT generateULID(),
+  id String DEFAULT generateULID(),
   timestamp Int32 DEFAULT toInt32(now()),
   type String,
   source String,
   subjectId String,
+  url String,
+  headers ${jsonFieldType()},
+  query ${jsonFieldType()},
   data ${jsonFieldType()},
   metadata ${jsonFieldType()},
   actionId String,
@@ -23,7 +26,7 @@ ORDER BY (timestamp, type)
 
 export const generationsTableSchema = `
 CREATE TABLE IF NOT EXISTS generations (
-  id UUID DEFAULT generateULID(),
+  id String DEFAULT generateULID(),
   timestamp Int32 DEFAULT toInt32(now()),
   actionId String,
   settingsId String,
@@ -41,7 +44,7 @@ ORDER BY (timestamp, status)
 
 export const requestsTableSchema = `
 CREATE TABLE IF NOT EXISTS requests (
-  id UUID DEFAULT generateULID(),
+  id String DEFAULT generateULID(),
   timestamp Int32 DEFAULT toInt32(now()),
   method String,
   path String,

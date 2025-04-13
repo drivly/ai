@@ -23,7 +23,8 @@
       "@/*": ["./*"],
       "@payload-config": ["payload.config.ts"],
       "@/.velite/*": [".velite/*"],
-      "@drivly/ui/*": ["./pkgs/ui/src/*"]
+      "payload-utils": ["./pkgs/payload-utils/src"],
+      "payload-hooks-queue": ["./pkgs/payload-hooks-queue/src"]
     },
     "target": "ES2022",
     "typeRoots": ["./node_modules/@types", "./types"]

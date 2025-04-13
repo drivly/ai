@@ -1,5 +1,5 @@
-import { Button } from '../../components/ui/button'
-import { cn } from '../../lib/utils'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { PromptInput, PromptInputAction, PromptInputActions, PromptInputTextarea } from '../ui/prompt-input'
 import { ArrowUp, CircleStop, Paperclip } from 'lucide-react'
 import React, { Fragment, useCallback } from 'react'

@@ -5,6 +5,7 @@ export const Workflows: CollectionConfig = {
   admin: {
     group: 'AI',
     useAsTitle: 'name',
+    description: 'Orchestrates functions into reusable business processes',
   },
   versions: true,
   fields: [

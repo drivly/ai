@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayload } from '@/lib/auth/payload-auth'
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
 
 export const POST = API(async (request, { url, user }) => {
@@ -7,7 +7,7 @@ export const POST = API(async (request, { url, user }) => {
     return { error: 'unauthorized', error_description: 'Authentication required' }
   }
 
-  const payload = await getPayload()
+  const payload = await getPayloadWithAuth()
 
   const userDoc = await payload.findByID({
     collection: 'users',
@@ -29,7 +29,7 @@ export const POST = API(async (request, { url, user }) => {
     const clientSecret = crypto.randomBytes(32).toString('hex')
 
     const client = await payload.create({
-      collection: 'oauth-clients' as 'oauth-clients',
+      collection: 'oauthClients',
       data: {
         name,
         clientId,

@@ -5,6 +5,7 @@ export const Databases: CollectionConfig = {
   admin: {
     group: 'Data',
     useAsTitle: 'name',
+    description: 'Manages database connections and configurations',
   },
   fields: [
     { name: 'name', type: 'text', required: true },

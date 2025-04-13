@@ -74,18 +74,26 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.WORKFLOW_PAT }}
 
       - name: Setup Node.js 22.x
         uses: actions/setup-node@v3
         with:
           node-version: 22.x
           registry-url: 'https://registry.npmjs.org'
+          scope: '@drivly'
+          always-auth: true
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
         with:
           version: 10.x
+          
+      - name: Setup Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions"
+          git fetch --all
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -101,23 +109,66 @@ jobs:
       - name: Create Release PR or Publish
         id: semantic-release
         uses: codfish/semantic-release-action@v3
+        continue-on-error: true
+        timeout-minutes: 15
         with:
           branches: 'main'
           plugins: |
             [
-              '@semantic-release/commit-analyzer',
+              ['@semantic-release/commit-analyzer', {
+                preset: 'angular',
+                releaseRules: [
+                  {type: 'feat', release: 'patch'},
+                  {type: 'fix', release: 'patch'},
+                  {type: 'docs', release: 'patch'},
+                  {type: 'style', release: 'patch'},
+                  {type: 'refactor', release: 'patch'},
+                  {type: 'perf', release: 'patch'},
+                  {type: 'test', release: 'patch'},
+                  {type: 'build', release: 'patch'},
+                  {type: 'ci', release: 'patch'},
+                  {type: 'chore', release: 'patch'}
+                ]
+              }],
               '@semantic-release/release-notes-generator',
               '@semantic-release/changelog',
               '@semantic-release/npm',
-              '@semantic-release/github',
-              '@semantic-release/git'
+              '@semantic-release/github'
             ]
-          custom-command: "node scripts/release-sdks.js"
+          args: "node scripts/release-sdks.js"
           dry-run: ${{ inputs.dry-run }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           FORCE_PATCH_RELEASE: 'true'
+          NPM_CONFIG_REGISTRY: 'https://registry.npmjs.org/'
+          INITIAL_VERSION: '0.0.1'
+          RELEASE_MAJOR: '0'
+          
+      - name: Debug npm config
+        if: steps.semantic-release.outcome != 'success'
+        run: |
+          npm config list
+          echo "::debug::Checking npm auth setup"
+          npm whoami || echo "Not authenticated with npm"
+          
+      - name: Verify npmjs.org access
+        run: |
+          echo "Checking registry connectivity..."
+          curl -s https://registry.npmjs.org/ || echo "Failed to reach npm registry"
+          
+      - name: Verify NPM publishing configuration
+        run: |
+          echo "Checking NPM publishing configuration..."
+          echo "NPM_CONFIG_REGISTRY: $NPM_CONFIG_REGISTRY"
+          echo "NODE_AUTH_TOKEN exists: ${{ !!secrets.NPM_TOKEN }}"
+          npm config get registry
+          npm config list
 
       - name: Release outputs
-        run: echo "${{ toJSON(steps.semantic-release.outputs) }}"
+        run: |
+          if [ -n "${{ steps.semantic-release.outputs.new_release_version }}" ]; then
+            echo "Semantic release outputs - Version: ${{ steps.semantic-release.outputs.new_release_version }}"
+          else 
+            echo "Semantic release outputs - No version"
+          fi

@@ -9,7 +9,7 @@ import { AI, createWorkflow } from '../index'
  */
 describe('workflows.do SDK - E2E Tests', () => {
   beforeAll(() => {
-    global.window = {
+    globalThis.window = {
       location: {
         hostname: 'localhost',
       },
@@ -26,7 +26,7 @@ describe('workflows.do SDK - E2E Tests', () => {
 
   describe('Payload CRUD API', () => {
     beforeAll(() => {
-      global.fetch = vi.fn()
+      globalThis.fetch = vi.fn()
     })
 
     it('should create and retrieve a workflow through Payload API', async () => {
@@ -48,7 +48,7 @@ describe('workflows.do SDK - E2E Tests', () => {
         }),
       } as Response)
 
-      const response = await fetch('http://localhost:3000/api/workflows', {
+      const response = await fetch('http://localhost:3000/v1/workflows', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ describe('workflows.do SDK - E2E Tests', () => {
       expect(result.doc.name).toBe('e2e-test-workflow')
       expect(result.doc.id).toBe(mockWorkflowId)
 
-      const getResponse = await fetch(`http://localhost:3000/api/workflows/${mockWorkflowId}`)
+      const getResponse = await fetch(`http://localhost:3000/v1/workflows/${mockWorkflowId}`)
       const getResult = await getResponse.json()
       expect(getResult.doc).toBeDefined()
       expect(getResult.doc.name).toBe('e2e-test-workflow')
@@ -82,7 +82,7 @@ describe('workflows.do SDK - E2E Tests', () => {
         }),
       } as Response)
 
-      const updateResponse = await fetch(`http://localhost:3000/api/workflows/${mockWorkflowId}`, {
+      const updateResponse = await fetch(`http://localhost:3000/v1/workflows/${mockWorkflowId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ describe('workflows.do SDK - E2E Tests', () => {
         }),
       } as Response)
 
-      const response = await fetch(`http://localhost:3000/api/workflows/nonexistent-id`)
+      const response = await fetch(`http://localhost:3000/v1/workflows/nonexistent-id`)
       expect(response.status).toBe(404)
 
       const result = await response.json()
@@ -118,7 +118,7 @@ describe('workflows.do SDK - E2E Tests', () => {
         }),
       } as Response)
 
-      const deleteResponse = await fetch(`http://localhost:3000/api/workflows/${mockWorkflowId}`, {
+      const deleteResponse = await fetch(`http://localhost:3000/v1/workflows/${mockWorkflowId}`, {
         method: 'DELETE',
       })
 
@@ -131,7 +131,7 @@ describe('workflows.do SDK - E2E Tests', () => {
   describe('Clickable API Integration', () => {
     beforeEach(() => {
       vi.resetAllMocks()
-      global.fetch = vi.fn()
+      globalThis.fetch = vi.fn()
     })
 
     it('should execute a workflow through the Clickable API', async () => {

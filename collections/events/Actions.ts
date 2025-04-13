@@ -5,6 +5,7 @@ export const Actions: CollectionConfig = {
   admin: {
     group: 'Events',
     useAsTitle: 'name',
+    description: 'Records of actions performed within the system',
   },
   versions: true,
   fields: [

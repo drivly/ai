@@ -1,11 +1,12 @@
 import type { CollectionConfig } from 'payload'
-import { simplerJSON } from '../../pkgs/payload-utils/src'
+import { simplerJSON } from 'payload-utils'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
   admin: {
     group: 'Data',
     useAsTitle: 'yaml',
+    description: 'Structured data resources with embeddings for semantic search',
   },
   versions: true,
   fields: [

@@ -5,6 +5,10 @@ export * from './providers/anthropic'
 export * from './providers/google'
 export * from './providers/parasail'
 export * from './providers/llmdo'
+export * from './providers/openrouter'
+export * from './providers/cloudflare'
+export * from './providers/google-vertex'
+export * from './providers/google-ai-studio'
 export * from './providerRouter'
 
 // Create singleton instance for easy import

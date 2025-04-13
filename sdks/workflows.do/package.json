@@ -36,9 +36,6 @@
   "bugs": {
     "url": "https://github.com/drivly/ai/issues"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run"
@@ -48,7 +45,6 @@
     "analytics.do": "workspace:*",
     "apis.do": "workspace:*",
     "database.do": "workspace:*",
-    "durable-objects-nosql": "workspace:*",
     "evals.do": "workspace:*",
     "experiments.do": "workspace:*",
     "functions.do": "workspace:*",
@@ -60,13 +56,16 @@
     "models.do": "workspace:*",
     "plans.do": "workspace:*",
     "projects.do": "workspace:*",
-    "searches.do": "workspace:*",
     "sdk.do": "workspace:*",
+    "searches.do": "workspace:*",
     "tasks.do": "workspace:*",
     "triggers.do": "workspace:*"
   },
   "devDependencies": {
+    "durable-objects-nosql": "workspace:*",
+    "eslint-config": "workspace:*",
     "evalite": "^0.9.1",
+    "tsconfig": "workspace:*",
     "typescript": "^5.0.0",
     "vitest": "^3.0.9"
   },

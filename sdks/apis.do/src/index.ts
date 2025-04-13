@@ -1,6 +1,7 @@
-export { API } from './client.js'
-export { CLI } from './cli.js'
-export * from './types.js'
+export { API } from './client'
+export { CLI } from './cli'
+export type { ClientOptions, ErrorResponse, ListResponse, QueryParams } from './types'
+export * from './types'
 
-import { API } from './client.js'
+import { API } from './client'
 export const api = new API()

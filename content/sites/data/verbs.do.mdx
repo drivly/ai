@@ -1,0 +1,12 @@
+---
+title: Verbs.do - Action Management Platform
+description: Define and manage all actions in your business with Verbs.do, the comprehensive platform for tracking operations performed to and by entities
+headline: Connect Actions That Drive Results
+subhead: Connect every action in your business to the entities that perform or receive them. Build a complete operational graph that reveals process inefficiencies and optimization opportunities.
+badge: "AI without Complexity"
+codeExample: "import { Action } from 'verbs.do';\n\nconst purchaseAction = new Action({\n  name: 'Purchase',\n  description: 'Customer purchases a product',\n  subject: { type: 'Customer', required: true },\n  object: { type: 'Product', required: true },\n  properties: {\n    quantity: { type: 'number', default: 1 },\n    price: { type: 'number', required: true },\n    discount: { type: 'number', default: 0 },\n    paymentMethod: { type: 'string', enum: ['credit', 'debit', 'paypal'] }\n  },\n  effects: [\n    { type: 'decreaseInventory', target: 'object.id', amount: 'quantity' },\n    { type: 'createOrder', data: { customerId: 'subject.id', productId: 'object.id' } }\n  ],\n  logging: true,\n  analytics: true\n});"
+---
+
+# Verbs.do
+
+The Actions Performed to and by Nouns

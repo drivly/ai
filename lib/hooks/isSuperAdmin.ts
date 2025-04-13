@@ -1,6 +1,8 @@
 import { Access } from 'payload'
 import type { User } from '@/payload.types'
 
+const superAdminEmails = process.env.SUPER_ADMIN_EMAILS?.split(',') ?? []
+
 export function isSuperAdmin(user: unknown) {
   if (!user) return false
 
@@ -13,9 +15,16 @@ export function isSuperAdmin(user: unknown) {
     }
   }
 
-  return typedUser?.email?.endsWith('@driv.ly') ?? false
+  if (typedUser.email.endsWith('@driv.ly')) {
+    return true
+  }
+
+  return superAdminEmails.some((email) => email === typedUser.email)
 }
 
 export const isSuperAdminAccess: Access = ({ req }): boolean => {
   return isSuperAdmin(req.user)
 }
+
+// add SUPER_ADMIN_EMAILS to .env
+// nateclev@gmail.com

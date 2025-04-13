@@ -1,4 +1,4 @@
-import { API } from '../../apis.do/index.js'
+import { API } from 'apis.do'
 
 export interface OpenFeatureProvider<T = any> {
   metadata: ProviderMetadata

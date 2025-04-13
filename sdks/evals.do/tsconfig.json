@@ -1,8 +1,14 @@
 {
-  "extends": "../../pkgs/tsconfig/src/sdk.json",
+  "extends": "tsconfig/src/sdk.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "declaration": true
+    "declaration": true,
+    "jsx": "react-jsx",
+    "lib": ["DOM", "DOM.Iterable", "ES2022", "WebWorker"],
+    "types": ["node", "vitest", "vitest/globals"],
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "rootDir": "."
   },
   "include": ["*.ts", "src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

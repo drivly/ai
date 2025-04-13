@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 export const GenerationBatches: CollectionConfig = {
-  slug: 'generation-batches',
+  slug: 'generationBatches',
   admin: {
     group: 'Observability',
     useAsTitle: 'name',

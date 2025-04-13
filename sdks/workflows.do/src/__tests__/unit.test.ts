@@ -26,7 +26,7 @@ describe('workflows.do SDK - Unit Tests', () => {
     })
 
     it('should create an AI instance with function schemas', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
+      globalThis.fetch = vi.fn().mockResolvedValue({
         json: () => Promise.resolve({ result: 'test' }),
       })
 
@@ -46,7 +46,7 @@ describe('workflows.do SDK - Unit Tests', () => {
 
   describe('createWorkflow', () => {
     it('should create a workflow instance with execute method', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
+      globalThis.fetch = vi.fn().mockResolvedValue({
         json: () => Promise.resolve({ status: 'completed', output: 'test' }),
       })
 

@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload'
 
 export const OAuthTokens: CollectionConfig = {
-  slug: 'oauth-tokens',
+  slug: 'oauthTokens',
   labels: {
     singular: 'OAuth Token',
     plural: 'OAuth Tokens',
@@ -9,6 +9,7 @@ export const OAuthTokens: CollectionConfig = {
   admin: {
     group: 'Authentication',
     hidden: true,
+    description: 'Manages OAuth access tokens for authenticated users',
   },
   access: {
     read: ({ req }) => {

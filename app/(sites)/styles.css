@@ -2,6 +2,7 @@
 @import 'tw-animate-css';
 
 @plugin "@tailwindcss/typography";
+@plugin 'tailwind-scrollbar-hide';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -45,7 +46,7 @@
   --color-two: #fe8bbb;
   --color-three: #9e7aff;
   --glow-color: #05b2a6;
-
+  --accent-green: #05b2a6;
   /* 
     --color-one: #37ecba;
     --color-two: #72afd3;
@@ -54,12 +55,12 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.269 0 0);
-  --popover-foreground: oklch(0.985 0 0);
+  --card: oklch(0.14 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.196 0 0);
+  --popover-foreground: oklch(0.972 0 0);
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
@@ -85,9 +86,13 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.439 0 0);
+  --color-accent-green: var(--accent-green);
+  --color-glow-color: var(--glow-color);
 }
 
 @theme inline {
+  --font-ibm: var(--font-ibm);
+  --font-geist: var(--font-geist);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -127,7 +132,8 @@
   --color-one: var(--color-one);
   --color-two: var(--color-two);
   --color-three: var(--color-three);
-  --glow-color: var(--glow-color);
+  --color-glow-color: var(--glow-color);
+  --color-accent-green: var(--accent-green);
 }
 
 @layer base {

@@ -1,5 +1,4 @@
-import { BetterAuthOptions } from 'better-auth'
-import type { PayloadBetterAuthPluginOptions, SanitizedBetterAuthOptions } from '../types'
+import type { PayloadBetterAuthPluginOptions, SanitizedBetterAuthOptions } from '..'
 import { supportedBetterAuthPluginIds, betterAuthPluginSlugs, baseCollectionSlugs } from './config'
 import { ensurePasswordSetBeforeUserCreate } from './ensure-password-set-before-create'
 import { verifyPassword, hashPassword } from './password'
@@ -61,7 +60,8 @@ export function sanitizeBetterAuthOptions(
     }
   }
 
-  if (options.users?.blockFirstBetterAuthVerificationEmail) {
+  // eslint-disable-next-line no-extra-boolean-cast
+  if (Boolean(options.users?.blockFirstBetterAuthVerificationEmail)) {
     const originalSendVerificationEmail = baOptions?.emailVerification?.sendVerificationEmail
     // Only override sendVerificationEmail if the developer provided their own implementation
     if (typeof originalSendVerificationEmail === 'function') {
@@ -307,6 +307,107 @@ export function sanitizeBetterAuthOptions(
                 },
               }
               Object.assign(plugin, oidcPlugin)
+              break
+            case supportedBetterAuthPluginIds.genericOAuth:
+              const genericOAuthPlugin = plugin as any
+              // The genericOAuth plugin requires proper account integration for storing
+              // OAuth tokens and provider information
+
+              // Ensure the plugin has the necessary schema structure
+              if (!genericOAuthPlugin.schema) genericOAuthPlugin.schema = {}
+
+              // Set up the account schema - this is where OAuth tokens and provider info are stored
+              if (!genericOAuthPlugin.schema.account) genericOAuthPlugin.schema.account = {}
+              genericOAuthPlugin.schema.account = {
+                ...genericOAuthPlugin.schema.account,
+                modelName: baseCollectionSlugs.accounts,
+                fields: {
+                  ...(genericOAuthPlugin.schema.account.fields ?? {}),
+                  userId: {
+                    ...(genericOAuthPlugin.schema.account.fields?.userId ?? {}),
+                    fieldName: 'user',
+                  },
+                  // Make sure these fields exist for OAuth token storage
+                  providerId: {
+                    ...(genericOAuthPlugin.schema.account.fields?.providerId ?? {}),
+                  },
+                  accessToken: {
+                    ...(genericOAuthPlugin.schema.account.fields?.accessToken ?? {}),
+                  },
+                  refreshToken: {
+                    ...(genericOAuthPlugin.schema.account.fields?.refreshToken ?? {}),
+                  },
+                  accessTokenExpiresAt: {
+                    ...(genericOAuthPlugin.schema.account.fields?.accessTokenExpiresAt ?? {}),
+                  },
+                },
+              }
+              break
+            case supportedBetterAuthPluginIds.stripe:
+              const stripePlugin = plugin as any
+              if (!stripePlugin.schema) stripePlugin.schema = {}
+              if (!stripePlugin.schema.subscription) stripePlugin.schema.subscription = {}
+              if (!stripePlugin.schema.user) stripePlugin.schema.user = {}
+
+              // Configure the subscription schema
+              stripePlugin.schema.subscription = {
+                ...stripePlugin.schema.subscription,
+                modelName: betterAuthPluginSlugs.subscriptions,
+                fields: {
+                  ...(stripePlugin.schema.subscription.fields ?? {}),
+                  id: {
+                    ...(stripePlugin.schema.subscription.fields?.id ?? {}),
+                  },
+                  plan: {
+                    ...(stripePlugin.schema.subscription.fields?.plan ?? {}),
+                  },
+                  referenceId: {
+                    ...(stripePlugin.schema.subscription.fields?.referenceId ?? {}),
+                    fieldName: 'user',
+                  },
+                  stripeCustomerId: {
+                    ...(stripePlugin.schema.subscription.fields?.stripeCustomerId ?? {}),
+                  },
+                  stripeSubscriptionId: {
+                    ...(stripePlugin.schema.subscription.fields?.stripeSubscriptionId ?? {}),
+                  },
+                  status: {
+                    ...(stripePlugin.schema.subscription.fields?.status ?? {}),
+                  },
+                  periodStart: {
+                    ...(stripePlugin.schema.subscription.fields?.periodStart ?? {}),
+                  },
+                  periodEnd: {
+                    ...(stripePlugin.schema.subscription.fields?.periodEnd ?? {}),
+                  },
+                  cancelAtPeriodEnd: {
+                    ...(stripePlugin.schema.subscription.fields?.cancelAtPeriodEnd ?? {}),
+                  },
+                  seats: {
+                    ...(stripePlugin.schema.subscription.fields?.seats ?? {}),
+                  },
+                  trialStart: {
+                    ...(stripePlugin.schema.subscription.fields?.trialStart ?? {}),
+                  },
+                  trialEnd: {
+                    ...(stripePlugin.schema.subscription.fields?.trialEnd ?? {}),
+                  },
+                },
+              }
+
+              // Configure the user schema to include stripeCustomerId
+              stripePlugin.schema.user = {
+                ...stripePlugin.schema.user,
+                modelName: baseCollectionSlugs.users,
+                fields: {
+                  ...(stripePlugin.schema.user.fields ?? {}),
+                  stripeCustomerId: {
+                    ...(stripePlugin.schema.user.fields?.stripeCustomerId ?? {}),
+                  },
+                },
+              }
+
+              Object.assign(plugin, stripePlugin)
               break
             default:
               break
