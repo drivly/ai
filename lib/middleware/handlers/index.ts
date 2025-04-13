@@ -1,0 +1,7 @@
+export { handleApiRoute } from './api-route'
+export { handleApiDocsRoute } from './api-docs-route'
+export { handleGatewayDomain } from './gateway-domain'
+export { handleBrandDomain } from './brand-domain'
+export { handleDoManagementDomain } from './do-management-domain'
+export { handleDoDomain } from './do-domain'
+export { handleCustomDomain } from './custom-domain'
