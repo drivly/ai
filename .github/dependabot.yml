@@ -1,9 +1,4 @@
 version: 2
-registries:
-  npm-registry:
-    type: npm-registry
-    url: https://registry.npmjs.org
-
 updates:
   - package-ecosystem: "npm"
     directory: "/"
@@ -14,17 +9,12 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
-    # Settings for pnpm lockfile regeneration
-    registries:
-      - npm-registry
     groups:
       dev-dependencies:
         patterns:
           - "*eslint*"
           - "*prettier*"
           - "*test*"
-    # Ensure lockfile is regenerated for monorepo
     ignore:
-      # Ignore major version updates for these dependencies to reduce PR noise
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
