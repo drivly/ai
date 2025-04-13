@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: "increase"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    # Settings for pnpm lockfile regeneration
+    registries:
+      - npm-registry
+    groups:
+      dev-dependencies:
+        patterns:
+          - "*eslint*"
+          - "*prettier*"
+          - "*test*"
+    # Ensure lockfile is regenerated for monorepo
+    ignore:
+      # Ignore major version updates for these dependencies to reduce PR noise
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
