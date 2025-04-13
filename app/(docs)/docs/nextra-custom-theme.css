@@ -5,56 +5,46 @@
 */
 
 /* 
-  More targeted approach to fix dark mode background colors
-  without affecting other styling aspects
+  Scoped approach to fix dark mode background colors only for Nextra docs
+  without affecting other websites or causing navbar alignment issues
 */
 
-/* Set Nextra's dark mode background variables */
-.dark {
-  /* Override only the necessary Nextra background variables */
-  --nextra-primary-hue: 212;
-  --nextra-primary-saturation: 100%;
-  --nextra-navbar-background: #000000;
-  --nextra-sidebar-background: #000000;
-  --nextra-menu-background: #000000;
-  --nextra-card-background: #141414;
-  --nextra-footer-background: #000000;
-  
-  /* Override Nextra's code block background */
-  --shiki-color-background: #141414;
-}
+/* 
+  Instead of overriding global .dark class, we'll target only Nextra-specific 
+  elements within the docs layout to avoid affecting other sites
+*/
 
-/* Target only the main container elements */
-.dark .nextra-container {
-  background-color: #000000;
+/* Target Nextra-specific elements in dark mode */
+:is(.dark) .nextra-container {
+  background-color: #111111; /* Slightly lighter than pure black to match original design */
 }
 
 /* Target the main content area */
-.dark main.nx-flex {
-  background-color: #000000;
+:is(.dark) main.nx-flex {
+  background-color: #111111;
 }
 
 /* Target the sidebar */
-.dark .nextra-sidebar-container {
-  background-color: #000000;
+:is(.dark) .nextra-sidebar-container {
+  background-color: #111111;
 }
 
 /* Target the navbar */
-.dark .nextra-nav-container {
-  background-color: #000000;
+:is(.dark) .nextra-nav-container {
+  background-color: #111111;
 }
 
 /* Target the footer */
-.dark footer.nx-bg-gray-100 {
-  background-color: #000000;
+:is(.dark) footer.nx-bg-gray-100 {
+  background-color: #111111;
 }
 
 /* Target the code blocks */
-.dark .nextra-code-block {
-  background-color: #141414;
+:is(.dark) .nextra-code-block {
+  background-color: #1a1a1a; /* Slightly lighter for code blocks */
 }
 
 /* Target the search overlay */
-.dark .nextra-search {
-  background-color: #1c1c1c;
+:is(.dark) .nextra-search {
+  background-color: #1a1a1a;
 }
