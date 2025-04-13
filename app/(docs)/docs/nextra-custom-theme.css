@@ -1,0 +1,51 @@
+/* 
+  ENG-411: Custom theme overrides for Nextra docs to match main site background colors
+  This file contains CSS overrides to make the Nextra documentation background
+  match the main site's theme variables.
+*/
+
+/* Target the main Nextra container and body */
+.nextra-container {
+  background-color: var(--background);
+}
+
+/* Target the main content area */
+main {
+  background-color: var(--background);
+}
+
+/* Target the sidebar */
+.nextra-sidebar-container {
+  background-color: var(--background);
+}
+
+/* Target the navbar */
+.nextra-nav-container {
+  background-color: var(--background);
+}
+
+/* Target the footer */
+footer {
+  background-color: var(--background);
+}
+
+/* Target the code blocks */
+.nextra-code-block {
+  background-color: var(--card);
+}
+
+/* Target the search overlay */
+.nextra-search {
+  background-color: var(--popover);
+}
+
+/* Ensure text colors are properly set for contrast */
+.dark .nextra-container {
+  color: var(--foreground);
+}
+
+/* Target any other Nextra-specific elements that need background color adjustments */
+.nextra-menu-desktop, 
+.nextra-scrollbar {
+  background-color: var(--background);
+}
