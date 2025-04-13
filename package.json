@@ -25,6 +25,7 @@
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types && pnpm sync:sdk-types && pnpm tsx scripts/generate-api-docs-standalone.ts",
+    "generate:zapier-apps": "tsx scripts/generate-zapier-apps.ts",
     "sync:sdk-types": "tsx scripts/sync-sdk-types.ts",
     "sync:sdk-docs": "node scripts/sync-sdk-docs.js",
     "generate:backlog": "tsx scripts/generateBacklog.ts",
