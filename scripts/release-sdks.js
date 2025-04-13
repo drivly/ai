@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Custom release script for multi-semantic-release (SDK packages only)
+ * Release script for SDK packages using semantic-release
  * This script handles the SDK packages with synchronized versioning
  * Enforces 0.x.x versioning and ensures proper NPM publishing
  * Converts workspace dependencies to actual version numbers
@@ -218,136 +218,135 @@ const runSemanticRelease = (packagePath, allPackages) => {
   convertWorkspaceDependencies(packagePath, allPackages)
 
   try {
-    const tempConfigPath = path.resolve(process.cwd(), 'temp-semantic-release-config.cjs')
+    const releaseConfigPath = path.join(packagePath, '.releaserc.js')
     const configContent = `
-      module.exports = {
-        branches: ['main'],
-        ignorePrivatePackages: true,
-        repositoryUrl: 'https://github.com/drivly/ai.git',
-        tagFormat: '\${name}@\${version}',
-        initialVersion: '0.0.1',
-        npmPublish: true,
-        pkgRoot: '.',
-        plugins: [
-          {
-            verifyConditions: (pluginConfig, context) => {
-              console.log('Verifying conditions for semantic-release...');
-              
-              if (context.nextRelease && context.nextRelease.version) {
-                if (!context.nextRelease.version.startsWith('0.')) {
-                  console.log(\`Forcing version to start with 0: \${context.nextRelease.version} -> 0.\${context.nextRelease.version}\`);
-                  context.nextRelease.version = '0.' + context.nextRelease.version;
-                }
-              }
-              
-              const pkgPath = path.join(process.cwd(), 'package.json');
-              if (fs.existsSync(pkgPath)) {
-                const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-                if (!pkg.version.startsWith('0.')) {
-                  console.log(\`Fixing package.json version: \${pkg.version} -> 0.0.1\`);
-                  pkg.version = '0.0.1';
-                  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
-                }
-              }
-            },
-            analyzeCommits: (pluginConfig, context) => {
-              if (!context.lastRelease.version) {
-                console.log('No previous version found, starting at 0.0.1');
-                return '0.0.1'; // Start new packages at 0.0.1
-              }
-              
-              console.log('Forcing patch release regardless of commit types');
-              return 'patch';
-            },
-            prepare: (pluginConfig, context) => {
-              console.log('Preparing for release...');
-              
-              const pkgPath = path.join(process.cwd(), 'package.json');
-              if (fs.existsSync(pkgPath)) {
-                const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-                let modified = false;
-                
-                const packageVersions = {};
-                for (const pkgDir of ${JSON.stringify(allPackages)}) {
-                  const pkgJsonPath = path.join(pkgDir, 'package.json');
-                  if (fs.existsSync(pkgJsonPath)) {
-                    const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));
-                    packageVersions[pkgJson.name] = pkgJson.version || '0.0.1';
-                  }
-                }
-                
-                if (pkg.dependencies) {
-                  for (const [dep, version] of Object.entries(pkg.dependencies)) {
-                    if (version.startsWith('workspace:')) {
-                      if (packageVersions[dep]) {
-                        console.log(\`Converting workspace dependency \${dep} from \${version} to \${packageVersions[dep]}\`);
-                        pkg.dependencies[dep] = packageVersions[dep];
-                        modified = true;
-                      }
-                    }
-                  }
-                }
-                
-                if (pkg.devDependencies) {
-                  for (const [dep, version] of Object.entries(pkg.devDependencies)) {
-                    if (version.startsWith('workspace:')) {
-                      if (packageVersions[dep]) {
-                        console.log(\`Converting workspace devDependency \${dep} from \${version} to \${packageVersions[dep]}\`);
-                        pkg.devDependencies[dep] = packageVersions[dep];
-                        modified = true;
-                      }
-                    }
-                  }
-                }
-                
-                if (pkg.peerDependencies) {
-                  for (const [dep, version] of Object.entries(pkg.peerDependencies)) {
-                    if (version.startsWith('workspace:')) {
-                      if (packageVersions[dep]) {
-                        console.log(\`Converting workspace peerDependency \${dep} from \${version} to \${packageVersions[dep]}\`);
-                        pkg.peerDependencies[dep] = packageVersions[dep];
-                        modified = true;
-                      }
-                    }
-                  }
-                }
-                
-                if (modified) {
-                  fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
-                  console.log('Updated package.json with converted workspace dependencies before publishing');
+export default {
+  branches: ['main'],
+  repositoryUrl: 'https://github.com/drivly/ai.git',
+  tagFormat: '\${name}@\${version}',
+  initialVersion: '0.0.1',
+  npmPublish: true,
+  pkgRoot: '.',
+  plugins: [
+    {
+      verifyConditions: (pluginConfig, context) => {
+        console.log('Verifying conditions for semantic-release...');
+        
+        if (context.nextRelease && context.nextRelease.version) {
+          if (!context.nextRelease.version.startsWith('0.')) {
+            console.log(\`Forcing version to start with 0: \${context.nextRelease.version} -> 0.\${context.nextRelease.version}\`);
+            context.nextRelease.version = '0.' + context.nextRelease.version;
+          }
+        }
+        
+        const pkgPath = path.join(process.cwd(), 'package.json');
+        if (fs.existsSync(pkgPath)) {
+          const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+          if (!pkg.version.startsWith('0.')) {
+            console.log(\`Fixing package.json version: \${pkg.version} -> 0.0.1\`);
+            pkg.version = '0.0.1';
+            fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
+          }
+        }
+      },
+      analyzeCommits: (pluginConfig, context) => {
+        if (!context.lastRelease.version) {
+          console.log('No previous version found, starting at 0.0.1');
+          return '0.0.1'; // Start new packages at 0.0.1
+        }
+        
+        console.log('Forcing patch release regardless of commit types');
+        return 'patch';
+      },
+      prepare: (pluginConfig, context) => {
+        console.log('Preparing for release...');
+        
+        const pkgPath = path.join(process.cwd(), 'package.json');
+        if (fs.existsSync(pkgPath)) {
+          const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+          let modified = false;
+          
+          const packageVersions = {};
+          for (const pkgDir of ${JSON.stringify(allPackages)}) {
+            const pkgJsonPath = path.join(pkgDir, 'package.json');
+            if (fs.existsSync(pkgJsonPath)) {
+              const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));
+              packageVersions[pkgJson.name] = pkgJson.version || '0.0.1';
+            }
+          }
+          
+          if (pkg.dependencies) {
+            for (const [dep, version] of Object.entries(pkg.dependencies)) {
+              if (version.startsWith('workspace:')) {
+                if (packageVersions[dep]) {
+                  console.log(\`Converting workspace dependency \${dep} from \${version} to \${packageVersions[dep]}\`);
+                  pkg.dependencies[dep] = packageVersions[dep];
+                  modified = true;
                 }
               }
             }
-          },
-          ['@semantic-release/commit-analyzer', {
-            preset: 'angular',
-            releaseRules: [
-              {type: 'feat', release: 'patch'},
-              {type: 'fix', release: 'patch'},
-              {type: 'docs', release: 'patch'},
-              {type: 'style', release: 'patch'},
-              {type: 'refactor', release: 'patch'},
-              {type: 'perf', release: 'patch'},
-              {type: 'test', release: 'patch'},
-              {type: 'build', release: 'patch'},
-              {type: 'ci', release: 'patch'},
-              {type: 'chore', release: 'patch'}
-            ]
-          }],
-          ['@semantic-release/release-notes-generator', {
-            writerOpts: {
-              commitLimit: 100,  // Only include the 100 most recent commits
+          }
+          
+          if (pkg.devDependencies) {
+            for (const [dep, version] of Object.entries(pkg.devDependencies)) {
+              if (version.startsWith('workspace:')) {
+                if (packageVersions[dep]) {
+                  console.log(\`Converting workspace devDependency \${dep} from \${version} to \${packageVersions[dep]}\`);
+                  pkg.devDependencies[dep] = packageVersions[dep];
+                  modified = true;
+                }
+              }
             }
-          }],
-          ['@semantic-release/npm', {
-            npmPublish: true,
-            pkgRoot: '.'
-          }],
-          '@semantic-release/github'
-        ]
-      };
-    `
-    fs.writeFileSync(tempConfigPath, configContent, 'utf8')
+          }
+          
+          if (pkg.peerDependencies) {
+            for (const [dep, version] of Object.entries(pkg.peerDependencies)) {
+              if (version.startsWith('workspace:')) {
+                if (packageVersions[dep]) {
+                  console.log(\`Converting workspace peerDependency \${dep} from \${version} to \${packageVersions[dep]}\`);
+                  pkg.peerDependencies[dep] = packageVersions[dep];
+                  modified = true;
+                }
+              }
+            }
+          }
+          
+          if (modified) {
+            fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
+            console.log('Updated package.json with converted workspace dependencies before publishing');
+          }
+        }
+      }
+    },
+    ['@semantic-release/commit-analyzer', {
+      preset: 'angular',
+      releaseRules: [
+        {type: 'feat', release: 'patch'},
+        {type: 'fix', release: 'patch'},
+        {type: 'docs', release: 'patch'},
+        {type: 'style', release: 'patch'},
+        {type: 'refactor', release: 'patch'},
+        {type: 'perf', release: 'patch'},
+        {type: 'test', release: 'patch'},
+        {type: 'build', release: 'patch'},
+        {type: 'ci', release: 'patch'},
+        {type: 'chore', release: 'patch'}
+      ]
+    }],
+    ['@semantic-release/release-notes-generator', {
+      writerOpts: {
+        commitLimit: 100,
+      }
+    }],
+    ['@semantic-release/npm', {
+      npmPublish: true,
+      pkgRoot: '.'
+    }],
+    '@semantic-release/github'
+  ]
+}
+`
+    fs.writeFileSync(releaseConfigPath, configContent, 'utf8')
 
     const npmrcPath = path.join(packagePath, '.npmrc')
     const npmrcContent = `
@@ -357,8 +356,30 @@ always-auth=true
     fs.writeFileSync(npmrcPath, npmrcContent, 'utf8')
     console.log(`Created temporary .npmrc in ${packagePath}`)
 
-    const directPublishScript = path.join(packagePath, 'publish.js')
-    const directPublishContent = `
+    const cmd = `npx semantic-release ${DRY_RUN ? '--dry-run' : ''}`
+    console.log(`Running: ${cmd} in ${packagePath}`)
+
+    if (!DRY_RUN) {
+      try {
+        execSync(cmd, {
+          cwd: packagePath,
+          env: { 
+            ...process.env, 
+            NODE_DEBUG: 'npm', 
+            DEBUG: 'semantic-release:*,npm:*', 
+            FORCE_PATCH_RELEASE: 'true',
+            INITIAL_VERSION: '0.0.1',
+            RELEASE_MAJOR: '0'
+          },
+          stdio: 'inherit',
+        })
+        
+        console.log(`Semantic release completed for ${packageJson.name}`)
+      } catch (semanticReleaseError) {
+        console.error(`Semantic release failed for ${packageJson.name}:`, semanticReleaseError.message)
+        
+        const directPublishScript = path.join(packagePath, 'publish.js')
+        const directPublishContent = `
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
@@ -388,31 +409,8 @@ try {
   console.error('Error during direct NPM publish:', error.message);
 }
 `
-    fs.writeFileSync(directPublishScript, directPublishContent, 'utf8')
-    console.log(`Created direct publish script in ${packagePath}`)
-
-    const cmd = `npx semantic-release ${DRY_RUN ? '--dry-run' : ''} --extends=${tempConfigPath}`
-    console.log(`Running: ${cmd} in ${packagePath}`)
-
-    if (!DRY_RUN) {
-      try {
-        execSync(cmd, {
-          cwd: packagePath,
-          env: { 
-            ...process.env, 
-            NODE_DEBUG: 'npm', 
-            DEBUG: 'semantic-release:*,npm:*', 
-            FORCE_PATCH_RELEASE: 'true',
-            INITIAL_VERSION: '0.0.1',
-            RELEASE_MAJOR: '0'
-          },
-          stdio: 'inherit',
-        })
-        
-        console.log(`Semantic release completed for ${packageJson.name}`)
-      } catch (semanticReleaseError) {
-        console.error(`Semantic release failed for ${packageJson.name}:`, semanticReleaseError.message)
-        console.log(`Attempting direct npm publish for ${packageJson.name}...`)
+        fs.writeFileSync(directPublishScript, directPublishContent, 'utf8')
+        console.log(`Created direct publish script in ${packagePath}`)
         
         try {
           execSync(`node ${directPublishScript}`, {
@@ -430,14 +428,11 @@ try {
         }
       }
 
-      if (fs.existsSync(tempConfigPath)) {
-        fs.unlinkSync(tempConfigPath)
+      if (fs.existsSync(releaseConfigPath)) {
+        fs.unlinkSync(releaseConfigPath)
       }
       if (fs.existsSync(npmrcPath)) {
         fs.unlinkSync(npmrcPath)
-      }
-      if (fs.existsSync(directPublishScript)) {
-        fs.unlinkSync(directPublishScript)
       }
     } else {
       console.log(`[DRY RUN] Would run semantic-release in ${packagePath}`)

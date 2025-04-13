@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Custom release script for multi-semantic-release (pkgs packages only)
+ * Custom release script for semantic-release (pkgs packages only)
  * This script handles the packages in pkgs directory with independent versioning
  */
 

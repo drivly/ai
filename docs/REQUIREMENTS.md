@@ -655,7 +655,7 @@ Things.do provides a powerful framework for modeling and managing both physical 
 - Cloudflare Workers (for APIs)
 - Hono: ^4.7.4
 - Zod: ^3.24.2
-- multi-semantic-release: ^3.0.2
+- semantic-release: ^19.0.5
 
 ### 11.2 Development Tools
 
