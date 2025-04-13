@@ -5,7 +5,7 @@
   "scripts": {
     "build": "turbo run build && pnpm build:next",
     "build:next": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS=--no-deprecation next build",
-    "postbuild": "pagefind --site .next/server --output-path public/_pagefind",
+    "postbuild": "pagefind --site .next --output-path public/_pagefind",
     "build:filtered": "turbo run build --filter=$npm_config_filter && pnpm build:next:filtered",
     "build:next:filtered": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS=--no-deprecation next build",
     "build:triggers": "pnpm --filter=triggers.do build && pnpm build:next",
@@ -177,6 +177,7 @@
     "lint-staged": "^15.5.0",
     "mongodb-memory-server": "^10.1.4",
     "multi-semantic-release": "^3.0.2",
+    "next-export-optimize-images": "^4.6.2",
     "nextjs-bundle-analysis": "^0.5.0",
     "node-mocks-http": "^1.16.2",
     "node-polyfill-webpack-plugin": "^4.1.0",
