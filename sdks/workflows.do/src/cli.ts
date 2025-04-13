@@ -1,6 +1,7 @@
 import { API } from './client.js'
 import fs from 'node:fs'
 import path from 'node:path'
+import { createHash } from 'crypto'
 
 export interface CliOptions {
   apiKey?: string
@@ -418,7 +419,7 @@ export class CLI {
     
     for (const file of files) {
       const content = await fs.promises.readFile(file.path, 'utf8')
-      const hash = require('crypto').createHash('sha256').update(content).digest('hex')
+      const hash = createHash('sha256').update(content).digest('hex')
       const stats = await fs.promises.stat(file.path)
       
       fileData[file.relativePath] = {
