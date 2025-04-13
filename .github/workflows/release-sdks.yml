@@ -81,6 +81,7 @@ jobs:
         with:
           node-version: 22.x
           registry-url: 'https://registry.npmjs.org'
+          scope: '@drivly'
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
@@ -113,7 +114,21 @@ jobs:
           branches: 'main'
           plugins: |
             [
-              '@semantic-release/commit-analyzer',
+              ['@semantic-release/commit-analyzer', {
+                preset: 'angular',
+                releaseRules: [
+                  {type: 'feat', release: 'patch'},
+                  {type: 'fix', release: 'patch'},
+                  {type: 'docs', release: 'patch'},
+                  {type: 'style', release: 'patch'},
+                  {type: 'refactor', release: 'patch'},
+                  {type: 'perf', release: 'patch'},
+                  {type: 'test', release: 'patch'},
+                  {type: 'build', release: 'patch'},
+                  {type: 'ci', release: 'patch'},
+                  {type: 'chore', release: 'patch'}
+                ]
+              }],
               '@semantic-release/release-notes-generator',
               '@semantic-release/changelog',
               '@semantic-release/npm',
@@ -125,6 +140,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           FORCE_PATCH_RELEASE: 'true'
+          NPM_CONFIG_REGISTRY: 'https://registry.npmjs.org/'
+          INITIAL_VERSION: '0.0.1'
+          RELEASE_MAJOR: '0'
           
       - name: Debug npm config
         if: steps.semantic-release.outcome != 'success'
@@ -137,6 +155,14 @@ jobs:
         run: |
           echo "Checking registry connectivity..."
           curl -s https://registry.npmjs.org/ || echo "Failed to reach npm registry"
+          
+      - name: Verify NPM publishing configuration
+        run: |
+          echo "Checking NPM publishing configuration..."
+          echo "NPM_CONFIG_REGISTRY: $NPM_CONFIG_REGISTRY"
+          echo "NODE_AUTH_TOKEN exists: ${{ !!secrets.NPM_TOKEN }}"
+          npm config get registry
+          npm config list
 
       - name: Release outputs
         run: |
