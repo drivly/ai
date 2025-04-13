@@ -10,7 +10,7 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
     defaultDomain
   })
 
-  const response = {
+  const response: Record<string, any> = {
     featured: {
       'Functions - Typesafe Results without Complexity': formatWithOptions('functions', 'functions.do'),
       'Workflows - Reliably Execute Business Processes': formatWithOptions('workflows', 'workflows.do'),
