@@ -5,7 +5,14 @@ export interface AIConfig {
   system?: string
   temperature?: number
   seed?: number
+  maxTokens?: number
+  topP?: number
+  topK?: number
   schema?: Record<string, any>
+}
+
+export interface StreamingAIConfig extends AIConfig {
+  stream: true // Note: Changed from boolean to true literal for stricter typing
 }
 
 // Markdown output type
@@ -62,7 +69,7 @@ export type AI = {
 export type TemplateLiteralInput = TemplateStringsArray | [TemplateStringsArray, ...any[]]
 
 export interface TaggedTemplateFunction {
-  (strings: TemplateStringsArray, ...values: any[]): Promise<string>
+  (strings: TemplateStringsArray, ...values: any[]): <T = string>(config?: AIConfig | StreamingAIConfig) => Promise<T> | AsyncIterable<T>
 }
 
 export interface ConfigurableAIProxy {
@@ -72,6 +79,7 @@ export interface ConfigurableAIProxy {
 export type AI_Instance = {
   [K: string]: AIFunction<any, any> &
     (<T = any>(input?: any, config?: AIConfig) => Promise<T>) &
+    (<T = any>(input?: any, config?: StreamingAIConfig) => AsyncIterable<T>) & // Added streaming overload
     (<T = any>(input?: any, schema?: FunctionDefinition, config?: AIConfig) => Promise<T>)
 } & TaggedTemplateFunction &
   ConfigurableAIProxy

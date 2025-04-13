@@ -1,8 +1,9 @@
 import { openai } from '@ai-sdk/openai'
-import { createOpenAI } from '@ai-sdk/openai'
-// import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
 import { z } from 'zod'
-import type { AIFunctionOptions, AIFunctionConfig } from './types'
+import { streamText } from 'ai' // Import streamText for streaming
+
+import type { AIFunctionOptions, AIFunctionConfig } from './types/index'
 
 // Default configuration
 const defaultConfig: AIFunctionConfig = {
@@ -12,12 +13,12 @@ const defaultConfig: AIFunctionConfig = {
 // Create AI model provider with support for AI_GATEWAY environment variable
 const getAIProvider = (modelName: string) => {
   if (typeof process !== 'undefined' && process.env?.AI_GATEWAY) {
-    return createOpenAI({
-      apiKey: process.env.OPENAI_API_KEY || 'dummy-key',
+    console.log(`Using AI_GATEWAY: ${process.env.AI_GATEWAY}`) // Debug log
+    return createOpenAICompatible({
       baseURL: process.env.AI_GATEWAY,
-      // name: 'openai-compatible',
     }).languageModel(modelName)
   }
+  console.log('Using standard OpenAI provider.') // Debug log
   return openai.languageModel(modelName)
 }
 
@@ -74,105 +75,142 @@ const generateText = async (options: { model: any; prompt: string; temperature?:
   return { text: response.text }
 }
 
+/**
+ * Create a streaming function that yields results as they come in
+ */
+const createStreamingFunction = (model: any, prompt: string, config: any) => {
+  return {
+    [Symbol.asyncIterator]: async function* () {
+      try {
+        const stream = await streamText({
+          model,
+          prompt,
+          ...config, // Pass remaining config like temperature, maxTokens etc.
+        })
+
+        for await (const chunk of stream.textStream) {
+          yield chunk
+        }
+      } catch (error) {
+        console.error('Error during AI streaming:', error)
+        throw error
+      }
+    },
+  }
+}
+
 // Create a proxy handler for the ai function
 const aiHandler = {
-  apply: async (target: any, thisArg: any, args: any[]) => {
-    // Handle template literal tag usage: ai`prompt ${var}`
-    if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
-      const [template, ...expressions] = args
-      const prompt = String.raw({ raw: template }, ...expressions)
+  apply: (target: any, thisArg: any, args: any[]) => {
+    if (args.length >= 1 && Array.isArray(args[0]) && 'raw' in args[0]) {
+      const template = args[0] as { raw: readonly string[] | ArrayLike<string> }
+      const expressions = args.slice(1) as any[]
+      const prompt = String.raw({ raw: template.raw }, ...expressions)
 
-      // Create a function that can be called with config: ai`prompt`({ model: 'model-name' })
-      const templateResult = async (config: any = {}) => {
-        const modelName = config.model || defaultConfig.model
-        const model = getAIProvider(modelName)
+      return (config?: AIFunctionConfig) => {
+        const fullConfig = { ...defaultConfig, ...config } // Combine defaults and call-time config
+        const modelName = fullConfig.model || defaultConfig.model // Determine the model name
+        const model = getAIProvider(modelName) // Resolve the model name to a model object
 
-        // Use no-schema mode when no schema is provided
-        if (config.schema) {
-          // Generate object with schema
-          const result = await generateObject({
-            model,
-            prompt,
-            schema: config.schema,
-            temperature: config.temperature,
-            maxTokens: config.maxTokens,
-            ...config,
-          })
-          return result.object
+        if (fullConfig.stream === true) {
+          const { stream, model: _modelConfig, schema: _schema, ...streamingConfig } = fullConfig // Exclude stream, model, schema
+          return createStreamingFunction(model, prompt, streamingConfig)
         } else {
-          // Generate text without schema
-          const result = await generateText({
-            model,
-            prompt,
-            temperature: config.temperature,
-            maxTokens: config.maxTokens,
-            ...config,
-          })
-          return result.text
+          return (async () => {
+            if (fullConfig.schema) {
+              // Generate object with schema
+              const { model: _modelConfig, schema: _schema, ...objectConfig } = fullConfig // Exclude model/schema for generateObject
+              const result = await generateObject({
+                model, // Pass the resolved model object
+                prompt,
+                schema: fullConfig.schema,
+                ...objectConfig, // Pass remaining config
+              })
+              return result.object
+            } else {
+              // Generate text without schema
+              const { model: _modelConfig, schema: _schema, ...textConfig } = fullConfig // Exclude model/schema for generateText
+              const result = await generateText({
+                model, // Pass the resolved model object
+                prompt,
+                ...textConfig, // Pass remaining config
+              })
+              return result.text
+            }
+          })() // Immediately invoke the async function
         }
       }
-
-      // If no config is passed, execute immediately
-      if (args.length === 1) {
-        return templateResult()
-      }
-
-      // Return the function for later execution with config
-      return templateResult
     }
-
-    // TODO: Handle other usage patterns
-    throw new Error('Not implemented yet')
+    console.warn('AI proxy called directly without template literal. This usage might not be supported.')
+    throw new Error('AI proxy can only be used as a tagged template literal (ai`...`) or via property access (ai.func(...)).')
   },
 
   get: (target: any, prop: string) => {
     // Implement proxy for arbitrary function calls
-    return async (...args: any[]) => {
-      // If called with an object, use it as parameters
+    return (...args: any[]) => {
+      // Return a function, not necessarily async immediately
       if (args.length === 1 && typeof args[0] === 'object' && !Array.isArray(args[0])) {
-        const params = args[0]
+        const params = args[0] // The config object passed to the function call
+        const modelName = params.model || defaultConfig.model // Determine model name from params or default
+        const model = getAIProvider(modelName) // Resolve the model name to a model object
 
-        // Create a prompt that describes the function call
-        const prompt = `Function: ${prop}\nParameters: ${JSON.stringify(params, null, 2)}`
+        if (params.stream === true) {
+          const prompt = `Function: ${prop}\nParameters: ${JSON.stringify(params, null, 2)}` // Construct prompt
+          const { stream, model: _modelConfig, schema: _schema, ...streamingConfig } = params // Exclude stream, model, schema
+          return createStreamingFunction(model, prompt, streamingConfig)
+        } else {
+          return (async () => {
+            const prompt = `Function: ${prop}\nParameters: ${JSON.stringify(params, null, 2)}` // Construct prompt
 
-        // Auto-generate a schema based on the parameters
-        const schemaObj: Record<string, z.ZodType> = {}
+            let schema = params.schema
+            if (!schema && params.output !== 'no-schema') {
+              // Auto-generate only if not explicitly no-schema
+              const schemaObj: Record<string, z.ZodType> = {}
+              Object.entries(params).forEach(([key, value]) => {
+                if (!['model', 'temperature', 'maxTokens', 'output', 'stream', 'schema'].includes(key)) {
+                  schemaObj[key] = z.string().describe(String(value)) // Basic auto-schema: string with description
+                }
+              })
+              if (Object.keys(schemaObj).length > 0) {
+                schema = z.object(schemaObj)
+              }
+            }
 
-        // Create a schema for each parameter with its description
-        Object.entries(params).forEach(([key, value]) => {
-          schemaObj[key] = z.string().describe(String(value))
-        })
+            const { model: _modelConfig, schema: _schemaParam, stream: _stream, ...generationConfig } = params
 
-        // Create a Zod schema for the function result
-        const schema = z.object(schemaObj)
-
-        // Get the model
-        const model = getAIProvider(defaultConfig.model)
-
-        // Generate the object with the schema
-        const result = await generateObject({
-          model,
-          prompt,
-          schema,
-          output: params.output || 'object',
-          temperature: params.temperature || defaultConfig.temperature,
-          maxTokens: params.maxTokens || defaultConfig.maxTokens,
-        })
-
-        return result.object
+            if (schema) {
+              // Generate object with schema
+              const result = await generateObject({
+                model, // Pass the resolved model object
+                prompt,
+                schema,
+                ...generationConfig, // Pass remaining config
+              })
+              return result.object
+            } else {
+              const result = await generateText({
+                model, // Pass the resolved model object
+                prompt,
+                ...generationConfig, // Pass remaining config
+              })
+              return result.text
+            }
+          })() // Immediately invoke the async function
+        }
       }
 
-      // If called with multiple arguments or an array, convert to a function call string
-      const functionCall = `${prop}(${JSON.stringify(args)})`
-      const model = getAIProvider(defaultConfig.model)
+      return (async () => {
+        const functionCall = `${prop}(${JSON.stringify(args)})`
+        const model = getAIProvider(defaultConfig.model) // Use default model
 
-      // Generate text for function call
-      const result = await generateText({
-        model,
-        prompt: functionCall,
-      })
+        // Generate text for function call
+        const result = await generateText({
+          model,
+          prompt: functionCall,
+        })
 
-      return result.text
+        return result.text
+      })()
     }
   },
 }

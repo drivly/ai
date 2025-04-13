@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ai, list, markdown } from '../src'
 import { z } from 'zod'
+import type { AI_Instance } from '../src/types/index'
+
+import { streamText } from 'ai'
 
 // Create mock responses
 const mockResponses = {
@@ -24,88 +27,87 @@ const mockTemplateFunction = vi.fn().mockImplementation((config = {}) => {
   return Promise.resolve('This is a test response from the AI model.')
 })
 
-// Mock the AI model provider
 vi.mock('@ai-sdk/openai', () => {
+  const mockComplete = vi.fn().mockImplementation(async ({ prompt }: { prompt: string }) => {
+    console.log(`[Mock @ai-sdk/openai] complete called with prompt: ${prompt}`) // Debug log
+    if (prompt.includes('categorizeProduct')) {
+      return Promise.resolve({ text: mockResponses.categorizeProduct })
+    } else if (prompt.includes('List')) {
+      return Promise.resolve({ text: mockResponses.list })
+    } else if (prompt.includes('markdown')) {
+      return Promise.resolve({ text: mockResponses.markdown })
+    } else {
+      return Promise.resolve({ text: mockResponses.default })
+    }
+  })
+
+  const mockLanguageModel = vi.fn().mockReturnValue({
+    complete: mockComplete, // The object returned by languageModel has the complete method
+  })
+
+  const mockOpenaiObject = {
+    languageModel: mockLanguageModel,
+  }
+
+  const mockCreateOpenAI = vi.fn().mockReturnValue({
+    languageModel: mockLanguageModel, // createOpenAI().languageModel() also returns the model object
+  })
+
   return {
-    openai: {
-      languageModel: vi.fn().mockImplementation(() => ({
-        complete: vi.fn().mockImplementation(({ prompt }) => {
-          if (prompt.includes('categorizeProduct')) {
-            return Promise.resolve({ text: mockResponses.categorizeProduct })
-          } else if (prompt.includes('List')) {
-            return Promise.resolve({ text: mockResponses.list })
-          } else if (prompt.includes('markdown')) {
-            return Promise.resolve({ text: mockResponses.markdown })
-          } else {
-            return Promise.resolve({ text: mockResponses.default })
-          }
-        }),
-      })),
-    },
+    openai: mockOpenaiObject, // Mock the named export 'openai'
+    createOpenAI: mockCreateOpenAI, // Mock the named export 'createOpenAI'
   }
 })
 
-// Mock the OpenAI compatible provider
 vi.mock('@ai-sdk/openai-compatible', () => {
+  const mockComplete = vi.fn().mockImplementation(async ({ prompt }: { prompt: string }) => {
+    console.log(`[Mock @ai-sdk/openai-compatible] complete called with prompt: ${prompt}`) // Debug log
+    if (prompt.includes('categorizeProduct')) {
+      return Promise.resolve({ text: mockResponses.categorizeProduct })
+    } else if (prompt.includes('List')) {
+      return Promise.resolve({ text: mockResponses.list })
+    } else if (prompt.includes('markdown')) {
+      return Promise.resolve({ text: mockResponses.markdown })
+    } else {
+      return Promise.resolve({ text: mockResponses.default })
+    }
+  })
+
+  const mockLanguageModel = vi.fn().mockReturnValue({
+    complete: mockComplete, // The object returned by languageModel has the complete method
+  })
+
+  const mockCreateOpenAICompatible = vi.fn().mockReturnValue({
+    languageModel: mockLanguageModel, // createOpenAICompatible().languageModel() returns the model object
+  })
   return {
-    createOpenAICompatible: vi.fn().mockImplementation(() => ({
-      languageModel: vi.fn().mockImplementation(() => ({
-        complete: vi.fn().mockImplementation(({ prompt }) => {
-          if (prompt.includes('categorizeProduct')) {
-            return Promise.resolve({ text: mockResponses.categorizeProduct })
-          } else if (prompt.includes('List')) {
-            return Promise.resolve({ text: mockResponses.list })
-          } else if (prompt.includes('markdown')) {
-            return Promise.resolve({ text: mockResponses.markdown })
-          } else {
-            return Promise.resolve({ text: mockResponses.default })
-          }
-        }),
-      })),
-    })),
+    createOpenAICompatible: mockCreateOpenAICompatible,
   }
 })
 
-// Mock the ai function
-vi.mock('../src/ai', () => {
-  const originalModule = vi.importActual('../src/ai')
-
+vi.mock('ai', async (importOriginal) => {
+  const actual = (await importOriginal()) as Record<string, any> // Cast to Record<string, any> to allow spreading
   return {
-    ...originalModule,
-    ai: new Proxy(function () {}, {
-      apply: (target, thisArg, args) => {
-        if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
-          return mockTemplateFunction
-        }
-        return 'This is a test response from the AI model.'
-      },
-      get: (target, prop) => {
-        return (...args) => {
-          if (prop === 'categorizeProduct') {
-            return Promise.resolve({
-              category: 'Electronics',
-              subcategory: 'Smartphones',
-            })
-          }
-          return Promise.resolve('This is a test response from the AI model.')
-        }
-      },
+    ...actual, // Spread original exports
+    streamText: vi.fn().mockImplementation(async ({ prompt, ...config }) => {
+      const encoder = new TextEncoder()
+      const stream = new ReadableStream({
+        async start(controller) {
+          controller.enqueue(encoder.encode(`Streaming chunk 1 for: ${prompt}`))
+          await new Promise((resolve) => setTimeout(resolve, 10)) // Simulate delay
+          controller.enqueue(encoder.encode(` Streaming chunk 2`))
+          controller.close()
+        },
+      })
+      return {
+        textStream: stream.pipeThrough(new TextDecoderStream()),
+      }
     }),
-    list: new Proxy(function () {}, {
-      apply: (target, thisArg, args) => {
-        if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
-          return Promise.resolve(['JavaScript', 'Python', 'TypeScript', 'Rust', 'Go'])
-        }
-        return Promise.resolve([])
-      },
-    }),
-    markdown: new Proxy(function () {}, {
-      apply: (target, thisArg, args) => {
-        if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
-          return Promise.resolve('# Markdown Title\n\nThis is a markdown document.')
-        }
-        return Promise.resolve('')
-      },
+    streamObject: vi.fn().mockImplementation(async ({ schema, prompt, ...config }) => {
+      if (prompt.includes('categorizeProduct')) {
+        return { object: JSON.parse(mockResponses.categorizeProduct) }
+      }
+      return { object: { mock: 'object' } }
     }),
   }
 })
@@ -124,9 +126,14 @@ describe('AI Functions', () => {
     })
 
     it('should support arbitrary function calls with object parameters', async () => {
+      const productSchema = z.object({
+        category: z.string(),
+        subcategory: z.string(),
+      })
       const result = await ai.categorizeProduct({
         name: 'iPhone 15',
         description: 'The latest smartphone from Apple',
+        schema: productSchema, // Provide explicit schema matching the mock response
       })
 
       expect(result).toHaveProperty('category')
@@ -146,11 +153,16 @@ describe('AI Functions', () => {
         subcategory: z.string().describe('Product subcategory'),
       })
 
-      const templateFn = ai`Categorize this product: iPhone 15`
-      const result = await templateFn({ schema })
+      const result = await ai.categorizeProduct({
+        productName: 'iPhone 15', // Pass parameters directly
+        productDescription: 'The latest smartphone from Apple',
+        schema: schema, // Pass the schema with descriptions
+      })
 
       expect(result).toHaveProperty('category')
       expect(result).toHaveProperty('subcategory')
+      expect(result.category).toBe('Electronics')
+      expect(result.subcategory).toBe('Smartphones')
     })
 
     it('should support model/config overrides (issue #58)', async () => {
@@ -163,6 +175,56 @@ describe('AI Functions', () => {
 
       expect(result).toContain('test response')
     })
+  })
+
+  it('should support streaming with function calls', async () => {
+    const originalModule = (await vi.importActual('../src/ai')) as any // Cast to access 'ai'
+    const actualAI = originalModule.ai as AI_Instance // Cast to AI_Instance
+
+    expect(actualAI).toBeDefined()
+    expect(typeof actualAI.generateStory).toBe('function')
+
+    const streamResult = actualAI.generateStory({ topic: 'space', stream: true })
+
+    expect(streamResult).toBeDefined()
+    expect(typeof streamResult[Symbol.asyncIterator]).toBe('function')
+
+    const chunks: string[] = []
+    for await (const chunk of streamResult as unknown as AsyncIterable<string>) {
+      chunks.push(chunk)
+    }
+
+    expect(chunks.length).toBeGreaterThan(0)
+    expect(chunks.join('')).toContain('Streaming chunk 1')
+    expect(chunks.join('')).toContain('Streaming chunk 2')
+    expect(chunks.join('')).toContain('Function: generateStory')
+    expect(chunks.join('')).toContain('space')
+  })
+
+  it('should support streaming with template literals', async () => {
+    const originalModule = (await vi.importActual('../src/ai')) as any // Cast to access 'ai'
+    const actualAI = originalModule.ai as AI_Instance // Cast to AI_Instance
+
+    expect(actualAI).toBeDefined()
+    expect(typeof actualAI).toBe('function')
+
+    const templateFn = (actualAI as any)`Generate a streaming response`
+    expect(typeof templateFn).toBe('function') // The result of the tagged template should be a function
+
+    const streamResult = templateFn({ stream: true })
+
+    expect(streamResult).toBeDefined()
+    expect(typeof streamResult[Symbol.asyncIterator]).toBe('function')
+
+    const chunks: string[] = []
+    for await (const chunk of streamResult as unknown as AsyncIterable<string>) {
+      chunks.push(chunk)
+    }
+
+    expect(chunks.length).toBeGreaterThan(0)
+    expect(chunks.join('')).toContain('Streaming chunk 1')
+    expect(chunks.join('')).toContain('Streaming chunk 2')
+    expect(chunks.join('')).toContain('Generate a streaming response') // Check if prompt was included
   })
 
   describe('list function', () => {
