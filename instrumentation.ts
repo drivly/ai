@@ -15,7 +15,7 @@ export const onRequestError = async (err: Error, request: any, context: any) => 
   
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     try {
-      const { getPostHogServer } = await import('./app/posthog-server')
+      const { getPostHogServer } = await import('./lib/posthog')
       const posthog = await getPostHogServer()
 
       let distinctId = null

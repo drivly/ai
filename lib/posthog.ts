@@ -1,19 +1,19 @@
 import { PostHog } from 'posthog-node'
 
-let posthogClient = null
+let posthogClient: PostHog | null = null
 
-export async function getPostHogServer() {
+export async function getPostHogServer(): Promise<PostHog> {
   if (!posthogClient) {
     posthogClient = new PostHog(
-      process.env.POSTHOG_API_KEY,
+      process.env.POSTHOG_API_KEY || '',
       {
         host: process.env.POSTHOG_HOST || 'https://us.i.posthog.com',
         flushAt: 1
       }
     )
 
-    posthogClient.captureException = (error, distinctId) => {
-      return posthogClient.capture({
+    posthogClient.captureException = (error: Error, distinctId?: string) => {
+      return posthogClient!.capture({
         distinctId: distinctId || 'server',
         event: 'server_error',
         properties: {
