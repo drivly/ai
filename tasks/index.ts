@@ -129,7 +129,6 @@ export const tasks = [
   generateVideoTask, // Add vid
   syncTaskToLinearTask,
   deleteLinearIssueTask,
-  handleLinearWebhookTask
 
 ]
 
