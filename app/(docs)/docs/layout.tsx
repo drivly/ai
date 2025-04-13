@@ -1,6 +1,8 @@
 import { Layout } from 'nextra-theme-docs'
 import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
 import { Footer } from '@/components/sites/footer'
+import { BetterAuthProvider } from '@/lib/auth/context'
+import { getContextProps } from '@/lib/auth/context/get-context-props'
 import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
@@ -45,6 +47,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
       <body className="bg-black">
+        <BetterAuthProvider {...getContextProps()}>
+
         <Layout
           // banner={banner}
           navbar={navbar}
@@ -57,6 +61,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
         </Layout>
       </body>
+        </BetterAuthProvider>
+
     </html>
   )
 }
