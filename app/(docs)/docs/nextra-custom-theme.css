@@ -4,9 +4,14 @@
   match the main site's theme variables.
 */
 
-/* Target dark mode directly with more specific selectors */
+/* 
+  More targeted approach to fix dark mode background colors
+  without affecting other styling aspects
+*/
+
+/* Set Nextra's dark mode background variables */
 .dark {
-  /* Override Nextra's dark mode background colors */
+  /* Override only the necessary Nextra background variables */
   --nextra-primary-hue: 212;
   --nextra-primary-saturation: 100%;
   --nextra-navbar-background: #000000;
@@ -15,89 +20,41 @@
   --nextra-card-background: #141414;
   --nextra-footer-background: #000000;
   
-  /* Set background to pure black to match main site */
-  --tw-bg-opacity: 1;
-  --background: #000000;
-  --background-color: #000000;
-  
-  /* Override Nextra's background colors */
+  /* Override Nextra's code block background */
   --shiki-color-background: #141414;
-  --shiki-color-text: #ffffff;
-  
-  /* Force dark theme colors */
-  --nextra-background: #000000 !important;
 }
 
-/* Target specific Nextra elements in dark mode */
-.dark .nx-bg-white {
-  background-color: #000000 !important;
-}
-
-.dark .nx-bg-gray-100 {
-  background-color: #000000 !important;
-}
-
-.dark .nx-bg-slate-100 {
-  background-color: #000000 !important;
+/* Target only the main container elements */
+.dark .nextra-container {
+  background-color: #000000;
 }
 
 /* Target the main content area */
-.dark main {
-  background-color: #000000 !important;
-}
-
-/* Target the body */
-.dark body {
-  background-color: #000000 !important;
-}
-
-/* Target the html */
-.dark html {
-  background-color: #000000 !important;
+.dark main.nx-flex.nx-min-h-[calc(100vh-var(--nextra-navbar-height))] {
+  background-color: #000000;
 }
 
 /* Target the sidebar */
-.dark .nextra-sidebar-container,
-.dark .nx-bg-white {
-  background-color: #000000 !important;
+.dark .nextra-sidebar-container {
+  background-color: #000000;
 }
 
 /* Target the navbar */
 .dark .nextra-nav-container {
-  background-color: #000000 !important;
+  background-color: #000000;
 }
 
 /* Target the footer */
-.dark footer {
-  background-color: #000000 !important;
-}
-
-/* Target article and content containers */
-.dark article,
-.dark .nx-w-full,
-.dark .nx-px-6,
-.dark .nx-bg-white,
-.dark .nx-transition-colors {
-  background-color: #000000 !important;
-}
-
-/* Target any element with background-color in dark mode */
-.dark [class*="nx-bg-"] {
-  background-color: #000000 !important;
+.dark footer.nx-bg-gray-100 {
+  background-color: #000000;
 }
 
 /* Target the code blocks */
 .dark .nextra-code-block {
-  background-color: #141414 !important;
+  background-color: #141414;
 }
 
 /* Target the search overlay */
 .dark .nextra-search {
-  background-color: #1c1c1c !important;
-}
-
-/* Override any remaining white backgrounds */
-.dark * {
-  --tw-bg-opacity: 1;
-  background-color: var(--background, #000000);
+  background-color: #1c1c1c;
 }
