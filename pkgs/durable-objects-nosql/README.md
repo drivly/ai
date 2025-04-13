@@ -61,8 +61,28 @@ export class MyDurableObject implements DurableObject {
 - MongoDB-style syntax for interacting with Durable Object storage
 - Support for common MongoDB operations: `find()`, `findOne()`, `insertOne()`, `insertMany()`, `updateOne()`, `updateMany()`, `deleteOne()`, `deleteMany()`
 - Support for MongoDB query operators: `$eq`, `$gt`, `$gte`, `$lt`, `$lte`, `$ne`, `$in`, `$nin`, `$and`, `$or`, `$not`
+- Support for MongoDB update operators: `$set`, `$unset`, `$inc`, `$push`, `$pull`
 - Automatic schema creation and management
 - Efficient storage using a single SQLite table with collection, id, and data columns
+- Consistent SQL-based implementation for all operations
+
+```typescript
+// Example of bulk operations
+// These operations use consistent SQL-based storage under the hood
+await this.db.users.insertMany([
+  { name: 'Jane Smith', email: 'jane@example.com', admin: false },
+  { name: 'Bob Johnson', email: 'bob@example.com', admin: true },
+])
+
+// Update multiple documents
+await this.db.users.updateMany(
+  { admin: true },
+  { $set: { role: 'administrator' } }
+)
+
+// Delete multiple documents
+await this.db.users.deleteMany({ admin: false })
+```
 
 ## API Reference
 
