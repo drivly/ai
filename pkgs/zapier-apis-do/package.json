@@ -1,0 +1,9 @@
+{
+  "name": "zapier-apis-do",
+  "version": "0.1.0",
+  "description": "Zapier integration APIs for Payload CMS collections",
+  "private": true,
+  "scripts": {
+    "build": "echo 'No build step required'"
+  }
+}

@@ -1,7 +1,7 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import fs from 'fs'
-import { generateZapierApps } from '../pkgs/payload-zapier-apps'
+import { generateZapierApps } from '../pkgs/payload-zapier-apps/dist'
 
 /**
  * Script to generate Zapier apps for Payload CMS collections
