@@ -1,4 +1,5 @@
-import { Layout, Navbar } from 'nextra-theme-docs'
+import { Layout } from 'nextra-theme-docs'
+import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
 import { Footer } from '@/components/sites/footer'
 import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
@@ -33,7 +34,7 @@ const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Bann
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const pageMap = await getPageMap('/docs')
 
-  const navbar = <Navbar logo={<b>.do</b>} logoLink='https://dotdo.ai' chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
+  const navbar = <SitesNavbar params={Promise.resolve({})} minimal={true} /> 
   const footer = (
     <Footer minimal={true} className="z-10 relative" />
   )
@@ -43,7 +44,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
-      <body>
+      <body className="bg-black">
         <Layout
           // banner={banner}
           navbar={navbar}
