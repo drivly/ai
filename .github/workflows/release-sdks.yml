@@ -107,6 +107,8 @@ jobs:
       - name: Create Release PR or Publish
         id: semantic-release
         uses: codfish/semantic-release-action@v3
+        continue-on-error: true
+        timeout-minutes: 15
         with:
           branches: 'main'
           plugins: |
@@ -123,6 +125,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           FORCE_PATCH_RELEASE: 'true'
+          
+      - name: Debug npm config
+        if: steps.semantic-release.outcome != 'success'
+        run: |
+          npm config list
+          echo "::debug::Checking npm auth setup"
+          npm whoami || echo "Not authenticated with npm"
+          
+      - name: Verify npmjs.org access
+        run: |
+          echo "Checking registry connectivity..."
+          curl -s https://registry.npmjs.org/ || echo "Failed to reach npm registry"
 
       - name: Release outputs
         run: |

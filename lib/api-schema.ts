@@ -22,7 +22,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
     },
     servers: [
       {
-        url: 'https://apis.do/api',
+        url: 'https://apis.do/v1',
         description: 'Production API Server',
       },
     ],
@@ -52,7 +52,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
       } as SchemaObject
     }
 
-    openApiSpec.paths[`/v1/${slug}`] = {
+    openApiSpec.paths[`/${slug}`] = {
       get: {
         summary: `List all ${pluralTitle}`,
         description: `Returns a list of all ${pluralTitle}`,
@@ -124,7 +124,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
       } as OperationObject,
     } as PathItemObject
 
-    openApiSpec.paths[`/v1/${slug}/{id}`] = {
+    openApiSpec.paths[`/${slug}/{id}`] = {
       get: {
         summary: `Get a specific ${title}`,
         description: `Returns a specific ${title} by ID`,
