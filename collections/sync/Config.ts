@@ -97,6 +97,91 @@ const Config: CollectionConfig = {
         description: 'Additional metadata for the file',
       },
     },
+    {
+      name: 'syncConfig',
+      type: 'group',
+      admin: {
+        description: 'Sync configuration settings',
+      },
+      fields: [
+        {
+          name: 'syncMode',
+          type: 'select',
+          options: [
+            { label: 'Database', value: 'database' },
+            { label: 'Local', value: 'local' },
+            { label: 'GitHub', value: 'github' },
+          ],
+          defaultValue: 'database',
+          required: true,
+          admin: {
+            description: 'Source of truth for synchronization',
+          },
+        },
+        {
+          name: 'github',
+          type: 'group',
+          admin: {
+            description: 'GitHub repository settings',
+            condition: (data) => data?.syncConfig?.syncMode === 'github',
+          },
+          fields: [
+            {
+              name: 'repository',
+              type: 'text',
+              admin: {
+                description: 'GitHub repository in owner/repo format',
+              },
+            },
+            {
+              name: 'branch',
+              type: 'text',
+              defaultValue: 'main',
+              admin: {
+                description: 'Branch to sync with',
+              },
+            },
+            {
+              name: 'createPRs',
+              type: 'checkbox',
+              defaultValue: true,
+              admin: {
+                description: 'Create PRs for changes instead of direct commits',
+              },
+            },
+            {
+              name: 'prTemplate',
+              type: 'textarea',
+              admin: {
+                description: 'Template for PR descriptions',
+                condition: (data) => data?.syncConfig?.github?.createPRs,
+              },
+            },
+          ],
+        },
+        {
+          name: 'trackFiles',
+          type: 'array',
+          admin: {
+            description: 'File patterns to track for synchronization',
+          },
+          fields: [
+            {
+              name: 'pattern',
+              type: 'text',
+              admin: {
+                description: 'File pattern (e.g., *.json, *.ts, schemas/*)',
+              },
+            },
+          ],
+          defaultValue: [
+            { pattern: '*.json' },
+            { pattern: '*.ts' },
+            { pattern: 'schemas/*' },
+          ],
+        },
+      ],
+    },
   ],
   timestamps: true,
 }
