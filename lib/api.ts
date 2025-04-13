@@ -273,11 +273,12 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
   }
 
   let site = domain.endsWith('.do') ? `https://${domain}` : 'https://apis.do'
-  if (isPreview) {
-    site = `/sites/${rootDomain}.do`
-  }
+  let from = 'https://dotdo.ai'
 
-  const from = isPreview ? '/sites' : 'https://dotdo.ai'
+  if (isPreview) {
+    site = `${origin}/sites/${rootDomain}.do`
+    from = `${origin}/sites`
+  }
 
   return {
     name: domain,
