@@ -6,74 +6,91 @@
 
 /* Force dark theme on Nextra docs */
 :root {
-  color-scheme: dark;
+  color-scheme: dark !important;
 }
 
+/* Force dark class on html element */
 html {
-  /* Force dark theme variables */
-  --background: oklch(0 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.14 0 0);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.196 0 0);
-  --popover-foreground: oklch(0.972 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.371 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
+  /* Force dark theme class */
+  &:not(.dark) {
+    @media (prefers-color-scheme: dark) {
+      color-scheme: dark;
+    }
+  }
 }
 
-/* Add dark class to body to ensure dark theme is applied */
-body {
-  background-color: var(--background);
-  color: var(--foreground);
+/* Apply dark theme variables directly to html.dark */
+html.dark {
+  --background: oklch(0 0 0) !important;
+  --foreground: oklch(0.985 0 0) !important;
+  --card: oklch(0.14 0 0) !important;
+  --card-foreground: oklch(0.98 0 0) !important;
+  --popover: oklch(0.196 0 0) !important;
+  --popover-foreground: oklch(0.972 0 0) !important;
+  --primary: oklch(0.922 0 0) !important;
+  --primary-foreground: oklch(0.205 0 0) !important;
+  --secondary: oklch(0.269 0 0) !important;
+  --secondary-foreground: oklch(0.985 0 0) !important;
+  --muted: oklch(0.269 0 0) !important;
+  --muted-foreground: oklch(0.708 0 0) !important;
+  --accent: oklch(0.371 0 0) !important;
+  --accent-foreground: oklch(0.985 0 0) !important;
+  --destructive: oklch(0.704 0.191 22.216) !important;
+  --border: oklch(1 0 0 / 10%) !important;
+  --input: oklch(1 0 0 / 15%) !important;
+  --ring: oklch(0.556 0 0) !important;
 }
 
-/* Target the main Nextra container */
-.nextra-container {
-  background-color: var(--background);
+/* Force dark theme background on body */
+html.dark body {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
 }
 
-/* Target the main content area */
-main {
-  background-color: var(--background);
+/* Target the main Nextra container with higher specificity */
+html.dark .nextra-container {
+  background-color: var(--background) !important;
 }
 
-/* Target the sidebar */
-.nextra-sidebar-container {
-  background-color: var(--background);
+/* Target the main content area with higher specificity */
+html.dark main {
+  background-color: var(--background) !important;
 }
 
-/* Target the navbar */
-.nextra-nav-container {
-  background-color: var(--background);
+/* Target the sidebar with higher specificity */
+html.dark .nextra-sidebar-container {
+  background-color: var(--background) !important;
 }
 
-/* Target the footer */
-footer {
-  background-color: var(--background);
+/* Target the navbar with higher specificity */
+html.dark .nextra-nav-container {
+  background-color: var(--background) !important;
 }
 
-/* Target the code blocks */
-.nextra-code-block {
-  background-color: var(--card);
+/* Target the footer with higher specificity */
+html.dark footer {
+  background-color: var(--background) !important;
 }
 
-/* Target the search overlay */
-.nextra-search {
-  background-color: var(--popover);
+/* Target the code blocks with higher specificity */
+html.dark .nextra-code-block {
+  background-color: var(--card) !important;
 }
 
-/* Target any other Nextra-specific elements that need background color adjustments */
-.nextra-menu-desktop, 
-.nextra-scrollbar {
-  background-color: var(--background);
+/* Target the search overlay with higher specificity */
+html.dark .nextra-search {
+  background-color: var(--popover) !important;
+}
+
+/* Target any other Nextra-specific elements with higher specificity */
+html.dark .nextra-menu-desktop, 
+html.dark .nextra-scrollbar {
+  background-color: var(--background) !important;
+}
+
+/* Force dark theme on article and content */
+html.dark article,
+html.dark aside,
+html.dark nav {
+  background-color: var(--background) !important;
 }
