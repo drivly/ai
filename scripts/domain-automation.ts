@@ -61,7 +61,7 @@
 
 import dns from 'node:dns'
 import { promisify } from 'node:util'
-import { domains } from '../domains.config'
+import { domains } from '../config/domains.config'
 import { checkNsRecords, fetchDomainRoot, getVercelLinkedDomains } from './domain-status-checker'
 
 const args = process.argv.slice(2)

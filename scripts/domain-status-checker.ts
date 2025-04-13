@@ -12,7 +12,7 @@
 
 import dns from 'node:dns'
 import { promisify } from 'node:util'
-import { domainsConfig, DomainsConfig, domains } from '../domains.config'
+import { domainsConfig, DomainsConfig, domains } from '../config/domains.config'
 
 const resolveNs = promisify(dns.resolveNs)
 
