@@ -32,7 +32,7 @@
   "homepage": "https://mdx.org.ai",
   "dependencies": {
     "@ai-sdk/openai": "^1.0.10",
-    "@ai-sdk/openai-compatible": "^0.0.9",
+    "@ai-sdk/openai-compatible": "^0.2.9",
     "ai": "^4.0.20",
     "p-queue": "^8.0.1",
     "zod": "^3.24.1"
