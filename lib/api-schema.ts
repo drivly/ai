@@ -52,7 +52,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
       } as SchemaObject
     }
 
-    openApiSpec.paths[`/${slug}`] = {
+    openApiSpec.paths[`/v1/${slug}`] = {
       get: {
         summary: `List all ${pluralTitle}`,
         description: `Returns a list of all ${pluralTitle}`,
@@ -124,7 +124,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
       } as OperationObject,
     } as PathItemObject
 
-    openApiSpec.paths[`/${slug}/{id}`] = {
+    openApiSpec.paths[`/v1/${slug}/{id}`] = {
       get: {
         summary: `Get a specific ${title}`,
         description: `Returns a specific ${title} by ID`,
