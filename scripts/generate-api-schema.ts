@@ -31,7 +31,7 @@ async function generateApiSchema() {
         },
       ],
       paths: {
-        '/ai': {
+        '/v1/ai': {
           get: {
             summary: 'List all AIs',
             description: 'Returns a list of all AIs',
