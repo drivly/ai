@@ -2,7 +2,7 @@
 
 import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
 import { navigation, siteConfig } from '@/components/site-config'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { use, useEffect, useState } from 'react'
 import { FaDiscord, FaGithub } from 'react-icons/fa'
@@ -44,7 +44,7 @@ export function SitesNavbar({ params, minimal }: { params: Promise<{ domain?: st
     <header
       className={cn(
         'fixed top-0 left-0 z-50 w-full backdrop-blur-[12px] transition-all duration-200',
-        hasScrolled ? 'bg-background/80 border-b' : 'border-transparent bg-transparent',
+        hasScrolled ? 'bg-background/90 border-b' : 'border-transparent bg-transparent',
       )}>
       <nav className='container mx-auto flex h-14 max-w-6xl items-center justify-between px-3 xl:px-0'>
         <LlmsdoLogo domain={domain} minimal={minimal} />

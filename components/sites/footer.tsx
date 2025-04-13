@@ -1,15 +1,17 @@
 import { RiArrowRightUpLine } from '@remixicon/react'
+import { cn } from '@/lib/utils'
+
 import Link from 'next/link'
 import { DotdoLogo } from '../shared/dotdo-logo'
 import { footerNavigation, siteConfig } from '../site-config'
 
-export function Footer({ minimal }: { minimal?: boolean }) {
+export function Footer({ minimal, className }: { minimal?: boolean; className?: string }) {
   if (minimal) {
     return <MinimalFooter />
   }
 
   return (
-    <footer id='footer' className='bg-black'>
+    <footer id='footer' className={cn('bg-black', className)}>
       <div className='mx-auto max-w-6xl px-3 pt-16 pb-8 sm:pt-24 lg:pt-32'>
         <div className='xl:grid xl:grid-cols-3 xl:gap-20'>
           <div className='space-y-8'>
@@ -138,9 +140,9 @@ export function Footer({ minimal }: { minimal?: boolean }) {
   )
 }
 
-function MinimalFooter() {
+function MinimalFooter({ className }: { className?: string }) {
   return (
-    <footer id='footer' className='bg-black'>
+    <footer id='footer' className={cn('bg-black', className)}>
       <div className='mx-auto max-w-6xl px-3 py-8'>
         <div className='grid grid-flow-row auto-rows-max items-center gap-y-8 sm:grid-cols-3 sm:gap-y-0'>
           <DotdoLogo className='flex items-center justify-center sm:justify-start' />
