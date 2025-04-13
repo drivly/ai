@@ -50,6 +50,17 @@ export async function runTests(code: string, tests: string, options: VitestOptio
           environment: 'node',
           isolate: true,
           threads: true,
+          maxThreads: 1,
+          minThreads: 1,
+          maxWorkers: 1,
+          fileParallelism: false,
+          poolOptions: {
+            threads: {
+              singleThread: true,
+              maxThreads: 1,
+              useAtomics: true,
+            }
+          },
           ...${JSON.stringify(config)}
         }
       })
@@ -61,6 +72,8 @@ export async function runTests(code: string, tests: string, options: VitestOptio
       execSync('npx vitest run --reporter=json', {
         cwd: testDir,
         stdio: 'pipe',
+        timeout: 30000, // 30 seconds timeout
+        maxBuffer: 1024 * 1024, // 1MB buffer size
       })
       return []
     } catch (error) {
