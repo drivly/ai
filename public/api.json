@@ -11,12 +11,12 @@
   },
   "servers": [
     {
-      "url": "https://apis.do/api",
+      "url": "https://apis.do/v1",
       "description": "Production API Server"
     }
   ],
   "paths": {
-    "/v1/ai": {
+    "/ai": {
       "get": {
         "summary": "List all AIs",
         "description": "Returns a list of all AIs",
