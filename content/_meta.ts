@@ -7,7 +7,6 @@ const meta: MetaRecord = {
   pricing: { type: 'page', href: '/pricing' },
   dashboard: { type: 'page', href: '/admin' },
   reference: { 
-    title: 'API Reference',
     href: 'https://apis.do/reference'
   },
 
