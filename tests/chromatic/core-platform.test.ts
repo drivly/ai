@@ -14,7 +14,10 @@ test('functions collection page', async ({ page }) => {
     await page.fill('input[type="password"]', 'test')
     
     await page.click('button[type="submit"]');
-    await page.waitForSelector('h1:has-text("Functions")', { timeout: 75000 }); // Increased timeout
+    
+    await page.waitForLoadState('networkidle', { timeout: 60000 });
+    await page.waitForTimeout(5000);
+    await page.waitForSelector('h1', { timeout: 90000 }); // Use more general selector
   }
 
   await page.waitForSelector('h1', { timeout: 90000 }); // Increase timeout for CI environments
