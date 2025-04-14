@@ -10,6 +10,7 @@ import { getBlogPostBySlug } from '../blog-posts'
 
 async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const { domain, slug } = await props.params
+  const searchParams = await props.searchParams
   const headersList = await headers()
   const siteUrl = `${headersList.get('x-forwarded-proto')}://${headersList.get('x-forwarded-host')}`
   const post = getBlogPostBySlug(slug || '')
