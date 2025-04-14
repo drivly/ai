@@ -43,11 +43,11 @@
   "dependencies": {
     "actions.do": "0.0.1",
     "analytics.do": "0.0.1",
-    "apis.do": "0.0.1",
+    "apis.do": "0.1.0",
     "database.do": "0.0.1",
     "evals.do": "0.0.1",
     "experiments.do": "0.0.1",
-    "functions.do": "0.0.1",
+    "functions.do": "0.1.0",
     "goals.do": "0.0.1",
     "gpt.do": "0.0.1",
     "integrations.do": "0.0.1",
