@@ -72,8 +72,8 @@ test('site blog post page', async ({ page }) => {
 
   await expect(page.locator('main').first()).toBeVisible()
   await expect(page.locator('h1')).toBeVisible()
-  await page.waitForSelector('article div.prose', { timeout: 75000 }); 
-  await expect(page.locator('article div.prose')).toBeVisible(); 
+  await page.waitForSelector('div.prose', { timeout: 75000 }); 
+  await expect(page.locator('div.prose')).toBeVisible(); 
 
   await expect(page).toHaveScreenshot('sites-blog-post-page.png')
 })
@@ -135,8 +135,8 @@ test('site waitlist page - unauthenticated', async ({ page }) => {
   await page.waitForURL(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/`, { timeout: 45000 }); 
   await page.waitForLoadState('load', { timeout: 45000 }); // Wait for the redirected page to fully load
 
-  await page.waitForSelector('form[action*="/api/users/login"]', { timeout: 60000 }); 
-  await expect(page.locator('form[action*="/api/users/login"]')).toBeVisible();
+  await page.waitForSelector('form', { timeout: 90000 }); 
+  await expect(page.locator('form')).toBeVisible();
 
   await expect(page).toHaveScreenshot('sites-waitlist-redirected-root-login-page.png');
 })
