@@ -18,7 +18,7 @@ export const betterAuthPlugins = [
   nextCookies(),
   stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
   oAuthProxy({
-    productionURL: process.env.NODE_ENV === 'production' ? 'https://apis.do' : 'http://localhost:3000',
+    productionURL: process.env.NODE_ENV === 'production' ? getCurrentURL() : 'http://localhost:3000',
     currentURL: getCurrentURL(),
   }),
   genericOAuth({
