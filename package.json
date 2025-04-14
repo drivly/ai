@@ -58,7 +58,7 @@
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
     "@ai-sdk/openai": "^1.0.10",
-    "@better-auth/stripe": "^1.2.5",
+    "@better-auth/stripe": "^1.2.7",
     "@clickhouse/client-web": "^1.11.0",
     "@code-hike/mdx": "^0.9.0",
     "@drivly/payload-agent": "workspace:*",
@@ -198,7 +198,7 @@
     "rimraf": "^5.0.5",
     "tailwindcss": "^4.0.17",
     "turbo": "^2.4.4",
-    "typescript": "5.7.3",
+    "typescript": "5.8.3",
     "vitest": "^3.0.9"
   },
   "engines": {

@@ -1,4 +1,4 @@
-import { brandDomains, isAIGateway } from '../../domains.config'
+import { brandDomains, isAIGateway } from '@/domains.config'
 
 /**
  * Check if a domain should be treated as a gateway domain

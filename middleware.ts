@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { Router } from 'itty-router'
 import { analyticsMiddleware } from './analytics/src/middleware'
+import { API_AUTH_PREFIX, publicRoutes } from './lib/routes'
 import { buildContext } from './lib/ctx'
 import * as handlers from './lib/ctx/handlers'
 
@@ -15,79 +16,155 @@ import * as handlers from './lib/ctx/handlers'
  */
 
 /**
+ * Handle PostHog proxy requests
+ * Intercepts requests to PostHog API endpoints and forwards them to PostHog servers
+ */
+async function handlePostHogProxy(request: NextRequest) {
+  const url = new URL(request.url)
+  
+  if (!url.pathname.startsWith('/ingest') && !url.pathname.startsWith('/decide')) {
+    return null
+  }
+  
+  const posthogHost = process.env.POSTHOG_HOST || 'https://us.i.posthog.com'
+  const posthogUrl = new URL(url.pathname + url.search, posthogHost)
+  
+  const headers = new Headers(request.headers)
+  
+  const requestToForward = new Request(posthogUrl, {
+    method: request.method,
+    headers,
+    body: request.body,
+    redirect: 'follow',
+  })
+  
+  try {
+    const response = await fetch(requestToForward)
+    
+    const responseHeaders = new Headers(response.headers)
+    
+    responseHeaders.set('Access-Control-Allow-Origin', '*')
+    responseHeaders.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    responseHeaders.set('Access-Control-Allow-Headers', 'Content-Type')
+    
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: responseHeaders,
+    })
+  } catch (error) {
+    console.error('Error proxying PostHog request:', error)
+    return new Response('Error proxying request to PostHog', { status: 500 })
+  }
+}
+
+/**
  * Main middleware function
  * Handles routing logic for all incoming requests
  */
 export async function middleware(request: NextRequest) {
+  const posthogResponse = await handlePostHogProxy(request)
+  if (posthogResponse) return posthogResponse
+  
   return analyticsMiddleware(request, async () => {
     const ctx = buildContext(request)
     
     const router = Router()
     
-    router.all('*', () => {
-      if (ctx.isApiAuthRoute || ctx.isPublicRoute) {
-        console.log('Passing through auth or public route', { path: ctx.pathname })
-        return NextResponse.next()
-      }
+    router.all(`${API_AUTH_PREFIX}*`, () => {
+      console.log('Passing through auth route', { path: ctx.pathname })
+      return NextResponse.next()
     })
     
-    router.all('*', () => {
-      if (ctx.isApiRoute) {
-        console.log('Handling API route', { hostname: ctx.hostname, pathname: ctx.pathname, search: ctx.search })
-        
-        if (ctx.isApiDocsRoute) {
-          return handlers.handleApiDocsRoute(ctx)
-        }
-        
-        const apiRouteResponse = handlers.handleApiRoute(ctx)
-        if (apiRouteResponse) {
-          return apiRouteResponse
-        }
-        
+    publicRoutes.forEach(route => {
+      router.all(route, () => {
+        console.log('Passing through public route', { path: ctx.pathname })
         return NextResponse.next()
+      })
+    })
+    
+    router.all('/api/docs*', () => {
+      console.log('Handling API docs route', { hostname: ctx.hostname, pathname: ctx.pathname })
+      return handlers.handleApiDocsRoute(ctx)
+    })
+    
+    router.all('/v1/docs*', () => {
+      console.log('Handling API docs route', { hostname: ctx.hostname, pathname: ctx.pathname })
+      return handlers.handleApiDocsRoute(ctx)
+    })
+    
+    router.all('/api*', () => {
+      console.log('Handling API route', { hostname: ctx.hostname, pathname: ctx.pathname })
+      const apiRouteResponse = handlers.handleApiRoute(ctx)
+      if (apiRouteResponse) {
+        return apiRouteResponse
       }
+      return NextResponse.next()
+    })
+    
+    router.all('/v1*', () => {
+      console.log('Handling API route', { hostname: ctx.hostname, pathname: ctx.pathname })
+      const apiRouteResponse = handlers.handleApiRoute(ctx)
+      if (apiRouteResponse) {
+        return apiRouteResponse
+      }
+      return NextResponse.next()
     })
     
     router.all('*', () => {
       if (ctx.isGatewayDomain) {
-        const gatewayResponse = handlers.handleGatewayDomain(ctx)
-        if (gatewayResponse) {
-          return gatewayResponse
+        if (ctx.pathname === '/sites') {
+          console.log('Rewriting gateway domain /sites to sites', { hostname: ctx.hostname })
+          return handlers.handleGatewayDomain(ctx)
         }
+        
+        if ((ctx.hostname === 'do.gt' || ctx.hostname === 'do.mw') && ctx.pathname === '/') {
+          console.log('Rewriting do.gt/do.mw root to /sites', { hostname: ctx.hostname })
+          return handlers.handleGatewayDomain(ctx)
+        }
+        
+        console.log('Passing through gateway domain', { hostname: ctx.hostname })
         return NextResponse.next()
       }
-    })
-    
-    router.all('*', () => {
+      
       if (ctx.isBrandDomain) {
-        const brandResponse = handlers.handleBrandDomain(ctx)
-        if (brandResponse) {
-          return brandResponse
+        if (ctx.pathname === '/docs' || ctx.pathname.startsWith('/docs/') ||
+            ctx.pathname === '/admin' || ctx.pathname.startsWith('/admin/') ||
+            ctx.pathname === '/api' || ctx.pathname.startsWith('/api/') ||
+            ctx.pathname === '/v1' || ctx.pathname.startsWith('/v1/')) {
+          console.log('Passing through special path for brand domain', { hostname: ctx.hostname, pathname: ctx.pathname })
+          return NextResponse.next()
         }
-        return NextResponse.next()
+        
+        console.log('Handling brand domain', { hostname: ctx.hostname, pathname: ctx.pathname })
+        return handlers.handleBrandDomain(ctx)
       }
-    })
-    
-    router.all('*', () => {
+      
       if (ctx.isDoManagementDomain) {
-        const managementResponse = handlers.handleDoManagementDomain(ctx)
-        if (managementResponse) {
-          return managementResponse
-        }
+        console.log('Handling management domain', { hostname: ctx.hostname, pathname: ctx.pathname })
+        return handlers.handleDoManagementDomain(ctx)
       }
-    })
-    
-    router.all('*', () => {
+      
       if (ctx.isDoDomain) {
-        const doResponse = handlers.handleDoDomain(ctx)
-        if (doResponse) {
-          return doResponse
+        if (ctx.pathname === '/admin' || ctx.pathname.startsWith('/admin/')) {
+          console.log('Handling admin path for .do domain', { hostname: ctx.hostname, pathname: ctx.pathname })
+          if (ctx.apiName && handlers.collectionSlugs.includes(ctx.apiName)) {
+            console.log('Rewriting to admin collection', { hostname: ctx.hostname, collection: ctx.apiName })
+            return handlers.handleDoDomain(ctx)
+          }
+          return NextResponse.next()
         }
-        return NextResponse.next()
+        
+        if (ctx.pathname === '/docs' || ctx.pathname.startsWith('/docs/')) {
+          console.log('Handling docs path for .do domain', { hostname: ctx.hostname })
+          return NextResponse.next()
+        }
+        
+        console.log('Handling .do domain', { hostname: ctx.hostname, pathname: ctx.pathname })
+        return handlers.handleDoDomain(ctx)
       }
-    })
-    
-    router.all('*', () => {
+      
+      console.log('Handling custom domain', { hostname: ctx.hostname, pathname: ctx.pathname })
       return handlers.handleCustomDomain(ctx)
     })
     
@@ -104,5 +181,7 @@ export const config = {
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      */
     '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    '/ingest',
+    '/decide',
   ],
 }
