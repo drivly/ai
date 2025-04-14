@@ -8,6 +8,7 @@ const meta: MetaRecord = {
   dashboard: { type: 'page', href: '/admin' },
   reference: { 
     type: 'page',
+    title: 'API Reference',
     href: 'https://apis.do/reference'
   },
 
