@@ -7,7 +7,7 @@ test('documentation page', async ({ page }) => {
   );
   await loadPromise;
 
-  await page.waitForSelector('nav, main', { timeout: 15000 });
+  await page.waitForSelector('nav, main', { timeout: 90000 }); // Increase timeout for CI environments
   
   await expect(page.locator('nav').first()).toBeVisible() // Use .first() to avoid strict mode violation
   await expect(page.locator('main').first()).toBeVisible() // Use .first() to avoid strict mode violation

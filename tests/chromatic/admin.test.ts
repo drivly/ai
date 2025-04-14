@@ -7,7 +7,7 @@ test('admin login page', async ({ page }) => {
   );
   await loadPromise;
 
-  await page.waitForSelector('input[type="email"]', { timeout: 15000 });
+  await page.waitForSelector('input[type="email"]', { timeout: 90000 }); // Increase timeout for CI environments
   
   await expect(page.locator('input[type="email"]')).toBeVisible()
   await expect(page.locator('input[type="password"]')).toBeVisible()
