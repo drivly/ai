@@ -1,6 +1,6 @@
 {
   "name": "projects.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "SDK for project management with tasks, resources, and timelines integrated with APIs.do",
   "keywords": [
     "projects",

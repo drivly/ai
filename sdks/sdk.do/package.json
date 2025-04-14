@@ -1,6 +1,6 @@
 {
   "name": "sdk.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "SDK for publishing Functions, Workflows, and Databases to NPM",
   "keywords": [
     "sdk",
