@@ -43,8 +43,8 @@ const enforceZeroVersioning = (packagePath) => {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
   
   if (packageJson.version && !packageJson.version.startsWith('0.')) {
-    console.log(`Resetting version for ${packageJson.name} from ${packageJson.version} to 0.0.1`)
-    packageJson.version = '0.0.1'
+    console.log(`Resetting version for ${packageJson.name} from ${packageJson.version} to 0.1.0`)
+    packageJson.version = '0.1.0'
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
   }
   
@@ -61,7 +61,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
     const pkgJsonPath = path.join(pkg, 'package.json')
     if (fs.existsSync(pkgJsonPath)) {
       const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'))
-      packageVersions[pkgJson.name] = pkgJson.version || '0.0.1'
+      packageVersions[pkgJson.name] = pkgJson.version || '0.1.0'
     }
   }
   
@@ -160,7 +160,7 @@ export default {
   ],
   repositoryUrl: 'https://github.com/drivly/ai.git',
   tagFormat: '\${name}@\${version}',
-  initialVersion: '0.0.1',
+  initialVersion: '0.1.0',
   npmPublish: true,
   pkgRoot: '.',
   plugins: [
@@ -179,16 +179,16 @@ export default {
         if (fs.existsSync(pkgPath)) {
           const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
           if (!pkg.version.startsWith('0.')) {
-            console.log(\`Fixing package.json version: \${pkg.version} -> 0.0.1\`);
-            pkg.version = '0.0.1';
+            console.log(\`Fixing package.json version: \${pkg.version} -> 0.1.0\`);
+            pkg.version = '0.1.0';
             fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
           }
         }
       },
       analyzeCommits: (pluginConfig, context) => {
         if (!context.lastRelease.version) {
-          console.log('No previous version found, starting at 0.0.1-next.1');
-          return '0.0.1-next.1'; // Start new packages at 0.0.1-next.1
+          console.log('No previous version found, starting at 0.1.0-next.1');
+          return '0.1.0-next.1'; // Start new packages at 0.1.0-next.1
         }
         
         console.log('Forcing patch release regardless of commit types');
@@ -207,7 +207,7 @@ export default {
             const pkgJsonPath = path.join(pkgDir, 'package.json');
             if (fs.existsSync(pkgJsonPath)) {
               const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));
-              packageVersions[pkgJson.name] = pkgJson.version || '0.0.1';
+              packageVersions[pkgJson.name] = pkgJson.version || '0.1.0';
             }
           }
           
@@ -305,7 +305,7 @@ always-auth=true
             NODE_DEBUG: 'npm', 
             DEBUG: 'semantic-release:*,npm:*', 
             FORCE_PATCH_RELEASE: 'true',
-            INITIAL_VERSION: '0.0.1',
+            INITIAL_VERSION: '0.1.0',
             RELEASE_MAJOR: '0'
           },
           stdio: 'inherit',
@@ -331,8 +331,8 @@ try {
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
   
   if (!pkg.version.startsWith('0.')) {
-    console.log(\`Fixing package.json version: \${pkg.version} -> 0.0.1\`);
-    pkg.version = '0.0.1';
+    console.log(\`Fixing package.json version: \${pkg.version} -> 0.1.0\`);
+    pkg.version = '0.1.0';
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
   }
   
