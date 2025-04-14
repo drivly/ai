@@ -46,7 +46,7 @@
     "payload": "^3.33.0",
     "prettier": "^3.4.2",
     "rimraf": "^6.0.1",
-    "typescript": "^5.7.2",
+    "typescript": "^5.8.3",
     "vitest": "^2.1.8",
     "@swc/cli": "0.6.0",
     "@swc/core": "1.11.8",
