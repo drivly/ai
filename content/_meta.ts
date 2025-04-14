@@ -34,7 +34,6 @@ const meta: MetaRecord = {
   integrations: '',
   deployment: '',
   observability: '',
-  clis: '',
   sites: { display: 'hidden' },
 
   __: {
