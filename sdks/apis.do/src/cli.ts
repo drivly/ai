@@ -37,6 +37,34 @@ export class CLI {
    */
   async init(options: { force?: boolean } = {}): Promise<void> {
     console.log('Initializing .ai project...')
+    
+    const projectDir = process.cwd()
+    const aiDir = path.join(projectDir, '.ai')
+    
+    if (!fs.existsSync(aiDir)) {
+      await fs.promises.mkdir(aiDir, { recursive: true })
+      console.log('Created .ai directory')
+    } else if (!options.force) {
+      console.log('.ai directory already exists, use --force to overwrite')
+    }
+    
+    const configPath = path.join(aiDir, 'config.json')
+    if (!fs.existsSync(configPath) || options.force) {
+      const defaultConfig = {
+        sync: {
+          syncMode: 'database',
+          trackFiles: ['*.json', '*.ts']
+        }
+      }
+      
+      await fs.promises.writeFile(
+        configPath, 
+        JSON.stringify(defaultConfig, null, 2),
+        'utf8'
+      )
+      console.log('Created default config file at .ai/config.json')
+    }
+    
     return Promise.resolve()
   }
 
@@ -467,5 +495,43 @@ export class CLI {
         })
       }
     }
+  }
+
+  /**
+   * Helper function to copy template files to a project
+   */
+  protected async copyTemplateFiles(templateType: 'cli.do' | 'workflows.do' | 'business-as-code', options: { force?: boolean } = {}): Promise<void> {
+    const projectDir = process.cwd()
+    const templateDir = path.join(__dirname, `../../templates/sdks/${templateType}`)
+    
+    if (!fs.existsSync(templateDir)) {
+      console.error(`Template directory not found: ${templateDir}`)
+      return
+    }
+    
+    const copyDir = async (source: string, destination: string) => {
+      const entries = await fs.promises.readdir(source, { withFileTypes: true })
+      
+      await fs.promises.mkdir(destination, { recursive: true })
+      
+      for (const entry of entries) {
+        const srcPath = path.join(source, entry.name)
+        const destPath = path.join(destination, entry.name)
+        
+        if (entry.isDirectory()) {
+          await copyDir(srcPath, destPath)
+        } else {
+          if (!fs.existsSync(destPath) || options.force) {
+            await fs.promises.copyFile(srcPath, destPath)
+            console.log(`Created ${destPath}`)
+          }
+        }
+      }
+    }
+    
+    await copyDir(templateDir, projectDir)
+    
+    console.log(`${templateType} project initialization completed successfully`)
+    console.log('Run "npm install" or "pnpm install" to install dependencies')
   }
 }

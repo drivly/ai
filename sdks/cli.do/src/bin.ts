@@ -3,7 +3,7 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { CLI as ApisCLI } from 'apis.do/src/cli'
+import { CLI as ApisCLI } from '../../apis.do/src/cli.js'
 
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -98,6 +98,21 @@ async function executeSdkCommand(sdkName: string, cli: any, args: string[], defa
     switch (command) {
       case 'init':
         await cli.init({ force: commandArgs.includes('--force') })
+        
+        if (sdkName === 'workflows') {
+          const templateDir = path.join(__dirname, '../../templates/sdks/workflows.do')
+          await copyTemplateFiles(templateDir, process.cwd(), { force: commandArgs.includes('--force') })
+        } else if (sdkName === 'apis') {
+        } else if (sdkName === 'functions') {
+          const templateDir = path.join(__dirname, '../../templates/sdks/functions.do')
+          if (fs.existsSync(templateDir)) {
+            await copyTemplateFiles(templateDir, process.cwd(), { force: commandArgs.includes('--force') })
+          }
+        } else if (sdkName === 'business-as-code') {
+          const templateDir = path.join(__dirname, '../../templates/sdks/business-as-code')
+          await copyTemplateFiles(templateDir, process.cwd(), { force: commandArgs.includes('--force') })
+        }
+        
         console.log(`${sdkName} project initialized successfully`)
         break
       case 'login':
@@ -260,6 +275,41 @@ Environment Variables:
   WORKFLOWS_DO_API_KEY API key for workflows.do
   AGENTS_DO_API_KEY   API key for agents.do
 `)
+}
+
+/**
+ * Helper function to copy template files to a project
+ */
+async function copyTemplateFiles(templateDir: string, destinationDir: string, options: { force?: boolean } = {}): Promise<void> {
+  if (!fs.existsSync(templateDir)) {
+    console.error(`Template directory not found: ${templateDir}`)
+    return
+  }
+  
+  const copyDir = async (source: string, destination: string) => {
+    const entries = await fs.promises.readdir(source, { withFileTypes: true })
+    
+    await fs.promises.mkdir(destination, { recursive: true })
+    
+    for (const entry of entries) {
+      const srcPath = path.join(source, entry.name)
+      const destPath = path.join(destination, entry.name)
+      
+      if (entry.isDirectory()) {
+        await copyDir(srcPath, destPath)
+      } else {
+        if (!fs.existsSync(destPath) || options.force) {
+          await fs.promises.copyFile(srcPath, destPath)
+          console.log(`Created ${destPath}`)
+        }
+      }
+    }
+  }
+  
+  await copyDir(templateDir, destinationDir)
+  
+  console.log('Template files copied successfully')
+  console.log('Run "npm install" or "pnpm install" to install dependencies')
 }
 
 function showSdkHelp(sdkName: string) {

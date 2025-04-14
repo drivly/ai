@@ -1,0 +1,32 @@
+{
+  "name": "my-cli-project",
+  "version": "0.0.1",
+  "description": "CLI application using the .do SDK",
+  "keywords": [
+    "cli",
+    "sdk",
+    "ai"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "my-cli": "./dist/bin.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "apis.do": "0.0.1",
+    "cli.do": "0.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

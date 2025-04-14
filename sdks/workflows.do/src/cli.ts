@@ -37,6 +37,71 @@ export class CLI {
    */
   async init(options: { force?: boolean } = {}): Promise<void> {
     console.log('Initializing workflows.do project...')
+    
+    const projectDir = process.cwd()
+    const aiDir = path.join(projectDir, '.ai')
+    
+    if (!fs.existsSync(aiDir)) {
+      await fs.promises.mkdir(aiDir, { recursive: true })
+      console.log('Created .ai directory')
+    } else if (!options.force) {
+      console.log('.ai directory already exists, use --force to overwrite')
+    }
+    
+    const configPath = path.join(aiDir, 'config.json')
+    if (!fs.existsSync(configPath) || options.force) {
+      const defaultConfig = {
+        sync: {
+          syncMode: 'database',
+          trackFiles: ['*.json', '*.ts']
+        }
+      }
+      
+      await fs.promises.writeFile(
+        configPath, 
+        JSON.stringify(defaultConfig, null, 2),
+        'utf8'
+      )
+      console.log('Created default config file at .ai/config.json')
+    }
+    
+    const templateDir = path.join(__dirname, '../../templates/sdks/workflows.do')
+    
+    if (!fs.existsSync(templateDir)) {
+      console.error(`Template directory not found: ${templateDir}`)
+      console.log('Using basic initialization instead')
+      return
+    }
+    
+    const packageJsonPath = path.join(projectDir, 'package.json')
+    if (!fs.existsSync(packageJsonPath) || options.force) {
+      const templatePackageJson = path.join(templateDir, 'package.json')
+      await fs.promises.copyFile(templatePackageJson, packageJsonPath)
+      console.log('Created package.json with workflows.do dependencies')
+    }
+    
+    const srcDir = path.join(projectDir, 'src')
+    if (!fs.existsSync(srcDir)) {
+      await fs.promises.mkdir(srcDir, { recursive: true })
+    }
+    
+    const workflowFile = path.join(srcDir, 'index.ts')
+    if (!fs.existsSync(workflowFile) || options.force) {
+      const templateWorkflowFile = path.join(templateDir, 'src/index.ts')
+      await fs.promises.copyFile(templateWorkflowFile, workflowFile)
+      console.log('Created example workflow file at src/index.ts')
+    }
+    
+    const tsconfigPath = path.join(projectDir, 'tsconfig.json')
+    if (!fs.existsSync(tsconfigPath) || options.force) {
+      const templateTsconfig = path.join(templateDir, 'tsconfig.json')
+      await fs.promises.copyFile(templateTsconfig, tsconfigPath)
+      console.log('Created tsconfig.json for TypeScript configuration')
+    }
+    
+    console.log('Workflows.do project initialization completed successfully')
+    console.log('Run "npm install" or "pnpm install" to install dependencies')
+    
     return Promise.resolve()
   }
 

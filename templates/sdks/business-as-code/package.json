@@ -1,0 +1,34 @@
+{
+  "name": "my-business-as-code-project",
+  "version": "0.0.1",
+  "description": "Define, launch, experiment, iterate, and grow your business entirely in code",
+  "keywords": [
+    "ai",
+    "business",
+    "strategy",
+    "operations",
+    "automation"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "apis.do": "0.0.1",
+    "database.do": "0.0.1",
+    "functions.do": "0.0.1",
+    "workflows.do": "0.0.1",
+    "business-as-code": "0.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
