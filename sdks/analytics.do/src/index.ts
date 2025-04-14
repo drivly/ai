@@ -1,18 +1,26 @@
 import { API } from 'apis.do/src/client'
 import type { AnalyticsConfig, BeforeSendEvent, TrackMetricOptions, ExperimentOptions, Experiment } from '../types'
 
+/**
+ * Default configuration for the analytics SDK
+ */
 const defaultConfig: AnalyticsConfig = {
   endpoint: '/_analytics',
   debug: process.env.NODE_ENV !== 'production',
   mode: 'auto',
 }
 
+/**
+ * API client for analytics.do
+ */
 const analyticsApi = new API({
   baseUrl: 'https://analytics.do/api',
 })
 
 /**
  * Initialize the analytics SDK with configuration
+ * @param config - Configuration options for the analytics SDK
+ * @returns Analytics client with track and trackPageView methods
  */
 export function initAnalytics(config: AnalyticsConfig = {}) {
   const mergedConfig = { ...defaultConfig, ...config }
@@ -81,7 +89,9 @@ export function initAnalytics(config: AnalyticsConfig = {}) {
 }
 
 /**
- * Track a metric
+ * Track a metric with the analytics SDK
+ * @param options - Options for tracking a metric
+ * @returns Promise that resolves when the metric is tracked
  */
 export async function trackMetric(options: TrackMetricOptions): Promise<void> {
   const { name, value, metadata = {} } = options
@@ -91,6 +101,7 @@ export async function trackMetric(options: TrackMetricOptions): Promise<void> {
     metricName: name,
     metricValue: value,
     metadata,
+    timestamp: Date.now(),
   })
 }
 
