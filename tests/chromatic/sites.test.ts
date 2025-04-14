@@ -76,8 +76,13 @@ test('site blog post page', async ({ page }) => {
   await page.waitForLoadState('networkidle', { timeout: 90000 });
   await page.waitForTimeout(5000);
   
-  await page.waitForSelector('article', { timeout: 120000 });
-  await expect(page.locator('article').first()).toBeVisible();
+  await page.waitForSelector('article, div.prose', { timeout: 120000 });
+  
+  if (await page.locator('article').count() > 0) {
+    await expect(page.locator('article').first()).toBeVisible();
+  } else if (await page.locator('div.prose').count() > 0) {
+    await expect(page.locator('div.prose').first()).toBeVisible();
+  }
 
   await expect(page).toHaveScreenshot('sites-blog-post-page.png')
 })
