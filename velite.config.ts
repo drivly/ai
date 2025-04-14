@@ -26,6 +26,8 @@ export default defineConfig({
         title: s.string().optional(),
         description: s.string().optional(),
         content: s.markdown(),
+        sdk: s.boolean().optional(),
+        cli: s.boolean().optional(),
       }),
     },
     sites: {
