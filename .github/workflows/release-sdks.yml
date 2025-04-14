@@ -117,7 +117,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           FORCE_PATCH_RELEASE: 'true'
           NPM_CONFIG_REGISTRY: 'https://registry.npmjs.org/'
-          INITIAL_VERSION: '0.0.1'
+          INITIAL_VERSION: '0.1.0'
           RELEASE_MAJOR: '0'
           
       - name: Debug npm config
