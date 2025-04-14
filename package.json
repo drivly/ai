@@ -53,6 +53,7 @@
     "typecheck": "turbo typecheck",
     "format": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
     "seed": "tsx scripts/seed.ts",
+    "download:chromatic": "node scripts/download-chromatic-docs.js",
     "prepare": "husky"
   },
   "dependencies": {
