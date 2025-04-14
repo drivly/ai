@@ -25,7 +25,7 @@ test('functions collection page', async ({ page }) => {
     }
 
     await page.waitForSelector('h1', { timeout: 120000 }); // Increase timeout for CI environments
-    await expect(page.locator('h1')).toBeVisible()
+    await expect(page.locator('h1').first()).toBeVisible()
 
     await expect(page).toHaveScreenshot('functions-collection.png')
   } catch (error: any) {
@@ -34,7 +34,7 @@ test('functions collection page', async ({ page }) => {
     await page.reload({ waitUntil: 'networkidle', timeout: 90000 });
     
     await page.waitForSelector('h1', { timeout: 120000 });
-    await expect(page.locator('h1')).toBeVisible()
+    await expect(page.locator('h1').first()).toBeVisible()
     
     await expect(page).toHaveScreenshot('functions-collection.png')
   }
