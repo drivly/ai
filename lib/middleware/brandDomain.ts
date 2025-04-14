@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isSiteDomain } from '../domains'
 
 export function handleBrandDomain(request: NextRequest): NextResponse | null {
   const hostname = process.env.HOSTNAME_OVERRIDE || request.nextUrl.hostname
@@ -20,6 +21,11 @@ export function handleBrandDomain(request: NextRequest): NextResponse | null {
   if (pathname === '/api' || pathname.startsWith('/api/') || pathname === '/v1' || pathname.startsWith('/v1/')) {
     console.log('Passing through API path for brand domain', { hostname, pathname, search })
     return null
+  }
+  
+  if (isSiteDomain(hostname)) {
+    console.log(`Rewriting site domain ${hostname} to /sites/${hostname}`, { pathname, search })
+    return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname === '/' ? '' : pathname}${search}`, url))
   }
   
   if (pathname === '/') {
