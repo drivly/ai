@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
-import { RootPage } from '@payloadcms/next/views';
+import { RootPage, generatePageMetadata } from '@payloadcms/next/views';
 import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain';
 import { createDynamicPayloadConfig } from '@/lib/createDynamicPayloadConfig';
 
@@ -19,10 +19,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     };
   }
   
-  return {
-    title: `${project.name} Admin | Workflows.do`,
-    description: `Admin interface for ${project.name}`,
-  };
+  const config = await createDynamicPayloadConfig(project);
+  return generatePageMetadata({ config, params: { segments: [] }, searchParams: {} });
 }
 
 export default async function ProjectAdminPage({ params }: { params: Params }) {
