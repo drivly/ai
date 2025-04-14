@@ -9,8 +9,8 @@ type Params = {
   domain: string;
 };
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const { domain } = params;
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { domain } = await params;
   const project = await fetchProjectByDomain(domain);
   
   if (!project) {
@@ -23,8 +23,8 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return generatePageMetadata({ config, params: { segments: [] }, searchParams: {} });
 }
 
-export default async function ProjectAdminPage({ params }: { params: Params }) {
-  const { domain } = params;
+export default async function ProjectAdminPage({ params }: { params: Promise<Params> }) {
+  const { domain } = await params;
   
   const project = await fetchProjectByDomain(domain);
   
