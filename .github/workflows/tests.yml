@@ -61,10 +61,12 @@ jobs:
         
       - name: Start Server and Run Chromatic Tests
         run: |
+          # Install wait-on utility
+          npm install -g wait-on
           # Start the server in the background
           pnpm dev &
           # Wait for the server to be ready
-          npx wait-on http://localhost:3000 -t 60000
+          wait-on http://localhost:3000 -t 60000
           # Run Chromatic tests
           pnpm test:chromatic
         env:
@@ -72,3 +74,4 @@ jobs:
           TEST_BASE_URL: http://localhost:3000
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
