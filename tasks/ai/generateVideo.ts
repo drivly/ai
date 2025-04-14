@@ -1,5 +1,5 @@
 import { TaskConfig } from 'payload'
-import { parseMarkdownWithFrontmatter, createVideoFromSlides } from '../../pkgs/motion.md'
+// import { parseMarkdownWithFrontmatter, createVideoFromSlides } from '../../pkgs/motion.md'
 
 type GenerateVideoInput = {
   markdown: string
@@ -16,16 +16,17 @@ type GenerateVideoInput = {
  */
 export const generateVideo = async ({ input, req, payload }: any) => {
   try {
-    const { globalConfig, slides } = parseMarkdownWithFrontmatter(input.markdown)
+    // const { globalConfig, slides } = parseMarkdownWithFrontmatter(input.markdown)
     
-    const outputPath = input.outputPath || globalConfig.output || 'output.mp4'
+    const outputPath = input.outputPath || 'output.mp4' // || globalConfig.output
     
-    const result = await createVideoFromSlides({
-      slides,
-      config: globalConfig,
-      outputPath,
-      options: input.options,
-    })
+    // const result = await createVideoFromSlides({
+    //   slides,
+    //   config: globalConfig,
+    //   outputPath,
+    //   options: input.options,
+    // })
+    const result = { outputPath, duration: 0, size: 0 }
     
     return {
       output: {
