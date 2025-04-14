@@ -8,10 +8,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getBlogPostBySlug } from '../blog-posts'
 
-async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: string }> }) {
-  const { domain, slug } = await props.params
+async function BlogPostPage(props: { params: { domain: string; slug?: string }, searchParams?: { [key: string]: string | string[] | undefined } }) {
+  const { domain, slug } = props.params
   const headersList = await headers()
-  const siteUrl = `${headersList.get('x-forwarded-proto')}://${headersList.get('x-forwarded-host')}`
+  const proto = headersList.get('x-forwarded-proto')
+  const host = headersList.get('x-forwarded-host')
+  const siteUrl = `${proto}://${host}`
   const post = getBlogPostBySlug(slug || '')
   const fallbackImage = '/images/blog-llm.png'
 

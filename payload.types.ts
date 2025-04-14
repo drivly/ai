@@ -240,6 +240,7 @@ export interface Config {
       executeFunction: TaskExecuteFunction;
       generateCode: TaskGenerateCode;
       requestHumanFeedback: TaskRequestHumanFeedback;
+      updateSlackMessage: TaskUpdateSlackMessage;
       processBatchOpenAI: TaskProcessBatchOpenAI;
       processBatchAnthropic: TaskProcessBatchAnthropic;
       processBatchGoogleVertexAI: TaskProcessBatchGoogleVertexAI;
@@ -2571,6 +2572,7 @@ export interface PayloadJob {
           | 'executeFunction'
           | 'generateCode'
           | 'requestHumanFeedback'
+          | 'updateSlackMessage'
           | 'processBatchOpenAI'
           | 'processBatchAnthropic'
           | 'processBatchGoogleVertexAI'
@@ -2634,6 +2636,7 @@ export interface PayloadJob {
                 | 'executeFunction'
                 | 'generateCode'
                 | 'requestHumanFeedback'
+                | 'updateSlackMessage'
                 | 'processBatchOpenAI'
                 | 'processBatchAnthropic'
                 | 'processBatchGoogleVertexAI'
@@ -2675,6 +2678,7 @@ export interface PayloadJob {
         | 'executeFunction'
         | 'generateCode'
         | 'requestHumanFeedback'
+        | 'updateSlackMessage'
         | 'processBatchOpenAI'
         | 'processBatchAnthropic'
         | 'processBatchGoogleVertexAI'
@@ -4248,6 +4252,38 @@ export interface TaskRequestHumanFeedback {
       | boolean
       | null;
     messageId?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskUpdateSlackMessage".
+ */
+export interface TaskUpdateSlackMessage {
+  input: {
+    response_url: string;
+    blocks:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    text?: string | null;
+    replace_original?: boolean | null;
+    delete_original?: boolean | null;
+  };
+  output: {
+    result?:
       | {
           [k: string]: unknown;
         }
