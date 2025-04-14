@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { isSiteDomain } from '../domains'
 
 export function handleBrandDomain(request: NextRequest): NextResponse | null {
   const hostname = process.env.HOSTNAME_OVERRIDE || request.nextUrl.hostname
@@ -22,9 +23,9 @@ export function handleBrandDomain(request: NextRequest): NextResponse | null {
     return null
   }
   
-  if (hostname === 'business-as-code.dev') {
-    console.log('Rewriting business-as-code.dev to /sites/business-as-code.dev', { pathname, search })
-    return NextResponse.rewrite(new URL(`/sites/business-as-code.dev${pathname === '/' ? '' : pathname}${search}`, url))
+  if (isSiteDomain(hostname)) {
+    console.log(`Rewriting site domain ${hostname} to /sites/${hostname}`, { pathname, search })
+    return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname === '/' ? '' : pathname}${search}`, url))
   }
   
   if (pathname === '/') {
