@@ -9,9 +9,9 @@ test('admin login page', async ({ page }) => {
 
   await page.waitForSelector('input[type="email"]', { timeout: 90000 }); // Increase timeout for CI environments
   
-  await expect(page.locator('input[type="email"]')).toBeVisible()
-  await expect(page.locator('input[type="password"]')).toBeVisible()
-  await expect(page.locator('button[type="submit"]')).toBeVisible()
+  await expect(page.locator('input[type="email"]').first()).toBeVisible()
+  await expect(page.locator('input[type="password"]').first()).toBeVisible()
+  await expect(page.locator('button[type="submit"]').first()).toBeVisible()
 
   await expect(page).toHaveScreenshot('admin-login.png')
 })
