@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "type": "module",
   "dependencies": {
-    "simple-payload": "workspace:*"
+    "simple-payload": "0.1.0"
   },
   "devDependencies": {
-    "tsconfig": "workspace:*",
-    "eslint-config": "workspace:*"
+    "tsconfig": "0.0.0",
+    "eslint-config": "0.1.0"
   }
 }

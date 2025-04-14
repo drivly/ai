@@ -1,6 +1,6 @@
 {
   "name": "apis.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Unified API Gateway for all domains and services in the .do ecosystem",
   "keywords": [
     "api",
