@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const KPIs: CollectionConfig = {
   slug: 'kpis',
   admin: {
-    group: 'Work',
+    group: 'Business',
     useAsTitle: 'name',
     description: 'Manages key performance indicators for tracking business metrics',
   },

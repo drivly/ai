@@ -16,6 +16,15 @@ export const Workflows: CollectionConfig = {
     { name: 'module', type: 'relationship', relationTo: 'modules' },
     { name: 'package', type: 'relationship', relationTo: 'packages' },
     { name: 'deployment', type: 'relationship', relationTo: 'deployments' },
+    { 
+      name: 'goals', 
+      type: 'relationship', 
+      relationTo: 'goals',
+      hasMany: true,
+      admin: { 
+        description: 'Goals this workflow contributes to' 
+      } 
+    },
     {
       name: 'public',
       type: 'checkbox',
