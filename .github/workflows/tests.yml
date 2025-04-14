@@ -64,9 +64,9 @@ jobs:
           # Install wait-on utility
           npm install -g wait-on
           # Start the server in the background
-          pnpm dev &
+          pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev &
           # Wait for the server to be ready
-          wait-on http://localhost:3000 -t 60000
+          wait-on http://localhost:3000 -t 120000
           # Run Chromatic tests
           pnpm test:chromatic
         env:
@@ -75,3 +75,5 @@ jobs:
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
