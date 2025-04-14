@@ -3,6 +3,7 @@ import type { AnalyticsConfig, BeforeSendEvent, TrackMetricOptions, ExperimentOp
 
 /**
  * Default configuration for the analytics SDK
+ * Provides sensible defaults for all settings
  */
 const defaultConfig: AnalyticsConfig = {
   endpoint: '/_analytics',
