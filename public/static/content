@@ -1,64 +1,141 @@
 ---
-title: sdk.do CLI
-sidebarTitle: sdk
+title: cli.do CLI
+sidebarTitle: cli
 sdk: true
 cli: true
 ---
 
-# sdk.do CLI
+# cli.do CLI
 
-SDK for publishing Functions, Workflows, and Databases to NPM
+Unified CLI for all .do SDK packages
 
 ## Installation
 
 ```bash
-npm install -g sdk.do
+npm install -g cli.do
 # or
-npx sdk.do [command]
+npx cli.do [command]
 ```
 
 ## Usage
 
 ```bash
-sdk [command] [options]
+do [command] [options]
 ```
 
 ## Commands
 
-### `sdk`
+### `do`
 
-### `sdk`
+### `do`
 
-### `sdk`
+### `do`
 
-### `sdk`
+### `Available`
 
-### `sdk`
+### `apis`
 
-### `sdk`
+### `functions`
 
-### `sdk`
+### `workflows`
 
-### `sdk`
+### `agents`
+
+### `Common`
+
+### `init`
+
+### `login`
+
+### `logout`
+
+### `pull`
+
+### `push`
+
+### `sync`
+
+### `list`
+
+### `get`
+
+### `create`
+
+### `update`
+
+### `delete`
+
+### `execute`
+
+### `Show`
+
+### `Show`
+
+### `Environment`
+
+### `DO_API_KEY`
+
+### `APIS_DO_API_KEY`
+
+### `FUNCTIONS_DO_API_KEY`
+
+### `WORKFLOWS_DO_API_KEY`
+
+### `AGENTS_DO_API_KEY`
 
 
 
 ## Environment Variables
 
-No environment variables documented.
+- `DO_API_KEY`
+- `APIS_DO_API_KEY`
+- `FUNCTIONS_DO_API_KEY`
+- `WORKFLOWS_DO_API_KEY`
+- `AGENTS_DO_API_KEY`
 
 ## Help Output
 
 ```
-sdk.do - SDK for publishing Functions, Workflows, and Databases to NPM
+cli.do v${version}
 
 Usage:
-  sdk init [name] [--force]        Initialize a new package
-  sdk login [token]                Login to sdk.do
-  sdk logout                       Logout from sdk.do
-  sdk list                         List all packages
-  sdk create <name> [collections]  Create a new package
-  sdk add <packageId> <collection> Add a collection to a package
-  sdk remove <packageId> <collection> Remove a collection from a package
-  sdk publish <packageId> [--tag=latest] [--dry-run] Publish a package to NPM
+  do <sdk> <command> [options]
+  <sdk>.do <command> [options]
+
+Examples:
+  do functions list
+  functions.do list
+  do workflows execute myWorkflow
+  workflows.do execute myWorkflow
+
+Available SDKs:
+  apis       - APIs Gateway commands
+  functions  - AI Functions commands
+  workflows  - Workflows commands
+  agents     - AI Agents commands
+
+Common Commands:
+  init                Initialize a new project
+  login [token]       Login with API token
+  logout              Remove stored credentials
+  pull [resources]    Pull remote resources to local project
+  push [resources]    Push local resources to remote
+  sync                Sync local and remote resources
+  list <collection>   List resources in a collection
+  get <collection> <id>  Get a specific resource
+  create <collection> [data]  Create a new resource
+  update <collection> <id> [data]  Update a resource
+  delete <collection> <id>  Delete a resource
+  execute <functionId> [inputs]  Execute a function
+
+Options:
+  --help, -h          Show this help message
+  --version, -v       Show version information
+
+Environment Variables:
+  DO_API_KEY          API key for authentication (used for all SDKs)
+  APIS_DO_API_KEY     API key for apis.do
+  FUNCTIONS_DO_API_KEY API key for functions.do
+  WORKFLOWS_DO_API_KEY API key for workflows.do
+  AGENTS_DO_API_KEY   API key for agents.do
 ```
