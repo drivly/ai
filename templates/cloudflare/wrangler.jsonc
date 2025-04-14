@@ -1,32 +1,24 @@
 {
-  "name": "next-on-cloudflare",
-  "compatibility_date": "2023-12-01",
-  "workers_dev": true,
-  // Configuration for the OpenNext build output
-  "build": {
-    "command": "pnpm build",
-    "cwd": ".",
-    "watch_dir": "src"
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "cloudflare-example",
+  "compatibility_date": "2024-12-30",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
   },
-  "site": {
-    "bucket": "./.open-next/standalone/.netlify/functions/server/assets"
-  },
-  // Define environment variables
-  "define": {
-    "process.env.NEXT_MANUAL_SIG_HANDLE": "true"
-  },
-  // Configure routes for the Cloudflare Worker
-  "routes": [
+  "services": [
     {
-      "pattern": "*",
-      "zone_name": "example.com"
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "cloudflare-example"
     }
   ],
-  // Configure bindings for Cloudflare services
-  "bindings": [
-    {
-      "name": "ASSETS",
-      "type": "kv_namespace"
-    }
+  "r2_buckets": [
+    // Create a R2 binding with the binding name "NEXT_INC_CACHE_R2_BUCKET"
+    // {
+    //   "binding": "NEXT_INC_CACHE_R2_BUCKET",
+    //   "bucket_name": "<BUCKET_NAME>",
+    // }
   ]
 }

@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "npm i",
-    "build": "npx open-next build",
+    "build": "next build && npx open-next build",
     "start": "next start",
     "lint": "next lint",
+    "preview": "wrangler pages dev ./.open-next/standalone",
     "deploy": "wrangler deploy",
-    "preview": "wrangler pages dev ./.open-next/standalone"
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
     "business-as-code": "^0.0.2",
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@opennextjs/cloudflare": "^1.0.0-beta.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
