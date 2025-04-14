@@ -1,6 +1,6 @@
 {
   "name": "cli.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Unified CLI for all .do SDK packages",
   "keywords": [
     "cli",

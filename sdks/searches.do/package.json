@@ -1,6 +1,6 @@
 {
   "name": "searches.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "SDK for querying and retrieving data in workflows",
   "keywords": [
     "searches",

@@ -1,6 +1,6 @@
 {
   "name": "evals.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Evaluation tools for AI components, functions, workflows, and agents",
   "keywords": [
     "evaluation",
