@@ -13,8 +13,8 @@ function linkFilter(link: (typeof navigation)[number]) {
   return link.name !== 'GitHub' && link.name !== 'Discord'
 }
 
-export function SitesNavbar({ params, minimal }: { params: Promise<{ domain?: string }>; minimal?: boolean }) {
-  const domain = use(params).domain
+export function SitesNavbar({ params, minimal }: { params: { domain?: string }; minimal?: boolean }) {
+  const domain = params.domain
   const navMenuLinks = navigation.filter(linkFilter)
 
   const [isOpen, setOpen] = useState(false)

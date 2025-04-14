@@ -21,15 +21,19 @@ export const withSitesWrapper = <TPage extends DomainPageProps>({
   withFaqs?: boolean
   withCallToAction?: boolean
 }) => {
-  return async (props: TPage) => (
-    <Fragment>
-      <SitesNavbar {...props} minimal={minimal} />
-      <main className='flex-1 overflow-x-hidden border-b border-gray-800/50'>
-        <WrappedPage {...props} />
-      </main>
-      {withFaqs && <Faqs />}
-      {withCallToAction && <CallToAction />}
-      <Footer minimal={minimal} />
-    </Fragment>
-  )
+  return async (props: TPage) => {
+    const awaitedParams = await props.params
+
+    return (
+      <Fragment>
+        <SitesNavbar params={awaitedParams} minimal={minimal} />
+        <main className='flex-1 overflow-x-hidden border-b border-gray-800/50'>
+          <WrappedPage {...props} />
+        </main>
+        {withFaqs && <Faqs />}
+        {withCallToAction && <CallToAction />}
+        <Footer minimal={minimal} />
+      </Fragment>
+    )
+  }
 }
