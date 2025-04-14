@@ -4,6 +4,7 @@ const meta: MetaRecord = {
   docs: { type: 'page', href: '/docs' },
   api: { type: 'page', title: 'APIs', href: '/docs/apis' },
   sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
+  clis: { type: 'page', title: 'CLI', href: '/docs/cli' },
   pricing: { type: 'page', href: '/pricing' },
   dashboard: { type: 'page', href: '/admin' },
   reference: { 
