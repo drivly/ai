@@ -4,7 +4,8 @@ import { API } from '@/lib/api'
  * API handler for a specific project-scoped resource
  */
 export const GET = API(async (request, { params, db, payload }) => {
-  const { domain, resourceId } = await params as Promise<{ domain: string; resourceId: string }>
+  const resolvedParams = await params as { domain: string; resourceId: string }
+  const { domain, resourceId } = resolvedParams
   
   const project = await db.projects.findOne({
     where: {

@@ -4,6 +4,7 @@ import { getPayload } from 'payload';
 import { RootPage, generatePageMetadata } from '@payloadcms/next/views';
 import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain';
 import { createDynamicPayloadConfig } from '@/lib/createDynamicPayloadConfig';
+import { importMap } from './importMap';
 
 type Params = {
   domain: string;
@@ -44,6 +45,7 @@ export default async function ProjectAdminPage({ params }: { params: Promise<Par
     <div>
       <RootPage 
         config={Promise.resolve(config)} 
+        importMap={importMap}
         params={Promise.resolve({ segments: [] })}
         searchParams={Promise.resolve({})}
       />
