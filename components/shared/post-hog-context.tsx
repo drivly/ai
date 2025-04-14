@@ -49,6 +49,21 @@ function SuspendedPostHogPageView() {
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   usePostHogIdentification()
   
+  useEffect(() => {
+    if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
+      posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY as string, {
+        api_host: '', // Use relative URL for proxy
+        person_profiles: 'always',
+        capture_pageview: false, // Disable automatic pageview capture, as we capture manually
+        capture_exceptions: {
+          capture_unhandled_errors: true,
+          capture_unhandled_rejections: true,
+          capture_console_errors: true,
+        },
+      })
+    }
+  }, [])
+  
   return (
     <PHProvider client={posthog}>
       <SuspendedPostHogPageView />
