@@ -11,8 +11,23 @@ const rootDir = path.resolve(__dirname, '..');
 const outputDir = path.join(rootDir, 'reference', 'better-auth');
 const tempOutputDir = path.join(rootDir, 'temp-better-auth');
 
-const BETTER_AUTH_DOCS_URL = 'https://www.better-auth.com/docs';
-const MAX_URLS = 100; // Adjust as needed to capture all docs
+const BETTER_AUTH_BASE_URL = 'https://www.better-auth.com';
+const BETTER_AUTH_DOCS_URL = `${BETTER_AUTH_BASE_URL}/docs`;
+const MAX_URLS = 500; // Increased to capture all docs
+
+const PATHS_TO_CRAWL = [
+  '/docs',
+  '/docs/introduction',
+  '/docs/getting-started',
+  '/docs/features',
+  '/docs/api-reference',
+  '/docs/guides',
+  '/docs/examples',
+  '/docs/plugins',
+  '/docs/plugins/oauth-proxy',
+  '/docs/plugins/passwordless',
+  '/docs/plugins/social-login'
+];
 
 async function fetchBetterAuthDocs() {
   try {
@@ -23,40 +38,69 @@ async function fetchBetterAuthDocs() {
 
     console.log('Starting Better-Auth documentation crawl using Firecrawl CLI...');
     
-    if (!fs.existsSync(tempOutputDir)) {
-      fs.mkdirSync(tempOutputDir, { recursive: true });
+    if (fs.existsSync(tempOutputDir)) {
+      fs.rmSync(tempOutputDir, { recursive: true, force: true });
     }
     
-    console.log(`Running npx generate-llmstxt for ${BETTER_AUTH_DOCS_URL}...`);
-    execSync(
-      `npx generate-llmstxt --api-key ${apiKey} --url ${BETTER_AUTH_DOCS_URL} --max-urls ${MAX_URLS} --output-dir ${tempOutputDir}`,
-      { stdio: 'inherit' }
-    );
+    fs.mkdirSync(tempOutputDir, { recursive: true });
     
-    const llmsPath = path.join(tempOutputDir, 'llms.txt');
-    const llmsFullPath = path.join(tempOutputDir, 'llms-full.txt');
+    for (let i = 0; i < PATHS_TO_CRAWL.length; i++) {
+      const path = PATHS_TO_CRAWL[i];
+      const pathDir = `${tempOutputDir}/path_${i}`;
+      fs.mkdirSync(pathDir, { recursive: true });
+      
+      const url = `${BETTER_AUTH_BASE_URL}${path}`;
+      console.log(`Crawling ${url}...`);
+      
+      try {
+        execSync(
+          `npx generate-llmstxt --api-key ${apiKey} --url ${url} --max-urls ${MAX_URLS} --output-dir ${pathDir}`,
+          { stdio: 'inherit', timeout: 60000 } // 60 second timeout
+        );
+      } catch (error) {
+        console.log(`Warning: Error crawling ${url}: ${error.message}`);
+      }
+    }
     
-    if (!fs.existsSync(llmsPath) || !fs.existsSync(llmsFullPath)) {
-      throw new Error('Failed to generate llms.txt or llms-full.txt files');
+    const combinedContent = [];
+    for (let i = 0; i < PATHS_TO_CRAWL.length; i++) {
+      const pathDir = `${tempOutputDir}/path_${i}`;
+      const llmsFullPath = path.join(pathDir, 'llms-full.txt');
+      
+      if (fs.existsSync(llmsFullPath)) {
+        const content = fs.readFileSync(llmsFullPath, 'utf8');
+        combinedContent.push(content);
+      }
+    }
+    
+    if (!fs.existsSync(path.join(rootDir, 'docs'))) {
+      fs.mkdirSync(path.join(rootDir, 'docs'), { recursive: true });
     }
     
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true });
     }
     
-    const betterAuthLlmsPath = path.join(rootDir, 'docs', 'better-auth-llms.txt');
-    const betterAuthLlmsFullPath = path.join(rootDir, 'docs', 'better-auth-llms-full.txt');
+    const combinedContentText = combinedContent.join('\n\n');
     const betterAuthDocsPath = path.join(rootDir, 'docs', 'better-auth.md');
+    const betterAuthLlmsFullPath = path.join(rootDir, 'docs', 'better-auth-llms-full.txt');
+    const betterAuthLlmsPath = path.join(rootDir, 'docs', 'better-auth-llms.txt');
     
-    fs.copyFileSync(llmsPath, betterAuthLlmsPath);
-    fs.copyFileSync(llmsFullPath, betterAuthLlmsFullPath);
-    fs.copyFileSync(llmsFullPath, betterAuthDocsPath);
+    fs.writeFileSync(betterAuthDocsPath, combinedContentText);
+    fs.writeFileSync(betterAuthLlmsFullPath, combinedContentText);
     
-    console.log(`Saved llms.txt to ${betterAuthLlmsPath}`);
-    console.log(`Saved llms-full.txt to ${betterAuthLlmsFullPath}`);
+    const simplifiedContent = combinedContentText
+      .split('\n\n')
+      .filter((para, index) => index % 3 === 0) // Take every third paragraph to reduce size
+      .join('\n\n');
+    
+    fs.writeFileSync(betterAuthLlmsPath, simplifiedContent);
+    
     console.log(`Saved documentation to ${betterAuthDocsPath}`);
+    console.log(`Saved llms-full.txt to ${betterAuthLlmsFullPath}`);
+    console.log(`Saved llms.txt to ${betterAuthLlmsPath}`);
     
-    await processLlmsFullToMarkdown(llmsFullPath);
+    await processLlmsFullToMarkdown(combinedContentText);
     
     fs.rmSync(tempOutputDir, { recursive: true, force: true });
     
@@ -67,11 +111,9 @@ async function fetchBetterAuthDocs() {
   }
 }
 
-async function processLlmsFullToMarkdown(llmsFullPath) {
+async function processLlmsFullToMarkdown(content) {
   try {
-    console.log('Processing llms-full.txt to markdown files...');
-    
-    const content = fs.readFileSync(llmsFullPath, 'utf8');
+    console.log('Processing content to markdown files...');
     
     const sections = content.split(/(?=^# |^## )/m).filter(section => section.trim());
     
