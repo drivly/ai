@@ -1,17 +1,30 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { Router } from 'itty-router'
 import { analyticsMiddleware } from './analytics/src/middleware'
-import { buildContext } from './lib/ctx'
-import * as handlers from './lib/ctx/handlers'
+import { collectionSlugs } from './collections/middleware-collections'
+import { API_AUTH_PREFIX, publicRoutes } from './lib/routes'
+import {
+  isGatewayDomain,
+  isBrandDomain,
+  isDoDomain,
+  isDoManagementDomain,
+} from './lib/domains'
+import { RequestHandler } from './lib/middleware/request-handler'
+import {
+  handleApiRoute,
+  handleApiDocsRoute,
+  handleGatewayDomain,
+  handleBrandDomain,
+  handleDoManagementDomain,
+  handleDoDomain,
+  handleCustomDomain,
+} from './lib/middleware'
 
 /**
  * Middleware Configuration
  * -----------------------
  * This middleware handles routing logic for the .do domain ecosystem and custom domains.
  * It determines whether requests should be routed to API endpoints or website content.
- * 
- * This implementation uses itty-router for clean, declarative routing.
  */
 
 /**
@@ -20,78 +33,62 @@ import * as handlers from './lib/ctx/handlers'
  */
 export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
-    const ctx = buildContext(request)
+    const handler = new RequestHandler(request)
     
-    const router = Router()
+    const isLoggedIn = handler.isLoggedIn()
+    console.log('🚀 ~ isLoggedIn:', isLoggedIn)
     
-    router.all('*', () => {
-      if (ctx.isApiAuthRoute || ctx.isPublicRoute) {
-        console.log('Passing through auth or public route', { path: ctx.pathname })
-        return NextResponse.next()
+    if (handler.isApiAuthRoute() || handler.isPublicRoute()) {
+      return NextResponse.next()
+    }
+    
+    if (handler.isApiRoute()) {
+      console.log('Handling API route', { hostname: handler.hostname, pathname: handler.pathname, search: handler.search })
+      
+      if (handler.isApiDocsRoute()) {
+        return handleApiDocsRoute(request)
       }
-    })
-    
-    router.all('*', () => {
-      if (ctx.isApiRoute) {
-        console.log('Handling API route', { hostname: ctx.hostname, pathname: ctx.pathname, search: ctx.search })
-        
-        if (ctx.isApiDocsRoute) {
-          return handlers.handleApiDocsRoute(ctx)
-        }
-        
-        const apiRouteResponse = handlers.handleApiRoute(ctx)
-        if (apiRouteResponse) {
-          return apiRouteResponse
-        }
-        
-        return NextResponse.next()
+      
+      const apiRouteResponse = handleApiRoute(request)
+      if (apiRouteResponse) {
+        return apiRouteResponse
       }
-    })
+      
+      return NextResponse.next()
+    }
     
-    router.all('*', () => {
-      if (ctx.isGatewayDomain) {
-        const gatewayResponse = handlers.handleGatewayDomain(ctx)
-        if (gatewayResponse) {
-          return gatewayResponse
-        }
-        return NextResponse.next()
+    if (isGatewayDomain(handler.hostname)) {
+      const gatewayResponse = handleGatewayDomain(request)
+      if (gatewayResponse) {
+        return gatewayResponse
       }
-    })
+      return NextResponse.next()
+    }
     
-    router.all('*', () => {
-      if (ctx.isBrandDomain) {
-        const brandResponse = handlers.handleBrandDomain(ctx)
-        if (brandResponse) {
-          return brandResponse
-        }
-        return NextResponse.next()
+    if (isBrandDomain(handler.hostname)) {
+      const brandResponse = handleBrandDomain(request)
+      if (brandResponse) {
+        return brandResponse
       }
-    })
+      return NextResponse.next()
+    }
     
-    router.all('*', () => {
-      if (ctx.isDoManagementDomain) {
-        const managementResponse = handlers.handleDoManagementDomain(ctx)
-        if (managementResponse) {
-          return managementResponse
-        }
+    if (isDoManagementDomain(handler.hostname)) {
+      const managementResponse = handleDoManagementDomain(request)
+      if (managementResponse) {
+        return managementResponse
       }
-    })
+    }
     
-    router.all('*', () => {
-      if (ctx.isDoDomain) {
-        const doResponse = handlers.handleDoDomain(ctx)
-        if (doResponse) {
-          return doResponse
-        }
-        return NextResponse.next()
+    if (isDoDomain(handler.hostname)) {
+      const doResponse = handleDoDomain(request)
+      if (doResponse) {
+        return doResponse
       }
-    })
+      return NextResponse.next()
+    }
     
-    router.all('*', () => {
-      return handlers.handleCustomDomain(ctx)
-    })
-    
-    return router.handle({})
+    return handleCustomDomain(request)
   })
 }
 
