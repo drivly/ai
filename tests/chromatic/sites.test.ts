@@ -138,5 +138,5 @@ test('site waitlist page - unauthenticated', async ({ page }) => {
   await page.waitForSelector('form[action*="/api/users/login"]', { timeout: 60000 }); 
   await expect(page.locator('form[action*="/api/users/login"]')).toBeVisible();
 
-  await expect(page).toHaveScreenshot('sites-waitlist-redirected-to-login.png'); 
+  await expect(page).toHaveScreenshot('sites-waitlist-redirected-root-login-page.png');
 })
