@@ -1,6 +1,20 @@
 # Next.js Template for Cloudflare Pages
 
-This is a Next.js template configured with OpenNext for deployment on Cloudflare Pages. It includes TypeScript, ESLint, and Tailwind CSS.
+This is a Next.js template configured with OpenNext for deployment on Cloudflare Pages. It includes TypeScript, ESLint, and Tailwind CSS, optimized for the Cloudflare platform.
+
+[![Deploy to Cloudflare Pages](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/drivly/ai/tree/main/templates/cloudflare)
+
+## About Cloudflare Pages Platform
+
+[Cloudflare Pages](https://pages.cloudflare.com/) is a JAMstack platform for frontend developers to collaborate and deploy websites. It offers a seamless developer experience to build, test, and deploy directly from your Git repository with built-in CI/CD.
+
+Key benefits:
+- Global CDN with caching at the edge
+- Unlimited sites, requests, and bandwidth
+- Automatic HTTPS and SSL certificates
+- Instant rollbacks and previews
+- Integrated with Cloudflare Workers for serverless functions
+- Built-in CI/CD with Git integration
 
 ## Getting Started
 
@@ -46,7 +60,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 ## Building for Production
 
@@ -87,6 +101,10 @@ bun run preview
 ```
 
 ## Deploying to Cloudflare Pages
+
+### One-Click Deployment
+
+Use the "Deploy to Cloudflare Pages" button at the top of this README to create a new project instantly from this template.
 
 ### Deploy with Wrangler CLI
 

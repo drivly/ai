@@ -1,6 +1,20 @@
 # Next.js Template for Vercel
 
-This is a standard Next.js template configured for deployment on Vercel. It includes TypeScript, ESLint, and Tailwind CSS.
+This is a standard Next.js template configured for deployment on Vercel. It includes TypeScript, ESLint, and Tailwind CSS, optimized for the Vercel platform.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fdrivly%2Fai%2Ftree%2Fmain%2Ftemplates%2Fvercel)
+
+## About Vercel Platform
+
+[Vercel](https://vercel.com) is a cloud platform for static sites and Serverless Functions that fits perfectly with your workflow. It enables developers to host Jamstack websites and web services that deploy instantly, scale automatically, and requires no supervision, all with no configuration.
+
+Key benefits:
+- Zero configuration required
+- Automatic SSL
+- Instant global deployment
+- Serverless functions
+- Edge Network for optimal performance
+- Built-in CI/CD with Git integration
 
 ## Getting Started
 
@@ -45,7 +59,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a custom font from Vercel.
 
@@ -66,6 +80,10 @@ bun run build
 ```
 
 ## Deploying to Vercel
+
+### One-Click Deployment
+
+Use the "Deploy with Vercel" button at the top of this README to create a new project instantly from this template.
 
 ### Deploy with Vercel CLI
 
