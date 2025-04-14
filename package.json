@@ -45,7 +45,7 @@
     "test": "turbo test",
     "test:watch": "vitest",
     "test:e2e": "vitest run --config tests/vitest.e2e.config.ts",
-    "test:chromatic": "npx playwright test tests/chromatic && chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --config=playwright.config.ts",
+    "test:chromatic": "npx playwright test tests/chromatic && npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN}",
     "clean": "turbo clean",
     "lint:legacy": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "test:legacy": "vitest run",

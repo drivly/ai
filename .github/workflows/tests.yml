@@ -67,14 +67,16 @@ jobs:
           pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation npx next dev &
           # Wait for the server to be ready
           wait-on http://localhost:3000 -t 120000
-          # Run Chromatic tests with autoAcceptChanges to handle first-time snapshots
-          pnpm test:chromatic -- --auto-accept-changes
+          # Run Playwright tests first
+          npx playwright test tests/chromatic
+          # Run Chromatic with auto-accept-changes for first-time snapshots
+          npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           TEST_BASE_URL: http://localhost:3000
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_API_KEY: mock_resend_api_key_for_tests
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           CI: true
