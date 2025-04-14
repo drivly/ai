@@ -56,6 +56,9 @@ jobs:
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+        
       - name: Run Chromatic Tests
         run: pnpm test:chromatic
         env:
