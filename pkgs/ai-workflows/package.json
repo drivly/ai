@@ -16,13 +16,13 @@
     "test": "echo \"No tests\" && exit 0"
   },
   "dependencies": {
-    "ai-functions": "workspace:*"
+    "ai-functions": "0.3.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.0",
-    "tsconfig": "workspace:*",
-    "eslint-config": "workspace:*"
+    "tsconfig": "0.0.0",
+    "eslint-config": "0.1.0"
   }
 }
