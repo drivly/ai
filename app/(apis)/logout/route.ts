@@ -1,7 +1,6 @@
-import { NextResponse, NextRequest } from 'next/server'
-import { getCurrentURL } from '@/lib/utils/url'
-import { API } from '@/lib/api'
 import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { getCurrentURL } from '@/lib/utils/url'
+import { NextRequest, NextResponse } from 'next/server'
 
 export const GET = async (request: NextRequest) => {
   const payload = await getPayloadWithAuth()

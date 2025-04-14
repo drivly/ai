@@ -8,7 +8,7 @@ import { Callout } from 'nextra/components'
 
 # Nouns API
 
-API for managing Nouns resources.
+Defines semantic noun entities with their various grammatical forms
 
 
 
@@ -26,6 +26,8 @@ interface Nouns {
   act?: string;
   activity?: string;
   event?: string;
+  order?: number;
+  group?: string;
   type?: Array<{ relationTo: string; value: string }>;
   resources?: any;
 }

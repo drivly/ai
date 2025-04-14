@@ -1,6 +1,6 @@
 import { Particles } from '@/components/sites/magicui/particles'
-import DotdoLinkSection from '@/components/sites/sections/dotdo-link-section'
-import HeroSection from '@/components/sites/sections/hero-section'
+import { DotdoLinkSection } from '@/components/sites/sections/dotdo-link-section'
+import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'

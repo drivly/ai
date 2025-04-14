@@ -8,7 +8,7 @@ import { Callout } from 'nextra/components'
 
 # Workflows API
 
-API for managing Workflows resources.
+Orchestrates functions into reusable business processes
 
 
 
@@ -24,6 +24,7 @@ interface Workflows {
   module?: string;
   package?: string;
   deployment?: string;
+  goals?: string[];
   public?: boolean;
   clonedFrom?: string;
   pricing?: any;

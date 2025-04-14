@@ -1,8 +1,4 @@
-@layer theme, base, components, utilities;
-@import 'tailwindcss/theme.css' layer(theme);
-@import 'tailwindcss/utilities.css' layer(utilities);
-
-@layer payload-default, payload;
+@import './base.css';
 
 @layer theme {
   :root {
@@ -258,7 +254,8 @@
   }
 
   /* Dark theme */
-  html[data-theme='dark'] {
+  [data-theme='dark'],
+  .dark {
     /* Shadcn UI variable mapping for dark mode */
     --background: var(--color-base-950);
     --foreground: var(--color-base-0);

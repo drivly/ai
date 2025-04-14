@@ -7,6 +7,7 @@ export async function GET(request: NextRequest) {
   const callbackUrl = hostname.endsWith('.do') && !hostname.includes('apis.do') ? `/admin/collections/${hostname.replace('.do', '')}` : '/admin'
 
   try {
+    
     const data = await payload.betterAuth.api.signInSocial({
       body: { provider: 'github', callbackURL: callbackUrl },
     })

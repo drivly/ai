@@ -129,6 +129,7 @@ export interface Config {
     oauthClients: OauthClient;
     oauthCodes: OauthCode;
     oauthTokens: OauthToken;
+    'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -216,6 +217,7 @@ export interface Config {
     oauthClients: OauthClientsSelect<false> | OauthClientsSelect<true>;
     oauthCodes: OauthCodesSelect<false> | OauthCodesSelect<true>;
     oauthTokens: OauthTokensSelect<false> | OauthTokensSelect<true>;
+    'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -234,8 +236,45 @@ export interface Config {
         collection: 'apikeys';
       });
   jobs: {
-    tasks: unknown;
-    workflows: unknown;
+    tasks: {
+      executeFunction: TaskExecuteFunction;
+      generateCode: TaskGenerateCode;
+      requestHumanFeedback: TaskRequestHumanFeedback;
+      processBatchOpenAI: TaskProcessBatchOpenAI;
+      processBatchAnthropic: TaskProcessBatchAnthropic;
+      processBatchGoogleVertexAI: TaskProcessBatchGoogleVertexAI;
+      processBatchParasail: TaskProcessBatchParasail;
+      createGenerationBatch: TaskCreateGenerationBatch;
+      generateFunctionExamples: TaskGenerateFunctionExamples;
+      executeCodeFunction: TaskExecuteCodeFunction;
+      processCodeFunctionWrapper: TaskProcessCodeFunctionWrapper;
+      processCodeFunction: TaskProcessCodeFunction;
+      deployWorker: TaskDeployWorker;
+      generateResourceEmbedding: TaskGenerateResourceEmbedding;
+      generateThingEmbedding: TaskGenerateThingEmbedding;
+      searchThings: TaskSearchThings;
+      hybridSearchThings: TaskHybridSearchThings;
+      generateEmbedding: TaskGenerateEmbedding;
+      inflectNouns: TaskInflectNouns;
+      conjugateVerbs: TaskConjugateVerbs;
+      deliverWebhook: TaskDeliverWebhook;
+      initiateComposioConnection: TaskInitiateComposioConnection;
+      processDomain: TaskProcessDomain;
+      postGithubComment: TaskPostGithubComment;
+      githubFileOperations: TaskGithubFileOperations;
+      saveExecutionResults: TaskSaveExecutionResults;
+      researchTask: TaskResearchTask;
+      handleLinearWebhook: TaskHandleLinearWebhook;
+      syncTaskToLinear: TaskSyncTaskToLinear;
+      deleteLinearIssue: TaskDeleteLinearIssue;
+      inline: {
+        input: unknown;
+        output: unknown;
+      };
+    };
+    workflows: {
+      handleGithubEvent: WorkflowHandleGithubEvent;
+    };
   };
 }
 export interface UserAuthOperations {
@@ -291,6 +330,10 @@ export interface User {
    */
   name?: string | null;
   /**
+   * The email of the user
+   */
+  email: string;
+  /**
    * Whether the email of the user has been verified
    */
   emailVerified: boolean;
@@ -329,17 +372,6 @@ export interface User {
   enableAPIKey?: boolean | null;
   apiKey?: string | null;
   apiKeyIndex?: string | null;
-  /**
-   * The email of the user
-   */
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * Manages user roles and permissions within the system
@@ -636,6 +668,15 @@ export interface ApiKey {
     | string
     | number
     | boolean
+    | null;
+  /**
+   * Domains of authorized Cloudflare Workers
+   */
+  cfWorkerDomains?:
+    | {
+        domain: string;
+        id?: string | null;
+      }[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -1032,6 +1073,14 @@ export interface Noun {
    * Past tense like Used
    */
   event?: string | null;
+  /**
+   * Display order in admin interface
+   */
+  order?: number | null;
+  /**
+   * Admin group for organizing collections
+   */
+  group?: string | null;
   type?:
     | {
         relationTo: 'things';
@@ -2467,6 +2516,202 @@ export interface OauthToken {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs".
+ */
+export interface PayloadJob {
+  id: string;
+  /**
+   * Input data provided to the job
+   */
+  input?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  taskStatus?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  completedAt?: string | null;
+  totalTried?: number | null;
+  /**
+   * If hasError is true this job will not be retried
+   */
+  hasError?: boolean | null;
+  /**
+   * If hasError is true, this is the error that caused it
+   */
+  error?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Task execution log
+   */
+  log?:
+    | {
+        executedAt: string;
+        completedAt: string;
+        taskSlug:
+          | 'inline'
+          | 'executeFunction'
+          | 'generateCode'
+          | 'requestHumanFeedback'
+          | 'processBatchOpenAI'
+          | 'processBatchAnthropic'
+          | 'processBatchGoogleVertexAI'
+          | 'processBatchParasail'
+          | 'createGenerationBatch'
+          | 'generateFunctionExamples'
+          | 'executeCodeFunction'
+          | 'processCodeFunctionWrapper'
+          | 'processCodeFunction'
+          | 'deployWorker'
+          | 'generateResourceEmbedding'
+          | 'generateThingEmbedding'
+          | 'searchThings'
+          | 'hybridSearchThings'
+          | 'generateEmbedding'
+          | 'inflectNouns'
+          | 'conjugateVerbs'
+          | 'deliverWebhook'
+          | 'initiateComposioConnection'
+          | 'processDomain'
+          | 'postGithubComment'
+          | 'githubFileOperations'
+          | 'saveExecutionResults'
+          | 'researchTask'
+          | 'handleLinearWebhook'
+          | 'syncTaskToLinear'
+          | 'deleteLinearIssue';
+        taskID: string;
+        input?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        output?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        state: 'failed' | 'succeeded';
+        error?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        parent?: {
+          taskSlug?:
+            | (
+                | 'inline'
+                | 'executeFunction'
+                | 'generateCode'
+                | 'requestHumanFeedback'
+                | 'processBatchOpenAI'
+                | 'processBatchAnthropic'
+                | 'processBatchGoogleVertexAI'
+                | 'processBatchParasail'
+                | 'createGenerationBatch'
+                | 'generateFunctionExamples'
+                | 'executeCodeFunction'
+                | 'processCodeFunctionWrapper'
+                | 'processCodeFunction'
+                | 'deployWorker'
+                | 'generateResourceEmbedding'
+                | 'generateThingEmbedding'
+                | 'searchThings'
+                | 'hybridSearchThings'
+                | 'generateEmbedding'
+                | 'inflectNouns'
+                | 'conjugateVerbs'
+                | 'deliverWebhook'
+                | 'initiateComposioConnection'
+                | 'processDomain'
+                | 'postGithubComment'
+                | 'githubFileOperations'
+                | 'saveExecutionResults'
+                | 'researchTask'
+                | 'handleLinearWebhook'
+                | 'syncTaskToLinear'
+                | 'deleteLinearIssue'
+              )
+            | null;
+          taskID?: string | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  workflowSlug?: 'handleGithubEvent' | null;
+  taskSlug?:
+    | (
+        | 'inline'
+        | 'executeFunction'
+        | 'generateCode'
+        | 'requestHumanFeedback'
+        | 'processBatchOpenAI'
+        | 'processBatchAnthropic'
+        | 'processBatchGoogleVertexAI'
+        | 'processBatchParasail'
+        | 'createGenerationBatch'
+        | 'generateFunctionExamples'
+        | 'executeCodeFunction'
+        | 'processCodeFunctionWrapper'
+        | 'processCodeFunction'
+        | 'deployWorker'
+        | 'generateResourceEmbedding'
+        | 'generateThingEmbedding'
+        | 'searchThings'
+        | 'hybridSearchThings'
+        | 'generateEmbedding'
+        | 'inflectNouns'
+        | 'conjugateVerbs'
+        | 'deliverWebhook'
+        | 'initiateComposioConnection'
+        | 'processDomain'
+        | 'postGithubComment'
+        | 'githubFileOperations'
+        | 'saveExecutionResults'
+        | 'researchTask'
+        | 'handleLinearWebhook'
+        | 'syncTaskToLinear'
+        | 'deleteLinearIssue'
+      )
+    | null;
+  queue?: string | null;
+  waitUntil?: string | null;
+  processing?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -2715,6 +2960,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'oauthTokens';
         value: string | OauthToken;
+      } | null)
+    | ({
+        relationTo: 'payload-jobs';
+        value: string | PayloadJob;
       } | null);
   globalSlug?: string | null;
   user:
@@ -2775,6 +3024,7 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   roles?: T;
   name?: T;
+  email?: T;
   emailVerified?: T;
   image?: T;
   role?: T;
@@ -2793,13 +3043,6 @@ export interface UsersSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2867,6 +3110,12 @@ export interface ApiKeysSelect<T extends boolean = true> {
   expiresAt?: T;
   permissions?: T;
   metadata?: T;
+  cfWorkerDomains?:
+    | T
+    | {
+        domain?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3107,6 +3356,8 @@ export interface NounsSelect<T extends boolean = true> {
   act?: T;
   activity?: T;
   event?: T;
+  order?: T;
+  group?: T;
   type?: T;
   resources?: T;
   updatedAt?: T;
@@ -3828,6 +4079,44 @@ export interface OauthTokensSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-jobs_select".
+ */
+export interface PayloadJobsSelect<T extends boolean = true> {
+  input?: T;
+  taskStatus?: T;
+  completedAt?: T;
+  totalTried?: T;
+  hasError?: T;
+  error?: T;
+  log?:
+    | T
+    | {
+        executedAt?: T;
+        completedAt?: T;
+        taskSlug?: T;
+        taskID?: T;
+        input?: T;
+        output?: T;
+        state?: T;
+        error?: T;
+        parent?:
+          | T
+          | {
+              taskSlug?: T;
+              taskID?: T;
+            };
+        id?: T;
+      };
+  workflowSlug?: T;
+  taskSlug?: T;
+  queue?: T;
+  waitUntil?: T;
+  processing?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -3857,6 +4146,867 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskExecuteFunction".
+ */
+export interface TaskExecuteFunction {
+  input: {
+    markdown: string;
+    outputPath?: string | null;
+    options?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    outputPath?: string | null;
+    duration?: number | null;
+    size?: number | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateCode".
+ */
+export interface TaskGenerateCode {
+  input: {
+    prompt: string;
+    settings?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    raw?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    code?: string | null;
+    parsed?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskRequestHumanFeedback".
+ */
+export interface TaskRequestHumanFeedback {
+  input: {
+    taskId?: string | null;
+    title: string;
+    description: string;
+    options?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    freeText?: boolean | null;
+    platform?: ('slack' | 'teams' | 'discord') | null;
+    userId?: string | null;
+    roleId?: string | null;
+    timeout?: number | null;
+  };
+  output: {
+    taskId?: string | null;
+    status?: string | null;
+    response?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    messageId?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchOpenAI".
+ */
+export interface TaskProcessBatchOpenAI {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchAnthropic".
+ */
+export interface TaskProcessBatchAnthropic {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchGoogleVertexAI".
+ */
+export interface TaskProcessBatchGoogleVertexAI {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchParasail".
+ */
+export interface TaskProcessBatchParasail {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskCreateGenerationBatch".
+ */
+export interface TaskCreateGenerationBatch {
+  input: {
+    name: string;
+    provider: string;
+    batchConfig:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    generations?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    success?: boolean | null;
+    batchId?: string | null;
+    jobId?: string | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateFunctionExamples".
+ */
+export interface TaskGenerateFunctionExamples {
+  input: {
+    functionId: string;
+    count?: number | null;
+    force?: boolean | null;
+  };
+  output: {
+    success?: boolean | null;
+    message?: string | null;
+    examples?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskExecuteCodeFunction".
+ */
+export interface TaskExecuteCodeFunction {
+  input: {
+    code: string;
+    args?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    timeout?: number | null;
+    memoryLimit?: number | null;
+  };
+  output: {
+    result?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    logs?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessCodeFunctionWrapper".
+ */
+export interface TaskProcessCodeFunctionWrapper {
+  input: {
+    functionId: string;
+  };
+  output: {
+    function?: string | null;
+    taskId?: string | null;
+    success?: boolean | null;
+    error?: string | null;
+    message?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessCodeFunction".
+ */
+export interface TaskProcessCodeFunction {
+  input: {
+    functionId: string;
+  };
+  output: {
+    function?: string | null;
+    moduleId?: string | null;
+    packageId?: string | null;
+    success?: boolean | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDeployWorker".
+ */
+export interface TaskDeployWorker {
+  input: {
+    worker:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    options?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    result?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    deployment?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateResourceEmbedding".
+ */
+export interface TaskGenerateResourceEmbedding {
+  input: {
+    id: string;
+  };
+  output: {
+    resource?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateThingEmbedding".
+ */
+export interface TaskGenerateThingEmbedding {
+  input: {
+    id: string;
+  };
+  output: {
+    thing?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSearchThings".
+ */
+export interface TaskSearchThings {
+  input: {
+    query: string;
+    limit?: number | null;
+  };
+  output: {
+    results?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskHybridSearchThings".
+ */
+export interface TaskHybridSearchThings {
+  input: {
+    query: string;
+    limit?: number | null;
+  };
+  output: {
+    results?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGenerateEmbedding".
+ */
+export interface TaskGenerateEmbedding {
+  input: {
+    text: string;
+  };
+  output: {
+    embedding?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskInflectNouns".
+ */
+export interface TaskInflectNouns {
+  input: {
+    noun: string;
+  };
+  output: {
+    singular?: string | null;
+    plural?: string | null;
+    possessive?: string | null;
+    pluralPossessive?: string | null;
+    verb?: string | null;
+    act?: string | null;
+    activity?: string | null;
+    event?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskConjugateVerbs".
+ */
+export interface TaskConjugateVerbs {
+  input: {
+    verb: string;
+  };
+  output: {
+    act?: string | null;
+    activity?: string | null;
+    event?: string | null;
+    subject?: string | null;
+    object?: string | null;
+    inverse?: string | null;
+    inverseAct?: string | null;
+    inverseActivity?: string | null;
+    inverseEvent?: string | null;
+    inverseSubject?: string | null;
+    inverseObject?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDeliverWebhook".
+ */
+export interface TaskDeliverWebhook {
+  input: {
+    event:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    webhookId: string;
+  };
+  output: {
+    status?: string | null;
+    message?: string | null;
+    statusCode?: number | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskInitiateComposioConnection".
+ */
+export interface TaskInitiateComposioConnection {
+  input: {
+    integrationId: string;
+    userId: string;
+    taskId?: string | null;
+    redirectUrl?: string | null;
+  };
+  output: {
+    connection?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    authorization_url?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessDomain".
+ */
+export interface TaskProcessDomain {
+  input: {
+    domainId: string;
+    operation: string;
+    domain?: string | null;
+    vercelId?: string | null;
+    cloudflareId?: string | null;
+  };
+  output: {};
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskPostGithubComment".
+ */
+export interface TaskPostGithubComment {
+  input: {
+    issueNumber: number;
+    repository: string;
+    researchResults:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskGithubFileOperations".
+ */
+export interface TaskGithubFileOperations {
+  input: {
+    repository: string;
+    branch?: string | null;
+    path: string;
+    content?: string | null;
+    message?: string | null;
+    operation: string;
+    prTitle?: string | null;
+    prBody?: string | null;
+  };
+  output: {
+    data?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    error?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSaveExecutionResults".
+ */
+export interface TaskSaveExecutionResults {
+  input: {
+    prompt?: string | null;
+    object?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    functionName?: string | null;
+    args?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    settings?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    argsDoc?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    functionDoc?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    reasoning?: string | null;
+    generation?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    generationLatency?: number | null;
+    headers?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    seeds?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    callback?: string | null;
+    isTextFunction?: string | null;
+    latency?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    generationHash?: string | null;
+  };
+  output: {
+    success?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskResearchTask".
+ */
+export interface TaskResearchTask {
+  input: {
+    topic: string;
+    depth?: number | null;
+    sources?:
+      | {
+          sourceUrl?: string | null;
+        }[]
+      | null;
+    format?: string | null;
+    taskId: string;
+    callback?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    summary?: string | null;
+    findings?:
+      | {
+          finding?: string | null;
+        }[]
+      | null;
+    sources?:
+      | {
+          sourceUrl?: string | null;
+        }[]
+      | null;
+    confidence?: number | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskHandleLinearWebhook".
+ */
+export interface TaskHandleLinearWebhook {
+  input: {
+    payload:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSyncTaskToLinear".
+ */
+export interface TaskSyncTaskToLinear {
+  input: {
+    data:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    originalDoc?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    status?: string | null;
+    message?: string | null;
+    linearIssueId?: string | null;
+    linearIssueUrl?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDeleteLinearIssue".
+ */
+export interface TaskDeleteLinearIssue {
+  input: {
+    data:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    originalDoc?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    status?: string | null;
+    message?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WorkflowHandleGithubEvent".
+ */
+export interface WorkflowHandleGithubEvent {
+  input: {
+    payload:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

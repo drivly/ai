@@ -1,4 +1,4 @@
-import { Badge } from '@/components/sites/badge'
+import { Badge } from '@/components/ui/badge'
 import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'

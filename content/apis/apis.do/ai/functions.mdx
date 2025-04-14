@@ -8,7 +8,7 @@ import { Callout } from 'nextra/components'
 
 # Functions API
 
-API for managing Functions resources.
+Reusable AI capabilities with typed inputs and outputs
 
 
 
@@ -22,7 +22,7 @@ interface Functions {
   public?: boolean;
   clonedFrom?: string;
   pricing?: any;
-  format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code';
+  format?: 'Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code' | 'Video';
   schemaYaml?: string;
   shape?: Record<string, any>;
   code?: string;
@@ -31,6 +31,7 @@ interface Functions {
   user?: string;
   agent?: string;
   examples?: string[];
+  goals?: string[];
 }
 ```
 

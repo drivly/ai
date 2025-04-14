@@ -2,7 +2,7 @@ import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
   'ai': '',
-  'work': '',
+  'business': '',
   'data': '',
   'events': '',
   'integrations': '',
@@ -10,6 +10,7 @@ const meta: MetaRecord = {
   'code': '',
   'evals': '',
   'observability': '',
+  'sync': '',
   'admin': '',
   'authentication': '',
 }

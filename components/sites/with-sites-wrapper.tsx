@@ -1,7 +1,7 @@
 import { Footer } from '@/components/sites/footer'
 import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
 import { Fragment } from 'react'
-import CallToAction from './sections/call-to-action'
+import { CallToAction } from './sections/call-to-action'
 import { Faqs } from './sections/faqs'
 
 type PagePromiseParams<T extends object> = {
