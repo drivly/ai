@@ -8,6 +8,7 @@ import { Waitlist } from './waitlist'
 
 async function WaitListPage(props: { params: Promise<{ domain: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const { domain } = await props.params
+  const searchParams = await props.searchParams
   const payload = await getPayloadWithAuth()
   const headers = await requestHeaders()
   const { user } = (await payload.auth({ headers })) as { user: User }
