@@ -25,6 +25,19 @@ AI is getting extremely good at skills like math & code, because the outputs are
 
 [Goals](/docs/business/goals) are the strategic business objectives you want to achieve, and [KPIs](/docs/business/kpis) allow you to measure progress towards achieving them. [Experiments](/docs/experiments) allow you to rapidly iterate and improve your business processes, while [Projects](/docs/business/projects) help you [Plan](/docs/business/plans) how to get there. [Tasks](/docs/business/tasks) are the day-to-day work delivered by humans and agents.
 
+```typescript
+import { Agent } from 'agents.do'
+
+const cmo = Agent({
+  objective: 'Accelerate growth',
+  keyResults: [
+    'Increase revenue by 10% week over week',
+    'Improve conversion rate by 5% week over week',
+    'Improve retention rate by 2% week over week'
+  ]
+})
+```
+
 <Cards>
   <Cards.Card title='Goals.do' href='/docs/business/goals' />
   <Cards.Card title='KPIs.do' href='/docs/business/kpis' />
@@ -54,6 +67,8 @@ AI is getting extremely good at skills like math & code, because the outputs are
 
 ## Experiments
 
+[Experiments](/docs/experiments) provides a powerful framework for testing hypotheses, measuring outcomes, and iteratively improving your AI applications. It enables you to run controlled experiments to validate ideas, optimize performance, and make data-driven decisions. [Datasets](/docs/experiments/datasets) are the inputs to your experiments, [Evals](/docs/experiments/evals) are the outputs, and [Benchmarks](/docs/experiments/benchmarks) are the metrics used to measure success.
+
 <Cards>
   <Cards.Card title='Benchmarks.do' href='/docs/experiments/benchmarks' />
   <Cards.Card title='Datasets.do' href='/docs/experiments/datasets' />
@@ -63,6 +78,8 @@ AI is getting extremely good at skills like math & code, because the outputs are
 </Cards>
 
 ## Integrations
+
+[Integrations](/docs/events/integrations) provides a framework for connecting your system with external services and APIs. [Triggers](/docs/events/triggers) are the events that initiate workflows, [Searches](/docs/events/searches) are the queries that retrieve data, and [Actions](/docs/events/actions) are the actions that perform tasks.
 
 <Cards>
   {/* <Cards.Card title='Integrations.do' href='/docs/events/integrations' /> */}
