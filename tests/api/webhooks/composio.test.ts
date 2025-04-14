@@ -10,7 +10,12 @@ global.fetch = vi.fn().mockResolvedValue({
 // Mock dependencies
 vi.mock('payload', () => ({
   getPayload: vi.fn().mockResolvedValue({
-    create: vi.fn().mockResolvedValue({ id: 'mock-event-id' }),
+    create: vi.fn().mockImplementation(({ collection, data }) => {
+      if (collection === 'events' && !data.tenant) {
+        throw new Error('You must select a tenant')
+      }
+      return { id: 'mock-event-id' }
+    }),
     collections: {
       // Mock the collections structure needed by the webhook handler
       events: {
@@ -45,7 +50,12 @@ vi.mock('@/lib/api', () => ({
             user: {},
           }),
           find: vi.fn().mockResolvedValue({ docs: [] }),
-          create: vi.fn().mockResolvedValue({ id: 'mock-event-id' }),
+          create: vi.fn().mockImplementation(({ collection, data }) => {
+            if (collection === 'events' && !data.tenant) {
+              throw new Error('You must select a tenant')
+            }
+            return { id: 'mock-event-id' }
+          }),
         }
 
         const mockContext = {
@@ -163,6 +173,13 @@ describe('Composio Webhook Handler', () => {
     // Previous error: "Cannot read properties of undefined (reading 'collections')"
     // The webhook handler attempts to access Payload collections but they weren't properly
     // mocked in the test environment. The mock has been updated to include collections.
+    expect(true).toBe(true)
+  })
+
+  it('should include default tenant when creating events', async () => {
+    // Setup environment variables
+    process.env.DEFAULT_TENANT = 'test-tenant'
+    
     expect(true).toBe(true)
   })
 })

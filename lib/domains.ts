@@ -1,4 +1,4 @@
-import { brandDomains, isAIGateway } from '../domains.config'
+import { brandDomains, siteDomains, isAIGateway } from '../domains.config'
 
 /**
  * Check if a domain should be treated as a gateway domain
@@ -20,6 +20,13 @@ export const isGatewayDomain = (hostname: string): boolean => {
  */
 export const isBrandDomain = (hostname: string): boolean => {
   return brandDomains.includes(hostname)
+}
+
+/**
+ * Check if a domain is a site domain that should rewrite to /sites/{domain}
+ */
+export const isSiteDomain = (hostname: string): boolean => {
+  return siteDomains.includes(hostname)
 }
 
 /**

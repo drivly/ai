@@ -1,0 +1,80 @@
+{
+  "name": "cli.do",
+  "version": "0.0.1",
+  "description": "Unified CLI for all .do SDK packages",
+  "keywords": [
+    "cli",
+    "sdk",
+    "drivly",
+    "ai",
+    "functions",
+    "agents",
+    "workflows"
+  ],
+  "homepage": "https://cli.do",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "do": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/cli.do"
+  },
+  "author": "Drivly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "eslint-config": "workspace:*",
+    "evalite": "^0.10.0",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "apis.do": "workspace:*",
+    "functions.do": "workspace:*",
+    "agents.do": "workspace:*",
+    "workflows.do": "workspace:*",
+    "actions.do": "workspace:*",
+    "analytics.do": "workspace:*",
+    "database.do": "workspace:*",
+    "evals.do": "workspace:*",
+    "experiments.do": "workspace:*",
+    "goals.do": "workspace:*",
+    "gpt.do": "workspace:*",
+    "integrations.do": "workspace:*",
+    "llm.do": "workspace:*",
+    "mcp.do": "workspace:*",
+    "models.do": "workspace:*",
+    "plans.do": "workspace:*",
+    "projects.do": "workspace:*",
+    "sdk.do": "workspace:*",
+    "searches.do": "workspace:*",
+    "tasks.do": "workspace:*",
+    "triggers.do": "workspace:*"
+  }
+}

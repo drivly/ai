@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Tasks: CollectionConfig = {
   slug: 'tasks',
   admin: {
-    group: 'Work',
+    group: 'Business',
     useAsTitle: 'title',
     description: 'Manages work items and assignments within the platform',
   },
@@ -15,7 +15,6 @@ export const Tasks: CollectionConfig = {
           name: 'title',
           type: 'text',
           required: true,
-          // admin: { position: 'sidebar' },
         },
       ],
     },
@@ -53,7 +52,6 @@ export const Tasks: CollectionConfig = {
     {
       name: 'description',
       type: 'textarea',
-      // admin: { position: 'sidebar' },
     },
     {
       name: 'subtasks',

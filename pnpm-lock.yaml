@@ -1402,7 +1402,7 @@ importers:
         version: 0.1.1(@cloudflare/workers-types@4.20250414.0)(mermaid.cli@0.3.6)(react@18.3.1)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3))
       agents:
         specifier: latest
-        version: 0.0.59(@cloudflare/workers-types@4.20250414.0)
+        version: 0.0.60(@cloudflare/workers-types@4.20250414.0)
       apis.do:
         specifier: workspace:*
         version: link:../apis.do
@@ -1474,6 +1474,88 @@ importers:
       tsup:
         specifier: ^8.0.1
         version: 8.4.0(@swc/core@1.11.20(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.7.1)
+      typescript:
+        specifier: ^5.7.3
+        version: 5.8.3
+      vitest:
+        specifier: ^3.0.9
+        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
+
+  sdks/cli.do:
+    dependencies:
+      actions.do:
+        specifier: workspace:*
+        version: link:../actions.do
+      agents.do:
+        specifier: workspace:*
+        version: link:../agents.do
+      analytics.do:
+        specifier: workspace:*
+        version: link:../analytics.do
+      apis.do:
+        specifier: workspace:*
+        version: link:../apis.do
+      database.do:
+        specifier: workspace:*
+        version: link:../database.do
+      evals.do:
+        specifier: workspace:*
+        version: link:../evals.do
+      experiments.do:
+        specifier: workspace:*
+        version: link:../experiments.do
+      functions.do:
+        specifier: workspace:*
+        version: link:../functions.do
+      goals.do:
+        specifier: workspace:*
+        version: link:../goals.do
+      gpt.do:
+        specifier: workspace:*
+        version: link:../gpt.do
+      integrations.do:
+        specifier: workspace:*
+        version: link:../integrations.do
+      llm.do:
+        specifier: workspace:*
+        version: link:../llm.do
+      mcp.do:
+        specifier: workspace:*
+        version: link:../mcp.do
+      models.do:
+        specifier: workspace:*
+        version: link:../models.do
+      plans.do:
+        specifier: workspace:*
+        version: link:../plans.do
+      projects.do:
+        specifier: workspace:*
+        version: link:../projects.do
+      sdk.do:
+        specifier: workspace:*
+        version: link:../sdk.do
+      searches.do:
+        specifier: workspace:*
+        version: link:../searches.do
+      tasks.do:
+        specifier: workspace:*
+        version: link:../tasks.do
+      triggers.do:
+        specifier: workspace:*
+        version: link:../triggers.do
+      workflows.do:
+        specifier: workspace:*
+        version: link:../workflows.do
+    devDependencies:
+      eslint-config:
+        specifier: workspace:*
+        version: link:../../pkgs/eslint-config
+      evalite:
+        specifier: ^0.10.0
+        version: 0.10.0
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../pkgs/tsconfig
       typescript:
         specifier: ^5.7.3
         version: 5.8.3
@@ -1969,7 +2051,7 @@ importers:
     dependencies:
       agents:
         specifier: latest
-        version: 0.0.59(@cloudflare/workers-types@4.20250414.0)
+        version: 0.0.60(@cloudflare/workers-types@4.20250414.0)
       hono:
         specifier: ^4.7.4
         version: 4.7.6
@@ -8879,8 +8961,8 @@ packages:
   agents@0.0.47:
     resolution: {integrity: sha512-DiNRi4cps9FEh67j0CntlV4hHy4vkJgRaZtGmAUdf1yslj0TUvx89liS2wAVYKAyy3HgFiMxvELGLV4nWNs+jw==}
 
-  agents@0.0.59:
-    resolution: {integrity: sha512-OiUg1QffKszZ+FdSB60KvBQF2Owzp96WIeP3XK2ShB3dYeAGwlsg6SmE7QomNfR+oe1KgvI4AmBKy9cLB7qY6A==}
+  agents@0.0.60:
+    resolution: {integrity: sha512-9QCAo8jCGJvxUcKIvHpHNrRfkN7uYfZzpZSOYz7xhtxNjdK0k8oFn3MRCHWQG2cjY/5Dlb87BrwnOKGPDtvtGA==}
 
   aggregate-error@3.1.0:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
@@ -27614,7 +27696,7 @@ snapshots:
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
 
-  agents@0.0.59(@cloudflare/workers-types@4.20250414.0):
+  agents@0.0.60(@cloudflare/workers-types@4.20250414.0):
     dependencies:
       '@modelcontextprotocol/sdk': 1.9.0
       cron-schedule: 5.0.4

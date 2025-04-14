@@ -1,11 +1,10 @@
 import { Layout, Navbar } from 'nextra-theme-docs'
-import { Footer } from '@/components/sites/footer'
-import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import './code-hike.css'
-import '@/app/(sites)/styles.css'
 import { headers } from 'next/headers'
+import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
+import 'nextra-theme-docs/style.css'
 
 import type { Metadata } from 'next'
 
@@ -34,9 +33,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const pageMap = await getPageMap('/docs')
 
   const navbar = <Navbar logo={<b>.do</b>} logoLink='https://dotdo.ai' chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
-  const footer = (
-    <Footer minimal={true} />
-  )
 
   return (
     <html lang='en' dir='ltr' suppressHydrationWarning>
@@ -49,7 +45,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           navbar={navbar}
           pageMap={pageMap}
           docsRepositoryBase='https://github.com/drivly/ai/tree/main'
-          footer={footer}
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}
         >

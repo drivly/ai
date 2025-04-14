@@ -40,6 +40,7 @@ export const Functions: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Original function this was cloned from',
+        condition: (data) => data?.clonedFrom !== undefined && data?.clonedFrom !== null,
       },
     },
     {
@@ -172,6 +173,15 @@ export const Functions: CollectionConfig = {
       admin: {
         description: 'Example arguments for this function',
       },
+    },
+    { 
+      name: 'goals', 
+      type: 'relationship', 
+      relationTo: 'goals',
+      hasMany: true,
+      admin: { 
+        description: 'Goals this function contributes to' 
+      } 
     },
   ],
 }

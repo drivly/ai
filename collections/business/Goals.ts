@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Goals: CollectionConfig = {
   slug: 'goals',
   admin: {
-    group: 'Work',
+    group: 'Business',
     useAsTitle: 'title',
     description: 'Manages objectives and key results for tracking progress',
   },
@@ -14,7 +14,7 @@ export const Goals: CollectionConfig = {
       required: true,
     },
     {
-      name: 'object',
+      name: 'objective',
       type: 'text',
       required: true,
       admin: {

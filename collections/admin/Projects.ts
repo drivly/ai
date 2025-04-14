@@ -11,5 +11,14 @@ export const Projects: CollectionConfig = {
     { name: 'name', type: 'text' },
     { name: 'domain', type: 'text' },
     { name: 'domains', type: 'relationship', relationTo: 'domains' as any, hasMany: true },
+    { 
+      name: 'goals', 
+      type: 'relationship', 
+      relationTo: 'goals',
+      hasMany: true,
+      admin: { 
+        description: 'Goals associated with this project' 
+      } 
+    }
   ],
 }
