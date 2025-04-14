@@ -43,9 +43,9 @@ const meta: MetaRecord = {
   },
 
 
-
-
-  
+  apis: '',
+  sdks: '',
+  cli: '',
 
 }
 
