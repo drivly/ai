@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm i && next dev",
-    "build": "npm i && npx open-next build",
+    "dev": "next dev",
+    "prebuild": "npm i",
+    "build": "npx open-next build",
     "start": "next start",
     "lint": "next lint",
     "deploy": "wrangler deploy",
