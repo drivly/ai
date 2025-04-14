@@ -1900,8 +1900,8 @@ importers:
         specifier: 0.0.1
         version: link:../analytics.do
       apis.do:
-        specifier: 0.0.1
-        version: 0.0.1
+        specifier: 0.1.0
+        version: link:../apis.do
       database.do:
         specifier: 0.0.1
         version: link:../database.do
@@ -1912,8 +1912,8 @@ importers:
         specifier: 0.0.1
         version: link:../experiments.do
       functions.do:
-        specifier: 0.0.1
-        version: 0.0.1
+        specifier: 0.1.0
+        version: link:../functions.do
       goals.do:
         specifier: 0.0.1
         version: link:../goals.do
