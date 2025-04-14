@@ -93,10 +93,12 @@ export async function POST(req: NextRequest) {
             )
             
             if (response_url) {
-              const job = await payload.jobs.queue({ 
-                task: 'updateSlackMessage', 
-                input: { 
-                  response_url,
+              fetch(response_url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                   blocks: [
                     {
                       type: 'section',
@@ -105,10 +107,11 @@ export async function POST(req: NextRequest) {
                         text: ':white_check_mark: Thank you for your response!'
                       }
                     }
-                  ]
-                }
-              })
-              waitUntil(payload.jobs.runByID({ id: job.id }))
+                  ],
+                  replace_original: true
+                }),
+              }).catch(error => console.error('Error updating Slack message:', error))
+              
             }
           }
           
@@ -128,10 +131,12 @@ export async function POST(req: NextRequest) {
               )
               
               if (response_url) {
-                const job = await payload.jobs.queue({ 
-                  task: 'updateSlackMessage', 
-                  input: { 
-                    response_url,
+                fetch(response_url, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
                     blocks: [
                       {
                         type: 'section',
@@ -140,9 +145,12 @@ export async function POST(req: NextRequest) {
                           text: ':white_check_mark: Thank you for your feedback!'
                         }
                       }
-                    ]
-                  }
-                })
+                    ],
+                    replace_original: true
+                  }),
+                }).catch(error => console.error('Error updating Slack message:', error))
+                
+                const job = { id: 'direct-fetch' }
                 waitUntil(payload.jobs.runByID({ id: job.id }))
               }
             }
@@ -162,10 +170,12 @@ export async function POST(req: NextRequest) {
             )
             
             if (response_url) {
-              const job = await payload.jobs.queue({ 
-                task: 'updateSlackMessage', 
-                input: { 
-                  response_url,
+              fetch(response_url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                   blocks: [
                     {
                       type: 'section',
@@ -174,10 +184,11 @@ export async function POST(req: NextRequest) {
                         text: `:calendar: Date selected: ${selectedDate}`
                       }
                     }
-                  ]
-                }
-              })
-              waitUntil(payload.jobs.runByID({ id: job.id }))
+                  ],
+                  replace_original: true
+                }),
+              }).catch(error => console.error('Error updating Slack message:', error))
+              
             }
           }
           
@@ -195,10 +206,12 @@ export async function POST(req: NextRequest) {
             )
             
             if (response_url) {
-              const job = await payload.jobs.queue({ 
-                task: 'updateSlackMessage', 
-                input: { 
-                  response_url,
+              fetch(response_url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                   blocks: [
                     {
                       type: 'section',
@@ -207,10 +220,11 @@ export async function POST(req: NextRequest) {
                         text: `:clock3: Time selected: ${selectedTime}`
                       }
                     }
-                  ]
-                }
-              })
-              waitUntil(payload.jobs.runByID({ id: job.id }))
+                  ],
+                  replace_original: true
+                }),
+              }).catch(error => console.error('Error updating Slack message:', error))
+              
             }
           }
           
@@ -228,10 +242,12 @@ export async function POST(req: NextRequest) {
             )
             
             if (response_url) {
-              const job = await payload.jobs.queue({ 
-                task: 'updateSlackMessage', 
-                input: { 
-                  response_url,
+              fetch(response_url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                   blocks: [
                     {
                       type: 'section',
@@ -240,10 +256,11 @@ export async function POST(req: NextRequest) {
                         text: `:ballot_box_with_check: Options selected: ${selectedOptions}`
                       }
                     }
-                  ]
-                }
-              })
-              waitUntil(payload.jobs.runByID({ id: job.id }))
+                  ],
+                  replace_original: true
+                }),
+              }).catch(error => console.error('Error updating Slack message:', error))
+              
             }
           }
           
@@ -261,10 +278,12 @@ export async function POST(req: NextRequest) {
             )
             
             if (response_url) {
-              const job = await payload.jobs.queue({ 
-                task: 'updateSlackMessage', 
-                input: { 
-                  response_url,
+              fetch(response_url, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                   blocks: [
                     {
                       type: 'section',
@@ -273,10 +292,11 @@ export async function POST(req: NextRequest) {
                         text: `:white_check_mark: Option selected: ${selectedOption}`
                       }
                     }
-                  ]
-                }
-              })
-              waitUntil(payload.jobs.runByID({ id: job.id }))
+                  ],
+                  replace_original: true
+                }),
+              }).catch(error => console.error('Error updating Slack message:', error))
+              
             }
           }
         }
