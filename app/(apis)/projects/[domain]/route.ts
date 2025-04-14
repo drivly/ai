@@ -5,7 +5,7 @@ import { API } from '@/lib/api'
  * This route handles resources tied to specific projects identified by their domain
  */
 export const GET = API(async (request, { params, db, payload }) => {
-  const { domain } = params as { domain: string }
+  const { domain } = await params as Promise<{ domain: string }>
   
   const project = await db.projects.findOne({
     where: {
@@ -69,7 +69,7 @@ export const GET = API(async (request, { params, db, payload }) => {
 })
 
 export const POST = API(async (request, { params, db, payload }) => {
-  const { domain } = params as { domain: string }
+  const { domain } = await params as Promise<{ domain: string }>
   
   const project = await db.projects.findOne({
     where: {
@@ -100,7 +100,7 @@ export const POST = API(async (request, { params, db, payload }) => {
 })
 
 export const PUT = API(async (request, { params, db, payload }) => {
-  const { domain } = params as { domain: string }
+  const { domain } = await params as Promise<{ domain: string }>
   const resourceId = request.nextUrl.searchParams.get('id')
   
   if (!resourceId) {
@@ -150,7 +150,7 @@ export const PUT = API(async (request, { params, db, payload }) => {
 })
 
 export const DELETE = API(async (request, { params, db, payload }) => {
-  const { domain } = params as { domain: string }
+  const { domain } = await params as Promise<{ domain: string }>
   const resourceId = request.nextUrl.searchParams.get('id')
   
   if (!resourceId) {
