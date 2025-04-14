@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npx open-next build",
+    "build": "open-next build",
     "start": "next start",
     "lint": "next lint",
-    "preview": "npx wrangler pages dev ./.open-next/standalone",
-    "deploy": "npx wrangler deploy",
+    "preview": "wrangler pages dev ./.open-next/standalone",
+    "deploy": "wrangler deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
   },
   "dependencies": {
