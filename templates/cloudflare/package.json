@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "open-next build",
+    "prebuild": "npm i",
+    "build": "npx open-next build",
     "start": "next start",
     "lint": "next lint",
     "deploy": "wrangler deploy",

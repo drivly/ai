@@ -1,47 +1,31 @@
 ---
-title: cli.do CLI
-sidebarTitle: cli
+title: workflows.do CLI
+sidebarTitle: workflows
 sdk: true
 cli: true
 ---
 
-# cli.do CLI
+# workflows.do CLI
 
-Unified CLI for all .do SDK packages
+SDK for creating AI-powered workflows with strongly-typed functions
 
 ## Installation
 
 ```bash
-npm install -g cli.do
+npm install -g workflows.do
 # or
-npx cli.do [command]
+npx workflows.do [command]
 ```
 
 ## Usage
 
 ```bash
-do [command] [options]
+workflow [command] [options]
 ```
 
 ## Commands
 
-### `do`
-
-### `do`
-
-### `do`
-
-### `Available`
-
-### `apis`
-
-### `functions`
-
-### `workflows`
-
-### `agents`
-
-### `Common`
+### `workflow`
 
 ### `init`
 
@@ -55,6 +39,12 @@ do [command] [options]
 
 ### `sync`
 
+### `Use`
+
+### `Use`
+
+### `Use`
+
 ### `list`
 
 ### `get`
@@ -67,75 +57,69 @@ do [command] [options]
 
 ### `execute`
 
+### `register`
+
+### `scan`
+
 ### `Show`
 
 ### `Show`
+
+### `Scan`
+
+### `Show`
+
+### `Display`
 
 ### `Environment`
 
-### `DO_API_KEY`
-
-### `APIS_DO_API_KEY`
-
-### `FUNCTIONS_DO_API_KEY`
-
 ### `WORKFLOWS_DO_API_KEY`
 
-### `AGENTS_DO_API_KEY`
+### `DO_API_KEY`
 
 
 
 ## Environment Variables
 
-- `DO_API_KEY`
-- `APIS_DO_API_KEY`
-- `FUNCTIONS_DO_API_KEY`
 - `WORKFLOWS_DO_API_KEY`
-- `AGENTS_DO_API_KEY`
+- `DO_API_KEY`
 
 ## Help Output
 
 ```
-cli.do v${version}
+workflows.do CLI v${version}
 
 Usage:
-  do <sdk> <command> [options]
-  <sdk>.do <command> [options]
+  workflow [command] [options]
 
-Examples:
-  do functions list
-  functions.do list
-  do workflows execute myWorkflow
-  workflows.do execute myWorkflow
-
-Available SDKs:
-  apis       - APIs Gateway commands
-  functions  - AI Functions commands
-  workflows  - Workflows commands
-  agents     - AI Agents commands
-
-Common Commands:
+Commands:
   init                Initialize a new project
   login [token]       Login with API token
   logout              Remove stored credentials
   pull [resources]    Pull remote resources to local project
   push [resources]    Push local resources to remote
   sync                Sync local and remote resources
+    --mode-db         Use database as source of truth
+    --mode-local      Use local files as source of truth
+    --mode-github     Use GitHub repository as source of truth
   list <collection>   List resources in a collection
   get <collection> <id>  Get a specific resource
   create <collection> [data]  Create a new resource
   update <collection> <id> [data]  Update a resource
   delete <collection> <id>  Delete a resource
-  execute <functionId> [inputs]  Execute a function
+  
+  execute <workflowId> [input] [options]  Execute a workflow
+  register <filePath>  Register a workflow from a JSON file
+  scan [directory]     Scan directory for workflow files and register them
 
 Options:
   --help, -h          Show this help message
   --version, -v       Show version information
+  --recursive         Scan directories recursively when using scan command
+  --dry-run           Show what would be registered without actually registering workflows
+  --verbose           Display detailed information during scanning process
 
 Environment Variables:
-  DO_API_KEY          API key for authentication (used for all SDKs)
-  APIS_DO_API_KEY     API key for apis.do
-  FUNCTIONS_DO_API_KEY API key for functions.do
-  WORKFLOWS_DO_API_KEY API key for workflows.do
-  AGENTS_DO_API_KEY   API key for agents.do
+  WORKFLOWS_DO_API_KEY  API key for authentication
+  DO_API_KEY            Alternative API key for authentication
 ```

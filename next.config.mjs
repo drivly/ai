@@ -17,7 +17,7 @@ const withNextra = nextra({
   defaultShowCopyCode: true,
   latex: true,
   search: {
-    codeblocks: false,
+    codeblocks: true,
   },
 
 })

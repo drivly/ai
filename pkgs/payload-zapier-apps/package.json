@@ -34,11 +34,11 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "eslint-config": "workspace:*",
+    "eslint-config": "0.1.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0",
     "vitest": "^3.0.0",
-    "tsconfig": "workspace:*"
+    "tsconfig": "0.0.0"
   },
   "peerDependencies": {
     "payload": "^3.0.0"
