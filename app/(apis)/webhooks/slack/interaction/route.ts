@@ -150,8 +150,6 @@ export async function POST(req: NextRequest) {
                   }),
                 }).catch(error => console.error('Error updating Slack message:', error))
                 
-                const job = { id: 'direct-fetch' }
-                waitUntil(payload.jobs.runByID({ id: job.id }))
               }
             }
           }
