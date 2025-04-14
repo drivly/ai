@@ -1,6 +1,6 @@
 {
   "name": "functions.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A framework and platform for easily creating, managing, evaluating, and iterating on AI functions & object generation",
   "keywords": [
     "functions",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "eslint-config": "workspace:*",
-    "evalite": "^0.9.1",
+    "evalite": "^0.10.0",
     "vitest": "^3.0.9",
     "tsconfig": "workspace:*"
   },

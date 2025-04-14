@@ -1,15 +1,16 @@
 import { Toaster } from '@/components/sites/sonner'
 import { ThemeProvider } from '@/components/sites/theme-provider'
-import { cn } from '@/components/sites/utils'
+import { cn } from '@drivly/ui/lib'
 import type { Metadata } from 'next'
-import { Mona_Sans as FontSans, Geist } from 'next/font/google'
+import { IBM_Plex_Mono as FontIBM, Geist } from 'next/font/google'
 import type React from 'react'
 import { Providers } from '../providers'
 import './styles.css'
 
-const fontSans = FontSans({
+const fontIBM = FontIBM({
   subsets: ['latin'],
-  variable: '--font-sans',
+  variable: '--font-ibm',
+  weight: ['400', '500', '600', '700'],
 })
 
 const fontGeist = Geist({
@@ -29,7 +30,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={cn('bg-background flex min-h-screen flex-col font-sans antialiased', fontSans.variable, fontGeist.variable)}>
+      <body className={cn('bg-background flex min-h-screen flex-col antialiased sites-layout', fontGeist.variable, fontIBM.variable)}>
         <Providers>
           <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
             {children}

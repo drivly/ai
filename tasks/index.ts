@@ -34,7 +34,14 @@ import { handleGithubEvent } from './integrations/handleGithubEvent'
 import { deliverWebhookTask } from './integrations/deliverWebhook'
 import { initiateComposioConnectionTask } from './integrations/initiateComposioConnection'
 import { processDomain } from './integrations/processDomain'
+import { postGithubComment } from './integrations/postGithubComment'
+import { githubFileOperations } from './integrations/githubFileOperations'
 import { saveExecutionResultsTask } from './saveExecutionResults'
+import { researchTask } from './ai/researchTask'
+import { syncTaskToLinearTask } from './integrations/syncTaskToLinear'
+import { deleteLinearIssueTask } from './integrations/deleteLinearIssue'
+import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
+import { generateVideoTask } from './ai/generateVideo'
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
@@ -116,7 +123,15 @@ export const tasks = [
   deliverWebhookTask,
   initiateComposioConnectionTask,
   processDomainTask,
+  postGithubComment,
+  githubFileOperations,
   saveExecutionResultsTask,
+  researchTask,
+  handleLinearWebhookTask,
+  generateVideoTask, // Add vid
+  syncTaskToLinearTask,
+  deleteLinearIssueTask,
+
 ]
 
 export const workflows = [handleGithubEvent]

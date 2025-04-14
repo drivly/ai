@@ -1,35 +1,35 @@
-import { Button } from '@drivly/ui/button'
-import { FaGithub } from 'react-icons/fa'
+import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
 import { CodeWindow } from '@/components/sites/code-window'
 import { cn } from '@drivly/ui/lib'
 import React from 'react'
-import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
+import { FaGithub } from 'react-icons/fa'
 
 type HeroSectionProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'description'> & {
   badge?: string
   buttonText?: string
-  codeExample?: string
+  codeExample?: string | object
+  codeLang?: string
   description: React.ReactNode
   title: React.ReactNode
   domain?: string
 }
 
-export default function HeroSection({ className, badge, buttonText, codeExample, description, title, domain }: HeroSectionProps) {
+export default function HeroSection({ className, badge, buttonText, codeExample, codeLang = 'json', description, title, domain }: HeroSectionProps) {
   return (
-    <section id='hero' className={cn('relative mx-auto mt-32 max-w-[80rem] px-6 text-center md:px-8 lg:mt-48', className)}>
+    <section id='hero' className={cn('relative mx-auto mt-32 max-w-[80rem] px-3 text-center lg:mt-48', className)}>
       {badge && (
-        <div className='group inline-flex h-7 items-center justify-between gap-1 rounded-full border border-white/5 bg-white/10 px-3 text-xs text-white backdrop-filter-[12px] transition-all ease-in hover:cursor-pointer hover:bg-white/20 dark:text-black'>
-          <p className='mx-auto inline-flex max-w-md items-center justify-center text-neutral-600/50 dark:text-neutral-400/50'>
+        <div className='group inline-flex h-7 items-center justify-between gap-1 rounded-full border border-white/5 bg-white/10 px-3 text-xs text-white backdrop-filter-[16px] dark:text-black'>
+          <p className='mx-auto inline-flex max-w-md items-center justify-center text-gray-400'>
             <span>{badge}</span>
           </p>
         </div>
       )}
-      <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl leading-none font-medium tracking-tighter text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
+      <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-[46px] leading-none font-medium tracking-tighter text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
         {title}
       </h1>
       <p className='mb-12 text-lg tracking-tight text-balance text-gray-400 md:text-xl'>{description}</p>
       {buttonText && (
-        <JoinWaitlistButton className='cursor-pointer gap-2 rounded-lg text-white ease-in-out dark:text-black'>
+        <JoinWaitlistButton className='h-10 w-full gap-2 rounded-sm text-base ease-in-out has-[>svg]:px-10 sm:w-auto sm:text-sm' type='cta'>
           <FaGithub className='h-4 w-4' />
           <span>{buttonText}</span>
         </JoinWaitlistButton>
@@ -48,7 +48,8 @@ export default function HeroSection({ className, badge, buttonText, codeExample,
           />
 
           <div>
-            <CodeWindow code={codeExample} title={domain} />
+            {/* If json, url or code, show code file */}
+            <CodeWindow code={codeExample} language={codeLang} title={domain} />
           </div>
         </div>
       )}

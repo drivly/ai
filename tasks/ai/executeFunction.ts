@@ -39,44 +39,49 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const schemaHash = schema ? hash(schema) : undefined
   const hashLatency = Date.now() - start
 
-  // Lookup function, schema (type), args (thing), and result (action/object)
-  // TODO: would these hash lookups be better as upserts?
-  let [
-    {
-      docs: [functionDoc],
-    },
-    {
-      docs: [schemaDoc],
-    },
-    {
-      docs: [argsDoc],
-    },
-    {
-      docs: [actionDoc],
-    },
-  ] = await Promise.all([
-    payload.find({ collection: 'functions', where: { name: { equals: functionName } }, depth: 0 }),
-    schemaHash ? payload.find({ collection: 'types', where: { hash: { equals: schemaHash } }, depth: 0 }) : { docs: [] },
-    argsHash ? payload.find({ collection: 'things', where: { hash: { equals: argsHash } }, depth: 0 }) : { docs: [] },
-    actionHash ? payload.find({ collection: 'actions', where: { hash: { equals: actionHash } }, depth: 1 }) : { docs: [] },
-  ])
+  const cacheTTL = settings?.cacheTTL || 24 * 60 * 60 * 1000 // Default: 24 hours in milliseconds
+  
+  let functionDoc, schemaDoc, argsDoc, actionDoc
+
+  try {
+    // Lookup function, schema (type), args (thing), and result (action/object)
+    const results = await Promise.all([
+      payload.find({ collection: 'functions', where: { name: { equals: functionName } }, depth: 0 }),
+      schemaHash ? payload.find({ collection: 'types', where: { hash: { equals: schemaHash } }, depth: 0 }) : { docs: [] },
+      argsHash ? payload.find({ collection: 'things', where: { hash: { equals: argsHash } }, depth: 0 }) : { docs: [] },
+      actionHash ? payload.find({ collection: 'actions', where: { hash: { equals: actionHash } }, depth: 1 }) : { docs: [] },
+    ])
+
+    functionDoc = results[0].docs[0]
+    schemaDoc = results[1].docs[0]
+    argsDoc = results[2].docs[0]
+    actionDoc = results[3].docs[0]
+  } catch (error) {
+    console.error('Error during hash lookups:', error)
+    functionDoc = undefined
+    schemaDoc = undefined
+    argsDoc = undefined
+    actionDoc = undefined
+  }
   const lookupLatency = Date.now() - (start + hashLatency)
 
-  // If we have a cached result, return it immediately without calling generateObject
   if (actionDoc?.object) {
-    // If action & output object exists, log event and return action output/object
-    payload.create({ collection: 'events', data: { action: actionDoc.id, request: { headers, seeds, callback }, meta: { type: isTextFunction ? 'text' : 'object' } } })
+    const isCacheValid = actionDoc.createdAt 
+      ? (Date.now() - new Date(actionDoc.createdAt).getTime()) < cacheTTL
+      : false
 
-    // Extract the data from the object
-    const objectData = actionDoc.object.data || { result: 'test data' }
+    if (isCacheValid) {
+      payload.create({ collection: 'events', data: { action: actionDoc.id, request: { headers, seeds, callback }, meta: { type: isTextFunction ? 'text' : 'object', cached: true } } })
 
-    // Log the object data for debugging
-    console.log('Test result:', JSON.stringify(objectData))
+      // Extract the data from the object
+      const objectData = actionDoc.object.data || { result: 'test data' }
 
-    // Return the cached result with the expected structure
-    return {
-      output: objectData,
-      reasoning: actionDoc.reasoning || 'cached reasoning',
+      // Return the cached result with the expected structure
+      return {
+        output: objectData,
+        reasoning: actionDoc.reasoning || 'cached reasoning',
+        cached: true
+      }
     }
   }
 
@@ -310,6 +315,8 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const latency = { hashLatency, lookupLatency, generationLatency, totalLatency }
   console.log(latency)
 
+  const generationHash = input.generationHash || hash({ actionHash, timestamp: Date.now() })
+
   // Save the results asynchronously
   payload.jobs.queue({
     task: 'saveExecutionResults',
@@ -329,10 +336,11 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       callback,
       isTextFunction,
       latency,
+      generationHash, // Pass the generation hash to saveExecutionResults
     },
   })
 
-  return { output: object, reasoning }
+  return { output: object, reasoning, generationHash }
 }
 
 export const executeFunctionTask = {
@@ -352,6 +360,7 @@ export const executeFunctionTask = {
   outputSchema: [
     { name: 'output', type: 'json' },
     { name: 'reasoning', type: 'text' },
+    { name: 'generationHash', type: 'text' },
   ],
   handler: executeFunction,
 } as TaskConfig<'executeFunction'>

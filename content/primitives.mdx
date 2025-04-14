@@ -1,0 +1,75 @@
+---
+title: Primitives
+---
+
+# AI Primitives
+
+To do [Business-as-Code](/docs/manifesto), all work is requested and delivered by a [Function](/docs/functions) using the API or SDK.
+
+
+## Workflows
+
+A [Workflow](/docs/workflows) is a special type of [Function](/docs/functions) defined as declarative [Code](/docs/functions#code) that enables [AI](/docs/functions#agents) and [Humans](/docs/functions#humans) to work together in the pursuit of an [Objective](/docs/business/okrs#objectives) as measured by [Key Results](/docs/business/okrs#key-results).
+
+
+## Functions
+
+A [Function](/docs/functions) is a composable and atomic primitive that accepts inputs and returns strongly-typed outputs.  There are four types of functions: [Code](/docs/functions#code), [Generative](/docs/functions#generative), [Agent](/docs/functions#agent), and [Human](/docs/functions#human). 
+
+ - [Code Functions](/docs/functions#code) are deterministic with objective results, making them ideal for anything that has traditionally been capable of being automated with classical computing. 
+
+ - [Generative Functions](/docs/functions#generative) use AI to generate content or structured data. While they are inherently non-deterministic, they may have either objective or subjective results.
+ 
+ - [Agent Functions](/docs/functions#agent) use autonomous AI agents to perform tasks.
+ 
+ - [Human Functions](/docs/functions#human) use human workers to perform [Tasks](/docs/business/tasks) in prioritized [Queues](/docs/business/queues).
+
+
+## Agents
+
+An [Agent](/docs/agents) is an autonomous digital worker with [Goals & Objectives](/docs/business/goals) and is evaluated by the [Key Results](/docs/business/kpis) it delivers to the business. It can do work at scheduled intervals or in response to [Events](/docs/events) in real-time.
+
+Agents interact with other Agents and Humans through Functions and Workflows as Tools.  Agents also have access to tens of thousands of searches and actions from external systems via integrations.
+
+
+## Business
+
+Doing [Business-as-Code](/docs/manifesto) requires clearly-defined [Objectives](/docs/business/goals#objectives) and [Key Results](/docs/business/goals#key-results). Objectives are the strategic business goals that you want to achieve, and the Key Results are how you measure progress against your goals.
+
+
+## Data
+
+[Nouns](/docs/data/nouns) are the types of physical or digital entities in your business, and [Verbs](/docs/data/verbs) are the potential [Actions](/docs/business/actions) that can be performed by or to them. [Resources](/docs/data/resources) are the data records that are instances of [Nouns](/docs/data/nouns) and are stored in the [Database](/docs/data/database).
+
+
+## Events
+
+
+[Events](/docs/events) occur when a [Subject](/docs/events#subject) performs an [Action](/docs/events#action) to an [Object](/docs/events#object).  They can be [Triggers](/docs/events/triggers) for Workflows or Functions enabling Agents or Humans to take [Actions](/docs/business/actions).
+
+
+## Evaluations
+
+[Evaluations](/docs/evaluations) (i.e. Evals) are the process of measuring the performance of Functions, Workflows, Agents, and Humans against their Objectives and Key Results.
+
+[Deterministic](/docs/evaluations#deterministic) evals are those that are based on objective metrics, while [Non-deterministic](/docs/evaluations#non-deterministic) evals require LLM-as-Judge, Human Feedback, and/or business KPIs to measure and score.
+
+With AI Evals, the key variables to be evaluated in the context of inputs & expected outputs are the Prompts and the Models.
+
+
+## Experiments
+
+[Experiments](/docs/experiments) allow you to test the performance of Functions, Workflows, Agents, and Humans against their Objectives and Key Results, automatically iterating on the best-performing models, prompts, and settings.
+
+## Integrations
+
+[Integrations](/docs/events/integrations) allow you to connect external APIs and systems to your business processes, enabling you to leverage the power of AI and automation to improve your business processes.
+
+## Deployment
+
+[Deployments](/docs/deployments) enable you to put your Business-as-Code into production on your own cloud infrastructure, with one-click deploy on Cloudflare and Vercel, and integration into the AWS, Azure, and GCP marketplaces.
+
+## Observability
+
+Observability enables you to monitor the performance of your business processes, enabling you to identify and resolve issues quickly and efficiently.  Every API Request, Function Call, Workflow Invocation, Agent Action, Human Task, and underlying Event including the inputs, outputs, and metadata is logged and available for analysis.
+

@@ -5,6 +5,7 @@ export const Things: CollectionConfig = {
   admin: {
     group: 'Data',
     hidden: true,
+    description: 'Defines semantic types with their various grammatical forms',
   },
   versions: true,
   fields: [

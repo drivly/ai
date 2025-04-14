@@ -1,8 +1,8 @@
 import type { Adapter, BetterAuthOptions, Where } from 'better-auth'
 import { BetterAuthError } from 'better-auth'
-import { generateSchema } from './generate-schema/index.js'
-import { createTransform } from './transform/index.js'
-import type { PayloadAdapter } from './types.js'
+import { generateSchema } from './generate-schema'
+import { createTransform } from './transform'
+import type { PayloadAdapter } from './types'
 
 export const BETTER_AUTH_CONTEXT_KEY = 'payload-db-adapter'
 const PAYLOAD_QUERY_DEPTH = 2

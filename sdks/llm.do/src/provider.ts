@@ -50,7 +50,7 @@ class LLMDoEmbeddingModel implements EmbeddingModelV1<string> {
       headers?: Record<string, string>
     }
   }> {
-    const response = (await this.api.post('/api/llm/embeddings', {
+    const response = (await this.api.post('/v1/llm/embeddings', {
       texts: options.values,
       model: this.modelId,
     })) as {

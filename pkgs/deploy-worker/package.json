@@ -8,7 +8,7 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://mdx.org.ai",
+  "homepage": "https://drivly.dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/drivly/ai.git",
@@ -37,20 +37,20 @@
     "node": ">=22"
   },
   "dependencies": {
-    "esbuild": "^0.25.1",
+    "esbuild": "^0.25.2",
     "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@types/node": "^22.13.11",
     "@types/eslint": "^9.6.1",
-    "@cloudflare/workers-types": "^4.20240320.1",
+    "@cloudflare/workers-types": "^4.20250414.0",
     "eslint": "^9.23.0",
     "@typescript-eslint/eslint-plugin": "^8.27.0",
     "@typescript-eslint/parser": "^8.27.0",
-    "eslint-config": "workspace:*",
+    "eslint-config": "0.1.0",
     "tsup": "^8.4.0",
     "prettier": "^3.5.3",
     "vitest": "^3.0.9",
-    "tsconfig": "workspace:*"
+    "tsconfig": "0.0.0"
   }
 }

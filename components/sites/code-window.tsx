@@ -1,8 +1,11 @@
-import { cn } from '@drivly/ui/lib'
+'use client'
+
+import { cn } from '@/lib/utils'
+import { useState, useEffect } from 'react'
 
 interface CodeWindowProps {
   className?: string
-  code: string
+  code: string | object
   language?: string
   title?: string
 }
@@ -51,12 +54,45 @@ function syntaxHighlightJson(json: string) {
 }
 
 export function CodeWindow({ className, code, language = 'json', title = 'llm.do' }: CodeWindowProps) {
-  // Only handle JSON for now
-  const highlightedCode = language === 'json' ? syntaxHighlightJson(code) : code
+  if (title === '%5Bdomain%5D') {
+    title = 'workflows.do'
+  }
+  const codeString = typeof code === 'object' ? JSON.stringify(code, null, 2) : String(code)
+  
+  const [highlightedCode, setHighlightedCode] = useState(
+    language === 'json' ? syntaxHighlightJson(codeString) : codeString
+  )
+  
+  useEffect(() => {
+    async function highlight() {
+      if (language === 'json') {
+        return syntaxHighlightJson(codeString)
+      } else {
+        const { codeToHtml } = await import('shiki')
+        const html = await codeToHtml(codeString, {
+          lang: language,
+          theme: 'dracula', // Match our UI package theme
+          transformers: [{
+            pre(node) {
+              node.properties.style = 'background-color: transparent !important;'
+              return node
+            },
+            code(node) {
+              node.properties.style = 'background-color: transparent !important;'
+              return node
+            }
+          }]
+        })
+        return html
+      }
+    }
+    
+    highlight().then(setHighlightedCode)
+  }, [codeString, language])
 
   return (
     <div className={cn('bg-opacity-[0.01] rounded-2xl border-[10px] border-white/10', className)}>
-      <div className='relative w-full overflow-hidden rounded-md border'>
+      <div className='relative w-full overflow-hidden rounded-sm border'>
         {/* Code window header */}
         <div className='flex items-center justify-between bg-black/80 px-4 py-2 backdrop-blur-md'>
           <div className='flex items-center gap-2'>
@@ -76,7 +112,7 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
 
         {/* Code content */}
         <div className='scrollbar-hide max-h-[500px] overflow-auto bg-black/90 p-4 px-8 text-left font-mono text-sm text-white'>
-          <pre className='language-json'>
+          <pre className={`language-${language}`}>
             <code
               className='text-xs sm:text-sm'
               dangerouslySetInnerHTML={{

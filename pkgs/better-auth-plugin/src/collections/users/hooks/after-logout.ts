@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import type { CollectionAfterLogoutHook } from 'payload'
 import type { CollectionHookWithBetterAuth } from '../../../types'
-import { getPayloadWithAuth } from '../../../index'
+import { getPayloadAuth } from '../../../lib/get-payload-auth'
 
 type CollectionAfterLogoutHookWithBetterAuth =
   CollectionHookWithBetterAuth<CollectionAfterLogoutHook>
@@ -13,7 +13,7 @@ type AfterLogoutOptions = {
 export const getAfterLogoutHook = (options: AfterLogoutOptions): CollectionAfterLogoutHook => {
   const hook: CollectionAfterLogoutHookWithBetterAuth = async ({ req }) => {
     const cookieStore = await cookies()
-    const payload = await getPayloadWithAuth(req.payload.config)
+    const payload = await getPayloadAuth(req.payload.config)
     const authContext = await payload.betterAuth.$context
     const sessionTokenName = authContext.authCookies.sessionToken.name
 

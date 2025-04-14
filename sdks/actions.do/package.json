@@ -35,7 +35,6 @@
     "url": "https://github.com/drivly/ai/issues"
   },
   "scripts": {
-    "prebuild": "cd ../apis.do && pnpm run build",
     "build": "tsup --config tsup.config.ts",
     "generate:constants": "echo 'Using placeholder constants'",
     "test": "vitest run",
@@ -46,7 +45,7 @@
   },
   "devDependencies": {
     "eslint-config": "workspace:*",
-    "evalite": "^0.9.1",
+    "evalite": "^0.10.0",
     "typescript": "^5.0.0",
     "vitest": "^3.0.9",
     "tsconfig": "workspace:*",

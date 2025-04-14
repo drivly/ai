@@ -1,44 +1,17 @@
-import { getPayload } from 'payload'
-import type { BasePayload, Config, SanitizedConfig } from 'payload'
-import type {
-  BetterAuthFunctionOptions,
-  BetterAuthReturn,
-  PayloadBetterAuthPluginOptions,
-  TPlugins,
-} from './types'
+import type { BasePayload, Config } from 'payload'
+import type { PayloadBetterAuthPluginOptions } from './types'
 import { sanitizeBetterAuthOptions } from './lib/sanitize-auth-options'
 import { getRequiredCollectionSlugs } from './lib/get-required-collection-slugs'
 import { buildCollectionConfigs } from './lib/build-collection-configs'
-const payloadAdapter = (_payload: any, _config = {}) => {
-  return {
-    id: 'mock-adapter',
-    dialect: 'postgres',
-    type: 'postgres',
-  }
-}
-import { betterAuth } from 'better-auth'
 import { respectSaveToJwtFieldsMiddleware } from './lib/respect-save-to-jwt-fields-middleware'
+import { initBetterAuth } from './lib/init-better-auth'
 
 export * from './types'
-export * from './helpers/index'
+export * from './helpers'
 export { sanitizeBetterAuthOptions } from './lib/sanitize-auth-options'
+export { getPayloadAuth } from './lib/get-payload-auth'
 
-function initBetterAuth<P extends TPlugins>({
-  payload,
-  options,
-}: {
-  payload: BasePayload
-  options: BetterAuthFunctionOptions<P>
-}): BetterAuthReturn<P> {
-  const auth = {
-    options: { ...options },
-    plugins: options.plugins || [],
-  } as unknown as BetterAuthReturn<P>
-
-  return auth
-}
-
-export function payloadBetterAuth(pluginOptions: PayloadBetterAuthPluginOptions) {
+export function betterAuthPlugin(pluginOptions: PayloadBetterAuthPluginOptions) {
   return (config: Config): Config => {
     if (pluginOptions.disabled) {
       return config
@@ -96,13 +69,4 @@ export function payloadBetterAuth(pluginOptions: PayloadBetterAuthPluginOptions)
     }
     return config
   }
-}
-
-export async function getPayloadWithAuth<P extends TPlugins>(
-  config: Promise<SanitizedConfig> | SanitizedConfig,
-): Promise<BasePayload & { betterAuth: BetterAuthReturn<P> }> {
-  const payload = (await getPayload({ config })) as BasePayload & {
-    betterAuth: BetterAuthReturn<P>
-  }
-  return payload
 }

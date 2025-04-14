@@ -78,7 +78,7 @@ describe('CLI', () => {
       await cli.executeFunction('testFunction', inputs)
 
       expect(mockConsoleLog).toHaveBeenCalledWith('Executing function testFunction...')
-      expect(cli['api'].post).toHaveBeenCalledWith('/api/functions/testFunction/execute', inputs)
+      expect(cli['api'].post).toHaveBeenCalledWith('/v1/functions/testFunction/execute', inputs)
     })
   })
 

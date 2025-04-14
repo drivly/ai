@@ -1,31 +1,38 @@
 'use client'
 
+import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
+import { navigation, siteConfig } from '@/components/site-config'
 import { cn } from '@drivly/ui/lib'
 import Link from 'next/link'
 import { use, useEffect, useState } from 'react'
 import { FaDiscord, FaGithub } from 'react-icons/fa'
-import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
 import { LlmsdoLogo } from './llms-do-logo'
 import { MobileNav } from './mobile-nav'
-import { navLinks } from './nav-config'
 
-function linkFilter(link: (typeof navLinks)[number]) {
-  return link.label !== 'GitHub' && link.label !== 'Discord'
+function linkFilter(link: (typeof navigation)[number]) {
+  return link.name !== 'GitHub' && link.name !== 'Discord'
 }
 
-export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }) {
-  const domain = use(params).domain
-  const navMenuLinks = navLinks.filter(linkFilter)
+export function SitesNavbar({ params, minimal }: { params: { domain?: string }; minimal?: boolean }) {
+  const domain = params.domain
+  const navMenuLinks = navigation.filter(linkFilter)
 
   const [isOpen, setOpen] = useState(false)
   const [hasScrolled, setHasScrolled] = useState(false)
 
+  const [isStabilized, setIsStabilized] = useState(false)
+
   useEffect(() => {
-    const handleScroll = () => {
-      setHasScrolled(window.scrollY > 10)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    const timeoutId = setTimeout(() => {
+      setIsStabilized(true)
+      const handleScroll = () => {
+        setHasScrolled(window.scrollY > 10)
+      }
+      window.addEventListener('scroll', handleScroll, { passive: true })
+      return () => window.removeEventListener('scroll', handleScroll)
+    }, 300)
+    
+    return () => clearTimeout(timeoutId)
   }, [])
 
   // Handle body scroll lock
@@ -43,49 +50,46 @@ export function SitesNavbar({ params }: { params: Promise<{ domain?: string }> }
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 z-50 w-full backdrop-blur-[12px] transition-all duration-200',
+        'fixed top-0 left-0 z-50 w-full backdrop-blur-[12px]',
+        isStabilized ? 'transition-all duration-200' : '',
         hasScrolled ? 'bg-background/80 border-b' : 'border-transparent bg-transparent',
       )}>
-      <nav className='container mx-auto flex h-14 max-w-7xl items-center justify-between px-4 lg:px-8'>
-        <LlmsdoLogo domain={domain} />
+      <nav className='container mx-auto flex h-14 max-w-6xl items-center justify-between px-3 xl:px-0'>
+        <LlmsdoLogo domain={domain} minimal={minimal} />
 
-        <div className='absolute left-1/2 mr-6 hidden -translate-x-1/2 transform space-x-6 md:block'>
-          {navMenuLinks.map((link) => {
-            if (link.label === 'Blog' && domain) {
-              return (
-                <Link key={link.label} href={link.href} rel={link.rel} target={link.target} className='hover:text-primary text-sm font-semibold text-gray-500 transition-colors'>
-                  {link.label}
-                </Link>
-              )
-            } else if (link.label !== 'Blog') {
-              return (
-                <Link key={link.label} href={link.href} rel={link.rel} target={link.target} className='hover:text-primary text-sm font-semibold text-gray-500 transition-colors'>
-                  {link.label}
-                </Link>
-              )
-            }
-          })}
-        </div>
+        {!minimal && (
+          <div className='flex-1 hidden justify-center space-x-6 mx-6 md:flex'>
+            {navMenuLinks.map((link) => {
+              if (link.name !== 'Blog') {
+                return (
+                  <Link key={link.name} href={link.href} className='hover:text-primary text-sm font-semibold text-gray-400 transition-colors'>
+                    {link.name}
+                  </Link>
+                )
+              }
+              return null;
+            })}
+          </div>
+        )}
 
         {/* Desktop navigation */}
-        <div className='hidden h-full items-center justify-end space-x-4 md:flex'>
-          <Link href='https://github.com/drivly/ai' className='hover:text-primary text-sm text-gray-500 transition-colors' target='_blank' rel='noopener noreferrer'>
+        <div
+          className={cn('hidden h-full items-center justify-end space-x-4 md:flex', {
+            flex: minimal,
+          })}>
+          <Link href={siteConfig.baseLinks.github} className='hover:text-primary text-sm text-gray-400 transition-colors' target='_blank' rel='noopener noreferrer'>
             <FaGithub className='h-5 w-5' />
             <span className='sr-only'>GitHub</span>
           </Link>
-          <Link href='https://discord.gg/qus39VeA' className='hover:text-primary mx-2 text-sm text-gray-500 transition-colors'>
+          <Link href={siteConfig.baseLinks.discord} className='hover:text-primary text-sm text-gray-400 transition-colors' target='_blank' rel='noopener noreferrer'>
             <FaDiscord className='h-5 w-5' />
             <span className='sr-only'>Discord</span>
           </Link>
 
-          <JoinWaitlistButton
-            variant='ghost'
-            className={cn('hover:text-primary text-sm text-gray-500 transition-colors', hasScrolled && 'hover:text-primary bg-white text-black hover:bg-white')}>
-            Join waitlist
-          </JoinWaitlistButton>
+          <JoinWaitlistButton className='rounded-sm bg-white text-sm transition-colors' type='user' />
         </div>
 
-        <MobileNav isOpen={isOpen} setOpen={setOpen} domain={domain} />
+        {!minimal && <MobileNav isOpen={isOpen} setOpen={setOpen} domain={domain} />}
       </nav>
     </header>
   )

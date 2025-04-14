@@ -5,6 +5,7 @@ export const Domains: CollectionConfig = {
   admin: {
     group: 'Admin',
     useAsTitle: 'name',
+    description: 'Manages domain connections and DNS configuration',
   },
   fields: [
     { name: 'name', type: 'text', required: true },

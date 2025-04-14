@@ -59,7 +59,7 @@ export const searches = {
    * @returns Search results
    */
   execute: async (id: string, params?: Record<string, any>): Promise<any> => {
-    return api.get<any>(`/api/searches/${id}/execute`, params)
+    return api.get<any>(`/v1/searches/${id}/execute`, params)
   },
 }
 

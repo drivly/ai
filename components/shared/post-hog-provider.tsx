@@ -8,6 +8,15 @@ import posthog from 'posthog-js'
 import { PostHogProvider as PHProvider } from 'posthog-js/react'
 import { useIdentifyPostHogUser } from './useIdentifyPostHogUser'
 
+export function captureError(error: Error, context?: Record<string, any>) {
+  posthog.capture('error', {
+    error_message: error.message,
+    error_name: error.name,
+    error_stack: error.stack,
+    ...context
+  });
+}
+
 function PostHogPageView() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -47,7 +56,12 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       person_profiles: 'always',
       // person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
       capture_pageview: false, // Disable automatic pageview capture, as we capture manually
-      capture_pageleave: true,
+      // capture_pageleave: true,
+      capture_exceptions: {
+        capture_unhandled_errors: true,
+        capture_unhandled_rejections: true,
+        capture_console_errors: true,
+      },
     })
   }, [])
 

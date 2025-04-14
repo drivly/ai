@@ -5,6 +5,7 @@ export const Agents: CollectionConfig = {
   admin: {
     group: 'AI',
     useAsTitle: 'name',
+    description: 'Autonomous AI agents that can perform tasks using functions and workflows',
   },
   versions: true,
   fields: [
@@ -72,6 +73,15 @@ export const Agents: CollectionConfig = {
           },
         },
       ],
+    },
+    { 
+      name: 'goals', 
+      type: 'relationship', 
+      relationTo: 'goals',
+      hasMany: true,
+      admin: { 
+        description: 'Goals this agent contributes to' 
+      } 
     },
   ],
 }

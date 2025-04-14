@@ -10,16 +10,30 @@ type PagePromiseParams<T extends object> = {
 
 type DomainPageProps = PagePromiseParams<{ domain?: string; slug?: string }>
 
-export const withSitesWrapper = <TPage extends DomainPageProps>(WrappedPage: React.ComponentType<TPage>, withFaqs = true, withCallToAction = true) => {
-  return async (props: TPage) => (
-    <Fragment>
-      <SitesNavbar {...props} />
-      <main className='flex-1 overflow-x-hidden'>
-        <WrappedPage {...props} />
-      </main>
-      {withFaqs && <Faqs />}
-      {withCallToAction && <CallToAction />}
-      <Footer />
-    </Fragment>
-  )
+export const withSitesWrapper = <TPage extends DomainPageProps>({
+  WrappedPage,
+  minimal = false,
+  withFaqs = true,
+  withCallToAction = true,
+}: {
+  WrappedPage: React.ComponentType<TPage>
+  minimal?: boolean
+  withFaqs?: boolean
+  withCallToAction?: boolean
+}) => {
+  return async (props: TPage) => {
+    const awaitedParams = await props.params
+
+    return (
+      <Fragment>
+        <SitesNavbar params={awaitedParams} minimal={minimal} />
+        <main className='flex-1 overflow-x-hidden border-b border-gray-800/50'>
+          <WrappedPage {...props} />
+        </main>
+        {withFaqs && <Faqs />}
+        {withCallToAction && <CallToAction />}
+        <Footer minimal={minimal} />
+      </Fragment>
+    )
+  }
 }

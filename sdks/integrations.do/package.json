@@ -48,7 +48,6 @@
     "url": "https://github.com/drivly/ai/issues"
   },
   "scripts": {
-    "prebuild": "cd ../apis.do && pnpm run build",
     "build": "tsup --config tsup.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -59,7 +58,7 @@
   "devDependencies": {
     "@types/react": "18.2.0",
     "eslint-config": "workspace:*",
-    "evalite": "^0.9.1",
+    "evalite": "^0.10.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
     "vitest": "^3.0.9",

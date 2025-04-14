@@ -5,6 +5,7 @@ export const Connections: CollectionConfig = {
   admin: {
     group: 'Integrations',
     useAsTitle: 'name',
+    description: 'Manages connections to external services and APIs',
   },
   versions: true,
   fields: [

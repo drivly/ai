@@ -1,8 +1,7 @@
-import { Footer } from '@/components/sites/footer'
 import { GridPatternDashed } from '@/components/sites/magicui/grid-pattern-dashed'
 import { Particles } from '@/components/sites/magicui/particles'
+import { Button } from '@/components/ui/button'
 import { Badge } from '@drivly/ui/badge'
-import { Button } from '@drivly/ui/button'
 import { Fragment } from 'react'
 
 export const Careers = () => {
@@ -27,10 +26,12 @@ export const Careers = () => {
       </div>
 
       {/* Page content */}
-      <div className='relative z-10 container mx-auto px-4 pt-24 pb-12 md:pt-32 md:pb-24 lg:pb-32'>
+      <div className='relative z-10 container mx-auto px-3 py-24 md:pt-36'>
         <div className='mx-auto mb-16 max-w-3xl'>
           <div className='mb-12 text-center'>
-            <h1 className='mb-4 text-5xl font-bold tracking-tight'>Join the team</h1>
+            <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl leading-none font-medium tracking-tighter text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
+              Join the team
+            </h1>
             <p className='text-muted-foreground text-xl'>Come build the future of work.</p>
           </div>
 
@@ -64,7 +65,7 @@ export const Careers = () => {
                       Remote/Full-time
                     </Badge>
                   </div>
-                  <Button>Apply with GitHub</Button>
+                  <Button className='h-10 cursor-pointer rounded-sm'>Apply with GitHub</Button>
                 </div>
               </div>
 
@@ -86,14 +87,15 @@ export const Careers = () => {
                       Remote/Full-time
                     </Badge>
                   </div>
-                  <Button>Apply with GitHub</Button>
+                  <Button className='h-10 cursor-pointer rounded-sm'>Apply with GitHub</Button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <Footer />
     </Fragment>
   )
 }
+
+// how to apply with github, how does it actually work?

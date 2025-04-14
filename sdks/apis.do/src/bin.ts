@@ -62,7 +62,11 @@ async function runCommand() {
         console.log('Resources pushed successfully')
         break
       case 'sync':
-        await cli.sync()
+        const syncMode = args.includes('--mode-db') ? 'database' : 
+                         args.includes('--mode-local') ? 'local' : 
+                         args.includes('--mode-github') ? 'github' : 
+                         undefined
+        await cli.sync({ mode: syncMode })
         console.log('Resources synced successfully')
         break
       case 'list':
@@ -160,6 +164,9 @@ Commands:
   pull [resources]    Pull remote resources to local project
   push [resources]    Push local resources to remote
   sync                Sync local and remote resources
+    --mode-db         Use database as source of truth
+    --mode-local      Use local files as source of truth
+    --mode-github     Use GitHub repository as source of truth
   list <collection>   List resources in a collection
   get <collection> <id>  Get a specific resource
   create <collection> [data]  Create a new resource

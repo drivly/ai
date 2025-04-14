@@ -1,12 +1,12 @@
 import { API } from '@/lib/api'
-import { getPayloadAuth } from '@/lib/auth/payload-auth'
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 
 export const GET = API(async (request, { url, user }) => {
   if (!user) {
     return { error: 'unauthorized', error_description: 'Authentication required' }
   }
 
-  const payload = await getPayloadAuth()
+  const payload = await getPayloadWithAuth()
 
   const userDoc = await payload.findByID({
     collection: 'users',
@@ -19,7 +19,7 @@ export const GET = API(async (request, { url, user }) => {
 
   try {
     const clientsResult = await payload.find({
-      collection: 'oauth-clients' as 'oauth-clients',
+      collection: 'oauthClients',
       depth: 0,
     })
 

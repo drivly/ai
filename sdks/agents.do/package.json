@@ -50,8 +50,8 @@
   },
   "devDependencies": {
     "eslint-config": "workspace:*",
-    "@cloudflare/workers-types": "^4.20240320.1",
-    "evalite": "^0.9.1",
+    "@cloudflare/workers-types": "^4.20250414.0",
+    "evalite": "^0.10.0",
     "typescript": "^5.7.3",
     "vitest": "^3.0.9",
     "tsconfig": "workspace:*"

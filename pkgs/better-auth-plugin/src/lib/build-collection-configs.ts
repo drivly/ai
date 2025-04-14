@@ -1,4 +1,4 @@
-import type { PayloadBetterAuthPluginOptions, SanitizedBetterAuthOptions } from '../types'
+import type { PayloadBetterAuthPluginOptions, SanitizedBetterAuthOptions } from '..'
 import { baseCollectionSlugs, betterAuthPluginSlugs } from './config'
 import { betterAuthStrategy } from './auth-strategy'
 import { getAfterLogoutHook } from '../collections/users/hooks/after-logout'
@@ -342,6 +342,16 @@ export function buildCollectionConfigs({
                   admin: {
                     readOnly: true,
                     description: 'The normalized email of the user',
+                  },
+                })
+                break
+              case 'stripe':
+                usersCollection.fields.push({
+                  name: 'stripeCustomerId',
+                  type: 'text',
+                  label: 'Stripe Customer ID',
+                  admin: {
+                    description: 'The Stripe customer ID associated with this user',
                   },
                 })
                 break
@@ -1098,6 +1108,21 @@ export function buildCollectionConfigs({
                 description: 'Any additional metadata you want to store with the key.',
               },
             },
+            {
+              name: 'cfWorkerDomains',
+              type: 'array',
+              label: 'Cloudflare Worker Domains',
+              admin: {
+                description: 'Domains of authorized Cloudflare Workers',
+              },
+              fields: [
+                {
+                  name: 'domain',
+                  type: 'text',
+                  required: true,
+                }
+              ]
+            },
           ],
           timestamps: true,
         }
@@ -1563,6 +1588,124 @@ export function buildCollectionConfigs({
         }
         enhancedCollections.push(ssoProviderCollection)
         break
+      case betterAuthPluginSlugs.subscriptions:
+        const subscriptionCollection: CollectionConfig = {
+          slug: betterAuthPluginSlugs.subscriptions,
+          admin: {
+            hidden: pluginOptions.hidePluginCollections ?? false,
+            useAsTitle: 'plan',
+            description: 'Stripe subscription management',
+          },
+          fields: [
+            {
+              name: 'id',
+              type: 'text',
+              required: true,
+              index: true,
+              label: 'ID',
+              admin: {
+                description: 'Unique identifier for each subscription',
+              },
+            },
+            {
+              name: 'plan',
+              type: 'text',
+              required: true,
+              label: 'Plan',
+              admin: {
+                description: 'The name of the subscription plan',
+              },
+            },
+            {
+              name: 'user',
+              type: 'relationship',
+              relationTo: userSlug,
+              required: true,
+              index: true,
+              label: 'User',
+              admin: {
+                description: 'The user associated with this subscription',
+              },
+            },
+            {
+              name: 'stripeCustomerId',
+              type: 'text',
+              label: 'Stripe Customer ID',
+              admin: {
+                description: 'The Stripe customer ID',
+              },
+            },
+            {
+              name: 'stripeSubscriptionId',
+              type: 'text',
+              label: 'Stripe Subscription ID',
+              admin: {
+                description: 'The Stripe subscription ID',
+              },
+            },
+            {
+              name: 'status',
+              type: 'text',
+              required: true,
+              label: 'Status',
+              admin: {
+                description: 'The status of the subscription (active, canceled, etc.)',
+              },
+            },
+            {
+              name: 'periodStart',
+              type: 'date',
+              label: 'Period Start',
+              admin: {
+                description: 'Start date of the current billing period',
+              },
+            },
+            {
+              name: 'periodEnd',
+              type: 'date',
+              label: 'Period End',
+              admin: {
+                description: 'End date of the current billing period',
+              },
+            },
+            {
+              name: 'cancelAtPeriodEnd',
+              type: 'checkbox',
+              defaultValue: false,
+              label: 'Cancel At Period End',
+              admin: {
+                description: 'Whether the subscription will be canceled at the end of the period',
+              },
+            },
+            {
+              name: 'seats',
+              type: 'number',
+              label: 'Seats',
+              admin: {
+                description: 'Number of seats for team plans',
+              },
+            },
+            {
+              name: 'trialStart',
+              type: 'date',
+              label: 'Trial Start',
+              admin: {
+                description: 'Start date of the trial period',
+              },
+            },
+            {
+              name: 'trialEnd',
+              type: 'date',
+              label: 'Trial End',
+              admin: {
+                description: 'End date of the trial period',
+              },
+            },
+          ],
+          timestamps: true,
+        }
+        enhancedCollections.push(subscriptionCollection)
+        break
       default:
         break
     }
@@ -1574,13 +1717,5 @@ export function buildCollectionConfigs({
     )
   })
 
-  const enhancedCollectionsWithGroup = enhancedCollections.map((collection) => ({
-    ...collection,
-    admin: {
-      ...collection.admin,
-      group: 'Admin',
-    },
-  }))
-
-  return [...enhancedCollectionsWithGroup, ...restOfCollections]
+  return [...enhancedCollections, ...restOfCollections]
 }

@@ -1,13 +1,14 @@
 'use client'
 
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@drivly/ui/tooltip'
 import { Button } from '@drivly/ui/button'
 import { Label } from '@drivly/ui/label'
 import { cn } from '@drivly/ui/lib'
 import { Switch } from '@drivly/ui/switch'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@drivly/ui/tooltip'
 import { RiCheckLine, RiCloudLine, RiDiscordFill, RiInformationLine, RiLightbulbLine, RiSubtractLine, RiUserLine } from '@remixicon/react'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
+import { siteConfig } from '../../site-config'
 
 type FixedPrice = string
 
@@ -200,8 +201,10 @@ export function Pricing() {
           animationFillMode: 'backwards',
         }}>
         <div className='mt-2 max-w-3xl'>
-          <h1 className='text-center text-4xl font-semibold text-white sm:text-5xl'>Flexible, Transparent Pricing.</h1>
-          <p className='text-md mt-6 max-w-xl text-gray-400'>Choose the plan that's right for you. Designed to grow with your needs—pay only for what you use.</p>
+          <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl leading-none font-medium tracking-tighter text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
+            Flexible, Transparent Pricing.
+          </h1>
+          <p className='text-md mt-6 max-w-xl mx-auto text-gray-400'>Choose the plan that's right for you. Designed to grow with your needs—pay only for what you use.</p>
         </div>
       </section>
       <section
@@ -285,14 +288,14 @@ export function Pricing() {
 
                   <div className='mt-8'>
                     {plan.isStarter ? (
-                      <Button variant='outline' asChild className='group w-full'>
+                      <Button variant='outline' asChild className='group h-10 w-full rounded-sm'>
                         <Link href={plan.buttonLink} className='flex items-center justify-center'>
                           {plan.buttonText}
                           <span className='ml-2 transition-transform group-hover:translate-x-1'>→</span>
                         </Link>
                       </Button>
                     ) : (
-                      <Button asChild className='group w-full bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-200'>
+                      <Button asChild className='group h-10 w-full rounded-sm bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-200'>
                         <Link href={plan.buttonLink} className='flex items-center justify-center'>
                           {plan.buttonText}
                           <span className='ml-2 transition-transform group-hover:translate-x-1'>→</span>
@@ -433,7 +436,7 @@ export function Pricing() {
                                 <TooltipTrigger asChild>
                                   <RiInformationLine className='size-4 shrink-0 cursor-pointer text-gray-400' aria-hidden='true' />
                                 </TooltipTrigger>
-                                <TooltipContent side='right' className='border border-gray-800'>
+                                <TooltipContent side='right' className='border !border-gray-800'>
                                   {feature.tooltip}
                                 </TooltipContent>
                               </Tooltip>
@@ -472,7 +475,10 @@ export function Pricing() {
                       <Button
                         variant={plan.isStarter ? 'outline' : 'default'}
                         asChild
-                        className={cn('group', !plan.isStarter && 'bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-200')}>
+                        className={cn(
+                          'group h-10 rounded-sm',
+                          !plan.isStarter && 'h-10 rounded-sm bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-200',
+                        )}>
                         <Link href={plan.buttonLink} className='flex items-center justify-center'>
                           {plan.buttonText}
                           <span className='ml-2 transition-transform group-hover:translate-x-1'>→</span>
@@ -503,8 +509,8 @@ export function Pricing() {
 
           <div className='relative z-10 text-right lg:mx-12'>
             <div className='mt-8 space-y-4'>
-              <Button asChild className='w-full bg-[#7289da] bg-black text-black hover:bg-[#839AED] lg:w-1/2'>
-                <Link href='https://discord.gg/26nNxZTz9X' className='flex items-center justify-center'>
+              <Button asChild className='h-10 w-full rounded-sm bg-[#7289da] text-black hover:bg-[#839AED] lg:w-1/2'>
+                <Link href={siteConfig.baseLinks.discord} className='flex items-center justify-center'>
                   <RiDiscordFill className='mr-2 size-5' />
                   Join Discord
                 </Link>

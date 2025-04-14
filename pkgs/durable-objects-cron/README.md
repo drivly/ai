@@ -151,4 +151,72 @@ Returns an array of scheduled tasks.
 
 ## License
 
-MIT
+MIT License
+
+Copyright (c) 2024 AI Primitives
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Error Handling
+
+The library provides built-in error handling for task execution:
+
+1. When a task fails, the error is logged to the console
+2. The error details are stored in the Durable Object storage with a key format of `error:{taskId}:{timestamp}`
+3. The task is updated with error information in its data field:
+   - `_errors`: Count of consecutive errors
+   - `_lastErrorAt`: Timestamp of the last error
+   - `_lastError`: String representation of the last error
+
+### Error Handling Recommendations
+
+1. **Monitor errors**: Regularly check for error records in your Durable Object storage
+   ```typescript
+   // List all error records
+   const errors = await storage.list({ prefix: 'error:' })
+   ```
+
+2. **Implement custom error handlers**: Extend the default error handling for specific tasks
+   ```typescript
+   createCronDurableObject({
+     handlers: {
+       'critical:': async (task) => {
+         try {
+           // Task logic
+         } catch (error) {
+           // Custom error handling
+           await notifyAdmin(error)
+           throw error // Re-throw to trigger built-in error handling
+         }
+       }
+     }
+   })
+   ```
+
+3. **Add retry limits**: Check error counts in your handlers to limit retries
+   ```typescript
+   async function myHandler(task) {
+     if (task.data._errors && task.data._errors > 3) {
+       console.warn(`Task ${task.id} failed too many times, disabling`)
+       // Handle permanent failure
+       return
+     }
+     // Normal task execution
+   }
+   ```

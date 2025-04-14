@@ -3,12 +3,15 @@ import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
+import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getBlogPostBySlug } from '../blog-posts'
 
 async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: string }> }) {
   const { domain, slug } = await props.params
+  const headersList = await headers()
+  const siteUrl = `${headersList.get('x-forwarded-proto')}://${headersList.get('x-forwarded-host')}`
   const post = getBlogPostBySlug(slug || '')
   const fallbackImage = '/images/blog-llm.png'
 
@@ -17,22 +20,22 @@ async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: st
     return <BlogPostNotFound fallbackImage={fallbackImage} />
   }
 
-  const postUrl = `/blog/${post.slug}`
+  const postUrl = `${siteUrl}/blog/${post.slug}`
   const dateObj = new Date(post.date.split('-').join('/'))
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (
-    <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
+    <div className='container mx-auto max-w-4xl px-3 py-24 md:py-32'>
       <Link href={`/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back
       </Link>
 
       <div className='mb-8'>
-        <Badge variant='blog' className='mb-4'>
-          {post?.category}
-        </Badge>
-        <h1 className='mb-4 text-4xl font-bold tracking-tight'>{post?.title}</h1>
+        <Badge className='mb-4 px-3 py-1.5 text-sm hover:bg-gray-100 sm:px-2.5 sm:py-1 sm:text-xs dark:hover:bg-gray-800/50'>{post?.category}</Badge>
+        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40'>
+          {post?.title}
+        </h1>
         <p className='text-muted-foreground text-xl'>{post?.description}</p>
         <div className='mt-4 flex flex-row items-center justify-between gap-2'>
           <div className='text-muted-foreground text-sm'>{formattedDate}</div>
@@ -51,18 +54,20 @@ async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: st
   )
 }
 
-export default withSitesWrapper(BlogPostPage)
+export default withSitesWrapper({ WrappedPage: BlogPostPage, withFaqs: false })
 
 function BlogPostNotFound({ fallbackImage }: { fallbackImage: string }) {
   return (
-    <div className='container mx-auto max-w-4xl px-4 pt-24 pb-12 md:pt-32'>
+    <div className='container mx-auto max-w-4xl px-3 py-24 md:py-32'>
       <Link href={`/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back
       </Link>
 
       <div className='mb-8'>
-        <h1 className='mb-4 text-4xl font-bold tracking-tight'>Blog Post Not Found</h1>
+        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40'>
+          Blog Post Not Found
+        </h1>
         <p className='text-muted-foreground text-xl'>The blog post you're looking for doesn't exist or may have been removed.</p>
       </div>
 

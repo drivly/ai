@@ -147,6 +147,11 @@ export type DeployResult = {
    * URL of the deployed worker if successful
    */
   deploymentUrl?: string
+
+  /**
+   * Stage of the deployment process where the result was determined
+   */
+  stage?: 'typescript-validation' | 'eslint-validation' | 'test-execution' | 'bundling' | 'deployment' | 'deployed'
 }
 
 /**
@@ -222,6 +227,16 @@ export type CloudflareOptions = {
    * Cloudflare Workers for Platforms namespace ID
    */
   namespaceId?: string
+
+  /**
+   * Maximum number of retry attempts for API calls
+   */
+  maxRetries?: number
+
+  /**
+   * Base delay in milliseconds between retry attempts
+   */
+  retryDelay?: number
 }
 
 /**

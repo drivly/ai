@@ -1,0 +1,3 @@
+# https://payloadcms.com/docs/getting-started/what-is-payload llms.txt
+
+- [Next.js Fullstack Framework](https://payloadcms.com/docs/getting-started/what-is-payload): Payload is a powerful Next.js fullstack framework for developers.

@@ -1,6 +1,6 @@
 {
   "name": "apis.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Unified API Gateway for all domains and services in the .do ecosystem",
   "keywords": [
     "api",
@@ -74,7 +74,7 @@
   "devDependencies": {
     "@types/react": "18.2.0",
     "eslint-config": "workspace:*",
-    "evalite": "^0.9.1",
+    "evalite": "^0.10.0",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "tsconfig": "workspace:*",

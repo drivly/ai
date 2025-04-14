@@ -29,7 +29,6 @@
       "import": "./dist/types.js",
       "types": "./dist/types.d.ts"
     }
- 
   },
   "files": [
     "dist",
@@ -54,16 +53,16 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "eslint-config": "workspace:*",
+    "eslint-config": "0.1.0",
     "@types/react": "18.2.0",
-    "evalite": "^0.9.1",
+    "evalite": "^0.10.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3",
     "vitest": "^3.0.9",
-    "tsconfig": "workspace:*"
+    "tsconfig": "0.0.0"
   },
   "dependencies": {
-    "apis.do": "workspace:*"
+    "apis.do": "0.0.1"
   },
   "pnpm": {
     "overrides": {

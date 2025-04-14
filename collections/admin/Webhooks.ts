@@ -5,6 +5,7 @@ export const Webhooks: CollectionConfig = {
   admin: {
     group: 'Admin',
     useAsTitle: 'name',
+    description: 'Manages webhook endpoints for event notifications',
   },
   versions: true,
   fields: [

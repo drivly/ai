@@ -63,7 +63,7 @@
 - Prettier: ^3.5.3
 - TypeScript: ^5.7.3
 - Wrangler: ^4.2.0
-- Changesets for version management
+
 
 ### Common Commands
 - Build: `pnpm build` or `pnpm build:turbo`
@@ -150,12 +150,12 @@ ai/
 - Package entry points in package.json files should point to built files (e.g., dist/index.js) rather than source files
 
 ### Versioning Strategy
-- Use Changesets for version management across SDKs and packages
+- Use semantic-release for version management across SDKs and packages
 - Packages in the `sdks` directory must maintain synchronized version numbers
 - Packages in the `pkgs` directory can be versioned independently
 - During API instability phase, use patch versions (0.0.x) for SDK packages
-- All packages referenced in changesets must be properly configured in pnpm-workspace.yaml
-- Package names in changesets must exactly match names in respective package.json files
+- All packages must be properly configured in pnpm-workspace.yaml
+- Package names must exactly match names in respective package.json files
 
 ### Deployment Patterns
 - Vercel is used for deployment and preview environments

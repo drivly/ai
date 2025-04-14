@@ -1,6 +1,6 @@
 import { siteCategories } from '@/api.config'
 
-export function getDomainsByCategory(domains: string[]) {
+export async function getDomainsByCategory(domains: string[]) {
   const domainsByCategory: Record<string, string[]> = {}
 
   Object.entries(siteCategories).forEach(([category, categoryDomains]) => {

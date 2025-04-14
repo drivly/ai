@@ -5,6 +5,7 @@ export const Roles: CollectionConfig = {
   admin: {
     group: 'Admin',
     useAsTitle: 'name',
+    description: 'Manages user roles and permissions within the system',
   },
   fields: [
     {

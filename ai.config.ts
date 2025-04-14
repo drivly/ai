@@ -31,6 +31,19 @@ export const ai = AI({
     returnType: 'Object | List | Array | Code | Markdown',
   },
 
+  generateSiteContent: {
+    domain: 'The domain name to generate content for',
+    title: 'The title of the site',
+    description: 'A brief description of the site',
+    headline: 'A compelling headline for the site',
+    subhead: 'A supporting subheadline (optional)',
+    brandColor: 'The brand color in hex format (optional)',
+    badge: 'Badge text to display (optional)',
+    codeExample: 'Example code to showcase site functionality (optional)',
+    codeLang: 'Language of the code example (optional)',
+    group: 'Grouping category for the site (optional)',
+  },
+
   conjugateVerbs: {
     action: 'active tense like Create',
     act: 'third person singular present tense like Creates',

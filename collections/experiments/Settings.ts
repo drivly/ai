@@ -5,6 +5,7 @@ export const Settings: CollectionConfig = {
   admin: {
     group: 'Experiments',
     useAsTitle: 'name',
+    description: 'Manages configuration settings for experiments and features',
   },
   fields: [
     { name: 'name', type: 'text' },

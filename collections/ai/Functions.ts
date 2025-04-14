@@ -8,6 +8,7 @@ export const Functions: CollectionConfig = {
   admin: {
     group: 'AI',
     useAsTitle: 'name',
+    description: 'Reusable AI capabilities with typed inputs and outputs',
   },
   // versions: true,
   fields: [
@@ -39,6 +40,7 @@ export const Functions: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Original function this was cloned from',
+        condition: (data) => data?.clonedFrom !== undefined && data?.clonedFrom !== null,
       },
     },
     {
@@ -92,7 +94,7 @@ export const Functions: CollectionConfig = {
     {
       name: 'format',
       type: 'select',
-      options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code'],
+      options: ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code', 'Video'],
       defaultValue: 'Object',
       // required: true,
       admin: {
@@ -171,6 +173,15 @@ export const Functions: CollectionConfig = {
       admin: {
         description: 'Example arguments for this function',
       },
+    },
+    { 
+      name: 'goals', 
+      type: 'relationship', 
+      relationTo: 'goals',
+      hasMany: true,
+      admin: { 
+        description: 'Goals this function contributes to' 
+      } 
     },
   ],
 }

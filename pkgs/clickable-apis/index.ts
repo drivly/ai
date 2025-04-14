@@ -43,8 +43,8 @@ export interface ApiHeader {
   issues?: string
   /** With URL - reference to apis.do */
   with?: string
-  /** From URL - reference to agi.do */
-  from?: string
+  /** From URL - reference to dotdo.ai or /sites */
+  from: string // Made from field required
 }
 
 export type { ApiContext, PayloadClientResult, PayloadClientFn }
@@ -62,19 +62,20 @@ const domainDescriptions: Record<string, string> = {
 }
 
 const getDomainDescription = (domain: string, customDescriptions?: Record<string, string>): string => {
-  const baseDomain = domain.split('.').slice(-2).join('.')
+  const baseDomain = domain.replace(/\.do(\.mw|\.gt)?$/, '')
+  const lookupDomain = baseDomain + '.do'
   const descriptions = customDescriptions || domainDescriptions
-  return descriptions[baseDomain] || descriptions['apis.do'] || 'API'
+  return descriptions[lookupDomain] || descriptions['apis.do'] || 'API'
 }
 
 const getDomainPackageName = (domain: string): string => {
-  const baseDomain = domain.split('.').slice(-2).join('.')
-  return baseDomain
+  const baseDomain = domain.replace(/\.do(\.mw|\.gt)?$/, '')
+  return baseDomain + '.do'
 }
 
 const getDomainSite = (domain: string): string => {
-  const baseDomain = domain.split('.').slice(-2).join('.')
-  return `https://${baseDomain}`
+  const baseDomain = domain.replace(/\.do(\.mw|\.gt)?$/, '')
+  return `https://${baseDomain}.do`
 }
 
 /**
@@ -203,6 +204,24 @@ export const createAPI = (
         _currentRequest = null
         _currentContext = null
 
+        const isPreview = domain === 'localhost' || domain.endsWith('dev.driv.ly')
+
+        let rootDomain = 'workflows'
+        if (isPreview && domain !== 'localhost') {
+          const parts = domain.split('.')
+          if (parts.length > 2) {
+            rootDomain = parts[0]
+          }
+        }
+
+        let site = domain.endsWith('.do') ? `https://${domain}` : 'https://apis.do'
+        let from = 'https://dotdo.ai'
+
+        if (isPreview) {
+          site = `${origin}/sites/workflows.do` // Always use workflows.do for preview domains
+          from = `${origin}/sites`
+        }
+
         const apiHeader: ApiHeader = {
           name: domain,
           description: getDomainDescription(domain, options?.domainDescriptions),
@@ -213,11 +232,11 @@ export const createAPI = (
           docs: origin + '/docs',
           repo: 'https://github.com/drivly/ai',
           sdk: `https://npmjs.com/${getDomainPackageName(domain)}`,
-          site: getDomainSite(domain),
+          site, // Use the variable we created
+          from, // Add the new field
           chat: 'https://discord.gg/tafnNeUQdm',
           issues: 'https://github.com/drivly/ai/issues',
           with: 'https://apis.do',
-          from: 'https://agi.do',
         }
 
         return NextResponse.json(

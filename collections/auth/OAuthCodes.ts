@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload'
 
 export const OAuthCodes: CollectionConfig = {
-  slug: 'oauth-codes',
+  slug: 'oauthCodes',
   labels: {
     singular: 'OAuth Code',
     plural: 'OAuth Codes',
@@ -9,6 +9,7 @@ export const OAuthCodes: CollectionConfig = {
   admin: {
     group: 'Authentication',
     hidden: true,
+    description: 'Manages OAuth authorization codes for authentication flows',
   },
   access: {
     read: ({ req }) => {

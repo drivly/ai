@@ -289,6 +289,48 @@ const searchResults = await db.posts.search('search term', {
 })
 ```
 
+## Error Handling
+
+`database.do` provides standardized error handling across all database operations:
+
+- All API calls are wrapped in try/catch blocks
+- Errors include context about the operation and collection
+- Original error properties are preserved
+
+```typescript
+import { db } from 'database.do'
+
+try {
+  const post = await db.posts.findOne('non-existent-id')
+} catch (error) {
+  console.error(error.message) // "findOne operation failed on collection 'posts': Document not found"
+  console.error(error.statusCode) // 404
+  console.error(error.operation) // "findOne"
+  console.error(error.collection) // "posts"
+}
+```
+
+## Error Handling
+
+`database.do` provides standardized error handling across all database operations:
+
+- All API calls are wrapped in try/catch blocks
+- Errors include context about the operation and collection
+- Original error properties are preserved
+
+```typescript
+import { db } from 'database.do'
+
+try {
+  const post = await db.posts.findOne('non-existent-id')
+} catch (error) {
+  console.error(error.message) // "findOne operation failed on collection 'posts': Document not found"
+  console.error(error.statusCode) // 404
+  console.error(error.operation) // "findOne"
+  console.error(error.collection) // "posts"
+}
+```
+
 ## Schema Support
 
 `database.do` offers two approaches to working with data:

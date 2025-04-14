@@ -1,6 +1,6 @@
 // storage-adapter-import-placeholder
-import { payloadAgentPlugin } from '@drivly/payload-agent'
-import { payloadBetterAuth } from '@payload-auth/better-auth-plugin'
+// import { payloadAgentPlugin } from '@drivly/payload-agent'
+import { betterAuthPlugin } from '@payload-auth/better-auth-plugin'
 import { openapi } from 'payload-oapi'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -25,8 +25,10 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     // user: 'users',
+
     importMap: {
       baseDir: path.resolve(dirname),
+      importMapFile: path.resolve(dirname, 'app/(admin)/admin/importMap.js'),
     },
     components: {
       afterLogin: [
@@ -63,7 +65,7 @@ export default buildConfig({
       },
     },
   },
-  collections: collections as any,
+  collections: collections,
   editor: lexicalEditor(),
   email: resendAdapter({
     defaultFromAddress: process.env.DEFAULT_FROM_ADDRESS || '',
@@ -91,15 +93,15 @@ export default buildConfig({
   },
   sharp,
   plugins: [
-    payloadAgentPlugin({
-      aiAvatar: '/ai.webp',
-      defaultMessage: "I'm the AI assistant for Workflows.do. Ask me anything about the platform.",
-      direction: 'horizontal',
-      type: 'resizable',
-      logo: '/DrivlyLogo.svg',
-      // suggestions: suggestedActions,
-    }),
-    payloadBetterAuth(payloadBetterAuthOptions),
+    // payloadAgentPlugin({
+    //   aiAvatar: '/ai.webp',
+    //   defaultMessage: "I'm the AI assistant for Workflows.do. Ask me anything about the platform.",
+    //   direction: 'horizontal',
+    //   type: 'resizable',
+    //   logo: '/DrivlyLogo.svg',
+    //   // suggestions: suggestedActions,
+    // }),
+    betterAuthPlugin(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     openapi({
       metadata: {
@@ -107,7 +109,7 @@ export default buildConfig({
         description: 'API documentation for Workflows.do',
         version: '1.0.0',
       },
-      specEndpoint: '/api/docs/openapi.json',
+      specEndpoint: '/v1/docs/openapi.json',
     }),
     // storage-adapter-placeholder
 
@@ -125,6 +127,8 @@ export default buildConfig({
       'searches.afterChange': ['searchThings', 'hybridSearchThings'],
       'actions.afterChange': 'executeFunction',
       'events.afterChange': 'deliverWebhook',
+      'tasks.afterChange': ['syncTaskToLinear'],
+      'tasks.afterDelete': ['deleteLinearIssue'],
     }),
     multiTenantPlugin({
       tenantSelectorLabel: 'Project',
@@ -171,7 +175,6 @@ export default buildConfig({
         events: {},
         errors: {},
         generations: {},
-        'generation-batches': {},
         traces: {},
       },
       tenantsSlug: 'projects',
