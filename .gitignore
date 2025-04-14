@@ -159,6 +159,8 @@ dist
 
 # Velite output directory
 .velite
+public/static/content
+
 
 # Sentry Config File
 .env.sentry-build-plugin
