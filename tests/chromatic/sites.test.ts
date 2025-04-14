@@ -1,7 +1,7 @@
 import { test, expect } from '@chromatic-com/playwright'
 
 test('sites main page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -12,7 +12,7 @@ test('sites main page', async ({ page }) => {
 })
 
 test('docs page', async ({ page }) => {
-  await page.goto('http://localhost:3000/docs')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/docs`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -23,7 +23,7 @@ test('docs page', async ({ page }) => {
 })
 
 test('specific site page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/workflows.do')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -33,7 +33,7 @@ test('specific site page', async ({ page }) => {
 })
 
 test('site settings page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/workflows.do/settings')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/settings`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -43,7 +43,7 @@ test('site settings page', async ({ page }) => {
 })
 
 test('site analytics page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/workflows.do/analytics')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/analytics`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -53,7 +53,7 @@ test('site analytics page', async ({ page }) => {
 })
 
 test('site functions page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/workflows.do/functions')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/functions`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -63,7 +63,7 @@ test('site functions page', async ({ page }) => {
 })
 
 test('site blog page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/workflows.do/blog')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/blog`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -75,7 +75,7 @@ test('site blog page', async ({ page }) => {
 })
 
 test('site blog post page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/workflows.do/blog/example-post')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/blog/example-post`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -87,7 +87,7 @@ test('site blog post page', async ({ page }) => {
 })
 
 test('site pricing page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/workflows.do/pricing')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/pricing`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -99,7 +99,7 @@ test('site pricing page', async ({ page }) => {
 })
 
 test('site privacy page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/workflows.do/privacy')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/privacy`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -111,7 +111,7 @@ test('site privacy page', async ({ page }) => {
 })
 
 test('site terms page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/workflows.do/terms')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/terms`)
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -123,7 +123,7 @@ test('site terms page', async ({ page }) => {
 })
 
 test('site waitlist page - unauthenticated', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/workflows.do/waitlist')
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/waitlist`)
   
   await page.waitForSelector('main', { timeout: 10000 })
   

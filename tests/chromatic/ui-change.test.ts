@@ -1,7 +1,7 @@
 import { test, expect } from '@chromatic-com/playwright'
 
 test('ui change test', async ({ page }) => {
-  await page.goto('https://example.com')
+  await page.goto(`${process.env.TEST_EXAMPLE_URL || 'https://example.com'}`)
 
   await page.evaluate(() => {
     const style = document.createElement('style')
