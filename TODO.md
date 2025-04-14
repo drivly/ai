@@ -20,6 +20,7 @@
 - [x] Fix params type in API routes to match Next.js 15 requirements
 - [x] Fix params type in nested API route to match Next.js 15 requirements
 - [x] Resolve merge conflict with main branch
+- [x] Fix Promise handling in admin pages for config and params
 
 ## Technical Challenges
 - [x] Routing conflict between admin page and existing API routes
@@ -30,6 +31,8 @@
   - Solution: Updated params type to be Promise<Params> to match Next.js 15 requirements
 - [x] Type error in API routes with params type
   - Solution: Updated params type to be Promise<{ domain: string }> to match Next.js 15 requirements
+- [x] Type error in admin pages with config and params
+  - Solution: Wrapped config and params in Promise.resolve() for RootPage component
 - [x] Merge conflict with main branch
   - Solution: Resolved conflict in public/static/content by accepting changes from main
 - [ ] Potential routing conflicts with other [domain] routes:
@@ -48,26 +51,20 @@
 ## Deployment Status
 - [x] PR created: https://github.com/drivly/ai/pull/1313
 - [x] Tests passing
-- [ ] Build failing despite multiple fixes
 - [x] ai-studio-template deployment successful
-- [ ] Main app (ai) deployment failing
+- [ ] Main app (ai) deployment in progress
 
-## Blockers
-- Build process is failing despite multiple attempts to fix the issues
-- Multiple attempts to fix the build error have been made:
-  1. Added root layout for `/app/projects/[domain]/admin`
-  2. Added parent layout for `/app/projects/[domain]` directory
-  3. Removed deprecated instrumentationHook from next.config.mjs
-  4. Moved API routes to avoid routing conflicts
-  5. Fixed params type in admin pages to match Next.js 15 requirements
-  6. Fixed params type in API routes to match Next.js 15 requirements
-  7. Fixed params type in nested API route to match Next.js 15 requirements
-  8. Resolved merge conflict with main branch
-
-## Notes
-- The ai-studio-template deployment is successful
-- The main app build is failing despite multiple fixes
-- We've identified other [domain] directories in the app that might be causing routing conflicts
-- Nathan requested moving the admin page to `/app/projects/[domain]/admin` to avoid routing conflicts
-- User has been notified about the ongoing CI failures and asked for guidance
+## Current Status
+- The ai-studio-template deployment is successful (https://ai-studio-template-a2hrqz5qm.dev.driv.ly)
+- The main app (ai) deployment is still in progress
+- Nathan has reviewed the PR and confirmed the route structure is correct
+- All type errors related to Next.js 15 Promise-based params have been fixed
 - Merge conflict with main branch has been resolved
+- Screenshots of the routes are available in the PR comments
+
+## Next Steps
+- Wait for the main app deployment to complete
+- If the deployment fails, investigate the specific error and fix it
+- If the deployment succeeds, verify the functionality of the project-specific admin interface
+- Update the PR with the verification results
+- Request final review from Nathan
