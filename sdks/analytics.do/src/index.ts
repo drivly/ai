@@ -12,6 +12,11 @@ const defaultConfig: AnalyticsConfig = {
 }
 
 /**
+ * Queue for storing events when offline
+ */
+let offlineEventQueue: BeforeSendEvent[] = []
+
+/**
  * API client for analytics.do
  */
 const analyticsApi = new API({
@@ -23,6 +28,31 @@ const analyticsApi = new API({
  * @param config - Configuration options for the analytics SDK
  * @returns Analytics client with track and trackPageView methods
  */
+/**
+ * Check if the browser is online
+ */
+function isOnline(): boolean {
+  return typeof navigator !== 'undefined' ? navigator.onLine : true
+}
+
+/**
+ * Process offline events when coming back online
+ */
+function processOfflineEvents() {
+  if (offlineEventQueue.length > 0 && isOnline()) {
+    const events = [...offlineEventQueue]
+    offlineEventQueue = []
+    
+    analyticsApi.post('/_analytics', { events }).catch(() => {
+      offlineEventQueue.push(...events)
+    })
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', processOfflineEvents)
+}
+
 export function initAnalytics(config: AnalyticsConfig = {}) {
   const mergedConfig = { ...defaultConfig, ...config }
 
@@ -59,6 +89,14 @@ export function initAnalytics(config: AnalyticsConfig = {}) {
 
         if (mergedConfig.debug) {
           console.debug('Tracking event:', event)
+        }
+
+        if (typeof window !== 'undefined' && !isOnline()) {
+          offlineEventQueue.push(event)
+          if (mergedConfig.debug) {
+            console.debug('Device offline, queuing event for later', event)
+          }
+          return
         }
 
         await analyticsApi.post(mergedConfig.endpoint || '/_analytics', {
