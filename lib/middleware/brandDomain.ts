@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-/**
- * Handle brand domains
- */
 export function handleBrandDomain(request: NextRequest): NextResponse | null {
-  const { pathname, search } = request.nextUrl
   const hostname = process.env.HOSTNAME_OVERRIDE || request.nextUrl.hostname
+  const { pathname, search } = request.nextUrl
+  const url = new URL(request.url)
   
   console.log('Handling brand domain', { hostname, pathname, search })
   
@@ -26,11 +24,11 @@ export function handleBrandDomain(request: NextRequest): NextResponse | null {
   
   if (pathname === '/') {
     console.log('Rewriting brand domain root path to /sites', { hostname, pathname, search })
-    return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+    return NextResponse.rewrite(new URL(`/sites${search}`, url))
   }
   
   const cleanPathname = pathname.endsWith('/') && pathname !== '/' ? pathname.slice(0, -1) : pathname
   
   console.log('Rewriting brand domain to sites domain path using .do', { hostname, cleanPathname, search })
-  return NextResponse.rewrite(new URL(`/sites/.do${cleanPathname}${search}`, request.url))
+  return NextResponse.rewrite(new URL(`/sites/.do${cleanPathname}${search}`, url))
 }

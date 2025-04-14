@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-/**
- * Handle gateway domains
- */
 export function handleGatewayDomain(request: NextRequest): NextResponse | null {
-  const { pathname, search } = request.nextUrl
   const hostname = process.env.HOSTNAME_OVERRIDE || request.nextUrl.hostname
+  const { pathname, search } = request.nextUrl
+  const url = new URL(request.url)
   
   console.log('Handling gateway domain, exiting middleware', { 
     hostname, 
@@ -19,7 +17,7 @@ export function handleGatewayDomain(request: NextRequest): NextResponse | null {
       pathname, 
       search 
     })
-    return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+    return NextResponse.rewrite(new URL(`/sites${search}`, url))
   }
   
   if ((hostname === 'do.gt' || hostname === 'do.mw') && pathname === '/') {
@@ -28,7 +26,7 @@ export function handleGatewayDomain(request: NextRequest): NextResponse | null {
       pathname, 
       search 
     })
-    return NextResponse.rewrite(new URL(`/sites${search}`, request.url))
+    return NextResponse.rewrite(new URL(`/sites${search}`, url))
   }
   
   return null

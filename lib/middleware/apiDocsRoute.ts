@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-/**
- * Handle API docs routes (/api/docs/* and /v1/docs/*)
- */
 export function handleApiDocsRoute(request: NextRequest): NextResponse {
-  const { pathname, search } = request.nextUrl
   const hostname = process.env.HOSTNAME_OVERRIDE || request.nextUrl.hostname
+  const { pathname, search } = request.nextUrl
   
   console.log('Rewriting /api/docs or /v1/docs to docs.apis.do', { hostname, pathname, search })
   const apiDocsPath = pathname.replace('/api/docs', '').replace('/v1/docs', '')
