@@ -20,106 +20,98 @@ npx workflows.do [command]
 ## Usage
 
 ```bash
-workflow [command] [options]
+workflows [command] [options]
 ```
 
 ## Commands
 
-### `workflow`
+### `workflows init [name]`
 
-### `init`
+Initialize a new workflows project in the current directory or in a new directory if a name is provided.
 
-### `login`
+```bash
+workflows init my-workflows
+cd my-workflows
+```
 
-### `logout`
+### `workflows login [token]`
 
-### `pull`
+Login to workflows.do with your API token.
 
-### `push`
+```bash
+workflows login
+# or
+workflows login your-api-token
+```
 
-### `sync`
+### `workflows logout`
 
-### `Use`
+Logout and remove stored credentials.
 
-### `Use`
+```bash
+workflows logout
+```
 
-### `Use`
+### `workflows list`
 
-### `list`
+List all your workflows.
 
-### `get`
+```bash
+workflows list
+```
 
-### `create`
+### `workflows get <id>`
 
-### `update`
+Get details about a specific workflow.
 
-### `delete`
+```bash
+workflows get workflow_123
+```
 
-### `execute`
+### `workflows create <name> [description]`
 
-### `register`
+Create a new workflow.
 
-### `scan`
+```bash
+workflows create "Email Processor" "Processes incoming emails and extracts key information"
+```
 
-### `Show`
+### `workflows update <id> [options]`
 
-### `Show`
+Update an existing workflow.
 
-### `Scan`
+```bash
+workflows update workflow_123 --name "Updated Name" --description "New description"
+```
 
-### `Show`
+### `workflows delete <id>`
 
-### `Display`
+Delete a workflow.
 
-### `Environment`
+```bash
+workflows delete workflow_123
+```
 
-### `WORKFLOWS_DO_API_KEY`
+### `workflows execute <id> [inputs]`
 
-### `DO_API_KEY`
+Execute a workflow with the provided inputs.
 
+```bash
+workflows execute workflow_123 --input-file=./inputs.json
+# or
+workflows execute workflow_123 '{"key": "value"}'
+```
 
+### `workflows logs <id> [options]`
+
+View execution logs for a workflow.
+
+```bash
+workflows logs workflow_123 --limit 10
+```
 
 ## Environment Variables
 
-- `WORKFLOWS_DO_API_KEY`
-- `DO_API_KEY`
-
-## Help Output
-
-```
-workflows.do CLI v${version}
-
-Usage:
-  workflow [command] [options]
-
-Commands:
-  init                Initialize a new project
-  login [token]       Login with API token
-  logout              Remove stored credentials
-  pull [resources]    Pull remote resources to local project
-  push [resources]    Push local resources to remote
-  sync                Sync local and remote resources
-    --mode-db         Use database as source of truth
-    --mode-local      Use local files as source of truth
-    --mode-github     Use GitHub repository as source of truth
-  list <collection>   List resources in a collection
-  get <collection> <id>  Get a specific resource
-  create <collection> [data]  Create a new resource
-  update <collection> <id> [data]  Update a resource
-  delete <collection> <id>  Delete a resource
-  
-  execute <workflowId> [input] [options]  Execute a workflow
-  register <filePath>  Register a workflow from a JSON file
-  scan [directory]     Scan directory for workflow files and register them
-
-Options:
-  --help, -h          Show this help message
-  --version, -v       Show version information
-  --recursive         Scan directories recursively when using scan command
-  --dry-run           Show what would be registered without actually registering workflows
-  --verbose           Display detailed information during scanning process
-
-Environment Variables:
-  WORKFLOWS_DO_API_KEY  API key for authentication
-  DO_API_KEY            Alternative API key for authentication
+- `WORKFLOWS_DO_API_KEY` - API key for authentication
+- `DO_API_KEY` - Alternative API key for authentication
 ```
