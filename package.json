@@ -12,7 +12,10 @@
     "dev": "pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev",
     "dev:email": "email dev",
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
+    "download:payload-docs": "FIRECRAWL_API_KEY=$FIRECRAWL_API_KEY node scripts/download-payload-docs.js",
+    "download:payload-docs-direct": "node scripts/download-payload-docs-direct.js",
     "fetch:better-auth-docs": "FIRECRAWL_API_KEY=$FIRECRAWL_API_KEY node scripts/fetch-better-auth-docs.js",
+    "fetch:better-auth-docs:cli": "FIRECRAWL_API_KEY=$FIRECRAWL_API_KEY node scripts/fetch-better-auth-docs-cli.js",
     "lint": "turbo lint",
     "lint:file": "eslint",
     "semantic-release": "node scripts/release.js",
@@ -34,6 +37,7 @@
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types && pnpm sync:sdk-types && pnpm tsx scripts/generate-api-docs-standalone.ts",
     "generate:zapier-apps": "tsx scripts/generate-zapier-apps.ts",
+    "generate:cli-docs": "tsx scripts/generate-cli-docs.ts",
     "sync:sdk-types": "tsx scripts/sync-sdk-types.ts",
     "sync:sdk-docs": "node scripts/sync-sdk-docs.js",
     "generate:backlog": "tsx scripts/generateBacklog.ts",
@@ -115,7 +119,7 @@
     "lucide-react": "^0.483.0",
     "marked": "^15.0.7",
     "murmurhash": "^2.0.1",
-    "next": "15.2.4",
+    "next": "15.3.0",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.4.6",
     "nextra": "^4.2.17",
@@ -157,7 +161,6 @@
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
-
     "@chromatic-com/playwright": "^0.12.0",
     "@eslint/eslintrc": "^3.2.0",
     "@next/bundle-analyzer": "^15.2.4",

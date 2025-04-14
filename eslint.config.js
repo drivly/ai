@@ -9,7 +9,7 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 })
 
-export default [
+const config = [
   ...compat.extends('next/core-web-vitals'),
   {
     ignores: ['pkgs/ui/**'],
@@ -20,3 +20,5 @@ export default [
     }
   },
 ]
+
+export default config

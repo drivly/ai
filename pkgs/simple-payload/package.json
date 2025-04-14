@@ -9,7 +9,6 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
- 
   },
   "files": [
     "dist",
@@ -19,9 +18,9 @@
     "payload-rest-client": "^3.0.5"
   },
   "devDependencies": {
-    "eslint-config": "workspace:*",
+    "eslint-config": "0.1.0",
     "payload": "^3.33.0",
-    "tsconfig": "workspace:*"
+    "tsconfig": "0.0.0"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --no-splitting",
