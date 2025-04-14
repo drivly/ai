@@ -73,7 +73,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
       collection: 'events', 
       data: { 
         data: sanitizedData,
-        tenant: process.env.DEFAULT_TENANT || 'apis.do', // Set default tenant
+        tenant: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Set default project ID
         type: data.type || 'webhook.composio', // Set default type
         source: 'composio' // Set source
       } 
