@@ -14,25 +14,30 @@ export function modifyDatabaseUri(baseUri: string, projectId: string): string {
   }
   
   try {
-    
-    const hasDbName = baseUri.includes('/');
-    
-    if (!hasDbName) {
-      return `${baseUri}/${projectId}`;
+    if (typeof baseUri !== 'string') {
+      throw new Error('Base database URI must be a string');
     }
     
-    const lastSlashIndex = baseUri.lastIndexOf('/');
-    const uriWithoutDb = baseUri.substring(0, lastSlashIndex + 1);
-    
-    const dbPart = baseUri.substring(lastSlashIndex + 1);
-    const queryParamsIndex = dbPart.indexOf('?');
-    
-    if (queryParamsIndex >= 0) {
-      const queryParams = dbPart.substring(queryParamsIndex);
-      return `${uriWithoutDb}${projectId}${queryParams}`;
+    if (baseUri.startsWith('mongodb://') || baseUri.startsWith('mongodb+srv://')) {
+      const queryParamIndex = baseUri.indexOf('?');
+      const effectiveUri = queryParamIndex >= 0 ? baseUri.substring(0, queryParamIndex) : baseUri;
+      
+      const slashCount = (effectiveUri.match(/\//g) || []).length;
+      
+      if (slashCount < 3) {
+        const separator = baseUri.endsWith('/') ? '' : '/';
+        const queryPart = queryParamIndex >= 0 ? baseUri.substring(queryParamIndex) : '';
+        return `${effectiveUri}${separator}${projectId}${queryPart}`;
+      } else {
+        const lastSlashIndex = effectiveUri.lastIndexOf('/');
+        const uriWithoutDb = effectiveUri.substring(0, lastSlashIndex + 1);
+        const queryPart = queryParamIndex >= 0 ? baseUri.substring(queryParamIndex) : '';
+        return `${uriWithoutDb}${projectId}${queryPart}`;
+      }
     }
     
-    return `${uriWithoutDb}${projectId}`;
+    const separator = baseUri.endsWith('/') ? '' : '/';
+    return `${baseUri}${separator}${projectId}`;
   } catch (error) {
     console.error('Error modifying database URI:', error);
     throw new Error('Failed to modify database connection string');

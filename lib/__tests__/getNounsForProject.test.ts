@@ -6,11 +6,22 @@ vi.mock('payload', () => ({
   getPayload: vi.fn(),
 }));
 
-vi.mock('@payload-config', () => ({}));
+vi.mock('@payload-config', () => ({
+  default: {
+    collections: [],
+    admin: {},
+    db: {}
+  }
+}));
 
 describe('getNounsForProject', () => {
   beforeEach(() => {
     vi.resetAllMocks();
+    
+    const mockPayload = {
+      find: vi.fn().mockResolvedValue({ docs: [] }),
+    };
+    (getPayload as any).mockResolvedValue(mockPayload);
   });
 
   it('should throw error if projectId is not provided', async () => {
