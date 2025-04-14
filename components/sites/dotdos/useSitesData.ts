@@ -6,6 +6,7 @@ export function useSitesData() {
   const searchParams = useSearchParams()
   const [hostname, setHostname] = useState<string>('')
   const [mounted, setMounted] = useState(false)
+  const [currentTld, setCurrentTld] = useState<string>('')
 
   const absoluteURL = searchParams?.get('absolute') || 'false'
   const showAbsolute = absoluteURL === 'true'
@@ -13,7 +14,16 @@ export function useSitesData() {
   useEffect(() => {
     setMounted(true)
     if (typeof window !== 'undefined') {
-      setHostname(window.location.hostname)
+      const currentHostname = window.location.hostname
+      setHostname(currentHostname)
+      
+      if (currentHostname.endsWith('.do.gt')) {
+        setCurrentTld('.gt')
+      } else if (currentHostname.endsWith('.do.mw')) {
+        setCurrentTld('.mw')
+      } else {
+        setCurrentTld('')
+      }
     }
   }, [])
 
@@ -23,5 +33,6 @@ export function useSitesData() {
     mounted,
     isBrandDomain,
     showAbsolute,
+    currentTld,
   }
 }
