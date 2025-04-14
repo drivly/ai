@@ -5,6 +5,7 @@ import './code-hike.css'
 import '@/app/(sites)/styles.css'
 import { headers } from 'next/headers'
 import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
+import 'nextra-theme-docs/style.css'
 
 import type { Metadata } from 'next'
 
