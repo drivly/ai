@@ -64,7 +64,7 @@ jobs:
           # Install required utilities
           npm install -g wait-on cross-env velite
           # Start the server in the background
-          pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev &
+          pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation npx next dev &
           # Wait for the server to be ready
           wait-on http://localhost:3000 -t 120000
           # Run Chromatic tests
