@@ -24,7 +24,7 @@ export const GET = API(async (request, { params, db, payload }) => {
       id: resourceId,
     })
     
-    if (!resource.project || resource.project.toString() !== project.id) {
+    if (!resource.tenant || resource.tenant.toString() !== project.id) {
       return { error: 'Resource does not belong to this project', status: 404 }
     }
     

@@ -25,7 +25,7 @@ export const GET = API(async (request, { params, db, payload }) => {
   const resourcesResult = await payload.find({
     collection: 'resources',
     where: {
-      project: {
+      tenant: {
         equals: project.id
       }
     },
@@ -89,7 +89,7 @@ export const POST = API(async (request, { params, db, payload }) => {
     collection: 'resources',
     data: {
       ...body,
-      project: project.id // Associate with project
+      tenant: project.id // Associate with project
     },
   })
   
@@ -128,7 +128,7 @@ export const PUT = API(async (request, { params, db, payload }) => {
     return { error: 'Resource not found', status: 404 }
   }
   
-  if (existingResource.project && existingResource.project.toString() !== project.id) {
+  if (existingResource.tenant && existingResource.tenant.toString() !== project.id) {
     return { error: 'Resource does not belong to this project', status: 403 }
   }
   
@@ -139,7 +139,7 @@ export const PUT = API(async (request, { params, db, payload }) => {
     id: resourceId,
     data: {
       ...body,
-      project: project.id // Ensure project association is maintained
+      tenant: project.id // Ensure project association is maintained
     },
   })
   
@@ -178,7 +178,7 @@ export const DELETE = API(async (request, { params, db, payload }) => {
     return { error: 'Resource not found', status: 404 }
   }
   
-  if (existingResource.project && existingResource.project.toString() !== project.id) {
+  if (existingResource.tenant && existingResource.tenant.toString() !== project.id) {
     return { error: 'Resource does not belong to this project', status: 403 }
   }
   
