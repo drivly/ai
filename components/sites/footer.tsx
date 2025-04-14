@@ -123,15 +123,15 @@ export function Footer({ minimal }: { minimal?: boolean }) {
         </div>
         <div className='mt-16 flex flex-col items-center justify-between gap-4 border-t border-gray-800 pt-8 sm:mt-20 sm:flex-row lg:mt-24'>
           <p className='text-sm leading-5 text-gray-400'>&copy; {new Date().getFullYear()} .do, Inc. All rights reserved.</p>
-          <div className='rounded-full border border-gray-800 py-1 pr-2 pl-1'>
-            <div className='flex items-center gap-1.5'>
-              <div className='relative size-4 shrink-0'>
-                <div className='absolute inset-[1px] rounded-full bg-emerald-500/20' />
-                <div className='absolute inset-1 rounded-full bg-emerald-500' />
-              </div>
-              <span className='text-xs text-white'>All systems operational</span>
-            </div>
-          </div>
+          <iframe 
+            src="https://status.workflows.do/badge?theme=dark" 
+            width="250" 
+            height="30" 
+            frameBorder="0" 
+            scrolling="no" 
+            style={{ colorScheme: 'normal' }} 
+            title="System Status"
+          />
         </div>
       </div>
     </footer>
