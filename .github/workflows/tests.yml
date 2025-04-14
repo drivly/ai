@@ -62,6 +62,9 @@ jobs:
       - name: Run Chromatic Tests
         run: |
           # Run Chromatic with auto-accept-changes for first-time snapshots
+          # Run Playwright tests first to generate archives
+          pnpm exec playwright test tests/chromatic
+          # Run Chromatic with auto-accept-changes for first-time snapshots
           # Skip running a local server and use example.com for tests
           export TEST_EXAMPLE_URL=https://example.com
           npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --exit-zero-on-changes
