@@ -15,6 +15,7 @@
 - [x] Remove deprecated instrumentationHook from next.config.mjs
 - [x] Move admin page to `/app/projects/[domain]/admin` as requested by Nathan
 - [x] Add root layout for `/app/projects/[domain]/admin` to fix build error
+- [x] Add parent layout for `/app/projects/[domain]` directory
 
 ## Technical Challenges
 - [x] Routing conflict between admin page and existing API routes
