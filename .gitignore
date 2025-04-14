@@ -170,6 +170,6 @@ public/_pagefind/
 
 # Playwright test results
 # Playwright snapshots
-tests/chromatic/sites.test.ts-snapshots/
+# tests/chromatic/sites.test.ts-snapshots/ # Snapshots should be committed
 
 test-results/

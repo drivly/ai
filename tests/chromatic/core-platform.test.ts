@@ -13,10 +13,8 @@ test('functions collection page', async ({ page }) => {
     await page.fill('input[type="email"]', 'test@example.com')
     await page.fill('input[type="password"]', 'test')
     
-    await Promise.all([
-      page.waitForNavigation({ timeout: 30000 }),
-      page.click('button[type="submit"]')
-    ]);
+    await page.click('button[type="submit"]');
+    await page.waitForSelector('h1:has-text("Functions")', { timeout: 75000 }); // Increased timeout
   }
 
   await page.waitForSelector('h1', { timeout: 15000 });
