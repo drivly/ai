@@ -61,8 +61,8 @@ jobs:
         
       - name: Start Server and Run Chromatic Tests
         run: |
-          # Install wait-on utility
-          npm install -g wait-on
+          # Install wait-on and cross-env utilities
+          npm install -g wait-on cross-env
           # Start the server in the background
           pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation next dev &
           # Wait for the server to be ready
