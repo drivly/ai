@@ -53,7 +53,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
     return { results, data }
   } catch (err) {
     console.error('Webhook verification failed:', err)
-    if (err.message && err.message.includes('tenant')) {
+    if (err && typeof err === 'object' && 'message' in err && typeof err.message === 'string' && err.message.includes('tenant')) {
       return new Response('Tenant validation failed: ' + err.message, { status: 400 })
     }
     return new Response('Webhook verification failed', { status: 401 })
