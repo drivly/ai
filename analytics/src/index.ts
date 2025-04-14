@@ -42,11 +42,17 @@ export class ClickhouseClient {
 
   async query<T = any>(query: string, params?: Record<string, any>): Promise<T[]> {
     try {
-      const result = await this.client.query({
+      const timeoutPromise = new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('ClickHouse query timeout after 3000ms')), 3000)
+      );
+      
+      const queryPromise = this.client.query({
         query,
         format: 'JSONEachRow',
         query_params: params,
-      })
+      });
+      
+      const result = await Promise.race([queryPromise, timeoutPromise]);
       const data = await result.json<T>()
       return data
     } catch (error: any) {
@@ -142,11 +148,17 @@ export class ClickhouseClient {
   async insert(table: string, data: Record<string, any> | Record<string, any>[]): Promise<void> {
     const rows = Array.isArray(data) ? data : [data]
     try {
-      await this.client.insert({
+      const timeoutPromise = new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error(`ClickHouse insert timeout after 3000ms for table ${table}`)), 3000)
+      );
+      
+      const insertPromise = this.client.insert({
         table,
         values: rows,
         format: 'JSONEachRow',
-      })
+      });
+      
+      await Promise.race([insertPromise, timeoutPromise]);
     } catch (error: any) {
       if (error.type === 'UNKNOWN_DATABASE' || (error.message && error.message.includes('Database') && error.message.includes('does not exist'))) {
         await this.createDatabase()
