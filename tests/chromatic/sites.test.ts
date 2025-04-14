@@ -11,8 +11,19 @@ test('sites main page', async ({ page }) => {
   await expect(page).toHaveScreenshot('sites-main-page.png')
 })
 
+test('docs page', async ({ page }) => {
+  await page.goto('http://localhost:3000/docs')
+
+  await page.waitForSelector('main', { timeout: 10000 })
+
+  await expect(page.locator('main')).toBeVisible()
+  await expect(page.locator('h1')).toBeVisible()
+
+  await expect(page).toHaveScreenshot('docs-page.png')
+})
+
 test('specific site page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/example.com')
+  await page.goto('http://localhost:3000/sites/workflows.do')
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -22,7 +33,7 @@ test('specific site page', async ({ page }) => {
 })
 
 test('site settings page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/example.com/settings')
+  await page.goto('http://localhost:3000/sites/workflows.do/settings')
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -32,7 +43,7 @@ test('site settings page', async ({ page }) => {
 })
 
 test('site analytics page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/example.com/analytics')
+  await page.goto('http://localhost:3000/sites/workflows.do/analytics')
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -42,7 +53,7 @@ test('site analytics page', async ({ page }) => {
 })
 
 test('site functions page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/example.com/functions')
+  await page.goto('http://localhost:3000/sites/workflows.do/functions')
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -52,7 +63,7 @@ test('site functions page', async ({ page }) => {
 })
 
 test('site blog page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/example.com/blog')
+  await page.goto('http://localhost:3000/sites/workflows.do/blog')
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -64,7 +75,7 @@ test('site blog page', async ({ page }) => {
 })
 
 test('site blog post page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/example.com/blog/example-post')
+  await page.goto('http://localhost:3000/sites/workflows.do/blog/example-post')
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -76,7 +87,7 @@ test('site blog post page', async ({ page }) => {
 })
 
 test('site pricing page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/example.com/pricing')
+  await page.goto('http://localhost:3000/sites/workflows.do/pricing')
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -88,7 +99,7 @@ test('site pricing page', async ({ page }) => {
 })
 
 test('site privacy page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/example.com/privacy')
+  await page.goto('http://localhost:3000/sites/workflows.do/privacy')
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -100,7 +111,7 @@ test('site privacy page', async ({ page }) => {
 })
 
 test('site terms page', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/example.com/terms')
+  await page.goto('http://localhost:3000/sites/workflows.do/terms')
 
   await page.waitForSelector('main', { timeout: 10000 })
 
@@ -112,7 +123,7 @@ test('site terms page', async ({ page }) => {
 })
 
 test('site waitlist page - unauthenticated', async ({ page }) => {
-  await page.goto('http://localhost:3000/sites/example.com/waitlist')
+  await page.goto('http://localhost:3000/sites/workflows.do/waitlist')
   
   await page.waitForSelector('main', { timeout: 10000 })
   
