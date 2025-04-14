@@ -12,6 +12,11 @@ export const POST = API(async (request, { payload }) => {
   console.log('Received Linear webhook headers:', {
     headers: Object.fromEntries([...request.headers.entries()]),
   })
+  
+  const bodyClone = await request.clone().text()
+  console.log('Received Linear webhook body:', {
+    body: bodyClone,
+  })
 
   const webhookId = request.headers.get('linear-delivery')
   const webhookTimestamp = request.headers.get('linear-signature-timestamp')
