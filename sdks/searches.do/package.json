@@ -43,7 +43,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "apis.do": "0.0.1"
+    "apis.do": "0.1.0"
   },
   "devDependencies": {
     "eslint-config": "0.1.0",
