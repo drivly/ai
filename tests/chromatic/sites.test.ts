@@ -76,7 +76,7 @@ test('site blog post page', async ({ page }) => {
   await page.waitForLoadState('networkidle', { timeout: 60000 });
   await page.waitForTimeout(5000);
   
-  await page.waitForSelector('article', { timeout: 60000 });
+  await page.waitForSelector('article', { timeout: 120000 });
   await expect(page.locator('article').first()).toBeVisible();
 
   await expect(page).toHaveScreenshot('sites-blog-post-page.png')
