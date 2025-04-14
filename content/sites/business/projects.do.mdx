@@ -4,7 +4,29 @@ description: Manage your projects efficiently with Projects.do, the all-in-one p
 headline: Deliver Projects On Time, Every Time
 subhead: Streamline your project workflows with intuitive planning and tracking tools. Improve team collaboration and deliver projects on time and within budget.
 badge: "AI without Complexity"
-codeExample: "import { Project } from 'projects.do';\n\nconst marketingCampaign = new Project({\n  name: 'Q3 Marketing Campaign',\n  description: 'Launch new product marketing campaign for Q3',\n  startDate: '2025-07-01',\n  endDate: '2025-09-30',\n  owner: 'marketing-team',\n  priority: 'high',\n  status: 'planning',\n  tasks: [\n    { title: 'Market Research', assignee: 'john.doe@example.com', dueDate: '2025-07-15' },\n    { title: 'Creative Development', assignee: 'jane.smith@example.com', dueDate: '2025-08-01' },\n    { title: 'Campaign Launch', assignee: 'marketing-team', dueDate: '2025-08-15' },\n    { title: 'Performance Analysis', assignee: 'analytics-team', dueDate: '2025-09-15' }\n  ],\n  budget: {\n    allocated: 50000,\n    spent: 0,\n    currency: 'USD'\n  }\n});"
+codeExample: |
+  import { Project } from 'projects.do';
+
+  const marketingCampaign = new Project({
+    name: 'Q3 Marketing Campaign',
+    description: 'Launch new product marketing campaign for Q3',
+    startDate: '2025-07-01',
+    endDate: '2025-09-30',
+    owner: 'marketing-team',
+    priority: 'high',
+    status: 'planning',
+    tasks: [
+      { title: 'Market Research', assignee: 'john.doe@example.com', dueDate: '2025-07-15' },
+      { title: 'Creative Development', assignee: 'jane.smith@example.com', dueDate: '2025-08-01' },
+      { title: 'Campaign Launch', assignee: 'marketing-team', dueDate: '2025-08-15' },
+      { title: 'Performance Analysis', assignee: 'analytics-team', dueDate: '2025-09-15' }
+    ],
+    budget: {
+      allocated: 50000,
+      spent: 0,
+      currency: 'USD'
+    }
+  });
 ---
 
 # Projects.do

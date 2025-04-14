@@ -4,7 +4,25 @@ description: Organize and manage all your business entities with Nouns.do, the c
 headline: Manage Every Entity That Matters
 subhead: Centralize all your business entities in one powerful management system. Create relationships between entities and unlock insights across your organization.
 badge: "AI without Complexity"
-codeExample: "import { Entity } from 'nouns.do';\n\nconst customerEntity = new Entity({\n  type: 'Customer',\n  properties: {\n    id: { type: 'string', required: true },\n    name: { type: 'string', required: true },\n    email: { type: 'string', format: 'email', required: true },\n    status: { type: 'string', enum: ['active', 'inactive', 'prospect'] },\n    segment: { type: 'string' },\n    createdAt: { type: 'date', default: 'now()' }\n  },\n  relationships: [\n    { type: 'hasMany', entity: 'Order', foreignKey: 'customerId' },\n    { type: 'hasOne', entity: 'Account', foreignKey: 'customerId' }\n  ],\n  indexes: ['email', 'status']\n});"
+codeExample: |
+  import { Entity } from 'nouns.do'
+
+  const customerEntity = new Entity({
+    type: 'Customer',
+    properties: {
+      id: { type: 'string', required: true },
+      name: { type: 'string', required: true },
+      email: { type: 'string', format: 'email', required: true },
+      status: { type: 'string', enum: ['active', 'inactive', 'prospect'] },
+      segment: { type: 'string' },
+      createdAt: { type: 'date', default: 'now()' }
+    },
+    relationships: [
+      { type: 'hasMany', entity: 'Order', foreignKey: 'customerId' },
+      { type: 'hasOne', entity: 'Account', foreignKey: 'customerId' }
+    ],
+    indexes: ['email', 'status']
+  })
 ---
 
 # Nouns.do

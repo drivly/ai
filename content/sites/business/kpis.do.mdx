@@ -4,7 +4,24 @@ description: Track and analyze your key performance indicators with KPIs.do, the
 headline: Measure What Actually Matters
 subhead: Measure what matters with actionable performance metrics. Gain real-time insights into your business performance across all departments.
 badge: "AI without Complexity"
-codeExample: "import { KPI } from 'kpis.do';\n\nconst salesKPI = new KPI({\n  name: 'Monthly Sales Growth',\n  description: 'Percentage increase in sales compared to previous month',\n  formula: '((current_month_sales - previous_month_sales) / previous_month_sales) * 100',\n  unit: 'percent',\n  target: 15,\n  frequency: 'monthly',\n  owner: 'Sales Department',\n  dataSource: 'sales-database',\n  visualization: 'line-chart',\n  alerts: [\n    { condition: 'value < 0', severity: 'high', message: 'Sales declining' },\n    { condition: 'value < 5', severity: 'medium', message: 'Sales growth below target' }\n  ]\n});"
+codeExample: |
+  import { KPI } from 'kpis.do'
+
+  const salesKPI = new KPI({
+    name: 'Monthly Sales Growth',
+    description: 'Percentage increase in sales compared to previous month',
+    formula: '((current_month_sales - previous_month_sales) / previous_month_sales) * 100',
+    unit: 'percent',
+    target: 15,
+    frequency: 'monthly',
+    owner: 'Sales Department',
+    dataSource: 'sales-database',
+    visualization: 'line-chart',
+    alerts: [
+      { condition: 'value < 0', severity: 'high', message: 'Sales declining' },
+      { condition: 'value < 5', severity: 'medium', message: 'Sales growth below target' }
+    ]
+  })
 ---
 
 # KPIs.do
