@@ -59,7 +59,7 @@ export const siteConfig = {
       docs: 'https://workflows.do/docs',
       changelog: '/changelog',
       reference: 'https://docs.apis.do/reference#tag/functions',
-      status: 'https://do.betteruptime.com/incidents',
+      status: 'https://status.workflows.do',
     },
     resources: {
       blog: '/blog',
