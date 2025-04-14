@@ -165,3 +165,6 @@ dist
 
 # Search index
 public/_pagefind/
+
+# Playwright test results
+test-results/
