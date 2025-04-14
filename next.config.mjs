@@ -28,9 +28,6 @@ const nextConfig = {
   transpilePackages: ['@drivly/ui', '@drivly/payload-agent', 'simple-payload', 'clickable-apis', 'ai-models', 'payload-utils', 'payload-hooks-queue'],
   // All routing is handled by middleware.ts
   productionBrowserSourceMaps: true, // Enable sourcemap generation in production
-  experimental: {
-    instrumentationHook: true,
-  }
 }
 
 // Configure bundle analyzer to run only when ANALYZE=true
