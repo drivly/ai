@@ -9,6 +9,8 @@ import { Fragment } from 'react'
 import { DotDoItem } from './dot-do-item'
 import { Site } from '@/.velite/index'
 
+const domainSuffix = process.env.DOMAIN_SUFFIX || ''
+
 export interface DotDoSectionProps {
   sitesByCategory: Record<string, Site[]>
 }
@@ -56,7 +58,9 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                 <DotDoItem
                   key={`${domain}-${index}`}
                   title={domain}
-                  href={showAbsolute || isBrandDomain ? `https://${domain}` : `/sites/${domain}`}
+                  href={showAbsolute || isBrandDomain 
+                    ? `https://${domain}${domainSuffix}` 
+                    : `/sites/${domain}${domainSuffix}`}
                   description={site.description}
                   hasSdk={sdks.includes(domain)}
                   mounted={mounted}

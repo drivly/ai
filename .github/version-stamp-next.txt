@@ -1,0 +1,2 @@
+# Next Version Stamp - Updated on Sun Apr 13 22:40:00 UTC 2025
+# This file triggers the next release workflow when merged to next branch

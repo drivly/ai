@@ -1,26 +1,14 @@
 #!/usr/bin/env node
 
 /**
- * Release script for SDK packages using semantic-release
- * This script handles the SDK packages with synchronized versioning
- * Enforces 0.x.x versioning and ensures proper NPM publishing
- * Converts workspace dependencies to actual version numbers
+ * Custom release script for semantic-release for the 'next' branch
+ * This script handles the monorepo structure and ensures patch-only versioning
+ * with prerelease tags for the next distribution channel
  */
 
 import { execSync } from 'child_process'
 import path from 'path'
 import fs from 'fs'
-
-const getBranchName = () => {
-  try {
-    return execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
-  } catch (error) {
-    console.warn('Could not determine branch name:', error.message)
-    return 'main' // Default to main if detection fails
-  }
-}
-
-const npmTag = getBranchName() === 'next' ? 'next' : 'latest'
 
 const DRY_RUN = process.argv.includes('--dry-run')
 const SDK_PACKAGES = [
@@ -41,103 +29,14 @@ const SDK_PACKAGES = [
   'sdks/plans.do',
   'sdks/projects.do',
   'sdks/sdk.do',
+  'sdks/sdks.do',
   'sdks/searches.do',
   'sdks/tasks.do',
   'sdks/triggers.do',
   'sdks/workflows.do',
 ]
 
-console.log(`Running SDK-only release script in ${DRY_RUN ? 'dry run' : 'release'} mode`)
-
-const deleteExistingReleases = () => {
-  try {
-    console.log('Checking for existing GitHub releases to delete...')
-    const releases = execSync('gh release list --limit 10').toString().trim()
-    
-    if (releases) {
-      console.log('Found existing releases, attempting to delete:')
-      console.log(releases)
-      
-      const releaseLines = releases.split('\n')
-      for (const line of releaseLines) {
-        if (line.trim()) {
-          const tag = line.split('\t')[0]
-          console.log(`Deleting release: ${tag}`)
-          try {
-            execSync(`gh release delete ${tag} --yes`, { stdio: 'inherit' })
-            console.log(`Successfully deleted release: ${tag}`)
-          } catch (error) {
-            console.error(`Error deleting release ${tag}:`, error.message)
-          }
-        }
-      }
-    } else {
-      console.log('No existing releases found')
-    }
-    
-    return true
-  } catch (error) {
-    console.error('Error deleting existing releases:', error.message)
-    return false
-  }
-}
-
-const verifyNpmConfig = () => {
-  try {
-    console.log('Verifying NPM configuration...')
-    console.log(`NPM_CONFIG_REGISTRY: ${process.env.NPM_CONFIG_REGISTRY || 'not set'}`)
-    console.log(`NODE_AUTH_TOKEN exists: ${!!process.env.NODE_AUTH_TOKEN}`)
-    
-    const npmRegistry = execSync('npm config get registry').toString().trim()
-    console.log(`Current NPM registry: ${npmRegistry}`)
-    
-    if (!process.env.NPM_CONFIG_REGISTRY) {
-      console.log('Setting NPM_CONFIG_REGISTRY to https://registry.npmjs.org/')
-      process.env.NPM_CONFIG_REGISTRY = 'https://registry.npmjs.org/'
-    }
-    
-    try {
-      execSync('npm whoami', { stdio: ['pipe', 'pipe', 'pipe'] })
-      console.log('NPM authentication verified successfully')
-    } catch (error) {
-      console.warn('NPM authentication check failed. This may cause publishing to fail.')
-      console.warn('Error details:', error.message)
-      
-      const homeNpmrcPath = path.join(process.env.HOME, '.npmrc')
-      const npmrcContent = `
-registry=https://registry.npmjs.org/
-always-auth=true
-`
-      fs.writeFileSync(homeNpmrcPath, npmrcContent, 'utf8')
-      console.log('Created global .npmrc file with auth token')
-      
-      try {
-        execSync('npm whoami', { stdio: ['pipe', 'pipe', 'pipe'] })
-        console.log('NPM authentication verified successfully after creating global .npmrc')
-      } catch (retryError) {
-        console.error('NPM authentication still failing after creating global .npmrc:', retryError.message)
-      }
-    }
-    
-    return true
-  } catch (error) {
-    console.error('Error verifying NPM configuration:', error.message)
-    return false
-  }
-}
-
-const getPackagePaths = () => {
-  const pkgPaths = []
-
-  for (const pkgPath of SDK_PACKAGES) {
-    const fullPath = path.resolve(process.cwd(), pkgPath)
-    if (fs.existsSync(path.join(fullPath, 'package.json'))) {
-      pkgPaths.push(fullPath)
-    }
-  }
-
-  return pkgPaths
-}
+console.log(`Running next release script in ${DRY_RUN ? 'dry run' : 'release'} mode`)
 
 const enforceZeroVersioning = (packagePath) => {
   const packageJsonPath = path.join(packagePath, 'package.json')
@@ -216,9 +115,33 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
   return packageJson
 }
 
+const getPackagePaths = () => {
+  const pkgPaths = []
+
+  for (const pkgPath of SDK_PACKAGES) {
+    const fullPath = path.resolve(process.cwd(), pkgPath)
+    if (fs.existsSync(path.join(fullPath, 'package.json'))) {
+      pkgPaths.push(fullPath)
+    }
+  }
+
+  const pkgsDir = path.resolve(process.cwd(), 'pkgs')
+  if (fs.existsSync(pkgsDir)) {
+    const pkgDirs = fs.readdirSync(pkgsDir)
+    for (const dir of pkgDirs) {
+      const fullPath = path.join(pkgsDir, dir)
+      if (fs.statSync(fullPath).isDirectory() && fs.existsSync(path.join(fullPath, 'package.json'))) {
+        pkgPaths.push(fullPath)
+      }
+    }
+  }
+
+  return pkgPaths
+}
+
 const runSemanticRelease = (packagePath, allPackages) => {
   const packageJson = enforceZeroVersioning(packagePath)
-  
+
   if (packageJson.private) {
     console.log(`Skipping private package: ${packageJson.name}`)
     return
@@ -232,7 +155,9 @@ const runSemanticRelease = (packagePath, allPackages) => {
     const releaseConfigPath = path.join(packagePath, '.releaserc.js')
     const configContent = `
 export default {
-  branches: ['main', 'next'],
+  branches: [
+    {name: 'next', prerelease: 'next', channel: 'next'}
+  ],
   repositoryUrl: 'https://github.com/drivly/ai.git',
   tagFormat: '\${name}@\${version}',
   initialVersion: '0.0.1',
@@ -262,8 +187,8 @@ export default {
       },
       analyzeCommits: (pluginConfig, context) => {
         if (!context.lastRelease.version) {
-          console.log('No previous version found, starting at 0.0.1');
-          return '0.0.1'; // Start new packages at 0.0.1
+          console.log('No previous version found, starting at 0.0.1-next.1');
+          return '0.0.1-next.1'; // Start new packages at 0.0.1-next.1
         }
         
         console.log('Forcing patch release regardless of commit types');
@@ -352,7 +277,7 @@ export default {
     ['@semantic-release/npm', {
       npmPublish: true,
       pkgRoot: '.',
-      tag: context.branch === 'next' ? 'next' : 'latest'
+      npmTag: 'next'
     }],
     '@semantic-release/github'
   ]
@@ -408,7 +333,7 @@ try {
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
   }
   
-  execSync(\`npm publish --access public --tag \${npmTag}\`, { 
+  execSync('npm publish --access public --tag next', { 
     stdio: 'inherit',
     env: {
       ...process.env,
@@ -467,12 +392,8 @@ try {
   }
 }
 
-deleteExistingReleases()
-
-verifyNpmConfig()
-
 const packagePaths = getPackagePaths()
-console.log(`Found ${packagePaths.length} SDK packages to process`)
+console.log(`Found ${packagePaths.length} packages to process`)
 
 const sdkPaths = packagePaths.filter((p) => p.includes('/sdks/'))
 console.log(`Processing ${sdkPaths.length} SDK packages with synchronized versioning`)
@@ -482,7 +403,14 @@ for (const pkgPath of sdkPaths) {
 }
 
 for (const pkgPath of sdkPaths) {
-  runSemanticRelease(pkgPath, sdkPaths)
+  runSemanticRelease(pkgPath, packagePaths)
 }
 
-console.log('SDK release process completed')
+const otherPaths = packagePaths.filter((p) => !p.includes('/sdks/'))
+console.log(`Processing ${otherPaths.length} other packages with independent versioning`)
+
+for (const pkgPath of otherPaths) {
+  runSemanticRelease(pkgPath, packagePaths)
+}
+
+console.log('Release process completed')

@@ -1,0 +1,2 @@
+# Package Next Version Stamp - Updated on Sun Apr 13 22:40:00 UTC 2025
+# This file triggers the package next release workflow when merged to next branch

@@ -895,7 +895,7 @@ graph TD
     style AIModels fill:#ffd966,stroke:#333,stroke-width:1px
     style DeployWorker fill:#ffd966,stroke:#333,stroke-width:1px
     style ClickableLinks fill:#ffd966,stroke:#333,stroke-width:1px
-    style Changesets fill:#c9daf8,stroke:#333,stroke-width:1px
+    style SemanticRelease fill:#c9daf8,stroke:#333,stroke-width:1px
     style PNPMWorkspace fill:#c9daf8,stroke:#333,stroke-width:1px
 ```
 
