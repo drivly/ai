@@ -17,6 +17,7 @@ export const Resources: CollectionConfig = {
         { name: 'sqid', type: 'text', admin: { readOnly: true }, index: true },
         { name: 'hash', type: 'text', admin: { readOnly: true }, index: true },
         { name: 'type', type: 'relationship', relationTo: ['nouns', 'things'] },
+        { name: 'project', type: 'relationship', relationTo: 'projects', admin: { description: 'Project that this resource belongs to' } },
       ],
     },
     ...(simplerJSON({
