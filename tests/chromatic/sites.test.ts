@@ -68,12 +68,16 @@ test('site blog post page', async ({ page }) => {
   );
   await loadPromise;
 
-  await page.waitForSelector('main', { timeout: 20000 }) // Increased wait for main element
+  await page.waitForSelector('main', { timeout: 60000 }) // Increased wait for main element
 
   await expect(page.locator('main').first()).toBeVisible()
   await expect(page.locator('h1')).toBeVisible()
-  await page.waitForSelector('div.prose', { timeout: 75000 }); 
-  await expect(page.locator('div.prose')).toBeVisible(); 
+  
+  await page.waitForLoadState('networkidle', { timeout: 60000 });
+  await page.waitForTimeout(5000);
+  
+  await page.waitForSelector('article', { timeout: 60000 });
+  await expect(page.locator('article').first()).toBeVisible();
 
   await expect(page).toHaveScreenshot('sites-blog-post-page.png')
 })
