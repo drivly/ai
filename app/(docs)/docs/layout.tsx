@@ -45,19 +45,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           navbar={navbar}
           pageMap={pageMap}
           docsRepositoryBase='https://github.com/drivly/ai/tree/main'
-          footer={
-            <div className="flex items-center justify-between">
-              <div>
+          footer={{
+            text: (
+              <span>
                 &copy; {new Date().getFullYear()} <a href="https://dotdo.ai" target="_blank" rel="noopener noreferrer">.do</a>, Inc. All rights reserved.
-              </div>
-              <div className="flex gap-4">
-                <a href="https://github.com/drivly/ai" target="_blank" rel="noopener noreferrer"><RiGithubFill className="size-6" /></a>
-                <a href="https://discord.gg/26nNxZTz9X" target="_blank" rel="noopener noreferrer"><RiDiscordFill className="size-6" /></a>
-                <a href="https://x.com/dotdo_ai" target="_blank" rel="noopener noreferrer"><RiTwitterXFill className="size-6" /></a>
-                <a href="https://www.npmjs.com/package/workflows.do" target="_blank" rel="noopener noreferrer"><RiNpmjsFill className="size-6" /></a>
-              </div>
-            </div>
-          }
+              </span>
+            ),
+            links: [
+              { href: 'https://github.com/drivly/ai', text: <RiGithubFill className="size-6" /> },
+              { href: 'https://discord.gg/26nNxZTz9X', text: <RiDiscordFill className="size-6" /> },
+              { href: 'https://x.com/dotdo_ai', text: <RiTwitterXFill className="size-6" /> },
+              { href: 'https://www.npmjs.com/package/workflows.do', text: <RiNpmjsFill className="size-6" /> }
+            ]
+          }}
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}
         >
