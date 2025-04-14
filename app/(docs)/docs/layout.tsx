@@ -1,11 +1,10 @@
 import { Layout, Navbar } from 'nextra-theme-docs'
-import { Footer } from '@/components/sites/footer'
-import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import './code-hike.css'
 import '@/app/(sites)/styles.css'
 import { headers } from 'next/headers'
+import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
 
 import type { Metadata } from 'next'
 
@@ -34,9 +33,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const pageMap = await getPageMap('/docs')
 
   const navbar = <Navbar logo={<b>.do</b>} logoLink='https://dotdo.ai' chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
-  const footer = (
-    <Footer minimal={true} />
-  )
 
   return (
     <html lang='en' dir='ltr' suppressHydrationWarning>
@@ -49,7 +45,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           navbar={navbar}
           pageMap={pageMap}
           docsRepositoryBase='https://github.com/drivly/ai/tree/main'
-          footer={footer}
+          footer={{
+            text: (
+              <span>
+                &copy; {new Date().getFullYear()} <a href="https://dotdo.ai" target="_blank" rel="noopener noreferrer">.do</a>, Inc. All rights reserved.
+              </span>
+            ),
+            links: [
+              { href: 'https://github.com/drivly/ai', text: <RiGithubFill className="size-6" /> },
+              { href: 'https://discord.gg/26nNxZTz9X', text: <RiDiscordFill className="size-6" /> },
+              { href: 'https://x.com/dotdo_ai', text: <RiTwitterXFill className="size-6" /> },
+              { href: 'https://www.npmjs.com/package/workflows.do', text: <RiNpmjsFill className="size-6" /> }
+            ]
+          }}
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}
         >
