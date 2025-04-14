@@ -11,35 +11,6 @@ The [.do](https://dotdo.ai) platform enables you to define, execute, and iterate
 
 The [.do](https://dotdo.ai) platform is built around several core primitives that work together to create powerful, composable applications:
 
-### Functions
-
-At the heart of the platform are **Functions**, which come in four types:
-
-1. **Generation Functions**: Use generative AI to create content or structured data
-2. **Code Functions**: Execute deterministic code on classical computers
-3. **Agentic Functions**: Delegate tasks to autonomous AI agents
-4. **Human Functions**: Incorporate human workers into your AI workflows
-
-Functions provide the building blocks for all operations in the platform, from simple data transformations to complex decision-making processes.
-
-### Workflows
-
-**Workflows** themselves are Functions, creating a powerful compositional model. This means:
-
-- Workflows can be invoked like any other function
-- Workflows can be composed and nested within other workflows
-- Workflows can be used as tools by AI Agents
-- Workflows can be triggered by events or called directly by humans
-
-### Tools for Agents and Humans
-
-A key concept in the platform is that **Functions, Workflows, Searches, and Integrations** can all be used as tools by:
-
-- **AI Agents**: Autonomous digital workers that can reason, plan, and execute tasks
-- **Human Users**: Through interfaces like web applications, chat, APIs, and command-line tools
-
-This creates a unified toolset that both AI and human workers can leverage, enabling seamless collaboration and handoffs between automated and human-driven processes.
-
 ## [Workflows.do](https://workflows.do) - Elegant Business Process Orchestration
 
 ```typescript
