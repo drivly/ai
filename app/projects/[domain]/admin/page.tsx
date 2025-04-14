@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   return generatePageMetadata({ 
     config: Promise.resolve(config), 
     params: Promise.resolve({ segments: [] }), 
-    searchParams: {} 
+    searchParams: Promise.resolve({}) 
   });
 }
 
@@ -45,7 +45,7 @@ export default async function ProjectAdminPage({ params }: { params: Promise<Par
       <RootPage 
         config={Promise.resolve(config)} 
         params={Promise.resolve({ segments: [] })}
-        searchParams={{}}
+        searchParams={Promise.resolve({})}
       />
     </div>
   );
