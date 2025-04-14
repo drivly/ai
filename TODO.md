@@ -16,12 +16,15 @@
 - [x] Move admin page to `/app/projects/[domain]/admin` as requested by Nathan
 - [x] Add root layout for `/app/projects/[domain]/admin` to fix build error
 - [x] Add parent layout for `/app/projects/[domain]` directory
+- [x] Fix params type in admin pages to match Next.js 15 requirements
 
 ## Technical Challenges
 - [x] Routing conflict between admin page and existing API routes
   - Solution: Moved admin page to `/app/(admin)/project-admin/[domain]`
   - Solution: Moved API route to `/app/(apis)/projects/[domain]`
   - Final Solution: Moved admin page to `/app/projects/[domain]/admin` as requested
+- [x] Type error in admin pages with params type
+  - Solution: Updated params type to be Promise<Params> to match Next.js 15 requirements
 - [ ] Potential routing conflicts with other [domain] routes:
   - Found: `/app/(sites)/sites/[domain]`
   - Found: `/app/(apis)/tenants/[domain]`
@@ -49,6 +52,7 @@
   2. Added parent layout for `/app/projects/[domain]` directory
   3. Removed deprecated instrumentationHook from next.config.mjs
   4. Moved API routes to avoid routing conflicts
+  5. Fixed params type in admin pages to match Next.js 15 requirements
 
 ## Notes
 - The ai-studio-template deployment is successful
