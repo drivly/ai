@@ -1,1 +1,1 @@
-export * from 'apis.do/src/cli'
+export { CLI } from 'apis.do/src/cli'
