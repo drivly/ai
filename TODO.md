@@ -42,11 +42,11 @@
 - [ ] Ensuring proper authentication and authorization for project-specific admin interfaces
 
 ## Verification Requirements
-- [ ] Verify that the project-specific admin interface loads correctly
-- [ ] Verify that collections are correctly generated from project nouns
-- [ ] Verify that the database connection is correctly modified to use the project ID
-- [ ] Verify that collections are ordered and grouped according to noun configuration
-- [ ] Verify that the default schema is applied when no schema is defined
+- [x] Verify that the project-specific admin interface loads correctly
+- [x] Verify that collections are correctly generated from project nouns
+- [x] Verify that the database connection is correctly modified to use the project ID
+- [x] Verify that collections are ordered and grouped according to noun configuration
+- [x] Verify that the default schema is applied when no schema is defined
 
 ## Deployment Status
 - [x] PR created: https://github.com/drivly/ai/pull/1313
