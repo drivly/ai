@@ -22,6 +22,11 @@ export function handleBrandDomain(request: NextRequest): NextResponse | null {
     return null
   }
   
+  if (hostname === 'business-as-code.dev') {
+    console.log('Rewriting business-as-code.dev to /sites/business-as-code.dev', { pathname, search })
+    return NextResponse.rewrite(new URL(`/sites/business-as-code.dev${pathname === '/' ? '' : pathname}${search}`, url))
+  }
+  
   if (pathname === '/') {
     console.log('Rewriting brand domain root path to /sites', { hostname, pathname, search })
     return NextResponse.rewrite(new URL(`/sites${search}`, url))
