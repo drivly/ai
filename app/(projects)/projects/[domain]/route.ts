@@ -36,7 +36,7 @@ export const GET = API(async (request, { params, db, payload }) => {
   const url = new URL(request.url)
   const baseUrl = url.origin + url.pathname
   
-  const links = {
+  const links: { self: string; next?: string; prev?: string } = {
     self: url.toString(),
   }
   
