@@ -21,7 +21,6 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
- 
   },
   "files": [
     "dist",
@@ -44,12 +43,12 @@
     "test:e2e": "vitest run tests/e2e/**/*.test.ts"
   },
   "devDependencies": {
-    "eslint-config": "workspace:*",
+    "eslint-config": "0.1.0",
     "vitest": "^3.0.9",
-    "tsconfig": "workspace:*"
+    "tsconfig": "0.0.0"
   },
   "dependencies": {
-    "apis.do": "workspace:*"
+    "apis.do": "0.0.1"
   },
   "peerDependencies": {
     "apis.do": "*"

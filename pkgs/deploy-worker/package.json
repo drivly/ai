@@ -47,10 +47,10 @@
     "eslint": "^9.23.0",
     "@typescript-eslint/eslint-plugin": "^8.27.0",
     "@typescript-eslint/parser": "^8.27.0",
-    "eslint-config": "workspace:*",
+    "eslint-config": "0.1.0",
     "tsup": "^8.4.0",
     "prettier": "^3.5.3",
     "vitest": "^3.0.9",
-    "tsconfig": "workspace:*"
+    "tsconfig": "0.0.0"
   }
 }
