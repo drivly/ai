@@ -2,8 +2,6 @@ import { NextResponse } from 'next/server'
 import { collectionSlugs } from '../../collections/middleware-collections'
 import { Context } from './index'
 
-export { collectionSlugs }
-
 /**
  * Handle API routes (/api/* and /v1/*)
  */
