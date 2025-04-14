@@ -1,141 +1,64 @@
 ---
-title: cli.do CLI
-sidebarTitle: cli
+title: sdk.do CLI
+sidebarTitle: sdk
 sdk: true
 cli: true
 ---
 
-# cli.do CLI
+# sdk.do CLI
 
-Unified CLI for all .do SDK packages
+SDK for publishing Functions, Workflows, and Databases to NPM
 
 ## Installation
 
 ```bash
-npm install -g cli.do
+npm install -g sdk.do
 # or
-npx cli.do [command]
+npx sdk.do [command]
 ```
 
 ## Usage
 
 ```bash
-do [command] [options]
+sdk [command] [options]
 ```
 
 ## Commands
 
-### `do`
+### `sdk`
 
-### `do`
+### `sdk`
 
-### `do`
+### `sdk`
 
-### `Available`
+### `sdk`
 
-### `apis`
+### `sdk`
 
-### `functions`
+### `sdk`
 
-### `workflows`
+### `sdk`
 
-### `agents`
-
-### `Common`
-
-### `init`
-
-### `login`
-
-### `logout`
-
-### `pull`
-
-### `push`
-
-### `sync`
-
-### `list`
-
-### `get`
-
-### `create`
-
-### `update`
-
-### `delete`
-
-### `execute`
-
-### `Show`
-
-### `Show`
-
-### `Environment`
-
-### `DO_API_KEY`
-
-### `APIS_DO_API_KEY`
-
-### `FUNCTIONS_DO_API_KEY`
-
-### `WORKFLOWS_DO_API_KEY`
-
-### `AGENTS_DO_API_KEY`
+### `sdk`
 
 
 
 ## Environment Variables
 
-- `DO_API_KEY`
-- `APIS_DO_API_KEY`
-- `FUNCTIONS_DO_API_KEY`
-- `WORKFLOWS_DO_API_KEY`
-- `AGENTS_DO_API_KEY`
+No environment variables documented.
 
 ## Help Output
 
 ```
-cli.do v${version}
+sdk.do - SDK for publishing Functions, Workflows, and Databases to NPM
 
 Usage:
-  do <sdk> <command> [options]
-  <sdk>.do <command> [options]
-
-Examples:
-  do functions list
-  functions.do list
-  do workflows execute myWorkflow
-  workflows.do execute myWorkflow
-
-Available SDKs:
-  apis       - APIs Gateway commands
-  functions  - AI Functions commands
-  workflows  - Workflows commands
-  agents     - AI Agents commands
-
-Common Commands:
-  init                Initialize a new project
-  login [token]       Login with API token
-  logout              Remove stored credentials
-  pull [resources]    Pull remote resources to local project
-  push [resources]    Push local resources to remote
-  sync                Sync local and remote resources
-  list <collection>   List resources in a collection
-  get <collection> <id>  Get a specific resource
-  create <collection> [data]  Create a new resource
-  update <collection> <id> [data]  Update a resource
-  delete <collection> <id>  Delete a resource
-  execute <functionId> [inputs]  Execute a function
-
-Options:
-  --help, -h          Show this help message
-  --version, -v       Show version information
-
-Environment Variables:
-  DO_API_KEY          API key for authentication (used for all SDKs)
-  APIS_DO_API_KEY     API key for apis.do
-  FUNCTIONS_DO_API_KEY API key for functions.do
-  WORKFLOWS_DO_API_KEY API key for workflows.do
-  AGENTS_DO_API_KEY   API key for agents.do
+  sdk init [name] [--force]        Initialize a new package
+  sdk login [token]                Login to sdk.do
+  sdk logout                       Logout from sdk.do
+  sdk list                         List all packages
+  sdk create <name> [collections]  Create a new package
+  sdk add <packageId> <collection> Add a collection to a package
+  sdk remove <packageId> <collection> Remove a collection from a package
+  sdk publish <packageId> [--tag=latest] [--dry-run] Publish a package to NPM
 ```
