@@ -38,11 +38,20 @@
 ## Deployment Status
 - [x] PR created: https://github.com/drivly/ai/pull/1313
 - [x] Tests passing
-- [ ] Build passing
-- [ ] Vercel deployment successful
+- [ ] Build pending (in progress)
+- [x] ai-studio-template deployment successful
+- [ ] Main app (ai) deployment pending
+
+## Blockers
+- Build process is taking longer than expected
+- Multiple attempts to fix the build error have been made:
+  1. Added root layout for `/app/projects/[domain]/admin`
+  2. Added parent layout for `/app/projects/[domain]` directory
+  3. Removed deprecated instrumentationHook from next.config.mjs
+  4. Moved API routes to avoid routing conflicts
 
 ## Notes
-- The ai-studio-template deployment is failing, but this appears to be a separate project in the templates directory that's not directly related to our changes
+- The ai-studio-template deployment is successful
 - The main app build is still pending
 - We've identified other [domain] directories in the app that might be causing routing conflicts
 - Nathan requested moving the admin page to `/app/projects/[domain]/admin` to avoid routing conflicts
