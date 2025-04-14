@@ -2,7 +2,7 @@
   "name": "@payload-auth/better-auth-db-adapter",
   "description": "Payload CMS database adapter for BetterAuth",
   "scope": "payload-auth",
-  "version": "1.1.2",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
@@ -37,7 +37,6 @@
   "author": "Forrest Devs <luke.gannon@me.com>",
   "license": "MIT",
   "devDependencies": {
-
     "@payloadcms/db-mongodb": "^3.33.0",
     "@payloadcms/db-postgres": "^3.33.0",
     "@types/node": "^22.10.5",
@@ -50,8 +49,8 @@
     "vitest": "^2.1.8",
     "@swc/cli": "0.6.0",
     "@swc/core": "1.11.8",
-    "tsconfig": "workspace:*",
-    "eslint-config": "workspace:*"
+    "tsconfig": "0.0.0",
+    "eslint-config": "0.1.0"
   },
   "peerDependencies": {
     "better-auth": "1.2.7",

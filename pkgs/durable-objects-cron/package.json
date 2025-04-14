@@ -1,6 +1,6 @@
 {
   "name": "durable-objects-cron",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "CRON scheduling interface for Cloudflare Worker Durable Objects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -48,9 +48,9 @@
     "@typescript-eslint/eslint-plugin": "^8.27.0",
     "@typescript-eslint/parser": "^8.27.0",
     "eslint": "^9.23.0",
-    "eslint-config": "workspace:*",
+    "eslint-config": "0.1.0",
     "prettier": "^3.5.3",
-    "tsconfig": "workspace:*",
+    "tsconfig": "0.0.0",
     "tsup": "^8.4.0",
     "vitest": "^3.0.9"
   }

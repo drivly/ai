@@ -41,14 +41,14 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "apis.do": "workspace:*"
+    "apis.do": "0.0.1"
   },
   "devDependencies": {
-    "eslint-config": "workspace:*",
+    "eslint-config": "0.1.0",
     "evalite": "^0.10.0",
     "typescript": "^5.0.0",
     "vitest": "^3.0.9",
-    "tsconfig": "workspace:*",
+    "tsconfig": "0.0.0",
     "tsup": "^8.0.1"
   },
   "engines": {
