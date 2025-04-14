@@ -78,11 +78,13 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
+html.dark .sites-layout, body.dark .sites-layout, .dark.sites-layout {
+  --background: oklch(0 0 0) !important;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
+  color-scheme: dark;
+  background-color: oklch(0 0 0) !important;
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);

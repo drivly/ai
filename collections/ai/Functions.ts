@@ -40,6 +40,7 @@ export const Functions: CollectionConfig = {
       admin: {
         position: 'sidebar',
         description: 'Original function this was cloned from',
+        condition: (data) => data?.clonedFrom !== undefined && data?.clonedFrom !== null,
       },
     },
     {
