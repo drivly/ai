@@ -46,12 +46,15 @@ async function fetchBetterAuthDocs() {
     
     const betterAuthLlmsPath = path.join(rootDir, 'docs', 'better-auth-llms.txt');
     const betterAuthLlmsFullPath = path.join(rootDir, 'docs', 'better-auth-llms-full.txt');
+    const betterAuthDocsPath = path.join(rootDir, 'docs', 'better-auth.md');
     
     fs.copyFileSync(llmsPath, betterAuthLlmsPath);
     fs.copyFileSync(llmsFullPath, betterAuthLlmsFullPath);
+    fs.copyFileSync(llmsFullPath, betterAuthDocsPath);
     
     console.log(`Saved llms.txt to ${betterAuthLlmsPath}`);
     console.log(`Saved llms-full.txt to ${betterAuthLlmsFullPath}`);
+    console.log(`Saved documentation to ${betterAuthDocsPath}`);
     
     await processLlmsFullToMarkdown(llmsFullPath);
     

@@ -1,0 +1,3 @@
+# https://www.better-auth.com/docs/introduction llms.txt
+
+- [Better Auth Overview](https://www.better-auth.com/docs/introduction): Comprehensive authentication framework for TypeScript applications.
