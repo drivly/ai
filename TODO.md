@@ -13,11 +13,13 @@
 - [x] Move existing API route from `/app/(projects)/projects/[domain]` to `/app/(apis)/projects/[domain]`
 - [x] Remove empty projects directory to resolve routing conflict
 - [x] Remove deprecated instrumentationHook from next.config.mjs
+- [x] Move admin page to `/app/projects/[domain]/admin` as requested by Nathan
 
 ## Technical Challenges
 - [x] Routing conflict between admin page and existing API routes
   - Solution: Moved admin page to `/app/(admin)/project-admin/[domain]`
   - Solution: Moved API route to `/app/(apis)/projects/[domain]`
+  - Final Solution: Moved admin page to `/app/projects/[domain]/admin` as requested
 - [ ] Potential routing conflicts with other [domain] routes:
   - Found: `/app/(sites)/sites/[domain]`
   - Found: `/app/(apis)/tenants/[domain]`
@@ -41,3 +43,4 @@
 - The ai-studio-template deployment is failing, but this appears to be a separate project in the templates directory that's not directly related to our changes
 - The main app build is still pending
 - We've identified other [domain] directories in the app that might be causing routing conflicts
+- Nathan requested moving the admin page to `/app/projects/[domain]/admin` to avoid routing conflicts
