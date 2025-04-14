@@ -1,24 +1,9 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { analyticsMiddleware } from './analytics/src/middleware'
-import { collectionSlugs } from './collections/middleware-collections'
-import { API_AUTH_PREFIX, publicRoutes } from './lib/routes'
-import {
-  isGatewayDomain,
-  isBrandDomain,
-  isDoDomain,
-  isDoManagementDomain,
-} from './lib/domains'
+import { isBrandDomain, isDoDomain, isDoManagementDomain, isGatewayDomain } from './lib/domains'
+import { handleApiDocsRoute, handleApiRoute, handleBrandDomain, handleCustomDomain, handleDoDomain, handleDoManagementDomain, handleGatewayDomain } from './lib/middleware'
 import { RequestHandler } from './lib/middleware/request-handler'
-import {
-  handleApiRoute,
-  handleApiDocsRoute,
-  handleGatewayDomain,
-  handleBrandDomain,
-  handleDoManagementDomain,
-  handleDoDomain,
-  handleCustomDomain,
-} from './lib/middleware'
 
 /**
  * Middleware Configuration
@@ -34,29 +19,33 @@ import {
 export async function middleware(request: NextRequest) {
   return analyticsMiddleware(request, async () => {
     const handler = new RequestHandler(request)
-    
+
     const isLoggedIn = handler.isLoggedIn()
     console.log('🚀 ~ isLoggedIn:', isLoggedIn)
-    
+
+    if (!isLoggedIn && request.nextUrl.pathname === '/admin/login') {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+
     if (handler.isApiAuthRoute() || handler.isPublicRoute()) {
       return NextResponse.next()
     }
-    
+
     if (handler.isApiRoute()) {
       console.log('Handling API route', { hostname: handler.hostname, pathname: handler.pathname, search: handler.search })
-      
+
       if (handler.isApiDocsRoute()) {
         return handleApiDocsRoute(request)
       }
-      
+
       const apiRouteResponse = handleApiRoute(request)
       if (apiRouteResponse) {
         return apiRouteResponse
       }
-      
+
       return NextResponse.next()
     }
-    
+
     if (isGatewayDomain(handler.hostname)) {
       const gatewayResponse = handleGatewayDomain(request)
       if (gatewayResponse) {
@@ -64,7 +53,7 @@ export async function middleware(request: NextRequest) {
       }
       return NextResponse.next()
     }
-    
+
     if (isBrandDomain(handler.hostname)) {
       const brandResponse = handleBrandDomain(request)
       if (brandResponse) {
@@ -72,14 +61,14 @@ export async function middleware(request: NextRequest) {
       }
       return NextResponse.next()
     }
-    
+
     if (isDoManagementDomain(handler.hostname)) {
       const managementResponse = handleDoManagementDomain(request)
       if (managementResponse) {
         return managementResponse
       }
     }
-    
+
     if (isDoDomain(handler.hostname)) {
       const doResponse = handleDoDomain(request)
       if (doResponse) {
@@ -87,7 +76,7 @@ export async function middleware(request: NextRequest) {
       }
       return NextResponse.next()
     }
-    
+
     return handleCustomDomain(request)
   })
 }

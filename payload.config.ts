@@ -40,6 +40,9 @@ export default buildConfig({
         Icon: '@/components/icon',
         Logo: '@/components/logo',
       },
+      logout: {
+        Button: '@/components/admin/custom-logout-button',
+      },
     },
     meta: {
       title: 'Agentic Workflow Platform',

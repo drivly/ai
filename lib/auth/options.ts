@@ -6,7 +6,7 @@ import { admin, apiKey, genericOAuth, multiSession, oAuthProxy, oidcProvider, op
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import stripeClient from '../stripe'
-import { getCurrentURL } from '../utils/url'
+import { getCurrentURL, getOAuthCallbackURL } from '../utils/url'
 
 // import { getCurrentURL } from '../utils/url'
 
@@ -18,7 +18,7 @@ export const betterAuthPlugins = [
   nextCookies(),
   stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
   oAuthProxy({
-    productionURL: process.env.NODE_ENV === 'production' ? 'https://apis.do' : 'http://localhost:3000',
+    productionURL: undefined,
     currentURL: getCurrentURL(),
   }),
   genericOAuth({
@@ -29,7 +29,7 @@ export const betterAuthPlugins = [
         clientSecret: process.env.WORKOS_CLIENT_SECRET as string,
         authorizationUrl: 'https://api.workos.com/sso/authorize',
         tokenUrl: 'https://api.workos.com/sso/token',
-        redirectURI: 'https://apis.do/api/auth/callback/workos',
+        redirectURI: getOAuthCallbackURL('workos'),
         scopes: ['openid', 'profile', 'email'],
       },
       {
@@ -38,7 +38,7 @@ export const betterAuthPlugins = [
         clientSecret: process.env.LINEAR_CLIENT_SECRET as string,
         authorizationUrl: 'https://linear.app/oauth/authorize',
         tokenUrl: 'https://api.linear.app/oauth/token',
-        redirectURI: 'https://apis.do/api/auth/callback/linear',
+        redirectURI: getOAuthCallbackURL('linear'),
         scopes: ['read', 'write'], // Preliminary scopes, may need adjustment
       },
     ],
@@ -69,12 +69,12 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/google' : 'http://localhost:3000/api/auth/callback/google', // Must remain fixed for better-auth oauth proxy to work correctly
+      redirectURI: getOAuthCallbackURL('google'),
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/github' : 'http://localhost:3000/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
+      redirectURI: getOAuthCallbackURL('github'),
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
