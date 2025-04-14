@@ -1,5 +1,4 @@
 ///<reference path="./models.d.ts" />
-
 export default {
   "models": [
     {
