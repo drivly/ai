@@ -18,7 +18,7 @@ export const betterAuthPlugins = [
   nextCookies(),
   stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
   oAuthProxy({
-    productionURL: 'https://apis.do',
+    productionURL: process.env.NODE_ENV === 'production' ? 'https://apis.do' : 'http://localhost:3000',
     currentURL: getCurrentURL(),
   }),
   genericOAuth({
@@ -69,12 +69,12 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/google', // Must remain fixed for better-auth oauth proxy to work correctly
+      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/google' : 'http://localhost:3000/api/auth/callback/google', // Must remain fixed for better-auth oauth proxy to work correctly
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
+      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/github' : 'http://localhost:3000/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
