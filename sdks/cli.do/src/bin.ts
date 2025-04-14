@@ -1,15 +1,18 @@
 #!/usr/bin/env node
-import fs from 'node:fs'
-import path from 'node:path'
+import * as fs from 'node:fs'
+import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { CLI as ApisCLI } from 'apis.do/src/cli'
 
-let WorkflowsCLI
-try {
-  const workflowsModule = await import('workflows.do/src/cli')
-  WorkflowsCLI = workflowsModule.CLI
-} catch (error) {
+let WorkflowsCLI: any = null
+
+async function loadWorkflowsCLI() {
+  try {
+    const workflowsModule = await import('workflows.do/src/cli')
+    WorkflowsCLI = workflowsModule.CLI
+  } catch (error) {
+  }
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -31,6 +34,7 @@ try {
 const args = process.argv.slice(2)
 
 async function main() {
+  await loadWorkflowsCLI()
   if (args.length === 0 || args[0] === '--help' || args[0] === '-h') {
     showHelp()
     return
