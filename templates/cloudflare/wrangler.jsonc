@@ -1,0 +1,32 @@
+{
+  "name": "next-on-cloudflare",
+  "compatibility_date": "2023-12-01",
+  "workers_dev": true,
+  // Configuration for the OpenNext build output
+  "build": {
+    "command": "pnpm build",
+    "cwd": ".",
+    "watch_dir": "src"
+  },
+  "site": {
+    "bucket": "./.open-next/standalone/.netlify/functions/server/assets"
+  },
+  // Define environment variables
+  "define": {
+    "process.env.NEXT_MANUAL_SIG_HANDLE": "true"
+  },
+  // Configure routes for the Cloudflare Worker
+  "routes": [
+    {
+      "pattern": "*",
+      "zone_name": "example.com"
+    }
+  ],
+  // Configure bindings for Cloudflare services
+  "bindings": [
+    {
+      "name": "ASSETS",
+      "type": "kv_namespace"
+    }
+  ]
+}
