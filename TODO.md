@@ -19,6 +19,7 @@
 - [x] Fix params type in admin pages to match Next.js 15 requirements
 - [x] Fix params type in API routes to match Next.js 15 requirements
 - [x] Fix params type in nested API route to match Next.js 15 requirements
+- [x] Resolve merge conflict with main branch
 
 ## Technical Challenges
 - [x] Routing conflict between admin page and existing API routes
@@ -29,6 +30,8 @@
   - Solution: Updated params type to be Promise<Params> to match Next.js 15 requirements
 - [x] Type error in API routes with params type
   - Solution: Updated params type to be Promise<{ domain: string }> to match Next.js 15 requirements
+- [x] Merge conflict with main branch
+  - Solution: Resolved conflict in public/static/content by accepting changes from main
 - [ ] Potential routing conflicts with other [domain] routes:
   - Found: `/app/(sites)/sites/[domain]`
   - Found: `/app/(apis)/tenants/[domain]`
@@ -59,6 +62,7 @@
   5. Fixed params type in admin pages to match Next.js 15 requirements
   6. Fixed params type in API routes to match Next.js 15 requirements
   7. Fixed params type in nested API route to match Next.js 15 requirements
+  8. Resolved merge conflict with main branch
 
 ## Notes
 - The ai-studio-template deployment is successful
@@ -66,3 +70,4 @@
 - We've identified other [domain] directories in the app that might be causing routing conflicts
 - Nathan requested moving the admin page to `/app/projects/[domain]/admin` to avoid routing conflicts
 - User has been notified about the ongoing CI failures and asked for guidance
+- Merge conflict with main branch has been resolved
