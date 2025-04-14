@@ -1,11 +1,10 @@
 import { Layout, Navbar } from 'nextra-theme-docs'
-import { Footer } from '@/components/sites/footer'
-import 'nextra-theme-docs/style.css'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import './code-hike.css'
-import '@/app/(sites)/styles.css'
 import { headers } from 'next/headers'
+import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
+import 'nextra-theme-docs/style.css'
 
 import type { Metadata } from 'next'
 
@@ -34,9 +33,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const pageMap = await getPageMap('/docs')
 
   const navbar = <Navbar logo={<b>.do</b>} logoLink='https://dotdo.ai' chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
-  const footer = (
-    <Footer minimal={true} />
-  )
 
   return (
     <html lang='en' dir='ltr' suppressHydrationWarning>
@@ -49,7 +45,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           navbar={navbar}
           pageMap={pageMap}
           docsRepositoryBase='https://github.com/drivly/ai/tree/main'
-          footer={footer}
+          footer={
+            <div className="nx-flex nx-items-center nx-justify-between">
+              <div>
+                &copy; {new Date().getFullYear()} <a href="https://dotdo.ai" target="_blank" rel="noopener noreferrer">.do</a>, Inc. All rights reserved.
+              </div>
+              <div className="nx-flex nx-gap-4">
+                <a href="https://github.com/drivly/ai" target="_blank" rel="noopener noreferrer"><RiGithubFill className="nx-size-6" /></a>
+                <a href="https://discord.gg/26nNxZTz9X" target="_blank" rel="noopener noreferrer"><RiDiscordFill className="nx-size-6" /></a>
+                <a href="https://x.com/dotdo_ai" target="_blank" rel="noopener noreferrer"><RiTwitterXFill className="nx-size-6" /></a>
+                <a href="https://www.npmjs.com/package/workflows.do" target="_blank" rel="noopener noreferrer"><RiNpmjsFill className="nx-size-6" /></a>
+              </div>
+            </div>
+          }
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}
         >
