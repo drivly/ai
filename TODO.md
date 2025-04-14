@@ -17,6 +17,8 @@
 - [x] Add root layout for `/app/projects/[domain]/admin` to fix build error
 - [x] Add parent layout for `/app/projects/[domain]` directory
 - [x] Fix params type in admin pages to match Next.js 15 requirements
+- [x] Fix params type in API routes to match Next.js 15 requirements
+- [x] Fix params type in nested API route to match Next.js 15 requirements
 
 ## Technical Challenges
 - [x] Routing conflict between admin page and existing API routes
@@ -25,6 +27,8 @@
   - Final Solution: Moved admin page to `/app/projects/[domain]/admin` as requested
 - [x] Type error in admin pages with params type
   - Solution: Updated params type to be Promise<Params> to match Next.js 15 requirements
+- [x] Type error in API routes with params type
+  - Solution: Updated params type to be Promise<{ domain: string }> to match Next.js 15 requirements
 - [ ] Potential routing conflicts with other [domain] routes:
   - Found: `/app/(sites)/sites/[domain]`
   - Found: `/app/(apis)/tenants/[domain]`
@@ -41,21 +45,24 @@
 ## Deployment Status
 - [x] PR created: https://github.com/drivly/ai/pull/1313
 - [x] Tests passing
-- [ ] Build pending (in progress)
+- [ ] Build failing despite multiple fixes
 - [x] ai-studio-template deployment successful
-- [ ] Main app (ai) deployment pending
+- [ ] Main app (ai) deployment failing
 
 ## Blockers
-- Build process is taking longer than expected
+- Build process is failing despite multiple attempts to fix the issues
 - Multiple attempts to fix the build error have been made:
   1. Added root layout for `/app/projects/[domain]/admin`
   2. Added parent layout for `/app/projects/[domain]` directory
   3. Removed deprecated instrumentationHook from next.config.mjs
   4. Moved API routes to avoid routing conflicts
   5. Fixed params type in admin pages to match Next.js 15 requirements
+  6. Fixed params type in API routes to match Next.js 15 requirements
+  7. Fixed params type in nested API route to match Next.js 15 requirements
 
 ## Notes
 - The ai-studio-template deployment is successful
-- The main app build is still pending
+- The main app build is failing despite multiple fixes
 - We've identified other [domain] directories in the app that might be causing routing conflicts
 - Nathan requested moving the admin page to `/app/projects/[domain]/admin` to avoid routing conflicts
+- User has been notified about the ongoing CI failures and asked for guidance
