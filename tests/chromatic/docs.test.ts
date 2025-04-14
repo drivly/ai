@@ -7,6 +7,9 @@ test('documentation page', async ({ page }) => {
   );
   await loadPromise;
 
+  await page.waitForLoadState('networkidle', { timeout: 60000 });
+  await page.waitForTimeout(5000);
+  
   await page.waitForSelector('nav, main', { timeout: 90000 }); // Increase timeout for CI environments
   
   await expect(page.locator('nav').first()).toBeVisible() // Use .first() to avoid strict mode violation
