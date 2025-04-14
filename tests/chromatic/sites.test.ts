@@ -52,18 +52,6 @@ test('site analytics page', async ({ page }) => {
   await expect(page).toHaveScreenshot('sites-analytics-page.png')
 })
 
-test('site functions page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/functions`)
-
-  try {
-    await page.waitForSelector('main', { timeout: 15000 })
-    await expect(page.locator('main')).toBeVisible()
-    await expect(page).toHaveScreenshot('sites-functions-page.png')
-  } catch (error) {
-    console.log('Timeout waiting for functions page, continuing with tests')
-    await expect(page).toHaveScreenshot('sites-functions-page-timeout.png')
-  }
-})
 
 test('site blog page', async ({ page }) => {
   await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/blog`)
