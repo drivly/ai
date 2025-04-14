@@ -91,7 +91,7 @@ export async function middleware(request: NextRequest) {
       return handlers.handleCustomDomain(ctx)
     })
     
-    return router.handle(ctx)
+    return router.handle({})
   })
 }
 
