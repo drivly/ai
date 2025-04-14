@@ -50,6 +50,7 @@
     "test:watch": "vitest",
     "test:e2e": "vitest run --config tests/vitest.e2e.config.ts",
     "test:chromatic": "chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --config=playwright.config.ts",
+    "test:storybook": "pnpm --filter=\"@drivly/ui\" build-storybook && chromatic --project-token=${CHROMATIC_PROJECT_TOKEN} --storybook-build-dir=./pkgs/ui/storybook-static",
     "clean": "turbo clean",
     "lint:legacy": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "test:legacy": "vitest run",
@@ -58,6 +59,7 @@
     "format": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
     "seed": "tsx scripts/seed.ts",
     "download:chromatic": "node scripts/download-chromatic-docs.js",
+    "storybook": "pnpm --filter=\"@drivly/ui\" storybook",
     "prepare": "husky"
   },
   "dependencies": {
@@ -87,6 +89,7 @@
     "@scalar/nextjs-api-reference": "^0.7.7",
     "@sentry/nextjs": "^9.11.0",
     "@stoplight/elements": "^9.0.1",
+    "@storybook/addon-links": "^8.6.12",
     "@vercel/analytics": "^1.5.0",
     "@vercel/functions": "^2.0.0",
     "@vercel/speed-insights": "^1.2.0",
@@ -160,7 +163,6 @@
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
-
     "@chromatic-com/playwright": "^0.12.0",
     "@eslint/eslintrc": "^3.2.0",
     "@next/bundle-analyzer": "^15.2.4",

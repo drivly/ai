@@ -134,7 +134,9 @@
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
     "analyze": "ANALYZE=true tsup",
-    "lint": "eslint \"**/*.{ts,tsx}\""
+    "lint": "eslint \"**/*.{ts,tsx}\"",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.3",
@@ -167,6 +169,14 @@
     }
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "^8.6.12",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-interactions": "^8.6.12",
+    "@storybook/addon-onboarding": "^8.6.12",
+    "@storybook/blocks": "^8.6.12",
+    "@storybook/react": "^8.6.12",
+    "@storybook/react-vite": "^8.6.12",
+    "@storybook/test": "^8.6.12",
     "@tailwindcss/postcss": "^4.0.15",
     "@types/glob": "^8.1.0",
     "@types/node": "^20",
@@ -180,6 +190,7 @@
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "process": "^0.11.10",
+    "storybook": "^8.6.12",
     "tailwindcss": "^4.0.15",
     "tsup": "^8.4.0",
     "url": "^0.11.3"
