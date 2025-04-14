@@ -58,7 +58,9 @@
     "format": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
     "seed": "tsx scripts/seed.ts",
     "download:chromatic": "node scripts/download-chromatic-docs.js",
-    "prepare": "husky"
+    "prepare": "husky",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@ai-primitives/data": "workspace:*",
@@ -160,8 +162,8 @@
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
-
     "@chromatic-com/playwright": "^0.12.0",
+    "@chromatic-com/storybook": "^3",
     "@eslint/eslintrc": "^3.2.0",
     "@next/bundle-analyzer": "^15.2.4",
     "@octokit/webhooks": "^13.7.5",
@@ -171,6 +173,13 @@
     "@semantic-release/github": "^9.2.6",
     "@semantic-release/npm": "^11.0.2",
     "@semantic-release/release-notes-generator": "^12.1.0",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-onboarding": "^8.6.12",
+    "@storybook/blocks": "^8.6.12",
+    "@storybook/experimental-addon-test": "^8.6.12",
+    "@storybook/nextjs": "^8.6.12",
+    "@storybook/react": "^8.6.12",
+    "@storybook/test": "^8.6.12",
     "@tailwindcss/postcss": "^4.0.15",
     "@tailwindcss/typography": "^0.5.16",
     "@testing-library/jest-dom": "^6.6.3",
@@ -184,6 +193,7 @@
     "chromatic": "^11.28.0",
     "eslint": "^9.16.0",
     "eslint-config-next": "15.3.0",
+    "eslint-plugin-storybook": "^0.12.0",
     "husky": "^9.1.7",
     "ignore-loader": "^0.1.2",
     "jsdom": "^26.0.0",
@@ -201,6 +211,7 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "react-email": "4.0.7",
     "rimraf": "^5.0.5",
+    "storybook": "^8.6.12",
     "tailwindcss": "^4.0.17",
     "turbo": "^2.4.4",
     "typescript": "5.7.3",
@@ -249,5 +260,10 @@
     "minimumChangeThreshold": 0,
     "showDetails": true,
     "buildOutputDirectory": ".next"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:storybook/recommended"
+    ]
   }
 }

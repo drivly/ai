@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "outDir": "",
+    "paths": {
+      "@/*": ["./pkgs/ui/src/*"]
+    }
+  },
+  "include": [
+    "../pkgs/ui/src/**/*",
+    "*.ts",
+    "*.js"
+  ]
+}
