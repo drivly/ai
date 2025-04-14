@@ -8,7 +8,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getBlogPostBySlug } from '../blog-posts'
 
-async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: string }>, searchParams: { [key: string]: string | string[] | undefined } }) {
+async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const { domain, slug } = await props.params
   const headersList = await headers()
   const siteUrl = `${headersList.get('x-forwarded-proto')}://${headersList.get('x-forwarded-host')}`
