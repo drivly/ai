@@ -20,7 +20,11 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   }
   
   const config = await createDynamicPayloadConfig(project);
-  return generatePageMetadata({ config: Promise.resolve(config), params: { segments: [] }, searchParams: {} });
+  return generatePageMetadata({ 
+    config: Promise.resolve(config), 
+    params: Promise.resolve({ segments: [] }), 
+    searchParams: {} 
+  });
 }
 
 export default async function ProjectAdminPage({ params }: { params: Promise<Params> }) {
@@ -40,7 +44,7 @@ export default async function ProjectAdminPage({ params }: { params: Promise<Par
     <div>
       <RootPage 
         config={Promise.resolve(config)} 
-        params={{ segments: [] }}
+        params={Promise.resolve({ segments: [] })}
         searchParams={{}}
       />
     </div>
