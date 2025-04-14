@@ -28,7 +28,7 @@ const nextConfig = {
   transpilePackages: ['@drivly/ui', '@drivly/payload-agent', 'simple-payload', 'clickable-apis', 'ai-models', 'payload-utils', 'payload-hooks-queue'],
   // All routing is handled by middleware.ts
   experimental: {
-    instrumentationHook: true,
+    // instrumentationHook is no longer needed in Next.js 15.2.4+
   }
 }
 
