@@ -700,6 +700,11 @@ export const domains = [
 export const brandDomains = ['dotdo.ai', 'dotdo.co', 'do.industries']
 
 /**
+ * Site domains that should redirect to their specific /sites/{domain} path
+ */
+export const siteDomains = ['business-as-code.dev', 'careers.do']
+
+/**
  * Domains that have SDK implementations in the sdks directory
  */
 export const sdks = [

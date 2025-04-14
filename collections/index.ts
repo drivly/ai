@@ -45,10 +45,11 @@ import { IntegrationTriggers } from './integrations/IntegrationTriggers'
 import { IntegrationActions } from './integrations/IntegrationActions'
 import { IntegrationCategories } from './integrations/IntegrationCategories'
 import { Connections } from './integrations/Connections'
-import { Queues } from './work/Queues'
-import { Tasks } from './work/Tasks'
-import { Goals } from './work/Goals'
-import { KPIs } from './work/KPIs'
+import { Queues } from './business/Queues'
+import { Tasks } from './business/Tasks'
+import { Goals } from './business/Goals'
+import { Plans } from './business/Plans'
+import { KPIs } from './business/KPIs'
 import Config from './sync/Config'
 
 export const collections = [
@@ -61,6 +62,7 @@ export const collections = [
   Queues,
   Tasks,
   Goals,
+  Plans,
 
   // Data & definitions
   Nouns,
