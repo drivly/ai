@@ -1,9 +1,13 @@
 import { test, expect } from '@chromatic-com/playwright'
 
 test('sites main page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites`)
+  const loadPromise = page.waitForLoadState('load');
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await loadPromise;
 
-  await page.waitForSelector('main', { timeout: 10000 })
+  await page.waitForSelector('main', { timeout: 15000 })
 
   await expect(page.locator('main').first()).toBeVisible()
   await expect(page.locator('h1')).toBeVisible()
@@ -12,9 +16,13 @@ test('sites main page', async ({ page }) => {
 })
 
 test('docs page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/docs`)
+  const loadPromise = page.waitForLoadState('load');
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/docs`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await loadPromise;
 
-  await page.waitForSelector('main', { timeout: 10000 })
+  await page.waitForSelector('main', { timeout: 15000 })
 
   await expect(page.locator('main').first()).toBeVisible()
   await expect(page.locator('h1')).toBeVisible()
@@ -23,9 +31,13 @@ test('docs page', async ({ page }) => {
 })
 
 test('specific site page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do`)
+  const loadPromise = page.waitForLoadState('load');
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await loadPromise;
 
-  await page.waitForSelector('main', { timeout: 10000 })
+  await page.waitForSelector('main', { timeout: 15000 })
 
   await expect(page.locator('main').first()).toBeVisible()
 
@@ -33,9 +45,13 @@ test('specific site page', async ({ page }) => {
 })
 
 test('site settings page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/settings`)
+  const loadPromise = page.waitForLoadState('load');
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/settings`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await loadPromise;
 
-  await page.waitForSelector('main', { timeout: 10000 })
+  await page.waitForSelector('main', { timeout: 15000 })
 
   await expect(page.locator('main').first()).toBeVisible()
 
@@ -43,9 +59,13 @@ test('site settings page', async ({ page }) => {
 })
 
 test('site analytics page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/analytics`)
+  const loadPromise = page.waitForLoadState('load');
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/analytics`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await loadPromise;
 
-  await page.waitForSelector('main', { timeout: 10000 })
+  await page.waitForSelector('main', { timeout: 15000 })
 
   await expect(page.locator('main').first()).toBeVisible()
 
@@ -54,9 +74,13 @@ test('site analytics page', async ({ page }) => {
 
 
 test('site blog page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/blog`)
+  const loadPromise = page.waitForLoadState('load');
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/blog`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await loadPromise;
 
-  await page.waitForSelector('main', { timeout: 10000 })
+  await page.waitForSelector('main', { timeout: 15000 })
 
   await expect(page.locator('main').first()).toBeVisible()
   await expect(page.locator('h1')).toBeVisible()
@@ -82,9 +106,13 @@ test('site blog post page', async ({ page }) => {
 })
 
 test('site pricing page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/pricing`)
+  const loadPromise = page.waitForLoadState('load');
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/pricing`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await loadPromise;
 
-  await page.waitForSelector('main', { timeout: 10000 })
+  await page.waitForSelector('main', { timeout: 15000 })
 
   await expect(page.locator('main').first()).toBeVisible()
   
@@ -94,9 +122,13 @@ test('site pricing page', async ({ page }) => {
 })
 
 test('site privacy page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/privacy`)
+  const loadPromise = page.waitForLoadState('load');
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/privacy`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await loadPromise;
 
-  await page.waitForSelector('main', { timeout: 10000 })
+  await page.waitForSelector('main', { timeout: 15000 })
 
   await expect(page.locator('main').first()).toBeVisible()
   await expect(page.locator('h1')).toBeVisible()
@@ -106,9 +138,13 @@ test('site privacy page', async ({ page }) => {
 })
 
 test('site terms page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/terms`)
+  const loadPromise = page.waitForLoadState('load');
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/terms`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await loadPromise;
 
-  await page.waitForSelector('main', { timeout: 10000 })
+  await page.waitForSelector('main', { timeout: 15000 })
 
   await expect(page.locator('main').first()).toBeVisible()
   await expect(page.locator('h1')).toBeVisible()
@@ -118,11 +154,14 @@ test('site terms page', async ({ page }) => {
 })
 
 test('site waitlist page - unauthenticated', async ({ page }) => {
+  const loadPromise = page.waitForLoadState('load');
   const responsePromise = page.waitForResponse(response => 
     response.url().includes('/waitlist') && response.status() === 200
   );
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/waitlist`)
-  await responsePromise;
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites/workflows.do/waitlist`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await Promise.all([loadPromise, responsePromise]);
   
   await page.waitForSelector('main', { timeout: 15000 })
   

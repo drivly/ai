@@ -1,8 +1,14 @@
 import { test, expect } from '@chromatic-com/playwright'
 
 test('admin login page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/admin`)
+  const loadPromise = page.waitForLoadState('load');
+  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/admin`, 
+    { timeout: 60000 } // Increase timeout for slow CI environments
+  );
+  await loadPromise;
 
+  await page.waitForSelector('input[type="email"]', { timeout: 15000 });
+  
   await expect(page.locator('input[type="email"]')).toBeVisible()
   await expect(page.locator('input[type="password"]')).toBeVisible()
   await expect(page.locator('button[type="submit"]')).toBeVisible()
