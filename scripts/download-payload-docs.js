@@ -39,7 +39,7 @@ async function downloadPayloadDocs() {
 
 async function startCrawlJob(apiKey) {
   try {
-    const response = await fetch(`${FIRECRAWL_API_URL}/crawl`, {
+    const scrapeResponse = await fetch(`${FIRECRAWL_API_URL}/scrape`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -47,13 +47,35 @@ async function startCrawlJob(apiKey) {
       },
       body: JSON.stringify({
         url: PAYLOAD_DOCS_URL,
+        formats: ["markdown", "html"],
+        onlyMainContent: true
+      })
+    });
+    
+    if (!scrapeResponse.ok) {
+      throw new Error(`Failed to scrape main docs page: ${scrapeResponse.status} ${scrapeResponse.statusText}`);
+    }
+    
+    const scrapeData = await scrapeResponse.json();
+    console.log(`Initial scrape completed, found content at: ${scrapeData.url}`);
+    
+    const response = await fetch(`${FIRECRAWL_API_URL}/crawl`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        url: scrapeData.url || PAYLOAD_DOCS_URL,
         includePaths: ['/docs/*'],
+        excludePaths: ['/docs/search*'],
         allowBackwardLinks: true,
         maxDepth: 5,
         limit: 1000,
         scrapeOptions: {
-          formats: ["markdown"],
-          onlyMainContent: true
+          formats: ["markdown", "html"],
+          onlyMainContent: true,
+          waitForSelector: '.docs-content'
         }
       })
     });
@@ -150,10 +172,64 @@ async function processAndSaveResults(results) {
   
   let combinedContent = `# PayloadCMS Documentation\n\nSource: ${PAYLOAD_DOCS_URL}\n\n`;
   
-  for (const page of results) {
-    if (page.markdown) {
-      const url = page.url || 'Unknown URL';
-      combinedContent += `\n## ${url}\n\n${page.markdown}\n\n`;
+  if (results.length === 0) {
+    console.log('No results from crawl, attempting to scrape individual pages directly...');
+    
+    const pagesToScrape = [
+      'https://payloadcms.com/docs/getting-started/what-is-payload',
+      'https://payloadcms.com/docs/getting-started/installation',
+      'https://payloadcms.com/docs/getting-started/quick-start',
+      'https://payloadcms.com/docs/configuration/overview',
+      'https://payloadcms.com/docs/fields/overview',
+      'https://payloadcms.com/docs/admin/overview',
+      'https://payloadcms.com/docs/rest-api/overview',
+      'https://payloadcms.com/docs/graphql/overview',
+      'https://payloadcms.com/docs/local-api/overview',
+      'https://payloadcms.com/docs/authentication/overview',
+      'https://payloadcms.com/docs/access-control/overview',
+      'https://payloadcms.com/docs/hooks/overview',
+      'https://payloadcms.com/docs/plugins/overview'
+    ];
+    
+    for (const pageUrl of pagesToScrape) {
+      try {
+        console.log(`Scraping ${pageUrl}...`);
+        const response = await fetch(`${FIRECRAWL_API_URL}/scrape`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${process.env.FIRECRAWL_API_KEY}`
+          },
+          body: JSON.stringify({
+            url: pageUrl,
+            formats: ["markdown", "html"],
+            onlyMainContent: true,
+            waitForSelector: '.docs-content'
+          })
+        });
+        
+        if (!response.ok) {
+          console.error(`Failed to scrape ${pageUrl}: ${response.status} ${response.statusText}`);
+          continue;
+        }
+        
+        const data = await response.json();
+        
+        if (data.markdown) {
+          combinedContent += `\n## ${pageUrl}\n\n${data.markdown}\n\n`;
+        }
+        
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      } catch (error) {
+        console.error(`Error scraping ${pageUrl}: ${error.message}`);
+      }
+    }
+  } else {
+    for (const page of results) {
+      if (page.markdown) {
+        const url = page.url || 'Unknown URL';
+        combinedContent += `\n## ${url}\n\n${page.markdown}\n\n`;
+      }
     }
   }
   

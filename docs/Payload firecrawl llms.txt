@@ -1,0 +1,520 @@
+# PayloadCMS Documentation
+
+Source: https://payloadcms.com/docs
+
+
+## What is Payload? | Documentation | Payload
+
+URL: https://payloadcms.com/docs/getting-started/what-is-payload
+
+**Payload is the Next.js fullstack framework.** Write a Payload Config and instantly get:
+
+- A full Admin Panel using React server / client components, matching the shape of your data and completely extensible with your own React components
+- Automatic database schema, including direct DB access and ownership, with migrations, transactions, proper indexing, and more
+- Instant REST, GraphQL, and straight-to-DB Node.js APIs
+- Authentication which can be used in your own apps
+- A deeply customizable access control pattern
+- File storage and image management tools like cropping / focal point selection
+- Live preview - see your frontend render content changes in realtime as you update
+- Lots more
+
+[### Instant backend superpowers
+
+](/docs/getting-started/what-is-payload#instant-backend-superpowers)No matter what you&#x27;re building, Payload will give you backend superpowers. Your entire Payload config can be installed in one line into any existing Next.js app, and is designed to catapult your development process. Payload takes the most complex and time-consuming parts of any modern web app and makes them simple.
+
+[### Open source - deploy anywhere, including Vercel
+
+](/docs/getting-started/what-is-payload#open-source-deploy-anywhere-including-vercel)It&#x27;s fully open source with an MIT license and you can self-host anywhere that you can run a Node.js app. You can also deploy serverless to hosts like Vercel, right inside your existing Next.js application.
+
+[### Code-first and version controlled
+
+](/docs/getting-started/what-is-payload#code-first-and-version-controlled)In Payload, there are no "click ops" - as in clicking around in an Admin Panel to define your schema. In Payload, everything is done the right way—code-first and version controlled like a proper backend. But once developers define how Payload should work, non-technical users can independently make use of its Admin Panel to manage whatever they need to without having to know code whatsoever.
+
+[### Fully extensible
+
+](/docs/getting-started/what-is-payload#fully-extensible)Even in spite of how much you get out of the box, you still have full control over every aspect of your app - be it database, admin UI, or anything else. Every part of Payload has been designed to be extensible and customizable with modern TypeScript / React. And you&#x27;ll fully understand the code that you write.
+
+[## Use Cases
+
+](/docs/getting-started/what-is-payload#use-cases)Payload started as a headless Content Management System (CMS), but since, we&#x27;ve seen our community leverage Payload in ways far outside of simply managing pages and blog posts. It&#x27;s grown into a full-stack TypeScript app framework.
+
+Large enterprises use Payload to power significant internal tools, retailers power their entire storefronts without the need for headless Shopify, and massive amounts of digital assets are stored + managed within Payload. Of course, websites large and small still use Payload for content management as well.
+
+[### Headless CMS
+
+](/docs/getting-started/what-is-payload#headless-cms)The biggest barrier in large web projects cited by marketers is engineering. On the flip side, engineers say the opposite. This is a big problem that has yet to be solved even though we have countless CMS options.
+
+Payload has restored a little love back into the dev / marketer equation with features like Live Preview, redirects, form builders, visual editing, static A/B testing, and more. But even with all this focus on marketing efficiency, we aren&#x27;t compromising on the developer experience. That way engineers and marketers alike can be proud of the products they build.
+
+If you&#x27;re building a website and your frontend is on Next.js, then Payload is a no-brainer.
+
+Instead of going out and signing up for a SaaS vendor that makes it so you have to manage two completely separate concerns, with little to no native connection back and forth, just install Payload in your existing Next.js repo and instantly get a full CMS.
+
+Get started with Payload as a CMS using our official Website template:
+
+1npx create-payload-app@latest -t website
+
+
+## Installation | Documentation | Payload
+
+URL: https://payloadcms.com/docs/getting-started/installation
+
+[## Software Requirements
+
+](/docs/getting-started/installation#software-requirements)Payload requires the following software:
+
+- Any JavaScript package manager (pnpm, npm, or yarn - pnpm is preferred)
+- Node.js version 20.9.0+
+- Any [compatible database](../database/overview) (MongoDB, Postgres or SQLite)
+
+**Important:** Before proceeding any further, please ensure that you have the above requirements met.
+
+[## Quickstart with create-payload-app
+
+](/docs/getting-started/installation#quickstart-with-create-payload-app)To quickly scaffold a new Payload app in the fastest way possible, you can use [create-payload-app](https://npmjs.com/package/create-payload-app). To do so, run the following command:
+
+1npx create-payload-app
+
+
+## The Payload Config | Documentation | Payload
+
+URL: https://payloadcms.com/docs/configuration/overview
+
+Payload is a *config-based*, code-first CMS and application framework. The Payload Config is central to everything that Payload does, allowing for deep configuration of your application through a simple and intuitive API. The Payload Config is a fully-typed JavaScript object that can be infinitely extended upon.
+
+Everything from your [Database](../database/overview) choice to the appearance of the [Admin Panel](../admin/overview) is fully controlled through the Payload Config. From here you can define [Fields](../fields/overview), add [Localization](./localization), enable [Authentication](../authentication/overview), configure [Access Control](../access-control/overview), and so much more.
+
+The Payload Config is a `payload.config.ts` file typically located in the root of your project:
+
+1import { buildConfig } from &#x27;payload&#x27;2
+3export default buildConfig({4  // Your config goes here5})
+
+
+## Fields Overview | Documentation | Payload
+
+URL: https://payloadcms.com/docs/fields/overview
+
+Fields are the building blocks of Payload. They define the schema of the Documents that will be stored in the [Database](../database/overview), as well as automatically generate the corresponding UI within the [Admin Panel](../admin/overview).
+
+There are many [Field Types](#field-types) to choose from, ranging anywhere from simple text strings to nested arrays and blocks. Most fields save data to the database, while others are strictly presentational. Fields can have [Custom Validations](#validation), [Conditional Logic](./overview#conditional-logic), [Access Control](#field-level-access-control), [Hooks](#field-level-hooks), and so much more.
+
+Fields can be endlessly customized in their appearance and behavior without affecting their underlying data structure. Fields are designed to withstand heavy modification or even complete replacement through the use of [Custom Field Components](#custom-components).
+
+To configure fields, use the `fields` property in your [Collection](../configuration/collections) or [Global](../configuration/globals) config:
+
+1import type { CollectionConfig } from &#x27;payload&#x27;2
+3export const Page: CollectionConfig = {4  // ...5  fields: [6    7    // ...8  ],9}
+
+
+## The Admin Panel | Documentation | Payload
+
+URL: https://payloadcms.com/docs/admin/overview
+
+Payload dynamically generates a beautiful, [fully type-safe](../typescript/overview) Admin Panel to manage your users and data. It is highly performant, even with 100+ fields, and is translated in over 30 languages. Within the Admin Panel you can manage content, [render your site](../live-preview/overview), [preview drafts](./preview), [diff versions](../versions/overview), and so much more.
+
+The Admin Panel is designed to [white-label your brand](/blog/white-label-admin-ui). You can endlessly customize and extend the Admin UI by swapping in your own [Custom Components](../custom-components/overview)—everything from simple field labels to entire views can be modified or replaced to perfectly tailor the interface for your editors.
+
+The Admin Panel is written in [TypeScript](https://www.typescriptlang.org) and built with [React](https://react.dev) using the [Next.js App Router](https://nextjs.org/docs/app). It supports [React Server Components](https://react.dev/reference/rsc/server-components), enabling the use of the [Local API](../local-api/overview) on the front-end. You can install Payload into any [existing Next.js app in just one line](../getting-started/installation) and [deploy it anywhere](../production/deployment).
+
+The Payload Admin Panel is designed to be as minimal and straightforward as possible to allow easy customization and control. [Learn more](../custom-components/overview).
+
+Redesigned Admin Panel with a collapsible sidebar that&#x27;s open by default, providing greater extensibility and enhanced horizontal real estate.[## Project Structure
+
+](/docs/admin/overview#project-structure)The Admin Panel serves as the entire HTTP layer for Payload, providing a full CRUD interface for your app. This means that both the [REST](../rest-api/overview) and [GraphQL](../graphql/overview) APIs are simply [Next.js Routes](https://nextjs.org/docs/app/building-your-application/routing) that exist directly alongside your front-end application.
+
+Once you [install Payload](../getting-started/installation), the following files and directories will be created in your app:
+
+1app/2├─ (payload)/3├── admin/4├─── [[...segments]]/5├──── page.tsx6├──── not-found.tsx7├── api/8├─── [...slug]/9├──── route.ts10├── graphql/11├──── route.ts12├── graphql-playground/13├──── route.ts14├── custom.scss15├── layout.tsx
+
+
+## REST API | Documentation | Payload
+
+URL: https://payloadcms.com/docs/rest-api/overview
+
+A fully functional REST API is automatically generated from your Collection and Global configs.
+
+The REST API is a fully functional HTTP client that allows you to interact with your Documents in a RESTful manner. It supports all CRUD operations and is equipped with automatic pagination, depth, and sorting. All Payload API routes are mounted and prefixed to your config&#x27;s `routes.api` URL segment (default: `/api`).
+
+**REST query parameters:**
+
+- [depth](../queries/depth) - automatically populates relationships and uploads
+- [locale](../configuration/localization#retrieving-localized-docs) - retrieves document(s) in a specific locale
+- [fallback-locale](../configuration/localization#retrieving-localized-docs) - specifies a fallback locale if no locale value exists
+- [select](../queries/select) - specifies which fields to include to the result
+- [populate](../queries/select#populate) - specifies which fields to include to the result from populated documents
+- [limit](../queries/pagination#pagination-controls) - limits the number of documents returned
+- [page](../queries/pagination#pagination-controls) - specifies which page to get documents from when used with a limit
+- [sort](../queries/sort#rest-api) - specifies the field(s) to use to sort the returned documents by
+- [where](../queries/overview) - specifies advanced filters to use to query documents
+- [joins](../fields/join#rest-api) - specifies the custom request for each join field by name of the field
+
+[## Collections
+
+](/docs/rest-api/overview#collections)Each collection is mounted using its `slug` value. For example, if a collection&#x27;s slug is `users`, all corresponding routes will be mounted on `/api/users`.
+
+Note: Collection slugs must be formatted in kebab-case
+
+**All CRUD operations are exposed as follows:**
+
+OperationMethodPathViewFind`GET`/api/{collection-slug}Find By ID`GET`/api/{collection-slug}/{id}Count`GET`/api/{collection-slug}/countCreate`POST`/api/{collection-slug}Update`PATCH`/api/{collection-slug}Update By ID`PATCH`/api/{collection-slug}/{id}Delete`DELETE`/api/{collection-slug}Delete by ID`DELETE`/api/{collection-slug}/{id}[## Auth Operations
+
+](/docs/rest-api/overview#auth-operations)Auth enabled collections are also given the following endpoints:
+
+OperationMethodPathViewLogin`POST`/api/{user-collection}/loginLogout`POST`/api/{user-collection}/logoutUnlock`POST`/api/{user-collection}/unlockRefresh`POST`/api/{user-collection}/refresh-tokenVerify User`POST`/api/{user-collection}/verify/{token}Current User`GET`/api/{user-collection}/meForgot Password`POST`/api/{user-collection}/forgot-passwordReset Password`POST`/api/{user-collection}/reset-password[## Globals
+
+](/docs/rest-api/overview#globals)Globals cannot be created or deleted, so there are only two REST endpoints opened:
+
+OperationMethodPathViewGet Global`GET`/api/globals/{global-slug}Update Global`POST`/api/globals/{global-slug}[## Preferences
+
+](/docs/rest-api/overview#preferences)In addition to the dynamically generated endpoints above Payload also has REST endpoints to manage the admin user [preferences](../admin/preferences) for data specific to the authenticated user.
+
+OperationMethodPathViewGet Preference`GET`/api/payload-preferences/{key}Create Preference`POST`/api/payload-preferences/{key}Delete Preference`DELETE`/api/payload-preferences/{key}[## Custom Endpoints
+
+](/docs/rest-api/overview#custom-endpoints)Additional REST API endpoints can be added to your application by providing an array of `endpoints` in various places within a Payload Config. Custom endpoints are useful for adding additional middleware on existing routes or for building custom functionality into Payload apps and plugins. Endpoints can be added at the top of the Payload Config, `collections`, and `globals` and accessed respective of the api and slugs you have configured.
+
+Custom endpoints are not authenticated by default. You are responsible for securing your own endpoints.
+
+Each endpoint object needs to have:
+
+ Property      
+
+ Description                                                                                                                                                                                                                                                
+
+ `**path**`    
+
+ A string for the endpoint route after the collection or globals slug                                                                                                                                                                                       
+
+ `**method**`  
+
+ The lowercase HTTP verb to use: &#x27;get&#x27;, &#x27;head&#x27;, &#x27;post&#x27;, &#x27;put&#x27;, &#x27;delete&#x27;, &#x27;connect&#x27; or &#x27;options&#x27;                                                                                                                                                             
+
+ `**handler**` 
+
+ A function that accepts **req** - `PayloadRequest` object which contains [Web Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) properties, currently authenticated `user` and the Local API instance `payload`.                          
+
+ `**root**`    
+
+ When `true`, defines the endpoint on the root Next.js app, bypassing Payload handlers and the `routes.api` subpath. Note: this only applies to top-level endpoints of your Payload Config, endpoints defined on `collections` or `globals` cannot be root. 
+
+ `**custom**`  
+
+ Extension point for adding custom data (e.g. for plugins)                                                                                                                                                                                                  
+
+Example:
+
+1import type { CollectionConfig } from &#x27;payload&#x27;2
+3// a collection of &#x27;orders&#x27; with an additional route for tracking details, reachable at /api/orders/:id/tracking4export const Orders: CollectionConfig = {5  slug: &#x27;orders&#x27;,6  fields: [7    /* ... */8  ],9  endpoints: [10    {11      path: &#x27;/:id/tracking&#x27;,12      method: &#x27;get&#x27;,13      handler: async (req) => {14        const tracking = await getTrackingInfo(req.routeParams.id)15
+16        if (!tracking) {17          return Response.json({ error: &#x27;not found&#x27; }, { status: 404 })18        }19
+20        return Response.json({21          message: `Hello ${req.routeParams.name as string} @ ${req.routeParams.group as string}`,22        })23      },24    },25    {26      path: &#x27;/:id/tracking&#x27;,27      method: &#x27;post&#x27;,28      handler: async (req) => {29        // `data` is not automatically appended to the request30        // if you would like to read the body of the request31        // you can use `data = await req.json()`32        const data = await req.json()33        await req.payload.update({34          collection: &#x27;tracking&#x27;,35          data: {36            // data to update the document with37          },38        })39        return Response.json({40          message: &#x27;successfully updated tracking info&#x27;,41        })42      },43    },44    {45      path: &#x27;/:id/forbidden&#x27;,46      method: &#x27;post&#x27;,47      handler: async (req) => {48        // this is an example of an authenticated endpoint49        if (!req.user) {50          return Response.json({ error: &#x27;forbidden&#x27; }, { status: 403 })51        }52
+53        // do something54
+55        return Response.json({56          message: &#x27;successfully updated tracking info&#x27;,57        })58      },59    },60  ],61}
+
+
+## GraphQL Overview | Documentation | Payload
+
+URL: https://payloadcms.com/docs/graphql/overview
+
+In addition to its REST and Local APIs, Payload ships with a fully featured and extensible GraphQL API.
+
+By default, the GraphQL API is exposed via `/api/graphql`, but you can customize this URL via specifying your `routes` within the main Payload Config.
+
+The labels you provide for your Collections and Globals are used to name the GraphQL types that are created to correspond to your config. Special characters and spaces are removed.
+
+[## GraphQL Options
+
+](/docs/graphql/overview#graphql-options)At the top of your Payload Config you can define all the options to manage GraphQL.
+
+ Option                          
+
+ Description                                                                                                                     
+
+ `mutations`                     
+
+ Any custom Mutations to be added in addition to what Payload provides. [More](../graphql/extending)                          
+
+ `queries`                       
+
+ Any custom Queries to be added in addition to what Payload provides. [More](../graphql/extending)                            
+
+ `maxComplexity`                 
+
+ A number used to set the maximum allowed complexity allowed by requests [More](../graphql/overview#query-complexity-limits)  
+
+ `disablePlaygroundInProduction` 
+
+ A boolean that if false will enable the GraphQL playground, defaults to true. [More](../graphql/overview#graphql-playground) 
+
+ `disable`                       
+
+ A boolean that if true will disable the GraphQL entirely, defaults to false.                                                    
+
+ `validationRules`               
+
+ A function that takes the ExecutionArgs and returns an array of ValidationRules.                                                
+
+[## Collections
+
+](/docs/graphql/overview#collections)Everything that can be done to a Collection via the REST or Local API can be done with GraphQL (outside of uploading files, which is REST-only). If you have a collection as follows:
+
+1import type { CollectionConfig } from &#x27;payload&#x27;2
+3export const PublicUser: CollectionConfig = {4  slug: &#x27;public-users&#x27;,5  auth: true, // Auth is enabled6  fields: [7    ...8  ],9}
+
+
+## Local API | Documentation | Payload
+
+URL: https://payloadcms.com/docs/local-api/overview
+
+The Payload Local API gives you the ability to execute the same operations that are available through REST and GraphQL within Node, directly on your server. Here, you don&#x27;t need to deal with server latency or network speed whatsoever and can interact directly with your database.
+
+  **Tip:**
+
+The Local API is incredibly powerful when used in React Server Components and other similar server-side contexts. With other headless CMS, you need to request your data from third-party servers via an HTTP layer, which can add significant loading time to your server-rendered pages. With Payload, you don&#x27;t have to leave your server to gather the data you need. It can be incredibly fast and is definitely a game changer.
+
+Here are some common examples of how you can use the Local API:
+
+- Fetching Payload data within React Server Components
+- Seeding data via Node seed scripts that you write and maintain
+- Opening custom Next.js route handlers which feature additional functionality but still rely on Payload
+- Within [Access Control](../access-control/overview) and [Hooks](../hooks/overview)
+
+[## Accessing Payload
+
+](/docs/local-api/overview#accessing-payload)You can gain access to the currently running `payload` object via two ways:
+
+[#### Accessing from args or `req`
+
+](/docs/local-api/overview#accessing-from-args-or)In most places within Payload itself, you can access `payload` directly from the arguments of [Hooks](../hooks/overview), [Access Control](../access-control/overview), [Validation](../fields/overview#validation) functions, and similar. This is the simplest way to access Payload in most cases. Most config functions take the `req` (Request) object, which has Payload bound to it (`req.payload`).
+
+Example:
+
+1const afterChangeHook: CollectionAfterChangeHook = async ({2  req: { payload },3}) => {4  const posts = await payload.find({5    collection: &#x27;posts&#x27;,6  })7}
+
+
+## Authentication Overview | Documentation | Payload
+
+URL: https://payloadcms.com/docs/authentication/overview
+
+Authentication is a critical part of any application. Payload provides a secure, portable way to manage user accounts out of the box. Payload Authentication is designed to be used in both the [Admin Panel](../admin/overview), as well as your own external applications, completely eliminating the need for paid, third-party platforms and services.
+
+Here are some common use cases of Authentication in your own applications:
+
+- Customer accounts for an e-commerce app
+- User accounts for a SaaS product
+- P2P apps or social sites where users need to log in and manage their profiles
+- Online games where players need to track their progress over time
+
+When Authentication is enabled on a [Collection](../configuration/collections), Payload injects all necessary functionality to support the entire user flow. This includes all [auth-related operations](./operations) like account creation, logging in and out, and resetting passwords, all [auth-related emails](./email) like email verification and password reset, as well as any necessary UI to manage users from the Admin Panel.
+
+To enable Authentication on a Collection, use the `auth` property in the [Collection Config](../configuration/collections#config-options):
+
+1import type { CollectionConfig } from &#x27;payload&#x27;2
+3export const Users: CollectionConfig = {4  // ...5  auth: true, 6}
+
+
+## Access Control | Documentation | Payload
+
+URL: https://payloadcms.com/docs/access-control/overview
+
+Access Control determines what a user can and cannot do with any given Document, as well as what they can and cannot see within the [Admin Panel](../admin/overview). By implementing Access Control, you can define granular restrictions based on the user, their roles (RBAC), Document data, or any other criteria your application requires.
+
+Access Control functions are scoped to the *operation*, meaning you can have different rules for `create`, `read`, `update`, `delete`, etc. Access Control functions are executed *before* any changes are made and *before* any operations are completed. This allows you to determine if the user has the necessary permissions before fulfilling the request.
+
+There are many use cases for Access Control, including:
+
+- Allowing anyone `read` access to all posts
+- Only allowing public access to posts where a `status` field is equal to `published`
+- Giving only users with a `role` field equal to `admin` the ability to delete posts
+- Allowing anyone to submit contact forms, but only logged in users to `read`, `update` or `delete` them
+- Restricting a user to only be able to see their own orders, but no-one else&#x27;s
+- Allowing users that belong to a certain organization to access only that organization&#x27;s resources
+
+There are three main types of Access Control in Payload:
+
+- [Collection Access Control](./collections)
+- [Global Access Control](./globals)
+- [Field Access Control](./fields)
+
+[## Default Access Control
+
+](/docs/access-control/overview#default-access-control)Payload provides default Access Control so that your data is secured behind [Authentication](../authentication/overview) without additional configuration. To do this, Payload sets a default function that simply checks if a user is present on the request. You can override this default behavior by defining your own Access Control functions as needed.
+
+Here is the default Access Control that Payload provides:
+
+1const defaultPayloadAccess = ({ req: { user } }) => {2  // Return `true` if a user is found3  // and `false` if it is undefined or null4  return Boolean(user) 5}
+
+
+## Hooks Overview | Documentation | Payload
+
+URL: https://payloadcms.com/docs/hooks/overview
+
+Hooks allow you to execute your own side effects during specific events of the Document lifecycle. They allow you to do things like mutate data, perform business logic, integrate with third-parties, or anything else, all during precise moments within your application.
+
+With Hooks, you can transform Payload from a traditional CMS into a fully-fledged application framework. There are many use cases for Hooks, including:
+
+- Modify data before it is read or updated
+- Encrypt and decrypt sensitive data
+- Integrate with a third-party CRM like HubSpot or Salesforce
+- Send a copy of uploaded files to Amazon S3 or similar
+- Process orders through a payment provider like Stripe
+- Send emails when contact forms are submitted
+- Track data ownership or changes over time
+
+There are four main types of Hooks in Payload:
+
+- [Root Hooks](#root-hooks)
+- [Collection Hooks](../hooks/collections)
+- [Global Hooks](../hooks/globals)
+- [Field Hooks](../hooks/fields)
+
+**Reminder:** Payload also ships a set of *React* hooks that you can use in your frontend application. Although they share a common name, these are very different things and should not be confused. [More details](../admin/react-hooks).
+
+[## Root Hooks
+
+](/docs/hooks/overview#root-hooks)Root Hooks are not associated with any specific Collection, Global, or Field. They are useful for globally-oriented side effects, such as when an error occurs at the application level.
+
+To add Root Hooks, use the `hooks` property in your [Payload Config](../configuration/overview):
+
+1import { buildConfig } from &#x27;payload&#x27;2
+3export default buildConfig({4  // ...5  hooks: {6    afterError:[() => {...}]7  },8})
+
+
+## Plugins | Documentation | Payload
+
+URL: https://payloadcms.com/docs/plugins/overview
+
+Payload Plugins take full advantage of the modularity of the [Payload Config](../configuration/overview), allowing developers to easily inject custom—sometimes complex—functionality into Payload apps from a very small touch-point. This is especially useful for sharing your work across multiple projects or with the greater Payload community.
+
+There are many [Official Plugins](#official-plugins) available that solve for some of the most common uses cases, such as the [Form Builder Plugin](./form-builder) or [SEO Plugin](./seo). There are also [Community Plugins](#community-plugins) available, maintained entirely by contributing members. To extend Payload&#x27;s functionality in some other way, you can easily [build your own plugin](./build-your-own).
+
+To configure Plugins, use the `plugins` property in your [Payload Config](../configuration/overview):
+
+1import { buildConfig } from &#x27;payload&#x27;2
+3const config = buildConfig({4  // ...5  plugins: [6    // Add Plugins here7  ],8})
+
+
+## Production Deployment | Documentation | Payload
+
+URL: https://payloadcms.com/docs/production/deployment
+
+So you&#x27;ve developed a Payload app, it&#x27;s fully tested, and running great locally. Now it&#x27;s time to launch. **Awesome! Great work!** Now, what&#x27;s next?
+
+There are many ways to deploy Payload to a production environment. When evaluating how you will deploy Payload, you need to consider these main aspects:
+
+- [Basics](#basics)
+- [Security](#security)
+- [Your database](#database)
+- [Permanent File Storage](#file-storage)
+- [Docker](#docker)
+
+Payload can be deployed *anywhere that Next.js can run* - including Vercel, Netlify, SST, DigitalOcean, AWS, and more. Because it&#x27;s open source, you can self-host it.
+
+But it&#x27;s important to remember that most Payload projects will also need a database, file storage, an email provider, and a CDN. Make sure you have all of the requirements that your project needs, no matter what deployment platform you choose.
+
+Often, the easiest and fastest way to deploy Payload is to use [Payload Cloud](/new) — where you get everything you need out of the box, including:
+
+- A MongoDB Atlas database
+- S3 file storage
+- Resend email service
+- Cloudflare CDN
+- Blue / green deployments
+- Logs
+- And more
+
+[## Basics
+
+](/docs/production/deployment#basics)Payload runs fully in Next.js, so the [Next.js build process](https://nextjs.org/docs/app/building-your-application/deploying) is used for building Payload. If you&#x27;ve used `create-payload-app` to create your project, executing the `build` npm script will build Payload for production.
+
+[## Security
+
+](/docs/production/deployment#security)Payload features a suite of security features that you can rely on to strengthen your application&#x27;s security. When deploying to Production, it&#x27;s a good idea to double-check that you are making proper use of each of them.
+
+[### The Secret Key
+
+](/docs/production/deployment#the-secret-key)When you initialize Payload, you provide it with a `secret` property. This property should be impossible to guess and extremely difficult for brute-force attacks to crack. Make sure your Production `secret` is a long, complex string.
+
+[### Double-check and thoroughly test all Access Control
+
+](/docs/production/deployment#double-check-and-thoroughly-test-all-access-control)Because ***you*** are in complete control of who can do what with your data, you should double and triple-check that you wield that power responsibly before deploying to Production.
+
+**By default, all Access Control functions require that a user is successfully logged in to Payload to create, read, update, or delete data.**
+
+But, if you allow public user registration, for example, you will want to make sure that your access control functions are more strict - permitting **only appropriate users** to perform appropriate actions.
+
+[### Running in Production
+
+](/docs/production/deployment#running-in-production)Depending on where you deploy Payload, you may need to provide a start script to your deployment platform in order to start up Payload in production mode.
+
+Note that this is different than running `next dev`. Generally, Next.js apps come configured with a `start` script which runs `next start`.
+
+[### Secure Cookie Settings
+
+](/docs/production/deployment#secure-cookie-settings)You should be using an SSL certificate for production Payload instances, which means you can [enable secure cookies](../authentication/overview) in your Authentication-enabled Collection configs.
+
+[### Preventing API Abuse
+
+](/docs/production/deployment#preventing-api-abuse)Payload comes with a robust set of built-in anti-abuse measures, such as locking out users after X amount of failed login attempts, GraphQL query complexity limits, max `depth` settings, and more. [Click here to learn more](../production/preventing-abuse).
+
+[## Database
+
+](/docs/production/deployment#database)Payload can be used with any Postgres database or MongoDB-compatible database including AWS DocumentDB or Azure Cosmos DB. Make sure your production environment has access to the database that Payload uses.
+
+Out of the box, Payload templates pass the `process.env.DATABASE_URI` environment variable to its database adapters, so make sure you&#x27;ve got that environment variable (and all others that you use) assigned in your deployment platform.
+
+[### DocumentDB
+
+](/docs/production/deployment#documentdb)When using AWS DocumentDB, you will need to configure connection options for authentication in the `connectOptions` passed to the `mongooseAdapter` . You also need to set `connectOptions.useFacet` to `false` to disable use of the unsupported `$facet` aggregation.
+
+[### CosmosDB
+
+](/docs/production/deployment#cosmosdb)When using Azure Cosmos DB, an index is needed for any field you may want to sort on. To add the sort index for all fields that may be sorted in the admin UI use the [indexSortableFields](../configuration/overview) option.
+
+[## File storage
+
+](/docs/production/deployment#file-storage)If you are using Payload to [manage file uploads](../upload/overview), you need to consider where your uploaded files will be permanently stored. If you do not use Payload for file uploads, then this section does not impact your app whatsoever.
+
+[### Persistent vs Ephemeral Filesystems
+
+](/docs/production/deployment#persistent-vs-ephemeral-filesystems)Some cloud app hosts such as [Heroku](https://heroku.com) use `ephemeral` file systems, which means that any files uploaded to your server only last until the server restarts or shuts down. Heroku and similar providers schedule restarts and shutdowns without your control, meaning your uploads will accidentally disappear without any way to get them back.
+
+Alternatively, persistent filesystems will never delete your files and can be trusted to reliably host uploads perpetually.
+
+**Popular cloud providers with ephemeral filesystems:**
+
+- Heroku
+- DigitalOcean Apps
+
+**Popular cloud providers with persistent filesystems:**
+
+- DigitalOcean Droplets
+- Amazon EC2
+- GoDaddy
+- Many other more traditional web hosts
+
+  **Warning:**
+
+If you rely on Payload&#x27;s **Upload** functionality, make sure you either use a host with a persistent filesystem or have an integration with a third-party file host like Amazon S3.
+
+[### Using cloud storage providers
+
+](/docs/production/deployment#using-cloud-storage-providers)If you don&#x27;t use Payload&#x27;s `upload` functionality, you can completely disregard this section.
+
+But, if you do, and you still want to use an ephemeral filesystem provider, you can use one of Payload&#x27;s official cloud storage plugins or write your own to save the files your users upload to a more permanent storage solution like Amazon S3 or DigitalOcean Spaces.
+
+Payload provides a list of official cloud storage adapters for you to use:
+
+- [Azure Blob Storage](https://github.com/payloadcms/payload/tree/main/packages/storage-azure)
+- [Google Cloud Storage](https://github.com/payloadcms/payload/tree/main/packages/storage-gcs)
+- [AWS S3](https://github.com/payloadcms/payload/tree/main/packages/storage-s3)
+- [Uploadthing](https://github.com/payloadcms/payload/tree/main/packages/storage-uploadthing)
+- [Vercel Blob Storage](https://github.com/payloadcms/payload/tree/main/packages/storage-vercel-blob)
+
+Follow the docs to configure any one of these storage providers. For local development, it might be handy to simply store uploads on your own computer, and then when it comes to production, simply enable the plugin for the cloud storage vendor of your choice.
+
+[## Docker
+
+](/docs/production/deployment#docker)This is an example of a multi-stage docker build of Payload for production. Ensure you are setting your environment variables on deployment, like `PAYLOAD_SECRET`, `PAYLOAD_CONFIG_PATH`, and `DATABASE_URI` if needed.
+
+In your Next.js config, set the `output` property `standalone`.
+
+1// next.config.js2const nextConfig = {3  output: &#x27;standalone&#x27;,4}
+
