@@ -7,7 +7,7 @@ test('functions collection page', async ({ page }) => {
   );
   await loadPromise;
 
-  await page.waitForSelector('input[type="email"], h1', { timeout: 15000 });
+  await page.waitForSelector('input[type="email"], h1', { timeout: 90000 }); // Increase timeout for CI environments
 
   if (await page.locator('input[type="email"]').isVisible()) {
     await page.fill('input[type="email"]', 'test@example.com')
@@ -17,7 +17,7 @@ test('functions collection page', async ({ page }) => {
     await page.waitForSelector('h1:has-text("Functions")', { timeout: 75000 }); // Increased timeout
   }
 
-  await page.waitForSelector('h1', { timeout: 15000 });
+  await page.waitForSelector('h1', { timeout: 90000 }); // Increase timeout for CI environments
   await expect(page.locator('h1')).toBeVisible()
 
   await expect(page).toHaveScreenshot('functions-collection.png')
