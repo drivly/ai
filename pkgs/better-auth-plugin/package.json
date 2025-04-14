@@ -56,7 +56,7 @@
   "author": "Forrest Devs <luke.gannon@me.com>",
   "license": "MIT",
   "devDependencies": {
-    "@swc-node/register": "1.10.9",
+    "@swc-node/register": "1.10.10",
     "@swc/cli": "0.6.0",
     "@swc/core": "1.11.8",
     "@swc/jest": "^0.2.37",
