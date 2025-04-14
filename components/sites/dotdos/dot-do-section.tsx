@@ -7,12 +7,9 @@ import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Fragment } from 'react'
 import { DotDoItem } from './dot-do-item'
-import { Site } from '@/.velite/index'
-
-// const domainSuffix = process.env.DOMAIN_SUFFIX || ''
 
 export interface DotDoSectionProps {
-  sitesByCategory: Record<string, Site[]>
+  sitesByCategory: Record<string, any[]>
 }
 
 export const DotDoSection = (props: DotDoSectionProps) => {

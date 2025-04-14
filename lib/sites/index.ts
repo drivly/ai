@@ -29,6 +29,8 @@ export async function findSiteContent(domain: string, includeHero = false): Prom
   
   const normalizedSite = site.replace(/\.do(\.gt|\.mw)?$/, '.do');
   
+  const originalSite = site;
+  
   const siteContent = sites.find((s: any) => {
     const titleDomain = s.title.split(' - ')[0].toLowerCase();
     return normalizedSite === titleDomain.toLowerCase() || 

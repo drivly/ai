@@ -17,10 +17,9 @@ export function useSitesData() {
       const currentHostname = window.location.hostname
       setHostname(currentHostname)
       
-      if (currentHostname.endsWith('.do.gt')) {
-        setCurrentTld('.gt')
-      } else if (currentHostname.endsWith('.do.mw')) {
-        setCurrentTld('.mw')
+      const match = currentHostname.match(/\.do\.(gt|mw)$/)
+      if (match) {
+        setCurrentTld(`.${match[1]}`)
       } else {
         setCurrentTld('')
       }
