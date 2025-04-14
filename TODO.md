@@ -11,11 +11,16 @@
 - [x] Add tests for database URI modifier
 - [x] Move project-specific admin route to `/app/(admin)/project-admin/[domain]` to avoid routing conflicts
 - [x] Move existing API route from `/app/(projects)/projects/[domain]` to `/app/(apis)/projects/[domain]`
+- [x] Remove empty projects directory to resolve routing conflict
+- [x] Remove deprecated instrumentationHook from next.config.mjs
 
 ## Technical Challenges
 - [x] Routing conflict between admin page and existing API routes
   - Solution: Moved admin page to `/app/(admin)/project-admin/[domain]`
   - Solution: Moved API route to `/app/(apis)/projects/[domain]`
+- [ ] Potential routing conflicts with other [domain] routes:
+  - Found: `/app/(sites)/sites/[domain]`
+  - Found: `/app/(apis)/tenants/[domain]`
 - [ ] Verifying that the dynamic PayloadCMS instance works correctly with project-specific database
 - [ ] Ensuring proper authentication and authorization for project-specific admin interfaces
 
@@ -27,6 +32,12 @@
 - [ ] Verify that the default schema is applied when no schema is defined
 
 ## Deployment Status
-- [ ] PR created: https://github.com/drivly/ai/pull/1313
-- [ ] CI passing
+- [x] PR created: https://github.com/drivly/ai/pull/1313
+- [x] Tests passing
+- [ ] Build passing
 - [ ] Vercel deployment successful
+
+## Notes
+- The ai-studio-template deployment is failing, but this appears to be a separate project in the templates directory that's not directly related to our changes
+- The main app build is still pending
+- We've identified other [domain] directories in the app that might be causing routing conflicts
