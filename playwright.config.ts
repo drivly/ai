@@ -13,4 +13,5 @@ export default defineConfig({
       use: { browserName: 'chromium' },
     },
   ],
+  updateSnapshots: process.env.CI ? 'all' : 'missing',
 })
