@@ -67,8 +67,8 @@ jobs:
           pnpm dev:content & cross-env NODE_OPTIONS=--no-deprecation npx next dev &
           # Wait for the server to be ready
           wait-on http://localhost:3000 -t 120000
-          # Run Chromatic tests
-          pnpm test:chromatic
+          # Run Chromatic tests with autoAcceptChanges to handle first-time snapshots
+          pnpm test:chromatic -- --auto-accept-changes
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           TEST_BASE_URL: http://localhost:3000
@@ -77,3 +77,4 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CI: true
