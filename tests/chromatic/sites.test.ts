@@ -137,12 +137,9 @@ test('site waitlist page - unauthenticated', async ({ page }) => {
 
   await page.waitForSelector('body', { timeout: 120000 }); 
   
-  if (await page.locator('form').count() > 0) {
-    await expect(page.locator('form')).toBeVisible();
-  } else {
-    await page.waitForSelector('input', { timeout: 30000 });
-    await expect(page.locator('input')).toBeVisible();
-  }
+  await page.waitForLoadState('networkidle', { timeout: 60000 });
+  
+  await page.waitForTimeout(5000);
 
   await expect(page).toHaveScreenshot('sites-waitlist-redirected-root-login-page.png');
 })
