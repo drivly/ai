@@ -4,6 +4,10 @@ const meta: MetaRecord = {
   reference: {
     title: 'API Reference',
     display: 'normal'
+  },
+  clis: {
+    title: 'CLIs',
+    display: 'normal'
   }
 }
 
