@@ -8,6 +8,12 @@ export async function register() {
   if (process.env.NEXT_RUNTIME === 'edge') {
     await import('./sentry.edge.config')
   }
+  
+  if (typeof window !== 'undefined') {
+    await import('./instrumentation-client')
+      .then(({ register }) => register())
+      .catch(err => console.error('Error loading client instrumentation:', err))
+  }
 }
 
 export const onRequestError = async (err: Error, request: any, context: any) => {
