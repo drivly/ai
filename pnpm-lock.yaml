@@ -1831,8 +1831,8 @@ importers:
   sdks/searches.do:
     dependencies:
       apis.do:
-        specifier: 0.0.1
-        version: 0.0.1
+        specifier: 0.1.0
+        version: link:../apis.do
     devDependencies:
       eslint-config:
         specifier: 0.1.0
