@@ -167,3 +167,4 @@ dist
 public/_pagefind/
 
 *storybook.log
+stories/
