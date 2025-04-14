@@ -28,10 +28,56 @@ import {
  */
 
 /**
+ * Handle PostHog proxy requests
+ * Intercepts requests to PostHog API endpoints and forwards them to PostHog servers
+ */
+async function handlePostHogProxy(request: NextRequest) {
+  const url = new URL(request.url)
+  
+  if (!url.pathname.startsWith('/ingest') && !url.pathname.startsWith('/decide')) {
+    return null
+  }
+  
+  const posthogHost = process.env.POSTHOG_HOST || 'https://us.i.posthog.com'
+  const posthogUrl = new URL(url.pathname + url.search, posthogHost)
+  
+  const headers = new Headers(request.headers)
+  
+  const requestToForward = new Request(posthogUrl, {
+    method: request.method,
+    headers,
+    body: request.body,
+    redirect: 'follow',
+  })
+  
+  try {
+    const response = await fetch(requestToForward)
+    
+    const responseHeaders = new Headers(response.headers)
+    
+    responseHeaders.set('Access-Control-Allow-Origin', '*')
+    responseHeaders.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    responseHeaders.set('Access-Control-Allow-Headers', 'Content-Type')
+    
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: responseHeaders,
+    })
+  } catch (error) {
+    console.error('Error proxying PostHog request:', error)
+    return new Response('Error proxying request to PostHog', { status: 500 })
+  }
+}
+
+/**
  * Main middleware function
  * Handles routing logic for all incoming requests
  */
 export async function middleware(request: NextRequest) {
+  const posthogResponse = await handlePostHogProxy(request)
+  if (posthogResponse) return posthogResponse
+  
   return analyticsMiddleware(request, async () => {
     const handler = new RequestHandler(request)
     
@@ -101,5 +147,7 @@ export const config = {
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      */
     '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    '/ingest',
+    '/decide',
   ],
 }
