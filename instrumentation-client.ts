@@ -46,39 +46,4 @@ export function register() {
     document.head.appendChild(script)
   }
   
-  if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-    import('posthog-js').then((posthogModule) => {
-      const posthog = posthogModule.default
-      
-      posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY as string, {
-        api_host: '', // Use relative URL for proxy
-        person_profiles: 'always',
-        capture_pageview: false, // Disable automatic pageview capture, as we capture manually
-        capture_exceptions: {
-          capture_unhandled_errors: true,
-          capture_unhandled_rejections: true,
-          capture_console_errors: true,
-        },
-      })
-      
-      if (typeof window !== 'undefined') {
-        const handleRouteChange = () => {
-          const url = window.location.href
-          posthog.capture('$pageview', { $current_url: url })
-        }
-        
-        handleRouteChange()
-        
-        window.addEventListener('popstate', handleRouteChange)
-        
-        const originalPushState = history.pushState
-        history.pushState = function(...args) {
-          originalPushState.apply(this, args)
-          handleRouteChange()
-        }
-      }
-    }).catch(err => {
-      console.error('Error initializing PostHog:', err)
-    })
-  }
 }
