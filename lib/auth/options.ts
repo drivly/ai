@@ -65,6 +65,9 @@ export type BetterAuthPlugins = typeof betterAuthPlugins
 export const betterAuthOptions: BetterAuthOptions = {
   secret: process.env.BETTER_AUTH_SECRET as string,
   appName: '.do',
+  trustedOrigins: process.env.NODE_ENV === 'production' 
+    ? ['https://apis.do', 'https://workflows.do', 'https://functions.do', 'https://agents.do', 'https://llm.do'] 
+    : ['http://localhost:3000'],
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
