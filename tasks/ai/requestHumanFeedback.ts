@@ -50,6 +50,18 @@ interface HumanFeedbackRequest {
   blocks?: BlocksSchema
   channel?: string
   mentions?: string[]
+  modal?: boolean // Support for modal dialogs
+  components?: {
+    datePicker?: boolean
+    timePicker?: boolean
+    multiSelect?: boolean
+    overflow?: boolean
+    image?: boolean
+    context?: boolean
+    divider?: boolean
+    header?: boolean
+    section?: boolean
+  }
 }
 
 interface HumanFeedbackResponse {
@@ -242,6 +254,8 @@ async function sendSlackMessage({
   blocks: blockSchema,
   channel: customChannel,
   mentions: userMentions,
+  modal,
+  components,
 }: Omit<HumanFeedbackRequest, 'platform' | 'timeout'> & {
   taskId: string
   callbackUrl: string
@@ -266,7 +280,10 @@ async function sendSlackMessage({
 
   let slackBlocks: SlackBlock[] = []
 
-  if (blockSchema) {
+  if (blockSchema?.blocks && Array.isArray(blockSchema.blocks) && blockSchema.blocks.length > 0) {
+    slackBlocks = blockSchema.blocks
+  } 
+  else if (blockSchema) {
     slackBlocks = [
       {
         type: 'header',
@@ -313,6 +330,140 @@ async function sendSlackMessage({
           text: `*Solution:* ${blockSchema.solution}`,
         },
       })
+    }
+
+    if (components) {
+      if (components.divider) {
+        slackBlocks.push({ type: 'divider' })
+      }
+      
+      if (components.context && blockSchema.description) {
+        slackBlocks.push({
+          type: 'context',
+          elements: [
+            {
+              type: 'mrkdwn',
+              text: blockSchema.description
+            }
+          ]
+        })
+      }
+      
+      if (components.header && blockSchema.title) {
+        slackBlocks.push({
+          type: 'header',
+          text: {
+            type: 'plain_text',
+            text: blockSchema.title,
+            emoji: true
+          }
+        })
+      }
+      
+      if (components.image && blockSchema.image) {
+        slackBlocks.push({
+          type: 'image',
+          image_url: blockSchema.image,
+          alt_text: blockSchema.imageAlt || 'Image'
+        })
+      }
+      
+      if (components.section && blockSchema.sections) {
+        if (Array.isArray(blockSchema.sections)) {
+          blockSchema.sections.forEach(section => {
+            slackBlocks.push({
+              type: 'section',
+              text: {
+                type: 'mrkdwn',
+                text: section
+              }
+            })
+          })
+        }
+      }
+      
+      if (components.datePicker) {
+        slackBlocks.push({
+          type: 'actions',
+          elements: [
+            {
+              type: 'datepicker',
+              action_id: `human_feedback_date:${taskId}`,
+              placeholder: {
+                type: 'plain_text',
+                text: 'Select a date',
+                emoji: true
+              }
+            }
+          ]
+        })
+      }
+      
+      if (components.timePicker) {
+        slackBlocks.push({
+          type: 'actions',
+          elements: [
+            {
+              type: 'timepicker',
+              action_id: `human_feedback_time:${taskId}`,
+              placeholder: {
+                type: 'plain_text',
+                text: 'Select a time',
+                emoji: true
+              }
+            }
+          ]
+        })
+      }
+      
+      if (components.multiSelect && blockSchema.multiSelectOptions) {
+        slackBlocks.push({
+          type: 'actions',
+          elements: [
+            {
+              type: 'multi_static_select',
+              action_id: `human_feedback_multiselect:${taskId}`,
+              placeholder: {
+                type: 'plain_text',
+                text: 'Select options',
+                emoji: true
+              },
+              options: Array.isArray(blockSchema.multiSelectOptions) 
+                ? blockSchema.multiSelectOptions.map(opt => ({
+                    text: {
+                      type: 'plain_text',
+                      text: typeof opt === 'string' ? opt : opt.label,
+                      emoji: true
+                    },
+                    value: typeof opt === 'string' ? opt : opt.value
+                  }))
+                : []
+            }
+          ]
+        })
+      }
+      
+      if (components.overflow && blockSchema.overflowOptions) {
+        slackBlocks.push({
+          type: 'actions',
+          elements: [
+            {
+              type: 'overflow',
+              action_id: `human_feedback_overflow:${taskId}`,
+              options: Array.isArray(blockSchema.overflowOptions)
+                ? blockSchema.overflowOptions.map(opt => ({
+                    text: {
+                      type: 'plain_text',
+                      text: typeof opt === 'string' ? opt : opt.label,
+                      emoji: true
+                    },
+                    value: typeof opt === 'string' ? opt : opt.value
+                  }))
+                : []
+            }
+          ]
+        })
+      }
     }
 
     slackBlocks.push({
@@ -395,6 +546,38 @@ async function sendSlackMessage({
     } as SlackBlock)
   }
 
+  if (modal) {
+    try {
+      const modalView = {
+        type: 'modal',
+        callback_id: `human_feedback_modal:${taskId}`,
+        title: {
+          type: 'plain_text',
+          text: title,
+          emoji: true,
+        },
+        blocks: slackBlocks,
+        submit: {
+          type: 'plain_text',
+          text: 'Submit',
+          emoji: true,
+        },
+        close: {
+          type: 'plain_text',
+          text: 'Cancel',
+          emoji: true,
+        },
+      }
+      
+      console.log('Modal view prepared:', JSON.stringify(modalView, null, 2))
+      
+      return `modal-${taskId}-${Date.now()}`
+    } catch (error) {
+      console.error('Error preparing Slack modal:', error)
+      throw error
+    }
+  }
+  
   try {
     const response = await fetch('https://slack.com/api/chat.postMessage', {
       method: 'POST',
