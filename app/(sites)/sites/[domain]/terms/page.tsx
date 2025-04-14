@@ -2,7 +2,7 @@ import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
-async function TermsPage(props: { params: Promise<{ domain: string }> }) {
+async function TermsPage(props: { params: Promise<{ domain: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const { domain } = await props.params
 
   return (
