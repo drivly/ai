@@ -4,8 +4,8 @@ import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { getAllBlogPosts, getAllCategories } from './blog-posts'
 
-async function BlogPage(props: { params: Promise<{ domain: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
-  const { domain } = await props.params
+async function BlogPage(props: { params: { domain: string }, searchParams?: { [key: string]: string | string[] | undefined } }) {
+  const { domain } = props.params
   const searchParams = await props.searchParams
   // Move data fetching to the server component
   const posts = getAllBlogPosts()

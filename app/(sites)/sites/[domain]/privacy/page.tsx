@@ -2,8 +2,8 @@ import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
-async function PrivacyPage(props: { params: Promise<{ domain: string }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
-  const { domain } = await props.params
+async function PrivacyPage(props: { params: { domain: string }, searchParams?: { [key: string]: string | string[] | undefined } }) {
+  const { domain } = props.params
   const searchParams = await props.searchParams
 
   return (
