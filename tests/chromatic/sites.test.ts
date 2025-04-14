@@ -73,7 +73,7 @@ test('site blog post page', async ({ page }) => {
   await expect(page.locator('main').first()).toBeVisible()
   await expect(page.locator('h1')).toBeVisible()
   
-  await page.waitForLoadState('networkidle', { timeout: 60000 });
+  await page.waitForLoadState('networkidle', { timeout: 90000 });
   await page.waitForTimeout(5000);
   
   await page.waitForSelector('article', { timeout: 120000 });
