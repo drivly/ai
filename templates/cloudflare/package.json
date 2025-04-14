@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "next build",
-    "build": "open-next build",
+    "build": "node build.js",
     "start": "next start",
     "lint": "next lint",
     "preview": "wrangler pages dev ./.open-next/standalone",
