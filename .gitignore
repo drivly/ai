@@ -167,4 +167,7 @@ dist
 public/_pagefind/
 
 # Playwright test results
+# Playwright snapshots
+tests/chromatic/sites.test.ts-snapshots/
+
 test-results/
