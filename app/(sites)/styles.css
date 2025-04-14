@@ -54,7 +54,7 @@
      */
 }
 
-html.dark, body.dark, .dark {
+html.dark .sites-layout, body.dark .sites-layout, .dark.sites-layout {
   --background: oklch(0 0 0) !important;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.14 0 0);
