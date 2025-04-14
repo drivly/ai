@@ -5,15 +5,6 @@ import { fileURLToPath } from 'node:url'
 
 import { CLI as ApisCLI } from 'apis.do/src/cli'
 
-let WorkflowsCLI: any = null
-
-async function loadWorkflowsCLI() {
-  try {
-    const workflowsModule = await import('workflows.do/src/cli')
-    WorkflowsCLI = workflowsModule.CLI
-  } catch (error) {
-  }
-}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const packageJsonPath = path.join(__dirname, '..', '..', 'package.json')
@@ -34,7 +25,6 @@ try {
 const args = process.argv.slice(2)
 
 async function main() {
-  await loadWorkflowsCLI()
   if (args.length === 0 || args[0] === '--help' || args[0] === '-h') {
     showHelp()
     return
@@ -66,15 +56,10 @@ async function main() {
         }), sdkArgs)
         break
       case 'workflows.do':
-        if (WorkflowsCLI) {
-          await executeSdkCommand('workflows', new WorkflowsCLI({
-            apiKey: process.env.WORKFLOWS_DO_API_KEY || process.env.DO_API_KEY,
-            configPath,
-          }), sdkArgs)
-        } else {
-          console.error('Workflows CLI implementation not available')
-          process.exit(1)
-        }
+        await executeSdkCommand('workflows', new ApisCLI({
+          apiKey: process.env.WORKFLOWS_DO_API_KEY || process.env.DO_API_KEY,
+          configPath,
+        }), sdkArgs, 'workflows')
         break
       case 'functions.do':
         await executeSdkCommand('functions', new ApisCLI({
