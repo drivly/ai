@@ -27,11 +27,13 @@ interface SiteContent {
 export async function findSiteContent(domain: string, includeHero = false): Promise<SiteContent> {
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do');
   
+  const normalizedSite = site.replace(/\.do(\.gt|\.mw)?$/, '.do');
+  
   const siteContent = sites.find((s: any) => {
     const titleDomain = s.title.split(' - ')[0].toLowerCase();
-    return site === titleDomain.toLowerCase() || 
-           site === titleDomain.toLowerCase().replace('.do', '') ||
-           s.title.toLowerCase().includes(site.toLowerCase());
+    return normalizedSite === titleDomain.toLowerCase() || 
+           normalizedSite === titleDomain.toLowerCase().replace('.do', '') ||
+           s.title.toLowerCase().includes(normalizedSite.toLowerCase());
   });
   
   if (!siteContent) {
