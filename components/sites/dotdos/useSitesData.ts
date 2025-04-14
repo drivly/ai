@@ -6,6 +6,7 @@ export function useSitesData() {
   const searchParams = useSearchParams()
   const [hostname, setHostname] = useState<string>('')
   const [mounted, setMounted] = useState(false)
+  const [regionalTld, setRegionalTld] = useState<string>('')
 
   const absoluteURL = searchParams?.get('absolute') || 'false'
   const showAbsolute = absoluteURL === 'true'
@@ -13,7 +14,15 @@ export function useSitesData() {
   useEffect(() => {
     setMounted(true)
     if (typeof window !== 'undefined') {
-      setHostname(window.location.hostname)
+      const currentHostname = window.location.hostname
+      setHostname(currentHostname)
+      
+      const match = currentHostname.match(/\.do\.(gt|mw)$/)
+      if (match) {
+        setRegionalTld(`.${match[1]}`)
+      } else {
+        setRegionalTld('')
+      }
     }
   }, [])
 
@@ -23,5 +32,6 @@ export function useSitesData() {
     mounted,
     isBrandDomain,
     showAbsolute,
+    regionalTld,
   }
 }

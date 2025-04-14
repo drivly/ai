@@ -7,18 +7,17 @@ import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Fragment } from 'react'
 import { DotDoItem } from './dot-do-item'
-import { Site } from '@/.velite/index'
 
 const domainSuffix = process.env.DOMAIN_SUFFIX || ''
 
 export interface DotDoSectionProps {
-  sitesByCategory: Record<string, Site[]>
+  sitesByCategory: Record<string, any[]>
 }
 
 export const DotDoSection = (props: DotDoSectionProps) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const { mounted, isBrandDomain, showAbsolute } = useSitesData()
+  const { mounted, isBrandDomain, showAbsolute, regionalTld } = useSitesData()
 
   return (
     <Fragment>
@@ -54,13 +53,17 @@ export const DotDoSection = (props: DotDoSectionProps) => {
           <div className='mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
             {sites.map((site, index) => {
               const domain = site.title.split(' - ')[0]
+              const displayTitle = domain.replace(/\.do(\.gt|\.mw)?$/, '.do')
+              
+              const currentTld = regionalTld || domainSuffix
+              
               return (
                 <DotDoItem
                   key={`${domain}-${index}`}
-                  title={domain}
+                  title={displayTitle}
                   href={showAbsolute || isBrandDomain 
-                    ? `https://${domain}${domainSuffix}` 
-                    : `/sites/${domain}${domainSuffix}`}
+                    ? `https://${domain}${currentTld}` 
+                    : `/sites/${domain}${currentTld}`}
                   description={site.description}
                   hasSdk={sdks.includes(domain)}
                   mounted={mounted}
