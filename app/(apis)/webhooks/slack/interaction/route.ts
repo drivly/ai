@@ -216,7 +216,7 @@ export async function POST(req: NextRequest) {
           
           else if (action.action_id.startsWith('human_feedback_multiselect:')) {
             const taskId = action.action_id.split(':')[1]
-            const selectedOptions = action.selected_options.map(opt => opt.value).join(', ')
+            const selectedOptions = action.selected_options.map((opt: { value: string }) => opt.value).join(', ')
             
             await processHumanFeedbackResponse(
               {
@@ -287,18 +287,35 @@ export async function POST(req: NextRequest) {
           const taskId = callback_id.split(':')[1]
           const values = view.state.values
           
-          const response = Object.entries(values).reduce((acc, [blockId, blockValues]) => {
-            const actionId = Object.keys(blockValues)[0]
-            if (actionId) {
-              const value = blockValues[actionId].value
-              if (blockId.includes('option_select')) {
-                acc.option = value
-              } else if (blockId.includes('text_input')) {
-                acc.text = value
+          const response: { option?: string; text?: string } = {}
+          
+          if (values && typeof values === 'object') {
+            for (const [blockId, blockValues] of Object.entries(values)) {
+              if (!blockValues || typeof blockValues !== 'object') continue
+              
+              const actionIds = Object.keys(blockValues)
+              if (!actionIds.length) continue
+              
+              const actionId = actionIds[0]
+              const actionData = blockValues[actionId as keyof typeof blockValues]
+              
+              if (!actionData || typeof actionData !== 'object') continue
+              
+              if ('value' in actionData) {
+                const typedActionData = actionData as Record<string, unknown>
+                const value = typedActionData.value
+                if (value !== undefined) {
+                  const stringValue = String(value)
+                  
+                  if (blockId.includes('option_select')) {
+                    response.option = stringValue
+                  } else if (blockId.includes('text_input')) {
+                    response.text = stringValue
+                  }
+                }
               }
             }
-            return acc
-          }, {} as { option?: string; text?: string })
+          }
           
           await processHumanFeedbackResponse(
             {
