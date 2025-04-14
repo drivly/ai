@@ -59,8 +59,16 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
         
-      - name: Run Chromatic Tests
-        run: pnpm test:chromatic
+      - name: Start Server and Run Chromatic Tests
+        run: |
+          # Start the server in the background
+          pnpm dev &
+          # Wait for the server to be ready
+          npx wait-on http://localhost:3000 -t 60000
+          # Run Chromatic tests
+          pnpm test:chromatic
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           TEST_BASE_URL: http://localhost:3000
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
