@@ -1,11 +1,23 @@
 'use client'
 
-import React, { Suspense, useEffect } from 'react'
-import { PostHogProvider as PHProvider } from 'posthog-js/react'
-import posthog from 'posthog-js'
-import { usePostHogIdentification } from './usePostHogIdentification'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { usePostHog } from 'posthog-js/react'
+import { Suspense, useEffect } from 'react'
+
+import posthog from 'posthog-js'
+import { PostHogProvider as PHProvider } from 'posthog-js/react'
+import { usePostHogIdentification } from './usePostHogIdentification'
+
+export function captureError(error: Error, context?: Record<string, any>) {
+  if (typeof window !== 'undefined' && posthog) {
+    posthog.capture('error', {
+      error_message: error.message,
+      error_name: error.name,
+      error_stack: error.stack,
+      ...context
+    })
+  }
+}
 
 function PostHogPageView() {
   const pathname = usePathname()
