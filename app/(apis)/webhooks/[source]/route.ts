@@ -24,6 +24,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
         data,
         type: data.type || 'webhook.received',
         source: source,
+        tenant: process.env.DEFAULT_TENANT || 'apis.do' // Set default tenant
       },
     })
 

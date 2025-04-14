@@ -41,12 +41,21 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
 
     // Store the event in the database
     const payloadInstance = await getPayload({ config })
-    const results = await payloadInstance.create({ collection: 'events', data: { data } })
+    const results = await payloadInstance.create({ 
+      collection: 'events', 
+      data: { 
+        data,
+        tenant: process.env.DEFAULT_TENANT || 'apis.do' // Set default tenant
+      } 
+    })
 
     console.log('Webhook verified and processed:', results, data)
     return { results, data }
   } catch (err) {
     console.error('Webhook verification failed:', err)
+    if (err.message && err.message.includes('tenant')) {
+      return new Response('Tenant validation failed: ' + err.message, { status: 400 })
+    }
     return new Response('Webhook verification failed', { status: 401 })
   }
 })
