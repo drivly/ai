@@ -112,7 +112,7 @@ importers:
         version: 1.1.0(@aws-sdk/credential-providers@3.787.0)(@mdx-js/mdx@3.1.0(acorn@8.14.1))(encoding@0.1.13)(web-streams-polyfill@4.1.0)(ws@8.18.1)
       apis.do:
         specifier: 0.0.1
-        version: link:sdks/apis.do
+        version: 0.0.1
       better-auth:
         specifier: 1.2.7
         version: 1.2.7
@@ -154,7 +154,7 @@ importers:
         version: 0.1.13
       functions.do:
         specifier: 0.0.1
-        version: link:sdks/functions.do
+        version: 0.0.1
       geolib:
         specifier: ^3.3.4
         version: 3.3.4
@@ -289,7 +289,7 @@ importers:
         version: 3.9.19
       workflows.do:
         specifier: 0.0.1
-        version: link:sdks/workflows.do
+        version: 0.0.1
       yaml:
         specifier: ^2.7.0
         version: 2.7.1
@@ -443,7 +443,7 @@ importers:
     dependencies:
       apis.do:
         specifier: 0.0.1
-        version: link:../../sdks/apis.do
+        version: 0.0.1
 
   pkgs/ai-functions:
     dependencies:
@@ -497,7 +497,7 @@ importers:
         specifier: ^9.17.0
         version: 9.24.0(jiti@2.4.2)
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       execa:
         specifier: ^9.5.2
@@ -506,7 +506,7 @@ importers:
         specifier: ^3.4.2
         version: 3.5.3
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       typescript:
         specifier: ^5.7.2
@@ -537,13 +537,13 @@ importers:
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
     devDependencies:
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       typescript:
         specifier: ^5.8.2
@@ -567,20 +567,20 @@ importers:
         specifier: ^2.2.37
         version: 2.2.37(react@19.0.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3))
       ai-models:
-        specifier: workspace:*
+        specifier: 0.2.0
         version: link:../ai-models
     devDependencies:
       '@types/node':
         specifier: ^22.13.10
         version: 22.14.0
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       typescript:
         specifier: ^5.8.2
@@ -592,20 +592,20 @@ importers:
   pkgs/ai-workflows:
     dependencies:
       ai-functions:
-        specifier: workspace:*
+        specifier: 0.3.0
         version: link:../ai-functions
     devDependencies:
       '@types/node':
         specifier: ^22.0.0
         version: 22.14.0
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       rimraf:
         specifier: ^5.0.0
         version: 5.0.10
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       typescript:
         specifier: ^5.0.0
@@ -635,7 +635,7 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       payload:
         specifier: ^3.33.0
@@ -647,7 +647,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       typescript:
         specifier: ^5.7.2
@@ -662,7 +662,7 @@ importers:
         specifier: 0.2.4
         version: 0.2.4
       '@drivly/ui':
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../ui
       '@payloadcms/ui':
         specifier: ^3.33.0
@@ -735,7 +735,7 @@ importers:
         specifier: ^2.4.1
         version: 2.4.1
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       jest:
         specifier: ^29.7.0
@@ -753,7 +753,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       typescript:
         specifier: 5.8.2
@@ -763,28 +763,28 @@ importers:
     dependencies:
       apis.do:
         specifier: 0.0.1
-        version: link:../../sdks/apis.do
+        version: 0.0.1
       database.do:
         specifier: 0.0.1
         version: link:../../sdks/database.do
       functions.do:
         specifier: 0.0.1
-        version: link:../../sdks/functions.do
+        version: 0.0.1
       workflows.do:
         specifier: 0.0.1
-        version: link:../../sdks/workflows.do
+        version: 0.0.1
 
   pkgs/clickable-apis:
     dependencies:
       simple-payload:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../simple-payload
     devDependencies:
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
 
   pkgs/deploy-worker:
@@ -815,13 +815,13 @@ importers:
         specifier: ^9.23.0
         version: 9.24.0(jiti@2.4.2)
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       tsup:
         specifier: ^8.4.0
@@ -858,13 +858,13 @@ importers:
         specifier: ^9.23.0
         version: 9.24.0(jiti@2.4.2)
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       tsup:
         specifier: ^8.4.0
@@ -894,13 +894,13 @@ importers:
         specifier: ^9.23.0
         version: 9.24.0(jiti@2.4.2)
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       tsup:
         specifier: ^8.4.0
@@ -1074,13 +1074,13 @@ importers:
   pkgs/payload-hooks-queue:
     devDependencies:
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       payload:
         specifier: ^3.33.0
         version: 3.34.0(graphql@16.10.0)(typescript@5.8.3)
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
 
   pkgs/payload-theme:
@@ -1127,13 +1127,13 @@ importers:
         specifier: ^22.13.11
         version: 22.14.0
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       payload:
         specifier: ^3.0.0
         version: 3.34.0(graphql@16.10.0)(typescript@5.8.3)
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       tsup:
         specifier: ^7.2.0
@@ -1179,10 +1179,10 @@ importers:
         specifier: ^8.54.0
         version: 8.57.1
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       typescript:
         specifier: ^5.3.2
@@ -1204,7 +1204,7 @@ importers:
         specifier: ^2.0.0
         version: 2.32.2(@swc/helpers@0.5.17)(@types/react@19.0.10)(encoding@0.1.13)(esbuild@0.25.2)(typescript@5.8.3)(webpack@5.99.5(@swc/core@1.11.20(@swc/helpers@0.5.17))(esbuild@0.25.2))
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       tsup:
         specifier: ^8.0.0
@@ -1223,10 +1223,10 @@ importers:
         specifier: ^22.0.0
         version: 22.14.0
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
       tsup:
         specifier: ^8.0.0
@@ -1245,13 +1245,13 @@ importers:
         version: 3.0.5
     devDependencies:
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../eslint-config
       payload:
         specifier: ^3.33.0
         version: 3.34.0(graphql@16.10.0)(typescript@5.8.3)
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../tsconfig
 
   pkgs/tsconfig: {}
@@ -1771,14 +1771,14 @@ importers:
   sdks/plans.do:
     dependencies:
       apis.do:
-        specifier: workspace:*
-        version: link:../apis.do
+        specifier: 0.0.1
+        version: 0.0.1
     devDependencies:
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../../pkgs/eslint-config
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
@@ -1787,14 +1787,14 @@ importers:
   sdks/projects.do:
     dependencies:
       apis.do:
-        specifier: workspace:*
-        version: link:../apis.do
+        specifier: 0.0.1
+        version: 0.0.1
     devDependencies:
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../../pkgs/eslint-config
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
@@ -1803,14 +1803,14 @@ importers:
   sdks/sdk.do:
     dependencies:
       apis.do:
-        specifier: workspace:*
-        version: link:../apis.do
+        specifier: 0.0.1
+        version: 0.0.1
     devDependencies:
       '@types/react':
         specifier: 18.2.0
         version: 18.2.0
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../../pkgs/eslint-config
       evalite:
         specifier: ^0.10.0
@@ -1819,7 +1819,7 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.11.20(@swc/helpers@0.5.17))(@types/node@22.14.0)(typescript@5.8.3)
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../../pkgs/tsconfig
       typescript:
         specifier: ^5.7.3
@@ -1831,17 +1831,17 @@ importers:
   sdks/searches.do:
     dependencies:
       apis.do:
-        specifier: workspace:*
-        version: link:../apis.do
+        specifier: 0.0.1
+        version: 0.0.1
     devDependencies:
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../../pkgs/eslint-config
       evalite:
         specifier: ^0.10.0
         version: 0.10.0
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../../pkgs/tsconfig
       typescript:
         specifier: ^5.0.0
@@ -1853,14 +1853,14 @@ importers:
   sdks/tasks.do:
     dependencies:
       apis.do:
-        specifier: workspace:*
-        version: link:../apis.do
+        specifier: 0.0.1
+        version: 0.0.1
     devDependencies:
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../../pkgs/eslint-config
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
@@ -1869,17 +1869,17 @@ importers:
   sdks/triggers.do:
     dependencies:
       apis.do:
-        specifier: workspace:*
-        version: link:../apis.do
+        specifier: 0.0.1
+        version: 0.0.1
     devDependencies:
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../../pkgs/eslint-config
       evalite:
         specifier: ^0.10.0
         version: 0.10.0
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../../pkgs/tsconfig
       tsup:
         specifier: ^8.0.1
@@ -1894,74 +1894,74 @@ importers:
   sdks/workflows.do:
     dependencies:
       actions.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../actions.do
       analytics.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../analytics.do
       apis.do:
-        specifier: workspace:*
-        version: link:../apis.do
+        specifier: 0.0.1
+        version: 0.0.1
       database.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../database.do
       evals.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../evals.do
       experiments.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../experiments.do
       functions.do:
-        specifier: workspace:*
-        version: link:../functions.do
+        specifier: 0.0.1
+        version: 0.0.1
       goals.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../goals.do
       gpt.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../gpt.do
       integrations.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../integrations.do
       llm.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../llm.do
       mcp.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../mcp.do
       models.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../models.do
       plans.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../plans.do
       projects.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../projects.do
       sdk.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../sdk.do
       searches.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../searches.do
       tasks.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../tasks.do
       triggers.do:
-        specifier: workspace:*
+        specifier: 0.0.1
         version: link:../triggers.do
     devDependencies:
       durable-objects-nosql:
-        specifier: workspace:*
+        specifier: 0.2.0
         version: link:../../pkgs/durable-objects-nosql
       eslint-config:
-        specifier: workspace:*
+        specifier: 0.1.0
         version: link:../../pkgs/eslint-config
       evalite:
         specifier: ^0.10.0
         version: 0.10.0
       tsconfig:
-        specifier: workspace:*
+        specifier: 0.0.0
         version: link:../../pkgs/tsconfig
       typescript:
         specifier: ^5.0.0
@@ -9266,6 +9266,9 @@ packages:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
     engines: {node: '>= 8'}
 
+  apis.do@0.0.1:
+    resolution: {integrity: sha512-VghuOjKF/ElhSdqvJT2PIPGJ+AVdrX+rQkZuUCPTP9YzyvwxIaWDqKnr5cZxAlz8PXDUcmSGOXZSK5aPI0iwqA==}
+
   app-root-path@3.1.0:
     resolution: {integrity: sha512-biN3PwB2gUtjaYy/isrU3aNWI5w+fAfvHkSvCKeQGxhmYpwKFUxudR3Yya+KqVRHBmEDYh+/lTozYCFbmzX4nA==}
     engines: {node: '>= 6.0.0'}
@@ -11944,6 +11947,9 @@ packages:
 
   functions-have-names@1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
+
+  functions.do@0.0.1:
+    resolution: {integrity: sha512-pwCR8vxJ4Q8Nd77Gj+oac0Zxh2y7d25IPDe39TWcBvCbNEiCzt4BkJ7IimeKnqnIaa4TWs4XQvp6D3c0EY9ExQ==}
 
   fuse.js@7.1.0:
     resolution: {integrity: sha512-trLf4SzuuUxfusZADLINj+dE8clK1frKdmqiJNb1Es75fmI5oY6X2mxLVUciLLjxqw/xr72Dhy+lER6dGd02FQ==}
@@ -19031,6 +19037,9 @@ packages:
     resolution: {integrity: sha512-hqjX9swiHvrkOI3jlH9lrZsZRRv9lddUwcMe8Ua76jnyQz+brybWznNjHu8U5oswwcrFwvky1A4CcLjcLY31gQ==}
     engines: {node: '>=16'}
     hasBin: true
+
+  workflows.do@0.0.1:
+    resolution: {integrity: sha512-2UaSOg3p49zXCaXcdt8f5JyM2Y7B4Arv2rJoOv4SPT/vQ9bpl1Svn7FtN5M9V7u4x8I65O7T4c0B4+xEwTHlfQ==}
 
   wrangler@4.10.0:
     resolution: {integrity: sha512-fTE4hZ79msEUt8+HEjl/8Q72haCyzPLu4PgrU3L81ysmjrMEdiYfUPqnvCkBUVtJvrDNdctTEimkufT1Y0ipNg==}
@@ -28206,6 +28215,8 @@ snapshots:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
+  apis.do@0.0.1: {}
+
   app-root-path@3.1.0: {}
 
   arch@3.0.0: {}
@@ -30598,7 +30609,7 @@ snapshots:
       '@typescript-eslint/parser': 8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2))
+      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react: 7.37.5(eslint@9.24.0(jiti@2.4.2))
@@ -30615,6 +30626,21 @@ snapshots:
       debug: 3.2.7
       is-core-module: 2.16.1
       resolve: 1.22.10
+    transitivePeerDependencies:
+      - supports-color
+
+  eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
+    dependencies:
+      '@nolyfill/is-core-module': 1.0.39
+      debug: 4.4.0
+      eslint: 9.24.0(jiti@2.4.2)
+      get-tsconfig: 4.10.0
+      is-bun-module: 2.0.0
+      stable-hash: 0.0.5
+      tinyglobby: 0.2.12
+      unrs-resolver: 1.5.0
+    optionalDependencies:
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2))
     transitivePeerDependencies:
       - supports-color
 
@@ -30644,14 +30670,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2))
+      eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
     transitivePeerDependencies:
       - supports-color
 
@@ -30695,7 +30721,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.29.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -31573,6 +31599,8 @@ snapshots:
       is-callable: 1.2.7
 
   functions-have-names@1.2.3: {}
+
+  functions.do@0.0.1: {}
 
   fuse.js@7.1.0: {}
 
@@ -40725,6 +40753,8 @@ snapshots:
       '@cloudflare/workerd-linux-64': 1.20250409.0
       '@cloudflare/workerd-linux-arm64': 1.20250409.0
       '@cloudflare/workerd-windows-64': 1.20250409.0
+
+  workflows.do@0.0.1: {}
 
   wrangler@4.10.0(@cloudflare/workers-types@4.20250414.0):
     dependencies:
