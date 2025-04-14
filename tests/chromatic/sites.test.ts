@@ -145,5 +145,5 @@ test('site waitlist page - unauthenticated', async ({ page }) => {
   
   await page.waitForTimeout(5000);
 
-  await expect(page).toHaveScreenshot('sites-waitlist-redirected-root-login-page.png');
+  await expect(page).toHaveScreenshot('sites-waitlist-redirected-to-login.png');
 })
