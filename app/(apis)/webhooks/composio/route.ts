@@ -3,6 +3,32 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Webhook } from 'svix'
 
+function sanitizeDataForMongoDB(data: any): any {
+  if (data === null || data === undefined) {
+    return data;
+  }
+  
+  if (Array.isArray(data)) {
+    return data.map(item => sanitizeDataForMongoDB(item));
+  }
+  
+  if (typeof data === 'object') {
+    const sanitized: Record<string, any> = {};
+    for (const [key, value] of Object.entries(data)) {
+      if (!key.startsWith('$') && !key.includes('.')) {
+        sanitized[key] = sanitizeDataForMongoDB(value);
+      }
+    }
+    return sanitized;
+  }
+  
+  if (typeof data === 'string' && data.length === 24 && /^[0-9a-fA-F]{24}$/.test(data)) {
+    return `id_${data}`;
+  }
+  
+  return data;
+}
+
 export const POST = API(async (request, { db, user, origin, url, domain }) => {
   // Get the webhook secret from environment variables
   const secret = process.env.COMPOSIO_WEBHOOK_SECRET
@@ -39,13 +65,17 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
     // Parse the verified payload
     const data = JSON.parse(rawBody)
 
+    const sanitizedData = sanitizeDataForMongoDB(data)
+
     // Store the event in the database
     const payloadInstance = await getPayload({ config })
     const results = await payloadInstance.create({ 
       collection: 'events', 
       data: { 
-        data,
-        tenant: process.env.DEFAULT_TENANT || 'apis.do' // Set default tenant
+        data: sanitizedData,
+        tenant: process.env.DEFAULT_TENANT || 'apis.do', // Set default tenant
+        type: data.type || 'webhook.composio', // Set default type
+        source: 'composio' // Set source
       } 
     })
 
