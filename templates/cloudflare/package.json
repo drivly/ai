@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "open-next build",
+    "build": "npx open-next build",
     "start": "next start",
     "lint": "next lint",
     "deploy": "wrangler deploy",
