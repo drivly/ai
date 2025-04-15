@@ -108,6 +108,48 @@ const customerSupportAgent = Agent({
 
 ## `Business`
 
+The `Business` function allows [Business](/docs/business) goals to be defined through [Objectives](/docs/business/objectives) and [Key Results](/docs/business/key-results):
+
+```typescript
+import { Business } from 'businesses.do'
+
+const newCo = Business({
+  name: 'NewCo',
+  url: 'https://new.co',
+  goals: [
+    {
+      objective: 'Grow revenue by 10% month over month',
+      keyResults: ['revenue', 'growthRate'],
+    },
+  ],
+})
+```
+
 ## `DB`
 
-## `Workflow`
+The `DB` function allows a [Database](/docs/data/database) to be defined via [Payload](https://payloadcms.com) for either MongoDB, PostgreSQL, or SQLite:
+
+```typescript
+import { DB } from 'database.do'
+
+const db = DB({
+  posts: {
+    title: 'text',
+    content: 'richtext',
+    status: 'Draft | Published | Archived', // Select field with predefined options
+    contentType: 'Text | Markdown | Code | Object | Schema', // Another select field example
+    tags: 'tags[]',
+    author: 'authors',
+  },
+  tags: {
+    name: 'text',
+    posts: '<-posts.tags', // Join field to posts (reverse relation)
+  },
+  authors: {
+    name: 'text',
+    email: 'email',
+    role: 'Admin | Editor | Writer', // Select field with predefined options
+    posts: '<-posts.author', // Join field to posts (reverse relation)
+  },
+})
+```
