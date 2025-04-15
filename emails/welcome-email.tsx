@@ -55,10 +55,10 @@ export const WelcomeEmail = ({ name }: { name: string }) => (
               <Link href='https://discord.gg/qus39VeA' className='text-indigo-600 no-underline'>
                 Discord
               </Link>
-              {/* {' | '}
-              <Link href='https://x.com/driveydotly' className='text-indigo-600 no-underline'>
+              {' | '}
+              <Link href='https://x.com/dotdo_ai' className='text-indigo-600 no-underline'>
                 X
-              </Link> */}
+              </Link>
             </Text>
           </Section>
 
