@@ -5,6 +5,6 @@
       "schedule": "*/5 * * * *"
     }
   ],
-  "buildCommand": "pnpm build",
-  "installCommand": "npm i -g pnpm && pnpm install --no-frozen-lockfile"
+  "buildCommand": "pnpm run build",
+  "installCommand": "pnpm install --no-frozen-lockfile"
 }
