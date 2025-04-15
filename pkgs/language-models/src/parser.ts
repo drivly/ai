@@ -471,10 +471,6 @@ export function getModels(modelIdentifier: string) {
   
   if (segment.trim()) result.push(segment.trim())
 
-  console.log(
-    result
-  )
-
   // Resolve each segment
   return result.map(r => getModel(r)) as (Model & { parsed: ParsedModelIdentifier })[]
 }

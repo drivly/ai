@@ -1,11 +1,11 @@
 {
-  "name": "language-models",
-  "version": "0.1.0",
-  "description": "Language model abstractions",
+  "name": "ai-models",
+  "version": "0.2.0",
+  "description": "AI model abstractions",
   "main": "dist/index.js",
   "scripts": {
     "dev": "dotenvx run -- npx tsx watch src/demo.ts",
-    "build": "rimraf dist && tsc && rm dist/models.d.ts && cp src/models.d.ts dist/",
+    "build": "rimraf dist && tsc",
     "generate:models": "npx tsx build/build-models.ts",
     "clean": "rimraf dist",
     "lint": "tsc --noEmit",

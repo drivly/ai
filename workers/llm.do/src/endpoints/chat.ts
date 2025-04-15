@@ -1,4 +1,4 @@
-import { filterModels, modelPattern } from 'language-models'
+import { getModels, modelPattern } from 'ai-models'
 import { getUser } from 'api/user'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
@@ -66,7 +66,7 @@ export class Chat extends OpenAPIRoute {
       messages.push({ role: 'user', content: prompt })
       const body: ChatCompletionRequest = {
         model,
-        models: models?.length ? filterModels(models).models.map((m: { slug: string }) => m.slug) : undefined,
+        models: models?.length ? getModels(models).map((m) => m.slug) : undefined,
         messages,
         seed,
         temperature,

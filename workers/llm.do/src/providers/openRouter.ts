@@ -1,4 +1,4 @@
-import { getModel } from 'language-models'
+import { getModel, ModelConfig } from 'ai-models'
 import { env } from 'cloudflare:workers'
 import { getModels, getRequiredCapabilities } from '../llm/model'
 import { Provider } from './provider'
@@ -53,31 +53,13 @@ export const openRouter: Provider = {
       }
     }
 
-  return fetch(`https://gateway.ai.cloudflare.com/v1/${env.ACCOUNT_ID}/${env.GATEWAY_ID}/openrouter/v1${path}`, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization,
-    },
-    body: JSON.stringify(body),
-  })
-}
-
-function getRequiredCapabilities(body: any) {
-  const requiredCapabilities: string[] = []
-  if (body.tools?.find((t: any) => typeof t !== 'string' && typeof t.type === 'string' && t.type.startsWith('web_search'))) {
-    requiredCapabilities.push('online')
-  }
-  if (body.reasoning?.effort) {
-    requiredCapabilities.push('reasoning', `reasoning-${body.reasoning?.effort}` as any)
-  }
-  if (body.tools?.find((t: any) => typeof t === 'string' || t.type === 'function')) {
-    requiredCapabilities.push('tools')
-  }
-  if (body.response_format?.type === 'json_schema') {
-    requiredCapabilities.push('structuredOutput')
-  } else if (body.response_format?.type === 'json_object') {
-    requiredCapabilities.push('responseFormat')
-  }
-  return requiredCapabilities
+    return fetch(`https://gateway.ai.cloudflare.com/v1/${env.ACCOUNT_ID}/${env.GATEWAY_ID}/openrouter/v1${path}`, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization,
+      },
+      body: JSON.stringify(body),
+    })
+  },
 }

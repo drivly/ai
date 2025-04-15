@@ -930,6 +930,34 @@ importers:
         specifier: ^5.7.3
         version: 5.8.3
 
+  pkgs/language-models:
+    dependencies:
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.14.0
+      camelcase:
+        specifier: ^8.0.0
+        version: 8.0.0
+      flat:
+        specifier: ^6.0.1
+        version: 6.0.1
+      vitest:
+        specifier: ^3.0.9
+        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
+    devDependencies:
+      eslint-config:
+        specifier: 0.1.0
+        version: link:../eslint-config
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      tsconfig:
+        specifier: 0.0.0
+        version: link:../tsconfig
+      typescript:
+        specifier: ^5.8.2
+        version: 5.8.3
+
   pkgs/motion.md:
     dependencies:
       '@remotion/renderer':
