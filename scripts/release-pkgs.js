@@ -82,6 +82,9 @@ const runSemanticRelease = (packagePath) => {
         env: {
           ...process.env,
           FORCE_PATCH_RELEASE: 'true',
+          NPM_CONFIG_PUBLIC_HOIST_PATTERN: '*eslint*,*prettier*',
+          NPM_CONFIG_LINK_WORKSPACE_PACKAGES: 'true',
+          NPM_CONFIG_PREFER_WORKSPACE_PACKAGES: 'true'
         },
       })
 
