@@ -1,7 +1,7 @@
 import { GridPatternDashed } from '@/components/sites/magicui/grid-pattern-dashed'
 import { Particles } from '@/components/sites/magicui/particles'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@drivly/ui/badge'
 import { Fragment } from 'react'
 
 export const Careers = () => {

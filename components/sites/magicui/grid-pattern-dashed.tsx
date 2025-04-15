@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 import { GridPattern } from './grid-pattern'
 
 export function GridPatternDashed() {

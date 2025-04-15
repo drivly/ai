@@ -41,7 +41,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@drivly/ui": "workspace:*",
     "motion": "^12.6.0",
     "zustand": "^5.0.3"
   },
@@ -57,9 +56,11 @@
     "@types/react": "19.0.7",
     "@types/react-dom": "19.0.3",
     "ai": "^4.2.2",
+    "esbuild-plugin-css-module": "^0.1.0",
+    "esbuild-plugin-react18": "^0.2.6",
     "lucide-react": "^0.483.0",
+    "tsconfig": "workspace:*",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.2",
-    "tsconfig": "workspace:*"
+    "typescript": "^5.8.2"
   }
 }

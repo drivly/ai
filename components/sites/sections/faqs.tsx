@@ -1,5 +1,4 @@
-'use client'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@drivly/ui/accordion'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
 const faqs = [
   {

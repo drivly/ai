@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { BlogCard } from '@/components/sites/blog-ui/blog-card'
-import { CategoryFilter } from '@/components/sites/blog-ui/category-filter'
-import { Search } from '@/components/sites/blog-ui/search'
+import { BlogCard } from './blog-card'
+import { CategoryFilter } from './category-filter'
+import { Search } from './search'
 
 export interface BlogPost {
   slug: string

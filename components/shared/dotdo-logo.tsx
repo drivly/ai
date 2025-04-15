@@ -1,4 +1,4 @@
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 
 export interface DotdoLogoProps {
   className?: string
