@@ -36,6 +36,6 @@ export function handleDoDomain(request: NextRequest): NextResponse | null {
     return NextResponse.rewrite(new URL(`${url.origin}/${apiName}${path}${search}`, url))
   }
   
-  console.log('Rewriting to site', { hostname, pathname, search })
-  return NextResponse.rewrite(new URL(`/sites/${hostname}${pathname}${search}`, url))
+  console.log('Rewriting to site', { hostname, pathname, search, url })
+  return NextResponse.rewrite(new URL(`${url.origin}/sites/${hostname}${pathname}${search}`, url))
 }
