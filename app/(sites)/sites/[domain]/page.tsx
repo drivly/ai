@@ -28,9 +28,8 @@ interface PageProps {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
-  const resolvedParams = await params
-  const { domain } = resolvedParams
+const DotDoPage = async (props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) => {
+  const { domain } = props.params
   await getSession()
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
@@ -38,7 +37,7 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   const glowColor = (content as any).brandColor || getGlowColor(site)
 
-  return withSitesWrapper(
+  return (
     <>
       <div className='mx-auto flex min-h-screen flex-col justify-between'>
         <main className='relative flex flex-1 flex-col overflow-hidden'>
@@ -91,7 +90,10 @@ export default async function Page({ params, searchParams }: PageProps) {
           />
         </main>
       </div>
-    </>,
-    { title: content.title }
+    </>
   )
 }
+
+export default withSitesWrapper({
+  WrappedPage: DotDoPage
+})
