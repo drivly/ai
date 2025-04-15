@@ -388,7 +388,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const npmTag = '${npmTag}'; // Pass the npmTag from outer scope
+const npmTag = 'next'; // Hardcode the npmTag value
 
 try {
   console.log('Attempting direct NPM publish...');
