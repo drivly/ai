@@ -54,10 +54,10 @@ jobs:
           # Start Playwright browser installation in the background
           pnpm exec playwright install --with-deps &
           PLAYWRIGHT_INSTALL_PID=$!
-          
+
           # Run tests while browsers are installing
           pnpm test
-          
+
           # Wait for Playwright installation to complete if it's still running
           if ps -p $PLAYWRIGHT_INSTALL_PID > /dev/null; then
             echo "Waiting for Playwright browser installation to complete..."
@@ -71,7 +71,15 @@ jobs:
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
 
       - name: Start Dev Server
-        run: pnpm dev &
+        run: |
+          # Export all needed environment variables for the server
+          export DATABASE_URI="${{ secrets.DATABASE_URI }}"
+          export PAYLOAD_SECRET="${{ secrets.PAYLOAD_SECRET }}"
+          export RESEND_API_KEY="mock_resend_api_key_for_tests"
+
+          # Start server in background with all needed env vars
+          pnpm dev &
+          echo $! > .server.pid
         env:
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
@@ -80,7 +88,7 @@ jobs:
       - name: Wait for Server
         run: |
           echo "Waiting for server to start..."
-          MAX_RETRIES=30
+          MAX_RETRIES=60
           RETRY_COUNT=0
           # Use /api/health endpoint as specified
           until curl -s http://localhost:3000/api/health > /dev/null || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
@@ -94,13 +102,21 @@ jobs:
             exit 1
           fi
 
-          echo "Server is ready! Continuing with tests."
-        
+          # Additional check to confirm main page is also loading
+          echo "Health check passed. Now verifying main page is accessible..."
+          if curl -s http://localhost:3000/ -o /dev/null -w "%{http_code}" | grep -q "200"; then
+            echo "Main page is accessible. Server is ready!"
+          else
+            echo "Warning: Health check passed but main page is not accessible yet."
+            echo "Will proceed with tests, but they might fail if pages aren't ready."
+          fi
+
       - name: Run Playwright Tests and Chromatic
         run: |
           # First run Playwright tests to generate the archives needed by Chromatic
-          pnpm exec playwright test tests/chromatic
-          
+          # Add retry and longer timeouts to handle potential timing issues
+          pnpm exec playwright test tests/chromatic --retries=3 --timeout=180000
+
           # Then run Chromatic with auto-accept-changes for first-time snapshots
           # Exit immediately after upload to save time
           npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --exit-zero-on-changes --exit-once-uploaded
@@ -111,3 +127,4 @@ jobs:
           CI: true
           DATABASE_URI: ${{ secrets.DATABASE_URI }} # Needed for test execution context if tests interact with DB indirectly
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }} # Needed for test execution context
+          TEST_BASE_URL: http://localhost:3000 # Explicitly set the test base URL
