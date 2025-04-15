@@ -139,7 +139,7 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
   config['functions.do'] = {
     collections: ['functions'],
     glowColor: '#b30510', // RED-b30510 Pink-fe8bbb
-    description: 'Typesafe Results without Complexity',
+    description: 'Elegant, type-safe AI functions that deliver predictable results',
   }
 
   config['database.do'] = {
@@ -439,7 +439,7 @@ export const childDomains = calculateChildDomains()
  * Domain descriptions with properly capitalized keys and without .do suffix
  */
 export const domainDescriptions: Record<string, string> = {
-  'Functions': 'Typesafe Results without Complexity',
+  'Functions': 'Elegant, type-safe AI functions that deliver predictable results',
   'Workflows': 'Reliably Execute Business Processes',
   'Database': 'AI Native Data Access (Search + CRUD)',
   'Agents': 'Deploy & Manage Autonomous Digital Workers',
