@@ -4,15 +4,17 @@
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
-      "inputs": ["!pkgs/zapier-apis-do/**"]
+      "inputs": ["!pkgs/zapier-apis-do/**"],
+      "cache": true
     },
     "build:next": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "test": {
-      "dependsOn": ["build"],
-      "outputs": []
+      "dependsOn": ["^build"],
+      "outputs": [],
+      "cache": true
     },
     "lint": {
       "dependsOn": ["^lint"],

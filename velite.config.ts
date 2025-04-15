@@ -11,7 +11,7 @@ export default defineConfig({
   collections: {
     pages: {
       name: 'Page',
-      pattern: '**/*.mdx',
+      pattern: '{pages,sites}/**/*.mdx',
       schema: s.object({
         title: s.string().optional(),
         description: s.string().optional(),
