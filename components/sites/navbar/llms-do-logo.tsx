@@ -1,6 +1,6 @@
+import { siteConfig } from '@/components/site-config'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { siteConfig } from '../../site-config'
 
 export function LlmsdoLogo({ className, domain, minimal }: { className?: string; domain?: string; minimal?: boolean }) {
   const isCareers = domain === 'careers.do' || minimal

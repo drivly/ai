@@ -10,21 +10,24 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": []
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "outputs": []
+    },
     "clean": {
       "dependsOn": ["^clean"]
     },
     "dev": {
       "persistent": true,
       "cache": false
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "test": {
-      "dependsOn": ["^build", "build"]
-    },
-    "typecheck": {
-      "dependsOn": ["^typecheck"]
     }
   }
 }

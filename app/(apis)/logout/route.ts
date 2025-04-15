@@ -1,19 +1,18 @@
-import { NextResponse, NextRequest } from 'next/server'
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 import { getCurrentURL } from '@/lib/utils/url'
-import { API } from '@/lib/api'
-import { signOut } from '@/lib/auth/auth-client'
+import { NextRequest, NextResponse } from 'next/server'
 
-export const GET = API(async (request: NextRequest, { user }) => {
-  if (user?.id) {
-    try {
-      await signOut({
-        fetchOptions: {
-          headers: request.headers,
-        },
-      })
-    } catch (error) {
-      console.error('Error during logout:', error)
-    }
+export const GET = async (request: NextRequest) => {
+  const payload = await getPayloadWithAuth()
+
+  try {
+    await payload.betterAuth.api.signOut({
+      headers: request.headers,
+    })
+  } catch (error) {
+    console.error('Error during logout:', error)
   }
+
+  // Always redirect to home page
   return NextResponse.redirect(new URL('/', getCurrentURL(request.headers)))
-})
+}

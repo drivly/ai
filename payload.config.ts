@@ -1,6 +1,6 @@
 // storage-adapter-import-placeholder
 // import { payloadAgentPlugin } from '@drivly/payload-agent'
-import { betterAuthPlugin } from '@payload-auth/better-auth-plugin'
+import { betterAuthPlugin } from '@drivly/better-payload-auth/plugin'
 import { openapi } from 'payload-oapi'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -37,8 +37,11 @@ export default buildConfig({
         },
       ],
       graphics: {
-        Icon: '@/components/icon',
-        Logo: '@/components/logo',
+        Icon: '@/components/admin/icon',
+        Logo: '@/components/admin/logo',
+      },
+      logout: {
+        Button: '@/components/admin/custom-logout-button',
       },
     },
     meta: {

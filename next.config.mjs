@@ -1,4 +1,4 @@
-import { withSentryConfig } from '@sentry/nextjs';
+import { withSentryConfig } from '@sentry/nextjs'
 import nextra from 'nextra'
 import { withPayload } from '@payloadcms/next/withPayload'
 import withBundleAnalyzer from '@next/bundle-analyzer'
@@ -19,17 +19,16 @@ const withNextra = nextra({
   search: {
     codeblocks: true,
   },
-
 })
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
-  transpilePackages: ['@drivly/ui', '@drivly/payload-agent', 'simple-payload', 'clickable-apis', 'ai-models', 'payload-utils', 'payload-hooks-queue'],
+  transpilePackages: ['@drivly/ui'], // Reduce transpiled packages
   // All routing is handled by middleware.ts
   experimental: {
     // instrumentationHook is no longer needed in Next.js 15.2.4+
-  }
+  },
 }
 
 // Configure bundle analyzer to run only when ANALYZE=true
@@ -37,11 +36,15 @@ const analyzeBundles = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
-export default analyzeBundles(withNextra(withPayload(nextConfig, { 
-  devBundleServerPackages: false,
-  adminRoute: '/admin',
-  configPath: path.resolve(dirname, 'app/(admin)'),
-})))
+export default analyzeBundles(
+  withNextra(
+    withPayload(nextConfig, {
+      devBundleServerPackages: false,
+      adminRoute: '/admin',
+      configPath: path.resolve(dirname, 'app/(admin)'),
+    }),
+  ),
+)
 
 // TODO: We need to figure out the build errors here
 // export default withNextra(withSentryConfig(withPayload(nextConfig, { devBundleServerPackages: false }), {

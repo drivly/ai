@@ -1,6 +1,6 @@
 {
   "name": "analytics.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A framework for collecting, analyzing, and acting on user feedback and analytics data",
   "keywords": [
     "analytics",

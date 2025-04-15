@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function DotdoLinkSection() {
+export function DotdoLinkSection() {
   return (
     <section id='dotdo' className='mx-auto my-16 max-w-[80rem] px-3 text-center md:my-32 md:px-8'>
       <div className='py-16'>

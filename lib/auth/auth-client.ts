@@ -19,7 +19,6 @@ export const authClient = createAuthClient({
         },
       },
     }),
-    
   ],
   fetchOptions: {
     onError(e) {

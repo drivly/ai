@@ -1,6 +1,6 @@
 {
   "name": "integrations.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Unified interface for connecting applications and automating workflows across services",
   "keywords": [
     "integrations",

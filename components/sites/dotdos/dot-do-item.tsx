@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Badge } from '../badge'
+import { Badge } from '@/components/ui/badge'
 
 export interface DotDoItemProps {
   title: string
