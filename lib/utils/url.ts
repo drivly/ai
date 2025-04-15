@@ -69,39 +69,3 @@ export const getCurrentURL = (headers?: Headers) => {
   console.log('getCurrentURL debug - using fallback URL: https://apis.do')
   return 'https://apis.do'
 }
-
-/**
- * Returns the domain part of a URL
- * This is used for creating proper redirect URIs that work across multiple domains
- */
-export const getDomainFromURL = (url?: string): string => {
-  // Use the provided URL or get the current URL
-  const currentUrl = url || getCurrentURL()
-
-  try {
-    // Extract just the hostname
-    const urlObj = new URL(currentUrl)
-
-    // Include port with domain if it exists, otherwise just return the hostname
-    return urlObj.port ? `${urlObj.hostname}:${urlObj.port}` : urlObj.hostname
-  } catch (e) {
-    console.error('Error parsing URL:', e)
-    return 'apis.do' // Fallback to default domain
-  }
-}
-
-/**
- * Generates a proper OAuth callback URL for the current domain
- * Works across multiple domains (apis.do, workflows.do, etc.)
- */
-export const getOAuthCallbackURL = (provider: string, url?: string): string => {
-  const domain = getDomainFromURL(url)
-  console.log('🚀 ~ getOAuthCallbackURL ~ domain:', domain)
-
-  // Use localhost URL for development, otherwise use the detected domain
-  if (domain === 'localhost' || domain.includes('localhost:')) {
-    return `http://${domain}/api/auth/callback/${provider}`
-  }
-
-  return `https://${domain}/api/auth/callback/${provider}`
-}

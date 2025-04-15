@@ -1,0 +1,7 @@
+{
+  "name": "exec-symbols",
+  "version": "0.1.0",
+  "description": "Integration of exec-symbols functional programming library with the .do platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts"
+}
