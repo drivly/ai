@@ -50,32 +50,35 @@ describe('integrations.do SDK', () => {
 
   describe('integrations', () => {
     it('should connect to a service', async () => {
-      const mockConnection = { id: '123', service: 'test-service', status: 'active' }
+      const mockConnection = { id: '123', service: 'test-service', status: 'active', auth: { type: 'apiKey' } } // Added auth type to mock
       mockPost.mockResolvedValue(mockConnection)
+      const authOptions = { type: 'apiKey' as const, apiKey: 'dummy-key' }; // Use 'as const' for literal type
 
-      const result = await integrations.connect('test-service', { authType: 'apiKey' })
+      const result = await integrations.connect('test-service', authOptions)
 
-      expect(mockPost).toHaveBeenCalledWith('/integrations/test-service/connect', { authType: 'apiKey' })
+      expect(mockPost).toHaveBeenCalledWith('/integrations/test-service/connect', authOptions)
       expect(result).toEqual(mockConnection)
     })
 
     it('should create a trigger', async () => {
-      const mockTrigger = { id: '123', type: 'webhook', source: 'test-service' }
+      const mockTrigger = { id: '123', type: 'webhook' as const, source: 'test-service', event: 'dummy-event', status: 'enabled' as const } // Added event and status
       mockPost.mockResolvedValue(mockTrigger)
+      const triggerConfig = { type: 'webhook' as const, source: 'test-service', event: 'dummy-event' }; // Added event
 
-      const result = await integrations.createTrigger({ type: 'webhook', source: 'test-service' })
+      const result = await integrations.createTrigger(triggerConfig)
 
-      expect(mockPost).toHaveBeenCalledWith('/integrations/triggers', { type: 'webhook', source: 'test-service' })
+      expect(mockPost).toHaveBeenCalledWith('/integrations/triggers', triggerConfig)
       expect(result).toEqual(mockTrigger)
     })
 
     it('should create an action', async () => {
-      const mockAction = { id: '123', name: 'test-action', source: 'test-service' }
+      const mockAction = { id: '123', name: 'test-action', description: 'dummy description', source: 'test-service', operation: 'dummy-operation', inputSchema: {} } // Added missing props
       mockPost.mockResolvedValue(mockAction)
+      const actionConfig = { name: 'test-action', source: 'test-service', description: 'dummy description', operation: 'dummy-operation', inputSchema: {} }; // Added missing props
 
-      const result = await integrations.createAction({ name: 'test-action', source: 'test-service' })
+      const result = await integrations.createAction(actionConfig)
 
-      expect(mockPost).toHaveBeenCalledWith('/integrations/actions', { name: 'test-action', source: 'test-service' })
+      expect(mockPost).toHaveBeenCalledWith('/integrations/actions', actionConfig)
       expect(result).toEqual(mockAction)
     })
 
