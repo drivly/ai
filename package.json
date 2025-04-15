@@ -63,7 +63,6 @@
   },
   "dependencies": {
     "motion.md": "workspace:*",
-    "@ai-primitives/data": "workspace:*",
     "@ai-sdk/openai": "^1.0.10",
     "@better-auth/stripe": "^1.2.5",
     "@clickhouse/client-web": "^1.11.0",
