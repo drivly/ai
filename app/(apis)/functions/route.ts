@@ -24,9 +24,11 @@ export const GET = API(async (request, { db, user, url, origin, domain }) => {
       }
     }
     
-    const totalItems = await db.functions.count({
+    const countResult = await db.functions.find({
       where,
+      limit: 0
     })
+    const totalItems = countResult.totalDocs || 0
     
     const functionsArray = await db.functions.find({
       where,
