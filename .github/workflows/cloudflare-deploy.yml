@@ -37,6 +37,9 @@ jobs:
       - name: Build
         run: pnpm run build
         
+      - name: Build with OpenNext
+        run: npx open-next build
+        
       - name: Deploy with Wrangler
         run: npx wrangler deploy
         env:
