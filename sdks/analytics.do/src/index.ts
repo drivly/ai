@@ -1,19 +1,58 @@
 import { API } from 'apis.do/src/client'
 import type { AnalyticsConfig, BeforeSendEvent, TrackMetricOptions, ExperimentOptions, Experiment } from '../types'
 
+/**
+ * Default configuration for the analytics SDK
+ * Provides sensible defaults for all settings
+ */
 const defaultConfig: AnalyticsConfig = {
   endpoint: '/_analytics',
   debug: process.env.NODE_ENV !== 'production',
   mode: 'auto',
 }
 
+/**
+ * Queue for storing events when offline
+ */
+let offlineEventQueue: BeforeSendEvent[] = []
+
+/**
+ * API client for analytics.do
+ */
 const analyticsApi = new API({
   baseUrl: 'https://analytics.do/api',
 })
 
 /**
  * Initialize the analytics SDK with configuration
+ * @param config - Configuration options for the analytics SDK
+ * @returns Analytics client with track and trackPageView methods
  */
+/**
+ * Check if the browser is online
+ */
+function isOnline(): boolean {
+  return typeof navigator !== 'undefined' ? navigator.onLine : true
+}
+
+/**
+ * Process offline events when coming back online
+ */
+function processOfflineEvents() {
+  if (offlineEventQueue.length > 0 && isOnline()) {
+    const events = [...offlineEventQueue]
+    offlineEventQueue = []
+    
+    analyticsApi.post('/_analytics', { events }).catch(() => {
+      offlineEventQueue.push(...events)
+    })
+  }
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('online', processOfflineEvents)
+}
+
 export function initAnalytics(config: AnalyticsConfig = {}) {
   const mergedConfig = { ...defaultConfig, ...config }
 
@@ -52,6 +91,14 @@ export function initAnalytics(config: AnalyticsConfig = {}) {
           console.debug('Tracking event:', event)
         }
 
+        if (typeof window !== 'undefined' && !isOnline()) {
+          offlineEventQueue.push(event)
+          if (mergedConfig.debug) {
+            console.debug('Device offline, queuing event for later', event)
+          }
+          return
+        }
+
         await analyticsApi.post(mergedConfig.endpoint || '/_analytics', {
           events: [event],
         })
@@ -81,7 +128,9 @@ export function initAnalytics(config: AnalyticsConfig = {}) {
 }
 
 /**
- * Track a metric
+ * Track a metric with the analytics SDK
+ * @param options - Options for tracking a metric
+ * @returns Promise that resolves when the metric is tracked
  */
 export async function trackMetric(options: TrackMetricOptions): Promise<void> {
   const { name, value, metadata = {} } = options
@@ -91,6 +140,7 @@ export async function trackMetric(options: TrackMetricOptions): Promise<void> {
     metricName: name,
     metricValue: value,
     metadata,
+    timestamp: Date.now(),
   })
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "experiments.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A framework for testing hypotheses, measuring outcomes, and iteratively improving your AI applications",
   "keywords": [
     "experiments",

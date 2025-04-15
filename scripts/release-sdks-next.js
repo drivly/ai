@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Release script for SDK packages using semantic-release
- * This script handles the SDK packages with synchronized versioning
- * Enforces 0.x.x versioning and ensures proper NPM publishing
+ * Release script for SDK packages using semantic-release for the next branch
+ * This script handles the SDK packages with synchronized versioning starting at 0.1.0
+ * Enforces 0.1.0 versioning and ensures proper NPM publishing with the "next" tag
  * Converts workspace dependencies to actual version numbers
  */
 
@@ -11,16 +11,7 @@ import { execSync } from 'child_process'
 import path from 'path'
 import fs from 'fs'
 
-const getBranchName = () => {
-  try {
-    return execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
-  } catch (error) {
-    console.warn('Could not determine branch name:', error.message)
-    return 'main' // Default to main if detection fails
-  }
-}
-
-const npmTag = getBranchName() === 'next' ? 'next' : 'latest'
+const npmTag = 'next'
 
 const DRY_RUN = process.argv.includes('--dry-run')
 const SDK_PACKAGES = [
@@ -47,7 +38,7 @@ const SDK_PACKAGES = [
   'sdks/workflows.do',
 ]
 
-console.log(`Running SDK-only release script in ${DRY_RUN ? 'dry run' : 'release'} mode`)
+console.log(`Running SDK-only next release script in ${DRY_RUN ? 'dry run' : 'release'} mode`)
 
 const deleteExistingReleases = () => {
   try {
@@ -139,12 +130,12 @@ const getPackagePaths = () => {
   return pkgPaths
 }
 
-const enforceZeroVersioning = (packagePath) => {
+const enforceVersionStartingAtPointOne = (packagePath) => {
   const packageJsonPath = path.join(packagePath, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
   
-  if (packageJson.version && !packageJson.version.startsWith('0.')) {
-    console.log(`Resetting version for ${packageJson.name} from ${packageJson.version} to 0.1.0`)
+  if (packageJson.version !== '0.1.0') {
+    console.log(`Setting version for ${packageJson.name} to 0.1.0 (was ${packageJson.version})`)
     packageJson.version = '0.1.0'
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
   }
@@ -217,7 +208,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
 }
 
 const runSemanticRelease = (packagePath, allPackages) => {
-  const packageJson = enforceZeroVersioning(packagePath)
+  const packageJson = enforceVersionStartingAtPointOne(packagePath)
   
   if (packageJson.private) {
     console.log(`Skipping private package: ${packageJson.name}`)
@@ -253,7 +244,7 @@ export default {
         const pkgPath = path.join(process.cwd(), 'package.json');
         if (fs.existsSync(pkgPath)) {
           const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-          if (!pkg.version.startsWith('0.')) {
+          if (pkg.version !== '0.1.0') {
             console.log(\`Fixing package.json version: \${pkg.version} -> 0.1.0\`);
             pkg.version = '0.1.0';
             fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
@@ -405,7 +396,7 @@ try {
   const pkgPath = path.join(process.cwd(), 'package.json');
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
   
-  if (!pkg.version.startsWith('0.')) {
+  if (pkg.version !== '0.1.0') {
     console.log(\`Fixing package.json version: \${pkg.version} -> 0.1.0\`);
     pkg.version = '0.1.0';
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
@@ -481,7 +472,7 @@ const sdkPaths = packagePaths.filter((p) => p.includes('/sdks/'))
 console.log(`Processing ${sdkPaths.length} SDK packages with synchronized versioning`)
 
 for (const pkgPath of sdkPaths) {
-  enforceZeroVersioning(pkgPath)
+  enforceVersionStartingAtPointOne(pkgPath)
 }
 
 for (const pkgPath of sdkPaths) {
