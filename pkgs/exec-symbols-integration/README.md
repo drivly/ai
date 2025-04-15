@@ -1,6 +1,6 @@
 # exec-symbols-adapter
 
-Adapter layer for integrating the `exec-symbols` functional programming library with the `.do` platform.
+Bridge layer for integrating the `exec-symbols` functional programming library with the `.do` platform.
 
 ## Overview
 
