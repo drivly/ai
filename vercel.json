@@ -4,7 +4,5 @@
       "path": "/api/payload-jobs/run",
       "schedule": "*/5 * * * *"
     }
-  ],
-  "buildCommand": "pnpm run build",
-  "installCommand": "npm i -g pnpm@10 && pnpm install --no-frozen-lockfile"
+  ]
 }
