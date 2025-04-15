@@ -3,16 +3,5 @@
   "version": "0.1.0",
   "description": "Adapter layer for integrating exec-symbols with the .do platform",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "test": "vitest run"
-  },
-  "dependencies": {
-    "exec-symbols": "^1.0.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.8.3",
-    "vitest": "^3.1.1"
-  }
+  "types": "dist/index.d.ts"
 }
