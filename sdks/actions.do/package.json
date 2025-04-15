@@ -36,6 +36,7 @@
   },
   "scripts": {
     "build": "tsup --config tsup.config.ts",
+    "build:packages": "tsup --config tsup.config.ts",
     "generate:constants": "echo 'Using placeholder constants'",
     "test": "vitest run",
     "test:watch": "vitest"

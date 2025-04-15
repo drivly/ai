@@ -37,6 +37,7 @@
   },
   "scripts": {
     "build": "tsup --config tsup.config.ts",
+    "build:packages": "tsup --config tsup.config.ts",
     "generate:constants": "echo 'Using placeholder constants'",
     "pretest": "if [ ! -d \"../apis.do/dist\" ]; then cd ../apis.do && pnpm build; fi",
     "test": "vitest run",

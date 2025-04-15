@@ -10,6 +10,10 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
+    "build:packages": {
+      "dependsOn": ["^build:packages"],
+      "outputs": ["dist/**"]
+    },
     "test": {
       "dependsOn": ["build"],
       "outputs": []
@@ -26,6 +30,7 @@
       "dependsOn": ["^clean"]
     },
     "dev": {
+      "dependsOn": ["build:packages"],
       "persistent": true,
       "cache": false
     }

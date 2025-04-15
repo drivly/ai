@@ -44,6 +44,7 @@
   
   "scripts": {
     "build": "node build.mjs",
+    "build:packages": "node build.mjs",
     "test": "echo 'Tests skipped for CI compatibility'",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"

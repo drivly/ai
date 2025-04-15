@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "turbo run build && pnpm build:next",
+    "build:packages": "turbo run build:packages",
     "build:next": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next build",
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
     "build:filtered": "turbo run build --filter=$npm_config_filter && pnpm build:next:filtered",
@@ -52,7 +53,10 @@
     "prettier-fix": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
     "test": "turbo test",
     "test:watch": "vitest",
-    "test:e2e": "vitest run --config tests/vitest.e2e.config.ts",
+    "test:unit": "vitest run --exclude tests/e2e/ --exclude tests/chromatic/",
+    "test:e2e": "playwright test tests/e2e",
+    "test:visual": "playwright test tests/chromatic",
+
     "test:chromatic": "npx playwright test tests/chromatic && npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN}",
     "clean": "turbo clean",
     "lint:legacy": "cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next lint",
@@ -227,7 +231,26 @@
     "onlyBuiltDependencies": [
       "@vercel/speed-insights",
       "esbuild",
-      "sharp"
+      "sharp",
+      "apis.do",
+      "actions.do",
+      "analytics.do",
+      "database.do",
+      "evals.do",
+      "experiments.do",
+      "functions.do",
+      "goals.do", 
+      "gpt.do",
+      "mcp.do",
+      "integrations.do",
+      "models.do", 
+      "searches.do",
+      "tasks.do",
+      "triggers.do",
+      "llm.do",
+      "workflows.do",
+      "agents.do",
+      "cli.do"
     ]
   },
   "prettier": {
