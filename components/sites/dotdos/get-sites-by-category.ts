@@ -15,6 +15,6 @@ export async function getSitesByCategory(sites: Site[]) {
     }
     sitesByCategory[group].push(site)
   })
-  
+
   return sitesByCategory
 }

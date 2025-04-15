@@ -26,27 +26,27 @@ export const GET = API(async (request, { db, user, params, url }) => {
       const searchParams = request.nextUrl.searchParams
       const page = parseInt(searchParams.get('page') || '1')
       const limit = parseInt(searchParams.get('limit') || '20')
-      
+
       const result = await db[effectiveApi].find({
         page,
         limit,
       })
-      
+
       const items = result.docs || []
       const totalItems = result.totalDocs || items.length
       const totalPages = result.totalPages || 1
-      
+
       const links = generateCompletePaginationLinks(request, page, limit, totalItems, totalPages)
-      
+
       const collectionItems: Record<string, string> = {}
-      
+
       for (const item of items) {
         if (item && typeof item === 'object' && item.id) {
           const itemKey = item.name || item.title || item.id
           collectionItems[itemKey] = `${url.origin}/${effectiveApi}/${item.id}`
         }
       }
-      
+
       return {
         [effectiveApi]: collectionItems,
         links,
@@ -77,12 +77,12 @@ export const GET = API(async (request, { db, user, params, url }) => {
 
 export const POST = API(async (request, { db, params }) => {
   const { api } = params as { api: string }
-  
+
   const apiExists = api in apis
   const isAlias = api in domainsConfig.aliases
   const aliasedApi = isAlias ? domainsConfig.aliases[api] : null
   const effectiveApi = isAlias ? (aliasedApi as string) : api
-  
+
   if (!apiExists && !isAlias) {
     return {
       error: true,
@@ -90,9 +90,9 @@ export const POST = API(async (request, { db, params }) => {
       statusCode: 404,
     }
   }
-  
+
   const collectionExists = collectionSlugs.includes(effectiveApi)
-  
+
   if (!collectionExists || !db[effectiveApi]) {
     return {
       error: true,
@@ -100,7 +100,7 @@ export const POST = API(async (request, { db, params }) => {
       statusCode: 404,
     }
   }
-  
+
   let data
   try {
     data = await request.json()
@@ -111,10 +111,10 @@ export const POST = API(async (request, { db, params }) => {
       statusCode: 400,
     }
   }
-  
+
   try {
     const newItem = await db[effectiveApi].create(data)
-    
+
     return {
       success: true,
       message: `Created new item in collection: ${effectiveApi}`,

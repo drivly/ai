@@ -24,7 +24,8 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk }: DotDoIt
   return (
     <Link
       href={href}
-      className='relative flex h-full flex-col rounded-md border border-gray-800 bg-slate-700/15 bg-[linear-gradient(rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] p-5 backdrop-blur-sm transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg'>
+      className='relative flex h-full flex-col rounded-md border border-gray-800 bg-slate-700/15 bg-[linear-gradient(rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] p-5 backdrop-blur-sm transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg'
+    >
       <h3 className='relative z-10 mb-2 text-xl font-semibold tracking-tight'>{title}</h3>
       <p className='text-muted-foreground relative z-10 mb-auto text-sm opacity-70'>{description}</p>
       <div className='relative z-10 mt-4 flex flex-wrap gap-2'>

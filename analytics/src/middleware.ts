@@ -28,7 +28,7 @@ export async function analyticsMiddleware(request: NextRequest, next: () => Prom
         username: process.env.CLICKHOUSE_USERNAME,
         password: process.env.CLICKHOUSE_PASSWORD,
         database: process.env.CLICKHOUSE_DATABASE || 'default',
-        forceRecreate: process.env.CLICKHOUSE_FORCE_RECREATE === 'true'
+        forceRecreate: process.env.CLICKHOUSE_FORCE_RECREATE === 'true',
       })
 
       const analyticsService = new AnalyticsService(clickhouseClient)
@@ -48,7 +48,7 @@ export async function analyticsMiddleware(request: NextRequest, next: () => Prom
       }
 
       const promises = [analyticsService.trackRequest(requestData).catch((err) => console.error('Failed to track request:', err))]
-      
+
       const eventData = {
         type: 'page_view',
         source: 'web',
@@ -58,16 +58,16 @@ export async function analyticsMiddleware(request: NextRequest, next: () => Prom
         data: {
           path: pathname,
           method,
-          status: response.status
+          status: response.status,
         },
         metadata: {
           userId,
           ip,
           userAgent,
-          referer
-        }
+          referer,
+        },
       }
-      
+
       promises.push(analyticsService.trackEvent(eventData).catch((err) => console.error('Failed to track event:', err)))
 
       if (process.env.PIPELINE_URL) {

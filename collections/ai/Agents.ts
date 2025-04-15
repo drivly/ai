@@ -74,14 +74,14 @@ export const Agents: CollectionConfig = {
         },
       ],
     },
-    { 
-      name: 'goals', 
-      type: 'relationship', 
+    {
+      name: 'goals',
+      type: 'relationship',
       relationTo: 'goals',
       hasMany: true,
-      admin: { 
-        description: 'Goals this agent contributes to' 
-      } 
+      admin: {
+        description: 'Goals this agent contributes to',
+      },
     },
   ],
 }
