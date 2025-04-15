@@ -108,6 +108,7 @@
     "ai": "^4.2.0",
     "ai-functions": "0.3.0",
     "ai-providers": "workspace:*",
+    "language-models": "workspace:*",
     "ai-workflows": "^1.1.0",
     "apis.do": "0.0.1",
     "better-auth": "1.2.7",
