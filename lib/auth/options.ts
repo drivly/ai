@@ -71,12 +71,13 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: getOAuthCallbackURL('google'),
+      redirectURI: 'https://apis.do/api/auth/callback/google',
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: getOAuthCallbackURL('github'),
+      redirectURI: 'https://apis.do/api/auth/callback/github',
+
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
