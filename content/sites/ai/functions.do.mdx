@@ -1,31 +1,33 @@
 ---
 title: Functions.do - Typesafe Function Execution Platform
-description: Build reliable applications with Functions.do, delivering typesafe results without the complexity of traditional function frameworks
+description: Build reliable applications with Functions.do, delivering strongly-typed results without the complexity of traditional function frameworks
 headline: Type-Safe Functions That Just Work
-subhead: Build with confidence using strongly-typed functions that just work. Eliminate runtime errors with compile-time type checking and validation.
+subhead: Transform unpredictable AI capabilities into reliable, deterministic components with strongly-typed functions that eliminate runtime errors through compile-time type checking and validation.
 badge: 'AI without Complexity'
 codeLang: 'typescript'
 codeExample: |
-  import { createFunction } from 'functions.do';
+  import { AI } from 'functions.do';
 
-  const getUser = createFunction({
-    name: 'getUser',
-    input: z.object({
-      id: z.string(),
-    }),
-    output: z.object({
-      id: z.string(),
-      name: z.string(),
-      email: z.string().email(),
-    }),
-    handler: async ({ id }) => {
-      // Implementation here
-      return { id, name: 'John Doe', email: 'john@example.com' };
+  // Define a custom AI function with type-safe schema
+  export const ai = AI({
+    createBookProposal: {
+      title: 'proposed title of the book',
+      subtitle: 'proposed subtitle of the book',
+      targetAudience: ['primary audience segments for the book'],
+      uniqueSellingPoints: ['what makes this book different and valuable'],
+      estimatedWordCount: 'approximate word count for the entire book',
+      summary: 'one paragraph summary of the book concept',
     },
+  });
+
+  // Use the function with a simple input
+  const proposal = await ai.createBookProposal({ 
+    topic: 'AI function frameworks',
+    audience: 'developers',
   });
 brandColor: '#b30510'
 ---
 
 # Functions.do
 
-Typesafe Results without Complexity
+Elegant, type-safe AI functions that deliver predictable results
