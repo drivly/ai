@@ -6,7 +6,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   // Using the new db interface for more concise syntax
   // const functions = await db.functions.find()
 
-  const originOrApiRoute = !origin.includes('models.do') ? `${origin}/models` : origin
+  const originOrApiRoute = !origin.includes('models.do') ? `${origin}/models` : `${origin}/api`
 
   const modifyQueryString = (param: string, value: string | number, type: 'string' | 'boolean' | 'array' = 'string') => {
     const qs = new URLSearchParams(request.url.split('?')[1])

@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { constructModelIdentifier, filterModels, parse, getModel } from '@/pkgs/ai-models'
+import { constructModelIdentifier, filterModels, parse, getModel } from 'language-models'
 import { createOpenAI } from '@ai-sdk/openai'
 import { generateText } from 'ai'
 import camelCase from 'camelcase'
