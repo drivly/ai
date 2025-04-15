@@ -95,12 +95,11 @@ jobs:
           # Run Playwright tests first to generate archives
           pnpm exec playwright test tests/chromatic
           # Run Chromatic with auto-accept-changes for first-time snapshots
-          # Skip running a local server and use example.com for tests
-          export TEST_EXAMPLE_URL=https://example.com
+          # Run Chromatic tests against the local server
           npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --exit-zero-on-changes
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          # TEST_EXAMPLE_URL: https://example.com # Not needed as tests target localhost
+          # Set environment variables for tests
           RESEND_API_KEY: mock_resend_api_key_for_tests # Mock Resend for test execution context
           CI: true
           DATABASE_URI: ${{ secrets.DATABASE_URI }} # Needed for test execution context if tests interact with DB indirectly
