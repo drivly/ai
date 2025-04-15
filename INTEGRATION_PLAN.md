@@ -23,8 +23,8 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 
 ## Integration Goals
 
-1. Enhance the `.do` platform with exec-symbols' functional programming capabilities
-2. Move functionality from exec-symbols' bridge.ts to the adapter package
+1. Bring the entire `exec-symbols` library into the `.do` platform monorepo
+2. Enhance the `.do` platform with exec-symbols' functional programming capabilities
 3. Implement the semantic data model using exec-symbols' fact system
 4. Add symbolic event tracking to all platform services
 5. Leverage exec-symbols' state machine capabilities for workflow orchestration
@@ -56,9 +56,9 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 
 ### Phase 1: Foundation (2 weeks)
 
-1. **Add exec-symbols as a dependency**
-   - Add exec-symbols to the drivly/ai repository
-   - Configure build system to include exec-symbols
+1. **Bring exec-symbols into the monorepo**
+   - Copy the entire exec-symbols library into the drivly/ai monorepo
+   - Configure build system to build exec-symbols within the monorepo
    - Create integration tests for basic functionality
 
 2. **Create adapter layer**
@@ -133,20 +133,30 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 
 ### Phase 1: Foundation
 
-#### Task 1.1: Add exec-symbols as a dependency
+#### Task 1.1: Bring exec-symbols into the monorepo
 
 ```bash
-# Add exec-symbols as a dependency
-cd ~/repos/ai
-pnpm add exec-symbols
+# Clone the exec-symbols repository
+git clone https://github.com/drivly/exec-symbols.git ~/repos/exec-symbols-temp
+
+# Copy the entire library into the monorepo
+mkdir -p ~/repos/ai/pkgs/exec-symbols/src
+cp -r ~/repos/exec-symbols-temp/src/* ~/repos/ai/pkgs/exec-symbols/src/
+cp ~/repos/exec-symbols-temp/package.json ~/repos/ai/pkgs/exec-symbols/
+cp ~/repos/exec-symbols-temp/tsconfig.json ~/repos/ai/pkgs/exec-symbols/
 ```
 
-**File: ~/repos/ai/package.json**
+**File: ~/repos/ai/pkgs/exec-symbols/package.json**
 ```json
 {
-  "dependencies": {
-    // ... existing dependencies
-    "exec-symbols": "^1.0.0"
+  "name": "exec-symbols",
+  "version": "0.1.0",
+  "description": "Functional programming library for the .do platform",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
   }
 }
 ```
@@ -174,44 +184,17 @@ pnpm add exec-symbols
 
 **File: ~/repos/ai/pkgs/exec-symbols/src/index.ts**
 ```typescript
-// Import functionality from the original exec-symbols library
-import {
-  Event,
-  FactSymbol,
-  get_fact,
-  get_verb_symbol,
-  list,
-  nil,
-  unit
-} from 'exec-symbols/dist/exec-symbols'
+// Re-export all functionality from the original exec-symbols library
+// This file serves as the main entry point for the exec-symbols package in the monorepo
 
-// Import and adapt functionality from bridge.ts
-import {
-  wrapTrackedService,
-  execSymbolsAdapter,
-  createWorkflowImpl,
-  createAIFunctionsImpl,
-  createAgentImpl,
-  createDatabaseImpl,
-  createAPIImpl,
-  createActionImpl,
-  createSearchImpl,
-  createTriggerImpl,
-  createEventTrackerImpl
-} from 'exec-symbols/dist/bridge'
+// Export all core functionality
+export * from './exec-symbols'
 
-// Re-export exec-symbols primitives
-export {
-  Event,
-  FactSymbol,
-  get_fact,
-  get_verb_symbol,
-  list,
-  nil,
-  unit,
-  wrapTrackedService,
-  execSymbolsAdapter
-}
+// Export bridge functionality
+export * from './bridge'
+
+// Export any additional utilities
+export * from './utils'
 
 // Create a symbolic fact representing a function call
 export const emitCallFact = (domain: string, method: string, args: Record<string, unknown> = {}) => {
