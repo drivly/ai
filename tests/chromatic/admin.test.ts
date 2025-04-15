@@ -14,7 +14,7 @@ test('admin login page', async ({ page }) => {
     page.setDefaultNavigationTimeout(ciNavigationTimeout);
     
     await page.goto(`${baseUrl}/admin`, {
-      waitUntil: 'domcontentloaded', // Changed from 'load'
+      waitUntil: 'load', // Reverted back from 'domcontentloaded'
       timeout: ciNavigationTimeout 
     });
   } else {
@@ -36,7 +36,7 @@ test('admin login page', async ({ page }) => {
   } catch (error: any) {
     console.log('Encountered error, retrying with page reload:', error.message);
     
-    await page.reload({ waitUntil: 'domcontentloaded', timeout: ciNavigationTimeout }); // Changed from 'load'/'networkidle'
+    await page.reload({ waitUntil: 'load', timeout: ciNavigationTimeout }); // Reverted back from 'domcontentloaded'
     
     await expect(page.locator('input[type="email"]').first()).toBeVisible({ timeout: visibilityTimeout })
     await expect(page.locator('input[type="password"]').first()).toBeVisible({ timeout: visibilityTimeout })
