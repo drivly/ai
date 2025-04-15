@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "lint": "eslint",
+    "build": "tsc --noCheck",
+    "lint": "tsc && eslint",
     "test": "vitest --run tests",
     "test:e2e": "vitest --run e2e",
     "test:coverage": "vitest --coverage --run"
