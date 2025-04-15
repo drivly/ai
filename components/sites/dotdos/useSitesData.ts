@@ -16,7 +16,7 @@ export function useSitesData() {
     if (typeof window !== 'undefined') {
       const currentHostname = window.location.hostname
       setHostname(currentHostname)
-      
+
       const match = currentHostname.match(/\.do\.(gt|mw)$/)
       if (match) {
         setCurrentTld(`.${match[1]}`)

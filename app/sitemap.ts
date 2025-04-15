@@ -15,7 +15,7 @@ export default async function sitemap(): Promise<SitemapEntry[]> {
   const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
 
   const commonPages = ['', '/docs', '/blog', '/privacy', '/terms', '/pricing']
-  
+
   const sitemapEntries: SitemapEntry[] = []
 
   if (brandDomains.includes(host)) {

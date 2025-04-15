@@ -53,7 +53,8 @@ export function SitesNavbar({ params, minimal }: { params: { domain?: string }; 
         'fixed top-0 left-0 z-50 w-full backdrop-blur-[12px]',
         isStabilized ? 'transition-all duration-200' : '',
         hasScrolled ? 'bg-background/80 border-b' : 'border-transparent bg-transparent',
-      )}>
+      )}
+    >
       <nav className='container mx-auto flex h-14 max-w-6xl items-center justify-between px-3 xl:px-0'>
         <LlmsdoLogo domain={domain} minimal={minimal} />
 
@@ -76,7 +77,8 @@ export function SitesNavbar({ params, minimal }: { params: { domain?: string }; 
         <div
           className={cn('hidden h-full items-center justify-end space-x-4 md:flex', {
             flex: minimal,
-          })}>
+          })}
+        >
           <Link href={siteConfig.baseLinks.github} className='hover:text-primary text-sm text-gray-400 transition-colors' target='_blank' rel='noopener noreferrer'>
             <FaGithub className='h-5 w-5' />
             <span className='sr-only'>GitHub</span>

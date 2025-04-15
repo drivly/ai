@@ -4,15 +4,16 @@ export const GET = API(async (request, { db, user, url, origin, domain }) => {
   const searchParams = request.nextUrl.searchParams
   const page = parseInt(searchParams.get('page') || '1')
   const limit = parseInt(searchParams.get('limit') || '20')
-  
+
   const showDomains = url.searchParams.has('domains')
-  
-  const formatWithOptions = (path: string, defaultDomain?: string) => formatUrl(path, {
-    origin,
-    domain,
-    showDomains,
-    defaultDomain
-  })
+
+  const formatWithOptions = (path: string, defaultDomain?: string) =>
+    formatUrl(path, {
+      origin,
+      domain,
+      showDomains,
+      defaultDomain,
+    })
 
   // Using the new db interface for more concise syntax
   const functionsArray =
@@ -60,9 +61,7 @@ export const GET = API(async (request, { db, user, url, origin, domain }) => {
     limit,
     total: totalItems,
     actions: {
-      toggleDomains: url.searchParams.has('domains') 
-        ? url.toString().replace(/[?&]domains/, '') 
-        : url.toString() + (url.toString().includes('?') ? '&domains' : '?domains')
+      toggleDomains: url.searchParams.has('domains') ? url.toString().replace(/[?&]domains/, '') : url.toString() + (url.toString().includes('?') ? '&domains' : '?domains'),
     },
   }
 })

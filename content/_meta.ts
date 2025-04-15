@@ -7,15 +7,15 @@ const meta: MetaRecord = {
   clis: { type: 'page', title: 'CLI', href: '/docs/cli' },
   pricing: { type: 'page', href: '/pricing' },
   dashboard: { type: 'page', href: '/admin' },
-  reference: { 
+  reference: {
     type: 'page',
     title: 'API Reference',
-    href: 'https://apis.do/reference'
+    href: 'https://apis.do/reference',
   },
 
   manifesto: '',
   primitives: '',
-  
+
   _ai: {
     type: 'separator',
     title: 'AI',
@@ -42,11 +42,9 @@ const meta: MetaRecord = {
     type: 'separator',
   },
 
-
   apis: '',
   sdks: '',
   cli: '',
-
 }
 
 export default meta

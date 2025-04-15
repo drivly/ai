@@ -3,7 +3,7 @@ title: Models.do - AI Model Management Platform
 description: Select and manage AI models with Models.do, the comprehensive platform for AI model orchestration and deployment
 headline: Choose Models That Deliver Results
 subhead: Select the perfect AI models for your specific use cases with confidence. Manage model deployment and versioning across your entire AI infrastructure.
-badge: "AI without Complexity"
+badge: 'AI without Complexity'
 codeExample: "import { ModelRegistry } from 'models.do';\n\nconst modelConfig = new ModelRegistry({\n  defaultModel: 'gpt-4',\n  models: [\n    {\n      id: 'gpt-4',\n      provider: 'openai',\n      capabilities: ['text-generation', 'code-generation', 'reasoning'],\n      contextWindow: 8192,\n      costPer1kTokens: 0.03\n    },\n    {\n      id: 'claude-3-opus',\n      provider: 'anthropic',\n      capabilities: ['text-generation', 'vision', 'reasoning'],\n      contextWindow: 200000,\n      costPer1kTokens: 0.015\n    }\n  ],\n  fallbackStrategy: 'next-available'\n});"
 ---
 
