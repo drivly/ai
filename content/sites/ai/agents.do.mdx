@@ -1,27 +1,47 @@
 ---
-title: Agents.do - Autonomous Digital Worker Platform
-description: Deploy and manage autonomous digital workers with Agents.do, the enterprise-grade platform for AI agent orchestration
-headline: AI Agents That Work For You
-subhead: Scale your operations with intelligent agents that handle complex tasks. Reduce costs and improve efficiency with 24/7 autonomous digital workers.
-badge: 'AI without Complexity'
-codeLang: 'typescript'
+title: Agents.do - Autonomous Digital Workers
+description: Deploy & Manage Autonomous Digital Workers with enterprise-grade control and integration with the .do ecosystem
+headline: Agents.do
+subhead: Elegant, autonomous digital workers that accomplish valuable tasks
+badge: AI without Complexity
+brandColor: "#9e7aff"
+codeLang: typescript
 codeExample: |
-  import { Agent } from 'agents.do';
-
-  const customerSupport = new Agent({
-    name: 'Customer Support Agent',
-    description: 'Handles customer inquiries and support tickets',
-    tools: [
-      'searchKnowledgeBase',
-      'createSupportTicket',
-      'escalateToHuman'
-    ],
-    memory: true,
-    maxConversationLength: 10,
-  });
-brandColor: '#9e7aff'
+  import { Agent } from 'agents.do'
+  
+  const customerSupportAgent = new Agent({
+    name: 'Amy',
+    role: 'Customer Support Agent',
+    job: 'Handles customer inquiries and resolves common issues',
+    integrations: ['chat', 'slack', 'email'],
+    triggers: ['onTicketCreated', 'onMessageReceived'],
+    searches: ['FAQs', 'Tickets', 'Orders', 'Products'],
+    actions: ['sendMessage', 'updateOrder', 'resolveTicket', 'escalateTicket'],
+  })
 ---
 
 # Agents.do
 
 Deploy & Manage Autonomous Digital Workers
+
+## Key Features
+
+- **Autonomous Operation** - Agents work independently with minimal human oversight
+- **Multi-Service Integration** - Seamless connections with all .do services
+- **Event-Driven Architecture** - Responsive to triggers from various systems
+- **Contextual Intelligence** - Access to relevant data through searches
+- **Action Capabilities** - Ability to perform meaningful operations
+- **Business Impact Measurement** - Built-in KPI tracking and optimization
+- **Elegant Configuration** - Simple, declarative setup with minimal code
+
+## Use Cases
+
+- **Customer Support** - Handle inquiries, resolve issues, and escalate when necessary
+- **Sales Assistance** - Qualify leads, schedule demos, and follow up on opportunities
+- **Data Analysis** - Process large datasets, generate insights, and create reports
+- **Content Creation** - Generate marketing copy, blog posts, and social media content
+- **Process Automation** - Execute routine tasks, monitor systems, and respond to events
+
+## Integration with .do Ecosystem
+
+Agents.do seamlessly integrates with other .do services, creating a powerful, composable architecture for building intelligent applications. Use with [Functions.do](https://functions.do), [Workflows.do](https://workflows.do), and other .do services to create comprehensive solutions.
