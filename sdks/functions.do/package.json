@@ -41,7 +41,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "node build.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "vitest run tests/e2e/**/*.test.ts"
@@ -50,7 +50,8 @@
     "eslint-config": "workspace:*",
     "evalite": "^0.10.0",
     "vitest": "^3.0.9",
-    "tsconfig": "workspace:*"
+    "tsconfig": "workspace:*",
+    "esbuild": "^0.20.0"
   },
   "dependencies": {
     "apis.do": "workspace:*"

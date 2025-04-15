@@ -1,7 +1,10 @@
 import type { BlogPost } from '@/components/sites/blog-ui/blog-posts'
+import { ai } from 'functions.do'
 
-// Sample blog posts data
-const blogPosts: BlogPost[] = [
+let cachedBlogPosts: BlogPost[] | null = null
+const defaultCategories = ['AI Functions', 'Developer Tools', 'API Design', 'Language Models', 'Industry Insights', 'Best Practices', 'Ethics', 'Tutorials']
+
+const fallbackBlogPosts: BlogPost[] = [
   {
     slug: 'bringing-ai-back-to-code',
     title: 'Bringing AI Back to Code: Introducing Functions.do',
@@ -24,67 +27,79 @@ const blogPosts: BlogPost[] = [
     description: 'Exploring trends and predictions for AI development in the coming years.',
     date: '3-15-2025',
     category: 'Industry Insights',
-    image: '/images/apis-plus-ai.png', // Fixed typo here
-  },
-  {
-    slug: 'optimizing-ai-performance',
-    title: 'Optimizing AI Performance in Production',
-    description: 'Best practices for deploying and scaling AI models in production environments.',
-    date: '3-10-2025',
-    category: 'Best Practices',
-    image: '/placeholder.svg?height=200&width=400',
-  },
-  {
-    slug: 'ai-ethics-considerations',
-    title: 'Ethical Considerations in AI Development',
-    description: 'Navigating the complex ethical landscape of artificial intelligence.',
-    date: '3-5-2025',
-    category: 'Ethics',
-    image: '/placeholder.svg?height=200&width=400',
-  },
-  {
-    slug: 'getting-started-with-apis-do',
-    title: 'Getting Started with APIs.do',
-    description: "A beginner's guide to using APIs.do for your development needs.",
-    date: '3-1-2025',
-    category: 'Tutorials',
-    image: '/placeholder.svg?height=200&width=400',
-  },
-  {
-    slug: 'machine-learning-basics',
-    title: 'Machine Learning Basics for AI Developers',
-    description: 'An introduction to machine learning concepts for developers working with AI.',
-    date: '2-25-2025',
-    category: 'Machine Learning',
-    image: '/placeholder.svg?height=200&width=400',
-  },
-  {
-    slug: 'developer-tools-for-ai',
-    title: 'Essential Developer Tools for AI Projects',
-    description: 'A curated list of the most useful tools for AI development workflows.',
-    date: '2-20-2025',
-    category: 'Developer Tools',
-    image: '/placeholder.svg?height=200&width=400',
-  },
-  {
-    slug: 'ai-transformation-case-study',
-    title: 'Case Study: AI Transformation at Enterprise Scale',
-    description: 'How a Fortune 500 company implemented AI across their organization.',
-    date: '2-15-2025',
-    category: 'Case Studies',
-    image: '/placeholder.svg?height=200&width=400',
+    image: '/images/apis-plus-ai.png',
   },
 ]
 
-export function getAllBlogPosts(): BlogPost[] {
-  return blogPosts
+/**
+ * Generate a list of blog posts using AI
+ */
+export async function getAllBlogPosts(): Promise<BlogPost[]> {
+  if (cachedBlogPosts) return cachedBlogPosts
+  
+  try {
+    const posts = await ai.generateBlogPosts(
+      { 
+        topics: defaultCategories, 
+        count: 10,
+        productName: 'functions.do',
+        companyName: 'Drivly',
+        includeRecentTrends: true
+      },
+      {
+        posts: [{
+          slug: 'url-friendly-slug',
+          title: 'attention-grabbing title',
+          description: 'brief summary',
+          date: 'date in MM-DD-YYYY format',
+          category: 'category name',
+          image: 'image path'
+        }]
+      }
+    )
+    
+    const formattedPosts = posts.posts.map(post => {
+      const dateParts = post.date.split('-')
+      const formattedDate = `${parseInt(dateParts[0])}-${parseInt(dateParts[1])}-${dateParts[2]}`
+      
+      const imagePath = post.image.startsWith('/') 
+        ? post.image 
+        : `/placeholder.svg?height=200&width=400`
+      
+      return {
+        ...post,
+        date: formattedDate,
+        image: imagePath
+      }
+    })
+    
+    cachedBlogPosts = formattedPosts
+    return formattedPosts
+  } catch (error) {
+    console.error('Error generating blog posts:', error)
+    cachedBlogPosts = fallbackBlogPosts
+    return fallbackBlogPosts
+  }
 }
 
-export function getBlogPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find((post) => post.slug === slug)
+/**
+ * Get a blog post by its slug
+ */
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
+  const posts = await getAllBlogPosts()
+  return posts.find((post) => post.slug === slug)
 }
 
-export function getAllCategories(): string[] {
-  const categories = new Set(blogPosts.map((post) => post.category))
-  return Array.from(categories)
+/**
+ * Get all unique categories from blog posts
+ */
+export async function getAllCategories(): Promise<string[]> {
+  try {
+    const posts = await getAllBlogPosts()
+    const categories = new Set(posts.map((post) => post.category))
+    return Array.from(categories)
+  } catch (error) {
+    console.error('Error getting categories:', error)
+    return defaultCategories
+  }
 }
