@@ -108,7 +108,7 @@ export const collections = [
   GenerationBatches,
   Traces,
   KPIs,
-  
+
   Config,
 
   Projects,
@@ -119,7 +119,6 @@ export const collections = [
   Webhooks,
   APIKeys,
 
-  
   OAuthClients,
   OAuthCodes,
   OAuthTokens,

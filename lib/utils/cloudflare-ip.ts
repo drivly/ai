@@ -113,6 +113,4 @@ export async function isCloudflareIP(ip: string): Promise<boolean> {
   return false
 }
 
-export default {
-  isCloudflareIP
-}
+
