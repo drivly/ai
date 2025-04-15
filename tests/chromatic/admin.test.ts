@@ -1,19 +1,21 @@
 import { test, expect } from '@chromatic-com/playwright'
 
-test.setTimeout(180000); // Further increased for CI environment
+test.setTimeout(120000); // Reduced timeout for faster feedback
 
 test('admin login page', async ({ page }) => {
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
+  const ciNavigationTimeout = 90000; // Reduced navigation timeout
+  const ciVisibilityTimeout = 60000; // Reduced visibility timeout
   
   // Use a more basic approach for CI environment
   if (process.env.CI) {
-    console.log('Running in CI environment with simplified approach');
+    console.log('Running in CI environment, using domcontentloaded');
     
-    page.setDefaultNavigationTimeout(120000);
+    page.setDefaultNavigationTimeout(ciNavigationTimeout);
     
     await page.goto(`${baseUrl}/admin`, {
-      waitUntil: 'load',
-      timeout: 120000 // Further increased for CI environment
+      waitUntil: 'domcontentloaded', // Changed from 'load'
+      timeout: ciNavigationTimeout 
     });
   } else {
     await page.goto(`${baseUrl}/admin`, {
@@ -22,8 +24,8 @@ test('admin login page', async ({ page }) => {
     });
   }
   
-  // Increase visibility timeout for CI environment
-  const visibilityTimeout = process.env.CI ? 90000 : 30000;
+  // Use reduced visibility timeout for CI environment
+  const visibilityTimeout = process.env.CI ? ciVisibilityTimeout : 30000;
   
   try {
     await expect(page.locator('input[type="email"]').first()).toBeVisible({ timeout: visibilityTimeout })
@@ -34,9 +36,7 @@ test('admin login page', async ({ page }) => {
   } catch (error: any) {
     console.log('Encountered error, retrying with page reload:', error.message);
     
-    // Use appropriate wait strategy for CI environment
-    const reloadWaitUntil = process.env.CI ? 'load' : 'networkidle';
-    await page.reload({ waitUntil: reloadWaitUntil, timeout: visibilityTimeout });
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: ciNavigationTimeout }); // Changed from 'load'/'networkidle'
     
     await expect(page.locator('input[type="email"]').first()).toBeVisible({ timeout: visibilityTimeout })
     await expect(page.locator('input[type="password"]').first()).toBeVisible({ timeout: visibilityTimeout })
