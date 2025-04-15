@@ -11,17 +11,38 @@ The `ai` object is extremely powerful and flexible. It can be used to call arbit
 ```typescript
 import { ai } from 'functions.do'
 
-const idea = 'Business-as-Code'
-
-// call an arbitrary function
-const leanCanvas = await ai('leanCanvas', { idea })
+// Generate a Lean Canvas
+const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
 ```
 
 ## `api`
 
+The `api` object provides access to not only all of the core `.do` APIs, but also tens of thousands of searches and actions from third-party [integrations](/docs/integrations):
+
+```typescript
+import { api } from 'functions.do'
+
+const workflow = await api.workflows.get({ id: 'onUserSignup' })
+
+const result = await api.slack.postMessage({
+  channel: '#general',
+  text: 'Hello, world!',
+})
+```
 
 ## `ctx`
 
+The `ctx` object provides access to the current request context:
+
+```typescript
+AI({
+  onUserSignup: async (event, ctx) => {
+    const { user } = event
+    const { ai, api, db, do } = ctx
+    // ...
+  }
+})
+```
 
 ## `db`
 
