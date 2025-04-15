@@ -18,13 +18,16 @@ export async function generateMetadata({ params }: { params: { domain: string } 
   }
 }
 
+type PageParams = { domain: string }
+
 interface PageProps {
-  params: { domain: string }
-  searchParams?: { [key: string]: string | string[] | undefined }
+  params: Promise<PageParams>
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { domain } = params
+  const resolvedParams = await params
+  const { domain } = resolvedParams
   await getSession()
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
