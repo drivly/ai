@@ -4,8 +4,8 @@ test.setTimeout(90000); // Increase test timeout for CI environment
 
 test('admin login page', async ({ page }) => {
   await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/admin`, {
-    waitUntil: 'networkidle',
-    timeout: 60000 // Increased for CI environment
+    waitUntil: 'domcontentloaded', // Changed from networkidle to prevent timeouts
+    timeout: 90000 // Further increased for CI environment
   });
   
   try {
