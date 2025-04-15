@@ -6,5 +6,5 @@
     }
   ],
   "buildCommand": "pnpm run build",
-  "installCommand": "pnpm install --no-frozen-lockfile"
+  "installCommand": "npm i -g pnpm@10 && pnpm install --no-frozen-lockfile"
 }
