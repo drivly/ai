@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Force publish script for SDK packages
+ * Force publish script for SDK packages with proper NPM authentication
  * This script directly publishes all SDK packages with the next tag and version 0.1.0
  * Bypasses semantic-release and directly uses npm publish
  */
@@ -44,6 +44,7 @@ const verifyNpmConfig = () => {
     console.log('Verifying NPM configuration...')
     console.log(`NPM_CONFIG_REGISTRY: ${process.env.NPM_CONFIG_REGISTRY || 'not set'}`)
     console.log(`NODE_AUTH_TOKEN exists: ${!!process.env.NODE_AUTH_TOKEN}`)
+    console.log(`NPM_TOKEN exists: ${!!process.env.NPM_TOKEN}`)
     
     const npmRegistry = execSync('npm config get registry').toString().trim()
     console.log(`Current NPM registry: ${npmRegistry}`)
@@ -53,30 +54,23 @@ const verifyNpmConfig = () => {
       process.env.NPM_CONFIG_REGISTRY = 'https://registry.npmjs.org/'
     }
     
-    try {
-      execSync('npm whoami', { stdio: ['pipe', 'pipe', 'pipe'] })
-      console.log('NPM authentication verified successfully')
-    } catch (error) {
-      console.warn('NPM authentication check failed. This may cause publishing to fail.')
-      console.warn('Error details:', error.message)
-      
-      const homeNpmrcPath = path.join(process.env.HOME, '.npmrc')
-      const npmrcContent = `
+    const homeNpmrcPath = path.join(process.env.HOME, '.npmrc')
+    const globalNpmrcContent = `
 registry=https://registry.npmjs.org/
 always-auth=true
 `
-      fs.writeFileSync(homeNpmrcPath, npmrcContent, 'utf8')
-      console.log('Created global .npmrc file with auth token')
-      
-      try {
-        execSync('npm whoami', { stdio: ['pipe', 'pipe', 'pipe'] })
-        console.log('NPM authentication verified successfully after creating global .npmrc')
-      } catch (retryError) {
-        console.error('NPM authentication still failing after creating global .npmrc:', retryError.message)
-      }
-    }
+    fs.writeFileSync(homeNpmrcPath, globalNpmrcContent, 'utf8')
+    console.log('Created global .npmrc file with auth token')
     
-    return true
+    try {
+      execSync('npm whoami', { stdio: ['pipe', 'pipe', 'pipe'] })
+      console.log('NPM authentication verified successfully')
+      return true
+    } catch (error) {
+      console.warn('NPM authentication check failed. This may cause publishing to fail.')
+      console.warn('Error details:', error.message)
+      return false
+    }
   } catch (error) {
     console.error('Error verifying NPM configuration:', error.message)
     return false
@@ -230,7 +224,10 @@ always-auth=true
   }
 }
 
-verifyNpmConfig()
+const isNpmConfigValid = verifyNpmConfig()
+if (!isNpmConfigValid) {
+  console.error('NPM configuration verification failed. Publishing may not work correctly.')
+}
 
 const packagePaths = getPackagePaths()
 console.log(`Found ${packagePaths.length} SDK packages to process`)
