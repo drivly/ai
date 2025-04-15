@@ -39,7 +39,7 @@ export const GET = API(async (request, { db, user, url, origin, domain }) => {
     }) || []
     
     const baseUrl = request.nextUrl.origin + request.nextUrl.pathname
-    const links: { home: string; next?: string; prev?: string } = {
+    const links: { home: string; next?: string; prev?: string; create?: string; documentation?: string } = {
       home: baseUrl,
     }
     
