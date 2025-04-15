@@ -100,8 +100,7 @@ const ZERO: Numeral =
     b
 // increases the number of times a numeral's function is called
 const SUCC: (n: Numeral) => Numeral = (n) => (a) => (b) => a(n(a)(b))
-const UINT: (n: number) => Numeral = (n: number) =>
-  n < 0 ? ZERO : Θ<number, Numeral>((rec) => (m) => m === 0 ? ZERO : SUCC(rec(m - 1)))(n)
+const UINT: (n: number) => Numeral = (n: number) => (n < 0 ? ZERO : Θ<number, Numeral>((rec) => (m) => (m === 0 ? ZERO : SUCC(rec(m - 1))))(n))
 const ADD: (m: Numeral) => (n: Numeral) => Numeral = (m) => (n) => (a) => (b) => m(SUCC)(n)(a)(b)
 const MULT: (m: Numeral) => (n: Numeral) => Numeral = (m) => (n) => (a) => (b) => m(n(a))(b)
 const EXP: (m: Numeral) => (n: Numeral) => Numeral = (m: Numeral) => (n: Numeral) => (a) => (b) => n(m)(a)(b)
@@ -125,7 +124,7 @@ const bind =
   <B>(f: B) =>
     e(<T>(id: T) => f(id))
 const get_id = (e) => e((id) => id)
-const equals = (a) => (b) => get_id(a) === get_id(b) ? TRUE : FALSE
+const equals = (a) => (b) => (get_id(a) === get_id(b) ? TRUE : FALSE)
 type ReadingType<V, O, T> = <S>(selector: (verb: V) => (order: O) => (template: T) => S) => S
 const Reading =
   <V, O, T>(verb: V) =>
@@ -144,19 +143,12 @@ const FactType =
   <C>(constraints: C) =>
   <O>(s: (arity: A) => (verbFn: V) => (reading: R) => (constraints: C) => O) =>
     s(arity)(verbFn)(reading)(constraints)
-const get_arity = <A, V, R, C>(factType: FactTypeFn<A, V, R, C>) =>
-  factType((a: A) => (_v: V) => (_r: R) => (_c: C) => a)
-const get_verb = <A, V, R, C>(factType: FactTypeFn<A, V, R, C>) =>
-  factType((_a: A) => (v: V) => (_r: R) => (_c: C) => v)
-const get_reading = <A, V, R, C>(factType: FactTypeFn<A, V, R, C>) =>
-  factType((_a: A) => (_v: V) => (r: R) => (_c: C) => r)
-const get_constraints = <A, V, R, C>(factType: FactTypeFn<A, V, R, C>) =>
-  factType((_a: A) => (_v: V) => (_r: R) => (c: C) => c)
+const get_arity = <A, V, R, C>(factType: FactTypeFn<A, V, R, C>) => factType((a: A) => (_v: V) => (_r: R) => (_c: C) => a)
+const get_verb = <A, V, R, C>(factType: FactTypeFn<A, V, R, C>) => factType((_a: A) => (v: V) => (_r: R) => (_c: C) => v)
+const get_reading = <A, V, R, C>(factType: FactTypeFn<A, V, R, C>) => factType((_a: A) => (_v: V) => (r: R) => (_c: C) => r)
+const get_constraints = <A, V, R, C>(factType: FactTypeFn<A, V, R, C>) => factType((_a: A) => (_v: V) => (_r: R) => (c: C) => c)
 const makeVerbFact = <A, V, R, C>(FactType: FactTypeFn<A, V, R, C>) =>
-  Θ(
-    (curry) => (args) => (n: number) =>
-      n === 0 ? get_verb(FactType)(args) : <A>(arg: A) => curry(append(args)(cons(arg)(nil)))(n - 1),
-  )(nil)(get_arity(FactType))
+  Θ((curry) => (args) => (n: number) => (n === 0 ? get_verb(FactType)(args) : <A>(arg: A) => curry(append(args)(cons(arg)(nil)))(n - 1)))(nil)(get_arity(FactType))
 const FactSymbol =
   <V>(verb: V) =>
   <N>(nouns: N) =>
@@ -254,19 +246,14 @@ const Violation =
 // #region System metamodel
 type FactSymbolType = <S>(s: (verb: unknown) => (nouns: unknown) => S) => S
 const nounType = (name: string): FactSymbolType => FactSymbol(unit('nounType'))(list(unit(name)))
-const factType = <V>(verb: V, arity: number): FactSymbolType =>
-  FactSymbol(unit('factType'))(list(unit(verb), unit(arity)))
-const role = <V>(verb: V, index: number, name: string): FactSymbolType =>
-  FactSymbol(unit('role'))(list(unit(verb), unit(index), unit(name)))
-const reading = <V>(verb: V, parts: string[]): FactSymbolType =>
-  FactSymbol(unit('reading'))(list(unit(verb), ...parts.map((p) => unit(p))))
+const factType = <V>(verb: V, arity: number): FactSymbolType => FactSymbol(unit('factType'))(list(unit(verb), unit(arity)))
+const role = <V>(verb: V, index: number, name: string): FactSymbolType => FactSymbol(unit('role'))(list(unit(verb), unit(index), unit(name)))
+const reading = <V>(verb: V, parts: string[]): FactSymbolType => FactSymbol(unit('reading'))(list(unit(verb), ...parts.map((p) => unit(p))))
 const inverseReading = <P, I, O, T = string[]>(primary: P, inverse: I, order: O, template: T) =>
   FactSymbol(unit('inverseReading'))(list(unit(primary), unit(inverse), order, template))
 const constraint = <T>(id: T, modality: Modality) => FactSymbol(unit('constraint'))(list(unit(id), unit(modality)))
-const constraintTarget = <C, V>(constraintId: C, verb: V, roleIndex: number) =>
-  FactSymbol(unit('constraintTarget'))(list(unit(constraintId), unit(verb), unit(roleIndex)))
-const violation = <N, C, R>(noun: N, constraintId: C, reason: R) =>
-  FactSymbol(unit('violation'))(list(unit(noun), unit(constraintId), unit(reason)))
+const constraintTarget = <C, V>(constraintId: C, verb: V, roleIndex: number) => FactSymbol(unit('constraintTarget'))(list(unit(constraintId), unit(verb), unit(roleIndex)))
+const violation = <N, C, R>(noun: N, constraintId: C, reason: R) => FactSymbol(unit('violation'))(list(unit(noun), unit(constraintId), unit(reason)))
 // #endregion
 // #region Reserved Symbols
 // TODO: CSDP
