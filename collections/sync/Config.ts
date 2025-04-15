@@ -174,11 +174,7 @@ const Config: CollectionConfig = {
               },
             },
           ],
-          defaultValue: [
-            { pattern: '*.json' },
-            { pattern: '*.ts' },
-            { pattern: 'schemas/*' },
-          ],
+          defaultValue: [{ pattern: '*.json' }, { pattern: '*.ts' }, { pattern: 'schemas/*' }],
         },
       ],
     },

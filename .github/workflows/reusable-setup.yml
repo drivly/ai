@@ -1,0 +1,63 @@
+name: Reusable Node.js and PNPM Setup
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        required: false
+        type: string
+        default: '22.x'
+      pnpm-version:
+        required: false
+        type: string
+        default: '10.x'
+      install-dependencies:
+        required: false
+        type: boolean
+        default: true
+      use-cache:
+        required: false
+        type: boolean
+        default: true
+      working-directory:
+        required: false
+        type: string
+        default: '.'
+      cache-dependency-path:
+        required: false
+        type: string
+        default: 'pnpm-lock.yaml'
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js ${{ inputs.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ inputs.pnpm-version }}
+          
+      - name: Setup Node.js with PNPM cache
+        if: ${{ inputs.use-cache }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: 'pnpm'
+          cache-dependency-path: ${{ inputs.cache-dependency-path }}
+            
+      - name: Install Dependencies
+        if: ${{ inputs.install-dependencies }}
+        run: pnpm install --frozen-lockfile

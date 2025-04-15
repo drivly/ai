@@ -388,8 +388,11 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+const npmTag = 'next'; // Hardcode the npmTag value
+
 try {
   console.log('Attempting direct NPM publish...');
+  console.log('Using npm tag:', npmTag);
   
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);

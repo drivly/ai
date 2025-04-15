@@ -29,7 +29,8 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                   pathname,
                   query: updateOptionParams('absolute', 'false', searchParams),
                 }}
-                className={`rounded-full px-4 py-1 text-sm transition-all ${!showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}>
+                className={`rounded-full px-4 py-1 text-sm transition-all ${!showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}
+              >
                 Relative
               </Link>
               <Link
@@ -37,7 +38,8 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                   pathname,
                   query: updateOptionParams('absolute', 'true', searchParams),
                 }}
-                className={`rounded-full px-4 py-1 text-sm transition-all ${showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}>
+                className={`rounded-full px-4 py-1 text-sm transition-all ${showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}
+              >
                 Absolute
               </Link>
             </div>

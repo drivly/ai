@@ -3,7 +3,7 @@ title: Datasets.do - AI Training Data Platform
 description: Manage and utilize high-quality datasets with Datasets.do, the comprehensive platform for AI training and testing data
 headline: Quality Data For Better AI
 subhead: Build and manage high-quality datasets for training and testing AI models. Ensure your AI systems perform optimally with diverse, representative data collections.
-badge: "AI without Complexity"
+badge: 'AI without Complexity'
 codeExample: "import { Dataset } from 'datasets.do';\n\nconst customerFeedbackDataset = new Dataset({\n  name: 'Customer Feedback Analysis',\n  description: 'Collection of customer feedback for sentiment analysis training',\n  schema: {\n    id: { type: 'string', required: true },\n    feedback: { type: 'string', required: true },\n    sentiment: { type: 'string', enum: ['positive', 'neutral', 'negative'] },\n    category: { type: 'string' },\n    source: { type: 'string' }\n  },\n  splits: {\n    train: 0.7,\n    validation: 0.15,\n    test: 0.15\n  },\n  size: 10000\n});"
 ---
 

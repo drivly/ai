@@ -174,14 +174,14 @@ export const Functions: CollectionConfig = {
         description: 'Example arguments for this function',
       },
     },
-    { 
-      name: 'goals', 
-      type: 'relationship', 
+    {
+      name: 'goals',
+      type: 'relationship',
       relationTo: 'goals',
       hasMany: true,
-      admin: { 
-        description: 'Goals this function contributes to' 
-      } 
+      admin: {
+        description: 'Goals this function contributes to',
+      },
     },
   ],
 }

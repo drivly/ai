@@ -8,10 +8,6 @@ export const metadata = {
   description: 'API Reference Documentation',
 }
 
-export default function ReferenceLayout({
-  children,
-}: {
-  children: ReactNode
-}) {
+export default function ReferenceLayout({ children }: { children: ReactNode }) {
   return children
 }

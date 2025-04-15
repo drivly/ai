@@ -60,6 +60,8 @@
   "scripts": {
     "vscode:prepublish": "npm run esbuild-base -- --minify",
     "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --external:payload --external:sharp --format=cjs --platform=node",
+    "build": "npm run esbuild-base",
+    "build:packages": "npm run esbuild-base",
     "esbuild": "npm run esbuild-base -- --sourcemap",
     "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
     "test": "echo \"No tests\" && exit 0",

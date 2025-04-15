@@ -24,7 +24,8 @@ const CustomLogoutButton: React.FC<{ redirectTo?: string }> = (props) => {
         transition: 'background-color 0.2s ease',
       }}
       onMouseOver={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.05)')}
-      onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}>
+      onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+    >
       {loading ? (
         <Loader2 style={{ height: '16px', width: '16px', animation: 'spin 1s linear infinite' }} />
       ) : (

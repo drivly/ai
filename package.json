@@ -53,7 +53,10 @@
     "prettier-fix": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
     "test": "turbo test",
     "test:watch": "vitest",
-    "test:e2e": "vitest run --config tests/vitest.e2e.config.ts",
+    "test:unit": "vitest run --exclude tests/e2e/ --exclude tests/chromatic/",
+    "test:e2e": "playwright test tests/e2e",
+    "test:visual": "playwright test tests/chromatic",
+
     "test:chromatic": "npx playwright test tests/chromatic && npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN}",
     "clean": "turbo clean",
     "lint:legacy": "cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next lint",
@@ -169,7 +172,6 @@
     "ua-parser-js": "^2.0.3",
     "unified": "^11.0.5",
     "velite": "^0.2.2",
-    "vm2": "^3.9.19",
     "workflows.do": "0.0.1",
     "yaml": "^2.7.0",
     "zod": "^3.24.1",
@@ -229,7 +231,26 @@
     "onlyBuiltDependencies": [
       "@vercel/speed-insights",
       "esbuild",
-      "sharp"
+      "sharp",
+      "apis.do",
+      "actions.do",
+      "analytics.do",
+      "database.do",
+      "evals.do",
+      "experiments.do",
+      "functions.do",
+      "goals.do", 
+      "gpt.do",
+      "mcp.do",
+      "integrations.do",
+      "models.do", 
+      "searches.do",
+      "tasks.do",
+      "triggers.do",
+      "llm.do",
+      "workflows.do",
+      "agents.do",
+      "cli.do"
     ]
   },
   "prettier": {

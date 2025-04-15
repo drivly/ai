@@ -14,7 +14,7 @@ export function captureError(error: Error, context?: Record<string, any>) {
       error_message: error.message,
       error_name: error.name,
       error_stack: error.stack,
-      ...context
+      ...context,
     })
   }
 }
@@ -48,7 +48,7 @@ function SuspendedPostHogPageView() {
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   usePostHogIdentification()
-  
+
   useEffect(() => {
     if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
       posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY as string, {
@@ -63,7 +63,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
       })
     }
   }, [])
-  
+
   return (
     <PHProvider client={posthog}>
       <SuspendedPostHogPageView />

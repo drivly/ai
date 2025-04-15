@@ -13,19 +13,16 @@ interface CodeWindowProps {
 function syntaxHighlightJson(json: string) {
   const urlMap = new Map<string, string>()
   let urlCounter = 0
-  
+
   let processedJson = json.replace(/"(https:\/\/[^"\s]+)"/g, (match, url) => {
     const placeholder = `__URL_PLACEHOLDER_${urlCounter}__`
     urlMap.set(placeholder, url)
     urlCounter++
     return `"${placeholder}"`
   })
-  
-  let result = processedJson
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-  
+
+  let result = processedJson.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
   result = result.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)/g, (match) => {
     let cls = 'text-green-300' // string
     if (/^"/.test(match)) {
@@ -41,15 +38,15 @@ function syntaxHighlightJson(json: string) {
     }
     return '<span class="' + cls + '">' + match + '</span>'
   })
-  
+
   result = result.replace(/({|}|\[|\]|,|:)/g, (match) => {
     return '<span class="text-white">' + match + '</span>'
   })
-  
+
   urlMap.forEach((url, placeholder) => {
-    result = result.replace(new RegExp(`"${placeholder}"`, 'g'), `"<a href="${url}" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">${url}</a>"`);
+    result = result.replace(new RegExp(`"${placeholder}"`, 'g'), `"<a href="${url}" target="_blank" rel="noopener noreferrer" class="underline hover:opacity-80">${url}</a>"`)
   })
-  
+
   return result
 }
 
@@ -58,11 +55,9 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
     title = 'workflows.do'
   }
   const codeString = typeof code === 'object' ? JSON.stringify(code, null, 2) : String(code)
-  
-  const [highlightedCode, setHighlightedCode] = useState(
-    language === 'json' ? syntaxHighlightJson(codeString) : codeString
-  )
-  
+
+  const [highlightedCode, setHighlightedCode] = useState(language === 'json' ? syntaxHighlightJson(codeString) : codeString)
+
   useEffect(() => {
     async function highlight() {
       if (language === 'json') {
@@ -72,21 +67,23 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
         const html = await codeToHtml(codeString, {
           lang: language,
           theme: 'dracula', // Match our UI package theme
-          transformers: [{
-            pre(node) {
-              node.properties.style = 'background-color: transparent !important;'
-              return node
+          transformers: [
+            {
+              pre(node) {
+                node.properties.style = 'background-color: transparent !important;'
+                return node
+              },
+              code(node) {
+                node.properties.style = 'background-color: transparent !important;'
+                return node
+              },
             },
-            code(node) {
-              node.properties.style = 'background-color: transparent !important;'
-              return node
-            }
-          }]
+          ],
         })
         return html
       }
     }
-    
+
     highlight().then(setHighlightedCode)
   }, [codeString, language])
 

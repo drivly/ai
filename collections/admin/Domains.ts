@@ -47,7 +47,7 @@ export const Domains: CollectionConfig = {
                 options: {
                   domainId: doc.id,
                   operation,
-                }
+                },
               },
             })
             console.log(`Queued domain ${operation}`, job)
@@ -79,7 +79,7 @@ export const Domains: CollectionConfig = {
                   domain: domain.domain,
                   vercelId: domain.vercelId,
                   cloudflareId: domain.cloudflareId,
-                }
+                },
               },
             })
             console.log('Queued domain deletion', job)

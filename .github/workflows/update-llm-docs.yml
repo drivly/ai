@@ -1,0 +1,50 @@
+name: Update LLM Documentation
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+  workflow_dispatch:
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22.x
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.x
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Unified LLM Fetcher
+        run: node scripts/unified-llm-fetcher.js
+        env:
+          FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: update LLM documentation"
+          branch: "auto-update/llm-docs"
+          delete-branch: true
+          title: "chore: update LLM documentation"
+          body: |
+            This PR was created automatically by the update-llm-docs workflow.
+            It contains updated LLM documentation from various sources.
+            
+            Related to ticket: ENG-514
+          labels: |
+            documentation
+            automated pr
