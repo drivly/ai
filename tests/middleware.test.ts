@@ -9,6 +9,7 @@ vi.mock('next/server', async () => {
     ...actual,
     NextResponse: {
       rewrite: vi.fn().mockImplementation((url) => ({ url, rewrite: true })),
+      next: vi.fn().mockImplementation(() => ({ headers: new Map() })), // Add mock for next()
     },
   }
 })
@@ -27,6 +28,7 @@ describe('middleware', () => {
         search: '?param=value',
       },
       url: 'https://functions.do/api?param=value',
+      cookies: new Map(), // Add mock cookies
     } as unknown as NextRequest
 
     const result = middleware(request)
@@ -56,6 +58,7 @@ describe('middleware', () => {
         search: '?param=value',
       },
       url: 'https://functions.do/some/path?param=value',
+      cookies: new Map(), // Add mock cookies
     } as unknown as NextRequest
 
     const result = middleware(request)
@@ -85,6 +88,7 @@ describe('middleware', () => {
         search: '',
       },
       url: 'https://functions.do/',
+      cookies: new Map(), // Add mock cookies
     } as unknown as NextRequest
 
     const result = middleware(request)
@@ -111,6 +115,7 @@ describe('middleware', () => {
         search: '?param=value',
       },
       url: 'https://functions.do/docs?param=value',
+      cookies: new Map(), // Add mock cookies
     } as unknown as NextRequest
 
     const result = middleware(request)
@@ -139,6 +144,7 @@ describe('middleware', () => {
         search: '?param=value',
       },
       url: 'https://nonexistent.do/docs?param=value',
+      cookies: new Map(), // Add mock cookies
     } as unknown as NextRequest
 
     const result = middleware(request)
@@ -167,6 +173,7 @@ describe('middleware', () => {
         search: '?param=value',
       },
       url: 'https://functions.do/docs/usage?param=value',
+      cookies: new Map(), // Add mock cookies
     } as unknown as NextRequest
 
     const result = middleware(request)
@@ -194,6 +201,7 @@ describe('middleware', () => {
         search: '?param=value',
       },
       url: 'https://llms.do/docs?param=value',
+      cookies: new Map(), // Add mock cookies
     } as unknown as NextRequest
 
     const result = middleware(request)
@@ -222,6 +230,7 @@ describe('middleware', () => {
         search: '?param=value',
       },
       url: 'https://integrations.do/admin?param=value',
+      cookies: new Map(), // Add mock cookies
     } as unknown as NextRequest
 
     const result = middleware(request)

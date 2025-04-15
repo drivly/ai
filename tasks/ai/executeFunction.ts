@@ -52,10 +52,10 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       actionHash ? payload.find({ collection: 'actions', where: { hash: { equals: actionHash } }, depth: 1 }) : { docs: [] },
     ])
 
-    functionDoc = results[0].docs[0]
-    schemaDoc = results[1].docs[0]
-    argsDoc = results[2].docs[0]
-    actionDoc = results[3].docs[0]
+    functionDoc = results[0]?.docs?.[0]
+    schemaDoc = results[1]?.docs?.[0]
+    argsDoc = results[2]?.docs?.[0]
+    actionDoc = results[3]?.docs?.[0]
   } catch (error) {
     console.error('Error during hash lookups:', error)
     functionDoc = undefined
