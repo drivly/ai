@@ -1,4 +1,4 @@
-import { ADD, ALETHIC, EQ, FactSymbol, fold, get_id, get_modality, get_nouns, get_verb_symbol, type Modality, nth, type Numeral, UINT } from './exec-symbols'
+import { ADD, ALETHIC, EQ, FactSymbol, fold, get_arity, get_id, get_modality, get_nouns, get_verb_symbol, type Modality, nth, type Numeral, UINT } from './exec-symbols'
 
 // Define the proper types based on the Church encoding pattern
 type FactSymbolType = ReturnType<typeof FactSymbol>
@@ -20,8 +20,10 @@ export const createRMapPipeline = () => {
   // Step 0.1: Transform exclusive unaries based on world semantics
   const transformUnaries = (facts: FactSymbolType[]) => {
     const isUnary = (fact: FactSymbolType) => {
-      const nouns = get_nouns(fact)
-      return EQ(fold((_n: unknown) => (acc: Numeral) => ADD(acc)(UINT(1)))(UINT(0))(nouns))(UINT(1))
+      // TODO: Get the fact type from the fact
+      // const factType = fact
+      // return get_arity(factType) === 1
+      return false
     }
 
     const unaries = facts.filter(isUnary)
