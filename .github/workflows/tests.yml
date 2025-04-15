@@ -97,12 +97,13 @@ jobs:
           
           echo "Continuing with tests."
         
-      - name: Run Chromatic Tests
+      - name: Run Playwright Tests and Chromatic
         run: |
-          # Skip running Playwright tests since Chromatic already runs them
-          # Run Chromatic with auto-accept-changes for first-time snapshots
-          # Run Chromatic tests against the local server and exit immediately after upload
-          # This saves significant time as we don't need to wait for Chromatic to process the tests
+          # First run Playwright tests to generate the archives needed by Chromatic
+          pnpm exec playwright test tests/chromatic
+          
+          # Then run Chromatic with auto-accept-changes for first-time snapshots
+          # Exit immediately after upload to save time
           npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --exit-zero-on-changes --exit-once-uploaded
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
