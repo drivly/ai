@@ -1,6 +1,6 @@
 {
   "name": "gpt.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Simplified interface for GPT models with enhanced capabilities",
   "keywords": [
     "gpt",

@@ -1,6 +1,6 @@
 {
   "name": "actions.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "SDK for performing tasks within workflows",
   "keywords": [
     "actions",
