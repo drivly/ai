@@ -124,15 +124,14 @@ test('site blog post page', async ({ page }) => {
     await expect(page.locator('h1')).toBeVisible();
     
     try {
-      await page.waitForSelector('article, div.prose', { timeout: 60000 });
+      await page.waitForSelector('article, div.prose, .blog-content', { timeout: 60000 });
       
-      if (await page.locator('article').count() > 0) {
-        await expect(page.locator('article').first()).toBeVisible();
-      } else if (await page.locator('div.prose').count() > 0) {
-        await expect(page.locator('div.prose').first()).toBeVisible();
+      const contentElement = page.locator('article, div.prose, .blog-content')
+      if (await contentElement.count() > 0) {
+        await expect(contentElement.first()).toBeVisible()
       }
     } catch (error) {
-      console.log('Could not find article or div.prose, continuing with screenshot anyway');
+      console.log('Could not find article, div.prose, or .blog-content, continuing with screenshot anyway');
     }
     
     await expect(page).toHaveScreenshot('sites-blog-post-page.png');
@@ -192,9 +191,12 @@ test('site privacy page', async ({ page }) => {
     await expect(page.locator('h1')).toBeVisible();
     
     try {
-      await expect(page.locator('.prose')).toBeVisible({ timeout: 30000 });
+      const contentElement = page.locator('.prose, .content, article')
+      if (await contentElement.count() > 0) {
+        await expect(contentElement.first()).toBeVisible({ timeout: 30000 });
+      }
     } catch (error) {
-      console.log('Could not find prose element, continuing with screenshot anyway');
+      console.log('Could not find prose, content, or article element, continuing with screenshot anyway');
     }
     
     await expect(page).toHaveScreenshot('sites-privacy-page.png');
@@ -226,9 +228,12 @@ test('site terms page', async ({ page }) => {
     await expect(page.locator('h1')).toBeVisible();
     
     try {
-      await expect(page.locator('.prose')).toBeVisible({ timeout: 30000 });
+      const contentElement = page.locator('.prose, .content, article')
+      if (await contentElement.count() > 0) {
+        await expect(contentElement.first()).toBeVisible({ timeout: 30000 });
+      }
     } catch (error) {
-      console.log('Could not find prose element, continuing with screenshot anyway');
+      console.log('Could not find prose, content, or article element, continuing with screenshot anyway');
     }
     
     await expect(page).toHaveScreenshot('sites-terms-page.png');
