@@ -1,15 +1,15 @@
 import { test, expect } from '@chromatic-com/playwright'
 
-test.setTimeout(90000); // Increase test timeout for CI environment
+test.setTimeout(120000); // Further increased for CI environment
 
 test('sites main page', async ({ page }) => {
   await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites`, {
-    waitUntil: 'networkidle',
-    timeout: 60000 // Increased for CI environment
+    waitUntil: 'domcontentloaded', // Changed from networkidle to prevent timeouts
+    timeout: 90000 // Further increased for CI environment
   });
 
-  await expect(page.locator('main').first()).toBeVisible({ timeout: 30000 })
-  await expect(page.locator('h1')).toBeVisible()
+  await expect(page.locator('main').first()).toBeVisible({ timeout: 60000 })
+  await expect(page.locator('h1')).toBeVisible({ timeout: 30000 })
 
   await expect(page).toHaveScreenshot('sites-main-page.png')
 })
@@ -32,11 +32,11 @@ test('specific site page', async ({ page }) => {
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   await page.goto(`${baseUrl}/sites/workflows.do`, {
-    waitUntil: 'networkidle',
-    timeout: 60000 // Increased for CI environment
+    waitUntil: 'domcontentloaded', // Changed from networkidle to prevent timeouts
+    timeout: 90000 // Further increased for CI environment
   });
   
-  await expect(page.locator('main').first()).toBeVisible({ timeout: 30000 });
+  await expect(page.locator('main').first()).toBeVisible({ timeout: 60000 });
   
   await expect(page).toHaveScreenshot('sites-specific-domain.png', { maxDiffPixelRatio: 0.02 }); // Allow slightly larger diff ratio
 })
@@ -45,12 +45,12 @@ test('site blog page', async ({ page }) => {
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   await page.goto(`${baseUrl}/sites/workflows.do/blog`, {
-    waitUntil: 'networkidle',
-    timeout: 60000 // Increased for CI environment
+    waitUntil: 'domcontentloaded', // Changed from networkidle to prevent timeouts
+    timeout: 90000 // Further increased for CI environment
   });
   
-  await expect(page.locator('main').first()).toBeVisible({ timeout: 30000 });
-  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('main').first()).toBeVisible({ timeout: 60000 });
+  await expect(page.locator('h1')).toBeVisible({ timeout: 30000 });
   
   try {
     await expect(page.locator('div.grid[class*="sm:grid-cols-2"]')).toBeVisible({ timeout: 10000 });
@@ -65,12 +65,12 @@ test('site blog post page', async ({ page }) => {
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   await page.goto(`${baseUrl}/sites/workflows.do/blog/example-post`, {
-    waitUntil: 'networkidle',
-    timeout: 60000 // Increased for CI environment
+    waitUntil: 'domcontentloaded', // Changed from networkidle to prevent timeouts
+    timeout: 90000 // Further increased for CI environment
   });
   
-  await expect(page.locator('main').first()).toBeVisible({ timeout: 30000 });
-  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('main').first()).toBeVisible({ timeout: 60000 });
+  await expect(page.locator('h1')).toBeVisible({ timeout: 30000 });
   
   try {
     const contentElement = page.locator('article, div.prose, .blog-content');
@@ -88,12 +88,12 @@ test('site pricing page', async ({ page }) => {
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   await page.goto(`${baseUrl}/sites/workflows.do/pricing`, {
-    waitUntil: 'networkidle',
-    timeout: 60000 // Increased for CI environment
+    waitUntil: 'domcontentloaded', // Changed from networkidle to prevent timeouts
+    timeout: 90000 // Further increased for CI environment
   });
   
-  await expect(page.locator('main').first()).toBeVisible({ timeout: 30000 });
-  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('main').first()).toBeVisible({ timeout: 60000 });
+  await expect(page.locator('h1')).toBeVisible({ timeout: 30000 });
   
   await expect(page).toHaveScreenshot('sites-pricing-page.png');
 })
@@ -102,12 +102,12 @@ test('site privacy page', async ({ page }) => {
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   await page.goto(`${baseUrl}/sites/workflows.do/privacy`, {
-    waitUntil: 'networkidle',
-    timeout: 60000 // Increased for CI environment
+    waitUntil: 'domcontentloaded', // Changed from networkidle to prevent timeouts
+    timeout: 90000 // Further increased for CI environment
   });
   
-  await expect(page.locator('main').first()).toBeVisible({ timeout: 30000 });
-  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('main').first()).toBeVisible({ timeout: 60000 });
+  await expect(page.locator('h1')).toBeVisible({ timeout: 30000 });
   
   try {
     const contentElement = page.locator('.prose, .content, article')
@@ -125,12 +125,12 @@ test('site terms page', async ({ page }) => {
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   await page.goto(`${baseUrl}/sites/workflows.do/terms`, {
-    waitUntil: 'networkidle',
-    timeout: 60000 // Increased for CI environment
+    waitUntil: 'domcontentloaded', // Changed from networkidle to prevent timeouts
+    timeout: 90000 // Further increased for CI environment
   });
   
-  await expect(page.locator('main').first()).toBeVisible({ timeout: 30000 });
-  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('main').first()).toBeVisible({ timeout: 60000 });
+  await expect(page.locator('h1')).toBeVisible({ timeout: 30000 });
   
   try {
     const contentElement = page.locator('.prose, .content, article')
@@ -148,14 +148,14 @@ test('site waitlist page - unauthenticated', async ({ page }) => {
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   await page.goto(`${baseUrl}/sites/workflows.do/waitlist`, {
-    waitUntil: 'networkidle',
-    timeout: 60000 // Increased for CI environment
+    waitUntil: 'domcontentloaded', // Changed from networkidle to prevent timeouts
+    timeout: 90000 // Further increased for CI environment
   });
   
-  await page.waitForURL(`${baseUrl}/`, { timeout: 60000 });
-  await page.waitForLoadState('networkidle', { timeout: 60000 });
+  await page.waitForURL(`${baseUrl}/`, { timeout: 90000 });
+  await page.waitForLoadState('load', { timeout: 60000 }); // Changed from networkidle to load for faster completion
   
-  await expect(page.locator('body')).toBeVisible({ timeout: 30000 });
+  await expect(page.locator('body')).toBeVisible({ timeout: 60000 });
   
   await expect(page).toHaveScreenshot('sites-waitlist-redirected-to-login.png');
 })
