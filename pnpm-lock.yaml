@@ -739,7 +739,7 @@ importers:
         version: 0.0.1
       database.do:
         specifier: 0.0.1
-        version: link:../../sdks/database.do
+        version: 0.0.1
       functions.do:
         specifier: 0.0.1
         version: 0.0.1
@@ -1753,61 +1753,61 @@ importers:
     dependencies:
       actions.do:
         specifier: 0.0.1
-        version: link:../actions.do
+        version: 0.0.1
       analytics.do:
         specifier: 0.0.1
-        version: link:../analytics.do
+        version: 0.0.1
       apis.do:
         specifier: 0.1.0
         version: link:../apis.do
       database.do:
         specifier: 0.0.1
-        version: link:../database.do
+        version: 0.0.1
       evals.do:
         specifier: 0.0.1
-        version: link:../evals.do
+        version: 0.0.1
       experiments.do:
         specifier: 0.0.1
-        version: link:../experiments.do
+        version: 0.0.1
       functions.do:
         specifier: 0.1.0
         version: link:../functions.do
       goals.do:
         specifier: 0.0.1
-        version: link:../goals.do
+        version: 0.0.1
       gpt.do:
         specifier: 0.0.1
-        version: link:../gpt.do
+        version: 0.0.1
       integrations.do:
         specifier: 0.0.1
-        version: link:../integrations.do
+        version: 0.0.1
       llm.do:
         specifier: 0.0.1
-        version: link:../llm.do
+        version: 0.0.1
       mcp.do:
         specifier: 0.0.1
-        version: link:../mcp.do
+        version: 0.0.1
       models.do:
         specifier: 0.0.1
-        version: link:../models.do
+        version: 0.0.1
       plans.do:
         specifier: 0.0.1
-        version: link:../plans.do
+        version: 0.0.1
       projects.do:
         specifier: 0.0.1
-        version: link:../projects.do
+        version: 0.0.1
       sdk.do:
         specifier: 0.0.1
-        version: link:../sdk.do
+        version: 0.0.1
       searches.do:
         specifier: 0.0.1
-        version: link:../searches.do
+        version: 0.0.1
       tasks.do:
         specifier: 0.0.1
-        version: link:../tasks.do
+        version: 0.0.1(apis.do@sdks+apis.do)
       triggers.do:
         specifier: 0.0.1
-        version: link:../triggers.do
+        version: 0.0.1
     devDependencies:
       durable-objects-nosql:
         specifier: 0.2.0
@@ -8617,6 +8617,10 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
+  actions.do@0.0.1:
+    resolution: {integrity: sha512-CiD3I++1f9qRjzLam7AdnuM9qto4jTEqyJduIuVHpQzNAyq8cK7HH7vAeGVNHJ4rhtXpnwnWg5HRHXTehraOmw==}
+    engines: {node: '>=18.0.0'}
+
   agent-base@4.3.0:
     resolution: {integrity: sha512-salcGninV0nPrwpGNn4VTXBb1SOuXQBiqbrNXoeizJsHrsL6ERFM2Ne3JUSBWRE6aeNJI2ROP/WEEIDUiDe3cg==}
     engines: {node: '>= 4.0.0'}
@@ -8727,6 +8731,10 @@ packages:
 
   amazon-cognito-identity-js@6.3.15:
     resolution: {integrity: sha512-G2mzTlGYHKYh9oZDO0Gk94xVQ4iY9GYWBaYScbDYvz05ps6dqi0IvdNx1Lxi7oA3tjS5X+mUN7/svFJJdOB9YA==}
+
+  analytics.do@0.0.1:
+    resolution: {integrity: sha512-2hu8ezEv3OWDbhAZoFeJ8U0aAFzlL8HCFszbunTc6dphC1GXHyzRDSda6sCFRC1XoRUqHpIFRtCGE5hpWDZgAg==}
+    engines: {node: '>=18.0.0'}
 
   ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
@@ -10062,6 +10070,9 @@ packages:
     resolution: {integrity: sha512-BS8PfmtDGnrgYdOonGZQdLZslWIeCGFP9tpan0hi1Co2Zr2NKADsvGYA8XxuG/4UWgJ6Cjtv+YJnB6MM69QGlQ==}
     engines: {node: '>= 0.4'}
 
+  database.do@0.0.1:
+    resolution: {integrity: sha512-aT8mjQIeSl4pi3afk2e1VaQpncPrr1I845//ChFU/6uKrXXpLdIQyC8HRH/daoA00xuqgh+5FpTURv0b2ABGdg==}
+
   dataloader@2.2.2:
     resolution: {integrity: sha512-8YnDaaf7N3k/q5HnTJVuzSyLETjoZjVmHc4AeKAzOvKHEFQKcn64OKBfzHYtE9zGjctNM7V9I0MfnUVLpi7M5g==}
 
@@ -10895,6 +10906,10 @@ packages:
     resolution: {integrity: sha512-xOTD4FeKHMN+BRZRCzJ5Kudv9RavsBXuQlYv2SZV10mVYvXCMg2dwkOiO9efpf2A82ufoYEIGrd+Rh1j8W8NVQ==}
     hasBin: true
 
+  evals.do@0.0.1:
+    resolution: {integrity: sha512-kJ72BwYyMeiT5ExVR6k+FY+KLgLzoCLOORmFF1NOsaArA1Okb3ZsNmYOZRWVl/s7Iesy+znIWotCp7w3lGcbbQ==}
+    engines: {node: '>=18.0.0'}
+
   event-emitter@0.3.5:
     resolution: {integrity: sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA==}
 
@@ -10957,6 +10972,10 @@ packages:
   expect-type@1.2.1:
     resolution: {integrity: sha512-/kP8CAwxzLVEeFrMm4kMmy4CCDlpipyA7MYLVrdJIkV0fYF0UaigQHRsxHiuY/GEea+bh4KSv3TIlgr+2UL6bw==}
     engines: {node: '>=12.0.0'}
+
+  experiments.do@0.0.1:
+    resolution: {integrity: sha512-7+VlE64+75P7lyoHvP8YhbhO3/XY1xDUFZanrm7oaeLnB+DpBiWuvopJL4FeqsVJT4uSATcH+/tctuWZ6KnVKg==}
+    engines: {node: '>=18.0.0'}
 
   express-fileupload@1.4.0:
     resolution: {integrity: sha512-RjzLCHxkv3umDeZKeFeMg8w7qe0V09w3B7oGZprr/oO2H/ISCgNzuqzn7gV3HRWb37GjRk429CCpSLS2KNTqMQ==}
@@ -11545,6 +11564,10 @@ packages:
     resolution: {integrity: sha512-0Ia46fDOaT7k4og1PDW4YbodWWr3scS2vAr2lTbsplOt2WkKp0vQbkI9wKis/T5LV/dqPjO3bpS/z6GTJB82LA==}
     engines: {node: '>=18'}
 
+  goals.do@0.0.1:
+    resolution: {integrity: sha512-VyLNpFfzA9nqIAlWYVLB/HI27MTsUOtcV/0ggEqoGkAF2aoqRAaB7Etz6aO3Uasb6PADA1TztLQRnb195aYIsg==}
+    engines: {node: '>=18.0.0'}
+
   google-auth-library@9.15.1:
     resolution: {integrity: sha512-Jb6Z0+nvECVz+2lzSMt9u98UsoakXxA2HGHMCxh+so3n90XgYWkq5dur19JAJV7ONiJY22yBTyJB1TSkvPq9Ng==}
     engines: {node: '>=14'}
@@ -11560,6 +11583,10 @@ packages:
   got@13.0.0:
     resolution: {integrity: sha512-XfBk1CxOOScDcMr9O1yKkNaQyy865NbYs+F7dr4H0LZMVgCj2Le59k6PqbNHoL5ToeaEQUYh6c6yMfVcc6SJxA==}
     engines: {node: '>=16'}
+
+  gpt.do@0.0.1:
+    resolution: {integrity: sha512-yIrPPuo+h3B5JbunJnQOipuCceu1+yF2EqtXTybFrxpwYX4cjVjAODvfbvfxu2s6jAcpsmykyaik+JzbAlvegQ==}
+    engines: {node: '>=18.0.0'}
 
   graceful-fs@4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
@@ -12065,6 +12092,11 @@ packages:
 
   inspect-with-kind@1.0.5:
     resolution: {integrity: sha512-MAQUJuIo7Xqk8EVNP+6d3CKq9c80hi4tjIbIAT6lmGW9W6WzlHiu9PS8uSuUYU+Do+j1baiFp3H25XEVxDIG2g==}
+
+  integrations.do@0.0.1:
+    resolution: {integrity: sha512-ZU509MU2F38DcoMWOQW5K6eHxzPPs/RsXUXryQcgEs5/yamzgcuBuxAkHucATqqiYLtQS3RlJUYnhcqd+9WtWA==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
 
   internal-slot@1.1.0:
     resolution: {integrity: sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw==}
@@ -12969,6 +13001,10 @@ packages:
     resolution: {integrity: sha512-vsBzcU4oE+v0lj4FhVLzr9dBTv4/fHIa57l+GCwovP8MoFNZJTOhGU8PXd4v2VJCbECAaijBiHntiekFMLvo0g==}
     engines: {node: '>=18.0.0'}
 
+  llm.do@0.0.1:
+    resolution: {integrity: sha512-dcKxV0WyDXPjgM7RhqgXNh+QSx/kCI4k9eyuLyRN81iGeOTUuEjQsAoBC09QS9JPJLxKUh/IfLSk8F330rCezg==}
+    engines: {node: '>=18.0.0'}
+
   load-json-file@4.0.0:
     resolution: {integrity: sha512-Kx8hMakjX03tiGTLAIdJ+lL0htKnXjEZN6hk/tozf/WOuYGdZBJrZ+rCJRbVCugsjB3jMLn9746NsQIf5VjBMw==}
     engines: {node: '>=4'}
@@ -13211,6 +13247,10 @@ packages:
 
   mathjax-full@3.2.2:
     resolution: {integrity: sha512-+LfG9Fik+OuI8SLwsiR02IVdjcnRCy5MufYLi0C3TdMT56L/pjB0alMVGgoWJF8pN9Rc7FESycZB9BMNWIid5w==}
+
+  mcp.do@0.0.1:
+    resolution: {integrity: sha512-de6iAoLfDh6cvfR9JACD07yycJrc0HNhHypBl3tCcTxkJcBpIkiMa31EXhufJdZzIPW5eqxeDxFymmjIIeAUcQ==}
+    engines: {node: '>=18.0.0'}
 
   md-to-react-email@5.0.5:
     resolution: {integrity: sha512-OvAXqwq57uOk+WZqFFNCMZz8yDp8BD3WazW1wAKHUrPbbdr89K9DWS6JXY09vd9xNdPNeurI8DU/X4flcfaD8A==}
@@ -13758,6 +13798,10 @@ packages:
 
   mlly@1.7.4:
     resolution: {integrity: sha512-qmdSIPC4bDJXgZTCR7XosJiNKySV7O215tsPtDN9iEO/7q/76b/ijtgRu/+epFXSJhijtTCCGp3DWS549P3xKw==}
+
+  models.do@0.0.1:
+    resolution: {integrity: sha512-yiKKSVfDbvbmWFxfVPkDh/xQq3y94QuxEIwuEWqg6vnTXIGs0I33B54bcO4k+6ADlvmgFstXCktMlJ0nxpRqjw==}
+    engines: {node: '>=18.0.0'}
 
   module-details-from-path@1.0.3:
     resolution: {integrity: sha512-ySViT69/76t8VhE1xXHK6Ch4NcDd26gx0MzKXLO+F7NOtnqH68d9zF94nT8ZWSxXh8ELOERsnJO/sWt1xZYw5A==}
@@ -14892,6 +14936,10 @@ packages:
     resolution: {integrity: sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==}
     engines: {node: '>=8'}
 
+  plans.do@0.0.1:
+    resolution: {integrity: sha512-6ztXugyt2mx+GB1X7h07GIgJswsrJYL0gOCJrILazpiVEGdwJok/QpIJ7S7OSlY4nhWZxzkLNuQFS9oaUG+DNg==}
+    engines: {node: '>=18.0.0'}
+
   playwright-core@1.51.1:
     resolution: {integrity: sha512-/crRMj8+j/Nq5s8QcvegseuyeZPxpQCZb6HNk3Sos3BlZyAknRjoyJPFWkpNn8v0+P3WiwqFF8P+zQo4eqiNuw==}
     engines: {node: '>=18'}
@@ -15192,6 +15240,10 @@ packages:
   progress@2.0.3:
     resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
     engines: {node: '>=0.4.0'}
+
+  projects.do@0.0.1:
+    resolution: {integrity: sha512-SOvXDoZyIJhxoUkwbrzwizxq/EAgbQTkFBsP2GHY1mLzW5/8bw4W/uOzNWuwMegBp/pCy+JtH7DVFDZP+djREQ==}
+    engines: {node: '>=18.0.0'}
 
   prompts@2.4.2:
     resolution: {integrity: sha512-NxNv/kLguCA7p3jE8oL2aEBsrJWgAakBpgmgK6lpPWV+WuOmY6r2/zbAVnP+T8bQlA0nzHXSJSJW0Hq7ylaD2Q==}
@@ -16072,6 +16124,15 @@ packages:
   scroll-into-view-if-needed@3.1.0:
     resolution: {integrity: sha512-49oNpRjWRvnU8NyGVmUaYG4jtTkNonFZI86MmGRDqBphEK2EXT9gdEUoQPZhuBM8yWHxCWbobltqYO5M4XrUvQ==}
 
+  sdk.do@0.0.1:
+    resolution: {integrity: sha512-z7BibG2dWmWMtKmMEUxQdQ5U0VA3xIPmOP9Y0E0Chd8yH3JIY+oHBk+Y4p/SrqXHYqAlpNHbTLQesVLzD0F1GQ==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+
+  searches.do@0.0.1:
+    resolution: {integrity: sha512-Wc7ZIFyN2SNFKyr4KTK0XEfEXEgvh8fpuFPkoKBRIjTC3qQePLrnErMs/HBfH8a7a64zGic/H0J+wXViQ6tzqA==}
+    engines: {node: '>=18.0.0'}
+
   section-matter@1.0.0:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
     engines: {node: '>=4'}
@@ -16767,6 +16828,12 @@ packages:
   tar-stream@3.1.7:
     resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==}
 
+  tasks.do@0.0.1:
+    resolution: {integrity: sha512-RxA83RpCHQLyZ1bg6YZmih3oKCfwjgYtHlB5wfcMTqrS1MyMKyaLhsVIphDavJkpus21GgXQPwhKTBqpVIlDWg==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      apis.do: '*'
+
   temp-dir@3.0.0:
     resolution: {integrity: sha512-nHc6S/bwIilKHNRgK/3jlhDoIHcp45YgyiwcAk46Tr0LfEqGBVpmiAyuiuxeVE44m3mXnEeVhaipLOEWmH+Njw==}
     engines: {node: '>=14.16'}
@@ -16984,6 +17051,10 @@ packages:
   tree-kill@1.2.2:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
     hasBin: true
+
+  triggers.do@0.0.1:
+    resolution: {integrity: sha512-oz40ESrH17Mhpa/V21KEXgyBLBAdkAVWhPzvFgVVvzmFHiAjbbnaZeBZKZuCw5jvF7q64a8pDKqHO9EFJCOGCQ==}
+    engines: {node: '>=18.0.0'}
 
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
@@ -26554,6 +26625,10 @@ snapshots:
 
   acorn@8.14.1: {}
 
+  actions.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
+
   agent-base@4.3.0:
     dependencies:
       es6-promisify: 5.0.0
@@ -26800,6 +26875,10 @@ snapshots:
       js-cookie: 2.2.1
     transitivePeerDependencies:
       - encoding
+
+  analytics.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
 
   ansi-colors@4.1.3: {}
 
@@ -28309,6 +28388,10 @@ snapshots:
       es-errors: 1.3.0
       is-data-view: 1.0.2
 
+  database.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
+
   dataloader@2.2.2: {}
 
   dataloader@2.2.3: {}
@@ -29117,7 +29200,7 @@ snapshots:
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.30.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.30.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react: 7.37.5(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react-hooks: 5.2.0(eslint@9.24.0(jiti@2.4.2))
@@ -29147,7 +29230,7 @@ snapshots:
       tinyglobby: 0.2.12
       unrs-resolver: 1.5.0
     optionalDependencies:
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.30.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.30.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2))
     transitivePeerDependencies:
       - supports-color
 
@@ -29217,7 +29300,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.30.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.30.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -29492,6 +29575,10 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
+  evals.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
+
   event-emitter@0.3.5:
     dependencies:
       d: 1.0.2
@@ -29576,6 +29663,10 @@ snapshots:
   expand-template@2.0.3: {}
 
   expect-type@1.2.1: {}
+
+  experiments.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
 
   express-fileupload@1.4.0:
     dependencies:
@@ -30294,6 +30385,10 @@ snapshots:
       slash: 5.1.0
       unicorn-magic: 0.3.0
 
+  goals.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
+
   google-auth-library@9.15.1(encoding@0.1.13):
     dependencies:
       base64-js: 1.5.1
@@ -30323,6 +30418,10 @@ snapshots:
       lowercase-keys: 3.0.0
       p-cancelable: 3.0.0
       responselike: 3.0.0
+
+  gpt.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
 
   graceful-fs@4.2.10: {}
 
@@ -31019,6 +31118,10 @@ snapshots:
   inspect-with-kind@1.0.5:
     dependencies:
       kind-of: 6.0.3
+
+  integrations.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
 
   internal-slot@1.1.0:
     dependencies:
@@ -31819,6 +31922,11 @@ snapshots:
       rfdc: 1.4.1
       wrap-ansi: 9.0.0
 
+  llm.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
+      models.do: 0.0.1
+
   load-json-file@4.0.0:
     dependencies:
       graceful-fs: 4.2.11
@@ -32042,6 +32150,10 @@ snapshots:
       mhchemparser: 4.2.1
       mj-context-menu: 0.6.1
       speech-rule-engine: 4.1.0
+
+  mcp.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
 
   md-to-react-email@5.0.5(react@19.0.0):
     dependencies:
@@ -33098,6 +33210,10 @@ snapshots:
       pathe: 2.0.3
       pkg-types: 1.3.1
       ufo: 1.6.1
+
+  models.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
 
   module-details-from-path@1.0.3: {}
 
@@ -34636,6 +34752,10 @@ snapshots:
     dependencies:
       find-up: 3.0.0
 
+  plans.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
+
   playwright-core@1.51.1: {}
 
   playwright@1.51.1:
@@ -34865,6 +34985,10 @@ snapshots:
   process@0.11.10: {}
 
   progress@2.0.3: {}
+
+  projects.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
 
   prompts@2.4.2:
     dependencies:
@@ -36091,6 +36215,14 @@ snapshots:
     dependencies:
       compute-scroll-into-view: 3.1.1
 
+  sdk.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
+
+  searches.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
+
   section-matter@1.0.0:
     dependencies:
       extend-shallow: 2.0.1
@@ -37029,6 +37161,10 @@ snapshots:
       fast-fifo: 1.3.2
       streamx: 2.22.0
 
+  tasks.do@0.0.1(apis.do@sdks+apis.do):
+    dependencies:
+      apis.do: link:sdks/apis.do
+
   temp-dir@3.0.0: {}
 
   tempy@3.1.0:
@@ -37250,6 +37386,10 @@ snapshots:
   traverse@0.6.8: {}
 
   tree-kill@1.2.2: {}
+
+  triggers.do@0.0.1:
+    dependencies:
+      apis.do: 0.0.1
 
   trim-lines@3.0.1: {}
 
