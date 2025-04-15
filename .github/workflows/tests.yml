@@ -101,7 +101,8 @@ jobs:
         run: |
           # Skip running Playwright tests since Chromatic already runs them
           # Run Chromatic with auto-accept-changes for first-time snapshots
-          # Run Chromatic tests against the local server
+          # Run Chromatic tests against the local server and exit immediately after upload
+          # This saves significant time as we don't need to wait for Chromatic to process the tests
           npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --exit-zero-on-changes --exit-once-uploaded
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
