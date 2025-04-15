@@ -252,7 +252,10 @@
       "workflows.do",
       "agents.do",
       "cli.do"
-    ]
+    ],
+    "overrides": {
+      "apis.do": "workspace:*"
+    }
   },
   "prettier": {
     "plugins": [
