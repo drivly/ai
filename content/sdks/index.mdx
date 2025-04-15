@@ -20,41 +20,91 @@ const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
 The `api` object provides access to not only all of the core `.do` APIs, but also tens of thousands of searches and actions from third-party [integrations](/docs/integrations):
 
 ```typescript
-import { api } from 'functions.do'
+import { api } from 'apis.do'
 
-const workflow = await api.workflows.get({ id: 'onUserSignup' })
+const customer = await api.users.get({ id: 'userId' })
 
-const result = await api.slack.postMessage({
-  channel: '#general',
-  text: 'Hello, world!',
-})
-```
-
-## `ctx`
-
-The `ctx` object provides access to the current request context:
-
-```typescript
-AI({
-  onUserSignup: async (event, ctx) => {
-    const { user } = event
-    const { ai, api, db, do } = ctx
-    // ...
-  }
+const result = await api.stripe.createInvoice({
+  customer: customer.id,
+  amount: customer.usageTotal,
+  currency: 'usd',
+  description: 'Pay-as-you-go usage',
 })
 ```
 
 ## `db`
 
+The `db` object provides access to the database:
+
+```typescript
+import { db } from 'database.do'
+
+const posts = await db.posts.find({ tag: 'ai' })
+```
 
 ## `do`
+
+The `do` function enables AI Agents to take action:
+
+```typescript
+import { do } from 'agents.do'
+
+const research = await do`research about ${topic}`
+```
 
 
 ## `AI`
 
+The `AI` function allows [Functions](/docs/functions) and [Workflows](/docs/workflows) to be defined in a strongly-typed way:
+
+```typescript
+import { AI } from 'functions.do'
+
+const ai = AI({
+
+  ideaCaptured: async (idea, { ai, api }) => {
+    const leanCanvas = await ai.leanCanvas({ idea })
+    await api.slack.postMessage({ channel: '#general', text: `New idea: ${idea}\n${leanCanvas}` })
+    await api.db.idea.create({ idea, leanCanvas, status: 'Draft' })
+  },
+
+  leanCanvas: {
+    productName: 'name of the product or service',
+    problem: ['top 3 problems the product solves'],
+    solution: ['top 3 solutions the product offers'],
+    uniqueValueProposition: 'clear message that states the benefit of your product',
+    unfairAdvantage: 'something that cannot be easily copied or bought',
+    customerSegments: ['list of target customer segments'],
+    keyMetrics: ['list of key numbers that tell you how your business is doing'],
+    channels: ['path to customers'],
+    costStructure: ['list of operational costs'],
+    revenueStreams: ['list of revenue sources'],
+    recommendations: ['list of recommendations based on the analysis'],
+  },
+})
+```
+
 
 ## `Agent`
 
+The `Agent` function allows [Agents](/docs/agents) to be defined in a strongly-typed way:
+
+```typescript
+import { Agent } from 'agents.do'
+
+// Create a customer support agent
+const customerSupportAgent = Agent({
+  name: 'Amy',
+  role: 'Customer Support Agent',
+  objective: 'Handles customer inquiries and resolves common issues',
+  keyResults: ['ticketResponseTime', 'ticketResolutionTime', 'ticketEscalationRate', 'customerSatisfaction'],
+  url: 'https://amy.do',
+  integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
+  triggers: ['onTicketCreated', 'onMessageReceived'],
+  searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
+  actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
+})
+```
 
 ## `Business`
 
