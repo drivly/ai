@@ -8,8 +8,11 @@ import { findSiteContent } from '@/lib/sites'
 import { Metadata } from 'next'
 import Link from 'next/link'
 
-export async function generateMetadata({ params }: { params: { domain: string } }): Promise<Metadata> {
-  const { domain } = params
+type MetadataParams = { params: Promise<{ domain: string }> }
+
+export async function generateMetadata({ params }: MetadataParams): Promise<Metadata> {
+  const resolvedParams = await params
+  const { domain } = resolvedParams
   const content = await findSiteContent(domain)
 
   return {
