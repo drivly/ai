@@ -1,10 +1,12 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 
+// const callbackUrl = hostname.endsWith('.do') && !hostname.includes('apis.do') ? `/admin/collections/${hostname.replace('.do', '')}` : '/admin'
+
 export async function GET(request: NextRequest) {
   const payload = await getPayloadWithAuth()
   const hostname = request.headers.get('host') || ''
-  const callbackUrl = hostname.endsWith('.do') && !hostname.includes('apis.do') ? `/admin/collections/${hostname.replace('.do', '')}` : '/admin'
+  const callbackUrl = request.nextUrl.origin + '/admin'
 
   try {
     const data = await payload.betterAuth.api.signInSocial({

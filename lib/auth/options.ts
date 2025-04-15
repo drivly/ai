@@ -6,7 +6,7 @@ import { admin, apiKey, genericOAuth, multiSession, oAuthProxy, oidcProvider, op
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import stripeClient from '../stripe'
-import { getCurrentURL } from '../utils/url'
+import { getCurrentURL, getOAuthCallbackURL } from '../utils/url'
 
 // import { getCurrentURL } from '../utils/url'
 
@@ -18,8 +18,8 @@ export const betterAuthPlugins = [
   nextCookies(),
   stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
   oAuthProxy({
-    productionURL: 'https://apis.do',
-    currentURL: getCurrentURL(),
+    // productionURL: 'https://apis.do',
+    // currentURL: getCurrentURL(),
   }),
   genericOAuth({
     config: [
