@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts",
-    "lint": "eslint src --ext .ts",
+    "lint": "eslint src",
     "test": "vitest run",
     "prepublishOnly": "pnpm build",
     "typecheck": "tsc --noEmit"
@@ -44,9 +44,8 @@
     "@types/node": "^22.13.11",
     "@types/eslint": "^9.6.1",
     "@cloudflare/workers-types": "^4.20250414.0",
-    "eslint": "^9.23.0",
-    "@typescript-eslint/eslint-plugin": "^8.27.0",
-    "@typescript-eslint/parser": "^8.27.0",
+    "@typescript-eslint/eslint-plugin": "^8.30.1",
+    "@typescript-eslint/parser": "^8.30.1",
     "eslint-config": "0.1.0",
     "tsup": "^8.4.0",
     "prettier": "^3.5.3",

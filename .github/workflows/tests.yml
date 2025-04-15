@@ -13,7 +13,7 @@ concurrency:
 jobs:
   test:
     name: Run Tests
-    runs-on: ubuntu-latest # Using standard runner as custom size runners are not available
+    runs-on: ubuntu-latest # Reverted to standard runner due to availability issues
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -80,25 +80,21 @@ jobs:
       - name: Wait for Server
         run: |
           echo "Waiting for server to start..."
-          # Replace fixed sleep with polling mechanism
-          max_attempts=30
-          attempt=1
-          while [ $attempt -le $max_attempts ]; do
-            if curl -s http://localhost:3000 > /dev/null; then
-              echo "Server is ready after $attempt attempts!"
-              break
-            fi
-            echo "Attempt $attempt/$max_attempts - Server not ready yet, waiting..."
-            sleep 2
-            attempt=$((attempt + 1))
+          MAX_RETRIES=30
+          RETRY_COUNT=0
+          # Use /api/health endpoint as specified
+          until curl -s http://localhost:3000/api/health > /dev/null || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
+            echo "Attempt $((RETRY_COUNT+1))/$MAX_RETRIES - Server not ready yet, waiting 1s..."
+            sleep 1
+            RETRY_COUNT=$((RETRY_COUNT+1))
           done
-          
-          if [ $attempt -gt $max_attempts ]; then
-            echo "Server failed to start after $max_attempts attempts"
+
+          if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
+            echo "Server failed to start after $MAX_RETRIES attempts"
             exit 1
           fi
-          
-          echo "Continuing with tests."
+
+          echo "Server is ready! Continuing with tests."
         
       - name: Run Playwright Tests and Chromatic
         run: |
