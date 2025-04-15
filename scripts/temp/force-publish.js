@@ -192,7 +192,7 @@ registry=https://registry.npmjs.org/
 always-auth=true
 `
     fs.writeFileSync(npmrcPath, npmrcContent, 'utf8')
-    console.log(`Created temporary .npmrc in ${packagePath}`)
+    console.log(`Created temporary .npmrc in ${packagePath} with auth token`)
 
     console.log(`Publishing ${packageJson.name}@${version} with tag ${npmTag}`)
     
