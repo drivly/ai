@@ -96,6 +96,15 @@ jobs:
 
           echo "Server is ready! Continuing with tests."
         
+      - name: Set sanitized branch name env var
+        id: sanitize_branch
+        run: |
+          BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
+          # Replace / with - for Vercel URL compatibility
+          SANITIZED_BRANCH_NAME="${BRANCH_NAME//\//-}"
+          echo "SANITIZED_BRANCH_NAME=$SANITIZED_BRANCH_NAME" >> $GITHUB_ENV
+
+
       - name: Run Playwright Tests and Chromatic
         run: |
           # First run Playwright tests to generate the archives needed by Chromatic
@@ -109,7 +118,7 @@ jobs:
           # Set environment variables for tests
           RESEND_API_KEY: mock_resend_api_key_for_tests # Mock Resend for test execution context
           VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
-          TEST_BASE_URL: https://ai-git-${{ github.head_ref || github.ref_name }}.dev.driv.ly
+          TEST_BASE_URL: https://ai-git-${{ env.SANITIZED_BRANCH_NAME }}.dev.driv.ly
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
           CI: true
