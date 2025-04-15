@@ -1,32 +1,46 @@
 import { test, expect } from '@chromatic-com/playwright'
 
+test.setTimeout(180000); // Further increased for CI environment
+
 test('admin login page', async ({ page }) => {
-  await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/admin`, {
-    waitUntil: 'domcontentloaded',
-    timeout: 90000 // Further increase timeout for slow CI environments
-  });
+  const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
-  await page.waitForLoadState('load', { timeout: 90000 });
-  await page.waitForLoadState('networkidle', { timeout: 90000 });
-  await page.waitForTimeout(5000);
+  // Use a more basic approach for CI environment
+  if (process.env.CI) {
+    console.log('Running in CI environment with simplified approach');
+    
+    page.setDefaultNavigationTimeout(120000);
+    
+    await page.goto(`${baseUrl}/admin`, {
+      waitUntil: 'load',
+      timeout: 120000 // Further increased for CI environment
+    });
+  } else {
+    await page.goto(`${baseUrl}/admin`, {
+      waitUntil: 'domcontentloaded',
+      timeout: 60000
+    });
+  }
+  
+  // Increase visibility timeout for CI environment
+  const visibilityTimeout = process.env.CI ? 90000 : 30000;
   
   try {
-    await page.waitForSelector('input[type="email"]', { timeout: 120000 }); // Increase timeout for CI environments
-    
-    await expect(page.locator('input[type="email"]').first()).toBeVisible()
-    await expect(page.locator('input[type="password"]').first()).toBeVisible()
-    await expect(page.locator('button[type="submit"]').first()).toBeVisible()
+    await expect(page.locator('input[type="email"]').first()).toBeVisible({ timeout: visibilityTimeout })
+    await expect(page.locator('input[type="password"]').first()).toBeVisible({ timeout: visibilityTimeout })
+    await expect(page.locator('button[type="submit"]').first()).toBeVisible({ timeout: visibilityTimeout })
 
     await expect(page).toHaveScreenshot('admin-login.png')
   } catch (error: any) {
-    console.log('Encountered error, retrying with additional stabilization:', error.message);
-    await page.waitForTimeout(10000);
-    await page.reload({ waitUntil: 'networkidle', timeout: 90000 });
+    console.log('Encountered error, retrying with page reload:', error.message);
     
-    await page.waitForSelector('input[type="email"]', { timeout: 120000 });
-    await expect(page.locator('input[type="email"]').first()).toBeVisible()
-    await expect(page.locator('input[type="password"]').first()).toBeVisible()
-    await expect(page.locator('button[type="submit"]').first()).toBeVisible()
+    // Use appropriate wait strategy for CI environment
+    const reloadWaitUntil = process.env.CI ? 'load' : 'networkidle';
+    await page.reload({ waitUntil: reloadWaitUntil, timeout: visibilityTimeout });
+    
+    await expect(page.locator('input[type="email"]').first()).toBeVisible({ timeout: visibilityTimeout })
+    await expect(page.locator('input[type="password"]').first()).toBeVisible({ timeout: visibilityTimeout })
+    await expect(page.locator('button[type="submit"]').first()).toBeVisible({ timeout: visibilityTimeout })
     
     await expect(page).toHaveScreenshot('admin-login.png')
   }

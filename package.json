@@ -231,19 +231,6 @@
       "sharp"
     ]
   },
-  "workspaces": [
-    "api/*",
-    "docs",
-    "data",
-    "dash",
-    "sdk/*",
-    "sdks/*",
-    "web/*",
-    "pkgs/*",
-    "templates/cloudflare",
-    "workers/*",
-    "workflows"
-  ],
   "prettier": {
     "plugins": [
       "prettier-plugin-tailwindcss"
