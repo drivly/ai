@@ -234,7 +234,7 @@ const runSemanticRelease = (packagePath, allPackages) => {
 export default {
   branches: ['main', 'next'],
   repositoryUrl: 'https://github.com/drivly/ai.git',
-  tagFormat: '\${name}@\${version}',
+  tagFormat: '\${package.name}@\${version}',
   initialVersion: '0.1.0',
   npmPublish: true,
   pkgRoot: '.',
@@ -397,8 +397,11 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+const npmTag = '${npmTag}'; // Pass the npmTag from outer scope
+
 try {
   console.log('Attempting direct NPM publish...');
+  console.log('Using npm tag:', npmTag);
   
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
