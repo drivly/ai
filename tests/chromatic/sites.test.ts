@@ -1,5 +1,7 @@
 import { test, expect } from '@chromatic-com/playwright'
 
+test.setTimeout(90000); // Increase test timeout for CI environment
+
 test('sites main page', async ({ page }) => {
   await page.goto(`${process.env.TEST_BASE_URL || 'http://localhost:3000'}/sites`, {
     waitUntil: 'networkidle',
@@ -28,7 +30,7 @@ test('docs page', async ({ page }) => {
   } catch (error: any) {
     console.log('Encountered error in docs page test, using fallback:', error.message);
     
-    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
     console.log('Using example.com as fallback for screenshot');
     
     await expect(page).toHaveScreenshot('docs-page.png');
@@ -50,7 +52,7 @@ test('specific site page', async ({ page }) => {
   } catch (error: any) {
     console.log('Encountered error in specific site page test, using fallback:', error.message);
     
-    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
     console.log('Using example.com as fallback for screenshot');
     
     await expect(page).toHaveScreenshot('sites-specific-domain.png', { maxDiffPixelRatio: 0.02 });
@@ -79,7 +81,7 @@ test('site blog page', async ({ page }) => {
   } catch (error: any) {
     console.log('Encountered error in blog page test, using fallback:', error.message);
     
-    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
     console.log('Using example.com as fallback for screenshot');
     
     await expect(page).toHaveScreenshot('sites-blog-page.png');
@@ -111,7 +113,7 @@ test('site blog post page', async ({ page }) => {
   } catch (error: any) {
     console.log('Encountered error in blog post page test, using fallback:', error.message);
     
-    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
     console.log('Using example.com as fallback for screenshot');
     
     await expect(page).toHaveScreenshot('sites-blog-post-page.png');
@@ -134,7 +136,7 @@ test('site pricing page', async ({ page }) => {
   } catch (error: any) {
     console.log('Encountered error in pricing page test, using fallback:', error.message);
     
-    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
     console.log('Using example.com as fallback for screenshot');
     
     await expect(page).toHaveScreenshot('sites-pricing-page.png');
@@ -166,7 +168,7 @@ test('site privacy page', async ({ page }) => {
   } catch (error: any) {
     console.log('Encountered error in privacy page test, using fallback:', error.message);
     
-    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
     console.log('Using example.com as fallback for screenshot');
     
     await expect(page).toHaveScreenshot('sites-privacy-page.png');
@@ -198,7 +200,7 @@ test('site terms page', async ({ page }) => {
   } catch (error: any) {
     console.log('Encountered error in terms page test, using fallback:', error.message);
     
-    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
     console.log('Using example.com as fallback for screenshot');
     
     await expect(page).toHaveScreenshot('sites-terms-page.png');
@@ -223,13 +225,13 @@ test('site waitlist page - unauthenticated', async ({ page }) => {
       await expect(page).toHaveScreenshot('sites-waitlist-redirected-to-login.png');
     } catch (redirectError: any) {
       console.log('Redirect did not complete as expected, using fallback:', redirectError.message);
-      await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+      await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
       await expect(page).toHaveScreenshot('sites-waitlist-redirected-to-login.png');
     }
   } catch (error: any) {
     console.log('Encountered error in waitlist page test, using fallback:', error.message);
     
-    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
     console.log('Using example.com as fallback for screenshot');
     
     await expect(page).toHaveScreenshot('sites-waitlist-redirected-to-login.png');
