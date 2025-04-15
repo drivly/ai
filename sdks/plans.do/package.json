@@ -1,6 +1,6 @@
 {
   "name": "plans.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "SDK for creating and managing structured plans with steps, timelines and integration with APIs.do",
   "keywords": [
     "plans",

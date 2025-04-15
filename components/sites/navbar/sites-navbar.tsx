@@ -2,9 +2,9 @@
 
 import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
 import { navigation, siteConfig } from '@/components/site-config'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaDiscord, FaGithub } from 'react-icons/fa'
 import { LlmsdoLogo } from './llms-do-logo'
 import { MobileNav } from './mobile-nav'
@@ -31,7 +31,7 @@ export function SitesNavbar({ params, minimal }: { params: { domain?: string }; 
       window.addEventListener('scroll', handleScroll, { passive: true })
       return () => window.removeEventListener('scroll', handleScroll)
     }, 300)
-    
+
     return () => clearTimeout(timeoutId)
   }, [])
 
@@ -58,7 +58,7 @@ export function SitesNavbar({ params, minimal }: { params: { domain?: string }; 
         <LlmsdoLogo domain={domain} minimal={minimal} />
 
         {!minimal && (
-          <div className='flex-1 hidden justify-center space-x-6 mx-6 md:flex'>
+          <div className='mx-6 hidden flex-1 justify-center space-x-6 md:flex'>
             {navMenuLinks.map((link) => {
               if (link.name !== 'Blog') {
                 return (
@@ -67,7 +67,7 @@ export function SitesNavbar({ params, minimal }: { params: { domain?: string }; 
                   </Link>
                 )
               }
-              return null;
+              return null
             })}
           </div>
         )}

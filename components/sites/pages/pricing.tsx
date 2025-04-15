@@ -1,14 +1,14 @@
 'use client'
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@drivly/ui/tooltip'
-import { Button } from '@drivly/ui/button'
-import { Label } from '@drivly/ui/label'
-import { cn } from '@drivly/ui/lib'
-import { Switch } from '@drivly/ui/switch'
+import { siteConfig } from '@/components/site-config'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { Switch } from '@/components/ui/switch'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { cn } from '@/lib/utils'
 import { RiCheckLine, RiCloudLine, RiDiscordFill, RiInformationLine, RiLightbulbLine, RiSubtractLine, RiUserLine } from '@remixicon/react'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
-import { siteConfig } from '../../site-config'
 
 type FixedPrice = string
 
@@ -204,7 +204,7 @@ export function Pricing() {
           <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl leading-none font-medium tracking-tighter text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
             Flexible, Transparent Pricing.
           </h1>
-          <p className='text-md mt-6 max-w-xl mx-auto text-gray-400'>Choose the plan that's right for you. Designed to grow with your needs—pay only for what you use.</p>
+          <p className='text-md mx-auto mt-6 max-w-xl text-gray-400'>Choose the plan that's right for you. Designed to grow with your needs—pay only for what you use.</p>
         </div>
       </section>
       <section

@@ -41,7 +41,6 @@ jobs:
       - name: Run Typecheck
         run: |
           pnpm --filter apis.do build
-          pnpm --filter @drivly/ui build
           pnpm --filter @drivly/payload-agent build
           # Temporarily disabled typecheck as requested
           # pnpm typecheck
