@@ -352,7 +352,7 @@ export default {
     ['@semantic-release/npm', {
       npmPublish: true,
       pkgRoot: '.',
-      tag: context.branch === 'next' ? 'next' : 'latest'
+      tag: npmTag
     }],
     '@semantic-release/github'
   ]
