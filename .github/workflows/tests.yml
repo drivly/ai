@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     name: Run Tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Using standard runner as custom size runners are not available
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -46,17 +46,26 @@ jobs:
           # pnpm typecheck
           echo "Typecheck temporarily disabled as requested"
 
-      - name: Run Tests
-        run: pnpm test
+      - name: Run Tests & Install Playwright Browsers Concurrently
+        run: |
+          # Start Playwright browser installation in the background
+          pnpm exec playwright install --with-deps &
+          PLAYWRIGHT_INSTALL_PID=$!
+          
+          # Run tests while browsers are installing
+          pnpm test
+          
+          # Wait for Playwright installation to complete if it's still running
+          if ps -p $PLAYWRIGHT_INSTALL_PID > /dev/null; then
+            echo "Waiting for Playwright browser installation to complete..."
+            wait $PLAYWRIGHT_INSTALL_PID
+          fi
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          
-      - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
 
       - name: Start Dev Server
         run: pnpm dev &
@@ -68,21 +77,37 @@ jobs:
       - name: Wait for Server
         run: |
           echo "Waiting for server to start..."
-          sleep 45 # Wait for server to become ready
+          # Replace fixed sleep with polling mechanism
+          max_attempts=30
+          attempt=1
+          while [ $attempt -le $max_attempts ]; do
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "Server is ready after $attempt attempts!"
+              break
+            fi
+            echo "Attempt $attempt/$max_attempts - Server not ready yet, waiting..."
+            sleep 2
+            attempt=$((attempt + 1))
+          done
+          
+          if [ $attempt -gt $max_attempts ]; then
+            echo "Server failed to start after $max_attempts attempts"
+            exit 1
+          fi
+          
           echo "Continuing with tests."
         
-      - name: Run Chromatic Tests
+      - name: Run Playwright Tests and Chromatic
         run: |
-          # Run Chromatic with auto-accept-changes for first-time snapshots
-          # Run Playwright tests first to generate archives
+          # First run Playwright tests to generate the archives needed by Chromatic
           pnpm exec playwright test tests/chromatic
-          # Run Chromatic with auto-accept-changes for first-time snapshots
-          # Skip running a local server and use example.com for tests
-          export TEST_EXAMPLE_URL=https://example.com
-          npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --exit-zero-on-changes
+          
+          # Then run Chromatic with auto-accept-changes for first-time snapshots
+          # Exit immediately after upload to save time
+          npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --exit-zero-on-changes --exit-once-uploaded
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          # TEST_EXAMPLE_URL: https://example.com # Not needed as tests target localhost
+          # Set environment variables for tests
           RESEND_API_KEY: mock_resend_api_key_for_tests # Mock Resend for test execution context
           CI: true
           DATABASE_URI: ${{ secrets.DATABASE_URI }} # Needed for test execution context if tests interact with DB indirectly
