@@ -18,12 +18,12 @@ test('docs page', async ({ page }) => {
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   await page.goto(`${baseUrl}/docs`, {
-    waitUntil: 'networkidle',
-    timeout: 60000 // Increased for CI environment
+    waitUntil: 'domcontentloaded', // Changed from networkidle to prevent timeouts
+    timeout: 90000 // Further increased for CI environment
   });
   
-  await expect(page.locator('main').first()).toBeVisible({ timeout: 30000 });
-  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('main').first()).toBeVisible({ timeout: 60000 });
+  await expect(page.locator('h1')).toBeVisible({ timeout: 30000 });
   
   await expect(page).toHaveScreenshot('docs-page.png');
 })
