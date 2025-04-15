@@ -8,7 +8,7 @@ This document tracks the implementation progress, technical challenges, and veri
 - [x] Identify key integration points
 - [x] Define phased implementation approach
 - [ ] Phase 1: Foundation
-  - [ ] Add exec-symbols as a dependency
+  - [ ] Bring the entire exec-symbols library into the monorepo
   - [ ] Create adapter layer
   - [ ] Set up integration tests
 - [ ] Phase 2: Core Integration
