@@ -30,6 +30,7 @@ This document provides a high-level summary of the plan to integrate the `exec-s
 
 ### Phase 1: Foundation (2 weeks)
 - Add exec-symbols as a dependency
+- Create adapter package that moves functionality from exec-symbols' bridge.ts
 - Create adapter layer between exec-symbols and drivly/ai
 
 ### Phase 2: Core Integration (3 weeks)

@@ -1,6 +1,6 @@
-# exec-symbols-adapter
+# exec-symbols
 
-Bridge layer for integrating the `exec-symbols` functional programming library with the `.do` platform.
+Integration of the `exec-symbols` functional programming library with the `.do` platform.
 
 ## Overview
 
@@ -16,7 +16,7 @@ This package provides the integration layer between the `exec-symbols` functiona
 ## Installation
 
 ```bash
-pnpm add exec-symbols-adapter
+pnpm add exec-symbols
 ```
 
 ## Usage
@@ -26,7 +26,7 @@ import {
   emitCallFact, 
   emitEvent, 
   createTaskAdapter 
-} from 'exec-symbols-adapter'
+} from 'exec-symbols'
 
 // Create a symbolic fact for a function call
 const fact = emitCallFact('domain', 'method', { arg1: 'value1' })

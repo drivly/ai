@@ -1,7 +1,0 @@
-{
-  "name": "exec-symbols-adapter",
-  "version": "0.1.0",
-  "description": "Adapter layer for integrating exec-symbols with the .do platform",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts"
-}

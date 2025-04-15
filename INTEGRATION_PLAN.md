@@ -24,10 +24,11 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ## Integration Goals
 
 1. Enhance the `.do` platform with exec-symbols' functional programming capabilities
-2. Implement the semantic data model using exec-symbols' fact system
-3. Add symbolic event tracking to all platform services
-4. Leverage exec-symbols' state machine capabilities for workflow orchestration
-5. Maintain backward compatibility with existing APIs
+2. Move functionality from exec-symbols' bridge.ts to the adapter package
+3. Implement the semantic data model using exec-symbols' fact system
+4. Add symbolic event tracking to all platform services
+5. Leverage exec-symbols' state machine capabilities for workflow orchestration
+6. Maintain backward compatibility with existing APIs
 
 ## Key Integration Points
 
@@ -152,20 +153,17 @@ pnpm add exec-symbols
 
 #### Task 1.2: Create adapter layer
 
-**File: ~/repos/ai/pkgs/exec-symbols-adapter/package.json**
+**File: ~/repos/ai/pkgs/exec-symbols/package.json**
 ```json
 {
-  "name": "exec-symbols-adapter",
+  "name": "exec-symbols",
   "version": "0.1.0",
-  "description": "Adapter layer for integrating exec-symbols with the .do platform",
+  "description": "Integration of exec-symbols functional programming library with the .do platform",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "vitest run"
-  },
-  "dependencies": {
-    "exec-symbols": "^1.0.0"
   },
   "devDependencies": {
     "typescript": "^5.8.3",
@@ -174,8 +172,9 @@ pnpm add exec-symbols
 }
 ```
 
-**File: ~/repos/ai/pkgs/exec-symbols-adapter/src/index.ts**
+**File: ~/repos/ai/pkgs/exec-symbols/src/index.ts**
 ```typescript
+// Import functionality from the original exec-symbols library
 import {
   Event,
   FactSymbol,
@@ -183,10 +182,23 @@ import {
   get_verb_symbol,
   list,
   nil,
-  unit,
+  unit
+} from 'exec-symbols/dist/exec-symbols'
+
+// Import and adapt functionality from bridge.ts
+import {
   wrapTrackedService,
-  execSymbolsAdapter
-} from 'exec-symbols'
+  execSymbolsAdapter,
+  createWorkflowImpl,
+  createAIFunctionsImpl,
+  createAgentImpl,
+  createDatabaseImpl,
+  createAPIImpl,
+  createActionImpl,
+  createSearchImpl,
+  createTriggerImpl,
+  createEventTrackerImpl
+} from 'exec-symbols/dist/bridge'
 
 // Re-export exec-symbols primitives
 export {
@@ -794,7 +806,7 @@ const finalState = workflow.symbolic.runMachine(machine, [
 ### Adding Constraints to Data
 
 ```typescript
-import { createConstraintSystem } from 'exec-symbols-adapter'
+import { createConstraintSystem } from 'exec-symbols'
 
 const constraintSystem = createConstraintSystem()
 
@@ -827,7 +839,7 @@ import {
   createAgentAdapter,
   createEventTracker,
   createConstraintSystem
-} from 'exec-symbols-adapter'
+} from 'exec-symbols'
 
 describe('exec-symbols integration', () => {
   describe('emitCallFact', () => {
