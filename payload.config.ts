@@ -51,7 +51,7 @@ export default buildConfig({
       icons: [
         {
           rel: 'icon',
-          url: '/site_favicon.png',
+          url: '/favicon/faviconDo.png',
         },
       ],
       openGraph: {
