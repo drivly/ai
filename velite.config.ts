@@ -63,5 +63,29 @@ export default defineConfig({
         };
       }),
     },
+    sitesConfig: {
+      name: 'SitesConfig',
+      pattern: 'sites/sites.yaml',
+      single: true,
+      schema: s.object({
+        categories: s.array(s.object({
+          name: s.string(),
+          sites: s.array(s.object({
+            domain: s.string(),
+            title: s.string(),
+            description: s.string(),
+            headline: s.string(),
+            subhead: s.string().optional(),
+            badge: s.string().optional(),
+            brandColor: s.string().optional(),
+            tags: s.array(s.string()).optional(),
+            links: s.array(s.object({
+              title: s.string(),
+              url: s.string()
+            })).optional()
+          }))
+        }))
+      })
+    },
   },
 })

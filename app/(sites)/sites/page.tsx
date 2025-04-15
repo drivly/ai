@@ -1,13 +1,12 @@
-import { sites } from '@/app/_utils/content'
+import { sitesConfig } from '@/app/_utils/content'
 import { DotDoSection } from '@/components/sites/dotdos/dot-do-section'
-import { getSitesByCategory } from '@/components/sites/dotdos/get-sites-by-category'
 import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { Suspense } from 'react'
 
 async function DirectoryPage() {
-  const sitesByCategory = await getSitesByCategory(sites)
-
+  const { categories } = sitesConfig
+  
   return (
     <div className='container mx-auto max-w-6xl px-3 pt-5 pb-20 md:pb-40'>
       <HeroSection
@@ -26,7 +25,7 @@ async function DirectoryPage() {
           </div>
         }
       >
-        <DotDoSection sitesByCategory={sitesByCategory} />
+        <DotDoSection categories={categories} />
       </Suspense>
     </div>
   )
