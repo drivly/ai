@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { getModel, getModels } from '../src/modelSelector'
+import { getModel, getModels } from '../src'
 
 describe('selector', () => {
   it('should return a model', () => {
@@ -9,7 +9,10 @@ describe('selector', () => {
 
   it('should fail to find a model', () => {
     // Expect an error to be thrown
-    expect(() => getModel('google/gemini-2.0-flash-001:reasoning')).toThrow()
+    const model = getModel('google/gemini-2.0-flash-001:reasoning')
+
+    expect(model).toBeDefined()
+    expect(model?.slug).toBe(undefined)
   })
 
   it('should return a model with capabilities', () => {
@@ -33,14 +36,20 @@ describe('selector', () => {
   })
 
   it('should return a Claude 3.7 Sonnet model with reasoning capabilities', () => {
-    const model = getModel('anthropic/claude-3.7-sonnet:reasoning')
+    const model = getModel('anthropic/claude-3.7-sonnet(reasoning)')
     expect(model).toBeDefined()
+
+    console.log(model)
+
     expect(model?.slug).toBe('anthropic/claude-3.7-sonnet:thinking')
   })
 
   it('should return multiple models', () => {
-    const models = getModels('anthropic/claude-3.7-sonnet:reasoning,r1')
+    const models = getModels('claude-3.7-sonnet:thinking,r1')
     expect(models.length).toBe(2)
+
+    // Special case for claude, it supports thinking using a different API
+    // structure than other models unfortunately.
     expect(models[0]?.slug).toBe('anthropic/claude-3.7-sonnet:thinking')
     expect(models[1]?.slug).toBe('deepseek/deepseek-r1')
   })

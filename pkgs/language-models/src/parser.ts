@@ -305,6 +305,12 @@ export function filterModels(modelIdentifier: string, modelsToFilter?: InternalM
         if (parsed.model == '*') {
           return true
         }
+
+        // Return true if we're looking for claude-3.7-sonnet
+        // Fixes the issue where we need :thinking to be supported
+        if (parsed.model === 'claude-3.7-sonnet' && model.slug.includes('claude-3.7-sonnet') && !model.slug.includes('beta')) {
+          return true
+        }
   
         return model.slug.split('/')[1] === parsed.model
       }
@@ -486,3 +492,7 @@ const metaModels = [
     ]
   }
 ]
+
+console.log(
+  filterModels('claude-3.7-sonnet(reasoning)')
+)

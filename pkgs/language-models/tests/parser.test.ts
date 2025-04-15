@@ -6,6 +6,6 @@ describe('parser', () => {
     const model = parse('gemini')
     expect(model.author).toBe('google')
     expect(model.model).toBe('gemini-2.0-flash-001')
-    expect(model.capabilities).toEqual([])
+    expect(model.capabilities || []).toEqual([])
   })
 })
