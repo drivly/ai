@@ -1,6 +1,6 @@
-import { Particles } from '@/components/sites/magicui/particles'
-import { DotdoLinkSection } from '@/components/sites/sections/dotdo-link-section'
 import { HeroSection } from '@/components/sites/sections/hero-section'
+import { DotdoLinkSection } from '@/components/sites/sections/dotdo-link-section'
+import { Particles } from '@/components/sites/magicui/particles'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
@@ -17,10 +17,13 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
   }
 }
 
-// need to be able to render the specific website from the slug and throw not found if the slug is not found
-async function DotDoPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
-  const { domain } = props.params
-  const searchParams = await props.searchParams
+interface PageProps {
+  params: { domain: string }
+  searchParams?: { [key: string]: string | string[] | undefined }
+}
+
+export default async function Page({ params, searchParams }: PageProps) {
+  const { domain } = params
   await getSession()
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
@@ -28,30 +31,60 @@ async function DotDoPage(props: { params: { domain: string }; searchParams?: { [
 
   const glowColor = (content as any).brandColor || getGlowColor(site)
 
-  return (
+  return withSitesWrapper(
     <>
-      <div className='hero-glow-container' style={{ '--glow-color': glowColor } as React.CSSProperties}>
-        <HeroSection
-          codeExample={'codeExample' in content ? content.codeExample : 'subhead' in content ? content.subhead : ''}
-          codeLang={'codeLang' in content ? content.codeLang : 'json'}
-          badge={'badge' in content ? content.badge : 'headline' in content ? content.headline : ''}
-          buttonText='Join waitlist'
-          title={'headline' in content ? content.headline : content.title}
-          description={'subhead' in content ? content.subhead : content.description}
-          domain={site}
-        />
+      <div className='mx-auto flex min-h-screen flex-col justify-between'>
+        <main className='relative flex flex-1 flex-col overflow-hidden'>
+          {/* Hero Section with enhanced styling */}
+          <div className='relative z-20 mt-20 flex-1 md:mt-32'>
+            <HeroSection
+              title={content.headline || content.title}
+              description={content.subhead || content.description}
+              badge={content.badge}
+              codeExample={content.codeExample}
+              codeLang={content.codeLang}
+              domain={site}
+              buttonText={site === 'functions.do' ? "Explore Functions.do" : "Join waitlist"}
+            />
+
+            {/* Documentation link section */}
+            {site === 'functions.do' && (
+              <div className="mx-auto mt-16 max-w-3xl text-center">
+                <a 
+                  href="/docs/functions" 
+                  className="inline-flex items-center justify-center rounded-md bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-1"
+                >
+                  View Documentation
+                </a>
+              </div>
+            )}
+
+            {/* Improved link section with additional context */}
+            <section className="mx-auto mt-24 max-w-5xl px-4 text-center sm:px-6 lg:px-8">
+              <h2 className="text-2xl font-bold tracking-tight text-white">
+                Part of the .do Ecosystem
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-lg text-gray-400">
+                {site === 'functions.do' 
+                  ? "Functions.do works seamlessly with other .do services to provide a complete development platform."
+                  : "Explore the complete .do ecosystem of developer tools and services."}
+              </p>
+              <DotdoLinkSection />
+            </section>
+          </div>
+
+          {/* Improved particle effect */}
+          <Particles
+            className='absolute inset-0 -z-10'
+            quantity={100}
+            staticity={30}
+            color={glowColor}
+            vx={0.1}
+            vy={0.1}
+          />
+        </main>
       </div>
-      <DotdoLinkSection />
-      <Particles className='absolute inset-0 -z-10' quantity={50} ease={70} size={0.05} staticity={40} color={'#ffffff'} />
-    </>
+    </>,
+    { title: content.title }
   )
 }
-
-export default withSitesWrapper({ WrappedPage: DotDoPage })
-// Get Started // Join
-// --- Request access
-// email onboarding with questions react-email // templates
-// from Bryant's email - simple email template domain specific
-//
-//
-// login with Github
