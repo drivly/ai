@@ -6,6 +6,7 @@ import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
 import { findSiteContent } from '@/lib/sites'
 import { Metadata } from 'next'
+import Link from 'next/link'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params
@@ -50,12 +51,12 @@ export default async function Page({ params, searchParams }: PageProps) {
             {/* Documentation link section */}
             {site === 'functions.do' && (
               <div className="mx-auto mt-16 max-w-3xl text-center">
-                <a 
+                <Link 
                   href="/docs/functions" 
                   className="inline-flex items-center justify-center rounded-md bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-1"
                 >
                   View Documentation
-                </a>
+                </Link>
               </div>
             )}
 
