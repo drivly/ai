@@ -251,7 +251,7 @@ import {
   FactSymbol, 
   list, 
   unit 
-} from 'exec-symbols-adapter'
+} from 'exec-symbols'
 
 // Enhanced executeFunction with symbolic tracking
 export const executeFunction = async ({ input, req, payload }: any) => {
@@ -277,7 +277,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
 #### Task 2.2: Implement Semantic Data Model
 
-**File: ~/repos/ai/pkgs/exec-symbols-adapter/src/semantic-model.ts**
+**File: ~/repos/ai/pkgs/exec-symbols/src/semantic-model.ts**
 ```typescript
 import {
   FactType,
@@ -341,7 +341,7 @@ export const actionToFact = (action: any) => {
 
 #### Task 2.3: Enhance Workflow System
 
-**File: ~/repos/ai/pkgs/exec-symbols-adapter/src/workflow-adapter.ts**
+**File: ~/repos/ai/pkgs/exec-symbols/src/workflow-adapter.ts**
 ```typescript
 import {
   StateMachine,
@@ -407,7 +407,7 @@ import {
   wrapTrackedService, 
   emitCallFact, 
   emitEvent 
-} from 'exec-symbols-adapter'
+} from 'exec-symbols'
 
 export class ApiClientWithTracking extends ApiClient {
   private eventLog: any[] = []
@@ -443,7 +443,7 @@ import {
   wrapTrackedService, 
   emitCallFact, 
   emitEvent 
-} from 'exec-symbols-adapter'
+} from 'exec-symbols'
 
 // ... (existing interfaces)
 
@@ -479,7 +479,7 @@ export default FunctionsClientWithTracking
 import { 
   execSymbolsAdapter, 
   createWorkflowAdapter 
-} from 'exec-symbols-adapter'
+} from 'exec-symbols'
 
 // ... (existing imports)
 
@@ -514,7 +514,7 @@ export { EnhancedAI as SymbolicAI }
 
 #### Task 4.1: Implement Agent System
 
-**File: ~/repos/ai/pkgs/exec-symbols-adapter/src/agent-adapter.ts**
+**File: ~/repos/ai/pkgs/exec-symbols/src/agent-adapter.ts**
 ```typescript
 import {
   StateMachine,
@@ -617,7 +617,7 @@ export const createAgentAdapter = (agentConfig: {
 
 #### Task 4.2: Enhance Event System
 
-**File: ~/repos/ai/pkgs/exec-symbols-adapter/src/event-adapter.ts**
+**File: ~/repos/ai/pkgs/exec-symbols/src/event-adapter.ts**
 ```typescript
 import {
   Event,
@@ -667,7 +667,7 @@ export const track = (eventName: string, eventData: Record<string, unknown> = {}
 
 #### Task 4.3: Add Constraint System
 
-**File: ~/repos/ai/pkgs/exec-symbols-adapter/src/constraint-adapter.ts**
+**File: ~/repos/ai/pkgs/exec-symbols/src/constraint-adapter.ts**
 ```typescript
 import {
   Constraint,
@@ -811,7 +811,7 @@ console.log(result.valid) // true
 
 #### Task 5.2: Comprehensive Testing
 
-**File: ~/repos/ai/pkgs/exec-symbols-adapter/tests/integration.test.ts**
+**File: ~/repos/ai/pkgs/exec-symbols/tests/integration.test.ts**
 ```typescript
 import { describe, it, expect } from 'vitest'
 import {
