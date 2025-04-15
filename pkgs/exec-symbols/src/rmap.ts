@@ -1,17 +1,4 @@
-import {
-  ADD,
-  ALETHIC,
-  FactSymbol,
-  fold,
-  get_id,
-  get_modality,
-  get_nouns,
-  get_verb_symbol,
-  type Modality,
-  nth,
-  type Numeral,
-  UINT,
-} from './exec-symbols'
+import { ADD, ALETHIC, EQ, FactSymbol, fold, get_id, get_modality, get_nouns, get_verb_symbol, type Modality, nth, type Numeral, UINT } from './exec-symbols'
 
 // Define the proper types based on the Church encoding pattern
 type FactSymbolType = ReturnType<typeof FactSymbol>
@@ -34,7 +21,7 @@ export const createRMapPipeline = () => {
   const transformUnaries = (facts: FactSymbolType[]) => {
     const isUnary = (fact: FactSymbolType) => {
       const nouns = get_nouns(fact)
-      return fold((n: unknown) => (acc: Numeral) => ADD(acc)(UINT(1)))(UINT(0))(nouns) === UINT(1)
+      return EQ(fold((_n: unknown) => (acc: Numeral) => ADD(acc)(UINT(1)))(UINT(0))(nouns))(UINT(1))
     }
 
     const unaries = facts.filter(isUnary)
@@ -210,11 +197,7 @@ export const createRMapPipeline = () => {
   }
 
   // Step 5: Handle subtype constraints
-  const handleSubtypeConstraints = (
-    tables: Table[],
-    constraints: ConstraintType[],
-    subtypes: Record<string, string[]> = {},
-  ) => {
+  const handleSubtypeConstraints = (tables: Table[], constraints: ConstraintType[], subtypes: Record<string, string[]> = {}) => {
     // 5.1 Map functional roles to qualified optional columns
     // 5.2 Map nonfunctional roles to qualified subset constraints
     // 5.3 Map nonfunctional roles of independent objects
@@ -234,10 +217,7 @@ export const createRMapPipeline = () => {
     const { blackBoxes, factsWithoutReferences } = eraseReferences(remaining, {})
     const { tables: factTables, remainingFacts } = mapCompoundConstraints(factsWithoutReferences, constraints)
     const { objectTables } = groupFunctionalRoles(remainingFacts, {})
-    const { independentTables } = mapIndependentObjects(remainingFacts, {}, [
-      ...Object.values(factTables),
-      ...(objectTables as Table[]),
-    ])
+    const { independentTables } = mapIndependentObjects(remainingFacts, {}, [...Object.values(factTables), ...(objectTables as Table[])])
 
     // Combine all tables
     const allTables = [...Object.values(factTables), ...(objectTables as Table[]), ...independentTables]
@@ -278,11 +258,7 @@ export const createRMapPipeline = () => {
  * 5.2 Map subtype constraints on nonfunctional roles to qualified subset constraints
  * 5.3 Map nonfunctional roles of independent object types to column sequences that reference the independent table
  */
-export const RMAP = (
-  facts: FactSymbolType[],
-  constraints: ConstraintType[],
-  subtypes: Record<string, string[]> = {},
-) => {
+export const RMAP = (facts: FactSymbolType[], constraints: ConstraintType[], subtypes: Record<string, string[]> = {}) => {
   const pipeline = createRMapPipeline()
   return pipeline(facts, constraints, subtypes)
 }
