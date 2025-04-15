@@ -31,6 +31,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
         
+      - name: Install OpenNext Cloudflare
+        run: pnpm add @opennextjs/cloudflare
+        
       - name: Build
         run: pnpm run build
         
