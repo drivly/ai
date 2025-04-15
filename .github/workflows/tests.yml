@@ -94,6 +94,8 @@ jobs:
             echo "Server failed to start after $max_attempts attempts"
             exit 1
           fi
+          sleep 30 # Add extra wait time for server hydration
+
           
           echo "Continuing with tests."
         
