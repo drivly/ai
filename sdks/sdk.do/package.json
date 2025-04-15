@@ -18,7 +18,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "sdk": "./dist/bin.js"
+    "sdk": "./dist/index.js"
   },
   "exports": {
     ".": {
@@ -64,11 +64,6 @@
   },
   "dependencies": {
     "apis.do": "0.0.1"
-  },
-  "pnpm": {
-    "overrides": {
-      "apis.do": "workspace:*"
-    }
   },
   "engines": {
     "node": ">=18.0.0"
