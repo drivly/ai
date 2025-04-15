@@ -1,5 +1,4 @@
 import { Badge } from '@/components/ui/badge'
-import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
@@ -7,6 +6,10 @@ import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getBlogPostBySlug } from '../blog-posts'
+import { ai } from 'functions.do'
+
+const contentCache = new Map<string, { html: string, timestamp: number }>()
+const CACHE_EXPIRATION = 24 * 60 * 60 * 1000
 
 async function BlogPostPage(props: { params: { domain: string; slug?: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
   const { domain, slug } = props.params
@@ -14,7 +17,7 @@ async function BlogPostPage(props: { params: { domain: string; slug?: string }; 
   const proto = headersList.get('x-forwarded-proto')
   const host = headersList.get('x-forwarded-host')
   const siteUrl = `${proto}://${host}`
-  const post = getBlogPostBySlug(slug || '')
+  const post = await getBlogPostBySlug(slug || '')
   const fallbackImage = '/images/blog-llm.png'
 
   // If post not found, render custom not found component
@@ -25,6 +28,46 @@ async function BlogPostPage(props: { params: { domain: string; slug?: string }; 
   const postUrl = `${siteUrl}/blog/${post.slug}`
   const dateObj = new Date(post.date.split('-').join('/'))
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
+
+  const cacheKey = post.slug
+  const now = Date.now()
+  let content: { html: string } | null = null
+
+  if (contentCache.has(cacheKey)) {
+    const cached = contentCache.get(cacheKey)!
+    if (now - cached.timestamp < CACHE_EXPIRATION) {
+      content = { html: cached.html }
+    }
+  }
+
+  if (!content) {
+    try {
+      content = await ai.generateMarkdown({
+        title: post.title,
+        description: post.description,
+        category: post.category,
+        format: 'blog-post',
+        tone: 'professional',
+        includeHeadings: true,
+        includeCodeExamples: post.category.includes('Function') || post.category.includes('API') || post.category.includes('Tool'),
+        minLength: 800,
+        maxLength: 2000
+      })
+      
+      contentCache.set(cacheKey, { 
+        html: content.html || '', 
+        timestamp: now 
+      })
+    } catch (error) {
+      console.error(`Error generating content for post ${post.slug}:`, error)
+      content = { 
+        html: `<div class="prose prose-lg dark:prose-invert max-w-none">
+          <p>We're experiencing technical difficulties generating this content. Please check back later.</p>
+          <p>${post.description}</p>
+        </div>` 
+      }
+    }
+  }
 
   return (
     <div className='container mx-auto max-w-4xl px-3 py-24 md:py-32'>
@@ -49,7 +92,10 @@ async function BlogPostPage(props: { params: { domain: string; slug?: string }; 
         <Image src={post?.image || fallbackImage} alt={post?.title || ''} fill className='object-cover' priority />
       </div>
 
-      <BlogContent />
+      <div 
+        className='prose prose-lg dark:prose-invert max-w-none' 
+        dangerouslySetInnerHTML={{ __html: content?.html || '' }} 
+      />
 
       {/* Related domain blog posts */}
     </div>
