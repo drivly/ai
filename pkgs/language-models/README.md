@@ -140,7 +140,7 @@ sequenceDiagram
 - Best PDF model thats the cheapest (gemini-2.0-flash) -> `*:pdf(sort:pricing)`
 - PDF with reasoning (claude-3.7-sonnet) -> `*:pdf,reasoning`
 - Creative writing (gpt-4.5) -> `creative`
-- Extremly complex code debugging (o1-pro)
+- Extremely complex code debugging (o1-pro)
 - Cheap blog post writer (gemini-2.0-flash)
 - Better blog post writer (gpt-4o || claude-3.7-sonnet)
 - Best blog post writer (gpt-4.5)
