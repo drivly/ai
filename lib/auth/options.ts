@@ -29,7 +29,7 @@ export const betterAuthPlugins = [
         clientSecret: process.env.WORKOS_CLIENT_SECRET as string,
         authorizationUrl: 'https://api.workos.com/sso/authorize',
         tokenUrl: 'https://api.workos.com/sso/token',
-        redirectURI: getOAuthCallbackURL('workos'),
+        redirectURI: 'https://apis.do/api/auth/callback/workos',
         scopes: ['openid', 'profile', 'email'],
       },
       {
@@ -38,7 +38,7 @@ export const betterAuthPlugins = [
         clientSecret: process.env.LINEAR_CLIENT_SECRET as string,
         authorizationUrl: 'https://linear.app/oauth/authorize',
         tokenUrl: 'https://api.linear.app/oauth/token',
-        redirectURI: getOAuthCallbackURL('linear'),
+        redirectURI: 'https://apis.do/api/auth/callback/linear',
         scopes: ['read', 'write'], // Preliminary scopes, may need adjustment
       },
     ],
@@ -71,12 +71,12 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: getOAuthCallbackURL('google'),
+      redirectURI: 'https://apis.do/api/auth/callback/google',
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: getOAuthCallbackURL('github'),
+      redirectURI: 'https://apis.do/api/auth/callback/github',
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
