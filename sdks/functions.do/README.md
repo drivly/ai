@@ -12,7 +12,7 @@
 
 ## Overview
 
-Functions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, providing strongly-typed AI functions that transform unpredictable AI capabilities into reliable, deterministic components for your applications. As a foundational building block, it enables you to create elegant, type-safe interfaces to AI capabilities that seamlessly integrate with your existing codebase.
+Functions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, providing strongly-typed AI functions that transform unpredictable AI capabilities into reliable, deterministic components for your applications. As a foundational building block, it enables you to create elegant, type-safe interfaces to AI capabilities that seamlessly integrate with your existing codebase. For comprehensive documentation, see the [docs directory](./docs/).
 
 ## The Challenge
 
