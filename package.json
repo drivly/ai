@@ -52,7 +52,10 @@
     "prettier-fix": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
     "test": "turbo test",
     "test:watch": "vitest",
-    "test:e2e": "vitest run --config tests/vitest.e2e.config.ts",
+    "test:unit": "vitest run --exclude tests/e2e/ --exclude tests/chromatic/",
+    "test:e2e": "playwright test tests/e2e",
+    "test:visual": "playwright test tests/chromatic",
+
     "test:chromatic": "npx playwright test tests/chromatic && npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN}",
     "clean": "turbo clean",
     "lint:legacy": "cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next lint",
