@@ -362,5 +362,5 @@ export const executeFunctionTask = {
     { name: 'reasoning', type: 'text' },
     { name: 'generationHash', type: 'text' },
   ],
-  handler: executeFunction,
+  handler: executeFunction as any,
 } as TaskConfig<'executeFunction'>

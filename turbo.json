@@ -3,27 +3,36 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
+      "inputs": ["!pkgs/zapier-apis-do/**"]
     },
     "build:next": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
+    "build:packages": {
+      "dependsOn": ["^build:packages"],
+      "outputs": ["dist/**"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": []
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "outputs": []
+    },
     "clean": {
       "dependsOn": ["^clean"]
     },
     "dev": {
+      "dependsOn": ["build:packages"],
       "persistent": true,
       "cache": false
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "test": {
-      "dependsOn": ["^build", "build"]
-    },
-    "typecheck": {
-      "dependsOn": ["^typecheck"]
     }
   }
 }

@@ -1,8 +1,8 @@
 import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
-import { CodeWindow } from '@/components/sites/code-window'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 import React from 'react'
 import { FaGithub } from 'react-icons/fa'
+import { CodeWindow } from '../code-window'
 
 type HeroSectionProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'description'> & {
   badge?: string
@@ -14,7 +14,7 @@ type HeroSectionProps = Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'de
   domain?: string
 }
 
-export default function HeroSection({ className, badge, buttonText, codeExample, codeLang = 'json', description, title, domain }: HeroSectionProps) {
+export function HeroSection({ className, badge, buttonText, codeExample, codeLang = 'json', description, title, domain }: HeroSectionProps) {
   return (
     <section id='hero' className={cn('relative mx-auto mt-32 max-w-[80rem] px-3 text-center lg:mt-48', className)}>
       {badge && (

@@ -1,6 +1,6 @@
 import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
 import { navigation } from '@/components/site-config'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 import { AnimatePresence, motion } from 'motion/react'
 import Link from 'next/link'
 import { type Dispatch, Fragment, type SetStateAction } from 'react'
@@ -30,7 +30,8 @@ export const MobileNav = ({ domain, isOpen, setOpen }: MobileNavProps) => {
             initial='initial'
             animate='enter'
             exit='exit'
-            className='!bg-background/95 fixed top-14 right-0 z-50 min-w-full overflow-hidden backdrop-blur-md md:hidden'>
+            className='!bg-background/95 fixed top-14 right-0 z-50 min-w-full overflow-hidden backdrop-blur-md md:hidden'
+          >
             <nav className='w-full px-4 py-6'>
               <MobileNavMenu onClose={() => setOpen(false)} domain={domain} />
             </nav>
@@ -85,7 +86,8 @@ export const getChar = (Icon: IconType | undefined, title: string) => {
         initial='initial'
         animate='enter'
         exit='exit'
-        className='inline-block'>
+        className='inline-block'
+      >
         {char}
       </motion.span>,
     )
@@ -141,7 +143,8 @@ export const NavItem = ({ name, href, target, rel, Icon, onClose, index }: NavIt
         href={href}
         target={target}
         rel={rel}
-        onClick={onClose}>
+        onClick={onClose}
+      >
         <p className='flex items-center'>{getChar(Icon, name)}</p>
       </Link>
     </li>

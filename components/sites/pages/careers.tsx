@@ -1,7 +1,7 @@
 import { GridPatternDashed } from '@/components/sites/magicui/grid-pattern-dashed'
 import { Particles } from '@/components/sites/magicui/particles'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@drivly/ui/badge'
 import { Fragment } from 'react'
 
 export const Careers = () => {
@@ -14,7 +14,8 @@ export const Careers = () => {
           className='absolute top-0 right-0 left-0 h-[100vh] opacity-20 blur-2xl'
           style={{
             background: 'radial-gradient(circle at center top, #98D2C0, transparent 30%)',
-          }}></div>
+          }}
+        ></div>
 
         {/* Particles effect with fewer particles and reduced size */}
         <Particles className='absolute inset-0' quantity={20} ease={70} size={0.03} staticity={40} color={'#ffffff'} />

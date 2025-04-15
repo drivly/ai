@@ -1,6 +1,6 @@
 {
   "name": "agents.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A framework and platform for building, deploying, and managing autonomous AI agents",
   "keywords": [
     "agents",
@@ -44,6 +44,7 @@
   
   "scripts": {
     "build": "node build.mjs",
+    "build:packages": "node build.mjs",
     "test": "echo 'Tests skipped for CI compatibility'",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"

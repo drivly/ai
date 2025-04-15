@@ -1,12 +1,12 @@
 'use client'
 
-import { updateOptionParams } from '@/app/_utils/update-option-params'
-import { useSitesData } from '@/components/sites/dotdos/useSitesData'
 import { sdks } from '@/domains.config'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Fragment } from 'react'
 import { DotDoItem } from './dot-do-item'
+import { updateOptionParams } from './update-option-params'
+import { useSitesData } from './useSitesData'
 
 export interface DotDoSectionProps {
   sitesByCategory: Record<string, any[]>
@@ -29,7 +29,8 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                   pathname,
                   query: updateOptionParams('absolute', 'false', searchParams),
                 }}
-                className={`rounded-full px-4 py-1 text-sm transition-all ${!showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}>
+                className={`rounded-full px-4 py-1 text-sm transition-all ${!showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}
+              >
                 Relative
               </Link>
               <Link
@@ -37,7 +38,8 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                   pathname,
                   query: updateOptionParams('absolute', 'true', searchParams),
                 }}
-                className={`rounded-full px-4 py-1 text-sm transition-all ${showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}>
+                className={`rounded-full px-4 py-1 text-sm transition-all ${showAbsolute ? 'bg-white/10 font-medium shadow-sm backdrop-blur-sm' : 'text-gray-400 hover:text-gray-100'}`}
+              >
                 Absolute
               </Link>
             </div>
@@ -53,14 +55,12 @@ export const DotDoSection = (props: DotDoSectionProps) => {
               const domain = site.title.split(' - ')[0]
               const displayDomain = domain.replace(/\.do(\.gt|\.mw)?$/, '.do')
               const domainSuffix = process.env.DOMAIN_SUFFIX || ''
-              
+
               return (
                 <DotDoItem
                   key={`${domain}-${index}`}
                   title={displayDomain}
-                  href={showAbsolute || isBrandDomain 
-                    ? `https://${domain}${currentTld || domainSuffix}` 
-                    : `/sites/${domain}${currentTld || domainSuffix}`}
+                  href={showAbsolute || isBrandDomain ? `https://${domain}${currentTld || domainSuffix}` : `/sites/${domain}${currentTld || domainSuffix}`}
                   description={site.description}
                   hasSdk={sdks.includes(domain)}
                   mounted={mounted}

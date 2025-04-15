@@ -43,8 +43,8 @@ export const Domains: CollectionConfig = {
             const job = await payload.jobs.queue({
               task: 'executeFunction',
               input: {
-                functionName: 'processDomain',
-                args: {
+                markdown: 'processDomain',
+                options: {
                   domainId: doc.id,
                   operation,
                 },
@@ -72,8 +72,8 @@ export const Domains: CollectionConfig = {
             const job = await payload.jobs.queue({
               task: 'executeFunction',
               input: {
-                functionName: 'processDomain',
-                args: {
+                markdown: 'processDomain',
+                options: {
                   domainId: id,
                   operation: 'delete',
                   domain: domain.domain,

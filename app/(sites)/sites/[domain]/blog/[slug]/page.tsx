@@ -1,4 +1,4 @@
-import { Badge } from '@/components/sites/badge'
+import { Badge } from '@/components/ui/badge'
 import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
@@ -8,10 +8,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getBlogPostBySlug } from '../blog-posts'
 
-async function BlogPostPage(props: { params: Promise<{ domain: string; slug?: string }> }) {
-  const { domain, slug } = await props.params
+async function BlogPostPage(props: { params: { domain: string; slug?: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
+  const { domain, slug } = props.params
   const headersList = await headers()
-  const siteUrl = `${headersList.get('x-forwarded-proto')}://${headersList.get('x-forwarded-host')}`
+  const proto = headersList.get('x-forwarded-proto')
+  const host = headersList.get('x-forwarded-host')
+  const siteUrl = `${proto}://${host}`
   const post = getBlogPostBySlug(slug || '')
   const fallbackImage = '/images/blog-llm.png'
 
@@ -79,7 +81,8 @@ function BlogPostNotFound({ fallbackImage }: { fallbackImage: string }) {
             <p className='mb-4'>This blog post could not be found</p>
             <Link
               href={`/blog`}
-              className='bg-primary text-primary-foreground ring-offset-background hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'>
+              className='bg-primary text-primary-foreground ring-offset-background hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'
+            >
               Browse All Blog Posts
             </Link>
           </div>

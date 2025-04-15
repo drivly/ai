@@ -29,8 +29,8 @@ export const APIKeys: CollectionConfig = {
           name: 'domain',
           type: 'text',
           required: true,
-        }
-      ]
+        },
+      ],
     },
   ],
 }

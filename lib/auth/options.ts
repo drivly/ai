@@ -1,5 +1,5 @@
 import { stripe } from '@better-auth/stripe'
-import type { PayloadBetterAuthPluginOptions } from '@payload-auth/better-auth-plugin'
+import type { PayloadBetterAuthPluginOptions } from '@drivly/better-payload-auth'
 import { BetterAuthOptions } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
 import { admin, apiKey, genericOAuth, multiSession, oAuthProxy, oidcProvider, openAPI } from 'better-auth/plugins'
@@ -18,7 +18,7 @@ export const betterAuthPlugins = [
   nextCookies(),
   stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
   oAuthProxy({
-    productionURL: process.env.NODE_ENV === 'production' ? getCurrentURL() : 'http://localhost:3000',
+    productionURL: 'https://apis.do',
     currentURL: getCurrentURL(),
   }),
   genericOAuth({
@@ -65,19 +65,18 @@ export type BetterAuthPlugins = typeof betterAuthPlugins
 export const betterAuthOptions: BetterAuthOptions = {
   secret: process.env.BETTER_AUTH_SECRET as string,
   appName: '.do',
-  trustedOrigins: process.env.NODE_ENV === 'production' 
-    ? ['https://apis.do', 'https://workflows.do', 'https://functions.do', 'https://agents.do', 'https://llm.do'] 
-    : ['http://localhost:3000'],
+  trustedOrigins:
+    process.env.NODE_ENV === 'production' ? ['https://apis.do', 'https://workflows.do', 'https://functions.do', 'https://agents.do', 'https://llm.do'] : ['http://localhost:3000'],
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/google' : 'http://localhost:3000/api/auth/callback/google', // Must remain fixed for better-auth oauth proxy to work correctly
+      redirectURI: 'https://apis.do/api/auth/callback/google',
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: process.env.NODE_ENV === 'production' ? 'https://apis.do/api/auth/callback/github' : 'http://localhost:3000/api/auth/callback/github', // Must remain fixed for better-auth oauth proxy to work correctly
+      redirectURI: 'https://apis.do/api/auth/callback/github',
     },
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,

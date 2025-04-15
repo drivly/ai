@@ -12,11 +12,9 @@
   ],
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts",
+    "build:packages": "tsup src/index.ts --format esm --dts",
     "clean": "rimraf dist",
     "lint": "eslint ."
-  },
-  "dependencies": {
-    "@drivly/ui": "workspace:*"
   },
   "peerDependencies": {
     "payload": "^3.33.0",

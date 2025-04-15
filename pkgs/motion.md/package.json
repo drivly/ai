@@ -15,8 +15,9 @@
   },
   "scripts": {
     "build": "tsup",
+    "build:packages": "tsup",
     "dev": "tsup --watch",
-    "lint": "eslint src --ext .ts,.tsx",
+    "lint": "eslint src",
     "test": "vitest run",
     "test:watch": "vitest",
     "clean": "rm -rf dist"

@@ -1,6 +1,6 @@
 {
   "name": "llm.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Intelligent AI Gateway for routing requests to optimal language models with Vercel AI SDK provider support",
   "keywords": [
     "llm",
@@ -45,6 +45,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:packages": "tsc",
     "test": "echo \"No tests\" && exit 0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "experiments.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A framework for testing hypotheses, measuring outcomes, and iteratively improving your AI applications",
   "keywords": [
     "experiments",
@@ -40,6 +40,7 @@
   },
   "scripts": {
     "build": "tsup --config tsup.config.ts",
+    "build:packages": "tsup --config tsup.config.ts",
     "postbuild": "tsc --emitDeclarationOnly --declaration --outDir dist",
     "test": "vitest run",
     "test:watch": "vitest",

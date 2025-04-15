@@ -3,7 +3,7 @@ title: Triggers.do - Event-Based Workflow Automation
 description: Automate workflow initiation with Triggers.do, the comprehensive platform for event-based process automation
 headline: Start Workflows When Events Happen
 subhead: Automatically initiate workflows based on events from any system. Create responsive business processes that react to changes in real-time.
-badge: "AI without Complexity"
+badge: 'AI without Complexity'
 codeExample: "import { Trigger } from 'triggers.do';\n\nconst newOrderTrigger = new Trigger({\n  name: 'New Order Created',\n  description: 'Triggers when a new order is created in the system',\n  event: 'order.created',\n  source: 'ecommerce-platform',\n  filter: {\n    condition: 'amount > 100',\n    priority: 'high'\n  },\n  handler: async (event) => {\n    // Process the event and start workflows\n    return {\n      workflowId: 'order-processing',\n      data: event.data\n    };\n  }\n});"
 ---
 

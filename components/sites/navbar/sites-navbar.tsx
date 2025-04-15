@@ -2,9 +2,9 @@
 
 import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
 import { navigation, siteConfig } from '@/components/site-config'
-import { cn } from '@drivly/ui/lib'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaDiscord, FaGithub } from 'react-icons/fa'
 import { LlmsdoLogo } from './llms-do-logo'
 import { MobileNav } from './mobile-nav'
@@ -31,7 +31,7 @@ export function SitesNavbar({ params, minimal }: { params: { domain?: string }; 
       window.addEventListener('scroll', handleScroll, { passive: true })
       return () => window.removeEventListener('scroll', handleScroll)
     }, 300)
-    
+
     return () => clearTimeout(timeoutId)
   }, [])
 
@@ -53,12 +53,13 @@ export function SitesNavbar({ params, minimal }: { params: { domain?: string }; 
         'fixed top-0 left-0 z-50 w-full backdrop-blur-[12px]',
         isStabilized ? 'transition-all duration-200' : '',
         hasScrolled ? 'bg-background/80 border-b' : 'border-transparent bg-transparent',
-      )}>
+      )}
+    >
       <nav className='container mx-auto flex h-14 max-w-6xl items-center justify-between px-3 xl:px-0'>
         <LlmsdoLogo domain={domain} minimal={minimal} />
 
         {!minimal && (
-          <div className='flex-1 hidden justify-center space-x-6 mx-6 md:flex'>
+          <div className='mx-6 hidden flex-1 justify-center space-x-6 md:flex'>
             {navMenuLinks.map((link) => {
               if (link.name !== 'Blog') {
                 return (
@@ -67,7 +68,7 @@ export function SitesNavbar({ params, minimal }: { params: { domain?: string }; 
                   </Link>
                 )
               }
-              return null;
+              return null
             })}
           </div>
         )}
@@ -76,7 +77,8 @@ export function SitesNavbar({ params, minimal }: { params: { domain?: string }; 
         <div
           className={cn('hidden h-full items-center justify-end space-x-4 md:flex', {
             flex: minimal,
-          })}>
+          })}
+        >
           <Link href={siteConfig.baseLinks.github} className='hover:text-primary text-sm text-gray-400 transition-colors' target='_blank' rel='noopener noreferrer'>
             <FaGithub className='h-5 w-5' />
             <span className='sr-only'>GitHub</span>

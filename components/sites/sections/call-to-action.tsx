@@ -1,12 +1,12 @@
 'use client'
 
 import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Button } from '@/components/ui/button'
 import { GridPatternDashed } from '../magicui/grid-pattern-dashed'
 
-export default function CallToAction() {
+export function CallToAction() {
   const pathname = usePathname()
 
   if (pathname === '/waitlist') {
@@ -25,7 +25,8 @@ export default function CallToAction() {
           <Button
             variant='outline'
             className='text-primary h-10 w-full cursor-pointer rounded-sm border-gray-700 px-8 text-base hover:bg-[#1A1A1D] hover:text-white sm:w-[180px]'
-            asChild>
+            asChild
+          >
             <Link href='/docs'>Learn more</Link>
           </Button>
         </div>

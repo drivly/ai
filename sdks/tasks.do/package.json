@@ -1,6 +1,6 @@
 {
   "name": "tasks.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Human-in-the-loop workflows enabling powerful task management with the Tasks & Queue collections",
   "keywords": [
     "tasks",

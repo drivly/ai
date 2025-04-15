@@ -77,7 +77,10 @@ export const GET = API(async (request, { db, user, url }) => {
     },
   })
 
-  const redirectUrl = typeof connection.metadata === 'object' && connection.metadata && !Array.isArray(connection.metadata) && 'redirectUrl' in connection.metadata ? connection.metadata.redirectUrl as string : `${url.origin}/dashboard/connections`
+  const redirectUrl =
+    typeof connection.metadata === 'object' && connection.metadata && !Array.isArray(connection.metadata) && 'redirectUrl' in connection.metadata
+      ? (connection.metadata.redirectUrl as string)
+      : `${url.origin}/dashboard/connections`
   return Response.redirect(redirectUrl)
 })
 

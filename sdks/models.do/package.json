@@ -1,6 +1,6 @@
 {
   "name": "models.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Search, filter, and compare Large Language Models based on capabilities and attributes",
   "keywords": [
     "models",
@@ -41,6 +41,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "build:packages": "tsc",
     "test": "echo \"No tests\" && exit 0"
   },
   "dependencies": {

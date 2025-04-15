@@ -1,6 +1,6 @@
-import { Toaster } from '@/components/sites/sonner'
-import { ThemeProvider } from '@/components/sites/theme-provider'
-import { cn } from '@drivly/ui/lib'
+import { Toaster } from '@/components/ui/sonner'
+import { ThemeProvider } from '@/components/ui/theme-provider'
+import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import { IBM_Plex_Mono as FontIBM, Geist } from 'next/font/google'
 import type React from 'react'
@@ -30,7 +30,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={cn('bg-background flex min-h-screen flex-col antialiased sites-layout', fontGeist.variable, fontIBM.variable)}>
+      <body className={cn('bg-background sites-layout flex min-h-screen flex-col antialiased', fontGeist.variable, fontIBM.variable)}>
         <Providers>
           <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
             {children}

@@ -1,8 +1,8 @@
 'use client'
 
-import { Badge } from '@/components/sites/badge'
-import { Button } from '@drivly/ui/button'
-import { cn } from '@drivly/ui/lib'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { XIcon } from 'lucide-react'
 
 interface CategoryFilterProps {
@@ -40,7 +40,8 @@ export function CategoryFilter({ categories, selectedCategories, onSelectCategor
           'cursor-pointer px-3 py-1.5 text-sm sm:px-2.5 sm:py-1 sm:text-xs',
           selectedCategories.length === 0 ? 'bg-gray-800 text-gray-100 hover:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-800/50',
         )}
-        onClick={() => toggleCategory(null)}>
+        onClick={() => toggleCategory(null)}
+      >
         All
       </Badge>
       {allCategories.map((category) => (
@@ -51,7 +52,8 @@ export function CategoryFilter({ categories, selectedCategories, onSelectCategor
             'cursor-pointer px-3 py-1.5 text-sm sm:px-2.5 sm:py-1 sm:text-xs',
             selectedCategories.includes(category) ? 'bg-gray-800 text-gray-100 hover:bg-gray-700' : 'hover:bg-gray-100 dark:hover:bg-gray-800/50',
           )}
-          onClick={() => toggleCategory(category)}>
+          onClick={() => toggleCategory(category)}
+        >
           {category}
         </Badge>
       ))}
@@ -61,7 +63,8 @@ export function CategoryFilter({ categories, selectedCategories, onSelectCategor
           variant='ghost'
           size='sm'
           onClick={() => onSelectCategories([])}
-          className={`text-muted-foreground hover:text-primary h-8 cursor-pointer rounded-full px-3 py-1.5 text-sm transition-colors sm:h-7 sm:px-2.5 sm:py-1 sm:text-xs [&_svg:not([class*='size-'])]:size-3.5`}>
+          className={`text-muted-foreground hover:text-primary h-8 cursor-pointer rounded-full px-3 py-1.5 text-sm transition-colors sm:h-7 sm:px-2.5 sm:py-1 sm:text-xs [&_svg:not([class*='size-'])]:size-3.5`}
+        >
           <XIcon className='h-2 w-2' />
           Clear ({selectedCategories.length})
         </Button>

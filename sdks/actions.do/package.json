@@ -1,6 +1,6 @@
 {
   "name": "actions.do",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "SDK for performing tasks within workflows",
   "keywords": [
     "actions",
@@ -36,6 +36,7 @@
   },
   "scripts": {
     "build": "tsup --config tsup.config.ts",
+    "build:packages": "tsup --config tsup.config.ts",
     "generate:constants": "echo 'Using placeholder constants'",
     "test": "vitest run",
     "test:watch": "vitest"
