@@ -18,30 +18,24 @@ export class RequestHandler {
     return this.request.cookies.has('better-auth.session_data') || this.request.cookies.has('__Secure-better-auth.session')
   }
 
+  isAutoLogin(): boolean {
+    return this.pathname === '/admin/login' && process.env.NODE_ENV === 'production'
+  }
+
   isApiAuthRoute(): boolean {
     return this.pathname.startsWith(API_AUTH_PREFIX)
   }
 
   isPublicRoute(): boolean {
-    return publicRoutes.includes(this.pathname)
+    return publicRoutes.includes(this.pathname) || this.pathname?.includes('/favicon/')
   }
 
   isApiRoute(): boolean {
-    return (
-      this.pathname === '/api' || 
-      this.pathname.startsWith('/api/') || 
-      this.pathname === '/v1' || 
-      this.pathname.startsWith('/v1/')
-    )
+    return this.pathname === '/api' || this.pathname.startsWith('/api/') || this.pathname === '/v1' || this.pathname.startsWith('/v1/')
   }
 
   isApiDocsRoute(): boolean {
-    return (
-      this.pathname === '/api/docs' ||
-      this.pathname.startsWith('/api/docs/') ||
-      this.pathname === '/v1/docs' ||
-      this.pathname.startsWith('/v1/docs/')
-    )
+    return this.pathname === '/api/docs' || this.pathname.startsWith('/api/docs/') || this.pathname === '/v1/docs' || this.pathname.startsWith('/v1/docs/')
   }
 
   isDocsRoute(): boolean {

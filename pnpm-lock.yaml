@@ -900,6 +900,8 @@ importers:
         specifier: ^5.7.3
         version: 5.8.3
 
+  pkgs/exec-symbols: {}
+
   pkgs/motion.md:
     dependencies:
       '@remotion/renderer':

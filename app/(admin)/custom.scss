@@ -1,5 +1,7 @@
 @import './base.css';
 
+@layer payload-default, payload;
+
 @layer theme {
   :root {
     --font-mono: 'Geist Mono', Consolas, Monaco, monospace;
@@ -14,12 +16,13 @@
     --style-radius-m: 6px !important;
     --style-radius-l: 8 px !important;
   }
+  
   .btn {
     border-radius: 4px !important;
   }
 
   .table {
-    @apply block;
+    display: block !important;
   }
 
   textarea:focus-visible {
