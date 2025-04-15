@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     name: Run Tests
-    runs-on: ubuntu-latest-4-core # Use a more powerful runner
+    runs-on: ubuntu-latest # Reverted to standard runner due to availability issues
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
