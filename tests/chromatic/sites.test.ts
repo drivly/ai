@@ -1,10 +1,12 @@
-import { test, expect } from '@chromatic-com/playwright'
+import { test as playwrightTest, expect } from '@playwright/test' // Use standard expect for visibility checks
+import { test as chromaticTest } from '@chromatic-com/playwright' // Use chromatic test runner
+import { takeNamedSnapshot } from '../utils/chromatic-helpers'
 
-test.setTimeout(180000); // Further increased for CI environment
+chromaticTest.setTimeout(180000); // Further increased for CI environment
 
 const skipInCI = process.env.CI === 'true';
 
-test('sites main page', async ({ page }) => {
+chromaticTest('sites main page', async ({ page }, testInfo) => { // Use chromaticTest and add testInfo
   // Use a more basic approach for CI environment
   if (process.env.CI) {
     console.log('Running in CI environment with simplified approach');
@@ -28,10 +30,10 @@ test('sites main page', async ({ page }) => {
   await expect(page.locator('main').first()).toBeVisible({ timeout: visibilityTimeout })
   await expect(page.locator('h1')).toBeVisible({ timeout: visibilityTimeout })
 
-  await expect(page).toHaveScreenshot('sites-main-page.png')
+  await takeNamedSnapshot(page, 'page-sites-main', testInfo)
 })
 
-test('docs page', async ({ page }) => {
+chromaticTest('docs page', async ({ page }, testInfo) => { // Use chromaticTest and add testInfo
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   // Use a more basic approach for CI environment
@@ -57,10 +59,10 @@ test('docs page', async ({ page }) => {
   await expect(page.locator('main').first()).toBeVisible({ timeout: visibilityTimeout });
   await expect(page.locator('h1')).toBeVisible({ timeout: visibilityTimeout });
   
-  await expect(page).toHaveScreenshot('docs-page.png');
+  await takeNamedSnapshot(page, 'page-docs', testInfo); // Updated snapshot name
 })
 
-test('specific site page', async ({ page }) => {
+chromaticTest('specific site page', async ({ page }, testInfo) => { // Use chromaticTest and add testInfo
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   // Use a more basic approach for CI environment
@@ -85,10 +87,10 @@ test('specific site page', async ({ page }) => {
   
   await expect(page.locator('main').first()).toBeVisible({ timeout: visibilityTimeout });
   
-  await expect(page).toHaveScreenshot('sites-specific-domain.png', { maxDiffPixelRatio: 0.02 }); // Allow slightly larger diff ratio
+  await takeNamedSnapshot(page, 'page-sites-specific-domain', testInfo); // Updated snapshot name
 })
 
-test('site blog page', async ({ page }) => {
+chromaticTest('site blog page', async ({ page }, testInfo) => { // Use chromaticTest and add testInfo
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   // Use a more basic approach for CI environment
@@ -117,13 +119,13 @@ test('site blog page', async ({ page }) => {
   try {
     await expect(page.locator('div.grid[class*="sm:grid-cols-2"]')).toBeVisible({ timeout: visibilityTimeout / 3 });
   } catch (error) {
-    console.log('Could not find grid element, continuing with screenshot anyway');
+    console.log('Could not find grid element, continuing with snapshot anyway');
   }
   
-  await expect(page).toHaveScreenshot('sites-blog-page.png');
+  await takeNamedSnapshot(page, 'page-sites-blog', testInfo); // Updated snapshot name
 })
 
-test('site blog post page', async ({ page }) => {
+chromaticTest('site blog post page', async ({ page }, testInfo) => { // Use chromaticTest and add testInfo
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   // Use a more basic approach for CI environment
@@ -155,13 +157,13 @@ test('site blog post page', async ({ page }) => {
       await expect(contentElement.first()).toBeVisible({ timeout: visibilityTimeout / 3 });
     }
   } catch (error) {
-    console.log('Could not find article, div.prose, or .blog-content, continuing with screenshot anyway');
+    console.log('Could not find article, div.prose, or .blog-content, continuing with snapshot anyway');
   }
   
-  await expect(page).toHaveScreenshot('sites-blog-post-page.png');
+  await takeNamedSnapshot(page, 'page-sites-blog-post', testInfo); // Updated snapshot name
 });
 
-test('site pricing page', async ({ page }) => {
+chromaticTest('site pricing page', async ({ page }, testInfo) => { // Use chromaticTest and add testInfo
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   // Use a more basic approach for CI environment
@@ -187,10 +189,10 @@ test('site pricing page', async ({ page }) => {
   await expect(page.locator('main').first()).toBeVisible({ timeout: visibilityTimeout });
   await expect(page.locator('h1')).toBeVisible({ timeout: visibilityTimeout });
   
-  await expect(page).toHaveScreenshot('sites-pricing-page.png');
+  await takeNamedSnapshot(page, 'page-sites-pricing', testInfo); // Updated snapshot name
 })
 
-test('site privacy page', async ({ page }) => {
+chromaticTest('site privacy page', async ({ page }, testInfo) => { // Use chromaticTest and add testInfo
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   // Use a more basic approach for CI environment
@@ -222,13 +224,13 @@ test('site privacy page', async ({ page }) => {
       await expect(contentElement.first()).toBeVisible({ timeout: visibilityTimeout / 3 });
     }
   } catch (error) {
-    console.log('Could not find prose, content, or article element, continuing with screenshot anyway');
+    console.log('Could not find prose, content, or article element, continuing with snapshot anyway');
   }
   
-  await expect(page).toHaveScreenshot('sites-privacy-page.png');
+  await takeNamedSnapshot(page, 'page-sites-privacy', testInfo); // Updated snapshot name
 })
 
-test('site terms page', async ({ page }) => {
+chromaticTest('site terms page', async ({ page }, testInfo) => { // Use chromaticTest and add testInfo
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   // Use a more basic approach for CI environment
@@ -260,13 +262,13 @@ test('site terms page', async ({ page }) => {
       await expect(contentElement.first()).toBeVisible({ timeout: visibilityTimeout / 3 });
     }
   } catch (error) {
-    console.log('Could not find prose, content, or article element, continuing with screenshot anyway');
+    console.log('Could not find prose, content, or article element, continuing with snapshot anyway');
   }
   
-  await expect(page).toHaveScreenshot('sites-terms-page.png');
+  await takeNamedSnapshot(page, 'page-sites-terms', testInfo); // Updated snapshot name
 })
 
-test('site waitlist page - unauthenticated', async ({ page }) => {
+chromaticTest('site waitlist page - unauthenticated', async ({ page }, testInfo) => { // Use chromaticTest and add testInfo
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000';
   
   // Use a more basic approach for CI environment
@@ -296,5 +298,5 @@ test('site waitlist page - unauthenticated', async ({ page }) => {
   
   await expect(page.locator('body')).toBeVisible({ timeout: visibilityTimeout });
   
-  await expect(page).toHaveScreenshot('sites-waitlist-redirected-to-login.png');
+  await takeNamedSnapshot(page, 'page-sites-waitlist-redirected', testInfo); // Updated snapshot name
 })
