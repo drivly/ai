@@ -15,7 +15,7 @@ export class RequestHandler {
   }
 
   isLoggedIn(): boolean {
-    return this.request.cookies.has('better-auth.session_data')
+    return this.request.cookies.has('better-auth.session_data') || this.request.cookies.has('__Secure-better-auth.session')
   }
 
   isApiAuthRoute(): boolean {
