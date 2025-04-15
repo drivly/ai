@@ -30,6 +30,14 @@ function camelCaseDeep<T>(input: T): T {
   return input
 }
 
+async function fetchProviders(slug: string) {
+  const url = `https://openrouter.ai/api/frontend/stats/endpoint?permaslug=${slug}`
+
+  const response = await fetch(url).then((res) => res.json()) as { data: any }
+
+  return camelCaseDeep(response.data || [])
+}
+
 async function main() {
   try {
     const URL = 'https://openrouter.ai/api/frontend/models/find?order=top-weekly'
@@ -77,6 +85,53 @@ async function main() {
 
       return mergedModel
     })
+
+    const finalModels = []
+
+    const providerAliases = {
+      'Google AI Studio': 'google',
+      'Google Vertex': 'vertex'
+    }
+
+    let completed = 0
+
+    for (const model of modelsData) {
+      console.log(
+        `[PROVIDERS] Fetching provider metadata for ${model.permaslug}...`
+      )
+
+      const providers = await fetchProviders(model.permaslug)
+      model.providers = providers.map((provider) => {
+        const providerName = providerAliases[provider.providerDisplayName] || provider.providerDisplayName
+
+        const priceToDollars = (price: string) => {
+          // To get the dollar price, we need to multiply the price by a million.
+          const priceNumber = parseFloat(price)
+          return Number((priceNumber * 1000000)
+          .toFixed(2)
+          // Remove trailing zeros
+          .replace(/\.?0+$/, ''))
+        }
+
+        return {
+          name: provider.providerDisplayName,
+          slug: camelCase(providerName),
+          quantization: provider.quantization,
+          context: provider.contextLength,
+          maxCompletionTokens: provider.maxCompletionTokens,
+          pricing: provider.pricing,
+          // Disable claude's reasoning parameter as it's only supported via the :thinking tag.
+          supportedParameters: model.slug === 'anthropic/claude-3.7-sonnet' ? ['max_tokens', 'temperature', 'stop', 'tools', 'tool_choice'] : provider.supportedParameters,
+          inputCost: priceToDollars(provider.pricing.prompt),
+          outputCost: priceToDollars(provider.pricing.completion),
+          throughput: provider.stats?.[0]?.p50Throughput,
+          latency: provider.stats?.[0]?.p50Latency
+        }
+      })
+
+      completed++
+      console.log(`[PROVIDERS] ${completed}/${modelsData.length} models completed`)
+    }
 
     // Write to models.json in src directory
     const { resolve } = await import('node:path')
