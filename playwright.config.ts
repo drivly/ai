@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
   testDir: './tests',
-  workers: 2,
+  workers: process.env.CI ? 10 : 4, // Increased workers for CI environment
   fullyParallel: true,
   use: {
     baseURL: process.env.TEST_BASE_URL || 'http://localhost:3000',
@@ -19,4 +19,5 @@ export default defineConfig({
     },
   ],
   updateSnapshots: process.env.CI ? 'all' : 'missing',
+  retries: process.env.CI ? 2 : 0, // Add retries for CI environment
 })

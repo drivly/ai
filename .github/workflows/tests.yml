@@ -91,9 +91,8 @@ jobs:
         
       - name: Run Chromatic Tests
         run: |
-          # Run Chromatic with auto-accept-changes for first-time snapshots
-          # Run Playwright tests first to generate archives
-          pnpm exec playwright test tests/chromatic
+          # Run Playwright tests with increased parallelization
+          pnpm exec playwright test tests/chromatic --workers=10
           # Run Chromatic with auto-accept-changes for first-time snapshots
           # Run Chromatic tests against the local server
           npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --exit-zero-on-changes
