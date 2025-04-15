@@ -38,6 +38,7 @@
   },
   "scripts": {
     "build": "tsup index.ts --format esm",
+    "build:packages": "tsup index.ts --format esm",
     "test": "echo \"No tests\" && exit 0"
   },
   "devDependencies": {
