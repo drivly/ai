@@ -49,6 +49,7 @@
   },
   "scripts": {
     "build": "tsup --config tsup.config.ts",
+    "build:packages": "tsup --config tsup.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "dev": "tsc --watch",
