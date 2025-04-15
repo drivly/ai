@@ -228,7 +228,26 @@
     "onlyBuiltDependencies": [
       "@vercel/speed-insights",
       "esbuild",
-      "sharp"
+      "sharp",
+      "apis.do",
+      "actions.do",
+      "analytics.do",
+      "database.do",
+      "evals.do",
+      "experiments.do",
+      "functions.do",
+      "goals.do", 
+      "gpt.do",
+      "mcp.do",
+      "integrations.do",
+      "models.do", 
+      "searches.do",
+      "tasks.do",
+      "triggers.do",
+      "llm.do",
+      "workflows.do",
+      "agents.do",
+      "cli.do"
     ]
   },
   "prettier": {
