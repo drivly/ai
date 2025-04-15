@@ -69,7 +69,24 @@ jobs:
       - name: Wait for Server
         run: |
           echo "Waiting for server to start..."
-          sleep 45 # Wait for server to become ready
+          # Replace fixed sleep with polling mechanism
+          max_attempts=30
+          attempt=1
+          while [ $attempt -le $max_attempts ]; do
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "Server is ready after $attempt attempts!"
+              break
+            fi
+            echo "Attempt $attempt/$max_attempts - Server not ready yet, waiting..."
+            sleep 2
+            attempt=$((attempt + 1))
+          done
+          
+          if [ $attempt -gt $max_attempts ]; then
+            echo "Server failed to start after $max_attempts attempts"
+            exit 1
+          fi
+          
           echo "Continuing with tests."
         
       - name: Run Chromatic Tests

@@ -8,10 +8,10 @@ export default defineConfig({
     baseURL: process.env.TEST_BASE_URL || 'http://localhost:3000',
     screenshot: 'on',
     trace: 'on',
-    actionTimeout: 15 * 1000, 
-    navigationTimeout: 60 * 1000, 
+    actionTimeout: 10 * 1000, // Reduced from 15s to 10s
+    navigationTimeout: 30 * 1000, // Reduced from 60s to 30s
   },
-  timeout: 120 * 1000,
+  timeout: 30 * 1000, // Reduced from 120s to 30s
   projects: [
     {
       name: 'chromium',
