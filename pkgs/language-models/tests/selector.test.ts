@@ -38,9 +38,6 @@ describe('selector', () => {
   it('should return a Claude 3.7 Sonnet model with reasoning capabilities', () => {
     const model = getModel('anthropic/claude-3.7-sonnet(reasoning)')
     expect(model).toBeDefined()
-
-    console.log(model)
-
     expect(model?.slug).toBe('anthropic/claude-3.7-sonnet:thinking')
   })
 

@@ -492,7 +492,3 @@ const metaModels = [
     ]
   }
 ]
-
-console.log(
-  filterModels('claude-3.7-sonnet(reasoning)')
-)
