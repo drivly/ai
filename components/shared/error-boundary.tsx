@@ -56,13 +56,13 @@ export class ErrorBoundary extends Component<Props, State> {
 
   render(): ReactNode {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="p-4 border border-red-300 bg-red-50 rounded-md">
-          <h2 className="text-lg font-semibold text-red-800">Something went wrong</h2>
-          <p className="text-red-600">
-            The error has been reported to our team. Please try again later.
-          </p>
-        </div>
+      return (
+        this.props.fallback || (
+          <div className='rounded-md border border-red-300 bg-red-50 p-4'>
+            <h2 className='text-lg font-semibold text-red-800'>Something went wrong</h2>
+            <p className='text-red-600'>The error has been reported to our team. Please try again later.</p>
+          </div>
+        )
       )
     }
 
@@ -73,12 +73,9 @@ export class ErrorBoundary extends Component<Props, State> {
 /**
  * Functional component wrapper for the ErrorBoundary class component
  */
-export function withErrorBoundary<P extends object>(
-  Component: React.ComponentType<P>,
-  options: Omit<Props, 'children'> = {}
-): React.FC<P> {
+export function withErrorBoundary<P extends object>(Component: React.ComponentType<P>, options: Omit<Props, 'children'> = {}): React.FC<P> {
   const displayName = Component.displayName || Component.name || 'Component'
-  
+
   const WrappedComponent: React.FC<P> = (props) => {
     return (
       <ErrorBoundary {...options} componentName={displayName}>
@@ -86,8 +83,8 @@ export function withErrorBoundary<P extends object>(
       </ErrorBoundary>
     )
   }
-  
+
   WrappedComponent.displayName = `withErrorBoundary(${displayName})`
-  
+
   return WrappedComponent
 }

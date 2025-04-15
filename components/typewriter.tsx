@@ -54,7 +54,8 @@ export const Typewriter = ({ examples }: { examples: string[] }) => {
               ease: 'easeInOut',
             }}
             key={`${exampleIndex}-${i}`}
-            className='relative'>
+            className='relative'
+          >
             <motion.span
               initial={{
                 opacity: 0,
@@ -65,7 +66,8 @@ export const Typewriter = ({ examples }: { examples: string[] }) => {
               transition={{
                 delay: i * LETTER_DELAY,
                 duration: 0,
-              }}>
+              }}
+            >
               {l}
             </motion.span>
             <motion.span

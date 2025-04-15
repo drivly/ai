@@ -7,8 +7,8 @@ export default function ReferencePage() {
   return (
     <ApiReferenceReact
       configuration={{
-        url: "/api.json",
-        layout: "modern"
+        url: '/api.json',
+        layout: 'modern',
       }}
     />
   )

@@ -1,12 +1,9 @@
-"use client"
+'use client'
 
-import { cn } from "@/lib/utils"
-import { Children, useCallback, useEffect, useRef, useState } from "react"
+import { cn } from '@/lib/utils'
+import { Children, useCallback, useEffect, useRef, useState } from 'react'
 
-const useAutoScroll = (
-  containerRef: React.RefObject<HTMLDivElement | null>,
-  enabled: boolean
-) => {
+const useAutoScroll = (containerRef: React.RefObject<HTMLDivElement | null>, enabled: boolean) => {
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true)
   const lastScrollTopRef = useRef(0)
   const autoScrollingRef = useRef(false)
@@ -20,7 +17,7 @@ const useAutoScroll = (
   }, [])
 
   const scrollToBottom = useCallback(
-    (behavior: ScrollBehavior = "smooth") => {
+    (behavior: ScrollBehavior = 'smooth') => {
       const container = containerRef.current
       if (!container) return
 
@@ -56,17 +53,17 @@ const useAutoScroll = (
           autoScrollingRef.current = false
           scrollTriggeredRef.current = false
           clearTimeout(safetyTimeout)
-          container.removeEventListener("scrollend", handleScrollEnd)
+          container.removeEventListener('scrollend', handleScrollEnd)
         }
 
-        container.addEventListener("scrollend", handleScrollEnd, {
+        container.addEventListener('scrollend', handleScrollEnd, {
           once: true,
         })
       } catch (e) {
         // scrollend event not supported in this browser, fallback to requestAnimationFrame
       }
     },
-    [containerRef]
+    [containerRef],
   )
 
   useEffect(() => {
@@ -117,20 +114,20 @@ const useAutoScroll = (
       }
     }
 
-    container.addEventListener("scroll", handleScroll, { passive: true })
-    container.addEventListener("wheel", handleWheel, { passive: true })
-    container.addEventListener("touchstart", handleTouchStart, {
+    container.addEventListener('scroll', handleScroll, { passive: true })
+    container.addEventListener('wheel', handleWheel, { passive: true })
+    container.addEventListener('touchstart', handleTouchStart, {
       passive: true,
     })
-    container.addEventListener("touchmove", handleTouchMove, { passive: true })
-    container.addEventListener("touchend", handleTouchEnd, { passive: true })
+    container.addEventListener('touchmove', handleTouchMove, { passive: true })
+    container.addEventListener('touchend', handleTouchEnd, { passive: true })
 
     return () => {
-      container.removeEventListener("scroll", handleScroll)
-      container.removeEventListener("wheel", handleWheel)
-      container.removeEventListener("touchstart", handleTouchStart)
-      container.removeEventListener("touchmove", handleTouchMove)
-      container.removeEventListener("touchend", handleTouchEnd)
+      container.removeEventListener('scroll', handleScroll)
+      container.removeEventListener('wheel', handleWheel)
+      container.removeEventListener('touchstart', handleTouchStart)
+      container.removeEventListener('touchmove', handleTouchMove)
+      container.removeEventListener('touchend', handleTouchEnd)
     }
   }, [containerRef, enabled, autoScrollEnabled, isAtBottom])
 
@@ -153,14 +150,7 @@ export type ChatContainerProps = {
   ref?: React.RefObject<HTMLDivElement | null>
 } & React.HTMLAttributes<HTMLDivElement>
 
-function ChatContainer({
-  className,
-  children,
-  autoScroll = true,
-  scrollToRef,
-  ref,
-  ...props
-}: ChatContainerProps) {
+function ChatContainer({ className, children, autoScroll = true, scrollToRef, ref, ...props }: ChatContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const localBottomRef = useRef<HTMLDivElement>(null)
   const bottomRef = scrollToRef || localBottomRef
@@ -168,15 +158,7 @@ function ChatContainer({
   const prevChildrenRef = useRef<React.ReactNode>(null)
   const contentChangedWithoutNewMessageRef = useRef(false)
 
-  const {
-    autoScrollEnabled,
-    scrollToBottom,
-    isScrolling,
-    scrollTriggered,
-    newMessageAdded,
-    setNewMessageAdded,
-    prevChildrenCountRef,
-  } = useAutoScroll(chatContainerRef, autoScroll)
+  const { autoScrollEnabled, scrollToBottom, isScrolling, scrollTriggered, newMessageAdded, setNewMessageAdded, prevChildrenCountRef } = useAutoScroll(chatContainerRef, autoScroll)
 
   useEffect(() => {
     const childrenArray = Children.toArray(children)
@@ -197,45 +179,22 @@ function ChatContainer({
 
     const scrollHandler = () => {
       if (newMessageAdded) {
-        scrollToBottom("smooth")
+        scrollToBottom('smooth')
         setNewMessageAdded(false)
         contentChangedWithoutNewMessageRef.current = false
-      } else if (
-        contentChangedWithoutNewMessageRef.current &&
-        autoScrollEnabled &&
-        !isScrolling &&
-        !scrollTriggered
-      ) {
-        scrollToBottom("smooth")
+      } else if (contentChangedWithoutNewMessageRef.current && autoScrollEnabled && !isScrolling && !scrollTriggered) {
+        scrollToBottom('smooth')
         contentChangedWithoutNewMessageRef.current = false
       }
     }
 
     requestAnimationFrame(scrollHandler)
-  }, [
-    children,
-    autoScroll,
-    autoScrollEnabled,
-    isScrolling,
-    scrollTriggered,
-    scrollToBottom,
-    newMessageAdded,
-    setNewMessageAdded,
-  ])
+  }, [children, autoScroll, autoScrollEnabled, isScrolling, scrollTriggered, scrollToBottom, newMessageAdded, setNewMessageAdded])
 
   return (
-    <div
-      className={cn("flex flex-col overflow-y-auto", className)}
-      role="log"
-      ref={chatContainerRef}
-      {...props}
-    >
+    <div className={cn('flex flex-col overflow-y-auto', className)} role='log' ref={chatContainerRef} {...props}>
       {children}
-      <div
-        ref={bottomRef}
-        className="h-[1px] w-full flex-shrink-0 scroll-mt-4"
-        aria-hidden="true"
-      />
+      <div ref={bottomRef} className='h-[1px] w-full flex-shrink-0 scroll-mt-4' aria-hidden='true' />
     </div>
   )
 }

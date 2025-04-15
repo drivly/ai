@@ -25,9 +25,9 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
 
   if (async === 'true') {
     const start = Date.now()
-    
+
     const generationHash = hash({ functionName, args, settings, timestamp: Date.now() })
-    
+
     const job = await payload.jobs.queue({
       task: 'executeFunction',
       input: { functionName, args, settings, generationHash },

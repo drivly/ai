@@ -12,7 +12,7 @@ export const POST = API(async (request, { payload }) => {
   console.log('Received Linear webhook headers:', {
     headers: Object.fromEntries([...request.headers.entries()]),
   })
-  
+
   const bodyClone = await request.clone().text()
   console.log('Received Linear webhook body:', {
     body: bodyClone,
@@ -46,11 +46,11 @@ export const POST = API(async (request, { payload }) => {
 
     const data = JSON.parse(rawBody)
 
-    const job = await payload.jobs.queue({ 
-      task: 'handleLinearWebhook', 
-      input: { payload: data } 
+    const job = await payload.jobs.queue({
+      task: 'handleLinearWebhook',
+      input: { payload: data },
     })
-    
+
     console.log('Linear webhook received, job queued:', { job })
     waitUntil(payload.jobs.runByID({ id: job.id }))
 

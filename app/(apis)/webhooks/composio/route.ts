@@ -5,28 +5,28 @@ import { Webhook } from 'svix'
 
 function sanitizeDataForMongoDB(data: any): any {
   if (data === null || data === undefined) {
-    return data;
+    return data
   }
-  
+
   if (Array.isArray(data)) {
-    return data.map(item => sanitizeDataForMongoDB(item));
+    return data.map((item) => sanitizeDataForMongoDB(item))
   }
-  
+
   if (typeof data === 'object') {
-    const sanitized: Record<string, any> = {};
+    const sanitized: Record<string, any> = {}
     for (const [key, value] of Object.entries(data)) {
       if (!key.startsWith('$') && !key.includes('.')) {
-        sanitized[key] = sanitizeDataForMongoDB(value);
+        sanitized[key] = sanitizeDataForMongoDB(value)
       }
     }
-    return sanitized;
+    return sanitized
   }
-  
+
   if (typeof data === 'string' && data.length === 24 && /^[0-9a-fA-F]{24}$/.test(data)) {
-    return `id_${data}`;
+    return `id_${data}`
   }
-  
-  return data;
+
+  return data
 }
 
 export const POST = API(async (request, { db, user, origin, url, domain }) => {
@@ -69,14 +69,14 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
 
     // Store the event in the database
     const payloadInstance = await getPayload({ config })
-    const results = await payloadInstance.create({ 
-      collection: 'events', 
-      data: { 
+    const results = await payloadInstance.create({
+      collection: 'events',
+      data: {
         data: sanitizedData,
         tenant: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Set default project ID
         type: data.type || 'webhook.composio', // Set default type
-        source: 'composio' // Set source
-      } 
+        source: 'composio', // Set source
+      },
     })
 
     console.log('Webhook verified and processed:', results, data)

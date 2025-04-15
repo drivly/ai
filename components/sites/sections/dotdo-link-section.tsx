@@ -13,7 +13,8 @@ export function DotdoLinkSection() {
                   href='https://workflows.do'
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
-                  rel='noopener noreferrer'>
+                  rel='noopener noreferrer'
+                >
                   Workflows.do
                 </Link>
               </li>
@@ -22,7 +23,8 @@ export function DotdoLinkSection() {
                   href='https://functions.do'
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
-                  rel='noopener noreferrer'>
+                  rel='noopener noreferrer'
+                >
                   Functions.do
                 </Link>
               </li>
@@ -31,16 +33,13 @@ export function DotdoLinkSection() {
                   href='https://agents.do'
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
-                  rel='noopener noreferrer'>
+                  rel='noopener noreferrer'
+                >
                   Agents.do
                 </Link>
               </li>
               <li>
-                <Link 
-                  href='https://llm.do' 
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg' 
-                  target='_blank' 
-                  rel='noopener noreferrer'>
+                <Link href='https://llm.do' className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg' target='_blank' rel='noopener noreferrer'>
                   LLM.do
                 </Link>
               </li>
@@ -49,7 +48,8 @@ export function DotdoLinkSection() {
                   href='https://apis.do'
                   className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
-                  rel='noopener noreferrer'>
+                  rel='noopener noreferrer'
+                >
                   APIs.do
                 </Link>
               </li>

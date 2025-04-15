@@ -6,13 +6,14 @@ import { titleCase } from '@/lib/utils'
 
 export const GET = API(async (request, { db, user, origin, url, domain, payload }) => {
   const showDomains = url.searchParams.has('domains')
-  
-  const formatWithOptions = (path: string, defaultDomain?: string) => formatUrl(path, {
-    origin,
-    domain,
-    showDomains,
-    defaultDomain
-  })
+
+  const formatWithOptions = (path: string, defaultDomain?: string) =>
+    formatUrl(path, {
+      origin,
+      domain,
+      showDomains,
+      defaultDomain,
+    })
   const collections = payload.collections || {}
 
   const domainAliases = Object.keys(domainsConfig.aliases)
@@ -98,9 +99,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     apis: formattedApis,
     sites: formattedSites,
     actions: {
-      toggleDomains: url.searchParams.has('domains') 
-        ? url.toString().replace(/[?&]domains/, '') 
-        : url.toString() + (url.toString().includes('?') ? '&domains' : '?domains')
-    }
+      toggleDomains: url.searchParams.has('domains') ? url.toString().replace(/[?&]domains/, '') : url.toString() + (url.toString().includes('?') ? '&domains' : '?domains'),
+    },
   }
 })

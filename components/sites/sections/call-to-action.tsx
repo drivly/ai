@@ -25,7 +25,8 @@ export function CallToAction() {
           <Button
             variant='outline'
             className='text-primary h-10 w-full cursor-pointer rounded-sm border-gray-700 px-8 text-base hover:bg-[#1A1A1D] hover:text-white sm:w-[180px]'
-            asChild>
+            asChild
+          >
             <Link href='/docs'>Learn more</Link>
           </Button>
         </div>

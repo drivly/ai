@@ -275,12 +275,12 @@ ALARM_EXAMPLE: DurableObject<Env>;
 }
 
 export default {
-  async fetch(request, env) {
-    let url = new URL(request.url);
-    let userId = url.searchParams.get("userId") || crypto.randomUUID();
-    let id = env.ALARM_EXAMPLE.idFromName(userId);
-    return await env.ALARM_EXAMPLE.get(id).fetch(request);
-  },
+async fetch(request, env) {
+let url = new URL(request.url);
+let userId = url.searchParams.get("userId") || crypto.randomUUID();
+let id = env.ALARM_EXAMPLE.idFromName(userId);
+return await env.ALARM_EXAMPLE.get(id).fetch(request);
+},
 };
 
 const SECONDS = 1000;
@@ -815,13 +815,13 @@ Use the Browser Rendering API as a headless browser to interact with websites fr
 import puppeteer from "@cloudflare/puppeteer";
 
 interface Env {
-  BROWSER_RENDERING: Fetcher;
+BROWSER_RENDERING: Fetcher;
 }
 
 export default {
-  async fetch(request, env): Promise<Response> {
-    const { searchParams } = new URL(request.url);
-    let url = searchParams.get("url");
+async fetch(request, env): Promise<Response> {
+const { searchParams } = new URL(request.url);
+let url = searchParams.get("url");
 
     if (url) {
       url = new URL(url).toString(); // normalize
@@ -847,7 +847,8 @@ export default {
           error: "Please add an ?url=https://example.com/ parameter"
       }, { status: 400 })
     }
-  },
+
+},
 } satisfies ExportedHandler<Env>;
 </code>
 
@@ -888,12 +889,12 @@ Serve Static Assets from a Cloudflare Worker and/or configure a Single Page Appl
 // src/index.ts
 
 interface Env {
-  ASSETS: Fetcher;
+ASSETS: Fetcher;
 }
 
 export default {
-  fetch(request, env) {
-    const url = new URL(request.url);
+fetch(request, env) {
+const url = new URL(request.url);
 
     if (url.pathname.startsWith("/api/")) {
       return Response.json({
@@ -902,21 +903,23 @@ export default {
     }
 
     return env.ASSETS.fetch(request);
-  },
+
+},
 } satisfies ExportedHandler<Env>;
 </code>
 <configuration>
 {
-  "name": "my-app",
-	"main": "src/index.ts",
-  "compatibility_date": "<TBD>",
-	"assets": { "directory": "./public/", "not_found_handling": "single-page-application", "binding": "ASSETS" },
-  "observability": {
-    "enabled": true
-  }
+"name": "my-app",
+"main": "src/index.ts",
+"compatibility_date": "<TBD>",
+"assets": { "directory": "./public/", "not_found_handling": "single-page-application", "binding": "ASSETS" },
+"observability": {
+"enabled": true
+}
 }
 </configuration>
 <key_points>
+
 - Configures a ASSETS binding
 - Uses /public/ as the directory the build output goes to from the framework of choice
 - The Worker will handle any requests that a path cannot be found for and serve as the API
@@ -937,17 +940,17 @@ import { Agent, AgentNamespace, Connection, ConnectionContext, getAgentByName, r
 import { OpenAI } from "openai";
 
 interface Env {
-	AIAgent: AgentNamespace<Agent>;
-	OPENAI_API_KEY: string;
+AIAgent: AgentNamespace<Agent>;
+OPENAI_API_KEY: string;
 }
 
 export class AIAgent extends Agent {
-	// Handle HTTP requests with your Agent
-  async onRequest(request) {
-    // Connect with AI capabilities
-    const ai = new OpenAI({
-      apiKey: this.env.OPENAI_API_KEY,
-    });
+// Handle HTTP requests with your Agent
+async onRequest(request) {
+// Connect with AI capabilities
+const ai = new OpenAI({
+apiKey: this.env.OPENAI_API_KEY,
+});
 
     // Process and understand
     const response = await ai.chat.completions.create({
@@ -956,59 +959,61 @@ export class AIAgent extends Agent {
     });
 
     return new Response(response.choices[0].message.content);
-  }
 
-  async processTask(task) {
-    await this.understand(task);
-    await this.act();
-    await this.reflect();
-  }
+}
 
-	// Handle WebSockets
-  async onConnect(connection: Connection) {
-   await this.initiate(connection);
-   connection.accept()
-  }
+async processTask(task) {
+await this.understand(task);
+await this.act();
+await this.reflect();
+}
 
-  async onMessage(connection, message) {
-    const understanding = await this.comprehend(message);
-    await this.respond(connection, understanding);
-  }
+    // Handle WebSockets
 
-  async evolve(newInsight) {
-      this.setState({
-        ...this.state,
-        insights: [...(this.state.insights || []), newInsight],
-        understanding: this.state.understanding + 1,
-      });
-    }
+async onConnect(connection: Connection) {
+await this.initiate(connection);
+connection.accept()
+}
 
-  onStateUpdate(state, source) {
-    console.log("Understanding deepened:", {
-      newState: state,
-      origin: source,
-    });
-  }
+async onMessage(connection, message) {
+const understanding = await this.comprehend(message);
+await this.respond(connection, understanding);
+}
 
-  // Scheduling APIs
-  // An Agent can schedule tasks to be run in the future by calling this.schedule(when, callback, data), where when can be a delay, a Date, or a cron string; callback the function name to call, and data is an object of data to pass to the function.
-  //
-  // Scheduled tasks can do anything a request or message from a user can: make requests, query databases, send emails, read+write state: scheduled tasks can invoke any regular method on your Agent.
-  async scheduleExamples() {
-  	// schedule a task to run in 10 seconds
-  	let task = await this.schedule(10, "someTask", { message: "hello" });
+async evolve(newInsight) {
+this.setState({
+...this.state,
+insights: [...(this.state.insights || []), newInsight],
+understanding: this.state.understanding + 1,
+});
+}
 
-  	// schedule a task to run at a specific date
-  	let task = await this.schedule(new Date("2025-01-01"), "someTask", {});
+onStateUpdate(state, source) {
+console.log("Understanding deepened:", {
+newState: state,
+origin: source,
+});
+}
 
-  	// schedule a task to run every 10 seconds
-  	let { id } = await this.schedule("*/10 * * * *", "someTask", { message: "hello" });
+// Scheduling APIs
+// An Agent can schedule tasks to be run in the future by calling this.schedule(when, callback, data), where when can be a delay, a Date, or a cron string; callback the function name to call, and data is an object of data to pass to the function.
+//
+// Scheduled tasks can do anything a request or message from a user can: make requests, query databases, send emails, read+write state: scheduled tasks can invoke any regular method on your Agent.
+async scheduleExamples() {
+// schedule a task to run in 10 seconds
+let task = await this.schedule(10, "someTask", { message: "hello" });
 
-  	// schedule a task to run every 10 seconds, but only on Mondays
-  	let task = await this.schedule("0 0 * * 1", "someTask", { message: "hello" });
+// schedule a task to run at a specific date
+let task = await this.schedule(new Date("2025-01-01"), "someTask", {});
 
-  	// cancel a scheduled task
-  	this.cancelSchedule(task.id);
+// schedule a task to run every 10 seconds
+let { id } = await this.schedule("_/10 _ \* \* \*", "someTask", { message: "hello" });
+
+// schedule a task to run every 10 seconds, but only on Mondays
+let task = await this.schedule("0 0 \* \* 1", "someTask", { message: "hello" });
+
+// cancel a scheduled task
+this.cancelSchedule(task.id);
 
     // Get a specific schedule by ID
     // Returns undefined if the task does not exist
@@ -1030,112 +1035,116 @@ export class AIAgent extends Agent {
         end: new Date(Date.now() + 60 * 60 * 1000),
       }
     });
-  }
 
-  async someTask(data) {
-    await this.callReasoningModel(data.message);
-  }
+}
 
-  // Use the this.sql API within the Agent to access the underlying SQLite database
- 	async callReasoningModel(prompt: Prompt) {
-  	interface Prompt {
-   		userId: string;
-   		user: string;
-   		system: string;
-   		metadata: Record<string, string>;
-		}
+async someTask(data) {
+await this.callReasoningModel(data.message);
+}
 
-		interface History {
-			timestamp: Date;
-			entry: string;
-		}
+// Use the this.sql API within the Agent to access the underlying SQLite database
+async callReasoningModel(prompt: Prompt) {
+interface Prompt {
+userId: string;
+user: string;
+system: string;
+metadata: Record<string, string>;
+}
 
-		let result = this.sql<History>`SELECT * FROM history WHERE user = ${prompt.userId} ORDER BY timestamp DESC LIMIT 1000`;
-		let context = [];
-		for await (const row of result) {
-			context.push(row.entry);
-		}
+    	interface History {
+    		timestamp: Date;
+    		entry: string;
+    	}
 
-		const client = new OpenAI({
-			apiKey: this.env.OPENAI_API_KEY,
-		});
+    	let result = this.sql<History>`SELECT * FROM history WHERE user = ${prompt.userId} ORDER BY timestamp DESC LIMIT 1000`;
+    	let context = [];
+    	for await (const row of result) {
+    		context.push(row.entry);
+    	}
 
-		// Combine user history with the current prompt
-		const systemPrompt = prompt.system || 'You are a helpful assistant.';
-		const userPrompt = `${prompt.user}\n\nUser history:\n${context.join('\n')}`;
+    	const client = new OpenAI({
+    		apiKey: this.env.OPENAI_API_KEY,
+    	});
 
-		try {
-			const completion = await client.chat.completions.create({
-				model: this.env.MODEL || 'o3-mini',
-				messages: [
-					{ role: 'system', content: systemPrompt },
-					{ role: 'user', content: userPrompt },
-				],
-				temperature: 0.7,
-				max_tokens: 1000,
-			});
+    	// Combine user history with the current prompt
+    	const systemPrompt = prompt.system || 'You are a helpful assistant.';
+    	const userPrompt = `${prompt.user}\n\nUser history:\n${context.join('\n')}`;
 
-			// Store the response in history
-			this
-				.sql`INSERT INTO history (timestamp, user, entry) VALUES (${new Date()}, ${prompt.userId}, ${completion.choices[0].message.content})`;
+    	try {
+    		const completion = await client.chat.completions.create({
+    			model: this.env.MODEL || 'o3-mini',
+    			messages: [
+    				{ role: 'system', content: systemPrompt },
+    				{ role: 'user', content: userPrompt },
+    			],
+    			temperature: 0.7,
+    			max_tokens: 1000,
+    		});
 
-			return completion.choices[0].message.content;
-		} catch (error) {
-			console.error('Error calling reasoning model:', error);
-			throw error;
-		}
-	}
+    		// Store the response in history
+    		this
+    			.sql`INSERT INTO history (timestamp, user, entry) VALUES (${new Date()}, ${prompt.userId}, ${completion.choices[0].message.content})`;
 
-	// Use the SQL API with a type parameter
-	async queryUser(userId: string) {
-		type User = {
-			id: string;
-			name: string;
-			email: string;
-		};
-		// Supply the type paramter to the query when calling this.sql
-		// This assumes the results returns one or more User rows with "id", "name", and "email" columns
-		// You do not need to specify an array type (`User[]` or `Array<User>`) as `this.sql` will always return an array of the specified type.
-		const user = await this.sql<User>`SELECT * FROM users WHERE id = ${userId}`;
-		return user
-	}
+    		return completion.choices[0].message.content;
+    	} catch (error) {
+    		console.error('Error calling reasoning model:', error);
+    		throw error;
+    	}
+    }
 
-	// Run and orchestrate Workflows from Agents
-  async runWorkflow(data) {
-     let instance = await env.MY_WORKFLOW.create({
-       id: data.id,
-       params: data,
-     })
+    // Use the SQL API with a type parameter
+    async queryUser(userId: string) {
+    	type User = {
+    		id: string;
+    		name: string;
+    		email: string;
+    	};
+    	// Supply the type paramter to the query when calling this.sql
+    	// This assumes the results returns one or more User rows with "id", "name", and "email" columns
+    	// You do not need to specify an array type (`User[]` or `Array<User>`) as `this.sql` will always return an array of the specified type.
+    	const user = await this.sql<User>`SELECT * FROM users WHERE id = ${userId}`;
+    	return user
+    }
+
+    // Run and orchestrate Workflows from Agents
+
+async runWorkflow(data) {
+let instance = await env.MY_WORKFLOW.create({
+id: data.id,
+params: data,
+})
 
      // Schedule another task that checks the Workflow status every 5 minutes...
      await this.schedule("*/5 * * * *", "checkWorkflowStatus", { id: instance.id });
-   }
+
+}
 }
 
 export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		// Routed addressing
-		// Automatically routes HTTP requests and/or WebSocket connections to /agents/:agent/:name
-		// Best for: connecting React apps directly to Agents using useAgent from @cloudflare/agents/react
-		return (await routeAgentRequest(request, env)) || Response.json({ msg: 'no agent here' }, { status: 404 });
+async fetch(request, env, ctx): Promise<Response> {
+// Routed addressing
+// Automatically routes HTTP requests and/or WebSocket connections to /agents/:agent/:name
+// Best for: connecting React apps directly to Agents using useAgent from @cloudflare/agents/react
+return (await routeAgentRequest(request, env)) || Response.json({ msg: 'no agent here' }, { status: 404 });
 
-		// Named addressing
-		// Best for: convenience method for creating or retrieving an agent by name/ID.
-		let namedAgent = getAgentByName<Env, AIAgent>(env.AIAgent, 'agent-456');
-		// Pass the incoming request straight to your Agent
-		let namedResp = (await namedAgent).fetch(request);
-		return namedResp;
+    	// Named addressing
+    	// Best for: convenience method for creating or retrieving an agent by name/ID.
+    	let namedAgent = getAgentByName<Env, AIAgent>(env.AIAgent, 'agent-456');
+    	// Pass the incoming request straight to your Agent
+    	let namedResp = (await namedAgent).fetch(request);
+    	return namedResp;
 
-		// Durable Objects-style addressing
-		// Best for: controlling ID generation, associating IDs with your existing systems,
-		// and customizing when/how an Agent is created or invoked
-		const id = env.AIAgent.newUniqueId();
-		const agent = env.AIAgent.get(id);
-		// Pass the incoming request straight to your Agent
-		let resp = await agent.fetch(request);
+    	// Durable Objects-style addressing
+    	// Best for: controlling ID generation, associating IDs with your existing systems,
+    	// and customizing when/how an Agent is created or invoked
+    	const id = env.AIAgent.newUniqueId();
+    	const agent = env.AIAgent.get(id);
+    	// Pass the incoming request straight to your Agent
+    	let resp = await agent.fetch(request);
 
-		// return Response.json({ hello: 'visit https://developers.cloudflare.com/agents for more' });
-	},
+    	// return Response.json({ hello: 'visit https://developers.cloudflare.com/agents for more' });
+    },
+
 } satisfies ExportedHandler<Env>;
 </code>
 
@@ -1144,19 +1153,19 @@ export default {
 import { AgentClient } from "agents/client";
 
 const connection = new AgentClient({
-  agent: "dialogue-agent",
-  name: "insight-seeker",
+agent: "dialogue-agent",
+name: "insight-seeker",
 });
 
 connection.addEventListener("message", (event) => {
-  console.log("Received:", event.data);
+console.log("Received:", event.data);
 });
 
 connection.send(
-  JSON.stringify({
-    type: "inquiry",
-    content: "What patterns do you see?",
-  })
+JSON.stringify({
+type: "inquiry",
+content: "What patterns do you see?",
+})
 );
 </code>
 
@@ -1168,51 +1177,51 @@ import { useState } from "react";
 
 // useAgent client API
 function AgentInterface() {
-  const connection = useAgent({
-    agent: "dialogue-agent",
-    name: "insight-seeker",
-    onMessage: (message) => {
-      console.log("Understanding received:", message.data);
-    },
-    onOpen: () => console.log("Connection established"),
-    onClose: () => console.log("Connection closed"),
-  });
+const connection = useAgent({
+agent: "dialogue-agent",
+name: "insight-seeker",
+onMessage: (message) => {
+console.log("Understanding received:", message.data);
+},
+onOpen: () => console.log("Connection established"),
+onClose: () => console.log("Connection closed"),
+});
 
-  const inquire = () => {
-    connection.send(
-      JSON.stringify({
-        type: "inquiry",
-        content: "What insights have you gathered?",
-      })
-    );
-  };
+const inquire = () => {
+connection.send(
+JSON.stringify({
+type: "inquiry",
+content: "What insights have you gathered?",
+})
+);
+};
 
-  return (
-    <div className="agent-interface">
-      <button onClick={inquire}>Seek Understanding</button>
-    </div>
-  );
+return (
+<div className="agent-interface">
+<button onClick={inquire}>Seek Understanding</button>
+</div>
+);
 }
 
 // State synchronization
 function StateInterface() {
-  const [state, setState] = useState({ counter: 0 });
+const [state, setState] = useState({ counter: 0 });
 
-  const agent = useAgent({
-    agent: "thinking-agent",
-    onStateUpdate: (newState) => setState(newState),
-  });
+const agent = useAgent({
+agent: "thinking-agent",
+onStateUpdate: (newState) => setState(newState),
+});
 
-  const increment = () => {
-    agent.setState({ counter: state.counter + 1 });
-  };
+const increment = () => {
+agent.setState({ counter: state.counter + 1 });
+};
 
-  return (
-    <div>
-      <div>Count: {state.counter}</div>
-      <button onClick={increment}>Increment</button>
-    </div>
-  );
+return (
+<div>
+<div>Count: {state.counter}</div>
+<button onClick={increment}>Increment</button>
+</div>
+);
 }
 </code>
 
@@ -1255,60 +1264,61 @@ Workers AI supports structured JSON outputs with JSON mode, which supports the `
 import { OpenAI } from "openai";
 
 interface Env {
-	OPENAI_API_KEY: string;
+OPENAI_API_KEY: string;
 }
 
 // Define your JSON schema for a calendar event
 const CalendarEventSchema = {
-  type: 'object',
-  properties: {
-    name: { type: 'string' },
-    date: { type: 'string' },
-    participants: { type: 'array', items: { type: 'string' } },
-  },
-  required: ['name', 'date', 'participants']
+type: 'object',
+properties: {
+name: { type: 'string' },
+date: { type: 'string' },
+participants: { type: 'array', items: { type: 'string' } },
+},
+required: ['name', 'date', 'participants']
 };
 
 export default {
-	async fetch(request: Request, env: Env) {
-		const client = new OpenAI({
-			apiKey: env.OPENAI_API_KEY,
-			// Optional: use AI Gateway to bring logs, evals & caching to your AI requests
-			// https://developers.cloudflare.com/ai-gateway/providers/openai/
-			// baseUrl: "https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_id}/openai"
-		});
+async fetch(request: Request, env: Env) {
+const client = new OpenAI({
+apiKey: env.OPENAI_API_KEY,
+// Optional: use AI Gateway to bring logs, evals & caching to your AI requests
+// https://developers.cloudflare.com/ai-gateway/providers/openai/
+// baseUrl: "https://gateway.ai.cloudflare.com/v1/{account_id}/{gateway_id}/openai"
+});
 
-		const response = await client.chat.completions.create({
-	    model: 'gpt-4o-2024-08-06',
-	    messages: [
-	      { role: 'system', content: 'Extract the event information.' },
-	      { role: 'user', content: 'Alice and Bob are going to a science fair on Friday.' },
-	    ],
-			// Use the `response_format` option to request a structured JSON output
-	    response_format: {
-				// Set json_schema and provide ra schema, or json_object and parse it yourself
-	      type: 'json_schema',
-	      schema: CalendarEventSchema, // provide a schema
-	    },
-	  });
+    	const response = await client.chat.completions.create({
+        model: 'gpt-4o-2024-08-06',
+        messages: [
+          { role: 'system', content: 'Extract the event information.' },
+          { role: 'user', content: 'Alice and Bob are going to a science fair on Friday.' },
+        ],
+    		// Use the `response_format` option to request a structured JSON output
+        response_format: {
+    			// Set json_schema and provide ra schema, or json_object and parse it yourself
+          type: 'json_schema',
+          schema: CalendarEventSchema, // provide a schema
+        },
+      });
 
-		// This will be of type CalendarEventSchema
-		const event = response.choices[0].message.parsed;
+    	// This will be of type CalendarEventSchema
+    	const event = response.choices[0].message.parsed;
 
-		return Response.json({
-			"calendar_event": event,
-		})
-	}
+    	return Response.json({
+    		"calendar_event": event,
+    	})
+    }
+
 }
 </code>
 <configuration>
 {
-  "name": "my-app",
-	"main": "src/index.ts",
-  "compatibility_date": "$CURRENT_DATE",
-  "observability": {
-    "enabled": true
-  }
+"name": "my-app",
+"main": "src/index.ts",
+"compatibility_date": "$CURRENT_DATE",
+"observability": {
+"enabled": true
+}
 }
 </configuration>
 <key_points>
@@ -1344,20 +1354,21 @@ export class WebSocketHibernationServer extends DurableObject {
           status: 101,
           webSocket: client,
     });
+
 },
 
 async webSocketMessage(ws: WebSocket, message: string | ArrayBuffer): void | Promise<void> {
-  // Invoked on each WebSocket message.
-  ws.send(message)
+// Invoked on each WebSocket message.
+ws.send(message)
 },
 
 async webSocketClose(ws: WebSocket, code: number, reason: string, wasClean: boolean) void | Promise<void> {
-  // Invoked when a client closes the connection.
-  ws.close(code, "<message>");
+// Invoked when a client closes the connection.
+ws.close(code, "<message>");
 },
 
 async webSocketError(ws: WebSocket, error: unknown): void | Promise<void> {
-  // Handle WebSocket errors
+// Handle WebSocket errors
 }
 }
 </implementation>

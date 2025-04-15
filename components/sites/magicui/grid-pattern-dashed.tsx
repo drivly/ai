@@ -12,7 +12,7 @@ export function GridPatternDashed() {
         x={-1}
         y={-1}
         strokeDasharray={'4 2'}
-        className={cn('text-gray-500 opacity-30 [mask-image:radial-gradient(300px_circle_at_center,white,transparent)]')}
+        className={cn('[mask-image:radial-gradient(300px_circle_at_center,white,transparent)] text-gray-500 opacity-30')}
       />
     </div>
   )

@@ -182,10 +182,10 @@ export class ClickhouseClient {
         query: `DESCRIBE TABLE ${tableName}`,
         format: 'JSONEachRow',
       })
-      
-      const rows = await result.json() as Array<{name: string, type: string}>
-      const columnNames = rows.map(row => row.name)
-      
+
+      const rows = (await result.json()) as Array<{ name: string; type: string }>
+      const columnNames = rows.map((row) => row.name)
+
       for (const row of rows) {
         if (row.name === 'id' && row.type.includes('UUID')) {
           console.warn(`
@@ -200,11 +200,11 @@ To fix this issue, you need to manually drop the table and let it recreate:
           return false
         }
       }
-      
+
       if (tableName === 'events') {
         const requiredColumns = ['url', 'headers', 'query']
-        const missingColumns = requiredColumns.filter(col => !columnNames.includes(col))
-        
+        const missingColumns = requiredColumns.filter((col) => !columnNames.includes(col))
+
         if (missingColumns.length > 0) {
           console.warn(`
 ==========================================================================
@@ -218,29 +218,29 @@ To fix this issue, you need to manually drop the table and let it recreate:
           return false
         }
       }
-      
+
       return true
     } catch (error: any) {
-      if (error.message && error.message.includes('doesn\'t exist')) {
+      if (error.message && error.message.includes("doesn't exist")) {
         return true
       }
       console.error(`Error checking schema for table ${tableName}:`, error)
       return false
     }
   }
-  
+
   async initialize(): Promise<void> {
     try {
       const { tableNames } = await import('./schema')
       let needsMigration = false
-      
+
       for (const tableName of tableNames) {
         const isValid = await this.checkTableSchema(tableName)
         if (!isValid) {
           needsMigration = true
         }
       }
-      
+
       if (needsMigration) {
         console.log('ClickHouse client initialized, schema checks completed. Some tables need migration - see warnings above.')
       } else {
@@ -254,12 +254,12 @@ To fix this issue, you need to manually drop the table and let it recreate:
 
 export const createClickhouseClient = (config: ClickhouseConfig): ClickhouseClient => {
   const client = new ClickhouseClient(config)
-  
+
   if (config.forceRecreate) {
-    client.initialize().catch(error => {
+    client.initialize().catch((error) => {
       console.error('Error initializing ClickHouse client:', error)
     })
   }
-  
+
   return client
 }
