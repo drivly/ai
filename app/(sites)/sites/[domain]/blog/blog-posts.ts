@@ -58,7 +58,7 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
       }
     )
     
-    const formattedPosts = posts.posts.map(post => {
+    const formattedPosts = posts.posts.map((post: BlogPost) => {
       const dateParts = post.date.split('-')
       const formattedDate = `${parseInt(dateParts[0])}-${parseInt(dateParts[1])}-${dateParts[2]}`
       
