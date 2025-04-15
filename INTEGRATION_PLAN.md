@@ -713,7 +713,7 @@ export const createConstraintSystem = () => {
 
 #### Task 5.1: Update Documentation
 
-**File: ~/repos/ai/docs/architecture/exec-symbols-integration.md**
+**File: ~/repos/ai/docs/architecture/exec-symbols.md**
 ```markdown
 # exec-symbols Integration
 
