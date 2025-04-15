@@ -6,8 +6,9 @@ import { headers as requestHeaders } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { Waitlist } from './waitlist'
 
-async function WaitListPage(props: { params: Promise<{ domain: string }> }) {
-  const { domain } = await props.params
+async function WaitListPage(props: { params: { domain: string }, searchParams?: { [key: string]: string | string[] | undefined } }) {
+  const { domain } = props.params
+  const searchParams = await props.searchParams
   const payload = await getPayloadWithAuth()
   const headers = await requestHeaders()
   const { user } = (await payload.auth({ headers })) as { user: User }

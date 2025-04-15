@@ -1,14 +1,14 @@
 'use client'
 
+import { UserAvatar } from '@/components/auth/user-profile-image'
+import { Button } from '@/components/ui/button'
 import { signIn } from '@/lib/auth/auth-client'
-import { Button } from '@drivly/ui'
-import { cn } from '@drivly/ui/lib'
+import { useBetterAuth } from '@/lib/auth/context'
+import { cn } from '@/lib/utils'
+import { RiDiscordFill } from '@remixicon/react'
 import Link from 'next/link'
 import { use, useState } from 'react'
 import { siteConfig } from '../site-config'
-import { useBetterAuth } from '@/lib/auth/context'
-import { UserAvatar } from '@/components/auth/user-profile-image'
-import { RiDiscordFill } from '@remixicon/react'
 
 export interface JoinWaitlistButtonProps {
   children?: React.ReactNode

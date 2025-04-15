@@ -159,9 +159,17 @@ dist
 
 # Velite output directory
 .velite
+public/static/content
+
 
 # Sentry Config File
 .env.sentry-build-plugin
 
 # Search index
 public/_pagefind/
+
+# Playwright test results
+# Playwright snapshots
+# tests/chromatic/sites.test.ts-snapshots/ # Snapshots should be committed
+
+test-results/

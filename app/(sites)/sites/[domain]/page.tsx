@@ -1,6 +1,6 @@
 import { Particles } from '@/components/sites/magicui/particles'
-import DotdoLinkSection from '@/components/sites/sections/dotdo-link-section'
-import HeroSection from '@/components/sites/sections/hero-section'
+import { DotdoLinkSection } from '@/components/sites/sections/dotdo-link-section'
+import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
@@ -18,8 +18,9 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 }
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
-async function DotDoPage(props: { params: Promise<{ domain: string }> }) {
-  const { domain } = await props.params
+async function DotDoPage(props: { params: { domain: string }, searchParams?: { [key: string]: string | string[] | undefined } }) {
+  const { domain } = props.params
+  const searchParams = await props.searchParams
   await getSession()
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')

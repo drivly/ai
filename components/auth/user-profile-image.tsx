@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@drivly/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export interface UserAvatarProps {
   image: string

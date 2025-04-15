@@ -1,5 +1,3 @@
-'use client'
-
 import { CodeBlock } from './code-block'
 
 export function BlogContent() {

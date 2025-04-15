@@ -4,7 +4,7 @@
 @plugin "@tailwindcss/typography";
 @plugin 'tailwind-scrollbar-hide';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark], .dark *));
 
 :root {
   --radius: 0.625rem;
@@ -54,7 +54,11 @@
      */
 }
 
-html.dark .sites-layout, body.dark .sites-layout, .dark.sites-layout {
+[data-theme='dark'],
+html.dark .sites-layout,
+body.dark .sites-layout,
+.dark.sites-layout,
+.dark {
   --background: oklch(0 0 0) !important;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.14 0 0);
@@ -93,6 +97,9 @@ html.dark .sites-layout, body.dark .sites-layout, .dark.sites-layout {
 }
 
 @theme inline {
+  /* font-families */
+  --font-sans: var(--font-sans);
+  --font-mont: var(--font-Montserrat);
   --font-ibm: var(--font-ibm);
   --font-geist: var(--font-geist);
   --radius-sm: calc(var(--radius) - 4px);
@@ -269,4 +276,13 @@ html.dark .sites-layout, body.dark .sites-layout, .dark.sites-layout {
   filter: blur(40px);
   pointer-events: none;
   animation: glow-on 1.5s ease-in-out forwards;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

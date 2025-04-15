@@ -21,6 +21,28 @@ export interface SlackBlockSchema {
   channel?: string
   /** Users to mention in the message */
   mentions?: string[]
+  blocks?: SlackBlock[] // Direct BlockKit components
+  modal?: boolean // Support for modal dialogs
+  components?: {
+    datePicker?: boolean
+    timePicker?: boolean
+    multiSelect?: boolean
+    overflow?: boolean
+    image?: boolean
+    context?: boolean
+    divider?: boolean
+    header?: boolean
+    section?: boolean
+  }
+}
+
+/**
+ * Slack Block type for advanced UI components
+ */
+export interface SlackBlock {
+  type: string
+  block_id?: string
+  [key: string]: any
 }
 
 /**

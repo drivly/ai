@@ -82,7 +82,7 @@ export const getNavigation = (hostname: string = '') => [
   { name: 'Docs', href: getDocsLink(hostname) },
   { name: 'Pricing', href: siteConfig.baseLinks.pricing },
   { name: 'API', href: siteConfig.baseLinks.api },
-  { name: 'CLI', href: '/cli' },
+  { name: 'CLI', href: '/docs/cli' },
   { name: 'SDK', href: siteConfig.baseLinks.sdk },
   { name: 'Dashboard', href: siteConfig.baseLinks.dashboard },
   { name: 'Blog', href: siteConfig.baseLinks.blog },

@@ -1,7 +1,7 @@
 'use client'
 
 import { DotdoLogo } from '@/components/shared/dotdo-logo'
-import { Button } from '@drivly/ui/button'
+import { Button } from '@/components/ui/button'
 import { RiDiscordFill } from '@remixicon/react'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
