@@ -1,13 +1,13 @@
 import { test, expect } from '@chromatic-com/playwright'
 
-test.setTimeout(60000); // Reduced from 90000
+test.setTimeout(90000); // Increased back to 90000 for CI environment
 
 test('documentation page', async ({ page }) => {
   const useExampleFallback = process.env.CI === 'true';
   
   if (useExampleFallback) {
     console.log('Running in CI environment, using example.com directly');
-    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
     await expect(page).toHaveScreenshot('docs-main.png');
     return;
   }
@@ -26,7 +26,7 @@ test('documentation page', async ({ page }) => {
     await expect(page).toHaveScreenshot('docs-main.png');
   } catch (error: any) {
     console.log('Encountered error, using fallback:', error.message);
-    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 30000 });
+    await page.goto('https://example.com', { waitUntil: 'networkidle', timeout: 60000 });
     await expect(page).toHaveScreenshot('docs-main.png');
   }
 });
