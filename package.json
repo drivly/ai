@@ -237,6 +237,7 @@
     "sdks/*",
     "web/*",
     "pkgs/*",
+    "templates/cloudflare",
     "workers/*",
     "workflows"
   ],
