@@ -153,12 +153,65 @@ const enforceZeroVersioning = (packagePath) => {
 }
 
 const convertWorkspaceDependencies = (packagePath, allPackages) => {
-  console.log(`Using pnpm's built-in capabilities for workspace dependency conversion in ${packagePath}`)
-  
   const packageJsonPath = path.join(packagePath, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+  let modified = false
   
-  console.log(`Prepared ${packageJson.name} for publishing with automatic workspace dependency conversion`)
+  const packageVersions = {}
+  for (const pkg of allPackages) {
+    const pkgJsonPath = path.join(pkg, 'package.json')
+    if (fs.existsSync(pkgJsonPath)) {
+      const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'))
+      packageVersions[pkgJson.name] = pkgJson.version || '0.1.0'
+    }
+  }
+  
+  if (packageJson.dependencies) {
+    for (const [dep, version] of Object.entries(packageJson.dependencies)) {
+      if (version.startsWith('workspace:')) {
+        if (packageVersions[dep]) {
+          console.log(`Converting workspace dependency ${dep} from ${version} to ${packageVersions[dep]} in ${packageJson.name}`)
+          packageJson.dependencies[dep] = packageVersions[dep]
+          modified = true
+        } else {
+          console.log(`Warning: Could not find version for workspace dependency ${dep} in ${packageJson.name}`)
+        }
+      }
+    }
+  }
+  
+  if (packageJson.devDependencies) {
+    for (const [dep, version] of Object.entries(packageJson.devDependencies)) {
+      if (version.startsWith('workspace:')) {
+        if (packageVersions[dep]) {
+          console.log(`Converting workspace devDependency ${dep} from ${version} to ${packageVersions[dep]} in ${packageJson.name}`)
+          packageJson.devDependencies[dep] = packageVersions[dep]
+          modified = true
+        } else {
+          console.log(`Warning: Could not find version for workspace devDependency ${dep} in ${packageJson.name}`)
+        }
+      }
+    }
+  }
+  
+  if (packageJson.peerDependencies) {
+    for (const [dep, version] of Object.entries(packageJson.peerDependencies)) {
+      if (version.startsWith('workspace:')) {
+        if (packageVersions[dep]) {
+          console.log(`Converting workspace peerDependency ${dep} from ${version} to ${packageVersions[dep]} in ${packageJson.name}`)
+          packageJson.peerDependencies[dep] = packageVersions[dep]
+          modified = true
+        } else {
+          console.log(`Warning: Could not find version for workspace peerDependency ${dep} in ${packageJson.name}`)
+        }
+      }
+    }
+  }
+  
+  if (modified) {
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
+    console.log(`Updated package.json for ${packageJson.name} with converted workspace dependencies`)
+  }
   
   return packageJson
 }
@@ -222,12 +275,56 @@ export default {
         const pkgPath = path.join(process.cwd(), 'package.json');
         if (fs.existsSync(pkgPath)) {
           const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-          console.log(\`Preparing \${pkg.name} for publishing with version \${pkg.version}\`);
+          let modified = false;
           
-          if (!pkg.version.startsWith('0.')) {
-            console.log(\`Fixing package.json version: \${pkg.version} -> 0.0.1\`);
-            pkg.version = '0.0.1';
+          const packageVersions = {};
+          for (const pkgDir of ${JSON.stringify(allPackages)}) {
+            const pkgJsonPath = path.join(pkgDir, 'package.json');
+            if (fs.existsSync(pkgJsonPath)) {
+              const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));
+              packageVersions[pkgJson.name] = pkgJson.version || '0.1.0';
+            }
+          }
+          
+          if (pkg.dependencies) {
+            for (const [dep, version] of Object.entries(pkg.dependencies)) {
+              if (version.startsWith('workspace:')) {
+                if (packageVersions[dep]) {
+                  console.log(\`Converting workspace dependency \${dep} from \${version} to \${packageVersions[dep]}\`);
+                  pkg.dependencies[dep] = packageVersions[dep];
+                  modified = true;
+                }
+              }
+            }
+          }
+          
+          if (pkg.devDependencies) {
+            for (const [dep, version] of Object.entries(pkg.devDependencies)) {
+              if (version.startsWith('workspace:')) {
+                if (packageVersions[dep]) {
+                  console.log(\`Converting workspace devDependency \${dep} from \${version} to \${packageVersions[dep]}\`);
+                  pkg.devDependencies[dep] = packageVersions[dep];
+                  modified = true;
+                }
+              }
+            }
+          }
+          
+          if (pkg.peerDependencies) {
+            for (const [dep, version] of Object.entries(pkg.peerDependencies)) {
+              if (version.startsWith('workspace:')) {
+                if (packageVersions[dep]) {
+                  console.log(\`Converting workspace peerDependency \${dep} from \${version} to \${packageVersions[dep]}\`);
+                  pkg.peerDependencies[dep] = packageVersions[dep];
+                  modified = true;
+                }
+              }
+            }
+          }
+          
+          if (modified) {
             fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
+            console.log('Updated package.json with converted workspace dependencies before publishing');
           }
         }
       }
@@ -301,7 +398,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 try {
-  console.log('Attempting direct pnpm publish...');
+  console.log('Attempting direct NPM publish...');
   
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
@@ -309,12 +406,12 @@ try {
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
   
   if (!pkg.version.startsWith('0.')) {
-    console.log(\`Fixing package.json version: \${pkg.version} -> 0.0.1\`);
-    pkg.version = '0.0.1';
+    console.log(\`Fixing package.json version: \${pkg.version} -> 0.1.0\`);
+    pkg.version = '0.1.0';
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
   }
   
-  execSync('pnpm publish --access public --no-git-checks', { 
+  execSync(\`npm publish --access public --tag \${npmTag}\`, { 
     stdio: 'inherit',
     env: {
       ...process.env,
@@ -322,9 +419,9 @@ try {
     }
   });
   
-  console.log('Direct pnpm publish successful');
+  console.log('Direct NPM publish successful');
 } catch (error) {
-  console.error('Error during direct pnpm publish:', error.message);
+  console.error('Error during direct NPM publish:', error.message);
 }
 `
         fs.writeFileSync(directPublishScript, directPublishContent, 'utf8')
