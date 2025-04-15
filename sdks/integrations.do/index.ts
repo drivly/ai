@@ -1,4 +1,5 @@
-import { api } from 'apis.do';
+import { API } from 'apis.do'; // Import the class
+const api = new API(); // Instantiate locally
 import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration, TriggerConfig, ActionConfig } from './types.js';
 import { IntegrationAuthOptions } from './auth/types.js';
 
