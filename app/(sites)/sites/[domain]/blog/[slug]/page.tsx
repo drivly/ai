@@ -55,7 +55,7 @@ async function BlogPostPage(props: { params: { domain: string; slug?: string }; 
       })
       
       contentCache.set(cacheKey, { 
-        html: content.html || '', 
+        html: content?.html || '', 
         timestamp: now 
       })
     } catch (error) {
