@@ -6,20 +6,21 @@ subhead: Streamline operations with automated, reliable workflow execution. Elim
 badge: 'AI without Complexity'
 codeLang: 'typescript'
 codeExample: |
-  import { Workflow } from 'workflows.do';
+  import { Agent } from 'agents.do'
 
-  const orderProcessing = new Workflow({
-    name: 'Order Processing',
-    triggers: ['new_order'],
-    steps: [
-      { task: 'Verify Payment' },
-      { task: 'Check Inventory' },
-      { task: 'Prepare Shipment' },
-      { task: 'Send Confirmation Email' }
-    ],
-    errorHandling: 'retry',
-  });
-brandColor: '#05b2a6'
+  // Create a customer support agent
+  const customerSupportAgent = Agent({
+    name: 'Amy',
+    role: 'Customer Support Agent',
+    objective: 'Handles customer inquiries and resolves common issues',
+    keyResults: ['ticketResponseTime', 'ticketResolutionTime', 'ticketEscalationRate', 'customerSatisfaction'],
+    url: 'https://amy.do',
+    integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
+    triggers: ['onTicketCreated', 'onMessageReceived'],
+    searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
+    actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
+  })
+brandColor: "#05b2a6"
 ---
 
 # Workflows.do

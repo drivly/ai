@@ -317,9 +317,6 @@ importers:
       velite:
         specifier: ^0.2.2
         version: 0.2.2(acorn@8.14.1)
-      vm2:
-        specifier: ^3.9.19
-        version: 3.9.19
       workflows.do:
         specifier: 0.0.1
         version: 0.0.1
@@ -17950,12 +17947,6 @@ packages:
 
   vm-browserify@1.1.2:
     resolution: {integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==}
-
-  vm2@3.9.19:
-    resolution: {integrity: sha512-J637XF0DHDMV57R6JyVsTak7nIL8gy5KH4r1HiwWLf/4GBbb5MKL5y7LpmF4A8E2nR6XmzpmMFQ7V7ppPTmUQg==}
-    engines: {node: '>=6.0'}
-    deprecated: The library contains critical security issues and should not be used for production! The maintenance of the project has been discontinued. Consider migrating your code to isolated-vm.
-    hasBin: true
 
   void-elements@3.1.0:
     resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==}
@@ -38566,11 +38557,6 @@ snapshots:
       - yaml
 
   vm-browserify@1.1.2: {}
-
-  vm2@3.9.19:
-    dependencies:
-      acorn: 8.14.1
-      acorn-walk: 8.3.4
 
   void-elements@3.1.0: {}
 
