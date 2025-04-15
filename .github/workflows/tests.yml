@@ -109,6 +109,10 @@ jobs:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           # Set environment variables for tests
           RESEND_API_KEY: mock_resend_api_key_for_tests # Mock Resend for test execution context
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          BASE_URL: https://ai-git-${{ github.head_ref || github.ref_name }}.dev.driv.ly
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
           CI: true
           DATABASE_URI: ${{ secrets.DATABASE_URI }} # Needed for test execution context if tests interact with DB indirectly
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }} # Needed for test execution context
