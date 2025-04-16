@@ -82,6 +82,29 @@ import { do } from 'agents.do'
 const research = await do`research about ${topic}`
 ```
 
+
+### `browse`
+
+The `browse` function in [`agents.do`](/docs/sdks/agents.do#browse) and [`browse.do`](/docs/sdks/browse.do) provide real-time web browsing:
+
+```typescript
+import { browse } from 'agents.do'
+
+const findings = await browse`research about ${topic}`
+```
+
+
+### `research`
+
+The `research` function in [`agents.do`](/docs/sdks/agents.do) and [`research.do`](/docs/sdks/research.do) provide deep-research in real-time:
+
+```typescript
+import { research } from 'research.do'
+
+const findings = await research`research about ${topic}`
+```
+
+
 ## `API`
 
 The `API` function allows an API to defined and deployed:
@@ -173,31 +196,3 @@ import { db } from 'database.do'
 const posts = await db.posts.find({ tag: 'ai' })
 ```
 
-
-## `Site`
-
-The [`Site`](/docs/sdks/sites.do#Site) function in [`sites.do`](/docs/sdks/sites.do) allows a [Website](/docs/website) to be defined via [Next.js](https://nextjs.org) for either MongoDB, PostgreSQL, or SQLite:
-
-```typescript
-import { Site } from 'sites.do'
-
-const site = Site({
-  url: 'https://my-website.com',
-  pages: {
-    home: {
-      title: 'Home',
-      content: 'Hello, world!',
-    },
-  },
-})
-```
-
-### `site`
-
-The `site` object provides access to the website:
-
-```typescript
-import { site } from 'sites.do'
-
-const home = await site.pages.home
-```
