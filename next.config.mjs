@@ -26,10 +26,8 @@ const nextConfig = {
   // Your Next.js config here
   transpilePackages: [], // Reduce transpiled packages
   // All routing is handled by middleware.ts
-  // Turbopack is now stable in Next.js 15.3.0
-  turbopack: {
-    // Turbopack configuration options
-  },
+  // Enable Turbopack for faster development
+  turbopack: {},
   webpack: (config, { isServer, dev, buildId, config: { distDir } }) => {
     // Add YAML loader for all contexts
     config.module.rules.push({
@@ -37,9 +35,9 @@ const nextConfig = {
       use: 'yaml-loader',
     })
     
-    // Fix OpenTelemetry dynamic require warning
+    // Fix OpenTelemetry warning without breaking Sentry
     config.module.rules.push({
-      test: /node_modules\/@opentelemetry\/instrumentation\/build\/esm\/platform\/node\/instrumentation\.js$/,
+      test: /node_modules\/@opentelemetry\/instrumentation-http\/build\/src\/http\.js$/,
       use: 'null-loader'
     })
     
