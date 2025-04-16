@@ -6,6 +6,7 @@ settings:
 
 overrides:
   apis.do: workspace:*
+  prettier: 3.5.3
 
 importers:
 
@@ -448,7 +449,7 @@ importers:
         specifier: ^8.5.3
         version: 8.5.3
       prettier:
-        specifier: ^3.5.3
+        specifier: 3.5.3
         version: 3.5.3
       prettier-plugin-tailwindcss:
         specifier: ^0.6.11
@@ -539,7 +540,7 @@ importers:
         specifier: ^9.5.2
         version: 9.5.2
       prettier:
-        specifier: ^3.4.2
+        specifier: 3.5.3
         version: 3.5.3
       tsconfig:
         specifier: 0.0.0
@@ -729,7 +730,7 @@ importers:
         specifier: ^2.4.1
         version: 2.4.1
       prettier:
-        specifier: ^3.4.2
+        specifier: 3.5.3
         version: 3.5.3
       rimraf:
         specifier: ^6.0.1
@@ -797,7 +798,7 @@ importers:
         specifier: 0.1.0
         version: link:../eslint-config
       prettier:
-        specifier: ^3.5.3
+        specifier: 3.5.3
         version: 3.5.3
       tsconfig:
         specifier: 0.0.0
@@ -840,7 +841,7 @@ importers:
         specifier: 0.1.0
         version: link:../eslint-config
       prettier:
-        specifier: ^3.5.3
+        specifier: 3.5.3
         version: 3.5.3
       tsconfig:
         specifier: 0.0.0
@@ -876,7 +877,7 @@ importers:
         specifier: 0.1.0
         version: link:../eslint-config
       prettier:
-        specifier: ^3.5.3
+        specifier: 3.5.3
         version: 3.5.3
       tsconfig:
         specifier: 0.0.0
@@ -1514,7 +1515,7 @@ importers:
         specifier: workspace:*
         version: link:../../pkgs/eslint-config
       prettier:
-        specifier: ^3.1.1
+        specifier: 3.5.3
         version: 3.5.3
       tsconfig:
         specifier: workspace:*
@@ -7106,7 +7107,7 @@ packages:
   '@storybook/core@8.6.12':
     resolution: {integrity: sha512-t+ZuDzAlsXKa6tLxNZT81gEAt4GNwsKP/Id2wluhmUWD/lwYW0uum1JiPUuanw8xD6TdakCW/7ULZc7aQUBLCQ==}
     peerDependencies:
-      prettier: ^2 || ^3
+      prettier: 3.5.3
     peerDependenciesMeta:
       prettier:
         optional: true
@@ -15074,7 +15075,7 @@ packages:
       '@shopify/prettier-plugin-liquid': '*'
       '@trivago/prettier-plugin-sort-imports': '*'
       '@zackad/prettier-plugin-twig': '*'
-      prettier: ^3.0
+      prettier: 3.5.3
       prettier-plugin-astro: '*'
       prettier-plugin-css-order: '*'
       prettier-plugin-import-sort: '*'
@@ -15119,11 +15120,6 @@ packages:
         optional: true
       prettier-plugin-svelte:
         optional: true
-
-  prettier@3.4.2:
-    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
-    engines: {node: '>=14'}
-    hasBin: true
 
   prettier@3.5.3:
     resolution: {integrity: sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==}
@@ -16477,7 +16473,7 @@ packages:
     resolution: {integrity: sha512-Z/nWYEHBTLK1ZBtAWdhxC0l5zf7ioJ7G4+zYqtTdYeb67gTnxNj80gehf8o8QY9L2zA2+eyMRGLC2V5fI7Z3Tw==}
     hasBin: true
     peerDependencies:
-      prettier: ^2 || ^3
+      prettier: 3.5.3
     peerDependenciesMeta:
       prettier:
         optional: true
@@ -22987,7 +22983,7 @@ snapshots:
   '@react-email/render@1.0.5(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       html-to-text: 9.0.5
-      prettier: 3.4.2
+      prettier: 3.5.3
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
       react-promise-suspense: 0.3.4
@@ -35021,8 +35017,6 @@ snapshots:
   prettier-plugin-tailwindcss@0.6.11(prettier@3.5.3):
     dependencies:
       prettier: 3.5.3
-
-  prettier@3.4.2: {}
 
   prettier@3.5.3: {}
 
