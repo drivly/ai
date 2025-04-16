@@ -6,19 +6,21 @@ asIndexPage: true
 
 ## `AI`
 
-The `AI` function allows [Functions](/docs/functions) and [Workflows](/docs/workflows) to be defined in a strongly-typed way:
+The [`AI`](/docs/sdks/functions.do) function in [`functions.do`](/docs/sdks/functions.do) and [`workflows.do`](/docs/sdks/workflows.do) allows [Functions](/docs/functions) and [Workflows](/docs/workflows) to be defined in a strongly-typed way:
 
 ```typescript
 import { AI } from 'functions.do'
 
 const ai = AI({
 
+  // Define a Workflow as a Code Function
   ideaCaptured: async (idea, { ai, api, db }) => {
     const leanCanvas = await ai.leanCanvas({ idea })
     await api.slack.postMessage({ channel: '#general', text: `${idea}\n${leanCanvas}` })
     await db.idea.create({ idea, leanCanvas, status: 'Draft' })
   },
 
+  // Define a strongly-typed Generation Function
   leanCanvas: {
     productName: 'name of the product or service',
     problem: ['top 3 problems the product solves'],
@@ -37,7 +39,7 @@ const ai = AI({
 
 ### [`ai`](/docs/sdks/functions.do)
 
-The `ai` object is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
+The `ai` object in [`functions.do`](/docs/sdks/functions.do) and [`workflows.do`](/docs/sdks/workflows.do) is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
 
 ```typescript
 import { ai } from 'functions.do'
@@ -70,6 +72,31 @@ const amy = Agent({
 export const refundOrder = (orderId: number) => amy.do`refund order ${orderId} and send the customer confirmation`
 ```
 
+### `do`
+
+The [`do`](/docs/sdks/agents.do) function requests [AI Agents](/docs/agents) and [Human](/docs/functions/human) [Users](/docs/admin/user) to take [Action](/docs/functions/action):
+
+```typescript
+import { do } from 'agents.do'
+
+const research = await do`research about ${topic}`
+```
+
+## `API`
+
+The `API` function allows an API to defined and deployed:
+
+```typescript
+import { API } from 'apis.do'
+
+const api = API()
+
+api
+  .get('/', () => ({ hello: 'world' }))
+  .get('/:id', ({ id }) => ({ id }))
+  .put('/:id', async ({ id, body, db }) => db.posts.set(id, body))
+  
+```
 
 ### `api`
 
@@ -88,28 +115,7 @@ const result = await api.stripe.createInvoice({
 })
 ```
 
-### `db`
-
-The `db` object provides access to the database:
-
-```typescript
-import { db } from 'database.do'
-
-const posts = await db.posts.find({ tag: 'ai' })
-```
-
-### `do`
-
-The `do` function enables AI Agents to take action:
-
-```typescript
-import { do } from 'agents.do'
-
-const research = await do`research about ${topic}`
-```
-
-
-### `Business`
+## `Business`
 
 The `Business` function allows [Business](/docs/business) goals to be defined through [Objectives](/docs/business/objectives) and [Key Results](/docs/business/key-results):
 
@@ -128,7 +134,7 @@ const newCo = Business({
 })
 ```
 
-### `DB`
+## `DB`
 
 The `DB` function allows a [Database](/docs/data/database) to be defined via [Payload](https://payloadcms.com) for either MongoDB, PostgreSQL, or SQLite:
 
@@ -155,4 +161,43 @@ const db = DB({
     posts: '<-posts.author', // Join field to posts (reverse relation)
   },
 })
+```
+
+### `db`
+
+The `db` object provides access to the database:
+
+```typescript
+import { db } from 'database.do'
+
+const posts = await db.posts.find({ tag: 'ai' })
+```
+
+
+## `Site`
+
+The [`Site`](/docs/sdks/sites.do#Site) function in [`sites.do`](/docs/sdks/sites.do) allows a [Website](/docs/website) to be defined via [Next.js](https://nextjs.org) for either MongoDB, PostgreSQL, or SQLite:
+
+```typescript
+import { Site } from 'sites.do'
+
+const site = Site({
+  url: 'https://my-website.com',
+  pages: {
+    home: {
+      title: 'Home',
+      content: 'Hello, world!',
+    },
+  },
+})
+```
+
+### `site`
+
+The `site` object provides access to the website:
+
+```typescript
+import { site } from 'sites.do'
+
+const home = await site.pages.home
 ```
