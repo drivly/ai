@@ -57,7 +57,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@types/react": "18.2.0",
+    "@types/react": "19.1.2",
     "eslint-config": "workspace:*",
     "evalite": "^0.10.0",
     "ts-node": "^10.9.2",

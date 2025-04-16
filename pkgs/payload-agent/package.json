@@ -53,7 +53,7 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
-    "@types/react": "19.0.7",
+    "@types/react": "19.1.2",
     "@types/react-dom": "19.0.3",
     "ai": "^4.2.2",
     "esbuild-plugin-css-module": "^0.1.0",
