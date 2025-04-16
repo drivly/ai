@@ -1,0 +1,30 @@
+---
+title: Nouns.do - Entity Management Platform
+description: Organize and manage all your business entities with Nouns.do, the comprehensive platform for people, places, things, and ideas
+headline: Manage Every Entity That Matters
+subhead: Centralize all your business entities in one powerful management system. Create relationships between entities and unlock insights across your organization.
+badge: 'AI without Complexity'
+codeExample: |
+  import { Entity } from 'nouns.do'
+
+  const customerEntity = new Entity({
+    type: 'Customer',
+    properties: {
+      id: { type: 'string', required: true },
+      name: { type: 'string', required: true },
+      email: { type: 'string', format: 'email', required: true },
+      status: { type: 'string', enum: ['active', 'inactive', 'prospect'] },
+      segment: { type: 'string' },
+      createdAt: { type: 'date', default: 'now()' }
+    },
+    relationships: [
+      { type: 'hasMany', entity: 'Order', foreignKey: 'customerId' },
+      { type: 'hasOne', entity: 'Account', foreignKey: 'customerId' }
+    ],
+    indexes: ['email', 'status']
+  })
+---
+
+# Nouns.do
+
+People, Places, Things, and Ideas

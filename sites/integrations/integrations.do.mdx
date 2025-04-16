@@ -1,0 +1,27 @@
+---
+title: Integrations.do - External System Connectivity Platform
+description: Connect your business systems with Integrations.do, the comprehensive platform for external API and system integration
+headline: Connect Systems That Work Together
+subhead: Seamlessly integrate external APIs and systems with your business workflows. Eliminate data silos and create a unified ecosystem of connected applications.
+badge: 'AI without Complexity'
+codeExample: |
+  import { Integration } from 'integrations.do'
+
+  const salesforceIntegration = new Integration({
+    name: 'Salesforce CRM',
+    description: 'Connect to Salesforce CRM for customer data',
+    authType: 'oauth2',
+    endpoints: [
+      { name: 'getCustomers', method: 'GET', path: '/customers' },
+      { name: 'createOpportunity', method: 'POST', path: '/opportunities' },
+      { name: 'updateContact', method: 'PUT', path: '/contacts/{id}' }
+    ],
+    webhooks: [
+      { event: 'customer.created', endpoint: '/webhooks/salesforce/customer-created' }
+    ]
+  })
+---
+
+# Integrations.do
+
+Connect External APIs and Systems

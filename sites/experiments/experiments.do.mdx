@@ -1,0 +1,34 @@
+---
+title: Experiments.do - AI Component Testing Platform
+description: Test and iterate on AI components with Experiments.do, the comprehensive platform for AI experimentation and validation
+headline: Test AI Components That Deliver
+subhead: Rapidly iterate on AI components with controlled experiments and clear metrics. Make data-driven decisions about which AI approaches work best for your specific use cases.
+badge: 'AI without Complexity'
+codeExample: |
+  import { Experiment } from 'experiments.do';
+
+  const promptExperiment = new Experiment({
+    name: 'Prompt Engineering Comparison',
+    description: 'Compare different prompt structures for customer support responses',
+    variants: [
+      {
+        id: 'baseline',
+        prompt: 'Answer the customer question professionally.'
+      },
+      {
+        id: 'detailed',
+        prompt: 'Answer the customer question with detailed step-by-step instructions.'
+      },
+      {
+        id: 'empathetic',
+        prompt: 'Answer the customer question with empathy and understanding.'
+      }
+    ],
+    metrics: ['response_quality', 'customer_satisfaction', 'time_to_resolution'],
+    sampleSize: 500
+  });
+---
+
+# Experiments.do
+
+Test and Iterate AI Components

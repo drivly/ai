@@ -1,0 +1,34 @@
+---
+title: Projects.do - Comprehensive Project Management
+description: Manage your projects efficiently with Projects.do, the all-in-one platform for project planning, tracking, and collaboration
+headline: Deliver Projects On Time, Every Time
+subhead: Streamline your project workflows with intuitive planning and tracking tools. Improve team collaboration and deliver projects on time and within budget.
+badge: 'AI without Complexity'
+codeExample: |
+  import { Project } from 'projects.do';
+
+  const marketingCampaign = new Project({
+    name: 'Q3 Marketing Campaign',
+    description: 'Launch new product marketing campaign for Q3',
+    startDate: '2025-07-01',
+    endDate: '2025-09-30',
+    owner: 'marketing-team',
+    priority: 'high',
+    status: 'planning',
+    tasks: [
+      { title: 'Market Research', assignee: 'john.doe@example.com', dueDate: '2025-07-15' },
+      { title: 'Creative Development', assignee: 'jane.smith@example.com', dueDate: '2025-08-01' },
+      { title: 'Campaign Launch', assignee: 'marketing-team', dueDate: '2025-08-15' },
+      { title: 'Performance Analysis', assignee: 'analytics-team', dueDate: '2025-09-15' }
+    ],
+    budget: {
+      allocated: 50000,
+      spent: 0,
+      currency: 'USD'
+    }
+  });
+---
+
+# Projects.do
+
+Project Management

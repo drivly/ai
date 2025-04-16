@@ -1,0 +1,12 @@
+---
+title: Resources.do - Structured Data Management
+description: Organize and manage structured data objects with Resources.do, the comprehensive platform for data modeling and management
+headline: Structured Data That Makes Sense
+subhead: Build and manage complex data models with intuitive object definitions. Connect your business data across systems with standardized resource schemas.
+badge: 'AI without Complexity'
+codeExample: "import { Resource } from 'resources.do';\n\nconst customerResource = new Resource({\n  name: 'Customer',\n  schema: {\n    id: { type: 'string', required: true },\n    name: { type: 'string', required: true },\n    email: { type: 'string', format: 'email', required: true },\n    company: { type: 'string' },\n    status: { type: 'string', enum: ['active', 'inactive', 'pending'] },\n    createdAt: { type: 'date', default: 'now()' }\n  },\n  relationships: [\n    { type: 'hasMany', resource: 'Order' }\n  ]\n});"
+---
+
+# Resources.do
+
+Structured Data Objects
