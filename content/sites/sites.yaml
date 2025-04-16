@@ -1,0 +1,310 @@
+categories:
+  - name: AI
+    sites:
+      - domain: functions.do
+        title: Functions.do - Typesafe Function Execution Platform
+        description: Build reliable applications with Functions.do, delivering typesafe results without the complexity of traditional function frameworks
+        headline: Type-Safe Functions That Just Work
+        subhead: Build with confidence using strongly-typed functions that just work. Eliminate runtime errors with compile-time type checking and validation.
+        badge: AI without Complexity
+        brandColor: "#b30510"
+        tags:
+          - typescript
+          - functions
+        links:
+          - title: Documentation
+            url: https://docs.functions.do
+          - title: API
+            url: https://functions.do/api
+      - domain: agents.do
+        title: Agents.do - Autonomous Digital Worker Platform
+        description: Deploy and manage autonomous digital workers with Agents.do, the enterprise-grade platform for AI agent orchestration
+        headline: AI Agents That Work For You
+        subhead: Scale your operations with intelligent agents that handle complex tasks. Reduce costs and improve efficiency with 24/7 autonomous digital workers.
+        badge: AI without Complexity
+        brandColor: "#9e7aff"
+        tags:
+          - typescript
+          - agents
+        links:
+          - title: Documentation
+            url: https://agents.do/docs
+          - title: API
+            url: https://agents.do/api
+      - domain: workflows.do
+        title: Workflows.do - Reliable Business Process Execution
+        description: Automate and streamline your business processes with Workflows.do, the reliable solution for executing complex workflows
+        headline: Automate Business Processes That Work
+        subhead: Streamline operations with automated, reliable workflow execution. Eliminate errors and delays with intelligent process orchestration.
+        badge: AI without Complexity
+        brandColor: "#05b2a6"
+        tags:
+          - typescript
+          - workflows
+        links:
+          - title: Documentation
+            url: https://workflows.do/docs
+          - title: API
+            url: https://workflows.do/api
+  - name: Business
+    sites:
+      - domain: plans.do
+        title: Plans.do - Strategic Business Planning Platform
+        description: Create and execute strategic plans with Plans.do, the comprehensive platform for business strategy development and implementation
+        headline: Turn Strategy Into Actionable Plans
+        subhead: Develop clear, actionable strategic plans that align with your business goals. Transform high-level strategy into executable roadmaps that drive organizational success.
+        badge: AI without Complexity
+        tags:
+          - planning
+          - strategy
+        links:
+          - title: Documentation
+            url: https://plans.do/docs
+          - title: API
+            url: https://plans.do/api
+      - domain: tasks.do
+        title: Tasks.do - Efficient Task Management System
+        description: Organize, prioritize, and track tasks with Tasks.do, the comprehensive task management and scheduling platform
+        headline: Get More Done, With Less Effort
+        subhead: Boost productivity with intelligent task prioritization and scheduling. Never miss deadlines with automated reminders and progress tracking.
+        badge: AI without Complexity
+        tags:
+          - tasks
+          - productivity
+        links:
+          - title: Documentation
+            url: https://tasks.do/docs
+          - title: API
+            url: https://tasks.do/api
+      - domain: projects.do
+        title: Projects.do - Comprehensive Project Management
+        description: Manage your projects efficiently with Projects.do, the all-in-one platform for project planning, tracking, and collaboration
+        headline: Deliver Projects On Time, Every Time
+        subhead: Streamline your project workflows with intuitive planning and tracking tools. Improve team collaboration and deliver projects on time and within budget.
+        badge: AI without Complexity
+        tags:
+          - projects
+          - management
+        links:
+          - title: Documentation
+            url: https://projects.do/docs
+          - title: API
+            url: https://projects.do/api
+      - domain: goals.do
+        title: Goals.do - OKR Management Platform
+        description: Set, track, and achieve your business objectives with Goals.do, the comprehensive OKR management platform
+        headline: Achieve Goals That Matter Most
+        subhead: Align your organization with clear, measurable goals that drive success. Transform strategic vision into actionable metrics that everyone understands.
+        badge: AI without Complexity
+        tags:
+          - goals
+          - okrs
+        links:
+          - title: Documentation
+            url: https://goals.do/docs
+          - title: API
+            url: https://goals.do/api
+      - domain: kpis.do
+        title: KPIs.do - Performance Metrics Management
+        description: Track and analyze your key performance indicators with KPIs.do, the comprehensive metrics management platform
+        headline: Measure What Actually Matters
+        subhead: Measure what matters with actionable performance metrics. Gain real-time insights into your business performance across all departments.
+        badge: AI without Complexity
+        tags:
+          - metrics
+          - performance
+        links:
+          - title: Documentation
+            url: https://kpis.do/docs
+          - title: API
+            url: https://kpis.do/api
+  - name: Data
+    sites:
+      - domain: nouns.do
+        title: Nouns.do - Entity Management Platform
+        description: Organize and manage all your business entities with Nouns.do, the comprehensive platform for people, places, things, and ideas
+        headline: Manage Every Entity That Matters
+        subhead: Centralize all your business entities in one powerful management system. Create relationships between entities and unlock insights across your organization.
+        badge: AI without Complexity
+        tags:
+          - entities
+          - data
+        links:
+          - title: Documentation
+            url: https://nouns.do/docs
+          - title: API
+            url: https://nouns.do/api
+      - domain: resources.do
+        title: Resources.do - Structured Data Management
+        description: Organize and manage structured data objects with Resources.do, the comprehensive platform for data modeling and management
+        headline: Structured Data That Makes Sense
+        subhead: Build and manage complex data models with intuitive object definitions. Connect your business data across systems with standardized resource schemas.
+        badge: AI without Complexity
+        tags:
+          - data
+          - resources
+        links:
+          - title: Documentation
+            url: https://resources.do/docs
+          - title: API
+            url: https://resources.do/api
+      - domain: verbs.do
+        title: Verbs.do - Action Management Platform
+        description: Define and manage all actions in your business with Verbs.do, the comprehensive platform for tracking operations performed to and by entities
+        headline: Connect Actions That Drive Results
+        subhead: Connect every action in your business to the entities that perform or receive them. Build a complete operational graph that reveals process inefficiencies and optimization opportunities.
+        badge: AI without Complexity
+        tags:
+          - actions
+          - operations
+        links:
+          - title: Documentation
+            url: https://verbs.do/docs
+          - title: API
+            url: https://verbs.do/api
+      - domain: analytics.do
+        title: Analytics.do - Business Process Validation Platform
+        description: Economically validate your workflows with Analytics.do, the comprehensive platform for measuring and optimizing business process ROI
+        headline: Prove Your Workflows Actually Work
+        subhead: Measure the economic impact of every workflow in your organization. Make data-driven decisions about which processes to optimize, automate, or eliminate.
+        badge: AI without Complexity
+        tags:
+          - analytics
+          - metrics
+        links:
+          - title: Documentation
+            url: https://analytics.do/docs
+          - title: API
+            url: https://analytics.do/api
+  - name: Integrations
+    sites:
+      - domain: integrations.do
+        title: Integrations.do - External System Connectivity Platform
+        description: Connect your business systems with Integrations.do, the comprehensive platform for external API and system integration
+        headline: Connect Systems That Work Together
+        subhead: Seamlessly integrate external APIs and systems with your business workflows. Eliminate data silos and create a unified ecosystem of connected applications.
+        badge: AI without Complexity
+        tags:
+          - integrations
+          - connectivity
+        links:
+          - title: Documentation
+            url: https://integrations.do/docs
+          - title: API
+            url: https://integrations.do/api
+      - domain: searches.do
+        title: Searches.do - Intelligent Data Retrieval Platform
+        description: Find and retrieve the data you need with Searches.do, the comprehensive platform for intelligent data querying
+        headline: Find Data That Drives Decisions
+        subhead: Quickly locate and retrieve the exact data you need from any connected system. Make better decisions with comprehensive search capabilities across your entire data ecosystem.
+        badge: AI without Complexity
+        tags:
+          - search
+          - retrieval
+        links:
+          - title: Documentation
+            url: https://searches.do/docs
+          - title: API
+            url: https://searches.do/api
+      - domain: actions.do
+        title: Actions.do - Workflow Task Execution Platform
+        description: Execute tasks within your workflows with Actions.do, the comprehensive platform for workflow task automation
+        headline: Execute Tasks That Get Results
+        subhead: Automate complex tasks within your business workflows with precision and reliability. Eliminate manual work and reduce errors with standardized action execution.
+        badge: AI without Complexity
+        tags:
+          - actions
+          - automation
+        links:
+          - title: Documentation
+            url: https://actions.do/docs
+          - title: API
+            url: https://actions.do/api
+      - domain: triggers.do
+        title: Triggers.do - Event-Based Workflow Automation
+        description: Automate workflow initiation with Triggers.do, the comprehensive platform for event-based process automation
+        headline: Start Workflows When Events Happen
+        subhead: Automatically initiate workflows based on events from any system. Create responsive business processes that react to changes in real-time.
+        badge: AI without Complexity
+        tags:
+          - triggers
+          - events
+        links:
+          - title: Documentation
+            url: https://triggers.do/docs
+          - title: API
+            url: https://triggers.do/api
+  - name: Models
+    sites:
+      - domain: models.do
+        title: Models.do - AI Model Management Platform
+        description: Select and manage AI models with Models.do, the comprehensive platform for AI model orchestration and deployment
+        headline: Choose Models That Deliver Results
+        subhead: Select the perfect AI models for your specific use cases with confidence. Manage model deployment and versioning across your entire AI infrastructure.
+        badge: AI without Complexity
+        tags:
+          - models
+          - ai
+        links:
+          - title: Documentation
+            url: https://models.do/docs
+          - title: API
+            url: https://models.do/api
+  - name: Experiments
+    sites:
+      - domain: experiments.do
+        title: Experiments.do - AI Component Testing Platform
+        description: Test and iterate on AI components with Experiments.do, the comprehensive platform for AI experimentation and validation
+        headline: Test AI Components That Deliver
+        subhead: Rapidly iterate on AI components with controlled experiments and clear metrics. Make data-driven decisions about which AI approaches work best for your specific use cases.
+        badge: AI without Complexity
+        tags:
+          - experiments
+          - testing
+        links:
+          - title: Documentation
+            url: https://experiments.do/docs
+          - title: API
+            url: https://experiments.do/api
+      - domain: datasets.do
+        title: Datasets.do - AI Training Data Platform
+        description: Manage and utilize high-quality datasets with Datasets.do, the comprehensive platform for AI training and testing data
+        headline: Quality Data For Better AI
+        subhead: Build and manage high-quality datasets for training and testing AI models. Ensure your AI systems perform optimally with diverse, representative data collections.
+        badge: AI without Complexity
+        tags:
+          - datasets
+          - training
+        links:
+          - title: Documentation
+            url: https://datasets.do/docs
+          - title: API
+            url: https://datasets.do/api
+      - domain: evals.do
+        title: Evals.do - AI Component Evaluation Platform
+        description: Evaluate the performance of your AI functions, workflows, and agents with Evals.do, the comprehensive evaluation platform
+        headline: Evaluate AI That Actually Works
+        subhead: Measure the performance of your AI components against objective criteria. Make data-driven decisions about which components to deploy in production environments.
+        badge: AI without Complexity
+        tags:
+          - evaluation
+          - testing
+        links:
+          - title: Documentation
+            url: https://evals.do/docs
+          - title: API
+            url: https://evals.do/api
+      - domain: benchmarks.do
+        title: Benchmarks.do - AI Performance Testing Platform
+        description: Compare and evaluate AI model performance with Benchmarks.do, the comprehensive platform for standardized performance testing
+        headline: Compare AI Models That Perform
+        subhead: Evaluate AI models against standardized benchmarks to find the best performers. Make data-driven decisions about which models to deploy based on objective performance metrics.
+        badge: AI without Complexity
+        tags:
+          - benchmarks
+          - performance
+        links:
+          - title: Documentation
+            url: https://benchmarks.do/docs
+          - title: API
+            url: https://benchmarks.do/api

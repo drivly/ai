@@ -56,7 +56,6 @@
     "test:unit": "vitest run --exclude tests/e2e/ --exclude tests/chromatic/",
     "test:e2e": "playwright test tests/e2e",
     "test:visual": "playwright test tests/chromatic",
-
     "test:chromatic": "npx playwright test tests/chromatic && npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN}",
     "clean": "turbo clean",
     "lint:legacy": "cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next lint",
@@ -69,7 +68,6 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "motion.md": "workspace:*",
     "@ai-sdk/openai": "^1.0.10",
     "@better-auth/stripe": "^1.2.5",
     "@clickhouse/client-web": "^1.11.0",
@@ -134,6 +132,7 @@
     "js-md5": "^0.8.3",
     "lucide-react": "^0.483.0",
     "marked": "^15.0.8",
+    "motion.md": "workspace:*",
     "murmurhash": "^2.0.1",
     "next": "15.3.0",
     "next-mdx-remote": "^5.0.0",
@@ -204,6 +203,7 @@
     "eslint-config-next": "15.3.0",
     "husky": "^9.1.7",
     "ignore-loader": "^0.1.2",
+    "js-yaml": "^4.1.0",
     "jsdom": "^26.0.0",
     "lint-staged": "^15.5.0",
     "mongodb-memory-server": "^10.1.4",
@@ -222,7 +222,8 @@
     "tailwindcss": "^4.0.17",
     "turbo": "^2.4.4",
     "typescript": "5.7.3",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "yaml-loader": "^0.8.1"
   },
   "engines": {
     "node": "^20 ||^22",
@@ -240,11 +241,11 @@
       "evals.do",
       "experiments.do",
       "functions.do",
-      "goals.do", 
+      "goals.do",
       "gpt.do",
       "mcp.do",
       "integrations.do",
-      "models.do", 
+      "models.do",
       "searches.do",
       "tasks.do",
       "triggers.do",
