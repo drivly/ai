@@ -98,7 +98,7 @@ test('site blog page', async ({ page }) => {
     page.setDefaultNavigationTimeout(120000)
 
     await page.goto(`${baseUrl}/sites/workflows.do/blog`, {
-      waitUntil: 'load',
+      waitUntil: 'domcontentloaded', // Changed from 'load' to fix timeout issue (ENG-607)
       timeout: 120000, // Further increased for CI environment
     })
   } else {
