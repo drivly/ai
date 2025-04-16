@@ -8,7 +8,7 @@ import { geolocation } from '@vercel/functions'
 import { continents, countries, flags, locations, metros } from './constants/cf'
 import { nanoid } from 'nanoid'
 import { getOrganizationByASN } from './utils/asn-lookup'
-import { parentDomains, childDomains } from '../domains.config'
+import { parentDomains, childDomains, sdks } from '../domains.config'
 
 /**
  * Context object passed to API handlers
@@ -280,6 +280,10 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
     from = `${origin}/sites`
   }
 
+  const sdkUrl = sdks.includes(packageName) ? 
+    `https://npmjs.com/${packageName}` : 
+    'https://npmjs.com/workflows.do'
+
   return {
     name: domain,
     description: description || 'Economically valuable work delivered through simple APIs',
@@ -289,7 +293,7 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
     admin: origin + '/admin',
     docs: origin + '/docs',
     repo: 'https://github.com/drivly/ai',
-    sdk: `https://npmjs.com/${packageName}`,
+    sdk: sdkUrl,
     site, // Use the variable we created
     from, // Add the new field
   }
