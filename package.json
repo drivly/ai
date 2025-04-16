@@ -106,7 +106,6 @@
     "ai": "^4.2.0",
     "ai-functions": "0.3.0",
     "ai-providers": "workspace:*",
-    "language-models": "workspace:*",
     "ai-workflows": "^1.1.0",
     "apis.do": "0.0.1",
     "better-auth": "1.2.7",
@@ -130,6 +129,7 @@
     "isolated-vm": "^5.0.4",
     "isomorphic-unfetch": "^4.0.2",
     "js-md5": "^0.8.3",
+    "language-models": "workspace:*",
     "lucide-react": "^0.483.0",
     "marked": "^15.0.8",
     "motion.md": "workspace:*",
@@ -270,7 +270,7 @@
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
   },
-  "packageManager": "pnpm@10.7.0",
+  "packageManager": "pnpm@10.8.1",
   "nextBundleAnalysis": {
     "budget": 358400,
     "budgetPercentIncreaseRed": 20,
