@@ -41,6 +41,13 @@ const nextConfig = {
       use: 'null-loader'
     })
     
+    // Suppress OpenTelemetry instrumentation warnings
+    config.ignoreWarnings = [
+      {
+        module: /node_modules\/@opentelemetry\/instrumentation/,
+      },
+    ]
+    
     return config
   },
 }

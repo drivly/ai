@@ -12,6 +12,13 @@ type Params = {
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
   const { domain } = await params
+  
+  if (!domain) {
+    return {
+      title: 'Documentation',
+    }
+  }
+  
   const project = await fetchProjectByDomain(domain)
 
   if (!project) {
