@@ -7,11 +7,12 @@ const meta: MetaRecord = {
   clis: { type: 'page', title: 'CLI', href: '/docs/cli' },
   pricing: { type: 'page', href: '/pricing' },
   dashboard: { type: 'page', href: '/admin' },
-  reference: {
+  ref: {
     type: 'page',
-    title: 'API Reference',
+    title: 'Reference',
     href: 'https://apis.do/reference',
   },
+
 
   manifesto: '',
   primitives: '',
