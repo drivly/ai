@@ -10,9 +10,8 @@ type Params = {
   domain: string
 }
 
-export async function generateMetadata({ params }: { params: Promise<Params> | Params }): Promise<Metadata> {
-  const resolvedParams = params instanceof Promise ? await params : params
-  const domain = resolvedParams?.domain
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { domain } = await params
   
   if (!domain) {
     return {
@@ -36,9 +35,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> | P
   })
 }
 
-export default async function ProjectAdminPage({ params }: { params: Promise<Params> | Params }) {
-  const resolvedParams = params instanceof Promise ? await params : params
-  const domain = resolvedParams.domain
+export default async function ProjectAdminPage({ params }: { params: Promise<Params> }) {
+  const { domain } = await params
 
   const project = await fetchProjectByDomain(domain)
 
