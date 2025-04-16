@@ -1,12 +1,12 @@
 import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
-  docs: { type: 'page', href: '/docs' },
+  docs: { type: 'page', title: 'Docs', href: '/docs' },
   api: { type: 'page', title: 'APIs', href: '/docs/apis' },
   sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
   clis: { type: 'page', title: 'CLI', href: '/docs/cli' },
-  pricing: { type: 'page', href: '/pricing' },
-  dashboard: { type: 'page', href: '/admin' },
+  pricing: { type: 'page', title: 'Pricing', href: '/pricing' },
+  dashboard: { type: 'page', title: 'Dashboard', href: '/admin' },
   ref: {
     type: 'page',
     title: 'Reference',
