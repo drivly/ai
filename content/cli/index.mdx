@@ -10,10 +10,22 @@ The CLI can be installed globally via `npm i -g apis.do`.
 npm i -g cli.do
 ```
 
-or can use `npx` to run commands:
+With a global install, you can run `do` or any `*.do` package commands:
 
 ```bash
+do <command>
+
+workflows.do <command>
+```
+
+or can use `npx` to run the CLI for specific `.do` packages:
+
+```bash
+# for example, deploy a function
 npx functions.do deploy
+
+# for example, research a topic
+npx research.do <topic>
 ```
 
 ## `functions.do`
