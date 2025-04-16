@@ -25,9 +25,10 @@ const withNextra = nextra({
 const nextConfig = {
   // Your Next.js config here
   transpilePackages: [], // Reduce transpiled packages
-  // All routing is handled by middleware.ts
-  // Enable Turbopack for faster development
-  turbopack: {},
+
+  turbopack: {
+    
+  },
   webpack: (config, { isServer, dev, buildId, config: { distDir } }) => {
     // Add YAML loader for all contexts
     config.module.rules.push({
