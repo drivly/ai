@@ -3,6 +3,8 @@ import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { Metadata } from 'next'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Business-as-Code.dev',
