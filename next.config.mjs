@@ -26,14 +26,19 @@ const nextConfig = {
   // Your Next.js config here
   transpilePackages: [], // Reduce transpiled packages
   // All routing is handled by middleware.ts
-  experimental: {
-    // instrumentationHook is no longer needed in Next.js 15.2.4+
-  },
+  // Enable Turbopack for faster development
+  turbopack: {},
   webpack: (config, { isServer, dev, buildId, config: { distDir } }) => {
     // Add YAML loader for all contexts
     config.module.rules.push({
       test: /\.ya?ml$/,
       use: 'yaml-loader',
+    })
+    
+    // Fix OpenTelemetry warning without breaking Sentry
+    config.module.rules.push({
+      test: /node_modules\/@opentelemetry\/instrumentation-http\/build\/src\/http\.js$/,
+      use: 'null-loader'
     })
     
     // Suppress OpenTelemetry instrumentation warnings
