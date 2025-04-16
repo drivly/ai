@@ -35,6 +35,14 @@ const nextConfig = {
       test: /\.ya?ml$/,
       use: 'yaml-loader',
     })
+    
+    // Suppress OpenTelemetry instrumentation warnings
+    config.ignoreWarnings = [
+      {
+        module: /node_modules\/@opentelemetry\/instrumentation/,
+      },
+    ]
+    
     return config
   },
 }
