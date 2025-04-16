@@ -13,11 +13,9 @@ async function WaitListPage(props: { params: { domain: string }; searchParams?: 
   const headers = await requestHeaders()
   const { user } = (await payload.auth({ headers })) as { user: User }
 
-  const callbackUrl = headers.get('host') === 'localhost:3000' ? `http://localhost:3000/waitlist` : `https://${headers.get('host')}/waitlist`
-
   if (!user) {
     const data = await payload.betterAuth.api.signInSocial({
-      body: { provider: 'github', callbackURL: callbackUrl },
+      body: { provider: 'github', callbackURL: '/waitlist' },
     })
     redirect(data.url || '')
   }
