@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
 async function DotDoPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
   const { domain } = props.params
-  const searchParams = await props.searchParams
+  const searchParams = props.searchParams
   await getSession()
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
