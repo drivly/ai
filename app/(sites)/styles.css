@@ -4,7 +4,7 @@
 @plugin "@tailwindcss/typography";
 @plugin 'tailwind-scrollbar-hide';
 
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark], .dark *));
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --radius: 0.625rem;
