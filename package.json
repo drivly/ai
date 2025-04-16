@@ -252,7 +252,8 @@
       "llm.do",
       "workflows.do",
       "agents.do",
-      "cli.do"
+      "cli.do",
+      "workerd"
     ],
     "overrides": {
       "apis.do": "workspace:*"
