@@ -32,7 +32,7 @@ export default defineConfig({
     },
     sites: {
       name: 'Site',
-      pattern: 'sites/**/*.mdx',
+      pattern: '../sites/*.mdx',
       schema: s.object({
         title: s.string(),
         description: s.string(),
@@ -45,7 +45,7 @@ export default defineConfig({
         badge: s.string().optional(), // Badge text
       }).transform((data, { meta }: { meta: any }) => { // Use 'any' for meta
         const path = meta.path;
-        const contentSitesPattern = '/content/sites/';
+        const contentSitesPattern = '/sites/';
         const contentSitesIndex = path.indexOf(contentSitesPattern);
         let group = 'other';
 
@@ -62,6 +62,30 @@ export default defineConfig({
           group: group, // Assign the determined group
         };
       }),
+    },
+    sitesConfig: {
+      name: 'SitesConfig',
+      pattern: '../sites/.sites.yaml',
+      single: true,
+      schema: s.object({
+        categories: s.array(s.object({
+          name: s.string(),
+          sites: s.array(s.object({
+            domain: s.string(),
+            title: s.string(),
+            description: s.string(),
+            headline: s.string(),
+            subhead: s.string().optional(),
+            badge: s.string().optional(),
+            brandColor: s.string().optional(),
+            tags: s.array(s.string()).optional(),
+            links: s.array(s.object({
+              title: s.string(),
+              url: s.string()
+            })).optional()
+          }))
+        }))
+      })
     },
   },
 })

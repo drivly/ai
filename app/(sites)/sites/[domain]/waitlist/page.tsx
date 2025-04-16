@@ -6,6 +6,8 @@ import { headers as requestHeaders } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { Waitlist } from './waitlist'
 
+export const dynamic = 'force-dynamic'
+
 async function WaitListPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
   const { domain } = props.params
   const searchParams = await props.searchParams

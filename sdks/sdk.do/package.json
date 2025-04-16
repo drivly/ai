@@ -18,7 +18,7 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "sdk": "./dist/index.js"
+    "sdk": "./dist/bin.js"
   },
   "exports": {
     ".": {

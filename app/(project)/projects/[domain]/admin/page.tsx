@@ -11,39 +11,73 @@ type Params = {
 }
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
-  const { domain } = await params
-  const project = await fetchProjectByDomain(domain)
+  try {
+    // Check if params exists before awaiting
+    if (!params) {
+      return {
+        title: 'Documentation',
+      }
+    }
+    
+    const { domain } = await params
+    
+    if (!domain) {
+      return {
+        title: 'Documentation',
+      }
+    }
+  
+    const project = await fetchProjectByDomain(domain)
 
-  if (!project) {
+    if (!project) {
+      return {
+        title: 'Project Not Found',
+      }
+    }
+
+    const config = await createDynamicPayloadConfig(project)
+    return generatePageMetadata({
+      config: Promise.resolve(config),
+      params: Promise.resolve({ segments: [] }),
+      searchParams: Promise.resolve({}),
+    })
+  } catch (error) {
+    console.error('Error in generateMetadata:', error)
     return {
-      title: 'Project Not Found',
+      title: 'Error',
     }
   }
-
-  const config = await createDynamicPayloadConfig(project)
-  return generatePageMetadata({
-    config: Promise.resolve(config),
-    params: Promise.resolve({ segments: [] }),
-    searchParams: Promise.resolve({}),
-  })
 }
 
 export default async function ProjectAdminPage({ params }: { params: Promise<Params> }) {
-  const { domain } = await params
+  try {
+    // Check if params exists before awaiting
+    if (!params) {
+      notFound()
+      return null
+    }
+    
+    const { domain } = await params
 
-  const project = await fetchProjectByDomain(domain)
+    const project = await fetchProjectByDomain(domain)
 
-  if (!project) {
+    if (!project) {
+      notFound()
+      return null
+    }
+
+    const config = await createDynamicPayloadConfig(project)
+
+    const payload = await getPayload({ config })
+
+    return (
+      <div>
+        <RootPage config={Promise.resolve(config)} importMap={importMap} params={Promise.resolve({ segments: [] })} searchParams={Promise.resolve({})} />
+      </div>
+    )
+  } catch (error) {
+    console.error('Error in ProjectAdminPage:', error)
     notFound()
+    return null
   }
-
-  const config = await createDynamicPayloadConfig(project)
-
-  const payload = await getPayload({ config })
-
-  return (
-    <div>
-      <RootPage config={Promise.resolve(config)} importMap={importMap} params={Promise.resolve({ segments: [] })} searchParams={Promise.resolve({})} />
-    </div>
-  )
 }

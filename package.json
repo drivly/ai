@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "preinstall": "turbo run build:packages",
     "build": "turbo run build && pnpm build:next",
     "build:packages": "turbo run build:packages",
     "build:next": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next build",
@@ -10,7 +11,7 @@
     "build:filtered": "turbo run build --filter=$npm_config_filter && pnpm build:next:filtered",
     "build:next:filtered": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next build",
     "build:triggers": "pnpm --filter=triggers.do build && pnpm build:next",
-    "dev": "pnpm dev:content & cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next dev",
+    "dev": "pnpm dev:content & cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next dev --turbo",
     "dev:email": "email dev",
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "download:payload-docs": "FIRECRAWL_API_KEY=$FIRECRAWL_API_KEY node scripts/download-payload-docs.js",
@@ -56,7 +57,6 @@
     "test:unit": "vitest run --exclude tests/e2e/ --exclude tests/chromatic/",
     "test:e2e": "playwright test tests/e2e",
     "test:visual": "playwright test tests/chromatic",
-
     "test:chromatic": "npx playwright test tests/chromatic && npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN}",
     "clean": "turbo clean",
     "lint:legacy": "cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next lint",
@@ -69,7 +69,6 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "motion.md": "workspace:*",
     "@ai-sdk/openai": "^1.0.10",
     "@better-auth/stripe": "^1.2.5",
     "@clickhouse/client-web": "^1.11.0",
@@ -108,7 +107,6 @@
     "ai": "^4.2.0",
     "ai-functions": "0.3.0",
     "ai-providers": "workspace:*",
-    "language-models": "workspace:*",
     "ai-workflows": "^1.1.0",
     "apis.do": "0.0.1",
     "better-auth": "1.2.7",
@@ -132,8 +130,10 @@
     "isolated-vm": "^5.0.4",
     "isomorphic-unfetch": "^4.0.2",
     "js-md5": "^0.8.3",
+    "language-models": "workspace:*",
     "lucide-react": "^0.483.0",
     "marked": "^15.0.8",
+    "motion.md": "workspace:*",
     "murmurhash": "^2.0.1",
     "next": "15.3.0",
     "next-mdx-remote": "^5.0.0",
@@ -149,9 +149,9 @@
     "postal-mime": "^2.4.3",
     "posthog-js": "^1.234.4",
     "posthog-node": "^4.11.3",
-    "react": "19.0.0",
+    "react": "19.1.0",
     "react-canvas-confetti": "^2.0.7",
-    "react-dom": "19.0.0",
+    "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
     "react-resizable-panels": "^2.1.7",
@@ -161,7 +161,7 @@
     "remark-stringify": "^11.0.0",
     "resend": "^4.2.0",
     "server-only": "^0.0.1",
-    "sharp": "0.32.6",
+    "sharp": "^0.33.2",
     "shiki": "^3.2.2",
     "sqids": "^0.3.0",
     "svix": "^1.62.0",
@@ -204,6 +204,7 @@
     "eslint-config-next": "15.3.0",
     "husky": "^9.1.7",
     "ignore-loader": "^0.1.2",
+    "js-yaml": "^4.1.0",
     "jsdom": "^26.0.0",
     "lint-staged": "^15.5.0",
     "mongodb-memory-server": "^10.1.4",
@@ -222,7 +223,8 @@
     "tailwindcss": "^4.0.17",
     "turbo": "^2.4.4",
     "typescript": "5.7.3",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "yaml-loader": "^0.8.1"
   },
   "engines": {
     "node": "^20 ||^22",
@@ -240,21 +242,23 @@
       "evals.do",
       "experiments.do",
       "functions.do",
-      "goals.do", 
+      "goals.do",
       "gpt.do",
       "mcp.do",
       "integrations.do",
-      "models.do", 
+      "models.do",
       "searches.do",
       "tasks.do",
       "triggers.do",
       "llm.do",
       "workflows.do",
       "agents.do",
-      "cli.do"
+      "cli.do",
+      "workerd"
     ],
     "overrides": {
-      "apis.do": "workspace:*"
+      "apis.do": "workspace:*",
+      "prettier": "3.5.3"
     }
   },
   "prettier": {
@@ -269,7 +273,7 @@
     "jsxSingleQuote": true,
     "jsxBracketSameLine": true
   },
-  "packageManager": "pnpm@10.7.0",
+  "packageManager": "pnpm@10.8.1",
   "nextBundleAnalysis": {
     "budget": 358400,
     "budgetPercentIncreaseRed": 20,

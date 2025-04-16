@@ -11,6 +11,15 @@ export function handleGatewayDomain(request: NextRequest): NextResponse | null {
     search 
   })
   
+  if (pathname === '/docs') {
+    console.log('Rewriting gateway domain /docs to docs', { 
+      hostname, 
+      pathname, 
+      search 
+    })
+    return NextResponse.rewrite(new URL(`/docs${search}`, url))
+  }
+  
   if (pathname === '/sites') {
     console.log('Rewriting gateway domain /sites to sites', { 
       hostname, 

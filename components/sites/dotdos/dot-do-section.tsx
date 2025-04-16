@@ -9,7 +9,23 @@ import { updateOptionParams } from './update-option-params'
 import { useSitesData } from './useSitesData'
 
 export interface DotDoSectionProps {
-  sitesByCategory: Record<string, any[]>
+  categories: Array<{
+    name: string;
+    sites: Array<{
+      domain: string;
+      title: string;
+      description: string;
+      headline?: string;
+      subhead?: string;
+      badge?: string;
+      brandColor?: string;
+      tags?: string[];
+      links?: Array<{
+        title: string;
+        url: string;
+      }>;
+    }>;
+  }>;
 }
 
 export const DotDoSection = (props: DotDoSectionProps) => {
@@ -47,14 +63,14 @@ export const DotDoSection = (props: DotDoSectionProps) => {
         )}
       </div>
 
-      {Object.entries(props.sitesByCategory).map(([category, sites]) => (
-        <Fragment key={category}>
-          <h2 className='mt-16 mb-6 text-2xl font-bold'>{category}</h2>
+      {props.categories.map((category) => (
+        <Fragment key={category.name}>
+          <h2 className='mt-16 mb-6 text-2xl font-bold'>{category.name}</h2>
           <div className='mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
-            {sites.map((site, index) => {
-              const domain = site.title.split(' - ')[0]
-              const displayDomain = domain.replace(/\.do(\.gt|\.mw)?$/, '.do')
-              const domainSuffix = process.env.DOMAIN_SUFFIX || ''
+            {category.sites.map((site, index) => {
+              const domain = site.domain;
+              const displayDomain = domain.replace(/\.do(\.gt|\.mw)?$/, '.do');
+              const domainSuffix = process.env.DOMAIN_SUFFIX || '';
 
               return (
                 <DotDoItem
@@ -64,6 +80,8 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                   description={site.description}
                   hasSdk={sdks.includes(domain)}
                   mounted={mounted}
+                  tags={site.tags}
+                  links={site.links}
                 />
               )
             })}

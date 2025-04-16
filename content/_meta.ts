@@ -1,17 +1,18 @@
 import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
-  docs: { type: 'page', href: '/docs' },
+  docs: { type: 'page', title: 'Docs', href: '/docs' },
   api: { type: 'page', title: 'APIs', href: '/docs/apis' },
   sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
   clis: { type: 'page', title: 'CLI', href: '/docs/cli' },
-  pricing: { type: 'page', href: '/pricing' },
-  dashboard: { type: 'page', href: '/admin' },
-  reference: {
+  pricing: { type: 'page', title: 'Pricing', href: '/pricing' },
+  dashboard: { type: 'page', title: 'Dashboard', href: '/admin' },
+  ref: {
     type: 'page',
-    title: 'API Reference',
+    title: 'Reference',
     href: 'https://apis.do/reference',
   },
+
 
   manifesto: '',
   primitives: '',
@@ -36,7 +37,7 @@ const meta: MetaRecord = {
   integrations: '',
   deployment: '',
   observability: '',
-  sites: { display: 'hidden' },
+  // sites: { display: 'hidden' }, // Removed as sites directory moved to repository root
 
   __: {
     type: 'separator',
