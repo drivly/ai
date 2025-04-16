@@ -29,12 +29,20 @@ const nextConfig = {
   experimental: {
     // instrumentationHook is no longer needed in Next.js 15.2.4+
   },
-  webpack: (config) => {
-    // Add YAML loader
+  webpack: (config, { isServer, dev, buildId, config: { distDir } }) => {
+    // Add YAML loader for all contexts
     config.module.rules.push({
       test: /\.ya?ml$/,
       use: 'yaml-loader',
     })
+    
+    // Suppress OpenTelemetry instrumentation warnings
+    config.ignoreWarnings = [
+      {
+        module: /node_modules\/@opentelemetry\/instrumentation/,
+      },
+    ]
+    
     return config
   },
 }
