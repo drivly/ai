@@ -8,7 +8,7 @@ export interface DotdoLogoProps {
 }
 
 export const DotdoLogo = (props: DotdoLogoProps) => {
-  const hrefProps = props.as === Link ? { href: 'https://dotdo.ai', target: '_blank', rel: 'noopener noreferrer' } : {}
+  const hrefProps = props.as === Link || props.as === 'a' ? { href: 'https://dotdo.ai', target: '_blank', rel: 'noopener noreferrer' } : {}
   return (
     <Wrapper as={props.as} className={cn('h-7 w-[50.7px]', props.className)} {...hrefProps}>
       <svg width='268' height='148' viewBox='0 0 268 148' fill='none' xmlns='http://www.w3.org/2000/svg'>
