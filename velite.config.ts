@@ -32,7 +32,7 @@ export default defineConfig({
     },
     sites: {
       name: 'Site',
-      pattern: 'sites/**/*.mdx',
+      pattern: '../sites/**/*.mdx',
       schema: s.object({
         title: s.string(),
         description: s.string(),
@@ -45,7 +45,7 @@ export default defineConfig({
         badge: s.string().optional(), // Badge text
       }).transform((data, { meta }: { meta: any }) => { // Use 'any' for meta
         const path = meta.path;
-        const contentSitesPattern = '/content/sites/';
+        const contentSitesPattern = '/sites/';
         const contentSitesIndex = path.indexOf(contentSitesPattern);
         let group = 'other';
 
@@ -65,7 +65,7 @@ export default defineConfig({
     },
     sitesConfig: {
       name: 'SitesConfig',
-      pattern: 'sites/sites.yaml',
+      pattern: '../sites/sites.yaml',
       single: true,
       schema: s.object({
         categories: s.array(s.object({
