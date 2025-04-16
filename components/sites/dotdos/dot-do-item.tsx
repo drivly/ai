@@ -7,9 +7,14 @@ export interface DotDoItemProps {
   href: string
   mounted: boolean
   hasSdk?: boolean
+  tags?: string[]
+  links?: Array<{
+    title: string
+    url: string
+  }>
 }
 
-export const DotDoItem = ({ title, description, href, mounted, hasSdk }: DotDoItemProps) => {
+export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, links }: DotDoItemProps) => {
   const domain = href.startsWith('https://') ? href.substring(8) : title
 
   if (!mounted) {
@@ -28,7 +33,21 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk }: DotDoIt
     >
       <h3 className='relative z-10 mb-2 text-xl font-semibold tracking-tight'>{title}</h3>
       <p className='text-muted-foreground relative z-10 mb-auto text-sm opacity-70'>{description}</p>
+      
+      {/* Tags */}
+      {tags && tags.length > 0 && (
+        <div className='relative z-10 mt-3 flex flex-wrap gap-2'>
+          {tags.map((tag, index) => (
+            <Badge key={index} variant='outline' className='border-white/10 bg-white/5 text-xs'>
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
+      
+      {/* Links */}
       <div className='relative z-10 mt-4 flex flex-wrap gap-2'>
+        {/* Default links */}
         <a href={`https://${domain}/api`} target='_blank' rel='noopener noreferrer'>
           <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
             API
@@ -46,6 +65,15 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk }: DotDoIt
             Docs
           </Badge>
         </a>
+        
+        {/* Custom links from YAML */}
+        {links && links.map((link, index) => (
+          <a key={index} href={link.url} target='_blank' rel='noopener noreferrer'>
+            <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
+              {link.title}
+            </Badge>
+          </a>
+        ))}
       </div>
     </Link>
   )

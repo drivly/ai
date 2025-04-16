@@ -2,12 +2,11 @@
 
 import { UserAvatar } from '@/components/auth/user-profile-image'
 import { Button } from '@/components/ui/button'
-import { signIn } from '@/lib/auth/auth-client'
 import { useBetterAuth } from '@/lib/auth/context'
 import { cn } from '@/lib/utils'
 import { RiDiscordFill } from '@remixicon/react'
 import Link from 'next/link'
-import { use, useState } from 'react'
+import { use } from 'react'
 import { siteConfig } from '../site-config'
 
 export interface JoinWaitlistButtonProps {
@@ -20,25 +19,6 @@ export interface JoinWaitlistButtonProps {
 export const JoinWaitlistButton = ({ children, className, variant = 'default', type = 'user' }: JoinWaitlistButtonProps) => {
   const { currentUserPromise } = useBetterAuth()
   const currentUser = use(currentUserPromise)
-
-  const [isLoading, setLoading] = useState(false)
-
-  const handleJoinWaitlist = async () => {
-    setLoading(true)
-    await signIn.social({
-      provider: 'github',
-      callbackURL: siteConfig.baseLinks.waitlist,
-      fetchOptions: {
-        onSuccess: () => {
-          setLoading(false)
-        },
-        onError: () => {
-          setLoading(false)
-        },
-      },
-    })
-    setLoading(false)
-  }
 
   if (currentUser && type === 'user') {
     return <UserAvatar image={currentUser.image || ''} />
@@ -56,8 +36,8 @@ export const JoinWaitlistButton = ({ children, className, variant = 'default', t
   }
 
   return (
-    <Button variant={variant} disabled={isLoading} className={cn('cursor-pointer rounded-sm bg-white text-base hover:bg-gray-200', className)} onClick={handleJoinWaitlist}>
-      {children || 'Join Waitlist'}
+    <Button variant={variant} className={cn('cursor-pointer rounded-sm bg-white text-base hover:bg-gray-200', className)} asChild>
+      <Link href='/waitlist'>{children || 'Join Waitlist'}</Link>
     </Button>
   )
 }

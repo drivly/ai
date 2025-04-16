@@ -21,9 +21,9 @@ export async function middleware(request: NextRequest) {
     const handler = new RequestHandler(request)
 
     const isLoggedIn = handler.isLoggedIn()
-    console.log('🚀 ~ isLoggedIn:', isLoggedIn)
+    const isAutoLogin = handler.isAutoLogin()
 
-    if (!isLoggedIn && request.nextUrl.pathname === '/admin/login' && process.env.NODE_ENV === 'production') {
+    if (!isLoggedIn && isAutoLogin) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
 

@@ -1,3 +1,4 @@
 /workers/llm.do/ @sam-lippert
 /tests/workers/api-tests/ @sam-lippert
-/pkgs/ui @crisner1978
+/pkgs/language-models/ @aggressively-meows
+/app/(apis)/models @aggressively-meows

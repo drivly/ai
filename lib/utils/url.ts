@@ -24,46 +24,16 @@ export const getCurrentURL = (headers?: Headers) => {
     return 'http://localhost:3000'
   }
 
-  if (typeof window !== 'undefined') {
-    console.log('getCurrentURL debug - using client-side window.location.origin:', window.location.origin)
-    return window.location.origin
-  }
-
-  if (process.env.NEXT_PUBLIC_SERVER_URL) {
-    console.log('getCurrentURL debug - using NEXT_PUBLIC_SERVER_URL:', process.env.NEXT_PUBLIC_SERVER_URL)
-    return process.env.NEXT_PUBLIC_SERVER_URL
-  }
-
-  if (process.env.SITE_URL) {
-    console.log('getCurrentURL debug - using SITE_URL:', process.env.SITE_URL)
-    return process.env.SITE_URL
-  }
-
-  if (process.env.NEXT_PUBLIC_SITE_URL) {
-    console.log('getCurrentURL debug - using NEXT_PUBLIC_SITE_URL:', process.env.NEXT_PUBLIC_SITE_URL)
-    return process.env.NEXT_PUBLIC_SITE_URL
-  }
-
   if (process.env.VERCEL_URL) {
     const url = `https://${process.env.VERCEL_URL}`
     console.log('getCurrentURL debug - using VERCEL_URL:', url)
     return url
   }
 
-  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-    const url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-    console.log('getCurrentURL debug - using NEXT_PUBLIC_VERCEL_URL:', url)
-    return url
-  }
-
   if (process.env.VERCEL_BRANCH_URL) {
-    console.log('getCurrentURL debug - using VERCEL_BRANCH_URL:', process.env.VERCEL_BRANCH_URL)
-    return process.env.VERCEL_BRANCH_URL
-  }
-
-  if (process.env.VERCEL_PREVIEW_URL) {
-    console.log('getCurrentURL debug - using VERCEL_PREVIEW_URL:', process.env.VERCEL_PREVIEW_URL)
-    return process.env.VERCEL_PREVIEW_URL
+    const url = `https://${process.env.VERCEL_BRANCH_URL}`
+    console.log('getCurrentURL debug - using VERCEL_BRANCH_URL:', url)
+    return url
   }
 
   console.log('getCurrentURL debug - using fallback URL: https://apis.do')
@@ -94,9 +64,8 @@ export const getDomainFromURL = (url?: string): string => {
  * Generates a proper OAuth callback URL for the current domain
  * Works across multiple domains (apis.do, workflows.do, etc.)
  */
-export const getOAuthCallbackURL = (provider: string, url?: string): string => {
+export const getOAuthCallbackURL = (provider: 'google' | 'github', url?: string): string => {
   const domain = getDomainFromURL(url)
-  console.log('🚀 ~ getOAuthCallbackURL ~ domain:', domain)
 
   // Use localhost URL for development, otherwise use the detected domain
   if (domain === 'localhost' || domain.includes('localhost:')) {

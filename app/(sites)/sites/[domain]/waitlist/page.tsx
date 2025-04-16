@@ -14,7 +14,10 @@ async function WaitListPage(props: { params: { domain: string }; searchParams?: 
   const { user } = (await payload.auth({ headers })) as { user: User }
 
   if (!user) {
-    redirect('/')
+    const data = await payload.betterAuth.api.signInSocial({
+      body: { provider: 'github', callbackURL: '/waitlist' },
+    })
+    redirect(data.url || '')
   }
 
   const name = user.name || user.email.split('@')[0]

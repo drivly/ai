@@ -24,10 +24,18 @@ const withNextra = nextra({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
-  transpilePackages: ['@drivly/ui'], // Reduce transpiled packages
+  transpilePackages: [], // Reduce transpiled packages
   // All routing is handled by middleware.ts
   experimental: {
     // instrumentationHook is no longer needed in Next.js 15.2.4+
+  },
+  webpack: (config) => {
+    // Add YAML loader
+    config.module.rules.push({
+      test: /\.ya?ml$/,
+      use: 'yaml-loader',
+    })
+    return config
   },
 }
 
