@@ -4,6 +4,8 @@ import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { Suspense } from 'react'
 
+export const dynamic = 'force-dynamic'
+
 async function DirectoryPage() {
   const { categories } = sitesConfig
   
