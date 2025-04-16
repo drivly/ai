@@ -14,25 +14,30 @@ export const getCurrentURL = (headers?: Headers) => {
     const host = headers.get('host')
     const protocol = host?.includes('localhost') ? 'http' : 'https'
     const url = `${protocol}://${host}`
-    console.log('getCurrentURL debug - using host header:', url)
+    console.log('🚀 ~ derived from headers:', url)
     return url
   }
 
   // For development environment
   if (process.env.NODE_ENV === 'development') {
-    console.log('getCurrentURL debug - using development URL: http://localhost:3000')
+    console.log('🚀 ~ localhost  URL: http://localhost:3000')
     return 'http://localhost:3000'
   }
 
-  // Use VERCEL_PROJECT_PRODUCTION_URL when available
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    const url = `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    console.log('getCurrentURL debug - using VERCEL_PROJECT_PRODUCTION_URL:', url)
+  if (process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) {
+    const url = `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
+    console.log('🚀 ~ NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL:', url)
+    return url
+  }
+
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+    const url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    console.log('🚀 ~ NEXT_PUBLIC_VERCEL_URL:', url)
     return url
   }
 
   // Fallback to primary API domain
-  console.log('getCurrentURL debug - using fallback URL: https://apis.do')
+  console.log('🚀 ~ fallback URL: https://apis.do')
   return 'https://apis.do'
 }
 
@@ -46,7 +51,6 @@ export const getAuthRedirectForDomain = (hostname: string): string => {
 
   return '/admin'
 }
-
 
 export const getDomainFromURL = (url?: string): string => {
   // Use the provided URL or get the current URL
