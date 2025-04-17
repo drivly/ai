@@ -1,8 +1,17 @@
 {
+  "buildCommand": "pnpm build",
+  "devCommand": "pnpm dev",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
   "crons": [
     {
       "path": "/api/payload-jobs/run",
       "schedule": "*/5 * * * *"
     }
-  ]
+  ],
+  "github": {
+    "enabled": true,
+    "silent": false
+  }
 }

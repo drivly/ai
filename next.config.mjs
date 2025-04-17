@@ -50,6 +50,12 @@ const nextConfig = {
       },
     ]
     
+    // Memory optimizations
+    if (!dev) {
+      // Disable source maps in production to reduce memory usage
+      config.devtool = false;
+    }
+    
     return config
   },
 }
