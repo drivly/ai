@@ -39,15 +39,32 @@ describe('CLI', () => {
 
   describe('login', () => {
     it('should log in with token', async () => {
+      const mockStoreApiKey = vi.fn().mockResolvedValue(undefined)
+      vi.mock('./auth', () => ({
+        storeApiKey: mockStoreApiKey,
+        generateState: vi.fn().mockReturnValue('test-state'),
+        startLocalServer: vi.fn().mockResolvedValue({ port: 8000, apiKey: 'server-api-key' }),
+        openBrowser: vi.fn(),
+      }))
+      
       await cli.login({ token: 'test-token' })
+      
       expect(mockConsoleLog).toHaveBeenCalledWith('Logging in to apis.do...')
+      expect(mockStoreApiKey).toHaveBeenCalledWith('test-token')
     })
   })
 
   describe('logout', () => {
     it('should log out', async () => {
+      const mockRemoveApiKey = vi.fn().mockResolvedValue(true)
+      vi.mock('./auth', () => ({
+        removeApiKey: mockRemoveApiKey,
+      }))
+      
       await cli.logout()
+      
       expect(mockConsoleLog).toHaveBeenCalledWith('Logging out from apis.do...')
+      expect(mockRemoveApiKey).toHaveBeenCalled()
     })
   })
 
