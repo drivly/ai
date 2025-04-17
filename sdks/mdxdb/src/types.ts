@@ -1,4 +1,4 @@
-import type { CollectionMethods, DatabaseClient, DBOptions, QueryOptions, ListResponse, CollectionData, ResourceData } from 'database.do'
+import type { CollectionMethods, DatabaseClient, DBOptions, QueryOptions, ListResponse, CollectionData, ResourceData } from './database-do-types.js'
 
 /**
  * Extended options for MDX-specific configuration

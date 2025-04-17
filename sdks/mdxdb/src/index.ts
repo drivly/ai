@@ -1,4 +1,4 @@
-import { DatabaseClient, DBOptions } from 'database.do'
+import { DatabaseClient, DBOptions } from './database-do-types.js'
 import { MDXFileSystemHandler } from './fs-handler.js'
 import { MDXCollectionHandler } from './collection.js'
 import { MDXDBOptions } from './types.js'

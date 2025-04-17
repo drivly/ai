@@ -1,4 +1,4 @@
-import { CollectionMethods, ListResponse, QueryOptions } from 'database.do'
+import { CollectionMethods, ListResponse, QueryOptions } from './database-do-types.js'
 import { MDXFileSystemHandler } from './fs-handler.js'
 import { generateId, filterDocuments, sortDocuments, paginateDocuments, searchDocuments } from './utils.js'
 import { MDXDBError } from './types.js'
