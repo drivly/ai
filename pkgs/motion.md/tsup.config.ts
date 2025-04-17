@@ -2,13 +2,13 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: ['src/index.ts', 'src/video/composition.tsx'],
-  format: ['cjs', 'esm'],
+  format: ['esm'],
   dts: true,
   clean: true,
   sourcemap: true,
   outExtension({ format }) {
     return {
-      js: format === 'esm' ? '.mjs' : '.js',
+      js: '.mjs',
     }
   },
   esbuildOptions(options) {
