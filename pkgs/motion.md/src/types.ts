@@ -1,3 +1,5 @@
+'use client'
+
 import { Root } from 'mdast'
 
 export interface VideoConfig {
