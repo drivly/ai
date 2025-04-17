@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
       body: {
         name: `CLI Key (${new Date().toISOString()})`,
         prefix,
-        permissions: 'cli',
+        permissions: { cli: ['use'] },
         metadata: {
           createdFromCLI: true,
           device: process.platform,
