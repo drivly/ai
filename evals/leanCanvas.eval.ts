@@ -1,8 +1,25 @@
-import { evalite } from 'evalite'
+import { evalite, Evalite } from 'evalite'
 import { Battle } from 'autoevals'
 import { ai } from 'functions.do'
 import { domains } from './domains'
 import { models } from './models'
+
+type EvalData = {
+  domain: string;
+  model: string;
+}
+
+type LeanCanvasOutput = any; // Type for the output of the leanCanvas function
+
+const experimental_customColumns = async (
+  data: Evalite.ScoreInput<EvalData, LeanCanvasOutput, {}>
+) => {
+  return [
+    { label: 'Domain', value: data.input.domain },
+    { label: 'Model', value: data.input.model },
+    { label: 'Output', value: data.output }
+  ]
+}
 
 evalite('LeanCanvas Evaluation', {
   data: () => domains.flatMap(domain => 
@@ -11,7 +28,7 @@ evalite('LeanCanvas Evaluation', {
       expected: {/* optional baseline */},
     }))
   ),
-  task: async ({ domain, model }) => {
+  task: async ({ domain, model }: EvalData) => {
     const result = await ai.leanCanvas(
       { domain },
       {
@@ -30,10 +47,6 @@ evalite('LeanCanvas Evaluation', {
     )
     return result
   },
-  scorers: [Battle],
-  customColumns: async (data) => [
-    { label: 'Domain', value: data.input.domain },
-    { label: 'Model', value: data.input.model },
-    { label: 'Output', value: data.output }
-  ],
+  scorers: [Battle as any], // Type assertion to resolve compatibility issue
+  experimental_customColumns,
 })
