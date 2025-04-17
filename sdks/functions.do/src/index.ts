@@ -133,9 +133,12 @@ export class FunctionsClient {
    */
   async run<T = any>(functionName: string, input: any, config?: AIConfig): Promise<FunctionResponse<T>> {
     try {
-      return await this.api.post<FunctionResponse<T>>(`/v1/functions/${functionName}`, {
-        input,
-        config,
+      return await this.api.post<FunctionResponse<T>>(`/functions/${functionName}`, {
+        input: {
+          functionName,
+          args: input,
+          settings: config
+        }
       })
     } catch (error) {
       console.error(`Error running function ${functionName}:`, error)
