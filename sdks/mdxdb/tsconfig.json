@@ -9,15 +9,11 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "skipLibCheck": true,
-    "composite": true,
     "paths": {
       "database.do": ["../database.do/src/index.js"],
       "database.do/*": ["../database.do/*"]
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"],
-  "references": [
-    { "path": "../database.do" }
-  ]
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
