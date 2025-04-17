@@ -1,3 +1,5 @@
+'use client'
+
 export * from './mdx/parser'
 export * from './mdx/frontmatter'
 export * from './mdx/slides'
