@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Separate markdown content into individual slides based on the "---" delimiter
  */

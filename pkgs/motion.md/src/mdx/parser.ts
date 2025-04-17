@@ -1,3 +1,5 @@
+'use client'
+
 import matter from 'gray-matter'
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { separateSlides } from './slides'

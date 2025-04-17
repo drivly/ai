@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Parse frontmatter data into a structured configuration object
  */
