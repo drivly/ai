@@ -90,10 +90,10 @@ This is a test post`)
           'utf-8'
         )
         
-        expect(result.docs).toHaveLength(1)
-        expect(result.docs[0].id).toBe(testId)
-        expect(result.docs[0].title).toBe('Test Post')
-        expect(result.totalDocs).toBe(1)
+        expect(result.data).toHaveLength(1)
+        expect(result.data[0].id).toBe(testId)
+        expect(result.data[0].title).toBe('Test Post')
+        expect(result.meta.total).toBe(1)
       })
       
       it('should find documents with filtering', async () => {
@@ -103,8 +103,8 @@ This is a test post`)
           }
         })
         
-        expect(result.docs).toHaveLength(1)
-        expect(result.docs[0].status).toBe('Published')
+        expect(result.data).toHaveLength(1)
+        expect(result.data[0].status).toBe('Published')
       })
     })
     
@@ -187,8 +187,8 @@ This is a test post`)
           'utf-8'
         )
         
-        expect(result.docs).toHaveLength(1)
-        expect(result.docs[0].id).toBe(testId)
+        expect(result.data).toHaveLength(1)
+        expect(result.data[0].id).toBe(testId)
       })
     })
   })
