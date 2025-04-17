@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { LayoutProps, SlideshowProps } from './interfaces'
 import { useVideoConfig } from 'remotion'
