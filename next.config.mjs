@@ -49,6 +49,16 @@ const nextConfig = {
       },
     ]
     
+    // Handle Node.js modules used by Remotion
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        child_process: false,
+        path: false,
+      }
+    }
+    
     return config
   },
 }
