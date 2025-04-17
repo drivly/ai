@@ -13,13 +13,6 @@ export default defineConfig({
   },
   esbuildOptions(options) {
     options.jsx = 'automatic'
-    // Handle node built-ins
-    options.alias = {
-      'node:path': 'path',
-      'node:fs': 'fs',
-      'node:url': 'url',
-      'node:process': 'process',
-    }
     return options
   }
 })
