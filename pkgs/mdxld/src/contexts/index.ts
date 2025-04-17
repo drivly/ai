@@ -1,3 +1,4 @@
 export type { JsonLdDocument, ContextDefinition } from 'jsonld'
 
-// Context exports will be added here after build
+// Context exports from build process
+export { schemaorg, epcisContext, epcisOntology } from './build/index.js'
