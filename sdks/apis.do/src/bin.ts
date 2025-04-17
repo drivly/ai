@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { CLI } from './cli'
+import { loadApiKey } from './auth'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const packageJsonPath = path.join(__dirname, '..', '..', 'package.json')
@@ -20,8 +21,16 @@ try {
   console.error('Error loading config:', errorMessage)
 }
 
+let storedApiKey: string | null = null
+try {
+  ;(async () => {
+    storedApiKey = await loadApiKey()
+  })()
+} catch (error) {
+}
+
 const cli = new CLI({
-  apiKey: process.env.APIS_DO_API_KEY || process.env.DO_API_KEY,
+  apiKey: storedApiKey || process.env.APIS_DO_API_KEY || process.env.DO_API_KEY,
   configPath,
 })
 
