@@ -1,6 +1,6 @@
 # research.do
 
-Deep Research SDK for interfacing with the perplexity/sonar-deep-research model.
+Deep Research SDK for performing comprehensive research on any topic.
 
 ## Installation
 

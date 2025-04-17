@@ -1,13 +1,13 @@
 {
   "name": "research.do",
   "version": "0.1.0",
-  "description": "Deep Research SDK for interfacing with the perplexity/sonar-deep-research model",
+  "description": "Deep Research SDK for performing comprehensive research on any topic",
   "keywords": [
     "research",
     "ai",
     "deep-research",
-    "perplexity",
-    "sonar"
+    "knowledge",
+    "information"
   ],
   "homepage": "https://research.do",
   "type": "module",
