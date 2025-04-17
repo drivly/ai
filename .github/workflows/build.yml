@@ -42,6 +42,7 @@ jobs:
           DATABASE_URI: ${{ secrets.DATABASE_URI || 'mongodb://localhost:27017/payload-cms' }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY || 'resend-key-placeholder' }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_placeholder' }}
+          ANALYZE: 'true'
 
       # Bundle analysis steps
       - name: Restore next build
@@ -86,11 +87,10 @@ jobs:
         if: success() && github.event.number && steps.check-base-bundle.outputs.base_bundle_exists == 'true'
         run: |
           if [ -f ".next/analyze/base/bundle/__bundle_analysis.json" ]; then
-            npx -p nextjs-bundle-analysis compare || echo "Bundle comparison failed, but continuing build"
+            npx -p nextjs-bundle-analysis compare
           else
             echo "No base bundle analysis file found. Skipping comparison."
           fi
-        continue-on-error: true
 
       - name: Get Comment
         id: get-comment

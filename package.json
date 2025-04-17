@@ -277,7 +277,7 @@
   "nextBundleAnalysis": {
     "budget": 358400,
     "budgetPercentIncreaseRed": 20,
-    "minimumChangeThreshold": 0,
+    "minimumChangeThreshold": 1000,
     "showDetails": true,
     "buildOutputDirectory": ".next"
   }
