@@ -24,11 +24,12 @@
     }
   },
   "scripts": {
-    "build": "tsup",
-    "build:packages": "tsup",
+    "build": "pnpm run build:contexts && tsup",
+    "build:packages": "pnpm run build:contexts && tsup",
+    "build:contexts": "tsx scripts/build-contexts.ts",
     "dev": "tsup --watch",
     "lint": "eslint src",
-    "test": "vitest run",
+    "test": "pnpm run build:contexts && vitest run",
     "test:watch": "vitest",
     "clean": "rm -rf dist"
   },
@@ -72,6 +73,7 @@
     "eslint": "^8.56.0",
     "tsconfig": "workspace:*",
     "tsup": "^8.0.1",
+    "tsx": "^4.19.3",
     "typescript": "^5.3.3",
     "vitest": "^1.0.0"
   }
