@@ -57,6 +57,11 @@ const nextConfig = {
         'child_process': false,
         'fs': false,
         'path': false,
+        'os': false,
+        'stream': false,
+        'util': false,
+        'zlib': false,
+        'url': false,
       }
     }
     
