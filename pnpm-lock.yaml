@@ -1013,6 +1013,9 @@ importers:
       tsup:
         specifier: ^8.0.1
         version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.7.1)
+      tsx:
+        specifier: ^4.19.3
+        version: 4.19.3
       typescript:
         specifier: ^5.3.3
         version: 5.8.3
