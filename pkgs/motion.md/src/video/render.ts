@@ -1,4 +1,4 @@
-'use client'
+
 
 import { renderMedia, RenderMediaOnProgress, getCompositions } from '@remotion/renderer'
 import { VideoGenerationOptions, VideoResult } from '../types'
