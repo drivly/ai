@@ -27,7 +27,8 @@ const nextConfig = {
   transpilePackages: [], // Reduce transpiled packages
 
   turbopack: {
-    
+    // Using Turbopack for faster builds and better performance
+    resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
   },
   webpack: (config, { isServer, dev, buildId, config: { distDir } }) => {
     // Add YAML loader for all contexts
@@ -48,6 +49,12 @@ const nextConfig = {
         module: /node_modules\/@opentelemetry\/instrumentation/,
       },
     ]
+    
+    // Memory optimizations
+    if (!dev) {
+      // Disable source maps in production to reduce memory usage
+      config.devtool = false;
+    }
     
     return config
   },
