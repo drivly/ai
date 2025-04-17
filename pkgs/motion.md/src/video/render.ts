@@ -20,7 +20,7 @@ export async function createVideoFromSlides({
   
   const mergedOptions = { ...defaultOptions, ...options }
   
-  const compositionPath = path.join(path.dirname(import.meta.url.replace('file:', '')), 'composition.mjs')
+  const compositionPath = path.resolve(path.dirname(new URL(import.meta.url).pathname), 'composition.mjs')
   
   const compositions = await getCompositions(compositionPath)
   
