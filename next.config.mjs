@@ -56,8 +56,39 @@ const nextConfig = {
         fs: false,
         child_process: false,
         path: false,
+        assert: false,
+        dns: false,
+        http: false,
+        https: false,
+        net: false,
+        os: false,
+        stream: false,
+        util: false,
+        zlib: false,
       }
     }
+    
+    // Handle node: scheme imports
+    config.module.rules.push({
+      test: /\.m?js$/,
+      resolve: {
+        fullySpecified: false,
+        fallback: {
+          'node:assert': false,
+          'node:child_process': false,
+          'node:dns': false,
+          'node:fs': false,
+          'node:http': false,
+          'node:https': false,
+          'node:net': false,
+          'node:os': false,
+          'node:path': false,
+          'node:stream': false,
+          'node:util': false,
+          'node:zlib': false,
+        }
+      }
+    })
     
     return config
   },
