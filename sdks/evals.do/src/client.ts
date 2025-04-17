@@ -378,12 +378,12 @@ export class EvalsClient {
             headers: { 'Content-Type': 'application/json' }
           })
           
-          const result = await functionsApi.post(`/v1/functions/${functionName}`, {
+          const result = await functionsApi.post<any>(`/v1/functions/${functionName}`, {
             input: {},
             config
           })
           
-          return result.data
+          return (result as any).data
         } catch (error) {
           throw error instanceof Error ? error : new Error(String(error))
         }
