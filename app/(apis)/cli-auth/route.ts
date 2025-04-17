@@ -32,11 +32,11 @@ export async function GET(request: NextRequest) {
       )
     }
     
-    const { user } = await payload.auth.verify({
-      req: { headers: request.headers } as any,
+    const session = await payload.betterAuth.api.getSession({
+      headers: request.headers,
     })
     
-    if (!user) {
+    if (!session?.user) {
       const loginUrl = `/login?cli=true&state=${state}&callback=${encodeURIComponent(callback)}`
       return NextResponse.redirect(new URL(loginUrl, request.url))
     }
