@@ -1,3 +1,3 @@
 import { getDomains } from './utils/getDomains'
 
-export const domains = await getDomains()
+export const domains = getDomains()

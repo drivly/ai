@@ -1,25 +1,7 @@
-import { evalite, Evalite } from 'evalite'
-import { Battle } from 'autoevals'
+import { evalite } from 'evalite'
 import { ai } from 'functions.do'
 import { domains } from './domains'
 import { models } from './models'
-
-type EvalData = {
-  domain: string;
-  model: string;
-}
-
-type StoryBrandOutput = any; // Type for the output of the storyBrand function
-
-const experimental_customColumns = async (
-  data: Evalite.ScoreInput<EvalData, StoryBrandOutput, {}>
-) => {
-  return [
-    { label: 'Domain', value: data.input.domain },
-    { label: 'Model', value: data.input.model },
-    { label: 'Output', value: data.output }
-  ]
-}
 
 evalite('StoryBrand Evaluation', {
   data: () => domains.flatMap(domain => 
@@ -28,7 +10,7 @@ evalite('StoryBrand Evaluation', {
       expected: {/* optional baseline */},
     }))
   ),
-  task: async ({ domain, model }: EvalData) => {
+  task: async ({ domain, model }) => {
     const result = await ai.storyBrand(
       { guide: domain },
       {
@@ -51,6 +33,10 @@ evalite('StoryBrand Evaluation', {
     )
     return result
   },
-  scorers: [Battle as any], // Type assertion to resolve compatibility issue
-  experimental_customColumns,
+  scorers: [],
+  experimental_customColumns: async (data) => [
+    { label: 'Domain', value: data.input.domain },
+    { label: 'Model', value: data.input.model },
+    { label: 'Output', value: data.output }
+  ],
 })

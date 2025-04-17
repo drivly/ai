@@ -1,25 +1,7 @@
-import { evalite, Evalite } from 'evalite'
-import { Battle } from 'autoevals'
+import { evalite } from 'evalite'
 import { ai } from 'functions.do'
 import { domains } from './domains'
 import { models } from './models'
-
-type EvalData = {
-  domain: string;
-  model: string;
-}
-
-type BlogPostOutput = any; // Type for the output of the generateBlogPost function
-
-const experimental_customColumns = async (
-  data: Evalite.ScoreInput<EvalData, BlogPostOutput, {}>
-) => {
-  return [
-    { label: 'Domain', value: data.input.domain },
-    { label: 'Model', value: data.input.model },
-    { label: 'Output', value: data.output }
-  ]
-}
 
 evalite('Blog Posts Evaluation', {
   data: () => domains.flatMap(domain => 
@@ -28,7 +10,7 @@ evalite('Blog Posts Evaluation', {
       expected: {/* optional baseline */},
     }))
   ),
-  task: async ({ domain, model }: EvalData) => {
+  task: async ({ domain, model }) => {
     const result = await ai.generateBlogPost(
       { topic: domain },
       {
@@ -45,6 +27,10 @@ evalite('Blog Posts Evaluation', {
     )
     return result
   },
-  scorers: [Battle as any], // Type assertion to resolve compatibility issue
-  experimental_customColumns,
+  scorers: [],
+  experimental_customColumns: async (data) => [
+    { label: 'Domain', value: data.input.domain },
+    { label: 'Model', value: data.input.model },
+    { label: 'Output', value: data.output }
+  ],
 })
