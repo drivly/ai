@@ -6,7 +6,7 @@ import { admin, apiKey, genericOAuth, multiSession, oAuthProxy, oidcProvider, op
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import stripeClient from '../stripe'
-import { getOAuthCallbackURL } from '../utils/url'
+import { getCurrentURL, getOAuthCallbackURL } from '../utils/url'
 
 // import { getCurrentURL } from '../utils/url'
 
@@ -20,6 +20,7 @@ export const betterAuthPlugins = [
   oAuthProxy({
     // The URL where OAuth providers are registered (must match GitHub settings)
     productionURL: 'https://apis.do',
+    currentURL: getCurrentURL(),
     // Don't provide currentURL to let the plugin detect it automatically
   }),
   genericOAuth({
