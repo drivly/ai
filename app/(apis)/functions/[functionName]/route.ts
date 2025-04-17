@@ -5,7 +5,9 @@ import hash from 'object-hash'
 
 export const GET = API(async (request, { db, user, url, payload, params, req }) => {
   const { functionName } = params as { functionName: string }
-  const { seed = '1', temperature, model, system, prompt, async = 'false', ...args } = Object.fromEntries(request.nextUrl.searchParams)
+  const { stream, ...restParams } = Object.fromEntries(request.nextUrl.searchParams)
+  const { seed = '1', temperature, model, system, prompt, async = 'false', ...args } = restParams
+
   const settings = {
     seed: parseInt(seed),
     temperature: temperature ? parseFloat(temperature) : undefined,
@@ -63,6 +65,12 @@ export const GET = API(async (request, { db, user, url, payload, params, req }) 
       jobId: job.id,
       queueLatency,
     }
+
+  if (stream === 'true') {
+    console.log('>>> API Route: Streaming requested, placeholder implementation.')
+    return new Response('Streaming not yet implemented', { status: 501 })
+  }
+
   }
 
   const start = Date.now()
