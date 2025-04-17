@@ -1,7 +1,10 @@
 import { evalite } from 'evalite'
+import { Battle } from 'autoevals'
 import { ai } from 'functions.do'
 import { domains } from './domains'
 import { models } from './models'
+
+const battleScorer = Battle as any
 
 evalite('LeanCanvas Evaluation', {
   data: () => domains.flatMap(domain => 
@@ -29,7 +32,7 @@ evalite('LeanCanvas Evaluation', {
     )
     return result
   },
-  scorers: [],
+  scorers: [battleScorer],
   experimental_customColumns: async (data) => [
     { label: 'Domain', value: data.input.domain },
     { label: 'Model', value: data.input.model },
