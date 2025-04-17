@@ -49,7 +49,7 @@ const nextConfig = {
       },
     ]
     
-    // Handle Node.js modules used by Remotion
+    // Handle Node.js modules used by Remotion renderer
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -68,7 +68,7 @@ const nextConfig = {
       }
     }
     
-    // Handle node: scheme imports
+    // Handle node: scheme imports for Remotion
     config.module.rules.push({
       test: /\.m?js$/,
       resolve: {
