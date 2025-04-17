@@ -56,7 +56,20 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}
 
       - name: Analyze bundle
-        run: npx -p nextjs-bundle-analysis report
+        run: |
+          # Generate the bundle analysis report
+          npx -p nextjs-bundle-analysis report
+          
+          # Debug: Check if the bundle analysis file was created
+          if [ -f ".next/analyze/__bundle_analysis.json" ]; then
+            echo "Bundle analysis file created successfully"
+          else
+            echo "Bundle analysis file not found, creating it from report output"
+            # Create the analyze directory if it doesn't exist
+            mkdir -p .next/analyze
+            # Generate the bundle analysis JSON file from the report output
+            npx -p nextjs-bundle-analysis report > .next/analyze/__bundle_analysis.json
+          fi
 
       - name: Upload bundle
         uses: actions/upload-artifact@v4
@@ -87,7 +100,18 @@ jobs:
         if: success() && github.event.number && steps.check-base-bundle.outputs.base_bundle_exists == 'true'
         run: |
           if [ -f ".next/analyze/base/bundle/__bundle_analysis.json" ]; then
+            # Run the compare command to generate the comment file
             npx -p nextjs-bundle-analysis compare
+            
+            # Debug: Check if the comment file was created
+            if [ -f ".next/analyze/__bundle_analysis_comment.txt" ]; then
+              echo "Bundle analysis comment file created successfully"
+              cat .next/analyze/__bundle_analysis_comment.txt | head -10
+            else
+              echo "Bundle analysis comment file not found, this is an issue"
+              # List files in analyze directory for debugging
+              ls -la .next/analyze/
+            fi
           else
             echo "No base bundle analysis file found. Skipping comparison."
           fi
