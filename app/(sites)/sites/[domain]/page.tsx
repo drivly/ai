@@ -7,6 +7,8 @@ import { getSession } from '@/lib/auth/context/get-context-props'
 import { findSiteContent } from '@/lib/sites'
 import { Metadata } from 'next'
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params
   const content = await findSiteContent(domain)
@@ -20,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
 async function DotDoPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
   const { domain } = props.params
-  const searchParams = await props.searchParams
+  const searchParams = props.searchParams
   await getSession()
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')

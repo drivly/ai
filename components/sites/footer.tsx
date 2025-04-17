@@ -10,12 +10,10 @@ export function Footer({ minimal }: { minimal?: boolean }) {
 
   return (
     <footer id='footer' className='bg-black'>
-      <div className='mx-auto max-w-6xl px-3 pt-16 pb-8 sm:pt-24 lg:pt-32'>
+      <div className='mx-auto max-w-6xl px-3 pt-16 pb-8 sm:pt-24 lg:pt-32 xl:px-0'>
         <div className='xl:grid xl:grid-cols-3 xl:gap-20'>
           <div className='flex flex-col space-y-8'>
-            <Link href='https://dotdo.ai' target='_blank' rel='noopener noreferrer'>
-              <DotdoLogo className='flex items-center justify-start' />
-            </Link>
+            <DotdoLogo className='flex items-center justify-start' as={Link} />
             <p className='text-sm leading-6 text-gray-400'>{siteConfig.description}</p>
 
             <div className='mt-6 flex space-x-4'>
@@ -43,8 +41,7 @@ export function Footer({ minimal }: { minimal?: boolean }) {
                         className='flex rounded-md text-sm text-gray-400 transition hover:text-white'
                         href={item.href}
                         target={item.external ? '_blank' : undefined}
-                        rel={item.external ? 'noopener noreferrer' : undefined}
-                      >
+                        rel={item.external ? 'noopener noreferrer' : undefined}>
                         <span>{item.name}</span>
                         {item.external && (
                           <div className='ml-1 aspect-square size-3 rounded-full bg-gray-800 p-px'>
@@ -65,8 +62,7 @@ export function Footer({ minimal }: { minimal?: boolean }) {
                         className='flex rounded-md text-sm text-gray-400 transition hover:text-white'
                         href={item.href}
                         target={item.external ? '_blank' : undefined}
-                        rel={item.external ? 'noopener noreferrer' : undefined}
-                      >
+                        rel={item.external ? 'noopener noreferrer' : undefined}>
                         <span>{item.name}</span>
                         {item.external && (
                           <div className='ml-0.5 aspect-square size-3 rounded-full bg-gray-800 p-px'>
@@ -89,8 +85,7 @@ export function Footer({ minimal }: { minimal?: boolean }) {
                         className='flex rounded-md text-sm text-gray-400 transition hover:text-white'
                         href={item.href}
                         target={item.external ? '_blank' : undefined}
-                        rel={item.external ? 'noopener noreferrer' : undefined}
-                      >
+                        rel={item.external ? 'noopener noreferrer' : undefined}>
                         <span>{item.name}</span>
                         {item.external && (
                           <div className='ml-1 aspect-square size-3 rounded-full bg-gray-800 p-px'>
@@ -111,8 +106,7 @@ export function Footer({ minimal }: { minimal?: boolean }) {
                         className='flex rounded-md text-sm text-gray-400 transition hover:text-white'
                         href={item.href}
                         target={item.external ? '_blank' : undefined}
-                        rel={item.external ? 'noopener noreferrer' : undefined}
-                      >
+                        rel={item.external ? 'noopener noreferrer' : undefined}>
                         <span>{item.name}</span>
                         {item.external && (
                           <div className='ml-1 aspect-square size-3 rounded-full bg-gray-800 p-px'>
@@ -147,11 +141,11 @@ export function Footer({ minimal }: { minimal?: boolean }) {
 function MinimalFooter() {
   return (
     <footer id='footer' className='bg-black'>
-      <div className='mx-auto max-w-6xl px-3 py-8'>
+      <div className='mx-auto max-w-6xl px-3 py-8 xl:px-0'>
         <div className='grid grid-flow-row auto-rows-max items-center gap-y-8 sm:grid-cols-3 sm:gap-y-0'>
-          <Link href='https://dotdo.ai' target='_blank' rel='noopener noreferrer' className='flex items-center justify-center sm:justify-start'>
-            <DotdoLogo className='flex items-center justify-center' />
-          </Link>
+          <div className='flex items-center justify-center sm:justify-start'>
+            <DotdoLogo className='flex items-center justify-center' as={Link} />
+          </div>
           <p className='text-center text-sm leading-5 text-gray-400'>&copy; {new Date().getFullYear()} .do, Inc. All rights reserved.</p>
           <div className='flex justify-center space-x-4 sm:justify-end'>
             {footerNavigation.social.map((item) => (

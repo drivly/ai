@@ -9,41 +9,48 @@
  * authentication works correctly across all environments.
  */
 export const getCurrentURL = (headers?: Headers) => {
-  // Debug logging for INVALID_ORIGIN troubleshooting
-
+  // In server components or API routes where headers are available, use the host
   if (headers?.get('host')) {
     const host = headers.get('host')
     const protocol = host?.includes('localhost') ? 'http' : 'https'
     const url = `${protocol}://${host}`
-    console.log('getCurrentURL debug - using host, protocol, and url:', url)
+    console.log('🚀 ~ derived from headers:', url)
     return url
   }
 
+  // For development environment
   if (process.env.NODE_ENV === 'development') {
-    console.log('getCurrentURL debug - using development URL: http://localhost:3000')
-    return 'http://localhost:3000'
+    console.log('🚀 ~ localhost URL: http://localhost:3000')
   }
 
-  if (process.env.VERCEL_URL) {
-    const url = `https://${process.env.VERCEL_URL}`
-    console.log('getCurrentURL debug - using VERCEL_URL:', url)
+  if (process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) {
+    const url = `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
+    console.log('🚀 ~ NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL:', url)
     return url
   }
 
-  if (process.env.VERCEL_BRANCH_URL) {
-    const url = `https://${process.env.VERCEL_BRANCH_URL}`
-    console.log('getCurrentURL debug - using VERCEL_BRANCH_URL:', url)
+  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
+    const url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+    console.log('🚀 ~ NEXT_PUBLIC_VERCEL_URL:', url)
     return url
   }
 
-  console.log('getCurrentURL debug - using fallback URL: https://apis.do')
+  // Fallback to primary API domain
+  console.log('🚀 ~ fallback URL: https://apis.do')
   return 'https://apis.do'
 }
 
 /**
- * Returns the domain part of a URL
- * This is used for creating proper redirect URIs that work across multiple domains
+ * Gets the appropriate redirect path after authentication based on the domain
  */
+export const getAuthRedirectForDomain = (hostname: string): string => {
+  if (hostname.endsWith('.do') && !hostname.includes('apis.do')) {
+    return `/admin/collections/${hostname.replace('.do', '')}`
+  }
+
+  return '/admin'
+}
+
 export const getDomainFromURL = (url?: string): string => {
   // Use the provided URL or get the current URL
   const currentUrl = url || getCurrentURL()
@@ -60,10 +67,6 @@ export const getDomainFromURL = (url?: string): string => {
   }
 }
 
-/**
- * Generates a proper OAuth callback URL for the current domain
- * Works across multiple domains (apis.do, workflows.do, etc.)
- */
 export const getOAuthCallbackURL = (provider: 'google' | 'github', url?: string): string => {
   const domain = getDomainFromURL(url)
 
@@ -72,5 +75,5 @@ export const getOAuthCallbackURL = (provider: 'google' | 'github', url?: string)
     return `http://${domain}/api/auth/callback/${provider}`
   }
 
-  return `https://${domain}/api/auth/callback/${provider}`
+  return `https://apis.do/api/auth/callback/${provider}`
 }

@@ -23,7 +23,7 @@ export const useOutsideClick = ({ isOpen, open, withOutsideClick, ignoredSelecto
         open(false)
       }
     },
-    [open],
+    [open, ignoredSelectors],
   )
 
   useEffect(() => {

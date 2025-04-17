@@ -18,8 +18,10 @@ export const betterAuthPlugins = [
   nextCookies(),
   stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
   oAuthProxy({
-    // productionURL: 'https://apis.do',
-    // currentURL: getCurrentURL(),
+    // The URL where OAuth providers are registered (must match GitHub settings)
+    productionURL: 'https://apis.do',
+    currentURL: getCurrentURL(),
+    // Don't provide currentURL to let the plugin detect it automatically
   }),
   genericOAuth({
     config: [
@@ -71,13 +73,14 @@ export const betterAuthOptions: BetterAuthOptions = {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/google',
+      redirectURI: getOAuthCallbackURL('google'),
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
-      redirectURI: 'https://apis.do/api/auth/callback/github',
+      redirectURI: getOAuthCallbackURL('github'),
     },
+
     // microsoft: {
     //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
     //   clientSecret: process.env.MICROSOFT_CLIENT_SECRET as string,
