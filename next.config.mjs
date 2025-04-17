@@ -49,8 +49,16 @@ const nextConfig = {
       },
     ]
     
-    // No webpack fallbacks needed as motion.md is only for defining videos
-    // Actual rendering happens in a separate process
+    // Handle Node.js modules used by Remotion renderer
+    // These are needed for the build process but not for runtime
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        'child_process': false,
+        'fs': false,
+        'path': false,
+      }
+    }
     
     return config
   },
