@@ -19,6 +19,15 @@ export interface LayoutProps extends BaseComponentProps {
 }
 
 /**
+ * Props for slideshow layout component
+ */
+export interface SlideshowProps extends LayoutProps {
+  code: string
+  steps: string[]
+  language?: string
+}
+
+/**
  * Props for media components
  */
 export interface MediaProps extends BaseComponentProps {
