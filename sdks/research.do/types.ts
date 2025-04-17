@@ -1,4 +1,4 @@
-import { ClientOptions } from 'apis.do'
+import type { ClientOptions } from 'apis.do/types'
 
 /**
  * Options for the Research client
