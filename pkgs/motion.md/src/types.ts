@@ -18,6 +18,9 @@ export interface Slide {
   transition?: string
   duration?: number
   mdast?: Root
+  code?: string
+  steps?: string[]
+  language?: string
 }
 
 export interface VideoGenerationOptions {
