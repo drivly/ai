@@ -1,5 +1,5 @@
 import { TaskConfig } from 'payload'
-import { parseMarkdownWithFrontmatter } from 'motion.md'
+import { parseMarkdownWithFrontmatter, createVideoFromSlides } from 'motion.md'
 
 type GenerateVideoInput = {
   markdown: string
@@ -19,8 +19,6 @@ export const generateVideo = async ({ input, req, payload }: any) => {
     const { globalConfig, slides } = parseMarkdownWithFrontmatter(input.markdown)
 
     const outputPath = input.outputPath || globalConfig.output || 'output.mp4'
-
-    const { createVideoFromSlides } = await import('motion.md')
     
     const result = await createVideoFromSlides({
       slides,
