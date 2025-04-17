@@ -1,3 +1,5 @@
+'use client'
+
 import { TaskConfig } from 'payload'
 import { parseMarkdownWithFrontmatter, createVideoFromSlides } from 'motion.md'
 
