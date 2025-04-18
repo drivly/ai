@@ -39,18 +39,14 @@ const myBusiness = Business({
         'Achieve 95% customer satisfaction score by Q4',
         'Reduce average support ticket resolution time by 30% within 6 months',
         'Increase customer retention rate to 85% year-over-year',
-      ]
+      ],
     },
     productInnovation: {
       description: 'Continuously deliver cutting-edge AI solutions',
-      keyResults: [
-        'Launch 3 new major features based on customer feedback this year',
-        'Secure 2 patents for novel AI algorithms',
-        'Increase R&D investment by 15% annually',
-      ]
+      keyResults: ['Launch 3 new major features based on customer feedback this year', 'Secure 2 patents for novel AI algorithms', 'Increase R&D investment by 15% annually'],
     },
     // More objectives...
-  }
+  },
 })
 
 // Let the AI determine and execute the best approach to achieve the objectives
@@ -66,43 +62,43 @@ import { Workflow } from 'workflows.do' // Assuming Workflow comes from workflow
 
 const customerOnboarding = Workflow({
   name: 'CustomerOnboarding',
-  
+
   onCustomerSignup: async ({ ai, api, db, event }) => {
     const { name, email, company } = event
-    
+
     // Step 1: Enrich contact details using Integrations.do
     const enrichedContact = await api.apollo.search({ name, email, company })
-    
+
     // Step 2: Analyze company background using Functions.do
     const companyProfile = await ai.researchCompany({ company: enrichedContact.companyName || company })
-    
+
     // Step 3: Personalize welcome email using Functions.do
-    const welcomeEmail = await ai.personalizeWelcomeEmail({ 
-      name, 
-      companyProfile 
+    const welcomeEmail = await ai.personalizeWelcomeEmail({
+      name,
+      companyProfile,
     })
-    
+
     // Step 4: Send email using Integrations.do
-    await api.sendgrid.sendEmail({ 
-      to: email, 
+    await api.sendgrid.sendEmail({
+      to: email,
       subject: 'Welcome to TechInnovators!', // Hardcoded name for example clarity
-      body: welcomeEmail.content 
+      body: welcomeEmail.content,
     })
-    
+
     // Step 5: Create user record in Database.do
-    await db.users.create({ 
-      name, 
-      email, 
-      company: enrichedContact.companyName || company, 
-      enrichedData: enrichedContact 
+    await db.users.create({
+      name,
+      email,
+      company: enrichedContact.companyName || company,
+      enrichedData: enrichedContact,
     })
 
     // Step 6: Notify team via Slack using Integrations.do
-     await api.slack.postMessage({
+    await api.slack.postMessage({
       channel: '#signups',
       content: `New signup: ${name} from ${company}`,
     })
-  }
+  },
 })
 ```
 
@@ -114,7 +110,9 @@ The true power emerges when combining both approaches. Define high-level busines
 const combinedBusiness = Business({
   name: 'HybridSolutions',
   vision: '...',
-  objectives: { /* ... */ },
+  objectives: {
+    /* ... */
+  },
 
   // Define specific workflows imperatively
   workflows: {
@@ -125,12 +123,12 @@ const combinedBusiness = Business({
   // Define autonomous agents
   agents: {
     // Agents can leverage both declarative goals and imperative workflows
-  }
+  },
 })
 
 // Execute the business, allowing AI to manage undeclared processes
 // while respecting the defined imperative workflows.
-await combinedBusiness.launch() 
+await combinedBusiness.launch()
 ```
 
 ## Core Primitives
@@ -154,7 +152,9 @@ import { LeanCanvas, StoryBrand } from 'business-model-components' // Hypothetic
 const myStartup = Business({
   name: 'AgileAI',
   vision: 'Empower teams with AI-driven project management',
-  objectives: { /* ... */ },
+  objectives: {
+    /* ... */
+  },
 
   // Define business model using structured components
   businessModel: {
@@ -179,8 +179,12 @@ const myStartup = Business({
     // Add other relevant model components...
   },
 
-  workflows: { /* ... */ },
-  agents: { /* ... */ },
+  workflows: {
+    /* ... */
+  },
+  agents: {
+    /* ... */
+  },
 })
 
 await myStartup.launch()
@@ -199,8 +203,8 @@ const experimentalBusiness = Business({
   objectives: {
     userAcquisition: {
       description: 'Maximize new user signups',
-      keyResults: ['Increase weekly signups by 20% in Q3']
-    }
+      keyResults: ['Increase weekly signups by 20% in Q3'],
+    },
   },
   // ... other definitions
 })
@@ -210,10 +214,12 @@ const onboardingExperiment = Experiment({
   name: 'Onboarding Flow Test',
   hypothesis: 'A simplified onboarding flow will increase signup conversion rate.',
   variants: {
-    control: { // Current implementation (defined elsewhere or implicitly handled)
-      workflow: 'standardOnboardingWorkflow' 
+    control: {
+      // Current implementation (defined elsewhere or implicitly handled)
+      workflow: 'standardOnboardingWorkflow',
     },
-    simplified: { // New variant defined imperatively
+    simplified: {
+      // New variant defined imperatively
       workflow: Workflow({
         name: 'SimplifiedOnboarding',
         onUserVisit: async ({ ai, api, event }) => {
@@ -222,13 +228,13 @@ const onboardingExperiment = Experiment({
           await api.auth.createAccount({ email })
           await api.sendgrid.sendEmail({ to: email, template: 'quick_welcome' })
           // ... fewer steps than control
-        }
-      })
-    }
+        },
+      }),
+    },
   },
   metrics: ['signupConversionRate', 'timeToSignup'],
   trafficSplit: { control: 0.5, simplified: 0.5 },
-  targetObjective: experimentalBusiness.objectives.userAcquisition, 
+  targetObjective: experimentalBusiness.objectives.userAcquisition,
 })
 
 // Add the experiment to the business definition
@@ -239,7 +245,7 @@ await experimentalBusiness.launch()
 
 // Later, analyze results (assuming analysis functions exist)
 // const results = await experimentalBusiness.analyzeExperiment('Onboarding Flow Test')
-// console.log(results) 
+// console.log(results)
 ```
 
 ## Real-World Examples
@@ -260,85 +266,84 @@ const leadGeneration = Workflow({
     const { visitorId, pageUrl } = event
     // Track visit
     await db.events.log({ type: 'website_visit', visitorId, pageUrl })
-    
+
     // If visitor shows interest (e.g., downloads whitepaper)
     if (event.action === 'download_whitepaper') {
       const leadData = await api.hubspot.findContact({ email: event.email }) // Use Integrations.do
       if (!leadData) {
         await api.hubspot.createContact({ email: event.email, name: event.name })
-        await api.slack.postMessage({ channel: '#leads', content: `New lead: ${event.name} (${event.email})`})
+        await api.slack.postMessage({ channel: '#leads', content: `New lead: ${event.name} (${event.email})` })
       }
     }
-  }
+  },
 })
 
 // Example: Customer Support Agent
 const supportAgent = Agent({
   name: 'SupportAgent',
   goal: 'Resolve customer support tickets efficiently and effectively',
-  keyResults: [
-    'Maintain average first response time under 1 hour',
-    'Achieve customer satisfaction score (CSAT) of 90%+'
-  ],
+  keyResults: ['Maintain average first response time under 1 hour', 'Achieve customer satisfaction score (CSAT) of 90%+'],
   onTicketReceived: async ({ ai, api, db, ticket }) => {
     // Analyze ticket content
     const analysis = await ai.analyzeSupportTicket({ content: ticket.description })
-    
+
     // Find relevant documentation using Functions.do
     const relevantDocs = await ai.findRelevantDocs({ query: analysis.topic })
-    
+
     // Draft response
-    const draftResponse = await ai.draftSupportResponse({ 
-      query: ticket.description, 
-      context: relevantDocs 
+    const draftResponse = await ai.draftSupportResponse({
+      query: ticket.description,
+      context: relevantDocs,
     })
-    
+
     // Post response (or assign to human if needed)
     await api.zendesk.updateTicket({ id: ticket.id, comment: draftResponse.content })
-  }
+  },
 })
 
 // Define the complete SaaS business
 const saasCompany = Business({
   name: 'DataInsights',
   vision: 'Make data analytics accessible to non-technical teams',
-  
+
   objectives: {
     growth: {
       description: 'Achieve market leadership in SMB analytics',
-      keyResults: [
-        'Acquire 1000 paying customers by end of year',
-        'Reach $1M ARR within 18 months',
-      ]
+      keyResults: ['Acquire 1000 paying customers by end of year', 'Reach $1M ARR within 18 months'],
     },
     product: {
       description: 'Deliver an intuitive and powerful analytics platform',
-      keyResults: [
-        'Achieve a Net Promoter Score (NPS) of 50+',
-        'Reduce onboarding time to under 30 minutes',
-      ]
-    }
+      keyResults: ['Achieve a Net Promoter Score (NPS) of 50+', 'Reduce onboarding time to under 30 minutes'],
+    },
   },
-  
+
   // Integrate defined workflows
   workflows: {
     leadGeneration,
     customerOnboarding, // Reuse from earlier example
     // Add billing, feature-request workflows etc.
   },
-  
+
   // Integrate defined agents
   agents: {
     supportAgent,
     // Add sales outreach agent, data analysis agent etc.
   },
-  
+
   // Define the core data model using Database.do concepts
   dataModel: {
-    users: Database.collection({ /* ... schema ... */ }),
-    organizations: Database.collection({ /* ... schema ... */ }),
-    datasets: Database.collection({ /* ... schema ... */ }),
-    reports: Database.collection({ /* ... schema ... */ }),
+    users: Database.collection({
+      /* ... schema ... */
+    }),
+    organizations: Database.collection({
+      /* ... schema ... */
+    }),
+    datasets: Database.collection({
+      /* ... schema ... */
+    }),
+    reports: Database.collection({
+      /* ... schema ... */
+    }),
     // Define relationships, indexes etc.
   },
 
@@ -354,10 +359,10 @@ const saasCompany = Business({
         // Complex AI logic to derive insights...
         const insights = await ai.analyzeDataAndGenerateInsights({ data: reportData })
         return { insights }
-      }
-    })
+      },
+    }),
     // Add other core business functions
-  }
+  },
 })
 
 // Launch the business operations
@@ -398,9 +403,9 @@ const mySimpleBusiness = Business({
   objectives: {
     taskAutomation: {
       description: 'Automate one repetitive task this quarter',
-      keyResults: ['Successfully automate task X by end of Q3']
-    }
-  }
+      keyResults: ['Successfully automate task X by end of Q3'],
+    },
+  },
   // Add simple workflows or functions if needed
 })
 

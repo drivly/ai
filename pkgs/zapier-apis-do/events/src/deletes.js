@@ -5,38 +5,38 @@ const perform = async (z, bundle) => {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    }
-  });
+      Accept: 'application/json',
+    },
+  })
 
-  return response.data;
-};
+  return response.data
+}
 
 module.exports = {
   key: 'deleteEvents',
   noun: 'Events',
-  
+
   display: {
     label: 'Delete Events',
-    description: 'Deletes a Events.'
+    description: 'Deletes a Events.',
   },
-  
+
   operation: {
     perform,
-    
+
     inputFields: [
       {
         key: 'id',
         label: 'ID',
         type: 'string',
         required: true,
-        helpText: 'The ID of the Events to delete'
-      }
+        helpText: 'The ID of the Events to delete',
+      },
     ],
-    
+
     sample: {
       id: 'sample-id-1234',
-      deleted: true
-    }
-  }
-};
+      deleted: true,
+    },
+  },
+}

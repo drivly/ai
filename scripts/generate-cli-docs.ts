@@ -11,56 +11,56 @@ import path from 'path'
  */
 const createMetaFile = (dir: string, items: string[]) => {
   const metaPath = path.join(dir, '_meta.ts')
-  
+
   let itemsStr = ''
   for (const item of items) {
     itemsStr += `  '${item}': '',\n`
   }
-  
+
   const metaContent = `import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
 ${itemsStr}}
 
 export default meta`
-  
+
   fs.writeFileSync(metaPath, metaContent)
 }
 
 /**
  * Extract CLI commands and help text from a bin.ts file
  */
-const extractCliCommands = (binFilePath: string): { commands: string[], envVars: string[], helpText: string } => {
+const extractCliCommands = (binFilePath: string): { commands: string[]; envVars: string[]; helpText: string } => {
   const binContent = fs.readFileSync(binFilePath, 'utf8')
-  
+
   let helpText = ''
   const helpMatch = binContent.match(/console\.log\(`\n([^`]+)`\)/s)
   if (helpMatch && helpMatch[1]) {
     helpText = helpMatch[1].trim()
   }
-  
+
   const commands: string[] = []
   const commandMatches = helpText.match(/\s\s(\w+)\s+([^\n]+)/g)
   if (commandMatches) {
-    commandMatches.forEach(match => {
+    commandMatches.forEach((match) => {
       const trimmed = match.trim()
       if (trimmed && !trimmed.startsWith('--')) {
         commands.push(trimmed.split(/\s+/)[0])
       }
     })
   }
-  
+
   const envVars: string[] = []
   const envVarMatches = helpText.match(/\s\s(\w+_API_KEY)\s+([^\n]+)/g)
   if (envVarMatches) {
-    envVarMatches.forEach(match => {
+    envVarMatches.forEach((match) => {
       const envVar = match.trim().split(/\s+/)[0]
       if (envVar) {
         envVars.push(envVar)
       }
     })
   }
-  
+
   return { commands, envVars, helpText }
 }
 
@@ -73,31 +73,31 @@ const generateCliDoc = async (packageDir: string, clisDir: string) => {
     console.log(`Skipping ${packageDir} - No package.json found`)
     return
   }
-  
+
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
   const { name, bin, description } = packageJson
-  
+
   if (!bin) {
     console.log(`Skipping ${name} - No bin entry in package.json`)
     return
   }
-  
+
   const packageNameBase = name.replace('.do', '')
-  
+
   const binFile = Object.values(bin)[0]
   if (!binFile) {
     console.log(`Skipping ${name} - No bin file specified`)
     return
   }
-  
+
   const binFilePath = path.join(packageDir, 'src/bin.ts')
   if (!fs.existsSync(binFilePath)) {
     console.log(`Skipping ${name} - No bin.ts file found at ${binFilePath}`)
     return
   }
-  
+
   const { commands, envVars, helpText } = extractCliCommands(binFilePath)
-  
+
   const docContent = `---
 title: ${name} CLI
 sidebarTitle: ${packageNameBase}
@@ -125,11 +125,11 @@ ${Object.keys(bin)[0]} [command] [options]
 
 ## Commands
 
-${commands.map(cmd => `### \`${cmd}\`\n\n`).join('')}
+${commands.map((cmd) => `### \`${cmd}\`\n\n`).join('')}
 
 ## Environment Variables
 
-${envVars.length > 0 ? envVars.map(env => `- \`${env}\``).join('\n') : 'No environment variables documented.'}
+${envVars.length > 0 ? envVars.map((env) => `- \`${env}\``).join('\n') : 'No environment variables documented.'}
 
 ## Help Output
 
@@ -137,7 +137,7 @@ ${envVars.length > 0 ? envVars.map(env => `- \`${env}\``).join('\n') : 'No envir
 ${helpText}
 \`\`\`
 `
-  
+
   const docPath = path.join(clisDir, `${packageNameBase}.mdx`)
   fs.writeFileSync(docPath, docContent)
   console.log(`Generated CLI documentation for ${name}`)
@@ -157,9 +157,9 @@ asIndexPage: true
 
 This section contains documentation for command-line interfaces available in our SDK packages.
 
-${packageNames.map(name => `- [${name.replace('.do', '')}](/${name.replace('.do', '')})`).join('\n')}
+${packageNames.map((name) => `- [${name.replace('.do', '')}](/${name.replace('.do', '')})`).join('\n')}
 `
-  
+
   const indexPath = path.join(clisDir, 'index.mdx')
   fs.writeFileSync(indexPath, indexContent)
   console.log('Generated CLI index page')
@@ -171,19 +171,20 @@ ${packageNames.map(name => `- [${name.replace('.do', '')}](/${name.replace('.do'
 const generateCliDocs = async () => {
   try {
     console.log('Generating CLI documentation for SDK packages...')
-    
+
     const clisDir = path.resolve(process.cwd(), 'content/docs/clis')
     if (!fs.existsSync(clisDir)) {
       fs.mkdirSync(clisDir, { recursive: true })
     }
-    
+
     const sdksDir = path.resolve(process.cwd(), 'sdks')
-    const packageDirs = fs.readdirSync(sdksDir)
-      .map(dir => path.join(sdksDir, dir))
-      .filter(dir => fs.statSync(dir).isDirectory())
-    
+    const packageDirs = fs
+      .readdirSync(sdksDir)
+      .map((dir) => path.join(sdksDir, dir))
+      .filter((dir) => fs.statSync(dir).isDirectory())
+
     const cliPackages: string[] = []
-    
+
     for (const packageDir of packageDirs) {
       const packageJsonPath = path.join(packageDir, 'package.json')
       if (fs.existsSync(packageJsonPath)) {
@@ -194,15 +195,16 @@ const generateCliDocs = async () => {
         }
       }
     }
-    
+
     generateCliIndexPage(clisDir, cliPackages)
-    
-    const cliFiles = fs.readdirSync(clisDir)
-      .filter(file => file.endsWith('.mdx') && file !== 'index.mdx')
-      .map(file => file.replace('.mdx', ''))
-    
+
+    const cliFiles = fs
+      .readdirSync(clisDir)
+      .filter((file) => file.endsWith('.mdx') && file !== 'index.mdx')
+      .map((file) => file.replace('.mdx', ''))
+
     createMetaFile(clisDir, ['index', ...cliFiles])
-    
+
     console.log('CLI documentation generation complete')
   } catch (error) {
     console.error('Error generating CLI documentation:', error)

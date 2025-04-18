@@ -15,13 +15,13 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
   const packageJsonPath = path.join(projectRoot, 'sdks/apis.do/package.json')
   const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
   const version = packageJson.version
-  
+
   const contentPath = path.join(projectRoot, 'content/index.mdx')
   const mdxContent = await fs.readFile(contentPath, 'utf8')
-  
+
   const descriptionMatch = mdxContent.match(/# `.do` Business-as-Code\n\n(.*?)(?:\n\n|$)/s)
-  const description = descriptionMatch 
-    ? descriptionMatch[1].replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') 
+  const description = descriptionMatch
+    ? descriptionMatch[1].replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     : 'AI is getting extremely good at skills like math & code, because the outputs are verifiable. By representing your Business-as-Code, you can leverage the power of AI to automate, optimize, and scale your business processes.'
 
   const openApiSpec: OpenAPIObject = {

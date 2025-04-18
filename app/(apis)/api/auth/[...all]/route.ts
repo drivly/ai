@@ -3,4 +3,4 @@ import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 
 const payload = await getPayloadWithAuth()
 
-export const { POST, GET } = toNextJsHandler(payload.betterAuth)
+export const { POST, GET } = toNextJsHandler(payload.betterAuth.handler)

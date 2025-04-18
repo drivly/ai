@@ -2,6 +2,15 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { CLI } from './cli.js'
 import { API } from './client.js'
 
+vi.mock('./auth', () => ({
+  storeApiKey: vi.fn().mockResolvedValue(undefined),
+  removeApiKey: vi.fn().mockResolvedValue(true),
+  generateState: vi.fn().mockReturnValue('test-state'),
+  startLocalServer: vi.fn().mockResolvedValue({ port: 8000, apiKey: 'server-api-key' }),
+  openBrowser: vi.fn(),
+  loadApiKey: vi.fn().mockResolvedValue('stored-api-key'),
+}))
+
 vi.mock('./client.js', () => {
   return {
     API: vi.fn().mockImplementation(() => ({
@@ -14,6 +23,8 @@ vi.mock('./client.js', () => {
     })),
   }
 })
+
+import * as auth from './auth'
 
 describe('CLI', () => {
   let cli: CLI
@@ -40,14 +51,18 @@ describe('CLI', () => {
   describe('login', () => {
     it('should log in with token', async () => {
       await cli.login({ token: 'test-token' })
+
       expect(mockConsoleLog).toHaveBeenCalledWith('Logging in to apis.do...')
+      expect(auth.storeApiKey).toHaveBeenCalledWith('test-token')
     })
   })
 
   describe('logout', () => {
     it('should log out', async () => {
       await cli.logout()
+
       expect(mockConsoleLog).toHaveBeenCalledWith('Logging out from apis.do...')
+      expect(auth.removeApiKey).toHaveBeenCalled()
     })
   })
 

@@ -40,12 +40,16 @@ const priorities = ['cost', 'latency', 'throughput', 'inputCost', 'outputCost']
 const capabilities = ['reasoning', 'thinking', 'tools', 'structuredOutput', 'responseFormat', 'pdf']
 const defaultTools = ['exec', 'online']
 const systemConfiguration = ['seed', 'thread', 'temperature', 'topP', 'topK']
+const priorities = ['cost', 'latency', 'throughput', 'inputCost', 'outputCost']
+const capabilities = ['reasoning', 'thinking', 'tools', 'structuredOutput', 'responseFormat', 'pdf']
+const defaultTools = ['exec', 'online']
+const systemConfiguration = ['seed', 'thread', 'temperature', 'topP', 'topK']
 // Any of the following is an output format, anything else that starts with a capital letter is an output *schema*
 const outputFormats = ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code']
 
 export function parse(modelIdentifier: string): ParsedModelIdentifier {
   const output: ParsedModelIdentifier = {
-    model: ''
+    model: '',
   }
 
   // Locate all paratheses, even nested ones
@@ -81,6 +85,7 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
   // but only if the format isnt already set. Since we only have access to a single expression at once,
   // we need to store the defaults and apply them later.
   const defaultStorage: Record<string, string | number | boolean> = {}
+  const defaultStorage: Record<string, string | number | boolean> = {}
 
   // Split by comma, each part is a new parameter that needs to be stored in the right
   // place in the output object
@@ -98,109 +103,111 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
         .replace('>', ':>')
         .split(':')
 
+
       if (!key) {
         continue
       }
 
-      let notAKnownParameter = false
+    }
 
-      switch (true) {
-        case defaultTools.includes(key):
-          output.tools = output.tools || {}
-          output.tools[key] = value || true
-          break
-        case systemConfiguration.includes(key):
-          output.systemConfig = {
-            ...output.systemConfig,
-            [key]: value,
-          }
-          break
-        case priorities.includes(key):
-          if (value) {
-            output.providerConstraints = output.providerConstraints || []
-            output.providerConstraints.push({
-              field: key,
-              value: value
-                .replace('>', '')
-                .replace('<', ''),
-              type: value.startsWith('>') ? 'gt' : value.startsWith('<') ? 'lt' : 'eq'
-            })
-          } else {
-            output.priorities = [...(output.priorities || []), key]
-          }
-          break
-        case capabilities.includes(key):
-          output.capabilities = {
-            ...output.capabilities,
-            [key]: value || true,
-          }
-          break
-        case outputFormats.includes(key):
-          output.outputFormat = key == 'Code' && !!value ? `Code:${value}` : key
-          break
-        default:
-          notAKnownParameter = true
-          break
-      }
+    let notAKnownParameter = false
 
-      if (!notAKnownParameter) {
-        // No need to process any further
-        continue
-      }
 
-      // If it starts with a capital letter, then it is a Schema
-      if (key[0] === key[0].toUpperCase()) {
-        const schema = key
-
-        if (schema.includes('[]')) {
-          defaultStorage.outputFormat = 'ObjectArray'
-        } else {
-          defaultStorage.outputFormat = 'Object'
-        }
-
-        output.outputSchema = schema.replace('[]', '')
-      } else if (value?.includes('>') || value?.includes('<')) {
-        // This is most likely a benchmark constraint
-        output.providerConstraints = output.providerConstraints || []
-        output.providerConstraints.push({
-          field: key,
-          value: value
-            .replace('>', '')
-            .replace('<', ''),
-          type: value.startsWith('>') ? 'gt' : 'lt'
-        })
-      } else {
+    switch (true) {
+      case defaultTools.includes(key):
         output.tools = output.tools || {}
-        output.tools = {
-          ...output.tools,
+        output.tools[key] = value || true
+        break
+      case systemConfiguration.includes(key):
+        output.systemConfig = {
+          ...output.systemConfig,
+          [key]: value,
+        }
+        break
+      case priorities.includes(key):
+        if (value) {
+          output.providerConstraints = output.providerConstraints || []
+          output.providerConstraints.push({
+            field: key,
+            value: value.replace('>', '').replace('<', ''),
+            type: value.startsWith('>') ? 'gt' : value.startsWith('<') ? 'lt' : 'eq',
+          })
+        } else {
+          output.priorities = [...(output.priorities || []), key]
+        }
+        break
+      case capabilities.includes(key):
+        output.capabilities = {
+          ...output.capabilities,
           [key]: value || true,
         }
+        break
+      case outputFormats.includes(key):
+        output.outputFormat = key == 'Code' && !!value ? `Code:${value}` : key
+        break
+      default:
+        notAKnownParameter = true
+        break
+    }
+
+
+    if (!notAKnownParameter) {
+      // No need to process any further
+      continue
+    }
+
+
+    // If it starts with a capital letter, then it is a Schema
+    if (key[0] === key[0].toUpperCase()) {
+      const schema = key
+
+      if (schema.includes('[]')) {
+        defaultStorage.outputFormat = 'ObjectArray'
+      } else {
+        defaultStorage.outputFormat = 'Object'
+      }
+
+      output.outputSchema = schema.replace('[]', '')
+    } else if (value?.includes('>') || value?.includes('<')) {
+      // This is most likely a benchmark constraint
+      output.providerConstraints = output.providerConstraints || []
+      output.providerConstraints.push({
+        field: key,
+        value: value.replace('>', '').replace('<', ''),
+        type: value.startsWith('>') ? 'gt' : 'lt',
+      })
+    } else {
+      output.tools = output.tools || {}
+      output.tools = {
+        ...output.tools,
+        [key]: value || true,
       }
     }
-
   }
+}
 
-  // Custom rules / requirements
-  // If someone has tools, they need to have the tools capability
-  if (Object.values(output.tools || {}).length > 0) {
-    if (!output.capabilities?.tools) {
-      output.capabilities = {
-        ...output.capabilities,
-        tools: true,
-      }
+// Custom rules / requirements
+// If someone has tools, they need to have the tools capability
+if (Object.values(output.tools || {}).length > 0) {
+  if (!output.capabilities?.tools) {
+    output.capabilities = {
+      ...output.capabilities,
+      tools: true,
     }
   }
+}
 
-  // Finally, apply the defaults
-  Object.entries(defaultStorage).forEach(([key, value]) => {
-    const keyToCheck = key as keyof ParsedModelIdentifier
-    if (output[keyToCheck] === undefined) {
-      // @ts-expect-error - We know these assignments are safe based on our defaultStorage logic
-      output[keyToCheck] = value
-    }
-  })
+// Finally, apply the defaults
+Object.entries(defaultStorage).forEach(([key, value]) => {
+  const keyToCheck = key as keyof ParsedModelIdentifier
+  if (output[keyToCheck] === undefined) {
+    // @ts-expect-error - We know these assignments are safe based on our defaultStorage logic
+    output[keyToCheck] = value
+  }
+})
 
-  return output
+
+return output
 }
 
 export function constructModelIdentifier(parsed: ParsedModelIdentifier): string {
@@ -219,17 +226,16 @@ export function constructModelIdentifier(parsed: ParsedModelIdentifier): string 
       return value ? key : ''
     }
 
-    console.log(
-      key, value
-    )
+    console.log(key, value)
 
     // Otherwise, we need to format the value
     return `${key}:${value}`
   }
 
   const keysToFormat = ['capabilities', 'tools', 'systemConfig'] as const
+  const keysToFormat = ['capabilities', 'tools', 'systemConfig'] as const
 
-  keysToFormat.forEach(key => {
+  keysToFormat.forEach((key) => {
     if (parsed[key]) {
       Object.entries(parsed[key]).forEach(([key, value]) => {
         args.push(formatArgument(key, value as string | number | boolean))
@@ -238,14 +244,14 @@ export function constructModelIdentifier(parsed: ParsedModelIdentifier): string 
   })
 
   if (parsed.priorities) {
-    parsed.priorities.forEach(priority => {
+    parsed.priorities.forEach((priority) => {
       args.push(priority)
     })
   }
 
   // Provider constraints are a bit more complex as they are stored as { field: string, value: string }[]
   if (parsed.providerConstraints) {
-    parsed.providerConstraints.forEach(constraint => {
+    parsed.providerConstraints.forEach((constraint) => {
       args.push(`${constraint.field}${constraint.type === 'gt' ? '>' : constraint.type === 'lt' ? '<' : ':'}${constraint.value}`)
     })
   }
@@ -260,7 +266,7 @@ export function constructModelIdentifier(parsed: ParsedModelIdentifier): string 
 export function modelToIdentifier(model: Model): string {
   return constructModelIdentifier({
     model: model.slug.split('/')[1],
-    provider: model.slug.split('/')[0]
+    provider: model.slug.split('/')[0],
   })
 }
 
@@ -272,8 +278,11 @@ type ResolvedModel = Model & {
 // A function that takes a model and a provider and returns a boolean
 type FilterChainCallback = (model: InternalModel, provider: Provider) => boolean
 
-export function filterModels(modelIdentifier: string, modelsToFilter?: InternalModel[]): {
-  models: ResolvedModel[],
+export function filterModels(
+  modelIdentifier: string,
+  modelsToFilter?: InternalModel[],
+): {
+  models: ResolvedModel[]
   parsed: ParsedModelIdentifier
 } {
   const parsed = parse(modelIdentifier)
@@ -282,14 +291,13 @@ export function filterModels(modelIdentifier: string, modelsToFilter?: InternalM
 
   let modelsToFilterMixin = modelsToFilter
 
-  if (metaModels.find(m => m.name === parsed.model) && !modelsToFilter?.length) {
-    const metaModelChildren = metaModels.find(m => m.name === parsed.model)?.models
-    modelsToFilterMixin = allModels.models.filter(m => metaModelChildren?.includes(m.slug.split('/')[1])) as InternalModel[]
+  if (metaModels.find((m) => m.name === parsed.model) && !modelsToFilter?.length) {
+    const metaModelChildren = metaModels.find((m) => m.name === parsed.model)?.models
+    modelsToFilterMixin = allModels.models.filter((m) => metaModelChildren?.includes(m.slug.split('/')[1])) as InternalModel[]
 
     // Because the parser has no model knowledge, it thinks the meta model name is the model name
     // Which will always return false.
     delete parsed.model
-
   } else if (modelsToFilter?.length) {
     modelsToFilterMixin = modelsToFilter as InternalModel[]
   } else {
@@ -299,39 +307,37 @@ export function filterModels(modelIdentifier: string, modelsToFilter?: InternalM
   const filterChain: FilterChainCallback[] = []
 
   if (parsed.model) {
-    filterChain.push(
-      function modelFilter(model) {
-        // Wildcard search for any model that matches everything else.
-        if (parsed.model == '*') {
-          return true
-        }
-
-        // Return true if we're looking for claude-3.7-sonnet
-        // Fixes the issue where we need :thinking to be supported
-        if (parsed.model === 'claude-3.7-sonnet' && model.slug.includes('claude-3.7-sonnet') && !model.slug.includes('beta')) {
-          return true
-        }
-
-        return model.slug.split('/')[1] === parsed.model
+    filterChain.push(function modelFilter(model) {
+      // Wildcard search for any model that matches everything else.
+      if (parsed.model == '*') {
+        return true
       }
+
+      // Return true if we're looking for claude-3.7-sonnet
+      // Fixes the issue where we need :thinking to be supported
+      if (parsed.model === 'claude-3.7-sonnet' && model.slug.includes('claude-3.7-sonnet') && !model.slug.includes('beta')) {
+        return true
+      }
+
+      return model.slug.split('/')[1] === parsed.model
+    }
     )
   }
 
   // We're using named functions here so we can console.log the filter chain
   // and see what filter is being applied and when
   if (parsed.provider) {
-    filterChain.push(
-      function providerFilter(model, provider) {
-        return provider?.slug === parsed.provider
-      }
-    )
+    filterChain.push(function providerFilter(model, provider) {
+      return provider?.slug === parsed.provider
+    })
   }
+
 
   if (parsed?.providerConstraints?.length) {
     // Since the provider isnt defined, we need to filter based on the provider constraints
-    filterChain.push(
-      function providerConstraintFilter(model, provider) {
-        return parsed?.providerConstraints?.every(constraint => {
+    filterChain.push(function providerConstraintFilter(model, provider) {
+      return (
+        parsed?.providerConstraints?.every((constraint) => {
           if (!provider) {
             return false
           }
@@ -353,26 +359,24 @@ export function filterModels(modelIdentifier: string, modelsToFilter?: InternalM
               return false
           }
         }) || false
-      }
-    )
+      )
+    })
   }
 
   if (parsed.capabilities) {
-    filterChain.push(
-      function capabilitiesFilter(model, provider) {
-        return Object.entries(parsed?.capabilities || {}).every(([key, value]) => {
-          return provider?.supportedParameters?.includes(camelCase(key))
-        })
-      }
-    )
+    filterChain.push(function capabilitiesFilter(model, provider) {
+      return Object.entries(parsed?.capabilities || {}).every(([key, value]) => {
+        return provider?.supportedParameters?.includes(camelCase(key))
+      })
+    })
   }
 
   for (const model of modelsToFilterMixin as InternalModel[]) {
     for (const provider of model.providers || []) {
-      if (filterChain.every(f => f(model, provider))) {
+      if (filterChain.every((f) => f(model, provider))) {
         modelAndProviders.push({
           model,
-          provider: provider
+          provider: provider,
         })
       }
     }
@@ -405,23 +409,23 @@ export function filterModels(modelIdentifier: string, modelsToFilter?: InternalM
   // Re-join back on model, replacing the providers with the filtered providers
   return {
     models: modelAndProviders
-      .map(x => ({
+      .map((x) => ({
         ...x.model,
-        provider: x.provider
+        provider: x.provider,
       }))
-      .map(x => {
+      .map((x) => {
         delete x.providers
         delete x.endpoint
         return x
       })
       .sort(sortingStrategy) as ResolvedModel[],
-    parsed
+    parsed,
   }
 }
 
 /**
  * Helper function to get the first model that matches a model identifier
- * @param modelIdentifier 
+ * @param modelIdentifier
  * @returns ResolvedModel
  */
 export function getModel(modelIdentifier: string, augments: Record<string, string | number | boolean | string[]> = {}) {
@@ -459,8 +463,8 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
     ...models[0],
     parsed: {
       ...parsed,
-      ...augments
-    }
+      ...augments,
+    },
   }
 }
 
@@ -469,6 +473,7 @@ export function getModels(modelIdentifier: string) {
   let result = []
   let segment = ''
   let depth = 0
+
 
   for (const char of modelIdentifier) {
     if (char === '(') depth++
@@ -481,10 +486,11 @@ export function getModels(modelIdentifier: string) {
     segment += char
   }
 
+
   if (segment.trim()) result.push(segment.trim())
 
   // Resolve each segment
-  return result.map(r => getModel(r)) as (Model & { parsed: ParsedModelIdentifier })[]
+  return result.map((r) => getModel(r)) as (Model & { parsed: ParsedModelIdentifier })[]
 }
 
 // TODO: Move this to a database or another source of truth
@@ -492,9 +498,6 @@ export function getModels(modelIdentifier: string) {
 const metaModels = [
   {
     name: 'frontier',
-    models: [
-      'gemini-2.0-flash-001',
-      'deepseek-r1'
-    ]
-  }
+    models: ['gemini-2.0-flash-001', 'deepseek-r1'],
+  },
 ]

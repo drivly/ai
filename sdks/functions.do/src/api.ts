@@ -1,7 +1,10 @@
+import PQueue from 'p-queue'
+
 export interface ClientOptions {
   baseUrl?: string
   apiKey?: string
   headers?: Record<string, string>
+  concurrency?: number
 }
 
 export interface ErrorResponse {
@@ -28,6 +31,7 @@ export interface QueryParams {
 export class ApiClient {
   private baseUrl: string
   private headers: Record<string, string>
+  queue: PQueue
 
   constructor(options: ClientOptions = {}) {
     this.baseUrl = options.baseUrl || process.env.FUNCTIONS_API_URL || 'https://apis.do'
@@ -40,35 +44,41 @@ export class ApiClient {
     if (options.apiKey) {
       this.headers['Authorization'] = `Bearer ${options.apiKey}`
     }
+
+    this.queue = new PQueue({ concurrency: options.concurrency || 50 })
   }
 
   async request<T = any>(method: string, path: string, data?: any, queryParams?: QueryParams): Promise<T> {
-    const url = new URL(path.startsWith('http') ? path : `${this.baseUrl}${path}`)
+    const requestFn = async () => {
+      const url = new URL(path.startsWith('http') ? path : `${this.baseUrl}${path}`)
 
-    if (queryParams) {
-      Object.entries(queryParams).forEach(([key, value]) => {
-        if (value !== undefined) {
-          url.searchParams.append(key, String(value))
-        }
-      })
+      if (queryParams) {
+        Object.entries(queryParams).forEach(([key, value]) => {
+          if (value !== undefined) {
+            url.searchParams.append(key, String(value))
+          }
+        })
+      }
+
+      const options: RequestInit = {
+        method,
+        headers: this.headers,
+      }
+
+      if (data) {
+        options.body = JSON.stringify(data)
+      }
+
+      const response = await fetch(url.toString(), options)
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.statusText}`)
+      }
+
+      return response.json() as T
     }
 
-    const options: RequestInit = {
-      method,
-      headers: this.headers,
-    }
-
-    if (data) {
-      options.body = JSON.stringify(data)
-    }
-
-    const response = await fetch(url.toString(), options)
-
-    if (!response.ok) {
-      throw new Error(`API request failed: ${response.statusText}`)
-    }
-
-    return response.json() as Promise<T>
+    return this.queue.add(requestFn) as Promise<T>
   }
 
   async get<T = any>(path: string, queryParams?: QueryParams): Promise<T> {

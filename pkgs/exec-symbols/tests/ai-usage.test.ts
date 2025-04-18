@@ -21,22 +21,12 @@ describe('Workflows.do - Business Process Orchestration', () => {
   it('should create a workflow and track events', async () => {
     // Define mock services
     const mockAI = {
-      researchCompany: vi
-        .fn()
-        .mockImplementation(({ company }) => mockPromise({ industry: 'Technology', founded: 2010, revenue: '$10M' })),
-      researchPersonalBackground: vi
-        .fn()
-        .mockImplementation(() => mockPromise({ education: 'MIT', previousRoles: ['CTO', 'Developer'] })),
-      researchSocialActivity: vi
-        .fn()
-        .mockImplementation(() => mockPromise({ twitter: 'active', linkedin: 'influencer' })),
+      researchCompany: vi.fn().mockImplementation(({ company }) => mockPromise({ industry: 'Technology', founded: 2010, revenue: '$10M' })),
+      researchPersonalBackground: vi.fn().mockImplementation(() => mockPromise({ education: 'MIT', previousRoles: ['CTO', 'Developer'] })),
+      researchSocialActivity: vi.fn().mockImplementation(() => mockPromise({ twitter: 'active', linkedin: 'influencer' })),
       summarizeGithubActivity: vi.fn().mockImplementation(() => mockPromise({ repos: 20, activity: 'high' })),
-      personalizeEmailSequence: vi
-        .fn()
-        .mockImplementation(() => mockPromise([{ subject: 'Welcome!', body: 'Welcome to our platform!' }])),
-      summarizeContent: vi
-        .fn()
-        .mockImplementation(() => mockPromise('A new user signed up from a technology company.')),
+      personalizeEmailSequence: vi.fn().mockImplementation(() => mockPromise([{ subject: 'Welcome!', body: 'Welcome to our platform!' }])),
+      summarizeContent: vi.fn().mockImplementation(() => mockPromise('A new user signed up from a technology company.')),
     }
 
     const mockAPI = {
@@ -44,9 +34,7 @@ describe('Workflows.do - Business Process Orchestration', () => {
         search: vi.fn().mockImplementation(() => mockPromise({ companySize: 50, industry: 'Tech' })),
       },
       peopleDataLabs: {
-        findSocialProfiles: vi
-          .fn()
-          .mockImplementation(() => mockPromise({ linkedin: 'user/john', twitter: '@john', github: 'johndoe' })),
+        findSocialProfiles: vi.fn().mockImplementation(() => mockPromise({ linkedin: 'user/john', twitter: '@john', github: 'johndoe' })),
       },
       github: {
         profile: vi.fn().mockImplementation(() => mockPromise({ repos: 20, stars: 100 })),
@@ -59,9 +47,7 @@ describe('Workflows.do - Business Process Orchestration', () => {
 
     const mockDB = {
       users: {
-        create: vi
-          .fn()
-          .mockImplementation(() => mockPromise({ id: 'user123', url: 'https://database.do/users/user123' })),
+        create: vi.fn().mockImplementation(() => mockPromise({ id: 'user123', url: 'https://database.do/users/user123' })),
       },
     }
 
@@ -76,17 +62,13 @@ describe('Workflows.do - Business Process Orchestration', () => {
         // Enrich contact details
         const enrichedContact = await api.apollo.search({ name, email, company })
         const socialProfiles = await api.peopleDataLabs.findSocialProfiles({ name, email, company })
-        const githubProfile = socialProfiles.github
-          ? await api.github.profile({ name, email, company, profile: socialProfiles.github })
-          : undefined
+        const githubProfile = socialProfiles.github ? await api.github.profile({ name, email, company, profile: socialProfiles.github }) : undefined
 
         // Research company and personal background
         const companyProfile = await ai.researchCompany({ company })
         const personalProfile = await ai.researchPersonalBackground({ name, email, enrichedContact })
         const socialActivity = await ai.researchSocialActivity({ name, email, enrichedContact, socialProfiles })
-        const githubActivity = githubProfile
-          ? await ai.summarizeGithubActivity({ name, email, enrichedContact, githubProfile })
-          : undefined
+        const githubActivity = githubProfile ? await ai.summarizeGithubActivity({ name, email, enrichedContact, githubProfile }) : undefined
 
         // Personalize email sequence
         const emailSequence = await ai.personalizeEmailSequence({
@@ -140,12 +122,7 @@ describe('Workflows.do - Business Process Orchestration', () => {
     }
 
     // Use a function type instead of an interface with only a call signature
-    type WorkflowHandlerFunction = (params: {
-      ai: typeof mockAI
-      api: typeof mockAPI
-      db: typeof mockDB
-      event: typeof eventData
-    }) => Promise<WorkflowResult>
+    type WorkflowHandlerFunction = (params: { ai: typeof mockAI; api: typeof mockAPI; db: typeof mockDB; event: typeof eventData }) => Promise<WorkflowResult>
 
     // First cast to unknown, then to the specific type
     const onUserSignup = (workflow as unknown as { onUserSignup: WorkflowHandlerFunction }).onUserSignup

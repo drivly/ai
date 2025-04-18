@@ -6,7 +6,7 @@ import { getAllBlogPosts, getAllCategories } from './blog-posts'
 
 async function BlogPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
   const { domain } = props.params
-  const searchParams = await props.searchParams
+  const searchParams = props.searchParams
   // Move data fetching to the server component
   const posts = getAllBlogPosts()
   const categories = getAllCategories()

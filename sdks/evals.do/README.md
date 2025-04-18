@@ -86,6 +86,38 @@ console.log(`Evaluation complete: ${results.id}`)
 console.log(`Results: ${JSON.stringify(results.results, null, 2)}`)
 ```
 
+### Evaluating Functions with Different Models and Prompts
+
+You can use the `Eval` method to test different models and prompt variations for a function:
+
+```typescript
+import { evals } from 'evals.do'
+
+// Evaluate a function with different model and prompt variations
+const evalResults = await evals.Eval({
+  name: 'summarizeDocument',
+  schema: {
+    input: 'string',
+    output: 'string',
+  },
+  models: ['gpt-4o', 'gpt-3.5-turbo'],
+  prompts: [
+    {
+      name: 'concise',
+      system: 'Summarize the document in 3 bullet points.',
+      temperature: 0.2,
+    },
+    {
+      name: 'detailed',
+      system: 'Provide a comprehensive summary of the document.',
+      temperature: 0.7,
+    },
+  ],
+})
+
+console.log(`Evaluation results by model:`, evalResults.models)
+```
+
 ## API Reference
 
 ### `EvalsClient`
@@ -115,6 +147,7 @@ Options:
 - `createRun(run: Partial<TestRun>): Promise<TestRun>` - Create a new test run
 - `getRun(id: string): Promise<TestRun | null>` - Get a run by ID
 - `evaluate<T, R>(executor: TaskExecutor<T, R>, tests: Test[], options?: EvaluationOptions): Promise<TestRun>` - Run an evaluation
+- `Eval(config: FunctionEvalConfig): Promise<Record<string, any>>` - Evaluate a function with different model and prompt variations
 
 ## Contributing
 

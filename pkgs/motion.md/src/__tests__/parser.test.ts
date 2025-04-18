@@ -18,23 +18,23 @@ transition: fade
 This is a test.`
 
     const result = parseMarkdownWithFrontmatter(markdown)
-    
+
     expect(result.globalConfig).toEqual({
       title: 'Test Presentation',
       output: 'test.mp4',
       fps: 30,
       resolution: {
         width: 1920,
-        height: 1080
+        height: 1080,
       },
       transition: 'fade',
-      duration: 5 // Default value from parseFrontmatter
+      duration: 5, // Default value from parseFrontmatter
     })
-    
+
     expect(result.slides.length).toBe(1)
     expect(result.slides[0].content).toContain('# Test Content')
   })
-  
+
   it('should parse markdown with multiple slides', () => {
     const markdown = `---
 title: Test Presentation
@@ -55,18 +55,18 @@ layout: cover
 # Slide 3`
 
     const result = parseMarkdownWithFrontmatter(markdown)
-    
+
     expect(result.slides.length).toBeGreaterThan(0)
-    
-    const slideContents = result.slides.map(s => s.content)
-    
+
+    const slideContents = result.slides.map((s) => s.content)
+
     expect(slideContents).toContain('# Slide 1')
     expect(slideContents).toContain('# Slide 2')
     expect(slideContents).toContain('# Slide 3')
-    
-    const layoutSlides = result.slides.filter(s => s.content.includes('layout:'))
+
+    const layoutSlides = result.slides.filter((s) => s.content.includes('layout:'))
     expect(layoutSlides.length).toBeGreaterThan(0)
-    
+
     const allContent = slideContents.join('\n')
     expect(allContent).toContain('layout: intro')
     expect(allContent).toContain('layout: cover')

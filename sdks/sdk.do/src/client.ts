@@ -142,6 +142,23 @@ export class API {
   }
 
   /**
+   * Validate an API token
+   */
+  async validateToken(token: string): Promise<{ valid: boolean; user?: any }> {
+    try {
+      const api = new ApisAPI({
+        apiKey: token,
+        baseUrl: this.api['baseUrl'],
+      })
+
+      const response = await api.get('/v1/auth/validate')
+      return { valid: true, user: response }
+    } catch (error) {
+      return { valid: false }
+    }
+  }
+
+  /**
    * List all packages
    */
   async listPackages(params?: QueryParams): Promise<ListResponse<Package>> {

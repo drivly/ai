@@ -23,11 +23,11 @@ export class Agent<Env = any, State = any> extends CloudflareAgent<Env, State> {
   constructor(config: any, state: any = {}) {
     super(config, state)
   }
-  
+
   async execute(input: Record<string, any>, options?: AgentExecutionOptions): Promise<any> {
     return { data: 'executed', input, options }
   }
-  
+
   do = new Proxy(function doMethod() {}, {
     apply: async (target: any, thisArg: any, args: any[]) => {
       if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
@@ -35,13 +35,12 @@ export class Agent<Env = any, State = any> extends CloudflareAgent<Env, State> {
         const expressions = args.slice(1)
         const prompt = processTemplateLiteral(template, ...expressions)
         return thisArg.execute({ prompt })
-      } 
-      else {
+      } else {
         const input = typeof args[0] === 'string' || typeof args[0] === 'object' ? args[0] : ''
         const options = args[1]
         return thisArg.execute({ prompt: input }, options)
       }
-    }
+    },
   }) as AgentDoTemplateFunction
 }
 
@@ -117,22 +116,21 @@ export const doFunction = new Proxy(function doFunction() {}, {
     let agentId: string
     let input: string | Record<string, any>
     let options: AgentExecutionOptions | undefined
-    
+
     if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
       const template = args[0] as TemplateStringsArray
       const expressions = args.slice(1)
       const prompt = processTemplateLiteral(template, ...expressions)
-      
+
       if (thisArg && thisArg.agentId) {
         agentId = thisArg.agentId
         input = prompt
       } else {
         throw new Error('Agent ID must be specified when using template literals without a prior agent selection')
       }
-    } 
-    else if (args.length === 1 && typeof args[0] === 'string') {
+    } else if (args.length === 1 && typeof args[0] === 'string') {
       const selectedAgentId = args[0]
-      
+
       return new Proxy(function () {}, {
         apply: async (innerTarget: any, innerThisArg: any, innerArgs: any[]) => {
           if (innerArgs[0] && Array.isArray(innerArgs[0]) && 'raw' in innerArgs[0]) {
@@ -143,24 +141,23 @@ export const doFunction = new Proxy(function doFunction() {}, {
             input = innerArgs[0]
             options = innerArgs[1]
           }
-          
+
           return client.execute(selectedAgentId, { prompt: input }, options)
-        }
+        },
       })
-    } 
-    else {
+    } else {
       input = args[0]
       options = args[1]
-      
+
       if (thisArg && thisArg.agentId) {
         agentId = thisArg.agentId
       } else {
         throw new Error('Agent ID must be specified when calling the do function directly')
       }
     }
-    
+
     return client.execute(agentId, { prompt: input }, options)
-  }
+  },
 }) as AgentDoFunction
 
 export default AgentsClient

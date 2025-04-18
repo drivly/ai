@@ -5,7 +5,6 @@ import { fileURLToPath } from 'node:url'
 
 import { CLI as ApisCLI } from 'apis.do/src/cli'
 
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const packageJsonPath = path.join(__dirname, '..', '..', 'package.json')
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
@@ -37,7 +36,7 @@ async function main() {
 
   try {
     let sdkName, sdkArgs
-    
+
     if (args[0].includes('.do')) {
       sdkName = args[0]
       sdkArgs = args.slice(1)
@@ -50,28 +49,47 @@ async function main() {
 
     switch (sdkName) {
       case 'apis.do':
-        await executeSdkCommand('apis', new ApisCLI({
-          apiKey: process.env.APIS_DO_API_KEY || process.env.DO_API_KEY,
-          configPath,
-        }), sdkArgs)
+        await executeSdkCommand(
+          'apis',
+          new ApisCLI({
+            apiKey: process.env.APIS_DO_API_KEY || process.env.DO_API_KEY,
+            configPath,
+          }),
+          sdkArgs,
+        )
         break
       case 'workflows.do':
-        await executeSdkCommand('workflows', new ApisCLI({
-          apiKey: process.env.WORKFLOWS_DO_API_KEY || process.env.DO_API_KEY,
-          configPath,
-        }), sdkArgs, 'workflows')
+        await executeSdkCommand(
+          'workflows',
+          new ApisCLI({
+            apiKey: process.env.WORKFLOWS_DO_API_KEY || process.env.DO_API_KEY,
+            configPath,
+          }),
+          sdkArgs,
+          'workflows',
+        )
         break
       case 'functions.do':
-        await executeSdkCommand('functions', new ApisCLI({
-          apiKey: process.env.FUNCTIONS_DO_API_KEY || process.env.DO_API_KEY,
-          configPath,
-        }), sdkArgs, 'functions')
+        await executeSdkCommand(
+          'functions',
+          new ApisCLI({
+            apiKey: process.env.FUNCTIONS_DO_API_KEY || process.env.DO_API_KEY,
+            configPath,
+          }),
+          sdkArgs,
+          'functions',
+        )
         break
       case 'agents.do':
-        await executeSdkCommand('agents', new ApisCLI({
-          apiKey: process.env.AGENTS_DO_API_KEY || process.env.DO_API_KEY,
-          configPath,
-        }), sdkArgs, 'agents')
+        await executeSdkCommand(
+          'agents',
+          new ApisCLI({
+            apiKey: process.env.AGENTS_DO_API_KEY || process.env.DO_API_KEY,
+            configPath,
+          }),
+          sdkArgs,
+          'agents',
+        )
         break
       default:
         console.error(`Unknown SDK: ${sdkName}`)
@@ -117,10 +135,13 @@ async function executeSdkCommand(sdkName: string, cli: any, args: string[], defa
         console.log(`Resources pushed to ${sdkName} successfully`)
         break
       case 'sync':
-        const syncMode = commandArgs.includes('--mode-db') ? 'database' : 
-                         commandArgs.includes('--mode-local') ? 'local' : 
-                         commandArgs.includes('--mode-github') ? 'github' : 
-                         undefined
+        const syncMode = commandArgs.includes('--mode-db')
+          ? 'database'
+          : commandArgs.includes('--mode-local')
+            ? 'local'
+            : commandArgs.includes('--mode-github')
+              ? 'github'
+              : undefined
         await cli.sync({ mode: syncMode })
         console.log(`Resources synced with ${sdkName} successfully`)
         break

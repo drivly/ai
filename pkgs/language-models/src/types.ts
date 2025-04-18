@@ -74,8 +74,7 @@ export type DataPolicy = {
   training: boolean;
 }
 
-export type Features = {
-}
+export type Features = {}
 
 export type Pricing = {
   prompt: string;
@@ -109,7 +108,7 @@ export type ProviderInfo = {
 }
 
 export type Icon = {
-  url: string;
+  url: string
 }
 
 export type Provider = {

@@ -257,10 +257,9 @@
   }
 
   /* Dark theme */
-  [data-theme='dark'],
-  .dark {
+  [data-theme='dark'] {
     /* Shadcn UI variable mapping for dark mode */
-    --background: var(--color-base-950);
+    --background: var(--color-base-1000);
     --foreground: var(--color-base-0);
 
     --card: var(--color-base-900);

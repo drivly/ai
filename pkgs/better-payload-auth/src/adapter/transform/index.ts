@@ -40,7 +40,12 @@ export const createTransform = (options: BetterAuthOptions, enableDebugLogs: boo
       const condition = where[idField]
 
       // Check if condition is an object with equals operator
-      if (condition && typeof condition === 'object' && !Array.isArray(condition) && 'equals' in condition) {
+      if (
+        condition &&
+        typeof condition === 'object' &&
+        !Array.isArray(condition) &&
+        'equals' in condition
+      ) {
         const value = condition.equals
         if (typeof value === 'string' || typeof value === 'number') {
           return value
@@ -112,8 +117,16 @@ export const createTransform = (options: BetterAuthOptions, enableDebugLogs: boo
       const updatedFieldName = schemaFields[dataField]?.fieldName
 
       if (updatedFieldName) {
-        if (schemaFields[dataField].type === 'string' && typeof data[dataField] === 'number' && updatedFieldName.endsWith('Id')) {
-          debugLog(['Incoming data is typeof number but stored as typeof string', dataField, data[dataField].toString()])
+        if (
+          schemaFields[dataField].type === 'string' &&
+          typeof data[dataField] === 'number' &&
+          updatedFieldName.endsWith('Id')
+        ) {
+          debugLog([
+            'Incoming data is typeof number but stored as typeof string',
+            dataField,
+            data[dataField].toString(),
+          ])
           transformedData[updatedFieldName] = data[dataField].toString()
         } else {
           transformedData[updatedFieldName] = data[dataField]
@@ -158,7 +171,10 @@ export const createTransform = (options: BetterAuthOptions, enableDebugLogs: boo
     // Scan for date fields and convert them to Date objects
     Object.entries(result).forEach(([key, value]) => {
       // Check if the field is a date string (ISO format)
-      if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/.test(value)) {
+      if (
+        typeof value === 'string' &&
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/.test(value)
+      ) {
         result[key] = new Date(value)
       } else if (
         // Also check for date-like field names

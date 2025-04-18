@@ -114,14 +114,31 @@ export class FunctionsClient {
    * @param options.apiKey - Optional API key for authentication
    * @param options.baseUrl - Optional base URL for the API
    */
-  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
+  constructor(options: { apiKey?: string; baseUrl?: string; concurrency?: number } = {}) {
     this.api = new ApiClient({
       baseUrl: options.baseUrl || 'https://apis.do',
       headers: {
         'Content-Type': 'application/json',
         ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
       },
+      concurrency: options.concurrency || 50,
     })
+  }
+
+  /**
+   * Set the concurrency limit for the request queue
+   * @param limit - Maximum number of concurrent requests
+   */
+  setConcurrencyLimit(limit: number): void {
+    this.api.queue.concurrency = limit
+  }
+
+  /**
+   * Wait for all queued requests to complete
+   * @returns Promise that resolves when all requests are complete
+   */
+  async waitForAll(): Promise<void> {
+    return this.api.queue.onIdle()
   }
 
   /**

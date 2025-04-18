@@ -9,12 +9,7 @@ export class GoogleVertexProvider {
   }
 
   supportsModel(model: string): boolean {
-    const vertexModels = [
-      'gemini-1.5-pro', 
-      'gemini-1.5-flash', 
-      'gemini-1.5-pro-latest', 
-      'gemini-1.5-flash-latest'
-    ]
+    const vertexModels = ['gemini-1.5-pro', 'gemini-1.5-flash', 'gemini-1.5-pro-latest', 'gemini-1.5-flash-latest']
     return vertexModels.some((m) => model.includes(m))
   }
 }

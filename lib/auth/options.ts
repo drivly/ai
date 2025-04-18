@@ -18,10 +18,10 @@ export const betterAuthPlugins = [
   nextCookies(),
   stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
   oAuthProxy({
-    // Use apis.do as the fixed production URL where OAuth providers are registered
-    // productionURL: 'https://apis.do',
-    // Use the getCurrentURL function which now includes VERCEL_PROJECT_PRODUCTION_URL logic
+    // The URL where OAuth providers are registered (must match GitHub settings)
+    productionURL: 'https://apis.do',
     currentURL: getCurrentURL(),
+    // Don't provide currentURL to let the plugin detect it automatically
   }),
   genericOAuth({
     config: [

@@ -1,6 +1,6 @@
 /**
  * Cloudflare IP validation utility
- * 
+ *
  * This utility provides functions to check if an IP address is from Cloudflare's network.
  * Cloudflare maintains a list of IP ranges that are used by their network:
  * - https://www.cloudflare.com/ips-v4
@@ -27,19 +27,19 @@ function cidrToRange(cidr: string): { start: number; end: number } | null {
   try {
     const [ip, bits] = cidr.split('/')
     if (!ip || !bits) return null
-    
+
     const prefix = Number(bits)
     if (isNaN(prefix)) return null
-    
+
     const ipParts = ip.split('.').map(Number)
     if (ipParts.length !== 4) return null
-    
+
     const ipNum = ipParts.reduce((acc, part) => (acc << 8) + part, 0) >>> 0
     const mask = ~((1 << (32 - prefix)) - 1) >>> 0
-    
+
     return {
       start: ipNum & mask,
-      end: ipNum | ~mask
+      end: ipNum | ~mask,
     }
   } catch (e) {
     console.error('Error parsing CIDR:', e)
@@ -59,21 +59,15 @@ function ipToNumber(ip: string): number {
 /**
  * Fetches Cloudflare IP ranges from their official URLs
  */
-async function fetchCloudflareIPRanges(): Promise<{ ipv4: string[], ipv6: string[] }> {
+async function fetchCloudflareIPRanges(): Promise<{ ipv4: string[]; ipv6: string[] }> {
   try {
-    const [ipv4Response, ipv6Response] = await Promise.all([
-      fetch(CF_IPV4_RANGES_URL),
-      fetch(CF_IPV6_RANGES_URL)
-    ])
-    
-    const [ipv4Text, ipv6Text] = await Promise.all([
-      ipv4Response.text(),
-      ipv6Response.text()
-    ])
-    
+    const [ipv4Response, ipv6Response] = await Promise.all([fetch(CF_IPV4_RANGES_URL), fetch(CF_IPV6_RANGES_URL)])
+
+    const [ipv4Text, ipv6Text] = await Promise.all([ipv4Response.text(), ipv6Response.text()])
+
     return {
       ipv4: ipv4Text.split('\n').filter(Boolean),
-      ipv6: ipv6Text.split('\n').filter(Boolean)
+      ipv6: ipv6Text.split('\n').filter(Boolean),
     }
   } catch (error) {
     console.error('Error fetching Cloudflare IP ranges:', error)
@@ -93,13 +87,13 @@ export async function isCloudflareIP(ip: string): Promise<boolean> {
     ipv6Ranges = ranges.ipv6
     lastFetchTime = Date.now()
   }
-  
+
   const ipVersion = isIP(ip)
   if (ipVersion === 0) return false // Invalid IP
-  
+
   if (ipVersion === 4) {
     const ipNum = ipToNumber(ip)
-    
+
     for (const range of ipv4Ranges) {
       const cidrRange = cidrToRange(range)
       if (cidrRange && ipNum >= cidrRange.start && ipNum <= cidrRange.end) {
@@ -107,10 +101,8 @@ export async function isCloudflareIP(ip: string): Promise<boolean> {
       }
     }
   } else if (ipVersion === 6) {
-    return ipv6Ranges.some(range => ip.startsWith(range.split('/')[0]))
+    return ipv6Ranges.some((range) => ip.startsWith(range.split('/')[0]))
   }
-  
+
   return false
 }
-
-

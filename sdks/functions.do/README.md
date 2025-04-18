@@ -50,6 +50,7 @@ pnpm add functions.do
 - **Multiple Invocation Patterns**: Choose the syntax that fits your coding style
 - **Schema Enforcement**: Ensure AI outputs conform to your expected data structures
 - **Model Abstraction**: Switch between AI models without changing application code
+- **Request Throttling**: Control concurrent API requests with configurable limits
 - **Elegant API Design**: Clean, intuitive interfaces that prioritize developer experience
 
 ## Elegant API Design
@@ -347,6 +348,29 @@ Functions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, desig
 
 [MIT](https://opensource.org/licenses/MIT)
 
+## Request Throttling
+
+Functions.do provides built-in request throttling to manage concurrent API requests:
+
+```typescript
+import { FunctionsClient } from 'functions.do'
+
+// Initialize client with custom concurrency limit
+const client = new FunctionsClient({
+  apiKey: 'your_api_key',
+  concurrency: 10, // Default is 50 if not specified
+})
+
+// Dynamically adjust concurrency limit
+client.setConcurrencyLimit(20)
+
+// Wait for all queued requests to complete
+await client.waitForAll()
+```
+
+The throttling system automatically queues requests when the concurrency limit is reached, ensuring optimal performance without overwhelming the API.
+
 ## Dependencies
 
 - [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the [.do](https://dotdo.ai) ecosystem
+- [p-queue](https://www.npmjs.com/package/p-queue) - Promise queue with concurrency control

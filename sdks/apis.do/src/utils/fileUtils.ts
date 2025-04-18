@@ -56,10 +56,7 @@ export const getFilesInDirectory = async (
 
       if (entry.isDirectory()) {
         await readDir(entryPath)
-      } else if (
-        entry.isFile() && 
-        (typeof filePattern === 'string' ? entry.name.match(filePattern) : filePattern.test(entry.name))
-      ) {
+      } else if (entry.isFile() && (typeof filePattern === 'string' ? entry.name.match(filePattern) : filePattern.test(entry.name))) {
         files.push({
           path: entryPath,
           relativePath,

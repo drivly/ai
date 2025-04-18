@@ -1,3 +1,1 @@
-
-declare module '@stoplight' {
-}
+declare module '@stoplight' {}

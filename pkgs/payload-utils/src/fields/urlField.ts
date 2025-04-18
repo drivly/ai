@@ -13,13 +13,7 @@ type URLFieldOptions = {
  * Creates a URL field that renders as a clickable link in the admin UI
  * Links open in new windows with proper security attributes
  */
-export const urlField = ({
-  name = 'url',
-  label = 'URL',
-  required = false,
-  validate,
-  admin = {},
-}: URLFieldOptions = {}): Field => {
+export const urlField = ({ name = 'url', label = 'URL', required = false, validate, admin = {} }: URLFieldOptions = {}): Field => {
   return {
     name,
     type: 'text',
@@ -37,22 +31,22 @@ export const urlField = ({
       afterRead: [
         ({ value }) => {
           return value
-        }
-      ]
+        },
+      ],
     },
     validate: ((value, options) => {
       if ((options?.required || required) && !value) {
         return 'URL is required'
       }
-      
+
       if (value && !validateURL(value)) {
         return 'Please enter a valid URL'
       }
-      
+
       if (validate && value) {
         return validate(value, options)
       }
-      
+
       return true
     }) as TextFieldSingleValidation,
   }
@@ -64,7 +58,7 @@ export const urlField = ({
  */
 function validateURL(url: string): boolean {
   if (!url) return false
-  
+
   try {
     const urlObj = new URL(url)
     return urlObj.protocol === 'http:' || urlObj.protocol === 'https:'

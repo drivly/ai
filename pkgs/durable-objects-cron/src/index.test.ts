@@ -44,22 +44,22 @@ describe('durable-objects-cron', () => {
 
   it('sets an alarm on initialization', async () => {
     const nextAlarmTime = Date.now() + 60000
-    
+
     vi.clearAllMocks()
-    
+
     mockStorage.getAlarm.mockResolvedValue(null)
     mockStorage.list.mockResolvedValue(new Map())
-    
+
     const setAlarmSpy = vi.spyOn(mockStorage, 'setAlarm')
-    
+
     mockState.blockConcurrencyWhile.mockImplementation(async (callback) => {
       await callback()
     })
-    
+
     const cronDO = new CronDurableObject(mockState as any, {})
-    
-    await new Promise(resolve => setTimeout(resolve, 10))
-    
+
+    await new Promise((resolve) => setTimeout(resolve, 10))
+
     expect(mockState.blockConcurrencyWhile).toHaveBeenCalled()
     expect(setAlarmSpy).toHaveBeenCalled()
   })
@@ -77,30 +77,30 @@ describe('durable-objects-cron', () => {
       createdAt: Date.now(),
       updatedAt: Date.now(),
     }
-    
+
     mockStorage.get.mockImplementation(async (key) => {
       if (key === `task:${taskId}`) {
         return mockTask
       }
       return null
     })
-    
+
     const cronDO = new CronDurableObject(mockState as any, {})
-    
+
     const result = await cronDO.schedule('*/5 * * * *', {
       id: taskId,
       data: { test: 'data' },
     })
-    
+
     expect(result).toBeDefined()
     expect(result.id).toBe(taskId)
     expect(result.nextExecutionTime).toBeDefined()
     expect(mockStorage.put).toHaveBeenCalled()
-    
+
     const putCalls = mockStorage.put.mock.calls
-    const taskPutCall = putCalls.find(call => call[0] === `task:${taskId}`)
+    const taskPutCall = putCalls.find((call) => call[0] === `task:${taskId}`)
     expect(taskPutCall).toBeDefined()
-    
+
     if (taskPutCall) {
       const storedTask = taskPutCall[1]
       expect(storedTask.id).toBe(taskId)
@@ -135,26 +135,24 @@ describe('durable-objects-cron', () => {
         updatedAt: now - 30000,
       },
     ]
-    
-    mockStorage.list.mockResolvedValue(
-      new Map(mockTasks.map(task => [`task:${task.id}`, task]))
-    )
-    
+
+    mockStorage.list.mockResolvedValue(new Map(mockTasks.map((task) => [`task:${task.id}`, task])))
+
     const mockHandler = vi.fn()
     const cronDO = new CronDurableObject(mockState as any, {
       defaultHandler: mockHandler,
     })
-    
+
     await cronDO.alarm()
-    
+
     expect(mockHandler).toHaveBeenCalledTimes(2)
     expect(mockHandler).toHaveBeenCalledWith(mockTasks[0])
     expect(mockHandler).toHaveBeenCalledWith(mockTasks[1])
-    
+
     const putCalls = mockStorage.put.mock.calls
-    expect(putCalls.some(call => call[0] === `task:${mockTasks[0].id}`)).toBe(true)
-    expect(putCalls.some(call => call[0] === `task:${mockTasks[1].id}`)).toBe(true)
-    
+    expect(putCalls.some((call) => call[0] === `task:${mockTasks[0].id}`)).toBe(true)
+    expect(putCalls.some((call) => call[0] === `task:${mockTasks[1].id}`)).toBe(true)
+
     expect(mockStorage.setAlarm).toHaveBeenCalled()
   })
 
@@ -171,53 +169,49 @@ describe('durable-objects-cron', () => {
       createdAt: now - 60000,
       updatedAt: now - 60000,
     }
-    
-    mockStorage.list.mockResolvedValue(
-      new Map([['task:error-task', mockTask]])
-    )
-    
+
+    mockStorage.list.mockResolvedValue(new Map([['task:error-task', mockTask]]))
+
     mockStorage.get.mockImplementation(async (key) => {
       if (key === `task:${mockTask.id}`) {
         return { ...mockTask }
       }
       return null
     })
-    
+
     const errorHandler = vi.fn().mockImplementation(() => {
       throw new Error('Test error')
     })
-    
+
     const cronDO = new CronDurableObject(mockState as any, {
       defaultHandler: errorHandler,
     })
-    
+
     await cronDO.alarm()
-    
+
     expect(errorHandler).toHaveBeenCalledWith(mockTask)
-    
+
     const putCalls = mockStorage.put.mock.calls
-    const errorStorageCalls = putCalls.filter(call => 
-      typeof call[0] === 'string' && call[0].startsWith(`error:${mockTask.id}:`)
-    )
-    
+    const errorStorageCalls = putCalls.filter((call) => typeof call[0] === 'string' && call[0].startsWith(`error:${mockTask.id}:`))
+
     expect(errorStorageCalls.length).toBeGreaterThan(0)
     expect(errorStorageCalls[0][1].error).toBe('Error: Test error')
     expect(errorStorageCalls[0][1].task).toEqual(mockTask)
-    
-    const taskUpdateCalls = putCalls.filter(call => call[0] === `task:${mockTask.id}`)
+
+    const taskUpdateCalls = putCalls.filter((call) => call[0] === `task:${mockTask.id}`)
     expect(taskUpdateCalls.length).toBeGreaterThan(0)
   })
 
   it('cancels a scheduled task', async () => {
     mockStorage.delete.mockResolvedValueOnce(true)
-    
+
     const cronDO = new CronDurableObject(mockState as any, {})
-    
+
     const result = await cronDO.cancel('task-to-cancel')
-    
+
     expect(result).toBe(true)
     expect(mockStorage.delete).toHaveBeenCalledWith('task:task-to-cancel')
-    
+
     expect(mockStorage.setAlarm).toHaveBeenCalled()
   })
 })
