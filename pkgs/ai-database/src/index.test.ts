@@ -1,10 +1,25 @@
 import { describe, it, expect, vi } from 'vitest'
-import { DB } from './index'
+import { DB, db } from './index'
+
+vi.mock('./utils', () => ({
+  getPayloadInstance: vi.fn().mockReturnValue({
+    find: vi.fn(),
+    findByID: vi.fn(),
+    create: vi.fn(),
+    update: vi.fn(),
+    delete: vi.fn()
+  })
+}))
 
 describe('ai-database', () => {
   it('exports DB function', () => {
     expect(DB).toBeDefined()
     expect(typeof DB).toBe('function')
+  })
+
+  it('exports default db instance', () => {
+    expect(db).toBeDefined()
+    expect(typeof db).toBe('object')
   })
 
   it('creates a proxy object for collection access', () => {
