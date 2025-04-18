@@ -36,10 +36,10 @@ type ParsedModelIdentifier = {
 // latency:<50 -> A model with a latency of less than 50ms
 // throughput:>250 -> A model with a throughput higher than 250 tokens per second
 // Additional notes: if just cost is specified, then it will be treated as outputCost
-const priorities = [ 'cost', 'latency', 'throughput', 'inputCost', 'outputCost' ]
-const capabilities = [ 'reasoning', 'thinking', 'tools', 'structuredOutput', 'responseFormat', 'pdf' ]
-const defaultTools = [ 'exec', 'online' ]
-const systemConfiguration = [ 'seed', 'thread', 'temperature', 'topP', 'topK' ]
+const priorities = ['cost', 'latency', 'throughput', 'inputCost', 'outputCost']
+const capabilities = ['reasoning', 'thinking', 'tools', 'structuredOutput', 'responseFormat', 'pdf']
+const defaultTools = ['exec', 'online']
+const systemConfiguration = ['seed', 'thread', 'temperature', 'topP', 'topK']
 // Any of the following is an output format, anything else that starts with a capital letter is an output *schema*
 const outputFormats = ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code']
 
@@ -80,7 +80,7 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
   // The main use case is for output formats, where we want to set the format based on the schema
   // but only if the format isnt already set. Since we only have access to a single expression at once,
   // we need to store the defaults and apply them later.
-  const defaultStorage: Record<string, string | number | boolean> = {} 
+  const defaultStorage: Record<string, string | number | boolean> = {}
 
   // Split by comma, each part is a new parameter that needs to be stored in the right
   // place in the output object
@@ -97,13 +97,13 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
         .replace('<', ':<')
         .replace('>', ':>')
         .split(':')
-  
+
       if (!key) {
         continue
-      } 
-      
+      }
+
       let notAKnownParameter = false
-  
+
       switch (true) {
         case defaultTools.includes(key):
           output.tools = output.tools || {}
@@ -142,12 +142,12 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
           notAKnownParameter = true
           break
       }
-  
+
       if (!notAKnownParameter) {
         // No need to process any further
         continue
       }
-  
+
       // If it starts with a capital letter, then it is a Schema
       if (key[0] === key[0].toUpperCase()) {
         const schema = key
@@ -199,7 +199,7 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
       output[keyToCheck] = value
     }
   })
-  
+
   return output
 }
 
@@ -227,7 +227,7 @@ export function constructModelIdentifier(parsed: ParsedModelIdentifier): string 
     return `${key}:${value}`
   }
 
-  const keysToFormat = [ 'capabilities', 'tools', 'systemConfig' ] as const
+  const keysToFormat = ['capabilities', 'tools', 'systemConfig'] as const
 
   keysToFormat.forEach(key => {
     if (parsed[key]) {
@@ -311,7 +311,7 @@ export function filterModels(modelIdentifier: string, modelsToFilter?: InternalM
         if (parsed.model === 'claude-3.7-sonnet' && model.slug.includes('claude-3.7-sonnet') && !model.slug.includes('beta')) {
           return true
         }
-  
+
         return model.slug.split('/')[1] === parsed.model
       }
     )
@@ -326,7 +326,7 @@ export function filterModels(modelIdentifier: string, modelsToFilter?: InternalM
       }
     )
   }
-  
+
   if (parsed?.providerConstraints?.length) {
     // Since the provider isnt defined, we need to filter based on the provider constraints
     filterChain.push(
@@ -380,21 +380,27 @@ export function filterModels(modelIdentifier: string, modelsToFilter?: InternalM
 
   const orderBy = (fields: string[]) => (a: any, b: any) => fields.map(o => {
     let dir = 1;
-    if (o[0] === '-') { dir = -1; o=o.substring(1) }
-    
+    if (o[0] === '-') { dir = -1; o = o.substring(1) }
+
     // Support for dot notation to access nested properties
     const getNestedValue = (obj: any, path: string): any => {
-      return path.split('.').reduce((prev, curr) => 
+      return path.split('.').reduce((prev, curr) =>
         prev && prev[curr] !== undefined ? prev[curr] : undefined, obj)
     }
-    
+
     const aVal = getNestedValue(a, o);
     const bVal = getNestedValue(b, o);
-    
+
     return aVal > bVal ? dir : aVal < bVal ? -(dir) : 0
   }).reduce((p: number, n: number) => p ? p : n, 0)
 
-  let sortingStrategy = orderBy(parsed?.priorities?.map(f => `provider.${f}`) || [])
+  // Fixes throughput being sorted by lowest first
+  // Which is not what we want.
+  const sortDirections: Record<string, string> = {
+    throughput: '-provider.throughput'
+  }
+
+  let sortingStrategy = orderBy(parsed?.priorities?.map(f => sortDirections[f] || `provider.${f}`) || [])
 
   // Re-join back on model, replacing the providers with the filtered providers
   return {
@@ -463,7 +469,7 @@ export function getModels(modelIdentifier: string) {
   let result = []
   let segment = ''
   let depth = 0
-  
+
   for (const char of modelIdentifier) {
     if (char === '(') depth++
     else if (char === ')') depth--
@@ -474,7 +480,7 @@ export function getModels(modelIdentifier: string) {
     }
     segment += char
   }
-  
+
   if (segment.trim()) result.push(segment.trim())
 
   // Resolve each segment

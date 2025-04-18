@@ -1,4 +1,4 @@
-import { getModels, modelPattern } from 'ai-models'
+import { getModel, getProviderName, modelPattern } from 'language-models'
 import { getUser } from 'api/user'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
@@ -64,14 +64,29 @@ export class Chat extends OpenAPIRoute {
         messages.push({ role: 'system', content: system })
       }
       messages.push({ role: 'user', content: prompt })
+
+      const modelData = getModel(model || '')
+
       const body: ChatCompletionRequest = {
-        model,
-        models: models?.length ? getModels(models).map((m) => m.slug) : undefined,
+        model: modelData.slug,
+        //models: models?.length ? getModels(models).map((m) => m.slug) : undefined,
         messages,
         seed,
         temperature,
         tools: tools?.length ? tools.split(',') : undefined,
+        reasoning: modelData.parsed?.capabilities?.reasoning ? {
+          effort: 'high'
+        } : undefined,
+        provider: modelData.provider.name ? ({
+          order: [
+            getProviderName(modelData.provider.slug) || ''
+          ],
+          // We're forcing a provider here, so dont allow fallbacks to
+          // other providers
+          allow_fallbacks: false
+        }) : undefined
       }
+
       const response = await app.request('/api/v1/chat/completions', {
         method: 'POST',
         headers: {

@@ -2,13 +2,13 @@ import type { AnthropicMessagesModelId } from '@ai-sdk/anthropic/internal/dist'
 import { DeepSeekProvider } from '@ai-sdk/deepseek'
 import { GoogleGenerativeAILanguageModel } from '@ai-sdk/google/internal/dist'
 import type { OpenAIChatModelId } from '@ai-sdk/openai/internal/dist'
-import { type Capability, getModel, ModelConfig } from 'ai-models'
+import { getModels } from 'language-models'
 
 export type ModelId = AnthropicMessagesModelId | OpenAIChatModelId | Parameters<DeepSeekProvider>[0] | GoogleGenerativeAILanguageModel['modelId']
 
-export function getModels(models: string[], config?: ModelConfig) {
-  return models.map((m) => getModel(m, config)?.slug).filter((m) => m !== undefined)
-}
+// export function getModels(models: string[], config?: ModelConfig) {
+//   return models.map((m) => getModel(m, config)?.slug).filter((m) => m !== undefined)
+// }
 
 export function getRequiredCapabilities({
   tools,
@@ -19,7 +19,7 @@ export function getRequiredCapabilities({
   reasoning?: { effort: 'low' | 'medium' | 'high' }
   response_format?: { type: 'json_schema' | 'json_object' }
 }) {
-  const requiredCapabilities: Capability[] = []
+  const requiredCapabilities: string[] = []
   if (reasoning?.effort) {
     requiredCapabilities.push('reasoning', `reasoning-${reasoning?.effort}`)
   }

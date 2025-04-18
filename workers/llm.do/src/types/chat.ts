@@ -233,6 +233,10 @@ export const ChatCompletionRequestSchema = z.object({
   transforms: z.array(z.string()).optional(),
   min_p: z.number().optional(),
   user: z.string().optional(),
+  provider: z.object({
+    order: z.array(z.string()),
+    allow_fallbacks: z.boolean(),
+  }).optional(),
 })
 
 export type ChatCompletionRequest = z.infer<typeof ChatCompletionRequestSchema>
@@ -250,6 +254,7 @@ export const ChatCompletionResponseSchema = z.object({
         .nullable(),
       message: z.object({
         content: z.string().nullable(),
+        reasoning: z.string().nullable(),
         refusal: z.string().nullable(),
         role: z.literal('assistant'),
         annotations: z
