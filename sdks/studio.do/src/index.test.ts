@@ -10,6 +10,14 @@ vi.mock('apis.do', () => ({
   }
 }))
 
+vi.mock('./utils/getFunctionsForProject', () => ({
+  getFunctionsForProject: vi.fn()
+}))
+
+vi.mock('./utils/getWorkflowsForProject', () => ({
+  getWorkflowsForProject: vi.fn()
+}))
+
 describe('createStudioClient', () => {
   it('should be defined', () => {
     expect(createStudioClient).toBeDefined()
@@ -33,13 +41,11 @@ describe('createStudioClient', () => {
     vi.mocked(api.list).mockResolvedValueOnce(mockNouns)
     vi.mocked(api.post).mockResolvedValueOnce(mockPayloadClient)
     
-    vi.mock('./utils/getFunctionsForProject', () => ({
-      getFunctionsForProject: vi.fn().mockResolvedValue(mockFunctions)
-    }))
+    const { getFunctionsForProject } = await import('./utils/getFunctionsForProject')
+    const { getWorkflowsForProject } = await import('./utils/getWorkflowsForProject')
     
-    vi.mock('./utils/getWorkflowsForProject', () => ({
-      getWorkflowsForProject: vi.fn().mockResolvedValue(mockWorkflows)
-    }))
+    vi.mocked(getFunctionsForProject).mockResolvedValueOnce(mockFunctions)
+    vi.mocked(getWorkflowsForProject).mockResolvedValueOnce(mockWorkflows)
     
     const result = await createStudioClient({ 
       projectId: 'test-id',

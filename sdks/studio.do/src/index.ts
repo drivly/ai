@@ -82,6 +82,9 @@ export async function createStudioClient(options: StudioSDKOptions): Promise<Pay
     return payloadClient
   } catch (error) {
     console.error(`Error creating studio client for project '${projectId}':`, error)
+    if (error instanceof Error && error.message.includes('not found')) {
+      throw error
+    }
     throw new Error('Failed to create studio client')
   }
 }
