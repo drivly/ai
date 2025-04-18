@@ -10,17 +10,12 @@ export const dynamic = 'force-dynamic'
 
 async function WaitListPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
   const { domain } = props.params
-  const searchParams = await props.searchParams
+  const searchParams = props.searchParams
   const payload = await getPayloadWithAuth()
   const headers = await requestHeaders()
   const { user } = (await payload.auth({ headers })) as { user: User }
 
-  if (!user) {
-    const data = await payload.betterAuth.api.signInSocial({
-      body: { provider: 'github', callbackURL: '/waitlist' },
-    })
-    redirect(data.url || '')
-  }
+  if (!user) redirect('/')
 
   const name = user.name || user.email.split('@')[0]
 

@@ -46,8 +46,10 @@ export default defineConfig({
           badge: s.string().optional(), // Badge text
         })
         .transform((data, { meta }: { meta: any }) => {
-          // Use 'any' for meta
+          // Extract domain from filename (without extension)
           const path = meta.path
+          const domain = path.split('/').pop()?.split('.')?.slice(0, 2)?.join('.') || ''
+
           const contentSitesPattern = '/sites/'
           const contentSitesIndex = path.indexOf(contentSitesPattern)
           let group = 'other'
@@ -62,7 +64,8 @@ export default defineConfig({
 
           return {
             ...data,
-            group: group, // Assign the determined group
+            domain, // First two components
+            group, // Default group or extract from folder structure if needed
           }
         }),
     },

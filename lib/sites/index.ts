@@ -80,3 +80,33 @@ export async function findSiteContent(domain: string, includeHero = false): Prom
 
   return siteContent
 }
+
+
+
+
+
+// export const metadata = {
+//   // metadataBase: new URL(domain),
+//   alternates: {
+//     canonical: '/',
+//     languages: {
+//       'en-US': '/en-US',
+//       'de-DE': '/de-DE',
+//     },
+//   },
+//   openGraph: {
+//     images: '/og-image.png',
+//   },
+// }
+
+// Title: “Business-as-Code: <br className='block sm:hidden' /> The Future of Intelligent Work”
+// Subtitle: “Do more with structured Functions, reliable Workflows, and autonomous AI Agents—transforming intelligence into economically valuable, measurable outcomes.”
+// 3:24
+// Business as Code: The Future of Intelligent Work
+// Move beyond chat with structured Functions, reliable Workflows, and autonomous AI Agents—transforming intelligence into economically valuable, measurable outcomes.
+// New
+
+
+// Bryant
+//   3:39 PM
+// Do economically valuable work with structured Functions, reliable Workflows, and autonomous AI Agents—transforming intelligence into measurable outcomes.
