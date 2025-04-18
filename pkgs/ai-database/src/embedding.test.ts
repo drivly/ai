@@ -13,6 +13,12 @@ global.fetch = vi.fn().mockResolvedValue({
   })
 })
 
+vi.stubGlobal('process', { 
+  env: { 
+    OPENAI_API_KEY: 'test-api-key' 
+  } 
+})
+
 describe('embedding', () => {
   it('exports generateEmbedding function', () => {
     expect(generateEmbedding).toBeDefined()
@@ -25,11 +31,11 @@ describe('embedding', () => {
   })
 
   it('generates embeddings for text', async () => {
-    const result = await generateEmbedding('test text')
+    const result = await generateEmbedding('test text', { apiKey: 'test-api-key' })
     
     expect(result).toBeDefined()
     expect(result.success).toBe(true)
-    expect(result.model).toBe('openai:text-embedding-3-small')
+    expect(result.model).toBe('text-embedding-3-small')
     expect(result.embedding).toBeInstanceOf(Array)
     expect(result.embedding?.[0]).toBeInstanceOf(Array)
   })
