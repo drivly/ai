@@ -53,11 +53,11 @@ const deleteExistingReleases = () => {
   try {
     console.log('Checking for existing GitHub releases to delete...')
     const releases = execSync('gh release list --limit 10').toString().trim()
-    
+
     if (releases) {
       console.log('Found existing releases, attempting to delete:')
       console.log(releases)
-      
+
       const releaseLines = releases.split('\n')
       for (const line of releaseLines) {
         if (line.trim()) {
@@ -74,7 +74,7 @@ const deleteExistingReleases = () => {
     } else {
       console.log('No existing releases found')
     }
-    
+
     return true
   } catch (error) {
     console.error('Error deleting existing releases:', error.message)
@@ -87,22 +87,22 @@ const verifyNpmConfig = () => {
     console.log('Verifying NPM configuration...')
     console.log(`NPM_CONFIG_REGISTRY: ${process.env.NPM_CONFIG_REGISTRY || 'not set'}`)
     console.log(`NODE_AUTH_TOKEN exists: ${!!process.env.NODE_AUTH_TOKEN}`)
-    
+
     const npmRegistry = execSync('npm config get registry').toString().trim()
     console.log(`Current NPM registry: ${npmRegistry}`)
-    
+
     if (!process.env.NPM_CONFIG_REGISTRY) {
       console.log('Setting NPM_CONFIG_REGISTRY to https://registry.npmjs.org/')
       process.env.NPM_CONFIG_REGISTRY = 'https://registry.npmjs.org/'
     }
-    
+
     try {
       execSync('npm whoami', { stdio: ['pipe', 'pipe', 'pipe'] })
       console.log('NPM authentication verified successfully')
     } catch (error) {
       console.warn('NPM authentication check failed. This may cause publishing to fail.')
       console.warn('Error details:', error.message)
-      
+
       const homeNpmrcPath = path.join(process.env.HOME, '.npmrc')
       const npmrcContent = `
 registry=https://registry.npmjs.org/
@@ -110,7 +110,7 @@ always-auth=true
 `
       fs.writeFileSync(homeNpmrcPath, npmrcContent, 'utf8')
       console.log('Created global .npmrc file with auth token')
-      
+
       try {
         execSync('npm whoami', { stdio: ['pipe', 'pipe', 'pipe'] })
         console.log('NPM authentication verified successfully after creating global .npmrc')
@@ -118,7 +118,7 @@ always-auth=true
         console.error('NPM authentication still failing after creating global .npmrc:', retryError.message)
       }
     }
-    
+
     return true
   } catch (error) {
     console.error('Error verifying NPM configuration:', error.message)
@@ -142,13 +142,13 @@ const getPackagePaths = () => {
 const enforceZeroVersioning = (packagePath) => {
   const packageJsonPath = path.join(packagePath, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
-  
+
   if (packageJson.version && !packageJson.version.startsWith('0.')) {
     console.log(`Resetting version for ${packageJson.name} from ${packageJson.version} to 0.1.0`)
     packageJson.version = '0.1.0'
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
   }
-  
+
   return packageJson
 }
 
@@ -156,7 +156,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
   const packageJsonPath = path.join(packagePath, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
   let modified = false
-  
+
   const packageVersions = {}
   for (const pkg of allPackages) {
     const pkgJsonPath = path.join(pkg, 'package.json')
@@ -165,7 +165,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       packageVersions[pkgJson.name] = pkgJson.version || '0.1.0'
     }
   }
-  
+
   if (packageJson.dependencies) {
     for (const [dep, version] of Object.entries(packageJson.dependencies)) {
       if (version.startsWith('workspace:')) {
@@ -179,7 +179,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       }
     }
   }
-  
+
   if (packageJson.devDependencies) {
     for (const [dep, version] of Object.entries(packageJson.devDependencies)) {
       if (version.startsWith('workspace:')) {
@@ -193,7 +193,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       }
     }
   }
-  
+
   if (packageJson.peerDependencies) {
     for (const [dep, version] of Object.entries(packageJson.peerDependencies)) {
       if (version.startsWith('workspace:')) {
@@ -207,25 +207,25 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       }
     }
   }
-  
+
   if (modified) {
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
     console.log(`Updated package.json for ${packageJson.name} with converted workspace dependencies`)
   }
-  
+
   return packageJson
 }
 
 const runSemanticRelease = (packagePath, allPackages) => {
   const packageJson = enforceZeroVersioning(packagePath)
-  
+
   if (packageJson.private) {
     console.log(`Skipping private package: ${packageJson.name}`)
     return
   }
 
   console.log(`Processing package: ${packageJson.name}`)
-  
+
   convertWorkspaceDependencies(packagePath, allPackages)
 
   try {
@@ -375,21 +375,21 @@ always-auth=true
       try {
         execSync(cmd, {
           cwd: packagePath,
-          env: { 
-            ...process.env, 
-            NODE_DEBUG: 'npm', 
-            DEBUG: 'semantic-release:*,npm:*', 
+          env: {
+            ...process.env,
+            NODE_DEBUG: 'npm',
+            DEBUG: 'semantic-release:*,npm:*',
             FORCE_PATCH_RELEASE: 'true',
             INITIAL_VERSION: '0.1.0',
-            RELEASE_MAJOR: '0'
+            RELEASE_MAJOR: '0',
           },
           stdio: 'inherit',
         })
-        
+
         console.log(`Semantic release completed for ${packageJson.name}`)
       } catch (semanticReleaseError) {
         console.error(`Semantic release failed for ${packageJson.name}:`, semanticReleaseError.message)
-        
+
         const directPublishScript = path.join(packagePath, 'publish.js')
         const directPublishContent = `
 import { execSync } from 'child_process';
@@ -429,14 +429,14 @@ try {
 `
         fs.writeFileSync(directPublishScript, directPublishContent, 'utf8')
         console.log(`Created direct publish script in ${packagePath}`)
-        
+
         try {
           execSync(`node ${directPublishScript}`, {
             cwd: packagePath,
-            env: { 
-              ...process.env, 
-              NODE_DEBUG: 'npm', 
-              DEBUG: 'npm:*', 
+            env: {
+              ...process.env,
+              NODE_DEBUG: 'npm',
+              DEBUG: 'npm:*',
             },
             stdio: 'inherit',
           })
@@ -462,7 +462,7 @@ try {
     console.error(`NPM config: ${process.env.npm_config_registry || 'default registry'}`)
     console.error(`NODE_AUTH_TOKEN exists: ${!!process.env.NODE_AUTH_TOKEN}`)
     console.error(`Current working directory: ${packagePath}`)
-    
+
     try {
       console.log('Attempting to diagnose NPM issues...')
       execSync('npm config list', { stdio: 'inherit' })

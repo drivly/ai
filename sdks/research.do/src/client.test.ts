@@ -11,7 +11,7 @@ describe('ResearchClient', () => {
   it('creates a client with custom options', () => {
     const client = new ResearchClient({
       apiKey: 'test-key',
-      baseUrl: 'https://example.com'
+      baseUrl: 'https://example.com',
     })
     expect(client).toBeDefined()
   })
@@ -26,18 +26,18 @@ describe('ResearchClient', () => {
     const mockPost = vi.spyOn(client['api'], 'post').mockResolvedValue({
       success: true,
       taskId: 'test-task-id',
-      jobId: 'test-job-id'
+      jobId: 'test-job-id',
     })
 
     const params: ResearchOptions = {
       topic: 'Test topic',
       depth: 'medium',
       sources: ['news', 'academic'],
-      format: 'markdown'
+      format: 'markdown',
     }
 
     await client.research(params)
-    
+
     expect(mockPost).toHaveBeenCalledWith('/research', params)
   })
 })

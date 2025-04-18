@@ -167,17 +167,17 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
       const { isCloudflareIP } = await import('./utils/cloudflare-ip')
       if (await isCloudflareIP(ip)) {
         const workerDomain = cfWorkerHeader.trim()
-        
+
         const apiKeyWithDomain = await payload.db.apikeys.findOne({
           where: {
             cfWorkerDomains: {
               elemMatch: {
-                domain: workerDomain
-              }
-            }
-          }
+                domain: workerDomain,
+              },
+            },
+          },
         })
-        
+
         if (apiKeyWithDomain) {
           const user = await payload.db.users.findByID(apiKeyWithDomain.user)
           if (user) {
@@ -280,9 +280,7 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
     from = `${origin}/sites`
   }
 
-  const sdkUrl = sdks.includes(packageName) ? 
-    `https://npmjs.com/${packageName}` : 
-    'https://npmjs.com/workflows.do'
+  const sdkUrl = sdks.includes(packageName) ? `https://npmjs.com/${packageName}` : 'https://npmjs.com/workflows.do'
 
   return {
     name: domain,
@@ -642,38 +640,38 @@ export const generatePaginationLinks = (request: NextRequest, page: number, limi
  * @returns Object containing home, first, last, next, and prev links
  */
 export const generateCompletePaginationLinks = (
-  request: NextRequest, 
-  page: number, 
-  limit: number, 
+  request: NextRequest,
+  page: number,
+  limit: number,
   totalItems: number,
-  totalPages: number
+  totalPages: number,
 ): { home: string; first: string; last?: string; next?: string; prev?: string } => {
   const baseLinks = generatePaginationLinks(request, page, limit, totalItems)
   const url = new URL(request.url)
   const baseUrl = url.origin + url.pathname
   const searchParams = url.searchParams
-  
-  const links: { 
-    home: string; 
-    first: string; 
-    last?: string; 
-    next?: string; 
-    prev?: string 
+
+  const links: {
+    home: string
+    first: string
+    last?: string
+    next?: string
+    prev?: string
   } = {
     ...baseLinks,
-    first: '',  // Will be set below
+    first: '', // Will be set below
   }
-  
+
   const firstParams = new URLSearchParams(searchParams)
   firstParams.set('page', '1')
   links.first = `${baseUrl}?${firstParams.toString()}`
-  
+
   if (totalPages > 1) {
     const lastParams = new URLSearchParams(searchParams)
     lastParams.set('page', totalPages.toString())
     links.last = `${baseUrl}?${lastParams.toString()}`
   }
-  
+
   return links
 }
 
@@ -788,10 +786,9 @@ export const handleShareRequest = async (params: { id: string }, db: PayloadDB):
  */
 const hasShortcutPath = (domain?: string): boolean => {
   if (!domain) return false
-  
+
   const baseDomain = domain.replace(/\.do(\.mw|\.gt)?$/, '')
-  return parentDomains[baseDomain] !== undefined || 
-         Object.values(childDomains).some(children => children.includes(baseDomain))
+  return parentDomains[baseDomain] !== undefined || Object.values(childDomains).some((children) => children.includes(baseDomain))
 }
 
 /**
@@ -800,29 +797,29 @@ const hasShortcutPath = (domain?: string): boolean => {
  * @param options - Options for formatting the URL
  * @returns Formatted URL string
  */
-export const formatUrl = (path: string, options: { 
-  origin: string, 
-  domain?: string, 
-  showDomains?: boolean,
-  defaultDomain?: string
-}): string => {
+export const formatUrl = (
+  path: string,
+  options: {
+    origin: string
+    domain?: string
+    showDomains?: boolean
+    defaultDomain?: string
+  },
+): string => {
   const { origin, domain, showDomains, defaultDomain } = options
-  
-  const shouldShowDomains = showDomains ?? (
-    domain === 'apis.do' || 
-    hasShortcutPath(domain) 
-  )
-  
+
+  const shouldShowDomains = showDomains ?? (domain === 'apis.do' || hasShortcutPath(domain))
+
   if (shouldShowDomains && defaultDomain) {
-    let tldVariant = '';
+    let tldVariant = ''
     if (domain) {
-      if (domain.endsWith('.do.gt')) tldVariant = '.gt';
-      else if (domain.endsWith('.do.mw')) tldVariant = '.mw';
+      if (domain.endsWith('.do.gt')) tldVariant = '.gt'
+      else if (domain.endsWith('.do.mw')) tldVariant = '.mw'
     }
-    
-    const domainWithCorrectTLD = defaultDomain.replace(/\.do$/, `.do${tldVariant}`);
+
+    const domainWithCorrectTLD = defaultDomain.replace(/\.do$/, `.do${tldVariant}`)
     return `https://${domainWithCorrectTLD}`
   }
-  
+
   return `${origin}/${path}`
 }

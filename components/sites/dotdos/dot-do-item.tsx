@@ -43,7 +43,7 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, lin
           ))}
         </div>
       )}
-      
+
       {/* Links */}
       <div className='relative z-10 mt-4 flex flex-wrap gap-2'>
         {/* Default links */}
@@ -64,15 +64,16 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, lin
             Docs
           </Badge>
         </a>
-        
+
         {/* Custom links from YAML */}
-        {links && links.map((link, index) => (
-          <a key={index} href={link.url} target='_blank' rel='noopener noreferrer'>
-            <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
-              {link.title}
-            </Badge>
-          </a>
-        ))}
+        {links &&
+          links.map((link, index) => (
+            <a key={index} href={link.url} target='_blank' rel='noopener noreferrer'>
+              <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
+                {link.title}
+              </Badge>
+            </a>
+          ))}
       </div>
     </div>
   )

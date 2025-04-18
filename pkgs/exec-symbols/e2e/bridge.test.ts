@@ -12,21 +12,21 @@ describe('Bridge Implementation Stubs', () => {
           keyPhrases: ['key phrase 1', 'key phrase 2'],
           language: {
             detected: 'en',
-            confidence: 0.98
+            confidence: 0.98,
           },
           statistics: {
             wordCount: 100,
             sentenceCount: 5,
-            readabilityScore: 75
-          }
+            readabilityScore: 75,
+          },
         },
         generateImage: {
           url: 'https://example.com/image.jpg',
           width: 512,
           height: 512,
           format: 'jpeg',
-          tags: ['generated', 'ai']
-        }
+          tags: ['generated', 'ai'],
+        },
       }
 
       // Create AI functions
@@ -55,7 +55,7 @@ describe('Bridge Implementation Stubs', () => {
         job: 'Running tests',
         triggers: ['onMessage', 'onSchedule'],
         searches: ['findDocument', 'searchKnowledgeBase'],
-        actions: ['sendNotification', 'updateStatus']
+        actions: ['sendNotification', 'updateStatus'],
       })
 
       // Verify the agent has the basic properties
@@ -67,11 +67,11 @@ describe('Bridge Implementation Stubs', () => {
       expect(agent.stateMachine).toBeDefined()
       // The state machine doesn't directly expose name property as we expected
       // So we'll skip testing the specific property access
-      
+
       // Skip specific trigger tests as the mock implementation might vary
       // Just verify the triggers array is preserved
       expect(agent.triggers).toEqual(['onMessage', 'onSchedule'])
-      
+
       // Verify the actions array is preserved
       expect(agent.actions).toBeDefined()
       expect(agent.searches).toBeDefined()
@@ -85,14 +85,14 @@ describe('Bridge Implementation Stubs', () => {
         users: {
           id: 'string',
           name: 'string',
-          email: 'string'
+          email: 'string',
         },
         products: {
           id: 'string',
           name: 'string',
           price: 'number',
-          category: 'string'
-        }
+          category: 'string',
+        },
       }
 
       const db = DB(dbSchema)
@@ -100,9 +100,9 @@ describe('Bridge Implementation Stubs', () => {
       // Test create operation
       const newUser = await db.users.create({
         name: 'John Doe',
-        email: 'john@example.com'
+        email: 'john@example.com',
       })
-      
+
       expect(newUser.id).toBeDefined()
       expect(newUser.id).toContain('users_')
       expect(newUser.name).toBe('John Doe')
@@ -145,7 +145,7 @@ describe('Bridge Implementation Stubs', () => {
             handler: async ({ event }) => {
               const { id } = event as { id: string }
               return { id, name: 'Test User' }
-            }
+            },
           },
           createPost: {
             method: 'POST',
@@ -153,9 +153,9 @@ describe('Bridge Implementation Stubs', () => {
             handler: async ({ event }) => {
               const { title, content } = event as { title: string; content: string }
               return { id: 'post_' + Date.now(), title, content, created: true }
-            }
-          }
-        }
+            },
+          },
+        },
       })
 
       // Test that API object has the right structure
@@ -169,7 +169,7 @@ describe('Bridge Implementation Stubs', () => {
       const userEndpoint = api.endpoints.getUser
       expect(userEndpoint.method).toBe('GET')
       expect(userEndpoint.path).toBe('/users/:id')
-      
+
       const userResult = await userEndpoint.invoke({ id: '123' })
       // Update to check the result property instead of the top-level object
       expect(userResult.result).toMatchObject({ id: '123', name: 'Test User' })
@@ -178,17 +178,17 @@ describe('Bridge Implementation Stubs', () => {
       const postEndpoint = api.endpoints.createPost
       expect(postEndpoint.method).toBe('POST')
       expect(postEndpoint.path).toBe('/posts')
-      
-      const postResult = await postEndpoint.invoke({ 
-        title: 'Test Post', 
-        content: 'This is a test post' 
+
+      const postResult = await postEndpoint.invoke({
+        title: 'Test Post',
+        content: 'This is a test post',
       })
       // Update to check the result property instead of the top-level object
-      expect(postResult.result).toMatchObject({ 
+      expect(postResult.result).toMatchObject({
         id: expect.stringContaining('post_'),
         title: 'Test Post',
         content: 'This is a test post',
-        created: true
+        created: true,
       })
     })
   })
@@ -204,9 +204,9 @@ describe('Bridge Implementation Stubs', () => {
           // Mock implementation that would normally search external sources
           return [
             { id: 'doc1', title: 'Test Document 1', score: 0.95 },
-            { id: 'doc2', title: 'Test Document 2', score: 0.82 }
+            { id: 'doc2', title: 'Test Document 2', score: 0.82 },
           ]
-        }
+        },
       })
 
       // Create an action
@@ -221,30 +221,30 @@ describe('Bridge Implementation Stubs', () => {
             messageId: 'email_' + Date.now(),
             status: 'sent',
             to: params.to,
-            sentAt: new Date().toISOString()
+            sentAt: new Date().toISOString(),
           }
-        }
+        },
       })
 
       // Test search execution and metadata
       const searchResults = await search.execute({ text: 'test query' })
       expect(searchResults).toHaveLength(2)
       expect(searchResults[0]).toMatchObject({ id: 'doc1', title: 'Test Document 1' })
-      
+
       const searchMetadata = search.getMetadata()
       expect(searchMetadata.name).toBe('findDocuments')
       expect(searchMetadata.sources).toEqual(['docstore', 'wiki'])
 
       // Test action execution and metadata
-      const actionResult = await action.execute({ 
+      const actionResult = await action.execute({
         to: 'user@example.com',
         subject: 'Test Email',
-        body: 'This is a test email'
+        body: 'This is a test email',
       })
       expect(actionResult).toMatchObject({
         messageId: expect.stringContaining('email_'),
         status: 'sent',
-        to: 'user@example.com'
+        to: 'user@example.com',
       })
 
       const actionMetadata = action.getMetadata()
@@ -262,36 +262,36 @@ describe('Bridge Implementation Stubs', () => {
       const workflow = AI({
         processOrder: async ({ event, api, db }) => {
           const { orderId, items } = event as { orderId: string; items: { id: string; quantity: number }[] }
-          
+
           // Mock operations that would use api and db
           const order = { id: orderId, items, status: 'processed', total: 100 }
-          
+
           // Return success response
-          return { 
-            success: true, 
-            order 
+          return {
+            success: true,
+            order,
           }
-        }
+        },
       })
 
       // Execute the workflow
-      const result = await workflow.processOrder({ 
-        event: { 
-          orderId: 'order123', 
+      const result = await workflow.processOrder({
+        event: {
+          orderId: 'order123',
           items: [
             { id: 'item1', quantity: 2 },
-            { id: 'item2', quantity: 1 }
-          ]
-        }
+            { id: 'item2', quantity: 1 },
+          ],
+        },
       })
 
       // Check the result structure
-      expect(result.result).toMatchObject({ 
+      expect(result.result).toMatchObject({
         success: true,
         order: {
           id: 'order123',
-          status: 'processed'
-        }
+          status: 'processed',
+        },
       })
 
       // Check symbolic tracking
@@ -300,4 +300,4 @@ describe('Bridge Implementation Stubs', () => {
       expect(result.symbolic.log.length).toBeGreaterThan(0)
     })
   })
-}) 
+})

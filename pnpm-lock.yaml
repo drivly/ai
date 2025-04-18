@@ -654,6 +654,26 @@ importers:
         specifier: ^5.0.0
         version: 5.8.3
 
+  pkgs/apis-do-searches:
+    dependencies:
+      zapier-platform-core:
+        specifier: 16.5.0
+        version: 16.5.0(encoding@0.1.13)
+    devDependencies:
+      vitest:
+        specifier: ^3.1.1
+        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
+
+  pkgs/apis-do-zapier:
+    dependencies:
+      zapier-platform-core:
+        specifier: 16.5.0
+        version: 16.5.0(encoding@0.1.13)
+    devDependencies:
+      vitest:
+        specifier: ^3.1.1
+        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
+
   pkgs/better-payload-auth:
     dependencies:
       '@better-auth/utils':
@@ -8611,6 +8631,9 @@ packages:
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
 
+  '@zapier/secret-scrubber@1.1.2':
+    resolution: {integrity: sha512-a4siIYOLgLkfd4TY5FP2gO0Qu4I4kf781wnyR2aMMZbI7CmXD1VS3JcOjPpVHDlC0GKynF/yJd+CmZLkfIUEYg==}
+
   JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
     hasBin: true
@@ -10430,6 +10453,10 @@ packages:
     resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
     engines: {node: '>=10'}
 
+  dotenv@16.4.6:
+    resolution: {integrity: sha512-JhcR/+KIjkkjiU8yEpaB/USlzVi3i5whwOjpIRNGi9svKEXZSe+Qp6IWAjFjv+2GViAoDRCUv/QLNziQxsLqDg==}
+    engines: {node: '>=12'}
+
   dotenv@16.5.0:
     resolution: {integrity: sha512-m/C+AwOAr9/W1UOIZUo232ejMNnJAJtYQjUbHoNTBNTJSvqzzDh7vnrei3o3r3m9blf6ZoDkvcw0VmozNRFJxg==}
     engines: {node: '>=12'}
@@ -11362,6 +11389,10 @@ packages:
   form-data-encoder@2.1.4:
     resolution: {integrity: sha512-yDYSgNMraqvnxiEXO4hi88+YZxaHC6QKzb5N84iRCTDeRO7ZALpir/lVmf/uXUhnwUr2O4HU8s/n6x+yNjQkHw==}
     engines: {node: '>= 14.17'}
+
+  form-data@4.0.1:
+    resolution: {integrity: sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==}
+    engines: {node: '>= 6'}
 
   form-data@4.0.2:
     resolution: {integrity: sha512-hGfm/slu0ZabnNt4oaRZ6uREyfCj6P4fT/n6A1rGV+Z0VdGXjfOhVUpkn6qVQONHGIFwmveGXyDs75+nr6FM8w==}
@@ -12809,6 +12840,9 @@ packages:
   jsonpointer@5.0.1:
     resolution: {integrity: sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==}
     engines: {node: '>=0.10.0'}
+
+  jsonschema@1.2.2:
+    resolution: {integrity: sha512-iX5OFQ6yx9NgbHCwse51ohhKgLuLL7Z5cNOeZOPIlDUtAMrxlruHLzVZxbltdHE5mEDXN+75oFOwq6Gn0MZwsA==}
 
   jsonwebtoken@9.0.2:
     resolution: {integrity: sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ==}
@@ -14422,6 +14456,9 @@ packages:
 
   nwsapi@2.2.20:
     resolution: {integrity: sha512-/ieB+mDe4MrrKMT8z+mQL8klXydZWGR5Dowt4RAGKbJ3kIGEx3X4ljUo+6V73IXtUPWgfOlU5B9MlGxFO5T+cA==}
+
+  oauth-sign@0.9.0:
+    resolution: {integrity: sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==}
 
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
@@ -18498,6 +18535,13 @@ packages:
 
   youch@3.3.4:
     resolution: {integrity: sha512-UeVBXie8cA35DS6+nBkls68xaBBXCye0CNznrhszZjTbRVnJKQuNsyLKBTTL4ln1o1rh2PKtv35twV7irj5SEg==}
+
+  zapier-platform-core@16.5.0:
+    resolution: {integrity: sha512-HNnrzk1s5vGG5IE/Kt5eO8EtcEQ79HTOpIEEk3AaPSSt+r3/KGKVrbbNh1XmV0u3GyPJ4cH2NtR6UdD3nshQyg==}
+    engines: {node: '>=16', npm: '>=5.6.0'}
+
+  zapier-platform-schema@16.5.0:
+    resolution: {integrity: sha512-EBVtU67ICz33k6zydQ3YNy72ydSbBsMVlBlTB7mQP8pByxdhmzITro/xdhj/zhb8npBo9v1OrX4qcCgmLbIkqw==}
 
   zhead@2.2.4:
     resolution: {integrity: sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==}
@@ -26781,6 +26825,11 @@ snapshots:
 
   '@xtuc/long@4.2.2': {}
 
+  '@zapier/secret-scrubber@1.1.2':
+    dependencies:
+      create-hash: 1.2.0
+      lodash.isplainobject: 4.0.6
+
   JSONStream@1.3.5:
     dependencies:
       jsonparse: 1.3.1
@@ -28894,6 +28943,8 @@ snapshots:
 
   dotenv@10.0.0: {}
 
+  dotenv@16.4.6: {}
+
   dotenv@16.5.0: {}
 
   dotenv@8.6.0: {}
@@ -30336,6 +30387,12 @@ snapshots:
   form-data-encoder@1.7.2: {}
 
   form-data-encoder@2.1.4: {}
+
+  form-data@4.0.1:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.35
 
   form-data@4.0.2:
     dependencies:
@@ -31955,6 +32012,8 @@ snapshots:
   jsonparse@1.3.1: {}
 
   jsonpointer@5.0.1: {}
+
+  jsonschema@1.2.2: {}
 
   jsonwebtoken@9.0.2:
     dependencies:
@@ -34085,6 +34144,8 @@ snapshots:
   number-to-words@1.2.4: {}
 
   nwsapi@2.2.20: {}
+
+  oauth-sign@0.9.0: {}
 
   object-assign@4.1.1: {}
 
@@ -36330,7 +36391,7 @@ snapshots:
     dependencies:
       debug: 4.4.0
       module-details-from-path: 1.0.3
-      resolve: 1.22.8
+      resolve: 1.22.10
     transitivePeerDependencies:
       - supports-color
 
@@ -39501,6 +39562,30 @@ snapshots:
       cookie: 0.7.2
       mustache: 4.2.0
       stacktracey: 2.1.8
+
+  zapier-platform-core@16.5.0(encoding@0.1.13):
+    dependencies:
+      '@zapier/secret-scrubber': 1.1.2
+      bluebird: 3.7.2
+      content-disposition: 0.5.4
+      dotenv: 16.4.6
+      form-data: 4.0.1
+      lodash: 4.17.21
+      mime-types: 2.1.35
+      node-abort-controller: 3.1.1
+      node-fetch: 2.7.0(encoding@0.1.13)
+      oauth-sign: 0.9.0
+      semver: 7.6.3
+      zapier-platform-schema: 16.5.0
+    optionalDependencies:
+      '@types/node': 20.17.30
+    transitivePeerDependencies:
+      - encoding
+
+  zapier-platform-schema@16.5.0:
+    dependencies:
+      jsonschema: 1.2.2
+      lodash: 4.17.21
 
   zhead@2.2.4: {}
 

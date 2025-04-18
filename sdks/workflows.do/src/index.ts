@@ -37,7 +37,6 @@ import type {
 } from './types'
 import { API } from './client.js'
 
-
 /**
  * Creates an AI instance with typed methods based on the provided schemas
  * @param config Object containing event handlers and function schemas
@@ -219,9 +218,8 @@ function createDatabaseAccess(): DatabaseAccess {
           if (typeof g.createNoSQLClient === 'function') {
             return g.createNoSQLClient(storage) as unknown as DatabaseAccess
           }
-        } catch (importError) {
-        }
-        
+        } catch (importError) {}
+
         return storage as unknown as DatabaseAccess
       } catch (error) {
         console.error('Error initializing database access:', error)

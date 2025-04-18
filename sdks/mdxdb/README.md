@@ -38,7 +38,7 @@ import { DB } from 'mdxdb'
 const db = DB({
   basePath: './content', // Base directory for MDX files
   fileExtension: '.mdx', // File extension for MDX files
-  createDirectories: true // Create directories if they don't exist
+  createDirectories: true, // Create directories if they don't exist
 })
 
 // Create a new post

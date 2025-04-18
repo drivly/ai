@@ -18,15 +18,15 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
         title: 'Documentation',
       }
     }
-    
+
     const { domain } = await params
-    
+
     if (!domain) {
       return {
         title: 'Documentation',
       }
     }
-  
+
     const project = await fetchProjectByDomain(domain)
 
     if (!project) {
@@ -56,7 +56,7 @@ export default async function ProjectAdminPage({ params }: { params: Promise<Par
       notFound()
       return null
     }
-    
+
     const { domain } = await params
 
     const project = await fetchProjectByDomain(domain)

@@ -26,8 +26,7 @@ try {
   ;(async () => {
     storedApiKey = await loadApiKey()
   })()
-} catch (error) {
-}
+} catch (error) {}
 
 const cli = new CLI({
   apiKey: storedApiKey || process.env.APIS_DO_API_KEY || process.env.DO_API_KEY,
@@ -71,10 +70,7 @@ async function runCommand() {
         console.log('Resources pushed successfully')
         break
       case 'sync':
-        const syncMode = args.includes('--mode-db') ? 'database' : 
-                         args.includes('--mode-local') ? 'local' : 
-                         args.includes('--mode-github') ? 'github' : 
-                         undefined
+        const syncMode = args.includes('--mode-db') ? 'database' : args.includes('--mode-local') ? 'local' : args.includes('--mode-github') ? 'github' : undefined
         await cli.sync({ mode: syncMode })
         console.log('Resources synced successfully')
         break

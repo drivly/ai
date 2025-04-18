@@ -358,7 +358,7 @@ import { FunctionsClient } from 'functions.do'
 // Initialize client with custom concurrency limit
 const client = new FunctionsClient({
   apiKey: 'your_api_key',
-  concurrency: 10 // Default is 50 if not specified
+  concurrency: 10, // Default is 50 if not specified
 })
 
 // Dynamically adjust concurrency limit

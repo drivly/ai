@@ -1,5 +1,5 @@
-import { getPayload } from 'payload';
-import config from '@payload-config';
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
 /**
  * Fetches all nouns associated with a project
@@ -8,23 +8,23 @@ import config from '@payload-config';
  */
 export async function getNounsForProject(projectId: string) {
   if (!projectId) {
-    throw new Error('Project ID is required');
+    throw new Error('Project ID is required')
   }
-  
+
   try {
-    const payload = await getPayload({ config });
-    
+    const payload = await getPayload({ config })
+
     const { docs } = await payload.find({
       collection: 'nouns',
       where: {
         project: { equals: projectId },
       },
       sort: 'order',
-    });
-    
-    return docs || [];
+    })
+
+    return docs || []
   } catch (error) {
-    console.error(`Error fetching nouns for project '${projectId}':`, error);
-    throw new Error('Failed to fetch nouns for project');
+    console.error(`Error fetching nouns for project '${projectId}':`, error)
+    throw new Error('Failed to fetch nouns for project')
   }
 }

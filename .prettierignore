@@ -3,3 +3,5 @@ pnpm-lock.yaml
 
 # Generated files
 **/payload.types.ts
+
+docs/**

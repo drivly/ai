@@ -179,7 +179,7 @@ describe('Composio Webhook Handler', () => {
   it('should include default tenant when creating events', async () => {
     // Setup environment variables
     process.env.DEFAULT_TENANT = 'test-tenant'
-    
+
     expect(true).toBe(true)
   })
 })

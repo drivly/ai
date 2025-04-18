@@ -27,23 +27,23 @@ interface LinearWebhookPayload {
 
 const mapLinearStatusToTaskStatus = (linearStatus: string): string => {
   const statusMap: Record<string, string> = {
-    'Backlog': 'backlog',
-    'Todo': 'todo',
+    Backlog: 'backlog',
+    Todo: 'todo',
     'In Progress': 'in-progress',
     'In Review': 'review',
-    'Done': 'done',
-    'Canceled': 'done',
+    Done: 'done',
+    Canceled: 'done',
   }
-  
+
   return statusMap[linearStatus] || 'backlog'
 }
 
 export const handleLinearWebhook = async ({ job, payload }: any) => {
   try {
     const { action, data } = job.input.payload as LinearWebhookPayload
-    
+
     console.log(`Processing Linear webhook: ${action}`, data)
-    
+
     if (['create', 'update'].includes(action)) {
       const existingTasks = await payload.find({
         collection: 'tasks',
@@ -53,7 +53,7 @@ export const handleLinearWebhook = async ({ job, payload }: any) => {
           },
         },
       })
-      
+
       const taskData = {
         title: data.title,
         description: data.description || '',
@@ -66,31 +66,29 @@ export const handleLinearWebhook = async ({ job, payload }: any) => {
           teamName: data.team?.name,
         },
       }
-      
+
       if (existingTasks.docs.length > 0) {
         const existingTask = existingTasks.docs[0]
         console.log(`Updating existing task: ${existingTask.id}`)
-        
+
         await payload.update({
           collection: 'tasks',
           id: existingTask.id,
           data: taskData,
         })
-        
+
         return { success: true, action: 'update', taskId: existingTask.id }
-      } 
-      else {
+      } else {
         console.log('Creating new task from Linear')
-        
+
         const newTask = await payload.create({
           collection: 'tasks',
           data: taskData,
         })
-        
+
         return { success: true, action: 'create', taskId: newTask.id }
       }
-    } 
-    else if (action === 'remove') {
+    } else if (action === 'remove') {
       const existingTasks = await payload.find({
         collection: 'tasks',
         where: {
@@ -99,11 +97,11 @@ export const handleLinearWebhook = async ({ job, payload }: any) => {
           },
         },
       })
-      
+
       if (existingTasks.docs.length > 0) {
         const existingTask = existingTasks.docs[0]
         console.log(`Marking task as done due to Linear deletion: ${existingTask.id}`)
-        
+
         await payload.update({
           collection: 'tasks',
           id: existingTask.id,
@@ -111,11 +109,11 @@ export const handleLinearWebhook = async ({ job, payload }: any) => {
             status: 'done',
           },
         })
-        
+
         return { success: true, action: 'mark-done', taskId: existingTask.id }
       }
     }
-    
+
     return { success: true, action: 'no-op' }
   } catch (error) {
     console.error('Error processing Linear webhook:', error)
@@ -126,8 +124,6 @@ export const handleLinearWebhook = async ({ job, payload }: any) => {
 export const handleLinearWebhookTask = {
   slug: 'handleLinearWebhook',
   label: 'Handle Linear Webhook',
-  inputSchema: [
-    { name: 'payload', type: 'json', required: true },
-  ],
+  inputSchema: [{ name: 'payload', type: 'json', required: true }],
   handler: handleLinearWebhook,
 } as unknown as TaskConfig

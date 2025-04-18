@@ -12,21 +12,21 @@ import type { Field } from 'payload'
  */
 const createMetaFile = (dir: string, items: string[]) => {
   const metaPath = path.join(dir, '_meta.ts')
-  
+
   // Create the meta content with proper escaping
   let itemsStr = ''
   for (const item of items) {
     itemsStr += `  '${item}': '',
 `
   }
-  
+
   const metaContent = `import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
 ${itemsStr}}
 
 export default meta`
-  
+
   fs.writeFileSync(metaPath, metaContent)
 }
 
@@ -60,24 +60,22 @@ This section contains API documentation for all collections in the system.
 
     // Group collections by their admin group
     interface CollectionGroup {
-      [key: string]: any[];
+      [key: string]: any[]
     }
-    
+
     const collectionsByGroup: CollectionGroup = {}
-    
+
     for (const collection of collections) {
       // Safely extract the group and ensure it's a string
-      const groupName: string = typeof collection.admin?.group === 'string' 
-        ? collection.admin.group 
-        : 'Uncategorized';
-      
+      const groupName: string = typeof collection.admin?.group === 'string' ? collection.admin.group : 'Uncategorized'
+
       // Use the string as an index key
       if (!collectionsByGroup[groupName]) {
-        collectionsByGroup[groupName] = [];
+        collectionsByGroup[groupName] = []
       }
       collectionsByGroup[groupName].push(collection)
     }
-    
+
     // First, delete all existing files and directories in the apisDir except index.mdx
     const existingFiles = fs.readdirSync(apisDir)
     for (const file of existingFiles) {
@@ -92,32 +90,36 @@ This section contains API documentation for all collections in the system.
         }
       }
     }
-    
+
     // Process each group
     for (const group of Object.keys(collectionsByGroup)) {
-      const groupKey = group as string;  // Ensure group is treated as a string
-      const collectionsInGroup = collectionsByGroup[groupKey] || [];
+      const groupKey = group as string // Ensure group is treated as a string
+      const collectionsInGroup = collectionsByGroup[groupKey] || []
       for (const collection of collectionsInGroup) {
         await generateCollectionDoc(collection, apisDir)
       }
     }
-    
+
     // Create _meta.ts files for each group directory to control sidebar order
     const groups = Object.keys(collectionsByGroup)
-    createMetaFile(apisDir, groups.map(group => group.toLowerCase().replace(/\s+/g, '-')))
-    
+    createMetaFile(
+      apisDir,
+      groups.map((group) => group.toLowerCase().replace(/\s+/g, '-')),
+    )
+
     // Create _meta.ts files for each group's collections
     for (const group of groups) {
       // Ensure group is a string and create valid directory name
-      const groupStr = String(group);
-      const groupDirName = groupStr.toLowerCase().replace(/\s+/g, '-');
-      const groupDir = path.join(apisDir, groupDirName);
-      
+      const groupStr = String(group)
+      const groupDirName = groupStr.toLowerCase().replace(/\s+/g, '-')
+      const groupDir = path.join(apisDir, groupDirName)
+
       if (fs.existsSync(groupDir)) {
-        const files = fs.readdirSync(groupDir)
-          .filter(file => file.endsWith('.mdx') && file !== 'index.mdx')
-          .map(file => file.replace('.mdx', ''))
-        
+        const files = fs
+          .readdirSync(groupDir)
+          .filter((file) => file.endsWith('.mdx') && file !== 'index.mdx')
+          .map((file) => file.replace('.mdx', ''))
+
         createMetaFile(groupDir, files)
       }
     }
@@ -146,7 +148,7 @@ const generateCollectionDoc = async (collection: any, apisDir: string) => {
   const groupDir = path.join(apisDir, group.toLowerCase().replace(/\s+/g, '-'))
   if (!fs.existsSync(groupDir)) {
     fs.mkdirSync(groupDir, { recursive: true })
-    
+
     // Create an index.mdx file for the group
     const groupIndexPath = path.join(groupDir, 'index.mdx')
     fs.writeFileSync(
@@ -160,7 +162,7 @@ description: API documentation for ${group} collections
 # ${group} API Reference
 
 This section contains API documentation for ${group} collections.
-`
+`,
     )
   }
 
@@ -171,7 +173,7 @@ This section contains API documentation for ${group} collections.
       .map((field: any) => {
         const { name, type, required, defaultValue } = field
         let tsType = mapPayloadTypeToTS(field)
-        
+
         // Format the field as a TypeScript property
         return `  ${name}${required ? '' : '?'}: ${tsType};`
       })
@@ -181,7 +183,7 @@ This section contains API documentation for ${group} collections.
   // Map Payload field types to TypeScript types
   const mapPayloadTypeToTS = (field: any): string => {
     const { type, hasMany } = field
-    
+
     switch (type) {
       case 'text':
       case 'textarea':
@@ -195,9 +197,7 @@ This section contains API documentation for ${group} collections.
         return 'boolean'
       case 'select':
         if (field.options && Array.isArray(field.options)) {
-          const options = field.options
-            .map((opt: any) => typeof opt === 'string' ? `'${opt}'` : `'${opt.value}'`)
-            .join(' | ')
+          const options = field.options.map((opt: any) => (typeof opt === 'string' ? `'${opt}'` : `'${opt.value}'`)).join(' | ')
           return options || 'string'
         }
         return 'string'

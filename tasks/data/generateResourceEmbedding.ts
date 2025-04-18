@@ -3,15 +3,12 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 
 export const generateResourceEmbedding = async (resourceIdOrJob: any): Promise<void> => {
-  const resourceId = typeof resourceIdOrJob === 'string' 
-    ? resourceIdOrJob 
-    : (resourceIdOrJob?.input?.id || resourceIdOrJob?.job?.input?.id || resourceIdOrJob?.id);
-  
-  if (!resourceId || typeof resourceId !== 'string') {
-    console.error('Invalid resource ID format:', resourceIdOrJob);
-    return;
-  }
+  const resourceId = typeof resourceIdOrJob === 'string' ? resourceIdOrJob : resourceIdOrJob?.input?.id || resourceIdOrJob?.job?.input?.id || resourceIdOrJob?.id
 
+  if (!resourceId || typeof resourceId !== 'string') {
+    console.error('Invalid resource ID format:', resourceIdOrJob)
+    return
+  }
 
   const payload = await getPayload({ config })
 

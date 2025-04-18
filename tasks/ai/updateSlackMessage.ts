@@ -13,13 +13,7 @@ export const updateSlackMessage = async ({ input }: { input: UpdateSlackMessageI
     throw new Error('Response URL is required')
   }
 
-  const {
-    response_url,
-    blocks,
-    text = '',
-    replace_original = true,
-    delete_original = false
-  } = input
+  const { response_url, blocks, text = '', replace_original = true, delete_original = false } = input
 
   try {
     const response = await fetch(response_url, {
@@ -57,8 +51,6 @@ export const updateSlackMessageTask = {
     { name: 'replace_original', type: 'checkbox' },
     { name: 'delete_original', type: 'checkbox' },
   ],
-  outputSchema: [
-    { name: 'result', type: 'json' },
-  ],
+  outputSchema: [{ name: 'result', type: 'json' }],
   handler: updateSlackMessage,
 } as unknown as TaskConfig

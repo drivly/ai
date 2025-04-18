@@ -95,24 +95,24 @@ import { evals } from 'evals.do'
 
 // Evaluate a function with different model and prompt variations
 const evalResults = await evals.Eval({
-  name: "summarizeDocument",
+  name: 'summarizeDocument',
   schema: {
-    input: "string",
-    output: "string"
+    input: 'string',
+    output: 'string',
   },
-  models: ["gpt-4o", "gpt-3.5-turbo"],
+  models: ['gpt-4o', 'gpt-3.5-turbo'],
   prompts: [
     {
-      name: "concise",
-      system: "Summarize the document in 3 bullet points.",
-      temperature: 0.2
+      name: 'concise',
+      system: 'Summarize the document in 3 bullet points.',
+      temperature: 0.2,
     },
     {
-      name: "detailed",
-      system: "Provide a comprehensive summary of the document.",
-      temperature: 0.7
-    }
-  ]
+      name: 'detailed',
+      system: 'Provide a comprehensive summary of the document.',
+      temperature: 0.7,
+    },
+  ],
 })
 
 console.log(`Evaluation results by model:`, evalResults.models)

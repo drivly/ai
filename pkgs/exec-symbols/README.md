@@ -4,7 +4,7 @@
 
 A **purely functional TypeScript library** for modeling facts, nouns, constraints, and state machines in JavaScript. Functional programming techniques are used for the backends at WhatsApp and X and spam filtering on Facebook, and enables parallelizable, deferred-by-default execution.
 
-This library enables *knowledge graphs, object bindings, state machines, and inversion of control* all as functional closures. It can be used for rule engines, domain-specific language projects, and more.
+This library enables _knowledge graphs, object bindings, state machines, and inversion of control_ all as functional closures. It can be used for rule engines, domain-specific language projects, and more.
 
 ---
 
@@ -59,26 +59,81 @@ Then, in your code:
 
 ```js
 const {
-  IDENTITY, TRUE, FALSE, IF, AND, OR, NOT,
-  ZERO, SUCC, ADD, MULT, EXP, EQ, LT, GT, LE, GE,
-  pair, fst, snd,
-  nil, ISEMPTY, cons, map, fold, append,
-  Noun, unit, bind, get_id,
-  equals, nth, reorder,
-  FactType, get_arity, get_verb, get_reading, get_constraints,
-  makeVerbFact, FactSymbol, get_verb_symbol, get_nouns,
-  Reading, get_reading_verb, get_reading_order, get_reading_template,
-  Event, get_fact, get_time, get_event_readings,
-  unit_state, bind_state,
-  make_transition, unguarded,
-  StateMachine, run_machine, run_noun,
-  Constraint, get_modality, get_predicate,
-  evaluate_constraint, evaluate_with_modality,
+  IDENTITY,
+  TRUE,
+  FALSE,
+  IF,
+  AND,
+  OR,
+  NOT,
+  ZERO,
+  SUCC,
+  ADD,
+  MULT,
+  EXP,
+  EQ,
+  LT,
+  GT,
+  LE,
+  GE,
+  pair,
+  fst,
+  snd,
+  nil,
+  ISEMPTY,
+  cons,
+  map,
+  fold,
+  append,
+  Noun,
+  unit,
+  bind,
+  get_id,
+  equals,
+  nth,
+  reorder,
+  FactType,
+  get_arity,
+  get_verb,
+  get_reading,
+  get_constraints,
+  makeVerbFact,
+  FactSymbol,
+  get_verb_symbol,
+  get_nouns,
+  Reading,
+  get_reading_verb,
+  get_reading_order,
+  get_reading_template,
+  Event,
+  get_fact,
+  get_time,
+  get_event_readings,
+  unit_state,
+  bind_state,
+  make_transition,
+  unguarded,
+  StateMachine,
+  run_machine,
+  run_noun,
+  Constraint,
+  get_modality,
+  get_predicate,
+  evaluate_constraint,
+  evaluate_with_modality,
   Violation,
-  nounType, factType, role, reading, inverseReading,
-  constraint, constraintTarget, violation,
-  ALETHIC, DEONTIC,
-  RMAP, CSDP
+  nounType,
+  factType,
+  role,
+  reading,
+  inverseReading,
+  constraint,
+  constraintTarget,
+  violation,
+  ALETHIC,
+  DEONTIC,
+  RMAP,
+  CSDP,
 } = require('exec-symbols')
 ```
 
@@ -99,17 +154,17 @@ const {
 ### Church Booleans
 
 ```js
-const TRUE  = t => f => t
-const FALSE = t => f => f
-const IF    = b => t => e => b(t)(e)
+const TRUE = (t) => (f) => t
+const FALSE = (t) => (f) => f
+const IF = (b) => (t) => (e) => b(t)(e)
 
 // AND, OR, NOT
-const AND   = p => q => p(q)(FALSE)
-const OR    = p => q => p(TRUE)(q)
-const NOT   = p => p(FALSE)(TRUE)
+const AND = (p) => (q) => p(q)(FALSE)
+const OR = (p) => (q) => p(TRUE)(q)
+const NOT = (p) => p(FALSE)(TRUE)
 ```
 
-- These are *Church-encoded* booleans. They are functions that, given two branches, choose one to evaluate.
+- These are _Church-encoded_ booleans. They are functions that, given two branches, choose one to evaluate.
 
 ### Church Numerals
 
@@ -147,17 +202,17 @@ const map  = f => l => ...
 const append = l1 => l2 => ...
 ```
 
-- A *pair* is stored as a function that takes a function `f` and applies `f(a)(b)`.
-- A *list* is stored as a function that takes a function for the "cons" case (`c`) and a function for the "nil" case (`n`).
+- A _pair_ is stored as a function that takes a function `f` and applies `f(a)(b)`.
+- A _list_ is stored as a function that takes a function for the "cons" case (`c`) and a function for the "nil" case (`n`).
 - `ISEMPTY` checks if a list is empty.
 
 ### Nouns and Binding
 
 ```js
-const Noun = id => s => s(id)
-const unit   = id => Noun(id)
-const bind   = e => f => e(id => f(id))
-const get_id = e => e(id => id)
+const Noun = (id) => (s) => s(id)
+const unit = (id) => Noun(id)
+const bind = (e) => (f) => e((id) => f(id))
+const get_id = (e) => e((id) => id)
 ```
 
 - An `Noun` is also a function (the same Church-style approach).
@@ -169,8 +224,7 @@ const get_id = e => e(id => id)
 #### Relationship Types
 
 ```js
-const FactType = arity => verbFn => reading => constraints =>
-  s => s(arity)(verbFn)(reading)(constraints)
+const FactType = (arity) => (verbFn) => (reading) => (constraints) => (s) => s(arity)(verbFn)(reading)(constraints)
 ```
 
 - A `FactType` captures:
@@ -182,14 +236,11 @@ const FactType = arity => verbFn => reading => constraints =>
 `makeVerbFact`:
 
 ```js
-const makeVerbFact = FactType => {
+const makeVerbFact = (FactType) => {
   const arity = get_arity(FactType)
-  const verb  = get_verb(FactType)
+  const verb = get_verb(FactType)
 
-  const curry = (args, n) =>
-    n === 0
-      ? verb(args)
-      : arg => curry(append(args)(cons(arg)(nil)), n - 1)
+  const curry = (args, n) => (n === 0 ? verb(args) : (arg) => curry(append(args)(cons(arg)(nil)), n - 1))
 
   return curry(nil, arity)
 }
@@ -200,7 +251,7 @@ const makeVerbFact = FactType => {
 #### Symbolic Facts
 
 ```js
-const FactSymbol = verb => nouns => s => s(verb)(nouns)
+const FactSymbol = (verb) => (nouns) => (s) => s(verb)(nouns)
 ```
 
 - A quick way to represent a fact as `(verb, [nouns])` in a Church-encoded closure.
@@ -222,10 +273,10 @@ const get_reading_template = (r) => r((v, o, t) => t)
 ### Events
 
 ```js
-const Event = fact => time => readings => s => s(fact, time, readings)
-const get_fact = e => e((f, t, r) => f)
-const get_time = e => e((f, t, r) => t)
-const get_event_readings = e => e((f, t, r) => r)
+const Event = (fact) => (time) => (readings) => (s) => s(fact, time, readings)
+const get_fact = (e) => e((f, t, r) => f)
+const get_time = (e) => e((f, t, r) => t)
+const get_event_readings = (e) => e((f, t, r) => r)
 ```
 
 - An `Event` pairs a fact with a time and optional readings, again using a function-based approach.
@@ -234,45 +285,37 @@ const get_event_readings = e => e((f, t, r) => r)
 
 ```js
 // State Monad
-const unit_state = a => s => pair(a)(s)
-const bind_state = m => f => s => { /* typical state-monad logic */ }
+const unit_state = (a) => (s) => pair(a)(s)
+const bind_state = (m) => (f) => (s) => {
+  /* typical state-monad logic */
+}
 
 // Transition
-const make_transition = guard => compute_next =>
-  state => input =>
-    IF(guard(state)(input))(
-      compute_next(state)(input)
-    )(
-      state
-    )
+const make_transition = (guard) => (compute_next) => (state) => (input) => IF(guard(state)(input))(compute_next(state)(input))(state)
 
 // Unguarded transition
 const unguarded = make_transition((_s) => (_i) => TRUE)
 
 // StateMachine
-const StateMachine = transition => initial => s => s(transition)(initial)
+const StateMachine = (transition) => (initial) => (s) => s(transition)(initial)
 
 // Running a machine
-const run_machine = machine => stream =>
-  machine((transition, initial) =>
-    fold(event => state =>
-      transition(state)(get_fact(event))
-    )(initial)(stream)
-  )
+const run_machine = (machine) => (stream) => machine((transition, initial) => fold((event) => (state) => transition(state)(get_fact(event)))(initial)(stream))
 ```
 
 - The code includes guarded transitions (using Church booleans) and a state monad for carrying and updating state.
 - `StateMachine` encapsulates a transition function and an initial state.
-- `run_machine` processes a *stream* of events (Church-encoded list) against the transition function.
+- `run_machine` processes a _stream_ of events (Church-encoded list) against the transition function.
 
 ### Constraints and Violations
 
 ```js
-const Constraint = modality => predicate => s => s(modality)(predicate)
-const Violation  = constraint => noun => reason => s => s(constraint)(noun)(reason)
+const Constraint = (modality) => (predicate) => (s) => s(modality)(predicate)
+const Violation = (constraint) => (noun) => (reason) => (s) => s(constraint)(noun)(reason)
 ```
 
 - Constraints contain:
+
   - Modality (e.g., `ALETHIC` or `DEONTIC`).
   - A predicate function to evaluate over a "population."
 
@@ -293,15 +336,15 @@ const isFalse = IF(FALSE)('yes')('no') // 'no'
 // Define a selector that creates a readable string
 const readableSelector = (verb, nouns) => {
   const nounValues = map(get_id)(nouns);
-  
+
   // Get reading for this verb (simplified lookup)
   const readingInfo = /* lookup reading for verb */;
   const template = get_reading_template(readingInfo);
   const order = get_reading_order(readingInfo);
-  
+
   // Reorder nouns according to reading order
   const orderedNouns = reorder(nounValues, order);
-  
+
   // Apply template for any arity
   return fold(
     (value, index) => (str) => str.replace(`{${index}}`, value),
@@ -320,29 +363,27 @@ const readableString = aliceKnowsBob(readableSelector);
 
 ```js
 // Define a relationship type: "loves", arity = 2
-const lovesFactType = FactType(2)(
-  args => {
-    // A simple verb function that returns a FactSymbol
-    return FactSymbol('loves')(args)
-  }
+const lovesFactType = FactType(2)((args) => {
+  // A simple verb function that returns a FactSymbol
+  return FactSymbol('loves')(args)
+})(
+  ['', ' loves ', ''], // reading
 )(
-  ['', ' loves ', ''] // reading
-)(
-  nil                 // no additional constraints
+  nil, // no additional constraints
 )
 
 // Make a verb fact for "loves"
 const loves = makeVerbFact(lovesFactType)
 
 // Provide two nouns
-const alice = unit("Alice")
-const bob   = unit("Bob")
+const alice = unit('Alice')
+const bob = unit('Bob')
 
 // Curried usage
 const fact = loves(alice)(bob) // => FactSymbol('loves')(cons(alice)(cons(bob)(nil)))
 
 // Inspect
-console.log(get_verb_symbol(fact))     // 'loves'
+console.log(get_verb_symbol(fact)) // 'loves'
 console.log(get_id(nth(0)(get_nouns(fact)))) // 'Alice'
 console.log(get_id(nth(1)(get_nouns(fact)))) // 'Bob'
 ```
@@ -351,23 +392,22 @@ console.log(get_id(nth(1)(get_nouns(fact)))) // 'Bob'
 
 ```js
 // Define a simple guard and next state
-const guard = state => input => 
+const guard = (state) => (input) =>
   // For demonstration, only proceed if input matches "go"
-  equals(input)(unit("go"))
+  equals(input)(unit('go'))
 
-const compute_next = state => input => 
+const compute_next = (state) => (input) =>
   // Return a new state, e.g., "running"
-  pair(unit("running"))(snd(state))
+  pair(unit('running'))(snd(state))
 
 // Make a transition
 const transition = make_transition(guard)(compute_next)
 
 // Initial machine
-const myMachine = StateMachine(transition)(pair(unit("idle"))(nil))
+const myMachine = StateMachine(transition)(pair(unit('idle'))(nil))
 
 // Stream of events
-const eventStream = cons(Event(unit("go"))(0)(nil))(
-                    cons(Event(unit("stop"))(1)(nil))(nil))
+const eventStream = cons(Event(unit('go'))(0)(nil))(cons(Event(unit('stop'))(1)(nil))(nil))
 
 // Run
 const finalState = run_machine(myMachine)(eventStream)
@@ -378,14 +418,10 @@ console.log(get_id(fst(finalState))) // "running" if it processed "go"
 
 ```js
 // Define a reading
-const lovesReading = Reading('loves', 
-                           cons(ZERO)(cons(SUCC(ZERO))(nil)), 
-                           ['', ' loves ', ''])
+const lovesReading = Reading('loves', cons(ZERO)(cons(SUCC(ZERO))(nil)), ['', ' loves ', ''])
 
 // Create an inverse reading (B is loved by A instead of A loves B)
-const lovedByReading = inverseReading('loves', 'is_loved_by',
-                              cons(SUCC(ZERO))(cons(ZERO)(nil)),
-                              ['', ' is loved by ', ''])
+const lovedByReading = inverseReading('loves', 'is_loved_by', cons(SUCC(ZERO))(cons(ZERO)(nil)), ['', ' is loved by ', ''])
 
 // Use in event with readings
 const event = Event(loves(alice)(bob))('now')(cons(lovesReading)(cons(lovedByReading)(nil)))
@@ -404,70 +440,57 @@ Demonstrates:
 
 ```js
 // ───────────── Nouns ─────────────
-const alice   = unit("alice")
-const bob     = unit("bob")
-const thread1 = unit("thread-1")
-const postA   = unit("post-A")
-const postB   = unit("post-B")
+const alice = unit('alice')
+const bob = unit('bob')
+const thread1 = unit('thread-1')
+const postA = unit('post-A')
+const postB = unit('post-B')
 
 // ───────────── FactType: posts ─────────────
-const postsVerb = args => {
+const postsVerb = (args) => {
   const [user, post, thread] = [nth(0)(args), nth(1)(args), nth(2)(args)]
-  return FactSymbol("posts")(args)
+  return FactSymbol('posts')(args)
 }
 
-const postsType = FactType(3)(postsVerb)(
-  ["", " posted ", " in ", ""]
-)(nil)
+const postsType = FactType(3)(postsVerb)(['', ' posted ', ' in ', ''])(nil)
 
 // Reading: forward
-reading("posts", ["", " posted ", " in ", ""])
+reading('posts', ['', ' posted ', ' in ', ''])
 
 // Inverse reading - thread contains posts
-inverseReading("posts", "contains", cons(2)(cons(1)(cons(0)(nil))),
-  ["", " contains post ", " by ", ""])
+inverseReading('posts', 'contains', cons(2)(cons(1)(cons(0)(nil))), ['', ' contains post ', ' by ', ''])
 
 // ───────────── FactType: replies ─────────────
-const repliesVerb = args => {
+const repliesVerb = (args) => {
   const [user, replyPost, originalPost] = [nth(0)(args), nth(1)(args), nth(2)(args)]
-  return FactSymbol("replies")(args)
+  return FactSymbol('replies')(args)
 }
 
-const repliesType = FactType(3)(repliesVerb)(
-  ["", " replied with ", " to ", ""]
-)(nil)
+const repliesType = FactType(3)(repliesVerb)(['', ' replied with ', ' to ', ''])(nil)
 
-reading("replies", ["", " replied with ", " to ", ""])
+reading('replies', ['', ' replied with ', ' to ', ''])
 
 // Inverse reading for replies - has reply from
-inverseReading("replies", "hasReplyFrom", cons(2)(cons(1)(cons(0)(nil))),
-  ["", " has reply ", " from ", ""])
+inverseReading('replies', 'hasReplyFrom', cons(2)(cons(1)(cons(0)(nil))), ['', ' has reply ', ' from ', ''])
 
 // ───────────── FactType: moderates ─────────────
-const moderatesVerb = args => {
+const moderatesVerb = (args) => {
   const [moderator, post] = [nth(0)(args), nth(1)(args)]
-  return FactSymbol("moderates")(args)
+  return FactSymbol('moderates')(args)
 }
 
-const moderatesType = FactType(2)(moderatesVerb)(
-  ["", " moderated ", ""]
-)(nil)
+const moderatesType = FactType(2)(moderatesVerb)(['', ' moderated ', ''])(nil)
 
-reading("moderates", ["", " moderated ", ""])
+reading('moderates', ['', ' moderated ', ''])
 
 // ───────────── Deontic Constraint: inverse required for posts ─────────────
-const inverseRequiredForPosts = Constraint(DEONTIC)(
-  pop => {
-    const found = any(pop, f =>
-      get_verb_symbol(f) === "inverseReading" &&
-      get_id(nth(0)(get_nouns(f))) === "posts"
-    )
-    return found ? TRUE : FALSE
-  }
-)
+const inverseRequiredForPosts = Constraint(DEONTIC)((pop) => {
+  const found = any(pop, (f) => get_verb_symbol(f) === 'inverseReading' && get_id(nth(0)(get_nouns(f))) === 'posts')
+  return found ? TRUE : FALSE
+})
 
-constraint("inverse_required_for_posts", DEONTIC)
-constraintTarget("inverse_required_for_posts", "posts", 0)
+constraint('inverse_required_for_posts', DEONTIC)
+constraintTarget('inverse_required_for_posts', 'posts', 0)
 
 // ───────────── Fact Instances ─────────────
 // Alice posts postA in thread1
@@ -481,20 +504,14 @@ const modFact = makeVerbFact(moderatesType)(alice)(postB)
 
 // ───────────── Events ─────────────
 // Inverse reading list provided to Event
-const inverseReadingsForPosts = cons(
-  Reading("contains", cons(2)(cons(1)(cons(0)(nil))), 
-    ["", " contains post ", " by ", ""])
-)(nil)
+const inverseReadingsForPosts = cons(Reading('contains', cons(2)(cons(1)(cons(0)(nil))), ['', ' contains post ', ' by ', '']))(nil)
 
-const event1 = Event(postFact)(unit("t1"))(inverseReadingsForPosts)
-const event2 = Event(replyFact)(unit("t2"))(nil)
-const event3 = Event(modFact)(unit("t3"))(nil)
+const event1 = Event(postFact)(unit('t1'))(inverseReadingsForPosts)
+const event2 = Event(replyFact)(unit('t2'))(nil)
+const event3 = Event(modFact)(unit('t3'))(nil)
 
 // ───────────── Constraint Evaluation ─────────────
-const pop = cons(
-  inverseReading("posts", "contains", cons(2)(cons(1)(cons(0)(nil))),
-    ["", " contains post ", " by ", ""])
-)(nil)
+const pop = cons(inverseReading('posts', 'contains', cons(2)(cons(1)(cons(0)(nil))), ['', ' contains post ', ' by ', '']))(nil)
 
 const evalResult = evaluate_with_modality(inverseRequiredForPosts)(pop)
 // Expected: pair(DEONTIC)(TRUE)

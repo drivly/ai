@@ -2,10 +2,10 @@ import { TaskConfig, TaskHandler } from 'payload' // Import directly from 'paylo
 import type { Payload } from 'payload'
 
 type ResearchOutput = {
-  summary?: string | null;
-  findings?: { finding?: string | null; id?: string | null }[] | null;
-  sources?: { sourceUrl?: string | null; id?: string | null }[] | null;
-  confidence?: number | null;
+  summary?: string | null
+  findings?: { finding?: string | null; id?: string | null }[] | null
+  sources?: { sourceUrl?: string | null; id?: string | null }[] | null
+  confidence?: number | null
 }
 
 const aiOutputSchema = {
@@ -45,7 +45,6 @@ export const researchTaskHandler: TaskHandler<'researchTask'> = async ({ input, 
         jobID: createdJob.id, // Store the executeFunction job ID
       },
     })
-
 
     console.log(`Research task ${taskId} queued executeFunction job ${createdJob.id}. Waiting for results via saveExecutionResults.`)
 

@@ -7,7 +7,7 @@ import { MDXDocument } from './types.js'
  */
 export function generateId(data: any): string {
   const timestamp = Date.now()
-  
+
   let slug = ''
   if (data.title) {
     slug = data.title
@@ -16,7 +16,7 @@ export function generateId(data: any): string {
       .replace(/\s+/g, '-') // Replace spaces with hyphens
       .replace(/-+/g, '-') // Replace multiple hyphens with a single one
   }
-  
+
   return slug ? `${timestamp}-${slug}` : `${timestamp}`
 }
 
@@ -26,54 +26,51 @@ export function generateId(data: any): string {
  * @param where Filter criteria
  * @returns Filtered documents
  */
-export function filterDocuments<T>(
-  documents: MDXDocument<T>[],
-  where?: Record<string, any>
-): MDXDocument<T>[] {
+export function filterDocuments<T>(documents: MDXDocument<T>[], where?: Record<string, any>): MDXDocument<T>[] {
   if (!where) {
     return documents
   }
-  
-  return documents.filter(doc => {
+
+  return documents.filter((doc) => {
     for (const [key, value] of Object.entries(where)) {
       if (key === '$or' && Array.isArray(value)) {
-        const orMatch = value.some(condition => {
+        const orMatch = value.some((condition) => {
           return filterDocuments([doc], condition).length > 0
         })
-        
+
         if (!orMatch) {
           return false
         }
-        
+
         continue
       }
-      
+
       if (key === '$and' && Array.isArray(value)) {
-        const andMatch = value.every(condition => {
+        const andMatch = value.every((condition) => {
           return filterDocuments([doc], condition).length > 0
         })
-        
+
         if (!andMatch) {
           return false
         }
-        
+
         continue
       }
-      
+
       const parts = key.split('.')
       let docValue: any = { ...doc.data, id: doc.id, content: doc.content }
-      
+
       for (const part of parts) {
         if (docValue === undefined || docValue === null) {
           return false
         }
-        
+
         docValue = docValue[part]
       }
-      
+
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         for (const [op, opValue] of Object.entries(value)) {
-          const typedOpValue: any = opValue;
+          const typedOpValue: any = opValue
           switch (op) {
             case 'eq':
               if (docValue !== typedOpValue) return false
@@ -118,7 +115,7 @@ export function filterDocuments<T>(
         }
       }
     }
-    
+
     return true
   })
 }
@@ -129,65 +126,62 @@ export function filterDocuments<T>(
  * @param sort Sort criteria
  * @returns Sorted documents
  */
-export function sortDocuments<T>(
-  documents: MDXDocument<T>[],
-  sort?: string | string[]
-): MDXDocument<T>[] {
+export function sortDocuments<T>(documents: MDXDocument<T>[], sort?: string | string[]): MDXDocument<T>[] {
   if (!sort) {
     return documents
   }
-  
+
   const sortArray = Array.isArray(sort) ? sort : [sort]
-  
+
   const sortedDocs = [...documents]
-  
+
   return sortedDocs.sort((a, b) => {
     for (const sortItem of sortArray) {
       const [field, direction] = sortItem.split(':')
       const isDesc = direction === 'desc'
-      
+
       if (field === 'relevance') {
         const aRelevance = (a as any).relevance || 0
         const bRelevance = (b as any).relevance || 0
-        
+
         if (aRelevance !== bRelevance) {
           return isDesc ? bRelevance - aRelevance : aRelevance - bRelevance
         }
-        
+
         continue
       }
-      
+
       const parts = field.split('.')
-      
+
       let aValue: any = { ...a.data, id: a.id, content: a.content }
       let bValue: any = { ...b.data, id: b.id, content: b.content }
-      
+
       for (const part of parts) {
         aValue = aValue?.[part]
         bValue = bValue?.[part]
       }
-      
+
       if (aValue === undefined && bValue === undefined) {
         continue
       }
-      
+
       if (aValue === undefined) {
         return isDesc ? 1 : -1
       }
-      
+
       if (bValue === undefined) {
         return isDesc ? -1 : 1
       }
-      
+
       if (aValue < bValue) {
         return isDesc ? 1 : -1
       }
-      
+
       if (aValue > bValue) {
         return isDesc ? -1 : 1
       }
     }
-    
+
     return 0
   })
 }
@@ -202,7 +196,7 @@ export function sortDocuments<T>(
 export function paginateDocuments<T>(
   documents: MDXDocument<T>[],
   limit = 10,
-  page = 1
+  page = 1,
 ): {
   paginatedDocs: MDXDocument<T>[]
   totalDocs: number
@@ -210,16 +204,16 @@ export function paginateDocuments<T>(
 } {
   const totalDocs = documents.length
   const totalPages = Math.ceil(totalDocs / limit)
-  
+
   const startIndex = (page - 1) * limit
   const endIndex = startIndex + limit
-  
+
   const paginatedDocs = documents.slice(startIndex, endIndex)
-  
+
   return {
     paginatedDocs,
     totalDocs,
-    totalPages
+    totalPages,
   }
 }
 
@@ -229,24 +223,21 @@ export function paginateDocuments<T>(
  * @param query Search query
  * @returns Documents with relevance scores
  */
-export function searchDocuments<T>(
-  documents: MDXDocument<T>[],
-  query: string
-): MDXDocument<T>[] {
+export function searchDocuments<T>(documents: MDXDocument<T>[], query: string): MDXDocument<T>[] {
   if (!query) {
     return documents
   }
-  
+
   const normalizedQuery = query.toLowerCase()
-  
+
   return documents
-    .map(doc => {
+    .map((doc) => {
       let relevance = 0
-      
+
       if (doc.content.toLowerCase().includes(normalizedQuery)) {
         relevance += 1
       }
-      
+
       for (const [key, value] of Object.entries(doc.data)) {
         if (typeof value === 'string' && value.toLowerCase().includes(normalizedQuery)) {
           if (key === 'title') {
@@ -256,12 +247,12 @@ export function searchDocuments<T>(
           }
         }
       }
-      
+
       return {
         ...doc,
-        relevance
+        relevance,
       }
     })
-    .filter(doc => doc.relevance > 0) // Only include documents with matches
+    .filter((doc) => doc.relevance > 0) // Only include documents with matches
     .sort((a, b) => b.relevance - a.relevance) // Sort by relevance
 }

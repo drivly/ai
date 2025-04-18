@@ -9,13 +9,7 @@ export class OpenRouterProvider {
   }
 
   supportsModel(model: string): boolean {
-    const openrouterModels = [
-      'openrouter', 
-      'anthropic/claude', 
-      'meta-llama/llama', 
-      'mistralai/mistral', 
-      'google/gemini'
-    ]
+    const openrouterModels = ['openrouter', 'anthropic/claude', 'meta-llama/llama', 'mistralai/mistral', 'google/gemini']
     return openrouterModels.some((m) => model.includes(m))
   }
 }

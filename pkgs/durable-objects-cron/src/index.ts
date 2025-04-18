@@ -111,27 +111,27 @@ export class CronDurableObject {
           await this.storage.put(`task:${task.id}`, task)
         } catch (error) {
           console.error(`Error executing task ${task.id}:`, error)
-          
+
           const errorInfo = {
             error: String(error),
             task,
             timestamp: Date.now(),
             stack: error instanceof Error ? error.stack : undefined,
           }
-          
+
           await this.storage.put(`error:${task.id}:${Date.now()}`, errorInfo)
-          
+
           try {
-            const currentTask = await this.storage.get(`task:${task.id}`) as ScheduledTask | null
+            const currentTask = (await this.storage.get(`task:${task.id}`)) as ScheduledTask | null
             if (currentTask) {
               currentTask.data = currentTask.data || {}
               currentTask.data._errors = (currentTask.data._errors || 0) + 1
               currentTask.data._lastErrorAt = Date.now()
               currentTask.data._lastError = String(error)
-              
+
               const nextTime = getNextCronTime(currentTask.schedule.cron)
               currentTask.schedule.time = nextTime
-              
+
               await this.storage.put(`task:${task.id}`, currentTask)
             }
           } catch (updateError) {

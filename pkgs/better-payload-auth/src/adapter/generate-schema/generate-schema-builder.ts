@@ -21,7 +21,13 @@ import { getAuthTables } from 'better-auth/db'
 import type { CollectionConfig, Field } from 'payload'
 import { format } from 'prettier'
 
-export const generateSchemaBuilderStage = async ({ BAOptions, code }: { code: string; BAOptions: BetterAuthOptions }) => {
+export const generateSchemaBuilderStage = async ({
+  BAOptions,
+  code,
+}: {
+  code: string
+  BAOptions: BetterAuthOptions
+}) => {
   const formattedCode = await format(code, { filepath: 'schema.ts' })
 
   const { post, collections } = parseExistingSchema(formattedCode)
@@ -45,7 +51,8 @@ function parseExistingSchema(code: string): {
   let post = ''
 
   // Extract collection definitions
-  const collectionRegex = /const\s+([A-Z][a-zA-Z0-9]*)\s*:\s*CollectionConfig\s*=\s*{[\s\S]*?}\s*as\s*const;/g
+  const collectionRegex =
+    /const\s+([A-Z][a-zA-Z0-9]*)\s*:\s*CollectionConfig\s*=\s*{[\s\S]*?}\s*as\s*const;/g
   let match
   while ((match = collectionRegex.exec(code)) !== null) {
     const collectionName = match[1]
@@ -122,7 +129,15 @@ function parseExistingSchema(code: string): {
   return { collections, post }
 }
 
-function generatePayloadCollectionConfigs({ options, collections, exports }: { options: BetterAuthOptions; collections: CollectionConfig[]; exports: string }): string {
+function generatePayloadCollectionConfigs({
+  options,
+  collections,
+  exports,
+}: {
+  options: BetterAuthOptions
+  collections: CollectionConfig[]
+  exports: string
+}): string {
   let result = ''
 
   // add pre message and import statements
@@ -250,11 +265,19 @@ import type { CollectionConfig } from 'payload';
         } else if (typeof field.defaultValue === 'boolean') {
           collectionsStr += `      defaultValue: ${field.defaultValue ? 'true' : 'false'},
 `
-        } else if (field.defaultValue && typeof field.defaultValue === 'function' && field.defaultValue.toString().includes('() => !1')) {
+        } else if (
+          field.defaultValue &&
+          typeof field.defaultValue === 'function' &&
+          field.defaultValue.toString().includes('() => !1')
+        ) {
           // Handle function-like default values with are false
           collectionsStr += `      defaultValue: false,
 `
-        } else if (field.defaultValue && typeof field.defaultValue === 'function' && field.defaultValue.toString().includes('() => !0')) {
+        } else if (
+          field.defaultValue &&
+          typeof field.defaultValue === 'function' &&
+          field.defaultValue.toString().includes('() => !0')
+        ) {
           // Handle function-like default values with are true
           collectionsStr += `      defaultValue: true,
 `
@@ -265,7 +288,13 @@ import type { CollectionConfig } from 'payload';
       }
 
       // Add admin section for fields if needed - safely check for admin property
-      if ('admin' in field && field.admin && typeof field.admin === 'object' && 'readOnly' in field.admin && field.admin.readOnly) {
+      if (
+        'admin' in field &&
+        field.admin &&
+        typeof field.admin === 'object' &&
+        'readOnly' in field.admin &&
+        field.admin.readOnly
+      ) {
         collectionsStr += `      admin: {
         readOnly: true,
       },
@@ -300,7 +329,9 @@ import type { CollectionConfig } from 'payload';
   if (exports && exports.trim()) {
     // Parse the existing exports to get collection names
     const existingExportMatch = exports.match(/export\s*{\s*(.*?)\s*}/)
-    const existingCollections = existingExportMatch ? existingExportMatch[1].split(',').map((name) => name.trim()) : []
+    const existingCollections = existingExportMatch
+      ? existingExportMatch[1].split(',').map((name) => name.trim())
+      : []
 
     // Get the collection names from our tables
     const tableCollections = Object.keys(tables).map((model) => {

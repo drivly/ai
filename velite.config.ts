@@ -33,59 +33,70 @@ export default defineConfig({
     sites: {
       name: 'Site',
       pattern: '../sites/*.mdx',
-      schema: s.object({
-        title: s.string(),
-        description: s.string(),
-        headline: s.string(),
-        subhead: s.string().optional(),
-        brandColor: s.string().optional(), // Add this field
-        content: s.markdown(),
-        codeExample: s.string().optional(), // Code example content
-        codeLang: s.string().optional(), // Language of the code example (typescript, json, etc.)
-        badge: s.string().optional(), // Badge text
-      }).transform((data, { meta }: { meta: any }) => { // Use 'any' for meta
-        const path = meta.path;
-        const contentSitesPattern = '/sites/';
-        const contentSitesIndex = path.indexOf(contentSitesPattern);
-        let group = 'other';
+      schema: s
+        .object({
+          title: s.string(),
+          description: s.string(),
+          headline: s.string(),
+          subhead: s.string().optional(),
+          brandColor: s.string().optional(), // Add this field
+          content: s.markdown(),
+          codeExample: s.string().optional(), // Code example content
+          codeLang: s.string().optional(), // Language of the code example (typescript, json, etc.)
+          badge: s.string().optional(), // Badge text
+        })
+        .transform((data, { meta }: { meta: any }) => {
+          // Use 'any' for meta
+          const path = meta.path
+          const contentSitesPattern = '/sites/'
+          const contentSitesIndex = path.indexOf(contentSitesPattern)
+          let group = 'other'
 
-        if (contentSitesIndex !== -1) {
-          const relativePath = path.substring(contentSitesIndex + contentSitesPattern.length);
-          const relativePathParts = relativePath.split('/');
-          if (relativePathParts.length > 1) {
-            group = relativePathParts[0];
+          if (contentSitesIndex !== -1) {
+            const relativePath = path.substring(contentSitesIndex + contentSitesPattern.length)
+            const relativePathParts = relativePath.split('/')
+            if (relativePathParts.length > 1) {
+              group = relativePathParts[0]
+            }
           }
-        }
 
-        return {
-          ...data,
-          group: group, // Assign the determined group
-        };
-      }),
+          return {
+            ...data,
+            group: group, // Assign the determined group
+          }
+        }),
     },
     sitesConfig: {
       name: 'SitesConfig',
       pattern: '../sites/.sites.yaml',
       single: true,
       schema: s.object({
-        categories: s.array(s.object({
-          name: s.string(),
-          sites: s.array(s.object({
-            domain: s.string(),
-            title: s.string(),
-            description: s.string(),
-            headline: s.string(),
-            subhead: s.string().optional(),
-            badge: s.string().optional(),
-            brandColor: s.string().optional(),
-            tags: s.array(s.string()).optional(),
-            links: s.array(s.object({
-              title: s.string(),
-              url: s.string()
-            })).optional()
-          }))
-        }))
-      })
+        categories: s.array(
+          s.object({
+            name: s.string(),
+            sites: s.array(
+              s.object({
+                domain: s.string(),
+                title: s.string(),
+                description: s.string(),
+                headline: s.string(),
+                subhead: s.string().optional(),
+                badge: s.string().optional(),
+                brandColor: s.string().optional(),
+                tags: s.array(s.string()).optional(),
+                links: s
+                  .array(
+                    s.object({
+                      title: s.string(),
+                      url: s.string(),
+                    }),
+                  )
+                  .optional(),
+              }),
+            ),
+          }),
+        ),
+      }),
     },
   },
 })

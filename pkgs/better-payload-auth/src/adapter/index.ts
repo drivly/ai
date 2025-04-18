@@ -19,7 +19,9 @@ const payloadAdapter: PayloadAdapter = (payloadClient, config = {}) => {
   }
 
   function collectionSlugError(model: string) {
-    throw new BetterAuthError(`Collection ${model} does not exist. Please check your payload collection slugs match the better auth schema`)
+    throw new BetterAuthError(
+      `Collection ${model} does not exist. Please check your payload collection slugs match the better auth schema`,
+    )
   }
 
   const createAdapterContext = (data: Record<string, any>) => ({
@@ -27,22 +29,35 @@ const payloadAdapter: PayloadAdapter = (payloadClient, config = {}) => {
   })
 
   async function resolvePayloadClient() {
-    const payload = typeof payloadClient === 'function' ? await payloadClient() : await payloadClient
+    const payload =
+      typeof payloadClient === 'function' ? await payloadClient() : await payloadClient
     if (!payload.config?.custom?.hasBetterAuthPlugin) {
-      throw new BetterAuthError(`Payload is not configured with the better-auth plugin. Please add the plugin to your payload config.`)
+      throw new BetterAuthError(
+        `Payload is not configured with the better-auth plugin. Please add the plugin to your payload config.`,
+      )
     }
     return payload
   }
 
   return (options: BetterAuthOptions): Adapter => {
-    const { transformInput, transformOutput, convertWhereClause, convertSelect, convertSort, getModelName, singleIdQuery, multipleIdsQuery } = createTransform(
-      options,
-      config.enableDebugLogs ?? false,
-    )
+    const {
+      transformInput,
+      transformOutput,
+      convertWhereClause,
+      convertSelect,
+      convertSort,
+      getModelName,
+      singleIdQuery,
+      multipleIdsQuery,
+    } = createTransform(options, config.enableDebugLogs ?? false)
 
     return {
       id: 'payload',
-      async create<T extends Record<string, any>, R = T>(data: { model: string; data: T; select?: string[] }): Promise<R> {
+      async create<T extends Record<string, any>, R = T>(data: {
+        model: string
+        data: T
+        select?: string[]
+      }): Promise<R> {
         const start = Date.now()
         const { model, data: values, select } = data
         const collectionSlug = getModelName(model)
@@ -75,7 +90,11 @@ const payloadAdapter: PayloadAdapter = (payloadClient, config = {}) => {
           return null as R
         }
       },
-      async findOne<T>(data: { model: string; where: Where[]; select?: string[] }): Promise<T | null> {
+      async findOne<T>(data: {
+        model: string
+        where: Where[]
+        select?: string[]
+      }): Promise<T | null> {
         const start = Date.now()
         const { model, where, select } = data
         const collectionSlug = getModelName(model)
@@ -220,7 +239,11 @@ const payloadAdapter: PayloadAdapter = (payloadClient, config = {}) => {
           return [] as T[]
         }
       },
-      async update<T>(data: { model: string; where: Where[]; update: Record<string, unknown> }): Promise<T | null> {
+      async update<T>(data: {
+        model: string
+        where: Where[]
+        update: Record<string, unknown>
+      }): Promise<T | null> {
         const start = Date.now()
         const { model, where, update } = data
         const collectionSlug = getModelName(model)
@@ -272,7 +295,11 @@ const payloadAdapter: PayloadAdapter = (payloadClient, config = {}) => {
           return null
         }
       },
-      async updateMany(data: { model: string; where: Where[]; update: Record<string, unknown> }): Promise<number> {
+      async updateMany(data: {
+        model: string
+        where: Where[]
+        update: Record<string, unknown>
+      }): Promise<number> {
         const start = Date.now()
         const { model, where, update } = data
         const collectionSlug = getModelName(model)

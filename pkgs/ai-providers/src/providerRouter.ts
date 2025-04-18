@@ -23,7 +23,7 @@ export class ProviderRouter {
       new OpenRouterProvider(),
       new CloudflareProvider(),
       new GoogleVertexProvider(),
-      new GoogleAIStudioProvider()
+      new GoogleAIStudioProvider(),
     ]
 
     // LLM.do is the fallback provider

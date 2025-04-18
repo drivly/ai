@@ -154,7 +154,7 @@ export async function updateCloudflareZone(domain: string, zoneId?: string, conf
   try {
     if (!zoneId) {
       const zones = await getCloudflareZones()
-      const zone = zones.find(z => z.name === domain)
+      const zone = zones.find((z) => z.name === domain)
       if (!zone) {
         console.error(`No Cloudflare zone found for domain ${domain}`)
         return false
@@ -167,7 +167,7 @@ export async function updateCloudflareZone(domain: string, zoneId?: string, conf
 
     if (isAlias) {
       console.log(`Setting up redirect from ${domain} to ${targetDomain}`)
-      
+
       const response = await fetch(`${CLOUDFLARE_API_BASE}/zones/${zoneId}/pagerules`, {
         headers: {
           Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
@@ -180,9 +180,8 @@ export async function updateCloudflareZone(domain: string, zoneId?: string, conf
       }
 
       const data = await response.json()
-      const existingRule = data.result.find((rule: any) => 
-        rule.targets[0]?.constraint?.value === `*${domain}/*` && 
-        rule.actions.find((action: any) => action.id === 'forwarding_url')
+      const existingRule = data.result.find(
+        (rule: any) => rule.targets[0]?.constraint?.value === `*${domain}/*` && rule.actions.find((action: any) => action.id === 'forwarding_url'),
       )
 
       if (existingRule) {
@@ -199,17 +198,17 @@ export async function updateCloudflareZone(domain: string, zoneId?: string, conf
                 constraint: {
                   operator: 'matches',
                   value: `*${domain}/*`,
-                }
-              }
+                },
+              },
             ],
             actions: [
               {
                 id: 'forwarding_url',
                 value: {
                   url: `https://${targetDomain}`,
-                  status_code: 301
-                }
-              }
+                  status_code: 301,
+                },
+              },
             ],
             status: 'active',
           }),
@@ -232,17 +231,17 @@ export async function updateCloudflareZone(domain: string, zoneId?: string, conf
                 constraint: {
                   operator: 'matches',
                   value: `*${domain}/*`,
-                }
-              }
+                },
+              },
             ],
             actions: [
               {
                 id: 'forwarding_url',
                 value: {
                   url: `https://${targetDomain}`,
-                  status_code: 301
-                }
-              }
+                  status_code: 301,
+                },
+              },
             ],
             status: 'active',
           }),
@@ -260,7 +259,7 @@ export async function updateCloudflareZone(domain: string, zoneId?: string, conf
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          value: 'full'
+          value: 'full',
         }),
       })
 

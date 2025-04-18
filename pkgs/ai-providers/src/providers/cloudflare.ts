@@ -9,11 +9,7 @@ export class CloudflareProvider {
   }
 
   supportsModel(model: string): boolean {
-    const cloudflareModels = [
-      '@cf/meta/llama-3', 
-      '@cf/mistral/mistral', 
-      '@cf/anthropic/claude'
-    ]
+    const cloudflareModels = ['@cf/meta/llama-3', '@cf/mistral/mistral', '@cf/anthropic/claude']
     return cloudflareModels.some((m) => model.includes(m))
   }
 }

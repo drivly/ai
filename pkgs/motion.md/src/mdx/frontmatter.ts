@@ -13,7 +13,7 @@ export function parseFrontmatter(frontmatter: Record<string, any>): Record<strin
     transition: 'fade',
     duration: 5, // Default slide duration in seconds
   }
-  
+
   return {
     ...defaultConfig,
     ...frontmatter,

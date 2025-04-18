@@ -150,7 +150,7 @@ export class API {
         apiKey: token,
         baseUrl: this.api['baseUrl'],
       })
-      
+
       const response = await api.get('/v1/auth/validate')
       return { valid: true, user: response }
     } catch (error) {

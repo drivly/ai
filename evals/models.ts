@@ -17,5 +17,5 @@ export const models = [
   'deepseek/deepseek-chat-v3-0324',
   'deepseek/deepseek-r1',
   'qwen/qwen2.5-vl-32b-instruct',
-  'qwen/qwq-32b'
+  'qwen/qwq-32b',
 ]

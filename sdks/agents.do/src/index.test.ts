@@ -61,7 +61,7 @@ describe('Agent do function', () => {
     //     body: expect.any(String),
     //   }),
     // )
-    
+
     // const parsedBody = JSON.parse((fetch as any).mock.calls[0][1].body)
     // expect(parsedBody).toHaveProperty('prompt', 'How can I help?')
   })
@@ -75,7 +75,7 @@ describe('Agent do function', () => {
     // const name = 'John'
     // const result = await agentDo('test-agent')`Hello ${name}, how can I help?`
     // expect(result).toEqual({ data: 'test-result' })
-    
+
     // const parsedBody = JSON.parse((fetch as any).mock.calls[0][1].body)
     // expect(parsedBody).toHaveProperty('prompt', 'Hello John, how can I help?')
   })

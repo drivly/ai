@@ -131,9 +131,9 @@ interface DomainsExport {
 function getExpectedDomainConfig(domain: string) {
   const aliasTarget = domainsConfig.aliases[domain]
   const targetDomain = aliasTarget || domain
-  
+
   const domainConfig = domainsConfig.domains[targetDomain]
-  
+
   return {
     domain,
     targetDomain,
@@ -151,14 +151,14 @@ function getExpectedDomainConfig(domain: string) {
  * @returns Whether Cloudflare configuration needs updating
  */
 function needsCloudflareUpdate(status: DomainStatus, expectedConfig: ReturnType<typeof getExpectedDomainConfig>) {
-  if (!status.nsRecords || !status.nsRecords.some(record => record.includes('cloudflare.com'))) {
+  if (!status.nsRecords || !status.nsRecords.some((record) => record.includes('cloudflare.com'))) {
     return true
   }
-  
+
   if (expectedConfig.isAlias) {
     return true // We'll check the actual records in the update function
   }
-  
+
   return !!status.configurationDrift?.cloudflare
 }
 
@@ -172,15 +172,15 @@ function needsVercelUpdate(status: DomainStatus, expectedConfig: ReturnType<type
   if (!status.vercelLinked) {
     return true
   }
-  
+
   if (status.vercelStatus !== 'valid') {
     return true
   }
-  
+
   if (expectedConfig.isAlias) {
     return true // We'll check the actual configuration in the update function
   }
-  
+
   return !!status.configurationDrift?.vercel
 }
 
@@ -191,26 +191,26 @@ function needsVercelUpdate(status: DomainStatus, expectedConfig: ReturnType<type
  */
 async function compareAndUpdateDomainConfigurations(domainStatuses: DomainStatus[], updateConfigurations = false) {
   console.log('\n=== Configuration Drift Analysis ===\n')
-  
+
   const driftsDetected = []
-  
+
   for (const status of domainStatuses) {
     const expectedConfig = getExpectedDomainConfig(status.domain)
-    
+
     const cloudflareNeedsUpdate = needsCloudflareUpdate(status, expectedConfig)
     const vercelNeedsUpdate = needsVercelUpdate(status, expectedConfig)
-    
+
     if (cloudflareNeedsUpdate || vercelNeedsUpdate) {
       console.log(`Domain: ${status.domain}`)
-      
+
       if (expectedConfig.isAlias) {
         console.log(`  Alias to: ${expectedConfig.aliasTarget}`)
       }
-      
+
       if (cloudflareNeedsUpdate) {
         console.log('  Cloudflare configuration needs updating')
         driftsDetected.push({ domain: status.domain, service: 'cloudflare' })
-        
+
         if (updateConfigurations) {
           console.log('  Updating Cloudflare configuration...')
           try {
@@ -222,11 +222,11 @@ async function compareAndUpdateDomainConfigurations(domainStatuses: DomainStatus
           }
         }
       }
-      
+
       if (vercelNeedsUpdate) {
         console.log('  Vercel configuration needs updating')
         driftsDetected.push({ domain: status.domain, service: 'vercel' })
-        
+
         if (updateConfigurations) {
           console.log('  Updating Vercel configuration...')
           try {
@@ -238,33 +238,33 @@ async function compareAndUpdateDomainConfigurations(domainStatuses: DomainStatus
           }
         }
       }
-      
+
       console.log('---')
     }
   }
-  
+
   if (driftsDetected.length === 0) {
     console.log('No configuration drift detected for any domains')
   } else {
     console.log(`\nConfiguration drift detected for ${driftsDetected.length} domain/service combinations`)
-    
+
     if (!updateConfigurations) {
       console.log('\nTo update configurations, run:')
       console.log('pnpm tsx scripts/domain-status-checker.ts --update')
     }
   }
-  
+
   return driftsDetected
 }
 
 async function checkDomains() {
   const args = process.argv.slice(2)
   const updateConfigurations = args.includes('--update')
-  
+
   if (updateConfigurations) {
     console.log('Running with --update flag. Will update configurations when drift is detected.')
   }
-  
+
   const domainsToCheck = domains
 
   console.log(`Found ${domainsToCheck.length} domains to check`)
@@ -326,7 +326,7 @@ async function checkDomains() {
   } else {
     console.log('All Vercel linked domains are in config')
   }
-  
+
   await compareAndUpdateDomainConfigurations(domainStatuses, updateConfigurations)
 }
 

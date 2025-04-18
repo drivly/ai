@@ -21,19 +21,19 @@ import { research, ResearchClient } from 'research.do'
 const result = await research.research({
   topic: 'The impact of artificial intelligence on climate change',
   depth: 'deep',
-  format: 'markdown'
+  format: 'markdown',
 })
 
 // Or create a custom client
 const customClient = new ResearchClient({
   apiKey: 'your-api-key',
-  baseUrl: 'https://custom-api.example.com'
+  baseUrl: 'https://custom-api.example.com',
 })
 
 const customResult = await customClient.research({
   topic: 'Quantum computing advancements in 2025',
   sources: ['academic', 'news', 'patents'],
-  format: 'json'
+  format: 'json',
 })
 ```
 
@@ -86,7 +86,7 @@ The SDK throws errors for invalid requests or server errors. Always use try/catc
 ```typescript
 try {
   const result = await research.research({
-    topic: 'Quantum computing advancements'
+    topic: 'Quantum computing advancements',
   })
   console.log(result)
 } catch (error) {

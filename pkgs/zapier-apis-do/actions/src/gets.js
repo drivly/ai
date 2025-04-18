@@ -5,62 +5,62 @@ const perform = async (z, bundle) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    }
-  });
+      Accept: 'application/json',
+    },
+  })
 
-  return response.data;
-};
+  return response.data
+}
 
 module.exports = {
   key: 'getActions',
   noun: 'Actions',
-  
+
   display: {
     label: 'Get Actions',
-    description: 'Gets a Actions by ID.'
+    description: 'Gets a Actions by ID.',
   },
-  
+
   operation: {
     perform,
-    
+
     inputFields: [
       {
         key: 'id',
         label: 'ID',
         type: 'string',
         required: true,
-        helpText: 'The ID of the Actions to retrieve'
-      }
+        helpText: 'The ID of the Actions to retrieve',
+      },
     ],
-    
+
     outputFields: [
       {
         key: 'id',
-        label: 'ID'
+        label: 'ID',
       },
-    {
-      key: 'subject',
-      label: 'Subject'
-    },
-    {
-      key: 'verb',
-      label: 'Verb'
-    },
-    {
-      key: 'object',
-      label: 'Object'
-    },
-    {
-      key: 'hash',
-      label: 'Hash'
-    }
+      {
+        key: 'subject',
+        label: 'Subject',
+      },
+      {
+        key: 'verb',
+        label: 'Verb',
+      },
+      {
+        key: 'object',
+        label: 'Object',
+      },
+      {
+        key: 'hash',
+        label: 'Hash',
+      },
     ],
-    
+
     sample: {
       id: 'sample-id-1234',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
-  }
-};
+      updatedAt: new Date().toISOString(),
+    },
+  },
+}

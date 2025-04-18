@@ -50,12 +50,7 @@ export class MDXFileSystemHandler {
     try {
       await fs.mkdir(dirPath, { recursive: true })
     } catch (error) {
-      throw new MDXDBError(
-        `Failed to create directory: ${dirPath}`,
-        500,
-        'ensureDirectory',
-        path.basename(dirPath)
-      )
+      throw new MDXDBError(`Failed to create directory: ${dirPath}`, 500, 'ensureDirectory', path.basename(dirPath))
     }
   }
 
@@ -66,28 +61,21 @@ export class MDXFileSystemHandler {
    */
   async readDirectory(collection: string): Promise<string[]> {
     const dirPath = this.getCollectionPath(collection)
-    
+
     try {
       if (this.createDirectories) {
         await this.ensureDirectory(dirPath)
       }
-      
+
       const files = await fs.readdir(dirPath)
-      
-      return files
-        .filter(file => file.endsWith(this.fileExtension))
-        .map(file => file.slice(0, -this.fileExtension.length))
+
+      return files.filter((file) => file.endsWith(this.fileExtension)).map((file) => file.slice(0, -this.fileExtension.length))
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
         return []
       }
-      
-      throw new MDXDBError(
-        `Failed to read directory: ${dirPath}`,
-        500,
-        'readDirectory',
-        collection
-      )
+
+      throw new MDXDBError(`Failed to read directory: ${dirPath}`, 500, 'readDirectory', collection)
     }
   }
 
@@ -99,12 +87,12 @@ export class MDXFileSystemHandler {
    */
   async readFile<T = Record<string, unknown>>(collection: string, id: string): Promise<MDXDocument<T>> {
     const filePath = this.getDocumentPath(collection, id)
-    
+
     try {
       const content = await fs.readFile(filePath, 'utf-8')
-      
+
       const { data, content: mdxContent } = matter(content)
-      
+
       return {
         id,
         type: data.type,
@@ -113,26 +101,16 @@ export class MDXFileSystemHandler {
           ...data,
           $id: id,
           $type: data.type,
-          $context: data.context
-        } as T & { $id?: string, $type?: string, $context?: string | Record<string, unknown> },
-        content: mdxContent
+          $context: data.context,
+        } as T & { $id?: string; $type?: string; $context?: string | Record<string, unknown> },
+        content: mdxContent,
       }
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-        throw new MDXDBError(
-          `Document not found: ${id}`,
-          404,
-          'readFile',
-          collection
-        )
+        throw new MDXDBError(`Document not found: ${id}`, 404, 'readFile', collection)
       }
-      
-      throw new MDXDBError(
-        `Failed to read file: ${filePath}`,
-        500,
-        'readFile',
-        collection
-      )
+
+      throw new MDXDBError(`Failed to read file: ${filePath}`, 500, 'readFile', collection)
     }
   }
 
@@ -143,35 +121,25 @@ export class MDXFileSystemHandler {
    * @param data Document data
    * @param content Document content
    */
-  async writeFile<T extends object = Record<string, unknown>>(
-    collection: string, 
-    id: string, 
-    data: T, 
-    content = ''
-  ): Promise<void> {
+  async writeFile<T extends object = Record<string, unknown>>(collection: string, id: string, data: T, content = ''): Promise<void> {
     const dirPath = this.getCollectionPath(collection)
     const filePath = this.getDocumentPath(collection, id)
-    
+
     try {
       if (this.createDirectories) {
         await this.ensureDirectory(dirPath)
       }
-      
+
       const cleanData = { ...data }
       delete (cleanData as any).$id
       delete (cleanData as any).$type
       delete (cleanData as any).$context
-      
+
       const mdx = matter.stringify(content, cleanData)
-      
+
       await fs.writeFile(filePath, mdx)
     } catch (error) {
-      throw new MDXDBError(
-        `Failed to write file: ${filePath}`,
-        500,
-        'writeFile',
-        collection
-      )
+      throw new MDXDBError(`Failed to write file: ${filePath}`, 500, 'writeFile', collection)
     }
   }
 
@@ -182,25 +150,15 @@ export class MDXFileSystemHandler {
    */
   async deleteFile(collection: string, id: string): Promise<void> {
     const filePath = this.getDocumentPath(collection, id)
-    
+
     try {
       await fs.unlink(filePath)
     } catch (error) {
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
-        throw new MDXDBError(
-          `Document not found: ${id}`,
-          404,
-          'deleteFile',
-          collection
-        )
+        throw new MDXDBError(`Document not found: ${id}`, 404, 'deleteFile', collection)
       }
-      
-      throw new MDXDBError(
-        `Failed to delete file: ${filePath}`,
-        500,
-        'deleteFile',
-        collection
-      )
+
+      throw new MDXDBError(`Failed to delete file: ${filePath}`, 500, 'deleteFile', collection)
     }
   }
 }

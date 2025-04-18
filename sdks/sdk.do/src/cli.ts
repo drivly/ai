@@ -28,25 +28,21 @@ export class CLI {
    */
   async init(options: { name?: string; force?: boolean } = {}): Promise<void> {
     console.log('Initializing new package...')
-    
+
     try {
       const packageName = options.name || path.basename(process.cwd())
       const packageDir = '.'
-      
+
       if (fs.existsSync(path.join(packageDir, 'package.json')) && !options.force) {
         throw new Error('Package already exists. Use --force to overwrite.')
       }
-      
-      const directories = [
-        'src',
-        'dist',
-        'src/__tests__',
-      ]
-      
+
+      const directories = ['src', 'dist', 'src/__tests__']
+
       for (const dir of directories) {
         await fs.promises.mkdir(path.join(packageDir, dir), { recursive: true })
       }
-      
+
       const packageJson = {
         name: packageName,
         version: '0.0.1',
@@ -58,71 +54,60 @@ export class CLI {
         exports: {
           '.': {
             import: './dist/index.js',
-            types: './dist/index.d.ts'
-          }
+            types: './dist/index.d.ts',
+          },
         },
-        files: [
-          'dist',
-          'README.md'
-        ],
+        files: ['dist', 'README.md'],
         scripts: {
           build: 'tsc',
           test: 'vitest run',
           'test:watch': 'vitest',
           dev: 'tsc --watch',
           typecheck: 'tsc --noEmit',
-          lint: 'eslint .'
+          lint: 'eslint .',
         },
         dependencies: {
-          'apis.do': '0.0.1'
+          'apis.do': '0.0.1',
         },
         devDependencies: {
           typescript: '^5.0.0',
-          vitest: '^0.34.0'
+          vitest: '^0.34.0',
         },
-        license: 'MIT'
+        license: 'MIT',
       }
-      
-      await fs.promises.writeFile(
-        path.join(packageDir, 'package.json'),
-        JSON.stringify(packageJson, null, 2),
-        'utf8'
-      )
-      
+
+      await fs.promises.writeFile(path.join(packageDir, 'package.json'), JSON.stringify(packageJson, null, 2), 'utf8')
+
       const tsConfig = {
         extends: '../../tsconfig.base.json',
         compilerOptions: {
           outDir: './dist',
-          rootDir: './src'
+          rootDir: './src',
         },
-        include: ['src/**/*']
+        include: ['src/**/*'],
       }
-      
-      await fs.promises.writeFile(
-        path.join(packageDir, 'tsconfig.json'),
-        JSON.stringify(tsConfig, null, 2),
-        'utf8'
-      )
-      
+
+      await fs.promises.writeFile(path.join(packageDir, 'tsconfig.json'), JSON.stringify(tsConfig, null, 2), 'utf8')
+
       const indexContent = `export * from './client.js'
 export * from './types.js'
 `
-      
+
       const typesContent = `export interface Config {
 }
 `
-      
+
       const clientContent = `export class Client {
   constructor(options = {}) {
   }
   
 }
 `
-      
+
       await fs.promises.writeFile(path.join(packageDir, 'src/index.ts'), indexContent, 'utf8')
       await fs.promises.writeFile(path.join(packageDir, 'src/types.ts'), typesContent, 'utf8')
       await fs.promises.writeFile(path.join(packageDir, 'src/client.ts'), clientContent, 'utf8')
-      
+
       const readmeContent = `# ${packageName}
 
 A package created with sdk.do.
@@ -141,9 +126,9 @@ import { Client } from '${packageName}'
 const client = new Client()
 \`\`\`
 `
-      
+
       await fs.promises.writeFile(path.join(packageDir, 'README.md'), readmeContent, 'utf8')
-      
+
       console.log(`Package ${packageName} initialized successfully!`)
     } catch (error) {
       console.error('Error initializing package:', error instanceof Error ? error.message : String(error))
@@ -156,22 +141,22 @@ const client = new Client()
    */
   async login(options: { token?: string } = {}): Promise<void> {
     console.log('Logging in to sdk.do...')
-    
+
     try {
       let token = options.token || process.env.SDK_DO_TOKEN
-      
+
       if (!token) {
         throw new Error('No token provided. Please provide a token with --token or set the SDK_DO_TOKEN environment variable.')
       }
-      
+
       const validation = await this.api.validateToken(token)
-      
+
       if (!validation.valid) {
         throw new Error('Invalid token. Please check your token and try again.')
       }
-      
+
       await this.configManager.update({ token })
-      
+
       console.log('Successfully logged in to sdk.do')
     } catch (error) {
       console.error('Login failed:', error instanceof Error ? error.message : String(error))
@@ -184,10 +169,10 @@ const client = new Client()
    */
   async logout(): Promise<void> {
     console.log('Logging out from sdk.do...')
-    
+
     try {
       await this.configManager.remove('token')
-      
+
       console.log('Successfully logged out from sdk.do')
     } catch (error) {
       console.error('Logout failed:', error instanceof Error ? error.message : String(error))
