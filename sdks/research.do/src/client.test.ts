@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { ResearchClient } from './client'
 import { ResearchOptions } from '../types'
+import * as functionsdo from 'functions.do'
 
 describe('ResearchClient', () => {
   it('creates a client with default options', () => {
@@ -21,14 +22,17 @@ describe('ResearchClient', () => {
     await expect(client.research({} as any)).rejects.toThrow('Missing required parameter: topic')
   })
 
-  it('calls API with correct parameters', async () => {
-    const client = new ResearchClient()
-    const mockPost = vi.spyOn(client['api'], 'post').mockResolvedValue({
-      success: true,
+  it('calls functions.do with correct parameters', async () => {
+    const mockResearch = vi.fn().mockResolvedValue({
       taskId: 'test-task-id',
       jobId: 'test-job-id',
     })
+    
+    vi.spyOn(functionsdo, 'ai', 'get').mockReturnValue({
+      research: mockResearch,
+    } as any)
 
+    const client = new ResearchClient()
     const params: ResearchOptions = {
       topic: 'Test topic',
       depth: 'medium',
@@ -38,6 +42,8 @@ describe('ResearchClient', () => {
 
     await client.research(params)
 
-    expect(mockPost).toHaveBeenCalledWith('/research', params)
+    expect(mockResearch).toHaveBeenCalledWith(params, {
+      model: 'perplexity/sonar-deep-research',
+    })
   })
 })
