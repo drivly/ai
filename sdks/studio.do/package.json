@@ -41,7 +41,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "apis.do": "0.1.0"
+    "apis.do": "workspace:*"
   },
   "devDependencies": {
     "eslint-config": "workspace:*",
