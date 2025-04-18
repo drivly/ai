@@ -118,6 +118,7 @@ async function main() {
           quantization: provider.quantization,
           context: provider.contextLength,
           maxCompletionTokens: provider.maxCompletionTokens,
+          providerModelId: provider.providerModelId,
           pricing: provider.pricing,
           // Disable claude's reasoning parameter as it's only supported via the :thinking tag.
           supportedParameters: model.slug === 'anthropic/claude-3.7-sonnet' ? ['max_tokens', 'temperature', 'stop', 'tools', 'tool_choice'] : provider.supportedParameters,
@@ -136,7 +137,7 @@ async function main() {
     const { resolve } = await import('node:path')
     const { writeFileSync } = await import('node:fs')
 
-    const outputPath = resolve('./src/models.ts')
+    const outputPath = resolve('./src/models.js')
     writeFileSync(outputPath, `export default ${JSON.stringify({ models: modelsData }, null, 2)}`)
 
     console.log(`Models data written to ${outputPath}`)
