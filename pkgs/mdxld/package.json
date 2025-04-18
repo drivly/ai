@@ -59,6 +59,7 @@
   "dependencies": {
     "json5": "^2.2.3",
     "jsonld": "^8.3.2",
+    "mdast-util-to-string": "^4.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.0",
     "remark-mdx": "^3.1.0",
