@@ -133,7 +133,6 @@ export const tasks = [
   generateVideoTask, // Add vid
   syncTaskToLinearTask,
   deleteLinearIssueTask,
-
 ]
 
 export const workflows = [handleGithubEvent]

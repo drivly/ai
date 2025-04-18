@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 
-const zapier = require('zapier-platform-core');
+const zapier = require('zapier-platform-core')
 
-zapier.tools.env.inject(); // read from the .env file
+zapier.tools.env.inject() // read from the .env file
 
-const App = require('../index');
-const appTester = zapier.createAppTester(App);
+const App = require('../index')
+const appTester = zapier.createAppTester(App)
 
 // Only here so the tests out of the box.
 // You should create a `.env` file and populate it with the necessarily configuration
@@ -15,18 +15,16 @@ const appTester = zapier.createAppTester(App);
     CLIENT_SECRET=asdf
 */
 // then you can delete the following 2 lines
-process.env.CLIENT_ID = process.env.CLIENT_ID || '1234';
-process.env.CLIENT_SECRET = process.env.CLIENT_SECRET || 'asdf';
+process.env.CLIENT_ID = process.env.CLIENT_ID || '1234'
+process.env.CLIENT_SECRET = process.env.CLIENT_SECRET || 'asdf'
 
 describe('oauth2 app', () => {
   beforeAll(() => {
     // It's a good idea to store your Client ID and Secret in the environment rather than in code.
     if (!(process.env.CLIENT_ID && process.env.CLIENT_SECRET)) {
-      throw new Error(
-        `Before running the tests, make sure CLIENT_ID and CLIENT_SECRET are available in the environment.`
-      );
+      throw new Error(`Before running the tests, make sure CLIENT_ID and CLIENT_SECRET are available in the environment.`)
     }
-  });
+  })
 
   it('generates an authorize URL', async () => {
     const bundle = {
@@ -39,17 +37,12 @@ describe('oauth2 app', () => {
         CLIENT_ID: process.env.CLIENT_ID,
         CLIENT_SECRET: process.env.CLIENT_SECRET,
       },
-    };
+    }
 
-    const authorizeUrl = await appTester(
-      App.authentication.oauth2Config.authorizeUrl,
-      bundle
-    );
+    const authorizeUrl = await appTester(App.authentication.oauth2Config.authorizeUrl, bundle)
 
-    expect(authorizeUrl).toBe(
-      'https://auth-json-server.zapier-staging.com/oauth/authorize?client_id=1234&state=4444&redirect_uri=https%3A%2F%2Fzapier.com%2F&response_type=code'
-    );
-  });
+    expect(authorizeUrl).toBe('https://auth-json-server.zapier-staging.com/oauth/authorize?client_id=1234&state=4444&redirect_uri=https%3A%2F%2Fzapier.com%2F&response_type=code')
+  })
 
   it('can fetch an access token', async () => {
     const bundle = {
@@ -71,16 +64,13 @@ describe('oauth2 app', () => {
       rawRequest: {
         querystring: '?accountDomain=test-account&code=one_time_code',
       },
-    };
+    }
 
-    const result = await appTester(
-      App.authentication.oauth2Config.getAccessToken,
-      bundle
-    );
+    const result = await appTester(App.authentication.oauth2Config.getAccessToken, bundle)
 
-    expect(result.access_token).toBe('a_token');
-    expect(result.refresh_token).toBe('a_refresh_token');
-  });
+    expect(result.access_token).toBe('a_token')
+    expect(result.refresh_token).toBe('a_refresh_token')
+  })
 
   it('can refresh the access token', async () => {
     const bundle = {
@@ -94,14 +84,11 @@ describe('oauth2 app', () => {
         CLIENT_ID: process.env.CLIENT_ID,
         CLIENT_SECRET: process.env.CLIENT_SECRET,
       },
-    };
+    }
 
-    const result = await appTester(
-      App.authentication.oauth2Config.refreshAccessToken,
-      bundle
-    );
-    expect(result.access_token).toBe('a_token');
-  });
+    const result = await appTester(App.authentication.oauth2Config.refreshAccessToken, bundle)
+    expect(result.access_token).toBe('a_token')
+  })
 
   it('includes the access token in future requests', async () => {
     const bundle = {
@@ -109,10 +96,10 @@ describe('oauth2 app', () => {
         access_token: 'a_token',
         refresh_token: 'a_refresh_token',
       },
-    };
+    }
 
-    const response = await appTester(App.authentication.test, bundle);
-    expect(response.data).toHaveProperty('username');
-    expect(response.data.username).toBe('Bret');
-  });
-});
+    const response = await appTester(App.authentication.test, bundle)
+    expect(response.data).toHaveProperty('username')
+    expect(response.data.username).toBe('Bret')
+  })
+})

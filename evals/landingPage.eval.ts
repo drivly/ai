@@ -7,17 +7,20 @@ import { models } from './models'
 const battleScorer = Battle as any
 
 evalite('Landing Page Evaluation', {
-  data: () => domains.flatMap(domain => 
-    models.map(model => ({
-      input: { domain, model },
-      expected: {/* optional baseline */},
-    }))
-  ),
+  data: () =>
+    domains.flatMap((domain) =>
+      models.map((model) => ({
+        input: { domain, model },
+        expected: {
+          /* optional baseline */
+        },
+      })),
+    ),
   task: async ({ domain, model }) => {
     const result = await ai.generateLandingPage(
-      { 
-        brand: domain, 
-        idea: 'AI-powered service for business optimization'
+      {
+        brand: domain,
+        idea: 'AI-powered service for business optimization',
       },
       {
         headline: 'attention-grabbing headline that clearly states value proposition',
@@ -27,7 +30,7 @@ evalite('Landing Page Evaluation', {
         socialProof: ['testimonials, user counts, or other trust indicators'],
         callToAction: 'primary button text and action',
       },
-      { model }
+      { model },
     )
     return result
   },
@@ -35,6 +38,6 @@ evalite('Landing Page Evaluation', {
   experimental_customColumns: async (data) => [
     { label: 'Domain', value: data.input.domain },
     { label: 'Model', value: data.input.model },
-    { label: 'Output', value: data.output }
+    { label: 'Output', value: data.output },
   ],
 })

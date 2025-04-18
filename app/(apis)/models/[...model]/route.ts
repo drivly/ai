@@ -53,7 +53,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       const links = options
         .map((option) => {
           const modifiedParsedObject = structuredClone({
-            ...(model?.parsed),
+            ...model?.parsed,
           })
 
           if (param === 'capabilities') {
@@ -92,7 +92,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
     const applyPreset = (preset: Record<string, any>) => {
       const modifiedParsedObject = {
-        ...(model?.parsed),
+        ...model?.parsed,
       }
 
       modifiedParsedObject.systemConfig = {
@@ -113,7 +113,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     const topP = model?.parsed.systemConfig?.topP || 1
     const topK = model?.parsed.systemConfig?.topK || 1
 
-    const allSupportedCapabilities = model?.provider?.supportedParameters.map(x => camelCase(x))
+    const allSupportedCapabilities = model?.provider?.supportedParameters.map((x) => camelCase(x))
     const activeCapabilities = Object.keys(model?.parsed.capabilities ?? {})
 
     const modelNameWithoutSettings = modelNameTemp.split('/')[0].split(':')[0].split('(')[0]
@@ -129,9 +129,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       }
     }
 
-    console.log(
-      allSupportedCapabilities,
-    )
+    console.log(allSupportedCapabilities)
 
     return {
       links: {

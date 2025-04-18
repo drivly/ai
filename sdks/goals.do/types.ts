@@ -43,14 +43,16 @@ export interface Milestone {
 /**
  * Key Result definition - can be either a string or an object
  */
-export type KeyResult = string | {
-  description: string
-  target?: number
-  currentValue?: number
-  unit?: string
-  kpiRelationship?: string
-  progress?: number
-}
+export type KeyResult =
+  | string
+  | {
+      description: string
+      target?: number
+      currentValue?: number
+      unit?: string
+      kpiRelationship?: string
+      progress?: number
+    }
 
 /**
  * Objective definition with key results
@@ -73,6 +75,6 @@ export interface GoalsInput {
 export interface GoalsInstance {
   save(): Promise<Record<string, Goal>>
   updateProgress(objectiveKey: string, keyResult: string | number, progress: number): Promise<void>
-  getProgress(): Promise<Record<string, { progress: number, keyResults: Record<string, number> }>>
+  getProgress(): Promise<Record<string, { progress: number; keyResults: Record<string, number> }>>
   toJSON(): GoalsInput
 }

@@ -5,51 +5,51 @@ const perform = async (z, bundle) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     },
-    body: bundle.inputData
-  });
+    body: bundle.inputData,
+  })
 
-  return response.data;
-};
+  return response.data
+}
 
 module.exports = {
   key: 'createIntegrationCategories',
   noun: 'IntegrationCategories',
-  
+
   display: {
     label: 'Create IntegrationCategories',
-    description: 'Creates a new IntegrationCategories.'
+    description: 'Creates a new IntegrationCategories.',
   },
-  
+
   operation: {
     perform,
-    
+
     inputFields: [
-    {
-      key: 'category',
-      label: 'Category',
-      type: 'string',
-      required: false,
-      helpText: 'The Category of the IntegrationCategories'
-    }
+      {
+        key: 'category',
+        label: 'Category',
+        type: 'string',
+        required: false,
+        helpText: 'The Category of the IntegrationCategories',
+      },
     ],
-    
+
     outputFields: [
       {
         key: 'id',
-        label: 'ID'
+        label: 'ID',
       },
-    {
-      key: 'category',
-      label: 'Category'
-    }
+      {
+        key: 'category',
+        label: 'Category',
+      },
     ],
-    
+
     sample: {
       id: 'sample-id-1234',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
-  }
-};
+      updatedAt: new Date().toISOString(),
+    },
+  },
+}

@@ -165,10 +165,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       //console.log(model.name, model.alias)
       const modelId = model.slug || ''
 
-      const allFeaturesCombined = [
-        ...capabilities,
-        outputType ?? '',
-      ]
+      const allFeaturesCombined = [...capabilities, outputType ?? '']
 
       const parsedModel = parse(`${modelId}(${allFeaturesCombined.join(',')})`)
 
@@ -177,13 +174,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       const query = new URLSearchParams(qs)
       // Remove any params that are already being used
       // These params are not needed for the exit URL
-      const paramsToRemove = [
-        'groupBy',
-        'capabilities',
-        'provider',
-        'author',
-        'outputType'
-      ]
+      const paramsToRemove = ['groupBy', 'capabilities', 'provider', 'author', 'outputType']
 
       paramsToRemove.forEach((param) => {
         query.delete(param)

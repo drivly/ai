@@ -9,15 +9,10 @@ import { MDXDBOptions } from './types.js'
  * @returns Database client
  */
 export const DB = (options: MDXDBOptions = {}): DatabaseClient => {
-  const {
-    basePath = './content',
-    fileExtension = '.mdx',
-    createDirectories = true,
-    ...schemaDefinitions
-  } = options
-  
+  const { basePath = './content', fileExtension = '.mdx', createDirectories = true, ...schemaDefinitions } = options
+
   const fsHandler = new MDXFileSystemHandler(basePath, fileExtension, createDirectories)
-  
+
   return new Proxy({} as DatabaseClient, {
     get: (target, prop) => {
       if (typeof prop === 'string' && prop !== 'then') {

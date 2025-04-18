@@ -399,6 +399,7 @@ apis logout
 ```
 
 When using `apis login` without a token, the CLI will:
+
 1. Open your default browser to the login page
 2. Allow you to authenticate with your account
 3. Generate a machine-specific API key

@@ -312,21 +312,21 @@ export class EvalsClient {
   async Eval(config: FunctionEvalConfig): Promise<Record<string, any>> {
     const { name, schema, models, prompts, options = {} } = config
     const now = new Date().toISOString()
-    
+
     const runId = crypto.randomUUID()
     const runName = `Eval ${name} (${runId.split('-')[0]})`
-    
+
     const tests: Test[] = []
     const combinations: Array<{ modelIndex: number; promptIndex: number; testId: string }> = []
-    
+
     for (let modelIndex = 0; modelIndex < models.length; modelIndex++) {
       for (let promptIndex = 0; promptIndex < prompts.length; promptIndex++) {
         const modelName = models[modelIndex]
         const prompt = prompts[promptIndex]
-        
+
         const testId = crypto.randomUUID()
         const testName = `${name} - ${modelName} - ${prompt.name}`
-        
+
         const test: Test = {
           id: testId,
           name: testName,
@@ -340,83 +340,83 @@ export class EvalsClient {
               prompt: prompt.prompt,
               temperature: prompt.temperature,
               ...prompt,
-            }
+            },
           },
           tags: ['function-eval', `model:${modelName}`, `prompt:${prompt.name}`],
           createdAt: now,
           updatedAt: now,
         }
-        
+
         tests.push(test)
         combinations.push({ modelIndex, promptIndex, testId })
       }
     }
-    
+
     for (const test of tests) {
       await this.createTest(test)
     }
-    
+
     const run: TestRun = {
       id: runId,
       name: runName,
       description: `Evaluation of function ${name} with ${models.length} models and ${prompts.length} prompt variations`,
-      testIds: tests.map(test => test.id),
+      testIds: tests.map((test) => test.id),
       results: [],
       startedAt: now,
       createdAt: now,
       updatedAt: now,
     }
-    
+
     await this.createRun(run)
-    
+
     const executor: TaskExecutor = {
       execute: async (input: any) => {
         const { functionName, schema, config } = input
         try {
           const functionsApi = new API({
             baseUrl: 'https://apis.do',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
           })
-          
+
           const result = await functionsApi.post<any>(`/v1/functions/${functionName}`, {
             input: {},
-            config
+            config,
           })
-          
+
           return (result as any).data
         } catch (error) {
           throw error instanceof Error ? error : new Error(String(error))
         }
-      }
+      },
     }
-    
+
     const evalRun = await this.evaluate(executor, tests, options)
-    
+
     const resultsByModel: Record<string, any> = {}
-    
+
     for (let i = 0; i < combinations.length; i++) {
       const { modelIndex, promptIndex, testId } = combinations[i]
       const modelName = models[modelIndex]
       const promptName = prompts[promptIndex].name
-      
+
       if (!resultsByModel[modelName]) {
         resultsByModel[modelName] = {
           name: modelName,
-          prompts: {}
+          prompts: {},
         }
       }
-      
-      const result = evalRun.results.find(r => r.testId === testId)
-      
+
+      const result = evalRun.results.find((r) => r.testId === testId)
+
       if (result) {
         resultsByModel[modelName].prompts[promptName] = {
           ...result,
           name: promptName,
-          promptConfig: prompts[promptIndex]
+          promptConfig: prompts[promptIndex],
         }
       }
     }
-    
+
     return {
       id: evalRun.id,
       name: evalRun.name,
@@ -424,7 +424,7 @@ export class EvalsClient {
       startedAt: evalRun.startedAt,
       completedAt: evalRun.completedAt,
       createdAt: evalRun.createdAt,
-      updatedAt: evalRun.updatedAt
+      updatedAt: evalRun.updatedAt,
     }
   }
 }

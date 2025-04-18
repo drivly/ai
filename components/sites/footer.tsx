@@ -41,7 +41,8 @@ export function Footer({ minimal }: { minimal?: boolean }) {
                         className='flex rounded-md text-sm text-gray-400 transition hover:text-white'
                         href={item.href}
                         target={item.external ? '_blank' : undefined}
-                        rel={item.external ? 'noopener noreferrer' : undefined}>
+                        rel={item.external ? 'noopener noreferrer' : undefined}
+                      >
                         <span>{item.name}</span>
                         {item.external && (
                           <div className='ml-1 aspect-square size-3 rounded-full bg-gray-800 p-px'>
@@ -62,7 +63,8 @@ export function Footer({ minimal }: { minimal?: boolean }) {
                         className='flex rounded-md text-sm text-gray-400 transition hover:text-white'
                         href={item.href}
                         target={item.external ? '_blank' : undefined}
-                        rel={item.external ? 'noopener noreferrer' : undefined}>
+                        rel={item.external ? 'noopener noreferrer' : undefined}
+                      >
                         <span>{item.name}</span>
                         {item.external && (
                           <div className='ml-0.5 aspect-square size-3 rounded-full bg-gray-800 p-px'>
@@ -85,7 +87,8 @@ export function Footer({ minimal }: { minimal?: boolean }) {
                         className='flex rounded-md text-sm text-gray-400 transition hover:text-white'
                         href={item.href}
                         target={item.external ? '_blank' : undefined}
-                        rel={item.external ? 'noopener noreferrer' : undefined}>
+                        rel={item.external ? 'noopener noreferrer' : undefined}
+                      >
                         <span>{item.name}</span>
                         {item.external && (
                           <div className='ml-1 aspect-square size-3 rounded-full bg-gray-800 p-px'>
@@ -106,7 +109,8 @@ export function Footer({ minimal }: { minimal?: boolean }) {
                         className='flex rounded-md text-sm text-gray-400 transition hover:text-white'
                         href={item.href}
                         target={item.external ? '_blank' : undefined}
-                        rel={item.external ? 'noopener noreferrer' : undefined}>
+                        rel={item.external ? 'noopener noreferrer' : undefined}
+                      >
                         <span>{item.name}</span>
                         {item.external && (
                           <div className='ml-1 aspect-square size-3 rounded-full bg-gray-800 p-px'>

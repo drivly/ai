@@ -51,7 +51,7 @@ describe('CLI', () => {
   describe('login', () => {
     it('should log in with token', async () => {
       await cli.login({ token: 'test-token' })
-      
+
       expect(mockConsoleLog).toHaveBeenCalledWith('Logging in to apis.do...')
       expect(auth.storeApiKey).toHaveBeenCalledWith('test-token')
     })
@@ -60,7 +60,7 @@ describe('CLI', () => {
   describe('logout', () => {
     it('should log out', async () => {
       await cli.logout()
-      
+
       expect(mockConsoleLog).toHaveBeenCalledWith('Logging out from apis.do...')
       expect(auth.removeApiKey).toHaveBeenCalled()
     })

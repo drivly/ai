@@ -19,26 +19,26 @@ pnpm add payload-zapier-apps
 ## Usage
 
 ```typescript
-import { generateZapierApps } from 'payload-zapier-apps';
+import { generateZapierApps } from 'payload-zapier-apps'
 
 // Generate Zapier apps with default options
-await generateZapierApps();
+await generateZapierApps()
 
 // Generate Zapier apps with custom options
 await generateZapierApps({
   collectionsPath: '/path/to/your/collections.js',
-  outputDir: '/path/to/output/directory'
-});
+  outputDir: '/path/to/output/directory',
+})
 ```
 
 ## Configuration
 
 The `generateZapierApps` function accepts a configuration object with the following options:
 
-| Option | Type | Description | Default |
-|--------|------|-------------|---------|
+| Option            | Type     | Description                                           | Default                                                    |
+| ----------------- | -------- | ----------------------------------------------------- | ---------------------------------------------------------- |
 | `collectionsPath` | `string` | Path to the module exporting your Payload collections | `../../../collections/index.js` (relative to this package) |
-| `outputDir` | `string` | Directory where Zapier apps will be generated | `./apps` (relative to this package) |
+| `outputDir`       | `string` | Directory where Zapier apps will be generated         | `./apps` (relative to this package)                        |
 
 ## Generated Apps
 
@@ -64,16 +64,16 @@ export const collections = [
       {
         name: 'title',
         type: 'text',
-        required: true
+        required: true,
       },
       // Additional fields...
     ],
     admin: {
-      useAsTitle: 'title'
-    }
+      useAsTitle: 'title',
+    },
   },
   // Additional collections...
-];
+]
 ```
 
 ## Publishing to Zapier

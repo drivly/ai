@@ -12,29 +12,29 @@ export interface ResearchOptions {
   /**
    * The topic to research (required)
    */
-  topic: string;
-  
+  topic: string
+
   /**
    * The depth of research to perform
    * @default 'medium'
    */
-  depth?: 'shallow' | 'medium' | 'deep';
-  
+  depth?: 'shallow' | 'medium' | 'deep'
+
   /**
    * Sources to include in the research
    */
-  sources?: string[];
-  
+  sources?: string[]
+
   /**
    * Format for the research results
    * @default 'markdown'
    */
-  format?: 'markdown' | 'json' | 'html';
-  
+  format?: 'markdown' | 'json' | 'html'
+
   /**
    * Callback URL to notify when research is complete
    */
-  callback?: string;
+  callback?: string
 }
 
 /**
@@ -44,17 +44,17 @@ export interface ResearchResponse {
   /**
    * Indicates if the request was successful
    */
-  success: boolean;
-  
+  success: boolean
+
   /**
    * ID of the created task
    */
-  taskId: string;
-  
+  taskId: string
+
   /**
    * ID of the queued job
    */
-  jobId: string;
+  jobId: string
 }
 
 /**
@@ -64,5 +64,5 @@ export interface ResearchError {
   /**
    * Error message
    */
-  error: string;
+  error: string
 }

@@ -45,15 +45,15 @@ const verifyNpmConfig = () => {
     console.log(`NPM_CONFIG_REGISTRY: ${process.env.NPM_CONFIG_REGISTRY || 'not set'}`)
     console.log(`NODE_AUTH_TOKEN exists: ${!!process.env.NODE_AUTH_TOKEN}`)
     console.log(`NPM_TOKEN exists: ${!!process.env.NPM_TOKEN}`)
-    
+
     const npmRegistry = execSync('npm config get registry').toString().trim()
     console.log(`Current NPM registry: ${npmRegistry}`)
-    
+
     if (!process.env.NPM_CONFIG_REGISTRY) {
       console.log('Setting NPM_CONFIG_REGISTRY to https://registry.npmjs.org/')
       process.env.NPM_CONFIG_REGISTRY = 'https://registry.npmjs.org/'
     }
-    
+
     const homeNpmrcPath = path.join(process.env.HOME, '.npmrc')
     const globalNpmrcContent = `
 registry=https://registry.npmjs.org/
@@ -61,7 +61,7 @@ always-auth=true
 `
     fs.writeFileSync(homeNpmrcPath, globalNpmrcContent, 'utf8')
     console.log('Created global .npmrc file with auth token')
-    
+
     try {
       execSync('npm whoami', { stdio: ['pipe', 'pipe', 'pipe'] })
       console.log('NPM authentication verified successfully')
@@ -93,13 +93,13 @@ const getPackagePaths = () => {
 const enforceVersion = (packagePath) => {
   const packageJsonPath = path.join(packagePath, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
-  
+
   if (packageJson.version !== version) {
     console.log(`Setting version for ${packageJson.name} to ${version} (was ${packageJson.version})`)
     packageJson.version = version
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
   }
-  
+
   return packageJson
 }
 
@@ -107,7 +107,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
   const packageJsonPath = path.join(packagePath, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
   let modified = false
-  
+
   const packageVersions = {}
   for (const pkg of allPackages) {
     const pkgJsonPath = path.join(pkg, 'package.json')
@@ -116,7 +116,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       packageVersions[pkgJson.name] = version
     }
   }
-  
+
   if (packageJson.dependencies) {
     for (const [dep, depVersion] of Object.entries(packageJson.dependencies)) {
       if (depVersion.startsWith('workspace:')) {
@@ -130,7 +130,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       }
     }
   }
-  
+
   if (packageJson.devDependencies) {
     for (const [dep, depVersion] of Object.entries(packageJson.devDependencies)) {
       if (depVersion.startsWith('workspace:')) {
@@ -144,7 +144,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       }
     }
   }
-  
+
   if (packageJson.peerDependencies) {
     for (const [dep, depVersion] of Object.entries(packageJson.peerDependencies)) {
       if (depVersion.startsWith('workspace:')) {
@@ -158,25 +158,25 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       }
     }
   }
-  
+
   if (modified) {
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
     console.log(`Updated package.json for ${packageJson.name} with converted workspace dependencies`)
   }
-  
+
   return packageJson
 }
 
 const publishPackage = (packagePath, allPackages) => {
   const packageJson = enforceVersion(packagePath)
-  
+
   if (packageJson.private) {
     console.log(`Skipping private package: ${packageJson.name}`)
     return
   }
 
   console.log(`Processing package: ${packageJson.name}`)
-  
+
   convertWorkspaceDependencies(packagePath, allPackages)
 
   try {
@@ -189,14 +189,14 @@ always-auth=true
     console.log(`Created temporary .npmrc in ${packagePath} with auth token`)
 
     console.log(`Publishing ${packageJson.name}@${version} with tag ${npmTag}`)
-    
+
     try {
       execSync(`npm publish --access public --tag ${npmTag}`, {
         cwd: packagePath,
-        env: { 
-          ...process.env, 
-          NODE_DEBUG: 'npm', 
-          DEBUG: 'npm:*', 
+        env: {
+          ...process.env,
+          NODE_DEBUG: 'npm',
+          DEBUG: 'npm:*',
           NPM_CONFIG_REGISTRY: 'https://registry.npmjs.org/',
         },
         stdio: 'inherit',
@@ -204,7 +204,7 @@ always-auth=true
       console.log(`Successfully published ${packageJson.name}@${version} with tag ${npmTag}`)
     } catch (publishError) {
       console.error(`Error publishing ${packageJson.name}:`, publishError.message)
-      
+
       try {
         console.log('Attempting to diagnose NPM issues...')
         execSync('npm config list', { stdio: 'inherit' })

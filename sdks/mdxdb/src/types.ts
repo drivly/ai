@@ -9,13 +9,13 @@ export interface MDXDBOptions extends DBOptions {
    * @default './content'
    */
   basePath?: string
-  
+
   /**
    * File extension for MDX files
    * @default '.mdx'
    */
   fileExtension?: string
-  
+
   /**
    * Whether to create directories if they don't exist
    * @default true
@@ -31,17 +31,17 @@ export interface MDXDocument<T = Record<string, unknown>> {
    * Document ID (must be at root level for JSON-LD compatibility)
    */
   id: string
-  
+
   /**
    * Document type (JSON-LD compatibility)
    */
   type?: string
-  
+
   /**
    * JSON-LD context
    */
   context?: string | Record<string, unknown>
-  
+
   /**
    * Document data (frontmatter)
    */
@@ -50,18 +50,18 @@ export interface MDXDocument<T = Record<string, unknown>> {
      * Duplicate of ID for easier querying
      */
     $id?: string
-    
+
     /**
      * Duplicate of type for easier querying
      */
     $type?: string
-    
+
     /**
      * Duplicate of context for easier querying
      */
     $context?: string | Record<string, unknown>
   }
-  
+
   /**
    * Document content (MDX content after frontmatter)
    */
@@ -76,12 +76,12 @@ export interface ParsedMDX<T = Record<string, unknown>> {
    * Frontmatter data
    */
   data: T
-  
+
   /**
    * MDX content
    */
   content: string
-  
+
   /**
    * Original file path
    */
@@ -96,17 +96,17 @@ export class MDXDBError extends Error {
    * HTTP status code
    */
   statusCode: number
-  
+
   /**
    * Operation that failed
    */
   operation: string
-  
+
   /**
    * Collection that was being operated on
    */
   collection: string
-  
+
   constructor(message: string, statusCode = 500, operation = '', collection = '') {
     super(message)
     this.name = 'MDXDBError'

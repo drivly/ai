@@ -4,10 +4,7 @@ import { program } from 'commander'
 import { parseMarkdownWithFrontmatter, createVideoFromSlides } from '../dist/index.js'
 import fs from 'fs'
 
-program
-  .name('motion.md')
-  .description('Convert Markdown to video presentations using Remotion')
-  .version('0.1.0')
+program.name('motion.md').description('Convert Markdown to video presentations using Remotion').version('0.1.0')
 
 program
   .command('render <input>')
@@ -18,23 +15,23 @@ program
   .action(async (input, options) => {
     try {
       const markdownContent = fs.readFileSync(input, 'utf-8')
-      
+
       const { globalConfig, slides } = parseMarkdownWithFrontmatter(markdownContent)
-      
+
       const outputPath = options.output || globalConfig.output || 'output.mp4'
-      
+
       console.log(`Rendering video to ${outputPath}...`)
-      
+
       const result = await createVideoFromSlides({
         slides,
         config: globalConfig,
         outputPath,
         options: {
           tts: options.tts,
-          quality: options.quality
-        }
+          quality: options.quality,
+        },
       })
-      
+
       console.log(`Video generated successfully!`)
       console.log(`Output: ${result.outputPath}`)
       console.log(`Duration: ${result.duration}s`)

@@ -4,9 +4,9 @@ const perform = async (z, bundle) => {
     params: {
       name: bundle.inputData.name,
     },
-  });
-  return response.data;
-};
+  })
+  return response.data
+}
 
 module.exports = {
   key: 'recipe',
@@ -32,4 +32,4 @@ module.exports = {
       name: 'Test',
     },
   },
-};
+}

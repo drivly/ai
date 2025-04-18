@@ -9,11 +9,7 @@ export class GoogleAIStudioProvider {
   }
 
   supportsModel(model: string): boolean {
-    const studioModels = [
-      'gemini-pro', 
-      'gemini-ultra', 
-      'gemini-pro-vision'
-    ]
+    const studioModels = ['gemini-pro', 'gemini-ultra', 'gemini-pro-vision']
     return studioModels.some((m) => model.includes(m))
   }
 }

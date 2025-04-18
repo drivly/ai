@@ -4,7 +4,7 @@ description: Documentation from Better-Auth
 sourceUrl: https://www.better-auth.com/docs
 ---
 
-## [Features](https://www.better-auth.com/docs/introduction\#features)
+## [Features](https://www.better-auth.com/docs/introduction#features)
 
 Better Auth aims to be the most comprehensive auth library. It provides a wide range of features out of the box and allows you to extend it with plugins. Here are some of the features:
 
@@ -54,4 +54,3 @@ Comparison of Better Auth versus over other auth libraries and services.](https:
 ### On this page
 
 [Why Better Auth?](https://www.better-auth.com/docs/introduction#why-better-auth) [Features](https://www.better-auth.com/docs/introduction#features)
-

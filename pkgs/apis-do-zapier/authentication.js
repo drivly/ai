@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const getAccessToken = async (z, bundle) => {
   const response = await z.request({
@@ -14,7 +14,7 @@ const getAccessToken = async (z, bundle) => {
       // 'accountDomain': bundle.cleanedRequest.querystring.accountDomain
     },
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  });
+  })
 
   // If you're using core v9.x or older, you should call response.throwForStatus()
   // or verify response.status === 200 before you continue.
@@ -25,8 +25,8 @@ const getAccessToken = async (z, bundle) => {
   return {
     access_token: response.data.access_token,
     refresh_token: response.data.refresh_token,
-  };
-};
+  }
+}
 
 const refreshAccessToken = async (z, bundle) => {
   const response = await z.request({
@@ -39,7 +39,7 @@ const refreshAccessToken = async (z, bundle) => {
       refresh_token: bundle.authData.refresh_token,
     },
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  });
+  })
 
   // If you're using core v9.x or older, you should call response.throwForStatus()
   // or verify response.status === 200 before you continue.
@@ -51,26 +51,25 @@ const refreshAccessToken = async (z, bundle) => {
   return {
     access_token: response.data.access_token,
     refresh_token: response.data.refresh_token,
-  };
-};
+  }
+}
 
 // This function runs before every outbound request. You can have as many as you
 // need. They'll need to each be registered in your index.js file.
 const includeBearerToken = (request, z, bundle) => {
   if (bundle.authData.access_token) {
-    request.headers.Authorization = `Bearer ${bundle.authData.access_token}`;
+    request.headers.Authorization = `Bearer ${bundle.authData.access_token}`
   }
 
-  return request;
-};
+  return request
+}
 
 // You want to make a request to an endpoint that is either specifically designed
 // to test auth, or one that every user will have access to. eg: `/me`.
 // By returning the entire request object, you have access to the request and
 // response data for testing purposes. Your connection label can access any data
 // from the returned response using the `json.` prefix. eg: `{{json.username}}`.
-const test = (z, bundle) =>
-  z.request({ url: 'https://auth-json-server.zapier-staging.com/me' });
+const test = (z, bundle) => z.request({ url: 'https://auth-json-server.zapier-staging.com/me' })
 
 module.exports = {
   config: {
@@ -111,4 +110,4 @@ module.exports = {
   },
   befores: [includeBearerToken],
   afters: [],
-};
+}

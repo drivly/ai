@@ -1,5 +1,5 @@
-export { Business } from './business';
-export { Experiment } from './experiment';
+export { Business } from './business'
+export { Experiment } from './experiment'
 
 export type {
   BusinessInterface,
@@ -15,9 +15,9 @@ export type {
   Function,
   Agent,
   CustomerSegment,
-  RevenueStream
-} from './types';
+  RevenueStream,
+} from './types'
 
-export { LeanCanvas } from './models/lean-canvas';
-export { StoryBrand } from './models/story-brand';
-export { ValueProposition } from './models/value-proposition';
+export { LeanCanvas } from './models/lean-canvas'
+export { StoryBrand } from './models/story-brand'
+export { ValueProposition } from './models/value-proposition'

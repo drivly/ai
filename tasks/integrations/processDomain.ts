@@ -266,9 +266,8 @@ async function updateCloudflareCustomHostname(domain: string, projectName: strin
       }
 
       const rulesData = await rulesResponse.json()
-      const existingRule = rulesData.result.find((rule: any) => 
-        rule.targets[0]?.constraint?.value === `*${domain}/*` && 
-        rule.actions.find((action: any) => action.id === 'forwarding_url')
+      const existingRule = rulesData.result.find(
+        (rule: any) => rule.targets[0]?.constraint?.value === `*${domain}/*` && rule.actions.find((action: any) => action.id === 'forwarding_url'),
       )
 
       const pageRulePayload = {
@@ -278,17 +277,17 @@ async function updateCloudflareCustomHostname(domain: string, projectName: strin
             constraint: {
               operator: 'matches',
               value: `*${domain}/*`,
-            }
-          }
+            },
+          },
         ],
         actions: [
           {
             id: 'forwarding_url',
             value: {
               url: `https://${targetDomain}`,
-              status_code: 301
-            }
-          }
+              status_code: 301,
+            },
+          },
         ],
         status: 'active',
       }
@@ -336,7 +335,8 @@ async function updateCloudflareCustomHostname(domain: string, projectName: strin
     const data = await response.json()
 
     if (!data.success) {
-      if (data.errors?.[0]?.code === 1407) { // Custom hostname not found
+      if (data.errors?.[0]?.code === 1407) {
+        // Custom hostname not found
         return await addCloudflareCustomHostname(domain, projectName)
       }
       throw new Error(data.errors?.[0]?.message || 'Unknown error from Cloudflare API')

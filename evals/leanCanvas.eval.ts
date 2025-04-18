@@ -7,12 +7,15 @@ import { models } from './models'
 const battleScorer = Battle as any
 
 evalite('LeanCanvas Evaluation', {
-  data: () => domains.flatMap(domain => 
-    models.map(model => ({
-      input: { domain, model },
-      expected: {/* optional baseline */},
-    }))
-  ),
+  data: () =>
+    domains.flatMap((domain) =>
+      models.map((model) => ({
+        input: { domain, model },
+        expected: {
+          /* optional baseline */
+        },
+      })),
+    ),
   task: async ({ domain, model }) => {
     const result = await ai.leanCanvas(
       { domain },
@@ -28,7 +31,7 @@ evalite('LeanCanvas Evaluation', {
         costStructure: ['list of operational costs'],
         revenueStreams: ['list of revenue sources'],
       },
-      { model }
+      { model },
     )
     return result
   },
@@ -36,6 +39,6 @@ evalite('LeanCanvas Evaluation', {
   experimental_customColumns: async (data) => [
     { label: 'Domain', value: data.input.domain },
     { label: 'Model', value: data.input.model },
-    { label: 'Output', value: data.output }
+    { label: 'Output', value: data.output },
   ],
 })

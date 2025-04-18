@@ -32,7 +32,7 @@ export const getUserAccounts = async (): Promise<Account[]> => {
     if (!session) {
       return [] // Skip API call for anonymous users
     }
-    
+
     const payload = await getPayloadWithAuth()
     const headers = await requestHeaders()
     if (!payload) {

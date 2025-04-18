@@ -17,14 +17,14 @@ export const handleApiError = (error: any, operation: string, collection: string
   const errorMessage = error.message || 'Unknown error'
   const statusCode = error.status || error.statusCode || 500
   const enhancedError = new Error(`${operation} operation failed on collection '${collection}': ${errorMessage}`)
-  
+
   Object.assign(enhancedError, {
     statusCode,
     operation,
     collection,
     originalError: error,
   })
-  
+
   throw enhancedError
 }
 
@@ -52,7 +52,7 @@ class CollectionHandler<T = CollectionData> implements CollectionMethods<T> {
    * @param options Query options including filtering, sorting, and pagination
    * @returns Promise resolving to a list of documents
    * @example
-   * const posts = await db.posts.find({ 
+   * const posts = await db.posts.find({
    *   where: { status: 'published' },
    *   limit: 10,
    *   sort: 'createdAt:desc'
@@ -88,7 +88,7 @@ class CollectionHandler<T = CollectionData> implements CollectionMethods<T> {
    * @param data Document data
    * @returns Promise resolving to the created document
    * @example
-   * const post = await db.posts.create({ 
+   * const post = await db.posts.create({
    *   title: 'New Post',
    *   content: 'Content here'
    * })
@@ -108,8 +108,8 @@ class CollectionHandler<T = CollectionData> implements CollectionMethods<T> {
    * @param data Updated document data
    * @returns Promise resolving to the updated document
    * @example
-   * const updatedPost = await db.posts.update('post-123', { 
-   *   title: 'Updated Title' 
+   * const updatedPost = await db.posts.update('post-123', {
+   *   title: 'Updated Title'
    * })
    */
   async update<T = CollectionData>(id: string, data: Partial<T>): Promise<T> {
@@ -143,7 +143,7 @@ class CollectionHandler<T = CollectionData> implements CollectionMethods<T> {
    * @param options Query options
    * @returns Promise resolving to a list of matching documents
    * @example
-   * const results = await db.posts.search('keyword', { 
+   * const results = await db.posts.search('keyword', {
    *   limit: 20,
    *   sort: 'relevance:desc'
    * })

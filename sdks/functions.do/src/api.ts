@@ -44,7 +44,7 @@ export class ApiClient {
     if (options.apiKey) {
       this.headers['Authorization'] = `Bearer ${options.apiKey}`
     }
-    
+
     this.queue = new PQueue({ concurrency: options.concurrency || 50 })
   }
 
@@ -77,7 +77,7 @@ export class ApiClient {
 
       return response.json() as T
     }
-    
+
     return this.queue.add(requestFn) as Promise<T>
   }
 

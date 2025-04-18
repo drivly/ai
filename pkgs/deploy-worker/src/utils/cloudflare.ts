@@ -7,18 +7,8 @@ import { CloudflareOptions, WorkerMetadata } from '../types'
  * @param options Cloudflare options
  * @returns Deployment URL
  */
-export async function deployToCloudflare(
-  code: string, 
-  metadata: WorkerMetadata, 
-  options: CloudflareOptions = {}
-): Promise<string> {
-  const { 
-    accountId = process.env.CF_ACCOUNT_ID, 
-    apiToken = process.env.CF_API_TOKEN, 
-    namespaceId = process.env.CF_NAMESPACE_ID,
-    maxRetries = 3,
-    retryDelay = 1000
-  } = options
+export async function deployToCloudflare(code: string, metadata: WorkerMetadata, options: CloudflareOptions = {}): Promise<string> {
+  const { accountId = process.env.CF_ACCOUNT_ID, apiToken = process.env.CF_API_TOKEN, namespaceId = process.env.CF_NAMESPACE_ID, maxRetries = 3, retryDelay = 1000 } = options
 
   if (!accountId) {
     throw new Error('Cloudflare account ID is required')
@@ -44,7 +34,7 @@ export async function deployToCloudflare(
 
   const metadataWithProcessedBindings = {
     ...metadata,
-    bindings: metadata.bindings?.map(binding => {
+    bindings: metadata.bindings?.map((binding) => {
       switch (binding.type) {
         case 'plain_text':
         case 'secret_text':
@@ -55,13 +45,13 @@ export async function deployToCloudflare(
         case 'r2_bucket':
         case 'analytics_engine':
         case 'queue':
-          return binding;
+          return binding
         default:
-          console.warn(`Unknown binding type: ${(binding as any).type}`);
-          return binding;
+          console.warn(`Unknown binding type: ${(binding as any).type}`)
+          return binding
       }
-    })
-  };
+    }),
+  }
 
   const metadataBlob = new Blob([JSON.stringify(metadataWithProcessedBindings)], {
     type: 'application/json',
@@ -69,7 +59,7 @@ export async function deployToCloudflare(
   formData.append('metadata', metadataBlob, 'metadata.json')
 
   let lastError: Error | null = null
-  let attempt = 0;
+  let attempt = 0
 
   while (attempt < maxRetries) {
     try {
@@ -100,16 +90,16 @@ export async function deployToCloudflare(
       }
 
       if (response.status < 500 && response.status !== 429) {
-        break; // Don't retry if not a transient error
+        break // Don't retry if not a transient error
       }
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error))
     }
 
-    attempt++;
+    attempt++
     if (attempt < maxRetries) {
-      const delay = retryDelay * Math.pow(2, attempt - 1) * (0.5 + Math.random() * 0.5);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      const delay = retryDelay * Math.pow(2, attempt - 1) * (0.5 + Math.random() * 0.5)
+      await new Promise((resolve) => setTimeout(resolve, delay))
     }
   }
 

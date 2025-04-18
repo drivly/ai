@@ -40,13 +40,13 @@ console.log(`Running release script in ${DRY_RUN ? 'dry run' : 'release'} mode`)
 const enforceZeroVersioning = (packagePath) => {
   const packageJsonPath = path.join(packagePath, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
-  
+
   if (packageJson.version && !packageJson.version.startsWith('0.')) {
     console.log(`Resetting version for ${packageJson.name} from ${packageJson.version} to 0.0.1`)
     packageJson.version = '0.0.1'
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
   }
-  
+
   return packageJson
 }
 
@@ -54,7 +54,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
   const packageJsonPath = path.join(packagePath, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
   let modified = false
-  
+
   const packageVersions = {}
   for (const pkg of allPackages) {
     const pkgJsonPath = path.join(pkg, 'package.json')
@@ -63,7 +63,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       packageVersions[pkgJson.name] = pkgJson.version || '0.0.1'
     }
   }
-  
+
   if (packageJson.dependencies) {
     for (const [dep, version] of Object.entries(packageJson.dependencies)) {
       if (version.startsWith('workspace:')) {
@@ -77,7 +77,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       }
     }
   }
-  
+
   if (packageJson.devDependencies) {
     for (const [dep, version] of Object.entries(packageJson.devDependencies)) {
       if (version.startsWith('workspace:')) {
@@ -91,7 +91,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       }
     }
   }
-  
+
   if (packageJson.peerDependencies) {
     for (const [dep, version] of Object.entries(packageJson.peerDependencies)) {
       if (version.startsWith('workspace:')) {
@@ -105,12 +105,12 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
       }
     }
   }
-  
+
   if (modified) {
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
     console.log(`Updated package.json for ${packageJson.name} with converted workspace dependencies`)
   }
-  
+
   return packageJson
 }
 
@@ -147,7 +147,7 @@ const runSemanticRelease = (packagePath, allPackages) => {
   }
 
   console.log(`Processing package: ${packageJson.name}`)
-  
+
   convertWorkspaceDependencies(packagePath, allPackages)
 
   try {
@@ -296,21 +296,21 @@ always-auth=true
       try {
         execSync(cmd, {
           cwd: packagePath,
-          env: { 
-            ...process.env, 
-            NODE_DEBUG: 'npm', 
-            DEBUG: 'semantic-release:*,npm:*', 
+          env: {
+            ...process.env,
+            NODE_DEBUG: 'npm',
+            DEBUG: 'semantic-release:*,npm:*',
             FORCE_PATCH_RELEASE: 'true',
             INITIAL_VERSION: '0.0.1',
-            RELEASE_MAJOR: '0'
+            RELEASE_MAJOR: '0',
           },
           stdio: 'inherit',
         })
-        
+
         console.log(`Semantic release completed for ${packageJson.name}`)
       } catch (semanticReleaseError) {
         console.error(`Semantic release failed for ${packageJson.name}:`, semanticReleaseError.message)
-        
+
         const directPublishScript = path.join(packagePath, 'publish.js')
         const directPublishContent = `
 import { execSync } from 'child_process';
@@ -347,14 +347,14 @@ try {
 `
         fs.writeFileSync(directPublishScript, directPublishContent, 'utf8')
         console.log(`Created direct publish script in ${packagePath}`)
-        
+
         try {
           execSync(`node ${directPublishScript}`, {
             cwd: packagePath,
-            env: { 
-              ...process.env, 
-              NODE_DEBUG: 'npm', 
-              DEBUG: 'npm:*', 
+            env: {
+              ...process.env,
+              NODE_DEBUG: 'npm',
+              DEBUG: 'npm:*',
             },
             stdio: 'inherit',
           })
@@ -380,7 +380,7 @@ try {
     console.error(`NPM config: ${process.env.npm_config_registry || 'default registry'}`)
     console.error(`NODE_AUTH_TOKEN exists: ${!!process.env.NODE_AUTH_TOKEN}`)
     console.error(`Current working directory: ${packagePath}`)
-    
+
     try {
       console.log('Attempting to diagnose NPM issues...')
       execSync('npm config list', { stdio: 'inherit' })

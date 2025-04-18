@@ -7,10 +7,8 @@ export const metadata = {
 
 export default function ReferenceLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        {children}
-      </body>
+    <html lang='en' suppressHydrationWarning>
+      <body>{children}</body>
     </html>
   )
 }

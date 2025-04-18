@@ -5,4 +5,7 @@ export type PayloadAdapterOptions = {
   enableDebugLogs?: boolean
 }
 
-export type PayloadAdapter = (payloadClient: BasePayload | Promise<BasePayload> | (() => Promise<BasePayload>), config?: PayloadAdapterOptions) => AdapterInstance
+export type PayloadAdapter = (
+  payloadClient: BasePayload | Promise<BasePayload> | (() => Promise<BasePayload>),
+  config?: PayloadAdapterOptions,
+) => AdapterInstance

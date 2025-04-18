@@ -1,12 +1,12 @@
-const RecipeCreate = require('../apis-do-zapier/creates/recipe');
-const RecipeSearch = require('../apis-do-zapier/searches/recipe');
+const RecipeCreate = require('../apis-do-zapier/creates/recipe')
+const RecipeSearch = require('../apis-do-zapier/searches/recipe')
 
 const addAuthHeader = (request, z, bundle) => {
   // Hard-coded auth header just for demo. DON'T do auth like this for your
   // production app!
-  request.headers['X-Api-Key'] = 'secret';
-  return request;
-};
+  request.headers['X-Api-Key'] = 'secret'
+  return request
+}
 
 module.exports = {
   version: require('./package.json').version,
@@ -32,4 +32,4 @@ module.exports = {
       create: RecipeCreate.key,
     },
   },
-};
+}

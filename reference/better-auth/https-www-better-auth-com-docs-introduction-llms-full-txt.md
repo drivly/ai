@@ -5,4 +5,3 @@ sourceUrl: https://www.better-auth.com/docs
 ---
 
 # https://www.better-auth.com/docs/introduction llms-full.txt
-
