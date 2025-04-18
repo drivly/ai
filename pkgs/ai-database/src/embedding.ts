@@ -1,12 +1,12 @@
 /**
  * Embedding functionality for ai-database
- * Uses the Vercel AI SDK for generating embeddings
+ * Uses OpenAI API directly for generating embeddings
  */
 
 import { EmbeddingOptions, EmbeddingResult } from './types'
 
 /**
- * Generate embeddings for text using the AI SDK
+ * Generate embeddings for text using OpenAI API
  * @param text Text to generate embeddings for
  * @param options Embedding options
  * @returns Promise resolving to embedding result
@@ -16,31 +16,40 @@ export async function generateEmbedding(
   options: EmbeddingOptions = {}
 ): Promise<EmbeddingResult> {
   try {
-    const { embed } = await import('ai')
+    const modelName = options.model || 'text-embedding-3-small'
+    const apiKey = process.env.OPENAI_API_KEY
     
-    const modelName = options.model || 'openai:text-embedding-3-small'
+    if (!apiKey) {
+      throw new Error('OPENAI_API_KEY environment variable is required for embedding generation')
+    }
     
-    // Generate embeddings using the AI SDK
-    const result = await embed({
-      model: modelName as any, // Type assertion needed due to AI SDK typing constraints
-      value: Array.isArray(text) ? text : [text]
+    // Prepare the input for the OpenAI API
+    const input = Array.isArray(text) ? text : [text]
+    
+    const response = await fetch('https://api.openai.com/v1/embeddings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        input,
+        model: modelName
+      })
     })
     
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(`OpenAI API error: ${errorData.error?.message || response.statusText}`)
+    }
+    
+    const data = await response.json()
     const embeddings: number[][] = []
     
-    // Handle different possible return types from the AI SDK
-    if (Array.isArray(result)) {
-      for (const item of result) {
-        if (item && typeof item === 'object' && 'embedding' in item) {
-          const embedding = item.embedding as Float32Array | number[];
-          embeddings.push(Array.from(embedding));
-        }
-      }
-    } else if (result && typeof result === 'object') {
-      if ('embedding' in result) {
-        const embedding = result.embedding;
-        if (Array.isArray(embedding)) {
-          embeddings.push(Array.from(embedding as Float32Array | number[]));
+    if (data && data.data && Array.isArray(data.data)) {
+      for (const item of data.data) {
+        if (item && item.embedding && Array.isArray(item.embedding)) {
+          embeddings.push(item.embedding)
         }
       }
     }
@@ -54,7 +63,7 @@ export async function generateEmbedding(
     console.error('Error generating embedding:', error)
     return {
       embedding: null,
-      model: options.model || 'openai:text-embedding-3-small',
+      model: options.model || 'text-embedding-3-small',
       success: false,
       error: error instanceof Error ? error.message : String(error)
     }
