@@ -55,6 +55,8 @@ export interface AIContext {
   api: APIAccess
   /** Database access for storing and retrieving data */
   db: DatabaseAccess
+  /** Durable Objects access */
+  do: Record<string, any>
 }
 
 /**
