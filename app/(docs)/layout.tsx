@@ -1,10 +1,9 @@
 import { Layout, Navbar } from 'nextra-theme-docs'
 import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
-import './code-hike.css'
-import { headers } from 'next/headers'
 import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
 import 'nextra-theme-docs/style.css'
+// import '@code-hike/mdx/dist/index.css'
 
 import type { Metadata } from 'next'
 

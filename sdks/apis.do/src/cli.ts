@@ -2,6 +2,14 @@ import { API } from './client'
 import fs from 'node:fs'
 import path from 'node:path'
 import { createHash } from 'crypto'
+import { 
+  generateState, 
+  openBrowser, 
+  startLocalServer, 
+  storeApiKey, 
+  loadApiKey, 
+  removeApiKey 
+} from './auth'
 
 export interface CliOptions {
   apiKey?: string
@@ -45,7 +53,36 @@ export class CLI {
    */
   async login(options: { token?: string } = {}): Promise<void> {
     console.log('Logging in to apis.do...')
-    return Promise.resolve()
+    
+    if (options.token) {
+      await storeApiKey(options.token)
+      console.log('API key stored successfully')
+      return
+    }
+    
+    try {
+      const state = generateState()
+      
+      console.log('Starting local server to receive authentication callback...')
+      const server = startLocalServer(state)
+      
+      const { port } = await server
+      
+      const loginUrl = `https://apis.do/login?cli=true&state=${state}&callback=http://localhost:${port}/callback`
+      console.log(`Opening browser to ${loginUrl}...`)
+      openBrowser(loginUrl)
+      
+      console.log('Waiting for authentication to complete in the browser...')
+      
+      const { apiKey } = await server
+      
+      await storeApiKey(apiKey)
+      
+      console.log('Successfully logged in to apis.do')
+    } catch (error) {
+      console.error('Authentication failed:', error instanceof Error ? error.message : String(error))
+      throw error
+    }
   }
 
   /**
@@ -53,7 +90,19 @@ export class CLI {
    */
   async logout(): Promise<void> {
     console.log('Logging out from apis.do...')
-    return Promise.resolve()
+    
+    try {
+      const result = await removeApiKey()
+      
+      if (result) {
+        console.log('Successfully logged out from apis.do')
+      } else {
+        console.log('No stored credentials found')
+      }
+    } catch (error) {
+      console.error('Logout failed:', error instanceof Error ? error.message : String(error))
+      throw error
+    }
   }
 
   /**

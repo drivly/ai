@@ -1,0 +1,48 @@
+{
+  "name": "mdxdb",
+  "version": "0.1.0",
+  "description": "MDX-based database that treats MDX files as collections with database.do interface",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": [
+    "mdx",
+    "database",
+    "filesystem",
+    "frontmatter",
+    "markdown"
+  ],
+  "author": "Drivly",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai"
+  },
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "homepage": "https://mdx.org.ai",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.86",
+    "database.do": "workspace:*",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^0.34.0"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3"
+  }
+}
