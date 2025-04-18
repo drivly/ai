@@ -33,7 +33,7 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, lin
     >
       <h3 className='relative z-10 mb-2 text-xl font-semibold tracking-tight'>{title}</h3>
       <p className='text-muted-foreground relative z-10 mb-auto text-sm opacity-70'>{description}</p>
-      
+
       {/* Tags */}
       {tags && tags.length > 0 && (
         <div className='relative z-10 mt-3 flex flex-wrap gap-2'>
@@ -44,7 +44,7 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, lin
           ))}
         </div>
       )}
-      
+
       {/* Links */}
       <div className='relative z-10 mt-4 flex flex-wrap gap-2'>
         {/* Default links */}
@@ -65,15 +65,16 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, lin
             Docs
           </Badge>
         </a>
-        
+
         {/* Custom links from YAML */}
-        {links && links.map((link, index) => (
-          <a key={index} href={link.url} target='_blank' rel='noopener noreferrer'>
-            <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
-              {link.title}
-            </Badge>
-          </a>
-        ))}
+        {links &&
+          links.map((link, index) => (
+            <a key={index} href={link.url} target='_blank' rel='noopener noreferrer'>
+              <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
+                {link.title}
+              </Badge>
+            </a>
+          ))}
       </div>
     </Link>
   )

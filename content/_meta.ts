@@ -13,7 +13,6 @@ const meta: MetaRecord = {
     href: 'https://apis.do/reference',
   },
 
-
   manifesto: '',
   primitives: '',
 
