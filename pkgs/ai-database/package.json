@@ -34,7 +34,7 @@
     "url": "https://github.com/drivly/ai/issues"
   },
   "devDependencies": {
-    "ai": "^2.0.0",
+    "@types/node": "^20.0.0",
     "apis.do": "workspace:*",
     "payload": "^2.0.0",
     "tsup": "^8.0.0",

@@ -17,10 +17,11 @@ export async function generateEmbedding(
 ): Promise<EmbeddingResult> {
   try {
     const modelName = options.model || 'text-embedding-3-small'
-    const apiKey = process.env.OPENAI_API_KEY
+    const apiKey = options.apiKey || (typeof globalThis !== 'undefined' && 
+      globalThis.process?.env?.OPENAI_API_KEY)
     
     if (!apiKey) {
-      throw new Error('OPENAI_API_KEY environment variable is required for embedding generation')
+      throw new Error('apiKey option or OPENAI_API_KEY environment variable is required for embedding generation')
     }
     
     // Prepare the input for the OpenAI API

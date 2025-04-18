@@ -1,14 +1,17 @@
 import { describe, it, expect, vi } from 'vitest'
 import { generateEmbedding, calculateSimilarity } from './embedding'
 
-vi.mock('ai', () => ({
-  embed: vi.fn().mockResolvedValue([
-    {
-      embedding: new Float32Array([0.1, 0.2, 0.3]),
-      index: 0
-    }
-  ])
-}))
+global.fetch = vi.fn().mockResolvedValue({
+  ok: true,
+  json: vi.fn().mockResolvedValue({
+    data: [
+      {
+        embedding: [0.1, 0.2, 0.3],
+        index: 0
+      }
+    ]
+  })
+})
 
 describe('embedding', () => {
   it('exports generateEmbedding function', () => {
