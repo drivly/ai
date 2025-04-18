@@ -13,7 +13,6 @@ const model = createOpenAI({
 
 export const research = (topic: string) => generateText({
   model: model('perplexity/sonar-deep-research'),
-  system: 'Respond in structured YAML format',
   prompt: `Research the topic: ${topic}`,
   // schema: z.object({
   //   summary: z.string(),
