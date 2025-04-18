@@ -10,7 +10,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
     "dev": "tsup --watch",
     "lint": "eslint src",
     "format": "prettier --write src",
