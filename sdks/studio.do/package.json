@@ -1,0 +1,56 @@
+{
+  "name": "studio.do",
+  "version": "0.1.0",
+  "description": "SDK for creating custom-branded Payload CMS instances with collections derived from Project data",
+  "keywords": [
+    "payload",
+    "cms",
+    "studio",
+    "white-label",
+    "sdk",
+    "typescript"
+  ],
+  "homepage": "https://studio.do",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/studio.do"
+  },
+  "author": "Drivly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:packages": "tsc",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "apis.do": "workspace:*"
+  },
+  "devDependencies": {
+    "eslint-config": "workspace:*",
+    "evalite": "^0.10.0",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.9"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
