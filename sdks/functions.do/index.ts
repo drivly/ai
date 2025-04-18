@@ -306,3 +306,5 @@ export const ai = new Proxy(
     },
   },
 ) as AI_Instance
+
+export { research } from './src/ai'

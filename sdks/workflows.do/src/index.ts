@@ -85,6 +85,7 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
           ai: instance,
           api: createAPIAccess(),
           db: createDatabaseAccess(),
+          do: {}
         }
 
         try {
@@ -293,13 +294,96 @@ function createDatabaseAccess(): DatabaseAccess {
 export { API } from './client.js'
 export { CLI } from './cli.js'
 
+/**
+ * Subscribe to events and execute a handler when they occur
+ * @param eventName Name of the event to subscribe to
+ * @param handler Function to execute when the event occurs
+ */
+export function on(eventName: string, handler: AIEventHandler): void {
+  fetch(`${getBaseUrl()}/triggers/create`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      type: 'event',
+      event: eventName,
+      handler: handler.toString(),
+    }),
+  }).catch(error => console.error('Error creating trigger:', error))
+}
+
+/**
+ * Schedule a function to run on a cron schedule
+ * @param cronExpression Cron expression defining the schedule
+ * @param handler Function to execute on schedule
+ * @param options Additional options for the scheduled task
+ */
+export function every(cronExpression: string, handler: AIEventHandler, options?: any): void {
+  fetch(`${getBaseUrl()}/cron/schedule`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      cron: cronExpression,
+      handler: handler.toString(),
+      options,
+    }),
+  }).catch(error => console.error('Error scheduling cron task:', error))
+}
+
 // export { actions } from 'actions.do'
 // export { Analytics, initAnalytics, trackMetric, defineExperiment } from 'analytics.do'
-export { api } from 'apis.do'
 // export { evals } from 'evals.do'
 // export { ai as functionsAI } from 'functions.do'
 // export { projects } from 'projects.do'
 // export { tasks } from 'tasks.do'
+
+/**
+ * AI instance with typed methods
+ */
+export const ai = new Proxy({} as AIInstance, {
+  get: (target, prop: string) => {
+    if (typeof prop === 'string' && !prop.startsWith('_')) {
+      return async (input: any) => {
+        try {
+          const response = await fetch(`${getBaseUrl()}/workflows/${prop}/execute`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              input,
+            }),
+          })
+
+          return response.json()
+        } catch (error) {
+          console.error(`Error executing dynamic workflow ${prop}:`, error)
+          throw error
+        }
+      }
+    }
+
+    return target[prop as any]
+  },
+})
+
+/**
+ * Database access for storing and retrieving data
+ */
+export const db = createDatabaseAccess()
+
+/**
+ * External API integrations
+ */
+export { api as apiClient } from 'apis.do'
+
+/**
+ * Durable Objects access
+ */
+export const durableObjects = {}
 
 export type {
   Workflow,
