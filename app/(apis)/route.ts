@@ -115,12 +115,18 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     const appTitle = `${app.name}${description ? ` - ${description}` : ''}`
     formattedIntegrations[appTitle] = formatWithOptions(`integrations/${app.key}`, 'integrations.do')
   })
+  
+  const integrations: Record<string, string> = {}
+  staticIntegrations.apps?.forEach(app => {
+    integrations[app.key] = `${origin}/${app.key}`
+  })
 
   return {
     collections: collectionsByGroup,
     apis: formattedApis,
     sites: formattedSites,
-    integrations: formattedIntegrations, // Add formatted integrations to response
+    integrations, // Use the new integrations object with slug as key
+    formattedIntegrations, // Keep the old format for backward compatibility
     actions: {
       toggleDomains: url.searchParams.has('domains') ? url.toString().replace(/[?&]domains/, '') : url.toString() + (url.toString().includes('?') ? '&domains' : '?domains'),
     },
