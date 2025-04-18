@@ -13,7 +13,7 @@ const model = createOpenAI({
 
 export const research = (topic: string) => generateText({
   model: model('perplexity/sonar-deep-research'),
-  prompt: `Research the topic: ${topic}`,
+  prompt: `Research ${topic}`,
   // schema: z.object({
   //   summary: z.string(),
   //   keyPoints: z.array(z.string()),
