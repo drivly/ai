@@ -40,10 +40,6 @@ const priorities = ['cost', 'latency', 'throughput', 'inputCost', 'outputCost']
 const capabilities = ['reasoning', 'thinking', 'tools', 'structuredOutput', 'responseFormat', 'pdf']
 const defaultTools = ['exec', 'online']
 const systemConfiguration = ['seed', 'thread', 'temperature', 'topP', 'topK']
-const priorities = ['cost', 'latency', 'throughput', 'inputCost', 'outputCost']
-const capabilities = ['reasoning', 'thinking', 'tools', 'structuredOutput', 'responseFormat', 'pdf']
-const defaultTools = ['exec', 'online']
-const systemConfiguration = ['seed', 'thread', 'temperature', 'topP', 'topK']
 // Any of the following is an output format, anything else that starts with a capital letter is an output *schema*
 const outputFormats = ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code']
 
@@ -85,7 +81,6 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
   // but only if the format isnt already set. Since we only have access to a single expression at once,
   // we need to store the defaults and apply them later.
   const defaultStorage: Record<string, string | number | boolean> = {}
-  const defaultStorage: Record<string, string | number | boolean> = {}
 
   // Split by comma, each part is a new parameter that needs to be stored in the right
   // place in the output object
@@ -103,111 +98,104 @@ export function parse(modelIdentifier: string): ParsedModelIdentifier {
         .replace('>', ':>')
         .split(':')
 
-
       if (!key) {
         continue
       }
 
-    }
+      let notAKnownParameter = false
 
-    let notAKnownParameter = false
+      switch (true) {
+        case defaultTools.includes(key):
+          output.tools = output.tools || {}
+          output.tools[key] = value || true
+          break
+        case systemConfiguration.includes(key):
+          output.systemConfig = {
+            ...output.systemConfig,
+            [key]: value,
+          }
+          break
+        case priorities.includes(key):
+          if (value) {
+            output.providerConstraints = output.providerConstraints || []
+            output.providerConstraints.push({
+              field: key,
+              value: value.replace('>', '').replace('<', ''),
+              type: value.startsWith('>') ? 'gt' : value.startsWith('<') ? 'lt' : 'eq',
+            })
+          } else {
+            output.priorities = [...(output.priorities || []), key]
+          }
+          break
+        case capabilities.includes(key):
+          output.capabilities = {
+            ...output.capabilities,
+            [key]: value || true,
+          }
+          break
+        case outputFormats.includes(key):
+          output.outputFormat = key == 'Code' && !!value ? `Code:${value}` : key
+          break
+        default:
+          notAKnownParameter = true
+          break
+      }
 
+      if (!notAKnownParameter) {
+        // No need to process any further
+        continue
+      }
 
-    switch (true) {
-      case defaultTools.includes(key):
-        output.tools = output.tools || {}
-        output.tools[key] = value || true
-        break
-      case systemConfiguration.includes(key):
-        output.systemConfig = {
-          ...output.systemConfig,
-          [key]: value,
-        }
-        break
-      case priorities.includes(key):
-        if (value) {
-          output.providerConstraints = output.providerConstraints || []
-          output.providerConstraints.push({
-            field: key,
-            value: value.replace('>', '').replace('<', ''),
-            type: value.startsWith('>') ? 'gt' : value.startsWith('<') ? 'lt' : 'eq',
-          })
+      // If it starts with a capital letter, then it is a Schema
+      if (key[0] === key[0].toUpperCase()) {
+        const schema = key
+
+        if (schema.includes('[]')) {
+          defaultStorage.outputFormat = 'ObjectArray'
         } else {
-          output.priorities = [...(output.priorities || []), key]
+          defaultStorage.outputFormat = 'Object'
         }
-        break
-      case capabilities.includes(key):
-        output.capabilities = {
-          ...output.capabilities,
+
+        output.outputSchema = schema.replace('[]', '')
+      } else if (value?.includes('>') || value?.includes('<')) {
+        // This is most likely a benchmark constraint
+        output.providerConstraints = output.providerConstraints || []
+        output.providerConstraints.push({
+          field: key,
+          value: value.replace('>', '').replace('<', ''),
+          type: value.startsWith('>') ? 'gt' : 'lt',
+        })
+      } else {
+        output.tools = output.tools || {}
+        output.tools = {
+          ...output.tools,
           [key]: value || true,
         }
-        break
-      case outputFormats.includes(key):
-        output.outputFormat = key == 'Code' && !!value ? `Code:${value}` : key
-        break
-      default:
-        notAKnownParameter = true
-        break
-    }
-
-
-    if (!notAKnownParameter) {
-      // No need to process any further
-      continue
-    }
-
-
-    // If it starts with a capital letter, then it is a Schema
-    if (key[0] === key[0].toUpperCase()) {
-      const schema = key
-
-      if (schema.includes('[]')) {
-        defaultStorage.outputFormat = 'ObjectArray'
-      } else {
-        defaultStorage.outputFormat = 'Object'
-      }
-
-      output.outputSchema = schema.replace('[]', '')
-    } else if (value?.includes('>') || value?.includes('<')) {
-      // This is most likely a benchmark constraint
-      output.providerConstraints = output.providerConstraints || []
-      output.providerConstraints.push({
-        field: key,
-        value: value.replace('>', '').replace('<', ''),
-        type: value.startsWith('>') ? 'gt' : 'lt',
-      })
-    } else {
-      output.tools = output.tools || {}
-      output.tools = {
-        ...output.tools,
-        [key]: value || true,
       }
     }
   }
-}
 
-// Custom rules / requirements
-// If someone has tools, they need to have the tools capability
-if (Object.values(output.tools || {}).length > 0) {
-  if (!output.capabilities?.tools) {
-    output.capabilities = {
-      ...output.capabilities,
-      tools: true,
+  // Custom rules / requirements
+  // If someone has tools, they need to have the tools capability
+  if (Object.values(output.tools || {}).length > 0) {
+    if (!output.capabilities?.tools) {
+      output.capabilities = {
+        ...output.capabilities,
+        tools: true,
+      }
     }
   }
-}
 
-// Finally, apply the defaults
-Object.entries(defaultStorage).forEach(([key, value]) => {
-  const keyToCheck = key as keyof ParsedModelIdentifier
-  if (output[keyToCheck] === undefined) {
-    // @ts-expect-error - We know these assignments are safe based on our defaultStorage logic
-    output[keyToCheck] = value
-  }
-})
+  // Finally, apply the defaults
+  Object.entries(defaultStorage).forEach(([key, value]) => {
+    const keyToCheck = key as keyof ParsedModelIdentifier
+    if (output[keyToCheck] === undefined) {
+      // @ts-expect-error - We know these assignments are safe based on our defaultStorage logic
+      output[keyToCheck] = value
+    }
+  })
 
-
-return output
+  return output
 }
 
 export function constructModelIdentifier(parsed: ParsedModelIdentifier): string {
@@ -232,7 +220,6 @@ export function constructModelIdentifier(parsed: ParsedModelIdentifier): string 
     return `${key}:${value}`
   }
 
-  const keysToFormat = ['capabilities', 'tools', 'systemConfig'] as const
   const keysToFormat = ['capabilities', 'tools', 'systemConfig'] as const
 
   keysToFormat.forEach((key) => {
@@ -320,8 +307,7 @@ export function filterModels(
       }
 
       return model.slug.split('/')[1] === parsed.model
-    }
-    )
+    })
   }
 
   // We're using named functions here so we can console.log the filter chain
@@ -331,7 +317,6 @@ export function filterModels(
       return provider?.slug === parsed.provider
     })
   }
-
 
   if (parsed?.providerConstraints?.length) {
     // Since the provider isnt defined, we need to filter based on the provider constraints
@@ -382,29 +367,28 @@ export function filterModels(
     }
   }
 
-  const orderBy = (fields: string[]) => (a: any, b: any) => fields.map(o => {
-    let dir = 1;
-    if (o[0] === '-') { dir = -1; o = o.substring(1) }
+  const orderBy = (fields: string[]) => (a: any, b: any) =>
+    fields
+      .map((o) => {
+        let dir = 1
+        if (o[0] === '-') {
+          dir = -1
+          o = o.substring(1)
+        }
 
-    // Support for dot notation to access nested properties
-    const getNestedValue = (obj: any, path: string): any => {
-      return path.split('.').reduce((prev, curr) =>
-        prev && prev[curr] !== undefined ? prev[curr] : undefined, obj)
-    }
+        // Support for dot notation to access nested properties
+        const getNestedValue = (obj: any, path: string): any => {
+          return path.split('.').reduce((prev, curr) => (prev && prev[curr] !== undefined ? prev[curr] : undefined), obj)
+        }
 
-    const aVal = getNestedValue(a, o);
-    const bVal = getNestedValue(b, o);
+        const aVal = getNestedValue(a, o)
+        const bVal = getNestedValue(b, o)
 
-    return aVal > bVal ? dir : aVal < bVal ? -(dir) : 0
-  }).reduce((p: number, n: number) => p ? p : n, 0)
+        return aVal > bVal ? dir : aVal < bVal ? -dir : 0
+      })
+      .reduce((p: number, n: number) => (p ? p : n), 0)
 
-  // Fixes throughput being sorted by lowest first
-  // Which is not what we want.
-  const sortDirections: Record<string, string> = {
-    throughput: '-provider.throughput'
-  }
-
-  let sortingStrategy = orderBy(parsed?.priorities?.map(f => sortDirections[f] || `provider.${f}`) || [])
+  let sortingStrategy = orderBy(parsed?.priorities?.map((f) => `provider.${f}`) || [])
 
   // Re-join back on model, replacing the providers with the filtered providers
   return {
@@ -474,7 +458,6 @@ export function getModels(modelIdentifier: string) {
   let segment = ''
   let depth = 0
 
-
   for (const char of modelIdentifier) {
     if (char === '(') depth++
     else if (char === ')') depth--
@@ -485,7 +468,6 @@ export function getModels(modelIdentifier: string) {
     }
     segment += char
   }
-
 
   if (segment.trim()) result.push(segment.trim())
 
