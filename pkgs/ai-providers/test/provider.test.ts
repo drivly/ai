@@ -6,7 +6,14 @@ import { z } from 'zod'
 
 describe('provider', () => {
   it('should route to the correct model and provider', async () => {
-    const model = llmProvider('gemini')
+    const model = llmProvider(
+      'gemini',
+      {
+        allowFixingSchema: true
+      }
+    )
+
+    console.log(model)
 
     const test = await generateText({
       model,
