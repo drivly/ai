@@ -126,7 +126,13 @@ export function Footer({ minimal }: { minimal?: boolean }) {
           </div>
         </div>
         <div className='mt-16 flex flex-col items-center justify-between gap-4 border-t border-gray-800 pt-8 sm:mt-20 sm:flex-row lg:mt-24'>
-          <p className='text-sm leading-5 text-gray-400'>&copy; {new Date().getFullYear()} .do, Inc. All rights reserved.</p>
+          <p className='text-sm leading-5 text-gray-400'>
+            &copy; {new Date().getFullYear()}{' '}
+            <a href='https://dotdo.ai' className='hover:text-gray-300'>
+              .do AI
+            </a>
+            . All rights reserved.
+          </p>
           <iframe
             src='https://status.workflows.do/badge?theme=dark'
             width='250'
@@ -150,7 +156,13 @@ function MinimalFooter() {
           <div className='flex items-center justify-center sm:justify-start'>
             <DotdoLogo className='flex items-center justify-center' as={Link} />
           </div>
-          <p className='text-center text-sm leading-5 text-gray-400'>&copy; {new Date().getFullYear()} .do, Inc. All rights reserved.</p>
+          <p className='text-center text-sm leading-5 text-gray-400'>
+            &copy; {new Date().getFullYear()}{' '}
+            <a href='https://dotdo.ai' className='hover:text-gray-300'>
+              .do AI
+            </a>
+            . All rights reserved.
+          </p>
           <div className='flex justify-center space-x-4 sm:justify-end'>
             {footerNavigation.social.map((item) => (
               <a key={item.name} href={item.href} target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>
