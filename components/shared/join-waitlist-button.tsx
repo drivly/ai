@@ -36,8 +36,8 @@ export const JoinWaitlistButton = ({ children, className, variant = 'default', t
   }
 
   return (
-    <Button variant={variant} className={cn('cursor-pointer rounded-sm bg-white text-base hover:bg-gray-200', className)} asChild>
-      <Link href='/waitlist'>{children || 'Join Waitlist'}</Link>
+    <Button variant={variant} className={cn('cursor-pointer rounded-sm bg-white text-base hover:bg-gray-200', className)} asChild onClick={() => {}}>
+      <Link href='/login?destination=waitlist'>{children || 'Join Waitlist'}</Link>
     </Button>
   )
 }

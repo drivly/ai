@@ -6,9 +6,17 @@ import { admin, apiKey, genericOAuth, multiSession, oAuthProxy, oidcProvider, op
 import type { CollectionConfig } from 'payload'
 import { isSuperAdmin } from '../hooks/isSuperAdmin'
 import stripeClient from '../stripe'
-import { getCurrentURL, getOAuthCallbackURL } from '../utils/url'
+import { getOAuthCallbackURL } from '../utils/url'
 
-// import { getCurrentURL } from '../utils/url'
+const trustedOrigins = [
+  // Only use the NEXT_PUBLIC_ versions as they're available on both server and client
+  `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`,
+  `https://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}`,
+  `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`,
+  ...(process.env.NODE_ENV === 'production'
+    ? ['https://apis.do', 'https://workflows.do', 'https://functions.do', 'https://agents.do', 'https://llm.do']
+    : ['http://localhost:3000', 'https://localhost:3000']),
+]
 
 export const betterAuthPlugins = [
   admin(),
@@ -17,12 +25,7 @@ export const betterAuthPlugins = [
   openAPI(),
   nextCookies(),
   stripe({ stripeClient, stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET as string, createCustomerOnSignUp: true }),
-  oAuthProxy({
-    // The URL where OAuth providers are registered (must match GitHub settings)
-    productionURL: 'https://apis.do',
-    currentURL: getCurrentURL(),
-    // Don't provide currentURL to let the plugin detect it automatically
-  }),
+  oAuthProxy(),
   genericOAuth({
     config: [
       {
@@ -67,8 +70,7 @@ export type BetterAuthPlugins = typeof betterAuthPlugins
 export const betterAuthOptions: BetterAuthOptions = {
   secret: process.env.BETTER_AUTH_SECRET as string,
   appName: '.do',
-  trustedOrigins:
-    process.env.NODE_ENV === 'production' ? ['https://apis.do', 'https://workflows.do', 'https://functions.do', 'https://agents.do', 'https://llm.do'] : ['http://localhost:3000'],
+  trustedOrigins,
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -80,11 +82,6 @@ export const betterAuthOptions: BetterAuthOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
       redirectURI: getOAuthCallbackURL('github'),
     },
-
-    // microsoft: {
-    //   clientId: process.env.MICROSOFT_CLIENT_ID as string,
-    //   clientSecret: process.env.MICROSOFT_CLIENT_SECRET as string,
-    // },
   },
   databaseHooks: {
     user: {

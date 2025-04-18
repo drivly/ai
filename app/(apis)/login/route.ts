@@ -13,6 +13,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(`/cli-auth?state=${state}&callback=${encodeURIComponent(callback)}`, request.url))
   }
 
-  const { GET } = await import('@/lib/auth/route')
-  return GET(request)
+  const { login } = await import('@/lib/auth/route')
+  return login(request)
 }
