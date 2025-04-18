@@ -1,11 +1,11 @@
-import { API } from 'apis.do'
+import { ai } from 'functions.do'
 import { ResearchOptions, ResearchResponse } from '../types'
 
 export class ResearchClient {
-  private api: API
+  private options: any
 
   constructor(options = {}) {
-    this.api = new API(options)
+    this.options = options
   }
 
   /**
@@ -17,8 +17,17 @@ export class ResearchClient {
     if (!params.topic) {
       throw new Error('Missing required parameter: topic')
     }
-
-    return this.api.post('/research', params)
+    
+    const result = await ai.research(params, {
+      model: 'perplexity/sonar-deep-research',
+      ...this.options
+    })
+    
+    return {
+      success: true,
+      taskId: result.taskId || '',
+      jobId: result.jobId || ''
+    }
   }
 }
 

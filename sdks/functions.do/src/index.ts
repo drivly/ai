@@ -1,4 +1,5 @@
 import { ApiClient } from './api'
+export type { ResearchOptions, ResearchResponse } from './research'
 
 /**
  * Schema for defining interactive blocks in messaging platforms
