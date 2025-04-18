@@ -171,7 +171,7 @@ test('site pricing page', async ({ page }) => {
     page.setDefaultNavigationTimeout(120000)
 
     await page.goto(`${baseUrl}/sites/workflows.do/pricing`, {
-      waitUntil: 'load',
+      waitUntil: 'domcontentloaded', // Changed from 'load' to fix timeout issue (ENG-647)
       timeout: 120000, // Further increased for CI environment
     })
   } else {
