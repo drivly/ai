@@ -10,6 +10,7 @@ import { getPayloadInstance } from './utils'
 export * from './types'
 export * from './adapters/node'
 export * from './adapters/edge'
+export * from './embedding'
 
 /**
  * Creates a database client with the provided options

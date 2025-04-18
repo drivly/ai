@@ -7,6 +7,30 @@ import type { ClientOptions, QueryParams, ErrorResponse, ListResponse } from 'ap
 export type { ClientOptions, QueryParams, ErrorResponse, ListResponse }
 
 /**
+ * Options for embedding generation
+ */
+export interface EmbeddingOptions {
+  /** Embedding model to use (defaults to openai:text-embedding-3-small) */
+  model?: string
+  /** Additional options for the embedding model */
+  [key: string]: any
+}
+
+/**
+ * Result of embedding generation
+ */
+export interface EmbeddingResult {
+  /** Generated embedding vectors */
+  embedding: number[][] | null
+  /** Model used for embedding generation */
+  model: string
+  /** Whether the embedding generation was successful */
+  success: boolean
+  /** Error message if embedding generation failed */
+  error?: string
+}
+
+/**
  * Generic collection data type
  */
 export type CollectionData = Record<string, any>

@@ -54,6 +54,29 @@ const posts = await db.posts.find({
 const post = await db.posts.findOne('post-123')
 ```
 
+### Generating Embeddings
+
+```typescript
+import { generateEmbedding, calculateSimilarity } from 'ai-database'
+
+// Generate embeddings for text
+const result = await generateEmbedding('Text to embed')
+
+if (result.success) {
+  console.log('Embedding:', result.embedding)
+  console.log('Model used:', result.model)
+  
+  // Calculate similarity between two embeddings
+  const embedding1 = result.embedding[0]
+  const embedding2 = await generateEmbedding('Similar text').then(r => r.embedding?.[0])
+  
+  if (embedding1 && embedding2) {
+    const similarity = calculateSimilarity(embedding1, embedding2)
+    console.log('Similarity score:', similarity)
+  }
+}
+```
+
 ## API
 
 The API is compatible with `database.do`, providing the same methods for each collection:
@@ -80,6 +103,11 @@ const edgeDb = createEdgeClient({
   apiUrl: 'https://your-payload-api.com/api' 
 })
 ```
+
+## Embedding Functions
+
+- `generateEmbedding(text, options?)`: Generate embeddings for text using the AI SDK
+- `calculateSimilarity(embedding1, embedding2)`: Calculate cosine similarity between two embeddings
 
 ## License
 
