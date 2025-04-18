@@ -1,6 +1,6 @@
 # research.do
 
-Deep Research SDK for performing comprehensive research on any topic.
+Deep Research SDK for performing comprehensive research on any topic. Integrated with functions.do for strongly-typed AI functions.
 
 ## Installation
 
@@ -37,6 +37,34 @@ const customResult = await customClient.research({
 })
 ```
 
+## Integration with functions.do
+
+research.do is now integrated with functions.do, providing strongly-typed AI functions for research capabilities. Under the hood, research.do uses functions.do to perform research operations with the 'perplexity/sonar-deep-research' model.
+
+```typescript
+import { ai } from 'functions.do'
+
+// Use research functions directly from functions.do
+const result = await ai.research({
+  topic: 'Quantum computing advancements in 2025',
+  depth: 'deep',
+  format: 'markdown',
+})
+
+// Specialized research functions
+const companyInfo = await ai.researchCompany({
+  company: 'Tesla',
+})
+
+const personInfo = await ai.researchPersonalBackground({
+  person: 'Elon Musk',
+})
+
+const socialActivity = await ai.researchSocialActivity({
+  person: 'Elon Musk',
+})
+```
+
 ## API Reference
 
 ### ResearchClient
@@ -52,6 +80,7 @@ const client = new ResearchClient(options)
 - `apiKey` - API key for authentication
 - `baseUrl` - Base URL for API requests (default: 'https://apis.do')
 - `headers` - Additional headers to include with requests
+- `model` - AI model to use (default: 'perplexity/sonar-deep-research')
 
 ### research(params)
 
