@@ -40,4 +40,31 @@ $type: https://mdx.org.ai/Document
 
     expect(() => parse(input)).toThrow('Failed to parse MDX AST')
   })
+
+  it('should parse MDX with JSON transformation', () => {
+    const input = `---
+$type: https://mdx.org.ai/Document
+title: My Document
+---
+
+# Hello World
+
+- Item 1
+- Item 2
+- Item 3
+
+Check out [Example](https://example.com)`
+
+    const result = parse(input, { json: true }) as import('./types.js').MDXLDWithJSON
+
+    // Check core MDXLD properties
+    expect(result.type).toBe('https://mdx.org.ai/Document')
+    expect(result.data).toEqual({ title: 'My Document' })
+
+    // Check JSON structure
+    expect(result.json).toBeDefined()
+    expect(result.json).toHaveProperty('Hello World')
+    expect(((result.json!['Hello World'] as Record<string, unknown>).lists as unknown[])[0]).toEqual(['Item 1', 'Item 2', 'Item 3'])
+    expect(((result.json!['Hello World'] as Record<string, unknown>).links as Record<string, string>)['Example']).toBe('https://example.com')
+  })
 })

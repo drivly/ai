@@ -58,3 +58,31 @@ export interface StringifyOptions {
  * Special properties that should be extracted to root level
  */
 export type SpecialProperty = 'type' | 'context' | 'id' | 'language' | 'base' | 'vocab' | 'list' | 'set' | 'reverse'
+
+/**
+ * Options for transforming Markdown AST to JSON
+ */
+export interface MarkdownJSONOptions {
+  /** Whether to create nested structures based on header depth */
+  nestedHeaders?: boolean
+  /** Custom transformers for specific node types */
+  transformers?: Record<string, (node: unknown) => unknown>
+}
+
+/**
+ * Represents a JSON structure from transformed Markdown
+ * This is a flexible structure where keys are typically headers
+ * and values are either plain objects or nested structures
+ */
+export interface MarkdownJSON {
+  /** Dynamic keys from markdown headers with content as values */
+  [key: string]: unknown
+}
+
+/**
+ * Extended MDXLD interface with JSON transformation support
+ */
+export interface MDXLDWithJSON extends MDXLDWithAST {
+  /** Structured JSON representation of the markdown content */
+  json?: MarkdownJSON
+}
