@@ -224,6 +224,10 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
   config['apis.do'] = {
     description: 'API Gateway for All Services',
   }
+  
+  config['studio.do'] = {
+    description: 'Custom-Branded Payload CMS instances',
+  }
 
   config['databases.do'] = {
     alias: 'database.do',
@@ -720,6 +724,7 @@ export const sdks = [
   'mcp.do',
   'models.do',
   'sdks.do',
+  'studio.do',
   'tasks.do',
   'workflows.do',
 ]
