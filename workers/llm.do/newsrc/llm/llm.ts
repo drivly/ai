@@ -3,7 +3,6 @@ import { JSONObject } from 'hono/utils/types'
 import { z } from 'zod'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 import {
-  getModels,
   getRequiredCapabilities,
   isAnthropicMessagesModelId,
   isDeepSeekChatModelId,
@@ -12,6 +11,7 @@ import {
   versionedOpenaiModelIdMap,
   type ModelId,
 } from './model'
+import { getModel, getModels } from 'language-models'
 import { registry } from './registry'
 
 export async function llm<T extends JSONObject = JSONObject>({
@@ -47,26 +47,24 @@ export async function llm<T extends JSONObject = JSONObject>({
     })
   }
 
+  const resolvedModels = getModels(model)
+
   try {
-    // Model router
-    const resolvedModels = getModels(models, {
-      seed,
-      requiredCapabilities: getRequiredCapabilities({
-        tools: toolsUsed,
-        // TODO: reasoning: ???,
-        response_format: { type: schema ? 'json_schema' : 'json_object' },
-      }),
-    })
-    const provider = isOpenAIChatModelId(resolvedModels[0])
-      ? 'openai'
-      : isGoogleGenerativeAIModelId(resolvedModels[0])
-        ? 'google'
-        : isAnthropicMessagesModelId(resolvedModels[0])
-          ? 'anthropic'
-          : isDeepSeekChatModelId(resolvedModels[0])
-            ? 'deepseek'
-            : 'openrouter'
-    const model = registry.languageModel(`${provider}/${resolvedModels[0]}` as any)
+    console.log(resolvedModels)
+
+    // const provider = isOpenAIChatModelId(resolvedModels[0])
+    //   ? 'openai'
+    //   : isGoogleGenerativeAIModelId(resolvedModels[0])
+    //     ? 'google'
+    //     : isAnthropicMessagesModelId(resolvedModels[0])
+    //       ? 'anthropic'
+    //       : isDeepSeekChatModelId(resolvedModels[0])
+    //         ? 'deepseek'
+    //         : 'openrouter'
+
+    // @ts-ignore - TODO Fix language-models types in getModels
+    const provider = resolvedModels[0].provider.slug
+    const model = registry.languageModel(`${provider}/${resolvedModels[0].provider.providerModelId}` as any)
 
     let objectCall
     if (provider === 'openai' && versionedOpenaiModelIdMap[model.modelId] && !versionedOpenaiModelIdMap[model.modelId].tools) {
@@ -136,8 +134,8 @@ ${JSON.stringify(schema instanceof z.ZodType ? zodToJsonSchema(schema) : schema)
     console.error(e)
     throw e instanceof Error
       ? new Error(e.message, {
-          cause: e instanceof APICallError ? 502 : e instanceof LoadAPIKeyError ? 503 : e,
-        })
+        cause: e instanceof APICallError ? 502 : e instanceof LoadAPIKeyError ? 503 : e,
+      })
       : e
   }
 }

@@ -1,6 +1,7 @@
-import { getModel, ModelConfig } from 'ai-models'
+import { getModel } from 'language-models'
 import { env } from 'cloudflare:workers'
-import { getModels, getRequiredCapabilities } from '../llm/model'
+import { getRequiredCapabilities } from '../llm/model'
+import { getModels } from 'language-models'
 import { Provider } from './provider'
 
 export const openRouter: Provider = {
@@ -30,7 +31,7 @@ export const openRouter: Provider = {
     // Model router
     if (body) {
       try {
-        const config: ModelConfig = {
+        const config = {
           requiredCapabilities: getRequiredCapabilities(body),
           seed: body.seed,
         }
@@ -43,7 +44,8 @@ export const openRouter: Provider = {
           }
           body.models = getModels(body.models, config)
         } else {
-          body.model = getModel(body.model || fallbackModel, config)?.slug
+          const model = getModel(body.model)
+          body.model = model?.slug
         }
       } catch (error) {
         console.error(error)

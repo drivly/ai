@@ -1,8 +1,9 @@
-import { getModels, modelPattern } from 'ai-models'
+//import { getModels, modelPattern } from 'ai-models'
+import { getModels, modelPattern, getProviderName } from 'language-models'
 import { getUser } from 'api/user'
 import { OpenAPIRoute } from 'chanfana'
 import { Context } from 'hono'
-import { providers } from 'providers/provider'
+import { providers } from '../providers/provider'
 import { APIDefinitionSchema, APIUserSchema, FlexibleAPILinksSchema } from 'types/api'
 import type { ChatCompletionRequest, ChatCompletionResponse } from 'types/chat'
 import { z } from 'zod'
@@ -27,7 +28,7 @@ export class ArenaCompletion extends OpenAPIRoute {
         prompt: z.string().describe('The user prompt').optional(),
         system: z.string().optional().describe('Optional system message'),
         model: z.string().optional().describe('Model to use for the chat'),
-        models: z.string().regex(modelPattern).optional().describe('Comma-separated list of models to use for the chat'),
+        models: z.string().regex(new RegExp(modelPattern)).optional().describe('Comma-separated list of models to use for the chat'),
         tools: z.string().optional().describe('Comma-separated list of tools to use for the chat (or "all" for all tools)'),
         Authorization: z.string().describe('Bearer token').optional(),
       }),
@@ -138,23 +139,47 @@ export class ArenaCompletion extends OpenAPIRoute {
         return c.json({ error: 'No valid models found' }, 400)
       }
 
+      console.log(
+        'Resolved Models', resolvedModels
+      )
+
       // Request completions from all specified models
       const completions = await Promise.all(
-        resolvedModels.map(async ({ slug: model, parsed: { systemConfig: { seed, temperature } = {} } }) => {
+        resolvedModels.map(async ({ slug: model, parsed = {} }) => {
+          const { systemConfig: { seed, temperature } = {} } = parsed
           const body: ChatCompletionRequest = {
             model,
             messages,
-            max_tokens: 250,
+            max_tokens: 2028,
             seed: seed !== undefined ? Number(seed) : undefined,
             temperature: temperature !== undefined ? Number(temperature) : undefined,
+            reasoning: parsed?.capabilities?.reasoning ? {
+              effort: 'high'
+            } : undefined,
+            provider: parsed.provider ? ({
+              order: [
+                getProviderName(parsed.provider) || ''
+              ],
+              // We're forcing a provider here, so dont allow fallbacks to
+              // other providers
+              allow_fallbacks: false
+            }) : undefined
           }
 
           try {
             const response = await providers.default.fetchFromProvider({ headers: { Authorization }, body }, 'POST', '/chat/completions')
             const data: ChatCompletionResponse = await response.json()
+
+            let modelText = body.model
+
+            if (body.provider) {
+              modelText = `${model}@${body.provider.order[0]}`
+            }
+
             return {
-              model,
+              model: modelText,
               text: data.choices[0].message.content?.split('\n').map((line: string) => line.trim()),
+              reasoning: data.choices[0].message?.reasoning?.split('\n').map((line: string) => line.trim()),
             }
           } catch (error) {
             console.error(`Error fetching from model ${model}:`, error)
@@ -187,7 +212,7 @@ export class ArenaCompletion extends OpenAPIRoute {
         arena: completions.reduce((acc, curr) => {
           return {
             ...acc,
-            [curr.model]: curr.text,
+            [curr.model || 'unknown']: curr.text,
           }
         }, {}),
         user: getUser(c.req.raw),
