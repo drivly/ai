@@ -26,7 +26,9 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
       return new Response('Project not found', { status: 404 })
     }
     
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '')
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+      apiVersion: '2022-08-01',
+    })
     
     const existingAccounts = await payloadInstance.find({
       collection: 'connectAccounts',

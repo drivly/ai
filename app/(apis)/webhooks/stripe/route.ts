@@ -6,7 +6,9 @@ import Stripe from 'stripe'
 export const POST = API(async (request, { db, user, origin, url, domain, params }) => {
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY || ''
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || ''
-  const stripe = new Stripe(stripeSecretKey)
+  const stripe = new Stripe(stripeSecretKey, {
+    apiVersion: '2022-08-01',
+  })
   
   const rawBody = await request.text()
   const signature = request.headers.get('stripe-signature')
