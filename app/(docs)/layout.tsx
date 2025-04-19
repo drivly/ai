@@ -46,6 +46,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           docsRepositoryBase='https://github.com/drivly/ai/tree/main'
           sidebar={{ defaultMenuCollapseLevel: 1 }}
           themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}
+          data-testid="docs-layout"
         >
           {children}
         </Layout>

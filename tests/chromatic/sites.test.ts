@@ -25,7 +25,7 @@ test('sites main page', async ({ page }) => {
   // Increase visibility timeout for CI environment
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
-  await expect(page.locator('body > div > main, main, [role="main"]').first())
+  await expect(page.locator('main, [data-nextra-body], [role="main"]').first())
     .toBeVisible({ timeout: visibilityTimeout })
   await expect(page.locator('h1')).toBeVisible({ timeout: visibilityTimeout })
 
@@ -58,7 +58,7 @@ test('docs page', async ({ page }) => {
   // Increase visibility timeout for CI environment
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
-  await expect(page.locator('body > div > main, main, [role="main"]').first())
+  await expect(page.locator('main, [data-nextra-body], [role="main"]').first())
     .toBeVisible({ timeout: visibilityTimeout })
   await expect(page.locator('h1')).toBeVisible({ timeout: visibilityTimeout })
 
@@ -91,7 +91,7 @@ test('specific site page', async ({ page }) => {
   // Increase visibility timeout for CI environment
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
-  await expect(page.locator('body > div > main, main, [role="main"]').first())
+  await expect(page.locator('main, [data-nextra-body], [role="main"]').first())
     .toBeVisible({ timeout: visibilityTimeout })
 
   await page.waitForTimeout(1000) // Add stabilization time
@@ -123,7 +123,7 @@ test('site blog page', async ({ page }) => {
   // Increase visibility timeout for CI environment
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
-  await expect(page.locator('body > div > main, main, [role="main"]').first())
+  await expect(page.locator('main, [data-nextra-body], [role="main"]').first())
     .toBeVisible({ timeout: visibilityTimeout })
   await expect(page.locator('h1')).toBeVisible({ timeout: visibilityTimeout })
 
@@ -162,7 +162,7 @@ test('site blog post page', async ({ page }) => {
   // Increase visibility timeout for CI environment
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
-  await expect(page.locator('body > div > main, main, [role="main"]').first())
+  await expect(page.locator('main, [data-nextra-body], [role="main"]').first())
     .toBeVisible({ timeout: visibilityTimeout })
   await expect(page.locator('h1')).toBeVisible({ timeout: visibilityTimeout })
 
@@ -204,7 +204,7 @@ test('site pricing page', async ({ page }) => {
   // Increase visibility timeout for CI environment
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
-  await expect(page.locator('body > div > main, main, [role="main"]').first())
+  await expect(page.locator('main, [data-nextra-body], [role="main"]').first())
     .toBeVisible({ timeout: visibilityTimeout })
   await expect(page.locator('h1')).toBeVisible({ timeout: visibilityTimeout })
 
@@ -237,7 +237,7 @@ test('site privacy page', async ({ page }) => {
   // Increase visibility timeout for CI environment
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
-  await expect(page.locator('body > div > main, main, [role="main"]').first())
+  await expect(page.locator('main, [data-nextra-body], [role="main"]').first())
     .toBeVisible({ timeout: visibilityTimeout })
   await expect(page.locator('h1')).toBeVisible({ timeout: visibilityTimeout })
 
@@ -279,7 +279,7 @@ test('site terms page', async ({ page }) => {
   // Increase visibility timeout for CI environment
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
-  await expect(page.locator('body > div > main, main, [role="main"]').first())
+  await expect(page.locator('main, [data-nextra-body], [role="main"]').first())
     .toBeVisible({ timeout: visibilityTimeout })
   await expect(page.locator('h1')).toBeVisible({ timeout: visibilityTimeout })
 
