@@ -2,11 +2,10 @@ import { ImageResponse } from '@vercel/og'
 import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
  
 export const runtime = 'edge'
- 
-export async function GET(
-  request: Request,
-  { params }: { params: { domain: string } }
-) {
+export const contentType = 'image/png'
+export const size = { width: 1200, height: 630 }
+
+export default async function Image({ params }: { params: { domain: string } }) {
   try {
     const project = await fetchProjectByDomain(params.domain)
     

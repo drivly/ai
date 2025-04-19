@@ -4,11 +4,10 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
  
 export const runtime = 'edge'
- 
-export async function GET(
-  request: Request,
-  { params }: { params: { domain: string; slug: string } }
-) {
+export const contentType = 'image/png'
+export const size = { width: 1200, height: 630 }
+
+export default async function Image({ params }: { params: { domain: string; slug: string } }) {
   try {
     const project = await fetchProjectByDomain(params.domain)
     
