@@ -122,7 +122,6 @@ export interface ExperimentRecommendation {
   >
 }
 
-
 export interface ExperimentConfig<T, E> {
   models: string[]
   temperature: number | number[]

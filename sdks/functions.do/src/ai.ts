@@ -7,7 +7,7 @@ export const research = AI({
     sources: ['list of sources consulted'],
     confidence: 'confidence score from 0-100',
   },
-  
+
   researchCompany: {
     industry: 'primary industry the company operates in',
     founded: 'year the company was founded',
@@ -17,7 +17,7 @@ export const research = AI({
     competitors: ['main competitors in the market'],
     recentNews: ['recent significant news or developments'],
   },
-  
+
   researchPersonalBackground: {
     education: 'educational background summary',
     previousRoles: ['previous job titles or positions'],
@@ -25,12 +25,12 @@ export const research = AI({
     achievements: ['significant professional achievements'],
     interests: ['professional and personal interests if public'],
   },
-  
+
   researchSocialActivity: {
     platforms: ['social media platforms where the person is active'],
     engagement: 'level of social media engagement (high/medium/low)',
     topics: ['common topics discussed on social media'],
     connections: 'approximate number of followers/connections',
     influence: 'assessment of online influence in their field',
-  }
+  },
 })

@@ -62,7 +62,7 @@ describe('transformMarkdownToJson', () => {
     const result = transformMarkdownToJson(ast, { nestedHeaders: true })
 
     expect(result).toHaveProperty('Main')
-    expect((result.Main as Record<string, unknown>)).toHaveProperty('Sub 1')
-    expect((result.Main as Record<string, unknown>)).toHaveProperty('Sub 2')
+    expect(result.Main as Record<string, unknown>).toHaveProperty('Sub 1')
+    expect(result.Main as Record<string, unknown>).toHaveProperty('Sub 2')
   })
 })

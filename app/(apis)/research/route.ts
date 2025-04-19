@@ -4,7 +4,7 @@ import { waitUntil } from '@vercel/functions'
 
 export const GET = API(async (request, { db, user, url, origin, domain, payload }) => {
   const searchParams = request.nextUrl.searchParams
-  
+
   if (searchParams.has('topic')) {
     const topic = searchParams.get('topic')
     const depth = searchParams.get('depth') || 'medium'

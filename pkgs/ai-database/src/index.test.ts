@@ -7,8 +7,8 @@ vi.mock('./utils', () => ({
     findByID: vi.fn(),
     create: vi.fn(),
     update: vi.fn(),
-    delete: vi.fn()
-  })
+    delete: vi.fn(),
+  }),
 }))
 
 describe('ai-database', () => {
@@ -28,14 +28,14 @@ describe('ai-database', () => {
       findByID: vi.fn(),
       create: vi.fn(),
       update: vi.fn(),
-      delete: vi.fn()
+      delete: vi.fn(),
     }
 
     const db = DB({ payload: mockPayload })
-    
+
     expect(db).toBeDefined()
     expect(typeof db).toBe('object')
-    
+
     expect(db.posts).toBeDefined()
     expect(typeof db.posts.find).toBe('function')
     expect(typeof db.posts.findOne).toBe('function')

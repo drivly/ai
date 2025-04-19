@@ -9,7 +9,7 @@ export async function getWorkflowsForProject(projectId: string) {
   if (!projectId) {
     throw new Error('Project ID is required')
   }
-  
+
   try {
     const response = await api.list('workflows', {
       where: {
@@ -17,7 +17,7 @@ export async function getWorkflowsForProject(projectId: string) {
       },
       sort: 'order',
     })
-    
+
     return response.data || []
   } catch (error) {
     console.error(`Error fetching workflows for project '${projectId}':`, error)

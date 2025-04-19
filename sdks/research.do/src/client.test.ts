@@ -27,7 +27,7 @@ describe('ResearchClient', () => {
       taskId: 'test-task-id',
       jobId: 'test-job-id',
     })
-    
+
     vi.spyOn(functionsdo, 'ai', 'get').mockReturnValue({
       research: mockResearch,
     } as any)

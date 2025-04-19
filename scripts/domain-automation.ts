@@ -64,7 +64,7 @@
 
 import dns from 'node:dns'
 import { promisify } from 'node:util'
-import { domains, domainsConfig } from '../domains.config'
+import { readDomainsTsv } from './domain-utils'
 import { checkNsRecords, fetchDomainRoot, getVercelLinkedDomains, DomainStatus } from './domain-status-checker'
 
 const args = process.argv.slice(2)
@@ -527,9 +527,11 @@ async function verifyDomainOnVercel(domain: string): Promise<boolean> {
  * Main function to automate domain setup
  */
 async function automateDomainsSetup() {
-  const domainsToProcess = domainFilter ? domains.filter((domain) => domainFilter.some((filter) => !filter.startsWith('-') && domain.includes(filter))) : domains
+  const { domains: domainsFromTsv, domainsConfig } = await readDomainsTsv()
 
-  console.log(`Found ${domainsToProcess.length} domains to process out of ${domains.length} total domains`)
+  const domainsToProcess = domainFilter ? domainsFromTsv.filter((domain) => domainFilter.some((filter) => !filter.startsWith('-') && domain.includes(filter))) : domainsFromTsv
+
+  console.log(`Found ${domainsToProcess.length} domains to process out of ${domainsFromTsv.length} total domains`)
 
   const vercelDomains = await getVercelLinkedDomains()
   console.log(`Found ${vercelDomains.length} domains already linked in Vercel`)
@@ -605,7 +607,7 @@ async function automateDomainsSetup() {
   }
 
   console.log('\n=== Domain Automation Summary ===\n')
-  console.log(`Total domains processed: ${domains.length}`)
+  console.log(`Total domains processed: ${domainsFromTsv.length}`)
   console.log(`Domains already in Vercel: ${vercelDomains.length}`)
   console.log(`Domains already in Cloudflare: ${cloudflareZones.length}`)
 }

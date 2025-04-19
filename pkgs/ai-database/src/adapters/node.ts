@@ -13,7 +13,7 @@ import { DB } from '../index'
  * import { getPayload } from 'payload'
  * import config from '@payload-config'
  * import { createNodeClient } from 'ai-database/adapters'
- * 
+ *
  * const payload = await getPayload({ config })
  * const db = createNodeClient({ payload })
  */

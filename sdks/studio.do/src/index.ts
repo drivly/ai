@@ -28,48 +28,44 @@ interface Project {
  */
 export async function createStudioClient(options: StudioSDKOptions): Promise<PayloadClient> {
   const { projectId, theme, agentOptions } = options
-  
+
   try {
     const project = await api.getById<Project>('projects', projectId)
-    
+
     if (!project) {
       throw new Error(`Project with ID '${projectId}' not found`)
     }
-    
+
     const nounsPromise = api.list('nouns', {
       where: { project: { equals: projectId } },
       sort: 'order',
     })
-    
+
     const functionsPromise = getFunctionsForProject(projectId)
     const workflowsPromise = getWorkflowsForProject(projectId)
-    
-    const [nounsResponse, functions, workflows] = await Promise.all([
-      nounsPromise,
-      functionsPromise,
-      workflowsPromise,
-    ])
-    
+
+    const [nounsResponse, functions, workflows] = await Promise.all([nounsPromise, functionsPromise, workflowsPromise])
+
     const nouns = nounsResponse.data || []
-    
+
     const collections = generateCollectionsFromProject(nouns, functions, workflows)
-    
+
     const plugins: Plugin[] = []
-    
+
     if (theme) {
       plugins.push({
         name: 'themePlugin',
         options: theme,
       })
     }
-    
+
     if (agentOptions) {
       plugins.push({
         name: 'payloadAgentPlugin',
         options: agentOptions,
       })
     }
-    
+
     const payloadClient = await api.post<PayloadClient>('/v1/payload/client', {
       collections,
       plugins,
@@ -78,7 +74,7 @@ export async function createStudioClient(options: StudioSDKOptions): Promise<Pay
         name: project.name,
       },
     })
-    
+
     return payloadClient
   } catch (error) {
     console.error(`Error creating studio client for project '${projectId}':`, error)

@@ -8,11 +8,11 @@ import { Collection } from '../types'
 function createCollectionFromNoun(noun: any): Collection {
   const defaultSchema = [
     { name: 'uid', type: 'text', required: true },
-    { name: 'data', type: 'json' }
+    { name: 'data', type: 'json' },
   ]
-  
+
   const fields = noun.schema?.length > 0 ? noun.schema : defaultSchema
-  
+
   return {
     slug: noun.singular?.toLowerCase() || `${noun.name}-collection`,
     admin: {
@@ -51,12 +51,16 @@ function createWorkflowFieldsFromWorkflow(workflow: any) {
   return [
     { name: 'name', type: 'text', required: true },
     { name: 'description', type: 'text' },
-    { name: 'steps', type: 'array', fields: [
-      { name: 'name', type: 'text' },
-      { name: 'function', type: 'relationship', relationTo: 'functions' },
-      { name: 'inputs', type: 'json' },
-      { name: 'condition', type: 'code', language: 'javascript' },
-    ]},
+    {
+      name: 'steps',
+      type: 'array',
+      fields: [
+        { name: 'name', type: 'text' },
+        { name: 'function', type: 'relationship', relationTo: 'functions' },
+        { name: 'inputs', type: 'json' },
+        { name: 'condition', type: 'code', language: 'javascript' },
+      ],
+    },
     { name: 'status', type: 'select', options: ['active', 'draft', 'archived'] },
     { name: 'createdAt', type: 'date' },
     { name: 'updatedAt', type: 'date' },
@@ -72,11 +76,11 @@ function createWorkflowFieldsFromWorkflow(workflow: any) {
  */
 export function generateCollectionsFromProject(nouns: any[], functions: any[], workflows: any[]): Collection[] {
   const collections: Collection[] = []
-  
-  nouns.forEach(noun => {
+
+  nouns.forEach((noun) => {
     collections.push(createCollectionFromNoun(noun))
   })
-  
+
   if (functions.length > 0) {
     collections.push({
       slug: 'tasks',
@@ -88,7 +92,7 @@ export function generateCollectionsFromProject(nouns: any[], functions: any[], w
       fields: createTaskFieldsFromFunction(functions[0]),
     })
   }
-  
+
   if (workflows.length > 0) {
     collections.push({
       slug: 'workflows',
@@ -100,6 +104,6 @@ export function generateCollectionsFromProject(nouns: any[], functions: any[], w
       fields: createWorkflowFieldsFromWorkflow(workflows[0]),
     })
   }
-  
+
   return collections
 }

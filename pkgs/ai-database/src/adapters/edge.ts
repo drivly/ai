@@ -11,8 +11,8 @@ import { DB } from '../index'
  * @returns Database client instance
  * @example
  * import { createEdgeClient } from 'ai-database/adapters'
- * 
- * const db = createEdgeClient({ 
+ *
+ * const db = createEdgeClient({
  *   apiUrl: 'https://your-payload-api.com/api',
  *   apiKey: 'your-api-key'
  * })
@@ -21,6 +21,6 @@ export const createEdgeClient = (options: DBOptions = {}): DatabaseClientType =>
   if (!options.apiUrl) {
     throw new Error('apiUrl is required for Edge environments')
   }
-  
+
   return DB(options)
 }

@@ -78,7 +78,7 @@ export const GET = API(async (req, { db, params, user, payload }) => {
       apps,
       categories,
       triggers,
-      actions
+      actions,
     }
 
     const dataDir = path.join(process.cwd(), 'public/data')

@@ -273,13 +273,14 @@ functions.do supports multiple function types for different use cases:
 
    - Example: Topic research, company analysis, personal background research
    - Integrated with research.do for comprehensive research capabilities:
+
      ```typescript
      const researchResult = await ai.research({
        topic: 'Quantum computing advancements',
        depth: 'deep',
        format: 'markdown',
      })
-     
+
      const companyInfo = await ai.researchCompany({
        company: 'Tesla',
      })

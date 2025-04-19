@@ -16,10 +16,12 @@ This PR implements the bidirectional integration between the strongly-typed AI f
 ## Implementation Decisions
 
 1. **Bidirectional Integration Approach**:
+
    - Modified research.do to use functions.do while maintaining its original interface
    - Enhanced functions.do with research capabilities that mirror research.do's functionality
 
 2. **Research Function Standardization**:
+
    - Added four primary research functions:
      - `research`: Generic research function
      - `researchCompany`: Company-specific research
@@ -27,10 +29,12 @@ This PR implements the bidirectional integration between the strongly-typed AI f
      - `researchSocialActivity`: Social media activity analysis
 
 3. **Parameter Standardization**:
+
    - Maintained consistent parameter names between SDKs
    - Preserved the existing options structure for backward compatibility
 
 4. **Model Configuration**:
+
    - Kept 'perplexity/sonar-deep-research' as the default model for research functions
    - Allowed customization through options passed to the client
 

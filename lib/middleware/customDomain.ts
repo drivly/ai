@@ -6,5 +6,5 @@ export function handleCustomDomain(request: NextRequest): NextResponse {
   const url = new URL(request.url)
 
   console.log('Handling custom domain', { hostname, pathname, search })
-  return NextResponse.rewrite(new URL(`/tenants/${hostname}${pathname}${search}`, url))
+  return NextResponse.rewrite(new URL(`/projects/${hostname}${pathname}${search}`, url))
 }

@@ -1,133 +1,106 @@
-action.do
-actions.do
-agents.do
-agi.do
-airtable.do
-amy.do
-analytics.do
-apis.do
-ari.do
-barcode.do
-bdr.do
-benchmarks.do
-blogs.do
-bots.do
-browse.do
-browser.do
-browsers.do
-businesses.do
-careers.do
-cfo.do
-cli.do
-clickhouse.do
-cmo.do
-coach.do
-colo.do
-context.do
-coo.do
-cpo.do
-cro.do
-cto.do
-ctx.do
-dara.do
-dash.do
-dashboard.do
-database.do
-databases.do
-datasets.do
-dealers.do
-deployments.do
-devs.do
-emails.do
-embed.do
-embeddings.do
-engineers.do
-esbuild.do
-evals.do
-events.do
-experiments.do
-extract.do
-fetch.do
-function.do
-functions.do
-gcp.do
-gpt.do
-humans.do
-integrate.do
-integrations.do
-issues.do
-ivy.do
-kpis.do
-lena.do
-lexi.do
-lists.do
-llm.do
-llms.do
-lodash.do
-management.do
-mcp.do
-mdx.do
-mgmt.do
-models.do
-nat.do
-nats.do
-nouns.do
-oauth.do
-objects.do
-okr.do
-okrs.do
-orgs.do
-payload.do
-pdm.do
-perf.do
-photos.do
-pkg.do
-plans.do
-products.do
-programmers.do
-projects.do
-prxy.do
-qrcode.do
-queue.do
-repo.do
-requests.do
-research.do
-resources.do
-responses.do
-scraper.do
-scrapers.do
-sdk.do
-sdr.do
-searches.do
-service.do
-services.do
-sites.do
-speak.do
-src.do
-state.do
-studio.do
-summarize.do
-svc.do
-swe.do
-tasks.do
-teams.do
-tests.do
-tom.do
-trace.do
-traces.do
-transform.do
-trigger.do
-triggers.do
-vectors.do
-vehicle.do
-vera.do
-verbs.do
-vin.do
-vindex.do
-waitlist.do
-webhook.do
-webhooks.do
-worker.do
-workers.do
-workflows.do
-ymm.do
+domain	category	description
+functions.do	Function	Typesafe, composable business logic and automation
+database.do	Data Layer	AI-native data access (search, Create, Read, Update, Delete (CRUD), resources)
+workflows.do	Workflow	Declarative orchestration of business processes
+agents.do	Agent	Platform for deploying/managing autonomous digital workers
+llm.do	Gateway	Unified gateway for large language models (Large Language Models (LLMs)
+nouns.do	Data Model	Types of entities: people, places, things, ideas
+verbs.do	Data Model	Actions performed by or to nouns
+resources.do	Data Model	Structured data records (instances of nouns)
+triggers.do	Event/Trigger	Initiate workflows based on business or system events
+searches.do	Query/Search	Query and retrieve structured or unstructured data
+actions.do	Action	Perform tasks and operations within workflows
+evals.do	Evaluation	Evaluate performance of functions, workflows, and agents
+analytics.do	Analytics	Measure and validate workflow/business outcomes
+experiments.do	Experimentation	Test and iterate functions, workflows, and agents
+integrations.do	Integration	Connect external Application Programming Interface (API)s and systems to business processes
+models.do	Model Management	Select and manage AI/ML models
+apis.do	Application Programming Interface (API) Gateway	Unified Application Programming Interface (API) gateway for all services
+studio.do	Content Management System (CMS)/Admin UI	Custom-branded Payload Content Management System (CMS) for admin and content
+databases.do	Data Layer	Collections of data resources (see database.do)
+okrs.do	Business Goal	Objectives and Key Results (Objectives and Key Results (OKR) management
+llms.do	Gateway	Collection of large language models (see llm.do)
+do.com.ai	Platform/Brand	AI Primitives platform (business-as-code)
+action.do	Action	Atomic action in workflows or automation
+agi.do	Agent	Autonomous General Intelligence agent
+amy.do	Agent	Autonomous digital worker named Amy
+ari.do	Agent	Autonomous digital worker named Ari
+barcode.do	Utility	Barcode generation and recognition
+bdr.do	Agent	Autonomous digital BDR)
+benchmarks.do	Experimentation	Benchmarks for evaluating models, workflows, or agents
+blogs.do	Content/Resource	Blog content and publishing platform
+bots.do	Agent	Autonomous digital worker (bot/agent)
+browse.do	Utility	Browsing and web navigation automation
+browser.do	Utility	Web browser automation and control
+browsers.do	Utility	Collection of browser agents/utilities
+careers.do	Content/Resource	Careers and jobs portal
+cfo.do	Agent	Autonomous digital Chief Financial Officer (CFO)
+clickhouse.do	Data/Infra	Cloud-native analytical database
+cmo.do	Agent	Autonomous digital Chief Marketing Officer (CMO)
+coach.do	Agent	Autonomous digital Coach)
+colo.do	Infra/Utility	Colocation and infrastructure services
+context.do	Utility	Context management and enrichment
+coo.do	Agent	Autonomous digital Chief Operating Officer (COO)
+cpo.do	Agent	Autonomous digital Chief Product Officer (CPO)
+cro.do	Agent	Autonomous digital Chief Revenue Officer (CRO)
+cto.do	Agent	Autonomous digital Chief Technology Officer (CTO)
+ctx.do	Utility	Contextual data or services
+dara.do	Agent	Autonomous digital worker named Dara
+dash.do	Utility	Dashboards and data visualization
+dashboard.do	Utility	Dashboard and analytics interface
+emails.do	Utility	Email sending and management
+embeddings.do	Utility	Vector embeddings for search and retrieval
+esbuild.do	Dev Tool	JavaScript bundler and build tool
+events.do	Event/Trigger	Business or system event tracking
+extract.do	Utility	Data extraction and transformation
+function.do	Function	Atomic/composable function (see functions.do)
+gpt.do	Model	OpenAI GPT model integrations
+graph.do	Data/Utility	Graph data and relationships
+humans.do	Human	Human worker management and assignment
+issues.do	Utility	Issue and bug tracking
+ivy.do	Agent	Autonomous digital worker named Ivy
+kpis.do	Business Metric	Key Performance Indicators (KPIs)
+lena.do	Agent	Autonomous digital worker named Lena
+lexi.do	Agent	Autonomous digital worker named Lexi
+lists.do	Utility	List management and operations
+lodash.do	Dev Tool	JavaScript utility library
+mcp.do	Agent	Autonomous digital Master Control Program (MCP)
+mdx.do	Content/Resource	Markdown + JSX content (MDX)
+nat.do	Agent	Autonomous digital worker named Nat
+nats.do	Infra/Utility	NATS messaging and streaming
+oauth.do	Security/Auth	OAuth authentication and authorization
+objects.do	Data Model	Generic data objects and records
+payload.do	Admin UI	Payload Content Management System (CMS) integration
+pdm.do	Agent	Autonomous digital Product Data Management (PDM)
+perf.do	Analytics	Performance monitoring and analytics
+photos.do	Content/Resource	Photo storage and management
+pkg.do	Dev Tool	Package management and utilities
+programmers.do	Agent	Autonomous digital Programmer)
+qrcode.do	Utility	QR code generation and scanning
+queue.do	Utility	Task and job queue management
+repo.do	Dev Tool	Repository management and code hosting
+requests.do	Utility	HTTP/Application Programming Interface (API) request management
+research.do	Utility	Research and information retrieval
+responses.do	Utility	Response formatting and handling
+scraper.do	Utility	Web scraping and data extraction
+sdk.do	Dev Tool	Software Development Kit (Software Development Kit (SDK)
+sdr.do	Agent	Autonomous digital Sales Development Representative (SDR)
+services.do	Utility	Service registry and management
+sites.do	Content/Resource	Website and landing page management
+speak.do	Utility	Speech synthesis and recognition
+state.do	Utility	State management and persistence
+svc.do	Utility	Service abstraction and orchestration
+swe.do	Agent	Autonomous digital Software Engineer (SWE)
+tasks.do	Utility	Task management and assignment
+tom.do	Agent	Autonomous digital worker named Tom
+trace.do	Analytics	Tracing and observability
+traces.do	Analytics	Trace collection and analysis
+trigger.do	Event/Trigger	Trigger for workflows or actions
+vectors.do	Utility	Vector database and search
+vehicle.do	Content/Resource	Vehicle data and management
+vera.do	Agent	Autonomous digital worker named Vera
+waitlist.do	Utility	Waitlist and signup management
+webhook.do	Utility	Webhook event receiver/sender
+webhooks.do	Utility	Webhook management and automation
+worker.do	Agent	Autonomous digital Worker
+workers.do	Agent	Collection of autonomous digital workers
