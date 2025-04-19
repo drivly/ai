@@ -52,7 +52,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
     const results = await payloadInstance.create({
       collection: 'events',
       data: {
-        data: event,
+        data: JSON.parse(JSON.stringify(event)),
         type: event.type,
         source: 'stripe',
         tenant: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Set default project ID
