@@ -1279,6 +1279,18 @@ export interface Integration {
 export interface ConnectAccount {
   id: string;
   /**
+   * Name of the connection
+   */
+  name: string;
+  /**
+   * User who created this connection
+   */
+  user?: (string | null) | User;
+  /**
+   * Integration this connection is for
+   */
+  integration?: (string | null) | Integration;
+  /**
    * Project associated with this Connect account
    */
   project: string | Project;
@@ -3179,6 +3191,9 @@ export interface IntegrationsSelect<T extends boolean = true> {
  * via the `definition` "connectAccounts_select".
  */
 export interface ConnectAccountsSelect<T extends boolean = true> {
+  name?: T;
+  user?: T;
+  integration?: T;
   project?: T;
   stripeAccountId?: T;
   accountType?: T;
