@@ -53,8 +53,10 @@ export const {
           redirect_uri: getOAuthCallbackURL('google')
         }
       },
-      idToken: true,
       checks: ['pkce', 'state'],
+      token: {
+        idToken: true
+      },
       profile(profile) {
         return {
           id: profile.sub,
