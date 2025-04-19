@@ -4,10 +4,18 @@ export const ConnectAccounts: CollectionConfig = {
   slug: 'connectAccounts',
   admin: {
     group: 'Billing',
-    useAsTitle: 'id',
+    useAsTitle: 'name',
     description: 'Store Stripe Connect account information',
   },
   fields: [
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+      admin: {
+        description: 'Name of the connection',
+      },
+    },
     {
       name: 'project',
       type: 'relationship',
