@@ -34,7 +34,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
     const usageRecord = await payloadInstance.create({
       collection: 'usage',
       data: {
-        customer: customerId,
+        organization: customerId,
         resourceType,
         resourceId,
         quantity,
@@ -80,7 +80,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     const usage = await payloadInstance.find({
       collection: 'usage',
       where: {
-        customer: {
+        organization: {
           equals: customerId,
         },
       },
