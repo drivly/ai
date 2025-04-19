@@ -55,9 +55,6 @@ async function fetchResource(domain: string, path: string[]) {
   }
 }
 
-const mdxComponents = useMDXComponents()
-const Wrapper = mdxComponents.wrapper
-
 export default async function MDXLDPage({ params }: { params: Params; searchParams: Record<string, string | string[]> }) {
   const { domain, path = [] } = params
   const resource = await fetchResource(domain, path)
@@ -67,6 +64,8 @@ export default async function MDXLDPage({ params }: { params: Params; searchPara
   }
   
   const mdxSource = await serialize(resource.content)
+  const mdxComponents = useMDXComponents()
+  const Wrapper = mdxComponents.wrapper
   
   return (
     <Wrapper>
