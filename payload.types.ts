@@ -83,7 +83,7 @@ export interface Config {
     actions: Action;
     integrationCategories: IntegrationCategory;
     integrations: Integration;
-    connections: Connection;
+    connectAccounts: ConnectAccount;
     integrationTriggers: IntegrationTrigger;
     integrationActions: IntegrationAction;
     triggers: Trigger;
@@ -110,6 +110,10 @@ export interface Config {
     generationBatches: GenerationBatch;
     traces: Trace;
     kpis: Kpi;
+    organizations: Organization;
+    billingPlans: BillingPlan;
+    subscriptions: Subscription;
+    usage: Usage;
     config: Config1;
     projects: Project;
     domains: Domain;
@@ -163,7 +167,7 @@ export interface Config {
     actions: ActionsSelect<false> | ActionsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
-    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
+    connectAccounts: ConnectAccountsSelect<false> | ConnectAccountsSelect<true>;
     integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
     integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
@@ -190,6 +194,10 @@ export interface Config {
     generationBatches: GenerationBatchesSelect<false> | GenerationBatchesSelect<true>;
     traces: TracesSelect<false> | TracesSelect<true>;
     kpis: KpisSelect<false> | KpisSelect<true>;
+    organizations: OrganizationsSelect<false> | OrganizationsSelect<true>;
+    billingPlans: BillingPlansSelect<false> | BillingPlansSelect<true>;
+    subscriptions: SubscriptionsSelect<false> | SubscriptionsSelect<true>;
+    usage: UsageSelect<false> | UsageSelect<true>;
     config: ConfigSelect<false> | ConfigSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     domains: DomainsSelect<false> | DomainsSelect<true>;
@@ -326,9 +334,25 @@ export interface Function {
      */
     isMonetized?: boolean | null;
     /**
+     * Billing model for this function
+     */
+    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null;
+    /**
      * Price per use in USD cents (platform fee is 30% above LLM costs)
      */
     pricePerUse?: number | null;
+    /**
+     * Unit of measurement for consumption
+     */
+    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null;
+    /**
+     * Price per consumption unit in USD cents
+     */
+    consumptionRate?: number | null;
+    /**
+     * Subscription plan for this function
+     */
+    billingPlan?: (string | null) | BillingPlan;
     /**
      * Stripe Product ID (auto-generated)
      */
@@ -449,6 +473,54 @@ export interface Kpi {
   createdAt: string;
 }
 /**
+ * Define pricing plans for the platform
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "billingPlans".
+ */
+export interface BillingPlan {
+  id: string;
+  /**
+   * Name of the billing plan
+   */
+  name: string;
+  /**
+   * Description of the billing plan
+   */
+  description?: string | null;
+  /**
+   * Type of billing model
+   */
+  billingType: 'prepaid' | 'postpaid' | 'subscription';
+  /**
+   * Amount in cents
+   */
+  amount: number;
+  currency: 'usd' | 'eur' | 'gbp';
+  /**
+   * Billing interval for subscriptions
+   */
+  interval?: ('month' | 'year') | null;
+  /**
+   * Number of credits included (for pre-paid plans)
+   */
+  credits?: number | null;
+  /**
+   * Stripe Product ID (auto-generated)
+   */
+  stripeProductId?: string | null;
+  /**
+   * Stripe Price ID (auto-generated)
+   */
+  stripePriceId?: string | null;
+  /**
+   * Whether this plan is active and available for purchase
+   */
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Manages prompt templates for AI model interactions
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -534,9 +606,25 @@ export interface Agent {
      */
     isMonetized?: boolean | null;
     /**
+     * Billing model for this agent
+     */
+    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null;
+    /**
      * Price per use in USD cents (platform fee is 30% above LLM costs)
      */
     pricePerUse?: number | null;
+    /**
+     * Unit of measurement for consumption
+     */
+    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null;
+    /**
+     * Price per consumption unit in USD cents
+     */
+    consumptionRate?: number | null;
+    /**
+     * Subscription plan for this agent
+     */
+    billingPlan?: (string | null) | BillingPlan;
     /**
      * Stripe Product ID (auto-generated)
      */
@@ -595,6 +683,7 @@ export interface Resource {
     | null;
   subjectOf?: (string | Action)[] | null;
   objectOf?: (string | Action)[] | null;
+  content?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -906,9 +995,25 @@ export interface Workflow {
      */
     isMonetized?: boolean | null;
     /**
+     * Billing model for this workflow
+     */
+    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null;
+    /**
      * Price per use in USD cents (platform fee is 30% above LLM costs)
      */
     pricePerUse?: number | null;
+    /**
+     * Unit of measurement for consumption
+     */
+    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null;
+    /**
+     * Price per consumption unit in USD cents
+     */
+    consumptionRate?: number | null;
+    /**
+     * Subscription plan for this workflow
+     */
+    billingPlan?: (string | null) | BillingPlan;
     /**
      * Stripe Product ID (auto-generated)
      */
@@ -1166,18 +1271,44 @@ export interface Integration {
   createdAt: string;
 }
 /**
- * Manages connections to external services and APIs
+ * Store Stripe Connect account information
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connections".
+ * via the `definition` "connectAccounts".
  */
-export interface Connection {
+export interface ConnectAccount {
   id: string;
-  tenant?: (string | null) | Project;
-  name?: string | null;
-  user: string | User;
-  integration: string | Integration;
-  status?: ('active' | 'inactive' | 'pending') | null;
+  /**
+   * Project associated with this Connect account
+   */
+  project: string | Project;
+  /**
+   * Stripe Connect Account ID
+   */
+  stripeAccountId: string;
+  /**
+   * Type of Stripe Connect account
+   */
+  accountType: 'standard' | 'express' | 'custom';
+  /**
+   * Current status of the Connect account
+   */
+  status: 'pending' | 'active' | 'restricted' | 'rejected';
+  /**
+   * Whether charges are enabled for this account
+   */
+  chargesEnabled?: boolean | null;
+  /**
+   * Whether payouts are enabled for this account
+   */
+  payoutsEnabled?: boolean | null;
+  /**
+   * Platform fee percentage for this account
+   */
+  platformFeePercent?: number | null;
+  /**
+   * Additional metadata from Stripe
+   */
   metadata?:
     | {
         [k: string]: unknown;
@@ -1876,6 +2007,177 @@ export interface Trace {
   createdAt: string;
 }
 /**
+ * Organizations that can be Stripe customers
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "organizations".
+ */
+export interface Organization {
+  id: string;
+  /**
+   * Name of the organization
+   */
+  name: string;
+  /**
+   * Primary user associated with this organization
+   */
+  user: string | User;
+  /**
+   * Stripe Customer ID
+   */
+  stripeCustomerId?: string | null;
+  /**
+   * Email address used for this organization
+   */
+  email?: string | null;
+  /**
+   * Additional billing details from Stripe
+   */
+  billingDetails?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Default payment method ID
+   */
+  defaultPaymentMethod?: string | null;
+  /**
+   * Users who are members of this organization
+   */
+  members?:
+    | {
+        user: string | User;
+        role: 'admin' | 'member' | 'viewer';
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Additional metadata from Stripe
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Track active subscriptions
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions".
+ */
+export interface Subscription {
+  id: string;
+  /**
+   * Stripe customer for this subscription
+   */
+  organization: string | Organization;
+  /**
+   * Billing plan for this subscription
+   */
+  plan: string | BillingPlan;
+  /**
+   * Current status of the subscription
+   */
+  status: 'active' | 'past_due' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'trialing' | 'unpaid';
+  /**
+   * Stripe Subscription ID
+   */
+  stripeSubscriptionId: string;
+  /**
+   * Start of the current billing period
+   */
+  periodStart?: string | null;
+  /**
+   * End of the current billing period
+   */
+  periodEnd?: string | null;
+  /**
+   * Whether the subscription will be canceled at the end of the current period
+   */
+  cancelAtPeriodEnd?: boolean | null;
+  /**
+   * Additional metadata from Stripe
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Record consumption for usage-based billing
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "usage".
+ */
+export interface Usage {
+  id: string;
+  /**
+   * Stripe customer for this usage record
+   */
+  organization: string | Organization;
+  /**
+   * Type of resource being used
+   */
+  resourceType: 'function' | 'workflow' | 'agent';
+  /**
+   * ID of the resource being used
+   */
+  resourceId: string;
+  /**
+   * Amount of usage (tokens, requests, compute time, etc.)
+   */
+  quantity: number;
+  /**
+   * Unit of measurement for the usage
+   */
+  unit: 'tokens' | 'requests' | 'compute_ms' | 'credits';
+  /**
+   * Cost in cents for this usage (if applicable)
+   */
+  cost?: number | null;
+  /**
+   * When this usage occurred
+   */
+  timestamp: string;
+  /**
+   * Stripe Usage Record ID (if applicable)
+   */
+  stripeUsageRecordId?: string | null;
+  /**
+   * Additional metadata about this usage
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Configuration for .ai folder synchronization
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2348,8 +2650,8 @@ export interface PayloadLockedDocument {
         value: string | Integration;
       } | null)
     | ({
-        relationTo: 'connections';
-        value: string | Connection;
+        relationTo: 'connectAccounts';
+        value: string | ConnectAccount;
       } | null)
     | ({
         relationTo: 'integrationTriggers';
@@ -2454,6 +2756,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'kpis';
         value: string | Kpi;
+      } | null)
+    | ({
+        relationTo: 'organizations';
+        value: string | Organization;
+      } | null)
+    | ({
+        relationTo: 'billingPlans';
+        value: string | BillingPlan;
+      } | null)
+    | ({
+        relationTo: 'subscriptions';
+        value: string | Subscription;
+      } | null)
+    | ({
+        relationTo: 'usage';
+        value: string | Usage;
       } | null)
     | ({
         relationTo: 'config';
@@ -2569,7 +2887,11 @@ export interface FunctionsSelect<T extends boolean = true> {
     | T
     | {
         isMonetized?: T;
+        billingModel?: T;
         pricePerUse?: T;
+        consumptionUnit?: T;
+        consumptionRate?: T;
+        billingPlan?: T;
         stripeProductId?: T;
         stripePriceId?: T;
       };
@@ -2606,7 +2928,11 @@ export interface WorkflowsSelect<T extends boolean = true> {
     | T
     | {
         isMonetized?: T;
+        billingModel?: T;
         pricePerUse?: T;
+        consumptionUnit?: T;
+        consumptionRate?: T;
+        billingPlan?: T;
         stripeProductId?: T;
         stripePriceId?: T;
       };
@@ -2626,7 +2952,11 @@ export interface AgentsSelect<T extends boolean = true> {
     | T
     | {
         isMonetized?: T;
+        billingModel?: T;
         pricePerUse?: T;
+        consumptionUnit?: T;
+        consumptionRate?: T;
+        billingPlan?: T;
         stripeProductId?: T;
         stripePriceId?: T;
       };
@@ -2805,6 +3135,7 @@ export interface ResourcesSelect<T extends boolean = true> {
   embedding?: T;
   subjectOf?: T;
   objectOf?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -2845,14 +3176,16 @@ export interface IntegrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connections_select".
+ * via the `definition` "connectAccounts_select".
  */
-export interface ConnectionsSelect<T extends boolean = true> {
-  tenant?: T;
-  name?: T;
-  user?: T;
-  integration?: T;
+export interface ConnectAccountsSelect<T extends boolean = true> {
+  project?: T;
+  stripeAccountId?: T;
+  accountType?: T;
   status?: T;
+  chargesEnabled?: T;
+  payoutsEnabled?: T;
+  platformFeePercent?: T;
   metadata?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -3271,6 +3604,79 @@ export interface KpisSelect<T extends boolean = true> {
   tenant?: T;
   name?: T;
   goals?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "organizations_select".
+ */
+export interface OrganizationsSelect<T extends boolean = true> {
+  name?: T;
+  user?: T;
+  stripeCustomerId?: T;
+  email?: T;
+  billingDetails?: T;
+  defaultPaymentMethod?: T;
+  members?:
+    | T
+    | {
+        user?: T;
+        role?: T;
+        id?: T;
+      };
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "billingPlans_select".
+ */
+export interface BillingPlansSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  billingType?: T;
+  amount?: T;
+  currency?: T;
+  interval?: T;
+  credits?: T;
+  stripeProductId?: T;
+  stripePriceId?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions_select".
+ */
+export interface SubscriptionsSelect<T extends boolean = true> {
+  organization?: T;
+  plan?: T;
+  status?: T;
+  stripeSubscriptionId?: T;
+  periodStart?: T;
+  periodEnd?: T;
+  cancelAtPeriodEnd?: T;
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "usage_select".
+ */
+export interface UsageSelect<T extends boolean = true> {
+  organization?: T;
+  resourceType?: T;
+  resourceId?: T;
+  quantity?: T;
+  unit?: T;
+  cost?: T;
+  timestamp?: T;
+  stripeUsageRecordId?: T;
+  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
