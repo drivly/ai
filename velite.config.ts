@@ -12,15 +12,12 @@ export default defineConfig({
     primitives: {
       name: 'Primitive',
       pattern: 'primitives.yaml',
-      schema: s.object({
-        primitive: s.string(),
-        definition: s.string()
-      }).transform(data => {
-        return Object.entries(data).map(([primitive, definition]) => ({
-          primitive,
-          definition
-        }));
-      }),
+      schema: s.array(
+        s.object({
+          primitive: s.string(),
+          definition: s.string()
+        })
+      ),
     },
     pages: {
       name: 'Page',
