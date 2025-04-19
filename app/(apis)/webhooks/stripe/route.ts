@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayload } from 'payload'
+import { getPayload, Payload } from 'payload'
 import config from '@payload-config'
 import Stripe from 'stripe'
 
@@ -67,7 +67,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
   }
 })
 
-async function handleCustomerEvent(payload, event) {
+async function handleCustomerEvent(payload: Payload, event: Stripe.Event) {
   const customer = event.data.object
   
   try {
@@ -107,7 +107,7 @@ async function handleCustomerEvent(payload, event) {
   }
 }
 
-async function handleSubscriptionEvent(payload, event) {
+async function handleSubscriptionEvent(payload: Payload, event: Stripe.Event) {
   const subscription = event.data.object
   
   try {
@@ -184,13 +184,13 @@ async function handleSubscriptionEvent(payload, event) {
   }
 }
 
-async function handlePaymentEvent(payload, event) {
+async function handlePaymentEvent(payload: Payload, event: Stripe.Event) {
   const paymentIntent = event.data.object
   
   console.log(`Payment event processed: ${event.type}`)
 }
 
-async function handleConnectAccountEvent(payload, event) {
+async function handleConnectAccountEvent(payload: Payload, event: Stripe.Event) {
   const account = event.data.object
   
   try {
