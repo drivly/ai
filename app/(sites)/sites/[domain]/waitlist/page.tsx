@@ -39,9 +39,6 @@ function WaitlistPage({ params }: { params: { domain: string } }) {
     checkAuth()
   }, [currentUserPromise, router, domain])
   
-  // If not authenticated, will redirect in useEffect
-  if (!user && !isLoading) return null
-  
   return (
     <>
       {isLoading ? (
@@ -49,8 +46,10 @@ function WaitlistPage({ params }: { params: { domain: string } }) {
           <Loader2 className="h-8 w-8 animate-spin" />
           <p className="mt-4 text-muted-foreground">Checking authentication status...</p>
         </div>
+      ) : user ? (
+        <Waitlist email={user.email} name={user.name || user.email.split('@')[0]} />
       ) : (
-        <Waitlist email={user!.email} name={user!.name || user!.email.split('@')[0]} />
+        <div className="min-h-[200px]"></div>
       )}
     </>
   )
