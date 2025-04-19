@@ -4,7 +4,7 @@
  * @param domain The domain to search for
  * @returns The project data or null if not found
  */
-export async function fetchProjectByDomainEdge(domain: string) {
+export async function fetchProjectByDomainEdge(domain: string): Promise<{ name: string; domain: string; id: string } | null> {
   if (!domain) {
     throw new Error('Domain is required')
   }
