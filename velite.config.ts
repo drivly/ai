@@ -1,4 +1,25 @@
-import { defineConfig, s, type ZodMeta } from 'velite' // Import ZodMeta
+import { defineConfig, s, type ZodMeta, defineLoader } from 'velite' // Import ZodMeta and defineLoader
+
+const tsvLoader = defineLoader({
+  name: 'tsv',
+  test: /\.tsv$/,
+  load: (file) => {
+    const content = file.value.toString();
+    const lines = content.split('\n').filter(line => line.trim());
+    const headers = lines[0].split('\t').map(header => header.trim());
+    
+    const entries = lines.slice(1).map(line => {
+      const values = line.split('\t').map(value => value.trim());
+      const entry: Record<string, string> = {};
+      headers.forEach((header, index) => {
+        entry[header] = values[index] || '';
+      });
+      return entry;
+    });
+    
+    return { data: entries };
+  }
+});
 
 export default defineConfig({
   root: 'content',
@@ -8,7 +29,17 @@ export default defineConfig({
     format: 'esm',
     clean: true,
   },
+  loaders: [tsvLoader],
   collections: {
+    domains: {
+      name: 'Domain',
+      pattern: '../sites/.domains.tsv',
+      schema: s.object({
+        domain: s.string(),
+        category: s.string(),
+        description: s.string(),
+      }),
+    },
     primitives: {
       name: 'Primitive',
       pattern: 'primitives.yaml',
