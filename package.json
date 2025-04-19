@@ -18,8 +18,6 @@
     "eval": "evalite run",
     "download:payload-docs": "FIRECRAWL_API_KEY=$FIRECRAWL_API_KEY node scripts/download-payload-docs.js",
     "download:payload-docs-direct": "node scripts/download-payload-docs-direct.js",
-    "fetch:better-auth-docs": "FIRECRAWL_API_KEY=$FIRECRAWL_API_KEY node scripts/fetch-better-auth-docs.js",
-    "fetch:better-auth-docs:cli": "FIRECRAWL_API_KEY=$FIRECRAWL_API_KEY node scripts/fetch-better-auth-docs-cli.js",
     "lint": "turbo lint",
     "lint:file": "eslint",
     "semantic-release": "node scripts/release.js",
