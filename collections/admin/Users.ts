@@ -10,6 +10,23 @@ export const Users: CollectionConfig = {
   auth: { tokenExpiration: 60 * 60 * 24 * 30, useAPIKey: true, disableLocalStrategy: process.env.NODE_ENV === 'development' ? undefined : true },
   fields: [
     {
+      name: 'email',
+      type: 'email',
+      required: true,
+    },
+    {
+      name: 'name',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'role',
+      type: 'select',
+      defaultValue: 'user',
+      options: ['user', 'admin', 'superAdmin'],
+      required: true,
+    },
+    {
       name: 'emailVerified',
       type: 'checkbox',
       defaultValue: false,
