@@ -471,6 +471,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  image?: string | null;
   role: 'user' | 'admin' | 'superAdmin';
   emailVerified: boolean;
   /**
@@ -3349,6 +3350,7 @@ export interface DomainsSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   email?: T;
   name?: T;
+  image?: T;
   role?: T;
   emailVerified?: T;
   roles?: T;

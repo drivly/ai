@@ -20,6 +20,11 @@ export const Users: CollectionConfig = {
       required: true,
     },
     {
+      name: 'image',
+      type: 'text',
+      required: false,
+    },
+    {
       name: 'role',
       type: 'select',
       defaultValue: 'user',
