@@ -7,7 +7,13 @@ type Params = {
   path?: string[]
 }
 
-export async function generateMetadata({ params }: { params: Params }) {
+type Props = {
+  params: Promise<Params>
+  searchParams: Record<string, string | string[]>
+}
+
+export async function generateMetadata(props: Props) {
+  const params = await props.params
   const { domain, path = [] } = params
   const resource = await fetchResource(domain, path)
   
@@ -54,7 +60,8 @@ async function fetchResource(domain: string, path: string[]) {
   }
 }
 
-export default async function MDXLDPage({ params, searchParams }: { params: Params; searchParams: Record<string, string | string[]> }) {
+export default async function MDXLDPage(props: Props) {
+  const params = await props.params
   const { domain, path = [] } = params
   const resource = await fetchResource(domain, path)
   
