@@ -70,7 +70,7 @@ test('specific site page', async ({ page }) => {
     page.setDefaultNavigationTimeout(120000)
 
     await page.goto(`${baseUrl}/sites/workflows.do`, {
-      waitUntil: 'load',
+      waitUntil: 'domcontentloaded', // Changed from 'load' to fix timeout issue (ENG-647)
       timeout: 120000, // Further increased for CI environment
     })
   } else {
@@ -133,7 +133,7 @@ test('site blog post page', async ({ page }) => {
     page.setDefaultNavigationTimeout(120000)
 
     await page.goto(`${baseUrl}/sites/workflows.do/blog/example-post`, {
-      waitUntil: 'load',
+      waitUntil: 'domcontentloaded', // Changed from 'load' to fix timeout issue (ENG-647)
       timeout: 120000, // Further increased for CI environment
     })
   } else {
@@ -200,7 +200,7 @@ test('site privacy page', async ({ page }) => {
     page.setDefaultNavigationTimeout(120000)
 
     await page.goto(`${baseUrl}/sites/workflows.do/privacy`, {
-      waitUntil: 'load',
+      waitUntil: 'domcontentloaded', // Changed from 'load' to fix timeout issue (ENG-647)
       timeout: 120000, // Further increased for CI environment
     })
   } else {
