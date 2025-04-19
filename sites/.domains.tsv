@@ -105,5 +105,5 @@ vera.do	Agent	Autonomous digital worker named Vera
 waitlist.do	Utility	Waitlist and signup management
 webhook.do	Utility	Webhook event receiver/sender
 webhooks.do	Utility	Webhook management and automation
-worker.do	Agent	Autonomous digital Worker)
+worker.do	Agent	Autonomous digital Worker
 workers.do	Agent	Collection of autonomous digital workers
