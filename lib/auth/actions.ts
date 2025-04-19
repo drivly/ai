@@ -27,6 +27,7 @@ export async function signUp({
         password,
         role: validRole,
         name,
+        emailVerified: false,
       },
     })
     
