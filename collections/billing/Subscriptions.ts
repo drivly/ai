@@ -53,14 +53,14 @@ export const Subscriptions: CollectionConfig = {
       },
     },
     {
-      name: 'currentPeriodStart',
+      name: 'periodStart',
       type: 'date',
       admin: {
         description: 'Start of the current billing period',
       },
     },
     {
-      name: 'currentPeriodEnd',
+      name: 'periodEnd',
       type: 'date',
       admin: {
         description: 'End of the current billing period',
