@@ -14,7 +14,7 @@ export interface DotDoSectionProps {
     sites: Array<{
       domain: string
       title: string
-      description: string
+      description?: string
       headline?: string
       subhead?: string
       badge?: string
