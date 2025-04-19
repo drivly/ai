@@ -116,6 +116,9 @@ export const POST = API(async (request, { db, user, origin, url }) => {
       name: `${user.email} - Linear`,
       user: user.id,
       integration: integrationId,
+      project: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Default project ID
+      stripeAccountId: 'linear-integration', // Placeholder for Linear integration
+      accountType: 'standard', // Default account type
       status: 'pending',
       metadata: {
         redirectUrl,
