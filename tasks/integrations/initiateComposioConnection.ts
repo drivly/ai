@@ -45,6 +45,9 @@ export const initiateComposioConnectionTask = {
         name: `${user.email} - ${integration.name}`,
         user: userId,
         integration: integrationId,
+        project: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Default project ID
+        stripeAccountId: `${integration.provider}-integration`, // Placeholder for integration
+        accountType: 'standard', // Default account type
         status: 'pending',
         metadata: {
           taskId,
