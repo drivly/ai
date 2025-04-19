@@ -8,7 +8,7 @@ import type { MDXLDWithAST, ParseOptions, MDXLDWithJSON, MarkdownJSONOptions } f
 import { parse as parseCore, stringify as stringifyCore } from './parser.js'
 import { transformMarkdownToJson } from './transform.js'
 
-export function parse(mdx: string, options?: ParseOptions & { json?: boolean, jsonOptions?: MarkdownJSONOptions }): MDXLDWithJSON | MDXLDWithAST {
+export function parse(mdx: string, options?: ParseOptions & { json?: boolean; jsonOptions?: MarkdownJSONOptions }): MDXLDWithJSON | MDXLDWithAST {
   const core = parseCore(mdx, options)
 
   try {
@@ -24,7 +24,7 @@ export function parse(mdx: string, options?: ParseOptions & { json?: boolean, js
     if (options?.json) {
       return {
         ...result,
-        json: transformMarkdownToJson(ast, options.jsonOptions)
+        json: transformMarkdownToJson(ast, options.jsonOptions),
       } as MDXLDWithJSON
     }
 

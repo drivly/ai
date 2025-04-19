@@ -13,17 +13,17 @@ interface MDXContentProps {
 export default function MDXContent({ source }: MDXContentProps) {
   const mdxComponents = useMDXComponents()
   const Wrapper = mdxComponents.wrapper
-  
+
   const toc: Heading[] = []
-  const metadata = { 
-    title: '', 
+  const metadata = {
+    title: '',
     description: '',
-    filePath: '/mdxld' // Required property for $NextraMetadata
+    filePath: '/mdxld', // Required property for $NextraMetadata
   }
-  
+
   const safeComponents = { ...mdxComponents }
   delete safeComponents.symbol // Remove the problematic symbol component
-  
+
   return (
     <Wrapper toc={toc} metadata={metadata}>
       <MDXRemote {...source} components={safeComponents as MDXComponents} />

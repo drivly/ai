@@ -14,12 +14,12 @@ export default defineConfig({
       pattern: 'primitives.yaml',
       schema: s.object({}).transform((data, { meta }) => {
         return Object.entries(data).map(([key, value]) => {
-          const item = value as any;
+          const item = value as any
           return {
             primitive: item.primitive,
-            definition: item.definition
-          };
-        });
+            definition: item.definition,
+          }
+        })
       }),
     },
     pages: {

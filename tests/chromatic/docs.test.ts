@@ -31,11 +31,12 @@ const skipInCI = process.env.CI === 'true'
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
   try {
-    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first())
-      .toBeVisible({ timeout: visibilityTimeout })
-    
+    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first()).toBeVisible({
+      timeout: visibilityTimeout,
+    })
+
     const errorElement = page.locator('div[role="alert"], .error-message, pre:has-text("Error")')
-    if (await errorElement.count() > 0) {
+    if ((await errorElement.count()) > 0) {
       console.log('Error message found on page, continuing with screenshot anyway')
     }
   } catch (error) {
@@ -43,6 +44,6 @@ const skipInCI = process.env.CI === 'true'
   }
 
   await page.waitForTimeout(1000)
-  
+
   await takeNamedSnapshot(page, 'page-docs-main', testInfo)
 })

@@ -7,16 +7,16 @@ global.fetch = vi.fn().mockResolvedValue({
     data: [
       {
         embedding: [0.1, 0.2, 0.3],
-        index: 0
-      }
-    ]
-  })
+        index: 0,
+      },
+    ],
+  }),
 })
 
-vi.stubGlobal('process', { 
-  env: { 
-    OPENAI_API_KEY: 'test-api-key' 
-  } 
+vi.stubGlobal('process', {
+  env: {
+    OPENAI_API_KEY: 'test-api-key',
+  },
 })
 
 describe('embedding', () => {
@@ -32,7 +32,7 @@ describe('embedding', () => {
 
   it('generates embeddings for text', async () => {
     const result = await generateEmbedding('test text', { apiKey: 'test-api-key' })
-    
+
     expect(result).toBeDefined()
     expect(result.success).toBe(true)
     expect(result.model).toBe('text-embedding-3-small')
@@ -43,9 +43,9 @@ describe('embedding', () => {
   it('calculates similarity between two embeddings', () => {
     const embedding1 = [0.1, 0.2, 0.3]
     const embedding2 = [0.2, 0.3, 0.4]
-    
+
     const similarity = calculateSimilarity(embedding1, embedding2)
-    
+
     expect(similarity).toBeGreaterThan(0)
     expect(similarity).toBeLessThanOrEqual(1)
   })
@@ -53,7 +53,7 @@ describe('embedding', () => {
   it('throws error when embeddings have different dimensions', () => {
     const embedding1 = [0.1, 0.2, 0.3]
     const embedding2 = [0.2, 0.3]
-    
+
     expect(() => calculateSimilarity(embedding1, embedding2)).toThrow('Embeddings must have the same dimensions')
   })
 })

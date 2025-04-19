@@ -6,12 +6,9 @@ import { z } from 'zod'
 
 describe('provider', () => {
   it('should route to the correct model and provider', async () => {
-    const model1 = model(
-      'gemini',
-      {
-        allowFixingSchema: true
-      }
-    )
+    const model1 = model('gemini', {
+      allowFixingSchema: true,
+    })
 
     console.log(model1)
 

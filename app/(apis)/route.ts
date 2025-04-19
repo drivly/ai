@@ -10,7 +10,7 @@ let staticIntegrations: { apps: any[]; categories: any[]; triggers: any; actions
   apps: [],
   categories: [],
   triggers: { items: [] },
-  actions: []
+  actions: [],
 }
 
 try {
@@ -110,14 +110,14 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
   }
 
   const formattedIntegrations: Record<string, string> = {}
-  staticIntegrations.apps?.forEach(app => {
+  staticIntegrations.apps?.forEach((app) => {
     const description = app.description || ''
     const appTitle = `${app.name}${description ? ` - ${description}` : ''}`
     formattedIntegrations[appTitle] = formatWithOptions(`integrations/${app.key}`, 'integrations.do')
   })
-  
+
   const integrations: Record<string, string> = {}
-  staticIntegrations.apps?.forEach(app => {
+  staticIntegrations.apps?.forEach((app) => {
     integrations[app.key] = `${origin}/${app.key}`
   })
 

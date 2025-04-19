@@ -57,7 +57,6 @@ describe('createDynamicPayloadConfig', () => {
 
   it('should create config with empty collections if no nouns are found', async () => {
     ;(getNounsForProject as any).mockResolvedValue([])
-
     ;(modifyDatabaseUri as any).mockReturnValue('mongodb://localhost:27017/project-123')
 
     const project = { id: 'project-123', name: 'Test Project' }
@@ -89,7 +88,6 @@ describe('createDynamicPayloadConfig', () => {
     ]
 
     ;(getNounsForProject as any).mockResolvedValue(nouns)
-
     ;(modifyDatabaseUri as any).mockReturnValue('mongodb://localhost:27017/project-123')
 
     const project = { id: 'project-123', name: 'Test Project' }
@@ -118,7 +116,6 @@ describe('createDynamicPayloadConfig', () => {
     ]
 
     ;(getNounsForProject as any).mockResolvedValue(nouns)
-
     ;(modifyDatabaseUri as any).mockReturnValue('mongodb://localhost:27017/project-123')
 
     const project = { id: 'project-123', name: 'Test Project' }
@@ -160,7 +157,6 @@ describe('createDynamicPayloadConfig', () => {
     ]
 
     ;(getNounsForProject as any).mockResolvedValue(nouns)
-
     ;(modifyDatabaseUri as any).mockReturnValue('mongodb://localhost:27017/project-123')
 
     const project = { id: 'project-123', name: 'Test Project' }

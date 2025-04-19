@@ -528,10 +528,8 @@ async function verifyDomainOnVercel(domain: string): Promise<boolean> {
  */
 async function automateDomainsSetup() {
   const { domains: domainsFromTsv, domainsConfig } = await readDomainsTsv()
-  
-  const domainsToProcess = domainFilter 
-    ? domainsFromTsv.filter((domain) => domainFilter.some((filter) => !filter.startsWith('-') && domain.includes(filter))) 
-    : domainsFromTsv
+
+  const domainsToProcess = domainFilter ? domainsFromTsv.filter((domain) => domainFilter.some((filter) => !filter.startsWith('-') && domain.includes(filter))) : domainsFromTsv
 
   console.log(`Found ${domainsToProcess.length} domains to process out of ${domainsFromTsv.length} total domains`)
 

@@ -26,9 +26,9 @@ const payload = await getPayload({ config })
 const db = DB({ payload })
 
 // Use the same interface as database.do
-const posts = await db.posts.find({ 
+const posts = await db.posts.find({
   where: { status: 'published' },
-  limit: 10
+  limit: 10,
 })
 
 const post = await db.posts.findOne('post-123')
@@ -40,15 +40,15 @@ const post = await db.posts.findOne('post-123')
 import { DB } from 'ai-database'
 
 // Initialize with REST API URL
-const db = DB({ 
+const db = DB({
   apiUrl: 'https://your-payload-api.com/api',
-  apiKey: 'your-api-key'
+  apiKey: 'your-api-key',
 })
 
 // Use the same interface as database.do
-const posts = await db.posts.find({ 
+const posts = await db.posts.find({
   where: { status: 'published' },
-  limit: 10
+  limit: 10,
 })
 
 const post = await db.posts.findOne('post-123')
@@ -65,11 +65,11 @@ const result = await generateEmbedding('Text to embed')
 if (result.success) {
   console.log('Embedding:', result.embedding)
   console.log('Model used:', result.model)
-  
+
   // Calculate similarity between two embeddings
   const embedding1 = result.embedding[0]
-  const embedding2 = await generateEmbedding('Similar text').then(r => r.embedding?.[0])
-  
+  const embedding2 = await generateEmbedding('Similar text').then((r) => r.embedding?.[0])
+
   if (embedding1 && embedding2) {
     const similarity = calculateSimilarity(embedding1, embedding2)
     console.log('Similarity score:', similarity)
@@ -99,8 +99,8 @@ import { createNodeClient, createEdgeClient } from 'ai-database/adapters'
 const nodeDb = createNodeClient({ payload })
 
 // Edge
-const edgeDb = createEdgeClient({ 
-  apiUrl: 'https://your-payload-api.com/api' 
+const edgeDb = createEdgeClient({
+  apiUrl: 'https://your-payload-api.com/api',
 })
 ```
 

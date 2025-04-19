@@ -1,3 +1,3 @@
 declare module 'ai-providers' {
-  export function llmProvider(modelName: string): any;
+  export function llmProvider(modelName: string): any
 }
