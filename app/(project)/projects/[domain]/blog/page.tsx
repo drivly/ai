@@ -34,14 +34,22 @@ export default async function BlogPage({ params }: { params: Promise<{ domain: s
     
     const blogPosts = await fetchBlogPostsByProject(project.id)
     
-    const posts = blogPosts.map(post => ({
-      slug: post.id,
-      title: post.name || 'Untitled',
-      description: post.data?.excerpt || '',
-      date: new Date(post.createdAt).toLocaleDateString(),
-      category: post.type?.name || 'Uncategorized',
-      image: post.data?.coverImage || '/images/blog-default.png'
-    }))
+    const posts = blogPosts.map(post => {
+      const postData = post.data as { 
+        excerpt?: string; 
+        coverImage?: string;
+        content?: string;
+      } | undefined
+      
+      return {
+        slug: post.id,
+        title: post.name || 'Untitled',
+        description: postData?.excerpt || '',
+        date: new Date(post.createdAt).toLocaleDateString(),
+        category: post.type?.name || 'Uncategorized',
+        image: postData?.coverImage || '/images/blog-default.png'
+      }
+    })
     
     const categories = Array.from(new Set(posts.map(post => post.category)))
     
