@@ -217,6 +217,7 @@ async function handleConnectAccountEvent(payload: Payload, event: Stripe.Event) 
       await payload.create({
         collection: 'connectAccounts',
         data: {
+          name: `Connect Account for Project ${account.metadata.projectId}`,
           project: account.metadata.projectId,
           stripeAccountId: account.id,
           accountType: account.type,
