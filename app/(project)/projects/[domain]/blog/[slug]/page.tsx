@@ -26,11 +26,13 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
   
   if (!post) return { title: 'Post Not Found' }
   
+  const postData = post.data as { excerpt?: string; coverImage?: string } | undefined
+
   return {
     title: `${post.name || 'Untitled'} - ${project.name}`,
-    description: post.data?.excerpt || '',
+    description: postData?.excerpt || '',
     openGraph: {
-      images: post.data?.coverImage ? [post.data.coverImage] : undefined,
+      images: postData?.coverImage ? [postData.coverImage] : undefined,
     },
   }
 }
@@ -83,14 +85,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ domai
     
     if (post.tenant !== project.id) return <BlogPostNotFound />
     
+    const postData = post.data as { excerpt?: string; coverImage?: string; content?: string } | undefined
+    
     const blogPost = {
       slug: post.id,
       title: post.name || 'Untitled',
-      description: post.data?.excerpt || '',
+      description: postData?.excerpt || '',
       date: new Date(post.createdAt).toLocaleDateString(),
       category: post.type?.name || 'Uncategorized',
-      image: post.data?.coverImage || '/images/blog-default.png',
-      content: post.data?.content || ''
+      image: postData?.coverImage || '/images/blog-default.png',
+      content: postData?.content || ''
     }
     
     return (
