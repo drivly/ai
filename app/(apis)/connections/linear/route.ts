@@ -20,7 +20,7 @@ export const GET = API(async (request, { db, user, url }) => {
   const payloadInstance = await getPayload({ config })
 
   const connection = await payloadInstance.findByID({
-    collection: 'connections',
+    collection: 'connectAccounts',
     id: connectionId,
   })
 
@@ -45,7 +45,7 @@ export const GET = API(async (request, { db, user, url }) => {
   if (!tokenResponse.ok) {
     const errorData = await tokenResponse.json()
     await payloadInstance.update({
-      collection: 'connections',
+      collection: 'connectAccounts',
       id: connectionId,
       data: {
         status: 'inactive',
@@ -61,7 +61,7 @@ export const GET = API(async (request, { db, user, url }) => {
   const tokenData = await tokenResponse.json()
 
   await payloadInstance.update({
-    collection: 'connections',
+    collection: 'connectAccounts',
     id: connectionId,
     data: {
       status: 'active',
@@ -111,7 +111,7 @@ export const POST = API(async (request, { db, user, origin, url }) => {
   }
 
   const connection = await payloadInstance.create({
-    collection: 'connections',
+    collection: 'connectAccounts',
     data: {
       name: `${user.email} - Linear`,
       user: user.id,

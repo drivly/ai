@@ -40,7 +40,7 @@ export const initiateComposioConnectionTask = {
     }
 
     const connection = await payload.create({
-      collection: 'connections',
+      collection: 'connectAccounts',
       data: {
         name: `${user.email} - ${integration.name}`,
         user: userId,
@@ -77,7 +77,7 @@ export const initiateComposioConnectionTask = {
 
     if (!response.ok) {
       await payload.update({
-        collection: 'connections',
+        collection: 'connectAccounts',
         id: connection.id,
         data: {
           status: 'inactive',
@@ -89,7 +89,7 @@ export const initiateComposioConnectionTask = {
     }
 
     await payload.update({
-      collection: 'connections',
+      collection: 'connectAccounts',
       id: connection.id,
       data: {
         metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, {

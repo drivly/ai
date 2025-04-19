@@ -30,7 +30,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
   }
 
   const connection = await payloadInstance.create({
-    collection: 'connections',
+    collection: 'connectAccounts',
     data: {
       name: `${user.email} - ${integration.name}`,
       user: user.id,
@@ -66,7 +66,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
 
   if (!response.ok) {
     await payloadInstance.update({
-      collection: 'connections',
+      collection: 'connectAccounts',
       id: connection.id,
       data: {
         status: 'inactive',
@@ -78,7 +78,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
   }
 
   await payloadInstance.update({
-    collection: 'connections',
+    collection: 'connectAccounts',
     id: connection.id,
     data: {
       metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, { authorizationUrl: data.authorization_url }),
@@ -116,7 +116,7 @@ export const GET = API(async (request, { db, user, origin, url }) => {
   const payloadInstance = await getPayload({ config })
 
   const connections = await payloadInstance.find({
-    collection: 'connections',
+    collection: 'connectAccounts',
     where: {
       user: {
         equals: user.id,
