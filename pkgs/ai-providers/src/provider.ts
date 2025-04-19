@@ -8,6 +8,7 @@ import {
 import { createOpenAI } from '@ai-sdk/openai'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { createAnthropic } from '@ai-sdk/anthropic'
+import { OpenAIToolSet } from 'composio-core'
 import { getModel, Model } from 'language-models'
 
 const providerRegistry: Record<string, any> = {
@@ -63,6 +64,7 @@ class LLMProvider implements LanguageModelV1 {
   get provider() {
     let provider = 'openrouter'
 
+    // @ts-expect-error - provider is added by getModel but not in the Model type
     switch (this.resolvedModel.provider?.slug) {
       case 'openai':
         provider = 'openai'
@@ -88,6 +90,7 @@ class LLMProvider implements LanguageModelV1 {
 
   // Fix Anthropic's default object generation mode.
   get defaultObjectGenerationMode() {
+    // @ts-expect-error - provider is added by getModel but not in the Model type
     return this.resolvedModel.provider?.supportedParameters.includes('tools') ? 'tool' : 'json'
   }
 
@@ -108,6 +111,23 @@ class LLMProvider implements LanguageModelV1 {
       }
     }
 
+    // @ts-expect-error - parsed is added by getModel but not in the Model type
+    if (this.resolvedModel.parsed?.tools && Object.keys(this.resolvedModel.parsed.tools).length > 0) {
+      // @ts-expect-error - parsed is added by getModel but not in the Model type
+      const toolNames = Object.keys(this.resolvedModel.parsed.tools);
+      
+      const composioToolset = new OpenAIToolSet({
+        apiKey: process.env.COMPOSIO_API_KEY,
+      });
+      
+      const tools = await composioToolset.getTools({ 
+        actions: toolNames.length === 1 && toolNames[0] === 'all' ? undefined : toolNames 
+      });
+      
+      // @ts-expect-error - tools is not in LanguageModelV1CallOptions but is supported by providers
+      options.tools = (options.tools || []).concat(tools);
+    }
+
     return await providerRegistry[this.provider](modelSlug, modelConfigMixin).doGenerate(options)
   }
 
@@ -117,6 +137,8 @@ class LLMProvider implements LanguageModelV1 {
 
     // @ts-expect-error - providerModelId is a recent addition and i need to fix the types.
     const modelSlug = this.provider == 'openrouter' ? this.resolvedModel.slug : this.resolvedModel.provider?.providerModelId
+
+    // For now, we don't support tools with streaming
 
     return await providerRegistry[this.provider](this.resolvedModel.slug).doStream(options)
   }
