@@ -28,8 +28,10 @@ chromaticTest('documentation page', async ({ page }, testInfo) => {
   // Increase visibility timeout for CI environment
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
-  await expect(page.locator('nav, main').first()).toBeVisible({ timeout: visibilityTimeout })
-  await expect(page.locator('main').first()).toBeVisible({ timeout: visibilityTimeout })
+  await expect(page.locator('body > div > main, main, [role="main"], nav').first())
+    .toBeVisible({ timeout: visibilityTimeout })
+  await expect(page.locator('body > div > main, main, [role="main"]').first())
+    .toBeVisible({ timeout: visibilityTimeout })
 
   await takeNamedSnapshot(page, 'page-docs-main', testInfo)
 })
