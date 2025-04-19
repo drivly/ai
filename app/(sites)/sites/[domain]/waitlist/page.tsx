@@ -39,20 +39,21 @@ function WaitlistPage({ params }: { params: { domain: string } }) {
     checkAuth()
   }, [currentUserPromise, router, domain])
   
-  if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
-        <p className="mt-4 text-muted-foreground">Checking authentication status...</p>
-      </div>
-    )
-  }
+  // If not authenticated, will redirect in useEffect
+  if (!user && !isLoading) return null
   
-  if (!user) return null // Will redirect in the useEffect
-  
-  const name = user.name || user.email.split('@')[0]
-  
-  return <Waitlist email={user.email} name={name} />
+  return (
+    <>
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center py-20">
+          <Loader2 className="h-8 w-8 animate-spin" />
+          <p className="mt-4 text-muted-foreground">Checking authentication status...</p>
+        </div>
+      ) : (
+        <Waitlist email={user!.email} name={user!.name || user!.email.split('@')[0]} />
+      )}
+    </>
+  )
 }
 
 export default withSitesWrapper({ WrappedPage: WaitlistPage, withFaqs: false, withCallToAction: false })
