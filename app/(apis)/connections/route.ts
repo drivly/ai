@@ -69,7 +69,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
       collection: 'connectAccounts',
       id: connection.id,
       data: {
-        status: 'inactive',
+        status: 'rejected',
         metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, { error: data }),
       },
     })
