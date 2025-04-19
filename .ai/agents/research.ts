@@ -14,11 +14,6 @@ const model = createOpenAI({
 export const research = (topic: string) => generateText({
   model: model('perplexity/sonar-deep-research'),
   prompt: `Research ${topic}`,
-  // schema: z.object({
-  //   summary: z.string(),
-  //   keyPoints: z.array(z.string()),
-  //   details: z.array(z.string()),
-  // })
 }).then(result => {
   return {
     citations: (result.response.body as any)?.citations,
