@@ -18,7 +18,7 @@ export async function fetchBlogPostsByProject(projectId: string): Promise<any[]>
       collection: 'resources',
       where: {
         tenant: { equals: projectId },
-        'type.name': { equals: 'BlogPost' }
+        'type.name': { equals: 'BlogPost' },
       },
       sort: '-createdAt',
     })

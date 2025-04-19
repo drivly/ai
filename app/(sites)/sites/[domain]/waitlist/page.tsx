@@ -17,7 +17,7 @@ function WaitlistPage({ params }: { params: { domain: string } }) {
   const [isLoading, setIsLoading] = useState(true)
   const { currentUserPromise } = useBetterAuth()
   const [user, setUser] = useState<User | null>(null)
-  
+
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -35,21 +35,21 @@ function WaitlistPage({ params }: { params: { domain: string } }) {
         setIsLoading(false)
       }
     }
-    
+
     checkAuth()
   }, [currentUserPromise, router, domain])
-  
+
   return (
     <>
       {isLoading ? (
-        <div className="flex flex-col items-center justify-center py-20">
-          <Loader2 className="h-8 w-8 animate-spin" />
-          <p className="mt-4 text-muted-foreground">Checking authentication status...</p>
+        <div className='flex flex-col items-center justify-center py-20'>
+          <Loader2 className='h-8 w-8 animate-spin' />
+          <p className='text-muted-foreground mt-4'>Checking authentication status...</p>
         </div>
       ) : user ? (
         <Waitlist email={user.email} name={user.name || user.email.split('@')[0]} />
       ) : (
-        <div className="min-h-[200px]"></div>
+        <div className='min-h-[200px]'></div>
       )}
     </>
   )

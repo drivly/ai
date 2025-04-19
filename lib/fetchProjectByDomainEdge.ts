@@ -21,7 +21,7 @@ export async function fetchProjectByDomainEdge(domain: string): Promise<{ name: 
     }
 
     const data = await response.json()
-    
+
     if (data && data.docs && data.docs.length > 0) {
       return data.docs[0]
     }
@@ -29,11 +29,11 @@ export async function fetchProjectByDomainEdge(domain: string): Promise<{ name: 
     return null
   } catch (error) {
     console.error(`Error fetching project by domain '${domain}':`, error)
-    
+
     return {
       name: domain,
       domain: domain,
-      id: 'unknown'
+      id: 'unknown',
     }
   }
 }

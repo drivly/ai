@@ -1,6 +1,6 @@
 import { ImageResponse } from '@vercel/og'
 import { fetchProjectByDomainEdge } from '@/lib/fetchProjectByDomainEdge'
- 
+
 export const runtime = 'edge'
 export const contentType = 'image/png'
 export const size = { width: 1200, height: 630 }
@@ -8,11 +8,11 @@ export const size = { width: 1200, height: 630 }
 export default async function Image({ params }: { params: { domain: string } }): Promise<ImageResponse> {
   try {
     const project = await fetchProjectByDomainEdge(params.domain)
-    
+
     if (!project) {
       throw new Error('Project not found')
     }
-    
+
     return new ImageResponse(
       (
         <div
@@ -44,11 +44,11 @@ export default async function Image({ params }: { params: { domain: string } }):
       {
         width: 1200,
         height: 630,
-      }
+      },
     )
   } catch (error) {
     console.error('Error generating OpenGraph image:', error)
-    
+
     return new ImageResponse(
       (
         <div
@@ -68,7 +68,7 @@ export default async function Image({ params }: { params: { domain: string } }):
       {
         width: 1200,
         height: 630,
-      }
+      },
     )
   }
 }

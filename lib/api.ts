@@ -459,8 +459,8 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
         ...result,
         user: mergedUser,
       }
-      return new NextResponse(JSON.stringify(responseBody, null, 2), { 
-        headers: { 'content-type': 'application/json; charset=utf-8' } 
+      return new NextResponse(JSON.stringify(responseBody, null, 2), {
+        headers: { 'content-type': 'application/json; charset=utf-8' },
       })
     } catch (error) {
       console.error('API Error:', error)
@@ -495,9 +495,9 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
         message: error instanceof Error ? error.message : 'Internal Server Error',
         ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
       }
-      return new NextResponse(JSON.stringify(errorResponseBody, null, 2), { 
+      return new NextResponse(JSON.stringify(errorResponseBody, null, 2), {
         status,
-        headers: { 'content-type': 'application/json; charset=utf-8' } 
+        headers: { 'content-type': 'application/json; charset=utf-8' },
       })
     }
   }

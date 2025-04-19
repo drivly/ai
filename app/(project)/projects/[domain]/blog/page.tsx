@@ -10,13 +10,13 @@ export const dynamic = 'force-dynamic'
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params
   const project = await fetchProjectByDomain(domain)
-  
+
   if (!project) {
     return {
       title: 'Blog - Project Not Found',
     }
   }
-  
+
   return {
     title: `Blog - ${project.name}`,
     description: `Latest articles from ${project.name}`,
@@ -27,32 +27,34 @@ export default async function BlogPage({ params }: { params: Promise<{ domain: s
   try {
     const { domain } = await params
     const project = await fetchProjectByDomain(domain)
-    
+
     if (!project) {
       return <div>Project Not Found</div>
     }
-    
+
     const blogPosts = await fetchBlogPostsByProject(project.id)
-    
-    const posts = blogPosts.map(post => {
-      const postData = post.data as { 
-        excerpt?: string; 
-        coverImage?: string;
-        content?: string;
-      } | undefined
-      
+
+    const posts = blogPosts.map((post) => {
+      const postData = post.data as
+        | {
+            excerpt?: string
+            coverImage?: string
+            content?: string
+          }
+        | undefined
+
       return {
         slug: post.id,
         title: post.name || 'Untitled',
         description: postData?.excerpt || '',
         date: new Date(post.createdAt).toLocaleDateString(),
         category: (typeof post.type?.value === 'object' ? post.type.value.name : post.type?.relationTo) || 'Uncategorized',
-        image: postData?.coverImage || '/images/blog-default.png'
+        image: postData?.coverImage || '/images/blog-default.png',
       }
     })
-    
-    const categories = Array.from(new Set(posts.map(post => post.category)))
-    
+
+    const categories = Array.from(new Set(posts.map((post) => post.category)))
+
     return (
       <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
         <div className='mb-8'>
