@@ -2,7 +2,6 @@
 
 import { UserAvatar } from '@/components/auth/user-profile-image'
 import { Button } from '@/components/ui/button'
-import { useAuth } from '@/lib/auth/context'
 import { cn } from '@/lib/utils'
 import { RiDiscordFill } from '@remixicon/react'
 import Link from 'next/link'
@@ -17,10 +16,21 @@ export interface JoinWaitlistButtonProps {
 }
 
 export const JoinWaitlistButton = ({ children, className, variant = 'default', type = 'user' }: JoinWaitlistButtonProps) => {
-  const { currentUserPromise } = useAuth()
-  const currentUser = use(currentUserPromise)
+  let currentUser = null
+  
+  try {
+    const { useAuth } = require('@/lib/auth/context')
+    try {
+      const { currentUserPromise } = useAuth()
+      currentUser = use(currentUserPromise)
+    } catch (error) {
+      console.error('Auth context not available during static generation:', error)
+    }
+  } catch (error) {
+    console.error('Auth module not available during static generation:', error)
+  }
 
-  if (currentUser && type === 'user') {
+  if (currentUser && 'image' in currentUser && type === 'user') {
     return <UserAvatar image={currentUser.image || ''} />
   }
 
