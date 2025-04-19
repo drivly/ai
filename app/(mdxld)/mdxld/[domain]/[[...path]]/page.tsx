@@ -9,7 +9,7 @@ type Params = {
 
 type Props = {
   params: Promise<Params>
-  searchParams: Record<string, string | string[]>
+  searchParams: Promise<Record<string, string | string[]>>
 }
 
 export async function generateMetadata(props: Props) {
