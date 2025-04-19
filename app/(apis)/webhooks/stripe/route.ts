@@ -175,7 +175,7 @@ async function handleSubscriptionEvent(payload: Payload, event: Stripe.Event) {
           periodStart: new Date(subscription.current_period_start * 1000).toISOString(),
           periodEnd: new Date(subscription.current_period_end * 1000).toISOString(),
           cancelAtPeriodEnd: subscription.cancel_at_period_end,
-        },
+        } as any,
       })
     }
   } catch (error) {
