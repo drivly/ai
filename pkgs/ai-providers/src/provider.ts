@@ -4,7 +4,7 @@ import { createOpenAI } from '@ai-sdk/openai'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { createAnthropic } from '@ai-sdk/anthropic'
 import { OpenAIToolSet } from 'composio-core'
-import { getModel, Model } from 'language-models'
+import { getModel, getModels, Model } from 'language-models'
 
 const providerRegistry: Record<string, any> = {
   openrouter: createOpenAI({
@@ -37,6 +37,17 @@ export const createLLMProvider = (config: LLMProviderConfig) => (model: string, 
 }
 
 export const model = createLLMProvider({})
+
+/**
+ * Returns an array of LLMProvider instances for the given model identifiers
+ * @param modelIdentifiers Comma-separated string of model identifiers
+ * @param options Provider options
+ * @returns Array of LLMProvider instances
+ */
+export const models = (modelIdentifiers: string, options?: ProviderOptions) => {
+  const modelInstances = getModels(modelIdentifiers)
+  return modelInstances.map(model => new LLMProvider(model.slug, options ?? {}))
+}
 
 class LLMProvider implements LanguageModelV1 {
   readonly specificationVersion = 'v1'
