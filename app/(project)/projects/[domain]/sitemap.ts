@@ -40,7 +40,7 @@ export default async function sitemap({ params }: { params: Promise<{ domain: st
     entries.push({
       url: `${baseUrl}/blog/${post.id}`,
       lastModified: post.updatedAt || post.createdAt || new Date(),
-      changeFrequency: 'monthly' as const,
+      changeFrequency: 'weekly' as const,
       priority: 0.7,
     })
   }
