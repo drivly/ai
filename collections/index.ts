@@ -115,7 +115,6 @@ export const collections = [
   BillingPlans,
   Subscriptions,
   Usage,
-  ConnectAccounts,
 
   Config,
 
