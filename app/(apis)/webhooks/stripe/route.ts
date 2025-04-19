@@ -168,7 +168,7 @@ async function handleSubscriptionEvent(payload, event) {
       await payload.create({
         collection: 'subscriptions',
         data: {
-          customer: customerId,
+          organization: customerId,
           plan: planId,
           status: subscription.status,
           stripeSubscriptionId: subscription.id,
