@@ -68,7 +68,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
 })
 
 async function handleCustomerEvent(payload: Payload, event: Stripe.Event) {
-  const customer = event.data.object
+  const customer = event.data.object as Stripe.Customer
   
   try {
     const existingCustomers = await payload.find({
@@ -108,7 +108,7 @@ async function handleCustomerEvent(payload: Payload, event: Stripe.Event) {
 }
 
 async function handleSubscriptionEvent(payload: Payload, event: Stripe.Event) {
-  const subscription = event.data.object
+  const subscription = event.data.object as Stripe.Subscription
   
   try {
     const customers = await payload.find({
@@ -185,13 +185,13 @@ async function handleSubscriptionEvent(payload: Payload, event: Stripe.Event) {
 }
 
 async function handlePaymentEvent(payload: Payload, event: Stripe.Event) {
-  const paymentIntent = event.data.object
+  const paymentIntent = event.data.object as Stripe.PaymentIntent
   
   console.log(`Payment event processed: ${event.type}`)
 }
 
 async function handleConnectAccountEvent(payload: Payload, event: Stripe.Event) {
-  const account = event.data.object
+  const account = event.data.object as Stripe.Account
   
   try {
     const existingAccounts = await payload.find({
