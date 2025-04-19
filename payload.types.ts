@@ -2467,6 +2467,18 @@ export interface Organization {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Additional metadata from Stripe
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -4224,6 +4236,7 @@ export interface OrganizationsSelect<T extends boolean = true> {
         role?: T;
         id?: T;
       };
+  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }

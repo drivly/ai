@@ -94,6 +94,7 @@ async function handleCustomerEvent(payload: Payload, event: Stripe.Event) {
       await payload.create({
         collection: 'organizations',
         data: {
+          name: customer.name || `Organization for ${customer.email || 'Unknown User'}`,
           user: customer.metadata.userId,
           stripeCustomerId: customer.id,
           email: customer.email,
