@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { generateObject, generateText } from 'ai'
 
-import { model } from '../src'
+import { model, models } from '../src'
 import { z } from 'zod'
 
 describe('provider', () => {
@@ -35,5 +35,14 @@ describe('provider', () => {
     })
 
     console.log(test)
+  })
+
+  it('should return an array of model instances', () => {
+    const modelInstances = models('gemini,claude-3.7-sonnet')
+    
+    expect(modelInstances).toBeInstanceOf(Array)
+    expect(modelInstances.length).toBe(2)
+    expect(modelInstances[0].modelId).toBe('gemini')
+    expect(modelInstances[1].modelId).toBe('claude-3.7-sonnet')
   })
 })
