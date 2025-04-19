@@ -7,7 +7,7 @@ export const size = { width: 1200, height: 630 }
 
 export default async function Image({ params }: { params: { domain: string; slug: string } }) {
   try {
-    const project = await fetchProjectByDomain(params.domain)
+    const project = await fetchProjectByDomainEdge(params.domain)
     
     if (!project) {
       throw new Error('Project not found')
