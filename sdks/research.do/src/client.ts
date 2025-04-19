@@ -17,16 +17,16 @@ export class ResearchClient {
     if (!params.topic) {
       throw new Error('Missing required parameter: topic')
     }
-    
+
     const result = await ai.research(params, {
       model: 'perplexity/sonar-deep-research',
-      ...this.options
+      ...this.options,
     })
-    
+
     return {
       success: true,
       taskId: result.taskId || '',
-      jobId: result.jobId || ''
+      jobId: result.jobId || '',
     }
   }
 }

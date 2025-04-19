@@ -9,9 +9,9 @@ export const GET = API(async (request: NextRequest, { params }) => {
   if (request.nextUrl.pathname === '/') {
     return { notFound: true }
   }
-  
+
   const path = request.nextUrl.pathname
-  
+
   return {
     error: true,
     message: `API route not found: ${path}`,

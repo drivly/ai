@@ -224,7 +224,7 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
   config['apis.do'] = {
     description: 'API Gateway for All Services',
   }
-  
+
   config['studio.do'] = {
     description: 'Custom-Branded Payload CMS instances',
   }

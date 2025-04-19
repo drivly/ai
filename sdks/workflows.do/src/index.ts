@@ -85,7 +85,7 @@ export function AI<T extends AIConfig>(config: T): AIInstance {
           ai: instance,
           api: createAPIAccess(),
           db: createDatabaseAccess(),
-          do: {}
+          do: {},
         }
 
         try {
@@ -310,7 +310,7 @@ export function on(eventName: string, handler: AIEventHandler): void {
       event: eventName,
       handler: handler.toString(),
     }),
-  }).catch(error => console.error('Error creating trigger:', error))
+  }).catch((error) => console.error('Error creating trigger:', error))
 }
 
 /**
@@ -330,7 +330,7 @@ export function every(cronExpression: string, handler: AIEventHandler, options?:
       handler: handler.toString(),
       options,
     }),
-  }).catch(error => console.error('Error scheduling cron task:', error))
+  }).catch((error) => console.error('Error scheduling cron task:', error))
 }
 
 // export { actions } from 'actions.do'

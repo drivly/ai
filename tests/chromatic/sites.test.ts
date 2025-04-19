@@ -26,11 +26,12 @@ test('sites main page', async ({ page }) => {
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
   try {
-    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first())
-      .toBeVisible({ timeout: visibilityTimeout })
-    
+    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first()).toBeVisible({
+      timeout: visibilityTimeout,
+    })
+
     const errorElement = page.locator('div[role="alert"], .error-message, pre:has-text("Error")')
-    if (await errorElement.count() > 0) {
+    if ((await errorElement.count()) > 0) {
       console.log('Error message found on page, continuing with screenshot anyway')
     } else {
       try {
@@ -44,8 +45,8 @@ test('sites main page', async ({ page }) => {
   }
 
   await page.waitForTimeout(1000) // Add stabilization time
-  await expect(page).toHaveScreenshot('sites-main-page.png', { 
-    maxDiffPixelRatio: 0.02 
+  await expect(page).toHaveScreenshot('sites-main-page.png', {
+    maxDiffPixelRatio: 0.02,
   })
 })
 
@@ -73,11 +74,12 @@ test('docs page', async ({ page }) => {
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
   try {
-    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first())
-      .toBeVisible({ timeout: visibilityTimeout })
-    
+    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first()).toBeVisible({
+      timeout: visibilityTimeout,
+    })
+
     const errorElement = page.locator('div[role="alert"], .error-message, pre:has-text("Error")')
-    if (await errorElement.count() > 0) {
+    if ((await errorElement.count()) > 0) {
       console.log('Error message found on page, continuing with screenshot anyway')
     } else {
       try {
@@ -91,8 +93,8 @@ test('docs page', async ({ page }) => {
   }
 
   await page.waitForTimeout(1000) // Add stabilization time
-  await expect(page).toHaveScreenshot('docs-page.png', { 
-    maxDiffPixelRatio: 0.02 
+  await expect(page).toHaveScreenshot('docs-page.png', {
+    maxDiffPixelRatio: 0.02,
   })
 })
 
@@ -120,11 +122,12 @@ test('specific site page', async ({ page }) => {
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
   try {
-    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first())
-      .toBeVisible({ timeout: visibilityTimeout })
-    
+    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first()).toBeVisible({
+      timeout: visibilityTimeout,
+    })
+
     const errorElement = page.locator('div[role="alert"], .error-message, pre:has-text("Error")')
-    if (await errorElement.count() > 0) {
+    if ((await errorElement.count()) > 0) {
       console.log('Error message found on page, continuing with screenshot anyway')
     }
   } catch (error) {
@@ -132,8 +135,8 @@ test('specific site page', async ({ page }) => {
   }
 
   await page.waitForTimeout(1000) // Add stabilization time
-  await expect(page).toHaveScreenshot('sites-specific-domain.png', { 
-    maxDiffPixelRatio: 0.02 
+  await expect(page).toHaveScreenshot('sites-specific-domain.png', {
+    maxDiffPixelRatio: 0.02,
   }) // Allow slightly larger diff ratio
 })
 
@@ -161,11 +164,12 @@ test('site blog page', async ({ page }) => {
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
   try {
-    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first())
-      .toBeVisible({ timeout: visibilityTimeout })
-    
+    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first()).toBeVisible({
+      timeout: visibilityTimeout,
+    })
+
     const errorElement = page.locator('div[role="alert"], .error-message, pre:has-text("Error")')
-    if (await errorElement.count() > 0) {
+    if ((await errorElement.count()) > 0) {
       console.log('Error message found on page, continuing with screenshot anyway')
     } else {
       try {
@@ -173,7 +177,7 @@ test('site blog page', async ({ page }) => {
       } catch (error) {
         console.log('Could not find h1 element, continuing with screenshot anyway')
       }
-      
+
       try {
         await expect(page.locator('div.grid[class*="sm:grid-cols-2"]')).toBeVisible({ timeout: visibilityTimeout / 3 })
       } catch (error) {
@@ -185,8 +189,8 @@ test('site blog page', async ({ page }) => {
   }
 
   await page.waitForTimeout(1000) // Add stabilization time
-  await expect(page).toHaveScreenshot('sites-blog-page.png', { 
-    maxDiffPixelRatio: 0.02 
+  await expect(page).toHaveScreenshot('sites-blog-page.png', {
+    maxDiffPixelRatio: 0.02,
   })
 })
 
@@ -214,11 +218,12 @@ test('site blog post page', async ({ page }) => {
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
   try {
-    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first())
-      .toBeVisible({ timeout: visibilityTimeout })
-    
+    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first()).toBeVisible({
+      timeout: visibilityTimeout,
+    })
+
     const errorElement = page.locator('div[role="alert"], .error-message, pre:has-text("Error")')
-    if (await errorElement.count() > 0) {
+    if ((await errorElement.count()) > 0) {
       console.log('Error message found on page, continuing with screenshot anyway')
     } else {
       try {
@@ -226,7 +231,7 @@ test('site blog post page', async ({ page }) => {
       } catch (error) {
         console.log('Could not find h1 element, continuing with screenshot anyway')
       }
-      
+
       try {
         const contentElement = page.locator('article, div.prose, .blog-content')
         if ((await contentElement.count()) > 0) {
@@ -241,8 +246,8 @@ test('site blog post page', async ({ page }) => {
   }
 
   await page.waitForTimeout(1000) // Add stabilization time
-  await expect(page).toHaveScreenshot('sites-blog-post-page.png', { 
-    maxDiffPixelRatio: 0.02 
+  await expect(page).toHaveScreenshot('sites-blog-post-page.png', {
+    maxDiffPixelRatio: 0.02,
   })
 })
 
@@ -270,11 +275,12 @@ test('site pricing page', async ({ page }) => {
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
   try {
-    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first())
-      .toBeVisible({ timeout: visibilityTimeout })
-    
+    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first()).toBeVisible({
+      timeout: visibilityTimeout,
+    })
+
     const errorElement = page.locator('div[role="alert"], .error-message, pre:has-text("Error")')
-    if (await errorElement.count() > 0) {
+    if ((await errorElement.count()) > 0) {
       console.log('Error message found on page, continuing with screenshot anyway')
     } else {
       try {
@@ -288,8 +294,8 @@ test('site pricing page', async ({ page }) => {
   }
 
   await page.waitForTimeout(1000) // Add stabilization time
-  await expect(page).toHaveScreenshot('sites-pricing-page.png', { 
-    maxDiffPixelRatio: 0.02 
+  await expect(page).toHaveScreenshot('sites-pricing-page.png', {
+    maxDiffPixelRatio: 0.02,
   })
 })
 
@@ -317,11 +323,12 @@ test('site privacy page', async ({ page }) => {
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
   try {
-    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first())
-      .toBeVisible({ timeout: visibilityTimeout })
-    
+    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first()).toBeVisible({
+      timeout: visibilityTimeout,
+    })
+
     const errorElement = page.locator('div[role="alert"], .error-message, pre:has-text("Error")')
-    if (await errorElement.count() > 0) {
+    if ((await errorElement.count()) > 0) {
       console.log('Error message found on page, continuing with screenshot anyway')
     } else {
       try {
@@ -329,7 +336,7 @@ test('site privacy page', async ({ page }) => {
       } catch (error) {
         console.log('Could not find h1 element, continuing with screenshot anyway')
       }
-      
+
       try {
         const contentElement = page.locator('.prose, .content, article')
         if ((await contentElement.count()) > 0) {
@@ -344,8 +351,8 @@ test('site privacy page', async ({ page }) => {
   }
 
   await page.waitForTimeout(1000) // Add stabilization time
-  await expect(page).toHaveScreenshot('sites-privacy-page.png', { 
-    maxDiffPixelRatio: 0.02 
+  await expect(page).toHaveScreenshot('sites-privacy-page.png', {
+    maxDiffPixelRatio: 0.02,
   })
 })
 
@@ -373,11 +380,12 @@ test('site terms page', async ({ page }) => {
   const visibilityTimeout = process.env.CI ? 90000 : 30000
 
   try {
-    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first())
-      .toBeVisible({ timeout: visibilityTimeout })
-    
+    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first()).toBeVisible({
+      timeout: visibilityTimeout,
+    })
+
     const errorElement = page.locator('div[role="alert"], .error-message, pre:has-text("Error")')
-    if (await errorElement.count() > 0) {
+    if ((await errorElement.count()) > 0) {
       console.log('Error message found on page, continuing with screenshot anyway')
     } else {
       try {
@@ -385,7 +393,7 @@ test('site terms page', async ({ page }) => {
       } catch (error) {
         console.log('Could not find h1 element, continuing with screenshot anyway')
       }
-      
+
       try {
         const contentElement = page.locator('.prose, .content, article')
         if ((await contentElement.count()) > 0) {
@@ -400,8 +408,8 @@ test('site terms page', async ({ page }) => {
   }
 
   await page.waitForTimeout(1000) // Add stabilization time
-  await expect(page).toHaveScreenshot('sites-terms-page.png', { 
-    maxDiffPixelRatio: 0.02 
+  await expect(page).toHaveScreenshot('sites-terms-page.png', {
+    maxDiffPixelRatio: 0.02,
   })
 })
 

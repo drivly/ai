@@ -29,13 +29,13 @@ export const Resources: CollectionConfig = {
     { name: 'embedding', type: 'json', admin: { hidden: true }, index: false },
     { name: 'subjectOf', type: 'relationship', relationTo: 'actions', hasMany: true },
     { name: 'objectOf', type: 'relationship', relationTo: 'actions', hasMany: true },
-    { 
-      name: 'content', 
-      type: 'code', 
-      admin: { 
+    {
+      name: 'content',
+      type: 'code',
+      admin: {
         language: 'mdx',
-        editorOptions: { padding: { top: 20, bottom: 20 } }
-      }
+        editorOptions: { padding: { top: 20, bottom: 20 } },
+      },
     },
   ],
   hooks: {

@@ -1,22 +1,19 @@
 import { describe, it, expect } from 'vitest'
 import { generateObject, generateText } from 'ai'
 
-import { llmProvider } from '../src'
+import { model, models } from '../src'
 import { z } from 'zod'
 
 describe('provider', () => {
   it('should route to the correct model and provider', async () => {
-    const model = llmProvider(
-      'gemini',
-      {
-        allowFixingSchema: true
-      }
-    )
+    const model1 = model('gemini', {
+      allowFixingSchema: true,
+    })
 
-    console.log(model)
+    console.log(model1)
 
     const test = await generateText({
-      model,
+      model: model1,
       prompt: 'Return some text',
     })
 
@@ -27,10 +24,10 @@ describe('provider', () => {
   })
 
   it('should generate an object using Claude', async () => {
-    const model = llmProvider('claude-3.7-sonnet')
+    const model2 = model('claude-3.7-sonnet')
 
     const test = await generateObject({
-      model,
+      model: model2,
       prompt: 'Return some text',
       schema: z.object({
         text: z.string(),
@@ -38,5 +35,14 @@ describe('provider', () => {
     })
 
     console.log(test)
+  })
+
+  it('should return an array of model instances', () => {
+    const modelInstances = models('gemini,claude-3.7-sonnet')
+    
+    expect(modelInstances).toBeInstanceOf(Array)
+    expect(modelInstances.length).toBe(2)
+    expect(modelInstances[0].modelId).toBe('gemini')
+    expect(modelInstances[1].modelId).toBe('claude-3.7-sonnet')
   })
 })

@@ -1,4 +1,5 @@
 import { executeFunction } from '@/tasks/ai/executeFunction'
+import { createOpenAI } from '@ai-sdk/openai'
 
 type AIFunctionSettings = {
   _model?: string
@@ -38,3 +39,12 @@ export const AI = (config: AIConfig) => {
     },
   )
 }
+
+export const model = createOpenAI({
+  apiKey: process.env.AI_GATEWAY_TOKEN!,
+  baseURL: process.env.AI_GATEWAY_URL!,
+  headers: {
+    "HTTP-Referer": "https://workflows.do", // Optional. Site URL for rankings on openrouter.ai.
+    "X-Title": "Workflows.do Business-as-Code", // Optional. Site title for rankings on openrouter.ai.
+  }
+})

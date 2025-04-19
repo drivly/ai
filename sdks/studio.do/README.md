@@ -79,11 +79,11 @@ Creates a Payload client for a project with collections derived from Project dat
 
 #### Options
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `projectId` | `string` | **Required**. ID of the project to create a studio for |
-| `theme` | `ThemeOptions` | Optional theme configuration for white-labeling |
-| `agentOptions` | `PayloadAgentOptions` | Optional configuration for the chat widget |
+| Property       | Type                  | Description                                            |
+| -------------- | --------------------- | ------------------------------------------------------ |
+| `projectId`    | `string`              | **Required**. ID of the project to create a studio for |
+| `theme`        | `ThemeOptions`        | Optional theme configuration for white-labeling        |
+| `agentOptions` | `PayloadAgentOptions` | Optional configuration for the chat widget             |
 
 #### Returns
 
@@ -91,25 +91,25 @@ Returns a configured Payload client with collections derived from Project data.
 
 ### ThemeOptions
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `colors.primary` | `string` | Primary theme color |
-| `colors.secondary` | `string` | Secondary theme color |
-| `colors.background` | `string` | Background color |
-| `colors.text` | `string` | Text color |
-| `fonts.body` | `string` | Body font family |
-| `fonts.heading` | `string` | Heading font family |
-| `logo` | `string` | Logo image URL |
-| `favicon` | `string` | Favicon URL |
+| Property            | Type     | Description           |
+| ------------------- | -------- | --------------------- |
+| `colors.primary`    | `string` | Primary theme color   |
+| `colors.secondary`  | `string` | Secondary theme color |
+| `colors.background` | `string` | Background color      |
+| `colors.text`       | `string` | Text color            |
+| `fonts.body`        | `string` | Body font family      |
+| `fonts.heading`     | `string` | Heading font family   |
+| `logo`              | `string` | Logo image URL        |
+| `favicon`           | `string` | Favicon URL           |
 
 ### PayloadAgentOptions
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `type` | `'modal' \| 'panel' \| 'resizable'` | Chat interface type |
-| `logo` | `string` | Logo image URL |
-| `aiAvatar` | `string` | Avatar image URL for AI messages |
-| `defaultMessage` | `string` | Initial message to display |
-| `withOverlay` | `boolean` | Show background overlay |
-| `withOutsideClick` | `boolean` | Close on outside click |
-| `suggestions` | `Array<{ title: string, label: string, action: string }>` | Suggested prompts |
+| Property           | Type                                                      | Description                      |
+| ------------------ | --------------------------------------------------------- | -------------------------------- |
+| `type`             | `'modal' \| 'panel' \| 'resizable'`                       | Chat interface type              |
+| `logo`             | `string`                                                  | Logo image URL                   |
+| `aiAvatar`         | `string`                                                  | Avatar image URL for AI messages |
+| `defaultMessage`   | `string`                                                  | Initial message to display       |
+| `withOverlay`      | `boolean`                                                 | Show background overlay          |
+| `withOutsideClick` | `boolean`                                                 | Close on outside click           |
+| `suggestions`      | `Array<{ title: string, label: string, action: string }>` | Suggested prompts                |
