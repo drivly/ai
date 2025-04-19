@@ -9,16 +9,18 @@ export const useIdentifyPostHogUserClient = () => {
   
   let currentUser = null
   
+  let authError = false
+  
   try {
     const { currentUserPromise } = useAuth()
     currentUser = use(currentUserPromise)
   } catch (error) {
+    authError = true
     console.error('Auth not available:', error)
-    return // Early return if auth fails
   }
   
   useEffect(() => {
-    if (!currentUser) return
+    if (authError || !currentUser) return
     
     posthog.identify(currentUser.id, {
       name: currentUser?.name,
@@ -32,5 +34,5 @@ export const useIdentifyPostHogUserClient = () => {
     if (currentUser.tenants?.[0]?.id) {
       posthog?.group('tenant', currentUser.tenants[0].id)
     }
-  }, [currentUser, posthog])
+  }, [currentUser, posthog, authError])
 }
