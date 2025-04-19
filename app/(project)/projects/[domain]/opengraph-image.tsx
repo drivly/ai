@@ -1,5 +1,5 @@
 import { ImageResponse } from '@vercel/og'
-import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
+import { fetchProjectByDomainEdge } from '@/lib/fetchProjectByDomainEdge'
  
 export const runtime = 'edge'
 export const contentType = 'image/png'
