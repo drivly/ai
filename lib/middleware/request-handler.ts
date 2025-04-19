@@ -16,9 +16,7 @@ export class RequestHandler {
 
   isLoggedIn(): boolean {
     return this.request.cookies.has('next-auth.session-token') || 
-           this.request.cookies.has('__Secure-next-auth.session-token') ||
-           this.request.cookies.has('better-auth.session_data') || 
-           this.request.cookies.has('__Secure-better-auth.session')
+           this.request.cookies.has('__Secure-next-auth.session-token')
   }
 
   isAutoLogin(): boolean {
