@@ -48,14 +48,12 @@ ctx.do	Utility	Contextual data or services
 dara.do	Agent	Autonomous digital worker named Dara
 dash.do	Utility	Dashboards and data visualization
 dashboard.do	Utility	Dashboard and analytics interface
-dealers.do	Content/Resource	Dealer and partner management
 emails.do	Utility	Email sending and management
 embeddings.do	Utility	Vector embeddings for search and retrieval
 esbuild.do	Dev Tool	JavaScript bundler and build tool
 events.do	Event/Trigger	Business or system event tracking
 extract.do	Utility	Data extraction and transformation
 function.do	Function	Atomic/composable function (see functions.do)
-gcp.do	Cloud/Infra	Google Cloud Platform integrations
 gpt.do	Model	OpenAI GPT model integrations
 graph.do	Data/Utility	Graph data and relationships
 humans.do	Human	Human worker management and assignment
@@ -78,7 +76,6 @@ perf.do	Analytics	Performance monitoring and analytics
 photos.do	Content/Resource	Photo storage and management
 pkg.do	Dev Tool	Package management and utilities
 programmers.do	Agent	Autonomous digital Programmer)
-prxy.do	Infra/Utility	Proxy and routing services
 qrcode.do	Utility	QR code generation and scanning
 queue.do	Utility	Task and job queue management
 repo.do	Dev Tool	Repository management and code hosting
