@@ -1,10 +1,4 @@
-import { 
-  CollectionHandlerOptions, 
-  CollectionMethods, 
-  CollectionData, 
-  QueryOptions, 
-  ListResponse 
-} from './types'
+import { CollectionHandlerOptions, CollectionMethods, CollectionData, QueryOptions, ListResponse } from './types'
 import { handleError, transformQueryOptions } from './utils'
 
 /**
@@ -33,12 +27,12 @@ export class CollectionHandler<T = CollectionData> implements CollectionMethods<
   async find<T = CollectionData>(options: QueryOptions = {}): Promise<ListResponse<T>> {
     try {
       const transformedOptions = transformQueryOptions(options)
-      
+
       const result = await this.payload.find({
         collection: this.collection,
-        ...transformedOptions
+        ...transformedOptions,
       })
-      
+
       return {
         docs: result.docs || [],
         totalDocs: result.totalDocs || 0,
@@ -48,7 +42,7 @@ export class CollectionHandler<T = CollectionData> implements CollectionMethods<
         hasPrevPage: result.hasPrevPage || false,
         hasNextPage: result.hasNextPage || false,
         prevPage: result.prevPage || null,
-        nextPage: result.nextPage || null
+        nextPage: result.nextPage || null,
       }
     } catch (error) {
       return handleError(error, 'find', this.collection)
@@ -63,10 +57,10 @@ export class CollectionHandler<T = CollectionData> implements CollectionMethods<
    */
   async findOne<T = CollectionData>(id: string): Promise<T> {
     try {
-      return await this.payload.findByID({
+      return (await this.payload.findByID({
         collection: this.collection,
-        id
-      }) as T
+        id,
+      })) as T
     } catch (error) {
       return handleError(error, 'findOne', this.collection)
     }
@@ -80,10 +74,10 @@ export class CollectionHandler<T = CollectionData> implements CollectionMethods<
    */
   async create<T = CollectionData>(data: Partial<T>): Promise<T> {
     try {
-      return await this.payload.create({
+      return (await this.payload.create({
         collection: this.collection,
-        data
-      }) as T
+        data,
+      })) as T
     } catch (error) {
       return handleError(error, 'create', this.collection)
     }
@@ -98,11 +92,11 @@ export class CollectionHandler<T = CollectionData> implements CollectionMethods<
    */
   async update<T = CollectionData>(id: string, data: Partial<T>): Promise<T> {
     try {
-      return await this.payload.update({
+      return (await this.payload.update({
         collection: this.collection,
         id,
-        data
-      }) as T
+        data,
+      })) as T
     } catch (error) {
       return handleError(error, 'update', this.collection)
     }
@@ -116,10 +110,10 @@ export class CollectionHandler<T = CollectionData> implements CollectionMethods<
    */
   async delete<T = CollectionData>(id: string): Promise<T> {
     try {
-      return await this.payload.delete({
+      return (await this.payload.delete({
         collection: this.collection,
-        id
-      }) as T
+        id,
+      })) as T
     } catch (error) {
       return handleError(error, 'delete', this.collection)
     }
@@ -135,14 +129,14 @@ export class CollectionHandler<T = CollectionData> implements CollectionMethods<
   async search<T = CollectionData>(query: string, options: QueryOptions = {}): Promise<ListResponse<T>> {
     try {
       const transformedOptions = transformQueryOptions(options)
-      
+
       if (typeof this.payload.search === 'function') {
         const result = await this.payload.search({
           collection: this.collection,
           query,
-          ...transformedOptions
+          ...transformedOptions,
         })
-        
+
         return {
           docs: result.docs || [],
           totalDocs: result.totalDocs || 0,
@@ -152,16 +146,16 @@ export class CollectionHandler<T = CollectionData> implements CollectionMethods<
           hasPrevPage: result.hasPrevPage || false,
           hasNextPage: result.hasNextPage || false,
           prevPage: result.prevPage || null,
-          nextPage: result.nextPage || null
+          nextPage: result.nextPage || null,
         }
       }
-      
+
       const result = await this.payload.find({
         collection: this.collection,
         search: query,
-        ...transformedOptions
+        ...transformedOptions,
       })
-      
+
       return {
         docs: result.docs || [],
         totalDocs: result.totalDocs || 0,
@@ -171,7 +165,7 @@ export class CollectionHandler<T = CollectionData> implements CollectionMethods<
         hasPrevPage: result.hasPrevPage || false,
         hasNextPage: result.hasNextPage || false,
         prevPage: result.prevPage || null,
-        nextPage: result.nextPage || null
+        nextPage: result.nextPage || null,
       }
     } catch (error) {
       return handleError(error, 'search', this.collection)

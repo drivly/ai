@@ -39,5 +39,4 @@ export default withSitesWrapper({ WrappedPage: DirectoryPage })
 // .do
 // Process domain categories once
 
-
 // generateMetadata canonical url dotdo.ai

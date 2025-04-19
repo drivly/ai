@@ -263,9 +263,9 @@ export class CLI {
         if (verbose) console.log(`Processing ${file}...`)
         const workflowDefinition = await this.extractWorkflowFromFile(file)
         const eventHandlers = await this.extractEventHandlersFromFile(file)
-        
+
         let fileRegistered = false
-        
+
         if (workflowDefinition) {
           if (verbose) console.log(`Registering workflow from ${file}...`)
           if (!dryRun) {
@@ -274,7 +274,7 @@ export class CLI {
           results.registered++
           fileRegistered = true
         }
-        
+
         if (eventHandlers.length > 0) {
           if (verbose) console.log(`Registering ${eventHandlers.length} event handlers from ${file}...`)
           if (!dryRun) {
@@ -291,7 +291,7 @@ export class CLI {
           results.eventHandlersRegistered += eventHandlers.length
           fileRegistered = true
         }
-        
+
         if (fileRegistered) {
           results.files.push({ path: file, status: 'registered' })
         } else {
@@ -331,8 +331,7 @@ export class CLI {
 
             const hasWorkflowImport = /import.*\{.*(?:AI|on|every).*\}.*from ['"](?:workflows\.do|ai-workflows)['"]/.test(fileContent)
             const hasAICall = /export\s+(?:default|const\s+\w+\s*=)\s*AI\s*\(/.test(fileContent)
-            const hasEventHandlers = /on\s*\(\s*['"][\w\.]+['"]\s*,\s*(?:async\s+)?\(/.test(fileContent) || 
-                                   /every\s*\(\s*['"][\w\s\*]+['"]\s*,\s*(?:async\s+)?\(/.test(fileContent)
+            const hasEventHandlers = /on\s*\(\s*['"][\w\.]+['"]\s*,\s*(?:async\s+)?\(/.test(fileContent) || /every\s*\(\s*['"][\w\s\*]+['"]\s*,\s*(?:async\s+)?\(/.test(fileContent)
 
             if (hasWorkflowImport && (hasAICall || hasEventHandlers)) {
               if (verbose) console.log(`Found workflow file: ${fullPath}`)
@@ -397,21 +396,25 @@ export class CLI {
   private async extractEventHandlersFromFile(filePath: string): Promise<any[]> {
     const fileContent = await fs.promises.readFile(filePath, 'utf8')
     const handlers: any[] = []
-    
+
     try {
       const onMatches = Array.from(fileContent.matchAll(/on\s*\(\s*['"]([^'"]+)['"]\s*,\s*((?:async\s+)?(?:\([^)]*\)|[^,]+)\s*=>?\s*\{[\s\S]*?(?:\}(?:\s*\)|\s*$)|\}\)|\}))/g))
-      
+
       for (const match of onMatches) {
         handlers.push({
           type: 'event',
           event: match[1],
           handler: match[2].toString(),
-          source: filePath
+          source: filePath,
         })
       }
-      
-      const everyMatches = Array.from(fileContent.matchAll(/every\s*\(\s*['"]([^'"]+)['"]\s*,\s*((?:async\s+)?(?:\([^)]*\)|[^,]+)\s*=>?\s*\{[\s\S]*?(?:\}(?:\s*\)|\s*,|\s*$)|\}\)|\}))\s*(?:,\s*(\{[\s\S]*?\}))?/g))
-      
+
+      const everyMatches = Array.from(
+        fileContent.matchAll(
+          /every\s*\(\s*['"]([^'"]+)['"]\s*,\s*((?:async\s+)?(?:\([^)]*\)|[^,]+)\s*=>?\s*\{[\s\S]*?(?:\}(?:\s*\)|\s*,|\s*$)|\}\)|\}))\s*(?:,\s*(\{[\s\S]*?\}))?/g,
+        ),
+      )
+
       for (const match of everyMatches) {
         let options = {}
         if (match[3]) {
@@ -425,16 +428,16 @@ export class CLI {
             options = { _raw: match[3] }
           }
         }
-        
+
         handlers.push({
           type: 'cron',
           cron: match[1],
           handler: match[2].toString(),
           options,
-          source: filePath
+          source: filePath,
         })
       }
-      
+
       return handlers
     } catch (error) {
       console.error(`Error extracting event handlers from ${filePath}:`, error instanceof Error ? error.message : String(error))

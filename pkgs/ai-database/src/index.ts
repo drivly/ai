@@ -22,7 +22,7 @@ export * from './embedding'
  */
 export const DB = (options: DBOptions = {}): DatabaseClientType => {
   const payload = getPayloadInstance(options)
-  
+
   return new Proxy({} as DatabaseClientType, {
     get: (target, prop) => {
       if (typeof prop === 'string' && prop !== 'then') {
@@ -30,7 +30,7 @@ export const DB = (options: DBOptions = {}): DatabaseClientType => {
         return new CollectionHandler({ payload, collectionName })
       }
       return target[prop as keyof typeof target]
-    }
+    },
   })
 }
 

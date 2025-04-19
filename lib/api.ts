@@ -454,14 +454,14 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
           : undefined
       const api = getApiHeader(req, apiDescription)
 
-      return NextResponse.json(
-        {
-          api,
-          ...result,
-          user: mergedUser,
-        },
-        { headers: { 'content-type': 'application/json; charset=utf-8' } },
-      )
+      const responseBody = {
+        api,
+        ...result,
+        user: mergedUser,
+      }
+      return new NextResponse(JSON.stringify(responseBody, null, 2), {
+        headers: { 'content-type': 'application/json; charset=utf-8' },
+      })
     } catch (error) {
       console.error('API Error:', error)
 
@@ -490,14 +490,15 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
       }
 
       const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
-      return NextResponse.json(
-        {
-          error: true,
-          message: error instanceof Error ? error.message : 'Internal Server Error',
-          ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
-        },
-        { status },
-      )
+      const errorResponseBody = {
+        error: true,
+        message: error instanceof Error ? error.message : 'Internal Server Error',
+        ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+      }
+      return new NextResponse(JSON.stringify(errorResponseBody, null, 2), {
+        status,
+        headers: { 'content-type': 'application/json; charset=utf-8' },
+      })
     }
   }
 }

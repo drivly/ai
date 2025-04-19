@@ -9,7 +9,7 @@ export async function getFunctionsForProject(projectId: string) {
   if (!projectId) {
     throw new Error('Project ID is required')
   }
-  
+
   try {
     const response = await api.list('functions', {
       where: {
@@ -17,7 +17,7 @@ export async function getFunctionsForProject(projectId: string) {
       },
       sort: 'order',
     })
-    
+
     return response.data || []
   } catch (error) {
     console.error(`Error fetching functions for project '${projectId}':`, error)

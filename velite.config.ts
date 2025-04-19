@@ -14,12 +14,12 @@ export default defineConfig({
       pattern: 'primitives.yaml',
       schema: s.object({}).transform((data, { meta }) => {
         return Object.entries(data).map(([key, value]) => {
-          const item = value as any;
+          const item = value as any
           return {
             primitive: item.primitive,
-            definition: item.definition
-          };
-        });
+            definition: item.definition,
+          }
+        })
       }),
     },
     pages: {
@@ -94,8 +94,8 @@ export default defineConfig({
               s.object({
                 domain: s.string(),
                 title: s.string(),
-                description: s.string(),
-                headline: s.string(),
+                description: s.string().optional(),
+                headline: s.string().optional(),
                 subhead: s.string().optional(),
                 badge: s.string().optional(),
                 brandColor: s.string().optional(),

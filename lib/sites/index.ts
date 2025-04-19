@@ -81,10 +81,6 @@ export async function findSiteContent(domain: string, includeHero = false): Prom
   return siteContent
 }
 
-
-
-
-
 // export const metadata = {
 //   // metadataBase: new URL(domain),
 //   alternates: {
@@ -105,7 +101,6 @@ export async function findSiteContent(domain: string, includeHero = false): Prom
 // Business as Code: The Future of Intelligent Work
 // Move beyond chat with structured Functions, reliable Workflows, and autonomous AI Agents—transforming intelligence into economically valuable, measurable outcomes.
 // New
-
 
 // Bryant
 //   3:39 PM

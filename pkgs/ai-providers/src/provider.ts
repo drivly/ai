@@ -1,9 +1,4 @@
-import {
-  LanguageModelV1,
-  LanguageModelV1CallWarning,
-  LanguageModelV1FinishReason,
-  LanguageModelV1StreamPart,
-} from '@ai-sdk/provider'
+import { LanguageModelV1, LanguageModelV1CallWarning, LanguageModelV1FinishReason, LanguageModelV1StreamPart } from '@ai-sdk/provider'
 
 import { createOpenAI } from '@ai-sdk/openai'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
@@ -27,7 +22,7 @@ const providerRegistry: Record<string, any> = {
 type ProviderOptions = {
   /**
    * If true, our provider will try to fix the schema of an output
-   * using gemini-2.0-lite, taking the output of the model and 
+   * using gemini-2.0-lite, taking the output of the model and
    * rewriting it to match the schema.
    */
   allowFixingSchema?: boolean
@@ -41,7 +36,7 @@ export const createLLMProvider = (config: LLMProviderConfig) => (model: string, 
   return new LLMProvider(model, options ?? {})
 }
 
-export const llmProvider = createLLMProvider({})
+export const model = createLLMProvider({})
 
 class LLMProvider implements LanguageModelV1 {
   readonly specificationVersion = 'v1'
@@ -49,7 +44,7 @@ class LLMProvider implements LanguageModelV1 {
 
   constructor(
     public modelId: string,
-    public options: ProviderOptions
+    public options: ProviderOptions,
   ) {
     this.modelId = modelId
     this.options = options ?? {}
@@ -95,13 +90,9 @@ class LLMProvider implements LanguageModelV1 {
     return (this.resolvedModel as any).provider?.supportedParameters.includes('tools') ? 'tool' : 'json'
   }
 
-  async doGenerate(
-    options: Parameters<LanguageModelV1['doGenerate']>[0],
-  ): Promise<Awaited<ReturnType<LanguageModelV1['doGenerate']>>> {
+  async doGenerate(options: Parameters<LanguageModelV1['doGenerate']>[0]): Promise<Awaited<ReturnType<LanguageModelV1['doGenerate']>>> {
     // Access providerModelId which is added by getModel but not in the Model type
-    const modelSlug = this.provider == 'openrouter' ? 
-      this.resolvedModel.slug : 
-      (this.resolvedModel as any).provider?.providerModelId
+    const modelSlug = this.provider == 'openrouter' ? this.resolvedModel.slug : (this.resolvedModel as any).provider?.providerModelId
 
     let modelConfigMixin = {}
 
@@ -109,7 +100,7 @@ class LLMProvider implements LanguageModelV1 {
       // Force Google and OpenAI to use structured outputs.
       if (this.provider == 'google' || this.provider == 'openai') {
         modelConfigMixin = {
-          structuredOutputs: true
+          structuredOutputs: true,
         }
       }
     }
@@ -117,30 +108,25 @@ class LLMProvider implements LanguageModelV1 {
     // Access parsed property which is added by getModel but not in the Model type
     const parsedModel = this.resolvedModel as any
     if (parsedModel.parsed?.tools && Object.keys(parsedModel.parsed.tools).length > 0) {
-      const toolNames = Object.keys(parsedModel.parsed.tools);
-      
+      const toolNames = Object.keys(parsedModel.parsed.tools)
+
       const composioToolset = new OpenAIToolSet({
         apiKey: process.env.COMPOSIO_API_KEY,
-      });
-      
-      const tools = await composioToolset.getTools({ 
-        actions: toolNames.length === 1 && toolNames[0] === 'all' ? undefined : toolNames 
-      });
-      
-      (options as any).tools = ((options as any).tools || []).concat(tools);
+      })
+
+      const tools = await composioToolset.getTools({
+        actions: toolNames.length === 1 && toolNames[0] === 'all' ? undefined : toolNames,
+      })
+
+      ;(options as any).tools = ((options as any).tools || []).concat(tools)
     }
 
     return await providerRegistry[this.provider](modelSlug, modelConfigMixin).doGenerate(options)
   }
 
-  async doStream(
-    options: Parameters<LanguageModelV1['doStream']>[0],
-  ): Promise<Awaited<ReturnType<LanguageModelV1['doStream']>>> {
-
+  async doStream(options: Parameters<LanguageModelV1['doStream']>[0]): Promise<Awaited<ReturnType<LanguageModelV1['doStream']>>> {
     // Access providerModelId which is added by getModel but not in the Model type
-    const modelSlug = this.provider == 'openrouter' ? 
-      this.resolvedModel.slug : 
-      (this.resolvedModel as any).provider?.providerModelId
+    const modelSlug = this.provider == 'openrouter' ? this.resolvedModel.slug : (this.resolvedModel as any).provider?.providerModelId
 
     // For now, we don't support tools with streaming
 

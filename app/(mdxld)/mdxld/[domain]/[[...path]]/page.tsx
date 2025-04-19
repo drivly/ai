@@ -16,9 +16,9 @@ export async function generateMetadata(props: Props) {
   const params = await props.params
   const { domain, path = [] } = params
   const resource = await fetchResource(domain, path)
-  
+
   if (!resource) return {}
-  
+
   return {
     title: resource.name,
     description: resource.description || '',
@@ -28,7 +28,7 @@ export async function generateMetadata(props: Props) {
 async function fetchResource(domain: string, path: string[]) {
   try {
     const { payload } = global as any
-    
+
     const project = await payload.db.projects.findOne({
       where: {
         domain: {
@@ -36,9 +36,9 @@ async function fetchResource(domain: string, path: string[]) {
         },
       },
     })
-    
+
     if (!project) return null
-    
+
     const resourcePath = path.join('/')
     const resources = await payload.find({
       collection: 'resources',
@@ -52,7 +52,7 @@ async function fetchResource(domain: string, path: string[]) {
       },
       depth: 0,
     })
-    
+
     return resources.docs[0] || null
   } catch (error) {
     console.error('Error fetching resource:', error)
@@ -64,12 +64,12 @@ export default async function MDXLDPage(props: Props) {
   const params = await props.params
   const { domain, path = [] } = params
   const resource = await fetchResource(domain, path)
-  
+
   if (!resource || !resource.content) {
     notFound()
   }
-  
+
   const mdxSource = await serialize(resource.content)
-  
+
   return <MDXContent source={mdxSource} />
 }
