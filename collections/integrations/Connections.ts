@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 export const Connections: CollectionConfig = {
-  slug: 'connectAccounts',
+  slug: 'connections',
   admin: {
     group: 'Integrations',
     useAsTitle: 'name',

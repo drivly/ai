@@ -77,6 +77,7 @@ export const collections = [
   IntegrationCategories,
   Integrations,
   ConnectAccounts,
+  Connections,
   IntegrationTriggers,
   IntegrationActions,
 

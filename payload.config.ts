@@ -150,6 +150,7 @@ export default buildConfig({
         resources: {},
 
         integrations: {},
+        connectAccounts: {},
         connections: {},
         integrationTriggers: {},
         integrationActions: {},

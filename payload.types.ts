@@ -84,6 +84,7 @@ export interface Config {
     integrationCategories: IntegrationCategory;
     integrations: Integration;
     connectAccounts: ConnectAccount;
+    connections: Connection;
     integrationTriggers: IntegrationTrigger;
     integrationActions: IntegrationAction;
     triggers: Trigger;
@@ -168,6 +169,7 @@ export interface Config {
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
     connectAccounts: ConnectAccountsSelect<false> | ConnectAccountsSelect<true>;
+    connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
     integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
@@ -1278,6 +1280,7 @@ export interface Integration {
  */
 export interface ConnectAccount {
   id: string;
+  tenant?: (string | null) | Project;
   /**
    * Name of the connection
    */
@@ -1321,6 +1324,31 @@ export interface ConnectAccount {
   /**
    * Additional metadata from Stripe
    */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manages connections to external services and APIs
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "connections".
+ */
+export interface Connection {
+  id: string;
+  tenant?: (string | null) | Project;
+  name?: string | null;
+  user: string | User;
+  integration: string | Integration;
+  status?: ('active' | 'inactive' | 'pending') | null;
   metadata?:
     | {
         [k: string]: unknown;
@@ -2666,6 +2694,10 @@ export interface PayloadLockedDocument {
         value: string | ConnectAccount;
       } | null)
     | ({
+        relationTo: 'connections';
+        value: string | Connection;
+      } | null)
+    | ({
         relationTo: 'integrationTriggers';
         value: string | IntegrationTrigger;
       } | null)
@@ -3191,6 +3223,7 @@ export interface IntegrationsSelect<T extends boolean = true> {
  * via the `definition` "connectAccounts_select".
  */
 export interface ConnectAccountsSelect<T extends boolean = true> {
+  tenant?: T;
   name?: T;
   user?: T;
   integration?: T;
@@ -3201,6 +3234,20 @@ export interface ConnectAccountsSelect<T extends boolean = true> {
   chargesEnabled?: T;
   payoutsEnabled?: T;
   platformFeePercent?: T;
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "connections_select".
+ */
+export interface ConnectionsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  user?: T;
+  integration?: T;
+  status?: T;
   metadata?: T;
   updatedAt?: T;
   createdAt?: T;
