@@ -11,9 +11,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
-    name: Run Tests
-    runs-on: ubuntu-latest # Reverted to standard runner due to availability issues
+  unit-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -49,7 +49,7 @@ jobs:
           # pnpm typecheck
           echo "Typecheck temporarily disabled as requested"
 
-      - name: Run Tests & Install Playwright Browsers Concurrently
+      - name: Run Unit Tests
         run: |
           # Start Playwright browser installation in the background
           pnpm exec playwright install --with-deps &
@@ -69,6 +69,41 @@ jobs:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+
+  e2e-tests:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    continue-on-error: true
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.x
+
+      - name: Cache turbo build setup
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-test-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-test-
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Playwright
+        run: pnpm exec playwright install --with-deps
 
       - name: Start Dev Server
         run: |
@@ -111,7 +146,94 @@ jobs:
             echo "Will proceed with tests, but they might fail if pages aren't ready."
           fi
 
-      - name: Run Playwright Tests and Chromatic
+      - name: Run E2E Tests
+        run: pnpm test:e2e
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          RESEND_API_KEY: mock_resend_api_key_for_tests
+          CI: true
+          TEST_BASE_URL: http://localhost:3000
+
+  visual-tests:
+    name: Run Visual Tests
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    continue-on-error: true
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.x
+
+      - name: Cache turbo build setup
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-test-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-test-
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Playwright
+        run: pnpm exec playwright install --with-deps
+
+      - name: Start Dev Server
+        run: |
+          # Export all needed environment variables for the server
+          export DATABASE_URI="${{ secrets.DATABASE_URI }}"
+          export PAYLOAD_SECRET="${{ secrets.PAYLOAD_SECRET }}"
+          export RESEND_API_KEY="mock_resend_api_key_for_tests"
+
+          # Start server in background with all needed env vars
+          pnpm dev &
+          echo $! > .server.pid
+        env:
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          RESEND_API_KEY: mock_resend_api_key_for_tests # Mock Resend for server startup
+
+      - name: Wait for Server
+        run: |
+          echo "Waiting for server to start..."
+          MAX_RETRIES=60
+          RETRY_COUNT=0
+          # Use /api/health endpoint as specified
+          until curl -s http://localhost:3000/api/health > /dev/null || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
+            echo "Attempt $((RETRY_COUNT+1))/$MAX_RETRIES - Server not ready yet, waiting 1s..."
+            sleep 1
+            RETRY_COUNT=$((RETRY_COUNT+1))
+          done
+
+          if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
+            echo "Server failed to start after $MAX_RETRIES attempts"
+            exit 1
+          fi
+
+          # Additional check to confirm main page is also loading
+          echo "Health check passed. Now verifying main page is accessible..."
+          if curl -s http://localhost:3000/ -o /dev/null -w "%{http_code}" | grep -q "200"; then
+            echo "Main page is accessible. Server is ready!"
+          else
+            echo "Warning: Health check passed but main page is not accessible yet."
+            echo "Will proceed with tests, but they might fail if pages aren't ready."
+          fi
+
+      - name: Run Chromatic Visual Tests
         run: |
           # First run Playwright tests to generate the archives needed by Chromatic
           # Add retry and longer timeouts to handle potential timing issues
@@ -122,9 +244,10 @@ jobs:
           npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN} --auto-accept-changes --exit-zero-on-changes --exit-once-uploaded
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          # Set environment variables for tests
-          RESEND_API_KEY: mock_resend_api_key_for_tests # Mock Resend for test execution context
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          RESEND_API_KEY: mock_resend_api_key_for_tests
           CI: true
-          DATABASE_URI: ${{ secrets.DATABASE_URI }} # Needed for test execution context if tests interact with DB indirectly
-          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }} # Needed for test execution context
-          TEST_BASE_URL: http://localhost:3000 # Explicitly set the test base URL
+          TEST_BASE_URL: http://localhost:3000

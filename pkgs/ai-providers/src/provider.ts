@@ -53,7 +53,10 @@ export const createLLMProvider = (config: LLMProviderConfig) => (model: string, 
   
   if (options?.tools) augments.tools = options.tools
   if (options?.priorities) augments.priorities = options.priorities
-  if (options?.reasoning) augments.capabilities = { ...augments.capabilities, reasoning: true }
+  if (options?.reasoning) {
+    augments.capabilities ??= {};
+    augments.capabilities = { ...augments.capabilities, reasoning: true };
+  }
   if (options?.maxPrice) augments.providerConstraints = [{ field: 'cost', value: options.maxPrice.toString(), type: 'lt' }]
   
   return new LLMProvider(model, options ?? {}, augments)
