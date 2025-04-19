@@ -46,7 +46,7 @@ export default async function BlogPage({ params }: { params: Promise<{ domain: s
         title: post.name || 'Untitled',
         description: postData?.excerpt || '',
         date: new Date(post.createdAt).toLocaleDateString(),
-        category: post.type?.name || 'Uncategorized',
+        category: (typeof post.type?.value === 'object' ? post.type.value.name : post.type?.relationTo) || 'Uncategorized',
         image: postData?.coverImage || '/images/blog-default.png'
       }
     })
