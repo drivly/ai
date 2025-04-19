@@ -54,7 +54,7 @@ async function fetchResource(domain: string, path: string[]) {
   }
 }
 
-export default async function MDXLDPage({ params }: { params: Params; searchParams: Record<string, string | string[]> }) {
+export default async function MDXLDPage({ params, searchParams }: { params: Params; searchParams: Record<string, string | string[]> }) {
   const { domain, path = [] } = params
   const resource = await fetchResource(domain, path)
   
