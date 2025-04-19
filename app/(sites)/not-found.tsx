@@ -1,4 +1,5 @@
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
+import Link from 'next/link'
 
 /**
  * Standard HTML-based 404 page for site routes
@@ -9,9 +10,9 @@ function NotFoundPage() {
     <div className="container mx-auto max-w-6xl px-3 py-20 text-center">
       <h1 className="text-4xl font-bold mb-4">404 - Page Not Found</h1>
       <p className="text-lg mb-8">The page you are looking for does not exist.</p>
-      <a href="/" className="text-blue-500 hover:underline">
+      <Link href="/" className="text-blue-500 hover:underline">
         Return to Home
-      </a>
+      </Link>
     </div>
   )
 }
