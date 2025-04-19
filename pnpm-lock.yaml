@@ -122,7 +122,7 @@ importers:
         version: link:pkgs/ai-providers
       ai-workflows:
         specifier: ^1.1.0
-        version: 1.1.0(@aws-sdk/credential-providers@3.787.0)(@mdx-js/mdx@3.1.0(acorn@8.14.1))(encoding@0.1.13)(web-streams-polyfill@4.1.0)(ws@8.18.1)
+        version: 1.1.0(@aws-sdk/credential-providers@3.787.0)(@mdx-js/mdx@3.1.0(acorn@8.14.1))(encoding@0.1.13)(ws@8.18.1)
       apis.do:
         specifier: workspace:*
         version: link:sdks/apis.do
@@ -27103,13 +27103,13 @@ snapshots:
       - ws
       - zod
 
-  ai-workflows@1.1.0(@aws-sdk/credential-providers@3.787.0)(@mdx-js/mdx@3.1.0(acorn@8.14.1))(encoding@0.1.13)(web-streams-polyfill@4.1.0)(ws@8.18.1):
+  ai-workflows@1.1.0(@aws-sdk/credential-providers@3.787.0)(@mdx-js/mdx@3.1.0(acorn@8.14.1))(encoding@0.1.13)(ws@8.18.1):
     dependencies:
       '@ai-sdk/openai': 1.3.12(zod@3.24.2)
       ai: 4.3.7(react@18.3.1)(zod@3.24.2)
       ai-functions: 0.2.19(@aws-sdk/credential-providers@3.787.0)(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)
       gray-matter: 4.0.3
-      mdxld: 0.1.3(@mdx-js/mdx@3.1.0(acorn@8.14.1))(web-streams-polyfill@4.1.0)
+      mdxld: 0.1.3(@mdx-js/mdx@3.1.0(acorn@8.14.1))
       openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -29637,7 +29637,7 @@ snapshots:
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.0(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2))
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.30.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.30.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react: 7.37.5(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react-hooks: 5.2.0(eslint@9.24.0(jiti@2.4.2))
@@ -29722,7 +29722,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.30.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.30.1(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.0)(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -32970,7 +32970,7 @@ snapshots:
 
   mdurl@1.0.1: {}
 
-  mdxld@0.1.3(@mdx-js/mdx@3.1.0(acorn@8.14.1))(web-streams-polyfill@4.1.0):
+  mdxld@0.1.3(@mdx-js/mdx@3.1.0(acorn@8.14.1)):
     dependencies:
       json5: 2.2.3
       jsonld: 8.3.3(web-streams-polyfill@4.1.0)
