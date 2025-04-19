@@ -16,7 +16,6 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { collections } from './collections'
-import { payloadBetterAuthOptions } from './lib/auth/options'
 import { tasks, workflows } from './tasks'
 
 const filename = fileURLToPath(import.meta.url)
