@@ -2,7 +2,7 @@ import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import { authConfig } from "./auth.config"
 import { getOAuthCallbackURL } from "@/lib/utils/url"
-import { DefaultSession } from "next-auth"
+import { DefaultSession, JWT } from "next-auth"
 
 declare module "next-auth" {
   interface User {
@@ -17,7 +17,7 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
+declare module "next-auth" {
   interface JWT {
     id: string
     role: string
