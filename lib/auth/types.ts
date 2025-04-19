@@ -9,8 +9,9 @@ export interface User extends NextAuthUser {
   role?: string
 }
 
-export interface Session extends NextAuthSession {
+export interface Session {
   user: User
+  expires: string
 }
 
 export type Account = any // Placeholder for next-auth Account type
