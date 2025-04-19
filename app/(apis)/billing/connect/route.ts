@@ -77,6 +77,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
     const connectAccount = await payloadInstance.create({
       collection: 'connectAccounts',
       data: {
+        name: `Connect Account for Project ${projectId}`,
         project: projectId,
         stripeAccountId: stripeAccount.id,
         accountType,

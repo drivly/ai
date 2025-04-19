@@ -76,6 +76,7 @@ export const collections = [
   // Integration collections
   IntegrationCategories,
   Integrations,
+  ConnectAccounts,
   Connections,
   IntegrationTriggers,
   IntegrationActions,
@@ -115,7 +116,6 @@ export const collections = [
   BillingPlans,
   Subscriptions,
   Usage,
-  ConnectAccounts,
 
   Config,
 

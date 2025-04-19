@@ -1,32 +1,30 @@
 'use client'
 
-import { signIn } from '@/lib/auth/auth-client'
-import { SocialProvider } from '@/lib/auth/types'
+import { signIn } from 'next-auth/react'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
 import { useRef, useState } from 'react'
 import { Button } from '../ui/button'
 
+type Provider = 'github' | 'google'
+
 export const Social = () => {
   const [loading, setLoading] = useState(false)
-  const pendingProviderRef = useRef<string | null>(null)
+  const pendingProviderRef = useRef<Provider | null>(null)
 
-  const handleOAuthLogin = async (provider: SocialProvider) => {
-    await signIn.social(
-      {
-        provider,
-        callbackURL: DEFAULT_LOGIN_REDIRECT,
-      },
-      {
-        onRequest: (ctx) => {
-          setLoading(true)
-          pendingProviderRef.current = provider
-        },
-        onResponse: (ctx) => {
-          setLoading(false)
-          pendingProviderRef.current = null
-        },
-      },
-    )
+  const handleOAuthLogin = async (provider: Provider) => {
+    try {
+      setLoading(true)
+      pendingProviderRef.current = provider
+      
+      await signIn(provider, {
+        callbackUrl: DEFAULT_LOGIN_REDIRECT,
+      })
+    } catch (error) {
+      console.error('Error signing in:', error)
+    } finally {
+      setLoading(false)
+      pendingProviderRef.current = null
+    }
   }
 
   return (

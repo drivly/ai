@@ -1,7 +1,17 @@
 'use server'
 
-import type { BetterAuthPlugins } from '@/lib/auth/types'
-import { getPayloadAuth } from '@drivly/better-payload-auth'
-import configPromise from '@payload-config'
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
-export const getPayloadWithAuth = async () => getPayloadAuth<BetterAuthPlugins>(configPromise)
+export const getPayloadWithAuth = async () => {
+  try {
+    const payload = await getPayload({
+      config,
+    })
+    
+    return payload
+  } catch (error) {
+    console.error('Error initializing Payload:', error)
+    throw error
+  }
+}

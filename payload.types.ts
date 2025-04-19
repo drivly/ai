@@ -68,15 +68,6 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
-    accounts: Account;
-    sessions: Session;
-    verifications: Verification;
-    apiKeys: ApiKey;
-    subscriptions: Subscription;
-    oauthApplications: OauthApplication;
-    oauthAccessTokens: OauthAccessToken;
-    oauthConsents: OauthConsent;
     functions: Function;
     workflows: Workflow;
     agents: Agent;
@@ -92,6 +83,7 @@ export interface Config {
     actions: Action;
     integrationCategories: IntegrationCategory;
     integrations: Integration;
+    connectAccounts: ConnectAccount;
     connections: Connection;
     integrationTriggers: IntegrationTrigger;
     integrationActions: IntegrationAction;
@@ -121,11 +113,12 @@ export interface Config {
     kpis: Kpi;
     organizations: Organization;
     billingPlans: BillingPlan;
+    subscriptions: Subscription;
     usage: Usage;
-    connectAccounts: ConnectAccount;
     config: Config1;
     projects: Project;
     domains: Domain;
+    users: User;
     roles: Role;
     tags: Tag;
     webhooks: Webhook;
@@ -160,15 +153,6 @@ export interface Config {
     };
   };
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    accounts: AccountsSelect<false> | AccountsSelect<true>;
-    sessions: SessionsSelect<false> | SessionsSelect<true>;
-    verifications: VerificationsSelect<false> | VerificationsSelect<true>;
-    apiKeys: ApiKeysSelect<false> | ApiKeysSelect<true>;
-    subscriptions: SubscriptionsSelect<false> | SubscriptionsSelect<true>;
-    oauthApplications: OauthApplicationsSelect<false> | OauthApplicationsSelect<true>;
-    oauthAccessTokens: OauthAccessTokensSelect<false> | OauthAccessTokensSelect<true>;
-    oauthConsents: OauthConsentsSelect<false> | OauthConsentsSelect<true>;
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
     agents: AgentsSelect<false> | AgentsSelect<true>;
@@ -184,6 +168,7 @@ export interface Config {
     actions: ActionsSelect<false> | ActionsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
+    connectAccounts: ConnectAccountsSelect<false> | ConnectAccountsSelect<true>;
     connections: ConnectionsSelect<false> | ConnectionsSelect<true>;
     integrationTriggers: IntegrationTriggersSelect<false> | IntegrationTriggersSelect<true>;
     integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
@@ -213,11 +198,12 @@ export interface Config {
     kpis: KpisSelect<false> | KpisSelect<true>;
     organizations: OrganizationsSelect<false> | OrganizationsSelect<true>;
     billingPlans: BillingPlansSelect<false> | BillingPlansSelect<true>;
+    subscriptions: SubscriptionsSelect<false> | SubscriptionsSelect<true>;
     usage: UsageSelect<false> | UsageSelect<true>;
-    connectAccounts: ConnectAccountsSelect<false> | ConnectAccountsSelect<true>;
     config: ConfigSelect<false> | ConfigSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     domains: DomainsSelect<false> | DomainsSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     roles: RolesSelect<false> | RolesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
@@ -323,78 +309,85 @@ export interface ApikeyAuthOperations {
   };
 }
 /**
- * Manages user accounts and their associated roles
+ * Reusable AI capabilities with typed inputs and outputs
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "functions".
  */
-export interface User {
+export interface Function {
   id: string;
-  /**
-   * User roles for permissions and access control
-   */
-  roles?: (string | Role)[] | null;
-  /**
-   * Users chosen display name
-   */
-  name?: string | null;
-  /**
-   * The email of the user
-   */
-  email: string;
-  /**
-   * Whether the email of the user has been verified
-   */
-  emailVerified: boolean;
-  /**
-   * The image of the user
-   */
-  image?: string | null;
-  /**
-   * The role of the user
-   */
-  role: 'user' | 'admin' | 'superAdmin';
-  updatedAt: string;
-  createdAt: string;
-  /**
-   * Whether the user is banned from the platform
-   */
-  banned?: boolean | null;
-  /**
-   * The reason for the ban
-   */
-  banReason?: string | null;
-  /**
-   * The date and time when the ban will expire
-   */
-  banExpires?: string | null;
-  /**
-   * The Stripe customer ID associated with this user
-   */
-  stripeCustomerId?: string | null;
-  tenants?:
-    | {
-        tenant: string | Project;
-        id?: string | null;
-      }[]
-    | null;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
-}
-/**
- * Manages user roles and permissions within the system
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "roles".
- */
-export interface Role {
-  id: string;
+  tenant?: (string | null) | Project;
   name: string;
+  type?: ('Generation' | 'Code' | 'Human' | 'Agent') | null;
   /**
-   * Grant super admin privileges to users with this role
+   * Make this function available to other users
    */
-  superAdmin?: boolean | null;
+  public?: boolean | null;
+  /**
+   * Original function this was cloned from
+   */
+  clonedFrom?: (string | null) | Function;
+  /**
+   * Monetization settings for this function
+   */
+  pricing?: {
+    /**
+     * Enable monetization for this function
+     */
+    isMonetized?: boolean | null;
+    /**
+     * Billing model for this function
+     */
+    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null;
+    /**
+     * Price per use in USD cents (platform fee is 30% above LLM costs)
+     */
+    pricePerUse?: number | null;
+    /**
+     * Unit of measurement for consumption
+     */
+    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null;
+    /**
+     * Price per consumption unit in USD cents
+     */
+    consumptionRate?: number | null;
+    /**
+     * Subscription plan for this function
+     */
+    billingPlan?: (string | null) | BillingPlan;
+    /**
+     * Stripe Product ID (auto-generated)
+     */
+    stripeProductId?: string | null;
+    /**
+     * Stripe Price ID (auto-generated)
+     */
+    stripePriceId?: string | null;
+  };
+  format?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code' | 'Video') | null;
+  schemaYaml?: string | null;
+  shape?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  code?: string | null;
+  prompt?: (string | null) | Prompt;
+  role?: string | null;
+  user?: (string | null) | User;
+  agent?: (string | null) | Agent;
+  /**
+   * Example arguments for this function
+   */
+  examples?: (string | Resource)[] | null;
+  /**
+   * Goals this function contributes to
+   */
+  goals?: (string | Goal)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -482,478 +475,6 @@ export interface Kpi {
   createdAt: string;
 }
 /**
- * Accounts are used to store user accounts for authentication providers
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "accounts".
- */
-export interface Account {
-  id: string;
-  /**
-   * The user that the account belongs to
-   */
-  user: string | User;
-  /**
-   * The id of the account as provided by the SSO or equal to userId for credential accounts
-   */
-  accountId: string;
-  /**
-   * The id of the provider as provided by the SSO
-   */
-  providerId: string;
-  /**
-   * The access token of the account. Returned by the provider
-   */
-  accessToken?: string | null;
-  /**
-   * The refresh token of the account. Returned by the provider
-   */
-  refreshToken?: string | null;
-  /**
-   * The date and time when the access token will expire
-   */
-  accessTokenExpiresAt?: string | null;
-  /**
-   * The date and time when the refresh token will expire
-   */
-  refreshTokenExpiresAt?: string | null;
-  /**
-   * The scope of the account. Returned by the provider
-   */
-  scope?: string | null;
-  /**
-   * The id token for the account. Returned by the provider
-   */
-  idToken?: string | null;
-  /**
-   * The hashed password of the account. Mainly used for email and password authentication
-   */
-  password?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Sessions are active sessions for users. They are used to authenticate users with a session token
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sessions".
- */
-export interface Session {
-  id: string;
-  /**
-   * The user that the session belongs to
-   */
-  user: string | User;
-  /**
-   * The unique session token
-   */
-  token: string;
-  /**
-   * The date and time when the session will expire
-   */
-  expiresAt: string;
-  /**
-   * The IP address of the device
-   */
-  ipAddress?: string | null;
-  /**
-   * The user agent information of the device
-   */
-  userAgent?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  /**
-   * The admin who is impersonating this session
-   */
-  impersonatedBy?: (string | null) | User;
-}
-/**
- * Verifications are used to verify authentication requests
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "verifications".
- */
-export interface Verification {
-  id: string;
-  /**
-   * The identifier of the verification request
-   */
-  identifier: string;
-  /**
-   * The value to be verified
-   */
-  value: string;
-  /**
-   * The date and time when the verification request will expire
-   */
-  expiresAt: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * API keys are used to authenticate requests to the API.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "apiKeys".
- */
-export interface ApiKey {
-  id: string;
-  /**
-   * The name of the API key.
-   */
-  name?: string | null;
-  /**
-   * The starting characters of the API key. Useful for showing the first few characters of the API key in the UI for the users to easily identify.
-   */
-  start?: string | null;
-  /**
-   * The API Key prefix. Stored as plain text.
-   */
-  prefix?: string | null;
-  /**
-   * The hashed API key itself.
-   */
-  key: string;
-  /**
-   * The user associated with the API key.
-   */
-  user: string | User;
-  /**
-   * The interval to refill the key in milliseconds.
-   */
-  refillInterval?: number | null;
-  /**
-   * The amount to refill the remaining count of the key.
-   */
-  refillAmount?: number | null;
-  /**
-   * The date and time when the key was last refilled.
-   */
-  lastRefillAt?: string | null;
-  /**
-   * Whether the API key is enabled.
-   */
-  enabled?: boolean | null;
-  /**
-   * Whether the API key has rate limiting enabled.
-   */
-  rateLimitEnabled?: boolean | null;
-  /**
-   * The time window in milliseconds for the rate limit.
-   */
-  rateLimitTimeWindow?: number | null;
-  /**
-   * The maximum number of requests allowed within the rate limit time window.
-   */
-  rateLimitMax?: number | null;
-  /**
-   * The number of requests made within the rate limit time window.
-   */
-  requstCount: number;
-  /**
-   * The number of requests remaining.
-   */
-  remaining?: number | null;
-  /**
-   * The date and time of the last request made to the key.
-   */
-  lastRequest?: string | null;
-  /**
-   * The date and time of when the API key will expire.
-   */
-  expiresAt?: string | null;
-  /**
-   * The permissions for the API key.
-   */
-  permissions?: string | null;
-  /**
-   * Any additional metadata you want to store with the key.
-   */
-  metadata?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * Domains of authorized Cloudflare Workers
-   */
-  cfWorkerDomains?:
-    | {
-        domain: string;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Stripe subscription management
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "subscriptions".
- */
-export interface Subscription {
-  tenant?: (string | null) | Project;
-  /**
-   * Unique identifier for each subscription
-   */
-  id: string;
-  /**
-   * The name of the subscription plan
-   */
-  plan: string;
-  /**
-   * The user associated with this subscription
-   */
-  user: string | User;
-  /**
-   * The Stripe customer ID
-   */
-  stripeCustomerId?: string | null;
-  /**
-   * The Stripe subscription ID
-   */
-  stripeSubscriptionId?: string | null;
-  /**
-   * The status of the subscription (active, canceled, etc.)
-   */
-  status: string;
-  /**
-   * Start date of the current billing period
-   */
-  periodStart?: string | null;
-  /**
-   * End date of the current billing period
-   */
-  periodEnd?: string | null;
-  /**
-   * Whether the subscription will be canceled at the end of the period
-   */
-  cancelAtPeriodEnd?: boolean | null;
-  /**
-   * Number of seats for team plans
-   */
-  seats?: number | null;
-  /**
-   * Start date of the trial period
-   */
-  trialStart?: string | null;
-  /**
-   * End date of the trial period
-   */
-  trialEnd?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * OAuth applications are custom OAuth clients
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauthApplications".
- */
-export interface OauthApplication {
-  id: string;
-  /**
-   * Unique identifier for each OAuth client
-   */
-  clientId: string;
-  /**
-   * Secret key for the OAuth client
-   */
-  clientSecret: string;
-  /**
-   * Name of the OAuth application
-   */
-  name: string;
-  /**
-   * Comma-separated list of redirect URLs
-   */
-  redirectURLs: string;
-  /**
-   * Additional metadata for the OAuth application
-   */
-  metadata?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * Type of OAuth client (e.g., web, mobile)
-   */
-  type: string;
-  /**
-   * Indicates if the client is disabled
-   */
-  disabled: boolean;
-  /**
-   * Icon of the OAuth application
-   */
-  icon?: string | null;
-  /**
-   * ID of the user who owns the client. (optional)
-   */
-  user?: (string | null) | User;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * OAuth access tokens for custom OAuth clients
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauthAccessTokens".
- */
-export interface OauthAccessToken {
-  id: string;
-  /**
-   * Access token issued to the client
-   */
-  accessToken: string;
-  /**
-   * Refresh token issued to the client
-   */
-  refreshToken: string;
-  /**
-   * Expiration date of the access token
-   */
-  accessTokenExpiresAt: string;
-  /**
-   * Expiration date of the refresh token
-   */
-  refreshTokenExpiresAt: string;
-  /**
-   * OAuth application associated with the access token
-   */
-  client: string | OauthApplication;
-  /**
-   * User associated with the access token
-   */
-  user: string | User;
-  /**
-   * Comma-separated list of scopes granted
-   */
-  scopes: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * OAuth consents are used to store user consents for OAuth clients
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauthConsents".
- */
-export interface OauthConsent {
-  id: string;
-  /**
-   * OAuth client associated with the consent
-   */
-  client: string | OauthApplication;
-  /**
-   * User associated with the consent
-   */
-  user: string | User;
-  /**
-   * Comma-separated list of scopes consented to
-   */
-  scopes: string;
-  /**
-   * 	Indicates if consent was given
-   */
-  consentGiven: boolean;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Reusable AI capabilities with typed inputs and outputs
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "functions".
- */
-export interface Function {
-  id: string;
-  tenant?: (string | null) | Project;
-  name: string;
-  type?: ('Generation' | 'Code' | 'Human' | 'Agent') | null;
-  /**
-   * Make this function available to other users
-   */
-  public?: boolean | null;
-  /**
-   * Original function this was cloned from
-   */
-  clonedFrom?: (string | null) | Function;
-  /**
-   * Monetization settings for this function
-   */
-  pricing?: {
-    /**
-     * Enable monetization for this function
-     */
-    isMonetized?: boolean | null;
-    /**
-     * Billing model for this function
-     */
-    billingModel?: ('payPerUse' | 'prepaid' | 'postpaid' | 'subscription') | null;
-    /**
-     * Price per use in USD cents (platform fee is 30% above LLM costs)
-     */
-    pricePerUse?: number | null;
-    /**
-     * Unit of measurement for consumption
-     */
-    consumptionUnit?: ('tokens' | 'requests' | 'compute_ms') | null;
-    /**
-     * Price per consumption unit in USD cents
-     */
-    consumptionRate?: number | null;
-    /**
-     * Subscription plan for this function
-     */
-    billingPlan?: (string | null) | BillingPlan;
-    /**
-     * Stripe Product ID (auto-generated)
-     */
-    stripeProductId?: string | null;
-    /**
-     * Stripe Price ID (auto-generated)
-     */
-    stripePriceId?: string | null;
-  };
-  format?: ('Object' | 'ObjectArray' | 'Text' | 'TextArray' | 'Markdown' | 'Code' | 'Video') | null;
-  schemaYaml?: string | null;
-  shape?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  code?: string | null;
-  prompt?: (string | null) | Prompt;
-  role?: string | null;
-  user?: (string | null) | User;
-  agent?: (string | null) | Agent;
-  /**
-   * Example arguments for this function
-   */
-  examples?: (string | Resource)[] | null;
-  /**
-   * Goals this function contributes to
-   */
-  goals?: (string | Goal)[] | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * Define pricing plans for the platform
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -961,7 +482,6 @@ export interface Function {
  */
 export interface BillingPlan {
   id: string;
-  tenant?: (string | null) | Project;
   /**
    * Name of the billing plan
    */
@@ -1012,6 +532,52 @@ export interface Prompt {
   id: string;
   tenant?: (string | null) | Project;
   name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manages user accounts and their associated roles
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  email: string;
+  password?: string | null;
+  name: string;
+  image?: string | null;
+  role: 'user' | 'admin' | 'superAdmin';
+  emailVerified: boolean;
+  /**
+   * User roles for permissions and access control
+   */
+  roles?: (string | Role)[] | null;
+  tenants?:
+    | {
+        tenant: string | Project;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
+}
+/**
+ * Manages user roles and permissions within the system
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: string;
+  name: string;
+  /**
+   * Grant super admin privileges to users with this role
+   */
+  superAdmin?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1703,6 +1269,70 @@ export interface Integration {
   id: string;
   name?: string | null;
   provider?: ('composio' | 'linear') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Store Stripe Connect account information
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "connectAccounts".
+ */
+export interface ConnectAccount {
+  id: string;
+  tenant?: (string | null) | Project;
+  /**
+   * Name of the connection
+   */
+  name: string;
+  /**
+   * User who created this connection
+   */
+  user?: (string | null) | User;
+  /**
+   * Integration this connection is for
+   */
+  integration?: (string | null) | Integration;
+  /**
+   * Project associated with this Connect account
+   */
+  project: string | Project;
+  /**
+   * Stripe Connect Account ID
+   */
+  stripeAccountId: string;
+  /**
+   * Type of Stripe Connect account
+   */
+  accountType: 'standard' | 'express' | 'custom';
+  /**
+   * Current status of the Connect account
+   */
+  status: 'pending' | 'active' | 'restricted' | 'rejected';
+  /**
+   * Whether charges are enabled for this account
+   */
+  chargesEnabled?: boolean | null;
+  /**
+   * Whether payouts are enabled for this account
+   */
+  payoutsEnabled?: boolean | null;
+  /**
+   * Platform fee percentage for this account
+   */
+  platformFeePercent?: number | null;
+  /**
+   * Additional metadata from Stripe
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2424,7 +2054,6 @@ export interface Trace {
  */
 export interface Organization {
   id: string;
-  tenant?: (string | null) | Project;
   /**
    * Name of the organization
    */
@@ -2483,6 +2112,57 @@ export interface Organization {
   createdAt: string;
 }
 /**
+ * Track active subscriptions
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions".
+ */
+export interface Subscription {
+  id: string;
+  /**
+   * Stripe customer for this subscription
+   */
+  organization: string | Organization;
+  /**
+   * Billing plan for this subscription
+   */
+  plan: string | BillingPlan;
+  /**
+   * Current status of the subscription
+   */
+  status: 'active' | 'past_due' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'trialing' | 'unpaid';
+  /**
+   * Stripe Subscription ID
+   */
+  stripeSubscriptionId: string;
+  /**
+   * Start of the current billing period
+   */
+  periodStart?: string | null;
+  /**
+   * End of the current billing period
+   */
+  periodEnd?: string | null;
+  /**
+   * Whether the subscription will be canceled at the end of the current period
+   */
+  cancelAtPeriodEnd?: boolean | null;
+  /**
+   * Additional metadata from Stripe
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Record consumption for usage-based billing
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2490,7 +2170,6 @@ export interface Organization {
  */
 export interface Usage {
   id: string;
-  tenant?: (string | null) | Project;
   /**
    * Stripe customer for this usage record
    */
@@ -2525,58 +2204,6 @@ export interface Usage {
   stripeUsageRecordId?: string | null;
   /**
    * Additional metadata about this usage
-   */
-  metadata?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Store Stripe Connect account information
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connectAccounts".
- */
-export interface ConnectAccount {
-  id: string;
-  tenant?: (string | null) | Project;
-  /**
-   * Project associated with this Connect account
-   */
-  project: string | Project;
-  /**
-   * Stripe Connect Account ID
-   */
-  stripeAccountId: string;
-  /**
-   * Type of Stripe Connect account
-   */
-  accountType: 'standard' | 'express' | 'custom';
-  /**
-   * Current status of the Connect account
-   */
-  status: 'pending' | 'active' | 'restricted' | 'rejected';
-  /**
-   * Whether charges are enabled for this account
-   */
-  chargesEnabled?: boolean | null;
-  /**
-   * Whether payouts are enabled for this account
-   */
-  payoutsEnabled?: boolean | null;
-  /**
-   * Platform fee percentage for this account
-   */
-  platformFeePercent?: number | null;
-  /**
-   * Additional metadata from Stripe
    */
   metadata?:
     | {
@@ -3003,42 +2630,6 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'users';
-        value: string | User;
-      } | null)
-    | ({
-        relationTo: 'accounts';
-        value: string | Account;
-      } | null)
-    | ({
-        relationTo: 'sessions';
-        value: string | Session;
-      } | null)
-    | ({
-        relationTo: 'verifications';
-        value: string | Verification;
-      } | null)
-    | ({
-        relationTo: 'apiKeys';
-        value: string | ApiKey;
-      } | null)
-    | ({
-        relationTo: 'subscriptions';
-        value: string | Subscription;
-      } | null)
-    | ({
-        relationTo: 'oauthApplications';
-        value: string | OauthApplication;
-      } | null)
-    | ({
-        relationTo: 'oauthAccessTokens';
-        value: string | OauthAccessToken;
-      } | null)
-    | ({
-        relationTo: 'oauthConsents';
-        value: string | OauthConsent;
-      } | null)
-    | ({
         relationTo: 'functions';
         value: string | Function;
       } | null)
@@ -3097,6 +2688,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'integrations';
         value: string | Integration;
+      } | null)
+    | ({
+        relationTo: 'connectAccounts';
+        value: string | ConnectAccount;
       } | null)
     | ({
         relationTo: 'connections';
@@ -3215,12 +2810,12 @@ export interface PayloadLockedDocument {
         value: string | BillingPlan;
       } | null)
     | ({
-        relationTo: 'usage';
-        value: string | Usage;
+        relationTo: 'subscriptions';
+        value: string | Subscription;
       } | null)
     | ({
-        relationTo: 'connectAccounts';
-        value: string | ConnectAccount;
+        relationTo: 'usage';
+        value: string | Usage;
       } | null)
     | ({
         relationTo: 'config';
@@ -3233,6 +2828,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'domains';
         value: string | Domain;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
       } | null)
     | ({
         relationTo: 'roles';
@@ -3317,173 +2916,6 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
- */
-export interface UsersSelect<T extends boolean = true> {
-  roles?: T;
-  name?: T;
-  email?: T;
-  emailVerified?: T;
-  image?: T;
-  role?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  banned?: T;
-  banReason?: T;
-  banExpires?: T;
-  stripeCustomerId?: T;
-  tenants?:
-    | T
-    | {
-        tenant?: T;
-        id?: T;
-      };
-  enableAPIKey?: T;
-  apiKey?: T;
-  apiKeyIndex?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "accounts_select".
- */
-export interface AccountsSelect<T extends boolean = true> {
-  user?: T;
-  accountId?: T;
-  providerId?: T;
-  accessToken?: T;
-  refreshToken?: T;
-  accessTokenExpiresAt?: T;
-  refreshTokenExpiresAt?: T;
-  scope?: T;
-  idToken?: T;
-  password?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sessions_select".
- */
-export interface SessionsSelect<T extends boolean = true> {
-  user?: T;
-  token?: T;
-  expiresAt?: T;
-  ipAddress?: T;
-  userAgent?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  impersonatedBy?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "verifications_select".
- */
-export interface VerificationsSelect<T extends boolean = true> {
-  identifier?: T;
-  value?: T;
-  expiresAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "apiKeys_select".
- */
-export interface ApiKeysSelect<T extends boolean = true> {
-  name?: T;
-  start?: T;
-  prefix?: T;
-  key?: T;
-  user?: T;
-  refillInterval?: T;
-  refillAmount?: T;
-  lastRefillAt?: T;
-  enabled?: T;
-  rateLimitEnabled?: T;
-  rateLimitTimeWindow?: T;
-  rateLimitMax?: T;
-  requstCount?: T;
-  remaining?: T;
-  lastRequest?: T;
-  expiresAt?: T;
-  permissions?: T;
-  metadata?: T;
-  cfWorkerDomains?:
-    | T
-    | {
-        domain?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "subscriptions_select".
- */
-export interface SubscriptionsSelect<T extends boolean = true> {
-  tenant?: T;
-  id?: T;
-  plan?: T;
-  user?: T;
-  stripeCustomerId?: T;
-  stripeSubscriptionId?: T;
-  status?: T;
-  periodStart?: T;
-  periodEnd?: T;
-  cancelAtPeriodEnd?: T;
-  seats?: T;
-  trialStart?: T;
-  trialEnd?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauthApplications_select".
- */
-export interface OauthApplicationsSelect<T extends boolean = true> {
-  clientId?: T;
-  clientSecret?: T;
-  name?: T;
-  redirectURLs?: T;
-  metadata?: T;
-  type?: T;
-  disabled?: T;
-  icon?: T;
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauthAccessTokens_select".
- */
-export interface OauthAccessTokensSelect<T extends boolean = true> {
-  accessToken?: T;
-  refreshToken?: T;
-  accessTokenExpiresAt?: T;
-  refreshTokenExpiresAt?: T;
-  client?: T;
-  user?: T;
-  scopes?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "oauthConsents_select".
- */
-export interface OauthConsentsSelect<T extends boolean = true> {
-  client?: T;
-  user?: T;
-  scopes?: T;
-  consentGiven?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3783,6 +3215,26 @@ export interface IntegrationsSelect<T extends boolean = true> {
   id?: T;
   name?: T;
   provider?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "connectAccounts_select".
+ */
+export interface ConnectAccountsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  user?: T;
+  integration?: T;
+  project?: T;
+  stripeAccountId?: T;
+  accountType?: T;
+  status?: T;
+  chargesEnabled?: T;
+  payoutsEnabled?: T;
+  platformFeePercent?: T;
+  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -4222,7 +3674,6 @@ export interface KpisSelect<T extends boolean = true> {
  * via the `definition` "organizations_select".
  */
 export interface OrganizationsSelect<T extends boolean = true> {
-  tenant?: T;
   name?: T;
   user?: T;
   stripeCustomerId?: T;
@@ -4245,7 +3696,6 @@ export interface OrganizationsSelect<T extends boolean = true> {
  * via the `definition` "billingPlans_select".
  */
 export interface BillingPlansSelect<T extends boolean = true> {
-  tenant?: T;
   name?: T;
   description?: T;
   billingType?: T;
@@ -4261,10 +3711,25 @@ export interface BillingPlansSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subscriptions_select".
+ */
+export interface SubscriptionsSelect<T extends boolean = true> {
+  organization?: T;
+  plan?: T;
+  status?: T;
+  stripeSubscriptionId?: T;
+  periodStart?: T;
+  periodEnd?: T;
+  cancelAtPeriodEnd?: T;
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "usage_select".
  */
 export interface UsageSelect<T extends boolean = true> {
-  tenant?: T;
   organization?: T;
   resourceType?: T;
   resourceId?: T;
@@ -4273,23 +3738,6 @@ export interface UsageSelect<T extends boolean = true> {
   cost?: T;
   timestamp?: T;
   stripeUsageRecordId?: T;
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "connectAccounts_select".
- */
-export interface ConnectAccountsSelect<T extends boolean = true> {
-  tenant?: T;
-  project?: T;
-  stripeAccountId?: T;
-  accountType?: T;
-  status?: T;
-  chargesEnabled?: T;
-  payoutsEnabled?: T;
-  platformFeePercent?: T;
   metadata?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -4363,6 +3811,30 @@ export interface DomainsSelect<T extends boolean = true> {
   errorMessage?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  email?: T;
+  password?: T;
+  name?: T;
+  image?: T;
+  role?: T;
+  emailVerified?: T;
+  roles?: T;
+  tenants?:
+    | T
+    | {
+        tenant?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

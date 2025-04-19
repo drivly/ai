@@ -1,4 +1,3 @@
-import { AdminButtons as AdminButtons_d64721c4b022929e76b77ee76cc99685 } from '@drivly/better-payload-auth/plugin/client'
 import { TenantField as TenantField_1d0591e3cf4f332c83a86da13a0de59a } from '@payloadcms/plugin-multi-tenant/client'
 import { default as default_cd1543f0b82ee2fe1de08a451e49d23b } from '@/components/admin/custom-logout-button'
 import { default as default_0430f5fb3b8132a602107d7535a2a344 } from '@/components/admin/icon'
@@ -8,12 +7,11 @@ import { TenantSelector as TenantSelector_1d0591e3cf4f332c83a86da13a0de59a } fro
 import { TenantSelectionProvider as TenantSelectionProvider_d6d5f193a167989e2ee7d14202901e62 } from '@payloadcms/plugin-multi-tenant/rsc'
 
 export const importMap = {
-  '@drivly/better-payload-auth/plugin/client#AdminButtons': AdminButtons_d64721c4b022929e76b77ee76cc99685,
-  '@payloadcms/plugin-multi-tenant/client#TenantField': TenantField_1d0591e3cf4f332c83a86da13a0de59a,
-  '@/components/admin/custom-logout-button#default': default_cd1543f0b82ee2fe1de08a451e49d23b,
-  '@/components/admin/icon#default': default_0430f5fb3b8132a602107d7535a2a344,
-  '@/components/admin/logo#default': default_334250e18ce0b45af3e0c04bb6fe8307,
-  '@/components/auth/sign-in#default': default_7ce1f779d54018c21b626156775b136a,
-  '@payloadcms/plugin-multi-tenant/client#TenantSelector': TenantSelector_1d0591e3cf4f332c83a86da13a0de59a,
-  '@payloadcms/plugin-multi-tenant/rsc#TenantSelectionProvider': TenantSelectionProvider_d6d5f193a167989e2ee7d14202901e62,
+  "@payloadcms/plugin-multi-tenant/client#TenantField": TenantField_1d0591e3cf4f332c83a86da13a0de59a,
+  "@/components/admin/custom-logout-button#default": default_cd1543f0b82ee2fe1de08a451e49d23b,
+  "@/components/admin/icon#default": default_0430f5fb3b8132a602107d7535a2a344,
+  "@/components/admin/logo#default": default_334250e18ce0b45af3e0c04bb6fe8307,
+  "@/components/auth/sign-in#default": default_7ce1f779d54018c21b626156775b136a,
+  "@payloadcms/plugin-multi-tenant/client#TenantSelector": TenantSelector_1d0591e3cf4f332c83a86da13a0de59a,
+  "@payloadcms/plugin-multi-tenant/rsc#TenantSelectionProvider": TenantSelectionProvider_d6d5f193a167989e2ee7d14202901e62
 }

@@ -132,54 +132,7 @@ const sources = [
       },
     ],
   },
-  {
-    name: 'better-auth',
-    type: 'firecrawlCli',
-    config: {
-      baseUrl: 'https://www.better-auth.com',
-      paths: [
-        '/docs',
-        '/docs/introduction',
-        '/docs/getting-started',
-        '/docs/features',
-        '/docs/api-reference',
-        '/docs/guides',
-        '/docs/examples',
-        '/docs/plugins',
-        '/docs/plugins/oauth-proxy',
-        '/docs/plugins/passwordless',
-        '/docs/plugins/social-login',
-      ],
-      maxUrls: 500,
-      tempDir: path.join(rootDir, 'temp-better-auth'),
-    },
-    outputPaths: [
-      {
-        path: path.join(rootDir, 'docs', 'better-auth.md'),
-      },
-      {
-        path: path.join(rootDir, 'docs', 'better-auth-llms-full.txt'),
-      },
-      {
-        path: path.join(rootDir, 'docs', 'better-auth-llms.txt'),
-        transform: (content) =>
-          content
-            .split('\n\n')
-            .filter((para, index) => index % 3 === 0)
-            .join('\n\n'),
-      },
-      {
-        path: path.join(rootDir, 'reference', 'better-auth'),
-        isDirectory: true,
-        processMarkdown: true,
-        headers: {
-          title: 'title',
-          description: 'Documentation from Better-Auth',
-          sourceUrl: 'https://www.better-auth.com/docs',
-        },
-      },
-    ],
-  },
+
 ]
 
 const adapters = {

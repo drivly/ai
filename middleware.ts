@@ -1,5 +1,6 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import { auth } from '@/app/(auth)/auth'
 import { analyticsMiddleware } from './analytics/src/middleware'
 import { isBrandDomain, isDoDomain, isDoManagementDomain, isGatewayDomain } from './lib/domains'
 import { handleApiDocsRoute, handleApiRoute, handleBrandDomain, handleCustomDomain, handleDoDomain, handleDoManagementDomain, handleGatewayDomain } from './lib/middleware'
@@ -10,6 +11,7 @@ import { RequestHandler } from './lib/middleware/request-handler'
  * -----------------------
  * This middleware handles routing logic for the .do domain ecosystem and custom domains.
  * It determines whether requests should be routed to API endpoints or website content.
+ * It also handles authentication using next-auth.
  */
 
 /**
@@ -17,20 +19,23 @@ import { RequestHandler } from './lib/middleware/request-handler'
  * Handles routing logic for all incoming requests
  */
 export async function middleware(request: NextRequest) {
+  const handler = new RequestHandler(request)
+  
+  if (handler.isApiAuthRoute() || handler.isPublicRoute()) {
+    return NextResponse.next()
+  }
+  
+  if (handler.isProtectedRoute()) {
+    const session = await auth()
+    
+    if (!session) {
+      const signInUrl = new URL('/api/auth/signin', request.url)
+      signInUrl.searchParams.set('callbackUrl', request.url)
+      return NextResponse.redirect(signInUrl)
+    }
+  }
+  
   return analyticsMiddleware(request, async () => {
-    const handler = new RequestHandler(request)
-
-    const isLoggedIn = handler.isLoggedIn()
-    const isAutoLogin = handler.isAutoLogin()
-
-    if (!isLoggedIn && isAutoLogin) {
-      return NextResponse.redirect(new URL('/login', request.url))
-    }
-
-    if (handler.isApiAuthRoute() || handler.isPublicRoute()) {
-      return NextResponse.next()
-    }
-
     if (handler.isApiRoute()) {
       console.log('Handling API route', { hostname: handler.hostname, pathname: handler.pathname, search: handler.search })
 

@@ -1,6 +1,6 @@
 // storage-adapter-import-placeholder
 // import { payloadAgentPlugin } from '@drivly/payload-agent'
-import { betterAuthPlugin } from '@drivly/better-payload-auth/plugin'
+// import { betterAuthPlugin } from '@drivly/better-payload-auth/plugin'
 import { openapi } from 'payload-oapi'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -16,7 +16,6 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { collections } from './collections'
-import { payloadBetterAuthOptions } from './lib/auth/options'
 import { tasks, workflows } from './tasks'
 
 const filename = fileURLToPath(import.meta.url)
@@ -104,7 +103,7 @@ export default buildConfig({
     //   logo: '/DrivlyLogo.svg',
     //   // suggestions: suggestedActions,
     // }),
-    betterAuthPlugin(payloadBetterAuthOptions),
+    // betterAuthPlugin(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     openapi({
       metadata: {
@@ -151,6 +150,7 @@ export default buildConfig({
         resources: {},
 
         integrations: {},
+        connectAccounts: {},
         connections: {},
         integrationTriggers: {},
         integrationActions: {},
@@ -179,12 +179,6 @@ export default buildConfig({
         errors: {},
         generations: {},
         traces: {},
-        
-        organizations: {},
-        billingPlans: {},
-        subscriptions: {},
-        usage: {},
-        connectAccounts: {},
       },
       tenantsSlug: 'projects',
       userHasAccessToAllTenants: (user) => {

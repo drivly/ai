@@ -1,32 +1,8 @@
 import { API } from '@/lib/api'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
-import crypto from 'crypto'
+import { NextResponse } from 'next/server'
+import { auth } from '@/app/(auth)/auth'
 
-/**
- * Generates an OAuth authorization code and stores it in the database
- */
-const generateAuthCode = async (provider: string, redirectUri: string, userId: string, payload: any) => {
-  const code = crypto.randomBytes(16).toString('hex')
-
-  const expiresAt = new Date()
-  expiresAt.setMinutes(expiresAt.getMinutes() + 10)
-
-  await payload.create({
-    collection: 'oauthCodes',
-    data: {
-      code,
-      provider,
-      redirectUri,
-      userId,
-      expiresAt,
-      used: false,
-    },
-  })
-
-  return code
-}
-
-export const GET = API(async (request, { url, user }) => {
+export const GET = API(async (request, { url }) => {
   const provider = url.searchParams.get('provider')
   const redirectUri = url.searchParams.get('redirect_uri')
   const state = url.searchParams.get('state')
@@ -39,29 +15,26 @@ export const GET = API(async (request, { url, user }) => {
     return { error: 'invalid_request', error_description: 'Missing redirect_uri parameter' }
   }
 
-  const payload = await getPayloadWithAuth()
-
-  if (user) {
-    const code = await generateAuthCode(provider, redirectUri, user.id, payload)
-
-    const redirectUrl = new URL(redirectUri)
-    redirectUrl.searchParams.set('code', code)
+  const session = await auth()
+  
+  if (session?.user) {
+    const callbackUrl = new URL(`/api/auth/callback/${provider}`, url.origin)
+    callbackUrl.searchParams.set('redirect_uri', redirectUri)
     if (state) {
-      redirectUrl.searchParams.set('state', state)
+      callbackUrl.searchParams.set('state', state)
     }
-
-    return { redirect: redirectUrl.toString() }
+    
+    return NextResponse.redirect(callbackUrl)
   } else {
-    const loginUrl = new URL('/auth/login', url.origin)
-
-    const oauthState = JSON.stringify({
-      provider,
-      redirect_uri: redirectUri,
-      state,
-    })
-
-    loginUrl.searchParams.set('redirect', `/oauth?provider=${provider}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state ? encodeURIComponent(state) : ''}`)
-
-    return { redirect: loginUrl.toString() }
+    const signInUrl = new URL(`/api/auth/signin/${provider}`, url.origin)
+    
+    const callbackUrl = new URL(request.url)
+    signInUrl.searchParams.set('callbackUrl', callbackUrl.toString())
+    
+    if (state) {
+      signInUrl.searchParams.set('state', state)
+    }
+    
+    return NextResponse.redirect(signInUrl)
   }
 })
