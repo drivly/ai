@@ -469,6 +469,9 @@ export interface Prompt {
  */
 export interface User {
   id: string;
+  email: string;
+  name: string;
+  role: 'user' | 'admin' | 'superAdmin';
   emailVerified: boolean;
   /**
    * User roles for permissions and access control
@@ -3344,6 +3347,9 @@ export interface DomainsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  email?: T;
+  name?: T;
+  role?: T;
   emailVerified?: T;
   roles?: T;
   tenants?:
