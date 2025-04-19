@@ -520,6 +520,9 @@ importers:
       ai:
         specifier: ^4.0.20
         version: 4.3.7(react@19.1.0)(zod@3.24.2)
+      ai-providers:
+        specifier: workspace:*
+        version: link:../ai-providers
       p-queue:
         specifier: ^8.0.1
         version: 8.1.0
