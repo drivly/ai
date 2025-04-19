@@ -41,7 +41,7 @@ export const createLLMProvider = (config: LLMProviderConfig) => (model: string, 
   return new LLMProvider(model, options ?? {})
 }
 
-export const llmProvider = createLLMProvider({})
+export const model = createLLMProvider({})
 
 class LLMProvider implements LanguageModelV1 {
   readonly specificationVersion = 'v1'
