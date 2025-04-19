@@ -35,6 +35,9 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
       name: `${user.email} - ${integration.name}`,
       user: user.id,
       integration: integrationId,
+      project: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Default project ID
+      stripeAccountId: `${integration.provider}-integration`, // Placeholder for integration
+      accountType: 'standard', // Default account type
       status: 'pending',
       metadata: {
         taskId,
