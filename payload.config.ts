@@ -179,6 +179,12 @@ export default buildConfig({
         errors: {},
         generations: {},
         traces: {},
+        
+        organizations: {},
+        billingPlans: {},
+        subscriptions: {},
+        usage: {},
+        connectAccounts: {},
       },
       tenantsSlug: 'projects',
       userHasAccessToAllTenants: (user) => {
