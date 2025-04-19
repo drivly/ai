@@ -1,7 +1,5 @@
 import { ImageResponse } from '@vercel/og'
 import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
-import { getPayload } from 'payload'
-import config from '@/payload.config'
  
 export const runtime = 'edge'
 export const contentType = 'image/png'
@@ -13,16 +11,6 @@ export default async function Image({ params }: { params: { domain: string; slug
     
     if (!project) {
       throw new Error('Project not found')
-    }
-    
-    const payload = await getPayload({ config })
-    const post = await payload.findByID({
-      collection: 'resources',
-      id: params.slug
-    }).catch(() => null)
-    
-    if (!post) {
-      throw new Error('Blog post not found')
     }
     
     return new ImageResponse(
@@ -49,10 +37,8 @@ export default async function Image({ params }: { params: { domain: string; slug
             }}
           >
             <div style={{ fontSize: 30, color: '#4b5563', marginBottom: 16 }}>{project.name}</div>
-            <h1 style={{ fontSize: 50, fontWeight: 'bold', color: '#111827', lineHeight: 1.2 }}>{post.name || 'Untitled'}</h1>
-            {post.data?.excerpt && (
-              <p style={{ fontSize: 24, color: '#4b5563', marginTop: 16 }}>{post.data.excerpt}</p>
-            )}
+            <h1 style={{ fontSize: 50, fontWeight: 'bold', color: '#111827', lineHeight: 1.2 }}>Blog Post</h1>
+            <p style={{ fontSize: 24, color: '#4b5563', marginTop: 16 }}>Read the latest from {project.name}</p>
           </div>
         </div>
       ),
