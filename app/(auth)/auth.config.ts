@@ -1,6 +1,7 @@
 import type { NextAuthConfig } from "next-auth"
 
 export const authConfig = {
+  providers: [], // Empty array to satisfy NextAuthConfig type
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user
