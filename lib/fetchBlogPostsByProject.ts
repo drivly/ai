@@ -6,7 +6,7 @@ import config from '@/payload.config'
  * @param projectId The ID of the project to fetch blog posts for
  * @returns Array of blog posts for the project
  */
-export async function fetchBlogPostsByProject(projectId: string) {
+export async function fetchBlogPostsByProject(projectId: string): Promise<any[]> {
   if (!projectId) {
     throw new Error('Project ID is required')
   }
