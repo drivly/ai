@@ -94,8 +94,8 @@ export default defineConfig({
               s.object({
                 domain: s.string(),
                 title: s.string(),
-                description: s.string(),
-                headline: s.string(),
+                description: s.string().optional(),
+                headline: s.string().optional(),
                 subhead: s.string().optional(),
                 badge: s.string().optional(),
                 brandColor: s.string().optional(),
