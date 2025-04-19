@@ -50,10 +50,23 @@ jobs:
           echo "Typecheck temporarily disabled as requested"
 
       - name: Run Unit Tests
-        run: pnpm test:unit
+        run: |
+          # Start Playwright browser installation in the background
+          pnpm exec playwright install --with-deps &
+          PLAYWRIGHT_INSTALL_PID=$!
+
+          # Run tests while browsers are installing
+          pnpm test
+
+          # Wait for Playwright installation to complete if it's still running
+          if ps -p $PLAYWRIGHT_INSTALL_PID > /dev/null; then
+            echo "Waiting for Playwright browser installation to complete..."
+            wait $PLAYWRIGHT_INSTALL_PID
+          fi
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
 
