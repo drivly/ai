@@ -470,6 +470,7 @@ export interface Prompt {
 export interface User {
   id: string;
   email: string;
+  password?: string | null;
   name: string;
   image?: string | null;
   role: 'user' | 'admin' | 'superAdmin';
@@ -3349,6 +3350,7 @@ export interface DomainsSelect<T extends boolean = true> {
  */
 export interface UsersSelect<T extends boolean = true> {
   email?: T;
+  password?: T;
   name?: T;
   image?: T;
   role?: T;

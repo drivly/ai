@@ -15,6 +15,14 @@ export const Users: CollectionConfig = {
       required: true,
     },
     {
+      name: 'password',
+      type: 'text',
+      required: true,
+      admin: {
+        condition: () => false,
+      },
+    },
+    {
       name: 'name',
       type: 'text',
       required: true,
