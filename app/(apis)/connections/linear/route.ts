@@ -48,7 +48,7 @@ export const GET = API(async (request, { db, user, url }) => {
       collection: 'connectAccounts',
       id: connectionId,
       data: {
-        status: 'inactive',
+        status: 'rejected',
         metadata: {
           ...(typeof connection.metadata === 'object' && connection.metadata ? connection.metadata : {}),
           error: errorData,
