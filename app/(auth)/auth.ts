@@ -40,6 +40,30 @@ export const {
         }
       }
     }),
+    {
+      id: 'google',
+      name: 'Google',
+      type: 'oauth',
+      wellKnown: 'https://accounts.google.com/.well-known/openid-configuration',
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          redirect_uri: getOAuthCallbackURL('google')
+        }
+      },
+      idToken: true,
+      checks: ['pkce', 'state'],
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          role: 'user',
+        }
+      },
+    },
   ],
   callbacks: {
     async jwt({ token, user }) {
