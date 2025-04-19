@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
 import { getGlowColor } from '@/domains.config'
 
@@ -37,12 +38,12 @@ export default async function ProjectLandingPage({ params }: { params: Promise<{
           <h1 className="text-4xl font-bold tracking-tight">{project.name}</h1>
           <p className="mt-4 text-lg text-gray-600">{project.name} - powered by Business-as-Code</p>
           <div className="mt-8">
-            <a 
+            <Link 
               href="/admin" 
               className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-white shadow transition-colors hover:bg-primary/90"
             >
               Admin Dashboard
-            </a>
+            </Link>
           </div>
         </div>
         
@@ -56,12 +57,12 @@ export default async function ProjectLandingPage({ params }: { params: Promise<{
             <h3 className="text-xl font-semibold">Blog</h3>
             <p className="mt-2 text-gray-600">Manage your project's blog posts</p>
             <div className="mt-4">
-              <a 
+              <Link 
                 href="/blog" 
                 className="text-primary hover:text-primary/80 font-medium"
               >
                 View Blog
-              </a>
+              </Link>
             </div>
           </div>
           
