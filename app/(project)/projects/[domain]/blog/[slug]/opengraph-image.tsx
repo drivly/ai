@@ -5,7 +5,7 @@ export const runtime = 'edge'
 export const contentType = 'image/png'
 export const size = { width: 1200, height: 630 }
 
-export default async function Image({ params }: { params: { domain: string; slug: string } }) {
+export default async function Image({ params }: { params: { domain: string; slug: string } }): Promise<ImageResponse> {
   try {
     const project = await fetchProjectByDomainEdge(params.domain)
     
