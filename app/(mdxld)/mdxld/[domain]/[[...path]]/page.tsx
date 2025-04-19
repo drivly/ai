@@ -1,7 +1,6 @@
-import { useMDXComponents } from '@/mdx-components'
 import { notFound } from 'next/navigation'
 import { serialize } from 'next-mdx-remote/serialize'
-import { MDXRemote } from 'next-mdx-remote'
+import MDXContent from './mdx-content'
 
 type Params = {
   domain: string
@@ -64,12 +63,6 @@ export default async function MDXLDPage({ params }: { params: Params; searchPara
   }
   
   const mdxSource = await serialize(resource.content)
-  const mdxComponents = useMDXComponents()
-  const Wrapper = mdxComponents.wrapper
   
-  return (
-    <Wrapper>
-      <MDXRemote {...mdxSource} components={mdxComponents} />
-    </Wrapper>
-  )
+  return <MDXContent source={mdxSource} />
 }
