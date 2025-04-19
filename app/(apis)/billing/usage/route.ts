@@ -43,7 +43,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
         metadata: {
           userId: user.id,
         },
-      },
+      } as any,
     })
     
     
