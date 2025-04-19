@@ -80,5 +80,12 @@ export const Organizations: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'metadata',
+      type: 'json',
+      admin: {
+        description: 'Additional metadata from Stripe',
+      },
+    },
   ],
 }
