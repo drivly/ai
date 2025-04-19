@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import { authConfig } from "./auth.config"
 import { getOAuthCallbackURL } from "@/lib/utils/url"
+import { DefaultSession } from "next-auth"
 
 declare module "next-auth" {
   interface User {
@@ -60,6 +61,61 @@ export const {
           name: profile.name,
           email: profile.email,
           image: profile.picture,
+          role: 'user',
+        }
+      },
+    },
+    {
+      id: 'workos',
+      name: 'WorkOS',
+      type: 'oauth',
+      authorization: {
+        url: 'https://api.workos.com/sso/authorize',
+        params: {
+          redirect_uri: getOAuthCallbackURL('workos'),
+          scope: 'openid profile email',
+        }
+      },
+      token: {
+        url: 'https://api.workos.com/sso/token',
+      },
+      clientId: process.env.WORKOS_CLIENT_ID as string,
+      clientSecret: process.env.WORKOS_CLIENT_SECRET as string,
+      userinfo: {
+        url: 'https://api.workos.com/sso/userinfo',
+      },
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          role: 'user',
+        }
+      },
+    },
+    {
+      id: 'linear',
+      name: 'Linear',
+      type: 'oauth',
+      authorization: {
+        url: 'https://linear.app/oauth/authorize',
+        params: {
+          redirect_uri: getOAuthCallbackURL('linear'),
+          scope: 'read write',
+        }
+      },
+      token: {
+        url: 'https://api.linear.app/oauth/token',
+      },
+      clientId: process.env.LINEAR_CLIENT_ID as string,
+      clientSecret: process.env.LINEAR_CLIENT_SECRET as string,
+      profile(profile) {
+        return {
+          id: profile.id,
+          name: profile.name || profile.displayName,
+          email: profile.email,
+          image: profile.avatarUrl,
           role: 'user',
         }
       },
