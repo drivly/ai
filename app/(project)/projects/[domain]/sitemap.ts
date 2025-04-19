@@ -2,7 +2,12 @@ import { headers } from 'next/headers'
 import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
 import { fetchBlogPostsByProject } from '@/lib/fetchBlogPostsByProject'
 
-export default async function sitemap({ params }: { params: Promise<{ domain: string }> }) {
+export default async function sitemap({ params }: { params: Promise<{ domain: string }> }): Promise<Array<{
+  url: string;
+  lastModified: Date;
+  changeFrequency: string;
+  priority: number;
+}>> {
   const { domain } = await params
   const headersList = await headers()
   const host = headersList.get('host') || domain
