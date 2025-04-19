@@ -64,8 +64,9 @@ class LLMProvider implements LanguageModelV1 {
   get provider() {
     let provider = 'openrouter'
 
-    // @ts-expect-error - provider is added by getModel but not in the Model type
-    switch (this.resolvedModel.provider?.slug) {
+    // Access provider property which is added by getModel but not in the Model type
+    const providerSlug = (this.resolvedModel as any).provider?.slug
+    switch (providerSlug) {
       case 'openai':
         provider = 'openai'
         break
@@ -90,15 +91,17 @@ class LLMProvider implements LanguageModelV1 {
 
   // Fix Anthropic's default object generation mode.
   get defaultObjectGenerationMode() {
-    // @ts-expect-error - provider is added by getModel but not in the Model type
-    return this.resolvedModel.provider?.supportedParameters.includes('tools') ? 'tool' : 'json'
+    // Access provider property which is added by getModel but not in the Model type
+    return (this.resolvedModel as any).provider?.supportedParameters.includes('tools') ? 'tool' : 'json'
   }
 
   async doGenerate(
     options: Parameters<LanguageModelV1['doGenerate']>[0],
   ): Promise<Awaited<ReturnType<LanguageModelV1['doGenerate']>>> {
-    // @ts-expect-error - providerModelId is a recent addition and i need to fix the types.
-    const modelSlug = this.provider == 'openrouter' ? this.resolvedModel.slug : this.resolvedModel.provider?.providerModelId
+    // Access providerModelId which is added by getModel but not in the Model type
+    const modelSlug = this.provider == 'openrouter' ? 
+      this.resolvedModel.slug : 
+      (this.resolvedModel as any).provider?.providerModelId
 
     let modelConfigMixin = {}
 
@@ -111,10 +114,10 @@ class LLMProvider implements LanguageModelV1 {
       }
     }
 
-    // @ts-expect-error - parsed is added by getModel but not in the Model type
-    if (this.resolvedModel.parsed?.tools && Object.keys(this.resolvedModel.parsed.tools).length > 0) {
-      // @ts-expect-error - parsed is added by getModel but not in the Model type
-      const toolNames = Object.keys(this.resolvedModel.parsed.tools);
+    // Access parsed property which is added by getModel but not in the Model type
+    const parsedModel = this.resolvedModel as any
+    if (parsedModel.parsed?.tools && Object.keys(parsedModel.parsed.tools).length > 0) {
+      const toolNames = Object.keys(parsedModel.parsed.tools);
       
       const composioToolset = new OpenAIToolSet({
         apiKey: process.env.COMPOSIO_API_KEY,
@@ -124,8 +127,7 @@ class LLMProvider implements LanguageModelV1 {
         actions: toolNames.length === 1 && toolNames[0] === 'all' ? undefined : toolNames 
       });
       
-      // @ts-expect-error - tools is not in LanguageModelV1CallOptions but is supported by providers
-      options.tools = (options.tools || []).concat(tools);
+      (options as any).tools = ((options as any).tools || []).concat(tools);
     }
 
     return await providerRegistry[this.provider](modelSlug, modelConfigMixin).doGenerate(options)
@@ -135,8 +137,10 @@ class LLMProvider implements LanguageModelV1 {
     options: Parameters<LanguageModelV1['doStream']>[0],
   ): Promise<Awaited<ReturnType<LanguageModelV1['doStream']>>> {
 
-    // @ts-expect-error - providerModelId is a recent addition and i need to fix the types.
-    const modelSlug = this.provider == 'openrouter' ? this.resolvedModel.slug : this.resolvedModel.provider?.providerModelId
+    // Access providerModelId which is added by getModel but not in the Model type
+    const modelSlug = this.provider == 'openrouter' ? 
+      this.resolvedModel.slug : 
+      (this.resolvedModel as any).provider?.providerModelId
 
     // For now, we don't support tools with streaming
 
