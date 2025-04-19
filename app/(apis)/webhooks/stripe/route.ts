@@ -86,7 +86,7 @@ async function handleCustomerEvent(payload: Payload, event: Stripe.Event) {
         id: existingCustomers.docs[0].id,
         data: {
           email: customer.email,
-          billingDetails: customer.billing_details || {},
+          billingDetails: {}, // Customer object doesn't have billing_details property
           metadata: customer.metadata,
         },
       })
@@ -97,7 +97,7 @@ async function handleCustomerEvent(payload: Payload, event: Stripe.Event) {
           user: customer.metadata.userId,
           stripeCustomerId: customer.id,
           email: customer.email,
-          billingDetails: customer.billing_details || {},
+          billingDetails: {}, // Customer object doesn't have billing_details property
           metadata: customer.metadata,
         },
       })
