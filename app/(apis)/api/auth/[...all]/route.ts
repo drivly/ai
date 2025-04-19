@@ -30,9 +30,5 @@ export const { GET, POST } = NextAuth({
       }
       return session
     }
-  },
-  pages: {
-    signIn: '/sign-in',
-    error: '/sign-in',
   }
 })

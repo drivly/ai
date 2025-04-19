@@ -104,7 +104,7 @@ export default buildConfig({
     //   logo: '/DrivlyLogo.svg',
     //   // suggestions: suggestedActions,
     // }),
-    betterAuthPlugin(payloadBetterAuthOptions),
+    // betterAuthPlugin(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     openapi({
       metadata: {

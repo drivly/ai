@@ -1,7 +1,13 @@
 'use server'
 
-import type { BetterAuthPlugins } from '@/lib/auth/types'
-import { getPayloadAuth } from '@drivly/better-payload-auth'
 import configPromise from '@payload-config'
 
-export const getPayloadWithAuth = async () => getPayloadAuth<BetterAuthPlugins>(configPromise)
+export const getPayloadWithAuth = async () => {
+  const config = await configPromise
+  return { 
+    payload: config,
+    betterAuth: {
+      handler: async () => new Response('Auth migrated to next-auth', { status: 200 })
+    }
+  }
+}
