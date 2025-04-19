@@ -31,7 +31,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
     })
     
     const existingAccounts = await payloadInstance.find({
-      collection: 'connectAccounts',
+      collection: 'connections',
       where: {
         project: {
           equals: projectId,
@@ -75,7 +75,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
     })
     
     const connectAccount = await payloadInstance.create({
-      collection: 'connectAccounts',
+      collection: 'connections',
       data: {
         project: projectId,
         stripeAccountId: stripeAccount.id,
@@ -132,7 +132,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     }
     
     const connectAccounts = await payloadInstance.find({
-      collection: 'connectAccounts',
+      collection: 'connections',
       where: {
         project: {
           equals: projectId,

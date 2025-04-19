@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
-import { useBetterAuth } from '@/lib/auth/context'
+import { useAuth } from '@/lib/auth/context'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { handleWaitlistActions } from '@/lib/auth/actions/waitlist.action'
 import { User } from '@/payload.types'
@@ -15,7 +15,7 @@ function WaitlistPage({ params }: { params: { domain: string } }) {
   const { domain } = params
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
-  const { currentUserPromise } = useBetterAuth()
+  const { currentUserPromise } = useAuth()
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
