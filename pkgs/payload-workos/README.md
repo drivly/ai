@@ -86,7 +86,7 @@ interface WorkOSPluginConfig {
 
 ## Integration with Existing Auth
 
-This plugin is designed to work alongside Payload's authentication system or other auth plugins like `@payload-auth/better-auth-plugin`. It will enhance the existing authentication with enterprise features rather than replacing it completely.
+This plugin is designed to work alongside Payload's authentication system or other auth plugins like next-auth. It will enhance the existing authentication with enterprise features rather than replacing it completely.
 
 ## Development Roadmap
 
