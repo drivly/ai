@@ -38,3 +38,6 @@ export default withSitesWrapper({ WrappedPage: DirectoryPage })
 // experiments.do uses vercel flags api...
 // .do
 // Process domain categories once
+
+
+// generateMetadata canonical url dotdo.ai
