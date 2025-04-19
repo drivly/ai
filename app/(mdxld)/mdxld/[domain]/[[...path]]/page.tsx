@@ -1,4 +1,4 @@
-import { useMDXComponents } from '@/mdx-components'
+import { getMDXComponents } from '@/mdx-components'
 import { notFound } from 'next/navigation'
 import { serialize } from 'next-mdx-remote/serialize'
 import { MDXRemote } from 'next-mdx-remote'
@@ -55,7 +55,8 @@ async function fetchResource(domain: string, path: string[]) {
   }
 }
 
-const Wrapper = useMDXComponents().wrapper
+const mdxComponents = getMDXComponents()
+const Wrapper = mdxComponents.wrapper
 
 export default async function MDXLDPage({ params }: { params: Params }) {
   const { domain, path = [] } = params
@@ -69,7 +70,7 @@ export default async function MDXLDPage({ params }: { params: Params }) {
   
   return (
     <Wrapper>
-      <MDXRemote {...mdxSource} components={useMDXComponents()} />
+      <MDXRemote {...mdxSource} components={mdxComponents} />
     </Wrapper>
   )
 }
