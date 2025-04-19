@@ -26,7 +26,11 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
   
   if (!post) return { title: 'Post Not Found' }
   
-  const postData = post.data as { excerpt?: string; coverImage?: string } | undefined
+  const postData = post.data as { 
+    excerpt?: string; 
+    coverImage?: string;
+    content?: string;
+  } | undefined
 
   return {
     title: `${post.name || 'Untitled'} - ${project.name}`,
