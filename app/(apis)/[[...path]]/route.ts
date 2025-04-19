@@ -6,6 +6,10 @@ import { NextRequest } from 'next/server'
  * Returns a properly formatted JSON 404 response
  */
 export const GET = API(async (request: NextRequest, { params }) => {
+  if (request.nextUrl.pathname === '/') {
+    return { notFound: true }
+  }
+  
   const path = request.nextUrl.pathname
   
   return {
