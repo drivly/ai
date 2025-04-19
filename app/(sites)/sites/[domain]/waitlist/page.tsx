@@ -26,7 +26,8 @@ function WaitlistPage({ params }: { params: { domain: string } }) {
           router.push('/login?destination=waitlist')
         } else {
           setUser(currentUser)
-          await handleWaitlistActions(currentUser, domain)
+          const validDomain = domain && domain !== '[domain]' ? domain : 'default'
+          await handleWaitlistActions(currentUser, validDomain)
         }
         setIsLoading(false)
       } catch (error) {
