@@ -1,8 +1,7 @@
 import { Session as NextAuthSession, User as NextAuthUser } from 'next-auth'
-import { betterAuthPlugins } from './options'
+import { authProviders } from './options'
 
 export type SocialProvider = 'github' | 'google' | 'workos' | 'linear'
-export type BetterAuthPlugins = typeof betterAuthPlugins
 
 export interface User extends NextAuthUser {
   id: string

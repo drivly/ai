@@ -6,16 +6,14 @@ import type { TypedUser } from 'payload'
 
 type User = Extract<TypedUser, { collection: 'users' }>
 
-type UserContextType = {
+type AuthContextType = {
   sessionPromise: Promise<Session | null>
-  userAccountsPromise: Promise<any[] | null>
-  deviceSessionsPromise: Promise<any[] | null>
   currentUserPromise: Promise<User | null>
 }
 
-const AuthContext = createContext<UserContextType | null>(null)
+const AuthContext = createContext<AuthContextType | null>(null)
 
-export function useAuth(): UserContextType {
+export function useAuth(): AuthContextType {
   let context = useContext(AuthContext)
   if (context === null) {
     throw new Error('useAuth must be used within an AuthProvider')
@@ -23,22 +21,14 @@ export function useAuth(): UserContextType {
   return context
 }
 
-export const useBetterAuth = useAuth
-
 export function AuthProvider({
   children,
   sessionPromise,
-  userAccountsPromise,
-  deviceSessionsPromise,
   currentUserPromise,
 }: {
   children: ReactNode
   sessionPromise: Promise<Session | null>
-  userAccountsPromise: Promise<any[] | null>
-  deviceSessionsPromise: Promise<any[] | null>
   currentUserPromise: Promise<User | null>
 }) {
-  return <AuthContext.Provider value={{ sessionPromise, userAccountsPromise, deviceSessionsPromise, currentUserPromise }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ sessionPromise, currentUserPromise }}>{children}</AuthContext.Provider>
 }
-
-export const BetterAuthProvider = AuthProvider
