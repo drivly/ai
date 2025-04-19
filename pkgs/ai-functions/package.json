@@ -7,8 +7,8 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm && tsc --declaration --emitDeclarationOnly --outDir dist",
-    "build:packages": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm && tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs --external:ai-providers && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm --external:ai-providers && tsc --declaration --emitDeclarationOnly --outDir dist",
+    "build:packages": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs --external:ai-providers && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm --external:ai-providers && tsc --declaration --emitDeclarationOnly --outDir dist",
     "dev": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs --watch",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -35,6 +35,7 @@
     "@ai-sdk/openai": "^1.0.10",
     "@ai-sdk/openai-compatible": "^0.2.9",
     "ai": "^4.0.20",
+    "ai-providers": "workspace:*",
     "p-queue": "^8.0.1",
     "zod": "^3.24.1"
   },

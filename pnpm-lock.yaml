@@ -520,6 +520,9 @@ importers:
       ai:
         specifier: ^4.0.20
         version: 4.3.7(react@19.1.0)(zod@3.24.2)
+      ai-providers:
+        specifier: workspace:*
+        version: link:../ai-providers
       p-queue:
         specifier: ^8.0.1
         version: 8.1.0
@@ -630,6 +633,9 @@ importers:
       ai:
         specifier: ^4.3.9
         version: 4.3.9(react@19.1.0)(zod@3.24.2)
+      composio-core:
+        specifier: ^0.5.31
+        version: 0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.2))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.9(react@19.1.0)(zod@3.24.2))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
       language-models:
         specifier: workspace:*
         version: link:../language-models
@@ -1427,7 +1433,7 @@ importers:
     dependencies:
       agentic.md:
         specifier: ^0.1.0
-        version: 0.1.1(@cloudflare/workers-types@4.20250415.0)(mermaid.cli@0.3.6)(react@18.3.1)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3))
+        version: 0.1.1(@cloudflare/workers-types@4.20250415.0)(mermaid.cli@0.3.6)(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3))
       agents:
         specifier: latest
         version: 0.0.60(@cloudflare/workers-types@4.20250415.0)
@@ -26950,10 +26956,10 @@ snapshots:
 
   agent-base@7.1.3: {}
 
-  agentic.md@0.1.1(@cloudflare/workers-types@4.20250415.0)(mermaid.cli@0.3.6)(react@18.3.1)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3)):
+  agentic.md@0.1.1(@cloudflare/workers-types@4.20250415.0)(mermaid.cli@0.3.6)(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.7.3)):
     dependencies:
       agents: 0.0.47(@cloudflare/workers-types@4.20250415.0)
-      ai: 2.2.37(react@18.3.1)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3))
+      ai: 2.2.37(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.7.3))
       mermaid: 10.9.3
       remark: 15.0.1
       remark-mermaid: 0.2.0(mermaid.cli@0.3.6)
@@ -26969,10 +26975,10 @@ snapshots:
       - svelte
       - vue
 
-  agentic.md@0.1.1(@cloudflare/workers-types@4.20250415.0)(mermaid.cli@0.3.6)(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.7.3)):
+  agentic.md@0.1.1(@cloudflare/workers-types@4.20250415.0)(mermaid.cli@0.3.6)(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3)):
     dependencies:
       agents: 0.0.47(@cloudflare/workers-types@4.20250415.0)
-      ai: 2.2.37(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.7.3))
+      ai: 2.2.37(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3))
       mermaid: 10.9.3
       remark: 15.0.1
       remark-mermaid: 0.2.0(mermaid.cli@0.3.6)
@@ -27071,21 +27077,6 @@ snapshots:
       - web-streams-polyfill
       - ws
 
-  ai@2.2.37(react@18.3.1)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3)):
-    dependencies:
-      eventsource-parser: 1.0.0
-      nanoid: 3.3.6
-      solid-swr-store: 0.10.7(solid-js@1.9.5)(swr-store@0.10.6)
-      sswr: 2.0.0(svelte@4.2.19)
-      swr: 2.2.0(react@18.3.1)
-      swr-store: 0.10.6
-      swrv: 1.0.4(vue@3.5.13(typescript@5.8.3))
-    optionalDependencies:
-      react: 18.3.1
-      solid-js: 1.9.5
-      svelte: 4.2.19
-      vue: 3.5.13(typescript@5.8.3)
-
   ai@2.2.37(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.7.3)):
     dependencies:
       eventsource-parser: 1.0.0
@@ -27100,6 +27091,21 @@ snapshots:
       solid-js: 1.9.5
       svelte: 4.2.19
       vue: 3.5.13(typescript@5.7.3)
+
+  ai@2.2.37(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3)):
+    dependencies:
+      eventsource-parser: 1.0.0
+      nanoid: 3.3.6
+      solid-swr-store: 0.10.7(solid-js@1.9.5)(swr-store@0.10.6)
+      sswr: 2.0.0(svelte@4.2.19)
+      swr: 2.2.0(react@19.1.0)
+      swr-store: 0.10.6
+      swrv: 1.0.4(vue@3.5.13(typescript@5.8.3))
+    optionalDependencies:
+      react: 19.1.0
+      solid-js: 1.9.5
+      svelte: 4.2.19
+      vue: 3.5.13(typescript@5.8.3)
 
   ai@4.3.7(react@18.3.1)(zod@3.24.2):
     dependencies:
@@ -28152,6 +28158,31 @@ snapshots:
       '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
       '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1)
       ai: 4.3.7(react@19.1.0)(zod@3.24.2)
+      axios: 1.8.4
+      chalk: 4.1.2
+      cli-progress: 3.12.0
+      commander: 12.1.0
+      inquirer: 10.2.2
+      langchain: 0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1)
+      open: 8.4.2
+      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)
+      pusher-js: 8.4.0-rc2
+      resolve-package-path: 4.0.3
+      uuid: 10.0.0
+      zod: 3.24.2
+      zod-to-json-schema: 3.24.5(zod@3.24.2)
+    transitivePeerDependencies:
+      - debug
+
+  composio-core@0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.2))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.9(react@19.1.0)(zod@3.24.2))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)):
+    dependencies:
+      '@ai-sdk/openai': 1.3.12(zod@3.24.2)
+      '@cloudflare/workers-types': 4.20250415.0
+      '@composio/mcp': 1.0.3-0
+      '@hey-api/client-axios': 0.2.12(axios@1.8.4)
+      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
+      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1)
+      ai: 4.3.9(react@19.1.0)(zod@3.24.2)
       axios: 1.8.4
       chalk: 4.1.2
       cli-progress: 3.12.0
@@ -37734,11 +37765,6 @@ snapshots:
   swr-store@0.10.6:
     dependencies:
       dequal: 2.0.3
-
-  swr@2.2.0(react@18.3.1):
-    dependencies:
-      react: 18.3.1
-      use-sync-external-store: 1.5.0(react@18.3.1)
 
   swr@2.2.0(react@19.1.0):
     dependencies:

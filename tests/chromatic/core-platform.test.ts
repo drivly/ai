@@ -33,7 +33,7 @@ chromaticTest('functions collection page', async ({ page }, testInfo) => {
     await page.fill('input[type="email"]', 'test@example.com')
     await page.fill('input[type="password"]', 'test')
 
-    await page.click('button[type="submit"]')
+    await page.click('button[type="submit"]', { force: true })
 
     // Use appropriate wait strategy for CI environment
     const waitLoadState = process.env.CI ? 'load' : 'networkidle'

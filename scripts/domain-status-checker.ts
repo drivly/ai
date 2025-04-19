@@ -15,7 +15,8 @@
 
 import dns from 'node:dns'
 import { promisify } from 'node:util'
-import { domainsConfig, DomainsConfig, domains } from '../domains.config'
+import { readDomainsTsv } from './domain-utils'
+import type { DomainsConfig } from './domain-utils'
 
 const resolveNs = promisify(dns.resolveNs)
 
@@ -124,22 +125,22 @@ interface DomainsExport {
 }
 
 /**
- * Get the expected domain configuration from domains.config.ts
+ * Get the expected domain configuration from domains TSV
  * @param domain Domain to get configuration for
+ * @param config DomainsConfig object from readDomainsTsv
  * @returns Expected domain configuration
  */
-function getExpectedDomainConfig(domain: string) {
-  const aliasTarget = domainsConfig.aliases[domain]
+function getExpectedDomainConfig(domain: string, config: DomainsConfig) {
+  const aliasTarget = config.aliases[domain]
   const targetDomain = aliasTarget || domain
 
-  const domainConfig = domainsConfig.domains[targetDomain]
+  const domainConfig = config.domains[targetDomain]
 
   return {
     domain,
     targetDomain,
     isAlias: !!aliasTarget,
     aliasTarget,
-    collections: domainConfig?.collections || [],
     parent: domainConfig?.parent,
   }
 }
@@ -192,10 +193,11 @@ function needsVercelUpdate(status: DomainStatus, expectedConfig: ReturnType<type
 async function compareAndUpdateDomainConfigurations(domainStatuses: DomainStatus[], updateConfigurations = false) {
   console.log('\n=== Configuration Drift Analysis ===\n')
 
+  const { domainsConfig } = await readDomainsTsv()
   const driftsDetected = []
 
   for (const status of domainStatuses) {
-    const expectedConfig = getExpectedDomainConfig(status.domain)
+    const expectedConfig = getExpectedDomainConfig(status.domain, domainsConfig)
 
     const cloudflareNeedsUpdate = needsCloudflareUpdate(status, expectedConfig)
     const vercelNeedsUpdate = needsVercelUpdate(status, expectedConfig)
@@ -265,7 +267,8 @@ async function checkDomains() {
     console.log('Running with --update flag. Will update configurations when drift is detected.')
   }
 
-  const domainsToCheck = domains
+  const { domains: domainsFromTsv, domainsConfig } = await readDomainsTsv()
+  const domainsToCheck = domainsFromTsv
 
   console.log(`Found ${domainsToCheck.length} domains to check`)
 

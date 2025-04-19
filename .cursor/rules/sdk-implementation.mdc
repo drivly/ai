@@ -20,7 +20,7 @@ This rule defines the implementation patterns for SDK packages in the AI Primiti
 - Use semantic-release for version management across SDKs and packages
 - Packages in the `sdks` directory must maintain synchronized version numbers
 - Packages in the `pkgs` directory can be versioned independently
-- During API instability phase, use patch versions (0.0.x) for SDK packages
+- During API instability phase, restrict all automatic version increments to patch versions (0.0.x) only
 - All packages must be properly configured in pnpm-workspace.yaml
 - Package names must exactly match names in respective package.json files
 
