@@ -194,7 +194,7 @@ async function handleConnectAccountEvent(payload: Payload, event: Stripe.Event) 
   
   try {
     const existingAccounts = await payload.find({
-      collection: 'connectAccounts',
+      collection: 'connections',
       where: {
         stripeAccountId: {
           equals: account.id,
@@ -204,7 +204,7 @@ async function handleConnectAccountEvent(payload: Payload, event: Stripe.Event) 
     
     if (existingAccounts.docs.length > 0) {
       await payload.update({
-        collection: 'connectAccounts',
+        collection: 'connections',
         id: existingAccounts.docs[0].id,
         data: {
           status: account.charges_enabled ? 'active' : 'pending',
@@ -215,7 +215,7 @@ async function handleConnectAccountEvent(payload: Payload, event: Stripe.Event) 
       })
     } else if (account.metadata?.projectId) {
       await payload.create({
-        collection: 'connectAccounts',
+        collection: 'connections',
         data: {
           project: account.metadata.projectId,
           stripeAccountId: account.id,
