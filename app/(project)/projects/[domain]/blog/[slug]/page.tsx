@@ -7,7 +7,7 @@ import { headers } from 'next/headers'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
-import { BlogContent } from '@/components/sites/blog-ui/blog-content'
+import { BlogContent } from '@/components/sites/blog-ui/dynamic-blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 
 export const dynamic = 'force-dynamic'
