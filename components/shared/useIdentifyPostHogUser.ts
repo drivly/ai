@@ -1,10 +1,10 @@
-import { useBetterAuth } from '@/lib/auth/context'
+import { useAuth } from '@/lib/auth/context'
 import { use, useEffect } from 'react'
 import { usePostHog } from 'posthog-js/react'
 
 export const useIdentifyPostHogUser = () => {
   const posthog = usePostHog()
-  const { currentUserPromise } = useBetterAuth()
+  const { currentUserPromise } = useAuth()
   const currentUser = use(currentUserPromise)
 
   useEffect(() => {

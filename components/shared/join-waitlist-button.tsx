@@ -2,7 +2,7 @@
 
 import { UserAvatar } from '@/components/auth/user-profile-image'
 import { Button } from '@/components/ui/button'
-import { useBetterAuth } from '@/lib/auth/context'
+import { useAuth } from '@/lib/auth/context'
 import { cn } from '@/lib/utils'
 import { RiDiscordFill } from '@remixicon/react'
 import Link from 'next/link'
@@ -17,7 +17,7 @@ export interface JoinWaitlistButtonProps {
 }
 
 export const JoinWaitlistButton = ({ children, className, variant = 'default', type = 'user' }: JoinWaitlistButtonProps) => {
-  const { currentUserPromise } = useBetterAuth()
+  const { currentUserPromise } = useAuth()
   const currentUser = use(currentUserPromise)
 
   if (currentUser && type === 'user') {
