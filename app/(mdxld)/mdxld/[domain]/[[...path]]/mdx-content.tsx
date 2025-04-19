@@ -14,7 +14,11 @@ export default function MDXContent({ source }: MDXContentProps) {
   const Wrapper = mdxComponents.wrapper
   
   const toc: Heading[] = []
-  const metadata = { title: '', description: '' }
+  const metadata = { 
+    title: '', 
+    description: '',
+    filePath: '/mdxld' // Required property for $NextraMetadata
+  }
   
   return (
     <Wrapper toc={toc} metadata={metadata}>
