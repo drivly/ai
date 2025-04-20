@@ -101,7 +101,7 @@ const authOptions = {
       userinfo: {
         url: 'https://api.workos.com/sso/userinfo',
       },
-      profile(profile) {
+      profile(profile: { sub: string; name: string; email: string; picture: string }) {
         return {
           id: profile.sub,
           name: profile.name,
