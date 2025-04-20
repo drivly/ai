@@ -74,6 +74,18 @@ const nextConfig = {
       // Use node: protocol externals for server-only code
       config.externals.push({
         'node:process': 'process',
+        'node:assert': 'assert',
+        'node:child_process': 'child_process',
+        'node:dns': 'dns',
+        'node:fs': 'fs',
+        'node:http': 'http',
+        'node:https': 'https',
+        'node:os': 'os',
+        'node:path': 'path',
+        'node:stream': 'stream',
+        'node:url': 'url',
+        'node:util': 'util',
+        'node:zlib': 'zlib',
       });
     }
     
