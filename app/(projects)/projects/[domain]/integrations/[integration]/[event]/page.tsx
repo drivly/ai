@@ -4,7 +4,7 @@ import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string; integration: string; event: string }> }): Promise<Metadata> {
-  const { domain, integration, event } = await params
+  const { domain, integration, event } = await params || {}
   const project = await fetchProjectByDomain(domain)
 
   if (!project) {
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 
 export default async function IntegrationEventPage({ params }: { params: Promise<{ domain: string; integration: string; event: string }> }) {
   try {
-    const { domain, integration, event } = await params
+    const { domain, integration, event } = await params || {}
     const project = await fetchProjectByDomain(domain)
 
     if (!project) {

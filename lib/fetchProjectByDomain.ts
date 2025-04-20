@@ -6,9 +6,9 @@ import config from '@/payload.config'
  * @param domain The domain to search for
  * @returns The project data or null if not found
  */
-export async function fetchProjectByDomain(domain: string) {
+export async function fetchProjectByDomain(domain?: string) {
   if (!domain) {
-    throw new Error('Domain is required')
+    return null
   }
 
   try {
