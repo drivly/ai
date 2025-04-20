@@ -88,7 +88,7 @@ export const POST = API(async (request, { url }) => {
         provider: existingToken.provider,
         userId: existingToken.userId,
         clientId: client_id,
-        expiresAt: expiresAtDate,
+        expiresAt: expiresAtDate.toISOString(),
         scope: existingToken.scope || 'read write',
       },
     })

@@ -123,7 +123,7 @@ export const GET = API(async (request, { url }) => {
         provider: 'workos',
         userId,
         clientId: originalClientId,
-        expiresAt: expiresAtDate,
+        expiresAt: expiresAtDate.toISOString(),
         scope: 'read write',
       },
     })
