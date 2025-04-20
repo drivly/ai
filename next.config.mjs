@@ -70,7 +70,7 @@ export default analyzeBundles(
     withPayload(nextConfig, {
       devBundleServerPackages: false,
       adminRoute: '/admin',
-      configPath: path.resolve(dirname, 'app/(admin)'),
+      configPath: path.resolve(dirname), // Point to root directory where payload.config.ts exists
     }),
   ),
 )
