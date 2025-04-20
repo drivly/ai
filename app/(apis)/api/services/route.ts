@@ -30,10 +30,7 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
 export const POST = API(async (request, { db, user, origin, url, domain }) => {
   const body = await request.json()
   
-  const service = await db.services.create({
-    ...body,
-    status: body.status || 'active',
-  })
+  const service = await db.services.create(body.status ? body : { ...body, status: 'active' })
   
   return service
 })
