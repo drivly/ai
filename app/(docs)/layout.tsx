@@ -3,6 +3,7 @@ import { Banner, Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
 import 'nextra-theme-docs/style.css'
+import './styles.css'
 // import '@code-hike/mdx/dist/index.css'
 
 import type { Metadata } from 'next'

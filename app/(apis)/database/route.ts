@@ -6,5 +6,5 @@ export const GET = API(async (request, { db, user, url }) => {
   // If we need a specific function by ID, we could use:
   // const specificFunction = await db.functions.get('function-id')
 
-  return { workflows, user }
+  return { workflows }
 })
