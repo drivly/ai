@@ -1303,7 +1303,7 @@ export interface ChatResource {
         id?: string | null;
       }[]
     | null;
-  parentId?: (string | null) | Resource;
+  parentId?: (string | null) | ChatResource;
   metadata?:
     | {
         [k: string]: unknown;
