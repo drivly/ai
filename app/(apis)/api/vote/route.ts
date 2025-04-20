@@ -37,8 +37,8 @@ export const GET = API(async (req, { user, payload }) => {
   })
 
   const votes = messages.docs
-    .filter(message => message.votes && message.votes.length > 0)
-    .map(message => ({
+    .filter((message: any) => message.votes && message.votes.length > 0)
+    .map((message: any) => ({
       messageId: message.id,
       votes: message.votes
     }))
@@ -83,7 +83,7 @@ export const PATCH = API(async (req, { user, payload }) => {
   }
 
   const votes = message.votes || []
-  const existingVoteIndex = votes.findIndex(vote => vote.user === user.id)
+  const existingVoteIndex = votes.findIndex((vote: any) => vote.user === user.id)
 
   if (existingVoteIndex >= 0) {
     votes[existingVoteIndex] = {
