@@ -31,7 +31,9 @@ export default async function ProductComparisonPage({ params }: { params: Promis
     return (
       <div className='container mx-auto max-w-6xl px-3 py-24'>
         <h1 className='text-4xl font-bold tracking-tight'>{product} Comparison</h1>
-        <p className='mt-4 text-lg text-gray-600'>Comparing {product} with {comparison}</p>
+        <p className='mt-4 text-lg text-gray-600'>
+          Comparing {product} with {comparison}
+        </p>
       </div>
     )
   } catch (error) {

@@ -6,7 +6,7 @@ export const GET = API(async (request, { url, params }) => {
   try {
     const { provider } = await params
     const nextAuthCallbackUrl = `/api/auth/callback/${provider}${url.search}`
-    
+
     return NextResponse.redirect(new URL(nextAuthCallbackUrl, url.origin))
   } catch (error) {
     console.error('OAuth callback error:', error)

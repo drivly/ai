@@ -35,7 +35,12 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Use a PAT with workflow permissions instead of GITHUB_TOKEN to trigger workflows
+          # Required permissions for DOCS_WORKFLOW_PAT:
+          # - Contents: read and write (for repo access)
+          # - Pull Requests: read and write (for PR creation)
+          # - Workflows: read and write (to trigger workflows)
+          token: ${{ secrets.DOCS_WORKFLOW_PAT }}
           commit-message: "chore: update LLM documentation"
           branch: "auto-update/llm-docs"
           delete-branch: true

@@ -1,6 +1,6 @@
 'use client'
 
-import { useSession as useNextAuthSession, signIn as nextAuthSignIn, signOut as nextAuthSignOut } from "next-auth/react"
+import { useSession as useNextAuthSession, signIn as nextAuthSignIn, signOut as nextAuthSignOut } from 'next-auth/react'
 import { toast } from 'sonner'
 
 export const signIn = nextAuthSignIn
@@ -8,7 +8,7 @@ export const signOut = nextAuthSignOut
 
 export function useSession() {
   const { data: session, status, update } = useNextAuthSession()
-  
+
   return {
     session,
     status,
@@ -21,13 +21,13 @@ export function useSession() {
 
 export function useHasRole(role: string | string[]) {
   const { user } = useSession()
-  
+
   if (!user) return false
-  
+
   if (Array.isArray(role)) {
     return role.includes(user.role as string)
   }
-  
+
   return user.role === role
 }
 

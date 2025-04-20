@@ -41,11 +41,12 @@ chromaticTest('functions collection page', async ({ page }, testInfo) => {
   }
 
   try {
-    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first())
-      .toBeVisible({ timeout: visibilityTimeout })
-    
+    await expect(page.locator('body, main, [data-nextra-body], [role="main"], #__next, div[role="alert"], .nextra-content-container').first()).toBeVisible({
+      timeout: visibilityTimeout,
+    })
+
     const errorElement = page.locator('div[role="alert"], .error-message, pre:has-text("Error")')
-    if (await errorElement.count() > 0) {
+    if ((await errorElement.count()) > 0) {
       console.log('Error message found on page, continuing with screenshot anyway')
     } else {
       try {
@@ -59,6 +60,6 @@ chromaticTest('functions collection page', async ({ page }, testInfo) => {
   }
 
   await page.waitForTimeout(1000) // Add stabilization time
-  
+
   await takeNamedSnapshot(page, 'page-functions-collection', testInfo)
 })

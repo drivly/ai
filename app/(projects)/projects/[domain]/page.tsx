@@ -33,11 +33,11 @@ export default async function ProjectLandingPage({ params }: { params: Promise<{
         <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
           <HeroSection
             title={`${domain}`}
-            description="This project is coming soon! Join our waitlist to get notified when we launch."
-            buttonText="Join Waitlist"
+            description='This project is coming soon! Join our waitlist to get notified when we launch.'
+            buttonText='Join Waitlist'
             domain={domain}
           />
-          <div className="mx-auto mt-12 max-w-md">
+          <div className='mx-auto mt-12 max-w-md'>
             <EmailCaptureForm domain={domain} />
           </div>
         </div>

@@ -94,8 +94,7 @@ export const Functions: CollectionConfig = {
           ],
           defaultValue: 'requests',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && 
-              ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
+            condition: (data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
             description: 'Unit of measurement for consumption',
           },
         },
@@ -104,8 +103,7 @@ export const Functions: CollectionConfig = {
           type: 'number',
           min: 0,
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && 
-              ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
+            condition: (data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
             description: 'Price per consumption unit in USD cents',
           },
         },
@@ -114,8 +112,7 @@ export const Functions: CollectionConfig = {
           type: 'relationship',
           relationTo: 'billingPlans',
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true && 
-              siblingData?.billingModel === 'subscription',
+            condition: (data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'subscription',
             description: 'Subscription plan for this function',
           },
         },

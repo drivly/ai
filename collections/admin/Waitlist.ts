@@ -10,14 +10,14 @@ export const Waitlist: CollectionConfig = {
   fields: [
     { name: 'email', type: 'email', required: true },
     { name: 'domain', type: 'text', required: true },
-    { 
-      name: 'createdAt', 
-      type: 'date', 
+    {
+      name: 'createdAt',
+      type: 'date',
       admin: { readOnly: true },
     },
-    { 
-      name: 'status', 
-      type: 'select', 
+    {
+      name: 'status',
+      type: 'select',
       options: ['pending', 'contacted', 'converted'],
       defaultValue: 'pending',
     },

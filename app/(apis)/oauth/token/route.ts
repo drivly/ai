@@ -70,17 +70,17 @@ export const POST = API(async (request, { url }) => {
 
   try {
     const session = await auth()
-    
+
     if (!session?.user) {
       return {
         error: 'unauthorized',
         error_description: 'User is not authenticated',
       }
     }
-    
+
     const payload = await getPayloadWithAuth()
     const token = await generateOAuthToken(client_id, payload)
-    
+
     return token
   } catch (error) {
     console.error('Token exchange error:', error)

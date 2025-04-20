@@ -4,22 +4,22 @@ const tsvLoader = defineLoader({
   name: 'tsv',
   test: /\.tsv$/,
   load: (file) => {
-    const content = file.value.toString();
-    const lines = content.split('\n').filter(line => line.trim());
-    const headers = lines[0].split('\t').map(header => header.trim());
-    
-    const entries = lines.slice(1).map(line => {
-      const values = line.split('\t').map(value => value.trim());
-      const entry: Record<string, string> = {};
+    const content = file.value.toString()
+    const lines = content.split('\n').filter((line) => line.trim())
+    const headers = lines[0].split('\t').map((header) => header.trim())
+
+    const entries = lines.slice(1).map((line) => {
+      const values = line.split('\t').map((value) => value.trim())
+      const entry: Record<string, string> = {}
       headers.forEach((header, index) => {
-        entry[header] = values[index] || '';
-      });
-      return entry;
-    });
-    
-    return { data: entries };
-  }
-});
+        entry[header] = values[index] || ''
+      })
+      return entry
+    })
+
+    return { data: entries }
+  },
+})
 
 export default defineConfig({
   root: 'content',
