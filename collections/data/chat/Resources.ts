@@ -68,7 +68,7 @@ export const ChatResources: CollectionConfig = {
     {
       name: 'parentId',
       type: 'relationship',
-      relationTo: 'resources',
+      relationTo: 'chat-resources',
       required: false,
     },
     {
