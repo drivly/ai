@@ -1,7 +1,7 @@
 import { API } from '@/lib/api'
 import { NextResponse } from 'next/server'
 import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
-import { auth } from '@/app/(auth)/auth'
+import { auth } from '@/auth'
 import crypto from 'crypto'
 
 /**
@@ -13,7 +13,7 @@ export const GET = API(async (request, { url }) => {
   const stateParam = url.searchParams.get('state')
   const error = url.searchParams.get('error')
   const errorDescription = url.searchParams.get('error_description')
-  
+
   if (error) {
     console.error('OAuth error:', error, errorDescription)
     return {
@@ -21,15 +21,15 @@ export const GET = API(async (request, { url }) => {
       error_description: errorDescription || 'An error occurred during authentication',
     }
   }
-  
+
   if (!code) {
     return { error: 'invalid_request', error_description: 'Missing code parameter' }
   }
-  
+
   if (!stateParam) {
     return { error: 'invalid_request', error_description: 'Missing state parameter' }
   }
-  
+
   let stateData
   try {
     stateData = JSON.parse(Buffer.from(stateParam, 'base64').toString())
@@ -37,9 +37,9 @@ export const GET = API(async (request, { url }) => {
     console.error('Error decoding state:', error)
     return { error: 'invalid_state', error_description: 'Invalid state parameter' }
   }
-  
+
   const { originalRedirectUri, originalClientId, originalState } = stateData
-  
+
   try {
     const tokenResponse = await fetch('https://api.workos.com/sso/token', {
       method: 'POST',
@@ -54,7 +54,7 @@ export const GET = API(async (request, { url }) => {
         redirect_uri: `${url.origin}/api/oauth/callback`,
       }),
     })
-    
+
     if (!tokenResponse.ok) {
       const errorData = await tokenResponse.json()
       console.error('WorkOS token exchange error:', errorData)
@@ -63,15 +63,15 @@ export const GET = API(async (request, { url }) => {
         error_description: errorData.error_description || 'Failed to exchange code for token',
       }
     }
-    
+
     const tokenData = await tokenResponse.json()
-    
+
     const userInfoResponse = await fetch('https://api.workos.com/sso/userinfo', {
       headers: {
         Authorization: `Bearer ${tokenData.access_token}`,
       },
     })
-    
+
     if (!userInfoResponse.ok) {
       const errorData = await userInfoResponse.json()
       console.error('WorkOS userinfo error:', errorData)
@@ -80,20 +80,20 @@ export const GET = API(async (request, { url }) => {
         error_description: 'Failed to retrieve user information',
       }
     }
-    
+
     const userInfo = await userInfoResponse.json()
-    
+
     const payload = await getPayloadWithAuth()
-    
+
     const existingUsers = await payload.find({
       collection: 'users',
       where: {
         email: { equals: userInfo.email },
       },
     })
-    
+
     let userId
-    
+
     if (existingUsers.docs.length > 0) {
       userId = existingUsers.docs[0].id
     } else {
@@ -106,16 +106,16 @@ export const GET = API(async (request, { url }) => {
           emailVerified: false,
         },
       })
-      
+
       userId = newUser.id
     }
-    
+
     const accessToken = crypto.randomBytes(32).toString('hex')
     const refreshToken = crypto.randomBytes(32).toString('hex')
-    
+
     const expiresAtDate = new Date()
     expiresAtDate.setHours(expiresAtDate.getHours() + 1)
-    
+
     await payload.create({
       collection: 'oauthTokens',
       data: {
@@ -127,14 +127,14 @@ export const GET = API(async (request, { url }) => {
         scope: 'read write',
       },
     })
-    
+
     const redirectUrl = new URL(originalRedirectUri)
     redirectUrl.searchParams.set('code', accessToken)
-    
+
     if (originalState) {
       redirectUrl.searchParams.set('state', originalState)
     }
-    
+
     return NextResponse.redirect(redirectUrl)
   } catch (error) {
     console.error('OAuth callback error:', error)
