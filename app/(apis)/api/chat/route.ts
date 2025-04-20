@@ -151,16 +151,22 @@ export const POST = API(async (req, { user, payload }) => {
         messages: [
           { role: 'system', content: 'You are a helpful assistant.' },
           ...messages.map((m: ChatMessage) => {
-            const role = m.role || 'user';
-            if (role === 'function' || role === 'tool') {
+            const roleInput = m.role || 'user';
+            if (roleInput === 'function') {
               return {
-                role: role,
+                role: 'function' as const,
                 content: m.content,
-                name: m.metadata?.name || 'default_name' // Required for function/tool messages
+                name: m.metadata?.name || 'default_name'
+              };
+            } else if (roleInput === 'tool') {
+              return {
+                role: 'tool' as const,
+                content: m.content,
+                name: m.metadata?.name || 'default_name'
               };
             } else {
               return {
-                role: role as 'system' | 'user' | 'assistant',
+                role: roleInput as 'system' | 'user' | 'assistant',
                 content: m.content
               };
             }
