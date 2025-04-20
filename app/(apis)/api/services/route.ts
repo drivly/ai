@@ -4,7 +4,7 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
   const id = url.pathname.split('/').pop()
   
   if (id && id !== 'services') {
-    const service = await db.services.findById({ id })
+    const service = await db.services.findByID({ id })
     return service
   }
   
