@@ -5,6 +5,12 @@ import OpenAI from 'openai'
 
 const { TransformStream } = globalThis
 
+interface ChatMessage {
+  role?: string
+  content: string
+  metadata?: Record<string, any>
+}
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
@@ -74,7 +80,7 @@ export const POST = API(async (req, { user, payload }) => {
     return { error: 'Unauthorized', status: 401 }
   }
 
-  const { id, messages } = await req.json()
+  const { id, messages }: { id?: string, messages: ChatMessage[] } = await req.json()
 
   let chat
   if (id) {
@@ -144,7 +150,7 @@ export const POST = API(async (req, { user, payload }) => {
         model: chat.metadata?.model || 'gpt-4',
         messages: [
           { role: 'system', content: 'You are a helpful assistant.' },
-          ...messages.map(m => ({ 
+          ...messages.map((m: ChatMessage) => ({ 
             role: m.role || 'user', 
             content: m.content 
           }))
