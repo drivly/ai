@@ -10,6 +10,10 @@ const EXCLUDE_PATTERNS = [
   'templates'
 ]
 
+const isWorkspacePackage = (filePath: string): boolean => {
+  return filePath.includes('/sdks/')
+}
+
 const calculateAbsolutePath = (filePath: string, importPath: string): string => {
   let relativeImportPath = importPath
   while (relativeImportPath.startsWith('../')) {
@@ -48,6 +52,11 @@ files.forEach((filePath: string) => {
     let match
     while ((match = staticImportRegex.exec(content)) !== null) {
       const fullImportPath = match[1]
+      
+      if (isWorkspacePackage(filePath)) {
+        continue
+      }
+      
       const absolutePath = calculateAbsolutePath(filePath, fullImportPath)
       if (!absolutePath.startsWith('.')) {
         updatedContent = updatedContent.replace(
@@ -61,6 +70,11 @@ files.forEach((filePath: string) => {
     
     while ((match = dynamicImportRegex.exec(content)) !== null) {
       const fullImportPath = match[1]
+      
+      if (isWorkspacePackage(filePath)) {
+        continue
+      }
+      
       const absolutePath = calculateAbsolutePath(filePath, fullImportPath)
       if (!absolutePath.startsWith('.')) {
         updatedContent = updatedContent.replace(
@@ -99,6 +113,11 @@ try {
       let match
       while ((match = dynamicImportRegex.exec(content)) !== null) {
         const fullImportPath = match[1]
+        
+        if (isWorkspacePackage(filePath)) {
+          continue
+        }
+        
         const absolutePath = calculateAbsolutePath(filePath, fullImportPath)
         if (!absolutePath.startsWith('.')) {
           updatedContent = updatedContent.replace(

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import { FunctionsClient, AI, ai } from '@/sdks/functions.do/index'
+import { FunctionsClient, AI, ai } from '../../index'
 
 const apiKey = process.env.FUNCTIONS_DO_API_KEY
 const shouldRunE2E = !!apiKey
