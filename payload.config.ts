@@ -30,11 +30,11 @@ export default buildConfig({
       importMapFile: path.resolve(dirname, 'app/(admin)/admin/importMap.js'),
     },
     components: {
-      afterLogin: [
-        {
-          path: '@/components/auth/sign-in',
-        },
-      ],
+      // afterLogin: [
+      //   {
+      //     path: '@/components/auth/sign-in',
+      //   },
+      // ],
       graphics: {
         Icon: '@/components/admin/icon',
         Logo: '@/components/admin/logo',
