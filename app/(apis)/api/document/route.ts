@@ -26,7 +26,7 @@ export const GET = API(async (req, { user, payload }) => {
 
   const document = documents.docs[0]
 
-  if (document.user.id !== user.id) {
+  if ((document.user as any).id !== user.id) {
     return { error: 'Forbidden', status: 403 }
   }
 
@@ -58,7 +58,7 @@ export const POST = API(async (req, { user, payload }) => {
   if (documents?.docs?.length > 0) {
     const document = documents.docs[0]
 
-    if (document.user.id !== user.id) {
+    if ((document.user as any).id !== user.id) {
       return { error: 'Forbidden', status: 403 }
     }
     
@@ -122,7 +122,7 @@ export const DELETE = API(async (req, { user, payload }) => {
 
   const document = documents.docs[0]
 
-  if (document.user.id !== user.id) {
+  if ((document.user as any).id !== user.id) {
     return { error: 'Unauthorized', status: 401 }
   }
 
