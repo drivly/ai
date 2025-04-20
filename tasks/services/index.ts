@@ -1,4 +1,14 @@
-import { TaskConfig } from 'payload'
+import { TaskConfig, Payload } from 'payload'
+import { Service } from '../../sdks/services.do/types'
+
+interface TaskHandlerParams {
+  payload: Payload;
+  input: {
+    id?: string;
+    timeout?: number;
+    query?: Record<string, any>;
+  };
+}
 
 export const checkServiceHealthTask = {
   slug: 'checkServiceHealth',
@@ -12,12 +22,12 @@ export const checkServiceHealthTask = {
     { name: 'responseTime', type: 'number' },
     { name: 'message', type: 'text' },
   ],
-  handler: async ({ payload, input }) => {
+  handler: async ({ payload, input }: TaskHandlerParams) => {
     try {
       const service = await payload.findByID({
-        collection: 'services',
-        id: input.id,
-      })
+        collection: 'services' as any,
+        id: input.id as string,
+      }) as Service | null
 
       if (!service) {
         return {
@@ -45,8 +55,8 @@ export const checkServiceHealthTask = {
         if (response.ok) {
           if (service.status !== 'active') {
             await payload.update({
-              collection: 'services',
-              id: input.id,
+              collection: 'services' as any,
+              id: input.id as string,
               data: {
                 status: 'active',
               },
@@ -61,8 +71,8 @@ export const checkServiceHealthTask = {
         } else {
           if (service.status !== 'degraded') {
             await payload.update({
-              collection: 'services',
-              id: input.id,
+              collection: 'services' as any,
+              id: input.id as string,
               data: {
                 status: 'degraded',
               },
@@ -75,31 +85,35 @@ export const checkServiceHealthTask = {
             message: `Service responded with status ${response.status}`,
           }
         }
-      } catch (error) {
+      } catch (error: unknown) {
         clearTimeout(timeoutId)
         const responseTime = Date.now() - startTime
 
         if (service.status !== 'inactive') {
           await payload.update({
-            collection: 'services',
-            id: input.id,
+            collection: 'services' as any,
+            id: input.id as string,
             data: {
               status: 'inactive',
             },
           })
         }
 
+        const errorMessage = error instanceof Error ? error.message : 'Service is not responding'
+        
         return {
           status: 'inactive',
           responseTime,
-          message: error.message || 'Service is not responding',
+          message: errorMessage,
         }
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error checking service health:', error)
+      const errorMessage = error instanceof Error ? error.message : 'Error checking service health'
+      
       return {
         status: 'error',
-        message: error.message || 'Error checking service health',
+        message: errorMessage,
       }
     }
   },
@@ -114,19 +128,19 @@ export const discoverServicesTask = {
   outputSchema: [
     { name: 'services', type: 'json' },
   ],
-  handler: async ({ payload, input }) => {
+  handler: async ({ payload, input }: TaskHandlerParams) => {
     try {
       const query = input.query || {}
       
       const services = await payload.find({
-        collection: 'services',
+        collection: 'services' as any,
         where: query,
       })
       
       return {
         services: services.docs,
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error discovering services:', error)
       return {
         services: [],
