@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, AccessArgs } from 'payload'
 
 export const ChatResources: CollectionConfig = {
   slug: 'chat-resources',
