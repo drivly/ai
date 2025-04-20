@@ -8,7 +8,8 @@ import { getUser } from '@/lib/api'
  * Redirects users to Stripe checkout for subscription
  * Ticket: ENG-698
  */
-export async function GET(request: Request, { params }: { params: { domain: string } }) {
+export async function GET(request: Request, context: { params: { domain: string } }) {
+  const { params } = context;
   try {
     const user = await getUser(request)
     
