@@ -58,7 +58,7 @@ export const getAuthRedirectForDomain = (hostname: string, destination: string) 
   }
 }
 
-export const getOAuthCallbackURL = (provider: 'google' | 'github', url?: string): string => {
+export const getOAuthCallbackURL = (provider: 'google' | 'github' | 'workos' | 'linear', url?: string): string => {
   if (process.env.NODE_ENV === 'development') {
     return `http://localhost:3000/api/auth/callback/${provider}`
   }

@@ -3,6 +3,9 @@ import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
 import { Fragment } from 'react'
 import { CallToAction } from './sections/call-to-action'
 import { Faqs } from './sections/faqs'
+import { auth } from '@/app/(auth)/auth'
+import { AuthProvider } from '@/lib/auth/context'
+import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 
 type AwaitedPageProps<TParams extends object> = {
   params: TParams
@@ -36,26 +39,56 @@ export const withSitesWrapper = <TParams extends { domain?: string; slug?: strin
       searchParams: awaitedSearchParams,
     }
 
+    const session = await auth()
+    const payload = await getPayloadWithAuth()
+    
+    let currentUser = null
+    if (session?.user?.email) {
+      try {
+        const users = await payload.find({
+          collection: 'users',
+          where: {
+            email: {
+              equals: session.user.email,
+            },
+          },
+        })
+        if (users.docs[0]) {
+          currentUser = {
+            ...users.docs[0],
+            collection: 'users' as const
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error)
+      }
+    }
+
+    const sessionPromise = Promise.resolve(session)
+    const currentUserPromise = Promise.resolve(currentUser)
+
     return (
-      <Fragment>
-        {/* Pass awaitedParams to SitesNavbar as it needs the resolved values */}
-        <SitesNavbar params={awaitedParams} minimal={minimal} />
-        <main className='flex-1 overflow-x-hidden border-b border-gray-800/50'>
-          {/* Pass the awaited props to WrappedPage */}
-          <WrappedPage {...pageProps} />
-        </main>
-        {withFaqs && <Faqs />}
-        {withCallToAction && <CallToAction />}
-        <Footer minimal={minimal} />
-        
-        {/* Add hidden iframe for cross-domain auth */}
-        <iframe 
-          src="https://apis.do/login" 
-          style={{ display: 'none' }} 
-          title="Authentication sync"
-          aria-hidden="true"
-        />
-      </Fragment>
+      <AuthProvider sessionPromise={sessionPromise} currentUserPromise={currentUserPromise}>
+        <Fragment>
+          {/* Pass awaitedParams to SitesNavbar as it needs the resolved values */}
+          <SitesNavbar params={awaitedParams} minimal={minimal} />
+          <main className='flex-1 overflow-x-hidden border-b border-gray-800/50'>
+            {/* Pass the awaited props to WrappedPage */}
+            <WrappedPage {...pageProps} />
+          </main>
+          {withFaqs && <Faqs />}
+          {withCallToAction && <CallToAction />}
+          <Footer minimal={minimal} />
+          
+          {/* Add hidden iframe for cross-domain auth */}
+          <iframe 
+            src="https://apis.do/login" 
+            style={{ display: 'none' }} 
+            title="Authentication sync"
+            aria-hidden="true"
+          />
+        </Fragment>
+      </AuthProvider>
     )
   }
 }

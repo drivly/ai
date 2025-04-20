@@ -1,10 +1,9 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { auth } from '@/app/(auth)/auth'
 import crypto from 'crypto'
 
 export async function GET(request: NextRequest) {
   try {
-    const payload = await getPayloadWithAuth()
     const searchParams = request.nextUrl.searchParams
 
     const state = searchParams.get('state')
@@ -23,29 +22,21 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid callback URL format' }, { status: 400 })
     }
 
-    const session = await payload.betterAuth.api.getSession({
-      headers: request.headers,
-    })
+    const session = await auth()
 
     if (!session?.user) {
-      const loginUrl = `/login?cli=true&state=${state}&callback=${encodeURIComponent(callback)}`
+      const loginUrl = `/sign-in?cli=true&state=${state}&callback=${encodeURIComponent(callback)}`
       return NextResponse.redirect(new URL(loginUrl, request.url))
     }
 
     const prefix = 'cli_' + crypto.randomBytes(4).toString('hex')
-
-    const apiKey = await payload.betterAuth.api.createApiKey({
-      body: {
-        name: `CLI Key (${new Date().toISOString()})`,
-        prefix,
-        permissions: { cli: ['use'] },
-        metadata: {
-          createdFromCLI: true,
-          device: process.platform,
-          createdAt: new Date().toISOString(),
-        },
-      },
-    })
+    const key = prefix + '.' + crypto.randomBytes(32).toString('hex')
+    
+    const apiKey = {
+      key,
+      user: session.user,
+      createdAt: new Date().toISOString(),
+    }
 
     const redirectUrl = new URL(callback)
     redirectUrl.searchParams.set('state', state)

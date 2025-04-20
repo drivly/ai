@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { API_AUTH_PREFIX, publicRoutes } from '../routes'
+import { API_AUTH_PREFIX, protectedRoutes, publicRoutes } from '../routes'
 
 export class RequestHandler {
   request: NextRequest
@@ -15,7 +15,8 @@ export class RequestHandler {
   }
 
   isLoggedIn(): boolean {
-    return this.request.cookies.has('better-auth.session_data') || this.request.cookies.has('__Secure-better-auth.session')
+    return this.request.cookies.has('next-auth.session-token') || 
+           this.request.cookies.has('__Secure-next-auth.session-token')
   }
 
   isAutoLogin(): boolean {
@@ -23,11 +24,25 @@ export class RequestHandler {
   }
 
   isApiAuthRoute(): boolean {
-    return this.pathname.startsWith(API_AUTH_PREFIX)
+    return this.pathname.startsWith(API_AUTH_PREFIX) || 
+           this.pathname.startsWith('/api/auth')
   }
 
   isPublicRoute(): boolean {
-    return publicRoutes.includes(this.pathname) || this.pathname?.includes('/favicon/')
+    return publicRoutes.includes(this.pathname) || 
+           this.pathname?.includes('/favicon/') ||
+           this.pathname.startsWith('/sign-in') ||
+           this.pathname.startsWith('/sign-up')
+  }
+
+  isProtectedRoute(): boolean {
+    return protectedRoutes.some(route => {
+      if (route.endsWith('*')) {
+        const prefix = route.slice(0, -1)
+        return this.pathname === prefix || this.pathname.startsWith(prefix)
+      }
+      return this.pathname === route
+    }) || this.isAdminRoute()
   }
 
   isApiRoute(): boolean {

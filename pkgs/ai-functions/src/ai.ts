@@ -1,4 +1,4 @@
-import { llmProvider } from 'ai-providers'
+import { model } from 'ai-providers'
 import { z } from 'zod'
 import type { AIFunctionOptions, AIFunctionConfig } from './types'
 
@@ -9,7 +9,7 @@ const defaultConfig: AIFunctionConfig = {
 
 // Create AI model provider with support for multiple providers through ai-providers
 const getAIProvider = (modelName: string) => {
-  return llmProvider(modelName)
+  return model(modelName)
 }
 
 /**

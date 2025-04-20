@@ -8,28 +8,32 @@ export async function signUp({
   role,
   name,
   image,
-  //   callbackURL,
 }: {
   email: string
   password: string
   role: string
   name: string
   image?: string
-  //   callbackURL: string;
 }) {
-  const payload = await getPayloadWithAuth()
-
-  const resFoo = await payload.betterAuth.api.createUser({
-    asResponse: true,
-    body: {
-      email,
-      password,
-      role: 'admin',
-      name,
-    },
-  })
-
-  if (!resFoo.ok) {
-    return new Response(resFoo.statusText, { status: resFoo.status })
+  try {
+    const payload = await getPayloadWithAuth()
+    
+    const validRole = (role === 'admin' || role === 'superAdmin') ? role : 'user'
+    
+    const user = await payload.create({
+      collection: 'users',
+      data: {
+        email,
+        password,
+        role: validRole,
+        name,
+        emailVerified: false,
+      },
+    })
+    
+    return user
+  } catch (error) {
+    console.error('Error creating user:', error)
+    return new Response('Failed to create user', { status: 500 })
   }
 }

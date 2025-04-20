@@ -26,6 +26,22 @@ type ProviderOptions = {
    * rewriting it to match the schema.
    */
   allowFixingSchema?: boolean
+  /**
+   * Tools to be used by the model
+   */
+  tools?: Record<string, string | number | boolean | Record<string, unknown>>
+  /**
+   * Priorities for model selection
+   */
+  priorities?: string[]
+  /**
+   * Enable reasoning capability
+   */
+  reasoning?: boolean
+  /**
+   * Maximum price constraint
+   */
+  maxPrice?: number
 }
 
 type LLMProviderConfig = {
@@ -33,7 +49,17 @@ type LLMProviderConfig = {
 }
 
 export const createLLMProvider = (config: LLMProviderConfig) => (model: string, options?: ProviderOptions) => {
-  return new LLMProvider(model, options ?? {})
+  const augments: Record<string, any> = {}
+  
+  if (options?.tools) augments.tools = options.tools
+  if (options?.priorities) augments.priorities = options.priorities
+  if (options?.reasoning) {
+    augments.capabilities ??= {};
+    augments.capabilities = { ...augments.capabilities, reasoning: true };
+  }
+  if (options?.maxPrice) augments.providerConstraints = [{ field: 'cost', value: options.maxPrice.toString(), type: 'lt' }]
+  
+  return new LLMProvider(model, options ?? {}, augments)
 }
 
 export const model = createLLMProvider({})
@@ -56,12 +82,13 @@ class LLMProvider implements LanguageModelV1 {
   constructor(
     public modelId: string,
     public options: ProviderOptions,
+    private augments?: Record<string, any>
   ) {
     this.modelId = modelId
     this.options = options ?? {}
-
-    this.resolvedModel = getModel(modelId)
-
+    
+    this.resolvedModel = getModel(modelId, this.augments || {})
+    
     if (!this.resolvedModel.slug) {
       throw new Error(`Model ${modelId} not found`)
     }

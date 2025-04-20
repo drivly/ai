@@ -51,6 +51,7 @@ import { Goals } from './business/Goals'
 import { Plans } from './business/Plans'
 import { KPIs } from './business/KPIs'
 import Config from './sync/Config'
+import { Organizations, BillingPlans, Subscriptions, Usage, ConnectAccounts } from './billing'
 
 export const collections = [
   // Register AI collections first
@@ -75,6 +76,7 @@ export const collections = [
   // Integration collections
   IntegrationCategories,
   Integrations,
+  ConnectAccounts,
   Connections,
   IntegrationTriggers,
   IntegrationActions,
@@ -108,6 +110,12 @@ export const collections = [
   GenerationBatches,
   Traces,
   KPIs,
+
+  // Billing collections
+  Organizations,
+  BillingPlans,
+  Subscriptions,
+  Usage,
 
   Config,
 

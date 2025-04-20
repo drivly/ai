@@ -7,11 +7,17 @@ export const GET = API(async (request, { url, user }) => {
   }
 
   const payload = await getPayloadWithAuth()
-
-  const userDoc = await payload.findByID({
-    collection: 'users',
-    id: user.id,
-  })
+  
+  let userDoc
+  try {
+    userDoc = await payload.findByID({
+      collection: 'users',
+      id: user.id,
+    })
+  } catch (error) {
+    console.error('Error fetching user:', error)
+    return { error: 'not_found', error_description: 'User not found' }
+  }
 
   if (!userDoc || userDoc.role !== 'admin') {
     return { error: 'forbidden', error_description: 'Admin access required' }

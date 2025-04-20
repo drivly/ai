@@ -12,7 +12,7 @@ export const collectionSlugs = [
   'integration-categories',
   'integration-triggers',
   'integration-actions',
-  'connections',
+  'connectAccounts',
   'triggers',
   'searches',
   'actions',

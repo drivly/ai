@@ -26,7 +26,7 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
     }
 
     const connections = await payload.find({
-      collection: 'connections',
+      collection: 'connectAccounts',
       where: {
         and: [
           { user: { equals: user.id } },

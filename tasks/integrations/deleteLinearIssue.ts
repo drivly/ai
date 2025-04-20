@@ -36,7 +36,7 @@ export const deleteLinearIssueHandler = async ({ data, originalDoc, req }: { dat
     }
 
     const connections = await payload.find({
-      collection: 'connections',
+      collection: 'connectAccounts',
       where: {
         and: [
           { user: { equals: user.id } },
