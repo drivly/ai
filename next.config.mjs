@@ -56,6 +56,20 @@ const nextConfig = {
       config.devtool = false;
     }
     
+    // Add fallbacks for node: imports
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        process: require.resolve('process/browser'),
+      };
+      
+      config.plugins.push(
+        new config.webpack.ProvidePlugin({
+          process: 'process/browser',
+        }),
+      );
+    }
+    
     return config
   },
 }
