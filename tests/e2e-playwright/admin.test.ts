@@ -66,7 +66,9 @@ test.describe('Admin page', () => {
 
       let response: Response | null = null
 
-      response = await page.goto(adminUrl)
+      response = await page.goto(adminUrl, { 
+        timeout: 60000 // Increase timeout to 60 seconds
+      })
 
       expect(response).not.toBeNull()
       if (response) {

@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server.js'
 import { auth } from '@/app/(auth)/auth'
 import crypto from 'crypto'
 

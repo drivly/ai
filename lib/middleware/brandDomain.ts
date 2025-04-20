@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server.js'
 import { isSiteDomain } from '../domains'
 
 export function handleBrandDomain(request: NextRequest): NextResponse | null {
