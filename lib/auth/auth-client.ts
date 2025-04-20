@@ -24,11 +24,12 @@ export function useHasRole(role: string | string[]) {
 
   if (!user) return false
 
-  if (Array.isArray(role)) {
-    return role.includes(user.role as string)
-  }
+  // if (Array.isArray(role)) {
+  //   return role.includes(user.role as string)
+  // }
 
-  return user.role === role
+  // return user.role === role
+  return false
 }
 
 export const useActiveOrganization = () => ({ organization: null })
