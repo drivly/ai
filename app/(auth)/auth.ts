@@ -49,7 +49,10 @@ const authOptions: any = {
   ...(MongoDBAdapter && clientPromise ? { adapter: MongoDBAdapter(clientPromise) } : {}),
   providers: [
     GitHub({}),
-    WorkOS({}),
+    WorkOS({
+      clientId: process.env.WORKOS_CLIENT_ID || "",
+      clientSecret: process.env.WORKOS_CLIENT_SECRET || "",
+    }),
   ],
   callbacks: {
     jwt(params: { token: JWT; user?: User }) {
