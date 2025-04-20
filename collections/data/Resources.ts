@@ -61,8 +61,7 @@ export const Resources: CollectionConfig = {
           })
 
           console.log(`Queued embedding generation for resource ${doc.id}`, job)
-          await payload.jobs.runByID({ id: job.id })
-
+          
           return doc
         } catch (error) {
           console.error('Error queueing generateResourceEmbedding task:', error)
