@@ -26,12 +26,14 @@ export async function middleware(request: NextRequest) {
   }
 
   if (handler.isProtectedRoute()) {
-    const session = await auth()
+    if (!handler.isAdminRoute()) {
+      const session = await auth()
 
-    if (!session) {
-      const signInUrl = new URL('/api/auth/signin', request.url)
-      signInUrl.searchParams.set('callbackUrl', request.url)
-      return NextResponse.redirect(signInUrl)
+      if (!session) {
+        const signInUrl = new URL('/api/auth/signin', request.url)
+        signInUrl.searchParams.set('callbackUrl', request.url)
+        return NextResponse.redirect(signInUrl)
+      }
     }
   }
 
