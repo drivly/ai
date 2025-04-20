@@ -178,7 +178,7 @@ export const POST = API(async (req, { user, payload }) => {
                   content: accumulatedContent
                 }
               })
-            } catch (error) {
+            } catch (error: any) {
               console.error('Error updating message content:', error)
             }
           }
@@ -193,12 +193,12 @@ export const POST = API(async (req, { user, payload }) => {
             content: accumulatedContent
           }
         })
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error updating final message content:', error)
       }
 
       writer.close()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error processing stream:', error)
     }
   }
