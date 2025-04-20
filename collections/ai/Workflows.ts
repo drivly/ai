@@ -61,12 +61,59 @@ export const Workflows: CollectionConfig = {
           },
         },
         {
+          name: 'billingModel',
+          type: 'select',
+          options: [
+            { label: 'Pay Per Use', value: 'payPerUse' },
+            { label: 'Pre-paid Credits', value: 'prepaid' },
+            { label: 'Post-paid Usage', value: 'postpaid' },
+            { label: 'Subscription', value: 'subscription' },
+          ],
+          defaultValue: 'payPerUse',
+          admin: {
+            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            description: 'Billing model for this workflow',
+          },
+        },
+        {
           name: 'pricePerUse',
           type: 'number',
           min: 0,
           admin: {
-            condition: (data, siblingData) => siblingData?.isMonetized === true,
+            condition: (data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'payPerUse',
             description: 'Price per use in USD cents (platform fee is 30% above LLM costs)',
+          },
+        },
+        {
+          name: 'consumptionUnit',
+          type: 'select',
+          options: [
+            { label: 'Tokens', value: 'tokens' },
+            { label: 'Requests', value: 'requests' },
+            { label: 'Compute Time (ms)', value: 'compute_ms' },
+          ],
+          defaultValue: 'requests',
+          admin: {
+            condition: (data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
+            description: 'Unit of measurement for consumption',
+          },
+        },
+        {
+          name: 'consumptionRate',
+          type: 'number',
+          min: 0,
+          admin: {
+            condition: (data, siblingData) => siblingData?.isMonetized === true && ['prepaid', 'postpaid'].includes(siblingData?.billingModel),
+            description: 'Price per consumption unit in USD cents',
+          },
+        },
+        {
+          name: 'billingPlan',
+          type: 'relationship',
+          relationTo: 'billingPlans',
+          admin: {
+            condition: (data, siblingData) => siblingData?.isMonetized === true && siblingData?.billingModel === 'subscription',
+            description: 'Subscription plan for this workflow',
           },
         },
         {

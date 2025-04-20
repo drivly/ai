@@ -255,7 +255,7 @@ class LLMDoLanguageModel implements LanguageModelV1 {
                     textDelta: parsed.choices[0].delta.content,
                   })
                 }
-              // eslint-disable-next-line no-empty
+                // eslint-disable-next-line no-empty
               } catch (e) {}
             }
           }

@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 async function PrivacyPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
   const { domain } = props.params
-  const searchParams = await props.searchParams
+  const searchParams = props.searchParams
 
   return (
     <div className='container mx-auto min-h-screen max-w-4xl px-3 pt-24 pb-12 md:pt-32'>

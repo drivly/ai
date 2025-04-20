@@ -143,8 +143,7 @@ class CollectionImpl<T = any> implements Collection<T> {
         const id = crypto.randomUUID()
         const docWithId = { ...document, _id: id }
 
-        await this.storage.sql.exec(`INSERT INTO documents (id, collection, data) VALUES (?, ?, ?)`, 
-          id, this.collectionName, JSON.stringify(docWithId))
+        await this.storage.sql.exec(`INSERT INTO documents (id, collection, data) VALUES (?, ?, ?)`, id, this.collectionName, JSON.stringify(docWithId))
         ids.push(id)
       }
     })
@@ -188,8 +187,7 @@ class CollectionImpl<T = any> implements Collection<T> {
         const id = (document as any)._id
         const updatedDocument = this.applyUpdate(document, update)
 
-        await this.storage.sql.exec(`UPDATE documents SET data = ? WHERE id = ? AND collection = ?`, 
-          JSON.stringify(updatedDocument), id, this.collectionName)
+        await this.storage.sql.exec(`UPDATE documents SET data = ? WHERE id = ? AND collection = ?`, JSON.stringify(updatedDocument), id, this.collectionName)
         modifiedCount++
       }
     })
@@ -230,8 +228,7 @@ class CollectionImpl<T = any> implements Collection<T> {
     await this.storage.transaction(async (txn: DurableObjectTransaction) => {
       for (const document of documents) {
         const id = (document as any)._id
-        await this.storage.sql.exec(`DELETE FROM documents WHERE id = ? AND collection = ?`, 
-          id, this.collectionName)
+        await this.storage.sql.exec(`DELETE FROM documents WHERE id = ? AND collection = ?`, id, this.collectionName)
         deletedCount++
       }
     })

@@ -1,11 +1,17 @@
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
-import { betterAuthPlugins } from './options'
+import { Session as NextAuthSession, User as NextAuthUser } from 'next-auth'
+import { authProviders } from './options'
 
-const payload = await getPayloadWithAuth()
+export type SocialProvider = 'github' | 'google' | 'workos' | 'linear'
 
-export type Session = typeof payload.betterAuth.$Infer.Session
-export type SocialProvider = Parameters<Awaited<ReturnType<typeof getPayloadWithAuth>>['betterAuth']['api']['signInSocial']>[0]['body']['provider']
-export type BetterAuthPlugins = typeof betterAuthPlugins
+export interface User extends NextAuthUser {
+  id: string
+  role?: string
+}
 
-export type Account = Awaited<ReturnType<typeof payload.betterAuth.api.listUserAccounts>>[number]
-export type DeviceSession = Awaited<ReturnType<typeof payload.betterAuth.api.listDeviceSessions>>[number]
+export interface Session {
+  user: User
+  expires: string
+}
+
+export type Account = any // Placeholder for next-auth Account type
+export type DeviceSession = any // Placeholder for session type

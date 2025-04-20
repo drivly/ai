@@ -1,3 +1,1 @@
-
-declare module 'geolib' {
-}
+declare module 'geolib' {}

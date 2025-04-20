@@ -34,6 +34,9 @@
   "dependencies": {
     "yaml": "^2.3.4"
   },
+  "peerDependencies": {
+    "next": "^15.0.0"
+  },
   "devDependencies": {
     "@types/node": "^22.13.11",
     "payload": "^3.0.0",

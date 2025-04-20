@@ -9,63 +9,61 @@
  * authentication works correctly across all environments.
  */
 export const getCurrentURL = (headers?: Headers) => {
-  // Debug logging for INVALID_ORIGIN troubleshooting
-
+  // In server components or API routes where headers are available, use the host
   if (headers?.get('host')) {
+    const proto = headers.get('x-forwarded-proto') || 'https'
     const host = headers.get('host')
-    const protocol = host?.includes('localhost') ? 'http' : 'https'
-    const url = `${protocol}://${host}`
-    console.log('getCurrentURL debug - using host, protocol, and url:', url)
+    const url = `${proto}://${host}`
+    console.log('🚀 ~ derived from headers:', url)
     return url
   }
 
+  // For development environment
   if (process.env.NODE_ENV === 'development') {
-    console.log('getCurrentURL debug - using development URL: http://localhost:3000')
+    console.log('🚀 ~ localhost URL: http://localhost:3000')
     return 'http://localhost:3000'
   }
 
-  if (typeof window !== 'undefined') {
-    console.log('getCurrentURL debug - using client-side window.location.origin:', window.location.origin)
-    return window.location.origin
-  }
-
-  if (process.env.NEXT_PUBLIC_SERVER_URL) {
-    console.log('getCurrentURL debug - using NEXT_PUBLIC_SERVER_URL:', process.env.NEXT_PUBLIC_SERVER_URL)
-    return process.env.NEXT_PUBLIC_SERVER_URL
-  }
-
-  if (process.env.SITE_URL) {
-    console.log('getCurrentURL debug - using SITE_URL:', process.env.SITE_URL)
-    return process.env.SITE_URL
-  }
-
-  if (process.env.NEXT_PUBLIC_SITE_URL) {
-    console.log('getCurrentURL debug - using NEXT_PUBLIC_SITE_URL:', process.env.NEXT_PUBLIC_SITE_URL)
-    return process.env.NEXT_PUBLIC_SITE_URL
-  }
-
-  if (process.env.VERCEL_URL) {
-    const url = `https://${process.env.VERCEL_URL}`
-    console.log('getCurrentURL debug - using VERCEL_URL:', url)
+  if (process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) {
+    const url = `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
+    console.log('🚀 ~ NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL:', url)
     return url
   }
 
   if (process.env.NEXT_PUBLIC_VERCEL_URL) {
     const url = `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-    console.log('getCurrentURL debug - using NEXT_PUBLIC_VERCEL_URL:', url)
+    console.log('🚀 ~ NEXT_PUBLIC_VERCEL_URL:', url)
     return url
   }
 
-  if (process.env.VERCEL_BRANCH_URL) {
-    console.log('getCurrentURL debug - using VERCEL_BRANCH_URL:', process.env.VERCEL_BRANCH_URL)
-    return process.env.VERCEL_BRANCH_URL
-  }
-
-  if (process.env.VERCEL_PREVIEW_URL) {
-    console.log('getCurrentURL debug - using VERCEL_PREVIEW_URL:', process.env.VERCEL_PREVIEW_URL)
-    return process.env.VERCEL_PREVIEW_URL
-  }
-
-  console.log('getCurrentURL debug - using fallback URL: https://apis.do')
+  // Fallback to primary API domain
+  console.log('🚀 ~ fallback URL: https://apis.do')
   return 'https://apis.do'
+}
+
+/**
+ * Gets the appropriate redirect path after authentication based on the domain
+ */
+export const getAuthRedirectForDomain = (hostname: string, destination: string) => {
+  switch (destination) {
+    case 'admin':
+      if (hostname.endsWith('.do') && !hostname.includes('apis.do')) {
+        return `/admin/collections/${hostname.replace('.do', '')}`
+      }
+      return '/admin'
+    case 'waitlist':
+      return '/waitlist'
+    default:
+      return '/'
+  }
+}
+
+export const getOAuthCallbackURL = (provider: 'google' | 'github' | 'workos' | 'linear', url?: string): string => {
+  if (process.env.NODE_ENV === 'development') {
+    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+    return `${baseUrl}/api/auth/callback/${provider}`
+  }
+
+  const baseUrl = url ? new URL(url).origin : getCurrentURL()
+  return `${baseUrl}/api/auth/callback/${provider}`
 }

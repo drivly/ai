@@ -3,6 +3,70 @@ import { API } from '@/lib/api'
 import { waitUntil } from '@vercel/functions'
 import hash from 'object-hash'
 
+export const POST = API(async (request, { db, user, url, payload, params, req }) => {
+  const { functionName } = params as { functionName: string }
+  const body = await request.json()
+  const { input } = body
+
+  if (!input) {
+    return Response.json({ error: 'Missing input in request body' }, { status: 400 })
+  }
+
+  const { args = {}, settings = {} } = input
+
+  const start = Date.now()
+  const results = await executeFunction({ input, payload })
+  const latency = Date.now() - start
+  const output = results?.output
+  const generationHash = results?.generationHash
+  const keys = Object.keys(output || {})
+  const type = keys.length === 1 ? keys[0] : undefined
+  const data = type ? output[type] : output
+
+  // Create links object
+  const baseUrl = request.nextUrl.origin + request.nextUrl.pathname
+  const links: Record<string, string> = {
+    self: decodeURIComponent(url.toString()).replace(/ /g, '+'),
+  }
+
+  const modelUrl = new URL(url)
+  modelUrl.pathname = modelUrl.pathname + '/models'
+  links.models = modelUrl.toString()
+
+  const functionDetails = await db.functions.findOne({
+    where: {
+      name: {
+        equals: functionName,
+      },
+    },
+    depth: 2,
+  })
+
+  if (functionDetails?.examples?.length > 0) {
+    const examplesUrl = new URL(url)
+    examplesUrl.pathname = examplesUrl.pathname + '/examples'
+    links.examples = examplesUrl.toString()
+  }
+
+  if (generationHash) {
+    const generationUrl = new URL(url)
+    generationUrl.pathname = `/api/generations/${generationHash}`
+    links.generation = generationUrl.toString()
+  }
+
+  return {
+    functionName,
+    args,
+    links,
+    type,
+    data,
+    reasoning: results?.reasoning?.split('\n'),
+    settings,
+    latency,
+    examples: functionDetails?.examples || [],
+  }
+})
+
 export const GET = API(async (request, { db, user, url, payload, params, req }) => {
   const { functionName } = params as { functionName: string }
   const { seed = '1', temperature, model, system, prompt, async = 'false', ...args } = Object.fromEntries(request.nextUrl.searchParams)

@@ -14,9 +14,7 @@ export const WelcomeEmail = ({ name }: { name: string }) => (
           <Hr className='mb-8 border-gray-200' />
 
           <Section>
-            <Text className='text-lg text-gray-700'>
-              Hey {name},
-            </Text>
+            <Text className='text-lg text-gray-700'>Hey {name},</Text>
             <Text className='text-lg text-gray-700'>
               Thanks for joining the waitlist for .Do — a new kind of AI platform that lets you turn business logic into AI-powered workflows using simple, modular code.
             </Text>

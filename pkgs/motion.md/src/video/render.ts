@@ -5,35 +5,28 @@ import path from 'path'
 /**
  * Generate video from slides using Remotion
  */
-export async function createVideoFromSlides({
-  slides,
-  config,
-  outputPath,
-  options = {}
-}: VideoGenerationOptions): Promise<VideoResult> {
+export async function createVideoFromSlides({ slides, config, outputPath, options = {} }: VideoGenerationOptions): Promise<VideoResult> {
   const defaultOptions = {
     tts: true,
     quality: 'production' as const,
   }
-  
+
   const mergedOptions = { ...defaultOptions, ...options }
-  
+
   const compositionPath = require.resolve('./composition')
-  
+
   const compositions = await getCompositions(compositionPath)
-  
-  const composition = compositions.find(
-    (comp: { id: string }) => comp.id === 'MotionComposition'
-  )
-  
+
+  const composition = compositions.find((comp: { id: string }) => comp.id === 'MotionComposition')
+
   if (!composition) {
     throw new Error('Could not find composition with id "MotionComposition"')
   }
-  
+
   const onProgress: RenderMediaOnProgress = ({ progress }: { progress: number }) => {
     console.log(`Rendering progress: ${Math.floor(progress * 100)}%`)
   }
-  
+
   const renderResult = await renderMedia({
     composition,
     codec: 'h264',
@@ -47,7 +40,7 @@ export async function createVideoFromSlides({
     onProgress,
     serveUrl: 'http://localhost:3000',
   })
-  
+
   return {
     success: true,
     outputPath,

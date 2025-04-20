@@ -33,7 +33,7 @@ jobs:
       script-path: 'scripts/release-pkgs-next.js'
       force-patch: true
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
       DATABASE_URI: ${{ secrets.DATABASE_URI }}

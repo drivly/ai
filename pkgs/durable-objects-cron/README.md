@@ -187,12 +187,14 @@ The library provides built-in error handling for task execution:
 ### Error Handling Recommendations
 
 1. **Monitor errors**: Regularly check for error records in your Durable Object storage
+
    ```typescript
    // List all error records
    const errors = await storage.list({ prefix: 'error:' })
    ```
 
 2. **Implement custom error handlers**: Extend the default error handling for specific tasks
+
    ```typescript
    createCronDurableObject({
      handlers: {
@@ -204,8 +206,8 @@ The library provides built-in error handling for task execution:
            await notifyAdmin(error)
            throw error // Re-throw to trigger built-in error handling
          }
-       }
-     }
+       },
+     },
    })
    ```
 

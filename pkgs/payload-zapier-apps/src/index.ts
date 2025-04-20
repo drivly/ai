@@ -7,13 +7,13 @@ export interface ZapierGeneratorOptions {
    * Path to the collections module
    * Default: ../../../collections/index.js (relative to this package)
    */
-  collectionsPath?: string;
-  
+  collectionsPath?: string
+
   /**
    * Directory where Zapier apps will be generated
    * Default: ./apps (relative to this package)
    */
-  outputDir?: string;
+  outputDir?: string
 }
 
 /**

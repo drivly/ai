@@ -360,6 +360,8 @@ try {
 
 APIs.do supports multiple authentication methods:
 
+### SDK Authentication
+
 ```typescript
 // API Key Authentication (recommended)
 const api = new API({
@@ -380,6 +382,30 @@ const api = new API({
   },
 })
 ```
+
+### CLI Authentication
+
+The CLI provides a browser-based authentication flow:
+
+```bash
+# Login via browser
+apis login
+
+# Login with an existing API key
+apis login YOUR_API_KEY
+
+# Logout and remove stored credentials
+apis logout
+```
+
+When using `apis login` without a token, the CLI will:
+
+1. Open your default browser to the login page
+2. Allow you to authenticate with your account
+3. Generate a machine-specific API key
+4. Securely store the key for future CLI use
+
+The stored API key is automatically used for all subsequent CLI commands.
 
 ## 📐 TypeScript Support
 

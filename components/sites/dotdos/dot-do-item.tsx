@@ -3,32 +3,50 @@ import { Badge } from '@/components/ui/badge'
 
 export interface DotDoItemProps {
   title: string
-  description: string
+  description?: string
   href: string
   mounted: boolean
   hasSdk?: boolean
+  tags?: string[]
+  links?: Array<{
+    title: string
+    url: string
+  }>
 }
 
-export const DotDoItem = ({ title, description, href, mounted, hasSdk }: DotDoItemProps) => {
+export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, links }: DotDoItemProps) => {
   const domain = href.startsWith('https://') ? href.substring(8) : title
 
-  if (!mounted) {
+  if (!mounted && process.env.NODE_ENV === 'development') {
     return (
       <div className='relative flex h-full flex-col rounded-md border border-gray-800 bg-slate-700/15 bg-[linear-gradient(rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] p-5 backdrop-blur-sm transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg'>
         <h3 className='relative z-10 mb-2 text-xl font-semibold tracking-tight'>{title}</h3>
-        <p className='text-muted-foreground relative z-10 mb-auto text-sm opacity-70'>{description}</p>
+        <p className='text-muted-foreground relative z-10 mb-auto text-sm opacity-70'>{description || ''}</p>
       </div>
     )
   }
 
   return (
-    <Link
-      href={href}
-      className='relative flex h-full flex-col rounded-md border border-gray-800 bg-slate-700/15 bg-[linear-gradient(rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] p-5 backdrop-blur-sm transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg'
-    >
-      <h3 className='relative z-10 mb-2 text-xl font-semibold tracking-tight'>{title}</h3>
-      <p className='text-muted-foreground relative z-10 mb-auto text-sm opacity-70'>{description}</p>
+    <div className='relative flex h-full flex-col rounded-md border border-gray-800 bg-slate-700/15 bg-[linear-gradient(rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] p-5 backdrop-blur-sm transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg'>
+      <Link href={href} className='mb-auto block'>
+        <h3 className='relative z-10 mb-2 text-xl font-semibold tracking-tight'>{title}</h3>
+        <p className='text-muted-foreground relative z-10 text-sm opacity-70'>{description || ''}</p>
+      </Link>
+
+      {/* Tags */}
+      {tags && tags.length > 0 && (
+        <div className='relative z-10 mt-3 flex flex-wrap gap-2'>
+          {tags.map((tag, index) => (
+            <Badge key={index} variant='outline' className='border-white/10 bg-white/5 text-xs'>
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
+
+      {/* Links */}
       <div className='relative z-10 mt-4 flex flex-wrap gap-2'>
+        {/* Default links */}
         <a href={`https://${domain}/api`} target='_blank' rel='noopener noreferrer'>
           <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
             API
@@ -46,7 +64,17 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk }: DotDoIt
             Docs
           </Badge>
         </a>
+
+        {/* Custom links from YAML */}
+        {links &&
+          links.map((link, index) => (
+            <a key={index} href={link.url} target='_blank' rel='noopener noreferrer'>
+              <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
+                {link.title}
+              </Badge>
+            </a>
+          ))}
       </div>
-    </Link>
+    </div>
   )
 }

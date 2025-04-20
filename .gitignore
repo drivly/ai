@@ -173,3 +173,5 @@ public/_pagefind/
 # tests/chromatic/sites.test.ts-snapshots/ # Snapshots should be committed
 
 test-results/
+
+certificates

@@ -39,11 +39,10 @@ export function register() {
     window.gtag = gtag
     gtag('js', new Date())
     gtag('config', process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID)
-    
+
     const script = document.createElement('script')
     script.src = `https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`
     script.async = true
     document.head.appendChild(script)
   }
-  
 }

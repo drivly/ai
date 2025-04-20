@@ -1,0 +1,19 @@
+{
+  "extends": "tsconfig/src/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "noEmit": false,
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "allowJs": true,
+    "skipLibCheck": true
+  },
+  "include": ["./src/**/*.ts", "./src/models.js", "./src/models.d.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "build/**/*.ts", "src/demo.ts"]
+}

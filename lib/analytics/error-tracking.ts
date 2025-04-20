@@ -9,7 +9,7 @@ export function captureError(error: Error, context?: Record<string, any>) {
       error_message: error.message,
       error_name: error.name,
       error_stack: error.stack,
-      ...context
+      ...context,
     })
   }
 }

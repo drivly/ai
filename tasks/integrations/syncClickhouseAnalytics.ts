@@ -14,7 +14,7 @@ export const syncClickhouseAnalyticsHandler = async ({ payload, job }: { payload
       username: process.env.CLICKHOUSE_USERNAME,
       password: process.env.CLICKHOUSE_PASSWORD,
       database: process.env.CLICKHOUSE_DATABASE || 'default',
-      forceRecreate: process.env.CLICKHOUSE_FORCE_RECREATE === 'true'
+      forceRecreate: process.env.CLICKHOUSE_FORCE_RECREATE === 'true',
     })
 
     const analyticsService = createAnalyticsService(clickhouseClient)

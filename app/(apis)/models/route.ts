@@ -1,11 +1,12 @@
 import { API } from '@/lib/api'
-import { Capability, getModel, Provider, reconstructModelString, models, Model } from '@/pkgs/ai-models'
+import camelcase from 'camelcase'
+import { filterModels, constructModelIdentifier, models, Model, parse } from 'language-models'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
   // Using the new db interface for more concise syntax
   // const functions = await db.functions.find()
 
-  const originOrApiRoute = !origin.includes('models.do') ? `${origin}/models` : origin
+  const originOrApiRoute = !origin.includes('models.do') ? `${origin}/models` : `${origin}/api`
 
   const modifyQueryString = (param: string, value: string | number, type: 'string' | 'boolean' | 'array' = 'string') => {
     const qs = new URLSearchParams(request.url.split('?')[1])
@@ -79,15 +80,15 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   const groupModels = qs.get('models')?.split(',').filter(Boolean) ?? []
   const sortByUntyped = qs.get('sort') ?? 'top-weekly'
 
-  type SortingValue = keyof Model['sorting'] | undefined
-
   // Ensure sortBy is one of the valid sorting values
-  const allowedSortingValues: SortingValue[] = ['topWeekly', 'newest', 'throughputHighToLow', 'latencyLowToHigh', 'pricingLowToHigh', 'pricingHighToLow']
-  const sortBy: SortingValue = allowedSortingValues.includes(sortByUntyped as SortingValue) ? (sortByUntyped as SortingValue) : undefined
+  const allowedSortingValues = ['topWeekly', 'newest', 'throughputHighToLow', 'latencyLowToHigh', 'pricingLowToHigh', 'pricingHighToLow']
+  const sortBy = allowedSortingValues.includes(sortByUntyped) ? sortByUntyped : undefined
 
   if (model) {
+    const targetModel = filterModels(model)
     return {
-      resolvedModel: getModel(model),
+      resolvedModel: targetModel.models[0],
+      parsed: targetModel.parsed,
     }
   }
 
@@ -119,10 +120,9 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   }
 
   let validModels = models.filter((model) => {
-    if (provider && model.provider !== provider) return false
     if (author && model.author !== author) return false
     if (capabilities.length > 0) {
-      return capabilities.some((capability) => model.capabilities?.includes(capability as Capability))
+      return capabilities.some((capability) => model.endpoint?.supportedParameters?.includes(camelcase(capability)))
     }
 
     return true
@@ -132,6 +132,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   if (sortBy) {
     // Sort using the sorting object
     validModels = validModels.sort((a, b) => {
+      // @ts-expect-error - Ignore
       return a.sorting[sortBy] - b.sorting[sortBy]
     })
   } else {
@@ -162,16 +163,18 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   let modelsObject = validModels
     .map((model) => {
       //console.log(model.name, model.alias)
-      const reconstructedModelString = reconstructModelString({
-        provider: model.provider,
-        model: model.alias || model.modelIdentifier || '',
-        capabilities: capabilities as Capability[],
-      })
+      const modelId = model.slug || ''
+
+      const allFeaturesCombined = [...capabilities, outputType ?? '']
+
+      const parsedModel = parse(`${modelId}(${allFeaturesCombined.join(',')})`)
+
+      const reconstructedModelString = constructModelIdentifier(parsedModel)
 
       const query = new URLSearchParams(qs)
       // Remove any params that are already being used
       // These params are not needed for the exit URL
-      const paramsToRemove = ['groupBy', 'capabilities', 'provider', 'author']
+      const paramsToRemove = ['groupBy', 'capabilities', 'provider', 'author', 'outputType']
 
       paramsToRemove.forEach((param) => {
         query.delete(param)
@@ -188,11 +191,10 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         url,
         name: model.name,
         author: model.author,
-        provider: model.provider,
-        capabilities: model.capabilities,
-        defaults: model.defaults,
-        priceInput: model.rawModel?.endpoint?.pricing.prompt,
-        priceOutput: model.rawModel?.endpoint?.pricing.completion,
+        provider: model.providers?.[0]?.slug,
+        capabilities: model.endpoint?.supportedParameters,
+        priceInput: model.endpoint?.pricing.prompt,
+        priceOutput: model.endpoint?.pricing.completion,
       }
     })
     .reduce((acc, curr) => {

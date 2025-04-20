@@ -3,6 +3,7 @@ import { resolve } from 'path'
 
 export default defineConfig({
   test: {
+    environment: 'node',
     setupFiles: ['dotenv/config'],
   },
   resolve: {

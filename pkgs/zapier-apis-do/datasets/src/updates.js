@@ -1,66 +1,66 @@
 // Update Datasets for Zapier
 const perform = async (z, bundle) => {
   // Remove id from the input data as it's in the URL
-  const inputData = { ...bundle.inputData };
-  delete inputData.id;
-  
+  const inputData = { ...bundle.inputData }
+  delete inputData.id
+
   const response = await z.request({
     url: `${bundle.authData.apiUrl}/api/datasets/${bundle.inputData.id}`,
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     },
-    body: inputData
-  });
+    body: inputData,
+  })
 
-  return response.data;
-};
+  return response.data
+}
 
 module.exports = {
   key: 'updateDatasets',
   noun: 'Datasets',
-  
+
   display: {
     label: 'Update Datasets',
-    description: 'Updates an existing Datasets.'
+    description: 'Updates an existing Datasets.',
   },
-  
+
   operation: {
     perform,
-    
+
     inputFields: [
       {
         key: 'id',
         label: 'ID',
         type: 'string',
         required: true,
-        helpText: 'The ID of the Datasets to update'
+        helpText: 'The ID of the Datasets to update',
       },
-    {
-      key: 'name',
-      label: 'Name',
-      type: 'string',
-      required: false,
-      helpText: 'The Name of the Datasets'
-    }
+      {
+        key: 'name',
+        label: 'Name',
+        type: 'string',
+        required: false,
+        helpText: 'The Name of the Datasets',
+      },
     ],
-    
+
     outputFields: [
       {
         key: 'id',
-        label: 'ID'
+        label: 'ID',
       },
-    {
-      key: 'name',
-      label: 'Name'
-    }
+      {
+        key: 'name',
+        label: 'Name',
+      },
     ],
-    
+
     sample: {
       id: 'sample-id-1234',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
-  }
-};
+      updatedAt: new Date().toISOString(),
+    },
+  },
+}

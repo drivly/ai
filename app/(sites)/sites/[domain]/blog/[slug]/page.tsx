@@ -1,7 +1,7 @@
-import { Badge } from '@/components/ui/badge'
 import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
+import { Badge } from '@/components/ui/badge'
 import { ArrowLeft } from 'lucide-react'
 import { headers } from 'next/headers'
 import Image from 'next/image'
@@ -9,7 +9,7 @@ import Link from 'next/link'
 import { getBlogPostBySlug } from '../blog-posts'
 
 async function BlogPostPage(props: { params: { domain: string; slug?: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
-  const { domain, slug } = props.params
+  const { domain, slug } = props.params || {}
   const headersList = await headers()
   const proto = headersList.get('x-forwarded-proto')
   const host = headersList.get('x-forwarded-host')
