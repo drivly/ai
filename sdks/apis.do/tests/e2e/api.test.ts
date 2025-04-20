@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll } from 'vitest'
-import { CLI } from '@/sdks/apis.do/src/cli.js'
-import { API } from '@/sdks/apis.do/src/client.js'
+import { CLI } from '../../src/cli.js'
+import { API } from '../../src/client.js'
 
 const apiKey = process.env.APIS_DO_API_KEY || process.env.DO_API_KEY
 const shouldRunE2E = !!apiKey

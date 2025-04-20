@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { cartesian, experiment } from '@/sdks/experiments.do/src/experiment.js'
+import { cartesian, experiment } from '../../src/experiment.js'
 
 describe('cartesian', () => {
   it('should generate all combinations of parameters', () => {
