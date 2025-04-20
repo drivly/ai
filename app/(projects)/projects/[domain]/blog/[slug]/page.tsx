@@ -13,7 +13,7 @@ import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string; slug: string }> }): Promise<Metadata> {
-  const { domain, slug } = await params
+  const { domain, slug } = await params || {}
 
   const project = await fetchProjectByDomain(domain)
   if (!project) return { title: 'Post Not Found' }
@@ -68,7 +68,7 @@ function BlogPostNotFound({ fallbackImage = '/images/blog-default.png' }) {
 
 export default async function BlogPostPage({ params }: { params: Promise<{ domain: string; slug: string }> }) {
   try {
-    const { domain, slug } = await params
+    const { domain, slug } = await params || {}
     const headersList = await headers()
     const proto = headersList.get('x-forwarded-proto') || 'https'
     const host = headersList.get('x-forwarded-host') || domain
