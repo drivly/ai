@@ -27,12 +27,18 @@ export const AI = (config: AIConfig) => {
           const schema = Object.fromEntries(Object.entries(config[functionName]).filter(([key]) => !key.startsWith('_')))
           const settings = Object.fromEntries(Object.entries(config[functionName]).filter(([key]) => key.startsWith('_')))
           // TODO: if functionName is a workflow, call it directly wrapped in try/catch, and maybe queued in a job
-          return (args: any) =>
-            executeFunction({ functionName, schema, settings, args }).catch((error) => {
+          return (args: any) => {
+            if (!functionName) {
+              console.error('Missing functionName in AI function call')
+              throw new Error('Invalid function call: missing functionName')
+            }
+            
+            return executeFunction({ functionName, schema, settings, args }).catch((error) => {
               console.error(`Error executing function ${functionName}:`, error)
               // TODO: log error in db ... maybe also create a task to retry
               throw error
             })
+          }
         }
         throw new Error(`Function ${functionName} not found in AI config`)
       },
