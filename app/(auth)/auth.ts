@@ -4,15 +4,23 @@ import { authConfig } from "./auth.config"
 import { getOAuthCallbackURL } from "@/lib/utils/url"
 import { DefaultSession, JWT } from "next-auth"
 
-let MongoDBAdapter: any
-let clientPromise: any
+let MongoDBAdapter: any = null
+let clientPromise: any = null
 
 if (typeof window === 'undefined' && typeof process !== 'undefined' && process.env.NEXT_RUNTIME !== 'edge') {
-  const { MongoDBAdapter: MongoDBAdapterImport } = require("@auth/mongodb-adapter")
-  const mongoClientPromise = require("@/lib/mongodb").default
+  const loadAdapterAndClient = async () => {
+    try {
+      const adapterModule = await import('@auth/mongodb-adapter')
+      const mongoModule = await import('@/lib/mongodb')
+      
+      MongoDBAdapter = adapterModule.MongoDBAdapter
+      clientPromise = mongoModule.default
+    } catch (e) {
+      console.error('Failed to import MongoDB adapter or client:', e)
+    }
+  }
   
-  MongoDBAdapter = MongoDBAdapterImport
-  clientPromise = mongoClientPromise
+  loadAdapterAndClient()
 }
 
 declare module "next-auth" {
