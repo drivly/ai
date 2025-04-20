@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
 import { getGlowColor } from '@/domains.config'
+import { HeroSection } from '@/components/sites/sections/hero-section'
+import { EmailCaptureForm } from '@/components/email-capture-form'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,7 +29,19 @@ export default async function ProjectLandingPage({ params }: { params: Promise<{
     const project = await fetchProjectByDomain(domain)
 
     if (!project) {
-      return <div>Project Not Found</div>
+      return (
+        <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
+          <HeroSection
+            title={`${domain}`}
+            description='This project is coming soon! Join our waitlist to get notified when we launch.'
+            buttonText='Join Waitlist'
+            domain={domain}
+          />
+          <div className='mx-auto mt-12 max-w-md'>
+            <EmailCaptureForm domain={domain} />
+          </div>
+        </div>
+      )
     }
 
     const glowColor = getGlowColor(domain)

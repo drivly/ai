@@ -41,7 +41,7 @@ export const withSitesWrapper = <TParams extends { domain?: string; slug?: strin
 
     const session = await auth()
     const payload = await getPayloadWithAuth()
-    
+
     let currentUser = null
     if (session?.user?.email) {
       try {
@@ -56,7 +56,7 @@ export const withSitesWrapper = <TParams extends { domain?: string; slug?: strin
         if (users.docs[0]) {
           currentUser = {
             ...users.docs[0],
-            collection: 'users' as const
+            collection: 'users' as const,
           }
         }
       } catch (error) {
@@ -79,14 +79,9 @@ export const withSitesWrapper = <TParams extends { domain?: string; slug?: strin
           {withFaqs && <Faqs />}
           {withCallToAction && <CallToAction />}
           <Footer minimal={minimal} />
-          
+
           {/* Add hidden iframe for cross-domain auth */}
-          <iframe 
-            src="https://apis.do/login" 
-            style={{ display: 'none' }} 
-            title="Authentication sync"
-            aria-hidden="true"
-          />
+          <iframe src='https://apis.do/login' style={{ display: 'none' }} title='Authentication sync' aria-hidden='true' />
         </Fragment>
       </AuthProvider>
     )

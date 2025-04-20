@@ -132,7 +132,6 @@ const sources = [
       },
     ],
   },
-
 ]
 
 const adapters = {

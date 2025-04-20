@@ -16,25 +16,25 @@ export const GET = API(async (request, { url }) => {
   }
 
   const session = await auth()
-  
+
   if (session?.user) {
     const callbackUrl = new URL(`/api/auth/callback/${provider}`, url.origin)
     callbackUrl.searchParams.set('redirect_uri', redirectUri)
     if (state) {
       callbackUrl.searchParams.set('state', state)
     }
-    
+
     return NextResponse.redirect(callbackUrl)
   } else {
     const signInUrl = new URL(`/api/auth/signin/${provider}`, url.origin)
-    
+
     const callbackUrl = new URL(request.url)
     signInUrl.searchParams.set('callbackUrl', callbackUrl.toString())
-    
+
     if (state) {
       signInUrl.searchParams.set('state', state)
     }
-    
+
     return NextResponse.redirect(signInUrl)
   }
 })

@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 async function IntegrationsRootPage(props: { params: { domain: string } }) {
   const { domain } = props.params
   await getSession()
-  
+
   return (
     <div className='container mx-auto max-w-6xl px-3 py-24'>
       <h1 className='text-4xl font-bold tracking-tight'>Integrations</h1>

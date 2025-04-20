@@ -2,10 +2,10 @@ export const DEFAULT_LOGIN_REDIRECT = '/admin'
 export const API_AUTH_PREFIX = '/api/auth'
 
 export const publicRoutes = [
-  '/api/users/me', 
-  '/api/users/logout', 
-  '/login', 
-  '/logout', 
+  '/api/users/me',
+  '/api/users/logout',
+  '/login',
+  '/logout',
   '/admin/login',
   '/sign-in',
   '/sign-up',
@@ -14,14 +14,7 @@ export const publicRoutes = [
   '/api/auth/session',
   '/api/auth/csrf',
   '/api/auth/providers',
-  '/api/auth/callback'
+  '/api/auth/callback',
 ]
 
-export const protectedRoutes = [
-  '/dashboard',
-  '/dashboard/*',
-  '/account',
-  '/account/*',
-  '/admin',
-  '/admin/*'
-]
+export const protectedRoutes = ['/dashboard', '/dashboard/*', '/account', '/account/*', '/admin', '/admin/*']

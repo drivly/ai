@@ -50,15 +50,15 @@ type LLMProviderConfig = {
 
 export const createLLMProvider = (config: LLMProviderConfig) => (model: string, options?: ProviderOptions) => {
   const augments: Record<string, any> = {}
-  
+
   if (options?.tools) augments.tools = options.tools
   if (options?.priorities) augments.priorities = options.priorities
   if (options?.reasoning) {
-    augments.capabilities ??= {};
-    augments.capabilities = { ...augments.capabilities, reasoning: true };
+    augments.capabilities ??= {}
+    augments.capabilities = { ...augments.capabilities, reasoning: true }
   }
   if (options?.maxPrice) augments.providerConstraints = [{ field: 'cost', value: options.maxPrice.toString(), type: 'lt' }]
-  
+
   return new LLMProvider(model, options ?? {}, augments)
 }
 
@@ -72,7 +72,7 @@ export const model = createLLMProvider({})
  */
 export const models = (modelIdentifiers: string, options?: ProviderOptions) => {
   const modelInstances = getModels(modelIdentifiers)
-  return modelInstances.map(model => new LLMProvider(model.slug, options ?? {}))
+  return modelInstances.map((model) => new LLMProvider(model.slug, options ?? {}))
 }
 
 class LLMProvider implements LanguageModelV1 {
@@ -82,13 +82,13 @@ class LLMProvider implements LanguageModelV1 {
   constructor(
     public modelId: string,
     public options: ProviderOptions,
-    private augments?: Record<string, any>
+    private augments?: Record<string, any>,
   ) {
     this.modelId = modelId
     this.options = options ?? {}
-    
+
     this.resolvedModel = getModel(modelId, this.augments || {})
-    
+
     if (!this.resolvedModel.slug) {
       throw new Error(`Model ${modelId} not found`)
     }

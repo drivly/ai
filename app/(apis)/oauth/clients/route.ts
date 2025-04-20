@@ -7,7 +7,7 @@ export const GET = API(async (request, { url, user }) => {
   }
 
   const payload = await getPayloadWithAuth()
-  
+
   let userDoc
   try {
     userDoc = await payload.findByID({

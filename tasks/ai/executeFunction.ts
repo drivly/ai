@@ -14,6 +14,10 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   // const { payload } = req
   if (!payload) payload = req?.payload
 
+  if (!input) {
+    throw new Error('Invalid input: input object is undefined')
+  }
+
   if (!input.functionName && input.data) {
     input = {
       functionName: 'executeFunction',
@@ -22,7 +26,12 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     }
   }
 
-  const { functionName, args, schema, timeout, seeds, callback, type } = input
+  const { functionName = null, args = {}, schema = null, timeout = null, seeds = null, callback = null, type = null } = input
+
+  // Validate required parameters
+  if (!functionName) {
+    throw new Error('Missing required parameter: functionName')
+  }
   const { settings } = input as any
   const start = Date.now()
 

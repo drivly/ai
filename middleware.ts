@@ -20,21 +20,21 @@ import { RequestHandler } from './lib/middleware/request-handler'
  */
 export async function middleware(request: NextRequest) {
   const handler = new RequestHandler(request)
-  
+
   if (handler.isApiAuthRoute() || handler.isPublicRoute()) {
     return NextResponse.next()
   }
-  
+
   if (handler.isProtectedRoute()) {
     const session = await auth()
-    
+
     if (!session) {
       const signInUrl = new URL('/api/auth/signin', request.url)
       signInUrl.searchParams.set('callbackUrl', request.url)
       return NextResponse.redirect(signInUrl)
     }
   }
-  
+
   return analyticsMiddleware(request, async () => {
     if (handler.isApiRoute()) {
       console.log('Handling API route', { hostname: handler.hostname, pathname: handler.pathname, search: handler.search })

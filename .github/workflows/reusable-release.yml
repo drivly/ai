@@ -15,7 +15,7 @@ on:
         type: boolean
         default: true
     secrets:
-      GITHUB_TOKEN:
+      GH_TOKEN:
         required: true
       NPM_TOKEN:
         required: true
@@ -74,7 +74,7 @@ jobs:
         id: semantic-release
         run: node ${{ inputs.script-path }}
         env:
-          GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT || secrets.GH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           FORCE_PATCH_RELEASE: ${{ inputs.force-patch && 'true' || 'false' }}
           NPM_CONFIG_REGISTRY: 'https://registry.npmjs.org/'
