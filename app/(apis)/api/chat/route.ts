@@ -161,7 +161,11 @@ export const POST = API(async (req, { user, payload }) => {
             } else if (roleInput === 'tool') {
               if (!m.metadata?.tool_call_id) {
                 console.warn('Skipping tool message without tool_call_id');
-                return null;
+                // Return a user message instead of null to avoid type errors
+                return {
+                  role: 'user' as const,
+                  content: m.content
+                };
               }
               return {
                 role: 'tool' as const,
