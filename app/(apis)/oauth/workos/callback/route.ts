@@ -112,8 +112,8 @@ export const GET = API(async (request, { url }) => {
     const accessToken = crypto.randomBytes(32).toString('hex')
     const refreshToken = crypto.randomBytes(32).toString('hex')
     
-    const expiresAt = new Date()
-    expiresAt.setHours(expiresAt.getHours() + 1)
+    const expiresAtDate = new Date()
+    expiresAtDate.setHours(expiresAtDate.getHours() + 1)
     
     await payload.create({
       collection: 'oauthTokens',
@@ -122,7 +122,7 @@ export const GET = API(async (request, { url }) => {
         provider: 'workos',
         userId,
         clientId: originalClientId,
-        expiresAt,
+        expiresAt: expiresAtDate,
         scope: 'read write',
       },
     })

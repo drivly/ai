@@ -62,8 +62,8 @@ export const POST = API(async (request, { url }) => {
     const accessToken = crypto.randomBytes(32).toString('hex')
     const newRefreshToken = crypto.randomBytes(32).toString('hex')
     
-    const expiresAt = new Date()
-    expiresAt.setHours(expiresAt.getHours() + 1)
+    const expiresAtDate = new Date()
+    expiresAtDate.setHours(expiresAtDate.getHours() + 1)
     
     const tokenResult = await payload.find({
       collection: 'oauthTokens',
@@ -88,7 +88,7 @@ export const POST = API(async (request, { url }) => {
         provider: existingToken.provider,
         userId: existingToken.userId,
         clientId: client_id,
-        expiresAt,
+        expiresAt: expiresAtDate,
         scope: existingToken.scope || 'read write',
       },
     })
