@@ -48,7 +48,7 @@ jobs:
       script-path: ${{ github.ref == 'refs/heads/next' && 'scripts/release-sdks-next.js' || 'scripts/release-sdks.js' }} ${{ inputs.dry-run == 'true' && '--dry-run' || '' }}
       force-patch: true
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       WORKFLOW_PAT: ${{ secrets.WORKFLOW_PAT }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
