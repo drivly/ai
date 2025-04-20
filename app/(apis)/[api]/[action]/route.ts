@@ -78,8 +78,10 @@ async function resolveActionId(api: string, actionName: string): Promise<string 
  * GET handler for action information
  * Returns details about a specific action for an API
  */
-export const GET = API(async (request, { params, url }) => {
+export const GET = API(async (request, context) => {
+  const params = await context.params;
   const { api, action } = params as { api: string; action: string };
+  const { url } = context;
 
   const apiExists = api in apis;
   const isAlias = api in domainsConfig.aliases;
@@ -142,8 +144,10 @@ export const GET = API(async (request, { params, url }) => {
  * POST handler for executing actions
  * Executes a specific action with provided parameters
  */
-export const POST = API(async (request, { params, url }) => {
+export const POST = API(async (request, context) => {
+  const params = await context.params;
   const { api, action } = params as { api: string; action: string };
+  const { url } = context;
 
   const apiExists = api in apis;
   const isAlias = api in domainsConfig.aliases;
