@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { NextRequest } from 'next/server'
+import { NextRequest } from 'next/server.js'
 
 /**
  * Catch-all route handler for API endpoints that don't match existing routes

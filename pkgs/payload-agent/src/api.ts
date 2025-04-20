@@ -11,7 +11,7 @@ import {
   ToolExecutionError,
   streamText,
 } from 'ai'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server.js'
 import { PROMPT_TEMPLATES, type SystemPromptContext } from './lib'
 import type { PromptTemplate } from './lib/prompt-templates'
 import type { PayloadAgentAuthResult } from './types/auth'
