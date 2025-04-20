@@ -117,7 +117,7 @@ export const POST = API(async (req, { user, payload }) => {
   }
 
   const userMessage = await payload.create({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     data: {
       title: 'User Message',
       content: messages[messages.length - 1].content,

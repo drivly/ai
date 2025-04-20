@@ -25,7 +25,7 @@ export const GET = API(async (req, { user, payload }) => {
   }
 
   const documents = await payload.find({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     where: {
       id: { equals: documentId },
       resourceType: { equals: 'document' }
