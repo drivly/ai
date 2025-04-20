@@ -56,6 +56,20 @@ const nextConfig = {
       config.devtool = false;
     }
     
+    // Add fallbacks for node: imports
+    if (!isServer) {
+      // Use string path for process fallback in ESM
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        process: false,
+      };
+      
+      // Use node: protocol externals for server-only code
+      config.externals.push({
+        'node:process': 'process',
+      });
+    }
+    
     return config
   },
 }
