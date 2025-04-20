@@ -31,10 +31,8 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
   const body = await request.json()
   
   const service = await db.services.create({
-    data: {
-      ...body,
-      status: body.status || 'active',
-    },
+    ...body,
+    status: body.status || 'active',
   })
   
   return service
@@ -51,10 +49,7 @@ export const PATCH = API(async (request, { db, user, origin, url, domain }) => {
   
   const body = await request.json()
   
-  const service = await db.services.update({
-    id,
-    data: body,
-  })
+  const service = await db.services.update(id, body)
   
   return service
 })
@@ -68,9 +63,7 @@ export const DELETE = API(async (request, { db, user, origin, url, domain }) => 
     }
   }
   
-  const service = await db.services.delete({
-    id,
-  })
+  const service = await db.services.delete(id)
   
   return service
 })
