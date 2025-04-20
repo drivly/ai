@@ -1,10 +1,10 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { useChat } from '@ai-sdk/react';
-import { ChatProvider as PayloadChatProvider, ChatContextProvider } from '@/pkgs/payload-agent/src/components/store/context';
+import { ChatProvider as PayloadChatProvider } from '@/pkgs/payload-agent/src/components/store/context';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useChatMessages } from '@/pkgs/payload-agent/src/components/store/context';
 
 export function ChatProvider({
   children,
@@ -16,24 +16,33 @@ export function ChatProvider({
   const router = useRouter();
   const isNewChat = chatId === 'new';
 
-  const chat = useChat({
-    id: isNewChat ? crypto.randomUUID() : chatId,
-    api: '/api/chat',
-    onError: (error) => {
-      console.error('Chat error:', error);
-      toast.error('An error occurred during the chat');
-    },
-  });
-
-  React.useEffect(() => {
-    if (isNewChat && chat.messages.length > 0 && chatId === 'new') {
-      router.replace(`/chat/${chat.id}`);
-    }
-  }, [isNewChat, chat.messages.length, chatId, router, chat.id]);
-
   return (
-    <ChatContextProvider value={chat}>
-      {children}
-    </ChatContextProvider>
+    <PayloadChatProvider>
+      <ChatRedirect chatId={chatId} isNewChat={isNewChat}>
+        {children}
+      </ChatRedirect>
+    </PayloadChatProvider>
   );
+}
+
+function ChatRedirect({
+  children,
+  chatId,
+  isNewChat,
+}: {
+  children: ReactNode;
+  chatId: string;
+  isNewChat: boolean;
+}) {
+  const router = useRouter();
+  const { messages } = useChatMessages();
+  
+  React.useEffect(() => {
+    if (isNewChat && messages.length > 0 && chatId === 'new') {
+      const newChatId = crypto.randomUUID();
+      router.replace(`/chat/${newChatId}`);
+    }
+  }, [isNewChat, messages.length, chatId, router]);
+
+  return <>{children}</>;
 }
