@@ -27,7 +27,11 @@ function WaitlistPage({ params }: { params: { domain: string } }) {
         } else {
           setUser(currentUser)
           const validDomain = domain && domain !== '[domain]' ? domain : 'default'
-          await handleWaitlistActions(currentUser, validDomain)
+          try {
+            await handleWaitlistActions(currentUser, validDomain)
+          } catch (error) {
+            console.error('Waitlist actions failed:', error)
+          }
         }
         setIsLoading(false)
       } catch (error) {
