@@ -169,7 +169,7 @@ export interface Config {
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     databases: DatabasesSelect<false> | DatabasesSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
-    'chat-resources': ChatResourcesSelect<false> | ChatResourcesSelect<true>;
+    chatResources: ChatResourcesSelect<false> | ChatResourcesSelect<true>;
     actions: ActionsSelect<false> | ActionsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
@@ -1278,7 +1278,7 @@ export interface Database {
  * User-generated chat content and messages
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "chat-resources".
+ * via the `definition` "chatResources".
  */
 export interface ChatResource {
   id: string;
@@ -2797,7 +2797,7 @@ export interface PayloadLockedDocument {
         value: string | Resource;
       } | null)
     | ({
-        relationTo: 'chat-resources';
+        relationTo: 'chatResources';
         value: string | ChatResource;
       } | null)
     | ({
@@ -3324,7 +3324,7 @@ export interface ResourcesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "chat-resources_select".
+ * via the `definition` "chatResources_select".
  */
 export interface ChatResourcesSelect<T extends boolean = true> {
   tenant?: T;
