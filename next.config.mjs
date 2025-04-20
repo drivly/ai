@@ -49,11 +49,18 @@ const nextConfig = {
       },
     ]
     
+    // Memory optimizations
+    if (!dev) {
+      // Disable source maps in production to reduce memory usage
+      config.devtool = false;
+    }
+    
     // Handle Node.js modules used by Remotion renderer
     // These are needed for the build process but not for runtime
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
+        process: false,
         'child_process': false,
         'fs': false,
         'path': false,
@@ -62,7 +69,12 @@ const nextConfig = {
         'util': false,
         'zlib': false,
         'url': false,
-      }
+      };
+      
+      // Use node: protocol externals for server-only code
+      config.externals.push({
+        'node:process': 'process',
+      });
     }
     
     return config
