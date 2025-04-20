@@ -53,6 +53,7 @@ import { Plans } from './business/Plans'
 import { KPIs } from './business/KPIs'
 import Config from './sync/Config'
 import { Organizations, BillingPlans, Subscriptions, Usage, ConnectAccounts } from './billing'
+import { Services } from './infrastructure/Services'
 
 export const collections = [
   // Register AI collections first
@@ -130,6 +131,9 @@ export const collections = [
   Tags,
   Webhooks,
   APIKeys,
+  
+  // Infrastructure collections
+  Services,
 
   OAuthClients,
   OAuthCodes,
