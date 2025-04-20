@@ -4,10 +4,6 @@ import GitHub from 'next-auth/providers/github'
 import WorkOS from 'next-auth/providers/workos'
 
 export const authConfig = {
-  pages: {
-    signIn: '/login',
-    newUser: '/',
-  },
   providers: [
     GitHub({
       clientId: process.env.GITHUB_CLIENT_ID || '',
