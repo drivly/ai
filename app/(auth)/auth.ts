@@ -2,7 +2,8 @@ import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import { authConfig } from "./auth.config"
 import { getOAuthCallbackURL } from "@/lib/utils/url"
-import { DefaultSession, JWT } from "next-auth"
+import { DefaultSession, JWT, User, Session } from "next-auth"
+import { AdapterUser } from "next-auth/adapters"
 
 let MongoDBAdapter: any = null
 let clientPromise: any = null
@@ -139,17 +140,17 @@ const authOptions = {
     // },
   ],
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: any }) {
+    async jwt({ token, user }) {
       if (user) {
         token.id = user.id
         token.role = user.role || 'user'
       }
       return token
     },
-    async session({ session, token }: { session: any; token: JWT }) {
+    async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.id as string
-        session.user.role = token.role as string
+        session.user.id = token.id
+        session.user.role = token.role
       }
       return session
     }
