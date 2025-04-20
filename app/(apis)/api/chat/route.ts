@@ -159,10 +159,14 @@ export const POST = API(async (req, { user, payload }) => {
                 name: m.metadata?.name || 'default_name'
               };
             } else if (roleInput === 'tool') {
+              if (!m.metadata?.tool_call_id) {
+                console.warn('Skipping tool message without tool_call_id');
+                return null;
+              }
               return {
                 role: 'tool' as const,
                 content: m.content,
-                name: m.metadata?.name || 'default_name'
+                tool_call_id: m.metadata.tool_call_id
               };
             } else {
               return {
@@ -170,7 +174,7 @@ export const POST = API(async (req, { user, payload }) => {
                 content: m.content
               };
             }
-          })
+          }).filter(Boolean)
         ],
         stream: true,
       })
