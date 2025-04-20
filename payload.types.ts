@@ -81,6 +81,7 @@ export interface Config {
     verbs: Verb;
     databases: Database;
     resources: Resource;
+    chatResources: ChatResource;
     actions: Action;
     integrationCategories: IntegrationCategory;
     integrations: Integration;
@@ -124,6 +125,7 @@ export interface Config {
     tags: Tag;
     webhooks: Webhook;
     apikeys: Apikey;
+    services: Service;
     oauthClients: OauthClient;
     oauthCodes: OauthCode;
     oauthTokens: OauthToken;
@@ -167,6 +169,7 @@ export interface Config {
     verbs: VerbsSelect<false> | VerbsSelect<true>;
     databases: DatabasesSelect<false> | DatabasesSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
+    chatResources: ChatResourcesSelect<false> | ChatResourcesSelect<true>;
     actions: ActionsSelect<false> | ActionsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
@@ -210,6 +213,7 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
     oauthClients: OauthClientsSelect<false> | OauthClientsSelect<true>;
     oauthCodes: OauthCodesSelect<false> | OauthCodesSelect<true>;
     oauthTokens: OauthTokensSelect<false> | OauthTokensSelect<true>;
@@ -264,6 +268,8 @@ export interface Config {
       handleLinearWebhook: TaskHandleLinearWebhook;
       syncTaskToLinear: TaskSyncTaskToLinear;
       deleteLinearIssue: TaskDeleteLinearIssue;
+      checkServiceHealth: TaskCheckServiceHealth;
+      discoverServices: TaskDiscoverServices;
       inline: {
         input: unknown;
         output: unknown;
@@ -1265,6 +1271,58 @@ export interface Database {
       )
     | null;
   nouns?: (string | Noun)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * User-generated chat content and messages
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chatResources".
+ */
+export interface ChatResource {
+  id: string;
+  tenant?: (string | null) | Project;
+  title: string;
+  user: string | User;
+  resourceType: 'chat' | 'message' | 'document' | 'suggestion';
+  content?: string | null;
+  parts?:
+    | {
+        type?: ('text' | 'image' | 'code' | 'file') | null;
+        content?: string | null;
+        metadata?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  parentId?: (string | null) | ChatResource;
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  visibility?: ('private' | 'public') | null;
+  votes?:
+    | {
+        user?: (string | null) | User;
+        type?: ('up' | 'down') | null;
+        createdAt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  kind?: ('text' | 'code' | 'image') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2393,6 +2451,34 @@ export interface Apikey {
   apiKeyIndex?: string | null;
 }
 /**
+ * Service Registry and Management for the .do ecosystem
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: string;
+  name: string;
+  status: 'active' | 'inactive' | 'degraded';
+  description?: string | null;
+  endpoint: string;
+  version?: string | null;
+  /**
+   * Additional metadata for the service
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * Manages OAuth client applications and their credentials
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2530,7 +2616,9 @@ export interface PayloadJob {
           | 'researchTask'
           | 'handleLinearWebhook'
           | 'syncTaskToLinear'
-          | 'deleteLinearIssue';
+          | 'deleteLinearIssue'
+          | 'checkServiceHealth'
+          | 'discoverServices';
         taskID: string;
         input?:
           | {
@@ -2595,6 +2683,8 @@ export interface PayloadJob {
                 | 'handleLinearWebhook'
                 | 'syncTaskToLinear'
                 | 'deleteLinearIssue'
+                | 'checkServiceHealth'
+                | 'discoverServices'
               )
             | null;
           taskID?: string | null;
@@ -2637,6 +2727,8 @@ export interface PayloadJob {
         | 'handleLinearWebhook'
         | 'syncTaskToLinear'
         | 'deleteLinearIssue'
+        | 'checkServiceHealth'
+        | 'discoverServices'
       )
     | null;
   queue?: string | null;
@@ -2703,6 +2795,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'resources';
         value: string | Resource;
+      } | null)
+    | ({
+        relationTo: 'chatResources';
+        value: string | ChatResource;
       } | null)
     | ({
         relationTo: 'actions';
@@ -2875,6 +2971,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'apikeys';
         value: string | Apikey;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: string | Service;
       } | null)
     | ({
         relationTo: 'oauthClients';
@@ -3219,6 +3319,39 @@ export interface ResourcesSelect<T extends boolean = true> {
   subjectOf?: T;
   objectOf?: T;
   content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chatResources_select".
+ */
+export interface ChatResourcesSelect<T extends boolean = true> {
+  tenant?: T;
+  title?: T;
+  user?: T;
+  resourceType?: T;
+  content?: T;
+  parts?:
+    | T
+    | {
+        type?: T;
+        content?: T;
+        metadata?: T;
+        id?: T;
+      };
+  parentId?: T;
+  metadata?: T;
+  visibility?: T;
+  votes?:
+    | T
+    | {
+        user?: T;
+        type?: T;
+        createdAt?: T;
+        id?: T;
+      };
+  kind?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3938,6 +4071,20 @@ export interface ApikeysSelect<T extends boolean = true> {
   enableAPIKey?: T;
   apiKey?: T;
   apiKeyIndex?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  name?: T;
+  status?: T;
+  description?: T;
+  endpoint?: T;
+  version?: T;
+  metadata?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -4930,6 +5077,49 @@ export interface TaskDeleteLinearIssue {
   output: {
     status?: string | null;
     message?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskCheckServiceHealth".
+ */
+export interface TaskCheckServiceHealth {
+  input: {
+    id: string;
+    timeout?: number | null;
+  };
+  output: {
+    status?: string | null;
+    responseTime?: number | null;
+    message?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskDiscoverServices".
+ */
+export interface TaskDiscoverServices {
+  input: {
+    query?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    services?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
 }
 /**

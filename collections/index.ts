@@ -38,6 +38,7 @@ import { ExperimentMetrics } from './experiments/ExperimentMetrics'
 import { Prompts } from './experiments/Prompts'
 import { Settings } from './experiments/Settings'
 import { Resources } from './data/Resources'
+import { ChatResources } from './data/chat/Resources'
 import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
 import { GenerationBatches } from './observability/GenerationBatches'
@@ -76,6 +77,7 @@ export const collections = [
   Verbs,
   Databases,
   Resources,
+  ChatResources,
   Relationships,
 
   // Integration collections
