@@ -32,7 +32,7 @@ export const GET = API(async (req, { user, payload }) => {
     }
   })
 
-  if (!documents?.docs?.length || documents.docs[0].user.id !== user.id) {
+  if (!documents?.docs?.length || (documents.docs[0].user as any).id !== user.id) {
     return { error: 'Unauthorized', status: 401 }
   }
 
