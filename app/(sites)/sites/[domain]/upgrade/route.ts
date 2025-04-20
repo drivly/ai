@@ -20,7 +20,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.redirect(redirectUrl)
     }
     
-    const { domain } = params
+    const domain = (await params).domain
     
     const url = new URL(request.url)
     const origin = url.origin
