@@ -30,7 +30,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       })
       currentSubscription = subscriptions.docs[0] || null
       
-      if (currentSubscription?.plan) {
+      if (currentSubscription?.plan && typeof currentSubscription.plan === 'string') {
         plan = await payloadInstance.findByID({
           collection: 'billingPlans',
           id: currentSubscription.plan
