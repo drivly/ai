@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from 'next-auth'
+import NextAuth from 'next-auth'
 import GitHub from 'next-auth/providers/github'
 import WorkOS from 'next-auth/providers/workos'
 
@@ -50,3 +51,9 @@ export const authConfig = {
   },
   session: { strategy: 'jwt' },
 } satisfies NextAuthConfig
+
+export const {
+  auth,
+  signIn,
+  signOut,
+} = NextAuth(authConfig)
