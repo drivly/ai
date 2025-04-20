@@ -34,7 +34,7 @@ export const POST = API(async (req, { user }) => {
 
     if (!validatedFile.success) {
       const errorMessage = validatedFile.error.errors
-        .map((error) => error.message)
+        .map((error: z.ZodIssue) => error.message)
         .join(', ')
 
       return { error: errorMessage, status: 400 }
