@@ -58,7 +58,7 @@ export const GET = API(async (request, { db, user, url, origin, domain }) => {
   return {
     functions,
     links,
-    user,
+
     page,
     limit,
     total: totalItems,

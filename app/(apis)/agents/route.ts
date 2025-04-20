@@ -4,7 +4,7 @@ export const GET = API(async (request, { db, user, url }) => {
   // Using the new db interface for more concise syntax
   const agents = await db.agents.find()
 
-  return { agents, user }
+  return { agents }
 })
 
 export const POST = API(async (request, { db, user, url }) => {
