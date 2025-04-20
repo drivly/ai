@@ -58,16 +58,16 @@ const nextConfig = {
     
     // Add fallbacks for node: imports
     if (!isServer) {
+      // Use string path for process fallback in ESM
       config.resolve.fallback = {
         ...config.resolve.fallback,
-        process: require.resolve('process/browser'),
+        process: false,
       };
       
-      config.plugins.push(
-        new config.webpack.ProvidePlugin({
-          process: 'process/browser',
-        }),
-      );
+      // Use node: protocol externals for server-only code
+      config.externals.push({
+        'node:process': 'process',
+      });
     }
     
     return config
