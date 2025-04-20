@@ -8,7 +8,7 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
     return service
   }
   
-  const query = {}
+  const query: Record<string, any> = {}
   
   if (url.searchParams.has('name')) {
     query.name = url.searchParams.get('name')
