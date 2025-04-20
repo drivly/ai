@@ -13,5 +13,5 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(`/cli/auth?state=${state}&callback=${encodeURIComponent(callback)}`, request.url))
   }
 
-  return NextResponse.redirect(new URL('/api/auth/signin', request.url))
+  return NextResponse.redirect(new URL('/api/auth/signin/github', request.url))
 }
