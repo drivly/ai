@@ -3,8 +3,17 @@ import GitHub from "next-auth/providers/github"
 import { authConfig } from "./auth.config"
 import { getOAuthCallbackURL } from "@/lib/utils/url"
 import { DefaultSession, JWT } from "next-auth"
-import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import clientPromise from "@/lib/mongodb"
+
+let MongoDBAdapter: any
+let clientPromise: any
+
+if (typeof window === 'undefined' && typeof process !== 'undefined' && process.env.NEXT_RUNTIME !== 'edge') {
+  const { MongoDBAdapter: MongoDBAdapterImport } = require("@auth/mongodb-adapter")
+  const mongoClientPromise = require("@/lib/mongodb").default
+  
+  MongoDBAdapter = MongoDBAdapterImport
+  clientPromise = mongoClientPromise
+}
 
 declare module "next-auth" {
   interface User {
@@ -26,14 +35,9 @@ declare module "next-auth" {
   }
 }
 
-export const {
-  handlers: { GET, POST },
-  auth,
-  signIn,
-  signOut,
-} = NextAuth({
+const authOptions = {
   ...authConfig,
-  adapter: MongoDBAdapter(clientPromise),
+  ...(MongoDBAdapter && clientPromise ? { adapter: MongoDBAdapter(clientPromise) } : {}),
   providers: [
     GitHub({
       clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -143,4 +147,11 @@ export const {
     }
   },
   session: { strategy: "jwt" }
-})
+}
+
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth(authOptions)
