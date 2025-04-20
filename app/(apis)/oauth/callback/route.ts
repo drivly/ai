@@ -103,6 +103,7 @@ export const GET = API(async (request, { url }) => {
           email: userInfo.email,
           name: userInfo.name,
           role: 'user',
+          emailVerified: false,
         },
       })
       
