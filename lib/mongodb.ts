@@ -4,8 +4,7 @@ if (!process.env.DATABASE_URI) {
   throw new Error('Please add your MongoDB URI to .env as DATABASE_URI')
 }
 
-// const uri = process.env.DATABASE_URI // Put this back when we're ready to integrate with Payload
-const uri = process.env.MONGODB_URI!
+const uri = process.env.DATABASE_URI
 const options = { } satisfies MongoClientOptions
 
 let client
