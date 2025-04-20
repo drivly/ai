@@ -129,7 +129,7 @@ export const POST = API(async (req, { user, payload }) => {
   })
 
   const assistantMessage = await payload.create({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     data: {
       title: 'Assistant Message',
       content: '',
@@ -238,7 +238,7 @@ export const DELETE = API(async (req, { user, payload }) => {
   }
 
   const chat = await payload.find({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     where: {
       id: { equals: id },
       resourceType: { equals: 'chat' },
@@ -251,7 +251,7 @@ export const DELETE = API(async (req, { user, payload }) => {
   }
 
   const messages = await payload.find({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     where: {
       parentId: { equals: id },
       resourceType: { equals: 'message' }
@@ -266,7 +266,7 @@ export const DELETE = API(async (req, { user, payload }) => {
   }
 
   await payload.delete({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     id: id
   })
 
