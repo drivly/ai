@@ -147,12 +147,12 @@ const authOptions = {
       }
       return token
     },
-    async session({ session, token }: { session: Session; token: JWT & { id: string; role: string } }) {
-      if (session.user) {
-        session.user.id = token.id
-        session.user.role = token.role
+    async session(params: { session: Session; token: JWT }) {
+      if (params.session.user) {
+        params.session.user.id = params.token.id as string
+        params.session.user.role = params.token.role as string
       }
-      return session
+      return params.session
     }
   },
   session: { strategy: "jwt" }
