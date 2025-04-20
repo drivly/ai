@@ -1,7 +1,15 @@
 import * as Sentry from '@sentry/nextjs'
+import { validateEnvironment } from './lib/environment'
 
 export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
+    try {
+      validateEnvironment()
+    } catch (error) {
+      console.error('Environment validation failed:', error)
+      Sentry.captureException(error)
+    }
+    
     await import('./sentry.server.config')
   }
 
