@@ -20,6 +20,8 @@ import { RequestHandler } from './lib/middleware/request-handler'
  */
 export async function middleware(request: NextRequest) {
   const handler = new RequestHandler(request)
+  
+  await handler.fetchCfData()
 
   if (handler.isApiAuthRoute() || handler.isPublicRoute()) {
     return NextResponse.next()

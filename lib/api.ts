@@ -25,6 +25,7 @@ export type ApiContext = {
   payload: any
   db: PayloadDB
   req: NextRequest
+  cfData?: any // Cloudflare data fetched from cf.json endpoint
 }
 
 /**
@@ -103,7 +104,8 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
 
   const isCloudflareWorker = 'cf' in request
 
-  const cf = isCloudflareWorker ? (request as any).cf : undefined
+  const cf = isCloudflareWorker ? (request as any).cf : 
+             (request as any)._cfData || undefined
 
   const geo = !isCloudflareWorker ? geolocation(request) : undefined
 
@@ -430,6 +432,7 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
         payload,
         db,
         req,
+        cfData: (req as any)._cfData, // Include Cloudflare data fetched from middleware
       }
 
       _currentRequest = req
