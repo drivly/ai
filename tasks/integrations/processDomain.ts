@@ -124,7 +124,7 @@ async function updateVercelDomain(domain: string, projectName: string, existingD
       return await addVercelDomain(domain, projectName)
     }
 
-    const { domainsConfig } = await import('../../domains.config')
+    const { domainsConfig } = await import('@/domains.config')
     const isAlias = !!domainsConfig.aliases[domain]
     const targetDomain = domainsConfig.aliases[domain] || domain
 
@@ -249,7 +249,7 @@ async function updateCloudflareCustomHostname(domain: string, projectName: strin
       return await addCloudflareCustomHostname(domain, projectName)
     }
 
-    const { domainsConfig } = await import('../../domains.config')
+    const { domainsConfig } = await import('@/domains.config')
     const isAlias = !!domainsConfig.aliases[domain]
     const targetDomain = domainsConfig.aliases[domain] || domain
 
