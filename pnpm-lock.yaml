@@ -1846,6 +1846,22 @@ importers:
         specifier: ^3.0.9
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
 
+  sdks/services.do:
+    dependencies:
+      apis.do:
+        specifier: workspace:*
+        version: link:../apis.do
+    devDependencies:
+      eslint-config:
+        specifier: workspace:*
+        version: link:../../pkgs/eslint-config
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../pkgs/tsconfig
+      vitest:
+        specifier: ^3.0.9
+        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
+
   sdks/studio.do:
     dependencies:
       apis.do:

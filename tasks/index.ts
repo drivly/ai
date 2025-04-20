@@ -43,6 +43,7 @@ import { syncTaskToLinearTask } from './integrations/syncTaskToLinear'
 import { deleteLinearIssueTask } from './integrations/deleteLinearIssue'
 import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
 import { generateVideoTask } from './ai/generateVideo'
+import { checkServiceHealthTask, discoverServicesTask } from './services/index'
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
@@ -133,6 +134,8 @@ export const tasks = [
   generateVideoTask, // Add vid
   syncTaskToLinearTask,
   deleteLinearIssueTask,
+  checkServiceHealthTask,
+  discoverServicesTask,
 ]
 
 export const workflows = [handleGithubEvent]

@@ -724,6 +724,7 @@ export const sdks = [
   'mcp.do',
   'models.do',
   'sdks.do',
+  'services.do',
   'studio.do',
   'tasks.do',
   'workflows.do',

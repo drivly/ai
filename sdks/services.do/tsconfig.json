@@ -1,0 +1,23 @@
+{
+  "extends": "tsconfig/src/sdk.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "outDir": "dist",
+    "rootDir": ".",
+    "declaration": true,
+    "declarationMap": true,
+    "jsx": "react",
+    "resolveJsonModule": true,
+    "incremental": true,
+    "composite": true,
+    "noEmit": false,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+  },
+  "include": ["index.ts", "types.ts", "src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}
