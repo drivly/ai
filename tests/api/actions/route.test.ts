@@ -12,7 +12,7 @@ global.fetch = vi.fn()
 vi.stubEnv('COMPOSIO_API_KEY', 'test-api-key')
 
 // Import after mocks are set up
-import { GET } from '@/../app/(apis)/actions/route'
+import { GET } from '@/app/(apis)/actions/route'
 
 describe('Actions API', () => {
   beforeEach(() => {
