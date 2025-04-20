@@ -44,7 +44,7 @@ declare module "next-auth" {
   }
 }
 
-const authOptions = {
+const authOptions: any = {
   ...authConfig,
   ...(MongoDBAdapter && clientPromise ? { adapter: MongoDBAdapter(clientPromise) } : {}),
   providers: [
@@ -140,14 +140,14 @@ const authOptions = {
     // },
   ],
   callbacks: {
-    async jwt(params: { token: JWT; user?: User }) {
+    jwt(params: { token: JWT; user?: User }) {
       if (params.user) {
         params.token.id = params.user.id
         params.token.role = params.user.role || 'user'
       }
       return params.token
     },
-    async session(params: { session: Session; token: JWT }) {
+    session(params: { session: Session; token: JWT }) {
       if (params.session.user) {
         params.session.user.id = params.token.id as string
         params.session.user.role = params.token.role as string
