@@ -2,6 +2,7 @@ import { Domains } from './admin/Domains'
 import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
+import { Waitlist } from './admin/Waitlist'
 import { OAuthClients } from './auth/OAuthClients'
 import { OAuthCodes } from './auth/OAuthCodes'
 import { OAuthTokens } from './auth/OAuthTokens'
@@ -64,6 +65,9 @@ export const collections = [
   Tasks,
   Goals,
   Plans,
+  
+  // Admin collections
+  Waitlist,
 
   // Data & definitions
   Nouns,
