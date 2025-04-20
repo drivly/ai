@@ -31,7 +31,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       collection: 'organizations',
       where: {
         user: {
-          equals: user.id,
+          equals: user.id || '',
         },
       },
     })
