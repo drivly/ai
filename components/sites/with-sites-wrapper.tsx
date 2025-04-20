@@ -3,7 +3,7 @@ import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
 import { Fragment } from 'react'
 import { CallToAction } from './sections/call-to-action'
 import { Faqs } from './sections/faqs'
-import { auth } from '@/app/(auth)/auth'
+import { auth } from '@/auth.config'
 import { AuthProvider } from '@/lib/auth/context'
 import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 

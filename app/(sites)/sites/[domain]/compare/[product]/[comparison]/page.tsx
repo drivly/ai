@@ -6,7 +6,7 @@ import { Metadata } from 'next'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string; product: string; comparison: string }> }): Promise<Metadata> {
-  const { domain, product, comparison } = await params
+  const { domain, product, comparison } = await params || {}
   const content = await findSiteContent(domain)
 
   return {
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 }
 
 async function ProductComparisonPage(props: { params: { domain: string; product: string; comparison: string } }) {
-  const { domain, product, comparison } = props.params
+  const { domain, product, comparison } = props.params || {}
   await getSession()
 
   return (

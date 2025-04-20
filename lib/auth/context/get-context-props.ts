@@ -1,4 +1,4 @@
-import { auth } from '@/app/(auth)/auth'
+import { auth } from '@/auth.config'
 import { headers as requestHeaders } from 'next/headers'
 
 export const getSession = async () => {
