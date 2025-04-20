@@ -2,9 +2,27 @@ import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import { authConfig } from "./auth.config"
 import { getOAuthCallbackURL } from "@/lib/utils/url"
-import { DefaultSession, JWT } from "next-auth"
-import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import clientPromise from "@/lib/mongodb"
+import { DefaultSession, JWT, User, Session } from "next-auth"
+import { AdapterUser } from "next-auth/adapters"
+
+let MongoDBAdapter: any = null
+let clientPromise: any = null
+
+if (typeof window === 'undefined' && typeof process !== 'undefined' && process.env.NEXT_RUNTIME !== 'edge') {
+  const loadAdapterAndClient = async () => {
+    try {
+      const adapterModule = await import('@auth/mongodb-adapter')
+      const mongoModule = await import('@/lib/mongodb')
+      
+      MongoDBAdapter = adapterModule.MongoDBAdapter
+      clientPromise = mongoModule.default
+    } catch (e) {
+      console.error('Failed to import MongoDB adapter or client:', e)
+    }
+  }
+  
+  loadAdapterAndClient()
+}
 
 declare module "next-auth" {
   interface User {
@@ -21,19 +39,14 @@ declare module "next-auth" {
 
 declare module "next-auth" {
   interface JWT {
-    id: string
-    role: string
+    id?: string
+    role?: string
   }
 }
 
-export const {
-  handlers: { GET, POST },
-  auth,
-  signIn,
-  signOut,
-} = NextAuth({
+const authOptions: any = {
   ...authConfig,
-  adapter: MongoDBAdapter(clientPromise),
+  ...(MongoDBAdapter && clientPromise ? { adapter: MongoDBAdapter(clientPromise) } : {}),
   providers: [
     GitHub({
       clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -89,7 +102,7 @@ export const {
       userinfo: {
         url: 'https://api.workos.com/sso/userinfo',
       },
-      profile(profile) {
+      profile(profile: { sub: string; name: string; email: string; picture: string }) {
         return {
           id: profile.sub,
           name: profile.name,
@@ -127,20 +140,27 @@ export const {
     // },
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id
-        token.role = user.role || 'user'
+    jwt(params: { token: JWT; user?: User }) {
+      if (params.user) {
+        params.token.id = params.user.id
+        params.token.role = params.user.role || 'user'
       }
-      return token
+      return params.token
     },
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string
-        session.user.role = token.role as string
+    session(params: { session: Session; token: JWT }) {
+      if (params.session.user) {
+        params.session.user.id = params.token.id as string
+        params.session.user.role = params.token.role as string
       }
-      return session
+      return params.session
     }
   },
   session: { strategy: "jwt" }
-})
+}
+
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+  signOut,
+} = NextAuth(authOptions)
