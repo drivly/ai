@@ -24,7 +24,7 @@ export const GET = API(async (req, { user, payload }) => {
     return { error: 'Chat not found', status: 404 }
   }
 
-  if (chat.docs[0].user.id !== user.id) {
+  if ((chat.docs[0].user as any).id !== user.id) {
     return { error: 'Unauthorized', status: 401 }
   }
 
@@ -69,7 +69,7 @@ export const PATCH = API(async (req, { user, payload }) => {
     return { error: 'Chat not found', status: 404 }
   }
 
-  if (chat.docs[0].user.id !== user.id) {
+  if ((chat.docs[0].user as any).id !== user.id) {
     return { error: 'Unauthorized', status: 401 }
   }
 
