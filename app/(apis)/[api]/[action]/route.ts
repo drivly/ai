@@ -3,63 +3,117 @@ import { actions } from '@/sdks/actions.do'
 import { apis } from '@/api.config'
 import { domainsConfig } from '@/domains.config'
 
+let actionsCache: any[] | null = null;
+let actionsCacheTime: number = 0;
+const CACHE_TTL = 60 * 1000; // 1 minute cache TTL
+
+/**
+ * Fetch all actions from Composio API with caching
+ */
+async function fetchComposioActions(): Promise<any[]> {
+  const now = Date.now();
+  
+  if (actionsCache && (now - actionsCacheTime) < CACHE_TTL) {
+    return actionsCache;
+  }
+  
+  const apiKey = process.env.COMPOSIO_API_KEY;
+  if (!apiKey) {
+    throw new Error('Composio API key not configured');
+  }
+  
+  const response = await fetch('https://backend.composio.dev/api/v2/actions/list/all', {
+    headers: {
+      'x-api-key': apiKey,
+    },
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch actions: ${response.status} ${response.statusText}`);
+  }
+  
+  const data = await response.json();
+  const actions = data.actions || [];
+  
+  actionsCache = actions;
+  actionsCacheTime = now;
+  
+  return actions;
+}
+
+/**
+ * Helper function to resolve action ID from api and action name
+ */
+async function resolveActionId(api: string, actionName: string): Promise<string | null> {
+  try {
+    const allActions = await fetchComposioActions();
+    
+    const conventionId = `${api}:${actionName}`;
+    const directMatch = allActions.find(a => a.id === conventionId);
+    if (directMatch) {
+      return directMatch.id;
+    }
+    
+    // Match by API prefix and action name
+    const apiPrefix = `${api}:`;
+    const matchingApiActions = allActions.filter(a => a.id.startsWith(apiPrefix));
+    
+    const nameMatch = matchingApiActions.find(a => {
+      const extractedName = a.id.substring(apiPrefix.length);
+      return extractedName.toLowerCase() === actionName.toLowerCase();
+    });
+    
+    if (nameMatch) {
+      return nameMatch.id;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Error resolving action ID:', error);
+    return null;
+  }
+}
+
 /**
  * GET handler for action information
  * Returns details about a specific action for an API
  */
 export const GET = API(async (request, { params, url }) => {
-  const { api, action } = params as { api: string; action: string }
+  const { api, action } = params as { api: string; action: string };
 
-  const apiExists = api in apis
-  const isAlias = api in domainsConfig.aliases
-  const aliasedApi = isAlias ? domainsConfig.aliases[api] : null
-  const effectiveApi = isAlias ? (aliasedApi as string) : api
+  const apiExists = api in apis;
+  const isAlias = api in domainsConfig.aliases;
+  const aliasedApi = isAlias ? domainsConfig.aliases[api] : null;
+  const effectiveApi = isAlias ? (aliasedApi as string) : api;
 
   if (!apiExists && !isAlias) {
     return {
       error: true,
       message: `API '${api}' not found`,
       statusCode: 404,
-    }
+    };
   }
 
   try {
-    const apiKey = process.env.COMPOSIO_API_KEY
-    if (!apiKey) {
-      return {
-        error: true,
-        message: 'Composio API key not configured',
-        statusCode: 500,
-      }
-    }
-
-    const response = await fetch('https://backend.composio.dev/api/v2/actions/list/all', {
-      headers: {
-        'x-api-key': apiKey,
-      },
-    })
-
-    const data = await response.json()
-    const allActions = data.actions || []
-    
-    const actionId = await resolveActionId(effectiveApi, action, allActions)
+    const allActions = await fetchComposioActions();
+    const actionId = await resolveActionId(effectiveApi, action);
     
     if (!actionId) {
       return {
         error: true,
         message: `Action '${action}' not found for API '${effectiveApi}'`,
         statusCode: 404,
-      }
+      };
     }
 
-    const actionDetails = allActions.find((a: any) => a.id === actionId)
+    const actionDetails = allActions.find(a => a.id === actionId);
     
     if (!actionDetails) {
       return {
         error: true,
         message: `Action details not found for ID: ${actionId}`,
         statusCode: 404,
-      }
+      };
     }
 
     return {
@@ -73,78 +127,61 @@ export const GET = API(async (request, { params, url }) => {
         api: `${url.origin}/${effectiveApi}`,
         home: url.origin,
       }
-    }
+    };
   } catch (error) {
-    console.error(`Error fetching action information:`, error)
+    console.error(`Error fetching action information:`, error);
     return {
       error: true,
       message: error instanceof Error ? error.message : 'Error fetching action information',
       statusCode: 500,
-    }
+    };
   }
-})
+});
 
 /**
  * POST handler for executing actions
  * Executes a specific action with provided parameters
  */
-export const POST = API(async (request, { params }) => {
-  const { api, action } = params as { api: string; action: string }
+export const POST = API(async (request, { params, url }) => {
+  const { api, action } = params as { api: string; action: string };
 
-  const apiExists = api in apis
-  const isAlias = api in domainsConfig.aliases
-  const aliasedApi = isAlias ? domainsConfig.aliases[api] : null
-  const effectiveApi = isAlias ? (aliasedApi as string) : api
+  const apiExists = api in apis;
+  const isAlias = api in domainsConfig.aliases;
+  const aliasedApi = isAlias ? domainsConfig.aliases[api] : null;
+  const effectiveApi = isAlias ? (aliasedApi as string) : api;
 
   if (!apiExists && !isAlias) {
     return {
       error: true,
       message: `API '${api}' not found`,
       statusCode: 404,
-    }
+    };
   }
 
   try {
-    let requestParams
+    // Parse request parameters
+    let requestParams;
     try {
-      requestParams = await request.json()
+      requestParams = await request.json();
     } catch (error) {
       return {
         error: true,
         message: 'Invalid JSON payload',
         statusCode: 400,
-      }
+      };
     }
 
-    const apiKey = process.env.COMPOSIO_API_KEY
-    if (!apiKey) {
-      return {
-        error: true,
-        message: 'Composio API key not configured',
-        statusCode: 500,
-      }
-    }
-
-    const response = await fetch('https://backend.composio.dev/api/v2/actions/list/all', {
-      headers: {
-        'x-api-key': apiKey,
-      },
-    })
-
-    const data = await response.json()
-    const allActions = data.actions || []
-    
-    const actionId = await resolveActionId(effectiveApi, action, allActions)
+    const actionId = await resolveActionId(effectiveApi, action);
     
     if (!actionId) {
       return {
         error: true,
         message: `Action '${action}' not found for API '${effectiveApi}'`,
         statusCode: 404,
-      }
+      };
     }
 
-    const result = await actions.execute(actionId, requestParams)
+    const result = await actions.execute(actionId, requestParams);
     
     return {
       success: true,
@@ -152,53 +189,17 @@ export const POST = API(async (request, { params }) => {
       action,
       id: actionId,
       result,
-    }
+      links: url ? {
+        api: `${url.origin}/${effectiveApi}`,
+        home: url.origin,
+      } : undefined,
+    };
   } catch (error) {
-    console.error(`Error executing action:`, error)
+    console.error(`Error executing action:`, error);
     return {
       error: true,
       message: error instanceof Error ? error.message : 'Error executing action',
       statusCode: error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500,
-    }
+    };
   }
-})
-
-/**
- * Helper function to resolve action ID from api and action name
- * Uses a naming convention of `${api}:${actionName}` or searches for matching action
- */
-async function resolveActionId(api: string, actionName: string, allActions: any[]): Promise<string | null> {
-  const conventionId = `${api}:${actionName}`
-  const directMatch = allActions.find((a: any) => a.id === conventionId)
-  if (directMatch) {
-    return directMatch.id
-  }
-  
-  const apiPrefix = `${api}:`
-  const matchingApiActions = allActions.filter((a: any) => a.id.startsWith(apiPrefix))
-  
-  const nameMatch = matchingApiActions.find((a: any) => {
-    const extractedName = a.id.substring(apiPrefix.length)
-    return extractedName.toLowerCase() === actionName.toLowerCase()
-  })
-  
-  if (nameMatch) {
-    return nameMatch.id
-  }
-  
-  const fuzzyMatch = matchingApiActions.find((a: any) => {
-    if (a.name && a.name.toLowerCase().includes(actionName.toLowerCase())) {
-      return true
-    }
-    if (a.description && a.description.toLowerCase().includes(actionName.toLowerCase())) {
-      return true
-    }
-    return false
-  })
-  
-  if (fuzzyMatch) {
-    return fuzzyMatch.id
-  }
-  
-  return null
-}
+});
