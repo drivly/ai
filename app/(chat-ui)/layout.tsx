@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { auth } from '@/lib/auth/payload-auth';
+import { auth } from '@/auth.config';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 

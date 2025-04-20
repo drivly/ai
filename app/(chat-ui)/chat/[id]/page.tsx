@@ -1,5 +1,5 @@
 import { ChatHeader } from '@/components/chat/chat-header';
-import { auth } from '@/lib/auth/payload-auth';
+import { auth } from '@/auth.config';
 import { redirect } from 'next/navigation';
 import { Content } from '@/pkgs/payload-agent/src/components/chat/chat-container';
 import { ChatProvider } from '@/components/chat/chat-provider';
