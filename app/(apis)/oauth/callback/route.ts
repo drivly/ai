@@ -5,8 +5,8 @@ import { auth } from '@/app/(auth)/auth'
 import crypto from 'crypto'
 
 /**
- * Callback endpoint for WorkOS OAuth
- * Handles the authorization code from WorkOS and exchanges it for tokens
+ * Callback endpoint for OAuth
+ * Handles the authorization code and exchanges it for tokens
  */
 export const GET = API(async (request, { url }) => {
   const code = url.searchParams.get('code')
@@ -15,7 +15,7 @@ export const GET = API(async (request, { url }) => {
   const errorDescription = url.searchParams.get('error_description')
   
   if (error) {
-    console.error('WorkOS OAuth error:', error, errorDescription)
+    console.error('OAuth error:', error, errorDescription)
     return {
       error,
       error_description: errorDescription || 'An error occurred during authentication',
@@ -51,7 +51,7 @@ export const GET = API(async (request, { url }) => {
         client_secret: process.env.WORKOS_CLIENT_SECRET || '',
         grant_type: 'authorization_code',
         code,
-        redirect_uri: `${url.origin}/api/oauth/workos/callback`,
+        redirect_uri: `${url.origin}/api/oauth/callback`,
       }),
     })
     
@@ -136,7 +136,7 @@ export const GET = API(async (request, { url }) => {
     
     return NextResponse.redirect(redirectUrl)
   } catch (error) {
-    console.error('WorkOS callback error:', error)
+    console.error('OAuth callback error:', error)
     return {
       error: 'server_error',
       error_description: 'An error occurred during authentication',
