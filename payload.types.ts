@@ -75,6 +75,7 @@ export interface Config {
     tasks: Task;
     goals: Goal;
     plans: Plan;
+    waitlist: Waitlist;
     nouns: Noun;
     things: Thing;
     verbs: Verb;
@@ -160,6 +161,7 @@ export interface Config {
     tasks: TasksSelect<false> | TasksSelect<true>;
     goals: GoalsSelect<false> | GoalsSelect<true>;
     plans: PlansSelect<false> | PlansSelect<true>;
+    waitlist: WaitlistSelect<false> | WaitlistSelect<true>;
     nouns: NounsSelect<false> | NounsSelect<true>;
     things: ThingsSelect<false> | ThingsSelect<true>;
     verbs: VerbsSelect<false> | VerbsSelect<true>;
@@ -1213,6 +1215,21 @@ export interface Tag {
   id: string;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * Manages waitlist email submissions
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "waitlist".
+ */
+export interface Waitlist {
+  id: string;
+  email: string;
+  domain: string;
+  createdAt: string;
+  status?: ('pending' | 'contacted' | 'converted') | null;
+  notes?: string | null;
+  updatedAt: string;
 }
 /**
  * Manages database connections and configurations
@@ -2658,6 +2675,10 @@ export interface PayloadLockedDocument {
         value: string | Plan;
       } | null)
     | ({
+        relationTo: 'waitlist';
+        value: string | Waitlist;
+      } | null)
+    | ({
         relationTo: 'nouns';
         value: string | Noun;
       } | null)
@@ -3086,6 +3107,18 @@ export interface PlansSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "waitlist_select".
+ */
+export interface WaitlistSelect<T extends boolean = true> {
+  email?: T;
+  domain?: T;
+  createdAt?: T;
+  status?: T;
+  notes?: T;
+  updatedAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
