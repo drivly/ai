@@ -59,36 +59,32 @@ export function EmailCaptureForm({ domain, className }: EmailCaptureFormProps) {
   if (isSuccess) {
     return (
       <div className={cn('rounded-lg border border-green-200 bg-green-50 p-6 text-center dark:border-green-900 dark:bg-green-900/20', className)}>
-        <h3 className="text-xl font-semibold text-green-800 dark:text-green-400">Thanks for joining our waitlist!</h3>
-        <p className="mt-2 text-green-700 dark:text-green-300">
-          We'll notify you when {domain} launches. In the meantime, check out our other projects.
-        </p>
+        <h3 className='text-xl font-semibold text-green-800 dark:text-green-400'>Thanks for joining our waitlist!</h3>
+        <p className='mt-2 text-green-700 dark:text-green-300'>We'll notify you when {domain} launches. In the meantime, check out our other projects.</p>
       </div>
     )
   }
 
   return (
     <div className={cn('rounded-lg border p-6 shadow-sm', className)}>
-      <h3 className="text-xl font-semibold">Join the Waitlist</h3>
-      <p className="mt-2 text-gray-600 dark:text-gray-400">
-        Be the first to know when {domain} launches.
-      </p>
-      <form onSubmit={handleSubmit} className="mt-4">
-        <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-3 sm:space-y-0">
+      <h3 className='text-xl font-semibold'>Join the Waitlist</h3>
+      <p className='mt-2 text-gray-600 dark:text-gray-400'>Be the first to know when {domain} launches.</p>
+      <form onSubmit={handleSubmit} className='mt-4'>
+        <div className='flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-3'>
           <Input
-            type="email"
-            placeholder="Enter your email"
+            type='email'
+            placeholder='Enter your email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="flex-1"
+            className='flex-1'
             disabled={isSubmitting}
-            aria-label="Email address"
+            aria-label='Email address'
           />
-          <Button type="submit" disabled={isSubmitting} className="whitespace-nowrap">
+          <Button type='submit' disabled={isSubmitting} className='whitespace-nowrap'>
             {isSubmitting ? 'Submitting...' : 'Join Waitlist'}
           </Button>
         </div>
-        {error && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>}
+        {error && <p className='mt-2 text-sm text-red-600 dark:text-red-400'>{error}</p>}
       </form>
     </div>
   )

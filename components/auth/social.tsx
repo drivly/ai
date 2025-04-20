@@ -15,7 +15,7 @@ export const Social = () => {
     try {
       setLoading(true)
       pendingProviderRef.current = provider
-      
+
       await signIn(provider, {
         callbackUrl: DEFAULT_LOGIN_REDIRECT,
       })

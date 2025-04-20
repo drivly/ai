@@ -43,15 +43,13 @@ test.describe('Admin page', () => {
     }
   })
 
-  test.afterAll(async () => {
-  })
+  test.afterAll(async () => {})
 
   test.beforeEach(async ({ page: playwrightPage }) => {
     page = playwrightPage
   })
 
-  test.afterEach(async () => {
-  })
+  test.afterEach(async () => {})
 
   test('should show login screen without server errors', async () => {
     if (!browser || !page) {
@@ -66,8 +64,8 @@ test.describe('Admin page', () => {
 
       let response: Response | null = null
 
-      response = await page.goto(adminUrl, { 
-        timeout: 60000 // Increase timeout to 60 seconds
+      response = await page.goto(adminUrl, {
+        timeout: 60000, // Increase timeout to 60 seconds
       })
 
       expect(response).not.toBeNull()

@@ -5,11 +5,11 @@ import { auth } from '@/app/(auth)/auth'
 
 export const POST = API(async (request, { url }) => {
   const session = await auth()
-  
+
   if (!session?.user) {
     return { error: 'unauthorized', error_description: 'Authentication required' }
   }
-  
+
   const user = session.user
   const payload = await getPayloadWithAuth()
 

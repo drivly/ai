@@ -6,16 +6,16 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
   if (!user) {
     return new Response('Unauthorized', { status: 401 })
   }
-  
+
   const { resourceType, resourceId, quantity, unit } = await request.json()
-  
+
   if (!resourceType || !resourceId || !quantity || !unit) {
     return new Response('Missing required fields', { status: 400 })
   }
-  
+
   try {
     const payloadInstance = await getPayload({ config })
-    
+
     const customers = await payloadInstance.find({
       collection: 'organizations',
       where: {
@@ -24,13 +24,13 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
         },
       },
     })
-    
+
     if (customers.docs.length === 0) {
       return new Response('No Stripe customer found for user', { status: 404 })
     }
-    
+
     const customerId = customers.docs[0].id
-    
+
     const usageRecord = await payloadInstance.create({
       collection: 'usage',
       data: {
@@ -45,8 +45,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
         },
       } as any,
     })
-    
-    
+
     return { success: true, usage: usageRecord }
   } catch (error) {
     console.error('Error recording usage:', error)
@@ -58,10 +57,10 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
   if (!user) {
     return new Response('Unauthorized', { status: 401 })
   }
-  
+
   try {
     const payloadInstance = await getPayload({ config })
-    
+
     const customers = await payloadInstance.find({
       collection: 'organizations',
       where: {
@@ -70,13 +69,13 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         },
       },
     })
-    
+
     if (customers.docs.length === 0) {
       return new Response('No Stripe customer found for user', { status: 404 })
     }
-    
+
     const customerId = customers.docs[0].id
-    
+
     const usage = await payloadInstance.find({
       collection: 'usage',
       where: {
@@ -87,7 +86,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       sort: '-timestamp',
       limit: 100,
     })
-    
+
     return {
       success: true,
       usage: usage.docs,

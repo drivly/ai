@@ -26,15 +26,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     }
   }
 
-  const { 
-    functionName = null, 
-    args = {}, 
-    schema = null, 
-    timeout = null, 
-    seeds = null, 
-    callback = null, 
-    type = null 
-  } = input
+  const { functionName = null, args = {}, schema = null, timeout = null, seeds = null, callback = null, type = null } = input
 
   // Validate required parameters
   if (!functionName) {

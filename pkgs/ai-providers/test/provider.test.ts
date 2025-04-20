@@ -39,7 +39,7 @@ describe('provider', () => {
 
   it('should return an array of model instances', () => {
     const modelInstances = models('gemini,claude-3.7-sonnet')
-    
+
     expect(modelInstances).toBeInstanceOf(Array)
     expect(modelInstances.length).toBe(2)
     expect(modelInstances[0].modelId).toBe('gemini')

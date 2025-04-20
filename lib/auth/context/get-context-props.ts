@@ -17,7 +17,7 @@ export const getUserAccounts = async () => {
     if (!session) {
       return [] // Skip API call for anonymous users
     }
-    
+
     return []
   } catch (error) {
     console.error('Error getting user accounts:', error)
@@ -31,7 +31,7 @@ export const getDeviceSessions = async () => {
     if (!session) {
       return [] // Skip API call for anonymous users
     }
-    
+
     return []
   } catch (error) {
     console.error('Error getting device sessions:', error)
@@ -45,10 +45,10 @@ export const currentUser = async () => {
     if (!session?.user) {
       return null
     }
-    
+
     return {
       ...session.user,
-      collection: 'users'
+      collection: 'users',
     }
   } catch (error) {
     console.error('Error getting current user:', error)

@@ -32,7 +32,7 @@ export const POST = API(async (request, { payload }) => {
     })
     return new Response('Missing required webhook headers', { status: 400 })
   }
-  
+
   if (!webhookTimestamp) {
     console.log('Linear webhook timestamp header is missing, using current timestamp')
   }
@@ -41,9 +41,9 @@ export const POST = API(async (request, { payload }) => {
 
   try {
     const wh = new Webhook(secret)
-    
+
     const currentTimestamp = webhookTimestamp || Math.floor(Date.now() / 1000).toString()
-    
+
     const verifiedPayload = wh.verify(rawBody, {
       'linear-delivery': webhookId,
       'linear-signature-timestamp': currentTimestamp,

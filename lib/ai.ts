@@ -32,7 +32,7 @@ export const AI = (config: AIConfig) => {
               console.error('Missing functionName in AI function call')
               throw new Error('Invalid function call: missing functionName')
             }
-            
+
             return executeFunction({ functionName, schema, settings, args }).catch((error) => {
               console.error(`Error executing function ${functionName}:`, error)
               // TODO: log error in db ... maybe also create a task to retry
@@ -50,7 +50,7 @@ export const model = createOpenAI({
   apiKey: process.env.AI_GATEWAY_TOKEN!,
   baseURL: process.env.AI_GATEWAY_URL!,
   headers: {
-    "HTTP-Referer": "https://workflows.do", // Optional. Site URL for rankings on openrouter.ai.
-    "X-Title": "Workflows.do Business-as-Code", // Optional. Site title for rankings on openrouter.ai.
-  }
+    'HTTP-Referer': 'https://workflows.do', // Optional. Site URL for rankings on openrouter.ai.
+    'X-Title': 'Workflows.do Business-as-Code', // Optional. Site title for rankings on openrouter.ai.
+  },
 })

@@ -1,9 +1,9 @@
-import NextAuth from "next-auth"
-import GitHub from "next-auth/providers/github"
-import WorkOS from "next-auth/providers/workos"
-import { authConfig } from "./auth.config"
-import { getOAuthCallbackURL } from "@/lib/utils/url"
-import { DefaultSession, JWT, User, Session } from "next-auth"
+import NextAuth from 'next-auth'
+import GitHub from 'next-auth/providers/github'
+import WorkOS from 'next-auth/providers/workos'
+import { authConfig } from './auth.config'
+import { getOAuthCallbackURL } from '@/lib/utils/url'
+import { DefaultSession, JWT, User, Session } from 'next-auth'
 
 let MongoDBAdapter: any = null
 let clientPromise: any = null
@@ -13,31 +13,31 @@ if (typeof window === 'undefined' && typeof process !== 'undefined' && process.e
     try {
       const adapterModule = await import('@auth/mongodb-adapter')
       const mongoModule = await import('@/lib/mongodb')
-      
+
       MongoDBAdapter = adapterModule.MongoDBAdapter
       clientPromise = mongoModule.default
     } catch (e) {
       console.error('Failed to import MongoDB adapter or client:', e)
     }
   }
-  
+
   loadAdapterAndClient()
 }
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface User {
     role?: string
   }
-  
+
   interface Session {
     user: {
       id: string
       role: string
-    } & DefaultSession["user"]
+    } & DefaultSession['user']
   }
 }
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface JWT {
     id?: string
     role?: string
@@ -49,12 +49,12 @@ const authOptions: any = {
   ...(MongoDBAdapter && clientPromise ? { adapter: MongoDBAdapter(clientPromise) } : {}),
   providers: [
     GitHub({
-      clientId: process.env.GITHUB_CLIENT_ID || "",
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
+      clientId: process.env.GITHUB_CLIENT_ID || '',
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
     }),
     WorkOS({
-      clientId: process.env.WORKOS_CLIENT_ID || "",
-      clientSecret: process.env.WORKOS_CLIENT_SECRET || "",
+      clientId: process.env.WORKOS_CLIENT_ID || '',
+      clientSecret: process.env.WORKOS_CLIENT_SECRET || '',
     }),
   ],
   callbacks: {
@@ -71,9 +71,9 @@ const authOptions: any = {
         params.session.user.role = params.token.role as string
       }
       return params.session
-    }
+    },
   },
-  session: { strategy: "jwt" }
+  session: { strategy: 'jwt' },
 }
 
 export const {

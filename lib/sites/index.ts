@@ -57,11 +57,11 @@ export async function findSiteContent(domain: string, includeHero = false): Prom
       }
     } catch (error) {
       console.error(`Error generating content for ${site}:`, error)
-      
+
       if (error instanceof Error && error.message?.includes('functionName')) {
         console.error('AI function execution error - missing functionName parameter')
       }
-      
+
       const fallbackContent: SiteContent = {
         title: site,
         description: `${site} | .do Business-as-Code`,

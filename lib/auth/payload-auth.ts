@@ -8,7 +8,7 @@ export const getPayloadWithAuth = async () => {
     const payload = await getPayload({
       config,
     })
-    
+
     return payload
   } catch (error) {
     console.error('Error initializing Payload:', error)

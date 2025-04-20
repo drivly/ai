@@ -65,7 +65,7 @@ export const collections = [
   Tasks,
   Goals,
   Plans,
-  
+
   // Admin collections
   Waitlist,
 

@@ -9,46 +9,46 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
   const stripe = new Stripe(stripeSecretKey, {
     apiVersion: '2022-08-01',
   })
-  
+
   const rawBody = await request.text()
   const signature = request.headers.get('stripe-signature')
-  
+
   if (!signature) {
     return new Response('Missing Stripe signature', { status: 400 })
   }
-  
+
   try {
     const event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret)
-    
+
     const payloadInstance = await getPayload({ config })
-    
+
     switch (event.type) {
       case 'customer.created':
       case 'customer.updated':
         await handleCustomerEvent(payloadInstance, event)
         break
-        
+
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
       case 'customer.subscription.deleted':
         await handleSubscriptionEvent(payloadInstance, event)
         break
-        
+
       case 'payment_intent.succeeded':
       case 'payment_intent.payment_failed':
         await handlePaymentEvent(payloadInstance, event)
         break
-        
+
       case 'account.updated':
       case 'account.application.authorized':
       case 'account.application.deauthorized':
         await handleConnectAccountEvent(payloadInstance, event)
         break
-        
+
       default:
         console.log(`Unhandled Stripe event type: ${event.type}`)
     }
-    
+
     const results = await payloadInstance.create({
       collection: 'events',
       data: {
@@ -58,7 +58,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
         tenant: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Set default project ID
       },
     })
-    
+
     console.log(`Stripe webhook processed: ${event.type}`)
     return { success: true, event: event.type }
   } catch (err) {
@@ -69,7 +69,7 @@ export const POST = API(async (request, { db, user, origin, url, domain, params 
 
 async function handleCustomerEvent(payload: Payload, event: Stripe.Event) {
   const customer = event.data.object as Stripe.Customer
-  
+
   try {
     const existingCustomers = await payload.find({
       collection: 'organizations',
@@ -79,7 +79,7 @@ async function handleCustomerEvent(payload: Payload, event: Stripe.Event) {
         },
       },
     })
-    
+
     if (existingCustomers.docs.length > 0) {
       await payload.update({
         collection: 'organizations',
@@ -110,7 +110,7 @@ async function handleCustomerEvent(payload: Payload, event: Stripe.Event) {
 
 async function handleSubscriptionEvent(payload: Payload, event: Stripe.Event) {
   const subscription = event.data.object as Stripe.Subscription
-  
+
   try {
     const customers = await payload.find({
       collection: 'organizations',
@@ -120,14 +120,14 @@ async function handleSubscriptionEvent(payload: Payload, event: Stripe.Event) {
         },
       },
     })
-    
+
     if (customers.docs.length === 0) {
       console.log(`No customer found for Stripe customer ID: ${subscription.customer}`)
       return
     }
-    
+
     const customerId = customers.docs[0].id
-    
+
     let planId = null
     if (subscription.items?.data?.[0]?.price?.id) {
       const plans = await payload.find({
@@ -138,12 +138,12 @@ async function handleSubscriptionEvent(payload: Payload, event: Stripe.Event) {
           },
         },
       })
-      
+
       if (plans.docs.length > 0) {
         planId = plans.docs[0].id
       }
     }
-    
+
     const existingSubscriptions = await payload.find({
       collection: 'subscriptions',
       where: {
@@ -152,7 +152,7 @@ async function handleSubscriptionEvent(payload: Payload, event: Stripe.Event) {
         },
       },
     })
-    
+
     if (existingSubscriptions.docs.length > 0) {
       await payload.update({
         collection: 'subscriptions',
@@ -185,13 +185,13 @@ async function handleSubscriptionEvent(payload: Payload, event: Stripe.Event) {
 
 async function handlePaymentEvent(payload: Payload, event: Stripe.Event) {
   const paymentIntent = event.data.object as Stripe.PaymentIntent
-  
+
   console.log(`Payment event processed: ${event.type}`)
 }
 
 async function handleConnectAccountEvent(payload: Payload, event: Stripe.Event) {
   const account = event.data.object as Stripe.Account
-  
+
   try {
     const existingAccounts = await payload.find({
       collection: 'connectAccounts',
@@ -201,7 +201,7 @@ async function handleConnectAccountEvent(payload: Payload, event: Stripe.Event) 
         },
       },
     })
-    
+
     if (existingAccounts.docs.length > 0) {
       await payload.update({
         collection: 'connectAccounts',

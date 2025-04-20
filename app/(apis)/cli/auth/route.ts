@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
     const prefix = 'cli_' + crypto.randomBytes(4).toString('hex')
     const key = prefix + '.' + crypto.randomBytes(32).toString('hex')
-    
+
     const apiKey = {
       key,
       user: session.user,
