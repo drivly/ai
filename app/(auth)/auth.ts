@@ -48,7 +48,10 @@ const authOptions: any = {
   ...authConfig,
   ...(MongoDBAdapter && clientPromise ? { adapter: MongoDBAdapter(clientPromise) } : {}),
   providers: [
-    GitHub({}),
+    GitHub({
+      clientId: process.env.GITHUB_CLIENT_ID || "",
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
+    }),
     WorkOS({
       clientId: process.env.WORKOS_CLIENT_ID || "",
       clientSecret: process.env.WORKOS_CLIENT_SECRET || "",
