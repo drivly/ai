@@ -3,8 +3,8 @@ import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 
-export const generateMetadata = async ({ params }: { params: { domain: string } }): Promise<Metadata> => {
-  const { domain } = params
+export const generateMetadata = async ({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> => {
+  const { domain } = await params
   return {
     title: domain
   }
