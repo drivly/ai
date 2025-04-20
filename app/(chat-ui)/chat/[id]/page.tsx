@@ -1,0 +1,30 @@
+import { ChatHeader } from '@/components/chat/chat-header';
+import { auth } from '@/lib/auth/payload-auth';
+import { redirect } from 'next/navigation';
+import { Content } from '@/pkgs/payload-agent/src/components/chat/chat-container';
+import { ChatProvider } from '@/components/chat/chat-provider';
+
+export default async function ChatPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const session = await auth();
+
+  if (!session) {
+    redirect('/login');
+  }
+
+  const { id } = params;
+
+  return (
+    <div className="flex flex-col min-w-0 h-dvh bg-background">
+      <ChatHeader chatId={id} />
+      <ChatProvider chatId={id}>
+        <div className="flex-1 overflow-hidden">
+          <Content />
+        </div>
+      </ChatProvider>
+    </div>
+  );
+}
