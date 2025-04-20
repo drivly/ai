@@ -221,6 +221,7 @@
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "process": "^0.11.10",
     "react-email": "4.0.7",
     "rimraf": "^5.0.5",
     "tailwindcss": "^4.0.17",
