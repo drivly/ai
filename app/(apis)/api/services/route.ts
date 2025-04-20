@@ -20,8 +20,8 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
   
   const services = await db.services.find({ 
     where: query,
-    limit: url.searchParams.get('limit') ? parseInt(url.searchParams.get('limit')) : 10,
-    page: url.searchParams.get('page') ? parseInt(url.searchParams.get('page')) : 1,
+    limit: url.searchParams.has('limit') ? parseInt(url.searchParams.get('limit') as string) : 10,
+    page: url.searchParams.has('page') ? parseInt(url.searchParams.get('page') as string) : 1,
   })
   
   return services
