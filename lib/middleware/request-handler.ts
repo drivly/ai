@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { API_AUTH_PREFIX, protectedRoutes, publicRoutes } from '../routes'
 
-const cfDataCache = new Map<string, { data: any; timestamp: number }>()
+const cfCache = new Map<string, { data: any; timestamp: number }>()
 const CACHE_TTL = 5 * 60 * 1000 // 5 minutes in milliseconds
 
 export class RequestHandler {
@@ -9,7 +9,7 @@ export class RequestHandler {
   hostname: string
   pathname: string
   search: string
-  cfData?: any
+  cf?: any
 
   constructor(request: NextRequest) {
     this.request = request
@@ -79,11 +79,11 @@ export class RequestHandler {
                this.request.headers.get('x-real-ip') || 
                '127.0.0.1'
     
-    const cachedData = cfDataCache.get(ip)
+    const cachedData = cfCache.get(ip)
     if (cachedData && (Date.now() - cachedData.timestamp) < CACHE_TTL) {
-      this.cfData = cachedData.data
-      ;(this.request as any)._cfData = this.cfData
-      return this.cfData
+      this.cf = cachedData.data
+      ;(this.request as any)._cf = this.cf
+      return this.cf
     }
 
     try {
@@ -91,13 +91,13 @@ export class RequestHandler {
       if (response.ok) {
         const data = await response.json()
         
-        cfDataCache.set(ip, {
+        cfCache.set(ip, {
           data,
           timestamp: Date.now()
         })
         
-        this.cfData = data
-        ;(this.request as any)._cfData = this.cfData
+        this.cf = data
+        ;(this.request as any)._cf = this.cf
         return data
       }
     } catch (error) {
@@ -111,6 +111,6 @@ export class RequestHandler {
    * Returns Cloudflare data from either native cf object or fetched data
    */
   getCf(): any {
-    return ('cf' in this.request) ? (this.request as any).cf : this.cfData
+    return ('cf' in this.request) ? (this.request as any).cf : this.cf
   }
 }
