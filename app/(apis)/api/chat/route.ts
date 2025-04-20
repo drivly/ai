@@ -149,11 +149,22 @@ export const POST = API(async (req, { user, payload }) => {
       const completion = await openai.chat.completions.create({
         model: chat.metadata?.model || 'gpt-4',
         messages: [
-          { role: 'system', content: 'You are a helpful assistant.' } as const,
-          ...messages.map((m: ChatMessage) => ({ 
-            role: (m.role || 'user') as 'system' | 'user' | 'assistant' | 'function' | 'tool', 
-            content: m.content 
-          }))
+          { role: 'system', content: 'You are a helpful assistant.' },
+          ...messages.map((m: ChatMessage) => {
+            const role = m.role || 'user';
+            if (role === 'function' || role === 'tool') {
+              return {
+                role: role,
+                content: m.content,
+                name: m.metadata?.name || 'default_name' // Required for function/tool messages
+              };
+            } else {
+              return {
+                role: role as 'system' | 'user' | 'assistant',
+                content: m.content
+              };
+            }
+          })
         ],
         stream: true,
       })
