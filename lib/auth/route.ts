@@ -1,6 +1,6 @@
 import { getCurrentURL } from '@/lib/utils/url'
 import { NextRequest, NextResponse } from 'next/server'
-import { auth, signIn, signOut } from '@/app/(auth)/auth'
+import { auth, signIn, signOut } from '@/auth'
 
 export async function login(request: NextRequest) {
   const currentURL = getCurrentURL(request.headers)

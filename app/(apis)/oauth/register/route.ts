@@ -1,7 +1,7 @@
 import { API } from '@/lib/api'
 import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 import crypto from 'crypto'
-import { auth } from '@/app/(auth)/auth'
+import { auth } from '@/auth'
 
 export const POST = API(async (request, { url }) => {
   const session = await auth()
@@ -12,21 +12,6 @@ export const POST = API(async (request, { url }) => {
 
   const user = session.user
   const payload = await getPayloadWithAuth()
-
-  let userDoc
-  try {
-    userDoc = await payload.findByID({
-      collection: 'users',
-      id: user.id,
-    })
-  } catch (error) {
-    console.error('Error fetching user:', error)
-    return { error: 'not_found', error_description: 'User not found' }
-  }
-
-  if (!userDoc || userDoc.role !== 'admin') {
-    return { error: 'forbidden', error_description: 'Admin access required' }
-  }
 
   const { name, redirectURLs } = await request.json()
 

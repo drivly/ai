@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server.js'
 import { getAuthRedirectForDomain } from '@/lib/utils/url'
-import { auth } from '@/app/(auth)/auth'
+import { auth } from '@/auth'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
