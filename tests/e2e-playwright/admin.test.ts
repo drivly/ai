@@ -417,7 +417,8 @@ test.describe('Admin page', () => {
         'http://localhost:3001', // Fallback URL if port 3000 is in use
         'http://localhost:3002', // Fallback URL if both port 3000 and 3001 are in use
         'http://localhost:3003', // Fallback URL if ports 3000, 3001, and 3002 are in use
-        'http://localhost:3004'  // Fallback URL if ports 3000, 3001, 3002, and 3003 are in use
+        'http://localhost:3004', // Fallback URL if ports 3000, 3001, 3002, and 3003 are in use
+        'http://localhost:3005'  // Fallback URL if ports 3000, 3001, 3002, 3003, and 3004 are in use
       ];
       
       let success = false;

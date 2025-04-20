@@ -70,7 +70,7 @@ jobs:
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           NEXTAUTH_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          NEXTAUTH_URL: http://localhost:3004
+          NEXTAUTH_URL: http://localhost:3005
           GITHUB_CLIENT_ID: mock_github_client_id
           GITHUB_CLIENT_SECRET: mock_github_client_secret
           WORKOS_CLIENT_ID: mock_workos_client_id
@@ -125,7 +125,7 @@ jobs:
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           NEXTAUTH_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          NEXTAUTH_URL: http://localhost:3004
+          NEXTAUTH_URL: http://localhost:3005
           GITHUB_CLIENT_ID: mock_github_client_id
           GITHUB_CLIENT_SECRET: mock_github_client_secret
           WORKOS_CLIENT_ID: mock_workos_client_id
@@ -235,7 +235,7 @@ jobs:
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           NEXTAUTH_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          NEXTAUTH_URL: http://localhost:3004
+          NEXTAUTH_URL: http://localhost:3005
           GITHUB_CLIENT_ID: mock_github_client_id
           GITHUB_CLIENT_SECRET: mock_github_client_secret
           WORKOS_CLIENT_ID: mock_workos_client_id
