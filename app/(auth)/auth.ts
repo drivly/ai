@@ -140,12 +140,13 @@ const authOptions = {
     // },
   ],
   callbacks: {
-    async jwt({ token, user }: { token: JWT & { id?: string; role?: string }; user?: User }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
+      const newToken = token as JWT
       if (user) {
-        token.id = user.id
-        token.role = user.role || 'user'
+        newToken.id = user.id
+        newToken.role = user.role || 'user'
       }
-      return token
+      return newToken
     },
     async session(params: { session: Session; token: JWT }) {
       if (params.session.user) {
