@@ -13,7 +13,7 @@ export const GET = API(async (req, { user, payload }) => {
   }
 
   const documents = await payload.find({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     where: {
       id: { equals: id },
       resourceType: { equals: 'document' }
@@ -48,7 +48,7 @@ export const POST = API(async (req, { user, payload }) => {
   const { content, title, kind }: { content: string, title: string, kind?: string } = await req.json()
 
   const documents = await payload.find({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     where: {
       id: { equals: id },
       resourceType: { equals: 'document' }
@@ -63,7 +63,7 @@ export const POST = API(async (req, { user, payload }) => {
     }
     
     const updatedDocument = await payload.update({
-      collection: 'chat-resources',
+      collection: 'chatResources',
       id: id,
       data: {
         title,
@@ -75,7 +75,7 @@ export const POST = API(async (req, { user, payload }) => {
     return updatedDocument
   } else {
     const newDocument = await payload.create({
-      collection: 'chat-resources',
+      collection: 'chatResources',
       data: {
         id,
         title,
@@ -109,7 +109,7 @@ export const DELETE = API(async (req, { user, payload }) => {
   }
 
   const documents = await payload.find({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     where: {
       id: { equals: id },
       resourceType: { equals: 'document' }
@@ -127,7 +127,7 @@ export const DELETE = API(async (req, { user, payload }) => {
   }
 
   await payload.delete({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     id: id
   })
 

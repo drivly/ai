@@ -148,7 +148,7 @@ export default buildConfig({
         verbs: {},
         databases: {},
         resources: {},
-        'chat-resources': {},
+        chatResources: {},
 
         integrations: {},
         connectAccounts: {},

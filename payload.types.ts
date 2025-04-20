@@ -81,7 +81,7 @@ export interface Config {
     verbs: Verb;
     databases: Database;
     resources: Resource;
-    'chat-resources': ChatResource;
+    chatResources: ChatResource;
     actions: Action;
     integrationCategories: IntegrationCategory;
     integrations: Integration;

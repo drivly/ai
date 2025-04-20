@@ -13,7 +13,7 @@ export const GET = API(async (req, { user, payload }) => {
   }
 
   const suggestions = await payload.find({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     where: {
       'metadata.documentId': { equals: documentId },
       resourceType: { equals: 'suggestion' }

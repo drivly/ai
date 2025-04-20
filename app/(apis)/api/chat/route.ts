@@ -25,7 +25,7 @@ export const GET = API(async (req, { db, user, payload }) => {
 
   if (id) {
     const chat = await payload.find({
-      collection: 'chat-resources',
+      collection: 'chatResources',
       where: {
         id: { equals: id },
         resourceType: { equals: 'chat' },
@@ -38,7 +38,7 @@ export const GET = API(async (req, { db, user, payload }) => {
     }
 
     const messages = await payload.find({
-      collection: 'chat-resources',
+      collection: 'chatResources',
       where: {
         parentId: { equals: id },
         resourceType: { equals: 'message' }
@@ -65,7 +65,7 @@ export const GET = API(async (req, { db, user, payload }) => {
     }
 
     const chats = await payload.find({
-      collection: 'chat-resources',
+      collection: 'chatResources',
       where: query,
       limit,
       sort: '-createdAt'
@@ -85,7 +85,7 @@ export const POST = API(async (req, { user, payload }) => {
   let chat
   if (id) {
     const existingChat = await payload.find({
-      collection: 'chat-resources',
+      collection: 'chatResources',
       where: {
         id: { equals: id },
         resourceType: { equals: 'chat' },
@@ -101,7 +101,7 @@ export const POST = API(async (req, { user, payload }) => {
   } else {
     const title = messages[0]?.content?.substring(0, 100) || 'New Chat'
     const newChat = await payload.create({
-      collection: 'chat-resources',
+      collection: 'chatResources',
       data: {
         title,
         resourceType: 'chat',
@@ -183,7 +183,7 @@ export const POST = API(async (req, { user, payload }) => {
           if (accumulatedContent.length % 100 < 10) {
             try {
               await payload.update({
-                collection: 'chat-resources',
+                collection: 'chatResources',
                 id: assistantMessage.id,
                 data: {
                   content: accumulatedContent
@@ -198,7 +198,7 @@ export const POST = API(async (req, { user, payload }) => {
 
       try {
         await payload.update({
-          collection: 'chat-resources',
+          collection: 'chatResources',
           id: assistantMessage.id,
           data: {
             content: accumulatedContent
@@ -260,7 +260,7 @@ export const DELETE = API(async (req, { user, payload }) => {
 
   for (const message of messages.docs) {
     await payload.delete({
-      collection: 'chat-resources',
+      collection: 'chatResources',
       id: message.id
     })
   }

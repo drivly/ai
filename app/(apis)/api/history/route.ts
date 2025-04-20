@@ -29,7 +29,7 @@ export const GET = API(async (req, { user, payload }) => {
 
   try {
     const chats = await payload.find({
-      collection: 'chat-resources',
+      collection: 'chatResources',
       where: query,
       limit,
       sort: '-createdAt'

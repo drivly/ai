@@ -1,7 +1,7 @@
 import type { CollectionConfig, AccessArgs } from 'payload'
 
 export const ChatResources: CollectionConfig = {
-  slug: 'chat-resources',
+  slug: 'chatResources',
   admin: {
     group: 'Chat',
     useAsTitle: 'title',

@@ -13,7 +13,7 @@ export const GET = API(async (req, { user, payload }) => {
   }
 
   const chat = await payload.find({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     where: {
       id: { equals: chatId },
       resourceType: { equals: 'chat' }
@@ -29,7 +29,7 @@ export const GET = API(async (req, { user, payload }) => {
   }
 
   const messages = await payload.find({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     where: {
       parentId: { equals: chatId },
       resourceType: { equals: 'message' }
@@ -58,7 +58,7 @@ export const PATCH = API(async (req, { user, payload }) => {
   }
 
   const chat = await payload.find({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     where: {
       id: { equals: chatId },
       resourceType: { equals: 'chat' }
@@ -74,7 +74,7 @@ export const PATCH = API(async (req, { user, payload }) => {
   }
 
   const message = await payload.findByID({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     id: messageId
   })
 
@@ -100,7 +100,7 @@ export const PATCH = API(async (req, { user, payload }) => {
   }
 
   await payload.update({
-    collection: 'chat-resources',
+    collection: 'chatResources',
     id: messageId,
     data: {
       votes
