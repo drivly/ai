@@ -36,7 +36,7 @@ export const DotDoSection = (props: DotDoSectionProps) => {
   return (
     <Fragment>
       <div className='mb-16'>
-        {!isBrandDomain && (
+        {(!isBrandDomain && (mounted || process.env.NODE_ENV !== 'development')) && (
           <div className='mb-8 flex items-center space-x-2'>
             <span className='mr-2 text-sm font-medium opacity-70'>Show URLs as:</span>
             <div className='flex items-center space-x-4'>

@@ -17,7 +17,7 @@ export interface DotDoItemProps {
 export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, links }: DotDoItemProps) => {
   const domain = href.startsWith('https://') ? href.substring(8) : title
 
-  if (!mounted) {
+  if (!mounted && process.env.NODE_ENV === 'development') {
     return (
       <div className='relative flex h-full flex-col rounded-md border border-gray-800 bg-slate-700/15 bg-[linear-gradient(rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] p-5 backdrop-blur-sm transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg'>
         <h3 className='relative z-10 mb-2 text-xl font-semibold tracking-tight'>{title}</h3>
