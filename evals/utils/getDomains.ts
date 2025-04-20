@@ -1,4 +1,4 @@
-import { domainsConfig } from '../../domains.config'
+import { domainsConfig } from '@/domains.config'
 
 export const getDomains = () => {
   const domainList = Object.keys(domainsConfig.domains).filter((domain) => domain.endsWith('.do')) // Only include .do domains
