@@ -7,7 +7,7 @@ import { ChatProvider } from '@/components/chat/chat-provider';
 export default async function ChatPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const session = await auth();
 
@@ -15,7 +15,7 @@ export default async function ChatPage({
     redirect('/login');
   }
 
-  const { id } = params;
+  const { id } = await params;
 
   return (
     <div className="flex flex-col min-w-0 h-dvh bg-background">
