@@ -116,7 +116,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           collection: 'organizations',
           data: {
             name: user.name ? `Organization for ${user.name}` : `Organization for ${user.email}`,
-            user: user.id,
+            user: user.id || '',
             stripeCustomerId: customerId,
             email: user.email,
           },
