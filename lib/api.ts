@@ -3,6 +3,7 @@ import punycode from 'punycode'
 import { getPayload } from 'payload'
 import config from '../payload.config'
 import { PayloadDB } from './db'
+import { auth } from '../auth'
 import { UAParser } from 'ua-parser-js'
 import { geolocation } from '@vercel/functions'
 import { continents, countries, flags, locations, metros } from './constants/cf'
@@ -441,11 +442,21 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
 
       const enhancedUser = await getUser(req, payload)
 
+      let authUser: Record<string, any> = {}
+      try {
+        const session = await auth()
+        authUser = session?.user || {}
+      } catch (authError) {
+        console.error('Error fetching AuthJS session:', authError)
+      }
+
       const mergedUser = {
         ...enhancedUser,
-        authenticated: user?.id ? true : false,
-        admin: user?.admin || undefined,
+        authenticated: (user?.id || authUser?.id) ? true : false,
+        admin: (user?.admin || authUser?.role === 'admin') ? true : undefined,
         plan: user?.plan || 'Free',
+        name: authUser?.name || user?.name || enhancedUser.name,
+        email: authUser?.email || user?.email || enhancedUser.email,
       }
 
       const apiDescription =
