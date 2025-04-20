@@ -24,7 +24,7 @@ const withNextra = nextra({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
-  transpilePackages: [], // Reduce transpiled packages
+  transpilePackages: ['payload-utils', 'simple-payload', 'clickable-apis', 'payload-agent'], // Include internal packages
 
   turbopack: {
     // Using Turbopack for faster builds and better performance
