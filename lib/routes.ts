@@ -17,4 +17,4 @@ export const publicRoutes = [
   '/api/auth/callback',
 ]
 
-export const protectedRoutes = ['/dashboard', '/dashboard/*', '/account', '/account/*', '/admin', '/admin/*']
+export const protectedRoutes = ['/dashboard', '/dashboard/*', '/account', '/account/*', '/admin', '/admin/*', '/chat', '/chat/*']
