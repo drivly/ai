@@ -69,6 +69,12 @@ jobs:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          NEXTAUTH_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          NEXTAUTH_URL: http://localhost:3004
+          GITHUB_CLIENT_ID: mock_github_client_id
+          GITHUB_CLIENT_SECRET: mock_github_client_secret
+          WORKOS_CLIENT_ID: mock_workos_client_id
+          WORKOS_CLIENT_SECRET: mock_workos_client_secret
 
   e2e-tests:
     name: Run E2E Tests
@@ -118,6 +124,12 @@ jobs:
         env:
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          NEXTAUTH_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          NEXTAUTH_URL: http://localhost:3004
+          GITHUB_CLIENT_ID: mock_github_client_id
+          GITHUB_CLIENT_SECRET: mock_github_client_secret
+          WORKOS_CLIENT_ID: mock_workos_client_id
+          WORKOS_CLIENT_SECRET: mock_workos_client_secret
           RESEND_API_KEY: mock_resend_api_key_for_tests # Mock Resend for server startup
 
       - name: Wait for Server
@@ -222,6 +234,12 @@ jobs:
         env:
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          NEXTAUTH_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          NEXTAUTH_URL: http://localhost:3004
+          GITHUB_CLIENT_ID: mock_github_client_id
+          GITHUB_CLIENT_SECRET: mock_github_client_secret
+          WORKOS_CLIENT_ID: mock_workos_client_id
+          WORKOS_CLIENT_SECRET: mock_workos_client_secret
           RESEND_API_KEY: mock_resend_api_key_for_tests # Mock Resend for server startup
 
       - name: Wait for Server
