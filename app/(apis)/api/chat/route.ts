@@ -1,7 +1,6 @@
 import { API } from '@/lib/api'
 import { waitUntil } from '@vercel/functions'
 import { put } from '@vercel/blob'
-import { createStreamableValue } from 'ai'
 import OpenAI from 'openai'
 
 const { TransformStream } = globalThis
@@ -200,7 +199,13 @@ export const POST = API(async (req, { user, payload }) => {
 
   waitUntil(streamProcessor())
 
-  return createStreamableValue(readable)
+  // Return a streaming response using the native Response object
+  return new Response(readable, {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Transfer-Encoding': 'chunked'
+    }
+  })
 })
 
 export const DELETE = API(async (req, { user, payload }) => {
