@@ -36,7 +36,7 @@ export const GET = API(async (req, { user, payload }) => {
     })
 
     return { chats: chats.docs }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching chat history:', error)
     return { error: 'Failed to fetch chats', status: 500 }
   }
