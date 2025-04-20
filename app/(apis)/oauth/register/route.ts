@@ -13,21 +13,6 @@ export const POST = API(async (request, { url }) => {
   const user = session.user
   const payload = await getPayloadWithAuth()
 
-  let userDoc
-  try {
-    userDoc = await payload.findByID({
-      collection: 'users',
-      id: user.id,
-    })
-  } catch (error) {
-    console.error('Error fetching user:', error)
-    return { error: 'not_found', error_description: 'User not found' }
-  }
-
-  if (!userDoc || userDoc.role !== 'admin') {
-    return { error: 'forbidden', error_description: 'Admin access required' }
-  }
-
   const { name, redirectURLs } = await request.json()
 
   if (!name || !redirectURLs || !Array.isArray(redirectURLs) || !redirectURLs.length) {
