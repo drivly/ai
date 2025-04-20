@@ -64,5 +64,6 @@ export const getOAuthCallbackURL = (provider: 'google' | 'github' | 'workos' | '
     return `${baseUrl}/api/auth/callback/${provider}`
   }
 
-  return `https://apis.do/api/auth/callback/${provider}`
+  const baseUrl = url ? new URL(url).origin : getCurrentURL()
+  return `${baseUrl}/api/auth/callback/${provider}`
 }

@@ -6,7 +6,7 @@ import { Metadata } from 'next'
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string; integration: string; event: string }> }): Promise<Metadata> {
-  const { domain, integration, event } = await params
+  const { domain, integration, event } = await params || {}
   const content = await findSiteContent(domain)
 
   return {
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 }
 
 async function IntegrationEventPage(props: { params: { domain: string; integration: string; event: string } }) {
-  const { domain, integration, event } = props.params
+  const { domain, integration, event } = props.params || {}
   await getSession()
 
   return (

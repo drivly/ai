@@ -42,16 +42,9 @@ export default defineConfig({
     },
     primitives: {
       name: 'Primitive',
-      pattern: 'primitives.yaml',
-      schema: s.object({}).transform((data, { meta }) => {
-        return Object.entries(data).map(([key, value]) => {
-          const item = value as any
-          return {
-            primitive: item.primitive,
-            definition: item.definition,
-          }
-        })
-      }),
+      pattern: '../primitives.yaml',
+      schema: s.record(s.string(), s.string()),
+      single: true,
     },
     pages: {
       name: 'Page',
@@ -81,7 +74,7 @@ export default defineConfig({
         .object({
           title: s.string(),
           description: s.string(),
-          headline: s.string(),
+          headline: s.string().optional(),
           subhead: s.string().optional(),
           brandColor: s.string().optional(), // Add this field
           content: s.markdown(),

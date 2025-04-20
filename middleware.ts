@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server.js'
 import { NextResponse } from 'next/server.js'
-import { auth } from '@/app/(auth)/auth'
+import { auth } from '@/auth.config'
 import { analyticsMiddleware } from './analytics/src/middleware'
 import { isBrandDomain, isDoDomain, isDoManagementDomain, isGatewayDomain } from './lib/domains'
 import { handleApiDocsRoute, handleApiRoute, handleBrandDomain, handleCustomDomain, handleDoDomain, handleDoManagementDomain, handleGatewayDomain } from './lib/middleware'
