@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server.js'
 import punycode from 'punycode'
 import { createNodePayloadClient } from './adapters/node'
 import { createEdgePayloadClient } from './adapters/edge'

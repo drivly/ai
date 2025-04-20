@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server.js'
 import { getPayload } from 'payload'
 import config from '../../../../../payload.config'
 import { processHumanFeedbackResponse } from '../../../../../tasks/ai/requestHumanFeedback'

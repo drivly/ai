@@ -1,4 +1,4 @@
-import { NextRequest } from 'next/server'
+import { NextRequest } from 'next/server.js'
 import { API, handleShareRequest } from '@/lib/api'
 
 export const GET = API(async (req: NextRequest, ctx) => {

@@ -140,10 +140,27 @@ jobs:
           # Additional check to confirm main page is also loading
           echo "Health check passed. Now verifying main page is accessible..."
           if curl -s http://localhost:3000/ -o /dev/null -w "%{http_code}" | grep -q "200"; then
-            echo "Main page is accessible. Server is ready!"
+            echo "Main page is accessible."
           else
             echo "Warning: Health check passed but main page is not accessible yet."
             echo "Will proceed with tests, but they might fail if pages aren't ready."
+          fi
+          
+          # New check specifically for admin route
+          echo "Now verifying admin route is accessible..."
+          ADMIN_RETRIES=30
+          ADMIN_COUNT=0
+          until curl -s http://localhost:3000/admin -o /dev/null -w "%{http_code}" | grep -q "200" || [ $ADMIN_COUNT -eq $ADMIN_RETRIES ]; do
+            echo "Attempt $((ADMIN_COUNT+1))/$ADMIN_RETRIES - Admin route not ready yet, waiting 1s..."
+            sleep 1
+            ADMIN_COUNT=$((ADMIN_COUNT+1))
+          done
+          
+          if [ $ADMIN_COUNT -eq $ADMIN_RETRIES ]; then
+            echo "Warning: Admin route is not accessible after $ADMIN_RETRIES attempts."
+            echo "This might cause E2E tests to fail with connection refused errors."
+          else
+            echo "Admin route is accessible. Server is fully ready!"
           fi
 
       - name: Run E2E Tests
@@ -227,10 +244,27 @@ jobs:
           # Additional check to confirm main page is also loading
           echo "Health check passed. Now verifying main page is accessible..."
           if curl -s http://localhost:3000/ -o /dev/null -w "%{http_code}" | grep -q "200"; then
-            echo "Main page is accessible. Server is ready!"
+            echo "Main page is accessible."
           else
             echo "Warning: Health check passed but main page is not accessible yet."
             echo "Will proceed with tests, but they might fail if pages aren't ready."
+          fi
+          
+          # New check specifically for admin route
+          echo "Now verifying admin route is accessible..."
+          ADMIN_RETRIES=30
+          ADMIN_COUNT=0
+          until curl -s http://localhost:3000/admin -o /dev/null -w "%{http_code}" | grep -q "200" || [ $ADMIN_COUNT -eq $ADMIN_RETRIES ]; do
+            echo "Attempt $((ADMIN_COUNT+1))/$ADMIN_RETRIES - Admin route not ready yet, waiting 1s..."
+            sleep 1
+            ADMIN_COUNT=$((ADMIN_COUNT+1))
+          done
+          
+          if [ $ADMIN_COUNT -eq $ADMIN_RETRIES ]; then
+            echo "Warning: Admin route is not accessible after $ADMIN_RETRIES attempts."
+            echo "This might cause E2E tests to fail with connection refused errors."
+          else
+            echo "Admin route is accessible. Server is fully ready!"
           fi
 
       - name: Run Chromatic Visual Tests

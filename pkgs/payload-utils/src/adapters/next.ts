@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server.js'
 import { ApiHandler } from '../types'
 import { createApiHandler } from '../createApiHandler'
 

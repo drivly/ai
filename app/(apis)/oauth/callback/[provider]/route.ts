@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
 import { auth } from '@/app/(auth)/auth'
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server.js'
 
 export const GET = API(async (request, { url, params }) => {
   try {

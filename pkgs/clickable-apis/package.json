@@ -5,6 +5,9 @@
   "dependencies": {
     "simple-payload": "0.1.0"
   },
+  "peerDependencies": {
+    "next": "^14.0.0 || ^15.0.0"
+  },
   "devDependencies": {
     "tsconfig": "0.0.0",
     "eslint-config": "0.1.0"

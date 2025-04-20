@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server.js'
 
 export function handleApiDocsRoute(request: NextRequest): NextResponse {
   const hostname = process.env.HOSTNAME_OVERRIDE || request.nextUrl.hostname

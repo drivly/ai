@@ -17,6 +17,9 @@
   "dependencies": {
     "payload-rest-client": "^3.0.5"
   },
+  "peerDependencies": {
+    "next": "^14.0.0 || ^15.0.0"
+  },
   "devDependencies": {
     "eslint-config": "0.1.0",
     "payload": "^3.33.0",

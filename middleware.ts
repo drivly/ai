@@ -1,5 +1,5 @@
-import type { NextRequest } from 'next/server'
-import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server.js'
+import { NextResponse } from 'next/server.js'
 import { auth } from '@/app/(auth)/auth'
 import { analyticsMiddleware } from './analytics/src/middleware'
 import { isBrandDomain, isDoDomain, isDoManagementDomain, isGatewayDomain } from './lib/domains'

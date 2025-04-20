@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server.js'
 import { collectionSlugs } from '../../collections/middleware-collections'
 import { extractApiNameFromManagementDomain } from '../domains'
 

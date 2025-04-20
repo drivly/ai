@@ -1,5 +1,5 @@
 import { API, formatUrl } from '@/lib/api'
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server.js'
 import { waitUntil } from '@vercel/functions'
 
 export const GET = API(async (request, { db, user, url, origin, domain, payload }) => {
