@@ -183,6 +183,9 @@ For information about using third-party SDKs and frameworks with OpenRouter, ple
     by the provider. We then calculate the corresponding cost and deduct it from your credits.
     You can review your complete usage history in the [Activity tab](https://openrouter.ai/activity).
 
+    You can also add the `usage: {include: true}` parameter to your chat request
+    to get the usage information in the response.
+
     We pass through the pricing of the underlying providers; there is no markup
     on inference pricing (however we do charge a [fee](https://openrouter.ai/terms#_4_-payment) when purchasing credits).
   </Accordion>
@@ -253,9 +256,9 @@ For information about using third-party SDKs and frameworks with OpenRouter, ple
   </Accordion>
 
   <Accordion title="How are rate limits calculated?">
-    For free models, rate limits are determined by the credits in your account. If  you have
-    a balance lower than {FREE_MODEL_CREDITS_THRESHOLD} credits, you will be rate limited to {FREE_MODEL_NO_CREDITS_RPD} requests per day.
-    If you have a balance of at least {FREE_MODEL_CREDITS_THRESHOLD} credits, you will be rate limited to {FREE_MODEL_HAS_CREDITS_RPD} requests per day.
+    For free models, rate limits are determined by the credits that you have purchased. If you have
+    total credits purchased lower than {FREE_MODEL_CREDITS_THRESHOLD} credits, you will be rate limited to {FREE_MODEL_NO_CREDITS_RPD} requests per day.
+    If you have purchased at least {FREE_MODEL_CREDITS_THRESHOLD} credits, you will be rate limited to {FREE_MODEL_HAS_CREDITS_RPD} requests per day.
 
     For all other models, rate limits are determined by the credits in your account. You can read more
     details in our [rate limits documentation](/docs/api-reference/limits).
@@ -345,7 +348,7 @@ Please see our [Terms of Service](https://openrouter.ai/terms) and [Privacy Poli
   </Accordion>
 
   <Accordion title="What's the refund policy?">
-    OpenRouter currently does not offer refunds for purchased credits.
+    Refunds for unused Credits may be requested within twenty-four (24) hours from the time the transaction was processed. If no refund request is received within twenty-four (24) hours following the purchase, any unused Credits become non-refundable. To request a refund within the eligible period, you must email OpenRouter at [support@openrouter.ai](mailto:support@openrouter.ai). The unused credit amount will be refunded to your payment method; the platform fees are non-refundable. Note that cryptocurrency payments are never refundable.
   </Accordion>
 
   <Accordion title="How to monitor credit usage?">
@@ -359,8 +362,9 @@ Please see our [Terms of Service](https://openrouter.ai/terms) and [Privacy Poli
   <Accordion title="What free tier options exist?">
     All new users receive a very small free allowance to be able to test out OpenRouter.
     There are many [free models](https://openrouter.ai/models?max_price=0) available
-    on OpenRouter, it is important to note that these models have low rate limits (200 requests per day total)
-    and are usually not suitable for production use.
+    on OpenRouter, it is important to note that these models have low rate limits ({FREE_MODEL_NO_CREDITS_RPD} requests per day total)
+    and are usually not suitable for production use. If you have purchased at least {FREE_MODEL_CREDITS_THRESHOLD} credits,
+    the free models will be limited to {FREE_MODEL_HAS_CREDITS_RPD} requests per day.
   </Accordion>
 
   <Accordion title="How do volume discounts work?">
@@ -444,7 +448,8 @@ If there are models or providers you are interested in that OpenRouter doesn't h
   Llama, etc), while others tokenize by character (PaLM). This means that token
   counts (and therefore costs) will vary between models, even when inputs and
   outputs are the same. Costs are displayed and billed according to the
-  tokenizer for the model in use.
+  tokenizer for the model in use. You can use the `usage` field in the response
+  to get the token counts for the input and output.
 </Note>
 
 Explore and browse 300+ models and providers [on our website](https://openrouter.ai/models), or [with our API](/docs/api-reference/list-available-models).
@@ -912,6 +917,8 @@ You can view the terms of service for each provider below. You may not violate t
 * `Phala`: [https://red-pill.ai/terms](https://red-pill.ai/terms)
 * `Cent-ML`: [https://centml.ai/terms-of-service/](https://centml.ai/terms-of-service/)
 * `Venice`: [https://venice.ai/terms](https://venice.ai/terms)
+* `OpenInference`: [https://www.openinference.xyz/terms](https://www.openinference.xyz/terms)
+* `Atoma`: [https://atoma.network/terms](https://atoma.network/terms)
 * `01.AI`: [https://platform.01.ai/privacypolicy](https://platform.01.ai/privacypolicy)
 * `HuggingFace`: [https://huggingface.co/terms-of-service](https://huggingface.co/terms-of-service)
 * `Mancer`: [https://mancer.tech/terms](https://mancer.tech/terms)
@@ -935,13 +942,15 @@ To save on inference costs, you can enable prompt caching on supported providers
 
 Most providers automatically enable prompt caching, but note that some (see Anthropic below) require you to enable it on a per-message basis.
 
-When using caching (whether automatically in supported models, or via the `cache_control` header), OpenRouter will make a best-effort to continue routing
-to the same provider to make use of the warm cache. In the event that the provider with your cached prompt is not available,
-OpenRouter will try the next-best provider.
+When using caching (whether automatically in supported models, or via the `cache_control` header), OpenRouter will make a best-effort to continue routing to the same provider to make use of the warm cache. In the event that the provider with your cached prompt is not available, OpenRouter will try the next-best provider.
 
 ## Inspecting cache usage
 
-To see how much caching saved on each generation, you click the detail button on the [Activity](/activity) page, or you can use the `/api/v1/generation` API, [documented here](/api-reference/overview#querying-cost-and-stats).
+To see how much caching saved on each generation, you can:
+
+1. Click the detail button on the [Activity](/activity) page
+2. Use the `/api/v1/generation` API, [documented here](/api-reference/overview#querying-cost-and-stats)
+3. Use `usage: {include: true}` in your request to get the cache tokens at the end of the response (see [Usage Accounting](/use-cases/usage-accounting) for details)
 
 The `cache_discount` field in the response body will tell you how much the response saved on cache usage. Some providers, like Anthropic, will have a negative discount on cache writes, but a positive discount (which reduces total cost) on cache reads.
 
@@ -3149,11 +3158,11 @@ type Key = {
 
 There are a few rate limits that apply to certain types of requests, regardless of account status:
 
-1. Free usage limits: If you're using a free model variant (with an ID ending in <code>{sep}{Variant.Free}</code>), you can make up to {FREE_MODEL_RATE_LIMIT_RPM} requests per minute.
+1. Free usage limits: If you're using a free model variant (with an ID ending in <code>{sep}{Variant.Free}</code>), you can make up to {FREE_MODEL_RATE_LIMIT_RPM} requests per minute. The following per-day limits apply:
 
-* If your account has less than {FREE_MODEL_CREDITS_THRESHOLD} credits, you're limited to {FREE_MODEL_NO_CREDITS_RPD} requests per day.
+* If you have purchased less than {FREE_MODEL_CREDITS_THRESHOLD} credits, you're limited to {FREE_MODEL_NO_CREDITS_RPD} <code>{sep}{Variant.Free}</code> model requests per day.
 
-* If you maintain a balance of at least {FREE_MODEL_CREDITS_THRESHOLD}, your daily limit increases to {FREE_MODEL_HAS_CREDITS_RPD} requests per day.
+* If you purchase at least {FREE_MODEL_CREDITS_THRESHOLD} credits, your daily limit is increased to {FREE_MODEL_HAS_CREDITS_RPD} <code>{sep}{Variant.Free}</code> model requests per day.
 
 2. **DDoS protection**: Cloudflare's DDoS protection will block requests that dramatically exceed reasonable usage.
 
@@ -7399,7 +7408,7 @@ The `code_challenge` parameter is optional but recommended.
 
 Your user will be prompted to log in to OpenRouter and authorize your app. After authorization, they will be redirected back to your site with a `code` parameter in the URL:
 
-![Alt text](file:0a32b5b6-8df4-4a90-9c4d-a832655a3157)
+![Alt text](file:b3cdfe0d-a301-452f-9175-bedc7a9ebabd)
 
 <Tip title="Use SHA-256 for Maximum Security">
   For maximum security, set `code_challenge_method` to `S256`, and set `code_challenge` to the base64 encoding of the sha256 hash of `code_verifier`.
@@ -7437,7 +7446,7 @@ When moving to production, replace the localhost/private referrer URL with a pub
 
 After the user logs in with OpenRouter, they are redirected back to your site with a `code` parameter in the URL:
 
-![Alt text](file:bd369792-98ed-4674-8be7-ad1456d95149)
+![Alt text](file:570fd6c9-c742-4f79-bc25-d164e1016533)
 
 Extract this code using the browser API:
 
@@ -7799,7 +7808,7 @@ The `reasoning` config object consolidates settings for controlling reasoning st
 ### Max Tokens for Reasoning
 
 <Note title="Supported models">
-  Currently supported by Anthropic thinking models
+  Currently supported by Anthropic and Gemini thinking models
 </Note>
 
 For models that support reasoning token allocation, you can control it like this:
@@ -8226,6 +8235,241 @@ effort\_ratio is 0.8 for high effort, 0.5 for medium effort, and 0.2 for low eff
           console.log(`REASONING: ${chunk.choices[0].delta.reasoning}`);
         } else if (chunk.choices[0].delta.content) {
           console.log(`CONTENT: ${chunk.choices[0].delta.content}`);
+        }
+      }
+    })();
+    ```
+  </CodeGroup>
+</Template>
+
+
+# Usage Accounting
+
+> Learn how to track AI model usage including prompt tokens, completion tokens, and cached tokens without additional API calls.
+
+The OpenRouter API provides built-in **Usage Accounting** that allows you to track AI model usage without making additional API calls. This feature provides detailed information about token counts, costs, and caching status directly in your API responses.
+
+## Usage Information
+
+When enabled, the API will return detailed usage information including:
+
+1. Prompt and completion token counts using the model's native tokenizer
+2. Cost in credits
+3. Reasoning token counts (if applicable)
+4. Cached token counts (if available)
+
+This information is included in the last SSE message for streaming responses, or in the complete response for non-streaming requests.
+
+## Enabling Usage Accounting
+
+You can enable usage accounting in your requests by including the `usage` parameter:
+
+```json
+{
+  "model": "your-model",
+  "messages": [],
+  "usage": {
+    "include": true
+  }
+}
+```
+
+## Response Format
+
+When usage accounting is enabled, the response will include a `usage` object with detailed token information:
+
+```json
+{
+  "object": "chat.completion.chunk",
+  "usage": {
+    "completion_tokens": 2,
+    "completion_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "cost": 197,
+    "prompt_tokens": 194,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 196
+  }
+}
+```
+
+<Note title="Performance Impact">
+  Enabling usage accounting will add a few hundred milliseconds to the last
+  response as the API calculates token counts and costs. This only affects the
+  final message and does not impact overall streaming performance.
+</Note>
+
+## Benefits
+
+1. **Efficiency**: Get usage information without making separate API calls
+2. **Accuracy**: Token counts are calculated using the model's native tokenizer
+3. **Transparency**: Track costs and cached token usage in real-time
+4. **Detailed Breakdown**: Separate counts for prompt, completion, reasoning, and cached tokens
+
+## Best Practices
+
+1. Enable usage tracking when you need to monitor token consumption or costs
+2. Account for the slight delay in the final response when usage accounting is enabled
+3. Consider implementing usage tracking in development to optimize token usage before production
+4. Use the cached token information to optimize your application's performance
+
+## Alternative: Getting Usage via Generation ID
+
+You can also retrieve usage information asynchronously by using the generation ID returned from your API calls. This is particularly useful when you want to fetch usage statistics after the completion has finished or when you need to audit historical usage.
+
+To use this method:
+
+1. Make your chat completion request as normal
+2. Note the `id` field in the response
+3. Use that ID to fetch usage information via the `/generation` endpoint
+
+For more details on this approach, see the [Get a Generation](/docs/api-reference/get-a-generation) documentation.
+
+## Examples
+
+### Basic Usage with Token Tracking
+
+<Template
+  data={{
+  API_KEY_REF,
+  MODEL: "anthropic/claude-3-opus"
+}}
+>
+  <CodeGroup>
+    ```python Python
+    import requests
+    import json
+
+    url = "https://openrouter.ai/api/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {{API_KEY_REF}}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "model": "{{MODEL}}",
+        "messages": [
+            {"role": "user", "content": "What is the capital of France?"}
+        ],
+        "usage": {
+            "include": True
+        }
+    }
+
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+    print("Response:", response.json()['choices'][0]['message']['content'])
+    print("Usage Stats:", response.json()['usage'])
+    ```
+
+    ```typescript TypeScript
+    import OpenAI from 'openai';
+
+    const openai = new OpenAI({
+      baseURL: 'https://openrouter.ai/api/v1',
+      apiKey: '{{API_KEY_REF}}',
+    });
+
+    async function getResponseWithUsage() {
+      const response = await openai.chat.completions.create({
+        model: '{{MODEL}}',
+        messages: [
+          {
+            role: 'user',
+            content: 'What is the capital of France?',
+          },
+        ],
+        usage: {
+          include: true,
+        },
+      });
+
+      console.log('Response:', response.choices[0].message.content);
+      console.log('Usage Stats:', response.usage);
+    }
+
+    getResponseWithUsage();
+    ```
+  </CodeGroup>
+</Template>
+
+### Streaming with Usage Information
+
+This example shows how to handle usage information in streaming mode:
+
+<Template
+  data={{
+  API_KEY_REF,
+  MODEL: "anthropic/claude-3-opus"
+}}
+>
+  <CodeGroup>
+    ```python Python
+    from openai import OpenAI
+
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key="{{API_KEY_REF}}",
+    )
+
+    def chat_completion_with_usage(messages):
+        response = client.chat.completions.create(
+            model="{{MODEL}}",
+            messages=messages,
+            usage={
+              "include": True
+            },
+            stream=True
+        )
+        return response
+
+    for chunk in chat_completion_with_usage([
+        {"role": "user", "content": "Write a haiku about Paris."}
+    ]):
+        if hasattr(chunk, 'usage'):
+            print(f"\nUsage Statistics:")
+            print(f"Total Tokens: {chunk.usage.total_tokens}")
+            print(f"Prompt Tokens: {chunk.usage.prompt_tokens}")
+            print(f"Completion Tokens: {chunk.usage.completion_tokens}")
+            print(f"Cost: {chunk.usage.cost} credits")
+        elif chunk.choices[0].delta.content:
+            print(chunk.choices[0].delta.content, end="")
+    ```
+
+    ```typescript TypeScript
+    import OpenAI from 'openai';
+
+    const openai = new OpenAI({
+      baseURL: 'https://openrouter.ai/api/v1',
+      apiKey: '{{API_KEY_REF}}',
+    });
+
+    async function chatCompletionWithUsage(messages) {
+      const response = await openai.chat.completions.create({
+        model: '{{MODEL}}',
+        messages,
+        usage: {
+          include: true,
+        },
+        stream: true,
+      });
+
+      return response;
+    }
+
+    (async () => {
+      for await (const chunk of chatCompletionWithUsage([
+        { role: 'user', content: 'Write a haiku about Paris.' },
+      ])) {
+        if (chunk.usage) {
+          console.log('\nUsage Statistics:');
+          console.log(`Total Tokens: ${chunk.usage.total_tokens}`);
+          console.log(`Prompt Tokens: ${chunk.usage.prompt_tokens}`);
+          console.log(`Completion Tokens: ${chunk.usage.completion_tokens}`);
+          console.log(`Cost: ${chunk.usage.cost} credits`);
+        } else if (chunk.choices[0].delta.content) {
+          process.stdout.write(chunk.choices[0].delta.content);
         }
       }
     })();
