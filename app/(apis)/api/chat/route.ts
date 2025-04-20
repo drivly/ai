@@ -4,6 +4,8 @@ import { put } from '@vercel/blob'
 import { StreamingTextResponse } from 'ai'
 import OpenAI from 'openai'
 
+const { TransformStream } = globalThis
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
