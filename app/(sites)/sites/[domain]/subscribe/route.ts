@@ -79,13 +79,27 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     if (organizations.docs.length > 0 && organizations.docs[0].stripeCustomerId) {
       customerId = organizations.docs[0].stripeCustomerId
     } else {
-      const customer = await stripeClient.customers.create({
-        email: user.email,
-        name: user.name,
+      const customerData: {
+        email?: string;
+        name?: string;
         metadata: {
-          userId: user.id,
-        },
-      })
+          userId: string;
+        };
+      } = {
+        metadata: {
+          userId: user.id || '',
+        }
+      }
+      
+      if (user.email) {
+        customerData.email = user.email;
+      }
+      
+      if (user.name) {
+        customerData.name = user.name;
+      }
+      
+      const customer = await stripeClient.customers.create(customerData)
       
       customerId = customer.id
       
