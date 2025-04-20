@@ -80,6 +80,8 @@ const nextConfig = {
         'node:fs': 'fs',
         'node:http': 'http',
         'node:https': 'https',
+        'node:module': 'module',
+        'node:net': 'net',
         'node:os': 'os',
         'node:path': 'path',
         'node:stream': 'stream',
@@ -87,6 +89,12 @@ const nextConfig = {
         'node:util': 'util',
         'node:zlib': 'zlib',
       });
+      
+      // Add fallback for 'net' module
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        'net': false,
+      };
     }
     
     return config
