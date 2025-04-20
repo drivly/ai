@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server.js'
+import { NextRequest, NextResponse } from 'next/server.js'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import stripeClient from '@/lib/stripe'
@@ -8,7 +8,7 @@ import { getUser } from '@/lib/api'
  * Redirects users to Stripe customer portal to manage their subscription
  * Ticket: ENG-698
  */
-export async function GET(request: Request, { params }: { params: Promise<{ domain: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ domain: string }> }) {
   const { domain } = await params;
   try {
     const user = await getUser(request)
