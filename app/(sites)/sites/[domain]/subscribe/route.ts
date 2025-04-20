@@ -137,7 +137,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       success_url: `${origin}/sites/${domain}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/sites/${domain}/canceled`,
       metadata: {
-        userId: user.id,
+        userId: user.id || '',
         planId: plan.id,
         domain,
       },
