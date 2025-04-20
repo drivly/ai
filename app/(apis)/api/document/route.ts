@@ -45,7 +45,7 @@ export const POST = API(async (req, { user, payload }) => {
     return { error: 'Missing id', status: 400 }
   }
 
-  const { content, title, kind } = await req.json()
+  const { content, title, kind }: { content: string, title: string, kind?: string } = await req.json()
 
   const documents = await payload.find({
     collection: 'chat-resources',
