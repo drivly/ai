@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach, vi } from 'vitest'
 import { chromium, Browser, Page } from 'playwright'
 import fetch from 'node-fetch'
-import { createDynamicPayloadConfig } from '../../lib/createDynamicPayloadConfig'
-import { modifyDatabaseUri } from '../../lib/modifyDatabaseUri'
+import { createDynamicPayloadConfig } from '@/lib/createDynamicPayloadConfig'
+import { modifyDatabaseUri } from '@/lib/modifyDatabaseUri'
 import type { CollectionConfig } from 'payload'
 
 describe('Project-specific admin interface', () => {

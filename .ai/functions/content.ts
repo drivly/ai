@@ -1,5 +1,5 @@
 // import { model } from 'ai-providers'
-import { model } from '../../lib/ai'
+import { model } from '@/lib/ai'
 import { generateObject, generateText } from 'ai'
 import yaml from 'yaml'
 import { z } from 'zod'
