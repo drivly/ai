@@ -1,11 +1,11 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient, MongoClientOptions } from 'mongodb'
 
 if (!process.env.DATABASE_URI) {
   throw new Error('Please add your MongoDB URI to .env as DATABASE_URI')
 }
 
 const uri = process.env.DATABASE_URI
-const options = {}
+const options = { } satisfies MongoClientOptions
 
 let client
 let clientPromise: Promise<MongoClient>

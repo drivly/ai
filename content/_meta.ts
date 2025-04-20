@@ -1,6 +1,7 @@
 import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
+  index: { title: 'Overview' },
   home: { type: 'page', title: 'Docs', href: '/docs' },
   api: { type: 'page', title: 'APIs', href: '/docs/apis' },
   sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
@@ -15,15 +16,18 @@ const meta: MetaRecord = {
   },
 
   manifesto: '',
+  'business-as-code': { display: 'hidden' },
+  'services-as-software': { display: 'hidden' },
   primitives: '',
 
   _ai: {
     type: 'separator',
     title: 'AI',
   },
+  workflows: '',
   functions: '',
   agents: '',
-  workflows: '',
+  services: '',
 
   _: {
     type: 'separator',

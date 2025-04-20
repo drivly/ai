@@ -135,7 +135,7 @@
     "mongodb": "^6.15.0",
     "motion.md": "workspace:*",
     "murmurhash": "^2.0.1",
-    "next": "15.3.0",
+    "next": "15.3.1",
     "next-auth": "5.0.0-beta.25",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.4.6",

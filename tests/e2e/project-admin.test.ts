@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach, vi } from 'vitest'
 import { chromium, Browser, Page } from 'playwright'
 import fetch from 'node-fetch'
-import { createDynamicPayloadConfig } from '../../lib/createDynamicPayloadConfig'
-import { modifyDatabaseUri } from '../../lib/modifyDatabaseUri'
+import { createDynamicPayloadConfig } from '@/lib/createDynamicPayloadConfig'
+import { modifyDatabaseUri } from '@/lib/modifyDatabaseUri'
 import type { CollectionConfig } from 'payload'
 
 describe('Project-specific admin interface', () => {
@@ -105,11 +105,11 @@ describe('Project-specific admin interface', () => {
     const getNounsForProjectMock = vi.fn().mockResolvedValue(TEST_NOUNS)
     const modifyDatabaseUriMock = vi.fn().mockReturnValue('mongodb://localhost:27017/test-project')
 
-    vi.doMock('../../lib/getNounsForProject', () => ({
+    vi.doMock('@/lib/getNounsForProject', () => ({
       getNounsForProject: getNounsForProjectMock,
     }))
 
-    vi.doMock('../../lib/modifyDatabaseUri', () => ({
+    vi.doMock('@/lib/modifyDatabaseUri', () => ({
       modifyDatabaseUri: modifyDatabaseUriMock,
     }))
 
