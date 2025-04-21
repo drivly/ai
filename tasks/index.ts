@@ -14,6 +14,8 @@ import { processBatchOpenAITask } from './ai/batchOpenAI'
 import { processBatchAnthropicTask } from './ai/batchAnthropic'
 import { processBatchGoogleVertexAITask } from './ai/batchGoogleVertexAI'
 import { processBatchParasailTask } from './ai/batchParasail'
+import { processBatchCloudflareTask } from './ai/batchCloudflare'
+import { processBatchGroqTask } from './ai/batchGroq'
 import { createGenerationBatchTask } from './ai/createGenerationBatch'
 
 import { executeCodeFunctionTask } from './code/executeCodeFunction'
@@ -106,6 +108,8 @@ export const tasks = [
   processBatchAnthropicTask,
   processBatchGoogleVertexAITask,
   processBatchParasailTask,
+  processBatchCloudflareTask,
+  processBatchGroqTask,
   createGenerationBatchTask,
   generateFunctionExamplesTask,
 
