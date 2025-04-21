@@ -10,7 +10,7 @@ import { headers } from 'next/headers';
 export default async function ChatPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<Record<string, string | string[]>>;
 }) {
   const session = await auth();
 
