@@ -1,10 +1,9 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { ChatProvider as PayloadChatProvider } from '@/pkgs/payload-agent/src/components/store/context';
+import { ChatProvider as PayloadChatProvider, useChatMessages } from '../../pkgs/payload-agent/src/components/store/context';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { useChatMessages } from '@/pkgs/payload-agent/src/components/store/context';
 
 export function ChatProvider({
   children,
