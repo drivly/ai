@@ -46,7 +46,7 @@ export function cartesian<
  * @param config.scorers Optional scoring functions. If not provided, a Battle-like scorer will be created to compare against baselines
  * @returns The experiment results
  */
-export async function experiment<T, E>(
+export function experiment<T, E>(
   name: string,
   config: {
     models: string[]
@@ -69,30 +69,73 @@ export async function experiment<T, E>(
   // Handle new format vs old format
   if (config.data && !config.inputs) {
     console.log('Using alternative experiment API format for', name);
-    return legacyExperiment(name, config as any);
+    // Immediately register with evalite instead of returning
+    legacyExperiment(name, config as any);
+    return;
   }
   
-  const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
-  const seeds = config.seeds ? Array.from({ length: config.seeds }, (_, i) => i + 1) : [1]
-  
-  const combinations = cartesian({
-    model: config.models,
-    temperature: temperatures,
-    seed: seeds,
+  // Instead of executing the experiment directly, we'll register it with evalite
+  // Import evalite dynamically to ensure proper test registration
+  import('evalite').then(({ evalite }) => {
+    evalite(name, {
+      data: async () => {
+        if (config.data) return config.data
+        
+        const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
+        const seeds = config.seeds ? Array.from({ length: config.seeds }, (_, i) => i + 1) : [1]
+        
+        const combinations = cartesian({
+          model: config.models,
+          temperature: temperatures,
+          seed: seeds,
+        })
+
+        const inputs = config.inputs ? await config.inputs() : []
+        
+        // Create all permutations for evalite to test
+        return combinations.flatMap(combo => 
+          inputs.map(input => ({
+            input: {
+              ...combo,
+              input,
+              system: config.system,
+              schema: config.schema
+            }
+          }))
+        )
+      },
+      task: async ({ model, temperature, seed, input, system, schema }) => {
+        const api = new API({ baseUrl: 'https://llm.do/api' })
+        const prompts = config.prompt ? (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : []
+        
+        try {
+          // Use the EvalLite API to run the evaluation
+          const result = await api.fetch('/api/evaluate', {
+            method: 'POST',
+            body: JSON.stringify({
+              model,
+              temperature,
+              seed,
+              prompts,
+              input,
+              schema
+            })
+          }).then(r => r.json())
+          
+          return result
+        } catch (error) {
+          console.error(`Error in evaluation:`, error)
+          throw error
+        }
+      },
+      scorers: config.scorers || []
+    })
+  }).catch(error => {
+    console.error(`Error registering experiment '${name}':`, error)
   })
-
-  const inputs = config.inputs ? await config.inputs() : []
   
-  const api = new API({ baseUrl: 'https://llm.do/api' })
-  
-  const totalPermutations = combinations.length * inputs.length
-
-  const shouldUseBatch = config.batch?.enabled === true || 
-    (typeof config.batch?.enabled === 'number' && totalPermutations >= config.batch.enabled)
-
-  if (shouldUseBatch) {
-    return processBatchExperiment(name, config, combinations, inputs)
-  }
+  // Return undefined since we're just registering the test, not executing it directly
+  return
   const results: ExperimentEvaluationResult[] = []
   
   const needsBaselines = !config.expected || !config.scorers || config.scorers?.length === 0
@@ -339,7 +382,7 @@ async function processBatchExperiment<T, E>(
  * Implementation of the legacy experiment format that accepts data directly and other simplified parameters.
  * This format is used in files like content.eval.ts
  */
-async function legacyExperiment<T>(
+function legacyExperiment<T>(
   name: string,
   config: {
     models: string[]
@@ -351,136 +394,141 @@ async function legacyExperiment<T>(
     inputs?: () => Promise<any[]>
   }
 ) {
-  console.log(`Running legacy experiment: ${name}`);
+  console.log(`Registering legacy experiment: ${name}`);
   
-  const { evalite } = await import('evalite')
-  
-  const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
-  const seeds = [1]
-  
-  const inputs = config.data || []
-  
-  // Create a task function that processes each input
-  const task = async (input: any) => {
-    try {
-      const api = new API({ baseUrl: 'https://llm.do/api' })
-      
-      const model = input.model || config.models[0]
-      
-      const temperature = input.temperature || temperatures[0]
-      
-      const prompts = config.prompt ? 
-        (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : 
-        [JSON.stringify(input)]
-      
-      const systemPrompt = Array.isArray(config.system) && config.system.length > 0 ? 
-        config.system[0] : 
-        undefined
-      
-      // Create messages array for the API
-      const messages = []
-      
-      if (systemPrompt) {
-        messages.push({ role: 'system', content: systemPrompt })
-      }
-      
-      messages.push({ role: 'user', content: prompts.join('\n\n') })
-      
-      const response = await api.post('/completions', {
-        model,
-        temperature,
-        messages,
-      })
-      
-      const responseData = response as unknown as { 
-        data?: { 
-          choices?: Array<{ message?: { content?: string } }> 
-        } 
-      }
-      
-      const content = responseData.data?.choices?.[0]?.message?.content || ''
-      
-      let parsedContent = content
-      
-      if (config.schema) {
-        try {
-          const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/) || 
-                           content.match(/```\n([\s\S]*?)\n```/) ||
-                           content.match(/{[\s\S]*}/)
-          
-          if (jsonMatch) {
-            parsedContent = JSON.parse(jsonMatch[1] || jsonMatch[0])
-          } else {
-            parsedContent = JSON.parse(content)
-          }
-          
-          if (config.schema && typeof config.schema.parse === 'function') {
-            parsedContent = config.schema.parse(parsedContent)
-          }
-        } catch (error) {
-          console.error('Error parsing or validating content:', error)
-          parsedContent = content
+  // Immediately import evalite and register the test
+  import('evalite').then(({ evalite }) => {
+    const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
+    
+    // Register the evalite test suite directly
+    evalite(name, {
+      data: async () => {
+        // If data is provided directly, use it
+        if (config.data && config.data.length > 0) {
+          return config.data
         }
-      }
+        
+        // Otherwise use inputs function if provided
+        if (config.inputs) {
+          return config.inputs()
+        }
+        
+        return []
+      },
       
-      return parsedContent
-    } catch (error) {
-      console.error('Error in task execution:', error)
-      return { error: error instanceof Error ? error.message : String(error) }
-    }
-  }
-  
-  // Run the evalite experiment
-  return evalite(name, {
-    data: () => {
-      return config.models.flatMap(model => 
-        temperatures.map(temperature => ({
-          input: { model, temperature },
-          expected: {},
-        }))
-      )
-    },
-    task,
-    scorers: [],
-  })
+      task: async (input: any) => {
+        try {
+          const api = new API({ baseUrl: 'https://llm.do/api' })
+          
+          const model = input.model || config.models[0]
+          
+          const temperature = input.temperature || temperatures[0]
+          
+          const prompts = config.prompt ? 
+            (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : 
+            [JSON.stringify(input)]
+          
+          const systemPrompt = Array.isArray(config.system) && config.system.length > 0 ? 
+            config.system[0] : 
+            undefined
+          
+          // Create messages array for the API
+          const messages = []
+          
+          if (systemPrompt) {
+            messages.push({ role: 'system', content: systemPrompt })
+          }
+          
+          messages.push({ role: 'user', content: prompts.join('\n\n') })
+          
+          const response = await api.post('/completions', {
+            model,
+            temperature,
+            messages,
+          })
+          
+          const responseData = response as unknown as { 
+            data?: { 
+              choices?: Array<{ message?: { content?: string } }> 
+            } 
+          }
+          
+          const content = responseData.data?.choices?.[0]?.message?.content || ''
+          
+          let parsedContent = content
+          
+          if (config.schema) {
+            try {
+              const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/) || 
+                              content.match(/```\n([\s\S]*?)\n```/) ||
+                              content.match(/{[\s\S]*}/)
+              
+              if (jsonMatch) {
+                parsedContent = JSON.parse(jsonMatch[1] || jsonMatch[0])
+              } else {
+                parsedContent = JSON.parse(content)
+              }
+              
+              if (config.schema && typeof config.schema.parse === 'function') {
+                parsedContent = config.schema.parse(parsedContent)
+              }
+            } catch (error) {
+              console.error('Error parsing or validating content:', error)
+              parsedContent = content
+            }
+          }
+          
+          return parsedContent
+        } catch (error) {
+          console.error('Error in task execution:', error)
+          return { error: error instanceof Error ? error.message : String(error) }
+        }
+      },
+      
+      scorers: config.scorers || []
+    });
+  }).catch(error => {
+    console.error(`Error registering experiment '${name}':`, error)
+  });
 }
-
-function generateSummary(results: ExperimentEvaluationResult[], scorers: any[] = []): ExperimentSummary {
+/**
+ * Generates a summary of experiment results
+ * @param results Array of experiment evaluation results
+ * @param scorers Array of scorer functions used in the evaluations
+ * @returns Summary of experiment results
+ */
+export function generateSummary(results: ExperimentEvaluationResult[], scorers: any[] = []): ExperimentSummary {
   const groupedResults: Record<string, Record<string, any[]>> = {}
 
   for (const result of results) {
     if (result.error) continue // Skip failed evaluations
 
     const { model, temperature } = result
-
+    
     if (!groupedResults[model]) {
       groupedResults[model] = {}
     }
-
+    
     const tempKey = String(temperature)
     if (!groupedResults[model][tempKey]) {
       groupedResults[model][tempKey] = []
     }
-
+    
     groupedResults[model][tempKey].push(result)
   }
-
-  const summary: Record<string, Record<string, { avgScore: number; count: number }>> = {}
-
-  for (const [model, temperatures] of Object.entries(groupedResults)) {
-    summary[model] = {}
-
-    for (const [temp, results] of Object.entries(temperatures)) {
-      const scores = results.filter((r) => r.result && typeof r.result.score === 'number').map((r) => r.result.score)
-
-      const avgScore = scores.length > 0 ? scores.reduce((sum, score) => sum + score, 0) / scores.length : 0
-
-      summary[model][temp] = {
-        avgScore,
+  
+  return {
+    models: Object.keys(groupedResults),
+    results: Object.entries(groupedResults).map(([model, results]) => ({
+      model,
+      results: Object.entries(results).map(([temperature, results]) => ({
+        temperature: Number(temperature),
+        averageScore: (results as any[]).reduce((sum, r) => sum + (r.result?.score || 0), 0) / results.length,
         count: results.length,
-      }
-    }
+        successes: (results as any[]).filter(r => !r.error).length,
+        errors: (results as any[]).filter(r => !!r.error).length,
+      }))
+    }))
   }
-
-  return summary
 }
+
