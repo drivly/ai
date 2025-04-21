@@ -12,17 +12,15 @@ export async function login(request: NextRequest) {
 
   const destination = request.nextUrl.searchParams.get('destination') || 'admin'
   const provider = request.nextUrl.searchParams.get('provider') || 'github'
-
+  
+  const referer = request.headers.get('referer')
+  const redirectTo = referer ? new URL(referer).origin + '/waitlist' : new URL('/waitlist', currentURL).toString()
+  
   try {
     console.log(`Auth debug - Starting ${provider} login on: ${host}`)
-
-    const callbackUrl = new URL('/api/auth/callback/github', currentURL).toString()
-    const signInUrl = new URL(`/api/auth/signin/${provider}`, currentURL)
-    signInUrl.searchParams.set('callbackUrl', callbackUrl)
-
-    console.log(`Auth debug - Redirecting to: ${signInUrl.toString()}`)
-
-    return NextResponse.redirect(signInUrl)
+    console.log(`Auth debug - Using signIn function with redirectTo: ${redirectTo}`)
+    
+    return await signIn(provider, { redirectTo })
   } catch (error) {
     console.error('Error during login:', error)
 

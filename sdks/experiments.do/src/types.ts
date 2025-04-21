@@ -128,9 +128,9 @@ export interface ExperimentConfig<T, E> {
   seeds: number
   prompt: (params: { input: any }) => string[]
   inputs: () => Promise<T[]>
-  expected: E
+  expected?: E
   schema: any
-  scorers: any[]
+  scorers?: any[]
   batch?: {
     enabled: boolean | number // true/false or threshold
     provider?: string // which provider to use
