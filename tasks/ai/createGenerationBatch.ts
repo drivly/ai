@@ -46,6 +46,12 @@ export const createGenerationBatch = async ({ input, req, payload }: any) => {
       case 'parasail':
         taskSlug = 'processBatchParasail'
         break
+      case 'cloudflare':
+        taskSlug = 'processBatchCloudflare'
+        break
+      case 'groq':
+        taskSlug = 'processBatchGroq'
+        break
       default:
         throw new Error(`Unsupported provider: ${provider}`)
     }

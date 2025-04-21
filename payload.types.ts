@@ -245,6 +245,8 @@ export interface Config {
       processBatchAnthropic: TaskProcessBatchAnthropic;
       processBatchGoogleVertexAI: TaskProcessBatchGoogleVertexAI;
       processBatchParasail: TaskProcessBatchParasail;
+      processBatchCloudflare: TaskProcessBatchCloudflare;
+      processBatchGroq: TaskProcessBatchGroq;
       createGenerationBatch: TaskCreateGenerationBatch;
       generateFunctionExamples: TaskGenerateFunctionExamples;
       executeCodeFunction: TaskExecuteCodeFunction;
@@ -942,7 +944,7 @@ export interface Generation {
   createdAt: string;
 }
 /**
- * Batches of AI generation jobs
+ * Batches
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "generationBatches".
@@ -950,7 +952,7 @@ export interface Generation {
 export interface GenerationBatch {
   id: string;
   name: string;
-  provider: 'openai' | 'anthropic' | 'google' | 'parasail';
+  provider: 'openai' | 'anthropic' | 'google' | 'parasail' | 'cloudflare' | 'groq';
   status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
   /**
    * Provider-specific batch configuration
@@ -2594,6 +2596,8 @@ export interface PayloadJob {
           | 'processBatchAnthropic'
           | 'processBatchGoogleVertexAI'
           | 'processBatchParasail'
+          | 'processBatchCloudflare'
+          | 'processBatchGroq'
           | 'createGenerationBatch'
           | 'generateFunctionExamples'
           | 'executeCodeFunction'
@@ -2660,6 +2664,8 @@ export interface PayloadJob {
                 | 'processBatchAnthropic'
                 | 'processBatchGoogleVertexAI'
                 | 'processBatchParasail'
+                | 'processBatchCloudflare'
+                | 'processBatchGroq'
                 | 'createGenerationBatch'
                 | 'generateFunctionExamples'
                 | 'executeCodeFunction'
@@ -2704,6 +2710,8 @@ export interface PayloadJob {
         | 'processBatchAnthropic'
         | 'processBatchGoogleVertexAI'
         | 'processBatchParasail'
+        | 'processBatchCloudflare'
+        | 'processBatchGroq'
         | 'createGenerationBatch'
         | 'generateFunctionExamples'
         | 'executeCodeFunction'
@@ -4420,6 +4428,52 @@ export interface TaskProcessBatchGoogleVertexAI {
  * via the `definition` "TaskProcessBatchParasail".
  */
 export interface TaskProcessBatchParasail {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchCloudflare".
+ */
+export interface TaskProcessBatchCloudflare {
+  input: {
+    batchId: string;
+    checkStatus?: boolean | null;
+  };
+  output: {
+    status?: string | null;
+    error?: string | null;
+    batchStatus?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskProcessBatchGroq".
+ */
+export interface TaskProcessBatchGroq {
   input: {
     batchId: string;
     checkStatus?: boolean | null;
