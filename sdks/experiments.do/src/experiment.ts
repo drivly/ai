@@ -266,8 +266,9 @@ function legacyExperiment<T>(
     prompt?: any
     schema?: any
     inputs?: () => Promise<any[]>
+    scorers?: any[]
   }
-) {
+){
   console.log(`Registering legacy experiment: ${name}`);
   
   // Immediately import evalite and register the test
@@ -372,37 +373,37 @@ function legacyExperiment<T>(
  * @returns Summary of experiment results
  */
 export function generateSummary(results: ExperimentEvaluationResult[], scorers: any[] = []): ExperimentSummary {
-  const groupedResults: Record<string, Record<string, any[]>> = {}
+  const summary: ExperimentSummary = {}
 
   for (const result of results) {
     if (result.error) continue // Skip failed evaluations
 
     const { model, temperature } = result
     
-    if (!groupedResults[model]) {
-      groupedResults[model] = {}
+    if (!summary[model]) {
+      summary[model] = {}
     }
     
     const tempKey = String(temperature)
-    if (!groupedResults[model][tempKey]) {
-      groupedResults[model][tempKey] = []
+    if (!summary[model][tempKey]) {
+      summary[model][tempKey] = {
+        avgScore: 0,
+        count: 0
+      }
     }
     
-    groupedResults[model][tempKey].push(result)
+    summary[model][tempKey].count += 1
+    summary[model][tempKey].avgScore += (result.result?.score || 0)
   }
   
-  return {
-    models: Object.keys(groupedResults),
-    results: Object.entries(groupedResults).map(([model, results]) => ({
-      model,
-      results: Object.entries(results).map(([temperature, results]) => ({
-        temperature: Number(temperature),
-        averageScore: (results as any[]).reduce((sum, r) => sum + (r.result?.score || 0), 0) / results.length,
-        count: results.length,
-        successes: (results as any[]).filter(r => !r.error).length,
-        errors: (results as any[]).filter(r => !!r.error).length,
-      }))
-    }))
+  for (const model in summary) {
+    for (const temp in summary[model]) {
+      if (summary[model][temp].count > 0) {
+        summary[model][temp].avgScore = summary[model][temp].avgScore / summary[model][temp].count
+      }
+    }
   }
+  
+  return summary
 }
 
