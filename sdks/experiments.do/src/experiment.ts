@@ -2,37 +2,34 @@ import { API } from 'apis.do'
 import { ExperimentEvaluationResult, EvaluationParams, EvaluationResult, ExperimentSummary } from './types.js'
 
 /**
- * Generates all possible combinations of the provided parameters.
- * @param params An object where each key maps to an array of possible values
+ * Generates all possible combinations (cartesian product) of values from arrays in an object
+ * @param spec - An object with arrays as values
  * @returns An array of objects representing all possible combinations
+ * @example
+ * cartesian({ color: ['red', 'blue'], size: ['S', 'M'] })
+ * // Returns: [
+ * //   { color: 'red', size: 'S' },
+ * //   { color: 'red', size: 'M' },
+ * //   { color: 'blue', size: 'S' },
+ * //   { color: 'blue', size: 'M' }
+ * // ]
  */
-export function cartesian<T extends Record<string, any[]>>(params: T): Array<{ [K in keyof T]: T[K][number] }> {
-  const keys = Object.keys(params) as Array<keyof T>
+export function cartesian<
+  T extends Record<string, readonly any[]>
+>(spec: T): Array<{ [K in keyof T]: T[K][number] }> {
+  const keys = Object.keys(spec) as Array<keyof T>;
+  
+  if (keys.length === 0) return [] as Array<{ [K in keyof T]: T[K][number] }>;
 
-  if (keys.length === 0) return []
-
-  const firstKey = keys[0]
-  let result = params[firstKey].map((value) => ({ [firstKey]: value }) as { [K in keyof T]: T[K][number] })
-
-  for (let i = 1; i < keys.length; i++) {
-    const currentKey = keys[i]
-    const currentValues = params[currentKey]
-
-    const newResult: Array<{ [K in keyof T]: T[K][number] }> = []
-
-    for (const existingObj of result) {
-      for (const value of currentValues) {
-        newResult.push({
-          ...existingObj,
-          [currentKey]: value,
-        } as { [K in keyof T]: T[K][number] })
-      }
-    }
-
-    result = newResult
-  }
-
-  return result
+  return keys.reduce<Array<Record<string, any>>>(
+    (acc, key) => {
+      const values = spec[key];
+      return acc.flatMap(combo =>
+        values.map(value => ({ ...combo, [key]: value }))
+      );
+    },
+    [{}],
+  ) as Array<{ [K in keyof T]: T[K][number] }>;
 }
 
 /**
