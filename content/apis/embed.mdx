@@ -1,0 +1,136 @@
+---
+title: Embed API
+description: Generate embeddings from text using multiple providers
+---
+
+# Embed API
+
+The Embed API allows you to generate vector embeddings from text using multiple AI providers. These embeddings can be used for semantic search, similarity comparison, and other vector-based operations.
+
+## API Reference
+
+```json
+{
+  "description": "API to generate embeddings from text using multiple providers",
+  "documentation": "https://apis.do/docs/embed",
+  "endpoints": {
+    "post": {
+      "description": "Generate embeddings from text",
+      "parameters": {
+        "text": "String: Single text input to embed (alternative to texts)",
+        "texts": "Array: Multiple text inputs to embed (alternative to text)",
+        "model": "String: Embedding model to use (e.g., \"text-embedding-3-small\")"
+      },
+      "examples": {
+        "singleText": {
+          "text": "Embed this text for semantic search",
+          "model": "text-embedding-3-small"
+        },
+        "multipleTexts": {
+          "texts": ["Embed this text for semantic search", "And this one too"],
+          "model": "text-embedding-3-small"
+        }
+      }
+    }
+  }
+}
+```
+
+## Usage
+
+### Single Text Embedding
+
+```typescript
+const response = await fetch('https://apis.do/embed', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    text: 'Embed this text for semantic search',
+    model: 'text-embedding-3-small'
+  })
+})
+
+const data = await response.json()
+// data.data.embeddings contains the embedding vector
+```
+
+### Multiple Text Embeddings
+
+```typescript
+const response = await fetch('https://apis.do/embed', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer YOUR_API_KEY'
+  },
+  body: JSON.stringify({
+    texts: ['Embed this text for semantic search', 'And this one too'],
+    model: 'text-embedding-3-small'
+  })
+})
+
+const data = await response.json()
+// data.data.embeddings contains an array of embedding vectors
+```
+
+## Response Format
+
+```typescript
+// Single text embedding response
+{
+  "data": {
+    "embeddings": [[0.1, 0.2, 0.3, ...]],
+    "model": "text-embedding-3-small"
+  },
+  "usage": {
+    "tokens": 5
+  }
+}
+
+// Multiple text embeddings response
+{
+  "data": {
+    "embeddings": [
+      [0.1, 0.2, 0.3, ...],
+      [0.4, 0.5, 0.6, ...]
+    ],
+    "model": "text-embedding-3-small"
+  },
+  "usage": {
+    "tokens": 10
+  }
+}
+```
+
+## SDK Usage
+
+You can also use the embedding API through the AI SDK:
+
+```typescript
+import { llm } from 'llm.do'
+import { generateEmbeddings } from 'ai'
+
+// Generate embeddings
+const embeddings = await generateEmbeddings({
+  model: llm.embed('text-embedding-3-small'),
+  input: ['Embed this text for semantic search', 'And this one too']
+})
+```
+
+## Supported Models
+
+The embedding API supports various models from different providers:
+
+- OpenAI: `text-embedding-3-small`, `text-embedding-3-large`
+- Other providers as configured in the AI providers package
+
+## Error Handling
+
+The API returns appropriate error codes and messages:
+
+- `400`: Missing required parameters (text/texts or model)
+- `401`: Unauthorized (missing or invalid API key)
+- `500`: Server error during embedding generation
