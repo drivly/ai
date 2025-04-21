@@ -15,7 +15,7 @@ export default async function ChatPage({
   const session = await auth();
 
   if (!session) {
-    const headersList = headers();
+    const headersList = await headers();
     const currentURL = getCurrentURL(headersList);
     const callbackUrl = new URL('/gpt.do/chat/new', currentURL).toString();
     const githubSignInUrl = new URL('/api/auth/signin/github', currentURL);
