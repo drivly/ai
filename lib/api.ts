@@ -454,12 +454,12 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
       }
 
       const mergedUser = {
+        name: authUser?.name || user?.name || enhancedUser.name,
+        email: authUser?.email || user?.email || enhancedUser.email,
         ...enhancedUser,
         authenticated: (user?.id || authUser?.id) ? true : false,
         admin: (user?.admin || authUser?.role === 'admin') ? true : undefined,
         plan: user?.plan || 'Free',
-        name: authUser?.name || user?.name || enhancedUser.name,
-        email: authUser?.email || user?.email || enhancedUser.email,
       }
 
       const apiDescription =
