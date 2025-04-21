@@ -7,8 +7,9 @@ export async function GET(
   { params }: { params: Promise<{ domain: string }> }
 ) {
   const { domain } = await params
+  const host = request.headers.get('host') || ''
   
   return signIn('github', {
-    callbackUrl: getAuthRedirectForDomain(request.headers.get('host') || '', domain)
+    callbackUrl: getAuthRedirectForDomain(host, 'waitlist')
   })
 }
