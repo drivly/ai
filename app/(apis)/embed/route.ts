@@ -25,7 +25,7 @@ export const POST = API(async (request, { user }) => {
     if (body.text) {
       result = await embed({
         model: embeddingModel,
-        value: body.text,
+        input: body.text,
       })
 
       return {

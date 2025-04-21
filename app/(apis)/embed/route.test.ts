@@ -8,7 +8,7 @@ vi.mock('@/lib/api', () => ({
 }))
 
 vi.mock('ai', () => ({
-  embed: vi.fn().mockImplementation(({ value }) => Promise.resolve({
+  embed: vi.fn().mockImplementation(({ input }) => Promise.resolve({
     embedding: [0.1, 0.2, 0.3],
     usage: { tokens: 5 },
   })),
