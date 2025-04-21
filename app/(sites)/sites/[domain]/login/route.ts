@@ -9,6 +9,6 @@ export async function GET(
   const { domain } = await params
   
   return signIn('github', {
-    callbackUrl: getAuthRedirectForDomain(request, domain)
+    callbackUrl: getAuthRedirectForDomain(request.headers.get('host') || '', domain)
   })
 }
