@@ -206,6 +206,7 @@
     "eslint": "^9.16.0",
     "eslint-config-next": "15.3.0",
     "evalite": "^0.10.0",
+    "experiments.do": "workspace:^0.1.0",
     "husky": "^9.1.7",
     "ignore-loader": "^0.1.2",
     "js-yaml": "^4.1.0",
