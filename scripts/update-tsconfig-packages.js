@@ -50,6 +50,7 @@ const SDK_PACKAGES = [
   'sdks/gpt.do',
   'sdks/analytics.do',
   'sdks/projects.do',
+  'sdks/services.do',
 ]
 
 function updateTsconfig(packageDir) {
