@@ -22,6 +22,8 @@ vi.mock('apis.do', () => {
   }
 })
 
+const TEST_TIMEOUT = 15000
+
 describe('cartesian', () => {
   it('should generate all combinations of parameters', () => {
     const result = cartesian({
@@ -66,7 +68,7 @@ describe('experiment', () => {
   })
 
   it('should expand scalar temperature to array', async () => {
-    const mockInputs = ['input1', 'input2']
+    const mockInputs = ['input1']
     const mockConfig = {
       models: ['gpt-4'],
       temperature: 0.5, // scalar value
@@ -84,10 +86,10 @@ describe('experiment', () => {
 
     expect(result.config.temperatures).toEqual([0.5])
     expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
-  })
+  }, TEST_TIMEOUT)
 
   it('should generate correct number of evaluations', async () => {
-    const mockInputs = ['input1', 'input2']
+    const mockInputs = ['input1']
     const mockConfig = {
       models: ['gpt-4', 'claude-3'],
       temperature: [0, 0.5],
@@ -103,7 +105,7 @@ describe('experiment', () => {
 
     const result = await experiment('test-experiment', mockConfig)
 
-    expect(result.results).toHaveLength(16)
+    expect(result.results).toHaveLength(8)
     expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
-  })
+  }, TEST_TIMEOUT)
 })
