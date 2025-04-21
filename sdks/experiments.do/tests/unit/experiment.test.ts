@@ -77,4 +77,66 @@ describe('experiment', () => {
     expect(result.results).toHaveLength(16)
     expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
   })
+
+  it('should create baselines when expected is not provided', async () => {
+    const mockInputs = ['input1', 'input2']
+    const mockConfig = {
+      models: ['gpt-4', 'claude-3'],
+      temperature: 0.5,
+      seeds: 1,
+      prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
+      inputs: vi.fn().mockResolvedValue(mockInputs),
+      schema: { type: 'object' },
+      scorers: [{ name: 'scorer1' }],
+    }
+
+    const result = await experiment('test-experiment', mockConfig)
+
+    expect(result.results).toHaveLength(4)
+    
+    const baselineResults = result.results.filter(r => r.id.includes('baseline'))
+    expect(baselineResults).toHaveLength(2) // One baseline per input
+  })
+
+  it('should create baselines when scorers are not provided', async () => {
+    const mockInputs = ['input1', 'input2']
+    const mockConfig = {
+      models: ['gpt-4', 'claude-3'],
+      temperature: 0.5,
+      seeds: 1,
+      prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
+      inputs: vi.fn().mockResolvedValue(mockInputs),
+      expected: 'expected result',
+      schema: { type: 'object' },
+    }
+
+    const result = await experiment('test-experiment', mockConfig)
+
+    expect(result.results).toHaveLength(4)
+    
+    const baselineResults = result.results.filter(r => r.id.includes('baseline'))
+    expect(baselineResults).toHaveLength(2) // One baseline per input
+  })
+
+  it('should create baselines when both expected and scorers are not provided', async () => {
+    const mockInputs = ['input1', 'input2']
+    const mockConfig = {
+      models: ['gpt-4', 'claude-3'],
+      temperature: 0.5,
+      seeds: 1,
+      prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
+      inputs: vi.fn().mockResolvedValue(mockInputs),
+      schema: { type: 'object' },
+    }
+
+    const result = await experiment('test-experiment', mockConfig)
+
+    expect(result.results).toHaveLength(4)
+    
+    const baselineResults = result.results.filter(r => r.id.includes('baseline'))
+    expect(baselineResults).toHaveLength(2) // One baseline per input
+    
+    const nonBaselineResults = result.results.filter(r => !r.id.includes('baseline'))
+    expect(nonBaselineResults).toHaveLength(2) // One evaluation per input for the second model
+  })
 })
