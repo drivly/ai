@@ -200,7 +200,7 @@
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4",
     "@types/ua-parser-js": "^0.7.39",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^4.4.1",
     "autoevals": "^0.0.127",
     "chromatic": "^11.28.0",
     "eslint": "^9.16.0",
