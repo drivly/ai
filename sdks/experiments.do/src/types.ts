@@ -131,6 +131,11 @@ export interface ExperimentConfig<T, E> {
   expected: E
   schema: any
   scorers: any[]
+  batch?: {
+    enabled: boolean | number // true/false or threshold
+    provider?: string // which provider to use
+    providerConfig?: Record<string, any> // API-specific options
+  }
 }
 
 export interface EvaluationParams {

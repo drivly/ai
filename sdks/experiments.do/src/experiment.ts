@@ -52,6 +52,11 @@ export async function experiment<T, E>(
     expected: E
     schema: any
     scorers: any[]
+    batch?: {
+      enabled: boolean | number
+      provider?: string
+      providerConfig?: Record<string, any>
+    }
   },
 ) {
   const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
@@ -65,6 +70,15 @@ export async function experiment<T, E>(
   })
 
   const inputs = await config.inputs()
+
+  const totalPermutations = combinations.length * inputs.length
+
+  const shouldUseBatch = config.batch?.enabled === true || 
+    (typeof config.batch?.enabled === 'number' && totalPermutations >= config.batch.enabled)
+
+  if (shouldUseBatch) {
+    return processBatchExperiment(name, config, combinations, inputs)
+  }
 
   const results: ExperimentEvaluationResult[] = []
   for (const input of inputs) {
@@ -131,6 +145,48 @@ async function runEvaluation(params: EvaluationParams): Promise<EvaluationResult
       matches: true,
       comparison: 'Placeholder comparison result',
     },
+  }
+}
+
+/**
+ * Process an experiment using batch processing
+ */
+async function processBatchExperiment<T, E>(
+  name: string,
+  config: {
+    models: string[]
+    temperature: number | number[]
+    seeds: number
+    prompt: (params: { input: any }) => string[]
+    inputs: () => Promise<T[]>
+    expected: E
+    schema: any
+    scorers: any[]
+    batch?: {
+      enabled: boolean | number
+      provider?: string
+      providerConfig?: Record<string, any>
+    }
+  },
+  combinations: Array<{ model: string; temperature: number; seed: number }>,
+  inputs: T[]
+) {
+  try {
+    const { createBatchConfig, submitBatch, collectBatchResults, formatExperimentResults } = await import('./batch.js')
+
+    const provider = config.batch?.provider || 'openai'
+
+    // Create batch configuration
+    const batchConfig = await createBatchConfig(name, config, combinations, inputs, provider)
+
+    const batchResult = await submitBatch(name, provider, batchConfig)
+
+    const batchResults = await collectBatchResults(batchResult.id)
+
+    return formatExperimentResults(name, config, batchResults, inputs)
+  } catch (error) {
+    console.error('Error in batch processing:', error)
+    throw error
   }
 }
 
