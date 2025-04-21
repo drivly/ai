@@ -14,7 +14,7 @@ importers:
     dependencies:
       '@ai-sdk/openai':
         specifier: ^1.0.10
-        version: 1.3.12(zod@3.24.2)
+        version: 1.3.12(zod@3.24.3)
       '@auth/mongodb-adapter':
         specifier: ^3.8.0
         version: 3.8.0(mongodb@6.15.0(@aws-sdk/credential-providers@3.787.0))(nodemailer@6.9.16)
@@ -122,7 +122,7 @@ importers:
         version: 0.1.1(@cloudflare/workers-types@4.20250415.0)(mermaid.cli@0.3.6)(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.7.3))
       ai:
         specifier: ^4.2.0
-        version: 4.3.7(react@19.1.0)(zod@3.24.2)
+        version: 4.3.7(react@19.1.0)(zod@3.24.3)
       ai-functions:
         specifier: 0.3.0
         version: link:pkgs/ai-functions
@@ -158,7 +158,7 @@ importers:
         version: 1.12.7
       composio-core:
         specifier: ^0.5.31
-        version: 0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.2))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.7(react@19.1.0)(zod@3.24.2))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
+        version: 0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.7(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -337,11 +337,11 @@ importers:
         specifier: ^2.7.0
         version: 2.7.1
       zod:
-        specifier: ^3.24.1
-        version: 3.24.2
+        specifier: ^3.24.3
+        version: 3.24.3
       zod-to-json-schema:
         specifier: ^3.24.5
-        version: 3.24.5(zod@3.24.2)
+        version: 3.24.5(zod@3.24.3)
     devDependencies:
       '@chromatic-com/playwright':
         specifier: ^0.12.0
@@ -522,13 +522,13 @@ importers:
     dependencies:
       '@ai-sdk/openai':
         specifier: ^1.0.10
-        version: 1.3.12(zod@3.24.2)
+        version: 1.3.12(zod@3.24.3)
       '@ai-sdk/openai-compatible':
         specifier: ^0.2.9
-        version: 0.2.11(zod@3.24.2)
+        version: 0.2.11(zod@3.24.3)
       ai:
         specifier: ^4.0.20
-        version: 4.3.7(react@19.1.0)(zod@3.24.2)
+        version: 4.3.7(react@19.1.0)(zod@3.24.3)
       ai-providers:
         specifier: workspace:*
         version: link:../ai-providers
@@ -536,18 +536,18 @@ importers:
         specifier: ^8.0.1
         version: 8.1.0
       zod:
-        specifier: ^3.24.1
-        version: 3.24.2
+        specifier: ^3.24.3
+        version: 3.24.3
     devDependencies:
       '@ai-sdk/provider':
         specifier: ^1.0.2
         version: 1.1.3
       '@ai-sdk/provider-utils':
         specifier: ^2.0.4
-        version: 2.2.7(zod@3.24.2)
+        version: 2.2.7(zod@3.24.3)
       '@ai-sdk/ui-utils':
         specifier: ^1.0.5
-        version: 1.2.8(zod@3.24.2)
+        version: 1.2.8(zod@3.24.3)
       '@eslint/js':
         specifier: ^9.17.0
         version: 9.24.0
@@ -629,22 +629,22 @@ importers:
     dependencies:
       '@ai-sdk/anthropic':
         specifier: ^1.2.0
-        version: 1.2.10(zod@3.24.2)
+        version: 1.2.10(zod@3.24.3)
       '@ai-sdk/google':
         specifier: ^1.2.1
-        version: 1.2.11(zod@3.24.2)
+        version: 1.2.11(zod@3.24.3)
       '@ai-sdk/google-vertex':
         specifier: ^2.2.14
-        version: 2.2.15(encoding@0.1.13)(zod@3.24.2)
+        version: 2.2.15(encoding@0.1.13)(zod@3.24.3)
       '@ai-sdk/openai':
         specifier: ^1.0.10
-        version: 1.3.12(zod@3.24.2)
+        version: 1.3.12(zod@3.24.3)
       ai:
         specifier: ^4.3.9
-        version: 4.3.9(react@19.1.0)(zod@3.24.2)
+        version: 4.3.9(react@19.1.0)(zod@3.24.3)
       composio-core:
         specifier: ^0.5.31
-        version: 0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.2))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.9(react@19.1.0)(zod@3.24.2))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
+        version: 0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.9(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       language-models:
         specifier: workspace:*
         version: link:../language-models
@@ -1036,8 +1036,8 @@ importers:
         specifier: ^11.0.4
         version: 11.0.5
       zod:
-        specifier: ^3.22.4
-        version: 3.24.2
+        specifier: ^3.24.3
+        version: 3.24.3
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
@@ -1065,22 +1065,22 @@ importers:
     dependencies:
       motion:
         specifier: ^12.6.0
-        version: 12.7.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 12.7.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next:
         specifier: ^14.0.0 || ^15.0.0
-        version: 15.3.0(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4)
+        version: 15.3.0(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
       payload:
         specifier: ^3.33.0
         version: 3.34.0(graphql@16.10.0)(typescript@5.8.3)
       react:
         specifier: ^18.0.0 || ^19.0.0
-        version: 19.0.0
+        version: 19.1.0
       react-dom:
         specifier: ^18.0.0 || ^19.0.0
-        version: 19.0.0(react@19.0.0)
+        version: 19.1.0(react@19.1.0)
       zustand:
         specifier: ^5.0.3
-        version: 5.0.3(@types/react@19.0.7)(react@19.0.0)(use-sync-external-store@1.5.0(react@19.0.0))
+        version: 5.0.3(@types/react@19.0.7)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
     devDependencies:
       '@types/react':
         specifier: 19.0.7
@@ -1090,7 +1090,7 @@ importers:
         version: 19.0.3(@types/react@19.0.7)
       ai:
         specifier: ^4.2.2
-        version: 4.3.7(react@19.0.0)(zod@3.24.2)
+        version: 4.3.7(react@19.1.0)(zod@3.24.3)
       esbuild-plugin-css-module:
         specifier: ^0.1.0
         version: 0.1.0
@@ -1099,7 +1099,7 @@ importers:
         version: 0.2.6
       lucide-react:
         specifier: ^0.483.0
-        version: 0.483.0(react@19.0.0)
+        version: 0.483.0(react@19.1.0)
       tsconfig:
         specifier: workspace:*
         version: link:../tsconfig
@@ -2017,19 +2017,19 @@ importers:
     dependencies:
       '@ai-sdk/anthropic':
         specifier: ^1.2.6
-        version: 1.2.10(zod@3.24.2)
+        version: 1.2.10(zod@3.24.3)
       '@ai-sdk/deepseek':
         specifier: ^0.2.6
-        version: 0.2.11(zod@3.24.2)
+        version: 0.2.11(zod@3.24.3)
       '@ai-sdk/google':
         specifier: ^1.2.7
-        version: 1.2.11(zod@3.24.2)
+        version: 1.2.11(zod@3.24.3)
       '@ai-sdk/openai':
         specifier: ^1.3.7
-        version: 1.3.12(zod@3.24.2)
+        version: 1.3.12(zod@3.24.3)
       ai:
         specifier: ^4.3.2
-        version: 4.3.7(react@19.1.0)(zod@3.24.2)
+        version: 4.3.7(react@19.1.0)(zod@3.24.3)
       ai-models:
         specifier: workspace:*
         version: link:../../pkgs/ai-models
@@ -2041,7 +2041,7 @@ importers:
         version: 2.8.0
       composio-core:
         specifier: ^0.5.31
-        version: 0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.2))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.7(react@19.1.0)(zod@3.24.2))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
+        version: 0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.7(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       geolib:
         specifier: ^3.3.4
         version: 3.3.4
@@ -2055,8 +2055,8 @@ importers:
         specifier: ^2.0.3
         version: 2.0.3(encoding@0.1.13)
       zod:
-        specifier: ^3.24.2
-        version: 3.24.2
+        specifier: ^3.24.3
+        version: 3.24.3
     devDependencies:
       '@types/node':
         specifier: 22.14.0
@@ -2077,8 +2077,8 @@ importers:
         specifier: ^4.7.5
         version: 4.7.6
       zod:
-        specifier: ^3.24.2
-        version: 3.24.2
+        specifier: ^3.24.3
+        version: 3.24.3
     devDependencies:
       '@types/node':
         specifier: 22.13.14
@@ -12548,8 +12548,8 @@ packages:
     resolution: {integrity: sha512-QJv/h939gDpvT+9SiLVlY7tZC3xB2qK57v0J04Sh9wpMb6MP1q8gB21L3WIo8T5P1MSMg3Ep14L7KkDCFG3y4w==}
     engines: {node: '>=16.0.0'}
 
-  langsmith@0.3.16:
-    resolution: {integrity: sha512-P3Y0YGHzixgnHuuir2mHZCw6heIeZMFLEmQqVrspy9w57+zwk4PJV6+wP6JrNd/gvt5oKHoN11368GnjO8lE5g==}
+  langsmith@0.3.20:
+    resolution: {integrity: sha512-zwVQos6tjcksCTfdM67QKq7yyED4GmQiZw/sJ6UCMYZxlvTMMg3PeQ9tOePXAWNWoJygOnH+EwGXr7gYOOETDg==}
     peerDependencies:
       openai: '*'
     peerDependenciesMeta:
@@ -13844,6 +13844,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-emoji@2.2.0:
     resolution: {integrity: sha512-Z3lTE9pLaJF47NyMhd4ww1yFTAP8YhYI8SleJiHzM46Fgpm5cnNzSl9XfzFNqbaz+VlJrIj3fXQ4DeN1Rjm6cw==}
@@ -18034,8 +18035,8 @@ packages:
   zod@3.22.3:
     resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
 
-  zod@3.24.2:
-    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+  zod@3.24.3:
+    resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
 
   zustand@3.7.2:
     resolution: {integrity: sha512-PIJDIZKtokhof+9+60cpockVOq05sJzHCriyvaLBmEJixseQ1a5Kdov6fWZfWOu5SK9c+FhH1jU0tntLxRJYMA==}
@@ -18074,96 +18075,86 @@ snapshots:
 
   '@adobe/css-tools@4.4.2': {}
 
-  '@ai-sdk/anthropic@1.2.10(zod@3.24.2)':
+  '@ai-sdk/anthropic@1.2.10(zod@3.24.3)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      zod: 3.24.2
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      zod: 3.24.3
 
-  '@ai-sdk/deepseek@0.2.11(zod@3.24.2)':
+  '@ai-sdk/deepseek@0.2.11(zod@3.24.3)':
     dependencies:
-      '@ai-sdk/openai-compatible': 0.2.11(zod@3.24.2)
+      '@ai-sdk/openai-compatible': 0.2.11(zod@3.24.3)
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      zod: 3.24.2
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      zod: 3.24.3
 
-  '@ai-sdk/google-vertex@2.2.15(encoding@0.1.13)(zod@3.24.2)':
+  '@ai-sdk/google-vertex@2.2.15(encoding@0.1.13)(zod@3.24.3)':
     dependencies:
-      '@ai-sdk/anthropic': 1.2.10(zod@3.24.2)
-      '@ai-sdk/google': 1.2.11(zod@3.24.2)
+      '@ai-sdk/anthropic': 1.2.10(zod@3.24.3)
+      '@ai-sdk/google': 1.2.11(zod@3.24.3)
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
       google-auth-library: 9.15.1(encoding@0.1.13)
-      zod: 3.24.2
+      zod: 3.24.3
     transitivePeerDependencies:
       - encoding
       - supports-color
 
-  '@ai-sdk/google@1.2.11(zod@3.24.2)':
+  '@ai-sdk/google@1.2.11(zod@3.24.3)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      zod: 3.24.2
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      zod: 3.24.3
 
-  '@ai-sdk/openai-compatible@0.2.11(zod@3.24.2)':
+  '@ai-sdk/openai-compatible@0.2.11(zod@3.24.3)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      zod: 3.24.2
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      zod: 3.24.3
 
-  '@ai-sdk/openai@1.3.12(zod@3.24.2)':
+  '@ai-sdk/openai@1.3.12(zod@3.24.3)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      zod: 3.24.2
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      zod: 3.24.3
 
-  '@ai-sdk/provider-utils@2.2.7(zod@3.24.2)':
+  '@ai-sdk/provider-utils@2.2.7(zod@3.24.3)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
       nanoid: 3.3.11
       secure-json-parse: 2.7.0
-      zod: 3.24.2
+      zod: 3.24.3
 
   '@ai-sdk/provider@1.1.3':
     dependencies:
       json-schema: 0.4.0
 
-  '@ai-sdk/react@1.2.9(react@18.3.1)(zod@3.24.2)':
+  '@ai-sdk/react@1.2.9(react@18.3.1)(zod@3.24.3)':
     dependencies:
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.2)
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.3)
       react: 18.3.1
       swr: 2.3.3(react@18.3.1)
       throttleit: 2.1.0
     optionalDependencies:
-      zod: 3.24.2
+      zod: 3.24.3
 
-  '@ai-sdk/react@1.2.9(react@19.0.0)(zod@3.24.2)':
+  '@ai-sdk/react@1.2.9(react@19.1.0)(zod@3.24.3)':
     dependencies:
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.2)
-      react: 19.0.0
-      swr: 2.3.3(react@19.0.0)
-      throttleit: 2.1.0
-    optionalDependencies:
-      zod: 3.24.2
-
-  '@ai-sdk/react@1.2.9(react@19.1.0)(zod@3.24.2)':
-    dependencies:
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.2)
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.3)
       react: 19.1.0
       swr: 2.3.3(react@19.1.0)
       throttleit: 2.1.0
     optionalDependencies:
-      zod: 3.24.2
+      zod: 3.24.3
 
-  '@ai-sdk/ui-utils@1.2.8(zod@3.24.2)':
+  '@ai-sdk/ui-utils@1.2.8(zod@3.24.3)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      zod: 3.24.2
-      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
 
   '@alloc/quick-lru@5.2.0': {}
 
@@ -18193,15 +18184,15 @@ snapshots:
       '@csstools/css-tokenizer': 3.0.3
       lru-cache: 10.4.3
 
-  '@asteasolutions/zod-to-openapi@6.4.0(zod@3.24.2)':
+  '@asteasolutions/zod-to-openapi@6.4.0(zod@3.24.3)':
     dependencies:
       openapi3-ts: 4.4.0
-      zod: 3.24.2
+      zod: 3.24.3
 
-  '@asteasolutions/zod-to-openapi@7.3.0(zod@3.24.2)':
+  '@asteasolutions/zod-to-openapi@7.3.0(zod@3.24.3)':
     dependencies:
       openapi3-ts: 4.4.0
-      zod: 3.24.2
+      zod: 3.24.3
 
   '@auth/core@0.37.2(nodemailer@6.9.16)':
     dependencies:
@@ -19012,9 +19003,9 @@ snapshots:
 
   '@braintrust/core@0.0.84':
     dependencies:
-      '@asteasolutions/zod-to-openapi': 6.4.0(zod@3.24.2)
+      '@asteasolutions/zod-to-openapi': 6.4.0(zod@3.24.3)
       uuid: 9.0.1
-      zod: 3.24.2
+      zod: 3.24.3
 
   '@cfworker/json-schema@4.1.1': {}
 
@@ -19091,7 +19082,7 @@ snapshots:
       semver: 7.7.1
       vitest: 1.6.1(@types/node@22.14.0)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
       wrangler: 4.11.0(@cloudflare/workers-types@4.20250415.0)
-      zod: 3.24.2
+      zod: 3.24.3
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
       - bufferutil
@@ -19108,7 +19099,7 @@ snapshots:
       semver: 7.7.1
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
       wrangler: 4.11.0(@cloudflare/workers-types@4.20250415.0)
-      zod: 3.24.2
+      zod: 3.24.3
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
       - bufferutil
@@ -20540,37 +20531,37 @@ snapshots:
 
   '@juggle/resize-observer@3.4.0': {}
 
-  '@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))':
+  '@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.19
-      langsmith: 0.3.16(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
+      langsmith: 0.3.20(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
       uuid: 10.0.0
-      zod: 3.24.2
-      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
     transitivePeerDependencies:
       - openai
 
-  '@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1)':
+  '@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)':
     dependencies:
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
+      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       js-tiktoken: 1.0.19
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)
-      zod: 3.24.2
-      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
     transitivePeerDependencies:
       - encoding
       - ws
 
-  '@langchain/textsplitters@0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))':
+  '@langchain/textsplitters@0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))':
     dependencies:
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
+      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       js-tiktoken: 1.0.19
 
   '@lexical/clipboard@0.28.0':
@@ -20948,8 +20939,8 @@ snapshots:
       express-rate-limit: 7.5.0(express@5.1.0)
       pkce-challenge: 5.0.0
       raw-body: 3.0.0
-      zod: 3.24.2
-      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -22578,7 +22569,7 @@ snapshots:
       vue-router: 4.5.0(vue@3.5.13(typescript@5.7.3))
       whatwg-mimetype: 4.0.0
       yaml: 2.7.1
-      zod: 3.24.2
+      zod: 3.24.3
     transitivePeerDependencies:
       - '@hyperjump/browser'
       - '@vue/composition-api'
@@ -22640,7 +22631,7 @@ snapshots:
       github-slugger: 2.0.0
       nanoid: 5.1.5
       vue: 3.5.13(typescript@5.7.3)
-      zod: 3.24.2
+      zod: 3.24.3
     transitivePeerDependencies:
       - '@hyperjump/browser'
       - '@vue/composition-api'
@@ -22744,7 +22735,7 @@ snapshots:
       nanoid: 5.1.5
       type-fest: 4.40.0
       yaml: 2.7.1
-      zod: 3.24.2
+      zod: 3.24.3
     transitivePeerDependencies:
       - '@hyperjump/browser'
 
@@ -22765,7 +22756,7 @@ snapshots:
 
   '@scalar/openapi-types@0.2.0':
     dependencies:
-      zod: 3.24.2
+      zod: 3.24.3
 
   '@scalar/postman-to-openapi@0.2.3(@hyperjump/browser@1.3.0)':
     dependencies:
@@ -22788,7 +22779,7 @@ snapshots:
       '@unhead/schema': 1.11.20
       nanoid: 5.1.5
       type-fest: 4.40.0
-      zod: 3.24.2
+      zod: 3.24.3
 
   '@scalar/use-codemirror@0.11.92(typescript@5.7.3)':
     dependencies:
@@ -22822,7 +22813,7 @@ snapshots:
       '@scalar/use-toasts': 0.7.9(typescript@5.7.3)
       '@vueuse/core': 10.11.1(vue@3.5.13(typescript@5.7.3))
       vue: 3.5.13(typescript@5.7.3)
-      zod: 3.24.2
+      zod: 3.24.3
     transitivePeerDependencies:
       - '@vue/composition-api'
       - typescript
@@ -25884,14 +25875,14 @@ snapshots:
       clean-stack: 5.2.0
       indent-string: 5.0.0
 
-  ai-functions@0.2.19(@aws-sdk/credential-providers@3.787.0)(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2):
+  ai-functions@0.2.19(@aws-sdk/credential-providers@3.787.0)(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3):
     dependencies:
       js-yaml: 4.1.0
       json-schema-to-ts: 3.1.1
       kafkajs: 2.2.4
       lodash-es: 4.17.21
       mongodb: 6.15.0(@aws-sdk/credential-providers@3.787.0)
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)
+      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
       p-queue: 7.4.1
       partial-json-parser: 1.2.2
       xstate: 5.19.2
@@ -25909,16 +25900,16 @@ snapshots:
 
   ai-workflows@1.1.0(@aws-sdk/credential-providers@3.787.0)(@mdx-js/mdx@3.1.0(acorn@8.14.1))(encoding@0.1.13)(ws@8.18.1):
     dependencies:
-      '@ai-sdk/openai': 1.3.12(zod@3.24.2)
-      ai: 4.3.7(react@18.3.1)(zod@3.24.2)
-      ai-functions: 0.2.19(@aws-sdk/credential-providers@3.787.0)(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)
+      '@ai-sdk/openai': 1.3.12(zod@3.24.3)
+      ai: 4.3.7(react@18.3.1)(zod@3.24.3)
+      ai-functions: 0.2.19(@aws-sdk/credential-providers@3.787.0)(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
       gray-matter: 4.0.3
       mdxld: 0.1.3(@mdx-js/mdx@3.1.0(acorn@8.14.1))
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)
+      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       yaml: 2.7.1
-      zod: 3.24.2
+      zod: 3.24.3
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@mdx-js/mdx'
@@ -25963,51 +25954,39 @@ snapshots:
       svelte: 4.2.19
       vue: 3.5.13(typescript@5.8.3)
 
-  ai@4.3.7(react@18.3.1)(zod@3.24.2):
+  ai@4.3.7(react@18.3.1)(zod@3.24.3):
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      '@ai-sdk/react': 1.2.9(react@18.3.1)(zod@3.24.2)
-      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.2)
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      '@ai-sdk/react': 1.2.9(react@18.3.1)(zod@3.24.3)
+      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.3)
       '@opentelemetry/api': 1.9.0
       jsondiffpatch: 0.6.0
-      zod: 3.24.2
+      zod: 3.24.3
     optionalDependencies:
       react: 18.3.1
 
-  ai@4.3.7(react@19.0.0)(zod@3.24.2):
+  ai@4.3.7(react@19.1.0)(zod@3.24.3):
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      '@ai-sdk/react': 1.2.9(react@19.0.0)(zod@3.24.2)
-      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.2)
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      '@ai-sdk/react': 1.2.9(react@19.1.0)(zod@3.24.3)
+      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.3)
       '@opentelemetry/api': 1.9.0
       jsondiffpatch: 0.6.0
-      zod: 3.24.2
-    optionalDependencies:
-      react: 19.0.0
-
-  ai@4.3.7(react@19.1.0)(zod@3.24.2):
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      '@ai-sdk/react': 1.2.9(react@19.1.0)(zod@3.24.2)
-      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.2)
-      '@opentelemetry/api': 1.9.0
-      jsondiffpatch: 0.6.0
-      zod: 3.24.2
+      zod: 3.24.3
     optionalDependencies:
       react: 19.1.0
 
-  ai@4.3.9(react@19.1.0)(zod@3.24.2):
+  ai@4.3.9(react@19.1.0)(zod@3.24.3):
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.2)
-      '@ai-sdk/react': 1.2.9(react@19.1.0)(zod@3.24.2)
-      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.2)
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      '@ai-sdk/react': 1.2.9(react@19.1.0)(zod@3.24.3)
+      '@ai-sdk/ui-utils': 1.2.8(zod@3.24.3)
       '@opentelemetry/api': 1.9.0
       jsondiffpatch: 0.6.0
-      zod: 3.24.2
+      zod: 3.24.3
     optionalDependencies:
       react: 19.1.0
 
@@ -26250,8 +26229,8 @@ snapshots:
       linear-sum-assignment: 1.0.7
       mustache: 4.2.0
       openai: 4.47.1(encoding@0.1.13)
-      zod: 3.24.2
-      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
     transitivePeerDependencies:
       - encoding
 
@@ -26662,10 +26641,10 @@ snapshots:
 
   chanfana@2.8.0:
     dependencies:
-      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.2)
+      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.3)
       js-yaml: 4.1.0
       openapi3-ts: 4.4.0
-      zod: 3.24.2
+      zod: 3.24.3
 
   char-regex@1.0.2: {}
 
@@ -26958,53 +26937,53 @@ snapshots:
       array-ify: 1.0.0
       dot-prop: 5.3.0
 
-  composio-core@0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.2))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.7(react@19.1.0)(zod@3.24.2))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)):
+  composio-core@0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.7(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)):
     dependencies:
-      '@ai-sdk/openai': 1.3.12(zod@3.24.2)
+      '@ai-sdk/openai': 1.3.12(zod@3.24.3)
       '@cloudflare/workers-types': 4.20250415.0
       '@composio/mcp': 1.0.3-0
       '@hey-api/client-axios': 0.2.12(axios@1.8.4)
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
-      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1)
-      ai: 4.3.7(react@19.1.0)(zod@3.24.2)
+      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
+      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)
+      ai: 4.3.7(react@19.1.0)(zod@3.24.3)
       axios: 1.8.4
       chalk: 4.1.2
       cli-progress: 3.12.0
       commander: 12.1.0
       inquirer: 10.2.2
-      langchain: 0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1)
+      langchain: 0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1)
       open: 8.4.2
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)
+      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
       pusher-js: 8.4.0-rc2
       resolve-package-path: 4.0.3
       uuid: 10.0.0
-      zod: 3.24.2
-      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
     transitivePeerDependencies:
       - debug
 
-  composio-core@0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.2))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.9(react@19.1.0)(zod@3.24.2))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)):
+  composio-core@0.5.31(@ai-sdk/openai@1.3.12(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.9(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)):
     dependencies:
-      '@ai-sdk/openai': 1.3.12(zod@3.24.2)
+      '@ai-sdk/openai': 1.3.12(zod@3.24.3)
       '@cloudflare/workers-types': 4.20250415.0
       '@composio/mcp': 1.0.3-0
       '@hey-api/client-axios': 0.2.12(axios@1.8.4)
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
-      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1)
-      ai: 4.3.9(react@19.1.0)(zod@3.24.2)
+      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
+      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)
+      ai: 4.3.9(react@19.1.0)(zod@3.24.3)
       axios: 1.8.4
       chalk: 4.1.2
       cli-progress: 3.12.0
       commander: 12.1.0
       inquirer: 10.2.2
-      langchain: 0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1)
+      langchain: 0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1)
       open: 8.4.2
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)
+      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
       pusher-js: 8.4.0-rc2
       resolve-package-path: 4.0.3
       uuid: 10.0.0
-      zod: 3.24.2
-      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
     transitivePeerDependencies:
       - debug
 
@@ -29246,14 +29225,14 @@ snapshots:
 
   fraction.js@4.3.7: {}
 
-  framer-motion@12.7.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  framer-motion@12.7.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       motion-dom: 12.7.3
       motion-utils: 12.7.2
       tslib: 2.8.1
     optionalDependencies:
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   fresh@0.5.2: {}
 
@@ -30919,21 +30898,21 @@ snapshots:
 
   ky@0.33.3: {}
 
-  langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))(ws@8.18.1):
+  langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1):
     dependencies:
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
-      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))(encoding@0.1.13)(ws@8.18.1)
-      '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)))
+      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
+      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)
+      '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))
       js-tiktoken: 1.0.19
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.3.16(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2))
+      langsmith: 0.3.20(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
       yaml: 2.7.1
-      zod: 3.24.2
-      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
     optionalDependencies:
       axios: 1.8.4
       cheerio: 1.0.0
@@ -30951,7 +30930,7 @@ snapshots:
       vscode-languageserver-textdocument: 1.0.12
       vscode-uri: 3.0.8
 
-  langsmith@0.3.16(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)):
+  langsmith@0.3.20(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)):
     dependencies:
       '@types/uuid': 10.0.0
       chalk: 4.1.2
@@ -30961,7 +30940,7 @@ snapshots:
       semver: 7.7.1
       uuid: 10.0.0
     optionalDependencies:
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2)
+      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
 
   language-subtag-registry@0.3.23: {}
 
@@ -31238,10 +31217,6 @@ snapshots:
   lru-queue@0.1.0:
     dependencies:
       es5-ext: 0.10.64
-
-  lucide-react@0.483.0(react@19.0.0):
-    dependencies:
-      react: 19.0.0
 
   lucide-react@0.483.0(react@19.1.0):
     dependencies:
@@ -32504,13 +32479,13 @@ snapshots:
 
   motion-utils@12.7.2: {}
 
-  motion@12.7.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  motion@12.7.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
-      framer-motion: 12.7.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      framer-motion: 12.7.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       tslib: 2.8.1
     optionalDependencies:
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   mpath@0.9.0: {}
 
@@ -32665,34 +32640,6 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
-  next@15.3.0(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.77.4):
-    dependencies:
-      '@next/env': 15.3.0
-      '@swc/counter': 0.1.3
-      '@swc/helpers': 0.5.15
-      busboy: 1.6.0
-      caniuse-lite: 1.0.30001713
-      postcss: 8.4.31
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
-      styled-jsx: 5.1.6(@babel/core@7.26.10)(babel-plugin-macros@3.1.0)(react@19.0.0)
-    optionalDependencies:
-      '@next/swc-darwin-arm64': 15.3.0
-      '@next/swc-darwin-x64': 15.3.0
-      '@next/swc-linux-arm64-gnu': 15.3.0
-      '@next/swc-linux-arm64-musl': 15.3.0
-      '@next/swc-linux-x64-gnu': 15.3.0
-      '@next/swc-linux-x64-musl': 15.3.0
-      '@next/swc-win32-arm64-msvc': 15.3.0
-      '@next/swc-win32-x64-msvc': 15.3.0
-      '@opentelemetry/api': 1.9.0
-      '@playwright/test': 1.51.1
-      sass: 1.77.4
-      sharp: 0.34.1
-    transitivePeerDependencies:
-      - '@babel/core'
-      - babel-plugin-macros
-
   next@15.3.0(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4):
     dependencies:
       '@next/env': 15.3.0
@@ -32768,8 +32715,8 @@ snapshots:
       react-compiler-runtime: 0.0.0-experimental-22c6e49-20241219(react@19.1.0)
       react-dom: 19.1.0(react@19.1.0)
       scroll-into-view-if-needed: 3.1.0
-      zod: 3.24.2
-      zod-validation-error: 3.4.0(zod@3.24.2)
+      zod: 3.24.3
+      zod-validation-error: 3.4.0(zod@3.24.3)
       zustand: 5.0.3(@types/react@19.0.10)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
     transitivePeerDependencies:
       - '@types/react'
@@ -32817,8 +32764,8 @@ snapshots:
       unist-util-visit: 5.0.0
       unist-util-visit-children: 3.0.0
       yaml: 2.7.1
-      zod: 3.24.2
-      zod-validation-error: 3.4.0(zod@3.24.2)
+      zod: 3.24.3
+      zod-validation-error: 3.4.0(zod@3.24.3)
     transitivePeerDependencies:
       - acorn
       - supports-color
@@ -33109,7 +33056,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.2):
+  openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3):
     dependencies:
       '@types/node': 18.19.86
       '@types/node-fetch': 2.6.12
@@ -33120,7 +33067,7 @@ snapshots:
       node-fetch: 2.7.0(encoding@0.1.13)
     optionalDependencies:
       ws: 8.18.1
-      zod: 3.24.2
+      zod: 3.24.3
     transitivePeerDependencies:
       - encoding
 
@@ -36245,14 +36192,6 @@ snapshots:
     dependencies:
       inline-style-parser: 0.2.4
 
-  styled-jsx@5.1.6(@babel/core@7.26.10)(babel-plugin-macros@3.1.0)(react@19.0.0):
-    dependencies:
-      client-only: 0.0.1
-      react: 19.0.0
-    optionalDependencies:
-      '@babel/core': 7.26.10
-      babel-plugin-macros: 3.1.0
-
   styled-jsx@5.1.6(@babel/core@7.26.10)(babel-plugin-macros@3.1.0)(react@19.1.0):
     dependencies:
       client-only: 0.0.1
@@ -36366,12 +36305,6 @@ snapshots:
       dequal: 2.0.3
       react: 18.3.1
       use-sync-external-store: 1.5.0(react@18.3.1)
-
-  swr@2.3.3(react@19.0.0):
-    dependencies:
-      dequal: 2.0.3
-      react: 19.0.0
-      use-sync-external-store: 1.5.0(react@19.0.0)
 
   swr@2.3.3(react@19.1.0):
     dependencies:
@@ -37353,10 +37286,6 @@ snapshots:
   use-sync-external-store@1.5.0(react@18.3.1):
     dependencies:
       react: 18.3.1
-
-  use-sync-external-store@1.5.0(react@19.0.0):
-    dependencies:
-      react: 19.0.0
 
   use-sync-external-store@1.5.0(react@19.1.0):
     dependencies:
@@ -38390,17 +38319,17 @@ snapshots:
 
   zhead@2.2.4: {}
 
-  zod-to-json-schema@3.24.5(zod@3.24.2):
+  zod-to-json-schema@3.24.5(zod@3.24.3):
     dependencies:
-      zod: 3.24.2
+      zod: 3.24.3
 
-  zod-validation-error@3.4.0(zod@3.24.2):
+  zod-validation-error@3.4.0(zod@3.24.3):
     dependencies:
-      zod: 3.24.2
+      zod: 3.24.3
 
   zod@3.22.3: {}
 
-  zod@3.24.2: {}
+  zod@3.24.3: {}
 
   zustand@3.7.2(react@19.1.0):
     optionalDependencies:
@@ -38412,11 +38341,11 @@ snapshots:
       react: 19.1.0
       use-sync-external-store: 1.5.0(react@19.1.0)
 
-  zustand@5.0.3(@types/react@19.0.7)(react@19.0.0)(use-sync-external-store@1.5.0(react@19.0.0)):
+  zustand@5.0.3(@types/react@19.0.7)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0)):
     optionalDependencies:
       '@types/react': 19.0.7
-      react: 19.0.0
-      use-sync-external-store: 1.5.0(react@19.0.0)
+      react: 19.1.0
+      use-sync-external-store: 1.5.0(react@19.1.0)
 
   zwitch@1.0.5: {}
 
