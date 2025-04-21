@@ -32,9 +32,9 @@
   },
   "homepage": "https://mdx.org.ai",
   "dependencies": {
-    "@ai-sdk/openai": "^1.0.10",
+    "@ai-sdk/openai": "^1.3.16",
     "@ai-sdk/openai-compatible": "^0.2.9",
-    "ai": "^4.0.20",
+    "ai": "^4.3.9",
     "ai-providers": "workspace:*",
     "p-queue": "^8.0.1",
     "zod": "^3.24.3"
@@ -43,7 +43,7 @@
     "@ai-sdk/provider": "^1.0.2",
     "@ai-sdk/provider-utils": "^2.0.4",
     "@ai-sdk/ui-utils": "^1.0.5",
-    "@eslint/js": "^9.17.0",
+    "@eslint/js": "^9.25.0",
     "@opentelemetry/api": "^1.9.0",
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
