@@ -22,8 +22,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   if (!resource) return {}
 
   return {
-    title: resource.name,
-    description: resource.description || '',
+    title: resource.name || '',
+    description: resource.data?.description || '',
   }
 }
 
