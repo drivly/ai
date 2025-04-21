@@ -5,7 +5,7 @@
 - [x] Created implementation plan in TODO.md (this file)
 - [x] Implemented batch script for generating resource embeddings
 - [x] Added special handling for problematic resource
-- [ ] (Optional) Modified Resources collection's afterChange hook
+- [x] (Optional) Modified Resources collection's afterChange hook
 - [x] Created PR with implementation
 
 ## Implementation Plan
@@ -20,9 +20,9 @@
 - [x] Make batch size configurable
 
 ### 2. (Optional) Modify Resources Collection
-- [ ] Update `collections/data/Resources.ts` to disable direct embedding generation
-- [ ] Add flag to control embedding generation behavior
-- [ ] Ensure backward compatibility
+- [x] Update `collections/data/Resources.ts` to disable direct embedding generation
+- [x] Add flag to control embedding generation behavior
+- [x] Ensure backward compatibility
 
 ### 3. Testing
 - [ ] Test script with default batch size
