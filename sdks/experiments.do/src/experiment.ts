@@ -64,7 +64,7 @@ export async function experiment<T, E>(
     }
   },
 ){
-  const temperatures = Array.isArray(config.temperature) ? config.temperature : (config.temperature === undefined ? [0.7] : [config.temperature])
+  const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
   const seeds = Array.from({ length: config.seeds }, (_, i) => i + 1)
   
   const combinations = cartesian({
