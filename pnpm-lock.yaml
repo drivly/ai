@@ -1576,13 +1576,13 @@ importers:
       apis.do:
         specifier: workspace:*
         version: link:../apis.do
+      evalite:
+        specifier: ^0.10.0
+        version: 0.10.0
     devDependencies:
       eslint-config:
         specifier: workspace:*
         version: link:../../pkgs/eslint-config
-      evalite:
-        specifier: ^0.10.0
-        version: 0.10.0
       tsconfig:
         specifier: workspace:*
         version: link:../../pkgs/tsconfig

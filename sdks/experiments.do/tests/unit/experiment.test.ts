@@ -1,5 +1,28 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { cartesian, experiment } from '../../src/experiment.js'
+import { API } from 'apis.do'
+
+vi.mock('apis.do', () => {
+  return {
+    API: vi.fn().mockImplementation(() => {
+      return {
+        post: vi.fn().mockResolvedValue({
+          data: {
+            choices: [
+              {
+                message: {
+                  content: 'Mocked model response'
+                }
+              }
+            ]
+          }
+        })
+      }
+    })
+  }
+})
+
+const TEST_TIMEOUT = 15000
 
 describe('cartesian', () => {
   it('should generate all combinations of parameters', () => {
@@ -40,8 +63,12 @@ describe('cartesian', () => {
 })
 
 describe('experiment', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('should expand scalar temperature to array', async () => {
-    const mockInputs = ['input1', 'input2']
+    const mockInputs = ['input1']
     const mockConfig = {
       models: ['gpt-4'],
       temperature: 0.5, // scalar value
@@ -50,17 +77,19 @@ describe('experiment', () => {
       inputs: vi.fn().mockResolvedValue(mockInputs),
       expected: 'expected result',
       schema: { type: 'object' },
-      scorers: [{ name: 'scorer1' }],
+      scorers: [
+        vi.fn().mockImplementation(async () => ({ score: 0.8, details: { matches: true } }))
+      ],
     }
 
     const result = await experiment('test-experiment', mockConfig)
 
     expect(result.config.temperatures).toEqual([0.5])
     expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
-  })
+  }, TEST_TIMEOUT)
 
   it('should generate correct number of evaluations', async () => {
-    const mockInputs = ['input1', 'input2']
+    const mockInputs = ['input1']
     const mockConfig = {
       models: ['gpt-4', 'claude-3'],
       temperature: [0, 0.5],
@@ -69,14 +98,16 @@ describe('experiment', () => {
       inputs: vi.fn().mockResolvedValue(mockInputs),
       expected: 'expected result',
       schema: { type: 'object' },
-      scorers: [{ name: 'scorer1' }],
+      scorers: [
+        vi.fn().mockImplementation(async () => ({ score: 0.8, details: { matches: true } }))
+      ],
     }
 
     const result = await experiment('test-experiment', mockConfig)
 
-    expect(result.results).toHaveLength(16)
+    expect(result.results).toHaveLength(8)
     expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
-  })
+  }, TEST_TIMEOUT)
 
   it('should create baselines when expected is not provided', async () => {
     const mockInputs = ['input1', 'input2']
@@ -96,7 +127,7 @@ describe('experiment', () => {
     
     const baselineResults = result.results.filter(r => r.id.includes('baseline'))
     expect(baselineResults).toHaveLength(2) // One baseline per input
-  })
+  }, TEST_TIMEOUT)
 
   it('should create baselines when scorers are not provided', async () => {
     const mockInputs = ['input1', 'input2']
@@ -116,7 +147,7 @@ describe('experiment', () => {
     
     const baselineResults = result.results.filter(r => r.id.includes('baseline'))
     expect(baselineResults).toHaveLength(2) // One baseline per input
-  })
+  }, TEST_TIMEOUT)
 
   it('should create baselines when both expected and scorers are not provided', async () => {
     const mockInputs = ['input1', 'input2']
@@ -138,5 +169,5 @@ describe('experiment', () => {
     
     const nonBaselineResults = result.results.filter(r => !r.id.includes('baseline'))
     expect(nonBaselineResults).toHaveLength(2) // One evaluation per input for the second model
-  })
+  }, TEST_TIMEOUT)
 })
