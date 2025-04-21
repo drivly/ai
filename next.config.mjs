@@ -56,20 +56,47 @@ const nextConfig = {
       config.devtool = false;
     }
     
-    // Add fallbacks for node: imports
+    // Handle Node.js modules used by Remotion renderer
+    // These are needed for the build process but not for runtime
     if (!isServer) {
-      // Use string path for process fallback in ESM
       config.resolve.fallback = {
         ...config.resolve.fallback,
         process: false,
+        'child_process': false,
+        'fs': false,
+        'path': false,
+        'os': false,
+        'stream': false,
+        'util': false,
+        'zlib': false,
+        'url': false,
       };
       
       // Use node: protocol externals for server-only code
       config.externals.push({
         'node:process': 'process',
+        'node:assert': 'assert',
+        'node:child_process': 'child_process',
+        'node:dns': 'dns',
+        'node:fs': 'fs',
+        'node:http': 'http',
+        'node:https': 'https',
+        'node:module': 'module',
+        'node:net': 'net',
+        'node:os': 'os',
+        'node:path': 'path',
+        'node:stream': 'stream',
+        'node:url': 'url',
+        'node:util': 'util',
+        'node:zlib': 'zlib',
       });
+      
+      // Add fallback for 'net' module
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        'net': false,
+      };
     }
-    
     return config
   },
 }

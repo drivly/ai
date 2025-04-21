@@ -1,3 +1,5 @@
+'use client'
+
 declare module 'remotion' {
   export function bundle(options: { entryPoint: string; webpackOverride?: (config: any) => any }): Promise<{
     serveUrl: string

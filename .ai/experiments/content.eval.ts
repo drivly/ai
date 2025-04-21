@@ -1,5 +1,4 @@
 import { experiment } from 'experiments.do'
-import { domains } from '@/.velite'
 import { z } from 'zod'
 
 experiment('content-marketing', {
@@ -18,10 +17,11 @@ experiment('content-marketing', {
     'x-ai/grok-3-beta',
     'x-ai/grok-3-mini-beta',
   ],
-  data: domains,
-  system: [undefined, 'You are an expert at content marketing for startups', 'You are a YC Group Partner'],
-  prompt: JSON.stringify,
   temperature: 1,
+  seeds: 1,
+  inputs: () => Promise.resolve([]),
+  system: [undefined, 'You are an expert at content marketing for startups', 'You are a YC Group Partner'],
+  prompt: ({ input }: { input: any }) => [JSON.stringify(input)],
   schema: z.object({
     seoTitle: z.string(),
     seoDescription: z.string(),

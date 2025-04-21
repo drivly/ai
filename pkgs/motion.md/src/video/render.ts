@@ -1,3 +1,5 @@
+
+
 import { renderMedia, RenderMediaOnProgress, getCompositions } from '@remotion/renderer'
 import { VideoGenerationOptions, VideoResult } from '../types'
 import path from 'path'
@@ -12,9 +14,8 @@ export async function createVideoFromSlides({ slides, config, outputPath, option
   }
 
   const mergedOptions = { ...defaultOptions, ...options }
-
-  const compositionPath = require.resolve('./composition')
-
+  
+  const compositionPath = path.resolve(path.dirname(new URL(import.meta.url).pathname), 'composition.mjs')
   const compositions = await getCompositions(compositionPath)
 
   const composition = compositions.find((comp: { id: string }) => comp.id === 'MotionComposition')

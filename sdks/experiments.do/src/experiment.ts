@@ -36,6 +36,14 @@ export function cartesian<
  * Runs an experiment with multiple parameter variations.
  * @param name The name of the experiment
  * @param config The experiment configuration
+ * @param config.models Array of model identifiers to test
+ * @param config.temperature Temperature value(s) to test
+ * @param config.seeds Number of random seeds to test
+ * @param config.prompt Function that generates prompts for each input
+ * @param config.inputs Function that returns the inputs to test
+ * @param config.expected Optional expected results. If not provided, the first variation will be used as a baseline
+ * @param config.schema Schema for validating outputs
+ * @param config.scorers Optional scoring functions. If not provided, a Battle-like scorer will be created to compare against baselines
  * @returns The experiment results
  */
 export async function experiment<T, E>(
@@ -51,6 +59,11 @@ export async function experiment<T, E>(
     scorers?: any[]
     data?: any[]
     system?: (string | undefined)[]
+    batch?: {
+      enabled: boolean | number
+      provider?: string
+      providerConfig?: Record<string, any>
+    }
   },
 ) {
   // Handle new format vs old format
@@ -72,12 +85,29 @@ export async function experiment<T, E>(
   
   const api = new API({ baseUrl: 'https://llm.do/api' })
   
+  const totalPermutations = combinations.length * inputs.length
+
+  const shouldUseBatch = config.batch?.enabled === true || 
+    (typeof config.batch?.enabled === 'number' && totalPermutations >= config.batch.enabled)
+
+  if (shouldUseBatch) {
+    return processBatchExperiment(name, config, combinations, inputs)
+  }
   const results: ExperimentEvaluationResult[] = []
   
-  for (const input of inputs) {
-    for (const { model, temperature, seed } of combinations) {
+  const needsBaselines = !config.expected || !config.scorers || config.scorers?.length === 0
+  
+  const baselineOutputs: Record<number, any> = {}
+  let battleScorer: any = undefined
+  
+  if (needsBaselines && combinations.length > 0) {
+    const firstVariation = combinations[0]
+    const { model, temperature, seed } = firstVariation
+    
+    for (const input of inputs) {
+      const inputIndex = inputs.indexOf(input)
       const prompts = config.prompt ? (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : []
-      const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputs.indexOf(input)}`
+      const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputIndex}_baseline`
       
       try {
         const evaluationResult = await runEvaluation({
@@ -87,12 +117,72 @@ export async function experiment<T, E>(
           seed,
           prompts,
           input,
-          expected: config.expected,
+          expected: config.expected || {},
           schema: config.schema,
           scorers: config.scorers || [],
           api,
         })
         
+        baselineOutputs[inputIndex] = evaluationResult
+        
+        results.push({
+          id: evaluationId,
+          model,
+          temperature,
+          seed,
+          input,
+          result: evaluationResult,
+        })
+      } catch (error) {
+        console.error(`Error creating baseline for input ${inputIndex}:`, error)
+        results.push({
+          id: evaluationId,
+          model,
+          temperature,
+          seed,
+          input,
+          error: error instanceof Error ? error.message : String(error),
+        })
+      }
+    }
+    
+    // Create a Battle-like scorer function that compares outputs against baselines
+    function Battle({ output, expected }: { output: any, expected: any }) {
+      const matches = JSON.stringify(output) === JSON.stringify(expected)
+      return {
+        score: matches ? 1 : 0,
+        details: {
+          matches,
+          comparison: `Comparing output to baseline`,
+        },
+      }
+    }
+    
+    battleScorer = Battle
+  }
+  
+  const combinationsToProcess = needsBaselines ? combinations.slice(1) : combinations
+  
+  for (const input of inputs) {
+    const inputIndex = inputs.indexOf(input)
+    
+    for (const { model, temperature, seed } of combinationsToProcess) {
+      const prompts = config.prompt ? (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : []
+      const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputIndex}`
+      
+      try {
+        const evaluationResult = await runEvaluation({
+          id: evaluationId,
+          model,
+          temperature,
+          seed,
+          prompts,
+          input,
+          expected: config.expected || baselineOutputs[inputIndex] || {},
+          schema: config.schema,
+          scorers: config.scorers || (battleScorer ? [battleScorer] : []),
+          api,
+        })
         results.push({
           id: evaluationId,
           model,
@@ -125,7 +215,7 @@ export async function experiment<T, E>(
       totalInputs: inputs.length,
     },
     results,
-    summary: generateSummary(results, config.scorers),
+    summary: generateSummary(results, config.scorers || []),
   }
 }
 
@@ -193,6 +283,54 @@ async function runEvaluation(params: EvaluationParams & { api: API }): Promise<E
       details,
     }
   } catch (error) {
+    throw error
+  }
+}
+
+/**
+ * Process an experiment using batch processing
+ */
+async function processBatchExperiment<T, E>(
+  name: string,
+  config: {
+    models: string[]
+    temperature: number | number[]
+    seeds?: number
+    prompt?: ((params: { input: any }) => string[]) | Function
+    inputs?: () => Promise<T[]>
+    expected?: E
+    schema?: any
+    scorers?: any[]
+    data?: any[]
+    system?: (string | undefined)[]
+    batch?: {
+      enabled: boolean | number
+      provider?: string
+      providerConfig?: Record<string, any>
+    }
+  },
+  combinations: Array<{ model: string; temperature: number; seed: number }>,
+  inputs: T[]
+){
+  try {
+    const { createBatchConfig, submitBatch, collectBatchResults, formatExperimentResults } = await import('./batch.js')
+
+    const provider = config.batch?.provider || 'openai'
+
+    // Create batch configuration
+    const batchConfig = await createBatchConfig(name, config, combinations, inputs, provider)
+
+    const batchResult = await submitBatch(name, provider, batchConfig)
+
+    if (!batchResult || typeof batchResult !== 'object' || !('id' in batchResult)) {
+      throw new Error('Invalid batch creation response: missing id')
+    }
+
+    const batchResults = await collectBatchResults(batchResult.id as string)
+
+    return formatExperimentResults(name, config, batchResults, inputs)
+  } catch (error) {
+    console.error('Error in batch processing:', error)
     throw error
   }
 }

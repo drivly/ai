@@ -1,3 +1,5 @@
+'use client'
+
 import { ReactNode } from 'react'
 
 /**
@@ -16,6 +18,15 @@ export interface LayoutProps extends BaseComponentProps {
   title?: string
   subtitle?: string
   background?: string
+}
+
+/**
+ * Props for slideshow layout component
+ */
+export interface SlideshowProps extends LayoutProps {
+  code: string
+  steps: string[]
+  language?: string
 }
 
 /**

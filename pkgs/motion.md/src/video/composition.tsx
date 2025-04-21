@@ -1,7 +1,9 @@
+'use client'
+
 import React from 'react'
 import { Composition, AbsoluteFill, useVideoConfig } from 'remotion'
 import { VideoConfig, Slide } from '../types'
-import { Intro, Cover, Default } from '../components/core'
+import { Intro, Cover, Default, Slideshow } from '../components/core'
 
 interface MotionCompositionProps {
   slides: Slide[]
@@ -34,6 +36,18 @@ const SlideRenderer: React.FC<{ slide: Slide; config: VideoConfig }> = ({ slide,
         <Cover {...commonProps}>
           <div dangerouslySetInnerHTML={{ __html: content }} />
         </Cover>
+      )
+    case 'slideshow':
+      const { code, steps, language } = slide as any;
+      return (
+        <Slideshow 
+          {...commonProps}
+          code={code || ''}
+          steps={steps || []}
+          language={language || 'typescript'}
+        >
+          <div dangerouslySetInnerHTML={{ __html: content }} />
+        </Slideshow>
       )
     default:
       return (
