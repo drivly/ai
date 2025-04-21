@@ -17,7 +17,9 @@ experiment('content-evaluation', {
     'x-ai/grok-3-beta',
     'x-ai/grok-3-mini-beta',
   ],
-  data: [],
+  temperature: 0.7,
+  seeds: 1,
+  inputs: () => Promise.resolve([]),
   system: [undefined, 'You are an expert at content marketing for startups', 'You are a YC Group Partner'],
   prompt: ({ input }: { input: any }) => [JSON.stringify(input)],
   schema: z.object({
