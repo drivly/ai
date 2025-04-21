@@ -36,6 +36,14 @@ export function cartesian<
  * Runs an experiment with multiple parameter variations.
  * @param name The name of the experiment
  * @param config The experiment configuration
+ * @param config.models Array of model identifiers to test
+ * @param config.temperature Temperature value(s) to test
+ * @param config.seeds Number of random seeds to test
+ * @param config.prompt Function that generates prompts for each input
+ * @param config.inputs Function that returns the inputs to test
+ * @param config.expected Optional expected results. If not provided, the first variation will be used as a baseline
+ * @param config.schema Schema for validating outputs
+ * @param config.scorers Optional scoring functions. If not provided, a Battle-like scorer will be created to compare against baselines
  * @returns The experiment results
  */
 export async function experiment<T, E>(
@@ -46,11 +54,11 @@ export async function experiment<T, E>(
     seeds: number
     prompt: (params: { input: any }) => string[]
     inputs: () => Promise<T[]>
-    expected: E
+    expected?: E
     schema: any
-    scorers: any[]
+    scorers?: any[]
   },
-) {
+){
   const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
   const seeds = Array.from({ length: config.seeds }, (_, i) => i + 1)
   
@@ -66,10 +74,19 @@ export async function experiment<T, E>(
   
   const results: ExperimentEvaluationResult[] = []
   
-  for (const input of inputs) {
-    for (const { model, temperature, seed } of combinations) {
+  const needsBaselines = !config.expected || !config.scorers || config.scorers.length === 0
+  
+  const baselineOutputs: Record<number, any> = {}
+  let battleScorer: any = undefined
+  
+  if (needsBaselines && combinations.length > 0) {
+    const firstVariation = combinations[0]
+    const { model, temperature, seed } = firstVariation
+    
+    for (const input of inputs) {
+      const inputIndex = inputs.indexOf(input)
       const prompts = config.prompt({ input })
-      const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputs.indexOf(input)}`
+      const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputIndex}_baseline`
       
       try {
         const evaluationResult = await runEvaluation({
@@ -79,12 +96,72 @@ export async function experiment<T, E>(
           seed,
           prompts,
           input,
-          expected: config.expected,
+          expected: config.expected || {},
           schema: config.schema,
-          scorers: config.scorers,
+          scorers: config.scorers || [],
           api,
         })
         
+        baselineOutputs[inputIndex] = evaluationResult
+        
+        results.push({
+          id: evaluationId,
+          model,
+          temperature,
+          seed,
+          input,
+          result: evaluationResult,
+        })
+      } catch (error) {
+        console.error(`Error creating baseline for input ${inputIndex}:`, error)
+        results.push({
+          id: evaluationId,
+          model,
+          temperature,
+          seed,
+          input,
+          error: error instanceof Error ? error.message : String(error),
+        })
+      }
+    }
+    
+    // Create a Battle-like scorer function that compares outputs against baselines
+    function Battle({ output, expected }: { output: any, expected: any }) {
+      const matches = JSON.stringify(output) === JSON.stringify(expected)
+      return {
+        score: matches ? 1 : 0,
+        details: {
+          matches,
+          comparison: `Comparing output to baseline`,
+        },
+      }
+    }
+    
+    battleScorer = Battle
+  }
+  
+  const combinationsToProcess = needsBaselines ? combinations.slice(1) : combinations
+  
+  for (const input of inputs) {
+    const inputIndex = inputs.indexOf(input)
+    
+    for (const { model, temperature, seed } of combinationsToProcess) {
+      const prompts = config.prompt({ input })
+      const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputIndex}`
+      
+      try {
+        const evaluationResult = await runEvaluation({
+          id: evaluationId,
+          model,
+          temperature,
+          seed,
+          prompts,
+          input,
+          expected: config.expected || baselineOutputs[inputIndex] || {},
+          schema: config.schema,
+          scorers: config.scorers || (battleScorer ? [battleScorer] : []),
+          api,
+        })
         results.push({
           id: evaluationId,
           model,
@@ -117,7 +194,7 @@ export async function experiment<T, E>(
       totalInputs: inputs.length,
     },
     results,
-    summary: generateSummary(results, config.scorers),
+    summary: generateSummary(results, config.scorers || []),
   }
 }
 

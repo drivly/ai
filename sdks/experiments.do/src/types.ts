@@ -128,9 +128,9 @@ export interface ExperimentConfig<T, E> {
   seeds: number
   prompt: (params: { input: any }) => string[]
   inputs: () => Promise<T[]>
-  expected: E
+  expected?: E
   schema: any
-  scorers: any[]
+  scorers?: any[]
 }
 
 export interface EvaluationParams {
