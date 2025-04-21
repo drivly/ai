@@ -6,7 +6,7 @@ import MDXContent from './mdx-content'
 
 type Params = {
   domain: string
-  path?: string[]
+  path: string[]
 }
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
-  const { domain, path = [] } = params
+  const { domain, path } = params
   const resource = await fetchResource(domain, path)
 
   if (!resource) return {}
@@ -64,7 +64,7 @@ async function fetchResource(domain: string, path: string[]) {
 
 export default async function ProjectDynamicPage(props: Props) {
   const params = await props.params
-  const { domain, path = [] } = params
+  const { domain, path } = params
   const resource = await fetchResource(domain, path)
 
   if (!resource || !resource.content) {
