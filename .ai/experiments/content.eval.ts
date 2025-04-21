@@ -1,4 +1,4 @@
-import { experiment } from 'experiments.do'
+import { experiment } from '../../sdks/experiments.do/src/experiment.js'
 import { z } from 'zod'
 
 experiment('content-marketing', {
