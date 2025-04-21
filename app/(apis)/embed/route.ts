@@ -25,7 +25,7 @@ export const POST = API(async (request, { user }) => {
     if (body.text) {
       result = await embed({
         model: embeddingModel,
-        input: body.text,
+        value: body.text,
       })
 
       return {
@@ -38,7 +38,7 @@ export const POST = API(async (request, { user }) => {
     } else {
       result = await embedMany({
         model: embeddingModel,
-        inputs: body.texts,
+        values: body.texts,
       })
 
       return {
