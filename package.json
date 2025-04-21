@@ -204,7 +204,7 @@
     "autoevals": "^0.0.127",
     "chromatic": "^11.28.0",
     "eslint": "^9.16.0",
-    "eslint-config-next": "15.3.0",
+    "eslint-config-next": "15.3.1",
     "evalite": "^0.10.0",
     "husky": "^9.1.7",
     "ignore-loader": "^0.1.2",
