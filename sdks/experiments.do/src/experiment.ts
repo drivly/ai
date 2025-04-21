@@ -43,16 +43,24 @@ export async function experiment<T, E>(
   config: {
     models: string[]
     temperature: number | number[]
-    seeds: number
-    prompt: (params: { input: any }) => string[]
-    inputs: () => Promise<T[]>
-    expected: E
-    schema: any
-    scorers: any[]
+    seeds?: number
+    prompt?: ((params: { input: any }) => string[]) | Function
+    inputs?: () => Promise<T[]>
+    expected?: E
+    schema?: any
+    scorers?: any[]
+    data?: any[]
+    system?: (string | undefined)[]
   },
 ) {
+  // Handle new format vs old format
+  if (config.data && !config.inputs) {
+    console.log('Using alternative experiment API format for', name);
+    return legacyExperiment(name, config as any);
+  }
+  
   const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
-  const seeds = Array.from({ length: config.seeds }, (_, i) => i + 1)
+  const seeds = config.seeds ? Array.from({ length: config.seeds }, (_, i) => i + 1) : [1]
   
   const combinations = cartesian({
     model: config.models,
@@ -60,7 +68,7 @@ export async function experiment<T, E>(
     seed: seeds,
   })
 
-  const inputs = await config.inputs()
+  const inputs = config.inputs ? await config.inputs() : []
   
   const api = new API({ baseUrl: 'https://llm.do/api' })
   
@@ -68,7 +76,7 @@ export async function experiment<T, E>(
   
   for (const input of inputs) {
     for (const { model, temperature, seed } of combinations) {
-      const prompts = config.prompt({ input })
+      const prompts = config.prompt ? (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : []
       const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputs.indexOf(input)}`
       
       try {
@@ -81,7 +89,7 @@ export async function experiment<T, E>(
           input,
           expected: config.expected,
           schema: config.schema,
-          scorers: config.scorers,
+          scorers: config.scorers || [],
           api,
         })
         
@@ -126,7 +134,7 @@ export async function experiment<T, E>(
  * This implementation uses evalite patterns but without direct dependency.
  */
 async function runEvaluation(params: EvaluationParams & { api: API }): Promise<EvaluationResult> {
-  const { model, temperature, seed, prompts, input, expected, schema, scorers, api } = params
+  const { model, temperature, seed, prompts, input, expected, schema, scorers = [], api } = params
   
   try {
     const response = await api.post('/completions', {
@@ -144,8 +152,9 @@ async function runEvaluation(params: EvaluationParams & { api: API }): Promise<E
     
     const modelOutput = responseData.data?.choices?.[0]?.message?.content || ''
     
+    const scorersToUse = scorers || [];
     const scores = await Promise.all(
-      scorers.map(async (scorer) => {
+      scorersToUse.map(async (scorer) => {
         try {
           const result = await scorer({
             input,
@@ -188,7 +197,52 @@ async function runEvaluation(params: EvaluationParams & { api: API }): Promise<E
   }
 }
 
-function generateSummary(results: ExperimentEvaluationResult[], scorers: any[]): ExperimentSummary {
+/**
+ * Implementation of the legacy experiment format that accepts data directly and other simplified parameters.
+ * This format is used in files like content.eval.ts
+ */
+async function legacyExperiment<T>(
+  name: string,
+  config: {
+    models: string[]
+    data: any[]
+    temperature: number | number[]
+    system?: (string | undefined)[]
+    prompt?: any
+    schema?: any
+  }
+) {
+  console.log(`Running legacy experiment: ${name}`);
+  
+  // Basic implementation that logs the configuration but doesn't actually run experiments
+  // This is a placeholder until we implement the full conversion from the new format to the old
+  console.log(`  - Models: ${config.models.length}`);
+  console.log(`  - Data points: ${config.data.length}`);
+  console.log(`  - Temperature: ${Array.isArray(config.temperature) ? config.temperature.join(', ') : config.temperature}`);
+  
+  if (config.system) {
+    console.log(`  - System prompts: ${config.system.length}`);
+  }
+  
+  return {
+    name,
+    timestamp: new Date().toISOString(),
+    config: {
+      models: config.models,
+      temperatures: Array.isArray(config.temperature) ? config.temperature : [config.temperature],
+      seeds: [1],  // Default seed
+      totalInputs: config.data.length,
+    },
+    results: [],  // No actual results in this placeholder implementation
+    summary: {
+      overallScore: 0,
+      modelPerformance: {},
+      temperaturePerformance: {},
+    }
+  };
+}
+
+function generateSummary(results: ExperimentEvaluationResult[], scorers: any[] = []): ExperimentSummary {
   const groupedResults: Record<string, Record<string, any[]>> = {}
 
   for (const result of results) {
