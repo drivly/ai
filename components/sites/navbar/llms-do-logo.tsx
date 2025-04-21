@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 export function LlmsdoLogo({ className, domain, minimal }: { className?: string; domain?: string; minimal?: boolean }) {
   const isCareers = domain === 'careers.do' || minimal
-  const displayDomain = domain === '%5Bdomain%5D' ? 'workflows.do' : domain
+  const displayDomain = domain === '%5Bdomain%5D' ? 'workflows.do' : domain?.replace(/\.do(\.mw|\.gt)?$/, '.do')
 
   return (
     <Link href={isCareers ? siteConfig.url : siteConfig.baseLinks.home} className={cn('font-ibm z-10 text-lg font-medium', className)}>
