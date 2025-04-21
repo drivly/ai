@@ -18,6 +18,8 @@ export function cartesian<
   T extends Record<string, readonly any[]>
 >(spec: T): Array<{ [K in keyof T]: T[K][number] }> {
   const keys = Object.keys(spec) as Array<keyof T>;
+  
+  if (keys.length === 0) return [] as Array<{ [K in keyof T]: T[K][number] }>;
 
   return keys.reduce<Array<Record<string, any>>>(
     (acc, key) => {
