@@ -236,7 +236,7 @@ export function Pricing() {
             <div key={planIdx} className='relative'>
               {plan.isRecommended ? (
                 <div className='absolute inset-x-0 -top-3 flex justify-center'>
-                  <span className='font-base z-10 inline-flex items-center rounded-full bg-gray-600 px-3 py-1 text-sm text-gray-200 ring-1 ring-gray-300 ring-gray-700/40 ring-inset'>
+                  <span className='font-base z-10 inline-flex items-center rounded-full bg-gray-600 px-3 py-1 text-sm text-gray-200 ring-1 ring-gray-700/40 ring-inset'>
                     Most Popular
                   </span>
                 </div>
@@ -244,7 +244,7 @@ export function Pricing() {
               <div
                 className={cn(
                   'h-full rounded-lg border bg-slate-600/15 bg-[linear-gradient(rgba(0,0,0,0)_0%,_rgb(0,0,0)_100%,_rgb(0,0,0)_100%)] shadow-md transition-all',
-                  plan.isRecommended ? 'border-gray-300 border-gray-700 ring-white/10' : 'border-gray-800',
+                  plan.isRecommended ? 'border-gray-700 ring-white/10' : 'border-gray-800',
                   'relative p-6',
                   'shadow-[0_0_20px_rgba(255,255,255,0.05)]',
                 )}

@@ -1,6 +1,4 @@
-import { openai } from '@ai-sdk/openai'
-import { createOpenAI } from '@ai-sdk/openai'
-// import { createOpenAICompatible } from '@ai-sdk/openai-compatible'
+import { model } from 'ai-providers'
 import { z } from 'zod'
 import type { AIFunctionOptions, AIFunctionConfig } from './types'
 
@@ -9,16 +7,9 @@ const defaultConfig: AIFunctionConfig = {
   model: 'gpt-4o',
 }
 
-// Create AI model provider with support for AI_GATEWAY environment variable
+// Create AI model provider with support for multiple providers through ai-providers
 const getAIProvider = (modelName: string) => {
-  if (typeof process !== 'undefined' && process.env?.AI_GATEWAY) {
-    return createOpenAI({
-      apiKey: process.env.OPENAI_API_KEY || 'dummy-key',
-      baseURL: process.env.AI_GATEWAY,
-      // name: 'openai-compatible',
-    }).languageModel(modelName)
-  }
-  return openai.languageModel(modelName)
+  return model(modelName)
 }
 
 /**

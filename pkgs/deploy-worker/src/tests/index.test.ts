@@ -52,7 +52,7 @@ describe('deployWorker', () => {
     expect(result).toEqual({
       success: true,
       deploymentUrl: 'https://example.workers.dev',
-      stage: 'deployed'
+      stage: 'deployed',
     })
 
     expect(typescript.validateTypeScript).toHaveBeenCalledWith(mockWorker.code, undefined)
@@ -70,7 +70,7 @@ describe('deployWorker', () => {
     expect(result).toEqual({
       success: false,
       errors: ['TypeScript error'],
-      stage: 'typescript-validation'
+      stage: 'typescript-validation',
     })
 
     expect(eslint.validateESLint).not.toHaveBeenCalled()
@@ -87,7 +87,7 @@ describe('deployWorker', () => {
     expect(result).toEqual({
       success: false,
       errors: ['ESLint error'],
-      stage: 'eslint-validation'
+      stage: 'eslint-validation',
     })
 
     expect(vitest.runTests).not.toHaveBeenCalled()
@@ -103,7 +103,7 @@ describe('deployWorker', () => {
     expect(result).toEqual({
       success: false,
       errors: ['Test error'],
-      stage: 'test-execution'
+      stage: 'test-execution',
     })
 
     expect(esbuild.bundleCode).not.toHaveBeenCalled()
@@ -118,7 +118,7 @@ describe('deployWorker', () => {
     expect(result).toEqual({
       success: false,
       errors: ['Bundling error'],
-      stage: 'bundling'
+      stage: 'bundling',
     })
 
     expect(cloudflare.deployToCloudflare).not.toHaveBeenCalled()
@@ -132,7 +132,7 @@ describe('deployWorker', () => {
     expect(result).toEqual({
       success: false,
       errors: ['Deployment error'],
-      stage: 'bundling'
+      stage: 'bundling',
     })
   })
 })

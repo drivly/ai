@@ -52,6 +52,7 @@ pnpm add functions.do
 - **Model Abstraction**: Switch between AI models without changing application code
 - **Request Throttling**: Control concurrent API requests with configurable limits
 - **Elegant API Design**: Clean, intuitive interfaces that prioritize developer experience
+- **Research Capabilities**: Perform deep research with specialized functions
 
 ## Elegant API Design
 
@@ -268,11 +269,28 @@ functions.do supports multiple function types for different use cases:
    - Format options: Object, ObjectArray, Text, TextArray, Markdown, Code
    - Example: Content generation, data transformations, creative tasks
 
-2. **Code Functions** - Functions that execute predefined code
+2. **Research Functions** - Specialized functions for deep research capabilities
+
+   - Example: Topic research, company analysis, personal background research
+   - Integrated with research.do for comprehensive research capabilities:
+
+     ```typescript
+     const researchResult = await ai.research({
+       topic: 'Quantum computing advancements',
+       depth: 'deep',
+       format: 'markdown',
+     })
+
+     const companyInfo = await ai.researchCompany({
+       company: 'Tesla',
+     })
+     ```
+
+3. **Code Functions** - Functions that execute predefined code
 
    - Example: Custom data processing, calculations, specialized transformations
 
-3. **Human Functions** - Tasks assigned to specific human users or roles
+4. **Human Functions** - Tasks assigned to specific human users or roles
 
    - Example: Manual review tasks, approval processes, expert input
    - Supports Slack Blocks schema for rich interactive messages:
@@ -290,7 +308,7 @@ functions.do supports multiple function types for different use cases:
      })
      ```
 
-4. **Agent Functions** - Functions that delegate to autonomous agents
+5. **Agent Functions** - Functions that delegate to autonomous agents
    - Example: Persistent tasks, continuous monitoring, complex workflows
 
 ## Creating Functions Programmatically
@@ -340,6 +358,7 @@ End-to-end tests will be skipped if no API key is provided.
 Functions.do is a core primitive of the [.do](https://dotdo.ai) ecosystem, designed to work seamlessly with other .do services:
 
 - **[apis.do](https://apis.do)** - The foundational SDK and unified API Gateway
+- **[research.do](https://research.do)** - Deep research capabilities powered by functions.do
 - **[workflows.do](https://workflows.do)** - Business process orchestration
 - **[agents.do](https://agents.do)** - Autonomous digital workers
 - **[database.do](https://database.do)** - AI-native data layer
@@ -358,7 +377,7 @@ import { FunctionsClient } from 'functions.do'
 // Initialize client with custom concurrency limit
 const client = new FunctionsClient({
   apiKey: 'your_api_key',
-  concurrency: 10 // Default is 50 if not specified
+  concurrency: 10, // Default is 50 if not specified
 })
 
 // Dynamically adjust concurrency limit

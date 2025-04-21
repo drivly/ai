@@ -35,18 +35,22 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ## Key Integration Points
 
 1. **Function Execution System**
+
    - Integrate exec-symbols' adapter with the executeFunction task
    - Enhance function execution with symbolic event tracking
 
 2. **Semantic Data Model**
+
    - Implement Nouns, Verbs, Resources, and Actions using exec-symbols' fact system
    - Map Subject-Predicate-Object relationships to FactSymbol primitives
 
 3. **Workflow Orchestration**
+
    - Enhance workflows.do with exec-symbols' state machine capabilities
    - Add symbolic event tracking to workflow execution
 
 4. **SDK Enhancement**
+
    - Add exec-symbols' event tracking to all SDKs
    - Implement symbolic representations of API calls
 
@@ -59,6 +63,7 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Phase 1: Foundation (2 weeks)
 
 1. **Bring exec-symbols into the monorepo**
+
    - Copy the entire exec-symbols library into the drivly/ai monorepo
    - Configure build system to build exec-symbols within the monorepo
    - Create integration tests for basic functionality
@@ -71,11 +76,13 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Phase 2: Core Integration (3 weeks)
 
 1. **Enhance Function Execution**
+
    - Integrate exec-symbols' adapter with executeFunction task
    - Add symbolic event tracking to function execution
    - Implement fact-based function result representation
 
 2. **Implement Semantic Data Model**
+
    - Create FactType definitions for Nouns, Verbs, Resources, and Actions
    - Implement converters between Payload collections and exec-symbols facts
    - Add symbolic representation to all data operations
@@ -88,11 +95,13 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Phase 3: SDK Enhancement (2 weeks)
 
 1. **Update APIs.do SDK**
+
    - Add symbolic event tracking to API calls
    - Implement fact-based API result representation
    - Create utility functions for working with symbolic data
 
 2. **Update Functions.do SDK**
+
    - Enhance function execution with symbolic tracking
    - Add fact-based function result representation
    - Create utility functions for working with symbolic data
@@ -105,11 +114,13 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Phase 4: Advanced Features (3 weeks)
 
 1. **Implement Agent System**
+
    - Leverage exec-symbols' state machine for agent behavior
    - Add symbolic tracking to agent actions
    - Create fact-based agent state representation
 
 2. **Enhance Event System**
+
    - Implement comprehensive event tracking
    - Add symbolic representation to all events
    - Create utility functions for event analysis
@@ -122,6 +133,7 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Phase 5: Documentation and Testing (2 weeks)
 
 1. **Update Documentation**
+
    - Document integration architecture
    - Create examples of using symbolic capabilities
    - Update SDK documentation
@@ -136,6 +148,7 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Phase 1: Foundation
 
 - [x] **Task 1.1: Bring exec-symbols into the monorepo**
+
   - [x] Import exec-symbols package
   - [x] Set up proper directory structure
   - [x] Configure build process
@@ -148,11 +161,13 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Phase 2: Core Integration
 
 - [ ] **Task 2.1: Enhance Function Execution**
+
   - [ ] Add symbolic tracking to function calls
   - [ ] Implement fact-based result representation
   - [ ] Create utility functions for symbolic data
 
 - [ ] **Task 2.2: Use Semantic Data Model**
+
   - [ ] Implement fact-based data representation
   - [ ] Create converters for existing data models
   - [ ] Add validation using symbolic constraints
@@ -165,11 +180,13 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Phase 3: SDK Enhancement
 
 - [ ] **Task 3.1: Update APIs.do SDK**
+
   - [ ] Add symbolic event tracking to API calls
   - [ ] Implement fact-based API result representation
   - [ ] Create utility functions for working with symbolic data
 
 - [ ] **Task 3.2: Update Functions.do SDK**
+
   - [ ] Enhance function execution with symbolic tracking
   - [ ] Add fact-based function result representation
   - [ ] Create utility functions for working with symbolic data
@@ -182,11 +199,13 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Phase 4: Advanced Features
 
 - [ ] **Task 4.1: Implement Agent System**
+
   - [ ] Leverage exec-symbols' state machine for agent behavior
   - [ ] Add symbolic tracking to agent actions
   - [ ] Create fact-based agent state representation
 
 - [ ] **Task 4.2: Enhance Event System**
+
   - [ ] Implement comprehensive event tracking
   - [ ] Add symbolic representation to all events
   - [ ] Create utility functions for event analysis
@@ -199,6 +218,7 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Phase 5: Documentation and Testing
 
 - [ ] **Task 5.1: Update Documentation**
+
   - [ ] Document integration architecture
   - [ ] Create examples of using symbolic capabilities
   - [ ] Update SDK documentation
@@ -213,6 +233,7 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Challenges
 
 1. **Performance Impact**
+
    - Church-encoded primitives may have performance implications
    - Solution: Implement performance benchmarks and optimize critical paths
 
@@ -223,6 +244,7 @@ The `.do` platform and `exec-symbols` library have been developed in isolation b
 ### Dependencies
 
 1. **Testing Infrastructure**
+
    - Comprehensive testing is required for the integration
    - Recommendation: Implement integration tests for all components
 

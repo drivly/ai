@@ -542,9 +542,7 @@ describe('State Machines', () => {
     })
 
     it('bind_state should compose state transformations', () => {
-      const state = bind_state((s: string) => unit_state(s.length)(s))(
-        (n: number) => (s: string) => unit_state(n * 2)(s + '!'),
-      )('test')
+      const state = bind_state((s: string) => unit_state(s.length)(s))((n: number) => (s: string) => unit_state(n * 2)(s + '!'))('test')
 
       expect(fst(state)).toBe(8) // 'test' length is 4, doubled is 8
       expect(snd(state)).toBe('test!')

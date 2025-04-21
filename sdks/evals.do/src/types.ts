@@ -103,3 +103,35 @@ export interface EvaluationOptions {
   concurrency?: number
   timeout?: number
 }
+
+/**
+ * Prompt variation configuration for function evaluation
+ */
+export interface PromptVariation {
+  /** Name of the prompt variation */
+  name: string
+  /** System prompt for the model */
+  system?: string
+  /** User prompt template */
+  prompt?: string
+  /** Temperature for model sampling */
+  temperature?: number
+  /** Additional configuration options */
+  [key: string]: any
+}
+
+/**
+ * Configuration for function evaluation with multiple models and prompts
+ */
+export interface FunctionEvalConfig {
+  /** Name of the function to evaluate */
+  name: string
+  /** Schema definition for the function */
+  schema: Record<string, any>
+  /** List of model identifiers to test */
+  models: string[]
+  /** List of prompt variations to test */
+  prompts: PromptVariation[]
+  /** Optional evaluation options */
+  options?: EvaluationOptions
+}

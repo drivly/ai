@@ -1,4 +1,5 @@
 import { ApiClient } from './api'
+export type { ResearchOptions, ResearchResponse } from './research'
 
 /**
  * Schema for defining interactive blocks in messaging platforms
@@ -124,21 +125,21 @@ export class FunctionsClient {
       concurrency: options.concurrency || 50,
     })
   }
-  
+
   /**
    * Set the concurrency limit for the request queue
    * @param limit - Maximum number of concurrent requests
    */
   setConcurrencyLimit(limit: number): void {
-    this.api.queue.concurrency = limit;
+    this.api.queue.concurrency = limit
   }
-  
+
   /**
    * Wait for all queued requests to complete
    * @returns Promise that resolves when all requests are complete
    */
   async waitForAll(): Promise<void> {
-    return this.api.queue.onIdle();
+    return this.api.queue.onIdle()
   }
 
   /**

@@ -164,9 +164,9 @@ export interface AgentDoTemplateFunction {
  */
 export interface AgentDoFunction {
   (input: string | Record<string, any>, options?: AgentExecutionOptions): Promise<any>
-  
+
   (strings: TemplateStringsArray, ...values: any[]): Promise<any>
-  
+
   (agentId: string): {
     (input: string | Record<string, any>, options?: AgentExecutionOptions): Promise<any>
     (strings: TemplateStringsArray, ...values: any[]): Promise<any>

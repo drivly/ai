@@ -22,11 +22,7 @@ pnpm add exec-symbols
 ## Usage
 
 ```typescript
-import { 
-  emitCallFact, 
-  emitEvent, 
-  createTaskAdapter 
-} from 'exec-symbols'
+import { emitCallFact, emitEvent, createTaskAdapter } from 'exec-symbols'
 
 // Create a symbolic fact for a function call
 const fact = emitCallFact('domain', 'method', { arg1: 'value1' })
@@ -37,7 +33,7 @@ const event = emitEvent(fact)
 // Adapt a task with symbolic tracking
 const task = {
   slug: 'testTask',
-  handler: async ({ input }) => ({ result: input })
+  handler: async ({ input }) => ({ result: input }),
 }
 
 const adaptedTask = createTaskAdapter(task)

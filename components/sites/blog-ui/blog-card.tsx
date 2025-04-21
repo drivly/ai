@@ -16,7 +16,7 @@ export function BlogCard({ post }: BlogCardProps) {
             src={post.image || '/placeholder.svg?height=200&width=400&bg=161616'}
             alt={post.title}
             fill
-            loading="lazy" // Added lazy loading to prevent timeout issues in CI (ENG-607)
+            loading='lazy' // Added lazy loading to prevent timeout issues in CI (ENG-607)
             priority={false} // Ensure it's not prioritized
             className='object-cover transition-transform duration-300 group-hover:scale-105'
           />

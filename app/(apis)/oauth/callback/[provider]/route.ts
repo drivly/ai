@@ -1,66 +1,13 @@
 import { API } from '@/lib/api'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
-import crypto from 'crypto'
+import { auth } from '@/auth'
+import { NextResponse } from 'next/server.js'
 
-export const GET = API(async (request, { url, params, user }) => {
+export const GET = API(async (request, { url, params }) => {
   try {
     const { provider } = await params
-    const code = url.searchParams.get('code')
-    const state = url.searchParams.get('state')
-    const error = url.searchParams.get('error')
+    const nextAuthCallbackUrl = `/api/auth/callback/${provider}${url.search}`
 
-    if (error) {
-      return {
-        error,
-        error_description: url.searchParams.get('error_description') || 'Authentication failed',
-        status: 400,
-      }
-    }
-
-    if (!code) {
-      return {
-        error: 'invalid_request',
-        error_description: 'Missing code parameter',
-        status: 400,
-      }
-    }
-
-    let redirectUri = ''
-    let originalState = ''
-
-    if (state) {
-      try {
-        const stateData = JSON.parse(decodeURIComponent(state))
-        redirectUri = stateData.redirect_uri || ''
-        originalState = stateData.state || ''
-      } catch (e) {
-        originalState = state
-      }
-    }
-
-    const payload = await getPayloadWithAuth()
-
-    if (!user) {
-      return {
-        error: 'unauthorized',
-        error_description: 'User is not authenticated',
-        status: 401,
-      }
-    }
-
-    const oauthCode = crypto.randomBytes(16).toString('hex')
-
-    if (redirectUri) {
-      const redirectUrl = new URL(redirectUri)
-      redirectUrl.searchParams.set('code', oauthCode)
-      if (originalState) {
-        redirectUrl.searchParams.set('state', originalState)
-      }
-
-      return { redirect: redirectUrl.toString() }
-    }
-
-    return { code: oauthCode, state: originalState }
+    return NextResponse.redirect(new URL(nextAuthCallbackUrl, url.origin))
   } catch (error) {
     console.error('OAuth callback error:', error)
     return {

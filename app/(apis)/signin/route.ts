@@ -1,1 +1,5 @@
-export { GET } from '@/lib/auth/route'
+import { NextRequest, NextResponse } from 'next/server'
+
+export async function GET(request: NextRequest) {
+  return NextResponse.redirect(new URL('/api/auth/signin/github', request.url))
+}

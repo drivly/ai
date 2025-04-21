@@ -28,7 +28,7 @@ export const generateVideo = async ({ input, req, payload }: any) => {
       outputPath,
       options: input.options,
     })
-    
+
     return {
       output: {
         success: true,
@@ -36,16 +36,16 @@ export const generateVideo = async ({ input, req, payload }: any) => {
         duration: result.duration,
         size: result.size,
       },
-      state: 'succeeded'
+      state: 'succeeded',
     }
   } catch (error: any) {
     console.error('Error generating video:', error)
     return {
       output: {
         success: false,
-        error: error.message || String(error)
+        error: error.message || String(error),
       },
-      state: 'failed'
+      state: 'failed',
     }
   }
 }

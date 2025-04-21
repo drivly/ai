@@ -9,6 +9,7 @@ This is a standard Next.js template configured for deployment on Vercel. It incl
 [Vercel](https://vercel.com) is a cloud platform for static sites and Serverless Functions that fits perfectly with your workflow. It enables developers to host Jamstack websites and web services that deploy instantly, scale automatically, and requires no supervision, all with no configuration.
 
 Key benefits:
+
 - Zero configuration required
 - Automatic SSL
 - Instant global deployment
@@ -88,11 +89,13 @@ Use the "Deploy with Vercel" button at the top of this README to create a new pr
 ### Deploy with Vercel CLI
 
 1. Install Vercel CLI:
+
    ```bash
    npm i -g vercel
    ```
 
 2. Run the deployment command from your project directory:
+
    ```bash
    vercel
    ```

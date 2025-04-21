@@ -1,0 +1,58 @@
+{
+  "name": "services.do",
+  "version": "0.1.0",
+  "description": "Service Registry and Management for the .do ecosystem",
+  "keywords": [
+    "service",
+    "registry",
+    "discovery",
+    "management",
+    "microservices",
+    "api",
+    "gateway",
+    "sdk"
+  ],
+  "homepage": "https://services.do",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/services.do"
+  },
+  "author": "Drivly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:packages": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "eslint-config": "workspace:*",
+    "tsconfig": "workspace:*",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "apis.do": "workspace:*"
+  }
+}

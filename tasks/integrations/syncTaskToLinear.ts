@@ -10,9 +10,7 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
       return { status: 'skipped', message: 'Task has no assignees' }
     }
 
-    const assigneeIds = data.assigned
-      .filter((assigned: any) => assigned.relationTo === 'users')
-      .map((assigned: any) => assigned.value)
+    const assigneeIds = data.assigned.filter((assigned: any) => assigned.relationTo === 'users').map((assigned: any) => assigned.value)
 
     if (assigneeIds.length === 0) {
       return { status: 'skipped', message: 'Task has no user assignees' }
@@ -28,20 +26,20 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
     }
 
     const connections = await payload.find({
-      collection: 'connections',
+      collection: 'connectAccounts',
       where: {
         and: [
           { user: { equals: user.id } },
-          { 
-            integration: { 
+          {
+            integration: {
               relationTo: 'integrations',
               where: {
                 provider: { equals: 'linear' },
-              }
-            } 
+              },
+            },
           },
           { status: { equals: 'active' } },
-        ]
+        ],
       },
       depth: 0,
     })
@@ -51,7 +49,7 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
     }
 
     const connection = connections.docs[0]
-    
+
     if (!connection.metadata?.accessToken) {
       return { status: 'error', message: 'Linear connection missing access token' }
     }
@@ -61,7 +59,7 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
     })
 
     const linearIssueId = data.metadata?.linearIssueId || data.linearMetadata?.id
-    
+
     const issueData = {
       title: data.title,
       description: data.description || '',
@@ -81,12 +79,12 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
           }
         }
       `
-      
+
       result = await linearClient.client.request(updateIssueMutation, {
         id: linearIssueId,
         input: issueData,
       })
-      
+
       if (!result.issueUpdate.success) {
         return { status: 'error', message: 'Failed to update Linear issue' }
       }
@@ -100,16 +98,16 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
           }
         }
       `
-      
-      const teamsResult = await linearClient.client.request(teamsQuery, {}) as { teams: { nodes: { id: string }[] } }
+
+      const teamsResult = (await linearClient.client.request(teamsQuery, {})) as { teams: { nodes: { id: string }[] } }
       const teams = teamsResult.teams
-      
+
       if (!teams.nodes.length) {
         return { status: 'error', message: 'No Linear teams found for user' }
       }
-      
+
       const teamId = teams.nodes[0].id
-      
+
       const createIssueMutation = `
         mutation IssueCreate($input: IssueCreateInput!) {
           issueCreate(input: $input) {
@@ -121,24 +119,24 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
           }
         }
       `
-      
+
       result = await linearClient.client.request(createIssueMutation, {
         input: {
           ...issueData,
           teamId,
         },
       })
-      
+
       if (!result.issueCreate.success) {
         return { status: 'error', message: 'Failed to create Linear issue' }
       }
-      
+
       const linearMetadata = {
         id: result.issueCreate.issue.id,
         url: result.issueCreate.issue.url,
         teamId: teamId,
       }
-      
+
       await payload.update({
         collection: 'tasks',
         id: data.id,
@@ -147,11 +145,11 @@ export const syncTaskToLinearHandler = async ({ data, originalDoc, req }: { data
         },
       })
     }
-    
+
     const issueResult = linearIssueId ? result.issueUpdate : result.issueCreate
-    
-    return { 
-      status: 'success', 
+
+    return {
+      status: 'success',
       message: linearIssueId ? 'Linear issue updated' : 'Linear issue created',
       linearIssueId: issueResult.issue.id,
       linearIssueUrl: issueResult.issue.url,

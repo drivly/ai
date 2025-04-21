@@ -11,15 +11,9 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
  * @param retries Number of retry attempts (default: 2)
  * @param retryDelay Delay between retries in ms (default: 500)
  */
-export async function takeNamedSnapshot(
-  page: Page,
-  name: string,
-  testInfo: TestInfo,
-  retries = 2,
-  retryDelay = 500,
-): Promise<void> {
+export async function takeNamedSnapshot(page: Page, name: string, testInfo: TestInfo, retries = 2, retryDelay = 500): Promise<void> {
   if (!name || !/^[a-z0-9-]+$/.test(name)) {
-      console.warn(`Snapshot name "${name}" might not follow the recommended convention 'page-[page-name]-[optional-state]' (lowercase, hyphens).`)
+    console.warn(`Snapshot name "${name}" might not follow the recommended convention 'page-[page-name]-[optional-state]' (lowercase, hyphens).`)
   }
   for (let i = 0; i <= retries; i++) {
     try {
@@ -49,14 +43,14 @@ export async function takeNamedSnapshot(
 export async function expectWithRetries(
   page: Page,
   name: string,
-  options?: Parameters<typeof playwrightExpect extends (arg: any) => infer R ? R extends { toHaveScreenshot: (...args: infer P) => any } ? P[1] : never : never>[0], // Infer options type
+  options?: Parameters<typeof playwrightExpect extends (arg: any) => infer R ? (R extends { toHaveScreenshot: (...args: infer P) => any } ? P[1] : never) : never>[0], // Infer options type
   retries = 2,
   retryDelay = 500,
 ): Promise<void> {
-   if (!name.endsWith('.png')) {
-     console.warn(`Snapshot name "${name}" for expectWithRetries should typically end with .png`);
-     name += '.png'; // Append if missing, though Playwright might handle it
-   }
+  if (!name.endsWith('.png')) {
+    console.warn(`Snapshot name "${name}" for expectWithRetries should typically end with .png`)
+    name += '.png' // Append if missing, though Playwright might handle it
+  }
   for (let i = 0; i <= retries; i++) {
     try {
       await playwrightExpect(page).toHaveScreenshot(name, options)

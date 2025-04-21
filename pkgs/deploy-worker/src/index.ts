@@ -20,7 +20,7 @@ export async function deployWorker(worker: Worker, options: DeployWorkerOptions 
       return {
         success: false,
         errors: typeScriptErrors,
-        stage: 'typescript-validation'
+        stage: 'typescript-validation',
       }
     }
     console.log('TypeScript validation successful.')
@@ -32,7 +32,7 @@ export async function deployWorker(worker: Worker, options: DeployWorkerOptions 
       return {
         success: false,
         errors: eslintErrors,
-        stage: 'eslint-validation'
+        stage: 'eslint-validation',
       }
     }
     console.log('ESLint validation successful.')
@@ -44,7 +44,7 @@ export async function deployWorker(worker: Worker, options: DeployWorkerOptions 
       return {
         success: false,
         errors: testErrors,
-        stage: 'test-execution'
+        stage: 'test-execution',
       }
     }
     console.log('Tests passed successfully.')
@@ -62,13 +62,13 @@ export async function deployWorker(worker: Worker, options: DeployWorkerOptions 
     return {
       success: true,
       deploymentUrl,
-      stage: 'deployed'
+      stage: 'deployed',
     }
   } catch (error) {
     return {
       success: false,
       errors: [error instanceof Error ? error.message : String(error)],
-      stage: 'bundling' // Assume error happened during bundling if not caught earlier
+      stage: 'bundling', // Assume error happened during bundling if not caught earlier
     }
   }
 }

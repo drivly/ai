@@ -62,10 +62,7 @@ async function runCommand() {
         console.log('Resources pushed successfully')
         break
       case 'sync':
-        const syncMode = args.includes('--mode-db') ? 'database' : 
-                         args.includes('--mode-local') ? 'local' : 
-                         args.includes('--mode-github') ? 'github' : 
-                         undefined
+        const syncMode = args.includes('--mode-db') ? 'database' : args.includes('--mode-local') ? 'local' : args.includes('--mode-github') ? 'github' : undefined
         await cli.sync({ mode: syncMode })
         console.log('Resources synced successfully')
         break

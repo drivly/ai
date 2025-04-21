@@ -1197,6 +1197,7 @@ content: "What insights have you gathered?",
 };
 
 return (
+
 <div className="agent-interface">
 <button onClick={inquire}>Seek Understanding</button>
 </div>
@@ -1217,6 +1218,7 @@ agent.setState({ counter: state.counter + 1 });
 };
 
 return (
+
 <div>
 <div>Count: {state.counter}</div>
 <button onClick={increment}>Increment</button>

@@ -1,20 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-  ALETHIC,
-  Constraint,
-  Event,
-  FactSymbol,
-  FactType,
-  Reading,
-  TRUE,
-  UINT,
-  fromJSON,
-  list,
-  makeVerbFact,
-  serialize,
-  serializeToJSON,
-  unit,
-} from '../src'
+import { ALETHIC, Constraint, Event, FactSymbol, FactType, Reading, TRUE, UINT, fromJSON, list, makeVerbFact, serialize, serializeToJSON, unit } from '../src'
 
 describe('Serialization', () => {
   it('should serialize FactSymbol', () => {

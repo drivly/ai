@@ -1,29 +1,33 @@
 import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
-  docs: { type: 'page', title: 'Docs', href: '/docs' },
+  index: { title: 'Overview' },
+  home: { type: 'page', title: 'Docs', href: '/docs' },
   api: { type: 'page', title: 'APIs', href: '/docs/apis' },
   sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
   clis: { type: 'page', title: 'CLI', href: '/docs/cli' },
   pricing: { type: 'page', title: 'Pricing', href: '/pricing' },
   dashboard: { type: 'page', title: 'Dashboard', href: '/admin' },
+  docs: { display: 'hidden' },
   ref: {
     type: 'page',
     title: 'Reference',
     href: 'https://apis.do/reference',
   },
 
-
   manifesto: '',
+  'business-as-code': { display: 'hidden' },
+  'services-as-software': { display: 'hidden' },
   primitives: '',
 
   _ai: {
     type: 'separator',
     title: 'AI',
   },
+  workflows: '',
   functions: '',
   agents: '',
-  workflows: '',
+  services: '',
 
   _: {
     type: 'separator',

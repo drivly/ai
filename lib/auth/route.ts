@@ -1,43 +1,30 @@
-import { NextResponse, NextRequest } from 'next/server'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
-import { getAuthRedirectForDomain } from '@/lib/utils/url'
+import { getCurrentURL } from '@/lib/utils/url'
+import { NextRequest, NextResponse } from 'next/server'
+import { auth, signIn, signOut } from '@/auth'
 
-export async function GET(request: NextRequest) {
+export async function login(request: NextRequest) {
+  const currentURL = getCurrentURL(request.headers)
+  const host = request.headers.get('host') || ''
   console.log('Auth route hit - starting OAuth flow', {
-    host: request.headers.get('host'),
-    url: request.url,
+    currentURL,
+    host,
   })
 
-  const payload = await getPayloadWithAuth()
-  const hostname = request.headers.get('host') || ''
-
-  // Get the appropriate redirect path for the current domain
-  const callbackPath = getAuthRedirectForDomain(hostname)
+  const destination = request.nextUrl.searchParams.get('destination') || 'admin'
+  const provider = request.nextUrl.searchParams.get('provider') || 'github'
 
   try {
-    console.log(`Auth debug - Starting GitHub login on hostname: ${hostname}`)
-    console.log(`Auth debug - Using callback path: ${callbackPath}`)
+    console.log(`Auth debug - Starting ${provider} login on: ${host}`)
 
-    // Let the betterAuth plugin handle authentication with the oAuthProxy
-    const data = await payload.betterAuth.api.signInSocial({
-      body: {
-        provider: 'github',
-        callbackURL: callbackPath,
-      },
-    })
+    const callbackUrl = new URL('/api/auth/callback/github', currentURL).toString()
+    const signInUrl = new URL(`/api/auth/signin/${provider}`, currentURL)
+    signInUrl.searchParams.set('callbackUrl', callbackUrl)
 
-    console.log(`Auth debug - Got redirect URL: ${data.url || '(empty URL)'}`)
+    console.log(`Auth debug - Redirecting to: ${signInUrl.toString()}`)
 
-    // Trust the URL provided by the plugin
-    if (data.url) {
-      return NextResponse.redirect(data.url)
-    } else {
-      console.error('Auth debug - No redirect URL returned')
-      return NextResponse.redirect(`https://${hostname}`)
-    }
+    return NextResponse.redirect(signInUrl)
   } catch (error) {
-    console.error('Error during signInSocial:', error)
-    console.log('Attempted callbackPath:', callbackPath, 'for hostname:', hostname)
+    console.error('Error during login:', error)
 
     if (error instanceof Error) {
       console.error(`Auth debug - Error name: ${error.name}, message: ${error.message}`)
@@ -45,4 +32,15 @@ export async function GET(request: NextRequest) {
 
     throw new Error('Failed to sign in')
   }
+}
+
+export const logout = async (request: NextRequest) => {
+  try {
+    await signOut({ redirect: false })
+  } catch (error) {
+    console.error('Error during logout:', error)
+  }
+
+  // Always redirect to home page
+  return NextResponse.redirect(new URL('/', getCurrentURL(request.headers)))
 }

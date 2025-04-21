@@ -5,13 +5,16 @@
  * This script automates the process of:
  * 1. Adding domains to Cloudflare for DNS management
  * 2. Adding domains to Vercel for hosting
+ * 3. Updating existing domain configurations in Cloudflare and Vercel
  *
  * It uses the domain status information from domain-status-checker.ts to determine
- * which domains need to be added to each service. The script will:
+ * which domains need to be added or updated in each service. The script will:
  * - Check if domains are already in Cloudflare and Vercel
  * - Add domains to Cloudflare if they don't exist
+ * - Update existing Cloudflare zones if configuration drift is detected
  * - Create DNS records in Cloudflare pointing to Vercel
  * - Add domains to Vercel project for hosting
+ * - Update existing Vercel domains if configuration drift is detected
  * - Verify domains in Vercel
  *
  * Required Environment Variables:
@@ -61,8 +64,8 @@
 
 import dns from 'node:dns'
 import { promisify } from 'node:util'
-import { domains } from '../domains.config'
-import { checkNsRecords, fetchDomainRoot, getVercelLinkedDomains } from './domain-status-checker'
+import { readDomainsTsv } from './domain-utils'
+import { checkNsRecords, fetchDomainRoot, getVercelLinkedDomains, DomainStatus } from './domain-status-checker'
 
 const args = process.argv.slice(2)
 const domainFilter = args.length > 0 ? args : null
@@ -111,6 +114,231 @@ interface CloudflareDNSRecordsResponse {
   errors: any[]
   messages: any[]
   result: CloudflareDNSRecord[]
+}
+
+interface CloudflareZoneSettings {
+  success: boolean
+  errors: any[]
+  messages: any[]
+  result: CloudflareZoneSetting[]
+}
+
+interface CloudflareZoneSetting {
+  id: string
+  value: any
+  modified_on: string
+}
+
+interface VercelDomainConfig {
+  name: string
+  apexName?: string
+  projectId?: string
+  redirect?: string | null
+  redirectStatusCode?: number
+  gitBranch?: string
+}
+
+/**
+ * Update Cloudflare zone settings based on expected configuration
+ * @param domain Domain to update
+ * @param zoneId Cloudflare zone ID
+ * @param config Expected domain configuration
+ * @returns True if successful
+ */
+export async function updateCloudflareZone(domain: string, zoneId?: string, config?: any): Promise<boolean> {
+  if (!CLOUDFLARE_API_TOKEN) {
+    console.error('CLOUDFLARE_API_TOKEN environment variable is not set')
+    return false
+  }
+
+  try {
+    if (!zoneId) {
+      const zones = await getCloudflareZones()
+      const zone = zones.find((z) => z.name === domain)
+      if (!zone) {
+        console.error(`No Cloudflare zone found for domain ${domain}`)
+        return false
+      }
+      zoneId = zone.id
+    }
+
+    const isAlias = config?.isAlias
+    const targetDomain = config?.targetDomain || domain
+
+    if (isAlias) {
+      console.log(`Setting up redirect from ${domain} to ${targetDomain}`)
+
+      const response = await fetch(`${CLOUDFLARE_API_BASE}/zones/${zoneId}/pagerules`, {
+        headers: {
+          Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error(`Cloudflare API returned ${response.status}: ${await response.text()}`)
+      }
+
+      const data = await response.json()
+      const existingRule = data.result.find(
+        (rule: any) => rule.targets[0]?.constraint?.value === `*${domain}/*` && rule.actions.find((action: any) => action.id === 'forwarding_url'),
+      )
+
+      if (existingRule) {
+        const updateResponse = await fetch(`${CLOUDFLARE_API_BASE}/zones/${zoneId}/pagerules/${existingRule.id}`, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            targets: [
+              {
+                target: 'url',
+                constraint: {
+                  operator: 'matches',
+                  value: `*${domain}/*`,
+                },
+              },
+            ],
+            actions: [
+              {
+                id: 'forwarding_url',
+                value: {
+                  url: `https://${targetDomain}`,
+                  status_code: 301,
+                },
+              },
+            ],
+            status: 'active',
+          }),
+        })
+
+        if (!updateResponse.ok) {
+          throw new Error(`Cloudflare API returned ${updateResponse.status}: ${await updateResponse.text()}`)
+        }
+      } else {
+        const createResponse = await fetch(`${CLOUDFLARE_API_BASE}/zones/${zoneId}/pagerules`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            targets: [
+              {
+                target: 'url',
+                constraint: {
+                  operator: 'matches',
+                  value: `*${domain}/*`,
+                },
+              },
+            ],
+            actions: [
+              {
+                id: 'forwarding_url',
+                value: {
+                  url: `https://${targetDomain}`,
+                  status_code: 301,
+                },
+              },
+            ],
+            status: 'active',
+          }),
+        })
+
+        if (!createResponse.ok) {
+          throw new Error(`Cloudflare API returned ${createResponse.status}: ${await createResponse.text()}`)
+        }
+      }
+    } else {
+      const sslResponse = await fetch(`${CLOUDFLARE_API_BASE}/zones/${zoneId}/settings/ssl`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          value: 'full',
+        }),
+      })
+
+      if (!sslResponse.ok) {
+        throw new Error(`Cloudflare API returned ${sslResponse.status}: ${await sslResponse.text()}`)
+      }
+
+      await addCloudflareVercelDNSRecords(zoneId, domain)
+    }
+
+    return true
+  } catch (error: any) {
+    console.error(`Error updating Cloudflare zone for ${domain}:`, error.message)
+    return false
+  }
+}
+
+/**
+ * Update Vercel domain settings based on expected configuration
+ * @param domain Domain to update
+ * @param config Expected domain configuration
+ * @returns True if successful
+ */
+export async function updateVercelDomain(domain: string, config?: any): Promise<boolean> {
+  if (!VERCEL_TOKEN) {
+    console.error('VERCEL_TOKEN environment variable is not set')
+    return false
+  }
+
+  const teamParam = VERCEL_TEAM_ID ? `&teamId=${VERCEL_TEAM_ID}` : ''
+
+  try {
+    const isAlias = config?.isAlias
+    const targetDomain = config?.targetDomain || domain
+
+    const getDomainResponse = await fetch(`https://api.vercel.com/v9/projects/${VERCEL_PROJECT_ID}/domains/${domain}?${teamParam}`, {
+      headers: {
+        Authorization: `Bearer ${VERCEL_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!getDomainResponse.ok) {
+      return await addDomainToVercel(domain)
+    }
+
+    const domainData = await getDomainResponse.json()
+
+    const updatePayload: VercelDomainConfig = {
+      name: domain,
+    }
+
+    if (isAlias) {
+      updatePayload.redirect = `https://${targetDomain}`
+      updatePayload.redirectStatusCode = 301
+    }
+
+    const updateResponse = await fetch(`https://api.vercel.com/v9/projects/${VERCEL_PROJECT_ID}/domains/${domain}?${teamParam}`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${VERCEL_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatePayload),
+    })
+
+    if (!updateResponse.ok) {
+      throw new Error(`Vercel API returned ${updateResponse.status}: ${await updateResponse.text()}`)
+    }
+
+    if (domainData.verification?.status !== 'valid') {
+      await verifyDomainOnVercel(domain)
+    }
+
+    return true
+  } catch (error: any) {
+    console.error(`Error updating Vercel domain ${domain}:`, error.message)
+    return false
+  }
 }
 
 /**
@@ -299,9 +527,11 @@ async function verifyDomainOnVercel(domain: string): Promise<boolean> {
  * Main function to automate domain setup
  */
 async function automateDomainsSetup() {
-  const domainsToProcess = domainFilter ? domains.filter((domain) => domainFilter.some((filter) => !filter.startsWith('-') && domain.includes(filter))) : domains
+  const { domains: domainsFromTsv, domainsConfig } = await readDomainsTsv()
 
-  console.log(`Found ${domainsToProcess.length} domains to process out of ${domains.length} total domains`)
+  const domainsToProcess = domainFilter ? domainsFromTsv.filter((domain) => domainFilter.some((filter) => !filter.startsWith('-') && domain.includes(filter))) : domainsFromTsv
+
+  console.log(`Found ${domainsToProcess.length} domains to process out of ${domainsFromTsv.length} total domains`)
 
   const vercelDomains = await getVercelLinkedDomains()
   console.log(`Found ${vercelDomains.length} domains already linked in Vercel`)
@@ -377,7 +607,7 @@ async function automateDomainsSetup() {
   }
 
   console.log('\n=== Domain Automation Summary ===\n')
-  console.log(`Total domains processed: ${domains.length}`)
+  console.log(`Total domains processed: ${domainsFromTsv.length}`)
   console.log(`Domains already in Vercel: ${vercelDomains.length}`)
   console.log(`Domains already in Cloudflare: ${cloudflareZones.length}`)
 }

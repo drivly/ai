@@ -1,6 +1,6 @@
 ---
 asIndexPage: true
----
+--- 
 
 # SDKs
 
@@ -12,7 +12,6 @@ The [`AI`](/docs/sdks/functions.do) function in [`functions.do`](/docs/sdks/func
 import { AI } from 'functions.do'
 
 const ai = AI({
-
   // Define a Workflow as a Code Function
   ideaCaptured: async (idea, { ai, api, db }) => {
     const leanCanvas = await ai.leanCanvas({ idea })
@@ -48,7 +47,6 @@ import { ai } from 'functions.do'
 const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
 ```
 
-
 ## `Agent`
 
 The `Agent` function allows [Agents](/docs/agents) to be defined in a strongly-typed way:
@@ -82,7 +80,6 @@ import { do } from 'agents.do'
 const research = await do`research about ${topic}`
 ```
 
-
 ### `browse`
 
 The `browse` function in [`agents.do`](/docs/sdks/agents.do#browse) and [`browse.do`](/docs/sdks/browse.do) provide real-time web browsing:
@@ -93,7 +90,6 @@ import { browse } from 'agents.do'
 const findings = await browse`research about ${topic}`
 ```
 
-
 ### `research`
 
 The `research` function in [`agents.do`](/docs/sdks/agents.do) and [`research.do`](/docs/sdks/research.do) provide deep-research in real-time:
@@ -103,7 +99,6 @@ import { research } from 'research.do'
 
 const findings = await research`research about ${topic}`
 ```
-
 
 ## `API`
 
@@ -118,7 +113,6 @@ api
   .get('/', () => ({ hello: 'world' }))
   .get('/:id', ({ id }) => ({ id }))
   .put('/:id', async ({ id, body, db }) => db.posts.set(id, body))
-  
 ```
 
 ### `api`
@@ -222,9 +216,7 @@ const posts = await db.posts.find({ tag: 'ai' })
 
 ### `on`
 
-
 ### `every`
-
 
 ## `Integration`
 

@@ -58,7 +58,7 @@ export const GET = API(async (request, { db, user, url, origin, domain }) => {
   return {
     functions,
     links,
-    user,
+
     page,
     limit,
     total: totalItems,
@@ -70,19 +70,19 @@ export const GET = API(async (request, { db, user, url, origin, domain }) => {
 
 export const POST = API(async (request, { db, user, url, payload, req }) => {
   const body = await request.json()
-  
+
   if (body.functionName || body.input) {
     const functionName = body.functionName
     const args = body.input || body.args || {}
     const settings = body.config || body.settings || {}
-    
+
     const start = Date.now()
     const results = await executeFunction({ input: { functionName, args, settings }, payload })
     const latency = Date.now() - start
-    
+
     const output = results?.output
     const generationHash = results?.generationHash
-    
+
     return {
       functionName,
       args,
@@ -90,12 +90,12 @@ export const POST = API(async (request, { db, user, url, payload, req }) => {
       reasoning: results?.reasoning?.split('\n'),
       settings,
       latency,
-      generationHash
+      generationHash,
     }
   }
-  
+
   const { action, functionId } = body
-  
+
   if (action === 'clone' && functionId) {
     const originalFunction = await db.functions.get(functionId)
 
@@ -128,6 +128,6 @@ export const POST = API(async (request, { db, user, url, payload, req }) => {
 
     return { success: true, function: newFunction }
   }
-  
+
   return { error: 'Invalid action' }
 })

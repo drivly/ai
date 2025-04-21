@@ -19,6 +19,7 @@ A Next.js template configured with OpenNext for deployment on Cloudflare Pages. 
 ## Getting Started
 
 Each template includes its own README with detailed instructions for:
+
 - Installing dependencies
 - Local development
 - Building for production

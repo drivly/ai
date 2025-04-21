@@ -22,6 +22,13 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
       'Searches - Query and retrieve data': formatWithOptions('searches', 'searches.do'),
       'Actions - Perform tasks within workflows': formatWithOptions('actions', 'actions.do'),
     },
+    chat: {
+      'Chat - AI Conversations': formatWithOptions('api/chat', 'chat.do'),
+      'History - Chat History': formatWithOptions('api/history', 'history.do'),
+      'Document - User Documents': formatWithOptions('api/document', 'document.do'),
+      'Suggestions - Document Suggestions': formatWithOptions('api/suggestions', 'suggestions.do'),
+      'Vote - Message Votes': formatWithOptions('api/vote', 'vote.do'),
+    },
     core: {
       'LLM - Intelligent AI Gateway': formatWithOptions('llm', 'llm.do'),
       'Evals - Evaluate Functions, Workflows, and Agents': formatWithOptions('evals', 'evals.do'),

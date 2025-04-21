@@ -35,8 +35,10 @@ resolution:
   height: 1080
 transition: fade
 ---
+
 layout: intro
 voiceover: Discover motion.md - the future of dynamic video generation
+
 ---
 
 # Welcome to motion.md
@@ -44,8 +46,10 @@ voiceover: Discover motion.md - the future of dynamic video generation
 This is a powerful tool for creating videos from Markdown.
 
 ---
+
 voiceover: Markdown-based workflow explained.
 layout: cover
+
 ---
 
 ## Features
@@ -88,6 +92,7 @@ Showcase code changes with animated transitions
 background: stock:mountains.jpg
 voiceover: Here are some amazing features.
 transition: slide
+
 ---
 
 ## Advanced Configuration
@@ -118,8 +123,8 @@ const result = await createVideoFromSlides({
   outputPath: 'output.mp4',
   options: {
     tts: true,
-    quality: 'production'
-  }
+    quality: 'production',
+  },
 })
 
 console.log(`Video generated at ${result.outputPath}`)

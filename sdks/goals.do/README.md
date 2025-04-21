@@ -53,27 +53,27 @@ const companyGoals = Goals({
     keyResults: [
       'Achieve 95% customer satisfaction score by Q4',
       'Reduce average support resolution time by 30%',
-      { 
+      {
         description: 'Increase customer retention rate to 85%',
         target: 85,
         currentValue: 72,
-        unit: '%'
-      }
-    ]
+        unit: '%',
+      },
+    ],
   },
   productInnovation: {
     description: 'Build features that solve real customer problems',
     keyResults: [
       'Launch 3 major features by Q2',
       'Achieve 80% feature adoption within 30 days of launch',
-      { 
+      {
         description: 'Reduce feature development cycle time by 20%',
         target: 20,
         currentValue: 0,
-        unit: '%'
-      }
-    ]
-  }
+        unit: '%',
+      },
+    ],
+  },
 })
 
 // Save goals to database
@@ -115,6 +115,7 @@ Saves all defined objectives and key results to the database.
 Updates the progress of a specific key result.
 
 **Parameters**:
+
 - `objectiveKey`: The key of the objective containing the key result
 - `keyResult`: Either the string description of the key result or its index in the array
 - `progress`: The progress value (0-100)
@@ -167,15 +168,15 @@ const businessGoals = Goals({
   revenue: {
     description: 'Increase annual recurring revenue',
     keyResults: [
-      { 
+      {
         description: 'Achieve $10M ARR by end of year',
         target: 10000000,
         currentValue: 7500000,
         unit: '$',
-        kpiRelationship: 'monthly-recurring-revenue'
-      }
-    ]
-  }
+        kpiRelationship: 'monthly-recurring-revenue',
+      },
+    ],
+  },
 })
 ```
 

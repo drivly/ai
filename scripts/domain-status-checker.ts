@@ -6,13 +6,17 @@
  * 1. Performing NS lookup for each domain
  * 2. Fetching the root path (/) for each domain
  * 3. Cross-referencing with Vercel linked domains for the drivly/ai project
+ * 4. Detecting configuration drift between current and expected settings
+ * 5. Updating Cloudflare and Vercel configurations when drift is detected
  *
  * Usage: pnpm tsx scripts/domain-status-checker.ts
+ * Usage with update: pnpm tsx scripts/domain-status-checker.ts --update
  */
 
 import dns from 'node:dns'
 import { promisify } from 'node:util'
-import { domainsConfig, DomainsConfig, domains } from '../domains.config'
+import { readDomainsTsv } from './domain-utils'
+import type { DomainsConfig } from './domain-utils'
 
 const resolveNs = promisify(dns.resolveNs)
 
@@ -25,10 +29,21 @@ interface DomainStatus {
   }
   vercelLinked: boolean
   vercelStatus?: string
+  cloudflareZoneId?: string
+  configurationDrift?: {
+    cloudflare?: {
+      dnsRecords?: boolean
+      sslSettings?: boolean
+    }
+    vercel?: {
+      projectAssociation?: boolean
+      verification?: boolean
+    }
+  }
 }
 
 export type { DomainStatus }
-export { checkNsRecords, fetchDomainRoot, getVercelLinkedDomains }
+export { checkNsRecords, fetchDomainRoot, getVercelLinkedDomains, compareAndUpdateDomainConfigurations }
 
 async function checkNsRecords(domain: string): Promise<string[] | null> {
   try {
@@ -109,8 +124,151 @@ interface DomainsExport {
   domains?: string[]
 }
 
+/**
+ * Get the expected domain configuration from domains TSV
+ * @param domain Domain to get configuration for
+ * @param config DomainsConfig object from readDomainsTsv
+ * @returns Expected domain configuration
+ */
+function getExpectedDomainConfig(domain: string, config: DomainsConfig) {
+  const aliasTarget = config.aliases[domain]
+  const targetDomain = aliasTarget || domain
+
+  const domainConfig = config.domains[targetDomain]
+
+  return {
+    domain,
+    targetDomain,
+    isAlias: !!aliasTarget,
+    aliasTarget,
+    parent: domainConfig?.parent,
+  }
+}
+
+/**
+ * Check if Cloudflare configuration needs updating
+ * @param status Current domain status
+ * @param expectedConfig Expected domain configuration
+ * @returns Whether Cloudflare configuration needs updating
+ */
+function needsCloudflareUpdate(status: DomainStatus, expectedConfig: ReturnType<typeof getExpectedDomainConfig>) {
+  if (!status.nsRecords || !status.nsRecords.some((record) => record.includes('cloudflare.com'))) {
+    return true
+  }
+
+  if (expectedConfig.isAlias) {
+    return true // We'll check the actual records in the update function
+  }
+
+  return !!status.configurationDrift?.cloudflare
+}
+
+/**
+ * Check if Vercel configuration needs updating
+ * @param status Current domain status
+ * @param expectedConfig Expected domain configuration
+ * @returns Whether Vercel configuration needs updating
+ */
+function needsVercelUpdate(status: DomainStatus, expectedConfig: ReturnType<typeof getExpectedDomainConfig>) {
+  if (!status.vercelLinked) {
+    return true
+  }
+
+  if (status.vercelStatus !== 'valid') {
+    return true
+  }
+
+  if (expectedConfig.isAlias) {
+    return true // We'll check the actual configuration in the update function
+  }
+
+  return !!status.configurationDrift?.vercel
+}
+
+/**
+ * Compare current domain configurations with expected configurations and update if needed
+ * @param domainStatuses Domain statuses collected by the checker
+ * @param updateConfigurations Whether to update configurations when drift is detected
+ */
+async function compareAndUpdateDomainConfigurations(domainStatuses: DomainStatus[], updateConfigurations = false) {
+  console.log('\n=== Configuration Drift Analysis ===\n')
+
+  const { domainsConfig } = await readDomainsTsv()
+  const driftsDetected = []
+
+  for (const status of domainStatuses) {
+    const expectedConfig = getExpectedDomainConfig(status.domain, domainsConfig)
+
+    const cloudflareNeedsUpdate = needsCloudflareUpdate(status, expectedConfig)
+    const vercelNeedsUpdate = needsVercelUpdate(status, expectedConfig)
+
+    if (cloudflareNeedsUpdate || vercelNeedsUpdate) {
+      console.log(`Domain: ${status.domain}`)
+
+      if (expectedConfig.isAlias) {
+        console.log(`  Alias to: ${expectedConfig.aliasTarget}`)
+      }
+
+      if (cloudflareNeedsUpdate) {
+        console.log('  Cloudflare configuration needs updating')
+        driftsDetected.push({ domain: status.domain, service: 'cloudflare' })
+
+        if (updateConfigurations) {
+          console.log('  Updating Cloudflare configuration...')
+          try {
+            const { updateCloudflareZone } = await import('./domain-automation')
+            await updateCloudflareZone(status.domain, status.cloudflareZoneId, expectedConfig)
+            console.log('  Cloudflare configuration updated successfully')
+          } catch (error: any) {
+            console.error(`  Error updating Cloudflare configuration: ${error.message}`)
+          }
+        }
+      }
+
+      if (vercelNeedsUpdate) {
+        console.log('  Vercel configuration needs updating')
+        driftsDetected.push({ domain: status.domain, service: 'vercel' })
+
+        if (updateConfigurations) {
+          console.log('  Updating Vercel configuration...')
+          try {
+            const { updateVercelDomain } = await import('./domain-automation')
+            await updateVercelDomain(status.domain, expectedConfig)
+            console.log('  Vercel configuration updated successfully')
+          } catch (error: any) {
+            console.error(`  Error updating Vercel configuration: ${error.message}`)
+          }
+        }
+      }
+
+      console.log('---')
+    }
+  }
+
+  if (driftsDetected.length === 0) {
+    console.log('No configuration drift detected for any domains')
+  } else {
+    console.log(`\nConfiguration drift detected for ${driftsDetected.length} domain/service combinations`)
+
+    if (!updateConfigurations) {
+      console.log('\nTo update configurations, run:')
+      console.log('pnpm tsx scripts/domain-status-checker.ts --update')
+    }
+  }
+
+  return driftsDetected
+}
+
 async function checkDomains() {
-  const domainsToCheck = domains
+  const args = process.argv.slice(2)
+  const updateConfigurations = args.includes('--update')
+
+  if (updateConfigurations) {
+    console.log('Running with --update flag. Will update configurations when drift is detected.')
+  }
+
+  const { domains: domainsFromTsv, domainsConfig } = await readDomainsTsv()
+  const domainsToCheck = domainsFromTsv
 
   console.log(`Found ${domainsToCheck.length} domains to check`)
 
@@ -171,6 +329,8 @@ async function checkDomains() {
   } else {
     console.log('All Vercel linked domains are in config')
   }
+
+  await compareAndUpdateDomainConfigurations(domainStatuses, updateConfigurations)
 }
 
 checkDomains().catch((error) => {

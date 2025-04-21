@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { NextRequest, NextResponse } from 'next/server'
-import { POST } from '@/../app/(apis)/webhooks/composio/route'
+import { POST } from '@/app/(apis)/webhooks/composio/route'
 
 global.fetch = vi.fn().mockResolvedValue({
   ok: true,
@@ -179,7 +179,7 @@ describe('Composio Webhook Handler', () => {
   it('should include default tenant when creating events', async () => {
     // Setup environment variables
     process.env.DEFAULT_TENANT = 'test-tenant'
-    
+
     expect(true).toBe(true)
   })
 })

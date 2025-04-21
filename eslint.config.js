@@ -17,8 +17,8 @@ const config = [
       'import/no-anonymous-default-export': 'off',
       'react/no-unescaped-entities': 'off',
       'react/display-name': 'off',
-      'react-hooks/exhaustive-deps': 'warn'
-    }
+      'react-hooks/exhaustive-deps': 'warn',
+    },
   },
 ]
 

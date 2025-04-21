@@ -225,6 +225,10 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
     description: 'API Gateway for All Services',
   }
 
+  config['studio.do'] = {
+    description: 'Custom-Branded Payload CMS instances',
+  }
+
   config['databases.do'] = {
     alias: 'database.do',
   }
@@ -247,7 +251,7 @@ const generateDomainsConfig = (): Record<string, DomainConfig> => {
 export const domainsConfig: DomainsConfig = {
   domains: generateDomainsConfig(),
   collections: generateCollectionsConfig(),
-  aiGateways: ['*.com.ai', '*.dotdo.dev', '*.dev.driv.ly'],
+  aiGateways: ['*.do.com.ai', '*.dotdo.dev', '*.dev.driv.ly'],
   aliases: {
     'databases.do': 'database.do',
     'okrs.do': 'goals.do',
@@ -364,9 +368,9 @@ export function getDomainDescription(domain: string): string | undefined {
   }
 
   const baseDomain = domain.endsWith('.do') ? domain.replace('.do', '') : domain
-  
+
   const capitalizedDomain = baseDomain.charAt(0).toUpperCase() + baseDomain.slice(1)
-  
+
   return domainDescriptions[capitalizedDomain] || domainsConfig.domains[domain]?.description
 }
 
@@ -396,37 +400,37 @@ export const domainCategories: Record<string, string[]> = {
  * e.g., function -> functions
  */
 export const parentDomains: Record<string, string> = {
-  'function': 'functions',
-  'trigger': 'triggers',
-  'search': 'searches',
-  'action': 'actions',
-  'worker': 'workers',
-  'webhook': 'webhooks',
-  'trace': 'traces',
-  'service': 'services',
-  'request': 'requests',
-  'response': 'responses',
-  'task': 'tasks',
-  'event': 'events',
-  'object': 'objects',
-  'vector': 'vectors',
+  function: 'functions',
+  trigger: 'triggers',
+  search: 'searches',
+  action: 'actions',
+  worker: 'workers',
+  webhook: 'webhooks',
+  trace: 'traces',
+  service: 'services',
+  request: 'requests',
+  response: 'responses',
+  task: 'tasks',
+  event: 'events',
+  object: 'objects',
+  vector: 'vectors',
 }
 
 /**
  * Calculate child domains from parent domains
- * 
+ *
  * @returns Record of parent domains to their child domains
  */
 export function calculateChildDomains(): Record<string, string[]> {
   const childDomains: Record<string, string[]> = {}
-  
+
   Object.entries(parentDomains).forEach(([child, parent]) => {
     if (!childDomains[parent]) {
       childDomains[parent] = []
     }
     childDomains[parent].push(child)
   })
-  
+
   return childDomains
 }
 
@@ -439,151 +443,151 @@ export const childDomains = calculateChildDomains()
  * Domain descriptions with properly capitalized keys and without .do suffix
  */
 export const domainDescriptions: Record<string, string> = {
-  'Functions': 'Typesafe Results without Complexity',
-  'Workflows': 'Reliably Execute Business Processes',
-  'Database': 'AI Native Data Access (Search + CRUD)',
-  'Agents': 'Deploy & Manage Autonomous Digital Workers',
-  'Nouns': 'People, Places, Things, and Ideas',
-  'Verbs': 'The Actions Performed to and by Nouns',
-  'Things': 'Data Resources with Properties',
-  'Triggers': 'Initiate workflows based on events',
-  'Searches': 'Query and retrieve data',
-  'Actions': 'Perform tasks within workflows',
-  'LLM': 'Intelligent AI Gateway',
-  'Evals': 'Evaluate Functions, Workflows, and Agents',
-  'Analytics': 'Economically Validate Workflows',
-  'Experiments': 'Test and Iterate AI Components',
-  'Integrations': 'Connect External APIs and Systems',
-  'Models': 'AI Model Selection and Management',
-  'APIs': 'API Gateway for All Services',
-  'Resources': 'Structured Data Objects',
-  
-  'AGI': 'Artificial General Intelligence Research',
-  'Amy': 'Personal AI Assistant',
-  'Ari': 'AI Research Interface',
-  'Nat': 'Network Analysis Tool',
-  'Dara': 'Data Analysis and Reporting',
-  'Tom': 'Task Order Management',
-  'Ivy': 'Intelligent Virtual Assistant',
-  'Lena': 'Language Enhancement and Analysis',
-  'Lexi': 'Lexical Analysis and Processing',
-  
-  'Barcode': 'Barcode Generation and Scanning',
-  'BDR': 'Business Development Resources',
-  'Benchmarks': 'Performance Testing and Comparison',
-  'Blogs': 'Content Management and Publishing',
-  'Bots': 'Automated Task Execution',
-  'Browse': 'Web Browsing and Navigation',
-  'Browser': 'Web Content Rendering',
-  'Browsers': 'Cross-Browser Testing',
-  'Careers': 'Job Listings and Career Development',
-  'CFO': 'Financial Planning and Analysis',
-  'Clickhouse': 'High-Performance Analytics Database',
-  'CMO': 'Marketing Strategy and Execution',
-  'Colo': 'Colocation and Infrastructure',
-  'COO': 'Operations Management',
-  'CPO': 'Product Strategy and Roadmap',
-  'CRO': 'Revenue Optimization',
-  'CTO': 'Technology Strategy and Leadership',
-  'CTX': 'Context Management for AI',
-  'Dash': 'Interactive Data Visualization',
-  'Dashboard': 'Business Intelligence and Metrics',
-  'Dealers': 'Partner and Reseller Management',
-  'Emails': 'Email Composition and Delivery',
-  'Embeddings': 'Vector Representation of Data',
-  'ESBuild': 'JavaScript Bundling and Optimization',
-  'Events': 'Event Management and Processing',
-  'Extract': 'Data Extraction and Transformation',
-  'Function': 'Single Function Execution',
-  'GCP': 'Google Cloud Platform Integration',
-  'GPT': 'Generative Pre-trained Transformer',
-  'Graph': 'Graph Database and Visualization',
-  'Humans': 'Human-in-the-Loop Processes',
-  'Issues': 'Issue Tracking and Resolution',
-  'KPIs': 'Key Performance Indicators',
-  'Lists': 'List Management and Organization',
-  'Lodash': 'Utility Library for JavaScript',
-  'MCP': 'Master Control Program',
-  'MDX': 'Markdown with JSX Support',
-  'OAuth': 'Authentication and Authorization',
-  'Objects': 'Object Storage and Management',
-  'OKRs': 'Objectives and Key Results',
-  'Payload': 'Headless CMS and API',
-  'PDM': 'Product Data Management',
-  'Perf': 'Performance Monitoring and Optimization',
-  'Photos': 'Image Storage and Processing',
-  'PKG': 'Package Management',
-  'Programmers': 'Developer Resources and Tools',
-  'Prxy': 'Proxy Server and Routing',
-  'QRCode': 'QR Code Generation and Scanning',
-  'Queue': 'Message Queue Management',
-  'Repo': 'Repository Management',
-  'Requests': 'HTTP Request Handling',
-  'Research': 'Research and Development',
-  'Responses': 'API Response Formatting',
-  'Scraper': 'Web Scraping and Data Extraction',
-  'SDK': 'Software Development Kit',
-  'SDR': 'Sales Development Resources',
-  'Services': 'Service Discovery and Registry',
-  'Sites': 'Website Management',
-  'Speak': 'Text-to-Speech Conversion',
-  'State': 'State Management for Applications',
-  'Studio': 'Creative Development Environment',
-  'SVC': 'Service Management',
-  'SWE': 'Software Engineering Resources',
-  'Tasks': 'Task Management and Scheduling',
-  'Trace': 'Distributed Tracing',
-  'Traces': 'Execution Path Monitoring',
-  'Trigger': 'Event-Based Execution',
-  'Vectors': 'Vector Database and Operations',
-  'Vehicle': 'Vehicle Data and Management',
-  'Vera': 'Verification and Authentication',
-  'Waitlist': 'Waitlist Management',
-  'Webhook': 'Webhook Registration and Delivery',
-  'Webhooks': 'Event Subscription Management',
-  'Worker': 'Background Task Processing',
-  'Workers': 'Distributed Task Execution',
-  
-  'DotDo': '.do | Economically Valuable Work',
+  Functions: 'Typesafe Results without Complexity',
+  Workflows: 'Reliably Execute Business Processes',
+  Database: 'AI Native Data Access (Search + CRUD)',
+  Agents: 'Deploy & Manage Autonomous Digital Workers',
+  Nouns: 'People, Places, Things, and Ideas',
+  Verbs: 'The Actions Performed to and by Nouns',
+  Things: 'Data Resources with Properties',
+  Triggers: 'Initiate workflows based on events',
+  Searches: 'Query and retrieve data',
+  Actions: 'Perform tasks within workflows',
+  LLM: 'Intelligent AI Gateway',
+  Evals: 'Evaluate Functions, Workflows, and Agents',
+  Analytics: 'Economically Validate Workflows',
+  Experiments: 'Test and Iterate AI Components',
+  Integrations: 'Connect External APIs and Systems',
+  Models: 'AI Model Selection and Management',
+  APIs: 'API Gateway for All Services',
+  Resources: 'Structured Data Objects',
+
+  AGI: 'Artificial General Intelligence Research',
+  Amy: 'Personal AI Assistant',
+  Ari: 'AI Research Interface',
+  Nat: 'Network Analysis Tool',
+  Dara: 'Data Analysis and Reporting',
+  Tom: 'Task Order Management',
+  Ivy: 'Intelligent Virtual Assistant',
+  Lena: 'Language Enhancement and Analysis',
+  Lexi: 'Lexical Analysis and Processing',
+
+  Barcode: 'Barcode Generation and Scanning',
+  BDR: 'Business Development Resources',
+  Benchmarks: 'Performance Testing and Comparison',
+  Blogs: 'Content Management and Publishing',
+  Bots: 'Automated Task Execution',
+  Browse: 'Web Browsing and Navigation',
+  Browser: 'Web Content Rendering',
+  Browsers: 'Cross-Browser Testing',
+  Careers: 'Job Listings and Career Development',
+  CFO: 'Financial Planning and Analysis',
+  Clickhouse: 'High-Performance Analytics Database',
+  CMO: 'Marketing Strategy and Execution',
+  Colo: 'Colocation and Infrastructure',
+  COO: 'Operations Management',
+  CPO: 'Product Strategy and Roadmap',
+  CRO: 'Revenue Optimization',
+  CTO: 'Technology Strategy and Leadership',
+  CTX: 'Context Management for AI',
+  Dash: 'Interactive Data Visualization',
+  Dashboard: 'Business Intelligence and Metrics',
+  Dealers: 'Partner and Reseller Management',
+  Emails: 'Email Composition and Delivery',
+  Embeddings: 'Vector Representation of Data',
+  ESBuild: 'JavaScript Bundling and Optimization',
+  Events: 'Event Management and Processing',
+  Extract: 'Data Extraction and Transformation',
+  Function: 'Single Function Execution',
+  GCP: 'Google Cloud Platform Integration',
+  GPT: 'Generative Pre-trained Transformer',
+  Graph: 'Graph Database and Visualization',
+  Humans: 'Human-in-the-Loop Processes',
+  Issues: 'Issue Tracking and Resolution',
+  KPIs: 'Key Performance Indicators',
+  Lists: 'List Management and Organization',
+  Lodash: 'Utility Library for JavaScript',
+  MCP: 'Master Control Program',
+  MDX: 'Markdown with JSX Support',
+  OAuth: 'Authentication and Authorization',
+  Objects: 'Object Storage and Management',
+  OKRs: 'Objectives and Key Results',
+  Payload: 'Headless CMS and API',
+  PDM: 'Product Data Management',
+  Perf: 'Performance Monitoring and Optimization',
+  Photos: 'Image Storage and Processing',
+  PKG: 'Package Management',
+  Programmers: 'Developer Resources and Tools',
+  Prxy: 'Proxy Server and Routing',
+  QRCode: 'QR Code Generation and Scanning',
+  Queue: 'Message Queue Management',
+  Repo: 'Repository Management',
+  Requests: 'HTTP Request Handling',
+  Research: 'Research and Development',
+  Responses: 'API Response Formatting',
+  Scraper: 'Web Scraping and Data Extraction',
+  SDK: 'Software Development Kit',
+  SDR: 'Sales Development Resources',
+  Services: 'Service Discovery and Registry',
+  Sites: 'Website Management',
+  Speak: 'Text-to-Speech Conversion',
+  State: 'State Management for Applications',
+  Studio: 'Creative Development Environment',
+  SVC: 'Service Management',
+  SWE: 'Software Engineering Resources',
+  Tasks: 'Task Management and Scheduling',
+  Trace: 'Distributed Tracing',
+  Traces: 'Execution Path Monitoring',
+  Trigger: 'Event-Based Execution',
+  Vectors: 'Vector Database and Operations',
+  Vehicle: 'Vehicle Data and Management',
+  Vera: 'Verification and Authentication',
+  Waitlist: 'Waitlist Management',
+  Webhook: 'Webhook Registration and Delivery',
+  Webhooks: 'Event Subscription Management',
+  Worker: 'Background Task Processing',
+  Workers: 'Distributed Task Execution',
+
+  DotDo: '.do | Economically Valuable Work',
 }
 
 /**
  * Related domains (without .do suffix)
  */
 export const relatedDomains: Record<string, string[]> = {
-  'functions': ['nouns', 'verbs', 'things', 'function', 'resources'],
-  'workflows': ['triggers', 'searches', 'actions', 'tasks', 'events'],
-  'database': ['evals', 'analytics', 'experiments', 'vectors', 'graph', 'objects'],
-  'agents': ['integrations', 'models', 'humans', 'bots', 'workers'],
-  'llm': ['evals', 'analytics', 'experiments', 'gpt', 'embeddings'],
-  'nouns': ['things', 'objects', 'humans'],
-  'verbs': ['actions', 'tasks', 'triggers'],
-  'things': ['nouns', 'objects', 'data'],
-  'resources': ['nouns', 'objects', 'data'],
-  'triggers': ['events', 'webhooks', 'actions'],
-  'searches': ['vectors', 'embeddings', 'graph'],
-  'actions': ['tasks', 'workflows', 'functions'],
-  'evals': ['benchmarks', 'experiments', 'analytics'],
-  'analytics': ['dashboard', 'kpis', 'experiments'],
-  'experiments': ['evals', 'analytics', 'research'],
-  'integrations': ['apis', 'services', 'webhooks'],
-  'models': ['llm', 'gpt', 'embeddings'],
+  functions: ['nouns', 'verbs', 'things', 'function', 'resources'],
+  workflows: ['triggers', 'searches', 'actions', 'tasks', 'events'],
+  database: ['evals', 'analytics', 'experiments', 'vectors', 'graph', 'objects'],
+  agents: ['integrations', 'models', 'humans', 'bots', 'workers'],
+  llm: ['evals', 'analytics', 'experiments', 'gpt', 'embeddings'],
+  nouns: ['things', 'objects', 'humans'],
+  verbs: ['actions', 'tasks', 'triggers'],
+  things: ['nouns', 'objects', 'data'],
+  resources: ['nouns', 'objects', 'data'],
+  triggers: ['events', 'webhooks', 'actions'],
+  searches: ['vectors', 'embeddings', 'graph'],
+  actions: ['tasks', 'workflows', 'functions'],
+  evals: ['benchmarks', 'experiments', 'analytics'],
+  analytics: ['dashboard', 'kpis', 'experiments'],
+  experiments: ['evals', 'analytics', 'research'],
+  integrations: ['apis', 'services', 'webhooks'],
+  models: ['llm', 'gpt', 'embeddings'],
 }
 
 /**
  * Domain symbols (without .do suffix)
  */
 export const domainSymbols: Record<string, string> = {
-  '入': 'functions',
-  '巛': 'workflows',
-  '彡': 'database',
-  '人': 'agents',
-  '回': 'nouns',
-  '亘': 'verbs',
-  '目': 'things',
-  '田': 'triggers',
-  '卌': 'searches',
-  '口': 'actions',
+  入: 'functions',
+  巛: 'workflows',
+  彡: 'database',
+  人: 'agents',
+  回: 'nouns',
+  亘: 'verbs',
+  目: 'things',
+  田: 'triggers',
+  卌: 'searches',
+  口: 'actions',
 }
 
 export const domains = [
@@ -720,6 +724,8 @@ export const sdks = [
   'mcp.do',
   'models.do',
   'sdks.do',
+  'services.do',
+  'studio.do',
   'tasks.do',
   'workflows.do',
 ]

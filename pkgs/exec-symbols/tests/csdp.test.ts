@@ -11,22 +11,22 @@ describe('Conceptual Schema Design Procedure (CSDP)', () => {
   // Test for step 1: Transform familiar information examples
   it.skip('should transform information examples into elementary facts (to be implemented)', () => {
     // This test is skipped because the functionality is not yet implemented
-    
+
     // Example input: "A car has a manufacturer and a model"
-    const input = "A car has a manufacturer and a model"
-    
+    const input = 'A car has a manufacturer and a model'
+
     // Future expected implementation:
     // const facts = CSDP.transformToFacts(input)
-    // expect(facts).toContainEqual({ 
-    //   type: 'FactType', 
-    //   verb: 'has', 
+    // expect(facts).toContainEqual({
+    //   type: 'FactType',
+    //   verb: 'has',
     //   object1: 'car',
     //   object2: 'manufacturer',
     //   reading: '{car} has {manufacturer}'
     // })
-    // expect(facts).toContainEqual({ 
-    //   type: 'FactType', 
-    //   verb: 'has', 
+    // expect(facts).toContainEqual({
+    //   type: 'FactType',
+    //   verb: 'has',
     //   object1: 'car',
     //   object2: 'model',
     //   reading: '{car} has {model}'
@@ -62,7 +62,7 @@ describe('Conceptual Schema Design Procedure (CSDP)', () => {
     // })
   })
 
-  // Test for step 4: Add uniqueness constraints  
+  // Test for step 4: Add uniqueness constraints
   it.skip('should add uniqueness constraints (to be implemented)', () => {
     // Future expected implementation:
     // const constraints = CSDP.addUniquenessConstraints(factTypes)
@@ -108,4 +108,4 @@ describe('Conceptual Schema Design Procedure (CSDP)', () => {
     // expect(finalSchema.factTypes).toContain('Car has Manufacturer')
     // expect(finalSchema.constraints).toHaveLength(expectedConstraintCount)
   })
-}) 
+})

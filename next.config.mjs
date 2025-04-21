@@ -24,10 +24,11 @@ const withNextra = nextra({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
-  transpilePackages: [], // Reduce transpiled packages
+  transpilePackages: ['payload-utils', 'simple-payload', 'clickable-apis', 'payload-agent'], // Include internal packages
 
   turbopack: {
-    
+    // Using Turbopack for faster builds and better performance
+    resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
   },
   webpack: (config, { isServer, dev, buildId, config: { distDir } }) => {
     // Add YAML loader for all contexts
@@ -96,7 +97,6 @@ const nextConfig = {
         'net': false,
       };
     }
-    
     return config
   },
 }
@@ -111,7 +111,7 @@ export default analyzeBundles(
     withPayload(nextConfig, {
       devBundleServerPackages: false,
       adminRoute: '/admin',
-      configPath: path.resolve(dirname, 'app/(admin)'),
+      configPath: path.resolve(dirname), // Point to root directory where payload.config.ts exists
     }),
   ),
 )

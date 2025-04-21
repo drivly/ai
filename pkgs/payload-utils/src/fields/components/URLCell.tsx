@@ -12,19 +12,11 @@ type URLCellProps = {
   className?: string
 }
 
-export const URLCell: React.FC<URLCellProps> = ({ 
-  cellData, 
-  className 
-}) => {
+export const URLCell: React.FC<URLCellProps> = ({ cellData, className }) => {
   if (!cellData) return null
-  
+
   return (
-    <a 
-      href={cellData} 
-      target="_blank" 
-      rel="noopener noreferrer"
-      className={`underline text-blue-500 hover:text-blue-700 ${className || ''}`}
-    >
+    <a href={cellData} target='_blank' rel='noopener noreferrer' className={`text-blue-500 underline hover:text-blue-700 ${className || ''}`}>
       {cellData}
     </a>
   )

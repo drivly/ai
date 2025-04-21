@@ -23,18 +23,10 @@ describe('regex', () => {
     'gemini(Markdown)',
     'opensource(Code:TypeScript,code)',
     'r1(output:{address:string,phoneNumber:number},cost)',
-    'frontier(dealReviewBenchmark>75)'
+    'frontier(dealReviewBenchmark>75)',
   ]
 
-  const invalidTestCases = [
-    'gemini@test@hello(',
-    'gemini@test@hello(**)',
-    '**gemini@test@hello(**',
-    'gpt-4o(test',
-    'gpt-4o)test(',
-    'gemini)',
-    '(reasoning)',
-  ]
+  const invalidTestCases = ['gemini@test@hello(', 'gemini@test@hello(**)', '**gemini@test@hello(**', 'gpt-4o(test', 'gpt-4o)test(', 'gemini)', '(reasoning)']
 
   for (const testCase of testCases) {
     it(`should match ${testCase}`, () => {

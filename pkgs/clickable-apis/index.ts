@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server.js'
 import punycode from 'punycode'
 import {
   PayloadDB,
@@ -224,9 +224,7 @@ export const createAPI = (
         }
 
         const packageName = getDomainPackageName(domain)
-        const sdkUrl = sdks.includes(packageName) ? 
-          `https://npmjs.com/${packageName}` : 
-          'https://npmjs.com/workflows.do'
+        const sdkUrl = sdks.includes(packageName) ? `https://npmjs.com/${packageName}` : 'https://npmjs.com/workflows.do'
 
         const apiHeader: ApiHeader = {
           name: domain,

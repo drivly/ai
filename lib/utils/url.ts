@@ -11,9 +11,9 @@
 export const getCurrentURL = (headers?: Headers) => {
   // In server components or API routes where headers are available, use the host
   if (headers?.get('host')) {
+    const proto = headers.get('x-forwarded-proto') || 'https'
     const host = headers.get('host')
-    const protocol = host?.includes('localhost') ? 'http' : 'https'
-    const url = `${protocol}://${host}`
+    const url = `${proto}://${host}`
     console.log('🚀 ~ derived from headers:', url)
     return url
   }
@@ -21,6 +21,7 @@ export const getCurrentURL = (headers?: Headers) => {
   // For development environment
   if (process.env.NODE_ENV === 'development') {
     console.log('🚀 ~ localhost URL: http://localhost:3000')
+    return 'http://localhost:3000'
   }
 
   if (process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) {
@@ -43,37 +44,26 @@ export const getCurrentURL = (headers?: Headers) => {
 /**
  * Gets the appropriate redirect path after authentication based on the domain
  */
-export const getAuthRedirectForDomain = (hostname: string): string => {
-  if (hostname.endsWith('.do') && !hostname.includes('apis.do')) {
-    return `/admin/collections/${hostname.replace('.do', '')}`
-  }
-
-  return '/admin'
-}
-
-export const getDomainFromURL = (url?: string): string => {
-  // Use the provided URL or get the current URL
-  const currentUrl = url || getCurrentURL()
-
-  try {
-    // Extract just the hostname
-    const urlObj = new URL(currentUrl)
-
-    // Include port with domain if it exists, otherwise just return the hostname
-    return urlObj.port ? `${urlObj.hostname}:${urlObj.port}` : urlObj.hostname
-  } catch (e) {
-    console.error('Error parsing URL:', e)
-    return 'apis.do' // Fallback to default domain
+export const getAuthRedirectForDomain = (hostname: string, destination: string) => {
+  switch (destination) {
+    case 'admin':
+      if (hostname.endsWith('.do') && !hostname.includes('apis.do')) {
+        return `/admin/collections/${hostname.replace('.do', '')}`
+      }
+      return '/admin'
+    case 'waitlist':
+      return '/waitlist'
+    default:
+      return '/'
   }
 }
 
-export const getOAuthCallbackURL = (provider: 'google' | 'github', url?: string): string => {
-  const domain = getDomainFromURL(url)
-
-  // Use localhost URL for development, otherwise use the detected domain
-  if (domain === 'localhost' || domain.includes('localhost:')) {
-    return `http://${domain}/api/auth/callback/${provider}`
+export const getOAuthCallbackURL = (provider: 'google' | 'github' | 'workos' | 'linear', url?: string): string => {
+  if (process.env.NODE_ENV === 'development') {
+    const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
+    return `${baseUrl}/api/auth/callback/${provider}`
   }
 
-  return `https://apis.do/api/auth/callback/${provider}`
+  const baseUrl = url ? new URL(url).origin : getCurrentURL()
+  return `${baseUrl}/api/auth/callback/${provider}`
 }

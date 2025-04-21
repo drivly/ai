@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic'
 
 async function DirectoryPage() {
   const { categories } = sitesConfig
-  
+
   return (
     <div className='container mx-auto max-w-6xl px-3 pt-5 pb-20 md:pb-40'>
       <HeroSection
@@ -38,3 +38,5 @@ export default withSitesWrapper({ WrappedPage: DirectoryPage })
 // experiments.do uses vercel flags api...
 // .do
 // Process domain categories once
+
+// generateMetadata canonical url dotdo.ai

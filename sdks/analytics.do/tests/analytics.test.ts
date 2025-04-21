@@ -9,8 +9,7 @@ describe('Analytics SDK', () => {
     expect(analytics.trackPageView).toBeDefined()
   })
 
-  it('tracks metrics', async () => {
-  }, { skip: true })
+  it('tracks metrics', async () => {}, { skip: true })
 
   it('defines experiments', () => {
     const experiment = defineExperiment({

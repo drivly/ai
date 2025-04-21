@@ -1,22 +1,23 @@
 ---
-title: Overview
+title: Services-as-Software
 # asIndexPage: true
 ---
 
 import { Cards } from 'nextra/components'
 
-# `.do` Business-as-Code
+# `.do` Services-as-Software
 
 AI is getting extremely good at skills like math & code, because the outputs are verifiable. By representing your [Business-as-Code](/docs/manifesto), you can leverage the power of AI to automate, optimize, and scale your business processes.
 
 ## AI
 
-[Workflows](/docs/workflows) let you define business processes as clean & simple code. [Functions](/docs/functions) can also execute code, use AI to generate structured data, or assign tasks to be performed by humans workers or autonomous [Agents](/docs/agents).
+[Workflows](/docs/workflows) let you define business processes as clean & simple code. [Functions](/docs/functions) can also execute code, use AI to generate structured data, or assign tasks to be performed by humans workers or autonomous [Agents](/docs/agents). [Services](/docs/services) enable Workflows and Functions to be delivered for payment
 
-<Cards>
+<Cards num={4} style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(15ch,100%),1fr))' }}>
   <Cards.Card title='Workflows.do' href='/docs/workflows' />
   <Cards.Card title='Functions.do' href='/docs/functions' />
   <Cards.Card title='Agents.do' href='/docs/agents' />
+  <Cards.Card title='Services.do' href='/docs/services' />
 </Cards>
 
 ## Business
@@ -83,4 +84,3 @@ AI is getting extremely good at skills like math & code, because the outputs are
   <Cards.Card title='LLM.do' href='/docs/experiments/models' />
   <Cards.Card title='GPT.do' href='/docs/experiments/models' />
 </Cards>
-

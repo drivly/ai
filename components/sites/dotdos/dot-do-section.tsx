@@ -10,22 +10,22 @@ import { useSitesData } from './useSitesData'
 
 export interface DotDoSectionProps {
   categories: Array<{
-    name: string;
+    name: string
     sites: Array<{
-      domain: string;
-      title: string;
-      description: string;
-      headline?: string;
-      subhead?: string;
-      badge?: string;
-      brandColor?: string;
-      tags?: string[];
+      domain: string
+      title: string
+      description?: string
+      headline?: string
+      subhead?: string
+      badge?: string
+      brandColor?: string
+      tags?: string[]
       links?: Array<{
-        title: string;
-        url: string;
-      }>;
-    }>;
-  }>;
+        title: string
+        url: string
+      }>
+    }>
+  }>
 }
 
 export const DotDoSection = (props: DotDoSectionProps) => {
@@ -36,7 +36,7 @@ export const DotDoSection = (props: DotDoSectionProps) => {
   return (
     <Fragment>
       <div className='mb-16'>
-        {!isBrandDomain && (
+        {(!isBrandDomain && (mounted || process.env.NODE_ENV !== 'development')) && (
           <div className='mb-8 flex items-center space-x-2'>
             <span className='mr-2 text-sm font-medium opacity-70'>Show URLs as:</span>
             <div className='flex items-center space-x-4'>
@@ -68,9 +68,9 @@ export const DotDoSection = (props: DotDoSectionProps) => {
           <h2 className='mt-16 mb-6 text-2xl font-bold'>{category.name}</h2>
           <div className='mb-16 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
             {category.sites.map((site, index) => {
-              const domain = site.domain;
-              const displayDomain = domain.replace(/\.do(\.gt|\.mw)?$/, '.do');
-              const domainSuffix = process.env.DOMAIN_SUFFIX || '';
+              const domain = site.domain
+              const displayDomain = domain.replace(/\.do(\.gt|\.mw)?$/, '.do')
+              const domainSuffix = process.env.DOMAIN_SUFFIX || ''
 
               return (
                 <DotDoItem

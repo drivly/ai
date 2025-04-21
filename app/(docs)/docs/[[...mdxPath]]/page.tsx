@@ -7,6 +7,20 @@ type Props = {
   params: Promise<{ mdxPath: string[] }>
 }
 
+// export const metadata = {
+//   metadataBase: new URL('https://acme.com'),
+//   alternates: {
+//     canonical: '/',
+//     languages: {
+//       'en-US': '/en-US',
+//       'de-DE': '/de-DE',
+//     },
+//   },
+//   openGraph: {
+//     images: '/og-image.png',
+//   },
+// }
+
 export async function generateMetadata(props: Props) {
   const params = await props.params
   const { metadata } = await importPage(params.mdxPath)

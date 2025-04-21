@@ -1,16 +1,9 @@
 import camelCase from 'camelcase'
 import { flatten, unflatten } from 'flat'
 
-const overwrites = {};
+const overwrites = {}
 
-const sortingValues = [
-  'top-weekly',
-  'newest',
-  'throughput-high-to-low',
-  'latency-low-to-high',
-  'pricing-low-to-high',
-  'pricing-high-to-low'
-]
+const sortingValues = ['top-weekly', 'newest', 'throughput-high-to-low', 'latency-low-to-high', 'pricing-low-to-high', 'pricing-high-to-low']
 
 function camelCaseDeep<T>(input: T): T {
   if (Array.isArray(input)) {
@@ -33,7 +26,7 @@ function camelCaseDeep<T>(input: T): T {
 async function fetchProviders(slug: string) {
   const url = `https://openrouter.ai/api/frontend/stats/endpoint?permaslug=${slug}`
 
-  const response = await fetch(url).then((res) => res.json()) as { data: any }
+  const response = (await fetch(url).then((res) => res.json())) as { data: any }
 
   return camelCaseDeep(response.data || [])
 }
@@ -44,18 +37,22 @@ async function main() {
 
     console.log('Fetching models data from OpenRouter...')
 
-    const data = (await Promise.all(sortingValues.map(async (sortingValue) => {
-      const URL = `https://openrouter.ai/api/frontend/models/find?order=${sortingValue}`
-      console.log(`Fetching ${URL}...`)
-      const response = await fetch(URL).then((res) => res.json()) as { data: any }
-      return [
-        sortingValue,
-        camelCaseDeep(response.data)
-      ]
-    }))).reduce((acc, [sortingValue, models]) => {
-      acc[sortingValue] = models
-      return acc
-    }, {} as Record<string, any>)
+    const data = (
+      await Promise.all(
+        sortingValues.map(async (sortingValue) => {
+          const URL = `https://openrouter.ai/api/frontend/models/find?order=${sortingValue}`
+          console.log(`Fetching ${URL}...`)
+          const response = (await fetch(URL).then((res) => res.json())) as { data: any }
+          return [sortingValue, camelCaseDeep(response.data)]
+        }),
+      )
+    ).reduce(
+      (acc, [sortingValue, models]) => {
+        acc[sortingValue] = models
+        return acc
+      },
+      {} as Record<string, any>,
+    )
 
     const models = data['top-weekly']
 
@@ -71,15 +68,17 @@ async function main() {
       // Find the model in the other sorting values
       // Then add a sorting object that has the index of the model in the other sorting values
 
-      const modelIndexes = sortingValues.map((sortingValue) => {
-        const models = data[sortingValue]
-        const index = models.models.findIndex((m) => m.slug === model.slug)
-        return {
-          [camelCase(sortingValue)]: index
-        }
-      }).reduce((acc, curr) => {
-        return { ...acc, ...curr }
-      }, {})
+      const modelIndexes = sortingValues
+        .map((sortingValue) => {
+          const models = data[sortingValue]
+          const index = models.models.findIndex((m) => m.slug === model.slug)
+          return {
+            [camelCase(sortingValue)]: index,
+          }
+        })
+        .reduce((acc, curr) => {
+          return { ...acc, ...curr }
+        }, {})
 
       const mergedModel = { ...model, sorting: modelIndexes }
 
@@ -90,15 +89,13 @@ async function main() {
 
     const providerAliases = {
       'Google AI Studio': 'google',
-      'Google Vertex': 'vertex'
+      'Google Vertex': 'vertex',
     }
 
     let completed = 0
 
     for (const model of modelsData) {
-      console.log(
-        `[PROVIDERS] Fetching provider metadata for ${model.permaslug}...`
-      )
+      console.log(`[PROVIDERS] Fetching provider metadata for ${model.permaslug}...`)
 
       const providers = await fetchProviders(model.permaslug)
       model.providers = providers.map((provider) => {
@@ -107,10 +104,12 @@ async function main() {
         const priceToDollars = (price: string) => {
           // To get the dollar price, we need to multiply the price by a million.
           const priceNumber = parseFloat(price)
-          return Number((priceNumber * 1000000)
-          .toFixed(2)
-          // Remove trailing zeros
-          .replace(/\.?0+$/, ''))
+          return Number(
+            (priceNumber * 1000000)
+              .toFixed(2)
+              // Remove trailing zeros
+              .replace(/\.?0+$/, ''),
+          )
         }
 
         return {
@@ -119,13 +118,14 @@ async function main() {
           quantization: provider.quantization,
           context: provider.contextLength,
           maxCompletionTokens: provider.maxCompletionTokens,
+          providerModelId: provider.providerModelId,
           pricing: provider.pricing,
           // Disable claude's reasoning parameter as it's only supported via the :thinking tag.
           supportedParameters: model.slug === 'anthropic/claude-3.7-sonnet' ? ['max_tokens', 'temperature', 'stop', 'tools', 'tool_choice'] : provider.supportedParameters,
           inputCost: priceToDollars(provider.pricing.prompt),
           outputCost: priceToDollars(provider.pricing.completion),
           throughput: provider.stats?.[0]?.p50Throughput,
-          latency: provider.stats?.[0]?.p50Latency
+          latency: provider.stats?.[0]?.p50Latency,
         }
       })
 
@@ -136,8 +136,8 @@ async function main() {
     // Write to models.json in src directory
     const { resolve } = await import('node:path')
     const { writeFileSync } = await import('node:fs')
-    
-    const outputPath = resolve('./src/models.ts')
+
+    const outputPath = resolve('./src/models.js')
     writeFileSync(outputPath, `export default ${JSON.stringify({ models: modelsData }, null, 2)}`)
 
     console.log(`Models data written to ${outputPath}`)

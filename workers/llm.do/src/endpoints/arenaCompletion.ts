@@ -27,7 +27,7 @@ export class ArenaCompletion extends OpenAPIRoute {
         prompt: z.string().describe('The user prompt').optional(),
         system: z.string().optional().describe('Optional system message'),
         model: z.string().optional().describe('Model to use for the chat'),
-        models: z.string().regex(new RegExp(modelPattern)).optional().describe('Comma-separated list of models to use for the chat'),
+        models: z.string().regex(modelPattern).optional().describe('Comma-separated list of models to use for the chat'),
         tools: z.string().optional().describe('Comma-separated list of tools to use for the chat (or "all" for all tools)'),
         Authorization: z.string().describe('Bearer token').optional(),
       }),

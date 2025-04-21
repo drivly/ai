@@ -55,8 +55,8 @@ const callAPI = async (request: any) => {
         functionName: request.functionName,
         args: request.input || {},
         schema: request.schema,
-        settings: request.config
-      }
+        settings: request.config,
+      },
     }),
   })
 
@@ -127,8 +127,8 @@ const callMarkdownAPI = async (request: any): Promise<MarkdownOutput> => {
         functionName: request.functionName,
         args: request.input || {},
         schema: request.schema,
-        settings: { ...request.config, format: 'markdown' } // Specify markdown format
-      }
+        settings: { ...request.config, format: 'markdown' }, // Specify markdown format
+      },
     }),
   })
 
@@ -306,3 +306,5 @@ export const ai = new Proxy(
     },
   },
 ) as AI_Instance
+
+export { research } from './src/ai'
