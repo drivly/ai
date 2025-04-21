@@ -51,7 +51,7 @@ export const POST = API(async (request, { db, user }) => {
     if (typeof data.cfWorkerDomains === 'string') {
       cfWorkerDomains = [{ domain: data.cfWorkerDomains }]
     } else if (Array.isArray(data.cfWorkerDomains)) {
-      cfWorkerDomains = data.cfWorkerDomains.map(domain => {
+      cfWorkerDomains = data.cfWorkerDomains.map((domain: string | { domain: string }) => {
         if (typeof domain === 'string') {
           return { domain }
         }
