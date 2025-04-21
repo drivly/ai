@@ -1,11 +1,6 @@
 import { API } from 'apis.do'
 import { ExperimentEvaluationResult, EvaluationParams, EvaluationResult, ExperimentSummary } from './types.js'
 
-interface BattleScorer {
-  name: string
-  score: (output: any, expected: any) => { score: number; details: Record<string, any> }
-}
-
 /**
  * Generates all possible combinations (cartesian product) of values from arrays in an object
  * @param spec - An object with arrays as values
@@ -82,7 +77,7 @@ export async function experiment<T, E>(
   const needsBaselines = !config.expected || !config.scorers || config.scorers.length === 0
   
   const baselineOutputs: Record<number, any> = {}
-  let battleScorer: BattleScorer | undefined = undefined
+  let battleScorer: any = undefined
   
   if (needsBaselines && combinations.length > 0) {
     const firstVariation = combinations[0]
@@ -130,19 +125,19 @@ export async function experiment<T, E>(
       }
     }
     
-    battleScorer = {
-      name: 'Battle',
-      score: (output: any, expected: any) => {
-        const matches = JSON.stringify(output) === JSON.stringify(expected)
-        return {
-          score: matches ? 1 : 0,
-          details: {
-            matches,
-            comparison: `Comparing output to baseline`,
-          },
-        }
-      },
+    // Create a Battle-like scorer function that compares outputs against baselines
+    function Battle({ output, expected }: { output: any, expected: any }) {
+      const matches = JSON.stringify(output) === JSON.stringify(expected)
+      return {
+        score: matches ? 1 : 0,
+        details: {
+          matches,
+          comparison: `Comparing output to baseline`,
+        },
+      }
     }
+    
+    battleScorer = Battle
   }
   
   const combinationsToProcess = needsBaselines ? combinations.slice(1) : combinations
