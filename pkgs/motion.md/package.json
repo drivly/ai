@@ -58,7 +58,7 @@
     "remark-stringify": "^11.0.0",
     "remotion": "^4.0.0",
     "unified": "^11.0.4",
-    "zod": "^3.22.4"
+    "zod": "^3.24.3"
   },
   "peerDependencies": {
     "react": "^18.0.0",
