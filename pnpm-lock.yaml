@@ -31,8 +31,8 @@ importers:
         specifier: ^0.1.6
         version: 0.1.6
       '@ip-location-db/asn':
-        specifier: ^2.3.2025040218
-        version: 2.3.2025041418
+        specifier: ^2.3.2025042018
+        version: 2.3.2025042018
       '@linear/sdk':
         specifier: ^39.0.0
         version: 39.0.0(encoding@0.1.13)
@@ -4313,8 +4313,8 @@ packages:
   '@internationalized/number@3.6.1':
     resolution: {integrity: sha512-UVsb4bCwbL944E0SX50CHFtWEeZ2uB5VozZ5yDXJdq6iPZsZO5p+bjVMZh2GxHf4Bs/7xtDCcPwEa2NU9DaG/g==}
 
-  '@ip-location-db/asn@2.3.2025041418':
-    resolution: {integrity: sha512-yHVqI+JWsHqG2EU6JkJsdqD/GicTUb4XlnfSn4vShvKSDwBK+3nzDyVFFxRu8TNgFp8g7zbvY40rzEFEY8DEPQ==}
+  '@ip-location-db/asn@2.3.2025042018':
+    resolution: {integrity: sha512-FmY/1HaI/Eus2xTjwuhYH2ssKy/irAculsrGE2oEKbuwuPHF6MTZt0a3JTBmI/f2sfDzn/BlJctLnauryZrfLA==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -20575,7 +20575,7 @@ snapshots:
     dependencies:
       '@swc/helpers': 0.5.17
 
-  '@ip-location-db/asn@2.3.2025041418': {}
+  '@ip-location-db/asn@2.3.2025042018': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
