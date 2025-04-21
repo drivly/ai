@@ -12,7 +12,7 @@ interface ChatMessage {
 }
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || '',
 })
 
 export const GET = API(async (req, { db, user, payload }) => {
@@ -147,7 +147,7 @@ export const POST = API(async (req, { user, payload }) => {
   const streamProcessor = async () => {
     try {
       const completion = await openai.chat.completions.create({
-        model: chat.metadata?.model || 'gpt-4',
+        model: chat.metadata?.model || 'gpt-4.1',
         messages: [
           { role: 'system', content: 'You are a helpful assistant.' },
           ...messages.map((m: ChatMessage) => {

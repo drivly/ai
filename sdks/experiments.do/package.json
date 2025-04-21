@@ -47,11 +47,11 @@
     "test:e2e": "vitest run tests/e2e/**/*.test.ts"
   },
   "dependencies": {
-    "apis.do": "workspace:*"
+    "apis.do": "workspace:*",
+    "evalite": "^0.10.0"
   },
   "devDependencies": {
     "eslint-config": "workspace:*",
-    "evalite": "^0.10.0",
     "vitest": "^3.0.9",
     "tsconfig": "workspace:*",
     "tsup": "^8.0.1"

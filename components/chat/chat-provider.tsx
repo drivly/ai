@@ -1,10 +1,9 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { ChatProvider as PayloadChatProvider } from '@/pkgs/payload-agent/src/components/store/context';
+import { ChatProvider as PayloadChatProvider, useChatMessages } from '../../pkgs/payload-agent/src/components/store/context';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { useChatMessages } from '@/pkgs/payload-agent/src/components/store/context';
 
 export function ChatProvider({
   children,
@@ -40,7 +39,14 @@ function ChatRedirect({
   React.useEffect(() => {
     if (isNewChat && messages.length > 0 && chatId === 'new') {
       const newChatId = crypto.randomUUID();
-      router.replace(`/chat/${newChatId}`);
+      const pathname = window.location.pathname;
+      if (pathname.startsWith('/gpt.do')) {
+        router.replace(`/gpt.do/chat/${newChatId}`);
+      } else if (pathname.startsWith('/chat-ui')) {
+        router.replace(`/chat-ui/chat/${newChatId}`);
+      } else {
+        router.replace(`/chat/${newChatId}`);
+      }
     }
   }, [isNewChat, messages.length, chatId, router]);
 
