@@ -75,7 +75,7 @@
     "@code-hike/mdx": "^0.9.0",
     "@drivly/payload-agent": "workspace:*",
     "@graphdl/core": "^0.1.6",
-    "@ip-location-db/asn": "^2.3.2025040218",
+    "@ip-location-db/asn": "^2.3.2025042018",
     "@linear/sdk": "^39.0.0",
     "@octokit/rest": "^21.1.1",
     "@payloadcms/db-mongodb": "^3.33.0",
