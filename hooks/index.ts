@@ -1,6 +1,7 @@
 import { useSession } from '../lib/auth/auth-client';
 import { useState, useRef, useCallback } from 'react';
 import type { Attachment } from 'ai';
+import type { AttachmentFile } from '../pkgs/payload-agent/src/components/ui/file-preview';
 
 export const useAuthResult = ({ initialAuthResult, getAuthResult }: any) => {
   return initialAuthResult;
@@ -11,7 +12,7 @@ export const useCommand = () => {
 };
 
 export const useChatInputMethods = () => {
-  const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const [attachments, setAttachments] = useState<AttachmentFile[]>([]);
   const [disabled, setDisabled] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -26,17 +27,33 @@ export const useChatInputMethods = () => {
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     
-    const newAttachments = files.map(file => ({
-      url: URL.createObjectURL(file),
-      name: file.name,
-      contentType: file.type,
-    }));
+    const newAttachments = files.map(file => {
+      const id = crypto.randomUUID();
+      const fileType = file.type.startsWith('image/') 
+        ? 'image' 
+        : file.type === 'application/pdf' 
+          ? 'pdf' 
+          : 'other';
+          
+      return {
+        id,
+        file,
+        type: fileType,
+        url: URL.createObjectURL(file),
+        isUploading: false,
+        uploadProgress: 0,
+        metadata: {
+          name: file.name,
+          size: file.size
+        }
+      } as AttachmentFile;
+    });
     
     setAttachments(prev => [...prev, ...newAttachments]);
   }, []);
 
-  const removeAttachment = useCallback((url: string) => {
-    setAttachments(prev => prev.filter(a => a.url !== url));
+  const removeAttachment = useCallback((id: string) => {
+    setAttachments(prev => prev.filter(a => a.id !== id));
   }, []);
 
   const submitForm = useCallback(() => {
