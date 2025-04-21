@@ -2,7 +2,7 @@ import React from 'react';
 import { ChatHeader } from '@/components/chat/chat-header';
 import { auth } from '@/auth.config';
 import { redirect } from 'next/navigation';
-import { Content } from '@/pkgs/payload-agent/src/components/chat/chat-container';
+import { ChatContent } from '@/components/chat/chat-content';
 import { ChatProvider } from '@/components/chat/chat-provider';
 
 export default async function ChatPage({
@@ -23,7 +23,7 @@ export default async function ChatPage({
       <ChatHeader chatId={id} />
       <ChatProvider chatId={id}>
         <div className="flex-1 overflow-hidden">
-          <Content />
+          <ChatContent />
         </div>
       </ChatProvider>
     </div>

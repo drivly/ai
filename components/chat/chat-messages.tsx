@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import { Message, ThinkingMessage } from '@/components/chat/message';
-import { useChatMessages, useChatStatus } from '@/pkgs/payload-agent/src/components/store/context';
+import { useChatMessages, useChatStatus } from './chat-context';
 
 export function ChatMessages() {
   const { messages } = useChatMessages();
