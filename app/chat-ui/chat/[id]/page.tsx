@@ -1,9 +1,9 @@
 import React from 'react';
-import { ChatHeader } from '../../../../components/chat/chat-header';
-import { auth } from '../../../../auth.config';
+import { ChatHeader } from '@/components/chat/chat-header';
+import { auth } from '@/auth.config';
 import { redirect } from 'next/navigation';
-import { Content } from '../../../../pkgs/payload-agent/src/components/chat/chat-container';
-import { ChatProvider } from '../../../../components/chat/chat-provider';
+import { Content } from '@/pkgs/payload-agent/src/components/chat/chat-container';
+import { ChatProvider } from '@/components/chat/chat-provider';
 
 export default async function ChatPage({
   params,
