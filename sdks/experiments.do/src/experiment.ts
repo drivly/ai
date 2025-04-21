@@ -51,21 +51,29 @@ export async function experiment<T, E>(
   config: {
     models: string[]
     temperature: number | number[]
-    seeds: number
-    prompt: (params: { input: any }) => string[]
-    inputs: () => Promise<T[]>
+    seeds?: number
+    prompt?: ((params: { input: any }) => string[]) | Function
+    inputs?: () => Promise<T[]>
     expected?: E
-    schema: any
+    schema?: any
     scorers?: any[]
+    data?: any[]
+    system?: (string | undefined)[]
     batch?: {
       enabled: boolean | number
       provider?: string
       providerConfig?: Record<string, any>
     }
   },
-){
+) {
+  // Handle new format vs old format
+  if (config.data && !config.inputs) {
+    console.log('Using alternative experiment API format for', name);
+    return legacyExperiment(name, config as any);
+  }
+  
   const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
-  const seeds = Array.from({ length: config.seeds }, (_, i) => i + 1)
+  const seeds = config.seeds ? Array.from({ length: config.seeds }, (_, i) => i + 1) : [1]
   
   const combinations = cartesian({
     model: config.models,
@@ -73,7 +81,7 @@ export async function experiment<T, E>(
     seed: seeds,
   })
 
-  const inputs = await config.inputs()
+  const inputs = config.inputs ? await config.inputs() : []
   
   const api = new API({ baseUrl: 'https://llm.do/api' })
   
@@ -87,7 +95,7 @@ export async function experiment<T, E>(
   }
   const results: ExperimentEvaluationResult[] = []
   
-  const needsBaselines = !config.expected || !config.scorers || config.scorers.length === 0
+  const needsBaselines = !config.expected || !config.scorers || config.scorers?.length === 0
   
   const baselineOutputs: Record<number, any> = {}
   let battleScorer: any = undefined
@@ -98,7 +106,7 @@ export async function experiment<T, E>(
     
     for (const input of inputs) {
       const inputIndex = inputs.indexOf(input)
-      const prompts = config.prompt({ input })
+      const prompts = config.prompt ? (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : []
       const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputIndex}_baseline`
       
       try {
@@ -159,7 +167,7 @@ export async function experiment<T, E>(
     const inputIndex = inputs.indexOf(input)
     
     for (const { model, temperature, seed } of combinationsToProcess) {
-      const prompts = config.prompt({ input })
+      const prompts = config.prompt ? (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : []
       const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputIndex}`
       
       try {
@@ -216,7 +224,7 @@ export async function experiment<T, E>(
  * This implementation uses evalite patterns but without direct dependency.
  */
 async function runEvaluation(params: EvaluationParams & { api: API }): Promise<EvaluationResult> {
-  const { model, temperature, seed, prompts, input, expected, schema, scorers, api } = params
+  const { model, temperature, seed, prompts, input, expected, schema, scorers = [], api } = params
   
   try {
     const response = await api.post('/completions', {
@@ -234,8 +242,9 @@ async function runEvaluation(params: EvaluationParams & { api: API }): Promise<E
     
     const modelOutput = responseData.data?.choices?.[0]?.message?.content || ''
     
+    const scorersToUse = scorers || [];
     const scores = await Promise.all(
-      scorers.map(async (scorer) => {
+      scorersToUse.map(async (scorer) => {
         try {
           const result = await scorer({
             input,
@@ -286,12 +295,14 @@ async function processBatchExperiment<T, E>(
   config: {
     models: string[]
     temperature: number | number[]
-    seeds: number
-    prompt: (params: { input: any }) => string[]
-    inputs: () => Promise<T[]>
+    seeds?: number
+    prompt?: ((params: { input: any }) => string[]) | Function
+    inputs?: () => Promise<T[]>
     expected?: E
-    schema: any
+    schema?: any
     scorers?: any[]
+    data?: any[]
+    system?: (string | undefined)[]
     batch?: {
       enabled: boolean | number
       provider?: string
@@ -324,7 +335,117 @@ async function processBatchExperiment<T, E>(
   }
 }
 
-function generateSummary(results: ExperimentEvaluationResult[], scorers: any[]): ExperimentSummary {
+/**
+ * Implementation of the legacy experiment format that accepts data directly and other simplified parameters.
+ * This format is used in files like content.eval.ts
+ */
+async function legacyExperiment<T>(
+  name: string,
+  config: {
+    models: string[]
+    data?: any[]
+    temperature: number | number[]
+    system?: (string | undefined)[]
+    prompt?: any
+    schema?: any
+    inputs?: () => Promise<any[]>
+  }
+) {
+  console.log(`Running legacy experiment: ${name}`);
+  
+  const { evalite } = await import('evalite')
+  
+  const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
+  const seeds = [1]
+  
+  const inputs = config.data || []
+  
+  // Create a task function that processes each input
+  const task = async (input: any) => {
+    try {
+      const api = new API({ baseUrl: 'https://llm.do/api' })
+      
+      const model = input.model || config.models[0]
+      
+      const temperature = input.temperature || temperatures[0]
+      
+      const prompts = config.prompt ? 
+        (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : 
+        [JSON.stringify(input)]
+      
+      const systemPrompt = Array.isArray(config.system) && config.system.length > 0 ? 
+        config.system[0] : 
+        undefined
+      
+      // Create messages array for the API
+      const messages = []
+      
+      if (systemPrompt) {
+        messages.push({ role: 'system', content: systemPrompt })
+      }
+      
+      messages.push({ role: 'user', content: prompts.join('\n\n') })
+      
+      const response = await api.post('/completions', {
+        model,
+        temperature,
+        messages,
+      })
+      
+      const responseData = response as unknown as { 
+        data?: { 
+          choices?: Array<{ message?: { content?: string } }> 
+        } 
+      }
+      
+      const content = responseData.data?.choices?.[0]?.message?.content || ''
+      
+      let parsedContent = content
+      
+      if (config.schema) {
+        try {
+          const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/) || 
+                           content.match(/```\n([\s\S]*?)\n```/) ||
+                           content.match(/{[\s\S]*}/)
+          
+          if (jsonMatch) {
+            parsedContent = JSON.parse(jsonMatch[1] || jsonMatch[0])
+          } else {
+            parsedContent = JSON.parse(content)
+          }
+          
+          if (config.schema && typeof config.schema.parse === 'function') {
+            parsedContent = config.schema.parse(parsedContent)
+          }
+        } catch (error) {
+          console.error('Error parsing or validating content:', error)
+          parsedContent = content
+        }
+      }
+      
+      return parsedContent
+    } catch (error) {
+      console.error('Error in task execution:', error)
+      return { error: error instanceof Error ? error.message : String(error) }
+    }
+  }
+  
+  // Run the evalite experiment
+  return evalite(name, {
+    data: () => {
+      return config.models.flatMap(model => 
+        temperatures.map(temperature => ({
+          input: { model, temperature },
+          expected: {},
+        }))
+      )
+    },
+    task,
+    scorers: [],
+  })
+}
+
+function generateSummary(results: ExperimentEvaluationResult[], scorers: any[] = []): ExperimentSummary {
   const groupedResults: Record<string, Record<string, any[]>> = {}
 
   for (const result of results) {

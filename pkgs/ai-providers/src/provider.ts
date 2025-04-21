@@ -17,6 +17,10 @@ const providerRegistry: Record<string, any> = {
   anthropic: createAnthropic({
     apiKey: process.env.ANTHROPIC_API_KEY,
   }),
+  cloudflare: createOpenAI({
+    baseURL: `https://gateway.ai.cloudflare.com/v1/${process.env.CLOUDFLARE_ACCOUNT_ID || '<account_id>'}/${process.env.CLOUDFLARE_PROJECT_NAME || '<project_name>'}/workersai`,
+    apiKey: process.env.CLOUDFLARE_API_KEY || process.env.AI_GATEWAY_TOKEN,
+  }),
 }
 
 type ProviderOptions = {
@@ -108,6 +112,9 @@ class LLMProvider implements LanguageModelV1 {
         break
       case 'anthropic':
         provider = 'anthropic'
+        break
+      case 'cloudflare':
+        provider = 'cloudflare'
         break
       default:
         provider = 'openrouter'

@@ -61,7 +61,7 @@ export class CLI {
 
       const { port } = await server
 
-      const loginUrl = `https://apis.do/login?cli=true&state=${state}&callback=http://localhost:${port}/callback`
+      const loginUrl = `https://apis.do/login/cli?state=${state}&callback=http://localhost:${port}/callback`
       console.log(`Opening browser to ${loginUrl}...`)
       openBrowser(loginUrl)
 
