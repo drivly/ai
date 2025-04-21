@@ -343,41 +343,106 @@ async function legacyExperiment<T>(
   name: string,
   config: {
     models: string[]
-    data: any[]
+    data?: any[]
     temperature: number | number[]
     system?: (string | undefined)[]
     prompt?: any
     schema?: any
+    inputs?: () => Promise<any[]>
   }
 ) {
   console.log(`Running legacy experiment: ${name}`);
   
-  // Basic implementation that logs the configuration but doesn't actually run experiments
-  // This is a placeholder until we implement the full conversion from the new format to the old
-  console.log(`  - Models: ${config.models.length}`);
-  console.log(`  - Data points: ${config.data.length}`);
-  console.log(`  - Temperature: ${Array.isArray(config.temperature) ? config.temperature.join(', ') : config.temperature}`);
+  const { evalite } = await import('evalite')
   
-  if (config.system) {
-    console.log(`  - System prompts: ${config.system.length}`);
+  const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
+  const seeds = [1]
+  
+  const inputs = config.data || []
+  
+  // Create a task function that processes each input
+  const task = async (input: any) => {
+    try {
+      const api = new API({ baseUrl: 'https://llm.do/api' })
+      
+      const model = input.model || config.models[0]
+      
+      const temperature = input.temperature || temperatures[0]
+      
+      const prompts = config.prompt ? 
+        (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : 
+        [JSON.stringify(input)]
+      
+      const systemPrompt = Array.isArray(config.system) && config.system.length > 0 ? 
+        config.system[0] : 
+        undefined
+      
+      // Create messages array for the API
+      const messages = []
+      
+      if (systemPrompt) {
+        messages.push({ role: 'system', content: systemPrompt })
+      }
+      
+      messages.push({ role: 'user', content: prompts.join('\n\n') })
+      
+      const response = await api.post('/completions', {
+        model,
+        temperature,
+        messages,
+      })
+      
+      const responseData = response as unknown as { 
+        data?: { 
+          choices?: Array<{ message?: { content?: string } }> 
+        } 
+      }
+      
+      const content = responseData.data?.choices?.[0]?.message?.content || ''
+      
+      let parsedContent = content
+      
+      if (config.schema) {
+        try {
+          const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/) || 
+                           content.match(/```\n([\s\S]*?)\n```/) ||
+                           content.match(/{[\s\S]*}/)
+          
+          if (jsonMatch) {
+            parsedContent = JSON.parse(jsonMatch[1] || jsonMatch[0])
+          } else {
+            parsedContent = JSON.parse(content)
+          }
+          
+          if (config.schema && typeof config.schema.parse === 'function') {
+            parsedContent = config.schema.parse(parsedContent)
+          }
+        } catch (error) {
+          console.error('Error parsing or validating content:', error)
+          parsedContent = content
+        }
+      }
+      
+      return parsedContent
+    } catch (error) {
+      console.error('Error in task execution:', error)
+      return { error: error instanceof Error ? error.message : String(error) }
+    }
   }
   
-  return {
-    name,
-    timestamp: new Date().toISOString(),
-    config: {
-      models: config.models,
-      temperatures: Array.isArray(config.temperature) ? config.temperature : [config.temperature],
-      seeds: [1],  // Default seed
-      totalInputs: config.data.length,
+  // Run the evalite experiment
+  return evalite(name, {
+    data: () => {
+      return config.models.flatMap(model => 
+        temperatures.map(temperature => ({
+          input: { model, temperature },
+          expected: {},
+        }))
+      )
     },
-    results: [],  // No actual results in this placeholder implementation
-    summary: {
-      overallScore: 0,
-      modelPerformance: {},
-      temperaturePerformance: {},
-    }
-  };
+    task,
+    scorers: [],
+  })
 }
 
 function generateSummary(results: ExperimentEvaluationResult[], scorers: any[] = []): ExperimentSummary {
