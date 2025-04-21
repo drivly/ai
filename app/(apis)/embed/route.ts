@@ -38,7 +38,7 @@ export const POST = API(async (request, { user }) => {
     } else {
       result = await embedMany({
         model: embeddingModel,
-        values: body.texts,
+        inputs: body.texts,
       })
 
       return {

@@ -12,7 +12,7 @@ vi.mock('ai', () => ({
     embedding: [0.1, 0.2, 0.3],
     usage: { tokens: 5 },
   })),
-  embedMany: vi.fn().mockImplementation(({ values }) => Promise.resolve({
+  embedMany: vi.fn().mockImplementation(({ inputs }) => Promise.resolve({
     embeddings: [[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]],
     usage: { tokens: 10 },
   })),
