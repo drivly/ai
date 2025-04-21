@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowUp, CircleStop, Paperclip } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useChatInput, useChatStatus } from '@/pkgs/payload-agent/src/components/store/context';
+import { useChatInput, useChatStatus } from './chat-context';
 import type { Attachment } from 'ai';
 
 export function ChatInput() {
