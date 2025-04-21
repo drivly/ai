@@ -29,7 +29,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 async function fetchResource(domain: string, path: string[]) {
   try {
-    const { payload } = global as any
+    const { getPayload } = await import('payload')
+    const { default: config } = await import('@/payload.config')
+    const payload = await getPayload({ config })
 
     const project = await payload.db.projects.findOne({
       where: {
