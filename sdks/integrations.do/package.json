@@ -1,6 +1,6 @@
 {
   "name": "integrations.do",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Unified interface for connecting applications and automating workflows across services",
   "keywords": [
     "integrations",
@@ -57,7 +57,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@types/react": "18.2.0",
+    "@types/react": "18.3.20",
     "eslint-config": "workspace:*",
     "evalite": "^0.10.0",
     "ts-node": "^10.9.2",
