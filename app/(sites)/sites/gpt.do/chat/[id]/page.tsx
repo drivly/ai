@@ -24,7 +24,8 @@ export default async function ChatPage({
     redirect(githubSignInUrl.toString());
   }
 
-  const { id } = await params;
+  const { id: idParam } = await params;
+  const id = Array.isArray(idParam) ? idParam[0] : idParam;
 
   return (
     <div className="flex flex-col min-w-0 h-dvh bg-background">
