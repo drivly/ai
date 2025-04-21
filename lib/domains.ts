@@ -5,14 +5,7 @@ import { brandDomains, siteDomains, isAIGateway } from '../domains.config'
  * Gateway domains show the API response at the root path and don't get rewritten
  */
 export const isGatewayDomain = (hostname: string): boolean => {
-  return (
-    isAIGateway(hostname) ||
-    hostname === 'localhost' ||
-    hostname === 'apis.do' ||
-    hostname === 'do.gt' ||
-    hostname === 'do.mw' ||
-    hostname.endsWith('dev.driv.ly')
-  )
+  return isAIGateway(hostname) || hostname === 'localhost' || hostname === 'apis.do' || hostname === 'do.gt' || hostname === 'do.mw' || hostname.endsWith('dev.driv.ly')
 }
 
 /**

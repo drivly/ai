@@ -24,10 +24,53 @@ const withNextra = nextra({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Your Next.js config here
-  transpilePackages: [], // Reduce transpiled packages
-  // All routing is handled by middleware.ts
-  experimental: {
-    // instrumentationHook is no longer needed in Next.js 15.2.4+
+  transpilePackages: ['payload-utils', 'simple-payload', 'clickable-apis', 'payload-agent'], // Include internal packages
+
+  turbopack: {
+    // Using Turbopack for faster builds and better performance
+    resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
+  },
+  webpack: (config, { isServer, dev, buildId, config: { distDir } }) => {
+    // Add YAML loader for all contexts
+    config.module.rules.push({
+      test: /\.ya?ml$/,
+      use: 'yaml-loader',
+    })
+    
+    // Fix OpenTelemetry warning without breaking Sentry
+    config.module.rules.push({
+      test: /node_modules\/@opentelemetry\/instrumentation-http\/build\/src\/http\.js$/,
+      use: 'null-loader'
+    })
+    
+    // Suppress OpenTelemetry instrumentation warnings
+    config.ignoreWarnings = [
+      {
+        module: /node_modules\/@opentelemetry\/instrumentation/,
+      },
+    ]
+    
+    // Memory optimizations
+    if (!dev) {
+      // Disable source maps in production to reduce memory usage
+      config.devtool = false;
+    }
+    
+    // Add fallbacks for node: imports
+    if (!isServer) {
+      // Use string path for process fallback in ESM
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        process: false,
+      };
+      
+      // Use node: protocol externals for server-only code
+      config.externals.push({
+        'node:process': 'process',
+      });
+    }
+    
+    return config
   },
 }
 
@@ -41,7 +84,7 @@ export default analyzeBundles(
     withPayload(nextConfig, {
       devBundleServerPackages: false,
       adminRoute: '/admin',
-      configPath: path.resolve(dirname, 'app/(admin)'),
+      configPath: path.resolve(dirname), // Point to root directory where payload.config.ts exists
     }),
   ),
 )

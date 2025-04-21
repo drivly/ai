@@ -23,7 +23,7 @@ global.fetch = mockFetch
 vi.stubEnv('COMPOSIO_API_KEY', 'test-api-key')
 
 // Import after mocks are set up
-import { GET, POST, PUT, DELETE } from '@/../app/(apis)/integrations/route'
+import { GET, POST, PUT, DELETE } from '@/app/(apis)/integrations/route'
 
 describe('Integrations API', () => {
   beforeEach(() => {

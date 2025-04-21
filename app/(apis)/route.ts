@@ -3,6 +3,21 @@ import { domains, domainsConfig, getDomainDescription } from '@/domains.config'
 import { apis, related, parentDomains, childDomains, siteCategories } from '@/api.config'
 import { collectionSlugs } from '@/collections'
 import { titleCase } from '@/lib/utils'
+import fs from 'fs/promises'
+import path from 'path'
+
+let staticIntegrations: { apps: any[]; categories: any[]; triggers: any; actions: any[] } = {
+  apps: [],
+  categories: [],
+  triggers: { items: [] },
+  actions: [],
+}
+
+try {
+  staticIntegrations = require('../../public/data/integrations.json')
+} catch (error) {
+  console.warn('Static integrations data not found, will be empty until seed script is run')
+}
 
 export const GET = API(async (request, { db, user, origin, url, domain, payload }) => {
   const showDomains = url.searchParams.has('domains')
@@ -94,10 +109,24 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
     }
   }
 
+  const formattedIntegrations: Record<string, string> = {}
+  staticIntegrations.apps?.forEach((app) => {
+    const description = app.description || ''
+    const appTitle = `${app.name}${description ? ` - ${description}` : ''}`
+    formattedIntegrations[appTitle] = formatWithOptions(`integrations/${app.key}`, 'integrations.do')
+  })
+
+  const integrations: Record<string, string> = {}
+  staticIntegrations.apps?.forEach((app) => {
+    integrations[app.key] = `${origin}/${app.key}`
+  })
+
   return {
     collections: collectionsByGroup,
     apis: formattedApis,
     sites: formattedSites,
+    integrations, // Use the new integrations object with slug as key
+    formattedIntegrations, // Keep the old format for backward compatibility
     actions: {
       toggleDomains: url.searchParams.has('domains') ? url.toString().replace(/[?&]domains/, '') : url.toString() + (url.toString().includes('?') ? '&domains' : '?domains'),
     },

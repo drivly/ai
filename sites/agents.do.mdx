@@ -1,0 +1,28 @@
+---
+title: Agents.do - Autonomous Digital Worker Platform
+description: Deploy and manage autonomous digital workers with Agents.do, the enterprise-grade platform for AI agent orchestration
+headline: Autonomous Digital Workers
+subhead: Scale your operations with intelligent agents that handle complex tasks. Reduce costs and improve efficiency with 24/7 autonomous digital workers.
+badge: 'AI without Complexity'
+codeLang: 'typescript'
+codeExample: |
+  import { Agent } from 'agents.do'
+
+  // Create a customer support agent
+  const customerSupportAgent = Agent({
+    name: 'Amy',
+    role: 'Customer Support Agent',
+    objective: 'Handles customer inquiries and resolves common issues',
+    keyResults: ['ticketResponseTime', 'ticketResolutionTime', 'ticketEscalationRate', 'customerSatisfaction'],
+    url: 'https://amy.do',
+    integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
+    triggers: ['onTicketCreated', 'onMessageReceived'],
+    searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
+    actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
+  })
+brandColor: '#9e7aff'
+---
+
+# Agents.do
+
+Deploy & Manage Autonomous Digital Workers

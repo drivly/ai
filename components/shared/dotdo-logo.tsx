@@ -1,12 +1,16 @@
 import { cn } from '@/lib/utils'
+import { Wrapper } from '../polymorphic'
+import Link from 'next/link'
 
 export interface DotdoLogoProps {
   className?: string
+  as?: React.ElementType
 }
 
 export const DotdoLogo = (props: DotdoLogoProps) => {
+  const hrefProps = props.as === Link || props.as === 'a' ? { href: 'https://dotdo.ai', target: '_blank', rel: 'noopener noreferrer' } : {}
   return (
-    <div className={cn('h-7 w-[50.7px]', props.className)}>
+    <Wrapper as={props.as} className={cn('h-7 w-[50.7px]', props.className)} {...hrefProps}>
       <svg width='268' height='148' viewBox='0 0 268 148' fill='none' xmlns='http://www.w3.org/2000/svg'>
         <path d='M181.102 0.127563L197.762 0.127563L231.083 73.8492L197.762 147.571H182.082L215.402 73.8492L181.102 0.127563Z' fill='#3063B6' />
         <path d='M162.917 147.203H147.938V0H162.917V147.203ZM158.294 147.203H120.753V134.628H158.294V147.203ZM158.294 12.5752H120.753V0H158.294V12.5752Z' fill='#34D399' />
@@ -20,6 +24,6 @@ export const DotdoLogo = (props: DotdoLogoProps) => {
         />
         <path d='M231.672 132.537H267.184V147.531H224.701L231.672 132.537Z' fill='#D1D5DB' />
       </svg>
-    </div>
+    </Wrapper>
   )
 }

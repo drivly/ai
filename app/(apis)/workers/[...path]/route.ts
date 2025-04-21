@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
 import { headers } from 'next/headers'
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server.js'
 
 export const GET = API(async (request, { params, url }) => {
   const headersList = await headers()

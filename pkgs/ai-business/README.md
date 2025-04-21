@@ -36,10 +36,10 @@ yarn add ai-business
 ### Basic Example
 
 ```typescript
-import { createAiBusinessOperator, Objective } from 'ai-business';
+import { createAiBusinessOperator, Objective } from 'ai-business'
 
 // Create an AI business operator
-const aiOperator = createAiBusinessOperator();
+const aiOperator = createAiBusinessOperator()
 
 // Define an objective with key results
 const objective: Objective = {
@@ -52,60 +52,56 @@ const objective: Objective = {
       description: 'Achieve NPS score of 50+',
       targetValue: 50,
       currentValue: 42,
-      unit: 'points'
+      unit: 'points',
     },
     {
       id: 'kr-002',
       description: 'Reduce customer support response time',
       targetValue: 2,
       currentValue: 4.5,
-      unit: 'hours'
-    }
+      unit: 'hours',
+    },
   ],
   aiOperations: {
     autoMonitor: true,
-    analysisFrequency: 'weekly'
-  }
-};
+    analysisFrequency: 'weekly',
+  },
+}
 
 // Monitor the objective
 async function monitorBusinessObjective() {
-  const analysis = await aiOperator.monitorObjective(objective);
-  console.log('Objective Status:', analysis.status);
-  console.log('Insights:', analysis.insights);
-  
+  const analysis = await aiOperator.monitorObjective(objective)
+  console.log('Objective Status:', analysis.status)
+  console.log('Insights:', analysis.insights)
+
   // Get strategy recommendations
-  const recommendations = await aiOperator.suggestStrategyAdjustments(objective, analysis);
-  console.log('Strategy Recommendations:', recommendations);
+  const recommendations = await aiOperator.suggestStrategyAdjustments(objective, analysis)
+  console.log('Strategy Recommendations:', recommendations)
 }
 
-monitorBusinessObjective();
+monitorBusinessObjective()
 ```
 
 ### Integration with External Systems
 
 ```typescript
-import { createAiBusinessOperator, createBusinessIntegrations, Objective } from 'ai-business';
+import { createAiBusinessOperator, createBusinessIntegrations, Objective } from 'ai-business'
 
-const aiOperator = createAiBusinessOperator();
-const integrations = createBusinessIntegrations();
+const aiOperator = createAiBusinessOperator()
+const integrations = createBusinessIntegrations()
 
 async function analyzeAndPublish(objective: Objective) {
   // Analyze the objective
-  const analysis = await aiOperator.monitorObjective(objective);
-  
+  const analysis = await aiOperator.monitorObjective(objective)
+
   // Publish results to relevant channels
-  await integrations.publishAnalysisResults(
-    objective,
-    analysis,
-    ['slack', 'dashboard']
-  );
-  
+  await integrations.publishAnalysisResults(objective, analysis, ['slack', 'dashboard'])
+
   // Get strategy recommendations
-  const recommendations = await aiOperator.suggestStrategyAdjustments(objective, analysis);
-  
+  const recommendations = await aiOperator.suggestStrategyAdjustments(objective, analysis)
+
   // Create tasks from recommendations
-  await integrations.createTasksFromRecommendations(recommendations, 'github');
+  await integrations.createTasksFromRecommendations(recommendations, 'github')
 }
 ```
 
@@ -114,11 +110,11 @@ async function analyzeAndPublish(objective: Objective) {
 The `ai-business` package is designed to work seamlessly with the `business-as-code` package:
 
 ```typescript
-import { Business } from 'business-as-code';
-import { createAiBusinessOperator, Objective } from 'ai-business';
+import { Business } from 'business-as-code'
+import { createAiBusinessOperator, Objective } from 'ai-business'
 
 // Create an AI business operator
-const aiOperator = createAiBusinessOperator();
+const aiOperator = createAiBusinessOperator()
 
 // Define a business using business-as-code
 const myBusiness = Business({
@@ -131,36 +127,36 @@ const myBusiness = Business({
         'Achieve 95% customer satisfaction score by Q4',
         'Reduce average support ticket resolution time by 30% within 6 months',
         'Increase customer retention rate to 85% year-over-year',
-      ]
-    }
-  }
-});
+      ],
+    },
+  },
+})
 
 // Convert business-as-code objectives to ai-business objectives
 const aiObjectives: Objective[] = Object.entries(myBusiness.objectives).map(([id, obj]) => ({
   id,
   name: id,
   description: obj.description,
-  keyResults: Array.isArray(obj.keyResults) 
+  keyResults: Array.isArray(obj.keyResults)
     ? obj.keyResults.map((kr, idx) => ({
         id: `${id}-kr-${idx}`,
         description: typeof kr === 'string' ? kr : kr.description,
-        targetValue: typeof kr === 'string' ? 100 : (kr.target || 100),
-        currentValue: typeof kr === 'string' ? 0 : (kr.currentValue || 0),
-        unit: typeof kr === 'string' ? '%' : (kr.unit || '%')
+        targetValue: typeof kr === 'string' ? 100 : kr.target || 100,
+        currentValue: typeof kr === 'string' ? 0 : kr.currentValue || 0,
+        unit: typeof kr === 'string' ? '%' : kr.unit || '%',
       }))
     : [],
   aiOperations: {
     autoMonitor: true,
-    analysisFrequency: 'weekly'
-  }
-}));
+    analysisFrequency: 'weekly',
+  },
+}))
 
 // Monitor all objectives
 async function monitorAllObjectives() {
   for (const objective of aiObjectives) {
-    const analysis = await aiOperator.monitorObjective(objective);
-    console.log(`Objective ${objective.name} status: ${analysis.status}`);
+    const analysis = await aiOperator.monitorObjective(objective)
+    console.log(`Objective ${objective.name} status: ${analysis.status}`)
   }
 }
 ```
@@ -173,11 +169,11 @@ Represents a business objective with associated key results and AI operation con
 
 ```typescript
 interface Objective {
-  id: string;
-  name: string;
-  description: string;
-  keyResults: KeyResult[];
-  aiOperations?: AiOperationConfig;
+  id: string
+  name: string
+  description: string
+  keyResults: KeyResult[]
+  aiOperations?: AiOperationConfig
 }
 ```
 
@@ -187,12 +183,12 @@ Represents a measurable outcome that indicates progress toward an objective.
 
 ```typescript
 interface KeyResult {
-  id: string;
-  description: string;
-  targetValue: number;
-  currentValue: number;
-  unit?: string;
-  aiOperations?: AiOperationConfig;
+  id: string
+  description: string
+  targetValue: number
+  currentValue: number
+  unit?: string
+  aiOperations?: AiOperationConfig
 }
 ```
 
@@ -202,9 +198,9 @@ Configuration for AI operations on objectives and key results.
 
 ```typescript
 interface AiOperationConfig {
-  autoMonitor?: boolean;
-  adaptStrategy?: boolean;
-  analysisFrequency?: 'daily' | 'weekly' | 'monthly';
+  autoMonitor?: boolean
+  adaptStrategy?: boolean
+  analysisFrequency?: 'daily' | 'weekly' | 'monthly'
 }
 ```
 
@@ -216,19 +212,16 @@ Provides AI-powered operations for business objectives and key results.
 
 ```typescript
 class AiBusinessOperator {
-  constructor(config?: AiBusinessOperatorConfig);
-  
+  constructor(config?: AiBusinessOperatorConfig)
+
   // Monitor an objective and analyze its current status
-  async monitorObjective(objective: Objective): Promise<AnalysisResult>;
-  
+  async monitorObjective(objective: Objective): Promise<AnalysisResult>
+
   // Suggest strategy adjustments based on objective analysis
-  async suggestStrategyAdjustments(
-    objective: Objective, 
-    analysisResult?: AnalysisResult
-  ): Promise<StrategyRecommendation[]>;
-  
+  async suggestStrategyAdjustments(objective: Objective, analysisResult?: AnalysisResult): Promise<StrategyRecommendation[]>
+
   // Schedule regular monitoring of an objective
-  async scheduleMonitoring(objective: Objective): Promise<void>;
+  async scheduleMonitoring(objective: Objective): Promise<void>
 }
 ```
 
@@ -238,26 +231,16 @@ Provides integration capabilities with external systems and the broader .do ecos
 
 ```typescript
 class BusinessIntegrations {
-  constructor();
-  
+  constructor()
+
   // Sync objectives and key results with external OKR systems
-  async syncWithExternalOkrSystem(
-    objectives: Objective[], 
-    system: 'notion' | 'asana' | 'jira' | 'monday' | string
-  ): Promise<void>;
-  
+  async syncWithExternalOkrSystem(objectives: Objective[], system: 'notion' | 'asana' | 'jira' | 'monday' | string): Promise<void>
+
   // Publish analysis results to relevant channels
-  async publishAnalysisResults(
-    objective: Objective, 
-    analysis: AnalysisResult,
-    channels: ('slack' | 'email' | 'dashboard' | string)[]
-  ): Promise<void>;
-  
+  async publishAnalysisResults(objective: Objective, analysis: AnalysisResult, channels: ('slack' | 'email' | 'dashboard' | string)[]): Promise<void>
+
   // Create tasks from strategy recommendations
-  async createTasksFromRecommendations(
-    recommendations: StrategyRecommendation[],
-    system: 'asana' | 'jira' | 'trello' | 'github' | string
-  ): Promise<void>;
+  async createTasksFromRecommendations(recommendations: StrategyRecommendation[], system: 'asana' | 'jira' | 'trello' | 'github' | string): Promise<void>
 }
 ```
 

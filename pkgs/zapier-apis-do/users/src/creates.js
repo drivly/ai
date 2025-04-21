@@ -5,51 +5,51 @@ const perform = async (z, bundle) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     },
-    body: bundle.inputData
-  });
+    body: bundle.inputData,
+  })
 
-  return response.data;
-};
+  return response.data
+}
 
 module.exports = {
   key: 'createUsers',
   noun: 'Users',
-  
+
   display: {
     label: 'Create Users',
-    description: 'Creates a new Users.'
+    description: 'Creates a new Users.',
   },
-  
+
   operation: {
     perform,
-    
+
     inputFields: [
-    {
-      key: 'roles',
-      label: 'Roles',
-      type: 'string',
-      required: false,
-      helpText: 'The ID of the related roles'
-    }
+      {
+        key: 'roles',
+        label: 'Roles',
+        type: 'string',
+        required: false,
+        helpText: 'The ID of the related roles',
+      },
     ],
-    
+
     outputFields: [
       {
         key: 'id',
-        label: 'ID'
+        label: 'ID',
       },
-    {
-      key: 'roles',
-      label: 'Roles'
-    }
+      {
+        key: 'roles',
+        label: 'Roles',
+      },
     ],
-    
+
     sample: {
       id: 'sample-id-1234',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
-  }
-};
+      updatedAt: new Date().toISOString(),
+    },
+  },
+}

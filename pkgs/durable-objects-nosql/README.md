@@ -75,10 +75,7 @@ await this.db.users.insertMany([
 ])
 
 // Update multiple documents
-await this.db.users.updateMany(
-  { admin: true },
-  { $set: { role: 'administrator' } }
-)
+await this.db.users.updateMany({ admin: true }, { $set: { role: 'administrator' } })
 
 // Delete multiple documents
 await this.db.users.deleteMany({ admin: false })

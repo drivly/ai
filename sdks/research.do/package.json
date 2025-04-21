@@ -1,0 +1,55 @@
+{
+  "name": "research.do",
+  "version": "0.1.0",
+  "description": "Deep Research SDK for performing comprehensive research on any topic",
+  "keywords": [
+    "research",
+    "ai",
+    "deep-research",
+    "knowledge",
+    "information"
+  ],
+  "homepage": "https://research.do",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/research.do"
+  },
+  "author": "Drivly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:packages": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "eslint-config": "workspace:*",
+    "tsconfig": "workspace:*",
+    "vitest": "^3.0.9"
+  },
+  "dependencies": {
+    "apis.do": "workspace:*",
+    "functions.do": "workspace:*"
+  }
+}

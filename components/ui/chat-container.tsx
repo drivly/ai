@@ -172,7 +172,7 @@ function ChatContainer({ className, children, autoScroll = true, scrollToRef, re
 
     prevChildrenCountRef.current = currentChildrenCount
     prevChildrenRef.current = children
-  }, [children, setNewMessageAdded])
+  }, [children, setNewMessageAdded, prevChildrenCountRef])
 
   useEffect(() => {
     if (!autoScroll) return
@@ -189,7 +189,7 @@ function ChatContainer({ className, children, autoScroll = true, scrollToRef, re
     }
 
     requestAnimationFrame(scrollHandler)
-  }, [children, autoScroll, autoScrollEnabled, isScrolling, scrollTriggered, scrollToBottom, newMessageAdded, setNewMessageAdded])
+  }, [children, autoScroll, autoScrollEnabled, isScrolling, scrollTriggered, scrollToBottom, newMessageAdded, setNewMessageAdded, prevChildrenCountRef])
 
   return (
     <div className={cn('flex flex-col overflow-y-auto', className)} role='log' ref={chatContainerRef} {...props}>

@@ -10,12 +10,10 @@ export function Footer({ minimal }: { minimal?: boolean }) {
 
   return (
     <footer id='footer' className='bg-black'>
-      <div className='mx-auto max-w-6xl px-3 pt-16 pb-8 sm:pt-24 lg:pt-32'>
+      <div className='mx-auto max-w-6xl px-3 pt-16 pb-8 sm:pt-24 lg:pt-32 xl:px-0'>
         <div className='xl:grid xl:grid-cols-3 xl:gap-20'>
           <div className='flex flex-col space-y-8'>
-            <Link href='https://dotdo.ai' target='_blank' rel='noopener noreferrer'>
-              <DotdoLogo className='flex items-center justify-start' />
-            </Link>
+            <DotdoLogo className='flex items-center justify-start' as={Link} />
             <p className='text-sm leading-6 text-gray-400'>{siteConfig.description}</p>
 
             <div className='mt-6 flex space-x-4'>
@@ -128,7 +126,13 @@ export function Footer({ minimal }: { minimal?: boolean }) {
           </div>
         </div>
         <div className='mt-16 flex flex-col items-center justify-between gap-4 border-t border-gray-800 pt-8 sm:mt-20 sm:flex-row lg:mt-24'>
-          <p className='text-sm leading-5 text-gray-400'>&copy; {new Date().getFullYear()} .do, Inc. All rights reserved.</p>
+          <p className='text-sm leading-5 text-gray-400'>
+            &copy; {new Date().getFullYear()}{' '}
+            <a href='https://dotdo.ai' className='hover:text-gray-300'>
+              .do AI
+            </a>
+            . All rights reserved.
+          </p>
           <iframe
             src='https://status.workflows.do/badge?theme=dark'
             width='250'
@@ -147,12 +151,18 @@ export function Footer({ minimal }: { minimal?: boolean }) {
 function MinimalFooter() {
   return (
     <footer id='footer' className='bg-black'>
-      <div className='mx-auto max-w-6xl px-3 py-8'>
+      <div className='mx-auto max-w-6xl px-3 py-8 xl:px-0'>
         <div className='grid grid-flow-row auto-rows-max items-center gap-y-8 sm:grid-cols-3 sm:gap-y-0'>
-          <Link href='https://dotdo.ai' target='_blank' rel='noopener noreferrer' className='flex items-center justify-center sm:justify-start'>
-            <DotdoLogo className='flex items-center justify-center' />
-          </Link>
-          <p className='text-center text-sm leading-5 text-gray-400'>&copy; {new Date().getFullYear()} .do, Inc. All rights reserved.</p>
+          <div className='flex items-center justify-center sm:justify-start'>
+            <DotdoLogo className='flex items-center justify-center' as={Link} />
+          </div>
+          <p className='text-center text-sm leading-5 text-gray-400'>
+            &copy; {new Date().getFullYear()}{' '}
+            <a href='https://dotdo.ai' className='hover:text-gray-300'>
+              .do AI
+            </a>
+            . All rights reserved.
+          </p>
           <div className='flex justify-center space-x-4 sm:justify-end'>
             {footerNavigation.social.map((item) => (
               <a key={item.name} href={item.href} target='_blank' rel='noopener noreferrer' className='text-gray-400 transition-colors hover:text-white'>

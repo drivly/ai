@@ -14,6 +14,10 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   // const { payload } = req
   if (!payload) payload = req?.payload
 
+  if (!input) {
+    throw new Error('Invalid input: input object is undefined')
+  }
+
   if (!input.functionName && input.data) {
     input = {
       functionName: 'executeFunction',
@@ -22,7 +26,12 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     }
   }
 
-  const { functionName, args, schema, timeout, seeds, callback, type } = input
+  const { functionName = null, args = {}, schema = null, timeout = null, seeds = null, callback = null, type = null } = input
+
+  // Validate required parameters
+  if (!functionName) {
+    throw new Error('Missing required parameter: functionName')
+  }
   const { settings } = input as any
   const start = Date.now()
 
@@ -40,7 +49,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const hashLatency = Date.now() - start
 
   const cacheTTL = settings?.cacheTTL || 24 * 60 * 60 * 1000 // Default: 24 hours in milliseconds
-  
+
   let functionDoc, schemaDoc, argsDoc, actionDoc
 
   try {
@@ -66,12 +75,13 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   const lookupLatency = Date.now() - (start + hashLatency)
 
   if (actionDoc?.object) {
-    const isCacheValid = actionDoc.createdAt 
-      ? (Date.now() - new Date(actionDoc.createdAt).getTime()) < cacheTTL
-      : false
+    const isCacheValid = actionDoc.createdAt ? Date.now() - new Date(actionDoc.createdAt).getTime() < cacheTTL : false
 
     if (isCacheValid) {
-      payload.create({ collection: 'events', data: { action: actionDoc.id, request: { headers, seeds, callback }, meta: { type: isTextFunction ? 'text' : 'object', cached: true } } })
+      payload.create({
+        collection: 'events',
+        data: { action: actionDoc.id, request: { headers, seeds, callback }, meta: { type: isTextFunction ? 'text' : 'object', cached: true } },
+      })
 
       // Extract the data from the object
       const objectData = actionDoc.object.data || { result: 'test data' }
@@ -80,7 +90,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       return {
         output: objectData,
         reasoning: actionDoc.reasoning || 'cached reasoning',
-        cached: true
+        cached: true,
       }
     }
   }

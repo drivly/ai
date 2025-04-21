@@ -31,8 +31,8 @@ describe('OpenAI SDK', () => {
           content: [
             {
               type: 'input_file',
-              filename: 'ORMwhitepaper.pdf',
-              file_data: 'data:application/pdf;base64,' + fs.readFileSync('./e2e/ORMwhitepaper.pdf', 'base64'),
+              filename: 'ORMwhitePaper.pdf',
+              file_data: 'data:application/pdf;base64,' + fs.readFileSync(`${__dirname}/ORMwhitePaper.pdf`, 'base64'),
             },
             {
               type: 'input_text',

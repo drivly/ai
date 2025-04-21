@@ -20,7 +20,7 @@ export const GET = API(async (request, { db, user, url }) => {
   const payloadInstance = await getPayload({ config })
 
   const connection = await payloadInstance.findByID({
-    collection: 'connections',
+    collection: 'connectAccounts',
     id: connectionId,
   })
 
@@ -45,10 +45,10 @@ export const GET = API(async (request, { db, user, url }) => {
   if (!tokenResponse.ok) {
     const errorData = await tokenResponse.json()
     await payloadInstance.update({
-      collection: 'connections',
+      collection: 'connectAccounts',
       id: connectionId,
       data: {
-        status: 'inactive',
+        status: 'rejected',
         metadata: {
           ...(typeof connection.metadata === 'object' && connection.metadata ? connection.metadata : {}),
           error: errorData,
@@ -61,7 +61,7 @@ export const GET = API(async (request, { db, user, url }) => {
   const tokenData = await tokenResponse.json()
 
   await payloadInstance.update({
-    collection: 'connections',
+    collection: 'connectAccounts',
     id: connectionId,
     data: {
       status: 'active',
@@ -111,11 +111,14 @@ export const POST = API(async (request, { db, user, origin, url }) => {
   }
 
   const connection = await payloadInstance.create({
-    collection: 'connections',
+    collection: 'connectAccounts',
     data: {
       name: `${user.email} - Linear`,
       user: user.id,
       integration: integrationId,
+      project: process.env.DEFAULT_TENANT || '67eff7d61cb630b09c9de598', // Default project ID
+      stripeAccountId: 'linear-integration', // Placeholder for Linear integration
+      accountType: 'standard', // Default account type
       status: 'pending',
       metadata: {
         redirectUrl,

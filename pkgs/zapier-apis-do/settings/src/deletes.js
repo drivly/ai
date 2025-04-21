@@ -5,38 +5,38 @@ const perform = async (z, bundle) => {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    }
-  });
+      Accept: 'application/json',
+    },
+  })
 
-  return response.data;
-};
+  return response.data
+}
 
 module.exports = {
   key: 'deleteSettings',
   noun: 'Settings',
-  
+
   display: {
     label: 'Delete Settings',
-    description: 'Deletes a Settings.'
+    description: 'Deletes a Settings.',
   },
-  
+
   operation: {
     perform,
-    
+
     inputFields: [
       {
         key: 'id',
         label: 'ID',
         type: 'string',
         required: true,
-        helpText: 'The ID of the Settings to delete'
-      }
+        helpText: 'The ID of the Settings to delete',
+      },
     ],
-    
+
     sample: {
       id: 'sample-id-1234',
-      deleted: true
-    }
-  }
-};
+      deleted: true,
+    },
+  },
+}

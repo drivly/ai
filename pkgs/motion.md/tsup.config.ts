@@ -21,5 +21,5 @@ export default defineConfig({
       'node:process': 'process',
     }
     return options
-  }
+  },
 })

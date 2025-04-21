@@ -42,7 +42,7 @@ function processOfflineEvents() {
   if (offlineEventQueue.length > 0 && isOnline()) {
     const events = [...offlineEventQueue]
     offlineEventQueue = []
-    
+
     analyticsApi.post('/_analytics', { events }).catch(() => {
       offlineEventQueue.push(...events)
     })

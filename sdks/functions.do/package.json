@@ -54,6 +54,7 @@
     "tsconfig": "workspace:*"
   },
   "dependencies": {
-    "apis.do": "workspace:*"
+    "apis.do": "workspace:*",
+    "p-queue": "^8.0.1"
   }
 }

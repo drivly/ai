@@ -5,58 +5,58 @@ const perform = async (z, bundle) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    }
-  });
+      Accept: 'application/json',
+    },
+  })
 
-  return response.data;
-};
+  return response.data
+}
 
 module.exports = {
   key: 'getDatabases',
   noun: 'Databases',
-  
+
   display: {
     label: 'Get Databases',
-    description: 'Gets a Databases by ID.'
+    description: 'Gets a Databases by ID.',
   },
-  
+
   operation: {
     perform,
-    
+
     inputFields: [
       {
         key: 'id',
         label: 'ID',
         type: 'string',
         required: true,
-        helpText: 'The ID of the Databases to retrieve'
-      }
+        helpText: 'The ID of the Databases to retrieve',
+      },
     ],
-    
+
     outputFields: [
       {
         key: 'id',
-        label: 'ID'
+        label: 'ID',
       },
-    {
-      key: 'name',
-      label: 'Name'
-    },
-    {
-      key: 'domain',
-      label: 'Domain'
-    },
-    {
-      key: 'nouns',
-      label: 'Nouns'
-    }
+      {
+        key: 'name',
+        label: 'Name',
+      },
+      {
+        key: 'domain',
+        label: 'Domain',
+      },
+      {
+        key: 'nouns',
+        label: 'Nouns',
+      },
     ],
-    
+
     sample: {
       id: 'sample-id-1234',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
-  }
-};
+      updatedAt: new Date().toISOString(),
+    },
+  },
+}

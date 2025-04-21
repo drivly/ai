@@ -16,43 +16,43 @@ export const handleGithubEvent = {
       if (event.label?.name === 'research') {
         console.log('Starting research workflow')
         const issue = event.issue
-        
+
         const researchJob = await payload.jobs.queue({
           task: 'executeFunction',
           input: {
             functionName: 'research',
-            args: { 
+            args: {
               issue: {
                 number: issue.number,
                 title: issue.title,
                 body: issue.body || '',
                 url: issue.html_url,
-                repo: event.repository?.full_name
-              }
+                repo: event.repository?.full_name,
+              },
             },
             schema: {
               summary: 'string',
               findings: 'string[]',
               sources: 'string[]',
-              confidence: 'number'
+              confidence: 'number',
             },
             settings: {
-              model: 'perplexity/sonar-deep-research'
+              model: 'perplexity/sonar-deep-research',
             },
             type: 'Object',
             callback: {
               task: 'postGithubComment',
               input: {
                 issueNumber: issue.number,
-                repository: event.repository?.full_name
-              }
-            }
-          }
+                repository: event.repository?.full_name,
+              },
+            },
+          },
         })
-        
-        await payload.create({ 
-          collection: 'tasks', 
-          data: { 
+
+        await payload.create({
+          collection: 'tasks',
+          data: {
             title: `Research: ${issue.title}`,
             description: `Research on GitHub issue #${issue.number} from ${event.repository?.full_name}: ${issue.html_url}`,
             status: 'in-progress',
@@ -61,9 +61,9 @@ export const handleGithubEvent = {
               type: 'github-research',
               issueNumber: issue.number,
               repository: event.repository?.full_name,
-              url: issue.html_url
-            }
-          } 
+              url: issue.html_url,
+            },
+          },
         })
       } else if (event.label?.name === 'devin') {
         console.log('Starting Devin workflow')

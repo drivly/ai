@@ -1,0 +1,11 @@
+Functions: A composable and atomic primitive that accepts inputs and returns strongly-typed outputs, with four types - Code, Generative, Agent, and Human.
+Workflows: A special type of Function defined as declarative Code that enables AI and Humans to work together in the pursuit of an Objective as measured by Key Results.
+Agents: An autonomous digital worker with Goals & Objectives and is evaluated by the Key Results it delivers to the business.
+Business: Requires clearly-defined Objectives and Key Results, where Objectives are strategic business goals and Key Results measure progress against goals.
+Data: Consists of Nouns (types of entities), Verbs (potential actions), and Resources (data records stored in the Database).
+Events: Occur when a Subject performs an Action to an Object, and can be Triggers for Workflows or Functions.
+Evaluations: The process of measuring the performance of Functions, Workflows, Agents, and Humans against their Objectives and Key Results.
+Experiments: Allow testing the performance of Functions, Workflows, Agents, and Humans, automatically iterating on models, prompts, and settings.
+Integrations: Connect external APIs and systems to business processes, leveraging AI and automation to improve business processes.
+Deployment: Enable putting Business-as-Code into production on cloud infrastructure, with one-click deploy and marketplace integration.
+Observability: Enables monitoring the performance of business processes, with logging of every API Request, Function Call, Workflow, Agent Action, and Human Task.

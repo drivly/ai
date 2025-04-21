@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, next]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -42,6 +42,7 @@ jobs:
           DATABASE_URI: ${{ secrets.DATABASE_URI || 'mongodb://localhost:27017/payload-cms' }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY || 'resend-key-placeholder' }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_placeholder' }}
+          ANALYZE: 'true'
 
       # Bundle analysis steps
       - name: Restore next build
@@ -86,23 +87,33 @@ jobs:
         if: success() && github.event.number && steps.check-base-bundle.outputs.base_bundle_exists == 'true'
         run: |
           if [ -f ".next/analyze/base/bundle/__bundle_analysis.json" ]; then
-            npx -p nextjs-bundle-analysis compare || echo "Bundle comparison failed, but continuing build"
+            npx -p nextjs-bundle-analysis compare
           else
             echo "No base bundle analysis file found. Skipping comparison."
           fi
-        continue-on-error: true
 
       - name: Get Comment
         id: get-comment
         if: success() && github.event.number
         run: |
           if [ -f .next/analyze/__bundle_analysis_comment.txt ]; then
-            echo "comment=$(cat .next/analyze/__bundle_analysis_comment.txt)" >> $GITHUB_OUTPUT
+            echo "comment file exists"
+            cat .next/analyze/__bundle_analysis_comment.txt
+            # Use base64 encoding to handle special characters and multiline content
+            COMMENT_B64=$(base64 -w 0 .next/analyze/__bundle_analysis_comment.txt)
+            echo "comment_b64=${COMMENT_B64}" >> $GITHUB_OUTPUT
+            echo "comment_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "comment file does not exist"
+            echo "comment_exists=false" >> $GITHUB_OUTPUT
+            # List files in analyze directory for debugging
+            ls -la .next/analyze/
           fi
 
       - name: Comment
         uses: marocchino/sticky-pull-request-comment@v2
-        if: success() && github.event.number && steps.get-comment.outputs.comment
+        if: success() && github.event.number && steps.get-comment.outputs.comment_exists == 'true'
         with:
           header: next-bundle-analysis
-          message: ${{ steps.get-comment.outputs.comment }}
+          message: ${{ steps.get-comment.outputs.comment_b64 }}
+          recreate: true

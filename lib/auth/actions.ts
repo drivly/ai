@@ -2,34 +2,26 @@
 
 import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
 
-export async function signUp({
-  email,
-  password,
-  role,
-  name,
-  image,
-  //   callbackURL,
-}: {
-  email: string
-  password: string
-  role: string
-  name: string
-  image?: string
-  //   callbackURL: string;
-}) {
-  const payload = await getPayloadWithAuth()
+export async function signUp({ email, password, role, name, image }: { email: string; password: string; role: string; name: string; image?: string }) {
+  try {
+    const payload = await getPayloadWithAuth()
 
-  const resFoo = await payload.betterAuth.api.createUser({
-    asResponse: true,
-    body: {
-      email,
-      password,
-      role: 'admin',
-      name,
-    },
-  })
+    const validRole = role === 'admin' || role === 'superAdmin' ? role : 'user'
 
-  if (!resFoo.ok) {
-    return new Response(resFoo.statusText, { status: resFoo.status })
+    const user = await payload.create({
+      collection: 'users',
+      data: {
+        email,
+        password,
+        role: validRole,
+        name,
+        emailVerified: false,
+      },
+    })
+
+    return user
+  } catch (error) {
+    console.error('Error creating user:', error)
+    return new Response('Failed to create user', { status: 500 })
   }
 }

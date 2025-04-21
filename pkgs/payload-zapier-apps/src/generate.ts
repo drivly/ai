@@ -18,7 +18,7 @@ async function getCollections(collectionsPath?: string) {
     // Dynamic import for ESM compatibility
     const __filename = fileURLToPath(import.meta.url)
     const __dirname = path.dirname(__filename)
-    
+
     const resolvedPath = collectionsPath || path.resolve(__dirname, '../../../collections/index.js')
     const collectionsModule = await import(resolvedPath)
     return collectionsModule.collections || []
@@ -33,12 +33,10 @@ export async function main(options: { collectionsPath?: string; outputDir?: stri
   try {
     const __filename = fileURLToPath(import.meta.url)
     const __dirname = path.dirname(__filename)
-    
+
     // Ensure output directories exist
-    const outputDir = options.outputDir 
-      ? path.resolve(options.outputDir) 
-      : path.resolve(__dirname, '../apps')
-      
+    const outputDir = options.outputDir ? path.resolve(options.outputDir) : path.resolve(__dirname, '../apps')
+
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true })
     }
