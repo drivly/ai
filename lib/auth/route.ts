@@ -52,7 +52,7 @@ export async function cliLogin(request: NextRequest) {
   }
 }
 
-export const logout = async (request: NextRequest) => {
+const logout = async (request: NextRequest) => {
   try {
     await signOut({ redirect: false })
   } catch (error) {
