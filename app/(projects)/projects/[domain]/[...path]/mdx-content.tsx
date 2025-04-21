@@ -10,7 +10,7 @@ export default function MDXContent({ source }: MDXContentProps) {
   const mdxComponents = useMDXComponents()
   const Wrapper = mdxComponents.wrapper
 
-  const toc = []
+  const toc: any[] = []
   const metadata = {
     title: '',
     description: '',
