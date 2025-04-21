@@ -22,22 +22,27 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   if (!resource) return {}
 
   return {
-    title: resource.name,
-    description: resource.description || '',
+    title: resource.name || '',
+    description: typeof resource.data === 'object' && resource.data !== null && !Array.isArray(resource.data) ? 
+      (resource.data.description as string) || '' : '',
   }
 }
 
 async function fetchResource(domain: string, path: string[]) {
   try {
-    const { payload } = global as any
+    const { getPayload } = await import('payload')
+    const { default: config } = await import('@/payload.config')
+    const payload = await getPayload({ config })
 
-    const project = await payload.db.projects.findOne({
+    const project = await payload.find({
+      collection: 'projects',
       where: {
         domain: {
           equals: domain,
         },
       },
-    })
+      limit: 1,
+    }).then(result => result.docs?.[0] || null)
 
     if (!project) return null
 
