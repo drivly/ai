@@ -1,6 +1,6 @@
 import { motion } from 'motion/react'
 import React from 'react'
-import { useModalConfig } from '../store/modal-store'
+import { useModalConfig, Suggestion } from '../store/modal-store'
 
 interface ChatSuggestionsProps {
   append: ({ role, content }: { role: 'user'; content: string }) => void
@@ -14,7 +14,7 @@ export function ChatSuggestions({ append }: ChatSuggestionsProps) {
   return (
     <section className='@container'>
       <div className='mx-auto mb-3 grid w-full gap-4 px-4 @md:grid-cols-2'>
-        {config.suggestions.map((suggestedAction, index) => (
+        {config.suggestions.map((suggestedAction: Suggestion, index: number) => (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} transition={{ delay: 0.05 * index }} key={index}>
             <button
               onClick={async () => {
