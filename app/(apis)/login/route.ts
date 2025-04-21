@@ -5,6 +5,8 @@ import { auth, signIn } from '@/auth'
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const { origin } = request.nextUrl
+  const referer = request.headers.get('referer')
+  console.log({ referer })
 
   const isCli = searchParams.get('cli') === 'true'
   const state = searchParams.get('state')
@@ -15,6 +17,6 @@ export async function GET(request: NextRequest) {
   }
 
   return signIn('github', {
-    callbackUrl: `${origin}/waitlist`
+    callbackUrl: referer || `${origin}/waitlist`
   })
 }
