@@ -23,7 +23,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   return {
     title: resource.name || '',
-    description: typeof resource.data === 'object' && resource.data !== null ? 
+    description: typeof resource.data === 'object' && resource.data !== null && !Array.isArray(resource.data) ? 
       (resource.data.description as string) || '' : '',
   }
 }
