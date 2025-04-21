@@ -44,6 +44,14 @@ export function cartesian<T extends Record<string, any[]>>(params: T): Array<{ [
  * Runs an experiment with multiple parameter variations.
  * @param name The name of the experiment
  * @param config The experiment configuration
+ * @param config.models Array of model identifiers to test
+ * @param config.temperature Temperature value(s) to test
+ * @param config.seeds Number of random seeds to test
+ * @param config.prompt Function that generates prompts for each input
+ * @param config.inputs Function that returns the inputs to test
+ * @param config.expected Optional expected results. If not provided, the first variation will be used as a baseline
+ * @param config.schema Schema for validating outputs
+ * @param config.scorers Optional scoring functions. If not provided, a Battle-like scorer will be created to compare against baselines
  * @returns The experiment results
  */
 export async function experiment<T, E>(
