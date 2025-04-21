@@ -132,8 +132,18 @@ export function experiment<T, E>(
     console.error(`Error registering experiment '${name}':`, error)
   })
   
-  // Return undefined since we're just registering the test, not executing it directly
-  return
+  // Return an object with the experiment details
+  return {
+    name,
+    config: {
+      models: config.models,
+      temperatures: Array.isArray(config.temperature) ? config.temperature : [config.temperature],
+      seeds: config.seeds ? Array.from({ length: config.seeds }, (_, i) => i + 1) : [1],
+      totalInputs: 0
+    },
+    results: [],
+    summary: {}
+  }
 }
 
 /**
