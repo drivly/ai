@@ -34,13 +34,15 @@ async function fetchResource(domain: string, path: string[]) {
     const { default: config } = await import('@/payload.config')
     const payload = await getPayload({ config })
 
-    const project = await payload.db.projects.findOne({
+    const project = await payload.find({
+      collection: 'projects',
       where: {
         domain: {
           equals: domain,
         },
       },
-    })
+      limit: 1,
+    }).then(result => result.docs?.[0] || null)
 
     if (!project) return null
 
