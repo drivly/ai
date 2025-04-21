@@ -2,7 +2,7 @@
 
 import { BotMessageSquare } from 'lucide-react'
 import React, { Fragment } from 'react'
-import type { ClientContainerProps } from '@/types/chat'
+import type { ClientContainerProps } from '../../types/chat'
 
 const cn = (...classes: (string | undefined | null | false)[]) => {
   return classes.filter(Boolean).join(' ')
