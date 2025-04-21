@@ -4,28 +4,19 @@ import { auth } from '@/auth.config';
 import { redirect } from 'next/navigation';
 import { ChatContent } from '@/components/chat/chat-content';
 import { ChatProvider } from '@/components/chat/chat-provider';
-import { getCurrentURL } from '@/lib/utils/url';
-import { headers } from 'next/headers';
 
 export default async function ChatPage({
   params,
 }: {
-  params: Promise<Record<string, string | string[]>>;
+  params: Promise<{ id: string }>;
 }) {
   const session = await auth();
 
   if (!session) {
-    const headersList = await headers();
-    const currentURL = getCurrentURL(headersList);
-    const callbackUrl = new URL('/gpt.do/chat/new', currentURL).toString();
-    const githubSignInUrl = new URL('/api/auth/signin/github', currentURL);
-    githubSignInUrl.searchParams.set('callbackUrl', callbackUrl);
-    
-    redirect(githubSignInUrl.toString());
+    redirect('/login');
   }
 
-  const { id: idParam } = await params;
-  const id = Array.isArray(idParam) ? idParam[0] : idParam;
+  const { id } = await params;
 
   return (
     <div className="flex flex-col min-w-0 h-dvh bg-background">
