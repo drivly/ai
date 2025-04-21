@@ -110,7 +110,7 @@ export const integrations = {
    * @returns void or confirmation
    */
   deleteConnection: async (connectionId: string): Promise<void> => {
-    return api.delete<void>(`/integrations/connections/${connectionId}`);
+    return api.post<void>(`/integrations/connections/${connectionId}`, { _method: 'DELETE' });
   },
 };
 
@@ -151,7 +151,7 @@ export const triggers = {
    * @returns void or confirmation
    */
   delete: async (id: string): Promise<void> => {
-    return api.delete<void>(`/integrations/triggers/${id}`);
+    return api.post<void>(`/integrations/triggers/${id}`, { _method: 'DELETE' });
   },
   
 };
@@ -183,7 +183,7 @@ export const actions = {
    * @returns void or confirmation
    */
   delete: async (id: string): Promise<void> => {
-    return api.delete<void>(`/integrations/actions/${id}`);
+    return api.post<void>(`/integrations/actions/${id}`, { _method: 'DELETE' });
   },
 
 };
