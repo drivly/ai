@@ -1,7 +1,7 @@
 import { experiment } from 'experiments.do'
 import { z } from 'zod'
 
-experiment('content-evaluation', {
+experiment('content-marketing', {
   models: [
     'google/gemini-2.5-pro-preview-03-25',
     'google/gemini-2.5-flash-preview',
@@ -17,7 +17,7 @@ experiment('content-evaluation', {
     'x-ai/grok-3-beta',
     'x-ai/grok-3-mini-beta',
   ],
-  temperature: 0.7,
+  temperature: 1,
   seeds: 1,
   inputs: () => Promise.resolve([]),
   system: [undefined, 'You are an expert at content marketing for startups', 'You are a YC Group Partner'],
