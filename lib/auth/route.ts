@@ -1,7 +1,6 @@
 import { getCurrentURL } from '@/lib/utils/url'
 import { NextRequest, NextResponse } from 'next/server'
 import { auth, signIn, signOut } from '@/auth'
-import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
 
 export async function login(request: NextRequest) {
   const currentURL = getCurrentURL(request.headers)
@@ -13,13 +12,15 @@ export async function login(request: NextRequest) {
 
   const destination = request.nextUrl.searchParams.get('destination') || 'admin'
   const provider = request.nextUrl.searchParams.get('provider') || 'github'
-
+  
+  const referer = request.headers.get('referer')
+  const redirectTo = referer ? new URL(referer).origin + '/waitlist' : new URL('/waitlist', currentURL).toString()
+  
   try {
     console.log(`Auth debug - Starting ${provider} login on: ${host}`)
-
-    console.log(`Auth debug - Using signIn function with redirectTo: ${DEFAULT_LOGIN_REDIRECT}`)
+    console.log(`Auth debug - Using signIn function with redirectTo: ${redirectTo}`)
     
-    return await signIn(provider, { redirectTo: DEFAULT_LOGIN_REDIRECT })
+    return await signIn(provider, { redirectTo })
   } catch (error) {
     console.error('Error during login:', error)
 
