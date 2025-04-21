@@ -4,7 +4,8 @@ import { signIn } from '@/auth'
 
 export async function GET(request: NextRequest) {
   const domain = 'gpt.do'
+  const host = request.headers.get('host') || ''
   return signIn('github', {
-    callbackUrl: getAuthRedirectForDomain(request, domain)
+    callbackUrl: getAuthRedirectForDomain(host, 'waitlist')
   })
 }
