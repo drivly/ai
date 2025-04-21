@@ -97,24 +97,96 @@ export async function experiment<T, E>(
   
   const needsBaselines = !config.expected || !config.scorers || config.scorers?.length === 0
   
-  const baselineOutputs: Record<number, any> = {}
+  const baselineOutputs: {
+    byInput: Record<number, any>,
+    byDimension: {
+      model: Record<string, Record<number, any>>,
+      temperature: Record<string, Record<number, any>>,
+      seed: Record<string, Record<number, any>>
+    }
+  } = {
+    byInput: {},
+    byDimension: {
+      model: {},
+      temperature: {},
+      seed: {}
+    }
+  }
+  
   let battleScorer: any = undefined
   
-  if (needsBaselines && combinations.length > 0) {
-    const firstVariation = combinations[0]
-    const { model, temperature, seed } = firstVariation
+  function getDimensionToCompare(
+    model: string, 
+    temperature: number, 
+    seed: number, 
+    baselineVariation: { model: string; temperature: number; seed: number } | null
+  ): string | null {
+    if (!baselineVariation) return null;
     
+    // If only the model is different, compare model dimension
+    if (model !== baselineVariation.model && 
+        temperature === baselineVariation.temperature && 
+        seed === baselineVariation.seed) {
+      return 'model';
+    }
+    
+    // If only the temperature is different, compare temperature dimension
+    if (model === baselineVariation.model && 
+        temperature !== baselineVariation.temperature && 
+        seed === baselineVariation.seed) {
+      return 'temperature';
+    }
+    
+    // If only the seed is different, compare seed dimension
+    if (model === baselineVariation.model && 
+        temperature === baselineVariation.temperature && 
+        seed !== baselineVariation.seed) {
+      return 'seed';
+    }
+    
+    return null;
+  }
+  
+  function getValueForDimension(
+    model: string, 
+    temperature: number, 
+    seed: number, 
+    dimension: string | null
+  ): string | number | null {
+    if (!dimension) return null;
+    
+    switch (dimension) {
+      case 'model': return model;
+      case 'temperature': return temperature;
+      case 'seed': return seed;
+      default: return null;
+    }
+  }
+  
+  if (needsBaselines && combinations.length > 0) {
+    // Create baselines for each dimension
+    const uniqueModels = [...new Set(combinations.map(c => c.model))]
+    const uniqueTemperatures = [...new Set(combinations.map(c => c.temperature))]
+    const uniqueSeeds = [...new Set(combinations.map(c => c.seed))]
+    
+    const baselineModel = uniqueModels[0]
+    const baselineTemperature = uniqueTemperatures[0]
+    const baselineSeed = uniqueSeeds[0]
+    
+    // Create baselines for each input using the first variation
     for (const input of inputs) {
       const inputIndex = inputs.indexOf(input)
       const prompts = config.prompt ? (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : []
-      const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputIndex}_baseline`
+      
+      // Create baseline for the first variation (used for backward compatibility)
+      const firstVariationId = `${name}_${baselineModel}_${baselineTemperature}_${baselineSeed}_${inputIndex}_baseline`
       
       try {
-        const evaluationResult = await runEvaluation({
-          id: evaluationId,
-          model,
-          temperature,
-          seed,
+        const firstVariationResult = await runEvaluation({
+          id: firstVariationId,
+          model: baselineModel,
+          temperature: baselineTemperature,
+          seed: baselineSeed,
           prompts,
           input,
           expected: config.expected || {},
@@ -123,37 +195,161 @@ export async function experiment<T, E>(
           api,
         })
         
-        baselineOutputs[inputIndex] = evaluationResult
+        baselineOutputs.byInput[inputIndex] = firstVariationResult
+        
+        // Also store it in the dimension-specific baselines
+        if (!baselineOutputs.byDimension.model[baselineModel]) {
+          baselineOutputs.byDimension.model[baselineModel] = {}
+        }
+        baselineOutputs.byDimension.model[baselineModel][inputIndex] = firstVariationResult
+        
+        if (!baselineOutputs.byDimension.temperature[baselineTemperature]) {
+          baselineOutputs.byDimension.temperature[baselineTemperature] = {}
+        }
+        baselineOutputs.byDimension.temperature[baselineTemperature][inputIndex] = firstVariationResult
+        
+        if (!baselineOutputs.byDimension.seed[baselineSeed]) {
+          baselineOutputs.byDimension.seed[baselineSeed] = {}
+        }
+        baselineOutputs.byDimension.seed[baselineSeed][inputIndex] = firstVariationResult
         
         results.push({
-          id: evaluationId,
-          model,
-          temperature,
-          seed,
+          id: firstVariationId,
+          model: baselineModel,
+          temperature: baselineTemperature,
+          seed: baselineSeed,
           input,
-          result: evaluationResult,
+          result: firstVariationResult,
         })
       } catch (error) {
         console.error(`Error creating baseline for input ${inputIndex}:`, error)
         results.push({
-          id: evaluationId,
-          model,
-          temperature,
-          seed,
+          id: firstVariationId,
+          model: baselineModel,
+          temperature: baselineTemperature,
+          seed: baselineSeed,
           input,
           error: error instanceof Error ? error.message : String(error),
         })
       }
+      
+      // Create baselines for other dimensions (other models, temperatures, seeds)
+      for (const model of uniqueModels.slice(1)) {
+        const modelBaselineId = `${name}_${model}_${baselineTemperature}_${baselineSeed}_${inputIndex}_model_baseline`
+        
+        try {
+          const modelBaselineResult = await runEvaluation({
+            id: modelBaselineId,
+            model,
+            temperature: baselineTemperature,
+            seed: baselineSeed,
+            prompts,
+            input,
+            expected: config.expected || {},
+            schema: config.schema,
+            scorers: config.scorers || [],
+            api,
+          })
+          
+          if (!baselineOutputs.byDimension.model[model]) {
+            baselineOutputs.byDimension.model[model] = {}
+          }
+          baselineOutputs.byDimension.model[model][inputIndex] = modelBaselineResult
+          
+          // Don't add these to results to avoid duplicate evaluations
+        } catch (error) {
+          console.error(`Error creating model baseline for input ${inputIndex}:`, error)
+        }
+      }
+      
+      for (const temperature of uniqueTemperatures.slice(1)) {
+        const tempBaselineId = `${name}_${baselineModel}_${temperature}_${baselineSeed}_${inputIndex}_temp_baseline`
+        
+        try {
+          const tempBaselineResult = await runEvaluation({
+            id: tempBaselineId,
+            model: baselineModel,
+            temperature,
+            seed: baselineSeed,
+            prompts,
+            input,
+            expected: config.expected || {},
+            schema: config.schema,
+            scorers: config.scorers || [],
+            api,
+          })
+          
+          if (!baselineOutputs.byDimension.temperature[temperature]) {
+            baselineOutputs.byDimension.temperature[temperature] = {}
+          }
+          baselineOutputs.byDimension.temperature[temperature][inputIndex] = tempBaselineResult
+          
+          // Don't add these to results to avoid duplicate evaluations
+        } catch (error) {
+          console.error(`Error creating temperature baseline for input ${inputIndex}:`, error)
+        }
+      }
+      
+      for (const seed of uniqueSeeds.slice(1)) {
+        const seedBaselineId = `${name}_${baselineModel}_${baselineTemperature}_${seed}_${inputIndex}_seed_baseline`
+        
+        try {
+          const seedBaselineResult = await runEvaluation({
+            id: seedBaselineId,
+            model: baselineModel,
+            temperature: baselineTemperature,
+            seed,
+            prompts,
+            input,
+            expected: config.expected || {},
+            schema: config.schema,
+            scorers: config.scorers || [],
+            api,
+          })
+          
+          if (!baselineOutputs.byDimension.seed[seed]) {
+            baselineOutputs.byDimension.seed[seed] = {}
+          }
+          baselineOutputs.byDimension.seed[seed][inputIndex] = seedBaselineResult
+          
+          // Don't add these to results to avoid duplicate evaluations
+        } catch (error) {
+          console.error(`Error creating seed baseline for input ${inputIndex}:`, error)
+        }
+      }
     }
     
-    // Create a Battle-like scorer function that compares outputs against baselines
-    function Battle({ output, expected }: { output: any, expected: any }) {
+    // Enhanced Battle-like scorer function that compares outputs against dimension-specific baselines
+    function Battle({ output, expected, dimension, value, inputIndex }: { 
+      output: any, 
+      expected: any,
+      dimension?: string | null,
+      value?: string | number | null,
+      inputIndex?: number
+    }) {
+      if (dimension && value !== undefined && value !== null && inputIndex !== undefined) {
+        const dimensionBaselines = baselineOutputs.byDimension[dimension as keyof typeof baselineOutputs.byDimension]
+        if (dimensionBaselines && dimensionBaselines[String(value)] && dimensionBaselines[String(value)][inputIndex]) {
+          const dimensionBaseline = dimensionBaselines[String(value)][inputIndex]
+          const matches = JSON.stringify(output) === JSON.stringify(dimensionBaseline)
+          return {
+            score: matches ? 1 : 0,
+            details: {
+              matches,
+              comparison: `Comparing output to ${dimension} baseline (${value})`,
+              baseline: dimensionBaseline
+            },
+          }
+        }
+      }
+      
       const matches = JSON.stringify(output) === JSON.stringify(expected)
       return {
         score: matches ? 1 : 0,
         details: {
           matches,
           comparison: `Comparing output to baseline`,
+          baseline: expected
         },
       }
     }
@@ -161,7 +357,14 @@ export async function experiment<T, E>(
     battleScorer = Battle
   }
   
-  const combinationsToProcess = needsBaselines ? combinations.slice(1) : combinations
+  const firstVariation = combinations.length > 0 ? combinations[0] : null
+  const combinationsToProcess = needsBaselines && firstVariation 
+    ? combinations.filter(combo => {
+        return !(combo.model === firstVariation.model && 
+                combo.temperature === firstVariation.temperature && 
+                combo.seed === firstVariation.seed)
+      }) 
+    : combinations
   
   for (const input of inputs) {
     const inputIndex = inputs.indexOf(input)
@@ -178,9 +381,16 @@ export async function experiment<T, E>(
           seed,
           prompts,
           input,
-          expected: config.expected || baselineOutputs[inputIndex] || {},
+          expected: config.expected || (baselineOutputs.byInput[inputIndex] || {}),
           schema: config.schema,
-          scorers: config.scorers || (battleScorer ? [battleScorer] : []),
+          scorers: config.scorers || (battleScorer ? [
+            (params: any) => battleScorer({
+              ...params,
+              dimension: getDimensionToCompare(model, temperature, seed, firstVariation),
+              value: getValueForDimension(model, temperature, seed, getDimensionToCompare(model, temperature, seed, firstVariation)),
+              inputIndex
+            })
+          ] : []),
           api,
         })
         results.push({
