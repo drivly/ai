@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     const session = await auth()
 
     if (!session?.user) {
-      const loginUrl = `/sign-in?cli=true&state=${state}&callback=${encodeURIComponent(callback)}`
+      const loginUrl = `/login/cli?state=${state}&callback=${encodeURIComponent(callback)}`
       return NextResponse.redirect(new URL(loginUrl, request.url))
     }
 
