@@ -7,7 +7,8 @@ import { openai } from '@ai-sdk/openai'
 import { embedMany } from 'ai'
 import config from '../payload.config'
 
-const MODEL = 'text-embedding-3-small'
+const MODEL = 'text-embedding-3-large'
+const DIMENSIONS = 256
 const BATCH_SIZE = 50
 const PROBLEMATIC_RESOURCE_ID = '67dd4e7ec37e99e7ed48ffa2'
 
