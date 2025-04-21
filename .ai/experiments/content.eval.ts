@@ -1,4 +1,5 @@
-import { experiment } from '../../sdks/experiments.do/src/experiment.js'
+import { experiment } from 'experiments.do'
+import { domains } from '@/.velite'
 import { z } from 'zod'
 
 experiment('content-marketing', {
@@ -19,7 +20,7 @@ experiment('content-marketing', {
   ],
   temperature: 1,
   seeds: 1,
-  inputs: () => Promise.resolve([]),
+  inputs: () => Promise.resolve(domains),
   system: [undefined, 'You are an expert at content marketing for startups', 'You are a YC Group Partner'],
   prompt: ({ input }: { input: any }) => [JSON.stringify(input)],
   schema: z.object({
