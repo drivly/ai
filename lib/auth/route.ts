@@ -1,6 +1,7 @@
 import { getCurrentURL } from '@/lib/utils/url'
 import { NextRequest, NextResponse } from 'next/server'
 import { auth, signIn, signOut } from '@/auth'
+import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
 
 export async function login(request: NextRequest) {
   const currentURL = getCurrentURL(request.headers)
@@ -16,13 +17,9 @@ export async function login(request: NextRequest) {
   try {
     console.log(`Auth debug - Starting ${provider} login on: ${host}`)
 
-    const callbackUrl = new URL('/api/auth/callback/github', currentURL).toString()
-    const signInUrl = new URL(`/api/auth/signin/${provider}`, currentURL)
-    signInUrl.searchParams.set('callbackUrl', callbackUrl)
-
-    console.log(`Auth debug - Redirecting to: ${signInUrl.toString()}`)
-
-    return NextResponse.redirect(signInUrl)
+    console.log(`Auth debug - Using signIn function with redirectTo: ${DEFAULT_LOGIN_REDIRECT}`)
+    
+    return await signIn(provider, { redirectTo: DEFAULT_LOGIN_REDIRECT })
   } catch (error) {
     console.error('Error during login:', error)
 
