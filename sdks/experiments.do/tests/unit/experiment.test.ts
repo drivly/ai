@@ -1,5 +1,26 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { cartesian, experiment } from '../../src/experiment.js'
+import { API } from 'apis.do'
+
+vi.mock('apis.do', () => {
+  return {
+    API: vi.fn().mockImplementation(() => {
+      return {
+        post: vi.fn().mockResolvedValue({
+          data: {
+            choices: [
+              {
+                message: {
+                  content: 'Mocked model response'
+                }
+              }
+            ]
+          }
+        })
+      }
+    })
+  }
+})
 
 describe('cartesian', () => {
   it('should generate all combinations of parameters', () => {
@@ -40,6 +61,10 @@ describe('cartesian', () => {
 })
 
 describe('experiment', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('should expand scalar temperature to array', async () => {
     const mockInputs = ['input1', 'input2']
     const mockConfig = {
@@ -50,7 +75,9 @@ describe('experiment', () => {
       inputs: vi.fn().mockResolvedValue(mockInputs),
       expected: 'expected result',
       schema: { type: 'object' },
-      scorers: [{ name: 'scorer1' }],
+      scorers: [
+        vi.fn().mockImplementation(async () => ({ score: 0.8, details: { matches: true } }))
+      ],
     }
 
     const result = await experiment('test-experiment', mockConfig)
@@ -69,7 +96,9 @@ describe('experiment', () => {
       inputs: vi.fn().mockResolvedValue(mockInputs),
       expected: 'expected result',
       schema: { type: 'object' },
-      scorers: [{ name: 'scorer1' }],
+      scorers: [
+        vi.fn().mockImplementation(async () => ({ score: 0.8, details: { matches: true } }))
+      ],
     }
 
     const result = await experiment('test-experiment', mockConfig)
