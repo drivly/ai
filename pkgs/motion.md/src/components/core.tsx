@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 import { LayoutProps, SlideshowProps } from './interfaces'
 import { useVideoConfig } from 'remotion'
@@ -62,21 +60,8 @@ export const Slideshow: React.FC<SlideshowProps> = ({
   duration = 5,
   transition = 'fade',
 }) => {
-  const stepDuration = steps && steps.length > 0 ? duration / steps.length : duration;
-  
   const { fps } = useVideoConfig();
-  const [currentStep, setCurrentStep] = React.useState(0);
   
-  React.useEffect(() => {
-    if (!steps || steps.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      setCurrentStep((prev) => (prev + 1) % steps.length);
-    }, stepDuration * 1000);
-    
-    return () => clearInterval(interval);
-  }, [steps, stepDuration]);
-
   return (
     <div className="slide slideshow" style={{ background: background || '#222' }}>
       <div className="content">
@@ -93,7 +78,8 @@ export const Slideshow: React.FC<SlideshowProps> = ({
               fontFamily: 'monospace',
               color: '#d4d4d4'
             }}>
-              {steps && steps.length > 0 ? steps[currentStep] : code}
+              {/* In server rendering, we can't use state, so just show the first step or code */}
+              {steps && steps.length > 0 ? steps[0] : code}
             </code>
           </pre>
         </div>

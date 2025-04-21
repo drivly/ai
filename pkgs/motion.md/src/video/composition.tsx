@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 import { Composition, AbsoluteFill, useVideoConfig } from 'remotion'
 import { VideoConfig, Slide } from '../types'
