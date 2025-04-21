@@ -2,22 +2,22 @@
 
 ## Current Status
 - [x] Created README.md with documentation for the batch script
-- [ ] Created implementation plan in TODO.md (this file)
-- [ ] Implemented batch script for generating resource embeddings
-- [ ] Added special handling for problematic resource
+- [x] Created implementation plan in TODO.md (this file)
+- [x] Implemented batch script for generating resource embeddings
+- [x] Added special handling for problematic resource
 - [ ] (Optional) Modified Resources collection's afterChange hook
-- [ ] Created PR with implementation
+- [x] Created PR with implementation
 
 ## Implementation Plan
 
 ### 1. Create Batch Script
-- [ ] Create `scripts/generateResourceEmbeddingsBatch.ts`
-- [ ] Implement function to query resources without embeddings
-- [ ] Add batch processing using `embedMany` from AI SDK
-- [ ] Implement special handling for problematic resource ID (67dd4e7ec37e99e7ed48ffa2)
-- [ ] Add direct database updates with generated embeddings
-- [ ] Implement error handling and logging
-- [ ] Make batch size configurable
+- [x] Create `scripts/generateResourceEmbeddingsBatch.ts`
+- [x] Implement function to query resources without embeddings
+- [x] Add batch processing using `embedMany` from AI SDK
+- [x] Implement special handling for problematic resource ID (67dd4e7ec37e99e7ed48ffa2)
+- [x] Add direct database updates with generated embeddings
+- [x] Implement error handling and logging
+- [x] Make batch size configurable
 
 ### 2. (Optional) Modify Resources Collection
 - [ ] Update `collections/data/Resources.ts` to disable direct embedding generation
@@ -32,8 +32,8 @@
 
 ### 4. Documentation
 - [x] Create/update README.md with usage instructions
-- [ ] Add inline comments to explain key parts of the code
-- [ ] Document cron job setup
+- [x] Add inline comments to explain key parts of the code
+- [x] Document cron job setup
 
 ## Technical Challenges
 - Ensuring proper error handling for batch processing
