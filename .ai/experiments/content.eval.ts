@@ -19,7 +19,7 @@ experiment('content-evaluation', {
   ],
   data: [],
   system: [undefined, 'You are an expert at content marketing for startups', 'You are a YC Group Partner'],
-  prompt: JSON.stringify,
+  prompt: ({ input }: { input: any }) => [JSON.stringify(input)],
   schema: z.object({
     seoTitle: z.string(),
     seoDescription: z.string(),
