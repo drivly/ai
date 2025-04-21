@@ -1,0 +1,26 @@
+{
+  "name": "browsers.do",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy src/index.ts",
+    "build": "wrangler build",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@browserbasehq/sdk": "^1.0.0",
+    "@browserbasehq/stagehand": "^1.0.0",
+    "@hono/zod-validator": "^0.1.11",
+    "hono": "^4.7.4",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.0.0",
+    "typescript": "^5.7.3",
+    "vitest": "^1.0.1",
+    "wrangler": "^4.2.0"
+  }
+}

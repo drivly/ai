@@ -5,6 +5,7 @@ const meta: MetaRecord = {
   'functions.do': '',
   'agents.do': '',
   'apis.do': '',
+  'embed': '',
 }
 
 export default meta

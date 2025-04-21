@@ -1,0 +1,9 @@
+name = "browsers-do"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# Define your environment variables here
+# BROWSERBASE_API_KEY = "your-api-key"
+# BROWSERBASE_PROJECT_ID = "your-project-id"

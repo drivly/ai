@@ -44,11 +44,13 @@ export const POST = API(async (request, { payload }) => {
 
     const currentTimestamp = webhookTimestamp || Math.floor(Date.now() / 1000).toString()
 
-    const verifiedPayload = wh.verify(rawBody, {
+    const verificationHeaders: Record<string, string> = {
       'linear-delivery': webhookId,
-      'linear-signature-timestamp': currentTimestamp,
       'linear-signature': webhookSignature,
-    })
+    }
+    verificationHeaders['linear-signature-timestamp'] = currentTimestamp
+
+    const verifiedPayload = wh.verify(rawBody, verificationHeaders)
 
     const data = JSON.parse(rawBody)
 
@@ -62,7 +64,10 @@ export const POST = API(async (request, { payload }) => {
 
     return { success: true, data }
   } catch (err) {
-    console.error('Linear webhook verification failed:', err)
+    console.error('Linear webhook verification failed:', err, {
+      hasTimestampHeader: Boolean(webhookTimestamp),
+      usingGeneratedTimestamp: !webhookTimestamp,
+    })
     return new Response('Webhook processing failed', { status: 401 })
   }
 })

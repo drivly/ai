@@ -1,3 +1,5 @@
+'use client'
+
 // Import necessary dependencies
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
