@@ -217,6 +217,35 @@ new ExperimentsClient({
 - `update(experimentId: string, data: Partial<Experiment>): Promise<Experiment>` - Update an experiment
 - `delete(experimentId: string): Promise<any>` - Delete an experiment
 
+### Utility Functions
+
+#### `cartesian`
+
+Generates all possible combinations (cartesian product) of values from arrays in an object.
+
+```typescript
+import { cartesian } from 'experiments.do'
+
+// Generate all combinations of colors and sizes
+const combinations = cartesian({
+  color: ['red', 'blue', 'green'],
+  size: ['S', 'M', 'L']
+})
+
+// Result:
+// [
+//   { color: 'red', size: 'S' },
+//   { color: 'red', size: 'M' },
+//   { color: 'red', size: 'L' },
+//   { color: 'blue', size: 'S' },
+//   { color: 'blue', size: 'M' },
+//   { color: 'blue', size: 'L' },
+//   { color: 'green', size: 'S' },
+//   { color: 'green', size: 'M' },
+//   { color: 'green', size: 'L' }
+// ]
+```
+
 ## Dependencies
 
 - [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the .do ecosystem
