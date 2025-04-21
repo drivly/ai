@@ -49,9 +49,10 @@ export async function cliLogin(request: NextRequest) {
       { error: 'Failed to process CLI login', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     )
+  }
 }
 
-export const logout = async (request: NextRequest) => {
+const logout = async (request: NextRequest) => {
   try {
     await signOut({ redirect: false })
   } catch (error) {
