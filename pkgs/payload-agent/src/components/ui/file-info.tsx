@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatFileSize } from '@/lib/utils'
+import { formatFileSize } from '../../lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 const fileVariants = cva('font-geist grid gap-[4px] leading-none font-medium [&_p]:overflow-hidden [&_p]:text-ellipsis', {

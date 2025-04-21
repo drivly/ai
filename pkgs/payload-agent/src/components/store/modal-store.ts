@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { useShallow } from 'zustand/react/shallow'
-import type { PayloadAgentAuthResult } from '@/types/auth'
-import type { ChatWidgetHeaderProps } from '@/types/chat'
+import type { PayloadAgentAuthResult } from '../../types/auth'
+import type { ChatWidgetHeaderProps } from '../../types/chat'
 
 export type Suggestion = {
   title: string
