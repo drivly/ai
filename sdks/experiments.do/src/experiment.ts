@@ -55,9 +55,8 @@ export async function experiment<T, E>(
   },
 ) {
   const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature]
-
   const seeds = Array.from({ length: config.seeds }, (_, i) => i + 1)
-
+  
   const combinations = cartesian({
     model: config.models,
     temperature: temperatures,
@@ -65,16 +64,18 @@ export async function experiment<T, E>(
   })
 
   const inputs = await config.inputs()
-
+  
+  const api = new API({ baseUrl: 'https://llm.do/api' })
+  
   const results: ExperimentEvaluationResult[] = []
+  
   for (const input of inputs) {
     for (const { model, temperature, seed } of combinations) {
       const prompts = config.prompt({ input })
-
       const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputs.indexOf(input)}`
-
+      
       try {
-        const evaluationParams = {
+        const evaluationResult = await runEvaluation({
           id: evaluationId,
           model,
           temperature,
@@ -84,10 +85,9 @@ export async function experiment<T, E>(
           expected: config.expected,
           schema: config.schema,
           scorers: config.scorers,
-        }
-
-        const evaluationResult = await runEvaluation(evaluationParams)
-
+          api,
+        })
+        
         results.push({
           id: evaluationId,
           model,
@@ -109,7 +109,7 @@ export async function experiment<T, E>(
       }
     }
   }
-
+  
   return {
     name,
     timestamp: new Date().toISOString(),
@@ -124,13 +124,70 @@ export async function experiment<T, E>(
   }
 }
 
-async function runEvaluation(params: EvaluationParams): Promise<EvaluationResult> {
-  return {
-    score: Math.random(), // Placeholder score
-    details: {
-      matches: true,
-      comparison: 'Placeholder comparison result',
-    },
+/**
+ * Runs a single evaluation using the provided parameters.
+ * This implementation uses evalite patterns but without direct dependency.
+ */
+async function runEvaluation(params: EvaluationParams & { api: API }): Promise<EvaluationResult> {
+  const { model, temperature, seed, prompts, input, expected, schema, scorers, api } = params
+  
+  try {
+    const response = await api.post('/completions', {
+      model,
+      temperature,
+      seed,
+      messages: [{ role: 'user', content: prompts.join('\n\n') }],
+    })
+    
+    const responseData = response as unknown as { 
+      data?: { 
+        choices?: Array<{ message?: { content?: string } }> 
+      } 
+    }
+    
+    const modelOutput = responseData.data?.choices?.[0]?.message?.content || ''
+    
+    const scores = await Promise.all(
+      scorers.map(async (scorer) => {
+        try {
+          const result = await scorer({
+            input,
+            output: modelOutput,
+            expected,
+            schema,
+          })
+          
+          return {
+            name: scorer.name || 'unnamed_scorer',
+            score: typeof result === 'number' ? result : result.score || 0,
+            details: typeof result === 'object' && result !== null ? (result.details || {}) : {},
+          }
+        } catch (error) {
+          console.error(`Error applying scorer ${scorer.name || 'unnamed'}:`, error)
+          return {
+            name: scorer.name || 'unnamed_scorer',
+            score: 0,
+            details: { error: error instanceof Error ? error.message : String(error) },
+          }
+        }
+      })
+    )
+    
+    const overallScore = scores.length > 0
+      ? scores.reduce((sum: number, score) => sum + score.score, 0) / scores.length
+      : 0
+    
+    const details = scores.reduce((acc: Record<string, any>, score) => {
+      acc[score.name] = score.details
+      return acc
+    }, {})
+    
+    return {
+      score: overallScore,
+      details,
+    }
+  } catch (error) {
+    throw error
   }
 }
 
