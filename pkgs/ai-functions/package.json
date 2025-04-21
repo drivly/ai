@@ -34,7 +34,7 @@
   "dependencies": {
     "@ai-sdk/openai": "^1.0.10",
     "@ai-sdk/openai-compatible": "^0.2.9",
-    "ai": "^4.0.20",
+    "ai": "^4.3.9",
     "ai-providers": "workspace:*",
     "p-queue": "^8.0.1",
     "zod": "^3.24.3"
