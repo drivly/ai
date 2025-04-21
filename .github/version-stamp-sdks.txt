@@ -1,2 +1,2 @@
-# SDK Version Stamp - Updated on Tue Apr 15 12:54:30 UTC 2025
-# This file triggers the SDK release workflow when merged to next
+# SDK Version Stamp - Updated on Mon Apr 21 10:18:10 UTC 2025
+# This file triggers the SDK release workflow when merged to main
