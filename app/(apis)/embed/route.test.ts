@@ -8,14 +8,14 @@ vi.mock('@/lib/api', () => ({
 }))
 
 vi.mock('ai', () => ({
-  embed: vi.fn().mockResolvedValue({
+  embed: vi.fn().mockImplementation(({ value }) => Promise.resolve({
     embedding: [0.1, 0.2, 0.3],
     usage: { tokens: 5 },
-  }),
-  embedMany: vi.fn().mockResolvedValue({
+  })),
+  embedMany: vi.fn().mockImplementation(({ values }) => Promise.resolve({
     embeddings: [[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]],
     usage: { tokens: 10 },
-  }),
+  })),
 }))
 
 describe('Embed API', () => {
