@@ -2,7 +2,7 @@ import { experiment } from 'experiments.do'
 import { domains } from '@/.velite'
 import { z } from 'zod'
 
-experiment({
+experiment('content-marketing', {
   models: [
     'google/gemini-2.5-pro-preview-03-25',
     'google/gemini-2.5-flash-preview',
@@ -21,6 +21,7 @@ experiment({
   data: domains,
   system: [undefined, 'You are an expert at content marketing for startups', 'You are a YC Group Partner'],
   prompt: JSON.stringify,
+  temperature: 1,
   schema: z.object({
     seoTitle: z.string(),
     seoDescription: z.string(),
