@@ -13,7 +13,7 @@ export const GET = API(async (request, { db, user, url }) => {
     },
   })
 
-  const keysList = apiKeys.docs.map(key => ({
+  const keysList = apiKeys.docs.map((key: any) => ({
     id: key.id,
     name: key.name,
     email: key.email,
@@ -33,7 +33,7 @@ export const GET = API(async (request, { db, user, url }) => {
       create: `${url.origin}/apikeys/create`,
       home: `${url.origin}/`,
     },
-    apiKeys: keysList.reduce((acc, key) => {
+    apiKeys: keysList.reduce((acc: Record<string, any>, key: any) => {
       acc[key.name] = {
         id: key.id,
         url: `${url.origin}/apikeys/${key.id}`,
