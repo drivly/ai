@@ -181,7 +181,11 @@ async function processBatchExperiment<T, E>(
 
     const batchResult = await submitBatch(name, provider, batchConfig)
 
-    const batchResults = await collectBatchResults(batchResult.id)
+    if (!batchResult || typeof batchResult !== 'object' || !('id' in batchResult)) {
+      throw new Error('Invalid batch creation response: missing id')
+    }
+
+    const batchResults = await collectBatchResults(batchResult.id as string)
 
     return formatExperimentResults(name, config, batchResults, inputs)
   } catch (error) {
