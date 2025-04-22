@@ -6,7 +6,7 @@ import { listBlogPostTitles, siteContent } from '@/.ai/functions/content'
 import slugify from 'slugify'
 
 
-export const getData = cache(async ({ domain }: { domain: string }) => {
+const getData = cache(async ({ domain }: { domain: string }) => {
   const [posts, content] = await Promise.all([listBlogPostTitles({ domain }), siteContent({ domain }, { system: 'You are an expert at writing compelling and SEO-optimized landing page content', temperature: 1 })])
   return { posts, ...content }
 })
