@@ -4217,9 +4217,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface TaskExecuteFunction {
   input: {
-    markdown: string;
-    outputPath?: string | null;
-    options?:
+    functionName: string;
+    args:
       | {
           [k: string]: unknown;
         }
@@ -4228,12 +4227,41 @@ export interface TaskExecuteFunction {
       | number
       | boolean
       | null;
+    project?: string | null;
+    schema?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    settings?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    timeout?: number | null;
+    seeds?: number | null;
+    callback?: string | null;
   };
   output: {
-    outputPath?: string | null;
-    duration?: number | null;
-    size?: number | null;
-    error?: string | null;
+    output?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    reasoning?: string | null;
+    generationHash?: string | null;
   };
 }
 /**

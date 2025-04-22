@@ -2,4 +2,15 @@
 title: llm.do
 category: Gateway
 description: Unified gateway for large language models (Large Language Models (LLMs)
+codeLang: typescript
+codeExample: |
+  import { llm } from 'llm.do'
+  import { generateText } from 'ai'
+
+  const { text } = await generateText({
+    model: llm('x-ai/grok-3-beta'),
+    prompt: 'Write a blog post about the future of work post-AGI',
+  })
+  
+  console.log(text)
 ---

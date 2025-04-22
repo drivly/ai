@@ -18,6 +18,7 @@ const config = [
       'react/no-unescaped-entities': 'off',
       'react/display-name': 'off',
       'react-hooks/exhaustive-deps': 'warn',
+      'eslint-comments/no-unused-disable': 'off',
     },
   },
 ]
