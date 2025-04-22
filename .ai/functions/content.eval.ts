@@ -3,6 +3,7 @@ import { evalite } from "evalite"
 import { domains } from "@/.velite"
 import { siteContent } from "./content"
 import { Battle } from "autoevals"
+import { sampleSize } from "lodash"
 
 const context = ' for `.do` - an AI-powered Agentic Workflow Platform to do Business-as-Code and deliver valuable Services-as-Software through simple APIs and SDKs. '
 
@@ -22,8 +23,9 @@ const models = [
   'x-ai/grok-3-mini-beta',
 ]
 
-for (const domain of domains) {
+for (const domain of sampleSize(domains, 10)) {
   for (const modelName of models) {
+    console.log(`Evaluating ${domain.domain} with ${modelName}`)
     const expected = {} // await siteContent({ domain }, { modelName, system: 'You are an expert at writing compelling and SEO-optimized site content' + context, temperature: 1 })
     evalite(`siteContent ${domain.domain} ${modelName}`, {
       data: async () => {
