@@ -135,7 +135,7 @@ export const tasks = [
   saveExecutionResultsTask,
   researchTask,
   handleLinearWebhookTask,
-  generateVideoTask, // Add vid
+  // generateVideoTask, // Add vid
   syncTaskToLinearTask,
   deleteLinearIssueTask,
   checkServiceHealthTask,
