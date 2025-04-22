@@ -18,13 +18,17 @@ export const listBlogPostTitles = (input: any) =>
   generateObject({
     model: model('google/gemini-2.5-pro-preview-03-25', { structuredOutputs: true }),
     system: 'You are an expert at writing compelling and SEO-optimized blog content',
-    prompt: `List blog post titles: \n\n${typeof input === 'string' ? input : yaml.stringify(input)}`,
+    prompt: `List 30 blog post titles: \n\n${typeof input === 'string' ? input : yaml.stringify(input)}`,
     temperature: 1,
     schema: z.object({
-      titles: z.array(z.string()),
+      posts: z.array(z.object({
+        title: z.string(),
+        description: z.string(),
+        category: z.string(),
+      })),
     }),
   }).then((result) => {
-    return result.object.titles
+    return result.object.posts
   })
 
 export const siteContent = (input: any) =>
