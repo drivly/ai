@@ -12,14 +12,14 @@ import { Faqs } from '@/components/sites/sections/faqs'
 
 export const dynamic = 'force-dynamic'
 
-const getContent = cache(async (domain: string) => {
+const _getContent = cache(async (domain: string) => {
   const content = await findSiteContent(domain, true)
   return await siteContent(content || { domain })
 })
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params
-  const content = await getContent(domain)
+  const content = await _getContent(domain)
 
   return {
     title: content.seo.title,
@@ -34,7 +34,7 @@ async function DotDoPage(props: { params: { domain: string }; searchParams?: { [
   await getSession()
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'workflows.do')
-  const content = await getContent(domain)
+  const content = await _getContent(domain)
 
   const glowColor = (content as any).brandColor || getGlowColor(site)
 
