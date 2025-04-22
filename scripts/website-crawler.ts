@@ -42,10 +42,10 @@ async function runCrawler() {
     maxConcurrency: 5,
     
     preNavigationHooks: [
-      async ({ request }) => {
+      async ({ request, crawler }) => {
         const url = request.url
         if (url.includes('/docs/') || url.includes('/documentation/')) {
-          await request.abort()
+          request.skipNavigation = true
         }
       }
     ],
@@ -53,7 +53,7 @@ async function runCrawler() {
     async requestHandler({ request, page, enqueueLinks }) {
       console.log(`Processing ${request.url}`)
       
-      const links = await page.$$eval('a[href]', (anchors) => 
+      const links = await page.$$eval('a[href]', (anchors: HTMLAnchorElement[]) => 
         anchors.map((a) => a.href)
       )
       
@@ -72,12 +72,13 @@ async function runCrawler() {
             }
           }
         } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : String(error)
           brokenLinks.push({
             sourceUrl: request.url,
             targetUrl: link,
-            errorMessage: error.message
+            errorMessage
           })
-          console.log(`Error checking link: ${link} - ${error.message}`)
+          console.log(`Error checking link: ${link} - ${errorMessage}`)
         }
       }
       
@@ -96,11 +97,12 @@ async function runCrawler() {
     },
     
     failedRequestHandler({ request, error }) {
-      console.log(`Request ${request.url} failed: ${error.message}`)
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      console.log(`Request ${request.url} failed: ${errorMessage}`)
       brokenLinks.push({
         sourceUrl: '',
         targetUrl: request.url,
-        errorMessage: error.message
+        errorMessage
       })
     },
   })
