@@ -3,6 +3,8 @@ import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { Octokit } from '@octokit/rest'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
+import { headers } from 'next/headers'
+import { NextResponse } from 'next/server'
 
 export const revalidate = 3600
 
@@ -57,6 +59,7 @@ async function ChangelogPage({ params, searchParams = {} }: { params: { domain: 
   const packageName = typeof searchParams.package === 'string' ? searchParams.package : undefined
   const version = typeof searchParams.version === 'string' ? searchParams.version : undefined
   const branch = typeof searchParams.branch === 'string' ? searchParams.branch : undefined
+  const format = typeof searchParams.format === 'string' ? searchParams.format : undefined
   
   const octokit = new Octokit({
     auth: process.env.GITHUB_TOKEN
@@ -95,6 +98,25 @@ async function ChangelogPage({ params, searchParams = {} }: { params: { domain: 
   releases.sort((a, b) => 
     new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   )
+  
+  const headersList = headers()
+  const acceptHeader = headersList.get('accept') || ''
+  const wantsJson = 
+    format === 'json' || 
+    acceptHeader.includes('application/json') ||
+    !acceptHeader.includes('text/html')
+  
+  if (wantsJson) {
+    return NextResponse.json({
+      releases,
+      total: releases.length,
+      filters: {
+        package: packageName || undefined,
+        version: version || undefined,
+        branch: branch || undefined
+      }
+    })
+  }
   
   return (
     <div className='container mx-auto max-w-4xl px-3 py-24 md:py-32'>
