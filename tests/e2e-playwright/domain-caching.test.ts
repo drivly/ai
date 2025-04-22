@@ -29,11 +29,7 @@ test.describe('Domain Caching', () => {
       expect(true).toBe(true) // Pass the test when skipped
       return
     }
-    if (process.env.CI && !process.env.BROWSER_TESTS) {
-      console.log('Skipping domain caching test in CI environment without browser tests')
-      expect(true).toBe(true) // Pass the test when skipped
-      return
-    }
+
     const domainsData = fs.readFileSync('sites/.domains.csv', 'utf-8')
     const domains = domainsData.split('\n').filter(Boolean)
     
@@ -92,5 +88,5 @@ test.describe('Domain Caching', () => {
     }
     
     expect(results.success + results.failed).toBe(domains.length)
-  }, { timeout: 120000 }) // Increase timeout to 120 seconds for many requests
+  })
 })
