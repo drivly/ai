@@ -20,9 +20,9 @@ experiment('Site Content Generation', {
   ],
   temperature: 1,
   seeds: 1,
-  inputs: domains,
+  inputs: () => Promise.resolve(domains),
   system: [undefined, 'You are an expert at content marketing for startups', 'You are a YC Group Partner'],
-  prompt: (input: any) => [JSON.stringify(input)],
+  prompt: ({ input }: { input: any }) => [JSON.stringify(input)],
   schema: z.object({
     seoTitle: z.string(),
     seoDescription: z.string(),
