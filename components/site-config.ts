@@ -1,5 +1,4 @@
 import { FaDiscord, FaGithub } from 'react-icons/fa'
-import logo from '@/public/favicon/faviconDo.png'
 import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
 import { extractApiNameFromDomain, docsExistForApi, getDocsPath } from '@/lib/domains'
 
@@ -32,7 +31,7 @@ export const getCurrentHostname = (): string => {
 
 export const siteConfig = {
   name: '.do',
-  logo,
+  logo: '/favicon/faviconDo.png',
   url: 'https://dotdo.ai/',
   description: 'Agentic Workflow Platform. Redefining work with Businesses-as-Code.',
   baseLinks: {
