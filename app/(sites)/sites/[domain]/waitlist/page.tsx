@@ -1,62 +1,22 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { Loader2 } from 'lucide-react'
-import { useAuth } from '@/lib/auth/context'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
+import { serverAuth } from '@/hooks/server-auth'
 import { handleWaitlistActions } from '@/lib/auth/actions/waitlist.action'
-import { User } from '@/payload.types'
+import { redirect } from 'next/navigation'
 import { Waitlist } from './waitlist'
 
-export const dynamic = 'force-dynamic'
-
-function WaitlistPage({ params }: { params: { domain: string } }) {
+async function WaitlistPage({ params }: { params: { domain: string } }) {
   const { domain } = params
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(true)
-  const { currentUserPromise } = useAuth()
-  const [user, setUser] = useState<User | null>(null)
+  const user = await serverAuth()
+  const validDomain = domain && domain !== '[domain]' ? domain : 'default'
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const currentUser = await currentUserPromise
-        if (!currentUser) {
-          router.push('/login?destination=waitlist')
-        } else {
-          setUser(currentUser)
-          const validDomain = domain && domain !== '[domain]' ? domain : 'default'
-          try {
-            await handleWaitlistActions(currentUser, validDomain)
-          } catch (error) {
-            console.error('Waitlist actions failed:', error)
-          }
-        }
-        setIsLoading(false)
-      } catch (error) {
-        console.error('Authentication check failed', error)
-        setIsLoading(false)
-      }
-    }
+  if (!user) {
+    redirect('/login?destination=waitlist')
+  }
 
-    checkAuth()
-  }, [currentUserPromise, router, domain])
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await handleWaitlistActions(user, validDomain)
 
-  return (
-    <>
-      {isLoading ? (
-        <div className='flex flex-col items-center justify-center py-20'>
-          <Loader2 className='h-8 w-8 animate-spin' />
-          <p className='text-muted-foreground mt-4'>Checking authentication status...</p>
-        </div>
-      ) : user ? (
-        <Waitlist email={user.email} name={user.name || user.email.split('@')[0]} />
-      ) : (
-        <div className='min-h-[200px]'></div>
-      )}
-    </>
-  )
+  return <Waitlist email={user.email || ''} name={user.name || user.email?.split('@')[0] || ''} />
 }
 
-export default withSitesWrapper({ WrappedPage: WaitlistPage, withFaqs: false, withCallToAction: false })
+export default withSitesWrapper({ WrappedPage: WaitlistPage, withCallToAction: false })

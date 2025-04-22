@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
 import { NextResponse } from 'next/server'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { getPayloadFn } from '@/lib/get-payload-fn'
 import { auth } from '@/auth'
 import crypto from 'crypto'
 
@@ -83,7 +83,7 @@ export const GET = API(async (request, { url }) => {
 
     const userInfo = await userInfoResponse.json()
 
-    const payload = await getPayloadWithAuth()
+    const payload = await getPayloadFn()
 
     const existingUsers = await payload.find({
       collection: 'users',

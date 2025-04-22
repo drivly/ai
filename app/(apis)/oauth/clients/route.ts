@@ -1,12 +1,12 @@
 import { API } from '@/lib/api'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { getPayloadFn } from '@/lib/get-payload-fn'
 
 export const GET = API(async (request, { url, user }) => {
   if (!user) {
     return { error: 'unauthorized', error_description: 'Authentication required' }
   }
 
-  const payload = await getPayloadWithAuth()
+  const payload = await getPayloadFn()
 
   let userDoc
   try {

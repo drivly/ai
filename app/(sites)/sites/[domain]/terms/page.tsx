@@ -27,7 +27,7 @@ function TermsPage(props: { params: { domain: string }; searchParams?: { [key: s
   )
 }
 
-export default withSitesWrapper({ WrappedPage: TermsPage, withFaqs: false, withCallToAction: false })
+export default withSitesWrapper({ WrappedPage: TermsPage, withCallToAction: false })
 
 // # Drivly, Inc. Terms of Service
 // **Last Updated: April 4, 2025 **

@@ -4,8 +4,6 @@ import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { Suspense } from 'react'
 
-export const dynamic = 'force-dynamic'
-
 async function DirectoryPage() {
   const { categories } = sitesConfig
 
@@ -14,10 +12,10 @@ async function DirectoryPage() {
       <HeroSection
         title={
           <>
-            Do <br className='block sm:hidden' /> Business-as-Code
+            Business-as-Code: <br className='block' /> The Future of Intelligent Work
           </>
         }
-        description='Purpose-built domains for your business workflows and AI integrations'
+        description='Do economically valuable work with structured Functions, reliable Workflows, and autonomous AI Agents—transforming intelligence into measurable outcomes.'
         className='pb-16'
       />
       <Suspense
@@ -25,8 +23,7 @@ async function DirectoryPage() {
           <div className='container mx-auto flex h-[50vh] items-center justify-center px-3 pt-24'>
             <div className='animate-pulse text-lg opacity-50'>Loading sites...</div>
           </div>
-        }
-      >
+        }>
         <DotDoSection categories={categories} />
       </Suspense>
     </div>

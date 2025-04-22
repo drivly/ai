@@ -6,6 +6,7 @@ import { IBM_Plex_Mono as FontIBM, Geist } from 'next/font/google'
 import type React from 'react'
 import { Providers } from '../providers'
 import './styles.css'
+import { headers } from 'next/headers'
 
 const fontIBM = FontIBM({
   subsets: ['latin'],
@@ -18,9 +19,16 @@ const fontGeist = Geist({
   variable: '--font-geist',
 })
 
-export const metadata: Metadata = {
-  title: 'LLM.do',
-  description: 'Build, Run, and Evaluate AI-Powered Tools Effortlessly',
+export async function generateMetadata(): Promise<Metadata> {
+  const headersList = await headers()
+  const hostname = headersList.get('x-forwarded-host')
+  const siteUrl = `${headersList.get('x-forwarded-proto')}://${hostname}`
+
+  return {
+    title: hostname,
+    description: 'Build, Run, and Evaluate AI-Powered Tools Effortlessly',
+    metadataBase: new URL(siteUrl),
+  }
 }
 
 export default async function RootLayout({
@@ -30,6 +38,9 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
+      <head>
+        <meta name='apple-mobile-web-app-title' content='dotdo.ai' />
+      </head>
       <body className={cn('bg-background flex min-h-screen flex-col antialiased', fontGeist.variable, fontIBM.variable)}>
         <Providers>
           <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
