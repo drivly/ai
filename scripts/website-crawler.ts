@@ -27,6 +27,8 @@ async function getDomainsToCheck(): Promise<string[]> {
   const domainsContent = await readFile(domainsPath, 'utf-8');
   
   let domains = domainsContent.split('\n')
+    .map(line => line.trim())
+    .filter(line => line && !line.startsWith('#'))
     .map(line => {
       const parts = line.split('|');
       return parts.length > 1 ? parts[1]?.trim() : line.trim();
@@ -55,11 +57,16 @@ async function runCrawler() {
   const crawler = new PlaywrightCrawler({
     maxConcurrency: 5,
     
+    preNavigationHooks: [
+      async ({ request }) => {
+        const url = request.url;
+        if (url.includes('/docs/') || url.includes('/documentation/')) {
+          request.skipNavigation = true;
+        }
+      }
+    ],
     
     async requestHandler({ request, page, enqueueLinks }) {
-      if (request.url.includes('/docs/') || request.url.includes('/documentation/')) {
-        return;
-      }
       console.log(`Processing ${request.url}`);
       
       const links = await page.$$eval('a[href]', (anchors) => 
