@@ -39,7 +39,7 @@ jobs:
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          
+        
       - name: Archive Results
         if: always()
         uses: actions/upload-artifact@v4
