@@ -15,7 +15,7 @@
     "dev:email": "email dev",
     "dev:turbo": "turbo dev --no-cache --concurrency 16 --continue",
     "eval:dev": "evalite watch",
-    "eval": "evalite run",
+    "eval": "evalite watch .ai",
     "experiments": "evalite watch experiments",
     "download:payload-docs": "FIRECRAWL_API_KEY=$FIRECRAWL_API_KEY node scripts/download-payload-docs.js",
     "download:payload-docs-direct": "node scripts/download-payload-docs-direct.js",

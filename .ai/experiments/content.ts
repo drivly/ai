@@ -1,6 +1,7 @@
 import { experiment } from 'experiments.do'
 import { domains } from '@/.velite'
-import { z } from 'zod'
+
+import { siteContentSchema } from '../functions/content'
 
 experiment('Site Content Generation', {
   models: [
@@ -23,23 +24,5 @@ experiment('Site Content Generation', {
   inputs: () => Promise.resolve(domains),
   system: [undefined, 'You are an expert at content marketing for startups', 'You are a YC Group Partner'],
   prompt: ({ input }: { input: any }) => [JSON.stringify(input)],
-  schema: z.object({
-    seoTitle: z.string(),
-    seoDescription: z.string(),
-    seoKeywords: z.array(z.string()),
-    heroHeadline: z.string(),
-    heroSubheadline: z.string(),
-    features: z.array(z.object({
-      title: z.string(),
-      description: z.string(),
-    })),
-    benefits: z.array(z.object({
-      title: z.string(),
-      description: z.string(),
-    })),
-    faqs: z.array(z.object({
-      question: z.string(),
-      answer: z.string(),
-    })),
-  }),
+  schema: siteContentSchema,
 })

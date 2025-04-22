@@ -41,7 +41,6 @@
   "scripts": {
     "build": "tsup --config tsup.config.ts",
     "build:packages": "tsup --config tsup.config.ts",
-    "postbuild": "tsc --emitDeclarationOnly --declaration --outDir dist",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "vitest run tests/e2e/**/*.test.ts"
