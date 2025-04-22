@@ -6,6 +6,7 @@ import { Faqs } from './sections/faqs'
 import { auth } from '@/auth.config'
 import { AuthProvider } from '@/lib/auth/context'
 import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { Provider as BalancerProvider } from 'react-wrap-balancer'
 
 type AwaitedPageProps<TParams extends object> = {
   params: TParams
@@ -69,20 +70,22 @@ export const withSitesWrapper = <TParams extends { domain?: string; slug?: strin
 
     return (
       <AuthProvider sessionPromise={sessionPromise} currentUserPromise={currentUserPromise}>
-        <Fragment>
-          {/* Pass awaitedParams to SitesNavbar as it needs the resolved values */}
-          <SitesNavbar params={awaitedParams} minimal={minimal} />
-          <main className='flex-1 overflow-x-hidden border-b border-gray-800/50'>
-            {/* Pass the awaited props to WrappedPage */}
-            <WrappedPage {...pageProps} />
-          </main>
-          {/* {withFaqs && <Faqs />} */}
-          {withCallToAction && <CallToAction />}
-          <Footer minimal={minimal} />
+        <BalancerProvider>
+          <Fragment>
+            {/* Pass awaitedParams to SitesNavbar as it needs the resolved values */}
+            <SitesNavbar params={awaitedParams} minimal={minimal} />
+            <main className='flex-1 overflow-x-hidden border-b border-gray-800/50'>
+              {/* Pass the awaited props to WrappedPage */}
+              <WrappedPage {...pageProps} />
+            </main  >
+            {/* {withFaqs && <Faqs />} */}
+            {withCallToAction && <CallToAction />}
+            <Footer minimal={minimal} />
 
-          {/* Add hidden iframe for cross-domain auth */}
-          <iframe src='/login' style={{ display: 'none' }} title='Authentication sync' aria-hidden='true' />
-        </Fragment>
+            {/* Add hidden iframe for cross-domain auth */}
+            <iframe src='/login' style={{ display: 'none' }} title='Authentication sync' aria-hidden='true' />
+          </Fragment>
+        </BalancerProvider>
       </AuthProvider>
     )
   }

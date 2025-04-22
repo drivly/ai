@@ -40,28 +40,13 @@ export const listBlogPostTitles = (input: any) =>
 export const siteContent = (input: any) =>
   generateObject({
     model: model('google/gemini-2.5-pro-preview-03-25', { structuredOutputs: true }),
-    system: 'You are an expert at writing compelling and SEO-optimized site content',
+    system: 'You are an expert at writing compelling and SEO-optimized site content for `.do` - an AI-powered Agentic Workflow Platform to do Business-as-Code and deliver valuable Services-as-Software through simple APIs and SDKs. ',
     prompt: `Write site content for: \n\n${typeof input === 'string' ? input : yaml.stringify(input)}`,
     temperature: 1,
     schema: siteContentSchema,
   }).then((result) => {
     return result.object
   })
-
-export const codeExample = (input: any) =>
-  generateObject({
-    model: model('google/gemini-2.5-pro-preview-03-25', { structuredOutputs: true }),
-    system: 'You are an expert at writing extremely elegant, simple, and concise code examples. Depending on the context, you will either return a Typescript or Javascript code example, or a JSON object which would be returned from an API that does this activity. If you are asked to return a JSON object, you will return a JSON object, not a code example.',
-    prompt: `Write a code example for: \n\n${typeof input === 'string' ? input : yaml.stringify(input)}`,
-    temperature: 1,
-    schema: z.object({
-      code: z.string(),
-      language: z.string(),
-    }),
-  }).then((result) => {
-    return result.object
-  })
-
 
 export const siteContentSchema = z.object({
   seo: z.object({
