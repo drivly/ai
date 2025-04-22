@@ -7,7 +7,7 @@ import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getBlogPostBySlug } from '../blog-posts'
-import slugify from 'slugify'
+import slugify from '@/lib/slugify'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string; slug: string }> }) {
   const { domain, slug } = await params

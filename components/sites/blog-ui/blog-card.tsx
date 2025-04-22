@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import Image from 'next/image'
 import Link from 'next/link'
 import { BlogPost } from './blog-posts'
-import slugify from 'slugify'
+import { slugify } from '@/lib/slugify'
 
 interface BlogCardProps {
   post: BlogPost

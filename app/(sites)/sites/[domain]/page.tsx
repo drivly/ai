@@ -1,4 +1,3 @@
-import { codeExample, siteContent } from '@/.ai/functions/content'
 import { Particles } from '@/components/sites/magicui/particles'
 import { DotdoLinkSection } from '@/components/sites/sections/dotdo-link-section'
 import { HeroSection } from '@/components/sites/sections/hero-section'

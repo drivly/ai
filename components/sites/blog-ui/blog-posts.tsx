@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { BlogCard } from './blog-card'
 import { CategoryFilter } from './category-filter'
 import { Search } from './search'
-import slugify from 'slugify'
+import { slugify } from '@/lib/slugify'
 
 export interface BlogPost {
   slug?: string
