@@ -7,7 +7,7 @@ export function LlmsdoLogo({ className, domain, minimal }: { className?: string;
   const displayDomain = domain === '%5Bdomain%5D' ? 'workflows.do' : domain?.replace(/\.do(\.mw|\.gt)?$/, '.do')
 
   return (
-    <Link href={isCareers ? siteConfig.url : siteConfig.baseLinks.home} className={cn('font-ibm z-10 text-lg font-medium', className)}>
+    <Link href={isCareers ? siteConfig.url : siteConfig.baseLinks.home} className={cn('font-ibm z-10 text-base font-medium capitalize', className)}>
       {displayDomain ?? siteConfig.name}
     </Link>
   )

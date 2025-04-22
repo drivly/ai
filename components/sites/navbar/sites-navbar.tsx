@@ -58,7 +58,7 @@ export function SitesNavbar({ params, minimal }: { params: { domain?: string }; 
         <LlmsdoLogo domain={domain} minimal={minimal} />
 
         {!minimal && (
-          <div className='absolute inset-0 hidden space-x-5 self-center justify-self-center md:block'>
+          <div className='absolute left-1/2 hidden -translate-x-1/2 transform space-x-5 md:block'>
             {navMenuLinks.map((link) => {
               if (link.name !== 'Blog') {
                 return (
