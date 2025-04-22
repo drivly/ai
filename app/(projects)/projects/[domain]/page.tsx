@@ -4,8 +4,18 @@ import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
 import { getGlowColor } from '@/domains.config'
 import { HeroSection } from '@/components/sites/sections/hero-section'
 import { EmailCaptureForm } from '@/components/email-capture-form'
+import { listBlogPostTitles, siteContent, writeBlogPost } from '@/.ai/functions/content'
+import { waitUntil } from '@vercel/functions'
+import { cache } from 'react'
+import { slugify } from '@/lib/slugify'
 
-export const dynamic = 'force-dynamic'
+
+export const getData = cache(async ({ domain }: { domain: string }) => {
+  const [posts, content] = await Promise.all([listBlogPostTitles({ domain }), siteContent({ domain }, { system: 'You are an expert at writing compelling and SEO-optimized landing page content', temperature: 1 })])
+  waitUntil(listBlogPostTitles({ domain }).then(posts => posts.map(post => writeBlogPost({ domain, slug: slugify(post.title) }))))
+  return { posts, ...content }
+})
+
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params

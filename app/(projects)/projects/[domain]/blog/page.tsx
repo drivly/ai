@@ -5,7 +5,6 @@ import { cache } from 'react'
 import { listBlogPostTitles, siteContent } from '@/.ai/functions/content'
 import slugify from 'slugify'
 
-export const dynamic = 'force-dynamic'
 
 export const getData = cache(async ({ domain }: { domain: string }) => {
   const [posts, content] = await Promise.all([listBlogPostTitles({ domain }), siteContent({ domain }, { system: 'You are an expert at writing compelling and SEO-optimized landing page content', temperature: 1 })])

@@ -19,10 +19,9 @@ export default async function ProjectLayout({ children, params }: { children: Re
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
       />
-      <body>
+      <body className='container'>
         <h1>{domain}</h1>
-        <div className='project-layout'>{children}</div>
-        <Link href='/blog'>Blog</Link>
+        <div>{children}</div>
       </body>
     </html>
   )
