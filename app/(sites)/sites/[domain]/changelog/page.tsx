@@ -107,13 +107,13 @@ async function ChangelogPage({ params, searchParams = {} }: { params: { domain: 
     !acceptHeader.includes('text/html')
   
   if (wantsJson) {
-    const params = new URLSearchParams()
-    if (packageName) params.set('package', packageName)
-    if (version) params.set('version', version)
-    if (branch) params.set('branch', branch)
+    const searchParamsObj = new URLSearchParams()
+    if (packageName) searchParamsObj.set('package', packageName)
+    if (version) searchParamsObj.set('version', version)
+    if (branch) searchParamsObj.set('branch', branch)
     
-    const apiUrl = `/api/changelog${params.toString() ? `?${params.toString()}` : ''}`
-    return Response.redirect(new URL(apiUrl, 'https://' + params.domain))
+    const apiUrl = `/api/changelog${searchParamsObj.toString() ? `?${searchParamsObj.toString()}` : ''}`
+    return Response.redirect(new URL(apiUrl, `https://${params.domain}`))
   }
   
   return (
