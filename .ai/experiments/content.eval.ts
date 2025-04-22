@@ -2,7 +2,7 @@ import { experiment } from 'experiments.do'
 import { domains } from '@/.velite'
 import { z } from 'zod'
 
-experiment('content-marketing', {
+experiment('Site Content Generation', {
   models: [
     'google/gemini-2.5-pro-preview-03-25',
     'google/gemini-2.5-flash-preview',
@@ -20,9 +20,9 @@ experiment('content-marketing', {
   ],
   temperature: 1,
   seeds: 1,
-  inputs: () => Promise.resolve(domains),
+  inputs: domains,
   system: [undefined, 'You are an expert at content marketing for startups', 'You are a YC Group Partner'],
-  prompt: ({ input }: { input: any }) => [JSON.stringify(input)],
+  prompt: (input: any) => [JSON.stringify(input)],
   schema: z.object({
     seoTitle: z.string(),
     seoDescription: z.string(),
