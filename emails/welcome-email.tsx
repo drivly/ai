@@ -1,4 +1,5 @@
-import { Body, Container, Head, Hr, Html, Img, Link, Preview, Section, Tailwind, Text } from '@react-email/components'
+import { siteConfig } from '@/components/site-config'
+import { Body, Container, Head, Hr, Html, Link, Preview, Section, Tailwind, Text } from '@react-email/components'
 
 export const WelcomeEmail = ({ name }: { name: string }) => (
   <Html>
@@ -7,12 +8,6 @@ export const WelcomeEmail = ({ name }: { name: string }) => (
       <Body className='bg-gray-100 font-sans'>
         <Preview>Thanks for joining the .Do waitlist! We're excited to have you onboard.</Preview>
         <Container className='mx-auto rounded-lg bg-white p-8 shadow-sm'>
-          <Section className='mb-10'>
-            <Img src='https://res.cloudinary.com/dtram9qiy/image/upload/v1743980039/faviconDo_j8vnc4.png' width='50' height='50' alt='.Do Logo' />
-          </Section>
-
-          <Hr className='mb-8 border-gray-200' />
-
           <Section>
             <Text className='text-lg text-gray-700'>Hey {name},</Text>
             <Text className='text-lg text-gray-700'>
@@ -42,19 +37,19 @@ export const WelcomeEmail = ({ name }: { name: string }) => (
 
           <Section className='text-center'>
             <Text className='text-indigo-600'>
-              <Link href='https://dotdo.ai' className='text-indigo-600 no-underline'>
+              <Link href={siteConfig.url} className='text-indigo-600 no-underline'>
                 Dotdo.ai
               </Link>
               {' | '}
-              <Link href='https://github.com/drivly/ai' className='text-indigo-600 no-underline'>
+              <Link href={siteConfig.baseLinks.github} className='text-indigo-600 no-underline'>
                 Github
               </Link>
               {' | '}
-              <Link href='https://discord.gg/qus39VeA' className='text-indigo-600 no-underline'>
+              <Link href={siteConfig.baseLinks.discord} className='text-indigo-600 no-underline'>
                 Discord
               </Link>
               {' | '}
-              <Link href='https://x.com/dotdo_ai' className='text-indigo-600 no-underline'>
+              <Link href={siteConfig.baseLinks.twitter} className='text-indigo-600 no-underline'>
                 X
               </Link>
             </Text>

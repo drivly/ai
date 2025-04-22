@@ -10,7 +10,7 @@ import { headers } from 'next/headers'
 
 const fontIBM = FontIBM({
   subsets: ['latin'],
-  variable: '--font-ibm',
+  variable: '--font-IBM_Plex_Sans',
   weight: ['400', '500', '600', '700'],
 })
 
