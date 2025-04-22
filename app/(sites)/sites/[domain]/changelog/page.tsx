@@ -99,7 +99,7 @@ async function ChangelogPage({ params, searchParams = {} }: { params: { domain: 
     new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   )
   
-  const headersList = headers()
+  const headersList = await headers()
   const acceptHeader = headersList.get('accept') || ''
   const wantsJson = 
     format === 'json' || 
