@@ -175,3 +175,6 @@ public/_pagefind/
 test-results/
 
 certificates
+
+# Crawlee
+storage/
