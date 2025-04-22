@@ -126,8 +126,8 @@ export interface ExperimentConfig<T, E> {
   models: string[]
   temperature: number | number[]
   seeds: number
-  prompt: (params: { input: any }) => string[]
-  inputs: () => Promise<T[]>
+  prompt: ((params: { input: any }) => string[]) | string
+  inputs: (() => Promise<T[]>) | T[]
   expected?: E
   schema: any
   scorers?: any[]

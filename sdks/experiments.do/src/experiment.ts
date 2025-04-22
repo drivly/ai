@@ -90,7 +90,11 @@ export async function experiment<T, E>(
           seed: seeds,
         })
 
-        const inputs = config.inputs ? await config.inputs() : []
+        const inputs = config.inputs 
+          ? Array.isArray(config.inputs) 
+            ? config.inputs 
+            : await config.inputs() 
+          : []
         
         // Create all permutations for evalite to test
         return combinations.flatMap(combo => 
@@ -107,7 +111,13 @@ export async function experiment<T, E>(
       task: async (input: { model: string; temperature: number; seed: number; input: any; system?: string; schema?: any }) => {
         const { model, temperature, seed, system, schema } = input;
         const api = new API({ baseUrl: 'https://llm.do/api' })
-        const prompts = config.prompt ? (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : []
+        const prompts = config.prompt 
+          ? typeof config.prompt === 'function' 
+            ? config.prompt({ input }) 
+            : typeof config.prompt === 'string'
+              ? [config.prompt + '\n\n' + JSON.stringify(input.input)]
+              : []
+          : []
         
         try {
           // Use the EvalLite API to run the evaluation
@@ -134,7 +144,11 @@ export async function experiment<T, E>(
   
   const temperatures = Array.isArray(config.temperature) ? config.temperature : [config.temperature];
   const seeds = config.seeds ? Array.from({ length: config.seeds }, (_, i) => i + 1) : [1];
-  const inputs = config.inputs ? await config.inputs() : [];
+  const inputs = config.inputs 
+    ? Array.isArray(config.inputs) 
+      ? config.inputs 
+      : await config.inputs() 
+    : [];
   
   const combinations = cartesian({
     model: config.models,
@@ -438,9 +452,13 @@ function legacyExperiment<T>(
           
           const temperature = input.temperature || temperatures[0]
           
-          const prompts = config.prompt ? 
-            (typeof config.prompt === 'function' ? config.prompt({ input }) : []) : 
-            [JSON.stringify(input)]
+          const prompts = config.prompt 
+            ? typeof config.prompt === 'function' 
+              ? config.prompt({ input }) 
+              : typeof config.prompt === 'string'
+                ? [config.prompt + '\n\n' + JSON.stringify(input)]
+                : []
+            : [JSON.stringify(input)]
           
           const systemPrompt = Array.isArray(config.system) && config.system.length > 0 ? 
             config.system[0] : 
