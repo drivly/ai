@@ -1,59 +1,34 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
-import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
-import { fetchBlogPostsByProject } from '@/lib/fetchBlogPostsByProject'
-import { BlogPosts } from '@/components/sites/blog-ui/blog-posts'
+import { cache } from 'react'
+import { listBlogPostTitles, siteContent } from '@/.ai/functions/content'
+import slugify from 'slugify'
 
 export const dynamic = 'force-dynamic'
 
+export const getData = cache(async ({ domain }: { domain: string }) => {
+  const [posts, content] = await Promise.all([listBlogPostTitles({ domain }), siteContent({ domain }, { system: 'You are an expert at writing compelling and SEO-optimized landing page content', temperature: 1 })])
+  return { posts, ...content }
+})
+
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params || {}
-  const project = await fetchProjectByDomain(domain)
-
-  if (!project) {
-    return {
-      title: 'Blog - Project Not Found',
-    }
-  }
+  const data = await getData({ domain })
 
   return {
-    title: `Blog - ${project.name}`,
-    description: `Latest articles from ${project.name}`,
+    title: data.seo.title,
+    description: data.seo.description,
   }
 }
 
 export default async function BlogPage({ params }: { params: Promise<{ domain: string }> }) {
   try {
     const { domain } = await params || {}
-    const project = await fetchProjectByDomain(domain)
+    // const project = await fetchProjectByDomain(domain)
+    const data = await getData({ domain })
 
-    if (!project) {
-      return <div>Project Not Found</div>
-    }
-
-    const blogPosts = await fetchBlogPostsByProject(project.id)
-
-    const posts = blogPosts.map((post) => {
-      const postData = post.data as
-        | {
-            excerpt?: string
-            coverImage?: string
-            content?: string
-          }
-        | undefined
-
-      return {
-        slug: post.id,
-        title: post.name || 'Untitled',
-        description: postData?.excerpt || '',
-        date: new Date(post.createdAt).toLocaleDateString(),
-        category: (typeof post.type?.value === 'object' ? post.type.value.name : post.type?.relationTo) || 'Uncategorized',
-        image: postData?.coverImage || '/images/blog-default.png',
-      }
-    })
-
-    const categories = Array.from(new Set(posts.map((post) => post.category)))
+    const categories = Array.from(new Set(data.posts.map((post) => post.category)))
 
     return (
       <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
@@ -67,7 +42,16 @@ export default async function BlogPage({ params }: { params: Promise<{ domain: s
           </h1>
         </div>
 
-        <BlogPosts initialPosts={posts} categories={categories} />
+        <div>
+          {data.posts.map((post) => (
+            <div key={post.title}>
+              <Link prefetch={true} href={'/blog/' + slugify(post.title)}>
+                <h2 className='text-2xl font-bold'>{post.title}</h2>
+                <p className='text-gray-500'>{post.description}</p>
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
     )
   } catch (error) {
