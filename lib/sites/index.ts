@@ -1,6 +1,8 @@
 import { sites } from '@/.velite'
-import { codeExample } from '@/components/sites/constants/code-example'
-import { ai } from '@/ai.config'
+import { cache } from 'react'
+import { siteContent } from '@/.ai/functions/content'
+
+const getContent = cache(async (input: any) => await siteContent(input))
 
 /**
  * Site content type definition
@@ -24,7 +26,7 @@ interface SiteContent {
  * @param includeHero Whether to include hero content fields
  * @returns Site content with fallback if not found
  */
-export async function findSiteContent(domain: string, includeHero = false): Promise<SiteContent | undefined> {
+export async function findSiteContent(domain: string, includeHero = false): Promise<SiteContent> {
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
 
   const normalizedSite = site.replace(/\.do(\.gt|\.mw)?$/, '.do')
@@ -39,6 +41,22 @@ export async function findSiteContent(domain: string, includeHero = false): Prom
       s.title.toLowerCase().includes(normalizedSite.toLowerCase())
     )
   })
+
+  const content = await getContent(siteContent || { domain })
+
+  return {
+    title: content.seo.title,
+    description: content.seo.description,
+    headline: content.hero.headline,
+    subhead: content.hero.subheadline,
+    brandColor: siteContent?.brandColor,
+    badge: content.badge,
+    codeExample: content.codeExample,
+    codeLang: content.codeLang,
+    content: siteContent?.content,
+    group: siteContent?.group,
+  }
+}
 
   // if (!siteContent) {
   //   try {
@@ -82,8 +100,8 @@ export async function findSiteContent(domain: string, includeHero = false): Prom
   //   }
   // }
 
-  return siteContent
-}
+//   return siteContent
+// }
 
 // export const metadata = {
 //   // metadataBase: new URL(domain),
