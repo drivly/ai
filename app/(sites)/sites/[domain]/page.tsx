@@ -12,7 +12,7 @@ import { Faqs } from '@/components/sites/sections/faqs'
 
 export const dynamic = 'force-dynamic'
 
-const getContent = cache(async (domain: string) => {
+export const getContent = cache(async (domain: string) => {
   const content = await findSiteContent(domain, true)
   return await siteContent(content || { domain })
 })

@@ -166,6 +166,7 @@
     "server-only": "^0.0.1",
     "sharp": "^0.33.2",
     "shiki": "^3.2.2",
+    "slugify": "^1.6.6",
     "sqids": "^0.3.0",
     "svix": "^1.62.0",
     "tailwind-merge": "^2.6.0",
