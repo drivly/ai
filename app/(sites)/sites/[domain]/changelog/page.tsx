@@ -3,8 +3,6 @@ import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { Octokit } from '@octokit/rest'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
-import { headers } from 'next/headers'
-import { NextResponse } from 'next/server'
 
 export const revalidate = 3600
 
@@ -99,22 +97,6 @@ async function ChangelogPage({ params, searchParams = {} }: { params: { domain: 
     new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
   )
   
-  const headersList = await headers()
-  const acceptHeader = headersList.get('accept') || ''
-  const wantsJson = 
-    format === 'json' || 
-    acceptHeader.includes('application/json') ||
-    !acceptHeader.includes('text/html')
-  
-  if (wantsJson) {
-    const searchParamsObj = new URLSearchParams()
-    if (packageName) searchParamsObj.set('package', packageName)
-    if (version) searchParamsObj.set('version', version)
-    if (branch) searchParamsObj.set('branch', branch)
-    
-    const apiUrl = `/api/changelog${searchParamsObj.toString() ? `?${searchParamsObj.toString()}` : ''}`
-    return Response.redirect(new URL(apiUrl, `https://${params.domain}`))
-  }
   
   return (
     <div className='container mx-auto max-w-4xl px-3 py-24 md:py-32'>
