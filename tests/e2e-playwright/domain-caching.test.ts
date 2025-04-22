@@ -35,7 +35,13 @@ test.describe('Domain Caching', () => {
     
     const queue = new PQueue({ concurrency: 20 })
     
-    const results = {
+    const landingResults = {
+      success: 0,
+      failed: 0,
+      errors: [] as { domain: string; error: string }[],
+    }
+    
+    const blogResults = {
       success: 0,
       failed: 0,
       errors: [] as { domain: string; error: string }[],
@@ -44,6 +50,7 @@ test.describe('Domain Caching', () => {
     const baseUrl = process.env.BASE_URL || process.env.API_URL || 'http://localhost:3000'
     await page.goto(baseUrl)
     
+    console.log('Fetching landing pages for all domains...')
     await Promise.all(
       domains.map((domain) => 
         queue.add(async () => {
@@ -52,10 +59,10 @@ test.describe('Domain Caching', () => {
             const response = await page.goto(siteUrl, { waitUntil: 'networkidle' })
             
             if (response && response.ok()) {
-              results.success++
+              landingResults.success++
             } else {
-              results.failed++
-              results.errors.push({ 
+              landingResults.failed++
+              landingResults.errors.push({ 
                 domain, 
                 error: response ? `HTTP error ${response.status()}: ${response.statusText()}` : 'No response' 
               })
@@ -63,8 +70,8 @@ test.describe('Domain Caching', () => {
             
             return response
           } catch (error) {
-            results.failed++
-            results.errors.push({ 
+            landingResults.failed++
+            landingResults.errors.push({ 
               domain, 
               error: error instanceof Error ? error.message : String(error) 
             })
@@ -73,20 +80,65 @@ test.describe('Domain Caching', () => {
       )
     )
     
-    console.log(`Successfully cached ${results.success} domains`)
-    if (results.failed > 0) {
-      console.log(`Failed to cache ${results.failed} domains:`)
-      results.errors.forEach(({ domain, error }) => {
+    console.log(`Successfully cached ${landingResults.success} domain landing pages`)
+    if (landingResults.failed > 0) {
+      console.log(`Failed to cache ${landingResults.failed} domain landing pages:`)
+      landingResults.errors.forEach(({ domain, error }) => {
         console.log(`  - ${domain}: ${error}`)
       })
     }
     
-    expect(results.success).toBeGreaterThan(0)
+    console.log('Fetching blog pages for all domains...')
+    await Promise.all(
+      domains.map((domain) => 
+        queue.add(async () => {
+          try {
+            const blogUrl = baseUrl.endsWith('/') 
+              ? `${baseUrl}sites/${domain}/blog` 
+              : `${baseUrl}/sites/${domain}/blog`
+            
+            const response = await page.goto(blogUrl, { waitUntil: 'networkidle' })
+            
+            if (response && response.ok()) {
+              blogResults.success++
+            } else {
+              blogResults.failed++
+              blogResults.errors.push({ 
+                domain, 
+                error: response ? `HTTP error ${response.status()}: ${response.statusText()}` : 'No response' 
+              })
+            }
+            
+            return response
+          } catch (error) {
+            blogResults.failed++
+            blogResults.errors.push({ 
+              domain, 
+              error: error instanceof Error ? error.message : String(error) 
+            })
+          }
+        })
+      )
+    )
     
-    if (results.success === 0) {
-      throw new Error('All domain cache requests failed')
+    console.log(`Successfully cached ${blogResults.success} domain blog pages`)
+    if (blogResults.failed > 0) {
+      console.log(`Failed to cache ${blogResults.failed} domain blog pages:`)
+      blogResults.errors.forEach(({ domain, error }) => {
+        console.log(`  - ${domain}: ${error}`)
+      })
     }
     
-    expect(results.success + results.failed).toBe(domains.length)
+    expect(landingResults.success).toBeGreaterThan(0)
+    if (landingResults.success === 0) {
+      throw new Error('All domain landing page cache requests failed')
+    }
+    expect(landingResults.success + landingResults.failed).toBe(domains.length)
+    
+    expect(blogResults.success).toBeGreaterThan(0)
+    if (blogResults.success === 0) {
+      throw new Error('All domain blog page cache requests failed')
+    }
+    expect(blogResults.success + blogResults.failed).toBe(domains.length)
   })
 })
