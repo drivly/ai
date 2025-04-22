@@ -107,15 +107,13 @@ async function ChangelogPage({ params, searchParams = {} }: { params: { domain: 
     !acceptHeader.includes('text/html')
   
   if (wantsJson) {
-    return NextResponse.json({
-      releases,
-      total: releases.length,
-      filters: {
-        package: packageName || undefined,
-        version: version || undefined,
-        branch: branch || undefined
-      }
-    })
+    const params = new URLSearchParams()
+    if (packageName) params.set('package', packageName)
+    if (version) params.set('version', version)
+    if (branch) params.set('branch', branch)
+    
+    const apiUrl = `/api/changelog${params.toString() ? `?${params.toString()}` : ''}`
+    return Response.redirect(new URL(apiUrl, 'https://' + params.domain))
   }
   
   return (
