@@ -2,7 +2,7 @@ import { experiment } from 'experiments.do'
 import { domains } from '@/.velite'
 import { z } from 'zod'
 
-experiment('content-marketing', {
+experiment('Site Content Generation', {
   models: [
     'google/gemini-2.5-pro-preview-03-25',
     'google/gemini-2.5-flash-preview',

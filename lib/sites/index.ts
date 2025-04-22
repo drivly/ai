@@ -1,6 +1,8 @@
 import { sites } from '@/.velite'
-import { codeExample } from '@/components/sites/constants/code-example'
-import { ai } from '@/ai.config'
+import { cache } from 'react'
+import { siteContent } from '@/.ai/functions/content'
+
+const getContent = cache(async (input: any) => await siteContent(input))
 
 /**
  * Site content type definition
@@ -40,50 +42,66 @@ export async function findSiteContent(domain: string, includeHero = false): Prom
     )
   })
 
-  if (!siteContent) {
-    try {
-      const { output } = await ai.generateSiteContent({ domain: site })
+  const content = await getContent(siteContent || { domain })
 
-      return {
-        title: output.title || site,
-        description: output.description || `${site} | .do Business-as-Code`,
-        headline: output.headline || site,
-        subhead: output.subhead || 'Powered by .do',
-        badge: output.badge || 'AI without Complexity',
-        codeExample: output.codeExample || codeExample,
-        codeLang: output.codeLang || 'json',
-        brandColor: output.brandColor,
-        group: output.group || 'other',
-      }
-    } catch (error) {
-      console.error(`Error generating content for ${site}:`, error)
-
-      if (error instanceof Error && error.message?.includes('functionName')) {
-        console.error('AI function execution error - missing functionName parameter')
-      }
-
-      const fallbackContent: SiteContent = {
-        title: site,
-        description: `${site} | .do Business-as-Code`,
-      }
-
-      if (includeHero) {
-        return {
-          ...fallbackContent,
-          headline: site,
-          subhead: 'Powered by .do',
-          badge: 'AI without Complexity',
-          codeExample: codeExample,
-          codeLang: 'json',
-        }
-      }
-
-      return fallbackContent
-    }
+  return {
+    title: content.seo.title,
+    description: content.seo.description,
+    headline: content.hero.headline,
+    subhead: content.hero.subheadline,
+    brandColor: siteContent?.brandColor,
+    badge: content.badge,
+    codeExample: content.codeExample,
+    codeLang: content.codeLang,
+    content: siteContent?.content,
+    group: siteContent?.group,
   }
-
-  return siteContent
 }
+
+  // if (!siteContent) {
+  //   try {
+  //     const { output } = await ai.generateSiteContent({ domain: site })
+
+  //     return {
+  //       title: output.title || site,
+  //       description: output.description || `${site} | .do Business-as-Code`,
+  //       headline: output.headline || site,
+  //       subhead: output.subhead || 'Powered by .do',
+  //       badge: output.badge || 'AI without Complexity',
+  //       codeExample: output.codeExample || codeExample,
+  //       codeLang: output.codeLang || 'json',
+  //       brandColor: output.brandColor,
+  //       group: output.group || 'other',
+  //     }
+  //   } catch (error) {
+  //     console.error(`Error generating content for ${site}:`, error)
+
+  //     if (error instanceof Error && error.message?.includes('functionName')) {
+  //       console.error('AI function execution error - missing functionName parameter')
+  //     }
+
+  //     const fallbackContent: SiteContent = {
+  //       title: site,
+  //       description: `${site} | .do Business-as-Code`,
+  //     }
+
+  //     if (includeHero) {
+  //       return {
+  //         ...fallbackContent,
+  //         headline: site,
+  //         subhead: 'Powered by .do',
+  //         badge: 'AI without Complexity',
+  //         codeExample: codeExample,
+  //         codeLang: 'json',
+  //       }
+  //     }
+
+  //     return fallbackContent
+  //   }
+  // }
+
+//   return siteContent
+// }
 
 // export const metadata = {
 //   // metadataBase: new URL(domain),

@@ -4,14 +4,16 @@ import { useState } from 'react'
 import { BlogCard } from './blog-card'
 import { CategoryFilter } from './category-filter'
 import { Search } from './search'
+import slugify from 'slugify'
 
 export interface BlogPost {
-  slug: string
+  slug?: string
   title: string
   description: string
-  date: string
+  date?: string
   category: string
   image?: string
+  markdown?: string
 }
 
 interface BlogPageClientProps {
@@ -51,7 +53,7 @@ export function BlogPosts({ initialPosts, categories }: BlogPageClientProps) {
       ) : (
         <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
           {filteredPosts.map((post) => (
-            <BlogCard key={post.slug} post={post} />
+            <BlogCard key={post.slug || slugify(post.title)} post={post} />
           ))}
         </div>
       )}

@@ -8,8 +8,8 @@ async function BlogPage(props: { params: { domain: string }; searchParams?: { [k
   const { domain } = props.params
   const searchParams = props.searchParams
   // Move data fetching to the server component
-  const posts = getAllBlogPosts()
-  const categories = getAllCategories()
+  const posts = await getAllBlogPosts(domain)
+  const categories = await getAllCategories(domain)
 
   return (
     <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
