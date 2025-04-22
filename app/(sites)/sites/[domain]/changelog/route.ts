@@ -168,6 +168,16 @@ export const GET = API(async (request, { url, origin }) => {
     acceptHeader.includes('application/json') ||
     !acceptHeader.includes('text/html')
   
+  if (!wantsJson) {
+    const params = new URLSearchParams()
+    if (packageName) params.set('package', packageName)
+    if (version) params.set('version', version)
+    if (branch) params.set('branch', branch)
+    
+    const redirectUrl = `/changelog${params.toString() ? `?${params.toString()}` : ''}`
+    return Response.redirect(new URL(redirectUrl, origin))
+  }
+  
   try {
     const now = Date.now()
     if (!cachedReleases || (now - cacheTimestamp) > CACHE_DURATION) {
@@ -213,26 +223,25 @@ export const GET = API(async (request, { url, origin }) => {
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     )
     
-    if (wantsJson) {
-      return {
-        releases: filteredReleases,
-        total: filteredReleases.length,
-        filters: {
-          package: packageName || undefined,
-          version: version || undefined,
-          branch: branch || undefined
-        },
-        links: {
-          html: `${origin}/changelog?format=html${packageName ? `&package=${packageName}` : ''}${version ? `&version=${version}` : ''}${branch ? `&branch=${branch}` : ''}`,
-        },
-      }
-    } else {
-      const htmlContent = generateHtmlChangelog(filteredReleases)
-      return new NextResponse(htmlContent, {
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8',
-        },
-      })
+    return {
+      releases: filteredReleases,
+      total: filteredReleases.length,
+      filters: {
+        package: packageName || undefined,
+        version: version || undefined,
+        branch: branch || undefined
+      },
+      links: {
+        html: `${origin}/changelog${new URLSearchParams({
+          ...(packageName ? { package: packageName } : {}),
+          ...(version ? { version } : {}),
+          ...(branch ? { branch } : {})
+        }).toString() ? `?${new URLSearchParams({
+          ...(packageName ? { package: packageName } : {}),
+          ...(version ? { version } : {}),
+          ...(branch ? { branch } : {})
+        }).toString()}` : ''}`,
+      },
     }
   } catch (error) {
     console.error('Error fetching releases:', error)
