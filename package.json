@@ -86,6 +86,7 @@
     "@payloadcms/plugin-multi-tenant": "^3.33.0",
     "@payloadcms/plugin-stripe": "^3.33.0",
     "@payloadcms/richtext-lexical": "^3.33.0",
+    "@picocss/pico": "^2.1.1",
     "@radix-ui/react-accordion": "^1.2.7",
     "@radix-ui/react-avatar": "^1.1.4",
     "@radix-ui/react-checkbox": "^1.1.5",

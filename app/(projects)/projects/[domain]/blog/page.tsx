@@ -41,14 +41,14 @@ export default async function BlogPage({ params }: { params: Promise<{ domain: s
           </h1>
         </div>
 
-        <div>
+        <div >
           {data.posts.map((post) => (
-            <div key={post.title}>
+            <article key={post.title}>
               <Link prefetch={true} href={'/blog/' + slugify(post.title)}>
-                <h2 className='text-2xl font-bold'>{post.title}</h2>
+                <h3 className='text-2xl font-bold'>{post.title}</h3>
                 <p className='text-gray-500'>{post.description}</p>
               </Link>
-            </div>
+            </article>
           ))}
         </div>
       </div>
