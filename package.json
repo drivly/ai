@@ -158,6 +158,7 @@
     "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
     "react-resizable-panels": "^2.1.7",
+    "react-wrap-balancer": "^1.1.1",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
     "remark-parse": "^11.0.0",
