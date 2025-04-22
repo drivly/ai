@@ -4,7 +4,24 @@ description: Execute tasks within your workflows with Actions.do, the comprehens
 headline: Execute Tasks That Get Results
 subhead: Automate complex tasks within your business workflows with precision and reliability. Eliminate manual work and reduce errors with standardized action execution.
 badge: 'AI without Complexity'
-codeExample: "import { Action } from 'actions.do';\n\nconst sendEmailAction = new Action({\n  name: 'Send Confirmation Email',\n  description: 'Sends a confirmation email to the customer',\n  handler: async ({ customer, order }) => {\n    // Implementation details\n    const result = await sendEmail({\n      to: customer.email,\n      subject: 'Order Confirmation',\n      template: 'order-confirmation',\n      data: { customer, order }\n    });\n    return { success: true, messageId: result.id };\n  }\n});"
+codeLang: 'typescript'
+codeExample: |
+  import { Action } from 'actions.do';
+
+  const sendEmailAction = new Action({
+    name: 'Send Confirmation Email',
+    description: 'Sends a confirmation email to the customer',
+    handler: async ({ customer, order }) => {
+      // Implementation details
+      const result = await sendEmail({
+        to: customer.email,
+        subject: 'Order Confirmation',
+        template: 'order-confirmation',
+        data: { customer, order }
+      });
+      return { success: true, messageId: result.id };
+    }
+  });
 ---
 
 # Actions.do
