@@ -9,13 +9,22 @@ import Link from 'next/link'
 import { getBlogPostBySlug } from '../blog-posts'
 import slugify from 'slugify'
 
-async function BlogPostPage(props: { params: { domain: string; slug?: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
-  const { domain, slug } = props.params || {}
+export async function generateMetadata({ params }: { params: Promise<{ domain: string; slug: string }> }) {
+  const { domain, slug } = await params
+  const post = await getBlogPostBySlug(domain, slug)
+  return {
+    title: post?.title,
+    description: post?.description,
+  }
+}
+
+async function BlogPostPage({ params }: { params: { domain: string; slug: string } }) {
+  const { domain, slug } = params
   const headersList = await headers()
   const proto = headersList.get('x-forwarded-proto')
   const host = headersList.get('x-forwarded-host')
   const siteUrl = `${proto}://${host}`
-  const post = await getBlogPostBySlug(domain, slug || '')
+  const post = await getBlogPostBySlug(domain, slug)
   const fallbackImage = '/images/blog-llm.png'
 
   // If post not found, render custom not found component
@@ -50,7 +59,7 @@ async function BlogPostPage(props: { params: { domain: string; slug?: string }; 
         <Image src={post?.image || fallbackImage} alt={post?.title || ''} fill className='object-cover' priority />
       </div>
 
-      <BlogContent />
+      <BlogContent markdown={post?.markdown || ''} />
 
       {/* Related domain blog posts */}
     </div>
