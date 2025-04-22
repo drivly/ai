@@ -5,17 +5,12 @@ import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
-import { findSiteContent } from '@/lib/sites'
-import { cache } from 'react'
+
 import { Metadata } from 'next'
 import { Faqs } from '@/components/sites/sections/faqs'
+import { getContent } from './content'
 
 export const dynamic = 'force-dynamic'
-
-export const getContent = cache(async (domain: string) => {
-  const content = await findSiteContent(domain, true)
-  return await siteContent(content || { domain })
-})
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params

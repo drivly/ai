@@ -1,6 +1,6 @@
 import { listBlogPostTitles, writeBlogPost } from '@/.ai/functions/content'
 import type { BlogPost } from '@/components/sites/blog-ui/blog-posts'
-import { getContent } from '../page'
+import { getContent } from '../content'
 import slugify from 'slugify'
 
 // Sample blog posts data
