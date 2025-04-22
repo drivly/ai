@@ -1,6 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 
-const faqs = [
+const defaultFAQs = [
   {
     question: 'How secure is the LLM.do platform in terms of protecting sensitive data?',
     answer:
@@ -28,7 +28,7 @@ const faqs = [
   },
 ]
 
-export function Faqs() {
+export function Faqs({ faqs = defaultFAQs }: { faqs: { question: string; answer: string }[] }) {
   return (
     <section className='container mx-auto max-w-6xl px-3 py-20 sm:my-36' aria-labelledby='faq-title'>
       <div className='grid grid-cols-1 lg:grid-cols-12 lg:gap-14'>

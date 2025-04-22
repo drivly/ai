@@ -1,3 +1,4 @@
+import { codeExample, siteContent } from '@/.ai/functions/content'
 import { Particles } from '@/components/sites/magicui/particles'
 import { DotdoLinkSection } from '@/components/sites/sections/dotdo-link-section'
 import { HeroSection } from '@/components/sites/sections/hero-section'
@@ -5,17 +6,24 @@ import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
 import { findSiteContent } from '@/lib/sites'
+import { cache } from 'react'
 import { Metadata } from 'next'
+import { Faqs } from '@/components/sites/sections/faqs'
 
 export const dynamic = 'force-dynamic'
 
+const getContent = cache(async (domain: string) => {
+  const content = await findSiteContent(domain, true)
+  return await siteContent(content || { domain })
+})
+
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params
-  const content = await findSiteContent(domain)
+  const content = await getContent(domain)
 
   return {
-    title: content.title,
-    description: content.description,
+    title: content.seo.title,
+    description: content.seo.description,
   }
 }
 
@@ -25,8 +33,8 @@ async function DotDoPage(props: { params: { domain: string }; searchParams?: { [
   const searchParams = props.searchParams
   await getSession()
 
-  const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
-  const content = await findSiteContent(domain, true)
+  const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'workflows.do')
+  const content = await getContent(domain)
 
   const glowColor = (content as any).brandColor || getGlowColor(site)
 
@@ -34,17 +42,18 @@ async function DotDoPage(props: { params: { domain: string }; searchParams?: { [
     <>
       <div className='hero-glow-container' style={{ '--glow-color': glowColor } as React.CSSProperties}>
         <HeroSection
-          codeExample={'codeExample' in content ? content.codeExample : 'subhead' in content ? content.subhead : ''}
-          codeLang={'codeLang' in content ? content.codeLang : 'json'}
-          badge={'badge' in content ? content.badge : 'headline' in content ? content.headline : ''}
+          codeExample={content.codeExample}
+          codeLang={content.codeLang}
+          badge={content.badge}
+          title={content.hero.headline}
+          description={content.hero.subheadline}
           buttonText='Join waitlist'
-          title={'headline' in content ? content.headline : content.title}
-          description={'subhead' in content ? content.subhead : content.description}
           domain={site}
         />
       </div>
       <DotdoLinkSection />
       <Particles className='absolute inset-0 -z-10' quantity={50} ease={70} size={0.05} staticity={40} color={'#ffffff'} />
+      <Faqs faqs={content.faqs} />
     </>
   )
 }

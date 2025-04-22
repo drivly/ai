@@ -76,12 +76,12 @@ export const withSitesWrapper = <TParams extends { domain?: string; slug?: strin
             {/* Pass the awaited props to WrappedPage */}
             <WrappedPage {...pageProps} />
           </main>
-          {withFaqs && <Faqs />}
+          {/* {withFaqs && <Faqs />} */}
           {withCallToAction && <CallToAction />}
           <Footer minimal={minimal} />
 
           {/* Add hidden iframe for cross-domain auth */}
-          <iframe src='https://apis.do/login' style={{ display: 'none' }} title='Authentication sync' aria-hidden='true' />
+          <iframe src='/login' style={{ display: 'none' }} title='Authentication sync' aria-hidden='true' />
         </Fragment>
       </AuthProvider>
     )

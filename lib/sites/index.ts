@@ -24,7 +24,7 @@ interface SiteContent {
  * @param includeHero Whether to include hero content fields
  * @returns Site content with fallback if not found
  */
-export async function findSiteContent(domain: string, includeHero = false): Promise<SiteContent> {
+export async function findSiteContent(domain: string, includeHero = false): Promise<SiteContent | undefined> {
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'llm.do')
 
   const normalizedSite = site.replace(/\.do(\.gt|\.mw)?$/, '.do')
@@ -40,47 +40,47 @@ export async function findSiteContent(domain: string, includeHero = false): Prom
     )
   })
 
-  if (!siteContent) {
-    try {
-      const { output } = await ai.generateSiteContent({ domain: site })
+  // if (!siteContent) {
+  //   try {
+  //     const { output } = await ai.generateSiteContent({ domain: site })
 
-      return {
-        title: output.title || site,
-        description: output.description || `${site} | .do Business-as-Code`,
-        headline: output.headline || site,
-        subhead: output.subhead || 'Powered by .do',
-        badge: output.badge || 'AI without Complexity',
-        codeExample: output.codeExample || codeExample,
-        codeLang: output.codeLang || 'json',
-        brandColor: output.brandColor,
-        group: output.group || 'other',
-      }
-    } catch (error) {
-      console.error(`Error generating content for ${site}:`, error)
+  //     return {
+  //       title: output.title || site,
+  //       description: output.description || `${site} | .do Business-as-Code`,
+  //       headline: output.headline || site,
+  //       subhead: output.subhead || 'Powered by .do',
+  //       badge: output.badge || 'AI without Complexity',
+  //       codeExample: output.codeExample || codeExample,
+  //       codeLang: output.codeLang || 'json',
+  //       brandColor: output.brandColor,
+  //       group: output.group || 'other',
+  //     }
+  //   } catch (error) {
+  //     console.error(`Error generating content for ${site}:`, error)
 
-      if (error instanceof Error && error.message?.includes('functionName')) {
-        console.error('AI function execution error - missing functionName parameter')
-      }
+  //     if (error instanceof Error && error.message?.includes('functionName')) {
+  //       console.error('AI function execution error - missing functionName parameter')
+  //     }
 
-      const fallbackContent: SiteContent = {
-        title: site,
-        description: `${site} | .do Business-as-Code`,
-      }
+  //     const fallbackContent: SiteContent = {
+  //       title: site,
+  //       description: `${site} | .do Business-as-Code`,
+  //     }
 
-      if (includeHero) {
-        return {
-          ...fallbackContent,
-          headline: site,
-          subhead: 'Powered by .do',
-          badge: 'AI without Complexity',
-          codeExample: codeExample,
-          codeLang: 'json',
-        }
-      }
+  //     if (includeHero) {
+  //       return {
+  //         ...fallbackContent,
+  //         headline: site,
+  //         subhead: 'Powered by .do',
+  //         badge: 'AI without Complexity',
+  //         codeExample: codeExample,
+  //         codeLang: 'json',
+  //       }
+  //     }
 
-      return fallbackContent
-    }
-  }
+  //     return fallbackContent
+  //   }
+  // }
 
   return siteContent
 }
