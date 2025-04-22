@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { getPayloadFn } from '@/lib/get-payload-fn'
 import crypto from 'crypto'
 
 /**
@@ -8,7 +8,7 @@ import crypto from 'crypto'
 export const POST = API(async (request, { url }) => {
   let body: any = {}
   const contentType = request.headers.get('content-type') || ''
-  
+
   if (contentType.includes('application/json')) {
     body = await request.json()
   } else {
@@ -17,26 +17,26 @@ export const POST = API(async (request, { url }) => {
       body[key] = value
     }
   }
-  
+
   const { grant_type, refresh_token, client_id, client_secret } = body
-  
+
   if (!grant_type || !refresh_token || !client_id) {
     return {
       error: 'invalid_request',
       error_description: 'Missing required parameters',
     }
   }
-  
+
   if (grant_type !== 'refresh_token') {
     return {
       error: 'unsupported_grant_type',
       error_description: 'Only refresh_token grant type is supported for this endpoint',
     }
   }
-  
+
   try {
-    const payload = await getPayloadWithAuth()
-    
+    const payload = await getPayloadFn()
+
     const clientResult = await payload.find({
       collection: 'oauthClients',
       where: {
@@ -44,43 +44,43 @@ export const POST = API(async (request, { url }) => {
         disabled: { equals: false },
       },
     })
-    
+
     if (!clientResult.docs.length) {
       return {
         error: 'invalid_client',
         error_description: 'Invalid client ID',
       }
     }
-    
+
     if (client_secret && clientResult.docs[0].clientSecret !== client_secret) {
       return {
         error: 'invalid_client',
         error_description: 'Invalid client secret',
       }
     }
-    
+
     const accessToken = crypto.randomBytes(32).toString('hex')
     const newRefreshToken = crypto.randomBytes(32).toString('hex')
-    
+
     const expiresAtDate = new Date()
     expiresAtDate.setHours(expiresAtDate.getHours() + 1)
-    
+
     const tokenResult = await payload.find({
       collection: 'oauthTokens',
       where: {
         token: { equals: refresh_token },
       },
     })
-    
+
     if (!tokenResult.docs.length) {
       return {
         error: 'invalid_grant',
         error_description: 'Invalid refresh token',
       }
     }
-    
+
     const existingToken = tokenResult.docs[0]
-    
+
     await payload.create({
       collection: 'oauthTokens',
       data: {
@@ -92,7 +92,7 @@ export const POST = API(async (request, { url }) => {
         scope: existingToken.scope || 'read write',
       },
     })
-    
+
     return {
       access_token: accessToken,
       token_type: 'Bearer',

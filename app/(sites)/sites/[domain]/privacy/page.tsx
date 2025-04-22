@@ -30,4 +30,4 @@ async function PrivacyPage(props: { params: { domain: string }; searchParams?: {
   )
 }
 
-export default withSitesWrapper({ WrappedPage: PrivacyPage, withFaqs: false, withCallToAction: false })
+export default withSitesWrapper({ WrappedPage: PrivacyPage, withCallToAction: false })

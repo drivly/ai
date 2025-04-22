@@ -28,7 +28,7 @@ async function BlogPage(props: { params: { domain: string }; searchParams?: { [k
   )
 }
 
-export default withSitesWrapper({ WrappedPage: BlogPage, withFaqs: false })
+export default withSitesWrapper({ WrappedPage: BlogPage })
 // Get Started // Join
 // --- Request access
 // email onboarding with questions react-email // templates

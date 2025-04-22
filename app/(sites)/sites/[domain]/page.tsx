@@ -1,15 +1,12 @@
+import { codeExample } from '@/components/sites/constants/code-example'
 import { Particles } from '@/components/sites/magicui/particles'
 import { DotdoLinkSection } from '@/components/sites/sections/dotdo-link-section'
+import { Faqs } from '@/components/sites/sections/faqs'
 import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
-import { getSession } from '@/lib/auth/context/get-context-props'
-
 import { Metadata } from 'next'
-import { Faqs } from '@/components/sites/sections/faqs'
 import { getContent } from './content'
-
-export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params
@@ -18,6 +15,8 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
   return {
     title: content.seo.title,
     description: content.seo.description,
+    keywords: content.seo.keywords,
+    metadataBase: new URL(`https://${domain}`),
   }
 }
 
@@ -25,7 +24,6 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 async function DotDoPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
   const { domain } = props.params
   const searchParams = props.searchParams
-  await getSession()
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'workflows.do')
   const content = await getContent(domain)
@@ -36,7 +34,7 @@ async function DotDoPage(props: { params: { domain: string }; searchParams?: { [
     <>
       <div className='hero-glow-container' style={{ '--glow-color': glowColor } as React.CSSProperties}>
         <HeroSection
-          codeExample={content.codeExample}
+          codeExample={content.codeExample || codeExample}
           codeLang={content.codeLang}
           badge={content.badge}
           title={content.hero.headline}
