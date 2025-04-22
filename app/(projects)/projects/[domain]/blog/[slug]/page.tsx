@@ -13,7 +13,7 @@ import { cache } from 'react'
 import { writeBlogPost } from '@/.ai/functions/content'
 import Markdown from 'react-markdown'
 
-export const getData = cache(async ({ domain, slug }: { domain: string; slug: string }) => {
+const getData = cache(async ({ domain, slug }: { domain: string; slug: string }) => {
   const post = await writeBlogPost({ domain, slug })
   return post
 })

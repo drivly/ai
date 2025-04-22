@@ -8,7 +8,7 @@ import { slugify } from '@/lib/slugify'
 
 
 
-export const getData = cache(async ({ domain }: { domain: string }) => {
+const getData = cache(async ({ domain }: { domain: string }) => {
   const [posts, content] = await Promise.all([listBlogPostTitles({ domain }), siteContent({ domain }, { system: 'You are an expert at writing compelling and SEO-optimized landing page content', temperature: 1 })])
   waitUntil(listBlogPostTitles({ domain }).then(posts => posts.map(post => writeBlogPost({ domain, slug: slugify(post.title) }))))
   return { posts, ...content }
