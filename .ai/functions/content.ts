@@ -5,13 +5,19 @@ import yaml from 'yaml'
 import { z } from 'zod'
 
 export const writeBlogPost = (input: any) =>
-  generateText({
+  generateObject({
     model: model('google/gemini-2.5-pro-preview-03-25'),
     system: 'You are an expert at writing compelling and SEO-optimized blog content',
     prompt: `Write a blog post about: \n\n${typeof input === 'string' ? input : yaml.stringify(input)}`,
     temperature: 1,
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      category: z.string(),
+      markdown: z.string({ description: 'Markdown content of the blog post, without including the title, description, or category' }),
+    }),
   }).then((result) => {
-    return result.text
+    return result.object
   })
 
 export const listBlogPostTitles = (input: any) =>

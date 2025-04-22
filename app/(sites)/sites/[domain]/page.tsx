@@ -5,21 +5,16 @@ import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { getSession } from '@/lib/auth/context/get-context-props'
-import { findSiteContent } from '@/lib/sites'
-import { cache } from 'react'
+
 import { Metadata } from 'next'
 import { Faqs } from '@/components/sites/sections/faqs'
+import { getContent } from './content'
 
 export const dynamic = 'force-dynamic'
 
-const _getContent = cache(async (domain: string) => {
-  const content = await findSiteContent(domain, true)
-  return await siteContent(content || { domain })
-})
-
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = await params
-  const content = await _getContent(domain)
+  const content = await getContent(domain)
 
   return {
     title: content.seo.title,
@@ -34,7 +29,7 @@ async function DotDoPage(props: { params: { domain: string }; searchParams?: { [
   await getSession()
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'workflows.do')
-  const content = await _getContent(domain)
+  const content = await getContent(domain)
 
   const glowColor = (content as any).brandColor || getGlowColor(site)
 
