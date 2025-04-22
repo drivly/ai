@@ -85,7 +85,7 @@ export async function getAllBlogPosts(domain: string): Promise<BlogPost[]> {
   return posts
 }
 
-export async function getBlogPostBySlug(domain: string, slug: string): Promise<BlogPost | undefined> {
+export async function getBlogPostBySlug(domain: string, slug: string): Promise<BlogPost> {
   const content = await getContent(domain)
   const posts = await listBlogPostTitles(content)
   const blogPost = posts.find((post) => slugify(post.title) === slug) || { slug }
