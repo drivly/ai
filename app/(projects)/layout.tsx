@@ -1,7 +1,9 @@
 import React from 'react'
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import '@picocss/pico/css/pico.min.css'
 
-export const dynamic = 'force-dynamic'
+// export const dynamic = 'force-dynamic'
 
 export const generateMetadata = async ({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> => {
   const { domain } = await params
@@ -14,9 +16,9 @@ export default async function ProjectLayout({ children, params }: { children: Re
   const { domain } = await params
   return (
     <html>
-      <body>
+      <body className='container'>
         <h1>{domain}</h1>
-        <div className='project-layout'>{children}</div>
+        <div>{children}</div>
       </body>
     </html>
   )

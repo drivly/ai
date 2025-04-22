@@ -47,6 +47,7 @@ export const AI = (config: AIConfig) => {
 }
 
 export const model = createOpenAI({
+  compatibility: 'compatible',
   apiKey: process.env.AI_GATEWAY_TOKEN!,
   baseURL: process.env.AI_GATEWAY_URL!,
   headers: {
