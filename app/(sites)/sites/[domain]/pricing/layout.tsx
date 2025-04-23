@@ -1,13 +1,13 @@
 import type React from 'react'
 
-export default function PricingLayout({
+export default async function PricingLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
     <>
-      <main className='pt-36'>{children}</main>
+      <main className='mx-auto mt-36 max-w-6xl bg-white dark:bg-black'>{children}</main>
     </>
   )
 }
