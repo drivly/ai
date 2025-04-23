@@ -109,9 +109,13 @@ jobs:
           if [ -f .next/analyze/__bundle_analysis_comment.txt ]; then
             echo "comment file exists"
             cat .next/analyze/__bundle_analysis_comment.txt
-            # Use base64 encoding to handle special characters and multiline content
-            COMMENT_B64=$(base64 -w 0 .next/analyze/__bundle_analysis_comment.txt)
-            echo "comment_b64=${COMMENT_B64}" >> $GITHUB_OUTPUT
+            # Store the raw comment content
+            COMMENT=$(cat .next/analyze/__bundle_analysis_comment.txt)
+            # Escape newlines and quotes for GitHub Actions
+            COMMENT="${COMMENT//'%'/'%25'}"
+            COMMENT="${COMMENT//$'\n'/'%0A'}"
+            COMMENT="${COMMENT//$'\r'/'%0D'}"
+            echo "comment=${COMMENT}" >> $GITHUB_OUTPUT
             echo "comment_exists=true" >> $GITHUB_OUTPUT
           else
             echo "comment file does not exist"
@@ -132,5 +136,5 @@ jobs:
         if: success() && github.event.number && steps.get-comment.outputs.comment_exists == 'true'
         with:
           header: next-bundle-analysis
-          message: ${{ steps.get-comment.outputs.comment_b64 }}
+          message: ${{ steps.get-comment.outputs.comment }}
           recreate: true
