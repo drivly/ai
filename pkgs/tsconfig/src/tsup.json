@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Tsup",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "incremental": false,
+    "types": ["vitest/globals", "node"]
+  }
+}

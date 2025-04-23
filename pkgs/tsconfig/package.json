@@ -12,7 +12,8 @@
     "./src/react.json": "./src/react.json",
     "./src/worker.json": "./src/worker.json",
     "./src/sdk.json": "./src/sdk.json",
-    "./src/test.json": "./src/test.json"
+    "./src/test.json": "./src/test.json",
+    "./src/tsup.json": "./src/tsup.json"
   },
   "publishConfig": {
     "access": "public"

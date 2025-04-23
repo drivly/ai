@@ -1,5 +1,5 @@
 {
-  "extends": "../../pkgs/tsconfig/src/test.json",
+  "extends": "tsconfig/src/tsup.json",
   "compilerOptions": {
     "module": "ESNext",
     "lib": ["ES2020"],

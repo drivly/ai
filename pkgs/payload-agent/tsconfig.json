@@ -1,4 +1,5 @@
 {
+  "extends": "tsconfig/src/tsup.json",
   "compilerOptions": {
     "rootDir": ".",
     "target": "ES2022",
