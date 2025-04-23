@@ -21,10 +21,10 @@ async function DirectoryPage() {
       <HeroSection
         title={
           <>
-            Business-as-Code: <br className='block' /> The Future of Intelligent Work
+            Do Business-as-Code: <br className='block' /> The Future of Intelligent Work
           </>
         }
-        description='Do economically valuable work with structured Functions, reliable Workflows, and autonomous AI Agents—transforming intelligence into measurable outcomes.'
+        description='Do economically valuable Services-as-Software with agentic Workflows and autonomous AI Agents — transforming intelligence into measurable outcomes.'
         className='pb-16'
       />
       <Suspense
