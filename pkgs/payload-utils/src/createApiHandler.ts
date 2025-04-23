@@ -59,9 +59,11 @@ export const createApiHandler = <T = any>(getPayload: (options: any) => Promise<
       // Return error details
       const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
       return {
-        error: true,
-        message: error instanceof Error ? error.message : 'Internal Server Error',
-        ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+        error: {
+          message: error instanceof Error ? error.message : 'Internal Server Error',
+          status,
+          ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+        }
       }
     }
   }

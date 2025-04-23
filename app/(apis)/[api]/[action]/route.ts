@@ -88,9 +88,10 @@ export const GET = API(async (request, { params, url }) => {
 
   if (!apiExists && !isAlias) {
     return {
-      error: true,
-      message: `API '${api}' not found`,
-      statusCode: 404,
+      error: {
+        message: `API '${api}' not found`,
+        status: 404
+      }
     };
   }
 
@@ -100,9 +101,10 @@ export const GET = API(async (request, { params, url }) => {
     
     if (!actionId) {
       return {
-        error: true,
-        message: `Action '${action}' not found for API '${effectiveApi}'`,
-        statusCode: 404,
+        error: {
+          message: `Action '${action}' not found for API '${effectiveApi}'`,
+          status: 404
+        }
       };
     }
 
@@ -110,9 +112,10 @@ export const GET = API(async (request, { params, url }) => {
     
     if (!actionDetails) {
       return {
-        error: true,
-        message: `Action details not found for ID: ${actionId}`,
-        statusCode: 404,
+        error: {
+          message: `Action details not found for ID: ${actionId}`,
+          status: 404
+        }
       };
     }
 
@@ -131,9 +134,10 @@ export const GET = API(async (request, { params, url }) => {
   } catch (error) {
     console.error(`Error fetching action information:`, error);
     return {
-      error: true,
-      message: error instanceof Error ? error.message : 'Error fetching action information',
-      statusCode: 500,
+      error: {
+        message: error instanceof Error ? error.message : 'Error fetching action information',
+        status: 500
+      }
     };
   }
 });
@@ -152,9 +156,10 @@ export const POST = API(async (request, { params, url }) => {
 
   if (!apiExists && !isAlias) {
     return {
-      error: true,
-      message: `API '${api}' not found`,
-      statusCode: 404,
+      error: {
+        message: `API '${api}' not found`,
+        status: 404
+      }
     };
   }
 
@@ -165,9 +170,10 @@ export const POST = API(async (request, { params, url }) => {
       requestParams = await request.json();
     } catch (error) {
       return {
-        error: true,
-        message: 'Invalid JSON payload',
-        statusCode: 400,
+        error: {
+          message: 'Invalid JSON payload',
+          status: 400
+        }
       };
     }
 
@@ -175,9 +181,10 @@ export const POST = API(async (request, { params, url }) => {
     
     if (!actionId) {
       return {
-        error: true,
-        message: `Action '${action}' not found for API '${effectiveApi}'`,
-        statusCode: 404,
+        error: {
+          message: `Action '${action}' not found for API '${effectiveApi}'`,
+          status: 404
+        }
       };
     }
 
@@ -197,9 +204,10 @@ export const POST = API(async (request, { params, url }) => {
   } catch (error) {
     console.error(`Error executing action:`, error);
     return {
-      error: true,
-      message: error instanceof Error ? error.message : 'Error executing action',
-      statusCode: error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500,
+      error: {
+        message: error instanceof Error ? error.message : 'Error executing action',
+        status: error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
+      }
     };
   }
 });
