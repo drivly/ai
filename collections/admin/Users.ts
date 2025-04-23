@@ -11,29 +11,16 @@ export const Users: CollectionConfig = {
     tokenExpiration: 60 * 60 * 24 * 30, 
     useAPIKey: true,
     strategies: [
-      {
-        name: 'authjs',
-        authenticate: async (args) => {
-          const { authjsStrategy } = await import('@/lib/auth')
-          return authjsStrategy().authenticate(args)
-        }
-      }
+      // {
+      //   name: 'authjs',
+      //   authenticate: async (args) => {
+      //     const { authjsStrategy } = await import('@/lib/auth')
+      //     return authjsStrategy().authenticate(args)
+      //   }
+      // }
     ] 
   },
   fields: [
-    {
-      name: 'email',
-      type: 'email',
-      required: true,
-    },
-    {
-      name: 'password',
-      type: 'text',
-      required: true,
-      admin: {
-        condition: () => false,
-      },
-    },
     {
       name: 'name',
       type: 'text',

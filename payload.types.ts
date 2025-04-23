@@ -267,6 +267,7 @@ export interface Config {
       githubFileOperations: TaskGithubFileOperations;
       saveExecutionResults: TaskSaveExecutionResults;
       researchTask: TaskResearchTask;
+      sendResearchResultsToSlack: TaskSendResearchResultsToSlack;
       handleLinearWebhook: TaskHandleLinearWebhook;
       syncTaskToLinear: TaskSyncTaskToLinear;
       deleteLinearIssue: TaskDeleteLinearIssue;
@@ -577,7 +578,6 @@ export interface Prompt {
  */
 export interface User {
   id: string;
-  password?: string | null;
   name: string;
   image?: string | null;
   role: 'user' | 'admin' | 'superAdmin';
@@ -604,6 +604,7 @@ export interface User {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
+  password?: string | null;
 }
 /**
  * Manages user roles and permissions within the system
@@ -2642,6 +2643,7 @@ export interface PayloadJob {
           | 'githubFileOperations'
           | 'saveExecutionResults'
           | 'researchTask'
+          | 'sendResearchResultsToSlack'
           | 'handleLinearWebhook'
           | 'syncTaskToLinear'
           | 'deleteLinearIssue'
@@ -2710,6 +2712,7 @@ export interface PayloadJob {
                 | 'githubFileOperations'
                 | 'saveExecutionResults'
                 | 'researchTask'
+                | 'sendResearchResultsToSlack'
                 | 'handleLinearWebhook'
                 | 'syncTaskToLinear'
                 | 'deleteLinearIssue'
@@ -2756,6 +2759,7 @@ export interface PayloadJob {
         | 'githubFileOperations'
         | 'saveExecutionResults'
         | 'researchTask'
+        | 'sendResearchResultsToSlack'
         | 'handleLinearWebhook'
         | 'syncTaskToLinear'
         | 'deleteLinearIssue'
@@ -4027,7 +4031,6 @@ export interface DomainsSelect<T extends boolean = true> {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  password?: T;
   name?: T;
   image?: T;
   role?: T;
@@ -5109,6 +5112,38 @@ export interface TaskResearchTask {
         }[]
       | null;
     confidence?: number | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskSendResearchResultsToSlack".
+ */
+export interface TaskSendResearchResultsToSlack {
+  input: {
+    channel: string;
+    threadTs?: string | null;
+    responseTs: string;
+    results:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    query: string;
+  };
+  output: {
+    result?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
 }
 /**
