@@ -43,8 +43,7 @@ export default auth(async (request) => {
   }
 
   return analyticsMiddleware(request, async () => {
-    if ((handler.hostname === 'functions.do' || (process.env.NODE_ENV === 'development' && handler.pathname === '/pricing')) && 
-        (handler.pathname === '/pricing')) {
+    if (handler.pathname === '/pricing') {
       console.log('Handling /pricing special case', { hostname: handler.hostname, pathname: handler.pathname })
       const targetHostname = 'functions.do' // Always use functions.do for the /pricing path
       return NextResponse.rewrite(new URL(`${request.nextUrl.origin}/sites/${targetHostname}/pricing${request.nextUrl.search}`, request.url))
