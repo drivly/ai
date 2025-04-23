@@ -92,8 +92,8 @@ jobs:
         run: |
           if [ -f ".next/analyze/base/bundle/bundle/__bundle_analysis.json" ]; then
             # Fix path to match where the file is actually downloaded
-            mkdir -p .next/analyze/base
-            cp .next/analyze/base/bundle/bundle/__bundle_analysis.json .next/analyze/base/
+            mkdir -p .next/analyze/base/bundle
+            cp .next/analyze/base/bundle/bundle/__bundle_analysis.json .next/analyze/base/bundle/
             npx -p nextjs-bundle-analysis compare
           else
             echo "No base bundle analysis file found. Skipping comparison."
