@@ -1,87 +1,41 @@
 import { API } from '@/lib/api'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { getPayloadFn } from '@/lib/get-payload-fn'
 import crypto from 'crypto'
+import { auth } from '@/auth'
 
 /**
- * Exchanges an authorization code for an access token
+ * Generates an OAuth token for the authenticated user
  */
-const exchangeCodeForToken = async (code: string, redirectUri: string, clientId: string, payload: any, clientSecret?: string) => {
-  const codeResult = await payload.find({
-    collection: 'oauthCodes',
-    where: {
-      code: { equals: code },
-      used: { equals: false },
-    },
-  })
+const generateOAuthToken = async (clientId: string, payload: any) => {
+  try {
+    const clientResult = await payload.find({
+      collection: 'oauthClients',
+      where: {
+        clientId: { equals: clientId },
+        disabled: { equals: false },
+      },
+    })
 
-  if (!codeResult.docs.length) {
-    throw new Error('Invalid authorization code')
-  }
+    if (!clientResult.docs.length) {
+      throw new Error('Invalid client ID')
+    }
 
-  const codeEntry = codeResult.docs[0]
+    const accessToken = crypto.randomBytes(32).toString('hex')
+    const refreshToken = crypto.randomBytes(32).toString('hex')
 
-  const expiresAt = new Date(codeEntry.expiresAt)
-  if (expiresAt < new Date()) {
-    throw new Error('Authorization code expired')
-  }
+    const accessTokenExpiresAt = new Date()
+    accessTokenExpiresAt.setHours(accessTokenExpiresAt.getHours() + 1)
 
-  const clientResult = await payload.find({
-    collection: 'oauthClients',
-    where: {
-      clientId: { equals: clientId },
-      disabled: { equals: false },
-    },
-  })
-
-  if (!clientResult.docs.length) {
-    throw new Error('Invalid client ID')
-  }
-
-  const client = clientResult.docs[0]
-
-  if (clientSecret && client.clientSecret !== clientSecret) {
-    throw new Error('Invalid client secret')
-  }
-
-  if (redirectUri && codeEntry.redirectUri !== redirectUri) {
-    throw new Error('Redirect URI mismatch')
-  }
-
-  await payload.update({
-    collection: 'oauthCodes',
-    id: codeEntry.id,
-    data: {
-      used: true,
-    },
-  })
-
-  const accessToken = crypto.randomBytes(32).toString('hex')
-  const refreshToken = crypto.randomBytes(32).toString('hex')
-
-  const accessTokenExpiresAt = new Date()
-  accessTokenExpiresAt.setHours(accessTokenExpiresAt.getHours() + 1)
-
-  const refreshTokenExpiresAt = new Date()
-  refreshTokenExpiresAt.setDate(refreshTokenExpiresAt.getDate() + 30)
-
-  await payload.create({
-    collection: 'oauthTokens',
-    data: {
-      token: accessToken,
-      provider: codeEntry.provider,
-      userId: codeEntry.userId,
-      clientId,
-      expiresAt: accessTokenExpiresAt,
+    return {
+      access_token: accessToken,
+      token_type: 'Bearer',
+      expires_in: 3600,
+      refresh_token: refreshToken,
       scope: 'read write',
-    },
-  })
-
-  return {
-    access_token: accessToken,
-    token_type: 'Bearer',
-    expires_in: 3600,
-    refresh_token: refreshToken,
-    scope: 'read write',
+    }
+  } catch (error) {
+    console.error('Token generation error:', error)
+    throw error
   }
 }
 
@@ -100,7 +54,7 @@ export const POST = API(async (request, { url }) => {
 
   const { grant_type, code, redirect_uri, client_id, client_secret } = body
 
-  if (!grant_type || !code || !client_id) {
+  if (!grant_type || !client_id) {
     return {
       error: 'invalid_request',
       error_description: 'Missing required parameters',
@@ -115,8 +69,18 @@ export const POST = API(async (request, { url }) => {
   }
 
   try {
-    const payload = await getPayloadWithAuth()
-    const token = await exchangeCodeForToken(code, redirect_uri, client_id, payload, client_secret)
+    const session = await auth()
+
+    if (!session?.user) {
+      return {
+        error: 'unauthorized',
+        error_description: 'User is not authenticated',
+      }
+    }
+
+    const payload = await getPayloadFn()
+    const token = await generateOAuthToken(client_id, payload)
+
     return token
   } catch (error) {
     console.error('Token exchange error:', error)

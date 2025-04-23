@@ -1,7 +1,8 @@
 import { API } from '@/lib/api'
-import { Capability, getModel, ParsedModelIdentifier, reconstructModelString, models, parse } from '@/pkgs/ai-models'
+import { constructModelIdentifier, filterModels, parse, getModel } from 'language-models'
 import { createOpenAI } from '@ai-sdk/openai'
 import { generateText } from 'ai'
+import camelCase from 'camelcase'
 
 const openrouter = createOpenAI({
   apiKey: process.env.OPEN_ROUTER_API_KEY,
@@ -52,28 +53,32 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
       const links = options
         .map((option) => {
           const modifiedParsedObject = structuredClone({
-            ...(model?.parsed as ParsedModelIdentifier),
+            ...model?.parsed,
           })
 
           if (param === 'capabilities') {
             // If the option already exists, remove it, else add it.
-            if (modifiedParsedObject.capabilities.includes(option)) {
-              modifiedParsedObject.capabilities = modifiedParsedObject.capabilities.filter((capability) => capability !== option)
+            const currentCapabilities = Object.keys(modifiedParsedObject.capabilities ?? {})
+
+            modifiedParsedObject.capabilities = modifiedParsedObject.capabilities ?? {}
+
+            if (currentCapabilities.includes(option)) {
+              delete modifiedParsedObject.capabilities[option]
             } else {
-              modifiedParsedObject.capabilities.push(option)
+              modifiedParsedObject.capabilities[option] = true
             }
           }
 
           // If the param is seed, temperature, or maxTokens, we need to add it to the systemConfig
           if (param === 'seed' || param === 'temperature' || param === 'maxTokens') {
             modifiedParsedObject.systemConfig = {
-              ...(model?.parsed as ParsedModelIdentifier).systemConfig,
+              ...(model?.parsed).systemConfig,
               [param]: option,
             }
           }
 
           return {
-            [option]: `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}?${qs.toString()}`,
+            [option]: `${originOrApiRoute}/${constructModelIdentifier(modifiedParsedObject)}?${qs.toString()}`,
           }
         })
         .reduce<Record<string, string>>((acc, curr) => ({ ...acc, ...curr }), {})
@@ -87,18 +92,18 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
     const applyPreset = (preset: Record<string, any>) => {
       const modifiedParsedObject = {
-        ...(model?.parsed as ParsedModelIdentifier),
+        ...model?.parsed,
       }
 
       modifiedParsedObject.systemConfig = {
-        ...(model?.parsed as ParsedModelIdentifier).systemConfig,
+        ...(model?.parsed).systemConfig,
         ...preset,
       }
 
-      return `${originOrApiRoute}/${reconstructModelString(modifiedParsedObject)}?${qs.toString()}`
+      return `${originOrApiRoute}/${constructModelIdentifier(modifiedParsedObject)}?${qs.toString()}`
     }
 
-    const modelNameTemp = reconstructModelString(model?.parsed as ParsedModelIdentifier)
+    const modelNameTemp = constructModelIdentifier(model?.parsed)
     const capabilities = ['reasoning', 'tools', 'code', 'online']
 
     const isGateway = !origin.includes('models.do')
@@ -108,8 +113,8 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     const topP = model?.parsed.systemConfig?.topP || 1
     const topK = model?.parsed.systemConfig?.topK || 1
 
-    const allSupportedCapabilities = model?.model?.capabilities
-    const activeCapabilities = model?.parsed.capabilities
+    const allSupportedCapabilities = model?.provider?.supportedParameters.map((x) => camelCase(x))
+    const activeCapabilities = Object.keys(model?.parsed.capabilities ?? {})
 
     const modelNameWithoutSettings = modelNameTemp.split('/')[0].split(':')[0].split('(')[0]
 
@@ -123,6 +128,8 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         qs.set('models', groupModels.join(','))
       }
     }
+
+    console.log(allSupportedCapabilities)
 
     return {
       links: {

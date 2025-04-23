@@ -1,9 +1,10 @@
 'use client'
 
+import React from 'react'
 import { cn } from '@/lib/utils'
 import { Children, useCallback, useEffect, useRef, useState } from 'react'
 
-const useAutoScroll = (containerRef: React.RefObject<HTMLDivElement | null>, enabled: boolean) => {
+const useAutoScroll = (containerRef: React.RefObject<HTMLDivElement>, enabled: boolean) => {
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true)
   const lastScrollTopRef = useRef(0)
   const autoScrollingRef = useRef(false)
@@ -146,15 +147,15 @@ export type ChatContainerProps = {
   children: React.ReactNode
   className?: string
   autoScroll?: boolean
-  scrollToRef?: React.RefObject<HTMLDivElement | null>
-  ref?: React.RefObject<HTMLDivElement | null>
+  scrollToRef?: React.RefObject<HTMLDivElement>
+  ref?: React.RefObject<HTMLDivElement>
 } & React.HTMLAttributes<HTMLDivElement>
 
 function ChatContainer({ className, children, autoScroll = true, scrollToRef, ref, ...props }: ChatContainerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const localBottomRef = useRef<HTMLDivElement>(null)
   const bottomRef = scrollToRef || localBottomRef
-  const chatContainerRef = ref || containerRef
+  const chatContainerRef = ref || containerRef as React.RefObject<HTMLDivElement>
   const prevChildrenRef = useRef<React.ReactNode>(null)
   const contentChangedWithoutNewMessageRef = useRef(false)
 
@@ -172,7 +173,7 @@ function ChatContainer({ className, children, autoScroll = true, scrollToRef, re
 
     prevChildrenCountRef.current = currentChildrenCount
     prevChildrenRef.current = children
-  }, [children, setNewMessageAdded])
+  }, [children, setNewMessageAdded, prevChildrenCountRef])
 
   useEffect(() => {
     if (!autoScroll) return
@@ -189,7 +190,7 @@ function ChatContainer({ className, children, autoScroll = true, scrollToRef, re
     }
 
     requestAnimationFrame(scrollHandler)
-  }, [children, autoScroll, autoScrollEnabled, isScrolling, scrollTriggered, scrollToBottom, newMessageAdded, setNewMessageAdded])
+  }, [children, autoScroll, autoScrollEnabled, isScrolling, scrollTriggered, scrollToBottom, newMessageAdded, setNewMessageAdded, prevChildrenCountRef])
 
   return (
     <div className={cn('flex flex-col overflow-y-auto', className)} role='log' ref={chatContainerRef} {...props}>

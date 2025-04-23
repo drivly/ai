@@ -1,0 +1,49 @@
+name: Website Crawler - Link Validator
+
+on:
+  schedule:
+    # Run at midnight US Central time (6 UTC)
+    - cron: '0 6 * * *'
+  # Allow manual runs
+  workflow_dispatch:
+
+jobs:
+  crawl-websites:
+    name: Check Website Links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.x
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Playwright
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run Website Crawler
+        run: pnpm tsx scripts/website-crawler.ts
+        env:
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        
+      - name: Archive Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: broken-links-report
+          path: storage/datasets/default/*.json
+          retention-days: 30

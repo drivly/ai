@@ -1,27 +1,22 @@
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
+import { serverAuth } from '@/hooks/server-auth'
 import { handleWaitlistActions } from '@/lib/auth/actions/waitlist.action'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
-import { User } from '@/payload.types'
-import { headers as requestHeaders } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { Waitlist } from './waitlist'
 
-async function WaitListPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
-  const { domain } = props.params
-  const searchParams = await props.searchParams
-  const payload = await getPayloadWithAuth()
-  const headers = await requestHeaders()
-  const { user } = (await payload.auth({ headers })) as { user: User }
+async function WaitlistPage({ params }: { params: { domain: string } }) {
+  const { domain } = params
+  const user = await serverAuth()
+  const validDomain = domain && domain !== '[domain]' ? domain : 'default'
 
   if (!user) {
-    redirect('/')
+    redirect('/login?destination=waitlist')
   }
 
-  const name = user.name || user.email.split('@')[0]
+  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await handleWaitlistActions(user, validDomain)
 
-  await handleWaitlistActions(user, domain)
-
-  return <Waitlist email={user.email} name={name} />
+  return <Waitlist email={user.email || ''} name={user.name || user.email?.split('@')[0] || ''} />
 }
 
-export default withSitesWrapper({ WrappedPage: WaitListPage, withFaqs: false, withCallToAction: false })
+export default withSitesWrapper({ WrappedPage: WaitlistPage, withCallToAction: false })

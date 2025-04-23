@@ -11,7 +11,7 @@ export async function searchResources(query: string, limit: number = 10): Promis
   try {
     const queryEmbedding = await generateEmbedding(query)
 
-    const payload = await getPayload({ config: (await import('../../payload.config')).default })
+    const payload = await getPayload({ config: (await import('@/payload.config')).default })
 
     const db = payload.db.connection
 
@@ -56,7 +56,7 @@ export async function hybridSearchResources(query: string, limit: number = 10): 
   try {
     const queryEmbedding = await generateEmbedding(query)
 
-    const payload = await getPayload({ config: (await import('../../payload.config')).default })
+    const payload = await getPayload({ config: (await import('@/payload.config')).default })
 
     const db = payload.db.connection
 

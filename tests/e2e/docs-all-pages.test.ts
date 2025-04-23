@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
 import { chromium, Browser, Page, Response } from 'playwright'
-import { test as chromaticTest, expect as chromaticExpect } from '@chromatic-com/playwright'
+import { test as chromaticTest } from '@chromatic-com/playwright'
+import { expectWithRetries } from '../utils/chromatic-helpers'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -115,7 +116,7 @@ describe('All Documentation Pages', () => {
         const heading = await page.locator('h1, h2, h3')
         expect(await heading.count()).toBeGreaterThan(0)
 
-        await chromaticExpect(page).toHaveScreenshot(`docs-${docsPath.replace(/\//g, '-')}.png`)
+        await expectWithRetries(page, `docs-${docsPath.replace(/\//g, '-')}.png`)
       } catch (error) {
         if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
           console.log(`Mocking docs page test for ${mdxFile} in test environment`)

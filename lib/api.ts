@@ -1,14 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server.js'
 import punycode from 'punycode'
 import { getPayload } from 'payload'
 import config from '../payload.config'
 import { PayloadDB } from './db'
+import { auth } from '../auth'
 import { UAParser } from 'ua-parser-js'
 import { geolocation } from '@vercel/functions'
 import { continents, countries, flags, locations, metros } from './constants/cf'
 import { nanoid } from 'nanoid'
 import { getOrganizationByASN } from './utils/asn-lookup'
-import { parentDomains, childDomains } from '../domains.config'
+import { parentDomains, childDomains, sdks } from '../domains.config'
 
 /**
  * Context object passed to API handlers
@@ -24,6 +25,7 @@ export type ApiContext = {
   payload: any
   db: PayloadDB
   req: NextRequest
+  cf?: any // Cloudflare data fetched from cf.json endpoint
 }
 
 /**
@@ -102,7 +104,8 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
 
   const isCloudflareWorker = 'cf' in request
 
-  const cf = isCloudflareWorker ? (request as any).cf : undefined
+  const cf = isCloudflareWorker ? (request as any).cf : 
+             (request as any)._cf || undefined
 
   const geo = !isCloudflareWorker ? geolocation(request) : undefined
 
@@ -113,9 +116,9 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
 
   const asn = request.headers.get('cf-ray')?.split('-')[0] || request.headers.get('x-vercel-ip-asn') || ''
 
-  const asOrg = asn ? getOrganizationByASN(asn) : null
+  const asOrgPromise = asn ? getOrganizationByASN(asn) : Promise.resolve(null)
 
-  const isp = cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP'
+  const isp = cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || 'Unknown ISP' // Will update with asOrg later
 
   let latitude = 0,
     longitude = 0
@@ -167,20 +170,22 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
       const { isCloudflareIP } = await import('./utils/cloudflare-ip')
       if (await isCloudflareIP(ip)) {
         const workerDomain = cfWorkerHeader.trim()
-        
+
         const apiKeyWithDomain = await payload.db.apikeys.findOne({
           where: {
             cfWorkerDomains: {
               elemMatch: {
-                domain: workerDomain
-              }
-            }
-          }
+                domain: workerDomain,
+              },
+            },
+          },
         })
-        
+
         if (apiKeyWithDomain) {
           const user = await payload.db.users.findByID(apiKeyWithDomain.user)
           if (user) {
+            const asOrg = await asOrgPromise
+            
             return {
               id: user.id,
               email: user.email,
@@ -192,7 +197,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
               userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
               os: ua?.os?.name as string,
               ip,
-              isp,
+              isp: cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
               asOrg: asOrg || undefined,
               flag: countryFlag,
               zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
@@ -222,6 +227,8 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     }
   }
 
+  const asOrg = await asOrgPromise
+ 
   return {
     authenticated: false, // This would be determined by authentication logic
     admin: undefined, // This would be determined by authentication logic
@@ -230,7 +237,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
     os: ua?.os?.name as string,
     ip,
-    isp,
+    isp: cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
     asOrg: asOrg || undefined,
     flag: countryFlag,
     zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
@@ -280,6 +287,8 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
     from = `${origin}/sites`
   }
 
+  const sdkUrl = sdks.includes(packageName) ? `https://npmjs.com/${packageName}` : 'https://npmjs.com/workflows.do'
+
   return {
     name: domain,
     description: description || 'Economically valuable work delivered through simple APIs',
@@ -289,7 +298,7 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
     admin: origin + '/admin',
     docs: origin + '/docs',
     repo: 'https://github.com/drivly/ai',
-    sdk: `https://npmjs.com/${packageName}`,
+    sdk: sdkUrl,
     site, // Use the variable we created
     from, // Add the new field
   }
@@ -427,6 +436,7 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
         payload,
         db,
         req,
+        cf: (req as any)._cf, // Include Cloudflare data fetched from middleware
       }
 
       _currentRequest = req
@@ -439,10 +449,20 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
 
       const enhancedUser = await getUser(req, payload)
 
+      let authUser: Record<string, any> = {}
+      try {
+        const session = await auth()
+        authUser = session?.user || {}
+      } catch (authError) {
+        console.error('Error fetching AuthJS session:', authError)
+      }
+
       const mergedUser = {
+        name: authUser?.name || user?.name || enhancedUser.name,
+        email: authUser?.email || user?.email || enhancedUser.email,
         ...enhancedUser,
-        authenticated: user?.id ? true : false,
-        admin: user?.admin || undefined,
+        authenticated: (user?.id || authUser?.id) ? true : false,
+        admin: (user?.admin || authUser?.role === 'admin') ? true : undefined,
         plan: user?.plan || 'Free',
       }
 
@@ -452,14 +472,14 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
           : undefined
       const api = getApiHeader(req, apiDescription)
 
-      return NextResponse.json(
-        {
-          api,
-          ...result,
-          user: mergedUser,
-        },
-        { headers: { 'content-type': 'application/json; charset=utf-8' } },
-      )
+      const responseBody = {
+        api,
+        ...result,
+        user: mergedUser,
+      }
+      return new NextResponse(JSON.stringify(responseBody, null, 2), {
+        headers: { 'content-type': 'application/json; charset=utf-8' },
+      })
     } catch (error) {
       console.error('API Error:', error)
 
@@ -488,14 +508,15 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
       }
 
       const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
-      return NextResponse.json(
-        {
-          error: true,
-          message: error instanceof Error ? error.message : 'Internal Server Error',
-          ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
-        },
-        { status },
-      )
+      const errorResponseBody = {
+        error: true,
+        message: error instanceof Error ? error.message : 'Internal Server Error',
+        ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+      }
+      return new NextResponse(JSON.stringify(errorResponseBody, null, 2), {
+        status,
+        headers: { 'content-type': 'application/json; charset=utf-8' },
+      })
     }
   }
 }
@@ -638,38 +659,38 @@ export const generatePaginationLinks = (request: NextRequest, page: number, limi
  * @returns Object containing home, first, last, next, and prev links
  */
 export const generateCompletePaginationLinks = (
-  request: NextRequest, 
-  page: number, 
-  limit: number, 
+  request: NextRequest,
+  page: number,
+  limit: number,
   totalItems: number,
-  totalPages: number
+  totalPages: number,
 ): { home: string; first: string; last?: string; next?: string; prev?: string } => {
   const baseLinks = generatePaginationLinks(request, page, limit, totalItems)
   const url = new URL(request.url)
   const baseUrl = url.origin + url.pathname
   const searchParams = url.searchParams
-  
-  const links: { 
-    home: string; 
-    first: string; 
-    last?: string; 
-    next?: string; 
-    prev?: string 
+
+  const links: {
+    home: string
+    first: string
+    last?: string
+    next?: string
+    prev?: string
   } = {
     ...baseLinks,
-    first: '',  // Will be set below
+    first: '', // Will be set below
   }
-  
+
   const firstParams = new URLSearchParams(searchParams)
   firstParams.set('page', '1')
   links.first = `${baseUrl}?${firstParams.toString()}`
-  
+
   if (totalPages > 1) {
     const lastParams = new URLSearchParams(searchParams)
     lastParams.set('page', totalPages.toString())
     links.last = `${baseUrl}?${lastParams.toString()}`
   }
-  
+
   return links
 }
 
@@ -784,10 +805,9 @@ export const handleShareRequest = async (params: { id: string }, db: PayloadDB):
  */
 const hasShortcutPath = (domain?: string): boolean => {
   if (!domain) return false
-  
+
   const baseDomain = domain.replace(/\.do(\.mw|\.gt)?$/, '')
-  return parentDomains[baseDomain] !== undefined || 
-         Object.values(childDomains).some(children => children.includes(baseDomain))
+  return parentDomains[baseDomain] !== undefined || Object.values(childDomains).some((children) => children.includes(baseDomain))
 }
 
 /**
@@ -796,29 +816,29 @@ const hasShortcutPath = (domain?: string): boolean => {
  * @param options - Options for formatting the URL
  * @returns Formatted URL string
  */
-export const formatUrl = (path: string, options: { 
-  origin: string, 
-  domain?: string, 
-  showDomains?: boolean,
-  defaultDomain?: string
-}): string => {
+export const formatUrl = (
+  path: string,
+  options: {
+    origin: string
+    domain?: string
+    showDomains?: boolean
+    defaultDomain?: string
+  },
+): string => {
   const { origin, domain, showDomains, defaultDomain } = options
-  
-  const shouldShowDomains = showDomains ?? (
-    domain === 'apis.do' || 
-    hasShortcutPath(domain) 
-  )
-  
+
+  const shouldShowDomains = showDomains ?? (domain === 'apis.do' || hasShortcutPath(domain))
+
   if (shouldShowDomains && defaultDomain) {
-    let tldVariant = '';
+    let tldVariant = ''
     if (domain) {
-      if (domain.endsWith('.do.gt')) tldVariant = '.gt';
-      else if (domain.endsWith('.do.mw')) tldVariant = '.mw';
+      if (domain.endsWith('.do.gt')) tldVariant = '.gt'
+      else if (domain.endsWith('.do.mw')) tldVariant = '.mw'
     }
-    
-    const domainWithCorrectTLD = defaultDomain.replace(/\.do$/, `.do${tldVariant}`);
+
+    const domainWithCorrectTLD = defaultDomain.replace(/\.do$/, `.do${tldVariant}`)
     return `https://${domainWithCorrectTLD}`
   }
-  
+
   return `${origin}/${path}`
 }

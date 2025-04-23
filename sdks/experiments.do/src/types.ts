@@ -121,3 +121,68 @@ export interface ExperimentRecommendation {
     }
   >
 }
+
+export interface ExperimentConfig<T, E> {
+  models: string[]
+  temperature: number | number[]
+  seeds: number
+  prompt: ((params: { input: any }) => string[]) | string
+  inputs: (() => Promise<T[]>) | T[]
+  expected?: E
+  schema: any
+  scorers?: any[]
+  batch?: {
+    enabled: boolean | number // true/false or threshold
+    provider?: string // which provider to use
+    providerConfig?: Record<string, any> // API-specific options
+  }
+}
+
+export interface EvaluationParams {
+  id: string
+  model: string
+  temperature: number
+  seed: number
+  prompts: string[]
+  input: any
+  expected: any
+  schema: any
+  scorers: any[]
+}
+
+export interface EvaluationResult {
+  score: number
+  details: Record<string, any>
+}
+
+export interface ExperimentEvaluationResult {
+  id: string
+  model: string
+  temperature: number
+  seed: number
+  input: any
+  result?: EvaluationResult
+  error?: string
+}
+
+export interface ExperimentSummary {
+  [model: string]: {
+    [temperature: string]: {
+      avgScore: number
+      count: number
+    }
+  }
+}
+
+export interface ExperimentEvaluationResults {
+  name: string
+  timestamp: string
+  config: {
+    models: string[]
+    temperatures: number[]
+    seeds: number[]
+    totalInputs: number
+  }
+  results: ExperimentEvaluationResult[]
+  summary: ExperimentSummary
+}

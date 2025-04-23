@@ -1,5 +1,4 @@
 import { FaDiscord, FaGithub } from 'react-icons/fa'
-import logo from '@/public/favicon/faviconDo.png'
 import { RiDiscordFill, RiGithubFill, RiNpmjsFill, RiTwitterXFill } from '@remixicon/react'
 import { extractApiNameFromDomain, docsExistForApi, getDocsPath } from '@/lib/domains'
 
@@ -32,7 +31,7 @@ export const getCurrentHostname = (): string => {
 
 export const siteConfig = {
   name: '.do',
-  logo,
+  logo: '/favicon/faviconDo.png',
   url: 'https://dotdo.ai/',
   description: 'Agentic Workflow Platform. Redefining work with Businesses-as-Code.',
   baseLinks: {
@@ -103,6 +102,9 @@ const productLinks = [
 
 const developerLinks = [
   { name: 'Docs', href: siteConfig.baseLinks.developers.docs, external: true },
+  { name: 'APIs', href: siteConfig.baseLinks.products.apis, external: true },
+  { name: 'SDKs', href: siteConfig.baseLinks.sdk, external: false },
+  { name: 'CLIs', href: '/docs/cli', external: false },
   { name: 'Changelog', href: siteConfig.baseLinks.developers.changelog, external: true },
   { name: 'Reference', href: siteConfig.baseLinks.developers.reference, external: true },
 ]

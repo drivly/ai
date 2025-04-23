@@ -1,5 +1,5 @@
+import { describe, it, expect } from 'vitest'
 import { simplerJSON } from 'payload-utils'
-import type { Field } from 'payload'
 
 describe('simplerJSON', () => {
   it('returns two fields with default options', () => {

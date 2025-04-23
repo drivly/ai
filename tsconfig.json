@@ -22,14 +22,10 @@
     "paths": {
       "@/*": ["./*"],
       "@payload-config": ["payload.config.ts"],
-      "@/.velite/*": [".velite/*"],
-      "@/.velite/content": [".velite/content"],
-      "payload-utils": ["./pkgs/payload-utils/src"],
-      "payload-hooks-queue": ["./pkgs/payload-hooks-queue/src"]
     },
     "target": "ES2022",
     "typeRoots": ["./node_modules/@types", "./types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "mdx-components.ts", ".velite/**/*.ts", "types/**/*.d.ts", "content/databases/index.mdx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".ai/**/*.ts"],
   "exclude": ["node_modules", "workers", "pkgs", "websites", "templates"]
 }

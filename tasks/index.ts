@@ -5,6 +5,7 @@ import { generateCodeTask } from './ai/generateCode'
 import { generateFunctionExamplesTask } from './ai/generateFunctionExamples'
 import { requestHumanFeedbackTask } from './ai/requestHumanFeedback'
 import { updateSlackMessageTask } from './ai/updateSlackMessage'
+import { sendResearchResultsToSlackTask } from './ai/sendResearchResultsToSlack'
 import { executeTextFunction } from './ai/executeTextFunction'
 import { generateMarkdown } from './ai/generateMarkdown'
 import { generateObject } from './ai/generateObject'
@@ -14,6 +15,8 @@ import { processBatchOpenAITask } from './ai/batchOpenAI'
 import { processBatchAnthropicTask } from './ai/batchAnthropic'
 import { processBatchGoogleVertexAITask } from './ai/batchGoogleVertexAI'
 import { processBatchParasailTask } from './ai/batchParasail'
+import { processBatchCloudflareTask } from './ai/batchCloudflare'
+import { processBatchGroqTask } from './ai/batchGroq'
 import { createGenerationBatchTask } from './ai/createGenerationBatch'
 
 import { executeCodeFunctionTask } from './code/executeCodeFunction'
@@ -43,6 +46,7 @@ import { syncTaskToLinearTask } from './integrations/syncTaskToLinear'
 import { deleteLinearIssueTask } from './integrations/deleteLinearIssue'
 import { handleLinearWebhookTask } from './integrations/handleLinearWebhook'
 import { generateVideoTask } from './ai/generateVideo'
+import { checkServiceHealthTask, discoverServicesTask } from './services/index'
 
 const generateResourceEmbeddingTask = {
   slug: 'generateResourceEmbedding',
@@ -105,6 +109,8 @@ export const tasks = [
   processBatchAnthropicTask,
   processBatchGoogleVertexAITask,
   processBatchParasailTask,
+  processBatchCloudflareTask,
+  processBatchGroqTask,
   createGenerationBatchTask,
   generateFunctionExamplesTask,
 
@@ -129,11 +135,13 @@ export const tasks = [
   githubFileOperations,
   saveExecutionResultsTask,
   researchTask,
+  sendResearchResultsToSlackTask,
   handleLinearWebhookTask,
-  generateVideoTask, // Add vid
+  // generateVideoTask, // Add vid
   syncTaskToLinearTask,
   deleteLinearIssueTask,
-
+  checkServiceHealthTask,
+  discoverServicesTask,
 ]
 
 export const workflows = [handleGithubEvent]

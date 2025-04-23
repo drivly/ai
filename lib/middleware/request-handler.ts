@@ -1,11 +1,15 @@
 import { NextRequest } from 'next/server'
-import { API_AUTH_PREFIX, publicRoutes } from '../routes'
+import { API_AUTH_PREFIX, protectedRoutes, publicRoutes } from '../routes'
+
+const cfCache = new Map<string, { data: any; timestamp: number }>()
+const CACHE_TTL = 5 * 60 * 1000 // 5 minutes in milliseconds
 
 export class RequestHandler {
   request: NextRequest
   hostname: string
   pathname: string
   search: string
+  cf?: any
 
   constructor(request: NextRequest) {
     this.request = request
@@ -15,7 +19,11 @@ export class RequestHandler {
   }
 
   isLoggedIn(): boolean {
-    return this.request.cookies.has('better-auth.session_data') || this.request.cookies.has('__Secure-better-auth.session')
+    return this.request.cookies.has('next-auth.session-token') || this.request.cookies.has('__Secure-next-auth.session-token')
+  }
+
+  isAutoLogin(): boolean {
+    return this.pathname === '/admin/login' && process.env.NODE_ENV === 'production'
   }
 
   isApiAuthRoute(): boolean {
@@ -23,25 +31,27 @@ export class RequestHandler {
   }
 
   isPublicRoute(): boolean {
-    return publicRoutes.includes(this.pathname)
+    return publicRoutes.includes(this.pathname) || this.pathname?.includes('/favicon/') || this.pathname.startsWith('/sign-in') || this.pathname.startsWith('/sign-up')
+  }
+
+  isProtectedRoute(): boolean {
+    return (
+      protectedRoutes.some((route) => {
+        if (route.endsWith('*')) {
+          const prefix = route.slice(0, -1)
+          return this.pathname === prefix || this.pathname.startsWith(prefix)
+        }
+        return this.pathname === route
+      }) || this.isAdminRoute()
+    )
   }
 
   isApiRoute(): boolean {
-    return (
-      this.pathname === '/api' || 
-      this.pathname.startsWith('/api/') || 
-      this.pathname === '/v1' || 
-      this.pathname.startsWith('/v1/')
-    )
+    return this.pathname === '/api' || this.pathname.startsWith('/api/') || this.pathname === '/v1' || this.pathname.startsWith('/v1/')
   }
 
   isApiDocsRoute(): boolean {
-    return (
-      this.pathname === '/api/docs' ||
-      this.pathname.startsWith('/api/docs/') ||
-      this.pathname === '/v1/docs' ||
-      this.pathname.startsWith('/v1/docs/')
-    )
+    return this.pathname === '/api/docs' || this.pathname.startsWith('/api/docs/') || this.pathname === '/v1/docs' || this.pathname.startsWith('/v1/docs/')
   }
 
   isDocsRoute(): boolean {
@@ -50,5 +60,54 @@ export class RequestHandler {
 
   isAdminRoute(): boolean {
     return this.pathname === '/admin' || this.pathname.startsWith('/admin/')
+  }
+
+  /**
+   * Fetches Cloudflare metadata from cf.json endpoint
+   * Only fetches if not already in Cloudflare Worker context
+   * Uses caching to prevent excessive requests
+   * Attaches data to request object for access in API handlers
+   */
+  async fetchCfData(): Promise<any> {
+    // Skip if already in Cloudflare Worker context
+    if ('cf' in this.request) {
+      return (this.request as any).cf
+    }
+
+    const ip = this.request.headers.get('cf-connecting-ip') || this.request.headers.get('x-forwarded-for') || this.request.headers.get('x-real-ip') || '127.0.0.1'
+
+    const cachedData = cfCache.get(ip)
+    if (cachedData && Date.now() - cachedData.timestamp < CACHE_TTL) {
+      this.cf = cachedData.data
+      ;(this.request as any)._cf = this.cf
+      return this.cf
+    }
+
+    try {
+      const response = await fetch('https://workers.cloudflare.com/cf.json')
+      if (response.ok) {
+        const data = await response.json()
+
+        cfCache.set(ip, {
+          data,
+          timestamp: Date.now(),
+        })
+
+        this.cf = data
+        ;(this.request as any)._cf = this.cf
+        return data
+      }
+    } catch (error) {
+      console.error('Error fetching Cloudflare data:', error)
+    }
+
+    return null
+  }
+
+  /**
+   * Returns Cloudflare data from either native cf object or fetched data
+   */
+  getCf(): any {
+    return 'cf' in this.request ? (this.request as any).cf : this.cf
   }
 }

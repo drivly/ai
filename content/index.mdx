@@ -1,40 +1,34 @@
 ---
-title: Overview
+title: Services-as-Software
 # asIndexPage: true
 ---
 
 import { Cards } from 'nextra/components'
 
-# `.do` Business-as-Code
+# `.do` Services-as-Software
 
 AI is getting extremely good at skills like math & code, because the outputs are verifiable. By representing your [Business-as-Code](/docs/manifesto), you can leverage the power of AI to automate, optimize, and scale your business processes.
 
 ## AI
 
-[Workflows](/docs/workflows) let you define business processes as clean & simple code. [Functions](/docs/functions) can also execute code, use AI to generate structured data, or assign tasks to be performed by humans workers or autonomous [Agents](/docs/agents).
+[Workflows](/docs/workflows) let you define business processes as clean & simple code. [Functions](/docs/functions) can also execute code, use AI to generate structured data, or assign tasks to be performed by humans workers or autonomous [Agents](/docs/agents). [Services](/docs/services) enable Workflows and Functions to be delivered for payment
 
-<Cards>
+<Cards num={4} style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(15ch,100%),1fr))' }}>
   <Cards.Card title='Workflows.do' href='/docs/workflows' />
   <Cards.Card title='Functions.do' href='/docs/functions' />
   <Cards.Card title='Agents.do' href='/docs/agents' />
+  <Cards.Card title='Services.do' href='/docs/services' />
 </Cards>
 
 ## Business
 
 [Goals](/docs/business/goals) are the strategic business objectives you want to achieve, and [KPIs](/docs/business/kpis) allow you to measure progress towards achieving them. [Experiments](/docs/experiments) allow you to rapidly iterate and improve your business processes, while [Projects](/docs/business/projects) help you [Plan](/docs/business/plans) how to get there. [Tasks](/docs/business/tasks) are the day-to-day work delivered by humans and agents.
 
-```typescript
-import { Agent } from 'agents.do'
-
-const cmo = Agent({
-  objective: 'Accelerate growth',
-  keyResults: ['Increase revenue by 10% week over week', 'Improve conversion rate by 5% week over week', 'Improve retention rate by 2% week over week'],
-})
-```
-
 <Cards>
+  {/* <Cards.Card title='Businesses.do' href='/docs/business' /> */}
   <Cards.Card title='Goals.do' href='/docs/business/goals' />
-  <Cards.Card title='KPIs.do' href='/docs/business/kpis' />
+  {/* <Cards.Card title='OKRs.do' href='/docs/business/okrs' /> */}
+  {/* <Cards.Card title='KPIs.do' href='/docs/business/kpis' /> */}
   <Cards.Card title='Experiments.do' href='/docs/experiments' />
   <Cards.Card title='Projects.do' href='/docs/business/projects' />
   <Cards.Card title='Plans.do' href='/docs/business/plans' />
@@ -83,31 +77,10 @@ const cmo = Agent({
 
 ## Models
 
+[Models](/docs/experiments/models) are the AI models used to generate responses to prompts. [LLM](/docs/experiments/llm) is the low-level model used to generate responses, while [GPT](/docs/experiments/gpt) is the high-level model used to generate responses.
+
 <Cards>
   <Cards.Card title='Models.do' href='/docs/experiments/models' />
+  <Cards.Card title='LLM.do' href='/docs/experiments/models' />
+  <Cards.Card title='GPT.do' href='/docs/experiments/models' />
 </Cards>
-
-{/* The AI Primitives platform provides a comprehensive framework for building enterprise-grade AI applications through composable building blocks:
-
-<Cards>
-  <Cards.Card title='Workflows.do' href='/docs/workflows' />
-  <Cards.Card title='Functions.do' href='/docs/functions' />
-  <Cards.Card title='Agents.do' href='/docs/agents' />
-</Cards>
-
-### [Workflows.do](/docs/workflows) Business-as-Code
-
-### [Functions.do](/docs/functions) Discrete Tasks
-
-### [Agents.do](/docs/agents) Autonomous Work
-
-- **[Functions.do](https://functions.do)**: Strongly-typed AI functions for specific tasks
-- **[Workflows.do](https://workflows.do)**: Declarative state machines for orchestrating multiple functions
-- **[Agents.do](https://agents.do)**: Autonomous digital workers that combine functions and workflows
-- **[APIs.do](https://apis.do)**: Unified API gateway for all services
-- **[Database.do](https://database.do)**: AI-enriched data storage
-- **[LLM.do](https://llm.do)**: Intelligent gateway for routing requests to optimal models
-- **[Integrations.do](https://integrations.do)**: Connectors for external systems and APIs
-- **[Triggers.do](https://triggers.do)**: Event-driven workflow initiation
-- **[Searches.do](https://searches.do)**: Context-aware data retrieval
-- **[Actions.do](https://actions.do)**: External world interactions */}

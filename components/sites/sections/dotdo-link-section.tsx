@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+const dotdoLinks = ['workflows.do', 'functions.do', 'agents.do', 'llm.do', 'apis.do']
+
 export function DotdoLinkSection() {
   return (
     <section id='dotdo' className='mx-auto my-16 max-w-[80rem] px-3 text-center md:my-32 md:px-8'>
@@ -11,7 +13,7 @@ export function DotdoLinkSection() {
               <li>
                 <Link
                   href='https://workflows.do'
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
+                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg font-ibm'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -21,7 +23,7 @@ export function DotdoLinkSection() {
               <li>
                 <Link
                   href='https://functions.do'
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
+                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg font-ibm'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -31,7 +33,7 @@ export function DotdoLinkSection() {
               <li>
                 <Link
                   href='https://agents.do'
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
+                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg font-ibm'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -39,14 +41,19 @@ export function DotdoLinkSection() {
                 </Link>
               </li>
               <li>
-                <Link href='https://llm.do' className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg' target='_blank' rel='noopener noreferrer'>
+                <Link
+                  href='https://llm.do'
+                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg font-ibm'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
                   LLM.do
                 </Link>
               </li>
               <li>
                 <Link
                   href='https://apis.do'
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg'
+                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg font-ibm'
                   target='_blank'
                   rel='noopener noreferrer'
                 >

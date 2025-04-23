@@ -1,22 +1,17 @@
 import { API } from '@/lib/api'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { getPayloadFn } from '@/lib/get-payload-fn'
 import crypto from 'crypto'
+import { auth } from '@/auth'
 
-export const POST = API(async (request, { url, user }) => {
-  if (!user) {
+export const POST = API(async (request, { url }) => {
+  const session = await auth()
+
+  if (!session?.user) {
     return { error: 'unauthorized', error_description: 'Authentication required' }
   }
 
-  const payload = await getPayloadWithAuth()
-
-  const userDoc = await payload.findByID({
-    collection: 'users',
-    id: user.id,
-  })
-
-  if (!userDoc || userDoc.role !== 'admin') {
-    return { error: 'forbidden', error_description: 'Admin access required' }
-  }
+  const user = session.user
+  const payload = await getPayloadFn()
 
   const { name, redirectURLs } = await request.json()
 

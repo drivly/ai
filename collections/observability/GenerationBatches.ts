@@ -5,7 +5,7 @@ export const GenerationBatches: CollectionConfig = {
   admin: {
     group: 'Observability',
     useAsTitle: 'name',
-    description: 'Batches of AI generation jobs',
+    description: 'Batches',
   },
   access: {
     update: () => true,
@@ -21,7 +21,7 @@ export const GenerationBatches: CollectionConfig = {
       name: 'provider',
       type: 'select',
       required: true,
-      options: ['openai', 'anthropic', 'google', 'parasail'],
+      options: ['openai', 'anthropic', 'google', 'parasail', 'cloudflare', 'groq'],
     },
     {
       name: 'status',

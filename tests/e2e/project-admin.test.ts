@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach, vi } from 'vitest'
 import { chromium, Browser, Page } from 'playwright'
 import fetch from 'node-fetch'
-import { createDynamicPayloadConfig } from '../../lib/createDynamicPayloadConfig'
-import { modifyDatabaseUri } from '../../lib/modifyDatabaseUri'
+import { createDynamicPayloadConfig } from '@/lib/createDynamicPayloadConfig'
+import { modifyDatabaseUri } from '@/lib/modifyDatabaseUri'
 import type { CollectionConfig } from 'payload'
 
 describe('Project-specific admin interface', () => {
@@ -97,41 +97,41 @@ describe('Project-specific admin interface', () => {
   it('should verify that the database URI is modified correctly', async () => {
     const baseUri = 'mongodb://localhost:27017/payload-cms'
     const modifiedUri = modifyDatabaseUri(baseUri, TEST_PROJECT.id)
-    
+
     expect(modifiedUri).toBe('mongodb://localhost:27017/test-project')
   })
 
   it('should create dynamic Payload config with collections from nouns', async () => {
-    const getNounsForProjectMock = vi.fn().mockResolvedValue(TEST_NOUNS);
-    const modifyDatabaseUriMock = vi.fn().mockReturnValue('mongodb://localhost:27017/test-project');
-    
-    vi.doMock('../../lib/getNounsForProject', () => ({
-      getNounsForProject: getNounsForProjectMock
-    }));
-    
-    vi.doMock('../../lib/modifyDatabaseUri', () => ({
-      modifyDatabaseUri: modifyDatabaseUriMock
-    }));
+    const getNounsForProjectMock = vi.fn().mockResolvedValue(TEST_NOUNS)
+    const modifyDatabaseUriMock = vi.fn().mockReturnValue('mongodb://localhost:27017/test-project')
+
+    vi.doMock('@/lib/getNounsForProject', () => ({
+      getNounsForProject: getNounsForProjectMock,
+    }))
+
+    vi.doMock('@/lib/modifyDatabaseUri', () => ({
+      modifyDatabaseUri: modifyDatabaseUriMock,
+    }))
 
     const config = await createDynamicPayloadConfig(TEST_PROJECT)
-    
+
     expect(config.collections).toHaveLength(2)
-    
-    const productCollection = config.collections.find(c => (c.slug as any) === 'product')
+
+    const productCollection = config.collections.find((c) => (c.slug as any) === 'product')
     expect(productCollection).toBeDefined()
-    
+
     if (productCollection) {
       expect(productCollection.admin?.group).toBe('Products')
       expect(productCollection.fields).toHaveLength(2)
     }
-    
-    const categoryCollection = config.collections.find(c => (c.slug as any) === 'category')
+
+    const categoryCollection = config.collections.find((c) => (c.slug as any) === 'category')
     expect(categoryCollection).toBeDefined()
-    
+
     if (categoryCollection) {
       expect(categoryCollection.admin?.group).toBe('Products')
       expect(categoryCollection.fields).toHaveLength(2)
-      
+
       const fields = categoryCollection.fields as any[]
       expect(fields[0].name).toBe('uid')
       expect(fields[1].name).toBe('data')
@@ -159,8 +159,8 @@ describe('Project-specific admin interface', () => {
       const loginForm = await page.locator('input[type="email"]')
       const adminInterface = await page.locator('header')
 
-      const hasLoginForm = await loginForm.count() > 0
-      const hasAdminInterface = await adminInterface.count() > 0
+      const hasLoginForm = (await loginForm.count()) > 0
+      const hasAdminInterface = (await adminInterface.count()) > 0
 
       expect(hasLoginForm || hasAdminInterface).toBe(true)
     } catch (error) {

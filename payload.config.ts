@@ -1,6 +1,6 @@
 // storage-adapter-import-placeholder
 // import { payloadAgentPlugin } from '@drivly/payload-agent'
-import { betterAuthPlugin } from '@drivly/better-payload-auth/plugin'
+// import { betterAuthPlugin } from '@drivly/better-payload-auth/plugin'
 import { openapi } from 'payload-oapi'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
@@ -16,7 +16,6 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { collections } from './collections'
-import { payloadBetterAuthOptions } from './lib/auth/options'
 import { tasks, workflows } from './tasks'
 
 const filename = fileURLToPath(import.meta.url)
@@ -31,11 +30,11 @@ export default buildConfig({
       importMapFile: path.resolve(dirname, 'app/(admin)/admin/importMap.js'),
     },
     components: {
-      afterLogin: [
-        {
-          path: '@/components/auth/sign-in',
-        },
-      ],
+      // afterLogin: [
+      //   {
+      //     path: '@/components/auth/sign-in',
+      //   },
+      // ],
       graphics: {
         Icon: '@/components/admin/icon',
         Logo: '@/components/admin/logo',
@@ -51,7 +50,7 @@ export default buildConfig({
       icons: [
         {
           rel: 'icon',
-          url: '/site_favicon.png',
+          url: '/favicon/faviconDo.png',
         },
       ],
       openGraph: {
@@ -104,7 +103,7 @@ export default buildConfig({
     //   logo: '/DrivlyLogo.svg',
     //   // suggestions: suggestedActions,
     // }),
-    betterAuthPlugin(payloadBetterAuthOptions),
+    // betterAuthPlugin(payloadBetterAuthOptions),
     payloadCloudPlugin(),
     openapi({
       metadata: {
@@ -149,8 +148,10 @@ export default buildConfig({
         verbs: {},
         databases: {},
         resources: {},
+        chatResources: {},
 
         integrations: {},
+        connectAccounts: {},
         connections: {},
         integrationTriggers: {},
         integrationActions: {},

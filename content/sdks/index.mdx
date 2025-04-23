@@ -1,73 +1,25 @@
 ---
 asIndexPage: true
----
+--- 
 
 # SDKs
 
-## `ai`
-
-The `ai` object is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
-
-```typescript
-import { ai } from 'functions.do'
-
-// Generate a Lean Canvas
-const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
-```
-
-## `api`
-
-The `api` object provides access to not only all of the core `.do` APIs, but also tens of thousands of searches and actions from third-party [integrations](/docs/integrations):
-
-```typescript
-import { api } from 'apis.do'
-
-const customer = await api.users.get({ id: 'userId' })
-
-const result = await api.stripe.createInvoice({
-  customer: customer.id,
-  amount: customer.usageTotal,
-  currency: 'usd',
-  description: 'Pay-as-you-go usage',
-})
-```
-
-## `db`
-
-The `db` object provides access to the database:
-
-```typescript
-import { db } from 'database.do'
-
-const posts = await db.posts.find({ tag: 'ai' })
-```
-
-## `do`
-
-The `do` function enables AI Agents to take action:
-
-```typescript
-import { do } from 'agents.do'
-
-const research = await do`research about ${topic}`
-```
-
-
 ## `AI`
 
-The `AI` function allows [Functions](/docs/functions) and [Workflows](/docs/workflows) to be defined in a strongly-typed way:
+The [`AI`](/docs/sdks/functions.do) function in [`functions.do`](/docs/sdks/functions.do) and [`workflows.do`](/docs/sdks/workflows.do) allows [Functions](/docs/functions) and [Workflows](/docs/workflows) to be defined in a strongly-typed way:
 
 ```typescript
 import { AI } from 'functions.do'
 
 const ai = AI({
-
-  ideaCaptured: async (idea, { ai, api }) => {
+  // Define a Workflow as a Code Function
+  ideaCaptured: async (idea, { ai, api, db }) => {
     const leanCanvas = await ai.leanCanvas({ idea })
-    await api.slack.postMessage({ channel: '#general', text: `New idea: ${idea}\n${leanCanvas}` })
-    await api.db.idea.create({ idea, leanCanvas, status: 'Draft' })
+    await api.slack.postMessage({ channel: '#general', text: `${idea}\n${leanCanvas}` })
+    await db.idea.create({ idea, leanCanvas, status: 'Draft' })
   },
 
+  // Define a strongly-typed Generation Function
   leanCanvas: {
     productName: 'name of the product or service',
     problem: ['top 3 problems the product solves'],
@@ -84,6 +36,16 @@ const ai = AI({
 })
 ```
 
+### [`ai`](/docs/sdks/functions.do)
+
+The `ai` object in [`functions.do`](/docs/sdks/functions.do) and [`workflows.do`](/docs/sdks/workflows.do) is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
+
+```typescript
+import { ai } from 'functions.do'
+
+// Generate a Lean Canvas
+const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
+```
 
 ## `Agent`
 
@@ -93,16 +55,80 @@ The `Agent` function allows [Agents](/docs/agents) to be defined in a strongly-t
 import { Agent } from 'agents.do'
 
 // Create a customer support agent
-const customerSupportAgent = Agent({
+const amy = Agent({
   name: 'Amy',
+  url: 'https://amy.do',
   role: 'Customer Support Agent',
   objective: 'Handles customer inquiries and resolves common issues',
-  keyResults: ['ticketResponseTime', 'ticketResolutionTime', 'ticketEscalationRate', 'customerSatisfaction'],
-  url: 'https://amy.do',
+  keyResults: ['ticketResponseTime', 'ticketResolutionTime', 'customerSatisfaction'],
   integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
   triggers: ['onTicketCreated', 'onMessageReceived'],
   searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
   actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
+})
+
+export const refundOrder = (orderId: number) => amy.do`refund order ${orderId} and send the customer confirmation`
+```
+
+### `do`
+
+The [`do`](/docs/sdks/agents.do) function requests [AI Agents](/docs/agents) and [Human](/docs/functions/human) [Users](/docs/admin/user) to take [Action](/docs/functions/action):
+
+```typescript
+import { do } from 'agents.do'
+
+const research = await do`research about ${topic}`
+```
+
+### `browse`
+
+The `browse` function in [`agents.do`](/docs/sdks/agents.do#browse) and [`browse.do`](/docs/sdks/browse.do) provide real-time web browsing:
+
+```typescript
+import { browse } from 'agents.do'
+
+const findings = await browse`research about ${topic}`
+```
+
+### `research`
+
+The `research` function in [`agents.do`](/docs/sdks/agents.do) and [`research.do`](/docs/sdks/research.do) provide deep-research in real-time:
+
+```typescript
+import { research } from 'research.do'
+
+const findings = await research`research about ${topic}`
+```
+
+## `API`
+
+The `API` function allows an API to defined and deployed:
+
+```typescript
+import { API } from 'apis.do'
+
+const api = API()
+
+api
+  .get('/', () => ({ hello: 'world' }))
+  .get('/:id', ({ id }) => ({ id }))
+  .put('/:id', async ({ id, body, db }) => db.posts.set(id, body))
+```
+
+### `api`
+
+The `api` object provides access to not only all of the core `.do` APIs, but also tens of thousands of searches and actions from third-party [integrations](/docs/integrations):
+
+```typescript
+import { api } from 'apis.do'
+
+const customer = await api.users.get({ id: 'userId' })
+
+const result = await api.stripe.createInvoice({
+  customer: customer.id,
+  amount: customer.usageTotal,
+  currency: 'usd',
+  description: 'Pay-as-you-go usage',
 })
 ```
 
@@ -124,6 +150,28 @@ const newCo = Business({
   ],
 })
 ```
+
+### `plan`
+
+## `Analytics`
+
+### `track`
+
+## `Experiment`
+
+### `decide`
+
+## `Eval`
+
+### `score`
+
+## `Test`
+
+### `describe`
+
+### `it`
+
+### `expect`
 
 ## `DB`
 
@@ -153,3 +201,27 @@ const db = DB({
   },
 })
 ```
+
+### `db`
+
+The `db` object provides access to the database:
+
+```typescript
+import { db } from 'database.do'
+
+const posts = await db.posts.find({ tag: 'ai' })
+```
+
+## `Event`
+
+### `on`
+
+### `every`
+
+## `Integration`
+
+### `trigger`
+
+### `search`
+
+### `act`

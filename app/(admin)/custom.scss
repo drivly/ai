@@ -1,5 +1,7 @@
 @import './base.css';
 
+@layer payload-default, payload;
+
 @layer theme {
   :root {
     --font-mono: 'Geist Mono', Consolas, Monaco, monospace;
@@ -14,12 +16,13 @@
     --style-radius-m: 6px !important;
     --style-radius-l: 8 px !important;
   }
+  
   .btn {
     border-radius: 4px !important;
   }
 
   .table {
-    @apply block;
+    display: block !important;
   }
 
   textarea:focus-visible {
@@ -254,10 +257,9 @@
   }
 
   /* Dark theme */
-  [data-theme='dark'],
-  .dark {
+  [data-theme='dark'] {
     /* Shadcn UI variable mapping for dark mode */
-    --background: var(--color-base-950);
+    --background: var(--color-base-1000);
     --foreground: var(--color-base-0);
 
     --card: var(--color-base-900);

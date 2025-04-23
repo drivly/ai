@@ -1,0 +1,29 @@
+---
+title: Actions.do - Workflow Task Execution Platform
+description: Execute tasks within your workflows with Actions.do, the comprehensive platform for workflow task automation
+headline: Execute Tasks That Get Results
+subhead: Automate complex tasks within your business workflows with precision and reliability. Eliminate manual work and reduce errors with standardized action execution.
+badge: 'AI without Complexity'
+codeLang: 'typescript'
+codeExample: |
+  import { Action } from 'actions.do';
+
+  const sendEmailAction = new Action({
+    name: 'Send Confirmation Email',
+    description: 'Sends a confirmation email to the customer',
+    handler: async ({ customer, order }) => {
+      // Implementation details
+      const result = await sendEmail({
+        to: customer.email,
+        subject: 'Order Confirmation',
+        template: 'order-confirmation',
+        data: { customer, order }
+      });
+      return { success: true, messageId: result.id };
+    }
+  });
+---
+
+# Actions.do
+
+Perform tasks within workflows

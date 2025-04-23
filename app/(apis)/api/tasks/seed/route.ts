@@ -2,6 +2,8 @@ import { API } from '@/lib/api'
 import config from '@/payload.config'
 import { getPayload } from 'payload'
 import { seedDatabase } from '@/scripts/seedDatabase'
+import fs from 'fs/promises'
+import path from 'path'
 
 export const GET = API(async (req, { db, params, user, payload }) => {
   if (!user?.email?.endsWith('@driv.ly')) {
@@ -70,6 +72,28 @@ export const GET = API(async (req, { db, params, user, payload }) => {
     }),
   )
   console.log('Actions seeded')
+
+  try {
+    const staticIntegrationData = {
+      apps,
+      categories,
+      triggers,
+      actions,
+    }
+
+    const dataDir = path.join(process.cwd(), 'public/data')
+    try {
+      await fs.access(dataDir)
+    } catch (error) {
+      await fs.mkdir(dataDir, { recursive: true })
+    }
+
+    const outputPath = path.join(dataDir, 'integrations.json')
+    await fs.writeFile(outputPath, JSON.stringify(staticIntegrationData, null, 2))
+    console.log(`✅ Generated static integrations data at ${outputPath}`)
+  } catch (error) {
+    console.error('Error generating static integrations data:', error)
+  }
 
   return { success: true, schemaResults, integrations, categoriesResults, triggersResults, actionsResults }
 })

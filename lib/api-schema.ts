@@ -15,13 +15,13 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
   const packageJsonPath = path.join(projectRoot, 'sdks/apis.do/package.json')
   const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
   const version = packageJson.version
-  
+
   const contentPath = path.join(projectRoot, 'content/index.mdx')
   const mdxContent = await fs.readFile(contentPath, 'utf8')
-  
+
   const descriptionMatch = mdxContent.match(/# `.do` Business-as-Code\n\n(.*?)(?:\n\n|$)/s)
-  const description = descriptionMatch 
-    ? descriptionMatch[1].replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') 
+  const description = descriptionMatch
+    ? descriptionMatch[1].replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     : 'AI is getting extremely good at skills like math & code, because the outputs are verifiable. By representing your Business-as-Code, you can leverage the power of AI to automate, optimize, and scale your business processes.'
 
   const openApiSpec: OpenAPIObject = {
@@ -31,8 +31,8 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
       description,
       version,
       contact: {
-        name: 'Drivly',
-        url: 'https://drivly.com',
+        name: '.do',
+        url: 'https://dotdo.ai',
       },
     },
     servers: [
@@ -260,6 +260,78 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
       } as OperationObject,
     } as PathItemObject
   }
+
+  openApiSpec.paths['/embed'] = {
+    post: {
+      summary: 'Generate embeddings',
+      description: 'Generate embeddings from text using multiple providers',
+      tags: ['Embeddings'],
+      requestBody: {
+        required: true,
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                text: { type: 'string', description: 'Single text input to embed (alternative to texts)' },
+                texts: { type: 'array', items: { type: 'string' }, description: 'Multiple text inputs to embed (alternative to text)' },
+                model: { type: 'string', description: 'Embedding model to use' },
+              },
+            },
+          },
+        },
+      } as RequestBodyObject,
+      responses: {
+        '200': {
+          description: 'Successful response',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  data: {
+                    type: 'object',
+                    properties: {
+                      embeddings: {
+                        type: 'array',
+                        items: {
+                          type: 'array',
+                          items: { type: 'number' },
+                        },
+                      },
+                      model: { type: 'string' },
+                    },
+                  },
+                  usage: {
+                    type: 'object',
+                    properties: {
+                      tokens: { type: 'number' },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        } as ResponseObject,
+        '400': {
+          description: 'Bad request',
+        } as ResponseObject,
+        '401': {
+          description: 'Unauthorized',
+        } as ResponseObject,
+      },
+    } as OperationObject,
+    get: {
+      summary: 'Get embedding API information',
+      description: 'Returns information about the embedding API',
+      tags: ['Embeddings'],
+      responses: {
+        '200': {
+          description: 'Successful response',
+        } as ResponseObject,
+      },
+    } as OperationObject,
+  } as PathItemObject;
 
   return openApiSpec
 }

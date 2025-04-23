@@ -2,9 +2,9 @@ import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
-async function TermsPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
+function TermsPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
   const { domain } = props.params
-  const searchParams = await props.searchParams
+  const searchParams = props.searchParams
 
   return (
     <div className='container mx-auto min-h-screen max-w-4xl px-3 pt-24 pb-12 md:pt-32'>
@@ -27,7 +27,7 @@ async function TermsPage(props: { params: { domain: string }; searchParams?: { [
   )
 }
 
-export default withSitesWrapper({ WrappedPage: TermsPage, withFaqs: false, withCallToAction: false })
+export default withSitesWrapper({ WrappedPage: TermsPage, withCallToAction: false })
 
 // # Drivly, Inc. Terms of Service
 // **Last Updated: April 4, 2025 **

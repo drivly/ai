@@ -1,28 +1,33 @@
 import type { MetaRecord } from 'nextra'
 
 const meta: MetaRecord = {
-  docs: { type: 'page', href: '/docs' },
+  index: { title: 'Overview' },
+  home: { type: 'page', title: 'Docs', href: '/docs' },
   api: { type: 'page', title: 'APIs', href: '/docs/apis' },
   sdk: { type: 'page', title: 'SDKs', href: '/docs/sdks' },
   clis: { type: 'page', title: 'CLI', href: '/docs/cli' },
-  pricing: { type: 'page', href: '/pricing' },
-  dashboard: { type: 'page', href: '/admin' },
-  reference: {
+  pricing: { type: 'page', title: 'Pricing', href: '/pricing' },
+  dashboard: { type: 'page', title: 'Dashboard', href: '/admin' },
+  docs: { display: 'hidden' },
+  ref: {
     type: 'page',
-    title: 'API Reference',
-    href: 'https://apis.do/reference',
+    title: 'Reference',
+    href: 'https://reference.apis.do',
   },
 
   manifesto: '',
+  'business-as-code': { display: 'hidden' },
+  'services-as-software': { display: 'hidden' },
   primitives: '',
 
   _ai: {
     type: 'separator',
     title: 'AI',
   },
+  workflows: '',
   functions: '',
   agents: '',
-  workflows: '',
+  services: '',
 
   _: {
     type: 'separator',
@@ -36,7 +41,7 @@ const meta: MetaRecord = {
   integrations: '',
   deployment: '',
   observability: '',
-  sites: { display: 'hidden' },
+  // sites: { display: 'hidden' }, // Removed as sites directory moved to repository root
 
   __: {
     type: 'separator',

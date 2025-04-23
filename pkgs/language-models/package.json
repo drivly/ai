@@ -1,0 +1,32 @@
+{
+  "name": "language-models",
+  "version": "0.1.0",
+  "description": "Language model abstractions",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "dotenvx run -- npx tsx watch src/demo.ts",
+    "build": "rimraf dist && tsc && rm dist/models.d.ts && cp src/models.d.ts dist/",
+    "generate:models": "npx tsx generate/build-models.ts",
+    "clean": "rimraf dist",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "pnpm clean && pnpm build",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "packageManager": "pnpm@10.6.5",
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9",
+    "tsconfig": "0.0.0",
+    "eslint-config": "0.1.0"
+  },
+  "dependencies": {
+    "@types/node": "^22.13.10",
+    "camelcase": "^8.0.0",
+    "flat": "^6.0.1",
+    "vitest": "^3.0.9"
+  }
+}

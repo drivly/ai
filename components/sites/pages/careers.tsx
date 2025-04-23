@@ -56,13 +56,13 @@ export const Careers = () => {
                 <p className='mb-4 text-sm text-gray-400'>Design and develop AI systems that deliver economically valuable work at scale.</p>
                 <div className='flex flex-col justify-between gap-4 sm:flex-row sm:items-center'>
                   <div className='flex gap-2'>
-                    <Badge variant='outline' className='text-xs'>
+                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
                       Typescript
                     </Badge>
-                    <Badge variant='outline' className='text-xs'>
+                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
                       Full-stack
                     </Badge>
-                    <Badge variant='outline' className='text-xs'>
+                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
                       Remote/Full-time
                     </Badge>
                   </div>
@@ -78,13 +78,13 @@ export const Careers = () => {
                 </p>
                 <div className='flex flex-col justify-between gap-4 sm:flex-row sm:items-center'>
                   <div className='flex gap-2'>
-                    <Badge variant='outline' className='text-xs'>
+                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
                       Go-To-Market
                     </Badge>
-                    <Badge variant='outline' className='text-xs'>
+                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
                       Community
                     </Badge>
-                    <Badge variant='outline' className='text-xs'>
+                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
                       Remote/Full-time
                     </Badge>
                   </div>

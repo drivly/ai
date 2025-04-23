@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server.js'
 import punycode from 'punycode'
 import {
   PayloadDB,
@@ -12,6 +12,7 @@ import {
   createEdgePayloadClient,
   createNodePayloadClient,
 } from 'simple-payload'
+import { sdks } from '../../domains.config'
 
 /**
  * Interface for the API header object that appears at the top of all JSON responses
@@ -222,6 +223,9 @@ export const createAPI = (
           from = `${origin}/sites`
         }
 
+        const packageName = getDomainPackageName(domain)
+        const sdkUrl = sdks.includes(packageName) ? `https://npmjs.com/${packageName}` : 'https://npmjs.com/workflows.do'
+
         const apiHeader: ApiHeader = {
           name: domain,
           description: getDomainDescription(domain, options?.domainDescriptions),
@@ -231,7 +235,7 @@ export const createAPI = (
           admin: origin + '/admin',
           docs: origin + '/docs',
           repo: 'https://github.com/drivly/ai',
-          sdk: `https://npmjs.com/${getDomainPackageName(domain)}`,
+          sdk: sdkUrl,
           site, // Use the variable we created
           from, // Add the new field
           chat: 'https://discord.gg/tafnNeUQdm',

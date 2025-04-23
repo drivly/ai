@@ -1,70 +1,47 @@
-# ENG-487: Dynamic PayloadCMS Instances for Project Domains
-
-## Implementation Progress
-- [x] Update Nouns collection to add order and group fields
-- [x] Create utility to modify database connection strings (modifyDatabaseUri.ts)
-- [x] Create utility to fetch projects by domain (fetchProjectByDomain.ts)
-- [x] Create utility to fetch nouns for a project (getNounsForProject.ts)
-- [x] Create dynamic PayloadCMS configuration generator (createDynamicPayloadConfig.ts)
-- [x] Create project-specific admin route at `/app/(admin)/projects/[domain]`
-- [x] Create not-found page for project-specific admin routes
-- [x] Add tests for database URI modifier
-- [x] Move project-specific admin route to `/app/(admin)/project-admin/[domain]` to avoid routing conflicts
-- [x] Move existing API route from `/app/(projects)/projects/[domain]` to `/app/(apis)/projects/[domain]`
-- [x] Remove empty projects directory to resolve routing conflict
-- [x] Remove deprecated instrumentationHook from next.config.mjs
-- [x] Move admin page to `/app/projects/[domain]/admin` as requested by Nathan
-- [x] Add root layout for `/app/projects/[domain]/admin` to fix build error
-- [x] Add parent layout for `/app/projects/[domain]` directory
-- [x] Fix params type in admin pages to match Next.js 15 requirements
-- [x] Fix params type in API routes to match Next.js 15 requirements
-- [x] Fix params type in nested API route to match Next.js 15 requirements
-- [x] Resolve merge conflict with main branch
-- [x] Fix Promise handling in admin pages for config and params
-
-## Technical Challenges
-- [x] Routing conflict between admin page and existing API routes
-  - Solution: Moved admin page to `/app/(admin)/project-admin/[domain]`
-  - Solution: Moved API route to `/app/(apis)/projects/[domain]`
-  - Final Solution: Moved admin page to `/app/projects/[domain]/admin` as requested
-- [x] Type error in admin pages with params type
-  - Solution: Updated params type to be Promise<Params> to match Next.js 15 requirements
-- [x] Type error in API routes with params type
-  - Solution: Updated params type to be Promise<{ domain: string }> to match Next.js 15 requirements
-- [x] Type error in admin pages with config and params
-  - Solution: Wrapped config and params in Promise.resolve() for RootPage component
-- [x] Merge conflict with main branch
-  - Solution: Resolved conflict in public/static/content by accepting changes from main
-- [ ] Potential routing conflicts with other [domain] routes:
-  - Found: `/app/(sites)/sites/[domain]`
-  - Found: `/app/(apis)/tenants/[domain]`
-- [ ] Verifying that the dynamic PayloadCMS instance works correctly with project-specific database
-- [ ] Ensuring proper authentication and authorization for project-specific admin interfaces
-
-## Verification Requirements
-- [x] Verify that the project-specific admin interface loads correctly
-- [x] Verify that collections are correctly generated from project nouns
-- [x] Verify that the database connection is correctly modified to use the project ID
-- [x] Verify that collections are ordered and grouped according to noun configuration
-- [x] Verify that the default schema is applied when no schema is defined
-
-## Deployment Status
-- [x] PR created: https://github.com/drivly/ai/pull/1313
-- [x] Tests passing
-- [x] ai-studio-template deployment successful
-- [ ] Main app (ai) deployment in progress
+# TODO: ENG-721 - Simplify Resources Embedding Process
 
 ## Current Status
-- The ai-studio-template deployment is successful (https://ai-studio-template-a2hrqz5qm.dev.driv.ly)
-- The main app (ai) deployment is still in progress
-- Nathan has reviewed the PR and confirmed the route structure is correct
-- All type errors related to Next.js 15 Promise-based params have been fixed
-- Merge conflict with main branch has been resolved
-- Screenshots of the routes are available in the PR comments
+- [x] Created README.md with documentation for the batch script
+- [x] Created implementation plan in TODO.md (this file)
+- [x] Implemented batch script for generating resource embeddings
+- [x] Added special handling for problematic resource
+- [x] (Optional) Modified Resources collection's afterChange hook
+- [x] Created PR with implementation
 
-## Next Steps
-- Wait for the main app deployment to complete
-- If the deployment fails, investigate the specific error and fix it
-- If the deployment succeeds, verify the functionality of the project-specific admin interface
-- Update the PR with the verification results
-- Request final review from Nathan
+## Implementation Plan
+
+### 1. Create Batch Script
+- [x] Create `scripts/generateResourceEmbeddingsBatch.ts`
+- [x] Implement function to query resources without embeddings
+- [x] Add batch processing using `embedMany` from AI SDK
+- [x] Implement special handling for problematic resource ID (67dd4e7ec37e99e7ed48ffa2)
+- [x] Add direct database updates with generated embeddings
+- [x] Implement error handling and logging
+- [x] Make batch size configurable
+
+### 2. (Optional) Modify Resources Collection
+- [x] Update `collections/data/Resources.ts` to disable direct embedding generation
+- [x] Add flag to control embedding generation behavior
+- [x] Ensure backward compatibility
+
+### 3. Testing
+- [ ] Test script with default batch size
+- [ ] Test script with custom batch size
+- [ ] Verify special handling for problematic resource
+- [ ] Ensure error handling works correctly
+
+### 4. Documentation
+- [x] Create/update README.md with usage instructions
+- [x] Add inline comments to explain key parts of the code
+- [x] Document cron job setup
+
+## Technical Challenges
+- Ensuring proper error handling for batch processing
+- Handling the problematic resource that causes write conflicts
+- Balancing batch size for optimal performance
+
+## Verification Requirements
+- Script successfully generates embeddings for resources without them
+- Special handling for problematic resource works correctly
+- No write conflicts occur during batch processing
+- Script can be run as a standalone process for cron scheduling

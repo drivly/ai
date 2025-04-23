@@ -47,7 +47,9 @@
   },
   "homepage": "https://mdx.org.ai",
   "dependencies": {
+    "@code-hike/mdx": "^0.9.0",
     "@remotion/renderer": "^4.0.286",
+    "codehike": "^1.0.5",
     "commander": "^11.1.0",
     "gray-matter": "^4.0.3",
     "mdast-util-from-markdown": "^2.0.0",
@@ -56,7 +58,7 @@
     "remark-stringify": "^11.0.0",
     "remotion": "^4.0.0",
     "unified": "^11.0.4",
-    "zod": "^3.22.4"
+    "zod": "^3.24.3"
   },
   "peerDependencies": {
     "react": "^18.0.0",
@@ -64,7 +66,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "@types/react": "^18.2.0",
+    "@types/react": "^18.3.20",
     "@types/react-dom": "^18.2.0",
     "eslint": "^8.56.0",
     "tsup": "^8.0.1",

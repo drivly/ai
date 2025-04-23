@@ -35,8 +35,10 @@ resolution:
   height: 1080
 transition: fade
 ---
+
 layout: intro
 voiceover: Discover motion.md - the future of dynamic video generation
+
 ---
 
 # Welcome to motion.md
@@ -44,8 +46,10 @@ voiceover: Discover motion.md - the future of dynamic video generation
 This is a powerful tool for creating videos from Markdown.
 
 ---
+
 voiceover: Markdown-based workflow explained.
 layout: cover
+
 ---
 
 ## Features
@@ -55,9 +59,40 @@ layout: cover
 - Video output with Remotion
 
 ---
+layout: slideshow
+code: |
+  function greet(name) {
+    console.log(`Hello, ${name}!`);
+  }
+steps:
+  - |
+    function greet(name) {
+      console.log(`Hello, ${name}!`);
+    }
+  - |
+    function greet(name) {
+      // Add a friendly greeting
+      console.log(`Hello, ${name}!`);
+    }
+  - |
+    function greet(name) {
+      // Add a friendly greeting
+      console.log(`Hello, ${name}!`);
+      return `Greeted ${name}`;
+    }
+language: javascript
+voiceover: Animate code examples with the slideshow layout
+---
+
+## Code Animation
+
+Showcase code changes with animated transitions
+
+---
 background: stock:mountains.jpg
 voiceover: Here are some amazing features.
 transition: slide
+
 ---
 
 ## Advanced Configuration
@@ -88,8 +123,8 @@ const result = await createVideoFromSlides({
   outputPath: 'output.mp4',
   options: {
     tts: true,
-    quality: 'production'
-  }
+    quality: 'production',
+  },
 })
 
 console.log(`Video generated at ${result.outputPath}`)
@@ -99,7 +134,8 @@ console.log(`Video generated at ${result.outputPath}`)
 
 - **Markdown-based workflow**: Create videos using familiar Markdown syntax
 - **Nested frontmatter**: Configure global settings and per-slide options
-- **Multiple layouts**: Support for intro, cover, and default slide layouts
+- **Multiple layouts**: Support for intro, cover, default, and slideshow slide layouts
+- **Code animations**: Create animated code examples with the slideshow layout
 - **Media components**: Embed images, videos, and browser screenshots
 - **Voiceover support**: Add narration to your slides
 - **Transition effects**: Apply transitions between slides

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Composition, AbsoluteFill, useVideoConfig } from 'remotion'
 import { VideoConfig, Slide } from '../types'
-import { Intro, Cover, Default } from '../components/core'
+import { Intro, Cover, Default, Slideshow } from '../components/core'
 
 interface MotionCompositionProps {
   slides: Slide[]
@@ -13,15 +13,15 @@ interface MotionCompositionProps {
  */
 const SlideRenderer: React.FC<{ slide: Slide; config: VideoConfig }> = ({ slide, config }) => {
   const layout = slide.layout || 'default'
-  
+
   const { content, background, voiceover, transition, duration = config.duration || 5 } = slide
-  
+
   const commonProps = {
     background,
     duration,
     transition: transition || config.transition,
   }
-  
+
   switch (layout.toLowerCase()) {
     case 'intro':
       return (
@@ -34,6 +34,18 @@ const SlideRenderer: React.FC<{ slide: Slide; config: VideoConfig }> = ({ slide,
         <Cover {...commonProps}>
           <div dangerouslySetInnerHTML={{ __html: content }} />
         </Cover>
+      )
+    case 'slideshow':
+      const { code, steps, language } = slide as any;
+      return (
+        <Slideshow 
+          {...commonProps}
+          code={code || ''}
+          steps={steps || []}
+          language={language || 'typescript'}
+        >
+          <div dangerouslySetInnerHTML={{ __html: content }} />
+        </Slideshow>
       )
     default:
       return (
@@ -49,11 +61,11 @@ const SlideRenderer: React.FC<{ slide: Slide; config: VideoConfig }> = ({ slide,
  */
 export const MotionComposition: React.FC<MotionCompositionProps> = ({ slides, config }) => {
   const { width, height, fps } = useVideoConfig()
-  
+
   const totalDuration = slides.reduce((total, slide) => {
     return total + (slide.duration || config.duration || 5) * fps
   }, 0)
-  
+
   return (
     <AbsoluteFill style={{ backgroundColor: 'white' }}>
       {slides.map((slide, index) => (
@@ -69,7 +81,7 @@ export const MotionComposition: React.FC<MotionCompositionProps> = ({ slides, co
 export const RemotionRoot: React.FC = () => {
   return (
     <Composition
-      id="MotionComposition"
+      id='MotionComposition'
       component={MotionComposition}
       durationInFrames={300}
       fps={30}

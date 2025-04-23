@@ -1,20 +1,31 @@
-import { Badge } from '@/components/ui/badge'
 import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
+import { Badge } from '@/components/ui/badge'
 import { ArrowLeft } from 'lucide-react'
 import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getBlogPostBySlug } from '../blog-posts'
+import { slugify } from '@/lib/slugify'
+import Balancer from 'react-wrap-balancer'
 
-async function BlogPostPage(props: { params: { domain: string; slug?: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
-  const { domain, slug } = props.params
+export async function generateMetadata({ params }: { params: Promise<{ domain: string; slug: string }> }) {
+  const { domain, slug } = await params
+  const post = await getBlogPostBySlug(domain, slug)
+  return {
+    title: post?.title,
+    description: post?.description,
+  }
+}
+
+async function BlogPostPage({ params }: { params: { domain: string; slug: string } }) {
+  const { domain, slug } = params
   const headersList = await headers()
   const proto = headersList.get('x-forwarded-proto')
   const host = headersList.get('x-forwarded-host')
   const siteUrl = `${proto}://${host}`
-  const post = getBlogPostBySlug(slug || '')
+  const post = await getBlogPostBySlug(domain, slug)
   const fallbackImage = '/images/blog-llm.png'
 
   // If post not found, render custom not found component
@@ -22,8 +33,8 @@ async function BlogPostPage(props: { params: { domain: string; slug?: string }; 
     return <BlogPostNotFound fallbackImage={fallbackImage} />
   }
 
-  const postUrl = `${siteUrl}/blog/${post.slug}`
-  const dateObj = new Date(post.date.split('-').join('/'))
+  const postUrl = `${siteUrl}/blog/${post.slug || slugify(post.title)}`
+  const dateObj = new Date(post?.date || '')
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (
@@ -36,9 +47,9 @@ async function BlogPostPage(props: { params: { domain: string; slug?: string }; 
       <div className='mb-8'>
         <Badge className='mb-4 px-3 py-1.5 text-sm hover:bg-gray-100 sm:px-2.5 sm:py-1 sm:text-xs dark:hover:bg-gray-800/50'>{post?.category}</Badge>
         <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40'>
-          {post?.title}
+          <Balancer>{post?.title}</Balancer>
         </h1>
-        <p className='text-muted-foreground text-xl'>{post?.description}</p>
+        <p className='text-muted-foreground text-xl'><Balancer>{post?.description}</Balancer></p>
         <div className='mt-4 flex flex-row items-center justify-between gap-2'>
           <div className='text-muted-foreground text-sm'>{formattedDate}</div>
           <ShareButtons title={post?.title || ''} url={postUrl} hideLabel={true} />
@@ -49,14 +60,14 @@ async function BlogPostPage(props: { params: { domain: string; slug?: string }; 
         <Image src={post?.image || fallbackImage} alt={post?.title || ''} fill className='object-cover' priority />
       </div>
 
-      <BlogContent />
+      <BlogContent markdown={post?.markdown || ''} />
 
       {/* Related domain blog posts */}
     </div>
   )
 }
 
-export default withSitesWrapper({ WrappedPage: BlogPostPage, withFaqs: false })
+export default withSitesWrapper({ WrappedPage: BlogPostPage })
 
 function BlogPostNotFound({ fallbackImage }: { fallbackImage: string }) {
   return (

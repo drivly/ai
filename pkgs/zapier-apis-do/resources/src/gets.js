@@ -5,58 +5,58 @@ const perform = async (z, bundle) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    }
-  });
+      Accept: 'application/json',
+    },
+  })
 
-  return response.data;
-};
+  return response.data
+}
 
 module.exports = {
   key: 'getResources',
   noun: 'Resources',
-  
+
   display: {
     label: 'Get Resources',
-    description: 'Gets a Resources by ID.'
+    description: 'Gets a Resources by ID.',
   },
-  
+
   operation: {
     perform,
-    
+
     inputFields: [
       {
         key: 'id',
         label: 'ID',
         type: 'string',
         required: true,
-        helpText: 'The ID of the Resources to retrieve'
-      }
+        helpText: 'The ID of the Resources to retrieve',
+      },
     ],
-    
+
     outputFields: [
       {
         key: 'id',
-        label: 'ID'
+        label: 'ID',
       },
-    {
-      key: 'yaml',
-      label: 'Yaml'
-    },
-    {
-      key: 'subjectOf',
-      label: 'SubjectOf'
-    },
-    {
-      key: 'objectOf',
-      label: 'ObjectOf'
-    }
+      {
+        key: 'yaml',
+        label: 'Yaml',
+      },
+      {
+        key: 'subjectOf',
+        label: 'SubjectOf',
+      },
+      {
+        key: 'objectOf',
+        label: 'ObjectOf',
+      },
     ],
-    
+
     sample: {
       id: 'sample-id-1234',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    }
-  }
-};
+      updatedAt: new Date().toISOString(),
+    },
+  },
+}

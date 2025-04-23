@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['index.ts', 'types.ts'],
+  entry: ['index.ts', 'types.ts', 'bin.ts'],
   format: ['esm'],
   dts: true,
   clean: true,

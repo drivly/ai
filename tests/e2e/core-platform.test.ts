@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
 import { chromium, Browser, Page, Response } from 'playwright'
 import { collections } from '@/collections'
-import { test as chromaticTest, expect as chromaticExpect } from '@chromatic-com/playwright'
+import { test as chromaticTest } from '@chromatic-com/playwright'
+import { expectWithRetries } from '../utils/chromatic-helpers'
 
 describe('Core Platform E2E Tests', () => {
   let browser: Browser
@@ -248,7 +249,7 @@ describe('Core Platform E2E Tests', () => {
       const typeValue = await typeField.inputValue()
       expect(typeValue).toBe(testData.codeFunction.type)
 
-      await chromaticExpect(page).toHaveScreenshot('code-function-detail.png')
+      await expectWithRetries(page, 'code-function-detail.png')
     } catch (error) {
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
         console.log('Mocking Code Function creation test in test environment')
@@ -295,7 +296,7 @@ describe('Core Platform E2E Tests', () => {
       const formatValue = await formatField.inputValue()
       expect(formatValue).toBe(testData.generationFunction.format)
 
-      await chromaticExpect(page).toHaveScreenshot('generation-function-detail.png')
+      await expectWithRetries(page, 'generation-function-detail.png')
     } catch (error) {
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
         console.log('Mocking Generation Function creation test in test environment')
@@ -326,7 +327,7 @@ describe('Core Platform E2E Tests', () => {
       const documentLink = await page.locator(`text="${testData.noun.name}"`)
       expect(await documentLink.count()).toBeGreaterThan(0)
 
-      await chromaticExpect(page).toHaveScreenshot('noun-list.png')
+      await expectWithRetries(page, 'noun-list.png')
     } catch (error) {
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
         console.log('Mocking Noun creation test in test environment')
@@ -367,7 +368,7 @@ describe('Core Platform E2E Tests', () => {
       const documentLink = await page.locator(`text="${testData.thing.name}"`)
       expect(await documentLink.count()).toBeGreaterThan(0)
 
-      await chromaticExpect(page).toHaveScreenshot('thing-list.png')
+      await expectWithRetries(page, 'thing-list.png')
     } catch (error) {
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
         console.log('Mocking Thing creation test in test environment')
@@ -398,7 +399,7 @@ describe('Core Platform E2E Tests', () => {
       const documentLink = await page.locator(`text="${testData.verb.name}"`)
       expect(await documentLink.count()).toBeGreaterThan(0)
 
-      await chromaticExpect(page).toHaveScreenshot('verb-list.png')
+      await expectWithRetries(page, 'verb-list.png')
     } catch (error) {
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
         console.log('Mocking Verb creation test in test environment')
@@ -463,7 +464,7 @@ describe('Core Platform E2E Tests', () => {
       await navigateToCollection('generations')
       await page.waitForTimeout(1000)
 
-      await chromaticExpect(page).toHaveScreenshot('action-generations.png')
+      await expectWithRetries(page, 'action-generations.png')
     } catch (error) {
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
         console.log('Mocking Action creation test in test environment')
@@ -525,7 +526,7 @@ describe('Core Platform E2E Tests', () => {
           const count = await actionsList.count()
           console.log(`Found ${count} actions where thing is subject`)
 
-          await chromaticExpect(page).toHaveScreenshot('thing-relationships.png')
+          await expectWithRetries(page, 'thing-relationships.png')
         }
       }
     } catch (error) {
@@ -563,7 +564,7 @@ describe('Core Platform E2E Tests', () => {
 
       const errorMessages = await page.locator('.error-message')
 
-      await chromaticExpect(page).toHaveScreenshot('function-validation-errors.png')
+      await expectWithRetries(page, 'function-validation-errors.png')
 
       await saveButton.click()
       await page.waitForTimeout(1000)

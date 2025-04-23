@@ -1,3 +1,5 @@
+'use client'
+
 import matter from 'gray-matter'
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { separateSlides } from './slides'
@@ -12,23 +14,23 @@ export function parseMarkdownWithFrontmatter(markdown: string): {
   slides: Slide[]
 } {
   const { data: globalFrontmatter, content: remainingContent } = matter(markdown)
-  
+
   const globalConfig = parseFrontmatter(globalFrontmatter) as VideoConfig
-  
+
   const slideContents = separateSlides(remainingContent)
-  
+
   const slides = slideContents.map((slideContent) => {
     const { data: slideFrontmatter, content: slideMarkdown } = matter(slideContent)
-    
+
     const slide: Slide = {
       content: slideMarkdown.trim(),
       ...slideFrontmatter,
       mdast: fromMarkdown(slideMarkdown.trim()),
     }
-    
+
     return slide
   })
-  
+
   return {
     globalConfig,
     slides,

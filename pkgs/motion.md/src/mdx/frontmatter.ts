@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Parse frontmatter data into a structured configuration object
  */
@@ -12,6 +14,16 @@ export function parseFrontmatter(frontmatter: Record<string, any>): Record<strin
     },
     transition: 'fade',
     duration: 5, // Default slide duration in seconds
+  }
+  
+  if (frontmatter.layout === 'slideshow') {
+    if (frontmatter.code && !frontmatter.steps) {
+      frontmatter.steps = [frontmatter.code];
+    }
+    
+    if (!frontmatter.language) {
+      frontmatter.language = 'typescript';
+    }
   }
   
   return {

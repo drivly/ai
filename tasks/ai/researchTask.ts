@@ -2,10 +2,10 @@ import { TaskConfig, TaskHandler } from 'payload' // Import directly from 'paylo
 import type { Payload } from 'payload'
 
 type ResearchOutput = {
-  summary?: string | null;
-  findings?: { finding?: string | null; id?: string | null }[] | null;
-  sources?: { sourceUrl?: string | null; id?: string | null }[] | null;
-  confidence?: number | null;
+  summary?: string | null
+  findings?: { finding?: string | null; id?: string | null }[] | null
+  sources?: { sourceUrl?: string | null; id?: string | null }[] | null
+  confidence?: number | null
 }
 
 const aiOutputSchema = {
@@ -19,7 +19,7 @@ export const researchTaskHandler: TaskHandler<'researchTask'> = async ({ input, 
   if (!payload) payload = req?.payload
   if (!payload) throw new Error('Payload instance not found in task arguments')
 
-  const { topic, depth, sources, format, taskId, callback } = input // Destructure input
+  const { topic, depth, sources, format, taskId, callback, slackChannel, slackThreadTs, slackResponseTs } = input // Destructure input
 
   try {
     const createdJob = await payload.jobs.queue({
@@ -32,6 +32,9 @@ export const researchTaskHandler: TaskHandler<'researchTask'> = async ({ input, 
           model: 'perplexity/sonar-deep-research', // Specify the model
         },
         type: 'Object', // Assuming research returns a structured object
+        slackChannel, // Pass through Slack channel if present
+        slackThreadTs, // Pass through Slack thread timestamp if present
+        slackResponseTs, // Pass through Slack response timestamp if present
       },
     })
 
@@ -43,11 +46,17 @@ export const researchTaskHandler: TaskHandler<'researchTask'> = async ({ input, 
       data: {
         status: 'processing',
         jobID: createdJob.id, // Store the executeFunction job ID
+        slackChannel, // Store Slack channel if present
+        slackThreadTs, // Store Slack thread timestamp if present
+        slackResponseTs, // Store Slack response timestamp if present
       },
     })
 
-
     console.log(`Research task ${taskId} queued executeFunction job ${createdJob.id}. Waiting for results via saveExecutionResults.`)
+
+    if (slackChannel && slackResponseTs) {
+      console.log(`Will send results back to Slack channel ${slackChannel} for message ${slackResponseTs}`)
+    }
 
     return { summary: 'Processing...', findings: [], sources: [], confidence: 0 } // Return placeholder
   } catch (error) {
@@ -60,6 +69,31 @@ export const researchTaskHandler: TaskHandler<'researchTask'> = async ({ input, 
         output: { error: error instanceof Error ? error.message : String(error) },
       },
     })
+    
+    if (slackChannel && slackResponseTs) {
+      try {
+        await payload.jobs.queue({
+          task: 'updateSlackMessage',
+          input: {
+            response_url: `https://slack.com/api/chat.update?channel=${slackChannel}&ts=${slackResponseTs}`,
+            blocks: [
+              {
+                type: 'section',
+                text: {
+                  type: 'mrkdwn',
+                  text: `:x: Sorry, I encountered an error while processing your research request: ${error instanceof Error ? error.message : String(error)}`,
+                },
+              },
+            ],
+            text: 'Error processing research request',
+            replace_original: true,
+          },
+        })
+      } catch (slackError) {
+        console.error('Error sending error message to Slack:', slackError)
+      }
+    }
+    
     throw error // Re-throw error for job queue handling
   }
 }

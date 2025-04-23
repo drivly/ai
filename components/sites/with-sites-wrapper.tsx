@@ -1,8 +1,9 @@
 import { Footer } from '@/components/sites/footer'
 import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
 import { Fragment } from 'react'
+import { Provider as BalancerProvider } from 'react-wrap-balancer'
 import { CallToAction } from './sections/call-to-action'
-import { Faqs } from './sections/faqs'
+// import { Faqs } from './sections/faqs'
 
 type AwaitedPageProps<TParams extends object> = {
   params: TParams
@@ -17,12 +18,10 @@ type NextPageProps<TParams extends object> = {
 export const withSitesWrapper = <TParams extends { domain?: string; slug?: string }>({
   WrappedPage,
   minimal = false,
-  withFaqs = true,
   withCallToAction = true,
 }: {
   WrappedPage: React.ComponentType<AwaitedPageProps<TParams>>
   minimal?: boolean
-  withFaqs?: boolean
   withCallToAction?: boolean
 }) => {
   return async (props: NextPageProps<TParams>) => {
@@ -37,17 +36,19 @@ export const withSitesWrapper = <TParams extends { domain?: string; slug?: strin
     }
 
     return (
-      <Fragment>
+      <BalancerProvider>
         {/* Pass awaitedParams to SitesNavbar as it needs the resolved values */}
         <SitesNavbar params={awaitedParams} minimal={minimal} />
         <main className='flex-1 overflow-x-hidden border-b border-gray-800/50'>
           {/* Pass the awaited props to WrappedPage */}
           <WrappedPage {...pageProps} />
         </main>
-        {withFaqs && <Faqs />}
         {withCallToAction && <CallToAction />}
         <Footer minimal={minimal} />
-      </Fragment>
+
+        {/* Add hidden iframe for cross-domain auth */}
+        <iframe src='/login' style={{ display: 'none' }} title='Authentication sync' aria-hidden='true' />
+      </BalancerProvider>
     )
   }
 }

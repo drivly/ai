@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
 import { chromium, Browser, Page, Response } from 'playwright'
 import { collections } from '@/collections'
-import { test as chromaticTest, expect as chromaticExpect } from '@chromatic-com/playwright'
+import { test as chromaticTest } from '@chromatic-com/playwright'
+import { expectWithRetries } from '../utils/chromatic-helpers'
 
 describe('Critical Collections', () => {
   let browser: Browser
@@ -127,7 +128,7 @@ describe('Critical Collections', () => {
 
           await page.waitForTimeout(500)
 
-          await chromaticExpect(page).toHaveScreenshot(`critical-collection-${collection.slug}.png`)
+          await expectWithRetries(page, `critical-collection-${collection.slug}.png`)
         } catch (error) {
           console.log(`Navigation to collection ${collection.slug} failed, but continuing test: ${error}`)
         }
@@ -195,7 +196,7 @@ describe('Critical Collections', () => {
           const headingText = await heading.first().textContent()
           expect(headingText).toContain(collection.testName)
 
-          await chromaticExpect(page).toHaveScreenshot(`critical-collection-${collection.slug}-document.png`)
+          await expectWithRetries(page, `critical-collection-${collection.slug}-document.png`)
         } catch (error) {
           console.log(`Testing collection ${collection.slug} failed, but continuing test: ${error}`)
         }
@@ -290,7 +291,7 @@ describe('Critical Collections', () => {
       const agentFields = await page.locator('label:has-text("Agent")')
       expect(await agentFields.count()).toBeGreaterThan(0)
 
-      await chromaticExpect(page).toHaveScreenshot('critical-collections-relationships.png')
+      await expectWithRetries(page, 'critical-collections-relationships.png')
     } catch (error) {
       if (process.env.IS_TEST_ENV === 'true' && !process.env.BROWSER_TESTS) {
         console.log('Mocking admin relationships test in test environment')

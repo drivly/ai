@@ -18,6 +18,7 @@ export default defineConfig({
       '@/collections': resolve(__dirname, '../../collections'),
       '@/tasks': resolve(__dirname, '../../tasks'),
       '@/scripts': resolve(__dirname, '../../scripts'),
+      'ai-providers': resolve(__dirname, '../ai-providers/src'),
     },
   },
 })

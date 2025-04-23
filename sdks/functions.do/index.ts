@@ -40,31 +40,24 @@ const callAPI = async (request: any) => {
     return { data: mockResponse }
   }
 
-  const params = new URLSearchParams()
-  params.append('args', JSON.stringify(request.input || {}))
-
-  if (request.schema) {
-    params.append('schema', JSON.stringify(request.schema))
-  }
-
-  if (request.config) {
-    Object.entries(request.config).forEach(([key, value]) => {
-      if (value !== undefined) {
-        params.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value))
-      }
-    })
-  }
-
   const baseUrl = process.env.FUNCTIONS_API_URL || 'https://apis.do'
-  const url = `${baseUrl}/functions/${request.functionName}?${params.toString()}`
+  const url = `${baseUrl}/functions/${request.functionName}`
   console.log({ url })
 
   const response = await fetch(url, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `users API-Key ${process.env.FUNCTIONS_DO_API_KEY}`,
+      Authorization: `Bearer ${process.env.FUNCTIONS_DO_API_KEY}`,
     },
+    body: JSON.stringify({
+      input: {
+        functionName: request.functionName,
+        args: request.input || {},
+        schema: request.schema,
+        settings: request.config,
+      },
+    }),
   })
 
   if (!response.ok) {
@@ -119,32 +112,24 @@ const callMarkdownAPI = async (request: any): Promise<MarkdownOutput> => {
     return mockResponse as MarkdownOutput
   }
 
-  const params = new URLSearchParams()
-  params.append('args', JSON.stringify(request.input || {}))
-  params.append('format', 'markdown') // Specify markdown format
-
-  if (request.schema) {
-    params.append('schema', JSON.stringify(request.schema))
-  }
-
-  if (request.config) {
-    Object.entries(request.config).forEach(([key, value]) => {
-      if (value !== undefined) {
-        params.append(key, typeof value === 'object' ? JSON.stringify(value) : String(value))
-      }
-    })
-  }
-
   const baseUrl = process.env.FUNCTIONS_API_URL || 'https://apis.do'
-  const url = `${baseUrl}/functions/${request.functionName}?${params.toString()}`
+  const url = `${baseUrl}/functions/${request.functionName}`
   console.log({ url })
 
   const response = await fetch(url, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `users API-Key ${process.env.FUNCTIONS_DO_API_KEY}`,
+      Authorization: `Bearer ${process.env.FUNCTIONS_DO_API_KEY}`,
     },
+    body: JSON.stringify({
+      input: {
+        functionName: request.functionName,
+        args: request.input || {},
+        schema: request.schema,
+        settings: { ...request.config, format: 'markdown' }, // Specify markdown format
+      },
+    }),
   })
 
   if (!response.ok) {
@@ -321,3 +306,5 @@ export const ai = new Proxy(
     },
   },
 ) as AI_Instance
+
+export { research } from './src/ai'

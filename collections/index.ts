@@ -2,6 +2,7 @@ import { Domains } from './admin/Domains'
 import { Projects } from './admin/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
+import { Waitlist } from './admin/Waitlist'
 import { OAuthClients } from './auth/OAuthClients'
 import { OAuthCodes } from './auth/OAuthCodes'
 import { OAuthTokens } from './auth/OAuthTokens'
@@ -37,6 +38,7 @@ import { ExperimentMetrics } from './experiments/ExperimentMetrics'
 import { Prompts } from './experiments/Prompts'
 import { Settings } from './experiments/Settings'
 import { Resources } from './data/Resources'
+import { ChatResources } from './data/chat/Resources'
 import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
 import { GenerationBatches } from './observability/GenerationBatches'
@@ -51,6 +53,8 @@ import { Goals } from './business/Goals'
 import { Plans } from './business/Plans'
 import { KPIs } from './business/KPIs'
 import Config from './sync/Config'
+import { Organizations, BillingPlans, Subscriptions, Usage, ConnectAccounts } from './billing'
+import { Services } from './infrastructure/Services'
 
 export const collections = [
   // Register AI collections first
@@ -64,17 +68,22 @@ export const collections = [
   Goals,
   Plans,
 
+  // Admin collections
+  Waitlist,
+
   // Data & definitions
   Nouns,
   Things,
   Verbs,
   Databases,
   Resources,
+  ChatResources,
   Relationships,
 
   // Integration collections
   IntegrationCategories,
   Integrations,
+  ConnectAccounts,
   Connections,
   IntegrationTriggers,
   IntegrationActions,
@@ -109,6 +118,12 @@ export const collections = [
   Traces,
   KPIs,
 
+  // Billing collections
+  Organizations,
+  BillingPlans,
+  Subscriptions,
+  Usage,
+
   Config,
 
   Projects,
@@ -118,6 +133,9 @@ export const collections = [
   Tags,
   Webhooks,
   APIKeys,
+  
+  // Infrastructure collections
+  Services,
 
   OAuthClients,
   OAuthCodes,

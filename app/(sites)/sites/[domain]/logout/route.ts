@@ -1,19 +1,18 @@
-import { NextResponse, NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { getCurrentURL } from '@/lib/utils/url'
-import { API } from '@/lib/api'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { signOut } from '@/auth'
 
-export const GET = async (request: NextRequest) => {
-  const payload = await getPayloadWithAuth()
-
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ domain: string }> }
+) {
   try {
-    await payload.betterAuth.api.signOut({
-      headers: request.headers,
-    })
+    await signOut({ redirect: false })
   } catch (error) {
     console.error('Error during logout:', error)
   }
-
-  // Always redirect to home page
-  return NextResponse.redirect(new URL('/', getCurrentURL(request.headers)))
+  
+  const { domain } = await params
+  const url = getCurrentURL(request.headers)
+  return NextResponse.redirect(new URL('/', url))
 }

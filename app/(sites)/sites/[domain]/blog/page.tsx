@@ -6,10 +6,10 @@ import { getAllBlogPosts, getAllCategories } from './blog-posts'
 
 async function BlogPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
   const { domain } = props.params
-  const searchParams = await props.searchParams
+  const searchParams = props.searchParams
   // Move data fetching to the server component
-  const posts = getAllBlogPosts()
-  const categories = getAllCategories()
+  const posts = await getAllBlogPosts(domain)
+  const categories = await getAllCategories(domain)
 
   return (
     <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
@@ -28,7 +28,7 @@ async function BlogPage(props: { params: { domain: string }; searchParams?: { [k
   )
 }
 
-export default withSitesWrapper({ WrappedPage: BlogPage, withFaqs: false })
+export default withSitesWrapper({ WrappedPage: BlogPage })
 // Get Started // Join
 // --- Request access
 // email onboarding with questions react-email // templates

@@ -1,4 +1,7 @@
+import { listBlogPostTitles, writeBlogPost } from '@/.ai/functions/content'
 import type { BlogPost } from '@/components/sites/blog-ui/blog-posts'
+import { getContent } from '../content'
+import slugify from 'slugify'
 
 // Sample blog posts data
 const blogPosts: BlogPost[] = [
@@ -76,15 +79,21 @@ const blogPosts: BlogPost[] = [
   },
 ]
 
-export function getAllBlogPosts(): BlogPost[] {
-  return blogPosts
+export async function getAllBlogPosts(domain: string): Promise<BlogPost[]> {
+  const content = await getContent(domain)
+  const posts = await listBlogPostTitles(content)
+  return posts
 }
 
-export function getBlogPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find((post) => post.slug === slug)
+export async function getBlogPostBySlug(domain: string, slug: string): Promise<BlogPost> {
+  const content = await getContent(domain)
+  const posts = await listBlogPostTitles(content)
+  const blogPost = posts.find((post) => slugify(post.title) === slug) || { slug }
+  const post = await writeBlogPost({ website: content, blogPost })
+  return post
 }
 
-export function getAllCategories(): string[] {
+export async function getAllCategories(domain: string): Promise<string[]> {
   const categories = new Set(blogPosts.map((post) => post.category))
   return Array.from(categories)
 }

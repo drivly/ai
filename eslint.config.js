@@ -14,10 +14,12 @@ const config = [
   {
     ignores: ['pkgs/ui/**'],
     rules: {
+      'import/no-anonymous-default-export': 'off',
       'react/no-unescaped-entities': 'off',
       'react/display-name': 'off',
-      'react-hooks/exhaustive-deps': 'warn'
-    }
+      'react-hooks/exhaustive-deps': 'warn',
+      'eslint-comments/no-unused-disable': 'off',
+    },
   },
 ]
 

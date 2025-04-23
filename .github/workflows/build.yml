@@ -4,11 +4,15 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, next]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   build:
@@ -42,6 +46,7 @@ jobs:
           DATABASE_URI: ${{ secrets.DATABASE_URI || 'mongodb://localhost:27017/payload-cms' }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY || 'resend-key-placeholder' }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_placeholder' }}
+          ANALYZE: 'true'
 
       # Bundle analysis steps
       - name: Restore next build
@@ -85,24 +90,44 @@ jobs:
       - name: Compare with base branch bundle
         if: success() && github.event.number && steps.check-base-bundle.outputs.base_bundle_exists == 'true'
         run: |
-          if [ -f ".next/analyze/base/bundle/__bundle_analysis.json" ]; then
-            npx -p nextjs-bundle-analysis compare || echo "Bundle comparison failed, but continuing build"
+          if [ -f ".next/analyze/base/bundle/bundle/__bundle_analysis.json" ]; then
+            # Fix path to match where the file is actually downloaded
+            mkdir -p .next/analyze/base/bundle
+            cp .next/analyze/base/bundle/bundle/__bundle_analysis.json .next/analyze/base/bundle/
+            npx -p nextjs-bundle-analysis compare
           else
             echo "No base bundle analysis file found. Skipping comparison."
+            # Debug - list all files in base bundle directory
+            echo "Debug: Listing base bundle directory contents"
+            find .next/analyze/base -type f | sort || echo "Base directory not found or empty"
           fi
-        continue-on-error: true
 
-      - name: Get Comment
-        id: get-comment
+      - name: Check Comment File
+        id: check-comment
         if: success() && github.event.number
         run: |
           if [ -f .next/analyze/__bundle_analysis_comment.txt ]; then
-            echo "comment=$(cat .next/analyze/__bundle_analysis_comment.txt)" >> $GITHUB_OUTPUT
+            echo "comment file exists"
+            cat .next/analyze/__bundle_analysis_comment.txt
+            echo "comment_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "comment file does not exist"
+            echo "comment_exists=false" >> $GITHUB_OUTPUT
+            # Enhanced debugging - list all files in analyze directory structure
+            echo "Debug: Listing analyze directory contents"
+            ls -la .next/analyze/ || echo "Analyze directory not found"
+            echo "Debug: Checking if analyze directory exists"
+            if [ -d ".next/analyze" ]; then
+              find .next/analyze -type f | sort
+            else
+              echo "The .next/analyze directory does not exist"
+            fi
           fi
 
       - name: Comment
         uses: marocchino/sticky-pull-request-comment@v2
-        if: success() && github.event.number && steps.get-comment.outputs.comment
+        if: success() && github.event.number && steps.check-comment.outputs.comment_exists == 'true'
         with:
           header: next-bundle-analysis
-          message: ${{ steps.get-comment.outputs.comment }}
+          path: .next/analyze/__bundle_analysis_comment.txt
+          recreate: true

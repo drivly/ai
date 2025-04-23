@@ -1,21 +1,19 @@
+'use client'
+
 import { z } from 'zod'
 import React from 'react'
 
 /**
  * Higher-order component for validating component props
  */
-export function withValidation<T extends object>(
-  Component: React.ComponentType<T>,
-  validate: (props: T) => boolean,
-  displayName: string
-): React.FC<T> {
+export function withValidation<T extends object>(Component: React.ComponentType<T>, validate: (props: T) => boolean, displayName: string): React.FC<T> {
   const WrappedComponent: React.FC<T> = (props: T) => {
     if (!validate(props)) {
       console.error(`Invalid props passed to ${displayName}:`, props)
     }
     return React.createElement(Component, props as React.ComponentProps<typeof Component>)
   }
-  
+
   WrappedComponent.displayName = `Validated(${displayName})`
   return WrappedComponent
 }
