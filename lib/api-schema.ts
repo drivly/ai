@@ -31,8 +31,8 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
       description,
       version,
       contact: {
-        name: 'Drivly',
-        url: 'https://drivly.com',
+        name: '.do',
+        url: 'https://dotdo.ai',
       },
     },
     servers: [
