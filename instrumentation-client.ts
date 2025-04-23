@@ -3,6 +3,8 @@
 
 import * as Sentry from '@sentry/nextjs'
 
+export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
+
 declare global {
   interface Window {
     dataLayer: any[]
