@@ -10,8 +10,8 @@ export function handleDoManagementDomain(request: NextRequest): NextResponse | n
   const managementApiName = extractApiNameFromManagementDomain(hostname)
 
   if (managementApiName === '') {
-    console.log('Rewriting do.management to /admin', { hostname, pathname, search })
-    return NextResponse.rewrite(new URL(`/admin${pathname}${search}`, url))
+    console.log('Skipping rewrite from do.management to /admin', { hostname, pathname, search })
+    return NextResponse.next()
   } else {
     if (managementApiName && collectionSlugs.includes(managementApiName)) {
       console.log('Rewriting to admin collection', { hostname, pathname, search, collection: managementApiName })

@@ -349,6 +349,23 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       generationHash, // Pass the generation hash to saveExecutionResults
     },
   })
+  
+  if (input.functionName === 'research' && 
+      input.slackChannel && 
+      input.slackResponseTs && 
+      object) {
+    console.log(`Sending research results back to Slack channel ${input.slackChannel}`)
+    payload.jobs.queue({
+      task: 'sendResearchResultsToSlack',
+      input: {
+        channel: input.slackChannel,
+        threadTs: input.slackThreadTs || null,
+        responseTs: input.slackResponseTs,
+        results: object,
+        query: input.args?.topic || 'research query',
+      },
+    })
+  }
 
   return { output: object, reasoning, generationHash }
 }

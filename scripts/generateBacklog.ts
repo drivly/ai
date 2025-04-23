@@ -131,6 +131,7 @@ const labelToCategoryMap: { [key: string]: string } = {
   'evals.do': 'evals-do',
   'integrations.do': 'integrations-do',
   'apis.do': 'apis-do',
+  'research': 'searches-do', // Add research label to searches-do category
   sdk: 'sdk-development',
   docs: 'docs',
   website: 'website',

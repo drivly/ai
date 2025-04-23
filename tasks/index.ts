@@ -5,6 +5,7 @@ import { generateCodeTask } from './ai/generateCode'
 import { generateFunctionExamplesTask } from './ai/generateFunctionExamples'
 import { requestHumanFeedbackTask } from './ai/requestHumanFeedback'
 import { updateSlackMessageTask } from './ai/updateSlackMessage'
+import { sendResearchResultsToSlackTask } from './ai/sendResearchResultsToSlack'
 import { executeTextFunction } from './ai/executeTextFunction'
 import { generateMarkdown } from './ai/generateMarkdown'
 import { generateObject } from './ai/generateObject'
@@ -134,6 +135,7 @@ export const tasks = [
   githubFileOperations,
   saveExecutionResultsTask,
   researchTask,
+  sendResearchResultsToSlackTask,
   handleLinearWebhookTask,
   // generateVideoTask, // Add vid
   syncTaskToLinearTask,

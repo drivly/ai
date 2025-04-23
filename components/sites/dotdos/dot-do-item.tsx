@@ -12,9 +12,10 @@ export interface DotDoItemProps {
     title: string
     url: string
   }>
+  currentTld?: string
 }
 
-export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, links }: DotDoItemProps) => {
+export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, links, currentTld = '' }: DotDoItemProps) => {
   const domain = href.startsWith('https://') ? href.substring(8) : title
 
   if (!mounted && process.env.NODE_ENV === 'development') {
@@ -47,7 +48,7 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, lin
       {/* Links */}
       <div className='relative z-10 mt-4 flex flex-wrap gap-2'>
         {/* Default links */}
-        <a href={`https://${domain}/api`} target='_blank' rel='noopener noreferrer'>
+        <a href={`https://${domain}${currentTld}/api`} target='_blank' rel='noopener noreferrer'>
           <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
             API
           </Badge>
@@ -59,7 +60,7 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, lin
             </Badge>
           </a>
         )}
-        <a href={`https://${domain}/docs`} target='_blank' rel='noopener noreferrer'>
+        <a href={`https://${domain}${currentTld}/docs`} target='_blank' rel='noopener noreferrer'>
           <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
             Docs
           </Badge>

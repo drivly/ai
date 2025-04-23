@@ -91,6 +91,22 @@ export const GET = API(async (request, { db, user, url, origin, domain, payload 
     }
   }
 
+  const exampleTopics = [
+    'Climate change solutions',
+    'Artificial intelligence advancements',
+    'Quantum computing applications',
+    'Renewable energy technologies',
+    'Space exploration breakthroughs',
+    'Biotechnology innovations',
+    'Sustainable agriculture practices'
+  ]
+
+  const examples: Record<string, string> = {}
+  for (const topic of exampleTopics) {
+    const encodedTopic = topic.replace(/ /g, '+')
+    examples[topic] = formatWithOptions(`research?topic=${encodedTopic}`, 'research.do')
+  }
+
   return {
     tasks,
     links,
@@ -98,6 +114,7 @@ export const GET = API(async (request, { db, user, url, origin, domain, payload 
     page,
     limit,
     total: totalItems,
+    examples, // Add example topics with clickable links
     actions: {
       toggleDomains: url.searchParams.has('domains') ? url.toString().replace(/[?&]domains/, '') : url.toString() + (url.toString().includes('?') ? '&domains' : '?domains'),
     },

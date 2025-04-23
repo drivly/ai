@@ -1,8 +1,10 @@
 import { readFileSync } from 'fs'
+import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { parse } from 'csv-parse/sync'
 
 let asnData: Map<string, string> | null = null
+let asnDataPromise: Promise<Map<string, string>> | null = null
 
 /**
  * Interface for ASN record
@@ -14,13 +16,13 @@ interface ASNRecord {
 
 /**
  * Loads and parses the ASN to organization mapping data
- * @returns Map of ASN to organization name
+ * @returns Promise resolving to Map of ASN to organization name
  */
-function loadASNData(): Map<string, string> {
+async function loadASNData(): Promise<Map<string, string>> {
   try {
     const asnDataPath = join(process.cwd(), 'node_modules', '@ip-location-db', 'asn', 'asn-ipv4.csv')
 
-    const fileContent = readFileSync(asnDataPath, 'utf-8')
+    const fileContent = await readFile(asnDataPath, 'utf-8')
     const records = parse(fileContent, {
       columns: ['start_ip', 'end_ip', 'asn', 'organization'],
       skip_empty_lines: true,
@@ -45,13 +47,16 @@ function loadASNData(): Map<string, string> {
 /**
  * Gets the organization name for a given ASN
  * @param asn ASN number as string
- * @returns Organization name or null if not found
+ * @returns Promise resolving to organization name or null if not found
  */
-export function getOrganizationByASN(asn: string): string | null {
+export async function getOrganizationByASN(asn: string): Promise<string | null> {
   if (!asn) return null
 
   if (!asnData) {
-    asnData = loadASNData()
+    if (!asnDataPromise) {
+      asnDataPromise = loadASNData()
+    }
+    asnData = await asnDataPromise
   }
 
   return asnData.get(asn) || null

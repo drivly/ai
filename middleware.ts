@@ -30,6 +30,8 @@ export default auth(async (request) => {
     return NextResponse.next()
   }
 
+    // TEMPORARY CHANGE (ENG-751): Admin routes bypass authentication redirects
+    // This is a temporary modification until integrated auth is restored
   if (handler.isProtectedRoute()) {
     if (!handler.isAdminRoute()) {
       if (!isLoggedIn) {
