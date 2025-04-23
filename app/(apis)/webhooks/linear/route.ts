@@ -21,6 +21,7 @@ export const POST = API(async (request, { payload }) => {
   const webhookId = request.headers.get('linear-delivery')
   const webhookTimestamp = request.headers.get('linear-signature-timestamp')
   const webhookSignature = request.headers.get('linear-signature')
+  const dateHeader = request.headers.get('date')
 
   if (!webhookId || !webhookSignature) {
     console.error('Missing required Linear webhook headers', {
@@ -34,7 +35,11 @@ export const POST = API(async (request, { payload }) => {
   }
 
   if (!webhookTimestamp) {
-    console.log('Linear webhook timestamp header is missing, using current timestamp')
+    if (dateHeader) {
+      console.log('Linear webhook timestamp header is missing, using date header instead')
+    } else {
+      console.log('Linear webhook timestamp header and date header are missing, verification will likely fail')
+    }
   }
 
   const rawBody = await request.text()
@@ -42,13 +47,17 @@ export const POST = API(async (request, { payload }) => {
   try {
     const wh = new Webhook(secret)
 
-    const currentTimestamp = webhookTimestamp || Math.floor(Date.now() / 1000).toString()
+    const webhookTimestampValue = webhookTimestamp || 
+      (dateHeader ? Math.floor(new Date(dateHeader).getTime() / 1000).toString() : null)
 
     const verificationHeaders: Record<string, string> = {
       'linear-delivery': webhookId,
       'linear-signature': webhookSignature,
     }
-    verificationHeaders['linear-signature-timestamp'] = currentTimestamp
+    
+    if (webhookTimestampValue) {
+      verificationHeaders['linear-signature-timestamp'] = webhookTimestampValue
+    }
 
     const verifiedPayload = wh.verify(rawBody, verificationHeaders)
 
@@ -66,7 +75,8 @@ export const POST = API(async (request, { payload }) => {
   } catch (err) {
     console.error('Linear webhook verification failed:', err, {
       hasTimestampHeader: Boolean(webhookTimestamp),
-      usingGeneratedTimestamp: !webhookTimestamp,
+      hasDateHeader: Boolean(dateHeader),
+      timestampValue: webhookTimestamp || (dateHeader ? Math.floor(new Date(dateHeader).getTime() / 1000).toString() : null),
     })
     return new Response('Webhook processing failed', { status: 401 })
   }
