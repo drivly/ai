@@ -4,8 +4,6 @@ export class API {
   private baseUrl: string
   private headers: Record<string, string>
   private options?: ClientOptions
-  private integrations: Record<string, any> = {}
-  private integrationsLoaded = false
 
   constructor(options: ClientOptions = {}) {
     this.options = options
@@ -116,68 +114,4 @@ export class API {
       q: query,
     })
   }
-
-  /**
-   * Private method to load available integrations
-   */
-  private async loadIntegrations(): Promise<void> {
-    if (this.integrationsLoaded) return
-
-    try {
-      const response = await this.get<{ integrations: Record<string, string> }>('/integrations')
-      
-      for (const [name, url] of Object.entries(response.integrations)) {
-        this.integrations[name] = this.createIntegrationProxy(name)
-      }
-
-      this.integrationsLoaded = true
-    } catch (error) {
-      console.error('Failed to load integrations:', error)
-    }
-  }
-
-  /**
-   * Create a proxy object for an integration
-   */
-  private createIntegrationProxy(integrationName: string): any {
-    return new Proxy({}, {
-      get: (_target, actionName: string) => {
-        if (typeof actionName !== 'string' || actionName === 'then') {
-          return undefined
-        }
-        
-        return async (params: any) => {
-          return this.post(`/integrations/${integrationName}/actions/${actionName}`, params)
-        }
-      }
-    })
-  }
-}
-
-/**
- * Create a proxied API instance that can access integrations
- */
-export function createAPI(options: ClientOptions = {}): any {
-  const api = new API(options)
-  
-  return new Proxy(api, {
-    get(target: API, prop: string | symbol) {
-      const value = Reflect.get(target, prop)
-      if (value !== undefined) {
-        return value
-      }
-      
-      if (typeof prop === 'string') {
-        return (async () => {
-          if (!target['integrationsLoaded']) {
-            await target['loadIntegrations']()
-          }
-          
-          return target['integrations'][prop]
-        })()
-      }
-      
-      return undefined
-    }
-  })
 }
