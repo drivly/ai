@@ -1,4 +1,4 @@
-import { executeCodeFunction } from '../../tasks/code/executeCodeFunction'
+import { executeCodeFunction } from '@/tasks/code/executeCodeFunction'
 
 export async function secureEvaluateMDX(mdxContent: string, components = {}) {
   const code = `
