@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/src/test.json",
+  "extends": "../../pkgs/tsconfig/src/test.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "node",
