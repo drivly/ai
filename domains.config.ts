@@ -701,7 +701,7 @@ export const domains = [
 /**
  * Brand domains that should redirect to the /sites path
  */
-export const brandDomains = ['dotdo.ai', 'dotdo.co', 'do.industries']
+export const brandDomains = ['dotdo.ai', 'dotdo.co', 'do.industries', 'do.com.ai']
 
 /**
  * Site domains that should redirect to their specific /sites/{domain} path
