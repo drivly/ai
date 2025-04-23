@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/src/tsup.json",
+  "extends": "../../pkgs/tsconfig/src/tsup.json",
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "bundler",
