@@ -36,7 +36,8 @@ export const DotDoSection = (props: DotDoSectionProps) => {
   return (
     <Fragment>
       <div className='mb-16'>
-        {(!isBrandDomain && !currentTld && (mounted || process.env.NODE_ENV !== 'development')) && (
+        {/* Only show the switch if not on a brand domain and not on a TLD domain */}
+        {(!isBrandDomain && !currentTld && mounted) && (
           <div className='mb-8 flex items-center space-x-2'>
             <span className='mr-2 text-sm font-medium opacity-70'>Show URLs as:</span>
             <div className='flex items-center space-x-4'>
@@ -83,6 +84,7 @@ export const DotDoSection = (props: DotDoSectionProps) => {
                   tags={site.tags}
                   links={site.links}
                   currentTld={currentTld}
+                  domain={domain} // Pass the full domain to ensure correct TLD handling
                 />
               )
             })}

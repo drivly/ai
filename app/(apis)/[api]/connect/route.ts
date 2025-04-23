@@ -6,7 +6,7 @@ import { domainsConfig } from '@/domains.config'
 
 export const POST = API(async (request, { db, user, origin, url, params }) => {
   if (!process.env.COMPOSIO_API_KEY) {
-    return { error: true, message: 'API key not configured', statusCode: 500 }
+    return { error: { message: 'API key not configured', status: 500 } }
   }
 
   const { api } = params as { api: string }
@@ -15,18 +15,18 @@ export const POST = API(async (request, { db, user, origin, url, params }) => {
   const effectiveApi = isAlias ? domainsConfig.aliases[api] : api
 
   if (!apiExists && !isAlias) {
-    return { error: true, message: `API '${api}' not found.`, statusCode: 404 }
+    return { error: { message: `API '${api}' not found.`, status: 404 } }
   }
   
   if (!user) {
-    return { error: true, message: 'Authentication required', statusCode: 401 }
+    return { error: { message: 'Authentication required', status: 401 } }
   }
 
   const body = await request.json()
   const { integrationId, taskId, redirectUrl } = body
 
   if (!integrationId) {
-    return { error: true, message: 'Integration ID is required', statusCode: 400 }
+    return { error: { message: 'Integration ID is required', status: 400 } }
   }
 
   const payloadInstance = await getPayload({ config })
@@ -36,7 +36,7 @@ export const POST = API(async (request, { db, user, origin, url, params }) => {
   })
 
   if (!integration) {
-    return { error: true, message: 'Integration not found', statusCode: 404 }
+    return { error: { message: 'Integration not found', status: 404 } }
   }
 
   const connection = await payloadInstance.create({
@@ -88,7 +88,7 @@ export const POST = API(async (request, { db, user, origin, url, params }) => {
       },
     })
 
-    return { error: true, message: 'Failed to initiate connection', details: data, statusCode: response.status }
+    return { error: { message: 'Failed to initiate connection', details: data, status: response.status } }
   }
 
   await payloadInstance.update({
@@ -125,7 +125,7 @@ export const POST = API(async (request, { db, user, origin, url, params }) => {
 
 export const GET = API(async (request, { db, user, params }) => {
   if (!user) {
-    return { error: true, message: 'Authentication required', statusCode: 401 }
+    return { error: { message: 'Authentication required', status: 401 } }
   }
 
   const { api } = params as { api: string }
@@ -134,7 +134,7 @@ export const GET = API(async (request, { db, user, params }) => {
   const effectiveApi = isAlias ? domainsConfig.aliases[api] : api
 
   if (!apiExists && !isAlias) {
-    return { error: true, message: `API '${api}' not found.`, statusCode: 404 }
+    return { error: { message: `API '${api}' not found.`, status: 404 } }
   }
 
   const payloadInstance = await getPayload({ config })

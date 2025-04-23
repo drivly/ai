@@ -258,11 +258,15 @@ export const createAPI = (
         _currentContext = null
 
         const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
+        const errorMessage = error instanceof Error ? error.message : 'Internal Server Error'
+        
         return NextResponse.json(
           {
-            error: true,
-            message: error instanceof Error ? error.message : 'Internal Server Error',
-            ...(process?.env?.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+            error: {
+              message: errorMessage,
+              status,
+              ...(process?.env?.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+            },
           },
           { status },
         )
