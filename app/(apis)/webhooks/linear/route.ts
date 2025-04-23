@@ -76,7 +76,7 @@ export const POST = API(async (request, { payload }) => {
     console.error('Linear webhook verification failed:', err, {
       hasTimestampHeader: Boolean(webhookTimestamp),
       hasDateHeader: Boolean(dateHeader),
-      timestampValue: webhookTimestampValue,
+      timestampValue: webhookTimestamp || (dateHeader ? Math.floor(new Date(dateHeader).getTime() / 1000).toString() : null),
     })
     return new Response('Webhook processing failed', { status: 401 })
   }
