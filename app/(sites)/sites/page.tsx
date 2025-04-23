@@ -3,8 +3,15 @@ import { DotDoSection } from '@/components/sites/dotdos/dot-do-section'
 import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { Suspense } from 'react'
+import { Metadata } from 'next'
 
-export const dynamic = 'force-dynamic'
+export const metadata = {
+  title: 'Do Services-as-Software',
+  description: 'Build AI-native businesses with agentic services through simple APIs and SDKs',
+  alternates: {
+    canonical: 'https://dotdo.ai',
+  },
+} satisfies Metadata
 
 async function DirectoryPage() {
   const { categories } = sitesConfig
@@ -14,10 +21,10 @@ async function DirectoryPage() {
       <HeroSection
         title={
           <>
-            Do <br className='block sm:hidden' /> Business-as-Code
+            Do <br className='block sm:hidden' /> Services-as-Software
           </>
         }
-        description='Purpose-built domains for your business workflows and AI integrations'
+        description='Agentic workflows enabling AI-native businesses to do Business-as-Code and Services-as-Software through simple APIs and SDKs'
         className='pb-16'
       />
       <Suspense
