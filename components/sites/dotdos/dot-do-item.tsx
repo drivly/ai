@@ -13,10 +13,11 @@ export interface DotDoItemProps {
     url: string
   }>
   currentTld?: string
+  domain?: string // Add domain prop to ensure correct TLD handling
 }
 
-export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, links, currentTld = '' }: DotDoItemProps) => {
-  const domain = href.startsWith('https://') ? href.substring(8) : title
+export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, links, currentTld = '', domain }: DotDoItemProps) => {
+  const itemDomain = domain || (href.startsWith('https://') ? href.substring(8) : title)
 
   if (!mounted && process.env.NODE_ENV === 'development') {
     return (
@@ -48,19 +49,19 @@ export const DotDoItem = ({ title, description, href, mounted, hasSdk, tags, lin
       {/* Links */}
       <div className='relative z-10 mt-4 flex flex-wrap gap-2'>
         {/* Default links */}
-        <a href={`https://${domain}${currentTld}/api`} target='_blank' rel='noopener noreferrer'>
+        <a href={`https://${itemDomain}${currentTld}/api`} target='_blank' rel='noopener noreferrer'>
           <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
             API
           </Badge>
         </a>
         {hasSdk && (
-          <a href={`https://www.npmjs.com/package/${domain.replace('.do', '')}`} target='_blank' rel='noopener noreferrer'>
+          <a href={`https://www.npmjs.com/package/${itemDomain.replace(/\.do(\.gt|\.mw)?$/, '')}`} target='_blank' rel='noopener noreferrer'>
             <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
               SDK
             </Badge>
           </a>
         )}
-        <a href={`https://${domain}${currentTld}/docs`} target='_blank' rel='noopener noreferrer'>
+        <a href={`https://${itemDomain}${currentTld}/docs`} target='_blank' rel='noopener noreferrer'>
           <Badge variant='secondary' className='cursor-pointer border-white/10 bg-white/5 text-xs hover:bg-white/10'>
             Docs
           </Badge>
