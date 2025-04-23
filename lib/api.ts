@@ -116,9 +116,9 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
 
   const asn = request.headers.get('cf-ray')?.split('-')[0] || request.headers.get('x-vercel-ip-asn') || ''
 
-  const asOrg = asn ? getOrganizationByASN(asn) : null
+  const asOrgPromise = asn ? getOrganizationByASN(asn) : Promise.resolve(null)
 
-  const isp = cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP'
+  const isp = cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || 'Unknown ISP' // Will update with asOrg later
 
   let latitude = 0,
     longitude = 0
@@ -184,6 +184,8 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
         if (apiKeyWithDomain) {
           const user = await payload.db.users.findByID(apiKeyWithDomain.user)
           if (user) {
+            const asOrg = await asOrgPromise
+            
             return {
               id: user.id,
               email: user.email,
@@ -195,7 +197,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
               userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
               os: ua?.os?.name as string,
               ip,
-              isp,
+              isp: cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
               asOrg: asOrg || undefined,
               flag: countryFlag,
               zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
@@ -225,6 +227,8 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     }
   }
 
+  const asOrg = await asOrgPromise
+ 
   return {
     authenticated: false, // This would be determined by authentication logic
     admin: undefined, // This would be determined by authentication logic
@@ -233,7 +237,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
     os: ua?.os?.name as string,
     ip,
-    isp,
+    isp: cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
     asOrg: asOrg || undefined,
     flag: countryFlag,
     zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
