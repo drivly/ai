@@ -103,7 +103,7 @@ export const GET = API(async (request, { db, user, url, origin, domain, payload 
 
   const examples = {}
   for (const topic of exampleTopics) {
-    const encodedTopic = encodeURIComponent(topic)
+    const encodedTopic = topic.replace(/ /g, '+')
     examples[topic] = formatWithOptions(`research?topic=${encodedTopic}`, 'research.do')
   }
 
