@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/src/sdk.json",
+  "extends": "../../pkgs/tsconfig/src/test.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "../.."
