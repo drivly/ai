@@ -15,59 +15,16 @@ export const handleGithubEvent = {
       console.log('Label added:', event.label?.name)
       if (event.label?.name === 'research') {
         console.log('Starting research workflow')
-        const issue = event.issue
-
-        const researchJob = await payload.jobs.queue({
-          task: 'executeFunction',
-          input: {
-            functionName: 'research',
-            args: {
-              issue: {
-                number: issue.number,
-                title: issue.title,
-                body: issue.body || '',
-                url: issue.html_url,
-                repo: event.repository?.full_name,
-              },
-            },
-            schema: {
-              summary: 'string',
-              findings: 'string[]',
-              sources: 'string[]',
-              confidence: 'number',
-            },
-            settings: {
-              model: 'perplexity/sonar-deep-research',
-            },
-            type: 'Object',
-            callback: {
-              task: 'postGithubComment',
-              input: {
-                issueNumber: issue.number,
-                repository: event.repository?.full_name,
-              },
-            },
-          },
-        })
-
-        await payload.create({
-          collection: 'tasks',
-          data: {
-            title: `Research: ${issue.title}`,
-            description: `Research on GitHub issue #${issue.number} from ${event.repository?.full_name}: ${issue.html_url}`,
-            status: 'in-progress',
-            jobId: researchJob.id,
-            data: {
-              type: 'github-research',
-              issueNumber: issue.number,
-              repository: event.repository?.full_name,
-              url: issue.html_url,
-            },
-          },
-        })
+        await initiateResearchOnIssue(event, payload)
       } else if (event.label?.name === 'devin') {
         console.log('Starting Devin workflow')
         await createDevinSession(event)
+      }
+    } else if (event.action === 'assigned') {
+      console.log('Issue assigned to:', event.assignee?.login)
+      if (event.assignee?.login === 'research-do') {
+        console.log('Starting research workflow via assignment to @research.do')
+        await initiateResearchOnIssue(event, payload)
       }
     }
 
@@ -75,6 +32,64 @@ export const handleGithubEvent = {
     console.log('Event saved to database:', results)
   },
 } as WorkflowConfig<'handleGithubEvent'>
+
+/**
+ * Initiates research on a GitHub issue
+ */
+async function initiateResearchOnIssue(event: any, payload: any) {
+  const issue = event.issue
+
+  const researchJob = await payload.jobs.queue({
+    task: 'executeFunction',
+    input: {
+      functionName: 'research',
+      args: {
+        issue: {
+          number: issue.number,
+          title: issue.title,
+          body: issue.body || '',
+          url: issue.html_url,
+          repo: event.repository?.full_name,
+        },
+      },
+      schema: {
+        summary: 'string',
+        findings: 'string[]',
+        sources: 'string[]',
+        confidence: 'number',
+      },
+      settings: {
+        model: 'perplexity/sonar-deep-research',
+      },
+      type: 'Object',
+      callback: {
+        task: 'postGithubComment',
+        input: {
+          issueNumber: issue.number,
+          repository: event.repository?.full_name,
+        },
+      },
+    },
+  })
+
+  await payload.create({
+    collection: 'tasks',
+    data: {
+      title: `Research: ${issue.title}`,
+      description: `Research on GitHub issue #${issue.number} from ${event.repository?.full_name}: ${issue.html_url}`,
+      status: 'in-progress',
+      jobId: researchJob.id,
+      data: {
+        type: 'github-research',
+        issueNumber: issue.number,
+        repository: event.repository?.full_name,
+        url: issue.html_url,
+      },
+    },
+  })
+
+  return researchJob
+}
 
 async function createDevinSession(event: any) {
   try {
