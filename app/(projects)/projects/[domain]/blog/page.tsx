@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { cache } from 'react'
 import { listBlogPostTitles, siteContent } from '@/.ai/functions/content'
-import slugify from 'slugify'
+import { slugify } from '@/lib/slugify'
 
 
 const getData = cache(async ({ domain }: { domain: string }) => {
