@@ -41,7 +41,7 @@ export default async function RootLayout({
       <head>
         <meta name='apple-mobile-web-app-title' content='dotdo.ai' />
       </head>
-      <body className={cn('bg-background flex min-h-screen flex-col antialiased', fontGeist.variable, fontIBM.variable)}>
+      <body className={cn('bg-background min-h-screen overflow-x-hidden antialiased', fontGeist.variable, fontIBM.variable)}>
         <Providers>
           <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
             {children}
