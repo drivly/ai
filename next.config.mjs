@@ -38,10 +38,26 @@ const nextConfig = {
     })
     
     // Fix OpenTelemetry HTTP instrumentation for Sentry compatibility
-    config.resolve = config.resolve || {}
-    config.resolve.alias = config.resolve.alias || {}
-    config.resolve.alias['@opentelemetry/instrumentation-http/build/src/http'] = 
-      path.resolve(dirname, './opentelemetry-http-instrumentation-shim.js')
+    config.module.rules.push({
+      test: /node_modules\/@opentelemetry\/instrumentation-http\/build\/src\/http\.js$/,
+      use: {
+        loader: 'string-replace-loader',
+        options: {
+          search: 'class HttpInstrumentation extends InstrumentationBase {',
+          replace: `class HttpInstrumentation extends InstrumentationBase {
+            constructor(config = {}) {
+              super('@opentelemetry/instrumentation-http', VERSION, config);
+            }
+            init() {
+              return this;
+            }
+            setConfig() {}
+            _getHttpInstrumentation() {}
+            _getHttpsInstrumentation() {}`,
+          flags: 'g'
+        }
+      }
+    })
     
     // Suppress OpenTelemetry instrumentation warnings
     config.ignoreWarnings = [
@@ -108,42 +124,47 @@ const analyzeBundles = withBundleAnalyzer({
 
 // Apply wrappers in the correct order for proper metadata generation
 // withNextra must be the outermost wrapper for metadata to work correctly
-export default withNextra(
-  withSentryConfig(
-    analyzeBundles(
-      withPayload(nextConfig, {
-        devBundleServerPackages: false,
-        adminRoute: '/admin',
-        configPath: path.resolve(dirname), // Point to root directory where payload.config.ts exists
-      })
-    ),
-    {
-      // For all available options, see:
-      // https://www.npmjs.com/package/@sentry/webpack-plugin#options
+const sentryWebpackPluginOptions = {
+  // For all available options, see:
+  // https://www.npmjs.com/package/@sentry/webpack-plugin#options
+  org: "drivly",
+  project: "ai",
 
-      org: "drivly",
-      project: "ai",
+  // Only print logs for uploading source maps in CI
+  silent: !process.env.CI,
 
-      // Only print logs for uploading source maps in CI
-      silent: !process.env.CI,
+  // For all available options, see:
+  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
-      // For all available options, see:
-      // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+  // Upload a larger set of source maps for prettier stack traces (increases build time)
+  widenClientFileUpload: true,
 
-      // Upload a larger set of source maps for prettier stack traces (increases build time)
-      widenClientFileUpload: true,
+  // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+  tunnelRoute: "/monitoring",
 
-      // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-      tunnelRoute: "/monitoring",
+  // Automatically tree-shake Sentry logger statements to reduce bundle size
+  disableLogger: true,
 
-      // Automatically tree-shake Sentry logger statements to reduce bundle size
-      disableLogger: true,
+  // Enables automatic instrumentation of Vercel Cron Monitors.
+  automaticVercelMonitors: true,
+};
 
-      // Enables automatic instrumentation of Vercel Cron Monitors.
-      automaticVercelMonitors: true,
-    }
-  )
-)
+// First apply Nextra for proper metadata generation
+const withNextraApp = withNextra(nextConfig);
+
+// Then apply other wrappers
+const finalConfig = withSentryConfig(
+  analyzeBundles(
+    withPayload(withNextraApp, {
+      devBundleServerPackages: false,
+      adminRoute: '/admin',
+      configPath: path.resolve(dirname), // Point to root directory where payload.config.ts exists
+    })
+  ),
+  sentryWebpackPluginOptions
+);
+
+export default finalConfig;
 
 // TODO: We need to figure out the build errors here
 // export default withNextra(withSentryConfig(withPayload(nextConfig, { devBundleServerPackages: false }), {
