@@ -3,7 +3,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
-export const getPayloadWithAuth = async () => {
+export const getPayloadFn = async () => {
   try {
     const payload = await getPayload({
       config,

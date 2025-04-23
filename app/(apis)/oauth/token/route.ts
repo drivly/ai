@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { getPayloadFn } from '@/lib/get-payload-fn'
 import crypto from 'crypto'
 import { auth } from '@/auth'
 
@@ -78,7 +78,7 @@ export const POST = API(async (request, { url }) => {
       }
     }
 
-    const payload = await getPayloadWithAuth()
+    const payload = await getPayloadFn()
     const token = await generateOAuthToken(client_id, payload)
 
     return token

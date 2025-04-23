@@ -67,7 +67,7 @@ async function BlogPostPage({ params }: { params: { domain: string; slug: string
   )
 }
 
-export default withSitesWrapper({ WrappedPage: BlogPostPage, withFaqs: false })
+export default withSitesWrapper({ WrappedPage: BlogPostPage })
 
 function BlogPostNotFound({ fallbackImage }: { fallbackImage: string }) {
   return (

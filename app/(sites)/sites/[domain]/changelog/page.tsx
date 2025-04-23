@@ -146,4 +146,4 @@ async function ChangelogPage({ params, searchParams = {} }: { params: { domain: 
   )
 }
 
-export default withSitesWrapper({ WrappedPage: ChangelogPage, withFaqs: false })
+export default withSitesWrapper({ WrappedPage: ChangelogPage })

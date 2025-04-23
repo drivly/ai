@@ -27,7 +27,7 @@ export class RequestHandler {
   }
 
   isApiAuthRoute(): boolean {
-    return this.pathname.startsWith(API_AUTH_PREFIX) || this.pathname.startsWith('/api/auth')
+    return this.pathname.startsWith(API_AUTH_PREFIX)
   }
 
   isPublicRoute(): boolean {
@@ -74,13 +74,10 @@ export class RequestHandler {
       return (this.request as any).cf
     }
 
-    const ip = this.request.headers.get('cf-connecting-ip') || 
-               this.request.headers.get('x-forwarded-for') || 
-               this.request.headers.get('x-real-ip') || 
-               '127.0.0.1'
-    
+    const ip = this.request.headers.get('cf-connecting-ip') || this.request.headers.get('x-forwarded-for') || this.request.headers.get('x-real-ip') || '127.0.0.1'
+
     const cachedData = cfCache.get(ip)
-    if (cachedData && (Date.now() - cachedData.timestamp) < CACHE_TTL) {
+    if (cachedData && Date.now() - cachedData.timestamp < CACHE_TTL) {
       this.cf = cachedData.data
       ;(this.request as any)._cf = this.cf
       return this.cf
@@ -90,12 +87,12 @@ export class RequestHandler {
       const response = await fetch('https://workers.cloudflare.com/cf.json')
       if (response.ok) {
         const data = await response.json()
-        
+
         cfCache.set(ip, {
           data,
-          timestamp: Date.now()
+          timestamp: Date.now(),
         })
-        
+
         this.cf = data
         ;(this.request as any)._cf = this.cf
         return data
@@ -103,7 +100,7 @@ export class RequestHandler {
     } catch (error) {
       console.error('Error fetching Cloudflare data:', error)
     }
-    
+
     return null
   }
 
@@ -111,6 +108,6 @@ export class RequestHandler {
    * Returns Cloudflare data from either native cf object or fetched data
    */
   getCf(): any {
-    return ('cf' in this.request) ? (this.request as any).cf : this.cf
+    return 'cf' in this.request ? (this.request as any).cf : this.cf
   }
 }

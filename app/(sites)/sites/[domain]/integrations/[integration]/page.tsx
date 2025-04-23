@@ -1,12 +1,11 @@
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
-import { getSession } from '@/lib/auth/context/get-context-props'
 import { findSiteContent } from '@/lib/sites'
 import { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string; integration: string }> }): Promise<Metadata> {
-  const { domain, integration } = await params || {}
+  const { domain, integration } = (await params) || {}
   const content = await findSiteContent(domain)
 
   return {
@@ -17,7 +16,6 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 
 async function IntegrationPage(props: { params: { domain: string; integration: string } }) {
   const { domain, integration } = props.params || {}
-  await getSession()
 
   return (
     <div className='container mx-auto max-w-6xl px-3 py-24'>

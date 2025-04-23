@@ -30,8 +30,7 @@ export const MobileNav = ({ domain, isOpen, setOpen }: MobileNavProps) => {
             initial='initial'
             animate='enter'
             exit='exit'
-            className='!bg-background/95 fixed top-14 right-0 z-50 min-w-full overflow-hidden backdrop-blur-md md:hidden'
-          >
+            className='!bg-background/95 fixed top-14 right-0 z-50 min-w-full overflow-hidden backdrop-blur-md md:hidden'>
             <nav className='w-full px-4 py-6'>
               <MobileNavMenu onClose={() => setOpen(false)} domain={domain} />
             </nav>
@@ -71,7 +70,7 @@ export const getChar = (Icon: IconType | undefined, title: string) => {
 
   if (Icon) {
     chars.push(
-      <motion.span custom={[0, title.length * 0.01]} variants={translateAnimation} initial='initial' animate='enter' exit='exit' className='inline-block'>
+      <motion.span key={`icon_${Icon.name}`} custom={[0, title.length * 0.01]} variants={translateAnimation} initial='initial' animate='enter' exit='exit' className='inline-block'>
         <Icon className='mr-2 h-5 w-5' />
       </motion.span>,
     )
@@ -86,8 +85,7 @@ export const getChar = (Icon: IconType | undefined, title: string) => {
         initial='initial'
         animate='enter'
         exit='exit'
-        className='inline-block'
-      >
+        className='inline-block'>
         {char}
       </motion.span>,
     )
@@ -143,8 +141,7 @@ export const NavItem = ({ name, href, target, rel, Icon, onClose, index }: NavIt
         href={href}
         target={target}
         rel={rel}
-        onClick={onClose}
-      >
+        onClick={onClose}>
         <p className='flex items-center'>{getChar(Icon, name)}</p>
       </Link>
     </li>

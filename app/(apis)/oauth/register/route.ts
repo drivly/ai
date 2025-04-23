@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { getPayloadWithAuth } from '@/lib/auth/payload-auth'
+import { getPayloadFn } from '@/lib/get-payload-fn'
 import crypto from 'crypto'
 import { auth } from '@/auth'
 
@@ -11,7 +11,7 @@ export const POST = API(async (request, { url }) => {
   }
 
   const user = session.user
-  const payload = await getPayloadWithAuth()
+  const payload = await getPayloadFn()
 
   const { name, redirectURLs } = await request.json()
 

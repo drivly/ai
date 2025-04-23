@@ -21,10 +21,10 @@ async function DirectoryPage() {
       <HeroSection
         title={
           <>
-            Do <br className='block sm:hidden' /> Services-as-Software
+            Business-as-Code: <br className='block' /> The Future of Intelligent Work
           </>
         }
-        description='Agentic workflows enabling AI-native businesses to do Business-as-Code and Services-as-Software through simple APIs and SDKs'
+        description='Do economically valuable work with structured Functions, reliable Workflows, and autonomous AI Agents—transforming intelligence into measurable outcomes.'
         className='pb-16'
       />
       <Suspense
@@ -32,8 +32,7 @@ async function DirectoryPage() {
           <div className='container mx-auto flex h-[50vh] items-center justify-center px-3 pt-24'>
             <div className='animate-pulse text-lg opacity-50'>Loading sites...</div>
           </div>
-        }
-      >
+        }>
         <DotDoSection categories={categories} />
       </Suspense>
     </div>
