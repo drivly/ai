@@ -48,7 +48,7 @@ function formatNumericsResponse(kpis: any[]) {
     metrics: Array.isArray(kpis) ? kpis.map(kpi => ({
       id: kpi.id,
       name: kpi.name,
-      value: kpi.value || 0,
+      value: kpi.value ?? 0,
       target: kpi.target || undefined,
       unit: kpi.unit || '',
       format: kpi.format || 'number',
