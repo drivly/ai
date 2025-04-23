@@ -49,7 +49,7 @@ export default async function ProjectLandingPage({ params }: { params: Promise<{
             </>
           ))}
         </article>
-        <Link href="/blog">Blog</Link>
+        <Link href="/blog" prefetch={true}>Blog</Link>
       </div>
     )
 }

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { cache } from 'react'
 import { listBlogPostTitles, siteContent } from '@/.ai/functions/content'
-import slugify from 'slugify'
+import { slugify } from '@/lib/slugify'
 
 
 const getData = cache(async ({ domain }: { domain: string }) => {
@@ -32,7 +32,7 @@ export default async function BlogPage({ params }: { params: Promise<{ domain: s
     return (
       <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
         <div className='mb-8'>
-          <Link href='/' className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
+          <Link href='/' prefetch={true} className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
             <ArrowLeft className='mr-1 h-4 w-4' />
             Back
           </Link>
