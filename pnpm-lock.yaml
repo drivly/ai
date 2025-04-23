@@ -951,6 +951,28 @@ importers:
         specifier: ^5.8.2
         version: 5.8.3
 
+  pkgs/mdxdb:
+    dependencies:
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
+    devDependencies:
+      '@types/node':
+        specifier: ^18.19.86
+        version: 18.19.86
+      database.do:
+        specifier: workspace:*
+        version: link:../../sdks/database.do
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+      vitest:
+        specifier: ^0.34.0
+        version: 0.34.6(jsdom@26.1.0)(lightningcss@1.29.2)(playwright@1.51.1)(sass@1.77.4)(terser@5.39.0)
+
   pkgs/mdxld:
     dependencies:
       json5:
@@ -1736,28 +1758,6 @@ importers:
       vitest:
         specifier: ^3.0.8
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-
-  sdks/mdxdb:
-    dependencies:
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-    devDependencies:
-      '@types/node':
-        specifier: ^18.19.86
-        version: 18.19.86
-      database.do:
-        specifier: workspace:*
-        version: link:../database.do
-      eslint:
-        specifier: ^8.0.0
-        version: 8.57.1
-      typescript:
-        specifier: ^5.0.0
-        version: 5.8.3
-      vitest:
-        specifier: ^0.34.0
-        version: 0.34.6(jsdom@26.1.0)(lightningcss@1.29.2)(playwright@1.51.1)(sass@1.77.4)(terser@5.39.0)
 
   sdks/models.do:
     dependencies:
