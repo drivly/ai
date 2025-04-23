@@ -12,7 +12,7 @@ const meta: MetaRecord = {
   ref: {
     type: 'page',
     title: 'Reference',
-    href: 'https://apis.do/reference',
+    href: 'https://reference.apis.do',
   },
 
   manifesto: '',
