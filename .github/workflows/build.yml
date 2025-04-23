@@ -10,6 +10,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   build:
     name: Run Build
@@ -106,8 +110,15 @@ jobs:
           else
             echo "comment file does not exist"
             echo "comment_exists=false" >> $GITHUB_OUTPUT
-            # List files in analyze directory for debugging
-            ls -la .next/analyze/
+            # Enhanced debugging - list all files in analyze directory structure
+            echo "Debug: Listing analyze directory contents"
+            ls -la .next/analyze/ || echo "Analyze directory not found"
+            echo "Debug: Checking if analyze directory exists"
+            if [ -d ".next/analyze" ]; then
+              find .next/analyze -type f | sort
+            else
+              echo "The .next/analyze directory does not exist"
+            fi
           fi
 
       - name: Comment
