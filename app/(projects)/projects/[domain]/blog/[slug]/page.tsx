@@ -36,7 +36,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ domai
 
   return (
     <div >
-      <Link href='/blog'>
+      <Link href='/blog' prefetch={true}>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back to blog
       </Link>
