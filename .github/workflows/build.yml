@@ -10,6 +10,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   build:
     name: Run Build
@@ -86,10 +90,16 @@ jobs:
       - name: Compare with base branch bundle
         if: success() && github.event.number && steps.check-base-bundle.outputs.base_bundle_exists == 'true'
         run: |
-          if [ -f ".next/analyze/base/bundle/__bundle_analysis.json" ]; then
+          if [ -f ".next/analyze/base/bundle/bundle/__bundle_analysis.json" ]; then
+            # Fix path to match where the file is actually downloaded
+            mkdir -p .next/analyze/base/bundle
+            cp .next/analyze/base/bundle/bundle/__bundle_analysis.json .next/analyze/base/bundle/
             npx -p nextjs-bundle-analysis compare
           else
             echo "No base bundle analysis file found. Skipping comparison."
+            # Debug - list all files in base bundle directory
+            echo "Debug: Listing base bundle directory contents"
+            find .next/analyze/base -type f | sort || echo "Base directory not found or empty"
           fi
 
       - name: Get Comment
@@ -99,15 +109,26 @@ jobs:
           if [ -f .next/analyze/__bundle_analysis_comment.txt ]; then
             echo "comment file exists"
             cat .next/analyze/__bundle_analysis_comment.txt
-            # Use base64 encoding to handle special characters and multiline content
-            COMMENT_B64=$(base64 -w 0 .next/analyze/__bundle_analysis_comment.txt)
-            echo "comment_b64=${COMMENT_B64}" >> $GITHUB_OUTPUT
+            # Store the raw comment content
+            COMMENT=$(cat .next/analyze/__bundle_analysis_comment.txt)
+            # Escape newlines and quotes for GitHub Actions
+            COMMENT="${COMMENT//'%'/'%25'}"
+            COMMENT="${COMMENT//$'\n'/'%0A'}"
+            COMMENT="${COMMENT//$'\r'/'%0D'}"
+            echo "comment=${COMMENT}" >> $GITHUB_OUTPUT
             echo "comment_exists=true" >> $GITHUB_OUTPUT
           else
             echo "comment file does not exist"
             echo "comment_exists=false" >> $GITHUB_OUTPUT
-            # List files in analyze directory for debugging
-            ls -la .next/analyze/
+            # Enhanced debugging - list all files in analyze directory structure
+            echo "Debug: Listing analyze directory contents"
+            ls -la .next/analyze/ || echo "Analyze directory not found"
+            echo "Debug: Checking if analyze directory exists"
+            if [ -d ".next/analyze" ]; then
+              find .next/analyze -type f | sort
+            else
+              echo "The .next/analyze directory does not exist"
+            fi
           fi
 
       - name: Comment
@@ -115,5 +136,5 @@ jobs:
         if: success() && github.event.number && steps.get-comment.outputs.comment_exists == 'true'
         with:
           header: next-bundle-analysis
-          message: ${{ steps.get-comment.outputs.comment_b64 }}
+          message: ${{ steps.get-comment.outputs.comment }}
           recreate: true
