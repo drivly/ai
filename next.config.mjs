@@ -106,41 +106,43 @@ const analyzeBundles = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
-export default analyzeBundles(
-  withNextra(
-    withSentryConfig(
+// First apply Nextra, then Payload, then wrap with Sentry and finally analyzeBundles
+// This order is important for proper metadata generation
+export default withSentryConfig(
+  analyzeBundles(
+    withNextra(
       withPayload(nextConfig, {
         devBundleServerPackages: false,
         adminRoute: '/admin',
         configPath: path.resolve(dirname), // Point to root directory where payload.config.ts exists
-      }),
-      {
-        // For all available options, see:
-        // https://www.npmjs.com/package/@sentry/webpack-plugin#options
-
-        org: "drivly",
-        project: "ai",
-
-        // Only print logs for uploading source maps in CI
-        silent: !process.env.CI,
-
-        // For all available options, see:
-        // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-        // Upload a larger set of source maps for prettier stack traces (increases build time)
-        widenClientFileUpload: true,
-
-        // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-        tunnelRoute: "/monitoring",
-
-        // Automatically tree-shake Sentry logger statements to reduce bundle size
-        disableLogger: true,
-
-        // Enables automatic instrumentation of Vercel Cron Monitors.
-        automaticVercelMonitors: true,
-      }
+      })
     )
-  )
+  ),
+  {
+    // For all available options, see:
+    // https://www.npmjs.com/package/@sentry/webpack-plugin#options
+
+    org: "drivly",
+    project: "ai",
+
+    // Only print logs for uploading source maps in CI
+    silent: !process.env.CI,
+
+    // For all available options, see:
+    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+
+    // Upload a larger set of source maps for prettier stack traces (increases build time)
+    widenClientFileUpload: true,
+
+    // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+    tunnelRoute: "/monitoring",
+
+    // Automatically tree-shake Sentry logger statements to reduce bundle size
+    disableLogger: true,
+
+    // Enables automatic instrumentation of Vercel Cron Monitors.
+    automaticVercelMonitors: true,
+  }
 )
 
 // TODO: We need to figure out the build errors here
