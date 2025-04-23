@@ -1,0 +1,225 @@
+---
+title: Customer Support Agent
+sidebarTitle: Customer Support Agent
+description: Handle customer inquiries and resolve common issues with this autonomous support agent
+tools:
+  - zendesk
+  - slack
+  - shopify
+  - kb
+model: openai/gpt-4
+triggers:
+  - onTicketCreated
+  - onMessageReceived
+searches:
+  - FAQs
+  - Tickets
+  - Orders
+  - Products
+  - Customers
+actions:
+  - sendMessage
+  - updateOrder
+  - refundOrder
+  - resolveTicket
+  - escalateTicket 
+---
+
+# Customer Support Agent
+
+This agent handles customer inquiries and resolves common issues autonomously. It can process support tickets, answer FAQs, handle refunds, and escalate complex issues when necessary.
+
+## Agent Logic
+
+```javascript
+import { Agent } from 'agents.do'
+
+// Create the customer support agent
+export const customerSupportAgent = new Agent({
+  name: 'customer-support',
+  role: 'Customer Support Agent',
+  job: 'Handles customer inquiries and resolves common issues',
+  instructions: `
+    You are a professional customer support agent. Your primary responsibilities include:
+    - Responding to customer inquiries promptly and professionally
+    - Resolving common product issues without requiring human intervention
+    - Processing refund requests according to company policy
+    - Escalating complex issues to human support when necessary
+    - Maintaining a positive and helpful tone in all communications
+    
+    Use the knowledge base to find answers to common questions. Check order history
+    before processing refunds. Always confirm customer identity before making changes
+    to their account or orders.
+  `,
+  
+  // Handle incoming customer message
+  onNewMessage: async ({ message, customer, context }) => {
+    // First, analyze the sentiment and intent of the message
+    const analysis = await context.ai.analyzeMessage({
+      message,
+      customer
+    })
+    
+    // Check if this is a refund request
+    if (analysis.intent === 'refund_request') {
+      // Verify order details
+      const order = await context.searches.Orders({
+        orderNumber: analysis.orderNumber
+      })
+      
+      // Check refund eligibility
+      if (order && order.isEligibleForRefund) {
+        // Process the refund
+        await context.actions.refundOrder({
+          orderId: order.id,
+          reason: analysis.reason || 'Customer request',
+          amount: order.total
+        })
+        
+        // Send confirmation message
+        return {
+          action: 'sendMessage',
+          message: `I've processed a refund for order #${order.number}. You should see the funds back in your account within 3-5 business days.`
+        }
+      } else {
+        // Order not eligible for refund
+        return {
+          action: 'sendMessage',
+          message: `I'm unable to process a refund for this order automatically. I'll need to escalate this to our team for further review.`,
+          followUp: 'escalateTicket'
+        }
+      }
+    }
+    
+    // Check if this is a product question
+    if (analysis.intent === 'product_inquiry') {
+      // Search the knowledge base
+      const articleMatches = await context.searches.FAQs({
+        query: analysis.query,
+        limit: 3
+      })
+      
+      if (articleMatches.length > 0) {
+        // Found relevant articles
+        return {
+          action: 'sendMessage',
+          message: `Here's what I found about that:\n\n${articleMatches[0].content}\n\nIs there anything else I can help you with?`
+        }
+      }
+    }
+    
+    // For complex issues or unclear intent, escalate to human
+    if (analysis.complexity > 0.7 || analysis.intent === 'unclear') {
+      return {
+        action: 'escalateTicket',
+        priority: analysis.sentiment === 'negative' ? 'high' : 'medium',
+        notes: `Customer inquiry: "${message}"\n\nSentiment: ${analysis.sentiment}\nComplexity: ${analysis.complexity}`
+      }
+    }
+    
+    // Default response
+    return {
+      action: 'sendMessage',
+      message: await context.ai.generateResponse({
+        message,
+        customer,
+        analysis
+      })
+    }
+  }
+})
+```
+
+## Agent UI
+
+```jsx
+import React from 'react'
+import { Card, Badge, Tabs, StatusIndicator, Timeline } from '@/components/ui'
+
+export const AgentUI = ({ agent, state }) => {
+  return (
+    <div className="agent-container">
+      <Card className="agent-card">
+        <div className="agent-header">
+          <h2>{agent.name}</h2>
+          <StatusIndicator 
+            status={state.status || 'idle'} 
+            statusMap={{
+              idle: 'gray',
+              processing: 'blue',
+              responding: 'green',
+              escalated: 'yellow',
+              error: 'red'
+            }}
+          />
+        </div>
+        
+        <div className="agent-badges">
+          {agent.integrations?.map(integration => (
+            <Badge key={integration} variant="outline">{integration}</Badge>
+          ))}
+        </div>
+        
+        <Tabs defaultValue="activity">
+          <Tabs.List>
+            <Tabs.Trigger value="activity">Activity</Tabs.Trigger>
+            <Tabs.Trigger value="metrics">Metrics</Tabs.Trigger>
+            <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+          </Tabs.List>
+          
+          <Tabs.Content value="activity">
+            <Timeline>
+              {state.activity?.map((item, i) => (
+                <Timeline.Item key={i} timestamp={item.timestamp}>
+                  <div className="activity-item">
+                    <span className="activity-action">{item.action}</span>
+                    <span className="activity-description">{item.description}</span>
+                  </div>
+                </Timeline.Item>
+              ))}
+            </Timeline>
+          </Tabs.Content>
+          
+          <Tabs.Content value="metrics">
+            <div className="metrics-grid">
+              <div className="metric-card">
+                <div className="metric-value">{state.metrics?.responseTime || '0s'}</div>
+                <div className="metric-label">Avg. Response Time</div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-value">{state.metrics?.resolutionRate || '0%'}</div>
+                <div className="metric-label">Resolution Rate</div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-value">{state.metrics?.escalationRate || '0%'}</div>
+                <div className="metric-label">Escalation Rate</div>
+              </div>
+              <div className="metric-card">
+                <div className="metric-value">{state.metrics?.satisfactionScore || 'N/A'}</div>
+                <div className="metric-label">CSAT Score</div>
+              </div>
+            </div>
+          </Tabs.Content>
+          
+          <Tabs.Content value="settings">
+            <div className="settings-form">
+              <div className="form-group">
+                <label>Model</label>
+                <div>{agent.model}</div>
+              </div>
+              <div className="form-group">
+                <label>Auto-escalation threshold</label>
+                <div>{state.settings?.escalationThreshold || '0.7'}</div>
+              </div>
+              <div className="form-group">
+                <label>Knowledge base</label>
+                <div>{state.settings?.knowledgeBase || 'Default KB'}</div>
+              </div>
+            </div>
+          </Tabs.Content>
+        </Tabs>
+      </Card>
+    </div>
+  )
+}
+```

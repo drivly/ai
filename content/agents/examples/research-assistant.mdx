@@ -1,0 +1,244 @@
+---
+title: Research Assistant
+sidebarTitle: Research Assistant
+description: Conduct multi-source research and summarize information on various topics with this autonomous research agent
+tools:
+  - web_search
+  - academic_databases
+  - wikipedia
+  - notion
+  - email
+model: openai/gpt-4
+searches:
+  - WebSearch
+  - AcademicPapers
+  - WikipediaEntries
+  - NotionPages
+actions:
+  - generateReport
+  - extractCitations
+  - emailFindings
+  - saveToDatabases
+---
+
+# Research Assistant
+
+This agent conducts in-depth research across multiple sources and summarizes information on various topics. It can extract key points, generate citations, create comprehensive reports, and share findings via email or save them to knowledge management systems.
+
+## Agent Logic
+
+```javascript
+import { Agent } from 'agents.do'
+
+// Create the research assistant agent
+export const researchAssistant = new Agent({
+  name: 'research-assistant',
+  role: 'Research Assistant',
+  job: 'Conducts research and summarizes information on various topics',
+  instructions: `
+    You are a thorough and detail-oriented research assistant. Your responsibilities include:
+    - Researching topics across multiple sources including web, academic databases, and Wikipedia
+    - Extracting and summarizing key information in a clear, organized manner
+    - Generating proper citations for all information sources
+    - Creating comprehensive reports with accurate information
+    - Identifying gaps in research and suggesting additional areas to explore
+    
+    Always verify information across multiple sources when possible. Maintain academic integrity
+    by properly attributing information to its original sources. When information is contradictory
+    across sources, present the different perspectives and note the contradictions.
+  `,
+  
+  // Handle research request
+  onResearchRequest: async ({ topic, depth = 'standard', format = 'report', context }) => {
+    // Track research progress
+    context.setState({ status: 'researching', progress: 0, topic })
+    
+    // Step 1: Initial web search to gather background information
+    const webResults = await context.searches.WebSearch({
+      query: topic,
+      limit: depth === 'deep' ? 10 : 5
+    })
+    
+    context.setState({ progress: 20 })
+    
+    // Step 2: Academic database search for scholarly information
+    const academicResults = await context.searches.AcademicPapers({
+      query: topic,
+      recent: true,
+      limit: depth === 'deep' ? 8 : 3
+    })
+    
+    context.setState({ progress: 40 })
+    
+    // Step 3: Wikipedia for established knowledge
+    const wikiResults = await context.searches.WikipediaEntries({
+      query: topic,
+      sections: true
+    })
+    
+    context.setState({ progress: 60 })
+    
+    // Step 4: Compile all research sources
+    const allSources = [
+      ...webResults.map(r => ({ ...r, type: 'web' })),
+      ...academicResults.map(r => ({ ...r, type: 'academic' })),
+      ...wikiResults.map(r => ({ ...r, type: 'wikipedia' }))
+    ]
+    
+    // Step 5: Analyze and extract key information
+    const analysis = await context.ai.analyzeResearchData({
+      sources: allSources,
+      topic,
+      depth
+    })
+    
+    context.setState({ progress: 80 })
+    
+    // Step 6: Generate citations for all sources used
+    const citations = await context.ai.generateCitations({
+      sources: allSources.filter(s => analysis.usedSourceIds.includes(s.id))
+    })
+    
+    // Step 7: Create the final report
+    const reportContent = await context.ai.generateResearchReport({
+      topic,
+      analysis,
+      citations,
+      format
+    })
+    
+    context.setState({ status: 'completed', progress: 100 })
+    
+    // Return the research results
+    return {
+      title: `Research on: ${topic}`,
+      content: reportContent,
+      citations,
+      sources: allSources.filter(s => analysis.usedSourceIds.includes(s.id)),
+      metadata: {
+        topic,
+        depth,
+        format,
+        completedAt: new Date().toISOString()
+      }
+    }
+  },
+  
+  // Handle citation generation
+  onCitationRequest: async ({ sources, style = 'APA', context }) => {
+    return await context.ai.generateCitations({
+      sources,
+      style
+    })
+  },
+  
+  // Handle email delivery
+  onEmailRequest: async ({ research, recipient, context }) => {
+    const emailContent = await context.ai.generateEmailSummary({
+      research,
+      recipient
+    })
+    
+    await context.actions.emailFindings({
+      to: recipient.email,
+      subject: `Research Summary: ${research.title}`,
+      body: emailContent,
+      attachments: format === 'report' ? [{ name: 'research-report.pdf', content: research.content }] : []
+    })
+    
+    return {
+      status: 'sent',
+      recipient: recipient.email,
+      timestamp: new Date().toISOString()
+    }
+  }
+})
+```
+
+## Agent UI
+
+```jsx
+import React from 'react'
+import { Card, Progress, Tabs, Tag, SearchResults, Citation } from '@/components/ui'
+
+export const AgentUI = ({ agent, state }) => {
+  return (
+    <div className="agent-container">
+      <Card className="agent-card">
+        <div className="agent-header">
+          <h2>{agent.name}</h2>
+          <div className="agent-status">
+            <span className={`status-indicator ${state.status || 'idle'}`}></span>
+            <span className="status-text">{state.status || 'idle'}</span>
+          </div>
+        </div>
+        
+        {state.topic && (
+          <div className="current-topic">
+            <h3>Researching: {state.topic}</h3>
+            {state.progress !== undefined && state.progress < 100 && (
+              <Progress value={state.progress} max={100} />
+            )}
+          </div>
+        )}
+        
+        <Tabs defaultValue="sources">
+          <Tabs.List>
+            <Tabs.Trigger value="sources">Sources</Tabs.Trigger>
+            <Tabs.Trigger value="findings">Findings</Tabs.Trigger>
+            <Tabs.Trigger value="citations">Citations</Tabs.Trigger>
+          </Tabs.List>
+          
+          <Tabs.Content value="sources">
+            <div className="sources-container">
+              <div className="source-filters">
+                <Tag active={!state.sourceFilter || state.sourceFilter === 'all'} onClick={() => setState({ ...state, sourceFilter: 'all' })}>All</Tag>
+                <Tag active={state.sourceFilter === 'web'} onClick={() => setState({ ...state, sourceFilter: 'web' })}>Web</Tag>
+                <Tag active={state.sourceFilter === 'academic'} onClick={() => setState({ ...state, sourceFilter: 'academic' })}>Academic</Tag>
+                <Tag active={state.sourceFilter === 'wikipedia'} onClick={() => setState({ ...state, sourceFilter: 'wikipedia' })}>Wikipedia</Tag>
+              </div>
+              
+              <SearchResults 
+                results={state.sources?.filter(s => !state.sourceFilter || state.sourceFilter === 'all' || s.type === state.sourceFilter) || []}
+                renderItem={(item) => (
+                  <div className="source-item">
+                    <div className="source-title">{item.title}</div>
+                    <div className="source-meta">
+                      <span className="source-type">{item.type}</span>
+                      {item.date && <span className="source-date">{item.date}</span>}
+                      {item.author && <span className="source-author">{item.author}</span>}
+                    </div>
+                    <div className="source-snippet">{item.snippet}</div>
+                  </div>
+                )}
+              />
+            </div>
+          </Tabs.Content>
+          
+          <Tabs.Content value="findings">
+            <div className="findings-content">
+              {state.report ? (
+                <div dangerouslySetInnerHTML={{ __html: state.report.content }} />
+              ) : (
+                <div className="no-findings">No research report generated yet</div>
+              )}
+            </div>
+          </Tabs.Content>
+          
+          <Tabs.Content value="citations">
+            <div className="citations-list">
+              {state.citations ? (
+                state.citations.map((citation, index) => (
+                  <Citation key={index} citation={citation} />
+                ))
+              ) : (
+                <div className="no-citations">No citations generated yet</div>
+              )}
+            </div>
+          </Tabs.Content>
+        </Tabs>
+      </Card>
+    </div>
+  )
+}
+```

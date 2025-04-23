@@ -1,0 +1,334 @@
+---
+title: Data Analysis Agent
+sidebarTitle: Data Analysis Agent
+description: Analyze structured data and generate insights with visualizations using this autonomous data analysis agent
+tools:
+  - csv_processing
+  - sql_databases
+  - visualization_libraries
+  - google_sheets
+  - tableau
+model: openai/gpt-4
+searches:
+  - DataSources
+  - DataSchemas
+  - VisualizationTemplates
+actions:
+  - generateVisualization
+  - runSqlQuery
+  - exportResults
+  - scheduleAnalysis
+---
+
+# Data Analysis Agent
+
+This agent analyzes structured data and generates insights with visualizations. It can perform statistical analysis, create meaningful visualizations, identify patterns in data, and generate recommendations based on analysis results.
+
+## Agent Logic
+
+```javascript
+import { Agent } from 'agents.do'
+
+// Create the data analysis agent
+export const dataAnalysisAgent = new Agent({
+  name: 'data-analyst',
+  role: 'Data Analysis Agent',
+  job: 'Analyzes structured data and generates insights with visualizations',
+  instructions: `
+    You are a thorough and precise data analyst. Your responsibilities include:
+    - Analyzing structured data from various sources (CSV, SQL databases, spreadsheets)
+    - Creating appropriate visualizations to represent data patterns and trends
+    - Performing statistical analysis to identify significant patterns
+    - Generating clear, actionable insights from data
+    - Presenting results in an accessible, understandable format
+    
+    Always clean and validate data before analysis. Consider outliers and missing values.
+    Choose the most appropriate visualization type for the data and the insights you want
+    to convey. Provide clear explanations of your findings suitable for both technical and
+    non-technical audiences.
+  `,
+  
+  // Handle data analysis request
+  onAnalysisRequest: async ({ dataSource, analysisType = 'exploratory', visualizations = true, context }) => {
+    // Update agent state
+    context.setState({ status: 'analyzing', stage: 'loading', dataSource })
+    
+    // Step 1: Load and inspect the data
+    let data
+    if (dataSource.type === 'csv') {
+      data = await context.tools.csv_processing.load({
+        path: dataSource.path,
+        options: dataSource.options
+      })
+    } else if (dataSource.type === 'sql') {
+      data = await context.tools.sql_databases.query({
+        connection: dataSource.connection,
+        query: dataSource.query
+      })
+    } else if (dataSource.type === 'google_sheets') {
+      data = await context.tools.google_sheets.getData({
+        spreadsheetId: dataSource.spreadsheetId,
+        range: dataSource.range
+      })
+    }
+    
+    context.setState({ stage: 'inspecting' })
+    
+    // Step 2: Inspect and clean the data
+    const dataStats = await context.ai.inspectData({
+      data,
+      options: {
+        detectOutliers: true,
+        handleMissingValues: true,
+        inferTypes: true
+      }
+    })
+    
+    const cleanData = await context.ai.cleanData({
+      data,
+      stats: dataStats
+    })
+    
+    context.setState({ stage: 'analyzing' })
+    
+    // Step 3: Perform requested analysis
+    let analysisResults
+    
+    if (analysisType === 'exploratory') {
+      analysisResults = await context.ai.performExploratoryAnalysis({
+        data: cleanData,
+        stats: dataStats
+      })
+    } else if (analysisType === 'predictive') {
+      analysisResults = await context.ai.performPredictiveAnalysis({
+        data: cleanData,
+        target: dataSource.targetColumn,
+        features: dataSource.featureColumns
+      })
+    } else if (analysisType === 'segmentation') {
+      analysisResults = await context.ai.performSegmentationAnalysis({
+        data: cleanData,
+        dimensions: dataSource.dimensions
+      })
+    }
+    
+    context.setState({ stage: 'visualizing' })
+    
+    // Step 4: Generate visualizations if requested
+    let visualizationResults = []
+    
+    if (visualizations) {
+      // Get appropriate visualization templates
+      const templates = await context.searches.VisualizationTemplates({
+        dataType: dataStats.dataType,
+        analysisType,
+        dimensions: dataStats.dimensions
+      })
+      
+      // Generate visualizations based on analysis results
+      visualizationResults = await Promise.all(
+        analysisResults.insights.map(async (insight, index) => {
+          return await context.actions.generateVisualization({
+            data: cleanData,
+            insightType: insight.type,
+            columns: insight.relevantColumns,
+            template: templates[index % templates.length]
+          })
+        })
+      )
+    }
+    
+    context.setState({ stage: 'summarizing' })
+    
+    // Step 5: Generate summary and recommendations
+    const summary = await context.ai.generateAnalysisSummary({
+      dataStats,
+      analysisResults,
+      visualizations: visualizationResults
+    })
+    
+    context.setState({ status: 'completed', stage: 'completed' })
+    
+    // Return the complete analysis package
+    return {
+      dataSource: {
+        name: dataSource.name,
+        type: dataSource.type,
+        rowCount: dataStats.rowCount,
+        columnCount: dataStats.columnCount
+      },
+      analysis: {
+        type: analysisType,
+        results: analysisResults,
+        visualizations: visualizationResults
+      },
+      summary: {
+        overview: summary.overview,
+        keyInsights: summary.keyInsights,
+        recommendations: summary.recommendations
+      },
+      metadata: {
+        completedAt: new Date().toISOString(),
+        executionTimeMs: Date.now() - context.getState().startTime
+      }
+    }
+  },
+  
+  // Handle export request
+  onExportRequest: async ({ analysis, format = 'pdf', destination, context }) => {
+    let exportResult
+    
+    if (format === 'pdf') {
+      exportResult = await context.actions.exportResults({
+        analysis,
+        format: 'pdf',
+        options: {
+          includeVisualizations: true,
+          includeRawData: false
+        }
+      })
+    } else if (format === 'spreadsheet') {
+      exportResult = await context.actions.exportResults({
+        analysis,
+        format: 'spreadsheet',
+        options: {
+          includeFormulas: true,
+          includeRawData: true
+        }
+      })
+    } else if (format === 'tableau') {
+      exportResult = await context.tools.tableau.publish({
+        workbook: await context.actions.generateTableauWorkbook({
+          analysis
+        }),
+        project: destination.project,
+        name: destination.name
+      })
+    }
+    
+    return {
+      status: 'exported',
+      format,
+      destination: destination || 'local',
+      url: exportResult.url,
+      timestamp: new Date().toISOString()
+    }
+  }
+})
+```
+
+## Agent UI
+
+```jsx
+import React from 'react'
+import { Card, Stepper, Tabs, VisualGrid, DataTable, InsightCard } from '@/components/ui'
+
+export const AgentUI = ({ agent, state }) => {
+  // Stages for the stepper component
+  const stages = ['loading', 'inspecting', 'analyzing', 'visualizing', 'summarizing', 'completed']
+  const currentStageIndex = stages.indexOf(state.stage || 'loading')
+  
+  return (
+    <div className="agent-container">
+      <Card className="agent-card">
+        <div className="agent-header">
+          <h2>{agent.name}</h2>
+          <div className="agent-status">
+            <span className={`status-indicator ${state.status || 'idle'}`}></span>
+            <span className="status-text">{state.status || 'idle'}</span>
+          </div>
+        </div>
+        
+        {state.dataSource && (
+          <div className="data-source-info">
+            <h3>Analyzing: {state.dataSource.name}</h3>
+            <div className="data-source-meta">
+              <span>Type: {state.dataSource.type}</span>
+              {state.dataSource.rowCount && <span>Rows: {state.dataSource.rowCount.toLocaleString()}</span>}
+              {state.dataSource.columnCount && <span>Columns: {state.dataSource.columnCount}</span>}
+            </div>
+          </div>
+        )}
+        
+        {state.stage && (
+          <Stepper 
+            steps={[
+              { label: 'Loading Data', value: 'loading' },
+              { label: 'Inspecting', value: 'inspecting' },
+              { label: 'Analyzing', value: 'analyzing' },
+              { label: 'Visualizing', value: 'visualizing' },
+              { label: 'Summarizing', value: 'summarizing' },
+              { label: 'Completed', value: 'completed' }
+            ]}
+            currentValue={state.stage}
+          />
+        )}
+        
+        <Tabs defaultValue="visualizations">
+          <Tabs.List>
+            <Tabs.Trigger value="visualizations">Visualizations</Tabs.Trigger>
+            <Tabs.Trigger value="insights">Insights</Tabs.Trigger>
+            <Tabs.Trigger value="data">Raw Data</Tabs.Trigger>
+          </Tabs.List>
+          
+          <Tabs.Content value="visualizations">
+            {state.analysis?.visualizations?.length > 0 ? (
+              <VisualGrid 
+                visualizations={state.analysis.visualizations}
+                columns={2}
+              />
+            ) : (
+              <div className="no-visualizations">No visualizations generated yet</div>
+            )}
+          </Tabs.Content>
+          
+          <Tabs.Content value="insights">
+            <div className="insights-container">
+              {state.summary?.keyInsights?.length > 0 ? (
+                state.summary.keyInsights.map((insight, index) => (
+                  <InsightCard 
+                    key={index}
+                    title={insight.title}
+                    description={insight.description}
+                    importance={insight.importance}
+                    relatedColumns={insight.relatedColumns}
+                  />
+                ))
+              ) : (
+                <div className="no-insights">No insights generated yet</div>
+              )}
+              
+              {state.summary?.recommendations?.length > 0 && (
+                <div className="recommendations-section">
+                  <h3>Recommendations</h3>
+                  <ul className="recommendations-list">
+                    {state.summary.recommendations.map((rec, index) => (
+                      <li key={index} className="recommendation-item">
+                        <div className="recommendation-title">{rec.title}</div>
+                        <div className="recommendation-description">{rec.description}</div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </Tabs.Content>
+          
+          <Tabs.Content value="data">
+            {state.data ? (
+              <DataTable 
+                data={state.data.slice(0, 100)} // Show first 100 rows
+                columns={state.dataStats?.columns}
+                pagination
+                pageSize={10}
+              />
+            ) : (
+              <div className="no-data">No data loaded yet</div>
+            )}
+          </Tabs.Content>
+        </Tabs>
+      </Card>
+    </div>
+  )
+}
+```
