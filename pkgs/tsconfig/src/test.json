@@ -3,7 +3,6 @@
   "display": "Testing",
   "extends": "./base.json",
   "compilerOptions": {
-    "types": ["vitest/globals", "node"],
-    "incremental": false
+    "types": ["vitest/globals", "node"]
   }
 }
