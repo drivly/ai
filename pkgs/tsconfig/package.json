@@ -11,7 +11,8 @@
     "./src/nextjs.json": "./src/nextjs.json",
     "./src/react.json": "./src/react.json",
     "./src/worker.json": "./src/worker.json",
-    "./src/sdk.json": "./src/sdk.json"
+    "./src/sdk.json": "./src/sdk.json",
+    "./src/test.json": "./src/test.json"
   },
   "publishConfig": {
     "access": "public"
