@@ -1,5 +1,5 @@
 {
-  "extends": "../../pkgs/tsconfig/src/test.json",
+  "extends": "tsconfig/src/test.json",
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
