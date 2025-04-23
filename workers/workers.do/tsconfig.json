@@ -1,4 +1,5 @@
 {
+  "extends": "tsconfig/src/test.json",
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
@@ -8,7 +9,7 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "types": ["@cloudflare/workers-types"],
+    "types": ["@cloudflare/workers-types", "vitest/globals"],
     "outDir": "dist"
   },
   "include": ["src/**/*"],

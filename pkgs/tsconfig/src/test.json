@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Testing",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "node"]
+  }
+}

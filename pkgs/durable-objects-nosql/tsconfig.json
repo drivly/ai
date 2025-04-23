@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/src/worker.json",
+  "extends": "tsconfig/src/test.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
