@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/src/base.json",
+  "extends": "../../pkgs/tsconfig/src/test.json",
   "compilerOptions": {
     "module": "Node16",
     "moduleResolution": "node16",
