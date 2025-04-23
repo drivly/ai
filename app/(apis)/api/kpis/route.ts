@@ -23,7 +23,7 @@ export const GET = API(async (request, { db, user, url }) => {
       const goals = await db.goals.find(goalsQuery)
       
       if (Array.isArray(goals.docs) && goals.docs.length > 0) {
-        const goalIds = goals.docs.map(g => g.id)
+        const goalIds = goals.docs.map((g: any) => g.id)
         query['goals.docs'] = { in: goalIds }
       } else {
         return formatNumericsResponse([])
