@@ -10,8 +10,8 @@
     "rootDir": "./src",
     "skipLibCheck": true,
     "paths": {
-      "database.do": ["../database.do/src/index.js"],
-      "database.do/*": ["../database.do/*"]
+      "database.do": ["../../sdks/database.do/src/index.js"],
+      "database.do/*": ["../../sdks/database.do/*"]
     }
   },
   "include": ["src/**/*"],
