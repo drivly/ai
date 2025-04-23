@@ -801,9 +801,10 @@ export const handleShareRequest = async (params: { id: string }, db: PayloadDB):
 
     if (!share) {
       return {
-        error: true,
-        message: 'Shared content not found',
-        status: 404,
+        error: {
+          message: 'Shared content not found',
+          status: 404
+        }
       }
     }
 
@@ -815,9 +816,10 @@ export const handleShareRequest = async (params: { id: string }, db: PayloadDB):
   } catch (error) {
     console.error('Error handling share request:', error)
     return {
-      error: true,
-      message: 'Failed to retrieve shared content',
-      status: 500,
+      error: {
+        message: 'Failed to retrieve shared content',
+        status: 500
+      }
     }
   }
 }
