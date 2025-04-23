@@ -49,7 +49,7 @@ function formatNumericsResponse(kpis: any[]) {
       id: kpi.id,
       name: kpi.name,
       value: kpi.value ?? 0,
-      target: kpi.target || undefined,
+      target: kpi.target ?? undefined,
       unit: kpi.unit || '',
       format: kpi.format || 'number',
       description: kpi.description || `KPI: ${kpi.name}`,
