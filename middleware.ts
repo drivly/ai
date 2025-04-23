@@ -73,6 +73,12 @@ export default auth(async (request) => {
     }
 
     if (isGatewayDomain(handler.hostname)) {
+      if (handler.pathname === '/pricing') {
+        console.log('Handling /pricing special case for gateway domain', { hostname: handler.hostname, pathname: handler.pathname })
+        const targetHostname = 'functions.do' // Always use functions.do for the /pricing path
+        return NextResponse.rewrite(new URL(`${request.nextUrl.origin}/sites/${targetHostname}/pricing${request.nextUrl.search}`, request.url))
+      }
+      
       const gatewayResponse = handleGatewayDomain(request)
       if (gatewayResponse) {
         return gatewayResponse
