@@ -476,6 +476,30 @@ export interface Kpi {
   id: string;
   tenant?: (string | null) | Project;
   name: string;
+  /**
+   * Current value of the KPI
+   */
+  value?: number | null;
+  /**
+   * Target value of the KPI
+   */
+  target?: number | null;
+  /**
+   * Unit of measurement (e.g., $, %, users)
+   */
+  unit?: string | null;
+  /**
+   * Format for displaying the KPI value
+   */
+  format?: ('number' | 'currency' | 'percentage') | null;
+  /**
+   * Detailed description of what this KPI measures
+   */
+  description?: string | null;
+  /**
+   * The project or tenant this KPI belongs to
+   */
+  project?: (string | null) | Project;
   goals?: {
     docs?: (string | Goal)[];
     hasNextPage?: boolean;
@@ -3845,6 +3869,12 @@ export interface TracesSelect<T extends boolean = true> {
 export interface KpisSelect<T extends boolean = true> {
   tenant?: T;
   name?: T;
+  value?: T;
+  target?: T;
+  unit?: T;
+  format?: T;
+  description?: T;
+  project?: T;
   goals?: T;
   updatedAt?: T;
   createdAt?: T;
