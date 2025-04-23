@@ -508,10 +508,14 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
       }
 
       const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
+      const errorMessage = error instanceof Error ? error.message : 'Internal Server Error'
+      
       const errorResponseBody = {
-        error: true,
-        message: error instanceof Error ? error.message : 'Internal Server Error',
-        ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+        error: {
+          message: errorMessage,
+          status,
+          ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
+        }
       }
       return new NextResponse(JSON.stringify(errorResponseBody, null, 2), {
         status,
@@ -526,6 +530,27 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
 // Later we can extract these functions into those packages if needed.
 
 export const API = createApiHandler
+
+/**
+ * Creates a standardized error response object
+ * @param message Error message
+ * @param status HTTP status code
+ * @param additionalInfo Additional information to include in the error object
+ * @returns Standardized error response object
+ */
+export const createErrorResponse = (
+  message: string,
+  status: number,
+  additionalInfo: Record<string, any> = {}
+) => {
+  return {
+    error: {
+      message,
+      status,
+      ...additionalInfo,
+    },
+  }
+}
 
 export const modifyQueryString = (param?: string, value?: string | number) => {
   if (!param) {
@@ -776,9 +801,10 @@ export const handleShareRequest = async (params: { id: string }, db: PayloadDB):
 
     if (!share) {
       return {
-        error: true,
-        message: 'Shared content not found',
-        status: 404,
+        error: {
+          message: 'Shared content not found',
+          status: 404
+        }
       }
     }
 
@@ -790,9 +816,10 @@ export const handleShareRequest = async (params: { id: string }, db: PayloadDB):
   } catch (error) {
     console.error('Error handling share request:', error)
     return {
-      error: true,
-      message: 'Failed to retrieve shared content',
-      status: 500,
+      error: {
+        message: 'Failed to retrieve shared content',
+        status: 500
+      }
     }
   }
 }

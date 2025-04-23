@@ -54,23 +54,3 @@ export interface ClientOptions {
    */
   headers?: Record<string, string>
 }
-
-/**
- * Integration metadata
- */
-export interface Integration {
-  name: string
-  key: string
-  description?: string
-  actions: Action[]
-}
-
-/**
- * Integration action metadata
- */
-export interface Action {
-  name: string
-  key: string
-  description?: string
-  parameters?: Record<string, any>
-}

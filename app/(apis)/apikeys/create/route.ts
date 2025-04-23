@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid'
 
 export const GET = API(async (request, { user, url }) => {
   if (!user?.id) {
-    return { error: 'Unauthorized', status: 401 }
+    return { error: { message: 'Unauthorized', status: 401 } }
   }
 
   return {
@@ -32,15 +32,17 @@ export const GET = API(async (request, { user, url }) => {
 
 export const POST = API(async (request, { db, user }) => {
   if (!user?.id) {
-    return { error: 'Unauthorized', status: 401 }
+    return { error: { message: 'Unauthorized', status: 401 } }
   }
 
   const data = await request.json()
   
   if (!data.name) {
     return { 
-      error: true, 
-      message: "API Key name is required" 
+      error: { 
+        message: "API Key name is required",
+        status: 400
+      } 
     }
   }
 

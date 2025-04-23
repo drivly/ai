@@ -43,6 +43,20 @@ export default auth(async (request) => {
   }
 
   return analyticsMiddleware(request, async () => {
+    if (handler.pathname === '/pricing') {
+      console.log('Handling /pricing special case', { hostname: handler.hostname, pathname: handler.pathname })
+      const targetHostname = 'functions.do' // Always use functions.do for the /pricing path
+      return NextResponse.rewrite(new URL(`${request.nextUrl.origin}/sites/${targetHostname}/pricing${request.nextUrl.search}`, request.url))
+    }
+    
+    if (isDoDomain(handler.hostname) && !handler.pathname.startsWith('/api/') && !handler.pathname.startsWith('/v1/')) {
+      const doResponse = handleDoDomain(request)
+      if (doResponse) {
+        return doResponse
+      }
+      return NextResponse.next()
+    }
+
     if (handler.isApiRoute()) {
       console.log('Handling API route', { hostname: handler.hostname, pathname: handler.pathname, search: handler.search })
 
@@ -59,6 +73,12 @@ export default auth(async (request) => {
     }
 
     if (isGatewayDomain(handler.hostname)) {
+      if (handler.pathname === '/pricing') {
+        console.log('Handling /pricing special case for gateway domain', { hostname: handler.hostname, pathname: handler.pathname })
+        const targetHostname = 'functions.do' // Always use functions.do for the /pricing path
+        return NextResponse.rewrite(new URL(`${request.nextUrl.origin}/sites/${targetHostname}/pricing${request.nextUrl.search}`, request.url))
+      }
+      
       const gatewayResponse = handleGatewayDomain(request)
       if (gatewayResponse) {
         return gatewayResponse
