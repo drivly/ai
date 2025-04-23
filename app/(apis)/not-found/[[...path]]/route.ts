@@ -13,9 +13,10 @@ export const GET = API(async (request: NextRequest, { params }) => {
   const path = request.nextUrl.pathname
 
   return {
-    error: true,
-    message: `API route not found: ${path}`,
-    statusCode: 404,
+    error: {
+      message: `API route not found: ${path}`,
+      status: 404
+    }
   }
 })
 
