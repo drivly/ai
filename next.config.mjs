@@ -38,33 +38,10 @@ const nextConfig = {
     })
     
     // Fix OpenTelemetry HTTP instrumentation for Sentry compatibility
-    config.module.rules.push({
-      test: /node_modules\/@opentelemetry\/instrumentation-http\/build\/src\/http\.js$/,
-      use: {
-        loader: 'string-replace-loader',
-        options: {
-          search: 'class HttpInstrumentation extends InstrumentationBase',
-          replace: `
-            // Shim implementation to fix Sentry compatibility
-            class HttpInstrumentation extends InstrumentationBase {
-              constructor(config = {}) {
-                super('@opentelemetry/instrumentation-http', VERSION, Object.assign({}, config));
-              }
-              
-              init() {
-                return this;
-              }
-              
-              setConfig() {}
-              _getHttpInstrumentation() {}
-              _getHttpsInstrumentation() {}
-            }
-            // Original class (commented out)
-            // class HttpInstrumentation extends InstrumentationBase`,
-          flags: 'g'
-        }
-      }
-    })
+    config.resolve = config.resolve || {}
+    config.resolve.alias = config.resolve.alias || {}
+    config.resolve.alias['@opentelemetry/instrumentation-http/build/src/http'] = 
+      path.resolve(dirname, './opentelemetry-http-instrumentation-shim.js')
     
     // Suppress OpenTelemetry instrumentation warnings
     config.ignoreWarnings = [
