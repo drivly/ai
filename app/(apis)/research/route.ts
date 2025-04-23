@@ -101,7 +101,7 @@ export const GET = API(async (request, { db, user, url, origin, domain, payload 
     'Sustainable agriculture practices'
   ]
 
-  const examples = {}
+  const examples: Record<string, string> = {}
   for (const topic of exampleTopics) {
     const encodedTopic = topic.replace(/ /g, '+')
     examples[topic] = formatWithOptions(`research?topic=${encodedTopic}`, 'research.do')
