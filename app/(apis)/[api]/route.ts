@@ -12,10 +12,17 @@ export const GET = API(async (request, { db, user, params, url }) => {
   const effectiveApi = isAlias ? (aliasedApi as string) : api
 
   if (!apiExists && !isAlias) {
+    const availableApis = {}
+    primaryCollectionSlugs.forEach((slug) => {
+      availableApis[slug] = `origin/${slug}`
+    })
+    
     return {
-      error: true,
-      message: `API '${api}' not found. Available APIs: ${primaryCollectionSlugs.map((slug) => `${slug}: origin/${slug}`).join(', ')}`,
-      statusCode: 404,
+      error: {
+        message: `API '${api}' not found`,
+        status: 404,
+        availableApis
+      }
     }
   }
 
@@ -60,9 +67,10 @@ export const GET = API(async (request, { db, user, params, url }) => {
     } catch (error) {
       console.error(`Error fetching ${effectiveApi}:`, error)
       return {
-        error: true,
-        message: `Error fetching data from ${effectiveApi}`,
-        statusCode: 500,
+        error: {
+          message: `Error fetching data from ${effectiveApi}`,
+          status: 500
+        }
       }
     }
   }
@@ -84,10 +92,17 @@ export const POST = API(async (request, { db, params }) => {
   const effectiveApi = isAlias ? (aliasedApi as string) : api
 
   if (!apiExists && !isAlias) {
+    const availableApis = {}
+    primaryCollectionSlugs.forEach((slug) => {
+      availableApis[slug] = `origin/${slug}`
+    })
+    
     return {
-      error: true,
-      message: `API '${api}' not found. Available APIs: ${primaryCollectionSlugs.map((slug) => `${slug}: origin/${slug}`).join(', ')}`,
-      statusCode: 404,
+      error: {
+        message: `API '${api}' not found`,
+        status: 404,
+        availableApis
+      }
     }
   }
 
@@ -95,9 +110,10 @@ export const POST = API(async (request, { db, params }) => {
 
   if (!collectionExists || !db[effectiveApi]) {
     return {
-      error: true,
-      message: `Collection '${effectiveApi}' not found or not available for mutation`,
-      statusCode: 404,
+      error: {
+        message: `Collection '${effectiveApi}' not found or not available for mutation`,
+        status: 404
+      }
     }
   }
 
@@ -106,9 +122,10 @@ export const POST = API(async (request, { db, params }) => {
     data = await request.json()
   } catch (error) {
     return {
-      error: true,
-      message: 'Invalid JSON payload',
-      statusCode: 400,
+      error: {
+        message: 'Invalid JSON payload',
+        status: 400
+      }
     }
   }
 
@@ -123,9 +140,10 @@ export const POST = API(async (request, { db, params }) => {
   } catch (error) {
     console.error(`Error creating item in collection ${effectiveApi}:`, error)
     return {
-      error: true,
-      message: `Error creating item: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      statusCode: error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500,
+      error: {
+        message: `Error creating item: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        status: error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
+      }
     }
   }
 })
