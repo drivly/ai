@@ -12,7 +12,7 @@ export const GET = API(async (request, { db, user, params, url }) => {
   const effectiveApi = isAlias ? (aliasedApi as string) : api
 
   if (!apiExists && !isAlias) {
-    const availableApis = {}
+    const availableApis: Record<string, string> = {}
     primaryCollectionSlugs.forEach((slug) => {
       availableApis[slug] = `origin/${slug}`
     })
@@ -92,7 +92,7 @@ export const POST = API(async (request, { db, params }) => {
   const effectiveApi = isAlias ? (aliasedApi as string) : api
 
   if (!apiExists && !isAlias) {
-    const availableApis = {}
+    const availableApis: Record<string, string> = {}
     primaryCollectionSlugs.forEach((slug) => {
       availableApis[slug] = `origin/${slug}`
     })
