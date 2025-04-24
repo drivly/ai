@@ -164,16 +164,14 @@ Experiment({
 })
 ```
 
-### [Workflows.do](https://workflows.do) Scheduled Functions
+### [Analytics.do](https://analytics.do) Track Business Metrics
 
-```typescript
-import { every } from 'workflows.do'
+```ts
+import { track } from 'analytics.do'
 
-every('hour during business hours', async () => {
-  const ideas = await db.ideas.find({ status: 'launched' })
-  await db.ideas.updateMany({ status: 'launched' }, { status: 'launched' })
-})
+track('User.Signup', { name, email, company })
 ```
+
 
 ### [Workflows.do](https://workflows.do) Respond to Events
 
@@ -203,6 +201,18 @@ on('User.Signup', async (event, { ai, api, db }) => {
     const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, ...details })
     const { url } = await db.users.create({ name, email, company, summary, ...details })
     await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
+})
+```
+
+
+### [Workflows.do](https://workflows.do) Scheduled Functions
+
+```typescript
+import { every } from 'workflows.do'
+
+every('hour during business hours', async () => {
+  const ideas = await db.ideas.find({ status: 'launched' })
+  await db.ideas.updateMany({ status: 'launched' }, { status: 'launched' })
 })
 ```
 
