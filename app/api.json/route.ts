@@ -20,7 +20,7 @@ export async function GET() {
     return response
   } catch (error) {
     console.error('Error serving api.json:', error)
-    return new NextResponse(JSON.stringify({ error: 'Schema not found' }), {
+    return NextResponse.json({ error: 'Schema not found' }, {
       status: 404,
       headers: {
         'Content-Type': 'application/json',
