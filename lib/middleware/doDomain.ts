@@ -7,6 +7,11 @@ export function handleDoDomain(request: NextRequest): NextResponse | null {
   const { pathname, search } = request.nextUrl
   const url = new URL(request.url)
 
+  if (hostname === 'documentation.do') {
+    console.log('Handling documentation.do domain', { pathname, search })
+    return NextResponse.rewrite(new URL(`${url.origin}/docs${pathname}${search}`, url))
+  }
+
   const apiName = extractApiNameFromDomain(hostname)
   const isAdminRoute = pathname === '/admin' || pathname.startsWith('/admin/')
 
