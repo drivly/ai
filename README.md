@@ -13,7 +13,7 @@ const brand = await ai.storyBrand({ idea: 'Auto Loan Underwriting Services-as-So
 ### [Functions.do](https://functions.do) Generate Text
 
 ```ts
-const brand = await ai`write a blog post introducing ${idea} and how it will be delivered by ${brand}`
+const post = await ai`write a blog post introducing ${idea} and how it will be delivered by ${brand}`
 ```
 
 
@@ -259,3 +259,15 @@ const db = DB({
   },
 })
 ```
+
+## [.do](https://dotdo.ai) ❤️ open-source
+
+The [.do](https://dotdo.ai) is completely MIT-licensed open source and built on top of many amazing companies and open source projects:
+
+- AI models are provided by OpenAI, Google, Anthropic, Meta, xAI, DeepSeek, Alibaba, and Perplexity with additional models via OpenRouter 
+- AI inference is provided by OpenAI, Google, Anthropic, AWS, Groq, xAI, Perplexity, and Cloudflare with additional providers via OpenRouter 
+- Authentication is provided by WorkOS with customer keys/secrets in WorkOS Vault
+- Hosting is managed by Vercel & Cloudflare Workers for Platforms
+- Databases are managed MongoDB Atlas, Neon Postgres, and Clickhouse Cloud.
+- Integrations are provided by Composio and Zapier
+- Analytics provided by PostHog, with monitoring from Better Stack
