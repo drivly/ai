@@ -1,6 +1,6 @@
 # [.do](https://dotdo.ai) Business-as-Code
 
-While the cloud enabled Software-as-Software, AI is unlocking [Services-as-Software](https://services.do).
+While the cloud enabled Software-as-a-Service, AI is unlocking [Services-as-Software](https://services.do)
 
 ### [Functions.do](https://functions.do) Generate Objects without a Schema
 
@@ -220,8 +220,6 @@ const waitlistIdeas = await db.ideas.find({ status: 'waitlist' })
 ### [Database.do](https://database.do) Integrated Embeddings & Vector Search
 
 ```typescript
-import { db } from 'database.do'
-
 const ideas = await db.ideas.search('automotive finance')
 ```
 
