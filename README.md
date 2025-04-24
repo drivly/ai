@@ -1,6 +1,6 @@
 # [.do](https://dotdo.ai) Business-as-Code
 
-While the cloud enabled Software-as-a-Service, AI is unlocking [Services-as-Software](https://services.do)
+While the cloud enabled Software-as-a-Service, AI is unlocking new business models where [Services-as-Software](https://dotdo.ai/manifesto#services-as-software) can be delivered without scaling human labor, and [Business-as-Code](https://dotdo.ai/manifesto#business-as-code) enable the creation of new AI-native organizations to disrupt legacy competitors.
 
 ### [Functions.do](https://functions.do) Generate Objects without a Schema
 
