@@ -1,0 +1,12 @@
+AI:
+  Functions.do: ...
+  Workflows.do:
+  Agents.do:
+  Services.do: 
+
+Functions:
+  Code.Functions.do:
+  Generative.Functions.do:
+  Human.Functions.do:
+  Agent.Functions.do:
+
