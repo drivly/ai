@@ -1,6 +1,6 @@
 # [.do](https://dotdo.ai) Business-as-Code
 
-While the cloud enabled Software-as-a-Service, AI is unlocking [Services-as-Software](https://services.do)
+While the cloud enabled Software-as-a-Service, AI is unlocking new business models where [Services-as-Software](https://dotdo.ai/manifesto#services-as-software) can be delivered without scaling human labor, and [Business-as-Code](https://dotdo.ai/manifesto#business-as-code) enable the creation of new AI-native organizations to disrupt legacy competitors.
 
 ### [Functions.do](https://functions.do) Generate Objects without a Schema
 
@@ -13,7 +13,7 @@ const brand = await ai.storyBrand({ idea: 'Auto Loan Underwriting Services-as-So
 ### [Functions.do](https://functions.do) Generate Text
 
 ```ts
-const post = await ai`write a blog post introducing ${idea} and how it will be delivered by ${brand}`
+const post = await ai`write a blog post introducing ${idea} and ${brand}`
 ```
 
 
@@ -45,7 +45,7 @@ const ai = AI({
   },
 })
 
-const businessModel = await ai.leanCanvas({ idea: 'Auto Loan Underwriting Services-as-Software' })
+const businessModel = await ai.leanCanvas({ idea: 'Auto Lending Services-as-Software' })
 ```
 
 ### [Agents.do](https://agents.do) Research & Web Browsing
@@ -264,10 +264,12 @@ const db = DB({
 
 The [.do](https://dotdo.ai) is completely MIT-licensed open source and built on top of many amazing companies and open source projects:
 
-- AI models are provided by OpenAI, Google, Anthropic, Meta, xAI, DeepSeek, Alibaba, and Perplexity with additional models via OpenRouter 
-- AI inference is provided by OpenAI, Google, Anthropic, AWS, Groq, xAI, Perplexity, and Cloudflare with additional providers via OpenRouter 
+- AI models are provided by OpenAI, Google, Anthropic, Meta, xAI, DeepSeek, Alibaba, and Perplexity
+- AI inference is provided by OpenAI, Google, Anthropic, AWS, Groq, xAI, Perplexity, and Cloudflare
+- Additional AI models and inference providers available via OpenRouter
+- TypeScript, Node.js, Next.js, React, Tailwind, ShadCN, Payload
 - Authentication is provided by WorkOS with customer keys/secrets in WorkOS Vault
 - Hosting is managed by Vercel & Cloudflare Workers for Platforms
 - Databases are managed MongoDB Atlas, Neon Postgres, and Clickhouse Cloud.
-- Integrations are provided by Composio and Zapier
+- Integrations via API Keys and OAuth are facilitated by Composio and Zapier
 - Analytics provided by PostHog, with monitoring from Better Stack
