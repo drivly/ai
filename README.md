@@ -1,17 +1,152 @@
 # [.do](https://dotdo.ai) Business-as-Code
 
-[![License](https://img.shields.io/github/license/drivly/ai.svg)](https://github.com/drivly/ai/blob/main/LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/drivly/ai/blob/main/CONTRIBUTING.md)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Chat-7289da?logo=discord&logoColor=white)](https://discord.gg/tafnNeUQdm)
-[![GitHub Stars](https://img.shields.io/github/stars/drivly/ai.svg)](https://github.com/drivly/ai)
+While the cloud enabled Software-as-Software, AI is unlocking [Services-as-Software](https://services.do).
 
-The [.do](https://dotdo.ai) platform enables you to define, execute, and iterate on business processes as clean & simple code. Our APIs and SDKs are designed with extreme simplicity and elegance, making them accessible enough for non-technical business people to read while providing the power and flexibility that developers need.
+### [Functions.do](https://functions.do) Generate Objects without a Schema
 
-## Core Primitives
+```ts
+import { ai } from 'functions.do'
 
-The [.do](https://dotdo.ai) platform is built around several core primitives that work together to create powerful, composable applications:
+const brand = await ai.storyBrand({ idea: 'Auto Loan Underwriting Services-as-Software' })
+```
 
-## [Workflows.do](https://workflows.do) - Elegant Business Process Orchestration
+### [Functions.do](https://functions.do) Generate Text
+
+```ts
+const brand = await ai`write a blog post introducing ${idea} and how it will be delivered by ${brand}`
+```
+
+
+### [Functions.do](https://functions.do) Generate Lists
+
+```ts
+const titles = await ai.list`${count} possible blog post titles related to ${idea}`
+
+titles.forEach(title => ai`write a blog post starting with "# ${title}"`)
+```
+
+### [Functions.do](https://functions.do) Generate Objects with a Type-safe Schema
+
+```ts
+import { AI } from 'functions.do'
+
+const ai = AI({
+  leanCanvas: {
+    productName: 'name of the product or service',
+    problem: ['top 3 problems the product solves'],
+    solution: ['top 3 solutions the product offers'],
+    uniqueValueProposition: 'clear message that states the benefit of your product',
+    unfairAdvantage: 'something that cannot be easily copied or bought',
+    customerSegments: ['list of target customer segments'],
+    keyMetrics: ['list of key numbers that tell you how your business is doing'],
+    channels: ['path to acquire customers'],
+    costStructure: ['list of operational costs'],
+    revenueStreams: ['list of revenue sources'],
+  },
+})
+
+const businessModel = await ai.leanCanvas({ idea: 'Auto Loan Underwriting Services-as-Software' })
+```
+
+### [Agents.do](https://agents.do) Research & Web Browsing
+
+```ts
+import { browse, research } from 'agents.do'
+
+const { directories } = await research`website directories for ${topic}`({ directories: [String] })
+
+directories.forEach(directory => browse`${directory}.  Request Agents.do to be added to the directory.`)
+```
+
+
+### [Humans.do](https://humans.do) Tasks in a Workflow
+
+```ts
+import { human } from 'humans.do'
+
+const ceo = human({ email: 'sam@openai.com' })
+
+ceo.approveRelease({ product: 'GPT-5' })
+```
+
+### [Evals.do](https://evals.do) Measure AI Model Performance
+
+```ts
+import { Eval, JSONDiff } from 'evals.do'
+import { models } from 'models.do'
+
+Eval('W-2 OCR', {
+
+  // compare different models
+  models: models({ capability: 'vision' }),
+
+  // calculate all variations of inputs
+  inputs: async () => cartesian({
+    image:[1, 2, 3, 4, 5, 6], 
+    blur:[0, 1, 2, 3], 
+    res:[512, 768, 1536, 2000, 3072],
+  }).map(({image, blur, res}) => ({ image: `https://…/w2_img${image}_blur${blur}_res${res}.jpg` })),
+
+  // run 3 times for each input
+  seeds: 3, 
+  prompt: 'Extract the data from the image.',
+  temperature: 0,
+  expected: expectedOutput,
+  schema : W2,
+  scorers : [JSONDiff],             
+})
+```
+
+### [Experiments.do](https://experiments.do) Rapid Evaluation & Iteration
+
+```ts
+import { ai } from 'functions.do'
+import { db } from 'database.do'
+import { Battle } from 'evals.do'
+import { Experiment } from 'experiments.do'
+
+Experiment({
+  models: [
+    'openai/gpt-4.1',
+    'openai/gpt-4.1-mini',
+    'openai/gpt-4.5-preview',
+    'google/gemini-2.5-pro-preview-03-25',
+    'google/gemini-2.5-flash-preview',
+    'google/gemini-2.0-flash',
+    'anthropic/claude-3.7-sonnet',
+    'anthropic/claude-3.5-sonnet',
+    'meta-llama/llama-4-maverick',
+    'meta-llama/llama-4-scout',
+    'x-ai/grok-3-beta',
+    'x-ai/grok-3-mini-beta',
+  ],
+  temperature: [0.7, 0.8, 0.9, 1],
+  system: [
+    'You are an expert at writing compelling and SEO-optimized site content',
+    'You are an expert at content marketing for idea-stage startups',
+    'You are a YC Group Partner having office hours with one of your startups',
+  ],
+  inputs: db.ideas.find({ status: 'waitlist' }),
+  task: ai.generateLandingPage({
+    hero: {
+      headline: 'compelling & conversion optimized headline (7-10 words)',
+      subhead: 'compelling & conversion optimized subhead (1-2 sentences)',
+      badge: '3-word eyebrow text above hero headline',
+    },
+    benefits: [{
+      title: '3-4 word high-level overview of the benefit',
+      description: '2 sentence detailed description',
+    }],
+    faqs: [{
+      question: '6-8 word question',
+      answer: '2-3 sentence answer',
+    }],
+  })
+  scorer: [Battle],
+})
+```
+
+### [Agents.do](https://agents.do) Autonomous Work
 
 ```typescript
 import { AI } from 'workflows.do'
