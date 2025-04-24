@@ -1,5 +1,4 @@
-import { CodeBlock } from './code-block'
-import Markdown from 'react-markdown'
+import { Markdown } from '@/components/ui/markdown'
 
 export function BlogContent({ markdown }: { markdown: string }) {
   return (

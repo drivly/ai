@@ -1,4 +1,4 @@
-import { Careers } from '@/components/sites/pages/careers'
+import { Careers } from './careers'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import type { Metadata } from 'next'
 

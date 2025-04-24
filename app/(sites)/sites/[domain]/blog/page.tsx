@@ -18,7 +18,7 @@ async function BlogPage(props: { params: { domain: string }; searchParams?: { [k
           <ArrowLeft className='mr-1 h-4 w-4' />
           Back
         </Link>
-        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40'>
+        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tight text-balance text-transparent dark:from-white dark:to-white/40'>
           Blog
         </h1>
       </div>

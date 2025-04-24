@@ -199,13 +199,12 @@ export function Pricing() {
         style={{
           animationDuration: '600ms',
           animationFillMode: 'backwards',
-        }}
-      >
-        <div className='mt-2 max-w-3xl'>
-          <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl leading-none font-medium tracking-tighter text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
+        }}>
+        <div className='mb-6 max-w-3xl'>
+          <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl leading-none font-medium tracking-tight text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
             Flexible, Transparent Pricing.
           </h1>
-          <p className='text-md mx-auto mt-6 max-w-xl text-gray-400'>Choose the plan that's right for you. Designed to grow with your needs—pay only for what you use.</p>
+          <p className='mx-auto mt-6 max-w-xl text-base text-gray-400'>Choose the plan that's right for you. Designed to grow with your needs—pay only for what you use.</p>
         </div>
       </section>
       <section
@@ -216,8 +215,7 @@ export function Pricing() {
           animationDuration: '600ms',
           animationDelay: '200ms',
           animationFillMode: 'backwards',
-        }}
-      >
+        }}>
         <div className='flex items-center justify-center gap-2'>
           <Label htmlFor='billing-switch' className='text-base font-medium text-gray-400 sm:text-sm'>
             Monthly
@@ -247,8 +245,7 @@ export function Pricing() {
                   plan.isRecommended ? 'border-gray-700 ring-white/10' : 'border-gray-800',
                   'relative p-6',
                   'shadow-[0_0_20px_rgba(255,255,255,0.05)]',
-                )}
-              >
+                )}>
                 <div className='flex h-full flex-col justify-between'>
                   <div>
                     <h2 className='text-xl font-semibold text-gray-900 dark:text-white'>{plan.name}</h2>
@@ -423,8 +420,7 @@ export function Pricing() {
                         className={cn(
                           sectionIdx === 0 ? 'pt-14' : 'pt-10',
                           'border-b border-gray-200 pb-4 text-base leading-6 font-semibold text-gray-900 dark:border-gray-800 dark:text-white',
-                        )}
-                      >
+                        )}>
                         {section.name}
                       </th>
                     </tr>
@@ -432,8 +428,7 @@ export function Pricing() {
                       <tr key={feature.name} className='transition hover:bg-slate-800/20'>
                         <th
                           scope='row'
-                          className='flex items-center gap-2 border-b border-gray-100 py-4 text-sm leading-6 font-normal text-gray-900 dark:border-gray-800 dark:text-white'
-                        >
+                          className='flex items-center gap-2 border-b border-gray-100 py-4 text-sm leading-6 font-normal text-gray-900 dark:border-gray-800 dark:text-white'>
                           <span>{feature.name}</span>
                           {feature.tooltip ? (
                             <TooltipProvider>
@@ -483,8 +478,7 @@ export function Pricing() {
                         className={cn(
                           'group h-10 rounded-sm',
                           !plan.isStarter && 'h-10 rounded-sm bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-200',
-                        )}
-                      >
+                        )}>
                         <Link href={plan.buttonLink} className='flex items-center justify-center'>
                           {plan.buttonText}
                           <span className='ml-2 transition-transform group-hover:translate-x-1'>→</span>

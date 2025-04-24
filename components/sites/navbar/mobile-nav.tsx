@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { type Dispatch, Fragment, type SetStateAction } from 'react'
 import { IconType } from 'react-icons/lib'
 import { backgroundAnimation, heightAnimation, translateAnimation } from './animations'
+import { SocialIcons } from './social-icons'
 
 export interface MobileNavProps {
   domain?: string
@@ -22,7 +23,10 @@ export const MobileNav = ({ domain, isOpen, setOpen }: MobileNavProps) => {
         initial='initial'
         animate={isOpen ? 'enter' : 'exit'}
       />
-      <MobileNavButton isOpen={isOpen} toggleOpen={() => setOpen(!isOpen)} />
+      <div className='absolute top-0 right-0 z-10 flex h-full w-full items-center justify-end space-x-4 md:hidden'>
+        <SocialIcons />
+        <MobileNavButton isOpen={isOpen} toggleOpen={() => setOpen(!isOpen)} />
+      </div>
       <AnimatePresence mode='wait'>
         {isOpen && (
           <motion.div
@@ -43,7 +47,7 @@ export const MobileNav = ({ domain, isOpen, setOpen }: MobileNavProps) => {
 
 export function MobileNavButton({ isOpen, toggleOpen }: { isOpen: boolean; toggleOpen: () => void }) {
   return (
-    <button className='z-10 ml-auto cursor-pointer p-2 md:hidden' onClick={toggleOpen} aria-label='Toggle menu' aria-expanded={isOpen}>
+    <button className='z-10 cursor-pointer pr-3' onClick={toggleOpen} aria-label='Toggle menu' aria-expanded={isOpen}>
       <div className='flex h-5 w-6 flex-col justify-between border border-transparent'>
         <span
           className={cn('h-0.5 w-full transform bg-current transition-transform duration-300', {

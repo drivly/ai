@@ -2,13 +2,13 @@ import { BlogContent } from '@/components/sites/blog-ui/blog-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { Badge } from '@/components/ui/badge'
+import { slugify } from '@/lib/slugify'
 import { ArrowLeft } from 'lucide-react'
 import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
-import { getBlogPostBySlug } from '../blog-posts'
-import { slugify } from '@/lib/slugify'
 import Balancer from 'react-wrap-balancer'
+import { getBlogPostBySlug } from '../blog-posts'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string; slug: string }> }) {
   const { domain, slug } = await params
@@ -46,10 +46,12 @@ async function BlogPostPage({ params }: { params: { domain: string; slug: string
 
       <div className='mb-8'>
         <Badge className='mb-4 px-3 py-1.5 text-sm hover:bg-gray-100 sm:px-2.5 sm:py-1 sm:text-xs dark:hover:bg-gray-800/50'>{post?.category}</Badge>
-        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40'>
+        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tight text-balance text-transparent dark:from-white dark:to-white/40'>
           <Balancer>{post?.title}</Balancer>
         </h1>
-        <p className='text-muted-foreground text-xl'><Balancer>{post?.description}</Balancer></p>
+        <p className='text-muted-foreground text-xl'>
+          <Balancer>{post?.description}</Balancer>
+        </p>
         <div className='mt-4 flex flex-row items-center justify-between gap-2'>
           <div className='text-muted-foreground text-sm'>{formattedDate}</div>
           <ShareButtons title={post?.title || ''} url={postUrl} hideLabel={true} />
@@ -92,8 +94,7 @@ function BlogPostNotFound({ fallbackImage }: { fallbackImage: string }) {
             <p className='mb-4'>This blog post could not be found</p>
             <Link
               href={`/blog`}
-              className='bg-primary text-primary-foreground ring-offset-background hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'
-            >
+              className='bg-primary text-primary-foreground ring-offset-background hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'>
               Browse All Blog Posts
             </Link>
           </div>

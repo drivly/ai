@@ -91,14 +91,14 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
     <div className={cn('bg-opacity-[0.01] rounded-2xl border-[10px] border-white/10', className)}>
       <div className='relative w-full overflow-hidden rounded-sm border'>
         {/* Code window header */}
-        <div className='flex items-center justify-between bg-black/80 px-4 py-2 backdrop-blur-md'>
-          <div className='flex items-center gap-2'>
-            <div className='flex gap-1.5'>
-              <div className='size-3 rounded-full bg-white/20'></div>
-              <div className='size-3 rounded-full bg-white/20'></div>
-              <div className='size-3 rounded-full bg-white/20'></div>
+        <div className='relative flex w-full items-center bg-black/80 px-4 py-2 backdrop-blur-md'>
+          <div className='flex w-full items-center justify-end gap-2 md:justify-center'>
+            <div className='absolute left-4 flex gap-1.5'>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <span key={index} className='size-3 rounded-full bg-white/20' />
+              ))}
             </div>
-            <p className='mx-auto text-xs text-gray-400'>{title}</p>
+            <p className='mr-[15%] text-xs text-gray-400 md:mx-auto'>{title}</p>
           </div>
           {/* <div className='flex items-center gap-2'>
             <div className='rounded bg-gray-800 px-2 py-1'>
