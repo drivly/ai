@@ -53,9 +53,9 @@ const businessModel = await ai.leanCanvas({ idea: 'Auto Loan Underwriting Servic
 ```ts
 import { browse, research } from 'agents.do'
 
-const { directories } = await research`website directories for ${topic}`({ directories: [String] })
+const directories = await research`website directories for ${topic}`([String])
 
-directories.forEach(directory => browse`${directory}.  Request Agents.do to be added to the directory.`)
+directories.forEach(directory => browse`${directory}.  Request Agents.do to be added`)
 ```
 
 
