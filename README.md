@@ -7,7 +7,24 @@ While the cloud enabled Software-as-Software, AI is unlocking [Services-as-Softw
 ```ts
 import { ai } from 'functions.do'
 
-const brand = ai.storyBrand({ idea: 'Auto Loan Underwriting Services-as-Software' })
+const brand = await ai.storyBrand({ idea: 'Auto Loan Underwriting Services-as-Software' })
+```
+
+### [Functions.do](https://functions.do) Generate Text
+
+```ts
+import { ai } from 'functions.do'
+
+const brand = await ai`write a blog post introducing ${idea} and how it will be delivered by ${brand}`
+```
+
+
+### [Functions.do](https://functions.do) Generate Lists
+
+```ts
+import { list } from 'functions.do'
+
+const titles = await list`${count} possible blog post titles related to ${idea}`
 ```
 
 ### [Functions.do](https://functions.do) Generate Objects with a Type-safe Schema
@@ -30,7 +47,7 @@ const ai = AI({
   },
 })
 
-const businessModel = ai.leanCanvas({ idea: 'Auto Loan Underwriting Services-as-Software' })
+const businessModel = await ai.leanCanvas({ idea: 'Auto Loan Underwriting Services-as-Software' })
 ```
 
 ### [Agents.do](https://agents.do) Research & Web Browsing
@@ -58,28 +75,12 @@ ceo.approveRelease({ product: 'GPT-5' })
 
 ```ts
 import { Eval, JSONDiff } from 'evals.do'
+import { models } from 'models.do'
 
 Eval('W-2 OCR', {
 
   // compare different models
-  models: [
-    'openai/o3',
-    'openai/o4-mini',
-    'openai/o4-mini-high',
-    'openai/gpt-4.1',
-    'openai/gpt-4.1-mini',
-    'openai/gpt-4.1-nano',
-    'google/gemini-2.5-pro-preview-03-25',
-    'google/gemini-2.5-flash-preview:thinking',
-    'google/gemini-2.5-flash-preview',
-    'anthropic/claude-3.7-sonnet',
-    'anthropic/claude-3.7-sonnet:thinking',
-    'meta-llama/llama-4-maverick',
-    'meta-llama/llama-4-scout',
-    'x-ai/grok-3-beta',
-    'x-ai/grok-3-mini-beta',
-  ],
-  
+  models: models({ capability: 'vision' }),
 
   // calculate all variations of inputs
   inputs: async () => cartesian({
