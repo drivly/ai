@@ -2,7 +2,7 @@ import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { DotdoLogo } from '../shared/dotdo-logo'
 import { footerNavigation, siteConfig } from '../site-config'
-import { ProjectStatus } from './project-status'
+// import { ProjectStatus } from './project-status'
 
 export function Footer({ minimal }: { minimal?: boolean }) {
   if (minimal) {
@@ -130,7 +130,16 @@ export function Footer({ minimal }: { minimal?: boolean }) {
             </a>
             , Inc. All rights reserved.
           </p>
-          <ProjectStatus />
+          {/* <ProjectStatus /> */}
+          <iframe
+            src='https://status.workflows.do/badge?theme=dark'
+            width='250'
+            height='30'
+            frameBorder='0'
+            scrolling='no'
+            style={{ colorScheme: 'normal' }}
+            title='System Status'
+          />
         </div>
       </div>
     </footer>
