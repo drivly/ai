@@ -267,7 +267,7 @@ The [.do](https://dotdo.ai) is completely MIT-licensed open source and built on 
 - AI models are provided by OpenAI, Google, Anthropic, Meta, xAI, DeepSeek, Alibaba, and Perplexity
 - AI inference is provided by OpenAI, Google, Anthropic, AWS, Groq, xAI, Perplexity, and Cloudflare
 - Additional AI models and inference providers available via OpenRouter
-- Typescript, Node.js, Next.js, React, Tailwind, ShadCN, Payload
+- TypeScript, Node.js, Next.js, React, Tailwind, ShadCN, Payload
 - Authentication is provided by WorkOS with customer keys/secrets in WorkOS Vault
 - Hosting is managed by Vercel & Cloudflare Workers for Platforms
 - Databases are managed MongoDB Atlas, Neon Postgres, and Clickhouse Cloud.
