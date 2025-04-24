@@ -4,6 +4,62 @@ asIndexPage: true
 
 # SDKs
 
+
+### [`ai`](/docs/sdks/functions.do)
+
+The `ai` object in [`functions.do`](/docs/sdks/functions.do) and [`workflows.do`](/docs/sdks/workflows.do) is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
+
+```typescript
+import { ai } from 'functions.do'
+
+// Generate a Lean Canvas
+const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
+```
+
+
+### `db`
+
+The `db` object provides access to the database:
+
+```typescript
+import { db } from 'database.do'
+
+const posts = await db.posts.find({ tag: 'ai' })
+```
+
+### `do`
+
+The [`do`](/docs/sdks/agents.do) function requests [AI Agents](/docs/agents) and [Human](/docs/functions/human) [Users](/docs/admin/user) to take [Action](/docs/functions/action):
+
+```typescript
+import { do } from 'agents.do'
+
+const research = await do`research about ${topic}`
+```
+
+### `browse`
+
+The `browse` function in [`agents.do`](/docs/sdks/agents.do#browse) and [`browse.do`](/docs/sdks/browse.do) provide real-time web browsing:
+
+```typescript
+import { browse } from 'agents.do'
+
+const findings = await browse`research about ${topic}`
+```
+
+### `research`
+
+The `research` function in [`agents.do`](/docs/sdks/agents.do) and [`research.do`](/docs/sdks/research.do) provide deep-research in real-time:
+
+```typescript
+import { research } from 'research.do'
+
+const findings = await research`research about ${topic}`
+```
+### `on`
+
+### `every`
+
 ## `AI`
 
 The [`AI`](/docs/sdks/functions.do) function in [`functions.do`](/docs/sdks/functions.do) and [`workflows.do`](/docs/sdks/workflows.do) allows [Functions](/docs/functions) and [Workflows](/docs/workflows) to be defined in a strongly-typed way:
@@ -36,16 +92,6 @@ const ai = AI({
 })
 ```
 
-### [`ai`](/docs/sdks/functions.do)
-
-The `ai` object in [`functions.do`](/docs/sdks/functions.do) and [`workflows.do`](/docs/sdks/workflows.do) is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
-
-```typescript
-import { ai } from 'functions.do'
-
-// Generate a Lean Canvas
-const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
-```
 
 ## `Agent`
 
@@ -70,35 +116,6 @@ const amy = Agent({
 export const refundOrder = (orderId: number) => amy.do`refund order ${orderId} and send the customer confirmation`
 ```
 
-### `do`
-
-The [`do`](/docs/sdks/agents.do) function requests [AI Agents](/docs/agents) and [Human](/docs/functions/human) [Users](/docs/admin/user) to take [Action](/docs/functions/action):
-
-```typescript
-import { do } from 'agents.do'
-
-const research = await do`research about ${topic}`
-```
-
-### `browse`
-
-The `browse` function in [`agents.do`](/docs/sdks/agents.do#browse) and [`browse.do`](/docs/sdks/browse.do) provide real-time web browsing:
-
-```typescript
-import { browse } from 'agents.do'
-
-const findings = await browse`research about ${topic}`
-```
-
-### `research`
-
-The `research` function in [`agents.do`](/docs/sdks/agents.do) and [`research.do`](/docs/sdks/research.do) provide deep-research in real-time:
-
-```typescript
-import { research } from 'research.do'
-
-const findings = await research`research about ${topic}`
-```
 
 ## `API`
 
@@ -202,21 +219,9 @@ const db = DB({
 })
 ```
 
-### `db`
-
-The `db` object provides access to the database:
-
-```typescript
-import { db } from 'database.do'
-
-const posts = await db.posts.find({ tag: 'ai' })
-```
 
 ## `Event`
 
-### `on`
-
-### `every`
 
 ## `Integration`
 
