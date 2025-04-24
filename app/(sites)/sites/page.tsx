@@ -8,6 +8,7 @@ import { Metadata } from 'next'
 export const metadata = {
   title: 'Do Services-as-Software',
   description: 'Build AI-native businesses with agentic services through simple APIs and SDKs',
+  metadataBase: new URL('https://dotdo.ai'),
   alternates: {
     canonical: 'https://dotdo.ai',
   },
