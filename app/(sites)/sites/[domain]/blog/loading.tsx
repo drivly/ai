@@ -1,13 +1,4 @@
-import { cn } from '@/lib/utils'
-
-function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn('animate-pulse rounded-md bg-muted', className)}
-      {...props}
-    />
-  )
-}
+import { Skeleton } from '@/components/ui/skeleton'
 
 function SkeletonBlogCard() {
   return (
@@ -16,9 +7,9 @@ function SkeletonBlogCard() {
         <Skeleton className='h-full w-full' />
       </div>
       <div className='flex flex-grow flex-col overflow-hidden p-4'>
-        <Skeleton className='h-8 w-3/4 mb-2' />
-        <Skeleton className='h-4 w-full mt-2 mb-1' />
-        <Skeleton className='h-4 w-2/3 mb-4' />
+        <Skeleton className='mb-2 h-8 w-3/4' />
+        <Skeleton className='mt-2 mb-1 h-4 w-full' />
+        <Skeleton className='mb-4 h-4 w-2/3' />
         <div className='mt-4 flex items-center justify-between'>
           <Skeleton className='h-5 w-16' />
           <Skeleton className='h-4 w-24' />
@@ -29,15 +20,13 @@ function SkeletonBlogCard() {
 }
 
 export default function Loading() {
-  const skeletonCards = Array.from({ length: 6 }).map((_, i) => (
-    <SkeletonBlogCard key={i} />
-  ))
+  const skeletonCards = Array.from({ length: 6 }).map((_, i) => <SkeletonBlogCard key={i} />)
 
   return (
     <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
       {/* Skeleton for page header */}
       <div className='mb-8'>
-        <Skeleton className='h-4 w-16 mb-4' />
+        <Skeleton className='mb-4 h-4 w-16' />
         <Skeleton className='h-10 w-32' />
       </div>
 
@@ -52,9 +41,7 @@ export default function Loading() {
       </div>
 
       {/* Skeleton cards grid */}
-      <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-        {skeletonCards}
-      </div>
+      <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>{skeletonCards}</div>
     </div>
   )
 }
