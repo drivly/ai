@@ -58,6 +58,24 @@ const directories = await research`website directories for ${topic}`([String])
 directories.forEach(directory => browse`${directory}.  Request Agents.do to be added`)
 ```
 
+### [Agents.do](https://agents.do) Autonomous Work
+
+```typescript
+import { Agent } from 'agents.do'
+
+// Create a customer support agent
+const amy = Agent({
+  name: 'Amy',
+  url: 'https://amy.do',
+  role: 'Customer Support Agent',
+  objective: 'Handles customer inquiries and resolves common issues',
+  keyResults: ['ticketResponseTime', 'ticketResolutionTime', 'customerSatisfaction'],
+  integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
+  triggers: ['onTicketCreated', 'onMessageReceived'],
+  searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
+  actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
+})
+```
 
 ### [Humans.do](https://humans.do) Tasks in a Workflow
 
@@ -97,7 +115,7 @@ Eval('W-2 OCR', {
 })
 ```
 
-### [Experiments.do](https://experiments.do) Rapid Evaluation & Iteration
+### [Experiments.do](https://experiments.do) Rapid Iteration
 
 ```ts
 import { ai } from 'functions.do'
@@ -143,25 +161,6 @@ Experiment({
     }],
   })
   scorer: [Battle],
-})
-```
-
-### [Agents.do](https://agents.do) Autonomous Work
-
-```typescript
-import { Agent } from 'agents.do'
-
-// Create a customer support agent
-const amy = Agent({
-  name: 'Amy',
-  url: 'https://amy.do',
-  role: 'Customer Support Agent',
-  objective: 'Handles customer inquiries and resolves common issues',
-  keyResults: ['ticketResponseTime', 'ticketResolutionTime', 'customerSatisfaction'],
-  integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
-  triggers: ['onTicketCreated', 'onMessageReceived'],
-  searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
-  actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
 })
 ```
 
