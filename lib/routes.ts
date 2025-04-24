@@ -11,6 +11,7 @@ export const publicRoutes = [
   '/admin/login',
   '/sign-in',
   '/sign-up',
+  '/api.json',
   ...faviconRoutes,
 ]
 
