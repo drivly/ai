@@ -39,7 +39,7 @@ export const withSitesWrapper = <TParams extends { domain?: string; slug?: strin
       <BalancerProvider>
         {/* Pass awaitedParams to SitesNavbar as it needs the resolved values */}
         <SitesNavbar params={awaitedParams} minimal={minimal} />
-        <main className='flex-1 overflow-x-hidden border-b border-gray-800/50'>
+        <main className='border-b border-gray-800/50'>
           {/* Pass the awaited props to WrappedPage */}
           <WrappedPage {...pageProps} />
         </main>

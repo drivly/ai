@@ -192,7 +192,7 @@ const isVariablePrice = (price: FixedPrice | VariablePrice): price is VariablePr
 export function Pricing() {
   const [billingFrequency, setBillingFrequency] = React.useState<'monthly' | 'annually'>('monthly')
   return (
-    <div className='mx-auto max-w-6xl bg-black px-3 py-8 sm:py-10'>
+    <div className='px-3 py-8 sm:py-10 xl:px-0'>
       <section
         aria-labelledby='pricing-title'
         className='animate-slide-up-fade flex flex-col items-center text-center'
