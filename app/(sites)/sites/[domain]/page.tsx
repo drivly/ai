@@ -31,7 +31,7 @@ async function DotDoPage(props: { params: { domain: string }; searchParams?: { [
   const glowColor = (content as any).brandColor || getGlowColor(site)
 
   return (
-    <>
+    <div className='overflow-x-hidden'>
       <div className='hero-glow-container' style={{ '--glow-color': glowColor } as React.CSSProperties}>
         <HeroSection
           codeExample={content.codeExample || codeExample}
@@ -46,7 +46,7 @@ async function DotDoPage(props: { params: { domain: string }; searchParams?: { [
       <DotdoLinkSection />
       <Particles className='absolute inset-0 -z-10' quantity={50} ease={70} size={0.05} staticity={40} color={'#ffffff'} />
       <Faqs faqs={content.faqs} />
-    </>
+    </div>
   )
 }
 
