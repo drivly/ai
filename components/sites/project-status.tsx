@@ -31,6 +31,12 @@ const getStatusConfig = (status: ProjectStatusResponse) => {
         bgColorOpacity: 'bg-blue-500/20',
         text: 'Scheduled maintenance',
       }
+    case 'offline':
+      return {
+        bgColor: 'bg-gray-500',
+        bgColorOpacity: 'bg-gray-500/20',
+        text: 'System offline',
+      }
     default:
       return {
         bgColor: 'bg-emerald-500',
