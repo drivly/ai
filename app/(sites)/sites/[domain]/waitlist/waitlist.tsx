@@ -27,7 +27,7 @@ export const Waitlist = ({ email, name }: WaitlistProps) => {
         <div className='flex w-full max-w-2xl flex-col items-center space-y-8 px-3'>
           <div className='relative flex flex-col items-center justify-center text-center'>
             <DotdoLogo className='mb-2 flex items-center justify-center' as='div' />
-            <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-4xl leading-none font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40'>
+            <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-4xl leading-none font-medium tracking-tight text-balance text-transparent dark:from-white dark:to-white/40'>
               <span className=''>Thanks, </span>
               <span className=''>{name}!</span>
             </h1>

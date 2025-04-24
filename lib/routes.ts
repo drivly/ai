@@ -11,6 +11,8 @@ export const publicRoutes = [
   '/admin/login',
   '/sign-in',
   '/sign-up',
+  '/opengraph-image',
+  '/twitter-image',
   ...faviconRoutes,
 ]
 

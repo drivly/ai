@@ -105,7 +105,7 @@ async function ChangelogPage({ params, searchParams = {} }: { params: { domain: 
         Back
       </Link>
       
-      <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40 mb-8'>
+      <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tight text-balance text-transparent dark:from-white dark:to-white/40 mb-8'>
         Changelog
       </h1>
       
