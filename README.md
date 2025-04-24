@@ -1,6 +1,6 @@
 # [.do](https://dotdo.ai) Business-as-Code
 
-While the cloud enabled Software-as-Software, AI is unlocking [Services-as-Software](https://services.do).
+While the cloud enabled Software-as-a-Service, AI is unlocking [Services-as-Software](https://services.do)
 
 ### [Functions.do](https://functions.do) Generate Objects without a Schema
 
@@ -13,18 +13,16 @@ const brand = await ai.storyBrand({ idea: 'Auto Loan Underwriting Services-as-So
 ### [Functions.do](https://functions.do) Generate Text
 
 ```ts
-import { ai } from 'functions.do'
-
-const brand = await ai`write a blog post introducing ${idea} and how it will be delivered by ${brand}`
+const post = await ai`write a blog post introducing ${idea} and how it will be delivered by ${brand}`
 ```
 
 
 ### [Functions.do](https://functions.do) Generate Lists
 
 ```ts
-import { list } from 'functions.do'
+const titles = await ai.list`${count} possible blog post titles related to ${idea}`
 
-const titles = await list`${count} possible blog post titles related to ${idea}`
+titles.forEach(title => ai`write a blog post starting with "# ${title}"`)
 ```
 
 ### [Functions.do](https://functions.do) Generate Objects with a Type-safe Schema
@@ -55,11 +53,29 @@ const businessModel = await ai.leanCanvas({ idea: 'Auto Loan Underwriting Servic
 ```ts
 import { browse, research } from 'agents.do'
 
-const { directories } = await research`website directories for ${topic}`({ directories: [String] })
+const directories = await research`website directories for ${topic}`([String])
 
-directories.forEach(directory => browse`${directory}.  Request Agents.do to be added to the directory.`)
+directories.forEach(directory => browse`${directory}.  Request Agents.do to be added`)
 ```
 
+### [Agents.do](https://agents.do) Autonomous Work
+
+```typescript
+import { Agent } from 'agents.do'
+
+// Create a customer support agent
+const amy = Agent({
+  name: 'Amy',
+  url: 'https://amy.do',
+  role: 'Customer Support Agent',
+  objective: 'Handles customer inquiries and resolves common issues',
+  keyResults: ['ticketResponseTime', 'ticketResolutionTime', 'customerSatisfaction'],
+  integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
+  triggers: ['onTicketCreated', 'onMessageReceived'],
+  searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
+  actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
+})
+```
 
 ### [Humans.do](https://humans.do) Tasks in a Workflow
 
@@ -99,7 +115,7 @@ Eval('W-2 OCR', {
 })
 ```
 
-### [Experiments.do](https://experiments.do) Rapid Evaluation & Iteration
+### [Experiments.do](https://experiments.do) Rapid Iteration
 
 ```ts
 import { ai } from 'functions.do'
@@ -148,35 +164,14 @@ Experiment({
 })
 ```
 
-### [Agents.do](https://agents.do) Autonomous Work
+### [Analytics.do](https://analytics.do) Track Business Metrics
 
-```typescript
-import { Agent } from 'agents.do'
+```ts
+import { track } from 'analytics.do'
 
-// Create a customer support agent
-const amy = Agent({
-  name: 'Amy',
-  url: 'https://amy.do',
-  role: 'Customer Support Agent',
-  objective: 'Handles customer inquiries and resolves common issues',
-  keyResults: ['ticketResponseTime', 'ticketResolutionTime', 'customerSatisfaction'],
-  integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
-  triggers: ['onTicketCreated', 'onMessageReceived'],
-  searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
-  actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
-})
+track('User.Signup', { name, email, company })
 ```
 
-### [Workflows.do](https://workflows.do) Scheduled Functions
-
-```typescript
-import { every } from 'workflows.do'
-
-every('hour during business hours', async () => {
-  const ideas = await db.ideas.find({ status: 'launched' })
-  await db.ideas.updateMany({ status: 'launched' }, { status: 'launched' })
-})
-```
 
 ### [Workflows.do](https://workflows.do) Respond to Events
 
@@ -209,6 +204,19 @@ on('User.Signup', async (event, { ai, api, db }) => {
 })
 ```
 
+
+### [Workflows.do](https://workflows.do) Scheduled Functions
+
+```typescript
+import { every } from 'workflows.do'
+import { cmo } from 'agents.do'
+
+every('hour during business hours', async () => {
+  const ideas = await db.ideas.find({ status: 'launched' })
+  ideas.forEach(idea => cmo.do`a creative marketing campaign for ${idea}`)
+})
+```
+
 ### [Database.do](https://database.do) Schemaless Collections
 
 ```typescript
@@ -216,14 +224,12 @@ import { db } from 'database.do'
 
 await db.ideas.create({ idea, businessModel, status: 'waitlist' })
 
-const launchedIdeas = await db.ideas.find({ status: 'launched' })
+const waitlistIdeas = await db.ideas.find({ status: 'waitlist' })
 ```
 
 ### [Database.do](https://database.do) Integrated Embeddings & Vector Search
 
 ```typescript
-import { db } from 'database.do'
-
 const ideas = await db.ideas.search('automotive finance')
 ```
 
@@ -253,3 +259,15 @@ const db = DB({
   },
 })
 ```
+
+## [.do](https://dotdo.ai) ❤️ open-source
+
+The [.do](https://dotdo.ai) is completely MIT-licensed open source and built on top of many amazing companies and open source projects:
+
+- AI models are provided by OpenAI, Google, Anthropic, Meta, xAI, DeepSeek, Alibaba, and Perplexity with additional models via OpenRouter 
+- AI inference is provided by OpenAI, Google, Anthropic, AWS, Groq, xAI, Perplexity, and Cloudflare with additional providers via OpenRouter 
+- Authentication is provided by WorkOS with customer keys/secrets in WorkOS Vault
+- Hosting is managed by Vercel & Cloudflare Workers for Platforms
+- Databases are managed MongoDB Atlas, Neon Postgres, and Clickhouse Cloud.
+- Integrations are provided by Composio and Zapier
+- Analytics provided by PostHog, with monitoring from Better Stack
