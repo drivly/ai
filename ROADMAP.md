@@ -39,7 +39,7 @@ const businessModel = ai.leanCanvas({ concept: 'Auto Loan Underwriting Services-
 ### [Evals.do](https://evals.do) Measure AI Performance
 
 ```ts
-import { Eval } from 'evals.do'
+import { Eval, JSONDiff } from 'evals.do'
 
 Eval('W‑2 OCR', {
 
@@ -83,6 +83,8 @@ Eval('W‑2 OCR', {
 ### [Experiments.do](https://experiments.do) Compare Models
 
 ```ts
+import { ai } from 'functions.do'
+import { Battle } from 'evals.do'
 import { Experiment } from 'experiments.do'
 
 Experiment({
@@ -100,6 +102,14 @@ Experiment({
     'x-ai/grok-3-beta',
     'x-ai/grok-3-mini-beta',
   ],
+  temperature: [0.8, 1],
+  inputs: cartesian({
+    topic: ['Business-as-Code', 'Services-as-Software', 'AI Agents', 'Agentic Workflows'],
+    audience: ['startup founders', 'empowered CTOs', 'alpha developers', 'AI engineers'],
+    tone: ['informative', 'engaging', 'persuasive', 'conversational', 'technical'],
+  }),
+  task: ai.listBlogPostTitles
+  scorer: [Battle],
 })
 ```
   
