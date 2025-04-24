@@ -13,7 +13,7 @@ const brand = await ai.storyBrand({ idea: 'Auto Loan Underwriting Services-as-So
 ### [Functions.do](https://functions.do) Generate Text
 
 ```ts
-const post = await ai`write a blog post introducing ${idea} and how it will be delivered by ${brand}`
+const post = await ai`write a blog post introducing ${idea} and ${brand}`
 ```
 
 
@@ -45,7 +45,7 @@ const ai = AI({
   },
 })
 
-const businessModel = await ai.leanCanvas({ idea: 'Auto Loan Underwriting Services-as-Software' })
+const businessModel = await ai.leanCanvas({ idea: 'Auto Lending Services-as-Software' })
 ```
 
 ### [Agents.do](https://agents.do) Research & Web Browsing
