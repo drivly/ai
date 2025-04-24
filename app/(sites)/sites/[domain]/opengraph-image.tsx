@@ -10,7 +10,8 @@ export const size = {
 
 export const contentType = 'image/png'
 
-export default async function Image() {
+export default async function Image({ params }: { params: { domain: string } }) {
+  console.log('OG-Image', params)
   const logoData = await readFile(join(process.cwd(), 'app', 'ogBackground1.png'))
   const logoSrc = Uint8Array.from(logoData).buffer
 
