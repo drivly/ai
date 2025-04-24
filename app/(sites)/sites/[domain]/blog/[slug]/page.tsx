@@ -46,7 +46,7 @@ async function BlogPostPage({ params }: { params: { domain: string; slug: string
 
       <div className='mb-8'>
         <Badge className='mb-4 px-3 py-1.5 text-sm hover:bg-gray-100 sm:px-2.5 sm:py-1 sm:text-xs dark:hover:bg-gray-800/50'>{post?.category}</Badge>
-        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tighter text-balance text-transparent dark:from-white dark:to-white/40'>
+        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tight text-balance text-transparent dark:from-white dark:to-white/40'>
           <Balancer>{post?.title}</Balancer>
         </h1>
         <p className='text-muted-foreground text-xl'><Balancer>{post?.description}</Balancer></p>
