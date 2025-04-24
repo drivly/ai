@@ -41,7 +41,7 @@ const businessModel = ai.leanCanvas({ concept: 'Auto Loan Underwriting Services-
 ```ts
 import { Eval, JSONDiff } from 'evals.do'
 
-Eval('W‑2 OCR', {
+Eval('W-2 OCR', {
 
   // compare different models
   models: [
