@@ -32,6 +32,7 @@ export function register() {
   })
 
   if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID) {
+    console.debug('Initializing Google Analytics with ID:', process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID);
     window.dataLayer = window.dataLayer || []
     function gtag(...args: any[]) {
       window.dataLayer.push(args)
@@ -44,5 +45,7 @@ export function register() {
     script.src = `https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`
     script.async = true
     document.head.appendChild(script)
+    script.onload = () => console.debug('Google Analytics script loaded successfully');
+    script.onerror = (e) => console.error('Failed to load Google Analytics script:', e);
   }
 }
