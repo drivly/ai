@@ -209,10 +209,11 @@ on('User.Signup', async (event, { ai, api, db }) => {
 
 ```typescript
 import { every } from 'workflows.do'
+import { cmo } from 'agents.do'
 
 every('hour during business hours', async () => {
   const ideas = await db.ideas.find({ status: 'launched' })
-  await db.ideas.updateMany({ status: 'launched' }, { status: 'launched' })
+  ideas.forEach(idea => cmo.do`a creative marketing campaign for ${idea}`)
 })
 ```
 
