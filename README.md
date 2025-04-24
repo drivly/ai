@@ -264,10 +264,12 @@ const db = DB({
 
 The [.do](https://dotdo.ai) is completely MIT-licensed open source and built on top of many amazing companies and open source projects:
 
-- AI models are provided by OpenAI, Google, Anthropic, Meta, xAI, DeepSeek, Alibaba, and Perplexity with additional models via OpenRouter 
-- AI inference is provided by OpenAI, Google, Anthropic, AWS, Groq, xAI, Perplexity, and Cloudflare with additional providers via OpenRouter 
+- AI models are provided by OpenAI, Google, Anthropic, Meta, xAI, DeepSeek, Alibaba, and Perplexity
+- AI inference is provided by OpenAI, Google, Anthropic, AWS, Groq, xAI, Perplexity, and Cloudflare
+- Additional AI models and inference providers available via OpenRouter
+- Typescript, Node.js, Next.js, React, Tailwind, ShadCN, Payload
 - Authentication is provided by WorkOS with customer keys/secrets in WorkOS Vault
 - Hosting is managed by Vercel & Cloudflare Workers for Platforms
 - Databases are managed MongoDB Atlas, Neon Postgres, and Clickhouse Cloud.
-- Integrations are provided by Composio and Zapier
+- Integrations via API Keys and OAuth are facilitated by Composio and Zapier
 - Analytics provided by PostHog, with monitoring from Better Stack
