@@ -214,7 +214,7 @@ import { db } from 'database.do'
 
 await db.ideas.create({ idea, businessModel, status: 'waitlist' })
 
-const launchedIdeas = await db.ideas.find({ status: 'launched' })
+const waitlistIdeas = await db.ideas.find({ status: 'waitlist' })
 ```
 
 ### [Database.do](https://database.do) Integrated Embeddings & Vector Search
