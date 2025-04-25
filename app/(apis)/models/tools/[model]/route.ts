@@ -141,6 +141,6 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     }).reduce((acc, { app, tools }) => {
       acc[app] = tools
       return acc
-    }, {} as Record<string, string>),
+    }, {} as Record<string, Record<string, string>>),
   }
 })
