@@ -23,7 +23,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const fontMed = await readFile(join(process.cwd(), 'app', '(sites)', 'fonts', 'IBMPlexMono-Medium.ttf'))
 
   const content = await getContent(domain)
-  const [title, subtitle] = content.seo.title.split(' - ') || [domain, 'Business-as-Code']
+  const titleParts = content.seo.title ? content.seo.title.split(' - ') : []
+  const title = titleParts[0] || domain
+  const subtitle = titleParts[1] || 'Business-as-Code'
 
   return new ImageResponse(
     (
