@@ -19,7 +19,7 @@ const turboLoans = Business({
   vision: 'To provide fast, affordable, and transparent loans to consumers',
   storyBrand: {
     hero: 'Consumers overwhelmed by slow, unclear loan processes',
-    problem: 'Difficulty securing fair loans due to complicated applications and unclear terms',
+    problem: 'Difficulty securing fair loans due to complicated apps and unclear terms',
     guide: 'TurboLoans, your trusted partner in quick, clear loans',
     solution: 'AI-driven platform simplifying loan evaluation and approval',
     callToAction: 'Apply easily, get approved fast, secure your finances',
@@ -168,3 +168,6 @@ on('PrepareFunding', async (task, { funding }) => funding.initiate(task.applican
 on('SendReport',     async (task, { email }) => email.to(task.to,            'Weekly OKR Report',   task.report))
 on('ShareUpdate',    async (task, { chat })  => chat.post(task.channel,      task.summary))
 ```
+
+
+≤ $35
