@@ -219,8 +219,14 @@ function createDatabaseAccess(): DatabaseAccess {
           if (typeof g.createNoSQLClient === 'function') {
             return g.createNoSQLClient(storage) as unknown as DatabaseAccess
           }
-        } catch (importError) {}
+          
+          const { createNoSQLClient } = require('durable-objects-nosql')
+          return createNoSQLClient(storage) as unknown as DatabaseAccess
+        } catch (importError) {
+          console.error('Error importing durable-objects-nosql:', importError)
+        }
 
+        console.warn('Falling back to direct storage casting. This is not recommended.')
         return storage as unknown as DatabaseAccess
       } catch (error) {
         console.error('Error initializing database access:', error)
