@@ -11,7 +11,7 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function Image() {
-  const logoData = await readFile(join(process.cwd(), 'app', 'ogBackground1.png'))
+  const logoData = await readFile(join(process.cwd(), 'app', 'OG_BG_1.png'))
   const logoSrc = Uint8Array.from(logoData).buffer
 
   const fontReg = await readFile(join(process.cwd(), 'app', '(sites)', 'fonts', 'IBMPlexMono-Regular.ttf'))

@@ -1,5 +1,6 @@
 import { generateStaticParamsFor, importPage } from 'nextra/pages'
 import { useMDXComponents as getMDXComponents } from '@/mdx-components'
+import { ResolvingMetadata } from 'next'
 
 export const generateStaticParams = generateStaticParamsFor('mdxPath')
 
@@ -7,24 +8,29 @@ type Props = {
   params: Promise<{ mdxPath: string[] }>
 }
 
-// export const metadata = {
-//   metadataBase: new URL('https://acme.com'),
-//   alternates: {
-//     canonical: '/',
-//     languages: {
-//       'en-US': '/en-US',
-//       'de-DE': '/de-DE',
-//     },
-//   },
-//   openGraph: {
-//     images: '/og-image.png',
-//   },
-// }
+export async function generateMetadata(props: Props, parent: ResolvingMetadata) {
+  const { mdxPath } = await props.params
+  const { metadata } = await importPage(mdxPath)
 
-export async function generateMetadata(props: Props) {
-  const params = await props.params
-  const { metadata } = await importPage(params.mdxPath)
-  return metadata
+  const previousOpenGraphImages = (await parent).openGraph?.images || []
+  const previousTwitterImages = (await parent).twitter?.images || []
+
+  let openGraphImage
+  if (mdxPath && mdxPath.length > 0) {
+    openGraphImage = `/docs/og?title=${metadata.title}`
+  }
+
+  return {
+    ...metadata,
+    openGraph: {
+      images: [...(openGraphImage ? [openGraphImage] : []), ...previousOpenGraphImages],
+      ...metadata.openGraph,
+    },
+    twitter: {
+      images: [...(openGraphImage ? [openGraphImage] : []), ...previousTwitterImages],
+      ...metadata.twitter,
+    },
+  }
 }
 
 const Wrapper = getMDXComponents().wrapper
