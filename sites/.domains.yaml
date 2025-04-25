@@ -1,20 +1,153 @@
 AI:
-  Functions: ...
-  Workflows:
   Agents:
-  Services: 
+  Functions:
+  Services:
+  Workflows:
 
-Functions:
-  Code.Functions:
-  Generative.Functions:
-  Human.Functions:
-  Agent.Functions:
+Agents:
 
+  Role:
+    BDR: 
+    CFO: 
+    CMO: 
+    COO: 
+    CPO: 
+    CRO: 
+    CTO: 
+    PDM: 
+    SDR: 
+    SWE: 
+    Coach:
+    Developers:
+    Engineers:
+    Programmers:
+
+  Named:
+    Amy:
+    Ari:
+    Dara:
+    Ivy:
+    Lena:
+    Lexi:
+    Nat:
+    Tom:
+    Vera:
+
+Dev:
+  APIs:
+  SDK:
+  CLI:
+  Webhooks:
+  
+Work:
+  Plans:
+  Queue:
+  Tasks:
+
+Data:
+  Database:
+  Datasets:
+  Embeddings:
+  Resources:
+  Lists:
+  Nouns:
+  Objects:
+  State:
+  Vectors:
+  Verbs:
 
 Events:
-  Triggers:
-  Searches:
   Actions:
+  Searches:
+  Triggers:
+
+
+Integrations:
+  Actions:
+  Searches:
+  Triggers:
+
+Functions:
+  Code Functions:
+  Generative Functions:
+  Agent Functions:
+  Human Functions:
+
+
+Agent Functions:
+  Browse:
+  Extract:
+  Research:
+  Speak:
+  Trigger:
+
+LLMs:
+  Benchmarks:
+  Context:
+  Models:
+  Evaluations:
+  GPT:
+  LLM:
+
+Projects:
+  Waitlist:
+  Blogs:
+  Sites:
+
+MicroSites:
+  Careers:
+
+Observability:
+  Analytics:
+  KPIs:
+  OKRs:
+  Requests:
+  Responses:
+  Traces:
+
+Organization:
+  Companies:
+  Experiments:
+  Issues:
+  Management:
+  Organizations:
+  Products:
+  Projects:
+  Repository:
+  Studio:
+  Teams:
+  Worker:
+  Workers:
+
+Code:
+  ESBuild:
+  Tests:
+  Deployments:
+
+Infra:
+  OAuth:
+  Tests:
+
+Technology:
+  Airtable:
+  Barcode:
+  Bots:
+  Browser:
+  Browsers:
+  Clickhouse:
+  Cloudflare.Workers:
+  Colo:
+  Emails:
+  GCP:
+  MDX:
+  NATS:
+  Payload:
+  Perf:
+  Photos:
+  QRCode:
+  Scraper:
+  Scrapers:
+
 
 
 Aliases:
@@ -23,152 +156,5 @@ Aliases:
   function: functions
   llms: llm
   mgmt: management
-
-
-Data:
-  Lists: ...
-
-
-Agent Functions:
-# browse
-# extract
-# research
-# speak
-# trigger
-
-Named Agents:
-  Amy: ...
-  Ari: ...
-# dara
-# ivy
-# lena
-# lexi
-# nat
-# tom
-# vera
-
-Role Agents:
-  BDR: ...
-  CFO: ...
-  CMO: ...
-  COO: ...
-  CPO: ...
-  CRO: ...
-  CTO: ...
-  Devs: ...
-# engineers
-  Coach: ...
-  PDM: ...
-# programmers
-# sdr
-# swe
-
-
-LLMs:
-# benchmarks
-  Context: ...
-# evals
-  LLM: ...
-
-
-Observability:
-# requests
-# responses
-# trace
-# traces
-
-Tech:
-
-# airtable
-# clickhouse
-# nats
-
-
-Project:
-# blogs
-# studio
-
-
-MicroSites:
-  Careers: ...
-
-
-
-# agi
-# analytics
-# apis
-
-# barcode
-# bots
-# browser
-# browsers
-# businesses
-# cli
-# colo
-# companies
-
-# ctx
-# dash
-# dashboard
-# databases
-# datasets
-# deployments
-# emails
-# embed
-# embeddings
-# esbuild
-# events
-# experiments
-# functions
-# gcp
-# gpt
-# humans
-# integrate
-# integrations
-# issues
-# kpis
-# lodash
-# management
-# mcp
-# mdx
-# models
-# nouns
-# oauth
-# objects
-# okr
-# okrs
-# orgs
-# payload
-# perf
-# photos
-# pkg
-# plans
-# products
-# projects
-# qrcode
-# queue
-# repo
-# resources
-# scraper
-# scrapers
-# sdk
-# searches
-# service
-# services
-# sites
-# state
-# summarize
-# svc
-# tasks
-# teams
-# tests
-# transform
-# triggers
-# vectors
-# verbs
-# waitlist
-# webhook
-# webhooks
-# worker
-# workers
-# workflows
+  service: services
+  webhook: webhooks
