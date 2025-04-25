@@ -1,8 +1,8 @@
 # [.do](https://dotdo.ai) Business-as-Code
 
-While the cloud enabled Software-as-a-Service, AI is unlocking [Services-as-Software](https://services.do)
+While the cloud enabled Software-as-a-Service, AI is unlocking new business models where [Services-as-Software](https://dotdo.ai/manifesto#services-as-software) can be delivered without scaling human labor, and [Business-as-Code](https://dotdo.ai/manifesto#business-as-code) enable the creation of new AI-native organizations to disrupt legacy competitors.
 
-### [Functions.do](https://functions.do) Generate Objects without a Schema
+### [Functions.do/](https://functions.do) Generate Objects without a Schema
 
 ```ts
 import { ai } from 'functions.do'
@@ -10,14 +10,14 @@ import { ai } from 'functions.do'
 const brand = await ai.storyBrand({ idea: 'Auto Loan Underwriting Services-as-Software' })
 ```
 
-### [Functions.do](https://functions.do) Generate Text
+### [Functions.do/](https://functions.do) Generate Text
 
 ```ts
-const post = await ai`write a blog post introducing ${idea} and how it will be delivered by ${brand}`
+const post = await ai`write a blog post introducing ${idea} and ${brand}`
 ```
 
 
-### [Functions.do](https://functions.do) Generate Lists
+### [Functions.do/](https://functions.do) Generate Lists
 
 ```ts
 const titles = await ai.list`${count} possible blog post titles related to ${idea}`
@@ -25,7 +25,7 @@ const titles = await ai.list`${count} possible blog post titles related to ${ide
 titles.forEach(title => ai`write a blog post starting with "# ${title}"`)
 ```
 
-### [Functions.do](https://functions.do) Generate Objects with a Type-safe Schema
+### [Functions.do/](https://functions.do) Generate Objects with a Type-safe Schema
 
 ```ts
 import { AI } from 'functions.do'
@@ -45,10 +45,10 @@ const ai = AI({
   },
 })
 
-const businessModel = await ai.leanCanvas({ idea: 'Auto Loan Underwriting Services-as-Software' })
+const businessModel = await ai.leanCanvas({ idea: 'Auto Lending Services-as-Software' })
 ```
 
-### [Agents.do](https://agents.do) Research & Web Browsing
+### [Agents.do/](https://agents.do) Research & Web Browsing
 
 ```ts
 import { browse, research } from 'agents.do'
@@ -58,7 +58,7 @@ const directories = await research`website directories for ${topic}`([String])
 directories.forEach(directory => browse`${directory}.  Request Agents.do to be added`)
 ```
 
-### [Agents.do](https://agents.do) Autonomous Work
+### [Agents.do/](https://agents.do) Autonomous Work
 
 ```typescript
 import { Agent } from 'agents.do'
@@ -77,7 +77,7 @@ const amy = Agent({
 })
 ```
 
-### [Humans.do](https://humans.do) Tasks in a Workflow
+### [Humans.do/](https://humans.do) Tasks in a Workflow
 
 ```ts
 import { human } from 'humans.do'
@@ -87,7 +87,7 @@ const ceo = human({ email: 'sam@openai.com' })
 ceo.approveRelease({ product: 'GPT-5' })
 ```
 
-### [Evals.do](https://evals.do) Measure AI Model Performance
+### [Evals.do/](https://evals.do) Measure AI Model Performance
 
 ```ts
 import { Eval, JSONDiff } from 'evals.do'
@@ -115,7 +115,7 @@ Eval('W-2 OCR', {
 })
 ```
 
-### [Experiments.do](https://experiments.do) Rapid Iteration
+### [Experiments.do/](https://experiments.do) Rapid Iteration
 
 ```ts
 import { ai } from 'functions.do'
@@ -164,7 +164,7 @@ Experiment({
 })
 ```
 
-### [Analytics.do](https://analytics.do) Track Business Metrics
+### [Analytics.do/](https://analytics.do) Track Business Metrics
 
 ```ts
 import { track } from 'analytics.do'
@@ -173,7 +173,7 @@ track('User.Signup', { name, email, company })
 ```
 
 
-### [Workflows.do](https://workflows.do) Respond to Events
+### [Workflows.do/](https://workflows.do) Respond to Events
 
 ```typescript
 import { on } from 'workflows.do'
@@ -205,19 +205,19 @@ on('User.Signup', async (event, { ai, api, db }) => {
 ```
 
 
-### [Workflows.do](https://workflows.do) Scheduled Functions
+### [Workflows.do/](https://workflows.do) Scheduled Functions
 
 ```typescript
 import { every } from 'workflows.do'
 import { cmo } from 'agents.do'
 
-every('hour during business hours', async () => {
+every('hour during business hours', async (event, { db }) => {
   const ideas = await db.ideas.find({ status: 'launched' })
   ideas.forEach(idea => cmo.do`a creative marketing campaign for ${idea}`)
 })
 ```
 
-### [Database.do](https://database.do) Schemaless Collections
+### [Database.do/](https://database.do) Schemaless Collections
 
 ```typescript
 import { db } from 'database.do'
@@ -227,13 +227,13 @@ await db.ideas.create({ idea, businessModel, status: 'waitlist' })
 const waitlistIdeas = await db.ideas.find({ status: 'waitlist' })
 ```
 
-### [Database.do](https://database.do) Integrated Embeddings & Vector Search
+### [Database.do/](https://database.do) Integrated Embeddings & Vector Search
 
 ```typescript
 const ideas = await db.ideas.search('automotive finance')
 ```
 
-### [Database.do](https://database.do) Schemas & Relationships
+### [Database.do/](https://database.do) Schemas & Relationships
 
 ```typescript
 import { DB } from 'database.do'
@@ -260,14 +260,16 @@ const db = DB({
 })
 ```
 
-## [.do](https://dotdo.ai) ❤️ open-source
+## [.do/](https://dotdo.ai) ❤️ open-source
 
-The [.do](https://dotdo.ai) is completely MIT-licensed open source and built on top of many amazing companies and open source projects:
+The [.do](https://dotdo.ai) Platform is completely MIT-licensed open source and built on top of many amazing companies and open source projects:
 
-- AI models are provided by OpenAI, Google, Anthropic, Meta, xAI, DeepSeek, Alibaba, and Perplexity with additional models via OpenRouter 
-- AI inference is provided by OpenAI, Google, Anthropic, AWS, Groq, xAI, Perplexity, and Cloudflare with additional providers via OpenRouter 
+- AI models are provided by OpenAI, Google, Anthropic, Meta, xAI, DeepSeek, Alibaba, and Perplexity
+- AI inference is provided by OpenAI, Google, Anthropic, AWS, Groq, xAI, Perplexity, and Cloudflare
+- Additional AI models and inference providers available via OpenRouter
+- TypeScript, Node.js, Next.js, React, Tailwind, ShadCN, Payload
 - Authentication is provided by WorkOS with customer keys/secrets in WorkOS Vault
 - Hosting is managed by Vercel & Cloudflare Workers for Platforms
 - Databases are managed MongoDB Atlas, Neon Postgres, and Clickhouse Cloud.
-- Integrations are provided by Composio and Zapier
+- Integrations via API Keys and OAuth are facilitated by Composio and Zapier
 - Analytics provided by PostHog, with monitoring from Better Stack

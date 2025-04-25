@@ -49,7 +49,7 @@ export default auth(async (request) => {
       return NextResponse.rewrite(new URL(`${request.nextUrl.origin}/sites/${targetHostname}/pricing${request.nextUrl.search}`, request.url))
     }
     
-    if (isDoDomain(handler.hostname) && !handler.pathname.startsWith('/api/') && !handler.pathname.startsWith('/v1/')) {
+    if (isDoDomain(handler.hostname) && !isGatewayDomain(handler.hostname) && !handler.pathname.startsWith('/api/') && !handler.pathname.startsWith('/v1/')) {
       const doResponse = handleDoDomain(request)
       if (doResponse) {
         return doResponse
