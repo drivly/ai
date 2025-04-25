@@ -3,7 +3,6 @@ import { LanguageModelV1, LanguageModelV1CallWarning, LanguageModelV1FinishReaso
 import { createOpenAI } from '@ai-sdk/openai'
 import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { createAnthropic } from '@ai-sdk/anthropic'
-import { OpenAIToolSet } from 'composio-core'
 import { getModel, getModels, Model } from 'language-models'
 
 const providerRegistry: Record<string, any> = {
@@ -20,6 +19,9 @@ const providerRegistry: Record<string, any> = {
   cloudflare: createOpenAI({
     baseURL: `https://gateway.ai.cloudflare.com/v1/${process.env.CLOUDFLARE_ACCOUNT_ID || '<account_id>'}/${process.env.CLOUDFLARE_PROJECT_NAME || '<project_name>'}/workersai`,
     apiKey: process.env.CLOUDFLARE_API_KEY || process.env.AI_GATEWAY_TOKEN,
+  }),
+  openai: createOpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
   }),
 }
 
@@ -80,6 +82,8 @@ export const models = (modelIdentifiers: string, options?: ProviderOptions) => {
 }
 
 class LLMProvider implements LanguageModelV1 {
+  // For siginalling to our ai.ts overwrites that this is the LLMProvider
+  readonly _name: string = 'LLMProvider'
   readonly specificationVersion = 'v1'
   readonly resolvedModel: Model
 
@@ -102,9 +106,9 @@ class LLMProvider implements LanguageModelV1 {
     let provider = 'openrouter'
 
     // Access provider property which is added by getModel but not in the Model type
-    const providerSlug = (this.resolvedModel as any).provider?.slug
+    const providerSlug = this.resolvedModel.provider?.slug
     switch (providerSlug) {
-      case 'openai':
+      case 'openAi':
         provider = 'openai'
         break
       case 'google':
@@ -150,22 +154,6 @@ class LLMProvider implements LanguageModelV1 {
       }
     }
 
-    // Access parsed property which is added by getModel but not in the Model type
-    const parsedModel = this.resolvedModel as any
-    if (parsedModel.parsed?.tools && Object.keys(parsedModel.parsed.tools).length > 0) {
-      const toolNames = Object.keys(parsedModel.parsed.tools)
-
-      const composioToolset = new OpenAIToolSet({
-        apiKey: process.env.COMPOSIO_API_KEY,
-      })
-
-      const tools = await composioToolset.getTools({
-        actions: toolNames.length === 1 && toolNames[0] === 'all' ? undefined : toolNames,
-      })
-
-      ;(options as any).tools = ((options as any).tools || []).concat(tools)
-    }
-
     return await providerRegistry[this.provider](modelSlug, modelConfigMixin).doGenerate(options)
   }
 
@@ -173,8 +161,17 @@ class LLMProvider implements LanguageModelV1 {
     // Access providerModelId which is added by getModel but not in the Model type
     const modelSlug = this.provider == 'openrouter' ? this.resolvedModel.slug : (this.resolvedModel as any).provider?.providerModelId
 
-    // For now, we don't support tools with streaming
+    let modelConfigMixin = {}
 
-    return await providerRegistry[this.provider](this.resolvedModel.slug).doStream(options)
+    if (options.responseFormat?.type == 'json') {
+      // Force Google and OpenAI to use structured outputs.
+      if (this.provider == 'google' || this.provider == 'openai') {
+        modelConfigMixin = {
+          structuredOutputs: true,
+        }
+      }
+    }
+
+    return await providerRegistry[this.provider](modelSlug, modelConfigMixin).doStream(options)
   }
 }
