@@ -2,6 +2,8 @@ import { API } from '@/lib/api'
 import { waitUntil } from '@vercel/functions'
 import { research } from '@/.ai/agents/research'
 
+export const maxDuration = 600
+
 export const GET = API(async (request, { db, user, url, origin, domain, payload }) => {
   const results = await research(request.nextUrl.search)
   return { research: results }
