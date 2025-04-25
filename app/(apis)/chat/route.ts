@@ -1,7 +1,7 @@
 import { streamText } from 'ai'
 import { model } from '@/lib/ai'
 
-export const maxDuration = 30
+export const maxDuration = 300
 
 export async function POST(req: Request) {
   const { messages } = await req.json()

@@ -16,9 +16,14 @@ const meta: MetaRecord = {
   },
 
   manifesto: '',
-  'business-as-code': { display: 'hidden' },
-  'services-as-software': { display: 'hidden' },
+  'business-as-code': '',
+  'services-as-software': '',
   primitives: '',
+
+  // _business: {
+  //   type: 'separator',
+  // },
+
 
   _ai: {
     type: 'separator',
