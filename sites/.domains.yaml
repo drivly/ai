@@ -1,12 +1,174 @@
 AI:
-  Functions.do: ...
-  Workflows.do:
-  Agents.do:
-  Services.do: 
+  Functions: ...
+  Workflows:
+  Agents:
+  Services: 
 
 Functions:
-  Code.Functions.do:
-  Generative.Functions.do:
-  Human.Functions.do:
-  Agent.Functions.do:
+  Code.Functions:
+  Generative.Functions:
+  Human.Functions:
+  Agent.Functions:
 
+
+Events:
+  Triggers:
+  Searches:
+  Actions:
+
+
+Aliases:
+  action: actions
+  databases: database
+  function: functions
+  llms: llm
+  mgmt: management
+
+
+Data:
+  Lists: ...
+
+
+Agent Functions:
+# browse
+# extract
+# research
+# speak
+# trigger
+
+Named Agents:
+  Amy: ...
+  Ari: ...
+# dara
+# ivy
+# lena
+# lexi
+# nat
+# tom
+# vera
+
+Role Agents:
+  BDR: ...
+  CFO: ...
+  CMO: ...
+  COO: ...
+  CPO: ...
+  CRO: ...
+  CTO: ...
+  Devs: ...
+# engineers
+  Coach: ...
+  PDM: ...
+# programmers
+# sdr
+# swe
+
+
+LLMs:
+# benchmarks
+  Context: ...
+# evals
+  LLM: ...
+
+
+Observability:
+# requests
+# responses
+# trace
+# traces
+
+Tech:
+
+# airtable
+# clickhouse
+# nats
+
+
+Project:
+# blogs
+# studio
+
+
+MicroSites:
+  Careers: ...
+
+
+
+# agi
+# analytics
+# apis
+
+# barcode
+# bots
+# browser
+# browsers
+# businesses
+# cli
+# colo
+# companies
+
+# ctx
+# dash
+# dashboard
+# databases
+# datasets
+# deployments
+# emails
+# embed
+# embeddings
+# esbuild
+# events
+# experiments
+# functions
+# gcp
+# gpt
+# humans
+# integrate
+# integrations
+# issues
+# kpis
+# lodash
+# management
+# mcp
+# mdx
+# models
+# nouns
+# oauth
+# objects
+# okr
+# okrs
+# orgs
+# payload
+# perf
+# photos
+# pkg
+# plans
+# products
+# projects
+# qrcode
+# queue
+# repo
+# resources
+# scraper
+# scrapers
+# sdk
+# searches
+# service
+# services
+# sites
+# state
+# summarize
+# svc
+# tasks
+# teams
+# tests
+# transform
+# triggers
+# vectors
+# verbs
+# waitlist
+# webhook
+# webhooks
+# worker
+# workers
+# workflows
