@@ -93,6 +93,11 @@ Projects:
   Waitlist:
   Blogs:
   Sites:
+  MDX:
+  Resources:
+  Repo:
+  Issues:
+  Studio:
 
 MicroSites:
   Careers:
@@ -108,13 +113,10 @@ Observability:
 Organization:
   Companies:
   Experiments:
-  Issues:
   Management:
   Organizations:
   Products:
   Projects:
-  Repository:
-  Studio:
   Teams:
   Worker:
   Workers:
@@ -139,7 +141,6 @@ Technology:
   Colo:
   Emails:
   GCP:
-  MDX:
   NATS:
   Payload:
   Perf:
