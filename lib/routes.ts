@@ -14,6 +14,7 @@ export const publicRoutes = [
   '/api.json',
   '/opengraph-image',
   '/twitter-image',
+  '/_pagefind',
   ...faviconRoutes,
 ]
 
