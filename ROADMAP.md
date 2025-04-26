@@ -1,7 +1,19 @@
 # [.do](https://dotdo.ai) Roadmap
 
+<details>
+<summary>Roadmap Status Definitions</summary>
 
+| Status         | Emoji | Description                       |
+|----------------|:------|:----------------------------------|
+| Idea           | 💡     | Early concept, exploring ideas    |
+| Committed      | 📝     | Committed to build                |
+| Planned        | 📅     | Planned and scheduled             |
+| In Progress    | 🚧     | Currently being developed         |
+| Private Alpha  | 🔒     | Private testing with select users |
+| Public Beta    | 🚀     | Public early access               |
+| Released       | 🎉     | Officially released               |
 
+</details>
 
 ## ✅ 0.1.0
 
@@ -21,15 +33,3 @@
 - [Functions.do](https://functions.do) Generate Typescript Code w/ AST
 - [Functions.do](https://functions.do) Generate Markdown w/ AST
 
-
-
-
-| Status         | Emoji | Description                       |
-|----------------|:------|:----------------------------------|
-| Idea           | 💡     | Early concept, exploring ideas    |
-| Committed      | 📝     | Committed to build                |
-| Planned        | 📅     | Planned and scheduled             |
-| In Progress    | 🚧     | Currently being developed         |
-| Private Alpha  | 🔒     | Private testing with select users |
-| Public Beta    | 🚀     | Public early access               |
-| Released       | 🎉     | Officially released               |
