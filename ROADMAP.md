@@ -20,7 +20,7 @@
 - 🚀 [Functions.do](https://functions.do) Generate Objects without a Schema
 - ✅ [Functions.do](https://functions.do) Generate Objects with a Type-safe Schema
 
-## 0.2.0
+## 🏗️ 0.2.0
 
 - 🏗️ [APIs.do](https://apis.do) Clickable Developer Experiences
 - 🏗️ [APIs.do](https://apis.do) Simple SDK w/ CRUD for collections
@@ -28,7 +28,10 @@
 - 🏗️ [Experiments.do](https://experiments.do) Compare Models
 - 🏗️ [Benchmarks.do](https://benchmarks.do) Measure OCR Performance of Vision Models
 
-## 0.3.0
+## 🏗️ 0.3.0
 
 - [Functions.do](https://functions.do) Generate Typescript Code w/ AST
 - [Functions.do](https://functions.do) Generate Markdown w/ AST
+
+## 📅 0.4.0
+
