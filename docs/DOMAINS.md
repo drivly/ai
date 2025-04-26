@@ -153,7 +153,7 @@ The AI Primitives platform uses various domains for different services and compo
 
 ## Vercel Integration Status
 
-Currently, none of the domains are linked in Vercel. This was confirmed by the domain status checker script, which encountered an authentication error when attempting to fetch Vercel domain information.
+The domain status checker script encountered authentication errors when attempting to fetch Vercel domain information, preventing verification of domain linkage status. However, all domains marked as ✅ Online are functioning correctly, which indicates they must be properly linked to Vercel projects. The authentication error is preventing the script from retrieving the actual Vercel domain linkage information.
 
 ## Notes
 
