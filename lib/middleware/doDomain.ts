@@ -9,7 +9,8 @@ export function handleDoDomain(request: NextRequest): NextResponse | null {
 
   if (hostname === 'documentation.do') {
     console.log('Handling documentation.do domain', { pathname, search })
-    return NextResponse.rewrite(new URL(`${url.origin}/docs${pathname}${search}`, url))
+    const pathWithDocs = pathname.startsWith('/docs') ? pathname : `/docs${pathname}`
+    return NextResponse.rewrite(new URL(`${url.origin}${pathWithDocs}${search}`, url))
   }
 
   const apiName = extractApiNameFromDomain(hostname)

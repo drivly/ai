@@ -3,13 +3,6 @@
 
 import * as Sentry from '@sentry/nextjs'
 
-declare global {
-  interface Window {
-    dataLayer: any[]
-    gtag: (...args: any[]) => void
-  }
-}
-
 export function register() {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
@@ -31,18 +24,4 @@ export function register() {
     debug: false,
   })
 
-  if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID) {
-    window.dataLayer = window.dataLayer || []
-    function gtag(...args: any[]) {
-      window.dataLayer.push(args)
-    }
-    window.gtag = gtag
-    gtag('js', new Date())
-    gtag('config', process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID)
-
-    const script = document.createElement('script')
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID}`
-    script.async = true
-    document.head.appendChild(script)
-  }
 }

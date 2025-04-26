@@ -7,6 +7,7 @@ import './styles.css'
 // import '@code-hike/mdx/dist/index.css'
 
 import type { Metadata } from 'next'
+import { Providers } from '../providers'
 import { siteConfig } from '@/components/site-config'
 
 export const metadata = {
@@ -42,15 +43,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
       <body>
-        <Layout
-          // banner={banner}
-          navbar={navbar}
-          pageMap={pageMap}
-          docsRepositoryBase={siteConfig.baseLinks.docs_repo_base}
-          sidebar={{ defaultMenuCollapseLevel: 1 }}
-          themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}>
-          {children}
-        </Layout>
+        <Providers>
+          <Layout
+            // banner={banner}
+            navbar={navbar}
+            pageMap={pageMap}
+            docsRepositoryBase={siteConfig.baseLinks.docs_repo_base}
+            sidebar={{ defaultMenuCollapseLevel: 1 }}
+            themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}>
+            {children}
+          </Layout>
+        </Providers>
       </body>
     </html>
   )
