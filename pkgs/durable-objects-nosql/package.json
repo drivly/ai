@@ -1,6 +1,6 @@
 {
   "name": "durable-objects-nosql",
-  "version": "0.3.0",
+  "version": "0.2.0",
   "description": "MongoDB-style NoSQL interface for Cloudflare Worker Durable Objects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
