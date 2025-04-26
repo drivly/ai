@@ -8,32 +8,34 @@ import './styles.css'
 
 import type { Metadata } from 'next'
 import { Providers } from '../providers'
+import { siteConfig } from '@/components/site-config'
 
-/*
-export async function generateMetadata(): Promise<Metadata> {
-  const headersList = await headers()
-  const hostname = headersList.get('host') || ''
-  const pathname = headersList.get('x-pathname') || '/docs'
-  
-  const canonicalPath = pathname.startsWith('/docs/') ? pathname : '/docs'
-  const canonicalUrl = `https://workflows.do${canonicalPath}`
-  
-  return {
-    // Define your metadata here
-    // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
-    alternates: {
-      canonical: canonicalUrl,
-    }
-  }
-}
-*/
+export const metadata = {
+  title: {
+    template: '.do %s',
+    default: 'Documentation | Do Platform',
+  },
+  description: 'Documentation for the Do platform',
+  metadataBase: new URL(siteConfig.url),
+  alternates: {
+    canonical: siteConfig.baseLinks.docs,
+  },
+  openGraph: {
+    images: '/OG_Docs.png',
+    type: 'website',
+  },
+  twitter: {
+    images: '/OG_Docs.png',
+  },
+  keywords: ['business-as-code', 'AI workflows', 'functions', 'agents', 'services', 'business automation'],
+} satisfies Metadata
 
 const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Banner>
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const pageMap = await getPageMap('/docs')
 
-  const navbar = <Navbar logo={<b>.do</b>} logoLink='https://dotdo.ai' chatLink='https://discord.gg/tafnNeUQdm' projectLink='https://github.com/drivly/ai' />
+  const navbar = <Navbar logo={<b>{siteConfig.name}</b>} logoLink={siteConfig.url} chatLink={siteConfig.baseLinks.discord_chat_link} projectLink={siteConfig.baseLinks.github} />
 
   return (
     <html lang='en' dir='ltr' suppressHydrationWarning>
@@ -46,10 +48,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             // banner={banner}
             navbar={navbar}
             pageMap={pageMap}
-            docsRepositoryBase='https://github.com/drivly/ai/tree/main'
+            docsRepositoryBase={siteConfig.baseLinks.docs_repo_base}
             sidebar={{ defaultMenuCollapseLevel: 1 }}
-            themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}
-          >
+            themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}>
             {children}
           </Layout>
         </Providers>
