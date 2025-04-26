@@ -8,10 +8,10 @@
 | Idea          | 💡    | Early concept, exploring ideas    |
 | Committed     | 📝    | Committed to build                |
 | Planned       | 📅    | Planned and scheduled             |
-| In Progress   | 🚧    | Currently being developed         |
+| In Progress   | 🏗️    | Currently being developed         |
 | Private Alpha | 🔒    | Private testing with select users |
 | Public Beta   | 🚀    | Public early access               |
-| Released      | 🎉    | Officially released               |
+| Released      | ✅    | Officially released               |
 
 </details>
 
