@@ -246,10 +246,36 @@ async function compareAndUpdateDomainConfigurations(domainStatuses: DomainStatus
   const { domainsConfig } = await readDomainsTsv()
   const driftsDetected = []
 
+  const cloudflareApiToken = process.env.CLOUDFLARE_API_TOKEN || process.env.CLOUDFLARE_TOKEN
+  const cloudflareAccountId = process.env.CLOUDFLARE_ACCOUNT_ID
+  
+  if (!cloudflareApiToken) {
+    console.log('CLOUDFLARE_API_TOKEN environment variable is not set')
+    console.log('Cloudflare zone creation and updates will be skipped')
+  }
+  
+  if (!cloudflareAccountId) {
+    console.log('CLOUDFLARE_ACCOUNT_ID environment variable is not set')
+    console.log('Cloudflare zone creation will be skipped')
+  }
+
+  const domainsInCloudflare = new Set<string>()
+  for (const status of domainStatuses) {
+    if (status.nsRecords?.some(record => record.includes('cloudflare.com'))) {
+      domainsInCloudflare.add(status.domain)
+    }
+  }
+  
+  console.log(`Found ${domainsInCloudflare.size} domains with Cloudflare nameservers`)
+
   for (const status of domainStatuses) {
     const expectedConfig = getExpectedDomainConfig(status.domain, domainsConfig)
 
-    const cloudflareNeedsUpdate = needsCloudflareUpdate(status, expectedConfig)
+    const existingInCloudflare = domainsInCloudflare.has(status.domain)
+    
+    const hasVercelNS = status.nsRecords?.some(record => record.includes('vercel-dns.com')) || false
+    const cloudflareNeedsUpdate = !existingInCloudflare && !hasVercelNS && needsCloudflareUpdate(status, expectedConfig)
+    
     const vercelNeedsUpdate = needsVercelUpdate(status, expectedConfig)
 
     if (cloudflareNeedsUpdate || vercelNeedsUpdate) {
@@ -261,16 +287,29 @@ async function compareAndUpdateDomainConfigurations(domainStatuses: DomainStatus
 
       if (cloudflareNeedsUpdate) {
         console.log('  Cloudflare configuration needs updating')
-        driftsDetected.push({ domain: status.domain, service: 'cloudflare' })
+        console.log(`  Domain ${existingInCloudflare ? 'exists' : 'does not exist'} in Cloudflare`)
+        
+        if (existingInCloudflare) {
+          console.log('  Skipping Cloudflare update for existing zone to preserve settings')
+        } else {
+          driftsDetected.push({ domain: status.domain, service: 'cloudflare' })
 
-        if (updateConfigurations) {
-          console.log('  Updating Cloudflare configuration...')
-          try {
-            const { updateCloudflareZone } = await import('./domain-automation')
-            await updateCloudflareZone(status.domain, status.cloudflareZoneId, expectedConfig)
-            console.log('  Cloudflare configuration updated successfully')
-          } catch (error: any) {
-            console.error(`  Error updating Cloudflare configuration: ${error.message}`)
+          if (updateConfigurations && cloudflareApiToken && cloudflareAccountId) {
+            console.log('  Creating new Cloudflare zone...')
+            try {
+              const { updateCloudflareZone } = await import('./domain-automation')
+              
+              // Use updateCloudflareZone which can handle zone creation if needed
+              const success = await updateCloudflareZone(status.domain, undefined, expectedConfig)
+              
+              if (success) {
+                console.log('  Cloudflare zone created/updated successfully')
+              } else {
+                console.error('  Failed to create/update Cloudflare zone')
+              }
+            } catch (error: any) {
+              console.error(`  Error creating/updating Cloudflare zone: ${error.message}`)
+            }
           }
         }
       }
