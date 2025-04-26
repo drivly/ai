@@ -1,4 +1,5 @@
 import { auth } from '@/auth'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 import Rb2bScript from '@/components/Rb2bScript'
 import { PostHogProvider } from '@/components/shared/post-hog-provider'
 import { Analytics } from '@vercel/analytics/react'
@@ -13,6 +14,7 @@ export async function Providers({ children }: { children: React.ReactNode }) {
         {children}
         <Analytics />
         <SpeedInsights />
+        <GoogleAnalytics />
         <Rb2bScript />
       </PostHogProvider>
     </SessionProvider>
