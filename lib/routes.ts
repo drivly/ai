@@ -1,7 +1,7 @@
 export const DEFAULT_LOGIN_REDIRECT = '/admin'
 export const API_AUTH_PREFIX = '/api/auth'
 
-const faviconRoutes = ['/manifest.json', '/favicon.ico', '/web-app-manifest-192x192.png', '/web-app-manifest-512x512.png', '/apple-icon.png', '/icon0.svg', '/icon1.png']
+const faviconRoutes = ['/manifest.json', '/favicon.ico', '/web-app-manifest-192x192.png', '/web-app-manifest-512x512.png', '/apple-icon.png', '/icon0.svg', '/icon1.png', '/OG_Docs.png']
 
 export const publicRoutes = [
   '/api/users/me',
