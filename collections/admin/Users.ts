@@ -7,8 +7,8 @@ export const Users: CollectionConfig = {
     useAsTitle: 'email',
     description: 'Manages user accounts and their associated roles',
   },
-  auth: { 
-    tokenExpiration: 60 * 60 * 24 * 30, 
+  auth: {
+    tokenExpiration: 60 * 60 * 24 * 30,
     useAPIKey: true,
     strategies: [
       // {
@@ -18,7 +18,7 @@ export const Users: CollectionConfig = {
       //     return authjsStrategy().authenticate(args)
       //   }
       // }
-    ] 
+    ],
   },
   fields: [
     {

@@ -6,11 +6,7 @@ import { z } from 'zod'
 
 export const writeBlogPost = (
   input: any,
-  { 
-    modelName = 'google/gemini-2.5-pro-preview-03-25', 
-    system = 'You are an expert at writing compelling and SEO-optimized blog content', 
-    temperature = 1 
-  } = {},
+  { modelName = 'google/gemini-2.5-pro-preview-03-25', system = 'You are an expert at writing compelling and SEO-optimized blog content', temperature = 1 } = {},
 ) =>
   generateObject({
     model: model(modelName),
@@ -29,12 +25,7 @@ export const writeBlogPost = (
 
 export const listBlogPostTitles = (
   input: any,
-  { 
-    count = 30, 
-    modelName = 'google/gemini-2.5-pro-preview-03-25', 
-    system = 'You are an expert at writing compelling and SEO-optimized blog content', 
-    temperature = 1 
-  } = {},
+  { count = 30, modelName = 'google/gemini-2.5-pro-preview-03-25', system = 'You are an expert at writing compelling and SEO-optimized blog content', temperature = 1 } = {},
 ) =>
   generateObject({
     model: model(modelName, { structuredOutputs: true }),

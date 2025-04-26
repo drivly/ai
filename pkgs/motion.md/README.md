@@ -59,29 +59,32 @@ layout: cover
 - Video output with Remotion
 
 ---
+
 layout: slideshow
 code: |
-  function greet(name) {
-    console.log(`Hello, ${name}!`);
-  }
+function greet(name) {
+console.log(`Hello, ${name}!`);
+}
 steps:
-  - |
-    function greet(name) {
-      console.log(`Hello, ${name}!`);
-    }
-  - |
-    function greet(name) {
-      // Add a friendly greeting
-      console.log(`Hello, ${name}!`);
-    }
-  - |
-    function greet(name) {
-      // Add a friendly greeting
-      console.log(`Hello, ${name}!`);
-      return `Greeted ${name}`;
-    }
-language: javascript
-voiceover: Animate code examples with the slideshow layout
+
+- |
+  function greet(name) {
+  console.log(`Hello, ${name}!`);
+  }
+- |
+  function greet(name) {
+  // Add a friendly greeting
+  console.log(`Hello, ${name}!`);
+  }
+- |
+  function greet(name) {
+  // Add a friendly greeting
+  console.log(`Hello, ${name}!`);
+  return `Greeted ${name}`;
+  }
+  language: javascript
+  voiceover: Animate code examples with the slideshow layout
+
 ---
 
 ## Code Animation
@@ -89,6 +92,7 @@ voiceover: Animate code examples with the slideshow layout
 Showcase code changes with animated transitions
 
 ---
+
 background: stock:mountains.jpg
 voiceover: Here are some amazing features.
 transition: slide

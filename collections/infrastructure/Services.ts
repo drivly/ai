@@ -13,9 +13,9 @@ export const Services: CollectionConfig = {
       type: 'row',
       fields: [
         { name: 'name', type: 'text', required: true },
-        { 
-          name: 'status', 
-          type: 'select', 
+        {
+          name: 'status',
+          type: 'select',
           options: [
             { label: 'Active', value: 'active' },
             { label: 'Inactive', value: 'inactive' },
@@ -40,7 +40,6 @@ export const Services: CollectionConfig = {
     afterChange: [
       async ({ doc, req }) => {
         try {
-          
           return doc
         } catch (error) {
           console.error('Error in service afterChange hook:', error)

@@ -133,7 +133,7 @@ export const collections = [
   Tags,
   Webhooks,
   APIKeys,
-  
+
   // Infrastructure collections
   Services,
 

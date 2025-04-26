@@ -47,14 +47,13 @@ export const POST = API(async (request, { payload }) => {
   try {
     const wh = new Webhook(secret)
 
-    const webhookTimestampValue = webhookTimestamp || 
-      (dateHeader ? Math.floor(new Date(dateHeader).getTime() / 1000).toString() : null)
+    const webhookTimestampValue = webhookTimestamp || (dateHeader ? Math.floor(new Date(dateHeader).getTime() / 1000).toString() : null)
 
     const verificationHeaders: Record<string, string> = {
       'linear-delivery': webhookId,
       'linear-signature': webhookSignature,
     }
-    
+
     if (webhookTimestampValue) {
       verificationHeaders['linear-signature-timestamp'] = webhookTimestampValue
     }

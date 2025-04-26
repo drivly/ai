@@ -23,8 +23,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   return {
     title: resource.name || '',
-    description: typeof resource.data === 'object' && resource.data !== null && !Array.isArray(resource.data) ? 
-      (resource.data.description as string) || '' : '',
+    description: typeof resource.data === 'object' && resource.data !== null && !Array.isArray(resource.data) ? (resource.data.description as string) || '' : '',
   }
 }
 
@@ -34,15 +33,17 @@ async function fetchResource(domain: string, path: string[]) {
     const { default: config } = await import('@/payload.config')
     const payload = await getPayload({ config })
 
-    const project = await payload.find({
-      collection: 'projects',
-      where: {
-        domain: {
-          equals: domain,
+    const project = await payload
+      .find({
+        collection: 'projects',
+        where: {
+          domain: {
+            equals: domain,
+          },
         },
-      },
-      limit: 1,
-    }).then(result => result.docs?.[0] || null)
+        limit: 1,
+      })
+      .then((result) => result.docs?.[0] || null)
 
     if (!project) return null
 

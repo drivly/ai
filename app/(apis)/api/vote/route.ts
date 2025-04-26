@@ -16,8 +16,8 @@ export const GET = API(async (req, { user, payload }) => {
     collection: 'chatResources',
     where: {
       id: { equals: chatId },
-      resourceType: { equals: 'chat' }
-    }
+      resourceType: { equals: 'chat' },
+    },
   })
 
   if (!chat?.docs?.length) {
@@ -32,15 +32,15 @@ export const GET = API(async (req, { user, payload }) => {
     collection: 'chatResources',
     where: {
       parentId: { equals: chatId },
-      resourceType: { equals: 'message' }
-    }
+      resourceType: { equals: 'message' },
+    },
   })
 
   const votes = messages.docs
     .filter((message: any) => message.votes && message.votes.length > 0)
     .map((message: any) => ({
       messageId: message.id,
-      votes: message.votes
+      votes: message.votes,
     }))
 
   return votes
@@ -61,8 +61,8 @@ export const PATCH = API(async (req, { user, payload }) => {
     collection: 'chatResources',
     where: {
       id: { equals: chatId },
-      resourceType: { equals: 'chat' }
-    }
+      resourceType: { equals: 'chat' },
+    },
   })
 
   if (!chat?.docs?.length) {
@@ -75,7 +75,7 @@ export const PATCH = API(async (req, { user, payload }) => {
 
   const message = await payload.findByID({
     collection: 'chatResources',
-    id: messageId
+    id: messageId,
   })
 
   if (!message) {
@@ -89,13 +89,13 @@ export const PATCH = API(async (req, { user, payload }) => {
     votes[existingVoteIndex] = {
       user: user.id,
       type,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     }
   } else {
     votes.push({
       user: user.id,
       type,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     })
   }
 
@@ -103,8 +103,8 @@ export const PATCH = API(async (req, { user, payload }) => {
     collection: 'chatResources',
     id: messageId,
     data: {
-      votes
-    }
+      votes,
+    },
   })
 
   return { success: true }

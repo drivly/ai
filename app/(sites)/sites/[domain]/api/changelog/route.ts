@@ -22,16 +22,16 @@ interface Release {
 }
 
 function parseReleases(releases: any[]): Release[] {
-  return releases.map(release => {
+  return releases.map((release) => {
     let packageName: string | undefined
     let version = release.tag_name
-    
+
     if (release.tag_name.includes('@')) {
       const parts = release.tag_name.split('@')
       packageName = parts[0]
       version = parts[1]
     }
-    
+
     return {
       id: release.id,
       name: release.name || release.tag_name,
@@ -41,7 +41,7 @@ function parseReleases(releases: any[]): Release[] {
       body: release.body || '',
       version,
       packageName,
-      prerelease: release.prerelease
+      prerelease: release.prerelease,
     }
   })
 }
@@ -51,70 +51,66 @@ export const GET = API(async (request, { url, origin }) => {
   const packageName = searchParams.get('package')
   const version = searchParams.get('version')
   const branch = searchParams.get('branch')
-  
+
   try {
     const now = Date.now()
-    if (!cachedReleases || (now - cacheTimestamp) > CACHE_DURATION) {
+    if (!cachedReleases || now - cacheTimestamp > CACHE_DURATION) {
       const octokit = new Octokit({
-        auth: process.env.GITHUB_TOKEN
+        auth: process.env.GITHUB_TOKEN,
       })
-      
+
       const response = await octokit.repos.listReleases({
         owner: OWNER,
         repo: REPO,
-        per_page: 100
+        per_page: 100,
       })
-      
+
       cachedReleases = parseReleases(response.data)
       cacheTimestamp = now
     }
-    
+
     let filteredReleases = [...cachedReleases]
-    
+
     if (packageName) {
-      filteredReleases = filteredReleases.filter(release => 
-        release.packageName === packageName || 
-        release.tagName.includes(packageName)
-      )
+      filteredReleases = filteredReleases.filter((release) => release.packageName === packageName || release.tagName.includes(packageName))
     }
-    
+
     if (version) {
-      filteredReleases = filteredReleases.filter(release => 
-        release.version === version || 
-        release.version.startsWith(version)
-      )
+      filteredReleases = filteredReleases.filter((release) => release.version === version || release.version.startsWith(version))
     }
-    
+
     if (branch) {
       if (branch === 'next') {
-        filteredReleases = filteredReleases.filter(release => release.prerelease)
+        filteredReleases = filteredReleases.filter((release) => release.prerelease)
       } else if (branch === 'main') {
-        filteredReleases = filteredReleases.filter(release => !release.prerelease)
+        filteredReleases = filteredReleases.filter((release) => !release.prerelease)
       }
     }
-    
-    filteredReleases.sort((a, b) => 
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-    )
-    
+
+    filteredReleases.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+
     return {
       releases: filteredReleases,
       total: filteredReleases.length,
       filters: {
         package: packageName || undefined,
         version: version || undefined,
-        branch: branch || undefined
+        branch: branch || undefined,
       },
       links: {
-        html: `${origin}/changelog${new URLSearchParams({
-          ...(packageName ? { package: packageName } : {}),
-          ...(version ? { version } : {}),
-          ...(branch ? { branch } : {})
-        }).toString() ? `?${new URLSearchParams({
-          ...(packageName ? { package: packageName } : {}),
-          ...(version ? { version } : {}),
-          ...(branch ? { branch } : {})
-        }).toString()}` : ''}`,
+        html: `${origin}/changelog${
+          new URLSearchParams({
+            ...(packageName ? { package: packageName } : {}),
+            ...(version ? { version } : {}),
+            ...(branch ? { branch } : {}),
+          }).toString()
+            ? `?${new URLSearchParams({
+                ...(packageName ? { package: packageName } : {}),
+                ...(version ? { version } : {}),
+                ...(branch ? { branch } : {}),
+              }).toString()}`
+            : ''
+        }`,
       },
     }
   } catch (error) {

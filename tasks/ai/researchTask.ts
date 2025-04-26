@@ -69,7 +69,7 @@ export const researchTaskHandler: TaskHandler<'researchTask'> = async ({ input, 
         output: { error: error instanceof Error ? error.message : String(error) },
       },
     })
-    
+
     if (slackChannel && slackResponseTs) {
       try {
         await payload.jobs.queue({
@@ -93,7 +93,7 @@ export const researchTaskHandler: TaskHandler<'researchTask'> = async ({ input, 
         console.error('Error sending error message to Slack:', slackError)
       }
     }
-    
+
     throw error // Re-throw error for job queue handling
   }
 }

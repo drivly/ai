@@ -28,7 +28,9 @@ export function HeroSection({ className, badge, buttonText, codeExample, codeLan
       <h1 className='mx-auto max-w-4xl bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-[46px] leading-none font-medium tracking-tight text-transparent sm:text-7xl sm:text-balance dark:from-white dark:to-white/40'>
         <Balancer>{title}</Balancer>
       </h1>
-      <p className='mx-auto mb-12 max-w-3xl text-lg text-gray-400 md:text-xl'><Balancer>{description}</Balancer></p>
+      <p className='mx-auto mb-12 max-w-3xl text-lg text-gray-400 md:text-xl'>
+        <Balancer>{description}</Balancer>
+      </p>
       {buttonText && (
         <JoinWaitlistButton className='h-10 w-full gap-2 rounded-sm text-base ease-in-out has-[>svg]:px-10 sm:w-auto sm:text-sm' type='cta'>
           <FaGithub className='h-4 w-4' />

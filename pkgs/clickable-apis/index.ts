@@ -259,7 +259,7 @@ export const createAPI = (
 
         const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
         const errorMessage = error instanceof Error ? error.message : 'Internal Server Error'
-        
+
         return NextResponse.json(
           {
             error: {

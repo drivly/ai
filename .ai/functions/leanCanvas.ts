@@ -3,7 +3,14 @@ import { generateObject } from 'ai'
 import yaml from 'yaml'
 import { z } from 'zod'
 
-export const leanCanvas = (input: any, { modelName = 'google/gemini-2.5-pro-preview-03-25', system = 'You are an expert business consultant specializing in the Lean Canvas methodology for business model generation', temperature = 0.7 } = {}) =>
+export const leanCanvas = (
+  input: any,
+  {
+    modelName = 'google/gemini-2.5-pro-preview-03-25',
+    system = 'You are an expert business consultant specializing in the Lean Canvas methodology for business model generation',
+    temperature = 0.7,
+  } = {},
+) =>
   generateObject({
     model: model(modelName, { structuredOutputs: true }),
     system,

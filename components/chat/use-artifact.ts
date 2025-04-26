@@ -1,21 +1,21 @@
-'use client';
+'use client'
 
-import { useState, useCallback, useMemo } from 'react';
-import { useLocalStorage } from '@/hooks/use-local-storage';
+import { useState, useCallback, useMemo } from 'react'
+import { useLocalStorage } from '@/hooks/use-local-storage'
 
 export interface UIArtifact {
-  documentId: string;
-  content: string;
-  kind: 'text' | 'code' | 'image' | 'sheet';
-  title: string;
-  status: 'streaming' | 'idle';
-  isVisible: boolean;
+  documentId: string
+  content: string
+  kind: 'text' | 'code' | 'image' | 'sheet'
+  title: string
+  status: 'streaming' | 'idle'
+  isVisible: boolean
   boundingBox: {
-    top: number;
-    left: number;
-    width: number;
-    height: number;
-  };
+    top: number
+    left: number
+    width: number
+    height: number
+  }
 }
 
 export const initialArtifactData: UIArtifact = {
@@ -31,30 +31,27 @@ export const initialArtifactData: UIArtifact = {
     width: 0,
     height: 0,
   },
-};
+}
 
 export function useArtifact() {
-  const [artifact, setArtifactState] = useLocalStorage<UIArtifact>(
-    'artifact',
-    initialArtifactData
-  );
-  
-  const [metadata, setMetadata] = useState<any>(null);
+  const [artifact, setArtifactState] = useLocalStorage<UIArtifact>('artifact', initialArtifactData)
+
+  const [metadata, setMetadata] = useState<any>(null)
 
   const setArtifact = useCallback(
     (updaterFn: UIArtifact | ((currentArtifact: UIArtifact) => UIArtifact)) => {
       setArtifactState((currentArtifact) => {
-        const artifactToUpdate = currentArtifact || initialArtifactData;
+        const artifactToUpdate = currentArtifact || initialArtifactData
 
         if (typeof updaterFn === 'function') {
-          return updaterFn(artifactToUpdate);
+          return updaterFn(artifactToUpdate)
         }
 
-        return updaterFn;
-      });
+        return updaterFn
+      })
     },
-    [setArtifactState]
-  );
+    [setArtifactState],
+  )
 
   return useMemo(
     () => ({
@@ -63,6 +60,6 @@ export function useArtifact() {
       metadata,
       setMetadata,
     }),
-    [artifact, setArtifact, metadata]
-  );
+    [artifact, setArtifact, metadata],
+  )
 }

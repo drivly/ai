@@ -13,9 +13,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL(`/cli/auth?state=${state}&callback=${encodeURIComponent(callback)}`, request.url))
   } catch (error) {
     console.error('Error during CLI login:', error)
-    return NextResponse.json(
-      { error: 'Failed to process CLI login', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to process CLI login', details: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 })
   }
 }
