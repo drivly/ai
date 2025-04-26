@@ -60,8 +60,8 @@ export class MyDurableObject implements DurableObject {
 
 - MongoDB-style syntax for interacting with Durable Object storage
 - Support for common MongoDB operations: `find()`, `findOne()`, `insertOne()`, `insertMany()`, `updateOne()`, `updateMany()`, `deleteOne()`, `deleteMany()`
-- Support for MongoDB query operators: `$eq`, `$gt`, `$gte`, `$lt`, `$lte`, `$ne`, `$in`, `$nin`, `$and`, `$or`, `$not`
-- Support for MongoDB update operators: `$set`, `$unset`, `$inc`, `$push`, `$pull`
+- Support for MongoDB query operators: `$eq`, `$gt`, `$gte`, `$lt`, `$lte`, `$ne`, `$in`, `$nin`, `$and`, `$or`, `$nor`, `$not`, `$exists`, `$type`, `$regex`
+- Support for MongoDB update operators: `$set`, `$unset`, `$inc`, `$push`, `$pull`, `$addToSet`, `$pop`
 - Automatic schema creation and management
 - Efficient storage using a single SQLite table with collection, id, and data columns
 - Consistent SQL-based implementation for all operations
