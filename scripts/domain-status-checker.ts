@@ -92,21 +92,69 @@ interface VercelDomainsResponse {
 
 async function getVercelLinkedDomains(): Promise<{ domain: string; status: string }[]> {
   const vercelToken = process.env.VERCEL_TOKEN
+  const vercelTeamId = process.env.VERCEL_TEAM_ID || 'nathan-clevengers-projects'
+  const vercelProjectId = 'ai'
 
   if (!vercelToken) {
     console.error('VERCEL_TOKEN environment variable is not set')
     return []
   }
 
+  const teamParam = `teamId=${vercelTeamId}`
+
   try {
-    const response = await fetch('https://api.vercel.com/v9/projects/ai/domains', {
+    const url = `https://api.vercel.com/v9/projects/${vercelProjectId}/domains?${teamParam}`
+    
+    console.log(`Fetching Vercel domains from: ${url}`)
+    
+    const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${vercelToken}`,
       },
     })
 
     if (!response.ok) {
-      throw new Error(`Vercel API returned ${response.status}: ${await response.text()}`)
+      const errorText = await response.text()
+      console.error(`Vercel API error (${response.status}): ${errorText}`)
+      
+      if (response.status === 403 && errorText.includes('scope')) {
+        try {
+          const errorJson = JSON.parse(errorText)
+          const scopeMatch = errorJson.error?.message?.match(/scope "([^"]+)"/)
+          if (scopeMatch && scopeMatch[1]) {
+            const extractedScope = scopeMatch[1]
+            console.log(`Extracted scope from error: ${extractedScope}`)
+            
+            const newTeamParam = `teamId=${extractedScope}`
+            const retryUrl = `https://api.vercel.com/v9/projects/${vercelProjectId}/domains?${newTeamParam}`
+            
+            console.log(`Retrying with extracted scope: ${retryUrl}`)
+            
+            const retryResponse = await fetch(retryUrl, {
+              headers: {
+                Authorization: `Bearer ${vercelToken}`,
+              },
+            })
+            
+            if (!retryResponse.ok) {
+              console.error(`Retry failed: ${retryResponse.status}: ${await retryResponse.text()}`)
+            } else {
+              const retryData = (await retryResponse.json()) as VercelDomainsResponse
+              return retryData.domains.map((domain: VercelDomain) => ({
+                domain: domain.name,
+                status: domain.verification.status,
+              }))
+            }
+          }
+        } catch (parseError) {
+          console.error('Error parsing error response:', parseError)
+        }
+      }
+      
+      console.log('Unable to fetch Vercel domains due to authentication issues.')
+      console.log('This does not mean domains are not linked in Vercel.')
+      console.log('Working domains (marked as ✅ Online) are likely properly linked to Vercel.')
+      return []
     }
 
     const data = (await response.json()) as VercelDomainsResponse
@@ -116,6 +164,8 @@ async function getVercelLinkedDomains(): Promise<{ domain: string; status: strin
     }))
   } catch (error: any) {
     console.error('Error fetching Vercel domains:', error.message)
+    console.log('This does not mean domains are not linked in Vercel.')
+    console.log('Working domains (marked as ✅ Online) are likely properly linked to Vercel.')
     return []
   }
 }
