@@ -226,7 +226,18 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     }
   }
 
+  const cfAsOrg = cf?.asOrganization?.toString();
+  const vercelIpOrg = request.headers.get('x-vercel-ip-org');
   const asOrg = await asOrgPromise
+
+  console.log('ISP Debug:', { 
+    requestId: request.headers.get('cf-ray') || request.headers.get('x-vercel-id'),
+    cfAsOrg,
+    vercelIpOrg, 
+    asOrg,
+    asn,
+    finalIsp: cfAsOrg || vercelIpOrg || asOrg || 'Unknown ISP'
+  });
 
   return {
     authenticated: false, // This would be determined by authentication logic
