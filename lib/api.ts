@@ -80,15 +80,17 @@ export interface APIHeader {
   name: string
   description: string
   home: string
-  login: string
-  signup: string
+  login?: string
+  signup?: string
+  upgrade?: string
+  account?: string
   admin: string
   docs: string
   repo: string
   sdk: string
   site: string
   from: string // Added from field
-  [key: string]: string
+  [key: string]: string | undefined
 }
 
 export type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T
@@ -272,7 +274,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
 /**
  * Function to get API header object
  */
-export function getApiHeader(request: NextRequest, description?: string): APIHeader {
+export function getApiHeader(request: NextRequest, description?: string, isAuthenticated?: boolean): APIHeader {
   const url = new URL(request.url)
   const domain = punycode.toUnicode(url.hostname)
   const origin = url.protocol + '//' + domain + (url.port ? ':' + url.port : '')
@@ -303,8 +305,13 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
     name: domain,
     description: description || 'Economically valuable work delivered through simple APIs',
     home: origin,
-    login: origin + '/login',
-    signup: origin + '/signup',
+    ...(isAuthenticated ? {
+      upgrade: origin + '/upgrade',
+      account: origin + '/account',
+    } : {
+      login: origin + '/login',
+      signup: origin + '/signup',
+    }),
     admin: origin + '/admin',
     docs: origin + '/docs',
     repo: 'https://github.com/drivly/ai',
@@ -480,7 +487,7 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
         typeof result === 'object' && result !== null && result && 'api' in result && typeof (result as any).api === 'object' && (result as any).api !== null
           ? (result as any).api.description
           : undefined
-      const api = getApiHeader(req, apiDescription)
+      const api = getApiHeader(req, apiDescription, mergedUser.authenticated)
 
       const responseBody = {
         api,
