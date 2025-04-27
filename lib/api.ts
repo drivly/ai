@@ -198,7 +198,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
               userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
               os: ua?.os?.name as string,
               ip,
-              isp: cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
+              isp: cf?.asOrganization?.toString() || request.headers.get('x-cf-as-organization') || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
               asOrg: asOrg || undefined,
               flag: countryFlag,
               zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
@@ -230,15 +230,18 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
 
   const cfAsOrg = cf?.asOrganization?.toString();
   const vercelIpOrg = request.headers.get('x-vercel-ip-org');
+  // Get Cloudflare asOrganization from custom header added in middleware
+  const cfAsOrgHeader = request.headers.get('x-cf-as-organization');
   const asOrg = await asOrgPromise
 
   console.log('ISP Debug:', { 
     requestId: request.headers.get('cf-ray') || request.headers.get('x-vercel-id'),
     cfAsOrg,
+    cfAsOrgHeader,
     vercelIpOrg, 
     asOrg,
     asn,
-    finalIsp: cfAsOrg || vercelIpOrg || asOrg || 'Unknown ISP'
+    finalIsp: cfAsOrg || cfAsOrgHeader || vercelIpOrg || asOrg || 'Unknown ISP'
   });
 
   return {
@@ -249,7 +252,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
     os: ua?.os?.name as string,
     ip,
-    isp: cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
+    isp: cf?.asOrganization?.toString() || request.headers.get('x-cf-as-organization') || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
     asOrg: asOrg || undefined,
     flag: countryFlag,
     zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
