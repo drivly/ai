@@ -93,6 +93,25 @@ export class RequestHandler {
           asOrganization: data?.asOrganization?.toString()
         });
         
+        // Add Cloudflare asOrganization as a custom header to preserve it between middleware and API handlers
+        if (data?.asOrganization) {
+          const headers = new Headers(this.request.headers)
+          headers.set('x-cf-as-organization', data.asOrganization.toString())
+          this.request = new NextRequest(this.request.url, {
+            method: this.request.method,
+            headers,
+            body: this.request.body,
+            cache: this.request.cache,
+            credentials: this.request.credentials,
+            integrity: this.request.integrity,
+            keepalive: this.request.keepalive,
+            mode: this.request.mode,
+            redirect: this.request.redirect,
+            referrer: this.request.referrer,
+            referrerPolicy: this.request.referrerPolicy,
+          })
+        }
+        
         cfCache.set(ip, {
           data,
           timestamp: Date.now(),
