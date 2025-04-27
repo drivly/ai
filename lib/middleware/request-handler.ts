@@ -69,12 +69,38 @@ export class RequestHandler {
    * Attaches data to request object for access in API handlers
    */
   async fetchCfData(): Promise<any> {
-    // Skip if already in Cloudflare Worker context
-    if ('cf' in this.request) {
-      return (this.request as any).cf
-    }
-
     const ip = this.request.headers.get('cf-connecting-ip') || this.request.headers.get('x-forwarded-for') || this.request.headers.get('x-real-ip') || '127.0.0.1'
+    
+    if ('cf' in this.request) {
+      const cf = (this.request as any).cf
+      
+      // Add Cloudflare asOrganization as a custom header even when using native cf data
+      if (cf?.asOrganization) {
+        console.log('Setting header from native Cloudflare data:', {
+          ip,
+          hasAsOrg: !!cf?.asOrganization,
+          asOrganization: cf?.asOrganization?.toString()
+        });
+        
+        const headers = new Headers(this.request.headers)
+        headers.set('x-cf-as-organization', cf.asOrganization.toString())
+        this.request = new NextRequest(this.request.url, {
+          method: this.request.method,
+          headers,
+          body: this.request.body,
+          cache: this.request.cache,
+          credentials: this.request.credentials,
+          integrity: this.request.integrity,
+          keepalive: this.request.keepalive,
+          mode: this.request.mode,
+          redirect: this.request.redirect,
+          referrer: this.request.referrer,
+          referrerPolicy: this.request.referrerPolicy,
+        })
+      }
+      
+      return cf
+    }
 
     const cachedData = cfCache.get(ip)
     if (cachedData && Date.now() - cachedData.timestamp < CACHE_TTL) {
