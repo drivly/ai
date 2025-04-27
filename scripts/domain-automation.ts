@@ -487,8 +487,8 @@ async function enableCloudflareEmailRouting(zoneId: string, domain: string): Pro
         ],
         actions: [
           {
-            type: 'forward',
-            value: ['emails-do@drivly.com'], // Forward to emails-do worker
+            type: 'worker',
+            value: ['emails-do'], // Route to emails-do worker
           },
         ],
         enabled: true,
@@ -504,6 +504,77 @@ async function enableCloudflareEmailRouting(zoneId: string, domain: string): Pro
     return true
   } catch (error: any) {
     console.error(`Error enabling email routing for ${domain}:`, error.message)
+    return false
+  }
+}
+
+/**
+ * Update existing email routing rules to use worker instead of email forwarding
+ * @param zoneId Cloudflare zone ID
+ * @param domain Domain to update email routing for
+ * @returns True if successful
+ */
+async function updateEmailRoutingToWorker(zoneId: string, domain: string): Promise<boolean> {
+  if (!CLOUDFLARE_API_TOKEN) {
+    console.error('CLOUDFLARE_API_TOKEN environment variable is not set')
+    return false
+  }
+
+  try {
+    const rulesResponse = await fetch(`${CLOUDFLARE_API_BASE}/zones/${zoneId}/email/routing/rules`, {
+      headers: {
+        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!rulesResponse.ok) {
+      throw new Error(`Failed to get email routing rules: ${rulesResponse.status}: ${await rulesResponse.text()}`)
+    }
+
+    const rulesData = await rulesResponse.json()
+    const rules = rulesData.result || []
+
+    const rulesToUpdate = rules.filter((rule: any) => {
+      return rule.actions.some((action: any) => 
+        action.type === 'forward' && 
+        action.value.includes('emails-do@drivly.com')
+      )
+    })
+
+    if (rulesToUpdate.length === 0) {
+      console.log(`No email forwarding rules found for ${domain}`)
+      return true
+    }
+
+    for (const rule of rulesToUpdate) {
+      const updateResponse = await fetch(`${CLOUDFLARE_API_BASE}/zones/${zoneId}/email/routing/rules/${rule.id}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...rule,
+          actions: [
+            {
+              type: 'worker',
+              value: ['emails-do'], // Route to emails-do worker
+            },
+          ],
+        }),
+      })
+
+      if (!updateResponse.ok) {
+        throw new Error(`Failed to update email routing rule: ${updateResponse.status}: ${await updateResponse.text()}`)
+      }
+
+      console.log(`Updated email routing rule for ${domain} to use worker`)
+    }
+
+    return true
+  } catch (error: any) {
+    console.error(`Error updating email routing for ${domain}:`, error.message)
     return false
   }
 }
@@ -644,6 +715,20 @@ async function automateDomainsSetup() {
           }
         } else {
           console.error(`Failed to add domain ${domain} to Cloudflare`)
+        }
+      }
+    } else {
+      console.log(`Checking email routing for existing domain ${domain}...`)
+      
+      if (dryRun) {
+        console.log(`[DRY RUN] Would check and update email routing for ${domain}`)
+      } else {
+        const emailRoutingUpdated = await updateEmailRoutingToWorker(cloudflareZone.id, domain)
+        
+        if (emailRoutingUpdated) {
+          console.log(`Successfully updated email routing for ${domain}`)
+        } else {
+          console.error(`Failed to update email routing for ${domain}`)
         }
       }
     }

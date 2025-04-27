@@ -87,7 +87,12 @@ export class RequestHandler {
       const response = await fetch('https://workers.cloudflare.com/cf.json')
       if (response.ok) {
         const data = await response.json()
-
+        console.log('Cloudflare Data:', {
+          ip,
+          hasAsOrg: !!data?.asOrganization,
+          asOrganization: data?.asOrganization?.toString()
+        });
+        
         cfCache.set(ip, {
           data,
           timestamp: Date.now(),
