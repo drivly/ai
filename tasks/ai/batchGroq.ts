@@ -25,11 +25,7 @@ export const processBatchGroq = async ({ input, req, payload }: any) => {
 
       const batchStatus = await response.json()
 
-      const status = batchStatus.status === 'completed' 
-        ? 'completed' 
-        : batchStatus.status === 'failed' || batchStatus.status === 'expired' 
-          ? 'failed' 
-          : 'processing'
+      const status = batchStatus.status === 'completed' ? 'completed' : batchStatus.status === 'failed' || batchStatus.status === 'expired' ? 'failed' : 'processing'
 
       await payload.update({
         collection: 'generation-batches',
@@ -47,7 +43,7 @@ export const processBatchGroq = async ({ input, req, payload }: any) => {
     }
 
     const batchConfig = batch.batchConfig || {}
-    
+
     let fileId = ''
     if (batchConfig.file_content) {
       const fileResponse = await fetch('https://api.groq.com/openai/v1/files', {
@@ -62,7 +58,7 @@ export const processBatchGroq = async ({ input, req, payload }: any) => {
           return formData
         })(),
       })
-      
+
       const fileResult = await fileResponse.json()
       fileId = fileResult.id
     } else if (batchConfig.file_id) {
@@ -70,13 +66,13 @@ export const processBatchGroq = async ({ input, req, payload }: any) => {
     } else {
       throw new Error('Either file_content or file_id must be provided in batchConfig')
     }
-    
+
     const batchParams = {
       input_file_id: fileId,
       endpoint: batchConfig.endpoint || '/v1/chat/completions',
       completion_window: batchConfig.completion_window || '24h',
     }
-    
+
     const response = await fetch('https://api.groq.com/openai/v1/batches', {
       method: 'POST',
       headers: {

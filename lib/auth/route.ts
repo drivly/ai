@@ -12,14 +12,14 @@ export async function login(request: NextRequest) {
 
   const destination = request.nextUrl.searchParams.get('destination') || 'admin'
   const provider = request.nextUrl.searchParams.get('provider') || 'github'
-  
+
   const referer = request.headers.get('referer')
   const redirectTo = referer ? new URL(referer).origin + '/waitlist' : new URL('/waitlist', currentURL).toString()
-  
+
   try {
     console.log(`Auth debug - Starting ${provider} login on: ${host}`)
     console.log(`Auth debug - Using signIn function with redirectTo: ${redirectTo}`)
-    
+
     return await signIn(provider, { redirectTo })
   } catch (error) {
     console.error('Error during login:', error)
@@ -45,10 +45,7 @@ export async function cliLogin(request: NextRequest) {
     return NextResponse.redirect(new URL(`/cli/auth?state=${state}&callback=${encodeURIComponent(callback)}`, request.url))
   } catch (error) {
     console.error('Error during CLI login:', error)
-    return NextResponse.json(
-      { error: 'Failed to process CLI login', details: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to process CLI login', details: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 })
   }
 }
 

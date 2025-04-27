@@ -30,9 +30,7 @@ describe('createBatchConfig', () => {
       prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
       providerConfig: { system: 'Test system' },
     }
-    const combinations = [
-      { model: 'claude-3', temperature: 0, seed: 1 },
-    ]
+    const combinations = [{ model: 'claude-3', temperature: 0, seed: 1 }]
     const inputs = ['input1']
     const provider = 'anthropic'
 

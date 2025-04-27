@@ -45,60 +45,59 @@ const turboLoans = Business({
   ],
   ceo: Human({ email: 'alex@turboloans.co' }),
   cmo: Agent({})
-  cto: Human({ 
-    email: 'tom@turboloans.co', 
+  cto: Human({
+    email: 'tom@turboloans.co',
     objective: 'Build the industry-leading digital lending platform',
-    keyResults: [], 
+    keyResults: [],
   }),
 })
 
 turboLoans.on('CreditApp.Submitted', async (creditApp, { ai, api, db }) => {
-  
+
 })
 
 turboLoans.every('hour', async ({ kpis }, { ai, api, db }) => {
-  
+
 })
 
 ```
-
-
 
 ```ts
 /* ----------
  * 🏢 1. Company manifest
  * ---------- */
 import { Business, on, every } from 'workflows.do'
-import { Agent }   from 'agents.do'
-import { Human }   from 'humans.do'
+import { Agent } from 'agents.do'
+import { Human } from 'humans.do'
 
 export const turboLoans = Business({
-  name : 'TurboLoans',
-  url  : 'https://turboloans.co',
+  name: 'TurboLoans',
+  url: 'https://turboloans.co',
   vision: 'Fast, affordable, and transparent consumer loans',
 
   /* 🌍 High-level objectives */
   goals: [
-    { objective: 'Grow market share',     keyResults: ['▲ qualified leads / week', '▲ funded loans / month'] },
+    { objective: 'Grow market share', keyResults: ['▲ qualified leads / week', '▲ funded loans / month'] },
     { objective: 'Enhance profitability', keyResults: ['▼ CAC', '▲ approval rate', '▲ net revenue / loan'] },
-    { objective: 'Delight customers',     keyResults: ['NPS ≥ 75', 'CSAT ≥ 95%'] },
+    { objective: 'Delight customers', keyResults: ['NPS ≥ 75', 'CSAT ≥ 95%'] },
   ],
 
   /* 👥 Core roles (mix of humans & agents) */
-  ceo : Human({ name: 'Alex', email: 'alex@turboloans.co' }),
-  cto : Human({ name: 'Tom',  email: 'tom@turboloans.co',
-                objective: 'Own the industry-leading digital lending platform',
-                keyResults: ['▼ avg. decision latency', '▲ automated verifications'] }),
+  ceo: Human({ name: 'Alex', email: 'alex@turboloans.co' }),
+  cto: Human({
+    name: 'Tom',
+    email: 'tom@turboloans.co',
+    objective: 'Own the industry-leading digital lending platform',
+    keyResults: ['▼ avg. decision latency', '▲ automated verifications'],
+  }),
 
-  cmo : Agent({ name: 'Clara',
-                objective: 'Acquire quality traffic at ≤ $35 CAC',
-                keyResults: ['▼ CAC', '▲ conversion rate'] }),
+  cmo: Agent({ name: 'Clara', objective: 'Acquire quality traffic at ≤ $35 CAC', keyResults: ['▼ CAC', '▲ conversion rate'] }),
 
   /* 🏢 Departments (optional, composable) */
   departments: {
     underwriting: Agent({ name: 'Underwriter' }),
-    funding     : Human({ name: 'Fran Funding', email: 'fund@turboloans.co' }),
-  }
+    funding: Human({ name: 'Fran Funding', email: 'fund@turboloans.co' }),
+  },
 })
 
 /* ----------
@@ -107,16 +106,16 @@ export const turboLoans = Business({
 
 /* A. When a credit application arrives */
 on('CreditApp.Submitted', async (app, { ai, db, taskQueue }) => {
-  const riskScore  = await ai.call('riskScore',  { creditReport: app.creditReport, income: app.income })
-  const offerTerms = await ai.call('priceLoan',  { score: riskScore, amount: app.amount, term: app.term })
+  const riskScore = await ai.call('riskScore', { creditReport: app.creditReport, income: app.income })
+  const offerTerms = await ai.call('priceLoan', { score: riskScore, amount: app.amount, term: app.term })
 
   /* Persist & branch */
   await db.loans.update(app.id, { riskScore, offerTerms })
 
   if (riskScore >= 700) {
-    taskQueue.enqueue('SendOffer',      { applicantId: app.id, offerTerms })
+    taskQueue.enqueue('SendOffer', { applicantId: app.id, offerTerms })
   } else {
-    taskQueue.enqueue('RequestDocs',    { applicantId: app.id, docs: ['paystubs', 'bankStatements'] })
+    taskQueue.enqueue('RequestDocs', { applicantId: app.id, docs: ['paystubs', 'bankStatements'] })
   }
 })
 
@@ -136,10 +135,10 @@ on('Docs.Uploaded', async (evt, { ai, db, taskQueue }) => {
 
 /* Hourly KPI pulse */
 every('hour', async ({ ai, db, task }) => {
-  const funnel = await db.loans.funnelMetrics()          // e.g. { submitted: 120, approved: 45, funded: 30 }
-  const plan   = await ai.plan('improveFunnel', funnel)  // returns an array of suggested actions
+  const funnel = await db.loans.funnelMetrics() // e.g. { submitted: 120, approved: 45, funded: 30 }
+  const plan = await ai.plan('improveFunnel', funnel) // returns an array of suggested actions
 
-  plan.forEach(action => task.do(action.type, action.payload))
+  plan.forEach((action) => task.do(action.type, action.payload))
 })
 
 /* Daily strategic planning (7 AM CT) */
@@ -147,27 +146,26 @@ every('day at 07:00', async ({ ai, db }) => {
   const yesterday = await db.kpis.snapshot('yesterday')
   const todayPlan = await ai.plan('dailyObjectives', { kpis: yesterday, okrs: turboLoans.goals })
 
-  await db.tasks.bulkInsert(todayPlan.tasks)             // populate today’s work queue
+  await db.tasks.bulkInsert(todayPlan.tasks) // populate today’s work queue
 })
 
 /* Weekly OKR review (Monday, 8 AM CT) */
 every('week on Mon at 08:00', async ({ ai, db, task }) => {
-  const progress  = await db.kpis.progressAgainstOKRs(turboLoans.goals)
-  const insights  = await ai.call('generateOKRReport', { progress })
+  const progress = await db.kpis.progressAgainstOKRs(turboLoans.goals)
+  const insights = await ai.call('generateOKRReport', { progress })
 
-  task.do('SendReport',  { to: turboLoans.ceo.email,  report: insights })
-  task.do('ShareUpdate', { channel: '#team-turbo',    summary: insights.summary })
+  task.do('SendReport', { to: turboLoans.ceo.email, report: insights })
+  task.do('ShareUpdate', { channel: '#team-turbo', summary: insights.summary })
 })
 
 /* ----------
  * 📮 4. Minimal task handlers
  * ---------- */
-on('SendOffer',      async (task, { email }) => email.to(task.applicantId,   'Your Loan Offer',     task.offerTerms))
-on('RequestDocs',    async (task, { email }) => email.to(task.applicantId,   'Additional Docs',     task.docsNeeded))
+on('SendOffer', async (task, { email }) => email.to(task.applicantId, 'Your Loan Offer', task.offerTerms))
+on('RequestDocs', async (task, { email }) => email.to(task.applicantId, 'Additional Docs', task.docsNeeded))
 on('PrepareFunding', async (task, { funding }) => funding.initiate(task.applicantId))
-on('SendReport',     async (task, { email }) => email.to(task.to,            'Weekly OKR Report',   task.report))
-on('ShareUpdate',    async (task, { chat })  => chat.post(task.channel,      task.summary))
+on('SendReport', async (task, { email }) => email.to(task.to, 'Weekly OKR Report', task.report))
+on('ShareUpdate', async (task, { chat }) => chat.post(task.channel, task.summary))
 ```
-
 
 ≤ $35

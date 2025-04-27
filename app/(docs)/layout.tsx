@@ -50,7 +50,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             pageMap={pageMap}
             docsRepositoryBase={siteConfig.baseLinks.docs_repo_base}
             sidebar={{ defaultMenuCollapseLevel: 1 }}
-            themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}>
+            themeSwitch={{ system: 'System', light: 'Light', dark: 'Dark' }}
+          >
             {children}
           </Layout>
         </Providers>

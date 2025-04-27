@@ -33,9 +33,7 @@ export const POST = API(async (req, { user }) => {
     const validatedFile = FileSchema.safeParse({ file })
 
     if (!validatedFile.success) {
-      const errorMessage = validatedFile.error.errors
-        .map((error: z.ZodIssue) => error.message)
-        .join(', ')
+      const errorMessage = validatedFile.error.errors.map((error: z.ZodIssue) => error.message).join(', ')
 
       return { error: errorMessage, status: 400 }
     }

@@ -3,13 +3,7 @@ import { API } from 'apis.do'
 /**
  * Creates a batch configuration for the specified provider
  */
-export async function createBatchConfig(
-  name: string,
-  config: any,
-  combinations: any[],
-  inputs: any[],
-  provider: string
-) {
+export async function createBatchConfig(name: string, config: any, combinations: any[], inputs: any[], provider: string) {
   const batchConfig: Record<string, any> = {
     input_data: [],
   }
@@ -85,7 +79,7 @@ export async function submitBatch(name: string, provider: string, batchConfig: a
     provider,
     batchConfig,
   })
-  
+
   if (!result || typeof result !== 'object' || !('id' in result)) {
     throw new Error('Invalid batch creation response: missing id')
   }
@@ -111,14 +105,14 @@ export async function collectBatchResults(batchId: string) {
 
   while (attempts < maxAttempts) {
     batch = await api.getById('generation-batches', batchId)
-    
+
     if (batch.status === 'completed') {
       break
     } else if (batch.status === 'failed') {
       throw new Error(`Batch processing failed: ${batch.error || 'Unknown error'}`)
     }
-    
-    await new Promise(resolve => setTimeout(resolve, delay))
+
+    await new Promise((resolve) => setTimeout(resolve, delay))
     attempts++
   }
 
@@ -138,19 +132,14 @@ export async function collectBatchResults(batchId: string) {
 /**
  * Formats batch results to match experiment output format
  */
-export function formatExperimentResults(
-  name: string,
-  config: any,
-  results: any[],
-  inputs: any[]
-) {
+export function formatExperimentResults(name: string, config: any, results: any[], inputs: any[]) {
   const experimentResults: any[] = []
 
   for (const result of results) {
     const [inputIndex, model, temperature, seed] = result.input_id.split('_')
-    
+
     const evaluationId = `${name}_${model}_${temperature}_${seed}_${inputIndex}`
-    
+
     if (result.error) {
       experimentResults.push({
         id: evaluationId,

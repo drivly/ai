@@ -45,12 +45,12 @@ const response = await fetch('https://apis.do/embed', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer YOUR_API_KEY'
+    Authorization: 'Bearer YOUR_API_KEY',
   },
   body: JSON.stringify({
     text: 'Embed this text for semantic search',
-    model: 'text-embedding-3-small'
-  })
+    model: 'text-embedding-3-small',
+  }),
 })
 
 const data = await response.json()
@@ -64,12 +64,12 @@ const response = await fetch('https://apis.do/embed', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer YOUR_API_KEY'
+    Authorization: 'Bearer YOUR_API_KEY',
   },
   body: JSON.stringify({
     texts: ['Embed this text for semantic search', 'And this one too'],
-    model: 'text-embedding-3-small'
-  })
+    model: 'text-embedding-3-small',
+  }),
 })
 
 const data = await response.json()
@@ -116,7 +116,7 @@ import { generateEmbeddings } from 'ai'
 // Generate embeddings
 const embeddings = await generateEmbeddings({
   model: llm.embed('text-embedding-3-small'),
-  input: ['Embed this text for semantic search', 'And this one too']
+  input: ['Embed this text for semantic search', 'And this one too'],
 })
 ```
 

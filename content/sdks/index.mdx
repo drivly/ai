@@ -1,9 +1,8 @@
 ---
 asIndexPage: true
---- 
+---
 
 # SDKs
-
 
 ### [`ai`](/docs/sdks/functions.do)
 
@@ -15,7 +14,6 @@ import { ai } from 'functions.do'
 // Generate a Lean Canvas
 const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
 ```
-
 
 ### `db`
 
@@ -56,6 +54,7 @@ import { research } from 'research.do'
 
 const findings = await research`research about ${topic}`
 ```
+
 ### `on`
 
 ### `every`
@@ -92,7 +91,6 @@ const ai = AI({
 })
 ```
 
-
 ## `Agent`
 
 The `Agent` function allows [Agents](/docs/agents) to be defined in a strongly-typed way:
@@ -115,7 +113,6 @@ const amy = Agent({
 
 export const refundOrder = (orderId: number) => amy.do`refund order ${orderId} and send the customer confirmation`
 ```
-
 
 ## `API`
 
@@ -219,9 +216,7 @@ const db = DB({
 })
 ```
 
-
 ## `Event`
-
 
 ## `Integration`
 

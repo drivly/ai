@@ -331,7 +331,7 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
         } as ResponseObject,
       },
     } as OperationObject,
-  } as PathItemObject;
+  } as PathItemObject
 
   return openApiSpec
 }

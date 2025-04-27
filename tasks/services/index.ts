@@ -2,12 +2,12 @@ import { TaskConfig, Payload } from 'payload'
 import { Service } from '../../sdks/services.do/types'
 
 interface TaskHandlerParams {
-  payload: Payload;
+  payload: Payload
   input: {
-    id?: string;
-    timeout?: number;
-    query?: Record<string, any>;
-  };
+    id?: string
+    timeout?: number
+    query?: Record<string, any>
+  }
 }
 
 export const checkServiceHealthTask = {
@@ -24,10 +24,10 @@ export const checkServiceHealthTask = {
   ],
   handler: async ({ payload, input }: TaskHandlerParams) => {
     try {
-      const service = await payload.findByID({
+      const service = (await payload.findByID({
         collection: 'services' as any,
         id: input.id as string,
-      }) as Service | null
+      })) as Service | null
 
       if (!service) {
         return {
@@ -44,7 +44,7 @@ export const checkServiceHealthTask = {
         const response = await fetch(service.endpoint, {
           method: 'GET',
           headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
           },
           signal: controller.signal,
         })
@@ -100,7 +100,7 @@ export const checkServiceHealthTask = {
         }
 
         const errorMessage = error instanceof Error ? error.message : 'Service is not responding'
-        
+
         return {
           status: 'inactive',
           responseTime,
@@ -110,7 +110,7 @@ export const checkServiceHealthTask = {
     } catch (error: unknown) {
       console.error('Error checking service health:', error)
       const errorMessage = error instanceof Error ? error.message : 'Error checking service health'
-      
+
       return {
         status: 'error',
         message: errorMessage,
@@ -122,21 +122,17 @@ export const checkServiceHealthTask = {
 export const discoverServicesTask = {
   slug: 'discoverServices',
   label: 'Discover Services',
-  inputSchema: [
-    { name: 'query', type: 'json' },
-  ],
-  outputSchema: [
-    { name: 'services', type: 'json' },
-  ],
+  inputSchema: [{ name: 'query', type: 'json' }],
+  outputSchema: [{ name: 'services', type: 'json' }],
   handler: async ({ payload, input }: TaskHandlerParams) => {
     try {
       const query = input.query || {}
-      
+
       const services = await payload.find({
         collection: 'services' as any,
         where: query,
       })
-      
+
       return {
         services: services.docs,
       }

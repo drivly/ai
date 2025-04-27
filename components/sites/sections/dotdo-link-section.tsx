@@ -13,7 +13,7 @@ export function DotdoLinkSection() {
               <li>
                 <Link
                   href='https://workflows.do'
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg font-ibm'
+                  className='hover:text-primary font-ibm text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -23,7 +23,7 @@ export function DotdoLinkSection() {
               <li>
                 <Link
                   href='https://functions.do'
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg font-ibm'
+                  className='hover:text-primary font-ibm text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -33,7 +33,7 @@ export function DotdoLinkSection() {
               <li>
                 <Link
                   href='https://agents.do'
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg font-ibm'
+                  className='hover:text-primary font-ibm text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -43,7 +43,7 @@ export function DotdoLinkSection() {
               <li>
                 <Link
                   href='https://llm.do'
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg font-ibm'
+                  className='hover:text-primary font-ibm text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -53,7 +53,7 @@ export function DotdoLinkSection() {
               <li>
                 <Link
                   href='https://apis.do'
-                  className='hover:text-primary text-xl font-medium text-gray-400 transition-colors sm:text-lg font-ibm'
+                  className='hover:text-primary font-ibm text-xl font-medium text-gray-400 transition-colors sm:text-lg'
                   target='_blank'
                   rel='noopener noreferrer'
                 >

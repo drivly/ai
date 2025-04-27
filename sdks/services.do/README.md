@@ -20,7 +20,7 @@ import { Services } from 'services.do'
 // Initialize the client
 const services = new Services({
   apiKey: 'your-api-key', // Optional
-  baseUrl: 'https://api.services.do' // Optional
+  baseUrl: 'https://api.services.do', // Optional
 })
 
 // Register a new service
@@ -31,8 +31,8 @@ const service = await services.register({
   version: '1.0.0',
   metadata: {
     owner: 'team-a',
-    documentation: 'https://docs.example.com/user-service'
-  }
+    documentation: 'https://docs.example.com/user-service',
+  },
 })
 
 // Discover services
@@ -46,7 +46,7 @@ const serviceDetails = await services.get('service-id')
 // Update service details
 const updatedService = await services.update('service-id', {
   description: 'Updated description',
-  endpoint: 'https://new-endpoint.example.com'
+  endpoint: 'https://new-endpoint.example.com',
 })
 
 // Deregister a service

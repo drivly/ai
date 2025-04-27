@@ -9,17 +9,17 @@ vi.mock('apis.do', () => {
     endpoint: 'https://test.example.com',
     status: 'active',
     createdAt: '2025-01-01',
-    updatedAt: '2025-01-02'
+    updatedAt: '2025-01-02',
   }
-  
+
   return {
     API: vi.fn().mockImplementation(() => ({
       list: vi.fn().mockResolvedValue({ data: [mockService] }),
       create: vi.fn().mockResolvedValue(mockService),
       getById: vi.fn().mockResolvedValue(mockService),
       update: vi.fn().mockResolvedValue(mockService),
-      remove: vi.fn().mockResolvedValue(mockService)
-    }))
+      remove: vi.fn().mockResolvedValue(mockService),
+    })),
   }
 })
 
@@ -44,7 +44,7 @@ describe('Services SDK', () => {
   it('should register a service', async () => {
     const service = {
       name: 'test-service',
-      endpoint: 'https://test.example.com'
+      endpoint: 'https://test.example.com',
     }
     const result = await services.register(service)
     expect(result).toBeDefined()
@@ -61,7 +61,7 @@ describe('Services SDK', () => {
 
   it('should update a service', async () => {
     const updates = {
-      description: 'Updated description'
+      description: 'Updated description',
     }
     const result = await services.update('1', updates)
     expect(result).toBeDefined()

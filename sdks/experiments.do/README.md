@@ -229,7 +229,7 @@ import { cartesian } from 'experiments.do'
 // Generate all combinations of colors and sizes
 const combinations = cartesian({
   color: ['red', 'blue', 'green'],
-  size: ['S', 'M', 'L']
+  size: ['S', 'M', 'L'],
 })
 
 // Result:

@@ -52,13 +52,13 @@ export const Resources: CollectionConfig = {
       async ({ doc, req }) => {
         try {
           const skipDirectEmbedding = true
-          
+
           if (!skipDirectEmbedding) {
             const { payload } = req
-  
+
             try {
               const embedding = { vectors: [0.1, 0.2, 0.3] } // Replace with actual embedding generation
-              
+
               await payload.update({
                 collection: 'resources',
                 id: doc.id,
@@ -67,22 +67,22 @@ export const Resources: CollectionConfig = {
                 },
                 depth: 0,
               })
-              
+
               console.log(`Generated embedding directly for resource ${doc.id}`)
             } catch (directError) {
               console.log(`Direct embedding generation failed for resource ${doc.id}, falling back to job queue:`, directError)
-              
+
               const job = await payload.jobs.queue({
                 task: 'generateThingEmbedding',
                 input: {
                   id: doc.id,
                 },
               })
-              
+
               console.log(`Queued embedding generation for resource ${doc.id}`, job)
             }
           }
-          
+
           return doc
         } catch (error) {
           console.error('Error generating embedding for resource:', error)

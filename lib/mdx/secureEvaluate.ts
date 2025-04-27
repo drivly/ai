@@ -15,15 +15,15 @@ export async function secureEvaluateMDX(mdxContent: string, components = {}) {
       throw new Error(\`MDX evaluation error: \${error.message || String(error)}\`)
     }
   `
-  
+
   const { result, error, logs } = await executeCodeFunction({
     code,
     args: { mdxContent, components },
     timeout: 10000,
     memoryLimit: 256,
   })
-  
+
   if (error) throw new Error(`MDX evaluation failed: ${error}`)
-  
+
   return result
 }

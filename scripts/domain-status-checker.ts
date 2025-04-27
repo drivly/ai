@@ -92,21 +92,69 @@ interface VercelDomainsResponse {
 
 async function getVercelLinkedDomains(): Promise<{ domain: string; status: string }[]> {
   const vercelToken = process.env.VERCEL_TOKEN
+  const vercelTeamId = process.env.VERCEL_TEAM_ID || 'nathan-clevengers-projects'
+  const vercelProjectId = 'ai'
 
   if (!vercelToken) {
     console.error('VERCEL_TOKEN environment variable is not set')
     return []
   }
 
+  const teamParam = `teamId=${vercelTeamId}`
+
   try {
-    const response = await fetch('https://api.vercel.com/v9/projects/ai/domains', {
+    const url = `https://api.vercel.com/v9/projects/${vercelProjectId}/domains?${teamParam}`
+    
+    console.log(`Fetching Vercel domains from: ${url}`)
+    
+    const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${vercelToken}`,
       },
     })
 
     if (!response.ok) {
-      throw new Error(`Vercel API returned ${response.status}: ${await response.text()}`)
+      const errorText = await response.text()
+      console.error(`Vercel API error (${response.status}): ${errorText}`)
+      
+      if (response.status === 403 && errorText.includes('scope')) {
+        try {
+          const errorJson = JSON.parse(errorText)
+          const scopeMatch = errorJson.error?.message?.match(/scope "([^"]+)"/)
+          if (scopeMatch && scopeMatch[1]) {
+            const extractedScope = scopeMatch[1]
+            console.log(`Extracted scope from error: ${extractedScope}`)
+            
+            const newTeamParam = `teamId=${extractedScope}`
+            const retryUrl = `https://api.vercel.com/v9/projects/${vercelProjectId}/domains?${newTeamParam}`
+            
+            console.log(`Retrying with extracted scope: ${retryUrl}`)
+            
+            const retryResponse = await fetch(retryUrl, {
+              headers: {
+                Authorization: `Bearer ${vercelToken}`,
+              },
+            })
+            
+            if (!retryResponse.ok) {
+              console.error(`Retry failed: ${retryResponse.status}: ${await retryResponse.text()}`)
+            } else {
+              const retryData = (await retryResponse.json()) as VercelDomainsResponse
+              return retryData.domains.map((domain: VercelDomain) => ({
+                domain: domain.name,
+                status: domain.verification.status,
+              }))
+            }
+          }
+        } catch (parseError) {
+          console.error('Error parsing error response:', parseError)
+        }
+      }
+      
+      console.log('Unable to fetch Vercel domains due to authentication issues.')
+      console.log('This does not mean domains are not linked in Vercel.')
+      console.log('Working domains (marked as ✅ Online) are likely properly linked to Vercel.')
+      return []
     }
 
     const data = (await response.json()) as VercelDomainsResponse
@@ -116,6 +164,8 @@ async function getVercelLinkedDomains(): Promise<{ domain: string; status: strin
     }))
   } catch (error: any) {
     console.error('Error fetching Vercel domains:', error.message)
+    console.log('This does not mean domains are not linked in Vercel.')
+    console.log('Working domains (marked as ✅ Online) are likely properly linked to Vercel.')
     return []
   }
 }
@@ -196,10 +246,36 @@ async function compareAndUpdateDomainConfigurations(domainStatuses: DomainStatus
   const { domainsConfig } = await readDomainsTsv()
   const driftsDetected = []
 
+  const cloudflareApiToken = process.env.CLOUDFLARE_API_TOKEN || process.env.CLOUDFLARE_TOKEN
+  const cloudflareAccountId = process.env.CLOUDFLARE_ACCOUNT_ID
+  
+  if (!cloudflareApiToken) {
+    console.log('CLOUDFLARE_API_TOKEN environment variable is not set')
+    console.log('Cloudflare zone creation and updates will be skipped')
+  }
+  
+  if (!cloudflareAccountId) {
+    console.log('CLOUDFLARE_ACCOUNT_ID environment variable is not set')
+    console.log('Cloudflare zone creation will be skipped')
+  }
+
+  const domainsInCloudflare = new Set<string>()
+  for (const status of domainStatuses) {
+    if (status.nsRecords?.some(record => record.includes('cloudflare.com'))) {
+      domainsInCloudflare.add(status.domain)
+    }
+  }
+  
+  console.log(`Found ${domainsInCloudflare.size} domains with Cloudflare nameservers`)
+
   for (const status of domainStatuses) {
     const expectedConfig = getExpectedDomainConfig(status.domain, domainsConfig)
 
-    const cloudflareNeedsUpdate = needsCloudflareUpdate(status, expectedConfig)
+    const existingInCloudflare = domainsInCloudflare.has(status.domain)
+    
+    const hasVercelNS = status.nsRecords?.some(record => record.includes('vercel-dns.com')) || false
+    const cloudflareNeedsUpdate = !existingInCloudflare && !hasVercelNS && needsCloudflareUpdate(status, expectedConfig)
+    
     const vercelNeedsUpdate = needsVercelUpdate(status, expectedConfig)
 
     if (cloudflareNeedsUpdate || vercelNeedsUpdate) {
@@ -211,16 +287,29 @@ async function compareAndUpdateDomainConfigurations(domainStatuses: DomainStatus
 
       if (cloudflareNeedsUpdate) {
         console.log('  Cloudflare configuration needs updating')
-        driftsDetected.push({ domain: status.domain, service: 'cloudflare' })
+        console.log(`  Domain ${existingInCloudflare ? 'exists' : 'does not exist'} in Cloudflare`)
+        
+        if (existingInCloudflare) {
+          console.log('  Skipping Cloudflare update for existing zone to preserve settings')
+        } else {
+          driftsDetected.push({ domain: status.domain, service: 'cloudflare' })
 
-        if (updateConfigurations) {
-          console.log('  Updating Cloudflare configuration...')
-          try {
-            const { updateCloudflareZone } = await import('./domain-automation')
-            await updateCloudflareZone(status.domain, status.cloudflareZoneId, expectedConfig)
-            console.log('  Cloudflare configuration updated successfully')
-          } catch (error: any) {
-            console.error(`  Error updating Cloudflare configuration: ${error.message}`)
+          if (updateConfigurations && cloudflareApiToken && cloudflareAccountId) {
+            console.log('  Creating new Cloudflare zone...')
+            try {
+              const { updateCloudflareZone } = await import('./domain-automation')
+              
+              // Use updateCloudflareZone which can handle zone creation if needed
+              const success = await updateCloudflareZone(status.domain, undefined, expectedConfig)
+              
+              if (success) {
+                console.log('  Cloudflare zone created/updated successfully')
+              } else {
+                console.error('  Failed to create/update Cloudflare zone')
+              }
+            } catch (error: any) {
+              console.error(`  Error creating/updating Cloudflare zone: ${error.message}`)
+            }
           }
         }
       }

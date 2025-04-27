@@ -46,14 +46,14 @@ async function verifySlackRequest(request: NextRequest): Promise<boolean> {
 function extractResearchQuery(text: string): string | null {
   const mentionRegex = /<@[A-Z0-9]+>/
   const cleanedText = text.replace(mentionRegex, '').trim()
-  
+
   if (!cleanedText) {
     return null
   }
-  
+
   const researchPrefixRegex = /^research(\s+about)?\s+/i
   const query = cleanedText.replace(researchPrefixRegex, '').trim()
-  
+
   return query || cleanedText // Return the cleaned query or the original cleaned text
 }
 
@@ -101,22 +101,16 @@ async function sendAcknowledgmentMessage(channel: string, threadTs: string | nul
 /**
  * Process the research request
  */
-async function processResearchRequest(
-  query: string, 
-  channel: string, 
-  threadTs: string | null, 
-  responseTs: string,
-  payload: any
-): Promise<void> {
+async function processResearchRequest(query: string, channel: string, threadTs: string | null, responseTs: string, payload: any): Promise<void> {
   try {
     const task = await payload.create({
       collection: 'tasks',
       data: {
         status: 'queued',
         type: 'research',
-        input: { 
-          topic: query, 
-          depth: 'medium', 
+        input: {
+          topic: query,
+          depth: 'medium',
           format: 'markdown',
           slackChannel: channel,
           slackThreadTs: threadTs,
@@ -127,10 +121,10 @@ async function processResearchRequest(
 
     const job = await payload.jobs.queue({
       task: 'researchTask',
-      input: { 
-        topic: query, 
-        depth: 'medium', 
-        format: 'markdown', 
+      input: {
+        topic: query,
+        depth: 'medium',
+        format: 'markdown',
         taskId: task.id,
         slackChannel: channel,
         slackThreadTs: threadTs,
@@ -141,7 +135,7 @@ async function processResearchRequest(
     console.log(`Research job queued: ${job.id} for task: ${task.id}, query: "${query}" in channel: ${channel}`)
   } catch (error) {
     console.error('Error processing research request:', error)
-    
+
     try {
       await payload.jobs.queue({
         task: 'updateSlackMessage',
@@ -202,12 +196,12 @@ export async function POST(req: NextRequest) {
       const text = event.text
       const channel = event.channel
       const threadTs = event.thread_ts || event.ts // Use thread_ts if available, otherwise use the message ts
-      
+
       const query = extractResearchQuery(text)
-      
+
       if (!query) {
         console.log('No research query found in the mention text:', text)
-        
+
         const helpResponse = await fetch('https://slack.com/api/chat.postMessage', {
           method: 'POST',
           headers: {
@@ -229,27 +223,21 @@ export async function POST(req: NextRequest) {
             text: 'Research.do help',
           }),
         })
-        
+
         return NextResponse.json({ success: true })
       }
-      
+
       const responseTs = await sendAcknowledgmentMessage(channel, threadTs, query)
-      
-      waitUntil(
-        processResearchRequest(query, channel, threadTs, responseTs, payload)
-      )
-      
+
+      waitUntil(processResearchRequest(query, channel, threadTs, responseTs, payload))
+
       return NextResponse.json({ success: true })
     }
-    
+
     console.log('Unsupported event type:', eventPayload)
     return NextResponse.json({ error: 'Unsupported event type' }, { status: 400 })
-    
   } catch (error) {
     console.error('Error processing Slack mention:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: error instanceof Error ? error.message : 'Unknown error' }, { status: 500 })
   }
 }

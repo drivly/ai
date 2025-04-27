@@ -24,7 +24,6 @@ const meta: MetaRecord = {
   //   type: 'separator',
   // },
 
-
   _ai: {
     type: 'separator',
     title: 'AI',

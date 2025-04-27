@@ -17,7 +17,7 @@ export const POST = API(async (request, { db, user, origin, url, params }) => {
   if (!apiExists && !isAlias) {
     return { error: { message: `API '${api}' not found.`, status: 404 } }
   }
-  
+
   if (!user) {
     return { error: { message: 'Authentication required', status: 401 } }
   }
@@ -58,7 +58,7 @@ export const POST = API(async (request, { db, user, origin, url, params }) => {
   })
 
   const callbackUrl = `${origin}/api/webhooks/composio?connectionId=${connection.id}`
-  
+
   const finalRedirectUrl = redirectUrl || `${origin}/dashboard/connections`
 
   const response = await fetch('https://backend.composio.dev/api/v1/connections', {
