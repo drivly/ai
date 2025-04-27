@@ -430,11 +430,11 @@ async function addCloudflareVercelDNSRecords(zoneId: string, domain: string): Pr
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        type: 'CNAME',
+        type: 'A',
         name: domain,
-        content: 'cname.vercel-dns.com',
+        content: '76.76.21.21', // Vercel's IP
         ttl: 1, // Auto
-        proxied: true,
+        proxied: false, // No Cloudflare proxy
       }),
     })
 
@@ -448,6 +448,66 @@ async function addCloudflareVercelDNSRecords(zoneId: string, domain: string): Pr
     return false
   }
 }
+/**
+ * Enable email routing for a Cloudflare zone
+ * @param zoneId Cloudflare zone ID
+ * @param domain Domain to enable email routing for
+ * @returns True if successful
+ */
+async function enableCloudflareEmailRouting(zoneId: string, domain: string): Promise<boolean> {
+  if (!CLOUDFLARE_API_TOKEN) {
+    console.error('CLOUDFLARE_API_TOKEN environment variable is not set')
+    return false
+  }
+
+  try {
+    const enableResponse = await fetch(`${CLOUDFLARE_API_BASE}/zones/${zoneId}/email/routing/enable`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!enableResponse.ok) {
+      throw new Error(`Failed to enable email routing: ${enableResponse.status}: ${await enableResponse.text()}`)
+    }
+
+    const ruleResponse = await fetch(`${CLOUDFLARE_API_BASE}/zones/${zoneId}/email/routing/rules`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${CLOUDFLARE_API_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        matchers: [
+          {
+            type: 'all',
+          },
+        ],
+        actions: [
+          {
+            type: 'forward',
+            value: ['emails-do@drivly.com'], // Forward to emails-do worker
+          },
+        ],
+        enabled: true,
+        name: 'Catch-all to emails-do worker',
+        priority: 0,
+      }),
+    })
+
+    if (!ruleResponse.ok) {
+      throw new Error(`Failed to create email routing rule: ${ruleResponse.status}: ${await ruleResponse.text()}`)
+    }
+
+    return true
+  } catch (error: any) {
+    console.error(`Error enabling email routing for ${domain}:`, error.message)
+    return false
+  }
+}
+
 
 /**
  * Add domain to Vercel project
@@ -570,6 +630,15 @@ async function automateDomainsSetup() {
 
           if (dnsAdded) {
             console.log(`Successfully added Vercel DNS records for ${domain}`)
+            
+            console.log(`Enabling email routing for ${domain}...`)
+            const emailRoutingEnabled = await enableCloudflareEmailRouting(newZone.id, domain)
+            
+            if (emailRoutingEnabled) {
+              console.log(`Successfully enabled email routing for ${domain}`)
+            } else {
+              console.error(`Failed to enable email routing for ${domain}`)
+            }
           } else {
             console.error(`Failed to add Vercel DNS records for ${domain}`)
           }
