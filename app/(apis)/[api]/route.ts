@@ -83,7 +83,7 @@ export const GET = API(async (request, { db, user, params, url }) => {
   }
 })
 
-export const POST = API(async (request, { db, params }) => {
+export const POST = API(async (request, { db, params, url }) => {
   const { api } = params as { api: string }
 
   const apiExists = api in apis
