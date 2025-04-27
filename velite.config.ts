@@ -42,7 +42,7 @@ export default defineConfig({
     },
     primitives: {
       name: 'Primitive',
-      pattern: 'primitives.yaml',
+      pattern: '../primitives.yaml',
       schema: s.record(s.string(), s.string()),
       single: true,
     },
