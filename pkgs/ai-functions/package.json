@@ -6,6 +6,13 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs --external:ai-providers && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm --external:ai-providers && tsc --declaration --emitDeclarationOnly --outDir dist",
     "build:packages": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=cjs --external:ai-providers && esbuild src/index.ts --bundle --platform=node --outfile=dist/index.mjs --format=esm --external:ai-providers && tsc --declaration --emitDeclarationOnly --outDir dist",
