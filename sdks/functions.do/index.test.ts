@@ -161,18 +161,28 @@ describe('functions.do', () => {
           name: 'string',
           description: 'string',
         },
-        testCallback: ({ ai, args }) => {
+        testCallback: (args, ctx) => {
           callbackExecuted = true
-          receivedAiInstance = ai
+          receivedAiInstance = ctx.ai
           receivedArgs = args
-          return 'callback result'
+          return Promise.resolve('callback result')
         },
       })
 
       const mockAi: any = {
         testFunction: () => Promise.resolve({ name: 'test', description: 'test' }),
       }
-      const result = functions.testCallback({ ai: mockAi, args: { test: 123 } })
+      const mockDb = { 
+        resources: {}, 
+        api: {},
+        find: async () => ({}), 
+        findOne: async () => ({}), 
+        create: async () => ({}), 
+        update: async () => ({}), 
+        delete: async () => ({}),
+        search: async () => ({ data: [] })
+      }
+      const result = await functions.testCallback({ test: 123 }, { ai: mockAi, api: {}, db: mockDb as any })
 
       // Verify the function properties
       expect(callbackExecuted).toBe(true)
@@ -189,10 +199,10 @@ describe('functions.do', () => {
         someFunction: {
           result: 'string',
         },
-        launchStartup: ({ ai, args }) => {
+        launchStartup: (args, ctx) => {
           startupExecuted = true
-          receivedAiInstance = ai
-          return { initialized: true }
+          receivedAiInstance = ctx.ai
+          return Promise.resolve({ initialized: true })
         },
       })
 
@@ -203,7 +213,17 @@ describe('functions.do', () => {
 
       // Also verify we can call the callback explicitly
       const mockAi: any = {} // Create a mock AI instance
-      const result = functions.launchStartup({ ai: mockAi, args: {} })
+      const mockDb = { 
+        resources: {}, 
+        api: {},
+        find: async () => ({}), 
+        findOne: async () => ({}), 
+        create: async () => ({}), 
+        update: async () => ({}), 
+        delete: async () => ({}),
+        search: async () => ({ data: [] })
+      }
+      const result = await functions.launchStartup({}, { ai: mockAi, api: {}, db: mockDb as any })
       expect(result).toEqual({ initialized: true })
     })
 
@@ -214,7 +234,7 @@ describe('functions.do', () => {
         nameStartup: {
           name: 'What is the startup name',
         },
-        launchStartup: async ({ ai, args }) => {
+        launchStartup: async (args, ctx) => {
           await new Promise((resolve) => setTimeout(resolve, 100))
           asyncCallbackExecuted = true
           return { success: true, data: args }
@@ -222,8 +242,18 @@ describe('functions.do', () => {
       })
 
       const mockAi: any = {} // Create a mock AI instance
-      const result = await functions.launchStartup({ ai: mockAi, args: { test: 'async' } })
-      const namingResults = await functions.nameStartup({ ai: mockAi, args: { test: 'async' } })
+      const mockDb = { 
+        resources: {}, 
+        api: {},
+        find: async () => ({}), 
+        findOne: async () => ({}), 
+        create: async () => ({}), 
+        update: async () => ({}), 
+        delete: async () => ({}),
+        search: async () => ({ data: [] })
+      }
+      const result = await functions.launchStartup({ test: 'async' }, { ai: mockAi, api: {}, db: mockDb as any })
+      const namingResults = await functions.nameStartup({ test: 'async' })
 
       expect(asyncCallbackExecuted).toBe(true)
       expect(result).toEqual({ success: true, data: { test: 'async' } })

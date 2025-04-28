@@ -42,7 +42,7 @@
 ## Workflows
 
 - `ai-workflows` export `on` and `every` for event-based workflows
-- `workflows.do` SDK Define `Workflow`
+- `workflows.do` SDK implement `on` and `every` for event-based workflows
 
 ## Evals
 

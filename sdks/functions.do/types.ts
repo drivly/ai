@@ -1,3 +1,5 @@
+import type { DatabaseClient } from 'database.do'
+
 export type ModelName = string
 
 export interface AIConfig {
@@ -46,8 +48,22 @@ export type SchemaToOutput<T extends FunctionDefinition> = {
       : string
 }
 
+export interface Context {
+  ai: AIProxy
+  api: APIAccess
+  db: DatabaseAccess
+}
+
+export interface APIAccess {
+  [service: string]: {
+    [method: string]: (...args: any[]) => Promise<any>
+  }
+}
+
+export type DatabaseAccess = DatabaseClient
+
 // Function callback type
-export type FunctionCallback<TArgs = any> = (context: { ai: AI_Instance; args: TArgs }) => any | Promise<any>
+export type FunctionCallback<TArgs = any> = (args: TArgs, ctx: Context) => Promise<any>
 
 // Main AI function factory type
 export type AI = {
@@ -66,10 +82,10 @@ export interface TaggedTemplateFunction {
 }
 
 export interface ConfigurableAIProxy {
-  (config: AIConfig): TaggedTemplateFunction & AI_Instance
+  (config: AIConfig): TaggedTemplateFunction & AIProxy
 }
 
-export type AI_Instance = {
+export type AIProxy = {
   [K: string]: AIFunction<any, any> &
     (<T = any>(input?: any, config?: AIConfig) => Promise<T>) &
     (<T = any>(schema: FunctionDefinition, config?: AIConfig) => (input: any, inputConfig?: AIConfig) => Promise<T>) &
