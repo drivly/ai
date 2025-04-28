@@ -33,7 +33,7 @@ export const metadata = {
 const banner = <Banner storageKey='some-key'>Functions.do is released 🎉</Banner>
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const pageMap = await getPageMap('/content')
+  const pageMap = await getPageMap('/docs')
 
   const navbar = <Navbar logo={<b>{siteConfig.name}</b>} logoLink={siteConfig.url} chatLink={siteConfig.baseLinks.discord_chat_link} projectLink={siteConfig.baseLinks.github} />
 
