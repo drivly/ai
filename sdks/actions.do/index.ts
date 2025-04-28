@@ -1,13 +1,30 @@
 import { API } from 'apis.do'
-import { Action, ActionConfig, ComposioActionTypes, ComposioActionName } from './types'
+import { Action, ActionConfig } from './types'
 
 const api = new API()
 
+interface ActionParameters {
+  [key: string]: any;
+}
+
+interface ActionResponse {
+  [key: string]: any;
+}
+
+interface ActionDefinition {
+  parameters: ActionParameters;
+  response: ActionResponse;
+}
+
+interface IntegrationActions {
+  [actionName: string]: ActionDefinition;
+}
+
 type IntegrationsType = {
-  [I in keyof ComposioActionTypes]: {
-    [A in keyof ComposioActionTypes[I]]: (
-      params: ComposioActionTypes[I][A]['parameters']
-    ) => Promise<ComposioActionTypes[I][A]['response']>
+  [integrationName: string]: {
+    [actionName: string]: (
+      params: ActionParameters
+    ) => Promise<ActionResponse>
   }
 }
 

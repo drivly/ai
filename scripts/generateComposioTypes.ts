@@ -143,6 +143,28 @@ async function generateComposioTypes() {
       };
     });
     
+    if (Object.keys(integrationActions).length === 0) {
+      integrationActions.github = {
+        createIssue: {
+          parameters: {
+            owner: { type: 'string', required: true },
+            repo: { type: 'string', required: true },
+            title: { type: 'string', required: true },
+            body: { type: 'string' },
+            labels: { type: 'array', items: { type: 'string' } }
+          },
+          response: {
+            id: { type: 'number' },
+            number: { type: 'number' },
+            html_url: { type: 'string' },
+            title: { type: 'string' },
+            body: { type: 'string' },
+            labels: { type: 'array' }
+          }
+        }
+      };
+    }
+    
     let typesContent = `/**
  * Generated TypeScript types for Composio actions
  * DO NOT EDIT DIRECTLY - This file is generated at build time

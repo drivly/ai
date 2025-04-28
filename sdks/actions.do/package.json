@@ -35,7 +35,7 @@
     "url": "https://github.com/drivly/ai/issues"
   },
   "scripts": {
-    "build": "pnpm generate:types && tsup --config tsup.config.ts",
+    "build": "mkdir -p generated src && pnpm generate:types && tsup --config tsup.config.ts",
     "build:packages": "tsup --config tsup.config.ts",
     "generate:types": "tsx ../../scripts/generateComposioTypes.ts",
     "generate:constants": "echo 'Using placeholder constants'",
