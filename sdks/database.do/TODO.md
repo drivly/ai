@@ -2,9 +2,10 @@
 
 This file documents tests that are currently skipped or failing in the test suite.
 
-## Skipped Tests
+## Runtime Checks
 
-1. Tests that require a local Payload CMS instance are skipped in CI environments. These tests are marked with `describeIfNotCI` and will only run locally.
+1. Tests that require a local Payload CMS instance check for availability at runtime. If Payload CMS is not running at localhost:3000, the tests will display a warning message and skip the test logic.
+2. To run these tests successfully, start Payload CMS with `pnpm dev` before running the tests.
 
 ## Known Issues
 
