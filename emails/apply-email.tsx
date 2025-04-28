@@ -2,7 +2,7 @@ import { siteConfig } from '@/components/site-config'
 import { Button } from '@/components/ui/button'
 import { Body, Container, Head, Hr, Html, Link, Preview, Section, Tailwind, Text } from '@react-email/components'
 
-export const WelcomeEmail = ({ name }: { name: string }) => (
+export const ApplyEmail = ({ name }: { name: string }) => (
   <Html>
       <Head>
         <Font
@@ -28,42 +28,27 @@ export const WelcomeEmail = ({ name }: { name: string }) => (
       </Head>
       <Tailwind>
         <Body className='bg-gray-100 py-[40px]' style={{ fontFamily: '"IBM Plex Sans", Helvetica, Arial, sans-serif' }}>
-          <Preview>👋 You're on the waitlist!</Preview>
+          <Preview>👋 Thanks for applying!</Preview>
 
           <Container className='mx-auto rounded-lg bg-white p-[32px] shadow-sm'>
             {/* Email body */}
             <Section>
               <Text className='text-lg text-gray-700 mb-[24px]'>Hey {name},</Text>
               <Text className='text-lg text-gray-700 mb-[24px]'>
-                Thanks for signing up for the <strong>.do</strong> waitlist! 
+                Thank you for your interest in joining our team!
               </Text>
 
               <Text className='text-lg text-gray-700 mb-[24px]'>
-                We're excited about your interest and can't wait to show you what we're building—a platform to build autonomous enterprises through Business-as-Code.
+                We’re looking for people who are passionate about building, supporting, and scaling the future of AI-driven work.
+              </Text>
+              
+              <Text className='text-lg text-gray-700 mb-[24px]'>
+                We review GitHub profiles and projects closely, so if there’s anything else you’d like to highlight — side projects, content, community work — feel free to send it over.
               </Text>
 
               <Text className='text-lg text-gray-700 mb-[24px]'>
-                We’re kicking off our first wave of access for companies primed to benefit right away—just reply and tell us about your business and which AI-powered services you’d like to build.
+                If it feels like a fit, we’ll be in touch to set up a conversation.
               </Text>
-              
-              {/* <Text className='text-lg text-gray-700 mb-[16px]'>
-                Fill out this quick form to skip the waitlist:
-              </Text> */}
-              
-              {/* Apply button */}
-              {/* <Section className='py-[24px]'>
-                <Button
-                  href="https://dotdo.ai/beta-access-form"
-                  className="box-border rounded-[4px] bg-black text-white font-medium no-underline text-center py-[12px] px-[24px]"
-                  style={{ fontFamily: '"IBM Plex Sans", Helvetica, Arial, sans-serif' }}
-                >
-                  Apply For Beta Access
-                </Button>
-              </Section> */}
-              
-              {/* <Text className='text-lg text-gray-700 mb-[24px] mt-[16px]'>
-                Once you've filled out the form, you'll hear from us right away if there's a match. If not, we'll keep you updated as we open more spots.
-              </Text> */}
 
             </Section>
 
@@ -97,20 +82,10 @@ export const WelcomeEmail = ({ name }: { name: string }) => (
               </Text>
             </Section>
 
-            <Section>
-              <Text className='text-center text-xs text-gray-500 m-0 mb-[6px]'>© {currentYear} .do, Inc. All rights reserved.</Text>
-              <Text className='text-center text-xs text-gray-500 m-0'>
-                <Link href="https://dotdo.ai/unsubscribe" className='text-gray-500 underline'>
-                  Unsubscribe
-                </Link>
-              </Text>
-            </Section>
-
           </Container>
         </Body>
       </Tailwind>
     </Html>
- 
 )
 
-export default WelcomeEmail
+export default ApplyEmail
