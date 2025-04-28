@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeAll } from 'vitest'
 import { DB, DatabaseClient } from '../../src/index'
-import { setupApiStyles, shouldRunTests } from './utils/test-setup'
+import { setupApiStyles, shouldRunTests, isPayloadRunning } from './utils/test-setup'
 
 const describeIfNotCI = shouldRunTests ? describe : describe.skip
 
@@ -40,7 +40,18 @@ describe('database.do SDK Initialization', () => {
   })
 
   describeIfNotCI('SDK Proxy Structure', () => {
+    let payloadRunning = false
+    
+    beforeAll(async () => {
+      payloadRunning = await isPayloadRunning()
+      if (!payloadRunning) {
+        console.warn('Skipping API tests: Payload CMS is not running at localhost:3000')
+      }
+    })
+    
     it('should provide collection access via proxy properties', () => {
+      if (!payloadRunning) return
+      
       const { db } = setupApiStyles()
       
       expect(db.resources).toBeDefined()

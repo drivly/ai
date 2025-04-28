@@ -1,9 +1,19 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeAll } from 'vitest'
 import { DB, DatabaseClient, handleApiError } from '../../src/index'
-import { setupApiStyles } from './utils/test-setup'
+import { setupApiStyles, isPayloadRunning, shouldRunTests } from './utils/test-setup'
+
+const describeIfNotCI = shouldRunTests ? describe : describe.skip
 
 describe('database.do SDK Error Handling', () => {
   const { db, dbClient } = setupApiStyles()
+  let payloadRunning = false
+  
+  beforeAll(async () => {
+    payloadRunning = await isPayloadRunning()
+    if (!payloadRunning) {
+      console.warn('Skipping API tests: Payload CMS is not running at localhost:3000')
+    }
+  })
   
   describe('Error Handler Function', () => {
     it('should enhance errors with operation and collection info', () => {
@@ -38,8 +48,10 @@ describe('database.do SDK Error Handling', () => {
     })
   })
   
-  describe('API Error Handling', () => {
+  describeIfNotCI('API Error Handling', () => {
     it('should handle non-existent ID errors', async () => {
+      if (!payloadRunning) return
+      
       const nonExistentId = 'non-existent-id-123456789'
       
       try {
@@ -53,6 +65,8 @@ describe('database.do SDK Error Handling', () => {
     })
     
     it('should handle validation errors during create', async () => {
+      if (!payloadRunning) return
+      
       const invalidData = {
       }
       
@@ -67,6 +81,8 @@ describe('database.do SDK Error Handling', () => {
     })
     
     it('should handle server errors with DatabaseClient', async () => {
+      if (!payloadRunning) return
+      
       const nonExistentId = 'non-existent-id-123456789'
       
       try {

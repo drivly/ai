@@ -1,5 +1,6 @@
 import { DB, DatabaseClient } from '../../../src/index'
-import { beforeAll, afterAll, vi } from 'vitest'
+import { beforeAll, afterAll } from 'vitest'
+import fetch from 'node-fetch'
 
 export const setupApiStyles = () => {
   const db = DB({
@@ -15,65 +16,48 @@ export const setupApiStyles = () => {
 
 export const shouldRunTests = process.env.CI ? false : true
 
-export const setupTestPayload = async () => {
-  const mockPayload = {
-    create: vi.fn().mockImplementation(({ collection, data }) => {
-      return Promise.resolve({
-        id: `mock-id-${Date.now()}`,
-        ...data,
-      })
-    }),
-    find: vi.fn().mockImplementation(() => {
-      return Promise.resolve({
-        docs: [],
-        totalDocs: 0,
-        page: 1,
-        totalPages: 1,
-        hasNextPage: false,
-        hasPrevPage: false,
-      })
-    }),
-    findByID: vi.fn().mockImplementation((id) => {
-      return Promise.resolve({
-        id,
-        name: 'Mock Resource',
-      })
-    }),
-    update: vi.fn().mockImplementation(({ id, data }) => {
-      return Promise.resolve({
-        id,
-        ...data,
-      })
-    }),
-    delete: vi.fn().mockImplementation(({ id }) => {
-      return Promise.resolve({
-        id,
-        _status: 'deleted',
-      })
-    }),
+export const isPayloadRunning = async (): Promise<boolean> => {
+  try {
+    const response = await fetch('http://localhost:3000/api/things')
+    return response.status === 200
+  } catch (error) {
+    console.warn('Payload CMS is not running at localhost:3000')
+    return false
   }
-  
-  return mockPayload
 }
 
-export const createTestData = async (payload: any, collection: string, data: any) => {
+export const createTestData = async (collection: string, data: any) => {
   try {
-    return await payload.create({
-      collection,
-      data,
+    const response = await fetch(`http://localhost:3000/api/${collection}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
     })
+    
+    if (!response.ok) {
+      throw new Error(`Failed to create test data: ${response.statusText}`)
+    }
+    
+    return await response.json()
   } catch (error) {
     console.error(`Error creating test data in ${collection}:`, error)
     return null
   }
 }
 
-export const cleanupTestData = async (payload: any, collection: string, id: string) => {
+export const cleanupTestData = async (collection: string, id: string) => {
   try {
-    return await payload.delete({
-      collection,
-      id,
+    const response = await fetch(`http://localhost:3000/api/${collection}/${id}`, {
+      method: 'DELETE',
     })
+    
+    if (!response.ok) {
+      throw new Error(`Failed to delete test data: ${response.statusText}`)
+    }
+    
+    return await response.json()
   } catch (error) {
     console.error(`Error deleting test data in ${collection}:`, error)
     return null

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { setupApiStyles, setupTestPayload, shouldRunTests, createTestData, cleanupTestData } from './utils/test-setup'
+import { setupApiStyles, shouldRunTests, isPayloadRunning, createTestData, cleanupTestData } from './utils/test-setup'
 
 const describeIfNotCI = shouldRunTests ? describe : describe.skip
 
@@ -7,56 +7,60 @@ describe('database.do SDK Query Operations', () => {
   const { db, dbClient } = setupApiStyles()
   
   describeIfNotCI('Query Operations', () => {
-    let payload: any
+    let payloadRunning = false
     const testResources: any[] = []
     
     beforeAll(async () => {
-      payload = await setupTestPayload()
+      payloadRunning = await isPayloadRunning()
+      if (!payloadRunning) {
+        console.warn('Skipping tests: Payload CMS is not running at localhost:3000')
+        return
+      }
       
-      if (payload) {
-        const testData = [
-          {
-            name: `Query Test A-${Date.now()}`,
-            data: { category: 'electronics', price: 100, inStock: true },
-          },
-          {
-            name: `Query Test B-${Date.now()}`,
-            data: { category: 'electronics', price: 200, inStock: false },
-          },
-          {
-            name: `Query Test C-${Date.now()}`,
-            data: { category: 'books', price: 50, inStock: true },
-          },
-          {
-            name: `Query Test D-${Date.now()}`,
-            data: { category: 'furniture', price: 500, inStock: true },
-          },
-          {
-            name: `Query Test E-${Date.now()}`,
-            data: { category: 'books', price: 30, inStock: false },
-          },
-        ]
-        
-        for (const data of testData) {
-          const resource = await createTestData(payload, 'things', data)
-          if (resource) {
-            testResources.push(resource)
-          }
+      const testData = [
+        {
+          name: `Query Test A-${Date.now()}`,
+          data: { category: 'electronics', price: 100, inStock: true },
+        },
+        {
+          name: `Query Test B-${Date.now()}`,
+          data: { category: 'electronics', price: 200, inStock: false },
+        },
+        {
+          name: `Query Test C-${Date.now()}`,
+          data: { category: 'books', price: 50, inStock: true },
+        },
+        {
+          name: `Query Test D-${Date.now()}`,
+          data: { category: 'furniture', price: 500, inStock: true },
+        },
+        {
+          name: `Query Test E-${Date.now()}`,
+          data: { category: 'books', price: 30, inStock: false },
+        },
+      ]
+      
+      for (const data of testData) {
+        const resource = await createTestData('things', data)
+        if (resource) {
+          testResources.push(resource)
         }
       }
     })
     
     afterAll(async () => {
-      if (payload) {
+      if (payloadRunning) {
         for (const resource of testResources) {
           if (resource?.id) {
-            await cleanupTestData(payload, 'things', resource.id)
+            await cleanupTestData('things', resource.id)
           }
         }
       }
     })
     
     it('should find things with filtering', async () => {
+      if (!payloadRunning) return
+      
       const result = await db.things.find({
         where: {
           'data.category': 'electronics',
@@ -71,6 +75,8 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should find things with complex filtering', async () => {
+      if (!payloadRunning) return
+      
       const result = await db.things.find({
         where: {
           'data.category': 'books',
@@ -86,6 +92,8 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should sort things', async () => {
+      if (!payloadRunning) return
+      
       const result = await db.things.find({
         sort: 'data.price:desc',
       })
@@ -101,6 +109,8 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should paginate things', async () => {
+      if (!payloadRunning) return
+      
       const pageSize = 2
       
       const page1 = await db.things.find({
@@ -131,6 +141,8 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should find things with filtering using DatabaseClient', async () => {
+      if (!payloadRunning) return
+      
       const result = await dbClient.find('things', {
         where: {
           'data.category': 'electronics',
@@ -145,6 +157,8 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should search things', async () => {
+      if (!payloadRunning) return
+      
       const query = 'Test'
       const result = await db.things.search(query, {
         limit: 10,
