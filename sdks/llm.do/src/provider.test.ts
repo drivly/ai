@@ -1,20 +1,34 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { createLLMDoProvider, llmDoProvider, LLMDoProviderOptions } from './provider'
-import { LLMClient } from './index'
 import { ReadableStream } from 'node:stream/web'
 
-vi.mock('./index', () => ({
-  LLMClient: vi.fn(() => ({
-    chat: vi.fn(),
-    chatStream: vi.fn(),
-  })),
+const mockLLMClient = vi.hoisted(() => ({
+  chat: vi.fn(),
+  chatStream: vi.fn()
 }))
 
-vi.mock('apis.do', () => ({
-  API: vi.fn(() => ({
-    post: vi.fn(),
-  })),
+const mockAPI = vi.hoisted(() => ({
+  post: vi.fn()
 }))
+
+vi.mock('./index', () => {
+  return {
+    LLMClient: vi.fn().mockImplementation(() => mockLLMClient),
+  }
+})
+
+vi.mock('apis.do', () => {
+  return {
+    API: vi.fn().mockImplementation(() => mockAPI),
+  }
+})
+
+beforeEach(() => {
+  vi.clearAllMocks()
+  mockLLMClient.chat.mockReset()
+  mockLLMClient.chatStream.mockReset()
+  mockAPI.post.mockReset()
+})
 
 describe('llmDoProvider', () => {
   describe('languageModel function', () => {
@@ -80,8 +94,13 @@ describe('llmDoProvider', () => {
   })
   
   describe('createLLMDoProvider', () => {
-    it('should create provider with default options', () => {
+    it('should create provider with default options', async () => {
+      vi.clearAllMocks()
+      
       const provider = createLLMDoProvider()
+      
+      const { LLMClient } = await import('./index')
+      
       expect(provider).toHaveProperty('languageModel')
       expect(provider).toHaveProperty('textEmbeddingModel')
       expect(LLMClient).toHaveBeenCalledWith({
@@ -90,7 +109,9 @@ describe('llmDoProvider', () => {
       })
     })
     
-    it('should create provider with custom options', () => {
+    it('should create provider with custom options', async () => {
+      vi.clearAllMocks()
+      
       const options: LLMDoProviderOptions = {
         apiKey: 'test-api-key',
         baseUrl: 'https://custom.llm.do',
@@ -98,6 +119,9 @@ describe('llmDoProvider', () => {
       }
       
       const provider = createLLMDoProvider(options)
+      
+      const { LLMClient } = await import('./index')
+      
       expect(provider).toHaveProperty('languageModel')
       expect(provider).toHaveProperty('textEmbeddingModel')
       expect(LLMClient).toHaveBeenCalledWith({
@@ -108,18 +132,13 @@ describe('llmDoProvider', () => {
   })
   
   describe('LLMDoLanguageModel', () => {
-    let mockClient: any
     let model: any
     
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
       
-      mockClient = {
-        chat: vi.fn(),
-        chatStream: vi.fn(),
-      }
-      
-      vi.mocked(LLMClient).mockImplementation(() => mockClient)
+      mockLLMClient.chat.mockReset()
+      mockLLMClient.chatStream.mockReset()
       
       const provider = createLLMDoProvider({
         apiKey: 'test-key',
@@ -143,7 +162,7 @@ describe('llmDoProvider', () => {
           },
         }
         
-        mockClient.chat.mockResolvedValue(mockResponse)
+        mockLLMClient.chat.mockResolvedValue(mockResponse)
         
         const result = await model.doGenerate({
           prompt: [
@@ -156,7 +175,7 @@ describe('llmDoProvider', () => {
           mode: { type: 'text' },
         })
         
-        expect(mockClient.chat).toHaveBeenCalledWith(
+        expect(mockLLMClient.chat).toHaveBeenCalledWith(
           [
             { role: 'system', content: 'You are a helpful assistant' },
             { role: 'user', content: 'Hello' },
@@ -211,7 +230,7 @@ describe('llmDoProvider', () => {
           },
         }
         
-        mockClient.chat.mockResolvedValue(mockResponse)
+        mockLLMClient.chat.mockResolvedValue(mockResponse)
         
         const schema = {
           type: 'object',
@@ -231,7 +250,7 @@ describe('llmDoProvider', () => {
           },
         })
         
-        expect(mockClient.chat).toHaveBeenCalledWith(
+        expect(mockLLMClient.chat).toHaveBeenCalledWith(
           [
             { 
               role: 'system', 
@@ -251,7 +270,7 @@ describe('llmDoProvider', () => {
       })
       
       it('should handle errors from client.chat', async () => {
-        mockClient.chat.mockRejectedValue(new Error('Chat error'))
+        mockLLMClient.chat.mockRejectedValue(new Error('Chat error'))
         
         await expect(model.doGenerate({
           prompt: [{ role: 'user', content: 'Hello' }],
@@ -263,7 +282,7 @@ describe('llmDoProvider', () => {
     describe('doStream method', () => {
       it('should correctly call client.chatStream with proper parameters', async () => {
         const mockStream = new ReadableStream()
-        mockClient.chatStream.mockResolvedValue(mockStream)
+        mockLLMClient.chatStream.mockResolvedValue(mockStream)
         
         const result = await model.doStream({
           prompt: [
@@ -276,7 +295,7 @@ describe('llmDoProvider', () => {
           mode: { type: 'text' },
         })
         
-        expect(mockClient.chatStream).toHaveBeenCalledWith(
+        expect(mockLLMClient.chatStream).toHaveBeenCalledWith(
           [
             { role: 'system', content: 'You are a helpful assistant' },
             { role: 'user', content: 'Hello' },
@@ -307,7 +326,7 @@ describe('llmDoProvider', () => {
       
       it('should add system message for object-json mode when not present', async () => {
         const mockStream = new ReadableStream()
-        mockClient.chatStream.mockResolvedValue(mockStream)
+        mockLLMClient.chatStream.mockResolvedValue(mockStream)
         
         const schema = {
           type: 'object',
@@ -327,7 +346,7 @@ describe('llmDoProvider', () => {
           },
         })
         
-        expect(mockClient.chatStream).toHaveBeenCalledWith(
+        expect(mockLLMClient.chatStream).toHaveBeenCalledWith(
           [
             { 
               role: 'system', 
@@ -347,7 +366,7 @@ describe('llmDoProvider', () => {
       })
       
       it('should handle errors from client.chatStream', async () => {
-        mockClient.chatStream.mockRejectedValue(new Error('Stream error'))
+        mockLLMClient.chatStream.mockRejectedValue(new Error('Stream error'))
         
         await expect(model.doStream({
           prompt: [{ role: 'user', content: 'Hello' }],
@@ -358,14 +377,12 @@ describe('llmDoProvider', () => {
   })
   
   describe('LLMDoEmbeddingModel', () => {
-    let mockAPI: any
     let model: any
     
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
       
-      mockAPI = { post: vi.fn() }
-      vi.mocked(require('apis.do').API).mockImplementation(() => mockAPI)
+      mockAPI.post.mockReset()
       
       const provider = createLLMDoProvider({
         apiKey: 'test-key',

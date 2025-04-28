@@ -1,30 +1,33 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { LLMClient, ChatMessage } from './index'
 import { ReadableStream } from 'node:stream/web'
 
-vi.mock('apis.do', () => ({
-  API: vi.fn(() => ({
-    post: vi.fn(),
-  })),
+vi.unmock('./index')
+
+const mockAPI = vi.hoisted(() => ({
+  post: vi.fn()
 }))
+
+// Only mock apis.do, not the LLMClient
+vi.mock('apis.do', () => {
+  return {
+    API: vi.fn().mockImplementation(() => mockAPI)
+  }
+})
+
+import { LLMClient, ChatMessage } from './index'
 
 describe('LLMClient', () => {
   let client: LLMClient
-  let mockAPI: any
   
   beforeEach(() => {
     vi.clearAllMocks()
-    
-    mockAPI = { post: vi.fn() }
-    vi.mocked(require('apis.do').API).mockImplementation(() => mockAPI)
-    
     client = new LLMClient({ apiKey: 'test-key' })
   })
   
   describe('constructor', () => {
-    it('should initialize with default baseUrl when not provided', () => {
-      const client = new LLMClient({ apiKey: 'test-key' })
-      expect(require('apis.do').API).toHaveBeenCalledWith({
+    it('should initialize with default baseUrl when not provided', async () => {
+      const { API } = await import('apis.do')
+      expect(API).toHaveBeenCalledWith({
         baseUrl: 'https://llm.do',
         headers: {
           'Content-Type': 'application/json',
@@ -33,9 +36,16 @@ describe('LLMClient', () => {
       })
     })
     
-    it('should initialize with custom baseUrl when provided', () => {
-      const client = new LLMClient({ apiKey: 'test-key', baseUrl: 'https://custom.llm.do' })
-      expect(require('apis.do').API).toHaveBeenCalledWith({
+    it('should initialize with custom baseUrl when provided', async () => {
+      vi.clearAllMocks()
+      
+      const customClient = new LLMClient({ 
+        apiKey: 'test-key', 
+        baseUrl: 'https://custom.llm.do' 
+      })
+      
+      const { API } = await import('apis.do')
+      expect(API).toHaveBeenCalledWith({
         baseUrl: 'https://custom.llm.do',
         headers: {
           'Content-Type': 'application/json',
@@ -44,9 +54,13 @@ describe('LLMClient', () => {
       })
     })
     
-    it('should initialize without Authorization header when no apiKey provided', () => {
-      const client = new LLMClient()
-      expect(require('apis.do').API).toHaveBeenCalledWith({
+    it('should initialize without Authorization header when no apiKey provided', async () => {
+      vi.clearAllMocks()
+      
+      const noAuthClient = new LLMClient()
+      
+      const { API } = await import('apis.do')
+      expect(API).toHaveBeenCalledWith({
         baseUrl: 'https://llm.do',
         headers: {
           'Content-Type': 'application/json',
