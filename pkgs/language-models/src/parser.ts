@@ -480,6 +480,30 @@ export function getModels(modelIdentifier: string) {
 const metaModels = [
   {
     name: 'frontier',
-    models: ['gemini-2.5-flash-preview', 'deepseek-r1'],
+    models: ['gemini-2.5-flash-preview', 'deepseek-r1', 'gpt-4.1', 'o4-mini-high'],
+  },
+  {
+    name: 'frontierReasoning',
+    models: ['claude-3.7-sonnet:reasoning', 'gemini-2.5-flash-preview:thinking', 'r1:reasoning', 'sonar-deep-research:reasoning'],
+  },
+  {
+    name: 'cheapReasoning',
+    models: ['qwq-32b:reasoning', 'deepseek-r1-distill-llama-70b:reasoning'],
+  },
+  {
+    name: 'coding',
+    models: ['claude-3.7-sonnet', 'o3-mini', 'deepseek-v3'],
+  },
+  {
+    name: 'roleplay',
+    models: ['mythomax-l2-13b', 'wizardlm-2-7b', 'claude-3.7-sonnet', 'ministral-8b'],
+  },
+  {
+    name: 'cheapAndFast',
+    models: ['gemini', 'gemma-3', 'gpt-4o-mini', 'ministral-8b'],
+  },
+  {
+    name: 'wideRange',
+    models: ['claude-3.7-sonnet', 'gemini', 'gpt-4o-mini', 'ministral-8b', 'qwq-32b'],
   },
 ]
