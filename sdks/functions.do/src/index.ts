@@ -252,6 +252,26 @@ export class FunctionsClient {
       throw error
     }
   }
+
+  /**
+   * Execute a function as a Task, providing task-based execution and tracking
+   * @param functionName - Name of the function to execute
+   * @param input - Input data for the function
+   * @param config - Optional configuration for the function execution
+   * @returns Promise resolving to the task execution result
+   */
+  async executeAsTask<T = any>(functionName: string, input: any, config?: AIConfig): Promise<any> {
+    try {
+      // Create a task for the function execution
+      return await this.api.post<any>(`/v1/functions/${functionName}/task`, {
+        input,
+        config,
+      })
+    } catch (error) {
+      console.error(`Error executing function ${functionName} as task:`, error)
+      throw error
+    }
+  }
 }
 
 export default FunctionsClient

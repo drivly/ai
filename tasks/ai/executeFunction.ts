@@ -41,6 +41,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   // Determine if this is a code-based function
   const isCodeFunction = type === 'Code' || (settings?.type && settings.type === 'Code')
   const isHumanFunction = type === 'Human' || (settings?.type && settings.type === 'Human')
+  const isAgentFunction = type === 'Agent' || (settings?.type && settings.type === 'Agent')
 
   // Hash args & schema
   const actionHash = hash({ functionName, args, schema, settings })
@@ -119,18 +120,25 @@ export const executeFunction = async ({ input, req, payload }: any) => {
 
     const schema = functionDoc?.shape || {}
 
+    const userId = args.userId || settings?.userId || functionDoc?.user?.id
+    const roleId = args.roleId || settings?.roleId || schema.roleId
+    const timeoutValue = args.timeout || settings?.timeout || schema.timeout || 3600000 // Default: 1 hour
+
     const humanFeedbackInput = {
       title: args.title || `Human feedback required: ${functionName}`,
       description: args.description || `Please provide feedback for function: ${functionName}`,
       options: args.options || schema.options,
       freeText: args.freeText !== undefined ? args.freeText : schema.freeText,
       platform: args.platform || schema.platform || 'slack',
-      userId: args.userId || functionDoc?.user?.id,
-      roleId: args.roleId || schema.roleId,
-      timeout: args.timeout || schema.timeout,
+      userId,
+      roleId,
+      timeout: timeoutValue,
       blocks: args.blocks || schema.blocks,
+      channel: args.channel || schema.channel,
+      mentions: args.mentions || schema.mentions,
     }
 
+    // Create a task and request human feedback
     const result = await requestHumanFeedback({
       input: humanFeedbackInput,
       payload,
@@ -140,6 +148,72 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     reasoning = `Human feedback requested. Task ID: ${result.taskId}, Status: ${result.status}`
     generationLatency = Date.now() - start
     request = { functionName, args, settings }
+    
+    if (result && result.taskId) {
+      payload.jobs.queue({
+        task: 'monitorHumanFeedbackTask',
+        input: {
+          taskId: result.taskId,
+          functionName,
+          timeout: timeoutValue,
+          callback: args.callback || settings?.callback,
+        },
+      })
+    }
+  } else if (isAgentFunction) {
+    const agentId = functionDoc?.agent || args.agent || settings?.agent
+
+    if (!agentId) {
+      throw new Error('Agent ID is required for Agent functions')
+    }
+
+    try {
+      // Create a task for the agent execution
+      const task = await payload.create({
+        collection: 'tasks',
+        data: {
+          title: `Agent Task: ${functionName}`,
+          description: `Executing agent function: ${functionName} with agent: ${agentId}`,
+          status: 'in-progress',
+          metadata: {
+            type: 'agent-function',
+            functionName,
+            agentId,
+            createdAt: new Date().toISOString(),
+          },
+        },
+      })
+
+      const agentJobResult = await payload.jobs.queue({
+        task: 'executeAgentFunction',
+        input: {
+          agentId,
+          prompt: args.prompt || args.input || JSON.stringify(args),
+          context: args.context || settings?.context,
+          taskId: task.id,
+          options: settings?.agentOptions,
+        },
+      })
+
+      object = { 
+        taskId: task.id,
+        status: 'in-progress',
+        message: `Agent function execution queued: ${functionName} with agent: ${agentId}`,
+        jobId: agentJobResult.id
+      }
+      
+      reasoning = `Agent function execution queued. Task ID: ${task.id}, Agent ID: ${agentId}`
+      generationLatency = Date.now() - start
+      request = { functionName, agentId, args, settings }
+    } catch (error: any) {
+      console.error('Error executing agent function:', error)
+      
+      // Create error response
+      object = { error: error.message || 'Unknown error executing agent function' }
+      reasoning = `Agent function execution failed: ${error.message}`
+      generationLatency = Date.now() - start
+      request = { functionName, agentId: agentId, args, settings }
+    }
   } else if (isCodeFunction && functionDoc?.code) {
     const { executeCodeFunction } = await import('../code/executeCodeFunction')
 
