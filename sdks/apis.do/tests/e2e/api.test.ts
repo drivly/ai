@@ -1,17 +1,19 @@
-import { describe, it, expect, beforeAll } from 'vitest'
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { CLI } from '../../src/cli.js'
 import { API } from '../../src/client.js'
+import { startLocalServer, stopLocalServer } from './setup.js'
+import { generateTestName, cleanupTestResources } from './testUtils.js'
 
-const apiKey = process.env.APIS_DO_API_KEY || process.env.DO_API_KEY
-const shouldRunE2E = !!apiKey
+let apiKey: string
+let cli: CLI
+let apiClient: API
+let testResourceIds: Record<string, string[]> = {} // Track created resources for cleanup
 
-const describeE2E = shouldRunE2E ? describe : describe.skip
+const testTimeout = 30000
 
-describeE2E('apis.do E2E API Tests', () => {
-  let cli: CLI
-  let apiClient: API
-
-  beforeAll(() => {
+describe('apis.do E2E API Tests', () => {
+  beforeAll(async () => {
+    apiKey = await startLocalServer()
     const baseUrl = 'http://localhost:3000'
 
     cli = new CLI({
@@ -23,6 +25,18 @@ describeE2E('apis.do E2E API Tests', () => {
       apiKey,
       baseUrl,
     })
+    
+    testResourceIds = {
+      functions: [],
+    }
+  })
+
+  afterAll(async () => {
+    for (const [collection, ids] of Object.entries(testResourceIds)) {
+      await cleanupTestResources(apiClient, collection, ids)
+    }
+    
+    await stopLocalServer()
   })
 
   it('should list collections using the API client', async () => {
@@ -30,10 +44,10 @@ describeE2E('apis.do E2E API Tests', () => {
 
     expect(result).toBeDefined()
     expect(Array.isArray(result.data)).toBe(true)
-  }, 30000)
+  }, testTimeout)
 
   it('should create, get, update, and delete a resource', async () => {
-    const testName = `test-e2e-${Date.now()}`
+    const testName = generateTestName('func')
     const createData = {
       name: testName,
       description: 'Test resource created during E2E testing',
@@ -42,6 +56,7 @@ describeE2E('apis.do E2E API Tests', () => {
     const createResult = await cli.create('functions', createData)
     expect(createResult).toBeDefined()
     expect(createResult.id).toBeDefined()
+    testResourceIds.functions.push(createResult.id) // Track for cleanup
 
     const getResult = await cli.get('functions', createResult.id)
     expect(getResult).toBeDefined()
@@ -54,9 +69,7 @@ describeE2E('apis.do E2E API Tests', () => {
     expect(updateResult).toBeDefined()
     expect(updateResult.description).toBe(updateData.description)
 
-    const deleteResult = await cli.delete('functions', createResult.id)
-    expect(deleteResult).toBeDefined()
-  }, 30000)
+  }, testTimeout)
 
   it('should execute a function', async () => {
     try {
@@ -65,5 +78,5 @@ describeE2E('apis.do E2E API Tests', () => {
     } catch (error) {
       console.log('Echo function not available, skipping test')
     }
-  }, 30000)
+  }, testTimeout)
 })
