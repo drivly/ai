@@ -1,4 +1,4 @@
-import { AIConfig, AIFunction, FunctionDefinition, FunctionCallback, SchemaValue, AI_Instance, SchemaToOutput, MarkdownOutput, Context, APIAccess, DatabaseAccess } from './types'
+import { AIConfig, AIFunction, FunctionDefinition, FunctionCallback, SchemaValue, AIProxy, SchemaToOutput, MarkdownOutput, Context, APIAccess, DatabaseAccess } from './types'
 export type { FunctionResponse, FunctionDefinition as ClientFunctionDefinition, AIConfig as ClientAIConfig } from './src/index'
 export { default as FunctionsClient } from './src/index'
 
@@ -235,7 +235,7 @@ export const AI = <T extends Record<string, FunctionDefinition | FunctionCallbac
         return target[prop]
       },
     },
-  ) as AI_Instance
+  ) as AIProxy
 
   for (const [name, value] of Object.entries(functions)) {
     if (typeof value === 'function') {
@@ -312,6 +312,6 @@ export const ai = new Proxy(
       return target[prop]
     },
   },
-) as AI_Instance
+) as AIProxy
 
 export { research } from './src/ai'

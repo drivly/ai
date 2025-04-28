@@ -47,7 +47,7 @@ export type SchemaToOutput<T extends FunctionDefinition> = {
 }
 
 export interface Context {
-  ai: AI_Instance
+  ai: AIProxy
   api: APIAccess
   db: DatabaseAccess
 }
@@ -89,10 +89,10 @@ export interface TaggedTemplateFunction {
 }
 
 export interface ConfigurableAIProxy {
-  (config: AIConfig): TaggedTemplateFunction & AI_Instance
+  (config: AIConfig): TaggedTemplateFunction & AIProxy
 }
 
-export type AI_Instance = {
+export type AIProxy = {
   [K: string]: AIFunction<any, any> &
     (<T = any>(input?: any, config?: AIConfig) => Promise<T>) &
     (<T = any>(input?: any, schema?: FunctionDefinition, config?: AIConfig) => Promise<T>)
