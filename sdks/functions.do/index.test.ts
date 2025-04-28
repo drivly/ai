@@ -172,7 +172,7 @@ describe('functions.do', () => {
       const mockAi: any = {
         testFunction: () => Promise.resolve({ name: 'test', description: 'test' }),
       }
-      const result = functions.testCallback({ test: 123 }, { ai: mockAi, api: {}, db: {} })
+      const result = await functions.testCallback({ test: 123 }, { ai: mockAi, api: {}, db: {} })
 
       // Verify the function properties
       expect(callbackExecuted).toBe(true)
@@ -203,7 +203,7 @@ describe('functions.do', () => {
 
       // Also verify we can call the callback explicitly
       const mockAi: any = {} // Create a mock AI instance
-      const result = functions.launchStartup({}, { ai: mockAi, api: {}, db: {} })
+      const result = await functions.launchStartup({}, { ai: mockAi, api: {}, db: {} })
       expect(result).toEqual({ initialized: true })
     })
 
