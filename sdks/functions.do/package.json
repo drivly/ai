@@ -52,7 +52,9 @@
     "eslint-config": "workspace:*",
     "evalite": "^0.10.0",
     "tsconfig": "workspace:*",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "ts-morph": "^20.0.0",
+    "@types/estree": "^1.0.5"
   },
   "dependencies": {
     "apis.do": "workspace:*",

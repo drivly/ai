@@ -81,3 +81,27 @@ describeE2E('AI Factory E2E Tests', () => {
     expect(result).toBeDefined()
   }, 30000)
 })
+
+describeE2E('TypeScript Generation E2E Tests', () => {
+  let client: FunctionsClient
+
+  beforeAll(() => {
+    process.env.NODE_ENV = 'development'
+    process.env.FUNCTIONS_DO_API_KEY = apiKey
+    
+    client = new FunctionsClient({
+      apiKey,
+      baseUrl: 'http://localhost:3000',
+    })
+  })
+
+  it('should generate TypeScript code', async () => {
+    const result = await client.generateTypeScript({
+      prompt: 'Create a function that adds two numbers',
+    })
+
+    expect(result).toBeDefined()
+    expect(result.code).toBeDefined()
+    expect(result.code).toContain('function add')
+  }, 30000)
+})

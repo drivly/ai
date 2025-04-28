@@ -1,4 +1,5 @@
 import { ApiClient } from './api'
+import { GeneratedTypeScriptCode } from '../types'
 export type { ResearchOptions, ResearchResponse } from './research'
 
 /**
@@ -250,6 +251,24 @@ export class FunctionsClient {
     } catch (error) {
       console.error(`Error deleting function ${functionId}:`, error)
       throw error
+    }
+  }
+
+  /**
+   * Generates TypeScript code using the backend API
+   * @param options - Code generation options
+   * @returns Promise resolving to the generated code
+   */
+  async generateTypeScript(options: {
+    prompt?: string;
+    schema?: any;
+    config?: AIConfig;
+  }): Promise<GeneratedTypeScriptCode> {
+    try {
+      return await this.api.post<GeneratedTypeScriptCode>('/v1/typescript/generate', options);
+    } catch (error) {
+      console.error('Error generating TypeScript code:', error);
+      throw error;
     }
   }
 }
