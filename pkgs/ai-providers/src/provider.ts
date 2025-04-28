@@ -82,7 +82,7 @@ export const models = (modelIdentifiers: string, options?: ProviderOptions) => {
 }
 
 class LLMProvider implements LanguageModelV1 {
-  // For siginalling to our ai.ts overwrites that this is the LLMProvider
+  // For signalling to our ai.ts overwrites that this is the LLMProvider
   readonly _name: string = 'LLMProvider'
   readonly specificationVersion = 'v1'
   readonly resolvedModel: Model
