@@ -1,4 +1,5 @@
 import type { DatabaseClient } from 'database.do'
+import type { Root } from 'mdast'
 
 export type ModelName = string
 
@@ -13,7 +14,7 @@ export interface AIConfig {
 // Markdown output type
 export interface MarkdownOutput {
   markdown: string
-  mdast: any
+  mdast: Root
 }
 
 export interface VideoOutput {
