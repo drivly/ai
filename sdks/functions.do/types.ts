@@ -46,8 +46,31 @@ export type SchemaToOutput<T extends FunctionDefinition> = {
       : string
 }
 
+export interface Context {
+  ai: AI_Instance
+  api: APIAccess
+  db: DatabaseAccess
+}
+
+export interface APIAccess {
+  [service: string]: {
+    [method: string]: (...args: any[]) => Promise<any>
+  }
+}
+
+export interface DatabaseAccess {
+  [collection: string]: {
+    create: (data: Record<string, any>) => Promise<{ url: string } & Record<string, any>>
+    findOne: (query: Record<string, any>) => Promise<Record<string, any>>
+    find: (query: Record<string, any>) => Promise<Array<Record<string, any>>>
+    update: (id: string, data: Record<string, any>) => Promise<Record<string, any>>
+    delete: (id: string) => Promise<void>
+    [method: string]: (...args: any[]) => Promise<any>
+  }
+}
+
 // Function callback type
-export type FunctionCallback<TArgs = any> = (context: { ai: AI_Instance; args: TArgs }) => any | Promise<any>
+export type FunctionCallback<TArgs = any> = (args: TArgs, ctx: Context) => Promise<any>
 
 // Main AI function factory type
 export type AI = {
