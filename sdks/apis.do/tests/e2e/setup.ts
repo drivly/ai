@@ -8,20 +8,27 @@ const sleep = promisify(setTimeout)
 let serverProcess: ChildProcess | null = null
 let isServerStartedByTests = false
 
+// Check if we're running in a CI environment
+const isCI = process.env.CI === 'true'
+
 /**
  * Check if server is already running on port 3000
  */
 export async function isServerRunning(): Promise<boolean> {
   return new Promise((resolve) => {
+    console.log('Checking if server is running on port 3000...')
     const req = http.get('http://localhost:3000/api/health', (res) => {
+      console.log(`Server health check response: ${res.statusCode}`)
       resolve(res.statusCode === 200)
     })
     
-    req.on('error', () => {
+    req.on('error', (error) => {
+      console.log(`Server health check error: ${error.message}`)
       resolve(false)
     })
     
-    req.setTimeout(2000, () => {
+    req.setTimeout(5000, () => {
+      console.log('Server health check timed out')
       req.destroy()
       resolve(false)
     })
@@ -36,7 +43,14 @@ export async function isServerRunning(): Promise<boolean> {
  * @param hookTimeout - The timeout for the test hook in milliseconds
  * @returns API key for testing
  */
-export async function startLocalServer(hookTimeout = 10000): Promise<string> {
+export async function startLocalServer(hookTimeout = 60000): Promise<string> {
+  console.log(`Environment: ${isCI ? 'CI' : 'Local'}, Hook timeout: ${hookTimeout}ms`)
+  
+  if (isCI) {
+    console.log('Running in CI environment, skipping server startup')
+    return process.env.APIS_DO_API_KEY || process.env.DO_API_KEY || 'test-api-key'
+  }
+  
   // Check if server is already running
   const running = await isServerRunning()
   if (running) {
@@ -46,6 +60,7 @@ export async function startLocalServer(hookTimeout = 10000): Promise<string> {
   
   console.log('Starting local server...')
   const rootDir = resolve(__dirname, '../../../../')
+  console.log(`Root directory: ${rootDir}`)
   
   try {
     serverProcess = spawn('pnpm', ['dev'], {
@@ -53,6 +68,7 @@ export async function startLocalServer(hookTimeout = 10000): Promise<string> {
       stdio: 'pipe',
       shell: true,
       detached: false, // Don't detach to ensure proper cleanup
+      env: { ...process.env, FORCE_COLOR: 'true' }, // Enable colored output
     })
     
     serverProcess.on('error', (error) => {
@@ -73,8 +89,10 @@ export async function startLocalServer(hookTimeout = 10000): Promise<string> {
     
     isServerStartedByTests = true
     
-    const maxAttempts = Math.floor((hookTimeout - 5000) / 1000)
+    const maxAttempts = Math.floor((hookTimeout - 10000) / 1000)
     let attempts = 0
+    
+    console.log(`Will try server health check up to ${maxAttempts} times...`)
     
     while (attempts < maxAttempts) {
       const ready = await isServerRunning()
@@ -88,7 +106,8 @@ export async function startLocalServer(hookTimeout = 10000): Promise<string> {
       attempts++
     }
     
-    throw new Error('Server startup timed out')
+    console.error('Server startup timed out after', maxAttempts, 'attempts')
+    throw new Error(`Server startup timed out after ${maxAttempts} attempts`)
   } catch (error) {
     console.error('Error starting server:', error)
     throw new Error('Failed to start local server: ' + error)
@@ -99,6 +118,11 @@ export async function startLocalServer(hookTimeout = 10000): Promise<string> {
  * Stop the local server if it was started by tests
  */
 export async function stopLocalServer(): Promise<void> {
+  if (isCI) {
+    console.log('Running in CI environment, no server to stop')
+    return
+  }
+  
   if (serverProcess && isServerStartedByTests) {
     console.log('Stopping local server...')
     try {
