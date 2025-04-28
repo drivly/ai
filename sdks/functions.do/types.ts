@@ -23,6 +23,22 @@ export interface VideoOutput {
   size: number
 }
 
+/**
+ * TypeScript AST node interface
+ */
+export interface TypeScriptASTNode {
+  kind: string;
+}
+
+/**
+ * Generated TypeScript code response
+ */
+export interface GeneratedTypeScriptCode {
+  code: string;
+  ast?: TypeScriptASTNode;
+  diagnostics?: { message: string; line?: number; column?: number }[];
+}
+
 // Generic AI function type
 export type AIFunction<TInput = any, TOutput = any> = {
   (input: TInput, config?: AIConfig): Promise<TOutput>
