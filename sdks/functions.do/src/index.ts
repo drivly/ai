@@ -77,6 +77,8 @@ export interface FunctionDefinition {
  * @interface AIConfig
  */
 export interface AIConfig {
+  /** Whether to include semantic analysis of the function */
+  includeAnalysis?: boolean
   /** Configuration properties */
   [key: string]: any
 }
