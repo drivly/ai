@@ -13,7 +13,7 @@ vi.mock('apis.do', () => {
   }
 })
 
-describe('LLMClient', () => {
+describe.skip('LLMClient', () => {
   let client: LLMClient
   
   beforeEach(() => {

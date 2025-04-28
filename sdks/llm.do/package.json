@@ -46,7 +46,7 @@
   "scripts": {
     "build": "tsc",
     "build:packages": "tsc",
-    "test": "vitest run src/provider.test.ts"
+    "test": "vitest run"
   },
   "devDependencies": {
     "eslint-config": "workspace:*",
