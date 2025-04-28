@@ -38,7 +38,7 @@
     "node": ">=22"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.8.18",
+    "@cloudflare/vitest-pool-workers": "^0.8.22",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.13.11",
     "@typescript-eslint/eslint-plugin": "^8.27.0",
