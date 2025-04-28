@@ -246,6 +246,64 @@ const combinations = cartesian({
 // ]
 ```
 
+#### `orthogonal`
+
+Generates an experimental design using Taguchi's orthogonal array method, creating a balanced subset of parameter combinations that preserves the ability to analyze each parameter's effect independently.
+
+```typescript
+import { orthogonal } from 'experiments.do'
+
+// Generate a balanced subset of combinations using Taguchi method
+const combinations = orthogonal({
+  color: ['red', 'blue', 'green'],
+  size: ['S', 'M', 'L'],
+  material: ['cotton', 'polyester', 'wool'],
+})
+
+// Result (example):
+// [
+//   { color: 'red', size: 'S', material: 'cotton' },
+//   { color: 'red', size: 'M', material: 'polyester' },
+//   { color: 'red', size: 'L', material: 'wool' },
+//   { color: 'blue', size: 'S', material: 'polyester' },
+//   { color: 'blue', size: 'M', material: 'wool' },
+//   { color: 'blue', size: 'L', material: 'cotton' },
+//   { color: 'green', size: 'S', material: 'wool' },
+//   { color: 'green', size: 'M', material: 'cotton' },
+//   { color: 'green', size: 'L', material: 'polyester' }
+// ]
+```
+
+##### Taguchi Method and Orthogonal Arrays
+
+The Taguchi method is a statistical approach to experimental design that uses orthogonal arrays to create a balanced subset of parameter combinations. This approach significantly reduces the number of experiments needed while maintaining the ability to analyze each parameter's effect independently.
+
+**Advantages of the Taguchi Method:**
+
+1. **Efficiency**: Requires far fewer experiments than full factorial designs
+2. **Balance**: Each factor level appears an equal number of times
+3. **Independence**: Effects of different factors can be separated
+4. **Statistical validity**: Maintains statistical power with fewer experiments
+
+**When to use `orthogonal` vs. `cartesian`:**
+
+- Use `orthogonal` when:
+  - You have many factors or levels that would make a full factorial design impractical
+  - You need a statistically balanced design with fewer experiments
+  - You want to analyze main effects of factors efficiently
+
+- Use `cartesian` when:
+  - You need to test every possible combination
+  - You have few factors and levels, making a full factorial design manageable
+  - You need to analyze complex interactions between all factors
+
+**Limitations:**
+
+- The implementation supports standard orthogonal arrays (L4, L8, L9, L16, L18)
+- Some combinations of factors and levels may not have a perfect orthogonal array
+- Complex interactions between factors may not be fully captured
+- For factors with different numbers of levels, some adaptation may be required
+
 ## Dependencies
 
 - [apis.do](https://www.npmjs.com/package/apis.do) - Unified API Gateway for all domains and services in the .do ecosystem
