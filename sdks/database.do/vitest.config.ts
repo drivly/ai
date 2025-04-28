@@ -8,7 +8,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@payload-config': resolve(__dirname, '../../payload.config.ts'),
+      '@payload-config': resolve(__dirname, './src/__tests__/mocks/payload-config.mock.ts'),
       '@': resolve(__dirname, '../..'),
       '@/lib': resolve(__dirname, '../../lib'),
       '@/.velite': resolve(__dirname, '../../.velite'),
