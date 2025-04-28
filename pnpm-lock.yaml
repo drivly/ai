@@ -208,8 +208,8 @@ importers:
         specifier: ^0.483.0
         version: 0.483.0(react@19.1.0)
       marked:
-        specifier: ^15.0.8
-        version: 15.0.8
+        specifier: ^15.0.11
+        version: 15.0.11
       mongodb:
         specifier: ^6.15.0
         version: 6.15.0(@aws-sdk/credential-providers@3.787.0)(socks@2.8.4)
@@ -13463,8 +13463,8 @@ packages:
     engines: {node: '>= 18'}
     hasBin: true
 
-  marked@15.0.8:
-    resolution: {integrity: sha512-rli4l2LyZqpQuRve5C0rkn6pj3hT8EWPC+zkAxFTAJLxRbENfTAhEQq9itrmf1Y81QtAX5D/MYlGlIomNgj9lA==}
+  marked@15.0.11:
+    resolution: {integrity: sha512-1BEXAU2euRCG3xwgLVT1y0xbJEld1XOrmRJpUwRCcy7rxhSCwMrmEu9LXoPhHSCJG41V7YcQ2mjKRr5BA3ITIA==}
     engines: {node: '>= 18'}
     hasBin: true
 
@@ -32718,7 +32718,7 @@ snapshots:
 
   marked@12.0.2: {}
 
-  marked@15.0.8: {}
+  marked@15.0.11: {}
 
   marked@7.0.4: {}
 
@@ -33179,7 +33179,7 @@ snapshots:
       katex: 0.16.22
       khroma: 2.1.0
       lodash-es: 4.17.21
-      marked: 15.0.8
+      marked: 15.0.11
       roughjs: 4.6.6
       stylis: 4.3.6
       ts-dedent: 2.2.0

@@ -135,7 +135,7 @@
     "js-md5": "^0.8.3",
     "language-models": "workspace:*",
     "lucide-react": "^0.483.0",
-    "marked": "^15.0.8",
+    "marked": "^15.0.11",
     "mongodb": "^6.15.0",
     "motion.md": "workspace:*",
     "murmurhash": "^2.0.1",
