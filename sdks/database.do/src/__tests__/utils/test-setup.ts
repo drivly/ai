@@ -1,6 +1,5 @@
 import { DB, DatabaseClient } from '../../../src/index'
-import { beforeAll, afterAll } from 'vitest'
-import { getTestPayload } from '../../../../../tests/setup'
+import { beforeAll, afterAll, vi } from 'vitest'
 
 export const setupApiStyles = () => {
   const db = DB({
@@ -14,16 +13,48 @@ export const setupApiStyles = () => {
   return { db, dbClient }
 }
 
-export const setupTestPayload = async () => {
-  try {
-    return await getTestPayload()
-  } catch (error) {
-    console.error('Error initializing Payload:', error)
-    return null
-  }
-}
+export const shouldRunTests = process.env.CI ? false : true
 
-export const shouldRunTests = false
+export const setupTestPayload = async () => {
+  const mockPayload = {
+    create: vi.fn().mockImplementation(({ collection, data }) => {
+      return Promise.resolve({
+        id: `mock-id-${Date.now()}`,
+        ...data,
+      })
+    }),
+    find: vi.fn().mockImplementation(() => {
+      return Promise.resolve({
+        docs: [],
+        totalDocs: 0,
+        page: 1,
+        totalPages: 1,
+        hasNextPage: false,
+        hasPrevPage: false,
+      })
+    }),
+    findByID: vi.fn().mockImplementation((id) => {
+      return Promise.resolve({
+        id,
+        name: 'Mock Resource',
+      })
+    }),
+    update: vi.fn().mockImplementation(({ id, data }) => {
+      return Promise.resolve({
+        id,
+        ...data,
+      })
+    }),
+    delete: vi.fn().mockImplementation(({ id }) => {
+      return Promise.resolve({
+        id,
+        _status: 'deleted',
+      })
+    }),
+  }
+  
+  return mockPayload
+}
 
 export const createTestData = async (payload: any, collection: string, data: any) => {
   try {
