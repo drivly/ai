@@ -129,7 +129,7 @@
     "functions.do": "0.0.1",
     "geolib": "^3.3.4",
     "graphdl.js": "^0.1.0",
-    "graphql": "^16.8.1",
+    "graphql": "^16.11.0",
     "isolated-vm": "^5.0.4",
     "isomorphic-unfetch": "^4.0.2",
     "js-md5": "^0.8.3",
