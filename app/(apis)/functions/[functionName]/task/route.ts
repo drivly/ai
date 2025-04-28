@@ -1,13 +1,11 @@
-import { PayloadRequest } from 'payload/types'
-import { NextRequest, NextResponse } from 'next/server'
+import { API } from '@/lib/api'
 import { waitUntil } from '@vercel/functions'
-import { createApiHandler } from '../../../../../lib/api'
 
-export const POST = createApiHandler(async (req: NextRequest & PayloadRequest) => {
-  const { functionName } = req.params as { functionName: string }
-  const { input, config } = await req.json()
+export const POST = API(async (request, { payload, params }) => {
+  const { functionName } = params
+  const { input, config } = await request.json()
 
-  const createdJob = await req.payload.jobs.queue({
+  const createdJob = await payload.jobs.queue({
     task: 'executeFunction',
     input: {
       functionName,
@@ -16,11 +14,11 @@ export const POST = createApiHandler(async (req: NextRequest & PayloadRequest) =
     },
   })
 
-  waitUntil(req.payload.jobs.runByID({ id: createdJob.id }))
+  waitUntil(payload.jobs.runByID({ id: createdJob.id }))
 
-  return NextResponse.json({
+  return {
     taskId: createdJob.id,
     status: 'queued',
     message: `Function execution task created: ${functionName}`,
-  })
+  }
 })
