@@ -1,20 +1,15 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach, afterEach } from 'vitest'
-import { setupApiStyles, shouldRunTests, isPayloadRunning, createTestData, cleanupTestData } from './utils/test-setup'
-
-const describeIfNotCI = shouldRunTests ? describe : describe.skip
+import { setupApiStyles, isPayloadRunning, createTestData, cleanupTestData } from './utils/test-setup'
 
 describe('database.do SDK CRUD Operations', () => {
   const { db, dbClient } = setupApiStyles()
   
-  describeIfNotCI('Proxy-based API Style (DB function)', () => {
+  describe('Proxy-based API Style (DB function)', () => {
     let payloadRunning = false
     let createdResource: any
     
     beforeAll(async () => {
       payloadRunning = await isPayloadRunning()
-      if (!payloadRunning) {
-        console.warn('Skipping tests: Payload CMS is not running at localhost:3000')
-      }
     })
     
     afterAll(async () => {
@@ -24,7 +19,10 @@ describe('database.do SDK CRUD Operations', () => {
     })
     
     it('should create a resource', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
 
       const testData = {
         name: `Test Resource ${Date.now()}`,
@@ -45,7 +43,10 @@ describe('database.do SDK CRUD Operations', () => {
     })
     
     it('should find a resource by ID', async () => {
-      if (!payloadRunning || !createdResource?.id) return
+      if (!payloadRunning || !createdResource?.id) {
+        console.warn('Skipping test: Payload CMS is not running or resource not created')
+        return
+      }
       
       const result = await db.things.findOne(createdResource.id)
       
@@ -55,7 +56,10 @@ describe('database.do SDK CRUD Operations', () => {
     })
     
     it('should update a resource', async () => {
-      if (!payloadRunning || !createdResource?.id) return
+      if (!payloadRunning || !createdResource?.id) {
+        console.warn('Skipping test: Payload CMS is not running or resource not created')
+        return
+      }
       
       const updateData = {
         name: `Updated Resource ${Date.now()}`,
@@ -77,7 +81,10 @@ describe('database.do SDK CRUD Operations', () => {
     })
     
     it('should delete a resource', async () => {
-      if (!payloadRunning || !createdResource?.id) return
+      if (!payloadRunning || !createdResource?.id) {
+        console.warn('Skipping test: Payload CMS is not running or resource not created')
+        return
+      }
       
       const result = await db.things.delete(createdResource.id)
       
@@ -88,15 +95,12 @@ describe('database.do SDK CRUD Operations', () => {
     })
   })
   
-  describeIfNotCI('Class-based API Style (DatabaseClient)', () => {
+  describe('Class-based API Style (DatabaseClient)', () => {
     let payloadRunning = false
     let createdResource: any
     
     beforeAll(async () => {
       payloadRunning = await isPayloadRunning()
-      if (!payloadRunning) {
-        console.warn('Skipping tests: Payload CMS is not running at localhost:3000')
-      }
     })
     
     afterAll(async () => {
@@ -106,7 +110,10 @@ describe('database.do SDK CRUD Operations', () => {
     })
     
     it('should create a resource', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
 
       const testData = {
         name: `Test DatabaseClient Resource ${Date.now()}`,
@@ -127,7 +134,10 @@ describe('database.do SDK CRUD Operations', () => {
     })
     
     it('should find a resource by ID', async () => {
-      if (!payloadRunning || !createdResource?.id) return
+      if (!payloadRunning || !createdResource?.id) {
+        console.warn('Skipping test: Payload CMS is not running or resource not created')
+        return
+      }
       
       const result = await dbClient.findOne('things', createdResource.id)
       
@@ -137,7 +147,10 @@ describe('database.do SDK CRUD Operations', () => {
     })
     
     it('should update a resource', async () => {
-      if (!payloadRunning || !createdResource?.id) return
+      if (!payloadRunning || !createdResource?.id) {
+        console.warn('Skipping test: Payload CMS is not running or resource not created')
+        return
+      }
       
       const updateData = {
         name: `Updated DatabaseClient Resource ${Date.now()}`,
@@ -159,7 +172,10 @@ describe('database.do SDK CRUD Operations', () => {
     })
     
     it('should delete a resource', async () => {
-      if (!payloadRunning || !createdResource?.id) return
+      if (!payloadRunning || !createdResource?.id) {
+        console.warn('Skipping test: Payload CMS is not running or resource not created')
+        return
+      }
       
       const result = await dbClient.delete('things', createdResource.id)
       
@@ -170,7 +186,10 @@ describe('database.do SDK CRUD Operations', () => {
     })
     
     it('should create a resource using things shorthand', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
 
       const testData = {
         name: `Test Resources Shorthand ${Date.now()}`,

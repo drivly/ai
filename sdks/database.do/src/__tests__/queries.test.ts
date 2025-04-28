@@ -1,19 +1,16 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { setupApiStyles, shouldRunTests, isPayloadRunning, createTestData, cleanupTestData } from './utils/test-setup'
-
-const describeIfNotCI = shouldRunTests ? describe : describe.skip
+import { setupApiStyles, isPayloadRunning, createTestData, cleanupTestData } from './utils/test-setup'
 
 describe('database.do SDK Query Operations', () => {
   const { db, dbClient } = setupApiStyles()
   
-  describeIfNotCI('Query Operations', () => {
+  describe('Query Operations', () => {
     let payloadRunning = false
     const testResources: any[] = []
     
     beforeAll(async () => {
       payloadRunning = await isPayloadRunning()
       if (!payloadRunning) {
-        console.warn('Skipping tests: Payload CMS is not running at localhost:3000')
         return
       }
       
@@ -59,7 +56,10 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should find things with filtering', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
       
       const result = await db.things.find({
         where: {
@@ -75,7 +75,10 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should find things with complex filtering', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
       
       const result = await db.things.find({
         where: {
@@ -92,7 +95,10 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should sort things', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
       
       const result = await db.things.find({
         sort: 'data.price:desc',
@@ -109,7 +115,10 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should paginate things', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
       
       const pageSize = 2
       
@@ -141,7 +150,10 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should find things with filtering using DatabaseClient', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
       
       const result = await dbClient.find('things', {
         where: {
@@ -157,7 +169,10 @@ describe('database.do SDK Query Operations', () => {
     })
     
     it('should search things', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
       
       const query = 'Test'
       const result = await db.things.search(query, {

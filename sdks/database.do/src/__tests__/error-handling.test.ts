@@ -1,8 +1,6 @@
 import { describe, it, expect, vi, beforeAll } from 'vitest'
 import { DB, DatabaseClient, handleApiError } from '../../src/index'
-import { setupApiStyles, isPayloadRunning, shouldRunTests } from './utils/test-setup'
-
-const describeIfNotCI = shouldRunTests ? describe : describe.skip
+import { setupApiStyles, isPayloadRunning } from './utils/test-setup'
 
 describe('database.do SDK Error Handling', () => {
   const { db, dbClient } = setupApiStyles()
@@ -10,9 +8,6 @@ describe('database.do SDK Error Handling', () => {
   
   beforeAll(async () => {
     payloadRunning = await isPayloadRunning()
-    if (!payloadRunning) {
-      console.warn('Skipping API tests: Payload CMS is not running at localhost:3000')
-    }
   })
   
   describe('Error Handler Function', () => {
@@ -48,9 +43,12 @@ describe('database.do SDK Error Handling', () => {
     })
   })
   
-  describeIfNotCI('API Error Handling', () => {
+  describe('API Error Handling', () => {
     it('should handle non-existent ID errors', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
       
       const nonExistentId = 'non-existent-id-123456789'
       
@@ -65,7 +63,10 @@ describe('database.do SDK Error Handling', () => {
     })
     
     it('should handle validation errors during create', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
       
       const invalidData = {
       }
@@ -81,7 +82,10 @@ describe('database.do SDK Error Handling', () => {
     })
     
     it('should handle server errors with DatabaseClient', async () => {
-      if (!payloadRunning) return
+      if (!payloadRunning) {
+        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        return
+      }
       
       const nonExistentId = 'non-existent-id-123456789'
       

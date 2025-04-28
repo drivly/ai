@@ -14,14 +14,12 @@ export const setupApiStyles = () => {
   return { db, dbClient }
 }
 
-export const shouldRunTests = process.env.CI ? false : true
-
 export const isPayloadRunning = async (): Promise<boolean> => {
   try {
     const response = await fetch('http://localhost:3000/api/things')
     return response.status === 200
   } catch (error) {
-    console.warn('Payload CMS is not running at localhost:3000')
+    console.warn('Payload CMS is not running at localhost:3000. Run `pnpm dev` to start it.')
     return false
   }
 }
