@@ -29,6 +29,176 @@ export function cartesian<T extends Record<string, readonly any[]>>(spec: T): Ar
 }
 
 /**
+ * Generates an experimental design using Taguchi's orthogonal array method
+ * This creates a balanced subset of parameter combinations that preserves
+ * the ability to analyze each parameter's effect independently.
+ * @param spec - An object with arrays as values representing factors and levels
+ * @returns An array of objects representing an orthogonal array design
+ * @example
+ * orthogonal({ color: ['red', 'blue', 'green'], size: ['S', 'M', 'L'] })
+ */
+export function orthogonal<T extends Record<string, readonly any[]>>(spec: T): Array<{ [K in keyof T]: T[K][number] }> {
+  const keys = Object.keys(spec) as Array<keyof T>
+  
+  if (keys.length === 0) return [] as Array<{ [K in keyof T]: T[K][number] }>
+  
+  const factorLevels = keys.map(key => spec[key].length)
+  
+  const orthogonalArray = selectOrthogonalArray(factorLevels)
+  
+  if (!orthogonalArray) {
+    throw new Error(
+      `No suitable orthogonal array found for the given factors and levels. ` +
+      `Consider using fewer factors, fewer levels, or the cartesian function instead.`
+    )
+  }
+  
+  return orthogonalArray.map(row => {
+    const result = {} as { [K in keyof T]: T[K][number] }
+    keys.forEach((key, factorIndex) => {
+      if (factorIndex < row.length) {
+        const levelIndex = row[factorIndex] - 1
+        // Handle the case where the orthogonal array has more levels than the factor
+        const actualIndex = levelIndex % spec[key].length
+        result[key] = spec[key][actualIndex]
+      }
+    })
+    return result
+  })
+}
+
+/**
+ * Selects an appropriate orthogonal array based on the number of factors and levels
+ * @param factorLevels - Array containing the number of levels for each factor
+ * @returns A suitable orthogonal array or null if none is found
+ */
+function selectOrthogonalArray(factorLevels: number[]): number[][] | null {
+  const numFactors = factorLevels.length
+  const maxLevels = Math.max(...factorLevels)
+  
+  if (numFactors === 1) {
+    return Array.from({ length: factorLevels[0] }, (_, i) => [i + 1])
+  }
+  
+  if (maxLevels <= 2 && numFactors <= 3) {
+    return [
+      [1, 1, 1],
+      [1, 2, 2],
+      [2, 1, 2],
+      [2, 2, 1]
+    ].map(row => row.slice(0, numFactors))
+  }
+  
+  if (maxLevels <= 2 && numFactors <= 7) {
+    return [
+      [1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 2, 2, 2, 2],
+      [1, 2, 2, 1, 1, 2, 2],
+      [1, 2, 2, 2, 2, 1, 1],
+      [2, 1, 2, 1, 2, 1, 2],
+      [2, 1, 2, 2, 1, 2, 1],
+      [2, 2, 1, 1, 2, 2, 1],
+      [2, 2, 1, 2, 1, 1, 2]
+    ].map(row => row.slice(0, numFactors))
+  }
+  
+  if (maxLevels <= 3 && numFactors <= 4) {
+    return [
+      [1, 1, 1, 1],
+      [1, 2, 2, 2],
+      [1, 3, 3, 3],
+      [2, 1, 2, 3],
+      [2, 2, 3, 1],
+      [2, 3, 1, 2],
+      [3, 1, 3, 2],
+      [3, 2, 1, 3],
+      [3, 3, 2, 1]
+    ].map(row => row.slice(0, numFactors))
+  }
+  
+  if (maxLevels <= 2 && numFactors <= 15) {
+    return [
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2],
+      [1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2],
+      [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1],
+      [1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2],
+      [1, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 1, 1],
+      [1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1],
+      [1, 2, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 2, 2],
+      [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
+      [2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1],
+      [2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1],
+      [2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2],
+      [2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1],
+      [2, 2, 1, 1, 2, 2, 1, 2, 1, 1, 2, 2, 1, 1, 2],
+      [2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2],
+      [2, 2, 1, 2, 1, 1, 2, 2, 1, 1, 2, 1, 2, 2, 1]
+    ].map(row => row.slice(0, numFactors))
+  }
+  
+  if ((numFactors === 1 && maxLevels <= 2) || (numFactors > 1 && factorLevels[0] <= 2 && Math.max(...factorLevels.slice(1)) <= 3 && numFactors <= 8)) {
+    return [
+      [1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 2, 2, 2, 2, 2, 2],
+      [1, 1, 3, 3, 3, 3, 3, 3],
+      [1, 2, 1, 1, 2, 2, 3, 3],
+      [1, 2, 2, 2, 3, 3, 1, 1],
+      [1, 2, 3, 3, 1, 1, 2, 2],
+      [1, 3, 1, 2, 1, 3, 2, 3],
+      [1, 3, 2, 3, 2, 1, 3, 1],
+      [1, 3, 3, 1, 3, 2, 1, 2],
+      [2, 1, 1, 3, 3, 2, 2, 1],
+      [2, 1, 2, 1, 1, 3, 3, 2],
+      [2, 1, 3, 2, 2, 1, 1, 3],
+      [2, 2, 1, 2, 3, 1, 2, 3],
+      [2, 2, 2, 3, 1, 2, 3, 1],
+      [2, 2, 3, 1, 2, 3, 1, 2],
+      [2, 3, 1, 3, 2, 3, 1, 2],
+      [2, 3, 2, 1, 3, 1, 2, 3],
+      [2, 3, 3, 2, 1, 2, 3, 1]
+    ].map(row => row.slice(0, numFactors))
+  }
+  
+  if (maxLevels <= 3) {
+    if (numFactors <= 8) {
+      return [
+        [1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 2, 2, 2, 2, 2, 2, 2],
+        [1, 3, 3, 3, 3, 3, 3, 3],
+        [2, 1, 2, 3, 1, 2, 3, 1],
+        [2, 2, 3, 1, 2, 3, 1, 2],
+        [2, 3, 1, 2, 3, 1, 2, 3],
+        [3, 1, 3, 2, 3, 1, 3, 2],
+        [3, 2, 1, 3, 2, 1, 3, 2],
+        [3, 3, 2, 1, 3, 2, 1, 3]
+      ].map(row => row.slice(0, numFactors))
+    }
+  } else if (maxLevels <= 2) {
+    return [
+      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2],
+      [1, 1, 1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2],
+      [1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1],
+      [1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2],
+      [1, 2, 2, 1, 1, 2, 2, 2, 2, 1, 1, 2, 2, 1, 1],
+      [1, 2, 2, 2, 2, 1, 1, 1, 1, 2, 2, 2, 2, 1, 1],
+      [1, 2, 2, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 2, 2],
+      [2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2],
+      [2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1],
+      [2, 1, 2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1],
+      [2, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 1, 2, 1, 2],
+      [2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1],
+      [2, 2, 1, 1, 2, 2, 1, 2, 1, 1, 2, 2, 1, 1, 2],
+      [2, 2, 1, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2],
+      [2, 2, 1, 2, 1, 1, 2, 2, 1, 1, 2, 1, 2, 2, 1]
+    ].map(row => row.slice(0, numFactors))
+  }
+  
+  return null
+}
+
+/**
  * Runs an experiment with multiple parameter variations.
  * @param name The name of the experiment
  * @param config The experiment configuration
