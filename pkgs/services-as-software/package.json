@@ -1,0 +1,48 @@
+{
+  "name": "services-as-software",
+  "version": "0.1.0",
+  "description": "Define services with objectives, key results, and various pricing models",
+  "keywords": [
+    "services",
+    "business",
+    "pricing",
+    "objectives",
+    "key results",
+    "agentic"
+  ],
+  "homepage": "https://mdx.org.ai",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "dev": "tsup src/index.ts --format esm --dts --watch",
+    "lint": "eslint src --ext ts",
+    "clean": "rm -rf dist",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "apis.do": "workspace:*"
+  },
+  "devDependencies": {
+    "business-as-code": "workspace:*",
+    "tsup": "^8.0.1",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "pkgs/services-as-software"
+  },
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "author": "Drivly",
+  "license": "MIT"
+}
