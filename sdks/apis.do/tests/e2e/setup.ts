@@ -37,11 +37,6 @@ export async function isServerRunning(): Promise<boolean> {
  * @returns API key for testing
  */
 export async function startLocalServer(hookTimeout = 10000): Promise<string> {
-  if (process.env.CI === 'true') {
-    console.log('Running in CI environment, using mock API key')
-    return 'test-api-key-for-ci'
-  }
-  
   // Check if server is already running
   const running = await isServerRunning()
   if (running) {
@@ -53,11 +48,6 @@ export async function startLocalServer(hookTimeout = 10000): Promise<string> {
   const rootDir = resolve(__dirname, '../../../../')
   
   try {
-    if (process.env.USE_MOCK_SERVER === 'true') {
-      console.log('Using mock server approach as specified by USE_MOCK_SERVER')
-      return 'test-api-key-mock'
-    }
-    
     serverProcess = spawn('pnpm', ['dev'], {
       cwd: rootDir,
       stdio: 'pipe',
@@ -98,11 +88,10 @@ export async function startLocalServer(hookTimeout = 10000): Promise<string> {
       attempts++
     }
     
-    console.log('Server startup timed out, using mock API key for tests')
-    return 'test-api-key-mock'
+    throw new Error('Server startup timed out')
   } catch (error) {
     console.error('Error starting server:', error)
-    return 'test-api-key-mock' // Return a mock API key to allow tests to continue
+    throw new Error('Failed to start local server: ' + error)
   }
 }
 
