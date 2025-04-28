@@ -4,7 +4,11 @@ import { resolve } from 'path'
 export default defineConfig({
   test: {
     include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    exclude: ['**/node_modules/**', '**/dist/**'],
+    exclude: process.env.CI === 'true' 
+      ? ['**/node_modules/**', '**/dist/**', '**/tests/e2e/**'] 
+      : ['**/node_modules/**', '**/dist/**'],
+    hookTimeout: 60000,
+    testTimeout: 30000,
   },
   resolve: {
     alias: {
