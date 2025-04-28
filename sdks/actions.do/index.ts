@@ -1,11 +1,18 @@
 import { api } from 'apis.do'
-import { Action, ActionConfig, ComposioActionTypes, ComposioActionName } from './types'
+import { Action, ActionConfig } from './types'
+
+let ComposioActionTypes: any;
+try {
+  ComposioActionTypes = require('./generated/types').ComposioActionTypes;
+} catch (e) {
+  ComposioActionTypes = {};
+}
 
 type IntegrationsType = {
-  [I in keyof ComposioActionTypes]: {
-    [A in keyof ComposioActionTypes[I]]: (
-      params: ComposioActionTypes[I][A]['parameters']
-    ) => Promise<ComposioActionTypes[I][A]['response']>
+  [integrationName: string]: {
+    [actionName: string]: (
+      params: Record<string, any>
+    ) => Promise<any>
   }
 }
 
