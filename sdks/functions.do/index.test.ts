@@ -308,10 +308,11 @@ describe('functions.do', () => {
         features: ['string']
       }
       
-      const result = await ai.generateProduct(
-        { category: 'Electronics' },
-        { schema }
-      )
+      const curriedFunction = ai.generateProduct(schema)
+      
+      const result = await curriedFunction({
+        category: 'Electronics',
+      })
       
       expect(result).toHaveProperty('name')
       expect(result).toHaveProperty('description')
@@ -324,9 +325,11 @@ describe('functions.do', () => {
         bio: 'string',
       }
       
-      const result = await ai.generateProfile(
+      const curriedFunction = ai.generateProfile(schema, { temperature: 0.7 })
+      
+      const result = await curriedFunction(
         { industry: 'Technology' },
-        { schema, temperature: 0.7, model: 'test-model' }
+        { model: 'test-model' }
       )
       
       expect(result).toHaveProperty('name')
@@ -342,10 +345,11 @@ describe('functions.do', () => {
         parse: (input: any) => input,
       }
       
-      const result = await ai.generateContent(
-        { topic: 'AI Functions' },
-        { schema: mockZodSchema }
-      )
+      const curriedFunction = ai.generateContent(mockZodSchema)
+      
+      const result = await curriedFunction({
+        topic: 'AI Functions',
+      })
       
       expect(result).toBeDefined()
       expect(typeof result).toBe('object')
