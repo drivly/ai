@@ -23,17 +23,49 @@ export function Service(definition: ServiceDefinition) {
 
     /**
      * Register the service with the service registry
+     * @param options Optional configuration for service registration
      * @returns Promise resolving to the registered service
      */
-    async register(): Promise<RegisteredService> {
-      return {
-        ...definition,
-        id: generateId(),
-        status: 'active',
-        endpoint: `https://api.services.do/services/${generateId()}`,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
+    async register(options?: { apiKey?: string; baseUrl?: string }): Promise<RegisteredService> {
+      try {
+        const { Services } = await import('services.do');
+        const services = new Services(options);
+        
+        const serviceDefinition = {
+          name: definition.name,
+          description: definition.description,
+          endpoint: `https://api.services.do/implementations/${definition.implementation.type}/${definition.implementation.id}`,
+          version: definition.implementation.version,
+          metadata: {
+            ...definition.metadata,
+            objective: definition.objective,
+            keyResults: definition.keyResults,
+            pricing: definition.pricing,
+            implementation: definition.implementation
+          }
+        };
+        
+        const registeredService = await services.register(serviceDefinition);
+        
+        return {
+          ...definition,
+          id: registeredService.id,
+          status: registeredService.status as 'active' | 'inactive' | 'degraded',
+          endpoint: registeredService.endpoint,
+          createdAt: registeredService.createdAt,
+          updatedAt: registeredService.updatedAt
+        };
+      } catch (error) {
+        console.warn('Failed to register with services.do, using mock implementation', error);
+        return {
+          ...definition,
+          id: generateId(),
+          status: 'active',
+          endpoint: `https://api.services.do/services/${generateId()}`,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+      }
     },
 
     /**

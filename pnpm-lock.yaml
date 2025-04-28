@@ -1359,6 +1359,9 @@ importers:
       apis.do:
         specifier: workspace:*
         version: link:../../sdks/apis.do
+      services.do:
+        specifier: workspace:*
+        version: link:../../sdks/services.do
     devDependencies:
       business-as-code:
         specifier: workspace:*
