@@ -1,7 +1,5 @@
-import { API } from 'apis.do'
+import { api } from 'apis.do'
 import { Action, ActionConfig } from './types'
-
-const api = new API()
 
 interface ActionParameters {
   [key: string]: any;
