@@ -6,6 +6,7 @@ export declare class API {
   constructor(options?: ClientOptions)
   private request
   get<T>(path: string, params?: QueryParams): Promise<T>
+  get<T>(collection: string, id: string): Promise<T>
   post<T>(path: string, data: any): Promise<T>
   put<T>(path: string, data: any): Promise<T>
   patch<T>(path: string, data: any): Promise<T>
