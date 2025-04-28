@@ -56,7 +56,7 @@ const chatResponse = await llm.chat({
     { role: 'system', content: 'You are a helpful assistant specialized in physics.' },
     { role: 'user', content: 'How does quantum entanglement work?' },
   ],
-  model: 'claude-3-opus',
+  model: 'anthropic/claude-3.7-sonnet',
 })
 console.log(chatResponse)
 
@@ -66,7 +66,7 @@ const stream = await llm.streamChat({
     { role: 'system', content: 'You are a storyteller.' },
     { role: 'user', content: 'Tell me a short story about a robot learning to paint.' },
   ],
-  model: 'gpt-4',
+  model: 'openai/o4-mini-high',
 })
 
 for await (const chunk of stream) {
@@ -85,7 +85,7 @@ import { z } from 'zod'
 
 // Generate text using the llm.do provider
 const text = await generateText({
-  model: llm('gemini-2.0-flash'),
+  model: llm('google/gemini-2.5-pro-preview-03-25'),
   prompt: 'Explain the theory of relativity in simple terms',
 })
 
@@ -102,7 +102,7 @@ const bookSchema = z.object({
 })
 
 const jsonOutput = await generateObject({
-  model: llm('gemini-2.0-flash'),
+  model: llm('x-ai/grok-3-beta'),
   prompt: 'Generate a list of 5 book recommendations',
   schema: bookSchema,
 })
