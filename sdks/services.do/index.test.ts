@@ -257,7 +257,7 @@ describe('Services SDK', () => {
       
       await services.recordUsage('input-service', usageData)
       
-      const mockAPI = vi.mocked(require('apis.do').API).mock.results[0].value
+      const mockAPI = vi.mocked(services['api'])
       expect(mockAPI.create).toHaveBeenCalledWith('serviceUsage', {
         serviceId: 'input-service',
         timestamp: expect.any(String),
