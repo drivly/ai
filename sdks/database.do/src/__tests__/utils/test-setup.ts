@@ -1,6 +1,6 @@
 import { DB, DatabaseClient } from '../../../src/index'
 import { beforeAll, afterAll } from 'vitest'
-import { getTestPayload } from '../../../../../tests/setup'
+import { getTestPayload } from 'tests/setup'
 
 export const setupApiStyles = () => {
   const db = DB({
