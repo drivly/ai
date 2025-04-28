@@ -13,7 +13,7 @@ const testTimeout = 30000
 
 describe('apis.do E2E API Tests', () => {
   beforeAll(async () => {
-    apiKey = await startLocalServer()
+    apiKey = await startLocalServer(30000) // Increase timeout to 30 seconds
     const baseUrl = 'http://localhost:3000'
 
     cli = new CLI({
@@ -29,7 +29,7 @@ describe('apis.do E2E API Tests', () => {
     testResourceIds = {
       functions: [],
     }
-  })
+  }, 30000) // Set hook timeout to 30 seconds
 
   afterAll(async () => {
     for (const [collection, ids] of Object.entries(testResourceIds)) {

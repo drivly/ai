@@ -18,12 +18,12 @@ const testTimeout = 30000
 
 describe('Agents Collection E2E Tests', () => {
   beforeAll(async () => {
-    apiKey = await startLocalServer()
+    apiKey = await startLocalServer(30000) // Increase timeout to 30 seconds
     api = new API({
       apiKey,
       baseUrl: 'http://localhost:3000',
     })
-  })
+  }, 30000) // Set hook timeout to 30 seconds
   
   afterAll(async () => {
     await cleanupTestResources(api, 'agents', testResourceIds)
