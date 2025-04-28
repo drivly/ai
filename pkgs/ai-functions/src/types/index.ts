@@ -51,8 +51,36 @@ export type SchemaToOutput<T extends FunctionDefinition> = {
       : string
 }
 
+export interface APIAccess {
+  [service: string]: {
+    [method: string]: (...args: any[]) => Promise<any>
+  }
+}
+
+export interface DatabaseAccess {
+  [collection: string]: {
+    create: (data: Record<string, any>) => Promise<{ url: string } & Record<string, any>>
+    findOne: (query: Record<string, any>) => Promise<Record<string, any>>
+    find: (query: Record<string, any>) => Promise<Array<Record<string, any>>>
+    update: (id: string, data: Record<string, any>) => Promise<Record<string, any>>
+    delete: (id: string) => Promise<void>
+    [method: string]: (...args: any[]) => Promise<any>
+  }
+}
+
+// Dynamic AI instance type
+export type AIProxy = {
+  [K: string]: AIFunction<any, any> & (<T = any>(input?: any, config?: AIConfig) => Promise<T>)
+}
+
+export interface Context {
+  ai: AIProxy
+  api: APIAccess
+  db: DatabaseAccess
+}
+
 // Function callback type
-export type FunctionCallback<TArgs = any> = (context: { ai: AI_Instance; args: TArgs }) => any | Promise<any>
+export type FunctionCallback<TArgs = any> = (args: TArgs, ctx: Context) => Promise<any>
 
 // Main AI function factory type
 export type AI = {
@@ -62,11 +90,6 @@ export type AI = {
   ): {
     [K in keyof T]: T[K] extends FunctionDefinition ? AIFunction<any, SchemaToOutput<T[K]>> : T[K] extends FunctionCallback<infer TArgs> ? FunctionCallback<TArgs> : never
   }
-}
-
-// Dynamic AI instance type
-export type AI_Instance = {
-  [K: string]: AIFunction<any, any> & (<T = any>(input?: any, config?: AIConfig) => Promise<T>)
 }
 
 // Helper type to infer array element types
