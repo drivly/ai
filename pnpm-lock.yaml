@@ -550,6 +550,9 @@ importers:
       ai-providers:
         specifier: workspace:*
         version: link:../ai-providers
+      functions.do:
+        specifier: workspace:*
+        version: link:../../sdks/functions.do
       p-queue:
         specifier: ^8.0.1
         version: 8.1.0
