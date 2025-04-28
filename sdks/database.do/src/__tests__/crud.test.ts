@@ -112,7 +112,7 @@ describe('database.do SDK CRUD Operations', () => {
         },
       }
       
-      const result = await dbClient.create('things', testData)
+      const result = await dbClient.create('things', testData) as any
       createdResource = result
       
       expect(result).toBeDefined()
@@ -147,7 +147,7 @@ describe('database.do SDK CRUD Operations', () => {
         },
       }
       
-      const result = await dbClient.update('things', createdResource.id, updateData)
+      const result = await dbClient.update('things', createdResource.id, updateData) as any
       
       expect(result).toBeDefined()
       expect(result.id).toBe(createdResource.id)
