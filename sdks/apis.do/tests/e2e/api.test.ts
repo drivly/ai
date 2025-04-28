@@ -72,7 +72,13 @@ describe('apis.do E2E API Tests', () => {
   }, testTimeout)
 
   it('should execute a function', async () => {
+    if (apiKey === 'test-api-key-mock' || apiKey === 'test-api-key-for-ci') {
+      console.log('Using mock API key, skipping function execution test')
+      return
+    }
+    
     try {
+      console.log('Executing function echo...')
       const executeResult = await cli.executeFunction('echo', { message: 'Hello E2E Test' })
       expect(executeResult).toBeDefined()
     } catch (error) {

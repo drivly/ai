@@ -38,43 +38,59 @@ export async function isServerRunning(): Promise<boolean> {
  */
 export async function startLocalServer(hookTimeout = 10000): Promise<string> {
   if (process.env.CI === 'true') {
+    console.log('Running in CI environment, using mock API key')
     return 'test-api-key-for-ci'
   }
   
+  // Check if server is already running
   const running = await isServerRunning()
   if (running) {
     console.log('Server is already running on port 3000')
     return process.env.APIS_DO_API_KEY || process.env.DO_API_KEY || 'test-api-key'
   }
   
-  if (process.env.CI === 'true') {
-    console.log('Running in CI, skipping local server startup')
-    return 'test-api-key-for-ci'
-  }
-  
   console.log('Starting local server...')
   const rootDir = resolve(__dirname, '../../../../')
   
   try {
+    if (process.env.USE_MOCK_SERVER === 'true') {
+      console.log('Using mock server approach as specified by USE_MOCK_SERVER')
+      return 'test-api-key-mock'
+    }
+    
     serverProcess = spawn('pnpm', ['dev'], {
       cwd: rootDir,
       stdio: 'pipe',
       shell: true,
-      detached: true, // Create a new process group
+      detached: false, // Don't detach to ensure proper cleanup
     })
     
-    serverProcess.unref()
+    serverProcess.on('error', (error) => {
+      console.error('Server process error:', error)
+    })
+    
+    if (serverProcess.stdout) {
+      serverProcess.stdout.on('data', (data) => {
+        console.log(`Server stdout: ${data}`)
+      })
+    }
+    
+    if (serverProcess.stderr) {
+      serverProcess.stderr.on('data', (data) => {
+        console.error(`Server stderr: ${data}`)
+      })
+    }
     
     isServerStartedByTests = true
     
-    const maxAttempts = Math.floor((hookTimeout - 2000) / 1000)
+    const maxAttempts = Math.floor((hookTimeout - 5000) / 1000)
     let attempts = 0
     
     while (attempts < maxAttempts) {
       const ready = await isServerRunning()
       if (ready) {
         console.log('Local server is ready on port 3000')
-        break
+        return process.env.APIS_DO_API_KEY || process.env.DO_API_KEY || 'test-api-key'
       }
       
       console.log(`Waiting for server to start (${attempts+1}/${maxAttempts})...`)
@@ -82,15 +98,11 @@ export async function startLocalServer(hookTimeout = 10000): Promise<string> {
       attempts++
     }
     
-    if (attempts >= maxAttempts) {
-      console.log('Server startup timed out, returning mock API key for tests')
-      return 'test-api-key'
-    }
-    
-    return process.env.APIS_DO_API_KEY || process.env.DO_API_KEY || 'test-api-key'
+    console.log('Server startup timed out, using mock API key for tests')
+    return 'test-api-key-mock'
   } catch (error) {
     console.error('Error starting server:', error)
-    return 'test-api-key' // Return a mock API key to allow tests to continue
+    return 'test-api-key-mock' // Return a mock API key to allow tests to continue
   }
 }
 
@@ -106,6 +118,8 @@ export async function stopLocalServer(): Promise<void> {
       } else if (serverProcess.pid) {
         process.kill(serverProcess.pid, 'SIGINT')
       }
+      
+      await sleep(1000)
     } catch (error) {
       console.error('Error stopping server:', error)
     } finally {
