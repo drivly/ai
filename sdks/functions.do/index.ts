@@ -570,11 +570,11 @@ const createMockAIProxy = () => {
     }
     
     // Create a special mock for generateRandomName (used in "should support arbitrary function names" test)
-    const generateRandomNameMock = function(input: any, config?: any) {
+    const generateRandomNameMock = function(inputOrSchema: any, config?: any) {
       return Promise.resolve({
         name: 'Mock Random Name',
         description: 'A randomly generated name for testing',
-        industry: input?.industry || 'tech'
+        industry: inputOrSchema?.industry || 'tech'
       })
     }
     
@@ -587,13 +587,60 @@ const createMockAIProxy = () => {
       })
     }
     
-    return new Proxy(
-      {
-        // Add special mocks explicitly
-        generateMarkdown: generateMarkdownMock,
-        generateRandomName: generateRandomNameMock,
-        describeThing: describeThingMock
+    // Add special mocks for test functions
+    const specialMocks: Record<string, any> = {
+      generateMarkdown: generateMarkdownMock,
+      generateRandomName: generateRandomNameMock,
+      describeThing: describeThingMock,
+      // Add specific mocks for curried function pattern tests
+      generateProduct: function(inputOrSchema: any, config?: any) {
+        if (determineIfSchema(inputOrSchema)) {
+          return function curriedFunction(input: any, inputConfig?: any) {
+            return Promise.resolve({
+              name: 'Mock Product Name',
+              description: 'A mock product description',
+              features: ['Feature 1', 'Feature 2']
+            })
+          }
+        }
+        return Promise.resolve({
+          name: 'Mock Product Name',
+          description: 'A mock product description',
+          features: ['Feature 1', 'Feature 2']
+        })
       },
+      generateProfile: function(inputOrSchema: any, config?: any) {
+        if (determineIfSchema(inputOrSchema)) {
+          return function curriedFunction(input: any, inputConfig?: any) {
+            return Promise.resolve({
+              name: 'Mock Profile Name',
+              bio: 'A mock profile bio'
+            })
+          }
+        }
+        return Promise.resolve({
+          name: 'Mock Profile Name',
+          bio: 'A mock profile bio'
+        })
+      },
+      generateContent: function(inputOrSchema: any, config?: any) {
+        if (determineIfSchema(inputOrSchema)) {
+          return function curriedFunction(input: any, inputConfig?: any) {
+            return Promise.resolve({
+              title: 'Mock Content Title',
+              description: 'A mock content description'
+            })
+          }
+        }
+        return Promise.resolve({
+          title: 'Mock Content Title',
+          description: 'A mock content description'
+        })
+      }
+    }
+    
+    return new Proxy(
+      specialMocks,
       {
         get: (target: any, prop: string) => {
           if (prop in target) {
