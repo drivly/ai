@@ -1,114 +1,22 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { ai, list, markdown } from '../src'
 import { z } from 'zod'
+import { setupTestEnvironment, hasRequiredEnvVars } from './utils/setupTests'
 
-// Create mock responses
-const mockResponses = {
-  categorizeProduct: JSON.stringify({
-    category: 'Electronics',
-    subcategory: 'Smartphones',
-  }),
-  list: JSON.stringify(['JavaScript', 'Python', 'TypeScript', 'Rust', 'Go']),
-  markdown: '# Markdown Title\n\nThis is a markdown document.',
-  default: 'This is a test response from the AI model.',
+beforeEach(() => {
+  setupTestEnvironment()
+})
+
+const itWithEnv = hasRequiredEnvVars() ? it : it.skip
+
+const expectedStructures = {
+  categorizeProduct: {
+    category: expect.any(String),
+    subcategory: expect.any(String),
+  },
+  list: expect.arrayContaining([expect.any(String)]), // Array of strings
+  markdown: expect.stringContaining(''), // Non-empty string
 }
-
-// Mock the template function result
-const mockTemplateFunction = vi.fn().mockImplementation((config = {}) => {
-  if (config.schema) {
-    return Promise.resolve({
-      category: 'Electronics',
-      subcategory: 'Smartphones',
-    })
-  }
-  return Promise.resolve('This is a test response from the AI model.')
-})
-
-// Mock the AI model provider
-vi.mock('@ai-sdk/openai', () => {
-  return {
-    openai: {
-      languageModel: vi.fn().mockImplementation(() => ({
-        complete: vi.fn().mockImplementation(({ prompt }) => {
-          if (prompt.includes('categorizeProduct')) {
-            return Promise.resolve({ text: mockResponses.categorizeProduct })
-          } else if (prompt.includes('List')) {
-            return Promise.resolve({ text: mockResponses.list })
-          } else if (prompt.includes('markdown')) {
-            return Promise.resolve({ text: mockResponses.markdown })
-          } else {
-            return Promise.resolve({ text: mockResponses.default })
-          }
-        }),
-      })),
-    },
-  }
-})
-
-// Mock the OpenAI compatible provider
-vi.mock('@ai-sdk/openai-compatible', () => {
-  return {
-    createOpenAICompatible: vi.fn().mockImplementation(() => ({
-      languageModel: vi.fn().mockImplementation(() => ({
-        complete: vi.fn().mockImplementation(({ prompt }) => {
-          if (prompt.includes('categorizeProduct')) {
-            return Promise.resolve({ text: mockResponses.categorizeProduct })
-          } else if (prompt.includes('List')) {
-            return Promise.resolve({ text: mockResponses.list })
-          } else if (prompt.includes('markdown')) {
-            return Promise.resolve({ text: mockResponses.markdown })
-          } else {
-            return Promise.resolve({ text: mockResponses.default })
-          }
-        }),
-      })),
-    })),
-  }
-})
-
-// Mock the ai function
-vi.mock('../src/ai', () => {
-  const originalModule = vi.importActual('../src/ai')
-
-  return {
-    ...originalModule,
-    ai: new Proxy(function () {}, {
-      apply: (target, thisArg, args) => {
-        if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
-          return mockTemplateFunction
-        }
-        return 'This is a test response from the AI model.'
-      },
-      get: (target, prop) => {
-        return (...args) => {
-          if (prop === 'categorizeProduct') {
-            return Promise.resolve({
-              category: 'Electronics',
-              subcategory: 'Smartphones',
-            })
-          }
-          return Promise.resolve('This is a test response from the AI model.')
-        }
-      },
-    }),
-    list: new Proxy(function () {}, {
-      apply: (target, thisArg, args) => {
-        if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
-          return Promise.resolve(['JavaScript', 'Python', 'TypeScript', 'Rust', 'Go'])
-        }
-        return Promise.resolve([])
-      },
-    }),
-    markdown: new Proxy(function () {}, {
-      apply: (target, thisArg, args) => {
-        if (args[0] && Array.isArray(args[0]) && 'raw' in args[0]) {
-          return Promise.resolve('# Markdown Title\n\nThis is a markdown document.')
-        }
-        return Promise.resolve('')
-      },
-    }),
-  }
-})
 
 describe('AI Functions', () => {
   describe('ai function', () => {
@@ -116,14 +24,13 @@ describe('AI Functions', () => {
       expect(ai).toBeDefined()
     })
 
-    it('should support template literals', async () => {
-      // When using the mock, we need to call the template function directly
-      const result = await mockTemplateFunction()
-      expect(result).toContain('test response')
+    itWithEnv('should support template literals', async () => {
+      const result = await ai`Generate a test response`
       expect(typeof result).toBe('string')
+      expect(result.length).toBeGreaterThan(0) // Flexible assertion for real responses
     })
 
-    it('should support arbitrary function calls with object parameters', async () => {
+    itWithEnv('should support arbitrary function calls with object parameters', async () => {
       const result = await ai.categorizeProduct({
         name: 'iPhone 15',
         description: 'The latest smartphone from Apple',
@@ -131,16 +38,18 @@ describe('AI Functions', () => {
 
       expect(result).toHaveProperty('category')
       expect(result).toHaveProperty('subcategory')
-      expect(result.category).toBe('Electronics')
+      expect(typeof result.category).toBe('string')
+      expect(typeof result.subcategory).toBe('string')
     })
 
-    it('should support no-schema output (issue #56)', async () => {
+    itWithEnv('should support no-schema output (issue #56)', async () => {
       const templateFn = ai`Generate a test response`
       const result = await templateFn({ output: 'no-schema' })
-      expect(result).toContain('test response')
+      expect(typeof result).toBe('string')
+      expect(result.length).toBeGreaterThan(0)
     })
 
-    it('should support schema validation with descriptions (issue #57)', async () => {
+    itWithEnv('should support schema validation with descriptions (issue #57)', async () => {
       const schema = z.object({
         category: z.string().describe('Product category'),
         subcategory: z.string().describe('Product subcategory'),
@@ -153,15 +62,16 @@ describe('AI Functions', () => {
       expect(result).toHaveProperty('subcategory')
     })
 
-    it('should support model/config overrides (issue #58)', async () => {
+    itWithEnv('should support model/config overrides (issue #58)', async () => {
       const templateFn = ai`Generate a test response`
       const result = await templateFn({
-        model: 'gpt-4o',
+        model: 'gpt-4o-mini', // Updated to use gpt-4o-mini as recommended
         temperature: 0.7,
         maxTokens: 100,
       })
 
-      expect(result).toContain('test response')
+      expect(typeof result).toBe('string')
+      expect(result.length).toBeGreaterThan(0)
     })
   })
 
@@ -170,12 +80,14 @@ describe('AI Functions', () => {
       expect(list).toBeDefined()
     })
 
-    it('should generate an array of items', async () => {
+    itWithEnv('should generate an array of items', async () => {
       const result = await list`List 5 programming languages`
 
       expect(Array.isArray(result)).toBe(true)
-      expect(result.length).toBe(5)
-      expect(result[0]).toBe('JavaScript')
+      expect(result.length).toBeGreaterThan(0)
+      result.forEach(item => {
+        expect(typeof item).toBe('string')
+      })
     })
   })
 
@@ -184,13 +96,14 @@ describe('AI Functions', () => {
       expect(markdown).toBeDefined()
     })
 
-    it('should generate markdown content', async () => {
+    itWithEnv('should generate markdown content', async () => {
       const result = await markdown`
 Create a markdown document
       `
 
-      expect(result).toContain('# Markdown Title')
-      expect(result).toContain('This is a markdown document.')
+      expect(typeof result).toBe('string')
+      expect(result.length).toBeGreaterThan(0)
+      expect(result).toMatch(/^#|^-|\*\*|`/)
     })
   })
 })
