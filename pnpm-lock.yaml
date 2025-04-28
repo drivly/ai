@@ -1354,6 +1354,25 @@ importers:
         specifier: ^3.0.0
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
 
+  pkgs/services-as-software:
+    dependencies:
+      apis.do:
+        specifier: workspace:*
+        version: link:../../sdks/apis.do
+    devDependencies:
+      business-as-code:
+        specifier: workspace:*
+        version: link:../business-as-code
+      tsup:
+        specifier: ^8.0.1
+        version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.7.1)
+      typescript:
+        specifier: ^5.2.2
+        version: 5.8.3
+      vitest:
+        specifier: ^0.34.6
+        version: 0.34.6(jsdom@26.1.0)(lightningcss@1.29.2)(playwright@1.51.1)(sass@1.77.4)(terser@5.39.0)
+
   pkgs/simple-payload:
     dependencies:
       next:
