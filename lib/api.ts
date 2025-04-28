@@ -80,15 +80,17 @@ export interface APIHeader {
   name: string
   description: string
   home: string
-  login: string
-  signup: string
+  login?: string
+  signup?: string
+  upgrade?: string
+  account?: string
   admin: string
   docs: string
   repo: string
   sdk: string
   site: string
   from: string // Added from field
-  [key: string]: string
+  [key: string]: string | undefined
 }
 
 export type ApiHandler<T = any> = (req: NextRequest, ctx: ApiContext) => Promise<T> | T
@@ -104,8 +106,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
 
   const isCloudflareWorker = 'cf' in request
 
-  const cf = isCloudflareWorker ? (request as any).cf : 
-             (request as any)._cf || undefined
+  const cf = isCloudflareWorker ? (request as any).cf : (request as any)._cf || undefined
 
   const geo = !isCloudflareWorker ? geolocation(request) : undefined
 
@@ -185,7 +186,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
           const user = await payload.db.users.findByID(apiKeyWithDomain.user)
           if (user) {
             const asOrg = await asOrgPromise
-            
+
             return {
               id: user.id,
               email: user.email,
@@ -197,7 +198,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
               userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
               os: ua?.os?.name as string,
               ip,
-              isp: cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
+              isp: cf?.asOrganization?.toString() || request.headers.get('x-cf-as-organization') || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
               asOrg: asOrg || undefined,
               flag: countryFlag,
               zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
@@ -227,8 +228,22 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     }
   }
 
+  const cfAsOrg = cf?.asOrganization?.toString();
+  const vercelIpOrg = request.headers.get('x-vercel-ip-org');
+  // Get Cloudflare asOrganization from custom header added in middleware
+  const cfAsOrgHeader = request.headers.get('x-cf-as-organization');
   const asOrg = await asOrgPromise
- 
+
+  console.log('ISP Debug:', { 
+    requestId: request.headers.get('cf-ray') || request.headers.get('x-vercel-id'),
+    cfAsOrg,
+    cfAsOrgHeader,
+    vercelIpOrg, 
+    asOrg,
+    asn,
+    finalIsp: cfAsOrg || cfAsOrgHeader || vercelIpOrg || asOrg || 'Unknown ISP'
+  });
+
   return {
     authenticated: false, // This would be determined by authentication logic
     admin: undefined, // This would be determined by authentication logic
@@ -237,7 +252,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
     os: ua?.os?.name as string,
     ip,
-    isp: cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
+    isp: cf?.asOrganization?.toString() || request.headers.get('x-cf-as-organization') || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
     asOrg: asOrg || undefined,
     flag: countryFlag,
     zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
@@ -262,7 +277,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
 /**
  * Function to get API header object
  */
-export function getApiHeader(request: NextRequest, description?: string): APIHeader {
+export function getApiHeader(request: NextRequest, description?: string, isAuthenticated?: boolean): APIHeader {
   const url = new URL(request.url)
   const domain = punycode.toUnicode(url.hostname)
   const origin = url.protocol + '//' + domain + (url.port ? ':' + url.port : '')
@@ -293,8 +308,13 @@ export function getApiHeader(request: NextRequest, description?: string): APIHea
     name: domain,
     description: description || 'Economically valuable work delivered through simple APIs',
     home: origin,
-    login: origin + '/login',
-    signup: origin + '/signup',
+    ...(isAuthenticated ? {
+      upgrade: origin + '/upgrade',
+      account: origin + '/account',
+    } : {
+      login: origin + '/login',
+      signup: origin + '/signup',
+    }),
     admin: origin + '/admin',
     docs: origin + '/docs',
     repo: 'https://github.com/drivly/ai',
@@ -461,8 +481,8 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
         name: authUser?.name || user?.name || enhancedUser.name,
         email: authUser?.email || user?.email || enhancedUser.email,
         ...enhancedUser,
-        authenticated: (user?.id || authUser?.id) ? true : false,
-        admin: (user?.admin || authUser?.role === 'admin') ? true : undefined,
+        authenticated: user?.id || authUser?.id ? true : false,
+        admin: user?.admin || authUser?.role === 'admin' ? true : undefined,
         plan: user?.plan || 'Free',
       }
 
@@ -470,7 +490,7 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
         typeof result === 'object' && result !== null && result && 'api' in result && typeof (result as any).api === 'object' && (result as any).api !== null
           ? (result as any).api.description
           : undefined
-      const api = getApiHeader(req, apiDescription)
+      const api = getApiHeader(req, apiDescription, mergedUser.authenticated)
 
       const responseBody = {
         api,
@@ -509,13 +529,13 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
 
       const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
       const errorMessage = error instanceof Error ? error.message : 'Internal Server Error'
-      
+
       const errorResponseBody = {
         error: {
           message: errorMessage,
           status,
           ...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack?.split('\n') : undefined }),
-        }
+        },
       }
       return new NextResponse(JSON.stringify(errorResponseBody, null, 2), {
         status,
@@ -538,11 +558,7 @@ export const API = createApiHandler
  * @param additionalInfo Additional information to include in the error object
  * @returns Standardized error response object
  */
-export const createErrorResponse = (
-  message: string,
-  status: number,
-  additionalInfo: Record<string, any> = {}
-) => {
+export const createErrorResponse = (message: string, status: number, additionalInfo: Record<string, any> = {}) => {
   return {
     error: {
       message,
@@ -803,8 +819,8 @@ export const handleShareRequest = async (params: { id: string }, db: PayloadDB):
       return {
         error: {
           message: 'Shared content not found',
-          status: 404
-        }
+          status: 404,
+        },
       }
     }
 
@@ -818,8 +834,8 @@ export const handleShareRequest = async (params: { id: string }, db: PayloadDB):
     return {
       error: {
         message: 'Failed to retrieve shared content',
-        status: 500
-      }
+        status: 500,
+      },
     }
   }
 }

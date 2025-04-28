@@ -16,8 +16,8 @@ export const GET = API(async (req, { user, payload }) => {
     collection: 'chatResources',
     where: {
       id: { equals: id },
-      resourceType: { equals: 'document' }
-    }
+      resourceType: { equals: 'document' },
+    },
   })
 
   if (!documents?.docs?.length) {
@@ -45,14 +45,14 @@ export const POST = API(async (req, { user, payload }) => {
     return { error: 'Missing id', status: 400 }
   }
 
-  const { content, title, kind }: { content: string, title: string, kind?: string } = await req.json()
+  const { content, title, kind }: { content: string; title: string; kind?: string } = await req.json()
 
   const documents = await payload.find({
     collection: 'chatResources',
     where: {
       id: { equals: id },
-      resourceType: { equals: 'document' }
-    }
+      resourceType: { equals: 'document' },
+    },
   })
 
   if (documents?.docs?.length > 0) {
@@ -61,17 +61,17 @@ export const POST = API(async (req, { user, payload }) => {
     if ((document.user as any).id !== user.id) {
       return { error: 'Forbidden', status: 403 }
     }
-    
+
     const updatedDocument = await payload.update({
       collection: 'chatResources',
       id: id,
       data: {
         title,
         content,
-        kind
-      }
+        kind,
+      },
     })
-    
+
     return updatedDocument
   } else {
     const newDocument = await payload.create({
@@ -83,10 +83,10 @@ export const POST = API(async (req, { user, payload }) => {
         kind,
         resourceType: 'document',
         user: user.id,
-        visibility: 'private'
-      }
+        visibility: 'private',
+      },
     })
-    
+
     return newDocument
   }
 })
@@ -112,8 +112,8 @@ export const DELETE = API(async (req, { user, payload }) => {
     collection: 'chatResources',
     where: {
       id: { equals: id },
-      resourceType: { equals: 'document' }
-    }
+      resourceType: { equals: 'document' },
+    },
   })
 
   if (!documents?.docs?.length) {
@@ -128,7 +128,7 @@ export const DELETE = API(async (req, { user, payload }) => {
 
   await payload.delete({
     collection: 'chatResources',
-    id: id
+    id: id,
   })
 
   return { success: true }

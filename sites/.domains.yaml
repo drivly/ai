@@ -1,0 +1,161 @@
+AI:
+  Agents:
+  Functions:
+  Services:
+  Workflows:
+
+Agents:
+
+  Role:
+    BDR: 
+    CFO: 
+    CMO: 
+    COO: 
+    CPO: 
+    CRO: 
+    CTO: 
+    PDM: 
+    SDR: 
+    SWE: 
+    Coach:
+    Developers:
+    Engineers:
+    Programmers:
+
+  Named:
+    Amy:
+    Ari:
+    Dara:
+    Ivy:
+    Lena:
+    Lexi:
+    Nat:
+    Tom:
+    Vera:
+
+Dev:
+  APIs:
+  SDK:
+  CLI:
+  Webhooks:
+  
+Work:
+  Plans:
+  Queue:
+  Tasks:
+
+Data:
+  Database:
+  Datasets:
+  Embeddings:
+  Resources:
+  Lists:
+  Nouns:
+  Objects:
+  State:
+  Vectors:
+  Verbs:
+
+Events:
+  Actions:
+  Searches:
+  Triggers:
+
+
+Integrations:
+  Actions:
+  Searches:
+  Triggers:
+
+Functions:
+  Code Functions:
+  Generative Functions:
+  Agent Functions:
+  Human Functions:
+
+
+Agent Functions:
+  Browse:
+  Extract:
+  Research:
+  Speak:
+  Trigger:
+
+LLMs:
+  Benchmarks:
+  Context:
+  Models:
+  Evaluations:
+  GPT:
+  LLM:
+
+Projects:
+  Waitlist:
+  Blogs:
+  Sites:
+  MDX:
+  Resources:
+  Repo:
+  Issues:
+  Studio:
+
+MicroSites:
+  Careers:
+
+Observability:
+  Analytics:
+  KPIs:
+  OKRs:
+  Requests:
+  Responses:
+  Traces:
+
+Organization:
+  Companies:
+  Experiments:
+  Management:
+  Organizations:
+  Products:
+  Projects:
+  Teams:
+  Worker:
+  Workers:
+
+Code:
+  ESBuild:
+  Tests:
+  Deployments:
+
+Infra:
+  OAuth:
+  Tests:
+
+Technology:
+  Airtable:
+  Barcode:
+  Bots:
+  Browser:
+  Browsers:
+  Clickhouse:
+  Cloudflare.Workers:
+  Colo:
+  Emails:
+  GCP:
+  NATS:
+  Payload:
+  Perf:
+  Photos:
+  QRCode:
+  Scraper:
+  Scrapers:
+
+
+
+Aliases:
+  action: actions
+  databases: database
+  function: functions
+  llms: llm
+  mgmt: management
+  service: services
+  webhook: webhooks

@@ -36,14 +36,9 @@ const SlideRenderer: React.FC<{ slide: Slide; config: VideoConfig }> = ({ slide,
         </Cover>
       )
     case 'slideshow':
-      const { code, steps, language } = slide as any;
+      const { code, steps, language } = slide as any
       return (
-        <Slideshow 
-          {...commonProps}
-          code={code || ''}
-          steps={steps || []}
-          language={language || 'typescript'}
-        >
+        <Slideshow {...commonProps} code={code || ''} steps={steps || []} language={language || 'typescript'}>
           <div dangerouslySetInnerHTML={{ __html: content }} />
         </Slideshow>
       )

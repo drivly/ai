@@ -2,7 +2,6 @@ action.do
 actions.do
 agents.do
 agi.do
-airtable.do
 amy.do
 analytics.do
 apis.do
@@ -36,7 +35,6 @@ dashboard.do
 database.do
 databases.do
 datasets.do
-dealers.do
 deployments.do
 devs.do
 emails.do
@@ -48,7 +46,6 @@ evals.do
 events.do
 experiments.do
 extract.do
-fetch.do
 function.do
 functions.do
 gcp.do
@@ -64,7 +61,6 @@ lexi.do
 lists.do
 llm.do
 llms.do
-lodash.do
 management.do
 mcp.do
 mdx.do
@@ -87,7 +83,6 @@ plans.do
 products.do
 programmers.do
 projects.do
-prxy.do
 qrcode.do
 queue.do
 repo.do
@@ -119,7 +114,6 @@ transform.do
 trigger.do
 triggers.do
 vectors.do
-vehicle.do
 vera.do
 verbs.do
 waitlist.do

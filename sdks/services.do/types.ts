@@ -10,22 +10,22 @@ export interface ServiceDefinition {
    * Service name
    */
   name: string
-  
+
   /**
    * Service description
    */
   description?: string
-  
+
   /**
    * Service endpoint URL
    */
   endpoint: string
-  
+
   /**
    * Service version
    */
   version?: string
-  
+
   /**
    * Additional metadata for the service
    */
@@ -45,17 +45,17 @@ export interface Service extends ServiceDefinition {
    * Unique service identifier
    */
   id: string
-  
+
   /**
    * Current service status
    */
   status: ServiceStatus
-  
+
   /**
    * Creation timestamp
    */
   createdAt: string
-  
+
   /**
    * Last update timestamp
    */
@@ -70,12 +70,12 @@ export interface ServiceQuery {
    * Filter by service name
    */
   name?: string
-  
+
   /**
    * Filter by service status
    */
   status?: ServiceStatus
-  
+
   /**
    * Additional query parameters
    */

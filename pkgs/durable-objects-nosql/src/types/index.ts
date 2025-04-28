@@ -5,12 +5,12 @@
 /**
  * MongoDB-style query operators
  */
-export type QueryOperator = '$eq' | '$gt' | '$gte' | '$lt' | '$lte' | '$ne' | '$in' | '$nin' | '$and' | '$or' | '$not'
+export type QueryOperator = '$eq' | '$gt' | '$gte' | '$lt' | '$lte' | '$ne' | '$in' | '$nin' | '$and' | '$or' | '$nor' | '$not' | '$exists' | '$type' | '$regex'
 
 /**
  * MongoDB-style update operators
  */
-export type UpdateOperator = '$set' | '$unset' | '$inc' | '$push' | '$pull'
+export type UpdateOperator = '$set' | '$unset' | '$inc' | '$push' | '$pull' | '$addToSet' | '$pop'
 
 /**
  * MongoDB-style query object

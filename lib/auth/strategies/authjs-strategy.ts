@@ -7,11 +7,11 @@ export function authjsStrategy(): AuthStrategy {
     authenticate: (async ({ payload, headers }: AuthStrategyFunctionArgs) => {
       try {
         const session = await auth()
-        
+
         if (!session || !session.user) {
           return { user: null }
         }
-        
+
         return {
           user: {
             id: session.user.id,

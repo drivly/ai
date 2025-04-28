@@ -230,8 +230,13 @@ export const createAPI = (
           name: domain,
           description: getDomainDescription(domain, options?.domainDescriptions),
           home: origin,
-          login: origin + '/login',
-          signup: origin + '/signup',
+          ...(user?.id ? {
+            upgrade: origin + '/upgrade',
+            account: origin + '/account',
+          } : {
+            login: origin + '/login',
+            signup: origin + '/signup',
+          }),
           admin: origin + '/admin',
           docs: origin + '/docs',
           repo: 'https://github.com/drivly/ai',
@@ -259,7 +264,7 @@ export const createAPI = (
 
         const status = error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
         const errorMessage = error instanceof Error ? error.message : 'Internal Server Error'
-        
+
         return NextResponse.json(
           {
             error: {

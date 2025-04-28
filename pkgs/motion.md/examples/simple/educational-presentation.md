@@ -13,6 +13,7 @@ background: "#2a0845"
 voiceover: Welcome to our introduction to machine learning. In this presentation, we'll explore the fundamentals of machine learning, key algorithms, and practical applications.
 
 # Introduction to Machine Learning
+
 ## Understanding the Basics
 
 ---
@@ -49,6 +50,7 @@ voiceover: Let's test your understanding with a quick question about machine lea
 # Quiz Question
 
 Which type of machine learning would be most appropriate for:
+
 - Clustering customers by purchasing behavior
 - Predicting house prices based on historical sales
 - Teaching a robot to navigate a maze

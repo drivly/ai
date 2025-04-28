@@ -13,15 +13,15 @@ export const GET = API(async (request, { db, user, url }) => {
 
     if (workflowId || agentId) {
       const goalsQuery: any = {}
-      
+
       if (workflowId) {
         goalsQuery.workflows = { contains: workflowId }
       } else if (agentId) {
         goalsQuery.agents = { contains: agentId }
       }
-      
+
       const goals = await db.goals.find(goalsQuery)
-      
+
       if (Array.isArray(goals.docs) && goals.docs.length > 0) {
         const goalIds = goals.docs.map((g: any) => g.id)
         query['goals.docs'] = { in: goalIds }
@@ -45,16 +45,18 @@ export const GET = API(async (request, { db, user, url }) => {
 
 function formatNumericsResponse(kpis: any[]) {
   const numericsResponse = {
-    metrics: Array.isArray(kpis) ? kpis.map(kpi => ({
-      id: kpi.id,
-      name: kpi.name,
-      value: kpi.value ?? 0,
-      target: kpi.target ?? undefined,
-      unit: kpi.unit || '',
-      format: kpi.format || 'number',
-      description: kpi.description || `KPI: ${kpi.name}`,
-    })) : []
+    metrics: Array.isArray(kpis)
+      ? kpis.map((kpi) => ({
+          id: kpi.id,
+          name: kpi.name,
+          value: kpi.value ?? 0,
+          target: kpi.target ?? undefined,
+          unit: kpi.unit || '',
+          format: kpi.format || 'number',
+          description: kpi.description || `KPI: ${kpi.name}`,
+        }))
+      : [],
   }
-  
+
   return NextResponse.json(numericsResponse)
 }

@@ -9,7 +9,7 @@ export async function register() {
       console.error('Environment validation failed:', error)
       Sentry.captureException(error)
     }
-    
+
     await import('./sentry.server.config')
   }
 

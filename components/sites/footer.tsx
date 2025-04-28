@@ -2,6 +2,7 @@ import { RiArrowRightUpLine } from '@remixicon/react'
 import Link from 'next/link'
 import { DotdoLogo } from '../shared/dotdo-logo'
 import { footerNavigation, siteConfig } from '../site-config'
+// import { ProjectStatus } from './project-status'
 
 export function Footer({ minimal }: { minimal?: boolean }) {
   if (minimal) {
@@ -129,10 +130,11 @@ export function Footer({ minimal }: { minimal?: boolean }) {
           <p className='text-sm leading-5 text-gray-400'>
             &copy; {new Date().getFullYear()}{' '}
             <a href='https://dotdo.ai' className='hover:text-gray-300'>
-              .do AI
+              .do
             </a>
-            . All rights reserved.
+            , Inc. All rights reserved.
           </p>
+          {/* <ProjectStatus /> */}
           <iframe
             src='https://status.workflows.do/badge?theme=dark'
             width='250'

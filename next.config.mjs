@@ -36,42 +36,42 @@ const nextConfig = {
       test: /\.ya?ml$/,
       use: 'yaml-loader',
     })
-    
+
     // Fix OpenTelemetry warning without breaking Sentry
     config.module.rules.push({
       test: /node_modules\/@opentelemetry\/instrumentation-http\/build\/src\/http\.js$/,
-      use: 'null-loader'
+      use: 'null-loader',
     })
-    
+
     // Suppress OpenTelemetry instrumentation warnings
     config.ignoreWarnings = [
       {
         module: /node_modules\/@opentelemetry\/instrumentation/,
       },
     ]
-    
+
     // Memory optimizations
     if (!dev) {
       // Disable source maps in production to reduce memory usage
-      config.devtool = false;
+      config.devtool = false
     }
-    
+
     // Handle Node.js modules used by Remotion renderer
     // These are needed for the build process but not for runtime
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
         process: false,
-        'child_process': false,
-        'fs': false,
-        'path': false,
-        'os': false,
-        'stream': false,
-        'util': false,
-        'zlib': false,
-        'url': false,
-      };
-      
+        child_process: false,
+        fs: false,
+        path: false,
+        os: false,
+        stream: false,
+        util: false,
+        zlib: false,
+        url: false,
+      }
+
       // Use node: protocol externals for server-only code
       config.externals.push({
         'node:process': 'process',
@@ -89,13 +89,13 @@ const nextConfig = {
         'node:url': 'url',
         'node:util': 'util',
         'node:zlib': 'zlib',
-      });
-      
+      })
+
       // Add fallback for 'net' module
       config.resolve.fallback = {
         ...config.resolve.fallback,
-        'net': false,
-      };
+        net: false,
+      }
     }
     return config
   },

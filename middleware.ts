@@ -30,8 +30,8 @@ export default auth(async (request) => {
     return NextResponse.next()
   }
 
-    // TEMPORARY CHANGE (ENG-751): Admin routes bypass authentication redirects
-    // This is a temporary modification until integrated auth is restored
+  // TEMPORARY CHANGE (ENG-751): Admin routes bypass authentication redirects
+  // This is a temporary modification until integrated auth is restored
   if (handler.isProtectedRoute()) {
     if (!handler.isAdminRoute()) {
       if (!isLoggedIn) {
@@ -48,8 +48,8 @@ export default auth(async (request) => {
       const targetHostname = 'functions.do' // Always use functions.do for the /pricing path
       return NextResponse.rewrite(new URL(`${request.nextUrl.origin}/sites/${targetHostname}/pricing${request.nextUrl.search}`, request.url))
     }
-    
-    if (isDoDomain(handler.hostname) && !handler.pathname.startsWith('/api/') && !handler.pathname.startsWith('/v1/')) {
+
+    if (isDoDomain(handler.hostname) && !isGatewayDomain(handler.hostname) && !handler.pathname.startsWith('/api/') && !handler.pathname.startsWith('/v1/')) {
       const doResponse = handleDoDomain(request)
       if (doResponse) {
         return doResponse
@@ -78,7 +78,7 @@ export default auth(async (request) => {
         const targetHostname = 'functions.do' // Always use functions.do for the /pricing path
         return NextResponse.rewrite(new URL(`${request.nextUrl.origin}/sites/${targetHostname}/pricing${request.nextUrl.search}`, request.url))
       }
-      
+
       const gatewayResponse = handleGatewayDomain(request)
       if (gatewayResponse) {
         return gatewayResponse

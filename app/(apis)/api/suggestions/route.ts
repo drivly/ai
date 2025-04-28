@@ -16,8 +16,8 @@ export const GET = API(async (req, { user, payload }) => {
     collection: 'chatResources',
     where: {
       'metadata.documentId': { equals: documentId },
-      resourceType: { equals: 'suggestion' }
-    }
+      resourceType: { equals: 'suggestion' },
+    },
   })
 
   if (!suggestions?.docs?.length) {
@@ -28,8 +28,8 @@ export const GET = API(async (req, { user, payload }) => {
     collection: 'chatResources',
     where: {
       id: { equals: documentId },
-      resourceType: { equals: 'document' }
-    }
+      resourceType: { equals: 'document' },
+    },
   })
 
   if (!documents?.docs?.length || (documents.docs[0].user as any).id !== user.id) {

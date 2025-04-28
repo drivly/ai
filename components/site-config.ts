@@ -32,7 +32,7 @@ export const getCurrentHostname = (): string => {
 export const siteConfig = {
   name: '.do',
   logo: '/favicon/faviconDo.png',
-  url: 'https://dotdo.ai/',
+  url: 'https://dotdo.ai',
   description: 'Agentic Workflow Platform. Redefining work with Businesses-as-Code.',
   baseLinks: {
     home: '/',
@@ -42,7 +42,9 @@ export const siteConfig = {
     sdk: '/docs/sdks',
     dashboard: '/admin',
     github: 'https://github.com/drivly/ai',
+    docs_repo_base: 'https://github.com/drivly/ai/tree/main',
     discord: 'https://discord.gg/26nNxZTz9X',
+    discord_chat_link: 'https://discord.gg/tafnNeUQdm',
     twitter: 'https://x.com/dotdo_ai',
     npm: 'https://www.npmjs.com/package/workflows.do',
     blog: '/blog',

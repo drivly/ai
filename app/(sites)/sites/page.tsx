@@ -8,6 +8,7 @@ import { Metadata } from 'next'
 export const metadata = {
   title: 'Do Services-as-Software',
   description: 'Build AI-native businesses with agentic services through simple APIs and SDKs',
+  metadataBase: new URL('https://dotdo.ai'),
   alternates: {
     canonical: 'https://dotdo.ai',
   },
@@ -32,7 +33,8 @@ async function DirectoryPage() {
           <div className='container mx-auto flex h-[50vh] items-center justify-center px-3 pt-24'>
             <div className='animate-pulse text-lg opacity-50'>Loading sites...</div>
           </div>
-        }>
+        }
+      >
         <DotDoSection categories={categories} />
       </Suspense>
     </div>

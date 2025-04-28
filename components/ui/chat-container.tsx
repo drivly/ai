@@ -155,7 +155,7 @@ function ChatContainer({ className, children, autoScroll = true, scrollToRef, re
   const containerRef = useRef<HTMLDivElement>(null)
   const localBottomRef = useRef<HTMLDivElement>(null)
   const bottomRef = scrollToRef || localBottomRef
-  const chatContainerRef = ref || containerRef as React.RefObject<HTMLDivElement>
+  const chatContainerRef = ref || (containerRef as React.RefObject<HTMLDivElement>)
   const prevChildrenRef = useRef<React.ReactNode>(null)
   const contentChangedWithoutNewMessageRef = useRef(false)
 

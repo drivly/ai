@@ -14,15 +14,15 @@ export const GET = API(async (request, { db, user, params, url }) => {
   if (!apiExists && !isAlias) {
     const availableApis: Record<string, string> = {}
     primaryCollectionSlugs.forEach((slug) => {
-      availableApis[slug] = `origin/${slug}`
+      availableApis[slug] = `${url.origin}/${slug}`
     })
-    
+
     return {
       error: {
         message: `API '${api}' not found`,
         status: 404,
-        availableApis
-      }
+        availableApis,
+      },
     }
   }
 
@@ -69,8 +69,8 @@ export const GET = API(async (request, { db, user, params, url }) => {
       return {
         error: {
           message: `Error fetching data from ${effectiveApi}`,
-          status: 500
-        }
+          status: 500,
+        },
       }
     }
   }
@@ -83,7 +83,7 @@ export const GET = API(async (request, { db, user, params, url }) => {
   }
 })
 
-export const POST = API(async (request, { db, params }) => {
+export const POST = API(async (request, { db, params, url }) => {
   const { api } = params as { api: string }
 
   const apiExists = api in apis
@@ -94,15 +94,15 @@ export const POST = API(async (request, { db, params }) => {
   if (!apiExists && !isAlias) {
     const availableApis: Record<string, string> = {}
     primaryCollectionSlugs.forEach((slug) => {
-      availableApis[slug] = `origin/${slug}`
+      availableApis[slug] = `${url.origin}/${slug}`
     })
-    
+
     return {
       error: {
         message: `API '${api}' not found`,
         status: 404,
-        availableApis
-      }
+        availableApis,
+      },
     }
   }
 
@@ -112,8 +112,8 @@ export const POST = API(async (request, { db, params }) => {
     return {
       error: {
         message: `Collection '${effectiveApi}' not found or not available for mutation`,
-        status: 404
-      }
+        status: 404,
+      },
     }
   }
 
@@ -124,8 +124,8 @@ export const POST = API(async (request, { db, params }) => {
     return {
       error: {
         message: 'Invalid JSON payload',
-        status: 400
-      }
+        status: 400,
+      },
     }
   }
 
@@ -142,8 +142,8 @@ export const POST = API(async (request, { db, params }) => {
     return {
       error: {
         message: `Error creating item: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        status: error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500
-      }
+        status: error instanceof Error && 'statusCode' in error ? (error as any).statusCode : 500,
+      },
     }
   }
 })

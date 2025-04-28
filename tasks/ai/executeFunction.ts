@@ -349,11 +349,8 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       generationHash, // Pass the generation hash to saveExecutionResults
     },
   })
-  
-  if (input.functionName === 'research' && 
-      input.slackChannel && 
-      input.slackResponseTs && 
-      object) {
+
+  if (input.functionName === 'research' && input.slackChannel && input.slackResponseTs && object) {
     console.log(`Sending research results back to Slack channel ${input.slackChannel}`)
     payload.jobs.queue({
       task: 'sendResearchResultsToSlack',

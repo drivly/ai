@@ -5,18 +5,28 @@ import { Faqs } from '@/components/sites/sections/faqs'
 import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
-import { Metadata } from 'next'
+import { Metadata, ResolvingMetadata } from 'next'
 import { getContent } from './content'
 
-export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }, parent: ResolvingMetadata): Promise<Metadata> {
   const { domain } = await params
   const content = await getContent(domain)
+
+  const siteUrl = new URL(`https://${domain}`)
+  const previousOpenGraphImages = (await parent).openGraph?.images || []
+  const previousTwitterImages = (await parent).twitter?.images || []
 
   return {
     title: content.seo.title,
     description: content.seo.description,
     keywords: content.seo.keywords,
-    metadataBase: new URL(`https://${domain}`),
+    metadataBase: siteUrl,
+    openGraph: {
+      images: [`${siteUrl}/og`, ...previousOpenGraphImages],
+    },
+    twitter: {
+      images: [`${siteUrl}/twitter`, ...previousTwitterImages],
+    },
   }
 }
 
@@ -31,7 +41,7 @@ async function DotDoPage(props: { params: { domain: string }; searchParams?: { [
   const glowColor = (content as any).brandColor || getGlowColor(site)
 
   return (
-    <>
+    <div className='overflow-x-hidden'>
       <div className='hero-glow-container' style={{ '--glow-color': glowColor } as React.CSSProperties}>
         <HeroSection
           codeExample={content.codeExample || codeExample}
@@ -46,7 +56,7 @@ async function DotDoPage(props: { params: { domain: string }; searchParams?: { [
       <DotdoLinkSection />
       <Particles className='absolute inset-0 -z-10' quantity={50} ease={70} size={0.05} staticity={40} color={'#ffffff'} />
       <Faqs faqs={content.faqs} />
-    </>
+    </div>
   )
 }
 

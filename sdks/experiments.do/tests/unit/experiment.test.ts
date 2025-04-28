@@ -11,14 +11,14 @@ vi.mock('apis.do', () => {
             choices: [
               {
                 message: {
-                  content: 'Mocked model response'
-                }
-              }
-            ]
-          }
-        })
+                  content: 'Mocked model response',
+                },
+              },
+            ],
+          },
+        }),
       }
-    })
+    }),
   }
 })
 
@@ -67,189 +67,213 @@ describe('experiment', () => {
     vi.clearAllMocks()
   })
 
-  it('should expand scalar temperature to array', async () => {
-    const mockInputs = ['input1']
-    const mockConfig = {
-      models: ['gpt-4'],
-      temperature: 0.5, // scalar value
-      seeds: 1,
-      prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
-      inputs: vi.fn().mockResolvedValue(mockInputs),
-      expected: 'expected result',
-      schema: { type: 'object' },
-      scorers: [
-        vi.fn().mockImplementation(async () => ({ score: 0.8, details: { matches: true } }))
-      ],
-    }
+  it(
+    'should expand scalar temperature to array',
+    async () => {
+      const mockInputs = ['input1']
+      const mockConfig = {
+        models: ['gpt-4'],
+        temperature: 0.5, // scalar value
+        seeds: 1,
+        prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
+        inputs: vi.fn().mockResolvedValue(mockInputs),
+        expected: 'expected result',
+        schema: { type: 'object' },
+        scorers: [vi.fn().mockImplementation(async () => ({ score: 0.8, details: { matches: true } }))],
+      }
 
-    const result = await experiment('test-experiment', mockConfig)
+      const result = await experiment('test-experiment', mockConfig)
 
-    expect(result.config.temperatures).toEqual([0.5])
-    expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
-  }, TEST_TIMEOUT)
+      expect(result.config.temperatures).toEqual([0.5])
+      expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
+    },
+    TEST_TIMEOUT,
+  )
 
-  it('should generate correct number of evaluations', async () => {
-    const mockInputs = ['input1']
-    const mockConfig = {
-      models: ['gpt-4', 'claude-3'],
-      temperature: [0, 0.5],
-      seeds: 2,
-      prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
-      inputs: vi.fn().mockResolvedValue(mockInputs),
-      expected: 'expected result',
-      schema: { type: 'object' },
-      scorers: [
-        vi.fn().mockImplementation(async () => ({ score: 0.8, details: { matches: true } }))
-      ],
-    }
+  it(
+    'should generate correct number of evaluations',
+    async () => {
+      const mockInputs = ['input1']
+      const mockConfig = {
+        models: ['gpt-4', 'claude-3'],
+        temperature: [0, 0.5],
+        seeds: 2,
+        prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
+        inputs: vi.fn().mockResolvedValue(mockInputs),
+        expected: 'expected result',
+        schema: { type: 'object' },
+        scorers: [vi.fn().mockImplementation(async () => ({ score: 0.8, details: { matches: true } }))],
+      }
 
-    const result = await experiment('test-experiment', mockConfig)
+      const result = await experiment('test-experiment', mockConfig)
 
-    expect(result.results).toHaveLength(8)
-    expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
-  }, TEST_TIMEOUT)
+      expect(result.results).toHaveLength(8)
+      expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
+    },
+    TEST_TIMEOUT,
+  )
 
-  it('should create baselines when expected is not provided', async () => {
-    const mockInputs = ['input1', 'input2']
-    const mockConfig = {
-      models: ['gpt-4', 'claude-3'],
-      temperature: 0.5,
-      seeds: 1,
-      prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
-      inputs: vi.fn().mockResolvedValue(mockInputs),
-      schema: { type: 'object' },
-      scorers: [{ name: 'scorer1' }],
-    }
+  it(
+    'should create baselines when expected is not provided',
+    async () => {
+      const mockInputs = ['input1', 'input2']
+      const mockConfig = {
+        models: ['gpt-4', 'claude-3'],
+        temperature: 0.5,
+        seeds: 1,
+        prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
+        inputs: vi.fn().mockResolvedValue(mockInputs),
+        schema: { type: 'object' },
+        scorers: [{ name: 'scorer1' }],
+      }
 
-    const result = await experiment('test-experiment', mockConfig)
+      const result = await experiment('test-experiment', mockConfig)
 
-    expect(result.results).toHaveLength(4)
-    
-    const baselineResults = result.results.filter(r => r.id.includes('baseline'))
-    expect(baselineResults).toHaveLength(2) // One baseline per input
-  }, TEST_TIMEOUT)
+      expect(result.results).toHaveLength(4)
 
-  it('should create baselines when scorers are not provided', async () => {
-    const mockInputs = ['input1', 'input2']
-    const mockConfig = {
-      models: ['gpt-4', 'claude-3'],
-      temperature: 0.5,
-      seeds: 1,
-      prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
-      inputs: vi.fn().mockResolvedValue(mockInputs),
-      expected: 'expected result',
-      schema: { type: 'object' },
-    }
+      const baselineResults = result.results.filter((r) => r.id.includes('baseline'))
+      expect(baselineResults).toHaveLength(2) // One baseline per input
+    },
+    TEST_TIMEOUT,
+  )
 
-    const result = await experiment('test-experiment', mockConfig)
+  it(
+    'should create baselines when scorers are not provided',
+    async () => {
+      const mockInputs = ['input1', 'input2']
+      const mockConfig = {
+        models: ['gpt-4', 'claude-3'],
+        temperature: 0.5,
+        seeds: 1,
+        prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
+        inputs: vi.fn().mockResolvedValue(mockInputs),
+        expected: 'expected result',
+        schema: { type: 'object' },
+      }
 
-    expect(result.results).toHaveLength(4)
-    
-    const baselineResults = result.results.filter(r => r.id.includes('baseline'))
-    expect(baselineResults).toHaveLength(2) // One baseline per input
-  }, TEST_TIMEOUT)
+      const result = await experiment('test-experiment', mockConfig)
 
-  it('should create baselines when both expected and scorers are not provided', async () => {
-    const mockInputs = ['input1', 'input2']
-    const mockConfig = {
-      models: ['gpt-4', 'claude-3'],
-      temperature: 0.5,
-      seeds: 1,
-      prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
-      inputs: vi.fn().mockResolvedValue(mockInputs),
-      schema: { type: 'object' },
-    }
+      expect(result.results).toHaveLength(4)
 
-    const result = await experiment('test-experiment', mockConfig)
+      const baselineResults = result.results.filter((r) => r.id.includes('baseline'))
+      expect(baselineResults).toHaveLength(2) // One baseline per input
+    },
+    TEST_TIMEOUT,
+  )
 
-    expect(result.results).toHaveLength(4)
-    
-    const baselineResults = result.results.filter(r => r.id.includes('baseline'))
-    expect(baselineResults).toHaveLength(2) // One baseline per input
-    
-    const nonBaselineResults = result.results.filter(r => !r.id.includes('baseline'))
-    expect(nonBaselineResults).toHaveLength(2) // One evaluation per input for the second model
-  }, TEST_TIMEOUT)
+  it(
+    'should create baselines when both expected and scorers are not provided',
+    async () => {
+      const mockInputs = ['input1', 'input2']
+      const mockConfig = {
+        models: ['gpt-4', 'claude-3'],
+        temperature: 0.5,
+        seeds: 1,
+        prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
+        inputs: vi.fn().mockResolvedValue(mockInputs),
+        schema: { type: 'object' },
+      }
 
-  it('should use batch processing when enabled', async () => {
-    vi.mock('../../src/batch.js', () => ({
-      createBatchConfig: vi.fn().mockResolvedValue({ input_data: [] }),
-      submitBatch: vi.fn().mockResolvedValue({ id: 'batch-123' }),
-      collectBatchResults: vi.fn().mockResolvedValue([]),
-      formatExperimentResults: vi.fn().mockReturnValue({
-        name: 'test-experiment',
-        timestamp: '2023-01-01T00:00:00.000Z',
-        config: {
-          models: ['gpt-4'],
-          temperatures: [0.5],
-          seeds: [1],
-          totalInputs: 2,
+      const result = await experiment('test-experiment', mockConfig)
+
+      expect(result.results).toHaveLength(4)
+
+      const baselineResults = result.results.filter((r) => r.id.includes('baseline'))
+      expect(baselineResults).toHaveLength(2) // One baseline per input
+
+      const nonBaselineResults = result.results.filter((r) => !r.id.includes('baseline'))
+      expect(nonBaselineResults).toHaveLength(2) // One evaluation per input for the second model
+    },
+    TEST_TIMEOUT,
+  )
+
+  it(
+    'should use batch processing when enabled',
+    async () => {
+      vi.mock('../../src/batch.js', () => ({
+        createBatchConfig: vi.fn().mockResolvedValue({ input_data: [] }),
+        submitBatch: vi.fn().mockResolvedValue({ id: 'batch-123' }),
+        collectBatchResults: vi.fn().mockResolvedValue([]),
+        formatExperimentResults: vi.fn().mockReturnValue({
+          name: 'test-experiment',
+          timestamp: '2023-01-01T00:00:00.000Z',
+          config: {
+            models: ['gpt-4'],
+            temperatures: [0.5],
+            seeds: [1],
+            totalInputs: 2,
+          },
+          results: [],
+          summary: {},
+        }),
+      }))
+
+      const mockInputs = ['input1', 'input2']
+      const mockConfig = {
+        models: ['gpt-4'],
+        temperature: 0.5,
+        seeds: 1,
+        prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
+        inputs: vi.fn().mockResolvedValue(mockInputs),
+        expected: 'expected result',
+        schema: { type: 'object' },
+        scorers: [{ name: 'scorer1' }],
+        batch: {
+          enabled: true,
+          provider: 'openai',
         },
-        results: [],
-        summary: {},
-      }),
-    }))
+      }
 
-    const mockInputs = ['input1', 'input2']
-    const mockConfig = {
-      models: ['gpt-4'],
-      temperature: 0.5,
-      seeds: 1,
-      prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
-      inputs: vi.fn().mockResolvedValue(mockInputs),
-      expected: 'expected result',
-      schema: { type: 'object' },
-      scorers: [{ name: 'scorer1' }],
-      batch: {
-        enabled: true,
-        provider: 'openai',
-      },
-    }
+      const result = await experiment('test-experiment', mockConfig)
 
-    const result = await experiment('test-experiment', mockConfig)
+      expect(result.name).toBe('test-experiment')
+      expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
+    },
+    TEST_TIMEOUT,
+  )
 
-    expect(result.name).toBe('test-experiment')
-    expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
-  }, TEST_TIMEOUT)
+  it(
+    'should use batch processing when permutations exceed threshold',
+    async () => {
+      vi.mock('../../src/batch.js', () => ({
+        createBatchConfig: vi.fn().mockResolvedValue({ input_data: [] }),
+        submitBatch: vi.fn().mockResolvedValue({ id: 'batch-123' }),
+        collectBatchResults: vi.fn().mockResolvedValue([]),
+        formatExperimentResults: vi.fn().mockReturnValue({
+          name: 'test-experiment',
+          timestamp: '2023-01-01T00:00:00.000Z',
+          config: {
+            models: ['gpt-4', 'claude-3'],
+            temperatures: [0, 0.5],
+            seeds: [1, 2],
+            totalInputs: 2,
+          },
+          results: [],
+          summary: {},
+        }),
+      }))
 
-  it('should use batch processing when permutations exceed threshold', async () => {
-    vi.mock('../../src/batch.js', () => ({
-      createBatchConfig: vi.fn().mockResolvedValue({ input_data: [] }),
-      submitBatch: vi.fn().mockResolvedValue({ id: 'batch-123' }),
-      collectBatchResults: vi.fn().mockResolvedValue([]),
-      formatExperimentResults: vi.fn().mockReturnValue({
-        name: 'test-experiment',
-        timestamp: '2023-01-01T00:00:00.000Z',
-        config: {
-          models: ['gpt-4', 'claude-3'],
-          temperatures: [0, 0.5],
-          seeds: [1, 2],
-          totalInputs: 2,
+      const mockInputs = ['input1', 'input2']
+      const mockConfig = {
+        models: ['gpt-4', 'claude-3'],
+        temperature: [0, 0.5],
+        seeds: 2,
+        prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
+        inputs: vi.fn().mockResolvedValue(mockInputs),
+        expected: 'expected result',
+        schema: { type: 'object' },
+        scorers: [{ name: 'scorer1' }],
+        batch: {
+          enabled: 5, // Threshold of 5 permutations
+          provider: 'anthropic',
         },
-        results: [],
-        summary: {},
-      }),
-    }))
+      }
 
-    const mockInputs = ['input1', 'input2']
-    const mockConfig = {
-      models: ['gpt-4', 'claude-3'],
-      temperature: [0, 0.5],
-      seeds: 2,
-      prompt: ({ input }: { input: string }) => [`Prompt for ${input}`],
-      inputs: vi.fn().mockResolvedValue(mockInputs),
-      expected: 'expected result',
-      schema: { type: 'object' },
-      scorers: [{ name: 'scorer1' }],
-      batch: {
-        enabled: 5, // Threshold of 5 permutations
-        provider: 'anthropic',
-      },
-    }
+      const result = await experiment('test-experiment', mockConfig)
 
-    const result = await experiment('test-experiment', mockConfig)
-
-    expect(result.name).toBe('test-experiment')
-    expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
-  }, TEST_TIMEOUT)
+      expect(result.name).toBe('test-experiment')
+      expect(mockConfig.inputs).toHaveBeenCalledTimes(1)
+    },
+    TEST_TIMEOUT,
+  )
 })

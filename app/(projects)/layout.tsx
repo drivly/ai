@@ -8,11 +8,11 @@ import '@picocss/pico/css/pico.min.css'
 export const generateMetadata = async ({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> => {
   const { domain } = await params
   return {
-    title: domain
+    title: domain,
   }
 }
 
-export default async function ProjectLayout({ children, params }: { children: React.ReactNode, params: Promise<{ domain: string }> }) {
+export default async function ProjectLayout({ children, params }: { children: React.ReactNode; params: Promise<{ domain: string }> }) {
   const { domain } = await params
   return (
     <html>

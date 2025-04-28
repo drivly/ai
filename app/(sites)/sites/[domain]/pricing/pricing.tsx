@@ -201,11 +201,11 @@ export function Pricing() {
           animationFillMode: 'backwards',
         }}
       >
-        <div className='mt-2 max-w-3xl'>
-          <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl leading-none font-medium tracking-tighter text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
+        <div className='mb-6 max-w-3xl'>
+          <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl leading-none font-medium tracking-tight text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>
             Flexible, Transparent Pricing.
           </h1>
-          <p className='text-md mx-auto mt-6 max-w-xl text-gray-400'>Choose the plan that's right for you. Designed to grow with your needs—pay only for what you use.</p>
+          <p className='mx-auto mt-6 max-w-xl text-base text-gray-400'>Choose the plan that's right for you. Designed to grow with your needs—pay only for what you use.</p>
         </div>
       </section>
       <section

@@ -13,6 +13,7 @@ background: "#282c34"
 voiceover: Welcome to this tutorial on building a custom React hook for local storage. We'll create a reusable hook that simplifies working with browser storage.
 
 # Building a Custom React Hook
+
 ## useLocalStorage Implementation
 
 ---
@@ -32,71 +33,76 @@ voiceover: Custom hooks are a powerful feature in React that let us extract comp
 
 layout: slideshow
 code: |
+import { useState } from 'react';
+
+function useLocalStorage(key, initialValue) {
+// Initialize state here
+}
+steps:
+
+- |
   import { useState } from 'react';
 
   function useLocalStorage(key, initialValue) {
-    // Initialize state here
+  // Initialize state here
   }
-steps:
-  - |
-    import { useState } from 'react';
 
-    function useLocalStorage(key, initialValue) {
-      // Initialize state here
-    }
-  - |
-    import { useState } from 'react';
+- |
+  import { useState } from 'react';
 
-    function useLocalStorage(key, initialValue) {
-      // Initialize our state
-      const [storedValue, setStoredValue] = useState(() => {
-        try {
-          // Get from local storage by key
-          const item = window.localStorage.getItem(key);
-          // Return parsed JSON or initialValue
-          return item ? JSON.parse(item) : initialValue;
-        } catch (error) {
-          console.error(error);
-          return initialValue;
-        }
-      });
-    }
-  - |
-    import { useState } from 'react';
+  function useLocalStorage(key, initialValue) {
+  // Initialize our state
+  const [storedValue, setStoredValue] = useState(() => {
+  try {
+  // Get from local storage by key
+  const item = window.localStorage.getItem(key);
+  // Return parsed JSON or initialValue
+  return item ? JSON.parse(item) : initialValue;
+  } catch (error) {
+  console.error(error);
+  return initialValue;
+  }
+  });
+  }
 
-    function useLocalStorage(key, initialValue) {
-      // Initialize our state
-      const [storedValue, setStoredValue] = useState(() => {
-        try {
-          // Get from local storage by key
-          const item = window.localStorage.getItem(key);
-          // Return parsed JSON or initialValue
-          return item ? JSON.parse(item) : initialValue;
-        } catch (error) {
-          console.error(error);
-          return initialValue;
-        }
-      });
+- |
+  import { useState } from 'react';
 
-      // Define setter function that updates state and localStorage
-      const setValue = (value) => {
-        try {
-          // Allow value to be a function
-          const valueToStore =
-            value instanceof Function ? value(storedValue) : value;
-          // Save state
-          setStoredValue(valueToStore);
-          // Save to local storage
-          window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        } catch (error) {
-          console.error(error);
-        }
-      };
+      function useLocalStorage(key, initialValue) {
+        // Initialize our state
+        const [storedValue, setStoredValue] = useState(() => {
+          try {
+            // Get from local storage by key
+            const item = window.localStorage.getItem(key);
+            // Return parsed JSON or initialValue
+            return item ? JSON.parse(item) : initialValue;
+          } catch (error) {
+            console.error(error);
+            return initialValue;
+          }
+        });
 
-      return [storedValue, setValue];
-    }
-language: javascript
-voiceover: Let's build our hook step by step. We'll start with the basic structure, then add initialization from localStorage, and finally implement the setter function.
+        // Define setter function that updates state and localStorage
+        const setValue = (value) => {
+          try {
+            // Allow value to be a function
+            const valueToStore =
+              value instanceof Function ? value(storedValue) : value;
+            // Save state
+            setStoredValue(valueToStore);
+            // Save to local storage
+            window.localStorage.setItem(key, JSON.stringify(valueToStore));
+          } catch (error) {
+            console.error(error);
+          }
+        };
+
+        return [storedValue, setValue];
+      }
+
+  language: javascript
+  voiceover: Let's build our hook step by step. We'll start with the basic structure, then add initialization from localStorage, and finally implement the setter function.
+
 ---
 
 layout: default
@@ -107,22 +113,22 @@ voiceover: Now that we've implemented our hook, let's see it in action with a si
 
 ```jsx
 function UserProfile() {
-  const [user, setUser] = useLocalStorage('user', { name: '', theme: 'light' });
+  const [user, setUser] = useLocalStorage('user', { name: '', theme: 'light' })
 
   const updateName = (event) => {
-    setUser({ ...user, name: event.target.value });
-  };
+    setUser({ ...user, name: event.target.value })
+  }
 
   const toggleTheme = () => {
-    setUser({ ...user, theme: user.theme === 'light' ? 'dark' : 'light' });
-  };
+    setUser({ ...user, theme: user.theme === 'light' ? 'dark' : 'light' })
+  }
 
   return (
     <div className={`profile ${user.theme}`}>
-      <input value={user.name} onChange={updateName} placeholder="Your name" />
+      <input value={user.name} onChange={updateName} placeholder='Your name' />
       <button onClick={toggleTheme}>Toggle Theme</button>
     </div>
-  );
+  )
 }
 ```
 
@@ -130,121 +136,127 @@ function UserProfile() {
 
 layout: slideshow
 code: |
-  function useLocalStorage(key, initialValue) {
-    // Our hook implementation
-  }
+function useLocalStorage(key, initialValue) {
+// Our hook implementation
+}
 steps:
-  - |
-    function useLocalStorage(key, initialValue) {
-      const [storedValue, setStoredValue] = useState(() => {
-        try {
-          const item = window.localStorage.getItem(key);
-          return item ? JSON.parse(item) : initialValue;
-        } catch (error) {
-          console.error(error);
-          return initialValue;
-        }
-      });
 
-      const setValue = (value) => {
-        try {
-          const valueToStore =
-            value instanceof Function ? value(storedValue) : value;
-          setStoredValue(valueToStore);
-          window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        } catch (error) {
-          console.error(error);
-        }
-      };
+- |
+  function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+  try {
+  const item = window.localStorage.getItem(key);
+  return item ? JSON.parse(item) : initialValue;
+  } catch (error) {
+  console.error(error);
+  return initialValue;
+  }
+  });
 
-      return [storedValue, setValue];
-    }
-  - |
-    function useLocalStorage(key, initialValue) {
-      const [storedValue, setStoredValue] = useState(() => {
-        try {
-          const item = window.localStorage.getItem(key);
-          return item ? JSON.parse(item) : initialValue;
-        } catch (error) {
-          console.error(error);
-          return initialValue;
-        }
-      });
+  const setValue = (value) => {
+  try {
+  const valueToStore =
+  value instanceof Function ? value(storedValue) : value;
+  setStoredValue(valueToStore);
+  window.localStorage.setItem(key, JSON.stringify(valueToStore));
+  } catch (error) {
+  console.error(error);
+  }
+  };
 
-      const setValue = (value) => {
-        try {
-          const valueToStore =
-            value instanceof Function ? value(storedValue) : value;
-          setStoredValue(valueToStore);
-          window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        } catch (error) {
-          console.error(error);
-        }
-      };
+  return [storedValue, setValue];
+  }
 
-      // Add effect to sync with localStorage changes
-      useEffect(() => {
-        const handleStorageChange = (event) => {
-          if (event.key === key) {
-            setStoredValue(JSON.parse(event.newValue));
+- |
+  function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+  try {
+  const item = window.localStorage.getItem(key);
+  return item ? JSON.parse(item) : initialValue;
+  } catch (error) {
+  console.error(error);
+  return initialValue;
+  }
+  });
+
+  const setValue = (value) => {
+  try {
+  const valueToStore =
+  value instanceof Function ? value(storedValue) : value;
+  setStoredValue(valueToStore);
+  window.localStorage.setItem(key, JSON.stringify(valueToStore));
+  } catch (error) {
+  console.error(error);
+  }
+  };
+
+  // Add effect to sync with localStorage changes
+  useEffect(() => {
+  const handleStorageChange = (event) => {
+  if (event.key === key) {
+  setStoredValue(JSON.parse(event.newValue));
+  }
+  };
+
+      window.addEventListener('storage', handleStorageChange);
+      return () => window.removeEventListener('storage', handleStorageChange);
+
+  }, [key]);
+
+  return [storedValue, setValue];
+  }
+
+- |
+  function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+  try {
+  const item = window.localStorage.getItem(key);
+  return item ? JSON.parse(item) : initialValue;
+  } catch (error) {
+  console.error(error);
+  return initialValue;
+  }
+  });
+
+        const setValue = (value) => {
+          try {
+            const valueToStore =
+              value instanceof Function ? value(storedValue) : value;
+            setStoredValue(valueToStore);
+            window.localStorage.setItem(key, JSON.stringify(valueToStore));
+          } catch (error) {
+            console.error(error);
           }
         };
 
-        window.addEventListener('storage', handleStorageChange);
-        return () => window.removeEventListener('storage', handleStorageChange);
-      }, [key]);
+        // Add effect to sync with localStorage changes
+        useEffect(() => {
+          const handleStorageChange = (event) => {
+            if (event.key === key) {
+              setStoredValue(JSON.parse(event.newValue));
+            }
+          };
 
-      return [storedValue, setValue];
-    }
-  - |
-    function useLocalStorage(key, initialValue) {
-      const [storedValue, setStoredValue] = useState(() => {
-        try {
-          const item = window.localStorage.getItem(key);
-          return item ? JSON.parse(item) : initialValue;
-        } catch (error) {
-          console.error(error);
-          return initialValue;
-        }
-      });
+          window.addEventListener('storage', handleStorageChange);
+          return () => window.removeEventListener('storage', handleStorageChange);
+        }, [key]);
 
-      const setValue = (value) => {
-        try {
-          const valueToStore =
-            value instanceof Function ? value(storedValue) : value;
-          setStoredValue(valueToStore);
-          window.localStorage.setItem(key, JSON.stringify(valueToStore));
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      // Add effect to sync with localStorage changes
-      useEffect(() => {
-        const handleStorageChange = (event) => {
-          if (event.key === key) {
-            setStoredValue(JSON.parse(event.newValue));
+        // Add remove function
+        const remove = () => {
+          try {
+            window.localStorage.removeItem(key);
+            setStoredValue(initialValue);
+          } catch (error) {
+            console.error(error);
           }
         };
 
-        window.addEventListener('storage', handleStorageChange);
-        return () => window.removeEventListener('storage', handleStorageChange);
-      }, [key]);
+        return [storedValue, setValue, remove];
+      }
 
-      // Add remove function
-      const remove = () => {
-        try {
-          window.localStorage.removeItem(key);
-          setStoredValue(initialValue);
-        } catch (error) {
-          console.error(error);
-        }
-      };
+  language: javascript
+  voiceover: Let's enhance our hook to handle synchronization across tabs and add a remove function, making it more robust for real-world applications.
 
-      return [storedValue, setValue, remove];
-    }
-language: javascript
-voiceover: Let's enhance our hook to handle synchronization across tabs and add a remove function, making it more robust for real-world applications.
 ---
 
 layout: cover
