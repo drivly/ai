@@ -34,6 +34,7 @@ import { generateEmbeddingTask } from './data/generateEmbeddingTask'
 
 import { inflectNounsTask } from './language/inflectNouns'
 import { conjugateVerbsTask } from './language/conjugateVerbs'
+import { analyzeFunctionTask } from './language/analyzeFunction'
 import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './language/schemaUtils'
 
 import { handleGithubEvent } from './integrations/handleGithubEvent'
@@ -131,6 +132,7 @@ export const tasks = [
 
   inflectNounsTask,
   conjugateVerbsTask,
+  analyzeFunctionTask,
 
   deliverWebhookTask,
   initiateComposioConnectionTask,
