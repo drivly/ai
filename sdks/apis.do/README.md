@@ -358,12 +358,49 @@ try {
 
 ## 🔒 Authentication
 
-APIs.do supports multiple authentication methods:
+APIs.do supports multiple authentication methods, with different recommendations based on your environment:
 
-### SDK Authentication
+### Browser Authentication (Recommended for Client-Side Code)
+
+For browser environments, OAuth-based authentication is strongly recommended for security:
 
 ```typescript
-// API Key Authentication (recommended)
+// Browser environment - no explicit credentials needed
+// Uses secure cookies from OAuth authentication
+const api = new API()
+
+// Handle authentication errors by redirecting to login
+try {
+  const data = await api.list('products')
+} catch (error) {
+  if (error.status === 401) {
+    // Redirect to OAuth login with return URL
+    window.location.href = 'https://apis.do/login?redirect=' + encodeURIComponent(window.location.href)
+  }
+}
+```
+
+The OAuth flow works as follows:
+1. User is redirected to `https://apis.do/login`
+2. User authenticates using the authorization code flow
+3. Secure, HttpOnly cookies are set with credentials
+4. Cookies are automatically sent with subsequent API requests
+5. No credentials are exposed in client-side code
+
+### Secure Cookie Requirements
+
+For cross-domain cookie authentication to work properly:
+- Cookies must have the `HttpOnly` flag to prevent JavaScript access
+- Cookies must have the `Secure` flag to ensure HTTPS-only transmission
+- Cookies must use appropriate `SameSite` attributes (typically 'None' with Secure flag)
+- Your application domain must be registered as an allowed origin
+
+### Server-Side Authentication
+
+For server-side environments, API key authentication is recommended:
+
+```typescript
+// API Key Authentication (recommended for server-side)
 const api = new API({
   apiKey: 'your-api-key',
 })
@@ -375,7 +412,7 @@ const api = new API({
   },
 })
 
-// OAuth Token
+// OAuth Token (alternative for server-side)
 const api = new API({
   headers: {
     Authorization: `Bearer ${oauthToken}`,
@@ -453,21 +490,28 @@ const customThings = await api.things.find({ type: 'custom' })
 
 ## 🌐 Browser Usage
 
-APIs.do works seamlessly in browser environments:
+APIs.do works seamlessly in browser environments using secure OAuth authentication:
 
 ```html
 <script type="module">
   import { API } from 'https://cdn.jsdelivr.net/npm/apis.do/dist/index.js'
 
   const api = new API({
-    apiKey: 'your-api-key',
+    // No explicit API key - uses cookies from OAuth authentication
   })
+
+  // NOTE: User must first log in via OAuth at https://apis.do/login
+  // This will set secure cookies that will be automatically sent with API requests
 
   async function loadData() {
     try {
       const data = await api.list('products')
       document.getElementById('products').innerHTML = data.data.map((product) => `<li>${product.name} - $${product.price}</li>`).join('')
     } catch (error) {
+      // Handle authentication errors
+      if (error.status === 401) {
+        window.location.href = 'https://apis.do/login?redirect=' + encodeURIComponent(window.location.href)
+      }
       console.error('Failed to load products:', error)
     }
   }

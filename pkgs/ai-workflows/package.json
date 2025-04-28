@@ -20,7 +20,8 @@
     "test": "echo \"No tests\" && exit 0"
   },
   "dependencies": {
-    "ai-functions": "0.3.0"
+    "ai-functions": "0.3.0",
+    "workflows.do": "0.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

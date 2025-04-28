@@ -691,6 +691,9 @@ importers:
       ai-functions:
         specifier: 0.3.0
         version: link:../ai-functions
+      workflows.do:
+        specifier: 0.1.0
+        version: link:../../sdks/workflows.do
     devDependencies:
       '@types/node':
         specifier: ^22.0.0

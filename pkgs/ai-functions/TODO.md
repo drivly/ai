@@ -31,6 +31,7 @@
   - [x] Update README.md with usage examples
   - [x] Write unit tests for all features
   - [x] Add support for AI_GATEWAY environment variable
+  - [x] Convert mocked tests to integration tests using real providers
   - [ ] Add JSDoc comments
   - [ ] Create additional usage examples
 

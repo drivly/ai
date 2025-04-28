@@ -7,6 +7,7 @@ export default defineConfig({
     snapshotFormat: {
       printBasicPrototype: true,
     },
+    testTimeout: 10000, // Add timeout for external API calls
   },
   resolve: {
     alias: {
