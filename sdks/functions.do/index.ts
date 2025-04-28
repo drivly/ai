@@ -97,6 +97,20 @@ const callMarkdownAPI = async (request: any): Promise<MarkdownOutput> => {
     const mockResponse: any = {
       markdown: '# Mock Markdown\n\nThis is a mock markdown response for testing.',
       html: '<h1>Mock Markdown</h1><p>This is a mock markdown response for testing.</p>',
+      mdast: {
+        type: 'root',
+        children: [
+          {
+            type: 'heading',
+            depth: 1,
+            children: [{ type: 'text', value: 'Mock Markdown' }]
+          },
+          {
+            type: 'paragraph',
+            children: [{ type: 'text', value: 'This is a mock markdown response for testing.' }]
+          }
+        ]
+      }
     }
 
     for (const key in schema) {
