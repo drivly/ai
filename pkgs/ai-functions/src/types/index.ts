@@ -5,6 +5,7 @@ export interface AIFunctionOptions {
   maxTokens?: number
   schema?: any
   output?: 'array' | 'enum' | 'no-schema'
+  iterator?: boolean
   [key: string]: any
 }
 

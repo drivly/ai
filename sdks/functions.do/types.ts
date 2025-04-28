@@ -1,4 +1,5 @@
 import type { DatabaseClient } from 'database.do'
+import type { Root } from 'mdast'
 
 export type ModelName = string
 
@@ -13,13 +14,29 @@ export interface AIConfig {
 // Markdown output type
 export interface MarkdownOutput {
   markdown: string
-  mdast: any
+  mdast: Root
 }
 
 export interface VideoOutput {
   outputPath: string
   duration: number
   size: number
+}
+
+/**
+ * TypeScript AST node interface
+ */
+export interface TypeScriptASTNode {
+  kind: string;
+}
+
+/**
+ * Generated TypeScript code response
+ */
+export interface GeneratedTypeScriptCode {
+  code: string;
+  ast?: TypeScriptASTNode;
+  diagnostics?: { message: string; line?: number; column?: number }[];
 }
 
 // Generic AI function type
@@ -88,6 +105,7 @@ export interface ConfigurableAIProxy {
 export type AIProxy = {
   [K: string]: AIFunction<any, any> &
     (<T = any>(input?: any, config?: AIConfig) => Promise<T>) &
+    (<T = any>(schema: FunctionDefinition, config?: AIConfig) => (input: any, inputConfig?: AIConfig) => Promise<T>) &
     (<T = any>(input?: any, schema?: FunctionDefinition, config?: AIConfig) => Promise<T>)
 } & TaggedTemplateFunction &
   ConfigurableAIProxy

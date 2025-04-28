@@ -39,6 +39,12 @@ const text = await ai`Write a short story about a robot`
 // Generate a list of items
 const items = await list`List 5 programming languages`
 
+// Generate a list with async iterator support
+const languages = await list`List 10 programming languages`({ iterator: true })
+for await (const language of languages) {
+  console.log(`Processing language: ${language}`)
+}
+
 // Generate markdown content
 const markdown = await markdown`
 Create a README for a TypeScript library
