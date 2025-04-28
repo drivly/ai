@@ -5441,7 +5441,9 @@ export interface WorkflowHandleGithubEvent {
 export interface Auth {
   [k: string]: unknown;
 }
-}
+
+
+
 
 /**
  * Workflow step configuration

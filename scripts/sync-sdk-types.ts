@@ -16,7 +16,12 @@ const apisDoTypesPath = join(__dirname, '../sdks/apis.do/types.ts')
 
 const payloadTypesContent = readFileSync(payloadTypesPath, 'utf8')
 
-const cleanedPayloadTypes = payloadTypesContent.replace(/\s*declare module ['"]payload['"] {[\s\S]*?}\s*}/, '}')
+const moduleDeclarationIndex = payloadTypesContent.indexOf('declare module \'payload\'')
+let cleanedPayloadTypes = payloadTypesContent
+
+if (moduleDeclarationIndex !== -1) {
+  cleanedPayloadTypes = payloadTypesContent.substring(0, moduleDeclarationIndex)
+}
 
 // Read the existing SDK types file
 const sdkTypesContent = readFileSync(apisDoTypesPath, 'utf8')
