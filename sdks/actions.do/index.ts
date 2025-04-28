@@ -1,6 +1,21 @@
 import { api } from 'apis.do'
 import { Action, ActionConfig } from './types'
 
+let ComposioActionTypes: any;
+try {
+  ComposioActionTypes = require('./generated/types').ComposioActionTypes;
+} catch (e) {
+  ComposioActionTypes = {};
+}
+
+type IntegrationsType = {
+  [integrationName: string]: {
+    [actionName: string]: (
+      params: Record<string, any>
+    ) => Promise<any>
+  }
+}
+
 /**
  * Client for managing workflow actions
  */
@@ -54,13 +69,39 @@ export const actions = {
 
   /**
    * Execute an action
-   * @param id - Action ID
+   * @param id - Action ID or dot notation (e.g., 'github.createIssue')
    * @param params - Execution parameters
    * @returns Action execution result
    */
-  execute: async (id: string, params?: Record<string, any>): Promise<any> => {
-    return api.post<any>(`/v1/actions/${id}/execute`, params)
+  execute: async <T = any>(id: string, params?: Record<string, any>): Promise<T> => {
+    return api.post<T>(`/v1/actions/${id}/execute`, params)
   },
+
+  /**
+   * Integration actions with typed interfaces
+   * Populated dynamically at runtime
+   */
+  integrations: {} as IntegrationsType
 }
+
+const handler = {
+  get: (target: any, prop: string) => {
+    if (!(prop in target)) {
+      target[prop] = new Proxy({}, {
+        get: (actionTarget: any, actionProp: string) => {
+          if (!(actionProp in actionTarget)) {
+            actionTarget[actionProp] = (params: any) => {
+              return actions.execute(`${prop}.${actionProp}`, params)
+            }
+          }
+          return actionTarget[actionProp]
+        }
+      })
+    }
+    return target[prop]
+  }
+}
+
+actions.integrations = new Proxy({}, handler) as IntegrationsType
 
 export * from './types'

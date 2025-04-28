@@ -54,6 +54,15 @@ async function resolveActionId(api: string, actionName: string): Promise<string 
       return directMatch.id
     }
 
+    const apiUpper = api.toUpperCase()
+    const actionUpper = actionName.replace(/([A-Z])/g, '_$1').toUpperCase()
+    const composioStyleId = `${apiUpper}_${actionUpper.startsWith('_') ? actionUpper.substring(1) : actionUpper}`
+    
+    const composioMatch = allActions.find((a) => a.id === composioStyleId)
+    if (composioMatch) {
+      return composioMatch.id
+    }
+
     // Match by API prefix and action name
     const apiPrefix = `${api}:`
     const matchingApiActions = allActions.filter((a) => a.id.startsWith(apiPrefix))

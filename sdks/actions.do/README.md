@@ -84,6 +84,18 @@ const result = await actions.execute('github.createIssue', {
 
 // Access strongly-typed response data
 console.log(`Created issue #${result.number}: ${result.html_url}`)
+
+// Or use the strongly-typed integration actions interface
+const issueResult = await actions.integrations.github.createIssue({
+  owner: 'drivly',
+  repo: 'ai',
+  title: 'Implement new feature',
+  body: 'We need to implement this new feature',
+  labels: ['enhancement'],
+})
+
+// TypeScript will provide auto-completion and type checking
+console.log(`Created issue #${issueResult.number}: ${issueResult.html_url}`)
 ```
 
 ### Discovering Available Actions
