@@ -338,7 +338,7 @@ describe('functions.do', () => {
         features: ['string']
       }
       
-      const curriedFunction = ai.generateProduct(schema)
+      const curriedFunction = ai.generateProduct(schema) as any
       
       const result = await curriedFunction({
         category: 'Electronics',
@@ -355,7 +355,7 @@ describe('functions.do', () => {
         bio: 'string',
       }
       
-      const curriedFunction = ai.generateProfile(schema, { temperature: 0.7 })
+      const curriedFunction = ai.generateProfile(schema, { temperature: 0.7 }) as any
       
       const result = await curriedFunction(
         { industry: 'Technology' },
@@ -375,7 +375,7 @@ describe('functions.do', () => {
         parse: (input: any) => input,
       }
       
-      const curriedFunction = ai.generateContent(mockZodSchema)
+      const curriedFunction = ai.generateContent(mockZodSchema) as any
       
       const result = await curriedFunction({
         topic: 'AI Functions',
