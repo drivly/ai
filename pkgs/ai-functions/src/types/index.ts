@@ -1,20 +1,4 @@
-// Define our own types since GenerateObjectOptions is not exported from 'ai'
-export interface AIFunctionOptions {
-  model?: string | any
-  temperature?: number
-  maxTokens?: number
-  schema?: any
-  output?: 'array' | 'enum' | 'no-schema'
-  iterator?: boolean
-  [key: string]: any
-}
-
-export interface AIFunctionConfig {
-  model?: string | any
-  temperature?: number
-  maxTokens?: number
-  [key: string]: any
-}
+// Define our own types that will serve as the foundation
 
 export type ModelName = string
 
@@ -24,22 +8,23 @@ export interface AIConfig {
   temperature?: number
   seed?: number
   schema?: Record<string, any>
+  maxTokens?: number
+  output?: 'array' | 'enum' | 'no-schema'
+  iterator?: boolean
+  includeAnalysis?: boolean
+  [key: string]: any
 }
 
-// Generic AI function type
 export type AIFunction<TInput = any, TOutput = any> = {
   (input: TInput, config?: AIConfig): Promise<TOutput>
 }
 
-// Types for function definitions
-// Define StringArray as an array of string literals to help TypeScript better infer element types
 export type StringArray = Array<string>
 
 export type SchemaValue = string | StringArray | { [key: string]: SchemaValue } | SchemaValue[]
 
 export type FunctionDefinition = Record<string, SchemaValue>
 
-// Helper type to convert schema to output type
 export type SchemaToOutput<T extends FunctionDefinition> = {
   [K in keyof T]: T[K] extends Array<any>
     ? T[K] extends Array<string>
@@ -50,6 +35,33 @@ export type SchemaToOutput<T extends FunctionDefinition> = {
     : T[K] extends Record<string, any>
       ? { [P in keyof T[K]]: SchemaToOutput<{ value: T[K][P] }>['value'] }
       : string
+}
+
+export interface MarkdownOutput {
+  markdown: string
+  mdast: any // Using any for mdast.Root to avoid direct dependency
+}
+
+export interface VideoOutput {
+  outputPath: string
+  duration: number
+  size: number
+}
+
+/**
+ * TypeScript AST node interface
+ */
+export interface TypeScriptASTNode {
+  kind: string
+}
+
+/**
+ * Generated TypeScript code response
+ */
+export interface GeneratedTypeScriptCode {
+  code: string
+  ast?: TypeScriptASTNode
+  diagnostics?: { message: string; line?: number; column?: number }[]
 }
 
 export interface APIAccess {
@@ -69,10 +81,15 @@ export interface DatabaseAccess {
   }
 }
 
-// Dynamic AI instance type
+export type FunctionCallback<TArgs = any> = (args: TArgs, ctx: Context) => Promise<any>
+
 export type AIProxy = {
-  [K: string]: AIFunction<any, any> & (<T = any>(input?: any, config?: AIConfig) => Promise<T>)
-}
+  [K: string]: AIFunction<any, any> & 
+    (<T = any>(input?: any, config?: AIConfig) => Promise<T>) &
+    (<T = any>(schema: FunctionDefinition, config?: AIConfig) => (input: any, inputConfig?: AIConfig) => Promise<T>) &
+    (<T = any>(input?: any, schema?: FunctionDefinition, config?: AIConfig) => Promise<T>)
+} & TaggedTemplateFunction &
+  ConfigurableAIProxy
 
 export interface Context {
   ai: AIProxy
@@ -80,10 +97,6 @@ export interface Context {
   db: DatabaseAccess
 }
 
-// Function callback type
-export type FunctionCallback<TArgs = any> = (args: TArgs, ctx: Context) => Promise<any>
-
-// Main AI function factory type
 export type AI = {
   <T extends Record<string, FunctionDefinition | FunctionCallback>>(
     functions: T,
@@ -93,5 +106,32 @@ export type AI = {
   }
 }
 
-// Helper type to infer array element types
 export type ArrayElementType<T> = T extends (infer U)[] ? U : never
+
+export type TemplateLiteralInput = TemplateStringsArray | [TemplateStringsArray, ...any[]]
+
+export interface TaggedTemplateFunction {
+  (strings: TemplateStringsArray, ...values: any[]): Promise<string>
+}
+
+export interface ConfigurableAIProxy {
+  (config: AIConfig): TaggedTemplateFunction & AIProxy
+}
+
+// Define our own types since GenerateObjectOptions is not exported from 'ai'
+export interface AIFunctionOptions {
+  model?: string | any
+  temperature?: number
+  maxTokens?: number
+  schema?: any
+  output?: 'array' | 'enum' | 'no-schema'
+  iterator?: boolean
+  [key: string]: any
+}
+
+export interface AIFunctionConfig {
+  model?: string | any
+  temperature?: number
+  maxTokens?: number
+  [key: string]: any
+}
