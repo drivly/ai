@@ -55,7 +55,9 @@
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
     "tsconfig": "workspace:*",
-    "vitest": "^3.0.9"
+    "vitest": "^3.0.9",
+    "ts-morph": "^20.0.0",
+    "@types/estree": "^1.0.5"
   },
   "dependencies": {
     "apis.do": "workspace:*",
