@@ -18,6 +18,7 @@
 - `functions.do` SDK define & execute Code functions
 - `functions.do` SDK define & execute Human functions as a `Task`
 - `functions.do` SDK define & execute Agent functions as a `Task`
+- `functions.do` API should determine proper function type, subject/object Nouns, Verb, and Examples
 
 ## LLM
 

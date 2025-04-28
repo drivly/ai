@@ -32,6 +32,20 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   if (!functionName) {
     throw new Error('Missing required parameter: functionName')
   }
+  
+  let functionAnalysis = null;
+  if (!type && !input.settings?.type) {
+    try {
+      const { analyzeFunctionDefinition } = await import('../../utils/functionAnalyzer');
+      functionAnalysis = await analyzeFunctionDefinition(functionName, schema, payload);
+      
+      if (functionAnalysis && functionAnalysis.type) {
+        input.settings = { ...input.settings, type: functionAnalysis.type };
+      }
+    } catch (error) {
+      console.error('Error analyzing function:', error);
+    }
+  }
   const { settings } = input as any
   const start = Date.now()
 

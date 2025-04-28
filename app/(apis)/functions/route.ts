@@ -129,5 +129,39 @@ export const POST = API(async (request, { db, user, url, payload, req }) => {
     return { success: true, function: newFunction }
   }
 
+  if (body.name && (body.analyze !== false)) {
+    try {
+      const { analyzeFunctionDefinition } = await import('@/utils/functionAnalyzer');
+      
+      const { name, shape } = body;
+      
+      const analysis = await analyzeFunctionDefinition(name, shape, payload);
+      
+      if (analysis) {
+        if (!body.type && analysis.type) {
+          body.type = analysis.type;
+        }
+        
+        if (!body.format && analysis.format) {
+          body.format = analysis.format;
+        }
+        
+        body.metadata = {
+          ...body.metadata,
+          semantic: {
+            verb: analysis.verb,
+            subject: analysis.subject,
+            object: analysis.object,
+            verbForms: analysis.verbForms,
+            nounForms: analysis.nounForms,
+            confidence: analysis.confidence
+          }
+        };
+      }
+    } catch (error) {
+      console.error('Error analyzing function:', error);
+    }
+  }
+  
   return { error: 'Invalid action' }
 })
