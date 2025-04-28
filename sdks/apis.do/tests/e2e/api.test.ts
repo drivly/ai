@@ -40,24 +40,6 @@ describe('apis.do E2E API Tests', () => {
   })
 
   it('should list collections using the API client', async () => {
-    if (apiKey === 'test-api-key-mock' || apiKey === 'test-api-key-for-ci') {
-      console.log('Using mock API key, returning mock list data')
-      const mockResult = {
-        data: [
-          { id: 'mock-id-1', name: 'Mock Function 1' },
-          { id: 'mock-id-2', name: 'Mock Function 2' }
-        ],
-        totalDocs: 2,
-        page: 1,
-        totalPages: 1,
-        hasNextPage: false,
-        hasPrevPage: false
-      }
-      expect(mockResult).toBeDefined()
-      expect(Array.isArray(mockResult.data)).toBe(true)
-      return
-    }
-    
     console.log('Listing functions collection...')
     const result = await cli.list('functions')
     expect(result).toBeDefined()
@@ -65,39 +47,6 @@ describe('apis.do E2E API Tests', () => {
   }, testTimeout)
 
   it('should create, get, update, and delete a resource', async () => {
-    if (apiKey === 'test-api-key-mock' || apiKey === 'test-api-key-for-ci') {
-      console.log('Using mock API key, using mock resource data')
-      const testName = generateTestName('func')
-      const mockId = `mock-id-${Date.now()}`
-      
-      const mockCreateResult = {
-        id: mockId,
-        name: testName,
-        description: 'Test resource created during E2E testing',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      }
-      expect(mockCreateResult).toBeDefined()
-      expect(mockCreateResult.id).toBeDefined()
-      
-      const mockGetResult = { ...mockCreateResult }
-      expect(mockGetResult).toBeDefined()
-      expect(mockGetResult.name).toBe(testName)
-      
-      const updateData = {
-        description: 'Updated during E2E testing',
-      }
-      const mockUpdateResult = { 
-        ...mockGetResult, 
-        ...updateData,
-        updatedAt: new Date().toISOString()
-      }
-      expect(mockUpdateResult).toBeDefined()
-      expect(mockUpdateResult.description).toBe(updateData.description)
-      
-      return
-    }
-    
     console.log('Creating new functions...')
     const testName = generateTestName('func')
     const createData = {
@@ -123,11 +72,6 @@ describe('apis.do E2E API Tests', () => {
   }, testTimeout)
 
   it('should execute a function', async () => {
-    if (apiKey === 'test-api-key-mock' || apiKey === 'test-api-key-for-ci') {
-      console.log('Using mock API key, skipping function execution test')
-      return
-    }
-    
     try {
       console.log('Executing function echo...')
       const executeResult = await cli.executeFunction('echo', { message: 'Hello E2E Test' })
