@@ -283,21 +283,18 @@ const createDynamicFunction = <T extends SchemaValue>(name: string, config?: AIC
       html: '<h1>Mock Markdown</h1>'
     }
     
-    // Create a mock function that returns the mock object
-    const mockFunction = function(inputOrSchema: any, configOrOpts?: AIConfig) {
+    // Return a function that handles both patterns
+    return function(inputOrSchema: any, configOrOpts?: AIConfig) {
       if (determineIfSchema(inputOrSchema)) {
         // For curried pattern, return a function that returns the mock object
-        const curriedFunction = function(input: any, inputConfig?: AIConfig) {
-          return mockObject
+        return function(input: any, inputConfig?: AIConfig) {
+          return Promise.resolve(mockObject)
         }
-        return curriedFunction
       }
       
       // For direct call, return the mock object
-      return mockObject
+      return Promise.resolve(mockObject)
     }
-    
-    return mockFunction
   }
   
   // For production environment
@@ -309,9 +306,9 @@ const createDynamicFunction = <T extends SchemaValue>(name: string, config?: AIC
       const schemaConfig = configOrOpts as AIConfig || {}
       
       // Return a function that will be called with the actual input data
-      return function(input: any, inputConfig?: AIConfig) {
+      return async function(input: any, inputConfig?: AIConfig) {
         const mergedConfig = { ...config, ...schemaConfig, ...inputConfig }
-        return createFunction(name, schema, mergedConfig)(input, {})
+        return await createFunction(name, schema, mergedConfig)(input, {})
       }
     } else {
       const input = inputOrSchema
@@ -334,21 +331,18 @@ const createDynamicMarkdownFunction = <T extends SchemaValue>(name: string, conf
       html: '<h1>Mock Markdown</h1>'
     }
     
-    // Create a mock function that returns the mock object
-    const mockFunction = function(inputOrSchema: any, configOrOpts?: AIConfig) {
+    // Return a function that handles both patterns
+    return function(inputOrSchema: any, configOrOpts?: AIConfig) {
       if (determineIfSchema(inputOrSchema)) {
         // For curried pattern, return a function that returns the mock object
-        const curriedFunction = function(input: any, inputConfig?: AIConfig) {
-          return mockObject
+        return function(input: any, inputConfig?: AIConfig) {
+          return Promise.resolve(mockObject)
         }
-        return curriedFunction
       }
       
       // For direct call, return the mock object
-      return mockObject
+      return Promise.resolve(mockObject)
     }
-    
-    return mockFunction
   }
   
   // For production environment
@@ -360,10 +354,10 @@ const createDynamicMarkdownFunction = <T extends SchemaValue>(name: string, conf
       const schemaConfig = configOrOpts as AIConfig || {}
       
       // Return a function that will be called with the actual input data
-      return function(input: any, inputConfig?: AIConfig) {
+      return async function(input: any, inputConfig?: AIConfig) {
         // Merge configs from both calls and specify markdown format
         const mergedConfig = { ...config, ...schemaConfig, ...inputConfig, format: 'markdown' }
-        return createMarkdownFunction(name, schema, mergedConfig)(input, {})
+        return await createMarkdownFunction(name, schema, mergedConfig)(input, {})
       }
     } else {
       const input = inputOrSchema
@@ -462,14 +456,14 @@ export const ai = new Proxy(
           // For other functions in test environment
           return function(inputOrSchema: any, configOrOpts?: AIConfig) {
             if (determineIfSchema(inputOrSchema)) {
-              // Return a function that can be called with input
+              // For curried pattern, return a function that returns the mock object
               return function(input: any, inputConfig?: AIConfig) {
-                return mockObject
+                return Promise.resolve(mockObject)
               }
             }
             
-            // Direct call with input data
-            return mockObject
+            // For direct call, return the mock object
+            return Promise.resolve(mockObject)
           }
         }
         

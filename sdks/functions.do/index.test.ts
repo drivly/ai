@@ -140,21 +140,10 @@ describe('functions.do', () => {
     }, 90000)
 
     it('should support markdown generation', async () => {
-      // This test verifies that the generateMarkdown function exists and returns expected properties
-      const mockResult = {
-        markdown: 'Mock Markdown',
-        html: '<h1>Mock Markdown</h1>'
-      }
-      
-      const originalGenerateMarkdown = ai.generateMarkdown
-      ai.generateMarkdown = async () => mockResult
-      
       const result = await ai.generateMarkdown({
         topic: 'AI Functions',
         format: 'tutorial',
       })
-      
-      ai.generateMarkdown = originalGenerateMarkdown
       
       expect(result).toHaveProperty('markdown')
       expect(result).toHaveProperty('html')
@@ -319,11 +308,10 @@ describe('functions.do', () => {
         features: ['string']
       }
       
-      const curriedFunction = ai.generateProduct(schema)
-      
-      const result = await curriedFunction({
-        category: 'Electronics',
-      })
+      const result = await ai.generateProduct(
+        { category: 'Electronics' },
+        { schema }
+      )
       
       expect(result).toHaveProperty('name')
       expect(result).toHaveProperty('description')
@@ -336,11 +324,9 @@ describe('functions.do', () => {
         bio: 'string',
       }
       
-      const curriedFunction = ai.generateProfile(schema, { temperature: 0.7 })
-      
-      const result = await curriedFunction(
+      const result = await ai.generateProfile(
         { industry: 'Technology' },
-        { model: 'test-model' }
+        { schema, temperature: 0.7, model: 'test-model' }
       )
       
       expect(result).toHaveProperty('name')
@@ -356,11 +342,10 @@ describe('functions.do', () => {
         parse: (input: any) => input,
       }
       
-      const curriedFunction = ai.generateContent(mockZodSchema)
-      
-      const result = await curriedFunction({
-        topic: 'AI Functions',
-      })
+      const result = await ai.generateContent(
+        { topic: 'AI Functions' },
+        { schema: mockZodSchema }
+      )
       
       expect(result).toBeDefined()
       expect(typeof result).toBe('object')
