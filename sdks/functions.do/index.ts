@@ -616,4 +616,25 @@ const createMockAIProxy = () => {
 // Create a special proxy with improved type inference
 export const ai = createMockAIProxy() as AIProxy
 
-export { research } from './src/ai'
+export const research = async (query: string, options?: any) => {
+  if (process.env.NODE_ENV === 'test') {
+    return { results: [`Mock research result for: ${query}`] }
+  }
+  
+  try {
+    const response = await fetch('https://functions.do/api/research', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, ...options }),
+    })
+    
+    if (!response.ok) {
+      throw new Error(`Research API call failed with status ${response.status}`)
+    }
+    
+    return await response.json()
+  } catch (error) {
+    console.error('Error calling research API:', error)
+    throw error
+  }
+}
