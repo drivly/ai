@@ -95,6 +95,21 @@ Deregisters a service.
 
 - `id`: Service ID
 
+#### `calculatePrice(id: string, usageData: UsageData): Promise<{ price: number; breakdown?: Record<string, number> }>`
+
+Calculates the price for a service based on usage data.
+
+- `id`: Service ID
+- `usageData`: Usage data for price calculation
+- Returns: Total price and breakdown by component
+
+#### `recordUsage(id: string, usageData: UsageData): Promise<any>`
+
+Records usage data for a service.
+
+- `id`: Service ID
+- `usageData`: Usage data to record
+
 ## Types
 
 ### `ServiceDefinition`
@@ -105,6 +120,7 @@ interface ServiceDefinition {
   description?: string
   endpoint: string
   version?: string
+  pricing?: PricingScheme
   metadata?: Record<string, any>
 }
 ```
@@ -127,6 +143,36 @@ interface ServiceQuery {
   name?: string
   status?: 'active' | 'inactive' | 'degraded'
   [key: string]: any
+}
+```
+
+### `PricingScheme`
+
+```typescript
+type PricingScheme = 
+  | { type: 'input', ratePerInputUnit: number, unitName: string } 
+  | { type: 'output', ratePerOutputUnit: number, unitName: string }
+  | { type: 'usage', metric: 'time'|'calls'|'compute', rate: number, unitName: string }
+  | { type: 'action', actions: Record<string, number> }
+  | { type: 'outcome', outcomes: Record<string, number> }
+  | { type: 'costPlus', markupPercent: number } 
+  | { type: 'margin', percentOfValue: number }
+  | { type: 'hybrid', baseFee: number, variableScheme: PricingScheme }
+```
+
+### `UsageData`
+
+```typescript
+interface UsageData {
+  inputs?: number
+  outputs?: number
+  actions?: Record<string, number>
+  outcomes?: Record<string, boolean | number>
+  directCost?: number
+  outcomeValue?: number
+  usageTimeHours?: number
+  apiCalls?: number
+  computeUnits?: number
 }
 ```
 
