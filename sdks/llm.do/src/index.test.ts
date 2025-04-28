@@ -1,20 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ReadableStream } from 'node:stream/web'
-
-vi.unmock('./index')
+import { LLMClient, ChatMessage } from './index'
 
 const mockAPI = vi.hoisted(() => ({
   post: vi.fn()
 }))
 
-// Only mock apis.do, not the LLMClient
+// Mock only apis.do, not the LLMClient
 vi.mock('apis.do', () => {
   return {
     API: vi.fn().mockImplementation(() => mockAPI)
   }
 })
-
-import { LLMClient, ChatMessage } from './index'
 
 describe('LLMClient', () => {
   let client: LLMClient
