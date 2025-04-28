@@ -61,6 +61,10 @@
 
 - `databases.do` SDK Generate Databases
 
+## Integrations
+
+- `integrations.do` API create `connection` for a user & integration
+
 ## Agents
 
 - `agents.do` SDK Define `Agent`

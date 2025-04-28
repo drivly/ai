@@ -13,10 +13,10 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
   }
 
   const body = await request.json()
-  const { integrationId, taskId, redirectUrl } = body
+  const { integrationId, taskId, redirectUrl, metadata = {} } = body
 
   if (!integrationId) {
-    return new Response(JSON.stringify({ error: 'Integration ID is required' }), { status: 400 })
+    return new Response(JSON.stringify({ error: 'Integration ID is required', details: null }), { status: 400 })
   }
 
   const payloadInstance = await getPayload({ config })
@@ -42,6 +42,8 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
       metadata: {
         taskId,
         createdAt: new Date().toISOString(),
+        lastUsed: new Date().toISOString(),
+        ...metadata,
       },
     },
   })
@@ -73,7 +75,11 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
       id: connection.id,
       data: {
         status: 'rejected',
-        metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, { error: data }),
+        metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, { 
+          error: data,
+          errorTimestamp: new Date().toISOString(),
+          errorStatus: response.status
+        }),
       },
     })
 

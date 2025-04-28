@@ -310,6 +310,7 @@ const api = new API({
 | Method                                                   | Description           |
 | -------------------------------------------------------- | --------------------- |
 | `get<T>(path: string, params?: QueryParams): Promise<T>` | Make a GET request    |
+| `get<T>(collection: string, id: string): Promise<T>`     | Get an item by ID     |
 | `post<T>(path: string, data: any): Promise<T>`           | Make a POST request   |
 | `put<T>(path: string, data: any): Promise<T>`            | Make a PUT request    |
 | `patch<T>(path: string, data: any): Promise<T>`          | Make a PATCH request  |
