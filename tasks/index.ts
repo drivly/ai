@@ -5,6 +5,7 @@ import { generateCodeTask } from './ai/generateCode'
 import { generateFunctionExamplesTask } from './ai/generateFunctionExamples'
 import { requestHumanFeedbackTask } from './ai/requestHumanFeedback'
 import { monitorHumanFeedbackTaskConfig } from './ai/monitorHumanFeedbackTask'
+import { executeAgentFunctionConfig } from './ai/executeAgentFunction'
 import { updateSlackMessageTask } from './ai/updateSlackMessage'
 import { sendResearchResultsToSlackTask } from './ai/sendResearchResultsToSlack'
 import { executeTextFunction } from './ai/executeTextFunction'
@@ -106,6 +107,7 @@ export const tasks = [
   generateCodeTask,
   requestHumanFeedbackTask,
   monitorHumanFeedbackTaskConfig,
+  executeAgentFunctionConfig,
   updateSlackMessageTask,
   processBatchOpenAITask,
   processBatchAnthropicTask,

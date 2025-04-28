@@ -161,10 +161,6 @@ export const executeFunction = async ({ input, req, payload }: any) => {
       })
     }
   } else if (isAgentFunction) {
-    const { AgentsClient } = await import('../../sdks/agents.do/src')
-    
-    const agentsClient = new AgentsClient()
-    
     const agentId = functionDoc?.agent || args.agent || settings?.agent
 
     if (!agentId) {
@@ -188,29 +184,25 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         },
       })
 
-      const agentResponse = await agentsClient.execute(agentId, {
-        prompt: args.prompt || args.input || JSON.stringify(args),
-        context: args.context || settings?.context,
-      }, {
-        taskId: task.id,
-        ...settings?.agentOptions,
-      })
-
-      await payload.update({
-        collection: 'tasks',
-        id: task.id,
-        data: {
-          status: 'completed',
-          metadata: {
-            ...task.metadata,
-            completedAt: new Date().toISOString(),
-            response: agentResponse,
-          },
+      const agentJobResult = await payload.jobs.queue({
+        task: 'executeAgentFunction',
+        input: {
+          agentId,
+          prompt: args.prompt || args.input || JSON.stringify(args),
+          context: args.context || settings?.context,
+          taskId: task.id,
+          options: settings?.agentOptions,
         },
       })
 
-      object = agentResponse
-      reasoning = `Agent function executed. Task ID: ${task.id}, Agent ID: ${agentId}`
+      object = { 
+        taskId: task.id,
+        status: 'in-progress',
+        message: `Agent function execution queued: ${functionName} with agent: ${agentId}`,
+        jobId: agentJobResult.id
+      }
+      
+      reasoning = `Agent function execution queued. Task ID: ${task.id}, Agent ID: ${agentId}`
       generationLatency = Date.now() - start
       request = { functionName, agentId, args, settings }
     } catch (error: any) {
