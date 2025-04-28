@@ -1,3 +1,5 @@
+import type { DatabaseClient } from 'database.do'
+
 export type ModelName = string
 
 export interface AIConfig {
@@ -58,16 +60,7 @@ export interface APIAccess {
   }
 }
 
-export interface DatabaseAccess {
-  [collection: string]: {
-    create: (data: Record<string, any>) => Promise<{ url: string } & Record<string, any>>
-    findOne: (query: Record<string, any>) => Promise<Record<string, any>>
-    find: (query: Record<string, any>) => Promise<Array<Record<string, any>>>
-    update: (id: string, data: Record<string, any>) => Promise<Record<string, any>>
-    delete: (id: string) => Promise<void>
-    [method: string]: (...args: any[]) => Promise<any>
-  }
-}
+export type DatabaseAccess = DatabaseClient
 
 // Function callback type
 export type FunctionCallback<TArgs = any> = (args: TArgs, ctx: Context) => Promise<any>
