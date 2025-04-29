@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { CheckCircle2 } from 'lucide-react'
 import { signIn, useSession } from 'next-auth/react'
-import { useSearchParams, usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { useApplication } from './application-context'
 import { JobPosition } from './schema'
@@ -48,7 +48,7 @@ export const ApplyWithGitHub = ({ hasApplied, position }: ApplyWithGitHubProps) 
 
     // If user is already authenticated, submit directly
     if (sessionStatus === 'authenticated' && session) {
-      handleSubmitWithAction()
+      handleSubmitWithAction(e)
       return
     }
 
