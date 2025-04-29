@@ -85,7 +85,7 @@ describe('AI Functions', () => {
 
       expect(Array.isArray(result)).toBe(true)
       expect(result.length).toBeGreaterThan(0)
-      result.forEach(item => {
+      result.forEach((item) => {
         expect(typeof item).toBe('string')
       })
     })

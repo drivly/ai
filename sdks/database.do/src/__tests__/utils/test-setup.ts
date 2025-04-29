@@ -6,11 +6,11 @@ export const setupApiStyles = () => {
   const db = DB({
     baseUrl: 'http://localhost:3000',
   })
-  
+
   const dbClient = new DatabaseClient({
     baseUrl: 'http://localhost:3000',
   })
-  
+
   return { db, dbClient }
 }
 
@@ -33,11 +33,11 @@ export const createTestData = async (collection: string, data: any) => {
       },
       body: JSON.stringify(data),
     })
-    
+
     if (!response.ok) {
       throw new Error(`Failed to create test data: ${response.statusText}`)
     }
-    
+
     return await response.json()
   } catch (error) {
     console.error(`Error creating test data in ${collection}:`, error)
@@ -50,11 +50,11 @@ export const cleanupTestData = async (collection: string, id: string) => {
     const response = await fetch(`http://localhost:3000/api/${collection}/${id}`, {
       method: 'DELETE',
     })
-    
+
     if (!response.ok) {
       throw new Error(`Failed to delete test data: ${response.statusText}`)
     }
-    
+
     return await response.json()
   } catch (error) {
     console.error(`Error deleting test data in ${collection}:`, error)

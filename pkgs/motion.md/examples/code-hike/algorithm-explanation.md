@@ -47,34 +47,32 @@ steps:
 - |
   def merge_sort(arr): # Base case: arrays with 0 or 1 element are already sorted
   if len(arr) <= 1:
-  return arr
-      # Recursive case: split the array and sort each half
-      # To be implemented
+  return arr # Recursive case: split the array and sort each half # To be implemented
 - |
   def merge_sort(arr): # Base case: arrays with 0 or 1 element are already sorted
   if len(arr) <= 1:
-  return arr
-      # Recursive case: split the array and sort each half
-      mid = len(arr) // 2
-      left = merge_sort(arr[:mid])
-      right = merge_sort(arr[mid:])
+  return arr # Recursive case: split the array and sort each half
+  mid = len(arr) // 2
+  left = merge_sort(arr[:mid])
+  right = merge_sort(arr[mid:])
 
       # Merge the sorted halves
       # To be implemented
+
 - |
   def merge_sort(arr): # Base case: arrays with 0 or 1 element are already sorted
   if len(arr) <= 1:
-  return arr
-          # Recursive case: split the array and sort each half
-          mid = len(arr) // 2
-          left = merge_sort(arr[:mid])
-          right = merge_sort(arr[mid:])
+  return arr # Recursive case: split the array and sort each half
+  mid = len(arr) // 2
+  left = merge_sort(arr[:mid])
+  right = merge_sort(arr[mid:])
 
           # Merge the sorted halves
           return merge(left, right)
 
       def merge(left, right):
           # To be implemented
+
   voiceover: Let's build our Merge Sort algorithm step-by-step. We start with the base case and implement the recursive division process.
 
 ---
@@ -94,46 +92,45 @@ steps:
 
 - |
   def merge(left, right): # Function to merge two sorted arrays
-  result = []
-      # Compare elements from both arrays and add the smaller one to result
-      # To be implemented
+  result = [] # Compare elements from both arrays and add the smaller one to result # To be implemented
 
       return result
+
 - |
   def merge(left, right): # Function to merge two sorted arrays
   result = []
-  i = j = 0
-      # Compare elements from both arrays and add the smaller one to result
-      while i < len(left) and j < len(right):
-          if left[i] <= right[j]:
-              result.append(left[i])
-              i += 1
-          else:
-              result.append(right[j])
-              j += 1
+  i = j = 0 # Compare elements from both arrays and add the smaller one to result
+  while i < len(left) and j < len(right):
+  if left[i] <= right[j]:
+  result.append(left[i])
+  i += 1
+  else:
+  result.append(right[j])
+  j += 1
 
       # Add remaining elements
       # To be implemented
 
       return result
+
 - |
   def merge(left, right): # Function to merge two sorted arrays
   result = []
-  i = j = 0
-          # Compare elements from both arrays and add the smaller one to result
-          while i < len(left) and j < len(right):
-              if left[i] <= right[j]:
-                  result.append(left[i])
-                  i += 1
-              else:
-                  result.append(right[j])
-                  j += 1
+  i = j = 0 # Compare elements from both arrays and add the smaller one to result
+  while i < len(left) and j < len(right):
+  if left[i] <= right[j]:
+  result.append(left[i])
+  i += 1
+  else:
+  result.append(right[j])
+  j += 1
 
           # Add remaining elements
           result.extend(left[i:])
           result.extend(right[j:])
 
           return result
+
   voiceover: Now we'll implement the merge function that combines two sorted arrays into a single sorted array.
 
 ---
@@ -170,7 +167,6 @@ return arr
 
       return merge(left, right)
 
-
 def merge(left, right):
 result = []
 i = j = 0
@@ -192,66 +188,75 @@ language: python
 steps:
 
 - |
+
   # Complete Merge Sort implementation
+
   def merge_sort(arr):
   if len(arr) <= 1:
   return arr
-      mid = len(arr) // 2
-      left = merge_sort(arr[:mid])
-      right = merge_sort(arr[mid:])
+  mid = len(arr) // 2
+  left = merge_sort(arr[:mid])
+  right = merge_sort(arr[mid:])
 
       return merge(left, right)
+
   def merge(left, right):
   result = []
   i = j = 0
-      while i < len(left) and j < len(right):
-          if left[i] <= right[j]:
-              result.append(left[i])
-              i += 1
-          else:
-              result.append(right[j])
-              j += 1
+  while i < len(left) and j < len(right):
+  if left[i] <= right[j]:
+  result.append(left[i])
+  i += 1
+  else:
+  result.append(right[j])
+  j += 1
 
       result.extend(left[i:])
       result.extend(right[j:])
 
       return result
+
 - |
+
   # Complete Merge Sort implementation
+
   def merge_sort(arr):
   if len(arr) <= 1:
   return arr
-      mid = len(arr) // 2
-      left = merge_sort(arr[:mid])
-      right = merge_sort(arr[mid:])
+  mid = len(arr) // 2
+  left = merge_sort(arr[:mid])
+  right = merge_sort(arr[mid:])
 
       return merge(left, right)
+
   def merge(left, right):
   result = []
   i = j = 0
-      while i < len(left) and j < len(right):
-          if left[i] <= right[j]:
-              result.append(left[i])
-              i += 1
-          else:
-              result.append(right[j])
-              j += 1
+  while i < len(left) and j < len(right):
+  if left[i] <= right[j]:
+  result.append(left[i])
+  i += 1
+  else:
+  result.append(right[j])
+  j += 1
 
       result.extend(left[i:])
       result.extend(right[j:])
 
       return result
+
   # Example usage
+
   arr = [38, 27, 43, 3, 9, 82, 10]
   sorted_arr = merge_sort(arr)
   print("Original array:", arr)
   print("Sorted array:", sorted_arr)
+
 - | # Optimized Merge Sort implementation with in-place merging
   def merge_sort(arr):
   if len(arr) <= 1:
-  return arr
-          # Create a temporary array for merging
-          temp = [0] * len(arr)
+  return arr # Create a temporary array for merging
+  temp = [0] \* len(arr)
 
           # Call the helper function with indices
           return _merge_sort(arr, temp, 0, len(arr) - 1)
@@ -294,6 +299,7 @@ steps:
               arr[k] = temp[i]
               i += 1
               k += 1
+
   voiceover: Here's our complete Merge Sort implementation. We can optimize it further by using in-place merging to reduce memory allocation during sorting.
 
 ---

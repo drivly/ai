@@ -228,21 +228,21 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     }
   }
 
-  const cfAsOrg = cf?.asOrganization?.toString();
-  const vercelIpOrg = request.headers.get('x-vercel-ip-org');
+  const cfAsOrg = cf?.asOrganization?.toString()
+  const vercelIpOrg = request.headers.get('x-vercel-ip-org')
   // Get Cloudflare asOrganization from custom header added in middleware
-  const cfAsOrgHeader = request.headers.get('x-cf-as-organization');
+  const cfAsOrgHeader = request.headers.get('x-cf-as-organization')
   const asOrg = await asOrgPromise
 
-  console.log('ISP Debug:', { 
+  console.log('ISP Debug:', {
     requestId: request.headers.get('cf-ray') || request.headers.get('x-vercel-id'),
     cfAsOrg,
     cfAsOrgHeader,
-    vercelIpOrg, 
+    vercelIpOrg,
     asOrg,
     asn,
-    finalIsp: cfAsOrg || cfAsOrgHeader || vercelIpOrg || asOrg || 'Unknown ISP'
-  });
+    finalIsp: cfAsOrg || cfAsOrgHeader || vercelIpOrg || asOrg || 'Unknown ISP',
+  })
 
   return {
     authenticated: false, // This would be determined by authentication logic
@@ -308,13 +308,15 @@ export function getApiHeader(request: NextRequest, description?: string, isAuthe
     name: domain,
     description: description || 'Economically valuable work delivered through simple APIs',
     home: origin,
-    ...(isAuthenticated ? {
-      upgrade: origin + '/upgrade',
-      account: origin + '/account',
-    } : {
-      login: origin + '/login',
-      signup: origin + '/signup',
-    }),
+    ...(isAuthenticated
+      ? {
+          upgrade: origin + '/upgrade',
+          account: origin + '/account',
+        }
+      : {
+          login: origin + '/login',
+          signup: origin + '/signup',
+        }),
     admin: origin + '/admin',
     docs: origin + '/docs',
     repo: 'https://github.com/drivly/ai',

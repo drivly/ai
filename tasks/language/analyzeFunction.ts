@@ -21,8 +21,8 @@ export const analyzeFunctionTask = {
     { name: 'confidence', type: 'number' },
   ],
   handler: async ({ input, req }: { input: { name: string; schema?: any }; req: any }) => {
-    const { name, schema } = input;
-    const result = await analyzeFunctionDefinition(name, schema, req.payload);
-    return result;
+    const { name, schema } = input
+    const result = await analyzeFunctionDefinition(name, schema, req.payload)
+    return result
   },
 } as unknown as TaskConfig

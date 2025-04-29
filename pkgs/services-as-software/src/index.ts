@@ -1,5 +1,5 @@
-import type { ServiceDefinition, RegisteredService } from './types';
-import { calculatePrice } from './pricing';
+import type { ServiceDefinition, RegisteredService } from './types'
+import { calculatePrice } from './pricing'
 
 /**
  * Create a service with objectives, key results, and pricing models
@@ -7,18 +7,18 @@ import { calculatePrice } from './pricing';
  * @returns Service object with additional methods
  */
 export function Service(definition: ServiceDefinition) {
-  validateServiceDefinition(definition);
+  validateServiceDefinition(definition)
 
   const service = {
     ...definition,
-    
+
     /**
      * Calculate the price for this service
      * @param params Parameters for price calculation
      * @returns Calculated price
      */
     calculatePrice(params?: Parameters<typeof calculatePrice>[1]) {
-      return calculatePrice(definition.pricing, params);
+      return calculatePrice(definition.pricing, params)
     },
 
     /**
@@ -28,9 +28,9 @@ export function Service(definition: ServiceDefinition) {
      */
     async register(options?: { apiKey?: string; baseUrl?: string }): Promise<RegisteredService> {
       try {
-        const { Services } = await import('services.do');
-        const services = new Services(options);
-        
+        const { Services } = await import('services.do')
+        const services = new Services(options)
+
         const serviceDefinition = {
           name: definition.name,
           description: definition.description,
@@ -41,22 +41,22 @@ export function Service(definition: ServiceDefinition) {
             objective: definition.objective,
             keyResults: definition.keyResults,
             pricing: definition.pricing,
-            implementation: definition.implementation
-          }
-        };
-        
-        const registeredService = await services.register(serviceDefinition);
-        
+            implementation: definition.implementation,
+          },
+        }
+
+        const registeredService = await services.register(serviceDefinition)
+
         return {
           ...definition,
           id: registeredService.id,
           status: registeredService.status as 'active' | 'inactive' | 'degraded',
           endpoint: registeredService.endpoint,
           createdAt: registeredService.createdAt,
-          updatedAt: registeredService.updatedAt
-        };
+          updatedAt: registeredService.updatedAt,
+        }
       } catch (error) {
-        console.warn('Failed to register with services.do, using mock implementation', error);
+        console.warn('Failed to register with services.do, using mock implementation', error)
         return {
           ...definition,
           id: generateId(),
@@ -64,7 +64,7 @@ export function Service(definition: ServiceDefinition) {
           endpoint: `https://api.services.do/services/${generateId()}`,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
-        };
+        }
       }
     },
 
@@ -73,11 +73,11 @@ export function Service(definition: ServiceDefinition) {
      * @param results Record of key result updates
      */
     trackProgress(results: Record<string, number>) {
-      definition.keyResults.forEach(kr => {
+      definition.keyResults.forEach((kr) => {
         if (kr.description in results) {
-          kr.currentValue = results[kr.description];
+          kr.currentValue = results[kr.description]
         }
-      });
+      })
     },
 
     /**
@@ -85,15 +85,11 @@ export function Service(definition: ServiceDefinition) {
      * @returns Whether all key results have been achieved
      */
     isObjectiveAchieved(): boolean {
-      return definition.keyResults.every(kr => 
-        kr.currentValue !== undefined && 
-        kr.target !== undefined && 
-        kr.currentValue >= kr.target
-      );
-    }
-  };
+      return definition.keyResults.every((kr) => kr.currentValue !== undefined && kr.target !== undefined && kr.currentValue >= kr.target)
+    },
+  }
 
-  return service;
+  return service
 }
 
 /**
@@ -102,51 +98,51 @@ export function Service(definition: ServiceDefinition) {
  * @throws Error if the definition is invalid
  */
 function validateServiceDefinition(definition: ServiceDefinition) {
-  const { name, objective, keyResults, pricing, implementation } = definition;
+  const { name, objective, keyResults, pricing, implementation } = definition
 
   if (!name) {
-    throw new Error('Service name is required');
+    throw new Error('Service name is required')
   }
 
   if (!objective || !objective.description) {
-    throw new Error('Service objective with description is required');
+    throw new Error('Service objective with description is required')
   }
 
   if (!keyResults || !Array.isArray(keyResults) || keyResults.length === 0) {
-    throw new Error('At least one key result is required');
+    throw new Error('At least one key result is required')
   }
 
   if (!pricing || !pricing.model) {
-    throw new Error('Service pricing model is required');
+    throw new Error('Service pricing model is required')
   }
 
   if (!implementation || !implementation.type || !implementation.id) {
-    throw new Error('Service implementation details are required');
+    throw new Error('Service implementation details are required')
   }
 
   switch (pricing.model) {
     case 'cost-based':
       if (pricing.costBase === undefined) {
-        throw new Error('Cost base is required for cost-based pricing');
+        throw new Error('Cost base is required for cost-based pricing')
       }
-      break;
+      break
     case 'margin-based':
       if (pricing.costBase === undefined || pricing.marginPercentage === undefined) {
-        throw new Error('Cost base and margin percentage are required for margin-based pricing');
+        throw new Error('Cost base and margin percentage are required for margin-based pricing')
       }
-      break;
+      break
     case 'activity-based':
       if (!pricing.activities || !Array.isArray(pricing.activities) || pricing.activities.length === 0) {
-        throw new Error('At least one activity is required for activity-based pricing');
+        throw new Error('At least one activity is required for activity-based pricing')
       }
-      break;
+      break
     case 'outcome-based':
       if (!pricing.outcomes || !Array.isArray(pricing.outcomes) || pricing.outcomes.length === 0) {
-        throw new Error('At least one outcome is required for outcome-based pricing');
+        throw new Error('At least one outcome is required for outcome-based pricing')
       }
-      break;
+      break
     default:
-      throw new Error(`Unsupported pricing model: ${(pricing as any).model}`);
+      throw new Error(`Unsupported pricing model: ${(pricing as any).model}`)
   }
 }
 
@@ -155,9 +151,8 @@ function validateServiceDefinition(definition: ServiceDefinition) {
  * @returns Unique ID string
  */
 function generateId(): string {
-  return Math.random().toString(36).substring(2, 15) + 
-         Math.random().toString(36).substring(2, 15);
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 }
 
-export * from './types';
-export * from './pricing';
+export * from './types'
+export * from './pricing'

@@ -15,7 +15,6 @@ import { ai } from 'functions.do'
 const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
 ```
 
-
 ### `api`
 
 The `api` object provides access to not only all of the core `.do` APIs, but also tens of thousands of searches and actions from third-party [integrations](/docs/integrations):
@@ -32,7 +31,6 @@ const result = await api.stripe.createInvoice({
   description: 'Pay-as-you-go usage',
 })
 ```
-
 
 ## `db`
 
@@ -205,7 +203,6 @@ const amy = Agent({
 export const refundOrder = (orderId: number) => amy.do`refund order ${orderId} and send the customer confirmation`
 ```
 
-
 ## `Business`
 
 The `Business` function allows [Business](/docs/business) goals to be defined through [Objectives](/docs/business/objectives) and [Key Results](/docs/business/key-results):
@@ -330,5 +327,3 @@ const db = DB({
   },
 })
 ```
-
-

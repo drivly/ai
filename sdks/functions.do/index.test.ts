@@ -144,7 +144,7 @@ describe('functions.do', () => {
         topic: 'AI Functions',
         format: 'tutorial',
       })
-      
+
       expect(result).toHaveProperty('markdown')
       expect(result).toHaveProperty('html')
     }, 90000)
@@ -172,15 +172,15 @@ describe('functions.do', () => {
       const mockAi: any = {
         testFunction: () => Promise.resolve({ name: 'test', description: 'test' }),
       }
-      const mockDb = { 
-        resources: {}, 
+      const mockDb = {
+        resources: {},
         api: {},
-        find: async () => ({}), 
-        findOne: async () => ({}), 
-        create: async () => ({}), 
-        update: async () => ({}), 
+        find: async () => ({}),
+        findOne: async () => ({}),
+        create: async () => ({}),
+        update: async () => ({}),
         delete: async () => ({}),
-        search: async () => ({ data: [] })
+        search: async () => ({ data: [] }),
       }
       const result = await functions.testCallback({ test: 123 }, { ai: mockAi, api: {}, db: mockDb as any })
 
@@ -213,15 +213,15 @@ describe('functions.do', () => {
 
       // Also verify we can call the callback explicitly
       const mockAi: any = {} // Create a mock AI instance
-      const mockDb = { 
-        resources: {}, 
+      const mockDb = {
+        resources: {},
         api: {},
-        find: async () => ({}), 
-        findOne: async () => ({}), 
-        create: async () => ({}), 
-        update: async () => ({}), 
+        find: async () => ({}),
+        findOne: async () => ({}),
+        create: async () => ({}),
+        update: async () => ({}),
         delete: async () => ({}),
-        search: async () => ({ data: [] })
+        search: async () => ({ data: [] }),
       }
       const result = await functions.launchStartup({}, { ai: mockAi, api: {}, db: mockDb as any })
       expect(result).toEqual({ initialized: true })
@@ -242,15 +242,15 @@ describe('functions.do', () => {
       })
 
       const mockAi: any = {} // Create a mock AI instance
-      const mockDb = { 
-        resources: {}, 
+      const mockDb = {
+        resources: {},
         api: {},
-        find: async () => ({}), 
-        findOne: async () => ({}), 
-        create: async () => ({}), 
-        update: async () => ({}), 
+        find: async () => ({}),
+        findOne: async () => ({}),
+        create: async () => ({}),
+        update: async () => ({}),
         delete: async () => ({}),
-        search: async () => ({ data: [] })
+        search: async () => ({ data: [] }),
       }
       const result = await functions.launchStartup({ test: 'async' }, { ai: mockAi, api: {}, db: mockDb as any })
       const namingResults = await functions.nameStartup({ test: 'async' })
@@ -335,37 +335,34 @@ describe('functions.do', () => {
       const schema = {
         name: 'string',
         description: 'string',
-        features: ['string']
+        features: ['string'],
       }
-      
+
       const curriedFunction = ai.generateProduct(schema) as any
-      
+
       const result = await curriedFunction({
         category: 'Electronics',
       })
-      
+
       expect(result).toHaveProperty('name')
       expect(result).toHaveProperty('description')
       expect(Array.isArray(result.features)).toBe(true)
     }, 90000)
-    
+
     it('should merge configs from both calls correctly', async () => {
       const schema = {
         name: 'string',
         bio: 'string',
       }
-      
+
       const curriedFunction = ai.generateProfile(schema, { temperature: 0.7 }) as any
-      
-      const result = await curriedFunction(
-        { industry: 'Technology' },
-        { model: 'test-model' }
-      )
-      
+
+      const result = await curriedFunction({ industry: 'Technology' }, { model: 'test-model' })
+
       expect(result).toHaveProperty('name')
       expect(result).toHaveProperty('bio')
     }, 90000)
-    
+
     it('should recognize Zod schema in curried pattern', async () => {
       const mockZodSchema = {
         shape: {
@@ -374,28 +371,25 @@ describe('functions.do', () => {
         },
         parse: (input: any) => input,
       }
-      
+
       const curriedFunction = ai.generateContent(mockZodSchema) as any
-      
+
       const result = await curriedFunction({
         topic: 'AI Functions',
       })
-      
+
       expect(result).toBeDefined()
       expect(typeof result).toBe('object')
     }, 90000)
-    
+
     it('should handle schema in config for basic pattern', async () => {
       const schema = {
         name: 'string',
-        summary: 'string'
+        summary: 'string',
       }
-      
-      const result = await ai.describeThing(
-        { thing: 'Quantum Computer' },
-        { schema }
-      )
-      
+
+      const result = await ai.describeThing({ thing: 'Quantum Computer' }, { schema })
+
       expect(result).toHaveProperty('name')
       expect(result).toHaveProperty('summary')
     }, 90000)
