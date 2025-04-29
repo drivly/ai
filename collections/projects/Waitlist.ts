@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Waitlist: CollectionConfig = {
   slug: 'waitlist',
   admin: {
-    group: 'Admin',
+    group: 'Projects',
     useAsTitle: 'email',
     description: 'Manages waitlist email submissions',
   },

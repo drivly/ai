@@ -15,7 +15,7 @@ export const Actions: CollectionConfig = {
     { name: 'verbId', type: 'relationship', relationTo: 'verbs' },
     { name: 'parameters', type: 'json' },
     { name: 'result', type: 'json' },
-    { name: 'relationships', type: 'join', collection: 'actions', on: 'action' },
+    // { name: 'relationships', type: 'join' , collection: 'relationships', on: 'action' },
   ],
   access: {
     create: () => false,

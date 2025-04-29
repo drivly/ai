@@ -1,11 +1,11 @@
 import { CollectionConfig } from 'payload'
 
-const Config: CollectionConfig = {
+export const Config: CollectionConfig = {
   slug: 'config',
   admin: {
     useAsTitle: 'path',
     description: 'Configuration for .ai folder synchronization',
-    group: 'Sync',
+    group: 'Admin',
   },
   access: {
     read: () => true,
@@ -181,5 +181,3 @@ const Config: CollectionConfig = {
   ],
   timestamps: true,
 }
-
-export default Config
