@@ -3,6 +3,8 @@
  * DO NOT EDIT DIRECTLY - This file is generated at build time
  */
 
-export const ACTION_NAMES = ['github.createIssue'] as const
+export const ACTION_NAMES = [
+  "github.createIssue"
+] as const;
 
-export type ActionName = (typeof ACTION_NAMES)[number]
+export type ActionName = (typeof ACTION_NAMES)[number];
