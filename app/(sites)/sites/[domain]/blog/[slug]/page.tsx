@@ -12,6 +12,7 @@ import { getBlogPostBySlug } from '../blog-posts'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string; slug: string }> }) {
   const { domain, slug } = await params
+  
   const post = await getBlogPostBySlug(domain, slug)
   return {
     title: post?.title,

@@ -1,7 +1,5 @@
-import type { Metadata } from 'next'
 import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
-
-export const dynamic = 'force-dynamic'
+import type { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = (await params) || {}

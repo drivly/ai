@@ -7,6 +7,14 @@ import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { getGlowColor } from '@/domains.config'
 import { Metadata, ResolvingMetadata } from 'next'
 import { getContent } from './content'
+import { domains } from '@/domains.config'
+
+export const revalidate = 86400 // 1 day
+export const dynamicParams = true
+
+export const generateStaticParams = async () => {
+  return domains.map((domain) => ({ domain }))
+}
 
 // export const revalidate = 86400
 
@@ -15,8 +23,6 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
   const content = await getContent(domain)
 
   const siteUrl = new URL(`https://${domain}`)
-  const previousOpenGraphImages = (await parent).openGraph?.images || []
-  const previousTwitterImages = (await parent).twitter?.images || []
 
   return {
     title: content.seo.title,
@@ -24,18 +30,17 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
     keywords: content.seo.keywords,
     metadataBase: siteUrl,
     openGraph: {
-      images: [`${siteUrl}/og`, ...previousOpenGraphImages],
+      images: [`${siteUrl}/og`],
     },
     twitter: {
-      images: [`${siteUrl}/twitter`, ...previousTwitterImages],
+      images: [`${siteUrl}/twitter`],
     },
   }
 }
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
-async function DotDoPage(props: { params: { domain: string }; searchParams?: { [key: string]: string | string[] | undefined } }) {
+async function DotDoPage(props: { params: { domain: string } }) {
   const { domain } = props.params
-  const searchParams = props.searchParams
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'workflows.do')
   const content = await getContent(domain)
