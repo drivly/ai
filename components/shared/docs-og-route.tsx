@@ -38,14 +38,13 @@ export async function GET(request: NextRequest) {
           alignItems: 'center',
           justifyContent: 'center',
           height: '100%',
-        }}
-      >
+        }}>
         {/* @ts-expect-error */}
         <img src={backgroundSrc} height='630' alt='logo' />
         <div style={{ fontFamily: 'IBM-med' }} tw='absolute left-[90px] top-[87px] text-[47.25px] leading-normal'>
           .do/
         </div>
-        <div style={{ fontFamily: 'IBM-med' }} tw='absolute left-[90px] top-[350px] w-[670px] tracking-tight text-[72px] leading-normal'>
+        <div style={{ fontFamily: 'IBM-med' }} tw='absolute left-[90px] top-[350px] w-[1020px] tracking-tight text-[72px] leading-normal'>
           {title}
         </div>
         <div style={{ fontFamily: 'IBM-reg' }} tw='text-[40px] text-[#949494] tracking-tight mt-[10px] absolute left-[90px] bottom-[90px]'>
