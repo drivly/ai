@@ -8,6 +8,8 @@ import { getGlowColor } from '@/domains.config'
 import { Metadata, ResolvingMetadata } from 'next'
 import { getContent } from './content'
 
+export const revalidate = 86400
+
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }, parent: ResolvingMetadata): Promise<Metadata> {
   const { domain } = await params
   const content = await getContent(domain)
