@@ -23,6 +23,8 @@ const withNextra = nextra({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Generate static HTML files for all routes
+  output: 'export',
   // Using Turbopack for faster builds and better performance
   turbopack: {
     resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
