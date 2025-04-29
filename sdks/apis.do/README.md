@@ -427,16 +427,16 @@ The CLI provides a browser-based authentication flow:
 
 ```bash
 # Login via browser
-apis login
+apis.do login
 
 # Login with an existing API key
-apis login YOUR_API_KEY
+apis.do login YOUR_API_KEY
 
 # Logout and remove stored credentials
-apis logout
+apis.do logout
 ```
 
-When using `apis login` without a token, the CLI will:
+When using `apis.do login` without a token, the CLI will:
 
 1. Open your default browser to the login page
 2. Allow you to authenticate with your account
