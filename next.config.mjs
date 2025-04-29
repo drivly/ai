@@ -16,6 +16,9 @@ const withNextra = nextra({
   contentDirBasePath: '/content',
   defaultShowCopyCode: true,
   latex: true,
+  search: {
+    codeblocks: true
+  }
 })
 
 /** @type {import('next').NextConfig} */
