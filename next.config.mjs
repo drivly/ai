@@ -24,8 +24,6 @@ const nextConfig = {
   turbopack: {
     resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
   },
-  // Generate static HTML files for all routes
-  output: 'export',
 }
 
 // Configure bundle analyzer to run only when ANALYZE=true
