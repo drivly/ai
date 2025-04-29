@@ -2,8 +2,6 @@ import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { findSiteContent } from '@/lib/sites'
 import { Metadata } from 'next'
 
-export const dynamic = 'force-dynamic'
-
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const { domain } = (await params) || {}
   const content = await findSiteContent(domain)

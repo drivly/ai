@@ -4,16 +4,17 @@ import { ExtendedUser } from '@/auth'
 import { track } from '@vercel/analytics/server'
 import { addContact } from './contact.action'
 import { sendWelcomeEmail } from './email.action'
-import { sendSlackAlert } from './send-slack-alert'
+import { sendSlackAlert } from './slack.action'
 
 export const handleWaitlistActions = async (user: ExtendedUser, domain: string) => {
   const firstName = user.name?.split(' ')[0] || user.email?.split('@')[0] || ''
   const lastName = user.name?.split(' ').slice(1).join(' ') || ''
+  const email = user.email || user.github?.email || ''
 
   try {
     await track('User joined waitlist', {
       name: user.name || 'unknown',
-      email: user.email || '',
+      email,
       photo: user.image || 'unknown',
       domain: domain,
     })
@@ -22,10 +23,11 @@ export const handleWaitlistActions = async (user: ExtendedUser, domain: string) 
   }
 
   try {
-    await sendSlackAlert('New Waitlist Signup', {
+    await sendSlackAlert('waitlist', {
       Name: user.name || firstName,
-      Email: user.email,
+      Email: email,
       Photo: user.image || 'unknown',
+      Profile: user.github?.profileUrl,
       Domain: domain,
       Timestamp: new Date().toISOString(),
     })
@@ -34,14 +36,14 @@ export const handleWaitlistActions = async (user: ExtendedUser, domain: string) 
   }
 
   try {
-    await addContact(user.email || '', firstName, lastName)
+    await addContact(email, firstName, lastName)
   } catch (error) {
     console.error('Contact creation failed:', error)
   }
 
   try {
     await sendWelcomeEmail({
-      email: user.email || '',
+      email,
       name: firstName,
       host: `dotdo.ai`,
     })
