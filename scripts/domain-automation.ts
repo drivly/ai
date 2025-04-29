@@ -536,10 +536,7 @@ async function updateEmailRoutingToWorker(zoneId: string, domain: string): Promi
     const rules = rulesData.result || []
 
     const rulesToUpdate = rules.filter((rule: any) => {
-      return rule.actions.some((action: any) => 
-        action.type === 'forward' && 
-        action.value.includes('emails-do@drivly.com')
-      )
+      return rule.actions.some((action: any) => action.type === 'forward' && action.value.includes('emails-do@drivly.com'))
     })
 
     if (rulesToUpdate.length === 0) {
@@ -578,7 +575,6 @@ async function updateEmailRoutingToWorker(zoneId: string, domain: string): Promi
     return false
   }
 }
-
 
 /**
  * Add domain to Vercel project
@@ -701,10 +697,10 @@ async function automateDomainsSetup() {
 
           if (dnsAdded) {
             console.log(`Successfully added Vercel DNS records for ${domain}`)
-            
+
             console.log(`Enabling email routing for ${domain}...`)
             const emailRoutingEnabled = await enableCloudflareEmailRouting(newZone.id, domain)
-            
+
             if (emailRoutingEnabled) {
               console.log(`Successfully enabled email routing for ${domain}`)
             } else {
@@ -719,12 +715,12 @@ async function automateDomainsSetup() {
       }
     } else {
       console.log(`Checking email routing for existing domain ${domain}...`)
-      
+
       if (dryRun) {
         console.log(`[DRY RUN] Would check and update email routing for ${domain}`)
       } else {
         const emailRoutingUpdated = await updateEmailRoutingToWorker(cloudflareZone.id, domain)
-        
+
         if (emailRoutingUpdated) {
           console.log(`Successfully updated email routing for ${domain}`)
         } else {

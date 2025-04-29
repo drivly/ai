@@ -14,20 +14,17 @@ import { Service } from 'services-as-software'
 const exampleService = Service({
   name: 'Content Generation Service',
   objective: 'Provide high-quality content generation that increases marketing efficiency',
-  keyResults: [
-    'Reduce content creation time by 50%',
-    'Maintain content quality score of 8+'
-  ],
+  keyResults: ['Reduce content creation time by 50%', 'Maintain content quality score of 8+'],
   pricing: {
     model: 'cost-based',
     costBase: 10,
     fixedCosts: 5,
-    variableCosts: 2
+    variableCosts: 2,
   },
   implementation: {
     type: 'function',
-    id: 'content-generator-123'
-  }
+    id: 'content-generator-123',
+  },
 })
 ```
 
@@ -45,19 +42,19 @@ The `Service` function enables Functions, Workflows, and Agents to be offered as
 
 ```ts
 // Register the service
-const registeredService = await exampleService.register();
+const registeredService = await exampleService.register()
 
 // Calculate price
-const price = exampleService.calculatePrice({ quantity: 5 });
+const price = exampleService.calculatePrice({ quantity: 5 })
 
 // Track progress towards key results
 exampleService.trackProgress({
   'Reduce content creation time': 30,
-  'Maintain content quality score': 9
-});
+  'Maintain content quality score': 9,
+})
 
 // Check if objective is achieved
-const achieved = exampleService.isObjectiveAchieved();
+const achieved = exampleService.isObjectiveAchieved()
 ```
 
 ## Pricing Models
@@ -75,12 +72,12 @@ const service = Service({
     model: 'cost-based',
     costBase: 100,
     fixedCosts: 50,
-    variableCosts: 10
-  }
-});
+    variableCosts: 10,
+  },
+})
 
 // Calculate price for 5 units
-const price = service.calculatePrice({ quantity: 5 }); // 200 (100 + 50 + 10*5)
+const price = service.calculatePrice({ quantity: 5 }) // 200 (100 + 50 + 10*5)
 ```
 
 ### Margin-based Pricing
@@ -93,12 +90,12 @@ const service = Service({
   pricing: {
     model: 'margin-based',
     costBase: 100,
-    marginPercentage: 20
-  }
-});
+    marginPercentage: 20,
+  },
+})
 
 // Calculate price for 2 units
-const price = service.calculatePrice({ quantity: 2 }); // 240 (100*2 + 20% margin)
+const price = service.calculatePrice({ quantity: 2 }) // 240 (100*2 + 20% margin)
 ```
 
 ### Activity-based Pricing
@@ -113,19 +110,19 @@ const service = Service({
     activities: [
       { name: 'research', rate: 50 },
       { name: 'writing', rate: 100 },
-      { name: 'editing', rate: 30 }
-    ]
-  }
-});
+      { name: 'editing', rate: 30 },
+    ],
+  },
+})
 
 // Calculate price based on activities performed
 const price = service.calculatePrice({
   activities: {
     research: 2,
     writing: 1,
-    editing: 3
-  }
-}); // 290 (50*2 + 100*1 + 30*3)
+    editing: 3,
+  },
+}) // 290 (50*2 + 100*1 + 30*3)
 ```
 
 ### Outcome-based Pricing
@@ -139,18 +136,18 @@ const service = Service({
     model: 'outcome-based',
     outcomes: [
       { metric: 'conversion-rate', targetValue: 5, price: 500 },
-      { metric: 'engagement', targetValue: 10000, price: 300 }
-    ]
-  }
-});
+      { metric: 'engagement', targetValue: 10000, price: 300 },
+    ],
+  },
+})
 
 // Calculate price based on achieved outcomes
 const price = service.calculatePrice({
   outcomes: {
     'conversion-rate': 6.5,
-    'engagement': 8000
-  }
-}); // 500 (only conversion-rate target was met)
+    engagement: 8000,
+  },
+}) // 500 (only conversion-rate target was met)
 ```
 
 ## Implementation Types
@@ -169,13 +166,13 @@ const functionAsService = Service({
   pricing: {
     model: 'cost-based',
     costBase: 5,
-    variableCosts: 0.01
+    variableCosts: 0.01,
   },
   implementation: {
     type: 'function',
-    id: 'text-summarizer-function'
-  }
-});
+    id: 'text-summarizer-function',
+  },
+})
 ```
 
 ### Workflow as a Service
@@ -192,14 +189,14 @@ const workflowAsService = Service({
     activities: [
       { name: 'research', rate: 100 },
       { name: 'writing', rate: 200 },
-      { name: 'editing', rate: 50 }
-    ]
+      { name: 'editing', rate: 50 },
+    ],
   },
   implementation: {
     type: 'workflow',
-    id: 'content-production-workflow'
-  }
-});
+    id: 'content-production-workflow',
+  },
+})
 ```
 
 ### Agent as a Service
@@ -210,20 +207,17 @@ Offer autonomous agents as services with outcome-based pricing.
 const agentAsService = Service({
   name: 'Customer Support Agent',
   objective: 'Provide excellent customer support',
-  keyResults: [
-    'Maintain customer satisfaction score of 4.5+',
-    'Keep first response time under 5 minutes'
-  ],
+  keyResults: ['Maintain customer satisfaction score of 4.5+', 'Keep first response time under 5 minutes'],
   pricing: {
     model: 'outcome-based',
     outcomes: [
       { metric: 'resolutionRate', targetValue: 95, price: 1000 },
-      { metric: 'satisfactionScore', targetValue: 4.8, price: 500 }
-    ]
+      { metric: 'satisfactionScore', targetValue: 4.8, price: 500 },
+    ],
   },
   implementation: {
     type: 'agent',
-    id: 'customer-support-agent'
-  }
-});
+    id: 'customer-support-agent',
+  },
+})
 ```

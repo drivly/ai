@@ -35,9 +35,7 @@ export const Services: CollectionConfig = {
       admin: {
         description: 'Business objective this service aims to achieve',
       },
-      fields: [
-        { name: 'description', type: 'textarea', required: true },
-      ],
+      fields: [{ name: 'description', type: 'textarea', required: true }],
     },
     {
       name: 'keyResults',
@@ -169,44 +167,44 @@ export const Services: CollectionConfig = {
     beforeChange: [
       async ({ data }) => {
         if (!data.pricing || !data.pricing.model) {
-          throw new Error('Service pricing model is required');
+          throw new Error('Service pricing model is required')
         }
-        
+
         if (!data.implementation || !data.implementation.type || !data.implementation.id) {
-          throw new Error('Service implementation details are required');
+          throw new Error('Service implementation details are required')
         }
-        
+
         if (data.pricing.model === 'cost-based' && !data.pricing.costBase) {
-          throw new Error('Cost base is required for cost-based pricing');
+          throw new Error('Cost base is required for cost-based pricing')
         }
-        
+
         if (data.pricing.model === 'margin-based') {
           if (!data.pricing.costBase) {
-            throw new Error('Cost base is required for margin-based pricing');
+            throw new Error('Cost base is required for margin-based pricing')
           }
           if (!data.pricing.marginPercentage) {
-            throw new Error('Margin percentage is required for margin-based pricing');
+            throw new Error('Margin percentage is required for margin-based pricing')
           }
         }
-        
+
         if (data.pricing.model === 'activity-based' && (!data.pricing.activities || data.pricing.activities.length === 0)) {
-          throw new Error('At least one activity is required for activity-based pricing');
+          throw new Error('At least one activity is required for activity-based pricing')
         }
-        
+
         if (data.pricing.model === 'outcome-based' && (!data.pricing.outcomes || data.pricing.outcomes.length === 0)) {
-          throw new Error('At least one outcome is required for outcome-based pricing');
+          throw new Error('At least one outcome is required for outcome-based pricing')
         }
-        
-        return data;
+
+        return data
       },
     ],
     afterChange: [
       async ({ doc, req }) => {
         try {
-          return doc;
+          return doc
         } catch (error) {
-          console.error('Error in service afterChange hook:', error);
-          return doc;
+          console.error('Error in service afterChange hook:', error)
+          return doc
         }
       },
     ],

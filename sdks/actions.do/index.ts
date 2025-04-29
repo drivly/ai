@@ -1,18 +1,16 @@
 import { api } from 'apis.do'
 import { Action, ActionConfig } from './types'
 
-let ComposioActionTypes: any;
+let ComposioActionTypes: any
 try {
-  ComposioActionTypes = require('./generated/types').ComposioActionTypes;
+  ComposioActionTypes = require('./generated/types').ComposioActionTypes
 } catch (e) {
-  ComposioActionTypes = {};
+  ComposioActionTypes = {}
 }
 
 type IntegrationsType = {
   [integrationName: string]: {
-    [actionName: string]: (
-      params: Record<string, any>
-    ) => Promise<any>
+    [actionName: string]: (params: Record<string, any>) => Promise<any>
   }
 }
 
@@ -81,25 +79,28 @@ export const actions = {
    * Integration actions with typed interfaces
    * Populated dynamically at runtime
    */
-  integrations: {} as IntegrationsType
+  integrations: {} as IntegrationsType,
 }
 
 const handler = {
   get: (target: any, prop: string) => {
     if (!(prop in target)) {
-      target[prop] = new Proxy({}, {
-        get: (actionTarget: any, actionProp: string) => {
-          if (!(actionProp in actionTarget)) {
-            actionTarget[actionProp] = (params: any) => {
-              return actions.execute(`${prop}.${actionProp}`, params)
+      target[prop] = new Proxy(
+        {},
+        {
+          get: (actionTarget: any, actionProp: string) => {
+            if (!(actionProp in actionTarget)) {
+              actionTarget[actionProp] = (params: any) => {
+                return actions.execute(`${prop}.${actionProp}`, params)
+              }
             }
-          }
-          return actionTarget[actionProp]
-        }
-      })
+            return actionTarget[actionProp]
+          },
+        },
+      )
     }
     return target[prop]
-  }
+  },
 }
 
 actions.integrations = new Proxy({}, handler) as IntegrationsType

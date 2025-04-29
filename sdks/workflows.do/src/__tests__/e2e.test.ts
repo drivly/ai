@@ -260,14 +260,14 @@ describe('workflows.do SDK - E2E Tests', () => {
           json: () => Promise.resolve({ success: true }),
         })
         globalThis.fetch = mockFetch
-        
+
         const handler = async (event: any) => {
           return { processed: true }
         }
-        
+
         const eventName = 'test.event'
         on(eventName, handler)
-        
+
         expect(mockFetch).toHaveBeenCalledWith(
           expect.stringContaining('/triggers/create'),
           expect.objectContaining({
@@ -276,7 +276,7 @@ describe('workflows.do SDK - E2E Tests', () => {
               'Content-Type': 'application/json',
             }),
             body: expect.stringContaining(eventName),
-          })
+          }),
         )
 
         const requestBody = JSON.parse(mockFetch.mock.calls[0][1].body)
@@ -288,25 +288,22 @@ describe('workflows.do SDK - E2E Tests', () => {
       it('should handle local execution when running on localhost', async () => {
         globalThis.window = {
           location: {
-            hostname: 'localhost'
-          }
+            hostname: 'localhost',
+          },
         } as any
 
         const mockFetch = vi.fn().mockResolvedValue({
           json: () => Promise.resolve({ success: true }),
         })
         globalThis.fetch = mockFetch
-        
+
         const handler = async (event: any) => {
           return { processed: true }
         }
-        
+
         on('local.test.event', handler)
-        
-        expect(mockFetch).toHaveBeenCalledWith(
-          expect.stringContaining('http://localhost:3000/triggers/create'),
-          expect.any(Object)
-        )
+
+        expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('http://localhost:3000/triggers/create'), expect.any(Object))
       })
     })
 
@@ -316,14 +313,14 @@ describe('workflows.do SDK - E2E Tests', () => {
           json: () => Promise.resolve({ success: true }),
         })
         globalThis.fetch = mockFetch
-        
+
         const handler = async (event: any) => {
           return { processed: true }
         }
-        
+
         const cronExpression = '0 0 * * *'
         every(cronExpression, handler)
-        
+
         expect(mockFetch).toHaveBeenCalledWith(
           expect.stringContaining('/cron/schedule'),
           expect.objectContaining({
@@ -332,7 +329,7 @@ describe('workflows.do SDK - E2E Tests', () => {
               'Content-Type': 'application/json',
             }),
             body: expect.stringContaining(cronExpression),
-          })
+          }),
         )
 
         const requestBody = JSON.parse(mockFetch.mock.calls[0][1].body)
@@ -345,18 +342,18 @@ describe('workflows.do SDK - E2E Tests', () => {
           json: () => Promise.resolve({ success: true }),
         })
         globalThis.fetch = mockFetch
-        
+
         const handler = async (event: any) => {
           return { processed: true }
         }
-        
+
         const options = {
           timezone: 'America/New_York',
           enabled: true,
         }
-        
+
         every('0 12 * * *', handler, options)
-        
+
         const requestBody = JSON.parse(mockFetch.mock.calls[0][1].body)
         expect(requestBody.options).toEqual(options)
       })
@@ -364,25 +361,22 @@ describe('workflows.do SDK - E2E Tests', () => {
       it('should handle local execution when running on localhost', async () => {
         globalThis.window = {
           location: {
-            hostname: 'localhost'
-          }
+            hostname: 'localhost',
+          },
         } as any
 
         const mockFetch = vi.fn().mockResolvedValue({
           json: () => Promise.resolve({ success: true }),
         })
         globalThis.fetch = mockFetch
-        
+
         const handler = async (event: any) => {
           return { processed: true }
         }
-        
+
         every('*/5 * * * *', handler)
-        
-        expect(mockFetch).toHaveBeenCalledWith(
-          expect.stringContaining('http://localhost:3000/cron/schedule'),
-          expect.any(Object)
-        )
+
+        expect(mockFetch).toHaveBeenCalledWith(expect.stringContaining('http://localhost:3000/cron/schedule'), expect.any(Object))
       })
     })
 
@@ -398,58 +392,52 @@ describe('workflows.do SDK - E2E Tests', () => {
       it('should handle network errors for on function', async () => {
         const networkError = new Error('Network error')
         globalThis.fetch = vi.fn().mockRejectedValue(networkError)
-        
+
         const handler = async (event: any) => {
           return { processed: true }
         }
-        
+
         on('error.test.event', handler)
-        
-        await new Promise(resolve => setTimeout(resolve, 10))
-        
-        expect(console.error).toHaveBeenCalledWith(
-          'Error creating trigger:',
-          networkError
-        )
+
+        await new Promise((resolve) => setTimeout(resolve, 10))
+
+        expect(console.error).toHaveBeenCalledWith('Error creating trigger:', networkError)
       })
 
       it('should handle network errors for every function', async () => {
         const networkError = new Error('Network error')
         globalThis.fetch = vi.fn().mockRejectedValue(networkError)
-        
+
         const handler = async (event: any) => {
           return { processed: true }
         }
-        
+
         every('0 0 * * *', handler)
-        
-        await new Promise(resolve => setTimeout(resolve, 10))
-        
-        expect(console.error).toHaveBeenCalledWith(
-          'Error scheduling cron task:',
-          networkError
-        )
+
+        await new Promise((resolve) => setTimeout(resolve, 10))
+
+        expect(console.error).toHaveBeenCalledWith('Error scheduling cron task:', networkError)
       })
     })
   })
 
   describe('Integration with test server', () => {
     const hasTestServer = typeof process !== 'undefined' && process.env.TEST_SERVER
-    
+
     ;(hasTestServer ? it : it.skip)('should successfully register an event handler with a test server', async () => {
       const originalFetch = globalThis.fetch
-      
+
       try {
         const handler = async (event: any) => {
           return { processed: true, event }
         }
-        
+
         const uniqueEventName = `test.event.${Date.now()}`
-        
+
         on(uniqueEventName, handler)
-        
-        await new Promise(resolve => setTimeout(resolve, 100))
-        
+
+        await new Promise((resolve) => setTimeout(resolve, 100))
+
         const testServerUrl = process.env.TEST_SERVER || 'http://localhost:3000'
         const response = await fetch(`${testServerUrl}/triggers/test`, {
           method: 'POST',
@@ -458,36 +446,35 @@ describe('workflows.do SDK - E2E Tests', () => {
           },
           body: JSON.stringify({
             event: uniqueEventName,
-            payload: { test: true }
+            payload: { test: true },
           }),
         })
-        
+
         const result = await response.json()
         expect(result.success).toBe(true)
       } finally {
         globalThis.fetch = originalFetch
       }
     })
-    
     ;(hasTestServer ? it : it.skip)('should successfully schedule a cron job with a test server', async () => {
       const originalFetch = globalThis.fetch
-      
+
       try {
         const handler = async (event: any) => {
           return { processed: true, timestamp: Date.now() }
         }
-        
+
         const cronExpression = '* * * * *'
-        
+
         every(cronExpression, handler, { runImmediately: true })
-        
-        await new Promise(resolve => setTimeout(resolve, 100))
-        
+
+        await new Promise((resolve) => setTimeout(resolve, 100))
+
         const testServerUrl = process.env.TEST_SERVER || 'http://localhost:3000'
         const response = await fetch(`${testServerUrl}/cron/list`, {
           method: 'GET',
         })
-        
+
         const result = await response.json()
         expect(result.jobs).toBeDefined()
         expect(result.jobs.some((job: any) => job.cron === cronExpression)).toBe(true)

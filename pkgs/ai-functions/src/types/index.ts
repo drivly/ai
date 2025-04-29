@@ -84,7 +84,7 @@ export interface DatabaseAccess {
 export type FunctionCallback<TArgs = any> = (args: TArgs, ctx: Context) => Promise<any>
 
 export type AIProxy = {
-  [K: string]: AIFunction<any, any> & 
+  [K: string]: AIFunction<any, any> &
     (<T = any>(input?: any, config?: AIConfig) => Promise<T>) &
     (<T = any>(schema: FunctionDefinition, config?: AIConfig) => (input: any, inputConfig?: AIConfig) => Promise<T>) &
     (<T = any>(input?: any, schema?: FunctionDefinition, config?: AIConfig) => Promise<T>)
