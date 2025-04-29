@@ -25,7 +25,8 @@ const withNextra = nextra({
 const nextConfig = {
   // Your Next.js config here
   transpilePackages: ['payload-utils', 'simple-payload', 'clickable-apis', 'payload-agent'], // Include internal packages
-
+  output: 'export', // Generate static HTML files for all routes
+  
   turbopack: {
     // Using Turbopack for faster builds and better performance
     resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
