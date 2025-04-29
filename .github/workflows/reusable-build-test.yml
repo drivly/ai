@@ -24,15 +24,7 @@ on:
         required: false
 
 jobs:
-  setup:
-    uses: ./.github/workflows/reusable-setup.yml
-    with:
-      use-cache: true
-      install-dependencies: true
-      working-directory: ${{ inputs.working-directory }}
-      
   build-and-test:
-    needs: setup
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -40,6 +32,26 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        
+      - name: Setup Node.js 22.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10.x
+          
+      - name: Setup Node.js with PNPM cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'pnpm'
+          cache-dependency-path: pnpm-lock.yaml
+            
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
             
       - name: Cache turbo build setup
         uses: actions/cache@v4
