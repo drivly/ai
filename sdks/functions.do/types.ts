@@ -1,7 +1,6 @@
 import type { DatabaseClient } from 'database.do'
 import type { Root } from 'mdast'
 
-
 export type ModelName = string
 
 export interface AIConfig {

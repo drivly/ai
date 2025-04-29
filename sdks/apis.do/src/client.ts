@@ -64,8 +64,8 @@ export class API {
     return responseData as T
   }
 
-  async get<T>(path: string, params?: QueryParams): Promise<T>;
-  async get<T>(collection: string, id: string): Promise<T>;
+  async get<T>(path: string, params?: QueryParams): Promise<T>
+  async get<T>(collection: string, id: string): Promise<T>
   async get<T>(pathOrCollection: string, paramsOrId?: QueryParams | string): Promise<T> {
     if (typeof paramsOrId === 'string') {
       return this.getById<T>(pathOrCollection, paramsOrId)

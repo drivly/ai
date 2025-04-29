@@ -89,7 +89,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
               metadata: {
                 lastUpdated: new Date().toISOString(),
                 webhookEvent: data.type || 'unknown',
-                webhookData: sanitizedData
+                webhookData: sanitizedData,
               },
             },
           })

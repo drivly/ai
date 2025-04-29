@@ -288,6 +288,7 @@ The Taguchi method is a statistical approach to experimental design that uses or
 **When to use `orthogonal` vs. `cartesian`:**
 
 - Use `orthogonal` when:
+
   - You have many factors or levels that would make a full factorial design impractical
   - You need a statistically balanced design with fewer experiments
   - You want to analyze main effects of factors efficiently

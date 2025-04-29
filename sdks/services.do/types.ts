@@ -5,15 +5,15 @@
 /**
  * Pricing scheme types for services
  */
-export type PricingScheme = 
-  | { type: 'input', ratePerInputUnit: number, unitName: string } 
-  | { type: 'output', ratePerOutputUnit: number, unitName: string }
-  | { type: 'usage', metric: 'time'|'calls'|'compute', rate: number, unitName: string }
-  | { type: 'action', actions: Record<string, number> }
-  | { type: 'outcome', outcomes: Record<string, number> }
-  | { type: 'costPlus', markupPercent: number } 
-  | { type: 'margin', percentOfValue: number }
-  | { type: 'hybrid', baseFee: number, variableScheme: PricingScheme }
+export type PricingScheme =
+  | { type: 'input'; ratePerInputUnit: number; unitName: string }
+  | { type: 'output'; ratePerOutputUnit: number; unitName: string }
+  | { type: 'usage'; metric: 'time' | 'calls' | 'compute'; rate: number; unitName: string }
+  | { type: 'action'; actions: Record<string, number> }
+  | { type: 'outcome'; outcomes: Record<string, number> }
+  | { type: 'costPlus'; markupPercent: number }
+  | { type: 'margin'; percentOfValue: number }
+  | { type: 'hybrid'; baseFee: number; variableScheme: PricingScheme }
 
 /**
  * Usage data type for price calculations

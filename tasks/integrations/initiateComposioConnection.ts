@@ -15,12 +15,18 @@ export const initiateComposioConnectionTask = {
     { name: 'authorization_url', type: 'text' },
   ],
   handler: async (
-    { integrationId, userId, taskId, redirectUrl, metadata = {} }: { 
-      integrationId: string; 
-      userId: string; 
-      taskId?: string; 
-      redirectUrl?: string;
-      metadata?: Record<string, any>;
+    {
+      integrationId,
+      userId,
+      taskId,
+      redirectUrl,
+      metadata = {},
+    }: {
+      integrationId: string
+      userId: string
+      taskId?: string
+      redirectUrl?: string
+      metadata?: Record<string, any>
     },
     { payload }: { payload: any },
   ) => {
@@ -93,10 +99,10 @@ export const initiateComposioConnectionTask = {
         id: connection.id,
         data: {
           status: 'rejected',
-          metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, { 
+          metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, {
             error: data,
             errorTimestamp: new Date().toISOString(),
-            errorStatus: response.status 
+            errorStatus: response.status,
           }),
         },
       })

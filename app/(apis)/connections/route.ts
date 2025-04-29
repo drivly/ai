@@ -75,10 +75,10 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
       id: connection.id,
       data: {
         status: 'rejected',
-        metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, { 
+        metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, {
           error: data,
           errorTimestamp: new Date().toISOString(),
-          errorStatus: response.status
+          errorStatus: response.status,
         }),
       },
     })

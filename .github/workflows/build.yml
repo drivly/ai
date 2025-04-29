@@ -46,6 +46,8 @@ jobs:
           DATABASE_URI: ${{ secrets.DATABASE_URI || 'mongodb://localhost:27017/payload-cms' }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY || 'resend-key-placeholder' }}
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_placeholder' }}
+          AI_GATEWAY_TOKEN: ${{ secrets.AI_GATEWAY_TOKEN || 'sk-1234' }}
+          AI_GATEWAY_URL: ${{ secrets.AI_GATEWAY_URL || 'https://llm.do' }}
           ANALYZE: 'true'
 
       # Bundle analysis steps
