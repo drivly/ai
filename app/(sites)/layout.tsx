@@ -31,7 +31,7 @@ export default async function RootLayout({
         <Providers>
           <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
             {children}
-            <Toaster />
+            <Toaster richColors />
           </ThemeProvider>
         </Providers>
       </body>

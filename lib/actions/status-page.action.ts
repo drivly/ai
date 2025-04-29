@@ -16,6 +16,10 @@ export const getProjectStatus = async (statusPageId: string): Promise<ProjectSta
       headers: {
         Authorization: `Bearer ${process.env.BETTERSTACK_API_TOKEN}`,
       },
+      cache: 'force-cache',
+      next: {
+        revalidate: 60 * 60, // 1 hour
+      },
     })
 
     if (!response.ok) {

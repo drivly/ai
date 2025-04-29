@@ -12,9 +12,6 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata) 
   const { mdxPath } = await props.params
   const { metadata } = await importPage(mdxPath)
 
-  const previousOpenGraphImages = (await parent).openGraph?.images || []
-  const previousTwitterImages = (await parent).twitter?.images || []
-
   let openGraphImage
   if (mdxPath && mdxPath.length > 0) {
     openGraphImage = `/docs/og?title=${metadata.title}`
@@ -23,11 +20,11 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata) 
   return {
     ...metadata,
     openGraph: {
-      images: [...(openGraphImage ? [openGraphImage] : []), ...previousOpenGraphImages],
+      images: [...(openGraphImage ? [openGraphImage] : [])],
       ...metadata.openGraph,
     },
     twitter: {
-      images: [...(openGraphImage ? [openGraphImage] : []), ...previousTwitterImages],
+      images: [...(openGraphImage ? [openGraphImage] : [])],
       ...metadata.twitter,
     },
   }
