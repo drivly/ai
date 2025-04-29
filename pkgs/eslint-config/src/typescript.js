@@ -10,6 +10,9 @@ export default [
     plugins: {
       '@typescript-eslint': tseslint,
     },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'off',
+    },
     languageOptions: {
       parser: tsparser,
       ecmaVersion: 2022,
