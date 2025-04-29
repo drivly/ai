@@ -15,7 +15,7 @@ export const Events: CollectionConfig = {
     { name: 'data', type: 'json' },
     { name: 'metadata', type: 'json' },
 
-    { name: 'action', type: 'relationship', relationTo: 'actions' },
+    // { name: 'action', type: 'relationship', relationTo: 'actions' },
     { name: 'trigger', type: 'relationship', relationTo: 'triggers' },
     { name: 'search', type: 'relationship', relationTo: 'searches' },
     { name: 'function', type: 'relationship', relationTo: 'functions' },

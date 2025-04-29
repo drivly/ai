@@ -21,6 +21,9 @@ export default [
       'no-undef': 'error',
       'report-unused-disable-directives': 'off',
     },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'off',
+    },
   },
   {
     plugins: {

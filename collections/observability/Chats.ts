@@ -1,12 +1,13 @@
-import type { CollectionConfig, AccessArgs } from 'payload'
+import type { CollectionConfig } from 'payload'
 
 export const ChatResources: CollectionConfig = {
   slug: 'chatResources',
   admin: {
-    group: 'Chat',
+    group: 'Observability',
     useAsTitle: 'title',
     description: 'User-generated chat content and messages',
   },
+  labels: { singular: 'Chat', plural: 'Chats' },
   versions: true,
   access: {
     read: () => true,

@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Services: CollectionConfig = {
   slug: 'services',
   admin: {
-    group: 'Infrastructure',
+    group: 'AI',
     useAsTitle: 'name',
     description: 'Service Registry and Management for the .do ecosystem',
   },
