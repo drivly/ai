@@ -36,11 +36,12 @@ export default function ApplicationEmail({ name, position }: ApplicationEmailPro
                 </Button>
               </Section>
 
-              <Text className='text-lg text-gray-700'>
-                Best regards,
-                <br />
-                The .Do Team
-              </Text>
+              <Section className='mt-[32px]'>
+                <Text className='mb-[8px] text-lg text-gray-700'>Talk soon,</Text>
+                <Text className='text-[16px] text-gray-700'>
+                  Bryant <br /> Co-Founder & CEO
+                </Text>
+              </Section>
             </Container>
           </Section>
         </Body>
