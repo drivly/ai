@@ -24,7 +24,15 @@ on:
         required: false
 
 jobs:
+  setup:
+    uses: ./.github/workflows/reusable-setup.yml
+    with:
+      use-cache: true
+      install-dependencies: true
+      working-directory: ${{ inputs.working-directory }}
+      
   build-and-test:
+    needs: setup
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -32,13 +40,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        
-      - name: Setup Node.js and PNPM
-        uses: ./.github/workflows/reusable-setup.yml
-        with:
-          use-cache: true
-          install-dependencies: true
-          working-directory: ${{ inputs.working-directory }}
             
       - name: Cache turbo build setup
         uses: actions/cache@v4

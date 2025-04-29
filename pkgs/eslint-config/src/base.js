@@ -19,6 +19,7 @@ export default [
       'no-console': 'warn',
       'prefer-const': 'warn',
       'no-undef': 'error',
+      'report-unused-disable-directives': 'off',
     },
   },
   {

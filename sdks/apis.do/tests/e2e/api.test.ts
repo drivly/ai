@@ -14,11 +14,6 @@ const isCI = process.env.CI === 'true'
 
 describe('apis.do E2E API Tests', () => {
   beforeAll(async () => {
-    if (isCI) {
-      console.log('Skipping tests in CI environment')
-      return
-    }
-    
     apiKey = await startLocalServer()
     const baseUrl = 'http://localhost:3000'
 
@@ -38,8 +33,6 @@ describe('apis.do E2E API Tests', () => {
   })
 
   afterAll(async () => {
-    if (isCI) return
-    
     for (const [collection, ids] of Object.entries(testResourceIds)) {
       await cleanupTestResources(apiClient, collection, ids)
     }
@@ -48,11 +41,6 @@ describe('apis.do E2E API Tests', () => {
   })
 
   it('should list collections using the API client', async () => {
-    if (isCI) {
-      console.log('Skipping test in CI environment')
-      return
-    }
-    
     console.log('Listing functions collection...')
     const result = await cli.list('functions')
     expect(result).toBeDefined()
@@ -60,11 +48,6 @@ describe('apis.do E2E API Tests', () => {
   }, testTimeout)
 
   it('should create, get, update, and delete a resource', async () => {
-    if (isCI) {
-      console.log('Skipping test in CI environment')
-      return
-    }
-    
     console.log('Creating new functions...')
     const testName = generateTestName('func')
     const createData = {
@@ -90,11 +73,6 @@ describe('apis.do E2E API Tests', () => {
   }, testTimeout)
 
   it('should execute a function', async () => {
-    if (isCI) {
-      console.log('Skipping test in CI environment')
-      return
-    }
-    
     try {
       console.log('Executing function echo...')
       const executeResult = await cli.executeFunction('echo', { message: 'Hello E2E Test' })
