@@ -5,27 +5,31 @@ import { Body, Container, Head, Hr, Html, Link, Preview, Section, Tailwind, Text
 
 const currentYear = new Date().getFullYear()
 
-export const WelcomeEmail = ({ name }: { name: string }) => (
+export const ApplyEmail = ({ name }: { name: string }) => (
   <Html>
     <Head />
     <Tailwind>
       <Body className='bg-gray-100 py-[40px] font-sans' style={{ fontFamily: '"IBM Plex Sans", Helvetica, Arial, sans-serif' }}>
-        <Preview>👋 You're on the waitlist!</Preview>
+        <Preview>👋 Thanks for applying!</Preview>
 
         <Container className='mx-auto rounded-lg bg-white p-[32px] shadow-sm'>
           {/* Email body */}
           <Section>
             <Text className='text-lg text-gray-700 mb-[24px]'>Hey {name},</Text>
             <Text className='text-lg text-gray-700 mb-[24px]'>
-              Thanks for signing up for the <strong>.do</strong> waitlist! 
+              Thank you for your interest in joining our team!
             </Text>
 
             <Text className='text-lg text-gray-700 mb-[24px]'>
-              We're excited about your interest and can't wait to show you what we're building—a platform to build autonomous enterprises through Business-as-Code.
+              We're looking for people who are passionate about building, supporting, and scaling the future of AI-driven work.
+            </Text>
+            
+            <Text className='text-lg text-gray-700 mb-[24px]'>
+              We review GitHub profiles and projects closely, so if there's anything else you'd like to highlight — side projects, content, community work — feel free to send it over.
             </Text>
 
             <Text className='text-lg text-gray-700 mb-[24px]'>
-              We're kicking off our first wave of access for companies primed to benefit right away—just reply and tell us about your business and which AI-powered services you'd like to build.
+              If it feels like a fit, we'll be in touch to set up a conversation.
             </Text>
           </Section>
 
@@ -73,4 +77,4 @@ export const WelcomeEmail = ({ name }: { name: string }) => (
   </Html>
 )
 
-export default WelcomeEmail
+export default ApplyEmail
