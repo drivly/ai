@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { CheckCircle2 } from 'lucide-react'
 import { signIn, useSession } from 'next-auth/react'
-import { useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { useApplication } from './application-context'
 import { JobPosition } from './schema'
@@ -18,6 +18,7 @@ export interface ApplyWithGitHubProps {
 export const ApplyWithGitHub = ({ hasApplied, position }: ApplyWithGitHubProps) => {
   const { data: session, status: sessionStatus } = useSession()
   const searchParams = useSearchParams()
+  const pathname = usePathname()
   const isCallback = searchParams.get('callback') === 'true'
   const callbackPosition = searchParams.get('position') as JobPosition | null
 
@@ -47,13 +48,13 @@ export const ApplyWithGitHub = ({ hasApplied, position }: ApplyWithGitHubProps) 
 
     // If user is already authenticated, submit directly
     if (sessionStatus === 'authenticated' && session) {
-      handleSubmitWithAction()
+      handleSubmitWithAction(e)
       return
     }
 
     // Otherwise redirect to GitHub auth
     await signIn('github', {
-      callbackUrl: `${window.location.pathname}?callback=true&position=${position}`,
+      callbackUrl: `${pathname}?callback=true&position=${position}`,
     })
   }
 
