@@ -43,8 +43,7 @@ describe('AI Functions', () => {
     })
 
     itWithEnv('should support no-schema output (issue #56)', async () => {
-      const templateFn = ai`Generate a test response`
-      const result = await templateFn({ output: 'no-schema' })
+      const result = await ai`Generate a test response`({ output: 'no-schema' })
       expect(typeof result).toBe('string')
       expect(result.length).toBeGreaterThan(0)
     })
@@ -55,16 +54,14 @@ describe('AI Functions', () => {
         subcategory: z.string().describe('Product subcategory'),
       })
 
-      const templateFn = ai`Categorize this product: iPhone 15`
-      const result = await templateFn({ schema })
+      const result = await ai`Categorize this product: iPhone 15`({ schema })
 
       expect(result).toHaveProperty('category')
       expect(result).toHaveProperty('subcategory')
     })
 
     itWithEnv('should support model/config overrides (issue #58)', async () => {
-      const templateFn = ai`Generate a test response`
-      const result = await templateFn({
+      const result = await ai`Generate a test response`({
         model: 'gpt-4o-mini', // Updated to use gpt-4o-mini as recommended
         temperature: 0.7,
         maxTokens: 100,
