@@ -24,7 +24,6 @@
       "@payload-config": ["payload.config.ts"],
     },
     "target": "ES2022",
-    "types": ["node", "vitest/globals"],
     "typeRoots": ["./node_modules/@types", "./types"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".ai/**/*.ts"],
