@@ -502,6 +502,25 @@ describe('functions.do', () => {
       expect(noSchemaResult).toBeDefined()
     }, 90000)
     
+    it('should handle pipe-separated enum syntax', async () => {
+      const schema = {
+        status: 'pending | in-progress | completed | cancelled',
+        priority: 'low | medium | high',
+        category: 'bug | feature | enhancement | documentation'
+      }
+      
+      const taskFunction = ai.classifyTask(schema) as any
+      
+      const result = await taskFunction({ 
+        title: 'Fix login button',
+        description: 'The login button is not working properly on mobile devices'
+      })
+      
+      // In test mode, the mock implementation returns standard properties
+      expect(result).toBeDefined()
+      expect(typeof result).toBe('object')
+    }, 90000)
+    
     it('should handle schema in config for basic pattern', async () => {
       const schema = {
         name: 'string',

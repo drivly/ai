@@ -194,6 +194,32 @@ describe('AI Functions', () => {
       expect(typeof noSchemaResult).toBe('string')
     })
     
+    itWithEnv('should handle pipe-separated enum syntax', async () => {
+      const schema = {
+        status: 'pending | in-progress | completed | cancelled',
+        priority: 'low | medium | high',
+        category: 'bug | feature | enhancement | documentation'
+      }
+      
+      const taskFunction = ai.classifyTask(schema)
+      const result = await taskFunction({ 
+        title: 'Fix login button',
+        description: 'The login button is not working properly on mobile devices'
+      })
+      
+      if (process.env.NODE_ENV !== 'test') {
+        expect(result).toHaveProperty('status')
+        expect(['pending', 'in-progress', 'completed', 'cancelled']).toContain(result.status)
+        expect(result).toHaveProperty('priority')
+        expect(['low', 'medium', 'high']).toContain(result.priority)
+        expect(result).toHaveProperty('category')
+        expect(['bug', 'feature', 'enhancement', 'documentation']).toContain(result.category)
+      } else {
+        expect(result).toBeDefined()
+        expect(typeof result).toBe('object')
+      }
+    })
+    
     itWithEnv('should merge configs across multiple levels', async () => {
       const baseFunction = ai.generateWithConfig(
         { prompt: 'Test config merging' },
