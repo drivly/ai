@@ -131,7 +131,7 @@ export const POST = API(async (request, { db, user, url, payload, req }) => {
 
   if (body.name && body.analyze !== false) {
     try {
-      const { analyzeFunctionDefinition } = await import('@/utils/functionAnalyzer')
+      const { analyzeFunctionDefinition } = await import('@/tasks/language/functionAnalyzer')
 
       const { name, shape } = body
 

@@ -36,7 +36,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   let functionAnalysis = null
   if (!type && !input.settings?.type) {
     try {
-      const { analyzeFunctionDefinition } = await import('../../utils/functionAnalyzer')
+      const { analyzeFunctionDefinition } = await import('../language/functionAnalyzer')
       functionAnalysis = await analyzeFunctionDefinition(functionName, schema, payload)
 
       if (functionAnalysis && functionAnalysis.type) {

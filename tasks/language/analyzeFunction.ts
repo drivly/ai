@@ -1,5 +1,5 @@
 import { TaskConfig } from 'payload'
-import { analyzeFunctionDefinition } from '../../utils/functionAnalyzer'
+import { analyzeFunctionDefinition } from './functionAnalyzer'
 
 export const analyzeFunctionTask = {
   retries: 3,

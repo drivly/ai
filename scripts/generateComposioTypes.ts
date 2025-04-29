@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { convertActionNameWithMultiWordIntegrations } from '../utils/composioUtils'
+import { convertActionNameWithMultiWordIntegrations } from '../lib/composioUtils'
 
 interface ComposioParameter {
   type: string
