@@ -13,23 +13,10 @@ import { Service } from 'services-as-software'
 
 const exampleService = Service({
   name: 'Content Generation Service',
-  description: 'AI-powered content generation for marketing teams',
-  objective: {
-    description: 'Provide high-quality content generation that increases marketing efficiency'
-  },
+  objective: 'Provide high-quality content generation that increases marketing efficiency',
   keyResults: [
-    {
-      description: 'Reduce content creation time',
-      target: 50,
-      currentValue: 0,
-      unit: 'percent'
-    },
-    {
-      description: 'Maintain content quality score',
-      target: 8,
-      currentValue: 0,
-      unit: 'rating'
-    }
+    'Reduce content creation time by 50%',
+    'Maintain content quality score of 8+'
   ],
   pricing: {
     model: 'cost-based',
@@ -177,16 +164,8 @@ Offer individual AI functions as services with defined objectives and pricing.
 ```ts
 const functionAsService = Service({
   name: 'Text Summarization',
-  objective: {
-    description: 'Provide accurate text summarization'
-  },
-  keyResults: [
-    {
-      description: 'Summarization accuracy',
-      target: 90,
-      unit: 'percent'
-    }
-  ],
+  objective: 'Provide accurate text summarization',
+  keyResults: ['Achieve 90% summarization accuracy'],
   pricing: {
     model: 'cost-based',
     costBase: 5,
@@ -206,16 +185,8 @@ Offer complete workflows as services with activity-based pricing.
 ```ts
 const workflowAsService = Service({
   name: 'Content Production Pipeline',
-  objective: {
-    description: 'End-to-end content production'
-  },
-  keyResults: [
-    {
-      description: 'Average production time',
-      target: 24,
-      unit: 'hours'
-    }
-  ],
+  objective: 'End-to-end content production',
+  keyResults: ['Reduce average production time to 24 hours'],
   pricing: {
     model: 'activity-based',
     activities: [
@@ -238,26 +209,16 @@ Offer autonomous agents as services with outcome-based pricing.
 ```ts
 const agentAsService = Service({
   name: 'Customer Support Agent',
-  objective: {
-    description: 'Provide excellent customer support'
-  },
+  objective: 'Provide excellent customer support',
   keyResults: [
-    {
-      description: 'Customer satisfaction score',
-      target: 4.5,
-      unit: 'rating'
-    },
-    {
-      description: 'First response time',
-      target: 5,
-      unit: 'minutes'
-    }
+    'Maintain customer satisfaction score of 4.5+',
+    'Keep first response time under 5 minutes'
   ],
   pricing: {
     model: 'outcome-based',
     outcomes: [
-      { metric: 'resolution-rate', targetValue: 95, price: 1000 },
-      { metric: 'satisfaction-score', targetValue: 4.8, price: 500 }
+      { metric: 'resolutionRate', targetValue: 95, price: 1000 },
+      { metric: 'satisfactionScore', targetValue: 4.8, price: 500 }
     ]
   },
   implementation: {
