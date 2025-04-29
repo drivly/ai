@@ -46,7 +46,31 @@ export async function isServerRunning(): Promise<boolean> {
 export async function startLocalServer(hookTimeout = 60000): Promise<string> {
   console.log(`Environment: ${isCI ? 'CI' : 'Local'}, Hook timeout: ${hookTimeout}ms`)
   
-  // Check if server is already running
+  if (isCI) {
+    console.log('Running in CI environment, checking if server is running...')
+    
+    const maxAttempts = Math.floor((hookTimeout - 10000) / 1000)
+    let attempts = 0
+    
+    console.log(`Will try server health check up to ${maxAttempts} times...`)
+    
+    while (attempts < maxAttempts) {
+      const ready = await isServerRunning()
+      if (ready) {
+        console.log('Server is ready on port 3000 in CI environment')
+        return process.env.APIS_DO_API_KEY || process.env.DO_API_KEY || 'test-api-key'
+      }
+      
+      console.log(`Waiting for server to be ready in CI (${attempts+1}/${maxAttempts})...`)
+      await sleep(1000)
+      attempts++
+    }
+    
+    console.error('Server health check timed out after', maxAttempts, 'attempts in CI environment')
+    throw new Error(`Server health check timed out after ${maxAttempts} attempts in CI environment`)
+  }
+  
+  // Check if server is already running (for local environment)
   const running = await isServerRunning()
   if (running) {
     console.log('Server is already running on port 3000')
