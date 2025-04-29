@@ -26,11 +26,13 @@ const nextConfig = {
   // Your Next.js config here
   transpilePackages: ['payload-utils', 'simple-payload', 'clickable-apis', 'payload-agent'], // Include internal packages
 
-  // Include the sdks directory in the output
-  output: {
-    standalone: {
-      // Include the sdks directory in the standalone output
-      additionalFiles: ['sdks/**/*']
+  // Set output to standalone mode and copy additional files
+  output: 'standalone',
+  
+  // Configure additional files to be copied to the output directory
+  experimental: {
+    outputFileTracingIncludes: {
+      '/**': ['sdks/**/*']
     }
   },
 
