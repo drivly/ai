@@ -26,6 +26,14 @@ const nextConfig = {
   // Your Next.js config here
   transpilePackages: ['payload-utils', 'simple-payload', 'clickable-apis', 'payload-agent'], // Include internal packages
 
+  // Include the sdks directory in the output
+  output: {
+    standalone: {
+      // Include the sdks directory in the standalone output
+      additionalFiles: ['sdks/**/*']
+    }
+  },
+
   turbopack: {
     // Using Turbopack for faster builds and better performance
     resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
