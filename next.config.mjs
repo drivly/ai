@@ -1,5 +1,24 @@
 import { withSentryConfig } from '@sentry/nextjs'
+import nextra from 'nextra'
 import withBundleAnalyzer from '@next/bundle-analyzer'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(filename)
+
+/**
+ * @type {import('nextra').NextraConfig<import('nextra-theme-docs').DocsThemeConfig>}
+ */
+const withNextra = nextra({
+  codeHighlight: true,
+  contentDirBasePath: '/docs',
+  defaultShowCopyCode: true,
+  latex: true,
+  search: {
+    codeblocks: true,
+  },
+})
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -14,8 +33,8 @@ const analyzeBundles = withBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
-// Export with Sentry integration
-export default withSentryConfig(analyzeBundles(nextConfig), {
+// Export with Sentry and Nextra integration
+export default withSentryConfig(withNextra(analyzeBundles(nextConfig)), {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
