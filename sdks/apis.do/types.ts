@@ -1058,7 +1058,7 @@ export interface Deployment {
   createdAt: string;
 }
 /**
- * Service Registry and Management for the .do ecosystem
+ * Services-as-Software with billing capabilities
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services".
@@ -1070,6 +1070,91 @@ export interface Service {
   description?: string | null;
   endpoint: string;
   version?: string | null;
+  /**
+   * Business objective this service aims to achieve
+   */
+  objective: {
+    description: string;
+  };
+  /**
+   * Key results for measuring service success
+   */
+  keyResults?:
+    | {
+        description: string;
+        target?: number | null;
+        currentValue?: number | null;
+        unit?: string | null;
+        dueDate?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Service pricing configuration
+   */
+  pricing: {
+    /**
+     * Pricing model for this service
+     */
+    model: 'cost-based' | 'margin-based' | 'activity-based' | 'outcome-based';
+    /**
+     * Base cost in USD
+     */
+    costBase?: number | null;
+    /**
+     * Fixed costs in USD
+     */
+    fixedCosts?: number | null;
+    /**
+     * Variable costs in USD
+     */
+    variableCosts?: number | null;
+    /**
+     * Margin percentage (0-100)
+     */
+    marginPercentage?: number | null;
+    /**
+     * Billable activities with rates
+     */
+    activities?:
+      | {
+          name: string;
+          description?: string | null;
+          rate: number;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Billable outcomes with targets and prices
+     */
+    outcomes?:
+      | {
+          metric: string;
+          description?: string | null;
+          targetValue: number;
+          price: number;
+          unit?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Service implementation details
+   */
+  implementation: {
+    type: 'function' | 'workflow' | 'agent';
+    id: string;
+    version?: string | null;
+    configuration?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
   /**
    * Additional metadata for the service
    */
@@ -3228,6 +3313,56 @@ export interface ServicesSelect<T extends boolean = true> {
   description?: T;
   endpoint?: T;
   version?: T;
+  objective?:
+    | T
+    | {
+        description?: T;
+      };
+  keyResults?:
+    | T
+    | {
+        description?: T;
+        target?: T;
+        currentValue?: T;
+        unit?: T;
+        dueDate?: T;
+        id?: T;
+      };
+  pricing?:
+    | T
+    | {
+        model?: T;
+        costBase?: T;
+        fixedCosts?: T;
+        variableCosts?: T;
+        marginPercentage?: T;
+        activities?:
+          | T
+          | {
+              name?: T;
+              description?: T;
+              rate?: T;
+              id?: T;
+            };
+        outcomes?:
+          | T
+          | {
+              metric?: T;
+              description?: T;
+              targetValue?: T;
+              price?: T;
+              unit?: T;
+              id?: T;
+            };
+      };
+  implementation?:
+    | T
+    | {
+        type?: T;
+        id?: T;
+        version?: T;
+        configuration?: T;
+      };
   metadata?: T;
   updatedAt?: T;
   createdAt?: T;
