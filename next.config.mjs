@@ -30,10 +30,8 @@ const nextConfig = {
   output: 'standalone',
   
   // Configure additional files to be copied to the output directory
-  experimental: {
-    outputFileTracingIncludes: {
-      '/**': ['sdks/**/*']
-    }
+  outputFileTracingIncludes: {
+    '/**': ['sdks/**/*']
   },
 
   turbopack: {
