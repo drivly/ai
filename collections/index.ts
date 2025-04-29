@@ -53,8 +53,7 @@ import { Goals } from './business/Goals'
 import { Plans } from './business/Plans'
 import { KPIs } from './business/KPIs'
 import Config from './sync/Config'
-import { Organizations, BillingPlans, Subscriptions, Usage, ConnectAccounts } from './billing'
-import { Services } from './infrastructure/Services'
+import { Organizations, BillingPlans, Subscriptions, Usage, ConnectAccounts, Services } from './billing'
 
 export const collections = [
   // Register AI collections first
