@@ -16,8 +16,6 @@ export const generateStaticParams = async () => {
   return domains.map((domain) => ({ domain }))
 }
 
-// export const revalidate = 86400
-
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }, parent: ResolvingMetadata): Promise<Metadata> {
   const { domain } = await params
   const content = await getContent(domain)

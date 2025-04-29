@@ -1,8 +1,8 @@
 'use server'
 
 import { siteConfig } from '@/components/site-config'
-import ApplicationEmail from '@/emails/application-email'
-import WelcomeEmail from '@/emails/welcome-email'
+import ApplyEmail from '@/emails/apply-email'
+import WaitlistEmail from '@/emails/waitlist-email'
 import resend from '@/lib/resend'
 import { ReactNode } from 'react'
 
@@ -21,13 +21,13 @@ interface ApplicationParams {
 export const sendWelcomeEmail = async (params: MagicLinkParams) => {
   const { email, name, host } = params
 
-  await sendEmail(email, `Welcome to ${host}`, <WelcomeEmail name={name} />)
+  await sendEmail(email, `Welcome to ${host}`, <WaitlistEmail name={name} />)
 }
 
 export const sendApplicationEmail = async (params: ApplicationParams) => {
   const { email, name, position } = params
 
-  await sendEmail(email, `Your application for ${position} at ${siteConfig.name}`, <ApplicationEmail name={name} position={position} />)
+  await sendEmail(email, `Your application for ${position} at ${siteConfig.name}`, <ApplyEmail name={name} />)
 }
 
 export const sendEmail = async (email: string, subject: string, body: ReactNode) => {
