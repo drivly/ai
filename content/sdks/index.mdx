@@ -4,7 +4,7 @@ asIndexPage: true
 
 # SDKs
 
-### [`ai`](/docs/sdks/functions.do)
+## [`ai`](/docs/sdks/functions.do)
 
 The `ai` object in [`functions.do`](/docs/sdks/functions.do) and [`workflows.do`](/docs/sdks/workflows.do) is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
 
@@ -15,7 +15,26 @@ import { ai } from 'functions.do'
 const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
 ```
 
-### `db`
+
+### `api`
+
+The `api` object provides access to not only all of the core `.do` APIs, but also tens of thousands of searches and actions from third-party [integrations](/docs/integrations):
+
+```typescript
+import { api } from 'apis.do'
+
+const customer = await api.users.get({ id: 'userId' })
+
+const result = await api.stripe.createInvoice({
+  customer: customer.id,
+  amount: customer.usageTotal,
+  currency: 'usd',
+  description: 'Pay-as-you-go usage',
+})
+```
+
+
+## `db`
 
 The `db` object provides access to the database:
 
@@ -25,7 +44,30 @@ import { db } from 'database.do'
 const posts = await db.posts.find({ tag: 'ai' })
 ```
 
-### `do`
+```typescript
+import { db } from 'database.do'
+
+await db.ideas.create({ idea, businessModel, status: 'waitlist' })
+
+const waitlistIdeas = await db.ideas.find({ status: 'waitlist' })
+```
+
+```typescript
+const ideas = await db.ideas.search('automotive finance')
+```
+
+## `decide`
+
+```typescript
+import { decide } from 'decisions.do'
+
+const decision = await decide('Should we launch this product?', {
+  options: ['Yes', 'No'],
+  weights: [0.8, 0.2],
+})
+```
+
+## `do`
 
 The [`do`](/docs/sdks/agents.do) function requests [AI Agents](/docs/agents) and [Human](/docs/functions/human) [Users](/docs/admin/user) to take [Action](/docs/functions/action):
 
@@ -35,7 +77,7 @@ import { do } from 'agents.do'
 const research = await do`research about ${topic}`
 ```
 
-### `browse`
+## `browse`
 
 The `browse` function in [`agents.do`](/docs/sdks/agents.do#browse) and [`browse.do`](/docs/sdks/browse.do) provide real-time web browsing:
 
@@ -45,7 +87,7 @@ import { browse } from 'agents.do'
 const findings = await browse`research about ${topic}`
 ```
 
-### `research`
+## `research`
 
 The `research` function in [`agents.do`](/docs/sdks/agents.do) and [`research.do`](/docs/sdks/research.do) provide deep-research in real-time:
 
@@ -55,9 +97,56 @@ import { research } from 'research.do'
 const findings = await research`research about ${topic}`
 ```
 
-### `on`
+## `track`
 
-### `every`
+```ts
+import { track } from 'analytics.do'
+
+track('User.Signup', { name, email, company })
+```
+
+## `on`
+
+```typescript
+import { on } from 'workflows.do'
+
+on('User.Signup', async (event, { ai, api, db }) => {
+  const { name, email, company } = event
+
+  // Enrich content details with lookup from external data sources
+  const enrichedContact = await api.apollo.search({ name, email, company })
+  const socialProfiles = await api.peopleDataLabs.findSocialProfiles({ name, email, company })
+  const githubProfile = socialProfiles.github ? await api.github.profile({ name, email, company, profile: socialProfiles.github }) : undefined
+
+  // Using the enriched contact details, do deep research on the company and personal background
+  const companyProfile = await ai.researchCompany({ company })
+  const personalProfile = await ai.researchPersonalBackground({ name, email, enrichedContact })
+  const socialActivity = await ai.researchSocialActivity({ name, email, enrichedContact, socialProfiles })
+  const githubActivity = githubProfile ? await ai.summarizeGithubActivity({ name, email, enrichedContact, githubProfile }) : undefined
+
+  // Schedule a highly personalized sequence of emails to optimize onboarding and activation
+  const emailSequence = await ai.personalizeEmailSequence({ name, email, company, personalProfile, socialActivity, companyProfile, githubActivity })
+  await api.scheduleEmails({ emailSequence })
+
+  // Summarize everything, save to the database, and post to Slack
+  const details = { enrichedContact, socialProfiles, githubProfile, companyProfile, personalProfile, socialActivity, githubActivity, emailSequence }
+  const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, ...details })
+  const { url } = await db.users.create({ name, email, company, summary, ...details })
+  await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
+})
+```
+
+## `every`
+
+```typescript
+import { every } from 'workflows.do'
+import { cmo } from 'agents.do'
+
+every('hour during business hours', async (event, { db }) => {
+  const ideas = await db.ideas.find({ status: 'launched' })
+  ideas.forEach((idea) => cmo.do`a creative marketing campaign for ${idea}`)
+})
+```
 
 ## `AI`
 
@@ -68,7 +157,7 @@ import { AI } from 'functions.do'
 
 const ai = AI({
   // Define a Workflow as a Code Function
-  ideaCaptured: async (idea, { ai, api, db }) => {
+  captureIdea: async (idea, { ai, api, db }) => {
     const leanCanvas = await ai.leanCanvas({ idea })
     await api.slack.postMessage({ channel: '#general', text: `${idea}\n${leanCanvas}` })
     await db.idea.create({ idea, leanCanvas, status: 'Draft' })
@@ -89,6 +178,8 @@ const ai = AI({
     recommendations: ['list of recommendations based on the analysis'],
   },
 })
+
+const businessModel = await ai.leanCanvas({ idea: 'Auto Lending Services-as-Software' })
 ```
 
 ## `Agent`
@@ -114,37 +205,6 @@ const amy = Agent({
 export const refundOrder = (orderId: number) => amy.do`refund order ${orderId} and send the customer confirmation`
 ```
 
-## `API`
-
-The `API` function allows an API to defined and deployed:
-
-```typescript
-import { API } from 'apis.do'
-
-const api = API()
-
-api
-  .get('/', () => ({ hello: 'world' }))
-  .get('/:id', ({ id }) => ({ id }))
-  .put('/:id', async ({ id, body, db }) => db.posts.set(id, body))
-```
-
-### `api`
-
-The `api` object provides access to not only all of the core `.do` APIs, but also tens of thousands of searches and actions from third-party [integrations](/docs/integrations):
-
-```typescript
-import { api } from 'apis.do'
-
-const customer = await api.users.get({ id: 'userId' })
-
-const result = await api.stripe.createInvoice({
-  customer: customer.id,
-  amount: customer.usageTotal,
-  currency: 'usd',
-  description: 'Pay-as-you-go usage',
-})
-```
 
 ## `Business`
 
@@ -165,27 +225,82 @@ const newCo = Business({
 })
 ```
 
-### `plan`
-
-## `Analytics`
-
-### `track`
-
 ## `Experiment`
 
-### `decide`
+```ts
+import { ai } from 'functions.do'
+import { db } from 'database.do'
+import { Battle } from 'evals.do'
+import { Experiment } from 'experiments.do'
+
+Experiment({
+  models: [
+    'openai/gpt-4.1',
+    'openai/gpt-4.1-mini',
+    'openai/gpt-4.5-preview',
+    'google/gemini-2.5-pro-preview-03-25',
+    'google/gemini-2.5-flash-preview',
+    'google/gemini-2.0-flash',
+    'anthropic/claude-3.7-sonnet',
+    'anthropic/claude-3.5-sonnet',
+    'meta-llama/llama-4-maverick',
+    'meta-llama/llama-4-scout',
+    'x-ai/grok-3-beta',
+    'x-ai/grok-3-mini-beta',
+  ],
+  temperature: [0.7, 0.8, 0.9, 1],
+  system: [
+    'You are an expert at writing compelling and SEO-optimized site content',
+    'You are an expert at content marketing for idea-stage startups',
+    'You are a YC Group Partner having office hours with one of your startups',
+  ],
+  inputs: db.ideas.find({ status: 'waitlist' }),
+  task: ai.generateLandingPage({
+    hero: {
+      headline: 'compelling & conversion optimized headline (7-10 words)',
+      subhead: 'compelling & conversion optimized subhead (1-2 sentences)',
+      badge: '3-word eyebrow text above hero headline',
+    },
+    benefits: [{
+      title: '3-4 word high-level overview of the benefit',
+      description: '2 sentence detailed description',
+    }],
+    faqs: [{
+      question: '6-8 word question',
+      answer: '2-3 sentence answer',
+    }],
+  })
+  scorer: [Battle],
+})
+```
 
 ## `Eval`
 
-### `score`
+```ts
+import { Eval, JSONDiff } from 'evals.do'
+import { models } from 'models.do'
 
-## `Test`
+Eval('W-2 OCR', {
+  // compare different models
+  models: models({ capability: 'vision' }),
 
-### `describe`
+  // calculate all variations of inputs
+  inputs: async () =>
+    cartesian({
+      image: [1, 2, 3, 4, 5, 6],
+      blur: [0, 1, 2, 3],
+      res: [512, 768, 1536, 2000, 3072],
+    }).map(({ image, blur, res }) => ({ image: `https://…/w2_img${image}_blur${blur}_res${res}.jpg` })),
 
-### `it`
-
-### `expect`
+  // run 3 times for each input
+  seeds: 3,
+  prompt: 'Extract the data from the image.',
+  temperature: 0,
+  expected: expectedOutput,
+  schema: W2,
+  scorers: [JSONDiff],
+})
+```
 
 ## `DB`
 
@@ -216,12 +331,4 @@ const db = DB({
 })
 ```
 
-## `Event`
 
-## `Integration`
-
-### `trigger`
-
-### `search`
-
-### `act`

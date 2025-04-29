@@ -13,8 +13,7 @@ const dirname = path.dirname(filename)
  */
 const withNextra = nextra({
   codeHighlight: true,
-  contentDirBasePath: '/docs',
-  contentDirPath: 'content',
+  contentDirBasePath: '/content',
   defaultShowCopyCode: true,
   latex: true,
   search: {
