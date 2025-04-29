@@ -7,7 +7,7 @@
     "build": "turbo run build && pnpm build:next",
     "build:packages": "turbo run build:packages",
     "build:next": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next build",
-    "postbuild": "pagefind --site .next --output-path public/_pagefind --glob \"**/*.html\" --exclude-selectors \"nav, footer, [data-nextra-hide]\"",
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind --glob \"**/*.html\" --exclude-selectors \"nav, footer, [data-nextra-hide]\"",
     "build:filtered": "turbo run build --filter=$npm_config_filter && pnpm build:next:filtered",
     "build:next:filtered": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next build",
     "build:triggers": "pnpm --filter=triggers.do build && pnpm build:next",
