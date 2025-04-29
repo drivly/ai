@@ -9,11 +9,7 @@ const meta: MetaRecord = {
   pricing: { type: 'page', title: 'Pricing', href: '/pricing' },
   dashboard: { type: 'page', title: 'Dashboard', href: '/admin' },
   docs: { display: 'hidden' },
-  ref: {
-    type: 'page',
-    title: 'Reference',
-    href: 'https://reference.apis.do',
-  },
+  ref: { type: 'page', title: 'Reference', href: 'https://reference.apis.do' },
 
   manifesto: '',
   'business-as-code': '',
