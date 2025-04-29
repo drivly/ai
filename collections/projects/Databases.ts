@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Databases: CollectionConfig = {
   slug: 'databases',
   admin: {
-    group: 'Data',
+    group: 'Projects',
     useAsTitle: 'name',
     description: 'Manages database connections and configurations',
   },

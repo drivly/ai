@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 export const Projects: CollectionConfig = {
   slug: 'projects',
   admin: {
-    group: 'Admin',
+    group: 'Projects',
     useAsTitle: 'name',
     description: 'Manages projects and their associated domains',
   },

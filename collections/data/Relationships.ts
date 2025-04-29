@@ -1,9 +1,9 @@
 import type { CollectionConfig } from 'payload'
 
 export const Relationships: CollectionConfig = {
-  slug: 'actions',
+  slug: 'relationships',
   admin: {
-    group: 'Events',
+    group: 'Data',
     useAsTitle: 'verb',
     description: 'Defines semantic relationships between resources using subject-verb-object patterns',
   },
@@ -13,6 +13,5 @@ export const Relationships: CollectionConfig = {
     { name: 'verb', type: 'relationship', relationTo: 'verbs' },
     { name: 'object', type: 'relationship', relationTo: 'resources' },
     { name: 'hash', type: 'text' },
-    { name: 'generation', type: 'join', collection: 'generations', on: 'action' },
   ],
 }
