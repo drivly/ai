@@ -19,6 +19,10 @@ const config = [
       'react/display-name': 'off',
       'react-hooks/exhaustive-deps': 'warn',
       'eslint-comments/no-unused-disable': 'off',
+      'report-unused-disable-directives': 'off',
+    },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'off',
     },
   },
 ]

@@ -77,9 +77,9 @@ export const siteContentSchema = z.object({
   badge: z.string({ description: '3-word eyebrow text above hero headline' }),
   codeExample: z.string({
     description:
-      'Extremely elegant, simple, and concise code examples. Depending on the context, you will either return a Typescript or Javascript code example, or a JSON object which would be returned from an API that does this activity.',
+      'Extremely elegant, simple, and concise code examples. Depending on the context, you will either return a Typescript code example or an example JSON object which would be returned from an API that does this activity.',
   }),
-  codeLang: z.enum(['typescript', 'javascript', 'json']),
+  codeLang: z.enum(['typescript', 'json']),
   // features: z.array(z.object({
   //   title: z.string(),
   //   description: z.string(),

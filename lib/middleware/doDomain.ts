@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server.js'
-import { collectionSlugs } from '@/collections/middleware-collections'
+import { collectionSlugs } from '@/collections/slugs'
 import { extractApiNameFromDomain } from '../domains'
 
 export function handleDoDomain(request: NextRequest): NextResponse | null {
@@ -9,7 +9,8 @@ export function handleDoDomain(request: NextRequest): NextResponse | null {
 
   if (hostname === 'documentation.do') {
     console.log('Handling documentation.do domain', { pathname, search })
-    return NextResponse.rewrite(new URL(`${url.origin}/docs${pathname}${search}`, url))
+    const pathWithDocs = pathname.startsWith('/docs') ? pathname : `/docs${pathname}`
+    return NextResponse.rewrite(new URL(`${url.origin}${pathWithDocs}${search}`, url))
   }
 
   const apiName = extractApiNameFromDomain(hostname)

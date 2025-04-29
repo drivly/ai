@@ -37,7 +37,7 @@ export const DotDoSection = (props: DotDoSectionProps) => {
     <Fragment>
       <div className='mb-16'>
         {/* Only show the switch if not on a brand domain and not on a TLD domain */}
-        {(!isBrandDomain && !currentTld && mounted) && (
+        {!isBrandDomain && !currentTld && mounted && (
           <div className='mb-8 flex items-center space-x-2'>
             <span className='mr-2 text-sm font-medium opacity-70'>Show URLs as:</span>
             <div className='flex items-center space-x-4'>

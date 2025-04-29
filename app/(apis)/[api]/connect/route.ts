@@ -17,16 +17,16 @@ export const POST = API(async (request, { db, user, origin, url, params }) => {
   if (!apiExists && !isAlias) {
     return { error: { message: `API '${api}' not found.`, status: 404 } }
   }
-  
+
   if (!user) {
     return { error: { message: 'Authentication required', status: 401 } }
   }
 
   const body = await request.json()
-  const { integrationId, taskId, redirectUrl } = body
+  const { integrationId, taskId, redirectUrl, metadata = {} } = body
 
   if (!integrationId) {
-    return { error: { message: 'Integration ID is required', status: 400 } }
+    return { error: { message: 'Integration ID is required', status: 400, details: null } }
   }
 
   const payloadInstance = await getPayload({ config })
@@ -52,13 +52,15 @@ export const POST = API(async (request, { db, user, origin, url, params }) => {
       metadata: {
         taskId,
         createdAt: new Date().toISOString(),
+        lastUsed: new Date().toISOString(),
         api: effectiveApi, // Store API information in metadata
+        ...metadata,
       },
     },
   })
 
   const callbackUrl = `${origin}/api/webhooks/composio?connectionId=${connection.id}`
-  
+
   const finalRedirectUrl = redirectUrl || `${origin}/dashboard/connections`
 
   const response = await fetch('https://backend.composio.dev/api/v1/connections', {
@@ -84,7 +86,11 @@ export const POST = API(async (request, { db, user, origin, url, params }) => {
       id: connection.id,
       data: {
         status: 'rejected',
-        metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, { error: data }),
+        metadata: Object.assign({}, typeof connection.metadata === 'object' && connection.metadata !== null ? connection.metadata : {}, {
+          error: data,
+          errorTimestamp: new Date().toISOString(),
+          errorStatus: response.status,
+        }),
       },
     })
 

@@ -7,6 +7,7 @@ export const ConnectAccounts: CollectionConfig = {
     useAsTitle: 'name',
     description: 'Store Stripe Connect account information',
   },
+  labels: { singular: 'Account', plural: 'Accounts' },
   fields: [
     {
       name: 'name',

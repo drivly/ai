@@ -26,7 +26,9 @@ try {
   ;(async () => {
     storedApiKey = await loadApiKey()
   })()
-} catch (error) {}
+} catch (error) {
+  console.error('Error loading stored API key:', error instanceof Error ? error.message : String(error))
+}
 
 const cli = new CLI({
   apiKey: storedApiKey || process.env.APIS_DO_API_KEY || process.env.DO_API_KEY,

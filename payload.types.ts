@@ -71,6 +71,7 @@ export interface Config {
     functions: Function;
     workflows: Workflow;
     agents: Agent;
+    services: Service;
     queues: Queue;
     tasks: Task;
     goals: Goal;
@@ -82,7 +83,7 @@ export interface Config {
     databases: Database;
     resources: Resource;
     chatResources: ChatResource;
-    actions: Action;
+    relationships: Relationship;
     integrationCategories: IntegrationCategory;
     integrations: Integration;
     connectAccounts: ConnectAccount;
@@ -91,6 +92,7 @@ export interface Config {
     integrationActions: IntegrationAction;
     triggers: Trigger;
     searches: Search;
+    actions: Action;
     experiments: Experiment;
     experimentMetrics: ExperimentMetric;
     models: Model;
@@ -125,7 +127,6 @@ export interface Config {
     tags: Tag;
     webhooks: Webhook;
     apikeys: Apikey;
-    services: Service;
     oauthClients: OauthClient;
     oauthCodes: OauthCode;
     oauthTokens: OauthToken;
@@ -148,9 +149,6 @@ export interface Config {
     things: {
       resources: 'resources';
     };
-    actions: {
-      generation: 'generations';
-    };
     kpis: {
       goals: 'goals';
     };
@@ -159,6 +157,7 @@ export interface Config {
     functions: FunctionsSelect<false> | FunctionsSelect<true>;
     workflows: WorkflowsSelect<false> | WorkflowsSelect<true>;
     agents: AgentsSelect<false> | AgentsSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
     queues: QueuesSelect<false> | QueuesSelect<true>;
     tasks: TasksSelect<false> | TasksSelect<true>;
     goals: GoalsSelect<false> | GoalsSelect<true>;
@@ -170,7 +169,7 @@ export interface Config {
     databases: DatabasesSelect<false> | DatabasesSelect<true>;
     resources: ResourcesSelect<false> | ResourcesSelect<true>;
     chatResources: ChatResourcesSelect<false> | ChatResourcesSelect<true>;
-    actions: ActionsSelect<false> | ActionsSelect<true>;
+    relationships: RelationshipsSelect<false> | RelationshipsSelect<true>;
     integrationCategories: IntegrationCategoriesSelect<false> | IntegrationCategoriesSelect<true>;
     integrations: IntegrationsSelect<false> | IntegrationsSelect<true>;
     connectAccounts: ConnectAccountsSelect<false> | ConnectAccountsSelect<true>;
@@ -179,6 +178,7 @@ export interface Config {
     integrationActions: IntegrationActionsSelect<false> | IntegrationActionsSelect<true>;
     triggers: TriggersSelect<false> | TriggersSelect<true>;
     searches: SearchesSelect<false> | SearchesSelect<true>;
+    actions: ActionsSelect<false> | ActionsSelect<true>;
     experiments: ExperimentsSelect<false> | ExperimentsSelect<true>;
     experimentMetrics: ExperimentMetricsSelect<false> | ExperimentMetricsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
@@ -213,7 +213,6 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     webhooks: WebhooksSelect<false> | WebhooksSelect<true>;
     apikeys: ApikeysSelect<false> | ApikeysSelect<true>;
-    services: ServicesSelect<false> | ServicesSelect<true>;
     oauthClients: OauthClientsSelect<false> | OauthClientsSelect<true>;
     oauthCodes: OauthCodesSelect<false> | OauthCodesSelect<true>;
     oauthTokens: OauthTokensSelect<false> | OauthTokensSelect<true>;
@@ -240,6 +239,8 @@ export interface Config {
       executeFunction: TaskExecuteFunction;
       generateCode: TaskGenerateCode;
       requestHumanFeedback: TaskRequestHumanFeedback;
+      monitorHumanFeedbackTask: TaskMonitorHumanFeedbackTask;
+      executeAgentFunction: TaskExecuteAgentFunction;
       updateSlackMessage: TaskUpdateSlackMessage;
       processBatchOpenAI: TaskProcessBatchOpenAI;
       processBatchAnthropic: TaskProcessBatchAnthropic;
@@ -260,6 +261,7 @@ export interface Config {
       generateEmbedding: TaskGenerateEmbedding;
       inflectNouns: TaskInflectNouns;
       conjugateVerbs: TaskConjugateVerbs;
+      analyzeFunction: TaskAnalyzeFunction;
       deliverWebhook: TaskDeliverWebhook;
       initiateComposioConnection: TaskInitiateComposioConnection;
       processDomain: TaskProcessDomain;
@@ -724,8 +726,8 @@ export interface Resource {
     | number
     | boolean
     | null;
-  subjectOf?: (string | Action)[] | null;
-  objectOf?: (string | Action)[] | null;
+  subjectOf?: (string | Relationship)[] | null;
+  objectOf?: (string | Relationship)[] | null;
   content?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -847,19 +849,14 @@ export interface Thing {
  * Defines semantic relationships between resources using subject-verb-object patterns
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions".
+ * via the `definition` "relationships".
  */
-export interface Action {
+export interface Relationship {
   id: string;
   subject?: (string | null) | Resource;
   verb?: (string | null) | Verb;
   object?: (string | null) | Resource;
   hash?: string | null;
-  generation?: {
-    docs?: (string | Generation)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
   updatedAt: string;
   createdAt: string;
 }
@@ -920,84 +917,6 @@ export interface Verb {
    * Object like Destruction
    */
   inverseObject?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Records of AI model generation requests and responses
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generations".
- */
-export interface Generation {
-  id: string;
-  tenant?: (string | null) | Project;
-  action?: (string | null) | Action;
-  settings?: (string | null) | Resource;
-  request?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  response?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  error?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  status?: ('success' | 'error') | null;
-  duration?: number | null;
-  processingMode?: ('realtime' | 'batch') | null;
-  batch?: (string | null) | GenerationBatch;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Batches
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "generationBatches".
- */
-export interface GenerationBatch {
-  id: string;
-  name: string;
-  provider: 'openai' | 'anthropic' | 'google' | 'parasail' | 'cloudflare' | 'groq';
-  status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
-  /**
-   * Provider-specific batch configuration
-   */
-  batchConfig?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  /**
-   * ID of the batch job in the provider system
-   */
-  providerBatchId?: string | null;
-  generations?: (string | Generation)[] | null;
-  startedAt?: string | null;
-  completedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1129,6 +1048,119 @@ export interface Deployment {
   id: string;
   tenant?: (string | null) | Project;
   name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Services-as-Software with billing capabilities
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: string;
+  name: string;
+  status: 'active' | 'inactive' | 'degraded';
+  description?: string | null;
+  endpoint: string;
+  version?: string | null;
+  /**
+   * Business objective this service aims to achieve
+   */
+  objective: {
+    description: string;
+  };
+  /**
+   * Key results for measuring service success
+   */
+  keyResults?:
+    | {
+        description: string;
+        target?: number | null;
+        currentValue?: number | null;
+        unit?: string | null;
+        dueDate?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Service pricing configuration
+   */
+  pricing: {
+    /**
+     * Pricing model for this service
+     */
+    model: 'cost-based' | 'margin-based' | 'activity-based' | 'outcome-based';
+    /**
+     * Base cost in USD
+     */
+    costBase?: number | null;
+    /**
+     * Fixed costs in USD
+     */
+    fixedCosts?: number | null;
+    /**
+     * Variable costs in USD
+     */
+    variableCosts?: number | null;
+    /**
+     * Margin percentage (0-100)
+     */
+    marginPercentage?: number | null;
+    /**
+     * Billable activities with rates
+     */
+    activities?:
+      | {
+          name: string;
+          description?: string | null;
+          rate: number;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Billable outcomes with targets and prices
+     */
+    outcomes?:
+      | {
+          metric: string;
+          description?: string | null;
+          targetValue: number;
+          price: number;
+          unit?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Service implementation details
+   */
+  implementation: {
+    type: 'function' | 'workflow' | 'agent';
+    id: string;
+    version?: string | null;
+    configuration?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  /**
+   * Additional metadata for the service
+   */
+  metadata?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1594,6 +1626,39 @@ export interface Search {
     | boolean
     | null;
   embedding?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Records of actions performed within the system
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions".
+ */
+export interface Action {
+  id: string;
+  name?: string | null;
+  description?: string | null;
+  functionId?: (string | null) | Function;
+  verbId?: (string | null) | Verb;
+  parameters?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  result?:
     | {
         [k: string]: unknown;
       }
@@ -2102,13 +2167,89 @@ export interface Event {
     | number
     | boolean
     | null;
-  action?: (string | null) | Action;
   trigger?: (string | null) | Trigger;
   search?: (string | null) | Search;
   function?: (string | null) | Function;
   workflow?: (string | null) | Workflow;
   agent?: (string | null) | Agent;
   generations?: (string | Generation)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Records of AI model generation requests and responses
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generations".
+ */
+export interface Generation {
+  id: string;
+  tenant?: (string | null) | Project;
+  settings?: (string | null) | Resource;
+  request?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  response?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  error?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  status?: ('success' | 'error') | null;
+  duration?: number | null;
+  processingMode?: ('realtime' | 'batch') | null;
+  batch?: (string | null) | GenerationBatch;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Batches
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "generationBatches".
+ */
+export interface GenerationBatch {
+  id: string;
+  name: string;
+  provider: 'openai' | 'anthropic' | 'google' | 'parasail' | 'cloudflare' | 'groq';
+  status?: ('queued' | 'processing' | 'completed' | 'failed') | null;
+  /**
+   * Provider-specific batch configuration
+   */
+  batchConfig?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * ID of the batch job in the provider system
+   */
+  providerBatchId?: string | null;
+  generations?: (string | Generation)[] | null;
+  startedAt?: string | null;
+  completedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2478,34 +2619,6 @@ export interface Apikey {
   apiKeyIndex?: string | null;
 }
 /**
- * Service Registry and Management for the .do ecosystem
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services".
- */
-export interface Service {
-  id: string;
-  name: string;
-  status: 'active' | 'inactive' | 'degraded';
-  description?: string | null;
-  endpoint: string;
-  version?: string | null;
-  /**
-   * Additional metadata for the service
-   */
-  metadata?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
  * Manages OAuth client applications and their credentials
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2616,6 +2729,8 @@ export interface PayloadJob {
           | 'executeFunction'
           | 'generateCode'
           | 'requestHumanFeedback'
+          | 'monitorHumanFeedbackTask'
+          | 'executeAgentFunction'
           | 'updateSlackMessage'
           | 'processBatchOpenAI'
           | 'processBatchAnthropic'
@@ -2636,6 +2751,7 @@ export interface PayloadJob {
           | 'generateEmbedding'
           | 'inflectNouns'
           | 'conjugateVerbs'
+          | 'analyzeFunction'
           | 'deliverWebhook'
           | 'initiateComposioConnection'
           | 'processDomain'
@@ -2685,6 +2801,8 @@ export interface PayloadJob {
                 | 'executeFunction'
                 | 'generateCode'
                 | 'requestHumanFeedback'
+                | 'monitorHumanFeedbackTask'
+                | 'executeAgentFunction'
                 | 'updateSlackMessage'
                 | 'processBatchOpenAI'
                 | 'processBatchAnthropic'
@@ -2705,6 +2823,7 @@ export interface PayloadJob {
                 | 'generateEmbedding'
                 | 'inflectNouns'
                 | 'conjugateVerbs'
+                | 'analyzeFunction'
                 | 'deliverWebhook'
                 | 'initiateComposioConnection'
                 | 'processDomain'
@@ -2732,6 +2851,8 @@ export interface PayloadJob {
         | 'executeFunction'
         | 'generateCode'
         | 'requestHumanFeedback'
+        | 'monitorHumanFeedbackTask'
+        | 'executeAgentFunction'
         | 'updateSlackMessage'
         | 'processBatchOpenAI'
         | 'processBatchAnthropic'
@@ -2752,6 +2873,7 @@ export interface PayloadJob {
         | 'generateEmbedding'
         | 'inflectNouns'
         | 'conjugateVerbs'
+        | 'analyzeFunction'
         | 'deliverWebhook'
         | 'initiateComposioConnection'
         | 'processDomain'
@@ -2791,6 +2913,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'agents';
         value: string | Agent;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: string | Service;
       } | null)
     | ({
         relationTo: 'queues';
@@ -2837,8 +2963,8 @@ export interface PayloadLockedDocument {
         value: string | ChatResource;
       } | null)
     | ({
-        relationTo: 'actions';
-        value: string | Action;
+        relationTo: 'relationships';
+        value: string | Relationship;
       } | null)
     | ({
         relationTo: 'integrationCategories';
@@ -2871,6 +2997,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'searches';
         value: string | Search;
+      } | null)
+    | ({
+        relationTo: 'actions';
+        value: string | Action;
       } | null)
     | ({
         relationTo: 'experiments';
@@ -3007,10 +3137,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'apikeys';
         value: string | Apikey;
-      } | null)
-    | ({
-        relationTo: 'services';
-        value: string | Service;
       } | null)
     | ({
         relationTo: 'oauthClients';
@@ -3168,6 +3294,70 @@ export interface AgentsSelect<T extends boolean = true> {
         stripePriceId?: T;
       };
   goals?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  name?: T;
+  status?: T;
+  description?: T;
+  endpoint?: T;
+  version?: T;
+  objective?:
+    | T
+    | {
+        description?: T;
+      };
+  keyResults?:
+    | T
+    | {
+        description?: T;
+        target?: T;
+        currentValue?: T;
+        unit?: T;
+        dueDate?: T;
+        id?: T;
+      };
+  pricing?:
+    | T
+    | {
+        model?: T;
+        costBase?: T;
+        fixedCosts?: T;
+        variableCosts?: T;
+        marginPercentage?: T;
+        activities?:
+          | T
+          | {
+              name?: T;
+              description?: T;
+              rate?: T;
+              id?: T;
+            };
+        outcomes?:
+          | T
+          | {
+              metric?: T;
+              description?: T;
+              targetValue?: T;
+              price?: T;
+              unit?: T;
+              id?: T;
+            };
+      };
+  implementation?:
+    | T
+    | {
+        type?: T;
+        id?: T;
+        version?: T;
+        configuration?: T;
+      };
+  metadata?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3393,14 +3583,13 @@ export interface ChatResourcesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "actions_select".
+ * via the `definition` "relationships_select".
  */
-export interface ActionsSelect<T extends boolean = true> {
+export interface RelationshipsSelect<T extends boolean = true> {
   subject?: T;
   verb?: T;
   object?: T;
   hash?: T;
-  generation?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3517,6 +3706,20 @@ export interface SearchesSelect<T extends boolean = true> {
   searchType?: T;
   results?: T;
   embedding?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "actions_select".
+ */
+export interface ActionsSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  functionId?: T;
+  verbId?: T;
+  parameters?: T;
+  result?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3798,7 +4001,6 @@ export interface EventsSelect<T extends boolean = true> {
   subject?: T;
   data?: T;
   metadata?: T;
-  action?: T;
   trigger?: T;
   search?: T;
   function?: T;
@@ -3828,7 +4030,6 @@ export interface ErrorsSelect<T extends boolean = true> {
  */
 export interface GenerationsSelect<T extends boolean = true> {
   tenant?: T;
-  action?: T;
   settings?: T;
   request?: T;
   response?: T;
@@ -4115,20 +4316,6 @@ export interface ApikeysSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services_select".
- */
-export interface ServicesSelect<T extends boolean = true> {
-  name?: T;
-  status?: T;
-  description?: T;
-  endpoint?: T;
-  version?: T;
-  metadata?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "oauthClients_select".
  */
 export interface OauthClientsSelect<T extends boolean = true> {
@@ -4373,6 +4560,74 @@ export interface TaskRequestHumanFeedback {
       | boolean
       | null;
     messageId?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskMonitorHumanFeedbackTask".
+ */
+export interface TaskMonitorHumanFeedbackTask {
+  input: {
+    taskId: string;
+    functionName: string;
+    timeout?: number | null;
+    callback?: string | null;
+  };
+  output: {
+    status?: string | null;
+    taskId?: string | null;
+    response?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    nextCheck?: string | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskExecuteAgentFunction".
+ */
+export interface TaskExecuteAgentFunction {
+  input: {
+    agentId: string;
+    prompt: string;
+    context?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    taskId: string;
+    options?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    status?: string | null;
+    taskId?: string | null;
+    response?:
       | {
           [k: string]: unknown;
         }
@@ -4868,6 +5123,59 @@ export interface TaskConjugateVerbs {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskAnalyzeFunction".
+ */
+export interface TaskAnalyzeFunction {
+  input: {
+    name: string;
+    schema?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+  };
+  output: {
+    type?: string | null;
+    format?: string | null;
+    verb?: string | null;
+    subject?: string | null;
+    object?: string | null;
+    examples?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    verbForms?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    nounForms?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    confidence?: number | null;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "TaskDeliverWebhook".
  */
 export interface TaskDeliverWebhook {
@@ -4899,6 +5207,15 @@ export interface TaskInitiateComposioConnection {
     userId: string;
     taskId?: string | null;
     redirectUrl?: string | null;
+    metadata?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
   output: {
     connection?:

@@ -80,14 +80,16 @@ export const Slideshow: React.FC<SlideshowProps> = ({ children, title, code, ste
             padding: '16px',
             overflow: 'auto',
             maxWidth: '100%',
-          }}>
+          }}
+        >
           <pre style={{ margin: 0 }}>
             <code
               className={`language-${language || 'typescript'}`}
               style={{
                 fontFamily: 'monospace',
                 color: '#d4d4d4',
-              }}>
+              }}
+            >
               {/* In server rendering, we can't use state, so just show the first step or code */}
               {steps && steps.length > 0 ? steps[0] : code}
             </code>

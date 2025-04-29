@@ -37,7 +37,7 @@ export function handleGatewayDomain(request: NextRequest): NextResponse | null {
     })
     return NextResponse.rewrite(new URL(`/sites${search}`, url))
   }
-  
+
   if (pathname === '/pricing') {
     console.log('Rewriting gateway domain /pricing to functions.do/pricing', {
       hostname,

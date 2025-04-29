@@ -9,12 +9,12 @@ import { NextResponse } from 'next/server'
  */
 export const GET = API(async (request, { db, user, origin, url, domain, payload }) => {
   const spec = generateOpenApiSpec(payload)
-  
+
   const response = NextResponse.json(spec)
-  
+
   response.headers.set('Access-Control-Allow-Origin', '*')
   response.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS')
   response.headers.set('Access-Control-Allow-Headers', 'Content-Type')
-  
+
   return response
 })

@@ -52,7 +52,7 @@ describe('integrations.do SDK', () => {
     it('should connect to a service', async () => {
       const mockConnection = { id: '123', service: 'test-service', status: 'active', auth: { type: 'apiKey' } } // Added auth type to mock
       mockPost.mockResolvedValue(mockConnection)
-      const authOptions = { type: 'apiKey' as const, apiKey: 'dummy-key' }; // Use 'as const' for literal type
+      const authOptions = { type: 'apiKey' as const, apiKey: 'dummy-key' } // Use 'as const' for literal type
 
       const result = await integrations.connect('test-service', authOptions)
 
@@ -63,7 +63,7 @@ describe('integrations.do SDK', () => {
     it('should create a trigger', async () => {
       const mockTrigger = { id: '123', type: 'webhook' as const, source: 'test-service', event: 'dummy-event', status: 'enabled' as const } // Added event and status
       mockPost.mockResolvedValue(mockTrigger)
-      const triggerConfig = { type: 'webhook' as const, source: 'test-service', event: 'dummy-event' }; // Added event
+      const triggerConfig = { type: 'webhook' as const, source: 'test-service', event: 'dummy-event' } // Added event
 
       const result = await integrations.createTrigger(triggerConfig)
 
@@ -74,7 +74,7 @@ describe('integrations.do SDK', () => {
     it('should create an action', async () => {
       const mockAction = { id: '123', name: 'test-action', description: 'dummy description', source: 'test-service', operation: 'dummy-operation', inputSchema: {} } // Added missing props
       mockPost.mockResolvedValue(mockAction)
-      const actionConfig = { name: 'test-action', source: 'test-service', description: 'dummy description', operation: 'dummy-operation', inputSchema: {} }; // Added missing props
+      const actionConfig = { name: 'test-action', source: 'test-service', description: 'dummy description', operation: 'dummy-operation', inputSchema: {} } // Added missing props
 
       const result = await integrations.createAction(actionConfig)
 

@@ -50,6 +50,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
 
   // Get the raw body
   const rawBody = await request.text()
+  const connectionId = url.searchParams.get('connectionId')
 
   try {
     // Create a new Webhook instance with the secret
@@ -69,6 +70,34 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
 
     // Store the event in the database
     const payloadInstance = await getPayload({ config })
+
+    if (connectionId) {
+      try {
+        let newStatus: 'active' | 'rejected' | null = null
+        if (data.status === 'connected' || data.status === 'success') {
+          newStatus = 'active'
+        } else if (data.status === 'failed' || data.status === 'error') {
+          newStatus = 'rejected'
+        }
+
+        if (newStatus) {
+          await payloadInstance.update({
+            collection: 'connectAccounts',
+            id: connectionId,
+            data: {
+              status: newStatus,
+              metadata: {
+                lastUpdated: new Date().toISOString(),
+                webhookEvent: data.type || 'unknown',
+                webhookData: sanitizedData,
+              },
+            },
+          })
+        }
+      } catch (error) {
+        console.error('Failed to update connection status:', error)
+      }
+    }
     const results = await payloadInstance.create({
       collection: 'events',
       data: {

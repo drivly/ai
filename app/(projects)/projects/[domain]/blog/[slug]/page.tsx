@@ -19,7 +19,7 @@ const getData = cache(async ({ domain, slug }: { domain: string; slug: string })
 })
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string; slug: string }> }): Promise<Metadata> {
-  const { domain, slug } = await params || {}
+  const { domain, slug } = (await params) || {}
   const post = await getData({ domain, slug })
 
   return {
@@ -28,14 +28,12 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
   }
 }
 
-
 export default async function BlogPostPage({ params }: { params: Promise<{ domain: string; slug: string }> }) {
-
-  const { domain, slug } = await params || {}
+  const { domain, slug } = (await params) || {}
   const post = await getData({ domain, slug })
 
   return (
-    <div >
+    <div>
       <Link href='/blog' prefetch={true}>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back to blog
@@ -51,7 +49,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ domai
         </div>
 
         <Markdown>{post.markdown}</Markdown>
-
       </article>
     </div>
   )

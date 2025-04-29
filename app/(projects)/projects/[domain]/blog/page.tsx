@@ -5,14 +5,16 @@ import { cache } from 'react'
 import { listBlogPostTitles, siteContent } from '@/.ai/functions/content'
 import { slugify } from '@/lib/slugify'
 
-
 const getData = cache(async ({ domain }: { domain: string }) => {
-  const [posts, content] = await Promise.all([listBlogPostTitles({ domain }), siteContent({ domain }, { system: 'You are an expert at writing compelling and SEO-optimized landing page content', temperature: 1 })])
+  const [posts, content] = await Promise.all([
+    listBlogPostTitles({ domain }),
+    siteContent({ domain }, { system: 'You are an expert at writing compelling and SEO-optimized landing page content', temperature: 1 }),
+  ])
   return { posts, ...content }
 })
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
-  const { domain } = await params || {}
+  const { domain } = (await params) || {}
   const data = await getData({ domain })
 
   return {
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 
 export default async function BlogPage({ params }: { params: Promise<{ domain: string }> }) {
   try {
-    const { domain } = await params || {}
+    const { domain } = (await params) || {}
     // const project = await fetchProjectByDomain(domain)
     const data = await getData({ domain })
 
@@ -41,7 +43,7 @@ export default async function BlogPage({ params }: { params: Promise<{ domain: s
           </h1>
         </div>
 
-        <div >
+        <div>
           {data.posts.map((post) => (
             <article key={post.title}>
               <Link prefetch={true} href={'/blog/' + slugify(post.title)}>

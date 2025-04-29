@@ -63,44 +63,13 @@ export class RequestHandler {
   }
 
   /**
-   * Fetches Cloudflare metadata from cf.json endpoint
-   * Only fetches if not already in Cloudflare Worker context
-   * Uses caching to prevent excessive requests
-   * Attaches data to request object for access in API handlers
+   * Fetches Cloudflare metadata
+   * This is a stub function that previously fetched data from cf.json
+   * The functionality has been removed as it was not working
+   * This will be solved in a different way in the future
    */
   async fetchCfData(): Promise<any> {
-    // Skip if already in Cloudflare Worker context
-    if ('cf' in this.request) {
-      return (this.request as any).cf
-    }
-
-    const ip = this.request.headers.get('cf-connecting-ip') || this.request.headers.get('x-forwarded-for') || this.request.headers.get('x-real-ip') || '127.0.0.1'
-
-    const cachedData = cfCache.get(ip)
-    if (cachedData && Date.now() - cachedData.timestamp < CACHE_TTL) {
-      this.cf = cachedData.data
-      ;(this.request as any)._cf = this.cf
-      return this.cf
-    }
-
-    try {
-      const response = await fetch('https://workers.cloudflare.com/cf.json')
-      if (response.ok) {
-        const data = await response.json()
-
-        cfCache.set(ip, {
-          data,
-          timestamp: Date.now(),
-        })
-
-        this.cf = data
-        ;(this.request as any)._cf = this.cf
-        return data
-      }
-    } catch (error) {
-      console.error('Error fetching Cloudflare data:', error)
-    }
-
+    console.log('Cloudflare data fetching is disabled')
     return null
   }
 

@@ -1,9 +1,9 @@
-import { cartesian } from "experiments.do"
-import { evalite } from "evalite"
-import { domains } from "@/.velite"
-import { siteContent } from "./content"
-import { Battle } from "autoevals"
-import { sampleSize } from "lodash"
+import { cartesian } from 'experiments.do'
+import { evalite } from 'evalite'
+import { domains } from '@/.velite'
+import { siteContent } from './content'
+import { Battle } from 'autoevals'
+import { sampleSize } from 'lodash'
 
 const context = ' for `.do` - an AI-powered Agentic Workflow Platform to do Business-as-Code and deliver valuable Services-as-Software through simple APIs and SDKs. '
 
@@ -29,26 +29,26 @@ for (const domain of sampleSize(domains, 10)) {
     const expected = {} // await siteContent({ domain }, { modelName, system: 'You are an expert at writing compelling and SEO-optimized site content' + context, temperature: 1 })
     evalite(`siteContent ${domain.domain} ${modelName}`, {
       data: async () => {
-        const combinations   = cartesian({
+        const combinations = cartesian({
           system: [
             'You are an expert at writing compelling and SEO-optimized site content' + context,
-            'You are an expert at content marketing for startups and you were hired by' + context, 
+            'You are an expert at content marketing for startups and you were hired by' + context,
             'You are a YC Group Partner having office hours' + context,
           ],
           temperature: [0.7, 0.8, 0.9, 1.0],
         })
-        return combinations.map(input => ({ input, expected, instructions: 'Write site content for the given domain' }))
+        return combinations.map((input) => ({ input, expected, instructions: 'Write site content for the given domain' }))
       },
       task: async ({ system, temperature }) => siteContent(domain, { modelName, system, temperature }),
       scorers: [],
       experimental_customColumns: async ({ input, output, expected }) => {
         return [
-          { label: "System", value: input.system },
-          { label: "Temperature", value: input.temperature },
-          { label: "Headline", value: output.hero.headline },
-          { label: "Subhead", value: output.hero.subheadline },
+          { label: 'System', value: input.system },
+          { label: 'Temperature', value: input.temperature },
+          { label: 'Headline', value: output.hero.headline },
+          { label: 'Subhead', value: output.hero.subheadline },
         ]
       },
-    })  
+    })
   }
 }

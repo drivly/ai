@@ -130,6 +130,73 @@ describe('Collection', () => {
       expect(results).toHaveLength(1)
       expect(results[0].name).toBe('Document 2')
     })
+
+    it('should support $exists operator', async () => {
+      const mockDocuments = [
+        { id: '1', collection: 'test', data: JSON.stringify({ _id: '1', name: 'Document 1', value: 10 }) },
+        { id: '2', collection: 'test', data: JSON.stringify({ _id: '2', name: 'Document 2' }) },
+      ]
+
+      mockStorage.sql.exec = vi.fn().mockReturnValue(createMockCursor(mockDocuments))
+
+      const collection = db.collection('test')
+      const cursor = collection.find({ value: { $exists: true } })
+
+      const results = await cursor.toArray()
+      expect(results).toHaveLength(1)
+      expect(results[0].name).toBe('Document 1')
+    })
+
+    it('should support $type operator', async () => {
+      const mockDocuments = [
+        { id: '1', collection: 'test', data: JSON.stringify({ _id: '1', name: 'Document 1', value: 10 }) },
+        { id: '2', collection: 'test', data: JSON.stringify({ _id: '2', name: 'Document 2', value: '20' }) },
+      ]
+
+      mockStorage.sql.exec = vi.fn().mockReturnValue(createMockCursor(mockDocuments))
+
+      const collection = db.collection('test')
+      const cursor = collection.find({ value: { $type: 'number' } })
+
+      const results = await cursor.toArray()
+      expect(results).toHaveLength(1)
+      expect(results[0].name).toBe('Document 1')
+    })
+
+    it('should support $regex operator', async () => {
+      const mockDocuments = [
+        { id: '1', collection: 'test', data: JSON.stringify({ _id: '1', name: 'Document 1', value: 10 }) },
+        { id: '2', collection: 'test', data: JSON.stringify({ _id: '2', name: 'Test 2', value: 20 }) },
+      ]
+
+      mockStorage.sql.exec = vi.fn().mockReturnValue(createMockCursor(mockDocuments))
+
+      const collection = db.collection('test')
+      const cursor = collection.find({ name: { $regex: '^Test' } })
+
+      const results = await cursor.toArray()
+      expect(results).toHaveLength(1)
+      expect(results[0].name).toBe('Test 2')
+    })
+
+    it('should support $nor operator', async () => {
+      const mockDocuments = [
+        { id: '1', collection: 'test', data: JSON.stringify({ _id: '1', name: 'Document 1', value: 10 }) },
+        { id: '2', collection: 'test', data: JSON.stringify({ _id: '2', name: 'Test 2', value: 20 }) },
+        { id: '3', collection: 'test', data: JSON.stringify({ _id: '3', name: 'Document 3', value: 30 }) },
+      ]
+
+      mockStorage.sql.exec = vi.fn().mockReturnValue(createMockCursor(mockDocuments))
+
+      const collection = db.collection('test')
+      const cursor = collection.find({
+        $nor: [{ name: { $regex: '^Test' } }, { value: { $gt: 20 } }],
+      })
+
+      const results = await cursor.toArray()
+      expect(results).toHaveLength(1)
+      expect(results[0].name).toBe('Document 1')
+    })
   })
 
   describe('findOne', () => {
@@ -212,6 +279,54 @@ describe('Collection', () => {
 
       expect(result).toEqual({ matchedCount: 1, modifiedCount: 1 })
       expect(mockStorage.sql.exec).toHaveBeenCalledWith(expect.stringContaining('UPDATE documents SET data'), expect.stringContaining('100'), '1', 'test')
+    })
+
+    it('should support $addToSet operator', async () => {
+      const mockDocuments = [{ id: '1', collection: 'test', data: JSON.stringify({ _id: '1', name: 'Document 1', tags: ['tag1', 'tag2'] }) }]
+
+      mockStorage.sql.exec = vi.fn().mockReturnValue(createMockCursor(mockDocuments))
+
+      const collection = db.collection('test')
+      const result = await collection.updateOne({ name: 'Document 1' }, { $addToSet: { tags: 'tag3' } })
+
+      expect(result).toEqual({ matchedCount: 1, modifiedCount: 1 })
+      expect(mockStorage.sql.exec).toHaveBeenCalledWith(expect.stringContaining('UPDATE documents SET data'), expect.stringContaining('tag3'), '1', 'test')
+    })
+
+    it('should not add duplicate values with $addToSet', async () => {
+      const mockDocuments = [{ id: '1', collection: 'test', data: JSON.stringify({ _id: '1', name: 'Document 1', tags: ['tag1', 'tag2'] }) }]
+
+      mockStorage.sql.exec = vi.fn().mockReturnValue(createMockCursor(mockDocuments))
+
+      const collection = db.collection('test')
+      const result = await collection.updateOne({ name: 'Document 1' }, { $addToSet: { tags: 'tag2' } })
+
+      expect(result).toEqual({ matchedCount: 1, modifiedCount: 1 })
+      expect(mockStorage.sql.exec).toHaveBeenCalled()
+    })
+
+    it('should support $pop operator to remove last element', async () => {
+      const mockDocuments = [{ id: '1', collection: 'test', data: JSON.stringify({ _id: '1', name: 'Document 1', tags: ['tag1', 'tag2', 'tag3'] }) }]
+
+      mockStorage.sql.exec = vi.fn().mockReturnValue(createMockCursor(mockDocuments))
+
+      const collection = db.collection('test')
+      const result = await collection.updateOne({ name: 'Document 1' }, { $pop: { tags: 1 } })
+
+      expect(result).toEqual({ matchedCount: 1, modifiedCount: 1 })
+      expect(mockStorage.sql.exec).toHaveBeenCalledWith(expect.stringContaining('UPDATE documents SET data'), expect.not.stringContaining('tag3'), '1', 'test')
+    })
+
+    it('should support $pop operator to remove first element', async () => {
+      const mockDocuments = [{ id: '1', collection: 'test', data: JSON.stringify({ _id: '1', name: 'Document 1', tags: ['tag1', 'tag2', 'tag3'] }) }]
+
+      mockStorage.sql.exec = vi.fn().mockReturnValue(createMockCursor(mockDocuments))
+
+      const collection = db.collection('test')
+      const result = await collection.updateOne({ name: 'Document 1' }, { $pop: { tags: -1 } })
+
+      expect(result).toEqual({ matchedCount: 1, modifiedCount: 1 })
+      expect(mockStorage.sql.exec).toHaveBeenCalledWith(expect.stringContaining('UPDATE documents SET data'), expect.not.stringContaining('tag1'), '1', 'test')
     })
   })
 

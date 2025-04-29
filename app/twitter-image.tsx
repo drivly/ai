@@ -26,7 +26,8 @@ export default async function Image() {
           alignItems: 'center',
           justifyContent: 'center',
           height: '100%',
-        }}>
+        }}
+      >
         {/* @ts-expect-error */}
         <img src={logoSrc} height='630' alt='logo' />
         <div style={{ fontFamily: 'IBM-med' }} tw='absolute left-[90px] top-[87px] text-[47.25px] leading-normal font-medium'>

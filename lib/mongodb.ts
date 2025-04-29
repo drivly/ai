@@ -5,7 +5,7 @@ if (!process.env.DATABASE_URI) {
 }
 
 const uri = process.env.DATABASE_URI
-const options = { } satisfies MongoClientOptions
+const options = {} satisfies MongoClientOptions
 
 let client
 let clientPromise: Promise<MongoClient>

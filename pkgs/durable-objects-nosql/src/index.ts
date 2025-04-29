@@ -268,6 +268,10 @@ class CollectionImpl<T = any> implements Collection<T> {
             if (!Array.isArray(value)) return false
             if (!value.some((subQuery) => this.matchesQuery(document, subQuery))) return false
             break
+          case '$nor':
+            if (!Array.isArray(value)) return false
+            if (value.some((subQuery) => this.matchesQuery(document, subQuery))) return false
+            break
           default:
             return false
         }
@@ -310,6 +314,12 @@ class CollectionImpl<T = any> implements Collection<T> {
         return Array.isArray(operatorValue) && !operatorValue.includes(value)
       case '$not':
         return !this.matchesQuery({ value }, { value: operatorValue })
+      case '$exists':
+        return operatorValue ? value !== undefined : value === undefined
+      case '$type':
+        return typeof value === operatorValue
+      case '$regex':
+        return new RegExp(operatorValue).test(value)
       default:
         return false
     }
@@ -359,6 +369,30 @@ class CollectionImpl<T = any> implements Collection<T> {
               field,
               currentValue.filter((item) => !this.matchesQuery({ item }, { item: value })),
             )
+          }
+          break
+        case '$addToSet':
+          for (const [field, value] of Object.entries(fields)) {
+            const currentValue = getNestedProperty(result, field) || []
+            if (!Array.isArray(currentValue)) {
+              throw new Error(`Cannot apply $addToSet to non-array field: ${field}`)
+            }
+            if (!currentValue.includes(value)) {
+              setNestedProperty(result, field, [...currentValue, value])
+            }
+          }
+          break
+        case '$pop':
+          for (const [field, value] of Object.entries(fields)) {
+            const currentValue = getNestedProperty(result, field)
+            if (!Array.isArray(currentValue)) {
+              throw new Error(`Cannot apply $pop to non-array field: ${field}`)
+            }
+            if (value === 1) {
+              setNestedProperty(result, field, currentValue.slice(0, -1))
+            } else if (value === -1) {
+              setNestedProperty(result, field, currentValue.slice(1))
+            }
           }
           break
       }

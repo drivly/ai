@@ -23,8 +23,8 @@ export const GET = API(async (request, { db, user, url }) => {
     recentUsage: {
       totalRequests: 0,
       lastUsed: null,
-      topEndpoints: []
-    }
+      topEndpoints: [],
+    },
   }))
 
   return {
@@ -39,9 +39,9 @@ export const GET = API(async (request, { db, user, url }) => {
         url: `${url.origin}/apikeys/${key.id}`,
         description: key.description,
         created: key.created,
-        recentUsage: key.recentUsage
+        recentUsage: key.recentUsage,
       }
       return acc
-    }, {})
+    }, {}),
   }
 })

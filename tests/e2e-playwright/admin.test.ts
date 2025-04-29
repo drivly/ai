@@ -9,7 +9,7 @@ import { expectWithRetries } from '../utils/chromatic-helpers'
  */
 async function logResponseDetails(response: Response | globalThis.Response) {
   console.log(`Response status: ${response.status}`)
-  
+
   if ('headers' in response) {
     try {
       if ('allHeaders' in response) {
@@ -26,7 +26,7 @@ async function logResponseDetails(response: Response | globalThis.Response) {
       console.log(`Could not get response headers: ${e}`)
     }
   }
-  
+
   try {
     let text: string
     if ('clone' in response) {
@@ -38,7 +38,7 @@ async function logResponseDetails(response: Response | globalThis.Response) {
   } catch (e) {
     console.log(`Could not get response body: ${e}`)
   }
-  
+
   return response
 }
 
@@ -414,7 +414,7 @@ test.describe('Admin page', () => {
       expect(true).toBe(true) // Pass the test when skipped
       return
     }
-    
+
     try {
       const baseUrls = [
         process.env.API_URL || process.env.VERCEL_URL || 'http://localhost:3000',
@@ -422,77 +422,77 @@ test.describe('Admin page', () => {
         'http://localhost:3002', // Fallback URL if both port 3000 and 3001 are in use
         'http://localhost:3003', // Fallback URL if ports 3000, 3001, and 3002 are in use
         'http://localhost:3004', // Fallback URL if ports 3000, 3001, 3002, and 3003 are in use
-        'http://localhost:3005'  // Fallback URL if ports 3000, 3001, 3002, 3003, and 3004 are in use
-      ];
-      
-      let success = false;
-      let lastError;
-      
+        'http://localhost:3005', // Fallback URL if ports 3000, 3001, 3002, 3003, and 3004 are in use
+      ]
+
+      let success = false
+      let lastError
+
       for (const baseUrl of baseUrls) {
         try {
           const adminUrl = baseUrl.endsWith('/') ? `${baseUrl}admin` : `${baseUrl}/admin`
           console.log(`Testing admin route at: ${adminUrl}`)
-          
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 5000);
-          
+
+          const controller = new AbortController()
+          const timeoutId = setTimeout(() => controller.abort(), 5000)
+
           try {
             // Use the helper function to log response details
-            const response = await fetch(adminUrl, { 
-              signal: controller.signal
-            });
-            clearTimeout(timeoutId);
-            
-            await logResponseDetails(response);
-            
+            const response = await fetch(adminUrl, {
+              signal: controller.signal,
+            })
+            clearTimeout(timeoutId)
+
+            await logResponseDetails(response)
+
             expect(response.status).not.toBe(500)
-            
+
             if (response.status === 500) {
               console.error(`CRITICAL: Admin route at ${adminUrl} returned a 500 error`)
               throw new Error(`Admin route at ${adminUrl} returned a 500 error`)
             }
-            
+
             if (response.redirected) {
               console.log(`Redirected to: ${response.url}`)
-              const authResponse = await fetch(response.url);
-              await logResponseDetails(authResponse);
+              const authResponse = await fetch(response.url)
+              await logResponseDetails(authResponse)
               expect(authResponse.status).not.toBe(500)
-              
+
               if (authResponse.status === 500) {
                 console.error(`CRITICAL: Auth route at ${response.url} returned a 500 error after redirect from admin`)
                 throw new Error(`Auth route at ${response.url} returned a 500 error after redirect from admin`)
               }
-              
+
               const authContent = await authResponse.clone().text()
               expect(authContent.length).toBeGreaterThan(0)
             } else {
               const content = await response.clone().text()
               expect(content.length).toBeGreaterThan(0)
             }
-            
-            success = true;
-            break;
+
+            success = true
+            break
           } catch (fetchError: unknown) {
             if (fetchError instanceof Error && fetchError.name === 'AbortError') {
-              console.log(`Fetch request to ${adminUrl} timed out after 5000ms`);
+              console.log(`Fetch request to ${adminUrl} timed out after 5000ms`)
             } else {
-              console.log(`Fetch error for ${adminUrl}: ${fetchError}`);
+              console.log(`Fetch error for ${adminUrl}: ${fetchError}`)
             }
-            throw fetchError;
+            throw fetchError
           }
         } catch (e) {
           console.log(`Failed to test admin route at ${baseUrl}: ${e}`)
-          lastError = e;
+          lastError = e
         }
       }
-      
+
       if (!success) {
         if (process.env.CI) {
           console.log('All admin route tests failed in CI environment, skipping test')
           expect(true).toBe(true) // Pass the test when skipped
           return
         } else if (lastError) {
-          throw lastError;
+          throw lastError
         }
       }
     } catch (error) {
@@ -501,7 +501,7 @@ test.describe('Admin page', () => {
         expect(true).toBe(true) // Pass the test when skipped
         return
       }
-      
+
       console.error('Admin API test failed:', error)
       throw error
     }

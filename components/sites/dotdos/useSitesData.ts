@@ -17,10 +17,10 @@ const getInitialTld = (hostname: string) => {
 export function useSitesData() {
   const searchParams = useSearchParams()
   const isDevelopment = process.env.NODE_ENV === 'development'
-  
+
   const initialHostname = getInitialHostname()
   const initialTld = getInitialTld(initialHostname)
-  
+
   const [hostname, setHostname] = useState<string>(initialHostname)
   const [mounted, setMounted] = useState(!isDevelopment) // Start as true in production
   const [currentTld, setCurrentTld] = useState<string>(initialTld)

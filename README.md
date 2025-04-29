@@ -2,7 +2,7 @@
 
 While the cloud enabled Software-as-a-Service, AI is unlocking new business models where [Services-as-Software](https://dotdo.ai/manifesto#services-as-software) can be delivered without scaling human labor, and [Business-as-Code](https://dotdo.ai/manifesto#business-as-code) enable the creation of new AI-native organizations to disrupt legacy competitors.
 
-### [Functions.do/](https://functions.do) Generate Objects without a Schema
+### [Functions.do](https://functions.do) Generate Objects without a Schema
 
 ```ts
 import { ai } from 'functions.do'
@@ -10,22 +10,21 @@ import { ai } from 'functions.do'
 const brand = await ai.storyBrand({ idea: 'Auto Loan Underwriting Services-as-Software' })
 ```
 
-### [Functions.do/](https://functions.do) Generate Text
+### [Functions.do](https://functions.do) Generate Text
 
 ```ts
 const post = await ai`write a blog post introducing ${idea} and ${brand}`
 ```
 
-
-### [Functions.do/](https://functions.do) Generate Lists
+### [Functions.do](https://functions.do) Generate Lists
 
 ```ts
 const titles = await ai.list`${count} possible blog post titles related to ${idea}`
 
-titles.forEach(title => ai`write a blog post starting with "# ${title}"`)
+titles.forEach((title) => ai`write a blog post starting with "# ${title}"`)
 ```
 
-### [Functions.do/](https://functions.do) Generate Objects with a Type-safe Schema
+### [Functions.do](https://functions.do) Generate Objects with a Type-safe Schema
 
 ```ts
 import { AI } from 'functions.do'
@@ -48,17 +47,17 @@ const ai = AI({
 const businessModel = await ai.leanCanvas({ idea: 'Auto Lending Services-as-Software' })
 ```
 
-### [Agents.do/](https://agents.do) Research & Web Browsing
+### [Agents.do](https://agents.do) Research & Web Browsing
 
 ```ts
 import { browse, research } from 'agents.do'
 
 const directories = await research`website directories for ${topic}`([String])
 
-directories.forEach(directory => browse`${directory}.  Request Agents.do to be added`)
+directories.forEach((directory) => browse`${directory}.  Request Agents.do to be added`)
 ```
 
-### [Agents.do/](https://agents.do) Autonomous Work
+### [Agents.do](https://agents.do) Autonomous Work
 
 ```typescript
 import { Agent } from 'agents.do'
@@ -77,7 +76,7 @@ const amy = Agent({
 })
 ```
 
-### [Humans.do/](https://humans.do) Tasks in a Workflow
+### [Humans.do](https://humans.do) Tasks in a Workflow
 
 ```ts
 import { human } from 'humans.do'
@@ -87,35 +86,35 @@ const ceo = human({ email: 'sam@openai.com' })
 ceo.approveRelease({ product: 'GPT-5' })
 ```
 
-### [Evals.do/](https://evals.do) Measure AI Model Performance
+### [Evals.do](https://evals.do) Measure AI Model Performance
 
 ```ts
 import { Eval, JSONDiff } from 'evals.do'
 import { models } from 'models.do'
 
 Eval('W-2 OCR', {
-
   // compare different models
   models: models({ capability: 'vision' }),
 
   // calculate all variations of inputs
-  inputs: async () => cartesian({
-    image:[1, 2, 3, 4, 5, 6], 
-    blur:[0, 1, 2, 3], 
-    res:[512, 768, 1536, 2000, 3072],
-  }).map(({image, blur, res}) => ({ image: `https://…/w2_img${image}_blur${blur}_res${res}.jpg` })),
+  inputs: async () =>
+    cartesian({
+      image: [1, 2, 3, 4, 5, 6],
+      blur: [0, 1, 2, 3],
+      res: [512, 768, 1536, 2000, 3072],
+    }).map(({ image, blur, res }) => ({ image: `https://…/w2_img${image}_blur${blur}_res${res}.jpg` })),
 
   // run 3 times for each input
-  seeds: 3, 
+  seeds: 3,
   prompt: 'Extract the data from the image.',
   temperature: 0,
   expected: expectedOutput,
-  schema : W2,
-  scorers : [JSONDiff],             
+  schema: W2,
+  scorers: [JSONDiff],
 })
 ```
 
-### [Experiments.do/](https://experiments.do) Rapid Iteration
+### [Experiments.do](https://experiments.do) Rapid Iteration
 
 ```ts
 import { ai } from 'functions.do'
@@ -164,7 +163,7 @@ Experiment({
 })
 ```
 
-### [Analytics.do/](https://analytics.do) Track Business Metrics
+### [Analytics.do](https://analytics.do) Track Business Metrics
 
 ```ts
 import { track } from 'analytics.do'
@@ -172,40 +171,38 @@ import { track } from 'analytics.do'
 track('User.Signup', { name, email, company })
 ```
 
-
-### [Workflows.do/](https://workflows.do) Respond to Events
+### [Workflows.do](https://workflows.do) Respond to Events
 
 ```typescript
 import { on } from 'workflows.do'
 
 on('User.Signup', async (event, { ai, api, db }) => {
-    const { name, email, company } = event
+  const { name, email, company } = event
 
-    // Enrich content details with lookup from external data sources
-    const enrichedContact = await api.apollo.search({ name, email, company })
-    const socialProfiles = await api.peopleDataLabs.findSocialProfiles({ name, email, company })
-    const githubProfile = socialProfiles.github ? await api.github.profile({ name, email, company, profile: socialProfiles.github }) : undefined
+  // Enrich content details with lookup from external data sources
+  const enrichedContact = await api.apollo.search({ name, email, company })
+  const socialProfiles = await api.peopleDataLabs.findSocialProfiles({ name, email, company })
+  const githubProfile = socialProfiles.github ? await api.github.profile({ name, email, company, profile: socialProfiles.github }) : undefined
 
-    // Using the enriched contact details, do deep research on the company and personal background
-    const companyProfile = await ai.researchCompany({ company })
-    const personalProfile = await ai.researchPersonalBackground({ name, email, enrichedContact })
-    const socialActivity = await ai.researchSocialActivity({ name, email, enrichedContact, socialProfiles })
-    const githubActivity = githubProfile ? await ai.summarizeGithubActivity({ name, email, enrichedContact, githubProfile }) : undefined
+  // Using the enriched contact details, do deep research on the company and personal background
+  const companyProfile = await ai.researchCompany({ company })
+  const personalProfile = await ai.researchPersonalBackground({ name, email, enrichedContact })
+  const socialActivity = await ai.researchSocialActivity({ name, email, enrichedContact, socialProfiles })
+  const githubActivity = githubProfile ? await ai.summarizeGithubActivity({ name, email, enrichedContact, githubProfile }) : undefined
 
-    // Schedule a highly personalized sequence of emails to optimize onboarding and activation
-    const emailSequence = await ai.personalizeEmailSequence({ name, email, company, personalProfile, socialActivity, companyProfile, githubActivity })
-    await api.scheduleEmails({ emailSequence })
+  // Schedule a highly personalized sequence of emails to optimize onboarding and activation
+  const emailSequence = await ai.personalizeEmailSequence({ name, email, company, personalProfile, socialActivity, companyProfile, githubActivity })
+  await api.scheduleEmails({ emailSequence })
 
-    // Summarize everything, save to the database, and post to Slack
-    const details = { enrichedContact, socialProfiles, githubProfile, companyProfile, personalProfile, socialActivity, githubActivity, emailSequence }
-    const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, ...details })
-    const { url } = await db.users.create({ name, email, company, summary, ...details })
-    await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
+  // Summarize everything, save to the database, and post to Slack
+  const details = { enrichedContact, socialProfiles, githubProfile, companyProfile, personalProfile, socialActivity, githubActivity, emailSequence }
+  const summary = await ai.summarizeContent({ length: '3 sentences', name, email, company, ...details })
+  const { url } = await db.users.create({ name, email, company, summary, ...details })
+  await api.slack.postMessage({ channel: '#signups', content: { name, email, company, summary, url } })
 })
 ```
 
-
-### [Workflows.do/](https://workflows.do) Scheduled Functions
+### [Workflows.do](https://workflows.do) Scheduled Functions
 
 ```typescript
 import { every } from 'workflows.do'
@@ -213,11 +210,11 @@ import { cmo } from 'agents.do'
 
 every('hour during business hours', async (event, { db }) => {
   const ideas = await db.ideas.find({ status: 'launched' })
-  ideas.forEach(idea => cmo.do`a creative marketing campaign for ${idea}`)
+  ideas.forEach((idea) => cmo.do`a creative marketing campaign for ${idea}`)
 })
 ```
 
-### [Database.do/](https://database.do) Schemaless Collections
+### [Database.do](https://database.do) Schemaless Collections
 
 ```typescript
 import { db } from 'database.do'
@@ -227,13 +224,13 @@ await db.ideas.create({ idea, businessModel, status: 'waitlist' })
 const waitlistIdeas = await db.ideas.find({ status: 'waitlist' })
 ```
 
-### [Database.do/](https://database.do) Integrated Embeddings & Vector Search
+### [Database.do](https://database.do) Integrated Embeddings & Vector Search
 
 ```typescript
 const ideas = await db.ideas.search('automotive finance')
 ```
 
-### [Database.do/](https://database.do) Schemas & Relationships
+### [Database.do](https://database.do) Schemas & Relationships
 
 ```typescript
 import { DB } from 'database.do'
@@ -260,7 +257,7 @@ const db = DB({
 })
 ```
 
-## [.do/](https://dotdo.ai) ❤️ open-source
+## [.do](https://dotdo.ai) ❤️ open-source
 
 The [.do](https://dotdo.ai) Platform is completely MIT-licensed open source and built on top of many amazing companies and open source projects:
 
