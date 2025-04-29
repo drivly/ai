@@ -16,12 +16,12 @@ export function createTestClients(apiKey: string, baseUrl = 'http://localhost:30
     apiKey,
     baseUrl,
   })
-  
+
   const cli = new CLI({
     apiKey,
     baseUrl,
   })
-  
+
   return { api, cli }
 }
 

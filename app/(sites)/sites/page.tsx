@@ -1,4 +1,4 @@
-import { sitesConfig } from '@/app/_utils/content'
+import { sitesConfig } from '@/.velite'
 import { DotDoSection } from '@/components/sites/dotdos/dot-do-section'
 import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'

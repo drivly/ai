@@ -281,16 +281,12 @@ export class FunctionsClient {
    * @param options - Code generation options
    * @returns Promise resolving to the generated code
    */
-  async generateTypeScript(options: {
-    prompt?: string;
-    schema?: any;
-    config?: AIConfig;
-  }): Promise<GeneratedTypeScriptCode> {
+  async generateTypeScript(options: { prompt?: string; schema?: any; config?: AIConfig }): Promise<GeneratedTypeScriptCode> {
     try {
-      return await this.api.post<GeneratedTypeScriptCode>('/v1/typescript/generate', options);
+      return await this.api.post<GeneratedTypeScriptCode>('/v1/typescript/generate', options)
     } catch (error) {
-      console.error('Error generating TypeScript code:', error);
-      throw error;
+      console.error('Error generating TypeScript code:', error)
+      throw error
     }
   }
 }

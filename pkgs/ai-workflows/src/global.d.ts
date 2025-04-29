@@ -3,11 +3,11 @@
  */
 
 interface DurableObject {
-  storage: any;
+  storage: any
 }
 
 declare global {
-  var DURABLE_OBJECT: DurableObject;
+  var DURABLE_OBJECT: DurableObject
 }
 
-export {};
+export {}

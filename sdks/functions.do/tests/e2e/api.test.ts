@@ -54,18 +54,18 @@ describeE2E('functions.do E2E API Tests', () => {
   }, 30000)
 
   it('should generate markdown with AST', async () => {
-    const result = await client.run('generateMarkdown', { 
+    const result = await client.run('generateMarkdown', {
       topic: 'Testing',
-      format: 'tutorial' 
-    });
-    
-    expect(result).toBeDefined();
-    expect(result.data).toBeDefined();
-    expect(result.data.markdown).toBeDefined();
-    expect(result.data.mdast).toBeDefined();
-    expect(result.data.mdast.type).toBe('root');
-    expect(Array.isArray(result.data.mdast.children)).toBe(true);
-  }, 30000);
+      format: 'tutorial',
+    })
+
+    expect(result).toBeDefined()
+    expect(result.data).toBeDefined()
+    expect(result.data.markdown).toBeDefined()
+    expect(result.data.mdast).toBeDefined()
+    expect(result.data.mdast.type).toBe('root')
+    expect(Array.isArray(result.data.mdast.children)).toBe(true)
+  }, 30000)
 })
 
 describeE2E('AI Factory E2E Tests', () => {
@@ -94,7 +94,6 @@ describeE2E('AI Factory E2E Tests', () => {
 
     expect(result).toBeDefined()
   }, 30000)
-
 })
 
 describeE2E('TypeScript Generation E2E Tests', () => {
@@ -103,7 +102,7 @@ describeE2E('TypeScript Generation E2E Tests', () => {
   beforeAll(() => {
     process.env.NODE_ENV = 'development'
     process.env.FUNCTIONS_DO_API_KEY = apiKey
-    
+
     client = new FunctionsClient({
       apiKey,
       baseUrl: 'http://localhost:3000',

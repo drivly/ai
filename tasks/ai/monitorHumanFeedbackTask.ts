@@ -42,10 +42,10 @@ export const monitorHumanFeedbackTask = async ({ input, payload }: any) => {
       }
     } else if (task.status === 'in-progress') {
       const checkInterval = 30000 // 30 seconds
-      
+
       const createdAt = new Date(task.metadata?.createdAt || task.createdAt).getTime()
       const now = Date.now()
-      
+
       if (now - createdAt < timeout) {
         await payload.jobs.queue({
           task: 'monitorHumanFeedbackTask',
@@ -54,7 +54,7 @@ export const monitorHumanFeedbackTask = async ({ input, payload }: any) => {
             delay: checkInterval,
           },
         })
-        
+
         return {
           status: 'in-progress',
           taskId,
@@ -73,14 +73,14 @@ export const monitorHumanFeedbackTask = async ({ input, payload }: any) => {
             },
           },
         })
-        
+
         return {
           status: 'timeout',
           taskId,
         }
       }
     }
-    
+
     return {
       status: task.status,
       taskId,

@@ -25,7 +25,7 @@ export const executeAgentFunction = async ({ input, payload }: any) => {
         },
       },
     })
-    
+
     const agentResponse = {
       result: `Agent ${agentId} processed request: ${prompt}`,
       status: 'completed',
@@ -51,7 +51,7 @@ export const executeAgentFunction = async ({ input, payload }: any) => {
     }
   } catch (error: any) {
     console.error(`Error executing agent function with agent ${agentId}:`, error)
-    
+
     await payload.update({
       collection: 'tasks',
       id: taskId,
@@ -63,7 +63,7 @@ export const executeAgentFunction = async ({ input, payload }: any) => {
         },
       },
     })
-    
+
     throw error
   }
 }

@@ -16,7 +16,7 @@ const apisDoTypesPath = join(__dirname, '../sdks/apis.do/types.ts')
 
 const payloadTypesContent = readFileSync(payloadTypesPath, 'utf8')
 
-const moduleDeclarationIndex = payloadTypesContent.indexOf('declare module \'payload\'')
+const moduleDeclarationIndex = payloadTypesContent.indexOf("declare module 'payload'")
 let cleanedPayloadTypes = payloadTypesContent
 
 if (moduleDeclarationIndex !== -1) {
@@ -37,10 +37,6 @@ const header = `/**
  */`
 
 // Combine and write to SDK types file
-writeFileSync(
-  apisDoTypesPath, 
-  `${header}\n\n${cleanedPayloadTypes}\n\n${utilityTypes}`, 
-  'utf8'
-)
+writeFileSync(apisDoTypesPath, `${header}\n\n${cleanedPayloadTypes}\n\n${utilityTypes}`, 'utf8')
 
 console.log('✅ Updated apis.do/types.ts with complete types from payload.types.ts')

@@ -382,6 +382,7 @@ try {
 ```
 
 The OAuth flow works as follows:
+
 1. User is redirected to `https://apis.do/login`
 2. User authenticates using the authorization code flow
 3. Secure, HttpOnly cookies are set with credentials
@@ -391,6 +392,7 @@ The OAuth flow works as follows:
 ### Secure Cookie Requirements
 
 For cross-domain cookie authentication to work properly:
+
 - Cookies must have the `HttpOnly` flag to prevent JavaScript access
 - Cookies must have the `Secure` flag to ensure HTTPS-only transmission
 - Cookies must use appropriate `SameSite` attributes (typically 'None' with Secure flag)

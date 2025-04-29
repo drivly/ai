@@ -39,23 +39,23 @@ describe('database.do SDK Initialization', () => {
 
   describe('SDK Proxy Structure', () => {
     let payloadRunning = false
-    
+
     beforeAll(async () => {
       payloadRunning = await isPayloadRunning()
     })
-    
+
     it('should provide collection access via proxy properties', async () => {
       if (!payloadRunning) {
         console.warn('Skipping test: Payload CMS is not running at localhost:3000')
         return
       }
-      
+
       const { db } = setupApiStyles()
-      
+
       expect(db.resources).toBeDefined()
       expect(db.posts).toBeDefined()
       expect(db.users).toBeDefined()
-      
+
       expect(typeof db.resources.find).toBe('function')
       expect(typeof db.resources.findOne).toBe('function')
       expect(typeof db.resources.create).toBe('function')

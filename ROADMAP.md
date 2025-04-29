@@ -1,6 +1,5 @@
 # [.do](https://dotdo.ai) Roadmap
 
-
 ## Functions
 
 - `ai-functions` Generate Objects without a Schema
@@ -32,7 +31,6 @@
 - `llm.do` SDK exports `tools` for use in `ai` SDK
 - `llm.do` SDK exports simplified `generateObject` and `generateText` functions
 - `llm.do` SDK exports simplified `streamObject` and `streamText` functions
-
 
 ## APIs
 

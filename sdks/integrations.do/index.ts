@@ -17,17 +17,14 @@ export const integrations = {
    * @returns A promise resolving to the connection details once established. The generic T allows specifying expected details.
    */
   connect: async <T = Record<string, any>>(
-    service: string, 
-    options: IntegrationAuthOptions, 
+    service: string,
+    options: IntegrationAuthOptions,
     connectionOptions?: {
-      redirectUrl?: string,
+      redirectUrl?: string
       metadata?: Record<string, any>
-    }
+    },
   ): Promise<IntegrationConnection<T>> => {
-    return api.post<IntegrationConnection<T>>(
-      `/integrations/${service}/connect`, 
-      { ...options, ...connectionOptions }
-    )
+    return api.post<IntegrationConnection<T>>(`/integrations/${service}/connect`, { ...options, ...connectionOptions })
   },
 
   /**

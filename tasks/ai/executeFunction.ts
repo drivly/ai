@@ -32,18 +32,18 @@ export const executeFunction = async ({ input, req, payload }: any) => {
   if (!functionName) {
     throw new Error('Missing required parameter: functionName')
   }
-  
-  let functionAnalysis = null;
+
+  let functionAnalysis = null
   if (!type && !input.settings?.type) {
     try {
-      const { analyzeFunctionDefinition } = await import('../../utils/functionAnalyzer');
-      functionAnalysis = await analyzeFunctionDefinition(functionName, schema, payload);
-      
+      const { analyzeFunctionDefinition } = await import('../language/functionAnalyzer')
+      functionAnalysis = await analyzeFunctionDefinition(functionName, schema, payload)
+
       if (functionAnalysis && functionAnalysis.type) {
-        input.settings = { ...input.settings, type: functionAnalysis.type };
+        input.settings = { ...input.settings, type: functionAnalysis.type }
       }
     } catch (error) {
-      console.error('Error analyzing function:', error);
+      console.error('Error analyzing function:', error)
     }
   }
   const { settings } = input as any
@@ -162,7 +162,7 @@ export const executeFunction = async ({ input, req, payload }: any) => {
     reasoning = `Human feedback requested. Task ID: ${result.taskId}, Status: ${result.status}`
     generationLatency = Date.now() - start
     request = { functionName, args, settings }
-    
+
     if (result && result.taskId) {
       payload.jobs.queue({
         task: 'monitorHumanFeedbackTask',
@@ -209,19 +209,19 @@ export const executeFunction = async ({ input, req, payload }: any) => {
         },
       })
 
-      object = { 
+      object = {
         taskId: task.id,
         status: 'in-progress',
         message: `Agent function execution queued: ${functionName} with agent: ${agentId}`,
-        jobId: agentJobResult.id
+        jobId: agentJobResult.id,
       }
-      
+
       reasoning = `Agent function execution queued. Task ID: ${task.id}, Agent ID: ${agentId}`
       generationLatency = Date.now() - start
       request = { functionName, agentId, args, settings }
     } catch (error: any) {
       console.error('Error executing agent function:', error)
-      
+
       // Create error response
       object = { error: error.message || 'Unknown error executing agent function' }
       reasoning = `Agent function execution failed: ${error.message}`

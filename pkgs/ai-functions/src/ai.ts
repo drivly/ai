@@ -174,7 +174,7 @@ export const ai = new Proxy(function () {}, aiHandler) as any
 const createListIterator = async function* (prompt: string, config: AIFunctionOptions = {}) {
   const modelName = config.model || defaultConfig.model
   const model = getAIProvider(modelName)
-  
+
   // Use the model's streaming API
   const stream = await model.streamComplete({
     prompt,
@@ -182,30 +182,29 @@ const createListIterator = async function* (prompt: string, config: AIFunctionOp
     maxTokens: config.maxTokens,
     ...config,
   })
-  
+
   let buffer = ''
   let items: string[] = []
-  
+
   for await (const chunk of stream) {
     buffer += chunk.text
-    
+
     try {
       const parsed = JSON.parse(buffer)
       if (Array.isArray(parsed)) {
-        const newItems = parsed.filter(item => !items.includes(item))
+        const newItems = parsed.filter((item) => !items.includes(item))
         for (const item of newItems) {
           items.push(item)
           yield item
         }
       }
-    } catch (e) {
-    }
+    } catch (e) {}
   }
-  
+
   try {
     const finalParsed = JSON.parse(buffer)
     if (Array.isArray(finalParsed)) {
-      const newItems = finalParsed.filter(item => !items.includes(item))
+      const newItems = finalParsed.filter((item) => !items.includes(item))
       for (const item of newItems) {
         yield item
       }
@@ -229,15 +228,15 @@ export const list = new Proxy(function () {}, {
           // Create a promise that will be resolved with the first item
           let firstItemPromise: Promise<string> | null = null
           let firstItemResolver: ((value: string) => void) | null = null
-          
+
           // Create an iterator that will yield items as they become available
           const iterator = createListIterator(prompt, config)
-          
+
           // Create a promise that will be resolved with the first item
           firstItemPromise = new Promise<string>((resolve) => {
             firstItemResolver = resolve
           })
-          
+
           // Create a wrapper iterator that will resolve the promise with the first item
           const wrappedIterator = async function* () {
             let isFirst = true
@@ -249,21 +248,18 @@ export const list = new Proxy(function () {}, {
               yield item
             }
           }
-          
+
           // Create a result object that is both a promise and an async iterator
-          const result = Object.assign(
-            async (opts?: AIFunctionOptions) => templateResult({ ...config, ...opts }),
-            {
-              [Symbol.asyncIterator]: wrappedIterator,
-              then: firstItemPromise.then.bind(firstItemPromise),
-              catch: firstItemPromise.catch.bind(firstItemPromise),
-              finally: firstItemPromise.finally.bind(firstItemPromise),
-            }
-          )
-          
+          const result = Object.assign(async (opts?: AIFunctionOptions) => templateResult({ ...config, ...opts }), {
+            [Symbol.asyncIterator]: wrappedIterator,
+            then: firstItemPromise.then.bind(firstItemPromise),
+            catch: firstItemPromise.catch.bind(firstItemPromise),
+            finally: firstItemPromise.finally.bind(firstItemPromise),
+          })
+
           return result
         }
-        
+
         // Default behavior (return a promise that resolves to the complete array)
         const modelName = config.model || defaultConfig.model
         const model = getAIProvider(modelName)

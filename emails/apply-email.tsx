@@ -15,27 +15,24 @@ export const ApplyEmail = ({ name }: { name: string }) => (
         <Container className='mx-auto rounded-lg bg-white p-[32px] shadow-sm'>
           {/* Email body */}
           <Section>
-            <Text className='text-lg text-gray-700 mb-[24px]'>Hey {name},</Text>
-            <Text className='text-lg text-gray-700 mb-[24px]'>
-              Thank you for your interest in joining our team!
-            </Text>
+            <Text className='mb-[24px] text-lg text-gray-700'>Hey {name},</Text>
+            <Text className='mb-[24px] text-lg text-gray-700'>Thank you for your interest in joining our team!</Text>
 
-            <Text className='text-lg text-gray-700 mb-[24px]'>
+            <Text className='mb-[24px] text-lg text-gray-700'>
               We're looking for people who are passionate about building, supporting, and scaling the future of AI-driven work.
             </Text>
-            
-            <Text className='text-lg text-gray-700 mb-[24px]'>
-              We review GitHub profiles and projects closely, so if there's anything else you'd like to highlight — side projects, content, community work — feel free to send it over.
+
+            <Text className='mb-[24px] text-lg text-gray-700'>
+              We review GitHub profiles and projects closely, so if there's anything else you'd like to highlight — side projects, content, community work — feel free to send it
+              over.
             </Text>
 
-            <Text className='text-lg text-gray-700 mb-[24px]'>
-              If it feels like a fit, we'll be in touch to set up a conversation.
-            </Text>
+            <Text className='mb-[24px] text-lg text-gray-700'>If it feels like a fit, we'll be in touch to set up a conversation.</Text>
           </Section>
 
           {/* Signature */}
           <Section className='mt-[32px]'>
-            <Text className='text-lg text-gray-700 mb-[8px]'>Talk soon,</Text>
+            <Text className='mb-[8px] text-lg text-gray-700'>Talk soon,</Text>
             <Text className='text-lg text-gray-700'>Bryant</Text>
             <Text className='text-lg text-gray-700'>Co-Founder & CEO</Text>
           </Section>
@@ -43,10 +40,10 @@ export const ApplyEmail = ({ name }: { name: string }) => (
           <Hr className='my-[40px] border-gray-200' />
 
           {/* Social links */}
-          <Section className='text-center mt-[32px]'>
-            <Text className='text-blue-600 mb-[24px]'>
+          <Section className='mt-[32px] text-center'>
+            <Text className='mb-[24px] text-blue-600'>
               <Link href={siteConfig.url} className='text-blue-600 no-underline'>
-                Dotdo.ai 
+                Dotdo.ai
               </Link>
               {' | '}
               <Link href={siteConfig.baseLinks.github} className='text-blue-600 no-underline'>
@@ -64,9 +61,9 @@ export const ApplyEmail = ({ name }: { name: string }) => (
           </Section>
 
           <Section>
-            <Text className='text-center text-xs text-gray-500 m-0 mb-[6px]'>© {currentYear} .do, Inc. All rights reserved.</Text>
-            <Text className='text-center text-xs text-gray-500 m-0'>
-              <Link href="https://dotdo.ai/unsubscribe" className='text-gray-500 underline'>
+            <Text className='m-0 mb-[6px] text-center text-xs text-gray-500'>© {currentYear} .do, Inc. All rights reserved.</Text>
+            <Text className='m-0 text-center text-xs text-gray-500'>
+              <Link href='https://dotdo.ai/unsubscribe' className='text-gray-500 underline'>
                 Unsubscribe
               </Link>
             </Text>

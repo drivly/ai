@@ -70,15 +70,15 @@ export class RequestHandler {
    */
   async fetchCfData(): Promise<any> {
     const ip = this.request.headers.get('cf-connecting-ip') || this.request.headers.get('x-forwarded-for') || this.request.headers.get('x-real-ip') || '127.0.0.1'
-    console.log('Fetching Cloudflare data for IP:', ip);
-    
+    console.log('Fetching Cloudflare data for IP:', ip)
+
     // Check cache first to avoid excessive requests
     const cachedData = cfCache.get(ip)
     if (cachedData && Date.now() - cachedData.timestamp < CACHE_TTL) {
-      console.log('Using cached Cloudflare data for IP:', ip);
+      console.log('Using cached Cloudflare data for IP:', ip)
       this.cf = cachedData.data
       ;(this.request as any)._cf = this.cf
-      
+
       if (this.cf?.asOrganization) {
         const headers = new Headers(this.request.headers)
         headers.set('x-cf-as-organization', this.cf.asOrganization.toString())
@@ -95,23 +95,23 @@ export class RequestHandler {
           referrer: this.request.referrer,
           referrerPolicy: this.request.referrerPolicy,
         })
-        console.log('Set x-cf-as-organization header from cache:', this.cf.asOrganization.toString());
+        console.log('Set x-cf-as-organization header from cache:', this.cf.asOrganization.toString())
       }
-      
+
       return this.cf
     }
 
     try {
-      console.log('Making fetch request to Cloudflare API...');
+      console.log('Making fetch request to Cloudflare API...')
       const response = await fetch('https://workers.cloudflare.com/cf.json')
       if (response.ok) {
         const data = await response.json()
         console.log('Cloudflare Data:', {
           ip,
           hasAsOrg: !!data?.asOrganization,
-          asOrganization: data?.asOrganization?.toString()
-        });
-        
+          asOrganization: data?.asOrganization?.toString(),
+        })
+
         // Add Cloudflare asOrganization as a custom header to preserve it between middleware and API handlers
         if (data?.asOrganization) {
           const headers = new Headers(this.request.headers)
@@ -129,11 +129,11 @@ export class RequestHandler {
             referrer: this.request.referrer,
             referrerPolicy: this.request.referrerPolicy,
           })
-          console.log('Set x-cf-as-organization header from API:', data.asOrganization.toString());
+          console.log('Set x-cf-as-organization header from API:', data.asOrganization.toString())
         } else {
-          console.log('No asOrganization found in Cloudflare API response');
+          console.log('No asOrganization found in Cloudflare API response')
         }
-        
+
         cfCache.set(ip, {
           data,
           timestamp: Date.now(),
@@ -143,13 +143,13 @@ export class RequestHandler {
         ;(this.request as any)._cf = this.cf
         return data
       } else {
-        console.log('Cloudflare API response not OK:', response.status);
+        console.log('Cloudflare API response not OK:', response.status)
       }
     } catch (error) {
       console.error('Error fetching Cloudflare data:', error)
     }
 
-    console.log('No Cloudflare data available for IP:', ip);
+    console.log('No Cloudflare data available for IP:', ip)
     return null
   }
 
