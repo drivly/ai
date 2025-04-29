@@ -21,6 +21,9 @@ const config = [
       'eslint-comments/no-unused-disable': 'off',
       'report-unused-disable-directives': 'off',
     },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'off',
+    },
   },
 ]
 
