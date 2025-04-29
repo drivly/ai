@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server.js'
-import { collectionSlugs } from '../../collections/middleware-collections'
+import { collectionSlugs } from '@/collections'
 import { extractApiNameFromDomain } from '../domains'
 
 export function handleDoDomain(request: NextRequest): NextResponse | null {
