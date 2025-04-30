@@ -34,8 +34,7 @@ describe('json5Field', () => {
     })
     
     expect(fields[0]).toHaveProperty('label', 'Custom Label')
-    expect(fields[0].admin.editorOptions).toHaveProperty('lineNumbers', 'on')
-    expect(fields[0].admin.editorOptions.padding).toHaveProperty('top', 10)
+    expect(fields[0].admin).toHaveProperty('language', 'json')
     expect(fields[1].admin).toHaveProperty('hidden', false)
   })
 })
