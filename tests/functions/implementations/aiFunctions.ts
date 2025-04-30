@@ -1,25 +1,10 @@
 import { ai, list, markdown } from '@/pkgs/ai-functions'
+import { AI } from '@/sdks/functions.do'
 import { AIImplementation } from '../common/types'
 
 /**
- * Create a compatible AI factory function for ai-functions
- * This simulates the behavior of the AI factory function in lib/ai
- */
-const AI = (config: Record<string, any>) => {
-  return new Proxy({}, {
-    get: (target, prop) => {
-      if (typeof prop === 'string' && prop in config) {
-        return async (args: any) => {
-          return ai[prop](args)
-        }
-      }
-      return undefined
-    }
-  })
-}
-
-/**
  * Adapter for pkgs/ai-functions implementation
+ * Note: AI is re-exported from functions.do in ai-functions
  */
 export const aiFunctionsImplementation: AIImplementation = {
   name: 'pkgs/ai-functions',
