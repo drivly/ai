@@ -128,7 +128,7 @@ const SimpleAlertTemplate: SlackMessageTemplate = {
 const CareerApplicationTemplate: SlackMessageTemplate = {
   getBlocks: (application: CareerApplicationDetails) => {
     const blocks: SlackBlock[] = [
-      SlackBlocks.header(`New Application: ${application.position}`),
+      SlackBlocks.section(`<!here> *New Application: ${application.position}*`),
       SlackBlocks.section(`*<${application.githubProfile}|${application.name}>* has applied for the *${application.position}* position.`),
       SlackBlocks.context([
         ...(application.avatarUrl ? [SlackBlocks.contextImage(application.avatarUrl, 'Profile image')] : []),
@@ -155,7 +155,6 @@ const CareerApplicationTemplate: SlackMessageTemplate = {
     }
 
     blocks.push(SlackBlocks.divider())
-    blocks.push(SlackBlocks.section(`<!here> New application received from careers.do`))
 
     return blocks
   },
