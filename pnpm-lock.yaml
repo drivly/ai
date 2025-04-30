@@ -406,9 +406,6 @@ importers:
       '@testing-library/jest-dom':
         specifier: ^6.6.3
         version: 6.6.3
-      '@types/geolib':
-        specifier: ^2.0.25
-        version: 2.0.25
       '@types/node':
         specifier: ^22.5.4
         version: 22.14.0
@@ -8159,10 +8156,6 @@ packages:
 
   '@types/geojson@7946.0.16':
     resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
-
-  '@types/geolib@2.0.25':
-    resolution: {integrity: sha512-EhgigPRKXSkS3k9GUnM4niTqHhxCseH3Xzf6LggZkFbnYSNU9YCBj0EmjfiPRVcjlqafctcJHmKlqKkmQCDq5Q==}
-    deprecated: This is a stub types definition. geolib provides its own type definitions, so you do not need this installed.
 
   '@types/har-format@1.2.16':
     resolution: {integrity: sha512-fluxdy7ryD3MV6h8pTfTYpy/xQzCFC7m89nOH9y94cNqJ1mDIDPut7MnRHI3F6qRmh/cT2fUjG1MLdCNb4hE9A==}
@@ -26614,10 +26607,6 @@ snapshots:
       '@types/serve-static': 1.15.7
 
   '@types/geojson@7946.0.16': {}
-
-  '@types/geolib@2.0.25':
-    dependencies:
-      geolib: 3.3.4
 
   '@types/har-format@1.2.16': {}
 

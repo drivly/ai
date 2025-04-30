@@ -23,7 +23,7 @@
     "outDir": "",
     "target": "esnext",
     "module": "esnext",
-    "types": ["@types/node", "@types/service-worker-mock", "./worker-configuration.d.ts"]
+    "types": ["@types/node", "@types/service-worker-mock", "./worker-configuration.d.ts", "geolib"]
   },
   "exclude": ["node_modules", "dist", "tests"],
   "include": ["src"]
