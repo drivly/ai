@@ -1,61 +1,13 @@
 {
   "name": "llm.do",
   "version": "0.1.0",
-  "description": "Intelligent AI Gateway for routing requests to optimal language models with Vercel AI SDK provider support",
-  "keywords": [
-    "llm",
-    "ai",
-    "language-model",
-    "gateway",
-    "router",
-    "model-selection",
-    "multi-model",
-    "vercel-ai-sdk",
-    "ai-sdk-provider",
-    "embeddings"
-  ],
-  "homepage": "https://llm.do",
-  "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
- 
-  },
-  "files": [
-    "dist",
-    "README.md"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/drivly/ai.git",
-    "directory": "sdks/llm.do"
-  },
-  "author": "Drivly",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/drivly/ai/issues"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
+  "description": "llm.do AI SDK Provider",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "tsc",
-    "build:packages": "tsc",
-    "test": "echo \"No tests\" && exit 0"
+    "test:local": "dotenvx run -- vitest"
   },
-  "devDependencies": {
-    "eslint-config": "workspace:*",
-    "@ai-sdk/provider": "^1.0.2",
-    "vitest": "^3.0.8",
-    "tsconfig": "workspace:*"
-  },
-  "dependencies": {
-    "apis.do": "workspace:*",
-    "models.do": "workspace:*"
-  }
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.8.1"
 }

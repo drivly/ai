@@ -1,121 +1,57 @@
-import { API } from 'apis.do'
-import { createLLMDoProvider, llmDoProvider } from './provider'
-import { ReadableStream } from 'node:stream/web'
+import {
+  OpenAICompatibleChatLanguageModel,
+  OpenAICompatibleCompletionLanguageModel,
+  OpenAICompatibleEmbeddingModel,
+  ProviderErrorStructure,
+} from '@ai-sdk/openai-compatible'
+import {
+  EmbeddingModelV1,
+  ImageModelV1,
+  LanguageModelV1,
+  ProviderV1,
+} from '@ai-sdk/provider'
+import {
+  FetchFunction,
+  loadApiKey,
+  withoutTrailingSlash,
+} from '@ai-sdk/provider-utils'
+import { z } from 'zod'
 
-export interface CompletionOptions {
-  model?: string
-  temperature?: number
-  maxTokens?: number
-  topP?: number
-  frequencyPenalty?: number
-  presencePenalty?: number
-  stop?: string[]
-  [key: string]: any
+type LLMProviderOptions = {
+  baseURL?: string
+  apiKey: string
+  headers?: Record<string, string>
 }
 
-export interface ChatMessage {
-  role: 'system' | 'user' | 'assistant' | 'function'
-  content: string
-  name?: string
-  [key: string]: any
-}
+type LLMProviderSettings = {}
 
-export interface CompletionResponse {
-  id: string
-  text: string
-  usage: {
-    promptTokens: number
-    completionTokens: number
-    totalTokens: number
-  }
-  [key: string]: any
-}
+// TODO: Ask Nathan about the route.
+export const defaultBaseURL = 'https://llm.do/v1'
 
-export interface ChatCompletionResponse {
-  id: string
-  message: ChatMessage
-  usage: {
-    promptTokens: number
-    completionTokens: number
-    totalTokens: number
-  }
-  [key: string]: any
-}
+export const createLLMProvider = (options: LLMProviderOptions) => {
+  const baseURL = withoutTrailingSlash(options.baseURL ?? defaultBaseURL);
+  const getHeaders = () => ({
+    Authorization: `Bearer ${loadApiKey({
+      apiKey: options.apiKey,
+      environmentVariableName: 'LLM_DO_API_KEY',
+      description: 'llm.do API key',
+    })}`,
+    ...options.headers,
+  })
 
-export class LLMClient {
-  private api: API
-
-  constructor(options: { apiKey?: string; baseUrl?: string } = {}) {
-    this.api = new API({
-      baseUrl: options.baseUrl || 'https://llm.do',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
+  return (
+    modelId: string,
+    settings?: LLMProviderSettings,
+  ) => {
+    return new OpenAICompatibleChatLanguageModel(modelId, settings ?? {}, {
+      provider: 'llm.do',
+      url: ({ path }) => `${baseURL}/${path}`,
+      headers: getHeaders,
+      errorStructure: {
+        errorSchema: z.any(),
+        errorToMessage: (error) => error.message,
       },
+      defaultObjectGenerationMode: 'tool',
     })
-  }
-
-  async complete(prompt: string, options: CompletionOptions = {}): Promise<CompletionResponse> {
-    return this.api.post('/v1/llm/completions', {
-      prompt,
-      ...options,
-    })
-  }
-
-  async chat(messages: ChatMessage[], options: CompletionOptions = {}): Promise<ChatCompletionResponse> {
-    return this.api.post('/v1/llm/chat', {
-      messages,
-      ...options,
-    })
-  }
-
-  async stream(prompt: string, options: CompletionOptions = {}): Promise<ReadableStream<any>> {
-    const apiUrl = options.baseUrl || 'https://llm.do'
-    const headers = {
-      'Content-Type': 'application/json',
-      ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
-    }
-
-    const response = await fetch(`${apiUrl}/v1/llm/completions/stream`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        prompt,
-        ...options,
-      }),
-    })
-
-    if (!response.ok) {
-      throw new Error(`LLM stream request failed with status ${response.status}`)
-    }
-
-    return response.body as ReadableStream<any>
-  }
-
-  async chatStream(messages: ChatMessage[], options: CompletionOptions = {}): Promise<ReadableStream<any>> {
-    const apiUrl = options.baseUrl || 'https://llm.do'
-    const headers = {
-      'Content-Type': 'application/json',
-      ...(options.apiKey ? { Authorization: `Bearer ${options.apiKey}` } : {}),
-    }
-
-    const response = await fetch(`${apiUrl}/v1/llm/chat/stream`, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        messages,
-        ...options,
-      }),
-    })
-
-    if (!response.ok) {
-      throw new Error(`LLM chat stream request failed with status ${response.status}`)
-    }
-
-    return response.body as ReadableStream<any>
   }
 }
-
-export { createLLMDoProvider, llmDoProvider }
-
-export default LLMClient
