@@ -1,6 +1,6 @@
 import { ApiCheck, AssertionBuilder } from 'checkly/constructs'
 
-const origin = process.env.ENVIRONMENT_URL || 'http://localhost:3000'
+const origin = process.env.ENVIRONMENT_URL || 'https://ai-git-main.dev.driv.ly'
 
 new ApiCheck('root-api-check-1', {
   name: 'Root API',
