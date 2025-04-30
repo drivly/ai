@@ -13,8 +13,13 @@ export async function generateOpenApiSpec(payload: any): Promise<OpenAPIObject> 
 
   const projectRoot = process.cwd()
   const packageJsonPath = path.join(projectRoot, 'sdks/apis.do/package.json')
-  const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
-  const version = packageJson.version
+  let version = '0.0.1' // Default version if package.json is not found
+  try {
+    const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'))
+    version = packageJson.version
+  } catch (error) {
+    console.warn(`Could not read version from ${packageJsonPath}, using default version`, error)
+  }
 
   const contentPath = path.join(projectRoot, 'content/index.mdx')
   const mdxContent = await fs.readFile(contentPath, 'utf8')
