@@ -18,7 +18,7 @@ interface ApplicationParams {
   position: string
 }
 
-export const sendWelcomeEmail = async (params: MagicLinkParams) => {
+export const sendWaitlistEmail = async (params: MagicLinkParams) => {
   const { email, name, host } = params
 
   await sendEmail(email, `Welcome to ${host}`, <WaitlistEmail name={name} />)
