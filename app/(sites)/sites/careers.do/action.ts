@@ -53,7 +53,7 @@ export const githubApplyAction = authActionClient.schema(jobPositionSchema).acti
   try {
     await sendApplicationEmail({
       email,
-      name,
+      name: name?.split(' ')[0] || githubData.username || email?.split('@')[0] || '',
       position: parsedInput.position,
     })
   } catch (error) {
