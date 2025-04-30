@@ -135,7 +135,7 @@ export const GET = API(async (request, { db, user, origin, url, domain }) => {
     console.error('Error in batch embedding generation:', error)
     return {
       success: false,
-      error: error.message
+      error: error instanceof Error ? error.message : 'Unknown error occurred'
     }
   }
 })
