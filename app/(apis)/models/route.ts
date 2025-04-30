@@ -1,6 +1,7 @@
 import { API } from '@/lib/api'
 import camelcase from 'camelcase'
 import { filterModels, constructModelIdentifier, models, Model, parse } from 'language-models'
+import { groupByKey } from './utils'
 
 export const GET = API(async (request, { db, user, origin, url, domain, params }) => {
   // Using the new db interface for more concise syntax
@@ -55,21 +56,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     return options?.map((option) => modifyQueryString(param, option)) ?? []
   }
 
-  // Custom groupBy implementation
-  // Cannot bump to ES2024 because it breaks imports so we need to use a polyfill
-  function groupByKey<T, K extends keyof any>(array: T[], getKey: (item: T) => K) {
-    return array.reduce(
-      (result, item) => {
-        const key = getKey(item)
-        if (!result[key]) {
-          result[key] = []
-        }
-        result[key].push(item)
-        return result
-      },
-      {} as Record<K, T[]>,
-    )
-  }
+
 
   const qs = new URLSearchParams(request.url.split('?')[1])
   const model = qs.get('model')

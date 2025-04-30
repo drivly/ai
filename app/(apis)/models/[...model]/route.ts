@@ -134,6 +134,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
     return {
       links: {
         toLLM: `https://llm.do/chat?model=${modelNameTemp.includes('/') ? modelNameTemp.split('/')[1] : modelNameTemp}`,
+        toTools: `${originOrApiRoute}/tools?${qs.toString()}`,
         toModels: `${originOrApiRoute}?${qs.toString()}`,
         presets: {
           creative: applyPreset(PRESETS.creative),
