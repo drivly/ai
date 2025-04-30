@@ -6,7 +6,8 @@ import { z } from 'zod'
 export const leanCanvas = (
   input: any,
   {
-    modelName = 'google/gemini-2.5-pro-preview-03-25',
+    // modelName = 'google/gemini-2.5-pro-preview-03-25',
+    modelName = 'google/gemini-2.5-flash-preview',
     system = 'You are an expert business consultant specializing in the Lean Canvas methodology for business model generation',
     temperature = 0.7,
   } = {},

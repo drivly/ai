@@ -6,7 +6,8 @@ import { z } from 'zod'
 export const storyBrand = (
   input: any,
   {
-    modelName = 'google/gemini-2.5-pro-preview-03-25',
+    // modelName = 'google/gemini-2.5-pro-preview-03-25',
+    modelName = 'google/gemini-2.5-flash-preview',
     system = 'You are an expert business consultant specializing in the StoryBrand framework for clarifying marketing messages',
     temperature = 0.7,
   } = {},
