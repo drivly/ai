@@ -5,10 +5,16 @@ import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { createAnthropic } from '@ai-sdk/anthropic'
 import { getModel, getModels, Model } from 'language-models'
 
+
+
 const providerRegistry: Record<string, any> = {
   openrouter: createOpenAI({
     baseURL: 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter',
     apiKey: process.env.OPENROUTER_API_KEY || process.env.AI_GATEWAY_TOKEN,
+    headers: {
+      'HTTP-Referer': 'http://workflows.do',
+      'X-Title': 'Workflows.do'
+    }
   }),
   google: createGoogleGenerativeAI({
     apiKey: process.env.GOOGLE_API_KEY,
@@ -107,12 +113,17 @@ class LLMProvider implements LanguageModelV1 {
 
     // Access provider property which is added by getModel but not in the Model type
     const providerSlug = this.resolvedModel.provider?.slug
+
+    return provider
+
     switch (providerSlug) {
       case 'openAi':
         provider = 'openai'
         break
+      case 'aiStudioNonThinking':
+      case 'aiStudio':
       case 'google':
-        provider = 'google'
+        provider = 'openrouter'
         break
       case 'anthropic':
         provider = 'anthropic'
