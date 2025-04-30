@@ -9,23 +9,17 @@ export const writeBlogPost = (
   { 
     // modelName = 'google/gemini-2.5-pro-preview-03-25', 
     modelName = 'google/gemini-2.5-flash-preview',
-    system = 'You are an expert at writing compelling and SEO-optimized blog content', 
+    system = 'You are an expert at writing compelling and SEO-optimized blog content. Respond only in markdown format starting with "# [Title]"', 
     temperature = 1 
   } = {},
 ) =>
-  generateObject({
+  generateText({
     model: model(modelName),
     system,
     prompt: `Write a blog post about: \n\n${typeof input === 'string' ? input : yaml.stringify(input)}`,
     temperature,
-    schema: z.object({
-      title: z.string(),
-      description: z.string(),
-      category: z.string(),
-      markdown: z.string({ description: 'Markdown content of the blog post, without including the title, description, or category' }),
-    }),
   }).then((result) => {
-    return result.object
+    return result.text
   })
 
 export const listBlogPostTitles = (
