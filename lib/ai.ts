@@ -36,7 +36,7 @@ type AIConfig = AIFunctionSettings & {
 export const AI = <T extends Record<string, FunctionDefinition | AIWorkflow>>(config: AIConfig) => {
   type Result = {
     [K in keyof T]: T[K] extends FunctionDefinition 
-      ? (args: any) => Promise<SchemaToOutput<T[K]>> 
+      ? ((args: any) => Promise<SchemaToOutput<T[K]>>) & { __type: SchemaToOutput<T[K]> }
       : T[K] extends AIWorkflow 
         ? AIWorkflow 
         : never

@@ -10,6 +10,10 @@
       "schedule": "*/5 * * * *"
     },
     {
+      "path": "/api/embeddings/batch",
+      "schedule": "* * * * *"
+    },
+    {
       "path": "/api/scripts/generateResourceEmbeddingsBatch",
       "schedule": "0 */6 * * *"
     }
