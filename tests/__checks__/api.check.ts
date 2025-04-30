@@ -1,12 +1,14 @@
 import { ApiCheck, AssertionBuilder } from 'checkly/constructs'
 
-new ApiCheck('books-api-check-1', {
-  name: 'Books API',
+const origin = process.env.ENVIRONMENT_URL || 'http://localhost:3000'
+
+new ApiCheck('root-api-check-1', {
+  name: 'Root API',
   alertChannels: [],
   degradedResponseTime: 10000,
   maxResponseTime: 20000,
   request: {
-    url: process.env.ENVIRONMENT_URL! + '/api',
+    url: origin + '/api',
     method: 'GET',
     followRedirects: true,
     skipSSL: false,
