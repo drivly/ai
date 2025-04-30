@@ -88,9 +88,9 @@ export async function getAllBlogPosts(domain: string): Promise<BlogPost[]> {
 export async function getBlogPostBySlug(domain: string, slug: string): Promise<BlogPost> {
   const content = await getContent(domain)
   const posts = await listBlogPostTitles(content)
-  const blogPost = posts.find((post) => slugify(post.title) === slug) || { slug }
-  const post = await writeBlogPost({ website: content, blogPost })
-  return post
+  const blogPost: BlogPost = posts.find((post) => slugify(post.title) === slug) || { title: slug.replaceAll('_', ' '), description: '', category: '' }
+  blogPost.markdown = await writeBlogPost({ website: content, blogPost })
+  return blogPost
 }
 
 export async function getAllCategories(domain: string): Promise<string[]> {

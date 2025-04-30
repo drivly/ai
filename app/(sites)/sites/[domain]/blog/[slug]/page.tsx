@@ -34,8 +34,8 @@ async function BlogPostPage({ params }: { params: { domain: string; slug: string
     return <BlogPostNotFound fallbackImage={fallbackImage} />
   }
 
-  const postUrl = `${siteUrl}/blog/${post.slug || slugify(post.title)}`
-  const dateObj = new Date(post?.date || '')
+  const postUrl = `${siteUrl}/blog/${slug}`
+  const dateObj = new Date()
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (

@@ -12,9 +12,11 @@ import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { cache } from 'react'
 import { writeBlogPost } from '@/.ai/functions/content'
 import Markdown from 'react-markdown'
+import { getBlogPostBySlug } from '@/app/(sites)/sites/[domain]/blog/blog-posts'
 
 const getData = cache(async ({ domain, slug }: { domain: string; slug: string }) => {
-  const post = await writeBlogPost({ domain, slug })
+  // const post = await writeBlogPost({ domain, slug })
+  const post = await getBlogPostBySlug(domain, slug)
   return post
 })
 
