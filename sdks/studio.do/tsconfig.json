@@ -4,7 +4,7 @@
   "exclude": ["node_modules", "dist", "**/*.test.ts"],
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": ".",
-    "types": ["geolib"]
-  }
+    "rootDir": "."
+  },
+  "files": ["src/types/geolib.d.ts"]
 }
