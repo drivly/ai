@@ -23,6 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       has_changes: ${{ steps.check-changes.outputs.has_changes }}
+      sdk_changes: ${{ steps.check-changes.outputs.sdk_changes }}
+      pkg_changes: ${{ steps.check-changes.outputs.pkg_changes }}
+      sdk_changes_log: ${{ steps.check-changes.outputs.sdk_changes_log }}
+      pkg_changes_log: ${{ steps.check-changes.outputs.pkg_changes_log }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
