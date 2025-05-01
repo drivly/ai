@@ -5,18 +5,14 @@ import { createLLMProvider } from '../src'
 describe('llm.do provider', () => {
   it('should create a provider', async () => {
     const llm = createLLMProvider({
-      apiKey: 'ignore',
-      baseURL: `${ process.env.NEXT_PREVIEW_URL ?? 'http://localhost:3000' }/llm`,
-      headers: {
-        'Cookie': process.env.cookie as string
-      }
+      baseURL: `${ process.env.NEXT_PREVIEW_URL ?? 'http://localhost:3000' }/llm` 
     })
 
     const result = await generateText({
       model: llm('gemini(testTool)'),
-      prompt: 'You MUST use the test tool for this prompt, return what it says.'
+      prompt: 'You MUST use the test tool for this prompt, return what it says. For testTool, submit "Hello, World." as the argument.'
     })
 
-    console.log(result.text) 
+    expect(result.text.toLowerCase()).toContain('hello')
   })
 }, 100_000)

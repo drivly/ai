@@ -19,7 +19,7 @@ import { z } from 'zod'
 
 type LLMProviderOptions = {
   baseURL?: string
-  apiKey: string
+  apiKey?: string
   headers?: Record<string, string>
 }
 

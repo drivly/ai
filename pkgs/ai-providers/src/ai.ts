@@ -31,16 +31,19 @@ const camelCaseToScreamingSnakeCase = (str: string) => {
 type GenerateTextOptions = Omit<Parameters<typeof aiGenerateText>[0], 'model'> & {
   model: (string & {}) | LanguageModelV1
   user?: string
+  openrouterApiKey?: string
 }
 
 type GenerateObjectOptions = Omit<Parameters<typeof aiGenerateObject>[0], 'model'> & {
   model: (string & {}) | LanguageModelV1
   user?: string
+  openrouterApiKey?: string
 }
 
 type StreamObjectOptions = Omit<Parameters<typeof aiStreamObject>[0], 'model'> & {
   model: (string & {}) | LanguageModelV1
   user?: string
+  openrouterApiKey?: string
 }
 
 // Generates a config object from 

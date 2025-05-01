@@ -1,7 +1,6 @@
 import { auth } from '@/auth'
-import { streamText, generateObject, streamObject, generateText, resolveConfig } from '@/pkgs/ai-providers/src'
+import { streamText, generateObject, streamObject, generateText, resolveConfig, createLLMProvider } from '@/pkgs/ai-providers/src'
 import { CoreMessage, jsonSchema, createDataStreamResponse } from 'ai'
-
 
 export const maxDuration = 600
 export const dynamic = 'force-dynamic'
@@ -21,10 +20,65 @@ type OpenAICompatibleRequest = {
 export async function POST(req: Request) {
   const qs = new URL(req.url).searchParams
 
-  const session = await auth()
+  // Support both normal auth, and API key authentication
+  let session = await auth()
+  let apiKey = req.headers.get('Authorization') || ''
 
-  if (!session) {
+  if (!session && !apiKey) {
     return new Response('Unauthorized', { status: 401 })
+  }
+
+  if (apiKey) {
+    // Remove the Bearer prefix
+    apiKey = apiKey.split(' ')[1]
+      .replace('sk-do-', 'sk-or-')
+
+    // Make sure the API key is valid
+    const identifyUser = async (offset: number = 0) => {
+      const res = await fetch(`https://openrouter.ai/api/v1/keys?offset=${ offset }`, {
+        headers: {
+          'Authorization': `Bearer ${ process.env.OPENROUTER_PROVISIONING_KEY }`
+        }
+      })
+        .then(x => x.json())
+        .then(x => x.data)
+
+      if (res.length === 0) {
+        return null
+      }
+
+      // We can only match on the first 3 characters, and the last 3 of the API key.
+      const keyAfterIntro = apiKey.split('-v1-')[1]
+      const fixedApiKey = keyAfterIntro.slice(0, 3) + '...' + keyAfterIntro.slice(-3)
+
+      const keyMatch = res.find((key: { label: string }) => key.label.split('-v1-')[1] === fixedApiKey)
+
+      if (!keyMatch) {
+        // Loop again until we find a match or we've ran out
+        return await identifyUser(
+          offset + res.length
+        )
+      }
+
+      return {
+        authenticationType: 'apiKey',
+        email: keyMatch.name
+      }
+    }
+
+    const user = await identifyUser()
+
+    if (!user) {
+      return new Response('Unauthorized', { status: 401 })
+    }
+
+    session = {
+      user: {
+        id: user.email,
+        email: user.email
+      },
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString()
+    }
   }
 
   // Support both GET and POST requests
@@ -53,6 +107,17 @@ export async function POST(req: Request) {
     return new Response('No prompt or messages provided', { status: 400 })
   }
 
+  const llm = createLLMProvider({
+    baseURL: 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter',
+    apiKey: apiKey,
+    headers: {
+      'HTTP-Referer': 'http://workflows.do',
+      'X-Title': 'Workflows.do'
+    }
+  })
+
+  const llmModel = llm(model)
+
   const openAiResponse = (body: any, usage: any) => {
     return Response.json({
       id: body.id,
@@ -80,26 +145,26 @@ export async function POST(req: Request) {
   if (stream) {
     if (response_format) {
       const result = await streamObject({
-        model,
+        model: llmModel,
         system,
         messages,
         prompt,
-        user: session.user.email || '',
+        user: session?.user.email || '',
         schema: jsonSchema(response_format),
         onError({ error }) {
           console.error(error); // your error logging logic here
-        },
+        }
       })
 
       return result.toTextStreamResponse()
     } else {
       
       const result = await streamText({
-        model,
+        model: llmModel,
         system,
         messages,
         prompt,
-        user: session.user.email || '',
+        user: session?.user.email || '',
         maxSteps: 50
       })
     
@@ -108,11 +173,11 @@ export async function POST(req: Request) {
   } else {
     if (response_format) {
       const result = await generateObject({
-        model,
+        model: llmModel,
         system,
         messages,
-        prompt,
-        user: session.user.email || '',
+        prompt, 
+        user: session?.user.email || '',
         mode: 'json',
         schema: jsonSchema(response_format)
       })
@@ -122,11 +187,11 @@ export async function POST(req: Request) {
       })
     } else {
       const result = await generateText({
-        model,
+        model: llmModel,
         system,
         messages,
         prompt,
-        user: session.user.email || '',
+        user: session?.user.email || '',
         maxSteps: 25
       })
 
