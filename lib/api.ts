@@ -8,7 +8,7 @@ import { UAParser } from 'ua-parser-js'
 import { geolocation } from '@vercel/functions'
 import { continents, countries, flags, locations, metros } from './constants/cf'
 import { nanoid } from 'nanoid'
-import { getOrganizationByASN } from './utils/asn-lookup'
+
 import { parentDomains, childDomains, sdks } from '../domains.config'
 
 /**
@@ -25,7 +25,7 @@ export type ApiContext = {
   payload: any
   db: PayloadDB
   req: NextRequest
-  cf?: any // Cloudflare data fetched from cf.json endpoint
+  cf?: any
 }
 
 /**
@@ -43,7 +43,6 @@ export interface APIUser {
   os?: string
   ip: string
   isp: string
-  asOrg?: string
   flag: string
   zipcode: string
   city: string
@@ -115,11 +114,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
   const userAgent = request.headers.get('user-agent') || ''
   const ua = userAgent ? new UAParser(userAgent).getResult() : { browser: { name: 'unknown' }, os: { name: 'unknown' } }
 
-  const asn = request.headers.get('cf-ray')?.split('-')[0] || request.headers.get('x-vercel-ip-asn') || ''
-
-  const asOrgPromise = asn ? getOrganizationByASN(asn) : Promise.resolve(null)
-
-  const isp = cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || 'Unknown ISP' // Will update with asOrg later
+  const ispValue = cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || 'Unknown ISP'
 
   let latitude = 0,
     longitude = 0
@@ -185,8 +180,6 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
         if (apiKeyWithDomain) {
           const user = await payload.db.users.findByID(apiKeyWithDomain.user)
           if (user) {
-            const asOrg = await asOrgPromise
-
             return {
               id: user.id,
               email: user.email,
@@ -198,8 +191,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
               userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
               os: ua?.os?.name as string,
               ip,
-              isp: cf?.asOrganization?.toString() || request.headers.get('x-cf-as-organization') || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
-              asOrg: asOrg || undefined,
+              isp: ispValue,
               flag: countryFlag,
               zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
               city: cf?.city?.toString() || geo?.city || request.headers.get('x-vercel-ip-city') || '',
@@ -228,22 +220,6 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     }
   }
 
-  const cfAsOrg = cf?.asOrganization?.toString()
-  const vercelIpOrg = request.headers.get('x-vercel-ip-org')
-  // Get Cloudflare asOrganization from custom header added in middleware
-  const cfAsOrgHeader = request.headers.get('x-cf-as-organization')
-  const asOrg = await asOrgPromise
-
-  console.log('ISP Debug:', {
-    requestId: request.headers.get('cf-ray') || request.headers.get('x-vercel-id'),
-    cfAsOrg,
-    cfAsOrgHeader,
-    vercelIpOrg,
-    asOrg,
-    asn,
-    finalIsp: cfAsOrg || cfAsOrgHeader || vercelIpOrg || asOrg || 'Unknown ISP',
-  })
-
   return {
     authenticated: false, // This would be determined by authentication logic
     admin: undefined, // This would be determined by authentication logic
@@ -252,8 +228,7 @@ export async function getUser(request: NextRequest, payload?: any): Promise<APIU
     userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
     os: ua?.os?.name as string,
     ip,
-    isp: cf?.asOrganization?.toString() || request.headers.get('x-cf-as-organization') || request.headers.get('x-vercel-ip-org') || asOrg || 'Unknown ISP',
-    asOrg: asOrg || undefined,
+    isp: ispValue,
     flag: countryFlag,
     zipcode: cf?.postalCode?.toString() || request.headers.get('x-vercel-ip-zipcode') || '',
     city: cf?.city?.toString() || geo?.city || request.headers.get('x-vercel-ip-city') || '',

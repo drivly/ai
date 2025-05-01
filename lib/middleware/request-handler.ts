@@ -9,8 +9,6 @@ export class RequestHandler {
   hostname: string
   pathname: string
   search: string
-  cf?: any
-
   constructor(request: NextRequest) {
     this.request = request
     this.hostname = process.env.HOSTNAME_OVERRIDE || request.nextUrl.hostname
@@ -63,20 +61,9 @@ export class RequestHandler {
   }
 
   /**
-   * Fetches Cloudflare metadata
-   * This is a stub function that previously fetched data from cf.json
-   * The functionality has been removed as it was not working
-   * This will be solved in a different way in the future
-   */
-  async fetchCfData(): Promise<any> {
-    console.log('Cloudflare data fetching is disabled')
-    return null
-  }
-
-  /**
-   * Returns Cloudflare data from either native cf object or fetched data
+   * Returns Cloudflare data from native cf object
    */
   getCf(): any {
-    return 'cf' in this.request ? (this.request as any).cf : this.cf
+    return 'cf' in this.request ? (this.request as any).cf : undefined
   }
 }

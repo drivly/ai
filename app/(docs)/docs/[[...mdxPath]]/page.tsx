@@ -17,6 +17,11 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata) 
     openGraphImage = `/docs/og?title=${metadata.title}`
   }
 
+  const canonicalDomain = metadata.canonicalDomain || 'workflows.do'
+  
+  const canonicalPath = mdxPath?.join('/') || ''
+  const canonicalUrl = `https://${canonicalDomain}/docs${canonicalPath ? `/${canonicalPath}` : ''}`
+
   return {
     ...metadata,
     openGraph: {
@@ -26,6 +31,9 @@ export async function generateMetadata(props: Props, parent: ResolvingMetadata) 
     twitter: {
       images: [...(openGraphImage ? [openGraphImage] : [])],
       ...metadata.twitter,
+    },
+    alternates: {
+      canonical: canonicalUrl,
     },
   }
 }
