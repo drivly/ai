@@ -1,5 +1,4 @@
-import { auth } from '@/auth'
-import { getCookie, setCookie } from '@/lib/actions/cookie.action'
+import { setCookie } from '@/lib/actions/cookie.action'
 import { verifyToken } from '@/lib/actions/token.action'
 import { EXPIRATION_TIMES } from '@/lib/utils/cookie'
 import { NextRequest, NextResponse } from 'next/server'
@@ -31,24 +30,4 @@ export async function POST(req: NextRequest) {
     console.error('Auth sync error:', error)
     return NextResponse.json({ error: 'Failed to sync authentication' }, { status: 500 })
   }
-}
-
-// Get auth token
-export async function GET(req: NextRequest) {
-  const session = await auth()
-
-  if (!session) {
-    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
-  }
-
-  const isProduction = process.env.NODE_ENV === 'production'
-  const tokenName = isProduction ? '__Secure-authjs.session-token' : 'authjs.session-token'
-
-  const token = await getCookie(tokenName)
-
-  if (!token) {
-    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
-  }
-
-  return NextResponse.json({ token })
 }

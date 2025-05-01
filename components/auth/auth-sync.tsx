@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { syncAuthToken } from '@/lib/actions/auth-sync.action'
 import { useSession } from 'next-auth/react'
-import { syncAuthToDomains } from '@/lib/auth/utils'
+import { useEffect, useRef, useState } from 'react'
 
 export function AuthSync() {
   const { status } = useSession()
@@ -44,19 +44,10 @@ export function AuthSync() {
         syncInProgress.current = true
 
         try {
-          // Get token from helper endpoint
-          const response = await fetch('/authsync')
+          // Use server action to get and sync token (avoids CORS)
+          const result = await syncAuthToken()
 
-          if (!response.ok) {
-            throw new Error('Failed to get auth token')
-          }
-
-          const data = await response.json()
-
-          if (data.token) {
-            // Sync the token to other domains
-            await syncAuthToDomains(data.token)
-
+          if (result.success) {
             // Mark sync as attempted and successful
             setSyncAttempted(true)
           }
