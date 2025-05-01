@@ -25,8 +25,7 @@ export default auth(async (request) => {
   const isLoggedIn = !!request.auth
 
 
-
-  if (handler.isApiAuthRoute() || handler.isPublicRoute()) {
+  if (handler.isApiAuthRoute() || handler.isPublicRoute() || handler.pathname.startsWith('/api/')) {
     return NextResponse.next()
   }
 
