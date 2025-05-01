@@ -56,6 +56,23 @@ export default defineConfig({
         // component: s.mdx(),
       }),
     },
+    packages: {
+      name: 'Package',
+      pattern: '../packages/*/README.md',
+      schema: s.object({
+        title: s.string().optional(),
+        description: s.string().optional(),
+        content: s.markdown(),
+      }),
+      transform: (data: any, { meta }: { meta: any }) => {
+        const path = meta.path
+        const name = path.split('/').pop()?.split('.')?.slice(0, 2)?.join('.') || ''
+        return {
+          ...data,
+          name,
+        }
+      },
+    },
     sdks: {
       name: 'SDK',
       pattern: '../sdks/*/README.md',
