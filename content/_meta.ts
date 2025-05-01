@@ -51,6 +51,7 @@ const meta: MetaRecord = {
   apis: '',
   sdks: '',
   cli: '',
+  // packages: { display: 'hidden' },
 }
 
 export default meta
