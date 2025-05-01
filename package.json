@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "preinstall": "turbo run build:packages",
-    "build": "turbo run build && pnpm build:next",
+    "build": "turbo run build:packages && turbo run build && pnpm build:next",
     "build:packages": "turbo run build:packages",
     "build:next": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next build",
     "postbuild": "pagefind --site .next --output-path public/_pagefind",
