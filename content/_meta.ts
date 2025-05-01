@@ -13,8 +13,8 @@ const meta: MetaRecord = {
 
   manifesto: '',
   primitives: '',
-  'business-as-code': '',
-  'services-as-software': '',
+  // 'business-as-code': '',
+  // 'services-as-software': '',
   'getting-started': '',
 
   // _business: {

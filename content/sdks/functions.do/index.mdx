@@ -3,3 +3,36 @@ asIndexPage: true
 ---
 
 # functions.do
+
+## Setup
+
+Install the `functions.do` package:
+
+```sh npm2yarn
+npm i functions.do
+```
+
+Then [get your API key](https://apis.do/console) and set it in an environment variable:
+
+```env .env
+DO_API_KEY=sk_do_*****************************
+```
+
+## `ai`
+
+The `ai` object is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
+
+```ts
+import { ai } from 'functions.do'
+
+// Generate a Lean Canvas
+const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
+```
+
+```ts
+import { ai } from 'functions.do'
+
+const businessModel = await ai.leanCanvas({ idea: 'Business-as-Code' })
+
+console.log(businessModel)
+```
