@@ -130,16 +130,16 @@ const getPackagePaths = () => {
   return pkgPaths
 }
 
-const enforceVersionStartingAtPointOne = (packagePath) => {
+const enforceInitialVersion = (packagePath) => {
   const packageJsonPath = path.join(packagePath, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
-
-  if (packageJson.version !== '0.1.0') {
+  
+  if (!packageJson.version.startsWith('0.')) {
     console.log(`Setting version for ${packageJson.name} to 0.1.0 (was ${packageJson.version})`)
     packageJson.version = '0.1.0'
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', 'utf8')
   }
-
+  
   return packageJson
 }
 
@@ -208,7 +208,7 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
 }
 
 const runSemanticRelease = (packagePath, allPackages) => {
-  const packageJson = enforceVersionStartingAtPointOne(packagePath)
+  const packageJson = enforceInitialVersion(packagePath)
 
   if (packageJson.private) {
     console.log(`Skipping private package: ${packageJson.name}`)
@@ -223,9 +223,12 @@ const runSemanticRelease = (packagePath, allPackages) => {
     const releaseConfigPath = path.join(packagePath, '.releaserc.js')
     const configContent = `
 export default {
-  branches: ['main', 'next'],
+  branches: [
+    {name: 'main'},
+    {name: 'next', prerelease: 'next', channel: 'next'}
+  ],
   repositoryUrl: 'https://github.com/drivly/ai.git',
-  tagFormat: '\${name}@\${version}',
+  tagFormat: '\${package.name}@\${version}',
   initialVersion: '0.1.0',
   npmPublish: true,
   pkgRoot: '.',
@@ -253,8 +256,13 @@ export default {
       },
       analyzeCommits: (pluginConfig, context) => {
         if (!context.lastRelease.version) {
-          console.log('No previous version found, starting at 0.1.0');
-          return '0.1.0'; // Start new packages at 0.1.0
+          console.log('No previous version found, starting at 0.1.0-next.1');
+          return '0.1.0-next.1'; // Start new packages at 0.1.0-next.1
+        }
+        
+        if (context.lastRelease.version.includes('-next.')) {
+          console.log(\`Previous prerelease found: \${context.lastRelease.version}\`);
+          return 'patch';
         }
         
         console.log('Forcing patch release regardless of commit types');
@@ -399,9 +407,9 @@ try {
   const pkgPath = path.join(process.cwd(), 'package.json');
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
   
-  if (pkg.version !== '0.1.0') {
-    console.log(\`Fixing package.json version: \${pkg.version} -> 0.1.0\`);
-    pkg.version = '0.1.0';
+  if (!pkg.version.startsWith('0.')) {
+    console.log(\`Fixing package.json version major: \${pkg.version} -> 0.x.x\`);
+    pkg.version = '0.' + pkg.version.split('.').slice(1).join('.');
     fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\\n', 'utf8');
   }
   
@@ -475,7 +483,7 @@ const sdkPaths = packagePaths.filter((p) => p.includes('/sdks/'))
 console.log(`Processing ${sdkPaths.length} SDK packages with synchronized versioning`)
 
 for (const pkgPath of sdkPaths) {
-  enforceVersionStartingAtPointOne(pkgPath)
+  enforceInitialVersion(pkgPath)
 }
 
 for (const pkgPath of sdkPaths) {
