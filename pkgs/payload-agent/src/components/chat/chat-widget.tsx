@@ -1,12 +1,15 @@
 import dynamic from 'next/dynamic'
-import { Fragment } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import type { DefaultChatOptions } from '@/types/chat'
+import type { PayloadAgentAuthResult } from '@/types/auth'
 import React from 'react'
 
-// Use a relative path for dynamic import
-const ClientContainer = dynamic(() => import('./client-container'))
+// Use a relative path for dynamic import with loading state
+const ClientContainer = dynamic(() => import('./client-container'), {
+  loading: () => <div>Loading chat widget...</div>,
+})
 
-export const ChatBot = async ({
+export const ChatBot = ({
   aiAvatar,
   children,
   defaultMessage,
@@ -21,8 +24,20 @@ export const ChatBot = async ({
   getAuthResult,
   requireAuth = !!getAuthResult,
 }: DefaultChatOptions) => {
-  const authResult = getAuthResult ? await getAuthResult() : { user: null, permissions: [] }
-
+  const [authResult, setAuthResult] = useState<PayloadAgentAuthResult | { user: null; permissions: any[] }>({ user: null, permissions: [] })
+  const [isLoading, setIsLoading] = useState(!!getAuthResult)
+  
+  useEffect(() => {
+    if (getAuthResult) {
+      setIsLoading(true)
+      getAuthResult().then(result => {
+        setAuthResult(result)
+        setIsLoading(false)
+      })
+    }
+  }, [getAuthResult])
+  
+  if (isLoading) return <div>Loading...</div>
   if (requireAuth && !authResult?.user) return children
 
   return (
