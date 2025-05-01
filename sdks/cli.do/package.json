@@ -45,6 +45,7 @@
   "scripts": {
     "build": "tsc",
     "build:packages": "tsc",
+    "prepare": "mkdir -p dist && echo '#!/usr/bin/env node\\nconsole.log(\\\"Stub: Run build first\\\");' > dist/index.js && chmod +x dist/index.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },

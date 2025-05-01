@@ -15,6 +15,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "prepare": "mkdir -p bin && echo '#!/usr/bin/env node\\nconsole.log(\\\"Stub: Run build first\\\");' > bin/cli.js && chmod +x bin/cli.js",
     "clean": "rimraf dist",
     "lint": "eslint .",
     "test": "echo \"No tests\" && exit 0"
