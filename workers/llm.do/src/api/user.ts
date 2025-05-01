@@ -36,7 +36,7 @@ export function getUser(request: Request): APIUser {
     userAgent: ua?.browser?.name === undefined && userAgent ? userAgent : undefined,
     os: ua?.os?.name as string,
     ip,
-    isp: cf?.asOrganization?.toString() || '',
+    isp: cf?.asOrganization?.toString() || request.headers.get('x-vercel-ip-org') || 'Unknown ISP',
     flag: flags[(cf?.country as keyof typeof flags) || 'US'],
     zipcode: cf?.postalCode?.toString() || '',
     city: cf?.city?.toString() || '',
