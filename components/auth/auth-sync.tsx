@@ -9,6 +9,7 @@ export function AuthSync() {
   const [syncAttempted, setSyncAttempted] = useState(false)
   const syncInProgress = useRef(false)
   const syncTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const prevStatus = useRef(status)
 
   // Cleanup function for any timeouts
   useEffect(() => {
@@ -18,6 +19,22 @@ export function AuthSync() {
       }
     }
   }, [])
+
+  // Detect status changes to trigger sync across tabs
+  useEffect(() => {
+    // If status changed from unauthenticated to authenticated
+    if (prevStatus.current !== 'authenticated' && status === 'authenticated') {
+      // Notify other tabs that auth state changed
+      try {
+        localStorage.setItem('auth_sync_trigger', `login:${Date.now()}`)
+      } catch (e) {
+        // Handle localStorage errors (e.g., private browsing mode)
+        console.error('Failed to update localStorage:', e)
+      }
+    }
+
+    prevStatus.current = status
+  }, [status])
 
   // Main sync effect
   useEffect(() => {
@@ -42,9 +59,6 @@ export function AuthSync() {
 
             // Mark sync as attempted and successful
             setSyncAttempted(true)
-
-            // Set a cookie to track that sync was done
-            document.cookie = 'auth_sync_completed=true; path=/; max-age=3600'
           }
         } catch (error) {
           console.error('Auth sync failed:', error)
@@ -62,8 +76,10 @@ export function AuthSync() {
   // Cross-tab coordination
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'auth_sync_trigger' && status === 'authenticated') {
-        setSyncAttempted(false) // Allow re-sync when triggered from another tab
+      if (!e.key || !e.newValue) return
+
+      if (e.key === 'auth_sync_trigger' && e.newValue.startsWith('login:') && status === 'authenticated') {
+        setSyncAttempted(false) // Trigger re-sync when login detected in another tab
       }
     }
 
