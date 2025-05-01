@@ -16,12 +16,16 @@ export const useChatInputMethods = () => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
+  const submitForm = useCallback(() => {
+    console.log('Submit form')
+  }, [])
+
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
       e.preventDefault()
       submitForm()
     }
-  }, [])
+  }, [submitForm])
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
@@ -49,10 +53,6 @@ export const useChatInputMethods = () => {
 
   const removeAttachment = useCallback((id: string) => {
     setAttachments((prev) => prev.filter((a) => a.id !== id))
-  }, [])
-
-  const submitForm = useCallback(() => {
-    console.log('Submit form')
   }, [])
 
   return {
