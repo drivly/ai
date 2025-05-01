@@ -26,7 +26,7 @@ export default auth(async (request) => {
 
 
 
-  if (handler.isApiAuthRoute() || handler.isPublicRoute() || handler.pathname?.startsWith('/api/')) {
+  if (handler.isApiAuthRoute() || handler.isPublicRoute() || handler.pathname.startsWith('/api/')) {
     return NextResponse.next()
   }
 
