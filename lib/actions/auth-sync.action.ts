@@ -25,7 +25,7 @@ export async function syncAuthToken() {
     }
 
     const headersList = await headers()
-    const currentDomain = headersList.get('host') || ''
+    const currentDomain = headersList.get('x-forwarded-host') || ''
 
     // Sync to all domains except current one
     const results = await Promise.allSettled(
