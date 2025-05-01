@@ -1,27 +1,19 @@
 'use client'
 
-import React, { createContext, useContext, ReactNode } from 'react'
 import { useChat } from '@ai-sdk/react'
 import type { UIMessage } from 'ai'
-
+import React from 'react'
+import { createRequiredContext } from '../hooks'
+import { toast } from 'sonner'
 /** Type representing all values returned by Vercel's useChat hook */
 type ChatContextValue = ReturnType<typeof useChat>
-
-const ChatContext = createContext<ChatContextValue | undefined>(undefined)
-
-function useChatContext() {
-  const context = useContext(ChatContext)
-  if (!context) {
-    throw new Error('useChatContext must be used within a ChatContextProvider')
-  }
-  return context
-}
+const [_useChatContext, ChatContextProvider] = createRequiredContext<ChatContextValue>()
 
 /**
  * Hook to access chat status and control
  */
 export function useChatStatus() {
-  const { status, stop } = useChatContext()
+  const { status, stop } = _useChatContext()
   const isThinking = status === 'submitted'
   const isLoading = status === 'streaming' || status === 'submitted'
   return { status, stop, isThinking, isLoading }
@@ -31,7 +23,7 @@ export function useChatStatus() {
  * Hook to access chat messages and message-related functionality
  */
 export function useChatMessages() {
-  const { error, messages, reload } = useChatContext()
+  const { error, messages, reload } = _useChatContext()
   const { isThinking } = useChatStatus()
 
   const displayMessages: UIMessage[] = isThinking ? [...messages, { role: 'assistant', content: '', id: 'thinking', experimental_attachments: [], parts: [] }] : messages
@@ -43,16 +35,30 @@ export function useChatMessages() {
  * Hook to access chat input functionality and state
  */
 export function useChatInput() {
-  const { input, handleInputChange, handleSubmit, append } = useChatContext()
+  const { input, handleInputChange, handleSubmit, append } = _useChatContext()
 
   return { input, append, handleInputChange, handleSubmit }
 }
 
-export function ChatContextProvider({ children }: { children: ReactNode }) {
+function ChatProvider({ children, chatId, selectedModel }: { children: React.ReactNode; chatId: string; selectedModel: string }) {
+  console.log('ChatProvider initialized with model:', selectedModel)
+
   const chat = useChat({
+    id: chatId,
     maxSteps: 3,
-    onError: (error) => console.error('Chat error:', error),
+    body: {
+      model: selectedModel,
+    },
+    onError: (error) => {
+      console.error('Chat error:', error)
+      toast.error(error.message || 'Failed to send message')
+    },
+    onResponse: (response) => {
+      console.log('Chat response status:', response.status)
+    },
   })
 
-  return <ChatContext.Provider value={chat}>{children}</ChatContext.Provider>
+  return <ChatContextProvider value={chat}>{children}</ChatContextProvider>
 }
+
+export { ChatProvider }
