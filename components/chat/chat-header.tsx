@@ -26,8 +26,16 @@ export function ChatHeader({ chatId, model, modelValue, setModelValue }: { chatI
     <header className='flex h-14 shrink-0 items-center border-b px-4 md:px-6'>
       <div className='flex flex-1 items-center gap-6'>
         <h1 className='font-ibm z-10 text-lg font-medium sm:text-base'>GPT.do</h1>
-        <div className='text-muted-foreground text-sm'>
-          <Input type='text' value={modelValue} onChange={handleModelChange} onKeyDown={handleKeyDown} placeholder='Enter model name (e.g. gpt-4o)' className='w-full max-w-1/2' />
+        <div className='text-muted-foreground max-w-md flex-grow text-sm'>
+          <Input
+            type='text'
+            value={modelValue}
+            onChange={handleModelChange}
+            onKeyDown={handleKeyDown}
+            placeholder='Enter model name (e.g. gpt-4o)'
+            className='w-full min-w-[200px]'
+            style={{ width: `${Math.max(200, modelValue.length * 10)}px` }}
+          />
         </div>
       </div>
       <div className='flex items-center gap-2'>

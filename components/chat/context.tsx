@@ -2,7 +2,7 @@
 
 import { useChat } from '@ai-sdk/react'
 import type { UIMessage } from 'ai'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createRequiredContext } from '../hooks'
 import { toast } from 'sonner'
 /** Type representing all values returned by Vercel's useChat hook */
@@ -57,6 +57,12 @@ function ChatProvider({ children, chatId, selectedModel }: { children: React.Rea
       console.log('Chat response status:', response.status)
     },
   })
+
+  // Update body.model when selectedModel changes
+  useEffect(() => {
+    console.log('Model changed to:', selectedModel)
+    // The useChat hook will automatically use the updated body in future requests
+  }, [selectedModel])
 
   return <ChatContextProvider value={chat}>{children}</ChatContextProvider>
 }

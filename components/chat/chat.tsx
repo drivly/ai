@@ -3,7 +3,7 @@
 import { ChatContent } from '@/components/chat/chat-content'
 import { ChatHeader } from '@/components/chat/chat-header'
 import { ChatProvider } from '@/components/chat/chat-provider'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export interface ChatProps {
   id: string
@@ -14,8 +14,13 @@ export const Chat = (props: ChatProps) => {
   const { id, model } = props
   const [modelValue, setModelValue] = useState(model)
 
+  // Keep model value updated if prop changes
+  useEffect(() => {
+    setModelValue(model)
+  }, [model])
+
   return (
-    <ChatProvider chatId={id} selectedModel={model}>
+    <ChatProvider chatId={id} selectedModel={modelValue}>
       <div className='bg-background mx-auto flex h-screen w-full flex-col overflow-hidden'>
         <ChatHeader chatId={id} model={model} modelValue={modelValue} setModelValue={setModelValue} />
         <ChatContent />
