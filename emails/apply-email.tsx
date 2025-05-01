@@ -29,7 +29,7 @@ export const ApplyEmail = ({ name }: { name: string }) => (
           {/* Signature */}
           <Section className='mt-[32px] text-gray-700'>
             <Text className='mb-[8px] text-lg'>Talk soon,</Text>
-            <Text className='text-base'>
+            <Text className='text-lg'>
               Bryant <br /> Co-Founder & CEO
             </Text>
           </Section>

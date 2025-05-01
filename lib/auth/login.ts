@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getCurrentURL, getAuthRedirectForDomain } from '@/lib/utils/url'
 import { signIn } from '@/auth'
+import { getAuthRedirectForDomain } from '@/lib/utils/url'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   const { origin } = request.nextUrl
