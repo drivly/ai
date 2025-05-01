@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
 import { streamText, generateObject, streamObject, generateText, resolveConfig, createLLMProvider } from '@/pkgs/ai-providers/src'
-import { CoreMessage, jsonSchema, createDataStreamResponse } from 'ai'
+import { CoreMessage, jsonSchema, createDataStreamResponse, tool } from 'ai'
 
 export const maxDuration = 600
 export const dynamic = 'force-dynamic'
@@ -15,6 +15,7 @@ type OpenAICompatibleRequest = {
   top_p?: number;
   stream?: boolean;
   response_format?: any;
+  tools?: any;
 }
 
 export async function POST(req: Request) {
@@ -100,7 +101,8 @@ export async function POST(req: Request) {
     max_tokens,
     top_p,
     stream,
-    response_format
+    response_format,
+    tools: userTools
   } = postData as OpenAICompatibleRequest
 
   if (!prompt && !messages) {
@@ -118,26 +120,46 @@ export async function POST(req: Request) {
 
   const llmModel = llm(model)
 
-  const openAiResponse = (body: any, usage: any) => {
+  // Fix user tools to be able to be used by our system
+  const tools: Record<string, any> = {}
+
+  for (const [name, toolData] of Object.entries((userTools ?? {}) as Record<string, any>)) {
+    tools[toolData.function.name] = tool({
+      type: 'function',
+      description: toolData.function.description,
+      parameters: jsonSchema(toolData.function.parameters)
+    })
+  }
+
+  const openAiResponse = (result: any) => {
     return Response.json({
-      id: body.id,
+      id: result.id,
       object: 'llm.completion',
       created: Date.now(),
       model,
       choices: [
         {
           message: {
-            content: body,
-            role: 'assistant'
+            content: result.text,
+            role: 'assistant',
+            tool_calls: result.toolCalls.map((toolCall: any) => ({
+              index: 0,
+              id: toolCall.id,
+              type: 'function',
+              function: {
+                name: toolCall.toolName,
+                arguments: JSON.stringify(toolCall.args)
+              }
+            }))
           },
           index: 0,
           finish_reason: 'stop'
         }
       ],  
       usage: {
-        prompt_tokens: usage.prompt_tokens,
-        completion_tokens: usage.completion_tokens,
-        total_tokens: usage.total_tokens
+        prompt_tokens: result.usage.prompt_tokens,
+        completion_tokens: result.usage.completion_tokens,
+        total_tokens: result.usage.total_tokens
       }
     })
   }
@@ -192,10 +214,11 @@ export async function POST(req: Request) {
         messages,
         prompt,
         user: session?.user.email || '',
-        maxSteps: 25
+        maxSteps: 10,
+        tools
       })
 
-      return openAiResponse(result.text, result.usage)
+      return openAiResponse(result)
     }
   }
 }
