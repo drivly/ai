@@ -25,7 +25,7 @@ export type ApiContext = {
   payload: any
   db: PayloadDB
   req: NextRequest
-  cf?: any // Cloudflare data fetched from cf.json endpoint
+  cf?: any
 }
 
 /**
