@@ -24,7 +24,7 @@ export default auth(async (request) => {
   const handler = new RequestHandler(request)
   const isLoggedIn = !!request.auth
 
-  await handler.fetchCfData()
+
 
   if (handler.isApiAuthRoute() || handler.isPublicRoute()) {
     return NextResponse.next()
@@ -324,7 +324,7 @@ export default auth(async (request) => {
 // export async function middleware(request: NextRequest) {
 //   const handler = new RequestHandler(request)
 
-//   await handler.fetchCfData()
+// 
 
 //   if (handler.isApiAuthRoute() || handler.isPublicRoute()) {
 //     return NextResponse.next()
