@@ -17,9 +17,6 @@ export const metadata = {
   },
   description: 'Documentation for the Do platform',
   metadataBase: new URL(siteConfig.url),
-  alternates: {
-    canonical: siteConfig.baseLinks.docs,
-  },
   openGraph: {
     images: '/OG_Docs.png',
     type: 'website',
