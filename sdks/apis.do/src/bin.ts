@@ -7,8 +7,13 @@ import { loadApiKey } from './auth'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const packageJsonPath = path.join(__dirname, '..', '..', 'package.json')
-const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
-const version = packageJson.version
+let version = '0.1.0' // Default version if package.json is not found
+try {
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+  version = packageJson.version
+} catch (error) {
+  console.warn(`Could not read version from ${packageJsonPath}, using default version`, error)
+}
 
 let config = {}
 const configPath = '.ai/config.json'

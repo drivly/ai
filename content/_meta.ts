@@ -12,9 +12,10 @@ const meta: MetaRecord = {
   ref: { type: 'page', title: 'Reference', href: 'https://reference.apis.do' },
 
   manifesto: '',
+  primitives: '',
   'business-as-code': '',
   'services-as-software': '',
-  primitives: '',
+  'getting-started': '',
 
   // _business: {
   //   type: 'separator',

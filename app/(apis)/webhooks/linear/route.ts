@@ -20,14 +20,18 @@ export const POST = API(async (request, { payload }) => {
 
   const webhookId = request.headers.get('linear-delivery')
   const webhookSignature = request.headers.get('linear-signature')
+  const dateHeader = request.headers.get('date')
+  const webhookTimestamp = dateHeader ? new Date(dateHeader).getTime().toString() : null
 
-  if (!webhookId || !webhookSignature) {
+  if (!webhookId || !webhookSignature || !webhookTimestamp) {
     console.error('Missing required Linear webhook headers', {
       headers: Object.fromEntries([...request.headers.entries()]),
       hasBody: Boolean(await request.clone().text()),
       requestUrl: request.url,
       method: request.method,
       contentType: request.headers.get('content-type'),
+      dateHeader,
+      webhookTimestamp,
     })
     return new Response('Missing required webhook headers', { status: 400 })
   }
@@ -42,6 +46,7 @@ export const POST = API(async (request, { payload }) => {
     const verificationHeaders: Record<string, string> = {
       'linear-delivery': webhookId,
       'linear-signature': webhookSignature,
+      'linear-timestamp': webhookTimestamp,
     }
 
     const verifiedPayload = wh.verify(rawBody, verificationHeaders)
