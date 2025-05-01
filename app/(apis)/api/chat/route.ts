@@ -1,290 +1,319 @@
-import { API } from '@/lib/api'
-import { waitUntil } from '@vercel/functions'
-import { put } from '@vercel/blob'
-import OpenAI from 'openai'
+import { model } from '@/lib/ai'
+import { streamText } from 'ai'
 
-const { TransformStream } = globalThis
+// Allow streaming responses up to 30 seconds
+export const maxDuration = 30
 
-interface ChatMessage {
-  role?: string
-  content: string
-  metadata?: Record<string, any>
+export async function POST(req: Request) {
+  try {
+    const body = await req.json()
+
+    const messages = body.messages || []
+    const modelName = body.model || 'gpt-4.1'
+
+    if (!messages || messages.length === 0) {
+      return new Response(JSON.stringify({ error: 'No messages provided' }), { status: 400, headers: { 'Content-Type': 'application/json' } })
+    }
+
+    const result = streamText({
+      model: model(modelName),
+      messages: messages,
+    })
+
+    return result.toDataStreamResponse()
+  } catch (error) {
+    console.error('Error in chat API:', error)
+    return new Response(JSON.stringify({ error: 'Failed to process chat request' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
+  }
 }
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || '',
-})
+// import { API } from '@/lib/api'
+// import { waitUntil } from '@vercel/functions'
+// import { put } from '@vercel/blob'
+// import OpenAI from 'openai'
 
-export const GET = API(async (req, { db, user, payload }) => {
-  if (!user?.id) {
-    return { error: 'Unauthorized', status: 401 }
-  }
+// const { TransformStream } = globalThis
 
-  const { searchParams } = new URL(req.url)
-  const id = searchParams.get('id')
+// interface ChatMessage {
+//   role?: string
+//   content: string
+//   metadata?: Record<string, any>
+// }
 
-  if (id) {
-    const chat = await payload.find({
-      collection: 'chatResources',
-      where: {
-        id: { equals: id },
-        resourceType: { equals: 'chat' },
-        user: { equals: user.id },
-      },
-    })
+// const openai = new OpenAI({
+//   apiKey: process.env.OPENAI_API_KEY || '',
+// })
 
-    if (!chat?.docs?.length) {
-      return { error: 'Chat not found', status: 404 }
-    }
+// export const GET = API(async (req, { db, user, payload }) => {
+//   if (!user?.id) {
+//     return { error: 'Unauthorized', status: 401 }
+//   }
 
-    const messages = await payload.find({
-      collection: 'chatResources',
-      where: {
-        parentId: { equals: id },
-        resourceType: { equals: 'message' },
-      },
-    })
+//   const { searchParams } = new URL(req.url)
+//   const id = searchParams.get('id')
 
-    return { chat: chat.docs[0], messages: messages.docs }
-  } else {
-    const limit = parseInt(searchParams.get('limit') || '10')
-    const startingAfter = searchParams.get('starting_after')
-    const endingBefore = searchParams.get('ending_before')
+//   if (id) {
+//     const chat = await payload.find({
+//       collection: 'chatResources',
+//       where: {
+//         id: { equals: id },
+//         resourceType: { equals: 'chat' },
+//         user: { equals: user.id },
+//       },
+//     })
 
-    let query: any = {
-      resourceType: { equals: 'chat' },
-      user: { equals: user.id },
-    }
+//     if (!chat?.docs?.length) {
+//       return { error: 'Chat not found', status: 404 }
+//     }
 
-    if (startingAfter) {
-      query.createdAt = { less_than: startingAfter }
-    }
+//     const messages = await payload.find({
+//       collection: 'chatResources',
+//       where: {
+//         parentId: { equals: id },
+//         resourceType: { equals: 'message' },
+//       },
+//     })
 
-    if (endingBefore) {
-      query.createdAt = { greater_than: endingBefore }
-    }
+//     return { chat: chat.docs[0], messages: messages.docs }
+//   } else {
+//     const limit = parseInt(searchParams.get('limit') || '10')
+//     const startingAfter = searchParams.get('starting_after')
+//     const endingBefore = searchParams.get('ending_before')
 
-    const chats = await payload.find({
-      collection: 'chatResources',
-      where: query,
-      limit,
-      sort: '-createdAt',
-    })
+//     let query: any = {
+//       resourceType: { equals: 'chat' },
+//       user: { equals: user.id },
+//     }
 
-    return { chats: chats.docs }
-  }
-})
+//     if (startingAfter) {
+//       query.createdAt = { less_than: startingAfter }
+//     }
 
-export const POST = API(async (req, { user, payload }) => {
-  if (!user?.id) {
-    return { error: 'Unauthorized', status: 401 }
-  }
+//     if (endingBefore) {
+//       query.createdAt = { greater_than: endingBefore }
+//     }
 
-  const { id, messages }: { id?: string; messages: ChatMessage[] } = await req.json()
+//     const chats = await payload.find({
+//       collection: 'chatResources',
+//       where: query,
+//       limit,
+//       sort: '-createdAt',
+//     })
 
-  let chat
-  if (id) {
-    const existingChat = await payload.find({
-      collection: 'chatResources',
-      where: {
-        id: { equals: id },
-        resourceType: { equals: 'chat' },
-        user: { equals: user.id },
-      },
-    })
+//     return { chats: chats.docs }
+//   }
+// })
 
-    if (!existingChat?.docs?.length) {
-      return { error: 'Chat not found', status: 404 }
-    }
+// export const POST = API(async (req, { user, payload }) => {
+//   if (!user?.id) {
+//     return { error: 'Unauthorized', status: 401 }
+//   }
 
-    chat = existingChat.docs[0]
-  } else {
-    const title = messages[0]?.content?.substring(0, 100) || 'New Chat'
-    const newChat = await payload.create({
-      collection: 'chatResources',
-      data: {
-        title,
-        resourceType: 'chat',
-        user: user.id,
-        metadata: {
-          model: messages[0]?.metadata?.model || 'gpt-4',
-        },
-        visibility: 'private',
-      },
-    })
+//   const { id, messages }: { id?: string; messages: ChatMessage[] } = await req.json()
 
-    chat = newChat
-  }
+//   let chat
+//   if (id) {
+//     const existingChat = await payload.find({
+//       collection: 'chatResources',
+//       where: {
+//         id: { equals: id },
+//         resourceType: { equals: 'chat' },
+//         user: { equals: user.id },
+//       },
+//     })
 
-  const userMessage = await payload.create({
-    collection: 'chatResources',
-    data: {
-      title: 'User Message',
-      content: messages[messages.length - 1].content,
-      resourceType: 'message',
-      user: user.id,
-      parentId: chat.id,
-      metadata: messages[messages.length - 1].metadata || {},
-    },
-  })
+//     if (!existingChat?.docs?.length) {
+//       return { error: 'Chat not found', status: 404 }
+//     }
 
-  const assistantMessage = await payload.create({
-    collection: 'chatResources',
-    data: {
-      title: 'Assistant Message',
-      content: '',
-      resourceType: 'message',
-      user: user.id,
-      parentId: chat.id,
-      metadata: {
-        role: 'assistant',
-      },
-    },
-  })
+//     chat = existingChat.docs[0]
+//   } else {
+//     const title = messages[0]?.content?.substring(0, 100) || 'New Chat'
+//     const newChat = await payload.create({
+//       collection: 'chatResources',
+//       data: {
+//         title,
+//         resourceType: 'chat',
+//         user: user.id,
+//         metadata: {
+//           model: messages[0]?.metadata?.model || 'gpt-4',
+//         },
+//         visibility: 'private',
+//       },
+//     })
 
-  const { readable, writable } = new TransformStream()
+//     chat = newChat
+//   }
 
-  const streamProcessor = async () => {
-    try {
-      const completion = await openai.chat.completions.create({
-        model: chat.metadata?.model || 'gpt-4.1',
-        messages: [
-          { role: 'system', content: 'You are a helpful assistant.' },
-          ...messages
-            .map((m: ChatMessage) => {
-              const roleInput = m.role || 'user'
-              if (roleInput === 'function') {
-                return {
-                  role: 'function' as const,
-                  content: m.content,
-                  name: m.metadata?.name || 'default_name',
-                }
-              } else if (roleInput === 'tool') {
-                if (!m.metadata?.tool_call_id) {
-                  console.warn('Skipping tool message without tool_call_id')
-                  // Return a user message instead of null to avoid type errors
-                  return {
-                    role: 'user' as const,
-                    content: m.content,
-                  }
-                }
-                return {
-                  role: 'tool' as const,
-                  content: m.content,
-                  tool_call_id: m.metadata.tool_call_id,
-                }
-              } else {
-                return {
-                  role: roleInput as 'system' | 'user' | 'assistant',
-                  content: m.content,
-                }
-              }
-            })
-            .filter(Boolean),
-        ],
-        stream: true,
-      })
+//   const userMessage = await payload.create({
+//     collection: 'chatResources',
+//     data: {
+//       title: 'User Message',
+//       content: messages[messages.length - 1].content,
+//       resourceType: 'message',
+//       user: user.id,
+//       parentId: chat.id,
+//       metadata: messages[messages.length - 1].metadata || {},
+//     },
+//   })
 
-      const textEncoder = new TextEncoder()
-      const writer = writable.getWriter()
+//   const assistantMessage = await payload.create({
+//     collection: 'chatResources',
+//     data: {
+//       title: 'Assistant Message',
+//       content: '',
+//       resourceType: 'message',
+//       user: user.id,
+//       parentId: chat.id,
+//       metadata: {
+//         role: 'assistant',
+//       },
+//     },
+//   })
 
-      let accumulatedContent = ''
+//   const { readable, writable } = new TransformStream()
 
-      for await (const chunk of completion) {
-        const content = chunk.choices[0]?.delta?.content || ''
-        if (content) {
-          accumulatedContent += content
-          await writer.write(textEncoder.encode(content))
+//   const streamProcessor = async () => {
+//     try {
+//       const completion = await openai.chat.completions.create({
+//         model: chat.metadata?.model || 'gpt-4.1',
+//         messages: [
+//           { role: 'system', content: 'You are a helpful assistant.' },
+//           ...messages
+//             .map((m: ChatMessage) => {
+//               const roleInput = m.role || 'user'
+//               if (roleInput === 'function') {
+//                 return {
+//                   role: 'function' as const,
+//                   content: m.content,
+//                   name: m.metadata?.name || 'default_name',
+//                 }
+//               } else if (roleInput === 'tool') {
+//                 if (!m.metadata?.tool_call_id) {
+//                   console.warn('Skipping tool message without tool_call_id')
+//                   // Return a user message instead of null to avoid type errors
+//                   return {
+//                     role: 'user' as const,
+//                     content: m.content,
+//                   }
+//                 }
+//                 return {
+//                   role: 'tool' as const,
+//                   content: m.content,
+//                   tool_call_id: m.metadata.tool_call_id,
+//                 }
+//               } else {
+//                 return {
+//                   role: roleInput as 'system' | 'user' | 'assistant',
+//                   content: m.content,
+//                 }
+//               }
+//             })
+//             .filter(Boolean),
+//         ],
+//         stream: true,
+//       })
 
-          if (accumulatedContent.length % 100 < 10) {
-            try {
-              await payload.update({
-                collection: 'chatResources',
-                id: assistantMessage.id,
-                data: {
-                  content: accumulatedContent,
-                },
-              })
-            } catch (error: any) {
-              console.error('Error updating message content:', error)
-            }
-          }
-        }
-      }
+//       const textEncoder = new TextEncoder()
+//       const writer = writable.getWriter()
 
-      try {
-        await payload.update({
-          collection: 'chatResources',
-          id: assistantMessage.id,
-          data: {
-            content: accumulatedContent,
-          },
-        })
-      } catch (error: any) {
-        console.error('Error updating final message content:', error)
-      }
+//       let accumulatedContent = ''
 
-      writer.close()
-    } catch (error: any) {
-      console.error('Error processing stream:', error)
-    }
-  }
+//       for await (const chunk of completion) {
+//         const content = chunk.choices[0]?.delta?.content || ''
+//         if (content) {
+//           accumulatedContent += content
+//           await writer.write(textEncoder.encode(content))
 
-  waitUntil(streamProcessor())
+//           if (accumulatedContent.length % 100 < 10) {
+//             try {
+//               await payload.update({
+//                 collection: 'chatResources',
+//                 id: assistantMessage.id,
+//                 data: {
+//                   content: accumulatedContent,
+//                 },
+//               })
+//             } catch (error: any) {
+//               console.error('Error updating message content:', error)
+//             }
+//           }
+//         }
+//       }
 
-  // Return a streaming response using the native Response object
-  return new Response(readable, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Transfer-Encoding': 'chunked',
-    },
-  })
-})
+//       try {
+//         await payload.update({
+//           collection: 'chatResources',
+//           id: assistantMessage.id,
+//           data: {
+//             content: accumulatedContent,
+//           },
+//         })
+//       } catch (error: any) {
+//         console.error('Error updating final message content:', error)
+//       }
 
-export const DELETE = API(async (req, { user, payload }) => {
-  if (!user?.id) {
-    return { error: 'Unauthorized', status: 401 }
-  }
+//       writer.close()
+//     } catch (error: any) {
+//       console.error('Error processing stream:', error)
+//     }
+//   }
 
-  const { searchParams } = new URL(req.url)
-  const id = searchParams.get('id')
+//   waitUntil(streamProcessor())
 
-  if (!id) {
-    return { error: 'Missing id', status: 400 }
-  }
+//   // Return a streaming response using the native Response object
+//   return new Response(readable, {
+//     headers: {
+//       'Content-Type': 'text/plain; charset=utf-8',
+//       'Transfer-Encoding': 'chunked',
+//     },
+//   })
+// })
 
-  const chat = await payload.find({
-    collection: 'chatResources',
-    where: {
-      id: { equals: id },
-      resourceType: { equals: 'chat' },
-      user: { equals: user.id },
-    },
-  })
+// export const DELETE = API(async (req, { user, payload }) => {
+//   if (!user?.id) {
+//     return { error: 'Unauthorized', status: 401 }
+//   }
 
-  if (!chat?.docs?.length) {
-    return { error: 'Chat not found', status: 404 }
-  }
+//   const { searchParams } = new URL(req.url)
+//   const id = searchParams.get('id')
 
-  const messages = await payload.find({
-    collection: 'chatResources',
-    where: {
-      parentId: { equals: id },
-      resourceType: { equals: 'message' },
-    },
-  })
+//   if (!id) {
+//     return { error: 'Missing id', status: 400 }
+//   }
 
-  for (const message of messages.docs) {
-    await payload.delete({
-      collection: 'chatResources',
-      id: message.id,
-    })
-  }
+//   const chat = await payload.find({
+//     collection: 'chatResources',
+//     where: {
+//       id: { equals: id },
+//       resourceType: { equals: 'chat' },
+//       user: { equals: user.id },
+//     },
+//   })
 
-  await payload.delete({
-    collection: 'chatResources',
-    id: id,
-  })
+//   if (!chat?.docs?.length) {
+//     return { error: 'Chat not found', status: 404 }
+//   }
 
-  return { success: true }
-})
+//   const messages = await payload.find({
+//     collection: 'chatResources',
+//     where: {
+//       parentId: { equals: id },
+//       resourceType: { equals: 'message' },
+//     },
+//   })
+
+//   for (const message of messages.docs) {
+//     await payload.delete({
+//       collection: 'chatResources',
+//       id: message.id,
+//     })
+//   }
+
+//   await payload.delete({
+//     collection: 'chatResources',
+//     id: id,
+//   })
+
+//   return { success: true }
+// })

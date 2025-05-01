@@ -18,10 +18,13 @@ export async function POST(req: Request) {
   // Support both GET and POST requests
   try {
     const postData = await req.json()
-    messages = postData.messages
-    model = postData.model
-    
+    messages = postData.messages || []
+    model = postData.model || model
+
+    // Log the received messages for debugging
+    console.log('Received messages:', JSON.stringify(messages))
   } catch (error) {
+    console.error('Error parsing request:', error)
     // We're in a GET request, so use message from query params
     const message = qs.get('message')
     model = qs.get('model') || model
@@ -33,15 +36,25 @@ export async function POST(req: Request) {
     messages = [{ role: 'user', content: message }]
   }
 
-  const result = await streamText({
-    model,
-    system: 'You are a helpful assistant.',
-    messages: messages,
-    user: session.user.email || '',
-    maxSteps: 50
-  })
+  // Ensure we have at least one message
+  if (messages.length === 0) {
+    return new Response('No messages provided', { status: 400 })
+  }
 
-  return result.toDataStreamResponse()
+  try {
+    const result = await streamText({
+      model,
+      system: 'You are a helpful assistant.',
+      messages: messages,
+      user: session.user.email || '',
+      maxSteps: 50,
+    })
+
+    return result.toDataStreamResponse()
+  } catch (error) {
+    console.error('Error processing chat request:', error)
+    return new Response('Error processing request', { status: 500 })
+  }
 }
 
 export const GET = POST

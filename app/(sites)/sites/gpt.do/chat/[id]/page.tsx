@@ -1,35 +1,22 @@
-import { auth } from '@/auth'
-import { ChatContent } from '@/components/chat/chat-content'
-import { ChatHeader } from '@/components/chat/chat-header'
-import { ChatProvider } from '@/components/chat/chat-provider'
-import { getCurrentURL } from '@/lib/utils/url'
-import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { Chat } from '@/components/chat/chat'
+import { cookies } from 'next/headers'
+import { requireAuthentication } from '../../action'
 
-export default async function ChatPage({ params }: { params: Promise<Record<string, string | string[]>> }) {
-  const session = await auth()
+const DEFAULT_CHAT_MODEL = 'openai/gpt-4.1'
 
-  if (!session) {
-    const headersList = await headers()
-    const currentURL = getCurrentURL(headersList)
-    const callbackUrl = new URL('/gpt.do/chat/new', currentURL).toString()
-    const githubSignInUrl = new URL('/api/auth/signin/github', currentURL)
-    githubSignInUrl.searchParams.set('callbackUrl', callbackUrl)
+async function ChatPage({ params }: { params: Promise<{ id: string }> }) {
+  // Use the server action to handle authexport default entication
+  await requireAuthentication()
 
-    redirect(githubSignInUrl.toString())
+  const { id } = await params
+
+  const cookieStore = await cookies()
+  const chatModelFromCookie = cookieStore.get('chat-model')
+
+  if (!chatModelFromCookie) {
+    return <Chat id={id} model={DEFAULT_CHAT_MODEL} />
   }
 
-  const { id: idParam } = await params
-  const id = Array.isArray(idParam) ? idParam[0] : idParam
-
-  return (
-    <div className='bg-background flex h-dvh min-w-0 flex-col'>
-      <ChatHeader chatId={id} />
-      <ChatProvider chatId={id}>
-        <div className='flex-1 overflow-hidden'>
-          <ChatContent />
-        </div>
-      </ChatProvider>
-    </div>
-  )
+  return <Chat id={id} model={chatModelFromCookie.value} />
 }
+export default ChatPage
