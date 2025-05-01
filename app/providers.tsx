@@ -1,4 +1,5 @@
 import { auth } from '@/auth'
+import { AuthSync } from '@/components/auth/auth-sync'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import Rb2bScript from '@/components/Rb2bScript'
 import { PostHogProvider } from '@/components/shared/post-hog-provider'
@@ -12,6 +13,7 @@ export async function Providers({ children }: { children: React.ReactNode }) {
     <SessionProvider session={session}>
       <PostHogProvider>
         {children}
+        <AuthSync />
         <Analytics />
         <SpeedInsights />
         <GoogleAnalytics />

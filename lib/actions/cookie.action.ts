@@ -13,6 +13,13 @@ export async function getCookie(name: string) {
   try {
     const cookieStore = await cookies()
     const storedCookie = cookieStore.get(name)
+
+    // For auth tokens, don't try to parse them as JSON
+    if (name === 'authjs.session-token' || name === '__Secure-authjs.session-token') {
+      return storedCookie?.value || null
+    }
+
+    // For other cookies that actually contain JSON
     return storedCookie?.value ? JSON.parse(storedCookie.value) : []
   } catch (error) {
     console.error(`Error reading ${name} cookie:`, error)
@@ -28,6 +35,8 @@ export const setCookie = async (
     path?: string
     sameSite?: 'strict' | 'lax' | 'none'
     secure?: boolean
+    httpOnly?: boolean
+    maxAge?: number
   },
 ) => {
   try {
@@ -46,6 +55,8 @@ export const setCookie = async (
       path: options?.path || '/',
       sameSite: options?.sameSite || 'lax',
       secure: options?.secure ?? process.env.NODE_ENV === 'production',
+      httpOnly: options?.httpOnly ?? true,
+      maxAge: options?.maxAge,
     })
 
     return true
