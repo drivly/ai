@@ -4,9 +4,11 @@ asIndexPage: true
 
 # SDKs
 
-## [`ai`](/docs/sdks/functions.do)
+## `functions.do`
 
-The `ai` object in [`functions.do`](/docs/sdks/functions.do) and [`workflows.do`](/docs/sdks/workflows.do) is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
+### `ai`
+
+The [`ai`](/docs/sdks/functions.do) object in [`functions.do`](/docs/sdks/functions.do) is extremely powerful and flexible. It can be used to call arbitrary object generation functions, generate text using template literals, and iterate over lists using async iterators:
 
 ```typescript
 import { ai } from 'functions.do'
@@ -15,9 +17,44 @@ import { ai } from 'functions.do'
 const leanCanvas = await ai.leanCanvas({ idea: 'Business-as-Code' })
 ```
 
-## `api`
+### `AI`
 
-The `api` object provides access to not only all of the core `.do` APIs, but also tens of thousands of searches and actions from third-party [integrations](/docs/integrations):
+The [`AI`](/docs/sdks/functions.do) function in [`functions.do`](/docs/sdks/functions.do) allows [Functions](/docs/functions) and [Workflows](/docs/workflows) to be defined in a strongly-typed way:
+
+```typescript
+import { AI } from 'functions.do'
+
+const ai = AI({
+  // Define a Workflow as a Code Function
+  captureIdea: async (idea, { ai, api, db }) => {
+    const leanCanvas = await ai.leanCanvas({ idea })
+    await api.slack.postMessage({ channel: '#general', text: `${idea}\n${leanCanvas}` })
+    await db.idea.create({ idea, leanCanvas, status: 'Draft' })
+  },
+
+  // Define a strongly-typed Generation Function
+  leanCanvas: {
+    productName: 'name of the product or service',
+    problem: ['top 3 problems the product solves'],
+    solution: ['top 3 solutions the product offers'],
+    uniqueValueProposition: 'clear message that states the benefit of your product',
+    unfairAdvantage: 'something that cannot be easily copied or bought',
+    customerSegments: ['list of target customer segments'],
+    keyMetrics: ['list of key numbers that tell you how your business is doing'],
+    channels: ['path to customers'],
+    costStructure: ['list of operational costs'],
+    revenueStreams: ['list of revenue sources'],
+    recommendations: ['list of recommendations based on the analysis'],
+  },
+})
+
+const businessModel = await ai.leanCanvas({ idea: 'Auto Lending Services-as-Software' })
+```
+## `apis.do`
+
+### `api`
+
+The `api` object in [`apis.do`](/docs/sdks/apis.do) provides access to not only all of the core `.do` APIs, but also tens of thousands of searches and actions from third-party [integrations](/docs/integrations):
 
 ```typescript
 import { api } from 'apis.do'
@@ -146,39 +183,7 @@ every('hour during business hours', async (event, { db }) => {
 })
 ```
 
-## `AI`
 
-The [`AI`](/docs/sdks/functions.do) function in [`functions.do`](/docs/sdks/functions.do) and [`workflows.do`](/docs/sdks/workflows.do) allows [Functions](/docs/functions) and [Workflows](/docs/workflows) to be defined in a strongly-typed way:
-
-```typescript
-import { AI } from 'functions.do'
-
-const ai = AI({
-  // Define a Workflow as a Code Function
-  captureIdea: async (idea, { ai, api, db }) => {
-    const leanCanvas = await ai.leanCanvas({ idea })
-    await api.slack.postMessage({ channel: '#general', text: `${idea}\n${leanCanvas}` })
-    await db.idea.create({ idea, leanCanvas, status: 'Draft' })
-  },
-
-  // Define a strongly-typed Generation Function
-  leanCanvas: {
-    productName: 'name of the product or service',
-    problem: ['top 3 problems the product solves'],
-    solution: ['top 3 solutions the product offers'],
-    uniqueValueProposition: 'clear message that states the benefit of your product',
-    unfairAdvantage: 'something that cannot be easily copied or bought',
-    customerSegments: ['list of target customer segments'],
-    keyMetrics: ['list of key numbers that tell you how your business is doing'],
-    channels: ['path to customers'],
-    costStructure: ['list of operational costs'],
-    revenueStreams: ['list of revenue sources'],
-    recommendations: ['list of recommendations based on the analysis'],
-  },
-})
-
-const businessModel = await ai.leanCanvas({ idea: 'Auto Lending Services-as-Software' })
-```
 
 ## `Agent`
 
