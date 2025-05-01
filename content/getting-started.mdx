@@ -3,3 +3,30 @@ title: Getting Started
 ---
 
 # Getting Started
+
+All of the [`.do` SDKs](/docs/sdks) are installed as dependencies of the [`workflows.do` package](/docs/sdks/workflows.do), so you only need to install one package to get started:
+
+```sh npm2yarn
+npm i workflows.do
+```
+
+And set your API key in an environment variable:
+
+```env .env
+DO_API_KEY=sk_do_...
+```
+
+Then you can use any of the packages like:
+
+```ts
+import { ai } from 'functions.do'
+import { db } from 'database.do'
+
+const ideas = await db.ideas.search('agentic workflows')
+
+const brands = await Promise.all(
+  ideas.map(idea => ai.storyBrand({ idea }))
+)
+
+console.log(brands)
+```
