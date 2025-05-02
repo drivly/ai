@@ -47,7 +47,8 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
 
   const apiKeyNames = [
     'LLM_DO_API_KEY',
-    'AI_GATEWAY_TOKEN'
+    'AI_GATEWAY_TOKEN',
+    'OPENROUTER_API_KEY'
   ]
 
   for (const apiKeyName of apiKeyNames) {
