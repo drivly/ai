@@ -5,6 +5,18 @@ import fs from 'fs';
 import path from 'path';
 import { AI } from 'functions.do';
 
+const handleError = (error, source) => {
+  console.error(`Error in ${source}:`, error);
+  return { success: false, error: error.message || String(error) };
+};
+
+const getCredentials = (service) => {
+  console.log(`Getting credentials for ${service}`);
+  return {}; // Mock implementation for example purposes
+};
+
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 const mcp = new MCPConfiguration({
   servers: {
     twitter: {
