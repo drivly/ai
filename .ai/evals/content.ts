@@ -1,7 +1,7 @@
 import { cartesian } from 'experiments.do'
 import { evalite } from 'evalite'
 import { domains } from '@/.velite'
-import { siteContent } from './content'
+import { siteContent } from '../functions/content'
 import { Battle } from 'autoevals'
 import { sampleSize } from 'lodash'
 
