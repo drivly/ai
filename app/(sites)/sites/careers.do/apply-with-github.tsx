@@ -54,7 +54,7 @@ export const ApplyWithGitHub = ({ hasApplied, position }: ApplyWithGitHubProps) 
 
     // Otherwise redirect to GitHub auth
     await signIn('github', {
-      callbackUrl: `${pathname}?callback=true&position=${position}`,
+      redirectTo: `${pathname}?callback=true&position=${position}`,
     })
   }
 
