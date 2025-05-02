@@ -8,10 +8,105 @@ import { collectionSlugs } from './collections/slugs'
 
 /**
  * Middleware Configuration
- * -----------------------
+ * =======================
+ * 
  * This middleware handles routing logic for the .do domain ecosystem and custom domains.
- * It determines whether requests should be routed to API endpoints or website content.
- * It also handles authentication using next-auth.
+ * It determines whether requests should be routed to API endpoints or website content,
+ * and handles authentication using next-auth.
+ * 
+ * 1. Authentication Logic
+ * ----------------------
+ * - Uses NextAuth for authentication via the auth.config.ts configuration
+ * - Public routes (defined in lib/routes.ts) bypass authentication checks:
+ *   - /login, /sign-up, /api/users/me, etc.
+ *   - Routes starting with /api/auth/ (API_AUTH_PREFIX)
+ *   - Routes with favicon paths
+ * - Protected routes redirect unauthenticated users to sign-in page:
+ *   - /dashboard, /account, /admin, /chat, etc. (defined in lib/routes.ts)
+ *   - Redirects to /api/auth/signin with the original URL as callbackUrl
+ * - Admin routes have special handling with temporary auth bypass (ENG-751):
+ *   - Currently admin routes (/admin/*) bypass authentication redirects
+ *   - This is a temporary modification until integrated auth is restored
+ * 
+ * 2. Domain Type Routing
+ * ---------------------
+ * The middleware identifies and routes different domain types:
+ * 
+ * a) .do Domains:
+ *    - Domains ending with .do, .do.gt, or .do.mw (checked via isDoDomain())
+ *    - Non-API routes are rewritten to /sites/{hostname}{pathname}
+ *    - API routes (/api/* or /v1/*) are rewritten to /{apiName}{path}
+ *    - Admin routes are passed through or rewritten to specific collections
+ *    - Example: functions.do/about → /sites/functions.do/about
+ * 
+ * b) Gateway Domains:
+ *    - Domains like apis.do, do.gt, do.mw (checked via isGatewayDomain())
+ *    - /docs path is rewritten to /docs
+ *    - /sites path is rewritten to /sites
+ *    - Root path for do.gt/do.mw is rewritten to /sites
+ *    - /pricing path is always rewritten to functions.do/pricing
+ * 
+ * c) .do.management Domains:
+ *    - Domains ending with .do.management (checked via isDoManagementDomain())
+ *    - Rewritten to /admin or /admin/collections/{managementApiName}
+ *    - Example: functions.do.management → /admin/collections/functions
+ * 
+ * d) Brand Domains:
+ *    - Custom domains configured in domains.config.js (checked via isBrandDomain())
+ *    - Docs, admin, and API paths are passed through
+ *    - Site domains are rewritten to /sites/{hostname}{pathname}
+ *    - Root path is rewritten to /sites
+ *    - Other paths are rewritten to /sites/.do{pathname}
+ * 
+ * e) Custom Domains:
+ *    - Any domain not matching the above categories
+ *    - Rewritten to /projects/{hostname}{pathname}
+ * 
+ * 3. Path-Based Routing
+ * --------------------
+ * The middleware handles specific path patterns:
+ * 
+ * a) API Routes:
+ *    - Paths starting with /api/ or /v1/
+ *    - For .do domains: rewritten to /{apiName}{path}
+ *    - For other domains: passed through
+ * 
+ * b) API Documentation Routes:
+ *    - Paths starting with /api/docs/ or /v1/docs/
+ *    - Rewritten to docs.apis.do with modified headers
+ * 
+ * c) Documentation Routes:
+ *    - Paths starting with /docs/
+ *    - For documentation.do: ensures path starts with /docs
+ *    - For other domains: passed through
+ * 
+ * d) Admin Routes:
+ *    - Paths starting with /admin/
+ *    - For .do domains with matching collection: rewritten to /admin/collections/{apiName}
+ *    - For other cases: passed through
+ * 
+ * 4. Path Duplication Prevention
+ * -----------------------------
+ * The middleware prevents path duplication when the domain is included in the path:
+ * 
+ * - Checks if pathname starts with the domain name (e.g., /gpt.do/chat/new)
+ * - Removes the domain prefix to prevent duplication
+ * - Example: /gpt.do/chat/new → /sites/gpt.do/chat/new (not /sites/gpt.do/gpt.do/chat/new)
+ * 
+ * 5. Special Cases
+ * ---------------
+ * The middleware handles several special cases:
+ * 
+ * a) documentation.do Domain:
+ *    - Ensures all paths start with /docs
+ *    - Example: documentation.do/guide → /docs/guide
+ * 
+ * b) /pricing Path:
+ *    - Always rewrites to functions.do/pricing regardless of domain
+ *    - Example: apis.do/pricing → /sites/functions.do/pricing
+ * 
+ * c) Analytics Middleware:
+ *    - All requests pass through analyticsMiddleware for tracking
  */
 
 /**
