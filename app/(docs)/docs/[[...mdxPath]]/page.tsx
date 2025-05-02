@@ -1,5 +1,6 @@
 import { generateStaticParamsFor, importPage } from 'nextra/pages'
 import { useMDXComponents as getMDXComponents } from '@/mdx-components'
+import { ResolvingMetadata } from 'next'
 
 export const generateStaticParams = generateStaticParamsFor('mdxPath')
 
@@ -7,24 +8,34 @@ type Props = {
   params: Promise<{ mdxPath: string[] }>
 }
 
-// export const metadata = {
-//   metadataBase: new URL('https://acme.com'),
-//   alternates: {
-//     canonical: '/',
-//     languages: {
-//       'en-US': '/en-US',
-//       'de-DE': '/de-DE',
-//     },
-//   },
-//   openGraph: {
-//     images: '/og-image.png',
-//   },
-// }
+export async function generateMetadata(props: Props, parent: ResolvingMetadata) {
+  const { mdxPath } = await props.params
+  const { metadata } = await importPage(mdxPath)
 
-export async function generateMetadata(props: Props) {
-  const params = await props.params
-  const { metadata } = await importPage(params.mdxPath)
-  return metadata
+  let openGraphImage
+  if (mdxPath && mdxPath.length > 0) {
+    openGraphImage = `/docs/og?title=${metadata.title}`
+  }
+
+  const canonicalDomain = metadata.canonicalDomain || 'workflows.do'
+  
+  const canonicalPath = mdxPath?.join('/') || ''
+  const canonicalUrl = `https://${canonicalDomain}/docs${canonicalPath ? `/${canonicalPath}` : ''}`
+
+  return {
+    ...metadata,
+    openGraph: {
+      images: [...(openGraphImage ? [openGraphImage] : [])],
+      ...metadata.openGraph,
+    },
+    twitter: {
+      images: [...(openGraphImage ? [openGraphImage] : [])],
+      ...metadata.twitter,
+    },
+    alternates: {
+      canonical: canonicalUrl,
+    },
+  }
 }
 
 const Wrapper = getMDXComponents().wrapper

@@ -1,10 +1,8 @@
-import type { Metadata } from 'next'
 import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
-
-export const dynamic = 'force-dynamic'
+import type { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
-  const { domain } = await params || {}
+  const { domain } = (await params) || {}
   const project = await fetchProjectByDomain(domain)
 
   if (!project) {
@@ -21,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 
 export default async function CompareRootPage({ params }: { params: Promise<{ domain: string }> }) {
   try {
-    const { domain } = await params || {}
+    const { domain } = (await params) || {}
     const project = await fetchProjectByDomain(domain)
 
     if (!project) {

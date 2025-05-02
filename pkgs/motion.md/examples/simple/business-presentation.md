@@ -12,6 +12,7 @@ layout: intro
 voiceover: Welcome to our quarterly business strategy presentation. Today we'll discuss our market position, growth initiatives, and financial projections.
 
 # Quarterly Business Review
+
 ## Q2 2025
 
 ---
@@ -47,11 +48,11 @@ voiceover: Our financial projections show continued growth with strategic invest
 
 # Financial Projections
 
-| Metric | Q2 2025 | Q3 2025 (Projected) |
-|--------|---------|---------------------|
-| Revenue | $24.7M | $28.2M |
-| Operating Margin | 18.5% | 19.3% |
-| R&D Investment | $3.2M | $4.1M |
+| Metric           | Q2 2025 | Q3 2025 (Projected) |
+| ---------------- | ------- | ------------------- |
+| Revenue          | $24.7M  | $28.2M              |
+| Operating Margin | 18.5%   | 19.3%               |
+| R&D Investment   | $3.2M   | $4.1M               |
 
 ---
 

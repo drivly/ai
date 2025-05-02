@@ -1,10 +1,13 @@
 import { GridPatternDashed } from '@/components/sites/magicui/grid-pattern-dashed'
 import { Particles } from '@/components/sites/magicui/particles'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
+import { getCookie } from '@/lib/actions/cookie.action'
 import { Fragment } from 'react'
+import { PositionCard } from './position-card'
+import { CAREERS_DO_APPLIED_COOKIE_NAME, jobPositions } from './schema'
 
-export const Careers = () => {
+export const Careers = async () => {
+  const appliedPositions = await getCookie(CAREERS_DO_APPLIED_COOKIE_NAME.value)
+
   return (
     <Fragment>
       {/* Fixed background effects */}
@@ -15,7 +18,7 @@ export const Careers = () => {
           style={{
             background: 'radial-gradient(circle at center top, #98D2C0, transparent 30%)',
           }}
-        ></div>
+        />
 
         {/* Particles effect with fewer particles and reduced size */}
         <Particles className='absolute inset-0' quantity={20} ease={70} size={0.03} staticity={40} color={'#ffffff'} />
@@ -47,50 +50,13 @@ export const Careers = () => {
             <p className='mb-6 text-gray-300'>If you're excited to build practical AI systems that make a real impact, we’d love to work with you.</p>
           </div>
 
-          {/* Job Card */}
+          {/* Job Cards */}
           <div className='my-10 border-t border-gray-800/50'>
             <h2 className='mt-10 mb-4 text-xl font-semibold'>Open Positions</h2>
             <div className='grid gap-4'>
-              <div className='rounded-lg border border-gray-800 bg-black/30 p-6 transition-all hover:border-gray-600 hover:bg-black/70'>
-                <h3 className='mb-2 text-lg font-semibold'>AI Engineer</h3>
-                <p className='mb-4 text-sm text-gray-400'>Design and develop AI systems that deliver economically valuable work at scale.</p>
-                <div className='flex flex-col justify-between gap-4 sm:flex-row sm:items-center'>
-                  <div className='flex gap-2'>
-                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
-                      Typescript
-                    </Badge>
-                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
-                      Full-stack
-                    </Badge>
-                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
-                      Remote/Full-time
-                    </Badge>
-                  </div>
-                  <Button className='h-10 cursor-pointer rounded-sm'>Apply with GitHub</Button>
-                </div>
-              </div>
-
-              {/* Add the new DevRel job card */}
-              <div className='rounded-lg border border-gray-800 bg-black/30 p-6 transition-all hover:border-gray-600 hover:bg-black/70'>
-                <h3 className='mb-2 text-lg font-semibold'>DevRel</h3>
-                <p className='mb-4 text-sm text-gray-400'>
-                  Empower developers by building, supporting, and showcasing AI workflows through content, community, and real-world impact.
-                </p>
-                <div className='flex flex-col justify-between gap-4 sm:flex-row sm:items-center'>
-                  <div className='flex gap-2'>
-                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
-                      Go-To-Market
-                    </Badge>
-                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
-                      Community
-                    </Badge>
-                    <Badge variant='outline' className='text-xs whitespace-nowrap'>
-                      Remote/Full-time
-                    </Badge>
-                  </div>
-                  <Button className='h-10 cursor-pointer rounded-sm'>Apply with GitHub</Button>
-                </div>
-              </div>
+              {jobPositions.map((position) => (
+                <PositionCard key={position.id} job={position} hasApplied={appliedPositions.includes(position.position)} />
+              ))}
             </div>
           </div>
         </div>
@@ -98,5 +64,3 @@ export const Careers = () => {
     </Fragment>
   )
 }
-
-// how to apply with github, how does it actually work?

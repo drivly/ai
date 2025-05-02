@@ -72,42 +72,6 @@ export const ChatMessage = ({ chatId, attachments, parts, role }: ChatMessagePro
                 </Fragment>
               )
             }
-            // // TODO: Make this tool-invocation extendable and customizable
-            // case 'tool-invocation': {
-            //   const callId = part.toolInvocation.toolCallId
-            //   const toolName = part.toolInvocation.toolName as any
-            //   const toolState = part.toolInvocation.state
-
-            //   if (toolState !== 'result') {
-            //     const loadingMessage = toolLoadingMessage(toolName, {
-            //       id: part.toolInvocation.args?.id,
-            //       collection: part.toolInvocation.args?.collection,
-            //       query: part.toolInvocation.args?.query,
-            //     })
-            //     return (
-            //       <MessageContent key={index} className='text-primary bg-transparent p-0 text-[14px] leading-[24px]'>
-            //         {loadingMessage}
-            //       </MessageContent>
-            //     )
-            //   }
-
-            //   switch (toolName) {
-            //     case 'findDeals':
-            //       return <FindDeals key={callId} results={part.toolInvocation.result} />
-            //     case 'permissions':
-            //       return <CollectionList key={callId} collections={part.toolInvocation.result} />
-            //     case 'searchUsers':
-            //       return <SearchUsers key={callId} result={part.toolInvocation.result} />
-
-            //     case 'getDocument':
-            //       return <GetDocument key={callId} document={part.toolInvocation.result} />
-            //     case 'searchCollection': {
-            //       return <SearchCollection key={callId} results={part.toolInvocation.result} />
-            //     }
-            //     default:
-            //       assertUnreachable(toolName)
-            //   }
-            // }
           }
         })}
 

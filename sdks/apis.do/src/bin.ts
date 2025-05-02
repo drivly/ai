@@ -7,8 +7,13 @@ import { loadApiKey } from './auth'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const packageJsonPath = path.join(__dirname, '..', '..', 'package.json')
-const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
-const version = packageJson.version
+let version = '0.1.0' // Default version if package.json is not found
+try {
+  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+  version = packageJson.version
+} catch (error) {
+  console.warn(`Could not read version from ${packageJsonPath}, using default version`, error)
+}
 
 let config = {}
 const configPath = '.ai/config.json'
@@ -26,7 +31,9 @@ try {
   ;(async () => {
     storedApiKey = await loadApiKey()
   })()
-} catch (error) {}
+} catch (error) {
+  console.error('Error loading stored API key:', error instanceof Error ? error.message : String(error))
+}
 
 const cli = new CLI({
   apiKey: storedApiKey || process.env.APIS_DO_API_KEY || process.env.DO_API_KEY,

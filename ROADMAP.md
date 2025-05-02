@@ -1,115 +1,76 @@
 # [.do](https://dotdo.ai) Roadmap
 
+## Functions
 
-## 0.1.0
+- `ai-functions` Generate Objects without a Schema
+- `ai-functions` Generate Objects with Schema via `ai` and `AI`
+- `ai-functions` Generate Text via Tagged Templates
+- `ai-functions` Generate `string[]` via `list` Tagged Template
+- `ai-functions` Generate arrays of any type via `list` Tagged Template
+- `ai-functions` Support `list` async iterator
+- `ai-functions` uses `ai` SDK and `ai-providers` as default
+- `functions.do` SDK Generate Objects without a Schema
+- `functions.do` SDK Generate Objects with a Type-safe Schema
+- `functions.do` SDK Generate Text via Tagged Templates
+- `functions.do` SDK Generate Typescript Code w/ AST
+- `functions.do` SDK Generate Markdown w/ AST
+- `functions.do` SDK define & execute Code functions
+- `functions.do` SDK define & execute Human functions as a `Task`
+- `functions.do` SDK define & execute Agent functions as a `Task`
+- `functions.do` API should determine proper function type, subject/object Nouns, Verb, and Examples
 
-### [Functions.do](https://functions.do) Generate Objects without a Schema
+## LLM
 
-```ts
-import { ai } from 'functions.do'
+- `language-models` parse Language Model Requirements string into object
+- `language-models` generate Language Model Requirements string from object
+- `models.do` API return all matching Language Models given a string or object
+- `models.do` API return single matching Language Model given a `seed`
+- `llm.do` API provide OpenAI Chat Completion API-compatible universal model/provider proxy
+- `ai-providers` provide universal `ai` SDK provider / router with `llm.do` as default
+- `llm.do` SDK exports `model` as `ai` SDK provider
+- `llm.do` SDK exports `tools` for use in `ai` SDK
+- `llm.do` SDK exports simplified `generateObject` and `generateText` functions
+- `llm.do` SDK exports simplified `streamObject` and `streamText` functions
 
-const businessModel = ai.leanCanvas({ concept: 'Auto Loan Underwriting Services-as-Software' })
-```
+## APIs
 
-### [Functions.do](https://functions.do) Generate Objects with a Type-safe Schema
+- `apis.do` SDK List/Search + CRUD for all collections
+- `apis.do` SDK supports all integration actions
+- `apis.do` API Clickable Developer Experience
 
-```ts
-import { AI } from 'functions.do'
+## Workflows
 
-const ai = AI({
-  leanCanvas: {
-    productName: 'name of the product or service',
-    problem: ['top 3 problems the product solves'],
-    solution: ['top 3 solutions the product offers'],
-    uniqueValueProposition: 'clear message that states the benefit of your product',
-    unfairAdvantage: 'something that cannot be easily copied or bought',
-    customerSegments: ['list of target customer segments'],
-    keyMetrics: ['list of key numbers that tell you how your business is doing'],
-    channels: ['path to customers'],
-    costStructure: ['list of operational costs'],
-    revenueStreams: ['list of revenue sources'],
-  },
-})
+- `ai-workflows` export `on` and `every` for event-based workflows
+- `workflows.do` SDK implement `on` and `every` for event-based workflows
 
-const businessModel = ai.leanCanvas({ concept: 'Auto Loan Underwriting Services-as-Software' })
-```
+## Evals
 
-## 0.2.0
+- `evals.do` Measure AI Performance
 
-### [Evals.do](https://evals.do) Measure AI Performance
+## Experiments
 
-```ts
-import { Eval, JSONDiff } from 'evals.do'
+- `experiments.do` Compare Models
 
-Eval('W-2 OCR', {
+## Benchmarks
 
-  // compare different models
-  models: [
-    'openai/o3',
-    'openai/o4-mini',
-    'openai/o4-mini-high',
-    'openai/gpt-4.1',
-    'openai/gpt-4.1-mini',
-    'openai/gpt-4.1-nano',
-    'google/gemini-2.5-pro-preview-03-25',
-    'google/gemini-2.5-flash-preview:thinking',
-    'google/gemini-2.5-flash-preview',
-    'anthropic/claude-3.7-sonnet',
-    'anthropic/claude-3.7-sonnet:thinking',
-    'meta-llama/llama-4-maverick',
-    'meta-llama/llama-4-scout',
-    'x-ai/grok-3-beta',
-    'x-ai/grok-3-mini-beta',
-  ],
-  
+- ✅ `benchmarks.do` Measure OCR Performance of Vision Models
 
-  // calculate all variations of inputs
-  inputs: async () => cartesian({
-    image:[1, 2, 3, 4, 5, 6], 
-    blur:[0, 1, 2, 3], 
-    res:[512, 768, 1536, 2000, 3072],
-  }).map(({image, blur, res}) => ({ image: `https://…/w2_img${image}_blur${blur}_res${res}.jpg` })),
+## Database
 
-  // run 3 times for each input
-  seeds: 3, 
-  prompt: 'Extract the data from the image.',
-  temperature: 0,
-  expected: expectedOutput,
-  schema : W2,
-  scorers : [JSONDiff],             
-})
-```
+- `databases.do` SDK Generate Databases
 
-### [Experiments.do](https://experiments.do) Compare Models
+## Integrations
 
-```ts
-import { ai } from 'functions.do'
-import { Battle } from 'evals.do'
-import { Experiment } from 'experiments.do'
+- `integrations.do` API create `connection` for a user & integration
 
-Experiment({
-  models: [
-    'openai/gpt-4.1',
-    'openai/gpt-4.1-mini',
-    'openai/gpt-4.5-preview',
-    'google/gemini-2.5-pro-preview-03-25',
-    'google/gemini-2.5-flash-preview',
-    'google/gemini-2.0-flash',
-    'anthropic/claude-3.7-sonnet',
-    'anthropic/claude-3.5-sonnet',
-    'meta-llama/llama-4-maverick',
-    'meta-llama/llama-4-scout',
-    'x-ai/grok-3-beta',
-    'x-ai/grok-3-mini-beta',
-  ],
-  temperature: [0.8, 1],
-  inputs: cartesian({
-    topic: ['Business-as-Code', 'Services-as-Software', 'AI Agents', 'Agentic Workflows'],
-    audience: ['startup founders', 'empowered CTOs', 'alpha developers', 'AI engineers'],
-    tone: ['informative', 'engaging', 'persuasive', 'conversational', 'technical'],
-  }),
-  task: ai.listBlogPostTitles
-  scorer: [Battle],
-})
-```
-  
+## Agents
+
+- `agents.do` SDK Define `Agent`
+
+## Services
+
+- `services.do` SDK Define `Service`
+
+## Tasks
+
+- `tasks.do` SDK define `human` and `agent` types of `Task`

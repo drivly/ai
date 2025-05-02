@@ -6,26 +6,32 @@ import { z } from 'zod'
 
 export const writeBlogPost = (
   input: any,
-  { modelName = 'google/gemini-2.5-pro-preview-03-25', system = 'You are an expert at writing compelling and SEO-optimized blog content', temperature = 1 } = {},
+  { 
+    // modelName = 'google/gemini-2.5-pro-preview-03-25', 
+    modelName = 'google/gemini-2.5-flash-preview',
+    system = 'You are an expert at writing compelling and SEO-optimized blog content. Respond only in markdown format starting with "# [Title]"', 
+    temperature = 1 
+  } = {},
 ) =>
-  generateObject({
+  generateText({
     model: model(modelName),
     system,
     prompt: `Write a blog post about: \n\n${typeof input === 'string' ? input : yaml.stringify(input)}`,
     temperature,
-    schema: z.object({
-      title: z.string(),
-      description: z.string(),
-      category: z.string(),
-      markdown: z.string({ description: 'Markdown content of the blog post, without including the title, description, or category' }),
-    }),
   }).then((result) => {
-    return result.object
+    return result.text
   })
 
 export const listBlogPostTitles = (
   input: any,
-  { count = 30, modelName = 'google/gemini-2.5-pro-preview-03-25', system = 'You are an expert at writing compelling and SEO-optimized blog content', temperature = 1 } = {},
+  { 
+    // count = 30,
+    count = 30, 
+    // modelName = 'google/gemini-2.5-pro-preview-03-25', 
+    modelName = 'google/gemini-2.5-flash-preview',
+    system = 'You are an expert at writing compelling and SEO-optimized blog content', 
+    temperature = 1 
+  } = {},
 ) =>
   generateObject({
     model: model(modelName, { structuredOutputs: true }),
@@ -48,7 +54,8 @@ export const listBlogPostTitles = (
 export const siteContent = (
   input: any,
   {
-    modelName = 'google/gemini-2.5-pro-preview-03-25',
+    // modelName = 'google/gemini-2.5-pro-preview-03-25',
+    modelName = 'google/gemini-2.5-flash-preview',
     system = 'You are an expert at writing compelling and SEO-optimized site content for `.do` - an AI-powered Agentic Workflow Platform to do Business-as-Code and deliver valuable Services-as-Software through simple APIs and SDKs. ',
     temperature = 1,
   } = {},
@@ -77,9 +84,9 @@ export const siteContentSchema = z.object({
   badge: z.string({ description: '3-word eyebrow text above hero headline' }),
   codeExample: z.string({
     description:
-      'Extremely elegant, simple, and concise code examples. Depending on the context, you will either return a Typescript or Javascript code example, or a JSON object which would be returned from an API that does this activity.',
+      'Extremely elegant, simple, and concise code examples. Depending on the context, you will either return a Typescript code example or an example JSON object which would be returned from an API that does this activity.',
   }),
-  codeLang: z.enum(['typescript', 'javascript', 'json']),
+  codeLang: z.enum(['typescript', 'json']),
   // features: z.array(z.object({
   //   title: z.string(),
   //   description: z.string(),

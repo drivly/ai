@@ -1,4 +1,4 @@
-import { sitesConfig } from '@/app/_utils/content'
+import { sitesConfig } from '@/.velite'
 import { DotDoSection } from '@/components/sites/dotdos/dot-do-section'
 import { HeroSection } from '@/components/sites/sections/hero-section'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
@@ -33,7 +33,8 @@ async function DirectoryPage() {
           <div className='container mx-auto flex h-[50vh] items-center justify-center px-3 pt-24'>
             <div className='animate-pulse text-lg opacity-50'>Loading sites...</div>
           </div>
-        }>
+        }
+      >
         <DotDoSection categories={categories} />
       </Suspense>
     </div>

@@ -1,3 +1,6 @@
+import type { DatabaseClient } from 'database.do'
+import type { Root } from 'mdast'
+
 export type ModelName = string
 
 export interface AIConfig {
@@ -6,12 +9,17 @@ export interface AIConfig {
   temperature?: number
   seed?: number
   schema?: Record<string, any>
+  maxTokens?: number
+  output?: 'array' | 'enum' | 'no-schema'
+  iterator?: boolean
+  includeAnalysis?: boolean
+  [key: string]: any
 }
 
 // Markdown output type
 export interface MarkdownOutput {
   markdown: string
-  mdast: any
+  mdast: Root
 }
 
 export interface VideoOutput {
@@ -20,13 +28,28 @@ export interface VideoOutput {
   size: number
 }
 
+/**
+ * TypeScript AST node interface
+ */
+export interface TypeScriptASTNode {
+  kind: string
+}
+
+/**
+ * Generated TypeScript code response
+ */
+export interface GeneratedTypeScriptCode {
+  code: string
+  ast?: TypeScriptASTNode
+  diagnostics?: { message: string; line?: number; column?: number }[]
+}
+
 // Generic AI function type
 export type AIFunction<TInput = any, TOutput = any> = {
   (input: TInput, config?: AIConfig): Promise<TOutput>
 }
 
 // Types for function definitions
-// Define StringArray as an array of string literals to help TypeScript better infer element types
 export type StringArray = Array<string>
 
 export type SchemaValue = string | StringArray | { [key: string]: SchemaValue } | SchemaValue[]
@@ -46,8 +69,30 @@ export type SchemaToOutput<T extends FunctionDefinition> = {
       : string
 }
 
+export interface APIAccess {
+  [service: string]: {
+    [method: string]: (...args: any[]) => Promise<any>
+  }
+}
+
+export type DatabaseAccess = DatabaseClient
+
 // Function callback type
-export type FunctionCallback<TArgs = any> = (context: { ai: AI_Instance; args: TArgs }) => any | Promise<any>
+export type FunctionCallback<TArgs = any> = (args: TArgs, ctx: Context) => Promise<any>
+
+export type AIProxy = {
+  [K: string]: AIFunction<any, any> &
+    (<T = any>(input?: any, config?: AIConfig) => Promise<T>) &
+    (<T = any>(schema: FunctionDefinition, config?: AIConfig) => (input: any, inputConfig?: AIConfig) => Promise<T>) &
+    (<T = any>(input?: any, schema?: FunctionDefinition, config?: AIConfig) => Promise<T>)
+} & TaggedTemplateFunction &
+  ConfigurableAIProxy
+
+export interface Context {
+  ai: AIProxy
+  api: APIAccess
+  db: DatabaseAccess
+}
 
 // Main AI function factory type
 export type AI = {
@@ -59,6 +104,9 @@ export type AI = {
   }
 }
 
+// Helper type to infer array element types
+export type ArrayElementType<T> = T extends (infer U)[] ? U : never
+
 export type TemplateLiteralInput = TemplateStringsArray | [TemplateStringsArray, ...any[]]
 
 export interface TaggedTemplateFunction {
@@ -66,15 +114,5 @@ export interface TaggedTemplateFunction {
 }
 
 export interface ConfigurableAIProxy {
-  (config: AIConfig): TaggedTemplateFunction & AI_Instance
+  (config: AIConfig): TaggedTemplateFunction & AIProxy
 }
-
-export type AI_Instance = {
-  [K: string]: AIFunction<any, any> &
-    (<T = any>(input?: any, config?: AIConfig) => Promise<T>) &
-    (<T = any>(input?: any, schema?: FunctionDefinition, config?: AIConfig) => Promise<T>)
-} & TaggedTemplateFunction &
-  ConfigurableAIProxy
-
-// Helper type to infer array element types
-export type ArrayElementType<T> = T extends (infer U)[] ? U : never

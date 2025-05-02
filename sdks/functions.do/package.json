@@ -48,10 +48,16 @@
     "test:e2e": "vitest run tests/e2e/**/*.test.ts"
   },
   "devDependencies": {
+    "database.do": "workspace:^0.1.0",
     "eslint-config": "workspace:*",
     "evalite": "^0.10.0",
+    "remark": "^15.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-stringify": "^11.0.0",
+    "tsconfig": "workspace:*",
     "vitest": "^3.0.9",
-    "tsconfig": "workspace:*"
+    "ts-morph": "^20.0.0",
+    "@types/estree": "^1.0.5"
   },
   "dependencies": {
     "apis.do": "workspace:*",

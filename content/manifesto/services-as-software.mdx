@@ -1,0 +1,223 @@
+---
+title: Services-as-Software
+---
+
+# `.do` Services-as-Software
+
+Simultaneously, the concept of Services-as-Software revolutionizes what businesses offer to their customers. Instead of providing mere tools or features in software, organizations now deliver guaranteed outcomes powered by intelligent agents and autonomous workflows. Customers purchase results, measurable impact, and clear value, shifting risk and accountability to the service provider.
+
+## Basic Service Example
+
+```ts
+import { Service } from 'services-as-software'
+
+const exampleService = Service({
+  name: 'Content Generation Service',
+  objective: 'Provide high-quality content generation that increases marketing efficiency',
+  keyResults: ['Reduce content creation time by 50%', 'Maintain content quality score of 8+'],
+  pricing: {
+    model: 'cost-based',
+    costBase: 10,
+    fixedCosts: 5,
+    variableCosts: 2,
+  },
+  implementation: {
+    type: 'function',
+    id: 'content-generator-123',
+  },
+})
+```
+
+## Core Concepts
+
+The `Service` function enables Functions, Workflows, and Agents to be offered as services that provide outcomes in return for payment. It provides several key capabilities:
+
+1. **Price Calculation** - Calculate service prices using different pricing models based on costs, margins, activities, or outcomes.
+
+2. **Service Registration** - Register services with the service registry to make them discoverable and accessible.
+
+3. **Progress Tracking** - Track progress toward key results to measure service effectiveness.
+
+4. **Objective Achievement** - Check if a service has achieved its defined objectives based on key results.
+
+```ts
+// Register the service
+const registeredService = await exampleService.register()
+
+// Calculate price
+const price = exampleService.calculatePrice({ quantity: 5 })
+
+// Track progress towards key results
+exampleService.trackProgress({
+  'Reduce content creation time': 30,
+  'Maintain content quality score': 9,
+})
+
+// Check if objective is achieved
+const achieved = exampleService.isObjectiveAchieved()
+```
+
+## Pricing Models
+
+The Services-as-Software framework supports four pricing models that can be used to define how services are priced:
+
+### Cost-based Pricing
+
+Calculates price based on a cost base plus fixed and variable costs.
+
+```ts
+const service = Service({
+  // ...other properties
+  pricing: {
+    model: 'cost-based',
+    costBase: 100,
+    fixedCosts: 50,
+    variableCosts: 10,
+  },
+})
+
+// Calculate price for 5 units
+const price = service.calculatePrice({ quantity: 5 }) // 200 (100 + 50 + 10*5)
+```
+
+### Margin-based Pricing
+
+Calculates price based on a cost base plus a percentage margin.
+
+```ts
+const service = Service({
+  // ...other properties
+  pricing: {
+    model: 'margin-based',
+    costBase: 100,
+    marginPercentage: 20,
+  },
+})
+
+// Calculate price for 2 units
+const price = service.calculatePrice({ quantity: 2 }) // 240 (100*2 + 20% margin)
+```
+
+### Activity-based Pricing
+
+Calculates price based on the activities performed and their rates.
+
+```ts
+const service = Service({
+  // ...other properties
+  pricing: {
+    model: 'activity-based',
+    activities: [
+      { name: 'research', rate: 50 },
+      { name: 'writing', rate: 100 },
+      { name: 'editing', rate: 30 },
+    ],
+  },
+})
+
+// Calculate price based on activities performed
+const price = service.calculatePrice({
+  activities: {
+    research: 2,
+    writing: 1,
+    editing: 3,
+  },
+}) // 290 (50*2 + 100*1 + 30*3)
+```
+
+### Outcome-based Pricing
+
+Calculates price based on achieved outcomes against target values.
+
+```ts
+const service = Service({
+  // ...other properties
+  pricing: {
+    model: 'outcome-based',
+    outcomes: [
+      { metric: 'conversion-rate', targetValue: 5, price: 500 },
+      { metric: 'engagement', targetValue: 10000, price: 300 },
+    ],
+  },
+})
+
+// Calculate price based on achieved outcomes
+const price = service.calculatePrice({
+  outcomes: {
+    'conversion-rate': 6.5,
+    engagement: 8000,
+  },
+}) // 500 (only conversion-rate target was met)
+```
+
+## Implementation Types
+
+Services-as-Software supports three implementation types, allowing different components to be offered as services:
+
+### Function as a Service
+
+Offer individual AI functions as services with defined objectives and pricing.
+
+```ts
+const functionAsService = Service({
+  name: 'Text Summarization',
+  objective: 'Provide accurate text summarization',
+  keyResults: ['Achieve 90% summarization accuracy'],
+  pricing: {
+    model: 'cost-based',
+    costBase: 5,
+    variableCosts: 0.01,
+  },
+  implementation: {
+    type: 'function',
+    id: 'text-summarizer-function',
+  },
+})
+```
+
+### Workflow as a Service
+
+Offer complete workflows as services with activity-based pricing.
+
+```ts
+const workflowAsService = Service({
+  name: 'Content Production Pipeline',
+  objective: 'End-to-end content production',
+  keyResults: ['Reduce average production time to 24 hours'],
+  pricing: {
+    model: 'activity-based',
+    activities: [
+      { name: 'research', rate: 100 },
+      { name: 'writing', rate: 200 },
+      { name: 'editing', rate: 50 },
+    ],
+  },
+  implementation: {
+    type: 'workflow',
+    id: 'content-production-workflow',
+  },
+})
+```
+
+### Agent as a Service
+
+Offer autonomous agents as services with outcome-based pricing.
+
+```ts
+const agentAsService = Service({
+  name: 'Customer Support Agent',
+  objective: 'Provide excellent customer support',
+  keyResults: ['Maintain customer satisfaction score of 4.5+', 'Keep first response time under 5 minutes'],
+  pricing: {
+    model: 'outcome-based',
+    outcomes: [
+      { metric: 'resolutionRate', targetValue: 95, price: 1000 },
+      { metric: 'satisfactionScore', targetValue: 4.8, price: 500 },
+    ],
+  },
+  implementation: {
+    type: 'agent',
+    id: 'customer-support-agent',
+  },
+})
+```

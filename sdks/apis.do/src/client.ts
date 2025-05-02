@@ -64,8 +64,13 @@ export class API {
     return responseData as T
   }
 
-  async get<T>(path: string, params?: QueryParams): Promise<T> {
-    return this.request<T>('GET', path, undefined, params)
+  async get<T>(path: string, params?: QueryParams): Promise<T>
+  async get<T>(collection: string, id: string): Promise<T>
+  async get<T>(pathOrCollection: string, paramsOrId?: QueryParams | string): Promise<T> {
+    if (typeof paramsOrId === 'string') {
+      return this.getById<T>(pathOrCollection, paramsOrId)
+    }
+    return this.request<T>('GET', pathOrCollection, undefined, paramsOrId)
   }
 
   async post<T>(path: string, data: any): Promise<T> {
@@ -89,7 +94,7 @@ export class API {
   }
 
   async getById<T>(collection: string, id: string): Promise<T> {
-    return this.get<T>(`/v1/${collection}/${id}`)
+    return this.request<T>('GET', `/v1/${collection}/${id}`, undefined, undefined)
   }
 
   async create<T>(collection: string, data: Partial<T>): Promise<T> {

@@ -3,7 +3,15 @@ import { generateObject } from 'ai'
 import yaml from 'yaml'
 import { z } from 'zod'
 
-export const storyBrand = (input: any, { modelName = 'google/gemini-2.5-pro-preview-03-25', system = 'You are an expert business consultant specializing in the StoryBrand framework for clarifying marketing messages', temperature = 0.7 } = {}) =>
+export const storyBrand = (
+  input: any,
+  {
+    // modelName = 'google/gemini-2.5-pro-preview-03-25',
+    modelName = 'google/gemini-2.5-flash-preview',
+    system = 'You are an expert business consultant specializing in the StoryBrand framework for clarifying marketing messages',
+    temperature = 0.7,
+  } = {},
+) =>
   generateObject({
     model: model(modelName, { structuredOutputs: true }),
     system,
@@ -22,7 +30,7 @@ export const storyBrand = (input: any, { modelName = 'google/gemini-2.5-pro-prev
       plan: z.array(z.string()).describe('clear steps the customer needs to take'),
       callToAction: z.string().describe('specific action the customer should take'),
       success: z.string().describe('description of what success looks like after using the product'),
-      failure: z.string().describe('description of what failure looks like if they don\'t use the product'),
+      failure: z.string().describe("description of what failure looks like if they don't use the product"),
       messagingExamples: z.array(z.string()).describe('example marketing messages based on this framework'),
     }),
   }).then((result) => {

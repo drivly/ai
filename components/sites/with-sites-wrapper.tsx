@@ -1,9 +1,7 @@
 import { Footer } from '@/components/sites/footer'
 import { SitesNavbar } from '@/components/sites/navbar/sites-navbar'
-import { Fragment } from 'react'
 import { Provider as BalancerProvider } from 'react-wrap-balancer'
 import { CallToAction } from './sections/call-to-action'
-// import { Faqs } from './sections/faqs'
 
 type AwaitedPageProps<TParams extends object> = {
   params: TParams
@@ -15,7 +13,9 @@ type NextPageProps<TParams extends object> = {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export const withSitesWrapper = <TParams extends { domain?: string; slug?: string }>({
+export const withSitesWrapper = <
+  TParams extends { comparison?: string; domain?: string; event?: string; id?: string; integration?: string; path?: string; product?: string; slug?: string },
+>({
   WrappedPage,
   minimal = false,
   withCallToAction = true,
@@ -25,14 +25,10 @@ export const withSitesWrapper = <TParams extends { domain?: string; slug?: strin
   withCallToAction?: boolean
 }) => {
   return async (props: NextPageProps<TParams>) => {
-    const [awaitedParams, awaitedSearchParams] = await Promise.all([
-      props.params,
-      props.searchParams || Promise.resolve(undefined), // Provide a default resolved promise if searchParams is undefined
-    ])
+    const [awaitedParams] = await Promise.all([props.params])
 
     const pageProps: AwaitedPageProps<TParams> = {
       params: awaitedParams,
-      searchParams: awaitedSearchParams,
     }
 
     return (

@@ -16,7 +16,7 @@ export const GET = API(async (req, { user, payload }) => {
 
   let query: any = {
     resourceType: { equals: 'chat' },
-    user: { equals: user.id }
+    user: { equals: user.id },
   }
 
   if (startingAfter) {
@@ -32,7 +32,7 @@ export const GET = API(async (req, { user, payload }) => {
       collection: 'chatResources',
       where: query,
       limit,
-      sort: '-createdAt'
+      sort: '-createdAt',
     })
 
     return { chats: chats.docs }

@@ -10,6 +10,9 @@ export default [
     plugins: {
       '@typescript-eslint': tseslint,
     },
+    linterOptions: {
+      reportUnusedDisableDirectives: 'off',
+    },
     languageOptions: {
       parser: tsparser,
       ecmaVersion: 2022,
@@ -62,6 +65,7 @@ export default [
       'no-case-declarations': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-empty-function': 'off',
+      'report-unused-disable-directives': 'off',
     },
   },
 ]

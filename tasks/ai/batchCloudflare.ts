@@ -25,11 +25,8 @@ export const processBatchCloudflare = async ({ input, req, payload }: any) => {
 
       const batchStatus = await response.json()
 
-      const status = batchStatus.success && batchStatus.result.status === 'completed' 
-        ? 'completed' 
-        : batchStatus.success && batchStatus.result.status === 'failed' 
-          ? 'failed' 
-          : 'processing'
+      const status =
+        batchStatus.success && batchStatus.result.status === 'completed' ? 'completed' : batchStatus.success && batchStatus.result.status === 'failed' ? 'failed' : 'processing'
 
       await payload.update({
         collection: 'generation-batches',

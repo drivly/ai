@@ -1,15 +1,15 @@
-import { Domains } from './admin/Domains'
-import { Projects } from './admin/Projects'
+import { Domains } from './projects/Domains'
+import { Projects } from './projects/Projects'
 import { Users } from './admin/Users'
 import { APIKeys } from './admin/APIKeys'
-import { Waitlist } from './admin/Waitlist'
+import { Waitlist } from './projects/Waitlist'
 import { OAuthClients } from './auth/OAuthClients'
 import { OAuthCodes } from './auth/OAuthCodes'
 import { OAuthTokens } from './auth/OAuthTokens'
 import { Integrations } from './integrations/Integrations'
 import { Tags } from './admin/Tag'
 import { Roles } from './admin/Roles'
-import { Databases } from './data/Databases'
+import { Databases } from './projects/Databases'
 import { Functions } from './ai/Functions'
 import { Modules } from './code/Modules'
 import { Packages } from './code/Packages'
@@ -24,7 +24,7 @@ import { Nouns } from './data/Nouns'
 import { Things } from './data/Things'
 import { Verbs } from './data/Verbs'
 import { Triggers } from './events/Triggers'
-import { Relationships } from './events/Relationships'
+import { Relationships } from './data/Relationships'
 import { Types } from './code/Types'
 import { Webhooks } from './admin/Webhooks'
 import { Evals } from './evals/Evals'
@@ -38,7 +38,7 @@ import { ExperimentMetrics } from './experiments/ExperimentMetrics'
 import { Prompts } from './experiments/Prompts'
 import { Settings } from './experiments/Settings'
 import { Resources } from './data/Resources'
-import { ChatResources } from './data/chat/Resources'
+import { ChatResources } from './observability/Chats'
 import { Traces } from './observability/Traces'
 import { Generations } from './observability/Generations'
 import { GenerationBatches } from './observability/GenerationBatches'
@@ -52,15 +52,21 @@ import { Tasks } from './business/Tasks'
 import { Goals } from './business/Goals'
 import { Plans } from './business/Plans'
 import { KPIs } from './business/KPIs'
-import Config from './sync/Config'
-import { Organizations, BillingPlans, Subscriptions, Usage, ConnectAccounts } from './billing'
-import { Services } from './infrastructure/Services'
+import { Config } from './admin/Config'
+import { Services } from './billing/Services'
+import { ConnectAccounts } from './billing/ConnectAccounts'
+import { Organizations } from './billing/Organizations'
+import { BillingPlans } from './billing/BillingPlans'
+import { Subscriptions } from './billing/Subscriptions'
+import { Usage } from './billing/Usage'
+import { Actions } from './events/Actions'
 
 export const collections = [
   // Register AI collections first
   Functions,
   Workflows,
   Agents,
+  Services,
 
   // Work-related collections
   Queues,
@@ -91,6 +97,7 @@ export const collections = [
   // Event collections
   Triggers,
   Searches,
+  Actions,
 
   Experiments,
   ExperimentMetrics,
@@ -133,9 +140,8 @@ export const collections = [
   Tags,
   Webhooks,
   APIKeys,
-  
+
   // Infrastructure collections
-  Services,
 
   OAuthClients,
   OAuthCodes,

@@ -1,4 +1,5 @@
 import { ApiClient } from './api'
+import type { GeneratedTypeScriptCode } from '../types'
 export type { ResearchOptions, ResearchResponse } from './research'
 
 /**
@@ -76,6 +77,8 @@ export interface FunctionDefinition {
  * @interface AIConfig
  */
 export interface AIConfig {
+  /** Whether to include semantic analysis of the function */
+  includeAnalysis?: boolean
   /** Configuration properties */
   [key: string]: any
 }
@@ -249,6 +252,40 @@ export class FunctionsClient {
       return await this.api.remove('functions', functionId)
     } catch (error) {
       console.error(`Error deleting function ${functionId}:`, error)
+      throw error
+    }
+  }
+
+  /**
+   * Execute a function as a Task, providing task-based execution and tracking
+   * @param functionName - Name of the function to execute
+   * @param input - Input data for the function
+   * @param config - Optional configuration for the function execution
+   * @returns Promise resolving to the task execution result
+   */
+  async executeAsTask<T = any>(functionName: string, input: any, config?: AIConfig): Promise<any> {
+    try {
+      // Create a task for the function execution
+      return await this.api.post<any>(`/v1/functions/${functionName}/task`, {
+        input,
+        config,
+      })
+    } catch (error) {
+      console.error(`Error executing function ${functionName} as task:`, error)
+      throw error
+    }
+  }
+
+  /**
+   * Generates TypeScript code using the backend API
+   * @param options - Code generation options
+   * @returns Promise resolving to the generated code
+   */
+  async generateTypeScript(options: { prompt?: string; schema?: any; config?: AIConfig }): Promise<GeneratedTypeScriptCode> {
+    try {
+      return await this.api.post<GeneratedTypeScriptCode>('/v1/typescript/generate', options)
+    } catch (error) {
+      console.error('Error generating TypeScript code:', error)
       throw error
     }
   }

@@ -1,21 +1,11 @@
-import { auth } from '@/auth'
-import { getCurrentURL } from '@/lib/utils/url'
-import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { requireAuthentication } from '../../action'
+import { redirect, RedirectType } from 'next/navigation'
 
 export default async function NewChatPage() {
-  const session = await auth()
+  // Use the server action to handle authentication
+  await requireAuthentication()
 
-  if (!session) {
-    const headersList = await headers()
-    const currentURL = getCurrentURL(headersList)
-    const callbackUrl = new URL('/gpt.do/chat/new', currentURL).toString()
-    const githubSignInUrl = new URL('/api/auth/signin/github', currentURL)
-    githubSignInUrl.searchParams.set('callbackUrl', callbackUrl)
-
-    redirect(githubSignInUrl.toString())
-  }
-
+  // Generate new chat ID and redirect
   const newChatId = crypto.randomUUID()
-  redirect(`/gpt.do/chat/${newChatId}`)
+  redirect(`/chat/${newChatId}`, RedirectType.push)
 }

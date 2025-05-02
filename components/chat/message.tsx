@@ -1,92 +1,92 @@
-'use client';
+'use client'
 
-import React from 'react';
-import { cn } from '@/lib/utils';
-import { Markdown } from '@/components/ui/markdown';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { User, Bot } from 'lucide-react';
-import type { UIMessage } from 'ai';
+import { Attachment } from '@/components/ui/attachment'
+import { Markdown } from '@/components/ui/markdown'
+import { Message, MessageAvatar, MessageContent } from '@/components/ui/message'
+import { useAuthUser } from '@/hooks/use-auth-user'
+import { cn } from '@/lib/utils'
+import type { UIMessage } from 'ai'
+import { motion } from 'motion/react'
+import { nanoid } from 'nanoid'
+import { Fragment } from 'react'
+import { useChatMessages } from './context'
+import { ThinkingIndicator } from './thinking'
+import { Button } from '@/components/ui/button'
 
-interface MessageProps {
-  message: UIMessage;
-  isLoading?: boolean;
+export interface ChatMessageProps {
+  chatId: string
+  role: UIMessage['role']
+  parts: UIMessage['parts']
+  attachments: UIMessage['experimental_attachments']
+  content: UIMessage['content']
 }
 
-export function Message({ message, isLoading }: MessageProps) {
-  const isUser = message.role === 'user';
+export const ChatMessage = ({ chatId, attachments, parts, role, content }: ChatMessageProps) => {
+  const user = useAuthUser()
+  const { error, reload } = useChatMessages()
+  const isAssistant = role === 'assistant'
+  const isThinking = chatId === 'thinking'
+
+  if (isThinking) {
+    return <ThinkingIndicator key={chatId} type='cursor' />
+  }
 
   return (
-    <div
-      className={cn('flex w-full items-start gap-4 py-4', {
-        'justify-end': isUser,
-      })}
-    >
-      {!isUser && (
-        <Avatar className="h-8 w-8 rounded-full border">
-          <AvatarFallback>
-            <Bot className="h-4 w-4" />
-          </AvatarFallback>
-        </Avatar>
-      )}
-      
-      <div
-        className={cn('flex flex-col gap-2 max-w-[80%]', {
-          'items-end': isUser,
-        })}
-      >
-        <div
-          className={cn('px-4 py-2 rounded-lg', {
-            'bg-primary text-primary-foreground': isUser,
-            'bg-muted': !isUser,
-          })}
-        >
-          {message.parts?.map((part, index) => {
-            if (part.type === 'text') {
+    <Message className='w-full items-start justify-start gap-2 px-4 py-3'>
+      <MessageAvatar
+        src={isAssistant ? '' : user?.image || ''}
+        alt={isAssistant ? 'AI Assistant' : 'User'}
+        fallback={isAssistant ? 'AI' : 'Me'}
+        className='size-7 bg-transparent font-bold'
+      />
+
+      <motion.div initial={{ y: 5, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className={cn('text-primary flex max-w-[90%] flex-1 flex-col space-y-3')}>
+        {parts.map((part, index) => {
+          switch (part.type) {
+            case 'text': {
               return (
-                <Markdown key={`${message.id}-part-${index}`}>
-                  {part.text}
-                </Markdown>
-              );
+                <Fragment key={index}>
+                  {isAssistant ? (
+                    <Markdown className='prose dark:prose-invert prose-headings:text-primary prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-p:text-[14px] prose-p:leading-[24px] max-w-none text-[14px] whitespace-pre-wrap'>
+                      {part.text}
+                    </Markdown>
+                  ) : (
+                    <MessageContent className='text-primary bg-transparent p-0 text-[14px] leading-[24px]'>{part.text}</MessageContent>
+                  )}
+
+                  {attachments?.map((attachment, index) => (
+                    <Attachment
+                      key={index}
+                      id={nanoid()}
+                      url={attachment.url}
+                      thumbnailUrl={attachment.url}
+                      name={attachment.name || ''}
+                      type={attachment.contentType?.includes('image') ? 'image' : 'pdf'}
+                      size={0}
+                      className='mt-3'
+                    />
+                  ))}
+                </Fragment>
+              )
             }
-            return null;
-          })}
-          
-          {/* Fallback to content if parts are not available */}
-          {(!message.parts || message.parts.length === 0) && message.content && (
-            <Markdown>{message.content}</Markdown>
-          )}
-        </div>
-      </div>
-      
-      {isUser && (
-        <Avatar className="h-8 w-8 rounded-full border">
-          <AvatarFallback>
-            <User className="h-4 w-4" />
-          </AvatarFallback>
-        </Avatar>
-      )}
-    </div>
-  );
+          }
+        })}
+
+        {(!parts || parts.length === 0) && content && <Markdown>{content}</Markdown>}
+
+        {error && <ErrorMessage onReload={reload} />}
+      </motion.div>
+    </Message>
+  )
 }
 
-export function ThinkingMessage() {
+function ErrorMessage({ onReload }: { onReload: () => void }) {
   return (
-    <div className="flex w-full items-start gap-4 py-4">
-      <Avatar className="h-8 w-8 rounded-full border">
-        <AvatarFallback>
-          <Bot className="h-4 w-4" />
-        </AvatarFallback>
-      </Avatar>
-      
-      <div className="flex flex-col gap-2">
-        <div className="px-4 py-2 rounded-lg bg-muted">
-          <div className="flex items-center gap-1">
-            <div className="h-2 w-2 rounded-full bg-current animate-pulse" />
-            <div className="h-2 w-2 rounded-full bg-current animate-pulse delay-150" />
-            <div className="h-2 w-2 rounded-full bg-current animate-pulse delay-300" />
-          </div>
-        </div>
-      </div>
+    <div className='mt-3 flex flex-col items-start justify-start gap-2'>
+      <p className='text-muted-foreground text-center text-[14px] leading-[24px] font-medium'>Something went wrong. Please try again.</p>
+      <Button onClick={onReload} className='border-border border-2 outline-none' variant='default'>
+        Reload
+      </Button>
     </div>
-  );
+  )
 }

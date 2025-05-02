@@ -1,7 +1,7 @@
-import { API } from 'apis.do'; // Import the class
-const api = new API(); // Instantiate locally
-import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration, TriggerConfig, ActionConfig } from './types.js';
-import { IntegrationAuthOptions } from './auth/types.js';
+import { API } from 'apis.do' // Import the class
+const api = new API() // Instantiate locally
+import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration, TriggerConfig, ActionConfig } from './types.js'
+import { IntegrationAuthOptions } from './auth/types.js'
 
 /**
  * Client for managing integrations between applications.
@@ -17,10 +17,14 @@ export const integrations = {
    * @returns A promise resolving to the connection details once established. The generic T allows specifying expected details.
    */
   connect: async <T = Record<string, any>>(
-    service: string, 
-    options: IntegrationAuthOptions
+    service: string,
+    options: IntegrationAuthOptions,
+    connectionOptions?: {
+      redirectUrl?: string
+      metadata?: Record<string, any>
+    },
   ): Promise<IntegrationConnection<T>> => {
-    return api.post<IntegrationConnection<T>>(`/integrations/${service}/connect`, options);
+    return api.post<IntegrationConnection<T>>(`/integrations/${service}/connect`, { ...options, ...connectionOptions })
   },
 
   /**
@@ -29,7 +33,7 @@ export const integrations = {
    * @returns The created trigger definition with its ID and status
    */
   createTrigger: async (config: TriggerConfig): Promise<Trigger> => {
-    return api.post<Trigger>('/integrations/triggers', config);
+    return api.post<Trigger>('/integrations/triggers', config)
   },
 
   /**
@@ -38,7 +42,7 @@ export const integrations = {
    * @returns The created action definition with its ID
    */
   createAction: async (config: ActionConfig): Promise<Action> => {
-    return api.post<Action>('/integrations/actions', config);
+    return api.post<Action>('/integrations/actions', config)
   },
 
   /**
@@ -46,7 +50,7 @@ export const integrations = {
    * @returns Array of available integration definitions
    */
   list: async (): Promise<Integration[]> => {
-    return api.get<Integration[]>('/integrations');
+    return api.get<Integration[]>('/integrations')
   },
 
   /**
@@ -55,7 +59,7 @@ export const integrations = {
    * @returns Integration definition details
    */
   get: async (service: string): Promise<Integration> => {
-    return api.get<Integration>(`/integrations/${service}`);
+    return api.get<Integration>(`/integrations/${service}`)
   },
 
   /**
@@ -65,7 +69,7 @@ export const integrations = {
    * @returns The result of the action execution from the backend task
    */
   executeAction: async <ResultType = any>(actionId: string, inputs: Record<string, any>): Promise<ResultType> => {
-    return api.post<ResultType>(`/integrations/actions/${actionId}/execute`, inputs);
+    return api.post<ResultType>(`/integrations/actions/${actionId}/execute`, inputs)
   },
 
   /**
@@ -74,7 +78,7 @@ export const integrations = {
    * @returns A promise resolving when the operation is complete (typically void or updated trigger status)
    */
   enableTrigger: async (triggerId: string): Promise<Trigger> => {
-    return api.post<Trigger>(`/integrations/triggers/${triggerId}/enable`, {});
+    return api.post<Trigger>(`/integrations/triggers/${triggerId}/enable`, {})
   },
 
   /**
@@ -83,16 +87,15 @@ export const integrations = {
    * @returns A promise resolving when the operation is complete (typically void or updated trigger status)
    */
   disableTrigger: async (triggerId: string): Promise<Trigger> => {
-    return api.post<Trigger>(`/integrations/triggers/${triggerId}/disable`, {});
+    return api.post<Trigger>(`/integrations/triggers/${triggerId}/disable`, {})
   },
-
 
   /**
    * List active connections for the authenticated user.
    * @returns Array of active integration connections
    */
   listConnections: async <T = Record<string, any>>(): Promise<IntegrationConnection<T>[]> => {
-    return api.get<IntegrationConnection<T>[]>('/integrations/connections'); 
+    return api.get<IntegrationConnection<T>[]>('/integrations/connections')
   },
 
   /**
@@ -101,7 +104,7 @@ export const integrations = {
    * @returns Connection details
    */
   getConnection: async <T = Record<string, any>>(connectionId: string): Promise<IntegrationConnection<T>> => {
-    return api.get<IntegrationConnection<T>>(`/integrations/connections/${connectionId}`);
+    return api.get<IntegrationConnection<T>>(`/integrations/connections/${connectionId}`)
   },
 
   /**
@@ -110,9 +113,9 @@ export const integrations = {
    * @returns void or confirmation
    */
   deleteConnection: async (connectionId: string): Promise<void> => {
-    return api.post<void>(`/integrations/connections/${connectionId}`, { _method: 'DELETE' });
+    return api.post<void>(`/integrations/connections/${connectionId}`, { _method: 'DELETE' })
   },
-};
+}
 
 /**
  * Define a custom integration configuration (likely for internal platform use, not SDK client).
@@ -120,9 +123,9 @@ export const integrations = {
  * @returns The integration configuration
  */
 export const createIntegration = (config: IntegrationConfig): IntegrationConfig => {
-  console.warn('createIntegration is likely intended for server-side definition, not SDK client usage.');
-  return config;
-};
+  console.warn('createIntegration is likely intended for server-side definition, not SDK client usage.')
+  return config
+}
 
 /**
  * Collection of helper methods for managing event triggers.
@@ -133,7 +136,7 @@ export const triggers = {
    * @returns Array of triggers
    */
   list: async (): Promise<Trigger[]> => {
-    return api.get<Trigger[]>('/integrations/triggers');
+    return api.get<Trigger[]>('/integrations/triggers')
   },
 
   /**
@@ -142,7 +145,7 @@ export const triggers = {
    * @returns Trigger details
    */
   get: async (id: string): Promise<Trigger> => {
-    return api.get<Trigger>(`/integrations/triggers/${id}`);
+    return api.get<Trigger>(`/integrations/triggers/${id}`)
   },
 
   /**
@@ -151,10 +154,9 @@ export const triggers = {
    * @returns void or confirmation
    */
   delete: async (id: string): Promise<void> => {
-    return api.post<void>(`/integrations/triggers/${id}`, { _method: 'DELETE' });
+    return api.post<void>(`/integrations/triggers/${id}`, { _method: 'DELETE' })
   },
-  
-};
+}
 
 /**
  * Collection of helper methods for managing predefined actions.
@@ -165,7 +167,7 @@ export const actions = {
    * @returns Array of actions
    */
   list: async (): Promise<Action[]> => {
-    return api.get<Action[]>('/integrations/actions');
+    return api.get<Action[]>('/integrations/actions')
   },
 
   /**
@@ -174,7 +176,7 @@ export const actions = {
    * @returns Action details
    */
   get: async (id: string): Promise<Action> => {
-    return api.get<Action>(`/integrations/actions/${id}`);
+    return api.get<Action>(`/integrations/actions/${id}`)
   },
 
   /**
@@ -183,10 +185,9 @@ export const actions = {
    * @returns void or confirmation
    */
   delete: async (id: string): Promise<void> => {
-    return api.post<void>(`/integrations/actions/${id}`, { _method: 'DELETE' });
+    return api.post<void>(`/integrations/actions/${id}`, { _method: 'DELETE' })
   },
+}
 
-};
-
-export * from './types.js';
-export * from './auth/types.js';
+export * from './types.js'
+export * from './auth/types.js'

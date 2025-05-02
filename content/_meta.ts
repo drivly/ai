@@ -9,21 +9,17 @@ const meta: MetaRecord = {
   pricing: { type: 'page', title: 'Pricing', href: '/pricing' },
   dashboard: { type: 'page', title: 'Dashboard', href: '/admin' },
   docs: { display: 'hidden' },
-  ref: {
-    type: 'page',
-    title: 'Reference',
-    href: 'https://reference.apis.do',
-  },
+  ref: { type: 'page', title: 'Reference', href: 'https://reference.apis.do' },
 
   manifesto: '',
-  'business-as-code': '',
-  'services-as-software': '',
   primitives: '',
+  // 'business-as-code': '',
+  // 'services-as-software': '',
+  'getting-started': '',
 
   // _business: {
   //   type: 'separator',
   // },
-
 
   _ai: {
     type: 'separator',
@@ -55,6 +51,7 @@ const meta: MetaRecord = {
   apis: '',
   sdks: '',
   cli: '',
+  // packages: { display: 'hidden' },
 }
 
 export default meta

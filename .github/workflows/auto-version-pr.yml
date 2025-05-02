@@ -23,6 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       has_changes: ${{ steps.check-changes.outputs.has_changes }}
+      sdk_changes: ${{ steps.check-changes.outputs.sdk_changes }}
+      pkg_changes: ${{ steps.check-changes.outputs.pkg_changes }}
+      sdk_changes_log: ${{ steps.check-changes.outputs.sdk_changes_log }}
+      pkg_changes_log: ${{ steps.check-changes.outputs.pkg_changes_log }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -110,14 +114,14 @@ jobs:
       - name: Update Version Stamp
         run: |
           # Determine if we have SDK or package changes or both
-          if [[ "${{ steps.check-changes.outputs.sdk_changes }}" == "true" ]]; then
+          if [[ "${{ needs.check-for-changes.outputs.sdk_changes }}" == "true" ]]; then
             echo "# SDK Version Stamp - Updated on $(date)" > .github/version-stamp-sdks.txt
             echo "# This file triggers the SDK release workflow when merged to main" >> .github/version-stamp-sdks.txt
             git add .github/version-stamp-sdks.txt
             echo "SDK changes detected, creating version stamp"
           fi
           
-          if [[ "${{ steps.check-changes.outputs.pkg_changes }}" == "true" ]]; then
+          if [[ "${{ needs.check-for-changes.outputs.pkg_changes }}" == "true" ]]; then
             echo "# Package Version Stamp - Updated on $(date)" > .github/version-stamp-pkgs.txt
             echo "# This file triggers the package release workflow when merged to main" >> .github/version-stamp-pkgs.txt
             git add .github/version-stamp-pkgs.txt
@@ -141,8 +145,14 @@ jobs:
             
             Changes detected:
             ```
-            ${{ steps.check-changes.outputs.changes_log }}
+            SDK Changes:
+            ${{ needs.check-for-changes.outputs.sdk_changes_log || 'No SDK changes' }}
+            
+            Package Changes:
+            ${{ needs.check-for-changes.outputs.pkg_changes_log || 'No package changes' }}
             ```
+            
+            Ticket: ENG-821
           labels: |
             version
             automated pr

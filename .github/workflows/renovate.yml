@@ -1,0 +1,23 @@
+name: Renovate
+
+on:
+  schedule:
+    # Run every day at 1:00 AM
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v39.0.5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Use a Personal Access Token with appropriate permissions if needed
+          # token: ${{ secrets.RENOVATE_TOKEN }}
+        env:
+          LOG_LEVEL: 'debug'

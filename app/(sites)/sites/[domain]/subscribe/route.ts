@@ -9,26 +9,26 @@ import { getUser } from '@/lib/api'
  * Ticket: ENG-698
  */
 export async function GET(request: NextRequest, { params }: { params: Promise<{ domain: string }> }) {
-  const { domain } = await params;
+  const { domain } = await params
   try {
     const user = await getUser(request)
-    
+
     if (!user.authenticated) {
       const url = new URL(request.url)
       const redirectUrl = new URL('/login', url.origin)
       redirectUrl.searchParams.set('redirect', url.pathname)
       return NextResponse.redirect(redirectUrl)
     }
-    
+
     const domain = (await params).domain
-    
+
     const url = new URL(request.url)
     const origin = url.origin
-    
+
     const planId = url.searchParams.get('plan')
-    
+
     const payload = await getPayload({ config })
-    
+
     let plan
     if (planId) {
       plan = await payload.findByID({
@@ -48,24 +48,18 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         },
         limit: 1,
       })
-      
+
       if (plans.docs.length === 0) {
-        return NextResponse.json(
-          { error: 'No active subscription plans available' },
-          { status: 404 }
-        )
+        return NextResponse.json({ error: 'No active subscription plans available' }, { status: 404 })
       }
-      
+
       plan = plans.docs[0]
     }
-    
+
     if (!plan || !plan.stripePriceId) {
-      return NextResponse.json(
-        { error: 'Selected plan is not available for subscription' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Selected plan is not available for subscription' }, { status: 400 })
     }
-    
+
     let customerId
     const organizations = await payload.find({
       collection: 'organizations',
@@ -75,34 +69,34 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         },
       },
     })
-    
+
     if (organizations.docs.length > 0 && organizations.docs[0].stripeCustomerId) {
       customerId = organizations.docs[0].stripeCustomerId
     } else {
       const customerData: {
-        email?: string;
-        name?: string;
+        email?: string
+        name?: string
         metadata: {
-          userId: string;
-        };
+          userId: string
+        }
       } = {
         metadata: {
           userId: user.id || '',
-        }
+        },
       }
-      
+
       if (user.email) {
-        customerData.email = user.email;
+        customerData.email = user.email
       }
-      
+
       if (user.name) {
-        customerData.name = user.name;
+        customerData.name = user.name
       }
-      
+
       const customer = await stripeClient.customers.create(customerData)
-      
+
       customerId = customer.id
-      
+
       if (organizations.docs.length > 0) {
         await payload.update({
           collection: 'organizations',
@@ -123,7 +117,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         })
       }
     }
-    
+
     const session = await stripeClient.checkout.sessions.create({
       customer: customerId,
       mode: 'subscription',
@@ -142,13 +136,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         domain,
       },
     })
-    
+
     return NextResponse.redirect(session.url as string)
   } catch (error) {
     console.error('Error creating subscription checkout session:', error)
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 })
   }
 }

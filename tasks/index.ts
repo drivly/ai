@@ -4,6 +4,8 @@ import { executeFunctionTask } from './ai/executeFunction'
 import { generateCodeTask } from './ai/generateCode'
 import { generateFunctionExamplesTask } from './ai/generateFunctionExamples'
 import { requestHumanFeedbackTask } from './ai/requestHumanFeedback'
+import { monitorHumanFeedbackTaskConfig } from './ai/monitorHumanFeedbackTask'
+import { executeAgentFunctionConfig } from './ai/executeAgentFunction'
 import { updateSlackMessageTask } from './ai/updateSlackMessage'
 import { sendResearchResultsToSlackTask } from './ai/sendResearchResultsToSlack'
 import { executeTextFunction } from './ai/executeTextFunction'
@@ -32,6 +34,7 @@ import { generateEmbeddingTask } from './data/generateEmbeddingTask'
 
 import { inflectNounsTask } from './language/inflectNouns'
 import { conjugateVerbsTask } from './language/conjugateVerbs'
+import { analyzeFunctionTask } from './language/analyzeFunction'
 import { parseSchemaToZod, schemaToJsonSchema, validateWithSchema } from './language/schemaUtils'
 
 import { handleGithubEvent } from './integrations/handleGithubEvent'
@@ -104,6 +107,8 @@ export const tasks = [
   executeFunctionTask,
   generateCodeTask,
   requestHumanFeedbackTask,
+  monitorHumanFeedbackTaskConfig,
+  executeAgentFunctionConfig,
   updateSlackMessageTask,
   processBatchOpenAITask,
   processBatchAnthropicTask,
@@ -127,6 +132,7 @@ export const tasks = [
 
   inflectNounsTask,
   conjugateVerbsTask,
+  analyzeFunctionTask,
 
   deliverWebhookTask,
   initiateComposioConnectionTask,

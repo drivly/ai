@@ -46,7 +46,7 @@ export const sendResearchResultsToSlack = async ({ input }: { input: SendResearc
 
     if (results.findings && results.findings.length > 0) {
       const findingsText = results.findings
-        .filter(f => f && f.finding)
+        .filter((f) => f && f.finding)
         .map((f, idx) => `${idx + 1}. ${f.finding}`)
         .join('\n')
 
@@ -63,7 +63,7 @@ export const sendResearchResultsToSlack = async ({ input }: { input: SendResearc
 
     if (results.sources && results.sources.length > 0) {
       const sourcesText = results.sources
-        .filter(s => s && s.sourceUrl)
+        .filter((s) => s && s.sourceUrl)
         .map((s, idx) => `${idx + 1}. <${s.sourceUrl}|Source ${idx + 1}>`)
         .join('\n')
 

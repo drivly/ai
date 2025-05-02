@@ -14,7 +14,7 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
     const organizations = await payloadInstance.find({
       collection: 'organizations',
-      where: { user: { equals: session.user.id } }
+      where: { user: { equals: session.user.id } },
     })
     const organization = organizations.docs[0] || null
 
@@ -25,15 +25,15 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         collection: 'subscriptions',
         where: {
           organization: { equals: organization.id },
-          status: { equals: 'active' }
-        }
+          status: { equals: 'active' },
+        },
       })
       currentSubscription = subscriptions.docs[0] || null
-      
+
       if (currentSubscription?.plan && typeof currentSubscription.plan === 'string') {
         plan = await payloadInstance.findByID({
           collection: 'billingPlans',
-          id: currentSubscription.plan
+          id: currentSubscription.plan,
         })
       }
     }
@@ -43,21 +43,25 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
         id: session.user.id,
         name: session.user.name,
         email: session.user.email,
-        image: session.user.image
+        image: session.user.image,
       },
-      organization: organization ? {
-        id: organization.id,
-        name: organization.name,
-        stripeCustomerId: organization.stripeCustomerId,
-        email: organization.email
-      } : null,
-      subscription: currentSubscription ? {
-        id: currentSubscription.id,
-        status: currentSubscription.status,
-        plan: plan ? { id: plan.id, name: plan.name } : currentSubscription.plan,
-        periodEnd: currentSubscription.periodEnd
-      } : null,
-      session: { expires: session.expires }
+      organization: organization
+        ? {
+            id: organization.id,
+            name: organization.name,
+            stripeCustomerId: organization.stripeCustomerId,
+            email: organization.email,
+          }
+        : null,
+      subscription: currentSubscription
+        ? {
+            id: currentSubscription.id,
+            status: currentSubscription.status,
+            plan: plan ? { id: plan.id, name: plan.name } : currentSubscription.plan,
+            periodEnd: currentSubscription.periodEnd,
+          }
+        : null,
+      session: { expires: session.expires },
     }
   } catch (error) {
     console.error('Error fetching profile data:', error)

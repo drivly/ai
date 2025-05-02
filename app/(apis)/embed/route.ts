@@ -8,7 +8,7 @@ export const POST = API(async (request, { user }) => {
   }
 
   const body = await request.json()
-  
+
   if (!body.text && !body.texts) {
     return { error: 'Missing required parameter: text or texts', status: 400 }
   }
@@ -19,7 +19,7 @@ export const POST = API(async (request, { user }) => {
 
   try {
     const embeddingModel = model.textEmbeddingModel(body.model)
-    
+
     let result
 
     if (body.text) {
