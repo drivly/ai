@@ -12,7 +12,7 @@ export const requireAuthentication = async () => {
     const headersList = await headers()
     const currentURL = getCurrentURL(headersList)
     const callbackUrl = new URL('/chat/new', currentURL).toString()
-    const githubSignInUrl = new URL('/api/auth/signin/github', currentURL)
+    const githubSignInUrl = new URL('/login', currentURL)
     githubSignInUrl.searchParams.set('callbackUrl', callbackUrl)
 
     redirect(githubSignInUrl.toString(), RedirectType.push)
