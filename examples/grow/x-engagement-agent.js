@@ -3,7 +3,7 @@ import { openai } from '@ai-sdk/openai';
 import { MCPConfiguration } from '@mastra/mcp';
 import fs from 'fs';
 import path from 'path';
-import { handleError, getCredentials, wait } from '../config.js';
+import { AI } from 'functions.do';
 
 const mcp = new MCPConfiguration({
   servers: {
