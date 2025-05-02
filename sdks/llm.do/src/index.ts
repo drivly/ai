@@ -31,36 +31,40 @@ export const defaultBaseURL = 'https://llm.do/v1'
 export const createLLMProvider = (options: LLMProviderOptions) => {
   const baseURL = withoutTrailingSlash(options.baseURL ?? defaultBaseURL)
 
-  let apiKey: string | null = options.apiKey ?? null
+  let apiKey: string | null = loadApiKey({
+    apiKey: options.apiKey,
+    environmentVariableName: 'OPENROUTER_API_KEY',
+    description: 'OpenRouter API key',
+  })
 
-  const tryLoadApiKey = (apiKeyName: string) => {
-    try {
-      return loadApiKey({
-        apiKey: options.apiKey,
-        environmentVariableName: apiKeyName,
-        description: `llm.do API key (${apiKeyName})`,
-      })
-    } catch (error) {
-      return null
-    }
-  }
+  // const tryLoadApiKey = (apiKeyName: string) => {
+  //   try {
+  //     return loadApiKey({
+  //       apiKey: options.apiKey,
+  //       environmentVariableName: apiKeyName,
+  //       description: `llm.do API key (${apiKeyName})`,
+  //     })
+  //   } catch (error) {
+  //     return null
+  //   }
+  // }
 
-  const apiKeyNames = [
-    'LLM_DO_API_KEY',
-    'AI_GATEWAY_TOKEN',
-    'OPENROUTER_API_KEY'
-  ]
+  // const apiKeyNames = [
+  //   'LLM_DO_API_KEY',
+  //   'AI_GATEWAY_TOKEN',
+  //   'OPENROUTER_API_KEY'
+  // ]
 
-  for (const apiKeyName of apiKeyNames) {
-    apiKey = tryLoadApiKey(apiKeyName)
-    if (apiKey) {
-      break
-    }
-  }
+  // for (const apiKeyName of apiKeyNames) {
+  //   apiKey = tryLoadApiKey(apiKeyName)
+  //   if (apiKey) {
+  //     break
+  //   }
+  // }
 
-  if (!apiKey) {
-    throw new Error(`No API key provided. Please provide a key in one of the following environment variables: ${apiKeyNames.join(', ')}, or pass an apiKey option to the createLLMProvider function.`)
-  }
+  // if (!apiKey) {
+  //   throw new Error(`No API key provided. Please provide a key in one of the following environment variables: ${apiKeyNames.join(', ')}, or pass an apiKey option to the createLLMProvider function.`)
+  // }
 
   const getHeaders = () => ({
     Authorization: `Bearer ${apiKey}`,
