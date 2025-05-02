@@ -17,7 +17,7 @@ export const Social = () => {
       pendingProviderRef.current = provider
 
       await signIn(provider, {
-        callbackUrl: DEFAULT_LOGIN_REDIRECT,
+        redirectTo: DEFAULT_LOGIN_REDIRECT,
       })
     } catch (error) {
       console.error('Error signing in:', error)
