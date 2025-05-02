@@ -1,4 +1,4 @@
-import XEngagementAgent from '../agents/x-engagement/index.js';
+import XEngagementAgent from './x-engagement-agent.js';
 
 async function main() {
   try {
