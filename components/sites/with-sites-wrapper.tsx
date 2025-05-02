@@ -41,9 +41,6 @@ export const withSitesWrapper = <
         </main>
         {withCallToAction && <CallToAction />}
         <Footer minimal={minimal} />
-
-        {/* Add hidden iframe for cross-domain auth */}
-        <iframe src='/login' style={{ display: 'none' }} title='Authentication sync' aria-hidden='true' />
       </BalancerProvider>
     )
   }
