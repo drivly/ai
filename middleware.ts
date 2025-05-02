@@ -8,10 +8,96 @@ import { collectionSlugs } from './collections/slugs'
 
 /**
  * Middleware Configuration
- * -----------------------
+ * =======================
+ * 
  * This middleware handles routing logic for the .do domain ecosystem and custom domains.
- * It determines whether requests should be routed to API endpoints or website content.
- * It also handles authentication using next-auth.
+ * It determines whether requests should be routed to API endpoints or website content,
+ * and handles authentication using next-auth.
+ * 
+ * 1. Authentication Logic
+ * ----------------------
+ * - Uses NextAuth for authentication via the auth.config.ts configuration
+ * - Public routes (defined in lib/routes.ts) bypass authentication checks:
+ *   - /login, /sign-up, /api/users/me, etc.
+ *   - Routes starting with /api/auth/ (API_AUTH_PREFIX)
+ *   - Routes with favicon paths
+ * - Protected routes redirect unauthenticated users to sign-in page:
+ *   - /dashboard, /account, /admin, /chat, etc. (defined in lib/routes.ts)
+ *   - Redirects to /api/auth/signin with the original URL as callbackUrl
+ * - Admin routes have special handling with temporary auth bypass (ENG-751):
+ *   - Currently admin routes (/admin/*) bypass authentication redirects
+ *   - This is a temporary modification until integrated auth is restored
+ * 
+ * 2. Domain Type Routing
+ * ---------------------
+ * The middleware identifies and routes different domain types:
+ * 
+ * a) .do Domains:
+ *    - Domains ending with .do, .do.gt, or .do.mw (checked via isDoDomain())
+ *    - For .do.gt and .do.mw domains, the .gt/.mw suffix is removed for all rewrites
+ *    - Non-API routes are rewritten to /sites/{hostname}{pathname}
+ *    - API routes (/api/* or /v1/*) are excluded from middleware handling
+ *    - Admin routes are passed through or rewritten to specific collections
+ *    - Example: functions.do/about → /sites/functions.do/about
+ * 
+ * b) Gateway Domains:
+ *    - Domains like apis.do, do.gt, do.mw (checked via isGatewayDomain())
+ *    - /docs path is rewritten to /docs
+ *    - /sites path is rewritten to /sites
+ *    - Root path for do.gt/do.mw is rewritten to /sites
+ * 
+ * c) .do.management Domains:
+ *    - Domains ending with .do.management (checked via isDoManagementDomain())
+ *    - Rewritten to /admin or /admin/collections/{managementApiName}
+ *    - Example: functions.do.management → /admin/collections/functions
+ * 
+ * d) Brand Domains:
+ *    - Custom domains configured in domains.config.js (checked via isBrandDomain())
+ *    - Docs, admin, and API paths are passed through
+ *    - Site domains are rewritten to /sites/{hostname}{pathname}
+ *    - Root path is rewritten to /sites
+ *    - Other paths are rewritten to /sites/.do{pathname}
+ * 
+ * e) Custom Domains:
+ *    - Any domain not matching the above categories
+ *    - Rewritten to /projects/{hostname}{pathname}
+ * 
+ * 3. Path-Based Routing
+ * --------------------
+ * The middleware handles specific path patterns:
+ * 
+ * a) API Routes:
+ *    - Paths starting with /api/ or /v1/ are excluded from middleware handling
+ *    - These routes are passed through without rewrites
+ * 
+ * b) Documentation Routes:
+ *    - Paths starting with /docs/
+ *    - For documentation.do: ensures path starts with /docs
+ *    - For other domains: passed through
+ * 
+ * c) Admin Routes:
+ *    - Paths starting with /admin/
+ *    - For .do domains with matching collection: rewritten to /admin/collections/{apiName}
+ *    - For other cases: passed through
+ * 
+ * 4. Path Duplication Prevention
+ * -----------------------------
+ * The middleware prevents path duplication when the domain is included in the path:
+ * 
+ * - Checks if pathname starts with the domain name (e.g., /gpt.do/chat/new)
+ * - Removes the domain prefix to prevent duplication
+ * - Example: /gpt.do/chat/new → /sites/gpt.do/chat/new (not /sites/gpt.do/gpt.do/chat/new)
+ * 
+ * 5. Special Cases
+ * ---------------
+ * The middleware handles several special cases:
+ * 
+ * a) documentation.do Domain:
+ *    - Ensures all paths start with /docs
+ *    - Example: documentation.do/guide → /docs/guide
+ * 
+ * b) Analytics Middleware:
+ *    - All requests pass through analyticsMiddleware for tracking
  */
 
 /**
@@ -24,7 +110,7 @@ export default auth(async (request) => {
   const handler = new RequestHandler(request)
   const isLoggedIn = !!request.auth
 
-  if (handler.isApiAuthRoute() || handler.isPublicRoute() || handler.pathname.startsWith('/api/')) {
+  if (handler.isApiAuthRoute() || handler.isPublicRoute() || handler.pathname.startsWith('/api/') || handler.pathname.startsWith('/v1/')) {
     return NextResponse.next()
   }
 
@@ -41,12 +127,6 @@ export default auth(async (request) => {
   }
 
   return analyticsMiddleware(request, async () => {
-    // Always use functions.do for the /pricing path
-    if (handler.pathname === '/pricing') {
-      console.log('Handling /pricing special case', { hostname: handler.hostname, pathname: handler.pathname })
-      const targetHostname = 'functions.do'
-      return NextResponse.rewrite(new URL(`${request.nextUrl.origin}/sites/${targetHostname}/pricing${request.nextUrl.search}`, request.url))
-    }
 
     if (isDoDomain(handler.hostname) && !isGatewayDomain(handler.hostname) && !handler.pathname.startsWith('/api/') && !handler.pathname.startsWith('/v1/')) {
       console.log('Handling .do domain non-API route', { hostname: handler.hostname, pathname: handler.pathname })
@@ -113,36 +193,6 @@ export default auth(async (request) => {
     if (handler.isApiRoute()) {
       console.log('Handling API route', { hostname: handler.hostname, pathname: handler.pathname, search: handler.search })
 
-      if (handler.isApiDocsRoute()) {
-        console.log('Rewriting /api/docs or /v1/docs to docs.apis.do', { hostname: handler.hostname, pathname: handler.pathname, search: handler.search })
-        const hostname = process.env.HOSTNAME_OVERRIDE || request.nextUrl.hostname
-        const { pathname, search } = request.nextUrl
-
-        const apiDocsPath = pathname.replace('/api/docs', '').replace('/v1/docs', '')
-
-        const url = new URL(`https://docs.apis.do${apiDocsPath}${search}`)
-        const headers = new Headers(request.headers)
-
-        headers.set('Host', 'docs.apis.do')
-
-        const modifiedRequest = new Request(url, {
-          method: request.method,
-          headers,
-          body: request.body,
-          redirect: 'manual',
-        })
-
-        const response = NextResponse.rewrite(url, {
-          request: {
-            headers: modifiedRequest.headers,
-          },
-        })
-
-        response.headers.delete('X-Frame-Options')
-        response.headers.set('Content-Security-Policy', "frame-ancestors 'self' https://*.driv.ly http://localhost:* https://*.vercel.app;")
-
-        return response
-      }
 
       console.log('Processing regular API route', { hostname: handler.hostname, pathname: handler.pathname })
       const hostname = process.env.HOSTNAME_OVERRIDE || request.nextUrl.hostname
@@ -164,11 +214,6 @@ export default auth(async (request) => {
     }
 
     if (isGatewayDomain(handler.hostname)) {
-      if (handler.pathname === '/pricing') {
-        console.log('Handling /pricing special case for gateway domain', { hostname: handler.hostname, pathname: handler.pathname })
-        const targetHostname = 'functions.do' // Always use functions.do for the /pricing path
-        return NextResponse.rewrite(new URL(`${request.nextUrl.origin}/sites/${targetHostname}/pricing${request.nextUrl.search}`, request.url))
-      }
 
       console.log('Handling gateway domain', { hostname: handler.hostname, pathname: handler.pathname })
       const hostname = process.env.HOSTNAME_OVERRIDE || request.nextUrl.hostname
@@ -208,14 +253,6 @@ export default auth(async (request) => {
         return NextResponse.rewrite(new URL(`/sites${search}`, url))
       }
 
-      if (pathname === '/pricing') {
-        console.log('Rewriting gateway domain /pricing to functions.do/pricing', {
-          hostname,
-          pathname,
-          search,
-        })
-        return NextResponse.rewrite(new URL(`${url.origin}/sites/functions.do/pricing${search}`, url))
-      }
 
       return NextResponse.next()
     }
@@ -358,7 +395,9 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     * - /api/ (API routes)
+     * - /v1/ (API routes)
      */
-    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|api/|v1/).*)',
   ],
 }
