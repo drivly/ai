@@ -12,7 +12,7 @@ export function BlogCard({ post }: BlogCardProps) {
   return (
     <div className='bg-card flex min-h-[400px] flex-col overflow-hidden rounded-lg border transition-all duration-300 hover:translate-y-[-5px] hover:shadow-md'>
       <Link prefetch={true} href={`/blog/${post.slug || slugify(post.title)}`} className='group flex h-full flex-col'>
-        <div className='relative h-1/2 w-full overflow-hidden'>
+        {/* <div className='relative h-1/2 w-full overflow-hidden'>
           <Image
             src={post.image || '/placeholder.svg?height=200&width=400&bg=161616'}
             alt={post.title}
@@ -21,7 +21,7 @@ export function BlogCard({ post }: BlogCardProps) {
             priority={false} // Ensure it's not prioritized
             className='object-cover transition-transform duration-300 group-hover:scale-105'
           />
-        </div>
+        </div> */}
         <div className='flex flex-grow flex-col overflow-hidden p-4'>
           <h3 className='group-hover:text-primary line-clamp-2 text-xl font-semibold tracking-tight transition-colors'>{post.title}</h3>
           <p className='text-muted-foreground mt-2 line-clamp-2 flex-grow text-sm'>{post.description}</p>

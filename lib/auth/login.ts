@@ -3,18 +3,20 @@ import { getAuthRedirectForDomain } from '@/lib/utils/url'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const { origin } = request.nextUrl
+  const { searchParams } = request.nextUrl
   const host = request.headers.get('host') || ''
   const referer = request.headers.get('referer')
+  const callbackUrlFromQuery = searchParams.get('callbackUrl')
 
   if (request.url.includes('/apis/signin')) {
     return NextResponse.redirect(new URL('/api/auth/signin/github', request.url))
   }
 
   try {
-    return signIn('github', {
-      callbackUrl: referer || getAuthRedirectForDomain(host, 'waitlist'),
-    })
+    // Use callbackUrl from query params if available, otherwise fall back to referer or default
+    const redirectTo = callbackUrlFromQuery || referer || getAuthRedirectForDomain(host, 'waitlist')
+
+    return signIn('github', { redirectTo })
   } catch (error) {
     console.error('Error during login:', error)
 

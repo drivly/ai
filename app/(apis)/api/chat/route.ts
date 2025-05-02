@@ -1,8 +1,9 @@
 import { model } from '@/lib/ai'
 import { streamText } from 'ai'
 import { NextResponse } from 'next/server'
-// Allow streaming responses up to 30 seconds
-export const maxDuration = 30
+
+// Allow streaming responses up to 500 seconds
+export const maxDuration = 500
 
 export async function POST(req: Request) {
   return NextResponse.redirect(new URL('/llm/chat/completions?stream=true&useChat=true', req.url))

@@ -37,7 +37,7 @@ const meta: MetaRecord = {
   business: '',
   data: '',
   events: '',
-  evaluations: '',
+  evaluations: { display: 'hidden' },
   experiments: '',
   integrations: '',
   deployment: '',

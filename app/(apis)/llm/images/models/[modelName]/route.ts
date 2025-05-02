@@ -1,5 +1,4 @@
 // Returns a model's author icon
-import { API } from '@/lib/api'
 import { getModel } from '@/pkgs/language-models'
 import { NextRequest, NextResponse } from 'next/server'
 
