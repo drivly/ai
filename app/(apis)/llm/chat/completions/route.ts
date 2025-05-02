@@ -88,7 +88,9 @@ export async function POST(req: Request) {
   }
 
   // Support both GET and POST requests
-  let postData = {}
+  let postData: OpenAICompatibleRequest = {
+    model: 'openai/gpt-4.1',
+  }
 
   try {
     postData = await req.json()
@@ -101,7 +103,10 @@ export async function POST(req: Request) {
 
   } catch (error) {
     // Convert the query string into an object
-    postData = Object.fromEntries(qs.entries())
+    postData = {
+      model: 'openai/gpt-4.1',
+      ...Object.fromEntries(qs.entries())
+    }
   }
 
   const {
@@ -184,6 +189,7 @@ export async function POST(req: Request) {
         messages,
         prompt,
         user: session?.user.email || '',
+        // @ts-expect-error - Type error to be fixed.
         schema: jsonSchema(response_format),
         onError({ error }) {
           console.error(error); // your error logging logic here
@@ -218,6 +224,7 @@ export async function POST(req: Request) {
         prompt, 
         user: session?.user.email || '',
         mode: 'json',
+        // @ts-expect-error - Type error to be fixed.
         schema: jsonSchema(response_format)
       })
 
