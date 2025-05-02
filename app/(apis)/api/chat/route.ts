@@ -1,12 +1,17 @@
 import { model } from '@/lib/ai'
 import { streamText } from 'ai'
-import { NextResponse } from 'next/server'
+import { POST as POST_LLM } from '@/app/(apis)/llm/chat/completions/route'
+import { NextRequest, NextResponse } from 'next/server'
 
-// Allow streaming responses up to 500 seconds
-export const maxDuration = 500
+// Allow streaming responses up to 600 seconds
+export const maxDuration = 600
 
 export async function POST(req: Request) {
-  return NextResponse.redirect(new URL('/llm/chat/completions?stream=true&useChat=true', req.url))
+  // Rewrite the URL to declare that we need useChat compatible output.
+  const newUrl = new URL('/llm/chat/completions?stream=true&useChat=true', req.url)
+  const newRequest = new NextRequest(newUrl, req)
+
+  return await POST_LLM(newRequest)
 }
 
 // export async function POST(req: Request) {
