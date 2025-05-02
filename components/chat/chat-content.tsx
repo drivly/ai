@@ -1,34 +1,24 @@
 'use client'
 
-import React, { Fragment, useRef } from 'react'
-import { useChatMessages } from './chat-context'
-import { Message, ThinkingMessage } from './message'
-import { ChatInput } from './chat-input'
+import { ScrollButton } from '@/components/ui/scroll-button'
+import { useRef } from 'react'
+import { useChatMessages } from './context'
+import { Messages } from './messages'
+import { MultimodalInput } from './multimodal-input'
 
 export function ChatContent() {
   const { messages } = useChatMessages()
+
   const containerRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   return (
-    <Fragment>
-      <div className='flex flex-1 flex-col overflow-y-auto px-2 py-4' ref={containerRef}>
-        {messages.length === 0 && (
-          <div className='flex h-full flex-col items-center justify-center'>
-            <h2 className='text-2xl font-bold'>Welcome to Chat</h2>
-            <p className='text-muted-foreground'>Start a conversation by typing a message below.</p>
-          </div>
-        )}
-        {messages.length > 0 && (
-          <>
-            {messages.map((message) => (
-              <Message key={message.id} message={message} isLoading={false} />
-            ))}
-          </>
-        )}
+    <div className='mx-auto flex h-full w-full max-w-4xl flex-1 flex-col overflow-y-auto'>
+      <Messages containerRef={containerRef} messages={messages} />
+      <MultimodalInput />
+      <div data-chat-widget='scroll-button' className='absolute right-4 bottom-[56px] mr-px'>
+        <ScrollButton containerRef={containerRef} scrollRef={bottomRef} />
       </div>
-      <ChatInput />
-      <div ref={bottomRef} />
-    </Fragment>
+    </div>
   )
 }

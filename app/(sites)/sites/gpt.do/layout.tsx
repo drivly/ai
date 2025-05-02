@@ -9,9 +9,7 @@ export default async function ChatLayout({ children }: { children: React.ReactNo
 
   return (
     <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
-      <div className='flex min-h-screen'>
-        <div className='flex-1'>{children}</div>
-      </div>
+      <div className='flex-1'>{children}</div>
       <Toaster />
     </ThemeProvider>
   )

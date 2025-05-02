@@ -13,6 +13,7 @@ const faviconRoutes = [
 ]
 
 export const publicRoutes = [
+  '/authsync',
   '/api/users/me',
   '/api/users/logout',
   '/login',

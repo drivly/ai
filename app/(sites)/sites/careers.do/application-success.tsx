@@ -12,7 +12,7 @@ interface ApplicationSuccessProps {
 export function ApplicationSuccess({ isOpen, onClose, position, name, email }: ApplicationSuccessProps) {
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogOverlay className='bg-black/60' />
+      <DialogOverlay className='bg-black/60 backdrop-blur-xs' />
       <DialogContent className='rounded-md p-8 sm:max-w-md'>
         <DialogHeader>
           <div className='text-center'>
@@ -23,12 +23,10 @@ export function ApplicationSuccess({ isOpen, onClose, position, name, email }: A
             </DialogDescription>
           </div>
         </DialogHeader>
-
-        <div className='text-muted-foreground space-y-3 py-4 text-sm'>
+        <div className='text-muted-foreground py-4 text-center text-sm'>
           <p>
-            We've sent a confirmation to <span className='text-foreground font-medium'>{email}</span>.
+            Confirmation sent to <span className='text-foreground font-medium'>{email}</span>. Our team will review your profile and reach out if there's a potential match.
           </p>
-          <p>Our team will review your profile and reach out if there's a potential match.</p>
         </div>
       </DialogContent>
     </Dialog>

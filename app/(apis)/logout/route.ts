@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getCurrentURL } from '@/lib/utils/url'
 import { signOut } from '@/auth'
+import { getCurrentURL } from '@/lib/utils/url'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {

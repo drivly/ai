@@ -3,7 +3,7 @@
 import { ExtendedUser } from '@/auth'
 import { track } from '@vercel/analytics/server'
 import { addContact } from './contact.action'
-import { sendWelcomeEmail } from './email.action'
+import { sendWaitlistEmail } from './email.action'
 import { sendSlackAlert } from './slack.action'
 
 export const handleWaitlistActions = async (user: ExtendedUser, domain: string) => {
@@ -42,7 +42,7 @@ export const handleWaitlistActions = async (user: ExtendedUser, domain: string) 
   }
 
   try {
-    await sendWelcomeEmail({
+    await sendWaitlistEmail({
       email,
       name: firstName,
       host: `dotdo.ai`,

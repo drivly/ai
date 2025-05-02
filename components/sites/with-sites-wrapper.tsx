@@ -13,7 +13,9 @@ type NextPageProps<TParams extends object> = {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export const withSitesWrapper = <TParams extends { comparison?: string; domain?: string; event?: string; integration?: string; path?: string; product?: string; slug?: string }>({
+export const withSitesWrapper = <
+  TParams extends { comparison?: string; domain?: string; event?: string; id?: string; integration?: string; path?: string; product?: string; slug?: string },
+>({
   WrappedPage,
   minimal = false,
   withCallToAction = true,
