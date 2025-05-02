@@ -4,7 +4,6 @@
   "description": "llm.do AI SDK Provider",
   "main": "src/index.ts",
   "scripts": {
-    "test": "vitest",
     "test:local": "dotenvx run -- vitest"
   },
   "keywords": [],
