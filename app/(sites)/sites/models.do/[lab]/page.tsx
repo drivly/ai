@@ -13,9 +13,9 @@ export const metadata = {
 
 export const revalidate = 3600
 
-export default async function DirectoryPage({ params }: { params: { lab: string } }) {
+export default async function DirectoryPage({ params }: { params: Promise<{ lab: string }> }) {
 
-  const models = filterModels(params.lab)
+  const models = filterModels((await params).lab)
 
   return (
     <div className='container mx-auto max-w-6xl px-3 pt-5 pb-20 md:pb-40 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>

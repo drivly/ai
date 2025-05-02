@@ -15,10 +15,11 @@ export const metadata = {
 
 export const revalidate = 3600
 
-export default async function ModelDetailPage({ params }: { params: { lab: string; model: string } }) {
+export default async function ModelDetailPage({ params }: { params: Promise<{ lab: string; model: string }> }) {
 
+  const awaitedParams = await params
 
-  const model = models.find((model) => model.permaslug === `${params.lab}/${params.model}`)
+  const model = models.find((model) => model.permaslug === `${awaitedParams.lab}/${awaitedParams.model}`)
 
   return (
     <div className='container mx-auto max-w-6xl px-3 pt-5 pb-20 md:pb-40 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
