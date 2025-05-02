@@ -46,22 +46,23 @@ async function BlogPostPage({ params }: { params: { domain: string; slug: string
       </Link>
 
       <div className='mb-8'>
-        <Badge className='mb-4 px-3 py-1.5 text-sm hover:bg-gray-100 sm:px-2.5 sm:py-1 sm:text-xs dark:hover:bg-gray-800/50'>{post?.category}</Badge>
+        {/* <Badge className='mb-4 px-3 py-1.5 text-sm hover:bg-gray-100 sm:px-2.5 sm:py-1 sm:text-xs dark:hover:bg-gray-800/50'>{post?.category}</Badge>
         <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tight text-balance text-transparent dark:from-white dark:to-white/40'>
           <Balancer>{post?.title}</Balancer>
         </h1>
         <p className='text-muted-foreground text-xl'>
           <Balancer>{post?.description}</Balancer>
-        </p>
+        </p> */}
         <div className='mt-4 flex flex-row items-center justify-between gap-2'>
-          <div className='text-muted-foreground text-sm'>{formattedDate}</div>
+          {/* <div className='text-muted-foreground text-sm'>{formattedDate}</div> */}
+          <div></div>
           <ShareButtons title={post?.title || ''} url={postUrl} hideLabel={true} />
         </div>
       </div>
 
-      <div className='relative mb-8 h-[400px] w-full overflow-hidden rounded-lg'>
+      {/* <div className='relative mb-8 h-[400px] w-full overflow-hidden rounded-lg'>
         <Image src={post?.image || fallbackImage} alt={post?.title || ''} fill className='object-cover' priority />
-      </div>
+      </div> */}
 
       <BlogContent markdown={post?.markdown || ''} />
 
