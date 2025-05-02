@@ -16,6 +16,11 @@ type OpenAICompatibleRequest = {
   stream?: boolean;
   response_format?: any;
   tools?: any;
+  /*
+  * If true, the response will be streamed as a data stream response
+  * This is used by the useChat hook in the client
+  */
+  useChat?: boolean;
 }
 
 export async function POST(req: Request) {
@@ -87,6 +92,13 @@ export async function POST(req: Request) {
 
   try {
     postData = await req.json()
+
+    // Mixin query string into the post data
+    postData = {
+      ...postData,
+      ...Object.fromEntries(qs.entries())
+    }
+
   } catch (error) {
     // Convert the query string into an object
     postData = Object.fromEntries(qs.entries())
@@ -190,7 +202,12 @@ export async function POST(req: Request) {
         maxSteps: 50
       })
     
-      return result.toDataStreamResponse()
+      // We need to support both streaming and useChat use cases.
+      if (postData.useChat) {
+        return result.toDataStreamResponse()
+      } else {
+        return result.toTextStreamResponse()
+      }
     }
   } else {
     if (response_format) {

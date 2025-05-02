@@ -20,6 +20,7 @@ import {
 
 // Google specific fixes
 import { convertJSONSchemaToOpenAPISchema } from './providers/google'
+import { alterSchemaForOpenAI } from './providers/openai'
 
 const camelCaseToScreamingSnakeCase = (str: string) => {
   // When we see a capital letter, we need to prefix it with an underscore and make the whole string uppercase.
@@ -149,6 +150,19 @@ export async function resolveConfig(options: GenerateTextOptions) {
       }
     }
 
+    if (parsedModel.author == 'openai') {
+
+      // For each tool, we need to replace the jsonSchema with a google compatible one.
+      for (const toolName in options.tools) {
+
+        console.log(
+          options.tools[toolName].parameters.jsonSchema
+        )
+
+        options.tools[toolName].parameters.jsonSchema = alterSchemaForOpenAI(options.tools[toolName].parameters.jsonSchema)
+      }
+    }
+
     // Openrouter compatibility
     if (isLLMProvider) {
       if (options.model.provider === 'openrouter') {
@@ -156,7 +170,8 @@ export async function resolveConfig(options: GenerateTextOptions) {
         const illegalKeys = [
           'default',
           'minimum',
-          'maximum'
+          'maximum',
+          'examples'
         ]
 
         const recursiveUpdate = (obj: any) => {

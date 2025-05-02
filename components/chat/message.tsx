@@ -90,3 +90,31 @@ function ErrorMessage({ onReload }: { onReload: () => void }) {
     </div>
   )
 }
+
+// case 'tool-invocation': {
+//   return (
+//     <div key={index} className='bg-neutral-900/80 rounded-md p-2 text-sm overflow-hidden'>
+//       <b>
+//         Tool: { part.toolInvocation.toolName }
+//       </b>
+//       <br/>
+//       <p className='text-muted-foreground text-xs font-mono font-medium mt-1'>
+//         {JSON.stringify(part.toolInvocation.args)}
+//       </p>
+
+//       { part.toolInvocation.state === 'result' && (
+//         <div className='mt-2'>
+//           <div className='prose dark:prose-invert prose-headings:text-primary prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-p:text-[14px] prose-p:leading-[24px] max-w-none text-[14px] whitespace-pre-wrap'>
+//             <b>
+//               Results:
+//             </b>
+//             <br/>
+//             <p className='text-muted-foreground text-xs font-mono font-medium mt-1'>
+//               { part.toolInvocation.result.slice(0, 250) }
+//             </p>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   )
+// }

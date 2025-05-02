@@ -1,31 +1,35 @@
 import { model } from '@/lib/ai'
 import { streamText } from 'ai'
-
+import { NextResponse } from 'next/server'
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30
 
 export async function POST(req: Request) {
-  try {
-    const body = await req.json()
-
-    const messages = body.messages || []
-    const modelName = body.model || 'gpt-4.1'
-
-    if (!messages || messages.length === 0) {
-      return new Response(JSON.stringify({ error: 'No messages provided' }), { status: 400, headers: { 'Content-Type': 'application/json' } })
-    }
-
-    const result = streamText({
-      model: model(modelName),
-      messages: messages,
-    })
-
-    return result.toDataStreamResponse()
-  } catch (error) {
-    console.error('Error in chat API:', error)
-    return new Response(JSON.stringify({ error: 'Failed to process chat request' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
-  }
+  return NextResponse.redirect(new URL('/llm/chat/completions?stream=true&useChat=true', req.url))
 }
+
+// export async function POST(req: Request) {
+//   try {
+//     const body = await req.json()
+
+//     const messages = body.messages || []
+//     const modelName = body.model || 'gpt-4.1'
+
+//     if (!messages || messages.length === 0) {
+//       return new Response(JSON.stringify({ error: 'No messages provided' }), { status: 400, headers: { 'Content-Type': 'application/json' } })
+//     }
+
+//     const result = streamText({
+//       model: model(modelName),
+//       messages: messages,
+//     })
+
+//     return result.toDataStreamResponse()
+//   } catch (error) {
+//     console.error('Error in chat API:', error)
+//     return new Response(JSON.stringify({ error: 'Failed to process chat request' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
+//   }
+// }
 
 // import { API } from '@/lib/api'
 // import { waitUntil } from '@vercel/functions'
