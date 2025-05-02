@@ -24,4 +24,4 @@ export const GET = async (req: NextRequest, { params }: { params: Promise<Record
       'Content-Type': icon.headers.get('Content-Type') as string
     }
   })
-} 
+}
