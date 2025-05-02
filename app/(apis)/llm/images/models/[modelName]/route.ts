@@ -3,7 +3,7 @@ import { API } from '@/lib/api'
 import { getModel } from '@/pkgs/language-models'
 import { NextRequest, NextResponse } from 'next/server'
 
-export const getModelIcon = async (modelName: string): Promise<string> => {
+const getModelIcon = async (modelName: string): Promise<string> => {
   const model = await getModel(modelName)
 
   const modelAuthor = model.author

@@ -7,7 +7,7 @@ type ToolIcon = {
   icon: string
 }
 
-export const getToolIcon = async (toolName: string): Promise<string> => {
+const getToolIcon = async (toolName: string): Promise<string> => {
   const internalTools = [
     'fetchWebsiteContents',
     'worker',
