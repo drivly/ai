@@ -1,43 +1,7 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { spawn } from 'child_process'
+import { describe, it, expect } from 'vitest'
 import fetch from 'node-fetch'
 
-let devServer: any
-let baseUrl = 'http://localhost:3000'
-
-beforeAll(async () => {
-  devServer = spawn('pnpm', ['dev'], {
-    stdio: 'pipe',
-    shell: true,
-    env: { ...process.env }
-  })
-  
-  await new Promise<void>((resolve) => {
-    const checkServer = async () => {
-      try {
-        const response = await fetch(baseUrl)
-        if (response.status === 200) {
-          resolve()
-        } else {
-          setTimeout(checkServer, 1000)
-        }
-      } catch (error) {
-        setTimeout(checkServer, 1000)
-      }
-    }
-    
-    checkServer()
-  })
-  
-  console.log('Next.js dev server started for testing')
-})
-
-afterAll(() => {
-  if (devServer) {
-    devServer.kill()
-    console.log('Next.js dev server stopped')
-  }
-})
+const baseUrl = 'http://localhost:3000'
 
 describe('Functions List API', () => {
   it('should return a numbered, markdown ordered list for non-streaming response', async () => {
