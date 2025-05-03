@@ -6,7 +6,7 @@ export const POST = API(async (request, { db, user, origin, url, domain }) => {
   try {
     const rawBody = await request.text()
     
-    let data
+    let data: Record<string, any>
     try {
       data = JSON.parse(rawBody)
     } catch (e) {
