@@ -1,4 +1,4 @@
-import { API, client } from 'apis.do'
+import { API } from 'apis.do'
 import { Experiment, VariantContext, VariantResult, ExperimentResults, ExperimentComparison, ExperimentRecommendation, QueryParams, ListResponse, ClientOptions } from './types.js'
 import { VercelFlagsProvider, EvaluationContext } from './provider.js'
 

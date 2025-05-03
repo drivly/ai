@@ -1,4 +1,4 @@
-import { API, client } from 'apis.do'
+import { API } from 'apis.do'
 import { ExperimentEvaluationResult, EvaluationParams, EvaluationResult, ExperimentSummary } from './types.js'
 
 /**

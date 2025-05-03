@@ -1,4 +1,4 @@
-import { API, client } from 'apis.do'
+import { API } from 'apis.do'
 
 export interface OpenFeatureProvider<T = any> {
   metadata: ProviderMetadata
