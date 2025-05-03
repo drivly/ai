@@ -444,6 +444,10 @@ const createApiHandler = <T = any>(handler: ApiHandler<T>) => {
       _currentRequest = null
       _currentContext = null
 
+      if (result instanceof NextResponse && result.body instanceof ReadableStream) {
+        return result // Return stream directly without wrapping
+      }
+
       const enhancedUser = await getUser(req, payload)
 
       let authUser: Record<string, any> = {}
