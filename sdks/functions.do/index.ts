@@ -683,22 +683,58 @@ export const list = (strings: TemplateStringsArray, ...values: any[]): any => {
     return result + str + (values[i] !== undefined ? values[i] : '')
   }, '')
 
-  if (process.env.NODE_ENV === 'test') {
-    return async (config: any = {}) => {
-      return ['Mock list item 1', 'Mock list item 2', 'Mock list item 3']
-    }
-  }
-
   return async (config: any = {}) => {
     const baseSystemPrompt = config.system || 'You are an assistant that always responds with numbered, markdown ordered lists.'
     
     if (config.iterator === true) {
       // Return an async iterator for streaming
       const iterator = async function* () {
-        const items = ['1. First item', '2. Second item', '3. Third item', '4. Fourth item', '5. Fifth item']
-        for (const item of items) {
-          yield item
-          await new Promise(resolve => setTimeout(resolve, 100))
+        try {
+          const response = await fetch('https://functions.do/api/list', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              prompt: combined,
+              system: baseSystemPrompt,
+              model: config.model,
+              stream: true
+            }),
+          })
+          
+          if (!response.ok) {
+            throw new Error(`List API call failed with status ${response.status}`)
+          }
+          
+          const reader = response.body?.getReader()
+          if (!reader) {
+            throw new Error('Response body is not readable')
+          }
+          
+          const decoder = new TextDecoder()
+          let buffer = ''
+          
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            
+            buffer += decoder.decode(value, { stream: true })
+            const lines = buffer.split('\n')
+            
+            for (let i = 0; i < lines.length - 1; i++) {
+              if (lines[i].trim()) {
+                yield lines[i].trim()
+              }
+            }
+            
+            buffer = lines[lines.length - 1]
+          }
+          
+          if (buffer.trim()) {
+            yield buffer.trim()
+          }
+        } catch (error) {
+          console.error('Error streaming list items:', error)
+          throw error
         }
       }
       
@@ -707,7 +743,27 @@ export const list = (strings: TemplateStringsArray, ...values: any[]): any => {
       }
     }
     
-    return ['1. First item', '2. Second item', '3. Third item', '4. Fourth item', '5. Fifth item']
+    try {
+      const response = await fetch('https://functions.do/api/list', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          prompt: combined,
+          system: baseSystemPrompt,
+          model: config.model
+        }),
+      })
+      
+      if (!response.ok) {
+        throw new Error(`List API call failed with status ${response.status}`)
+      }
+      
+      const data = await response.json()
+      return data.items || []
+    } catch (error) {
+      console.error('Error calling list API:', error)
+      throw error
+    }
   }
 }
 
