@@ -20,23 +20,28 @@ export const POST = API(async (request, { payload }) => {
 
   const webhookId = request.headers.get('linear-delivery')
   const webhookSignature = request.headers.get('linear-signature')
-  const dateHeader = request.headers.get('date')
-  const webhookTimestamp = dateHeader ? new Date(dateHeader).getTime().toString() : null
+  
+  let webhookTimestamp: string | null = null
+  try {
+    const bodyData = JSON.parse(bodyClone)
+    webhookTimestamp = bodyData.webhookTimestamp?.toString() || null
+  } catch (error) {
+    console.error('Failed to parse webhook body:', error)
+  }
 
   if (!webhookId || !webhookSignature || !webhookTimestamp) {
-    console.error('Missing required Linear webhook headers', {
+    console.error('Missing required Linear webhook data', {
       headers: Object.fromEntries([...request.headers.entries()]),
-      hasBody: Boolean(await request.clone().text()),
+      hasBody: Boolean(bodyClone),
       requestUrl: request.url,
       method: request.method,
       contentType: request.headers.get('content-type'),
-      dateHeader,
+      webhookId,
+      webhookSignature,
       webhookTimestamp,
     })
-    return new Response('Missing required webhook headers', { status: 400 })
+    return new Response('Missing required webhook data', { status: 400 })
   }
-
-
 
   const rawBody = await request.text()
 
