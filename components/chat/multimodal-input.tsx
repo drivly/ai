@@ -29,7 +29,7 @@ export function MultimodalInput() {
   return (
     <Fragment>
       {messages.length === 0 && attachments.length === 0 && <SuggestedActions append={append} />}
-      <form className='font-geist border-border bg-background rounded-t-sm border-t dark:bg-black'>
+      <form className='font-geist border-border bg-background mx-auto flex w-full gap-2 rounded-t-sm border-t px-4 pb-4 md:max-w-4xl md:pb-6 dark:bg-black'>
         <input type='file' ref={fileInputRef} className='sr-only' onChange={handleFileChange} multiple accept='.png, .jpg, .jpeg, .pdf' tabIndex={-1} />
         <FilePreview attachments={attachments} onRemove={removeAttachment} />
         <PromptInput

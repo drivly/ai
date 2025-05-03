@@ -1,6 +1,7 @@
 import { ChatContainer } from '@/components/ui/chat-container'
 import type { UIMessage } from 'ai'
 import { ChatMessage } from './message'
+import { Greeting } from './greeting'
 
 export interface MessagesProps {
   containerRef: React.RefObject<HTMLDivElement>
@@ -11,8 +12,8 @@ export const Messages = (props: MessagesProps) => {
   const { containerRef, messages } = props
 
   return (
-    <ChatContainer data-chat-widget='chat-container' className='flex flex-1 flex-col overflow-y-auto px-2 py-4 scrollbar-hide' ref={containerRef}>
-      {messages.length === 0 && <DefaultMessage />}
+    <ChatContainer data-chat-widget='chat-container' className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6' ref={containerRef}>
+      {messages.length === 0 && <Greeting />}
       {messages.map((message) => (
         <ChatMessage
           data-chat-widget='chat-message'
@@ -25,13 +26,5 @@ export const Messages = (props: MessagesProps) => {
         />
       ))}
     </ChatContainer>
-  )
-}
-
-export function DefaultMessage({ message = 'No messages yet. Start a conversation by typing a message below.' }: { message?: string }) {
-  return (
-    <div className='flex h-full items-center justify-center'>
-      <p className='text-muted-foreground text-center text-base leading-[24px] font-medium'>{message}</p>
-    </div>
   )
 }
