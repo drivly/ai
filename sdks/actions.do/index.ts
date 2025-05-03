@@ -1,5 +1,7 @@
-import { client } from 'apis.do'
+import { API } from 'apis.do'
 import { Action, ActionConfig } from './types'
+
+const client = new API()
 
 let ComposioActionTypes: any
 try {
