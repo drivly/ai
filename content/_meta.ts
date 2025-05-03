@@ -41,7 +41,7 @@ const meta: MetaRecord = {
   experiments: '',
   integrations: '',
   deployment: '',
-  observability: '',
+  observability: { display: 'hidden' },
   // sites: { display: 'hidden' }, // Removed as sites directory moved to repository root
 
   __: {
