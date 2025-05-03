@@ -1,5 +1,7 @@
-import { client } from 'apis.do'
+import { API } from 'apis.do'
 import { Search, SearchConfig } from './types'
+
+const client = new API()
 
 /**
  * Client for managing search operations

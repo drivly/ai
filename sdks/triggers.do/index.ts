@@ -1,5 +1,7 @@
-import { client } from 'apis.do'
+import { API } from 'apis.do'
 import { Trigger, TriggerConfig } from './types.js'
+
+const client = new API()
 
 /**
  * Client for managing workflow trigger events
