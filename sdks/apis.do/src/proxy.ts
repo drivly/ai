@@ -23,7 +23,7 @@ const apiProxyHandler = {
             headers.authorization = `Bearer ${process.env.DO_API_KEY}`
           }
           
-          const url = new URL(`https://apis.do/${prop}`)
+          const url = new URL(`${target._baseUrl}/${prop}`)
           Object.entries(params).forEach(([key, value]) => {
             if (value !== undefined) {
               if (typeof value === 'object') {
