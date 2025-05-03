@@ -791,3 +791,5 @@ export const research = async (query: string, options?: any) => {
     throw error
   }
 }
+
+// This is to fix TypeScript errors in CI environment
