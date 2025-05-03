@@ -1,5 +1,4 @@
-import { API } from 'apis.do' // Import the class
-const api = new API() // Instantiate locally
+import { client } from 'apis.do' // Import the client instance
 import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration, TriggerConfig, ActionConfig } from './types.js'
 import { IntegrationAuthOptions } from './auth/types.js'
 
@@ -24,7 +23,7 @@ export const integrations = {
       metadata?: Record<string, any>
     },
   ): Promise<IntegrationConnection<T>> => {
-    return api.post<IntegrationConnection<T>>(`/integrations/${service}/connect`, { ...options, ...connectionOptions })
+    return client.post<IntegrationConnection<T>>(`/integrations/${service}/connect`, { ...options, ...connectionOptions })
   },
 
   /**
@@ -33,7 +32,7 @@ export const integrations = {
    * @returns The created trigger definition with its ID and status
    */
   createTrigger: async (config: TriggerConfig): Promise<Trigger> => {
-    return api.post<Trigger>('/integrations/triggers', config)
+    return client.post<Trigger>('/integrations/triggers', config)
   },
 
   /**
@@ -42,7 +41,7 @@ export const integrations = {
    * @returns The created action definition with its ID
    */
   createAction: async (config: ActionConfig): Promise<Action> => {
-    return api.post<Action>('/integrations/actions', config)
+    return client.post<Action>('/integrations/actions', config)
   },
 
   /**
@@ -50,7 +49,7 @@ export const integrations = {
    * @returns Array of available integration definitions
    */
   list: async (): Promise<Integration[]> => {
-    return api.get<Integration[]>('/integrations')
+    return client.get<Integration[]>('/integrations')
   },
 
   /**
@@ -59,7 +58,7 @@ export const integrations = {
    * @returns Integration definition details
    */
   get: async (service: string): Promise<Integration> => {
-    return api.get<Integration>(`/integrations/${service}`)
+    return client.get<Integration>(`/integrations/${service}`)
   },
 
   /**
@@ -69,7 +68,7 @@ export const integrations = {
    * @returns The result of the action execution from the backend task
    */
   executeAction: async <ResultType = any>(actionId: string, inputs: Record<string, any>): Promise<ResultType> => {
-    return api.post<ResultType>(`/integrations/actions/${actionId}/execute`, inputs)
+    return client.post<ResultType>(`/integrations/actions/${actionId}/execute`, inputs)
   },
 
   /**
@@ -78,7 +77,7 @@ export const integrations = {
    * @returns A promise resolving when the operation is complete (typically void or updated trigger status)
    */
   enableTrigger: async (triggerId: string): Promise<Trigger> => {
-    return api.post<Trigger>(`/integrations/triggers/${triggerId}/enable`, {})
+    return client.post<Trigger>(`/integrations/triggers/${triggerId}/enable`, {})
   },
 
   /**
@@ -87,7 +86,7 @@ export const integrations = {
    * @returns A promise resolving when the operation is complete (typically void or updated trigger status)
    */
   disableTrigger: async (triggerId: string): Promise<Trigger> => {
-    return api.post<Trigger>(`/integrations/triggers/${triggerId}/disable`, {})
+    return client.post<Trigger>(`/integrations/triggers/${triggerId}/disable`, {})
   },
 
   /**
@@ -95,7 +94,7 @@ export const integrations = {
    * @returns Array of active integration connections
    */
   listConnections: async <T = Record<string, any>>(): Promise<IntegrationConnection<T>[]> => {
-    return api.get<IntegrationConnection<T>[]>('/integrations/connections')
+    return client.get<IntegrationConnection<T>[]>('/integrations/connections')
   },
 
   /**
@@ -104,7 +103,7 @@ export const integrations = {
    * @returns Connection details
    */
   getConnection: async <T = Record<string, any>>(connectionId: string): Promise<IntegrationConnection<T>> => {
-    return api.get<IntegrationConnection<T>>(`/integrations/connections/${connectionId}`)
+    return client.get<IntegrationConnection<T>>(`/integrations/connections/${connectionId}`)
   },
 
   /**
@@ -113,7 +112,7 @@ export const integrations = {
    * @returns void or confirmation
    */
   deleteConnection: async (connectionId: string): Promise<void> => {
-    return api.post<void>(`/integrations/connections/${connectionId}`, { _method: 'DELETE' })
+    return client.post<void>(`/integrations/connections/${connectionId}`, { _method: 'DELETE' })
   },
 }
 
@@ -136,7 +135,7 @@ export const triggers = {
    * @returns Array of triggers
    */
   list: async (): Promise<Trigger[]> => {
-    return api.get<Trigger[]>('/integrations/triggers')
+    return client.get<Trigger[]>('/integrations/triggers')
   },
 
   /**
@@ -145,7 +144,7 @@ export const triggers = {
    * @returns Trigger details
    */
   get: async (id: string): Promise<Trigger> => {
-    return api.get<Trigger>(`/integrations/triggers/${id}`)
+    return client.get<Trigger>(`/integrations/triggers/${id}`)
   },
 
   /**
@@ -154,7 +153,7 @@ export const triggers = {
    * @returns void or confirmation
    */
   delete: async (id: string): Promise<void> => {
-    return api.post<void>(`/integrations/triggers/${id}`, { _method: 'DELETE' })
+    return client.post<void>(`/integrations/triggers/${id}`, { _method: 'DELETE' })
   },
 }
 
@@ -167,7 +166,7 @@ export const actions = {
    * @returns Array of actions
    */
   list: async (): Promise<Action[]> => {
-    return api.get<Action[]>('/integrations/actions')
+    return client.get<Action[]>('/integrations/actions')
   },
 
   /**
