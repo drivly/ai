@@ -678,7 +678,112 @@ const createMockAIProxy = () => {
 // Create a special proxy with improved type inference
 export const ai = createMockAIProxy() as AIProxy
 
-// This prevents TypeScript redeclaration errors in CI environment
+// Create list function that uses the functions.do API
+const createListFunction = (strings: TemplateStringsArray, ...values: any[]): any => {
+  const combined = strings.reduce((result, str, i) => {
+    return result + str + (values[i] !== undefined ? values[i] : '')
+  }, '')
+
+  return async (config: any = {}) => {
+    const baseSystemPrompt = config.system || 'You are an assistant that always responds with numbered, markdown ordered lists.'
+    
+    if (config.iterator === true) {
+      // Return an async iterator for streaming
+      const iterator = async function* () {
+        if (process.env.NODE_ENV === 'test') {
+          yield '1. Mock list item 1'
+          yield '2. Mock list item 2'
+          yield '3. Mock list item 3'
+          return
+        }
+        
+        try {
+          const response = await fetch('https://functions.do/api/list', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              prompt: combined,
+              system: baseSystemPrompt,
+              model: config.model,
+              stream: true
+            }),
+          })
+          
+          if (!response.ok) {
+            throw new Error(`List API call failed with status ${response.status}`)
+          }
+          
+          const reader = response.body?.getReader()
+          if (!reader) {
+            throw new Error('Response body is not readable')
+          }
+          
+          const decoder = new TextDecoder()
+          let buffer = ''
+          
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            
+            buffer += decoder.decode(value, { stream: true })
+            const lines = buffer.split('\n')
+            
+            for (let i = 0; i < lines.length - 1; i++) {
+              if (lines[i].trim()) {
+                yield lines[i].trim()
+              }
+            }
+            
+            buffer = lines[lines.length - 1]
+          }
+          
+          if (buffer.trim()) {
+            yield buffer.trim()
+          }
+        } catch (error) {
+          console.error('Error streaming list items:', error)
+          throw error
+        }
+      }
+      
+      return {
+        [Symbol.asyncIterator]: iterator
+      }
+    }
+    
+    if (process.env.NODE_ENV === 'test') {
+      return [
+        '1. Mock list item 1',
+        '2. Mock list item 2',
+        '3. Mock list item 3'
+      ]
+    }
+    
+    try {
+      const response = await fetch('https://functions.do/api/list', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          prompt: combined,
+          system: baseSystemPrompt,
+          model: config.model
+        }),
+      })
+      
+      if (!response.ok) {
+        throw new Error(`List API call failed with status ${response.status}`)
+      }
+      
+      const data = await response.json()
+      return data.items || []
+    } catch (error) {
+      console.error('Error calling list API:', error)
+      throw error
+    }
+  }
+}
+
+export const list = createListFunction
 
 export const research = async (query: string, options?: any) => {
   if (process.env.NODE_ENV === 'test') {
@@ -702,5 +807,3 @@ export const research = async (query: string, options?: any) => {
     throw error
   }
 }
-
-// This is to fix TypeScript errors in CI environment
