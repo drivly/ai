@@ -54,8 +54,7 @@ async function BlogPostPage({ params }: { params: { domain: string; slug: string
           <Balancer>{post?.description}</Balancer>
         </p> */}
         <div className='mt-4 flex flex-row items-center justify-between gap-2'>
-          {/* <div className='text-muted-foreground text-sm'>{formattedDate}</div> */}
-          <div></div>
+          <div className='text-muted-foreground text-sm'>{post?.readingTime || '3 min read'}</div>
           <ShareButtons title={post?.title || ''} url={postUrl} hideLabel={true} />
         </div>
       </div>

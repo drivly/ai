@@ -11,6 +11,7 @@ export interface BlogPost {
   title: string
   description: string
   date?: string
+  readingTime?: string // Add this field
   category: string
   image?: string
   markdown?: string
