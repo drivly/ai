@@ -49,6 +49,13 @@ jobs:
           # pnpm typecheck
           echo "Typecheck temporarily disabled as requested"
 
+      - name: Build Required Packages
+        run: |
+          # Build payload-hooks-queue package first to fix module not found error
+          cd pkgs/payload-hooks-queue
+          pnpm build
+          cd ../..
+          
       - name: Start Payload Server for Unit Tests
         run: |
           # Export all needed environment variables for the server
