@@ -175,7 +175,7 @@ export const actions = {
    * @returns Action details
    */
   get: async (id: string): Promise<Action> => {
-    return api.get<Action>(`/integrations/actions/${id}`)
+    return client.get<Action>(`/integrations/actions/${id}`)
   },
 
   /**
@@ -184,7 +184,7 @@ export const actions = {
    * @returns void or confirmation
    */
   delete: async (id: string): Promise<void> => {
-    return api.post<void>(`/integrations/actions/${id}`, { _method: 'DELETE' })
+    return client.post<void>(`/integrations/actions/${id}`, { _method: 'DELETE' })
   },
 }
 
