@@ -3,38 +3,40 @@ import { DB, DatabaseClient } from '../../src/index'
 import { setupApiStyles, isPayloadRunning } from './utils/test-setup'
 
 describe('database.do SDK Initialization', () => {
-  it('should initialize DB with default options', () => {
-    const db = DB()
-    expect(db).toBeDefined()
-    expect(typeof db).toBe('object')
-  })
+  describe('Basic Initialization', () => {
+    it('should initialize DB with default options', () => {
+      const db = DB()
+      expect(db).toBeDefined()
+      expect(typeof db).toBe('object')
+    })
 
-  it('should initialize DB with custom baseUrl', () => {
-    const db = DB({ baseUrl: 'https://custom-database.do' })
-    expect(db).toBeDefined()
-  })
+    it('should initialize DB with custom baseUrl', () => {
+      const db = DB({ baseUrl: 'https://custom-database.do' })
+      expect(db).toBeDefined()
+    })
 
-  it('should initialize DB with apiKey', () => {
-    const db = DB({ apiKey: 'test-api-key' })
-    expect(db).toBeDefined()
-  })
+    it('should initialize DB with apiKey', () => {
+      const db = DB({ apiKey: 'test-api-key' })
+      expect(db).toBeDefined()
+    })
 
-  it('should initialize DatabaseClient with default options', () => {
-    const dbClient = new DatabaseClient()
-    expect(dbClient).toBeDefined()
-    expect(dbClient.resources).toBeDefined()
-  })
+    it('should initialize DatabaseClient with default options', () => {
+      const dbClient = new DatabaseClient()
+      expect(dbClient).toBeDefined()
+      expect(dbClient.resources).toBeDefined()
+    })
 
-  it('should initialize DatabaseClient with custom baseUrl', () => {
-    const dbClient = new DatabaseClient({ baseUrl: 'https://custom-database.do' })
-    expect(dbClient).toBeDefined()
-    expect(dbClient.resources).toBeDefined()
-  })
+    it('should initialize DatabaseClient with custom baseUrl', () => {
+      const dbClient = new DatabaseClient({ baseUrl: 'https://custom-database.do' })
+      expect(dbClient).toBeDefined()
+      expect(dbClient.resources).toBeDefined()
+    })
 
-  it('should initialize DatabaseClient with apiKey', () => {
-    const dbClient = new DatabaseClient({ apiKey: 'test-api-key' })
-    expect(dbClient).toBeDefined()
-    expect(dbClient.resources).toBeDefined()
+    it('should initialize DatabaseClient with apiKey', () => {
+      const dbClient = new DatabaseClient({ apiKey: 'test-api-key' })
+      expect(dbClient).toBeDefined()
+      expect(dbClient.resources).toBeDefined()
+    })
   })
 
   describe('SDK Proxy Structure', () => {
