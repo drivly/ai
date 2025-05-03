@@ -7,7 +7,7 @@ export type { CliOptions } from './src/cli'
 
 import { createApiProxy } from './src/proxy'
 
-export const apiClient = new API()
+export const client = new API()
 export const api = createApiProxy()
 export const cli = new CLI()
 
