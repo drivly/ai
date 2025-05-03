@@ -1,4 +1,4 @@
-import { API } from 'apis.do'
+import { API, client } from 'apis.do'
 import type { ServiceDefinition, Service, ServiceQuery, UsageData, PricingScheme } from '../types'
 
 export class Services {

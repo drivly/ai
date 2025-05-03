@@ -1,4 +1,4 @@
-import { API } from 'apis.do'
+import { API, client } from 'apis.do'
 
 /**
  * Creates a batch configuration for the specified provider
