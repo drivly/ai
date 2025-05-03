@@ -42,6 +42,11 @@ export function useChatInput() {
 
 function ChatProvider({ children, chatId, selectedModel }: { children: React.ReactNode; chatId: string; selectedModel: string }) {
   console.log('ChatProvider initialized with model:', selectedModel)
+  
+  if (window) {
+    // @ts-expect-error - This is bad. Very bad. But i lack the React knowledge to make it work right.
+    window.currentModel = selectedModel
+  }
 
   const chat = useChat({
     id: chatId,
@@ -62,6 +67,8 @@ function ChatProvider({ children, chatId, selectedModel }: { children: React.Rea
   useEffect(() => {
     console.log('Model changed to:', selectedModel)
     // The useChat hook will automatically use the updated body in future requests
+    // @ts-expect-error
+    window.currentModel = selectedModel
   }, [selectedModel])
 
   return <ChatContextProvider value={chat}>{children}</ChatContextProvider>

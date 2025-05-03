@@ -5,10 +5,16 @@ import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { createAnthropic } from '@ai-sdk/anthropic'
 import { getModel, getModels, Model } from 'language-models'
 
+
+// Not in use for the inital release.
 const providerRegistry: Record<string, any> = {
   openrouter: createOpenAI({
     baseURL: 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter',
     apiKey: process.env.OPENROUTER_API_KEY || process.env.AI_GATEWAY_TOKEN,
+    headers: {
+      'HTTP-Referer': 'http://workflows.do',
+      'X-Title': 'Workflows.do'
+    }
   }),
   google: createGoogleGenerativeAI({
     apiKey: process.env.GOOGLE_API_KEY,
@@ -48,10 +54,17 @@ type ProviderOptions = {
    * Maximum price constraint
    */
   maxPrice?: number
+  /**
+   * OpenRouter API key
+   * Uses this key if defined, otherwise uses the default key at env.OPENROUTER_API_KEY
+   */
+  apiKey?: string
 }
 
 type LLMProviderConfig = {
-  // For now, it will be empty.
+  baseURL?: string
+  apiKey?: string
+  headers?: Record<string, string>
 }
 
 export const createLLMProvider = (config: LLMProviderConfig) => (model: string, options?: ProviderOptions) => {
@@ -65,7 +78,12 @@ export const createLLMProvider = (config: LLMProviderConfig) => (model: string, 
   }
   if (options?.maxPrice) augments.providerConstraints = [{ field: 'cost', value: options.maxPrice.toString(), type: 'lt' }]
 
-  return new LLMProvider(model, options ?? {}, augments)
+  if (!config.apiKey) {
+    // Use fallback if no api key is provided via the create config
+    config.apiKey = process.env.OPENROUTER_API_KEY || process.env.AI_GATEWAY_TOKEN || ''
+  }
+
+  return new LLMProvider(model, options ?? {}, config)
 }
 
 export const model = createLLMProvider({})
@@ -86,19 +104,26 @@ class LLMProvider implements LanguageModelV1 {
   readonly _name: string = 'LLMProvider'
   readonly specificationVersion = 'v1'
   readonly resolvedModel: Model
+  readonly apiKey: string
 
   constructor(
     public modelId: string,
     public options: ProviderOptions,
-    private augments?: Record<string, any>,
+    private config?: Record<string, any>,
   ) {
     this.modelId = modelId
     this.options = options ?? {}
-
-    this.resolvedModel = getModel(modelId, this.augments || {})
+    this.config = config ?? {}
+    this.resolvedModel = getModel(modelId)
 
     if (!this.resolvedModel.slug) {
       throw new Error(`Model ${modelId} not found`)
+    }
+
+    this.apiKey = this.config?.apiKey
+
+    if (!this.apiKey) {
+      throw new Error(`AI Provider found no API key. Please either provide an apiKey in the createLLMProvider config, or set the OPENROUTER_API_KEY environment variable.`)
     }
   }
 
@@ -107,12 +132,17 @@ class LLMProvider implements LanguageModelV1 {
 
     // Access provider property which is added by getModel but not in the Model type
     const providerSlug = this.resolvedModel.provider?.slug
+
+    return provider
+
     switch (providerSlug) {
       case 'openAi':
         provider = 'openai'
         break
+      case 'aiStudioNonThinking':
+      case 'aiStudio':
       case 'google':
-        provider = 'google'
+        provider = 'openrouter'
         break
       case 'anthropic':
         provider = 'anthropic'
@@ -154,7 +184,15 @@ class LLMProvider implements LanguageModelV1 {
       }
     }
 
-    return await providerRegistry[this.provider](modelSlug, modelConfigMixin).doGenerate(options)
+    const provider = createOpenAI({
+      baseURL: this.config?.baseURL || 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter',
+      apiKey: this.apiKey,
+      headers: this.config?.headers
+    })
+
+    return await provider(modelSlug, modelConfigMixin).doGenerate(options)
+
+    //return await providerRegistry[this.provider](modelSlug, modelConfigMixin).doGenerate(options)
   }
 
   async doStream(options: Parameters<LanguageModelV1['doStream']>[0]): Promise<Awaited<ReturnType<LanguageModelV1['doStream']>>> {

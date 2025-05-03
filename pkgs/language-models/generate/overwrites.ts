@@ -9,4 +9,7 @@ export const overwrites = {
     // Explicitly remove reasoning from this model as it's not actually supported.
     'endpoint.supportedParameters': ['max_tokens', 'temperature', 'stop', 'tools', 'tool_choice'],
   },
+  'anthropic/claude-3.7-sonnet:thinking': {
+    'endpoint.supportedParameters': ['max_tokens', 'reasoning', 'temperature', 'stop', 'tools', 'tool_choice'],
+  },
 }
