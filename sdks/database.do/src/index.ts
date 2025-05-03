@@ -1,4 +1,4 @@
-import { api as apisDoClient } from 'apis.do'
+import { client as apisDoClient } from 'apis.do'
 import { API } from 'apis.do/src/client'
 import type { ClientOptions, ListResponse, QueryParams } from 'apis.do/types'
 

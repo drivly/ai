@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest'
 import { createStudioClient } from './index'
-import { api } from 'apis.do'
+import { client } from 'apis.do'
 
 vi.mock('apis.do', () => ({
-  api: {
+  client: {
     getById: vi.fn(),
     list: vi.fn(),
     post: vi.fn(),
@@ -24,7 +24,7 @@ describe('createStudioClient', () => {
   })
 
   it('should throw an error if project is not found', async () => {
-    vi.mocked(api.getById).mockResolvedValueOnce(null)
+    vi.mocked(client.getById).mockResolvedValueOnce(null)
 
     await expect(createStudioClient({ projectId: 'non-existent-id' })).rejects.toThrow("Project with ID 'non-existent-id' not found")
   })
@@ -36,9 +36,9 @@ describe('createStudioClient', () => {
     const mockWorkflows = [{ name: 'onboarding' }]
     const mockPayloadClient = { users: { find: vi.fn() } }
 
-    vi.mocked(api.getById).mockResolvedValueOnce(mockProject)
-    vi.mocked(api.list).mockResolvedValueOnce(mockNouns)
-    vi.mocked(api.post).mockResolvedValueOnce(mockPayloadClient)
+    vi.mocked(client.getById).mockResolvedValueOnce(mockProject)
+    vi.mocked(client.list).mockResolvedValueOnce(mockNouns)
+    vi.mocked(client.post).mockResolvedValueOnce(mockPayloadClient)
 
     const { getFunctionsForProject } = await import('./utils/getFunctionsForProject')
     const { getWorkflowsForProject } = await import('./utils/getWorkflowsForProject')
@@ -54,11 +54,11 @@ describe('createStudioClient', () => {
 
     expect(result).toEqual(mockPayloadClient)
 
-    expect(api.getById).toHaveBeenCalledWith('projects', 'test-id')
-    expect(api.list).toHaveBeenCalledWith('nouns', {
+    expect(client.getById).toHaveBeenCalledWith('projects', 'test-id')
+    expect(client.list).toHaveBeenCalledWith('nouns', {
       where: { project: { equals: 'test-id' } },
       sort: 'order',
     })
-    expect(api.post).toHaveBeenCalled()
+    expect(client.post).toHaveBeenCalled()
   })
 })
