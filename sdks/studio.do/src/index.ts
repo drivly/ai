@@ -2,7 +2,7 @@
  * studio.do - SDK for creating custom-branded Payload CMS instances
  */
 
-import { api, client } from 'apis.do'
+import { client } from 'apis.do'
 import { StudioSDKOptions, PayloadClient } from './types'
 import { getFunctionsForProject } from './utils/getFunctionsForProject'
 import { getWorkflowsForProject } from './utils/getWorkflowsForProject'
