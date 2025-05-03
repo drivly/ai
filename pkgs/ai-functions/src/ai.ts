@@ -176,10 +176,11 @@ const createListIterator = async function* (prompt: string, config: AIFunctionOp
   const model = getAIProvider(modelName)
 
   // Use the model's streaming API
-  const stream = await model.streamComplete({
+  const stream = await model.complete({
     prompt,
     temperature: config.temperature,
     maxTokens: config.maxTokens,
+    stream: true,
     ...config,
   })
 
