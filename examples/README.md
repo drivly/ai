@@ -1,18 +1,14 @@
-# AI Workflow Examples for Digital-Only Businesses
+# Business-as-Code Examples
 
-This directory contains examples of high-value AI workflows that can be built using the AI Primitives platform. These examples demonstrate how to use Functions, Workflows, and Agents to fully automate core business processes for digital-only businesses, from ideation to scale.
+This directory contains examples organized by business lifecycle stage:
 
-## Table of Contents
+- **ideate** - Examples focused on business ideation and modeling
+- **build** - Examples of functions and workflows for product development
+- **launch** - Examples for marketing and product launch activities
+- **grow** - Examples for customer support and go-to-market strategies
+- **scale** - Examples for operational efficiency and scaling
 
-- [Ideation & Validation](#ideation--validation)
-- [Product Development](#product-development)
-- [Go-to-Market](#go-to-market)
-- [Customer Acquisition](#customer-acquisition)
-- [Customer Success](#customer-success)
-- [Scaling Operations](#scaling-operations)
-- [Fundraising & Finance](#fundraising--finance)
-- [Team Building](#team-building)
-- [Implementation Guide](#implementation-guide)
+Each directory contains its own README with detailed explanations.
 
 ## Ideation & Validation
 

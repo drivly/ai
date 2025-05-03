@@ -48,6 +48,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ domai
           </Badge>
           <h1 className='text-4xl font-bold tracking-tight'>{post.title}</h1>
           <p className='text-muted-foreground mt-2 text-lg'>{post.description}</p>
+          <div className='text-muted-foreground mt-2 text-sm'>{post.readingTime || '3 min read'}</div>
         </div>
 
         <Markdown>{post.markdown}</Markdown>

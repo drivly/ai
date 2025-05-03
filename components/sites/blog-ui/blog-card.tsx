@@ -10,7 +10,7 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   return (
-    <div className='bg-card flex min-h-[400px] flex-col overflow-hidden rounded-lg border transition-all duration-300 hover:translate-y-[-5px] hover:shadow-md'>
+    <div className='bg-card flex min-h-[250px] flex-col overflow-hidden rounded-lg border transition-all duration-300 hover:translate-y-[-5px] hover:shadow-md'>
       <Link prefetch={true} href={`/blog/${post.slug || slugify(post.title)}`} className='group flex h-full flex-col'>
         {/* <div className='relative h-1/2 w-full overflow-hidden'>
           <Image
@@ -30,11 +30,7 @@ export function BlogCard({ post }: BlogCardProps) {
               {post.category}
             </Badge>
             <span className='text-muted-foreground text-xs'>
-              {new Date(post.date?.split('-').join('/') || new Date().toISOString()).toLocaleDateString('en-US', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              })}
+              {post.readingTime || '3 min read'}
             </span>
           </div>
         </div>
