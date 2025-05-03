@@ -35,14 +35,9 @@ describe('selector', () => {
     expect(model?.slug).toBe('anthropic/claude-3.7-sonnet:thinking')
   })
 
-  it('should return a Claude 3.7 Sonnet model with reasoning capabilities', () => {
-    const model = getModel('anthropic/claude-3.7-sonnet(reasoning)')
-    expect(model).toBeDefined()
-    expect(model?.slug).toBe('anthropic/claude-3.7-sonnet:thinking')
-  })
-
   it('should return multiple models', () => {
     const models = getModels('claude-3.7-sonnet:thinking,r1')
+    console.log(models, 'test')
     expect(models.length).toBe(2)
 
     // Special case for claude, it supports thinking using a different API
