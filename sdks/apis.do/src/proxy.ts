@@ -17,7 +17,7 @@ const apiProxyHandler = {
     if (typeof prop === 'string' && !prop.startsWith('_')) {
       return async (params: any = {}) => {
         try {
-          const headers: HeadersInit = { 'Content-Type': 'application/json' }
+          const headers: Record<string, string> = { 'Content-Type': 'application/json' }
           
           if (!isBrowser() && process.env.DO_API_KEY) {
             headers.authorization = `Bearer ${process.env.DO_API_KEY}`
