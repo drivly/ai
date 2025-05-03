@@ -83,9 +83,22 @@ jobs:
           echo "Waiting for server to start..."
           MAX_RETRIES=60
           RETRY_COUNT=0
-          # Use /api/health endpoint as specified
-          until curl -s http://localhost:3000/api/health > /dev/null || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
-            echo "Attempt $((RETRY_COUNT+1))/$MAX_RETRIES - Server not ready yet, waiting 1s..."
+          
+          # Check if server is running on port 3000 or 3002 (in case port 3000 is already in use)
+          SERVER_PORT=3000
+          if curl -s http://localhost:3002/ > /dev/null; then
+            echo "Server detected on port 3002 instead of 3000"
+            SERVER_PORT=3002
+            # Export the port for tests
+            echo "PAYLOAD_PORT=3002" >> $GITHUB_ENV
+          else
+            echo "Using default port 3000"
+            echo "PAYLOAD_PORT=3000" >> $GITHUB_ENV
+          fi
+          
+          # Wait for server to be ready
+          until curl -s http://localhost:$SERVER_PORT/ > /dev/null || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
+            echo "Attempt $((RETRY_COUNT+1))/$MAX_RETRIES - Server not ready yet on port $SERVER_PORT, waiting 1s..."
             sleep 1
             RETRY_COUNT=$((RETRY_COUNT+1))
           done
@@ -96,31 +109,84 @@ jobs:
           fi
 
           # Additional check to confirm main page is also loading
-          echo "Health check passed. Now verifying main page is accessible..."
-          if curl -s http://localhost:3000/ -o /dev/null -w "%{http_code}" | grep -q "200"; then
-            echo "Main page is accessible."
+          echo "Server is running. Now verifying main page is accessible..."
+          if curl -s http://localhost:$SERVER_PORT/ -o /dev/null -w "%{http_code}" | grep -q "200"; then
+            echo "Main page is accessible on port $SERVER_PORT."
           else
-            echo "Warning: Health check passed but main page is not accessible yet."
+            echo "Warning: Server is running but main page is not accessible yet."
             echo "Will proceed with tests, but they might fail if pages aren't ready."
           fi
 
       - name: Generate DO_API_KEY for tests
         run: |
-          # Create a test API key using curl against the local Payload server
-          echo "Creating API key for tests..."
-          API_KEY_RESPONSE=$(curl -s -X POST http://localhost:3000/api/apikeys -H "Content-Type: application/json" -d '{"name":"CI Test Key","description":"Automatically generated for CI tests"}')
+          # Get the server port from environment
+          SERVER_PORT="${PAYLOAD_PORT:-3000}"
           
-          # Extract the key from the response
-          DO_API_KEY=$(echo $API_KEY_RESPONSE | grep -o '"key":"[^"]*"' | cut -d'"' -f4)
+          # First create a test admin user
+          echo "Creating test admin user..."
+          USER_RESPONSE=$(curl -s -X POST http://localhost:$SERVER_PORT/api/users -H "Content-Type: application/json" -d '{
+            "email": "test@example.com",
+            "name": "Test User",
+            "password": "test-password",
+            "role": "admin",
+            "emailVerified": true
+          }')
           
-          # Verify we got a key and export it
-          if [ -n "$DO_API_KEY" ]; then
-            echo "DO_API_KEY generated successfully"
-            echo "DO_API_KEY=$DO_API_KEY" >> $GITHUB_ENV
+          echo "User creation response: $USER_RESPONSE"
+          
+          # Login with the test user to get an auth token
+          echo "Logging in with test user..."
+          AUTH_RESPONSE=$(curl -s -X POST http://localhost:$SERVER_PORT/api/users/login -H "Content-Type: application/json" -d '{
+            "email": "test@example.com",
+            "password": "test-password"
+          }')
+          
+          # Extract the token from the response
+          AUTH_TOKEN=$(echo $AUTH_RESPONSE | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
+          
+          if [ -z "$AUTH_TOKEN" ]; then
+            echo "Failed to get auth token, trying to continue with existing user..."
+            # Try to login with existing user if creation failed (might already exist)
+            AUTH_RESPONSE=$(curl -s -X POST http://localhost:$SERVER_PORT/api/users/login -H "Content-Type: application/json" -d '{
+              "email": "test@example.com",
+              "password": "test-password"
+            }')
+            AUTH_TOKEN=$(echo $AUTH_RESPONSE | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
+          fi
+          
+          if [ -n "$AUTH_TOKEN" ]; then
+            echo "Successfully authenticated with token"
+            
+            # Create an API key using the auth token
+            echo "Creating API key for tests..."
+            API_KEY_RESPONSE=$(curl -s -X POST http://localhost:$SERVER_PORT/api/apikeys -H "Content-Type: application/json" -H "Authorization: JWT $AUTH_TOKEN" -d '{
+              "name": "CI Test Key",
+              "description": "Automatically generated for CI tests",
+              "email": "test@example.com"
+            }')
+            
+            echo "API key creation response: $API_KEY_RESPONSE"
+            
+            # Extract the apiKey from the response
+            DO_API_KEY=$(echo $API_KEY_RESPONSE | grep -o '"apiKey":"[^"]*"' | cut -d'"' -f4)
+            
+            # Verify we got a key and export it
+            if [ -n "$DO_API_KEY" ]; then
+              echo "DO_API_KEY generated successfully"
+              echo "DO_API_KEY=$DO_API_KEY" >> $GITHUB_ENV
+            else
+              echo "Failed to extract DO_API_KEY from response"
+              echo "Full response: $API_KEY_RESPONSE"
+              # Try to use a hardcoded key for testing
+              echo "Using fallback test key"
+              echo "DO_API_KEY=test-api-key-for-ci" >> $GITHUB_ENV
+            fi
           else
-            echo "Failed to generate DO_API_KEY"
-            echo "$API_KEY_RESPONSE"
-            # Continue anyway as tests will just skip if no key is available
+            echo "Failed to authenticate with Payload CMS"
+            echo "Auth response: $AUTH_RESPONSE"
+            # Use a fallback key for testing
+            echo "Using fallback test key"
+            echo "DO_API_KEY=test-api-key-for-ci" >> $GITHUB_ENV
           fi
 
       - name: Run Unit Tests
