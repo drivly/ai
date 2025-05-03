@@ -1,4 +1,4 @@
-import { API } from 'apis.do'
+import { API } from 'apis.do/src/client'
 import type { ClientOptions, ListResponse, QueryParams } from 'apis.do/types'
 
 import { DBOptions, SchemaDefinition, CollectionMethods, QueryOptions, CollectionData, DatabaseClient as DatabaseClientType } from './types'
