@@ -3,12 +3,16 @@ import { beforeAll, afterAll } from 'vitest'
 import fetch from 'node-fetch'
 
 export const setupApiStyles = () => {
+  const apiKey = process.env.DO_API_KEY || ''
+  
   const db = DB({
     baseUrl: 'http://localhost:3000',
+    apiKey,
   })
 
   const dbClient = new DatabaseClient({
     baseUrl: 'http://localhost:3000',
+    apiKey,
   })
 
   return { db, dbClient }
@@ -16,8 +20,21 @@ export const setupApiStyles = () => {
 
 export const isPayloadRunning = async (): Promise<boolean> => {
   try {
-    const response = await fetch('http://localhost:3000/api/things')
-    return response.status === 200
+    const apiKey = process.env.DO_API_KEY || ''
+    const headers: Record<string, string> = {}
+    
+    if (apiKey) {
+      headers['Authorization'] = `Bearer ${apiKey}`
+    }
+    
+    const response = await fetch('http://localhost:3000/api/things', { headers })
+    
+    if (response.status === 200) {
+      return true
+    } else {
+      console.warn(`Payload CMS is running but returned status ${response.status}. API key might be invalid or missing.`)
+      return false
+    }
   } catch (error) {
     console.warn('Payload CMS is not running at localhost:3000. Run `pnpm dev` to start it.')
     return false
@@ -26,11 +43,18 @@ export const isPayloadRunning = async (): Promise<boolean> => {
 
 export const createTestData = async (collection: string, data: any) => {
   try {
+    const apiKey = process.env.DO_API_KEY || ''
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    }
+    
+    if (apiKey) {
+      headers['Authorization'] = `Bearer ${apiKey}`
+    }
+    
     const response = await fetch(`http://localhost:3000/api/${collection}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify(data),
     })
 
@@ -47,8 +71,16 @@ export const createTestData = async (collection: string, data: any) => {
 
 export const cleanupTestData = async (collection: string, id: string) => {
   try {
+    const apiKey = process.env.DO_API_KEY || ''
+    const headers: Record<string, string> = {}
+    
+    if (apiKey) {
+      headers['Authorization'] = `Bearer ${apiKey}`
+    }
+    
     const response = await fetch(`http://localhost:3000/api/${collection}/${id}`, {
       method: 'DELETE',
+      headers,
     })
 
     if (!response.ok) {
