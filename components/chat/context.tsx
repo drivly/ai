@@ -2,9 +2,11 @@
 
 import { useChat } from '@ai-sdk/react'
 import type { UIMessage } from 'ai'
-import React, { useEffect } from 'react'
-import { createRequiredContext } from '../hooks'
+import React from 'react'
 import { toast } from 'sonner'
+import { createRequiredContext } from '../hooks'
+import { VisibilityType } from './visibility-selector'
+
 /** Type representing all values returned by Vercel's useChat hook */
 type ChatContextValue = ReturnType<typeof useChat>
 const [_useChatContext, ChatContextProvider] = createRequiredContext<ChatContextValue>()
@@ -40,7 +42,15 @@ export function useChatInput() {
   return { input, append, handleInputChange, handleSubmit }
 }
 
-function ChatProvider({ children, chatId, selectedModel }: { children: React.ReactNode; chatId: string; selectedModel: string }) {
+export interface ChatProviderProps {
+  children: React.ReactNode
+  chatId: string
+  initialMessages: Array<UIMessage>
+  selectedModel: string
+  initialVisibilityType: VisibilityType
+}
+
+function ChatProvider({ children, chatId, selectedModel, initialMessages, initialVisibilityType }: ChatProviderProps) {
   console.log('ChatProvider initialized with model:', selectedModel)
   
   if (window) {
@@ -50,9 +60,11 @@ function ChatProvider({ children, chatId, selectedModel }: { children: React.Rea
 
   const chat = useChat({
     id: chatId,
+    initialMessages,
     maxSteps: 3,
     body: {
       model: selectedModel,
+      selectedVisibilityType: initialVisibilityType,
     },
     onError: (error) => {
       console.error('Chat error:', error)
@@ -62,14 +74,6 @@ function ChatProvider({ children, chatId, selectedModel }: { children: React.Rea
       console.log('Chat response status:', response.status)
     },
   })
-
-  // Update body.model when selectedModel changes
-  useEffect(() => {
-    console.log('Model changed to:', selectedModel)
-    // The useChat hook will automatically use the updated body in future requests
-    // @ts-expect-error
-    window.currentModel = selectedModel
-  }, [selectedModel])
 
   return <ChatContextProvider value={chat}>{children}</ChatContextProvider>
 }

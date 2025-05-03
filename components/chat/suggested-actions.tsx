@@ -1,5 +1,28 @@
 import { motion } from 'motion/react'
 
+const defaultSuggestions: Suggestion[] = [
+  {
+    title: 'Build a Serverless API',
+    label: 'Create a REST API endpoint with Functions.do',
+    action: 'Help me build a basic serverless API with Functions.do that returns weather data for a given location.',
+  },
+  {
+    title: 'Create an AI Agent',
+    label: 'Set up an autonomous agent with custom tools',
+    action: 'Guide me through creating an AI agent on Agents.do that can search the web and summarize content.',
+  },
+  {
+    title: 'Connect to a Database',
+    label: 'Query and manage data with DB.do',
+    action: 'Show me how to connect to a Postgres database with DB.do and create a simple CRUD operation.',
+  },
+  {
+    title: 'Generate UI Components',
+    label: 'Build React components with AI assistance',
+    action: 'Generate a responsive React card component that displays user profile information with a modern design.',
+  },
+]
+
 export type Suggestion = {
   title: string
   label: string
@@ -11,14 +34,14 @@ interface SuggestedActionsProps {
   suggestions?: Suggestion[]
 }
 
-export function SuggestedActions({ append, suggestions }: SuggestedActionsProps) {
+export function SuggestedActions({ append, suggestions = defaultSuggestions }: SuggestedActionsProps) {
   if (!suggestions) return null
 
   return (
     <section className='@container'>
-      <div className='mx-auto mb-3 grid w-full gap-4 px-4 @md:grid-cols-2'>
+      <div className='mx-auto mb-3 grid w-full gap-4 px-4 md:max-w-4xl @md:grid-cols-2'>
         {suggestions.map((suggestedAction: Suggestion, index: number) => (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} transition={{ delay: 0.05 * index }} key={index}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 + index * 0.1, ease: 'easeInOut' }} key={index}>
             <button
               onClick={async () => {
                 append({
