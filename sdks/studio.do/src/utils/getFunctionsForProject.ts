@@ -1,4 +1,6 @@
-import { client } from 'apis.do'
+import { API } from 'apis.do'
+
+const client = new API()
 
 /**
  * Fetches all functions associated with a project
