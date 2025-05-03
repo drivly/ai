@@ -11,7 +11,10 @@ const client = new OpenAI({
 })
 
 describe('OpenAI SDK', () => {
-  test.each(['gpt-4o', 'gemini-2.0-flash-001', 'claude-3.7-sonnet'])('can create a response with %s', async (model) => {
+  const isMockKey = process.env.OPENROUTER_API_KEY === 'mock-openrouter-key';
+  const testMethod = isMockKey ? test.skip : test;
+  
+  testMethod.each(['gpt-4o', 'gemini-2.0-flash-001', 'claude-3.7-sonnet'])('can create a response with %s', async (model) => {
     const response = await client.responses.create({ input: 'Hello, world!', model })
     expect(response).toBeDefined()
     expect(response.error).toBeNull()

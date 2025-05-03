@@ -66,8 +66,8 @@ jobs:
         env:
           AI_GATEWAY_TOKEN: ${{ secrets.AI_GATEWAY_TOKEN || 'sk-1234' }}
           AI_GATEWAY_URL: ${{ secrets.AI_GATEWAY_URL || 'https://llm.do' }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY || 'mock-openai-key' }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY || 'mock-openrouter-key' }}
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
@@ -184,8 +184,8 @@ jobs:
         env:
           AI_GATEWAY_TOKEN: ${{ secrets.AI_GATEWAY_TOKEN || 'sk-1234' }}
           AI_GATEWAY_URL: ${{ secrets.AI_GATEWAY_URL || 'https://llm.do' }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY || 'mock-openai-key' }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY || 'mock-openrouter-key' }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           RESEND_API_KEY: mock_resend_api_key_for_tests
@@ -306,8 +306,8 @@ jobs:
           AI_GATEWAY_TOKEN: ${{ secrets.AI_GATEWAY_TOKEN || 'sk-1234' }}
           AI_GATEWAY_URL: ${{ secrets.AI_GATEWAY_URL || 'https://llm.do' }}
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY || 'mock-openai-key' }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY || 'mock-openrouter-key' }}
           DATABASE_URI: ${{ secrets.DATABASE_URI }}
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           RESEND_API_KEY: mock_resend_api_key_for_tests
