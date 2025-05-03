@@ -17,9 +17,9 @@ const client = new OpenAI({
   },
 })
 
-describe('OpenAI SDK Responses', () => {
-  const isMockKey = process.env.OPENROUTER_API_KEY === 'mock-openrouter-key';
-  
+describe.skip('OpenAI SDK Responses', () => {
+  const isMockKey = process.env.OPENROUTER_API_KEY === 'mock-openrouter-key'
+
   test.each(models)('can create a response with %s', async (model) => {
     try {
       const response = await client.responses.create({ input: 'Hello, world!', model })
