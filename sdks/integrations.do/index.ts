@@ -1,6 +1,8 @@
-import { client } from 'apis.do' // Import the client instance
+import { API } from 'apis.do'
 import { IntegrationConfig, IntegrationConnection, Trigger, Action, Integration, TriggerConfig, ActionConfig } from './types.js'
 import { IntegrationAuthOptions } from './auth/types.js'
+
+const client = new API()
 
 /**
  * Client for managing integrations between applications.
