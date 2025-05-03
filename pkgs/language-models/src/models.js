@@ -3511,7 +3511,7 @@ export default {
       ]
     },
     {
-      "slug": "anthropic/claude-3.7-sonnet",
+      "slug": "anthropic/claude-3.7-sonnet:thinking",
       "hfSlug": "",
       "updatedAt": "2025-03-28T03:20:30.853469+00:00",
       "createdAt": "2025-02-24T18:35:10.00008+00:00",
