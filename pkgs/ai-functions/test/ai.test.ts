@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { ai, list, markdown } from '../src'
+import { ai, markdown } from '../src'
+import { list } from '../../../sdks/functions.do'
 import type { AIProxy } from '../src'
 import { z } from 'zod'
 import { setupTestEnvironment, hasRequiredEnvVars } from './utils/setupTests'
@@ -237,6 +238,7 @@ describe('AI Functions', () => {
   
   describe('Schema defined ahead of time with AI()', () => {
     it('should be defined', () => {
+      const { AI } = require('../../../sdks/functions.do')
       expect(AI).toBeDefined()
     })
     
