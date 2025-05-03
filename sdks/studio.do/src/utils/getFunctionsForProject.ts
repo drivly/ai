@@ -1,4 +1,4 @@
-import { api } from 'apis.do'
+import { client } from 'apis.do'
 
 /**
  * Fetches all functions associated with a project
@@ -11,7 +11,7 @@ export async function getFunctionsForProject(projectId: string) {
   }
 
   try {
-    const response = await api.list('functions', {
+    const response = await client.list('functions', {
       where: {
         project: { equals: projectId },
       },

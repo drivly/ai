@@ -1,4 +1,4 @@
-import { api } from 'apis.do'
+import { client } from 'apis.do'
 import { Search, SearchConfig } from './types'
 
 /**
@@ -11,7 +11,7 @@ export const searches = {
    * @returns Array of searches
    */
   list: async (params?: Record<string, any>): Promise<Search[]> => {
-    const response = await api.list<Search>('searches', params)
+    const response = await client.list<Search>('searches', params)
     return response.data
   },
 

@@ -378,7 +378,7 @@ export const db = createDatabaseAccess()
 /**
  * External API integrations
  */
-export { api as apiClient } from 'apis.do'
+export { client } from 'apis.do'
 
 /**
  * Durable Objects access

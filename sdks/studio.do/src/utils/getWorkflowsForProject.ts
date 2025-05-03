@@ -1,4 +1,4 @@
-import { api } from 'apis.do'
+import { client } from 'apis.do'
 
 /**
  * Fetches all workflows associated with a project
@@ -11,7 +11,7 @@ export async function getWorkflowsForProject(projectId: string) {
   }
 
   try {
-    const response = await api.list('workflows', {
+    const response = await client.list('workflows', {
       where: {
         project: { equals: projectId },
       },
