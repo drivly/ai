@@ -7,3 +7,4 @@ export * from '../generateSchema'
 export type { Context, APIAccess, DatabaseAccess, AIProxy } from '../types'
 import { AI } from '../../../sdks/functions.do'
 export { AI }
+export { list } from './ai'

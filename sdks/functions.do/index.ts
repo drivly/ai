@@ -678,7 +678,8 @@ const createMockAIProxy = () => {
 // Create a special proxy with improved type inference
 export const ai = createMockAIProxy() as AIProxy
 
-
+import { list } from 'ai-functions'
+export { list }
 
 export const research = async (query: string, options?: any) => {
   if (process.env.NODE_ENV === 'test') {

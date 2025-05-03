@@ -58,7 +58,7 @@ describe('Functions List API', () => {
   })
   
   it('should use the specified model when provided', async () => {
-    const model = 'gpt-4'
+    const model = 'gpt-4o'
     const request = new NextRequest(`http://localhost/functions/list?prompt=List%20the%20top%205%20programming%20languages&model=${model}&stream=false`)
     
     const mockUser = { id: 'user123' }

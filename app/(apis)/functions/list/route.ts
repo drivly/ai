@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
 import { NextResponse } from 'next/server'
-import { ai } from 'ai-functions'
+import { list } from 'ai-functions'
 
 export const GET = API(async (request, { user, url }) => {
   const { system, prompt, model, stream } = Object.fromEntries(request.nextUrl.searchParams)
@@ -10,7 +10,7 @@ export const GET = API(async (request, { user, url }) => {
     const encoder = new TextEncoder()
     const stream = new ReadableStream({
       async start(controller) {
-        const iterator = ai`${prompt}`({ 
+        const iterator = list`${prompt}`({ 
           system: baseSystemPrompt, 
           model, 
           iterator: true 
@@ -31,7 +31,7 @@ export const GET = API(async (request, { user, url }) => {
     })
   }
   
-  const result = await ai`${prompt}`({ 
+  const result = await list`${prompt}`({ 
     system: baseSystemPrompt, 
     model 
   })
