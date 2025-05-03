@@ -21,7 +21,7 @@ describe('research', () => {
       expect(result.markdown).toContain('## References')
       
       const firstCitation = result.citations[0]
-      expect(result.markdown).toContain(`[${firstCitation.title}](${firstCitation.url})`)
+      expect(result.markdown).toContain(`1. ${firstCitation}`)
     }
   }, 180000)
 

@@ -1,13 +1,6 @@
 import { model } from '@/lib/ai'
 import { generateText } from 'ai'
 
-type Citation = {
-  end_index: number
-  start_index: number
-  title: string
-  url: string
-}
-
 /**
  * Research a topic and return the results with citations
  * @param topic The topic to research
@@ -18,15 +11,15 @@ export const research = (topic: string) =>
     model: model('perplexity/sonar-deep-research'),
     prompt: `Research ${topic}`,
   }).then((result) => {
-    const citations = ((result.response.body as any)?.citations || []) as Citation[]
+    const citations = ((result.response.body as any)?.citations || []) as string[]
     const markdown = result.text
     
     let enhancedMarkdown = markdown
     if (citations && citations.length > 0) {
       enhancedMarkdown += '\n\n## References\n\n'
       
-      citations.forEach((citation: Citation, index: number) => {
-        enhancedMarkdown += `${index + 1}. [${citation.title}](${citation.url})\n`
+      citations.forEach((citation: string, index: number) => {
+        enhancedMarkdown += `${index + 1}. ${citation}\n`
       })
     }
     
