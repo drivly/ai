@@ -70,4 +70,19 @@ describe('Functions List API', () => {
     
     expect(data.settings.model).toBe(model)
   })
+  
+  it('should include links in the response', async () => {
+    const request = new NextRequest('http://localhost/functions/list?prompt=List%20the%20top%205%20programming%20languages&stream=false')
+    
+    const mockUser = { id: 'user123' }
+    const mockUrl = new URL('http://localhost/functions/list?prompt=List%20the%20top%205%20programming%20languages&stream=false')
+    const mockContext = { user: mockUser, url: mockUrl }
+    
+    const response = await GET(request, mockContext)
+    const data = await response.json()
+    
+    expect(data).toHaveProperty('links')
+    expect(data.links).toHaveProperty('self')
+    expect(data.links).toHaveProperty('home')
+  })
 })

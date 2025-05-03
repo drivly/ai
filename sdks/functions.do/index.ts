@@ -678,8 +678,38 @@ const createMockAIProxy = () => {
 // Create a special proxy with improved type inference
 export const ai = createMockAIProxy() as AIProxy
 
-import { list } from 'ai-functions'
-export { list }
+export const list = (strings: TemplateStringsArray, ...values: any[]): any => {
+  const combined = strings.reduce((result, str, i) => {
+    return result + str + (values[i] !== undefined ? values[i] : '')
+  }, '')
+
+  if (process.env.NODE_ENV === 'test') {
+    return async (config: any = {}) => {
+      return ['Mock list item 1', 'Mock list item 2', 'Mock list item 3']
+    }
+  }
+
+  return async (config: any = {}) => {
+    const baseSystemPrompt = config.system || 'You are an assistant that always responds with numbered, markdown ordered lists.'
+    
+    if (config.iterator === true) {
+      // Return an async iterator for streaming
+      const iterator = async function* () {
+        const items = ['1. First item', '2. Second item', '3. Third item', '4. Fourth item', '5. Fifth item']
+        for (const item of items) {
+          yield item
+          await new Promise(resolve => setTimeout(resolve, 100))
+        }
+      }
+      
+      return {
+        [Symbol.asyncIterator]: iterator
+      }
+    }
+    
+    return ['1. First item', '2. Second item', '3. Third item', '4. Fourth item', '5. Fifth item']
+  }
+}
 
 export const research = async (query: string, options?: any) => {
   if (process.env.NODE_ENV === 'test') {

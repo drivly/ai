@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
 import { NextResponse } from 'next/server'
-import { list } from 'ai-functions'
+import { list } from 'functions.do'
 
 export const GET = API(async (request, { user, url }) => {
   const { system, prompt, model, stream } = Object.fromEntries(request.nextUrl.searchParams)
