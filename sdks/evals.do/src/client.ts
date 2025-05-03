@@ -1,4 +1,4 @@
-import { API, client as apisDoClient } from 'apis.do'
+import { API } from 'apis.do'
 import { EvalsOptions, Test, Result, TestRun, TaskExecutor, EvaluationOptions, FunctionEvalConfig } from './types.js'
 
 /**
