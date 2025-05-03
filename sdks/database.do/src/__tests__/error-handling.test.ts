@@ -4,11 +4,6 @@ import { setupApiStyles, isPayloadRunning } from './utils/test-setup'
 
 describe('database.do SDK Error Handling', () => {
   const { db, dbClient } = setupApiStyles()
-  let payloadRunning = false
-
-  beforeAll(async () => {
-    payloadRunning = await isPayloadRunning()
-  })
 
   describe('Error Handler Function', () => {
     it('should enhance errors with operation and collection info', () => {
@@ -44,6 +39,12 @@ describe('database.do SDK Error Handling', () => {
   })
 
   describe('API Error Handling', () => {
+    let payloadRunning = false
+
+    beforeAll(async () => {
+      payloadRunning = await isPayloadRunning()
+    })
+
     it('should handle non-existent ID errors', async () => {
       if (!payloadRunning) {
         console.warn('Skipping test: Payload CMS is not running at localhost:3000')
