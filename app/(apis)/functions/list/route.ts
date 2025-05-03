@@ -1,6 +1,6 @@
 import { API } from '@/lib/api'
-import { list } from '@/pkgs/ai-functions/src/ai'
 import { NextResponse } from 'next/server'
+import { ai } from 'ai-functions'
 
 export const GET = API(async (request, { user, url }) => {
   const { system, prompt, model, stream } = Object.fromEntries(request.nextUrl.searchParams)
@@ -10,7 +10,7 @@ export const GET = API(async (request, { user, url }) => {
     const encoder = new TextEncoder()
     const stream = new ReadableStream({
       async start(controller) {
-        const iterator = list`${prompt}`({ 
+        const iterator = ai`${prompt}`({ 
           system: baseSystemPrompt, 
           model, 
           iterator: true 
@@ -31,7 +31,7 @@ export const GET = API(async (request, { user, url }) => {
     })
   }
   
-  const result = await list`${prompt}`({ 
+  const result = await ai`${prompt}`({ 
     system: baseSystemPrompt, 
     model 
   })
