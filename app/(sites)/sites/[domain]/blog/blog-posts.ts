@@ -2,6 +2,7 @@ import { listBlogPostTitles, writeBlogPost } from '@/.ai/functions/content'
 import type { BlogPost } from '@/components/sites/blog-ui/blog-posts'
 import { getContent } from '../content'
 import slugify from 'slugify'
+import { readingTime } from 'reading-time-estimator'
 
 // Sample blog posts data
 const blogPosts: BlogPost[] = [
@@ -90,6 +91,12 @@ export async function getBlogPostBySlug(domain: string, slug: string): Promise<B
   const posts = await listBlogPostTitles(content)
   const blogPost: BlogPost = posts.find((post) => slugify(post.title) === slug) || { title: slug.replaceAll('_', ' '), description: '', category: '' }
   blogPost.markdown = await writeBlogPost({ website: content, blogPost })
+  
+  if (blogPost.markdown) {
+    const stats = readingTime(blogPost.markdown)
+    blogPost.readingTime = stats.text // e.g., "3 min read"
+  }
+  
   return blogPost
 }
 

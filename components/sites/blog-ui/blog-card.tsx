@@ -30,11 +30,7 @@ export function BlogCard({ post }: BlogCardProps) {
               {post.category}
             </Badge>
             <span className='text-muted-foreground text-xs'>
-              {new Date(post.date?.split('-').join('/') || new Date().toISOString()).toLocaleDateString('en-US', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              })}
+              {post.readingTime || '3 min read'}
             </span>
           </div>
         </div>

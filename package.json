@@ -165,6 +165,7 @@
     "react-markdown": "^10.1.0",
     "react-resizable-panels": "^2.1.7",
     "react-wrap-balancer": "^1.1.1",
+    "reading-time-estimator": "^1.14.0",
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.1",
     "remark-parse": "^11.0.0",
