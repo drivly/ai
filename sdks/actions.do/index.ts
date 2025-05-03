@@ -1,4 +1,4 @@
-import { api } from 'apis.do'
+import { client } from 'apis.do'
 import { Action, ActionConfig } from './types'
 
 let ComposioActionTypes: any
@@ -24,7 +24,7 @@ export const actions = {
    * @returns Array of actions
    */
   list: async (params?: Record<string, any>): Promise<Action[]> => {
-    const response = await api.list<Action>('actions', params)
+    const response = await client.list<Action>('actions', params)
     return response.data
   },
 
@@ -34,7 +34,7 @@ export const actions = {
    * @returns Action details
    */
   get: async (id: string): Promise<Action> => {
-    return api.getById<Action>('actions', id)
+    return client.getById<Action>('actions', id)
   },
 
   /**
@@ -43,7 +43,7 @@ export const actions = {
    * @returns The created action
    */
   create: async (config: ActionConfig): Promise<Action> => {
-    return api.create<Action>('actions', config as unknown as Partial<Action>)
+    return client.create<Action>('actions', config as unknown as Partial<Action>)
   },
 
   /**
@@ -53,7 +53,7 @@ export const actions = {
    * @returns The updated action
    */
   update: async (id: string, config: Partial<ActionConfig>): Promise<Action> => {
-    return api.update<Action>('actions', id, config as unknown as Partial<Action>)
+    return client.update<Action>('actions', id, config as unknown as Partial<Action>)
   },
 
   /**
@@ -62,7 +62,7 @@ export const actions = {
    * @returns The deleted action
    */
   delete: async (id: string): Promise<Action> => {
-    return api.remove<Action>('actions', id)
+    return client.remove<Action>('actions', id)
   },
 
   /**
@@ -72,7 +72,7 @@ export const actions = {
    * @returns Action execution result
    */
   execute: async <T = any>(id: string, params?: Record<string, any>): Promise<T> => {
-    return api.post<T>(`/v1/actions/${id}/execute`, params)
+    return client.post<T>(`/v1/actions/${id}/execute`, params)
   },
 
   /**

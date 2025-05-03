@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { actions } from './index.js'
-import { api } from 'apis.do'
+import { client } from 'apis.do'
 
 vi.mock('apis.do', () => ({
-  api: {
+  client: {
     list: vi.fn(),
     getById: vi.fn(),
     create: vi.fn(),
