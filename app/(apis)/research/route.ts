@@ -40,10 +40,18 @@ const storeResearchResults = async (payload: any, results: ResearchResults) => {
 }
 
 export const GET = API(async (request, { db, user, url, origin, domain, payload }) => {
-  const results = await research(request.nextUrl.search)
+  const searchQuery = request.nextUrl.search.replace(/^\?/, '')
+  const results = await research(searchQuery)
   const { citations, markdown } = results
   
-  waitUntil(storeResearchResults(payload, results))
+  const topic = searchQuery || 'Unknown Topic'
+  
+  const resultsWithTopic = {
+    ...results,
+    topic
+  }
+  
+  waitUntil(storeResearchResults(payload, resultsWithTopic))
   
   return { research: { results: markdown.split('\n'), citations, markdown } }
 })
