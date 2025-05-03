@@ -2,17 +2,19 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { triggers } from './index.js'
 import { API } from 'apis.do'
 
-const mockApiInstance = {
-  list: vi.fn(),
-  getById: vi.fn(),
-  create: vi.fn(),
-  update: vi.fn(),
-  remove: vi.fn(),
-}
+vi.mock('apis.do', () => {
+  return {
+    API: vi.fn().mockImplementation(() => ({
+      list: vi.fn(),
+      getById: vi.fn(),
+      create: vi.fn(),
+      update: vi.fn(),
+      remove: vi.fn(),
+    })),
+  }
+})
 
-vi.mock('apis.do', () => ({
-  API: vi.fn().mockImplementation(() => mockApiInstance),
-}))
+const mockApiInstance = vi.mocked(new API())
 
 describe('triggers.do SDK', () => {
   beforeEach(() => {
