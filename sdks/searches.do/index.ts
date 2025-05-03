@@ -21,7 +21,7 @@ export const searches = {
    * @returns Search details
    */
   get: async (id: string): Promise<Search> => {
-    return api.getById<Search>('searches', id)
+    return client.getById<Search>('searches', id)
   },
 
   /**
@@ -30,7 +30,7 @@ export const searches = {
    * @returns The created search
    */
   create: async (config: SearchConfig): Promise<Search> => {
-    return api.create<Search>('searches', config as unknown as Partial<Search>)
+    return client.create<Search>('searches', config as unknown as Partial<Search>)
   },
 
   /**
@@ -40,7 +40,7 @@ export const searches = {
    * @returns The updated search
    */
   update: async (id: string, config: Partial<SearchConfig>): Promise<Search> => {
-    return api.update<Search>('searches', id, config as unknown as Partial<Search>)
+    return client.update<Search>('searches', id, config as unknown as Partial<Search>)
   },
 
   /**
@@ -49,7 +49,7 @@ export const searches = {
    * @returns The deleted search
    */
   delete: async (id: string): Promise<Search> => {
-    return api.remove<Search>('searches', id)
+    return client.remove<Search>('searches', id)
   },
 
   /**
@@ -59,7 +59,7 @@ export const searches = {
    * @returns Search results
    */
   execute: async (id: string, params?: Record<string, any>): Promise<any> => {
-    return api.get<any>(`/v1/searches/${id}/execute`, params)
+    return client.get<any>(`/v1/searches/${id}/execute`, params)
   },
 }
 
