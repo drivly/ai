@@ -9,7 +9,13 @@ export const maxDuration = 600
  * Store research results in the Resources collection
  * Only creates a new record if the hash doesn't already exist
  */
-const storeResearchResults = async (payload, results) => {
+interface ResearchResults {
+  citations: string[]
+  markdown: string
+  topic?: string
+}
+
+const storeResearchResults = async (payload: any, results: ResearchResults) => {
   try {
     const { citations, markdown } = results
     const resultsHash = hash({ citations, markdown })
