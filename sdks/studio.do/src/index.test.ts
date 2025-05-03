@@ -1,13 +1,15 @@
 import { describe, it, expect, vi } from 'vitest'
 import { createStudioClient } from './index'
-import { client } from 'apis.do'
+import { API } from 'apis.do'
+
+const mockApiInstance = {
+  getById: vi.fn(),
+  list: vi.fn(),
+  post: vi.fn(),
+}
 
 vi.mock('apis.do', () => ({
-  client: {
-    getById: vi.fn(),
-    list: vi.fn(),
-    post: vi.fn(),
-  },
+  API: vi.fn().mockImplementation(() => mockApiInstance),
 }))
 
 vi.mock('./utils/getFunctionsForProject', () => ({
@@ -24,7 +26,7 @@ describe('createStudioClient', () => {
   })
 
   it('should throw an error if project is not found', async () => {
-    vi.mocked(client.getById).mockResolvedValueOnce(null)
+    mockApiInstance.getById.mockResolvedValueOnce(null)
 
     await expect(createStudioClient({ projectId: 'non-existent-id' })).rejects.toThrow("Project with ID 'non-existent-id' not found")
   })
@@ -36,9 +38,9 @@ describe('createStudioClient', () => {
     const mockWorkflows = [{ name: 'onboarding' }]
     const mockPayloadClient = { users: { find: vi.fn() } }
 
-    vi.mocked(client.getById).mockResolvedValueOnce(mockProject)
-    vi.mocked(client.list).mockResolvedValueOnce(mockNouns)
-    vi.mocked(client.post).mockResolvedValueOnce(mockPayloadClient)
+    mockApiInstance.getById.mockResolvedValueOnce(mockProject)
+    mockApiInstance.list.mockResolvedValueOnce(mockNouns)
+    mockApiInstance.post.mockResolvedValueOnce(mockPayloadClient)
 
     const { getFunctionsForProject } = await import('./utils/getFunctionsForProject')
     const { getWorkflowsForProject } = await import('./utils/getWorkflowsForProject')
@@ -54,11 +56,11 @@ describe('createStudioClient', () => {
 
     expect(result).toEqual(mockPayloadClient)
 
-    expect(client.getById).toHaveBeenCalledWith('projects', 'test-id')
-    expect(client.list).toHaveBeenCalledWith('nouns', {
+    expect(mockApiInstance.getById).toHaveBeenCalledWith('projects', 'test-id')
+    expect(mockApiInstance.list).toHaveBeenCalledWith('nouns', {
       where: { project: { equals: 'test-id' } },
       sort: 'order',
     })
-    expect(client.post).toHaveBeenCalled()
+    expect(mockApiInstance.post).toHaveBeenCalled()
   })
 })
