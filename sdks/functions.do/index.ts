@@ -783,7 +783,8 @@ const createListFunction = (strings: TemplateStringsArray, ...values: any[]): an
   }
 }
 
-export const list = createListFunction
+export const listFunction = createListFunction
+export { listFunction as list }
 
 export const research = async (query: string, options?: any) => {
   if (process.env.NODE_ENV === 'test') {
