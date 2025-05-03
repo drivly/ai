@@ -1,93 +1,41 @@
 import { model } from '@/lib/ai'
 import { streamText } from 'ai'
+import { POST as POST_LLM } from '@/app/(apis)/llm/chat/completions/route'
+import { NextRequest, NextResponse } from 'next/server'
 
-// Allow streaming responses up to 500 seconds
-export const maxDuration = 500
+// Allow streaming responses up to 600 seconds
+export const maxDuration = 600
 
 export async function POST(req: Request) {
-  try {
-    const body = await req.json()
+  // Rewrite the URL to declare that we need useChat compatible output.
+  const newUrl = new URL('/llm/chat/completions?stream=true&useChat=true', req.url)
+  const newRequest = new NextRequest(newUrl, req)
 
-    const messages = body.messages || []
-    const modelName = body.model || 'gpt-4.1'
-
-    if (!messages || messages.length === 0) {
-      return new Response(JSON.stringify({ error: 'No messages provided' }), { status: 400, headers: { 'Content-Type': 'application/json' } })
-    }
-
-    const result = streamText({
-      model: model(modelName),
-      messages: messages,
-    })
-
-    return result.toDataStreamResponse()
-  } catch (error) {
-    console.error('Error in chat API:', error)
-    return new Response(JSON.stringify({ error: 'Failed to process chat request' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
-  }
+  return await POST_LLM(newRequest)
 }
 
-// import { auth } from '@/auth'
-// import { streamText } from '@/pkgs/ai-providers/src'
-// import { CoreMessage } from 'ai'
-
-// export const maxDuration = 600
-
 // export async function POST(req: Request) {
-//   let messages: CoreMessage[] = []
-//   let model: string = 'openai/gpt-4.1'
-//   const qs = new URL(req.url).searchParams
-
-//   const session = await auth()
-
-//   if (!session) {
-//     return new Response('Unauthorized', { status: 401 })
-//   }
-
-//   // Support both GET and POST requests
 //   try {
-//     const postData = await req.json()
-//     messages = postData.messages || []
-//     model = postData.model || model
+//     const body = await req.json()
 
-//     // Log the received messages for debugging
-//     console.log('Received messages:', JSON.stringify(messages))
-//   } catch (error) {
-//     console.error('Error parsing request:', error)
-//     // We're in a GET request, so use message from query params
-//     const message = qs.get('message')
-//     model = qs.get('model') || model
+//     const messages = body.messages || []
+//     const modelName = body.model || 'gpt-4.1'
 
-//     if (!message) {
-//       return new Response('No message provided', { status: 400 })
+//     if (!messages || messages.length === 0) {
+//       return new Response(JSON.stringify({ error: 'No messages provided' }), { status: 400, headers: { 'Content-Type': 'application/json' } })
 //     }
 
-//     messages = [{ role: 'user', content: message }]
-//   }
-
-//   // Ensure we have at least one message
-//   if (messages.length === 0) {
-//     return new Response('No messages provided', { status: 400 })
-//   }
-
-//   try {
-//     const result = await streamText({
-//       model,
-//       system: 'You are a helpful assistant.',
+//     const result = streamText({
+//       model: model(modelName),
 //       messages: messages,
-//       user: session.user.email || '',
-//       maxSteps: 50,
 //     })
 
 //     return result.toDataStreamResponse()
 //   } catch (error) {
-//     console.error('Error processing chat request:', error)
-//     return new Response('Error processing request', { status: 500 })
+//     console.error('Error in chat API:', error)
+//     return new Response(JSON.stringify({ error: 'Failed to process chat request' }), { status: 500, headers: { 'Content-Type': 'application/json' } })
 //   }
 // }
-
-// export const GET = POST
-
 
 // import { API } from '@/lib/api'
 // import { waitUntil } from '@vercel/functions'

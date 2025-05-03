@@ -34,10 +34,11 @@ export const ChatMessage = ({ chatId, attachments, parts, role, content }: ChatM
   return (
     <Message className='w-full items-start justify-start gap-2 px-4 py-3'>
       <MessageAvatar
-        src={isAssistant ? '' : user?.image || ''}
+        // @ts-expect-error - This is bad. Very bad. But i lack the React knowledge to make it work right.
+        src={isAssistant ? `/llm/images/models/${window.currentModel}` : user?.image || ''}
         alt={isAssistant ? 'AI Assistant' : 'User'}
         fallback={isAssistant ? 'AI' : 'Me'}
-        className='size-7 bg-transparent font-bold'
+        className='size-7 bg-transparent font-bold bg-neutral-900/80 rounded-full p-1'
       />
 
       <motion.div initial={{ y: 5, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className={cn('text-primary flex max-w-[90%] flex-1 flex-col space-y-3')}>
@@ -47,7 +48,7 @@ export const ChatMessage = ({ chatId, attachments, parts, role, content }: ChatM
               return (
                 <Fragment key={index}>
                   {isAssistant ? (
-                    <Markdown className='prose dark:prose-invert prose-headings:text-primary prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-p:text-[14px] prose-p:leading-[24px] max-w-none text-[14px] whitespace-pre-wrap'>
+                    <Markdown className='prose dark:prose-invert prose-headings:text-primary prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-p:text-[14px] prose-p:leading-[24px] max-w-none text-[14px] font-medium'>
                       {part.text}
                     </Markdown>
                   ) : (
@@ -67,6 +68,45 @@ export const ChatMessage = ({ chatId, attachments, parts, role, content }: ChatM
                     />
                   ))}
                 </Fragment>
+              )
+            }
+
+            {/* REMOVE BEFORE COMMITTING. */}
+            case 'tool-invocation': {
+              return (
+                <div key={index} className='bg-neutral-900/80 rounded-md p-3 text-sm overflow-hidden'>
+
+                  <div className='flex items-center gap-2 mb-0'>
+                    <img
+                      className='w-12 h-12'
+                      src={`/llm/images/tools/${part.toolInvocation.toolName}`}
+                    />
+
+                    <div className='flex flex-col gap-0'>
+                      <b>
+                        { part.toolInvocation.toolName.replaceAll('_', ' ') }
+                      </b>
+                      <p className='text-xs font-mono font-medium mt-1 text-neutral-200/80'>
+                        {JSON.stringify(part.toolInvocation.args)}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Spinner while loading... */}
+                  { part.toolInvocation.state != 'result' && (
+                    <div className='mt-2'>
+                      <div className='w-4 h-4 border-t-2 border-b-2 border-r-2 border-l-2 border-primary rounded-full animate-spin' />
+                    </div>
+                  )}
+
+                  { part.toolInvocation.state === 'result' && (
+                    <div className='mt-2'>
+                      <p className='text-muted-foreground text-xs font-mono font-medium mt-1 text-neutral-500'>
+                        { part.toolInvocation.result.slice(0, 250) } ...
+                      </p>
+                    </div>
+                  )}
+                </div>
               )
             }
           }
@@ -90,3 +130,5 @@ function ErrorMessage({ onReload }: { onReload: () => void }) {
     </div>
   )
 }
+
+
