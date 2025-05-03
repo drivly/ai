@@ -1,15 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { triggers } from './index.js'
-import { client } from 'apis.do'
+import { API } from 'apis.do'
+
+const mockApiInstance = {
+  list: vi.fn(),
+  getById: vi.fn(),
+  create: vi.fn(),
+  update: vi.fn(),
+  remove: vi.fn(),
+}
 
 vi.mock('apis.do', () => ({
-  client: {
-    list: vi.fn(),
-    getById: vi.fn(),
-    create: vi.fn(),
-    update: vi.fn(),
-    remove: vi.fn(),
-  },
+  API: vi.fn().mockImplementation(() => mockApiInstance),
 }))
 
 describe('triggers.do SDK', () => {
@@ -20,51 +22,51 @@ describe('triggers.do SDK', () => {
   describe('triggers', () => {
     it('should list all triggers', async () => {
       const mockTriggers = { data: [{ id: '123', name: 'test-trigger' }] }
-      vi.mocked(client.list).mockResolvedValue(mockTriggers)
+      vi.mocked(mockApiInstance.list).mockResolvedValue(mockTriggers)
 
       const result = await triggers.list()
 
-      expect(client.list).toHaveBeenCalledWith('triggers', undefined)
+      expect(mockApiInstance.list).toHaveBeenCalledWith('triggers', undefined)
       expect(result).toEqual(mockTriggers.data)
     })
 
     it('should get a specific trigger', async () => {
       const mockTrigger = { id: '123', name: 'test-trigger' }
-      vi.mocked(client.getById).mockResolvedValue(mockTrigger)
+      vi.mocked(mockApiInstance.getById).mockResolvedValue(mockTrigger)
 
       const result = await triggers.get('123')
 
-      expect(client.getById).toHaveBeenCalledWith('triggers', '123')
+      expect(mockApiInstance.getById).toHaveBeenCalledWith('triggers', '123')
       expect(result).toEqual(mockTrigger)
     })
 
     it('should create a new trigger', async () => {
       const mockTrigger = { id: '123', name: 'test-trigger' }
-      vi.mocked(client.create).mockResolvedValue(mockTrigger)
+      vi.mocked(mockApiInstance.create).mockResolvedValue(mockTrigger)
 
       const result = await triggers.create({ name: 'test-trigger' })
 
-      expect(client.create).toHaveBeenCalledWith('triggers', { name: 'test-trigger' })
+      expect(mockApiInstance.create).toHaveBeenCalledWith('triggers', { name: 'test-trigger' })
       expect(result).toEqual(mockTrigger)
     })
 
     it('should update a trigger', async () => {
       const mockTrigger = { id: '123', name: 'updated-trigger' }
-      vi.mocked(client.update).mockResolvedValue(mockTrigger)
+      vi.mocked(mockApiInstance.update).mockResolvedValue(mockTrigger)
 
       const result = await triggers.update('123', { name: 'updated-trigger' })
 
-      expect(client.update).toHaveBeenCalledWith('triggers', '123', { name: 'updated-trigger' })
+      expect(mockApiInstance.update).toHaveBeenCalledWith('triggers', '123', { name: 'updated-trigger' })
       expect(result).toEqual(mockTrigger)
     })
 
     it('should delete a trigger', async () => {
       const mockTrigger = { id: '123', name: 'test-trigger' }
-      vi.mocked(client.remove).mockResolvedValue(mockTrigger)
+      vi.mocked(mockApiInstance.remove).mockResolvedValue(mockTrigger)
 
       const result = await triggers.delete('123')
 
-      expect(client.remove).toHaveBeenCalledWith('triggers', '123')
+      expect(mockApiInstance.remove).toHaveBeenCalledWith('triggers', '123')
       expect(result).toEqual(mockTrigger)
     })
   })
