@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { ai, list, markdown, AI } from '../src'
+import { ai, list, markdown } from '../src'
+import type { AIProxy } from '../src'
 import { z } from 'zod'
 import { setupTestEnvironment, hasRequiredEnvVars } from './utils/setupTests'
 

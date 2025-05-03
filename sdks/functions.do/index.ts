@@ -678,8 +678,7 @@ const createMockAIProxy = () => {
 // Create a special proxy with improved type inference
 export const ai = createMockAIProxy() as AIProxy
 
-
-export const list = (strings: TemplateStringsArray, ...values: any[]): any => {
+const createListFunction = (strings: TemplateStringsArray, ...values: any[]): any => {
   const combined = strings.reduce((result, str, i) => {
     return result + str + (values[i] !== undefined ? values[i] : '')
   }, '')
@@ -767,6 +766,8 @@ export const list = (strings: TemplateStringsArray, ...values: any[]): any => {
     }
   }
 }
+
+export const list = createListFunction
 
 export const research = async (query: string, options?: any) => {
   if (process.env.NODE_ENV === 'test') {
