@@ -1,5 +1,5 @@
 import { API } from '@/lib/api'
-import { list } from '@/pkgs/ai-functions'
+import { list } from '@/pkgs/ai-functions/src/ai'
 import { NextResponse } from 'next/server'
 
 export const GET = API(async (request, { user, url }) => {
