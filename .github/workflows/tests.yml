@@ -49,6 +49,73 @@ jobs:
           # pnpm typecheck
           echo "Typecheck temporarily disabled as requested"
 
+      - name: Start Payload Server for Unit Tests
+        run: |
+          # Export all needed environment variables for the server
+          export DATABASE_URI="${{ secrets.DATABASE_URI }}"
+          export PAYLOAD_SECRET="${{ secrets.PAYLOAD_SECRET }}"
+          
+          # Start server in background with all needed env vars
+          pnpm dev &
+          echo $! > .server.pid
+        env:
+          AI_GATEWAY_TOKEN: ${{ secrets.AI_GATEWAY_TOKEN || 'sk-1234' }}
+          AI_GATEWAY_URL: ${{ secrets.AI_GATEWAY_URL || 'https://llm.do' }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          NEXTAUTH_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          NEXTAUTH_URL: http://localhost:3005
+          GITHUB_CLIENT_ID: mock_github_client_id
+          GITHUB_CLIENT_SECRET: mock_github_client_secret
+          WORKOS_CLIENT_ID: mock_workos_client_id
+          WORKOS_CLIENT_SECRET: mock_workos_client_secret
+          RESEND_API_KEY: mock_resend_api_key_for_tests
+
+      - name: Wait for Payload Server
+        run: |
+          echo "Waiting for server to start..."
+          MAX_RETRIES=60
+          RETRY_COUNT=0
+          # Use /api/health endpoint as specified
+          until curl -s http://localhost:3000/api/health > /dev/null || [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
+            echo "Attempt $((RETRY_COUNT+1))/$MAX_RETRIES - Server not ready yet, waiting 1s..."
+            sleep 1
+            RETRY_COUNT=$((RETRY_COUNT+1))
+          done
+
+          if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
+            echo "Server failed to start after $MAX_RETRIES attempts"
+            exit 1
+          fi
+
+          # Additional check to confirm main page is also loading
+          echo "Health check passed. Now verifying main page is accessible..."
+          if curl -s http://localhost:3000/ -o /dev/null -w "%{http_code}" | grep -q "200"; then
+            echo "Main page is accessible."
+          else
+            echo "Warning: Health check passed but main page is not accessible yet."
+            echo "Will proceed with tests, but they might fail if pages aren't ready."
+          fi
+
+      - name: Generate DO_API_KEY for tests
+        run: |
+          # Create a test API key using curl against the local Payload server
+          echo "Creating API key for tests..."
+          API_KEY_RESPONSE=$(curl -s -X POST http://localhost:3000/api/apikeys -H "Content-Type: application/json" -d '{"name":"CI Test Key","description":"Automatically generated for CI tests"}')
+          
+          # Extract the key from the response
+          DO_API_KEY=$(echo $API_KEY_RESPONSE | grep -o '"key":"[^"]*"' | cut -d'"' -f4)
+          
+          # Verify we got a key and export it
+          if [ -n "$DO_API_KEY" ]; then
+            echo "DO_API_KEY generated successfully"
+            echo "DO_API_KEY=$DO_API_KEY" >> $GITHUB_ENV
+          else
+            echo "Failed to generate DO_API_KEY"
+            echo "$API_KEY_RESPONSE"
+            # Continue anyway as tests will just skip if no key is available
+          fi
+
       - name: Run Unit Tests
         run: |
           # Start Playwright browser installation in the background
@@ -77,6 +144,17 @@ jobs:
           GITHUB_CLIENT_SECRET: mock_github_client_secret
           WORKOS_CLIENT_ID: mock_workos_client_id
           WORKOS_CLIENT_SECRET: mock_workos_client_secret
+          RESEND_API_KEY: mock_resend_api_key_for_tests
+          DO_API_KEY: ${{ env.DO_API_KEY }}
+          
+      - name: Stop Payload Server
+        if: always()
+        run: |
+          if [ -f .server.pid ]; then
+            echo "Shutting down Payload server..."
+            kill $(cat .server.pid) || true
+            rm .server.pid
+          fi
 
   e2e-tests:
     name: Run E2E Tests
