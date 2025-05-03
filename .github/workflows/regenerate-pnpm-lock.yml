@@ -1,0 +1,42 @@
+name: Regenerate pnpm-lock.yaml
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Branch name to update lock file on'
+        required: true
+
+jobs:
+  regenerate-lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch_name }}
+          fetch-depth: 1
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+      
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: '10.x'
+      
+      - name: Regenerate Lock File
+        run: pnpm install --no-frozen-lockfile
+      
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions"
+      
+      - name: Commit and Push Changes
+        run: |
+          git add pnpm-lock.yaml
+          git commit -m "chore: regenerate pnpm-lock.yaml"
+          git push origin ${{ github.event.inputs.branch_name }}
