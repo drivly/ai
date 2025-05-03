@@ -1,6 +1,9 @@
 import { auth } from '@/auth'
 import { streamText, generateObject, streamObject, generateText, resolveConfig, createLLMProvider } from '@/pkgs/ai-providers/src'
 import { CoreMessage, jsonSchema, createDataStreamResponse, tool } from 'ai'
+import {
+  alterSchemaForOpenAI
+} from '@/pkgs/ai-providers/src/providers/openai'
 
 export const maxDuration = 600
 export const dynamic = 'force-dynamic'
@@ -181,8 +184,19 @@ export async function POST(req: Request) {
     })
   }
 
+  console.log(
+    'Using', stream ? 'streaming' : 'non-streaming',
+    'with', response_format ? 'response_format' : 'no response_format'
+  )
+
   if (stream) {
     if (response_format) {
+
+      let generateObjectError: (error: string) => void = () => {}
+      const generateObjectErrorPromise = new Promise<string | null>((resolve) => {
+        generateObjectError = resolve
+      })
+
       const result = await streamObject({
         model: llmModel,
         system,
@@ -193,10 +207,41 @@ export async function POST(req: Request) {
         schema: jsonSchema(response_format),
         onError({ error }) {
           console.error(error); // your error logging logic here
+          generateObjectError(JSON.stringify(error))
         }
       })
 
-      return result.toTextStreamResponse()
+      if (postData.useChat) {
+        return createDataStreamResponse({
+          execute: async(dataStream) => {
+            const textStream = result.textStream
+
+            // When this promise resolves, it will have an error.
+            // We need to pass this error to the client so it can be displayed.
+            generateObjectErrorPromise.then(error => {
+              dataStream.write(`0:"${ error }"\n`)
+            })
+
+            // Simulate a message id
+            dataStream.write(`f:{"messageId":"msg-${ Date.now() }"}\n`)
+            
+            for await (const chunk of textStream) {
+              dataStream.write(`0:"${ chunk }"\n`)
+            }
+
+            // Fixes usagePromise not being exposed via the types
+            const usage = (result as any).usagePromise.status.value as {
+              promptTokens: number
+              completionTokens: number
+              totalTokens: number
+            }
+
+            dataStream.write(`d:{"finishReason":"stop","usage":{"promptTokens":${ usage.promptTokens },"completionTokens":${ usage.completionTokens },"totalTokens":${ usage.totalTokens }}}\n`)
+          }
+        })
+      } else {
+        return result.toTextStreamResponse()
+      }
     } else {
       
       const result = await streamText({
@@ -217,6 +262,9 @@ export async function POST(req: Request) {
     }
   } else {
     if (response_format) {
+      const schema = jsonSchema(response_format)
+
+
       const result = await generateObject({
         model: llmModel,
         system,
@@ -225,7 +273,7 @@ export async function POST(req: Request) {
         user: session?.user.email || '',
         mode: 'json',
         // @ts-expect-error - Type error to be fixed.
-        schema: jsonSchema(response_format)
+        schema
       })
 
       return Response.json({
