@@ -267,15 +267,23 @@ export const list = new Proxy(function () {}, {
         // Create a schema for an array of strings
         const schema = z.array(z.string())
 
+        const systemPrompt = "Respond only with a numbered, markdown ordered list. Each item should be on a new line starting with a number followed by a period."
+        const mergedConfig = {
+          ...config,
+          system: config.system 
+            ? `${config.system}\n${systemPrompt}` 
+            : systemPrompt
+        }
+
         // Generate object with array schema
         const result = await generateObject({
           model,
           prompt,
           schema,
           output: 'array',
-          temperature: config.temperature,
-          maxTokens: config.maxTokens,
-          ...config,
+          temperature: mergedConfig.temperature,
+          maxTokens: mergedConfig.maxTokens,
+          ...mergedConfig,
         })
 
         return result.object
