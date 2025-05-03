@@ -1,11 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { API } from 'apis.do'
 
-const mockList = vi.fn()
-const mockGetById = vi.fn()
-const mockCreate = vi.fn()
-const mockUpdate = vi.fn()
-const mockRemove = vi.fn()
+const mockList = vi.hoisted(() => vi.fn())
+const mockGetById = vi.hoisted(() => vi.fn())
+const mockCreate = vi.hoisted(() => vi.fn())
+const mockUpdate = vi.hoisted(() => vi.fn())
+const mockRemove = vi.hoisted(() => vi.fn())
 
 vi.mock('apis.do', () => {
   return {
@@ -19,6 +18,7 @@ vi.mock('apis.do', () => {
   }
 })
 
+import { API } from 'apis.do'
 import { triggers } from './index.js'
 
 describe('triggers.do SDK', () => {
