@@ -270,8 +270,8 @@ export const list = new Proxy(function () {}, {
         const systemPrompt = "Respond only with a numbered, markdown ordered list. Each item should be on a new line starting with a number followed by a period."
         const mergedConfig = {
           ...config,
-          systemPrompt: config.systemPrompt 
-            ? `${config.systemPrompt}\n${systemPrompt}` 
+          system: config.system 
+            ? `${config.system}\n${systemPrompt}` 
             : systemPrompt
         }
 
