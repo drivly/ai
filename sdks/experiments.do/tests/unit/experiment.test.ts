@@ -19,6 +19,19 @@ vi.mock('apis.do', () => {
         }),
       }
     }),
+    client: {
+      post: vi.fn().mockResolvedValue({
+        data: {
+          choices: [
+            {
+              message: {
+                content: 'Mocked model response',
+              },
+            },
+          ],
+        },
+      }),
+    }
   }
 })
 

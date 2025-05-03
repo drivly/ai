@@ -15,6 +15,15 @@ vi.mock('apis.do', () => {
       update: vi.fn().mockResolvedValue({ name: 'test-experiment' }),
       remove: vi.fn().mockResolvedValue({ success: true }),
     })),
+    client: {
+      create: vi.fn().mockResolvedValue({ name: 'test-experiment' }),
+      post: vi.fn().mockResolvedValue({ success: true }),
+      get: vi.fn().mockResolvedValue({ name: 'test-experiment' }),
+      list: vi.fn().mockResolvedValue({ data: [] }),
+      getById: vi.fn().mockResolvedValue({ name: 'test-experiment' }),
+      update: vi.fn().mockResolvedValue({ name: 'test-experiment' }),
+      remove: vi.fn().mockResolvedValue({ success: true }),
+    }
   }
 })
 
