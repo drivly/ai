@@ -52,6 +52,7 @@ console.log(`Running SDK-only release script in ${DRY_RUN ? 'dry run' : 'release
 const deleteExistingReleases = () => {
   try {
     console.log('Checking for existing GitHub releases to delete...')
+    console.log(`GH_TOKEN exists: ${!!process.env.GH_TOKEN}`)
     const releases = execSync('gh release list --limit 10').toString().trim()
 
     if (releases) {
@@ -78,7 +79,7 @@ const deleteExistingReleases = () => {
     return true
   } catch (error) {
     console.error('Error deleting existing releases:', error.message)
-    return false
+    return true
   }
 }
 

@@ -48,7 +48,7 @@ describe('database.do SDK Initialization', () => {
 
     it('should provide collection access via proxy properties', async () => {
       if (!payloadRunning) {
-        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        console.warn('Skipping test: Payload CMS is not running or authentication failed')
         return
       }
 

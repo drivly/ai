@@ -24,7 +24,8 @@
     "lint": "eslint src --ext ts",
     "clean": "rm -rf dist",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "node ../../scripts/convert-workspace-deps.js"
   },
   "dependencies": {
     "apis.do": "workspace:*",
