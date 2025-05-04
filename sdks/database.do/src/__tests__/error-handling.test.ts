@@ -47,7 +47,7 @@ describe('database.do SDK Error Handling', () => {
 
     it('should handle non-existent ID errors', async () => {
       if (!payloadRunning) {
-        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        console.warn('Skipping test: Payload CMS is not running or authentication failed')
         return
       }
 
@@ -65,7 +65,7 @@ describe('database.do SDK Error Handling', () => {
 
     it('should handle validation errors during create', async () => {
       if (!payloadRunning) {
-        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        console.warn('Skipping test: Payload CMS is not running or authentication failed')
         return
       }
 
@@ -83,7 +83,7 @@ describe('database.do SDK Error Handling', () => {
 
     it('should handle server errors with DatabaseClient', async () => {
       if (!payloadRunning) {
-        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        console.warn('Skipping test: Payload CMS is not running or authentication failed')
         return
       }
 
