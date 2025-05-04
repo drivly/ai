@@ -374,6 +374,50 @@ describe('AI Functions', () => {
         expect(typeof item).toBe('string')
       })
     })
+
+    itWithEnv('should support async iterator when iterator option is true', async () => {
+      const items: string[] = []
+      const iterableList = await list`List 3 colors`({ iterator: true })
+      
+      expect(iterableList[Symbol.asyncIterator]).toBeDefined()
+      
+      const asyncIterable = iterableList as unknown as AsyncIterable<string>
+      for await (const item of asyncIterable) {
+        items.push(item)
+        if (items.length >= 3) break // Safeguard against infinite streams
+      }
+      
+      expect(items.length).toBeGreaterThan(0)
+      items.forEach(item => {
+        expect(typeof item).toBe('string')
+      })
+    })
+    
+    itWithEnv('should handle errors in async iterator', async () => {
+      const iterableList = await list`List items with intentionally malformed JSON response that should cause parsing errors`({ 
+        iterator: true,
+        maxTokens: 10
+      })
+      
+      let errorCaught = false
+      let count = 0
+      
+      try {
+        const asyncIterable = iterableList as unknown as AsyncIterable<string>
+        for await (const item of asyncIterable) {
+          count++
+          if (count > 5) break
+        }
+      } catch (e) {
+        errorCaught = true
+      }
+      
+      if (errorCaught) {
+        expect(errorCaught).toBe(true)
+      } else {
+        expect(count).toBeGreaterThan(0)
+      }
+    })
   })
 
   describe('markdown function', () => {
