@@ -167,6 +167,19 @@
   .animate-border-beam {
     animation: border-beam calc(var(--duration, 10) * 1s) calc(var(--delay, 0) * 1s) linear infinite;
   }
+
+  .animate-border-shimmer {
+    animation: spin 7s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes fade-in {
