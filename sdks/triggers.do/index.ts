@@ -1,5 +1,7 @@
-import { api } from 'apis.do'
+import { API } from 'apis.do'
 import { Trigger, TriggerConfig } from './types.js'
+
+const client = new API()
 
 /**
  * Client for managing workflow trigger events
@@ -11,7 +13,7 @@ export const triggers = {
    * @returns Array of triggers
    */
   list: async (params?: Record<string, any>): Promise<Trigger[]> => {
-    const response = await api.list<Trigger>('triggers', params)
+    const response = await client.list<Trigger>('triggers', params)
     return response.data
   },
 
@@ -21,7 +23,7 @@ export const triggers = {
    * @returns Trigger details
    */
   get: async (id: string): Promise<Trigger> => {
-    return api.getById<Trigger>('triggers', id)
+    return client.getById<Trigger>('triggers', id)
   },
 
   /**
@@ -30,7 +32,7 @@ export const triggers = {
    * @returns The created trigger
    */
   create: async (config: TriggerConfig): Promise<Trigger> => {
-    return api.create<Trigger>('triggers', config as unknown as Partial<Trigger>)
+    return client.create<Trigger>('triggers', config as unknown as Partial<Trigger>)
   },
 
   /**
@@ -40,7 +42,7 @@ export const triggers = {
    * @returns The updated trigger
    */
   update: async (id: string, config: Partial<TriggerConfig>): Promise<Trigger> => {
-    return api.update<Trigger>('triggers', id, config as unknown as Partial<Trigger>)
+    return client.update<Trigger>('triggers', id, config as unknown as Partial<Trigger>)
   },
 
   /**
@@ -49,7 +51,7 @@ export const triggers = {
    * @returns The deleted trigger
    */
   delete: async (id: string): Promise<Trigger> => {
-    return api.remove<Trigger>('triggers', id)
+    return client.remove<Trigger>('triggers', id)
   },
 }
 
