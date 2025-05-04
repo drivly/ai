@@ -11,6 +11,16 @@ interface CodeWindowProps {
 }
 
 function syntaxHighlightJson(json: string) {
+  // First ensure we have valid JSON to work with
+  try {
+    // If it's already valid JSON, parsing and re-stringifying helps normalize the format
+    const parsed = JSON.parse(json)
+    json = JSON.stringify(parsed, null, 2)
+  } catch (e) {
+    // If parsing fails, continue with the original string
+    console.warn('Failed to parse JSON for highlighting:', e)
+  }
+
   const urlMap = new Map<string, string>()
   let urlCounter = 0
 
@@ -54,7 +64,14 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
   if (title === '%5Bdomain%5D') {
     title = 'workflows.do'
   }
-  const codeString = typeof code === 'object' ? JSON.stringify(code, null, 2) : String(code)
+
+  // Simplify code stringification logic
+  let codeString: string
+  if (code && typeof code === 'string') {
+    codeString = code
+  } else {
+    codeString = JSON.stringify(code, null, 2)
+  }
 
   const [highlightedCode, setHighlightedCode] = useState(language === 'json' ? syntaxHighlightJson(codeString) : codeString)
 
@@ -100,11 +117,6 @@ export function CodeWindow({ className, code, language = 'json', title = 'llm.do
             </div>
             <p className='mr-[15%] text-xs text-gray-400 md:mx-auto'>{title}</p>
           </div>
-          {/* <div className='flex items-center gap-2'>
-            <div className='rounded bg-gray-800 px-2 py-1'>
-              <p className='text-xs text-gray-400'>{language.toUpperCase()}</p>
-            </div>
-          </div> */}
         </div>
 
         {/* Code content */}

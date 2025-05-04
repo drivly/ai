@@ -9,6 +9,7 @@ import { JWT } from 'next-auth/jwt'
 import authConfig from './auth.config'
 import { User as PayloadUser } from './payload.types'
 
+export type UserType = 'guest' | 'regular'
 // Extended GitHub profile data for job applications
 interface GitHubProfile {
   login: string
@@ -31,6 +32,7 @@ type UserRole = PayloadUser['role']
 export type ExtendedUser = DefaultSession['user'] & {
   id: string
   role?: UserRole
+  type?: UserType
   github?: {
     username: string
     email: string
@@ -53,12 +55,14 @@ declare module 'next-auth' {
   // Add custom properties to the User type
   interface User {
     role?: UserRole
+    type?: UserType
   }
 }
 
 declare module 'next-auth/jwt' {
   interface JWT {
     role?: UserRole
+    type?: UserType
     github?: {
       username: string
       email: string
