@@ -50,8 +50,9 @@ jobs:
         id: check-changes
         run: |
           # Run version-pr scripts in dry run mode to check for changes
-          SDK_OUTPUT=$(pnpm version-pr-sdks)
-          PKG_OUTPUT=$(pnpm version-pr-pkgs)
+          export GH_TOKEN=${{ github.token }}
+          SDK_OUTPUT=$(GH_TOKEN=${{ github.token }} pnpm version-pr-sdks)
+          PKG_OUTPUT=$(GH_TOKEN=${{ github.token }} pnpm version-pr-pkgs)
           
           echo "$SDK_OUTPUT" > /tmp/sdk-version-pr-output.txt
           echo "$PKG_OUTPUT" > /tmp/pkg-version-pr-output.txt
