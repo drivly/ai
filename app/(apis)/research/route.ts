@@ -1,11 +1,58 @@
 import { API } from '@/lib/api'
 import { waitUntil } from '@vercel/functions'
 import { research } from '@/.ai/agents/research'
+import hash from 'object-hash'
 
 export const maxDuration = 600
 
+/**
+ * Store research results in the Resources collection
+ * Only creates a new record if the hash doesn't already exist
+ */
+interface ResearchResults {
+  citations: string[]
+  markdown: string
+  topic?: string
+}
+
+const storeResearchResults = async (payload: any, results: ResearchResults) => {
+  try {
+    const { citations, markdown } = results
+    const resultsHash = hash({ citations, markdown })
+    
+    await payload.create({
+      collection: 'resources',
+      data: {
+        name: `Research: ${results.topic || 'Unknown Topic'}`,
+        hash: resultsHash,
+        type: 'things', // Relationship type
+        data: results,
+        yaml: JSON.stringify(results),
+        content: markdown
+      },
+    })
+    console.log('Stored new research results:', resultsHash)
+    return { success: true }
+  } catch (error) {
+    console.info('Failed to store research results, likely duplicate')
+    return { success: false, error }
+  }
+}
+
 export const GET = API(async (request, { db, user, url, origin, domain, payload }) => {
-  const { citations, markdown } = await research(request.nextUrl.search)
+  const searchQuery = request.nextUrl.search.replace(/^\?/, '')
+  const results = await research(searchQuery)
+  const { citations, markdown } = results
+  
+  const topic = searchQuery || 'Unknown Topic'
+  
+  const resultsWithTopic = {
+    ...results,
+    topic
+  }
+  
+  waitUntil(storeResearchResults(payload, resultsWithTopic))
+  
   return { research: { results: markdown.split('\n'), citations, markdown } }
 })
 

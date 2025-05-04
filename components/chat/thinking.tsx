@@ -76,9 +76,9 @@ export const thinking = {
   bar: <ThinkingBarGraph />,
 }
 
-export function ThinkingIndicator<T extends keyof typeof thinking>({ type }: { type: T }) {
+export function ThinkingIndicator<T extends keyof typeof thinking>({ type, className }: { type: T; className?: string }) {
   return (
-    <div className='mt-3 flex items-center gap-2 px-4'>
+    <div className={cn('mt-3 flex items-center gap-2 px-4', className)}>
       <div className='bg-primary/10 flex h-8 w-8 items-center justify-center rounded-full'>
         <Bot className='text-primary h-4 w-4' />
       </div>
