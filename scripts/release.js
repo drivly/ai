@@ -72,7 +72,9 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
           packageJson.dependencies[dep] = packageVersions[dep]
           modified = true
         } else {
-          console.log(`Warning: Could not find version for workspace dependency ${dep} in ${packageJson.name}`)
+          console.log(`Warning: Could not find version for workspace dependency ${dep} in ${packageJson.name}. Setting to 0.0.1`)
+          packageJson.dependencies[dep] = '0.0.1'
+          modified = true
         }
       }
     }
@@ -86,7 +88,9 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
           packageJson.devDependencies[dep] = packageVersions[dep]
           modified = true
         } else {
-          console.log(`Warning: Could not find version for workspace devDependency ${dep} in ${packageJson.name}`)
+          console.log(`Warning: Could not find version for workspace devDependency ${dep} in ${packageJson.name}. Setting to 0.0.1`)
+          packageJson.devDependencies[dep] = '0.0.1'
+          modified = true
         }
       }
     }
@@ -100,7 +104,9 @@ const convertWorkspaceDependencies = (packagePath, allPackages) => {
           packageJson.peerDependencies[dep] = packageVersions[dep]
           modified = true
         } else {
-          console.log(`Warning: Could not find version for workspace peerDependency ${dep} in ${packageJson.name}`)
+          console.log(`Warning: Could not find version for workspace peerDependency ${dep} in ${packageJson.name}. Setting to 0.0.1`)
+          packageJson.peerDependencies[dep] = '0.0.1'
+          modified = true
         }
       }
     }
