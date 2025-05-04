@@ -57,7 +57,7 @@ describe('database.do SDK Query Operations', () => {
 
     it('should find things with filtering', async () => {
       if (!payloadRunning) {
-        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        console.warn('Skipping test: Payload CMS is not running or authentication failed')
         return
       }
 
@@ -76,7 +76,7 @@ describe('database.do SDK Query Operations', () => {
 
     it('should find things with complex filtering', async () => {
       if (!payloadRunning) {
-        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        console.warn('Skipping test: Payload CMS is not running or authentication failed')
         return
       }
 
@@ -96,7 +96,7 @@ describe('database.do SDK Query Operations', () => {
 
     it('should sort things', async () => {
       if (!payloadRunning) {
-        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        console.warn('Skipping test: Payload CMS is not running or authentication failed')
         return
       }
 
@@ -116,7 +116,7 @@ describe('database.do SDK Query Operations', () => {
 
     it('should paginate things', async () => {
       if (!payloadRunning) {
-        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        console.warn('Skipping test: Payload CMS is not running or authentication failed')
         return
       }
 
@@ -151,7 +151,7 @@ describe('database.do SDK Query Operations', () => {
 
     it('should find things with filtering using DatabaseClient', async () => {
       if (!payloadRunning) {
-        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        console.warn('Skipping test: Payload CMS is not running or authentication failed')
         return
       }
 
@@ -170,7 +170,7 @@ describe('database.do SDK Query Operations', () => {
 
     it('should search things', async () => {
       if (!payloadRunning) {
-        console.warn('Skipping test: Payload CMS is not running at localhost:3000')
+        console.warn('Skipping test: Payload CMS is not running or authentication failed')
         return
       }
 
