@@ -37,8 +37,8 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
 }
 
 // need to be able to render the specific website from the slug and throw not found if the slug is not found
-async function DotDoPage(props: { params: { domain: string } }) {
-  const { domain } = props.params
+async function DotDoPage({ params }: { params: { domain: string } }) {
+  const { domain } = params
 
   const site = domain === '%5Bdomain%5D' ? 'workflows.do' : (domain ?? 'workflows.do')
   const content = await getContent(domain)

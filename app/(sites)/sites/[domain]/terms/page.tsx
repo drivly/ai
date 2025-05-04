@@ -6,7 +6,7 @@ function TermsPage(props: { params: { domain: string } }) {
   const { domain } = props.params
 
   return (
-    <div className='container mx-auto min-h-screen max-w-4xl px-3 pt-24 pb-12 md:pt-32'>
+    <div className='container mx-auto min-h-screen max-w-4xl px-3 pt-24 pb-12 md:pt-32 xl:px-0'>
       <Link href='/' className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back
