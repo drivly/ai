@@ -30,7 +30,7 @@ export const Careers = async () => {
       </div>
 
       {/* Page content */}
-      <div className='relative z-10 container mx-auto px-3 py-24 md:pt-36'>
+      <div className='relative z-10 container mx-auto px-3 py-24 md:pt-36 xl:px-0'>
         <div className='mx-auto mb-16 max-w-3xl'>
           <div className='mb-12 text-center'>
             <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-5xl leading-none font-medium tracking-tight text-balance text-transparent sm:text-7xl dark:from-white dark:to-white/40'>

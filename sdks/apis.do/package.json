@@ -44,6 +44,10 @@
     "./src/cli": {
       "import": "./dist/src/cli.js",
       "types": "./dist/src/cli.d.ts"
+    },
+    "./src/proxy": {
+      "import": "./dist/src/proxy.js",
+      "types": "./dist/src/proxy.d.ts"
     }
   },
   "files": [

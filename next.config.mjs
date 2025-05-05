@@ -27,6 +27,9 @@ const nextConfig = {
   turbopack: {
     resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
   },
+  images: {
+    domains: ['avatars.githubusercontent.com', 'avatar.vercel.sh'],
+  },
 }
 
 // Configure bundle analyzer to run only when ANALYZE=true

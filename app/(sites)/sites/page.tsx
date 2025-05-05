@@ -18,7 +18,8 @@ async function DirectoryPage() {
   const { categories } = sitesConfig
 
   return (
-    <div className='container mx-auto max-w-6xl px-3 pt-5 pb-20 md:pb-40'>
+    // 'container mx-auto max-w-6xl px-3 py-24 md:py-32 xl:px-0
+    <div className='container mx-auto max-w-6xl px-3 pt-5 pb-20 md:pb-40 xl:px-0'>
       <HeroSection
         title={
           <>
@@ -33,8 +34,7 @@ async function DirectoryPage() {
           <div className='container mx-auto flex h-[50vh] items-center justify-center px-3 pt-24'>
             <div className='animate-pulse text-lg opacity-50'>Loading sites...</div>
           </div>
-        }
-      >
+        }>
         <DotDoSection categories={categories} />
       </Suspense>
     </div>

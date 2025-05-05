@@ -1,17 +1,18 @@
 'use client'
 
 import { Attachment } from '@/components/ui/attachment'
+import { Button } from '@/components/ui/button'
 import { Markdown } from '@/components/ui/markdown'
-import { Message, MessageAvatar, MessageContent } from '@/components/ui/message'
+import { MessageAvatar, MessageContent } from '@/components/ui/message'
 import { useAuthUser } from '@/hooks/use-auth-user'
 import { cn } from '@/lib/utils'
 import type { UIMessage } from 'ai'
-import { motion } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 import { nanoid } from 'nanoid'
 import { Fragment } from 'react'
 import { useChatMessages } from './context'
 import { ThinkingIndicator } from './thinking'
-import { Button } from '@/components/ui/button'
+import { ErrorMessage } from './error-message'
 
 export interface ChatMessageProps {
   chatId: string
@@ -21,6 +22,15 @@ export interface ChatMessageProps {
   content: UIMessage['content']
 }
 
+type Message = {
+  id: string
+  chatId: string
+  role: string
+  parts: UIMessage['parts']
+  attachments: UIMessage['experimental_attachments']
+  createdAt: Date
+}
+
 export const ChatMessage = ({ chatId, attachments, parts, role, content }: ChatMessageProps) => {
   const user = useAuthUser()
   const { error, reload } = useChatMessages()
@@ -28,107 +38,63 @@ export const ChatMessage = ({ chatId, attachments, parts, role, content }: ChatM
   const isThinking = chatId === 'thinking'
 
   if (isThinking) {
-    return <ThinkingIndicator key={chatId} type='cursor' />
+    return <ThinkingIndicator key={chatId} type='cursor' className='mx-auto flex w-full max-w-4xl gap-4 px-4' />
   }
 
   return (
-    <Message className='w-full items-start justify-start gap-2 px-4 py-3'>
-      <MessageAvatar
-        // @ts-expect-error - This is bad. Very bad. But i lack the React knowledge to make it work right.
-        src={isAssistant ? `/llm/images/models/${window.currentModel}` : user?.image || ''}
-        alt={isAssistant ? 'AI Assistant' : 'User'}
-        fallback={isAssistant ? 'AI' : 'Me'}
-        className='size-7 bg-transparent font-bold bg-neutral-900/80 rounded-full p-1'
-      />
+    <AnimatePresence>
+      <motion.div
+        data-testid={`message-${role}`}
+        className='group/message mx-auto flex w-full max-w-4xl gap-4 px-4'
+        initial={{ y: 5, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        data-role={role}>
+        <MessageAvatar
+          src={isAssistant ? '' : user?.image || ''}
+          alt={isAssistant ? 'AI Assistant' : 'User'}
+          fallback={isAssistant ? 'AI' : 'Me'}
+          className='size-7 bg-transparent font-bold'
+        />
 
-      <motion.div initial={{ y: 5, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className={cn('text-primary flex max-w-[90%] flex-1 flex-col space-y-3')}>
-        {parts.map((part, index) => {
-          switch (part.type) {
-            case 'text': {
-              return (
-                <Fragment key={index}>
-                  {isAssistant ? (
-                    <Markdown className='prose dark:prose-invert prose-headings:text-primary prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-p:text-[14px] prose-p:leading-[24px] max-w-none text-[14px] font-medium'>
-                      {part.text}
-                    </Markdown>
-                  ) : (
-                    <MessageContent className='text-primary bg-transparent p-0 text-[14px] leading-[24px]'>{part.text}</MessageContent>
-                  )}
+        <div className={cn('text-primary flex max-w-[90%] flex-1 flex-col space-y-3')}>
+          {parts.map((part, index) => {
+            switch (part.type) {
+              case 'text': {
+                return (
+                  <Fragment key={index}>
+                    {isAssistant ? (
+                      <Markdown className='prose dark:prose-invert prose-headings:text-primary prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-p:text-[14px] prose-p:leading-[24px] max-w-none text-[14px]'>
+                        {part.text}
+                      </Markdown>
+                    ) : (
+                      <MessageContent className='text-primary bg-transparent p-0 text-[14px] leading-[24px]'>{part.text}</MessageContent>
+                    )}
 
-                  {attachments?.map((attachment, index) => (
-                    <Attachment
-                      key={index}
-                      id={nanoid()}
-                      url={attachment.url}
-                      thumbnailUrl={attachment.url}
-                      name={attachment.name || ''}
-                      type={attachment.contentType?.includes('image') ? 'image' : 'pdf'}
-                      size={0}
-                      className='mt-3'
-                    />
-                  ))}
-                </Fragment>
-              )
+                    {attachments?.map((attachment, index) => (
+                      <Attachment
+                        key={index}
+                        id={nanoid()}
+                        url={attachment.url}
+                        thumbnailUrl={attachment.url}
+                        name={attachment.name || ''}
+                        type={attachment.contentType?.includes('image') ? 'image' : 'pdf'}
+                        size={0}
+                        className='mt-3'
+                      />
+                    ))}
+                  </Fragment>
+                )
+              }
             }
+          })}
 
-            {/* REMOVE BEFORE COMMITTING. */}
-            case 'tool-invocation': {
-              return (
-                <div key={index} className='bg-neutral-900/80 rounded-md p-3 text-sm overflow-hidden'>
+          {(!parts || parts.length === 0) && content && <Markdown>{content}</Markdown>}
 
-                  <div className='flex items-center gap-2 mb-0'>
-                    <img
-                      className='w-12 h-12'
-                      src={`/llm/images/tools/${part.toolInvocation.toolName}`}
-                    />
-
-                    <div className='flex flex-col gap-0'>
-                      <b>
-                        { part.toolInvocation.toolName.replaceAll('_', ' ') }
-                      </b>
-                      <p className='text-xs font-mono font-medium mt-1 text-neutral-200/80'>
-                        {JSON.stringify(part.toolInvocation.args)}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Spinner while loading... */}
-                  { part.toolInvocation.state != 'result' && (
-                    <div className='mt-2'>
-                      <div className='w-4 h-4 border-t-2 border-b-2 border-r-2 border-l-2 border-primary rounded-full animate-spin' />
-                    </div>
-                  )}
-
-                  { part.toolInvocation.state === 'result' && (
-                    <div className='mt-2'>
-                      <p className='text-muted-foreground text-xs font-mono font-medium mt-1 text-neutral-500'>
-                        { part.toolInvocation.result.slice(0, 250) } ...
-                      </p>
-                    </div>
-                  )}
-                </div>
-              )
-            }
-          }
-        })}
-
-        {(!parts || parts.length === 0) && content && <Markdown>{content}</Markdown>}
-
-        {error && <ErrorMessage onReload={reload} />}
+          {error && <ErrorMessage onReload={reload} />}
+        </div>
       </motion.div>
-    </Message>
+    </AnimatePresence>
   )
 }
 
-function ErrorMessage({ onReload }: { onReload: () => void }) {
-  return (
-    <div className='mt-3 flex flex-col items-start justify-start gap-2'>
-      <p className='text-muted-foreground text-center text-[14px] leading-[24px] font-medium'>Something went wrong. Please try again.</p>
-      <Button onClick={onReload} className='border-border border-2 outline-none' variant='default'>
-        Reload
-      </Button>
-    </div>
-  )
-}
-
-
+ 

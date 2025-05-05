@@ -1,5 +1,28 @@
 import { motion } from 'motion/react'
 
+const defaultSuggestions: Suggestion[] = [
+  {
+    title: 'Create an API',
+    label: 'Build a REST API endpoint',
+    action: 'Help me build a basic REST API that returns data for a given input.',
+  },
+  {
+    title: 'Build an AI Assistant',
+    label: 'Create a conversational assistant',
+    action: 'Guide me through creating a simple AI chatbot that can answer basic questions.',
+  },
+  {
+    title: 'Database Operations',
+    label: 'Set up and query a database',
+    action: 'Show me how to set up a database connection and create basic CRUD operations.',
+  },
+  {
+    title: 'Generate UI Components',
+    label: 'Build modern UI components',
+    action: 'Generate a responsive card component that displays information with a clean design.',
+  },
+]
+
 export type Suggestion = {
   title: string
   label: string
@@ -11,14 +34,14 @@ interface SuggestedActionsProps {
   suggestions?: Suggestion[]
 }
 
-export function SuggestedActions({ append, suggestions }: SuggestedActionsProps) {
+export function SuggestedActions({ append, suggestions = defaultSuggestions }: SuggestedActionsProps) {
   if (!suggestions) return null
 
   return (
     <section className='@container'>
-      <div className='mx-auto mb-3 grid w-full gap-4 px-4 @md:grid-cols-2'>
+      <div className='mx-auto mb-3 grid w-full gap-4 px-4 md:max-w-4xl @md:grid-cols-2'>
         {suggestions.map((suggestedAction: Suggestion, index: number) => (
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} transition={{ delay: 0.05 * index }} key={index}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 + index * 0.1, ease: 'easeInOut' }} key={index}>
             <button
               onClick={async () => {
                 append({

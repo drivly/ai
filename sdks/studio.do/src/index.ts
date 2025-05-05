@@ -2,11 +2,13 @@
  * studio.do - SDK for creating custom-branded Payload CMS instances
  */
 
-import { api } from 'apis.do'
+import { API } from 'apis.do'
 import { StudioSDKOptions, PayloadClient } from './types'
 import { getFunctionsForProject } from './utils/getFunctionsForProject'
 import { getWorkflowsForProject } from './utils/getWorkflowsForProject'
 import { generateCollectionsFromProject } from './utils/generateCollectionsFromProject'
+
+const client = new API()
 
 export * from './types'
 
@@ -30,13 +32,13 @@ export async function createStudioClient(options: StudioSDKOptions): Promise<Pay
   const { projectId, theme, agentOptions } = options
 
   try {
-    const project = await api.getById<Project>('projects', projectId)
+    const project = await client.getById<Project>('projects', projectId)
 
     if (!project) {
       throw new Error(`Project with ID '${projectId}' not found`)
     }
 
-    const nounsPromise = api.list('nouns', {
+    const nounsPromise = client.list('nouns', {
       where: { project: { equals: projectId } },
       sort: 'order',
     })
@@ -66,7 +68,7 @@ export async function createStudioClient(options: StudioSDKOptions): Promise<Pay
       })
     }
 
-    const payloadClient = await api.post<PayloadClient>('/v1/payload/client', {
+    const payloadClient = await client.post<PayloadClient>('/v1/payload/client', {
       collections,
       plugins,
       project: {

@@ -12,7 +12,7 @@ async function BlogPage(props: { params: { domain: string } }) {
   const categories = await getAllCategories(domain)
 
   return (
-    <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>
+    <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32 xl:px-0'>
       <div className='mb-8'>
         <Link href='/' className='hover:text-primary mb-4 inline-flex items-center text-sm text-gray-500 transition-colors'>
           <ArrowLeft className='mr-1 h-4 w-4' />

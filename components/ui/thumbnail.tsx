@@ -41,14 +41,8 @@ export const Thumbnail = ({ showContent, error, type, thumbnailUrl, url, name, o
           <Loader className='!h-[20px] !w-[20px] animate-spin' />
         </div>
       ) : type === 'image' && !error ? (
-        <div className='relative overflow-hidden'>
-          <Image
-            src={thumbnailUrl || url}
-            alt={name}
-            fill
-            className='flex shrink-0 -translate-x-px items-center justify-center overflow-hidden rounded-sm'
-            onError={onImageError}
-          />
+        <div className='relative overflow-clip'>
+          <Image src={thumbnailUrl || url} alt={name} width={100} height={100} className='flex shrink-0 -translate-x-px items-center justify-center overflow-hidden rounded-sm' onError={onImageError} />
         </div>
       ) : type === 'pdf' ? (
         <File />

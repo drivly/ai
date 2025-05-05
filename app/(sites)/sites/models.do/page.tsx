@@ -1,7 +1,7 @@
-import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
-import { filterModels, constructModelIdentifier, models, Model, parse } from 'language-models'
+import { AwaitedPageProps, withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { Metadata } from 'next'
-import Link from 'next/link'
+import { getAvailableModels, getModelProviders } from './actions'
+import { ClientModelPage } from './client-model-page'
 
 export const metadata = {
   title: 'Do Services-as-Software',
@@ -14,17 +14,22 @@ export const metadata = {
 
 export const revalidate = 3600
 
-export default async function DirectoryPage() {
+async function ModelsPage({ searchParams }: AwaitedPageProps<{}>) {
+  const availableModels = await getAvailableModels()
+  const uniqueProviders = await getModelProviders()
 
   return (
-    <div className='container mx-auto max-w-6xl px-3 pt-5 pb-20 md:pb-40 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-      {models.map((model, idx) => (
-        <Link key={idx} href={model.permaslug}>
-          <h2 className='text-lg line-clamp-1'>{model.name}</h2>
-          <p className='text-gray-500 line-clamp-2 text-sm'>{model.description}</p>
-        </Link>
-      ))}
+    <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32 xl:px-0'>
+      <div className='mb-12'>
+        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text py-6 text-4xl leading-none font-medium tracking-tight text-transparent dark:from-white dark:to-white/40'>
+          Models
+        </h1>
+        <p className='font-geist mt-4 max-w-3xl text-lg text-gray-600 dark:text-gray-400'>Explore and compare AI models available through models.do.</p>
+      </div>
+
+      <ClientModelPage initialModels={availableModels} providers={uniqueProviders} searchParams={searchParams ?? {}} />
     </div>
   )
 }
 
+export default withSitesWrapper({ WrappedPage: ModelsPage, minimal: true, explicitDomain: 'models.do' })
