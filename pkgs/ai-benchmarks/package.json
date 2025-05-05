@@ -1,0 +1,37 @@
+{
+  "name": "ai-benchmarks",
+  "version": "0.1.0",
+  "description": "AI model benchmark data and integration",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "dotenvx run -- npx tsx watch src/demo.ts",
+    "build": "rimraf dist && tsc",
+    "generate:benchmarks": "npx tsx scripts/fetch-benchmark-data.ts",
+    "clean": "rimraf dist",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "pnpm clean && pnpm build",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "packageManager": "pnpm@10.6.5",
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@types/adm-zip": "^0.5.5",
+    "@types/flat": "^5.0.4",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9",
+    "tsconfig": "0.0.0",
+    "eslint-config": "0.1.0"
+  },
+  "dependencies": {
+    "@types/node": "^22.13.10",
+    "adm-zip": "^0.5.10",
+    "camelcase": "^8.0.0",
+    "csv-parse": "^5.5.3",
+    "flat": "^6.0.1",
+    "json5": "^2.2.3",
+    "vitest": "^3.0.9"
+  }
+}
