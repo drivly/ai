@@ -2,24 +2,24 @@ import { motion } from 'motion/react'
 
 const defaultSuggestions: Suggestion[] = [
   {
-    title: 'Build a Serverless API',
-    label: 'Create a REST API endpoint with Functions.do',
-    action: 'Help me build a basic serverless API with Functions.do that returns weather data for a given location.',
+    title: 'Create an API',
+    label: 'Build a REST API endpoint',
+    action: 'Help me build a basic REST API that returns data for a given input.',
   },
   {
-    title: 'Create an AI Agent',
-    label: 'Set up an autonomous agent with custom tools',
-    action: 'Guide me through creating an AI agent on Agents.do that can search the web and summarize content.',
+    title: 'Build an AI Assistant',
+    label: 'Create a conversational assistant',
+    action: 'Guide me through creating a simple AI chatbot that can answer basic questions.',
   },
   {
-    title: 'Connect to a Database',
-    label: 'Query and manage data with DB.do',
-    action: 'Show me how to connect to a Postgres database with DB.do and create a simple CRUD operation.',
+    title: 'Database Operations',
+    label: 'Set up and query a database',
+    action: 'Show me how to set up a database connection and create basic CRUD operations.',
   },
   {
     title: 'Generate UI Components',
-    label: 'Build React components with AI assistance',
-    action: 'Generate a responsive React card component that displays user profile information with a modern design.',
+    label: 'Build modern UI components',
+    action: 'Generate a responsive card component that displays information with a clean design.',
   },
 ]
 

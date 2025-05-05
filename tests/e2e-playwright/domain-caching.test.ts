@@ -1,13 +1,13 @@
-import { test, expect } from '@playwright/test'
+import { test as playwrightTest, expect } from '@playwright/test'
 import { Browser, Page } from 'playwright'
 import PQueue from 'p-queue'
 import fs from 'fs'
 
-test.describe('Domain Caching', () => {
+playwrightTest.describe('Domain Caching', () => {
   let browser: Browser
   let page: Page
 
-  test.beforeAll(async ({ browser: playwrightBrowser }) => {
+  playwrightTest.beforeAll(async ({ browser: playwrightBrowser }) => {
     if (process.env.CI && !process.env.BROWSER_TESTS) {
       return
     }
@@ -19,11 +19,11 @@ test.describe('Domain Caching', () => {
     }
   })
 
-  test.beforeEach(async ({ page: playwrightPage }) => {
+  playwrightTest.beforeEach(async ({ page: playwrightPage }) => {
     page = playwrightPage
   })
 
-  test('should fetch all domains to pre-load AI-generated content', async () => {
+  playwrightTest('should fetch all domains to pre-load AI-generated content', async () => {
     if (!browser || !page || (process.env.CI && !process.env.BROWSER_TESTS)) {
       console.log('Skipping domain caching test because browser not available or in CI without BROWSER_TESTS')
       expect(true).toBe(true) // Pass the test when skipped

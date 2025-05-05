@@ -39,7 +39,7 @@ async function BlogPostPage({ params }: { params: { domain: string; slug: string
   const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (
-    <div className='container mx-auto max-w-4xl px-3 py-24 md:py-32'>
+    <div className='container mx-auto max-w-4xl px-3 py-24 md:py-32 xl:px-0'>
       <Link href={`/blog`} className='hover:text-primary mb-6 inline-flex items-center text-sm text-gray-500 transition-colors'>
         <ArrowLeft className='mr-1 h-4 w-4' />
         Back
