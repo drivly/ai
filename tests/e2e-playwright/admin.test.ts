@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test as playwrightTest, expect } from '@playwright/test'
 import { Browser, Page, Response } from 'playwright'
 import { collections } from '@/collections'
 import { test as chromaticTest } from '@chromatic-com/playwright'
@@ -42,7 +42,7 @@ async function logResponseDetails(response: Response | globalThis.Response) {
   return response
 }
 
-test.describe('Admin page', () => {
+playwrightTest.describe('Admin page', () => {
   let browser: Browser
   let page: Page
 
@@ -62,7 +62,7 @@ test.describe('Admin page', () => {
     code: collections.filter((c) => c.admin?.group === 'Code').map((c) => c.slug),
   }
 
-  test.beforeAll(async ({ browser: playwrightBrowser }) => {
+  playwrightTest.beforeAll(async ({ browser: playwrightBrowser }) => {
     // Skip browser tests if running in CI environment without proper setup
     if (process.env.CI && !process.env.BROWSER_TESTS) {
       return
@@ -81,15 +81,15 @@ test.describe('Admin page', () => {
     }
   })
 
-  test.afterAll(async () => {})
+  playwrightTest.afterAll(async () => {})
 
-  test.beforeEach(async ({ page: playwrightPage }) => {
+  playwrightTest.beforeEach(async ({ page: playwrightPage }) => {
     page = playwrightPage
   })
 
-  test.afterEach(async () => {})
+  playwrightTest.afterEach(async () => {})
 
-  test('should show login screen without server errors', async () => {
+  playwrightTest('should show login screen without server errors', async () => {
     if (!browser || !page) {
       console.log('Skipping browser test because browser not available')
       expect(true).toBe(true) // Pass the test when skipped
@@ -137,7 +137,7 @@ test.describe('Admin page', () => {
     }
   })
 
-  test('should allow login and navigation without server errors', async () => {
+  playwrightTest('should allow login and navigation without server errors', async () => {
     if (!browser || !page) {
       console.log('Skipping browser test because browser not available')
       expect(true).toBe(true) // Pass the test when skipped
@@ -206,7 +206,7 @@ test.describe('Admin page', () => {
     }
   })
 
-  test('should navigate to all collection types in the admin interface', async () => {
+  playwrightTest('should navigate to all collection types in the admin interface', async () => {
     if (!browser || !page) {
       console.log('Skipping browser test because browser not available')
       expect(true).toBe(true) // Pass the test when skipped
@@ -267,7 +267,7 @@ test.describe('Admin page', () => {
     }
   })
 
-  test('should create and view documents in key collections', async () => {
+  playwrightTest('should create and view documents in key collections', async () => {
     if (!browser || !page) {
       console.log('Skipping browser test because browser not available')
       expect(true).toBe(true) // Pass the test when skipped
@@ -337,7 +337,7 @@ test.describe('Admin page', () => {
     }
   })
 
-  test('should test relationships between collections', async () => {
+  playwrightTest('should test relationships between collections', async () => {
     if (!browser || !page) {
       console.log('Skipping browser test because browser not available')
       expect(true).toBe(true) // Pass the test when skipped
@@ -408,7 +408,7 @@ test.describe('Admin page', () => {
     }
   })
 
-  test('should handle API requests to admin route without server errors', async () => {
+  playwrightTest('should handle API requests to admin route without server errors', async () => {
     if (process.env.CI) {
       console.log('Skipping admin API test in CI environment')
       expect(true).toBe(true) // Pass the test when skipped

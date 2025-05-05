@@ -285,7 +285,8 @@
     ],
     "overrides": {
       "apis.do": "workspace:*",
-      "prettier": "3.5.3"
+      "prettier": "3.5.3",
+      "@playwright/test": "^1.51.1"
     }
   },
   "prettier": {
