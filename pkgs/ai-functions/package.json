@@ -51,7 +51,7 @@
     "@ai-sdk/provider": "^1.0.2",
     "@ai-sdk/provider-utils": "^2.0.4",
     "@ai-sdk/ui-utils": "^1.0.5",
-    "@eslint/js": "^9.25.1",
+    "@eslint/js": "^9.26.0",
     "@opentelemetry/api": "^1.9.0",
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
