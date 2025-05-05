@@ -555,6 +555,49 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1
 
+  pkgs/ai-benchmarks:
+    dependencies:
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.14.0
+      adm-zip:
+        specifier: ^0.5.10
+        version: 0.5.16
+      camelcase:
+        specifier: ^8.0.0
+        version: 8.0.0
+      csv-parse:
+        specifier: ^5.5.3
+        version: 5.6.0
+      flat:
+        specifier: ^6.0.1
+        version: 6.0.1
+      json5:
+        specifier: ^2.2.3
+        version: 2.2.3
+      vitest:
+        specifier: ^3.0.9
+        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
+    devDependencies:
+      '@types/adm-zip':
+        specifier: ^0.5.5
+        version: 0.5.7
+      '@types/flat':
+        specifier: ^5.0.4
+        version: 5.0.5
+      eslint-config:
+        specifier: 0.1.0
+        version: link:../eslint-config
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      tsconfig:
+        specifier: 0.0.0
+        version: link:../tsconfig
+      typescript:
+        specifier: ^5.8.2
+        version: 5.8.3
+
   pkgs/ai-models:
     dependencies:
       '@types/node':
@@ -7933,6 +7976,9 @@ packages:
   '@types/acorn@4.0.6':
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
 
+  '@types/adm-zip@0.5.7':
+    resolution: {integrity: sha512-DNEs/QvmyRLurdQPChqq0Md4zGvPwHerAJYWk9l2jCbD1VPpnzRJorOdiq4zsw09NFbYnhfsoEhWtxIzXpn2yw==}
+
   '@types/babel__core@7.20.5':
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
 
@@ -8096,6 +8142,9 @@ packages:
 
   '@types/express@5.0.1':
     resolution: {integrity: sha512-UZUw8vjpWFXuDnjFTh7/5c2TWDlQqeXHi6hcN7F2XSVT5P+WmUnnbFS3KA6Jnc6IsEqI2qCVu2bK0R0J4A8ZQQ==}
+
+  '@types/flat@5.0.5':
+    resolution: {integrity: sha512-nPLljZQKSnac53KDUDzuzdRfGI0TDb5qPrb+SrQyN3MtdQrOnGsKniHN1iYZsJEBIVQve94Y6gNz22sgISZq+Q==}
 
   '@types/geojson@7946.0.16':
     resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
@@ -26471,6 +26520,10 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.7
 
+  '@types/adm-zip@0.5.7':
+    dependencies:
+      '@types/node': 22.14.0
+
   '@types/babel__core@7.20.5':
     dependencies:
       '@babel/parser': 7.27.0
@@ -26678,6 +26731,8 @@ snapshots:
       '@types/body-parser': 1.19.5
       '@types/express-serve-static-core': 5.0.6
       '@types/serve-static': 1.15.7
+
+  '@types/flat@5.0.5': {}
 
   '@types/geojson@7946.0.16': {}
 
