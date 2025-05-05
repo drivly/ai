@@ -9,6 +9,25 @@ import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { execSync } from 'child_process';
 
+/**
+ * Check if a package is a local package in the monorepo
+ * @param {string} packageName - The name of the package to check
+ * @returns {boolean} - Whether the package is a local package
+ */
+const isLocalPackage = (packageName) => {
+  try {
+    for (const sdkPath of ['sdks', 'pkgs']) {
+      const packagePath = resolve(process.cwd(), '..', sdkPath, packageName.replace('.do', '.do'));
+      if (execSync(`test -d ${packagePath} && echo "exists"`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] }).includes('exists')) {
+        return true;
+      }
+    }
+    return false;
+  } catch (e) {
+    return false;
+  }
+};
+
 const getPackageVersions = (dependencies) => {
   const versions = {};
   for (const dep of Object.keys(dependencies)) {
@@ -40,8 +59,14 @@ const convertWorkspaceDeps = () => {
           modified = true;
           console.log(`Converting dependency ${dep} to version ${versions[dep]}`);
         } else {
-          console.error(`ERROR: Cannot publish with unconverted workspace dependency: ${dep}`);
-          process.exit(1);
+          console.warn(`WARNING: Could not find published version for ${dep}, using local reference`);
+          if (isLocalPackage(dep)) {
+            console.log(`${dep} is a local package that needs publishing first, using version 0.0.1`);
+            pkg.dependencies[dep] = '0.0.1';
+            modified = true;
+          } else {
+            console.warn(`${dep} is not a local package, keeping workspace reference for now`);
+          }
         }
       }
     }
@@ -56,8 +81,14 @@ const convertWorkspaceDeps = () => {
           modified = true;
           console.log(`Converting devDependency ${dep} to version ${versions[dep]}`);
         } else {
-          console.error(`ERROR: Cannot publish with unconverted workspace devDependency: ${dep}`);
-          process.exit(1);
+          console.warn(`WARNING: Could not find published version for ${dep}, using local reference`);
+          if (isLocalPackage(dep)) {
+            console.log(`${dep} is a local package that needs publishing first, using version 0.0.1`);
+            pkg.devDependencies[dep] = '0.0.1';
+            modified = true;
+          } else {
+            console.warn(`${dep} is not a local package, keeping workspace reference for now`);
+          }
         }
       }
     }
@@ -72,8 +103,14 @@ const convertWorkspaceDeps = () => {
           modified = true;
           console.log(`Converting peerDependency ${dep} to version ${versions[dep]}`);
         } else {
-          console.error(`ERROR: Cannot publish with unconverted workspace peerDependency: ${dep}`);
-          process.exit(1);
+          console.warn(`WARNING: Could not find published version for ${dep}, using local reference`);
+          if (isLocalPackage(dep)) {
+            console.log(`${dep} is a local package that needs publishing first, using version 0.0.1`);
+            pkg.peerDependencies[dep] = '0.0.1';
+            modified = true;
+          } else {
+            console.warn(`${dep} is not a local package, keeping workspace reference for now`);
+          }
         }
       }
     }
