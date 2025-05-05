@@ -1,9 +1,15 @@
 import { auth } from '@/auth'
 import { streamText, generateObject, streamObject, generateText, resolveConfig, createLLMProvider } from '@/pkgs/ai-providers/src'
 import { CoreMessage, jsonSchema, createDataStreamResponse, tool } from 'ai'
+import { parse, getModel } from '@/pkgs/language-models'
+
 import {
   alterSchemaForOpenAI
 } from '@/pkgs/ai-providers/src/providers/openai'
+
+import {
+  convertJSONSchemaToOpenAPISchema
+} from '@/pkgs/ai-providers/src/providers/google'
 
 export const maxDuration = 600
 export const dynamic = 'force-dynamic'
@@ -121,8 +127,12 @@ export async function POST(req: Request) {
     max_tokens,
     top_p,
     stream,
-    response_format,
     tools: userTools
+  } = postData as OpenAICompatibleRequest
+
+  // Overwritable variables
+  let {
+    response_format
   } = postData as OpenAICompatibleRequest
 
   if (!prompt && !messages) {
@@ -139,6 +149,29 @@ export async function POST(req: Request) {
   })
 
   const llmModel = llm(model)
+
+  const { parsed: parsedModel, ...modelData } = getModel(model)
+
+  console.log(
+    parsedModel
+  )
+
+  if (parsedModel.outputSchema) {
+    const schema = await fetch(
+      `https://cdn.jsdelivr.net/gh/charlestati/schema-org-json-schemas/schemas/${ parsedModel.outputSchema }.schema.json`
+    ).then(x => x.json())
+
+    switch (modelData.author) {
+      case 'openai':
+        response_format = alterSchemaForOpenAI(schema)
+        break
+      case 'google':
+        response_format = convertJSONSchemaToOpenAPISchema(schema)
+        break
+      default:
+        response_format = schema
+    }
+  }
 
   // Fix user tools to be able to be used by our system
   const tools: Record<string, any> = {}
@@ -219,14 +252,14 @@ export async function POST(req: Request) {
             // When this promise resolves, it will have an error.
             // We need to pass this error to the client so it can be displayed.
             generateObjectErrorPromise.then(error => {
-              dataStream.write(`0:"${ error }"\n`)
+              dataStream.write(`0:"${ error.replaceAll('"', '\\"') }"\n`)
             })
 
             // Simulate a message id
-            dataStream.write(`f:{"messageId":"msg-${ Date.now() }"}\n`)
+            dataStream.write(`f:{"messageId":"hi"}\n`)
             
             for await (const chunk of textStream) {
-              dataStream.write(`0:"${ chunk }"\n`)
+              dataStream.write(`0:"${ chunk.replaceAll('"', '\\"') }"\n`)
             }
 
             // Fixes usagePromise not being exposed via the types
@@ -236,7 +269,8 @@ export async function POST(req: Request) {
               totalTokens: number
             }
 
-            dataStream.write(`d:{"finishReason":"stop","usage":{"promptTokens":${ usage.promptTokens },"completionTokens":${ usage.completionTokens },"totalTokens":${ usage.totalTokens }}}\n`)
+            //dataStream.write(`e:{"finishReason":"stop","usage":{"promptTokens":2217,"completionTokens":70},"isContinued":false}\n`)
+            //dataStream.write(`d:{"finishReason":"stop","usage":{"promptTokens":2367,"completionTokens":89}}\n`)
           }
         })
       } else {
@@ -276,9 +310,7 @@ export async function POST(req: Request) {
         schema
       })
 
-      return Response.json({
-        data: result.object
-      })
+      return Response.json(result.object)
     } else {
       const result = await generateText({
         model: llmModel,

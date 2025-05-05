@@ -37,14 +37,28 @@ export function alterSchemaForOpenAI(
 
   if (description) result.description = description;
   if (required) result.required = required;
-  if (format) result.format = format;
+  // OpenAI doesn't allow format in schema properties
 
   if (constValue !== undefined) {
     result.enum = [constValue];
   }
 
-  // Handle type
-  if (type) {
+  // Process properties first so we can check if it exists for type inference
+  if (properties != null) {
+    result.properties = Object.entries(properties).reduce(
+      (acc, [key, value]) => {
+        acc[key] = alterSchemaForOpenAI(value);
+        return acc;
+      },
+      {} as Record<string, unknown>,
+    );
+  }
+
+  // Handle type - ensure a type is always present
+  // If it has properties, it MUST be an object regardless of the specified type
+  if (properties && Object.keys(properties).length > 0) {
+    result.type = 'object';
+  } else if (type) {
     if (Array.isArray(type)) {
       if (type.includes('null')) {
         result.type = type.filter(t => t !== 'null')[0];
@@ -57,6 +71,9 @@ export function alterSchemaForOpenAI(
     } else {
       result.type = type;
     }
+  } else {
+    // Default to string if no type is specified and no properties exist
+    result.type = 'string';
   }
 
   // Handle enum
@@ -64,54 +81,44 @@ export function alterSchemaForOpenAI(
     result.enum = enumValues;
   }
 
-  if (properties != null) {
-    result.properties = Object.entries(properties).reduce(
-      (acc, [key, value]) => {
-        acc[key] = alterSchemaForOpenAI(value);
-        return acc;
-      },
-      {} as Record<string, unknown>,
-    );
-  }
-
   if (items) {
     result.items = Array.isArray(items)
-      ? items.map(alterSchemaForOpenAI)
+      ? alterSchemaForOpenAI(items[0]) // Just use the first item schema
       : alterSchemaForOpenAI(items);
   }
 
-  if (allOf) {
-    result.allOf = allOf.map(alterSchemaForOpenAI);
-  }
-  if (anyOf) {
-    // Handle cases where anyOf includes a null type
-    if (
-      anyOf.some(
-        schema => typeof schema === 'object' && schema?.type === 'null',
-      )
-    ) {
-      const nonNullSchemas = anyOf.filter(
-        schema => !(typeof schema === 'object' && schema?.type === 'null'),
-      );
-
-      if (nonNullSchemas.length === 1) {
-        // If there's only one non-null schema, convert it and make it nullable
-        const converted = alterSchemaForOpenAI(nonNullSchemas[0]);
-        if (typeof converted === 'object') {
-          result.nullable = true;
-          Object.assign(result, converted);
-        }
-      } else {
-        // If there are multiple non-null schemas, keep them in anyOf
-        result.anyOf = nonNullSchemas.map(alterSchemaForOpenAI);
-        result.nullable = true;
+  // Handle combinators by taking only the first schema
+  if (allOf && allOf.length > 0) {
+    const firstSchema = alterSchemaForOpenAI(allOf[0]);
+    if (typeof firstSchema === 'object') {
+      Object.assign(result, firstSchema);
+      // Re-check if we need to force type to object after merging
+      if (result.properties && Object.keys(result.properties as object).length > 0) {
+        result.type = 'object';
       }
-    } else {
-      result.anyOf = anyOf.map(alterSchemaForOpenAI);
     }
   }
-  if (oneOf) {
-    result.oneOf = oneOf.map(alterSchemaForOpenAI);
+
+  if (anyOf && anyOf.length > 0) {
+    const firstSchema = alterSchemaForOpenAI(anyOf[0]);
+    if (typeof firstSchema === 'object') {
+      Object.assign(result, firstSchema);
+      // Re-check if we need to force type to object after merging
+      if (result.properties && Object.keys(result.properties as object).length > 0) {
+        result.type = 'object';
+      }
+    }
+  }
+
+  if (oneOf && oneOf.length > 0) {
+    const firstSchema = alterSchemaForOpenAI(oneOf[0]);
+    if (typeof firstSchema === 'object') {
+      Object.assign(result, firstSchema);
+      // Re-check if we need to force type to object after merging
+      if (result.properties && Object.keys(result.properties as object).length > 0) {
+        result.type = 'object';
+      }
+    }
   }
 
   const illegalKeys = [
@@ -120,7 +127,8 @@ export function alterSchemaForOpenAI(
     'minimum',
     'maximum',
     'minLength',
-    'maxLength'
+    'maxLength',
+    'format'  // Added format to the list of illegal keys
   ]
 
   for (const key of illegalKeys) {
@@ -133,6 +141,11 @@ export function alterSchemaForOpenAI(
   result.strict = true
 
   result.required = Object.keys(result.properties || {})
+
+  // Final check to ensure type is correct based on properties
+  if (result.properties && Object.keys(result.properties as object).length > 0) {
+    result.type = 'object';
+  }
 
   return result;
 }
