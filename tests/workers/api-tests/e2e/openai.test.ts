@@ -9,7 +9,7 @@ const models = ['openai/o4-mini', 'google/gemini-2.0-flash-001', 'anthropic/clau
 const client = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
   // baseURL: 'https://openrouter.ai/api/v1',
-  baseURL: 'https://llm.do/api/v1',
+  baseURL: 'http://localhost:3000/llm',
   // baseURL: 'http://127.0.0.1:8787/api/v1',
   defaultHeaders: {
     'HTTP-Referer': 'https://workflows.do', // Site URL for rankings on openrouter.ai.
@@ -28,6 +28,7 @@ describe.skip('OpenAI SDK Responses', () => {
       if (isMockKey) {
         console.log(`Using mock key for ${model}, verifying response structure only`)
       } else {
+        
         expect(response.error).toBeNull()
         expect(response.id).toBeDefined()
         expect(response.output_text).toMatch(/hello|hi/i)
@@ -86,6 +87,7 @@ describe('OpenAI SDK Chat Completions', () => {
       if (isMockKey) {
         console.log(`Using mock key for ${model}, verifying response structure only`)
       } else {
+        console.log(response)
         expect(response.id).toBeDefined()
         expect(response.choices[0].message.content).toMatch(/hello|hi/i)
         console.log(`${model}: ${response.choices[0].message.content}`)

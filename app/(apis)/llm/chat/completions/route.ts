@@ -186,7 +186,7 @@ export async function POST(req: Request) {
 
   const openAiResponse = (result: any) => {
     return Response.json({
-      id: result.id,
+      id: result.id || `msg-${ Math.random().toString(36).substring(2, 15) }`,
       object: 'llm.completion',
       created: Date.now(),
       model,
@@ -237,7 +237,8 @@ export async function POST(req: Request) {
         prompt,
         user: session?.user.email || '',
         // @ts-expect-error - Type error to be fixed.
-        schema: jsonSchema(response_format),
+        //schema: jsonSchema(response_format),
+        output: 'no-schema',
         onError({ error }) {
           console.error(error); // your error logging logic here
           generateObjectError(JSON.stringify(error))
@@ -252,14 +253,14 @@ export async function POST(req: Request) {
             // When this promise resolves, it will have an error.
             // We need to pass this error to the client so it can be displayed.
             generateObjectErrorPromise.then(error => {
-              dataStream.write(`0:"${ error.replaceAll('"', '\\"') }"\n`)
+              dataStream.write(`0:"${ error?.replaceAll('"', '\\"') }"\n`)
             })
 
             // Simulate a message id
             dataStream.write(`f:{"messageId":"hi"}\n`)
             
             for await (const chunk of textStream) {
-              dataStream.write(`0:"${ chunk.replaceAll('"', '\\"') }"\n`)
+              dataStream.write(`0:"${ chunk.replaceAll('"', '\\"').replaceAll('\n', '\\n') }"\n`)
             }
 
             // Fixes usagePromise not being exposed via the types
