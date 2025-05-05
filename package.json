@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.16",
-    "@auth/mongodb-adapter": "^3.8.0",
+    "@auth/mongodb-adapter": "^3.9.0",
     "@clickhouse/client-web": "^1.11.0",
     "@code-hike/mdx": "^0.9.0",
     "@drivly/payload-agent": "workspace:*",
