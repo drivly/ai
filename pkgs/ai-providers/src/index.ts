@@ -1,2 +1,13 @@
 export * from './provider'
 export * from './ai'
+export * from './registry'
+
+export * from '@ai-sdk/openai'
+export * from '@ai-sdk/anthropic'
+export * from '@ai-sdk/xai'
+export * from '@ai-sdk/groq'
+export * from '@ai-sdk/amazon-bedrock'
+export * from '@ai-sdk/google'
+export * from '@ai-sdk/google-vertex'
+export * from '@ai-sdk/perplexity'
+export * from '@ai-sdk/elevenlabs'

@@ -130,8 +130,8 @@ class LLMProvider implements LanguageModelV1 {
   get provider() {
     let provider = 'openrouter'
 
-    // Access provider property which is added by getModel but not in the Model type
-    const providerSlug = this.resolvedModel.provider?.slug
+    // Access providers property which is added by getModel
+    const providerSlug = this.resolvedModel.providers?.[0]?.slug
 
     return provider
 
