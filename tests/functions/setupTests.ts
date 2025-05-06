@@ -16,12 +16,6 @@ export function setupTestEnvironment(config: TestEnvConfig = {}) {
   })
 }
 
-/**
- * Check if required environment variables are set
- */
-export function hasRequiredEnvVars() {
-  return !!process.env.AI_GATEWAY_TOKEN
-}
 
 beforeEach(() => {
   setupTestEnvironment()
