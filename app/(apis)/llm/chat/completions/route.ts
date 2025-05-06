@@ -258,10 +258,19 @@ export async function POST(req: Request) {
 
             // Simulate a message id
             dataStream.write(`f:{"messageId":"hi"}\n`)
+
+            const formatChunk = (chunk: string) => {
+              // Make sure that the chunk can be parsed as JSON
+              return chunk.replaceAll('"', '\\"').replaceAll('\n', '\\n')
+            }
+
+            dataStream.write(`0:"\`\`\`json\\n"\n`)
             
             for await (const chunk of textStream) {
-              dataStream.write(`0:"${ chunk.replaceAll('"', '\\"').replaceAll('\n', '\\n') }"\n`)
+              dataStream.write(`0:"${ formatChunk(chunk) }"\n`)
             }
+
+            dataStream.write(`0:"\\n\`\`\`"\n`)
 
             // Fixes usagePromise not being exposed via the types
             const usage = (result as any).usagePromise.status.value as {
