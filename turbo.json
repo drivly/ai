@@ -1,35 +1,5 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
-    "pkgs/language-models#clean": {
-      "outputs": []
-    },
-    "pkgs/language-models#build": {
-      "dependsOn": ["clean"],
-      "outputs": ["dist/**"],
-      "inputs": ["src/**"]
-    },
-    "pkgs/language-models#postbuild": {
-      "dependsOn": ["build"],
-      "outputs": ["dist/models.d.ts"]
-    },
-    "pkgs/ai-models#clean": {
-      "outputs": []
-    },
-    "pkgs/ai-models#build": {
-      "dependsOn": ["clean"],
-      "outputs": ["dist/**"],
-      "inputs": ["src/**"]
-    },
-    "pkgs/ai-providers#clean": {
-      "outputs": []
-    },
-    "pkgs/ai-providers#build": {
-      "dependsOn": ["clean"],
-      "outputs": ["dist/**"],
-      "inputs": ["src/**"]
-    }
-  },
   "tasks": {
     "build": {
       "dependsOn": ["^build", "build:packages", "build:next"],
@@ -69,6 +39,34 @@
       "dependsOn": ["build:packages"],
       "persistent": true,
       "cache": false
+    },
+    "pkgs/language-models#clean": {
+      "outputs": []
+    },
+    "pkgs/language-models#build": {
+      "dependsOn": ["clean"],
+      "outputs": ["dist/**"],
+      "inputs": ["src/**"]
+    },
+    "pkgs/language-models#postbuild": {
+      "dependsOn": ["build"],
+      "outputs": ["dist/models.d.ts"]
+    },
+    "pkgs/ai-models#clean": {
+      "outputs": []
+    },
+    "pkgs/ai-models#build": {
+      "dependsOn": ["clean"],
+      "outputs": ["dist/**"],
+      "inputs": ["src/**"]
+    },
+    "pkgs/ai-providers#clean": {
+      "outputs": []
+    },
+    "pkgs/ai-providers#build": {
+      "dependsOn": ["clean"],
+      "outputs": ["dist/**"],
+      "inputs": ["src/**"]
     }
   }
 }
