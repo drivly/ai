@@ -10,8 +10,8 @@
   ],
   "scripts": {
     "dev": "dotenvx run -- npx tsx watch src/demo.ts",
-    "build": "rimraf dist && tsc",
     "clean": "rimraf dist",
+    "build": "tsc",
     "lint": "tsc --noEmit",
     "prepublishOnly": "pnpm clean && pnpm build",
     "typecheck": "tsc --noEmit",

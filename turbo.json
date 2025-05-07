@@ -1,18 +1,55 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "pkgs/language-models#clean": {
+      "outputs": []
+    },
+    "pkgs/language-models#build": {
+      "dependsOn": ["clean"],
+      "outputs": ["dist/**"],
+      "inputs": ["src/**"]
+    },
+    "pkgs/language-models#postbuild": {
+      "dependsOn": ["build"],
+      "outputs": ["dist/models.d.ts"]
+    },
+    "pkgs/ai-models#clean": {
+      "outputs": []
+    },
+    "pkgs/ai-models#build": {
+      "dependsOn": ["clean"],
+      "outputs": ["dist/**"],
+      "inputs": ["src/**"]
+    },
+    "pkgs/ai-providers#clean": {
+      "outputs": []
+    },
+    "pkgs/ai-providers#build": {
+      "dependsOn": ["clean"],
+      "outputs": ["dist/**"],
+      "inputs": ["src/**"]
+    }
+  },
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "build:packages", "build:next"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
       "inputs": ["!pkgs/zapier-apis-do/**"]
     },
     "build:next": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "dependsOn": ["build:content", "generate:schema"],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "command": "cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next build"
     },
     "build:packages": {
       "dependsOn": ["^build:packages"],
       "outputs": ["dist/**"]
+    },
+    "build:content": {
+      "outputs": [".content/**"]
+    },
+    "generate:schema": {
+      "outputs": ["public/api-schema.json"]
     },
     "test": {
       "dependsOn": ["build"],

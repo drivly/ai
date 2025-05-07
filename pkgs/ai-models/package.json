@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "dotenvx run -- npx tsx watch src/demo.ts",
-    "build": "rimraf dist && tsc",
-    "generate:models": "npx tsx build/build-models.ts",
     "clean": "rimraf dist",
+    "build": "tsc",
+    "generate:models": "npx tsx build/build-models.ts",
     "lint": "tsc --noEmit",
     "prepublishOnly": "pnpm clean && pnpm build",
     "test": "vitest",
