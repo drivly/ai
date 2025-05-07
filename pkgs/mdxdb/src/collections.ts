@@ -1,4 +1,4 @@
-import { CollectionConfig } from 'payload/types'
+import { CollectionConfig } from './collection-types.js'
 
 /**
  * Types collection definition (replacing Nouns and Verbs)
