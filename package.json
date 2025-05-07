@@ -5,7 +5,7 @@
   "scripts": {
     "build": "turbo run build",
     "build:packages": "turbo run build:packages",
-    "build:next": "turbo run build:next",
+    "build:next": "pnpm build:content && tsx scripts/generate-api-schema.ts && cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next build",
     "postbuild": "pagefind --site .next --output-path public/_pagefind",
     "build:filtered": "turbo run build --filter=$npm_config_filter",
     "build:next:filtered": "turbo run build:next --filter=$npm_config_filter",

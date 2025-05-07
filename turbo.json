@@ -8,8 +8,7 @@
     },
     "build:next": {
       "dependsOn": ["build:content", "generate:schema"],
-      "outputs": [".next/**", "!.next/cache/**"],
-      "command": "cross-env NODE_OPTIONS='--max-old-space-size=6144 --no-deprecation' next build"
+      "outputs": [".next/**", "!.next/cache/**"]
     },
     "build:packages": {
       "dependsOn": ["^build:packages"],
