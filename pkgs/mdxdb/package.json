@@ -44,5 +44,13 @@
   },
   "dependencies": {
     "gray-matter": "^4.0.3"
+  },
+  "peerDependencies": {
+    "payload": "^2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "payload": {
+      "optional": true
+    }
   }
 }
