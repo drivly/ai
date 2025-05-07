@@ -140,7 +140,7 @@ export async function POST(req: Request) {
   }
 
   const llm = createLLMProvider({
-    baseURL: 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter',
+    baseURL: 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-testing/openrouter',
     apiKey: apiKey,
     headers: {
       'HTTP-Referer': 'http://workflows.do',
@@ -152,11 +152,7 @@ export async function POST(req: Request) {
 
   const { parsed: parsedModel, ...modelData } = getModel(model)
 
-  console.log(
-    parsedModel
-  )
-
-  if (parsedModel.outputSchema) {
+  if (parsedModel.outputSchema && parsedModel.outputSchema !== 'JSON') {
     const schema = await fetch(
       `https://cdn.jsdelivr.net/gh/charlestati/schema-org-json-schemas/schemas/${ parsedModel.outputSchema }.schema.json`
     ).then(x => x.json())
@@ -223,7 +219,7 @@ export async function POST(req: Request) {
   )
 
   if (stream) {
-    if (response_format) {
+    if (response_format || parsedModel.outputSchema === 'JSON') {
 
       let generateObjectError: (error: string) => void = () => {}
       const generateObjectErrorPromise = new Promise<string | null>((resolve) => {
@@ -236,9 +232,9 @@ export async function POST(req: Request) {
         messages,
         prompt,
         user: session?.user.email || '',
+        schema: parsedModel.outputSchema === 'JSON' ? undefined : jsonSchema(response_format),
         // @ts-expect-error - Type error to be fixed.
-        //schema: jsonSchema(response_format),
-        output: 'no-schema',
+        output: parsedModel.outputSchema === 'JSON' ? 'no-schema' : undefined,
         onError({ error }) {
           console.error(error); // your error logging logic here
           generateObjectError(JSON.stringify(error))
