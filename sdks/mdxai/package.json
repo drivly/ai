@@ -1,0 +1,59 @@
+{
+  "name": "mdxai",
+  "version": "0.1.0",
+  "description": "CLI to recursively generate and edit MDX files using AI",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "mdxai": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./types": {
+      "import": "./dist/types.js",
+      "types": "./dist/types.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drivly/ai.git",
+    "directory": "sdks/mdxai"
+  },
+  "author": "Drivly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/drivly/ai/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "build:packages": "rimraf dist && tsc -p tsconfig.json",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "eslint-config": "workspace:*",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "tsconfig": "workspace:*",
+    "tsup": "^8.0.1",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "glob": "^10.3.10",
+    "fs-extra": "^11.2.0"
+  }
+}
