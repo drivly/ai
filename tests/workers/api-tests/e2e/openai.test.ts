@@ -85,6 +85,38 @@ describe.todo('OpenAI SDK Responses', () => {
 describe('OpenAI SDK Chat Completions', () => {
   const isMockKey = process.env.OPEN_ROUTER_API_KEY === 'mock-openrouter-key'
 
+  test.todo(
+    'can create a chat completion with models',
+    async () => {
+      try {
+        const response = await client.chat.completions.create({
+          // @ts-expect-error OpenAI SDK does not support models
+          models: models.slice(1),
+          messages: [{ role: 'user', content: 'Hello, world!' }],
+        })
+        expect(response).toBeDefined()
+
+        if (isMockKey) {
+          console.log(`Using mock key for ${models[0]}, verifying response structure only`)
+        } else {
+          console.log(JSON.stringify(response, null, 2))
+          expect(response.id).toBeDefined()
+          expect(response.choices[0].message.content).toMatch(/hello|hi/i)
+          expect(response.model).toBe(models[1])
+          console.log(`${models[0]}: ${response.choices[0].message.content}`)
+        }
+      } catch (error) {
+        if (isMockKey) {
+          const errorMessage = error instanceof Error ? error.message : String(error)
+          console.log(`Expected error with mock key for ${models[0]}: ${errorMessage}`)
+        } else {
+          throw error
+        }
+      }
+    },
+    60000,
+  )
+
   test.each(models)(
     'can create a chat completion with %s',
     async (model) => {
@@ -155,6 +187,18 @@ describe('OpenAI SDK Chat Completions', () => {
     expect(response.choices[0].message.content).toContain('{')
     expect(response.choices[0].message.content).toMatch(/hello|hi/i)
     console.log(`${model}: ${JSON.stringify(response.choices[0].message.content)}`)
+  })
+
+  test.todo('can strategize requests to providers', async () => {
+    const response = await client.chat.completions.create({
+      messages: [{ role: 'user', content: 'Hello, world!' }],
+      // @ts-expect-error OpenAI SDK does not support provider
+      provider: {
+        sort: 'price',
+      },
+    })
+    expect(response).toBeDefined()
+    console.log(JSON.stringify(response, null, 2))
   })
 })
 
