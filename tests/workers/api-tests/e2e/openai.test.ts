@@ -112,7 +112,7 @@ describe('OpenAI SDK Chat Completions', () => {
     60000,
   )
 
-  test.skip.fails.each(models)(
+  test.each(models)(
     'can handle PDF input with %s',
     async (model) => {
       const response = await client.chat.completions.create({

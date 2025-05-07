@@ -2,6 +2,7 @@ import { auth } from '@/auth'
 import { streamText, generateObject, streamObject, generateText, resolveConfig, createLLMProvider } from '@/pkgs/ai-providers/src'
 import { CoreMessage, jsonSchema, createDataStreamResponse, tool } from 'ai'
 import { parse, getModel } from '@/pkgs/language-models'
+import { schemas } from './schemas'
 
 import {
   alterSchemaForOpenAI
@@ -120,7 +121,6 @@ export async function POST(req: Request) {
 
   const {
     model = 'openai/gpt-4.1',
-    messages,
     prompt,
     system,
     temperature,
@@ -132,12 +132,62 @@ export async function POST(req: Request) {
 
   // Overwritable variables
   let {
-    response_format
+    response_format,
+    messages
   } = postData as OpenAICompatibleRequest
 
   if (!prompt && !messages) {
     return new Response('No prompt or messages provided', { status: 400 })
   }
+
+  // Fix messages to be in the VerceL AI SDK format.
+  // Most notibly, we need to fix files coming in as OpenAI compatible
+  // and translate it for the user.
+
+  if (messages) {
+    // Check to see if this message is a file, and in the open ai format.
+    // First get the indexes of file messages
+    const fileMessageIndexes: number[] = []
+
+    for (const [index, message] of messages.entries()) {
+      // @ts-expect-error - An error is expected because its not the right type, but we're fixing it.
+      if (message.content[0]?.type === 'file' && (message.content[0] as any).file.file_data) {
+        fileMessageIndexes.push(index)
+      }
+    }
+
+    let tempMessages: CoreMessage[] = []
+
+    for (const index of Array.from({ length: messages.length }, (_, i) => i)) {
+      const message = messages[index]
+      const file = message.content[0] as unknown as {
+        type: 'file',
+        file: {
+          filename: string,
+          file_data: string
+        }
+      }
+
+      // Translate the file to the VerceL AI SDK format
+      if (fileMessageIndexes.includes(index)) {
+        tempMessages.push({
+          role: message.role as 'user',
+          content: [{
+            type: 'file',
+            // @ts-expect-error - Read above
+            data: message.content[0].file.file_data,
+            mimeType: 'application/pdf'
+          }]
+        })
+      } else {
+        tempMessages.push(message)
+      }
+    }
+
+    messages = tempMessages
+  }
+
+  console.log(messages)
 
   const llm = createLLMProvider({
     baseURL: 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-testing/openrouter',
@@ -153,19 +203,23 @@ export async function POST(req: Request) {
   const { parsed: parsedModel, ...modelData } = getModel(model)
 
   if (parsedModel.outputSchema && parsedModel.outputSchema !== 'JSON') {
-    const schema = await fetch(
-      `https://cdn.jsdelivr.net/gh/charlestati/schema-org-json-schemas/schemas/${ parsedModel.outputSchema }.schema.json`
-    ).then(x => x.json())
-
-    switch (modelData.author) {
-      case 'openai':
-        response_format = alterSchemaForOpenAI(schema)
-        break
-      case 'google':
-        response_format = convertJSONSchemaToOpenAPISchema(schema)
-        break
-      default:
-        response_format = schema
+    if (schemas[parsedModel.outputSchema]) {
+      response_format = schemas[parsedModel.outputSchema]
+    } else {
+      const schema = await fetch(
+        `https://cdn.jsdelivr.net/gh/charlestati/schema-org-json-schemas/schemas/${ parsedModel.outputSchema }.schema.json`
+      ).then(x => x.json())
+  
+      switch (modelData.author) {
+        case 'openai':
+          response_format = alterSchemaForOpenAI(schema)
+          break
+        case 'google':
+          response_format = convertJSONSchemaToOpenAPISchema(schema)
+          break
+        default:
+          response_format = schema
+      }
     }
   }
 
@@ -213,6 +267,49 @@ export async function POST(req: Request) {
     })
   }
 
+  const openAIStreamableResponse = (textStream: any) => {
+    // We need to replicate this response format:
+    // data: {"id": "chatcmpl-81ac59df-6615-4967-9462-a0d4bcb002dd", "model": "llama3.2-3b-it-q6", "created": 1733773199, "object": "chat.completion.chunk", "choices": [{"index": 0, "delta": {"content": " any"}, "logprobs": null, "finish_reason": null}]}
+
+    return createDataStreamResponse({
+      execute: async(dataStream) => {
+        for await (const chunk of textStream) {
+
+          const openAICompatibleChunk = {
+            id: `chatcmpl-${ Math.random().toString(36).substring(2, 15) }`,
+            model,
+            created: Date.now(),
+            object: 'chat.completion.chunk',
+            choices: [
+              {
+                index: 0,
+                delta: {
+                  content: chunk
+                },
+                logprobs: null,
+                finish_reason: null
+              }
+            ]
+          }
+
+          // @ts-expect-error - We're using this for a different type than what it was built for
+          dataStream.write(`data: ${ JSON.stringify(openAICompatibleChunk) }\n`)
+        }
+
+        // Send the stop reason chunk
+        // @ts-expect-error - We're using this for a different type than what it was built for
+        dataStream.write(`data: ${ JSON.stringify({
+          id: `chatcmpl-${ Math.random().toString(36).substring(2, 15) }`,
+          model,
+          created: Date.now(),
+          object: 'chat.completion.chunk',
+          choices: [],
+          finish_reason: 'stop'
+        }) }\n`)
+      }
+    })
+  }
+
   console.log(
     'Using', stream ? 'streaming' : 'non-streaming',
     'with', response_format ? 'response_format' : 'no response_format'
@@ -253,7 +350,7 @@ export async function POST(req: Request) {
             })
 
             // Simulate a message id
-            dataStream.write(`f:{"messageId":"hi"}\n`)
+            dataStream.write(`f:{"messageId":"msg-${ Math.random().toString(36).substring(2, 15) }"}\n`)
 
             const formatChunk = (chunk: string) => {
               // Make sure that the chunk can be parsed as JSON
@@ -280,7 +377,11 @@ export async function POST(req: Request) {
           }
         })
       } else {
-        return result.toTextStreamResponse()
+        const response = result.toTextStreamResponse()
+
+        response.headers.set('Content-Type', 'application/json; charset=utf-8')
+
+        return response
       }
     } else {
       
@@ -297,7 +398,7 @@ export async function POST(req: Request) {
       if (postData.useChat) {
         return result.toDataStreamResponse()
       } else {
-        return result.toTextStreamResponse()
+        return openAIStreamableResponse(result.textStream)
       }
     }
   } else {
