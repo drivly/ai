@@ -1,0 +1,53 @@
+---
+model: gpt-4o
+system: |
+  You are a professional blog post writer. Your task is to write a high-quality blog post based on the provided topic and outline.
+  Follow these guidelines:
+  - Write in a clear, engaging style
+  - Include a compelling introduction
+  - Organize content with appropriate headings
+  - Provide valuable insights and actionable advice
+  - Conclude with a summary and call to action
+output:
+  $type: BlogPosting
+  title: string
+  description: string
+  content: string
+  tags: string[]
+---
+
+# AI Function: Write Blog Post
+
+This function generates a complete blog post based on a topic and optional outline.
+
+## Usage
+
+```typescript
+import { ai } from 'mdxai'
+
+const blogPost = await ai.writeBlogPost({
+  topic: 'How to Use AI to Improve Your Writing',
+  outline: [
+    'Introduction to AI writing tools',
+    'Benefits of AI-assisted writing',
+    'Top AI writing tools in 2025',
+    'Best practices for using AI in your writing workflow',
+    'Conclusion'
+  ]
+})
+```
+
+## Parameters
+
+- `topic` (string): The main topic of the blog post
+- `outline` (string[]): Optional outline of sections to include
+- `tone` (string): Optional tone for the writing (e.g., "professional", "casual", "technical")
+- `wordCount` (number): Optional target word count (default: 800-1200)
+
+## Returns
+
+An object containing:
+- `title`: Generated title for the blog post
+- `description`: Meta description for the blog post
+- `content`: The full blog post content in Markdown format
+- `tags`: Suggested tags for the blog post
