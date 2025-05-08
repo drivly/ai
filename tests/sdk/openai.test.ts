@@ -3,7 +3,7 @@ import OpenAI from 'openai'
 import type { ResponseInput } from 'openai/resources/responses/responses.mjs'
 import { describe, expect, test } from 'vitest'
 
-const openaiModels = ['gpt-4o-search-preview']
+const searchModels = ['gpt-4o-search-preview']
 
 const models = ['openai/o4-mini', 'google/gemini-2.0-flash-001', 'anthropic/claude-3.7-sonnet']
 
@@ -21,10 +21,10 @@ const client = new OpenAI({
   },
 })
 
-describe.todo('OpenAI SDK Responses', () => {
+describe('OpenAI SDK Responses', () => {
   const isMockKey = process.env.OPEN_ROUTER_API_KEY === 'mock-openrouter-key'
 
-  test.each(models)(
+  test.fails.each(models)(
     'can create a response with %s',
     async (model) => {
       try {
@@ -51,7 +51,7 @@ describe.todo('OpenAI SDK Responses', () => {
     60000,
   )
 
-  test.each(models)(
+  test.fails.each(models)(
     'can handle PDF input with %s',
     async (model) => {
       const input: ResponseInput = [
@@ -85,7 +85,7 @@ describe.todo('OpenAI SDK Responses', () => {
 describe('OpenAI SDK Chat Completions', () => {
   const isMockKey = process.env.OPEN_ROUTER_API_KEY === 'mock-openrouter-key'
 
-  test.todo(
+  test.fails(
     'can create a chat completion with models',
     async () => {
       try {
@@ -176,7 +176,7 @@ describe('OpenAI SDK Chat Completions', () => {
     60000,
   )
 
-  test.fails.skip.each(models)('can use structured outputs using %s', async (model) => {
+  test.fails.each(models)('can use structured outputs using %s', async (model) => {
     const response = await client.chat.completions.create({
       model,
       messages: [{ role: 'user', content: 'Hello, world!' }],
@@ -202,7 +202,7 @@ describe('OpenAI SDK Chat Completions', () => {
   })
 })
 
-test.each(openaiModels)(
+test.each(searchModels)(
   'can create a web search chat completion with %s',
   async (model) => {
     const response = await client.chat.completions.create({
@@ -250,5 +250,5 @@ describe('OpenAI SDK Models', () => {
 })
 
 function getPdfData(filename: string) {
-  return 'data:application/pdf;base64,' + fs.readFileSync(`${__dirname}/${filename}`, 'base64')
+  return 'data:application/pdf;base64,' + fs.readFileSync(`${__dirname}/assets/${filename}`, 'base64')
 }
