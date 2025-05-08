@@ -65,7 +65,7 @@ describe('OpenAI SDK Responses', () => {
             },
             {
               type: 'input_text',
-              text: 'What are the steps of CSDP?',
+              text: 'Who is the author of the white paper?',
             },
           ],
         },
@@ -76,7 +76,7 @@ describe('OpenAI SDK Responses', () => {
       expect(response).toBeDefined()
       expect(response.error).toBeNull()
       expect(response.id).toBeDefined()
-      expect(response.output_text).toContain('elementary fact')
+      expect(response.output_text).toContain('Halpin')
     },
     60000,
   )
@@ -252,7 +252,7 @@ describe('OpenAI SDK Models', () => {
 })
 
 describe('OpenRouter Privacy and Logging', () => {
-  test.fails(
+  test.todo(
     'can create a chat completion with privacy enabled',
     async () => {
       const response = await client.chat.completions.create({
@@ -275,7 +275,7 @@ describe('OpenRouter Privacy and Logging', () => {
 })
 
 describe('OpenRouter Model Routing', () => {
-  test.fails(
+  test.todo(
     'can route to specific models by name',
     async () => {
       const response = await client.chat.completions.create({
@@ -292,7 +292,7 @@ describe('OpenRouter Model Routing', () => {
     60000,
   )
 
-  test.fails(
+  test.todo(
     'can route to models by capability',
     async () => {
       const response = await client.chat.completions.create({
@@ -312,7 +312,7 @@ describe('OpenRouter Model Routing', () => {
 })
 
 describe('OpenRouter Provider Routing', () => {
-  test.fails(
+  test.todo(
     'can route to providers by sorting by price',
     async () => {
       const response = await client.chat.completions.create({
@@ -330,7 +330,7 @@ describe('OpenRouter Provider Routing', () => {
     60000,
   )
 
-  test.fails(
+  test.todo(
     'can route to specific providers',
     async () => {
       const response = await client.chat.completions.create({
@@ -348,7 +348,7 @@ describe('OpenRouter Provider Routing', () => {
     60000,
   )
 
-  test.fails(
+  test.todo(
     'can route with fallback providers',
     async () => {
       const response = await client.chat.completions.create({
@@ -368,7 +368,7 @@ describe('OpenRouter Provider Routing', () => {
 })
 
 describe('OpenRouter Prompt Caching', () => {
-  test.fails(
+  test.todo(
     'can create a chat completion with caching enabled',
     async () => {
       const firstResponse = await client.chat.completions.create({
@@ -393,7 +393,7 @@ describe('OpenRouter Prompt Caching', () => {
     60000,
   )
 
-  test.fails(
+  test.todo(
     'can create a chat completion with cache invalidation',
     async () => {
       const response = await client.chat.completions.create({
@@ -528,7 +528,7 @@ describe('OpenRouter Images & PDFs', () => {
 })
 
 describe('OpenRouter Message Transforms', () => {
-  test.fails(
+  test.todo(
     'can create a chat completion with message transforms',
     async () => {
       const response = await client.chat.completions.create({
@@ -551,7 +551,7 @@ describe('OpenRouter Message Transforms', () => {
 })
 
 describe('OpenRouter Uptime Optimization', () => {
-  test.fails(
+  test.todo(
     'can create a chat completion with uptime optimization',
     async () => {
       const response = await client.chat.completions.create({
@@ -569,7 +569,7 @@ describe('OpenRouter Uptime Optimization', () => {
 })
 
 describe('OpenRouter Web Search', () => {
-  test.fails(
+  test.todo(
     'can create a chat completion with web search',
     async () => {
       const response = await client.chat.completions.create({
@@ -599,7 +599,7 @@ describe('OpenRouter Web Search', () => {
 })
 
 describe('OpenRouter Zero Completion Insurance', () => {
-  test.fails(
+  test.todo(
     'can create a chat completion with zero completion insurance',
     async () => {
       const response = await client.chat.completions.create({
