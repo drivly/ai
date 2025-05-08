@@ -270,13 +270,16 @@ export async function POST(req: Request) {
   const openAIStreamableResponse = (textStream: any) => {
     // We need to replicate this response format:
     // data: {"id": "chatcmpl-81ac59df-6615-4967-9462-a0d4bcb002dd", "model": "llama3.2-3b-it-q6", "created": 1733773199, "object": "chat.completion.chunk", "choices": [{"index": 0, "delta": {"content": " any"}, "logprobs": null, "finish_reason": null}]}
+    // data: {"id":"gen-1746649993-JcAnN9JWfGSdco3C13ad","provider":"Google AI Studio","model":"google/gemini-2.0-flash-lite-001","object":"chat.completion.chunk","created":1746649993,"choices":[{"index":0,"delta":{"role":"assistant","content":"Okay"},"finish_reason":null,"native_finish_reason":null,"logprobs":null}]}
 
     return createDataStreamResponse({
       execute: async(dataStream) => {
+        const id = `chatcmpl-${ Math.random().toString(36).substring(2, 15) }`
+
         for await (const chunk of textStream) {
 
           const openAICompatibleChunk = {
-            id: `chatcmpl-${ Math.random().toString(36).substring(2, 15) }`,
+            id,
             model,
             created: Date.now(),
             object: 'chat.completion.chunk',
@@ -293,7 +296,7 @@ export async function POST(req: Request) {
           }
 
           // @ts-expect-error - We're using this for a different type than what it was built for
-          dataStream.write(`data: ${ JSON.stringify(openAICompatibleChunk) }\n`)
+          dataStream.write(`data: ${ JSON.stringify(openAICompatibleChunk) }\n\n`)
         }
 
         // Send the stop reason chunk
