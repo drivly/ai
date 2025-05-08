@@ -393,6 +393,9 @@ describe('OpenRouter Structured Outputs', () => {
       if (content.includes('{')) {
         const parsed = JSON.parse(content)
         expect(parsed).toBeDefined()
+        if (parsed.cities) {
+          expect(parsed.cities.length).toBeGreaterThan(0)
+        }
         console.log(`Structured output: ${content}`)
       }
     } catch (e) {
@@ -529,7 +532,7 @@ describe('OpenRouter Web Search', () => {
       }
     })
     expect(response).toBeDefined()
-    expect(response.choices[0].message.content).toBeTruthy()
+    expect(response.choices[0].message).toBeDefined()
     const content = response.choices[0].message.content || ''
     expect(content.length).toBeGreaterThan(0)
     console.log(`Web search: ${content.substring(0, Math.min(content.length, 100))}...`)
