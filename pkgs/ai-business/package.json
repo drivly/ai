@@ -1,0 +1,27 @@
+{
+  "name": "ai-business",
+  "version": "0.1.0",
+  "description": "AI-powered business primitives for representing and operating business concepts as code",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "ai",
+    "business",
+    "storybrand",
+    "lean-canvas"
+  ],
+  "author": "Drivly",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/drivly/ai.git",
+    "directory": "pkgs/ai-business"
+  }
+}
