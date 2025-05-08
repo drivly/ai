@@ -250,5 +250,5 @@ describe('OpenAI SDK Models', () => {
 })
 
 function getPdfData(filename: string) {
-  return 'data:application/pdf;base64,' + fs.readFileSync(`${__dirname}/${filename}`, 'base64')
+  return 'data:application/pdf;base64,' + fs.readFileSync(`${__dirname}/assets/${filename}`, 'base64')
 }
