@@ -247,7 +247,6 @@ async function main() {
         ${addedModelsSegment}
         ${removedModelsSegment}
         ${currentLogMarkdown}`)
-          // @ts-expect-error - TS doesnt like us
           .replaceAll('  ', '')
       )
     }
