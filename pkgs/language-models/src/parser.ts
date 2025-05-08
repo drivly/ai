@@ -443,13 +443,23 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
   const parsed = parse(modelIdentifier)
 
   const { models } = filterModels(modelIdentifier)
-  return {
+  const result = {
     ...models[0],
     parsed: {
       ...parsed,
       ...augments,
     },
   }
+  
+  // Only handle specific Claude models with thinking capability
+  if (!result.slug) {
+    // For claude models with thinking capability
+    if (modelIdentifier.includes('claude-3.7-sonnet:thinking')) {
+      result.slug = 'anthropic/claude-3.7-sonnet:thinking'
+    }
+  }
+  
+  return result
 }
 
 export function getModels(modelIdentifier: string) {
