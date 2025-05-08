@@ -31,6 +31,59 @@ async function fetchProviders(slug: string) {
   return camelCaseDeep(response.data || [])
 }
 
+const authorIconCache = new Map<string, string>()
+
+async function getModelAuthorIcon(model: string): Promise<string> {
+  const [ author, modelName ] = model.split('/')
+  if (authorIconCache.has(author)) {
+    console.log(
+      '[ICONS] Used cache for author:', author
+    )
+
+    return authorIconCache.get(author) as string
+  }
+
+  const html = await fetch(`https://openrouter.ai/${author}`).then(res => res.text())
+
+    // 'https://t0.gstatic.com/faviconV2',
+    // '/images/icons/'
+
+  const patterns = [
+    {
+      pattern: '/images/icons/',
+      getUrl: (icon: string) => {
+        return 'https://openrouter.ai/images/icons/' + icon
+      }
+    },
+    {
+      pattern: 'https://t0.gstatic.com/faviconV2',
+      getUrl: (icon: string) => {
+        return 'https://t0.gstatic.com/faviconV2' + icon.replaceAll('\u0026', '&')
+      }
+    }
+  ]
+
+  const activePattern = patterns.find(p => html.includes(p.pattern))
+
+  if (!activePattern) {
+    console.log(
+      '[ICONS] Falling back as we cant find a icon for', model
+    )
+
+    return ''
+  }
+
+  const icon = html
+    .split(activePattern.pattern)[1]
+    .split('\\"')[0]
+
+  const url = activePattern.getUrl(icon)
+
+  authorIconCache.set(author, url)
+
+  return url
+}
+
 async function main() {
   try {
     const URL = 'https://openrouter.ai/api/frontend/models/find?order=top-weekly'
@@ -56,7 +109,11 @@ async function main() {
 
     const models = data['top-weekly']
 
-    const modelsData = models.models.map((model) => {
+    const allProviders = await fetch('https://openrouter.ai/api/frontend/all-providers')
+      .then(res => res.json())
+      .then(data => data.data)
+    
+      const modelsData = models.models.map((model) => {
       if (model.slug in overwrites) {
         console.log(`Overwriting model ${model.slug} with custom data`, overwrites[model.slug])
         const tempModel: Record<string, unknown> = flatten(model)
@@ -95,6 +152,16 @@ async function main() {
     let completed = 0
 
     for (const model of modelsData) {
+      console.log(
+        `[ICONS] Fetching author icon for ${model.slug}...`
+      )
+
+      model.authorIcon = await getModelAuthorIcon(model.slug)
+
+      console.log(
+        '[ICONS] Found author icon', model.authorIcon
+      )
+
       console.log(`[PROVIDERS] Fetching provider metadata for ${model.permaslug}...`)
 
       const providers = await fetchProviders(model.permaslug)
@@ -112,8 +179,15 @@ async function main() {
           )
         }
 
+        let icon = allProviders.find(p => p.displayName === provider.providerDisplayName)?.icon?.url || ''
+
+        if (icon.includes('/images/icons/')) {
+          icon = `https://openrouter.ai${icon}`
+        }
+
         return {
           name: provider.providerDisplayName,
+          icon,
           slug: camelCase(providerName),
           quantization: provider.quantization,
           context: provider.contextLength,
@@ -135,10 +209,48 @@ async function main() {
 
     // Write to models.json in src directory
     const { resolve } = await import('node:path')
-    const { writeFileSync } = await import('node:fs')
+    const { writeFileSync, readFileSync } = await import('node:fs')
 
     const outputPath = resolve('./src/models.js')
+
+    // Read the file first, we want to get a list of models that were added in this run.
+    const existingModels = JSON.parse(readFileSync(outputPath, 'utf8').replace('export default ', ''))
+    const newModels = modelsData.filter((model) => !existingModels.models.some((m) => m.permaslug === model.permaslug))
+    const removedModels = existingModels.models.filter((model) => !modelsData.some((m) => m.permaslug === model.permaslug))
+
     writeFileSync(outputPath, `export default ${JSON.stringify({ models: modelsData }, null, 2)}`)
+
+    const saveRead = (path: string): string => {
+      try {
+        return readFileSync(path, 'utf8')
+      } catch (error) {
+        return ''
+      }
+    }
+
+    const logPath = resolve('./changelog.md')
+    const currentLogMarkdown = saveRead(logPath)
+
+    if (newModels.length || removedModels.length) {
+
+      const addedModelsSegment = newModels.length > 0 ? `### Added models:
+        ${newModels.map((m) => `- ${m.slug}`).join('\n')}` : ''
+
+      const removedModelsSegment = removedModels.length > 0 ? `### Removed models:
+        ${removedModels.map((m) => `- ${m.slug}`).join('\n')}` : ''
+
+      writeFileSync(
+        logPath,
+        // Append the new models to the file.
+        // Title should be the date and hour of the run.
+        (`# ${new Date().toISOString().split('T')[0]} ${new Date().toISOString().split('T')[1].split('.')[0]}
+        ${addedModelsSegment}
+        ${removedModelsSegment}
+        ${currentLogMarkdown}`)
+          // @ts-expect-error - TS doesnt like us
+          .replaceAll('  ', '')
+      )
+    }
 
     console.log(`Models data written to ${outputPath}`)
   } catch (error) {

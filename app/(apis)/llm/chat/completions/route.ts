@@ -202,6 +202,17 @@ export async function POST(req: Request) {
 
   const { parsed: parsedModel, ...modelData } = getModel(model)
 
+  const fixSchema = (schema: any) => {
+    switch (modelData.author) {
+      case 'openai':
+        return alterSchemaForOpenAI(schema)
+      case 'google':
+        return convertJSONSchemaToOpenAPISchema(schema)
+      default:
+        return schema
+    }
+  }
+
   if (parsedModel.outputSchema && parsedModel.outputSchema !== 'JSON') {
     if (schemas[parsedModel.outputSchema]) {
       response_format = schemas[parsedModel.outputSchema]
@@ -210,16 +221,7 @@ export async function POST(req: Request) {
         `https://cdn.jsdelivr.net/gh/charlestati/schema-org-json-schemas/schemas/${ parsedModel.outputSchema }.schema.json`
       ).then(x => x.json())
   
-      switch (modelData.author) {
-        case 'openai':
-          response_format = alterSchemaForOpenAI(schema)
-          break
-        case 'google':
-          response_format = convertJSONSchemaToOpenAPISchema(schema)
-          break
-        default:
-          response_format = schema
-      }
+      response_format = jsonSchema(fixSchema(schema))
     }
   }
 
@@ -227,10 +229,16 @@ export async function POST(req: Request) {
   const tools: Record<string, any> = {}
 
   for (const [name, toolData] of Object.entries((userTools ?? {}) as Record<string, any>)) {
+
+    console.log(
+      'Before', toolData.function.parameters, '\n',
+      'After', fixSchema(toolData.function.parameters)
+    ) 
+
     tools[toolData.function.name] = tool({
       type: 'function',
       description: toolData.function.description,
-      parameters: jsonSchema(toolData.function.parameters)
+      parameters: jsonSchema(fixSchema(toolData.function.parameters))
     })
   }
 

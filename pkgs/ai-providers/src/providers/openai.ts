@@ -57,7 +57,7 @@ export function alterSchemaForOpenAI(
   // Handle type - ensure a type is always present
   // If it has properties, it MUST be an object regardless of the specified type
   if (properties && Object.keys(properties).length > 0) {
-    result.type = 'object';
+    result.type = 'object'
   } else if (type) {
     if (Array.isArray(type)) {
       if (type.includes('null')) {
@@ -144,7 +144,7 @@ export function alterSchemaForOpenAI(
 
   // Final check to ensure type is correct based on properties
   if (result.properties && Object.keys(result.properties as object).length > 0) {
-    result.type = 'object';
+    result.type = 'object'
   }
 
   return result;

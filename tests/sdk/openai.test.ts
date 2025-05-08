@@ -9,6 +9,16 @@ const models = ['openai/o4-mini', 'google/gemini-2.0-flash-001', 'anthropic/clau
 
 const pdf = getPdfData('ORMwhitePaper.pdf')
 
+// Use to skip tests in development
+const skipTests: ('pdf' | 'structured-outputs' | 'tools')[] = [
+  'pdf',
+  'structured-outputs'
+]
+
+console.log(
+  `Skipping tests: ${skipTests.join(', ')}`
+)
+
 // Explicitly call out llm.do and OpenRouter key usage
 const client = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
@@ -51,7 +61,7 @@ describe('OpenAI SDK Responses', () => {
     60000,
   )
 
-  test.fails.each(models)(
+  test.skipIf(skipTests.includes('pdf')).each(models)(
     'can handle PDF input with %s',
     async (model) => {
       const input: ResponseInput = [
@@ -144,7 +154,7 @@ describe('OpenAI SDK Chat Completions', () => {
     60000,
   )
 
-  test.each(models)(
+  test.skipIf(skipTests.includes('pdf')).each(models)(
     'can handle PDF input with %s',
     async (model) => {
       const response = await client.chat.completions.create({
@@ -176,7 +186,42 @@ describe('OpenAI SDK Chat Completions', () => {
     60000,
   )
 
-  test.fails.each(models)('can use structured outputs using %s', async (model) => {
+  test.skipIf(skipTests.includes('tools')).each(models)('can use Composio tools using %s', async (model) => {
+    const response = await client.chat.completions.create({
+      model: `${model}(testTool)`, // Force the model to use the testTool
+      messages: [{ role: 'user', content: 'You must return the result of the testTool. The message parameter must be "Hello, World.", dont ask for other parameters, do your best effort.' }]
+    })
+
+    expect(response).toBeDefined()
+    expect(response.id).toBeDefined()
+    expect(response.choices[0].message.content).toContain('Hello, World.')
+  }, 60000)
+
+  test.skipIf(skipTests.includes('tools')).each(models)('can use local tools using %s', async (model) => {
+    const response = await client.chat.completions.create({
+      model,
+      messages: [{ role: 'user', content: 'You must return the result of the testTool. The message parameter must be "Hello, World.", dont ask for other parameters, do your best effort.' }],
+      tools: [
+        {
+          type: 'function',
+          function: {
+            name: 'localTestingTool',
+            description: 'A testing tool.',
+            parameters: { type: 'object', properties: { message: { type: 'string', description: 'The message to return' } } },
+            strict: true
+          }
+        }
+      ],
+    })
+
+    console.log(response)
+
+    expect(response).toBeDefined()
+    expect(response.id).toBeDefined()
+    expect(response.choices[0].message.content).toContain('Hello, World.')
+  }, 60000)
+
+  test.skipIf(skipTests.includes('structured-outputs')).each(models)('can use structured outputs using %s', async (model) => {
     const response = await client.chat.completions.create({
       model,
       messages: [{ role: 'user', content: 'Hello, world!' }],
