@@ -1,4 +1,4 @@
-name: Update LLM Documentation
+name: Update LLM Documentation and Benchmarks
 
 on:
   schedule:
@@ -31,6 +31,18 @@ jobs:
         run: node scripts/unified-llm-fetcher.js
         env:
           FIRECRAWL_API_KEY: ${{ secrets.FIRECRAWL_API_KEY }}
+          
+      - name: Fetch Benchmark Data
+        run: pnpm --filter ai-benchmarks generate:benchmarks
+        
+      - name: Check for Benchmark Changes
+        id: check_benchmark_changes
+        run: |
+          if [[ -n "$(git status --porcelain pkgs/ai-benchmarks/src/benchmarks/)" ]]; then
+            echo "changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
@@ -41,15 +53,16 @@ jobs:
           # - Pull Requests: read and write (for PR creation)
           # - Workflows: read and write (to trigger workflows)
           token: ${{ secrets.DOCS_WORKFLOW_PAT }}
-          commit-message: "chore: update LLM documentation"
-          branch: "auto-update/llm-docs"
+          commit-message: "chore: update LLM documentation and benchmarks"
+          branch: "auto-update/llm-docs-and-benchmarks"
           delete-branch: true
-          title: "chore: update LLM documentation"
+          title: "chore: update LLM documentation and benchmarks"
           body: |
-            This PR was created automatically by the update-llm-docs workflow.
-            It contains updated LLM documentation from various sources.
+            This PR was created automatically by the update-llm-docs-and-benchmarks workflow.
+            It contains updated LLM documentation and benchmark data from various sources.
             
-            Related to ticket: ENG-514
+            Related to ticket: AI-13, ENG-514
           labels: |
             documentation
             automated pr
+            benchmarks
