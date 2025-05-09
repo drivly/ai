@@ -62,7 +62,7 @@ export type Model = {
   warningMessage: null
   permaslug: string
   reasoningConfig: null
-  endpoint?: Endpoint | Provider
+  endpoint?: Endpoint
   sorting?: Sorting
   providers?: Provider[]
   provider?: Provider
