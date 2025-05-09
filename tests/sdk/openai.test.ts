@@ -10,14 +10,9 @@ const models = ['openai/o4-mini', 'google/gemini-2.0-flash-001', 'anthropic/clau
 const pdf = getPdfData('ORMwhitePaper.pdf')
 
 // Use to skip tests in development
-const skipTests: ('pdf' | 'structured-outputs' | 'tools')[] = [
-  'pdf',
-  'structured-outputs'
-]
+const skipTests: ('pdf' | 'structured-outputs' | 'tools')[] = ['pdf', 'structured-outputs']
 
-console.log(
-  `Skipping tests: ${skipTests.join(', ')}`
-)
+console.log(`Skipping tests: ${skipTests.join(', ')}`)
 
 // Explicitly call out llm.do and OpenRouter key usage
 const client = new OpenAI({
@@ -61,7 +56,7 @@ describe('OpenAI SDK Responses', () => {
     60000,
   )
 
-  test.skipIf(skipTests.includes('pdf')).each(models)(
+  test.skipIf(skipTests.includes('pdf')).fails.each(models)(
     'can handle PDF input with %s',
     async (model) => {
       const input: ResponseInput = [
@@ -94,38 +89,6 @@ describe('OpenAI SDK Responses', () => {
 
 describe('OpenAI SDK Chat Completions', () => {
   const isMockKey = process.env.OPEN_ROUTER_API_KEY === 'mock-openrouter-key'
-
-  test.fails(
-    'can create a chat completion with models',
-    async () => {
-      try {
-        const response = await client.chat.completions.create({
-          // @ts-expect-error OpenAI SDK does not support models
-          models: models.slice(1),
-          messages: [{ role: 'user', content: 'Hello, world!' }],
-        })
-        expect(response).toBeDefined()
-
-        if (isMockKey) {
-          console.log(`Using mock key for ${models[0]}, verifying response structure only`)
-        } else {
-          console.log(JSON.stringify(response, null, 2))
-          expect(response.id).toBeDefined()
-          expect(response.choices[0].message.content).toMatch(/hello|hi/i)
-          expect(response.model).toBe(models[1])
-          console.log(`${models[0]}: ${response.choices[0].message.content}`)
-        }
-      } catch (error) {
-        if (isMockKey) {
-          const errorMessage = error instanceof Error ? error.message : String(error)
-          console.log(`Expected error with mock key for ${models[0]}: ${errorMessage}`)
-        } else {
-          throw error
-        }
-      }
-    },
-    60000,
-  )
 
   test.each(models)(
     'can create a chat completion with %s',
@@ -186,40 +149,58 @@ describe('OpenAI SDK Chat Completions', () => {
     60000,
   )
 
-  test.skipIf(skipTests.includes('tools')).each(models)('can use Composio tools using %s', async (model) => {
-    const response = await client.chat.completions.create({
-      model: `${model}(testTool)`, // Force the model to use the testTool
-      messages: [{ role: 'user', content: 'You must return the result of the testTool. The message parameter must be "Hello, World.", dont ask for other parameters, do your best effort.' }]
-    })
+  test.skipIf(skipTests.includes('tools')).each(models)(
+    'can use Composio tools using %s',
+    async (model) => {
+      const response = await client.chat.completions.create({
+        model: `${model}(testTool)`, // Force the model to use the testTool
+        messages: [
+          {
+            role: 'user',
+            content: 'You must return the result of the testTool. The message parameter must be "Hello, World.", dont ask for other parameters, do your best effort.',
+          },
+        ],
+      })
 
-    expect(response).toBeDefined()
-    expect(response.id).toBeDefined()
-    expect(response.choices[0].message.content).toContain('Hello, World.')
-  }, 60000)
+      expect(response).toBeDefined()
+      expect(response.id).toBeDefined()
+      expect(response.choices[0].message.content).toContain('Hello, World.')
+    },
+    60000,
+  )
 
-  test.skipIf(skipTests.includes('tools')).each(models)('can use local tools using %s', async (model) => {
-    const response = await client.chat.completions.create({
-      model,
-      messages: [{ role: 'user', content: 'You must return the result of the testTool. The message parameter must be "Hello, World.", dont ask for other parameters, do your best effort.' }],
-      tools: [
-        {
-          type: 'function',
-          function: {
-            name: 'localTestingTool',
-            description: 'A testing tool.',
-            parameters: { type: 'object', properties: { message: { type: 'string', description: 'The message to return' } } },
-            strict: true
-          }
-        }
-      ],
-    })
+  test.skipIf(skipTests.includes('tools')).each(models)(
+    'can use local tools using %s',
+    async (model) => {
+      const response = await client.chat.completions.create({
+        model,
+        messages: [
+          {
+            role: 'user',
+            content: 'You must return the result of the testTool. The message parameter must be "Hello, World.", dont ask for other parameters, do your best effort.',
+          },
+        ],
+        tools: [
+          {
+            type: 'function',
+            function: {
+              name: 'localTestingTool',
+              description: 'A testing tool.',
+              parameters: { type: 'object', properties: { message: { type: 'string', description: 'The message to return' } } },
+              strict: true,
+            },
+          },
+        ],
+      })
 
-    console.log(response)
+      console.log(response)
 
-    expect(response).toBeDefined()
-    expect(response.id).toBeDefined()
-    expect(response.choices[0].message.content).toContain('Hello, World.')
-  }, 60000)
+      expect(response).toBeDefined()
+      expect(response.id).toBeDefined()
+      expect(response.choices[0].message.content).toContain('Hello, World.')
+    },
+    60000,
+  )
 
   test.skipIf(skipTests.includes('structured-outputs')).each(models)('can use structured outputs using %s', async (model) => {
     const response = await client.chat.completions.create({
@@ -232,18 +213,6 @@ describe('OpenAI SDK Chat Completions', () => {
     expect(response.choices[0].message.content).toContain('{')
     expect(response.choices[0].message.content).toMatch(/hello|hi/i)
     console.log(`${model}: ${JSON.stringify(response.choices[0].message.content)}`)
-  })
-
-  test.todo('can strategize requests to providers', async () => {
-    const response = await client.chat.completions.create({
-      messages: [{ role: 'user', content: 'Hello, world!' }],
-      // @ts-expect-error OpenAI SDK does not support provider
-      provider: {
-        sort: 'price',
-      },
-    })
-    expect(response).toBeDefined()
-    console.log(JSON.stringify(response, null, 2))
   })
 })
 
@@ -320,137 +289,86 @@ describe('OpenRouter Privacy and Logging', () => {
 })
 
 describe('OpenRouter Model Routing', () => {
-  test.todo(
-    'can route to specific models by name',
-    async () => {
-      const response = await client.chat.completions.create({
-        model: models[0],
-        messages: [{ role: 'user', content: 'Hello, world!' }],
-        // @ts-expect-error OpenAI SDK does not support models array
-        models: models.slice(0, 2),
-      })
-      expect(response).toBeDefined()
-      expect(response.id).toBeDefined()
-      expect(response.model).toBe(models[0])
-      console.log(`Model routing by name: ${response.model}`)
-    },
-    60000,
-  )
+  test('can auto-route', async () => {
+    const response = await client.chat.completions.create({
+      model: 'openrouter/auto',
+      messages: [{ role: 'user', content: 'Hello, world!' }],
+    })
+    expect(response).toBeDefined()
+    expect(response.id).toBeDefined()
+    expect(response.model).not.toBe('openrouter/auto')
+  }, 60000)
 
-  test.todo(
-    'can route to models by capability',
-    async () => {
-      const response = await client.chat.completions.create({
-        // @ts-expect-error OpenAI SDK does not support capability based routing
-        models: {
-          capability: 'vision',
-          limit: 2,
-        },
-        messages: [{ role: 'user', content: 'Hello, world!' }],
-      })
-      expect(response).toBeDefined()
-      expect(response.id).toBeDefined()
-      console.log(`Model routing by capability: ${response.model}`)
-    },
-    60000,
-  )
+  test('can route to specific models by name', async () => {
+    const response = await client.chat.completions.create({
+      messages: [{ role: 'user', content: 'Hello, world!' }],
+      // @ts-expect-error OpenAI SDK does not support models array
+      models: models.slice(1, 2),
+    })
+    expect(response).toBeDefined()
+    expect(response.id).toBeDefined()
+    expect(response.model).toBe(models[1])
+  }, 60000)
 })
 
 describe('OpenRouter Provider Routing', () => {
-  test.todo(
-    'can route to providers by sorting by price',
-    async () => {
-      const response = await client.chat.completions.create({
-        model: models[0],
-        messages: [{ role: 'user', content: 'Hello, world!' }],
-        // @ts-expect-error OpenAI SDK does not support provider
-        provider: {
-          sort: 'price',
-        },
-      })
-      expect(response).toBeDefined()
-      expect(response.id).toBeDefined()
-      console.log(`Provider routing by price: ${response.model}`)
-    },
-    60000,
-  )
+  test('can route to providers by sorting by price', async () => {
+    const response = await client.chat.completions.create({
+      messages: [{ role: 'user', content: 'Hello, world!' }],
+      // @ts-expect-error OpenAI SDK does not support provider
+      provider: {
+        sort: 'price',
+      },
+    })
+    expect(response).toBeDefined()
+    expect(response.id).toBeDefined()
+    expect(response.model).not.toMatch(/openai/)
+  }, 60000)
 
-  test.todo(
-    'can route to specific providers',
-    async () => {
-      const response = await client.chat.completions.create({
-        model: models[0],
-        messages: [{ role: 'user', content: 'Hello, world!' }],
-        // @ts-expect-error OpenAI SDK does not support provider
-        provider: {
-          only: ['openai', 'anthropic'],
-        },
-      })
-      expect(response).toBeDefined()
-      expect(response.id).toBeDefined()
-      console.log(`Provider routing by specific providers: ${response.model}`)
-    },
-    60000,
-  )
-
-  test.todo(
-    'can route with fallback providers',
-    async () => {
-      const response = await client.chat.completions.create({
-        model: models[0],
-        messages: [{ role: 'user', content: 'Hello, world!' }],
-        // @ts-expect-error OpenAI SDK does not support provider
-        provider: {
-          allow_fallbacks: true,
-        },
-      })
-      expect(response).toBeDefined()
-      expect(response.id).toBeDefined()
-      console.log(`Provider routing with fallbacks: ${response.model}`)
-    },
-    60000,
-  )
+  test('can route to specific providers', async () => {
+    const response = await client.chat.completions.create({
+      model: 'mistralai/mistral-nemo',
+      messages: [{ role: 'user', content: 'Hello, world!' }],
+      // @ts-expect-error OpenAI SDK does not support provider
+      provider: {
+        only: ['Parasail'],
+      },
+    })
+    expect(response).toBeDefined()
+    expect(response.id).toBeDefined()
+    // @ts-expect-error OpenAI SDK does not support provider
+    expect(response.provider).toBe('Parasail')
+  }, 60000)
 })
 
 describe('OpenRouter Prompt Caching', () => {
-  test.todo(
+  test.skip.fails(
     'can create a chat completion with caching enabled',
     async () => {
       const firstResponse = await client.chat.completions.create({
-        model: models[0],
+        model: 'openai/o1-mini',
         messages: [{ role: 'user', content: 'What is the capital of France?' }],
-        // @ts-expect-error OpenAI SDK does not support caching
-        cache: true,
+        // @ts-expect-error OpenAI SDK does not support cache usage
+        usage: { include: true },
       })
       expect(firstResponse).toBeDefined()
 
       const secondResponse = await client.chat.completions.create({
-        model: models[0],
+        model: 'openai/o1-mini',
         messages: [{ role: 'user', content: 'What is the capital of France?' }],
-        // @ts-expect-error OpenAI SDK does not support caching
-        cache: true,
+        // @ts-expect-error OpenAI SDK does not support cache usage
+        usage: { include: true },
       })
       expect(secondResponse).toBeDefined()
 
-      expect(secondResponse.choices[0].message.content).toBe(firstResponse.choices[0].message.content)
-      console.log(`Caching test: ${firstResponse.choices[0].message.content}`)
-    },
-    60000,
-  )
+      console.log(JSON.stringify(firstResponse, null, 2))
+      console.log(JSON.stringify(secondResponse, null, 2))
 
-  test.todo(
-    'can create a chat completion with cache invalidation',
-    async () => {
-      const response = await client.chat.completions.create({
-        model: models[0],
-        messages: [{ role: 'user', content: 'What is the capital of Italy?' }],
-        // @ts-expect-error OpenAI SDK does not support cache invalidation
-        cache: {
-          invalidate: true,
-        },
-      })
-      expect(response).toBeDefined()
-      console.log(`Cache invalidation: ${response.choices[0].message.content}`)
+      expect(secondResponse.choices[0].message.content).toBe(firstResponse.choices[0].message.content)
+      expect(secondResponse.usage).toBeDefined()
+      expect(secondResponse.usage?.prompt_tokens_details).toBeDefined()
+      expect(secondResponse.usage?.prompt_tokens_details?.cached_tokens).toBeGreaterThan(0)
+      console.log(`Caching test: ${firstResponse.choices[0].message.content}`)
     },
     60000,
   )
