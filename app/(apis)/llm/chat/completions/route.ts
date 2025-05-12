@@ -3,6 +3,7 @@ import { streamText, generateObject, streamObject, generateText, resolveConfig, 
 import { CoreMessage, jsonSchema, createDataStreamResponse, tool } from 'ai'
 import { parse, getModel } from '@/pkgs/language-models'
 import { schemas } from './schemas'
+import { convertIncomingSchema } from './schema'
 
 import {
   alterSchemaForOpenAI
@@ -187,7 +188,9 @@ export async function POST(req: Request) {
     messages = tempMessages
   }
 
-  console.log(messages)
+  console.log(
+    postData
+  )
 
   const llm = createLLMProvider({
     baseURL: 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-testing/openrouter',
@@ -213,15 +216,25 @@ export async function POST(req: Request) {
     }
   }
 
-  if (parsedModel.outputSchema && parsedModel.outputSchema !== 'JSON') {
-    if (schemas[parsedModel.outputSchema]) {
-      response_format = schemas[parsedModel.outputSchema]
-    } else {
-      const schema = await fetch(
-        `https://cdn.jsdelivr.net/gh/charlestati/schema-org-json-schemas/schemas/${ parsedModel.outputSchema }.schema.json`
-      ).then(x => x.json())
-  
-      response_format = jsonSchema(fixSchema(schema))
+  if (response_format) {
+    response_format = fixSchema(
+      convertIncomingSchema(response_format)
+    )
+  }
+
+  // Only run this if we dont already have a response_format
+  if (!response_format && parsedModel.outputSchema) {
+    if (parsedModel.outputSchema !== 'JSON') {
+      // If its an internal schema, like W2, then use that instead of Schema.org.
+      if (schemas[parsedModel.outputSchema]) {
+        response_format = schemas[parsedModel.outputSchema]
+      } else {
+        const schema = await fetch(
+          `https://cdn.jsdelivr.net/gh/charlestati/schema-org-json-schemas/schemas/${ parsedModel.outputSchema }.schema.json`
+        ).then(x => x.json())
+    
+        response_format = jsonSchema(fixSchema(schema))
+      }
     }
   }
 
@@ -229,12 +242,6 @@ export async function POST(req: Request) {
   const tools: Record<string, any> = {}
 
   for (const [name, toolData] of Object.entries((userTools ?? {}) as Record<string, any>)) {
-
-    console.log(
-      'Before', toolData.function.parameters, '\n',
-      'After', fixSchema(toolData.function.parameters)
-    ) 
-
     tools[toolData.function.name] = tool({
       type: 'function',
       description: toolData.function.description,
@@ -253,7 +260,7 @@ export async function POST(req: Request) {
           message: {
             content: result.text,
             role: 'assistant',
-            tool_calls: result.toolCalls.map((toolCall: any) => ({
+            tool_calls: (result.toolCalls || []).map((toolCall: any) => ({
               index: 0,
               id: toolCall.id,
               type: 'function',
@@ -267,11 +274,11 @@ export async function POST(req: Request) {
           finish_reason: 'stop'
         }
       ],  
-      usage: {
+      usage: result.usage ? {
         prompt_tokens: result.usage.prompt_tokens,
         completion_tokens: result.usage.completion_tokens,
         total_tokens: result.usage.total_tokens
-      }
+      } : undefined
     })
   }
 
@@ -324,6 +331,10 @@ export async function POST(req: Request) {
   console.log(
     'Using', stream ? 'streaming' : 'non-streaming',
     'with', response_format ? 'response_format' : 'no response_format'
+  )
+
+  console.log(
+    'Using tools', tools
   )
 
   if (stream) {
@@ -416,7 +427,6 @@ export async function POST(req: Request) {
     if (response_format) {
       const schema = jsonSchema(response_format)
 
-
       const result = await generateObject({
         model: llmModel,
         system,
@@ -428,7 +438,11 @@ export async function POST(req: Request) {
         schema
       })
 
-      return Response.json(result.object)
+      // @ts-expect-error - TS doesnt like us adding random properties to the result.
+      // But this is needed to trick our openAI response API into thinking its text.
+      result.text = JSON.stringify(result.object)
+
+      return openAiResponse(result)
     } else {
       const result = await generateText({
         model: llmModel,

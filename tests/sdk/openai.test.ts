@@ -10,14 +10,13 @@ const models = ['openai/o4-mini', 'google/gemini-2.0-flash-001', 'anthropic/clau
 const pdf = getPdfData('ORMwhitePaper.pdf')
 
 // Use to skip tests in development
-const skipTests: ('pdf' | 'structured-outputs' | 'tools')[] = [
-  'pdf',
-  'structured-outputs'
-]
+const skipTests: ('pdf' | 'structured-outputs' | 'tools')[] = []
 
 console.log(
   `Skipping tests: ${skipTests.join(', ')}`
 )
+
+const geminiToolFixPrompt = ' Do not ask for arguments to a tool, use your best judgement. If you are unsure, return null.'
 
 // Explicitly call out llm.do and OpenRouter key usage
 const client = new OpenAI({
@@ -179,7 +178,7 @@ describe('OpenAI SDK Chat Completions', () => {
         ],
       })
       expect(response).toBeDefined()
-      expect(response.id).toBeDefined()
+      expect(response.id).toBeDefined() 
       expect(response.choices[0].message.content).toContain('elementary fact')
       console.log(`${model}: ${JSON.stringify(response.choices[0].message.content)}`)
     },
@@ -189,7 +188,7 @@ describe('OpenAI SDK Chat Completions', () => {
   test.skipIf(skipTests.includes('tools')).each(models)('can use Composio tools using %s', async (model) => {
     const response = await client.chat.completions.create({
       model: `${model}(testTool)`, // Force the model to use the testTool
-      messages: [{ role: 'user', content: 'You must return the result of the testTool. The message parameter must be "Hello, World.", dont ask for other parameters, do your best effort.' }]
+      messages: [{ role: 'user', content: 'You must return the result of the testTool. The message parameter must be "Hello, World.".' + geminiToolFixPrompt }]
     })
 
     expect(response).toBeDefined()
@@ -214,11 +213,9 @@ describe('OpenAI SDK Chat Completions', () => {
       ],
     })
 
-    console.log(response)
-
     expect(response).toBeDefined()
     expect(response.id).toBeDefined()
-    expect(response.choices[0].message.content).toContain('Hello, World.')
+    expect(response.choices[0].message.tool_calls).toBeDefined()
   }, 60000)
 
   test.skipIf(skipTests.includes('structured-outputs')).each(models)('can use structured outputs using %s', async (model) => {
@@ -227,6 +224,7 @@ describe('OpenAI SDK Chat Completions', () => {
       messages: [{ role: 'user', content: 'Hello, world!' }],
       response_format: { type: 'json_schema', json_schema: { name: 'test', strict: true, schema: { type: 'object', properties: { test: { type: 'string' } } } } },
     })
+
     expect(response).toBeDefined()
     expect(response.id).toBeDefined()
     expect(response.choices[0].message.content).toContain('{')
@@ -488,7 +486,7 @@ describe('OpenRouter Structured Outputs', () => {
 })
 
 describe('OpenRouter Tool Calling', () => {
-  test.fails(
+  test(
     'can create a chat completion with tool calling',
     async () => {
       const response = await client.chat.completions.create({

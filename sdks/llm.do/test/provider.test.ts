@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { generateText, tool, embed } from 'ai'
+import { generateText, tool, embed, generateObject } from 'ai'
 import { createLLMProvider } from '../src'
 import { z } from 'zod'
 
@@ -11,13 +11,50 @@ const geminiToolFixPrompt = ' Do not ask for arguments to a tool, use your best 
 
 describe('llm.do Chat Completions 💭', () => {
   // Basic functionality tests
-  it('should support basic text generation without tools', async () => {
+  it('should support basic text generation', async () => {
     const result = await generateText({
       model: llm('gemini'),
       prompt: 'Respond with a short greeting'
     })
 
     expect(result.text).toBeTruthy()
+  })
+
+  // Structured outputs
+  it('should support structured outputs', async () => {
+    const result = await generateObject({
+      model: llm('gemini'),
+      prompt: 'Respond with a short greeting',
+      schema: z.object({
+        greeting: z.string()
+      })
+    })
+
+    expect(result.object.greeting).toBeTruthy()
+  })
+
+  // Currently broken inside AI SDK.
+  it.skip('should support structured outputs with tools', async () => {
+    const result = await generateObject({
+      model: llm('gemini'),
+      prompt: 'Use the greeting tool to generate a greeting to return. Person name must be "Connor"' + geminiToolFixPrompt,
+      schema: z.object({
+        greeting: z.string()
+      }),
+      tools: {
+        greetingTool: tool({
+          description: 'A tool that returns a greeting',
+          parameters: z.object({
+            personName: z.string()
+          }),
+          execute: async (args) => {
+            return `Hello, ${args.personName}!`
+          }
+        })
+      }
+    })
+
+    expect(result.object.greeting).toBeTruthy()
   })
 
   // Simple tool tests
@@ -81,6 +118,26 @@ describe('llm.do Chat Completions 💭', () => {
     })
 
     expect(receivedInput).toBeTruthy()
+  })
+
+  it('should handle both local tools and Composio tools', async () => {
+    const result = await generateText({
+      model: llm('gpt-4.1(testTool)'),
+      prompt: 'Call the testTool with the argument "Hello, World.", and then pass that into the complexTool.',
+      tools: {
+        complexTool: tool({
+          description: 'A tool that returns a string',
+          parameters: z.object({
+            message: z.string()
+          }),
+          execute: async (args) => {
+            return '123 123 4321'
+          }
+        })
+      }
+    })
+
+    expect(result.toolCalls.length).toBe(1)
   })
 
   it('should handle tool error conditions', async () => {

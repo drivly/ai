@@ -107,6 +107,7 @@ interface ModelBase {
   warningMessage: string | null
   permaslug: string
   reasoningConfig: ReasoningConfig | null
+  authorIcon: string | null
 }
 
 // Define Endpoint structure, referencing ModelBase for its 'model' property
