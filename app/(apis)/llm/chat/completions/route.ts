@@ -1,37 +1,33 @@
 import { auth } from '@/auth'
-import { streamText, generateObject, streamObject, generateText, resolveConfig, createLLMProvider } from '@/pkgs/ai-providers/src'
-import { CoreMessage, jsonSchema, createDataStreamResponse, tool } from 'ai'
-import { parse, getModel } from '@/pkgs/language-models'
-import { schemas } from './schemas'
+import { createLLMProvider, generateObject, generateText, streamObject, streamText } from '@/pkgs/ai-providers/src'
+import { getModel } from '@/pkgs/language-models'
+import { CoreMessage, createDataStreamResponse, jsonSchema, tool } from 'ai'
 import { convertIncomingSchema } from './schema'
+import { schemas } from './schemas'
 
-import {
-  alterSchemaForOpenAI
-} from '@/pkgs/ai-providers/src/providers/openai'
+import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 
-import {
-  convertJSONSchemaToOpenAPISchema
-} from '@/pkgs/ai-providers/src/providers/google'
+import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/providers/google'
 
 export const maxDuration = 600
 export const dynamic = 'force-dynamic'
 
 type OpenAICompatibleRequest = {
-  model: string;
-  messages?: CoreMessage[];
-  prompt?: string;
-  system?: string;
-  temperature?: number;
-  max_tokens?: number;
-  top_p?: number;
-  stream?: boolean;
-  response_format?: any;
-  tools?: any;
+  model: string
+  messages?: CoreMessage[]
+  prompt?: string
+  system?: string
+  temperature?: number
+  max_tokens?: number
+  top_p?: number
+  stream?: boolean
+  response_format?: any
+  tools?: any
   /*
-  * If true, the response will be streamed as a data stream response
-  * This is used by the useChat hook in the client
-  */
-  useChat?: boolean;
+   * If true, the response will be streamed as a data stream response
+   * This is used by the useChat hook in the client
+   */
+  useChat?: boolean
 }
 
 export async function POST(req: Request) {
@@ -47,18 +43,17 @@ export async function POST(req: Request) {
 
   if (apiKey) {
     // Remove the Bearer prefix
-    apiKey = apiKey.split(' ')[1]
-      .replace('sk-do-', 'sk-or-')
+    apiKey = apiKey.split(' ')[1].replace('sk-do-', 'sk-or-')
 
     // Make sure the API key is valid
     const identifyUser = async (offset: number = 0) => {
-      const res = await fetch(`https://openrouter.ai/api/v1/keys?offset=${ offset }`, {
+      const res = await fetch(`https://openrouter.ai/api/v1/keys?offset=${offset}`, {
         headers: {
-          'Authorization': `Bearer ${ process.env.OPENROUTER_PROVISIONING_KEY }`
-        }
+          Authorization: `Bearer ${process.env.OPENROUTER_PROVISIONING_KEY}`,
+        },
       })
-        .then(x => x.json())
-        .then(x => x.data)
+        .then((x) => x.json())
+        .then((x) => x.data)
 
       if (res.length === 0) {
         return null
@@ -72,14 +67,12 @@ export async function POST(req: Request) {
 
       if (!keyMatch) {
         // Loop again until we find a match or we've ran out
-        return await identifyUser(
-          offset + res.length
-        )
+        return await identifyUser(offset + res.length)
       }
 
       return {
         authenticationType: 'apiKey',
-        email: keyMatch.name
+        email: keyMatch.name,
       }
     }
 
@@ -92,9 +85,9 @@ export async function POST(req: Request) {
     session = {
       user: {
         id: user.email,
-        email: user.email
+        email: user.email,
       },
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString()
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
     }
   }
 
@@ -109,33 +102,20 @@ export async function POST(req: Request) {
     // Mixin query string into the post data
     postData = {
       ...postData,
-      ...Object.fromEntries(qs.entries())
+      ...Object.fromEntries(qs.entries()),
     }
-
   } catch (error) {
     // Convert the query string into an object
     postData = {
       model: 'openai/gpt-4.1',
-      ...Object.fromEntries(qs.entries())
+      ...Object.fromEntries(qs.entries()),
     }
   }
 
-  const {
-    model = 'openai/gpt-4.1',
-    prompt,
-    system,
-    temperature,
-    max_tokens,
-    top_p,
-    stream,
-    tools: userTools
-  } = postData as OpenAICompatibleRequest
+  const { model = 'openai/gpt-4.1', prompt, system, temperature, max_tokens, top_p, stream, tools: userTools } = postData as OpenAICompatibleRequest
 
   // Overwritable variables
-  let {
-    response_format,
-    messages
-  } = postData as OpenAICompatibleRequest
+  let { response_format, messages } = postData as OpenAICompatibleRequest
 
   if (!prompt && !messages) {
     return new Response('No prompt or messages provided', { status: 400 })
@@ -162,9 +142,9 @@ export async function POST(req: Request) {
     for (const index of Array.from({ length: messages.length }, (_, i) => i)) {
       const message = messages[index]
       const file = message.content[0] as unknown as {
-        type: 'file',
+        type: 'file'
         file: {
-          filename: string,
+          filename: string
           file_data: string
         }
       }
@@ -173,12 +153,14 @@ export async function POST(req: Request) {
       if (fileMessageIndexes.includes(index)) {
         tempMessages.push({
           role: message.role as 'user',
-          content: [{
-            type: 'file',
-            // @ts-expect-error - Read above
-            data: message.content[0].file.file_data,
-            mimeType: 'application/pdf'
-          }]
+          content: [
+            {
+              type: 'file',
+              // @ts-expect-error - Read above
+              data: message.content[0].file.file_data,
+              mimeType: 'application/pdf',
+            },
+          ],
         })
       } else {
         tempMessages.push(message)
@@ -188,17 +170,15 @@ export async function POST(req: Request) {
     messages = tempMessages
   }
 
-  console.log(
-    postData
-  )
+  console.log(postData)
 
   const llm = createLLMProvider({
     baseURL: 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-testing/openrouter',
     apiKey: apiKey,
     headers: {
       'HTTP-Referer': 'http://workflows.do',
-      'X-Title': 'Workflows.do'
-    }
+      'X-Title': 'Workflows.do',
+    },
   })
 
   const llmModel = llm(model)
@@ -217,9 +197,7 @@ export async function POST(req: Request) {
   }
 
   if (response_format) {
-    response_format = fixSchema(
-      convertIncomingSchema(response_format)
-    )
+    response_format = fixSchema(convertIncomingSchema(response_format))
   }
 
   // Only run this if we dont already have a response_format
@@ -229,10 +207,8 @@ export async function POST(req: Request) {
       if (schemas[parsedModel.outputSchema]) {
         response_format = schemas[parsedModel.outputSchema]
       } else {
-        const schema = await fetch(
-          `https://cdn.jsdelivr.net/gh/charlestati/schema-org-json-schemas/schemas/${ parsedModel.outputSchema }.schema.json`
-        ).then(x => x.json())
-    
+        const schema = await fetch(`https://cdn.jsdelivr.net/gh/charlestati/schema-org-json-schemas/schemas/${parsedModel.outputSchema}.schema.json`).then((x) => x.json())
+
         response_format = jsonSchema(fixSchema(schema))
       }
     }
@@ -245,13 +221,13 @@ export async function POST(req: Request) {
     tools[toolData.function.name] = tool({
       type: 'function',
       description: toolData.function.description,
-      parameters: jsonSchema(fixSchema(toolData.function.parameters))
+      parameters: jsonSchema(fixSchema(toolData.function.parameters)),
     })
   }
 
   const openAiResponse = (result: any) => {
     return Response.json({
-      id: result.id || `msg-${ Math.random().toString(36).substring(2, 15) }`,
+      id: result.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
       object: 'llm.completion',
       created: Date.now(),
       model,
@@ -266,19 +242,21 @@ export async function POST(req: Request) {
               type: 'function',
               function: {
                 name: toolCall.toolName,
-                arguments: JSON.stringify(toolCall.args)
-              }
-            }))
+                arguments: JSON.stringify(toolCall.args),
+              },
+            })),
           },
           index: 0,
-          finish_reason: 'stop'
-        }
-      ],  
-      usage: result.usage ? {
-        prompt_tokens: result.usage.prompt_tokens,
-        completion_tokens: result.usage.completion_tokens,
-        total_tokens: result.usage.total_tokens
-      } : undefined
+          finish_reason: 'stop',
+        },
+      ],
+      usage: result.usage
+        ? {
+            prompt_tokens: result.usage.prompt_tokens,
+            completion_tokens: result.usage.completion_tokens,
+            total_tokens: result.usage.total_tokens,
+          }
+        : undefined,
     })
   }
 
@@ -288,11 +266,10 @@ export async function POST(req: Request) {
     // data: {"id":"gen-1746649993-JcAnN9JWfGSdco3C13ad","provider":"Google AI Studio","model":"google/gemini-2.0-flash-lite-001","object":"chat.completion.chunk","created":1746649993,"choices":[{"index":0,"delta":{"role":"assistant","content":"Okay"},"finish_reason":null,"native_finish_reason":null,"logprobs":null}]}
 
     return createDataStreamResponse({
-      execute: async(dataStream) => {
-        const id = `chatcmpl-${ Math.random().toString(36).substring(2, 15) }`
+      execute: async (dataStream) => {
+        const id = `chatcmpl-${Math.random().toString(36).substring(2, 15)}`
 
         for await (const chunk of textStream) {
-
           const openAICompatibleChunk = {
             id,
             model,
@@ -302,44 +279,40 @@ export async function POST(req: Request) {
               {
                 index: 0,
                 delta: {
-                  content: chunk
+                  content: chunk,
                 },
                 logprobs: null,
-                finish_reason: null
-              }
-            ]
+                finish_reason: null,
+              },
+            ],
           }
 
           // @ts-expect-error - We're using this for a different type than what it was built for
-          dataStream.write(`data: ${ JSON.stringify(openAICompatibleChunk) }\n\n`)
+          dataStream.write(`data: ${JSON.stringify(openAICompatibleChunk)}\n\n`)
         }
 
         // Send the stop reason chunk
-        // @ts-expect-error - We're using this for a different type than what it was built for
-        dataStream.write(`data: ${ JSON.stringify({
-          id: `chatcmpl-${ Math.random().toString(36).substring(2, 15) }`,
-          model,
-          created: Date.now(),
-          object: 'chat.completion.chunk',
-          choices: [],
-          finish_reason: 'stop'
-        }) }\n`)
-      }
+        dataStream.write(
+          // @ts-expect-error - We're using this for a different type than what it was built for
+          `data: ${JSON.stringify({
+            id: `chatcmpl-${Math.random().toString(36).substring(2, 15)}`,
+            model,
+            created: Date.now(),
+            object: 'chat.completion.chunk',
+            choices: [],
+            finish_reason: 'stop',
+          })}\n`,
+        )
+      },
     })
   }
 
-  console.log(
-    'Using', stream ? 'streaming' : 'non-streaming',
-    'with', response_format ? 'response_format' : 'no response_format'
-  )
+  console.log('Using', stream ? 'streaming' : 'non-streaming', 'with', response_format ? 'response_format' : 'no response_format')
 
-  console.log(
-    'Using tools', tools
-  )
+  console.log('Using tools', tools)
 
   if (stream) {
     if (response_format || parsedModel.outputSchema === 'JSON') {
-
       let generateObjectError: (error: string) => void = () => {}
       const generateObjectErrorPromise = new Promise<string | null>((resolve) => {
         generateObjectError = resolve
@@ -355,24 +328,24 @@ export async function POST(req: Request) {
         // @ts-expect-error - Type error to be fixed.
         output: parsedModel.outputSchema === 'JSON' ? 'no-schema' : undefined,
         onError({ error }) {
-          console.error(error); // your error logging logic here
+          console.error(error) // your error logging logic here
           generateObjectError(JSON.stringify(error))
-        }
+        },
       })
 
       if (postData.useChat) {
         return createDataStreamResponse({
-          execute: async(dataStream) => {
+          execute: async (dataStream) => {
             const textStream = result.textStream
 
             // When this promise resolves, it will have an error.
             // We need to pass this error to the client so it can be displayed.
-            generateObjectErrorPromise.then(error => {
-              dataStream.write(`0:"${ error?.replaceAll('"', '\\"') }"\n`)
+            generateObjectErrorPromise.then((error) => {
+              dataStream.write(`0:"${error?.replaceAll('"', '\\"')}"\n`)
             })
 
             // Simulate a message id
-            dataStream.write(`f:{"messageId":"msg-${ Math.random().toString(36).substring(2, 15) }"}\n`)
+            dataStream.write(`f:{"messageId":"msg-${Math.random().toString(36).substring(2, 15)}"}\n`)
 
             const formatChunk = (chunk: string) => {
               // Make sure that the chunk can be parsed as JSON
@@ -380,9 +353,9 @@ export async function POST(req: Request) {
             }
 
             dataStream.write(`0:"\`\`\`json\\n"\n`)
-            
+
             for await (const chunk of textStream) {
-              dataStream.write(`0:"${ formatChunk(chunk) }"\n`)
+              dataStream.write(`0:"${formatChunk(chunk)}"\n`)
             }
 
             dataStream.write(`0:"\\n\`\`\`"\n`)
@@ -396,7 +369,7 @@ export async function POST(req: Request) {
 
             //dataStream.write(`e:{"finishReason":"stop","usage":{"promptTokens":2217,"completionTokens":70},"isContinued":false}\n`)
             //dataStream.write(`d:{"finishReason":"stop","usage":{"promptTokens":2367,"completionTokens":89}}\n`)
-          }
+          },
         })
       } else {
         const response = result.toTextStreamResponse()
@@ -406,16 +379,15 @@ export async function POST(req: Request) {
         return response
       }
     } else {
-      
       const result = await streamText({
         model: llmModel,
         system,
         messages,
         prompt,
         user: session?.user.email || '',
-        maxSteps: 50
+        maxSteps: 50,
       })
-    
+
       // We need to support both streaming and useChat use cases.
       if (postData.useChat) {
         return result.toDataStreamResponse()
@@ -431,11 +403,11 @@ export async function POST(req: Request) {
         model: llmModel,
         system,
         messages,
-        prompt, 
+        prompt,
         user: session?.user.email || '',
         mode: 'json',
         // @ts-expect-error - Type error to be fixed.
-        schema
+        schema,
       })
 
       // @ts-expect-error - TS doesnt like us adding random properties to the result.
@@ -451,7 +423,7 @@ export async function POST(req: Request) {
         prompt,
         user: session?.user.email || '',
         maxSteps: 10,
-        tools
+        tools,
       })
 
       return openAiResponse(result)
