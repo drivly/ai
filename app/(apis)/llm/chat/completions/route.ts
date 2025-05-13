@@ -92,9 +92,7 @@ export async function POST(req: Request) {
   }
 
   // Support both GET and POST requests
-  let postData: OpenAICompatibleRequest = {
-    model: 'openai/gpt-4.1',
-  }
+  let postData: Partial<OpenAICompatibleRequest> = {}
 
   try {
     postData = await req.json()
@@ -107,12 +105,11 @@ export async function POST(req: Request) {
   } catch (error) {
     // Convert the query string into an object
     postData = {
-      model: 'openai/gpt-4.1',
       ...Object.fromEntries(qs.entries()),
     }
   }
 
-  const { model = 'openai/gpt-4.1', prompt, system, temperature, max_tokens, top_p, stream, tools: userTools } = postData as OpenAICompatibleRequest
+  const { model, prompt, system, stream, tools: userTools, ...rest } = postData as OpenAICompatibleRequest
 
   // Overwritable variables
   let { response_format, messages } = postData as OpenAICompatibleRequest
@@ -141,13 +138,13 @@ export async function POST(req: Request) {
 
     for (const index of Array.from({ length: messages.length }, (_, i) => i)) {
       const message = messages[index]
-      const file = message.content[0] as unknown as {
-        type: 'file'
-        file: {
-          filename: string
-          file_data: string
-        }
-      }
+      // const file = message.content[0] as unknown as {
+      //   type: 'file'
+      //   file: {
+      //     filename: string
+      //     file_data: string
+      //   }
+      // }
 
       // Translate the file to the VerceL AI SDK format
       if (fileMessageIndexes.includes(index)) {
@@ -217,7 +214,7 @@ export async function POST(req: Request) {
   // Fix user tools to be able to be used by our system
   const tools: Record<string, any> = {}
 
-  for (const [name, toolData] of Object.entries((userTools ?? {}) as Record<string, any>)) {
+  for (const [_name, toolData] of Object.entries((userTools ?? {}) as Record<string, any>)) {
     tools[toolData.function.name] = tool({
       type: 'function',
       description: toolData.function.description,
@@ -226,38 +223,32 @@ export async function POST(req: Request) {
   }
 
   const openAiResponse = (result: any) => {
-    return Response.json({
-      id: result.id || `msg-${Math.random().toString(36).substring(2, 15)}`,
-      object: 'llm.completion',
-      created: Date.now(),
-      model,
-      choices: [
-        {
-          message: {
-            content: result.text,
-            role: 'assistant',
-            tool_calls: (result.toolCalls || []).map((toolCall: any) => ({
-              index: 0,
-              id: toolCall.id,
-              type: 'function',
-              function: {
-                name: toolCall.toolName,
-                arguments: JSON.stringify(toolCall.args),
-              },
-            })),
-          },
-          index: 0,
-          finish_reason: 'stop',
+    const response = { ...result.response.body }
+    if (!result.id) response.id = `msg-${Math.random().toString(36).substring(2, 15)}`
+    if (!response.object) response.object = 'llm.completion'
+    if (!response.created) response.created = Date.now()
+    if (!response.model) response.model = model
+    response.choices = [
+      {
+        message: {
+          content: result.text,
+          role: 'assistant',
+          tool_calls: (result.toolCalls || []).map((toolCall: any) => ({
+            index: 0,
+            id: toolCall.id,
+            type: 'function',
+            function: {
+              name: toolCall.toolName,
+              arguments: JSON.stringify(toolCall.args),
+            },
+          })),
         },
-      ],
-      usage: result.usage
-        ? {
-            prompt_tokens: result.usage.prompt_tokens,
-            completion_tokens: result.usage.completion_tokens,
-            total_tokens: result.usage.total_tokens,
-          }
-        : undefined,
-    })
+        index: 0,
+        finish_reason: 'stop',
+      },
+    ]
+    if (result.usage) response.usage = result.usage
+    return Response.json(response)
   }
 
   const openAIStreamableResponse = (textStream: any) => {
@@ -319,6 +310,7 @@ export async function POST(req: Request) {
       })
 
       const result = await streamObject({
+        ...rest,
         model: llmModel,
         system,
         messages,
@@ -360,12 +352,12 @@ export async function POST(req: Request) {
 
             dataStream.write(`0:"\\n\`\`\`"\n`)
 
-            // Fixes usagePromise not being exposed via the types
-            const usage = (result as any).usagePromise.status.value as {
-              promptTokens: number
-              completionTokens: number
-              totalTokens: number
-            }
+            // // Fixes usagePromise not being exposed via the types
+            // const usage = (result as any).usagePromise.status.value as {
+            //   promptTokens: number
+            //   completionTokens: number
+            //   totalTokens: number
+            // }
 
             //dataStream.write(`e:{"finishReason":"stop","usage":{"promptTokens":2217,"completionTokens":70},"isContinued":false}\n`)
             //dataStream.write(`d:{"finishReason":"stop","usage":{"promptTokens":2367,"completionTokens":89}}\n`)
@@ -380,6 +372,7 @@ export async function POST(req: Request) {
       }
     } else {
       const result = await streamText({
+        ...rest,
         model: llmModel,
         system,
         messages,
@@ -400,6 +393,7 @@ export async function POST(req: Request) {
       const schema = jsonSchema(response_format)
 
       const result = await generateObject({
+        ...rest,
         model: llmModel,
         system,
         messages,
@@ -417,6 +411,7 @@ export async function POST(req: Request) {
       return openAiResponse(result)
     } else {
       const result = await generateText({
+        ...rest,
         model: llmModel,
         system,
         messages,
