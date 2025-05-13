@@ -80,6 +80,27 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
         errorToMessage: (error) => error.message,
       },
       defaultObjectGenerationMode: 'tool',
+      fetch: async (url, init) => {
+        // Mixin our model options into the body.
+        // By default, AI SDK wont let us add properties that are not inside the OpenAI schema.
+        // So we're doing this to use our superset standard.
+        
+        const newBody = {
+          // @ts-expect-error - init.body is a string in this system
+          ...JSON.parse(init?.body ?? '{}'),
+          modelOptions: settings
+        }
+
+        const response = await fetch(
+          url,
+          {
+            ...init,
+            body: JSON.stringify(newBody)
+          }
+        )
+
+        return response
+      }
     })
   }
 }

@@ -27,11 +27,29 @@ type OpenAICompatibleRequest = {
   stream?: boolean;
   response_format?: any;
   tools?: any;
+}
+
+type LLMCompatibleRequest = {
   /*
   * If true, the response will be streamed as a data stream response
   * This is used by the useChat hook in the client
   */
   useChat?: boolean;
+  /**
+   * Object used to represent mixins for the getModel function.
+   * Allows you to control the model via JS rather than a string.
+   */
+  modelOptions?: {
+    providerPriorities?: ('cost' | 'throughput' | 'latency')[],
+    tools?: string[],
+  }
+}
+
+const ErrorResponse = (message: string, code: number = 400) => {
+  return Response.json({
+    success: false,
+    error: message
+  }, { status: code })
 }
 
 export async function POST(req: Request) {
@@ -137,8 +155,13 @@ export async function POST(req: Request) {
     messages
   } = postData as OpenAICompatibleRequest
 
+  // llm.do superset OpenAI standard
+  const {
+    modelOptions
+  } = postData as LLMCompatibleRequest
+
   if (!prompt && !messages) {
-    return new Response('No prompt or messages provided', { status: 400 })
+    return ErrorResponse('No prompt or messages provided')
   }
 
   // Fix messages to be in the VerceL AI SDK format.
@@ -146,6 +169,25 @@ export async function POST(req: Request) {
   // and translate it for the user.
 
   if (messages) {
+    // Swap tool role for assistant role.
+    // Tool responses from user tools comes in as tool role, which is not compatible with
+    // the AI SDK.
+    // @ts-expect-error - Read above
+    messages = messages.map((message) => {
+      if (message.role === 'tool') {
+        return {
+          ...message,
+          role: 'assistant'
+        }
+      }
+
+      return message
+    })
+
+    if (!messages) {
+      return ErrorResponse('No messages provided')
+    }
+
     // Check to see if this message is a file, and in the open ai format.
     // First get the indexes of file messages
     const fileMessageIndexes: number[] = []
@@ -203,7 +245,14 @@ export async function POST(req: Request) {
 
   const llmModel = llm(model)
 
-  const { parsed: parsedModel, ...modelData } = getModel(model)
+  const { parsed: parsedModel, ...modelData } = getModel(model, modelOptions ?? {})
+
+  if (!modelData.slug) {
+    return Response.json({
+      success: false,
+      error: `Model ${ model } not found`
+    }, { status: 404 })
+  }
 
   const fixSchema = (schema: any) => {
     switch (modelData.author) {
@@ -255,6 +304,8 @@ export async function POST(req: Request) {
       object: 'llm.completion',
       created: Date.now(),
       model,
+      provider: modelData.provider,
+      parsed: parsedModel,
       choices: [
         {
           message: {

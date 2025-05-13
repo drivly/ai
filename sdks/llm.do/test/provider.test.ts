@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { generateText, tool, embed, generateObject } from 'ai'
 import { createLLMProvider } from '../src'
+import { getModel } from '@/pkgs/language-models'
 import { z } from 'zod'
 
 const llm = createLLMProvider({
@@ -16,8 +17,31 @@ describe('llm.do Chat Completions 💭', () => {
       model: llm('gemini'),
       prompt: 'Respond with a short greeting'
     })
+ 
+    expect(result.text).toBeTruthy()
+  })
+
+  it('should route to a specific provider', async () => {
+    const result = await generateText({
+      model: llm(
+        'qwen3-32b',
+        {
+          providerPriorities: ['cost']
+        }
+      ),
+      prompt: 'Respond with a short greeting'
+    })
+
+    const model = getModel(
+      'qwen3-32b',
+      {
+        providerPriorities: ['cost']
+      }
+    )
 
     expect(result.text).toBeTruthy()
+    // @ts-expect-error - body is not typed
+    expect(result.response.body?.provider.name).toBe(model.provider.name)
   })
 
   // Structured outputs
@@ -96,7 +120,7 @@ describe('llm.do Chat Completions 💭', () => {
     
     const response = await generateText({
       model: llm('gemini'),
-      prompt: 'Call the complexTool with a detailed message. Then return the result of the complexTool.' + geminiToolFixPrompt,
+      prompt: 'Call the complexTool with a detailed message. Then return the result of the complexTool. You must use the complexTool.' + geminiToolFixPrompt,
       tools: {
         complexTool: tool({
           description: 'A tool that accepts complex parameters',
@@ -114,7 +138,8 @@ describe('llm.do Chat Completions 💭', () => {
             return `Processed: ${input.message}`
           }
         })
-      }
+      },
+      maxSteps: 3
     })
 
     expect(receivedInput).toBeTruthy()
@@ -138,6 +163,16 @@ describe('llm.do Chat Completions 💭', () => {
     })
 
     expect(result.toolCalls.length).toBe(1)
+  })
+
+  it('should handle Composio tools', async () => {
+    const result = await generateText({
+      model: llm('gpt-4.1(hackernews.getItemWithId)'),
+      prompt: 'Look up the article "43969827", and tell me the article title and url.'
+    })
+
+    expect(result.text).toBeTruthy()
+    expect(result.text.toLowerCase()).toContain('firefox')
   })
 
   it('should handle tool error conditions', async () => {

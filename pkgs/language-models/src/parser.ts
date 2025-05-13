@@ -388,7 +388,12 @@ export function filterModels(
       })
       .reduce((p: number, n: number) => (p ? p : n), 0)
 
-  let sortingStrategy = orderBy(parsed?.priorities?.map((f) => `provider.${f}`) || [])
+  const reversedFields = [
+    'throughput',
+    'cost'
+  ]
+
+  let sortingStrategy = orderBy(parsed?.priorities?.map((f) => `${reversedFields.includes(f) ? '-' : '' }provider.${f}`) || [])
 
   // Re-join back on model, replacing the providers with the filtered providers
   return {
@@ -429,7 +434,7 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
       for (const capability of value as string[]) {
         augmentsString.push(capability)
       }
-    } else augmentsString.push(`${key}:${value}`)
+    } else augmentsString.push(`${value}`)
   })
 
   if (parentheses) {
@@ -516,4 +521,4 @@ const metaModels = [
     name: 'wideRange',
     models: ['claude-3.7-sonnet', 'gemini', 'gpt-4o-mini', 'ministral-8b', 'qwq-32b'],
   },
-]
+] 

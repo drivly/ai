@@ -58,6 +58,7 @@ async function getModelAuthorIcon(model: string): Promise<string> {
     {
       pattern: 'https://t0.gstatic.com/faviconV2',
       getUrl: (icon: string) => {
+        // @ts-expect-error - replaceAll exists, no clue why TS is complaining
         return 'https://t0.gstatic.com/faviconV2' + icon.replaceAll('\u0026', '&')
       }
     }
@@ -198,8 +199,8 @@ async function main() {
           supportedParameters: model.slug === 'anthropic/claude-3.7-sonnet' ? ['max_tokens', 'temperature', 'stop', 'tools', 'tool_choice'] : provider.supportedParameters,
           inputCost: priceToDollars(provider.pricing.prompt),
           outputCost: priceToDollars(provider.pricing.completion),
-          throughput: provider.stats?.[0]?.p50Throughput,
-          latency: provider.stats?.[0]?.p50Latency,
+          throughput: provider.stats?.p50Throughput,
+          latency: provider.stats?.p50Latency,
         }
       })
 
@@ -246,7 +247,9 @@ async function main() {
         (`# ${new Date().toISOString().split('T')[0]} ${new Date().toISOString().split('T')[1].split('.')[0]}
         ${addedModelsSegment}
         ${removedModelsSegment}
+        
         ${currentLogMarkdown}`)
+          // @ts-expect-error - replaceAll exists, no clue why TS is complaining
           .replaceAll('  ', '')
       )
     }

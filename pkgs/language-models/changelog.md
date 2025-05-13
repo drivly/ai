@@ -1,3 +1,7 @@
+# 2025-05-12 19:03:25
+
+### Removed models:
+- google/gemini-flash-1.5-8b-exp
 # 2025-05-10 02:01:58
 
 ### Removed models:

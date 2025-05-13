@@ -1,3 +1,4 @@
+import { generateText } from '@/sdks/gpt.do/dist'
 import fs from 'fs'
 import OpenAI from 'openai'
 import type { ResponseInput } from 'openai/resources/responses/responses.mjs'

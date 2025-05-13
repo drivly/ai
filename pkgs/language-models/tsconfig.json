@@ -14,6 +14,6 @@
     "allowJs": true,
     "skipLibCheck": true
   },
-  "include": ["./src/**/*.ts", "./src/models.js", "./src/models.d.ts", "./generate/**/*.ts"],
+  "include": ["./src/**/*.ts", "./src/models.js", "./src/models.d.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "build/**/*.ts", "src/demo.ts"]
 }
