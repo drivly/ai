@@ -1,7 +1,7 @@
 import { JoinWaitlistButton } from '@/components/shared/join-waitlist-button'
 import { navigation } from '@/components/site-config'
 import { cn } from '@/lib/utils'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'motion/react'
 import Link from 'next/link'
 import { type Dispatch, Fragment, type SetStateAction } from 'react'
 import { IconType } from 'react-icons/lib'

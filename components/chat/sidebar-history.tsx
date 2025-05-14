@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, useSidebar } from '@/components/ui/sidebar'
 import { isToday, isYesterday, subMonths, subWeeks } from 'date-fns'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import type { User } from 'next-auth'
 import { useParams, useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'

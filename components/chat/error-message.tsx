@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { Button } from '../ui/button'
 
 function ErrorMessage({ onReload }: { onReload: () => void }) {
