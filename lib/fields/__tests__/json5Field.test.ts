@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { json5Field } from '../../../pkgs/payload-utils/src/fields/json5Field'
+import { json5Field } from '../../../src/utils/json-fields'
 
 describe('json5Field', () => {
   it('returns two fields with default options', () => {
