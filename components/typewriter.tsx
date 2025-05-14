@@ -1,7 +1,7 @@
 'use client'
 
 import { transition } from '@/components/sites/navbar/animations'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 
 const LETTER_DELAY = 0.025

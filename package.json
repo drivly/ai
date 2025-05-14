@@ -133,7 +133,7 @@
     "date-fns": "^3.6.0",
     "dedent": "^1.5.3",
     "encoding": "^0.1.13",
-    "framer-motion": "^12.11.1",
+    "framer": "^2.4.1",
     "functions.do": "0.0.1",
     "geolib": "^3.3.4",
     "graphdl.js": "^0.1.0",
