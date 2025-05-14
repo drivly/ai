@@ -1,6 +1,6 @@
 import React from 'react'
 import { cn } from '@/lib/utils'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { Attachment } from './attachment'
 
 export interface AttachmentFile {

@@ -61,7 +61,6 @@
     "agentic.md": "^0.1.0",
     "agents": "latest",
     "apis.do": "workspace:*",
-    "durable-objects-nosql": "workspace:*",
     "workflows.do": "workspace:*"
   },
   "engines": {
