@@ -74,7 +74,7 @@
     "@auth/mongodb-adapter": "^3.8.0",
     "@clickhouse/client-web": "^1.11.0",
     "@code-hike/mdx": "^0.9.0",
-    "@drivly/payload-agent": "workspace:*",
+
     "@graphdl/core": "^0.1.6",
     "@hookform/resolvers": "^5.0.1",
     "@ip-location-db/asn": "^2.3.2025042018",

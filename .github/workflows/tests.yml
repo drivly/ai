@@ -44,7 +44,8 @@ jobs:
       - name: Run Typecheck
         run: |
           pnpm --filter apis.do build
-          pnpm --filter @drivly/payload-agent build
+          # No longer need to build @drivly/payload-agent as it's now an external dependency
+          echo "Using @drivly/payload-agent from npm"
           # Temporarily disabled typecheck as requested
           # pnpm typecheck
           echo "Typecheck temporarily disabled as requested"
