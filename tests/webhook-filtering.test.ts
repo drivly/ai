@@ -1,5 +1,5 @@
 import { test, expect, describe } from 'vitest'
-import { filterEvents } from 'payload-hooks-queue'
+import { filterEvents } from '../src/utils/webhook-filtering'
 
 describe('Webhook Filtering', () => {
   test('filterEvents should match exact patterns', () => {
