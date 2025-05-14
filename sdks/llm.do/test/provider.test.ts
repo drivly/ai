@@ -35,7 +35,8 @@ describe('llm.do Chat Completions 💭', () => {
     const model = getModel(
       'qwen3-32b',
       {
-        providerPriorities: ['cost']
+        providerPriorities: ['cost'],
+        
       }
     )
 

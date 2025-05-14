@@ -47,6 +47,14 @@ type StreamObjectOptions = Omit<Parameters<typeof aiStreamObject>[0], 'model'> &
   openrouterApiKey?: string
 }
 
+export type AIToolRedirectError = Error & {
+  type: 'AI_PROVIDERS_TOOLS_REDIRECT'
+  connectionRequests: {
+    app: string
+    redirectUrl: string
+  }[]
+}
+
 // Generates a config object from 
 export async function resolveConfig(options: GenerateTextOptions) {
   // If options.model is a string, use our llm provider.
@@ -68,9 +76,69 @@ export async function resolveConfig(options: GenerateTextOptions) {
     const toolNames = Object.keys(parsedModel.parsed.tools)
 
     const composio = new Composio({ apiKey: process.env.COMPOSIO_API_KEY })
+
     const connections = await composio.connectedAccounts.list({
-      user_uuid: options.user
+      entityId: options.user,
+      status: 'ACTIVE'
     })
+
+    // Return a completion error if the user tries to use a app
+    // that they have not yet connected. Inside this error, we will include a
+    // redirect link to add the app.
+
+    const activeApps = connections.items.map(connection => connection.appName)
+    const missingApps = Array.from(new Set(toolNames.map(x => x.split('.')[0]).filter(app => !activeApps.includes(app))))
+
+    if (missingApps.length > 0) {
+      const connectionRequests = []
+
+      // Dont make a new connection request if we've already got one pending.
+      const pendingConnections = await composio.connectedAccounts.list({
+        entityId: options.user,
+        status: 'INITIATED'
+      }).then(x => x.items)
+
+      for (const app of missingApps) {
+        if (pendingConnections.find(x => x.appName === app)) {
+
+          console.debug(
+            '[COMPOSIO] Found existing connection request for',
+            app
+          )
+
+          const connection = pendingConnections.find(x => x.appName === app)
+
+          connectionRequests.push({
+            app: connection?.appName as string,
+            redirectUrl: connection?.connectionParams?.redirectUrl as string
+          })
+        } else {
+          const integration = await composio.integrations.create({
+            name: app,
+            appUniqueKey: app,
+            useComposioAuth: true,
+            forceNewIntegration: true,
+          })
+  
+          const connection = await composio.connectedAccounts.initiate({
+            integrationId: integration.id,
+            entityId: options.user
+          })
+
+          connectionRequests.push({
+            app: app as string,
+            redirectUrl: connection.redirectUrl as string
+          })
+        }
+      }
+
+      const error = new Error(`Missing access to apps: ${missingApps.join(', ')}.`) as AIToolRedirectError
+
+      error.type = 'AI_PROVIDERS_TOOLS_REDIRECT'
+      error.connectionRequests = connectionRequests
+
+      throw error
+    }
 
     const composioToolset = new VercelAIToolSet({
       apiKey: process.env.COMPOSIO_API_KEY,

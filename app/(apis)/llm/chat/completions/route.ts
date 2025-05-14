@@ -360,126 +360,144 @@ export async function POST(req: Request) {
 
   console.log('Using tools', tools)
 
-  if (stream) {
-    if (response_format || parsedModel.outputSchema === 'JSON') {
-      let generateObjectError: (error: string) => void = () => {}
-      const generateObjectErrorPromise = new Promise<string | null>((resolve) => {
-        generateObjectError = resolve
-      })
-
-      const result = await streamObject({
-        ...rest,
-        model: llmModel,
-        system,
-        messages,
-        prompt,
-        user: session?.user.email || '',
-        schema: parsedModel.outputSchema === 'JSON' ? undefined : jsonSchema(response_format),
-        // @ts-expect-error - Type error to be fixed.
-        output: parsedModel.outputSchema === 'JSON' ? 'no-schema' : undefined,
-        onError({ error }) {
-          console.error(error) // your error logging logic here
-          generateObjectError(JSON.stringify(error))
-        },
-      })
-
-      if (postData.useChat) {
-        return createDataStreamResponse({
-          execute: async (dataStream) => {
-            const textStream = result.textStream
-
-            // When this promise resolves, it will have an error.
-            // We need to pass this error to the client so it can be displayed.
-            generateObjectErrorPromise.then((error) => {
-              dataStream.write(`0:"${error?.replaceAll('"', '\\"')}"\n`)
-            })
-
-            // Simulate a message id
-            dataStream.write(`f:{"messageId":"msg-${Math.random().toString(36).substring(2, 15)}"}\n`)
-
-            const formatChunk = (chunk: string) => {
-              // Make sure that the chunk can be parsed as JSON
-              return chunk.replaceAll('"', '\\"').replaceAll('\n', '\\n')
-            }
-
-            dataStream.write(`0:"\`\`\`json\\n"\n`)
-
-            for await (const chunk of textStream) {
-              dataStream.write(`0:"${formatChunk(chunk)}"\n`)
-            }
-
-            dataStream.write(`0:"\\n\`\`\`"\n`)
-
-            // // Fixes usagePromise not being exposed via the types
-            // const usage = (result as any).usagePromise.status.value as {
-            //   promptTokens: number
-            //   completionTokens: number
-            //   totalTokens: number
-            // }
-
-            //dataStream.write(`e:{"finishReason":"stop","usage":{"promptTokens":2217,"completionTokens":70},"isContinued":false}\n`)
-            //dataStream.write(`d:{"finishReason":"stop","usage":{"promptTokens":2367,"completionTokens":89}}\n`)
+  try {
+    if (stream) {
+      if (response_format || parsedModel.outputSchema === 'JSON') {
+        let generateObjectError: (error: string) => void = () => {}
+        const generateObjectErrorPromise = new Promise<string | null>((resolve) => {
+          generateObjectError = resolve
+        })
+  
+        const result = await streamObject({
+          ...rest,
+          model: llmModel,
+          system,
+          messages,
+          prompt,
+          user: session?.user.email || '',
+          schema: parsedModel.outputSchema === 'JSON' ? undefined : jsonSchema(response_format),
+          // @ts-expect-error - Type error to be fixed.
+          output: parsedModel.outputSchema === 'JSON' ? 'no-schema' : undefined,
+          onError({ error }) {
+            console.error(error) // your error logging logic here
+            generateObjectError(JSON.stringify(error))
           },
         })
+  
+        if (postData.useChat) {
+          return createDataStreamResponse({
+            execute: async (dataStream) => {
+              const textStream = result.textStream
+  
+              // When this promise resolves, it will have an error.
+              // We need to pass this error to the client so it can be displayed.
+              generateObjectErrorPromise.then((error) => {
+                dataStream.write(`0:"${error?.replaceAll('"', '\\"')}"\n`)
+              })
+  
+              // Simulate a message id
+              dataStream.write(`f:{"messageId":"msg-${Math.random().toString(36).substring(2, 15)}"}\n`)
+  
+              const formatChunk = (chunk: string) => {
+                // Make sure that the chunk can be parsed as JSON
+                return chunk.replaceAll('"', '\\"').replaceAll('\n', '\\n')
+              }
+  
+              dataStream.write(`0:"\`\`\`json\\n"\n`)
+  
+              for await (const chunk of textStream) {
+                dataStream.write(`0:"${formatChunk(chunk)}"\n`)
+              }
+  
+              dataStream.write(`0:"\\n\`\`\`"\n`)
+  
+              // // Fixes usagePromise not being exposed via the types
+              // const usage = (result as any).usagePromise.status.value as {
+              //   promptTokens: number
+              //   completionTokens: number
+              //   totalTokens: number
+              // }
+  
+              //dataStream.write(`e:{"finishReason":"stop","usage":{"promptTokens":2217,"completionTokens":70},"isContinued":false}\n`)
+              //dataStream.write(`d:{"finishReason":"stop","usage":{"promptTokens":2367,"completionTokens":89}}\n`)
+            },
+          })
+        } else {
+          const response = result.toTextStreamResponse()
+  
+          response.headers.set('Content-Type', 'application/json; charset=utf-8')
+  
+          return response
+        }
       } else {
-        const response = result.toTextStreamResponse()
-
-        response.headers.set('Content-Type', 'application/json; charset=utf-8')
-
-        return response
+        const result = await streamText({
+          ...rest,
+          model: llmModel,
+          system,
+          messages,
+          prompt,
+          user: session?.user.email || '',
+          maxSteps: 50,
+        })
+  
+        // We need to support both streaming and useChat use cases.
+        if (postData.useChat) {
+          return result.toDataStreamResponse()
+        } else {
+          return openAIStreamableResponse(result.textStream)
+        }
       }
     } else {
-      const result = await streamText({
-        ...rest,
-        model: llmModel,
-        system,
-        messages,
-        prompt,
-        user: session?.user.email || '',
-        maxSteps: 50,
-      })
-
-      // We need to support both streaming and useChat use cases.
-      if (postData.useChat) {
-        return result.toDataStreamResponse()
+      if (response_format) {
+        const schema = jsonSchema(response_format)
+  
+        const result = await generateObject({
+          ...rest,
+          model: llmModel,
+          system,
+          messages,
+          prompt,
+          user: session?.user.email || '',
+          mode: 'json',
+          // @ts-expect-error - Type error to be fixed.
+          schema,
+        })
+  
+        // @ts-expect-error - TS doesnt like us adding random properties to the result.
+        // But this is needed to trick our openAI response API into thinking its text.
+        result.text = JSON.stringify(result.object)
+  
+        return openAiResponse(result)
       } else {
-        return openAIStreamableResponse(result.textStream)
+        const result = await generateText({
+          ...rest,
+          model: llmModel,
+          system,
+          messages,
+          prompt,
+          user: session?.user.email || '',
+          maxSteps: 10,
+          tools,
+        })
+  
+        return openAiResponse(result)
       }
     }
-  } else {
-    if (response_format) {
-      const schema = jsonSchema(response_format)
+  } catch (e) {
+    switch ((e as { type: string }).type) {
+      case 'AI_PROVIDERS_TOOLS_REDIRECT':
+        const error = e
 
-      const result = await generateObject({
-        ...rest,
-        model: llmModel,
-        system,
-        messages,
-        prompt,
-        user: session?.user.email || '',
-        mode: 'json',
-        // @ts-expect-error - Type error to be fixed.
-        schema,
-      })
-
-      // @ts-expect-error - TS doesnt like us adding random properties to the result.
-      // But this is needed to trick our openAI response API into thinking its text.
-      result.text = JSON.stringify(result.object)
-
-      return openAiResponse(result)
-    } else {
-      const result = await generateText({
-        ...rest,
-        model: llmModel,
-        system,
-        messages,
-        prompt,
-        user: session?.user.email || '',
-        maxSteps: 10,
-        tools,
-      })
-
-      return openAiResponse(result)
+        return Response.json({
+          success: false,
+          error: error.message,
+          connectionRequests: error.connectionRequests
+        }, { status: 400 })
+      default:
+        return Response.json({
+          success: false,
+          error: e.message,
+        }, { status: 400 })
     }
   }
 }
