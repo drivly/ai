@@ -1,9 +1,9 @@
-import { experiment } from 'experiments.do'
+// import { experiment } from 'experiments.do'
 import { domains } from '@/.velite'
 
 import { siteContentSchema } from '../functions/content'
 
-export const contentExperiment = () => experiment('Site Content Generation', {
+export const contentExperiment = () => ({
   models: [
     'google/gemini-2.5-pro-preview-03-25',
     'google/gemini-2.5-flash-preview',
