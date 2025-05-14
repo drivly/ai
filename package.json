@@ -202,7 +202,7 @@
   "devDependencies": {
     "@chromatic-com/playwright": "^0.12.1",
     "@eslint/eslintrc": "^3.2.0",
-    "@next/bundle-analyzer": "^15.2.4",
+    "@next/bundle-analyzer": "^15.3.2",
     "@octokit/webhooks": "^13.7.5",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^11.1.0",
