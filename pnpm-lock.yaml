@@ -205,6 +205,9 @@ importers:
       framer:
         specifier: ^2.4.1
         version: 2.4.1(framer-motion@12.11.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      framer-motion:
+        specifier: ^12.11.3
+        version: 12.11.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       functions.do:
         specifier: 0.0.1
         version: 0.0.1

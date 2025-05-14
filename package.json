@@ -134,6 +134,7 @@
     "dedent": "^1.5.3",
     "encoding": "^0.1.13",
     "framer": "^2.4.1",
+    "framer-motion": "^12.11.3",
     "functions.do": "0.0.1",
     "geolib": "^3.3.4",
     "graphdl.js": "^0.1.0",
