@@ -1,9 +1,10 @@
 import { test, expect } from '@chromatic-com/playwright'
 
+test.setTimeout(180000) // Further increased for CI environment
+
 const skipInCI = process.env.CI === 'true'
 
 test('sites main page', async ({ page }) => {
-  test.setTimeout(180000) // Further increased for CI environment
   // Use a more basic approach for CI environment
   if (process.env.CI) {
     console.log('Running in CI environment with simplified approach')
