@@ -1,6 +1,5 @@
 // import { experiment } from 'experiments.do'
 import { domains } from '@/.velite'
-
 import { siteContentSchema } from '../functions/content'
 
 export const contentExperiment = () => ({

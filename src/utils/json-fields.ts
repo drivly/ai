@@ -56,7 +56,7 @@ export const simplerJSON = (options: SimplerJSONOptions = {}): Field[] => {
       hooks: {
         beforeChange: [
           ({ value, data }: { value: any; data: any }) => {
-            if (!value) return value
+            if (!value || !data) return value
             try {
               if (defaultFormat === 'yaml') {
                 const yaml = require('yaml')
@@ -73,7 +73,7 @@ export const simplerJSON = (options: SimplerJSONOptions = {}): Field[] => {
         ],
         afterRead: [
           ({ value, data }: { value: any; data: any }) => {
-            if (!data[jsonFieldName]) return value
+            if (!data || !data[jsonFieldName]) return value
             try {
               if (defaultFormat === 'yaml') {
                 const yaml = require('yaml')
