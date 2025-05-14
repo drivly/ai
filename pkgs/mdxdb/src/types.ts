@@ -5,6 +5,17 @@ import type { CollectionMethods, DatabaseClient, DBOptions, QueryOptions, ListRe
  */
 export interface MDXDBOptions extends DBOptions {
   /**
+   * Database backend to use
+   * @default 'filesystem'
+   */
+  backend?: 'filesystem' | 'payload'
+  
+  /**
+   * Payload CMS instance (required when backend is 'payload')
+   */
+  payload?: any
+  
+  /**
    * Base path for MDX files
    * @default './content'
    */
