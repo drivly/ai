@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../src/plugin/payload/exports/client.ts"],"sourcesContent":["import AdminButtons from '../components/admin-buttons'\nimport LogoutButton from '../components/logout'\n\nexport { AdminButtons, LogoutButton }\n"],"names":["AdminButtons","LogoutButton"],"mappings":"AAAA,OAAOA,kBAAkB,8BAA6B;AACtD,OAAOC,kBAAkB,uBAAsB;AAE/C,SAASD,YAAY,EAAEC,YAAY,GAAE"}

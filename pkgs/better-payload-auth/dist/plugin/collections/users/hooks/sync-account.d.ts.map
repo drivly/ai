@@ -1,1 +1,0 @@
-{"version":3,"file":"sync-account.d.ts","sourceRoot":"","sources":["../../../../../src/plugin/collections/users/hooks/sync-account.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,yBAAyB,EAAE,MAAM,SAAS,CAAA;AAQxD,KAAK,kBAAkB,GAAG;IACxB,QAAQ,EAAE,MAAM,CAAA;IAChB,WAAW,EAAE,MAAM,CAAA;CACpB,CAAA;AAED,eAAO,MAAM,kBAAkB,GAAI,SAAS,kBAAkB,KAAG,yBA2EhE,CAAA"}

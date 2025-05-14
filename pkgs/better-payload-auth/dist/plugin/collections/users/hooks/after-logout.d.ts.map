@@ -1,1 +1,0 @@
-{"version":3,"file":"after-logout.d.ts","sourceRoot":"","sources":["../../../../../src/plugin/collections/users/hooks/after-logout.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,yBAAyB,EAAE,MAAM,SAAS,CAAA;AAOxD,KAAK,kBAAkB,GAAG;IACxB,sBAAsB,EAAE,MAAM,CAAA;CAC/B,CAAA;AAED,eAAO,MAAM,kBAAkB,GAAI,SAAS,kBAAkB,KAAG,yBAgDhE,CAAA"}

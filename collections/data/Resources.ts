@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { simplerJSON } from 'payload-utils'
+import { simplerJSON } from '../../src/utils/json-fields'
 
 export const Resources: CollectionConfig = {
   slug: 'resources',
