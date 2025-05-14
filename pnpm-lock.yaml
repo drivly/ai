@@ -114,7 +114,7 @@ importers:
         version: 4.6.0(react@19.1.0)
       '@scalar/api-reference-react':
         specifier: ^0.6.14
-        version: 0.6.16(@hyperjump/browser@1.3.0)(axios@1.8.4)(react@19.1.0)(tailwindcss@4.1.4)(typescript@5.7.3)
+        version: 0.6.16(@hyperjump/browser@1.3.0)(axios@1.9.0)(react@19.1.0)(tailwindcss@4.1.4)(typescript@5.7.3)
       '@scalar/nextjs-api-reference':
         specifier: ^0.7.12
         version: 0.7.12(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react@19.1.0)
@@ -183,7 +183,7 @@ importers:
         version: 1.12.7
       composio-core:
         specifier: ^0.5.31
-        version: 0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.4))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.4))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
+        version: 0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.4))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.4))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
       crawlee:
         specifier: ^3.13.2
         version: 3.13.2(playwright@1.51.1)
@@ -202,9 +202,9 @@ importers:
       encoding:
         specifier: ^0.1.13
         version: 0.1.13
-      framer-motion:
-        specifier: ^12.11.1
-        version: 12.11.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      framer:
+        specifier: ^2.4.1
+        version: 2.4.1(framer-motion@12.11.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       functions.do:
         specifier: 0.0.1
         version: 0.0.1
@@ -587,22 +587,22 @@ importers:
     dependencies:
       '@ai-sdk/anthropic':
         specifier: ^1.2.0
-        version: 1.2.11(zod@3.24.4)
+        version: 1.2.11(zod@3.24.3)
       '@ai-sdk/google':
         specifier: ^1.2.1
-        version: 1.2.18(zod@3.24.4)
+        version: 1.2.18(zod@3.24.3)
       '@ai-sdk/google-vertex':
         specifier: ^2.2.14
-        version: 2.2.22(encoding@0.1.13)(zod@3.24.4)
+        version: 2.2.22(encoding@0.1.13)(zod@3.24.3)
       '@ai-sdk/openai':
         specifier: ^1.3.16
-        version: 1.3.16(zod@3.24.4)
+        version: 1.3.16(zod@3.24.3)
       ai:
         specifier: ^4.3.9
-        version: 4.3.15(react@19.1.0)(zod@3.24.4)
+        version: 4.3.15(react@19.1.0)(zod@3.24.3)
       composio-core:
         specifier: ^0.5.31
-        version: 0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.4))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.4))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
+        version: 0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       language-models:
         specifier: workspace:*
         version: link:../language-models
@@ -10328,6 +10328,9 @@ packages:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
     engines: {node: '>=6'}
 
+  eventemitter3@3.1.2:
+    resolution: {integrity: sha512-tvtQIeLVHjDkJYnzf2dgVMxfuSGJeM/7UCG17TT4EumTfNtF+0nebF/4zWOIkCreAbtNqhGEboB6BWrwqNaw4Q==}
+
   eventemitter3@4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}
 
@@ -10689,6 +10692,9 @@ packages:
       debug:
         optional: true
 
+  fontfaceobserver@2.3.0:
+    resolution: {integrity: sha512-6FPvD/IVyT4ZlNe7Wcn5Fb/4ChigpucKYSvD6a+0iMoLn2inpo711eyIcKjmDtE5XNcgAkSH9uN/nfAeZzHEfg==}
+
   for-each@0.3.5:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
     engines: {node: '>= 0.4'}
@@ -10754,6 +10760,13 @@ packages:
         optional: true
       react-dom:
         optional: true
+
+  framer@2.4.1:
+    resolution: {integrity: sha512-kInsb+tmtNEvOeRa8wT2oRAl8Xe1L8ev4ahinB875Xh0zPBLt5Di6fuvBUILnDUU6mqmM+6QPiNxg62Va66V4Q==}
+    peerDependencies:
+      framer-motion: ^10.13.1
+      react: ^18.2.0
+      react-dom: ^18.2.0
 
   fresh@0.5.2:
     resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
@@ -11257,6 +11270,9 @@ packages:
   hosted-git-info@8.1.0:
     resolution: {integrity: sha512-Rw/B2DNQaPBICNXEm8balFz9a6WpZrkCGpcWFpy7nCj+NyhSdqXipmfvtmWt9xGfp0wZnBxB+iVpLmQMYt47Tw==}
     engines: {node: ^18.17.0 || >=20.5.0}
+
+  hsluv@0.0.3:
+    resolution: {integrity: sha512-08iL2VyCRbkQKBySkSh6m8zMUa3sADAxGVWs3Z1aPcUkTJeK0ETG4Fc27tEmQBGUAXZjIsXOZqBvacuVNSC/fQ==}
 
   html-encoding-sniffer@4.0.0:
     resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
@@ -17619,6 +17635,12 @@ snapshots:
       '@ai-sdk/provider-utils': 2.2.7(zod@3.24.4)
       zod: 3.24.4
 
+  '@ai-sdk/anthropic@1.2.11(zod@3.24.3)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
+      zod: 3.24.3
+
   '@ai-sdk/anthropic@1.2.11(zod@3.24.4)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
@@ -17638,6 +17660,18 @@ snapshots:
       '@ai-sdk/provider-utils': 2.2.7(zod@3.24.4)
       zod: 3.24.4
 
+  '@ai-sdk/google-vertex@2.2.22(encoding@0.1.13)(zod@3.24.3)':
+    dependencies:
+      '@ai-sdk/anthropic': 1.2.11(zod@3.24.3)
+      '@ai-sdk/google': 1.2.18(zod@3.24.3)
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
+      google-auth-library: 9.15.1(encoding@0.1.13)
+      zod: 3.24.3
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
+
   '@ai-sdk/google-vertex@2.2.22(encoding@0.1.13)(zod@3.24.4)':
     dependencies:
       '@ai-sdk/anthropic': 1.2.11(zod@3.24.4)
@@ -17655,6 +17689,12 @@ snapshots:
       '@ai-sdk/provider': 1.1.3
       '@ai-sdk/provider-utils': 2.2.7(zod@3.24.4)
       zod: 3.24.4
+
+  '@ai-sdk/google@1.2.18(zod@3.24.3)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
+      zod: 3.24.3
 
   '@ai-sdk/google@1.2.18(zod@3.24.4)':
     dependencies:
@@ -17686,6 +17726,12 @@ snapshots:
       '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
       zod: 3.24.4
 
+  '@ai-sdk/openai@1.3.16(zod@3.24.3)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      zod: 3.24.3
+
   '@ai-sdk/openai@1.3.16(zod@3.24.4)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
@@ -17716,12 +17762,26 @@ snapshots:
     optionalDependencies:
       zod: 3.24.4
 
+  '@ai-sdk/provider-utils@2.2.7(zod@3.24.3)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      nanoid: 3.3.11
+      secure-json-parse: 2.7.0
+      zod: 3.24.3
+
   '@ai-sdk/provider-utils@2.2.7(zod@3.24.4)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
       nanoid: 3.3.11
       secure-json-parse: 2.7.0
       zod: 3.24.4
+
+  '@ai-sdk/provider-utils@2.2.8(zod@3.24.3)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      nanoid: 3.3.11
+      secure-json-parse: 2.7.0
+      zod: 3.24.3
 
   '@ai-sdk/provider-utils@2.2.8(zod@3.24.4)':
     dependencies:
@@ -17752,6 +17812,16 @@ snapshots:
     optionalDependencies:
       zod: 3.24.4
 
+  '@ai-sdk/react@1.2.12(react@19.1.0)(zod@3.24.3)':
+    dependencies:
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
+      '@ai-sdk/ui-utils': 1.2.11(zod@3.24.3)
+      react: 19.1.0
+      swr: 2.3.3(react@19.1.0)
+      throttleit: 2.1.0
+    optionalDependencies:
+      zod: 3.24.3
+
   '@ai-sdk/react@1.2.12(react@19.1.0)(zod@3.24.4)':
     dependencies:
       '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
@@ -17761,6 +17831,13 @@ snapshots:
       throttleit: 2.1.0
     optionalDependencies:
       zod: 3.24.4
+
+  '@ai-sdk/ui-utils@1.2.11(zod@3.24.3)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
+      zod: 3.24.3
+      zod-to-json-schema: 3.24.5(zod@3.24.3)
 
   '@ai-sdk/ui-utils@1.2.11(zod@3.24.4)':
     dependencies:
@@ -20718,6 +20795,23 @@ snapshots:
 
   '@juggle/resize-observer@3.4.0': {}
 
+  '@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))':
+    dependencies:
+      '@cfworker/json-schema': 4.1.1
+      ansi-styles: 5.2.0
+      camelcase: 6.3.0
+      decamelize: 1.2.0
+      js-tiktoken: 1.0.20
+      langsmith: 0.3.21(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
+      mustache: 4.2.0
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      uuid: 10.0.0
+      zod: 3.24.4
+      zod-to-json-schema: 3.24.5(zod@3.24.4)
+    transitivePeerDependencies:
+      - openai
+
   '@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
@@ -20735,6 +20829,17 @@ snapshots:
     transitivePeerDependencies:
       - openai
 
+  '@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)':
+    dependencies:
+      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
+      js-tiktoken: 1.0.20
+      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)
+      zod: 3.24.4
+      zod-to-json-schema: 3.24.5(zod@3.24.4)
+    transitivePeerDependencies:
+      - encoding
+      - ws
+
   '@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1)':
     dependencies:
       '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
@@ -20745,6 +20850,11 @@ snapshots:
     transitivePeerDependencies:
       - encoding
       - ws
+
+  '@langchain/textsplitters@0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))':
+    dependencies:
+      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
+      js-tiktoken: 1.0.20
 
   '@langchain/textsplitters@0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))':
     dependencies:
@@ -22953,7 +23063,7 @@ snapshots:
       fast-deep-equal: 3.1.3
       lodash: 4.17.21
 
-  '@scalar/api-client@2.3.19(@hyperjump/browser@1.3.0)(axios@1.8.4)(tailwindcss@4.1.4)(typescript@5.7.3)':
+  '@scalar/api-client@2.3.19(@hyperjump/browser@1.3.0)(axios@1.9.0)(tailwindcss@4.1.4)(typescript@5.7.3)':
     dependencies:
       '@headlessui/tailwindcss': 0.2.2(tailwindcss@4.1.4)
       '@headlessui/vue': 1.7.23(vue@3.5.13(typescript@5.7.3))
@@ -22974,7 +23084,7 @@ snapshots:
       '@scalar/use-toasts': 0.7.9(typescript@5.7.3)
       '@scalar/use-tooltip': 1.0.6(typescript@5.7.3)
       '@vueuse/core': 10.11.1(vue@3.5.13(typescript@5.7.3))
-      '@vueuse/integrations': 11.3.0(axios@1.8.4)(focus-trap@7.6.4)(fuse.js@7.1.0)(vue@3.5.13(typescript@5.7.3))
+      '@vueuse/integrations': 11.3.0(axios@1.9.0)(focus-trap@7.6.4)(fuse.js@7.1.0)(vue@3.5.13(typescript@5.7.3))
       focus-trap: 7.6.4
       fuse.js: 7.1.0
       microdiff: 1.5.0
@@ -23005,9 +23115,9 @@ snapshots:
       - typescript
       - universal-cookie
 
-  '@scalar/api-reference-react@0.6.16(@hyperjump/browser@1.3.0)(axios@1.8.4)(react@19.1.0)(tailwindcss@4.1.4)(typescript@5.7.3)':
+  '@scalar/api-reference-react@0.6.16(@hyperjump/browser@1.3.0)(axios@1.9.0)(react@19.1.0)(tailwindcss@4.1.4)(typescript@5.7.3)':
     dependencies:
-      '@scalar/api-reference': 1.28.19(@hyperjump/browser@1.3.0)(axios@1.8.4)(tailwindcss@4.1.4)(typescript@5.7.3)
+      '@scalar/api-reference': 1.28.19(@hyperjump/browser@1.3.0)(axios@1.9.0)(tailwindcss@4.1.4)(typescript@5.7.3)
       '@scalar/types': 0.1.7
       react: 19.1.0
     transitivePeerDependencies:
@@ -23027,11 +23137,11 @@ snapshots:
       - typescript
       - universal-cookie
 
-  '@scalar/api-reference@1.28.19(@hyperjump/browser@1.3.0)(axios@1.8.4)(tailwindcss@4.1.4)(typescript@5.7.3)':
+  '@scalar/api-reference@1.28.19(@hyperjump/browser@1.3.0)(axios@1.9.0)(tailwindcss@4.1.4)(typescript@5.7.3)':
     dependencies:
       '@floating-ui/vue': 1.1.6(vue@3.5.13(typescript@5.7.3))
       '@headlessui/vue': 1.7.23(vue@3.5.13(typescript@5.7.3))
-      '@scalar/api-client': 2.3.19(@hyperjump/browser@1.3.0)(axios@1.8.4)(tailwindcss@4.1.4)(typescript@5.7.3)
+      '@scalar/api-client': 2.3.19(@hyperjump/browser@1.3.0)(axios@1.9.0)(tailwindcss@4.1.4)(typescript@5.7.3)
       '@scalar/code-highlight': 0.0.27
       '@scalar/components': 0.13.47(typescript@5.7.3)
       '@scalar/oas-utils': 0.2.130(@hyperjump/browser@1.3.0)
@@ -25921,13 +26031,13 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/integrations@11.3.0(axios@1.8.4)(focus-trap@7.6.4)(fuse.js@7.1.0)(vue@3.5.13(typescript@5.7.3))':
+  '@vueuse/integrations@11.3.0(axios@1.9.0)(focus-trap@7.6.4)(fuse.js@7.1.0)(vue@3.5.13(typescript@5.7.3))':
     dependencies:
       '@vueuse/core': 11.3.0(vue@3.5.13(typescript@5.7.3))
       '@vueuse/shared': 11.3.0(vue@3.5.13(typescript@5.7.3))
       vue-demi: 0.14.10(vue@3.5.13(typescript@5.7.3))
     optionalDependencies:
-      axios: 1.8.4
+      axios: 1.9.0
       focus-trap: 7.6.4
       fuse.js: 7.1.0
     transitivePeerDependencies:
@@ -26294,6 +26404,18 @@ snapshots:
       zod: 3.24.4
     optionalDependencies:
       react: 18.3.1
+
+  ai@4.3.15(react@19.1.0)(zod@3.24.3):
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
+      '@ai-sdk/react': 1.2.12(react@19.1.0)(zod@3.24.3)
+      '@ai-sdk/ui-utils': 1.2.11(zod@3.24.3)
+      '@opentelemetry/api': 1.9.0
+      jsondiffpatch: 0.6.0
+      zod: 3.24.3
+    optionalDependencies:
+      react: 19.1.0
 
   ai@4.3.15(react@19.1.0)(zod@3.24.4):
     dependencies:
@@ -27318,23 +27440,23 @@ snapshots:
       array-ify: 1.0.0
       dot-prop: 5.3.0
 
-  composio-core@0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.4))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.4))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)):
+  composio-core@0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)):
     dependencies:
-      '@ai-sdk/openai': 1.3.16(zod@3.24.4)
+      '@ai-sdk/openai': 1.3.16(zod@3.24.3)
       '@cloudflare/workers-types': 4.20250415.0
       '@composio/mcp': 1.0.3-0
       '@hey-api/client-axios': 0.2.12(axios@1.8.4)
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
-      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1)
-      ai: 4.3.15(react@19.1.0)(zod@3.24.4)
+      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
+      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)
+      ai: 4.3.15(react@19.1.0)(zod@3.24.3)
       axios: 1.8.4
       chalk: 4.1.2
       cli-progress: 3.12.0
       commander: 12.1.0
       inquirer: 10.2.2
-      langchain: 0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1)
+      langchain: 0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1)
       open: 8.4.2
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)
+      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
       pusher-js: 8.4.0-rc2
       resolve-package-path: 4.0.3
       uuid: 10.0.0
@@ -28648,7 +28770,7 @@ snapshots:
       '@typescript-eslint/parser': 8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react: 7.37.5(eslint@9.24.0(jiti@2.4.2))
@@ -28665,6 +28787,21 @@ snapshots:
       debug: 3.2.7
       is-core-module: 2.16.1
       resolve: 1.22.10
+    transitivePeerDependencies:
+      - supports-color
+
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
+    dependencies:
+      '@nolyfill/is-core-module': 1.0.39
+      debug: 4.4.0(supports-color@8.1.1)
+      eslint: 9.24.0(jiti@2.4.2)
+      get-tsconfig: 4.10.0
+      is-bun-module: 2.0.0
+      stable-hash: 0.0.5
+      tinyglobby: 0.2.13
+      unrs-resolver: 1.6.2
+    optionalDependencies:
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.4.2))
     transitivePeerDependencies:
       - supports-color
 
@@ -28694,14 +28831,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
     transitivePeerDependencies:
       - supports-color
 
@@ -28745,7 +28882,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0)(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -28965,6 +29102,8 @@ snapshots:
   event-target-polyfill@0.0.4: {}
 
   event-target-shim@5.0.1: {}
+
+  eventemitter3@3.1.2: {}
 
   eventemitter3@4.0.7: {}
 
@@ -29392,6 +29531,8 @@ snapshots:
     optionalDependencies:
       debug: 4.4.0(supports-color@8.1.1)
 
+  fontfaceobserver@2.3.0: {}
+
   for-each@0.3.5:
     dependencies:
       is-callable: 1.2.7
@@ -29458,6 +29599,17 @@ snapshots:
       motion-utils: 12.9.4
       tslib: 2.8.1
     optionalDependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+
+  framer@2.4.1(framer-motion@12.11.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      '@juggle/resize-observer': 3.4.0
+      eventemitter3: 3.1.2
+      fontfaceobserver: 2.3.0
+      framer-motion: 12.11.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      hoist-non-react-statics: 3.3.2
+      hsluv: 0.0.3
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
@@ -30171,6 +30323,8 @@ snapshots:
   hosted-git-info@8.1.0:
     dependencies:
       lru-cache: 10.4.3
+
+  hsluv@0.0.3: {}
 
   html-encoding-sniffer@4.0.0:
     dependencies:
@@ -31108,15 +31262,15 @@ snapshots:
 
   ky@0.33.3: {}
 
-  langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1):
+  langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1):
     dependencies:
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
-      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1)
-      '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))
+      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
+      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)
+      '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))
       js-tiktoken: 1.0.20
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.3.21(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
+      langsmith: 0.3.21(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
@@ -31163,6 +31317,18 @@ snapshots:
       vscode-languageserver: 9.0.1
       vscode-languageserver-textdocument: 1.0.12
       vscode-uri: 3.0.8
+
+  langsmith@0.3.21(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)):
+    dependencies:
+      '@types/uuid': 10.0.0
+      chalk: 4.1.2
+      console-table-printer: 2.12.1
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      semver: 7.7.1
+      uuid: 10.0.0
+    optionalDependencies:
+      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
 
   langsmith@0.3.21(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)):
     dependencies:
@@ -33279,6 +33445,21 @@ snapshots:
       formdata-node: 4.4.1
       node-fetch: 2.7.0(encoding@0.1.13)
       web-streams-polyfill: 3.3.3
+    transitivePeerDependencies:
+      - encoding
+
+  openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3):
+    dependencies:
+      '@types/node': 18.19.86
+      '@types/node-fetch': 2.6.12
+      abort-controller: 3.0.0
+      agentkeepalive: 4.6.0
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
+      node-fetch: 2.7.0(encoding@0.1.13)
+    optionalDependencies:
+      ws: 8.18.1
+      zod: 3.24.3
     transitivePeerDependencies:
       - encoding
 
