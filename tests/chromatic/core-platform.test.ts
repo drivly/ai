@@ -2,9 +2,8 @@ import { test as playwrightTest, expect } from '@playwright/test' // Use standar
 import { test as chromaticTest } from '@chromatic-com/playwright' // Use chromatic test runner
 import { takeNamedSnapshot } from '../utils/chromatic-helpers'
 
-chromaticTest.setTimeout(180000) // Further increased for CI environment
-
 chromaticTest('functions collection page', async ({ page }, testInfo) => {
+  chromaticTest.setTimeout(180000) // Further increased for CI environment
   // Use chromaticTest and add testInfo
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000'
 
