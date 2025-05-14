@@ -18,7 +18,7 @@
     "language-models": "workspace:*",
     "ai-providers": "workspace:*",
     "chanfana": "^2.8.0",
-    "composio-core": "^0.5.31",
+    "composio-core": "^0.5.39",
     "geolib": "^3.3.4",
     "hono": "^4.7.5",
     "ua-parser-js": "^2.0.3",
