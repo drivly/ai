@@ -2,7 +2,7 @@
  * Utility functions for JSON field handling
  * Replaces functions previously imported from payload-utils
  */
-import type { Field } from 'payload/types'
+import type { Field } from 'payload'
 
 type SimplerJSONOptions = {
   jsonFieldName?: string
@@ -41,7 +41,7 @@ export const simplerJSON = (options: SimplerJSONOptions = {}): Field[] => {
       hooks: {
         beforeChange: [
           ({ value, data }) => {
-            if (!value) return value
+            if (!value || !data) return value
             try {
               if (defaultFormat === 'yaml') {
                 const yaml = require('yaml')
@@ -58,7 +58,7 @@ export const simplerJSON = (options: SimplerJSONOptions = {}): Field[] => {
         ],
         afterRead: [
           ({ value, data }) => {
-            if (!data[jsonFieldName]) return value
+            if (!data || !data[jsonFieldName]) return value
             try {
               if (defaultFormat === 'yaml') {
                 const yaml = require('yaml')
