@@ -1,9 +1,10 @@
 import { test, expect } from '@chromatic-com/playwright'
 
+test.setTimeout(180000) // Further increased for CI environment
+
 const skipInCI = process.env.CI === 'true'
 
 test('sites main page', async ({ page }) => {
-  test.setTimeout(180000) // Further increased for CI environment
   // Use a more basic approach for CI environment
   if (process.env.CI) {
     console.log('Running in CI environment with simplified approach')
@@ -50,7 +51,6 @@ test('sites main page', async ({ page }) => {
 })
 
 test('docs page', async ({ page }) => {
-  test.setTimeout(180000) // Further increased for CI environment
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000'
 
   // Use a more basic approach for CI environment
@@ -99,7 +99,6 @@ test('docs page', async ({ page }) => {
 })
 
 test('specific site page', async ({ page }) => {
-  test.setTimeout(180000) // Further increased for CI environment
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000'
 
   // Use a more basic approach for CI environment
@@ -142,7 +141,6 @@ test('specific site page', async ({ page }) => {
 })
 
 test('site blog page', async ({ page }) => {
-  test.setTimeout(180000) // Further increased for CI environment
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000'
 
   // Use a more basic approach for CI environment
@@ -197,7 +195,6 @@ test('site blog page', async ({ page }) => {
 })
 
 test('site blog post page', async ({ page }) => {
-  test.setTimeout(180000) // Further increased for CI environment
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000'
 
   // Use a more basic approach for CI environment

@@ -2,14 +2,11 @@ import { test as playwrightTest, expect } from '@playwright/test' // Use standar
 import { test as chromaticTest } from '@chromatic-com/playwright' // Use chromatic test runner
 import { takeNamedSnapshot } from '../utils/chromatic-helpers'
 
-chromaticTest('documentation page', async ({ page }, testInfo) => {
-  chromaticTest.setTimeout(180000) // Further increased for CI environment
-  
-  // Skip test in CI environment
-  if (process.env.CI === 'true') {
-    console.log('Skipping test in CI environment')
-    return
-  }
+chromaticTest.setTimeout(180000) // Further increased for CI environment
+
+const skipInCI = process.env.CI === 'true'
+
+;(skipInCI ? chromaticTest.skip : chromaticTest)('documentation page', async ({ page }, testInfo) => {
   // Use chromaticTest and add testInfo
   const baseUrl = process.env.TEST_BASE_URL || 'http://localhost:3000'
 
