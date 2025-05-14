@@ -145,6 +145,7 @@
     "lucide-react": "^0.483.0",
     "marked": "^15.0.11",
     "mongodb": "^6.15.0",
+    "motion": "^12.11.3",
     "motion.md": "0.0.1",
     "murmurhash": "^2.0.1",
     "next": "15.3.1",
