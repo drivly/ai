@@ -56,7 +56,7 @@
     "test": "turbo test",
     "test:watch": "vitest",
     "test:unit": "vitest run --exclude tests/e2e/ --exclude tests/chromatic/",
-    "test:e2e": "playwright test tests/e2e-playwright",
+    "test:e2e": "vitest run tests/e2e-playwright",
     "test:visual": "playwright test tests/chromatic",
     "test:chromatic": "npx playwright test tests/chromatic && npx chromatic --playwright --project-token=${CHROMATIC_PROJECT_TOKEN}",
     "clean": "turbo clean",
@@ -288,7 +288,10 @@
     "overrides": {
       "apis.do": "workspace:*",
       "prettier": "3.5.3",
-      "@playwright/test": "^1.51.1"
+      "@playwright/test": "1.51.1"
+    },
+    "resolutions": {
+      "@playwright/test": "1.51.1"
     }
   },
   "prettier": {
