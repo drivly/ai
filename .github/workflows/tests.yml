@@ -51,10 +51,8 @@ jobs:
 
       - name: Build Required Packages
         run: |
-          # Build payload-hooks-queue package first to fix module not found error
-          cd pkgs/payload-hooks-queue
-          pnpm build
-          cd ../..
+          # No longer need to build payload-hooks-queue as it's now an external dependency
+          echo "Using payload-hooks-queue from npm"
           
       - name: Start Payload Server for Unit Tests
         run: |
