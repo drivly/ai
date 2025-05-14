@@ -37,6 +37,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22.x
+          registry-url: 'https://registry.npmjs.org/'
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
@@ -45,6 +46,14 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+        
+      # Add explicit NPM authentication step
+      - name: Configure NPM Authentication
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          npm whoami || echo "NPM Authentication Failed"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         
       - name: Check for Changes
         id: check-changes
@@ -103,6 +112,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22.x
+          registry-url: 'https://registry.npmjs.org/'
 
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
@@ -111,6 +121,14 @@ jobs:
 
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+        
+      # Add explicit NPM authentication step
+      - name: Configure NPM Authentication
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          npm whoami || echo "NPM Authentication Failed"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         
       - name: Update Version Stamp
         run: |

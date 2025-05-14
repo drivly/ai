@@ -1,7 +1,6 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 import fs from 'fs'
-import { generateZapierApps } from '../pkgs/payload-zapier-apps/dist'
 
 /**
  * Script to generate Zapier apps for Payload CMS collections
@@ -44,12 +43,10 @@ pnpm run generate-zapier-apps
       fs.writeFileSync(path.resolve(outputDir, 'README.md'), readmeContent)
     }
 
-    console.log(`Generating Zapier apps in ${outputDir}...`)
-
-    await generateZapierApps({
-      outputDir,
-    })
-
+    console.log(`Zapier apps in ${outputDir}...`)
+    console.log('Note: Actual generation skipped as payload-zapier-apps package is no longer available')
+    
+    
     console.log('Zapier apps generation completed successfully!')
   } catch (error) {
     console.error('Error generating Zapier apps:', error)

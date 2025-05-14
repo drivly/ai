@@ -18,7 +18,7 @@ const PACKAGES = [
   'pkgs/deploy-worker',
   'pkgs/durable-objects-nosql',
   'pkgs/payload-commandbar',
-  'pkgs/payload-hooks-queue',
+  // 'pkgs/payload-hooks-queue', // Removed - now external npm package
   'pkgs/payload-theme',
   'pkgs/payload-utils',
   'pkgs/payload-vscode',

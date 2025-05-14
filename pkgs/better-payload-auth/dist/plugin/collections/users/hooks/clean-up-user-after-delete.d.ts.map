@@ -1,1 +1,0 @@
-{"version":3,"file":"clean-up-user-after-delete.d.ts","sourceRoot":"","sources":["../../../../../src/plugin/collections/users/hooks/clean-up-user-after-delete.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,yBAAyB,EAAE,MAAM,SAAS,CAAA;AACxD,OAAO,KAAK,EAAE,4BAA4B,EAAE,MAAM,gBAAgB,CAAA;AAElE,KAAK,uCAAuC,GAC1C,4BAA4B,CAAC,yBAAyB,CAAC,CAAA;AAEzD,eAAO,MAAM,sBAAsB,EAAE,uCAiCpC,CAAA"}

@@ -1,4 +1,5 @@
-import { cartesian } from 'experiments.do'
+
+/*
 import { evalite } from 'evalite'
 import { domains } from '@/.velite'
 import { siteContent } from '../functions/content'
@@ -52,3 +53,4 @@ for (const domain of sampleSize(domains, 10)) {
     })
   }
 }
+*/

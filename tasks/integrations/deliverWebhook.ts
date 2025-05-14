@@ -1,6 +1,6 @@
 import { Webhook } from 'svix'
 import { TaskConfig } from 'payload'
-import { filterEvents } from 'payload-hooks-queue'
+import { filterEvents } from '../../src/utils/webhook-filtering'
 
 /**
  * Function to deliver webhook events with filtering
