@@ -1,1 +1,0 @@
-{"version":3,"file":"after-login.d.ts","sourceRoot":"","sources":["../../../../../src/plugin/collections/users/hooks/after-login.ts"],"names":[],"mappings":"AAKA,OAAO,EAAE,wBAAwB,EAAE,MAAM,SAAS,CAAA;AAKlD,KAAK,iBAAiB,GAAG;IACvB,mBAAmB,EAAE,MAAM,CAAA;IAC3B,sBAAsB,EAAE,MAAM,CAAA;CAC/B,CAAA;AAED;;;GAGG;AACH,eAAO,MAAM,iBAAiB,GAAI,SAAS,iBAAiB,KAAG,wBA+D9D,CAAA"}

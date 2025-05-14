@@ -1,1 +1,0 @@
-{"version":3,"file":"generate-schema-builder.d.ts","sourceRoot":"","sources":["../../../src/adapter/generate-schema/generate-schema-builder.ts"],"names":[],"mappings":"AAAA;;;;;;;;;;;;;;;;;GAiBG;AACH,OAAO,KAAK,EAAE,iBAAiB,EAAE,MAAM,aAAa,CAAA;AAKpD,eAAO,MAAM,0BAA0B,GAAU,sBAG9C;IACD,IAAI,EAAE,MAAM,CAAA;IACZ,SAAS,EAAE,iBAAiB,CAAA;CAC7B,oBAcA,CAAA"}
