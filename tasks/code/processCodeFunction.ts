@@ -23,8 +23,7 @@ export const processCodeFunction = async ({ input, payload }: any) => {
       throw new Error('Function not found or not a Code type function')
     }
 
-    const { bundleCode } = await import(/* webpackIgnore: true */ '../../pkgs/deploy-worker/src/utils/esbuild')
-    const bundledCode = await bundleCode(func.code)
+    const bundledCode = func.code
 
     const moduleData = {
       name: func.name,
