@@ -15,11 +15,7 @@ importers:
     dependencies:
       '@ai-sdk/openai':
         specifier: ^1.3.16
-<<<<<<< HEAD
         version: 1.3.16(zod@3.24.4)
-=======
-        version: 1.3.16(zod@3.24.3)
->>>>>>> origin/main
       '@auth/mongodb-adapter':
         specifier: ^3.8.0
         version: 3.8.0(mongodb@6.15.0(@aws-sdk/credential-providers@3.787.0)(socks@2.8.4))(nodemailer@6.9.16)
@@ -43,11 +39,7 @@ importers:
         version: 39.0.0(encoding@0.1.13)
       '@next-safe-action/adapter-react-hook-form':
         specifier: ^1.0.14
-<<<<<<< HEAD
         version: 1.0.14(@hookform/resolvers@5.0.1(react-hook-form@7.56.1(react@19.1.0)))(next-safe-action@7.10.8(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.4))(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.56.1(react@19.1.0))(react@19.1.0)
-=======
-        version: 1.0.14(@hookform/resolvers@5.0.1(react-hook-form@7.56.1(react@19.1.0)))(next-safe-action@7.10.8(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.3))(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.56.1(react@19.1.0))(react@19.1.0)
->>>>>>> origin/main
       '@octokit/rest':
         specifier: ^21.1.1
         version: 21.1.1
@@ -89,19 +81,13 @@ importers:
         version: 1.1.5(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-dialog':
         specifier: ^1.1.7
-<<<<<<< HEAD
         version: 1.1.11(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-=======
-        version: 1.1.7(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
->>>>>>> origin/main
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.1.12
         version: 2.1.12(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-label':
         specifier: ^2.1.4
         version: 2.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-<<<<<<< HEAD
-=======
       '@radix-ui/react-popover':
         specifier: ^1.1.13
         version: 1.1.13(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -111,7 +97,6 @@ importers:
       '@radix-ui/react-scroll-area':
         specifier: ^1.2.8
         version: 1.2.8(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
->>>>>>> origin/main
       '@radix-ui/react-select':
         specifier: ^2.2.2
         version: 2.2.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -120,7 +105,7 @@ importers:
         version: 1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-slot':
         specifier: ^1.2.0
-        version: 1.2.0(@types/react@18.3.20)(react@19.1.0)
+        version: 1.2.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-switch':
         specifier: ^1.2.2
         version: 1.2.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -148,18 +133,15 @@ importers:
       '@stoplight/elements':
         specifier: ^9.0.1
         version: 9.0.1(@babel/core@7.26.10)(@babel/template@7.27.0)(encoding@0.1.13)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(xstate@5.19.2)
-<<<<<<< HEAD
-=======
       '@tanstack/react-query':
         specifier: ^5.76.0
-        version: 5.76.0(react@19.1.0)
+        version: 5.76.1(react@19.1.0)
       '@tanstack/react-query-devtools':
         specifier: ^5.76.0
-        version: 5.76.0(@tanstack/react-query@5.76.0(react@19.1.0))(react@19.1.0)
+        version: 5.76.1(@tanstack/react-query@5.76.1(react@19.1.0))(react@19.1.0)
       '@tanstack/react-virtual':
         specifier: ^3.13.8
         version: 3.13.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
->>>>>>> origin/main
       '@types/turndown':
         specifier: ^5.0.5
         version: 5.0.5
@@ -183,13 +165,13 @@ importers:
         version: 0.1.1(@cloudflare/workers-types@4.20250415.0)(mermaid.cli@0.3.6)(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.7.3))
       ai:
         specifier: ^4.3.9
-        version: 4.3.13(react@19.1.0)(zod@3.24.3)
+        version: 4.3.15(react@19.1.0)(zod@3.24.4)
       ai-functions:
         specifier: 0.3.0
         version: 0.3.0(react@19.1.0)
       ai-providers:
         specifier: 0.1.0
-        version: 0.1.0(encoding@0.1.13)(react@19.1.0)(zod@3.24.3)
+        version: 0.1.0(encoding@0.1.13)(react@19.1.0)(zod@3.24.4)
       ai-workflows:
         specifier: ^1.1.0
         version: 1.1.0(@aws-sdk/credential-providers@3.787.0)(@mdx-js/mdx@3.1.0(acorn@8.14.1))(encoding@0.1.13)(socks@2.8.4)(web-streams-polyfill@4.1.0)(ws@8.18.1)
@@ -219,11 +201,7 @@ importers:
         version: 1.12.7
       composio-core:
         specifier: ^0.5.31
-<<<<<<< HEAD
         version: 0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.4))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.4))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
-=======
-        version: 0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.13(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
->>>>>>> origin/main
       crawlee:
         specifier: ^3.13.2
         version: 3.13.2(playwright@1.51.1)
@@ -239,15 +217,12 @@ importers:
       dedent:
         specifier: ^1.5.3
         version: 1.5.3(babel-plugin-macros@3.1.0)
-<<<<<<< HEAD
-=======
       embla-carousel-autoplay:
         specifier: ^8.6.0
         version: 8.6.0(embla-carousel@8.6.0)
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.1.0)
->>>>>>> origin/main
       encoding:
         specifier: ^0.1.13
         version: 0.1.13
@@ -310,7 +285,7 @@ importers:
         version: 5.0.0(@types/react@18.3.20)(acorn@8.14.1)(react@19.1.0)
       next-safe-action:
         specifier: ^7.10.8
-        version: 7.10.8(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.3)
+        version: 7.10.8(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.4)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -371,12 +346,9 @@ importers:
       react-resizable-panels:
         specifier: ^2.1.7
         version: 2.1.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-<<<<<<< HEAD
-=======
       react-use-measure:
         specifier: ^2.1.7
         version: 2.1.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
->>>>>>> origin/main
       react-wrap-balancer:
         specifier: ^1.1.1
         version: 1.1.1(react@19.1.0)
@@ -454,10 +426,10 @@ importers:
         version: 2.7.1
       zod:
         specifier: ^3.24.3
-        version: 3.24.3
+        version: 3.24.4
       zod-to-json-schema:
         specifier: ^3.24.5
-        version: 3.24.5(zod@3.24.3)
+        version: 3.24.5(zod@3.24.4)
       zustand:
         specifier: ^5.0.3
         version: 5.0.3(@types/react@18.3.20)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
@@ -614,11 +586,7 @@ importers:
         version: 5.7.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
       yaml-loader:
         specifier: ^0.8.1
         version: 0.8.1
@@ -636,11 +604,7 @@ importers:
         version: 6.0.1
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
     devDependencies:
       eslint-config:
         specifier: 0.1.0
@@ -659,29 +623,22 @@ importers:
     dependencies:
       '@ai-sdk/anthropic':
         specifier: ^1.2.0
-        version: 1.2.10(zod@3.24.3)
+        version: 1.2.11(zod@3.24.3)
       '@ai-sdk/google':
         specifier: ^1.2.1
-        version: 1.2.11(zod@3.24.3)
+        version: 1.2.18(zod@3.24.3)
       '@ai-sdk/google-vertex':
         specifier: ^2.2.14
-        version: 2.2.15(encoding@0.1.13)(zod@3.24.3)
+        version: 2.2.22(encoding@0.1.13)(zod@3.24.3)
       '@ai-sdk/openai':
         specifier: ^1.3.16
         version: 1.3.16(zod@3.24.3)
       ai:
         specifier: ^4.3.9
-<<<<<<< HEAD
         version: 4.3.15(react@19.1.0)(zod@3.24.3)
       composio-core:
         specifier: ^0.5.31
         version: 0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
-=======
-        version: 4.3.13(react@19.1.0)(zod@3.24.3)
-      composio-core:
-        specifier: ^0.5.31
-        version: 0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.13(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
->>>>>>> origin/main
       language-models:
         specifier: workspace:*
         version: link:../language-models
@@ -703,11 +660,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   pkgs/apis-do-searches:
     dependencies:
@@ -717,11 +670,7 @@ importers:
     devDependencies:
       vitest:
         specifier: ^3.1.1
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   pkgs/apis-do-zapier:
     dependencies:
@@ -731,11 +680,7 @@ importers:
     devDependencies:
       vitest:
         specifier: ^3.1.1
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   pkgs/eslint-config:
     dependencies:
@@ -768,11 +713,7 @@ importers:
         version: 22.14.0
       '@vitest/coverage-istanbul':
         specifier: 3.1.3
-<<<<<<< HEAD
         version: 3.1.3(vitest@3.1.1)
-=======
-        version: 3.1.3(vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1))
->>>>>>> origin/main
       eslint:
         specifier: ^9.24.0
         version: 9.24.0(jiti@2.4.2)
@@ -784,11 +725,7 @@ importers:
         version: 8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3)
       vitest:
         specifier: ^3.1.1
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   pkgs/language-models:
     dependencies:
@@ -803,11 +740,7 @@ importers:
         version: 6.0.1
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
     devDependencies:
       eslint-config:
         specifier: 0.1.0
@@ -849,11 +782,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/agents.do:
     dependencies:
@@ -862,7 +791,7 @@ importers:
         version: 0.1.1(@cloudflare/workers-types@4.20250415.0)(mermaid.cli@0.3.6)(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3))
       agents:
         specifier: latest
-        version: 0.0.87(@cloudflare/workers-types@4.20250415.0)(react@19.1.0)
+        version: 0.0.88(@cloudflare/workers-types@4.20250415.0)(react@19.1.0)
       apis.do:
         specifier: workspace:*
         version: link:../apis.do
@@ -887,11 +816,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/analytics.do:
     dependencies:
@@ -910,11 +835,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/apis.do:
     devDependencies:
@@ -944,11 +865,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/cli.do:
     dependencies:
@@ -1030,11 +947,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/database.do:
     dependencies:
@@ -1050,11 +963,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/evals.do:
     dependencies:
@@ -1085,11 +994,7 @@ importers:
         version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.7.1)
       vitest:
         specifier: ^3.0.8
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@20.17.30)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@20.17.30)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/experiments.do:
     dependencies:
@@ -1111,11 +1016,7 @@ importers:
         version: 8.4.0(@swc/core@1.11.13(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.3)(typescript@5.8.3)(yaml@2.7.1)
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/functions.do:
     dependencies:
@@ -1155,11 +1056,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/goals.do:
     dependencies:
@@ -1175,11 +1072,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/gpt.do:
     dependencies:
@@ -1195,11 +1088,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.8
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/integrations.do:
     dependencies:
@@ -1230,11 +1119,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/llm.do:
     devDependencies:
@@ -1256,11 +1141,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.8
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/models.do:
     dependencies:
@@ -1276,11 +1157,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.8
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/plans.do:
     dependencies:
@@ -1296,11 +1173,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/projects.do:
     dependencies:
@@ -1316,11 +1189,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/research.do:
     dependencies:
@@ -1339,11 +1208,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/sdk.do:
     dependencies:
@@ -1371,11 +1236,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/searches.do:
     dependencies:
@@ -1397,11 +1258,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/services.do:
     dependencies:
@@ -1417,11 +1274,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/studio.do:
     dependencies:
@@ -1443,11 +1296,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/tasks.do:
     dependencies:
@@ -1463,11 +1312,7 @@ importers:
         version: link:../../pkgs/tsconfig
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/triggers.do:
     dependencies:
@@ -1492,11 +1337,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   sdks/workflows.do:
     dependencies:
@@ -1575,11 +1416,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^3.0.9
-<<<<<<< HEAD
         version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-        version: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
 
   workers/browsers.do:
     dependencies:
@@ -1588,23 +1425,16 @@ importers:
         version: 1.5.0
       '@browserbasehq/stagehand':
         specifier: ^1.0.0
-<<<<<<< HEAD
         version: 1.14.0(@playwright/test@1.51.1)(deepmerge@4.3.1)(dotenv@16.5.0)(encoding@0.1.13)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(zod@3.24.4)
       '@hono/zod-validator':
         specifier: ^0.1.11
         version: 0.1.11(hono@4.7.6)(zod@3.24.4)
-=======
-        version: 1.14.0(@playwright/test@1.51.1)(deepmerge@4.3.1)(dotenv@16.5.0)(encoding@0.1.13)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(zod@3.24.3)
-      '@hono/zod-validator':
-        specifier: ^0.1.11
-        version: 0.1.11(hono@4.7.6)(zod@3.24.3)
->>>>>>> origin/main
       hono:
         specifier: ^4.7.4
         version: 4.7.6
       zod:
         specifier: ^3.24.1
-        version: 3.24.3
+        version: 3.24.4
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.0.0
@@ -1614,11 +1444,7 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^1.0.1
-<<<<<<< HEAD
         version: 1.6.1(@types/node@22.14.0)(@vitest/ui@3.1.1)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
-=======
-        version: 1.6.1(@types/node@22.14.0)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
->>>>>>> origin/main
       wrangler:
         specifier: ^4.2.0
         version: 4.13.2(@cloudflare/workers-types@4.20250415.0)
@@ -1627,32 +1453,19 @@ importers:
     dependencies:
       '@ai-sdk/anthropic':
         specifier: ^1.2.6
-<<<<<<< HEAD
-        version: 1.2.10(zod@3.24.4)
+        version: 1.2.11(zod@3.24.4)
       '@ai-sdk/deepseek':
         specifier: ^0.2.13
         version: 0.2.13(zod@3.24.4)
       '@ai-sdk/google':
         specifier: ^1.2.7
-        version: 1.2.11(zod@3.24.4)
+        version: 1.2.18(zod@3.24.4)
       '@ai-sdk/openai':
         specifier: ^1.3.16
         version: 1.3.16(zod@3.24.4)
-=======
-        version: 1.2.10(zod@3.24.3)
-      '@ai-sdk/deepseek':
-        specifier: ^0.2.13
-        version: 0.2.13(zod@3.24.3)
-      '@ai-sdk/google':
-        specifier: ^1.2.7
-        version: 1.2.11(zod@3.24.3)
-      '@ai-sdk/openai':
-        specifier: ^1.3.16
-        version: 1.3.16(zod@3.24.3)
->>>>>>> origin/main
       ai:
         specifier: ^4.3.9
-        version: 4.3.13(react@19.1.0)(zod@3.24.3)
+        version: 4.3.15(react@19.1.0)(zod@3.24.4)
       ai-models:
         specifier: workspace:*
         version: link:../../pkgs/ai-models
@@ -1664,11 +1477,7 @@ importers:
         version: 2.8.0
       composio-core:
         specifier: ^0.5.31
-<<<<<<< HEAD
         version: 0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.4))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.4))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
-=======
-        version: 0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.13(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
->>>>>>> origin/main
       geolib:
         specifier: ^3.3.4
         version: 3.3.4
@@ -1683,7 +1492,7 @@ importers:
         version: 2.0.3(encoding@0.1.13)
       zod:
         specifier: ^3.24.3
-        version: 3.24.3
+        version: 3.24.4
     devDependencies:
       '@types/node':
         specifier: 22.14.0
@@ -1705,7 +1514,7 @@ importers:
         version: 4.7.6
       zod:
         specifier: ^3.24.3
-        version: 3.24.3
+        version: 3.24.4
     devDependencies:
       '@types/node':
         specifier: 22.13.14
@@ -1724,18 +1533,14 @@ importers:
     dependencies:
       agents:
         specifier: latest
-        version: 0.0.87(@cloudflare/workers-types@4.20250415.0)(react@19.1.0)
+        version: 0.0.88(@cloudflare/workers-types@4.20250415.0)(react@19.1.0)
       hono:
         specifier: ^4.7.4
         version: 4.7.6
     devDependencies:
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.8.22
-<<<<<<< HEAD
         version: 0.8.22(@cloudflare/workers-types@4.20250415.0)(@vitest/runner@3.1.1)(@vitest/snapshot@3.1.1)(vitest@1.6.1(@types/node@22.14.0)(@vitest/ui@3.1.1)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0))
-=======
-        version: 0.8.22(@cloudflare/workers-types@4.20250415.0)(@vitest/runner@3.1.1)(@vitest/snapshot@3.1.1)(vitest@1.6.1(@types/node@22.14.0)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0))
->>>>>>> origin/main
       '@cloudflare/workers-types':
         specifier: ^4.20250414.0
         version: 4.20250415.0
@@ -1747,17 +1552,10 @@ importers:
         version: 5.8.3
       vitest:
         specifier: ^1.6.1
-<<<<<<< HEAD
         version: 1.6.1(@types/node@22.14.0)(@vitest/ui@3.1.1)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
       vitest-environment-miniflare:
         specifier: ^2.14.4
         version: 2.14.4(vitest@1.6.1(@types/node@22.14.0)(@vitest/ui@3.1.1)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0))
-=======
-        version: 1.6.1(@types/node@22.14.0)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
-      vitest-environment-miniflare:
-        specifier: ^2.14.4
-        version: 2.14.4(vitest@1.6.1(@types/node@22.14.0)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0))
->>>>>>> origin/main
       wrangler:
         specifier: ^4.2.0
         version: 4.13.2(@cloudflare/workers-types@4.20250415.0)
@@ -1775,12 +1573,6 @@ packages:
 
   '@ai-sdk/amazon-bedrock@1.1.6':
     resolution: {integrity: sha512-h6SJWpku+i8OsSz0A4RT2g2uD+3E0SUgWHsWRIpxmPNgM1DnH6lgSby5sxqAZDY5xJyJtRFW5vB9G3GEBjHy/g==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.0.0
-
-  '@ai-sdk/anthropic@1.2.10':
-    resolution: {integrity: sha512-PyE7EC2fPjs9DnzRAHDrPQmcnI2m2Eojr8pfhckOejOlDEh2w7NnSJr1W3qe5hUWzKr+6d7NG1ZKR9fhmpDdEQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.0.0
@@ -1803,20 +1595,8 @@ packages:
     peerDependencies:
       zod: ^3.0.0
 
-  '@ai-sdk/google-vertex@2.2.15':
-    resolution: {integrity: sha512-XTl0dQ1rvLjhrkifSy/483qw3O7vCI6H2b4aAJnzQMfy0vzczMXmvQFS5RA8KmnO+YvsKTuZwBM2xRCNvKw1oQ==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.0.0
-
   '@ai-sdk/google-vertex@2.2.22':
     resolution: {integrity: sha512-qVprZs+DGCVbywLN19AGekgrqu5XEQUm+XPA/lNA4w3qATa81nphj4PiO7ilnNnWJ+YBDcbdZHx+/b1cMOVXIQ==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.0.0
-
-  '@ai-sdk/google@1.2.11':
-    resolution: {integrity: sha512-gjGcxKcRri/Jbkujs9nVwP4qOW5GI4rYQ6vQ17uLAvGMo3qnwr26Q2KUqUWuVHQYtboXVSrxC/Kb6sm3hE5WUQ==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.0.0
@@ -1905,16 +1685,6 @@ packages:
     resolution: {integrity: sha512-qZMxYJ0qqX/RfnuIaab+zp8UAeJn/ygXXAffR5I4N0n1IrvA6qBsjc8hXLmBiMV2zoXlifkacF7sEFnYnjBcqg==}
     engines: {node: '>=18'}
 
-  '@ai-sdk/react@1.2.11':
-    resolution: {integrity: sha512-+kPqLkJ3TWP6czaJPV+vzAKSUcKQ1598BUrcLHt56sH99+LhmIIW3ylZp0OfC3O6TR3eO1Lt0Yzw4R0mK6g9Gw==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      react: ^18 || ^19 || ^19.0.0-rc
-      zod: ^3.23.8
-    peerDependenciesMeta:
-      zod:
-        optional: true
-
   '@ai-sdk/react@1.2.12':
     resolution: {integrity: sha512-jK1IZZ22evPZoQW3vlkZ7wvjYGYF+tRBKXtrcolduIkQ/m/sOAVcVeVDUDvh1T91xCnWCdUGCPZg2avZ90mv3g==}
     engines: {node: '>=18'}
@@ -1924,12 +1694,6 @@ packages:
     peerDependenciesMeta:
       zod:
         optional: true
-
-  '@ai-sdk/ui-utils@1.2.10':
-    resolution: {integrity: sha512-GUj+LBoAlRQF1dL/M49jtufGqtLOMApxTpCmVjoRpIPt/dFALVL9RfqfvxwztyIwbK+IxGzcYjSGRsrWrj+86g==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.23.8
 
   '@ai-sdk/ui-utils@1.2.11':
     resolution: {integrity: sha512-3zcwCc8ezzFlwp3ZD15wAPjf2Au4s3vAbKsXQVyhxODHcmu0iyPO2Eua6D/vicq/AUm/BAo60r97O6HU+EI0+w==}
@@ -5343,8 +5107,6 @@ packages:
 
   '@radix-ui/react-alert-dialog@1.1.11':
     resolution: {integrity: sha512-4KfkwrFnAw3Y5Jeoq6G+JYSKW0JfIS3uDdFC/79Jw9AsMayZMizSSMxk1gkrolYXsa/WzbbDfOA7/D8N5D+l1g==}
-<<<<<<< HEAD
-=======
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5358,7 +5120,6 @@ packages:
 
   '@radix-ui/react-arrow@1.1.4':
     resolution: {integrity: sha512-qz+fxrqgNxG0dYew5l7qR3c7wdgRu1XVUHGnGYX7rg5HM4p9SWaRmJwfgR3J0SgyUKayLmzQIun+N6rWRgiRKw==}
->>>>>>> origin/main
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5370,8 +5131,8 @@ packages:
       '@types/react-dom':
         optional: true
 
-  '@radix-ui/react-arrow@1.1.4':
-    resolution: {integrity: sha512-qz+fxrqgNxG0dYew5l7qR3c7wdgRu1XVUHGnGYX7rg5HM4p9SWaRmJwfgR3J0SgyUKayLmzQIun+N6rWRgiRKw==}
+  '@radix-ui/react-arrow@1.1.6':
+    resolution: {integrity: sha512-2JMfHJf/eVnwq+2dewT3C0acmCWD3XiVA1Da+jTDqo342UlU13WvXtqHhG+yJw5JeQmu4ue2eMy6gcEArLBlcw==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5411,8 +5172,6 @@ packages:
 
   '@radix-ui/react-collapsible@1.1.7':
     resolution: {integrity: sha512-zGFsPcFJNdQa/UNd6MOgF40BS054FIGj32oOWBllixz42f+AkQg3QJ1YT9pw7vs+Ai+EgWkh839h69GEK8oH2A==}
-<<<<<<< HEAD
-=======
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5426,7 +5185,6 @@ packages:
 
   '@radix-ui/react-collection@1.1.4':
     resolution: {integrity: sha512-cv4vSf7HttqXilDnAnvINd53OTl1/bjUYVZrkFnA7nwmY9Ob2POUy0WY0sfqBAe1s5FyKsyceQlqiEGPYNTadg==}
->>>>>>> origin/main
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5438,8 +5196,8 @@ packages:
       '@types/react-dom':
         optional: true
 
-  '@radix-ui/react-collection@1.1.4':
-    resolution: {integrity: sha512-cv4vSf7HttqXilDnAnvINd53OTl1/bjUYVZrkFnA7nwmY9Ob2POUy0WY0sfqBAe1s5FyKsyceQlqiEGPYNTadg==}
+  '@radix-ui/react-collection@1.1.6':
+    resolution: {integrity: sha512-PbhRFK4lIEw9ADonj48tiYWzkllz81TM7KVYyyMMw2cwHO7D5h4XKEblL8NlaRisTK3QTe6tBEhDccFUryxHBQ==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5471,22 +5229,6 @@ packages:
 
   '@radix-ui/react-dialog@1.1.11':
     resolution: {integrity: sha512-yI7S1ipkP5/+99qhSI6nthfo/tR6bL6Zgxi/+1UO6qPa6UeM6nlafWcQ65vB4rU2XjgjMfMhI3k9Y5MztA62VQ==}
-<<<<<<< HEAD
-=======
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
-  '@radix-ui/react-dialog@1.1.7':
-    resolution: {integrity: sha512-EIdma8C0C/I6kL6sO02avaCRqi3fmWJpxH6mqbVScorW6nNktzKJT/le7VPho3o/7wCsyRg3z0+Q+Obr0Gy/VQ==}
->>>>>>> origin/main
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5507,23 +5249,6 @@ packages:
       '@types/react':
         optional: true
 
-<<<<<<< HEAD
-  '@radix-ui/react-dismissable-layer@1.1.7':
-    resolution: {integrity: sha512-j5+WBUdhccJsmH5/H0K6RncjDtoALSEr6jbkaZu+bjw6hOPOhHycr6vEUujl+HBK8kjUfWcoCJXxP6e4lUlMZw==}
-=======
-  '@radix-ui/react-dismissable-layer@1.1.6':
-    resolution: {integrity: sha512-7gpgMT2gyKym9Jz2ZhlRXSg2y6cNQIK8d/cqBZ0RBCaps8pFryCWXiUKI+uHGFrhMrbGUP7U6PWgiXzIxoyF3Q==}
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
   '@radix-ui/react-dismissable-layer@1.1.7':
     resolution: {integrity: sha512-j5+WBUdhccJsmH5/H0K6RncjDtoALSEr6jbkaZu+bjw6hOPOhHycr6vEUujl+HBK8kjUfWcoCJXxP6e4lUlMZw==}
     peerDependencies:
@@ -5539,7 +5264,6 @@ packages:
 
   '@radix-ui/react-dismissable-layer@1.1.9':
     resolution: {integrity: sha512-way197PiTvNp+WBP7svMJasHl+vibhWGQDb6Mgf5mhEWJkgb85z7Lfl9TUdkqpWsf8GRNmoopx9ZxCyDzmgRMQ==}
->>>>>>> origin/main
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5573,23 +5297,6 @@ packages:
       '@types/react':
         optional: true
 
-<<<<<<< HEAD
-  '@radix-ui/react-focus-scope@1.1.4':
-    resolution: {integrity: sha512-r2annK27lIW5w9Ho5NyQgqs0MmgZSTIKXWpVCJaLC1q2kZrZkcqnmHkCHMEmv8XLvsLlurKMPT+kbKkRkm/xVA==}
-=======
-  '@radix-ui/react-focus-scope@1.1.3':
-    resolution: {integrity: sha512-4XaDlq0bPt7oJwR+0k0clCiCO/7lO7NKZTAaJBYxDNQT/vj4ig0/UvctrRscZaFREpRvUTkpKR96ov1e6jptQg==}
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
   '@radix-ui/react-focus-scope@1.1.4':
     resolution: {integrity: sha512-r2annK27lIW5w9Ho5NyQgqs0MmgZSTIKXWpVCJaLC1q2kZrZkcqnmHkCHMEmv8XLvsLlurKMPT+kbKkRkm/xVA==}
     peerDependencies:
@@ -5605,7 +5312,6 @@ packages:
 
   '@radix-ui/react-focus-scope@1.1.6':
     resolution: {integrity: sha512-r9zpYNUQY+2jWHWZGyddQLL9YHkM/XvSFHVcWs7bdVuxMAnCwTAuy6Pf47Z4nw7dYcUou1vg/VgjjrrH03VeBw==}
->>>>>>> origin/main
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5641,8 +5347,6 @@ packages:
 
   '@radix-ui/react-menu@2.1.12':
     resolution: {integrity: sha512-+qYq6LfbiGo97Zz9fioX83HCiIYYFNs8zAsVCMQrIakoNYylIzWuoD/anAD3UzvvR6cnswmfRFJFq/zYYq/k7Q==}
-<<<<<<< HEAD
-=======
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5669,7 +5373,6 @@ packages:
 
   '@radix-ui/react-popper@1.2.4':
     resolution: {integrity: sha512-3p2Rgm/a1cK0r/UVkx5F/K9v/EplfjAeIFCGOPYPO4lZ0jtg4iSQXt/YGTSLWaf4x7NG6Z4+uKFcylcTZjeqDA==}
->>>>>>> origin/main
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5681,8 +5384,8 @@ packages:
       '@types/react-dom':
         optional: true
 
-  '@radix-ui/react-popper@1.2.4':
-    resolution: {integrity: sha512-3p2Rgm/a1cK0r/UVkx5F/K9v/EplfjAeIFCGOPYPO4lZ0jtg4iSQXt/YGTSLWaf4x7NG6Z4+uKFcylcTZjeqDA==}
+  '@radix-ui/react-popper@1.2.6':
+    resolution: {integrity: sha512-7iqXaOWIjDBfIG7aq8CUEeCSsQMLFdn7VEE8TaFz704DtEzpPHR7w/uuzRflvKgltqSAImgcmxQ7fFX3X7wasg==}
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5694,22 +5397,6 @@ packages:
       '@types/react-dom':
         optional: true
 
-<<<<<<< HEAD
-=======
-  '@radix-ui/react-portal@1.1.5':
-    resolution: {integrity: sha512-ps/67ZqsFm+Mb6lSPJpfhRLrVL2i2fntgCmGMqqth4eaGUf+knAuuRtWVJrNjUhExgmdRqftSgzpf0DF0n6yXA==}
-    peerDependencies:
-      '@types/react': '*'
-      '@types/react-dom': '*'
-      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      '@types/react-dom':
-        optional: true
-
->>>>>>> origin/main
   '@radix-ui/react-portal@1.1.6':
     resolution: {integrity: sha512-XmsIl2z1n/TsYFLIdYam2rmFwf9OC/Sh2avkbmVMDuBZIe7hSpM0cYnWPAo7nHOVx8zTuwDZGByfcqLdnzp3Vw==}
     peerDependencies:
@@ -5723,13 +5410,8 @@ packages:
       '@types/react-dom':
         optional: true
 
-<<<<<<< HEAD
-  '@radix-ui/react-presence@1.1.3':
-    resolution: {integrity: sha512-IrVLIhskYhH3nLvtcBLQFZr61tBG7wx7O3kEmdzcYwRGAEBmBicGGL7ATzNgruYJ3xBTbuzEEq9OXJM3PAX3tA==}
-=======
   '@radix-ui/react-portal@1.1.8':
     resolution: {integrity: sha512-hQsTUIn7p7fxCPvao/q6wpbxmCwgLrlz+nOrJgC+RwfZqWY/WN+UMqkXzrtKbPrF82P43eCTl3ekeKuyAQbFeg==}
->>>>>>> origin/main
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5782,8 +5464,6 @@ packages:
 
   '@radix-ui/react-primitive@2.1.0':
     resolution: {integrity: sha512-/J/FhLdK0zVcILOwt5g+dH4KnkonCtkVJsa2G6JmvbbtZfBEI1gMsO3QMjseL4F/SwfAMt1Vc/0XKYKq+xJ1sw==}
-<<<<<<< HEAD
-=======
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5797,7 +5477,6 @@ packages:
 
   '@radix-ui/react-primitive@2.1.2':
     resolution: {integrity: sha512-uHa+l/lKfxuDD2zjN/0peM/RhhSmRjr5YWdk/37EnSv1nJ88uvG85DPexSm8HdFQROd2VdERJ6ynXbkCFi+APw==}
->>>>>>> origin/main
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5809,10 +5488,6 @@ packages:
       '@types/react-dom':
         optional: true
 
-<<<<<<< HEAD
-  '@radix-ui/react-roving-focus@1.1.7':
-    resolution: {integrity: sha512-C6oAg451/fQT3EGbWHbCQjYTtbyjNO1uzQgMzwyivcHT3GKNEmu1q3UuREhN+HzHAVtv3ivMVK08QlC+PkYw9Q==}
-=======
   '@radix-ui/react-radio-group@1.3.6':
     resolution: {integrity: sha512-1tfTAqnYZNVwSpFhCT273nzK8qGBReeYnNTPspCggqk1fvIrfVxJekIuBFidNivzpdiMqDwVGnQvHqXrRPM4Og==}
     peerDependencies:
@@ -5841,7 +5516,6 @@ packages:
 
   '@radix-ui/react-roving-focus@1.1.9':
     resolution: {integrity: sha512-ZzrIFnMYHHCNqSNCsuN6l7wlewBEq0O0BCSBkabJMFXVO51LRUTq71gLP1UxFvmrXElqmPjA5VX7IqC9VpazAQ==}
->>>>>>> origin/main
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5853,13 +5527,8 @@ packages:
       '@types/react-dom':
         optional: true
 
-<<<<<<< HEAD
-  '@radix-ui/react-select@2.2.2':
-    resolution: {integrity: sha512-HjkVHtBkuq+r3zUAZ/CvNWUGKPfuicGDbgtZgiQuFmNcV5F+Tgy24ep2nsAW2nFgvhGPJVqeBZa6KyVN0EyrBA==}
-=======
   '@radix-ui/react-scroll-area@1.2.8':
     resolution: {integrity: sha512-K5h1RkYA6M0Sn61BV5LQs686zqBsSC0sGzL4/Gw4mNnjzrQcGSc6YXfC6CRFNaGydSdv5+M8cb0eNsOGo0OXtQ==}
->>>>>>> origin/main
     peerDependencies:
       '@types/react': '*'
       '@types/react-dom': '*'
@@ -5871,8 +5540,6 @@ packages:
       '@types/react-dom':
         optional: true
 
-<<<<<<< HEAD
-=======
   '@radix-ui/react-select@2.2.2':
     resolution: {integrity: sha512-HjkVHtBkuq+r3zUAZ/CvNWUGKPfuicGDbgtZgiQuFmNcV5F+Tgy24ep2nsAW2nFgvhGPJVqeBZa6KyVN0EyrBA==}
     peerDependencies:
@@ -5886,7 +5553,6 @@ packages:
       '@types/react-dom':
         optional: true
 
->>>>>>> origin/main
   '@radix-ui/react-separator@1.1.4':
     resolution: {integrity: sha512-2fTm6PSiUm8YPq9W0E4reYuv01EE3aFSzt8edBiXqPHshF8N9+Kymt/k0/R+F3dkY5lQyB/zPtrP82phskLi7w==}
     peerDependencies:
@@ -5909,8 +5575,6 @@ packages:
       '@types/react':
         optional: true
 
-<<<<<<< HEAD
-=======
   '@radix-ui/react-slot@1.2.2':
     resolution: {integrity: sha512-y7TBO4xN4Y94FvcWIOIh18fM4R1A8S4q1jhoz4PNzOoHsFcN8pogcFmZrTYAm4F9VRUrWP/Mw7xSKybIeRI+CQ==}
     peerDependencies:
@@ -5920,7 +5584,6 @@ packages:
       '@types/react':
         optional: true
 
->>>>>>> origin/main
   '@radix-ui/react-switch@1.2.2':
     resolution: {integrity: sha512-7Z8n6L+ifMIIYZ83f28qWSceUpkXuslI2FJ34+kDMTiyj91ENdpdQ7VCidrzj5JfwfZTeano/BnGBbu/jqa5rQ==}
     peerDependencies:
@@ -7732,14 +7395,14 @@ packages:
   '@tanstack/query-devtools@5.76.0':
     resolution: {integrity: sha512-1p92nqOBPYVqVDU0Ua5nzHenC6EGZNrLnB2OZphYw8CNA1exuvI97FVgIKON7Uug3uQqvH/QY8suUKpQo8qHNQ==}
 
-  '@tanstack/react-query-devtools@5.76.0':
-    resolution: {integrity: sha512-RoyRzH5XJB//OhAdzQTutesw9uHyNZroLp/I7NDAQf8OVJKTTcoaYBmaw5pmB2e3bVdgqFu6nHFZUr5j5qBdZw==}
+  '@tanstack/react-query-devtools@5.76.1':
+    resolution: {integrity: sha512-LFVWgk/VtXPkerNLfYIeuGHh0Aim/k9PFGA+JxLdRaUiroQ4j4eoEqBrUpQ1Pd/KXoG4AB9vVE/M6PUQ9vwxBQ==}
     peerDependencies:
-      '@tanstack/react-query': ^5.76.0
+      '@tanstack/react-query': ^5.76.1
       react: ^18 || ^19
 
-  '@tanstack/react-query@5.76.0':
-    resolution: {integrity: sha512-dZLYzVuUFZJkenxd8o01oyFimeLBmSkaUviPHuDzXe7LSLO4WTTx92jwJlNUXOOHzg6t0XknklZ15cjhYNSDjA==}
+  '@tanstack/react-query@5.76.1':
+    resolution: {integrity: sha512-YxdLZVGN4QkT5YT1HKZQWiIlcgauIXEIsMOTSjvyD5wLYK8YVvKZUPAysMqossFJJfDpJW3pFn7WNZuPOqq+fw==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -7752,12 +7415,9 @@ packages:
   '@tanstack/virtual-core@3.13.6':
     resolution: {integrity: sha512-cnQUeWnhNP8tJ4WsGcYiX24Gjkc9ALstLbHcBj1t3E7EimN6n6kHH+DPV4PpDnuw00NApQp+ViojMj1GRdwYQg==}
 
-<<<<<<< HEAD
-=======
   '@tanstack/virtual-core@3.13.8':
     resolution: {integrity: sha512-BT6w89Hqy7YKaWewYzmecXQzcJh6HTBbKYJIIkMaNU49DZ06LoTV3z32DWWEdUsgW6n1xTmwTLs4GtWrZC261w==}
 
->>>>>>> origin/main
   '@tanstack/vue-virtual@3.13.6':
     resolution: {integrity: sha512-GYdZ3SJBQPzgxhuCE2fvpiH46qzHiVx5XzBSdtESgiqh4poj8UgckjGWYEhxaBbcVt1oLzh1m3Ql4TyH32TOzQ==}
     peerDependencies:
@@ -8452,14 +8112,11 @@ packages:
 
   '@vitest/spy@3.1.1':
     resolution: {integrity: sha512-+EmrUOOXbKzLkTDwlsc/xrwOlPDXyVk3Z6P6K4oiCndxz7YLpp/0R0UsWVOKT0IXWjjBJuSMk6D27qipaupcvQ==}
-<<<<<<< HEAD
 
   '@vitest/ui@3.1.1':
     resolution: {integrity: sha512-2HpiRIYg3dlvAJBV9RtsVswFgUSJK4Sv7QhpxoP0eBGkYwzGIKP34PjaV00AULQi9Ovl6LGyZfsetxDWY5BQdQ==}
     peerDependencies:
       vitest: 3.1.1
-=======
->>>>>>> origin/main
 
   '@vitest/utils@1.6.1':
     resolution: {integrity: sha512-jOrrUvXM4Av9ZWiG1EajNto0u96kWAhJ1LmPmJhXXQx/32MecEKd10pOLYgS2BQx1TgkGhloPU1ArDW2vvaY6g==}
@@ -8708,8 +8365,8 @@ packages:
   agents@0.0.47:
     resolution: {integrity: sha512-DiNRi4cps9FEh67j0CntlV4hHy4vkJgRaZtGmAUdf1yslj0TUvx89liS2wAVYKAyy3HgFiMxvELGLV4nWNs+jw==}
 
-  agents@0.0.87:
-    resolution: {integrity: sha512-nanFC1FoByZqAIeCXta7rBR21GmUd3fulkiMLpg0jnDOzs3i0KfH7Rlr41DQ2nP4i7cTYv2VZhjWti0RQdpIPg==}
+  agents@0.0.88:
+    resolution: {integrity: sha512-ysQ3LMONALxx1VL0X/Tq49EzfuuLj1SHfztCCIfAX8hVtYw2Jr9rytnM94lZQ29yFFqmcIKWR+D13j/l7Cyf8A==}
     peerDependencies:
       react: '*'
 
@@ -8751,16 +8408,6 @@ packages:
       svelte:
         optional: true
       vue:
-        optional: true
-
-  ai@4.3.13:
-    resolution: {integrity: sha512-cC5HXItuOwGykSMacCPzNp6+NMTxeuTjOenztVgSJhdC9Z4OrzBxwkyeDAf4h1QP938ZFi7IBdq3u4lxVoVmvw==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      react: ^18 || ^19 || ^19.0.0-rc
-      zod: ^3.23.8
-    peerDependenciesMeta:
-      react:
         optional: true
 
   ai@4.3.15:
@@ -18223,115 +17870,41 @@ snapshots:
 
   '@adobe/css-tools@4.4.2': {}
 
-  '@ai-sdk/amazon-bedrock@1.1.6(zod@3.24.3)':
+  '@ai-sdk/amazon-bedrock@1.1.6(zod@3.24.4)':
     dependencies:
       '@ai-sdk/provider': 1.0.7
-<<<<<<< HEAD
       '@ai-sdk/provider-utils': 2.1.6(zod@3.24.4)
       '@aws-sdk/client-bedrock-runtime': 3.810.0
       zod: 3.24.4
-=======
-      '@ai-sdk/provider-utils': 2.1.6(zod@3.24.3)
-      '@aws-sdk/client-bedrock-runtime': 3.810.0
-      zod: 3.24.3
->>>>>>> origin/main
     transitivePeerDependencies:
       - aws-crt
 
-  '@ai-sdk/anthropic@1.2.10(zod@3.24.3)':
-<<<<<<< HEAD
+  '@ai-sdk/anthropic@1.2.11(zod@3.24.3)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
       zod: 3.24.3
-
-  '@ai-sdk/anthropic@1.2.10(zod@3.24.4)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.4)
-      zod: 3.24.4
 
   '@ai-sdk/anthropic@1.2.11(zod@3.24.4)':
-=======
->>>>>>> origin/main
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      zod: 3.24.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
+      zod: 3.24.4
 
-<<<<<<< HEAD
   '@ai-sdk/deepseek@0.2.13(zod@3.24.4)':
     dependencies:
       '@ai-sdk/openai-compatible': 0.2.13(zod@3.24.4)
       '@ai-sdk/provider': 1.1.3
       '@ai-sdk/provider-utils': 2.2.7(zod@3.24.4)
       zod: 3.24.4
-=======
-  '@ai-sdk/anthropic@1.2.11(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
-      zod: 3.24.3
->>>>>>> origin/main
 
-  '@ai-sdk/deepseek@0.2.13(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/openai-compatible': 0.2.13(zod@3.24.3)
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      zod: 3.24.3
-
-<<<<<<< HEAD
-  '@ai-sdk/google-vertex@2.2.15(encoding@0.1.13)(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/anthropic': 1.2.10(zod@3.24.3)
-      '@ai-sdk/google': 1.2.11(zod@3.24.3)
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      google-auth-library: 9.15.1(encoding@0.1.13)
-      zod: 3.24.3
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-
-  '@ai-sdk/google-vertex@2.2.22(encoding@0.1.13)(zod@3.24.4)':
-=======
-  '@ai-sdk/elevenlabs@0.0.2(zod@3.24.3)':
->>>>>>> origin/main
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      zod: 3.24.3
-
-  '@ai-sdk/google-vertex@2.2.15(encoding@0.1.13)(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/anthropic': 1.2.10(zod@3.24.3)
-      '@ai-sdk/google': 1.2.11(zod@3.24.3)
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      google-auth-library: 9.15.1(encoding@0.1.13)
-      zod: 3.24.3
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
-
-<<<<<<< HEAD
-  '@ai-sdk/google@1.2.11(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      zod: 3.24.3
-
-  '@ai-sdk/google@1.2.11(zod@3.24.4)':
+  '@ai-sdk/elevenlabs@0.0.2(zod@3.24.4)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
       '@ai-sdk/provider-utils': 2.2.7(zod@3.24.4)
       zod: 3.24.4
 
-  '@ai-sdk/google@1.2.18(zod@3.24.4)':
-=======
   '@ai-sdk/google-vertex@2.2.22(encoding@0.1.13)(zod@3.24.3)':
->>>>>>> origin/main
     dependencies:
       '@ai-sdk/anthropic': 1.2.11(zod@3.24.3)
       '@ai-sdk/google': 1.2.18(zod@3.24.3)
@@ -18343,11 +17916,17 @@ snapshots:
       - encoding
       - supports-color
 
-  '@ai-sdk/google@1.2.11(zod@3.24.3)':
+  '@ai-sdk/google-vertex@2.2.22(encoding@0.1.13)(zod@3.24.4)':
     dependencies:
+      '@ai-sdk/anthropic': 1.2.11(zod@3.24.4)
+      '@ai-sdk/google': 1.2.18(zod@3.24.4)
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      zod: 3.24.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
+      google-auth-library: 9.15.1(encoding@0.1.13)
+      zod: 3.24.4
+    transitivePeerDependencies:
+      - encoding
+      - supports-color
 
   '@ai-sdk/google@1.2.18(zod@3.24.3)':
     dependencies:
@@ -18355,11 +17934,17 @@ snapshots:
       '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
       zod: 3.24.3
 
-  '@ai-sdk/groq@1.2.9(zod@3.24.3)':
+  '@ai-sdk/google@1.2.18(zod@3.24.4)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
-      zod: 3.24.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
+      zod: 3.24.4
+
+  '@ai-sdk/groq@1.2.9(zod@3.24.4)':
+    dependencies:
+      '@ai-sdk/provider': 1.1.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
+      zod: 3.24.4
 
   '@ai-sdk/openai-compatible@0.0.9(zod@3.24.4)':
     dependencies:
@@ -18367,7 +17952,6 @@ snapshots:
       '@ai-sdk/provider-utils': 2.0.4(zod@3.24.4)
       zod: 3.24.4
 
-<<<<<<< HEAD
   '@ai-sdk/openai-compatible@0.2.13(zod@3.24.4)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
@@ -18375,33 +17959,11 @@ snapshots:
       zod: 3.24.4
 
   '@ai-sdk/openai-compatible@0.2.14(zod@3.24.4)':
-=======
-  '@ai-sdk/openai-compatible@0.2.13(zod@3.24.3)':
->>>>>>> origin/main
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      zod: 3.24.3
-
-  '@ai-sdk/openai-compatible@0.2.14(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
-      zod: 3.24.3
-
-  '@ai-sdk/openai@1.3.16(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      zod: 3.24.3
-
-  '@ai-sdk/openai@1.3.16(zod@3.24.4)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.4)
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
       zod: 3.24.4
 
-<<<<<<< HEAD
   '@ai-sdk/openai@1.3.16(zod@3.24.3)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
@@ -18419,13 +17981,6 @@ snapshots:
       '@ai-sdk/provider': 1.1.3
       '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
       zod: 3.24.4
-=======
-  '@ai-sdk/perplexity@1.1.9(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
-      zod: 3.24.3
->>>>>>> origin/main
 
   '@ai-sdk/provider-utils@2.0.4(zod@3.24.4)':
     dependencies:
@@ -18436,21 +17991,14 @@ snapshots:
     optionalDependencies:
       zod: 3.24.4
 
-  '@ai-sdk/provider-utils@2.1.6(zod@3.24.3)':
+  '@ai-sdk/provider-utils@2.1.6(zod@3.24.4)':
     dependencies:
       '@ai-sdk/provider': 1.0.7
       eventsource-parser: 3.0.1
       nanoid: 3.3.11
       secure-json-parse: 2.7.0
     optionalDependencies:
-      zod: 3.24.3
-
-  '@ai-sdk/provider-utils@2.2.7(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      nanoid: 3.3.11
-      secure-json-parse: 2.7.0
-      zod: 3.24.3
+      zod: 3.24.4
 
   '@ai-sdk/provider-utils@2.2.7(zod@3.24.3)':
     dependencies:
@@ -18492,35 +18040,15 @@ snapshots:
     dependencies:
       json-schema: 0.4.0
 
-  '@ai-sdk/react@1.2.11(react@18.3.1)(zod@3.24.3)':
+  '@ai-sdk/react@1.2.12(react@18.3.1)(zod@3.24.4)':
     dependencies:
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      '@ai-sdk/ui-utils': 1.2.10(zod@3.24.3)
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
+      '@ai-sdk/ui-utils': 1.2.11(zod@3.24.4)
       react: 18.3.1
       swr: 2.3.3(react@18.3.1)
       throttleit: 2.1.0
     optionalDependencies:
-      zod: 3.24.3
-
-  '@ai-sdk/react@1.2.11(react@19.1.0)(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      '@ai-sdk/ui-utils': 1.2.10(zod@3.24.3)
-      react: 19.1.0
-      swr: 2.3.3(react@19.1.0)
-      throttleit: 2.1.0
-    optionalDependencies:
-      zod: 3.24.3
-
-  '@ai-sdk/react@1.2.12(react@19.1.0)(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
-      '@ai-sdk/ui-utils': 1.2.11(zod@3.24.3)
-      react: 19.1.0
-      swr: 2.3.3(react@19.1.0)
-      throttleit: 2.1.0
-    optionalDependencies:
-      zod: 3.24.3
+      zod: 3.24.4
 
   '@ai-sdk/react@1.2.12(react@19.1.0)(zod@3.24.3)':
     dependencies:
@@ -18542,16 +18070,6 @@ snapshots:
     optionalDependencies:
       zod: 3.24.4
 
-<<<<<<< HEAD
-=======
-  '@ai-sdk/ui-utils@1.2.10(zod@3.24.3)':
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      zod: 3.24.3
-      zod-to-json-schema: 3.24.5(zod@3.24.3)
-
->>>>>>> origin/main
   '@ai-sdk/ui-utils@1.2.11(zod@3.24.3)':
     dependencies:
       '@ai-sdk/provider': 1.1.3
@@ -18566,12 +18084,12 @@ snapshots:
       zod: 3.24.4
       zod-to-json-schema: 3.24.5(zod@3.24.4)
 
-  '@ai-sdk/xai@1.2.16(zod@3.24.3)':
+  '@ai-sdk/xai@1.2.16(zod@3.24.4)':
     dependencies:
-      '@ai-sdk/openai-compatible': 0.2.14(zod@3.24.3)
+      '@ai-sdk/openai-compatible': 0.2.14(zod@3.24.4)
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.3)
-      zod: 3.24.3
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
+      zod: 3.24.4
 
   '@alloc/quick-lru@5.2.0': {}
 
@@ -18637,15 +18155,15 @@ snapshots:
       '@csstools/css-tokenizer': 3.0.3
       lru-cache: 10.4.3
 
-  '@asteasolutions/zod-to-openapi@6.4.0(zod@3.24.3)':
+  '@asteasolutions/zod-to-openapi@6.4.0(zod@3.24.4)':
     dependencies:
       openapi3-ts: 4.4.0
-      zod: 3.24.3
+      zod: 3.24.4
 
-  '@asteasolutions/zod-to-openapi@7.3.0(zod@3.24.3)':
+  '@asteasolutions/zod-to-openapi@7.3.0(zod@3.24.4)':
     dependencies:
       openapi3-ts: 4.4.0
-      zod: 3.24.3
+      zod: 3.24.4
 
   '@auth/core@0.37.2(nodemailer@6.9.16)':
     dependencies:
@@ -19709,15 +19227,15 @@ snapshots:
 
   '@braintrust/core@0.0.84':
     dependencies:
-      '@asteasolutions/zod-to-openapi': 6.4.0(zod@3.24.3)
+      '@asteasolutions/zod-to-openapi': 6.4.0(zod@3.24.4)
       uuid: 9.0.1
-      zod: 3.24.3
+      zod: 3.24.4
 
   '@browserbasehq/sdk@1.5.0':
     dependencies:
       playwright-core: 1.51.1
       puppeteer-core: 22.15.0
-      zod: 3.24.3
+      zod: 3.24.4
     transitivePeerDependencies:
       - bare-buffer
       - bufferutil
@@ -19736,25 +19254,17 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-<<<<<<< HEAD
   '@browserbasehq/stagehand@1.14.0(@playwright/test@1.51.1)(deepmerge@4.3.1)(dotenv@16.5.0)(encoding@0.1.13)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(zod@3.24.4)':
-=======
-  '@browserbasehq/stagehand@1.14.0(@playwright/test@1.51.1)(deepmerge@4.3.1)(dotenv@16.5.0)(encoding@0.1.13)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(zod@3.24.3)':
->>>>>>> origin/main
     dependencies:
       '@anthropic-ai/sdk': 0.27.3(encoding@0.1.13)
       '@browserbasehq/sdk': 2.5.0(encoding@0.1.13)
       '@playwright/test': 1.51.1
       deepmerge: 4.3.1
       dotenv: 16.5.0
-<<<<<<< HEAD
       openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)
-=======
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
->>>>>>> origin/main
       ws: 8.18.1
-      zod: 3.24.3
-      zod-to-json-schema: 3.24.5(zod@3.24.3)
+      zod: 3.24.4
+      zod-to-json-schema: 3.24.5(zod@3.24.4)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -19824,11 +19334,7 @@ snapshots:
     optionalDependencies:
       workerd: 1.20250424.0
 
-<<<<<<< HEAD
   '@cloudflare/vitest-pool-workers@0.8.22(@cloudflare/workers-types@4.20250415.0)(@vitest/runner@3.1.1)(@vitest/snapshot@3.1.1)(vitest@1.6.1(@types/node@22.14.0)(@vitest/ui@3.1.1)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0))':
-=======
-  '@cloudflare/vitest-pool-workers@0.8.22(@cloudflare/workers-types@4.20250415.0)(@vitest/runner@3.1.1)(@vitest/snapshot@3.1.1)(vitest@1.6.1(@types/node@22.14.0)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0))':
->>>>>>> origin/main
     dependencies:
       '@vitest/runner': 3.1.1
       '@vitest/snapshot': 3.1.1
@@ -19837,15 +19343,9 @@ snapshots:
       devalue: 4.3.3
       miniflare: 4.20250424.1
       semver: 7.7.1
-<<<<<<< HEAD
       vitest: 1.6.1(@types/node@22.14.0)(@vitest/ui@3.1.1)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
       wrangler: 4.13.2(@cloudflare/workers-types@4.20250415.0)
       zod: 3.24.4
-=======
-      vitest: 1.6.1(@types/node@22.14.0)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
-      wrangler: 4.13.2(@cloudflare/workers-types@4.20250415.0)
-      zod: 3.24.3
->>>>>>> origin/main
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
       - bufferutil
@@ -21044,17 +20544,10 @@ snapshots:
     dependencies:
       axios: 1.8.4
 
-<<<<<<< HEAD
   '@hono/zod-validator@0.1.11(hono@4.7.6)(zod@3.24.4)':
     dependencies:
       hono: 4.7.6
       zod: 3.24.4
-=======
-  '@hono/zod-validator@0.1.11(hono@4.7.6)(zod@3.24.3)':
-    dependencies:
-      hono: 4.7.6
-      zod: 3.24.3
->>>>>>> origin/main
 
   '@hookform/resolvers@5.0.1(react-hook-form@7.56.1(react@19.1.0))':
     dependencies:
@@ -21557,7 +21050,6 @@ snapshots:
     transitivePeerDependencies:
       - openai
 
-<<<<<<< HEAD
   '@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
@@ -21579,12 +21071,6 @@ snapshots:
     dependencies:
       '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       js-tiktoken: 1.0.20
-=======
-  '@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)':
-    dependencies:
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
-      js-tiktoken: 1.0.20
->>>>>>> origin/main
       openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)
       zod: 3.24.4
       zod-to-json-schema: 3.24.5(zod@3.24.4)
@@ -21592,7 +21078,6 @@ snapshots:
       - encoding
       - ws
 
-<<<<<<< HEAD
   '@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1)':
     dependencies:
       '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
@@ -21612,11 +21097,6 @@ snapshots:
   '@langchain/textsplitters@0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))':
     dependencies:
       '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
-=======
-  '@langchain/textsplitters@0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))':
-    dependencies:
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
->>>>>>> origin/main
       js-tiktoken: 1.0.20
 
   '@lexical/clipboard@0.28.0':
@@ -22082,15 +21562,11 @@ snapshots:
       '@tybys/wasm-util': 0.9.0
     optional: true
 
-<<<<<<< HEAD
   '@next-safe-action/adapter-react-hook-form@1.0.14(@hookform/resolvers@5.0.1(react-hook-form@7.56.1(react@19.1.0)))(next-safe-action@7.10.8(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.4))(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.56.1(react@19.1.0))(react@19.1.0)':
-=======
-  '@next-safe-action/adapter-react-hook-form@1.0.14(@hookform/resolvers@5.0.1(react-hook-form@7.56.1(react@19.1.0)))(next-safe-action@7.10.8(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.3))(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react-hook-form@7.56.1(react@19.1.0))(react@19.1.0)':
->>>>>>> origin/main
     dependencies:
       '@hookform/resolvers': 5.0.1(react-hook-form@7.56.1(react@19.1.0))
       next: 15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
-      next-safe-action: 7.10.8(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.3)
+      next-safe-action: 7.10.8(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.4)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
       react-hook-form: 7.56.1(react@19.1.0)
@@ -22923,8 +22399,6 @@ snapshots:
       '@radix-ui/react-dialog': 1.1.11(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-primitive': 2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-slot': 1.2.0(@types/react@18.3.20)(react@19.1.0)
-<<<<<<< HEAD
-=======
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
     optionalDependencies:
@@ -22934,16 +22408,15 @@ snapshots:
   '@radix-ui/react-arrow@1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@radix-ui/react-primitive': 2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
->>>>>>> origin/main
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
     optionalDependencies:
       '@types/react': 18.3.20
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
-  '@radix-ui/react-arrow@1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+  '@radix-ui/react-arrow@1.1.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
-      '@radix-ui/react-primitive': 2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-primitive': 2.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
     optionalDependencies:
@@ -22995,8 +22468,6 @@ snapshots:
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-collection@1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-<<<<<<< HEAD
-=======
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-context': 1.1.2(@types/react@18.3.20)(react@19.1.0)
@@ -23009,12 +22480,11 @@ snapshots:
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-collection@1.1.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
->>>>>>> origin/main
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-context': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-primitive': 2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-slot': 1.2.0(@types/react@18.3.20)(react@19.1.0)
+      '@radix-ui/react-primitive': 2.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-slot': 1.2.2(@types/react@18.3.20)(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
     optionalDependencies:
@@ -23055,49 +22525,11 @@ snapshots:
       '@types/react': 18.3.20
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
-  '@radix-ui/react-dialog@1.1.7(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@radix-ui/primitive': 1.1.2
-      '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-context': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-dismissable-layer': 1.1.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-focus-guards': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-focus-scope': 1.1.3(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-id': 1.1.1(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-portal': 1.1.5(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-presence': 1.1.3(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-primitive': 2.0.3(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-slot': 1.2.0(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-use-controllable-state': 1.1.1(@types/react@18.3.20)(react@19.1.0)
-      aria-hidden: 1.2.4
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-      react-remove-scroll: 2.6.3(@types/react@18.3.20)(react@19.1.0)
-    optionalDependencies:
-      '@types/react': 18.3.20
-      '@types/react-dom': 19.0.4(@types/react@18.3.20)
-
   '@radix-ui/react-direction@1.1.1(@types/react@18.3.20)(react@19.1.0)':
     dependencies:
       react: 19.1.0
     optionalDependencies:
       '@types/react': 18.3.20
-
-<<<<<<< HEAD
-  '@radix-ui/react-dismissable-layer@1.1.7(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-=======
-  '@radix-ui/react-dismissable-layer@1.1.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@radix-ui/primitive': 1.1.2
-      '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-primitive': 2.0.3(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-use-callback-ref': 1.1.1(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-use-escape-keydown': 1.1.1(@types/react@18.3.20)(react@19.1.0)
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-    optionalDependencies:
-      '@types/react': 18.3.20
-      '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-dismissable-layer@1.1.7(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
@@ -23113,11 +22545,10 @@ snapshots:
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-dismissable-layer@1.1.9(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
->>>>>>> origin/main
     dependencies:
       '@radix-ui/primitive': 1.1.2
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-primitive': 2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-primitive': 2.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-use-callback-ref': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-use-escape-keydown': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       react: 19.1.0
@@ -23147,20 +22578,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.20
 
-<<<<<<< HEAD
-  '@radix-ui/react-focus-scope@1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-=======
-  '@radix-ui/react-focus-scope@1.1.3(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-primitive': 2.0.3(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-use-callback-ref': 1.1.1(@types/react@18.3.20)(react@19.1.0)
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-    optionalDependencies:
-      '@types/react': 18.3.20
-      '@types/react-dom': 19.0.4(@types/react@18.3.20)
-
   '@radix-ui/react-focus-scope@1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
@@ -23173,10 +22590,9 @@ snapshots:
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-focus-scope@1.1.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
->>>>>>> origin/main
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-primitive': 2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-primitive': 2.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-use-callback-ref': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -23208,8 +22624,6 @@ snapshots:
       '@radix-ui/react-context': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-direction': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-dismissable-layer': 1.1.7(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-<<<<<<< HEAD
-=======
       '@radix-ui/react-focus-guards': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-focus-scope': 1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-id': 1.1.1(@types/react@18.3.20)(react@19.1.0)
@@ -23234,23 +22648,15 @@ snapshots:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-context': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-dismissable-layer': 1.1.9(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
->>>>>>> origin/main
       '@radix-ui/react-focus-guards': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-focus-scope': 1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-focus-scope': 1.1.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-id': 1.1.1(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-popper': 1.2.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-portal': 1.1.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-popper': 1.2.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-portal': 1.1.8(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-presence': 1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-<<<<<<< HEAD
-      '@radix-ui/react-primitive': 2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-roving-focus': 1.1.7(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-slot': 1.2.0(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-use-callback-ref': 1.1.1(@types/react@18.3.20)(react@19.1.0)
-=======
       '@radix-ui/react-primitive': 2.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-slot': 1.2.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-use-controllable-state': 1.2.2(@types/react@18.3.20)(react@19.1.0)
->>>>>>> origin/main
       aria-hidden: 1.2.4
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -23260,8 +22666,6 @@ snapshots:
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-popper@1.2.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-<<<<<<< HEAD
-=======
     dependencies:
       '@floating-ui/react-dom': 2.1.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-arrow': 1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -23280,31 +22684,17 @@ snapshots:
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-popper@1.2.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
->>>>>>> origin/main
     dependencies:
       '@floating-ui/react-dom': 2.1.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-arrow': 1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-arrow': 1.1.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-context': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-primitive': 2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-primitive': 2.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-use-callback-ref': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-use-rect': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-use-size': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/rect': 1.1.1
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-    optionalDependencies:
-      '@types/react': 18.3.20
-      '@types/react-dom': 19.0.4(@types/react@18.3.20)
-
-<<<<<<< HEAD
-  '@radix-ui/react-portal@1.1.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-=======
-  '@radix-ui/react-portal@1.1.5(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@radix-ui/react-primitive': 2.0.3(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
     optionalDependencies:
@@ -23322,19 +22712,8 @@ snapshots:
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-portal@1.1.8(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
->>>>>>> origin/main
     dependencies:
-      '@radix-ui/react-primitive': 2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@18.3.20)(react@19.1.0)
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-    optionalDependencies:
-      '@types/react': 18.3.20
-      '@types/react-dom': 19.0.4(@types/react@18.3.20)
-
-  '@radix-ui/react-presence@1.1.3(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
+      '@radix-ui/react-primitive': 2.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-use-layout-effect': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
@@ -23372,8 +22751,6 @@ snapshots:
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-primitive@2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-<<<<<<< HEAD
-=======
     dependencies:
       '@radix-ui/react-slot': 1.2.0(@types/react@18.3.20)(react@19.1.0)
       react: 19.1.0
@@ -23383,18 +22760,14 @@ snapshots:
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-primitive@2.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
->>>>>>> origin/main
     dependencies:
-      '@radix-ui/react-slot': 1.2.0(@types/react@18.3.20)(react@19.1.0)
+      '@radix-ui/react-slot': 1.2.2(@types/react@18.3.20)(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
     optionalDependencies:
       '@types/react': 18.3.20
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
-<<<<<<< HEAD
-  '@radix-ui/react-roving-focus@1.1.7(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-=======
   '@radix-ui/react-radio-group@1.3.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@radix-ui/primitive': 1.1.2
@@ -23431,15 +22804,14 @@ snapshots:
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
   '@radix-ui/react-roving-focus@1.1.9(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
->>>>>>> origin/main
     dependencies:
       '@radix-ui/primitive': 1.1.2
-      '@radix-ui/react-collection': 1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-collection': 1.1.6(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-context': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-direction': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-id': 1.1.1(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-primitive': 2.1.0(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-primitive': 2.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-use-callback-ref': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-use-controllable-state': 1.2.2(@types/react@18.3.20)(react@19.1.0)
       react: 19.1.0
@@ -23448,16 +22820,6 @@ snapshots:
       '@types/react': 18.3.20
       '@types/react-dom': 19.0.4(@types/react@18.3.20)
 
-<<<<<<< HEAD
-  '@radix-ui/react-select@2.2.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
-    dependencies:
-      '@radix-ui/number': 1.1.1
-      '@radix-ui/primitive': 1.1.2
-      '@radix-ui/react-collection': 1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-context': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-      '@radix-ui/react-direction': 1.1.1(@types/react@18.3.20)(react@19.1.0)
-=======
   '@radix-ui/react-scroll-area@1.2.8(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@radix-ui/number': 1.1.1
@@ -23483,7 +22845,6 @@ snapshots:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-context': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-direction': 1.1.1(@types/react@18.3.20)(react@19.1.0)
->>>>>>> origin/main
       '@radix-ui/react-dismissable-layer': 1.1.7(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@radix-ui/react-focus-guards': 1.1.2(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-focus-scope': 1.1.4(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -23521,8 +22882,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.20
 
-<<<<<<< HEAD
-=======
   '@radix-ui/react-slot@1.2.2(@types/react@18.3.20)(react@19.1.0)':
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
@@ -23530,7 +22889,6 @@ snapshots:
     optionalDependencies:
       '@types/react': 18.3.20
 
->>>>>>> origin/main
   '@radix-ui/react-switch@1.2.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@radix-ui/primitive': 1.1.2
@@ -24203,11 +23561,7 @@ snapshots:
       github-slugger: 2.0.0
       nanoid: 5.1.5
       vue: 3.5.13(typescript@5.7.3)
-<<<<<<< HEAD
       zod: 3.24.4
-=======
-      zod: 3.24.3
->>>>>>> origin/main
     transitivePeerDependencies:
       - '@hyperjump/browser'
       - '@vue/composition-api'
@@ -24359,11 +23713,7 @@ snapshots:
       '@unhead/schema': 1.11.20
       nanoid: 5.1.5
       type-fest: 4.40.1
-<<<<<<< HEAD
       zod: 3.24.4
-=======
-      zod: 3.24.3
->>>>>>> origin/main
 
   '@scalar/types@0.1.7':
     dependencies:
@@ -24371,11 +23721,7 @@ snapshots:
       '@unhead/schema': 1.11.20
       nanoid: 5.1.5
       type-fest: 4.40.0
-<<<<<<< HEAD
       zod: 3.24.4
-=======
-      zod: 3.24.3
->>>>>>> origin/main
 
   '@scalar/use-codemirror@0.11.92(typescript@5.7.3)':
     dependencies:
@@ -26129,13 +25475,13 @@ snapshots:
 
   '@tanstack/query-devtools@5.76.0': {}
 
-  '@tanstack/react-query-devtools@5.76.0(@tanstack/react-query@5.76.0(react@19.1.0))(react@19.1.0)':
+  '@tanstack/react-query-devtools@5.76.1(@tanstack/react-query@5.76.1(react@19.1.0))(react@19.1.0)':
     dependencies:
       '@tanstack/query-devtools': 5.76.0
-      '@tanstack/react-query': 5.76.0(react@19.1.0)
+      '@tanstack/react-query': 5.76.1(react@19.1.0)
       react: 19.1.0
 
-  '@tanstack/react-query@5.76.0(react@19.1.0)':
+  '@tanstack/react-query@5.76.1(react@19.1.0)':
     dependencies:
       '@tanstack/query-core': 5.76.0
       react: 19.1.0
@@ -26148,11 +25494,8 @@ snapshots:
 
   '@tanstack/virtual-core@3.13.6': {}
 
-<<<<<<< HEAD
-=======
   '@tanstack/virtual-core@3.13.8': {}
 
->>>>>>> origin/main
   '@tanstack/vue-virtual@3.13.6(vue@3.5.13(typescript@5.7.3))':
     dependencies:
       '@tanstack/virtual-core': 3.13.6
@@ -26923,11 +26266,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-<<<<<<< HEAD
   '@vitest/coverage-istanbul@3.1.3(vitest@3.1.1)':
-=======
-  '@vitest/coverage-istanbul@3.1.3(vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1))':
->>>>>>> origin/main
     dependencies:
       '@istanbuljs/schema': 0.1.3
       debug: 4.4.0(supports-color@8.1.1)
@@ -26939,11 +26278,7 @@ snapshots:
       magicast: 0.3.5
       test-exclude: 7.0.1
       tinyrainbow: 2.0.0
-<<<<<<< HEAD
       vitest: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
-=======
-      vitest: 3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1)
->>>>>>> origin/main
     transitivePeerDependencies:
       - supports-color
 
@@ -27356,7 +26691,7 @@ snapshots:
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
 
-  agents@0.0.87(@cloudflare/workers-types@4.20250415.0)(react@19.1.0):
+  agents@0.0.88(@cloudflare/workers-types@4.20250415.0)(react@19.1.0):
     dependencies:
       '@modelcontextprotocol/sdk': 1.11.2
       ai: 4.3.15(react@19.1.0)(zod@3.24.4)
@@ -27380,22 +26715,14 @@ snapshots:
       clean-stack: 5.2.0
       indent-string: 5.0.0
 
-<<<<<<< HEAD
   ai-functions@0.2.19(@aws-sdk/credential-providers@3.787.0)(encoding@0.1.13)(socks@2.8.4)(ws@8.18.1)(zod@3.24.4):
-=======
-  ai-functions@0.2.19(@aws-sdk/credential-providers@3.787.0)(encoding@0.1.13)(socks@2.8.4)(ws@8.18.1)(zod@3.24.3):
->>>>>>> origin/main
     dependencies:
       js-yaml: 4.1.0
       json-schema-to-ts: 3.1.1
       kafkajs: 2.2.4
       lodash-es: 4.17.21
       mongodb: 6.15.0(@aws-sdk/credential-providers@3.787.0)(socks@2.8.4)
-<<<<<<< HEAD
       openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)
-=======
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
->>>>>>> origin/main
       p-queue: 7.4.1
       partial-json-parser: 1.2.2
       xstate: 5.19.2
@@ -27421,31 +26748,18 @@ snapshots:
     transitivePeerDependencies:
       - react
 
-  ai-providers@0.1.0(encoding@0.1.13)(react@19.1.0)(zod@3.24.3):
+  ai-providers@0.1.0(encoding@0.1.13)(react@19.1.0)(zod@3.24.4):
     dependencies:
-<<<<<<< HEAD
       '@ai-sdk/amazon-bedrock': 1.1.6(zod@3.24.4)
-      '@ai-sdk/anthropic': 1.2.10(zod@3.24.4)
+      '@ai-sdk/anthropic': 1.2.11(zod@3.24.4)
       '@ai-sdk/elevenlabs': 0.0.2(zod@3.24.4)
-      '@ai-sdk/google': 1.2.11(zod@3.24.4)
+      '@ai-sdk/google': 1.2.18(zod@3.24.4)
       '@ai-sdk/google-vertex': 2.2.22(encoding@0.1.13)(zod@3.24.4)
       '@ai-sdk/groq': 1.2.9(zod@3.24.4)
       '@ai-sdk/openai': 1.3.16(zod@3.24.4)
       '@ai-sdk/perplexity': 1.1.9(zod@3.24.4)
       '@ai-sdk/xai': 1.2.16(zod@3.24.4)
       ai: 4.3.15(react@19.1.0)(zod@3.24.4)
-=======
-      '@ai-sdk/amazon-bedrock': 1.1.6(zod@3.24.3)
-      '@ai-sdk/anthropic': 1.2.10(zod@3.24.3)
-      '@ai-sdk/elevenlabs': 0.0.2(zod@3.24.3)
-      '@ai-sdk/google': 1.2.11(zod@3.24.3)
-      '@ai-sdk/google-vertex': 2.2.22(encoding@0.1.13)(zod@3.24.3)
-      '@ai-sdk/groq': 1.2.9(zod@3.24.3)
-      '@ai-sdk/openai': 1.3.16(zod@3.24.3)
-      '@ai-sdk/perplexity': 1.1.9(zod@3.24.3)
-      '@ai-sdk/xai': 1.2.16(zod@3.24.3)
-      ai: 4.3.15(react@19.1.0)(zod@3.24.3)
->>>>>>> origin/main
     transitivePeerDependencies:
       - aws-crt
       - encoding
@@ -27455,25 +26769,16 @@ snapshots:
 
   ai-workflows@1.1.0(@aws-sdk/credential-providers@3.787.0)(@mdx-js/mdx@3.1.0(acorn@8.14.1))(encoding@0.1.13)(socks@2.8.4)(web-streams-polyfill@4.1.0)(ws@8.18.1):
     dependencies:
-<<<<<<< HEAD
       '@ai-sdk/openai': 1.3.16(zod@3.24.4)
       ai: 4.3.15(react@18.3.1)(zod@3.24.4)
       ai-functions: 0.2.19(@aws-sdk/credential-providers@3.787.0)(encoding@0.1.13)(socks@2.8.4)(ws@8.18.1)(zod@3.24.4)
       gray-matter: 4.0.3
       mdxld: 0.1.3(@mdx-js/mdx@3.1.0(acorn@8.14.1))(web-streams-polyfill@4.1.0)
       openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)
-=======
-      '@ai-sdk/openai': 1.3.16(zod@3.24.3)
-      ai: 4.3.13(react@18.3.1)(zod@3.24.3)
-      ai-functions: 0.2.19(@aws-sdk/credential-providers@3.787.0)(encoding@0.1.13)(socks@2.8.4)(ws@8.18.1)(zod@3.24.3)
-      gray-matter: 4.0.3
-      mdxld: 0.1.3(@mdx-js/mdx@3.1.0(acorn@8.14.1))(web-streams-polyfill@4.1.0)
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
->>>>>>> origin/main
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       yaml: 2.7.1
-      zod: 3.24.3
+      zod: 3.24.4
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@mdx-js/mdx'
@@ -27518,33 +26823,18 @@ snapshots:
       svelte: 4.2.19
       vue: 3.5.13(typescript@5.8.3)
 
-  ai@4.3.13(react@18.3.1)(zod@3.24.3):
+  ai@4.3.15(react@18.3.1)(zod@3.24.4):
     dependencies:
       '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      '@ai-sdk/react': 1.2.11(react@18.3.1)(zod@3.24.3)
-      '@ai-sdk/ui-utils': 1.2.10(zod@3.24.3)
+      '@ai-sdk/provider-utils': 2.2.8(zod@3.24.4)
+      '@ai-sdk/react': 1.2.12(react@18.3.1)(zod@3.24.4)
+      '@ai-sdk/ui-utils': 1.2.11(zod@3.24.4)
       '@opentelemetry/api': 1.9.0
       jsondiffpatch: 0.6.0
-      zod: 3.24.3
+      zod: 3.24.4
     optionalDependencies:
       react: 18.3.1
 
-<<<<<<< HEAD
-=======
-  ai@4.3.13(react@19.1.0)(zod@3.24.3):
-    dependencies:
-      '@ai-sdk/provider': 1.1.3
-      '@ai-sdk/provider-utils': 2.2.7(zod@3.24.3)
-      '@ai-sdk/react': 1.2.11(react@19.1.0)(zod@3.24.3)
-      '@ai-sdk/ui-utils': 1.2.10(zod@3.24.3)
-      '@opentelemetry/api': 1.9.0
-      jsondiffpatch: 0.6.0
-      zod: 3.24.3
-    optionalDependencies:
-      react: 19.1.0
-
->>>>>>> origin/main
   ai@4.3.15(react@19.1.0)(zod@3.24.3):
     dependencies:
       '@ai-sdk/provider': 1.1.3
@@ -27818,8 +27108,8 @@ snapshots:
       linear-sum-assignment: 1.0.7
       mustache: 4.2.0
       openai: 4.47.1(encoding@0.1.13)
-      zod: 3.24.3
-      zod-to-json-schema: 3.24.5(zod@3.24.3)
+      zod: 3.24.4
+      zod-to-json-schema: 3.24.5(zod@3.24.4)
     transitivePeerDependencies:
       - encoding
 
@@ -28223,10 +27513,10 @@ snapshots:
 
   chanfana@2.8.0:
     dependencies:
-      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.3)
+      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.4)
       js-yaml: 4.1.0
       openapi3-ts: 4.4.0
-      zod: 3.24.3
+      zod: 3.24.4
 
   char-regex@1.0.2: {}
 
@@ -28482,11 +27772,7 @@ snapshots:
   cmdk@1.1.1(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@18.3.20)(react@19.1.0)
-<<<<<<< HEAD
       '@radix-ui/react-dialog': 1.1.11(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-=======
-      '@radix-ui/react-dialog': 1.1.7(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
->>>>>>> origin/main
       '@radix-ui/react-id': 1.1.1(@types/react@18.3.20)(react@19.1.0)
       '@radix-ui/react-primitive': 2.0.3(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react: 19.1.0
@@ -28584,11 +27870,7 @@ snapshots:
       array-ify: 1.0.0
       dot-prop: 5.3.0
 
-<<<<<<< HEAD
   composio-core@0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)):
-=======
-  composio-core@0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.13(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.8.4)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)):
->>>>>>> origin/main
     dependencies:
       '@ai-sdk/openai': 1.3.16(zod@3.24.3)
       '@cloudflare/workers-types': 4.20250415.0
@@ -28596,11 +27878,7 @@ snapshots:
       '@hey-api/client-axios': 0.2.12(axios@1.8.4)
       '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
       '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)
-<<<<<<< HEAD
       ai: 4.3.15(react@19.1.0)(zod@3.24.3)
-=======
-      ai: 4.3.13(react@19.1.0)(zod@3.24.3)
->>>>>>> origin/main
       axios: 1.8.4
       chalk: 4.1.2
       cli-progress: 3.12.0
@@ -28617,7 +27895,6 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-<<<<<<< HEAD
   composio-core@0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.4))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.15(react@19.1.0)(zod@3.24.4))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)):
     dependencies:
       '@ai-sdk/openai': 1.3.16(zod@3.24.4)
@@ -28627,31 +27904,14 @@ snapshots:
       '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
       '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(encoding@0.1.13)(ws@8.18.1)
       ai: 4.3.15(react@19.1.0)(zod@3.24.4)
-=======
-  composio-core@0.5.31(@ai-sdk/openai@1.3.16(zod@3.24.3))(@cloudflare/workers-types@4.20250415.0)(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(@langchain/openai@0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1))(ai@4.3.13(react@19.1.0)(zod@3.24.3))(langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1))(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)):
-    dependencies:
-      '@ai-sdk/openai': 1.3.16(zod@3.24.3)
-      '@cloudflare/workers-types': 4.20250415.0
-      '@composio/mcp': 1.0.3-0
-      '@hey-api/client-axios': 0.2.12(axios@1.8.4)
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
-      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)
-      ai: 4.3.13(react@19.1.0)(zod@3.24.3)
->>>>>>> origin/main
       axios: 1.8.4
       chalk: 4.1.2
       cli-progress: 3.12.0
       commander: 12.1.0
       inquirer: 10.2.2
-<<<<<<< HEAD
       langchain: 0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1)
       open: 8.4.2
       openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)
-=======
-      langchain: 0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1)
-      open: 8.4.2
-      openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
->>>>>>> origin/main
       pusher-js: 8.4.0-rc2
       resolve-package-path: 4.0.3
       uuid: 10.0.0
@@ -29957,7 +29217,7 @@ snapshots:
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react: 7.37.5(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react-hooks: 5.2.0(eslint@9.24.0(jiti@2.4.2))
@@ -29987,7 +29247,7 @@ snapshots:
       tinyglobby: 0.2.13
       unrs-resolver: 1.6.2
     optionalDependencies:
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.4.2))
     transitivePeerDependencies:
       - supports-color
 
@@ -30057,7 +29317,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -32328,7 +31588,7 @@ snapshots:
       lodash: 4.17.21
       minimist: 1.2.8
       prettier: 3.5.3
-      tinyglobby: 0.2.12
+      tinyglobby: 0.2.13
 
   json-schema-traverse@0.4.1: {}
 
@@ -32472,7 +31732,6 @@ snapshots:
       - openai
       - ws
 
-<<<<<<< HEAD
   langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))(ws@8.18.1):
     dependencies:
       '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
@@ -32482,17 +31741,6 @@ snapshots:
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langsmith: 0.3.21(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4))
-=======
-  langchain@0.3.21(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(axios@1.9.0)(cheerio@1.0.0)(encoding@0.1.13)(handlebars@4.7.8)(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))(ws@8.18.1):
-    dependencies:
-      '@langchain/core': 0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
-      '@langchain/openai': 0.5.5(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))(encoding@0.1.13)(ws@8.18.1)
-      '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.44(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)))
-      js-tiktoken: 1.0.20
-      js-yaml: 4.1.0
-      jsonpointer: 5.0.1
-      langsmith: 0.3.21(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3))
->>>>>>> origin/main
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
@@ -32527,7 +31775,6 @@ snapshots:
       uuid: 10.0.0
     optionalDependencies:
       openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.3)
-<<<<<<< HEAD
 
   langsmith@0.3.21(openai@4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)):
     dependencies:
@@ -32540,8 +31787,6 @@ snapshots:
       uuid: 10.0.0
     optionalDependencies:
       openai: 4.94.0(encoding@0.1.13)(ws@8.18.1)(zod@3.24.4)
-=======
->>>>>>> origin/main
 
   language-subtag-registry@0.3.23: {}
 
@@ -34230,13 +33475,13 @@ snapshots:
       - acorn
       - supports-color
 
-  next-safe-action@7.10.8(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.3):
+  next-safe-action@7.10.8(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(zod@3.24.4):
     dependencies:
       next: 15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(@playwright/test@1.51.1)(babel-plugin-macros@3.1.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
     optionalDependencies:
-      zod: 3.24.3
+      zod: 3.24.4
 
   next-themes@0.4.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
@@ -34318,8 +33563,8 @@ snapshots:
       react-compiler-runtime: 0.0.0-experimental-22c6e49-20241219(react@19.1.0)
       react-dom: 19.1.0(react@19.1.0)
       scroll-into-view-if-needed: 3.1.0
-      zod: 3.24.3
-      zod-validation-error: 3.4.0(zod@3.24.3)
+      zod: 3.24.4
+      zod-validation-error: 3.4.0(zod@3.24.4)
       zustand: 5.0.3(@types/react@18.3.20)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
     transitivePeerDependencies:
       - '@types/react'
@@ -34367,8 +33612,8 @@ snapshots:
       unist-util-visit: 5.0.0
       unist-util-visit-children: 3.0.0
       yaml: 2.7.1
-      zod: 3.24.3
-      zod-validation-error: 3.4.0(zod@3.24.3)
+      zod: 3.24.4
+      zod-validation-error: 3.4.0(zod@3.24.4)
     transitivePeerDependencies:
       - acorn
       - supports-color
@@ -38489,31 +37734,19 @@ snapshots:
       tsx: 4.19.3
       yaml: 2.7.1
 
-<<<<<<< HEAD
   vitest-environment-miniflare@2.14.4(vitest@1.6.1(@types/node@22.14.0)(@vitest/ui@3.1.1)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)):
-=======
-  vitest-environment-miniflare@2.14.4(vitest@1.6.1(@types/node@22.14.0)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)):
->>>>>>> origin/main
     dependencies:
       '@miniflare/queues': 2.14.4
       '@miniflare/runner-vm': 2.14.4
       '@miniflare/shared': 2.14.4
       '@miniflare/shared-test-environment': 2.14.4
       undici: 5.28.4
-<<<<<<< HEAD
       vitest: 1.6.1(@types/node@22.14.0)(@vitest/ui@3.1.1)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
-=======
-      vitest: 1.6.1(@types/node@22.14.0)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)
->>>>>>> origin/main
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-<<<<<<< HEAD
   vitest@1.6.1(@types/node@22.14.0)(@vitest/ui@3.1.1)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
-=======
-  vitest@1.6.1(@types/node@22.14.0)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0):
->>>>>>> origin/main
     dependencies:
       '@vitest/expect': 1.6.1
       '@vitest/runner': 1.6.1
@@ -38537,10 +37770,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 22.14.0
-<<<<<<< HEAD
       '@vitest/ui': 3.1.1(vitest@3.1.1)
-=======
->>>>>>> origin/main
       jsdom: 26.1.0
     transitivePeerDependencies:
       - less
@@ -38552,11 +37782,7 @@ snapshots:
       - supports-color
       - terser
 
-<<<<<<< HEAD
   vitest@3.1.1(@types/debug@4.1.12)(@types/node@20.17.30)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1):
-=======
-  vitest@3.1.1(@types/debug@4.1.12)(@types/node@20.17.30)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1):
->>>>>>> origin/main
     dependencies:
       '@vitest/expect': 3.1.1
       '@vitest/mocker': 3.1.1(vite@6.2.6(@types/node@22.14.0)(jiti@2.4.2)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1))
@@ -38581,10 +37807,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 20.17.30
-<<<<<<< HEAD
       '@vitest/ui': 3.1.1(vitest@3.1.1)
-=======
->>>>>>> origin/main
       jsdom: 26.1.0
     transitivePeerDependencies:
       - jiti
@@ -38600,11 +37823,7 @@ snapshots:
       - tsx
       - yaml
 
-<<<<<<< HEAD
   vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1):
-=======
-  vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.14.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1):
->>>>>>> origin/main
     dependencies:
       '@vitest/expect': 3.1.1
       '@vitest/mocker': 3.1.1(vite@6.2.6(@types/node@22.14.0)(jiti@2.4.2)(lightningcss@1.29.2)(sass@1.77.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.1))
@@ -38629,10 +37848,7 @@ snapshots:
     optionalDependencies:
       '@types/debug': 4.1.12
       '@types/node': 22.14.0
-<<<<<<< HEAD
       '@vitest/ui': 3.1.1(vitest@3.1.1)
-=======
->>>>>>> origin/main
       jsdom: 26.1.0
     transitivePeerDependencies:
       - jiti
@@ -39118,9 +38334,9 @@ snapshots:
     dependencies:
       zod: 3.24.4
 
-  zod-validation-error@3.4.0(zod@3.24.3):
+  zod-validation-error@3.4.0(zod@3.24.4):
     dependencies:
-      zod: 3.24.3
+      zod: 3.24.4
 
   zod@3.22.3: {}
 

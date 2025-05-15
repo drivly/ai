@@ -70,103 +70,110 @@ export async function resolveConfig(options: GenerateTextOptions) {
   // @ts-expect-error - We know this property exists, but TS doesnt
   const parsedModel = options.model?.resolvedModel
   
-  if (parsedModel.parsed?.tools && Object.keys(parsedModel.parsed.tools).length > 0) {
+  const toolNames = Array.isArray(parsedModel.parsed.tools) ? parsedModel.parsed.tools : Object.keys(parsedModel.parsed.tools || {})
+
+  console.log(
+    'Using tools',
+    toolNames
+  )
+
+  if (parsedModel.parsed?.tools && toolNames.length > 0) {
     if (!options.user) {
       throw new Error('user is required when using tools')
     }
 
-    const toolNames = Object.keys(parsedModel.parsed.tools)
+    if (toolNames.length > 0) {
+      const composio = new Composio({ apiKey: process.env.COMPOSIO_API_KEY })
 
-    const composio = new Composio({ apiKey: process.env.COMPOSIO_API_KEY })
-
-    const connections = await composio.connectedAccounts.list({
-      entityId: options.user,
-      status: 'ACTIVE'
-    })
-
-    // Return a completion error if the user tries to use a app
-    // that they have not yet connected. Inside this error, we will include a
-    // redirect link to add the app.
-
-    const activeApps = connections.items.map(connection => connection.appName)
-    let missingApps = Array.from(new Set(toolNames.map(x => x.split('.')[0]).filter(app => !activeApps.includes(app))))
-
-    const appMetadata = await Promise.all(missingApps.map(async app => {
-      return composio.apps.get({
-        appKey: app
-      })
-    }))
-    
-    // Mixin a filter to remove apps that dont have any auth.
-    missingApps = missingApps.filter(app => !appMetadata.find(x => x.key === app)?.no_auth)
-
-    if (missingApps.length > 0) {
-      const connectionRequests = []
-
-      // Dont make a new connection request if we've already got one pending.
-      const pendingConnections = await composio.connectedAccounts.list({
+      const connections = await composio.connectedAccounts.list({
         entityId: options.user,
-        status: 'INITIATED'
-      }).then(x => x.items)
-
-      for (const app of missingApps) {
-        if (pendingConnections.find(x => x.appName === app)) {
-          console.debug(
-            '[COMPOSIO] Found existing connection request for',
-            app
-          )
-
-          const connection = pendingConnections.find(x => x.appName === app)
-
-          connectionRequests.push({
-            app: connection?.appName as string,
-            redirectUrl: connection?.connectionParams?.redirectUrl as string
-          })
-        } else {
-          const integration = await composio.integrations.create({
-            name: app,
-            appUniqueKey: app,
-            useComposioAuth: true,
-            forceNewIntegration: true,
-          })
+        status: 'ACTIVE'
+      })
   
-          const connection = await composio.connectedAccounts.initiate({
-            integrationId: integration.id,
-            entityId: options.user
-          })
-
-          connectionRequests.push({
-            app: app as string,
-            redirectUrl: connection.redirectUrl as string
-          })
+      // Return a completion error if the user tries to use a app
+      // that they have not yet connected. Inside this error, we will include a
+      // redirect link to add the app.
+  
+      const activeApps = connections.items.map(connection => connection.appName)
+      let missingApps = Array.from(new Set(toolNames.map(x => x.split('.')[0]).filter(app => !activeApps.includes(app))))
+  
+      const appMetadata = await Promise.all(missingApps.map(async app => {
+        return composio.apps.get({
+          appKey: app
+        })
+      }))
+      
+      // Mixin a filter to remove apps that dont have any auth.
+      missingApps = missingApps.filter(app => !appMetadata.find(x => x.key === app)?.no_auth)
+  
+      if (missingApps.length > 0) {
+        const connectionRequests = []
+  
+        // Dont make a new connection request if we've already got one pending.
+        const pendingConnections = await composio.connectedAccounts.list({
+          entityId: options.user,
+          status: 'INITIATED'
+        }).then(x => x.items)
+  
+        for (const app of missingApps) {
+          if (pendingConnections.find(x => x.appName === app)) {
+            console.debug(
+              '[COMPOSIO] Found existing connection request for',
+              app
+            )
+  
+            const connection = pendingConnections.find(x => x.appName === app)
+  
+            connectionRequests.push({
+              app: connection?.appName as string,
+              redirectUrl: connection?.connectionParams?.redirectUrl as string
+            })
+          } else {
+            const integration = await composio.integrations.create({
+              name: app,
+              appUniqueKey: app,
+              useComposioAuth: true,
+              forceNewIntegration: true,
+            })
+    
+            const connection = await composio.connectedAccounts.initiate({
+              integrationId: integration.id,
+              entityId: options.user
+            })
+  
+            connectionRequests.push({
+              app: app as string,
+              redirectUrl: connection.redirectUrl as string
+            })
+          }
         }
+  
+        const error = new Error(`Missing access to apps: ${missingApps.join(', ')}.`) as AIToolRedirectError
+  
+        error.type = 'AI_PROVIDERS_TOOLS_REDIRECT'
+        error.connectionRequests = connectionRequests
+        error.apps = missingApps
+  
+        throw error
       }
-
-      const error = new Error(`Missing access to apps: ${missingApps.join(', ')}.`) as AIToolRedirectError
-
-      error.type = 'AI_PROVIDERS_TOOLS_REDIRECT'
-      error.connectionRequests = connectionRequests
-      error.apps = missingApps
-
-      throw error
+  
+      const composioToolset = new VercelAIToolSet({
+        apiKey: process.env.COMPOSIO_API_KEY,
+        connectedAccountIds: connections.items
+          .map(connection => [connection.appName, connection.id])
+          .reduce((acc, [app, id]) => ({ ...acc, [app]: id }), {})
+      })
+  
+      const apps = toolNames.map(name => name.split('.')[0])
+  
+      const tools = await composioToolset.getTools({
+        apps,
+        actions: toolNames.map(name => camelCaseToScreamingSnakeCase(name)),
+      })
+  
+      options.tools = options.tools ?? {}
+      options.tools = { ...options.tools, ...tools }
     }
-
-    const composioToolset = new VercelAIToolSet({
-      apiKey: process.env.COMPOSIO_API_KEY,
-      connectedAccountIds: connections.items
-        .map(connection => [connection.appName, connection.id])
-        .reduce((acc, [app, id]) => ({ ...acc, [app]: id }), {})
-    })
-
-    const apps = toolNames.map(name => name.split('.')[0])
-
-    const tools = await composioToolset.getTools({
-      apps,
-      actions: toolNames.map(name => camelCaseToScreamingSnakeCase(name)),
-    })
-
-    options.tools = options.tools ?? {}
-    options.tools = { ...options.tools, ...tools }
 
     if (parsedModel?.parsed?.tools?.fetch) {
       options.tools.fetchWebsiteContents = fetchWebsiteContents as Tool

@@ -232,6 +232,7 @@ export async function POST(req: Request) {
   if (!modelData.slug) {
     return Response.json({
       success: false,
+      type: 'MODEL_NOT_FOUND',
       error: `Model ${ model } not found`
     }, { status: 404 })
   }
@@ -250,6 +251,10 @@ export async function POST(req: Request) {
   if (response_format) {
     response_format = fixSchema(convertIncomingSchema(response_format))
   }
+
+  console.log(
+    parsedModel
+  )
 
   // Only run this if we dont already have a response_format
   if (!response_format && parsedModel.outputSchema) {

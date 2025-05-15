@@ -112,7 +112,7 @@ class LLMProvider implements LanguageModelV1 {
     this.modelId = modelId
     this.options = options ?? {}
     this.config = config ?? {}
-    this.resolvedModel = getModel(modelId)
+    this.resolvedModel = getModel(modelId, options)
 
     this.apiKey = this.config?.apiKey
 
@@ -123,6 +123,8 @@ class LLMProvider implements LanguageModelV1 {
 
   get provider() {
     let provider = 'openrouter'
+
+    return provider
 
     // // Access provider property which is added by getModel but not in the Model type
     // const providerSlug = this.resolvedModel.provider?.slug
@@ -179,8 +181,7 @@ class LLMProvider implements LanguageModelV1 {
     const provider = createOpenAI({
       baseURL: this.config?.baseURL || 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter',
       apiKey: this.apiKey,
-      headers: this.config?.headers,
-      headers: this.config?.headers,
+      headers: this.config?.headers
     })
 
     return await provider(modelSlug, modelConfigMixin).doGenerate(options)
