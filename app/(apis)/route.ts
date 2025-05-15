@@ -78,33 +78,42 @@ export const GET = API(async (request, { db, user, origin, url, domain, payload 
   }
 
   for (const d of filteredDomains) {
+    if (typeof d !== 'string') {
+      console.error(`Invalid domain encountered: ${d}`, typeof d)
+      continue
+    }
+
     if (d.endsWith('.do')) {
-      let isInCategory = false
-      for (const sites of Object.values(siteCategories)) {
-        if (sites.includes(d)) {
-          isInCategory = true
-          break
-        }
-      }
-
-      if (!isInCategory) {
-        const siteName = d.replace('.do', '')
-        const description = getDomainDescription(d) || ''
-        const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
-
-        let category = 'Other'
-
-        if (collectionSlugs.includes(siteName)) {
-          category = 'Collections'
-          if (!formattedSites['Collections']) {
-            formattedSites['Collections'] = {}
+      try {
+        let isInCategory = false
+        for (const sites of Object.values(siteCategories)) {
+          if (sites.includes(d)) {
+            isInCategory = true
+            break
           }
         }
 
-        if (!formattedSites[category]) {
-          formattedSites[category] = {}
+        if (!isInCategory) {
+          const siteName = d.replace('.do', '')
+          const description = getDomainDescription(d) || ''
+          const siteTitle = `${titleCase(siteName)}${description ? ` - ${description}` : ''}`
+          
+          let category = 'Other'
+          
+          if (collectionSlugs.includes(siteName)) {
+            category = 'Collections'
+            if (!formattedSites['Collections']) {
+              formattedSites['Collections'] = {}
+            }
+          }
+          
+          if (!formattedSites[category]) {
+            formattedSites[category] = {}
+          }
+          formattedSites[category][siteTitle] = formatWithOptions(`sites/${siteName}`, d)
         }
-        formattedSites[category][siteTitle] = formatWithOptions(`sites/${siteName}`, d)
+      } catch (error) {
+        console.error(`Error processing domain ${d}:`, error)
       }
     }
   }
