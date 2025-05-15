@@ -153,18 +153,18 @@ export function MultimodalInput({
       {messages.length === 0 && attachments.length === 0 && (
         <PromptSuggestions append={append} selectedModel={selectedModel} selectedTool={selectedTool} selectedOutput={selectedOutput} />
       )}
-      <form className='dark:focus-within relative mx-auto mb-2 flex w-full max-w-6xl flex-col gap-2 rounded-xl rounded-t-sm border border-gray-200 bg-gray-50 backdrop-blur-sm transition-all duration-200 dark:border-zinc-700/60 dark:bg-zinc-800/40'>
+      <form className='dark:focus-within relative mx-auto mb-2 flex w-full max-w-6xl flex-col gap-2 rounded-xl border border-gray-200 bg-gray-50 backdrop-blur-sm transition-all duration-200 dark:border-zinc-700/60 dark:bg-zinc-800/40'>
         <input type='file' ref={fileInputRef} className='sr-only' onChange={handleFileChange} multiple accept='.png, .jpg, .jpeg, .pdf' tabIndex={-1} />
-        <FilePreview attachments={attachments} onRemove={removeAttachment} className='border-border rounded-t-lg border' />
+        <FilePreview attachments={attachments} onRemove={removeAttachment} className='border-border rounded-t-xl border' />
         <PromptInput
           value={input}
           onValueChange={handleInputChangeWrapper}
           isLoading={isLoading}
-          className='relative w-full rounded-t-none rounded-b-lg border-0 bg-transparent p-0'>
+          className='relative w-full rounded-t-none rounded-b-xl border-0 bg-transparent p-0'>
           <ScrollButton
             containerRef={containerRef}
             scrollRef={bottomRef}
-            className='border-input/90 text-primary absolute top-[14px] right-[15px] mx-auto h-[28px] w-[28px] cursor-pointer rounded-md border bg-[#f4f4f5] px-0 py-0 transition-colors has-[>svg]:px-0 dark:bg-[#1f1f22]'
+            className='border-input/90 text-primary absolute top-[14px] right-[15px] mx-auto h-[28px] w-[28px] cursor-pointer rounded-lg border bg-[#f4f4f5] px-0 py-0 transition-colors has-[>svg]:px-0 dark:bg-[#1f1f22]'
           />
           <PromptInputTextarea
             ref={textareaRef}
@@ -197,7 +197,7 @@ export function MultimodalInput({
                   <Button
                     aria-label='Stop message'
                     className={cn(
-                      'border-input/90 text-primary h-8 w-8 cursor-pointer rounded-md border bg-[#f4f4f5] px-0 py-0 transition-colors has-[>svg]:px-0 sm:hidden dark:bg-[#1f1f22]',
+                      'border-input/90 text-primary h-8 w-8 cursor-pointer rounded-lg border bg-[#f4f4f5] px-0 py-0 transition-colors has-[>svg]:px-0 sm:hidden dark:bg-[#1f1f22]',
                       {
                         'text-primary-foreground bg-[#18181b] dark:bg-white': isLoading,
                       },
@@ -267,7 +267,7 @@ export function MultimodalInput({
                 <Button
                   aria-label='Stop message'
                   className={cn(
-                    'border-input/90 text-primary hidden h-8 w-8 cursor-pointer rounded-md border bg-[#f4f4f5] px-0 py-0 transition-colors has-[>svg]:px-0 sm:flex dark:bg-[#1f1f22]',
+                    'border-input/90 text-primary hidden h-8 w-8 cursor-pointer rounded-lg border bg-[#f4f4f5] px-0 py-0 transition-colors has-[>svg]:px-0 sm:flex dark:bg-[#1f1f22]',
                     {
                       'text-primary-foreground bg-[#18181b] dark:bg-white': isLoading,
                     },
