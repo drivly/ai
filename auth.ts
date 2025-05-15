@@ -82,10 +82,10 @@ const authOptions: NextAuthConfig = {
   ...authConfig,
   events: {
     createUser: async ({ user }) => {
-      console.log('createUser', { user })
+      // console.log('createUser', { user })
     },
     signIn: async ({ account, user, profile }) => {
-      console.log(`🚀 ~ signIn: ~ { account, user, profile }:`, { account, user, profile })
+      // console.log(`🚀 ~ signIn: ~ { account, user, profile }:`, { account, user, profile })
     },
   },
   callbacks: {

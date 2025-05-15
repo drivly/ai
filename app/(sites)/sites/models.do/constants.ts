@@ -13,3 +13,5 @@ export const SortFilters = [
 ] as const
 
 export type SearchFilterTypes = typeof CategoryFitlers | typeof SortFilters
+
+

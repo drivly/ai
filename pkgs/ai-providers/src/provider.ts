@@ -147,7 +147,7 @@ class LLMProvider implements LanguageModelV1 {
     //     break
     // }
 
-    return provider
+    // return provider
   }
 
   get supportsImageUrls() {
@@ -179,6 +179,7 @@ class LLMProvider implements LanguageModelV1 {
     const provider = createOpenAI({
       baseURL: this.config?.baseURL || 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter',
       apiKey: this.apiKey,
+      headers: this.config?.headers,
       headers: this.config?.headers,
     })
 

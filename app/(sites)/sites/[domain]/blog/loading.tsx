@@ -20,7 +20,7 @@ function SkeletonBlogCard() {
 }
 
 export default function Loading() {
-  const skeletonCards = Array.from({ length: 6 }).map((_, i) => <SkeletonBlogCard key={i} />)
+  const skeletonCards = Array.from({ length: 10 }).map((_, i) => <SkeletonBlogCard key={i} />)
 
   return (
     <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32'>

@@ -11,7 +11,7 @@ const blogPosts: BlogPost[] = [
     title: 'Bringing AI Back to Code: Introducing Functions.do',
     description: 'How Functions.do makes generative AI feel like classic programming again.',
     date: '3-23-2025',
-    category: 'AI Functions',
+    category: 'Functions',
     image: '/images/blog-functions.png',
   },
   {
@@ -19,7 +19,7 @@ const blogPosts: BlogPost[] = [
     title: 'Building Intelligent Applications with LLM.do',
     description: 'A comprehensive guide to leveraging LLM.do for your next project.',
     date: '3-20-2025',
-    category: 'Language Models',
+    category: 'Agents',
     image: '/images/blog-llm.png',
   },
   {
@@ -27,7 +27,7 @@ const blogPosts: BlogPost[] = [
     title: 'The Future of AI Development',
     description: 'Exploring trends and predictions for AI development in the coming years.',
     date: '3-15-2025',
-    category: 'Industry Insights',
+    category: 'Business',
     image: '/images/apis-plus-ai.png', // Fixed typo here
   },
   {
@@ -35,7 +35,7 @@ const blogPosts: BlogPost[] = [
     title: 'Optimizing AI Performance in Production',
     description: 'Best practices for deploying and scaling AI models in production environments.',
     date: '3-10-2025',
-    category: 'Best Practices',
+    category: 'Business',
     image: '/placeholder.svg?height=200&width=400',
   },
   {
@@ -43,7 +43,7 @@ const blogPosts: BlogPost[] = [
     title: 'Ethical Considerations in AI Development',
     description: 'Navigating the complex ethical landscape of artificial intelligence.',
     date: '3-5-2025',
-    category: 'Ethics',
+    category: 'Business',
     image: '/placeholder.svg?height=200&width=400',
   },
   {
@@ -51,7 +51,7 @@ const blogPosts: BlogPost[] = [
     title: 'Getting Started with APIs.do',
     description: "A beginner's guide to using APIs.do for your development needs.",
     date: '3-1-2025',
-    category: 'Tutorials',
+    category: 'Integrations',
     image: '/placeholder.svg?height=200&width=400',
   },
   {
@@ -59,7 +59,7 @@ const blogPosts: BlogPost[] = [
     title: 'Machine Learning Basics for AI Developers',
     description: 'An introduction to machine learning concepts for developers working with AI.',
     date: '2-25-2025',
-    category: 'Machine Learning',
+    category: 'Data',
     image: '/placeholder.svg?height=200&width=400',
   },
   {
@@ -67,7 +67,7 @@ const blogPosts: BlogPost[] = [
     title: 'Essential Developer Tools for AI Projects',
     description: 'A curated list of the most useful tools for AI development workflows.',
     date: '2-20-2025',
-    category: 'Developer Tools',
+    category: 'Integrations',
     image: '/placeholder.svg?height=200&width=400',
   },
   {
@@ -75,7 +75,7 @@ const blogPosts: BlogPost[] = [
     title: 'Case Study: AI Transformation at Enterprise Scale',
     description: 'How a Fortune 500 company implemented AI across their organization.',
     date: '2-15-2025',
-    category: 'Case Studies',
+    category: 'Business',
     image: '/placeholder.svg?height=200&width=400',
   },
 ]
@@ -89,14 +89,14 @@ export async function getAllBlogPosts(domain: string): Promise<BlogPost[]> {
 export async function getBlogPostBySlug(domain: string, slug: string): Promise<BlogPost> {
   const content = await getContent(domain)
   const posts = await listBlogPostTitles(content)
-  const blogPost: BlogPost = posts.find((post) => slugify(post.title) === slug) || { title: slug.replaceAll('_', ' '), description: '', category: '' }
+  const blogPost: BlogPost = posts.find((post) => slugify(post.title) === slug) || { title: slug.replaceAll('_', ' '), description: '', category: posts[0].category }
   blogPost.markdown = await writeBlogPost({ website: content, blogPost })
-  
+
   if (blogPost.markdown) {
-    const stats = readingTime(blogPost.markdown)
-    blogPost.readingTime = stats.text // e.g., "3 min read"
+    const stats = readingTime(blogPost.markdown, 200)
+    blogPost.readingTime = stats.text
   }
-  
+
   return blogPost
 }
 
