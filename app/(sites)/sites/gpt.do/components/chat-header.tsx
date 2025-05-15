@@ -144,10 +144,10 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
         onKeyDown={handleKeyDown}
         placeholder='Enter model with options (e.g. gpt-4o(output:markdown))'
         className={cn(
-          'order-1 w-full min-w-[300px] transition-all duration-300 md:order-2',
+          'order-1 w-full min-w-[100px] transition-all duration-300 md:order-2',
           shouldDisable && '!border-destructive/50 text-destructive !bg-destructive/10 !ring-destructive/50',
         )}
-        style={{ width: `${Math.max(350, (inputValue?.length || 0) * 8)}px`, maxWidth: 'calc(100vw - 200px)' }}
+        style={{ width: `${Math.max(300, (inputValue?.length || 0) * 8)}px`, maxWidth: 'calc(100vw - 200px)' }}
         spellCheck={false}
       />
 
