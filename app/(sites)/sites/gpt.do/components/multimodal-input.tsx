@@ -1,0 +1,306 @@
+import { Button } from '@/components/ui/button'
+import { FilePreview } from '@/components/ui/file-preview'
+import { PromptInput, PromptInputAction, PromptInputActions, PromptInputTextarea } from '@/components/ui/prompt-input'
+import { ScrollButton } from '@/components/ui/scroll-button'
+import { cn } from '@/lib/utils'
+import { ChatRequestOptions, CreateMessage, Message, UIMessage } from 'ai'
+import { ArrowUp, CircleStop, Paperclip } from 'lucide-react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import React, { use, useCallback, useMemo } from 'react'
+import { formUrlQuery, removeKeysFromQuery } from '../../models.do/utils'
+import { IntegrationPromise } from '../actions/composio.action'
+import { setGptdoCookieAction } from '../actions/gpt.action'
+import { useChatInputMethods } from '../hooks/use-chat-input-methods'
+import { OUTPUT_FORMATS } from '../lib/constants'
+import { SearchOption } from '../lib/types'
+import { ConfigOption, SELECTION_STEP_ALIASES, type ChatConfigChangeType } from './chat-options-selector'
+import { PromptSuggestions } from './prompt-suggestions'
+import { SearchableOptionSelector } from './searchable-option-selector'
+
+type MultimodalInputProps = {
+  toolsPromise: IntegrationPromise
+  containerRef: React.RefObject<HTMLElement | null>
+  bottomRef: React.RefObject<HTMLElement | null>
+  input: string
+  isDisabled: boolean
+  isLoading: boolean
+  messages: UIMessage[]
+  modelOptions: SearchOption[]
+  selectedModelId?: SearchOption
+  append: (message: Message | CreateMessage, chatRequestOptions?: ChatRequestOptions) => Promise<string | null | undefined>
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
+  handleSubmit: (
+    event?: {
+      preventDefault?: () => void
+    },
+    chatRequestOptions?: ChatRequestOptions,
+  ) => void
+  stop: () => void
+}
+
+export function MultimodalInput({
+  bottomRef,
+  containerRef,
+  input,
+  isDisabled,
+  isLoading,
+  messages,
+  modelOptions,
+  selectedModelId,
+  toolsPromise,
+  handleInputChange,
+  append,
+  stop,
+  handleSubmit,
+}: MultimodalInputProps) {
+  const integrations = use(toolsPromise)
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const router = useRouter()
+
+  // --- URL Parameter Extraction ---
+  const modelFromUrl = searchParams.get('model')
+  const toolFromUrl = searchParams.get('tool')
+  const outputFromUrl = searchParams.get('output')
+
+  // Memoized selected values that reflect URL params with fallbacks to props
+  const selectedModel = useMemo(() => {
+    if (modelFromUrl) {
+      return modelOptions.find((model) => model.value === modelFromUrl) || selectedModelId
+    }
+    return selectedModelId
+  }, [modelOptions, modelFromUrl, selectedModelId])
+
+  const selectedTool = useMemo(() => {
+    if (toolFromUrl) {
+      return integrations.find((tool) => tool.value === toolFromUrl) || null
+    }
+    return null
+  }, [integrations, toolFromUrl])
+
+  const selectedOutput = useMemo(() => {
+    if (outputFromUrl) {
+      return OUTPUT_FORMATS.find((output) => output.value === outputFromUrl) || null
+    }
+    return null
+  }, [outputFromUrl])
+
+  const { attachments, disabled, fileInputRef, textareaRef, handleKeyDown, handleFileChange, removeAttachment, submitForm } = useChatInputMethods({
+    isDisabled,
+    isLoading,
+    input,
+    handleSubmit,
+  })
+
+  const handleInputChangeWrapper = useCallback(
+    (value: string) => {
+      const syntheticEvent = {
+        target: { value },
+      } as React.ChangeEvent<HTMLTextAreaElement>
+
+      handleInputChange(syntheticEvent)
+    },
+    [handleInputChange],
+  )
+
+  const handleOptionChange = useCallback(
+    async (type: ChatConfigChangeType, option: ConfigOption | null) => {
+      // Update URL
+      let newUrl
+      const key = SELECTION_STEP_ALIASES[type]
+      const params = searchParams.toString()
+      const value = option?.value || ''
+
+      if (value) {
+        newUrl = formUrlQuery({ params, key, value })
+      } else {
+        newUrl = removeKeysFromQuery({ params, keys: [key] })
+      }
+
+      // Save to cookie
+      await setGptdoCookieAction({
+        type: SELECTION_STEP_ALIASES[type],
+        option,
+        pathname,
+      })
+
+      // Update URL
+      router.replace(decodeURIComponent(newUrl), { scroll: false })
+    },
+    [router, searchParams, pathname],
+  )
+
+  const handleBackToIntegrations = useCallback(() => {
+    let newUrl
+    if (toolFromUrl?.includes('.')) {
+      const integrationName = toolFromUrl.split('.')[0]
+      newUrl = formUrlQuery({
+        params: searchParams.toString(),
+        key: 'tool',
+        value: integrationName,
+      })
+    } else {
+      newUrl = removeKeysFromQuery({
+        params: searchParams.toString(),
+        keys: ['tool'],
+      })
+    }
+    router.replace(decodeURIComponent(newUrl), { scroll: false })
+  }, [router, searchParams, toolFromUrl])
+
+  return (
+    <section className='px-4'>
+      {messages.length === 0 && attachments.length === 0 && (
+        <PromptSuggestions append={append} selectedModel={selectedModel} selectedTool={selectedTool} selectedOutput={selectedOutput} />
+      )}
+      <form className='dark:focus-within relative mx-auto mb-2 flex w-full max-w-6xl flex-col gap-2 rounded-xl rounded-t-sm border border-gray-200 bg-gray-50 backdrop-blur-sm transition-all duration-200 dark:border-zinc-700/60 dark:bg-zinc-800/40'>
+        <input type='file' ref={fileInputRef} className='sr-only' onChange={handleFileChange} multiple accept='.png, .jpg, .jpeg, .pdf' tabIndex={-1} />
+        <FilePreview attachments={attachments} onRemove={removeAttachment} className='border-border rounded-t-lg border' />
+        <PromptInput
+          value={input}
+          onValueChange={handleInputChangeWrapper}
+          isLoading={isLoading}
+          className='relative w-full rounded-t-none rounded-b-lg border-0 bg-transparent p-0'>
+          <ScrollButton
+            containerRef={containerRef}
+            scrollRef={bottomRef}
+            className='border-input/90 text-primary absolute top-[14px] right-[15px] mx-auto h-[28px] w-[28px] cursor-pointer rounded-md border bg-[#f4f4f5] px-0 py-0 transition-colors has-[>svg]:px-0 dark:bg-[#1f1f22]'
+          />
+          <PromptInputTextarea
+            ref={textareaRef}
+            placeholder='Enter Prompt...'
+            className='max-h-[200px] min-h-[64px] flex-1 resize-none overflow-y-auto bg-transparent px-4 py-3 font-sans text-[13px] text-zinc-700 placeholder:text-gray-400 focus:outline-none dark:bg-transparent dark:text-zinc-200 dark:placeholder:text-zinc-500'
+            onKeyDown={handleKeyDown}
+            disabled={isLoading || disabled}
+            autoFocus
+            disableAutosize
+          />
+          <PromptInputActions className='flex w-full flex-col bg-transparent px-3 py-2 sm:flex-row sm:items-center sm:justify-between'>
+            <div className='flex w-full justify-between sm:w-auto sm:justify-start'>
+              <PromptInputAction delayDuration={0} className='duration-0 data-[state=closed]:duration-0' tooltip='Attach files'>
+                <Button
+                  type='button'
+                  variant='ghost'
+                  size='icon'
+                  className='h-8 w-8 cursor-pointer rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-700 has-[>svg]:px-0 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-200'
+                  aria-label='Attach files'
+                  onClick={(event) => {
+                    event.preventDefault()
+                    fileInputRef.current?.click()
+                  }}
+                  disabled={isLoading || disabled}>
+                  <Paperclip className='h-4 w-4' />
+                </Button>
+              </PromptInputAction>
+              <PromptInputAction tooltip={isLoading ? 'Stop message' : 'Send message'}>
+                {isLoading ? (
+                  <Button
+                    aria-label='Stop message'
+                    className={cn(
+                      'border-input/90 text-primary h-8 w-8 cursor-pointer rounded-md border bg-[#f4f4f5] px-0 py-0 transition-colors has-[>svg]:px-0 sm:hidden dark:bg-[#1f1f22]',
+                      {
+                        'text-primary-foreground bg-[#18181b] dark:bg-white': isLoading,
+                      },
+                    )}
+                    onClick={(event) => {
+                      event.preventDefault()
+                      stop()
+                    }}>
+                    <CircleStop absoluteStrokeWidth strokeWidth={2.5} className='h-4 w-4' />
+                  </Button>
+                ) : (
+                  <Button
+                    type='submit'
+                    aria-label='Send message'
+                    className={cn(
+                      'h-8 w-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 sm:hidden dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-200',
+                      {
+                        'bg-zinc-900 text-white hover:bg-zinc-800 hover:text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 dark:hover:text-black':
+                          input.trim() || attachments.length > 0,
+                      },
+                    )}
+                    disabled={input.trim() === '' && attachments.length === 0}
+                    onClick={(event) => {
+                      event.preventDefault()
+                      submitForm()
+                    }}>
+                    <ArrowUp absoluteStrokeWidth strokeWidth={2.5} className='h-4 w-4' />
+                  </Button>
+                )}
+              </PromptInputAction>
+            </div>
+            <div className='mt-2 flex w-full flex-1 flex-col sm:mt-0 sm:flex-row sm:items-center sm:justify-center'>
+              <div className='mx-auto flex w-full flex-col space-y-2 sm:w-auto sm:flex-row sm:items-center sm:space-y-0 sm:space-x-1'>
+                <SearchableOptionSelector
+                  align='end'
+                  placeholder='Model'
+                  title='model'
+                  options={modelOptions}
+                  selectedItem={selectedModel}
+                  updateOption={handleOptionChange}
+                  className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[80px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
+                />
+                <span className='hidden text-gray-300 sm:inline dark:text-zinc-600'>|</span>
+                <SearchableOptionSelector
+                  align='center'
+                  placeholder='Tool'
+                  title='integration'
+                  options={integrations}
+                  selectedItem={selectedTool}
+                  updateOption={handleOptionChange}
+                  className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[70px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
+                />
+                <span className='hidden text-gray-300 sm:inline dark:text-zinc-600'>|</span>
+                <SearchableOptionSelector
+                  align='start'
+                  placeholder='Format'
+                  title='output'
+                  options={OUTPUT_FORMATS}
+                  selectedItem={selectedOutput}
+                  updateOption={handleOptionChange}
+                  className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[80px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
+                />
+              </div>
+            </div>
+            <PromptInputAction tooltip={isLoading ? 'Stop message' : 'Send message'}>
+              {isLoading ? (
+                <Button
+                  aria-label='Stop message'
+                  className={cn(
+                    'border-input/90 text-primary hidden h-8 w-8 cursor-pointer rounded-md border bg-[#f4f4f5] px-0 py-0 transition-colors has-[>svg]:px-0 sm:flex dark:bg-[#1f1f22]',
+                    {
+                      'text-primary-foreground bg-[#18181b] dark:bg-white': isLoading,
+                    },
+                  )}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    stop()
+                  }}>
+                  <CircleStop absoluteStrokeWidth strokeWidth={2.5} className='h-4 w-4' />
+                </Button>
+              ) : (
+                <Button
+                  type='submit'
+                  aria-label='Send message'
+                  className={cn(
+                    'hidden h-8 w-8 rounded-lg bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 sm:flex dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-200',
+                    {
+                      'bg-zinc-900 text-white hover:bg-zinc-800 hover:text-white dark:bg-white dark:text-black dark:hover:bg-zinc-200 dark:hover:text-black':
+                        input.trim() || attachments.length > 0,
+                    },
+                  )}
+                  disabled={input.trim() === '' && attachments.length === 0}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    submitForm()
+                  }}>
+                  <ArrowUp absoluteStrokeWidth strokeWidth={2.5} className='h-4 w-4' />
+                </Button>
+              )}
+            </PromptInputAction>
+          </PromptInputActions>
+        </PromptInput>
+      </form>
+    </section>
+  )
+}

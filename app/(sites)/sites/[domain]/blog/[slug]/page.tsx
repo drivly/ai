@@ -1,23 +1,23 @@
-import { BlogContent } from '@/components/sites/blog-ui/blog-content'
+import { MarkdownContent } from '@/components/shared/markdown-content'
 import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { Badge } from '@/components/ui/badge'
-import { slugify } from '@/lib/slugify'
 import { ArrowLeft } from 'lucide-react'
+import { Metadata } from 'next'
 import { headers } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
-import Balancer from 'react-wrap-balancer'
 import { getBlogPostBySlug } from '../blog-posts'
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string; slug: string }> }) {
   const { domain, slug } = await params
-  
+
   const post = await getBlogPostBySlug(domain, slug)
   return {
     title: post?.title,
     description: post?.description,
-  }
+    keywords: [post.category],
+  } as Metadata
 }
 
 async function BlogPostPage({ params }: { params: { domain: string; slug: string } }) {
@@ -36,7 +36,6 @@ async function BlogPostPage({ params }: { params: { domain: string; slug: string
 
   const postUrl = `${siteUrl}/blog/${slug}`
   const dateObj = new Date()
-  const formattedDate = `${dateObj.getDate()} ${dateObj.toLocaleString('default', { month: 'short' })} ${dateObj.getFullYear()}`
 
   return (
     <div className='container mx-auto max-w-4xl px-3 py-24 md:py-32 xl:px-0'>
@@ -46,24 +45,18 @@ async function BlogPostPage({ params }: { params: { domain: string; slug: string
       </Link>
 
       <div className='mb-8'>
-        {/* <Badge className='mb-4 px-3 py-1.5 text-sm hover:bg-gray-100 sm:px-2.5 sm:py-1 sm:text-xs dark:hover:bg-gray-800/50'>{post?.category}</Badge>
-        <h1 className='bg-gradient-to-br from-black from-30% to-black/40 bg-clip-text text-4xl leading-tight font-medium tracking-tight text-balance text-transparent dark:from-white dark:to-white/40'>
-          <Balancer>{post?.title}</Balancer>
-        </h1>
-        <p className='text-muted-foreground text-xl'>
-          <Balancer>{post?.description}</Balancer>
-        </p> */}
-        <div className='mt-4 flex flex-row items-center justify-between gap-2'>
-          <div className='text-muted-foreground text-sm'>{post?.readingTime || '3 min read'}</div>
+        <div className='relative mt-4 flex flex-row items-center justify-between gap-2'>
+          <div className='flex flex-row items-center gap-3'>
+            <Badge variant='blog' className='border-gray-800/50 px-3 py-1.5 text-sm hover:bg-gray-100 sm:px-2.5 sm:py-1 sm:text-xs dark:hover:bg-gray-800/50'>
+              {post?.category}
+            </Badge>
+            <span className='text-muted-foreground text-sm'>{post?.readingTime || '3 min read'}</span>
+          </div>
           <ShareButtons title={post?.title || ''} url={postUrl} hideLabel={true} />
         </div>
       </div>
 
-      {/* <div className='relative mb-8 h-[400px] w-full overflow-hidden rounded-lg'>
-        <Image src={post?.image || fallbackImage} alt={post?.title || ''} fill className='object-cover' priority />
-      </div> */}
-
-      <BlogContent markdown={post?.markdown || ''} />
+      <MarkdownContent markdown={post?.markdown || ''} />
 
       {/* Related domain blog posts */}
     </div>
@@ -95,8 +88,7 @@ function BlogPostNotFound({ fallbackImage }: { fallbackImage: string }) {
             <p className='mb-4'>This blog post could not be found</p>
             <Link
               href={`/blog`}
-              className='bg-primary text-primary-foreground ring-offset-background hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'
-            >
+              className='bg-primary text-primary-foreground ring-offset-background hover:bg-primary/90 focus-visible:ring-ring inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none'>
               Browse All Blog Posts
             </Link>
           </div>

@@ -20,6 +20,13 @@ export function titleCase(str: string): string {
     .trim()
 }
 
+export function camelToHumanCase(str: string): string {
+  if (!str) return ''
+  // Add a space before capital letters, then capitalize the first letter of the resulting string.
+  const result = str.replace(/([A-Z])/g, ' $1')
+  return result.charAt(0).toUpperCase() + result.slice(1).toLowerCase() // Convert to sentence case like "Batch presence"
+}
+
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 Bytes'
 
@@ -29,3 +36,15 @@ export function formatFileSize(bytes: number): string {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
 }
+
+/**
+ *
+ * Returns an array of unique objects based on a specified property key.
+ *
+ * @example
+ *
+ * const uniqueData = uniqueArrayByObjectPropertyKey(data, 'name')
+ * console.log(uniqueData)
+ */
+export const uniqueArrayByObjectPropertyKey = <TData extends object, TKey extends keyof TData>(data: TData[], key: TKey) =>
+  Array.from(new Map(data.map((item) => [item[key], item])).values())

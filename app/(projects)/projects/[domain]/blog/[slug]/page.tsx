@@ -1,18 +1,10 @@
+import { getBlogPostBySlug } from '@/app/(sites)/sites/[domain]/blog/blog-posts'
+import { Badge } from '@/components/ui/badge'
+import { ArrowLeft } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import Image from 'next/image'
-import { ArrowLeft } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
-// import { headers } from 'next/headers'
-import { getPayload } from 'payload'
-import config from '@/payload.config'
-import { fetchProjectByDomain } from '@/lib/fetchProjectByDomain'
-import { BlogContent } from '@/components/sites/blog-ui/dynamic-blog-content'
-import { ShareButtons } from '@/components/sites/blog-ui/share-button'
 import { cache } from 'react'
-import { writeBlogPost } from '@/.ai/functions/content'
 import Markdown from 'react-markdown'
-import { getBlogPostBySlug } from '@/app/(sites)/sites/[domain]/blog/blog-posts'
 
 const getData = cache(async ({ domain, slug }: { domain: string; slug: string }) => {
   // const post = await writeBlogPost({ domain, slug })

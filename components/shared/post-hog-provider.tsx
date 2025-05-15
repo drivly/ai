@@ -48,6 +48,7 @@ function SuspendedPostHogPageView() {
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
   useIdentifyPostHogUser()
+
   useEffect(() => {
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY as string, {
       api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com',
