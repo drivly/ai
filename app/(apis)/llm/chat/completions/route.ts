@@ -139,7 +139,8 @@ export async function POST(req: Request) {
 
   // llm.do superset OpenAI standard
   const {
-    modelOptions
+    modelOptions,
+    useChat
   } = postData as LLMCompatibleRequest
 
   if (!prompt && !messages) {
@@ -404,7 +405,7 @@ export async function POST(req: Request) {
           onTool
         })
   
-        if (postData.useChat) {
+        if (useChat) {
           return createDataStreamResponse({
             execute: async (dataStream) => {
               const textStream = result.textStream
@@ -462,7 +463,7 @@ export async function POST(req: Request) {
         })
   
         // We need to support both streaming and useChat use cases.
-        if (postData.useChat) {
+        if (useChat) {
           return result.toDataStreamResponse()
         } else {
           return openAIStreamableResponse(result.textStream)

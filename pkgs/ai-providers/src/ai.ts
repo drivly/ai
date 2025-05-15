@@ -82,6 +82,8 @@ export async function resolveConfig(options: GenerateTextOptions) {
       throw new Error('user is required when using tools')
     }
 
+    options.tools = options.tools ?? {}
+
     if (toolNames.length > 0) {
       const composio = new Composio({ apiKey: process.env.COMPOSIO_API_KEY })
 
@@ -95,11 +97,11 @@ export async function resolveConfig(options: GenerateTextOptions) {
       // redirect link to add the app.
   
       const activeApps = connections.items.map(connection => connection.appName)
-      let missingApps = Array.from(new Set(toolNames.map(x => x.split('.')[0]).filter(app => !activeApps.includes(app))))
+      let missingApps: string[] = Array.from(new Set(toolNames.map((x: string) => x.split('.')[0]).filter((app: string) => !activeApps.includes(app))))
   
       const appMetadata = await Promise.all(missingApps.map(async app => {
         return composio.apps.get({
-          appKey: app
+          appKey: app as string
         })
       }))
       
@@ -164,14 +166,14 @@ export async function resolveConfig(options: GenerateTextOptions) {
           .reduce((acc, [app, id]) => ({ ...acc, [app]: id }), {})
       })
   
-      const apps = toolNames.map(name => name.split('.')[0])
+      const apps = toolNames.map((name: string) => name.split('.')[0])
   
       const tools = await composioToolset.getTools({
         apps,
-        actions: toolNames.map(name => camelCaseToScreamingSnakeCase(name)),
+        actions: toolNames.map((name: string) => camelCaseToScreamingSnakeCase(name)),
       })
   
-      options.tools = options.tools ?? {}
+      
       options.tools = { ...options.tools, ...tools }
     }
 
@@ -190,7 +192,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
 
     if (parsedModel.provider?.slug === 'openAi') {
       // We need to amend composio tools for OpenAI usage.
-      for (const [name, tool] of Object.entries(tools)) {
+      for (const [name, tool] of Object.entries(options.tools)) {
         options.tools[name] = {
           ...tool,
           parameters: {
@@ -232,7 +234,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
         }
       }
     } else {
-      for (const [name, tool] of Object.entries(tools)) {
+      for (const [name, tool] of Object.entries(options.tools)) {
         options.tools[name] = {
           ...tool,
           execute: async (args: any) => {
@@ -269,7 +271,6 @@ export async function resolveConfig(options: GenerateTextOptions) {
 
     // Apply model author specific fixes
     if (parsedModel.author == 'google') {
-
       // For each tool, we need to replace the jsonSchema with a google compatible one.
       for (const toolName in options.tools) {
         options.tools[toolName].parameters.jsonSchema = convertJSONSchemaToOpenAPISchema(options.tools[toolName].parameters.jsonSchema)
@@ -277,14 +278,8 @@ export async function resolveConfig(options: GenerateTextOptions) {
     }
 
     if (parsedModel.author == 'openai') {
-
       // For each tool, we need to replace the jsonSchema with a google compatible one.
       for (const toolName in options.tools) {
-
-        console.log(
-          options.tools[toolName].parameters.jsonSchema
-        )
-
         options.tools[toolName].parameters.jsonSchema = alterSchemaForOpenAI(options.tools[toolName].parameters.jsonSchema)
       }
     }
