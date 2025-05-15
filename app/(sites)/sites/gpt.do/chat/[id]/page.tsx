@@ -32,41 +32,18 @@ async function ChatPage({ params, searchParams }: ChatPageProps) {
   const isAction = tool?.includes('.')
   const integrationName = isAction ? tool?.split('.')[0] : tool
 
-  // Fetch either integrations list or actions for a specific integration
   const composioPromise = getComposioActionsByIntegrationCached({ queryKey: ['tools', integrationName] })
   const loadedModels = getAvailableModels().map((model) => ({ createdAt: model.createdAt, label: model.name, value: model.permaslug }))
   const models = uniqueArrayByObjectPropertyKey(loadedModels, 'label')
 
   const chatModelFromCookie = await getGptdoBrainCookieAction()
 
-  if (!chatModelFromCookie) {
-    return (
-      <Chat
-        id={id}
-        initialChatModel={DEFAULT_CHAT_MODEL}
-        initialVisibilityType='private'
-        availableModels={models}
-        toolsPromise={composioPromise}
-        session={session}
-        greeting={
-          <Greeting
-            title='Welcome to GPT.do'
-            description='Select your model, tool, and output format to get started.'
-            config={
-              <Suspense>
-                <ChatOptionsSelector toolsPromise={composioPromise} availableModels={models} initialChatModel={DEFAULT_CHAT_MODEL} />
-              </Suspense>
-            }
-          />
-        }
-      />
-    )
-  }
+  const initialChatModel = !chatModelFromCookie ? DEFAULT_CHAT_MODEL : chatModelFromCookie
 
   return (
     <Chat
       id={id}
-      initialChatModel={chatModelFromCookie}
+      initialChatModel={initialChatModel}
       initialVisibilityType='private'
       availableModels={models}
       toolsPromise={composioPromise}
@@ -77,7 +54,7 @@ async function ChatPage({ params, searchParams }: ChatPageProps) {
           description='Select your model, tool, and output format to get started.'
           config={
             <Suspense>
-              <ChatOptionsSelector toolsPromise={composioPromise} availableModels={models} initialChatModel={chatModelFromCookie} />
+              <ChatOptionsSelector toolsPromise={composioPromise} availableModels={models} initialChatModel={initialChatModel} />
             </Suspense>
           }
         />

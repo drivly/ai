@@ -1,9 +1,8 @@
 'use server'
 
-import { redirect } from 'next/navigation'
+import { redirect, RedirectType } from 'next/navigation'
 import { serverAuth } from '@/hooks/server-auth'
 import { getCurrentURL } from '@/lib/utils/url'
-import { RedirectType } from 'next/dist/client/components/redirect-error'
 import { headers } from 'next/headers'
 
 /**

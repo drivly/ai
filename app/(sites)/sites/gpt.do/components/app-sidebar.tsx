@@ -11,6 +11,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { resolvePathname } from '../lib/utils'
+import Spinner from './spinner'
 
 export function AppSidebar() {
   const user = useAuthUser()
@@ -53,12 +54,12 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Spinner height={24} width={24} className='text-muted-foreground/50' />}>
           <SidebarHistory user={user} basePath={basePath} />
         </Suspense>
       </SidebarContent>
       <SidebarFooter>
-        <Suspense fallback={<div>Loading...</div>}>{user && <SidebarUserNav user={user} />}</Suspense>
+        <Suspense fallback={<Spinner height={24} width={24} className='text-muted-foreground/50' />}>{user && <SidebarUserNav user={user} />}</Suspense>
       </SidebarFooter>
     </Sidebar>
   )

@@ -15,7 +15,7 @@ export const PositionCard = ({ job, hasApplied }: PositionCardProps) => {
       <h3 className='mb-2 text-lg font-semibold'>{job.position}</h3>
       <p className='mb-4 text-sm text-gray-400'>{job.description}</p>
       <div className='flex flex-col justify-between gap-4 sm:flex-row sm:items-center'>
-        <div className='flex gap-2'>
+        <div className='flex flex-wrap gap-2'>
           {job.tags.map((tag) => (
             <Badge key={crypto.randomUUID()} variant='outline' className='text-xs whitespace-nowrap'>
               {tag}
