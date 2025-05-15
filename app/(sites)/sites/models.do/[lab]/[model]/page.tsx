@@ -170,6 +170,7 @@ async function ModelDetailPage({ params }: { params: { lab: string; model: strin
           <Card className='bg-background/30 h-full border-none backdrop-blur-sm'>
             <CardContent className='flex gap-4'>
               <div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-500/10'>
+                {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image className='h-5 w-5 text-cyan-500' />
               </div>
               <div>
