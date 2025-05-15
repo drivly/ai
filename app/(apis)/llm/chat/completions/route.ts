@@ -1,9 +1,11 @@
+
 import { auth } from '@/auth'
 import { createLLMProvider, generateObject, generateText, streamObject, streamText } from '@/pkgs/ai-providers/src'
 import { getModel } from '@/pkgs/language-models'
 import { CoreMessage, createDataStreamResponse, jsonSchema, tool } from 'ai'
 import { convertIncomingSchema } from './schema'
 import { schemas } from './schemas'
+import { createDataPoint } from './analytics'
 
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 
@@ -360,6 +362,18 @@ export async function POST(req: Request) {
 
   console.log('Using tools', tools)
 
+  const onTool = async (tool: string, args: any, result: object) => {
+    createDataPoint(
+      'llm.tool-use',
+      {
+        user: session?.user.email || '',
+        tool,
+        args
+      },
+      result
+    )
+  }
+
   try {
     if (stream) {
       if (response_format || parsedModel.outputSchema === 'JSON') {
@@ -382,6 +396,7 @@ export async function POST(req: Request) {
             console.error(error) // your error logging logic here
             generateObjectError(JSON.stringify(error))
           },
+          onTool
         })
   
         if (postData.useChat) {
@@ -438,6 +453,7 @@ export async function POST(req: Request) {
           prompt,
           user: session?.user.email || '',
           maxSteps: 50,
+          onTool
         })
   
         // We need to support both streaming and useChat use cases.
@@ -461,6 +477,7 @@ export async function POST(req: Request) {
           mode: 'json',
           // @ts-expect-error - Type error to be fixed.
           schema,
+          onTool
         })
   
         // @ts-expect-error - TS doesnt like us adding random properties to the result.
@@ -478,26 +495,39 @@ export async function POST(req: Request) {
           user: session?.user.email || '',
           maxSteps: 10,
           tools,
+          onTool
         })
   
         return openAiResponse(result)
       }
     }
   } catch (e) {
+
+    console.error(e)
+
     switch ((e as { type: string }).type) {
       case 'AI_PROVIDERS_TOOLS_REDIRECT':
-        const error = e
+        const error = e as {
+          type: 'AI_PROVIDERS_TOOLS_REDIRECT'
+          apps: string[]
+          connectionRequests: {
+            app: string
+            redirectUrl: string
+          }[]
+        }
 
         return Response.json({
           success: false,
-          error: error.message,
+          type: 'TOOLS_REDIRECT',
+          error: `To continue with this request, please authorize the following apps: ${error.apps.join(', ')}`,
           connectionRequests: error.connectionRequests
         }, { status: 400 })
       default:
         return Response.json({
           success: false,
-          error: e.message,
-        }, { status: 400 })
+          type: 'INTERNAL_SERVER_ERROR',
+          error: 'An error occurred while processing your request. This has been logged and will be investigated. Please try again later.'
+        }, { status: 500 })
     }
   }
 }

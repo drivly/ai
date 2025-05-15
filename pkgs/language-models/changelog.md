@@ -1,3 +1,13 @@
+# 2025-05-15 17:02:35
+
+### Removed models:
+- qwen/qwen2.5-7b-instruct
+
+# 2025-05-15 16:02:43
+### Added models:
+- qwen/qwen2.5-7b-instruct
+
+
 # 2025-05-12 19:03:25
 
 ### Removed models:

@@ -29,23 +29,24 @@ const camelCaseToScreamingSnakeCase = (str: string) => {
     .replace(/([A-Z])/g, '_$1').toUpperCase()
 }
 
-type GenerateTextOptions = Omit<Parameters<typeof aiGenerateText>[0], 'model'> & {
+type ProvidersGenerateMixin = {
   model: (string & {}) | LanguageModelV1
   user?: string
   openrouterApiKey?: string
+  /**
+   * Report when a tool is called, used for analytics.
+   * @param tool 
+   * @param args 
+   * @returns 
+   */
+  onTool?: (tool: string, args: any, result: any) => void
 }
 
-type GenerateObjectOptions = Omit<Parameters<typeof aiGenerateObject>[0], 'model'> & {
-  model: (string & {}) | LanguageModelV1
-  user?: string
-  openrouterApiKey?: string
-}
+type GenerateTextOptions = Omit<Parameters<typeof aiGenerateText>[0], 'model'> & ProvidersGenerateMixin
 
-type StreamObjectOptions = Omit<Parameters<typeof aiStreamObject>[0], 'model'> & {
-  model: (string & {}) | LanguageModelV1
-  user?: string
-  openrouterApiKey?: string
-}
+type GenerateObjectOptions = Omit<Parameters<typeof aiGenerateObject>[0], 'model'> & ProvidersGenerateMixin
+
+type StreamObjectOptions = Omit<Parameters<typeof aiStreamObject>[0], 'model'> & ProvidersGenerateMixin
 
 export type AIToolRedirectError = Error & {
   type: 'AI_PROVIDERS_TOOLS_REDIRECT'
@@ -53,6 +54,7 @@ export type AIToolRedirectError = Error & {
     app: string
     redirectUrl: string
   }[]
+  apps: string[]
 }
 
 // Generates a config object from 
@@ -87,7 +89,16 @@ export async function resolveConfig(options: GenerateTextOptions) {
     // redirect link to add the app.
 
     const activeApps = connections.items.map(connection => connection.appName)
-    const missingApps = Array.from(new Set(toolNames.map(x => x.split('.')[0]).filter(app => !activeApps.includes(app))))
+    let missingApps = Array.from(new Set(toolNames.map(x => x.split('.')[0]).filter(app => !activeApps.includes(app))))
+
+    const appMetadata = await Promise.all(missingApps.map(async app => {
+      return composio.apps.get({
+        appKey: app
+      })
+    }))
+    
+    // Mixin a filter to remove apps that dont have any auth.
+    missingApps = missingApps.filter(app => !appMetadata.find(x => x.key === app)?.no_auth)
 
     if (missingApps.length > 0) {
       const connectionRequests = []
@@ -100,7 +111,6 @@ export async function resolveConfig(options: GenerateTextOptions) {
 
       for (const app of missingApps) {
         if (pendingConnections.find(x => x.appName === app)) {
-
           console.debug(
             '[COMPOSIO] Found existing connection request for',
             app
@@ -136,6 +146,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
 
       error.type = 'AI_PROVIDERS_TOOLS_REDIRECT'
       error.connectionRequests = connectionRequests
+      error.apps = missingApps
 
       throw error
     }
@@ -188,8 +199,28 @@ export async function resolveConfig(options: GenerateTextOptions) {
               `[TOOL:${name}]`,
               args
             )
-            // @ts-expect-error - TS doesnt like us calling this function even though it exists.
-            return tool.execute(args)
+
+            try {
+              // @ts-expect-error - TS doesnt like us calling this function even though it exists.
+              const result = await tool.execute(args)
+
+              if (options.onTool) {
+                options.onTool(name, args, {
+                  success: true,
+                  result
+                })
+              }
+              
+              return result
+            } catch (error) {
+              if (options.onTool) {
+                options.onTool(name, args, {
+                  success: false,
+                  error: JSON.parse(JSON.stringify(error))
+                })
+              }
+              throw error
+            }
           }
         }
       }
@@ -202,8 +233,28 @@ export async function resolveConfig(options: GenerateTextOptions) {
               `[TOOL:${name}]`,
               args
             )
-            // @ts-expect-error - TS doesnt like us calling this function even though it exists.
-            return tool.execute(args)
+
+            try {
+              // @ts-expect-error - TS doesnt like us calling this function even though it exists.
+              const result = await tool.execute(args)
+
+              if (options.onTool) {
+                options.onTool(name, args, {
+                  success: true,
+                  result
+                })
+              }
+              
+              return result
+            } catch (error) {
+              if (options.onTool) {
+                options.onTool(name, args, {
+                  success: false,
+                  error: JSON.parse(JSON.stringify(error))
+                })
+              }
+              throw error
+            }
           }
         }
       }
