@@ -8,7 +8,7 @@
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
     "lint": "eslint src/**/*.ts",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+    "clean": "rimraf .turbo && rimraf node_modules && rimraf dist"
   },
   "keywords": [
     "clickhouse",
@@ -21,6 +21,7 @@
     "@clickhouse/client-web": "^0.3.0"
   },
   "devDependencies": {
+    "rimraf": "^6.0.1",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3"
   }
