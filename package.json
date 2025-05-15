@@ -39,7 +39,7 @@
     "release-next": "pnpm build && pnpm semantic-release-next",
     "release-pkgs-next": "pnpm build && pnpm semantic-release-pkgs-next",
     "release-sdks-next": "pnpm build && pnpm semantic-release-sdks-next",
-    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "devsafe": "rimraf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types && pnpm sync:sdk-types",
     "generate:zapier-apps": "tsx scripts/generate-zapier-apps.ts",

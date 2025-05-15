@@ -37,7 +37,7 @@
   "scripts": {
     "build": "pnpm prepare && pnpm generate:types && tsup --config tsup.config.ts",
     "build:packages": "tsup --config tsup.config.ts",
-    "prepare": "mkdir -p generated src && touch generated/types.ts src/constants.ts && echo 'export interface ComposioActionTypes {}' > generated/types.ts && echo 'export const COMPOSIO_ACTIONS = [] as const;' >> generated/types.ts && echo 'export type ComposioActionName = typeof COMPOSIO_ACTIONS[number];' >> generated/types.ts && echo 'export const ACTION_NAMES = [] as const;' > src/constants.ts && echo 'export type ActionName = (typeof ACTION_NAMES)[number];' >> src/constants.ts",
+    "prepare": "node -e \"const fs = require('fs'); const path = require('path'); const dirs = ['generated', 'src']; dirs.forEach(dir => { if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true }); }); const files = {'generated/types.ts': 'export interface ComposioActionTypes {}\\nexport const COMPOSIO_ACTIONS = [] as const;\\nexport type ComposioActionName = typeof COMPOSIO_ACTIONS[number];', 'src/constants.ts': 'export const ACTION_NAMES = [] as const;\\nexport type ActionName = (typeof ACTION_NAMES)[number];'}; Object.entries(files).forEach(([file, content]) => fs.writeFileSync(file, content));\"",
     "generate:types": "tsx ../../scripts/generateComposioTypes.ts || echo 'Failed to generate types, using placeholders'",
     "generate:constants": "echo 'Using placeholder constants'",
     "test": "vitest run",
