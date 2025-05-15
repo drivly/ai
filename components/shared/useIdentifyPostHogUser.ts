@@ -1,16 +1,21 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useAuthUser } from '@/hooks/use-auth-user'
 import { usePostHog } from 'posthog-js/react'
+import { useEffect } from 'react'
 
-export const useIdentifyPostHogUser = () => {}
+export const useIdentifyPostHogUser= () => {
+  const posthog = usePostHog()
+  const user = useAuthUser()
 
-if (typeof window !== 'undefined') {
-  import('./useIdentifyPostHogUserClient')
-    .then((module) => {
-      Object.assign(useIdentifyPostHogUser, module.useIdentifyPostHogUserClient)
+  useEffect(() => {
+    if (!user) return
+
+    posthog.identify(user.id, {
+      name: user?.name,
+      email: user.email,
+      photo: null, // Don't use image property as it doesn't exist in type
+      domain: window.location.hostname || 'unknown',
     })
-    .catch((error) => {
-      console.error('Failed to load PostHog client module:', error)
-    })
+  }, [posthog, user])
 }

@@ -93,6 +93,7 @@
 @theme inline {
   --font-ibm: var(--font-IBM_Plex_Sans);
   --font-geist: var(--font-geist);
+  --font-inter: var(--font-inter);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -333,4 +334,9 @@
   filter: blur(40px);
   pointer-events: none;
   animation: glow-on 1.5s ease-in-out forwards;
+}
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
 }

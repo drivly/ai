@@ -28,7 +28,7 @@ const nextConfig = {
     resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
   },
   images: {
-    domains: ['avatars.githubusercontent.com', 'avatar.vercel.sh'],
+    domains: ['avatars.githubusercontent.com', 'avatar.vercel.sh', 'cdn.jsdelivr.net'],
   },
 }
 
