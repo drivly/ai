@@ -37,9 +37,9 @@
   "scripts": {
     "build": "pnpm prepare && pnpm generate:types && tsup --config tsup.config.ts",
     "build:packages": "tsup --config tsup.config.ts",
-    "prepare": "mkdir -p generated src && touch generated/types.ts src/constants.ts && echo 'export interface ComposioActionTypes {}' > generated/types.ts && echo 'export const COMPOSIO_ACTIONS = [] as const;' >> generated/types.ts && echo 'export type ComposioActionName = typeof COMPOSIO_ACTIONS[number];' >> generated/types.ts && echo 'export const ACTION_NAMES = [] as const;' > src/constants.ts && echo 'export type ActionName = (typeof ACTION_NAMES)[number];' >> src/constants.ts",
-    "generate:types": "tsx ../../scripts/generateComposioTypes.ts || echo 'Failed to generate types, using placeholders'",
-    "generate:constants": "echo 'Using placeholder constants'",
+    "prepare": "mkdirp generated src && nodetouch generated/types.ts src/constants.ts && echo export interface ComposioActionTypes {} > generated/types.ts && echo export const COMPOSIO_ACTIONS = [] as const >> generated/types.ts && echo export type ComposioActionName = typeof COMPOSIO_ACTIONS[number] >> generated/types.ts && echo export const ACTION_NAMES = [] as const > src/constants.ts && echo export type ActionName = (typeof ACTION_NAMES)[number] >> src/constants.ts",
+    "generate:types": "tsx ../../scripts/generateComposioTypes.ts || echo Failed to generate types, using placeholders",
+    "generate:constants": "echo Using placeholder constants",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -49,10 +49,12 @@
   "devDependencies": {
     "eslint-config": "workspace:*",
     "evalite": "^0.10.0",
-    "typescript": "^5.0.0",
-    "vitest": "^3.0.9",
+    "mkdirp": "^3.0.1",
+    "touch": "^3.1.1",
     "tsconfig": "workspace:*",
-    "tsup": "^8.0.1"
+    "tsup": "^8.0.1",
+    "typescript": "^5.0.0",
+    "vitest": "^3.0.9"
   },
   "engines": {
     "node": ">=18.0.0"

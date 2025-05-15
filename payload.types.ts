@@ -556,6 +556,8 @@ export interface BillingPlan {
    * Whether this plan is active and available for purchase
    */
   isActive?: boolean | null;
+  stripeID?: string | null;
+  skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1473,6 +1475,8 @@ export interface ConnectAccount {
     | number
     | boolean
     | null;
+  stripeID?: string | null;
+  skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -3632,6 +3636,8 @@ export interface ConnectAccountsSelect<T extends boolean = true> {
   payoutsEnabled?: T;
   platformFeePercent?: T;
   metadata?: T;
+  stripeID?: T;
+  skipSync?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -4121,6 +4127,8 @@ export interface BillingPlansSelect<T extends boolean = true> {
   stripeProductId?: T;
   stripePriceId?: T;
   isActive?: T;
+  stripeID?: T;
+  skipSync?: T;
   updatedAt?: T;
   createdAt?: T;
 }
