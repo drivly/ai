@@ -27,6 +27,7 @@ interface LLMProviderConstructorOptions {
     errorToMessage: (error: any) => string
   }
   defaultObjectGenerationMode: 'tool'
+  fetch: (url: string, init: RequestInit) => Promise<Response>
 }
 
 // TODO: Ask Nathan about the route.
@@ -86,8 +87,7 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
         // So we're doing this to use our superset standard.
         
         const newBody = {
-          // @ts-expect-error - init.body is a string in this system
-          ...JSON.parse(init?.body ?? '{}'),
+          ...JSON.parse(init?.body as string ?? '{}'),
           modelOptions: settings
         }
 
@@ -101,6 +101,8 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
 
         return response
       }
-    })
+    }
+    
+    return new OpenAICompatibleChatLanguageModel(modelId, settings ?? {}, providerOptions as any)
   }
 }

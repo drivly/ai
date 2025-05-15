@@ -210,48 +210,51 @@ async function main() {
 
     // Write to models.json in src directory
     const { resolve } = await import('node:path')
-    const { writeFileSync, readFileSync } = await import('node:fs')
+    const { writeFileSync, readFileSync, existsSync } = await import('node:fs')
 
     const outputPath = resolve('./src/models.js')
 
-    // Read the file first, we want to get a list of models that were added in this run.
-    const existingModels = JSON.parse(readFileSync(outputPath, 'utf8').replace('export default ', ''))
-    const newModels = modelsData.filter((model) => !existingModels.models.some((m) => m.permaslug === model.permaslug))
-    const removedModels = existingModels.models.filter((model) => !modelsData.some((m) => m.permaslug === model.permaslug))
-
     writeFileSync(outputPath, `export default ${JSON.stringify({ models: modelsData }, null, 2)}`)
 
-    const saveRead = (path: string): string => {
-      try {
-        return readFileSync(path, 'utf8')
-      } catch (error) {
-        return ''
+    if (existsSync(outputPath)) {
+      // Read the file first, we want to get a list of models that were added in this run.
+      const existingModels = JSON.parse(readFileSync(outputPath, 'utf8').replace('export default ', ''))
+      const newModels = modelsData.filter((model) => !existingModels.models.some((m) => m.permaslug === model.permaslug))
+      const removedModels = existingModels.models.filter((model) => !modelsData.some((m) => m.permaslug === model.permaslug))
+
+      const saveRead = (path: string): string => {
+        try {
+          return readFileSync(path, 'utf8')
+        } catch (error) {
+          return ''
+        }
       }
-    }
 
-    const logPath = resolve('./changelog.md')
-    const currentLogMarkdown = saveRead(logPath)
+      const logPath = resolve('./changelog.md')
+      const currentLogMarkdown = saveRead(logPath)
 
-    if (newModels.length || removedModels.length) {
+      if (newModels.length || removedModels.length) {
 
-      const addedModelsSegment = newModels.length > 0 ? `### Added models:
-        ${newModels.map((m) => `- ${m.slug}`).join('\n')}` : ''
+        const addedModelsSegment = newModels.length > 0 ? `### Added models:
+          ${newModels.map((m) => `- ${m.slug}`).join('\n')}` : ''
 
-      const removedModelsSegment = removedModels.length > 0 ? `### Removed models:
-        ${removedModels.map((m) => `- ${m.slug}`).join('\n')}` : ''
+        const removedModelsSegment = removedModels.length > 0 ? `### Removed models:
+          ${removedModels.map((m) => `- ${m.slug}`).join('\n')}` : ''
 
-      writeFileSync(
-        logPath,
-        // Append the new models to the file.
-        // Title should be the date and hour of the run.
-        (`# ${new Date().toISOString().split('T')[0]} ${new Date().toISOString().split('T')[1].split('.')[0]}
-        ${addedModelsSegment}
-        ${removedModelsSegment}
-        
-        ${currentLogMarkdown}`)
-          // @ts-expect-error - replaceAll exists, no clue why TS is complaining
-          .replaceAll('  ', '')
-      )
+        writeFileSync(
+          logPath,
+          // Append the new models to the file.
+          // Title should be the date and hour of the run.
+          (`# ${new Date().toISOString().split('T')[0]} ${new Date().toISOString().split('T')[1].split('.')[0]}
+          ${addedModelsSegment}
+          ${removedModelsSegment}
+          
+          ${currentLogMarkdown}`)
+            // @ts-expect-error - replaceAll exists, no clue why TS is complaining
+            .replaceAll('  ', '')
+        )
+      }
+
     }
 
     console.log(`Models data written to ${outputPath}`)
