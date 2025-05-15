@@ -33,6 +33,7 @@ type ProvidersGenerateMixin = {
   model: (string & {}) | LanguageModelV1
   user?: string
   openrouterApiKey?: string
+  modelOptions?: any
   /**
    * Report when a tool is called, used for analytics.
    * @param tool 
@@ -61,7 +62,7 @@ export type AIToolRedirectError = Error & {
 export async function resolveConfig(options: GenerateTextOptions) {
   // If options.model is a string, use our llm provider.
   if (typeof options.model === 'string') {
-    options.model = model(options.model)
+    options.model = model(options.model, options.modelOptions || {})
   }
 
   // @ts-expect-error - This is out of spec for LanguageModelV1, but we need to know if this is the LLMProvider
@@ -74,7 +75,8 @@ export async function resolveConfig(options: GenerateTextOptions) {
 
   console.log(
     'Using tools',
-    toolNames
+    toolNames,
+    parsedModel.parsed
   )
 
   if (parsedModel.parsed?.tools && toolNames.length > 0) {

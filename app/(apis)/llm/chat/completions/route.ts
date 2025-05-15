@@ -226,7 +226,8 @@ export async function POST(req: Request) {
     },
   })
 
-  const llmModel = llm(model)
+  // @ts-expect-error - Object is coming from the client
+  const llmModel = llm(model, modelOptions)
 
   const { parsed: parsedModel, ...modelData } = getModel(model, modelOptions ?? {})
 
@@ -391,6 +392,7 @@ export async function POST(req: Request) {
         const result = await streamObject({
           ...rest,
           model: llmModel,
+          modelOptions,
           system,
           messages,
           prompt,
@@ -454,6 +456,7 @@ export async function POST(req: Request) {
         const result = await streamText({
           ...rest,
           model: llmModel,
+          modelOptions,
           system,
           messages,
           prompt,
@@ -476,6 +479,7 @@ export async function POST(req: Request) {
         const result = await generateObject({
           ...rest,
           model: llmModel,
+          modelOptions,
           system,
           messages,
           prompt,
@@ -495,6 +499,7 @@ export async function POST(req: Request) {
         const result = await generateText({
           ...rest,
           model: llmModel,
+          modelOptions,
           system,
           messages,
           prompt,

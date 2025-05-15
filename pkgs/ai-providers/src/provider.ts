@@ -115,6 +115,13 @@ class LLMProvider implements LanguageModelV1 {
     // @ts-expect-error - Type is wrong
     this.resolvedModel = getModel(modelId, options)
 
+    console.log(
+      'MODEL',
+      this.resolvedModel,
+      'OPTIONS',
+      options
+    )
+
     this.apiKey = this.config?.apiKey
 
     if (!this.apiKey) {
