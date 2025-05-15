@@ -1,16 +1,19 @@
 // import { model } from 'ai-providers'
+import { BLOG_CATEGORIES } from '@/app/(sites)/sites/[domain]/blog/constants'
 import { model } from '@/lib/ai'
 import { generateObject, generateText } from 'ai'
 import yaml from 'yaml'
 import { z } from 'zod'
 
+export const BlogCategorySchema = z.enum(BLOG_CATEGORIES)
+
 export const writeBlogPost = (
   input: any,
-  { 
-    // modelName = 'google/gemini-2.5-pro-preview-03-25', 
+  {
+    // modelName = 'google/gemini-2.5-pro-preview-03-25',
     modelName = 'google/gemini-2.5-flash-preview',
-    system = 'You are an expert at writing compelling and SEO-optimized blog content. Respond only in markdown format starting with "# [Title]"', 
-    temperature = 1 
+    system = 'You are an expert at writing compelling and SEO-optimized blog content. Respond only in markdown format starting with "# [Title]"',
+    temperature = 1,
   } = {},
 ) =>
   generateText({
@@ -24,13 +27,13 @@ export const writeBlogPost = (
 
 export const listBlogPostTitles = (
   input: any,
-  { 
+  {
     // count = 30,
-    count = 30, 
-    // modelName = 'google/gemini-2.5-pro-preview-03-25', 
+    count = 10,
+    // modelName = 'google/gemini-2.5-pro-preview-03-25',
     modelName = 'google/gemini-2.5-flash-preview',
-    system = 'You are an expert at writing compelling and SEO-optimized blog content', 
-    temperature = 1 
+    system = 'You are an expert at writing compelling and SEO-optimized blog content',
+    temperature = 1,
   } = {},
 ) =>
   generateObject({
@@ -41,9 +44,9 @@ export const listBlogPostTitles = (
     schema: z.object({
       posts: z.array(
         z.object({
-          title: z.string(),
-          description: z.string(),
-          category: z.string(),
+          title: z.string().describe('The title of the blog post'),
+          description: z.string().describe('A short description of the blog post'),
+          category: BlogCategorySchema.describe('The category of the blog post'),
         }),
       ),
     }),

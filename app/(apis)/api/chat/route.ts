@@ -1,7 +1,5 @@
-import { model } from '@/lib/ai'
-import { streamText } from 'ai'
 import { POST as POST_LLM } from '@/app/(apis)/llm/chat/completions/route'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 
 // Allow streaming responses up to 600 seconds
 export const maxDuration = 600

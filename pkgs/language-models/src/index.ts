@@ -7,4 +7,4 @@ export * from './types'
 
 export const models = allModels.models as unknown as Model[]
 
-export const modelPattern = /^(?:[\w-]+\/)?[\w\.-]+(?:@[\w-]+(?::[\w-]+)?)?(?<!@)\([^()]*(?:\([^()]*\)[^()]*)*\)$/
+export const modelPattern = /^(?:[\w-]+\/)?[\w.-]+(?:@[\w-]+(?::[\w-]+)?)?(?<!@)\([^()]*(?:\([^()]*\)[^()]*)*\)$/

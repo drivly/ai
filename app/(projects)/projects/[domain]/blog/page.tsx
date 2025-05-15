@@ -1,9 +1,9 @@
-import type { Metadata } from 'next'
-import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-import { cache } from 'react'
 import { listBlogPostTitles, siteContent } from '@/.ai/functions/content'
 import { slugify } from '@/lib/slugify'
+import { ArrowLeft } from 'lucide-react'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { cache } from 'react'
 
 const getData = cache(async ({ domain }: { domain: string }) => {
   const [posts, content] = await Promise.all([

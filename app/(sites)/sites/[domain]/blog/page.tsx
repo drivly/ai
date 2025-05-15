@@ -2,14 +2,15 @@ import { BlogPosts } from '@/components/sites/blog-ui/blog-posts'
 import { withSitesWrapper } from '@/components/sites/with-sites-wrapper'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import { getAllBlogPosts, getAllCategories } from './blog-posts'
+import { getAllBlogPosts } from './blog-posts'
+import { BLOG_CATEGORIES } from './constants'
 
 async function BlogPage(props: { params: { domain: string } }) {
   const { domain } = props.params
 
   // Move data fetching to the server component
-  const posts = await getAllBlogPosts(domain)
-  const categories = await getAllCategories(domain)
+  const posts = await getAllBlogPosts(domain) // { title, description, category }
+  // const categories = await getAllCategories(domain)
 
   return (
     <div className='container mx-auto max-w-6xl px-3 py-24 md:py-32 xl:px-0'>
@@ -23,7 +24,7 @@ async function BlogPage(props: { params: { domain: string } }) {
         </h1>
       </div>
 
-      <BlogPosts initialPosts={posts} categories={categories} />
+      <BlogPosts initialPosts={posts} categories={BLOG_CATEGORIES} />
     </div>
   )
 }

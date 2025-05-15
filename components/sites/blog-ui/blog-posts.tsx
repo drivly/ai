@@ -1,10 +1,11 @@
 'use client'
 
+import { BlogCategory } from '@/app/(sites)/sites/[domain]/blog/constants'
+import { slugify } from '@/lib/slugify'
 import { useState } from 'react'
 import { BlogCard } from './blog-card'
 import { CategoryFilter } from './category-filter'
 import { Search } from './search'
-import { slugify } from '@/lib/slugify'
 
 export interface BlogPost {
   slug?: string
@@ -12,19 +13,19 @@ export interface BlogPost {
   description: string
   date?: string
   readingTime?: string // Add this field
-  category: string
+  category: BlogCategory
   image?: string
   markdown?: string
 }
 
 interface BlogPageClientProps {
   initialPosts: BlogPost[]
-  categories: string[]
+  categories: ReadonlyArray<BlogCategory>
 }
 
 export function BlogPosts({ initialPosts, categories }: BlogPageClientProps) {
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [selectedCategories, setSelectedCategories] = useState<BlogCategory[]>([])
 
   // Filter posts based on search query and selected categories
   const filteredPosts = initialPosts.filter((post) => {
