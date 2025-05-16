@@ -2,6 +2,9 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: ['index.ts', 'types.ts', 'bin.ts'],
+  banner: {
+    js: '#!/usr/bin/env node'
+  },
   format: ['esm'],
   dts: true,
   clean: true,

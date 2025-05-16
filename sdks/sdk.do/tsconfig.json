@@ -2,8 +2,8 @@
   "extends": "tsconfig/src/sdk.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "../.."
+    "rootDir": "."
   },
-  "include": ["**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }

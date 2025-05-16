@@ -47,15 +47,19 @@ for (const dir of sdkDirs) {
       modified = true
     }
 
-    if (dir === 'apis.do' && packageJson.bin && packageJson.bin.apis) {
-      const distSrcPath = path.join(sdksDir, dir, 'dist', 'src')
-      const distBinPath = path.join(distSrcPath, 'bin.js')
+    if (packageJson.bin) {
+      for (const [binName, binPath] of Object.entries(packageJson.bin)) {
+        const distPath = path.join(sdksDir, dir, 'dist');
+        const binFile = binPath.replace('./dist/', '');
+        const distBinPath = path.join(distPath, binFile);
 
-      if (fs.existsSync(distSrcPath) && fs.existsSync(distBinPath)) {
-        if (packageJson.bin.apis !== './dist/src/bin.js') {
-          console.log(`Fixing bin path for apis.do`)
-          packageJson.bin.apis = './dist/src/bin.js'
-          modified = true
+        if (fs.existsSync(distPath)) {
+          if (!fs.existsSync(distBinPath)) {
+            console.log(`Binary file ${binFile} is missing for ${dir}`);
+          } else if (!fs.statSync(distBinPath).mode & 0o111) {
+            console.log(`Setting executable permissions for ${binFile} in ${dir}`);
+            fs.chmodSync(distBinPath, '755');
+          }
         }
       }
     }
