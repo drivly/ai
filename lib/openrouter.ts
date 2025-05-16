@@ -66,6 +66,26 @@ export async function updateKeyDetails(
     .then((x) => x.data as KeyDetails)
 }
 
+export async function getKey(apiKey: string) {
+  return await fetch('https://openrouter.ai/api/v1/key', { headers: { Authorization: `Bearer ${apiKey}` } })
+    .then((x) => x.json())
+    .then(
+      (x) =>
+        x.data as {
+          label: string
+          usage: number
+          is_free_tier: boolean
+          is_provisioning_key: boolean
+          rate_limit: {
+            requests: number
+            interval: string
+          }
+          limit?: number
+          limit_remaining?: number
+        },
+    )
+}
+
 export type KeyDetails = {
   name: string
   label?: string

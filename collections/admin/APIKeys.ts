@@ -1,4 +1,4 @@
-import { createKey, findKey, getKeyDetails, updateKeyDetails } from '@/lib/openrouter'
+import { createKey, findKey, getKey } from '@/lib/openrouter'
 import type { CollectionConfig } from 'payload'
 
 export const APIKeys: CollectionConfig = {
@@ -57,4 +57,25 @@ export const APIKeys: CollectionConfig = {
       },
     ],
   },
+  endpoints: [
+    {
+      path: '/:id/credit',
+      method: 'get',
+      handler: async ({ routeParams = {}, payload }) => {
+        const { id } = routeParams
+        if (typeof id !== 'string' && typeof id !== 'number') {
+          return Response.json({ error: 'API key ID is required' }, { status: 400 })
+        }
+        const apiKey = await payload.findByID({
+          collection: 'apikeys',
+          id,
+        })
+        if (!apiKey?.key) {
+          return Response.json({ error: 'API key not found' }, { status: 404 })
+        }
+        const usage = await getKey(apiKey.key)
+        return Response.json({ credit: usage.limit_remaining })
+      },
+    },
+  ],
 }
