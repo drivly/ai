@@ -67,7 +67,9 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     body: {
       model: selectedModelId.value,
       output: outputFormat,
-      modelOptions: tools ? { tools: [tools] } : {},
+      modelOptions: {
+        tools: tools ? [tools] : undefined,
+      },
       system: systemPrompt,
       temp: temperature,
       seed: seed,
