@@ -66,6 +66,7 @@ export type Model = {
   sorting?: Sorting
   providers?: Provider[]
   provider?: Provider
+  authorIcon?: string
 }
 
 export type DataPolicy = {

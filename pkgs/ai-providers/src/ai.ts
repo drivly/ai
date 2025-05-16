@@ -53,7 +53,9 @@ export type AIToolRedirectError = Error & {
   type: 'AI_PROVIDERS_TOOLS_REDIRECT'
   connectionRequests: {
     app: string
-    redirectUrl: string
+    type: 'OAUTH' | 'API_KEY'
+    redirectUrl?: string
+    fields?: Record<string, any>
   }[]
   apps: string[]
 }
@@ -120,34 +122,50 @@ export async function resolveConfig(options: GenerateTextOptions) {
         }).then(x => x.items)
   
         for (const app of missingApps) {
-          if (pendingConnections.find(x => x.appName === app)) {
-            console.debug(
-              '[COMPOSIO] Found existing connection request for',
-              app
-            )
-  
-            const connection = pendingConnections.find(x => x.appName === app)
-  
-            connectionRequests.push({
-              app: connection?.appName as string,
-              redirectUrl: connection?.connectionParams?.redirectUrl as string
-            })
-          } else {
-            const integration = await composio.integrations.create({
-              name: app,
-              appUniqueKey: app,
-              useComposioAuth: true,
-              forceNewIntegration: true,
-            })
+          const appData = appMetadata.find(x => x.key === app)
+
+          const authScheme = appData?.auth_schemes?.[0] as {
+            mode: 'OAUTH' | 'OAUTH2' | 'API_KEY'
+          }
+
+          if (authScheme.mode === 'OAUTH' || authScheme.mode === 'OAUTH2') {
+            if (pendingConnections.find(x => x.appName === app)) {
+              console.debug(
+                '[COMPOSIO] Found existing connection request for',
+                app
+              )
     
-            const connection = await composio.connectedAccounts.initiate({
-              integrationId: integration.id,
-              entityId: options.user
-            })
-  
+              const connection = pendingConnections.find(x => x.appName === app)
+    
+              connectionRequests.push({
+                app: connection?.appName as string,
+                type: 'OAUTH',
+                redirectUrl: connection?.connectionParams?.redirectUrl as string
+              })
+            } else {
+              const integration = await composio.integrations.create({
+                name: app,
+                appUniqueKey: app,
+                useComposioAuth: true,
+                forceNewIntegration: true,
+              })
+      
+              const connection = await composio.connectedAccounts.initiate({
+                integrationId: integration.id,
+                entityId: options.user
+              })
+    
+              connectionRequests.push({
+                app: app as string,
+                type: 'OAUTH',
+                redirectUrl: connection.redirectUrl as string
+              })
+            } 
+          } else if (authScheme.mode === 'API_KEY') {
             connectionRequests.push({
               app: app as string,
-              redirectUrl: connection.redirectUrl as string
+              type: 'API_KEY',
+              fields: appData?.auth_schemes?.[0]?.fields
             })
           }
         }
