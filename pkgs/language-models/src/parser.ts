@@ -460,11 +460,13 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
   
   const { models } = filterModels(modelIdentifier)
   const model = models[0]
-  let slug
+  
+  // Default slug to ensure it's always defined
+  let slug = model?.slug || 'unknown/unknown'
   
   if (model) {
-    const provider = model.provider?.slug || model.author
-    const modelName = parsed.model || model.shortName
+    const provider = model.provider?.slug || model.author || 'unknown'
+    const modelName = parsed.model || model.shortName || 'unknown'
     
     // Extract capability from the modelIdentifier
     let capability = ''
