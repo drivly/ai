@@ -461,8 +461,7 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
   const { models } = filterModels(modelIdentifier)
   const model = models[0]
   
-  // Default slug to ensure it's always defined
-  let slug = model?.slug || 'unknown/unknown'
+  let slug = model?.slug
   
   if (model) {
     const provider = model.provider?.slug || model.author || 'unknown'
