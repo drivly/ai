@@ -1,9 +1,9 @@
-import { CheckCircleFillIcon, ChevronDownIcon, GlobeIcon, LockIcon } from '@/app/(sites)/sites/gpt.do/components/icons'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 import { type ReactNode, useMemo, useState } from 'react'
 import { useChatVisibility } from '../hooks/use-chat-visibility'
+import { CheckCircleFillIcon, ChevronDownIcon, GlobeIcon, LockIcon } from './icons'
 
 export type VisibilityType = 'private' | 'public'
 

@@ -15,7 +15,6 @@ export const OUTPUT_FORMATS = [
   { value: 'markdown', label: 'Markdown', description: 'Markdown formatted text' },
   { value: 'list', label: 'List', description: 'List of items' },
   { value: 'json', label: 'JSON', description: 'Structured data in JSON format' },
-  { value: 'html', label: 'HTML', description: 'Web-ready HTML content' },
   { value: 'json-schema', label: 'JSON Schema', description: 'JSON Schema for validation' },
   { value: 'yaml', label: 'YAML', description: 'YAML formatted text' },
   { value: 'code', label: 'Code', description: 'Code block' },

@@ -1,6 +1,6 @@
 import type { AttachmentFile } from '@/components/ui/file-preview'
 import { generateImageThumbnail, handleFileSelection } from '@/lib/file-handlers'
-import { ChatRequestOptions } from 'ai'
+import type { ChatRequestOptions } from 'ai'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 export const useChatInputMethods = ({

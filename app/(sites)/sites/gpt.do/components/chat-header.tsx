@@ -1,4 +1,3 @@
-import { setGptdoCookieAction } from '@/app/(sites)/sites/gpt.do/actions/gpt.action'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useSidebar } from '@/components/ui/sidebar'
@@ -6,13 +5,14 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { cn } from '@/lib/utils'
 import { PlusIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { type ChangeEvent, type KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useWindowSize } from 'usehooks-ts'
 import { formUrlQuery } from '../../models.do/utils'
-import { SearchOption } from '../lib/types'
-import { formatModelIdentifier, parseModelIdentifier, resolvePathname } from '../lib/utils'
+import { setGptdoCookieAction } from '../actions/gpt.action'
+import type { SearchOption } from '../lib/types'
+import { constructModelIdentifier, parse, resolvePathname } from '../lib/utils'
 import { SidebarToggle } from './sidebar-toggle'
-import { VisibilitySelector, VisibilityType } from './visibility-selector'
+import { VisibilitySelector, type VisibilityType } from './visibility-selector'
 
 interface ChatHeaderProps {
   chatId: string
@@ -44,7 +44,7 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
   const completeModelIdentifier = useMemo(() => {
     if (!selectedModelId.value) return ''
 
-    return formatModelIdentifier({
+    return constructModelIdentifier({
       model: selectedModelId.value,
       outputFormat,
       tools,
@@ -65,12 +65,12 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
   }, [completeModelIdentifier, selectedModelId.value])
 
   const handleModelChange = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
+    async (e: ChangeEvent<HTMLInputElement>) => {
       const newText = e.target.value
       setInputValue(newText)
 
       try {
-        const parsed = parseModelIdentifier(newText)
+        const parsed = parse(newText)
 
         const baseModel = parsed.model
         const selectedModel = modelOptions.find((model) => model.value === baseModel)
@@ -108,7 +108,7 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
     [modelOptions, pathname, router, searchParams, setSelectedModelId],
   )
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur()
     }

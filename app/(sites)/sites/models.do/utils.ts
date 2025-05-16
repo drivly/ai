@@ -1,5 +1,5 @@
 import qs from 'query-string'
-import { Model, models } from '@/pkgs/language-models/dist'
+import { Model, models } from 'language-models'
 import { cache } from 'react'
 
 export const getAvailableModels = cache(() => {
@@ -26,7 +26,6 @@ export const getModelProviders = cache(() => {
   return Array.from(providers).sort()
 })
 
-
 interface UrlQueryParams {
   params: string
   key: string
@@ -50,6 +49,7 @@ interface RemoveKeysParams {
   params: string
   keys: string[]
 }
+
 export const removeKeysFromQuery = ({ params, keys }: RemoveKeysParams) => {
   const currentUrl = qs.parse(params)
 

@@ -1,7 +1,7 @@
 import { titleCase } from '@/lib/utils' // For title-casing createdBy keys
 import { useVirtualizer } from '@tanstack/react-virtual' // Keep one import
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { AvailableIntegration } from '../actions/composio.action'
+import type { AvailableIntegration } from '../actions/composio.action'
 import type { ChatConfigChangeType, ConfigOption } from '../components/chat-options-selector'
 import { groupAndSortOptions, KEY_FOR_INVALID_DATES } from '../lib/utils'
 

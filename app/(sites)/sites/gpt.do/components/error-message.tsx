@@ -1,7 +1,8 @@
+import { Button } from '@/components/ui/button'
+import type { ChatRequestOptions } from 'ai'
 import { motion } from 'motion/react'
-import { Button } from '../../../../../components/ui/button'
 
-function ErrorMessage({ onReload }: { onReload: () => void }) {
+function ErrorMessage({ reload }: { reload: (chatRequestOptions?: ChatRequestOptions) => Promise<string | null | undefined> }) {
   return (
     <div className='flex flex-col items-center justify-center px-8 py-6'>
       <motion.div
@@ -31,7 +32,7 @@ function ErrorMessage({ onReload }: { onReload: () => void }) {
       </motion.div>
 
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} className='mt-4'>
-        <Button onClick={onReload} className='border-border border-2 outline-none' variant='default'>
+        <Button onClick={() => reload()} className='border-border border-2 outline-none' variant='default'>
           Reload
         </Button>
       </motion.div>

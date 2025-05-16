@@ -1,7 +1,5 @@
 'use client'
 
-import { useChatHistory } from '@/app/(sites)/sites/gpt.do/hooks/use-chat-history'
-import type { Chat } from '@/app/(sites)/sites/gpt.do/lib/types'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,6 +17,8 @@ import type { User } from 'next-auth'
 import { useParams, useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
 import { toast } from 'sonner'
+import { useChatHistory } from '../hooks/use-chat-history'
+import type { Chat } from '../lib/types'
 import { ChatItem } from './sidebar-history-item'
 
 type GroupedChats = {

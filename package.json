@@ -205,6 +205,7 @@
     "ua-parser-js": "^2.0.3",
     "unified": "^11.0.5",
     "usehooks-ts": "^3.1.1",
+    "vaul": "^1.1.2",
     "velite": "^0.2.2",
     "workflows.do": "0.0.1",
     "yaml": "^2.7.0",

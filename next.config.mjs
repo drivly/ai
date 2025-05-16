@@ -28,7 +28,20 @@ const nextConfig = {
     resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
   },
   images: {
-    domains: ['avatars.githubusercontent.com', 'avatar.vercel.sh', 'cdn.jsdelivr.net'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatar.vercel.sh',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.jsdelivr.net',
+      },
+    ],
   },
 }
 

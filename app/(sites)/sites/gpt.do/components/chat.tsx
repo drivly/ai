@@ -1,22 +1,24 @@
 'use client'
 
-import { ChatHeader } from '@/app/(sites)/sites/gpt.do/components/chat-header'
-import { ChatWrapper } from '@/app/(sites)/sites/gpt.do/components/chat-wrapper'
-import { VisibilityType } from '@/app/(sites)/sites/gpt.do/components/visibility-selector'
-import { useChatHistory } from '@/app/(sites)/sites/gpt.do/hooks/use-chat-history'
-import { useChatVisibility } from '@/app/(sites)/sites/gpt.do/hooks/use-chat-visibility'
 import { ChatContainer } from '@/components/ui/chat-container'
 import { useAuthUser } from '@/hooks/use-auth-user'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { useChat } from '@ai-sdk/react'
-import { UIMessage } from 'ai'
-import { Session } from 'next-auth'
+import type { UIMessage } from 'ai'
+import type { Session } from 'next-auth'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
-import { IntegrationPromise } from '../actions/composio.action'
-import { SearchOption } from '../lib/types'
+import type { IntegrationPromise } from '../actions/composio.action'
+import { useChatHistory } from '../hooks/use-chat-history'
+import { useChatVisibility } from '../hooks/use-chat-visibility'
+import type { SearchOption } from '../lib/types'
+import { ChatHeader } from './chat-header'
+import { ChatWrapper } from './chat-wrapper'
 import { ChatMessage } from './message'
+import { MobileSelectionBanner } from './mobile-selection-banner'
 import { MultimodalInput } from './multimodal-input'
+import type { VisibilityType } from './visibility-selector'
 
 export interface ChatProps {
   id: string
@@ -35,6 +37,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
   const bottomRef = useRef<HTMLDivElement>(null)
   const { getChatSession, updateChatMessages, addChatSession } = useChatHistory()
   const user = useAuthUser()
+  const isMobile = useIsMobile()
 
   // Get format and tools directly from URL
   const outputFormat = searchParams.get('output') || 'markdown'
@@ -63,7 +66,6 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     maxSteps: 3,
     body: {
       model: selectedModelId.value,
-      selectedVisibilityType: initialVisibilityType,
       output: outputFormat,
       modelOptions: {
         tools: tools ? tools.split(',') : undefined
@@ -73,7 +75,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
       seed: seed,
     },
     onError: (error) => {
-      toast.error(error.message || 'Failed to send message')
+      toast.error('Something went wrong')
     },
     onFinish: (response) => {
       console.log('Chat response:', response)
@@ -84,7 +86,6 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     },
   })
 
-  // Keep model value updated if prop changes
   useEffect(() => {
     setSelectedModelId(initialChatModel)
   }, [initialChatModel])
@@ -109,21 +110,29 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
             isReadonly={isReadonly}
             modelOptions={availableModels}
           />
-          <ChatContainer data-chat-widget='chat-container' className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6' ref={containerRef}>
+          <MobileSelectionBanner isMobile={isMobile} toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelId={selectedModelId} />
+          <ChatContainer
+            data-chat-widget='chat-container'
+            className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6'
+            ref={containerRef as React.RefObject<HTMLDivElement>}>
             {messages.length === 0 && greeting}
-            {displayMessages?.map((message) => (
-              <ChatMessage
-                data-chat-widget='chat-message'
-                key={message.id}
-                chatId={message.id}
-                role={message.role}
-                parts={message.parts}
-                attachments={message.experimental_attachments}
-                content={message.content}
-                error={error}
-                reload={reload}
-              />
-            ))}
+            {displayMessages?.map((message, index) => {
+              const isLastMessage = index === displayMessages.length - 1
+              const shouldShowError = isLastMessage && error
+              return (
+                <ChatMessage
+                  data-chat-widget='chat-message'
+                  key={message.id}
+                  chatId={message.id}
+                  role={message.role}
+                  parts={message.parts}
+                  attachments={message.experimental_attachments}
+                  content={message.content}
+                  error={shouldShowError ? error : undefined}
+                  reload={reload}
+                />
+              )
+            })}
           </ChatContainer>
           <MultimodalInput
             bottomRef={bottomRef}
@@ -132,6 +141,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
             messages={messages}
             isDisabled={status !== 'ready'}
             isLoading={status === 'streaming' || status === 'submitted'}
+            isMobile={isMobile}
             stop={stop}
             input={input}
             append={append}
