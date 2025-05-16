@@ -2599,9 +2599,13 @@ export interface Webhook {
  */
 export interface Apikey {
   id: string;
-  name?: string | null;
+  name: string;
+  user?: (string | null) | User;
+  organization?: (string | null) | Organization;
   email?: string | null;
   description?: string | null;
+  key?: string | null;
+  hash?: string | null;
   url?: string | null;
   /**
    * Domains of authorized Cloudflare Workers
@@ -4299,8 +4303,12 @@ export interface WebhooksSelect<T extends boolean = true> {
  */
 export interface ApikeysSelect<T extends boolean = true> {
   name?: T;
+  user?: T;
+  organization?: T;
   email?: T;
   description?: T;
+  key?: T;
+  hash?: T;
   url?: T;
   cfWorkerDomains?:
     | T
