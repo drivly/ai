@@ -39,6 +39,7 @@
   "scripts": {
     "build": "tsc",
     "build:packages": "tsc",
+    "postbuild": "chmod +x dist/index.js",
     "test": "vitest run"
   },
   "dependencies": {
