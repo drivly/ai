@@ -126,7 +126,7 @@ class ApisAPI {
     return this.delete(`/v1/${resource}/${id}`)
   }
 }
-import type { ErrorResponse, ListResponse, QueryParams, Package } from '../types.js'
+import type { ErrorResponse, ListResponse, QueryParams, Package } from './types.js'
 
 export interface ClientOptions {
   baseUrl?: string

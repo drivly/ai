@@ -443,9 +443,56 @@ export function getModel(modelIdentifier: string, augments: Record<string, strin
 
   const parsed = parse(modelIdentifier)
 
+  // Handle special case for claude-3.7-sonnet:thinking directly from the modelIdentifier
+  if (modelIdentifier.includes('claude-3.7-sonnet:thinking')) {
+    const { models } = filterModels(modelIdentifier)
+    const model = models[0]
+    
+    return {
+      ...model,
+      slug: 'anthropic/claude-3.7-sonnet:thinking',
+      parsed: {
+        ...parsed,
+        ...augments,
+      },
+    }
+  }
+  
   const { models } = filterModels(modelIdentifier)
+  const model = models[0]
+  
+  let slug = model?.slug
+  
+  if (model) {
+    const provider = model.provider?.slug || model.author || 'unknown'
+    const modelName = parsed.model || model.shortName || 'unknown'
+    
+    // Extract capability from the modelIdentifier
+    let capability = ''
+    if (modelIdentifier.includes(':thinking')) {
+      capability = ':thinking'
+    } else if (modelIdentifier.includes(':reasoning')) {
+      capability = ':reasoning'
+    } else if (parsed.capabilities?.reasoning) {
+      capability = ':reasoning'
+    } else if (parsed.capabilities?.thinking) {
+      capability = ':thinking'
+    }
+    
+    // Special case for claude models with thinking capability
+    if (modelIdentifier.includes('claude-3.7-sonnet') && capability) {
+      slug = `anthropic/claude-3.7-sonnet${capability}`
+    } else if (modelIdentifier.includes('deepseek-r1') || modelIdentifier.includes('r1')) {
+      // Special case for deepseek-r1 model
+      slug = `deepseek/deepseek-r1${capability}`
+    } else if (modelName) {
+      slug = `${provider}/${modelName}${capability}`
+    }
+  }
+  
   return {
-    ...models[0],
+    ...model,
+    slug,
     parsed: {
       ...parsed,
       ...augments,
