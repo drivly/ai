@@ -27,6 +27,7 @@ interface LLMProviderConstructorOptions {
     errorToMessage: (error: any) => string
   }
   defaultObjectGenerationMode: 'tool'
+  fetch: (url: string, init: RequestInit) => Promise<Response>
 }
 
 // TODO: Ask Nathan about the route.
@@ -80,9 +81,28 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
         errorToMessage: (error) => error.message,
       },
       defaultObjectGenerationMode: 'tool',
-    }
+      fetch: async (url, init) => {
+        // Mixin our model options into the body.
+        // By default, AI SDK wont let us add properties that are not inside the OpenAI schema.
+        // So we're doing this to use our superset standard.
+        
+        const newBody = {
+          ...JSON.parse(init?.body as string ?? '{}'),
+          modelOptions: settings
+        }
 
-    // Use explicit cast to any to bypass excessive type checking
+        const response = await fetch(
+          url,
+          {
+            ...init,
+            body: JSON.stringify(newBody)
+          }
+        )
+
+        return response
+      }
+    }
+    
     return new OpenAICompatibleChatLanguageModel(modelId, settings ?? {}, providerOptions as any)
   }
 }

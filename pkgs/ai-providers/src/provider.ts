@@ -1,8 +1,7 @@
-import { LanguageModelV1, LanguageModelV1CallWarning, LanguageModelV1FinishReason, LanguageModelV1StreamPart } from '@ai-sdk/provider'
-
-import { createOpenAI } from '@ai-sdk/openai'
-import { createGoogleGenerativeAI } from '@ai-sdk/google'
+import { LanguageModelV1 } from '@ai-sdk/provider'
 import { createAnthropic } from '@ai-sdk/anthropic'
+import { createGoogleGenerativeAI } from '@ai-sdk/google'
+import { createOpenAI } from '@ai-sdk/openai'
 import { getModel, getModels, Model } from 'language-models'
 
 // Not in use for the inital release.
@@ -113,11 +112,15 @@ class LLMProvider implements LanguageModelV1 {
     this.modelId = modelId
     this.options = options ?? {}
     this.config = config ?? {}
-    this.resolvedModel = getModel(modelId)
+    // @ts-expect-error - Type is wrong
+    this.resolvedModel = getModel(modelId, options)
 
-    if (!this.resolvedModel.slug) {
-      throw new Error(`Model ${modelId} not found`)
-    }
+    console.log(
+      'MODEL',
+      this.resolvedModel,
+      'OPTIONS',
+      options
+    )
 
     this.apiKey = this.config?.apiKey
 
@@ -129,10 +132,10 @@ class LLMProvider implements LanguageModelV1 {
   get provider() {
     let provider = 'openrouter'
 
-    // Access provider property which is added by getModel but not in the Model type
-    const providerSlug = this.resolvedModel.provider?.slug
-
     return provider
+
+    // // Access provider property which is added by getModel but not in the Model type
+    // const providerSlug = this.resolvedModel.provider?.slug
 
     // switch (providerSlug) {
     //   case 'openAi':
@@ -159,7 +162,7 @@ class LLMProvider implements LanguageModelV1 {
 
   get supportsImageUrls() {
     // Depending on the model, we may or may not support image urls
-    return this.resolvedModel.inputModalities.includes('image')
+    return this.resolvedModel.inputModalities?.includes('image')
   }
 
   // Fix Anthropic's default object generation mode.
@@ -170,7 +173,7 @@ class LLMProvider implements LanguageModelV1 {
 
   async doGenerate(options: Parameters<LanguageModelV1['doGenerate']>[0]): Promise<Awaited<ReturnType<LanguageModelV1['doGenerate']>>> {
     // Access providerModelId which is added by getModel but not in the Model type
-    const modelSlug = this.provider == 'openrouter' ? this.resolvedModel.slug : (this.resolvedModel as any).provider?.providerModelId
+    const modelSlug = this.provider == 'openrouter' ? this.resolvedModel.slug || this.modelId : (this.resolvedModel as any).provider?.providerModelId
 
     let modelConfigMixin = {}
 
@@ -186,7 +189,7 @@ class LLMProvider implements LanguageModelV1 {
     const provider = createOpenAI({
       baseURL: this.config?.baseURL || 'https://gateway.ai.cloudflare.com/v1/b6641681fe423910342b9ffa1364c76d/ai-functions/openrouter',
       apiKey: this.apiKey,
-      headers: this.config?.headers,
+      headers: this.config?.headers
     })
 
     return await provider(modelSlug, modelConfigMixin).doGenerate(options)

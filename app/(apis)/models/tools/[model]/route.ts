@@ -67,14 +67,14 @@ export const GET = API(async (request, { db, user, origin, url, domain, params }
 
   const resolvedConfig = await resolveConfig({
     model: modelName,
-    user: user.email || 'connor@driv.ly'
+    user: user.email
   })
 
   const parsed = parse(modelName)
 
   const composio = new Composio({ apiKey: process.env.COMPOSIO_API_KEY })
   const connections = await composio.connectedAccounts.list({
-    user_uuid: user.email || 'connor@driv.ly'
+    user_uuid: user.email
   })
   
   const composioToolset = new VercelAIToolSet({

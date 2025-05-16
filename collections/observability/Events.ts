@@ -7,7 +7,7 @@ export const Events: CollectionConfig = {
     useAsTitle: 'type',
     description: 'Records of all significant occurrences within the platform',
   },
-  access: { create: () => false, update: () => false, delete: () => false },
+  access: { update: () => false, delete: () => false },
   fields: [
     { name: 'type', type: 'text' },
     { name: 'source', type: 'text' },

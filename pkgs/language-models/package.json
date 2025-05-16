@@ -11,7 +11,8 @@
     "lint": "tsc --noEmit",
     "prepublishOnly": "pnpm clean && pnpm build",
     "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "cli": "npx tsx src/cli.ts"
   },
   "type": "module",
   "packageManager": "pnpm@10.6.5",
