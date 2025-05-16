@@ -10,7 +10,7 @@ import {
   type LanguageModelV1,
 } from 'ai'
 import { model } from './provider'
-import { VercelAIToolSet, Composio } from 'composio-core'
+import { VercelAIToolSet, Composio, ConnectionRequest } from 'composio-core'
 import TurndownService from 'turndown'
 import {
   fetchWebsiteContents,
@@ -49,11 +49,13 @@ type GenerateObjectOptions = Omit<Parameters<typeof aiGenerateObject>[0], 'model
 
 type StreamObjectOptions = Omit<Parameters<typeof aiStreamObject>[0], 'model'> & ProvidersGenerateMixin
 
+type ConnectionType = 'OAUTH' | 'API_KEY'
+
 export type AIToolRedirectError = Error & {
   type: 'AI_PROVIDERS_TOOLS_REDIRECT'
   connectionRequests: {
     app: string
-    type: 'OAUTH' | 'API_KEY'
+    type: ConnectionType
     redirectUrl?: string
     fields?: Record<string, any>
   }[]
@@ -139,7 +141,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
     
               connectionRequests.push({
                 app: connection?.appName as string,
-                type: 'OAUTH',
+                type: 'OAUTH' as ConnectionType,
                 redirectUrl: connection?.connectionParams?.redirectUrl as string
               })
             } else {
@@ -157,14 +159,14 @@ export async function resolveConfig(options: GenerateTextOptions) {
     
               connectionRequests.push({
                 app: app as string,
-                type: 'OAUTH',
+                type: 'OAUTH' as ConnectionType,
                 redirectUrl: connection.redirectUrl as string
               })
             } 
           } else if (authScheme.mode === 'API_KEY') {
             connectionRequests.push({
               app: app as string,
-              type: 'API_KEY',
+              type: 'API_KEY' as ConnectionType,
               fields: appData?.auth_schemes?.[0]?.fields
             })
           }
@@ -173,7 +175,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
         const error = new Error(`Missing access to apps: ${missingApps.join(', ')}.`) as AIToolRedirectError
   
         error.type = 'AI_PROVIDERS_TOOLS_REDIRECT'
-        error.connectionRequests = connectionRequests
+        error.connectionRequests = connectionRequests as AIToolRedirectError['connectionRequests']
         error.apps = missingApps
   
         throw error
