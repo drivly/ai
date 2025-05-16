@@ -1,9 +1,8 @@
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { type ChatRequestOptions, type CreateMessage, type Message } from 'ai'
+import type { ChatRequestOptions, CreateMessage, Message } from 'ai'
 import { motion } from 'motion/react'
 import { useMemo } from 'react'
-import { SearchOption } from '../lib/types'
-import { formatModelIdentifier, modelToIdentifier, type ParsedModelIdentifier } from '../lib/utils'
+import type { SearchOption } from '../lib/types'
 
 interface PromptSuggestionsProps {
   className?: string
@@ -247,17 +246,6 @@ export const PromptSuggestions = ({ className, append, selectedModel, selectedTo
     )
 
     const formatsString = suggestion.formats?.join(',')
-
-    // We'll use the selected model information if available
-    if (selectedModel && selectedModel.value) {
-      const modelIdentifier = formatModelIdentifier({
-        model: selectedModel.value,
-        outputFormat: formatsString,
-        tools: toolsObject,
-      })
-
-      console.log('Using model:', modelIdentifier)
-    }
 
     await append(
       { role: 'user', content },

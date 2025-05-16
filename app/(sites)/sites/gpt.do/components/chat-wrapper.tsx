@@ -1,7 +1,7 @@
-import { UIMessage } from 'ai'
+import type { UIMessage } from 'ai'
 import { Fragment, useEffect } from 'react'
+import type { SearchOption } from '../lib/types'
 import { ChatRedirect } from './chat-redirect'
-import { SearchOption } from '../lib/types'
 
 interface ChatWrapperProps {
   children: React.ReactNode

@@ -3,32 +3,33 @@ import { FilePreview } from '@/components/ui/file-preview'
 import { PromptInput, PromptInputAction, PromptInputActions, PromptInputTextarea } from '@/components/ui/prompt-input'
 import { ScrollButton } from '@/components/ui/scroll-button'
 import { cn } from '@/lib/utils'
-import { ChatRequestOptions, CreateMessage, Message, UIMessage } from 'ai'
+import type { ChatRequestOptions, CreateMessage, Message, UIMessage } from 'ai'
 import { ArrowUp, CircleStop, Paperclip } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { use, useCallback, useMemo } from 'react'
+import { type ChangeEvent, type RefObject, use, useCallback, useMemo } from 'react'
 import { formUrlQuery, removeKeysFromQuery } from '../../models.do/utils'
-import { IntegrationPromise } from '../actions/composio.action'
+import type { IntegrationPromise } from '../actions/composio.action'
 import { setGptdoCookieAction } from '../actions/gpt.action'
 import { useChatInputMethods } from '../hooks/use-chat-input-methods'
 import { OUTPUT_FORMATS } from '../lib/constants'
-import { SearchOption } from '../lib/types'
-import { ConfigOption, SELECTION_STEP_ALIASES, type ChatConfigChangeType } from './chat-options-selector'
+import type { SearchOption } from '../lib/types'
+import { type ChatConfigChangeType, type ConfigOption, SELECTION_STEP_ALIASES } from './chat-options-selector'
 import { PromptSuggestions } from './prompt-suggestions'
 import { SearchableOptionSelector } from './searchable-option-selector'
 
 type MultimodalInputProps = {
   toolsPromise: IntegrationPromise
-  containerRef: React.RefObject<HTMLElement | null>
-  bottomRef: React.RefObject<HTMLElement | null>
+  containerRef: RefObject<HTMLElement | null>
+  bottomRef: RefObject<HTMLElement | null>
   input: string
   isDisabled: boolean
   isLoading: boolean
+  isMobile: boolean
   messages: UIMessage[]
   modelOptions: SearchOption[]
   selectedModelId?: SearchOption
   append: (message: Message | CreateMessage, chatRequestOptions?: ChatRequestOptions) => Promise<string | null | undefined>
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void
+  handleInputChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
   handleSubmit: (
     event?: {
       preventDefault?: () => void
@@ -44,6 +45,7 @@ export function MultimodalInput({
   input,
   isDisabled,
   isLoading,
+  isMobile,
   messages,
   modelOptions,
   selectedModelId,
@@ -96,7 +98,7 @@ export function MultimodalInput({
     (value: string) => {
       const syntheticEvent = {
         target: { value },
-      } as React.ChangeEvent<HTMLTextAreaElement>
+      } as ChangeEvent<HTMLTextAreaElement>
 
       handleInputChange(syntheticEvent)
     },
@@ -130,30 +132,36 @@ export function MultimodalInput({
     [router, searchParams, pathname],
   )
 
-  const handleBackToIntegrations = useCallback(() => {
-    let newUrl
-    if (toolFromUrl?.includes('.')) {
-      const integrationName = toolFromUrl.split('.')[0]
-      newUrl = formUrlQuery({
-        params: searchParams.toString(),
-        key: 'tool',
-        value: integrationName,
-      })
-    } else {
-      newUrl = removeKeysFromQuery({
-        params: searchParams.toString(),
-        keys: ['tool'],
-      })
-    }
-    router.replace(decodeURIComponent(newUrl), { scroll: false })
-  }, [router, searchParams, toolFromUrl])
+  // const handleBackToIntegrations = useCallback(() => {
+  //   let newUrl
+  //   if (toolFromUrl?.includes('.')) {
+  //     const integrationName = toolFromUrl.split('.')[0]
+  //     newUrl = formUrlQuery({
+  //       params: searchParams.toString(),
+  //       key: 'tool',
+  //       value: integrationName,
+  //     })
+  //   } else {
+  //     newUrl = removeKeysFromQuery({
+  //       params: searchParams.toString(),
+  //       keys: ['tool'],
+  //     })
+  //   }
+  //   router.replace(decodeURIComponent(newUrl), { scroll: false })
+  // }, [router, searchParams, toolFromUrl])
 
   return (
     <section className='px-4'>
       {messages.length === 0 && attachments.length === 0 && (
         <PromptSuggestions append={append} selectedModel={selectedModel} selectedTool={selectedTool} selectedOutput={selectedOutput} />
       )}
-      <form className='dark:focus-within relative mx-auto mb-2 flex w-full max-w-6xl flex-col gap-2 rounded-xl border border-gray-200 bg-gray-50 backdrop-blur-sm transition-all duration-200 dark:border-zinc-700/60 dark:bg-zinc-800/40'>
+      <form
+        className={cn(
+          'dark:focus-within relative mx-auto mb-2 flex w-full max-w-6xl flex-col gap-2 rounded-xl border border-gray-200 bg-gray-50 backdrop-blur-sm transition-all duration-200 sm:mb-4 md:mb-6 dark:border-zinc-700/60 dark:bg-zinc-800/40',
+          {
+            'max-w-4xl': messages.length > 0,
+          },
+        )}>
         <input type='file' ref={fileInputRef} className='sr-only' onChange={handleFileChange} multiple accept='.png, .jpg, .jpeg, .pdf' tabIndex={-1} />
         <FilePreview attachments={attachments} onRemove={removeAttachment} className='border-border rounded-t-xl border' />
         <PromptInput
@@ -229,39 +237,41 @@ export function MultimodalInput({
                 )}
               </PromptInputAction>
             </div>
-            <div className='mt-2 flex w-full flex-1 flex-col sm:mt-0 sm:flex-row sm:items-center sm:justify-center'>
-              <div className='mx-auto flex w-full flex-col space-y-2 sm:w-auto sm:flex-row sm:items-center sm:space-y-0 sm:space-x-1'>
-                <SearchableOptionSelector
-                  align='end'
-                  placeholder='Model'
-                  title='model'
-                  options={modelOptions}
-                  selectedItem={selectedModel}
-                  updateOption={handleOptionChange}
-                  className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[80px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
-                />
-                <span className='hidden text-gray-300 sm:inline dark:text-zinc-600'>|</span>
-                <SearchableOptionSelector
-                  align='center'
-                  placeholder='Tool'
-                  title='integration'
-                  options={integrations}
-                  selectedItem={selectedTool}
-                  updateOption={handleOptionChange}
-                  className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[70px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
-                />
-                <span className='hidden text-gray-300 sm:inline dark:text-zinc-600'>|</span>
-                <SearchableOptionSelector
-                  align='start'
-                  placeholder='Format'
-                  title='output'
-                  options={OUTPUT_FORMATS}
-                  selectedItem={selectedOutput}
-                  updateOption={handleOptionChange}
-                  className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[80px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
-                />
+            {!isMobile && (
+              <div className='flex w-full flex-1 flex-col sm:flex-row sm:items-center sm:justify-center'>
+                <div className='mx-auto hidden w-full space-y-2 sm:flex sm:w-auto sm:flex-row sm:items-center sm:space-y-0 sm:space-x-1'>
+                  <SearchableOptionSelector
+                    align='end'
+                    placeholder='Model'
+                    title='model'
+                    options={modelOptions}
+                    selectedItem={selectedModel}
+                    updateOption={handleOptionChange}
+                    className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[80px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
+                  />
+                  <span className='hidden text-gray-300 sm:inline dark:text-zinc-600'>|</span>
+                  <SearchableOptionSelector
+                    align='center'
+                    placeholder='Tool'
+                    title='integration'
+                    options={integrations}
+                    selectedItem={selectedTool}
+                    updateOption={handleOptionChange}
+                    className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[70px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
+                  />
+                  <span className='hidden text-gray-300 sm:inline dark:text-zinc-600'>|</span>
+                  <SearchableOptionSelector
+                    align='start'
+                    placeholder='Format'
+                    title='output'
+                    options={OUTPUT_FORMATS}
+                    selectedItem={selectedOutput}
+                    updateOption={handleOptionChange}
+                    className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[80px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
+                  />
+                </div>
               </div>
-            </div>
+            )}
             <PromptInputAction tooltip={isLoading ? 'Stop message' : 'Send message'}>
               {isLoading ? (
                 <Button

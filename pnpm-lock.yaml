@@ -415,6 +415,9 @@ importers:
       usehooks-ts:
         specifier: ^3.1.1
         version: 3.1.1(react@19.1.0)
+      vaul:
+        specifier: ^1.1.2
+        version: 1.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       velite:
         specifier: ^0.2.2
         version: 0.2.2(acorn@8.14.1)
@@ -791,7 +794,7 @@ importers:
         version: 0.1.1(@cloudflare/workers-types@4.20250415.0)(mermaid.cli@0.3.6)(react@19.1.0)(solid-js@1.9.5)(svelte@4.2.19)(vue@3.5.13(typescript@5.8.3))
       agents:
         specifier: latest
-        version: 0.0.87(@cloudflare/workers-types@4.20250415.0)(react@19.1.0)
+        version: 0.0.88(@cloudflare/workers-types@4.20250415.0)(react@19.1.0)
       apis.do:
         specifier: workspace:*
         version: link:../apis.do
@@ -1529,7 +1532,7 @@ importers:
     dependencies:
       agents:
         specifier: latest
-        version: 0.0.87(@cloudflare/workers-types@4.20250415.0)(react@19.1.0)
+        version: 0.0.88(@cloudflare/workers-types@4.20250415.0)(react@19.1.0)
       hono:
         specifier: ^4.7.4
         version: 4.7.6
@@ -8442,8 +8445,8 @@ packages:
   agents@0.0.47:
     resolution: {integrity: sha512-DiNRi4cps9FEh67j0CntlV4hHy4vkJgRaZtGmAUdf1yslj0TUvx89liS2wAVYKAyy3HgFiMxvELGLV4nWNs+jw==}
 
-  agents@0.0.87:
-    resolution: {integrity: sha512-nanFC1FoByZqAIeCXta7rBR21GmUd3fulkiMLpg0jnDOzs3i0KfH7Rlr41DQ2nP4i7cTYv2VZhjWti0RQdpIPg==}
+  agents@0.0.88:
+    resolution: {integrity: sha512-ysQ3LMONALxx1VL0X/Tq49EzfuuLj1SHfztCCIfAX8hVtYw2Jr9rytnM94lZQ29yFFqmcIKWR+D13j/l7Cyf8A==}
     peerDependencies:
       react: '*'
 
@@ -17284,6 +17287,12 @@ packages:
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
+
+  vaul@1.1.2:
+    resolution: {integrity: sha512-ZFkClGpWyI2WUQjdLJ/BaGuV6AVQiJ3uELGk3OYtP+B6yCO7Cmn9vPFXVJkRaGkOJu3m8bQMgtyzNHixULceQA==}
+    peerDependencies:
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc
 
   velite@0.2.2:
     resolution: {integrity: sha512-VuaowCAIrlarURqVvTeTc1pMCLXUjjrw6FqwpxFahPht9AsWWZ1i8P/DY411n82s5ZwLqC3f8K4ZqzAnAGvJMA==}
@@ -26803,7 +26812,7 @@ snapshots:
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
 
-  agents@0.0.87(@cloudflare/workers-types@4.20250415.0)(react@19.1.0):
+  agents@0.0.88(@cloudflare/workers-types@4.20250415.0)(react@19.1.0):
     dependencies:
       '@modelcontextprotocol/sdk': 1.11.2
       ai: 4.3.15(react@19.1.0)(zod@3.24.4)
@@ -29341,7 +29350,7 @@ snapshots:
       eslint: 9.24.0(jiti@2.4.2)
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react: 7.37.5(eslint@9.24.0(jiti@2.4.2))
       eslint-plugin-react-hooks: 5.2.0(eslint@9.24.0(jiti@2.4.2))
@@ -29371,7 +29380,7 @@ snapshots:
       tinyglobby: 0.2.13
       unrs-resolver: 1.6.2
     optionalDependencies:
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2))
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.4.2))
     transitivePeerDependencies:
       - supports-color
 
@@ -29441,7 +29450,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)))(eslint@9.24.0(jiti@2.4.2)):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.31.0(eslint@9.24.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.24.0(jiti@2.4.2)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.8
@@ -37678,6 +37687,15 @@ snapshots:
   validate.io-number@1.0.3: {}
 
   vary@1.1.2: {}
+
+  vaul@1.1.2(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      '@radix-ui/react-dialog': 1.1.11(@types/react-dom@19.0.4(@types/react@18.3.20))(@types/react@18.3.20)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+    transitivePeerDependencies:
+      - '@types/react'
+      - '@types/react-dom'
 
   velite@0.2.2(acorn@8.14.1):
     dependencies:

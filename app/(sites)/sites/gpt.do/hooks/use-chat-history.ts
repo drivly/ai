@@ -2,10 +2,9 @@
 
 import { generateTitleFromUserMessage } from '@/app/(sites)/sites/gpt.do/actions/gpt.action'
 import { useAuthUser } from '@/hooks/use-auth-user'
-import { UIMessage } from 'ai'
+import type { UIMessage } from 'ai'
 import { useLocalStorage } from 'usehooks-ts'
-import { SearchOption } from '../lib/types'
-import { Chat, Chats, Message, Messages } from '../lib/types'
+import type { Chat, Chats, Message, Messages, SearchOption } from '../lib/types'
 
 // Helper function to safely extract text from parts
 function getTextFromParts(parts: UIMessage['parts'] | undefined): string {

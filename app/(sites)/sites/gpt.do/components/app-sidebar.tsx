@@ -1,7 +1,5 @@
 'use client'
 
-import { SidebarHistory } from '@/app/(sites)/sites/gpt.do/components/sidebar-history'
-import { SidebarUserNav } from '@/app/(sites)/sites/gpt.do/components/sidebar-user-nav'
 import { Button } from '@/components/ui/button'
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, useSidebar } from '@/components/ui/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
@@ -11,6 +9,8 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import { resolvePathname } from '../lib/utils'
+import { SidebarHistory } from './sidebar-history'
+import { SidebarUserNav } from './sidebar-user-nav'
 import Spinner from './spinner'
 
 export function AppSidebar() {

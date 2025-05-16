@@ -1,8 +1,8 @@
-import { useChatHistory } from '@/app/(sites)/sites/gpt.do/hooks/use-chat-history'
-import { UIMessage } from 'ai'
+import type { UIMessage } from 'ai'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
-import { SearchOption } from '../lib/types'
+import { useChatHistory } from '../hooks/use-chat-history'
+import type { SearchOption } from '../lib/types'
 import { resolvePathname } from '../lib/utils'
 
 interface ChatRedirectProps {

@@ -1,11 +1,11 @@
 'use client'
 
-import { useCopyToClipboard } from 'hooks/use-copy-to-clipboard'
+import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
+import { cn } from '@/lib/utils'
 import { Check, Copy } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { cn } from 'lib/utils'
 import { createCleanURLParams } from '../lib/utils'
-import { ConfigOption } from './chat-options-selector'
+import type { ConfigOption } from './chat-options-selector'
 
 interface OptionUrlCreatorProps {
   className?: string
