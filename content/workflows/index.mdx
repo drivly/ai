@@ -8,3 +8,41 @@ canonicalDomain: workflows.do
 # [Workflows.do](https://workflows.do) Reliable Business Processes
 
 > **Define, execute, and iterate on business processes as clean & simple code**
+
+## Setup
+
+Install the `workflows.do` package:
+
+```sh npm2yarn
+npm i workflows.do
+```
+
+Then set `DO_API_KEY` in your environment as above.
+
+## Usage
+
+### Respond to Events
+
+```ts
+import { on } from 'workflows.do'
+
+on('User.Signup', async (event, { ai, api, db }) => {
+  const { name, email, company } = event
+  const enrichedContact = await api.apollo.search({ name, email, company })
+  const emailSequence = await ai.personalizeEmailSequence({ name, email, company, enrichedContact })
+  await api.scheduleEmails({ emailSequence })
+  await db.users.create({ name, email, company, enrichedContact })
+})
+```
+
+### Scheduled Functions
+
+```ts
+import { every } from 'workflows.do'
+import { cmo } from 'agents.do'
+
+every('hour during business hours', async (event, { db }) => {
+  const ideas = await db.ideas.find({ status: 'launched' })
+  ideas.forEach((idea) => cmo.do`a creative marketing campaign for ${idea}`)
+})
+```
