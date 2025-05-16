@@ -10,7 +10,7 @@ import {
   type LanguageModelV1,
 } from 'ai'
 import { model } from './provider'
-import { VercelAIToolSet, Composio } from 'composio-core'
+import { VercelAIToolSet, Composio, ConnectionRequest } from 'composio-core'
 import TurndownService from 'turndown'
 import {
   fetchWebsiteContents,
@@ -49,11 +49,15 @@ type GenerateObjectOptions = Omit<Parameters<typeof aiGenerateObject>[0], 'model
 
 type StreamObjectOptions = Omit<Parameters<typeof aiStreamObject>[0], 'model'> & ProvidersGenerateMixin
 
+type ConnectionType = 'OAUTH' | 'API_KEY'
+
 export type AIToolRedirectError = Error & {
   type: 'AI_PROVIDERS_TOOLS_REDIRECT'
   connectionRequests: {
     app: string
-    redirectUrl: string
+    type: ConnectionType
+    redirectUrl?: string
+    fields?: Record<string, any>
   }[]
   apps: string[]
 }
@@ -120,34 +124,50 @@ export async function resolveConfig(options: GenerateTextOptions) {
         }).then(x => x.items)
   
         for (const app of missingApps) {
-          if (pendingConnections.find(x => x.appName === app)) {
-            console.debug(
-              '[COMPOSIO] Found existing connection request for',
-              app
-            )
-  
-            const connection = pendingConnections.find(x => x.appName === app)
-  
-            connectionRequests.push({
-              app: connection?.appName as string,
-              redirectUrl: connection?.connectionParams?.redirectUrl as string
-            })
-          } else {
-            const integration = await composio.integrations.create({
-              name: app,
-              appUniqueKey: app,
-              useComposioAuth: true,
-              forceNewIntegration: true,
-            })
+          const appData = appMetadata.find(x => x.key === app)
+
+          const authScheme = appData?.auth_schemes?.[0] as {
+            mode: 'OAUTH' | 'OAUTH2' | 'API_KEY'
+          }
+
+          if (authScheme.mode === 'OAUTH' || authScheme.mode === 'OAUTH2') {
+            if (pendingConnections.find(x => x.appName === app)) {
+              console.debug(
+                '[COMPOSIO] Found existing connection request for',
+                app
+              )
     
-            const connection = await composio.connectedAccounts.initiate({
-              integrationId: integration.id,
-              entityId: options.user
-            })
-  
+              const connection = pendingConnections.find(x => x.appName === app)
+    
+              connectionRequests.push({
+                app: connection?.appName as string,
+                type: 'OAUTH' as ConnectionType,
+                redirectUrl: connection?.connectionParams?.redirectUrl as string
+              })
+            } else {
+              const integration = await composio.integrations.create({
+                name: app,
+                appUniqueKey: app,
+                useComposioAuth: true,
+                forceNewIntegration: true,
+              })
+      
+              const connection = await composio.connectedAccounts.initiate({
+                integrationId: integration.id,
+                entityId: options.user
+              })
+    
+              connectionRequests.push({
+                app: app as string,
+                type: 'OAUTH' as ConnectionType,
+                redirectUrl: connection.redirectUrl as string
+              })
+            } 
+          } else if (authScheme.mode === 'API_KEY') {
             connectionRequests.push({
               app: app as string,
-              redirectUrl: connection.redirectUrl as string
+              type: 'API_KEY' as ConnectionType,
+              fields: appData?.auth_schemes?.[0]?.fields
             })
           }
         }
@@ -155,7 +175,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
         const error = new Error(`Missing access to apps: ${missingApps.join(', ')}.`) as AIToolRedirectError
   
         error.type = 'AI_PROVIDERS_TOOLS_REDIRECT'
-        error.connectionRequests = connectionRequests
+        error.connectionRequests = connectionRequests as AIToolRedirectError['connectionRequests']
         error.apps = missingApps
   
         throw error
