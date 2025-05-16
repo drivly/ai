@@ -39,7 +39,7 @@
     "build": "tsup --config tsup.config.ts",
     "build:packages": "tsup --config tsup.config.ts",
     "generate:constants": "echo 'Using placeholder constants'",
-    "pretest": "if [ ! -d \"../apis.do/dist\" ]; then cd ../apis.do && pnpm build; fi",
+    "pretest": "node -e \"const fs = require('fs'); const path = require('path'); const child_process = require('child_process'); if (!fs.existsSync(path.resolve('../apis.do/dist'))) { process.chdir(path.resolve('../apis.do')); child_process.execSync('pnpm build', {stdio: 'inherit'}); }\"",
     "test": "vitest run",
     "test:watch": "vitest"
   },
