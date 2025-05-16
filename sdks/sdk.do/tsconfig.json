@@ -9,6 +9,7 @@
     "skipLibCheck": true,
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "baseUrl": ".",
+    "declaration": true,
     "paths": {
       "@/*": ["./src/*"]
     }
