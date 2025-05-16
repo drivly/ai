@@ -1,14 +1,13 @@
 // storage-adapter-import-placeholder
 // import { payloadAgentPlugin } from '@drivly/payload-agent'
 // import { betterAuthPlugin } from '@drivly/better-payload-auth/plugin'
-import { openapi } from 'payload-oapi'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { resendAdapter } from '@payloadcms/email-resend'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
-import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
+import { stripePlugin } from '@payloadcms/plugin-stripe'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { createHooksQueuePlugin } from './src/utils/hooks-queue'
+import { openapi } from 'payload-oapi'
 // import workosPlugin from './pkgs/payload-workos'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -16,6 +15,8 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 import { collections } from './collections'
+import { getKeyDetails, updateKeyDetails } from './lib/openrouter'
+import type { Apikey } from './payload.types'
 import { tasks, workflows } from './tasks'
 
 const filename = fileURLToPath(import.meta.url)
@@ -118,6 +119,79 @@ export default buildConfig({
     stripePlugin({
       stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
       stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOK_SECRET,
+      webhooks: async ({ event, stripe, pluginConfig: stripeConfig, payload }) => {
+        await payload.db.create({
+          collection: 'events',
+          data: {
+            source: 'stripe',
+            type: event.type,
+            metadata: event.data.object,
+          },
+        })
+        if (event.type === 'checkout.session.completed') {
+          const { customer_details, amount_total } = event.data.object
+          console.log('Customer details: ', customer_details?.email)
+          console.log('Amount total: ', amount_total)
+
+          const {
+            docs: [key],
+          } = await payload.db.find<Apikey>({
+            collection: 'apikeys',
+            where: {
+              email: {
+                equals: customer_details?.email,
+              },
+              hash: {
+                exists: true,
+              },
+            },
+          })
+          if (key?.hash) {
+            let details = await getKeyDetails(key.hash)
+            console.log('Key details before: ', details)
+            details = await updateKeyDetails(key.hash, { limit: (details.limit || 0) + amount_total / 100 })
+            console.log('Key details after: ', details)
+          }
+        } else {
+          console.log(event.type, JSON.stringify(event.data.object, null, 2))
+        }
+      },
+      // sync: [
+      //   {
+      //     stripeResourceTypeSingular: 'customer',
+      //     stripeResourceType: 'customers',
+      //     collection: 'connectAccounts',
+      //     fields: [
+      //       {
+      //         fieldPath: 'stripeAccountId',
+      //         stripeProperty: 'id',
+      //       },
+      //       {
+      //         fieldPath: 'email',
+      //         stripeProperty: 'email',
+      //       },
+      //       {
+      //         fieldPath: 'name',
+      //         stripeProperty: 'name',
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     stripeResourceTypeSingular: 'product',
+      //     stripeResourceType: 'products',
+      //     collection: 'billingPlans',
+      //     fields: [
+      //       {
+      //         fieldPath: 'stripeProductId',
+      //         stripeProperty: 'id',
+      //       },
+      //       {
+      //         fieldPath: 'name',
+      //         stripeProperty: 'name',
+      //       },
+      //     ],
+      //   },
+      // ],
     }),
     // createHooksQueuePlugin({
     //   'nouns.beforeChange': 'inflectNouns',

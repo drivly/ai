@@ -1,3 +1,4 @@
+import { createKey, findKey, getKeyDetails, updateKeyDetails } from '@/lib/openrouter'
 import type { CollectionConfig } from 'payload'
 
 export const APIKeys: CollectionConfig = {
@@ -13,9 +14,13 @@ export const APIKeys: CollectionConfig = {
     disableLocalStrategy: true,
   },
   fields: [
-    { name: 'name', type: 'text' },
+    { name: 'name', type: 'text', required: true },
+    { name: 'user', type: 'relationship', relationTo: 'users' },
+    { name: 'organization', type: 'relationship', relationTo: 'organizations' },
     { name: 'email', type: 'text' },
     { name: 'description', type: 'text' },
+    { name: 'key', type: 'text' },
+    { name: 'hash', type: 'text' },
     { name: 'url', type: 'text' },
     {
       name: 'cfWorkerDomains',
@@ -33,4 +38,23 @@ export const APIKeys: CollectionConfig = {
       ],
     },
   ],
+  hooks: {
+    beforeOperation: [
+      async ({ operation, args }) => {
+        const data = args.data
+        if (operation === 'create') {
+          if (data.key) {
+            const key = await findKey(data.key)
+            if (key) data.hash = key.hash
+          }
+          if (!data.hash) {
+            const { key, hash } = await createKey({ name: data.name, limit: 1 })
+            data.key = key
+            data.hash = hash
+          }
+        }
+        return args
+      },
+    ],
+  },
 }
