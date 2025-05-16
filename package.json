@@ -55,6 +55,7 @@
     "prettier-fix": "prettier --write \"**/*.{js,ts,tsx,md,mdx}\"",
     "test": "turbo test",
     "test:watch": "vitest",
+    "test:sdk": "vitest run tests/sdk",
     "test:unit": "vitest run --exclude tests/e2e/ --exclude tests/chromatic/",
     "test:e2e": "vitest run tests/e2e-playwright",
     "test:visual": "playwright test tests/chromatic",
