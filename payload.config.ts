@@ -130,9 +130,6 @@ export default buildConfig({
         })
         if (event.type === 'checkout.session.completed') {
           const { customer_details, amount_total } = event.data.object
-          console.log('Customer details: ', customer_details?.email)
-          console.log('Amount total: ', amount_total)
-
           const {
             docs: [key],
           } = await payload.db.find<Apikey>({
@@ -148,9 +145,7 @@ export default buildConfig({
           })
           if (key?.hash) {
             let details = await getKeyDetails(key.hash)
-            console.log('Key details before: ', details)
             details = await updateKeyDetails(key.hash, { limit: (details.limit || 0) + amount_total / 100 })
-            console.log('Key details after: ', details)
           }
         } else {
           console.log(event.type, JSON.stringify(event.data.object, null, 2))
