@@ -5,6 +5,12 @@
     "moduleResolution": "node",
     "declaration": true,
     "outDir": "./dist",
+    "rootDir": ".",
+    "incremental": true,
+    "composite": true,
+    "noEmit": false,
+    "skipLibCheck": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "paths": {
       "@/*": ["./src/*"]
     }
