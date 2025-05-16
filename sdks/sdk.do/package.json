@@ -47,6 +47,7 @@
   "scripts": {
     "build": "tsc",
     "build:packages": "tsc",
+    "postbuild": "chmod +x dist/bin.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "dev": "tsc --watch",
