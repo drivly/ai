@@ -54,7 +54,7 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
   // Update input when model ID, URL params, or model/tool/output changes
   useEffect(() => {
     setInputValue(completeModelIdentifier || selectedModelId.value || '')
-  }, [completeModelIdentifier, selectedModelId.value, tool])
+  }, [completeModelIdentifier, selectedModelId.value])
 
   const handleModelChange = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
