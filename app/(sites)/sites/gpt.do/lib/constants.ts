@@ -9,19 +9,38 @@ export const GPTDO_COOKIE_MAP = {
   output: GPTDO_OUTPUT_COOKIE,
 }
 
-export const CUSTOM_OUTPUT_COOKIE = 'custom-output'
+export const DEFAULT_CHAT_MODEL = { label: 'OpenAI: GPT-4.1', value: 'openai/gpt-4.1' }
+
+// const outputFormats = ['Object', 'ObjectArray', 'Text', 'TextArray', 'Markdown', 'Code'] as const
+// { value: 'List', label: 'List', description: 'List of items' },
+// { value: 'JSON', label: 'JSON', description: 'Structured data in JSON format' },
+// { value: 'JSON-Schema', label: 'JSON Schema', description: 'JSON Schema for validation' },
+// { value: 'YAML', label: 'YAML', description: 'YAML formatted text' },
 
 export const OUTPUT_FORMATS = [
-  { value: 'markdown', label: 'Markdown', description: 'Markdown formatted text' },
-  { value: 'list', label: 'List', description: 'List of items' },
-  { value: 'json', label: 'JSON', description: 'Structured data in JSON format' },
-  { value: 'html', label: 'HTML', description: 'Web-ready HTML content' },
-  { value: 'json-schema', label: 'JSON Schema', description: 'JSON Schema for validation' },
-  { value: 'yaml', label: 'YAML', description: 'YAML formatted text' },
-  { value: 'code', label: 'Code', description: 'Code block' },
-  { value: 'javascript', label: 'JavaScript', description: 'JavaScript code' },
-  { value: 'typescript', label: 'TypeScript', description: 'TypeScript code' },
-  { value: 'python', label: 'Python', description: 'Python code' },
-]
+  { value: 'Markdown', label: 'Markdown', description: 'Markdown formatted text' },
+  { value: 'Code', label: 'Code', description: 'Code block' },
+  { value: 'JavaScript', label: 'JavaScript', description: 'JavaScript code' },
+  { value: 'TypeScript', label: 'TypeScript', description: 'TypeScript code' },
+  { value: 'Python', label: 'Python', description: 'Python code' },
+] as const
 
-export const DEFAULT_CHAT_MODEL = { label: 'OpenAI: GPT-4o-mini', value: 'openai/gpt-4o-mini' }
+export type OutputFormatKey = (typeof OUTPUT_FORMATS)[number]['value'] | (string & {})
+export type CodeOutputFormatKey = Extract<OutputFormatKey, 'JavaScript' | 'TypeScript' | 'Python'>
+
+export type OutputFormatMap = {
+  [K in OutputFormatKey]: K extends CodeOutputFormatKey ? `Code:${K}` : K
+}
+
+export const OUTPUT_FORMAT_MAP: OutputFormatMap = Object.fromEntries(
+  OUTPUT_FORMATS.map(({ value }) => [value, ['JavaScript', 'TypeScript', 'Python'].includes(value) ? `Code:${value}` : value]),
+) as OutputFormatMap
+
+export function formatOutput(outputFormat: OutputFormatKey) {
+  return OUTPUT_FORMAT_MAP[outputFormat]
+}
+
+export function parseOutputFormat(mapped: OutputFormatMap[keyof OutputFormatMap]): OutputFormatKey | undefined {
+  // Find the first key in the map whose value matches the input
+  return (Object.keys(OUTPUT_FORMAT_MAP) as OutputFormatKey[]).find((key) => OUTPUT_FORMAT_MAP[key] === mapped)
+}

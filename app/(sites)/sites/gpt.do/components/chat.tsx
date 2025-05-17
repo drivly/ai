@@ -1,22 +1,25 @@
 'use client'
 
-import { ChatHeader } from '@/app/(sites)/sites/gpt.do/components/chat-header'
-import { ChatWrapper } from '@/app/(sites)/sites/gpt.do/components/chat-wrapper'
-import { VisibilityType } from '@/app/(sites)/sites/gpt.do/components/visibility-selector'
-import { useChatHistory } from '@/app/(sites)/sites/gpt.do/hooks/use-chat-history'
-import { useChatVisibility } from '@/app/(sites)/sites/gpt.do/hooks/use-chat-visibility'
 import { ChatContainer } from '@/components/ui/chat-container'
 import { useAuthUser } from '@/hooks/use-auth-user'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { useChat } from '@ai-sdk/react'
-import { UIMessage } from 'ai'
-import { Session } from 'next-auth'
+import type { UIMessage } from 'ai'
+import type { Session } from 'next-auth'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
-import { IntegrationPromise } from '../actions/composio.action'
-import { SearchOption } from '../lib/types'
+import type { IntegrationPromise } from '../actions/composio.action'
+import { useChatHistory } from '../hooks/use-chat-history'
+import { useChatVisibility } from '../hooks/use-chat-visibility'
+import { formatOutput } from '../lib/constants'
+import type { SearchOption } from '../lib/types'
+import { ChatHeader } from './chat-header'
+import { ChatWrapper } from './chat-wrapper'
 import { ChatMessage } from './message'
+import { MobileSelectionBanner } from './mobile-selection-banner'
 import { MultimodalInput } from './multimodal-input'
+import type { VisibilityType } from './visibility-selector'
 
 export interface ChatProps {
   id: string
@@ -35,9 +38,10 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
   const bottomRef = useRef<HTMLDivElement>(null)
   const { getChatSession, updateChatMessages, addChatSession } = useChatHistory()
   const user = useAuthUser()
+  const isMobile = useIsMobile()
 
   // Get format and tools directly from URL
-  const outputFormat = searchParams.get('output') || 'markdown'
+  const outputFormat = searchParams.get('output') || 'Markdown'
   const tools = searchParams.get('tool') || ''
   const systemPrompt = searchParams.get('system') || ''
   const tempParam = searchParams.get('temp')
@@ -63,17 +67,17 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     maxSteps: 3,
     body: {
       model: selectedModelId.value,
-      selectedVisibilityType: initialVisibilityType,
-      output: outputFormat,
       modelOptions: {
-        tools: tools ? [tools] : undefined
+        tools: tools ? [tools] : undefined,
+        outputFormat: formatOutput(outputFormat),
       },
       system: systemPrompt,
       temp: temperature,
       seed: seed,
     },
     onError: (error) => {
-      toast.error(error.message || 'Failed to send message')
+      console.error('Chat error:', error)
+      toast.error('An error occurred while processing your request. Please try again.')
     },
     onFinish: (response) => {
       console.log('Chat response:', response)
@@ -109,6 +113,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
             isReadonly={isReadonly}
             modelOptions={availableModels}
           />
+          <MobileSelectionBanner isMobile={isMobile} toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelId={selectedModelId} />
           <ChatContainer data-chat-widget='chat-container' className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6' ref={containerRef}>
             {messages.length === 0 && greeting}
             {displayMessages?.map((message) => (

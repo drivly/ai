@@ -1,6 +1,3 @@
-import { CheckCircleFillIcon, GlobeIcon, LockIcon, MoreHorizontalIcon, ShareIcon, TrashIcon } from '@/app/(sites)/sites/gpt.do/components/icons'
-import { Chat } from '@/app/(sites)/sites/gpt.do/lib/types'
-import { useChatVisibility } from '@/app/(sites)/sites/gpt.do/hooks/use-chat-visibility'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +11,9 @@ import {
 import { SidebarMenuAction, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 import Link from 'next/link'
 import { memo } from 'react'
+import { useChatVisibility } from '../hooks/use-chat-visibility'
+import type { Chat } from '../lib/types'
+import { CheckCircleFillIcon, GlobeIcon, LockIcon, MoreHorizontalIcon, ShareIcon, TrashIcon } from './icons'
 
 const PureChatItem = ({
   chat,

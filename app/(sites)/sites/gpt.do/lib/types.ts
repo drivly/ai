@@ -1,4 +1,4 @@
-import { UIMessage } from 'ai'
+import type { UIMessage } from 'ai'
 
 export interface ChatSearchParams {
   model?: string

@@ -1,7 +1,7 @@
 import { redirect, RedirectType } from 'next/navigation'
-import { requireAuthentication, getGptPath } from '../../actions/auth.action'
+import { getGptPath, requireAuthentication } from '../../actions/auth.action'
+import type { ChatSearchParams } from '../../lib/types'
 import { createCleanURLParams } from '../../lib/utils'
-import { ChatSearchParams } from '../../lib/types'
 
 export default async function NewChatPage({ searchParams }: { searchParams: Promise<ChatSearchParams> }) {
   await requireAuthentication()

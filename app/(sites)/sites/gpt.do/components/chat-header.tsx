@@ -1,18 +1,19 @@
-import { setGptdoCookieAction } from '@/app/(sites)/sites/gpt.do/actions/gpt.action'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useSidebar } from '@/components/ui/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
 import { PlusIcon } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { useWindowSize } from 'usehooks-ts'
-import { formUrlQuery } from '../../models.do/utils'
-import { SearchOption } from '../lib/types'
-import { formatModelIdentifier, parseModelIdentifier, resolvePathname } from '../lib/utils'
+import { usePathname, useRouter } from 'next/navigation'
+import { type ChangeEvent, type KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import { setGptdoCookieAction } from '../actions/gpt.action'
+import { useCustomQuery } from '../hooks/use-custom-query'
+import { formatOutput, OUTPUT_FORMATS, parseOutputFormat } from '../lib/constants'
+import type { SearchOption } from '../lib/types'
+import { createModelIdentifierFromParams, parse, resolvePathname } from '../lib/utils'
 import { SidebarToggle } from './sidebar-toggle'
-import { VisibilitySelector, VisibilityType } from './visibility-selector'
+import { VisibilitySelector, type VisibilityType } from './visibility-selector'
 
 interface ChatHeaderProps {
   chatId: string
@@ -24,32 +25,22 @@ interface ChatHeaderProps {
 }
 
 export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, selectedVisibilityType, isReadonly, modelOptions }: ChatHeaderProps) {
+  const { tool, output, setQueryState } = useCustomQuery({ availableModels: modelOptions, initialChatModel: selectedModelId })
   const pathname = usePathname()
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const { width: windowWidth } = useWindowSize()
+  const isMobile = useIsMobile()
   const { open } = useSidebar()
-
-  // Get params from URL
-  const outputFormat = searchParams.get('output') || ''
-  const toolParam = searchParams.get('tool') || ''
-
-  // Get tools from URL (convert to format needed by model identifier)
-  const tools = useMemo(() => {
-    if (!toolParam) return {}
-    return { [toolParam]: true }
-  }, [toolParam])
 
   // Create a complete model identifier from URL params and selected model
   const completeModelIdentifier = useMemo(() => {
     if (!selectedModelId.value) return ''
 
-    return formatModelIdentifier({
-      model: selectedModelId.value,
-      outputFormat,
-      tools,
+    return createModelIdentifierFromParams({
+      modelId: selectedModelId.value,
+      output: formatOutput(output),
+      tools: tool ? [tool] : [],
     })
-  }, [selectedModelId.value, outputFormat, tools])
+  }, [selectedModelId.value, output, tool])
 
   const [inputValue, setInputValue] = useState(completeModelIdentifier || selectedModelId.value || '')
 
@@ -65,33 +56,27 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
   }, [completeModelIdentifier, selectedModelId.value])
 
   const handleModelChange = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
+    async (e: ChangeEvent<HTMLInputElement>) => {
       const newText = e.target.value
       setInputValue(newText)
 
       try {
-        const parsed = parseModelIdentifier(newText)
-
+        const parsed = parse(newText)
         const baseModel = parsed.model
         const selectedModel = modelOptions.find((model) => model.value === baseModel)
 
         if (selectedModel) {
           setSelectedModelId(selectedModel)
-
           await setGptdoCookieAction({ type: 'model', option: selectedModel, pathname })
 
-          let params = searchParams.toString()
-
           if (parsed.outputFormat) {
-            params = formUrlQuery({ params, key: 'output', value: parsed.outputFormat })
+            setQueryState({ output: parseOutputFormat(parsed.outputFormat) as (typeof OUTPUT_FORMATS)[number]['value'] | undefined })
           }
 
           const toolKeys = parsed.tools ? Object.keys(parsed.tools) : []
           if (toolKeys.length > 0) {
-            params = formUrlQuery({ params, key: 'tool', value: toolKeys[0] })
+            setQueryState({ tool: toolKeys[0] })
           }
-
-          router.push(`${pathname}?${params}`, { scroll: false })
         }
       } catch (error) {
         console.error('Error parsing model identifier:', error)
@@ -105,10 +90,10 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
         }
       }
     },
-    [modelOptions, pathname, router, searchParams, setSelectedModelId],
+    [modelOptions, pathname, setQueryState, setSelectedModelId],
   )
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.currentTarget.blur()
     }
@@ -119,7 +104,7 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
   return (
     <header className='bg-background sticky top-0 flex items-center gap-2 px-2 py-1.5 md:px-2'>
       <SidebarToggle />
-      {(!open || windowWidth < 768) && (
+      {(!open || isMobile) && (
         <Tooltip>
           <TooltipTrigger asChild>
             <Button

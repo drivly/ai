@@ -1,5 +1,5 @@
+import { Model, models } from 'language-models'
 import qs from 'query-string'
-import { Model, models } from '@/pkgs/language-models/dist'
 import { cache } from 'react'
 
 export const getAvailableModels = cache(() => {
@@ -25,7 +25,6 @@ export const getModelProviders = cache(() => {
   })
   return Array.from(providers).sort()
 })
-
 
 interface UrlQueryParams {
   params: string

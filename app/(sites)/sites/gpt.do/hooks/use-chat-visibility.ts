@@ -2,8 +2,8 @@
 
 import { useMemo } from 'react'
 import useSWR from 'swr'
-import { useChatHistory } from '@/app/(sites)/sites/gpt.do/hooks/use-chat-history'
 import type { VisibilityType } from '../components/visibility-selector'
+import { useChatHistory } from './use-chat-history'
 
 export function useChatVisibility({ chatId, initialVisibilityType }: { chatId: string; initialVisibilityType: VisibilityType }) {
   const { chats, updateChatVisibility } = useChatHistory()
