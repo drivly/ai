@@ -11,7 +11,7 @@ import type { ChatConfigChangeType, ConfigOption } from './chat-options-selector
 
 interface SearchableOptionSelectorProps {
   title: ChatConfigChangeType
-  options: ConfigOption[]
+  options: ReadonlyArray<ConfigOption>
   selectedItem?: ConfigOption | null
   updateOption: (type: ChatConfigChangeType, option: ConfigOption | null) => void
   placeholder?: string
