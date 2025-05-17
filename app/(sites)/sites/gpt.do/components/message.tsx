@@ -47,6 +47,8 @@ export const ChatMessage = ({ chatId, attachments, parts, role, content, error, 
 
         <div className={cn('text-primary flex max-w-[90%] flex-1 flex-col space-y-3')}>
           {parts.map((part, index) => {
+            console.log('🚀 ~ {parts.map ~ part:', part)
+
             switch (part.type) {
               case 'text': {
                 return (

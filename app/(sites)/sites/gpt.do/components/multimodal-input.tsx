@@ -26,6 +26,7 @@ type MultimodalInputProps = {
   input: string
   isDisabled: boolean
   isLoading: boolean
+  isMobile: boolean
   messages: UIMessage[]
   modelOptions: SearchOption[]
   selectedModelId?: SearchOption
@@ -46,6 +47,7 @@ export function MultimodalInput({
   input,
   isDisabled,
   isLoading,
+  isMobile,
   messages,
   modelOptions,
   selectedModelId,
@@ -97,7 +99,7 @@ export function MultimodalInput({
     (value: string) => {
       const syntheticEvent = {
         target: { value },
-      } as React.ChangeEvent<HTMLTextAreaElement>
+      } as ChangeEvent<HTMLTextAreaElement>
 
       handleInputChange(syntheticEvent)
     },

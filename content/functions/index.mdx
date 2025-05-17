@@ -22,3 +22,50 @@ Then [get your API key](https://apis.do/console) and set it in an environment va
 ```env .env
 DO_API_KEY=sk_do_*****************************
 ```
+
+## Usage
+
+### Generate Objects without a Schema
+
+```ts
+import { ai } from 'functions.do'
+
+const brand = await ai.storyBrand({ idea: 'Auto Loan Underwriting Services-as-Software' })
+```
+
+### Generate Text
+
+```ts
+const post = await ai`write a blog post introducing ${idea} and ${brand}`
+```
+
+### Generate Lists
+
+```ts
+const titles = await ai.list`${count} possible blog post titles related to ${idea}`
+
+titles.forEach((title) => ai`write a blog post starting with "# ${title}"`)
+```
+
+### Type-safe Schema
+
+```ts
+import { AI } from 'functions.do'
+
+const ai = AI({
+  leanCanvas: {
+    productName: 'name of the product or service',
+    problem: ['top 3 problems the product solves'],
+    solution: ['top 3 solutions the product offers'],
+    uniqueValueProposition: 'clear message that states the benefit of your product',
+    unfairAdvantage: 'something that cannot be easily copied or bought',
+    customerSegments: ['list of target customer segments'],
+    keyMetrics: ['list of key numbers that tell you how your business is doing'],
+    channels: ['path to acquire customers'],
+    costStructure: ['list of operational costs'],
+    revenueStreams: ['list of revenue sources'],
+  },
+})
+
+const businessModel = await ai.leanCanvas({ idea: 'Auto Lending Services-as-Software' })
+```

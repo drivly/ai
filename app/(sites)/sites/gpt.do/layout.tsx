@@ -33,3 +33,6 @@ export default async function Layout({ children }: { children: React.ReactNode }
     </div>
   )
 }
+
+// need stripe checkout link - add credit
+// need view my account link - add credit

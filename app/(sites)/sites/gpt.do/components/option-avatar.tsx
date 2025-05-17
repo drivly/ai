@@ -37,7 +37,7 @@ export const OptionAvatar = <TSize extends number>({ logoUrl, size, direction, i
       <img
         src={getOptimizedUrl(logoUrl, size)}
         alt={logoUrl || 'Integration Logo'}
-        className='absolute aspect-square size-auto object-cover focus-visible:outline-none'
+        className='absolute aspect-square size-auto object-fill focus-visible:outline-none'
         srcSet={logoUrl}
         loading={imagePriority(imageIndex, direction) ? 'eager' : 'lazy'}
         fetchPriority={imagePriority(imageIndex, direction) ? 'high' : 'low'}

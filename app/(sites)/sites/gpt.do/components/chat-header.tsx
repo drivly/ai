@@ -62,6 +62,7 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
 
       try {
         const parsed = parse(newText)
+
         const baseModel = parsed.model
         const selectedModel = modelOptions.find((model) => model.value === baseModel)
 
