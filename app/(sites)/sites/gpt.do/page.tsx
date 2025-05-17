@@ -24,7 +24,6 @@ export default async function ChatHomePage({ searchParams }: ChatHomePageProps) 
   const composioPromise = getComposioActionsByIntegrationCached({ queryKey: ['tools', integrationName] })
   const models = getAIModels()
 
-
   return (
     <Chat
       id={crypto.randomUUID()}

@@ -88,7 +88,6 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     },
   })
 
-  // Keep model value updated if prop changes
   useEffect(() => {
     setSelectedModelId(initialChatModel)
   }, [initialChatModel])
@@ -116,19 +115,23 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
           <MobileSelectionBanner isMobile={isMobile} toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelId={selectedModelId} />
           <ChatContainer data-chat-widget='chat-container' className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6' ref={containerRef}>
             {messages.length === 0 && greeting}
-            {displayMessages?.map((message) => (
-              <ChatMessage
-                data-chat-widget='chat-message'
-                key={message.id}
-                chatId={message.id}
-                role={message.role}
-                parts={message.parts}
-                attachments={message.experimental_attachments}
-                content={message.content}
-                error={error}
-                reload={reload}
-              />
-            ))}
+            {displayMessages?.map((message, index) => {
+              const isLastMessage = index === displayMessages.length - 1
+              const shouldShowError = isLastMessage && error
+              return (
+                <ChatMessage
+                  data-chat-widget='chat-message'
+                  key={message.id}
+                  chatId={message.id}
+                  role={message.role}
+                  parts={message.parts}
+                  attachments={message.experimental_attachments}
+                  content={message.content}
+                  error={shouldShowError ? error : undefined}
+                  reload={reload}
+                />
+              )
+            })}
           </ChatContainer>
           <MultimodalInput
             bottomRef={bottomRef}
@@ -137,6 +140,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
             messages={messages}
             isDisabled={status !== 'ready'}
             isLoading={status === 'streaming' || status === 'submitted'}
+            isMobile={isMobile}
             stop={stop}
             input={input}
             append={append}

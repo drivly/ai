@@ -1,32 +1,69 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
-export function cn(...inputs: ClassValue[]) {
+/**
+ * Combines multiple class names using clsx and tailwind-merge
+ */
+export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs))
 }
 
-export function objectKeys<TObj extends object>(obj: TObj) {
+/**
+ * Type-safe wrapper for Object.keys
+ */
+export function objectKeys<TObj extends object>(obj: TObj): (keyof TObj)[] {
   return Object.keys(obj) as (keyof TObj)[]
 }
 
-export function objectEntries<TObj extends object>(obj: TObj) {
+/**
+ * Type-safe wrapper for Object.entries
+ */
+export function objectEntries<TObj extends object>(obj: TObj): [keyof TObj, TObj[keyof TObj]][] {
   return Object.entries(obj) as [keyof TObj, TObj[keyof TObj]][]
 }
 
+/**
+ * Capitalizes the first letter of a string
+ */
+export function capitalizeFirstLetter(str: string): string {
+  if (!str) return ''
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+/**
+ * Converts a string with delimiters to title case
+ *
+ * @example
+ * titleCase('hello-world') // 'Hello World'
+ * titleCase('hello_world') // 'Hello World'
+ * titleCase('hello world') // 'Hello World'
+ */
 export function titleCase(str: string): string {
+  if (!str) return ''
   return str
     .replace(/[-_\s]+(.)?/g, (_, c) => (c ? ' ' + c.toUpperCase() : ' '))
     .replace(/^(.)/, (match) => match.toUpperCase())
     .trim()
 }
 
+/**
+ * Converts a camelCase string to a human readable format
+ *
+ * @example
+ * camelToHumanCase('helloWorld') // 'Hello world'
+ */
 export function camelToHumanCase(str: string): string {
   if (!str) return ''
-  // Add a space before capital letters, then capitalize the first letter of the resulting string.
   const result = str.replace(/([A-Z])/g, ' $1')
-  return result.charAt(0).toUpperCase() + result.slice(1).toLowerCase() // Convert to sentence case like "Batch presence"
+  return capitalizeFirstLetter(result.toLowerCase())
 }
 
+/**
+ * Formats a byte size into a human readable format
+ *
+ * @example
+ * formatFileSize(1024) // '1 KB'
+ */
 export function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 Bytes'
 
@@ -38,13 +75,12 @@ export function formatFileSize(bytes: number): string {
 }
 
 /**
- *
- * Returns an array of unique objects based on a specified property key.
+ * Returns an array of unique objects based on a specified property key
  *
  * @example
- *
- * const uniqueData = uniqueArrayByObjectPropertyKey(data, 'name')
- * console.log(uniqueData)
+ * const data = [{ id: 1, name: 'A' }, { id: 1, name: 'B' }]
+ * uniqueArrayByObjectPropertyKey(data, 'id') // [{ id: 1, name: 'A' }]
  */
-export const uniqueArrayByObjectPropertyKey = <TData extends object, TKey extends keyof TData>(data: TData[], key: TKey) =>
-  Array.from(new Map(data.map((item) => [item[key], item])).values())
+export function uniqueArrayByObjectPropertyKey<TData extends object, TKey extends keyof TData>(data: TData[], key: TKey): TData[] {
+  return Array.from(new Map(data.map((item) => [item[key], item])).values())
+}

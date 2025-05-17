@@ -9,8 +9,8 @@ import { useTheme } from 'next-themes'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-import { LoaderIcon } from './icons'
 import { guestRegex } from '../lib/utils'
+import { LoaderIcon } from './icons'
 
 export function SidebarUserNav({ user }: { user: User }) {
   const router = useRouter()
@@ -35,7 +35,9 @@ export function SidebarUserNav({ user }: { user: User }) {
                 </div>
               </SidebarMenuButton>
             ) : (
-              <SidebarMenuButton data-testid='user-nav-button' className='data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10 cursor-pointer'>
+              <SidebarMenuButton
+                data-testid='user-nav-button'
+                className='data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10 cursor-pointer'>
                 <Image src={user?.image ?? `https://avatar.vercel.sh/${user.email}`} alt={user.email ?? 'User Avatar'} width={24} height={24} className='rounded-full' />
                 <span data-testid='user-email' className='truncate'>
                   {isGuest ? 'Guest' : user?.email}

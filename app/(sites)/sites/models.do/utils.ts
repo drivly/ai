@@ -49,6 +49,7 @@ interface RemoveKeysParams {
   params: string
   keys: string[]
 }
+
 export const removeKeysFromQuery = ({ params, keys }: RemoveKeysParams) => {
   const currentUrl = qs.parse(params)
 

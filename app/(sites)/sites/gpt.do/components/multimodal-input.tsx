@@ -5,19 +5,17 @@ import { ScrollButton } from '@/components/ui/scroll-button'
 import { cn } from '@/lib/utils'
 import type { ChatRequestOptions, CreateMessage, Message, UIMessage } from 'ai'
 import { ArrowUp, CircleStop, Paperclip } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { use, useCallback, useMemo, type ChangeEvent, type RefObject } from 'react'
-import { formUrlQuery, removeKeysFromQuery } from '../../models.do/utils'
 import { IntegrationActions, type IntegrationPromise } from '../actions/composio.action'
 import { setGptdoCookieAction } from '../actions/gpt.action'
 import { useChatInputMethods } from '../hooks/use-chat-input-methods'
+import { useCustomQuery } from '../hooks/use-custom-query'
 import { OUTPUT_FORMATS } from '../lib/constants'
 import type { SearchOption } from '../lib/types'
 import { ConfigOption, SELECTION_STEP_ALIASES, type ChatConfigChangeType } from './chat-options-selector'
 import { PromptSuggestions } from './prompt-suggestions'
 import { SearchableOptionSelector } from './searchable-option-selector'
-import { useIsMobile } from '@/hooks/use-mobile'
-import { useCustomQuery } from '../hooks/use-custom-query'
 
 type MultimodalInputProps = {
   toolsPromise: IntegrationPromise
@@ -26,6 +24,7 @@ type MultimodalInputProps = {
   input: string
   isDisabled: boolean
   isLoading: boolean
+  isMobile: boolean
   messages: UIMessage[]
   modelOptions: SearchOption[]
   selectedModelId?: SearchOption
@@ -46,6 +45,7 @@ export function MultimodalInput({
   input,
   isDisabled,
   isLoading,
+  isMobile,
   messages,
   modelOptions,
   selectedModelId,
@@ -56,10 +56,7 @@ export function MultimodalInput({
   handleSubmit,
 }: MultimodalInputProps) {
   const integrations = use(toolsPromise)
-  const searchParams = useSearchParams()
   const pathname = usePathname()
-  const router = useRouter()
-  const isMobile = useIsMobile()
 
   const { attachments, disabled, fileInputRef, textareaRef, handleKeyDown, handleFileChange, removeAttachment, submitForm } = useChatInputMethods({
     isDisabled,
@@ -97,7 +94,7 @@ export function MultimodalInput({
     (value: string) => {
       const syntheticEvent = {
         target: { value },
-      } as React.ChangeEvent<HTMLTextAreaElement>
+      } as ChangeEvent<HTMLTextAreaElement>
 
       handleInputChange(syntheticEvent)
     },
