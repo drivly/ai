@@ -11,7 +11,7 @@ import type { ChatConfigChangeType, ConfigOption } from './chat-options-selector
 
 interface SearchableOptionSelectorProps {
   title: ChatConfigChangeType
-  options: ConfigOption[]
+  options: ReadonlyArray<ConfigOption>
   selectedItem?: ConfigOption | null
   updateOption: (type: ChatConfigChangeType, option: ConfigOption | null) => void
   placeholder?: string
@@ -19,7 +19,15 @@ interface SearchableOptionSelectorProps {
   align?: 'center' | 'start' | 'end' | undefined
 }
 
-export function SearchableOptionSelector({ title, options, selectedItem, updateOption, placeholder = `Select ${title}`, className, align = 'start' }: SearchableOptionSelectorProps) {
+export function SearchableOptionSelector({
+  title,
+  options,
+  selectedItem,
+  updateOption,
+  placeholder = `Select ${title}`,
+  className,
+  align = 'start',
+}: SearchableOptionSelectorProps) {
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const [popoverWidth, setPopoverWidth] = useState<number | null>(null)
@@ -43,7 +51,6 @@ export function SearchableOptionSelector({ title, options, selectedItem, updateO
       if (selectedItem && currentValue === selectedItem.label) {
         updateOption(title, null)
       } else {
-        console.log('🚀 ~ handleSelect ~ currentValue:', currentValue)
         const selectedOption = options.find((option) => option.label === currentValue)
         if (selectedOption) {
           updateOption(title, selectedOption)
@@ -62,7 +69,6 @@ export function SearchableOptionSelector({ title, options, selectedItem, updateO
             <TooltipContent>
               <p>{placeholder}</p>
             </TooltipContent>
-
             <PopoverTrigger asChild>
               <TooltipTrigger asChild>
                 <Button
@@ -99,7 +105,12 @@ export function SearchableOptionSelector({ title, options, selectedItem, updateO
                       onSelect={handleSelect}
                       className='rounded-md py-2 text-zinc-700 hover:bg-gray-100 hover:text-zinc-900 aria-selected:bg-gray-100 sm:py-1 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 aria-selected:dark:bg-zinc-800'>
                       {option.label}
-                      <Check className={cn('ml-auto h-4 w-4', selectedItem?.label === option.label ? 'text-emerald-600 opacity-100 dark:text-emerald-400' : 'opacity-0')} />
+                      <Check
+                        className={cn(
+                          'ml-auto h-4 w-4',
+                          selectedItem?.label === option.label || selectedItem?.value === option.value ? 'text-emerald-600 opacity-100 dark:text-emerald-400' : 'opacity-0',
+                        )}
+                      />
                     </CommandItem>
                   ))}
                 </CommandGroup>

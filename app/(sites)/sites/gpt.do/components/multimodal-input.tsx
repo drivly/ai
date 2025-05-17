@@ -5,15 +5,15 @@ import { ScrollButton } from '@/components/ui/scroll-button'
 import { cn } from '@/lib/utils'
 import type { ChatRequestOptions, CreateMessage, Message, UIMessage } from 'ai'
 import { ArrowUp, CircleStop, Paperclip } from 'lucide-react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { type ChangeEvent, type RefObject, use, useCallback, useMemo } from 'react'
-import { formUrlQuery, removeKeysFromQuery } from '../../models.do/utils'
-import type { IntegrationPromise } from '../actions/composio.action'
+import { usePathname } from 'next/navigation'
+import { use, useCallback, useMemo, type ChangeEvent, type RefObject } from 'react'
+import { IntegrationActions, type IntegrationPromise } from '../actions/composio.action'
 import { setGptdoCookieAction } from '../actions/gpt.action'
 import { useChatInputMethods } from '../hooks/use-chat-input-methods'
+import { useCustomQuery } from '../hooks/use-custom-query'
 import { OUTPUT_FORMATS } from '../lib/constants'
 import type { SearchOption } from '../lib/types'
-import { type ChatConfigChangeType, type ConfigOption, SELECTION_STEP_ALIASES } from './chat-options-selector'
+import { ConfigOption, SELECTION_STEP_ALIASES, type ChatConfigChangeType } from './chat-options-selector'
 import { PromptSuggestions } from './prompt-suggestions'
 import { SearchableOptionSelector } from './searchable-option-selector'
 
@@ -56,36 +56,7 @@ export function MultimodalInput({
   handleSubmit,
 }: MultimodalInputProps) {
   const integrations = use(toolsPromise)
-  const searchParams = useSearchParams()
   const pathname = usePathname()
-  const router = useRouter()
-
-  // --- URL Parameter Extraction ---
-  const modelFromUrl = searchParams.get('model')
-  const toolFromUrl = searchParams.get('tool')
-  const outputFromUrl = searchParams.get('output')
-
-  // Memoized selected values that reflect URL params with fallbacks to props
-  const selectedModel = useMemo(() => {
-    if (modelFromUrl) {
-      return modelOptions.find((model) => model.value === modelFromUrl) || selectedModelId
-    }
-    return selectedModelId
-  }, [modelOptions, modelFromUrl, selectedModelId])
-
-  const selectedTool = useMemo(() => {
-    if (toolFromUrl) {
-      return integrations.find((tool) => tool.value === toolFromUrl) || null
-    }
-    return null
-  }, [integrations, toolFromUrl])
-
-  const selectedOutput = useMemo(() => {
-    if (outputFromUrl) {
-      return OUTPUT_FORMATS.find((output) => output.value === outputFromUrl) || null
-    }
-    return null
-  }, [outputFromUrl])
 
   const { attachments, disabled, fileInputRef, textareaRef, handleKeyDown, handleFileChange, removeAttachment, submitForm } = useChatInputMethods({
     isDisabled,
@@ -93,6 +64,31 @@ export function MultimodalInput({
     input,
     handleSubmit,
   })
+
+  const { model, tool, output, setQueryState } = useCustomQuery({ availableModels: modelOptions, initialChatModel: selectedModelId })
+
+  // Memoized selected values that reflect URL params with fallbacks to props
+  const { selectedModel, selectedTool, selectedOutput } = useMemo(() => {
+    let toolValue = null
+
+    if (tool?.includes('.')) {
+      toolValue = integrations.find((item) => item.value === tool)
+    } else {
+      const relatedAction = integrations.find((item) => 'createdBy' in item && item.createdBy === tool) as IntegrationActions | undefined
+      if (relatedAction) {
+        toolValue = {
+          value: relatedAction.createdBy,
+          label: relatedAction.createdBy.charAt(0).toUpperCase() + relatedAction.createdBy.slice(1),
+        }
+      }
+    }
+
+    return {
+      selectedModel: model ? modelOptions.find((m) => m.value === model) || selectedModelId : selectedModelId,
+      selectedTool: toolValue,
+      selectedOutput: output ? OUTPUT_FORMATS.find((o) => o.value === output) || null : null,
+    }
+  }, [tool, model, modelOptions, selectedModelId, output, integrations])
 
   const handleInputChangeWrapper = useCallback(
     (value: string) => {
@@ -105,56 +101,23 @@ export function MultimodalInput({
     [handleInputChange],
   )
 
-  const handleOptionChange = useCallback(
+  const handleConfigChange = useCallback(
     async (type: ChatConfigChangeType, option: ConfigOption | null) => {
-      // Update URL
-      let newUrl
       const key = SELECTION_STEP_ALIASES[type]
-      const params = searchParams.toString()
-      const value = option?.value || ''
+      setQueryState({ [key]: option?.value || null })
 
-      if (value) {
-        newUrl = formUrlQuery({ params, key, value })
-      } else {
-        newUrl = removeKeysFromQuery({ params, keys: [key] })
-      }
-
-      // Save to cookie
       await setGptdoCookieAction({
         type: SELECTION_STEP_ALIASES[type],
         option,
         pathname,
       })
-
-      // Update URL
-      router.replace(decodeURIComponent(newUrl), { scroll: false })
     },
-    [router, searchParams, pathname],
+    [pathname, setQueryState],
   )
-
-  // const handleBackToIntegrations = useCallback(() => {
-  //   let newUrl
-  //   if (toolFromUrl?.includes('.')) {
-  //     const integrationName = toolFromUrl.split('.')[0]
-  //     newUrl = formUrlQuery({
-  //       params: searchParams.toString(),
-  //       key: 'tool',
-  //       value: integrationName,
-  //     })
-  //   } else {
-  //     newUrl = removeKeysFromQuery({
-  //       params: searchParams.toString(),
-  //       keys: ['tool'],
-  //     })
-  //   }
-  //   router.replace(decodeURIComponent(newUrl), { scroll: false })
-  // }, [router, searchParams, toolFromUrl])
 
   return (
     <section className='px-4'>
-      {messages.length === 0 && attachments.length === 0 && (
-        <PromptSuggestions append={append} selectedModel={selectedModel} selectedTool={selectedTool} selectedOutput={selectedOutput} />
-      )}
+      {messages.length === 0 && attachments.length === 0 && <PromptSuggestions append={append} selectedModel={selectedModel} />}
       <form
         className={cn(
           'dark:focus-within relative mx-auto mb-2 flex w-full max-w-6xl flex-col gap-2 rounded-xl border border-gray-200 bg-gray-50 backdrop-blur-sm transition-all duration-200 sm:mb-4 md:mb-6 dark:border-zinc-700/60 dark:bg-zinc-800/40',
@@ -238,15 +201,15 @@ export function MultimodalInput({
               </PromptInputAction>
             </div>
             {!isMobile && (
-              <div className='flex w-full flex-1 flex-col sm:flex-row sm:items-center sm:justify-center'>
-                <div className='mx-auto hidden w-full space-y-2 sm:flex sm:w-auto sm:flex-row sm:items-center sm:space-y-0 sm:space-x-1'>
+              <div className='mt-2 flex w-full flex-1 flex-col sm:mt-0 sm:flex-row sm:items-center sm:justify-center'>
+                <div className='mx-auto flex w-full flex-col space-y-2 sm:w-auto sm:flex-row sm:items-center sm:space-y-0 sm:space-x-1'>
                   <SearchableOptionSelector
                     align='end'
                     placeholder='Model'
                     title='model'
                     options={modelOptions}
                     selectedItem={selectedModel}
-                    updateOption={handleOptionChange}
+                    updateOption={handleConfigChange}
                     className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[80px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
                   />
                   <span className='hidden text-gray-300 sm:inline dark:text-zinc-600'>|</span>
@@ -256,7 +219,7 @@ export function MultimodalInput({
                     title='integration'
                     options={integrations}
                     selectedItem={selectedTool}
-                    updateOption={handleOptionChange}
+                    updateOption={handleConfigChange}
                     className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[70px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
                   />
                   <span className='hidden text-gray-300 sm:inline dark:text-zinc-600'>|</span>
@@ -266,7 +229,7 @@ export function MultimodalInput({
                     title='output'
                     options={OUTPUT_FORMATS}
                     selectedItem={selectedOutput}
-                    updateOption={handleOptionChange}
+                    updateOption={handleConfigChange}
                     className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[80px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
                   />
                 </div>
@@ -314,3 +277,21 @@ export function MultimodalInput({
     </section>
   )
 }
+
+// const handleBackToIntegrations = useCallback(() => {
+//   let newUrl
+//   if (toolFromUrl?.includes('.')) {
+//     const integrationName = toolFromUrl.split('.')[0]
+//     newUrl = formUrlQuery({
+//       params: searchParams.toString(),
+//       key: 'tool',
+//       value: integrationName,
+//     })
+//   } else {
+//     newUrl = removeKeysFromQuery({
+//       params: searchParams.toString(),
+//       keys: ['tool'],
+//     })
+//   }
+//   router.replace(decodeURIComponent(newUrl), { scroll: false })
+// }, [router, searchParams, toolFromUrl])

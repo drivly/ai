@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter, uniqueArrayByObjectPropertyKey } from '@/lib/utils'
+import { uniqueArrayByObjectPropertyKey } from '@/lib/utils'
 import { constructModelIdentifier, parse } from 'language-models'
 import { getAvailableModels } from '../../models.do/utils'
 import type { SearchOption } from './types'
@@ -6,103 +6,22 @@ import type { SearchOption } from './types'
 // Export the imported functions so consumers don't need to change imports
 export { constructModelIdentifier, parse }
 
-// ===== Constants =====
+export const KEY_FOR_INVALID_DATES = 'Unknown Date' // This will also be the displayKey for this group
 
-export const KEY_FOR_INVALID_DATES = 'Unknown Date'
-export const guestRegex = /^guest-\d+$/
-
-// ===== Types =====
-
-export interface GroupedOptions {
-  displayKey: string
-  options: SearchOption[]
-}
-
-// ===== Path Utilities =====
-
-/**
- * Resolves various pathname formats to standardized chat paths
- *
- * @example
- * resolvePathname('/gpt.do') // '/gpt.do/chat'
- */
-export function resolvePathname(pathname: string): string {
-  switch (true) {
-    case pathname.startsWith('/gpt.do'):
-      return `/gpt.do/chat`
-    case pathname.startsWith('/chat-ui'):
-      return `/chat-ui/chat`
-    case pathname.startsWith('/sites/gpt.do'):
-      return `/sites/gpt.do/chat`
-    default:
-      return `/chat`
-  }
-}
-
-/**
- * Converts a snake_case string to a human readable format
- *
- * @example
- * snakeToHumanCase('hello_world') // 'Hello World'
- */
-export function snakeToHumanCase(str: string): string {
-  if (!str) return ''
-  return str
-    .split('_')
-    .map((word) => capitalizeFirstLetter(word.toLowerCase()))
-    .join(' ')
-}
-
-// ===== Date & Grouping Utilities =====
-
-/**
- * Creates a sortable key from a date in the format 'YYYY-MM'
- */
-function createSortableKeyFromDate(date: Date): string {
-  if (isNaN(date.getTime())) {
-    return KEY_FOR_INVALID_DATES
-  }
-
-  const year = date.getFullYear()
-  const month = date.getMonth()
-  return `${year}-${String(month).padStart(2, '0')}`
-}
-
-/**
- * Format a sortable key like '2023-05' to a display string like 'May 2023'
- */
-function formatSortableKeyToDisplay(sortableKey: string): string {
-  if (sortableKey === KEY_FOR_INVALID_DATES) {
-    return KEY_FOR_INVALID_DATES
-  }
-
-  const [yearStr, monthStr] = sortableKey.split('-')
-  const year = parseInt(yearStr, 10)
-  const monthIndex = parseInt(monthStr, 10)
-
-  return new Date(year, monthIndex).toLocaleString('default', {
-    month: 'long',
-    year: 'numeric',
-  })
-}
-
-/**
- * Groups search options by month/year and sorts them in reverse chronological order
- *
- * @example
- * groupAndSortOptions([
- *   { id: '1', title: 'First', createdAt: '2023-01-01' },
- *   { id: '2', title: 'Second', createdAt: '2023-02-01' }
- * ])
- * // Returns: [{ displayKey: 'February 2023', options: [{ id: '2', ... }] }, ...]
- */
-export function groupAndSortOptions(options: SearchOption[]): GroupedOptions[] {
-  // Group options by sortable key (YYYY-MM)
+export const groupAndSortOptions = (options: ReadonlyArray<SearchOption>) => {
   const groupedBySortableKey: Record<string, SearchOption[]> = {}
 
   options.forEach((option) => {
+    let currentGroupKey: string
     const date = new Date(option.createdAt)
-    const currentGroupKey = createSortableKeyFromDate(date)
+
+    if (isNaN(date.getTime())) {
+      currentGroupKey = KEY_FOR_INVALID_DATES
+    } else {
+      const year = date.getFullYear()
+      const month = date.getMonth()
+      currentGroupKey = `${year}-${String(month).padStart(2, '0')}`
+    }
 
     if (!groupedBySortableKey[currentGroupKey]) {
       groupedBySortableKey[currentGroupKey] = []
@@ -110,18 +29,24 @@ export function groupAndSortOptions(options: SearchOption[]): GroupedOptions[] {
     groupedBySortableKey[currentGroupKey].push(option)
   })
 
-  // Sort valid dates in reverse chronological order
   const allKeys = Object.keys(groupedBySortableKey)
-  const validDateKeys = allKeys.filter((key) => key !== KEY_FOR_INVALID_DATES)
-  validDateKeys.sort((a, b) => b.localeCompare(a))
 
-  // Map sorted keys to result format with display names
-  const result = validDateKeys.map((sortableKey) => ({
-    displayKey: formatSortableKeyToDisplay(sortableKey),
-    options: groupedBySortableKey[sortableKey],
-  }))
+  const validDateSortableKeys = allKeys.filter((key) => key !== KEY_FOR_INVALID_DATES)
+  validDateSortableKeys.sort((a, b) => b.localeCompare(a))
 
-  // Add unknown dates at the end if they exist
+  const result = validDateSortableKeys.map((sortableKey) => {
+    const [yearStr, monthStr] = sortableKey.split('-')
+    const year = parseInt(yearStr, 10)
+    const monthIndex = parseInt(monthStr, 10)
+
+    const displayMonthYear = new Date(year, monthIndex).toLocaleString('default', { month: 'long', year: 'numeric' })
+
+    return {
+      displayKey: displayMonthYear,
+      options: groupedBySortableKey[sortableKey],
+    }
+  })
+
   if (groupedBySortableKey[KEY_FOR_INVALID_DATES]) {
     result.push({
       displayKey: KEY_FOR_INVALID_DATES,
@@ -132,22 +57,50 @@ export function groupAndSortOptions(options: SearchOption[]): GroupedOptions[] {
   return result
 }
 
-// ===== URL Utilities =====
+export const guestRegex = /^guest-\d+$/
+
+export function resolvePathname(pathname: string) {
+  let newPath = ''
+  switch (true) {
+    case pathname.startsWith('/gpt.do'):
+      newPath = `/gpt.do/chat`
+      break
+    case pathname.startsWith('/chat-ui'):
+      newPath = `/chat-ui/chat`
+      break
+    case pathname.startsWith('/sites/gpt.do'):
+      newPath = `/sites/gpt.do/chat`
+      break
+    default:
+      newPath = `/chat`
+  }
+  return newPath
+}
+
+export function snakeToHumanCase(str: string): string {
+  if (!str) {
+    return ''
+  }
+  return str
+    .split('_')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+}
 
 /**
- * Safely converts an object to URLSearchParams, handling different value types
- *
- * @example
- * createCleanURLParams({ model: 'gpt-4', count: 5, enabled: true })
- * // Returns URLSearchParams with those values properly converted
+ * Safely converts an object of search parameters to a URLSearchParams instance
+ * Handles different types and excludes undefined/null values
  */
 export function createCleanURLParams(params: Record<string, any>): URLSearchParams {
   const urlParams = new URLSearchParams()
 
+  // Process each parameter
   Object.entries(params).forEach(([key, value]) => {
+    // Skip null/undefined values
     if (value == null) return
 
-    let stringValue: string | undefined
+    // Convert to string based on type
+    let stringValue: string
 
     if (typeof value === 'string') {
       stringValue = value
@@ -155,12 +108,18 @@ export function createCleanURLParams(params: Record<string, any>): URLSearchPara
       stringValue = value.toString()
     } else if (typeof value === 'object') {
       try {
+        // Try to stringify objects/arrays
         stringValue = JSON.stringify(value)
       } catch {
+        // Skip if can't stringify
         return
       }
+    } else {
+      // Skip other types
+      return
     }
 
+    // Add to URLSearchParams if we have a valid string
     if (stringValue) {
       urlParams.set(key, stringValue)
     }
@@ -219,4 +178,11 @@ export const getAIModels = () => {
     logoUrl: 'authorIcon' in model && model.authorIcon ? model.authorIcon : undefined,
   }))
   return uniqueArrayByObjectPropertyKey(loadedModels, 'label')
+}
+
+export async function minDelay<T>(promise: Promise<T>, ms: number) {
+  let delay = new Promise((resolve) => setTimeout(resolve, ms))
+  let [p] = await Promise.all([promise, delay])
+
+  return p
 }

@@ -79,7 +79,9 @@ export const ChatMessage = ({ chatId, attachments, parts, role, content, error, 
             }
           })}
 
-          {error && <ErrorMessage reload={reload} />}
+          {(!parts || parts.length === 0) && content && <Markdown>{content}</Markdown>}
+
+          {error && <ErrorMessage error={error} onReload={reload} />}
         </div>
       </motion.div>
     </AnimatePresence>

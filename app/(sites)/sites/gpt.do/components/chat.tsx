@@ -12,6 +12,7 @@ import { toast } from 'sonner'
 import type { IntegrationPromise } from '../actions/composio.action'
 import { useChatHistory } from '../hooks/use-chat-history'
 import { useChatVisibility } from '../hooks/use-chat-visibility'
+import { formatOutput } from '../lib/constants'
 import type { SearchOption } from '../lib/types'
 import { ChatHeader } from './chat-header'
 import { ChatWrapper } from './chat-wrapper'
@@ -40,7 +41,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
   const isMobile = useIsMobile()
 
   // Get format and tools directly from URL
-  const outputFormat = searchParams.get('output') || 'markdown'
+  const outputFormat = searchParams.get('output') || 'Markdown'
   const tools = searchParams.get('tool') || ''
   const systemPrompt = searchParams.get('system') || ''
   const tempParam = searchParams.get('temp')
@@ -66,16 +67,17 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     maxSteps: 3,
     body: {
       model: selectedModelId.value,
-      output: outputFormat,
       modelOptions: {
-        tools: tools ? tools.split(',') : undefined
+        tools: tools ? [tools] : undefined,
+        outputFormat: formatOutput(outputFormat),
       },
       system: systemPrompt,
       temp: temperature,
       seed: seed,
     },
     onError: (error) => {
-      toast.error('Something went wrong')
+      console.error('Chat error:', error)
+      toast.error('An error occurred while processing your request. Please try again.')
     },
     onFinish: (response) => {
       console.log('Chat response:', response)
@@ -111,10 +113,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
             modelOptions={availableModels}
           />
           <MobileSelectionBanner isMobile={isMobile} toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelId={selectedModelId} />
-          <ChatContainer
-            data-chat-widget='chat-container'
-            className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6'
-            ref={containerRef as React.RefObject<HTMLDivElement>}>
+          <ChatContainer data-chat-widget='chat-container' className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6' ref={containerRef}>
             {messages.length === 0 && greeting}
             {displayMessages?.map((message, index) => {
               const isLastMessage = index === displayMessages.length - 1

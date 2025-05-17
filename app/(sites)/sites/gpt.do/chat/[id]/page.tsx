@@ -8,7 +8,7 @@ import { Chat } from '../../components/chat'
 import { ChatOptionsSelector } from '../../components/chat-options-selector'
 import { Greeting } from '../../components/greeting'
 import { DEFAULT_CHAT_MODEL } from '../../lib/constants'
-import type { ChatSearchParams } from '../../lib/types'
+import { ChatSearchParams } from '../../lib/types'
 import { getAIModels } from '../../lib/utils'
 
 interface ChatPageProps {
@@ -24,13 +24,12 @@ async function ChatPage({ params, searchParams }: ChatPageProps) {
 
   const session = await auth()
   const chatModelFromCookie = await getGptdoBrainCookieAction()
-
+  
   if (!session) {
     redirect('/login')
   }
-
-  const isAction = tool?.includes('.')
-  const integrationName = isAction ? tool?.split('.')[0] : tool
+  
+  const integrationName = tool?.includes('.') ? tool?.split('.')[0] : tool
   const initialChatModel = !chatModelFromCookie ? DEFAULT_CHAT_MODEL : chatModelFromCookie
 
   const composioPromise = getComposioActionsByIntegrationCached({ queryKey: ['tools', integrationName] })

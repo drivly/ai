@@ -7,16 +7,15 @@ import { groupAndSortOptions, KEY_FOR_INVALID_DATES } from '../lib/utils'
 
 export interface DisplayGroup {
   displayKey: string
-  options: ConfigOption[]
+  options: ConfigOption[] | ReadonlyArray<ConfigOption>
 }
 
 export interface UseOptionListPanelProps {
   title: ChatConfigChangeType
-  data: ConfigOption[] | AvailableIntegration[] // Models - 'createdAt', Tools - 'createdBy'
+  data: ConfigOption[] | AvailableIntegration[] | ReadonlyArray<ConfigOption> // Models - 'createdAt', Tools - 'createdBy'
   groupingStrategy: 'groupByKey' | 'none'
   groupKeyForFlatList?: keyof ConfigOption // e.g., 'createdAt' or 'createdBy'
   selectedItem?: ConfigOption | null
-  onClearInputInActionsView?: () => void
   updateOption: (type: ChatConfigChangeType, option: ConfigOption | AvailableIntegration | null) => void
 }
 
@@ -31,7 +30,7 @@ export type VirtualDisplayListItem =
   | { id: string; type: 'item'; data: ConfigOption | AvailableIntegration; originalIndexInNavigableFlatItems: number }
 
 // Helper to group by a generic key (like 'createdBy')
-const groupByKeyGeneric = (options: ConfigOption[], keyName: keyof ConfigOption): DisplayGroup[] => {
+const groupByKeyGeneric = (options: ReadonlyArray<ConfigOption>, keyName: keyof ConfigOption): DisplayGroup[] => {
   const grouped: Record<string, ConfigOption[]> = {}
   options.forEach((option) => {
     const keyValue = option[keyName] as string | undefined
@@ -57,7 +56,6 @@ export function useOptionListPanel({
   groupKeyForFlatList, // Used when groupingStrategy is 'groupByKey'
   selectedItem,
   updateOption,
-  onClearInputInActionsView,
 }: UseOptionListPanelProps) {
   // --- Local State ---
   const [searchQuery, setSearchQuery] = useState('')
@@ -163,17 +161,12 @@ export function useOptionListPanel({
   // --- Handlers ---
   // Clear button ("X") handler
   const handleClear = useCallback(() => {
-    if (!isSearchMode && selectedItem) {
-      setIsSearchMode(true) // Switch to search mode
-      updateOption(title, null) // Clear selection in parent/URL
-
-      if (title === 'integration' && onClearInputInActionsView) {
-        onClearInputInActionsView()
-      }
-    } else setSearchQuery('')
+    updateOption(title, null) // Clear selection in parent/URL
+    setIsSearchMode(true) // Switch to search mode
+    setSearchQuery('')
 
     inputRef.current?.focus()
-  }, [isSearchMode, selectedItem, title, updateOption, onClearInputInActionsView])
+  }, [title, updateOption])
 
   const handleInputFocus = useCallback(() => {
     if (!isSearchMode && selectedItem) setSearchQuery(selectedItem.label)
@@ -194,7 +187,7 @@ export function useOptionListPanel({
       const isIntegrationWithoutAction = title === 'integration' && !item.value.includes('.')
 
       if (isItemSelected) {
-        updateOption(title, null)
+        handleClear()
       } else {
         updateOption(title, item)
 
@@ -203,7 +196,7 @@ export function useOptionListPanel({
         }
       }
     },
-    [title, updateOption, setIsSearchMode],
+    [title, handleClear, updateOption],
   )
 
   const handleItemMouseEnter = useCallback((originalItemIndex: number) => {

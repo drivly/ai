@@ -4,12 +4,12 @@ import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, Dr
 import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import type { ChatConfigChangeType, ConfigOption } from './chat-options-selector'
 
 interface MobileSelectionDrawerProps {
   title: ChatConfigChangeType
-  options: ConfigOption[]
+  options: ReadonlyArray<ConfigOption>
   selectedItem?: ConfigOption | null
   updateOption: (type: ChatConfigChangeType, option: ConfigOption | null) => void
   placeholder?: string
@@ -17,7 +17,6 @@ interface MobileSelectionDrawerProps {
 }
 
 export const MobileSelectionDrawer = ({ title, options, selectedItem, updateOption, placeholder = `Select ${title}`, className }: MobileSelectionDrawerProps) => {
-  const [open, setOpen] = useState(false)
   const isMobile = useIsMobile()
 
   const handleSelect = useCallback(
@@ -25,13 +24,11 @@ export const MobileSelectionDrawer = ({ title, options, selectedItem, updateOpti
       if (selectedItem && currentValue === selectedItem.label) {
         updateOption(title, null)
       } else {
-        console.log('🚀 ~ handleSelect ~ currentValue:', currentValue)
         const selectedOption = options.find((option) => option.label === currentValue)
         if (selectedOption) {
           updateOption(title, selectedOption)
         }
       }
-      setOpen(false)
     },
     [selectedItem, options, updateOption, title],
   )

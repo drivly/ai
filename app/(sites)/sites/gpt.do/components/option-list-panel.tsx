@@ -5,10 +5,10 @@ import { ScrollAreaRoot, ScrollAreaViewport } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { Check, Search, X } from 'lucide-react'
-import { Fragment } from 'react'
-import { useOptionListPanel, UseOptionListPanelProps } from '../hooks/use-option-list-panel'
+import { Fragment, useState } from 'react'
+import { useOptionListPanel, type UseOptionListPanelProps } from '../hooks/use-option-list-panel'
 import type { SearchOption } from '../lib/types'
-import { KEY_FOR_INVALID_DATES } from '../lib/utils'
+import { KEY_FOR_INVALID_DATES, minDelay } from '../lib/utils'
 import { SELECTION_STEP_MAP } from './chat-options-selector'
 import { OptionAvatar } from './option-avatar'
 import Spinner from './spinner'
@@ -41,6 +41,24 @@ export function OptionListPanel(props: OptionListPanelProps) {
   } = useOptionListPanel(props)
 
   const { title, selectedItem, headerSuffix = '', isLoading } = props
+
+  // Track which item is currently being selected (loading state)
+  const [loadingItemId, setLoadingItemId] = useState<string | null>(null)
+
+  // Enhanced click handler to show loading state
+  const handleItemClickWithLoading = async (item: SearchOption, isSelected: boolean) => {
+    if (isSelected) {
+      handleItemClick(item, isSelected)
+      return
+    }
+
+    // Set loading state
+    setLoadingItemId(`${item.value}-${item.label}`)
+
+    await minDelay(Promise.resolve(handleItemClick(item, isSelected)), 500)
+
+    setLoadingItemId(null)
+  }
 
   return (
     <div className='flex flex-col space-y-3 font-sans'>
@@ -101,7 +119,7 @@ export function OptionListPanel(props: OptionListPanelProps) {
             </div>
             <div className='relative mt-1 mb-1.5 p-1' style={{ height: `${totalSize}px`, padding: '0 1px' }}>
               {isLoading ? (
-                <div className='flex h-full flex-col items-center justify-start gap-2 px-3 text-sm text-zinc-500 dark:text-zinc-400'>
+                <div className='flex h-full flex-col items-center justify-start gap-2 px-3 pt-8 text-sm text-zinc-500 dark:text-zinc-400'>
                   <Spinner height={24} width={24} className='text-muted-foreground/50' />
                   <span className='text-muted-foreground/50 animate-pulse font-normal'>Assembling your tools...</span>
                 </div>
@@ -136,6 +154,7 @@ export function OptionListPanel(props: OptionListPanelProps) {
                             const originalIndex = displayItem.originalIndexInNavigableFlatItems
                             const isItemSelected = selectedItem?.value === item.value && selectedItem?.label === item.label
                             const isFocused = focusedIndex === originalIndex && originalIndex !== -1
+                            const isLoading = loadingItemId === `${item.value}-${item.label}`
 
                             return (
                               <Fragment>
@@ -147,6 +166,7 @@ export function OptionListPanel(props: OptionListPanelProps) {
                                   className={cn(
                                     'flex h-10 w-full shrink-0 cursor-pointer justify-start rounded-md px-3 text-sm transition-all duration-200',
                                     props.groupingStrategy === 'groupByKey' && 'pl-6',
+                                    isLoading && 'bg-gray-50 dark:bg-zinc-800/50',
                                     `${
                                       isItemSelected
                                         ? 'bg-gray-100 text-zinc-900 dark:bg-zinc-800 dark:text-white'
@@ -155,13 +175,17 @@ export function OptionListPanel(props: OptionListPanelProps) {
                                           : 'text-zinc-600 hover:bg-gray-100/80 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/60 dark:hover:text-white'
                                     }`,
                                   )}
-                                  onClick={() => handleItemClick(item, isItemSelected)}
+                                  onClick={() => handleItemClickWithLoading(item, isItemSelected)}
                                   onMouseEnter={() => handleItemMouseEnter(originalIndex)}
                                   onMouseLeave={() => handleItemMouseLeave()}>
                                   <div className='flex w-full items-center gap-2'>
                                     <OptionAvatar logoUrl={item.logoUrl} size={20} direction='up' imageIndex={0} />
                                     <span className='line-clamp-1 truncate'>{item.label}</span>
-                                    {isItemSelected && <Check className='ml-auto h-4 w-4 text-emerald-600 dark:text-emerald-400' />}
+                                    {isLoading ? (
+                                      <Spinner height={16} width={16} className='text-muted-foreground/50 ml-auto' />
+                                    ) : isItemSelected ? (
+                                      <Check className='ml-auto h-4 w-4 text-emerald-600 dark:text-emerald-400' />
+                                    ) : null}
                                   </div>
                                 </Button>
                                 {displayItem.originalIndexInNavigableFlatItems < navigableFlatItems.length - 1 && (

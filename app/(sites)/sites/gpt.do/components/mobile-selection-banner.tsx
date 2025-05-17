@@ -1,9 +1,10 @@
 import { Separator } from '@/components/ui/separator'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useQuery } from '@tanstack/react-query'
+import { usePathname } from 'next/navigation'
 import { use, useCallback, useMemo } from 'react'
-import { formUrlQuery, removeKeysFromQuery } from '../../models.do/utils'
-import type { IntegrationPromise } from '../actions/composio.action'
+import { getComposioData, type IntegrationActions, type IntegrationPromise } from '../actions/composio.action'
 import { setGptdoCookieAction } from '../actions/gpt.action'
+import { useCustomQuery } from '../hooks/use-custom-query'
 import { OUTPUT_FORMATS } from '../lib/constants'
 import type { SearchOption } from '../lib/types'
 import { type ChatConfigChangeType, type ConfigOption, SELECTION_STEP_ALIASES } from './chat-options-selector'
@@ -17,71 +18,67 @@ export interface MobileSelectionBannerProps {
 }
 
 export const MobileSelectionBanner = ({ isMobile, modelOptions, toolsPromise, selectedModelId }: MobileSelectionBannerProps) => {
+  const { model, tool, output, setQueryState } = useCustomQuery({ availableModels: modelOptions, initialChatModel: selectedModelId })
   const integrations = use(toolsPromise)
-  const searchParams = useSearchParams()
   const pathname = usePathname()
-  const router = useRouter()
 
-  // --- URL Parameter Extraction ---
-  const modelFromUrl = searchParams.get('model')
-  const toolFromUrl = searchParams.get('tool')
-  const outputFromUrl = searchParams.get('output')
+  const activeIntegrationNameFromUrl = useMemo(() => {
+    if (!tool) return undefined
+    return tool.includes('.') ? tool.split('.')[0] : tool
+  }, [tool])
+
+  const { data: actionsForIntegration, isLoading: isLoadingActions } = useQuery({
+    queryKey: ['actions', activeIntegrationNameFromUrl],
+    queryFn: async () => getComposioData(activeIntegrationNameFromUrl),
+    placeholderData: integrations,
+    enabled: !!activeIntegrationNameFromUrl || !!(tool === ''),
+  })
 
   // Memoized selected values that reflect URL params with fallbacks to props
-  const selectedModel = useMemo(() => {
-    if (modelFromUrl) {
-      return modelOptions.find((model) => model.value === modelFromUrl) || selectedModelId
-    }
-    return selectedModelId
-  }, [modelOptions, modelFromUrl, selectedModelId])
+  const selectedModel = useMemo(() => (model ? modelOptions.find((item) => item.value === model) || selectedModelId : selectedModelId), [model, modelOptions, selectedModelId])
 
   const selectedTool = useMemo(() => {
-    if (toolFromUrl) {
-      return integrations.find((tool) => tool.value === toolFromUrl) || null
-    }
-    return null
-  }, [integrations, toolFromUrl])
+    if (!tool) return undefined
 
-  const selectedOutput = useMemo(() => {
-    if (outputFromUrl) {
-      return OUTPUT_FORMATS.find((output) => output.value === outputFromUrl) || null
+    // For specific actions (with dot notation)
+    if (tool.includes('.') && Array.isArray(actionsForIntegration)) {
+      return actionsForIntegration.find((item) => item.value === tool)
+    } else {
+      const relatedAction = (actionsForIntegration || integrations).find((item) => 'createdBy' in item && item.createdBy === tool) as IntegrationActions | undefined
+      if (relatedAction)
+        return {
+          value: relatedAction.createdBy,
+          label: relatedAction.createdBy.charAt(0).toUpperCase() + relatedAction.createdBy.slice(1),
+        }
     }
-    return null
-  }, [outputFromUrl])
+  }, [tool, actionsForIntegration, integrations])
 
-  const handleOptionChange = useCallback(
+  const selectedOutput = useMemo(() => (output ? OUTPUT_FORMATS.find((format) => format.value === output) || OUTPUT_FORMATS[0] : OUTPUT_FORMATS[0]), [output])
+
+  const handleConfigChange = useCallback(
     async (type: ChatConfigChangeType, option: ConfigOption | null) => {
-      // Update URL
-      let newUrl
       const key = SELECTION_STEP_ALIASES[type]
-      const params = searchParams.toString()
-      const value = option?.value || ''
 
-      if (value) {
-        newUrl = formUrlQuery({ params, key, value })
-      } else {
-        newUrl = removeKeysFromQuery({ params, keys: [key] })
-      }
-
-      // Save to cookie
       await setGptdoCookieAction({
         type: SELECTION_STEP_ALIASES[type],
         option,
         pathname,
       })
 
-      // Update URL
-      router.replace(decodeURIComponent(newUrl), { scroll: false })
+      setQueryState({ [key]: option?.value || null })
     },
-    [router, searchParams, pathname],
+    [pathname, setQueryState],
   )
+
+  if (!isMobile) return null
+
   return (
     <div className='border-input flex flex-row items-center justify-evenly gap-2 border-b px-2 py-1.5 shadow-sm sm:hidden'>
-      <MobileSelectionDrawer placeholder='Model' title='model' options={modelOptions} selectedItem={selectedModel} updateOption={handleOptionChange} className='w-1/3' />
+      <MobileSelectionDrawer placeholder='Model' title='model' options={modelOptions} selectedItem={selectedModel} updateOption={handleConfigChange} className='w-1/3' />
       <Separator orientation='vertical' />
-      <MobileSelectionDrawer title='integration' options={integrations} selectedItem={selectedTool} updateOption={handleOptionChange} className='w-1/3' />
+      <MobileSelectionDrawer title='integration' options={actionsForIntegration ?? integrations} selectedItem={selectedTool} updateOption={handleConfigChange} className='w-1/3' />
       <Separator orientation='vertical' />
-      <MobileSelectionDrawer title='output' options={OUTPUT_FORMATS} selectedItem={selectedOutput} updateOption={handleOptionChange} className='w-1/3' />
+      <MobileSelectionDrawer title='output' options={OUTPUT_FORMATS} selectedItem={selectedOutput} updateOption={handleConfigChange} className='w-1/3' />
     </div>
   )
 }

@@ -15,13 +15,11 @@ interface ChatHomePageProps {
 
 export default async function ChatHomePage({ searchParams }: ChatHomePageProps) {
   await requireAuthentication()
-
   const { tool } = await searchParams
   const chatModelFromCookie = await getGptdoBrainCookieAction()
   const initialChatModel = !chatModelFromCookie ? DEFAULT_CHAT_MODEL : chatModelFromCookie
 
-  const isAction = tool?.includes('.')
-  const integrationName = isAction ? tool?.split('.')[0] : tool
+  const integrationName = tool?.includes('.') ? tool?.split('.')[0] : tool
 
   const composioPromise = getComposioActionsByIntegrationCached({ queryKey: ['tools', integrationName] })
   const models = getAIModels()
@@ -48,3 +46,5 @@ export default async function ChatHomePage({ searchParams }: ChatHomePageProps) 
     />
   )
 }
+
+// Stripe checkout link -> https://buy.stripe.com/test_14AdRbcyF6FU4qW6i28Vi00
