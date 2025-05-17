@@ -2,20 +2,21 @@
 
 import { ChatContainer } from '@/components/ui/chat-container'
 import { useAuthUser } from '@/hooks/use-auth-user'
-import { useIsMobile } from '@/hooks/use-mobile'
 import { useChat } from '@ai-sdk/react'
 import type { UIMessage } from 'ai'
-import type { Session } from 'next-auth'
-import { useSearchParams } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { toast } from 'sonner'
 import type { IntegrationPromise } from '../actions/composio.action'
 import { useChatHistory } from '../hooks/use-chat-history'
 import { useChatVisibility } from '../hooks/use-chat-visibility'
+import { useCustomQuery } from '../hooks/use-custom-query'
 import { formatOutput } from '../lib/constants'
 import type { SearchOption } from '../lib/types'
+import { getSelectedModel } from '../lib/utils'
 import { ChatHeader } from './chat-header'
+import { ChatOptionsSelector } from './chat-options-selector'
 import { ChatWrapper } from './chat-wrapper'
+import { Greeting } from './greeting'
 import { ChatMessage } from './message'
 import { MobileSelectionBanner } from './mobile-selection-banner'
 import { MultimodalInput } from './multimodal-input'
@@ -27,53 +28,33 @@ export interface ChatProps {
   initialVisibilityType: VisibilityType
   availableModels: SearchOption[]
   toolsPromise: IntegrationPromise
-  session: Session | null
-  greeting: React.ReactNode
 }
 
-export const Chat = ({ id, initialChatModel, initialVisibilityType, availableModels, toolsPromise, session, greeting }: ChatProps) => {
-  const [selectedModelId, setSelectedModelId] = useState(initialChatModel)
-  const searchParams = useSearchParams()
+export const Chat = ({ id, initialChatModel, initialVisibilityType, availableModels, toolsPromise }: ChatProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const { getChatSession, updateChatMessages, addChatSession } = useChatHistory()
   const user = useAuthUser()
-  const isMobile = useIsMobile()
+  const { getChatSession, updateChatMessages, addChatSession } = useChatHistory()
+  const { model, tool, output, q, system, temp, seed, setQueryState } = useCustomQuery()
 
-  // Get format and tools directly from URL
-  const outputFormat = searchParams.get('output') || 'Markdown'
-  const tools = searchParams.get('tool') || ''
-  const systemPrompt = searchParams.get('system') || ''
-  const tempParam = searchParams.get('temp')
-  const seedParam = searchParams.get('seed')
-
-  // Convert parameters with appropriate defaults
-  const temperature = tempParam ? parseFloat(tempParam) : 0.7
-  const seed = seedParam ? parseInt(seedParam, 10) : 6
-
+  const selectedModelOption = getSelectedModel(model, availableModels, initialChatModel)
   const currentChat = getChatSession(id)
   const isReadonly = user?.id !== currentChat?.userId
   const initialMessages = currentChat?.messages ?? []
 
-  useEffect(() => {
-    if (!currentChat && !isReadonly) {
-      addChatSession(id, selectedModelId)
-    }
-  }, [id, selectedModelId, currentChat, isReadonly, addChatSession])
-
-  const { append, error, input, messages, status, handleInputChange, handleSubmit, reload, stop } = useChat({
+  const { append, error, input, messages, status, handleInputChange, handleSubmit, reload, setMessages, stop } = useChat({
     id,
     initialMessages,
     maxSteps: 3,
     body: {
-      model: selectedModelId.value,
+      model: selectedModelOption.value,
       modelOptions: {
-        tools: tools ? [tools] : undefined,
-        outputFormat: formatOutput(outputFormat),
+        tools: tool ? [tool] : undefined,
+        outputFormat: formatOutput(output),
       },
-      system: systemPrompt,
-      temp: temperature,
-      seed: seed,
+      system,
+      temp,
+      seed,
     },
     onError: (error) => {
       console.error('Chat error:', error)
@@ -88,66 +69,69 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     },
   })
 
-  useEffect(() => {
-    setSelectedModelId(initialChatModel)
-  }, [initialChatModel])
-
   const { visibilityType } = useChatVisibility({
     chatId: id,
     initialVisibilityType,
   })
 
+  useEffect(() => {
+    if (!currentChat && !isReadonly) {
+      addChatSession(id, selectedModelOption)
+    }
+  }, [id, selectedModelOption, currentChat, isReadonly, addChatSession])
+
   const displayMessages: UIMessage[] =
     status === 'submitted' ? [...messages, { role: 'assistant', content: '', id: 'thinking', experimental_attachments: [], parts: [] }] : messages
 
   return (
-    <ChatWrapper chatId={id} selectedModel={selectedModelId} messages={initialMessages}>
+    <ChatWrapper chatId={id} selectedModel={selectedModelOption} messages={initialMessages}>
       <section className='mx-auto grid w-full'>
         <div className='bg-background flex h-dvh min-w-0 flex-1 flex-col'>
           <ChatHeader
             chatId={id}
-            selectedModelId={selectedModelId}
-            setSelectedModelId={setSelectedModelId}
+            selectedModelOption={selectedModelOption}
+            setSelectedModelOption={(model) => setQueryState({ model: model.value })}
             selectedVisibilityType={visibilityType}
             isReadonly={isReadonly}
             modelOptions={availableModels}
+            tool={tool}
+            output={output}
+            setQueryState={setQueryState}
           />
-          <MobileSelectionBanner isMobile={isMobile} toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelId={selectedModelId} />
+          <MobileSelectionBanner toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelOption={selectedModelOption} />
           <ChatContainer data-chat-widget='chat-container' className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6' ref={containerRef}>
-            {messages.length === 0 && greeting}
-            {displayMessages?.map((message, index) => {
-              const isLastMessage = index === displayMessages.length - 1
-              const shouldShowError = isLastMessage && error
-              return (
-                <ChatMessage
-                  data-chat-widget='chat-message'
-                  key={message.id}
-                  chatId={message.id}
-                  role={message.role}
-                  parts={message.parts}
-                  attachments={message.experimental_attachments}
-                  content={message.content}
-                  error={shouldShowError ? error : undefined}
-                  reload={reload}
-                />
-              )
-            })}
+            {messages.length === 0 && (
+              <Greeting
+                title='Welcome to GPT.do'
+                description='Select your model, tool, and output format to get started.'
+                config={<ChatOptionsSelector toolsPromise={toolsPromise} availableModels={availableModels} selectedModelOption={selectedModelOption} />}
+              />
+            )}
+            {displayMessages?.map((message, index) => (
+              <ChatMessage
+                data-chat-widget='chat-message'
+                key={message.id}
+                message={message}
+                error={index === displayMessages.length - 1 && error ? error : undefined}
+                reload={reload}
+              />
+            ))}
           </ChatContainer>
           <MultimodalInput
             bottomRef={bottomRef}
             containerRef={containerRef}
-            toolsPromise={toolsPromise}
-            messages={messages}
-            isDisabled={status !== 'ready'}
-            isLoading={status === 'streaming' || status === 'submitted'}
-            isMobile={isMobile}
-            stop={stop}
+            error={error}
             input={input}
+            messages={messages}
+            status={status}
+            selectedModelOption={selectedModelOption}
+            modelOptions={availableModels}
+            toolsPromise={toolsPromise}
             append={append}
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}
-            modelOptions={availableModels}
-            selectedModelId={selectedModelId}
+            setMessages={setMessages}
+            stop={stop}
           />
         </div>
       </section>

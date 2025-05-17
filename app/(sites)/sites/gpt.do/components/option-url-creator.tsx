@@ -28,13 +28,12 @@ export function OptionUrlCreator({ className, selectedModel, selectedTool, selec
     try {
       const chatUrl = new URL('/chat/new', window.location.origin)
 
-      const params = {
+      const searchParams = createCleanURLParams({
         model: modelValue,
         tool: toolValue,
         output: outputValue,
-      }
-
-      const searchParams = createCleanURLParams(params)
+      })
+      
       chatUrl.search = searchParams.toString()
 
       setOrigin(chatUrl.origin)

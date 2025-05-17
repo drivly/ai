@@ -186,3 +186,8 @@ export async function minDelay<T>(promise: Promise<T>, ms: number) {
 
   return p
 }
+
+
+export function getSelectedModel(model: string, models: SearchOption[], fallback: SearchOption) {
+  return models.find((m) => m.value === model || m.value.endsWith(model)) || fallback
+}

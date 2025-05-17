@@ -12,6 +12,9 @@ import { toast } from 'sonner'
 import { guestRegex } from '../lib/utils'
 import { LoaderIcon } from './icons'
 
+// TODO: add stripe add credits link
+// TODO: add balance widget here
+
 export function SidebarUserNav({ user }: { user: User }) {
   const router = useRouter()
   const { data, status } = useSession()
@@ -47,6 +50,14 @@ export function SidebarUserNav({ user }: { user: User }) {
             )}
           </DropdownMenuTrigger>
           <DropdownMenuContent data-testid='user-nav-menu' side='top' className='bg-background w-(--radix-popper-anchor-width)'>
+            {/* <DropdownMenuItem data-testid='user-nav-item-theme' className='cursor-pointer' asChild>
+              <button type='button' className='w-full cursor-pointer' onClick={() => router.push('https://buy.stripe.com/test_14AdRbcyF6FU4qW6i28Vi00')}>
+                Add Credits
+              </button>
+            </DropdownMenuItem> */}
+
+            {/* show balance here */}
+
             <DropdownMenuItem data-testid='user-nav-item-theme' className='cursor-pointer' onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
               {`Toggle ${theme === 'light' ? 'dark' : 'light'} mode`}
             </DropdownMenuItem>
