@@ -12,10 +12,10 @@ import { useCustomQuery } from './use-custom-query'
 interface UseSelectionOptionsProps {
   modelOptions: SearchOption[]
   toolsPromise: IntegrationPromise
-  selectedModelId: SearchOption
+  selectedModelOption: SearchOption
 }
 
-export const useSelectionOptions = ({ modelOptions, toolsPromise, selectedModelId }: UseSelectionOptionsProps) => {
+export const useSelectionOptions = ({ modelOptions, toolsPromise, selectedModelOption }: UseSelectionOptionsProps) => {
   const { model, tool, output, setQueryState } = useCustomQuery()
   const integrations = use(toolsPromise)
   const pathname = usePathname()
@@ -33,7 +33,7 @@ export const useSelectionOptions = ({ modelOptions, toolsPromise, selectedModelI
     enabled: !!activeIntegrationNameFromUrl || !!(tool === ''),
   })
 
-  const selectedModel = useMemo(() => getSelectedModel(model, modelOptions, selectedModelId), [model, modelOptions, selectedModelId])
+  const selectedModel = useMemo(() => getSelectedModel(model, modelOptions, selectedModelOption), [model, modelOptions, selectedModelOption])
 
   const selectedTool = useMemo(() => {
     if (!tool) return undefined

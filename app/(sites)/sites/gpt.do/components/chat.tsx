@@ -37,7 +37,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
   const { getChatSession, updateChatMessages, addChatSession } = useChatHistory()
   const { model, tool, output, q, system, temp, seed, setQueryState } = useCustomQuery()
 
-  const selectedModelId = getSelectedModel(model, availableModels, initialChatModel)
+  const selectedModelOption = getSelectedModel(model, availableModels, initialChatModel)
   const currentChat = getChatSession(id)
   const isReadonly = user?.id !== currentChat?.userId
   const initialMessages = currentChat?.messages ?? []
@@ -47,7 +47,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
     initialMessages,
     maxSteps: 3,
     body: {
-      model: selectedModelId.value,
+      model: selectedModelOption.value,
       modelOptions: {
         tools: tool ? [tool] : undefined,
         outputFormat: formatOutput(output),
@@ -76,21 +76,21 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
 
   useEffect(() => {
     if (!currentChat && !isReadonly) {
-      addChatSession(id, selectedModelId)
+      addChatSession(id, selectedModelOption)
     }
-  }, [id, selectedModelId, currentChat, isReadonly, addChatSession])
+  }, [id, selectedModelOption, currentChat, isReadonly, addChatSession])
 
   const displayMessages: UIMessage[] =
     status === 'submitted' ? [...messages, { role: 'assistant', content: '', id: 'thinking', experimental_attachments: [], parts: [] }] : messages
 
   return (
-    <ChatWrapper chatId={id} selectedModel={selectedModelId} messages={initialMessages}>
+    <ChatWrapper chatId={id} selectedModel={selectedModelOption} messages={initialMessages}>
       <section className='mx-auto grid w-full'>
         <div className='bg-background flex h-dvh min-w-0 flex-1 flex-col'>
           <ChatHeader
             chatId={id}
-            selectedModelId={selectedModelId}
-            setSelectedModelId={(model) => setQueryState({ model: model.value })}
+            selectedModelOption={selectedModelOption}
+            setSelectedModelOption={(model) => setQueryState({ model: model.value })}
             selectedVisibilityType={visibilityType}
             isReadonly={isReadonly}
             modelOptions={availableModels}
@@ -98,13 +98,13 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
             output={output}
             setQueryState={setQueryState}
           />
-          <MobileSelectionBanner toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelId={selectedModelId} />
+          <MobileSelectionBanner toolsPromise={toolsPromise} modelOptions={availableModels} selectedModelOption={selectedModelOption} />
           <ChatContainer data-chat-widget='chat-container' className='scrollbar-hide relative flex min-w-0 flex-1 flex-col gap-6 overflow-y-scroll pt-6' ref={containerRef}>
             {messages.length === 0 && (
               <Greeting
                 title='Welcome to GPT.do'
                 description='Select your model, tool, and output format to get started.'
-                config={<ChatOptionsSelector toolsPromise={toolsPromise} availableModels={availableModels} initialChatModel={initialChatModel} />}
+                config={<ChatOptionsSelector toolsPromise={toolsPromise} availableModels={availableModels} selectedModelOption={selectedModelOption} />}
               />
             )}
             {displayMessages?.map((message, index) => (
@@ -124,7 +124,7 @@ export const Chat = ({ id, initialChatModel, initialVisibilityType, availableMod
             input={input}
             messages={messages}
             status={status}
-            selectedModelId={selectedModelId}
+            selectedModelOption={selectedModelOption}
             modelOptions={availableModels}
             toolsPromise={toolsPromise}
             append={append}

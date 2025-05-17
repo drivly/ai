@@ -30,15 +30,15 @@ export type ConfigState = Record<SelectionStep, ConfigOption | undefined>
 interface ChatOptionsSelectorProps {
   toolsPromise: IntegrationPromise
   availableModels: SearchOption[]
-  initialChatModel: SearchOption
+  selectedModelOption: SearchOption
 }
 
-export const ChatOptionsSelector = ({ toolsPromise, availableModels, initialChatModel }: ChatOptionsSelectorProps) => {
+export const ChatOptionsSelector = ({ toolsPromise, availableModels, selectedModelOption }: ChatOptionsSelectorProps) => {
   const { actionsForIntegration, activeIntegrationNameFromUrl, integrations, isLoadingActions, handleConfigChange, selectedModel, selectedOutput, selectedTool } =
     useSelectionOptions({
       modelOptions: availableModels,
       toolsPromise,
-      selectedModelId: initialChatModel,
+      selectedModelOption,
     })
 
   // --- UI Derived Values for Tool Card Header ---

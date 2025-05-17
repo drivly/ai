@@ -19,7 +19,7 @@ type MultimodalInputProps = {
   input: string
   messages: UIMessage[]
   status: 'error' | 'submitted' | 'streaming' | 'ready'
-  selectedModelId: SearchOption
+  selectedModelOption: SearchOption
   modelOptions: SearchOption[]
   toolsPromise: IntegrationPromise
   append: (message: Message | CreateMessage, chatRequestOptions?: ChatRequestOptions) => Promise<string | null | undefined>
@@ -41,7 +41,7 @@ export function MultimodalInput({
   input,
   messages,
   status,
-  selectedModelId,
+  selectedModelOption,
   modelOptions,
   toolsPromise,
   append,
@@ -75,7 +75,7 @@ export function MultimodalInput({
 
   return (
     <section className='px-4'>
-      {messages.length === 0 && attachments.length === 0 && <PromptSuggestions append={append} selectedModel={selectedModelId} />}
+      {messages.length === 0 && attachments.length === 0 && <PromptSuggestions append={append} selectedModel={selectedModelOption} />}
       <form
         className={cn(
           'dark:focus-within relative mx-auto mb-2 flex w-full max-w-6xl flex-col gap-2 rounded-xl border border-gray-200 bg-gray-50 backdrop-blur-sm transition-all duration-200 sm:mb-4 md:mb-6 dark:border-zinc-700/60 dark:bg-zinc-800/40',
@@ -158,7 +158,7 @@ export function MultimodalInput({
                 )}
               </PromptInputAction>
             </div>
-            <SearchableOptionContainer modelOptions={modelOptions} toolsPromise={toolsPromise} selectedModelId={selectedModelId} />
+            <SearchableOptionContainer modelOptions={modelOptions} toolsPromise={toolsPromise} selectedModelOption={selectedModelOption} />
             <PromptInputAction tooltip={isLoading ? 'Stop message' : 'Send message'}>
               {isLoading ? (
                 <Button

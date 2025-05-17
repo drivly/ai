@@ -9,14 +9,14 @@ import { MobileSelectionDrawer } from './mobile-selection-drawer'
 export interface MobileSelectionBannerProps {
   modelOptions: SearchOption[]
   toolsPromise: IntegrationPromise
-  selectedModelId: SearchOption
+  selectedModelOption: SearchOption
 }
 
-export const MobileSelectionBanner = ({ modelOptions, toolsPromise, selectedModelId }: MobileSelectionBannerProps) => {
+export const MobileSelectionBanner = ({ modelOptions, toolsPromise, selectedModelOption }: MobileSelectionBannerProps) => {
   const { actionsForIntegration, integrations, handleConfigChange, selectedModel, selectedOutput, selectedTool } = useSelectionOptions({
     modelOptions,
     toolsPromise,
-    selectedModelId,
+    selectedModelOption,
   })
 
   const isMobile = useIsMobile()

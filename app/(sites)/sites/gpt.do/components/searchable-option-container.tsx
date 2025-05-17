@@ -8,14 +8,14 @@ import type { IntegrationPromise } from '../actions/composio.action'
 export interface SearchableOptionContainerProps {
   toolsPromise: IntegrationPromise
   modelOptions: SearchOption[]
-  selectedModelId: SearchOption
+  selectedModelOption: SearchOption
 }
 
-export const SearchableOptionContainer = ({ toolsPromise, modelOptions, selectedModelId }: SearchableOptionContainerProps) => {
+export const SearchableOptionContainer = ({ toolsPromise, modelOptions, selectedModelOption }: SearchableOptionContainerProps) => {
   const { actionsForIntegration, integrations, handleConfigChange, selectedModel, selectedOutput, selectedTool } = useSelectionOptions({
     modelOptions,
     toolsPromise,
-    selectedModelId,
+    selectedModelOption,
   })
   const isMobile = useIsMobile()
 
