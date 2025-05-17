@@ -8,3 +8,43 @@ canonicalDomain: agents.do
 # [Agents.do](https://agents.do) Work Autonomously
 
 > **Intelligent autonomous workers that accomplish business tasks within the constraints of the business processes and workflows**
+
+## Setup
+
+Install the `agents.do` package:
+
+```sh npm2yarn
+npm i agents.do
+```
+
+Then set `DO_API_KEY` in your environment as above.
+
+## Usage
+
+### Research & Web Browsing
+
+```ts
+import { browse, research } from 'agents.do'
+
+const directories = await research`website directories for ${topic}`([String])
+
+directories.forEach((directory) => browse`${directory}.  Request Agents.do to be added`)
+```
+
+### Autonomous Work
+
+```ts
+import { Agent } from 'agents.do'
+
+const amy = Agent({
+  name: 'Amy',
+  url: 'https://amy.do',
+  role: 'Customer Support Agent',
+  objective: 'Handles customer inquiries and resolves common issues',
+  keyResults: ['ticketResponseTime', 'ticketResolutionTime', 'customerSatisfaction'],
+  integrations: ['chat', 'slack', 'email', 'zendesk', 'shopify'],
+  triggers: ['onTicketCreated', 'onMessageReceived'],
+  searches: ['FAQs', 'Tickets', 'Orders', 'Products', 'Customers'],
+  actions: ['sendMessage', 'updateOrder', 'refundOrder', 'resolveTicket', 'escalateTicket'],
+})
+```
