@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer'
-import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
 import { useCallback } from 'react'
@@ -17,8 +16,6 @@ interface MobileSelectionDrawerProps {
 }
 
 export const MobileSelectionDrawer = ({ title, options, selectedItem, updateOption, placeholder = `Select ${title}`, className }: MobileSelectionDrawerProps) => {
-  const isMobile = useIsMobile()
-
   const handleSelect = useCallback(
     (currentValue: string) => {
       if (selectedItem && currentValue === selectedItem.label) {
@@ -32,8 +29,6 @@ export const MobileSelectionDrawer = ({ title, options, selectedItem, updateOpti
     },
     [selectedItem, options, updateOption, title],
   )
-
-  if (!isMobile) return null
 
   return (
     <Drawer>

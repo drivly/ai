@@ -12,32 +12,28 @@ import { ThinkingIndicator } from './thinking'
 import gptAvatar from '@/public/gptAvatar.png'
 
 export interface ChatMessageProps {
-  attachments: UIMessage['experimental_attachments']
-  chatId: string
-  content: UIMessage['content']
+  message: UIMessage
   error: Error | undefined
-  parts: UIMessage['parts']
-  role: UIMessage['role']
   reload: (chatRequestOptions?: ChatRequestOptions) => Promise<string | null | undefined>
 }
 
-export const ChatMessage = ({ chatId, attachments, parts, role, content, error, reload }: ChatMessageProps) => {
+export const ChatMessage = ({ message, error, reload }: ChatMessageProps) => {
   const user = useAuthUser()
-  const isAssistant = role === 'assistant'
-  const isThinking = chatId === 'thinking'
+  const isAssistant = message.role === 'assistant'
+  const isThinking = message.id === 'thinking'
 
   if (isThinking) {
-    return <ThinkingIndicator key={chatId} type='cursor' className='mx-auto flex w-full max-w-4xl gap-4 px-4' />
+    return <ThinkingIndicator key={message.id} type='cursor' className='mx-auto flex w-full max-w-4xl gap-4 px-4' />
   }
 
   return (
     <AnimatePresence>
       <motion.div
-        data-testid={`message-${role}`}
+        data-testid={`message-${message.role}`}
         className='group/message mx-auto flex w-full max-w-4xl gap-4 px-4'
         initial={{ y: 5, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        data-role={role}>
+        data-role={message.role}>
         <MessageAvatar
           src={isAssistant ? gptAvatar.src : user?.image || ''}
           alt={isAssistant ? 'AI Assistant' : 'User'}
@@ -46,9 +42,7 @@ export const ChatMessage = ({ chatId, attachments, parts, role, content, error, 
         />
 
         <div className={cn('text-primary flex max-w-[90%] flex-1 flex-col space-y-3')}>
-          {parts.map((part, index) => {
-            console.log('🚀 ~ {parts.map ~ part:', part)
-
+          {message.parts.map((part, index) => {
             switch (part.type) {
               case 'text': {
                 return (
@@ -61,7 +55,7 @@ export const ChatMessage = ({ chatId, attachments, parts, role, content, error, 
                       <MessageContent className='text-primary bg-transparent p-0 text-[14px] leading-[24px]'>{part.text}</MessageContent>
                     )}
 
-                    {attachments?.map((attachment, index) => (
+                    {message.experimental_attachments?.map((attachment, index) => (
                       <Attachment
                         key={index}
                         id={nanoid()}
@@ -79,7 +73,7 @@ export const ChatMessage = ({ chatId, attachments, parts, role, content, error, 
             }
           })}
 
-          {(!parts || parts.length === 0) && content && <Markdown>{content}</Markdown>}
+          {(!message.parts || message.parts.length === 0) && message.content && <Markdown>{message.content}</Markdown>}
 
           {error && <ErrorMessage error={error} onReload={reload} />}
         </div>

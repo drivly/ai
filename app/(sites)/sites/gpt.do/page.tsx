@@ -1,21 +1,19 @@
-import { Suspense } from 'react'
+import { SearchParams } from 'nuqs'
 import { requireAuthentication } from './actions/auth.action'
 import { getComposioActionsByIntegrationCached } from './actions/composio.action'
 import { getGptdoBrainCookieAction } from './actions/gpt.action'
 import { Chat } from './components/chat'
-import { ChatOptionsSelector } from './components/chat-options-selector'
-import { Greeting } from './components/greeting'
 import { DEFAULT_CHAT_MODEL } from './lib/constants'
-import type { ChatSearchParams } from './lib/types'
 import { getAIModels } from './lib/utils'
+import { gptdoSearchParamsLoader } from './search-params'
 
 interface ChatHomePageProps {
-  searchParams: Promise<ChatSearchParams>
+  searchParams: Promise<SearchParams>
 }
 
 export default async function ChatHomePage({ searchParams }: ChatHomePageProps) {
   await requireAuthentication()
-  const { tool } = await searchParams
+  const { tool } = await gptdoSearchParamsLoader(searchParams)
   const chatModelFromCookie = await getGptdoBrainCookieAction()
   const initialChatModel = !chatModelFromCookie ? DEFAULT_CHAT_MODEL : chatModelFromCookie
 
@@ -24,27 +22,7 @@ export default async function ChatHomePage({ searchParams }: ChatHomePageProps) 
   const composioPromise = getComposioActionsByIntegrationCached({ queryKey: ['tools', integrationName] })
   const models = getAIModels()
 
-  return (
-    <Chat
-      id={crypto.randomUUID()}
-      initialChatModel={initialChatModel}
-      initialVisibilityType='private'
-      availableModels={models}
-      toolsPromise={composioPromise}
-      session={null}
-      greeting={
-        <Greeting
-          title='Welcome to GPT.do'
-          description='Select your model, tool, and output format to get started.'
-          config={
-            <Suspense>
-              <ChatOptionsSelector toolsPromise={composioPromise} availableModels={models} initialChatModel={initialChatModel} />
-            </Suspense>
-          }
-        />
-      }
-    />
-  )
+  return <Chat id={crypto.randomUUID()} initialChatModel={initialChatModel} initialVisibilityType='private' availableModels={models} toolsPromise={composioPromise} />
 }
 
 // Stripe checkout link -> https://buy.stripe.com/test_14AdRbcyF6FU4qW6i28Vi00

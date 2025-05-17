@@ -5,29 +5,23 @@ import { ScrollButton } from '@/components/ui/scroll-button'
 import { cn } from '@/lib/utils'
 import type { ChatRequestOptions, CreateMessage, Message, UIMessage } from 'ai'
 import { ArrowUp, CircleStop, Paperclip } from 'lucide-react'
-import { usePathname } from 'next/navigation'
-import { use, useCallback, useMemo, type ChangeEvent, type RefObject } from 'react'
-import { IntegrationActions, type IntegrationPromise } from '../actions/composio.action'
-import { setGptdoCookieAction } from '../actions/gpt.action'
+import { useCallback, type ChangeEvent, type RefObject } from 'react'
+import { type IntegrationPromise } from '../actions/composio.action'
 import { useChatInputMethods } from '../hooks/use-chat-input-methods'
-import { useCustomQuery } from '../hooks/use-custom-query'
-import { OUTPUT_FORMATS } from '../lib/constants'
 import type { SearchOption } from '../lib/types'
-import { ConfigOption, SELECTION_STEP_ALIASES, type ChatConfigChangeType } from './chat-options-selector'
 import { PromptSuggestions } from './prompt-suggestions'
-import { SearchableOptionSelector } from './searchable-option-selector'
+import { SearchableOptionContainer } from './searchable-option-container'
 
 type MultimodalInputProps = {
-  toolsPromise: IntegrationPromise
-  containerRef: RefObject<HTMLElement | null>
   bottomRef: RefObject<HTMLElement | null>
+  containerRef: RefObject<HTMLElement | null>
+  error: Error | undefined
   input: string
-  isDisabled: boolean
-  isLoading: boolean
-  isMobile: boolean
   messages: UIMessage[]
+  status: 'error' | 'submitted' | 'streaming' | 'ready'
+  selectedModelId: SearchOption
   modelOptions: SearchOption[]
-  selectedModelId?: SearchOption
+  toolsPromise: IntegrationPromise
   append: (message: Message | CreateMessage, chatRequestOptions?: ChatRequestOptions) => Promise<string | null | undefined>
   handleInputChange: (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void
   handleSubmit: (
@@ -36,59 +30,37 @@ type MultimodalInputProps = {
     },
     chatRequestOptions?: ChatRequestOptions,
   ) => void
+  setMessages: (messages: Message[] | ((messages: Message[]) => Message[])) => void
   stop: () => void
 }
 
 export function MultimodalInput({
   bottomRef,
   containerRef,
+  error,
   input,
-  isDisabled,
-  isLoading,
-  isMobile,
   messages,
-  modelOptions,
+  status,
   selectedModelId,
+  modelOptions,
   toolsPromise,
-  handleInputChange,
   append,
-  stop,
+  handleInputChange,
   handleSubmit,
+  setMessages,
+  stop,
 }: MultimodalInputProps) {
-  const integrations = use(toolsPromise)
-  const pathname = usePathname()
+  const isLoading = status === 'streaming' || status === 'submitted'
 
   const { attachments, disabled, fileInputRef, textareaRef, handleKeyDown, handleFileChange, removeAttachment, submitForm } = useChatInputMethods({
-    isDisabled,
+    error,
+    isDisabled: status !== 'ready' && status !== 'error',
     isLoading,
     input,
+    messages,
     handleSubmit,
+    setMessages,
   })
-
-  const { model, tool, output, setQueryState } = useCustomQuery({ availableModels: modelOptions, initialChatModel: selectedModelId })
-
-  // Memoized selected values that reflect URL params with fallbacks to props
-  const { selectedModel, selectedTool, selectedOutput } = useMemo(() => {
-    let toolValue = null
-
-    if (tool?.includes('.')) {
-      toolValue = integrations.find((item) => item.value === tool)
-    } else {
-      const relatedAction = integrations.find((item) => 'createdBy' in item && item.createdBy === tool) as IntegrationActions | undefined
-      if (relatedAction) {
-        toolValue = {
-          value: relatedAction.createdBy,
-          label: relatedAction.createdBy.charAt(0).toUpperCase() + relatedAction.createdBy.slice(1),
-        }
-      }
-    }
-
-    return {
-      selectedModel: model ? modelOptions.find((m) => m.value === model) || selectedModelId : selectedModelId,
-      selectedTool: toolValue,
-      selectedOutput: output ? OUTPUT_FORMATS.find((o) => o.value === output) || null : null,
-    }
-  }, [tool, model, modelOptions, selectedModelId, output, integrations])
 
   const handleInputChangeWrapper = useCallback(
     (value: string) => {
@@ -101,23 +73,9 @@ export function MultimodalInput({
     [handleInputChange],
   )
 
-  const handleConfigChange = useCallback(
-    async (type: ChatConfigChangeType, option: ConfigOption | null) => {
-      const key = SELECTION_STEP_ALIASES[type]
-      setQueryState({ [key]: option?.value || null })
-
-      await setGptdoCookieAction({
-        type: SELECTION_STEP_ALIASES[type],
-        option,
-        pathname,
-      })
-    },
-    [pathname, setQueryState],
-  )
-
   return (
     <section className='px-4'>
-      {messages.length === 0 && attachments.length === 0 && <PromptSuggestions append={append} selectedModel={selectedModel} />}
+      {messages.length === 0 && attachments.length === 0 && <PromptSuggestions append={append} selectedModel={selectedModelId} />}
       <form
         className={cn(
           'dark:focus-within relative mx-auto mb-2 flex w-full max-w-6xl flex-col gap-2 rounded-xl border border-gray-200 bg-gray-50 backdrop-blur-sm transition-all duration-200 sm:mb-4 md:mb-6 dark:border-zinc-700/60 dark:bg-zinc-800/40',
@@ -200,41 +158,7 @@ export function MultimodalInput({
                 )}
               </PromptInputAction>
             </div>
-            {!isMobile && (
-              <div className='mt-2 flex w-full flex-1 flex-col sm:mt-0 sm:flex-row sm:items-center sm:justify-center'>
-                <div className='mx-auto flex w-full flex-col space-y-2 sm:w-auto sm:flex-row sm:items-center sm:space-y-0 sm:space-x-1'>
-                  <SearchableOptionSelector
-                    align='end'
-                    placeholder='Model'
-                    title='model'
-                    options={modelOptions}
-                    selectedItem={selectedModel}
-                    updateOption={handleConfigChange}
-                    className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[80px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
-                  />
-                  <span className='hidden text-gray-300 sm:inline dark:text-zinc-600'>|</span>
-                  <SearchableOptionSelector
-                    align='center'
-                    placeholder='Tool'
-                    title='integration'
-                    options={integrations}
-                    selectedItem={selectedTool}
-                    updateOption={handleConfigChange}
-                    className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[70px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
-                  />
-                  <span className='hidden text-gray-300 sm:inline dark:text-zinc-600'>|</span>
-                  <SearchableOptionSelector
-                    align='start'
-                    placeholder='Format'
-                    title='output'
-                    options={OUTPUT_FORMATS}
-                    selectedItem={selectedOutput}
-                    updateOption={handleConfigChange}
-                    className='h-10 w-full border-0 bg-transparent text-gray-600 hover:bg-gray-100/80 sm:h-6 sm:w-auto sm:min-w-[80px] dark:border-0 dark:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-800/50'
-                  />
-                </div>
-              </div>
-            )}
+            <SearchableOptionContainer modelOptions={modelOptions} toolsPromise={toolsPromise} selectedModelId={selectedModelId} />
             <PromptInputAction tooltip={isLoading ? 'Stop message' : 'Send message'}>
               {isLoading ? (
                 <Button
@@ -277,21 +201,3 @@ export function MultimodalInput({
     </section>
   )
 }
-
-// const handleBackToIntegrations = useCallback(() => {
-//   let newUrl
-//   if (toolFromUrl?.includes('.')) {
-//     const integrationName = toolFromUrl.split('.')[0]
-//     newUrl = formUrlQuery({
-//       params: searchParams.toString(),
-//       key: 'tool',
-//       value: integrationName,
-//     })
-//   } else {
-//     newUrl = removeKeysFromQuery({
-//       params: searchParams.toString(),
-//       keys: ['tool'],
-//     })
-//   }
-//   router.replace(decodeURIComponent(newUrl), { scroll: false })
-// }, [router, searchParams, toolFromUrl])

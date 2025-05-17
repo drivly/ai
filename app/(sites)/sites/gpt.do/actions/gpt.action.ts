@@ -20,13 +20,13 @@ const promptSuggestionSchema = z.object({
     .describe('An array of prompt suggestions customized for the selected tool and output format'),
 })
 
-export async function getPromptSuggestions({ toolValue, outputValue, actionValue }: { toolValue?: string; outputValue?: string; actionValue?: string }) {
+export async function getPromptSuggestions({ integrationName, output, actionValue }: { integrationName?: string; output?: string; actionValue?: string }) {
   try {
     let action = actionValue
-    let baseToolValue = toolValue
+    let baseToolValue = integrationName
 
-    if (toolValue && toolValue.includes('.')) {
-      const [tool, extractedAction] = toolValue.split('.')
+    if (integrationName && integrationName.includes('.')) {
+      const [tool, extractedAction] = integrationName.split('.')
       baseToolValue = tool
       action = action || extractedAction
     }
@@ -55,7 +55,7 @@ export async function getPromptSuggestions({ toolValue, outputValue, actionValue
       prompt: `Generate prompt suggestions for the following configuration:
       ${baseToolValue ? `Tool: ${baseToolValue}` : 'No specific tool selected'}
       ${action ? `Action: ${action}` : 'No specific action selected'}
-      ${outputValue ? `Output Format: ${outputValue}` : 'No specific output format selected'}
+      ${output ? `Output Format: ${output}` : 'No specific output format selected'}
 
       Create suggestions that would be useful for this combination. If a specific action is selected, focus suggestions specifically on that action within the tool.
       If no specific action is selected, provide suggestions suitable for the general tool.`,

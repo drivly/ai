@@ -8,7 +8,6 @@ import { PlusIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { type ChangeEvent, type KeyboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { setGptdoCookieAction } from '../actions/gpt.action'
-import { useCustomQuery } from '../hooks/use-custom-query'
 import { formatOutput, OUTPUT_FORMATS, parseOutputFormat } from '../lib/constants'
 import type { SearchOption } from '../lib/types'
 import { createModelIdentifierFromParams, parse, resolvePathname } from '../lib/utils'
@@ -22,10 +21,12 @@ interface ChatHeaderProps {
   selectedVisibilityType: VisibilityType
   isReadonly: boolean
   modelOptions: SearchOption[]
+  tool: string
+  output: string
+  setQueryState: (values: Record<string, any>) => void
 }
 
-export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, selectedVisibilityType, isReadonly, modelOptions }: ChatHeaderProps) {
-  const { tool, output, setQueryState } = useCustomQuery({ availableModels: modelOptions, initialChatModel: selectedModelId })
+export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, selectedVisibilityType, isReadonly, modelOptions, tool, output, setQueryState }: ChatHeaderProps) {
   const pathname = usePathname()
   const router = useRouter()
   const isMobile = useIsMobile()
@@ -50,10 +51,10 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
     return !modelOptions.some((model) => baseModelValue.includes(model.value))
   }, [inputValue, modelOptions])
 
-  // Update input when model ID or URL params change
+  // Update input when model ID, URL params, or model/tool/output changes
   useEffect(() => {
     setInputValue(completeModelIdentifier || selectedModelId.value || '')
-  }, [completeModelIdentifier, selectedModelId.value])
+  }, [completeModelIdentifier, selectedModelId.value, tool])
 
   const handleModelChange = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
@@ -62,9 +63,7 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
 
       try {
         const parsed = parse(newText)
-
-        const baseModel = parsed.model
-        const selectedModel = modelOptions.find((model) => model.value === baseModel)
+        const selectedModel = modelOptions.find((model) => model.value === `${parsed.author}/${parsed.model}`)
 
         if (selectedModel) {
           setSelectedModelId(selectedModel)
@@ -77,6 +76,8 @@ export function ChatHeader({ chatId, selectedModelId, setSelectedModelId, select
           const toolKeys = parsed.tools ? Object.keys(parsed.tools) : []
           if (toolKeys.length > 0) {
             setQueryState({ tool: toolKeys[0] })
+          } else {
+            setQueryState({ tool: '' })
           }
         }
       } catch (error) {

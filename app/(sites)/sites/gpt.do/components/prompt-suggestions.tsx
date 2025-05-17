@@ -4,9 +4,9 @@ import { cn } from '@/lib/utils'
 import { useQuery } from '@tanstack/react-query'
 import type { ChatRequestOptions, CreateMessage, Message } from 'ai'
 import { motion } from 'motion/react'
-import { useSearchParams } from 'next/navigation'
 import { type ComponentProps, useCallback } from 'react'
 import { getPromptSuggestions } from '../actions/gpt.action'
+import { useCustomQuery } from '../hooks/use-custom-query'
 import type { SearchOption } from '../lib/types'
 
 interface PromptSuggestionsProps {
@@ -57,23 +57,20 @@ const fallbackSuggestions: Suggestion[] = [
 ]
 
 export const PromptSuggestions = ({ className, append, selectedModel }: PromptSuggestionsProps) => {
-  const searchParams = useSearchParams()
-  const toolValue = searchParams.get('tool') || ''
-  const outputValue = searchParams.get('output') || ''
+  const { tool, output } = useCustomQuery()
 
-  // Parse the tool value to extract action if present
-  const hasDotNotation = toolValue.includes('.')
-  const baseToolValue = hasDotNotation ? toolValue.split('.')[0] : toolValue
-  const actionValue = hasDotNotation ? toolValue.split('.')[1] : ''
+  const hasDotNotation = tool.includes('.')
+  const integrationName = hasDotNotation ? tool.split('.')[0] : tool
+  const actionValue = hasDotNotation ? tool.split('.')[1] : ''
 
   const {
     data: suggestions,
     isLoading,
     isFetching,
   } = useQuery({
-    queryKey: ['suggestions', baseToolValue, outputValue, actionValue],
-    queryFn: async () => getPromptSuggestions({ toolValue: baseToolValue, outputValue, actionValue }),
-    enabled: !!(baseToolValue && actionValue),
+    queryKey: ['suggestions', integrationName, output, actionValue],
+    queryFn: async () => getPromptSuggestions({ integrationName, output, actionValue }),
+    enabled: !!(integrationName && actionValue),
     placeholderData: fallbackSuggestions,
     staleTime: 5 * 60 * 1000, // 5 minutes
   })
@@ -85,13 +82,13 @@ export const PromptSuggestions = ({ className, append, selectedModel }: PromptSu
         {
           body: {
             model: selectedModel?.value,
-            tool: toolValue,
-            output: outputValue,
+            tool,
+            output,
           },
         },
       )
     },
-    [append, selectedModel, toolValue, outputValue],
+    [append, selectedModel?.value, tool, output],
   )
 
   // Array of different widths for skeleton buttons
