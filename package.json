@@ -81,7 +81,7 @@
     "@linear/sdk": "^39.0.0",
     "@next-safe-action/adapter-react-hook-form": "^1.0.14",
     "@octokit/rest": "^21.1.1",
-    "@payloadcms/db-mongodb": "^3.36.0",
+    "@payloadcms/db-mongodb": "^3.38.0",
     "@payloadcms/email-resend": "^3.36.0",
     "@payloadcms/next": "^3.36.0",
     "@payloadcms/payload-cloud": "^3.36.0",
