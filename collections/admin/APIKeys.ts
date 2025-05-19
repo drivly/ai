@@ -1,3 +1,4 @@
+import { serverAuth } from '@/hooks/server-auth'
 import { createKey, findKey, getKey } from '@/lib/openrouter'
 import type { CollectionConfig } from 'payload'
 
@@ -64,21 +65,18 @@ export const APIKeys: CollectionConfig = {
   },
   endpoints: [
     {
-      path: '/:id/credit',
+      path: '/credit',
       method: 'get',
-      handler: async ({ routeParams = {}, payload }) => {
-        const { id } = routeParams
-        if (typeof id !== 'string' && typeof id !== 'number') {
-          return Response.json({ error: 'API key ID is required' }, { status: 400 })
-        }
-        const apiKey = await payload.findByID({
+      handler: async ({ payload }) => {
+        const user = await serverAuth()
+        const apiKey = await payload.find({
           collection: 'apikeys',
-          id,
+          where: { or: [{ user: { equals: user?.id } }, { email: { equals: user?.email } }] },
         })
-        if (!apiKey?.key) {
+        if (!apiKey?.docs?.[0]?.key) {
           return Response.json({ error: 'API key not found' }, { status: 404 })
         }
-        const usage = await getKey(apiKey.key)
+        const usage = await getKey(apiKey.docs[0].key)
         return Response.json({ credit: usage.limit_remaining })
       },
     },
