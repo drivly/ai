@@ -2,34 +2,23 @@ const headers = {
   Authorization: `Bearer ${process.env.OPENROUTER_PROVISIONING_KEY}`,
 }
 
-export async function identifyUser(apiKey: string) {
-  const keyMatch = await findKey(apiKey)
-  return keyMatch
-    ? {
-        authenticationType: 'apiKey',
-        email: keyMatch.name,
-      }
-    : null
-}
-
-// Make sure the API key is valid
 export async function findKey(apiKey: string) {
   // We can only match on the first 3 characters, and the last 3 of the API key.
   const keyAfterIntro = apiKey.split('-v1-')[1]
-  const fixedApiKey = keyAfterIntro.slice(0, 3) + '...' + keyAfterIntro.slice(-3)
+  const keyLabel = keyAfterIntro.slice(0, 3) + '...' + keyAfterIntro.slice(-3)
 
   // Loop until we find a match or we've ran out
   let keyMatch
-  let resLength = 0
+  let resultCount = 0
   let offset = 0
   do {
-    offset += resLength
+    offset += resultCount
     const res = await fetch(`https://openrouter.ai/api/v1/keys?include_disabled=false&offset=${offset}`, { headers })
       .then((x) => x.json())
       .then((x) => x.data as KeyDetails[])
-    resLength = res.length
-    if (resLength) keyMatch = res.find((key) => key.label?.split('-v1-')[1] === fixedApiKey)
-  } while (!keyMatch && resLength > 0)
+    resultCount = res.length
+    if (resultCount) keyMatch = res.find((key) => key.label?.split('-v1-')[1] === keyLabel)
+  } while (!keyMatch && resultCount > 0)
   return keyMatch || null
 }
 
@@ -40,7 +29,7 @@ export async function createKey(details: { name: string; limit?: number }) {
     body: JSON.stringify(details),
   })
     .then((x) => x.json())
-    .then((x) => ({ ...x.data, key: x.key } as KeyDetails))
+    .then((x) => ({ ...x.data, key: x.key }) as KeyDetails)
 }
 
 export async function getKeyDetails(hash: string) {

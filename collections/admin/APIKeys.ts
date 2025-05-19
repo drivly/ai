@@ -21,6 +21,7 @@ export const APIKeys: CollectionConfig = {
     { name: 'description', type: 'text' },
     { name: 'key', type: 'text' },
     { name: 'hash', type: 'text' },
+    { name: 'label', type: 'text' },
     { name: 'url', type: 'text' },
     {
       name: 'cfWorkerDomains',
@@ -45,12 +46,16 @@ export const APIKeys: CollectionConfig = {
         if (operation === 'create') {
           if (data.key) {
             const key = await findKey(data.key)
-            if (key) data.hash = key.hash
+            if (key) {
+              data.hash = key.hash
+              data.label = key.label
+            }
           }
           if (!data.hash) {
-            const { key, hash } = await createKey({ name: data.name, limit: 1 })
-            data.key = key
-            data.hash = hash
+            const key = await createKey({ name: data.name, limit: 1 })
+            data.key = key.key
+            data.hash = key.hash
+            data.label = key.label
           }
         }
         return args
