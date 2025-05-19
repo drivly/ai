@@ -34,7 +34,9 @@ export type LLMCompatibleRequest = {
   modelOptions?: {
     providerPriorities?: ('cost' | 'throughput' | 'latency')[],
     tools?: string[],
-    outputFormat?: 'JSON' | 'Markdown' | 'Code'
+    outputFormat?: 'JSON' | 'Markdown' | 'Code' | 'Python' | 'TypeScript' | 'JavaScript',
+    // JSON Schema, schema.org type, or basic schema supported
+    outputSchema?: any
   }
 }
 
