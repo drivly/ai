@@ -250,7 +250,7 @@
     "mongodb-memory-server": "^10.1.4",
     "next-export-optimize-images": "^4.6.2",
     "nextjs-bundle-analysis": "^0.5.0",
-    "node-mocks-http": "^1.17.0",
+    "node-mocks-http": "^1.17.2",
     "node-polyfill-webpack-plugin": "^4.1.0",
     "null-loader": "^4.0.1",
     "p-queue": "^8.0.1",
