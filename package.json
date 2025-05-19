@@ -170,7 +170,7 @@
     "payload": "^3.36.0",
     "payload-hooks-queue": "0.0.1",
     "payload-kanban-board": "^3.0.24",
-    "payload-oapi": "^0.2.0",
+    "payload-oapi": "^0.2.1",
     "payload-utils": "0.0.1",
     "postal-mime": "^2.4.3",
     "posthog-js": "^1.234.4",
