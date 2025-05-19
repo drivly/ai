@@ -9,7 +9,7 @@ import { createDataPoint } from './analytics'
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
 import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/providers/google'
 import { OpenAICompatibleRequest, LLMCompatibleRequest } from '@/sdks/llm.do/src'
-
+import { injectFormatIntoSystem } from './responseFormats'
 export const maxDuration = 60
 export const dynamic = 'force-dynamic'
 
@@ -99,11 +99,12 @@ export async function POST(req: Request) {
     }
   }
 
-  const { model, prompt, system, stream, tools: userTools, ...rest } = postData as OpenAICompatibleRequest
+  const { model, prompt, stream, tools: userTools, ...rest } = postData as OpenAICompatibleRequest
 
   // Overwritable variables
   let {
     response_format,
+    system,
     messages
   } = postData as OpenAICompatibleRequest
 
@@ -116,6 +117,8 @@ export async function POST(req: Request) {
   if (!prompt && !messages) {
     return ErrorResponse('No prompt or messages provided')
   }
+
+  system = injectFormatIntoSystem(system || '', (response_format || modelOptions?.outputFormat)?.replace('Code:', ''), useChat || false)
 
   // Fix messages to be in the VerceL AI SDK format.
   // Most notibly, we need to fix files coming in as OpenAI compatible
@@ -298,6 +301,17 @@ export async function POST(req: Request) {
         completion_tokens: result.usage.completion_tokens,
         total_tokens: result.usage.total_tokens
       } : undefined
+    }, {
+      // Send partial data via headers as AI SDK does not support viewing the raw body.
+      headers: {
+        'llm-provider': modelData.provider.name,
+        'llm-model': model,
+        'llm-model-options': JSON.stringify(modelOptions),
+        'llm-parsed-model': JSON.stringify(parsedModel),
+        'llm-response-format': JSON.stringify(response_format),
+        'keep-alive': 'timeout=600',
+        'x-powered-by': 'llm.do'
+      }
     })
   }
 

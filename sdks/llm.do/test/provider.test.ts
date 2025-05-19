@@ -21,12 +21,12 @@ describe('llm.do Chat Completions 💭', () => {
     expect(result.text).toBeTruthy()
   })
 
-  it.only('should route to a specific provider', async () => {
+  it('should route to a specific provider', async () => {
     const result = await generateText({
       model: llm(
         'qwen3-32b',
         {
-          providerPriorities: ['cost']
+          priorities: ['cost']
         }
       ),
       prompt: 'Respond with a short greeting'
@@ -35,18 +35,13 @@ describe('llm.do Chat Completions 💭', () => {
     const model = getModel(
       'qwen3-32b',
       {
-        providerPriorities: ['cost'],
+        priorities: ['cost'],
         
       }
     )
 
-    console.log(
-      result
-    )
-
     expect(result.text).toBeTruthy()
-    // @ts-expect-error - body is not typed
-    expect(result.response.body?.provider.name).toBe(model.provider.name)
+    expect((result.response.headers || {})['llm-provider']).toBe(model.provider.name)
   })
 
   // Structured outputs
@@ -63,25 +58,23 @@ describe('llm.do Chat Completions 💭', () => {
   })
 
   // Currently broken inside AI SDK.
-  it.skip('should support structured outputs with tools', async () => {
+  it.only('should support structured outputs with tools', async () => {
     const result = await generateObject({
-      model: llm('gemini'),
-      prompt: 'Use the greeting tool to generate a greeting to return. Person name must be "Connor"' + geminiToolFixPrompt,
+      model: llm(
+        'gemini',
+        {
+          tools: [ 'hackernews.getFrontpage' ]
+        }
+      ),
+      prompt: 'Get the frontpage of hackernews.' + geminiToolFixPrompt,
       schema: z.object({
         greeting: z.string()
-      }),
-      tools: {
-        greetingTool: tool({
-          description: 'A tool that returns a greeting',
-          parameters: z.object({
-            personName: z.string()
-          }),
-          execute: async (args) => {
-            return `Hello, ${args.personName}!`
-          }
-        })
-      }
+      })
     })
+
+    console.log(
+      result
+    )
 
     expect(result.object.greeting).toBeTruthy()
   })

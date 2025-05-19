@@ -7,6 +7,8 @@ import {
 } from '@ai-sdk/openai-compatible'
 import { EmbeddingModelV1, ImageModelV1, LanguageModelV1, ProviderV1 } from '@ai-sdk/provider'
 import { FetchFunction, loadApiKey, withoutTrailingSlash } from '@ai-sdk/provider-utils'
+import { ParsedModelIdentifier } from '@/pkgs/language-models/src'
+
 import { z } from 'zod'
 
 export * from './types/api'
@@ -18,7 +20,7 @@ type LLMProviderOptions = {
   headers?: Record<string, string>
 }
 
-interface LLMProviderSettings extends OpenAICompatibleChatSettings {}
+type LLMProviderSettings = OpenAICompatibleChatSettings & ParsedModelIdentifier
 
 // Define explicit provider options interface to prevent deep type inference
 interface LLMProviderConstructorOptions {
@@ -88,11 +90,16 @@ export const createLLMProvider = (options: LLMProviderOptions) => {
         // Mixin our model options into the body.
         // By default, AI SDK wont let us add properties that are not inside the OpenAI schema.
         // So we're doing this to use our superset standard.
-        
+
         const newBody = {
           ...JSON.parse(init?.body as string ?? '{}'),
           modelOptions: settings
         }
+
+        console.log(
+          'Sending body',
+          newBody
+        )
 
         const response = await fetch(
           url,

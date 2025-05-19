@@ -135,8 +135,13 @@ export async function resolveConfig(options: GenerateTextOptions) {
           const appData = appMetadata.find(x => x.key === app)
 
           const authScheme = appData?.auth_schemes?.[0] as {
-            mode: 'OAUTH' | 'OAUTH2' | 'API_KEY'
+            mode: 'OAUTH' | 'OAUTH2' | 'API_KEY' | 'BEARER_TOKEN'
           }
+
+          const fieldSupportedModes = [
+            'API_KEY',
+            'BEARER_TOKEN'
+          ]
 
           if (authScheme.mode === 'OAUTH' || authScheme.mode === 'OAUTH2') {
             if (pendingConnections.find(x => x.appName === app)) {
@@ -171,10 +176,10 @@ export async function resolveConfig(options: GenerateTextOptions) {
                 redirectUrl: connection.redirectUrl as string
               })
             } 
-          } else if (authScheme.mode === 'API_KEY') {
+          } else if (fieldSupportedModes.includes(authScheme.mode)) {
             connectionRequests.push({
               app: app as string,
-              type: 'API_KEY' as ConnectionType,
+              type: authScheme.mode as ConnectionType,
               fields: appData?.auth_schemes?.[0]?.fields
             })
           }
