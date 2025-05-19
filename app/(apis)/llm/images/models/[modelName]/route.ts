@@ -4,14 +4,8 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const getModelIcon = async (modelName: string): Promise<string> => {
   const model = await getModel(modelName)
-
-  const modelAuthor = model.author
-
-  const html = await fetch(`https://openrouter.ai/${modelAuthor}`).then(res => res.text())
-
-  return 'https://openrouter.ai/images/icons/' + html
-    .split('/images/icons/')[1]
-    .split('\\"')[0]
+  // @ts-expect-error - TODO Fix types.
+  return model.authorIcon
 }
 
 export const GET = async (req: NextRequest, { params }: { params: Promise<Record<string, string | string[]>> }) => {
@@ -21,7 +15,11 @@ export const GET = async (req: NextRequest, { params }: { params: Promise<Record
 
   return new Response(icon.body, {
     headers: {
-      'Content-Type': icon.headers.get('Content-Type') as string
+      'Content-Type': icon.headers.get('Content-Type') as string,
+      'Cache-Control': 'public, max-age=31536000, immutable',
+      'Expires': new Date(Date.now() + 31536000).toUTCString(),
+      'Vary': 'Accept-Encoding',
+      'ETag': icon.headers.get('ETag') as string,
     }
   })
 }

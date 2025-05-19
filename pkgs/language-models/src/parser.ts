@@ -10,7 +10,7 @@ const allModels = rawModels as unknown as {
   models: Model[]
 }
 
-type ParsedModelIdentifier = {
+export type ParsedModelIdentifier = {
   provider?: string
   author?: string
   model?: string

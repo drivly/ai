@@ -15,7 +15,8 @@ import TurndownService from 'turndown'
 import {
   fetchWebsiteContents,
   worker,
-  testTool
+  testTool,
+  allTools
 } from './tools'
 
 // Google specific fixes
@@ -104,15 +105,22 @@ export async function resolveConfig(options: GenerateTextOptions) {
   
       const activeApps = connections.items.map(connection => connection.appName)
       let missingApps: string[] = Array.from(new Set(toolNames.map((x: string) => x.split('.')[0]).filter((app: string) => !activeApps.includes(app))))
-  
+
       const appMetadata = await Promise.all(missingApps.map(async app => {
-        return composio.apps.get({
-          appKey: app as string
-        })
-      }))
+        try {
+          return await composio.apps.get({
+            appKey: app as string
+          })
+        } catch (error) {
+          return null
+        }
+      })).then(x => x.filter(x => x !== null))
       
-      // Mixin a filter to remove apps that dont have any auth.
-      missingApps = missingApps.filter(app => !appMetadata.find(x => x.key === app)?.no_auth)
+      missingApps = missingApps
+        // Remove any apps that are not in appMetadata.
+        .filter(app => appMetadata.find(x => x.key === app))
+        // Remove any apps that have no auth.
+        .filter(app => !appMetadata.find(x => x.key === app)?.no_auth)
   
       if (missingApps.length > 0) {
         const connectionRequests = []
@@ -215,6 +223,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
     if (parsedModel.provider?.slug === 'openAi') {
       // We need to amend composio tools for OpenAI usage.
       for (const [name, tool] of Object.entries(options.tools)) {
+
         options.tools[name] = {
           ...tool,
           parameters: {
@@ -225,12 +234,12 @@ export async function resolveConfig(options: GenerateTextOptions) {
               strict: true
             },
           },
-          execute: async (args: any) => {
+          execute: tool.execute ? async (args: any) => {
             console.log(
               `[TOOL:${name}]`,
               args
             )
-
+            
             try {
               // @ts-expect-error - TS doesnt like us calling this function even though it exists.
               const result = await tool.execute(args)
@@ -252,14 +261,14 @@ export async function resolveConfig(options: GenerateTextOptions) {
               }
               throw error
             }
-          }
+          } : undefined
         }
       }
     } else {
       for (const [name, tool] of Object.entries(options.tools)) {
         options.tools[name] = {
           ...tool,
-          execute: async (args: any) => {
+          execute: tool.execute ? async (args: any) => {
             console.log(
               `[TOOL:${name}]`,
               args
@@ -286,7 +295,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
               }
               throw error
             }
-          }
+          } : undefined
         }
       }
     }
