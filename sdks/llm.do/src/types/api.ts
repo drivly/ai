@@ -5,7 +5,7 @@ import {
   ChatCompletionError,
   ModelIncompatibleError,
   ModelNotFoundError,
-  ToolRedirectError
+  ToolAuthorizationError
 } from './errors'
 
 export type OpenAICompatibleRequest = {
@@ -110,7 +110,7 @@ export type ChatCompletionNonStreamingRequest = {
   throws?: ChatCompletionError
     | ModelIncompatibleError
     | ModelNotFoundError
-    | ToolRedirectError
+    | ToolAuthorizationError
 }
 
 export type ChatCompletionStreamingRequest = {
@@ -125,7 +125,7 @@ export type ChatCompletionStreamingRequest = {
   throws?: ChatCompletionError
     | ModelIncompatibleError
     | ModelNotFoundError
-    | ToolRedirectError
+    | ToolAuthorizationError
 }
 
 /*

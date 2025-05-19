@@ -526,7 +526,7 @@ export async function POST(req: Request) {
 
         return Response.json({
           success: false,
-          type: 'TOOLS_REDIRECT',
+          type: 'TOOL_AUTHORIZATION',
           error: `To continue with this request, please authorize the following apps: ${error.apps.join(', ')}`,
           connectionRequests: error.connectionRequests
         }, { status: 400 })

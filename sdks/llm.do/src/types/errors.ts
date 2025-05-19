@@ -18,10 +18,11 @@ export type ModelIncompatibleError = {
 } & GenericChatCompletionError
 
 // Tools based errors
-export type ToolRedirectError = {
-  type: 'TOOL_REDIRECT'
+export type ToolAuthorizationError = {
+  type: 'TOOL_AUTHORIZATION'
   connectionRequests: {
-    type: 'API_KEY' | 'OAUTH' | 'OAUTH2'
+    type: 'API_KEY' | 'OAUTH' | 'OAUTH2' | 'BEARER_TOKEN'
+    mode: 'REDIRECT' | 'FIELDS' // Redirect is used for OAuth, Fields is used for anything that needs a form.
     redirectUrl?: string
     fields?: Record<string, {
       type: 'string' | 'number' | 'boolean'
@@ -36,4 +37,4 @@ export type ToolRedirectError = {
 export type ChatCompletionError =
   ModelNotFoundError |
   ModelIncompatibleError |
-  ToolRedirectError
+  ToolAuthorizationError

@@ -155,6 +155,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
               connectionRequests.push({
                 app: connection?.appName as string,
                 type: 'OAUTH' as ConnectionType,
+                mode: 'REDIRECT',
                 redirectUrl: connection?.connectionParams?.redirectUrl as string
               })
             } else {
@@ -173,6 +174,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
               connectionRequests.push({
                 app: app as string,
                 type: 'OAUTH' as ConnectionType,
+                mode: 'REDIRECT',
                 redirectUrl: connection.redirectUrl as string
               })
             } 
@@ -180,6 +182,7 @@ export async function resolveConfig(options: GenerateTextOptions) {
             connectionRequests.push({
               app: app as string,
               type: authScheme.mode as ConnectionType,
+              mode: 'FIELDS',
               fields: appData?.auth_schemes?.[0]?.fields
             })
           }
