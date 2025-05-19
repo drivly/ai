@@ -111,3 +111,9 @@ export const testTool = {
     return args.message
   }
 }
+
+export const allTools = {
+  fetchWebsiteContents,
+  worker,
+  testTool
+}

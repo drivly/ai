@@ -1,47 +1,17 @@
 
 import { auth } from '@/auth'
 import { createLLMProvider, generateObject, generateText, streamObject, streamText } from '@/pkgs/ai-providers/src'
-import { getModel } from '@/pkgs/language-models'
+import { getModel, filterModels } from '@/pkgs/language-models'
 import { CoreMessage, createDataStreamResponse, jsonSchema, tool } from 'ai'
 import { convertIncomingSchema } from './schema'
 import { schemas } from './schemas'
 import { createDataPoint } from './analytics'
-
 import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
-
 import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/providers/google'
+import { OpenAICompatibleRequest, LLMCompatibleRequest } from '@/sdks/llm.do/src'
 
-export const maxDuration = 600
+export const maxDuration = 60
 export const dynamic = 'force-dynamic'
-
-type OpenAICompatibleRequest = {
-  model: string;
-  messages?: CoreMessage[];
-  prompt?: string;
-  system?: string;
-  temperature?: number;
-  max_tokens?: number;
-  top_p?: number;
-  stream?: boolean;
-  response_format?: any;
-  tools?: any;
-}
-
-type LLMCompatibleRequest = {
-  /*
-  * If true, the response will be streamed as a data stream response
-  * This is used by the useChat hook in the client
-  */
-  useChat?: boolean;
-  /**
-   * Object used to represent mixins for the getModel function.
-   * Allows you to control the model via JS rather than a string.
-   */
-  modelOptions?: {
-    providerPriorities?: ('cost' | 'throughput' | 'latency')[],
-    tools?: string[],
-  }
-}
 
 const ErrorResponse = (message: string, code: number = 400) => {
   return Response.json({
@@ -232,11 +202,24 @@ export async function POST(req: Request) {
   const { parsed: parsedModel, ...modelData } = getModel(model, modelOptions ?? {})
 
   if (!modelData.slug) {
-    return Response.json({
-      success: false,
-      type: 'MODEL_NOT_FOUND',
-      error: `Model ${ model } not found`
-    }, { status: 404 })
+    const modelExists = filterModels(model.split('(')[0])
+
+    if (modelExists.models.length > 0) {
+      const requestedCapabilities = Object.keys(modelOptions ?? {})
+
+      return Response.json({
+        success: false,
+        type: 'MODEL_INCOMPATIBLE',
+        error: `Model ${ model } has no providers with given options and constraints. ${ requestedCapabilities.length > 0 ? `The following capabilities are not supported by this model: ${ requestedCapabilities.join(', ') }` : '' }`,
+        requestedCapabilities
+      }, { status: 404 })
+    } else {
+      return Response.json({
+        success: false,
+        type: 'MODEL_NOT_FOUND',
+        error: `Model ${ model } does not exist. Please check the model name and try again.`
+      }, { status: 404 })
+    }
   }
 
   const fixSchema = (schema: any) => {
@@ -284,6 +267,23 @@ export async function POST(req: Request) {
   }
 
   const openAiResponse = (result: any) => {
+    console.log(
+      'Result',
+      {
+        content: result.text,
+        role: 'assistant',
+        tool_calls: (result.toolCalls || []).map((toolCall: any) => ({
+          index: 0,
+          id: toolCall.id,
+          type: 'function',
+          function: {
+            name: toolCall.toolName,
+            arguments: JSON.stringify(toolCall.args)
+          }
+        }))
+      }
+    )
+
     return Response.json({
       id: result.id || `msg-${ Math.random().toString(36).substring(2, 15) }`,
       object: 'llm.completion',

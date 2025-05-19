@@ -9,6 +9,9 @@ import { EmbeddingModelV1, ImageModelV1, LanguageModelV1, ProviderV1 } from '@ai
 import { FetchFunction, loadApiKey, withoutTrailingSlash } from '@ai-sdk/provider-utils'
 import { z } from 'zod'
 
+export * from './types/api'
+export * from './types/errors'
+
 type LLMProviderOptions = {
   baseURL?: string
   apiKey?: string

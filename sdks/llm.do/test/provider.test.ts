@@ -92,6 +92,26 @@ describe('llm.do Chat Completions 💭', () => {
     expect(result.text.toLowerCase()).toContain('hello')
   })
 
+  it.skip('should use both tools and JSON output mode', async () => {
+    const result = await generateObject({
+      model: llm(
+        'gemini',
+        {
+          tools: [ 'hackernews.getFrontpage' ]
+        }   
+      ),
+      prompt: 'Get me the frontpage of hackernews.',
+      schema: z.object({
+        title: z.string(),
+        url: z.string()
+      })
+    })
+
+    console.log(
+      result
+    )
+  })
+
   it('should work with user created tools', async () => {
     let toolCallSuccessful = false
 
@@ -147,10 +167,10 @@ describe('llm.do Chat Completions 💭', () => {
   })
 
   it('should handle both local tools and Composio tools', async () => {
-    const result = await generateText({
-      model: llm('gpt-4.1(testTool)'),
+    const result = await generateText({ 
+      model: llm('gpt-4.1(testTool)'), 
       prompt: 'Call the testTool with the argument "Hello, World.", and then pass that into the complexTool.',
-      tools: {
+      tools: {      
         complexTool: tool({
           description: 'A tool that returns a string',
           parameters: z.object({
