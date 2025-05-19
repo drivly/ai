@@ -209,7 +209,7 @@
     "vaul": "^1.1.2",
     "velite": "^0.2.2",
     "workflows.do": "0.0.1",
-    "yaml": "^2.7.0",
+    "yaml": "^2.8.0",
     "zod": "^3.24.3",
     "zod-to-json-schema": "^3.24.5",
     "zustand": "^5.0.3"
