@@ -75,7 +75,7 @@ export async function getKey(apiKey: string) {
     )
 }
 
-export type KeyDetails = {
+export interface KeyDetails {
   name: string
   label?: string
   limit?: number
@@ -84,4 +84,39 @@ export type KeyDetails = {
   updated_at?: string
   hash?: string
   key?: string
+}
+
+export async function getGeneration(id: string | number) {
+  return await fetch(`https://openrouter.ai/api/v1/generations/${id}`, { headers })
+    .then((x) => x.json())
+    .then((x) => x.data as Generation)
+}
+
+export interface Generation {
+  id: string
+  total_cost: number
+  created_at: string
+  model: string
+  origin: string
+  usage: number
+  is_byok: boolean
+  upstream_id?: string
+  cache_discount?: number
+  app_id?: number
+  streamed?: boolean
+  cancelled?: boolean
+  provider_name?: string
+  latency?: number
+  moderation_latency?: number
+  generation_time?: number
+  finish_reason?: string
+  native_finish_reason?: string
+  tokens_prompt?: number
+  tokens_completion?: number
+  native_tokens_prompt?: number
+  native_tokens_completion?: number
+  native_tokens_reasoning?: number
+  num_media_prompt?: number
+  num_media_completion?: number
+  num_search_results?: number
 }
