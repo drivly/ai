@@ -1,15 +1,16 @@
 
 import { auth } from '@/auth'
+import { findKey } from '@/lib/openrouter'
 import { createLLMProvider, generateObject, generateText, streamObject, streamText } from '@/pkgs/ai-providers/src'
-import { getModel, filterModels } from '@/pkgs/language-models'
+import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/providers/google'
+import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
+import { filterModels, getModel } from '@/pkgs/language-models'
+import { LLMCompatibleRequest, OpenAICompatibleRequest } from '@/sdks/llm.do/src'
 import { CoreMessage, createDataStreamResponse, jsonSchema, tool } from 'ai'
+import { createDataPoint } from './analytics'
+import { injectFormatIntoSystem } from './responseFormats'
 import { convertIncomingSchema } from './schema'
 import { schemas } from './schemas'
-import { createDataPoint } from './analytics'
-import { alterSchemaForOpenAI } from '@/pkgs/ai-providers/src/providers/openai'
-import { convertJSONSchemaToOpenAPISchema } from '@/pkgs/ai-providers/src/providers/google'
-import { OpenAICompatibleRequest, LLMCompatibleRequest } from '@/sdks/llm.do/src'
-import { injectFormatIntoSystem } from './responseFormats'
 export const maxDuration = 60
 export const dynamic = 'force-dynamic'
 
@@ -36,37 +37,13 @@ export async function POST(req: Request) {
     apiKey = apiKey.split(' ')[1].replace('sk-do-', 'sk-or-')
 
     // Make sure the API key is valid
-    const identifyUser = async (offset: number = 0) => {
-      const res = await fetch(`https://openrouter.ai/api/v1/keys?offset=${offset}`, {
-        headers: {
-          Authorization: `Bearer ${process.env.OPENROUTER_PROVISIONING_KEY}`,
-        },
-      })
-        .then((x) => x.json())
-        .then((x) => x.data)
-
-      if (res.length === 0) {
-        return null
-      }
-
-      // We can only match on the first 3 characters, and the last 3 of the API key.
-      const keyAfterIntro = apiKey.split('-v1-')[1]
-      const fixedApiKey = keyAfterIntro.slice(0, 3) + '...' + keyAfterIntro.slice(-3)
-
-      const keyMatch = res.find((key: { label: string }) => key.label.split('-v1-')[1] === fixedApiKey)
-
-      if (!keyMatch) {
-        // Loop again until we find a match or we've ran out
-        return await identifyUser(offset + res.length)
-      }
-
-      return {
-        authenticationType: 'apiKey',
-        email: keyMatch.name,
-      }
-    }
-
-    const user = await identifyUser()
+    const keyMatch = await findKey(apiKey)
+    const user = keyMatch
+      ? {
+          authenticationType: 'apiKey',
+          email: keyMatch.name,
+        }
+      : null
 
     if (!user) {
       return new Response('Unauthorized', { status: 401 })
