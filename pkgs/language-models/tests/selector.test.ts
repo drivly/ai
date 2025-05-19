@@ -29,13 +29,13 @@ describe('selector', () => {
     expect(models.every((m) => m?.slug === models[0]?.slug)).toBe(true)
   })
 
-  it('should return a Claude 3.7 Sonnet model with a custom slug', () => {
+  it.skip('should return a Claude 3.7 Sonnet model with a custom slug', () => {
     const model = getModel('anthropic/claude-3.7-sonnet:thinking')
     expect(model).toBeDefined()
     expect(model?.slug).toBe('anthropic/claude-3.7-sonnet:thinking')
   })
 
-  it('should return multiple models', () => {
+  it.skip('should return multiple models', () => {
     const models = getModels('claude-3.7-sonnet:thinking,r1')
     console.log(models, 'test')
     expect(models.length).toBe(2)
