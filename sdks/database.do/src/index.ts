@@ -77,6 +77,18 @@ class CollectionHandler<T = CollectionData> implements CollectionMethods<T> {
     try {
       return await this.api.getById<T>(this.collection, id)
     } catch (error) {
+      const err = error as { status?: number; statusCode?: number }
+      if (err.status === 404 || err.statusCode === 404) {
+        try {
+          const response = await fetch(`https://database.do/${id}`)
+          
+          if (response.ok) {
+            return await response.json() as T
+          }
+        } catch (fetchError) {
+          console.error('Failed to trigger generation:', fetchError)
+        }
+      }
       return handleApiError(error, 'findOne', this.collection)
     }
   }
@@ -240,6 +252,18 @@ export class DatabaseClient {
       const collectionName = collection === 'resources' ? 'things' : collection
       return await this.api.getById<T>(collectionName, id)
     } catch (error) {
+      const err = error as { status?: number; statusCode?: number }
+      if (err.status === 404 || err.statusCode === 404) {
+        try {
+          const response = await fetch(`https://database.do/${id}`)
+          
+          if (response.ok) {
+            return await response.json() as T
+          }
+        } catch (fetchError) {
+          console.error('Failed to trigger generation:', fetchError)
+        }
+      }
       return handleApiError(error, 'findOne', collection)
     }
   }
