@@ -237,7 +237,7 @@
     "autoevals": "^0.0.127",
     "checkly": "latest",
     "chromatic": "^11.28.0",
-    "eslint": "^9.16.0",
+    "eslint": "^9.27.0",
     "eslint-config-next": "15.3.2",
     "evalite": "^0.10.0",
     "experiments.do": "0.0.1",
