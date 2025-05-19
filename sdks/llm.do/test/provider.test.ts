@@ -17,11 +17,11 @@ describe('llm.do Chat Completions 💭', () => {
       model: llm('gemini'),
       prompt: 'Respond with a short greeting'
     })
- 
+  
     expect(result.text).toBeTruthy()
   })
 
-  it('should route to a specific provider', async () => {
+  it.only('should route to a specific provider', async () => {
     const result = await generateText({
       model: llm(
         'qwen3-32b',
@@ -38,6 +38,10 @@ describe('llm.do Chat Completions 💭', () => {
         providerPriorities: ['cost'],
         
       }
+    )
+
+    console.log(
+      result
     )
 
     expect(result.text).toBeTruthy()

@@ -267,23 +267,6 @@ export async function POST(req: Request) {
   }
 
   const openAiResponse = (result: any) => {
-    console.log(
-      'Result',
-      {
-        content: result.text,
-        role: 'assistant',
-        tool_calls: (result.toolCalls || []).map((toolCall: any) => ({
-          index: 0,
-          id: toolCall.id,
-          type: 'function',
-          function: {
-            name: toolCall.toolName,
-            arguments: JSON.stringify(toolCall.args)
-          }
-        }))
-      }
-    )
-
     return Response.json({
       id: result.id || `msg-${ Math.random().toString(36).substring(2, 15) }`,
       object: 'llm.completion',

@@ -40,7 +40,7 @@ export async function createKey(details: { name: string; limit?: number }) {
     body: JSON.stringify(details),
   })
     .then((x) => x.json())
-    .then((x) => x.data as KeyDetails)
+    .then((x) => ({ ...x.data, key: x.key } as KeyDetails))
 }
 
 export async function getKeyDetails(hash: string) {
